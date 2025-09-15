@@ -22,10 +22,10 @@ export interface CampaignDebugSession {
   startTime: Date;
   endTime?: Date;
   status: DebugSessionStatus;
-  debugSteps: DebugStep[];
-  findings: DebugFinding[];
-  recommendations: DebugRecommendation[];
-  recoveryPlan?: RecoveryPlan;
+  debugSteps: DebugStep[],
+  findings: DebugFinding[],
+  recommendations: DebugRecommendation[],
+  recoveryPlan?: RecoveryPlan,
 }
 
 export interface DebugStep {
@@ -35,10 +35,10 @@ export interface DebugStep {
   type: DebugStepType;
   status: DebugStepStatus;
   startTime: Date;
-  endTime?: Date;
-  output: Record<string, unknown>;
-  errors: string[];
-  warnings: string[];
+  endTime?: Date,
+  output: Record<string, unknown>,
+  errors: string[],
+  warnings: string[],
 }
 
 export interface DebugFinding {
@@ -47,17 +47,17 @@ export interface DebugFinding {
   severity: FindingSeverity;
   title: string;
   description: string;
-  evidence: Evidence[];
-  affectedComponents: string[];
-  rootCause?: string;
-  detectedAt: Date;
+  evidence: Evidence[],
+  affectedComponents: string[],
+  rootCause?: string,
+  detectedAt: Date,
 }
 
 export interface Evidence {
-  type: EvidenceType;
-  source: string;
-  content: string;
-  timestamp: Date;
+  type: EvidenceType,
+  source: string,
+  content: string,
+  timestamp: Date,
 }
 
 export interface DebugRecommendation {
@@ -65,19 +65,19 @@ export interface DebugRecommendation {
   priority: RecommendationPriority;
   title: string;
   description: string;
-  actionItems: ActionItem[];
-  estimatedEffort: number; // hours
-  riskLevel: 'low' | 'medium' | 'high';
-  category: RecommendationCategory;
+  actionItems: ActionItem[],
+  estimatedEffort: number, // hours
+  riskLevel: 'low' | 'medium' | 'high',
+  category: RecommendationCategory,
 }
 
 export interface ActionItem {
   id: string;
   description: string;
-  type: ActionType;
-  parameters: Record<string, unknown>;
-  estimatedDuration: number; // minutes
-  automated: boolean;
+  type: ActionType,
+  parameters: Record<string, unknown>,
+  estimatedDuration: number, // minutes
+  automated: boolean,
 }
 
 export interface RecoveryPlan {
@@ -85,10 +85,10 @@ export interface RecoveryPlan {
   campaignId: string;
   recoveryType: RecoveryType;
   description: string;
-  steps: RecoveryStep[];
-  estimatedDuration: number; // minutes
-  riskAssessment: string;
-  validationChecks: ValidationCheck[];
+  steps: RecoveryStep[],
+  estimatedDuration: number, // minutes
+  riskAssessment: string,
+  validationChecks: ValidationCheck[],
 }
 
 export interface RecoveryStep {
@@ -98,44 +98,44 @@ export interface RecoveryStep {
   type: RecoveryStepType;
   action: string;
   parameters: Record<string, unknown>;
-  estimatedDuration: number;
-  criticalPath: boolean;
-  rollbackable: boolean;
-  validationRequired: boolean;
+  estimatedDuration: number,
+  criticalPath: boolean,
+  rollbackable: boolean,
+  validationRequired: boolean,
 }
 
 export interface ValidationCheck {
   id: string;
   name: string;
-  description: string;
-  type: ValidationType;
-  criteria: ValidationCriteria;
-  automated: boolean;
+  description: string,
+  type: ValidationType,
+  criteria: ValidationCriteria,
+  automated: boolean,
 }
 
 export interface ValidationCriteria {
-  metric: string;
-  operator: 'equals' | 'less_than' | 'greater_than' | 'contains';
-  value: unknown;
+  metric: string,
+  operator: 'equals' | 'less_than' | 'greater_than' | 'contains',
+  value: unknown,
 }
 
 export interface CampaignHealthReport {
   campaignId: string;
   overallHealth: HealthStatus;
   healthScore: number; // 0-100
-  lastCheckTime: Date;
-  healthMetrics: HealthMetric[];
-  issues: HealthIssue[];
-  recommendations: MaintenanceRecommendation[];
+  lastCheckTime: Date,
+  healthMetrics: HealthMetric[],
+  issues: HealthIssue[],
+  recommendations: MaintenanceRecommendation[],
 }
 
 export interface HealthMetric {
   name: string;
   value: number;
-  unit: string;
-  status: MetricStatus;
-  threshold: number;
-  trend: 'improving' | 'stable' | 'declining';
+  unit: string,
+  status: MetricStatus,
+  threshold: number,
+  trend: 'improving' | 'stable' | 'declining',
 }
 
 export interface HealthIssue {
@@ -143,20 +143,20 @@ export interface HealthIssue {
   severity: IssueSeverity;
   category: IssueCategory;
   title: string;
-  description: string;
-  impact: string;
-  detectedAt: Date;
-  resolved: boolean;
+  description: string,
+  impact: string,
+  detectedAt: Date,
+  resolved: boolean,
 }
 
 export interface MaintenanceRecommendation {
   id: string;
   priority: MaintenancePriority;
   title: string;
-  description: string;
-  frequency: MaintenanceFrequency;
-  estimatedDuration: number;
-  nextDue: Date;
+  description: string,
+  frequency: MaintenanceFrequency,
+  estimatedDuration: number,
+  nextDue: Date,
 }
 
 // ========== ENUMS ==========;
@@ -164,131 +164,131 @@ export interface MaintenanceRecommendation {
 export enum DebugSessionStatus {
   ACTIVE = 'active',;
   COMPLETED = 'completed',;
-  FAILED = 'failed',;
-  CANCELLED = 'cancelled',;
+  FAILED = 'failed',,
+  CANCELLED = 'cancelled',,
 }
 
 export enum DebugStepType {
   CONFIGURATION_CHECK = 'configuration_check',;
   DEPENDENCY_ANALYSIS = 'dependency_analysis',;
   RESOURCE_INSPECTION = 'resource_inspection',;
-  LOG_ANALYSIS = 'log_analysis',;
-  PERFORMANCE_ANALYSIS = 'performance_analysis',;
+  LOG_ANALYSIS = 'log_analysis',,
+  PERFORMANCE_ANALYSIS = 'performance_analysis',,
 }
 
 export enum DebugStepStatus {
   PENDING = 'pending',;
   RUNNING = 'running',;
-  COMPLETED = 'completed',;
-  FAILED = 'failed',;
+  COMPLETED = 'completed',,
+  FAILED = 'failed',,
 }
 
 export enum FindingCategory {
   CONFIGURATION_ERROR = 'configuration_error',;
   DEPENDENCY_ISSUE = 'dependency_issue',;
   RESOURCE_CONFLICT = 'resource_conflict',;
-  PERFORMANCE_ISSUE = 'performance_issue',;
-  SAFETY_VIOLATION = 'safety_violation',;
+  PERFORMANCE_ISSUE = 'performance_issue',,
+  SAFETY_VIOLATION = 'safety_violation',,
 }
 
 export enum FindingSeverity {
   LOW = 'low',;
   MEDIUM = 'medium',;
-  HIGH = 'high',;
-  CRITICAL = 'critical',;
+  HIGH = 'high',,
+  CRITICAL = 'critical',,
 }
 
 export enum EvidenceType {
   LOG_ENTRY = 'log_entry',;
   CONFIGURATION_FILE = 'configuration_file',;
   METRICS_DATA = 'metrics_data',;
-  ERROR_MESSAGE = 'error_message',;
-  SYSTEM_STATE = 'system_state',;
+  ERROR_MESSAGE = 'error_message',,
+  SYSTEM_STATE = 'system_state',,
 }
 
 export enum RecommendationPriority {
   LOW = 'low',;
   MEDIUM = 'medium',;
-  HIGH = 'high',;
-  URGENT = 'urgent',;
+  HIGH = 'high',,
+  URGENT = 'urgent',,
 }
 
 export enum RecommendationCategory {
   CONFIGURATION_FIX = 'configuration_fix',;
   DEPENDENCY_UPDATE = 'dependency_update',;
   RESOURCE_OPTIMIZATION = 'resource_optimization',;
-  PERFORMANCE_TUNING = 'performance_tuning',;
-  SAFETY_IMPROVEMENT = 'safety_improvement',;
+  PERFORMANCE_TUNING = 'performance_tuning',,
+  SAFETY_IMPROVEMENT = 'safety_improvement',,
 }
 
 export enum ActionType {
   UPDATE_CONFIG = 'update_config',;
   RESTART_SERVICE = 'restart_service',;
   CLEAR_CACHE = 'clear_cache',;
-  UPDATE_DEPENDENCY = 'update_dependency',;
-  RUN_VALIDATION = 'run_validation',;
+  UPDATE_DEPENDENCY = 'update_dependency',,
+  RUN_VALIDATION = 'run_validation',,
 }
 
 export enum RecoveryType {
   AUTOMATIC = 'automatic',;
   GUIDED = 'guided',;
-  MANUAL = 'manual',;
-  EMERGENCY = 'emergency',;
+  MANUAL = 'manual',,
+  EMERGENCY = 'emergency',,
 }
 
 export enum RecoveryStepType {
   DIAGNOSTIC = 'diagnostic',;
   CORRECTIVE = 'corrective',;
-  PREVENTIVE = 'preventive',;
-  VALIDATION = 'validation',;
+  PREVENTIVE = 'preventive',,
+  VALIDATION = 'validation',,
 }
 
 export enum ValidationType {
   BUILD_SUCCESS = 'build_success',;
   TEST_PASS = 'test_pass',;
-  METRICS_CHECK = 'metrics_check',;
-  CONFIGURATION_VALID = 'configuration_valid',;
+  METRICS_CHECK = 'metrics_check',,
+  CONFIGURATION_VALID = 'configuration_valid',,
 }
 
 export enum HealthStatus {
   EXCELLENT = 'excellent',;
   GOOD = 'good',;
-  WARNING = 'warning',;
-  CRITICAL = 'critical',;
+  WARNING = 'warning',,
+  CRITICAL = 'critical',,
 }
 
 export enum MetricStatus {
   HEALTHY = 'healthy',;
-  WARNING = 'warning',;
-  CRITICAL = 'critical',;
+  WARNING = 'warning',,
+  CRITICAL = 'critical',,
 }
 
 export enum IssueSeverity {
   LOW = 'low',;
   MEDIUM = 'medium',;
-  HIGH = 'high',;
-  CRITICAL = 'critical',;
+  HIGH = 'high',,
+  CRITICAL = 'critical',,
 }
 
 export enum IssueCategory {
   PERFORMANCE = 'performance',;
   RELIABILITY = 'reliability',;
-  SECURITY = 'security',;
-  MAINTAINABILITY = 'maintainability',;
+  SECURITY = 'security',,
+  MAINTAINABILITY = 'maintainability',,
 }
 
 export enum MaintenancePriority {
   LOW = 'low',;
   MEDIUM = 'medium',;
-  HIGH = 'high',;
-  CRITICAL = 'critical',;
+  HIGH = 'high',,
+  CRITICAL = 'critical',,
 }
 
 export enum MaintenanceFrequency {
   DAILY = 'daily',;
   WEEKLY = 'weekly',;
-  MONTHLY = 'monthly',;
-  QUARTERLY = 'quarterly',;
+  MONTHLY = 'monthly',,
+  QUARTERLY = 'quarterly',,
 }
 
 // ========== CAMPAIGN DEBUGGER ==========;
@@ -296,8 +296,8 @@ export enum MaintenanceFrequency {
 export class CampaignDebugger {
   private debugSessions: Map<string, CampaignDebugSession> = new Map();
   private healthReports: Map<string, CampaignHealthReport> = new Map();
-  private campaignController: CampaignController;
-  private progressTracker: ProgressTracker;
+  private campaignController: CampaignController,
+  private progressTracker: ProgressTracker,
 
   constructor() {
     this.campaignController = new CampaignController(this.getDefaultConfig());
@@ -312,11 +312,11 @@ export class CampaignDebugger {
   async startDebugSession(campaignId: string): Promise<string> {
     const sessionId = `debug_${campaignId}_${Date.now()}`;
 
-    const session: CampaignDebugSession = {;
+    const session: CampaignDebugSession = {
       id: sessionId,
       campaignId,
       startTime: new Date(),
-      status: DebugSessionStatus.ACTIVE,
+      status: DebugSessionStatus.ACTIVE;
       debugSteps: [],
       findings: [],
       recommendations: []
@@ -383,10 +383,10 @@ export class CampaignDebugger {
    * Analyze campaign failure and identify root causes
    */
   async analyzeCampaignFailure(campaignId: string): Promise<{
-    rootCauses: string[];
-    contributingFactors: string[];
-    impactAssessment: string;
-    recommendations: DebugRecommendation[];
+    rootCauses: string[],
+    contributingFactors: string[],
+    impactAssessment: string,
+    recommendations: DebugRecommendation[],
   }> {
     const campaign = await this.getCampaignStatus(campaignId);
     if (!campaign) {
@@ -394,7 +394,7 @@ export class CampaignDebugger {
     }
 
     const failureEvents = campaign.safetyEvents.filter(;
-      event => event.severity === 'ERROR' || event.severity === 'CRITICAL',;
+      event => event.severity === 'ERROR' || event.severity === 'CRITICAL';
     );
 
     const rootCauses: string[] = [];
@@ -402,9 +402,9 @@ export class CampaignDebugger {
 
     // Analyze error patterns
     for (const event of failureEvents) {
-      if (event.type === 'BUILD_FAILURE') {;
+      if (event.type === 'BUILD_FAILURE') {
         rootCauses.push('Build system failure during campaign execution');
-      } else if (event.type === 'CORRUPTION_DETECTED') {;
+      } else if (event.type === 'CORRUPTION_DETECTED') {
         rootCauses.push('Data corruption detected during file processing');
       }
     }
@@ -434,10 +434,10 @@ export class CampaignDebugger {
    * Execute recovery plan for a failed campaign
    */
   async executeRecoveryPlan(recoveryPlanId: string): Promise<{
-    success: boolean;
-    completedSteps: string[];
-    failedSteps: string[];
-    rollbackRequired: boolean;
+    success: boolean,
+    completedSteps: string[],
+    failedSteps: string[],
+    rollbackRequired: boolean,
   }> {
     // Mock implementation for recovery plan execution
     return {
@@ -457,7 +457,7 @@ export class CampaignDebugger {
         id: 'emergency_stop',
         name: 'Emergency Stop',
         description: 'Immediately stop all campaign operations',
-        type: RecoveryStepType.CORRECTIVE,
+        type: RecoveryStepType.CORRECTIVE;
         action: 'stop_campaign',
         parameters: { campaignId, force: true },
         estimatedDuration: 1,
@@ -469,7 +469,7 @@ export class CampaignDebugger {
         id: 'create_backup',
         name: 'Create Emergency Backup',
         description: 'Create backup of current system state',
-        type: RecoveryStepType.PREVENTIVE,
+        type: RecoveryStepType.PREVENTIVE;
         action: 'create_backup',
         parameters: { includeWorkspace: true },
         estimatedDuration: 5,
@@ -482,7 +482,7 @@ export class CampaignDebugger {
     return {
       id: `emergency_recovery_${campaignId}_${Date.now()}`,
       campaignId,
-      recoveryType: RecoveryType.EMERGENCY,
+      recoveryType: RecoveryType.EMERGENCY;
       description: 'Emergency recovery plan for critical campaign failure',
       steps: emergencySteps,
       estimatedDuration: emergencySteps.reduce((sum, step) => sum + step.estimatedDuration, 0),
@@ -492,7 +492,7 @@ export class CampaignDebugger {
           id: 'build_success',
           name: 'Build Success Check',
           description: 'Verify that the build completes successfully',
-          type: ValidationType.BUILD_SUCCESS,
+          type: ValidationType.BUILD_SUCCESS;
           criteria: {
             metric: 'build_exit_code',
             operator: 'equals',
@@ -522,7 +522,7 @@ export class CampaignDebugger {
     const healthScore = this.calculateHealthScore(healthMetrics, issues);
     const overallHealth = this.determineOverallHealth(healthScore);
 
-    const healthReport: CampaignHealthReport = {;
+    const healthReport: CampaignHealthReport = {
       campaignId,
       overallHealth,
       healthScore,
@@ -544,8 +544,8 @@ export class CampaignDebugger {
         id: 'config_check',
         name: 'Configuration Check',
         description: 'Validate campaign configuration',
-        type: DebugStepType.CONFIGURATION_CHECK,
-        status: DebugStepStatus.PENDING,
+        type: DebugStepType.CONFIGURATION_CHECK;
+        status: DebugStepStatus.PENDING;
         startTime: new Date(),
         output: {},
         errors: [],
@@ -555,8 +555,8 @@ export class CampaignDebugger {
         id: 'dependency_analysis',
         name: 'Dependency Analysis',
         description: 'Analyze campaign dependencies and conflicts',
-        type: DebugStepType.DEPENDENCY_ANALYSIS,
-        status: DebugStepStatus.PENDING,
+        type: DebugStepType.DEPENDENCY_ANALYSIS;
+        status: DebugStepStatus.PENDING;
         startTime: new Date(),
         output: {},
         errors: [],
@@ -566,8 +566,8 @@ export class CampaignDebugger {
         id: 'performance_analysis',
         name: 'Performance Analysis',
         description: 'Analyze campaign performance metrics',
-        type: DebugStepType.PERFORMANCE_ANALYSIS,
-        status: DebugStepStatus.PENDING,
+        type: DebugStepType.PERFORMANCE_ANALYSIS;
+        status: DebugStepStatus.PENDING;
         startTime: new Date(),
         output: {},
         errors: [],
@@ -587,10 +587,10 @@ export class CampaignDebugger {
         break;
       case DebugStepType.DEPENDENCY_ANALYSIS:
         findings.push(...(await this.analyzeDependencies(campaignId)));
-        break;
+        break,
       case DebugStepType.PERFORMANCE_ANALYSIS:
         findings.push(...(await this.analyzePerformance(campaignId)));
-        break;
+        break,
     }
 
     step.output = { findingsCount: findings.length };
@@ -602,14 +602,14 @@ export class CampaignDebugger {
 
     findings.push({
       id: `config_finding_${Date.now()}`,
-      category: FindingCategory.CONFIGURATION_ERROR,
-      severity: FindingSeverity.MEDIUM,
+      category: FindingCategory.CONFIGURATION_ERROR;
+      severity: FindingSeverity.MEDIUM;
       title: 'Batch size may be too large',
       description: 'Current batch size of 25 may be causing memory issues',
       evidence: [
         {
-          type: EvidenceType.CONFIGURATION_FILE,
-          source: 'campaign_config.json',
+          type: EvidenceType.CONFIGURATION_FILE;
+          source: 'campaign_config.json';
           content: '{'batchSize': 25}',
           timestamp: new Date()
         }
@@ -631,20 +631,20 @@ export class CampaignDebugger {
       if (conflict.involvedCampaigns.includes(campaignId)) {
         findings.push({
           id: `dependency_finding_${conflict.id}`,
-          category: FindingCategory.DEPENDENCY_ISSUE,
+          category: FindingCategory.DEPENDENCY_ISSUE;
           severity:
-            conflict.severity === 'critical' ? FindingSeverity.CRITICAL : FindingSeverity.HIGH,;
+            conflict.severity === 'critical' ? FindingSeverity.CRITICAL : FindingSeverity.HIGH,,
           title: 'Campaign dependency conflict detected',
-          description: conflict.description,
+          description: conflict.description;
           evidence: [
             {
-              type: EvidenceType.SYSTEM_STATE,
+              type: EvidenceType.SYSTEM_STATE;
               source: 'conflict_resolver',
-              content: JSON.stringify(conflict),
+              content: JSON.stringify(conflict);
               timestamp: conflict.detectedAt
             }
           ],
-          affectedComponents: conflict.involvedCampaigns,
+          affectedComponents: conflict.involvedCampaigns;
           detectedAt: new Date()
         });
       }
@@ -660,15 +660,15 @@ export class CampaignDebugger {
     if (campaign && campaign.metrics.buildPerformance.currentTime > 30) {
       findings.push({
         id: `perf_finding_${Date.now()}`,
-        category: FindingCategory.PERFORMANCE_ISSUE,
-        severity: FindingSeverity.HIGH,
+        category: FindingCategory.PERFORMANCE_ISSUE;
+        severity: FindingSeverity.HIGH;
         title: 'Build performance degradation',
         description: `Build time of ${campaign.metrics.buildPerformance.currentTime}s exceeds acceptable threshold`,
         evidence: [
           {
-            type: EvidenceType.METRICS_DATA,
+            type: EvidenceType.METRICS_DATA;
             source: 'performance_monitor',
-            content: JSON.stringify(campaign.metrics.buildPerformance),
+            content: JSON.stringify(campaign.metrics.buildPerformance);
             timestamp: new Date()
           }
         ],
@@ -688,20 +688,20 @@ export class CampaignDebugger {
         case FindingCategory.CONFIGURATION_ERROR:
           recommendations.push({
             id: `rec_${finding.id}`,
-            priority: RecommendationPriority.HIGH,
+            priority: RecommendationPriority.HIGH;
             title: 'Fix Configuration Issue',
             description: `Address configuration issue: ${finding.title}`,
             actionItems: [
               {
                 id: 'update_config',
                 description: 'Update campaign configuration',
-                type: ActionType.UPDATE_CONFIG,
+                type: ActionType.UPDATE_CONFIG;
                 parameters: { configPath: 'campaign_config.json' },
                 estimatedDuration: 10,
                 automated: true
               }
             ],
-            estimatedEffort: 0.5,
+            estimatedEffort: 0.5;
             riskLevel: 'low',
             category: RecommendationCategory.CONFIGURATION_FIX
           });
@@ -709,14 +709,14 @@ export class CampaignDebugger {
         case FindingCategory.PERFORMANCE_ISSUE:
           recommendations.push({
             id: `rec_${finding.id}`,
-            priority: RecommendationPriority.MEDIUM,
+            priority: RecommendationPriority.MEDIUM;
             title: 'Optimize Performance',
             description: `Address performance issue: ${finding.title}`,
             actionItems: [
               {
                 id: 'tune_performance',
                 description: 'Optimize performance settings',
-                type: ActionType.UPDATE_CONFIG,
+                type: ActionType.UPDATE_CONFIG;
                 parameters: { optimizeFor: 'performance' },
                 estimatedDuration: 30,
                 automated: false
@@ -744,7 +744,7 @@ export class CampaignDebugger {
       id: 'diagnose_issue',
       name: 'Diagnose Root Cause',
       description: 'Perform detailed diagnosis of the campaign failure',
-      type: RecoveryStepType.DIAGNOSTIC,
+      type: RecoveryStepType.DIAGNOSTIC;
       action: 'run_diagnosis',
       parameters: { campaignId, findings: findings.map(f => f.id) },;
       estimatedDuration: 10,
@@ -757,13 +757,13 @@ export class CampaignDebugger {
     for (const finding of findings) {
       if (
         finding.severity === FindingSeverity.HIGH ||;
-        finding.severity === FindingSeverity.CRITICAL;
+        finding.severity === FindingSeverity.CRITICAL
       ) {
         recoverySteps.push({
           id: `fix_${finding.id}`,
           name: `Fix: ${finding.title}`,
-          description: finding.description,
-          type: RecoveryStepType.CORRECTIVE,
+          description: finding.description;
+          type: RecoveryStepType.CORRECTIVE;
           action: 'apply_fix',
           parameters: { findingId: finding.id, automated: true },
           estimatedDuration: 15,
@@ -777,7 +777,7 @@ export class CampaignDebugger {
     return {
       id: `recovery_${campaignId}_${Date.now()}`,
       campaignId,
-      recoveryType: RecoveryType.GUIDED,
+      recoveryType: RecoveryType.GUIDED;
       description: 'Guided recovery plan based on debug findings',
       steps: recoverySteps,
       estimatedDuration: recoverySteps.reduce((sum, step) => sum + step.estimatedDuration, 0),
@@ -787,7 +787,7 @@ export class CampaignDebugger {
           id: 'campaign_health',
           name: 'Campaign Health Check',
           description: 'Verify campaign is healthy after recovery',
-          type: ValidationType.METRICS_CHECK,
+          type: ValidationType.METRICS_CHECK;
           criteria: {
             metric: 'health_score',
             operator: 'greater_than',
@@ -808,11 +808,11 @@ export class CampaignDebugger {
     const warningCount = campaign.metrics.lintingWarnings.current;
 
     if (errorCount > 1000 || warningCount > 5000) {
-      return 'High impact - significant code quality degradation';
+      return 'High impact - significant code quality degradation',
     } else if (errorCount > 100 || warningCount > 1000) {
-      return 'Medium impact - moderate code quality issues';
+      return 'Medium impact - moderate code quality issues',
     } else {
-      return 'Low impact - minimal code quality impact';
+      return 'Low impact - minimal code quality impact',
     }
   }
 
@@ -825,14 +825,14 @@ export class CampaignDebugger {
     if (rootCauses.includes('Build system failure during campaign execution')) {
       recommendations.push({
         id: `rec_build_${Date.now()}`,
-        priority: RecommendationPriority.HIGH,
+        priority: RecommendationPriority.HIGH;
         title: 'Improve Build System Reliability',
         description: 'Implement build system monitoring and error recovery',
         actionItems: [
           {
             id: 'setup_build_monitoring',
             description: 'Set up build system health monitoring',
-            type: ActionType.UPDATE_CONFIG,
+            type: ActionType.UPDATE_CONFIG;
             parameters: { enableMonitoring: true },
             estimatedDuration: 30,
             automated: false
@@ -851,23 +851,23 @@ export class CampaignDebugger {
     return [
       {
         name: 'Error Rate',
-        value: campaign.metrics.typeScriptErrors.current,
+        value: campaign.metrics.typeScriptErrors.current;
         unit: 'errors',
         status:
           campaign.metrics.typeScriptErrors.current > 100
             ? MetricStatus.CRITICAL
-            : MetricStatus.HEALTHY,
+            : MetricStatus.HEALTHY;
         threshold: 100,
         trend: 'stable'
       },
       {
         name: 'Build Time',
-        value: campaign.metrics.buildPerformance.currentTime,
+        value: campaign.metrics.buildPerformance.currentTime;
         unit: 'seconds',
         status:
           campaign.metrics.buildPerformance.currentTime > 30
             ? MetricStatus.WARNING
-            : MetricStatus.HEALTHY,
+            : MetricStatus.HEALTHY;
         threshold: 30,
         trend: 'stable'
       }
@@ -881,11 +881,11 @@ export class CampaignDebugger {
     const issues: HealthIssue[] = [];
 
     for (const metric of metrics) {
-      if (metric.status === MetricStatus.CRITICAL) {;
+      if (metric.status === MetricStatus.CRITICAL) {
         issues.push({
           id: `issue_${metric.name.toLowerCase().replace(' ', '_')}_${Date.now()}`,
-          severity: IssueSeverity.HIGH,
-          category: IssueCategory.PERFORMANCE,
+          severity: IssueSeverity.HIGH;
+          category: IssueCategory.PERFORMANCE;
           title: `${metric.name} Critical`,
           description: `${metric.name} value of ${metric.value} ${metric.unit} exceeds critical threshold`,
           impact: 'May cause campaign failures and performance degradation',
@@ -904,16 +904,16 @@ export class CampaignDebugger {
     const recommendations: MaintenanceRecommendation[] = [];
 
     for (const issue of issues) {
-      if (issue.severity === IssueSeverity.HIGH || issue.severity === IssueSeverity.CRITICAL) {;
+      if (issue.severity === IssueSeverity.HIGH || issue.severity === IssueSeverity.CRITICAL) {
         recommendations.push({
           id: `maint_${issue.id}`,
           priority:
             issue.severity === IssueSeverity.CRITICAL;
               ? MaintenancePriority.CRITICAL
-              : MaintenancePriority.HIGH,
+              : MaintenancePriority.HIGH;
           title: `Address: ${issue.title}`,
-          description: issue.description,
-          frequency: MaintenanceFrequency.WEEKLY,
+          description: issue.description;
+          frequency: MaintenanceFrequency.WEEKLY;
           estimatedDuration: 30,
           nextDue: new Date(Date.now() + 24 * 60 * 60 * 1000)
         });
@@ -928,18 +928,18 @@ export class CampaignDebugger {
 
     // Deduct points for critical metrics
     for (const metric of metrics) {
-      if (metric.status === MetricStatus.CRITICAL) {;
+      if (metric.status === MetricStatus.CRITICAL) {
         score -= 30;
-      } else if (metric.status === MetricStatus.WARNING) {;
+      } else if (metric.status === MetricStatus.WARNING) {
         score -= 15;
       }
     }
 
     // Deduct points for issues
     for (const issue of issues) {
-      if (issue.severity === IssueSeverity.CRITICAL) {;
+      if (issue.severity === IssueSeverity.CRITICAL) {
         score -= 25;
-      } else if (issue.severity === IssueSeverity.HIGH) {;
+      } else if (issue.severity === IssueSeverity.HIGH) {
         score -= 15;
       }
     }
@@ -972,9 +972,9 @@ export class CampaignDebugger {
         enterpriseSystems: 200
       },
       toolConfiguration: {
-        enhancedErrorFixer: 'scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js',
-        explicitAnyFixer: 'scripts/typescript-fixes/fix-explicit-any-systematic.js',
-        unusedVariablesFixer: 'scripts/typescript-fixes/fix-unused-variables-enhanced.js',
+        enhancedErrorFixer: 'scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js';
+        explicitAnyFixer: 'scripts/typescript-fixes/fix-explicit-any-systematic.js';
+        unusedVariablesFixer: 'scripts/typescript-fixes/fix-unused-variables-enhanced.js';
         consoleStatementFixer: 'scripts/lint-fixes/fix-console-statements-only.js'
       }
     };

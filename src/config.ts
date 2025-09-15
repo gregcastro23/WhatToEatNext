@@ -22,7 +22,7 @@ interface AppConfig {
 // Get environment
 const isDev = process.env.NODE_ENV !== 'production';
 
-export const config: AppConfig = {;
+export const config: AppConfig = {
   debug: isDev,
 
   api: {

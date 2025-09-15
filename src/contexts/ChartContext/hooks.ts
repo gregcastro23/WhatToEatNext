@@ -10,7 +10,7 @@ import type { ChartContextType } from './types';
  * @returns The ChartContext
  * @throws Error if used outside of ChartProvider
  */
-export const useChart = (): ChartContextType => {;
+export const useChart = (): ChartContextType => {
   const context = useContext(ChartContext);
 
   if (!context) {

@@ -7,7 +7,7 @@ import type { ZodiacSign, ThermodynamicProperties } from '@/types/shared';
  * Molecular gastronomy technique for creating caviar-like spheres
  * with thin gel membranes containing liquid centers
  */
-export const spherification: CookingMethodData = {;
+export const spherification: CookingMethodData = {
   name: 'spherification',
   description:
     'Molecular gastronomy technique that creates caviar-like spheres or larger droplets with thin gel membranes containing liquid centers',
@@ -151,7 +151,7 @@ export const spherification: CookingMethodData = {;
   },
   safetyFeatures: [
     'Use food-grade chemicals only (USP or equivalent grade)',
-    'Proper measurement of additives (1% sodium alginate = 10g per 1L)',;
+    'Proper measurement of additives (1% sodium alginate = 10g per 1L)',,
     'Follow sanitation protocols (sterile tools and work surfaces)',
     'Proper labeling of all chemical solutions',
     'Keep spherified products refrigerated if not serving immediately',
@@ -233,7 +233,7 @@ export const spherification: CookingMethodData = {;
     },
     pHRequirements: {
       idealRange: '4.0-6.0 (alginate won't gel properly below pH 3.8)',
-      acidicSolutions: 'May require sodium citrate to adjust pH; test with pH meter',
+      acidicSolutions: 'May require sodium citrate to adjust pH, test with pH meter',
       alcoholicSolutions: 'May require xanthan gum stabilizer (0.1-0.2%) to prevent separation',
       highCalciumLiquids:
         'Use sodium hexametaphosphate to sequester calcium before basic spherification'
@@ -294,7 +294,7 @@ export const spherification: CookingMethodData = {;
     freezing_considerations:
       'Frozen reverse spheres must thaw at least 50% before serving for proper texture.',
     prep_timing:
-      'Prepare solutions at least 24 hours before service; actual spherification should be done 10-30 minutes before serving.'
+      'Prepare solutions at least 24 hours before service, actual spherification should be done 10-30 minutes before serving.'
   },
 
   doneness_indicators: {
@@ -302,11 +302,11 @@ export const spherification: CookingMethodData = {;
       'Membrane holds shape when gently lifted with slotted spoon; liquid center moves freely inside.',
     reverse_spheres:
       'Shape holds when rolled on flat surface; membrane is elastic but doesn't break under light pressure.',
-    caviar: 'Individual spheres remain separate and don't merge; bounce slightly when dropped.',
+    caviar: 'Individual spheres remain separate and don't merge, bounce slightly when dropped.',
     large_spheres:
-      'Surface tension creates slight resistance when touched; membrane is continuous with no weak spots.',
-    over_gelled: 'Sphere feels firm throughout with reduced liquid center; membrane too thick.',
-    under_gelled: 'Membrane breaks easily when handled; sphere loses shape outside of liquid.'
+      'Surface tension creates slight resistance when touched, membrane is continuous with no weak spots.',
+    over_gelled: 'Sphere feels firm throughout with reduced liquid center, membrane too thick.',
+    under_gelled: 'Membrane breaks easily when handled, sphere loses shape outside of liquid.'
   },
 
   ingredientInteractions: {
@@ -319,11 +319,11 @@ export const spherification: CookingMethodData = {;
     fats_and_spherification:
       'Pure oils/fats cannot be directly spherified; must be emulsified first with lecithin.',
     proteins_and_calcium:
-      'Some proteins compete with alginate for calcium binding; may require increased calcium concentration.',
-    salts_and_gelation: 'High salt content slows gelation process; may require longer bath times.',
+      'Some proteins compete with alginate for calcium binding, may require increased calcium concentration.',
+    salts_and_gelation: 'High salt content slows gelation process, may require longer bath times.',
     sugar_and_alginate:
-      'High sugar concentration competes with alginate hydration; may need adjustment of percentages.',
+      'High sugar concentration competes with alginate hydration, may need adjustment of percentages.',
     natural_calcium_content:
-      'Ingredients like dairy naturally high in calcium will begin to gel immediately with alginate; use reverse method.'
+      'Ingredients like dairy naturally high in calcium will begin to gel immediately with alginate, use reverse method.'
   }
 };

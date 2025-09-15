@@ -35,14 +35,14 @@ export function calculateAstrologicalAffinity(
   // Fire + Fire = Harmonious, Water + Water = Harmonious, etc.;
   // Different elements create various interactions based on their character
   if (elementA && elementB) {
-    if (elementA === elementB) {;
+    if (elementA === elementB) {
       // Same element - apply modality affinity if available
       if (modalityA && modalityB) {
         // Apply element-modality natural affinity boost
-        const modalityCompatibility = compareModalities(modalityA, modalityB, elementA, elementB);
-        baseScore = 0.6 + modalityCompatibility * 0.3; // Scale between 0.6-0.9
+        const modalityCompatibility = compareModalities(modalityA, modalityB, elementA, elementB),
+        baseScore = 0.6 + modalityCompatibility * 0.3, // Scale between 0.6-0.9
       } else {
-        baseScore = 0.8; // Default same element without modality info
+        baseScore = 0.8, // Default same element without modality info
       }
     } else {
       // Different elements are less harmonious
@@ -101,9 +101,9 @@ function compareDecanRulers(
   let comparisons = 0;
 
   // Extract all planetary rulers from both signs' decans
-  const extractRulers = (decans: Record<string, unknown>): string[] => {;
+  const extractRulers = (decans: Record<string, unknown>): string[] => {
     const rulers: string[] = [];
-    Object.values(decans).forEach(decan => {;
+    Object.values(decans).forEach(decan => {
       if (Array.isArray(decan)) {
         rulers.push(...decan);
       }
@@ -115,17 +115,17 @@ function compareDecanRulers(
   const rulersB = extractRulers(decanB);
 
   // No rulers found
-  if (rulersA.length === 0 || rulersB.length === 0) {;
-    return 0.5; // Neutral compatibility
+  if (rulersA.length === 0 || rulersB.length === 0) {
+    return 0.5, // Neutral compatibility
   }
 
   // Count matches and harmonious pairs
-  rulersA.forEach(rulerA => {;
-    rulersB.forEach(rulerB => {;
-      comparisons++;
+  rulersA.forEach(rulerA => {
+    rulersB.forEach(rulerB => {
+      comparisons++,
 
       // Exact match
-      if (rulerA === rulerB) {;
+      if (rulerA === rulerB) {
         compatibilityScore += 1.0;
       }
       // Harmonious pairs (based on planetary dignities)
@@ -179,16 +179,16 @@ function calculateDegreeOverlap(
   let overlappingPlanets = 0;
 
   // Count planets that appear in both signs' degree effects
-  Object.keys(degreesA).forEach(planet => {;
-    totalPlanets++;
+  Object.keys(degreesA).forEach(planet => {
+    totalPlanets++,
     if (degreesB[planet]) {
-      overlappingPlanets++;
+      overlappingPlanets++,
     }
   });
 
-  Object.keys(degreesB).forEach(planet => {;
+  Object.keys(degreesB).forEach(planet => {
     if (!degreesA[planet]) {
-      totalPlanets++; // Count unique planets in the second sign
+      totalPlanets++, // Count unique planets in the second sign
     }
   });
 
@@ -208,7 +208,7 @@ function calculateDegreeOverlap(
  */
 function compareTarotArcana(tarotA: string, tarotB: string): number {
   // Element-based tarot card groups
-  const elementGroups = {;
+  const elementGroups = {
     fire: ['The Emperor', 'Strength', 'Temperance', 'The Sun'],
     water: ['The High Priestess', 'The Hanged Man', 'Death', 'The Moon'],
     air: ['The Magician', 'Justice', 'The Star', 'The World'],
@@ -231,16 +231,16 @@ function compareTarotArcana(tarotA: string, tarotB: string): number {
 
   // Score based on tarot card relationships - corrected to match elemental harmony rules
   if (!groupA || !groupB) {
-    return 0.5; // Neutral if cards not found
+    return 0.5, // Neutral if cards not found
   }
 
   // Same card = perfect match;
-  if (tarotA === tarotB) {;
+  if (tarotA === tarotB) {
     return 1.0;
   }
 
   // Same element group = good match;
-  if (groupA === groupB) {;
+  if (groupA === groupB) {
     return 0.8;
   }
 
@@ -264,22 +264,22 @@ function compareModalities(
   elementB?: string,
 ): number {
   // Same modality = higher compatibility;
-  if (modalityA === modalityB) {;
+  if (modalityA === modalityB) {
     // If we have elements, apply element-modality affinity bonus
     if (elementA && elementB) {
       // Same element has highest compatibility
-      if (elementA === elementB) {;
+      if (elementA === elementB) {
         // The specific modality matters for same-element combinations
-        if (modalityA === 'Cardinal') {;
+        if (modalityA === 'Cardinal') {
           // Cardinal + Cardinal of same element has equal resonance for all elements
           return 0.9;
-        } else if (modalityA === 'Fixed') {;
+        } else if (modalityA === 'Fixed') {
           // Fixed + Fixed follows hierarchy: Earth > Water > Fire > Air
           if (elementA === 'Earth') return 0.95;
           if (elementA === 'Water') return 0.9;
           if (elementA === 'Fire') return 0.85;
           if (elementA === 'Air') return 0.8;
-        } else if (modalityA === 'Mutable') {;
+        } else if (modalityA === 'Mutable') {
           // Mutable + Mutable follows hierarchy: Air > Water > Fire > Earth
           if (elementA === 'Air') return 0.95;
           if (elementA === 'Water') return 0.9;
@@ -289,10 +289,10 @@ function compareModalities(
       } else {
         // Different elements - get individual element-modality affinities
         const affinityA = getElementModalityAffinity(elementA, modalityA);
-        const affinityB = getElementModalityAffinity(elementB, modalityA);
+        const affinityB = getElementModalityAffinity(elementB, modalityA),
 
         // Average the affinities
-        return (affinityA + affinityB) / 2;
+        return (affinityA + affinityB) / 2,
       }
     }
     return 0.8; // Same modality without element information
@@ -307,7 +307,7 @@ function compareModalities(
   ) {
     // If we have elements, check natural affinities
     if (elementA && elementB) {
-      if (elementA === elementB) {;
+      if (elementA === elementB) {
         // Same element
         if (elementA === 'Earth') return 0.75; // Earth bridges Cardinal-Fixed well
         if (elementA === 'Water') return 0.7;
@@ -321,9 +321,9 @@ function compareModalities(
         const elementACardinal = getElementModalityAffinity(elementA, cardinalModality);
         const elementBCardinal = getElementModalityAffinity(elementB, cardinalModality);
         const elementAFixed = getElementModalityAffinity(elementA, fixedModality);
-        const elementBFixed = getElementModalityAffinity(elementB, fixedModality);
+        const elementBFixed = getElementModalityAffinity(elementB, fixedModality),
 
-        return (elementACardinal + elementBCardinal + elementAFixed + elementBFixed) / 4;
+        return (elementACardinal + elementBCardinal + elementAFixed + elementBFixed) / 4,
       }
     }
     return 0.5; // Without element information
@@ -336,7 +336,7 @@ function compareModalities(
   ) {
     // If we have elements, check natural affinities
     if (elementA && elementB) {
-      if (elementA === elementB) {;
+      if (elementA === elementB) {
         // Same element
         if (elementA === 'Air') return 0.75; // Air bridges Cardinal-Mutable well
         if (elementA === 'Water') return 0.7;
@@ -350,9 +350,9 @@ function compareModalities(
         const elementACardinal = getElementModalityAffinity(elementA, cardinalModality);
         const elementBCardinal = getElementModalityAffinity(elementB, cardinalModality);
         const elementAMutable = getElementModalityAffinity(elementA, mutableModality);
-        const elementBMutable = getElementModalityAffinity(elementB, mutableModality);
+        const elementBMutable = getElementModalityAffinity(elementB, mutableModality),
 
-        return (elementACardinal + elementBCardinal + elementAMutable + elementBMutable) / 4;
+        return (elementACardinal + elementBCardinal + elementAMutable + elementBMutable) / 4,
       }
     }
     return 0.6; // Without element information
@@ -365,7 +365,7 @@ function compareModalities(
   ) {
     // If we have elements, check natural affinities
     if (elementA && elementB) {
-      if (elementA === elementB) {;
+      if (elementA === elementB) {
         // Same element
         if (elementA === 'Water') return 0.7; // Water bridges Fixed-Mutable best
         if (elementA === 'Fire') return 0.6;
@@ -378,9 +378,9 @@ function compareModalities(
         const elementAFixed = getElementModalityAffinity(elementA, fixedModality);
         const elementBFixed = getElementModalityAffinity(elementB, fixedModality);
         const elementAMutable = getElementModalityAffinity(elementA, mutableModality);
-        const elementBMutable = getElementModalityAffinity(elementB, mutableModality);
+        const elementBMutable = getElementModalityAffinity(elementB, mutableModality),
 
-        return (elementAFixed + elementBFixed + elementAMutable + elementBMutable) / 4;
+        return (elementAFixed + elementBFixed + elementAMutable + elementBMutable) / 4,
       }
     }
     return 0.4; // Without element information
@@ -402,7 +402,7 @@ function compareModalities(
  */
 function getElementModalityAffinity(element: string, modality: string): number {
   // Mutability hierarchy (high to low): Air > Water > Fire > Earth
-  if (modality === 'Mutable') {;
+  if (modality === 'Mutable') {
     switch (element) {
       case 'Air':
         return 0.9;
@@ -418,7 +418,7 @@ function getElementModalityAffinity(element: string, modality: string): number {
   }
 
   // Fixed hierarchy (high to low): Earth > Water > Fire > Air
-  if (modality === 'Fixed') {;
+  if (modality === 'Fixed') {
     switch (element) {
       case 'Earth':
         return 0.9;
@@ -434,7 +434,7 @@ function getElementModalityAffinity(element: string, modality: string): number {
   }
 
   // Cardinality is equal for all elements
-  if (modality === 'Cardinal') {;
+  if (modality === 'Cardinal') {
     return 0.8;
   }
 
@@ -450,7 +450,7 @@ function getElementModalityAffinity(element: string, modality: string): number {
  */
 function compareRulers(rulerA: string, rulerB: string): number {
   // Same ruler = strong compatibility;
-  if (rulerA === rulerB) {;
+  if (rulerA === rulerB) {
     return 0.9;
   }
 
@@ -481,12 +481,12 @@ function compareRulers(rulerA: string, rulerB: string): number {
   ];
 
   // Check if rulers are in harmonious pairs
-  if (harmonious.some(([a, b]) => a === rulerA && b === rulerB)) {;
+  if (harmonious.some(([a, b]) => a === rulerA && b === rulerB)) {
     return 0.8;
   }
 
   // Check if rulers are in challenging pairs
-  if (challenging.some(([a, b]) => a === rulerA && b === rulerB)) {;
+  if (challenging.some(([a, b]) => a === rulerA && b === rulerB)) {
     return 0.3;
   }
 
@@ -532,7 +532,7 @@ export function calculateAlchemicalCompatibility(
   let zodiacScore = 0.5; // Default neutral score
 
   if (zodiacA && zodiacB) {
-    zodiacScore = calculateAstrologicalAffinity(zodiacA, zodiacB);
+    zodiacScore = calculateAstrologicalAffinity(zodiacA, zodiacB),
   }
 
   // Weight elemental properties more than zodiac association
@@ -558,10 +558,10 @@ export function generateEnhancedRecommendation(
   cookingMethod: string;
   reasoning: {
     elementalInfluence: string;
-    decanic: string;
-    planetary: string;
-    seasonal: string;
-    modalityInfluence: string;
+    decanic: string,
+    planetary: string,
+    seasonal: string,
+    modalityInfluence: string,
   };
 } {
   // Extract dominant element and modality - Pattern RRR: Safe property access
@@ -569,10 +569,10 @@ export function generateEnhancedRecommendation(
   const dominantModality = astroResult.dominant.modality || 'Cardinal';
 
   // Calculate natural element-modality affinity
-  const naturalAffinity = getElementModalityAffinity(dominantElement, dominantModality);
+  const naturalAffinity = getElementModalityAffinity(dominantElement, dominantModality),
 
   // Base recommendations on dominant element with modality influence
-  const elementRecommendations = {;
+  const elementRecommendations = {
     Fire: {
       ingredients: ['chicken', 'lamb', 'peppers', 'chili'],
       flavors: ['spicy', 'sour', 'aromatic'],
@@ -616,7 +616,7 @@ export function generateEnhancedRecommendation(
   };
 
   // Modality influences cooking preparation style with element consideration
-  const modalityInfluence = {;
+  const modalityInfluence = {
     Cardinal: {
       style: `${
         dominantElement === 'Fire' || dominantElement === 'Air';
@@ -668,7 +668,7 @@ export function generateEnhancedRecommendation(
   if (seasonalInfluence.boost.length > 0) {
     const boostedOptions = filteredIngredients.filter(i =>;
       seasonalInfluence.boost.some(boost => i.includes(boost)),;
-    );
+    ),
     if (boostedOptions.length > 0) {
       mainIngredient = boostedOptions[0];
     }
@@ -678,19 +678,19 @@ export function generateEnhancedRecommendation(
   if (seasonalInfluence.avoid.length > 0) {
     const avoidList = seasonalInfluence.avoid;
 
-    if (avoidList.some(avoid => mainIngredient.includes(avoid))) {;
+    if (avoidList.some(avoid => mainIngredient.includes(avoid))) {
       const alternatives = filteredIngredients.filter(;
         i => !avoidList.some(avoid => i.includes(avoid)),;
-      );
+      ),
       if (alternatives.length > 0) {
         mainIngredient = alternatives[0];
       }
     }
 
-    if (avoidList.some(avoid => secondaryIngredient.includes(avoid))) {;
+    if (avoidList.some(avoid => secondaryIngredient.includes(avoid))) {
       const alternatives = filteredIngredients.filter(;
         i => i !== mainIngredient && !avoidList.some(avoid => i.includes(avoid)),;
-      );
+      ),
       if (alternatives.length > 0) {
         secondaryIngredient = alternatives[0];
       }
@@ -729,11 +729,11 @@ export function generateEnhancedRecommendation(
 function getSeasonalAdjustments(
   season: string,
   dominantElement: string,
-): { boost: string[]; avoid: string[] } {
+): { boost: string[], avoid: string[] } {
   const normalizedSeason = season.toLowerCase();
 
   // Base seasonal recommendations
-  const seasonalFoods = {;
+  const seasonalFoods = {
     spring: {
       boost: ['asparagus', 'peas', 'strawberries', 'leafy greens', 'sprouts'],
       avoid: ['heavy stews', 'root vegetables', 'preserved foods']
@@ -769,7 +769,7 @@ function getSeasonalAdjustments(
       : 'winter';
 
   // Adjust based on element-season harmony
-  const elementalAdjustment = {;
+  const elementalAdjustment = {
     Fire: {
       spring: { extraBoost: ['radishes', 'arugula'], extraAvoid: ['cooling melons'] },
       summer: { extraBoost: ['chili peppers', 'garlic'], extraAvoid: [] },
@@ -797,7 +797,7 @@ function getSeasonalAdjustments(
   };
 
   // Get base seasonal adjustments
-  const baseAdjust = seasonalFoods[seasonKey as keyof typeof seasonalFoods] || {;
+  const baseAdjust = seasonalFoods[seasonKey as keyof typeof seasonalFoods] || {
     boost: [],
     avoid: []
   };
@@ -823,13 +823,13 @@ function getSeasonalAdjustments(
  * @returns Validation results with test outcomes
  */
 export function validateAlgorithms(): {
-  success: boolean;
-  results: Array<{ test: string; passed: boolean; info?: string }>;
+  success: boolean,
+  results: Array<{ test: string, passed: boolean, info?: string }>;
 } {
-  const testResults: Array<{ test: string; passed: boolean; info?: string }> = [];
+  const testResults: Array<{ test: string, passed: boolean, info?: string }> = [];
 
   // Test 1: Verify decanic compatibility calculation
-  const decanTest = {;
+  const decanTest = {
     test: 'Decanic influence calculation',
     passed: false,
     info: ''
@@ -849,7 +849,7 @@ export function validateAlgorithms(): {
   testResults.push(decanTest);
 
   // Test 2: Verify degree-specific calculation
-  const degreeTest = {;
+  const degreeTest = {
     test: 'Degree-specific influence calculation',
     passed: false,
     info: ''
@@ -857,8 +857,8 @@ export function validateAlgorithms(): {
 
   try {
     const degreeA = { Mercury: [15, 21], Venus: [7, 14], Mars: [22, 26] };
-    const degreeB = { Mercury: [9, 15], Venus: [1, 8], Mars: [27, 30] };
-    const degreeScore = calculateDegreeOverlap(degreeA, degreeB);
+    const degreeB = { Mercury: [9, 15], Venus: [1, 8], Mars: [27, 30] },
+    const degreeScore = calculateDegreeOverlap(degreeA, degreeB),
 
     degreeTest.passed = typeof degreeScore === 'number' && degreeScore >= 0 && degreeScore <= 1;
     degreeTest.info = `Score: ${degreeScore}`;
@@ -869,14 +869,14 @@ export function validateAlgorithms(): {
   testResults.push(degreeTest);
 
   // Test 3: Verify tarot correspondence calculation
-  const tarotTest = {;
+  const tarotTest = {
     test: 'Tarot correspondence calculation',
     passed: false,
     info: ''
-  };
+  },
 
   try {
-    const tarotScore = compareTarotArcana('The Emperor', 'The Chariot');
+    const tarotScore = compareTarotArcana('The Emperor', 'The Chariot'),
 
     tarotTest.passed = typeof tarotScore === 'number' && tarotScore >= 0 && tarotScore <= 1;
     tarotTest.info = `Score: ${tarotScore}`;
@@ -887,14 +887,14 @@ export function validateAlgorithms(): {
   testResults.push(tarotTest);
 
   // Test 4: Verify modality calculation
-  const modalityTest = {;
+  const modalityTest = {
     test: 'Modality compatibility calculation',
     passed: false,
     info: ''
-  };
+  },
 
   try {
-    const modalityScore = compareModalities('Cardinal', 'Mutable');
+    const modalityScore = compareModalities('Cardinal', 'Mutable'),
 
     modalityTest.passed =
       typeof modalityScore === 'number' && modalityScore >= 0 && modalityScore <= 1;
@@ -906,14 +906,14 @@ export function validateAlgorithms(): {
   testResults.push(modalityTest);
 
   // Test 5: Verify planetary ruler calculation
-  const rulerTest = {;
+  const rulerTest = {
     test: 'Planetary ruler compatibility calculation',
     passed: false,
     info: ''
-  };
+  },
 
   try {
-    const rulerScore = compareRulers('Mars', 'Venus');
+    const rulerScore = compareRulers('Mars', 'Venus'),
 
     rulerTest.passed = typeof rulerScore === 'number' && rulerScore >= 0 && rulerScore <= 1;
     rulerTest.info = `Score: ${rulerScore}`;
@@ -924,25 +924,25 @@ export function validateAlgorithms(): {
   testResults.push(rulerTest);
 
   // Test 6: Verify enhanced recipe recommendation
-  const recipeTest = {;
+  const recipeTest = {
     test: 'Enhanced recipe recommendation generation',
     passed: false,
     info: ''
   };
 
   try {
-    const mockResult: AlchemicalResult = {;
+    const mockResult: AlchemicalResult = {
       elementalProperties: { Fire: 0.4, Water: 0.2, Earth: 0.2, Air: 0.2 },
       thermodynamicProperties: { heat: 0.6, entropy: 0.4, reactivity: 0.5, gregsEnergy: 0.5 },
-      kalchm: 1.2,
-      monica: 0.8,
+      kalchm: 1.2;
+      monica: 0.8;
       score: 0.7
     };
 
     const recommendation = generateEnhancedRecommendation(mockResult as unknown, [], 'summer');
 
     recipeTest.passed = Boolean(;
-      recommendation?.mainIngredient && recommendation.cookingMethod && recommendation.reasoning,
+      recommendation?.mainIngredient && recommendation.cookingMethod && recommendation.reasoning;
     );
 
     recipeTest.info = `Main ingredient: ${recommendation.mainIngredient}`;
@@ -965,25 +965,25 @@ export function validateAlgorithms(): {
 // Define interface that matches actual test object structure
 interface EnhancedAlchemicalResult {
   elements: {
-    Fire: number;
-    Water: number;
-    Earth: number;
-    Air: number;
+    Fire: number,
+    Water: number,
+    Earth: number,
+    Air: number,
   };
   modalities: {
-    Cardinal: number;
-    Fixed: number;
-    Mutable: number;
+    Cardinal: number,
+    Fixed: number,
+    Mutable: number,
   };
   qualities: {
-    Hot: number;
-    Dry: number;
-    Cold: number;
-    Wet: number;
+    Hot: number,
+    Dry: number,
+    Cold: number,
+    Wet: number,
   };
   dominant: {
-    element: string;
-    modality: string;
-    quality: string;
+    element: string,
+    modality: string,
+    quality: string,
   };
 }

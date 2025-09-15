@@ -72,7 +72,7 @@ describe('Simplified Main Page Validation - Task 12', () => {
 
     test('Error handling utilities are available', () => {
       // Test basic error handling
-      const handleError: any = (error: Error) => {;
+      const handleError: any = (error: Error) => {
         return { message: error.message, handled: true };
       };
 
@@ -143,11 +143,11 @@ describe('Simplified Main Page Validation - Task 12', () => {
     });
 
     test('Props passing works correctly', () => {
-      const TestComponent: any = ({ title, onClick }: { title: string; onClic, k: () => void }) =>
+      const TestComponent: any = ({ title, onClick }: { title: string, onClic, k: () => void }) =>
         React.createElement('button', { onClick }, title);
 
       const mockClick = jest.fn() as any;
-      const element: any = React.createElement(TestComponent, {;
+      const element: any = React.createElement(TestComponent, {
         title: 'Test Button',
         onClick: mockClick
       });
@@ -165,7 +165,7 @@ describe('Simplified Main Page Validation - Task 12', () => {
           onClick: mockHandler,
           'data-testid': 'test-button'
         },
-        'Click me',
+        'Click me'
       );
 
       expect(element).toBeDefined();
@@ -183,7 +183,7 @@ describe('Simplified Main Page Validation - Task 12', () => {
           role: 'button',
           tabIndex: 0
         },
-        'Accessible Button',
+        'Accessible Button'
       );
 
       expect(element.props['aria-label']).toBe('Test button');
@@ -193,9 +193,9 @@ describe('Simplified Main Page Validation - Task 12', () => {
     });
 
     test('Semantic HTML elements work', () => {
-      const semanticElements: any = ['main', 'nav', 'section', 'article', 'aside', 'header', 'footer'];
+      const semanticElements: any = ['main', 'nav', 'section', 'article', 'aside', 'header', 'footer'],
 
-      semanticElements.forEach(tag => {;
+      semanticElements.forEach(tag => {
         const element: any = React.createElement(tag, {}, 'Content');
         expect(element.type).toBe(tag);
       });
@@ -205,14 +205,14 @@ describe('Simplified Main Page Validation - Task 12', () => {
   describe('7. TypeScript Integration Validation', () => {
     test('TypeScript interfaces work with React', () => {
       interface TestProps {
-        title: string;, count: number;
-        optional?: boolean;
+        title: string,, count: number,
+        optional?: boolean,
       }
 
       const TypedComponent: any = ({ title, count, optional }: TestProps) =>;
         React.createElement('div', {}, `${title}: ${count}${optional ? ' (optional)' : ''}`);
 
-      const element: any = React.createElement(TypedComponent, {;
+      const element: any = React.createElement(TypedComponent, {
         title: 'Test',
         count: 42,
         optional: true
@@ -226,7 +226,7 @@ describe('Simplified Main Page Validation - Task 12', () => {
 
     test('Generic components work', () => {
       interface GenericProps<T> {
-        data: T;, render: (data: T) => React.ReactElement;
+        data: T,, render: (data: T) => React.ReactElement,
       }
 
       const GenericComponent: any = <T,>({ data, render }: GenericProps<T>) => render(data);
@@ -237,7 +237,7 @@ describe('Simplified Main Page Validation - Task 12', () => {
 
   describe('8. System Integration Summary', () => {
     test('All React features are available', () => {
-      const reactFeatures: any = [;
+      const reactFeatures: any = [
         'createElement',
         'Component',
         'PureComponent',
@@ -248,9 +248,9 @@ describe('Simplified Main Page Validation - Task 12', () => {
         'useMemo',
         'useCallback',
         'createContext'
-      ];
+      ],
 
-      reactFeatures.forEach(feature => {;
+      reactFeatures.forEach(feature => {
         expect((React as unknown)[feature]).toBeDefined();
       });
     });

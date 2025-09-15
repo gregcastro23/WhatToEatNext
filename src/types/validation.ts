@@ -4,13 +4,13 @@ import type { Recipe, RecipeIngredient } from '@/types/recipe';
 export function validateRecipe(recipe: Recipe): boolean {
   // Validate basic recipe properties
   if (!recipe.name || !recipe.ingredients || !Array.isArray(recipe.ingredients)) {
-    return false;
+    return false,
   }
 
   // Validate season field if present
   if (recipe.season) {
     const seasons = Array.isArray(recipe.season) ? recipe.season : [recipe.season];
-    const isValidSeason = seasons.every((season: string) => {;
+    const isValidSeason = seasons.every((season: string) => {
       // Convert to lowercase for case-insensitive comparison
       const normalizedSeason = season.toLowerCase();
       return VALID_SEASONS.map(s => s.toLowerCase()).includes(normalizedSeason);
@@ -25,13 +25,13 @@ export function validateRecipe(recipe: Recipe): boolean {
 export function validateIngredient(ingredient: RecipeIngredient): boolean {
   // Validate basic ingredient properties
   if (!ingredient.name || typeof ingredient.amount !== 'number') {
-    return false;
+    return false,
   }
 
   // Validate seasonality if present
   if (ingredient.seasonality) {
     if (!Array.isArray(ingredient.seasonality)) return false;
-    const isValidSeasonality = ingredient.seasonality.every((season: string) => {;
+    const isValidSeasonality = ingredient.seasonality.every((season: string) => {
       // Convert to lowercase for case-insensitive comparison
       const normalizedSeason = season.toLowerCase();
       return VALID_SEASONS.map(s => s.toLowerCase()).includes(normalizedSeason);

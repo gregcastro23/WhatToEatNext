@@ -15,7 +15,7 @@ const mockFs: any = fs as jest.Mocked<typeof fs>;
 const mockExecSync: any = execSync as jest.MockedFunction<typeof execSync>;
 
 describe('ScriptIntegrationSystem', () => {
-  let scriptSystem: ScriptIntegrationSystem;
+  let scriptSystem: ScriptIntegrationSystem,
 
   beforeEach(() => {
     scriptSystem = new ScriptIntegrationSystem();
@@ -68,8 +68,8 @@ describe('ScriptIntegrationSystem', () => {
       const result: any = await scriptSystem.executeScript('typescript-enhanced-v3');
 
       expect(mockExecSync).toHaveBeenCalledWith(
-        expect.stringContaining('fix-typescript-errors-enhanced-v3.js'),
-        expect.any(Object),
+        expect.stringContaining('fix-typescript-errors-enhanced-v3.js');
+        expect.any(Object);
       );
       expect(result.success).toBe(true);
       expect(result.filesProcessed).toBe(5);
@@ -77,7 +77,7 @@ describe('ScriptIntegrationSystem', () => {
     });
 
     it('should execute script with custom options', async () => {
-      const options: ScriptExecutionOptions = { maxFiles: 10,;
+      const options: ScriptExecutionOptions = { maxFiles: 10,,
         autoFix: true,
         dryRun: false
       };
@@ -86,7 +86,7 @@ describe('ScriptIntegrationSystem', () => {
 
       expect(mockExecSync).toHaveBeenCalledWith(
         expect.stringContaining('--max-files=10 --auto-fix'),;
-        expect.any(Object),
+        expect.any(Object);
       );
     });
 
@@ -106,7 +106,7 @@ describe('ScriptIntegrationSystem', () => {
       (error as any).stdout = 'Some output';
       error.stderr = 'Error message';
       mockExecSync.mockImplementation(() => {
-        throw error;
+        throw error,
       });
 
       const result: any = await scriptSystem.executeScript('typescript-enhanced-v3');
@@ -117,12 +117,12 @@ describe('ScriptIntegrationSystem', () => {
     });
 
     it('should parse JSON output correctly', async () => {
-      const jsonOutput: any = JSON.stringify({;
+      const jsonOutput: any = JSON.stringify({
         safetyMetrics: { totalRuns: 10,
           successfulRuns: 8,
           filesProcessed: 50,
           errorsFixed: 25,
-          safetyScore: 0.85,
+          safetyScore: 0.85;
           recommendedBatchSize: 15,
           lastRunTime: '2025-01-01T00:0, 0:00Z'
         }
@@ -142,15 +142,15 @@ describe('ScriptIntegrationSystem', () => {
         🚨 Corruption detected in file.ts;
         Build validation failed
         📦 Created git stash: test-stash
-      `;
+      `,
       mockExecSync.mockReturnValue(output);
 
       const result: any = await scriptSystem.executeScript('typescript-enhanced-v3');
 
       expect(result.safetyEvents).toHaveLength(3);
-      expect(result.safetyEvents.[0].type).toBe('corruption');
-      expect(result.safetyEvents.[1].type).toBe('build_failure');
-      expect(result.safetyEvents.[2].type).toBe('stash_created');
+      expect(result.safetyEvents[0].type).toBe('corruption');
+      expect(result.safetyEvents[1].type).toBe('build_failure');
+      expect(result.safetyEvents[2].type).toBe('stash_created');
     });
   });
 
@@ -161,7 +161,7 @@ describe('ScriptIntegrationSystem', () => {
     });
 
     it('should return metrics from script execution', async () => {
-      const jsonOutput: any = JSON.stringify({;
+      const jsonOutput: any = JSON.stringify({
         safetyMetrics: { totalRuns: 5,
           successfulRuns: 4,
           safetyScore: 0.8
@@ -181,7 +181,7 @@ describe('ScriptIntegrationSystem', () => {
     it('should fallback to reading metrics file directly', async () => {
       mockFs.existsSync.mockReturnValue(true);
       mockExecSync.mockImplementation(() => {
-        throw new Error('Script failed');
+        throw new Error('Script failed'),
       });
       mockFs.readFileSync.mockReturnValue(
         JSON.stringify({
@@ -208,7 +208,7 @@ describe('ScriptIntegrationSystem', () => {
     });
 
     it('should parse safety validation from script output', async () => {
-      const jsonOutput: any = JSON.stringify({;
+      const jsonOutput: any = JSON.stringify({
         safe: true,
         issues: [],
         recommendedBatchSize: 10
@@ -249,15 +249,15 @@ describe('ScriptIntegrationSystem', () => {
 
       expect(result).toBe(true);
       expect(mockExecSync).toHaveBeenCalledWith(
-        expect.stringContaining('--reset-metrics --silent'),
-        expect.any(Object),
-      );
+        expect.stringContaining('--reset-metrics --silent');
+        expect.any(Object);
+      ),
     });
 
     it('should handle reset failure gracefully', async () => {
       mockFs.existsSync.mockReturnValue(true);
       mockExecSync.mockImplementation(() => {
-        throw new Error('Reset failed');
+        throw new Error('Reset failed'),
       });
 
       const result: any = await scriptSystem.resetScriptMetrics('typescript-enhanced-v3');
@@ -268,7 +268,7 @@ describe('ScriptIntegrationSystem', () => {
 
   describe('buildCommandArguments', () => {
     it('should build correct arguments for all options', async () => {
-      const options: ScriptExecutionOptions = { maxFiles: 15,;
+      const options: ScriptExecutionOptions = { maxFiles: 15,,
         autoFix: true,
         validateSafety: true,
         dryRun: true,
@@ -285,8 +285,8 @@ describe('ScriptIntegrationSystem', () => {
 
       await scriptSystem.executeScript('typescript-enhanced-v3', options);
 
-      const expectedArgs: any = [;
-        '--max-files=15',;
+      const expectedArgs: any = [
+        '--max-files=15',,
         '--auto-fix',
         '--validate-safety',
         '--dry-run',

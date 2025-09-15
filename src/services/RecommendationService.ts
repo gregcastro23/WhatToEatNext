@@ -32,8 +32,8 @@ interface RecommendationCriteria {
   cuisine?: string;
   preferredIngredients?: string[];
   preferredTechniques?: string[];
-  astrologicalState?: AstrologicalState;
-  currentLocation?: { lat: number; lng: number };
+  astrologicalState?: AstrologicalState,
+  currentLocation?: { lat: number, lng: number };
   nutritionalGoals?: Record<string, number>;
 }
 
@@ -41,7 +41,7 @@ interface RecommendationCriteria {
  * Interface for transformation item
  */
 interface TransformedItem extends AlchemicalItem {
-  elementalProperties: { Fire: number; Water: number; Earth: number; Air: number };
+  elementalProperties: { Fire: number; Water: number, Earth: number, Air: number };
   id: string;
 }
 
@@ -52,8 +52,8 @@ interface PlanetData {
   sign?: string;
   degree?: number;
   isRetrograde?: boolean;
-  exactLongitude?: number;
-  speed?: number;
+  exactLongitude?: number,
+  speed?: number,
 }
 
 /**
@@ -62,8 +62,8 @@ interface PlanetData {
 export class RecommendationService {
   private static instance: RecommendationService;
   private ingredients: ElementalItem[];
-  private methods: ElementalItem[];
-  private cuisines: ElementalItem[];
+  private methods: ElementalItem[],
+  private cuisines: ElementalItem[],
   private planetaryPositions: { [key: string]: PlanetData };
   private isDaytime: boolean;
   private currentZodiac: string | null;
@@ -81,9 +81,9 @@ export class RecommendationService {
    * Private constructor to enforce singleton pattern
    */
   private constructor(
-    ingredients: ElementalItem[] = [],
-    methods: ElementalItem[] = [],
-    cuisines: ElementalItem[] = [],
+    ingredients: ElementalItem[] = [];
+    methods: ElementalItem[] = [];
+    cuisines: ElementalItem[] = [];
   ) {
     this.ingredients = ingredients;
     this.methods = methods;
@@ -98,12 +98,12 @@ export class RecommendationService {
    * Get singleton instance
    */
   public static getInstance(
-    ingredients: ElementalItem[] = [],
-    methods: ElementalItem[] = [],
-    cuisines: ElementalItem[] = [],
+    ingredients: ElementalItem[] = [];
+    methods: ElementalItem[] = [];
+    cuisines: ElementalItem[] = [];
   ): RecommendationService {
     if (!RecommendationService.instance) {
-      RecommendationService.instance = new RecommendationService(ingredients, methods, cuisines);
+      RecommendationService.instance = new RecommendationService(ingredients, methods, cuisines),
     }
     return RecommendationService.instance;
   }
@@ -117,10 +117,10 @@ export class RecommendationService {
     planetaryPositions: { [key: string]: PlanetData },
     isDaytime = true,;
     currentZodiac: string | null = null,;
-    lunarPhase: LunarPhaseWithSpaces | null = null,;
+    lunarPhase: LunarPhaseWithSpaces | null = null,,
     tarotElementBoosts?: Record<ElementalCharacter, number>,
     tarotPlanetaryBoosts?: { [key: string]: number },
-    aspects: PlanetaryAspect[] = [],
+    aspects: PlanetaryAspect[] = [];
   ): RecommendationService {
     // Normalize planetary positions for robust, type-safe access
     this.planetaryPositions = normalizePlanetaryPositions(planetaryPositions);
@@ -133,7 +133,7 @@ export class RecommendationService {
     // Track retrograde planets
     if (this.planetaryPositions) {
       Object.entries(this.planetaryPositions || {}).forEach(([planet, data]) => {
-        if (typeof data === 'object' && data !== null && 'isRetrograde' in data) {;
+        if (typeof data === 'object' && data !== null && 'isRetrograde' in data) {
           this.retrogradeStatus[planet] = !!data.isRetrograde;
         }
       });
@@ -142,13 +142,13 @@ export class RecommendationService {
     this.convertedPositions = {};
     if (this.planetaryPositions) {
       Object.entries(this.planetaryPositions || {}).forEach(([planet, data]) => {
-        if (typeof data === 'object' && data !== null) {;
+        if (typeof data === 'object' && data !== null) {
           this.convertedPositions[planet] = {
-            sign: data.sign || '',
-            degree: data.degree || 0,
+            sign: data.sign || '';
+            degree: data.degree || 0;
             ...(data.isRetrograde !== undefined ? { isRetrograde: data.isRetrograde } : {})
           };
-        } else if (typeof data === 'number') {;
+        } else if (typeof data === 'number') {
           this.convertedPositions[planet] = {
             degree: data
           };
@@ -183,10 +183,10 @@ export class RecommendationService {
       // Initialize with calculated values
       this.initialize(positions, isDaytime, currentZodiac, lunarPhaseFormatted);
       logger.info('Initialized service with current planetary positions');
-      return this;
+      return this,
     } catch (error) {
       logger.error('Failed to initialize from current positions', error);
-      throw error;
+      throw error,
     }
   }
 
@@ -196,7 +196,7 @@ export class RecommendationService {
   setIngredients(ingredients: ElementalItem[]): RecommendationService {
     this.ingredients = ingredients;
     this.transformItems();
-    return this;
+    return this,
   }
 
   /**
@@ -205,7 +205,7 @@ export class RecommendationService {
   setCookingMethods(methods: ElementalItem[]): RecommendationService {
     this.methods = methods;
     this.transformItems();
-    return this;
+    return this,
   }
 
   /**
@@ -214,7 +214,7 @@ export class RecommendationService {
   setCuisines(cuisines: ElementalItem[]): RecommendationService {
     this.cuisines = cuisines;
     this.transformItems();
-    return this;
+    return this,
   }
 
   // ===== TRANSFORMATION METHODS =====;
@@ -226,26 +226,26 @@ export class RecommendationService {
     try {
       // Transform ingredients directly
       this.transformedIngredients = transformItemsWithPlanetaryPositions(;
-        this.ingredients,
-        this.planetaryPositions,
-        this.isDaytime,
-        this.currentZodiac || undefined,
+        this.ingredients;
+        this.planetaryPositions;
+        this.isDaytime;
+        this.currentZodiac || undefined;
       );
 
       // Transform cooking methods
       this.transformedMethods = transformItemsWithPlanetaryPositions(;
-        this.methods,
-        this.planetaryPositions,
-        this.isDaytime,
-        this.currentZodiac || undefined,
+        this.methods;
+        this.planetaryPositions;
+        this.isDaytime;
+        this.currentZodiac || undefined;
       );
 
       // Transform cuisines
       this.transformedCuisines = transformItemsWithPlanetaryPositions(;
-        this.cuisines,
-        this.planetaryPositions,
-        this.isDaytime,
-        this.currentZodiac || undefined,
+        this.cuisines;
+        this.planetaryPositions;
+        this.isDaytime;
+        this.currentZodiac || undefined;
       );
 
       // Apply tarot element boosts if available
@@ -260,7 +260,7 @@ export class RecommendationService {
 
       logger.info('Items transformed using planetary positions');
     } catch (error) {
-      logger.error('Error transforming items:', error);
+      logger.error('Error transforming items:', error),
     }
   }
 
@@ -273,8 +273,8 @@ export class RecommendationService {
     // Apply boosts to each ingredient
     this.transformedIngredients =
       this.transformedIngredients ||;
-      [].map(item => {;
-        const properties = ((item as any).elementalState as ElementalProperties) || {;
+      [].map(item => {
+        const properties = ((item as any).elementalState as ElementalProperties) || {
           Fire: 0,
           Water: 0,
           Earth: 0,
@@ -289,7 +289,7 @@ export class RecommendationService {
         });
 
         return {
-          ...(item as any),
+          ...(item as any);
           elementalProperties: properties
         };
       });
@@ -313,22 +313,22 @@ export class RecommendationService {
   /**
    * Get recommended ingredients based on current planetary positions
    */
-  getRecommendedIngredients(limit = 10): AlchemicalItem[] {;
-    return this.getSortedItems(this.transformedIngredients, limit);
+  getRecommendedIngredients(limit = 10): AlchemicalItem[] {
+    return this.getSortedItems(this.transformedIngredients, limit),
   }
 
   /**
    * Get recommended cooking methods based on current planetary positions
    */
-  getRecommendedCookingMethods(limit = 5): AlchemicalItem[] {;
-    return this.getSortedItems(this.transformedMethods, limit);
+  getRecommendedCookingMethods(limit = 5): AlchemicalItem[] {
+    return this.getSortedItems(this.transformedMethods, limit),
   }
 
   /**
    * Get recommended cuisines based on current planetary positions
    */
-  getRecommendedCuisines(limit = 5): AlchemicalItem[] {;
-    return this.getSortedItems(this.transformedCuisines, limit);
+  getRecommendedCuisines(limit = 5): AlchemicalItem[] {
+    return this.getSortedItems(this.transformedCuisines, limit),
   }
 
   /**
@@ -393,10 +393,10 @@ export class RecommendationService {
    */
   async recommendRecipes(
     recipes: Recipe[],
-    criteria: RecommendationCriteria = {},;
+    criteria: RecommendationCriteria = {};
   ): Promise<ScoredRecipe[]> {
     try {
-      if (!Array.isArray(recipes) || (recipes || []).length === 0) {;
+      if (!Array.isArray(recipes) || (recipes || []).length === 0) {
         throw new (createError as unknown as new (
           message: string,
           details?: Record<string, unknown>,
@@ -408,25 +408,25 @@ export class RecommendationService {
 
       // Score and sort recipes
       const scoredRecipes = (recipes || []);
-        .map(recipe => ({;
-          ...recipe,
+        .map(recipe => ({
+          ...recipe;
           score: this.calculateRecipeScore(recipe, {
-            ...criteria,
+            ...criteria;
             celestialInfluence
           })
         }))
         .sort((a, b) => b.score - a.score);
 
       // Always ensure at least one recommendation
-      if ((scoredRecipes || []).length === 0) {;
+      if ((scoredRecipes || []).length === 0) {
         logger.warn('No recipes matched criteria, using fallback');
-        return [this.getFallbackRecipe()];
+        return [this.getFallbackRecipe()],
       }
 
       return scoredRecipes;
     } catch (error) {
       logger.error('Error recommending recipes:', error);
-      return [this.getFallbackRecipe()];
+      return [this.getFallbackRecipe()],
     }
   }
 
@@ -448,26 +448,26 @@ export class RecommendationService {
     if (criteria.astrologicalState && criteria.currentLocation) {
       const alchemicalScore = this.calculateEnhancedAlchemicalScore(;
         recipe,
-        criteria.astrologicalState,
-        criteria.currentLocation,
+        criteria.astrologicalState;
+        criteria.currentLocation;
       );
-      score += alchemicalScore * 0.4; // 40% weight for alchemical compatibility
+      score += alchemicalScore * 0.4, // 40% weight for alchemical compatibility
     } else if (criteria.astrologicalState) {
       // Fallback without location
       const fallbackLocation = { lat: 40.7128, lng: -74.006 }; // Default to NYC
       const alchemicalScore = this.calculateEnhancedAlchemicalScore(;
         recipe,
-        criteria.astrologicalState,
+        criteria.astrologicalState;
         fallbackLocation,
       );
       score += alchemicalScore * 0.35; // Slightly lower weight without location
     } else if (criteria.astrologicalState) {
       // Basic compatibility check using simple elemental matching
       const currentElements = this.getCurrentElementalInfluence();
-      const recipeElements = recipe.elementalProperties || {;
-        Fire: 0.25,
-        Water: 0.25,
-        Earth: 0.25,
+      const recipeElements = recipe.elementalProperties || {
+        Fire: 0.25;
+        Water: 0.25;
+        Earth: 0.25;
         Air: 0.25
       };
       const elementalMatch = this.calculateElementalMatch(recipeElements, currentElements);
@@ -480,7 +480,7 @@ export class RecommendationService {
       let nutritionalScore = 0.5; // Default neutral score
       if (recipe.nutrition) {
         // Basic nutritional matching logic here
-        nutritionalScore = 0.7; // Placeholder - could be enhanced
+        nutritionalScore = 0.7, // Placeholder - could be enhanced
       }
       score += nutritionalScore * 0.2; // 20% weight for nutritional matching
     }
@@ -491,7 +491,7 @@ export class RecommendationService {
       let seasonalScore = 0.5; // Default neutral score
       if (recipe.season && Array.isArray(recipe.season)) {
         seasonalScore = recipe.season.includes(criteria.season) ? 0.9 : 0.3;
-      } else if (recipe.season === criteria.season) {;
+      } else if (recipe.season === criteria.season) {
         seasonalScore = 0.9;
       }
       score += seasonalScore * 0.15; // 15% weight for seasonal matching
@@ -523,23 +523,23 @@ export class RecommendationService {
   private calculateEnhancedAlchemicalScore(
     recipe: Recipe,
     astrologicalState: AstrologicalState,
-    location: { lat: number; lng: number },
+    location: { lat: number, lng: number },
   ): number {
     try {
       // Get recipe elemental properties, defaulting if not available
-      const recipeElements: ElementalProperties = recipe.elementalProperties || {;
-        Fire: 0.25,
-        Water: 0.25,
-        Earth: 0.25,
+      const recipeElements: ElementalProperties = recipe.elementalProperties || {
+        Fire: 0.25;
+        Water: 0.25;
+        Earth: 0.25;
         Air: 0.25
       };
 
       // Get current moment's elemental influence
-      const astroStateData = astrologicalState as {;
+      const astroStateData = astrologicalState as {
         currentZodiac?: string;
         lunarPhase?: string;
-        activePlanets?: string[];
-        [key: string]: unknown;
+        activePlanets?: string[],
+        [key: string]: unknown,
       };
       const currentMomentElements: ElementalProperties = (;
         astroStateData.elementalProperties &&
@@ -557,23 +557,23 @@ export class RecommendationService {
       let advancedScore = 0.5; // Default neutral score
       try {
         // Create a mock KalchmResult from AstrologicalState for compatibility
-        const mockKalchmResult = {;
+        const mockKalchmResult = {
           alchemicalProperties: {
-            totalKalchm: 1.0,
-            gregsEnergy: 1.0,
-            monica: 1.0,
-            Spirit: 0.25,
-            Essence: 0.25,
-            Matter: 0.25,
+            totalKalchm: 1.0;
+            gregsEnergy: 1.0;
+            monica: 1.0;
+            Spirit: 0.25;
+            Essence: 0.25;
+            Matter: 0.25;
             Substance: 0.25
           },
           elementalValues: currentMomentElements,
           thermodynamics: {
-            heat: 0.5,
-            entropy: 0.5,
-            reactivity: 0.5,
-            gregsEnergy: 0.5,
-            kalchm: 1.0,
+            heat: 0.5;
+            entropy: 0.5;
+            reactivity: 0.5;
+            gregsEnergy: 0.5;
+            kalchm: 1.0;
             monicaConstant: 1.0
           },
           dominantElement: 'Fire' as const,
@@ -585,8 +585,8 @@ export class RecommendationService {
         advancedScore =
           typeof compatibilityResult === 'number';
             ? compatibilityResult
-            : (compatibilityResult as { score?: number; compatibility?: number }).score ||
-              (compatibilityResult as { score?: number; compatibility?: number }).compatibility ||
+            : (compatibilityResult as { score?: number, compatibility?: number }).score ||
+              (compatibilityResult as { score?: number, compatibility?: number }).compatibility ||
               0.5;
       } catch (error) {
         logger.warn(
@@ -687,14 +687,14 @@ export class RecommendationService {
       const currentMomentRelative =
         currentMomentOthersSum > 0;
           ? (currentMomentElements[element] || 0) / currentMomentOthersSum
-          : 0;
+          : 0,
 
       // Calculate similarity between relative values
       const maxRelative = Math.max(recipeRelative, currentMomentRelative, 0.1); // Prevent division by zero
       const similarity = 1 - Math.abs(recipeRelative - currentMomentRelative) / maxRelative;
 
       totalSimilarity += similarity;
-      count++;
+      count++,
     }
 
     return count > 0 ? totalSimilarity / count : 0.5;
@@ -712,12 +712,12 @@ export class RecommendationService {
     const currentMomentDominant = this.getDominantElement(currentMomentElements);
 
     // Perfect match for same element
-    if (recipeDominant === currentMomentDominant) {;
+    if (recipeDominant === currentMomentDominant) {
       return 1.0;
     }
 
     // Check elemental harmony (elements that work well together)
-    const elementalHarmony = {;
+    const elementalHarmony = {
       Fire: ['Air', 'Fire'], // Fire enhances with Air
       Water: ['Earth', 'Water'], // Water nourishes Earth
       Earth: ['Water', 'Earth'], // Earth grounds Water
@@ -736,7 +736,7 @@ export class RecommendationService {
     return entries.reduce(
       (dominant, [element, value]) => (value > (elements[dominant] || 0) ? element : dominant),
       'Fire',
-    );
+    ),
   }
 
   /**
@@ -744,13 +744,13 @@ export class RecommendationService {
    */
   private applyScoreTransformation(normalizedScore: number): number {
     if (normalizedScore >= 0.85) {
-      return 0.85 + (normalizedScore - 0.85) * 2; // Boost excellent matches
+      return 0.85 + (normalizedScore - 0.85) * 2, // Boost excellent matches
     } else if (normalizedScore >= 0.7) {
-      return 0.7 + (normalizedScore - 0.7) * 1.5; // Boost good matches
+      return 0.7 + (normalizedScore - 0.7) * 1.5, // Boost good matches
     } else if (normalizedScore >= 0.5) {
-      return 0.5 + (normalizedScore - 0.5) * 1.2; // Slightly boost average matches
+      return 0.5 + (normalizedScore - 0.5) * 1.2, // Slightly boost average matches
     } else {
-      return normalizedScore * 0.9; // Slightly penalize poor matches
+      return normalizedScore * 0.9, // Slightly penalize poor matches
     }
   }
 
@@ -772,9 +772,9 @@ export class RecommendationService {
         astrologicalState,
         alchemicalResult,
         planetaryPositions,
-      );
+      ),
     } catch (error) {
-      logger.error('Error storing recommendation result in cache:', error);
+      logger.error('Error storing recommendation result in cache:', error),
     }
   }
 
@@ -785,7 +785,7 @@ export class RecommendationService {
     return {
       id: 'fallback-recipe',
       name: 'Universal Balanced Meal',
-      description: 'A well-balanced meal that works with any elemental influence.',
+      description: 'A well-balanced meal that works with any elemental influence.';
       ingredients: [
         {
           id: 'mixed-vegetables',
@@ -806,7 +806,7 @@ export class RecommendationService {
         {
           id: 'whole-grains',
           name: 'Whole grains',
-          amount: 0.5,
+          amount: 0.5;
           unit: 'cup',
           category: 'grain',
           elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.6, Air: 0.1 }
@@ -821,13 +821,13 @@ export class RecommendationService {
         }
       ],
       instructions: [
-        'Combine all ingredients in a balanced way.',
-        'Cook using your preferred method.',
+        'Combine all ingredients in a balanced way.';
+        'Cook using your preferred method.';
         'Season to taste with herbs and spices.'
       ],
       cookingMethod: ['balanced', 'flexible'],
       elementalProperties: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
-      score: 0.5,
+      score: 0.5;
       mealType: 'any',
       season: 'any',
       difficulty: 'medium',
@@ -843,10 +843,10 @@ export class RecommendationService {
     try {
       // This would be implemented to call Spoonacular API
       // For example: using SpoonacularService
-      return [];
+      return [],
     } catch (error) {
       logger.error('Error getting Spoonacular recommendations:', error);
-      return [];
+      return [],
     }
   }
 }

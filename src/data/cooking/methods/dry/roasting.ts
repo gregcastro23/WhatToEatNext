@@ -6,14 +6,14 @@ import type { ZodiacSign, ThermodynamicProperties } from '@/types/shared';
  *
  * Cooking food with dry heat in an oven or over fire, creating caramelization and browning
  */
-export const roasting: CookingMethodData = {;
+export const roasting: CookingMethodData = {
   name: 'roasting',
   description:
     'Cooking food with dry heat in an oven or over a fire, typically uncovered, creating flavorful browning and caramelization on the exterior while keeping the interior moist',
   elementalEffect: {
-    Fire: 0.6,
-    Air: 0.2,
-    Earth: 0.2,
+    Fire: 0.6;
+    Air: 0.2;
+    Earth: 0.2;
     Water: 0.0
   },
   duration: {
@@ -100,13 +100,13 @@ export const roasting: CookingMethodData = {;
     'Textural variations (crispy elements with tender roast)'
   ],
   nutrientRetention: {
-    proteins: 0.85,
+    proteins: 0.85;
     fats: 0.7, // Some lost through rendering
-    minerals: 0.9,
-    vitamins: 0.7,
-    antioxidants: 0.75,
-    'water-soluble': 0.65,
-    'fat-soluble': 0.8,
+    minerals: 0.9;
+    vitamins: 0.7;
+    antioxidants: 0.75;
+    'water-soluble': 0.65;
+    'fat-soluble': 0.8;
     polyphenols: 0.65, // Plant antioxidants
     carotenoids: 0.85, // Enhanced bioavailability in some cases
     thiamin: 0.6, // Heat-sensitive B vitamin
@@ -330,48 +330,48 @@ export const roasting: CookingMethodData = {;
     nuts: 'Toss raw nuts with small amount of oil and salt; spread in single layer; shake pan every 5 minutes during roasting. Consider soaking in salted water for 30 minutes and drying before roasting for enhanced flavor penetration. For sweet applications, coat lightly with egg white whisked with water before adding sugar or spices.',
     pork: 'For crackling, score skin in diamond pattern; rub with salt and allow to dry uncovered in refrigerator overnight; pat completely dry before roasting. For tenderloin, remove silverskin completely. For shoulder/butt cuts, consider overnight brining. For ribs, remove membrane from bone side. For chops, brine for 4 hours, dry thoroughly.',
     lamb: 'Make incisions and insert garlic slivers and herb sprigs; season with salt and allow to rest uncovered for 2-4 hours before cooking. For leg, tunnel bone for even cooking or butterfly for faster roasting. For rack, french the bones and create uniform thickness. For shoulder, consider slow roasting at 275°F for 4-5 hours.',
-    fish: 'Score skin to prevent curling; stuff cavity with aromatics; brush with oil; use parchment or foil sling for easy removal. For whole fish, ensure scales and gills are removed. For fillets, place skin-side down on preheated pan. For delicate white fish, create herb crust for protection. For oily fish, reduce oven temperature by at least 25°F.',
+    fish: 'Score skin to prevent curling, stuff cavity with aromatics; brush with oil, use parchment or foil sling for easy removal. For whole fish, ensure scales and gills are removed. For fillets, place skin-side down on preheated pan. For delicate white fish, create herb crust for protection. For oily fish, reduce oven temperature by at least 25°F.',
     fruits:
-      'Remove pits or cores; cut into uniform pieces; toss with small amount of sugar and spices to enhance caramelization. For apples and pears, treat with lemon water to prevent browning. For stone fruits, roast cut-side up initially, then flip for final caramelization. For citrus, leave peel on for aromatic oils. For bananas, leave in peel and slit one side.'
+      'Remove pits or cores, cut into uniform pieces, toss with small amount of sugar and spices to enhance caramelization. For apples and pears, treat with lemon water to prevent browning. For stone fruits, roast cut-side up initially, then flip for final caramelization. For citrus, leave peel on for aromatic oils. For bananas, leave in peel and slit one side.'
   },
 
   timingConsiderations: {
     rest_before:
-      'Bring refrigerated meats to room temperature for 30-60 minutes; season 1-48 hours in advance depending on size. Whole poultry: 1 hour per 4 pounds. Roasts: 1 hour per 5 pounds. Vegetables and fruits require no rest period before roasting.',
+      'Bring refrigerated meats to room temperature for 30-60 minutes; season 1-48 hours in advance depending on size. Whole poultry: 1 hour per 4 pounds. Roasts: 1 hour per 5 pounds. Vegetables and fruits require no rest period before roasting.';
     rest_after:
-      'Rest beef and lamb 10-20 minutes; poultry 15-30 minutes; pork 10-15 minutes to allow juice redistribution. For large prime rib (5+ pounds), rest up to 30-45 minutes in warm area. For tenderloins, 8-10 minutes is sufficient. Tent with foil but don't seal completely to prevent steam softening the crust.',
+      'Rest beef and lamb 10-20 minutes, poultry 15-30 minutes, pork 10-15 minutes to allow juice redistribution. For large prime rib (5+ pounds), rest up to 30-45 minutes in warm area. For tenderloins, 8-10 minutes is sufficient. Tent with foil but don't seal completely to prevent steam softening the crust.',
     carryover_cooking:
       'Internal temperature will rise 5-10°F for small cuts, 10-15°F for large roasts during resting period. Poultry breasts: 5-10°F rise. Beef rib roast: 10-15°F rise. Pork loin: 5-10°F rise. Fish: minimal rise of 2-5°F. Account for this by removing from heat when temperature reads 5-15°F below target.',
     temperature_adjustment:
-      'Reduce oven temperature by 25°F when using convection; increase by 25°F when cooking multiple items. Glass or dark metal pans: reduce by 25°F. High altitude (3,000+ feet): increase by 25°F and extend time by 5-10%.',
+      'Reduce oven temperature by 25°F when using convection, increase by 25°F when cooking multiple items. Glass or dark metal pans: reduce by 25°F. High altitude (3,000+ feet): increase by 25°F and extend time by 5-10%.',
     timing_by_weight:
       'Calculate roasting time by weight: beef (rare) 15 min/lb, poultry 20 min/lb, pork 20 min/lb at standard temperatures. Precise timing varies by thickness rather than weight: 2-inch thick cuts require different timing than thin, flat cuts of same weight.',
     seasonal_adjustment:
-      'Reduce cooking time for summer vegetables by 15%; increase for winter vegetables by 10%. Adjust for humidity: drier environments may require lower temperatures or shorter times. Higher ambient humidity may require extended cooking times.'
+      'Reduce cooking time for summer vegetables by 15%, increase for winter vegetables by 10%. Adjust for humidity: drier environments may require lower temperatures or shorter times. Higher ambient humidity may require extended cooking times.'
   },
 
   doneness_indicators: {
     beef_rare:
-      'Internal temperature 125°F; soft when pressed; bright red center. Finger test: feels like the base of thumb when thumb and index finger make an 'OK' sign. Color is purple-red and warm rather than cool.',
+      'Internal temperature 125°F; soft when pressed; bright red center. Finger test: feels like the base of thumb when thumb and index finger make an 'OK' sign. Color is purple-red and warm rather than cool.';
     beef_medium:
-      'Internal temperature 135°F; slight resistance when pressed; pink center. Finger test: feels like base of thumb when thumb and middle finger make an 'OK' sign. Color is rosy pink throughout with barely visible fibers.',
+      'Internal temperature 135°F; slight resistance when pressed; pink center. Finger test: feels like base of thumb when thumb and middle finger make an 'OK' sign. Color is rosy pink throughout with barely visible fibers.';
     beef_well:
-      'Internal temperature 150°F; firm when pressed; brown throughout. Finger test: feels like base of thumb when thumb and pinky make an 'OK' sign. No pink visible and meat fibers are clearly defined.',
+      'Internal temperature 150°F; firm when pressed; brown throughout. Finger test: feels like base of thumb when thumb and pinky make an 'OK' sign. No pink visible and meat fibers are clearly defined.';
     poultry:
       'Internal temperature 165°F in thigh; juices run clear; leg moves easily in socket. Probe inserted between thigh and body should meet minimal resistance. For breast, 155°F with rest will achieve safety while maintaining juiciness.',
-    pork: 'Internal temperature 145°F with 3-minute rest; slightly pink center is safe and optimal. Modern pork is safe at lower temperatures than historically recommended. Texture should be firm but yield to gentle pressure.',
+    pork: 'Internal temperature 145°F with 3-minute rest; slightly pink center is safe and optimal. Modern pork is safe at lower temperatures than historically recommended. Texture should be firm but yield to gentle pressure.';
     lamb_medium_rare:
       'Internal temperature 130-135°F; springy when pressed; pink center. Color should be rosy with clear juice. For shoulder cuts, 175°F for proper collagen breakdown.',
     vegetables:
-      'Fork easily pierces with slight resistance; caramelized edges; vibrant color remains. Edges should show browning but centers should maintain integrity. Green vegetables should remain bright rather than olive-colored.',
-    fish: 'Internal temperature 135-140°F; flesh flakes easily but remains moist; opaque throughout. White fish should separate into clear flakes when gentle pressure applied. Oily fish should maintain translucence without appearing raw.',
-    nuts: 'Golden brown color; aromatic fragrance; crisp texture when cooled. Will continue to darken and crisp after removal from heat due to residual heat. Should be removed when slightly lighter than desired final color.',
+      'Fork easily pierces with slight resistance; caramelized edges; vibrant color remains. Edges should show browning but centers should maintain integrity. Green vegetables should remain bright rather than olive-colored.';
+    fish: 'Internal temperature 135-140°F; flesh flakes easily but remains moist; opaque throughout. White fish should separate into clear flakes when gentle pressure applied. Oily fish should maintain translucence without appearing raw.';
+    nuts: 'Golden brown color; aromatic fragrance; crisp texture when cooled. Will continue to darken and crisp after removal from heat due to residual heat. Should be removed when slightly lighter than desired final color.';
     game_meats:
-      'Internal temperature 135-140°F for medium-rare; firmer texture than farmed meats; slightly sweeter aroma. Wild game should never be cooked beyond medium due to low fat content.',
+      'Internal temperature 135-140°F for medium-rare; firmer texture than farmed meats; slightly sweeter aroma. Wild game should never be cooked beyond medium due to low fat content.';
     liver:
-      'Internal temperature 140-145°F; center slightly pink; firm but not rigid texture. Overcooked liver becomes grainy and bitter.',
+      'Internal temperature 140-145°F, center slightly pink, firm but not rigid texture. Overcooked liver becomes grainy and bitter.',
     duck_breast:
-      'Internal temperature 135°F; rendered fat on skin side; crisp skin with cross-hatch scoring. Should have visible rendering of subcutaneous fat layer and minimal resistance when sliced.'
+      'Internal temperature 135°F, rendered fat on skin side, crisp skin with cross-hatch scoring. Should have visible rendering of subcutaneous fat layer and minimal resistance when sliced.'
   },
 
   ingredientInteractions: {
@@ -380,7 +380,7 @@ export const roasting: CookingMethodData = {;
     acid_and_protein:
       'Acidic marinades (lemon, vinegar, wine) tenderize surface proteins but can tough them if applied too long. Limit acidic marinades to 2 hours for fish, 4 hours for poultry, 12 hours maximum for beef. Post-cooking acid application brightens flavors.',
     sugars_and_heat:
-      'Sugary glazes should be applied in final 15-30 minutes to prevent burning. Honey and maple glazes caramelize faster than granulated sugar. Addition of small amount of acid to sweet glazes prevents crystallization. Natural fruit sugars caramelize effectively at 350-375°F.',
+      'Sugary glazes should be applied in final 15-30 minutes to prevent burning. Honey and maple glazes caramelize faster than granulated sugar. Addition of small amount of acid to sweet glazes prevents crystallization. Natural fruit sugars caramelize effectively at 350-375°F.';
     salt_timing:
       'Early salting (12+ hours) for penetration and moisture retention; last-minute salting for crust only. Kosher salt provides better adhesion than table salt. Salt draws out moisture initially, which is reabsorbed with dissolved proteins for enhanced juiciness.',
     alcohol_evaporation:
@@ -390,33 +390,33 @@ export const roasting: CookingMethodData = {;
     vegetable_density:
       'Root vegetables require pre-roasting before adding less dense vegetables to ensure even cooking. Stagger addition: dense roots first, cruciferous second, tender vegetables last. Alternatively, cut denser vegetables smaller than less dense ones.',
     starchy_vegetable_browning:
-      'Parboil starchy vegetables for 5-10 minutes before roasting for enhanced exterior crispness. Adding 1/2 teaspoon baking soda to parboiling water accelerates surface starch breakdown for improved browning. Thoroughly dry parboiled vegetables before oiling and roasting.',
+      'Parboil starchy vegetables for 5-10 minutes before roasting for enhanced exterior crispness. Adding 1/2 teaspoon baking soda to parboiling water accelerates surface starch breakdown for improved browning. Thoroughly dry parboiled vegetables before oiling and roasting.';
     protein_structure:
-      'Different muscle fibers respond uniquely to heat: fast-twitch muscles (breast meat) cook quickly and easily dry out; slow-twitch muscles (legs, shoulders) require slower cooking for collagen conversion.',
+      'Different muscle fibers respond uniquely to heat: fast-twitch muscles (breast meat) cook quickly and easily dry out, slow-twitch muscles (legs, shoulders) require slower cooking for collagen conversion.',
     fat_cap_positioning:
-      'Place fat cap up for self-basting effect on lean cuts; place cap down on fatty cuts to render into pan for later use. Shield lean areas with bacon or fatback to prevent drying during extended roasting.',
+      'Place fat cap up for self-basting effect on lean cuts, place cap down on fatty cuts to render into pan for later use. Shield lean areas with bacon or fatback to prevent drying during extended roasting.',
     aromatic_intensity:
-      'Dried herbs should be applied before cooking; fresh herbs partition into early additions (woody types) and finishing herbs (tender varieties). Garlic bitter compounds develop after prolonged high-heat exposure; add halfway through for optimal flavor.'
+      'Dried herbs should be applied before cooking, fresh herbs partition into early additions (woody types) and finishing herbs (tender varieties). Garlic bitter compounds develop after prolonged high-heat exposure, add halfway through for optimal flavor.'
   },
 
   technicalNotes: {
     surface_preparation: {
       patting_dry:
-        'Essential for proper Maillard reaction; removes surface moisture that would otherwise steam rather than brown.',
+        'Essential for proper Maillard reaction; removes surface moisture that would otherwise steam rather than brown.';
       scoring:
-        'Creates greater surface area for flavor development and fat rendering; critical for duck breast and pork skin.',
+        'Creates greater surface area for flavor development and fat rendering; critical for duck breast and pork skin.';
       trussing:
-        'Creates uniform shape for even cooking; prevents certain areas from overcooking; use cotton twine for temperatures up to 550°F.',
+        'Creates uniform shape for even cooking; prevents certain areas from overcooking; use cotton twine for temperatures up to 550°F.';
       rack_position:
-        'Elevates food for 360° heat circulation; prevents boiling in released juices; improves air flow for crisping.',
+        'Elevates food for 360° heat circulation; prevents boiling in released juices; improves air flow for crisping.';
       rubbing:
-        'Oil provides better heat transfer than dry surface; helps seasonings adhere; creates vapor barrier that retains moisture.',
+        'Oil provides better heat transfer than dry surface, helps seasonings adhere, creates vapor barrier that retains moisture.',
       torch_finishing:
-        'Provides intense surface heat without additional cooking; targets under-developed areas; uses fat as fuel for flavor.'
+        'Provides intense surface heat without additional cooking, targets under-developed areas, uses fat as fuel for flavor.'
     },
     meat_science: {
       collagen_conversion:
-        'Tough collagen begins breaking down into gelatin at 160°F; requires extended time at this temperature or higher.',
+        'Tough collagen begins breaking down into gelatin at 160°F, requires extended time at this temperature or higher.',
       protein_denaturation:
         'Myosin (122°F), collagen (160°F), actin (180°F) denature at different temperatures, creating textural changes.',
       'Z-line_breakdown':
@@ -430,13 +430,13 @@ export const roasting: CookingMethodData = {;
     },
     oven_dynamics: {
       conventional:
-        'Heat rises, creating temperature gradient with hottest area near top; requires rotation for even cooking.',
+        'Heat rises, creating temperature gradient with hottest area near top, requires rotation for even cooking.',
       convection:
         'Fan circulates hot air, reducing cooking time by 25% and creating more uniform environment.',
       gas_vs_electric:
-        'Gas provides more humid environment due to combustion byproducts; electric provides drier heat better for crisping.',
+        'Gas provides more humid environment due to combustion byproducts, electric provides drier heat better for crisping.',
       direct_vs_indirect:
-        'Direct heat creates more intense surface reactions; indirect allows gentler cooking for large items.',
+        'Direct heat creates more intense surface reactions, indirect allows gentler cooking for large items.',
       thermal_mass:
         'Heavy pans moderate temperature fluctuations, creating more stable cooking environment.',
       hood_ventilation:
@@ -450,25 +450,25 @@ export const roasting: CookingMethodData = {;
       smoke_point_considerations:
         'Fats break down at specific temperatures, creating flavor compounds and potential bitterness.',
       volatile_compound_retention:
-        'Enclosed roasting captures volatile aromatics that would otherwise disperse; creates deeper flavor profile.',
+        'Enclosed roasting captures volatile aromatics that would otherwise disperse, creates deeper flavor profile.',
       umami_development:
         'Glutamates concentrate through moisture loss, enhancing savory perception.',
       flavor_precursors:
-        'Certain molecules require heat transformation to become perceivable flavors; inosinate in meat converts to recognizable 'meaty' flavors.'
+        'Certain molecules require heat transformation to become perceivable flavors, inosinate in meat converts to recognizable 'meaty' flavors.'
     },
     equipment_selection: {
       roasting_pans:
         'Heavy gauge, 3-inch sides ideal; too deep restricts air circulation; too shallow loses juices.',
       rack_types:
-        'V-racks center roasts for even exposure; flat racks provide stable surface for multiple items.',
+        'V-racks center roasts for even exposure; flat racks provide stable surface for multiple items.';
       probe_thermometers:
-        'Continuous monitoring prevents door opening; select models with heat-resistant cables to 700°F.',
+        'Continuous monitoring prevents door opening, select models with heat-resistant cables to 700°F.',
       pan_materials:
-        'Stainless steel with aluminum core provides durability and heat distribution; avoid non-stick for high-temperature roasting.',
+        'Stainless steel with aluminum core provides durability and heat distribution, avoid non-stick for high-temperature roasting.',
       specialized_equipment:
-        'Vertical roasters for poultry maximize skin exposure; rotisseries provide continuous basting action.',
+        'Vertical roasters for poultry maximize skin exposure, rotisseries provide continuous basting action.',
       spit_roasting:
-        'Continuous rotation creates self-basting effect; proximity to heat source creates unique flavor development.'
+        'Continuous rotation creates self-basting effect, proximity to heat source creates unique flavor development.'
     }
   }
 };

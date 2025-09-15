@@ -4,7 +4,7 @@ import { RecipeIngredient, validateIngredient } from '@/types/recipeIngredient';
 
 describe('Ingredient Data Structure', () => {
   it('should validate a correctly structured ingredient', () => {
-    const validIngredient: RecipeIngredient = {;
+    const validIngredient: RecipeIngredient = {
       name: 'Test Ingredient',
       amount: 1,
       unit: 'cup',
@@ -16,7 +16,7 @@ describe('Ingredient Data Structure', () => {
   });
 
   it('should reject an ingredient with missing required fields', () => {
-    const missingNameIngredient: any = {;
+    const missingNameIngredient: any = {
       amount: 1,
       unit: 'cup'
     };
@@ -25,7 +25,7 @@ describe('Ingredient Data Structure', () => {
   });
 
   it('should handle ingredients with missing elemental properties', () => {
-    const noElementalIngredient: RecipeIngredient = {;
+    const noElementalIngredient: RecipeIngredient = {
       name: 'Test Ingredient',
       amount: 1,
       unit: 'cup',
@@ -37,7 +37,7 @@ describe('Ingredient Data Structure', () => {
   });
 
   it('should validate ingredients with fractional amounts', () => {
-    const fractionIngredient: RecipeIngredient = {;
+    const fractionIngredient: RecipeIngredient = {
       name: 'Test Ingredient',
       amount: 0.5,
       unit: 'cup',
@@ -58,7 +58,7 @@ describe('Ingredient Data Structure', () => {
   });
 
   it('should handle ingredients with additional optional properties', () => {
-    const fullIngredient: RecipeIngredient = {;
+    const fullIngredient: RecipeIngredient = {
       name: 'Test Ingredient',
       amount: 1,
       unit: 'cup',

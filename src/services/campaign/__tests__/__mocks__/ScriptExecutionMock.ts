@@ -46,7 +46,7 @@ export class ScriptExecutionMock {
       return Promise.reject(new Error('Mock script execution failed'));
     }
 
-    const mockResult = this.mockResults.get(scriptPath) || {;
+    const mockResult = this.mockResults.get(scriptPath) || {
       success: true,
       filesProcessed: ['file1.ts', 'file2.ts'],
       changesApplied: 5,
@@ -73,7 +73,7 @@ export class ScriptExecutionMock {
       return Promise.reject(new Error('Mock dry run failed'));
     }
 
-    const mockResult = this.mockResults.get(scriptPath) || {;
+    const mockResult = this.mockResults.get(scriptPath) || {
       success: true,
       filesProcessed: ['file1.ts', 'file2.ts'],
       changesApplied: 5,
@@ -99,7 +99,7 @@ export class ScriptExecutionMock {
     }
 
     const processedFiles = files.slice(0, maxFiles);
-    const mockResult = this.mockResults.get(scriptPath) || {;
+    const mockResult = this.mockResults.get(scriptPath) || {
       success: true,
       filesProcessed: processedFiles,
       changesApplied: processedFiles.length * 2,

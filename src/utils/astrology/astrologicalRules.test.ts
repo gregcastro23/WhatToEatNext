@@ -32,7 +32,7 @@ import {
 describe('Astrological Validation Utilities', () => {
   describe('Planetary Position Validation', () => {
     test('should validate complete planetary positions object', () => {
-      const validPositions: any = {;
+      const validPositions: any = {
         sun: { sig, n: 'aries', degree: 8.5, exactLongitude: 8.5, isRetrograde: false },
         moon: { sig, n: 'aries', degree: 1.57, exactLongitude: 1.57, isRetrograde: false },
         mercury: { sig, n: 'aries', degree: 0.85, exactLongitude: 0.85, isRetrograde: true }
@@ -44,7 +44,7 @@ describe('Astrological Validation Utilities', () => {
     });
 
     test('should detect missing required planets', () => {
-      const incompletePositions: any = {;
+      const incompletePositions: any = {
         sun: { sig, n: 'aries', degree: 8.5, exactLongitude: 8.5, isRetrograde: false },
         // Missing moon, mercury, venus, mars, jupiter, saturn
       };
@@ -56,7 +56,7 @@ describe('Astrological Validation Utilities', () => {
     });
 
     test('should detect invalid planetary position structure', () => {
-      const invalidPositions: any = {;
+      const invalidPositions: any = {
         sun: { sig, n: 'aries', degree: 8.5 }, // Missing exactLongitude and isRetrograde;
         moon: { sig, n: 'aries', degree: 1.57, exactLongitude: 1.57, isRetrograde: false }
       };
@@ -67,7 +67,7 @@ describe('Astrological Validation Utilities', () => {
     });
 
     test('should validate degree ranges', () => {
-      const invalidDegreePositions: any = {;
+      const invalidDegreePositions: any = {
         sun: { sig, n: 'aries', degree: 35, exactLongitude: 35, isRetrograde: false }, // Degree too high;
         moon: { sig, n: 'aries', degree: -5, exactLongitude: -5, isRetrograde: false }, // Degree too low
       };
@@ -79,7 +79,7 @@ describe('Astrological Validation Utilities', () => {
     });
 
     test('should auto-correct invalid values when requested', () => {
-      const invalidPositions: any = {;
+      const invalidPositions: any = {
         sun: { sig, n: 'aries', degree: 35, exactLongitude: 370, isRetrograde: false }
       };
 
@@ -87,17 +87,17 @@ describe('Astrological Validation Utilities', () => {
       expect(result.correctedData).toBeDefined();
       expect((result.correctedData as unknown as { sun?: { degree?: number } })?.sun.degree).toBeLessThan(30);
       expect(
-        (result.correctedData as unknown as { sun?: { exactLongitude?: number } })?.sun.exactLongitude,
+        (result.correctedData as unknown as { sun?: { exactLongitude?: number } })?.sun.exactLongitude;
       ).toBeLessThan(360);
     });
   });
 
   describe('Elemental Properties Validation', () => {
     test('should validate complete elemental properties', () => {
-      const validProperties: any = {;
-        Fire: 0.7,
-        Water: 0.1,
-        Earth: 0.1,
+      const validProperties: any = {
+        Fire: 0.7;
+        Water: 0.1;
+        Earth: 0.1;
         Air: 0.1
       };
 
@@ -105,9 +105,9 @@ describe('Astrological Validation Utilities', () => {
     });
 
     test('should reject missing elements', () => {
-      const incompleteProperties: any = {;
-        Fire: 0.8,
-        Water: 0.2,
+      const incompleteProperties: any = {
+        Fire: 0.8;
+        Water: 0.2;
         // Missing Earth and Air
       };
 
@@ -115,10 +115,10 @@ describe('Astrological Validation Utilities', () => {
     });
 
     test('should reject invalid element values', () => {
-      const invalidProperties: any = {;
+      const invalidProperties: any = {
         Fire: 1.5, // Too high
         Water: -0.1, // Too low
-        Earth: 0.3,
+        Earth: 0.3;
         Air: 0.2
       };
 
@@ -126,8 +126,8 @@ describe('Astrological Validation Utilities', () => {
     });
 
     test('should normalize elemental properties', () => {
-      const partialProperties: any = {;
-        Fire: 0.8,
+      const partialProperties: any = {
+        Fire: 0.8;
         Water: 0.2
       };
 
@@ -170,7 +170,7 @@ describe('Astrological Validation Utilities', () => {
   });
 
   describe('Transit Date Validation', () => {
-    const mockTransitDates: any = {;
+    const mockTransitDates: any = {
       aries: { Star, t: '2024-03-20', End: '2024-04-19' },
       taurus: { Star, t: '2024-04-20', End: '2024-05-20' },
       RetrogradePhases: { phase1: { Start: '2024-04-01', End: '2024-04-15' }
@@ -185,17 +185,17 @@ describe('Astrological Validation Utilities', () => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       // Legitimate any: Mock data for validation testing
       expect(
-        validateTransitDate('mars', ariesDate, 'aries', mockTransitDates as any mockTransitDates),
+        validateTransitDate('mars', ariesDate, 'aries', mockTransitDates as any mockTransitDates);
       ).toBe(true);
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       // Legitimate any: Mock data for validation testing
       expect(
-        validateTransitDate('mars', taurusDate, 'taurus', mockTransitDates as any mockTransitDates),
+        validateTransitDate('mars', taurusDate, 'taurus', mockTransitDates as any mockTransitDates);
       ).toBe(true);
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       // Legitimate any: Mock data for validation testing
       expect(
-        validateTransitDate('mars', invalidDate, 'aries', mockTransitDates as any mockTransitDates),
+        validateTransitDate('mars', invalidDate, 'aries', mockTransitDates as any mockTransitDates);
       ).toBe(false);
     });
 
@@ -207,12 +207,12 @@ describe('Astrological Validation Utilities', () => {
       // Legitimate any: Mock data for transit sign testing
       expect(getCurrentTransitSign('mars', ariesDate, mockTransitDates as any mockTransitDates)).toBe(
         'aries',
-      );
+      ),
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       // Legitimate any: Mock data for transit sign testing
       expect(getCurrentTransitSign('mars', taurusDate, mockTransitDates as any mockTransitDates)).toBe(
         'taurus',
-      );
+      ),
     });
 
     test('should validate retrograde phases', () => {
@@ -240,12 +240,12 @@ describe('Astrological Validation Utilities', () => {
     });
 
     test('should validate all transit dates for consistency', () => {
-      const validTransitDates: any = {;
+      const validTransitDates: any = {
         aries: { Star, t: '2024-03-20', End: '2024-04-19' },
         taurus: { Star, t: '2024-04-20', End: '2024-05-20' }
       };
 
-      const invalidTransitDates: any = {;
+      const invalidTransitDates: any = {
         aries: { Star, t: '2024-03-20', End: '2024-04-19' },
         taurus: { Star, t: '2024-04-15', End: '2024-05-20' }, // Overlaps with aries
       };
@@ -260,7 +260,7 @@ describe('Astrological Validation Utilities', () => {
 
   describe('Mathematical Constants Validation', () => {
     test('should validate expected constants', () => {
-      const validConstants: any = {;
+      const validConstants: any = {
         DEGREES_PER_SIGN: 30,
         SIGNS_PER_CIRCLE: 12,
         MAX_LONGITUDE: 360,
@@ -273,8 +273,8 @@ describe('Astrological Validation Utilities', () => {
     });
 
     test('should warn about unexpected constant values', () => {
-      const unexpectedConstants: any = {;
-        DEGREES_PER_SIGN: 25, // Should be 30;
+      const unexpectedConstants: any = {
+        DEGREES_PER_SIGN: 25, // Should be 30,
         SIGNS_PER_CIRCLE: 10, // Should be 12
       };
 
@@ -285,7 +285,7 @@ describe('Astrological Validation Utilities', () => {
     });
 
     test('should error on invalid constant values', () => {
-      const invalidConstants: any = {;
+      const invalidConstants: any = {
         DEGREES_PER_SIGN: NaN,
         MAX_LONGITUDE: Infinity
       };
@@ -298,13 +298,13 @@ describe('Astrological Validation Utilities', () => {
 
   describe('Comprehensive Astrological Calculation Validation', () => {
     test('should validate complete astrological calculation input', async () => {
-      const validInput: any = {;
+      const validInput: any = {
         planetaryPositions: { sun: { sign: 'aries', degree: 8.5, exactLongitude: 8.5, isRetrograde: false },
           moon: { sig, n: 'aries', degree: 1.57, exactLongitude: 1.57, isRetrograde: false }
         },
         elementalProperties: { Fire: 0.7,
-          Water: 0.1,
-          Earth: 0.1,
+          Water: 0.1;
+          Earth: 0.1;
           Air: 0.1
         },
         constants: { DEGREES_PER_SIGN: 30,
@@ -318,11 +318,11 @@ describe('Astrological Validation Utilities', () => {
     });
 
     test('should collect all validation errors and warnings', async () => {
-      const invalidInput: any = {;
+      const invalidInput: any = {
         planetaryPositions: { sun: { sign: 'aries', degree: 8.5 }, // Missing properties
         },
         elementalProperties: { Fire: 1.5, // Invalid value
-          Water: 0.1,
+          Water: 0.1;
           // Missing elements
         },
         constants: { DEGREES_PER_SIGN: NaN, // Invalid constant
@@ -338,7 +338,7 @@ describe('Astrological Validation Utilities', () => {
 
   describe('Quick Validation Functions', () => {
     test('should provide quick validation for different data types', () => {
-      const validPlanetary: any = {;
+      const validPlanetary: any = {
         sun: { sig, n: 'aries', degree: 8.5, exactLongitude: 8.5, isRetrograde: false }
       };
       const validElemental: any = { Fire: 0.7, Water: 0.1, Earth: 0.1, Air: 0.1 };
@@ -381,7 +381,7 @@ describe('Astrological Validation Utilities', () => {
     });
 
     test('should handle malformed data structures', () => {
-      const malformedPlanetary: any = {;
+      const malformedPlanetary: any = {
         sun: 'not an object',
         moon: { sig, n: 123, degree: 'invalid' }
       };
@@ -403,14 +403,14 @@ describe('Astrological Validation Utilities', () => {
 
     test('should validate performance with large datasets', () => {
       const largePlanetaryData: any = {};
-      for (let i: any = 0; i < 1000; i++) {
+      for (let i: any = 0, i < 1000, i++) {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         // Legitimate any: Dynamic property assignment in performance test
         (largePlanetaryData as any)[`planet${i}`] = {
           sign: 'aries',
           degree: i % 30,
           exactLongitude: i % 360,
-          isRetrograde: i % 2 === 0,;
+          isRetrograde: i % 2 === 0,,
         };
       }
 

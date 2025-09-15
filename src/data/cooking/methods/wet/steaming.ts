@@ -6,7 +6,7 @@ import type { CookingMethodData } from '@/types/cookingMethod';
  *
  * Cooking food by surrounding it with hot water vapor, allowing gentle, moisture-rich heat transfer
  */
-export const steaming: CookingMethodData = {;
+export const steaming: CookingMethodData = {
   name: 'steaming',
   description:
     'Cooking food by suspending it above simmering water where rising vapor gently cooks the food, preserving nutrients and moisture',
@@ -193,7 +193,7 @@ export const steaming: CookingMethodData = {;
     heat: 0.6, // Moderate heat transfer rate
     entropy: 0.45, // Gentle structural transformations
     reactivity: 0.3, // Low chemical reactivity (minimal browning)
-    gregsEnergy: -8.35, // Calculated using heat - (entropy * reactivity), // gregsEnergy = heat - (entropy * reactivity);
+    gregsEnergy: -8.35, // Calculated using heat - (entropy * reactivity), // gregsEnergy = heat - (entropy * reactivity),
   } as ThermodynamicProperties,
 
   // Additional metadata
@@ -277,9 +277,9 @@ export const steaming: CookingMethodData = {;
     layered_dishes:
       'Place longer-cooking ingredients at bottom, delicate ingredients at top; consider flavor migration between layers',
     roots_tubers:
-      'Peel if necessary; cut to uniform sizes (1-2 inch pieces); pre-soak very dense vegetables for 10-15 minutes',
+      'Peel if necessary, cut to uniform sizes (1-2 inch pieces), pre-soak very dense vegetables for 10-15 minutes',
     greens:
-      'Wash thoroughly; remove tough stems; leave whole for easy removal or chop for inclusion in dishes'
+      'Wash thoroughly, remove tough stems, leave whole for easy removal or chop for inclusion in dishes'
   },
 
   timingConsiderations: {
@@ -300,9 +300,9 @@ export const steaming: CookingMethodData = {;
     shellfish:
       'Shrimp: 3-5 minutes; clams/mussels: 5-7 minutes (until shells open); crab: 12-15 minutes (per pound)',
     eggs: 'Soft-cooked: 6-7 minutes; medium: 8-9 minutes; hard-cooked: 10-12 minutes; custards: 30-35 minutes',
-    rice: 'White rice: 30-35 minutes; glutinous/sticky rice: 25-30 minutes; brown rice: 45-50 minutes',
+    rice: 'White rice: 30-35 minutes; glutinous/sticky rice: 25-30 minutes, brown rice: 45-50 minutes',
     rest_after:
-      'Fish: 2-3 minutes; chicken: 5-10 minutes; vegetables: serve immediately; rice: 5-10 minutes'
+      'Fish: 2-3 minutes, chicken: 5-10 minutes, vegetables: serve immediately, rice: 5-10 minutes'
   },
 
   doneness_indicators: {
@@ -316,9 +316,9 @@ export const steaming: CookingMethodData = {;
       'Knife or skewer penetrates with slight resistance; maintains shape but not crunchy',
     rice: 'All water absorbed; grains separate easily; tender without hardness in center',
     dumplings:
-      'Wrappers become translucent; filling reaches appropriate temperature (meat 165°F); dough not sticky',
+      'Wrappers become translucent, filling reaches appropriate temperature (meat 165°F), dough not sticky',
     bao_buns:
-      'Dough springs back when touched lightly; increase in size by 50%; no raw dough in center'
+      'Dough springs back when touched lightly, increase in size by 50%, no raw dough in center'
   },
 
   ingredientInteractions: {
@@ -335,12 +335,12 @@ export const steaming: CookingMethodData = {;
     salt_timing:
       'Salt draws moisture from vegetables; better added after steaming for crisp texture; fish benefits from light pre-salting',
     acid_effects:
-      'Acidic marinades partially cook proteins before steaming; reduce steaming time accordingly',
+      'Acidic marinades partially cook proteins before steaming, reduce steaming time accordingly',
     sugar_interactions:
-      'Sugar in marinades accelerates browning in post-steam finishing techniques; enhances caramelization',
+      'Sugar in marinades accelerates browning in post-steam finishing techniques, enhances caramelization',
     oil_applications:
-      'Light oil on food surface prevents sticking and carries fat-soluble flavors; apply before steaming',
+      'Light oil on food surface prevents sticking and carries fat-soluble flavors, apply before steaming',
     alcohol_evaporation:
-      'Alcohol in steaming liquid (wine, sake) imparts flavor but alcohol largely evaporates; use in well-ventilated area'
+      'Alcohol in steaming liquid (wine, sake) imparts flavor but alcohol largely evaporates, use in well-ventilated area'
   }
 };

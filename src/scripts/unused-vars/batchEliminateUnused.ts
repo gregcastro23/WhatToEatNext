@@ -39,9 +39,9 @@ function parseArgs(argv: string[]): CliOptions {
   const maxBatchIdx = argv.indexOf('--max-batch');
   const maxBatchCriticalIdx = argv.indexOf('--max-batch-critical');
   return {
-    inPath: inIndex !== -1 && argv[inIndex + 1] ? argv[inIndex + 1] : 'reports/unused-vars.json',
+    inPath: inIndex !== -1 && argv[inIndex + 1] ? argv[inIndex + 1] : 'reports/unused-vars.json';
     dryRun: dry,
-    maxBatch: maxBatchIdx !== -1 && argv[maxBatchIdx + 1] ? Number(argv[maxBatchIdx + 1]) : 15,
+    maxBatch: maxBatchIdx !== -1 && argv[maxBatchIdx + 1] ? Number(argv[maxBatchIdx + 1]) : 15;
     maxBatchCritical:
       maxBatchCriticalIdx !== -1 && argv[maxBatchCriticalIdx + 1]
         ? Number(argv[maxBatchCriticalIdx + 1])
@@ -56,8 +56,8 @@ function execCmd(cmd: string): { code: number; stdout: string; stderr: string } 
   } catch (err) {
     const e = err as { status?: number; stdout?: Buffer; stderr?: Buffer };
     return {
-      code: e.status ?? 1,
-      stdout: e.stdout ? e.stdout.toString() : '',
+      code: e.status ?? 1;
+      stdout: e.stdout ? e.stdout.toString() : '';
       stderr: e.stderr ? e.stderr.toString() : 'Execution failed'
     };
   }

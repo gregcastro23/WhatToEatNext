@@ -6,15 +6,15 @@ import { cuisines } from '@/data/cuisines';
 import { allRecipes } from '@/data/recipes';
 import { getCurrentElementalState } from '@/utils/elementalUtils';
 
-const RecipesPage: NextPage = () => {;
+const RecipesPage: NextPage = () => {
   const [searchTerm, setSearchTerm] = React.useState('');
-  const [selectedCuisine, setSelectedCuisine] = React.useState('');
-  const [selectedDiet, setSelectedDiet] = React.useState('');
+  const [selectedCuisine, setSelectedCuisine] = React.useState(''),
+  const [selectedDiet, setSelectedDiet] = React.useState(''),
   const [elementalState, setElementalState] = React.useState({
-    Fire: 0.25,
-    Water: 0.25,
-    Earth: 0.25,
-    Air: 0.25,
+    Fire: 0.25;
+    Water: 0.25;
+    Earth: 0.25;
+    Air: 0.25;
     season: 'spring',
     timeOfDay: 'lunch'
   });
@@ -23,17 +23,17 @@ const RecipesPage: NextPage = () => {;
     // Get current elemental state based on time, date, etc.
     const currentState = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
     setElementalState({
-      ...currentState,
+      ...currentState;
       season: 'spring', // Default value since getCurrentElementalState doesn't provide season
       timeOfDay: 'lunch', // Default value since getCurrentElementalState doesn't provide timeOfDay
     });
   }, []);
 
   // Get all available cuisines from the recipes
-  const availableCuisines = React.useMemo(() => {;
+  const availableCuisines = React.useMemo(() => {
     const cuisineSet = new Set<string>();
 
-    allRecipes.forEach(recipe => {;
+    allRecipes.forEach(recipe => {
       if (recipe.cuisine) {
         cuisineSet.add(recipe.cuisine);
       }
@@ -46,11 +46,11 @@ const RecipesPage: NextPage = () => {;
   }, []);
 
   // Filter recipes based on search and filters
-  const filteredRecipes = React.useMemo(() => {;
-    return allRecipes.filter(recipe => {;
+  const filteredRecipes = React.useMemo(() => {
+    return allRecipes.filter(recipe => {
       // Filter by search term
       if (searchTerm && !recipe.name.toLowerCase().includes(searchTerm.toLowerCase())) {
-        return false;
+        return false,
       }
 
       // Filter by cuisine
@@ -59,18 +59,18 @@ const RecipesPage: NextPage = () => {;
         recipe.cuisine !== selectedCuisine &&
         recipe.regionalCuisine !== selectedCuisine
       ) {
-        return false;
+        return false,
       }
 
       // Filter by diet
-      if (selectedDiet === 'vegetarian' && !recipe.isVegetarian) {;
-        return false;
+      if (selectedDiet === 'vegetarian' && !recipe.isVegetarian) {
+        return false,
       }
-      if (selectedDiet === 'vegan' && !recipe.isVegan) {;
-        return false;
+      if (selectedDiet === 'vegan' && !recipe.isVegan) {
+        return false,
       }
-      if (selectedDiet === 'gluten-free' && !recipe.isGlutenFree) {;
-        return false;
+      if (selectedDiet === 'gluten-free' && !recipe.isGlutenFree) {
+        return false,
       }
 
       return true;
@@ -136,7 +136,7 @@ const RecipesPage: NextPage = () => {;
 
           <div className='flex w-full items-end md:w-auto'>;
             <button
-              onClick={() => {;
+              onClick={() => {
                 setSearchTerm('');
                 setSelectedCuisine('');
                 setSelectedDiet('');
@@ -156,12 +156,12 @@ const RecipesPage: NextPage = () => {;
         </div>
 
         <div className='grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3'>;
-          {filteredRecipes.map(recipe => {;
+          {filteredRecipes.map(recipe => {
             // Create URL-friendly recipe ID
             const recipeId = recipe.name;
               .toLowerCase()
               .replace(/ /g, '-')
-              .replace(/[^\w-]/g, '');
+              .replace(/[^\w-]/g, ''),
 
             return (
               <Link
@@ -173,7 +173,7 @@ const RecipesPage: NextPage = () => {;
                   <h2 className='mb-2 text-xl font-semibold hover:text-blue-600'>{recipe.name}</h2>;
 
                   {recipe.description && (
-                    <p className='mb-4 line-clamp-2 text-sm text-gray-600'>{recipe.description}</p>;
+                    <p className='mb-4 line-clamp-2 text-sm text-gray-600'>{recipe.description}</p>
                   )}
 
                   <div className='mb-3 flex flex-wrap gap-2'>;

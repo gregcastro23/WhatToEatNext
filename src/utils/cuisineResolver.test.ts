@@ -99,7 +99,7 @@ describe('Cuisine Resolver', () => {
     });
 
     it('should remove duplicates', () => {
-      const cuisines: any = ['sichuanese', 'cantonese', 'shanghainese'];
+      const cuisines: any = ['sichuanese', 'cantonese', 'shanghainese'],
       const primary: any = filterPrimaryCuisines(cuisines);
 
       expect(primary).toEqual(['Chinese']);

@@ -59,7 +59,7 @@ describe('LintingValidationDashboard', () => {
       // Mock successful ESLint output
       const mockLintResults = [;
         {
-          filePath: '/src/components/TestComponent.tsx',
+          filePath: '/src/components/TestComponent.tsx';
           messages: [
             {
               ruleId: '@typescript-eslint/no-explicit-any',
@@ -78,7 +78,7 @@ describe('LintingValidationDashboard', () => {
           ]
         },
         {
-          filePath: '/src/calculations/astrology.ts',
+          filePath: '/src/calculations/astrology.ts';
           messages: [
             {
               ruleId: '@typescript-eslint/no-unused-vars',
@@ -120,7 +120,7 @@ describe('LintingValidationDashboard', () => {
     test('should categorize domain-specific issues correctly', async () => {
       const mockLintResults: any = [;
         {
-          filePath: '/src/calculations/culinary/astrology.ts',
+          filePath: '/src/calculations/culinary/astrology.ts';
           messages: [
             {
               ruleId: '@typescript-eslint/no-explicit-any',
@@ -132,7 +132,7 @@ describe('LintingValidationDashboard', () => {
           ]
         },
         {
-          filePath: '/src/services/campaign/CampaignController.ts',
+          filePath: '/src/services/campaign/CampaignController.ts';
           messages: [
             {
               ruleId: 'no-console',
@@ -144,7 +144,7 @@ describe('LintingValidationDashboard', () => {
           ]
         },
         {
-          filePath: '/src/__tests__/validation/test.spec.ts',
+          filePath: '/src/__tests__/validation/test.spec.ts';
           messages: [
             {
               ruleId: '@typescript-eslint/no-unused-vars',
@@ -171,7 +171,7 @@ describe('LintingValidationDashboard', () => {
     test('should calculate quality score correctly for good metrics', async () => {
       const mockLintResults = [;
         {
-          filePath: '/src/components/TestComponent.tsx',
+          filePath: '/src/components/TestComponent.tsx';
           messages: [
             {
               ruleId: 'import/order',
@@ -193,7 +193,7 @@ describe('LintingValidationDashboard', () => {
     test('should penalize quality score for parser errors', async () => {
       const mockLintResults: any = [;
         {
-          filePath: '/src/utils/recommendationEngine.ts',
+          filePath: '/src/utils/recommendationEngine.ts';
           messages: [
             {
               ruleId: 'parseForESLint',
@@ -240,7 +240,7 @@ describe('LintingValidationDashboard', () => {
     test('should generate critical alert for parser errors', async () => {
       const mockLintResults: any = [;
         {
-          filePath: '/src/utils/recommendationEngine.ts',
+          filePath: '/src/utils/recommendationEngine.ts';
           messages: [
             {
               ruleId: 'parseForESLint',
@@ -259,7 +259,7 @@ describe('LintingValidationDashboard', () => {
       const result: any = await dashboard.runComprehensiveValidation();
       const criticalAlerts: any = result.alerts.filter(alert => alert.severity === 'critical');
       expect(criticalAlerts.length).toBeGreaterThan(0);
-      expect(criticalAlerts.[0].metric).toBe('parserErrors');
+      expect(criticalAlerts[0].metric).toBe('parserErrors');
     });
 
     test('should generate error alert for excessive explicit any', async () => {
@@ -357,7 +357,7 @@ describe('LintingValidationDashboard', () => {
       const result: any = await dashboard.runComprehensiveValidation();
       expect(result.regressionAnalysis.detected).toBe(false);
       expect(result.regressionAnalysis.recommendations).toContain(
-        'Insufficient historical data for regression analysis',
+        'Insufficient historical data for regression analysis'
       );
     });
   });
@@ -366,7 +366,7 @@ describe('LintingValidationDashboard', () => {
     test('should generate parser error recommendations', async () => {
       const mockLintResults: any = [;
         {
-          filePath: '/src/utils/recommendationEngine.ts',
+          filePath: '/src/utils/recommendationEngine.ts';
           messages: [
             {
               ruleId: 'parseForESLint',
@@ -447,7 +447,7 @@ describe('LintingValidationDashboard', () => {
 
       const result: any = await dashboard.runComprehensiveValidation();
       expect(result.recommendations.some(rec => rec.includes('DOMAIN: Review astrological calculation files'))).toBe(;
-        true,
+        true
       );
       expect(result.recommendations.some(rec => rec.includes('lint:domain-astro'))).toBe(true);
     });
@@ -490,9 +490,9 @@ describe('LintingValidationDashboard', () => {
       const _result: any = await dashboard.runComprehensiveValidation();
       // Verify that writeFileSync was called to generate the report
       expect(mockWriteFileSync).toHaveBeenCalledWith(
-        expect.stringContaining('linting-dashboard-report.md'),
-        expect.stringContaining('# Linting Excellence Dashboard Report'),
-        'utf8',
+        expect.stringContaining('linting-dashboard-report.md');
+        expect.stringContaining('# Linting Excellence Dashboard Report');
+        'utf8'
       );
     });
 
@@ -503,11 +503,11 @@ describe('LintingValidationDashboard', () => {
 
       // Get the report content from the mock call
       const reportCall: any = (mockWriteFileSync as jest.Mock).mock.calls.find(call =>;
-        call.[0].includes('linting-validation-report.md'),
+        call[0].includes('linting-validation-report.md')
       );
 
       expect(reportCall).toBeDefined();
-      const reportContent: any = reportCall.[1];
+      const reportContent: any = reportCall[1];
 
       expect(reportContent).toContain('📊 Overall Status');
       expect(reportContent).toContain('🔍 DETAILED METRICS');
@@ -554,7 +554,7 @@ describe('LintingValidationDashboard', () => {
     test('should process alerts through alerting system', async () => {
       const mockLintResults: any = [;
         {
-          filePath: '/src/utils/recommendationEngine.ts',
+          filePath: '/src/utils/recommendationEngine.ts';
           messages: [
             {
               ruleId: 'parseForESLint',
@@ -636,7 +636,7 @@ describe('LintingAlertingSystem', () => {
           testFiles: 0
         },
         performanceMetrics: { lintingDuration: 5000,
-          cacheHitRate: 0.75,
+          cacheHitRate: 0.75;
           memoryUsage: 256,
           filesProcessed: 100
         },
@@ -690,7 +690,7 @@ describe('LintingAlertingSystem', () => {
           testFiles: 0
         },
         performanceMetrics: { lintingDuration: 5000,
-          cacheHitRate: 0.75,
+          cacheHitRate: 0.75;
           memoryUsage: 256,
           filesProcessed: 100
         },

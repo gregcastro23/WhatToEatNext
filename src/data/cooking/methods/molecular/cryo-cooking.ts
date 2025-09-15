@@ -5,7 +5,7 @@ import type { CookingMethod } from '@/types/shared';
  * Cryo-Cooking: A molecular gastronomy technique that uses extreme cold for cooking,
  * freezing, and creating unique textures with liquid nitrogen or dry ice
  */
-export const _cryoCooking: CookingMethodData = {;
+export const _cryoCooking: CookingMethodData = {
   name: 'Cryo-Cooking' as CookingMethod,
   description:
     'A molecular gastronomy technique that utilizes extreme cold, typically from liquid nitrogen or dry ice, to rapidly freeze foods, create unique textures, and prepare novel culinary creations.',

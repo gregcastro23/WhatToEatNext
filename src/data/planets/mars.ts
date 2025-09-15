@@ -1,6 +1,6 @@
 import { PlanetData } from './types';
 
-const marsData: PlanetData = {;
+const marsData: PlanetData = {
   'Dignity Effect': {
     aries: 1,
     scorpio: 1,

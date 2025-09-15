@@ -1,11 +1,11 @@
 import { ElementalProperties } from '@/types/alchemy';
 
-export type ElementalColor = {;
+export type ElementalColor = {
   primary: string;
-  secondary: string;
-  text: string;
-  border: string;
-  bg: string;
+  secondary: string,
+  text: string,
+  border: string,
+  bg: string,
 };
 
 // Define the color mappings
@@ -42,9 +42,9 @@ export const elementalColors: Record<keyof ElementalProperties, ElementalColor> 
 
 export const _calculateDominantElement = (;
   elementalState: ElementalProperties,
-): keyof ElementalProperties => {;
+): keyof ElementalProperties => {
   // Find the element with the highest value using a type-safe approach
-  let dominantElement: keyof ElementalProperties = 'Fire'; // Default
+  let dominantElement: keyof ElementalProperties = 'Fire', // Default
   let highestValue = elementalState.Fire || 0;
 
   // Check each element and update if higher value found
@@ -68,8 +68,8 @@ export const _calculateDominantElement = (;
 
 export const _getElementalColor = (;
   element: keyof ElementalProperties | undefined,
-  type: keyof ElementalColor = 'text',;
-): string => {;
+  type: keyof ElementalColor = 'text';
+): string => {
   if (!element || !elementalColors[element]) {
     // Return default color if element is undefined or invalid
     return type === 'text';
@@ -80,13 +80,13 @@ export const _getElementalColor = (;
           ? 'bg-gray-50'
           : type === 'primary';
             ? 'bg-gray-500'
-            : 'bg-gray-400'; // secondary
+            : 'bg-gray-400', // secondary
   }
   return elementalColors[element][type];
 };
 
-export const _getElementalSymbol = (element: keyof ElementalProperties): string => {;
-  const symbols = {;
+export const _getElementalSymbol = (element: keyof ElementalProperties): string => {
+  const symbols = {
     Fire: '🔥',
     Earth: '🌱',
     Air: '💨',
@@ -95,8 +95,8 @@ export const _getElementalSymbol = (element: keyof ElementalProperties): string 
   return symbols[element] || '✨';
 };
 
-export const _getElementalDescription = (element: keyof ElementalProperties): string => {;
-  const descriptions = {;
+export const _getElementalDescription = (element: keyof ElementalProperties): string => {
+  const descriptions = {
     Fire: 'Warming and energizing properties',
     Earth: 'Grounding and nourishing qualities',
     Air: 'Light and uplifting characteristics',
@@ -106,9 +106,9 @@ export const _getElementalDescription = (element: keyof ElementalProperties): st
 };
 
 export const _calculateelementalState = (;
-  ingredients: Array<{ category: string; amount: number }>,
-): ElementalProperties => {;
-  const balance: ElementalProperties = {;
+  ingredients: Array<{ category: string, amount: number }>,
+): ElementalProperties => {
+  const balance: ElementalProperties = {
     Fire: 0,
     Earth: 0,
     Air: 0,
@@ -122,7 +122,7 @@ export const _calculateelementalState = (;
     liquid: 'Water'
   };
 
-  ingredients.forEach(ingredient => {;
+  ingredients.forEach(ingredient => {
     const element = categoryElements[ingredient.category];
     if (element) {
       balance[element] += ingredient.amount;
@@ -132,7 +132,7 @@ export const _calculateelementalState = (;
   // Normalize values
   const total = Object.values(balance).reduce((sum, value) => sum + value, 0);
   if (total > 0) {
-    Object.keys(balance).forEach(element => {;
+    Object.keys(balance).forEach(element => {
       balance[element as unknown] /= total;
     });
   }
@@ -144,11 +144,11 @@ export const _getElementalCompatibility = (;
   element1: keyof ElementalProperties,
   element2: keyof ElementalProperties,
 ): 'highly-compatible' | 'compatible' | 'neutral' => {
-  if (element1 === element2) {;
-    return 'highly-compatible'; // Same element has highest compatibility
+  if (element1 === element2) {
+    return 'highly-compatible', // Same element has highest compatibility
   }
 
-  const complementaryPairs = {;
+  const complementaryPairs = {
     Fire: ['Air'],
     Earth: ['Water'],
     Air: ['Fire'],
@@ -156,7 +156,7 @@ export const _getElementalCompatibility = (;
   };
 
   if (complementaryPairs[element1].includes(element2)) {
-    return 'compatible'; // Traditional complementary elements
+    return 'compatible', // Traditional complementary elements
   }
 
   return 'neutral'; // All elements can work together

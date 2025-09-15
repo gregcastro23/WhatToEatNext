@@ -87,7 +87,7 @@ export class RecipeElementalService {
     const elements = ['Fire', 'Water', 'Earth', 'Air'];
 
     // Calculate average difference across all elements
-    const totalDifference = elements.reduce((sum: number, element) => {;
+    const totalDifference = elements.reduce((sum: number, element) => {
       const aValue = a[element] || 0;
       const bValue = b[element] || 0;
       return sum + Math.abs(aValue - bValue);
@@ -111,7 +111,7 @@ export class RecipeElementalService {
    */
   public deriveElementalProperties(recipe: Partial<Recipe>): ElementalProperties {
     // Start with a balanced base
-    const elementalProps: ElementalProperties = {;
+    const elementalProps: ElementalProperties = {
       Fire: 0.25,
       Water: 0.25,
       Earth: 0.25,
@@ -186,7 +186,7 @@ export class RecipeElementalService {
       // Consider ingredients if available
       if (recipe.ingredients && recipe.ingredients.length > 0) {
         // Create a new object for ingredient properties
-        const ingredientProps: ElementalProperties = {;
+        const ingredientProps: ElementalProperties = {
           Fire: 0,
           Water: 0,
           Earth: 0,
@@ -195,7 +195,7 @@ export class RecipeElementalService {
 
         // Process ingredients with elemental properties
         let ingredientCount = 0;
-        recipe.ingredients.forEach(ingredient => {;
+        recipe.ingredients.forEach(ingredient => {
           if (ingredient.elementalProperties) {
             // Get values from each element, guarding against undefined values
             ingredientProps.Fire += ingredient.elementalProperties.Fire || 0;

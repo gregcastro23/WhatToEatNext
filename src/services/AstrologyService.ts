@@ -22,7 +22,7 @@ import { normalizePlanetaryPositions } from '@/utils/astrology/core';
 export class AstrologyService {
   private static instance: AstrologyService;
 
-  private currentState: AstrologicalState = {;
+  private currentState: AstrologicalState = {
     currentZodiac: 'aries',
     moonPhase: 'new moon',
     currentPlanetaryAlignment: {},
@@ -46,7 +46,7 @@ export class AstrologyService {
    * Get current planetary positions
    */
   async getCurrentPlanetaryPositions(
-    forceRefresh = false,;
+    forceRefresh = false,
   ): Promise<Record<Planet, CelestialPosition>> {
     try {
       // Unified: PlanetaryPositionsService
@@ -81,7 +81,7 @@ export class AstrologyService {
   /**
    * Get the current astrological state including all relevant data
    */
-  async getAstrologicalState(forceRefresh = false): Promise<AstrologicalState> {;
+  async getAstrologicalState(forceRefresh = false): Promise<AstrologicalState> {
     if (forceRefresh || !this.currentState.isReady) {
       await this.refreshAstrologicalState();
     }
@@ -91,7 +91,7 @@ export class AstrologyService {
   /**
    * Get the current lunar phase
    */
-  async getLunarPhase(forceRefresh = false): Promise<LunarPhase> {;
+  async getLunarPhase(forceRefresh = false): Promise<LunarPhase> {
     if (forceRefresh || !this.currentState.isReady) {
       await this.refreshAstrologicalState();
     }
@@ -101,7 +101,7 @@ export class AstrologyService {
   /**
    * Get the current zodiac sign (Sun sign)
    */
-  async getCurrentZodiacSign(forceRefresh = false): Promise<ZodiacSign> {;
+  async getCurrentZodiacSign(forceRefresh = false): Promise<ZodiacSign> {
     if (forceRefresh || !this.currentState.isReady) {
       await this.refreshAstrologicalState();
     }
@@ -111,7 +111,7 @@ export class AstrologyService {
   /**
    * Check if it's currently daytime
    */
-  async isDaytime(forceRefresh = false): Promise<boolean> {;
+  async isDaytime(forceRefresh = false): Promise<boolean> {
     if (forceRefresh || !this.currentState.isReady) {
       await this.refreshAstrologicalState();
     }
@@ -121,7 +121,7 @@ export class AstrologyService {
   /**
    * Get the current planetary hour ruler
    */
-  async getPlanetaryHour(forceRefresh = false): Promise<Planet | undefined> {;
+  async getPlanetaryHour(forceRefresh = false): Promise<Planet | undefined> {
     if (forceRefresh || !this.currentState.isReady) {
       await this.refreshAstrologicalState();
     }
@@ -131,7 +131,7 @@ export class AstrologyService {
   /**
    * Get the current planetary hour ruler (alias for compatibility)
    */
-  async getCurrentPlanetaryHour(forceRefresh = false): Promise<Planet | undefined> {;
+  async getCurrentPlanetaryHour(forceRefresh = false): Promise<Planet | undefined> {
     return this.getPlanetaryHour(forceRefresh);
   }
 
@@ -177,7 +177,7 @@ export class AstrologyService {
   /**
    * Get lunar phase data (alias for compatibility)
    */
-  async getLunarPhaseData(forceRefresh = false): Promise<LunarPhase> {;
+  async getLunarPhaseData(forceRefresh = false): Promise<LunarPhase> {
     return this.getLunarPhase(forceRefresh);
   }
 
@@ -211,7 +211,7 @@ export class AstrologyService {
         planetaryAlignment = this.calculatePlanetaryPositions(currentDate);
       }
 
-      const state: AstrologicalState = {;
+      const state: AstrologicalState = {
         currentZodiac: this.calculateZodiacSign(currentDate),
         moonPhase: this.calculateLunarPhase(currentDate),
         currentPlanetaryAlignment: planetaryAlignment,

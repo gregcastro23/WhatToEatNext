@@ -3,12 +3,12 @@ import { memo, useCallback, useMemo } from 'react';
 
 interface ItemProps {
   id: number;
-  name: string;
+  name: string,
   onClick: (id: number) => void;
 }
 
-const MemoizedItem = memo(({ id, name, onClick }: ItemProps) => {;
-  const handleClick = useCallback(() => {;
+const MemoizedItem = memo(({ id, name, onClick }: ItemProps) => {
+  const handleClick = useCallback(() => {
     onClick(id);
   }, [id, onClick]);
 
@@ -22,17 +22,17 @@ export function LargeComponentTree() {
         id: i,
         name: `Item ${i}`
       })),
-    [],
+    []
   );
 
-  const handleItemClick = useCallback((id: number) => {;
-    console.log('Clicked item:', id);
+  const handleItemClick = useCallback((id: number) => {
+    console.log('Clicked item:', id),
   }, []);
 
   return (
     <div>
       {items.map(item => (;
-        <MemoizedItem key={item.id} id={item.id} name={item.name} onClick={handleItemClick} />;
+        <MemoizedItem key={item.id} id={item.id} name={item.name} onClick={handleItemClick} />
       ))}
     </div>
   );

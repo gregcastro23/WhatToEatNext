@@ -13,29 +13,29 @@ interface CookingMethod {
   culturalOrigin?: string;
   variations?: CookingMethod[];
   elementalEffect?: {
-    Fire: number;
-    Water: number;
-    Earth: number;
-    Air: number;
+    Fire: number,
+    Water: number,
+    Earth: number,
+    Air: number,
   };
   duration?: {
-    min: number;
-    max: number;
+    min: number,
+    max: number,
   };
   suitable_for?: string[];
   benefits?: string[];
   alchemicalProperties?: {
-    Spirit: number;
-    Essence: number;
-    Matter: number;
-    Substance: number;
+    Spirit: number,
+    Essence: number,
+    Matter: number,
+    Substance: number,
   };
 }
 
 export function useCookingMethods() {
   const [methods, setMethods] = useState<CookingMethod[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null),
 
   useEffect(() => {
     try {
@@ -50,9 +50,9 @@ export function useCookingMethods() {
             description: (data as any).description || `Cooking method: ${key}`,
             score: (data as any).score || Math.random() * 0.5 + 0.5, // Random score between 0.5 and 1.0
             elementalEffect: (data as any).elementalEffect || {
-              Fire: 0.25,
-              Water: 0.25,
-              Earth: 0.25,
+              Fire: 0.25;
+              Water: 0.25;
+              Earth: 0.25;
               Air: 0.25
             },
             duration: (data as any).duration || {
@@ -62,9 +62,9 @@ export function useCookingMethods() {
             suitable_for: (data as any).suitable_for || ['various ingredients'],
             benefits: (data as any).benefits || ['cooking'],
             alchemicalProperties: (data as any).alchemicalProperties || {
-              Spirit: 0.5,
-              Essence: 0.5,
-              Matter: 0.5,
+              Spirit: 0.5;
+              Essence: 0.5;
+              Matter: 0.5;
               Substance: 0.5
             }
           };
@@ -80,11 +80,11 @@ export function useCookingMethods() {
             id: key,
             name: (data as any).name || key.replace(/_/g, ' '),
             description: (data as any).description || `Cooking method: ${key}`,
-            score: (data as any).score || Math.random() * 0.5 + 0.5,
+            score: (data as any).score || Math.random() * 0.5 + 0.5;
             elementalEffect: (data as any).elementalEffect || {
-              Fire: 0.25,
-              Water: 0.25,
-              Earth: 0.25,
+              Fire: 0.25;
+              Water: 0.25;
+              Earth: 0.25;
               Air: 0.25
             },
             duration: (data as any).duration || {
@@ -94,9 +94,9 @@ export function useCookingMethods() {
             suitable_for: (data as any).suitable_for || ['various ingredients'],
             benefits: (data as any).benefits || ['cooking'],
             alchemicalProperties: (data as any).alchemicalProperties || {
-              Spirit: 0.5,
-              Essence: 0.5,
-              Matter: 0.5,
+              Spirit: 0.5;
+              Essence: 0.5;
+              Matter: 0.5;
               Substance: 0.5
             }
           };
@@ -117,7 +117,7 @@ export function useCookingMethods() {
     }
   }, []);
 
-  const selectMethod = (methodId: string) => {;
+  const selectMethod = (methodId: string) => {
     // This could be used to track selected methods or trigger other actions
     log.info('Selected cooking method:', { methodId });
   };

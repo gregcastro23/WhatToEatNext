@@ -1,7 +1,7 @@
 import type { IngredientMapping } from '@/data/ingredients/types';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
-const rawPome = {;
+const rawPome = {
   apple: {
     name: 'Apple',
     elementalProperties: {
@@ -256,7 +256,7 @@ const rawPome = {;
       }
     },
     preparation: {
-      ripening: 'Most pears ripen after harvest; store at room temperature until ripe',
+      ripening: 'Most pears ripen after harvest, store at room temperature until ripe',
       testing_ripeness: 'Check neck for slight give - perfect ripeness window is short',
       peeling: 'Use vegetable peeler for thinnest peel removal',
       preventing_browning: 'Dip in lemon water after cutting to prevent browning'

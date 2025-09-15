@@ -18,7 +18,7 @@ export interface ElementalCompatibilityMatrix {
 }
 
 // Self-reinforcement compatibility matrix from elemental-principles.md
-export const ELEMENTAL_COMPATIBILITY: ElementalCompatibilityMatrix = {;
+export const ELEMENTAL_COMPATIBILITY: ElementalCompatibilityMatrix = {
   Fire: { Fire: 0.9, Water: 0.7, Earth: 0.7, Air: 0.8 },
   Water: { Water: 0.9, Fire: 0.7, Earth: 0.8, Air: 0.7 },
   Earth: { Earth: 0.9, Fire: 0.7, Water: 0.8, Air: 0.7 },
@@ -99,7 +99,7 @@ export class SteeringFileIntelligence {
       // Apply performance optimizations
       const performanceOptimizations = this.getPerformanceGuidance();
 
-      this.cachedGuidance = {;
+      this.cachedGuidance = {
         planetaryPositions,
         dominantElement,
         elementalBalance,
@@ -130,7 +130,7 @@ export class SteeringFileIntelligence {
     const targetDominant = this.getDominantElement(targetProps);
 
     // Self-reinforcement: same elements have highest compatibility (≥0.9)
-    if (sourceDominant === targetDominant) {;
+    if (sourceDominant === targetDominant) {
       return Math.max(0.9, ELEMENTAL_COMPATIBILITY[sourceDominant][targetDominant]);
     }
 

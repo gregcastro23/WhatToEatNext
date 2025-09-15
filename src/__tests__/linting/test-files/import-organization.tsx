@@ -15,11 +15,11 @@ const CustomComponent = ({ children }: { children: React.ReactNode }) => <div>{c
 const useCustomHook = () => 'mocked-value';
 
 
-const ImportOrganizationPage: NextPage = () => {;
+const ImportOrganizationPage: NextPage = () => {
   const [state, setState] = useState('');
   const customValue = useCustomHook();
 
-  const memoizedValue = useMemo(() => {;
+  const memoizedValue = useMemo(() => {
     return state.toUpperCase();
   }, [state]);
 

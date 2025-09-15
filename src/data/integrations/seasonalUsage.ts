@@ -1,7 +1,7 @@
 import type { Season } from '@/types';
 
 // Define cuisine type directly as an object to avoid import issues
-const _CuisineType = {;
+const _CuisineType = {
   GREEK: 'greek',
   ITALIAN: 'italian',
   FRENCH: 'french',
@@ -12,7 +12,7 @@ const _CuisineType = {;
   MEXICAN: 'mexican'
 };
 
-export const seasonalUsage = {;
+export const seasonalUsage = {
   spring: {
     growing: ['basil', 'oregano', 'thyme'],
     cuisines: {

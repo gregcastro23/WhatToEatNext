@@ -5,7 +5,7 @@ interface ElementCombinations {
   compatible: [Element, Element][];
 }
 
-export const _ELEMENT_COMBINATIONS: ElementCombinations = {;
+export const _ELEMENT_COMBINATIONS: ElementCombinations = {
   // Same elements have highest harmony (like reinforces like)
   harmonious: [
     ['Fire', 'Fire'],
@@ -48,7 +48,7 @@ export const _ELEMENT_COMPATIBILITY: Record<Element, Record<Element, number>> = 
   Air: { Air: 0.9, Fire: 0.7, Water: 0.7, Earth: 0.7 }
 };
 
-export const _ELEMENTAL_THRESHOLDS = {;
+export const _ELEMENTAL_THRESHOLDS = {
   LOW: 0.33,
   MEDIUM: 0.66,
   HIGH: 1.0

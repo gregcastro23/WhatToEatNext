@@ -8,7 +8,7 @@ import type { ZodiacSign, ThermodynamicProperties } from '@/types/shared';
  * Associated with the alchemical pillar of Calcination - the reduction of substances
  * through intense heat, increasing Essence and Matter while decreasing Spirit and Substance.
  */
-export const frying: CookingMethodData = {;
+export const frying: CookingMethodData = {
   name: 'frying',
   description:
     'Cooking food in hot oil or fat, creating a crispy exterior while keeping the interior moist and tender. The high-temperature process rapidly dehydrates the food surface through the expulsion of moisture, creating a protective barrier that seals in flavors while developing complex browning reactions that enhance taste and texture.',
@@ -363,7 +363,7 @@ export const frying: CookingMethodData = {;
     'Higher fat content due to oil absorption (5-40% by weight)',
     'May create acrylamide at high temperatures (potential carcinogen)',
     'Can be modified with healthier oils (higher in unsaturated fats)',
-    'Proper temperature reduces oil absorption (too low = greasy food)',;
+    'Proper temperature reduces oil absorption (too low = greasy food)',,
     'Minimal water-soluble nutrient loss compared to boiling',
     'Trans fat formation possible with repeated oil use at high temperatures',
     'Possible formation of advanced glycation end products (AGEs)',
@@ -420,7 +420,7 @@ export const frying: CookingMethodData = {;
     'For extremely crisp results, replace 10-20% of water in batter with vodka (evaporates faster)',
     'When deep-frying large batches, maintain oil temperature with small additions between batches',
     'Use carbonated liquid (beer, seltzer) in batter to create additional bubbles and lightness',
-    'Never cover freshly fried foods; steam condenses and destroys crispness',
+    'Never cover freshly fried foods, steam condenses and destroys crispness',
     'For Korean-style double frying, cool items completely between fryings for structural reinforcement',
     'Pre-blanch starchy vegetables (potatoes) in water to remove excess starch before frying',
     'For delicate fish, dust with rice flour before battering to improve adhesion',
@@ -428,7 +428,7 @@ export const frying: CookingMethodData = {;
     'Filter oil through fine mesh and cheesecloth after each use to remove particles',
     'Test oil readiness with wooden chopstick or bread cube (should bubble steadily, not violently)',
     'Drain fried items on wire racks instead of paper towels to prevent steam softening',
-    'For tempura, do not overmix batter; lumps create lighter, crispier texture',
+    'For tempura, do not overmix batter, lumps create lighter, crispier texture',
     'Add a pinch of bicarbonate of soda to batters for enhanced browning',
     'When frying doughs, proof until just underproofed (they expand considerably during frying)',
     'For flavor infusion, filter and cool oil, then steep with herbs, spices, or aromatics',
@@ -469,14 +469,14 @@ export const frying: CookingMethodData = {;
     oil_recovery:
       'Allow 30-60 seconds between batches for oil temperature to recover. For continuous frying, adjust heat higher between additions. Use smaller batches for better temperature maintenance.',
     storage_considerations:
-      'Most fried items deteriorate rapidly; consume within 15-30 minutes of cooking. For maintaining crispness during holding, use warming oven with rack (never covered or stacked). Some items (Korean fried chicken) can be refrigerated and refried successfully.',
+      'Most fried items deteriorate rapidly, consume within 15-30 minutes of cooking. For maintaining crispness during holding, use warming oven with rack (never covered or stacked). Some items (Korean fried chicken) can be refrigerated and refried successfully.',
     service_window:
       'Optimal texture and flavor peak at 2-5 minutes after draining. Crispy coatings begin degrading immediately, accelerating after 15 minutes. Timing of sauce application affects texture duration (immediate saucing shortens crisp window).'
   },
 
   doneness_indicators: {
     color:
-      'Golden brown for most items; medium amber for tempura; deep golden for breaded items. Color development accelerates rapidly at final cooking stage - remove items when slightly lighter than desired final color.',
+      'Golden brown for most items, medium amber for tempura, deep golden for breaded items. Color development accelerates rapidly at final cooking stage - remove items when slightly lighter than desired final color.',
     surface_texture:
       'Firm, crisp exterior with audible crackling sound when pressed lightly. Bubbling around food diminishes as moisture content decreases. Surface appears dry rather than oily.',
     internal_temperature:
@@ -484,7 +484,7 @@ export const frying: CookingMethodData = {;
     float_test:
       'Many items rise to surface when done due to moisture loss and structural changes. Donuts and similar doughs should float immediately when ready to flip.',
     bubble_activity:
-      'Vigorous bubbling indicates moisture release; diminished bubbling signals reduced moisture and approaching doneness. Complete cessation of bubbling often indicates overcooked state.',
+      'Vigorous bubbling indicates moisture release, diminished bubbling signals reduced moisture and approaching doneness. Complete cessation of bubbling often indicates overcooked state.',
     sound_changes:
       'Bubbling sound decreases in volume and frequency as moisture content decreases. Distinctive quieting of oil indicates approaching doneness.',
     visual_cues:
@@ -499,7 +499,7 @@ export const frying: CookingMethodData = {;
     starch_oil:
       'Starch gelatinizes in the presence of moisture, then dehydrates in hot oil creating crisp structure. Rice flour produces distinctly different texture than wheat flour due to amylose/amylopectin ratio differences. Pre-gelatinized starches (par-cooked potatoes) create superior texture in final frying.',
     sugar_heat:
-      'Sugars caramelize rapidly in frying temperatures, creating distinctive flavors. High-sugar batters brown excessively fast; requiring lower temperature frying (325-335°F). Simple sugars promote more browning than complex carbohydrates.',
+      'Sugars caramelize rapidly in frying temperatures, creating distinctive flavors. High-sugar batters brown excessively fast, requiring lower temperature frying (325-335°F). Simple sugars promote more browning than complex carbohydrates.',
     acid_protein:
       'Acids in marinades or batters (buttermilk, vinegar) break down proteins, creating tenderness but potentially affecting coating adhesion. Acid-modified proteins cook faster than untreated proteins.',
     alcohol_water:
@@ -533,9 +533,9 @@ export const frying: CookingMethodData = {;
       carbonation:
         'Carbon dioxide bubbles create nucleation sites for steam formation, resulting in lighter texture. Most effective when batter used immediately after mixing with carbonated liquid.',
       protein_content:
-        'Higher protein flours (bread flour) create stronger but potentially tougher coating; lower protein flours (cake flour) create more delicate coating.',
+        'Higher protein flours (bread flour) create stronger but potentially tougher coating, lower protein flours (cake flour) create more delicate coating.',
       viscosity:
-        'Thicker batters create thicker coatings but may trap more steam; thinner batters create lacier, crispier coatings. Optimal viscosity depends on application: thin for tempura, moderate for fish, thick for fritters.',
+        'Thicker batters create thicker coatings but may trap more steam, thinner batters create lacier, crispier coatings. Optimal viscosity depends on application: thin for tempura, moderate for fish, thick for fritters.',
       temperature_effects:
         'Cold batter creates more contrast between exterior and interior temperatures, generating more steam pressure and creating crispier results.'
     },
@@ -543,9 +543,9 @@ export const frying: CookingMethodData = {;
       thermal_mass:
         'Heavier vessels maintain temperature better during food addition. Cast iron retains heat exceptionally well but reacts slowly to temperature adjustments.',
       heating_element:
-        'Electric elements provide more consistent heat but respond slowly; gas provides rapid response but may create hot spots. Induction offers precision with rapid adjustment capability.',
+        'Electric elements provide more consistent heat but respond slowly, gas provides rapid response but may create hot spots. Induction offers precision with rapid adjustment capability.',
       temperature_recovery:
-        'Professional equipment recovers temperature within 15-30 seconds; home equipment may take 1-3 minutes to recover after food addition.',
+        'Professional equipment recovers temperature within 15-30 seconds, home equipment may take 1-3 minutes to recover after food addition.',
       vessel_shape:
         'Deeper vessels minimize oil surface area (reducing oxidation) but require more oil volume. Wider vessels improve capacity but increase surface oxidation.',
       filtration_capabilities:
@@ -561,7 +561,7 @@ export const frying: CookingMethodData = {;
       cooling_dynamics:
         'Rapid cooling after removal from oil creates increased oil absorption as vacuum effect draws oil into microstructure. Draining at higher temperature reduces final oil content.',
       structural_expansion:
-        'Thermal expansion combined with steam pressure creates substantial volume increase in many fried items. Expansion rate influences final texture; too rapid causes structural failure.'
+        'Thermal expansion combined with steam pressure creates substantial volume increase in many fried items. Expansion rate influences final texture, too rapid causes structural failure.'
     }
   }
 };

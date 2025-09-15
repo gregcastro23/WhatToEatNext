@@ -27,54 +27,54 @@ import { unifiedIngredients } from './ingredients';
 
 export interface SeasonalMonicaModifiers {
   temperatureAdjustment: number; // Temperature adjustment for seasonal cooking
-  timingAdjustment: number; // Timing adjustment percentage
-  intensityModifier: string; // 'increase' | 'decrease' | 'maintain'
-  planetaryAlignment: number; // Seasonal planetary alignment bonus
-  lunarPhaseBonus: number; // Seasonal lunar phase sensitivity
+  timingAdjustment: number, // Timing adjustment percentage
+  intensityModifier: string, // 'increase' | 'decrease' | 'maintain'
+  planetaryAlignment: number, // Seasonal planetary alignment bonus
+  lunarPhaseBonus: number, // Seasonal lunar phase sensitivity
 }
 
 export interface ElementalSeasonalProfile {
-  dominantElements: Element[]; // Primary elements for the season
-  elementalShifts: ElementalProperties; // Elemental transition values
-  monicaInfluence: number; // Seasonal Monica modifier
-  kalchmResonance: number; // Seasonal Kalchm resonance
+  dominantElements: Element[], // Primary elements for the season
+  elementalShifts: ElementalProperties, // Elemental transition values
+  monicaInfluence: number, // Seasonal Monica modifier
+  kalchmResonance: number, // Seasonal Kalchm resonance
 }
 
 export interface TarotSeasonalInfluence {
-  element: Element;
-  effect: number;
-  ingredients: string[];
-  cookingMethod: CookingMethod;
+  element: Element,
+  effect: number,
+  ingredients: string[],
+  cookingMethod: CookingMethod,
 }
 
 export interface SeasonalTarotProfile {
   minorArcana: string[];
   majorArcana: string[];
   currentZodiacSigns: any[];
-  cookingRecommendations: string[];
-  tarotInfluences: Record<string, TarotSeasonalInfluence | string>;
-  dominant_element: Element;
-  secondary_element: Element;
+  cookingRecommendations: string[],
+  tarotInfluences: Record<string, TarotSeasonalInfluence | string>,
+  dominant_element: Element,
+  secondary_element: Element,
 }
 
 export interface SeasonalCuisineProfile {
-  combinations: string[];
-  dishes: string[];
-  culturalSignificance?: string[];
+  combinations: string[],
+  dishes: string[],
+  culturalSignificance?: string[],
 }
 
 export interface SeasonalIngredientProfile {
   availability: number; // 0-1 scale for ingredient availability
-  traditionalUse: string[]; // Traditional uses in this season
-  complementaryFlavors: string[]; // Flavors that work well in this season
-  kalchmCompatibility: number; // Kalchm compatibility for season
-  monicaResonance: number; // Monica resonance for seasonal cooking
+  traditionalUse: string[], // Traditional uses in this season
+  complementaryFlavors: string[], // Flavors that work well in this season
+  kalchmCompatibility: number, // Kalchm compatibility for season
+  monicaResonance: number, // Monica resonance for seasonal cooking
 }
 
 export interface SeasonalProfile {
   // Core Seasonal Data
-  elementalDominance: ElementalProperties;
-  kalchmRange: { min: number; max: number };
+  elementalDominance: ElementalProperties,
+  kalchmRange: { min: number, max: number };
   monicaModifiers: SeasonalMonicaModifiers;
 
   // Ingredient Data (consolidated from seasonalPatterns.ts)
@@ -97,10 +97,10 @@ export interface SeasonalProfile {
 
 export interface SeasonalTransitionProfile {
   fromSeason: Season;
-  toSeason: Season;
-  transitionProgress: number; // 0-1
-  blendedElementalProfile: ElementalProperties;
-  blendedKalchmRange: { min: number; max: number };
+  toSeason: Season,
+  transitionProgress: number, // 0-1
+  blendedElementalProfile: ElementalProperties,
+  blendedKalchmRange: { min: number, max: number };
   blendedMonicaModifiers: SeasonalMonicaModifiers;
   recommendedIngredients: UnifiedIngredient[];
   recommendedCookingMethods: EnhancedCookingMethod[];
@@ -108,10 +108,10 @@ export interface SeasonalTransitionProfile {
 
 export interface SeasonalRecommendations {
   ingredients: UnifiedIngredient[];
-  cookingMethods: EnhancedCookingMethod[];
-  recipes: unknown[]; // Will be enhanced when recipe system is unified
-  monicaOptimization: number;
-  kalchmHarmony: number;
+  cookingMethods: EnhancedCookingMethod[],
+  recipes: unknown[], // Will be enhanced when recipe system is unified
+  monicaOptimization: number,
+  kalchmHarmony: number,
 }
 
 // ===== CONSOLIDATED SEASONAL DATA =====;
@@ -124,21 +124,21 @@ export const unifiedSeasonalProfiles: Record<Season, SeasonalProfile> = {
       temperatureAdjustment: 10,
       timingAdjustment: -5,
       intensityModifier: 'increase',
-      planetaryAlignment: 0.8,
+      planetaryAlignment: 0.8;
       lunarPhaseBonus: 0.7
     },
 
     // Ingredient availability (from seasonalPatterns.ts)
     ingredients: {
-      asparagus: 0.9,
-      peas: 0.85,
-      artichokes: 0.82,
-      rhubarb: 0.78,
-      radishes: 0.75,
-      spring_greens: 0.92,
-      fava_beans: 0.8,
-      morels: 0.87,
-      strawberries: 0.7,
+      asparagus: 0.9;
+      peas: 0.85;
+      artichokes: 0.82;
+      rhubarb: 0.78;
+      radishes: 0.75;
+      spring_greens: 0.92;
+      fava_beans: 0.8;
+      morels: 0.87;
+      strawberries: 0.7;
       new_potatoes: 0.76
     },
 
@@ -182,25 +182,25 @@ export const unifiedSeasonalProfiles: Record<Season, SeasonalProfile> = {
       tarotInfluences: {
         '2_of_wands': {
           element: 'Fire',
-          effect: 0.85,
+          effect: 0.85;
           ingredients: ['radishes', 'spring_greens'],
           cookingMethod: 'grilling' as unknown as CookingMethod
         },
         '3_of_wands': {
           element: 'Fire',
-          effect: 0.8,
+          effect: 0.8;
           ingredients: ['asparagus', 'morels'],
           cookingMethod: 'roasting' as unknown as CookingMethod
         },
         '4_of_wands': {
           element: 'Fire',
-          effect: 0.75,
+          effect: 0.75;
           ingredients: ['strawberries', 'new_potatoes'],
           cookingMethod: 'baking' as unknown as CookingMethod
         },
         '5_of_pentacles': {
           element: 'Earth',
-          effect: 0.7,
+          effect: 0.7;
           ingredients: ['rhubarb', 'fava_beans'],
           cookingMethod: 'simmering' as unknown as CookingMethod
         },
@@ -223,20 +223,20 @@ export const unifiedSeasonalProfiles: Record<Season, SeasonalProfile> = {
       temperatureAdjustment: -15,
       timingAdjustment: -10,
       intensityModifier: 'decrease',
-      planetaryAlignment: 0.9,
+      planetaryAlignment: 0.9;
       lunarPhaseBonus: 0.8
     },
 
     ingredients: {
-      tomatoes: 0.9,
-      corn: 0.85,
-      peaches: 0.88,
-      watermelon: 0.92,
-      berries: 0.87,
-      summer_squash: 0.82,
-      eggplant: 0.79,
-      bell_peppers: 0.84,
-      cucumbers: 0.86,
+      tomatoes: 0.9;
+      corn: 0.85;
+      peaches: 0.88;
+      watermelon: 0.92;
+      berries: 0.87;
+      summer_squash: 0.82;
+      eggplant: 0.79;
+      bell_peppers: 0.84;
+      cucumbers: 0.86;
       cherries: 0.88
     },
 
@@ -279,25 +279,25 @@ export const unifiedSeasonalProfiles: Record<Season, SeasonalProfile> = {
       tarotInfluences: {
         '2_of_cups': {
           element: 'Water',
-          effect: 0.85,
+          effect: 0.85;
           ingredients: ['watermelon', 'cucumbers'],
           cookingMethod: 'raw' as unknown as CookingMethod
         },
         '3_of_cups': {
           element: 'Water',
-          effect: 0.9,
+          effect: 0.9;
           ingredients: ['berries', 'peaches'],
           cookingMethod: 'fermenting' as unknown as CookingMethod
         },
         '5_of_wands': {
           element: 'Fire',
-          effect: 0.85,
+          effect: 0.85;
           ingredients: ['tomatoes', 'bell_peppers'],
           cookingMethod: 'grilling' as unknown as CookingMethod
         },
         '6_of_wands': {
           element: 'Fire',
-          effect: 0.8,
+          effect: 0.8;
           ingredients: ['corn', 'summer_squash'],
           cookingMethod: 'roasting' as unknown as CookingMethod
         },
@@ -320,20 +320,20 @@ export const unifiedSeasonalProfiles: Record<Season, SeasonalProfile> = {
       temperatureAdjustment: 5,
       timingAdjustment: 10,
       intensityModifier: 'maintain',
-      planetaryAlignment: 0.7,
+      planetaryAlignment: 0.7;
       lunarPhaseBonus: 0.6
     },
 
     ingredients: {
-      apples: 0.9,
-      pumpkin: 0.95,
-      butternut_squash: 0.92,
-      sweet_potatoes: 0.87,
-      brussels_sprouts: 0.84,
-      cranberries: 0.82,
-      figs: 0.78,
-      grapes: 0.83,
-      mushrooms: 0.79,
+      apples: 0.9;
+      pumpkin: 0.95;
+      butternut_squash: 0.92;
+      sweet_potatoes: 0.87;
+      brussels_sprouts: 0.84;
+      cranberries: 0.82;
+      figs: 0.78;
+      grapes: 0.83;
+      mushrooms: 0.79;
       pears: 0.88
     },
 
@@ -376,25 +376,25 @@ export const unifiedSeasonalProfiles: Record<Season, SeasonalProfile> = {
       tarotInfluences: {
         '2_of_swords': {
           element: 'Air',
-          effect: 0.7,
+          effect: 0.7;
           ingredients: ['apples', 'pears'],
           cookingMethod: 'baking' as unknown as CookingMethod
         },
         '5_of_cups': {
           element: 'Water',
-          effect: 0.75,
+          effect: 0.75;
           ingredients: ['cranberries', 'figs'],
           cookingMethod: 'poaching' as unknown as CookingMethod
         },
         '6_of_cups': {
           element: 'Water',
-          effect: 0.8,
+          effect: 0.8;
           ingredients: ['pumpkin', 'sweet_potatoes'],
           cookingMethod: 'roasting' as unknown as CookingMethod
         },
         '8_of_wands': {
           element: 'Fire',
-          effect: 0.65,
+          effect: 0.65;
           ingredients: ['grapes', 'mushrooms'],
           cookingMethod: 'sauteing' as unknown as CookingMethod
         },
@@ -417,21 +417,21 @@ export const unifiedSeasonalProfiles: Record<Season, SeasonalProfile> = {
       temperatureAdjustment: 5,
       timingAdjustment: 10,
       intensityModifier: 'maintain',
-      planetaryAlignment: 0.7,
+      planetaryAlignment: 0.7;
       lunarPhaseBonus: 0.6
     },
 
     // Same as autumn (supporting both terms)
     ingredients: {
-      apples: 0.9,
-      pumpkin: 0.95,
-      butternut_squash: 0.92,
-      sweet_potatoes: 0.87,
-      brussels_sprouts: 0.84,
-      cranberries: 0.82,
-      figs: 0.78,
-      grapes: 0.83,
-      mushrooms: 0.79,
+      apples: 0.9;
+      pumpkin: 0.95;
+      butternut_squash: 0.92;
+      sweet_potatoes: 0.87;
+      brussels_sprouts: 0.84;
+      cranberries: 0.82;
+      figs: 0.78;
+      grapes: 0.83;
+      mushrooms: 0.79;
       pears: 0.88
     },
 
@@ -474,25 +474,25 @@ export const unifiedSeasonalProfiles: Record<Season, SeasonalProfile> = {
       tarotInfluences: {
         '2_of_swords': {
           element: 'Air',
-          effect: 0.7,
+          effect: 0.7;
           ingredients: ['apples', 'pears'],
           cookingMethod: 'baking' as unknown as CookingMethod
         },
         '5_of_cups': {
           element: 'Water',
-          effect: 0.75,
+          effect: 0.75;
           ingredients: ['cranberries', 'figs'],
           cookingMethod: 'poaching' as unknown as CookingMethod
         },
         '6_of_cups': {
           element: 'Water',
-          effect: 0.8,
+          effect: 0.8;
           ingredients: ['pumpkin', 'sweet_potatoes'],
           cookingMethod: 'roasting' as unknown as CookingMethod
         },
         '8_of_wands': {
           element: 'Fire',
-          effect: 0.65,
+          effect: 0.65;
           ingredients: ['grapes', 'mushrooms'],
           cookingMethod: 'sauteing' as unknown as CookingMethod
         },
@@ -515,20 +515,20 @@ export const unifiedSeasonalProfiles: Record<Season, SeasonalProfile> = {
       temperatureAdjustment: 20,
       timingAdjustment: 15,
       intensityModifier: 'increase',
-      planetaryAlignment: 0.6,
+      planetaryAlignment: 0.6;
       lunarPhaseBonus: 0.5
     },
 
     ingredients: {
-      citrus: 0.85,
-      kale: 0.8,
-      root_vegetables: 0.9,
-      pomegranates: 0.82,
-      winter_squash: 0.88,
-      persimmons: 0.76,
-      leeks: 0.79,
-      brussels_sprouts: 0.75,
-      turnips: 0.77,
+      citrus: 0.85;
+      kale: 0.8;
+      root_vegetables: 0.9;
+      pomegranates: 0.82;
+      winter_squash: 0.88;
+      persimmons: 0.76;
+      leeks: 0.79;
+      brussels_sprouts: 0.75;
+      turnips: 0.77;
       cranberries: 0.72
     },
 
@@ -571,25 +571,25 @@ export const unifiedSeasonalProfiles: Record<Season, SeasonalProfile> = {
       tarotInfluences: {
         '2_of_pentacles': {
           element: 'Earth',
-          effect: 0.75,
+          effect: 0.75;
           ingredients: ['root_vegetables', 'winter_squash'],
           cookingMethod: 'braising' as unknown as CookingMethod
         },
         '3_of_pentacles': {
           element: 'Earth',
-          effect: 0.8,
+          effect: 0.8;
           ingredients: ['kale', 'leeks'],
           cookingMethod: 'stewing' as unknown as CookingMethod
         },
         '8_of_cups': {
           element: 'Water',
-          effect: 0.7,
+          effect: 0.7;
           ingredients: ['citrus', 'pomegranates'],
           cookingMethod: 'poaching' as unknown as CookingMethod
         },
         '9_of_cups': {
           element: 'Water',
-          effect: 0.85,
+          effect: 0.85;
           ingredients: ['persimmons', 'cranberries'],
           cookingMethod: 'simmering' as unknown as CookingMethod
         },
@@ -612,15 +612,15 @@ export const unifiedSeasonalProfiles: Record<Season, SeasonalProfile> = {
       temperatureAdjustment: 0,
       timingAdjustment: 0,
       intensityModifier: 'maintain',
-      planetaryAlignment: 0.75,
+      planetaryAlignment: 0.75;
       lunarPhaseBonus: 0.65
     },
 
     ingredients: {
-      onions: 0.9,
-      garlic: 0.95,
-      carrots: 0.85,
-      potatoes: 0.88,
+      onions: 0.9;
+      garlic: 0.95;
+      carrots: 0.85;
+      potatoes: 0.88;
       herbs: 0.8
     },
 
@@ -675,25 +675,25 @@ export const unifiedSeasonalProfiles: Record<Season, SeasonalProfile> = {
       tarotInfluences: {
         ace_of_wands: {
           element: 'Fire',
-          effect: 0.8,
+          effect: 0.8;
           ingredients: ['garlic', 'herbs'],
           cookingMethod: 'sauteing' as unknown as CookingMethod
         },
         ace_of_cups: {
           element: 'Water',
-          effect: 0.8,
+          effect: 0.8;
           ingredients: ['onions', 'carrots'],
           cookingMethod: 'simmering' as unknown as CookingMethod
         },
         ace_of_swords: {
           element: 'Air',
-          effect: 0.8,
+          effect: 0.8;
           ingredients: ['herbs', 'potatoes'],
           cookingMethod: 'roasting' as unknown as CookingMethod
         },
         ace_of_pentacles: {
           element: 'Earth',
-          effect: 0.8,
+          effect: 0.8;
           ingredients: ['root_vegetables', 'grains'],
           cookingMethod: 'baking' as unknown as CookingMethod
         },
@@ -716,8 +716,8 @@ export class UnifiedSeasonalSystem {
   private enhancedCookingMethods: { [key: string]: EnhancedCookingMethod };
 
   constructor() {
-    this.enhancedCookingMethods = getAllEnhancedCookingMethods() as unknown as {;
-      [key: string]: EnhancedCookingMethod;
+    this.enhancedCookingMethods = getAllEnhancedCookingMethods() as unknown as {
+      [key: string]: EnhancedCookingMethod,
     };
   }
 
@@ -732,24 +732,24 @@ export class UnifiedSeasonalSystem {
     if (month >= 2 && month <= 4) return 'spring';
     if (month >= 5 && month <= 7) return 'summer';
     if (month >= 8 && month <= 10) return 'autumn';
-    return 'winter';
+    return 'winter',
   }
 
   /**
    * Get seasonal score for an ingredient in the current or specified season
    */
-  getSeasonalScore(ingredientName: string, season: Season = this.getCurrentSeason()): number {;
+  getSeasonalScore(ingredientName: string, season: Season = this.getCurrentSeason()): number {
     const seasonProfile = unifiedSeasonalProfiles[season];
     if (!seasonProfile) return 0.1;
 
     // Check if the ingredient exists in seasonal patterns
     if (seasonProfile.ingredients[ingredientName]) {
-      return seasonProfile.ingredients[ingredientName];
+      return seasonProfile.ingredients[ingredientName],
     }
 
     // If ingredient is not found in the specific season, check if it's marked as 'all' seasons
     if (season !== 'all' && unifiedSeasonalProfiles['all'].ingredients[ingredientName]) {
-      return unifiedSeasonalProfiles['all'].ingredients[ingredientName];
+      return unifiedSeasonalProfiles['all'].ingredients[ingredientName],
     }
 
     return 0.1; // Default low score if not found
@@ -788,7 +788,7 @@ export class UnifiedSeasonalSystem {
       : 0.5;
 
     // Calculate Monica resonance
-    const monicaResonance = this.calculateMonicaSeasonalResonance(season, availability);
+    const monicaResonance = this.calculateMonicaSeasonalResonance(season, availability),
 
     return {
       availability,
@@ -826,13 +826,13 @@ export class UnifiedSeasonalSystem {
     const baseResonance = seasonProfile.monicaModifiers.lunarPhaseBonus;
 
     // Higher availability increases Monica resonance
-    return Math.min(1.0, baseResonance * (0.5 + availability * 0.5));
+    return Math.min(1.0, baseResonance * (0.5 + availability * 0.5)),
   }
 
   /**
    * Check if an ingredient is in season
    */
-  isInSeason(ingredientName: string, threshold = 0.5): boolean {;
+  isInSeason(ingredientName: string, threshold = 0.5): boolean {
     const score = this.getSeasonalScore(ingredientName);
     return score >= threshold;
   }
@@ -846,9 +846,9 @@ export class UnifiedSeasonalSystem {
     ingredient: UnifiedIngredient,
     season: Season,
     currentConditions?: {
-      lunarPhase?: LunarPhase;
-      planetaryHour?: PlanetName;
-      temperature?: number;
+      lunarPhase?: LunarPhase,
+      planetaryHour?: PlanetName,
+      temperature?: number,
     },
   ): number {
     const seasonProfile = unifiedSeasonalProfiles[season];
@@ -858,14 +858,14 @@ export class UnifiedSeasonalSystem {
 
     // Kalchm compatibility
     const kalchmCompatibility = this.calculateKalchmSeasonalCompatibility(;
-      ingredient.kalchm ?? 0,
+      ingredient.kalchm ?? 0;
       season,
     );
 
     // Elemental compatibility
     const elementalCompatibility = this.calculateElementalSeasonalCompatibility(;
-      ingredient.elementalProperties,
-      seasonProfile.elementalDominance,
+      ingredient.elementalProperties;
+      seasonProfile.elementalDominance;
     );
 
     // Combine scores with weights
@@ -874,7 +874,7 @@ export class UnifiedSeasonalSystem {
 
     // Apply current conditions modifiers if provided
     if (currentConditions) {
-      const conditionModifier = this.calculateConditionModifier(currentConditions, seasonProfile);
+      const conditionModifier = this.calculateConditionModifier(currentConditions, seasonProfile),
       totalCompatibility *= conditionModifier;
     }
 
@@ -916,9 +916,9 @@ export class UnifiedSeasonalSystem {
    */
   private calculateConditionModifier(
     conditions: {
-      lunarPhase?: LunarPhase;
-      planetaryHour?: PlanetName;
-      temperature?: number;
+      lunarPhase?: LunarPhase,
+      planetaryHour?: PlanetName,
+      temperature?: number,
     },
     seasonProfile: SeasonalProfile,
   ): number {
@@ -938,7 +938,7 @@ export class UnifiedSeasonalSystem {
     if (conditions.temperature) {
       const optimalTemp = 70 + seasonProfile.monicaModifiers.temperatureAdjustment;
       const tempDifference = Math.abs(conditions.temperature - optimalTemp);
-      const tempModifier = Math.max(0.8, 1 - tempDifference / 100);
+      const tempModifier = Math.max(0.8, 1 - tempDifference / 100),
       modifier *= tempModifier;
     }
 
@@ -953,7 +953,7 @@ export class UnifiedSeasonalSystem {
   getSeasonalRecommendations(
     season: Season,
     targetMonica?: number,
-    kalchmRange?: { min: number; max: number },
+    kalchmRange?: { min: number, max: number },
   ): SeasonalRecommendations {
     const seasonProfile = unifiedSeasonalProfiles[season];
 
@@ -974,12 +974,12 @@ export class UnifiedSeasonalSystem {
       season,
       targetMonica,
       optimalCookingMethods,
-    );
+    ),
 
     const kalchmHarmony = this.calculateSeasonalKalchmHarmony(;
       compatibleIngredients,
       effectiveKalchmRange,
-    );
+    ),
 
     return {
       ingredients: compatibleIngredients,
@@ -995,7 +995,7 @@ export class UnifiedSeasonalSystem {
    */
   private getSeasonalCompatibleIngredients(
     season: Season,
-    kalchmRange: { min: number; max: number },
+    kalchmRange: { min: number, max: number },
   ): UnifiedIngredient[] {
     const seasonProfile = unifiedSeasonalProfiles[season];
     const compatibleIngredients: UnifiedIngredient[] = [];
@@ -1009,9 +1009,9 @@ export class UnifiedSeasonalSystem {
 
       // Check Kalchm compatibility
       const kalchmCompatibility = this.calculateKalchmSeasonalCompatibility(;
-        ingredient.kalchm ?? 0,
+        ingredient.kalchm ?? 0;
         season,
-      );
+      ),
 
       // Check if within desired Kalchm range
       const inRange =
@@ -1029,8 +1029,8 @@ export class UnifiedSeasonalSystem {
         this.calculateKalchmSeasonalCompatibility(a.kalchm ?? 0, season);
       const scoreB =
         this.getSeasonalScore(b.name, season) +;
-        this.calculateKalchmSeasonalCompatibility(b.kalchm ?? 0, season);
-      return scoreB - scoreA;
+        this.calculateKalchmSeasonalCompatibility(b.kalchm ?? 0, season),
+      return scoreB - scoreA,
     });
   }
 
@@ -1058,7 +1058,7 @@ export class UnifiedSeasonalSystem {
 
       // Add Monica-compatible methods that aren't already included
       for (const method of monicaCompatibleMethods) {
-        if (!optimalMethods.find(m => m.name === method.name)) {;
+        if (!optimalMethods.find(m => m.name === method.name)) {
           optimalMethods.push(method);
         }
       }
@@ -1067,8 +1067,8 @@ export class UnifiedSeasonalSystem {
     // Sort by seasonal compatibility and Monica alignment
     return optimalMethods.sort((a, b) => {
       const scoreA = this.calculateMethodSeasonalScore(a, season, targetMonica);
-      const scoreB = this.calculateMethodSeasonalScore(b, season, targetMonica);
-      return scoreB - scoreA;
+      const scoreB = this.calculateMethodSeasonalScore(b, season, targetMonica),
+      return scoreB - scoreA,
     });
   }
 
@@ -1091,7 +1091,7 @@ export class UnifiedSeasonalSystem {
     // Monica compatibility
     if (targetMonica !== undefined && !isNaN((method as unknown)?.monicaConstant)) {
       const monicaDifference = Math.abs((method as unknown).monicaConstant - targetMonica);
-      score += Math.max(0, 1 - monicaDifference);
+      score += Math.max(0, 1 - monicaDifference),
     }
 
     // Elemental compatibility
@@ -1112,8 +1112,8 @@ export class UnifiedSeasonalSystem {
     targetMonica: number | undefined,
     cookingMethods: EnhancedCookingMethod[],
   ): number {
-    if (targetMonica === undefined || (cookingMethods || []).length === 0) {;
-      return 0.5; // Neutral optimization
+    if (targetMonica === undefined || (cookingMethods || []).length === 0) {
+      return 0.5, // Neutral optimization
     }
 
     const seasonProfile = unifiedSeasonalProfiles[season];
@@ -1128,7 +1128,7 @@ export class UnifiedSeasonalSystem {
         // Apply seasonal Monica modifiers
         const seasonalBonus = seasonProfile.monicaModifiers.lunarPhaseBonus;
         totalOptimization += methodOptimization * (1 + seasonalBonus * 0.2);
-        validMethods++;
+        validMethods++,
       }
     }
 
@@ -1140,7 +1140,7 @@ export class UnifiedSeasonalSystem {
    */
   private calculateSeasonalKalchmHarmony(
     ingredients: UnifiedIngredient[],
-    kalchmRange: { min: number; max: number },
+    kalchmRange: { min: number, max: number },
   ): number {
     if ((ingredients || []).length === 0) return 0.5;
 
@@ -1158,7 +1158,7 @@ export class UnifiedSeasonalSystem {
         const distance =
           kalchm < kalchmRange.min ? kalchmRange.min - kalchm : kalchm - kalchmRange.max;
 
-        const harmony = Math.max(0.1, Math.exp(-distance * 2));
+        const harmony = Math.max(0.1, Math.exp(-distance * 2)),
         totalHarmony += harmony;
       }
     }
@@ -1181,16 +1181,16 @@ export class UnifiedSeasonalSystem {
 
     // Blend elemental profiles
     const blendedElementalProfile = this.blendElementalProperties(;
-      fromProfile.elementalDominance,
-      toProfile.elementalDominance,
+      fromProfile.elementalDominance;
+      toProfile.elementalDominance;
       transitionProgress,
-    );
+    ),
 
     // Blend Kalchm ranges
-    const blendedKalchmRange = {;
+    const blendedKalchmRange = {
       min:
         fromProfile.kalchmRange.min +
-        (toProfile.kalchmRange.min - fromProfile.kalchmRange.min) * transitionProgress,
+        (toProfile.kalchmRange.min - fromProfile.kalchmRange.min) * transitionProgress;
       max:
         fromProfile.kalchmRange.max +
         (toProfile.kalchmRange.max - fromProfile.kalchmRange.max) * transitionProgress
@@ -1198,8 +1198,8 @@ export class UnifiedSeasonalSystem {
 
     // Blend Monica modifiers
     const blendedMonicaModifiers = this.blendMonicaModifiers(;
-      fromProfile.monicaModifiers,
-      toProfile.monicaModifiers,
+      fromProfile.monicaModifiers;
+      toProfile.monicaModifiers;
       transitionProgress,
     );
 
@@ -1237,9 +1237,9 @@ export class UnifiedSeasonalSystem {
     progress: number,
   ): ElementalProperties {
     return {
-      Fire: from.Fire + (to.Fire - from.Fire) * progress,
-      Water: from.Water + (to.Water - from.Water) * progress,
-      Earth: from.Earth + (to.Earth - from.Earth) * progress,
+      Fire: from.Fire + (to.Fire - from.Fire) * progress;
+      Water: from.Water + (to.Water - from.Water) * progress;
+      Earth: from.Earth + (to.Earth - from.Earth) * progress;
       Air: from.Air + (to.Air - from.Air) * progress
     };
   }
@@ -1255,12 +1255,12 @@ export class UnifiedSeasonalSystem {
     return {
       temperatureAdjustment:
         from.temperatureAdjustment +
-        (to.temperatureAdjustment - from.temperatureAdjustment) * progress,
+        (to.temperatureAdjustment - from.temperatureAdjustment) * progress;
       timingAdjustment:
-        from.timingAdjustment + (to.timingAdjustment - from.timingAdjustment) * progress,
-      intensityModifier: progress < 0.5 ? from.intensityModifier : to.intensityModifier,
+        from.timingAdjustment + (to.timingAdjustment - from.timingAdjustment) * progress;
+      intensityModifier: progress < 0.5 ? from.intensityModifier : to.intensityModifier;
       planetaryAlignment:
-        from.planetaryAlignment + (to.planetaryAlignment - from.planetaryAlignment) * progress,
+        from.planetaryAlignment + (to.planetaryAlignment - from.planetaryAlignment) * progress;
       lunarPhaseBonus:
         from.lunarPhaseBonus + (to.lunarPhaseBonus - from.lunarPhaseBonus) * progress
     };
@@ -1277,11 +1277,11 @@ export class UnifiedSeasonalSystem {
     const fromIngredients = this.getSeasonalCompatibleIngredients(;
       fromSeason,
       unifiedSeasonalProfiles[fromSeason].kalchmRange,
-    );
+    ),
     const toIngredients = this.getSeasonalCompatibleIngredients(;
       toSeason,
       unifiedSeasonalProfiles[toSeason].kalchmRange,
-    );
+    ),
 
     // Combine and weight based on transition progress
     const transitionalIngredients: UnifiedIngredient[] = [];
@@ -1328,7 +1328,7 @@ export class UnifiedSeasonalSystem {
 
     // Add methods from arriving season
     for (const method of toMethods.slice(0, 3)) {
-      if (Math.random() < progress && !transitionalMethods.find(m => m.name === method.name)) {;
+      if (Math.random() < progress && !transitionalMethods.find(m => m.name === method.name)) {
         transitionalMethods.push(method);
       }
     }
@@ -1354,7 +1354,7 @@ export const isInSeason = (ingredientName: string, threshold?: number) =>;
 export const getSeasonalRecommendations = (;
   season: Season,
   targetMonica?: number,
-  kalchmRange?: { min: number; max: number },
+  kalchmRange?: { min: number, max: number },
 ) => unifiedSeasonalSystem.getSeasonalRecommendations(season, targetMonica, kalchmRange);
 
 // Export consolidated data for backward compatibility
@@ -1362,8 +1362,8 @@ export const seasonalPatterns = Object.fromEntries(;
   Object.entries(unifiedSeasonalProfiles || {}).map(([season, profile]) => [
     season,
     {
-      ...profile.ingredients,
-      elementalInfluence: profile.elementalInfluence,
+      ...profile.ingredients;
+      elementalInfluence: profile.elementalInfluence;
       tarotInfluences: profile.tarotProfile.tarotInfluences
     }
   ]),
@@ -1373,14 +1373,14 @@ export const seasonalUsage = Object.fromEntries(;
   Object.entries(unifiedSeasonalProfiles || {}).map(([season, profile]) => [
     season,
     {
-      growing: profile.growing,
-      herbs: profile.herbs,
-      vegetables: profile.vegetables,
-      cuisines: profile.cuisines,
+      growing: profile.growing;
+      herbs: profile.herbs;
+      vegetables: profile.vegetables;
+      cuisines: profile.cuisines;
       tarotAssociations: {
-        minorArcana: profile.tarotProfile.minorArcana,
-        majorArcana: profile.tarotProfile.majorArcana,
-        currentZodiacSigns: profile.tarotProfile.currentZodiacSigns,
+        minorArcana: profile.tarotProfile.minorArcana;
+        majorArcana: profile.tarotProfile.majorArcana;
+        currentZodiacSigns: profile.tarotProfile.currentZodiacSigns;
         cookingRecommendations: profile.tarotProfile.cookingRecommendations
       }
     }
@@ -1394,7 +1394,7 @@ export function getTarotInfluenceForSeason(season: Season) {
 
 export function getSeasonalIngredientsByTarotCard(season: Season, cardKey: string): string[] {
   const tarotInfluence = unifiedSeasonalProfiles[season].tarotProfile.tarotInfluences[cardKey];
-  if (tarotInfluence && typeof tarotInfluence === 'object' && 'ingredients' in tarotInfluence) {;
+  if (tarotInfluence && typeof tarotInfluence === 'object' && 'ingredients' in tarotInfluence) {
     return tarotInfluence.ingredients;
   }
   return [];
@@ -1402,7 +1402,7 @@ export function getSeasonalIngredientsByTarotCard(season: Season, cardKey: strin
 
 export function getRecommendedCookingMethodByTarotCard(season: Season, cardKey: string): string {
   const tarotInfluence = unifiedSeasonalProfiles[season].tarotProfile.tarotInfluences[cardKey];
-  if (tarotInfluence && typeof tarotInfluence === 'object' && 'cookingMethod' in tarotInfluence) {;
+  if (tarotInfluence && typeof tarotInfluence === 'object' && 'cookingMethod' in tarotInfluence) {
     return tarotInfluence.cookingMethod as unknown;
   }
   return '';
@@ -1414,22 +1414,22 @@ export function getSeasonalUsageData(ingredient: string, season: Season) {
   if (!seasonProfile) return { inGrowing: false, inHerbs: false, inVegetables: false };
 
   return {
-    inGrowing: seasonProfile.growing && seasonProfile.growing.includes(ingredient),
-    inHerbs: seasonProfile.herbs && seasonProfile.herbs.includes(ingredient),
+    inGrowing: seasonProfile.growing && seasonProfile.growing.includes(ingredient);
+    inHerbs: seasonProfile.herbs && seasonProfile.herbs.includes(ingredient);
     inVegetables: seasonProfile.vegetables && seasonProfile.vegetables.includes(ingredient)
   };
 }
 
 export function getTarotRecommendationsForSeason(season: Season) {
-  return unifiedSeasonalProfiles[season].tarotProfile.cookingRecommendations || [];
+  return unifiedSeasonalProfiles[season].tarotProfile.cookingRecommendations || [],
 }
 
 export function getMinorArcanaForSeason(season: Season) {
-  return unifiedSeasonalProfiles[season].tarotProfile.minorArcana || [];
+  return unifiedSeasonalProfiles[season].tarotProfile.minorArcana || [],
 }
 
 export function getMajorArcanaForSeason(season: Season) {
-  return unifiedSeasonalProfiles[season].tarotProfile.majorArcana || [];
+  return unifiedSeasonalProfiles[season].tarotProfile.majorArcana || [],
 }
 
 // ===== EXPORTS =====;

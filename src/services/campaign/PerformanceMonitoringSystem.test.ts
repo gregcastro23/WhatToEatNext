@@ -1,5 +1,5 @@
 declare global {
-  var __DEV__: boolean;
+  var __DEV__: boolean,
 }
 
 /**
@@ -20,7 +20,7 @@ const mockExecSync: any = execSync as jest.MockedFunction<typeof execSync>;
 const mockFs: any = fs as jest.Mocked<typeof fs>;
 
 describe('PerformanceMonitoringSystem', () => {
-  let performanceMonitor: PerformanceMonitoringSystem;
+  let performanceMonitor: PerformanceMonitoringSystem,
 
   beforeEach(() => {
     performanceMonitor = new PerformanceMonitoringSystem();
@@ -28,8 +28,8 @@ describe('PerformanceMonitoringSystem', () => {
 
     // Mock process.hrtime.bigint for build time measurement
     const mockHrtime = jest.fn() as any;
-    mockHrtime.mockReturnValueOnce(BigInt(1000000000)); // 1 second in nanoseconds
-    mockHrtime.mockReturnValueOnce(BigInt(9000000000)); // 9 seconds in nanoseconds
+    mockHrtime.mockReturnValueOnce(BigInt(1000000000)), // 1 second in nanoseconds
+    mockHrtime.mockReturnValueOnce(BigInt(9000000000)), // 9 seconds in nanoseconds
     (process.hrtime as any) = { bigint: mockHrtime };
 
     // Mock process.memoryUsage
@@ -61,7 +61,7 @@ describe('PerformanceMonitoringSystem', () => {
     it('should fallback to simple timing if time command fails', async () => {
       mockExecSync
         .mockImplementationOnce(() => {
-          throw new Error('time command not found');
+          throw new Error('time command not found'),
         })
         .mockReturnValueOnce('Build completed successfully');
 
@@ -82,7 +82,7 @@ describe('PerformanceMonitoringSystem', () => {
 
     it('should return -1 if build fails', async () => {
       mockExecSync.mockImplementation(() => {
-        throw new Error('Build failed');
+        throw new Error('Build failed'),
       });
 
       const buildTime: any = await performanceMonitor.measureBuildTime();
@@ -120,7 +120,7 @@ describe('PerformanceMonitoringSystem', () => {
     it('should return default estimate if cache monitoring fails', async () => {
       mockFs.existsSync.mockReturnValue(false);
       mockExecSync.mockImplementation(() => {
-        throw new Error('Cache monitoring failed');
+        throw new Error('Cache monitoring failed'),
       });
 
       const cacheHitRate: any = await performanceMonitor.monitorCacheHitRate();
@@ -133,8 +133,8 @@ describe('PerformanceMonitoringSystem', () => {
     it('should track Node.js process memory usage', async () => {
       const memoryUsage: any = await performanceMonitor.trackMemoryUsage();
 
-      expect(memoryUsage.current).toBe(40); // 40MB from mock
-      expect(memoryUsage.peak).toBe(50); // 50MB from mock
+      expect(memoryUsage.current).toBe(40), // 40MB from mock
+      expect(memoryUsage.peak).toBe(50), // 50MB from mock
     });
 
     it('should include system memory if available', async () => {
@@ -142,13 +142,13 @@ describe('PerformanceMonitoringSystem', () => {
 
       const memoryUsage: any = await performanceMonitor.trackMemoryUsage();
 
-      expect(memoryUsage.current).toBe(50); // Should use system memory (higher)
+      expect(memoryUsage.current).toBe(50), // Should use system memory (higher)
       expect(memoryUsage.peak).toBe(50);
     });
 
     it('should handle memory tracking errors gracefully', async () => {
       (process(memoryUsage as any).Mock).mockImplementation(() => {
-        throw new Error('Memory tracking failed');
+        throw new Error('Memory tracking failed'),
       });
 
       const memoryUsage: any = await performanceMonitor.trackMemoryUsage();
@@ -167,13 +167,13 @@ describe('PerformanceMonitoringSystem', () => {
         bundleSize: { curren, t: 400, target: 420, compressed: 280, trend: 'stable' }
       };
 
-      const mockMetrics2: PerformanceMetrics = {;
-        ...mockMetrics1,
+      const mockMetrics2: PerformanceMetrics = {
+        ...mockMetrics1;
         buildTime: { curren, t: 7, target: 10, average: 6, trend: 'degrading' }
       };
 
-      const mockMetrics3: PerformanceMetrics = {;
-        ...mockMetrics1,
+      const mockMetrics3: PerformanceMetrics = {
+        ...mockMetrics1;
         buildTime: { curren, t: 9, target: 10, average: 7, trend: 'degrading' }
       };
 
@@ -186,8 +186,8 @@ describe('PerformanceMonitoringSystem', () => {
 
       const alerts: any = performanceMonitor.getCurrentAlerts();
       expect(alerts).toHaveLength(1);
-      expect(alerts.[0].type).toBe('build_time');
-      expect(alerts.[0].severity).toBe('warning');
+      expect(alerts[0].type).toBe('build_time');
+      expect(alerts[0].severity).toBe('warning');
     });
 
     it('should detect cache hit rate regression', async () => {
@@ -197,13 +197,13 @@ describe('PerformanceMonitoringSystem', () => {
         bundleSize: { curren, t: 400, target: 420, compressed: 280, trend: 'stable' }
       };
 
-      const mockMetrics2: PerformanceMetrics = {;
-        ...mockMetrics1,
+      const mockMetrics2: PerformanceMetrics = {
+        ...mockMetrics1;
         cacheHitRate: { curren, t: 0.75, target: 0.8, average: 0.825, trend: 'degrading' }
       };
 
-      const mockMetrics3: PerformanceMetrics = {;
-        ...mockMetrics1,
+      const mockMetrics3: PerformanceMetrics = {
+        ...mockMetrics1;
         cacheHitRate: { curren, t: 0.6, target: 0.8, average: 0.75, trend: 'degrading' }
       };
 
@@ -215,7 +215,7 @@ describe('PerformanceMonitoringSystem', () => {
 
       const alerts: any = performanceMonitor.getCurrentAlerts();
       expect(alerts).toHaveLength(1);
-      expect(alerts.[0].type).toBe('cache_hit_rate');
+      expect(alerts[0].type).toBe('cache_hit_rate');
     });
 
     it('should detect memory usage regression', async () => {
@@ -225,13 +225,13 @@ describe('PerformanceMonitoringSystem', () => {
         bundleSize: { curren, t: 400, target: 420, compressed: 280, trend: 'stable' }
       };
 
-      const mockMetrics2: PerformanceMetrics = {;
-        ...mockMetrics1,
+      const mockMetrics2: PerformanceMetrics = {
+        ...mockMetrics1;
         memoryUsage: { curren, t: 40, target: 50, peak: 45, average: 35 }
       };
 
-      const mockMetrics3: PerformanceMetrics = {;
-        ...mockMetrics1,
+      const mockMetrics3: PerformanceMetrics = {
+        ...mockMetrics1;
         memoryUsage: { curren, t: 55, target: 50, peak: 60, average: 42 }
       };
 
@@ -243,8 +243,8 @@ describe('PerformanceMonitoringSystem', () => {
 
       const alerts: any = performanceMonitor.getCurrentAlerts();
       expect(alerts).toHaveLength(1);
-      expect(alerts.[0].type).toBe('memory_usage');
-      expect(alerts.[0].severity).toBe('critical');
+      expect(alerts[0].type).toBe('memory_usage');
+      expect(alerts[0].severity).toBe('critical');
     });
 
     it('should not detect regression with insufficient data', async () => {
@@ -259,7 +259,7 @@ describe('PerformanceMonitoringSystem', () => {
       mockExecSync
         .mockReturnValueOnce('real 8.50\nuser 7.20\nsys 1.30\n') // build time
         .mockReturnValueOnce('150\n') // cache files
-        .mockReturnValueOnce('400\n'); // bundle size
+        .mockReturnValueOnce('400\n'), // bundle size
 
       mockFs.existsSync.mockImplementation((path: string) => {
         return path === '.next' || path === '.next/cache';
@@ -323,8 +323,8 @@ describe('PerformanceMonitoringSystem', () => {
       const report: any = await performanceMonitor.generatePerformanceReport();
 
       expect(report.recommendations.length).toBeGreaterThan(0);
-      expect(report.recommendations.[0]).toContain('Build time');
-      expect(report.recommendations.[0]).toContain('exceeds target');
+      expect(report.recommendations[0]).toContain('Build time');
+      expect(report.recommendations[0]).toContain('exceeds target');
     });
   });
 
@@ -359,14 +359,14 @@ describe('PerformanceMonitoringSystem', () => {
       await performanceMonitor.exportPerformanceData('./test-performance-data.json');
 
       expect(mockFs.writeFileSync).toHaveBeenCalledWith(
-        './test-performance-data.json',
-        expect.stringContaining(''timestamp''),
+        './test-performance-data.json';
+        expect.stringContaining(''timestamp'');
       );
     });
 
     it('should handle export errors gracefully', async () => {
       mockFs.writeFileSync.mockImplementation(() => {
-        throw new Error('Write failed');
+        throw new Error('Write failed'),
       });
 
       await expect(performanceMonitor.exportPerformanceData('./test-performance-data.json')).rejects.toThrow(
@@ -381,7 +381,7 @@ describe('PerformanceMonitoringSystem', () => {
       expect(initialAlerts).toHaveLength(0);
 
       // Add alert through private method (simulate regression detection)
-      const mockAlert: PerformanceAlert = { type: 'build_time',;
+      const mockAlert: PerformanceAlert = { type: 'build_time',,
         severity: 'warning',
         message: 'Test alert',
         currentValue: 15,
@@ -394,7 +394,7 @@ describe('PerformanceMonitoringSystem', () => {
 
       const alertsAfterAdd: any = performanceMonitor.getCurrentAlerts();
       expect(alertsAfterAdd).toHaveLength(1);
-      expect(alertsAfterAdd.[0]).toEqual(mockAlert);
+      expect(alertsAfterAdd[0]).toEqual(mockAlert);
 
       performanceMonitor.clearAlerts();
 

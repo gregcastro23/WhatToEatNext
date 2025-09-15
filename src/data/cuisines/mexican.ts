@@ -1,5 +1,5 @@
 // src/data/cuisines/mexican.ts
-export const mexican = {;
+export const mexican = {
   name: 'Mexican',
   description:
     'Traditional Mexican cuisine featuring regional specialties, corn-based dishes, and diverse moles and salsas',

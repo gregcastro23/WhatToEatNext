@@ -35,7 +35,7 @@ const logger = createLogger('LegacyRecommendationAdapter');
  * the modern UnifiedRecommendationService internally.
  */
 export class LegacyRecommendationAdapter {
-  private static _instance: LegacyRecommendationAdapter;
+  private static _instance: LegacyRecommendationAdapter,
 
   /**
    * Private constructor to enforce singleton pattern
@@ -63,7 +63,7 @@ export class LegacyRecommendationAdapter {
     try {
       return await unifiedRecommendationService.getRecommendedRecipes(criteria);
     } catch (error) {
-      logger.error('Error in getRecommendedRecipes:', error);
+      logger.error('Error in getRecommendedRecipes:', error),
       // Return minimal result
       return {
         items: [],
@@ -84,9 +84,9 @@ export class LegacyRecommendationAdapter {
     try {
       return (await unifiedRecommendationService.getRecommendedIngredients(
         criteria,
-      )) as unknown as RecommendationResult<UnifiedIngredient>;
+      )) as unknown as RecommendationResult<UnifiedIngredient>,
     } catch (error) {
-      logger.error('Error in getRecommendedIngredients:', error);
+      logger.error('Error in getRecommendedIngredients:', error),
       // Return minimal result
       return {
         items: [],
@@ -107,7 +107,7 @@ export class LegacyRecommendationAdapter {
     try {
       return await unifiedRecommendationService.getRecommendedCuisines(criteria);
     } catch (error) {
-      logger.error('Error in getRecommendedCuisines:', error);
+      logger.error('Error in getRecommendedCuisines:', error),
       // Return minimal result
       return {
         items: [],
@@ -128,7 +128,7 @@ export class LegacyRecommendationAdapter {
     try {
       return await unifiedRecommendationService.getRecommendedCookingMethods(criteria);
     } catch (error) {
-      logger.error('Error in getRecommendedCookingMethods:', error);
+      logger.error('Error in getRecommendedCookingMethods:', error),
       // Return minimal result
       return {
         items: [],
@@ -148,7 +148,7 @@ export class LegacyRecommendationAdapter {
     target: ElementalProperties,
   ): number {
     try {
-      return unifiedRecommendationService.calculateElementalCompatibility(source, target);
+      return unifiedRecommendationService.calculateElementalCompatibility(source, target),
     } catch (error) {
       logger.error('Error in calculateElementalCompatibility:', error);
       // Simple fallback calculation
@@ -158,7 +158,7 @@ export class LegacyRecommendationAdapter {
           Math.pow(source.Earth - target.Earth, 2) +
           Math.pow(source.Air - target.Air, 2),
       );
-      return Math.max(0, 1 - euclideanDistance);
+      return Math.max(0, 1 - euclideanDistance),
     }
   }
 
@@ -175,7 +175,7 @@ export class LegacyRecommendationAdapter {
         elementalProperties,
         type,
         limit,
-      );
+      ),
     } catch (error) {
       logger.error(`Error in getRecommendationsForElements for type '${type}':`, error);
       // Return minimal result
@@ -193,7 +193,7 @@ export class LegacyRecommendationAdapter {
    * Get recommendations for planetary alignment using modern service
    */
   public async getRecommendationsForPlanetaryAlignment(
-    planetaryPositions: Record<string, { sign: string; degree: number }>,
+    planetaryPositions: Record<string, { sign: string, degree: number }>,
     type: 'recipe' | 'ingredient' | 'cuisine' | 'cookingMethod',
     limit?: number,
   ): Promise<RecommendationResult<unknown>> {
@@ -202,7 +202,7 @@ export class LegacyRecommendationAdapter {
         planetaryPositions,
         type,
         limit,
-      );
+      ),
     } catch (error) {
       logger.error(`Error in getRecommendationsForPlanetaryAlignment for type '${type}':`, error);
       // Return minimal result
@@ -229,14 +229,14 @@ export class LegacyRecommendationAdapter {
         planetaryPositions as unknown,
         ingredients,
         cookingMethods as unknown,
-      );
+      ),
     } catch (error) {
-      logger.error('Error in generateAlchemicalRecommendations:', error);
+      logger.error('Error in generateAlchemicalRecommendations:', error),
       // Return minimal result with default values
-      const defaultThermodynamics = {;
-        heat: 0.5,
-        entropy: 0.5,
-        reactivity: 0.5,
+      const defaultThermodynamics = {
+        heat: 0.5;
+        entropy: 0.5;
+        reactivity: 0.5;
         gregsEnergy: 0.5 - 0.5 * 0.2
       } as ThermodynamicProperties;
 
@@ -259,12 +259,12 @@ export class LegacyRecommendationAdapter {
       return alchemicalRecommendationService.getRecipeRecommendations(
         recipe as unknown,
         planetaryPositions,
-      );
+      ),
     } catch (error) {
       logger.error(`Error in getRecipeRecommendations for recipe '${recipe.name}':`, error);
       // Return minimal result with default values
       return {
-        compatibility: 0.5,
+        compatibility: 0.5;
         suggestions: ['Unable to generate recipe recommendations.'],
         adjustments: [error instanceof Error ? error.message : String(error)]
       };
@@ -280,12 +280,12 @@ export class LegacyRecommendationAdapter {
     try {
       return unifiedRecommendationService.calculateThermodynamics(elementalProperties);
     } catch (error) {
-      logger.error('Error in calculateThermodynamics:', error);
+      logger.error('Error in calculateThermodynamics:', error),
       // Return default thermodynamic properties
       return {
-        heat: 0.5,
-        entropy: 0.5,
-        reactivity: 0.5,
+        heat: 0.5;
+        entropy: 0.5;
+        reactivity: 0.5;
         gregsEnergy: 0.5 - 0.5 * 0.2
       };
     }

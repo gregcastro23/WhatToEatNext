@@ -11,54 +11,54 @@ import * as path from 'path';
 import { ProgressMetrics, ErrorCategory, ValidationResult } from '../../types/campaign';
 
 export interface DetailedMetrics extends ProgressMetrics {
-  timestamp: Date;
+  timestamp: Date,
   errorBreakdown: Record<string, number>;
   warningBreakdown: Record<string, number>;
-  buildMetrics: BuildMetrics;
-  resourceMetrics: ResourceMetrics;
-  trendData: TrendData;
+  buildMetrics: BuildMetrics,
+  resourceMetrics: ResourceMetrics,
+  trendData: TrendData,
 }
 
 export interface BuildMetrics {
   buildTime: number;
   bundleSize: number;
   cacheHitRate: number;
-  memoryUsage: number;
-  cpuUsage: number;
-  diskUsage: number;
-  compilationSpeed: number; // files per second
+  memoryUsage: number,
+  cpuUsage: number,
+  diskUsage: number,
+  compilationSpeed: number, // files per second
 }
 
 export interface ResourceMetrics {
   nodeMemoryUsage: NodeJS.MemoryUsage;
   systemMemory: {
-    total: number;
-    free: number;
-    used: number;
-    percentage: number;
+    total: number,
+    free: number,
+    used: number,
+    percentage: number,
   };
   diskSpace: {
-    total: number;
-    free: number;
-    used: number;
-    percentage: number;
+    total: number,
+    free: number,
+    used: number,
+    percentage: number,
   };
 }
 
 export interface TrendData {
-  errorReductionRate: number; // errors reduced per hour
-  warningReductionRate: number; // warnings reduced per hour
-  buildTimeImprovement: number; // seconds improved per hour
-  systemGrowthRate: number; // enterprise systems added per hour
+  errorReductionRate: number, // errors reduced per hour
+  warningReductionRate: number, // warnings reduced per hour
+  buildTimeImprovement: number, // seconds improved per hour
+  systemGrowthRate: number, // enterprise systems added per hour
 }
 
 export interface MetricsSnapshot {
   id: string;
   timestamp: Date;
-  metrics: DetailedMetrics;
-  phase: string;
-  milestone?: string;
-  notes?: string;
+  metrics: DetailedMetrics,
+  phase: string,
+  milestone?: string,
+  notes?: string,
 }
 
 export class MetricsCollectionSystem {
@@ -69,24 +69,24 @@ export class MetricsCollectionSystem {
   /**
    * Start real-time metrics collection
    */
-  startRealTimeCollection(intervalMs: number = 30000): void {;
+  startRealTimeCollection(intervalMs: number = 30000): void {
     if (this.isCollecting) {
       // console.log('📊 Metrics collection already running');
-      return;
+      return,
     }
 
     this.isCollecting = true;
     // console.log(`📊 Starting real-time metrics collection (interval: ${intervalMs}ms)`);
 
-    this.collectionInterval = setInterval(() => {;
+    this.collectionInterval = setInterval(() => {
       void (async () => {
         try {
           await this.collectSnapshot();
         } catch (error) {
           console.error(
             '❌ Error during metrics collection:',
-            (error as any).message || 'Unknown error',
-          );
+            (error as any).message || 'Unknown error';
+          ),
         }
       })();
     }, intervalMs);
@@ -122,7 +122,7 @@ export class MetricsCollectionSystem {
 
     const metrics = await this.collectDetailedMetrics();
 
-    const snapshot: MetricsSnapshot = {;
+    const snapshot: MetricsSnapshot = {
       id,
       timestamp,
       metrics,
@@ -153,19 +153,19 @@ export class MetricsCollectionSystem {
       resourceMetrics,
       enterpriseSystemCount
     ] = await Promise.all([
-      this.collectTypeScriptMetrics(),
-      this.collectLintingMetrics(),
-      this.collectBuildMetrics(),
-      this.collectResourceMetrics(),
+      this.collectTypeScriptMetrics();
+      this.collectLintingMetrics();
+      this.collectBuildMetrics();
+      this.collectResourceMetrics();
       this.getEnterpriseSystemCount()
-    ]);
+    ]),
 
     const trendData = this.calculateTrendData();
 
-    const detailedMetrics: DetailedMetrics = {;
+    const detailedMetrics: DetailedMetrics = {
       timestamp: new Date(),
       typeScriptErrors: {
-        current: typeScriptMetrics.count,
+        current: typeScriptMetrics.count;
         target: 0,
         reduction: Math.max(0, 86 - typeScriptMetrics.count),
         percentage:
@@ -174,16 +174,16 @@ export class MetricsCollectionSystem {
             : 0
       },
       lintingWarnings: {
-        current: lintingMetrics.count,
+        current: lintingMetrics.count;
         target: 0,
         reduction: Math.max(0, 4506 - lintingMetrics.count),
         percentage:
           lintingMetrics.count >= 0 ? Math.round(((4506 - lintingMetrics.count) / 4506) * 100) : 0
       },
       buildPerformance: {
-        currentTime: buildMetrics.buildTime,
+        currentTime: buildMetrics.buildTime;
         targetTime: 10,
-        cacheHitRate: buildMetrics.cacheHitRate,
+        cacheHitRate: buildMetrics.cacheHitRate;
         memoryUsage: buildMetrics.memoryUsage
       },
       enterpriseSystems: {
@@ -191,8 +191,8 @@ export class MetricsCollectionSystem {
         target: 200,
         transformedExports: Math.max(0, enterpriseSystemCount - 0)
       },
-      errorBreakdown: typeScriptMetrics.breakdown,
-      warningBreakdown: lintingMetrics.breakdown,
+      errorBreakdown: typeScriptMetrics.breakdown;
+      warningBreakdown: lintingMetrics.breakdown;
       buildMetrics,
       resourceMetrics,
       trendData
@@ -205,8 +205,8 @@ export class MetricsCollectionSystem {
    * Collect TypeScript error metrics with detailed breakdown
    */
   private async collectTypeScriptMetrics(): Promise<{
-    count: number;
-    breakdown: Record<string, number>;
+    count: number,
+    breakdown: Record<string, number>,
   }> {
     try {
       // Get total error count
@@ -226,7 +226,7 @@ export class MetricsCollectionSystem {
       if (count > 0) {
         try {
           const breakdownOutput = execSync(;
-            'yarn tsc --noEmit --skipLibCheck 2>&1 | grep -E \"error TS\" | sed 's/.*error //' | cut -d':' -f1 | sort | uniq -c | sort -nr',
+            'yarn tsc --noEmit --skipLibCheck 2>&1 | grep -E \"error TS\" | sed 's/.*error //' | cut -d':' -f1 | sort | uniq -c | sort -nr';
             {
               encoding: 'utf8',
               stdio: 'pipe'
@@ -248,8 +248,8 @@ export class MetricsCollectionSystem {
         } catch (error) {
           console.warn(
             'Could not get TypeScript error breakdown:',
-            (error as any).message || 'Unknown error',
-          );
+            (error as any).message || 'Unknown error';
+          ),
         }
       }
 
@@ -257,8 +257,8 @@ export class MetricsCollectionSystem {
     } catch (error) {
       console.warn(
         'Could not collect TypeScript metrics:',
-        (error as any).message || 'Unknown error',
-      );
+        (error as any).message || 'Unknown error';
+      ),
       return { count: -1, breakdown: {} };
     }
   }
@@ -267,12 +267,12 @@ export class MetricsCollectionSystem {
    * Collect linting warning metrics with categorized breakdown
    */
   private async collectLintingMetrics(): Promise<{
-    count: number;
-    breakdown: Record<string, number>;
+    count: number,
+    breakdown: Record<string, number>,
   }> {
     try {
       // Get total warning count
-      const countOutput = execSync('yarn lint 2>&1 | grep -c 'warning' || echo '0'', {;
+      const countOutput = execSync('yarn lint 2>&1 | grep -c 'warning' || echo '0'', {
         encoding: 'utf8',
         stdio: 'pipe'
       });
@@ -284,7 +284,7 @@ export class MetricsCollectionSystem {
 
       if (count > 0) {
         try {
-          const lintOutput = execSync('yarn lint 2>&1', {;
+          const lintOutput = execSync('yarn lint 2>&1', {
             encoding: 'utf8',
             stdio: 'pipe'
           });
@@ -303,14 +303,14 @@ export class MetricsCollectionSystem {
         } catch (error) {
           console.warn(
             'Could not get linting warning breakdown:',
-            (error as any).message || 'Unknown error',
-          );
+            (error as any).message || 'Unknown error';
+          ),
         }
       }
 
       return { count, breakdown };
     } catch (error) {
-      console.warn('Could not collect linting metrics:', (error as any).message || 'Unknown error');
+      console.warn('Could not collect linting metrics:', (error as any).message || 'Unknown error'),
       return { count: -1, breakdown: {} };
     }
   }
@@ -339,24 +339,24 @@ export class MetricsCollectionSystem {
     } catch (error) {
       console.warn(
         'Build failed during metrics collection:',
-        (error as any).message || 'Unknown error',
-      );
+        (error as any).message || 'Unknown error';
+      ),
     }
 
     try {
       // Get bundle size
       bundleSize = await this.getBundleSize();
     } catch (error) {
-      console.warn('Could not measure bundle size:', (error as any).message || 'Unknown error');
+      console.warn('Could not measure bundle size:', (error as any).message || 'Unknown error'),
     }
 
     return {
       buildTime,
       bundleSize,
-      cacheHitRate: await this.estimateCacheHitRate(),
-      memoryUsage: this.getMemoryUsage(),
-      cpuUsage: await this.getCpuUsage(),
-      diskUsage: await this.getDiskUsage(),
+      cacheHitRate: await this.estimateCacheHitRate();
+      memoryUsage: this.getMemoryUsage();
+      cpuUsage: await this.getCpuUsage();
+      diskUsage: await this.getDiskUsage();
       compilationSpeed
     };
   }
@@ -369,7 +369,7 @@ export class MetricsCollectionSystem {
 
     return {
       nodeMemoryUsage,
-      systemMemory: await this.getSystemMemory(),
+      systemMemory: await this.getSystemMemory();
       diskSpace: await this.getDiskSpace()
     };
   }
@@ -392,7 +392,7 @@ export class MetricsCollectionSystem {
       (recent[recent.length - 1].timestamp.getTime() - recent[0].timestamp.getTime()) /;
       (1000 * 60 * 60);
 
-    if (timeSpanHours === 0) {;
+    if (timeSpanHours === 0) {
       return {
         errorReductionRate: 0,
         warningReductionRate: 0,
@@ -412,14 +412,14 @@ export class MetricsCollectionSystem {
       recent[recent.length - 1].metrics.buildPerformance.currentTime;
     const systemGrowth =
       recent[recent.length - 1].metrics.enterpriseSystems.current -;
-      recent[0].metrics.enterpriseSystems.current;
+      recent[0].metrics.enterpriseSystems.current,
 
     return {
       errorReductionRate: errorReduction / timeSpanHours,
       warningReductionRate: warningReduction / timeSpanHours,
       buildTimeImprovement: buildTimeImprovement / timeSpanHours,
       systemGrowthRate: systemGrowth / timeSpanHours
-    };
+    },
   }
 
   /**
@@ -427,24 +427,24 @@ export class MetricsCollectionSystem {
    */
   private async getEnterpriseSystemCount(): Promise<number> {
     try {
-      const output = execSync('grep -r 'INTELLIGENCE_SYSTEM' src/ | wc -l', {;
+      const output = execSync('grep -r 'INTELLIGENCE_SYSTEM' src/ | wc -l', {
         encoding: 'utf8',
         stdio: 'pipe'
       });
       return parseInt(output.trim()) || 0;
     } catch (error) {
-      return 0;
+      return 0,
     }
   }
 
   private async getBundleSize(): Promise<number> {
     try {
-      const buildDirs = ['.next', 'dist', 'build'];
+      const buildDirs = ['.next', 'dist', 'build'],
       let totalSize = 0;
 
       for (const dir of buildDirs) {
         if (fs.existsSync(dir)) {
-          const output = execSync(`du -sk ${dir} | cut -f1`, {;
+          const output = execSync(`du -sk ${dir} | cut -f1`, {
             encoding: 'utf8',
             stdio: 'pipe'
           });
@@ -454,14 +454,14 @@ export class MetricsCollectionSystem {
 
       return totalSize;
     } catch (error) {
-      return 0;
+      return 0,
     }
   }
 
   private async estimateCacheHitRate(): Promise<number> {
     // This is a simplified estimation - in a real implementation,
     // you'd integrate with the actual build system's cache metrics
-    return 0.8; // 80% default estimate
+    return 0.8, // 80% default estimate
   }
 
   private getMemoryUsage(): number {
@@ -471,50 +471,50 @@ export class MetricsCollectionSystem {
 
   private async getCpuUsage(): Promise<number> {
     try {
-      const output = execSync('ps -o %cpu -p $$ | tail -1', {;
+      const output = execSync('ps -o %cpu -p $$ | tail -1', {
         encoding: 'utf8',
         stdio: 'pipe'
       });
       return parseFloat(output.trim()) || 0;
     } catch (error) {
-      return 0;
+      return 0,
     }
   }
 
   private async getDiskUsage(): Promise<number> {
     try {
-      const output = execSync('du -sh . | cut -f1', {;
+      const output = execSync('du -sh . | cut -f1', {
         encoding: 'utf8',
         stdio: 'pipe'
       });
       // Convert to MB (rough estimation)
       const sizeStr = output.trim();
       if (sizeStr.includes('G')) {
-        return parseFloat(sizeStr) * 1024;
+        return parseFloat(sizeStr) * 1024,
       } else if (sizeStr.includes('M')) {
-        return parseFloat(sizeStr);
+        return parseFloat(sizeStr),
       }
       return 0;
     } catch (error) {
-      return 0;
+      return 0,
     }
   }
 
   private countSourceFiles(): number {
     try {
-      const output = execSync('find src -name '*.ts' -o -name '*.tsx' | wc -l', {;
+      const output = execSync('find src -name '*.ts' -o -name '*.tsx' | wc -l', {
         encoding: 'utf8',
         stdio: 'pipe'
       });
       return parseInt(output.trim()) || 0;
     } catch (error) {
-      return 0;
+      return 0,
     }
   }
 
   private async getSystemMemory(): Promise<ResourceMetrics['systemMemory']> {
     try {
-      const output = execSync('free -m | grep Mem', {;
+      const output = execSync('free -m | grep Mem', {
         encoding: 'utf8',
         stdio: 'pipe'
       });
@@ -545,7 +545,7 @@ export class MetricsCollectionSystem {
 
   private async getDiskSpace(): Promise<ResourceMetrics['diskSpace']> {
     try {
-      const output = execSync('df -h . | tail -1', {;
+      const output = execSync('df -h . | tail -1', {
         encoding: 'utf8',
         stdio: 'pipe'
       });
@@ -580,25 +580,25 @@ export class MetricsCollectionSystem {
     if (sizeStr.includes('G')) return num * 1024;
     if (sizeStr.includes('M')) return num;
     if (sizeStr.includes('K')) return num / 1024;
-    return num;
+    return num,
   }
 
   /**
    * Export methods for external access
    */
   getSnapshots(): MetricsSnapshot[] {
-    return [...this.snapshots];
+    return [...this.snapshots],
   }
 
   getLatestSnapshot(): MetricsSnapshot | null {
-    return this.snapshots.length > 0 ? this.snapshots[this.snapshots.length - 1] : null;
+    return this.snapshots.length > 0 ? this.snapshots[this.snapshots.length - 1] : null,
   }
 
   async exportSnapshots(filePath: string): Promise<void> {
-    const exportData = {;
-      timestamp: new Date().toISOString(),
-      totalSnapshots: this.snapshots.length,
-      snapshots: this.snapshots,
+    const exportData = {
+      timestamp: new Date().toISOString();
+      totalSnapshots: this.snapshots.length;
+      snapshots: this.snapshots;
       summary: {
         collectionPeriod:
           this.snapshots.length > 0

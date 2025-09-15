@@ -12,12 +12,12 @@ import { wetCookingMethods } from './wet';
 /**
  * Collection of all cooking methods from all categories
  */
-export const allCookingMethods = {;
-  ...dryCookingMethods,
-  ...wetCookingMethods,
-  ...molecularCookingMethods,
-  ...traditionalCookingMethods,
-  ...rawCookingMethods,
+export const allCookingMethods = {
+  ...dryCookingMethods;
+  ...wetCookingMethods;
+  ...molecularCookingMethods;
+  ...traditionalCookingMethods;
+  ...rawCookingMethods;
   // Add other method categories as they are implemented
   ...transformationMethods
 };
@@ -27,7 +27,7 @@ export const allCookingMethods = {;
  * @param sign The zodiac sign to check
  * @returns Object containing cooking methods favorable for the sign
  */
-export const _getMethodsForZodiacSign = (sign: any): Record<string, CookingMethodData> => {;
+export const _getMethodsForZodiacSign = (sign: any): Record<string, CookingMethodData> => {
   return Object.entries(allCookingMethods)
     .filter(([_, method]) => {
       // Apply safe type casting for method property access
@@ -45,7 +45,7 @@ export const _getMethodsForZodiacSign = (sign: any): Record<string, CookingMetho
  */
 export const _getMethodsByElement = (;
   element: Element,
-  threshold = 0.4,;
+  threshold = 0.4;
 ): Record<string, CookingMethodData> => {
   return Object.entries(allCookingMethods)
     .filter(([_, method]) => {
@@ -69,8 +69,8 @@ export const _getMethodsForIngredientType = (;
       // Apply safe type casting for method property access
       const methodData = method ;
       return (methodData?.suitable_for || []).some((type: string) =>
-        type?.toLowerCase()?.includes(ingredientType.toLowerCase()),
-      );
+        type?.toLowerCase()?.includes(ingredientType.toLowerCase());
+      ),
     })
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 };
@@ -80,7 +80,7 @@ export const _getMethodsForIngredientType = (;
  * @param planet The planet to check for influence
  * @returns Object containing methods influenced by the planet
  */
-export const _getMethodsByPlanet = (planet: string): Record<string, CookingMethodData> => {;
+export const _getMethodsByPlanet = (planet: string): Record<string, CookingMethodData> => {
   return Object.entries(allCookingMethods)
     .filter(([_, method]) => {
       // Apply safe type casting for method property access
@@ -88,7 +88,7 @@ export const _getMethodsByPlanet = (planet: string): Record<string, CookingMetho
       return (
         methodData?.astrologicalInfluences?.dominantPlanets?.includes(planet) ||
         methodData?.astrologicalInfluences?.rulingPlanets?.includes(planet)
-      );
+      ),
     })
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 };

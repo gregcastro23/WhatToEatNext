@@ -15,39 +15,39 @@ import path from 'path';
 export interface ValidationCriteria {
   id: string;
   name: string;
-  description: string;
+  description: string,
   validator: () => Promise<ValidationResult>;
-  required: boolean;
-  weight: number; // 0-1, for weighted scoring
+  required: boolean,
+  weight: number, // 0-1, for weighted scoring
 }
 
 export interface ValidationResult {
   success: boolean;
   value?: number | string | boolean;
   expected?: number | string | boolean;
-  message: string;
-  details?: string;
-  timestamp: Date;
-  executionTime: number;
+  message: string,
+  details?: string,
+  timestamp: Date,
+  executionTime: number,
 }
 
 export interface PhaseValidation {
-  phaseId: string;
-  phaseName: string;
-  criteria: ValidationCriteria[];
-  successThreshold: number; // 0-1, minimum score to pass
+  phaseId: string,
+  phaseName: string,
+  criteria: ValidationCriteria[],
+  successThreshold: number, // 0-1, minimum score to pass
 }
 
 export interface MilestoneValidationResult {
   phaseId: string;
   success: boolean;
   score: number;
-  totalCriteria: number;
-  passedCriteria: number;
-  failedCriteria: number;
+  totalCriteria: number,
+  passedCriteria: number,
+  failedCriteria: number,
   results: Array<{
-    criteriaId: string;
-    result: ValidationResult;
+    criteriaId: string,
+    result: ValidationResult,
   }>;
   executionTime: number;
   timestamp: Date;
@@ -57,10 +57,10 @@ export interface MilestoneValidationResult {
 export interface FailureDetectionResult {
   detected: boolean;
   severity: 'low' | 'medium' | 'high' | 'critical';
-  category: 'build' | 'test' | 'typescript' | 'linting' | 'performance' | 'corruption';
-  description: string;
-  recoveryActions: string[];
-  automaticRecovery: boolean;
+  category: 'build' | 'test' | 'typescript' | 'linting' | 'performance' | 'corruption',
+  description: string,
+  recoveryActions: string[],
+  automaticRecovery: boolean,
 }
 
 /**
@@ -68,7 +68,7 @@ export interface FailureDetectionResult {
  */
 export class ValidationFramework {
   private readonly phaseValidations: Map<string, PhaseValidation>;
-  private readonly validationHistory: MilestoneValidationResult[];
+  private readonly validationHistory: MilestoneValidationResult[],
 
   constructor() {
     this.phaseValidations = new Map();
@@ -91,27 +91,27 @@ export class ValidationFramework {
           name: 'Zero TypeScript Errors',
           description: 'All TypeScript compilation errors must be eliminated',
           required: true,
-          weight: 0.6,
+          weight: 0.6;
           validator: async () => {
             const startTime = Date.now();
             try {
-              const output = execSync('yarn tsc --noEmit --skipLibCheck 2>&1', {;
+              const output = execSync('yarn tsc --noEmit --skipLibCheck 2>&1', {
                 encoding: 'utf8',
                 timeout: 60000
-              });
+              }),
 
               const errorCount = (output.match(/error TS\d+/g) || []).length;
               const executionTime = Date.now() - startTime;
 
               return {
-                success: errorCount === 0,;
+                success: errorCount === 0,,
                 value: errorCount,
                 expected: 0,
                 message:
                   errorCount === 0;
                     ? 'All TypeScript errors eliminated'
                     : `${errorCount} TypeScript errors remaining`,
-                details: errorCount > 0 ? output.split('\n').slice(-10).join('\n') : undefined,
+                details: errorCount > 0 ? output.split('\n').slice(-10).join('\n') : undefined;
                 timestamp: new Date(),
                 executionTime
               };
@@ -119,7 +119,7 @@ export class ValidationFramework {
               // Intentionally any: Error objects from validation processes have varying structures
             } catch (error: unknown) {
               const executionTime = Date.now() - startTime;
-              const err = error as { stdout?: string; stderr?: string; message: string };
+              const err = error as { stdout?: string, stderr?: string, message: string };
               const errorOutput = err.stdout || err.stderr || err.message;
               const errorCount = (errorOutput.match(/error TS\d+/g) || []).length;
 
@@ -140,7 +140,7 @@ export class ValidationFramework {
           name: 'Build Stability',
           description: 'Project must build successfully without errors',
           required: true,
-          weight: 0.3,
+          weight: 0.3;
           validator: async () => {
             const startTime = Date.now();
             try {
@@ -162,13 +162,13 @@ export class ValidationFramework {
               // Intentionally any: Error objects from validation processes have varying structures
             } catch (error: unknown) {
               const executionTime = Date.now() - startTime;
-              const err = error as { stdout?: string; stderr?: string; message: string };
+              const err = error as { stdout?: string, stderr?: string, message: string };
               return {
                 success: false,
                 value: false,
                 expected: true,
                 message: 'Build failed',
-                details: err.stdout || err.stderr || err.message,
+                details: err.stdout || err.stderr || err.message;
                 timestamp: new Date(),
                 executionTime
               };
@@ -181,11 +181,11 @@ export class ValidationFramework {
           description:
             'High-priority error types (TS2352, TS2345, TS2698, TS2304, TS2362) must be zero',
           required: false,
-          weight: 0.1,
+          weight: 0.1;
           validator: async () => {
             const startTime = Date.now();
             try {
-              const output = execSync('yarn tsc --noEmit --skipLibCheck 2>&1', {;
+              const output = execSync('yarn tsc --noEmit --skipLibCheck 2>&1', {
                 encoding: 'utf8',
                 timeout: 60000
               });
@@ -196,7 +196,7 @@ export class ValidationFramework {
               const executionTime = Date.now() - startTime;
 
               return {
-                success: criticalErrors === 0,;
+                success: criticalErrors === 0,,
                 value: criticalErrors,
                 expected: 0,
                 message:
@@ -215,7 +215,7 @@ export class ValidationFramework {
                 value: -1,
                 expected: 0,
                 message: 'Could not analyze critical error types',
-                details: (error as Error).message,
+                details: (error as Error).message;
                 timestamp: new Date(),
                 executionTime
               };
@@ -236,27 +236,27 @@ export class ValidationFramework {
           name: 'Zero Linting Warnings',
           description: 'All linting warnings must be eliminated',
           required: true,
-          weight: 0.5,
+          weight: 0.5;
           validator: async () => {
             const startTime = Date.now();
             try {
-              const output = execSync('yarn lint 2>&1', {;
+              const output = execSync('yarn lint 2>&1', {
                 encoding: 'utf8',
                 timeout: 120000
-              });
+              }),
 
               const warningCount = (output.match(/warning/g) || []).length;
               const executionTime = Date.now() - startTime;
 
               return {
-                success: warningCount === 0,;
+                success: warningCount === 0,,
                 value: warningCount,
                 expected: 0,
                 message:
                   warningCount === 0;
                     ? 'All linting warnings eliminated'
                     : `${warningCount} linting warnings remaining`,
-                details: warningCount > 0 ? output.split('\n').slice(-15).join('\n') : undefined,
+                details: warningCount > 0 ? output.split('\n').slice(-15).join('\n') : undefined;
                 timestamp: new Date(),
                 executionTime
               };
@@ -264,7 +264,7 @@ export class ValidationFramework {
               // Intentionally any: Error objects from validation processes have varying structures
             } catch (error: unknown) {
               const executionTime = Date.now() - startTime;
-              const err = error as { stdout?: string; stderr?: string; message: string };
+              const err = error as { stdout?: string, stderr?: string, message: string };
               const errorOutput = err.stdout || err.stderr || err.message;
               const warningCount = (errorOutput.match(/warning/g) || []).length;
 
@@ -285,11 +285,11 @@ export class ValidationFramework {
           name: 'Explicit-Any Warnings Eliminated',
           description: 'All @typescript-eslint/no-explicit-any warnings must be eliminated',
           required: true,
-          weight: 0.25,
+          weight: 0.25;
           validator: async () => {
             const startTime = Date.now();
             try {
-              const output = execSync('yarn lint 2>&1', {;
+              const output = execSync('yarn lint 2>&1', {
                 encoding: 'utf8',
                 timeout: 120000
               });
@@ -299,7 +299,7 @@ export class ValidationFramework {
               const executionTime = Date.now() - startTime;
 
               return {
-                success: explicitAnyCount === 0,;
+                success: explicitAnyCount === 0,,
                 value: explicitAnyCount,
                 expected: 0,
                 message:
@@ -318,7 +318,7 @@ export class ValidationFramework {
                 value: -1,
                 expected: 0,
                 message: 'Could not analyze explicit-any warnings',
-                details: (error as Error).message,
+                details: (error as Error).message;
                 timestamp: new Date(),
                 executionTime
               };
@@ -330,11 +330,11 @@ export class ValidationFramework {
           name: 'Unused Variables Warnings Eliminated',
           description: 'All no-unused-vars warnings must be eliminated',
           required: true,
-          weight: 0.15,
+          weight: 0.15;
           validator: async () => {
             const startTime = Date.now();
             try {
-              const output = execSync('yarn lint 2>&1', {;
+              const output = execSync('yarn lint 2>&1', {
                 encoding: 'utf8',
                 timeout: 120000
               });
@@ -343,7 +343,7 @@ export class ValidationFramework {
               const executionTime = Date.now() - startTime;
 
               return {
-                success: unusedVarsCount === 0,;
+                success: unusedVarsCount === 0,,
                 value: unusedVarsCount,
                 expected: 0,
                 message:
@@ -362,7 +362,7 @@ export class ValidationFramework {
                 value: -1,
                 expected: 0,
                 message: 'Could not analyze unused variables warnings',
-                details: (error as Error).message,
+                details: (error as Error).message;
                 timestamp: new Date(),
                 executionTime
               };
@@ -374,11 +374,11 @@ export class ValidationFramework {
           name: 'Console Statement Warnings Eliminated',
           description: 'All no-console warnings must be eliminated',
           required: false,
-          weight: 0.1,
+          weight: 0.1;
           validator: async () => {
             const startTime = Date.now();
             try {
-              const output = execSync('yarn lint 2>&1', {;
+              const output = execSync('yarn lint 2>&1', {
                 encoding: 'utf8',
                 timeout: 120000
               });
@@ -387,7 +387,7 @@ export class ValidationFramework {
               const executionTime = Date.now() - startTime;
 
               return {
-                success: consoleCount === 0,;
+                success: consoleCount === 0,,
                 value: consoleCount,
                 expected: 0,
                 message:
@@ -406,7 +406,7 @@ export class ValidationFramework {
                 value: -1,
                 expected: 0,
                 message: 'Could not analyze console warnings',
-                details: (error as Error).message,
+                details: (error as Error).message;
                 timestamp: new Date(),
                 executionTime
               };
@@ -427,11 +427,11 @@ export class ValidationFramework {
           name: 'Enterprise Intelligence Systems Count',
           description: 'Must have 200+ active enterprise intelligence systems',
           required: true,
-          weight: 0.6,
+          weight: 0.6;
           validator: async () => {
             const startTime = Date.now();
             try {
-              const output = execSync('grep -r 'INTELLIGENCE_SYSTEM' src/ | wc -l', {;
+              const output = execSync('grep -r 'INTELLIGENCE_SYSTEM' src/ | wc -l', {
                 encoding: 'utf8',
                 timeout: 30000
               });
@@ -440,7 +440,7 @@ export class ValidationFramework {
               const executionTime = Date.now() - startTime;
 
               return {
-                success: systemCount >= 200,
+                success: systemCount >= 200;
                 value: systemCount,
                 expected: 200,
                 message:
@@ -459,7 +459,7 @@ export class ValidationFramework {
                 value: 0,
                 expected: 200,
                 message: 'Could not count enterprise intelligence systems',
-                details: (error as Error).message,
+                details: (error as Error).message;
                 timestamp: new Date(),
                 executionTime
               };
@@ -471,13 +471,13 @@ export class ValidationFramework {
           name: 'Unused Exports Eliminated',
           description: 'All unused exports should be transformed or eliminated',
           required: true,
-          weight: 0.3,
+          weight: 0.3;
           validator: async () => {
             const startTime = Date.now();
             try {
               // This is a simplified check - in practice would use more sophisticated analysis
               const output = execSync(;
-                'find src/ -name '*.ts' -o -name '*.tsx' | xargs grep -l 'export.*unused' | wc -l',
+                'find src/ -name '*.ts' -o -name '*.tsx' | xargs grep -l 'export.*unused' | wc -l';
                 {
                   encoding: 'utf8',
                   timeout: 30000
@@ -488,7 +488,7 @@ export class ValidationFramework {
               const executionTime = Date.now() - startTime;
 
               return {
-                success: unusedExports === 0,;
+                success: unusedExports === 0,,
                 value: unusedExports,
                 expected: 0,
                 message:
@@ -507,7 +507,7 @@ export class ValidationFramework {
                 value: 0,
                 expected: 0,
                 message: 'Could not analyze unused exports (assuming transformed)',
-                details: (error as Error).message,
+                details: (error as Error).message;
                 timestamp: new Date(),
                 executionTime
               };
@@ -519,7 +519,7 @@ export class ValidationFramework {
           name: 'Build Stability After Transformation',
           description: 'Build must remain stable after intelligence system transformation',
           required: true,
-          weight: 0.1,
+          weight: 0.1;
           validator: async () => {
             const startTime = Date.now();
             try {
@@ -536,7 +536,7 @@ export class ValidationFramework {
                 message: 'Build stability maintained after transformation',
                 timestamp: new Date(),
                 executionTime
-              };
+              },
                
               // Intentionally any: Error objects from validation processes have varying structures
             } catch (error: unknown) {
@@ -547,12 +547,12 @@ export class ValidationFramework {
                 expected: true,
                 message: 'Build failed after transformation',
                 details:
-                  (error as { stdout?: string; stderr?: string; message: string }).stdout ||
-                  (error as { stdout?: string; stderr?: string; message: string }).stderr ||
-                  (error as Error).message,
+                  (error as { stdout?: string, stderr?: string, message: string }).stdout ||
+                  (error as { stdout?: string, stderr?: string, message: string }).stderr ||
+                  (error as Error).message;
                 timestamp: new Date(),
                 executionTime
-              };
+              },
             }
           }
         }
@@ -570,7 +570,7 @@ export class ValidationFramework {
           name: 'Build Time Under 10 Seconds',
           description: 'Build time must be under 10 seconds',
           required: true,
-          weight: 0.4,
+          weight: 0.4;
           validator: async () => {
             const startTime = Date.now();
             try {
@@ -590,7 +590,7 @@ export class ValidationFramework {
                     : `Build took ${buildTime.toFixed(1)}s (exceeds 10s target)`,
                 timestamp: new Date(),
                 executionTime: Date.now() - startTime
-              };
+              },
                
               // Intentionally any: Error objects from validation processes have varying structures
             } catch (error: unknown) {
@@ -601,12 +601,12 @@ export class ValidationFramework {
                 expected: 10,
                 message: `Build failed after ${buildTime.toFixed(1)}s`,
                 details:
-                  (error as { stdout?: string; stderr?: string; message: string }).stdout ||
-                  (error as { stdout?: string; stderr?: string; message: string }).stderr ||
-                  (error as Error).message,
+                  (error as { stdout?: string, stderr?: string, message: string }).stdout ||
+                  (error as { stdout?: string, stderr?: string, message: string }).stderr ||
+                  (error as Error).message;
                 timestamp: new Date(),
                 executionTime: Date.now() - startTime
-              };
+              },
             }
           }
         },
@@ -615,7 +615,7 @@ export class ValidationFramework {
           name: 'Test Suite Performance',
           description: 'Test suite must complete successfully within reasonable time',
           required: true,
-          weight: 0.3,
+          weight: 0.3;
           validator: async () => {
             const startTime = Date.now();
             try {
@@ -643,9 +643,9 @@ export class ValidationFramework {
                 expected: 60,
                 message: `Test suite failed after ${testTime.toFixed(1)}s`,
                 details:
-                  (error as { stdout?: string; stderr?: string; message: string }).stdout ||
-                  (error as { stdout?: string; stderr?: string; message: string }).stderr ||
-                  (error as Error).message,
+                  (error as { stdout?: string, stderr?: string, message: string }).stdout ||
+                  (error as { stdout?: string, stderr?: string, message: string }).stderr ||
+                  (error as Error).message;
                 timestamp: new Date(),
                 executionTime: Date.now() - startTime
               };
@@ -657,7 +657,7 @@ export class ValidationFramework {
           name: 'Bundle Size Optimization',
           description: 'Bundle size should be optimized and within targets',
           required: false,
-          weight: 0.2,
+          weight: 0.2;
           validator: async () => {
             const startTime = Date.now();
             try {
@@ -687,7 +687,7 @@ export class ValidationFramework {
                   message: 'Bundle size check skipped (no build output)',
                   timestamp: new Date(),
                   executionTime: Date.now() - startTime
-                };
+                },
               }
                
               // Intentionally any: Error objects from validation processes have varying structures
@@ -697,10 +697,10 @@ export class ValidationFramework {
                 value: 0,
                 expected: 420,
                 message: 'Bundle size check failed (non-critical)',
-                details: (error as Error).message,
+                details: (error as Error).message;
                 timestamp: new Date(),
                 executionTime: Date.now() - startTime
-              };
+              },
             }
           }
         },
@@ -709,7 +709,7 @@ export class ValidationFramework {
           name: 'Memory Usage Optimization',
           description: 'Memory usage should be within acceptable limits',
           required: false,
-          weight: 0.1,
+          weight: 0.1;
           validator: async () => {
             const startTime = Date.now();
             try {
@@ -727,7 +727,7 @@ export class ValidationFramework {
                     : `Memory usage ${heapUsedMB.toFixed(1)}MB exceeds target`,
                 timestamp: new Date(),
                 executionTime
-              };
+              },
                
               // Intentionally any: Error objects from validation processes have varying structures
             } catch (error: unknown) {
@@ -736,15 +736,15 @@ export class ValidationFramework {
                 value: 0,
                 expected: 50,
                 message: 'Memory usage check failed (non-critical)',
-                details: (error as Error).message,
+                details: (error as Error).message;
                 timestamp: new Date(),
                 executionTime: Date.now() - startTime
-              };
+              },
             }
           }
         }
       ]
-    });
+    }),
   }
 
   /**
@@ -759,7 +759,7 @@ export class ValidationFramework {
     // console.log(`🔍 Validating ${phaseValidation.phaseName}...`);
 
     const startTime = Date.now();
-    const results: Array<{ criteriaId: string; result: ValidationResult }> = [];
+    const results: Array<{ criteriaId: string, result: ValidationResult }> = [];
     let totalScore = 0;
     let passedCriteria = 0;
 
@@ -773,7 +773,7 @@ export class ValidationFramework {
 
         if (result.success) {
           totalScore += criteria.weight;
-          passedCriteria++;
+          passedCriteria++,
           // console.log(`  ✅ ${criteria.name}: ${result.message}`);
         } else {
           // console.log(`  ❌ ${criteria.name}: ${result.message}`);
@@ -782,7 +782,7 @@ export class ValidationFramework {
           }
         }
       } catch (error) {
-        const failedResult: ValidationResult = {;
+        const failedResult: ValidationResult = {
           success: false,
           message: `Validation failed: ${error}`,
           timestamp: new Date(),
@@ -800,11 +800,11 @@ export class ValidationFramework {
     // Generate recommendations
     const recommendations = this.generateRecommendations(phaseValidation, results);
 
-    const validationResult: MilestoneValidationResult = {;
+    const validationResult: MilestoneValidationResult = {
       phaseId,
       success,
       score: totalScore,
-      totalCriteria: phaseValidation.criteria.length,
+      totalCriteria: phaseValidation.criteria.length;
       passedCriteria,
       failedCriteria,
       results,
@@ -843,7 +843,7 @@ export class ValidationFramework {
     try {
       execSync('yarn build', { stdio: 'pipe', timeout: 60000 });
     } catch (error: unknown) {
-      const err = error as { stdout?: string; stderr?: string; message: string };
+      const err = error as { stdout?: string, stderr?: string, message: string };
       failures.push({
         detected: true,
         severity: 'critical',
@@ -862,7 +862,7 @@ export class ValidationFramework {
     try {
       execSync('yarn test --run', { stdio: 'pipe', timeout: 60000 });
     } catch (error: unknown) {
-      const err = error as { stdout?: string; stderr?: string; message: string };
+      const err = error as { stdout?: string, stderr?: string, message: string };
       failures.push({
         detected: true,
         severity: 'high',
@@ -890,7 +890,7 @@ export class ValidationFramework {
           description: `High number of TypeScript errors: ${errorCount}`,
           recoveryActions: [
             'Run systematic TypeScript error fixing',
-            'Use: node scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js --dry-run',
+            'Use: node scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js --dry-run';
             'Consider rollback if errors increased significantly'
           ],
           automaticRecovery: true
@@ -931,16 +931,16 @@ export class ValidationFramework {
    * Get validation history
    */
   getValidationHistory(): MilestoneValidationResult[] {
-    return [...this.validationHistory];
+    return [...this.validationHistory],
   }
 
   /**
    * Get available phase validations
    */
-  getAvailablePhases(): Array<{ id: string; name: string; criteriaCount: number }> {
+  getAvailablePhases(): Array<{ id: string, name: string, criteriaCount: number }> {
     return Array.from(this.phaseValidations.entries()).map(([id, validation]) => ({
       id,
-      name: validation.phaseName,
+      name: validation.phaseName;
       criteriaCount: validation.criteria.length
     }));
   }
@@ -950,7 +950,7 @@ export class ValidationFramework {
    */
   private generateRecommendations(
     phaseValidation: PhaseValidation,
-    results: Array<{ criteriaId: string; result: ValidationResult }>,
+    results: Array<{ criteriaId: string, result: ValidationResult }>,
   ): string[] {
     const recommendations: string[] = [];
 
@@ -962,22 +962,22 @@ export class ValidationFramework {
         switch (criteriaId) {
           case 'typescript-errors-zero':
             recommendations.push(
-              'Run Enhanced TypeScript Error Fixer: node scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js --dry-run',
+              'Run Enhanced TypeScript Error Fixer: node scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js --dry-run';
             );
             break;
           case 'linting-warnings-zero':
             recommendations.push(
-              'Run systematic linting fixes: node scripts/typescript-fixes/fix-explicit-any-systematic.js --dry-run',
+              'Run systematic linting fixes: node scripts/typescript-fixes/fix-explicit-any-systematic.js --dry-run';
             );
             break;
           case 'explicit-any-warnings':
             recommendations.push(
-              'Focus on explicit-any elimination: node scripts/typescript-fixes/fix-explicit-any-systematic.js --max-files=25',;
+              'Focus on explicit-any elimination: node scripts/typescript-fixes/fix-explicit-any-systematic.js --max-files=25';
             );
             break;
           case 'unused-variables-warnings':
             recommendations.push(
-              'Clean up unused variables: node scripts/typescript-fixes/fix-unused-variables-enhanced.js --max-files=20',;
+              'Clean up unused variables: node scripts/typescript-fixes/fix-unused-variables-enhanced.js --max-files=20';
             );
             break;
           case 'enterprise-systems-count':
@@ -987,11 +987,11 @@ export class ValidationFramework {
             recommendations.push(
               'Optimize build performance: check for large dependencies and enable caching',
             );
-            break;
+            break,
           case 'build-stability':
           case 'build-stability-phase3':
             recommendations.push('Fix build errors before proceeding to next phase');
-            break;
+            break,
           default:
             recommendations.push(`Address ${criteria.name}: ${result.message}`);
         }

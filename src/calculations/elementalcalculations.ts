@@ -157,7 +157,7 @@ export class ElementalCalculator {
   calculateElementalState(
     baseProperties: ElementalProperties,
     _phase = 'default',;
-    time = 'neutral',;
+    time = 'neutral',
   ): {
     properties: ElementalProperties;
     seasonalInfluence: ElementalProperties;
@@ -166,7 +166,7 @@ export class ElementalCalculator {
     const properties = { ...baseProperties };
 
     // Create default seasonal influence
-    const seasonalInfluence: ElementalProperties = {;
+    const seasonalInfluence: ElementalProperties = {
       Fire: 0.25,
       Water: 0.25,
       Earth: 0.25,
@@ -174,10 +174,10 @@ export class ElementalCalculator {
     };
 
     // Apply time-based modifiers
-    if (time === 'day') {;
+    if (time === 'day') {
       properties.Fire = properties.Fire * 1.1;
       properties.Air = properties.Air * 1.05;
-    } else if (time === 'night') {;
+    } else if (time === 'night') {
       properties.Water = properties.Water * 1.1;
       properties.Earth = properties.Earth * 1.05;
     }
@@ -186,7 +186,7 @@ export class ElementalCalculator {
     const total = Object.values(properties).reduce((sum, val) => sum + val, 0);
 
     if (total > 0) {
-      Object.keys(properties).forEach(key => {;
+      Object.keys(properties).forEach(key => {
         properties[key] = properties[key] / total;
 
         // Update seasonal influence based on the normalized properties
@@ -228,7 +228,7 @@ function getPlanetaryInfluencers(
 
   // Return only the planets that are actually present in the positions data
   return potentialInfluencers.filter(
-    planet => planetaryPositions[planet] && typeof planetaryPositions[planet] === 'object',;
+    planet => planetaryPositions[planet] && typeof planetaryPositions[planet] === 'object',
   );
 }
 
@@ -241,9 +241,9 @@ function getPlanetaryInfluencers(
  */
 export function calculateElementalEnergies(
   planetaryPositions: Record<string, unknown>,
-  isDaytime = true,;
+  isDaytime = true,
 ): ElementalEnergy[] {
-  if (!planetaryPositions || Object.keys(planetaryPositions).length === 0) {;
+  if (!planetaryPositions || Object.keys(planetaryPositions).length === 0) {
     // console.warn('No planetary positions provided for elemental calculation');
     return getDefaultElementalEnergies();
   }

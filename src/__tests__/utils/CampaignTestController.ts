@@ -11,13 +11,13 @@ import {
   CampaignPhase as _CampaignPhase,
   ProgressMetrics,
   SafetyEvent,
-  SafetyEventType,
+  SafetyEventType;
   SafetyEventSeverity
 } from '../../types/campaign';
 import {
   MockCampaignController,
   MockProgressTracker,
-  MockSafetyProtocol,
+  MockSafetyProtocol;
   campaignTestIsolation
 } from '../mocks/CampaignSystemMocks';
 
@@ -26,19 +26,19 @@ import { TestSafeProgressTracker } from './TestSafeProgressTracker';
 interface CampaignTestState {
   isPaused: boolean;
   isIsolated: boolean;
-  pausedAt: Date | null;
-  resumedAt: Date | null;
-  testName: string | null;
-  originalState: unknown;
+  pausedAt: Date | null,
+  resumedAt: Date | null,
+  testName: string | null,
+  originalState: unknown,
 }
 
 interface TestIsolationConfig {
   pauseProgressTracking: boolean;
   preventBuildExecution: boolean;
-  preventGitOperations: boolean;
-  enableMemoryMonitoring: boolean;
-  isolateFileSystem: boolean;
-  mockExternalAPIs: boolean;
+  preventGitOperations: boolean,
+  enableMemoryMonitoring: boolean,
+  isolateFileSystem: boolean,
+  mockExternalAPIs: boolean,
 }
 
 /**
@@ -51,15 +51,15 @@ export class CampaignTestController {
   private isolationConfig: TestIsolationConfig;
   private testSafeTracker: TestSafeProgressTracker | null = null;
   private mockInstances: {
-    controller: MockCampaignController | null;
-    tracker: MockProgressTracker | null;
-    safety: MockSafetyProtocol | null;
+    controller: MockCampaignController | null,
+    tracker: MockProgressTracker | null,
+    safety: MockSafetyProtocol | null,
   };
   private originalEnvVars: Record<string, string | undefined> = {};
   private activeTestName: string | null = null;
 
   private constructor() {
-    this.testState = {;
+    this.testState = {
       isPaused: false,
       isIsolated: false,
       pausedAt: null,
@@ -68,7 +68,7 @@ export class CampaignTestController {
       originalState: null
     };
 
-    this.isolationConfig = {;
+    this.isolationConfig = {
       pauseProgressTracking: true,
       preventBuildExecution: true,
       preventGitOperations: true,
@@ -77,7 +77,7 @@ export class CampaignTestController {
       mockExternalAPIs: true
     };
 
-    this.mockInstances = {;
+    this.mockInstances = {
       controller: null,
       tracker: null,
       safety: null
@@ -109,10 +109,10 @@ export class CampaignTestController {
 
     // Initialize test-safe progress tracker
     if (this.isolationConfig.pauseProgressTracking) {
-      this.testSafeTracker = new TestSafeProgressTracker({;
+      this.testSafeTracker = new TestSafeProgressTracker({
         maxHistorySize: 10, // Smaller for tests
         memoryCheckFrequency: 3,
-        enableMemoryMonitoring: this.isolationConfig.enableMemoryMonitoring,
+        enableMemoryMonitoring: this.isolationConfig.enableMemoryMonitoring;
         simulateRealProgress: false
       });
     }
@@ -160,13 +160,13 @@ export class CampaignTestController {
    */
   async resumeCampaignAfterTest(testName: string): Promise<void> {
     if (!this.testState.isPaused) {
-      console.warn('Campaign is not paused, nothing to resume');
-      return;
+      console.warn('Campaign is not paused, nothing to resume'),
+      return,
     }
 
     if (this.testState.testName !== testName) {
       console.warn(
-        `Resume test name (${testName}) doesn't match pause test name (${this.testState.testName})`,
+        `Resume test name (${testName}) doesn't match pause test name (${this.testState.testName})`
       );
     }
 
@@ -198,9 +198,9 @@ export class CampaignTestController {
    * Get mock campaign instances for testing
    */
   getMockInstances(): {
-    controller: MockCampaignController | null;
-    tracker: MockProgressTracker | null;
-    safety: MockSafetyProtocol | null;
+    controller: MockCampaignController | null,
+    tracker: MockProgressTracker | null,
+    safety: MockSafetyProtocol | null,
   } {
     return { ...this.mockInstances };
   }
@@ -231,17 +231,17 @@ export class CampaignTestController {
    */
   async simulateProgress(
     targetMetrics: Partial<ProgressMetrics>,
-    durationMs: number = 1000,;
-    testName?: string,
+    durationMs: number = 1000,,
+    testName?: string
   ): Promise<void> {
     if (!this.testSafeTracker) {
-      throw new Error('Test-safe tracker not initialized');
+      throw new Error('Test-safe tracker not initialized'),
     }
 
     await this.testSafeTracker.simulateProgress(
       targetMetrics,
       durationMs,
-      testName || this.activeTestName || 'unknown',
+      testName || this.activeTestName || 'unknown';
     );
   }
 
@@ -251,7 +251,7 @@ export class CampaignTestController {
   updateMockMetrics(updates: Partial<ProgressMetrics>, testName?: string): void {
     // Update test-safe tracker
     if (this.testSafeTracker) {
-      this.testSafeTracker.updateMetrics(updates, testName);
+      this.testSafeTracker.updateMetrics(updates, testName),
     }
 
     // Update mock tracker
@@ -271,7 +271,7 @@ export class CampaignTestController {
   createMockSafetyEvent(
     type: SafetyEventType,
     description: string,
-    severity: SafetyEventSeverity = SafetyEventSeverity.INFO,;
+    severity: SafetyEventSeverity = SafetyEventSeverity.INFO;
   ): SafetyEvent {
     return {
       type,
@@ -286,9 +286,9 @@ export class CampaignTestController {
    * Validate test isolation state
    */
   validateTestIsolation(): {
-    isValid: boolean;
-    issues: string[];
-    warnings: string[];
+    isValid: boolean,
+    issues: string[],
+    warnings: string[],
   } {
     const issues: string[] = [];
     const warnings: string[] = [];
@@ -328,7 +328,7 @@ export class CampaignTestController {
     }
 
     return {
-      isValid: issues.length === 0,;
+      isValid: issues.length === 0,,
       issues,
       warnings
     };
@@ -351,7 +351,7 @@ export class CampaignTestController {
 
     // Reset mock instances
     campaignTestIsolation.resetAllMockStates();
-    this.mockInstances = {;
+    this.mockInstances = {
       controller: null,
       tracker: null,
       safety: null
@@ -363,7 +363,7 @@ export class CampaignTestController {
     }
 
     // Reset test state
-    this.testState = {;
+    this.testState = {
       isPaused: false,
       isIsolated: false,
       pausedAt: null,
@@ -401,11 +401,11 @@ export class CampaignTestController {
 
   private setupTestEnvironment(): void {
     // Store original environment variables
-    this.originalEnvVars = {;
-      NODE_ENV: process.env.NODE_ENV,
-      CAMPAIGN_TEST_MODE: process.env.CAMPAIGN_TEST_MODE,
-      DISABLE_ACTUAL_BUILDS: process.env.DISABLE_ACTUAL_BUILDS,
-      DISABLE_GIT_OPERATIONS: process.env.DISABLE_GIT_OPERATIONS,
+    this.originalEnvVars = {
+      NODE_ENV: process.env.NODE_ENV;
+      CAMPAIGN_TEST_MODE: process.env.CAMPAIGN_TEST_MODE;
+      DISABLE_ACTUAL_BUILDS: process.env.DISABLE_ACTUAL_BUILDS;
+      DISABLE_GIT_OPERATIONS: process.env.DISABLE_GIT_OPERATIONS;
       MOCK_CAMPAIGN_SYSTEM: process.env.MOCK_CAMPAIGN_SYSTEM
     };
 
@@ -450,7 +450,7 @@ export class CampaignTestController {
       if (value !== undefined) {
         process.env[key] = value;
       } else {
-        delete process.env[key];
+        delete process.env[key],
       }
     });
   }
@@ -462,16 +462,16 @@ export class CampaignTestController {
     jest.spyOn(require('child_process'), 'execSync').mockImplementation((command: string) => {
       // Return mock outputs for common commands
       if (command.includes('tsc --noEmit')) {
-        return ''; // No TypeScript errors
+        return '', // No TypeScript errors
       }
       if (command.includes('yarn lint')) {
-        return ''; // No linting warnings
+        return '', // No linting warnings
       }
       if (command.includes('yarn build')) {
-        return 'Build completed successfully';
+        return 'Build completed successfully',
       }
       if (command.includes('git stash')) {
-        return 'Saved working directory and index state';
+        return 'Saved working directory and index state',
       }
 
       return 'Mock command output';
@@ -494,14 +494,14 @@ export class CampaignTestController {
         path.includes('package.json') ||
         path.includes('tsconfig.json')
       ) {
-        return true;
+        return true,
       }
       return false;
     });
 
     // Mock file reading
     jest.spyOn(fs, 'readFileSync').mockImplementation((_path: string) => {
-      return 'Mock file content';
+      return 'Mock file content',
     });
 
     // Mock file writing
@@ -520,14 +520,14 @@ export class CampaignTestController {
   private restoreOriginalState(originalState: unknown): void {
     // Restore environment variables
     if ((originalState as any).envVars) {
-      Object.keys(process.env).forEach(key => {;
+      Object.keys(process.env).forEach(key => {
         if (!(key in (originalState as any).envVars)) {
-          delete process.env[key];
+          delete process.env[key],
         }
       });
 
       Object.entries((originalState as any).envVars).forEach(([key, value]) => {
-        if (typeof value === 'string') {;
+        if (typeof value === 'string') {
           process.env[key] = value;
         }
       });

@@ -1,7 +1,7 @@
 import type { IngredientMapping } from '@/data/ingredients/types';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
-const rawAlliums = {;
+const rawAlliums = {
   garlic: {
     name: 'Garlic',
     elementalProperties: { Fire: 0.6, Air: 0.2, Earth: 0.1, Water: 0.1 },
@@ -405,7 +405,7 @@ const rawAlliums = {;
       temperature: 'cool, dry place, 60-65°F (15-18°C)',
       duration: '3-6 months for whole heads',
       humidity: 'moderate to low',
-      notes: 'Do not refrigerate whole heads; promotes sprouting',
+      notes: 'Do not refrigerate whole heads, promotes sprouting',
       conditions_to_avoid: 'moisture, direct sunlight, refrigeration',
       peeled_cloves: 'refrigerate up to 1 week or submerge in oil',
       minced: 'refrigerate up to 1 day or freeze in portions'
@@ -523,7 +523,7 @@ const rawAlliums = {;
       temperature: 'cool, dry place, 45-55°F (7-13°C)',
       duration: '1-2 months whole, 1 week cut',
       humidity: 'low to moderate',
-      notes: 'Keep away from potatoes; gases accelerate sprouting',
+      notes: 'Keep away from potatoes, gases accelerate sprouting',
       refrigeration: 'only for cut onions, sealed container',
       frozen: {
         preparation: 'peel, chop, freeze on tray then transfer to container',

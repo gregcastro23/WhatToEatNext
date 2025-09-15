@@ -19,12 +19,12 @@ const mockExecSync: any = execSync as jest.MockedFunction<typeof execSync>;
 const mockFs: any = fs as jest.Mocked<typeof fs>;
 
 describe('Build Performance Tests', () => {
-  let progressTracker: ProgressTracker;
-  let campaignController: CampaignController;
-  let mockConfig: CampaignConfig;
+  let progressTracker: ProgressTracker,
+  let campaignController: CampaignController,
+  let mockConfig: CampaignConfig,
 
   beforeEach(() => {
-    const safetySettings: SafetySettings = { maxFilesPerBatch: 25,;
+    const safetySettings: SafetySettings = { maxFilesPerBatch: 25,,
       buildValidationFrequency: 5,
       testValidationFrequency: 10,
       corruptionDetectionEnabled: true,
@@ -32,7 +32,7 @@ describe('Build Performance Tests', () => {
       stashRetentionDays: 7
     };
 
-    mockConfig = {;
+    mockConfig = {
       phases: [
         {
           id: 'performance-test-phase',
@@ -40,7 +40,7 @@ describe('Build Performance Tests', () => {
           description: 'Phase for performance testing',
           tools: [
             {
-              scriptPath: 'scripts/performance/test-script.js',
+              scriptPath: 'scripts/performance/test-script.js';
               parameters: { maxFile, s: 50 },
               batchSize: 50,
               safetyLevel: SafetyLevel.MEDIUM
@@ -53,8 +53,8 @@ describe('Build Performance Tests', () => {
       safetySettings,
       progressTargets: { typeScriptError, s: 0, lintingWarnings: 0, buildTime: 10, enterpriseSystems: 200 },
       toolConfiguration: { enhancedErrorFixer: 'scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js',
-        explicitAnyFixer: 'scripts/typescript-fixes/fix-explicit-any-systematic.js',
-        unusedVariablesFixer: 'scripts/typescript-fixes/fix-unused-variables-enhanced.js',
+        explicitAnyFixer: 'scripts/typescript-fixes/fix-explicit-any-systematic.js';
+        unusedVariablesFixer: 'scripts/typescript-fixes/fix-unused-variables-enhanced.js';
         consoleStatementFixer: 'scripts/lint-fixes/fix-console-statements-only.js'
       }
     };
@@ -74,8 +74,8 @@ describe('Build Performance Tests', () => {
   describe('Build Time Measurement', () => {
     it('should measure build time under 10 seconds target', async () => {
       // Mock fast build
-      let buildStartTime: number;
-      mockExecSync.mockImplementation(command => {;
+      let buildStartTime: number,
+      mockExecSync.mockImplementation(command => {
         if (command.toString().includes('yarn build')) {
           buildStartTime = Date.now();
           // Simulate fast build (2 seconds)
@@ -93,14 +93,14 @@ describe('Build Performance Tests', () => {
 
       expect(buildTime).toBeLessThan(10);
       expect(buildTime).toBeGreaterThan(0);
-    });
+    }),
 
     it('should detect build time regression', async () => {
       // Mock slow build
-      mockExecSync.mockImplementation(command => {;
+      mockExecSync.mockImplementation(command => {
         if (command.toString().includes('yarn build')) {
-          // Simulate slow build (12 seconds);
-          const delay: any = 100; // Use shorter delay for test performance
+          // Simulate slow build (12 seconds),
+          const delay: any = 100, // Use shorter delay for test performance
           const endTime: any = Date.now() + delay;
           while (Date.now() < endTime) {
             // Busy wait
@@ -114,12 +114,12 @@ describe('Build Performance Tests', () => {
 
       // Should detect that build time exceeds target
       expect(buildTime).toBeGreaterThan(0);
-    });
+    }),
 
     it('should handle build failures gracefully', async () => {
-      mockExecSync.mockImplementation(command => {;
+      mockExecSync.mockImplementation(command => {
         if (command.toString().includes('yarn build')) {
-          throw new Error('Build compilation failed');
+          throw new Error('Build compilation failed'),
         }
         return '';
       });
@@ -133,23 +133,23 @@ describe('Build Performance Tests', () => {
       const buildTimes: Array<number> = [];
       const targetBuildTime: any = 8; // 8 seconds
 
-      mockExecSync.mockImplementation(command => {;
+      mockExecSync.mockImplementation(command => {
         if (command.toString().includes('yarn build')) {
           // Simulate consistent build time with small variance;
           const baseTime: any = targetBuildTime * 1000;
-          const variance: any = Math.random() * 1000; // ±1 second variance
-          const delay: any = Math.max(100, baseTime + variance - 500); // Minimum 100ms for test performance
-          const endTime: any = Date.now() + Math.min(delay, 200); // Cap at 200ms for test performance
+          const variance: any = Math.random() * 1000, // ±1 second variance
+          const delay: any = Math.max(100, baseTime + variance - 500), // Minimum 100ms for test performance
+          const endTime: any = Date.now() + Math.min(delay, 200), // Cap at 200ms for test performance
           while (Date.now() < endTime) {
             // Busy wait
           }
           return '';
         }
         return '';
-      });
+      }),
 
       // Measure build time multiple times
-      for (let i: any = 0; i < 5; i++) {
+      for (let i: any = 0, i < 5, i++) {
         const buildTime: any = await progressTracker.getBuildTime();
         buildTimes.push(buildTime);
       }
@@ -175,23 +175,23 @@ describe('Build Performance Tests', () => {
 
       const cacheHitRate: any = await progressTracker.getCacheHitRate();
 
-      expect(cacheHitRate).toBeGreaterThanOrEqual(0.8); // 80% minimum target
-      expect(cacheHitRate).toBeLessThanOrEqual(1.0); // Cannot exceed 100%
+      expect(cacheHitRate).toBeGreaterThanOrEqual(0.8), // 80% minimum target
+      expect(cacheHitRate).toBeLessThanOrEqual(1.0), // Cannot exceed 100%
     });
 
     it('should detect cache performance degradation', async () => {
       // Mock poor cache performance
-      jest.spyOn(progressTracker, 'getCacheHitRate').mockResolvedValue(0.65);
+      jest.spyOn(progressTracker, 'getCacheHitRate').mockResolvedValue(0.65),
 
       const cacheHitRate: any = await progressTracker.getCacheHitRate();
 
-      expect(cacheHitRate).toBeLessThan(0.8); // Below target
+      expect(cacheHitRate).toBeLessThan(0.8), // Below target
     });
 
     it('should measure memory usage during build', async () => {
       // Mock memory usage tracking
       const originalMemoryUsage: any = process.memoryUsage;
-      (process as any).memoryUsage = jest.fn().mockReturnValue({;
+      (process as any).memoryUsage = jest.fn().mockReturnValue({
         heapUsed: 45 * 1024 * 1024, // 45MB
         heapTotal: 100 * 1024 * 1024,
         external: 0,
@@ -210,7 +210,7 @@ describe('Build Performance Tests', () => {
     it('should detect memory usage spikes', async () => {
       // Mock high memory usage
       const originalMemoryUsage: any = process.memoryUsage;
-      (process as any).memoryUsage = jest.fn().mockReturnValue({;
+      (process as any).memoryUsage = jest.fn().mockReturnValue({
         heapUsed: 75 * 1024 * 1024, // 75MB - exceeds target
         heapTotal: 150 * 1024 * 1024,
         external: 0,
@@ -229,17 +229,17 @@ describe('Build Performance Tests', () => {
   describe('Bundle Size Performance', () => {
     it('should validate bundle size under 420kB target', async () => {
       // Mock bundle size measurement
-      mockFs.existsSync.mockImplementation(path => {;
+      mockFs.existsSync.mockImplementation(path => {
         return path === '.next' || path === 'dist';
       });
 
-      mockExecSync.mockImplementation(command => {;
+      mockExecSync.mockImplementation(command => {
         const cmd: any = command.toString();
         if (cmd.includes('du -sk .next')) {
-          return '300'; // 300kB
+          return '300', // 300kB
         }
         if (cmd.includes('du -sk dist')) {
-          return '100'; // 100kB
+          return '100', // 100kB
         }
         return '';
       });
@@ -253,9 +253,9 @@ describe('Build Performance Tests', () => {
     it('should detect bundle size regression', async () => {
       // Mock large bundle size
       mockFs.existsSync.mockReturnValue(true);
-      mockExecSync.mockImplementation(command => {;
+      mockExecSync.mockImplementation(command => {
         if (command.toString().includes('du -sk')) {
-          return '500'; // 500kB - exceeds target
+          return '500', // 500kB - exceeds target
         }
         return '';
       });
@@ -270,23 +270,23 @@ describe('Build Performance Tests', () => {
 
       const bundleSize: any = await progressTracker.getBundleSize();
 
-      expect(bundleSize).toBe(0); // No build directories found
+      expect(bundleSize).toBe(0), // No build directories found
     });
 
     it('should measure bundle size across different build outputs', async () => {
       const buildDirs: any = ['.next', 'dist', 'build'];
-      const _expectedSizes: any = [200, 150, 50]; // kB
+      const _expectedSizes: any = [200, 150, 50], // kB
 
-      mockFs.existsSync.mockImplementation(path => {;
+      mockFs.existsSync.mockImplementation(path => {
         return buildDirs.includes(path);
       });
 
-      mockExecSync.mockImplementation(command => {;
+      mockExecSync.mockImplementation(command => {
         const cmd: any = command.toString();
         if (cmd.includes('du -sk .next')) return '200';
         if (cmd.includes('du -sk dist')) return '150';
         if (cmd.includes('du -sk build')) return '50';
-        return '';
+        return '',
       });
 
       const bundleSize: any = await progressTracker.getBundleSize();
@@ -297,50 +297,50 @@ describe('Build Performance Tests', () => {
 
   describe('Performance Regression Testing', () => {
     it('should detect performance regression during campaign execution', async () => {
-      const phase: any = mockConfig.phases.[0];
+      const phase: any = mockConfig.phases[0];
 
       // Mock performance degradation
       let buildTimeCallCount: any = 0;
       jest.spyOn(progressTracker, 'getBuildTime').mockImplementation(async () => {
-        buildTimeCallCount++;
+        buildTimeCallCount++,
         // Simulate performance degradation over time
-        return 8 + buildTimeCallCount * 2; // 8s, 10s, 12s, etc.
+        return 8 + buildTimeCallCount * 2, // 8s, 10s, 12s, etc.
       });
 
       // Execute phase multiple times to simulate regression
       const results: Array<any> = [];
-      for (let i: any = 0; i < 3; i++) {
+      for (let i: any = 0, i < 3, i++) {
         const result: any = await campaignController.executePhase(phase);
         results.push(result);
       }
 
       // Verify that performance degradation would be detected
       const finalBuildTime: any = await progressTracker.getBuildTime();
-      expect(finalBuildTime).toBeGreaterThan(10); // Exceeds target
-    });
+      expect(finalBuildTime).toBeGreaterThan(10), // Exceeds target
+    }),
 
     it('should validate performance improvements during campaign', async () => {
-      const phase: any = mockConfig.phases.[0];
+      const phase: any = mockConfig.phases[0];
 
       // Mock performance improvement
       let buildTimeCallCount: any = 0;
       jest.spyOn(progressTracker, 'getBuildTime').mockImplementation(async () => {
-        buildTimeCallCount++;
+        buildTimeCallCount++,
         // Simulate performance improvement over time
-        return Math.max(6, 12 - buildTimeCallCount * 2); // 12s, 10s, 8s, 6s
+        return Math.max(6, 12 - buildTimeCallCount * 2), // 12s, 10s, 8s, 6s
       });
 
       // Execute phase multiple times to simulate improvement
       const results: Array<any> = [];
-      for (let i: any = 0; i < 4; i++) {
+      for (let i: any = 0, i < 4, i++) {
         const result: any = await campaignController.executePhase(phase);
         results.push(result);
       }
 
       // Verify performance improvement
       const finalBuildTime: any = await progressTracker.getBuildTime();
-      expect(finalBuildTime).toBeLessThan(10); // Under target
-    });
+      expect(finalBuildTime).toBeLessThan(10), // Under target
+    }),
 
     it('should track performance metrics over time', async () => {
       const performanceHistory: ProgressMetrics[] = [];
@@ -348,7 +348,7 @@ describe('Build Performance Tests', () => {
       // Mock progressive performance improvement
       let metricsCallCount: any = 0;
       jest.spyOn(progressTracker, 'getProgressMetrics').mockImplementation(async () => {
-        metricsCallCount++;
+        metricsCallCount++,
         const metrics: ProgressMetrics = { typeScriptErrors: { current: 86, target: 0, reduction: 0, percentage: 0 },;
           lintingWarnings: { curren, t: 4506, target: 0, reduction: 0, percentage: 0 },
           buildPerformance: { currentTime: Math.max(7, 12 - metricsCallCount), // Improving build time
@@ -363,31 +363,31 @@ describe('Build Performance Tests', () => {
       });
 
       // Collect performance metrics over multiple calls
-      for (let i: any = 0; i < 5; i++) {
+      for (let i: any = 0, i < 5, i++) {
         await progressTracker.getProgressMetrics();
       }
 
       expect(performanceHistory.length).toBe(5);
 
       // Verify performance improvement trend
-      const firstMetrics: any = performanceHistory.[0];
+      const firstMetrics: any = performanceHistory[0];
       const lastMetrics: any = performanceHistory[performanceHistory.length - 1];
 
       expect(lastMetrics.buildPerformance.currentTime).toBeLessThan(firstMetrics.buildPerformance.currentTime);
       expect(lastMetrics.buildPerformance.cacheHitRate).toBeGreaterThan(firstMetrics.buildPerformance.cacheHitRate);
       expect(lastMetrics.buildPerformance.memoryUsage).toBeLessThan(firstMetrics.buildPerformance.memoryUsage);
-    });
-  });
+    }),
+  }),
 
   describe('Performance Benchmarking', () => {
     it('should benchmark TypeScript compilation performance', async () => {
       const compilationTimes: Array<number> = [];
 
-      mockExecSync.mockImplementation(command => {;
+      mockExecSync.mockImplementation(command => {
         if (command.toString().includes('yarn tsc')) {
           const startTime: any = Date.now();
           // Simulate TypeScript compilation time
-          const delay: any = 50 + Math.random() * 100; // 50-150ms
+          const delay: any = 50 + Math.random() * 100, // 50-150ms
           const endTime: any = startTime + delay;
           while (Date.now() < endTime) {
             // Busy wait
@@ -396,10 +396,10 @@ describe('Build Performance Tests', () => {
           return '0'; // No errors
         }
         return '';
-      });
+      }),
 
       // Run multiple TypeScript error checks
-      for (let i: any = 0; i < 5; i++) {
+      for (let i: any = 0, i < 5, i++) {
         await progressTracker.getTypeScriptErrorCount();
       }
 
@@ -414,11 +414,11 @@ describe('Build Performance Tests', () => {
     it('should benchmark linting performance', async () => {
       const lintingTimes: Array<number> = [];
 
-      mockExecSync.mockImplementation(command => {;
+      mockExecSync.mockImplementation(command => {
         if (command.toString().includes('yarn lint')) {
           const startTime: any = Date.now();
           // Simulate linting time
-          const delay: any = 30 + Math.random() * 70; // 30-100ms
+          const delay: any = 30 + Math.random() * 70, // 30-100ms
           const endTime: any = startTime + delay;
           while (Date.now() < endTime) {
             // Busy wait
@@ -427,10 +427,10 @@ describe('Build Performance Tests', () => {
           return '0'; // No warnings
         }
         return '';
-      });
+      }),
 
       // Run multiple linting checks
-      for (let i: any = 0; i < 5; i++) {
+      for (let i: any = 0, i < 5, i++) {
         await progressTracker.getLintingWarningCount();
       }
 
@@ -445,11 +445,11 @@ describe('Build Performance Tests', () => {
     it('should benchmark enterprise system counting performance', async () => {
       const countingTimes: Array<number> = [];
 
-      mockExecSync.mockImplementation(command => {;
+      mockExecSync.mockImplementation(command => {
         if (command.toString().includes('grep -r 'INTELLIGENCE_SYSTEM'')) {
           const startTime: any = Date.now();
           // Simulate grep operation time
-          const delay: any = 20 + Math.random() * 30; // 20-50ms
+          const delay: any = 20 + Math.random() * 30, // 20-50ms
           const endTime: any = startTime + delay;
           while (Date.now() < endTime) {
             // Busy wait
@@ -458,10 +458,10 @@ describe('Build Performance Tests', () => {
           return '150'; // 150 systems found
         }
         return '';
-      });
+      }),
 
       // Run multiple enterprise system counts
-      for (let i: any = 0; i < 5; i++) {
+      for (let i: any = 0, i < 5, i++) {
         await progressTracker.getEnterpriseSystemCount();
       }
 
@@ -477,11 +477,11 @@ describe('Build Performance Tests', () => {
   describe('Scalability Testing', () => {
     it('should handle large codebase performance', async () => {
       // Mock large codebase metrics
-      mockExecSync.mockImplementation(command => {;
+      mockExecSync.mockImplementation(command => {
         const cmd: any = command.toString();
         if (cmd.includes('yarn tsc')) {
           // Simulate longer compilation for large codebase
-          const delay: any = 100; // 100ms for test performance
+          const delay: any = 100, // 100ms for test performance
           const endTime: any = Date.now() + delay;
           while (Date.now() < endTime) {
             // Busy wait
@@ -489,10 +489,10 @@ describe('Build Performance Tests', () => {
           return '500'; // 500 TypeScript errors
         }
         if (cmd.includes('yarn lint')) {
-          return '10000'; // 10,000 linting warnings
+          return '10000', // 10,000 linting warnings
         }
         if (cmd.includes('grep -r 'INTELLIGENCE_SYSTEM'')) {
-          return '1000'; // 1,000 enterprise systems
+          return '1000', // 1,000 enterprise systems
         }
         return '';
       });
@@ -505,15 +505,15 @@ describe('Build Performance Tests', () => {
 
       // Performance should still be reasonable even with large numbers
       expect(metrics).toBeDefined();
-    });
+    }),
 
     it('should maintain performance with concurrent operations', async () => {
       // Run multiple progress tracking operations concurrently
-      const promises: any = [;
-        progressTracker.getTypeScriptErrorCount(),
-        progressTracker.getLintingWarningCount(),
-        progressTracker.getEnterpriseSystemCount(),
-        progressTracker.getBuildTime(),
+      const promises: any = [
+        progressTracker.getTypeScriptErrorCount();
+        progressTracker.getLintingWarningCount();
+        progressTracker.getEnterpriseSystemCount();
+        progressTracker.getBuildTime();
         progressTracker.getMemoryUsage()
       ];
 
@@ -523,7 +523,7 @@ describe('Build Performance Tests', () => {
 
       expect(results.length).toBe(5);
       expect(results.every(result => typeof result === 'number')).toBe(true);
-      expect(totalTime).toBeLessThan(2000); // Should complete within 2 seconds
+      expect(totalTime).toBeLessThan(2000), // Should complete within 2 seconds
     });
 
     it('should handle memory-intensive operations efficiently', async () => {
@@ -541,7 +541,7 @@ describe('Build Performance Tests', () => {
       });
 
       // Generate large metrics history
-      for (let i: any = 0; i < 100; i++) {
+      for (let i: any = 0, i < 100, i++) {
         await progressTracker.getProgressMetrics();
       }
 

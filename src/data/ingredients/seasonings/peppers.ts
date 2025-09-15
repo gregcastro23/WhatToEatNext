@@ -1,7 +1,7 @@
 import type { IngredientMapping } from '@/data/ingredients/types';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
-const rawPeppers = {;
+const rawPeppers = {
   black_pepper: {
     name: 'Black Pepper',
     elementalProperties: { Fire: 0.7, Air: 0.2, Earth: 0.1, Water: 0 },

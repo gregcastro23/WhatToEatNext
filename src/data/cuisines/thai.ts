@@ -1,7 +1,7 @@
 // src/data/cuisines/thai.ts
 import type { Cuisine } from '@/types/cuisine';
 
-export const thai: Cuisine = {;
+export const thai: Cuisine = {
   id: 'thai',
   name: 'Thai',
   description:
@@ -61,7 +61,7 @@ export const thai: Cuisine = {;
           prepTime: '10 minutes',
           cookTime: '45 minutes',
           culturalNotes:
-            'A beloved breakfast dish that showcases the Thai appreciation for rice and comfort food. Often sold by street vendors in the early morning',
+            'A beloved breakfast dish that showcases the Thai appreciation for rice and comfort food. Often sold by street vendors in the early morning';
           pairingSuggestions: ['Chinese donuts (Patongo)', 'pickled vegetables', 'chili vinegar'],
           dietaryInfo: ['adaptable to vegetarian/vegan', 'gluten-free with substitutions'],
           spiceLevel: 'mild',
@@ -76,9 +76,9 @@ export const thai: Cuisine = {;
           season: ['all'],
           mealType: ['breakfast'],
           elementalProperties: {
-            Earth: 0.4,
-            Water: 0.3,
-            Fire: 0.2,
+            Earth: 0.4;
+            Water: 0.3;
+            Fire: 0.2;
             Air: 0.1
           }
         },
@@ -137,9 +137,9 @@ export const thai: Cuisine = {;
           season: ['all'],
           mealType: ['breakfast'],
           elementalProperties: {
-            Water: 0.5,
-            Earth: 0.2,
-            Fire: 0.2,
+            Water: 0.5;
+            Earth: 0.2;
+            Fire: 0.2;
             Air: 0.1
           }
         },
@@ -197,9 +197,9 @@ export const thai: Cuisine = {;
           season: ['all'],
           mealType: ['breakfast', 'snack'],
           elementalProperties: {
-            Air: 0.4,
-            Earth: 0.3,
-            Fire: 0.2,
+            Air: 0.4;
+            Earth: 0.3;
+            Fire: 0.2;
             Water: 0.1
           }
         },
@@ -256,9 +256,9 @@ export const thai: Cuisine = {;
           season: ['all'],
           mealType: ['breakfast', 'lunch'],
           elementalProperties: {
-            Fire: 0.4,
-            Earth: 0.3,
-            Air: 0.2,
+            Fire: 0.4;
+            Earth: 0.3;
+            Air: 0.2;
             Water: 0.1
           }
         },
@@ -308,7 +308,7 @@ export const thai: Cuisine = {;
           prepTime: '15 minutes',
           cookTime: '30 minutes',
           culturalNotes:
-            'A comforting breakfast dish that's often served to those feeling under the weather. The ginger and pepper make it especially warming',
+            'A comforting breakfast dish that's often served to those feeling under the weather. The ginger and pepper make it especially warming';
           pairingSuggestions: [
             'fried garlic',
             'chili vinegar',
@@ -328,9 +328,9 @@ export const thai: Cuisine = {;
           season: ['all'],
           mealType: ['breakfast'],
           elementalProperties: {
-            Earth: 0.3,
-            Water: 0.3,
-            Fire: 0.2,
+            Earth: 0.3;
+            Water: 0.3;
+            Fire: 0.2;
             Air: 0.2
           }
         }
@@ -404,9 +404,9 @@ export const thai: Cuisine = {;
           season: ['all'],
           mealType: ['lunch', 'dinner'],
           elementalProperties: {
-            Fire: 0.5,
-            Earth: 0.2,
-            Air: 0.2,
+            Fire: 0.5;
+            Earth: 0.2;
+            Air: 0.2;
             Water: 0.1
           }
         },
@@ -455,9 +455,9 @@ export const thai: Cuisine = {;
           season: ['all'],
           mealType: ['lunch'],
           elementalProperties: {
-            Water: 0.4,
-            Fire: 0.3,
-            Earth: 0.2,
+            Water: 0.4;
+            Fire: 0.3;
+            Earth: 0.2;
             Air: 0.1
           }
         },
@@ -523,9 +523,9 @@ export const thai: Cuisine = {;
           season: ['all'],
           mealType: ['lunch', 'dinner', 'appetizer'],
           elementalProperties: {
-            Fire: 0.4,
-            Earth: 0.2,
-            Water: 0.2,
+            Fire: 0.4;
+            Earth: 0.2;
+            Water: 0.2;
             Air: 0.2
           }
         },
@@ -578,9 +578,9 @@ export const thai: Cuisine = {;
           season: ['all'],
           mealType: ['lunch', 'dinner'],
           elementalProperties: {
-            Fire: 0.3,
-            Water: 0.3,
-            Air: 0.2,
+            Fire: 0.3;
+            Water: 0.3;
+            Air: 0.2;
             Earth: 0.2
           }
         },
@@ -641,9 +641,9 @@ export const thai: Cuisine = {;
           season: ['summer'],
           mealType: ['lunch', 'dinner'],
           elementalProperties: {
-            Fire: 0.3,
-            Water: 0.2,
-            Earth: 0.2,
+            Fire: 0.3;
+            Water: 0.2;
+            Earth: 0.2;
             Air: 0.3
           }
         }
@@ -689,9 +689,9 @@ export const thai: Cuisine = {;
           season: ['summer'],
           mealType: ['lunch'],
           elementalProperties: {
-            Fire: 0.5,
-            Water: 0.2,
-            Earth: 0.2,
+            Fire: 0.5;
+            Water: 0.2;
+            Earth: 0.2;
             Air: 0.1
           }
         }
@@ -729,9 +729,9 @@ export const thai: Cuisine = {;
           season: ['winter'],
           mealType: ['lunch'],
           elementalProperties: {
-            Earth: 0.4,
-            Water: 0.3,
-            Fire: 0.2,
+            Earth: 0.4;
+            Water: 0.3;
+            Fire: 0.2;
             Air: 0.1
           }
         },
@@ -774,9 +774,9 @@ export const thai: Cuisine = {;
           season: ['winter'],
           mealType: ['lunch'],
           elementalProperties: {
-            Water: 0.4,
-            Fire: 0.3,
-            Earth: 0.2,
+            Water: 0.4;
+            Fire: 0.3;
+            Earth: 0.2;
             Air: 0.1
           },
           astrologicalProfile: {
@@ -824,9 +824,9 @@ export const thai: Cuisine = {;
           season: ['winter'],
           mealType: ['lunch'],
           elementalProperties: {
-            Water: 0.4,
-            Fire: 0.3,
-            Earth: 0.2,
+            Water: 0.4;
+            Fire: 0.3;
+            Earth: 0.2;
             Air: 0.1
           }
         }
@@ -897,9 +897,9 @@ export const thai: Cuisine = {;
           season: ['all'],
           mealType: ['lunch', 'dinner'],
           elementalProperties: {
-            Earth: 0.3,
-            Fire: 0.3,
-            Air: 0.2,
+            Earth: 0.3;
+            Fire: 0.3;
+            Air: 0.2;
             Water: 0.2
           }
         },
@@ -947,9 +947,9 @@ export const thai: Cuisine = {;
           season: ['all'],
           mealType: ['dinner'],
           elementalProperties: {
-            Fire: 0.5,
-            Earth: 0.2,
-            Water: 0.2,
+            Fire: 0.5;
+            Earth: 0.2;
+            Water: 0.2;
             Air: 0.1
           }
         },
@@ -1014,9 +1014,9 @@ export const thai: Cuisine = {;
           season: ['all'],
           mealType: ['dinner'],
           elementalProperties: {
-            Water: 0.4,
-            Fire: 0.3,
-            Air: 0.2,
+            Water: 0.4;
+            Fire: 0.3;
+            Air: 0.2;
             Earth: 0.1
           }
         }
@@ -1057,7 +1057,7 @@ export const thai: Cuisine = {;
           cookTime: '20 minutes',
           chillTime: '60 minutes',
           culturalNotes:
-            'A popular street dessert during Thailand's hot season. The variety of colors and textures makes it both visually appealing and refreshing',
+            'A popular street dessert during Thailand's hot season. The variety of colors and textures makes it both visually appealing and refreshing';
           pairingSuggestions: ['Thai iced tea', 'additional coconut milk'],
           dietaryInfo: ['vegetarian', 'vegan', 'gluten-free'],
           spiceLevel: 'none',
@@ -1072,9 +1072,9 @@ export const thai: Cuisine = {;
           season: ['summer'],
           mealType: ['dessert'],
           elementalProperties: {
-            Water: 0.6,
-            Air: 0.2,
-            Earth: 0.1,
+            Water: 0.6;
+            Air: 0.2;
+            Earth: 0.1;
             Fire: 0.1
           }
         },
@@ -1118,9 +1118,9 @@ export const thai: Cuisine = {;
           season: ['summer'],
           mealType: ['dinner'],
           elementalProperties: {
-            Fire: 0.4,
-            Water: 0.3,
-            Air: 0.2,
+            Fire: 0.4;
+            Water: 0.3;
+            Air: 0.2;
             Earth: 0.1
           }
         }
@@ -1183,9 +1183,9 @@ export const thai: Cuisine = {;
           season: ['autumn', 'winter'],
           mealType: ['dinner'],
           elementalProperties: {
-            Earth: 0.4,
-            Fire: 0.3,
-            Water: 0.2,
+            Earth: 0.4;
+            Fire: 0.3;
+            Water: 0.2;
             Air: 0.1
           }
         },
@@ -1252,9 +1252,9 @@ export const thai: Cuisine = {;
           season: ['autumn', 'winter'],
           mealType: ['dinner'],
           elementalProperties: {
-            Fire: 0.4,
-            Water: 0.3,
-            Earth: 0.2,
+            Fire: 0.4;
+            Water: 0.3;
+            Earth: 0.2;
             Air: 0.1
           }
         },
@@ -1321,9 +1321,9 @@ export const thai: Cuisine = {;
           season: ['autumn', 'winter'],
           mealType: ['dinner'],
           elementalProperties: {
-            Fire: 0.4,
-            Earth: 0.3,
-            Water: 0.2,
+            Fire: 0.4;
+            Earth: 0.3;
+            Water: 0.2;
             Air: 0.1
           }
         },
@@ -1391,9 +1391,9 @@ export const thai: Cuisine = {;
           season: ['autumn', 'winter'],
           mealType: ['lunch', 'dinner'],
           elementalProperties: {
-            Water: 0.3,
-            Fire: 0.3,
-            Earth: 0.2,
+            Water: 0.3;
+            Fire: 0.3;
+            Earth: 0.2;
             Air: 0.2
           }
         }
@@ -1466,9 +1466,9 @@ export const thai: Cuisine = {;
           season: ['spring', 'summer'],
           mealType: ['dessert'],
           elementalProperties: {
-            Earth: 0.4,
-            Water: 0.3,
-            Air: 0.2,
+            Earth: 0.4;
+            Water: 0.3;
+            Air: 0.2;
             Fire: 0.1
           }
         },
@@ -1527,9 +1527,9 @@ export const thai: Cuisine = {;
           season: ['summer'],
           mealType: ['dessert'],
           elementalProperties: {
-            Water: 0.5,
-            Earth: 0.2,
-            Air: 0.2,
+            Water: 0.5;
+            Earth: 0.2;
+            Air: 0.2;
             Fire: 0.1
           }
         },
@@ -1586,9 +1586,9 @@ export const thai: Cuisine = {;
           season: ['all'],
           mealType: ['dessert'],
           elementalProperties: {
-            Water: 0.4,
-            Earth: 0.3,
-            Air: 0.2,
+            Water: 0.4;
+            Earth: 0.3;
+            Air: 0.2;
             Fire: 0.1
           }
         },
@@ -1630,7 +1630,7 @@ export const thai: Cuisine = {;
           prepTime: '20 minutes',
           cookTime: '45 minutes',
           culturalNotes:
-            'A traditional Thai dessert that combines Chinese steamed egg custard techniques with Thai ingredients. The pumpkin serves both as container and part of the dessert',
+            'A traditional Thai dessert that combines Chinese steamed egg custard techniques with Thai ingredients. The pumpkin serves both as container and part of the dessert';
           pairingSuggestions: ['Thai tea', 'coconut ice cream'],
           dietaryInfo: ['vegetarian', 'gluten-free'],
           spiceLevel: 'none',
@@ -1645,9 +1645,9 @@ export const thai: Cuisine = {;
           season: ['autumn', 'winter'],
           mealType: ['dessert'],
           elementalProperties: {
-            Earth: 0.4,
-            Water: 0.3,
-            Air: 0.2,
+            Earth: 0.4;
+            Water: 0.3;
+            Air: 0.2;
             Fire: 0.1
           }
         }
@@ -1688,7 +1688,7 @@ export const thai: Cuisine = {;
           cookTime: '20 minutes',
           chillTime: '60 minutes',
           culturalNotes:
-            'A popular street dessert during Thailand's hot season. The variety of colors and textures makes it both visually appealing and refreshing',
+            'A popular street dessert during Thailand's hot season. The variety of colors and textures makes it both visually appealing and refreshing';
           pairingSuggestions: ['Thai iced tea', 'additional coconut milk'],
           dietaryInfo: ['vegetarian', 'vegan', 'gluten-free'],
           spiceLevel: 'none',
@@ -1703,9 +1703,9 @@ export const thai: Cuisine = {;
           season: ['summer'],
           mealType: ['dessert'],
           elementalProperties: {
-            Water: 0.6,
-            Air: 0.2,
-            Earth: 0.1,
+            Water: 0.6;
+            Air: 0.2;
+            Earth: 0.1;
             Fire: 0.1
           }
         }
@@ -1760,9 +1760,9 @@ export const thai: Cuisine = {;
           season: ['all'],
           mealType: ['snack', 'dessert'],
           elementalProperties: {
-            Earth: 0.4,
-            Fire: 0.3,
-            Air: 0.2,
+            Earth: 0.4;
+            Fire: 0.3;
+            Air: 0.2;
             Water: 0.1
           }
         }
@@ -1778,9 +1778,9 @@ export const thai: Cuisine = {;
       culinaryUses: ['dipping sauce', 'dressing', 'flavor base', 'marinade', 'condiment'],
       variants: ['Nam Jim seafood', 'Nam Jim Jaew', 'Nam Jim Gai', 'Spicy version', 'Mild version'],
       elementalProperties: {
-        Water: 0.4,
-        Fire: 0.3,
-        Earth: 0.2,
+        Water: 0.4;
+        Fire: 0.3;
+        Earth: 0.2;
         Air: 0.1
       },
       astrologicalInfluences: ['Neptune', 'Mars', 'Pisces'],
@@ -1810,9 +1810,9 @@ export const thai: Cuisine = {;
         'Nam Phrik Narok'
       ],
       elementalProperties: {
-        Fire: 0.6,
-        Earth: 0.2,
-        Water: 0.1,
+        Fire: 0.6;
+        Earth: 0.2;
+        Water: 0.1;
         Air: 0.1
       },
       astrologicalInfluences: ['Mars', 'Sun', 'Aries'],
@@ -1836,9 +1836,9 @@ export const thai: Cuisine = {;
       culinaryUses: ['noodle sauce', 'stir-fry sauce', 'marinade', 'dressing', 'glaze'],
       variants: ['Traditional', 'Vegetarian/Vegan', 'Spicy', 'Royal-style', 'Street vendor style'],
       elementalProperties: {
-        Earth: 0.4,
-        Water: 0.3,
-        Fire: 0.2,
+        Earth: 0.4;
+        Water: 0.3;
+        Fire: 0.2;
         Air: 0.1
       },
       astrologicalInfluences: ['Venus', 'Mercury', 'Taurus'],
@@ -1870,9 +1870,9 @@ export const thai: Cuisine = {;
         'Panang'
       ],
       elementalProperties: {
-        Fire: 0.4,
-        Earth: 0.3,
-        Water: 0.2,
+        Fire: 0.4;
+        Earth: 0.3;
+        Water: 0.2;
         Air: 0.1
       },
       astrologicalInfluences: ['Mars', 'Jupiter', 'Leo'],
@@ -1903,9 +1903,9 @@ export const thai: Cuisine = {;
         'Aged version'
       ],
       elementalProperties: {
-        Fire: 0.5,
-        Water: 0.2,
-        Earth: 0.2,
+        Fire: 0.5;
+        Water: 0.2;
+        Earth: 0.2;
         Air: 0.1
       },
       astrologicalInfluences: ['Mars', 'Mercury', 'Sagittarius'],

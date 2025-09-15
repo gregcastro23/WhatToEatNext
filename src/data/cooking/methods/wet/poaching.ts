@@ -8,7 +8,7 @@ import type { CookingMethodData } from '@/types/cookingMethod';
  * Associated with the alchemical pillar of Coagulation - transforming delicate substances
  * with minimal disruption while preserving their essence.
  */
-export const poaching: CookingMethodData = {;
+export const poaching: CookingMethodData = {
   name: 'poaching',
   description:
     'Gentle cooking method where food is submerged in liquid heated to just below simmering point (160°F-180°F/71°C-82°C), characterized by small bubbles forming on the bottom of the pan without breaking the surface. This technique delicately cooks food while preserving moisture, texture, and shape, ideal for proteins that might toughen at higher temperatures and delicate ingredients that require subtle flavor infusion.',
@@ -362,25 +362,25 @@ export const poaching: CookingMethodData = {;
     eggs: 'Just barely simmering water: 3 minutes for soft yolk, 4-5 minutes for medium',
     fish_fillets: '8-10 minutes per inch of thickness at 170°F',
     chicken_breasts: 'Start in cold liquid, 15-20 minutes at 170°F until 165°F internal',
-    shellfish: 'Shrimp: 2-3 minutes; Scallops: 3-5 minutes until just opaque',
+    shellfish: 'Shrimp: 2-3 minutes, Scallops: 3-5 minutes until just opaque',
     pears: '15-25 minutes depending on ripeness (test with knife)',
     apples: '10-15 minutes for slices, 20-30 minutes for whole',
     stone_fruits: '8-12 minutes depending on ripeness',
     whole_fish: '8-10 minutes per pound at 170°F',
-    rest_period: 'Fish: 2-3 minutes in liquid; Chicken: 5-10 minutes in liquid',
+    rest_period: 'Fish: 2-3 minutes in liquid, Chicken: 5-10 minutes in liquid',
     custards: '25-35 minutes at 170°F (verify with jiggle test or thermometer)',
-    vegetables: 'Asparagus: 3-5 minutes; Artichokes: 20-30 minutes; test with knife'
+    vegetables: 'Asparagus: 3-5 minutes, Artichokes: 20-30 minutes, test with knife'
   },
 
   doneness_indicators: {
     fish: 'Turns from translucent to opaque; flesh flakes easily with fork but remains moist',
-    chicken: 'No pink remains; internal temperature of 165°F; juices run clear',
+    chicken: 'No pink remains, internal temperature of 165°F; juices run clear',
     eggs: 'Whites fully set but yolk remains soft and runny (or to preference)',
     shellfish:
-      'Shrimp turn pink and curl into C-shape (not tight O); scallops turn opaque but remain tender',
+      'Shrimp turn pink and curl into C-shape (not tight O), scallops turn opaque but remain tender',
     pears: 'Knife pierces easily without resistance but fruit maintains shape',
-    delicate_vegetables: 'Bright color, tender-crisp texture; slight resistance when bitten',
-    custards: 'Set around edges but slight jiggle in center; knife inserted comes out clean',
+    delicate_vegetables: 'Bright color, tender-crisp texture, slight resistance when bitten',
+    custards: 'Set around edges but slight jiggle in center, knife inserted comes out clean',
     meat: 'Reaches target internal temperature but remains juicy and tender'
   },
 
@@ -388,10 +388,10 @@ export const poaching: CookingMethodData = {;
     court_bouillon: 'Classic aromatic liquid with wine/vinegar, mirepoix, herbs, and spices',
     milk: 'Rich, mild poaching medium that adds creaminess to fish and chicken',
     stock: 'Adds depth of flavor while maintaining clean taste profile',
-    wine: 'Adds acidity and complex flavor; often diluted 50/50 with water',
+    wine: 'Adds acidity and complex flavor, often diluted 50/50 with water',
     water: 'Pure, clean medium that preserves natural flavor of delicate ingredients',
-    fruit_juice: 'Sweet medium for fruit poaching; often mixed with wine or water',
-    tea: 'Adds tannins and aromatics; excellent for fish and fruit',
+    fruit_juice: 'Sweet medium for fruit poaching, often mixed with wine or water',
+    tea: 'Adds tannins and aromatics, excellent for fish and fruit',
     infused_water: 'Simple water base enhanced with aromatics (herbs, citrus, spices)',
     coconut_milk: 'Rich tropical medium for seafood and fruit',
     oil: 'Low-temperature poaching in oil (confit method) for rich results'

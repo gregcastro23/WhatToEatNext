@@ -51,10 +51,10 @@ export interface AlchemicalRecommendations {
   dominantElement: ElementalCharacter;
   dominantAlchemicalProperty: AlchemicalProperty;
   elementalBalance: ElementalPropertiesType;
-  alchemicalState: AlchemicalPropertiesType;
-  thermodynamicMetrics: ThermodynamicMetricsType;
-  compatibility: number;
-  reasoning: string[];
+  alchemicalState: AlchemicalPropertiesType,
+  thermodynamicMetrics: ThermodynamicMetricsType,
+  compatibility: number,
+  reasoning: string[],
 }
 
 /**
@@ -69,10 +69,10 @@ export interface OptimizedRecipeResult {
   seasonalScore: number;
   ingredientMatchScore: number;
   cookingMethodScore: number;
-  lunarPhaseScore?: number;
-  zodiacScore?: number;
-  elementalProfile: ElementalPropertiesType;
-  thermodynamicProfile: ThermodynamicMetricsType;
+  lunarPhaseScore?: number,
+  zodiacScore?: number,
+  elementalProfile: ElementalPropertiesType,
+  thermodynamicProfile: ThermodynamicMetricsType,
 }
 
 /**
@@ -86,10 +86,10 @@ export interface ElementalRecommendation {
   flavorProfiles: string[];
   healthBenefits: string[];
   timeOfDay: string[];
-  seasonalBest: string[];
-  moodEffects: string[];
-  culinaryHerbs: string[];
-  compatibility: number;
+  seasonalBest: string[],
+  moodEffects: string[],
+  culinaryHerbs: string[],
+  compatibility: number,
 }
 
 /**
@@ -101,10 +101,10 @@ export interface FoodCorrespondence {
   planetaryRuler: RulingPlanet;
   timeOfDay: 'Day' | 'Night' | 'Both';
   elementalProperties: ElementalPropertiesType;
-  energyValues: ThermodynamicMetricsType;
-  preparation: string[];
-  combinations: string[];
-  restrictions: string[];
+  energyValues: ThermodynamicMetricsType,
+  preparation: string[],
+  combinations: string[],
+  restrictions: string[],
 }
 
 /**
@@ -119,10 +119,10 @@ export interface CompatibilityScore {
     elementalMatch?: number;
     planetaryDayMatch?: number;
     planetaryHourMatch?: number;
-    affinityBonus?: number;
-    dignityBonus?: number;
-    decanBonus?: number;
-    aspectBonus?: number;
+    affinityBonus?: number,
+    dignityBonus?: number,
+    decanBonus?: number,
+    aspectBonus?: number,
   };
 }
 
@@ -136,11 +136,11 @@ export type AlchemicalServiceResponse = ServiceResponseType<AlchemicalRecommenda
 /**
  * Standardized Recipe Optimization Response
  */
-export type RecipeOptimizationResponse = ServiceResponseType<{;
-  optimizedRecipes: OptimizedRecipeResult[];
-  totalAnalyzed: number;
-  averageCompatibility: number;
-  recommendationCriteria: Record<string, Record<string, number>>;
+export type RecipeOptimizationResponse = ServiceResponseType<{
+  optimizedRecipes: OptimizedRecipeResult[],
+  totalAnalyzed: number,
+  averageCompatibility: number,
+  recommendationCriteria: Record<string, Record<string, number>>,
 }>;
 
 /**
@@ -152,7 +152,7 @@ export type CompatibilityAnalysisResponse = ServiceResponseType<CompatibilitySco
  * Consolidated service for alchemical transformations, recommendations, and compatibility
  */
 export class AlchemicalService {
-  private static instance: AlchemicalService;
+  private static instance: AlchemicalService,
   private ingredients: ElementalItem[] = [];
   private cookingMethods: ElementalItem[] = [];
   private cuisines: ElementalItem[] = [];
@@ -184,14 +184,14 @@ export class AlchemicalService {
    * Initialize the service with data
    */
   initialize(
-    ingredients: ElementalItem[] = [],
-    cookingMethods: ElementalItem[] = [],
-    cuisines: ElementalItem[] = [],
+    ingredients: ElementalItem[] = [];
+    cookingMethods: ElementalItem[] = [];
+    cuisines: ElementalItem[] = [];
   ): AlchemicalService {
     this.ingredients = ingredients;
     this.cookingMethods = cookingMethods;
     this.cuisines = cuisines;
-    return this;
+    return this,
   }
 
   /**
@@ -227,14 +227,14 @@ export class AlchemicalService {
 
       // Track retrograde planets
       Object.entries(positions || {}).forEach(([planet, data]) => {
-        if (typeof data === 'object' && data !== null && 'isRetrograde' in data) {;
+        if (typeof data === 'object' && data !== null && 'isRetrograde' in data) {
           this.retrogradeStatus[planet] = !!data.isRetrograde;
         }
       });
 
       return createSuccessResponse(true);
     } catch (error) {
-      logger.error('Failed to initialize from current positions:', error);
+      logger.error('Failed to initialize from current positions:', error),
       return createErrorResponse(
         `Failed to initialize: ${error instanceof Error ? error.message : 'Unknown error'}`,
       );
@@ -259,7 +259,7 @@ export class AlchemicalService {
    */
   setDaytime(isDaytime: boolean): AlchemicalService {
     this.isDaytime = isDaytime;
-    return this;
+    return this,
   }
 
   /**
@@ -267,7 +267,7 @@ export class AlchemicalService {
    */
   setCurrentZodiac(zodiac: any | null): AlchemicalService {
     this.currentZodiac = zodiac;
-    return this;
+    return this,
   }
 
   /**
@@ -275,7 +275,7 @@ export class AlchemicalService {
    */
   setLunarPhase(phase: LunarPhase | null): AlchemicalService {
     this.lunarPhase = phase;
-    return this;
+    return this,
   }
 
   /**
@@ -283,7 +283,7 @@ export class AlchemicalService {
    */
   setTarotElementBoosts(boosts: Record<ElementalCharacter, number> | undefined): AlchemicalService {
     this.tarotElementBoosts = boosts;
-    return this;
+    return this,
   }
 
   /**
@@ -291,7 +291,7 @@ export class AlchemicalService {
    */
   setTarotPlanetaryBoosts(boosts: { [key: string]: number } | undefined): AlchemicalService {
     this.tarotPlanetaryBoosts = boosts;
-    return this;
+    return this,
   }
 
   /**
@@ -299,7 +299,7 @@ export class AlchemicalService {
    */
   setAspects(aspects: PlanetaryAspect[]): AlchemicalService {
     this.aspects = aspects;
-    return this;
+    return this,
   }
 
   /**
@@ -307,7 +307,7 @@ export class AlchemicalService {
    */
   setIngredients(ingredients: ElementalItem[]): AlchemicalService {
     this.ingredients = ingredients;
-    return this;
+    return this,
   }
 
   /**
@@ -315,7 +315,7 @@ export class AlchemicalService {
    */
   setCookingMethods(methods: ElementalItem[]): AlchemicalService {
     this.cookingMethods = methods;
-    return this;
+    return this,
   }
 
   /**
@@ -323,7 +323,7 @@ export class AlchemicalService {
    */
   setCuisines(cuisines: ElementalItem[]): AlchemicalService {
     this.cuisines = cuisines;
-    return this;
+    return this,
   }
 
   /**
@@ -331,12 +331,12 @@ export class AlchemicalService {
    */
   getTransformedIngredients(): AlchemicalItem[] {
     return transformIngredients(
-      this.ingredients,
+      this.ingredients;
       this.planetPositions as unknown as Record<RulingPlanet, number>,
-      this.isDaytime,
-      this.currentZodiac,
-      this.lunarPhase as unknown as LunarPhaseWithSpaces,
-    );
+      this.isDaytime;
+      this.currentZodiac;
+      this.lunarPhase as unknown as LunarPhaseWithSpaces;
+    ),
   }
 
   /**
@@ -344,12 +344,12 @@ export class AlchemicalService {
    */
   getTransformedCookingMethods(): AlchemicalItem[] {
     return transformCookingMethods(
-      this.cookingMethods,
+      this.cookingMethods;
       this.planetPositions as unknown as Record<RulingPlanet, number>,
-      this.isDaytime,
-      this.currentZodiac,
-      this.lunarPhase as unknown as LunarPhaseWithSpaces,
-    );
+      this.isDaytime;
+      this.currentZodiac;
+      this.lunarPhase as unknown as LunarPhaseWithSpaces;
+    ),
   }
 
   /**
@@ -357,25 +357,25 @@ export class AlchemicalService {
    */
   getTransformedCuisines(): AlchemicalItem[] {
     return transformCuisines(
-      this.cuisines,
+      this.cuisines;
       this.planetPositions as unknown as Record<RulingPlanet, number>,
-      this.isDaytime,
-      this.currentZodiac,
-      this.lunarPhase as unknown as LunarPhaseWithSpaces,
-    );
+      this.isDaytime;
+      this.currentZodiac;
+      this.lunarPhase as unknown as LunarPhaseWithSpaces;
+    ),
   }
 
   /**
    * Get alchemical recommendations based on current planetary positions
    */
-  getRecommendations(count = 5): AlchemicalRecommendations {;
+  getRecommendations(count = 5): AlchemicalRecommendations {
     const transformedIngredients = this.getTransformedIngredients();
     const transformedMethods = this.getTransformedCookingMethods();
     const transformedCuisines = this.getTransformedCuisines();
 
     const topIngredients = getTopCompatibleItems(transformedIngredients, count);
     const topMethods = getTopCompatibleItems(transformedMethods, count);
-    const topCuisines = getTopCompatibleItems(transformedCuisines, count);
+    const topCuisines = getTopCompatibleItems(transformedCuisines, count),
 
     // Determine overall dominant element and alchemical property
     const dominantElement =
@@ -393,7 +393,7 @@ export class AlchemicalService {
       elementalBalance: DefaultElementalProperties,
       alchemicalState: DefaultAlchemicalProperties,
       thermodynamicMetrics: DefaultThermodynamicMetrics,
-      compatibility: 0.5,
+      compatibility: 0.5;
       reasoning: []
     };
   }
@@ -401,18 +401,18 @@ export class AlchemicalService {
   /**
    * Get recipes optimized for current planetary positions
    */
-  getOptimizedRecipes(recipes: Recipe[], count = 3): OptimizedRecipeResult[] {;
+  getOptimizedRecipes(recipes: Recipe[], count = 3): OptimizedRecipeResult[] {
     // Implementation from AlchemicalTransformationService
     // Would go here - simplified for brevity
-    return recipes.slice(0, count).map(recipe => ({;
+    return recipes.slice(0, count).map(recipe => ({
       recipe,
-      compatibility: 0.5,
+      compatibility: 0.5;
       dominantElement: 'Fire',
       dominantAlchemicalProperty: 'Spirit',
-      alchemicalScore: 0.5,
-      seasonalScore: 0.5,
-      ingredientMatchScore: 0.5,
-      cookingMethodScore: 0.5,
+      alchemicalScore: 0.5;
+      seasonalScore: 0.5;
+      ingredientMatchScore: 0.5;
+      cookingMethodScore: 0.5;
       elementalProfile: DefaultElementalProperties,
       thermodynamicProfile: DefaultThermodynamicMetrics
     }));
@@ -438,7 +438,7 @@ export class AlchemicalService {
       flavorProfiles: ((profileData.characteristics ).flavorProfiles as string[]) || [],
       healthBenefits: ((profileData.characteristics ).healthBenefits as string[]) || [],
       timeOfDay: ((profileData.characteristics ).timeOfDay as string[]) || [],
-      seasonalBest: this.getSeasonalRecommendations(dominantElement as unknown as Element),
+      seasonalBest: this.getSeasonalRecommendations(dominantElement as unknown as Element);
       moodEffects: ((profileData.characteristics ).moodEffects as string[]) || [],
       culinaryHerbs: ((profileData.characteristics ).culinaryHerbs as string[]) || [],
       compatibility: 0.5
@@ -467,11 +467,11 @@ export class AlchemicalService {
     };
 
     const element = ZODIAC_ELEMENTS[currentZodiacSign];
-    const properties = {;
+    const properties = {
       Fire: element === 'Fire' ? 0.6 : 0.1,;
       Water: element === 'Water' ? 0.6 : 0.1,;
-      Earth: element === 'Earth' ? 0.6 : 0.1,;
-      Air: element === 'Air' ? 0.6 : 0.1,;
+      Earth: element === 'Earth' ? 0.6 : 0.1,,
+      Air: element === 'Air' ? 0.6 : 0.1,,
     };
 
     return this.generateElementalRecommendation(properties); // elementalUtils.normalizeProperties(properties));
@@ -486,13 +486,13 @@ export class AlchemicalService {
     _planetaryDay: string,
     _planetaryHour: string,
     _isDaytime: boolean,
-    _planetaryPositions?: Record<string, { sign: string; degree: number }>,
-    _aspects?: Array<{ type: string; planets: [string, string] }>,
+    _planetaryPositions?: Record<string, { sign: string, degree: number }>,
+    _aspects?: Array<{ type: string, planets: [string, string] }>,
   ): CompatibilityScore {
     // Implementation from FoodAlchemySystem
     // Would go here - simplified for brevity
     return {
-      compatibility: 0.5,
+      compatibility: 0.5;
       elementalMatch: DefaultElementalProperties,
       recommendations: [],
       warnings: []
@@ -534,7 +534,7 @@ export class AlchemicalService {
     properties2: ElementalProperties,
   ): number {
     // Define element compatibility scores (same elements have highest compatibility)
-    const compatibilityScores = {;
+    const compatibilityScores = {
       Fire: { Fire: 0.9, Water: 0.7, Earth: 0.7, Air: 0.8 },
       Water: { Water: 0.9, Fire: 0.7, Earth: 0.8, Air: 0.7 },
       Earth: { Earth: 0.9, Fire: 0.7, Water: 0.8, Air: 0.7 },
@@ -564,7 +564,7 @@ export class AlchemicalService {
 
         // Scale by the target element's prominence
         const scaledCompatibility = elementCompatibility * targetValue;
-        bestCompatibility = Math.max(bestCompatibility, scaledCompatibility);
+        bestCompatibility = Math.max(bestCompatibility, scaledCompatibility),
       }
 
       weightedSum += bestCompatibility * weight;

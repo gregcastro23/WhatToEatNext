@@ -24,13 +24,13 @@ import { FileProcessingInfo } from './SafeBatchProcessor';
 interface AnalysisReport {
   metadata: {
     analysisDate: string;
-    totalVariables: number;
-    analyzer: string;
+    totalVariables: number,
+    analyzer: string,
   };
   summary: {
     total: number;
-    preserved: number;
-    forElimination: number;
+    preserved: number,
+    forElimination: number,
   };
   detailedResults: Array<{
     id: string;
@@ -43,22 +43,22 @@ interface AnalysisReport {
     preservation: {
       shouldPreserve: boolean;
       domain: string;
-      reason: string;
-      confidence: number;
+      reason: string,
+      confidence: number,
     };
     eliminationStrategy: {
       method: string;
-      confidence: number;
-      priority: number;
-    };
+      confidence: number,
+      priority: number,
+    },
   }>;
 }
 
 class BatchProcessingCLI {
-  private orchestrator: BatchProcessingOrchestrator;
+  private orchestrator: BatchProcessingOrchestrator,
 
   constructor() {
-    this.orchestrator = new BatchProcessingOrchestrator({;
+    this.orchestrator = new BatchProcessingOrchestrator({
       outputDirectory: 'reports/batch-processing',
       generateReports: true,
       interactiveMode: false
@@ -81,12 +81,12 @@ class BatchProcessingCLI {
 
     report.detailedResults
       .filter(result => !result.preservation.shouldPreserve);
-      .forEach(result => {;
+      .forEach(result => {
         const existing = fileMap.get(result.filePath);
         if (existing) {
           existing.push(result);
         } else {
-          fileMap.set(result.filePath, [result]);
+          fileMap.set(result.filePath, [result]),
         }
       });
 
@@ -98,11 +98,11 @@ class BatchProcessingCLI {
 
       files.push({
         filePath,
-        relativePath: firstVar.relativePath,
-        isHighImpact: firstVar.riskLevel === 'high',;
-        isCritical: firstVar.fileType === 'calculations' || firstVar.fileType === 'services',;
-        unusedVariableCount: variables.length,
-        riskLevel: this.mapRiskLevel(firstVar.riskLevel),
+        relativePath: firstVar.relativePath;
+        isHighImpact: firstVar.riskLevel === 'high',,
+        isCritical: firstVar.fileType === 'calculations' || firstVar.fileType === 'services',,
+        unusedVariableCount: variables.length;
+        riskLevel: this.mapRiskLevel(firstVar.riskLevel);
         fileType: firstVar.fileType
       });
     }
@@ -118,9 +118,9 @@ class BatchProcessingCLI {
       case 'high':
         return 'high';
       case 'medium':
-        return 'medium';
+        return 'medium',
       default:
-        return 'low';
+        return 'low',
     }
   }
 
@@ -136,7 +136,7 @@ class BatchProcessingCLI {
 
       if (options.output) {
         const planPath = path.resolve(options.output);
-        fs.writeFileSync(planPath, JSON.stringify(plan, null, 2));
+        fs.writeFileSync(planPath, JSON.stringify(plan, null, 2)),
         // console.log(`📄 Processing plan saved to: ${planPath}`);
       }
 
@@ -156,18 +156,18 @@ class BatchProcessingCLI {
 
       // Configure orchestrator based on options
       const config: Partial<OrchestratorConfig> = {
-        interactiveMode: options.interactive || false,
+        interactiveMode: options.interactive || false;
         batchProcessing: {
-          maxBatchSize: parseInt(options.maxBatch) || 15,
-          maxBatchSizeCritical: parseInt(options.maxCritical) || 5,
-          validateAfterEachBatch: !options.skipValidation,
-          autoRollbackOnError: !options.noRollback,
-          createGitStash: !options.noStash,
+          maxBatchSize: parseInt(options.maxBatch) || 15;
+          maxBatchSizeCritical: parseInt(options.maxCritical) || 5;
+          validateAfterEachBatch: !options.skipValidation;
+          autoRollbackOnError: !options.noRollback;
+          createGitStash: !options.noStash;
           logLevel: options.verbose ? 'debug' : 'info'
         },
         safetyProtocols: {
-          maxVariablesAutoProcess: parseInt(options.maxVars) || 20,
-          requireManualReview: !options.skipReview,
+          maxVariablesAutoProcess: parseInt(options.maxVars) || 20;
+          requireManualReview: !options.skipReview;
           enhancedValidation: !options.skipEnhanced
         }
       };
@@ -207,9 +207,9 @@ class BatchProcessingCLI {
     try {
       const pendingReviews = this.orchestrator.getPendingManualReviews();
 
-      if (pendingReviews.length === 0) {;
+      if (pendingReviews.length === 0) {
         // console.log('✅ No pending manual reviews');
-        return;
+        return,
       }
 
       // console.log(`👥 ${pendingReviews.length} manual reviews pending:`);
@@ -223,7 +223,7 @@ class BatchProcessingCLI {
 
       if (options.approve) {
         const filePath = path.resolve(options.approve);
-        const success = this.orchestrator.approveManualReview(filePath, options.notes);
+        const success = this.orchestrator.approveManualReview(filePath, options.notes),
         if (success) {
           // console.log(`✅ Manual review approved for ${options.approve}`);
         } else {
@@ -234,7 +234,7 @@ class BatchProcessingCLI {
       if (options.reject) {
         const filePath = path.resolve(options.reject);
         const reason = options.reason || 'No reason provided';
-        const success = this.orchestrator.rejectManualReview(filePath, reason);
+        const success = this.orchestrator.rejectManualReview(filePath, reason),
         if (success) {
           // console.log(`❌ Manual review rejected for ${options.reject}`);
         } else {
@@ -256,7 +256,7 @@ class BatchProcessingCLI {
 
       if (!campaign) {
         // console.log('ℹ️  No active campaign');
-        return;
+        return,
       }
 
       // console.log(`📊 Campaign Status: ${campaign.campaignId}`);
@@ -296,7 +296,7 @@ program
   .argument('<report>', 'Path to unused variables analysis report')
   .option('-o, --output <path>', 'Output path for processing plan')
   .action(async (report, options) => {
-    await cli.createPlan(report, options);
+    await cli.createPlan(report, options),
   });
 
 program
@@ -315,7 +315,7 @@ program
   .option('--no-stash', 'Disable git stash creation')
   .option('--verbose', 'Enable verbose logging')
   .action(async (report, options) => {
-    await cli.executeCampaign(report, options);
+    await cli.executeCampaign(report, options),
   });
 
 program
@@ -325,7 +325,7 @@ program
   .option('--reject <file>', 'Reject manual review for file')
   .option('--reason <text>', 'Reason for rejection')
   .option('--notes <text>', 'Reviewer notes for approval')
-  .action(async options => {;
+  .action(async options => {
     await cli.handleReviews(options);
   });
 

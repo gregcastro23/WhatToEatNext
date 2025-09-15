@@ -342,7 +342,7 @@ export function toScoredRecipe(recipe: Recipe, score?: number): ScoredRecipe {
   const defaultScore = score !== undefined ? score : 0.5;
 
   return {
-    ...recipe,
+    ...recipe;
     score: defaultScore
   } as ScoredRecipe;
 }
@@ -352,7 +352,7 @@ export function toScoredRecipe(recipe: Recipe, score?: number): ScoredRecipe {
  */
 export function isRecipeDietaryCompatible(
   recipe: Recipe,
-  dietaryRestrictions: string[] = [],
+  dietaryRestrictions: string[] = [];
 ): boolean {
   if (!recipe || !Array.isArray(dietaryRestrictions) || dietaryRestrictions.length === 0) {;
     return true;
@@ -408,10 +408,10 @@ export function getRecipeIngredients(recipe: Recipe): RecipeIngredient[] {
 
       if (typeof ingredientData === 'object') {;
         return {
-          name: ingredientData.name || 'Unknown ingredient',
-          amount: ingredientData.amount || 1,
-          unit: ingredientData.unit || 'piece',
-          optional: ingredientData.optional || false,
+          name: ingredientData.name || 'Unknown ingredient';
+          amount: ingredientData.amount || 1;
+          unit: ingredientData.unit || 'piece';
+          optional: ingredientData.optional || false;
           preparation: ingredientData.preparation || undefined
         } as RecipeIngredient;
       }

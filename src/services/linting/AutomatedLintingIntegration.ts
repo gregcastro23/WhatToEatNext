@@ -20,10 +20,10 @@ import { ResolutionStrategy } from './ResolutionStrategyGenerator';
 
 export interface AutomatedLintingWorkflowOptions {
   analysisOptions?: {
-    includeFileAnalysis?: boolean;
-    generateStrategies?: boolean;
-    focusAreas?: ('import' | 'typescript' | 'react' | 'style' | 'domain')[];
-    riskTolerance?: 'conservative' | 'moderate' | 'aggressive';
+    includeFileAnalysis?: boolean,
+    generateStrategies?: boolean,
+    focusAreas?: ('import' | 'typescript' | 'react' | 'style' | 'domain')[],
+    riskTolerance?: 'conservative' | 'moderate' | 'aggressive',
   };
   batchProcessingOptions?: Partial<BatchProcessingOptions>;
   safetyProtocols?: Partial<SafetyProtocols>;
@@ -34,10 +34,10 @@ export interface AutomatedLintingWorkflowOptions {
 export interface AutomatedLintingWorkflowResult {
   analysis: ComprehensiveAnalysisResult;
   fixResults: {
-    automated: AutomatedFixResult;
-    unusedVariables?: AutomatedFixResult;
-    imports?: AutomatedFixResult;
-    typeAnnotations?: AutomatedFixResult;
+    automated: AutomatedFixResult,
+    unusedVariables?: AutomatedFixResult,
+    imports?: AutomatedFixResult,
+    typeAnnotations?: AutomatedFixResult,
   };
   summary: WorkflowSummary;
   recommendations: WorkflowRecommendation[];
@@ -49,20 +49,20 @@ export interface WorkflowSummary {
   totalIssuesFixed: number;
   totalIssuesFailed: number;
   automationSuccessRate: number;
-  timeToCompletion: number;
-  safetyEventsTriggered: number;
-  rollbacksPerformed: number;
-  overallSuccess: boolean;
+  timeToCompletion: number,
+  safetyEventsTriggered: number,
+  rollbacksPerformed: number,
+  overallSuccess: boolean,
 }
 
 export interface WorkflowRecommendation {
   type: 'immediate' | 'short-term' | 'long-term' | 'process-improvement';
   priority: 'critical' | 'high' | 'medium' | 'low';
   title: string;
-  description: string;
-  actionItems: string[];
-  estimatedImpact: 'high' | 'medium' | 'low';
-  automatable: boolean;
+  description: string,
+  actionItems: string[],
+  estimatedImpact: 'high' | 'medium' | 'low',
+  automatable: boolean,
 }
 
 export interface WorkflowMetrics {
@@ -70,10 +70,10 @@ export interface WorkflowMetrics {
   fixingTime: number;
   validationTime: number;
   totalWorkflowTime: number;
-  issuesPerMinute: number;
-  automationEfficiency: number;
-  safetyProtocolEffectiveness: number;
-  qualityImprovement: number;
+  issuesPerMinute: number,
+  automationEfficiency: number,
+  safetyProtocolEffectiveness: number,
+  qualityImprovement: number,
 }
 
 /**
@@ -82,9 +82,9 @@ export interface WorkflowMetrics {
 export class AutomatedLintingIntegration {
   private analysisService: LintingAnalysisService;
   private automatedFixer: AutomatedLintingFixer;
-  private workspaceRoot: string;
+  private workspaceRoot: string,
 
-  constructor(workspaceRoot: string = process.cwd()) {;
+  constructor(workspaceRoot: string = process.cwd()) {
     this.workspaceRoot = workspaceRoot;
     this.analysisService = new LintingAnalysisService(workspaceRoot);
     this.automatedFixer = new AutomatedLintingFixer(workspaceRoot);
@@ -94,7 +94,7 @@ export class AutomatedLintingIntegration {
    * Execute complete automated linting workflow
    */
   async executeAutomatedWorkflow(
-    options: AutomatedLintingWorkflowOptions = {},;
+    options: AutomatedLintingWorkflowOptions = {};
   ): Promise<AutomatedLintingWorkflowResult> {
     const workflowStart = Date.now();
     log.info('🚀 Starting automated linting workflow...');
@@ -104,7 +104,7 @@ export class AutomatedLintingIntegration {
       log.info('📊 Phase 1: Comprehensive Linting Analysis');
       const analysisStart = Date.now();
 
-      const analysis = await this.analysisService.performComprehensiveAnalysis({;
+      const analysis = await this.analysisService.performComprehensiveAnalysis({
         includeFileAnalysis: true,
         generateStrategies: true,
         ...options.analysisOptions
@@ -143,7 +143,7 @@ export class AutomatedLintingIntegration {
         fixResults,
       );
 
-      const result: AutomatedLintingWorkflowResult = {;
+      const result: AutomatedLintingWorkflowResult = {
         analysis,
         fixResults,
         summary,
@@ -156,8 +156,8 @@ export class AutomatedLintingIntegration {
 
       return result;
     } catch (error) {
-      console.error('❌ Automated linting workflow failed:', error);
-      throw error;
+      console.error('❌ Automated linting workflow failed:', error),
+      throw error,
     }
   }
 
@@ -165,7 +165,7 @@ export class AutomatedLintingIntegration {
    * Execute quick automated fixes for immediate wins
    */
   async executeQuickFixes(
-    options: Partial<AutomatedLintingWorkflowOptions> = {},
+    options: Partial<AutomatedLintingWorkflowOptions> = {};
   ): Promise<AutomatedFixResult> {
     log.info('⚡ Executing quick automated fixes...');
 
@@ -174,7 +174,7 @@ export class AutomatedLintingIntegration {
       const quickAnalysis = await this.analysisService.performQuickAnalysis();
 
       // Configure conservative safety protocols for quick fixes
-      const safetyProtocols: SafetyProtocols = {;
+      const safetyProtocols: SafetyProtocols = {
         enableRollback: true,
         validateBeforeFix: true,
         validateAfterFix: true,
@@ -192,18 +192,18 @@ export class AutomatedLintingIntegration {
 
       // Focus only on quick wins (auto-fixable, low risk)
       const quickWinIssues = quickAnalysis.quickWins;
-      const categorizedQuickWins: CategorizedErrors = {;
-        total: quickWinIssues.length,
-        errors: quickWinIssues.filter(i => i.severity === 'error').length,;
-        warnings: quickWinIssues.filter(i => i.severity === 'warning').length,;
-        byCategory: this.groupIssuesByCategory(quickWinIssues),
-        byPriority: this.groupIssuesByPriority(quickWinIssues),
-        byFile: this.groupIssuesByFile(quickWinIssues),
+      const categorizedQuickWins: CategorizedErrors = {
+        total: quickWinIssues.length;
+        errors: quickWinIssues.filter(i => i.severity === 'error').length,,
+        warnings: quickWinIssues.filter(i => i.severity === 'warning').length,,
+        byCategory: this.groupIssuesByCategory(quickWinIssues);
+        byPriority: this.groupIssuesByPriority(quickWinIssues);
+        byFile: this.groupIssuesByFile(quickWinIssues);
         autoFixable: quickWinIssues,
         requiresManualReview: []
       };
 
-      const batchOptions: BatchProcessingOptions = {;
+      const batchOptions: BatchProcessingOptions = {
         batchSize: 5,
         maxConcurrentBatches: 1,
         validateAfterEachBatch: true,
@@ -217,8 +217,8 @@ export class AutomatedLintingIntegration {
       log.info(`⚡ Quick fixes complete: ${result.fixedIssues} issues fixed`);
       return result;
     } catch (error) {
-      console.error('❌ Quick fixes failed:', error);
-      throw error;
+      console.error('❌ Quick fixes failed:', error),
+      throw error,
     }
   }
 
@@ -227,18 +227,18 @@ export class AutomatedLintingIntegration {
    */
   async executeUnusedVariableCleanup(
     options: {
-      prefixWithUnderscore?: boolean;
-      removeCompletely?: boolean;
-      skipDomainFiles?: boolean;
-      skipTestFiles?: boolean;
-      dryRun?: boolean;
-    } = {},
+      prefixWithUnderscore?: boolean,
+      removeCompletely?: boolean,
+      skipDomainFiles?: boolean,
+      skipTestFiles?: boolean,
+      dryRun?: boolean,
+    } = {};
   ): Promise<AutomatedFixResult> {
     log.info('🧹 Executing unused variable cleanup...');
 
     try {
       // Analyze for unused variable issues
-      const analysis = await this.analysisService.performComprehensiveAnalysis({;
+      const analysis = await this.analysisService.performComprehensiveAnalysis({
         focusAreas: ['typescript'],
         generateStrategies: false
       });
@@ -249,7 +249,7 @@ export class AutomatedLintingIntegration {
           issue => issue.rule.includes('no-unused-vars') || issue.rule.includes('unused-vars'),;
         );
 
-      if (unusedVarIssues.length === 0) {;
+      if (unusedVarIssues.length === 0) {
         log.info('✅ No unused variable issues found');
         return {
           success: true,
@@ -272,7 +272,7 @@ export class AutomatedLintingIntegration {
         };
       }
 
-      const safetyProtocols: SafetyProtocols = {;
+      const safetyProtocols: SafetyProtocols = {
         enableRollback: true,
         validateBeforeFix: true,
         validateAfterFix: true,
@@ -283,19 +283,19 @@ export class AutomatedLintingIntegration {
 
       const fixer = new AutomatedLintingFixer(this.workspaceRoot, safetyProtocols);
 
-      const result = await fixer.handleUnusedVariables(unusedVarIssues, {;
-        prefixWithUnderscore: options.prefixWithUnderscore ?? true,
-        removeCompletely: options.removeCompletely ?? false,
-        skipDomainFiles: options.skipDomainFiles ?? true,
-        skipTestFiles: options.skipTestFiles ?? false,
+      const result = await fixer.handleUnusedVariables(unusedVarIssues, {
+        prefixWithUnderscore: options.prefixWithUnderscore ?? true;
+        removeCompletely: options.removeCompletely ?? false;
+        skipDomainFiles: options.skipDomainFiles ?? true;
+        skipTestFiles: options.skipTestFiles ?? false;
         preservePatterns: ['**/calculations/**', '**/data/planets/**', '**/*astrological*']
       });
 
       log.info(`🧹 Unused variable cleanup complete: ${result.fixedIssues} variables handled`);
       return result;
     } catch (error) {
-      console.error('❌ Unused variable cleanup failed:', error);
-      throw error;
+      console.error('❌ Unused variable cleanup failed:', error),
+      throw error,
     }
   }
 
@@ -304,30 +304,30 @@ export class AutomatedLintingIntegration {
    */
   async executeImportOptimization(
     options: {
-      removeDuplicates?: boolean;
-      organizeImports?: boolean;
-      removeUnused?: boolean;
-      sortImports?: boolean;
-      dryRun?: boolean;
-    } = {},
+      removeDuplicates?: boolean,
+      organizeImports?: boolean,
+      removeUnused?: boolean,
+      sortImports?: boolean,
+      dryRun?: boolean,
+    } = {};
   ): Promise<AutomatedFixResult> {
     log.info('📦 Executing import optimization...');
 
     try {
       // Analyze for import-related issues
-      const analysis = await this.analysisService.performComprehensiveAnalysis({;
+      const analysis = await this.analysisService.performComprehensiveAnalysis({
         focusAreas: ['import'],
         generateStrategies: false
       });
 
       const importIssues = analysis.categorizedErrors.byCategory['import'] || [];
 
-      if (importIssues.length === 0) {;
+      if (importIssues.length === 0) {
         log.info('✅ No import issues found');
         return this.createEmptyFixResult();
       }
 
-      const safetyProtocols: SafetyProtocols = {;
+      const safetyProtocols: SafetyProtocols = {
         enableRollback: true,
         validateBeforeFix: true,
         validateAfterFix: true,
@@ -338,10 +338,10 @@ export class AutomatedLintingIntegration {
 
       const fixer = new AutomatedLintingFixer(this.workspaceRoot, safetyProtocols);
 
-      const result = await fixer.optimizeImports(importIssues, {;
-        removeDuplicates: options.removeDuplicates ?? true,
-        organizeImports: options.organizeImports ?? true,
-        removeUnused: options.removeUnused ?? true,
+      const result = await fixer.optimizeImports(importIssues, {
+        removeDuplicates: options.removeDuplicates ?? true;
+        organizeImports: options.organizeImports ?? true;
+        removeUnused: options.removeUnused ?? true;
         preserveComments: true,
         sortImports: options.sortImports ?? true
       });
@@ -349,8 +349,8 @@ export class AutomatedLintingIntegration {
       log.info(`📦 Import optimization complete: ${result.fixedIssues} imports optimized`);
       return result;
     } catch (error) {
-      console.error('❌ Import optimization failed:', error);
-      throw error;
+      console.error('❌ Import optimization failed:', error),
+      throw error,
     }
   }
 
@@ -375,18 +375,18 @@ export class AutomatedLintingIntegration {
       case 'aggressive':
         maxFailures = 10;
         requireManualApproval = false;
-        break;
+        break,
       default: // moderate
         maxFailures = 5;
         requireManualApproval = analysis.summary.criticalIssuesCount > 5;
     }
 
     // Adjust based on risk assessment
-    if (analysis.summary.overallRiskLevel === 'critical') {;
-      maxFailures = Math.min(maxFailures, 2);
+    if (analysis.summary.overallRiskLevel === 'critical') {
+      maxFailures = Math.min(maxFailures, 2),
       requireManualApproval = true;
-    } else if (analysis.summary.overallRiskLevel === 'high') {;
-      maxFailures = Math.min(maxFailures, 3);
+    } else if (analysis.summary.overallRiskLevel === 'high') {
+      maxFailures = Math.min(maxFailures, 3),
     }
 
     return {
@@ -410,19 +410,19 @@ export class AutomatedLintingIntegration {
     analysis: ComprehensiveAnalysisResult,
     options: AutomatedLintingWorkflowOptions,
   ): Promise<AutomatedLintingWorkflowResult['fixResults']> {
-    const batchOptions: BatchProcessingOptions = {;
+    const batchOptions: BatchProcessingOptions = {
       batchSize: 10,
       maxConcurrentBatches: 1,
       validateAfterEachBatch: true,
       continueOnError: false,
       createBackups: true,
-      dryRun: options.dryRun || false,
+      dryRun: options.dryRun || false;
       ...options.batchProcessingOptions
     };
 
     // Main automated fixes
     const automated = await this.automatedFixer.applyAutomatedFixes(;
-      analysis.categorizedErrors,
+      analysis.categorizedErrors;
       batchOptions,
     );
 
@@ -453,7 +453,7 @@ export class AutomatedLintingIntegration {
       const importIssues = analysis.categorizedErrors.byCategory['import'] || [];
       if (importIssues.length > 0) {
         log.info('📦 Running specialized import optimization...');
-        fixResults.imports = await this.automatedFixer.optimizeImports(importIssues, {;
+        fixResults.imports = await this.automatedFixer.optimizeImports(importIssues, {
           removeDuplicates: true,
           organizeImports: true,
           sortImports: true
@@ -467,7 +467,7 @@ export class AutomatedLintingIntegration {
 
       if (typeIssues.length > 0 && options.automationLevel !== 'conservative') {
         log.info('🏷️ Running type annotation improvements...');
-        fixResults.typeAnnotations = await this.automatedFixer.improveTypeAnnotations(typeIssues, {;
+        fixResults.typeAnnotations = await this.automatedFixer.improveTypeAnnotations(typeIssues, {
           maxComplexity: 'simple',
           preserveExplicitAny: ['**/calculations/**', '**/data/planets/**']
         });
@@ -510,11 +510,11 @@ export class AutomatedLintingIntegration {
       (fixResults.typeAnnotations?.metrics.rollbacksPerformed || 0);
 
     return {
-      totalIssuesAnalyzed: analysis.summary.totalIssues,
+      totalIssuesAnalyzed: analysis.summary.totalIssues;
       totalIssuesFixed: totalFixed,
       totalIssuesFailed: totalFailed,
       automationSuccessRate,
-      timeToCompletion: Date.now() - workflowStart,
+      timeToCompletion: Date.now() - workflowStart;
       safetyEventsTriggered,
       rollbacksPerformed,
       overallSuccess: fixResults.automated.success && automationSuccessRate > 0.7
@@ -558,7 +558,7 @@ export class AutomatedLintingIntegration {
         ],
         estimatedImpact: 'high',
         automatable: false
-      });
+      }),
     }
 
     // Short-term improvements
@@ -690,7 +690,7 @@ export class AutomatedLintingIntegration {
     for (const issue of issues) {
       const category = issue.category.primary;
       if (!grouped[category]) grouped[category] = [];
-      grouped[category].push(issue);
+      grouped[category].push(issue),
     }
     return grouped;
   }
@@ -700,7 +700,7 @@ export class AutomatedLintingIntegration {
     for (const issue of issues) {
       const priority = issue.category.priority;
       if (!grouped[priority]) grouped[priority] = [];
-      grouped[priority].push(issue);
+      grouped[priority].push(issue),
     }
     return grouped;
   }
@@ -709,7 +709,7 @@ export class AutomatedLintingIntegration {
     const grouped: Record<string, LintingIssue[]> = {};
     for (const issue of issues) {
       if (!grouped[issue.file]) grouped[issue.file] = [];
-      grouped[issue.file].push(issue);
+      grouped[issue.file].push(issue),
     }
     return grouped;
   }

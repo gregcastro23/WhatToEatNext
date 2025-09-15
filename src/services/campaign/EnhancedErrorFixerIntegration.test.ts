@@ -14,7 +14,7 @@ const mockExecSync: any = execSync as jest.MockedFunction<typeof execSync>;
 const mockSpawn: any = spawn as jest.MockedFunction<typeof spawn>;
 
 describe('EnhancedErrorFixerIntegration', () => {
-  let integration: EnhancedErrorFixerIntegration;
+  let integration: EnhancedErrorFixerIntegration,
 
   beforeEach(() => {
     integration = new EnhancedErrorFixerIntegration();
@@ -23,7 +23,7 @@ describe('EnhancedErrorFixerIntegration', () => {
 
   describe('buildFixerArguments', () => {
     it('should build correct arguments for basic options', () => {
-      const options: FixerOptions = { maxFiles: 15,;
+      const options: FixerOptions = { maxFiles: 15,,
         autoFix: true,
         validateSafety: true
       };
@@ -40,7 +40,7 @@ describe('EnhancedErrorFixerIntegration', () => {
     });
 
     it('should build correct arguments for dry run', () => {
-      const options: FixerOptions = { dryRun: true,;
+      const options: FixerOptions = { dryRun: true,,
         silent: true,
         json: true
       };
@@ -68,7 +68,7 @@ describe('EnhancedErrorFixerIntegration', () => {
 
       const parseMethod: any = (;
         integration as unknown as {
-          parseFixerOutput: (outpu, t: string, validateSafety: boolean) => Record<string, unknown>;
+          parseFixerOutput: (outpu, t: string, validateSafety: boolean) => Record<string, unknown>,
         }
       ).parseFixerOutput.bind(integration);
       const result: any = parseMethod(mockOutput, true);
@@ -88,15 +88,15 @@ describe('EnhancedErrorFixerIntegration', () => {
 
       const parseMethod: any = (;
         integration as unknown as {
-          parseFixerOutput: (outpu, t: string, validateSafety: boolean) => Record<string, unknown>;
+          parseFixerOutput: (outpu, t: string, validateSafety: boolean) => Record<string, unknown>,
         }
       ).parseFixerOutput.bind(integration);
       const result: any = parseMethod(mockOutput, false);
 
       expect(result.warnings).toHaveLength(2);
       expect(result.errors).toHaveLength(1);
-      expect((result).warnings.[0]).toContain('Some files skipped');
-      expect((result).errors.[0]).toContain('Build validation failed');
+      expect((result).warnings[0]).toContain('Some files skipped');
+      expect((result).errors[0]).toContain('Build validation failed');
     });
   });
 
@@ -118,7 +118,7 @@ describe('EnhancedErrorFixerIntegration', () => {
 
     it('should return false when build fails', async () => {
       mockExecSync.mockImplementation(() => {
-        throw new Error('Build failed');
+        throw new Error('Build failed'),
       });
 
       const validateMethod: any = (integration as unknown as { validateBuild: () => Promise<boolean> }).validateBuild.bind(;
@@ -148,7 +148,7 @@ describe('EnhancedErrorFixerIntegration', () => {
 
     it('should return 0 when no errors found', async () => {
       mockExecSync.mockImplementation(() => {
-        throw new Error('No matches found');
+        throw new Error('No matches found'),
       });
 
       const countMethod: any = (;
@@ -163,12 +163,12 @@ describe('EnhancedErrorFixerIntegration', () => {
   describe('executeEnhancedFixer', () => {
     it('should execute fixer with correct options', async () => {
       // Mock spawn to simulate successful execution
-      const mockChild = {;
+      const mockChild = {
         stdout: { o, n: jest.fn() },
         stderr: { o, n: jest.fn() },
         on: jest.fn((event: any, callback: any) => {
-          if (event === 'close') {;
-            callback(0); // Success exit code
+          if (event === 'close') {
+            callback(0), // Success exit code
           }
         })
       };
@@ -176,7 +176,7 @@ describe('EnhancedErrorFixerIntegration', () => {
       mockSpawn.mockReturnValue(mockChild as any<typeof spawn>);
       mockExecSync.mockReturnValue('Build successful'); // Mock build validation
 
-      const options: FixerOptions = { maxFiles: 10,;
+      const options: FixerOptions = { maxFiles: 10,,
         autoFix: true,
         validateSafety: true
       };
@@ -186,8 +186,8 @@ describe('EnhancedErrorFixerIntegration', () => {
       expect(mockSpawn).toHaveBeenCalledWith(
         'node',
         [
-          'scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js',
-          '--max-files=10',;
+          'scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js';
+          '--max-files=10',,
           '--auto-fix',
           '--validate-safety'
         ],
@@ -202,11 +202,11 @@ describe('EnhancedErrorFixerIntegration', () => {
   describe('executeBatchProcessing', () => {
     it('should process multiple batches correctly', async () => {
       // Mock successful executions
-      const mockChild = {;
+      const mockChild = {
         stdout: { o, n: jest.fn() },
         stderr: { o, n: jest.fn() },
         on: jest.fn((event: any, callback: any) => {
-          if (event === 'close') {;
+          if (event === 'close') {
             callback(0);
           }
         })
@@ -221,7 +221,7 @@ describe('EnhancedErrorFixerIntegration', () => {
         .mockReturnValueOnce('Build successful') // Third build validation
         .mockReturnValueOnce('0\n'); // Final error count (no more errors)
 
-      const options: BatchProcessingOptions = { batchSize: 15,;
+      const options: BatchProcessingOptions = { batchSize: 15,,
         buildValidationInterval: 5,
         maxBatches: 3,
         stopOnBuildFailure: true
@@ -235,11 +235,11 @@ describe('EnhancedErrorFixerIntegration', () => {
 
     it('should stop on build failure when configured', async () => {
       // Mock failed build
-      const mockChild = {;
+      const mockChild = {
         stdout: { o, n: jest.fn() },
         stderr: { o, n: jest.fn() },
         on: jest.fn((event: any, callback: any) => {
-          if (event === 'close') {;
+          if (event === 'close') {
             callback(0);
           }
         })
@@ -248,11 +248,11 @@ describe('EnhancedErrorFixerIntegration', () => {
       mockSpawn.mockReturnValue(mockChild as any<typeof spawn>);
       mockExecSync
         .mockImplementationOnce(() => {
-          throw new Error('Build failed');
+          throw new Error('Build failed'),
         }) // Build validation fails
         .mockReturnValue('50\n'); // Error count
 
-      const options: BatchProcessingOptions = { batchSize: 10,;
+      const options: BatchProcessingOptions = { batchSize: 10,,
         buildValidationInterval: 5,
         maxBatches: 5,
         stopOnBuildFailure: true
@@ -262,17 +262,17 @@ describe('EnhancedErrorFixerIntegration', () => {
 
       // Should stop after first batch due to build failure
       expect(results.length).toBe(1);
-      expect(results.[0].buildValidationPassed).toBe(false);
+      expect(results[0].buildValidationPassed).toBe(false);
     });
   });
 
   describe('validateSafety', () => {
     it('should return safety validation results', async () => {
-      const mockChild = {;
+      const mockChild = {
         stdout: { o, n: jest.fn() },
         stderr: { o, n: jest.fn() },
         on: jest.fn((event: any, callback: any) => {
-          if (event === 'close') {;
+          if (event === 'close') {
             callback(0);
           }
         })
@@ -292,11 +292,11 @@ describe('EnhancedErrorFixerIntegration', () => {
   describe('executeWithSafetyProtocols', () => {
     it('should execute with safety protocols', async () => {
       // Mock safety validation success
-      const mockChild = {;
+      const mockChild = {
         stdout: { o, n: jest.fn() },
         stderr: { o, n: jest.fn() },
         on: jest.fn((event: any, callback: any) => {
-          if (event === 'close') {;
+          if (event === 'close') {
             callback(0);
           }
         })
@@ -313,12 +313,12 @@ describe('EnhancedErrorFixerIntegration', () => {
 
     it('should use conservative settings when safety validation fails', async () => {
       // Mock safety validation failure
-      const mockChild = {;
+      const mockChild = {
         stdout: { o, n: jest.fn() },
         stderr: { o, n: jest.fn() },
         on: jest.fn((event: any, callback: any) => {
-          if (event === 'close') {;
-            callback(1); // Failure exit code
+          if (event === 'close') {
+            callback(1), // Failure exit code
           }
         })
       };

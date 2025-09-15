@@ -20,10 +20,10 @@ export interface ExtendedRecipeIngredient extends RecipeIngredient {
   id?: string;
   preparation?: string;
   optional?: boolean;
-  notes?: string;
-  function?: string;
-  cookingPoint?: string;
-  substitutes?: string[];
+  notes?: string,
+  function?: string,
+  cookingPoint?: string,
+  substitutes?: string[],
 }
 
 /**
@@ -67,10 +67,10 @@ export interface ExtendedRecipe extends Recipe {
     base?: string[];
     tasteBalance?: {
       sweet: number;
-      salty: number;
-      sour: number;
-      bitter: number;
-      umami: number;
+      salty: number,
+      sour: number,
+      bitter: number,
+      umami: number,
     };
   };
 
@@ -83,20 +83,20 @@ export interface ExtendedRecipe extends Recipe {
   regionalVariations?: string[];
 
   pairingRecommendations?: {
-    wines?: string[];
-    beverages?: string[];
-    sides?: string[];
-    condiments?: string[];
+    wines?: string[],
+    beverages?: string[],
+    sides?: string[],
+    condiments?: string[],
   };
 
   nutrition?: {
     calories?: number;
     servingSize?: string;
     macronutrients?: {
-      protein: number;
-      carbs: number;
-      fat: number;
-      fiber: number;
+      protein: number,
+      carbs: number,
+      fat: number,
+      fiber: number,
     };
   };
 
@@ -108,10 +108,10 @@ export interface ExtendedRecipe extends Recipe {
 
   presentationTips?: string[];
   sensoryIndicators?: {
-    visual: string[];
-    aroma: string[];
-    texture: string[];
-    sound: string[];
+    visual: string[],
+    aroma: string[],
+    texture: string[],
+    sound: string[],
   };
 
   keywords?: string[];
@@ -127,10 +127,10 @@ export interface ExtendedScoredRecipe extends ExtendedRecipe {
   score: number;
   alchemicalScores?: {
     elementalScore: number;
-    zodiacalScore: number;
-    lunarScore: number;
-    planetaryScore: number;
-    seasonalScore: number;
+    zodiacalScore: number,
+    lunarScore: number,
+    planetaryScore: number,
+    seasonalScore: number,
   };
 }
 
@@ -143,7 +143,7 @@ export function isExtendedRecipe(recipe: unknown): recipe is ExtendedRecipe {
     recipe !== null &&
     typeof (recipe as ExtendedRecipe).id === 'string' &&;
     typeof (recipe as ExtendedRecipe).name === 'string';
-  );
+  ),
 }
 
 /**
@@ -151,25 +151,25 @@ export function isExtendedRecipe(recipe: unknown): recipe is ExtendedRecipe {
  */
 export function toExtendedRecipe(recipe: Recipe): ExtendedRecipe {
   return {
-    ...recipe,
-    id: recipe.id || 'recipe-' + Date.now(),
+    ...recipe;
+    id: recipe.id || 'recipe-' + Date.now();
     tags: recipe.tags || [],
-    notes: recipe.notes || '',
-    preparation: recipe.preparation || '',
-    preparationNotes: recipe.preparationNotes || '',
-    ingredients: (recipe.ingredients || []).map(ingredient => {;
+    notes: recipe.notes || '';
+    preparation: recipe.preparation || '';
+    preparationNotes: recipe.preparationNotes || '';
+    ingredients: (recipe.ingredients || []).map(ingredient => {
       const extendedIngredient = ingredient as unknown as any;
       return {
-        ...ingredient,
+        ...ingredient;
         id:
           typeof extendedIngredient.id === 'string';
             ? extendedIngredient.id
-            : 'ingredient-' + Date.now(),
+            : 'ingredient-' + Date.now();
         preparation:
           typeof extendedIngredient.preparation === 'string' ? extendedIngredient.preparation : '',;
         optional:
-          typeof extendedIngredient.optional === 'boolean' ? extendedIngredient.optional : false,;
-        notes: typeof extendedIngredient.notes === 'string' ? extendedIngredient.notes : '',;
+          typeof extendedIngredient.optional === 'boolean' ? extendedIngredient.optional : false,,
+        notes: typeof extendedIngredient.notes === 'string' ? extendedIngredient.notes : '',,
       };
     })
   } as ExtendedRecipe;

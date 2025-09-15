@@ -22,7 +22,7 @@ export async function GET(request: Request) {
     const currentMoment = await getCurrentMoment(forceRefresh);
     const performanceMetrics = currentMomentManager.getPerformanceMetrics();
 
-    const response = {;
+    const response = {
       success: true,
       timestamp: new Date().toISOString(),
       currentMoment,
@@ -156,7 +156,7 @@ export async function PUT(request: Request) {
 
     const currentMoment = await updateCurrentMoment(customDate, customLocation);
 
-    const updateResults = {;
+    const updateResults = {
       notebook: false,
       systemDefaults: false,
       streamlinedPositions: false,

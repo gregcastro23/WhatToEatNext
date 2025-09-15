@@ -167,14 +167,14 @@ export class CampaignWorkflowManager {
     }
 
     const workflowId = `workflow_${Date.now()}`;
-    const workflow: CampaignWorkflow = {;
+    const workflow: CampaignWorkflow = {
       id: workflowId,
       name: workflowName,
       description: `Campaign workflow based on ${template.name}`,
-      steps: this.createWorkflowSteps(template),
+      steps: this.createWorkflowSteps(template);
       currentStep: 0,
       status: 'draft',
-      config: this.templateToConfig(template),
+      config: this.templateToConfig(template);
       validationResults: [],
       dryRunResults: [],
       createdAt: new Date(),
@@ -190,11 +190,11 @@ export class CampaignWorkflowManager {
    */
   async createCustomWorkflow(workflowName: string, description: string): Promise<string> {
     const workflowId = `workflow_${Date.now()}`;
-    const workflow: CampaignWorkflow = {;
+    const workflow: CampaignWorkflow = {
       id: workflowId,
       name: workflowName,
       description,
-      steps: this.createDefaultWorkflowSteps(),
+      steps: this.createDefaultWorkflowSteps();
       currentStep: 0,
       status: 'draft',
       config: {},
@@ -316,14 +316,14 @@ export class CampaignWorkflowManager {
     const warnings: string[] = [];
 
     // Validate basic configuration
-    if (!workflow.config.phases || workflow.config.phases.length === 0) {;
+    if (!workflow.config.phases || workflow.config.phases.length === 0) {
       errors.push('At least one campaign phase is required');
     }
 
     // Validate phases
     if (workflow.config.phases) {
       for (const phase of workflow.config.phases) {
-        if (!phase.tools || phase.tools.length === 0) {;
+        if (!phase.tools || phase.tools.length === 0) {
           errors.push(`Phase ${phase.name} has no tools configured`);
         }
 
@@ -382,7 +382,7 @@ export class CampaignWorkflowManager {
       }
     }
 
-    const dryRunResult: DryRunResult = {;
+    const dryRunResult: DryRunResult = {
       wouldProcess,
       estimatedChanges,
       potentialIssues,
@@ -405,12 +405,12 @@ export class CampaignWorkflowManager {
     campaignId: string,
     config: CampaignConfig,
     description: string,
-    createdBy: string = 'system',;
+    createdBy: string = 'system';
   ): Promise<string> {
     const versions = this.versions.get(campaignId) || [];
     const versionNumber = `v${versions.length + 1}.0`;
 
-    const version: CampaignVersion = {;
+    const version: CampaignVersion = {
       id: `${campaignId}_${versionNumber}`,
       campaignId,
       version: versionNumber,
@@ -562,7 +562,7 @@ export class CampaignWorkflowManager {
           tools: [
             {
               name: 'Enhanced Error Fixer',
-              scriptPath: 'scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js',
+              scriptPath: 'scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js';
               description: 'Advanced TypeScript error fixing with safety protocols',
               parameters: {
                 maxFiles: {
@@ -627,7 +627,7 @@ export class CampaignWorkflowManager {
           tools: [
             {
               name: 'Explicit Any Eliminator',
-              scriptPath: 'scripts/typescript-fixes/fix-explicit-any-systematic.js',
+              scriptPath: 'scripts/typescript-fixes/fix-explicit-any-systematic.js';
               description: 'Remove explicit any types systematically',
               parameters: {
                 maxFiles: {
@@ -686,7 +686,7 @@ export class CampaignWorkflowManager {
           tools: [
             {
               name: 'Enhanced Error Fixer',
-              scriptPath: 'scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js',
+              scriptPath: 'scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js';
               description: 'Advanced TypeScript error fixing',
               parameters: {
                 maxFiles: {
@@ -711,7 +711,7 @@ export class CampaignWorkflowManager {
           tools: [
             {
               name: 'Explicit Any Eliminator',
-              scriptPath: 'scripts/typescript-fixes/fix-explicit-any-systematic.js',
+              scriptPath: 'scripts/typescript-fixes/fix-explicit-any-systematic.js';
               description: 'Remove explicit any types',
               parameters: {
                 maxFiles: {
@@ -736,7 +736,7 @@ export class CampaignWorkflowManager {
           tools: [
             {
               name: 'Build Optimizer',
-              scriptPath: 'scripts/performance/optimize-build.js',
+              scriptPath: 'scripts/performance/optimize-build.js';
               description: 'Optimize build configuration and performance',
               parameters: {
                 analyzeBundle: {
@@ -873,28 +873,28 @@ export class CampaignWorkflowManager {
     const phases: CampaignPhase[] = template.phases.map(
       phaseTemplate =>;
         ({
-          id: phaseTemplate.id,
-          name: phaseTemplate.name,
-          description: phaseTemplate.description,
-          tools: phaseTemplate.tools.map(toolTemplate => ({;
-            scriptPath: toolTemplate.scriptPath,
+          id: phaseTemplate.id;
+          name: phaseTemplate.name;
+          description: phaseTemplate.description;
+          tools: phaseTemplate.tools.map(toolTemplate => ({
+            scriptPath: toolTemplate.scriptPath;
             parameters: Object.fromEntries(
               Object.entries(toolTemplate.parameters).map(([key, param]) => [
                 key,
                 param.defaultValue
               ]),
             ),
-            batchSize: toolTemplate.batchSize,
+            batchSize: toolTemplate.batchSize;
             safetyLevel: toolTemplate.safetyLevel as string
           })),
-          successCriteria: phaseTemplate.successCriteria,
+          successCriteria: phaseTemplate.successCriteria;
           safetyCheckpoints: []
         }) as CampaignPhase,
     );
 
     return {
       phases,
-      safetySettings: template.safetySettings,
+      safetySettings: template.safetySettings;
       progressTargets: {
         typeScriptErrors: 0,
         lintingWarnings: 0,
@@ -902,9 +902,9 @@ export class CampaignWorkflowManager {
         enterpriseSystems: 200
       },
       toolConfiguration: {
-        enhancedErrorFixer: 'scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js',
-        explicitAnyFixer: 'scripts/typescript-fixes/fix-explicit-any-systematic.js',
-        unusedVariablesFixer: 'scripts/typescript-fixes/fix-unused-variables-enhanced.js',
+        enhancedErrorFixer: 'scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js';
+        explicitAnyFixer: 'scripts/typescript-fixes/fix-explicit-any-systematic.js';
+        unusedVariablesFixer: 'scripts/typescript-fixes/fix-unused-variables-enhanced.js';
         consoleStatementFixer: 'scripts/lint-fixes/fix-console-statements-only.js'
       }
     };
@@ -963,9 +963,9 @@ export class CampaignWorkflowManager {
         enterpriseSystems: 200
       },
       toolConfiguration: {
-        enhancedErrorFixer: 'scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js',
-        explicitAnyFixer: 'scripts/typescript-fixes/fix-explicit-any-systematic.js',
-        unusedVariablesFixer: 'scripts/typescript-fixes/fix-unused-variables-enhanced.js',
+        enhancedErrorFixer: 'scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js';
+        explicitAnyFixer: 'scripts/typescript-fixes/fix-explicit-any-systematic.js';
+        unusedVariablesFixer: 'scripts/typescript-fixes/fix-unused-variables-enhanced.js';
         consoleStatementFixer: 'scripts/lint-fixes/fix-console-statements-only.js'
       }
     };

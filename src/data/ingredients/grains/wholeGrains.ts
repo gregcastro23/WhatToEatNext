@@ -2,7 +2,7 @@ import type { IngredientMapping } from '@/data/ingredients/types';
 import type { ZodiacSign } from '@/types/celestial';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
-const rawWholeGrains = {;
+const rawWholeGrains = {
   brown_rice: {
     name: 'Brown Rice',
     elementalProperties: { Earth: 0.5, Water: 0.3, Air: 0.1, Fire: 0.1 },

@@ -1,5 +1,5 @@
 // Basic astrology data for the ElementalCalculator
-export const zodiacSigns = [;
+export const zodiacSigns = [
   'Aries',
   'Taurus',
   'Gemini',
@@ -14,7 +14,7 @@ export const zodiacSigns = [;
   'Pisces'
 ];
 
-export const elements = {;
+export const elements = {
   aries: 'Fire',
   leo: 'Fire',
   sagittarius: 'Fire',
@@ -29,7 +29,7 @@ export const elements = {;
   pisces: 'Water'
 };
 
-export const planetaryRulers = {;
+export const planetaryRulers = {
   aries: 'Mars',
   taurus: 'Venus',
   gemini: 'Mercury',
@@ -45,7 +45,7 @@ export const planetaryRulers = {;
 };
 
 // Export planetInfo data structure needed by the calculations
-export const planetInfo = {;
+export const planetInfo = {
   Sun: {
     'Dignity Effect': { leo: 1, aries: 2, aquarius: -1, libra: -2 },
     Elements: ['Fire', 'Fire'],
@@ -130,7 +130,7 @@ export const planetInfo = {;
 };
 
 // Export signInfo data structure needed by the calculations
-export const signInfo = {;
+export const signInfo = {
   aries: {
     Element: 'Fire',
     Start: { Day: 21, Month: 3, Year: 2022 },

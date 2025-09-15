@@ -13,7 +13,7 @@ export class BuildSystemRepair {
   private readonly configOptimizer: NextConfigOptimizer;
   private readonly logger: (message: string, ...args: unknown[]) => void;
 
-  constructor(logger = console.log) {;
+  constructor(logger = console.log) {
     this.buildValidator = new BuildValidator('.next', logger);
     this.configOptimizer = new NextConfigOptimizer('next.config.js', logger);
     this.logger = logger;
@@ -24,7 +24,7 @@ export class BuildSystemRepair {
    * Addresses all requirements: 3.1, 3.2, 3.3, 3.4, 3.5
    */
   async performComprehensiveRepair(): Promise<BuildRepairResult> {
-    const result: BuildRepairResult = {;
+    const result: BuildRepairResult = {
       success: false,
       steps: [],
       errors: [],
@@ -127,10 +127,10 @@ export class BuildSystemRepair {
   /**
    * Monitors build system health continuously
    */
-  async startHealthMonitoring(intervalMinutes = 30): Promise<void> {;
+  async startHealthMonitoring(intervalMinutes = 30): Promise<void> {
     this.logger(`Starting build health monitoring (every ${intervalMinutes} minutes)`);
 
-    const monitor = async () => {;
+    const monitor = async () => {
       try {
         const health = await this.buildValidator.monitorBuildHealth();
 
@@ -156,7 +156,7 @@ export class BuildSystemRepair {
    * Generates a detailed build system report
    */
   async generateBuildReport(): Promise<BuildSystemReport> {
-    const report: BuildSystemReport = {;
+    const report: BuildSystemReport = {
       timestamp: new Date(),
       validation: await this.buildValidator.validateBuild(),
       health: await this.buildValidator.monitorBuildHealth(),

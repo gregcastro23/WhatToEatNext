@@ -176,7 +176,7 @@ describe('Environment Configuration Loader', () => {
 
     test('handles custom config path', () => {
       const customPath: any = '/tmp/custom-config.json';
-      const manager: any = createEnvironmentConfigManager('development', customPath);
+      const manager: any = createEnvironmentConfigManager('development', customPath),
 
       expect(manager).toBeDefined();
       // Note: We can't easily test the path without file system operations
@@ -190,7 +190,7 @@ describe('Environment Configuration Loader', () => {
       // Production should not have errors about safety levels
       const safetyErrors: any = validation.errors.filter(error =>;
         error.includes('MAXIMUM safety level')
-      );
+      ),
       expect(safetyErrors).toHaveLength(0);
     });
 
@@ -215,9 +215,9 @@ describe('Environment Configuration Loader', () => {
 
   describe('Configuration Consistency', () => {
     test('all environments have valid configurations', () => {
-      const environments: any = ['development', 'production', 'testing'] as const;
+      const environments: any = ['development', 'production', 'testing'] as const,
 
-      environments.forEach(env => {;
+      environments.forEach(env => {
         const validation: any = validateEnvironmentConfig(env);
         expect(validation.isValid).toBe(true);
       });
@@ -226,7 +226,7 @@ describe('Environment Configuration Loader', () => {
     test('all environments maintain required properties', () => {
       const environments: any = ['development', 'production', 'testing'] as const;
 
-      environments.forEach(env => {;
+      environments.forEach(env => {
         const config: any = getEnvironmentConfig(env);
 
         expect(config.classification).toBeDefined();

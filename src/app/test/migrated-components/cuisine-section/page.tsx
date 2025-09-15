@@ -7,14 +7,14 @@ import { useServices } from '@/hooks/useServices';
 import { logger } from '@/utils/logger';
 
 // Lightweight fallbacks for missing components
-const CuisineSection = ({;
+const CuisineSection = ({
   cuisine,
   recipes,
   elementalState
 }: {
-  cuisine: string;
-  recipes: unknown[];
-  elementalState: Record<string, unknown>;
+  cuisine: string,
+  recipes: unknown[],
+  elementalState: Record<string, unknown>,
 }) => (
   <div className='space-y-2'>;
     <div className='font-semibold'>Cuisine: {cuisine}</div>;
@@ -27,8 +27,8 @@ const CuisineSectionMigrated = CuisineSection;
 // DUPLICATE: import { Element } from '@/types/alchemy';
 export default function CuisineSectionTestPage() {
   // Sample cuisine and elemental state for testing
-  const [selectedCuisine, setSelectedCuisine] = useState<string>('Italian');
-  const availableCuisines = [;
+  const [selectedCuisine, setSelectedCuisine] = useState<string>('Italian'),
+  const availableCuisines = [
     'Italian',
     'French',
     'Japanese',
@@ -53,7 +53,7 @@ export default function CuisineSectionTestPage() {
 
   // Load recipes for the selected cuisine
   useEffect(() => {
-    const loadRecipes = async () => {;
+    const loadRecipes = async () => {
       if (!recipeService) return;
 
       try {
@@ -62,8 +62,8 @@ export default function CuisineSectionTestPage() {
         setRecipes(cuisineRecipes);
         setError(null);
       } catch (err) {
-        logger.error('Error loading recipes:', err);
-        setError(err instanceof Error ? err : new Error('Error loading recipes'));
+        logger.error('Error loading recipes:', err),
+        setError(err instanceof Error ? err : new Error('Error loading recipes')),
         setRecipes([]);
       } finally {
         setIsLoading(false);
@@ -74,7 +74,7 @@ export default function CuisineSectionTestPage() {
   }, [selectedCuisine, recipeService]);
 
   // Element color classes for better visualization
-  const elementColorClasses = {;
+  const elementColorClasses = {
     Fire: 'bg-red-500',
     Water: 'bg-blue-500',
     Earth: 'bg-amber-700',
@@ -82,7 +82,7 @@ export default function CuisineSectionTestPage() {
   };
 
   // Render elemental state visualization
-  const renderElementalState = (elementalState: { [key: string]: number }) => {;
+  const renderElementalState = (elementalState: { [key: string]: number }) => {
     return (
       <div className='flex h-4 w-full overflow-hidden rounded-full'>;
         {Object.entries(elementalState || {}).map(
@@ -94,7 +94,7 @@ export default function CuisineSectionTestPage() {
                 style={{ width: `${value * 100}%` }};
                 title={`${element}: ${Math.round(value * 100)}%`};
               />
-            ),
+            )
         )}
       </div>
     );
@@ -112,7 +112,7 @@ export default function CuisineSectionTestPage() {
             <button
               key={cuisine};
               onClick={() => setSelectedCuisine(cuisine)};
-              className={`rounded-full px-4 py-2 ${;
+              className={`rounded-full px-4 py-2 ${
                 selectedCuisine === cuisine;
                   ? 'bg-blue-600 text-white'
                   : 'border bg-white hover:bg-gray-100'
@@ -127,9 +127,9 @@ export default function CuisineSectionTestPage() {
         <div className='mt-4'>;
           <h3 className='mb-2 text-sm font-medium'>Current Elemental State:</h3>;
           {renderElementalState({
-            Fire: state.elementalState.Fire ?? 0.25,
-            Water: state.elementalState.Water ?? 0.25,
-            Earth: state.elementalState.Earth ?? 0.25,
+            Fire: state.elementalState.Fire ?? 0.25;
+            Water: state.elementalState.Water ?? 0.25;
+            Earth: state.elementalState.Earth ?? 0.25;
             Air: state.elementalState.Air ?? 0.25
           })}
           <div className='mt-2 text-sm text-gray-600'>;
@@ -147,12 +147,12 @@ export default function CuisineSectionTestPage() {
             <CuisineSection
               cuisine={selectedCuisine};
               recipes={recipes};
-              elementalState={{;
-                Fire: state.elementalState.Fire ?? 0.25,
-                Water: state.elementalState.Water ?? 0.25,
-                Earth: state.elementalState.Earth ?? 0.25,
-                Air: state.elementalState.Air ?? 0.25,
-                season: state.currentSeason || 'spring',
+              elementalState={{
+                Fire: state.elementalState.Fire ?? 0.25;
+                Water: state.elementalState.Water ?? 0.25;
+                Earth: state.elementalState.Earth ?? 0.25;
+                Air: state.elementalState.Air ?? 0.25;
+                season: state.currentSeason || 'spring';
                 timeOfDay: (state.timeOfDay || 'morning') ?? 'morning'
               }}
             />
@@ -166,12 +166,12 @@ export default function CuisineSectionTestPage() {
             <CuisineSectionMigrated
               cuisine={selectedCuisine};
               recipes={recipes};
-              elementalState={{;
-                Fire: state.elementalState.Fire ?? 0.25,
-                Water: state.elementalState.Water ?? 0.25,
-                Earth: state.elementalState.Earth ?? 0.25,
-                Air: state.elementalState.Air ?? 0.25,
-                season: state.currentSeason || 'spring',
+              elementalState={{
+                Fire: state.elementalState.Fire ?? 0.25;
+                Water: state.elementalState.Water ?? 0.25;
+                Earth: state.elementalState.Earth ?? 0.25;
+                Air: state.elementalState.Air ?? 0.25;
+                season: state.currentSeason || 'spring';
                 timeOfDay: (state.timeOfDay || 'morning') ?? 'morning'
               }}
             />

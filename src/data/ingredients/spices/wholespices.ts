@@ -2,7 +2,7 @@ import { CUISINE_TYPES } from '@/constants/cuisineTypes';
 import type { IngredientMapping } from '@/data/ingredients/types';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
-const rawWholeSpices = {;
+const rawWholeSpices = {
   star_anise: {
     name: 'Star Anise',
     elementalProperties: { Fire: 0.4, Air: 0.2, Water: 0.1, Earth: 0.1 },

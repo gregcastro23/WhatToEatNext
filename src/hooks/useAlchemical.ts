@@ -17,7 +17,7 @@ export function useAlchemical() {
     error: null
   });
 
-  const fetchPlanetaryPositions = useCallback(async () => {;
+  const fetchPlanetaryPositions = useCallback(async () => {
     try {
       setState(prev => ({ ...prev, isLoading: true, error: null }));
 
@@ -40,7 +40,7 @@ export function useAlchemical() {
         error: null
       });
     } catch (error) {
-      setState(prev => ({;
+      setState(prev => ({
         ...prev,
         isLoading: false,
         error: error instanceof Error ? error.message : 'Unknown error'

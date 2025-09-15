@@ -154,6 +154,6 @@ export function trackRenders(nameOrComponent: string | ComponentType<any>, name?
   // Called as trackRenders(Component, 'Name')
   return withRenderTracking(
     nameOrComponent,
-    name || nameOrComponent.displayName || nameOrComponent.name || 'Component',
+    name || nameOrComponent.displayName || nameOrComponent.name || 'Component';
   );
 }

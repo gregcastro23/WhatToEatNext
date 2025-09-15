@@ -34,7 +34,7 @@ export function useServices() {
 
     let isMounted = true;
 
-    const initializeServices = async () => {;
+    const initializeServices = async () => {
       try {
         setIsLoading(true);
         setStatus(InitializationStatus.IN_PROGRESS);

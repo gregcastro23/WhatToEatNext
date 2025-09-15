@@ -61,7 +61,7 @@ export function getIngredientCompatibility(
   signA?: any,
   signB?: any,
 ) {
-  return calculateAlchemicalCompatibility(ingredientA, ingredientB, signA, signB);
+  return calculateAlchemicalCompatibility(ingredientA, ingredientB, signA, signB),
 }
 
 /**
@@ -129,7 +129,7 @@ export function generatePersonalizedMealPlan(
   // Recipe generation functionality is deactivated
   // Return a simple placeholder instead
   return {
-    message: 'Recipe generation is deactivated. Using existing recipes instead.',
+    message: 'Recipe generation is deactivated. Using existing recipes instead.';
     dominant: dominant
   };
 
@@ -142,7 +142,7 @@ export function generatePersonalizedMealPlan(
   );
 
   // Define meal structure
-  const mealPlan = {;
+  const mealPlan = {
     appetizer: {
       suggestion: '',
       explanation: ''
@@ -161,14 +161,14 @@ export function generatePersonalizedMealPlan(
     },
     overallHarmony: 0,
     astrological: {
-      dominant: alchemicalResult.dominant,
+      dominant: alchemicalResult.dominant;
       specialConsiderations: baseRecommendation.reasoning.planetary
     }
   };
 
   // Generate appetizer based on complementary elements
   const dominantElement = alchemicalResult.dominant?.element || 'Fire';
-  const appetizers = {;
+  const appetizers = {
     Fire: ['spicy roasted nuts', 'grilled pepper tapas', 'warm olives with chili'],
     Water: ['chilled cucumber soup', 'seafood ceviche', 'watermelon and feta bites'],
     Earth: ['mushroom pâté', 'root vegetable chips', 'herbed cheese spread'],
@@ -180,7 +180,7 @@ export function generatePersonalizedMealPlan(
 
   // Generate dessert based on balancing elements
   const balancingElement = getBalancingElement(dominantElement);
-  const desserts = {;
+  const desserts = {
     Fire: ['spiced fruit compote', 'warm berry crumble', 'cinnamon-infused chocolate'],
     Water: ['fruit sorbet', 'lemon mousse', 'poached pears'],
     Earth: ['dense cake', 'nut-based dessert', 'caramel confection'],
@@ -191,7 +191,7 @@ export function generatePersonalizedMealPlan(
   mealPlan.dessert.explanation = `Reinforces your ${dominantElement} energy with complementary ${balancingElement} influences`;
 
   // Generate beverage recommendations
-  const beverages = {;
+  const beverages = {
     Fire: ['spiced tea', 'bold red wine', 'ginger-infused drinks'],
     Water: ['herbal tea', 'white wine', 'cucumber-infused water'],
     Earth: ['earthy coffee', 'robust porter beer', 'root vegetable juice'],
@@ -203,7 +203,7 @@ export function generatePersonalizedMealPlan(
 
   // Calculate overall harmony
   const userElementalProfile = getZodiacElementalInfluence(userSign);
-  const mealElements: ElementalProperties = {;
+  const mealElements: ElementalProperties = {
     Fire: dominantElement === 'Fire' ? 0.6 : balancingElement === 'Fire' ? 0.3 : 0.1,;
     Water: dominantElement === 'Water' ? 0.6 : balancingElement === 'Water' ? 0.3 : 0.1,;
     Earth: dominantElement === 'Earth' ? 0.6 : balancingElement === 'Earth' ? 0.3 : 0.1,;
@@ -228,7 +228,7 @@ export function generatePersonalizedMealPlan(
  */
 function _getBalancingElement(element) {
   // Elements work best with themselves - reinforcing the current energy
-  return element;
+  return element,
 }
 
 /**
@@ -238,7 +238,7 @@ function _getBalancingElement(element) {
  * @returns Validation results with test outcomes
  */
 export function validateEnhancedAlgorithms() {
-  return validateAlgorithms();
+  return validateAlgorithms(),
 }
 
 /**
@@ -264,7 +264,7 @@ export function enhanceAlchemicalCalculations(
     alchemicalResult,
     userPreferences,
     season,
-  );
+  ),
 
   // Return basic recommendation for all cases while recipe generation is disabled
   return {

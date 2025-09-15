@@ -52,7 +52,7 @@ describe('Astrologize API Integration', () => {
             expect(positions[planet]).toHaveProperty('isRetrograde');
 
             // Validate sign is a valid zodiac sign
-            const validSigns: any = [;
+            const validSigns: any = [
               'aries',
               'taurus',
               'gemini',
@@ -114,7 +114,7 @@ describe('Astrologize API Integration', () => {
   describe('Specific Date/Time Positions', () => {
     test('should get positions for a specific date', async () => {
       try {
-        const testDate: any = new Date('2024-06-21T12: 0, 0:00Z'); // Summer solstice
+        const testDate: any = new Date('2024-06-21T12:00:00Z'); // Summer solstice
         const positions: any = await getPlanetaryPositionsForDateTime(testDate);
         expect(typeof positions).toBe('object');
 
@@ -138,7 +138,7 @@ describe('Astrologize API Integration', () => {
 
     test('should get positions for birth date with location', async () => {
       try {
-        const birthDate: any = new Date('1990-03-20T16: 2, 0:00Z');
+        const birthDate: any = new Date('1990-03-20T16:20:00Z');
         const _birthLocation: any = { latitude: 40.7498, longitude: -73.7976 }; // NYC
 
         const positions: any = await getPlanetaryPositionsForDateTime(birthDate);
@@ -150,7 +150,7 @@ describe('Astrologize API Integration', () => {
         console.log('Location: NYC (40.7498, -73.7976)');
         console.log('----------------------------------');
 
-        Object.entries(positions || []).forEach(([_planet: any, position]: any) => {
+        Object.entries(positions || []).forEach(([_planet, position]) => {
           const retrograde: any = (position as { isRetrograde?: boolean }).isRetrograde ? ' (R)' : '';
           console.log(
             `${_planet.padEnd(10)}: ${(position as { sign?: string }).sign.toUpperCase()?.padEnd(12)} ${(position as { degree: number }).degree.toFixed(2).padStart(5)}°${retrograde}`,
@@ -187,7 +187,7 @@ describe('Astrologize API Integration', () => {
       try {
         const positions: any = await getCurrentPlanetaryPositions();
         // Test that all position objects have required properties
-        Object.entries(positions || []).forEach(([_planet: any, position]: any) => {
+        Object.entries(positions || []).forEach(([_planet, position]) => {
           expect(position).toHaveProperty('sign');
           expect(position).toHaveProperty('degree');
           expect(position).toHaveProperty('exactLongitude');
@@ -209,7 +209,7 @@ describe('Astrologize API Integration', () => {
   describe('Integration with other services', () => {
     test('should work with browser geolocation simulation', async () => {
       // Simulate getting location from browser
-      const _mockGeolocation: any = {;
+      const _mockGeolocation: any = {
         latitude: 37.7749,
         longitude: -122.4194 // San Francisco
       };
@@ -257,7 +257,7 @@ describe('Real-time Astrologize Output Demo', () => {
         console.log('⏰ Current Time:', new Date().toLocaleString());
         console.log('\n🪐 PLANETARY POSITIONS:');
 
-        const planetOrder: any = [;
+        const planetOrder: any = [
           'Sun',
           'Moon',
           'Mercury',
@@ -270,7 +270,7 @@ describe('Real-time Astrologize Output Demo', () => {
           'Pluto'
         ];
 
-        (planetOrder || []).forEach(planet => {;
+        (planetOrder || []).forEach(planet => {
           if (currentPositions[planet]) {
             const pos: any = currentPositions[planet];
             const retrograde: any = (pos as { isRetrograde?: boolean }).isRetrograde ? ' ℞' : '';
@@ -297,7 +297,7 @@ describe('Real-time Astrologize Output Demo', () => {
 
         // Count planets by element
         const elementCounts: any = { Fire: 0, Earth: 0, Air: 0, Water: 0 };
-        Object.values(currentPositions || []).forEach(pos => {;
+        Object.values(currentPositions || []).forEach(pos => {
           if (pos.sign) {
             const element: any = getSignElement(pos.sign);
             if (element !== null) elementCounts[element as keyof typeof elementCounts]++;
@@ -305,7 +305,7 @@ describe('Real-time Astrologize Output Demo', () => {
         });
 
         console.log('\n🔥 ELEMENTAL DISTRIBUTION:');
-        Object.entries(elementCounts || []).forEach(([element: any, count]: any) => {
+        Object.entries(elementCounts || []).forEach(([element, count]) => {
           const emoji: any = { Fire: '🔥', Earth: '🌍', Air: '💨', Water: '🌊' }[element as keyof typeof elementCounts];
           console.log(`  ${emoji} ${element.charAt(0).toUpperCase() + element.slice(1)}: ${count} planets`);
         });
@@ -328,7 +328,7 @@ describe('Real-time Astrologize Output Demo', () => {
 
 // Helper functions for interpretation
 function getSeason(sign: string): string {
-  const seasons: any = {;
+  const seasons: any = {
     aries: 'Spring',
     taurus: 'Spring',
     gemini: 'Spring',
@@ -346,7 +346,7 @@ function getSeason(sign: string): string {
 }
 
 function getSignElement(sign: string): string | null {
-  const elements: any = {;
+  const elements: any = {
     aries: 'Fire',
     leo: 'Fire',
     sagittarius: 'Fire',
@@ -364,7 +364,7 @@ function getSignElement(sign: string): string | null {
 }
 
 function getElementDescription(element: string | null): string {
-  const descriptions: any = {;
+  const descriptions: any = {
     Fire: 'action and inspiration',
     Earth: 'stability and practicality',
     Air: 'communication and ideas',

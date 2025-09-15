@@ -8,7 +8,7 @@ const seasonalHerbGuide: Record<string, { cuisines: Record<string, string[]> }> 
   winter: { cuisines: {} }
 };
 
-export const _herbUtils = {;
+export const _herbUtils = {
   findByCuisine: (cuisine: string) => {
     return Object.entries(herbs)
       .filter(([_, herb]) => herb.culinary_traditions?.[cuisine])

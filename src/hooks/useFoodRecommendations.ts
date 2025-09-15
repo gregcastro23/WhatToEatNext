@@ -8,8 +8,8 @@ import { getRecommendedIngredients, EnhancedIngredient } from '@/utils/foodRecom
  * Hook to get ingredient recommendations based on current astrological state
  * This replaces the deprecated useIngredientRecommendations hook
  */
-export const _useFoodRecommendations = (options?: {;
-  limit?: number;
+export const _useFoodRecommendations = (options?: {
+  limit?: number,
   filter?: (ingredient: EnhancedIngredient) => boolean;
 }) => {
   const { state, planetaryPositions } = useAlchemical();
@@ -18,37 +18,37 @@ export const _useFoodRecommendations = (options?: {;
   const [error, setError] = useState<string | null>(null);
 
   // Memoize the astrological state to prevent unnecessary re-renders
-  const astroState = useMemo<AstrologicalState>(() => {;
+  const astroState = useMemo<AstrologicalState>(() => {
     // Provide fallback values to ensure the object is always complete
     return {
       // Required fields from the type definition
-      currentZodiac: (state.astrologicalState.zodiacSign as any) || 'aries',
-      moonPhase: (state.astrologicalState.lunarPhase as LunarPhase) || 'NEW_MOON',
+      currentZodiac: (state.astrologicalState.zodiacSign as any) || 'aries';
+      moonPhase: (state.astrologicalState.lunarPhase as LunarPhase) || 'NEW_MOON';
       currentPlanetaryAlignment: state.astrologicalState.currentPlanetaryAlignment || {},
       activePlanets: state.astrologicalState.activePlanets || ['sun', 'moon'],
       planetaryPositions: planetaryPositions || {},
-      lunarPhase: (state.astrologicalState.lunarPhase as LunarPhase) || 'NEW_MOON',
-      zodiacSign: (state.astrologicalState.zodiacSign as any) || 'aries',
-      planetaryHours: (state.astrologicalState.planetaryHour as Planet) || 'sun',
+      lunarPhase: (state.astrologicalState.lunarPhase as LunarPhase) || 'NEW_MOON';
+      zodiacSign: (state.astrologicalState.zodiacSign as any) || 'aries';
+      planetaryHours: (state.astrologicalState.planetaryHour as Planet) || 'sun';
       aspects: state.astrologicalState.aspects || [],
       tarotElementBoosts: state.astrologicalState.tarotElementBoosts || {},
       tarotPlanetaryBoosts: state.astrologicalState.tarotPlanetaryBoosts || {},
       // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
     } as any;
   }, [
-    state.astrologicalState.zodiacSign,
-    state.astrologicalState.lunarPhase,
-    state.astrologicalState.currentPlanetaryAlignment,
-    state.astrologicalState.activePlanets,
-    state.astrologicalState.planetaryHour,
-    state.astrologicalState.aspects,
-    state.astrologicalState.tarotElementBoosts,
-    state.astrologicalState.tarotPlanetaryBoosts,
+    state.astrologicalState.zodiacSign;
+    state.astrologicalState.lunarPhase;
+    state.astrologicalState.currentPlanetaryAlignment;
+    state.astrologicalState.activePlanets;
+    state.astrologicalState.planetaryHour;
+    state.astrologicalState.aspects;
+    state.astrologicalState.tarotElementBoosts;
+    state.astrologicalState.tarotPlanetaryBoosts;
     planetaryPositions
   ]);
 
   useEffect(() => {
-    const fetchRecommendations = async () => {;
+    const fetchRecommendations = async () => {
       try {
         setLoading(true);
         setError(null);
@@ -62,11 +62,11 @@ export const _useFoodRecommendations = (options?: {;
         // Apply limit if specified
         const limitedResults = options?.limit;
           ? filteredResults.slice(0, options.limit)
-          : filteredResults;
+          : filteredResults,
 
         setRecommendations(limitedResults);
       } catch (err) {
-        console.error('Error fetching ingredient recommendations:', err);
+        console.error('Error fetching ingredient recommendations:', err),
         setError(err instanceof Error ? err.message : 'Unknown error occurred');
         setRecommendations([]);
       } finally {
@@ -79,18 +79,18 @@ export const _useFoodRecommendations = (options?: {;
   }, [astroState, options?.filter, options?.limit]);
 
   // Get the current season
-  const currentSeason = useMemo<Season>(() => {;
+  const currentSeason = useMemo<Season>(() => {
     const date = new Date();
     const month = date.getMonth();
 
     if (month >= 2 && month <= 4) return 'spring';
     if (month >= 5 && month <= 7) return 'summer';
     if (month >= 8 && month <= 10) return 'autumn';
-    return 'winter';
-  }, []);
+    return 'winter',
+  }, []),
 
   // Create a refresh function that can be called to force a refresh
-  const refreshRecommendations = useCallback(async () => {;
+  const refreshRecommendations = useCallback(async () => {
     try {
       setLoading(true);
 
@@ -102,12 +102,12 @@ export const _useFoodRecommendations = (options?: {;
 
       const limitedResults = options?.limit;
         ? filteredResults.slice(0, options.limit)
-        : filteredResults;
+        : filteredResults,
 
       setRecommendations(limitedResults);
       setError(null);
     } catch (err) {
-      console.error('Error refreshing ingredient recommendations:', err);
+      console.error('Error refreshing ingredient recommendations:', err),
       setError(err instanceof Error ? err.message : 'Unknown error occurred');
     } finally {
       setLoading(false);
@@ -120,8 +120,8 @@ export const _useFoodRecommendations = (options?: {;
     error,
     refreshRecommendations,
     currentSeason,
-    currentZodiac: astroState.zodiacSign || 'aries',
-    lunarPhase: astroState.lunarPhase,
+    currentZodiac: astroState.zodiacSign || 'aries';
+    lunarPhase: astroState.lunarPhase;
     activePlanets: astroState.activePlanets || []
   };
 };

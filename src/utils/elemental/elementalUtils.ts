@@ -7,9 +7,9 @@ export function createElementalProperties(
   props?: Partial<ElementalProperties>,
 ): ElementalProperties {
   return {
-    Fire: props?.Fire ?? 0,
-    Water: props?.Water ?? 0,
-    Earth: props?.Earth ?? 0,
+    Fire: props?.Fire ?? 0;
+    Water: props?.Water ?? 0;
+    Earth: props?.Earth ?? 0;
     Air: props?.Air ?? 0
   };
 }
@@ -46,9 +46,9 @@ export function mergeElementalProperties(
   override: Partial<ElementalProperties> | undefined,
 ): ElementalProperties {
   return createElementalProperties({
-    Fire: (base?.Fire ?? 0) + (override?.Fire ?? 0),
-    Water: (base?.Water ?? 0) + (override?.Water ?? 0),
-    Earth: (base?.Earth ?? 0) + (override?.Earth ?? 0),
+    Fire: (base?.Fire ?? 0) + (override?.Fire ?? 0);
+    Water: (base?.Water ?? 0) + (override?.Water ?? 0);
+    Earth: (base?.Earth ?? 0) + (override?.Earth ?? 0);
     Air: (base?.Air ?? 0) + (override?.Air ?? 0)
   });
 }
@@ -63,9 +63,9 @@ export function scaleElementalProperties(
   if (!props) return createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 });
 
   return createElementalProperties({
-    Fire: (props.Fire ?? 0) * factor,
-    Water: (props.Water ?? 0) * factor,
-    Earth: (props.Earth ?? 0) * factor,
+    Fire: (props.Fire ?? 0) * factor;
+    Water: (props.Water ?? 0) * factor;
+    Earth: (props.Earth ?? 0) * factor;
     Air: (props.Air ?? 0) * factor
   });
 }
@@ -93,7 +93,7 @@ export function calculateElementalCompatibility(
   const targetProps = createElementalProperties(target);
 
   // Define element compatibility scores (same elements have highest compatibility)
-  const compatibilityScores = {;
+  const compatibilityScores = {
     Fire: { Fire: 0.9, Water: 0.7, Earth: 0.7, Air: 0.8 },
     Water: { Water: 0.9, Fire: 0.7, Earth: 0.8, Air: 0.7 },
     Earth: { Earth: 0.9, Fire: 0.7, Water: 0.8, Air: 0.7 },

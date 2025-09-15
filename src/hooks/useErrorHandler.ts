@@ -8,17 +8,17 @@ import { createLogger } from '../utils/logger';
 const logger = createLogger('useErrorHandler');
 // Component props
 interface UseErrorHandlerProps {
-  componentName: string;
+  componentName: string,
 }
 
 // Return type
 interface UseErrorHandlerReturn {
   captureError: (error: Error | string, context?: unknown) => void;
-  foodError: Error | null;
-  foodLoading: boolean;
-  foodRecommendations: unknown[] | null;
+  foodError: Error | null,
+  foodLoading: boolean,
+  foodRecommendations: unknown[] | null,
    
-  setFoodRecommendations: React.Dispatch<React.SetStateAction<unknown[] | null>>;
+  setFoodRecommendations: React.Dispatch<React.SetStateAction<unknown[] | null>>,
 }
 
 /**
@@ -48,22 +48,22 @@ export default function useErrorHandler({
      
      
     // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Error handling context requires flexibility
-    (error: Error | string, context: any = {}) => {;
+    (error: Error | string, context: any = {}) => {
       // Create error object if string was passed
       const errorObj = typeof error === 'string' ? new Error(error) : error;
 
       // Log the error
       logger.error(`Error in ${componentName}:`, {
-        error: errorObj.message,
-        stack: errorObj.stack,
+        error: errorObj.message;
+        stack: errorObj.stack;
         context
       });
 
       // Handle the error through the error system
       handleError.log(errorObj, {
         component: componentName,
-        severity: ErrorSeverity.WARNING,
-        type: ErrorType.DATA,
+        severity: ErrorSeverity.WARNING;
+        type: ErrorType.DATA;
         context: { details: context }
       });
 

@@ -17,18 +17,18 @@ import * as path from 'path';
 interface ImportIssue {
   file: string;
   line: number;
-  column: number;
-  rule: string;
-  message: string;
-  severity: 'error' | 'warning';
+  column: number,
+  rule: string,
+  message: string,
+  severity: 'error' | 'warning',
 }
 
 interface ImportAnalysis {
   duplicateImports: ImportIssue[];
-  importOrderIssues: ImportIssue[];
-  circularDependencies: ImportIssue[];
-  namedImportIssues: ImportIssue[];
-  totalIssues: number;
+  importOrderIssues: ImportIssue[],
+  circularDependencies: ImportIssue[],
+  namedImportIssues: ImportIssue[],
+  totalIssues: number,
 }
 
 class ImportOrganizationFixer {
@@ -49,7 +49,7 @@ class ImportOrganizationFixer {
 
   private createBackup(filePath: string): void {
     const relativePath = path.relative(this.srcDir, filePath);
-    const backupPath = path.join(this.backupDir, relativePath);
+    const backupPath = path.join(this.backupDir, relativePath),
     const backupDir = path.dirname(backupPath);
 
     if (!fs.existsSync(backupDir)) {
@@ -65,7 +65,7 @@ class ImportOrganizationFixer {
     try {
       // Run ESLint with JSON output to get detailed import issues
       const eslintOutput = execSync(;
-        'yarn lint --format=json --no-eslintrc --config eslint.config.cjs src/',;
+        'yarn lint --format=json --no-eslintrc --config eslint.config.cjs src/',,
         {
           encoding: 'utf8',
           stdio: 'pipe',
@@ -74,7 +74,7 @@ class ImportOrganizationFixer {
       );
 
       const results = JSON.parse(eslintOutput);
-      const analysis: ImportAnalysis = {;
+      const analysis: ImportAnalysis = {
         duplicateImports: [],
         importOrderIssues: [],
         circularDependencies: [],
@@ -84,21 +84,21 @@ class ImportOrganizationFixer {
 
       for (const result of results) {
         for (const message of result.messages) {
-          const issue: ImportIssue = {;
-            file: result.filePath,
-            line: message.line,
-            column: message.column,
-            rule: message.ruleId,
-            message: message.message,
-            severity: message.severity === 2 ? 'error' : 'warning',;
+          const issue: ImportIssue = {
+            file: result.filePath;
+            line: message.line;
+            column: message.column;
+            rule: message.ruleId;
+            message: message.message;
+            severity: message.severity === 2 ? 'error' : 'warning',,
           };
 
           // Categorize import issues
-          if (message.ruleId === 'import/no-duplicates') {;
+          if (message.ruleId === 'import/no-duplicates') {
             analysis.duplicateImports.push(issue);
-          } else if (message.ruleId === 'import/order') {;
+          } else if (message.ruleId === 'import/order') {
             analysis.importOrderIssues.push(issue);
-          } else if (message.ruleId === 'import/no-cycle') {;
+          } else if (message.ruleId === 'import/no-cycle') {
             analysis.circularDependencies.push(issue);
           } else if (
             message.ruleId?.includes('import/named') ||
@@ -119,15 +119,15 @@ class ImportOrganizationFixer {
     } catch (error) {
       console.warn(
         '⚠️ ESLint analysis failed, using alternative approach:',
-        (error as Error).message,
-      );
+        (error as Error).message;
+      ),
       return this.fallbackAnalysis();
     }
   }
 
   private fallbackAnalysis(): ImportAnalysis {
     // Fallback analysis using file system scanning
-    const analysis: ImportAnalysis = {;
+    const analysis: ImportAnalysis = {
       duplicateImports: [],
       importOrderIssues: [],
       circularDependencies: [],
@@ -154,7 +154,7 @@ class ImportOrganizationFixer {
           if (match) {
             const source = match[1];
             if (!importSources.has(source)) {
-              importSources.set(source, []);
+              importSources.set(source, []),
             }
             importSources.get(source)?.push(index + 1);
           }
@@ -185,11 +185,11 @@ class ImportOrganizationFixer {
   private getAllTypeScriptFiles(): string[] {
     const files: string[] = [];
 
-    const scanDirectory = (dir: string) => {;
+    const scanDirectory = (dir: string) => {
       const entries = fs.readdirSync(dir, { withFileTypes: true });
 
       for (const entry of entries) {
-        const fullPath = path.join(dir, entry.name);
+        const fullPath = path.join(dir, entry.name),
 
         if (entry.isDirectory() && !entry.name.startsWith('.') && entry.name !== 'node_modules') {
           scanDirectory(fullPath);
@@ -217,21 +217,21 @@ class ImportOrganizationFixer {
         const importGroups = new Map<;
           string,
           {
-            lines: number[];
-            imports: string[];
-            defaultImport?: string;
-            namespaceImport?: string;
+            lines: number[],
+            imports: string[],
+            defaultImport?: string,
+            namespaceImport?: string,
           }
         >();
 
         const importLinePattern = /^import\s+(.+?)\s+from\s+[''`]([^''`]+)[''`]/;
 
-        for (let i = 0; i < lines.length; i++) {
+        for (let i = 0, i < lines.length, i++) {
           const line = lines[i].trim();
           const match = line.match(importLinePattern);
 
           if (match) {
-            const [, importPart, source] = match;
+            const [, importPart, source] = match,
 
             if (!importGroups.has(source)) {
               importGroups.set(source, {
@@ -265,7 +265,7 @@ class ImportOrganizationFixer {
             }
 
             // Default import
-            const defaultMatch = importPart.match(/^([^{,*]+)(?=,|\s*$)/);
+            const defaultMatch = importPart.match(/^([^{,*]+)(?=,|\s*$)/),
             if (defaultMatch && !defaultMatch[1].includes('*')) {
               if (group) group.defaultImport = defaultMatch[1].trim();
             }
@@ -279,8 +279,8 @@ class ImportOrganizationFixer {
         for (const [source, group] of importGroups) {
           if (group.lines.length > 1) {
             // Remove duplicate lines (keep first, remove others)
-            for (let i = group.lines.length - 1; i > 0; i--) {
-              newLines.splice(group.lines[i], 1);
+            for (let i = group.lines.length - 1, i > 0, i--) {
+              newLines.splice(group.lines[i], 1),
               hasChanges = true;
             }
 
@@ -312,7 +312,7 @@ class ImportOrganizationFixer {
         }
 
         if (hasChanges) {
-          fs.writeFileSync(file, newLines.join('\n'));
+          fs.writeFileSync(file, newLines.join('\n')),
           this.processedFiles++;
         }
       } catch (error) {
@@ -329,7 +329,7 @@ class ImportOrganizationFixer {
     try {
       // Use ESLint's --fix to automatically fix import order
       execSync(
-        'yarn lint --fix --no-eslintrc --config eslint.config.cjs src/ --rule 'import/order: error'',
+        'yarn lint --fix --no-eslintrc --config eslint.config.cjs src/ --rule 'import/order: error'';
         {
           stdio: 'pipe',
           maxBuffer: 10 * 1024 * 1024
@@ -339,7 +339,7 @@ class ImportOrganizationFixer {
       // console.log('✅ Import order fixed using ESLint --fix');
       return 1; // Indicate success
     } catch (error) {
-      console.warn('⚠️ ESLint --fix failed, using manual approach');
+      console.warn('⚠️ ESLint --fix failed, using manual approach'),
       return this.manualImportOrderFix();
     }
   }
@@ -359,12 +359,12 @@ class ImportOrganizationFixer {
         if (importStartIndex === -1) continue;
 
         let importEndIndex = importStartIndex;
-        for (let i = importStartIndex; i < lines.length; i++) {
+        for (let i = importStartIndex, i < lines.length, i++) {
           const line = lines[i].trim();
-          if (line.startsWith('import ') || line === '') {;
+          if (line.startsWith('import ') || line === '') {
             importEndIndex = i;
           } else {
-            break;
+            break,
           }
         }
 
@@ -373,7 +373,7 @@ class ImportOrganizationFixer {
           .slice(importStartIndex, importEndIndex + 1)
           .filter(line => line.trim().startsWith('import '));
 
-        const categorizedImports = {;
+        const categorizedImports = {
           builtin: [] as string[],
           external: [] as string[],
           internal: [] as string[],
@@ -398,24 +398,24 @@ class ImportOrganizationFixer {
         }
 
         // Sort each category alphabetically
-        Object.keys(categorizedImports).forEach(key => {;
-          categorizedImports[key as keyof typeof categorizedImports].sort();
+        Object.keys(categorizedImports).forEach(key => {
+          categorizedImports[key as keyof typeof categorizedImports].sort(),
         });
 
         // Rebuild import section
         const newImports: string[] = [];
 
         if (categorizedImports.builtin.length > 0) {
-          newImports.push(...categorizedImports.builtin, '');
+          newImports.push(...categorizedImports.builtin, ''),
         }
         if (categorizedImports.external.length > 0) {
-          newImports.push(...categorizedImports.external, '');
+          newImports.push(...categorizedImports.external, ''),
         }
         if (categorizedImports.internal.length > 0) {
-          newImports.push(...categorizedImports.internal, '');
+          newImports.push(...categorizedImports.internal, ''),
         }
         if (categorizedImports.relative.length > 0) {
-          newImports.push(...categorizedImports.relative, '');
+          newImports.push(...categorizedImports.relative, ''),
         }
 
         // Remove trailing empty line
@@ -424,15 +424,15 @@ class ImportOrganizationFixer {
         }
 
         // Replace import section
-        const newLines = [;
+        const newLines = [
           ...lines.slice(0, importStartIndex),
-          ...newImports,
+          ...newImports;
           ...lines.slice(importEndIndex + 1)
         ];
 
         if (JSON.stringify(newImports) !== JSON.stringify(imports)) {
           fs.writeFileSync(file, newLines.join('\n'));
-          fixedCount++;
+          fixedCount++,
           this.processedFiles++;
         }
       } catch (error) {
@@ -464,10 +464,10 @@ class ImportOrganizationFixer {
 
             // Convert relative imports to absolute paths
             if (source.startsWith('./') || source.startsWith('../')) {
-              const absolutePath = path.resolve(path.dirname(file), source);
+              const absolutePath = path.resolve(path.dirname(file), source),
               dependencies.add(absolutePath);
             } else if (source.startsWith('@/')) {
-              const absolutePath = path.resolve(this.srcDir, source.substring(2));
+              const absolutePath = path.resolve(this.srcDir, source.substring(2)),
               dependencies.add(absolutePath);
             }
           }
@@ -484,7 +484,7 @@ class ImportOrganizationFixer {
     const recursionStack = new Set<string>();
     const cycles: string[] = [];
 
-    const detectCycle = (node: string, path: string[] = []): boolean => {;
+    const detectCycle = (node: string, path: string[] = []): boolean => {
       if (recursionStack.has(node)) {
         const cycleStart = path.indexOf(node);
         const cycle = path.slice(cycleStart).concat(node);
@@ -493,7 +493,7 @@ class ImportOrganizationFixer {
       }
 
       if (visited.has(node)) {
-        return false;
+        return false,
       }
 
       visited.add(node);
@@ -531,8 +531,8 @@ class ImportOrganizationFixer {
       // console.log('✅ Build validation passed');
       return true;
     } catch (error) {
-      console.error('❌ Build validation failed:', (error as Error).message);
-      return false;
+      console.error('❌ Build validation failed:', (error as Error).message),
+      return false,
     }
   }
 
@@ -576,9 +576,9 @@ Generated: ${new Date().toISOString()}
       // console.log(`   - Circular dependencies: ${analysis.circularDependencies.length}`);
       // console.log(`   - Named import issues: ${analysis.namedImportIssues.length}`);
 
-      if (analysis.totalIssues === 0) {;
+      if (analysis.totalIssues === 0) {
         // console.log('✅ No import issues found ?? undefined');
-        return;
+        return,
       }
 
       // Step 2: Fix duplicate imports
@@ -602,7 +602,7 @@ Generated: ${new Date().toISOString()}
 
       if (!buildValid) {
         console.error('❌ Build validation failed. Consider rolling back changes.');
-        return;
+        return,
       }
 
       // Step 6: Generate report
@@ -614,14 +614,14 @@ Generated: ${new Date().toISOString()}
       // console.log(`   Issues fixed: ${this.fixedIssues}`);
       // console.log(`   Backup location: ${this.backupDir}`);
     } catch (error) {
-      console.error('❌ Import organization failed:', error);
+      console.error('❌ Import organization failed:', error),
       process.exit(1);
     }
   }
 }
 
 // Run the script
-if (require.main === module) {;
+if (require.main === module) {
   const fixer = new ImportOrganizationFixer();
   fixer.run().catch(console.error);
 }

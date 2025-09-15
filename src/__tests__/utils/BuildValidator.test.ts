@@ -16,7 +16,7 @@ describe('BuildValidator', () => {
 
   beforeEach(() => {
     mockLogger = jest.fn() as any;
-    buildValidator = new BuildValidator('.next', mockLogger);
+    buildValidator = new BuildValidator('.next', mockLogger),
     jest.clearAllMocks();
   });
 
@@ -44,10 +44,10 @@ describe('BuildValidator', () => {
         expect.arrayContaining([
           expect.objectContaining({
             type: 'create',
-            target: '.next',
+            target: '.next';
             description: 'Create build directory'
           })
-        ]),
+        ])
       );
     });
 
@@ -86,7 +86,7 @@ describe('BuildValidator', () => {
           expect.objectContaining({
             type: 'fix'
           })
-        ]),
+        ])
       );
     });
   });
@@ -95,7 +95,7 @@ describe('BuildValidator', () => {
     it('should create missing directories and files': any, async () => {
       // Mock missing files scenario - build directory doesn't exist
       mockFs.existsSync.mockImplementation((_path: string) => {
-        return false; // All files missing
+        return false, // All files missing
       });
       mockFs.mkdirSync.mockImplementation();
       mockFs.writeFileSync.mockImplementation();
@@ -131,7 +131,7 @@ describe('BuildValidator', () => {
     it('should validate existing config': any, async () => {
       mockFs.existsSync.mockImplementation((path: string) => path === 'next.config.js');
       mockFs.readFileSync.mockReturnValue(`
-        module.exports = {;
+        module.exports = {
           output: 'standalone',
           typescript: { ignoreBuildError, s: false },
           eslint: { ignoreDuringBuild, s: false }
@@ -191,10 +191,10 @@ describe('BuildValidator', () => {
       const { execSync } = require('child_process');
       execSync
         .mockImplementationOnce(() => {
-          throw new Error('Build failed');
+          throw new Error('Build failed'),
         })
         .mockImplementationOnce(() => {
-          return 'Build successful';
+          return 'Build successful',
         });
 
       mockFs.existsSync.mockReturnValue(true);
@@ -210,7 +210,7 @@ describe('BuildValidator', () => {
     it('should fail after max retries': any, async () => {
       const { execSync } = require('child_process');
       execSync.mockImplementation(() => {
-        throw new Error('Build failed');
+        throw new Error('Build failed'),
       });
 
       const result: any = await buildValidator.rebuildWithRecovery(2);

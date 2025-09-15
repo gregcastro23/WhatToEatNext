@@ -5,7 +5,7 @@ import { getFoodRecommendationsFromChakras, getZodiacSignFoodRecommendations } f
 
 describe('Chakra System', () => {
   // Mock planetary positions and aspects
-  const mockPlanetaryPositions: any = {;
+  const mockPlanetaryPositions: any = {
     Sun: { sign: 'Leo', degree: 15 },
     Moon: { sign: 'Cancer', degree: 10 },
     Mercury: { sign: 'Virgo', degree: 5 },
@@ -18,7 +18,7 @@ describe('Chakra System', () => {
     Pluto: { sign: 'Scorpio', degree: 22 }
   };
 
-  const mockAspects: any = [;
+  const mockAspects: any = [
     { planet1: 'Sun', planet2: 'Moon', type: 'sextile' },
     { planet1: 'Mars', planet2: 'Jupiter', type: 'trine' },
     { planet1: 'Venus', planet2: 'Saturn', type: 'square' }
@@ -44,7 +44,7 @@ describe('Chakra System', () => {
     expect(signEnergyStates.length).toBe(12); // All zodiac signs
 
     // Check that each sign has the required properties
-    signEnergyStates.forEach(state => {;
+    signEnergyStates.forEach(state => {
       expect(state).toHaveProperty('sign');
       expect(state).toHaveProperty('baseEnergy');
       expect(state).toHaveProperty('planetaryModifiers');
@@ -52,7 +52,7 @@ describe('Chakra System', () => {
     });
 
     // Energy levels should be between 0.1 and 1.0
-    signEnergyStates.forEach(state => {;
+    signEnergyStates.forEach(state => {
       expect(state.currentEnergy).toBeGreaterThanOrEqual(0.1);
       expect(state.currentEnergy).toBeLessThanOrEqual(1.0);
     });
@@ -63,7 +63,7 @@ describe('Chakra System', () => {
     expect(chakraEnergyStates.length).toBe(7); // All chakras
 
     // Check that each chakra has the required properties
-    chakraEnergyStates.forEach(state => {;
+    chakraEnergyStates.forEach(state => {
       expect(state).toHaveProperty('chakra');
       expect(state).toHaveProperty('energyLevel');
       expect(state).toHaveProperty('properties');
@@ -74,9 +74,9 @@ describe('Chakra System', () => {
 
   test('Food recommendations are generated from chakra energy states', () => {
     // Artificially set some chakras to underactive to generate recommendations
-    const modifiedChakraStates: any = chakraEnergyStates.map(state => ({;
-      ...state,
-      energyLevel: 0.3, // Set to underactive;
+    const modifiedChakraStates: any = chakraEnergyStates.map(state => ({
+      ...state;
+      energyLevel: 0.3, // Set to underactive,
       balanceState: 'underactive' as const
     }));
 
@@ -108,7 +108,7 @@ describe('Chakra System', () => {
       'pisces'
     ];
 
-    zodiacSigns.forEach(sign => {;
+    zodiacSigns.forEach(sign => {
       const recommendations: any = getZodiacSignFoodRecommendations(sign);
       expect(recommendations).toBeDefined();
       expect(Array.isArray(recommendations)).toBe(true);
@@ -118,10 +118,10 @@ describe('Chakra System', () => {
 
   test('Chakra service provides dietary suggestions', () => {
     // Artificially set some chakras to underactive to generate recommendations
-    const modifiedChakraStates: any = chakraEnergyStates.map((state: any, index: any) => ({;
-      ...state,
-      energyLevel: index % 3 === 0 ? 0.3 : 0.6, // Set some to underactive;
-      balanceState: index % 3 === 0 ? ('underactive' as const) : ('balanced' as const),;
+    const modifiedChakraStates: any = chakraEnergyStates.map((state: any, index: any) => ({
+      ...state;
+      energyLevel: index % 3 === 0 ? 0.3 : 0.6, // Set some to underactive,
+      balanceState: index % 3 === 0 ? ('underactive' as const) : ('balanced' as const),,
     }));
 
     const suggestions: any = chakraService.suggestDietaryAdjustments(modifiedChakraStates);

@@ -12,29 +12,29 @@ export interface PlanetInfo {
   degree: number;
   isRetrograde: boolean;
   dignity: {
-    type: string;
-    strength: number;
+    type: string,
+    strength: number,
   };
   tarotCard: {
-    name: string;
-    element: string;
+    name: string,
+    element: string,
   };
   aspects: {
     planet: string;
-    type: string;
-    orb: number;
+    type: string,
+    orb: number,
   }[];
   elementalInfluence: {
     fire: number;
     water: number;
-    air: number;
-    earth: number;
+    air: number,
+    earth: number,
   };
   tokenInfluence: {
     spirit: number;
     essence: number;
-    matter: number;
-    substance: number;
+    matter: number,
+    substance: number,
   };
 }
 
@@ -66,11 +66,11 @@ export function getPlanetInfo(
     let normalizedPlanetName = planetName;
 
     // Normalize planet names for chart data
-    if (planetName === 'north_node' || planetName === 'northnode') {;
+    if (planetName === 'north_node' || planetName === 'northnode') {
       normalizedPlanetName = 'NorthNode';
-    } else if (planetName === 'south_node' || planetName === 'southnode') {;
+    } else if (planetName === 'south_node' || planetName === 'southnode') {
       normalizedPlanetName = 'SouthNode';
-    } else if (planetName === 'ascendant') {;
+    } else if (planetName === 'ascendant') {
       normalizedPlanetName = 'Ascendant';
     } else {
       normalizedPlanetName = planetName.charAt(0).toUpperCase() + planetName.slice(1).toLowerCase();
@@ -86,7 +86,7 @@ export function getPlanetInfo(
       normalizedPlanetName !== 'SouthNode'
     ) {
       try {
-        dignity = getPlanetaryDignityInfo(normalizedPlanetName, planetSign);
+        dignity = getPlanetaryDignityInfo(normalizedPlanetName, planetSign),
       } catch (error) {
         console.error(`Error getting dignity for ${normalizedPlanetName}:`, error);
         dignity = { type: 'Neutral', strength: 0 };
@@ -100,7 +100,7 @@ export function getPlanetInfo(
     if (
       normalizedPlanetName === 'Ascendant' ||;
       normalizedPlanetName === 'NorthNode' ||;
-      normalizedPlanetName === 'SouthNode';
+      normalizedPlanetName === 'SouthNode'
     ) {
       // Map sign to a card
       const signToCard: Record<string, string> = {
@@ -119,29 +119,29 @@ export function getPlanetInfo(
       };
 
       const cardName = signToCard[planetSign] || 'The Fool';
-      tarotCard = {;
+      tarotCard = {
         name: cardName,
         element: MAJOR_ARCANA[cardName]?.element || 'Unknown'
       };
     } else if (PLANET_TO_MAJOR_ARCANA[normalizedPlanetName]) {
       const cardName = PLANET_TO_MAJOR_ARCANA[normalizedPlanetName];
-      tarotCard = {;
+      tarotCard = {
         name: cardName,
         element: MAJOR_ARCANA[cardName]?.element || 'Unknown'
       };
     }
 
     // Calculate aspects - handle special cases for lunar nodes
-    let planetAspects: Array<{ planet: string; type: unknown; orb: number }> = [];
+    let planetAspects: Array<{ planet: string, type: unknown, orb: number }> = [];
     try {
       const { aspects } = calculateAspects(planetaryPositions as unknown, 0);
 
       // Filter aspects for this planet
       planetAspects = aspects;
         .filter(aspect => aspect.planet1 === planetKey || aspect.planet2 === planetKey);
-        .map(aspect => ({;
-          planet: aspect.planet1 === planetKey ? aspect.planet2 : aspect.planet1,;
-          type: aspect.type,
+        .map(aspect => ({
+          planet: aspect.planet1 === planetKey ? aspect.planet2 : aspect.planet1,,
+          type: aspect.type;
           orb: aspect.orb || 0
         }));
     } catch (error) {
@@ -156,7 +156,7 @@ export function getPlanetInfo(
     if (
       normalizedPlanetName === 'Ascendant' ||;
       normalizedPlanetName === 'NorthNode' ||;
-      normalizedPlanetName === 'SouthNode';
+      normalizedPlanetName === 'SouthNode'
     ) {
       // Set elemental influence based on the sign
       const signToElement: Record<string, string> = {
@@ -180,7 +180,7 @@ export function getPlanetInfo(
       elementalInfluence[element] = strength;
     } else {
       if (planetaryModifiers[normalizedPlanetName]) {
-        elementalInfluence = {;
+        elementalInfluence = {
           fire: planetaryModifiers[normalizedPlanetName].Fire || 0,
           water: planetaryModifiers[normalizedPlanetName].Water || 0,
           air: planetaryModifiers[normalizedPlanetName].Air || 0,
@@ -198,7 +198,7 @@ export function getPlanetInfo(
     if (
       normalizedPlanetName === 'Ascendant' ||;
       normalizedPlanetName === 'NorthNode' ||;
-      normalizedPlanetName === 'SouthNode';
+      normalizedPlanetName === 'SouthNode'
     ) {
       // Set token influence based on the sign element
       const signToElement: Record<string, string> = {
@@ -219,46 +219,46 @@ export function getPlanetInfo(
       const element = signToElement[planetSign] || 'air';
 
       // Map elements to tokens with different emphasis for North vs South Node
-      if (normalizedPlanetName === 'NorthNode') {;
-        if (element === 'fire') {;
+      if (normalizedPlanetName === 'NorthNode') {
+        if (element === 'fire') {
           tokenInfluence.spirit = 0.4;
           tokenInfluence.essence = 0.1;
-        } else if (element === 'water') {;
+        } else if (element === 'water') {
           tokenInfluence.essence = 0.4;
           tokenInfluence.substance = 0.1;
-        } else if (element === 'air') {;
+        } else if (element === 'air') {
           tokenInfluence.spirit = 0.3;
           tokenInfluence.matter = 0.2;
-        } else if (element === 'earth') {;
+        } else if (element === 'earth') {
           tokenInfluence.matter = 0.3;
           tokenInfluence.substance = 0.2;
         }
-      } else if (normalizedPlanetName === 'SouthNode') {;
-        if (element === 'fire') {;
+      } else if (normalizedPlanetName === 'SouthNode') {
+        if (element === 'fire') {
           tokenInfluence.spirit = 0.2;
           tokenInfluence.matter = 0.2;
-        } else if (element === 'water') {;
+        } else if (element === 'water') {
           tokenInfluence.essence = 0.2;
           tokenInfluence.substance = 0.2;
-        } else if (element === 'air') {;
+        } else if (element === 'air') {
           tokenInfluence.spirit = 0.1;
           tokenInfluence.essence = 0.3;
-        } else if (element === 'earth') {;
+        } else if (element === 'earth') {
           tokenInfluence.matter = 0.2;
           tokenInfluence.substance = 0.2;
         }
       } else {
         // Ascendant
-        if (element === 'fire') {;
+        if (element === 'fire') {
           tokenInfluence.spirit = 0.3;
           tokenInfluence.essence = 0.1;
-        } else if (element === 'water') {;
+        } else if (element === 'water') {
           tokenInfluence.essence = 0.3;
           tokenInfluence.substance = 0.1;
-        } else if (element === 'air') {;
+        } else if (element === 'air') {
           tokenInfluence.spirit = 0.2;
           tokenInfluence.matter = 0.2;
-        } else if (element === 'earth') {;
+        } else if (element === 'earth') {
           tokenInfluence.matter = 0.2;
           tokenInfluence.substance = 0.2;
         }
@@ -267,10 +267,10 @@ export function getPlanetInfo(
       // Use the planetary modifiers for token influence
       const planetary = planetaryModifiers[normalizedPlanetName];
       if (planetary) {
-        tokenInfluence = {;
-          spirit: planetary.Spirit || 0,
-          essence: planetary.Essence || 0,
-          matter: planetary.Matter || 0,
+        tokenInfluence = {
+          spirit: planetary.Spirit || 0;
+          essence: planetary.Essence || 0;
+          matter: planetary.Matter || 0;
           substance: planetary.Substance || 0
         };
       } else {
@@ -282,7 +282,7 @@ export function getPlanetInfo(
     return {
       name: normalizedPlanetName,
       sign: planetSign || 'Unknown',
-      degree: typeof planetDegree === 'number' ? planetDegree : 0,;
+      degree: typeof planetDegree === 'number' ? planetDegree : 0,,
       isRetrograde: !!planetIsRetrograde,
       dignity,
       tarotCard,
@@ -292,7 +292,7 @@ export function getPlanetInfo(
     };
   } catch (error) {
     console.error('Error in getPlanetInfo:', error);
-    return null;
+    return null,
   }
 }
 
@@ -312,7 +312,7 @@ export function getDignityDescription(dignityType: string): string {
     case 'Neutral':
       return 'The planet is neither strengthened nor weakened by its sign placement.';
     default:
-      return 'Unknown dignity type';
+      return 'Unknown dignity type',
   }
 }
 

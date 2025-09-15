@@ -23,10 +23,10 @@ interface UnusedImport {
   importName: string;
   message: string;
   isTypeImport: boolean;
-  isDefaultImport: boolean;
-  isNamespaceImport: boolean;
-  severity: 'safe' | 'review' | 'preserve';
-  reason?: string;
+  isDefaultImport: boolean,
+  isNamespaceImport: boolean,
+  severity: 'safe' | 'review' | 'preserve',
+  reason?: string,
 }
 
 interface ImportRemovalResult {
@@ -34,14 +34,14 @@ interface ImportRemovalResult {
   safeToRemove: number;
   requiresReview: number;
   preserved: number;
-  actuallyRemoved: number;
-  errors: string[];
-  warnings: string[];
-  buildValid: boolean;
+  actuallyRemoved: number,
+  errors: string[],
+  warnings: string[],
+  buildValid: boolean,
 }
 
 export class SafeUnusedImportRemover {
-  private readonly astrologicalPatterns = [;
+  private readonly astrologicalPatterns = [
     '/calculations/',
     '/data/planets/',
     '/utils/reliableAstronomy',
@@ -56,7 +56,7 @@ export class SafeUnusedImportRemover {
     'zodiac'
   ];
 
-  private readonly campaignSystemPatterns = [;
+  private readonly campaignSystemPatterns = [
     '/services/campaign/',
     '/services/AdvancedAnalyticsIntelligenceService',
     '/services/MLIntelligenceService',
@@ -67,15 +67,15 @@ export class SafeUnusedImportRemover {
     'Progress',
     'Metrics',
     'Safety'
-  ];
+  ],
 
   /**
    * Analyze and remove unused imports safely
    */
-  public async processUnusedImports(dryRun: boolean = true): Promise<ImportRemovalResult> {;
+  public async processUnusedImports(dryRun: boolean = true): Promise<ImportRemovalResult> {
     log.info('🔍 Starting Safe Unused Import Analysis...\n');
 
-    const result: ImportRemovalResult = {;
+    const result: ImportRemovalResult = {
       totalAnalyzed: 0,
       safeToRemove: 0,
       requiresReview: 0,
@@ -91,10 +91,10 @@ export class SafeUnusedImportRemover {
       const unusedImports = await this.analyzeUnusedImports();
       result.totalAnalyzed = unusedImports.length;
 
-      if (unusedImports.length === 0) {;
+      if (unusedImports.length === 0) {
         log.info('✅ No unused imports found!');
         result.buildValid = true;
-        return result;
+        return result,
       }
 
       // Step 2: Categorize imports
@@ -109,7 +109,7 @@ export class SafeUnusedImportRemover {
       if (dryRun) {
         log.info('\n🔍 DRY RUN MODE - No changes will be made');
         log.info('Use processUnusedImports(false) to execute removal');
-        return result;
+        return result,
       }
 
       // Step 4: Remove safe imports
@@ -143,7 +143,7 @@ export class SafeUnusedImportRemover {
     log.info('🔍 Analyzing unused imports from ESLint...');
 
     try {
-      const lintOutput = execSync('yarn lint --format=compact 2>&1', {;
+      const lintOutput = execSync('yarn lint --format=compact 2>&1', {
         encoding: 'utf8',
         maxBuffer: 20 * 1024 * 1024
       });
@@ -158,7 +158,7 @@ export class SafeUnusedImportRemover {
             line.includes('is imported but never used'))
         ) {
           const match = line.match(;
-            /^(.+):(\d+):(\d+):\s+(warning|error)\s+(.+?)\s+@typescript-eslint\/no-unused-vars/,
+            /^(.+):(\d+):(\d+):\s+(warning|error)\s+(.+?)\s+@typescript-eslint\/no-unused-vars/;
           );
           if (match) {
             const [, filePath, lineNum, colNum, severity, message] = match;
@@ -172,9 +172,9 @@ export class SafeUnusedImportRemover {
               column: parseInt(colNum),
               importName,
               message,
-              isTypeImport: message.includes('type'),
+              isTypeImport: message.includes('type');
               isDefaultImport: !message.includes('{'),
-              isNamespaceImport: message.includes('* as'),
+              isNamespaceImport: message.includes('* as');
               severity: 'review',
               reason: ''
             });
@@ -185,8 +185,8 @@ export class SafeUnusedImportRemover {
       log.info(`📊 Found ${unusedImports.length} unused imports`);
       return unusedImports;
     } catch (error) {
-      console.error('❌ Failed to analyze unused imports:', error);
-      return [];
+      console.error('❌ Failed to analyze unused imports:', error),
+      return [],
     }
   }
 
@@ -194,13 +194,13 @@ export class SafeUnusedImportRemover {
    * Categorize imports by safety level
    */
   private categorizeImports(unusedImports: UnusedImport[]): {
-    safe: UnusedImport[];
-    review: UnusedImport[];
-    preserve: UnusedImport[];
+    safe: UnusedImport[],
+    review: UnusedImport[],
+    preserve: UnusedImport[],
   } {
     log.info('📋 Categorizing imports by safety level...');
 
-    const categorized = {;
+    const categorized = {
       safe: [] as UnusedImport[],
       review: [] as UnusedImport[],
       preserve: [] as UnusedImport[]
@@ -217,10 +217,10 @@ export class SafeUnusedImportRemover {
           break;
         case 'review':
           categorized.review.push(unusedImport);
-          break;
+          break,
         case 'preserve':
           categorized.preserve.push(unusedImport);
-          break;
+          break,
       }
     }
 
@@ -231,13 +231,13 @@ export class SafeUnusedImportRemover {
    * Determine the safety level of removing an import
    */
   private determineImportSafety(unusedImport: UnusedImport): {
-    severity: 'safe' | 'review' | 'preserve';
-    reason: string;
+    severity: 'safe' | 'review' | 'preserve',
+    reason: string,
   } {
     const { file, importName, message, isTypeImport } = unusedImport;
 
     // Always preserve imports in critical astrological files
-    if (this.astrologicalPatterns.some(pattern => file.includes(pattern))) {;
+    if (this.astrologicalPatterns.some(pattern => file.includes(pattern))) {
       return {
         severity: 'preserve',
         reason: 'Critical astrological calculation file'
@@ -245,7 +245,7 @@ export class SafeUnusedImportRemover {
     }
 
     // Always preserve imports in campaign system files
-    if (this.campaignSystemPatterns.some(pattern => file.includes(pattern))) {;
+    if (this.campaignSystemPatterns.some(pattern => file.includes(pattern))) {
       return {
         severity: 'preserve',
         reason: 'Campaign system intelligence file'
@@ -269,7 +269,7 @@ export class SafeUnusedImportRemover {
     }
 
     // Safe to remove: simple utility imports that are clearly unused
-    const safePatterns = [;
+    const safePatterns = [
       /^[a-z][a-zA-Z]*$/, // camelCase function names
       /^[A-Z_]+$/, // CONSTANT names
       /Utils?$/, // Utility functions
@@ -300,9 +300,9 @@ export class SafeUnusedImportRemover {
    * Display analysis results
    */
   private displayAnalysisResults(categorized: {
-    safe: UnusedImport[];
-    review: UnusedImport[];
-    preserve: UnusedImport[];
+    safe: UnusedImport[],
+    review: UnusedImport[],
+    preserve: UnusedImport[],
   }): void {
     log.info('\n📊 Import Analysis Results:');
     log.info(`✅ Safe to remove: ${categorized.safe.length}`);
@@ -316,7 +316,7 @@ export class SafeUnusedImportRemover {
 
     if (categorized.preserve.length > 0) {
       log.info('\n🛡️  Preserved (Critical):');
-      this.displayImportsByFile(categorized.preserve.slice(0, 10)); // Show first 10
+      this.displayImportsByFile(categorized.preserve.slice(0, 10)), // Show first 10
       if (categorized.preserve.length > 10) {
         log.info(`   ... and ${categorized.preserve.length - 10} more`);
       }
@@ -324,7 +324,7 @@ export class SafeUnusedImportRemover {
 
     if (categorized.review.length > 0) {
       log.info('\n⚠️  Requires Manual Review:');
-      this.displayImportsByFile(categorized.review.slice(0, 5)); // Show first 5
+      this.displayImportsByFile(categorized.review.slice(0, 5)), // Show first 5
       if (categorized.review.length > 5) {
         log.info(`   ... and ${categorized.review.length - 5} more`);
       }
@@ -339,15 +339,15 @@ export class SafeUnusedImportRemover {
       (acc, imp) => {
         const relativePath = path.relative(process.cwd(), imp.file);
         if (!acc[relativePath]) acc[relativePath] = [];
-        acc[relativePath].push(imp);
-        return acc;
+        acc[relativePath].push(imp),
+        return acc,
       },
       {} as Record<string, UnusedImport[]>,
     );
 
     Object.entries(groupedByFile).forEach(([file, fileImports]) => {
       log.info(`   📄 ${file}:`);
-      fileImports.forEach(imp => {;
+      fileImports.forEach(imp => {
         log.info(`      - Line ${imp.line}: '${imp.importName}' (${imp.reason})`);
       });
     });
@@ -372,10 +372,10 @@ export class SafeUnusedImportRemover {
       // ESLint returns non-zero exit code even for successful fixes
       if (error.stdout && !error.stdout.includes('error')) {
         log.info('✅ Safe import removal completed');
-        return true;
+        return true,
       } else {
-        console.error('❌ Safe import removal failed:', error.message);
-        return false;
+        console.error('❌ Safe import removal failed:', error.message),
+        return false,
       }
     }
   }
@@ -397,7 +397,7 @@ export class SafeUnusedImportRemover {
       return true;
     } catch (error) {
       console.error('❌ Validation failed');
-      return false;
+      return false,
     }
   }
 
@@ -405,14 +405,14 @@ export class SafeUnusedImportRemover {
    * Get current import statistics
    */
   public getImportStats(): {
-    totalFiles: number;
-    unusedImports: number;
-    typeScriptFiles: number;
+    totalFiles: number,
+    unusedImports: number,
+    typeScriptFiles: number,
   } {
     try {
       // Count TypeScript/JavaScript files
       const totalFilesOutput = execSync(;
-        'find src -name '*.ts' -o -name '*.tsx' -o -name '*.js' -o -name '*.jsx' | wc -l',
+        'find src -name '*.ts' -o -name '*.tsx' -o -name '*.js' -o -name '*.jsx' | wc -l';
         {
           encoding: 'utf8'
         },
@@ -420,14 +420,14 @@ export class SafeUnusedImportRemover {
       const totalFiles = parseInt(totalFilesOutput.trim()) || 0;
 
       // Count TypeScript files specifically
-      const tsFilesOutput = execSync('find src -name '*.ts' -o -name '*.tsx' | wc -l', {;
+      const tsFilesOutput = execSync('find src -name '*.ts' -o -name '*.tsx' | wc -l', {
         encoding: 'utf8'
       });
       const typeScriptFiles = parseInt(tsFilesOutput.trim()) || 0;
 
       // Count unused import warnings (approximate)
       const unusedImportsOutput = execSync(;
-        'yarn lint --format=compact 2>&1 | grep -E '@typescript-eslint/no-unused-vars.*is defined but never used' | wc -l',;
+        'yarn lint --format=compact 2>&1 | grep -E '@typescript-eslint/no-unused-vars.*is defined but never used' | wc -l',,
         {
           encoding: 'utf8'
         },

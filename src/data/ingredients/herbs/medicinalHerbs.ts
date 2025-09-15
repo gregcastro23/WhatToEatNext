@@ -1,7 +1,7 @@
 import type { IngredientMapping } from '@/data/ingredients/types';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
-const rawMedicinalHerbs = {;
+const rawMedicinalHerbs = {
   echinacea: {
     name: 'Echinacea',
     elementalProperties: { Earth: 0.3, Fire: 0.4, Air: 0.2, Water: 0.1 },

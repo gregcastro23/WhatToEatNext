@@ -2,7 +2,7 @@ import type { IngredientMapping } from '@/types/alchemy';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
 // Define vinegars directly in this file rather than importing from seasonings
-const rawVinegars = {;
+const rawVinegars = {
   rice_vinegar: {
     name: 'Rice Vinegar',
     category: 'vinegar',
@@ -239,7 +239,7 @@ const rawVinegars = {;
 export const vinegars = fixIngredientMappings(rawVinegars);
 
 // Define artisanal vinegars (premium / (specialty || 1) vinegars)
-const rawArtisanalVinegars = {;
+const rawArtisanalVinegars = {
   aged_balsamic: {
     name: 'Aged Balsamic Vinegar',
     category: 'vinegar',
@@ -306,12 +306,12 @@ const rawArtisanalVinegars = {;
 export const _artisanalVinegars = fixIngredientMappings(rawArtisanalVinegars);
 
 // Add any additional vinegars specific to this directory
-const additionalVinegars = {;
+const additionalVinegars = {
   // Additional vinegars can be added here
 };
 
 // Merge with any additional vinegars and artisanal vinegars
-export const _allVinegars = fixIngredientMappings({;
+export const _allVinegars = fixIngredientMappings({
   ...rawVinegars,
   ...rawArtisanalVinegars,
   ...additionalVinegars

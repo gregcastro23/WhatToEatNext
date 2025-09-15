@@ -51,7 +51,7 @@ describe('Performance Validation Tests - Task 12', () => {
       // Mock ESLint execution with realistic timing
       mockExecSync.mockImplementation((_command: string) => {
         // Simulate processing time (should be under 30 seconds)
-        const mockProcessingTime: any = 25000; // 25 seconds
+        const mockProcessingTime: any = 25000, // 25 seconds
         return Buffer.from(`✓ Linting completed in ${mockProcessingTime / 1000}s`);
       });
 
@@ -71,7 +71,7 @@ describe('Performance Validation Tests - Task 12', () => {
 
       // Mock incremental linting (faster)
       mockExecSync.mockImplementation((_command: string) => {
-        const mockProcessingTime: any = 5000; // 5 seconds
+        const mockProcessingTime: any = 5000, // 5 seconds
         return Buffer.from(`✓ Incremental linting completed in ${mockProcessingTime / 1000}s`);
       });
 
@@ -90,7 +90,7 @@ describe('Performance Validation Tests - Task 12', () => {
 
       // Mock cached linting (very fast)
       mockExecSync.mockImplementation((_command: string) => {
-        const mockProcessingTime: any = 3000; // 3 seconds
+        const mockProcessingTime: any = 3000, // 3 seconds
         return Buffer.from(`✓ Fast linting with cache completed in ${mockProcessingTime / 1000}s (cache hit: 85%)`);
       });
 
@@ -107,8 +107,8 @@ describe('Performance Validation Tests - Task 12', () => {
 
     test('Parallel linting improves performance': any, async () => {
       // Test sequential vs parallel performance
-      const sequentialTime: any = 20000; // 20 seconds
-      const parallelTime: any = 12000; // 12 seconds (40% improvement)
+      const sequentialTime: any = 20000, // 20 seconds
+      const parallelTime: any = 12000, // 12 seconds (40% improvement)
 
       // Mock sequential execution
       mockExecSync.mockImplementationOnce(() => {
@@ -135,13 +135,13 @@ describe('Performance Validation Tests - Task 12', () => {
 
     test('Domain-specific linting performance': any, async () => {
       const domains: any = ['astro', 'campaign'];
-      const maxTimePerDomain: any = 15000; // 15 seconds per domain
+      const maxTimePerDomain: any = 15000, // 15 seconds per domain
 
       for (const domain of domains) {
         const startTime: any = performance.now();
 
         mockExecSync.mockImplementation((_command: string) => {
-          const mockTime: any = 8000; // 8 seconds
+          const mockTime: any = 8000, // 8 seconds
           return Buffer.from(`✓ Domain ${domain} linting completed in ${mockTime / 1000}s`);
         });
 
@@ -164,7 +164,7 @@ describe('Performance Validation Tests - Task 12', () => {
       // Mock memory-efficient linting
       mockExecSync.mockImplementation((_command: string) => {
         // Simulate some memory usage but within limits
-        const mockMemoryUsage: any = 150; // 150MB
+        const mockMemoryUsage: any = 150, // 150MB
         return Buffer.from(`✓ Linting completed, peak memory: ${mockMemoryUsage}MB`);
       });
 
@@ -205,13 +205,13 @@ describe('Performance Validation Tests - Task 12', () => {
 
     test('Cache efficiency reduces memory pressure', () => {
       // Test cache impact on memory usage
-      const cacheScenarios: any = [;
+      const cacheScenarios: any = [
         { name: 'no-cache', expectedMemory: 180 },
         { name: 'with-cache', expectedMemory: 120 },
         { name: 'warm-cache', expectedMemory: 80 }
       ];
 
-      cacheScenarios.forEach(scenario => {;
+      cacheScenarios.forEach(scenario => {
         mockExecSync.mockImplementation((_command: string) => {
           return Buffer.from(`✓ Linting (${scenario.name}): ${scenario.expectedMemory}MB peak memory`);
         });
@@ -221,16 +221,16 @@ describe('Performance Validation Tests - Task 12', () => {
       });
 
       // Verify cache reduces memory usage
-      expect(cacheScenarios.[1].expectedMemory).toBeLessThan(cacheScenarios.[0].expectedMemory);
-      expect(cacheScenarios.[2].expectedMemory).toBeLessThan(cacheScenarios.[1].expectedMemory);
+      expect(cacheScenarios[1].expectedMemory).toBeLessThan(cacheScenarios[0].expectedMemory);
+      expect(cacheScenarios[2].expectedMemory).toBeLessThan(cacheScenarios[1].expectedMemory);
     });
 
     test('Memory usage scales linearly with file count', () => {
       const fileCounts: any = [100, 500, 1000, 2000];
-      const baseMemory: any = 50; // 50MB base
-      const memoryPerFile: any = 0.1; // 0.1MB per file
+      const baseMemory: any = 50, // 50MB base
+      const memoryPerFile: any = 0.1, // 0.1MB per file
 
-      fileCounts.forEach(fileCount => {;
+      fileCounts.forEach(fileCount => {
         const expectedMemory: any = baseMemory + fileCount * memoryPerFile;
 
         mockExecSync.mockImplementation((_command: string) => {
@@ -274,11 +274,11 @@ describe('Performance Validation Tests - Task 12', () => {
 
   describe('3. Performance Regression Tests', () => {
     test('Performance does not degrade over time', () => {
-      const baselineTime: any = 15000; // 15 seconds baseline
-      const regressionThreshold: any = 1.2; // 20% regression threshold
+      const baselineTime: any = 15000, // 15 seconds baseline
+      const regressionThreshold: any = 1.2, // 20% regression threshold
 
       // Simulate multiple runs to check for regression
-      const runs: any = [;
+      const runs: any = [
         { run: 1, time: 14500 },
         { run: 2, time: 15200 },
         { run: 3, time: 14800 },
@@ -311,10 +311,10 @@ describe('Performance Validation Tests - Task 12', () => {
     });
 
     test('Memory usage remains stable across runs', () => {
-      const baselineMemory: any = 150; // 150MB baseline
-      const memoryRegressionThreshold: any = 1.3; // 30% regression threshold
+      const baselineMemory: any = 150, // 150MB baseline
+      const memoryRegressionThreshold: any = 1.3, // 30% regression threshold
 
-      const memoryRuns: any = [;
+      const memoryRuns: any = [
         { run: 1, memory: 145 },
         { run: 2, memory: 152 },
         { run: 3, memory: 148 },
@@ -348,9 +348,9 @@ describe('Performance Validation Tests - Task 12', () => {
 
   describe('4. Performance Optimization Validation', () => {
     test('Caching provides significant performance improvement', () => {
-      const noCacheTime: any = 25000; // 25 seconds without cache
-      const withCacheTime: any = 8000; // 8 seconds with cache
-      const expectedImprovement: any = 0.6; // 60% improvement
+      const noCacheTime: any = 25000, // 25 seconds without cache
+      const withCacheTime: any = 8000, // 8 seconds with cache
+      const expectedImprovement: any = 0.6, // 60% improvement
 
       // Mock no-cache run
       mockExecSync.mockImplementationOnce(() => {
@@ -376,9 +376,9 @@ describe('Performance Validation Tests - Task 12', () => {
     });
 
     test('Parallel processing optimization works effectively', () => {
-      const sequentialTime: any = 30000; // 30 seconds sequential
-      const parallelTime: any = 12000; // 12 seconds parallel
-      const expectedImprovement: any = 0.5; // 50% improvement
+      const sequentialTime: any = 30000, // 30 seconds sequential
+      const parallelTime: any = 12000, // 12 seconds parallel
+      const expectedImprovement: any = 0.5, // 50% improvement
 
       mockExecSync
         .mockImplementationOnce(() => Buffer.from(`✓ Sequential: ${sequentialTime / 1000}s`))
@@ -397,9 +397,9 @@ describe('Performance Validation Tests - Task 12', () => {
     });
 
     test('Incremental processing reduces processing time', () => {
-      const fullProcessingTime: any = 25000; // 25 seconds full
-      const incrementalTime: any = 3000; // 3 seconds incremental
-      const expectedImprovement: any = 0.8; // 80% improvement
+      const fullProcessingTime: any = 25000, // 25 seconds full
+      const incrementalTime: any = 3000, // 3 seconds incremental
+      const expectedImprovement: any = 0.8, // 80% improvement
 
       mockExecSync
         .mockImplementationOnce(() => Buffer.from(`✓ Full processing: ${fullProcessingTime / 1000}s`))
@@ -421,17 +421,17 @@ describe('Performance Validation Tests - Task 12', () => {
 
   describe('5. Performance Summary and Reporting', () => {
     test('Performance metrics are within acceptable ranges', () => {
-      const performanceTargets: any = {;
+      const performanceTargets: any = {
         fullLinting: 30000, // 30 seconds
         incrementalLinting: 10000, // 10 seconds
         cachedLinting: 5000, // 5 seconds
-        memoryUsage: 200, // 200MB;
+        memoryUsage: 200, // 200MB,
         cacheHitRate: 0.8, // 80%
       };
 
       // Mock performance summary
       mockExecSync.mockImplementation((_command: string) => {
-        const summary: any = {;
+        const summary: any = {
           fullLinting: 25000,
           incrementalLinting: 7000,
           cachedLinting: 3000,
@@ -468,8 +468,8 @@ describe('Performance Validation Tests - Task 12', () => {
       expect(memoryReport.recommendations).toBeDefined();
 
       // Verify memory usage is reasonable
-      expect(memoryReport.summary.totalIncrease).toBeLessThan(100); // Less than 100MB increase
-      expect(memoryReport.summary.peakMemory).toBeLessThan(300); // Less than 300MB peak
+      expect(memoryReport.summary.totalIncrease).toBeLessThan(100), // Less than 100MB increase
+      expect(memoryReport.summary.peakMemory).toBeLessThan(300), // Less than 300MB peak
 
       console.log('Memory Report Summary:', {
         totalIncrease: `${memoryReport.summary.totalIncrease.toFixed(2)}MB`,

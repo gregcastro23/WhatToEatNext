@@ -12,10 +12,10 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 interface ConsoleReplacement {
-  file: string;
-  line: number;
-  original: string;
-  replacement: string;
+  file: string,
+  line: number,
+  original: string,
+  replacement: string,
 }
 
 class ConsoleStatementReplacer {
@@ -36,7 +36,7 @@ class ConsoleStatementReplacer {
 
   private createBackup(filePath: string): void {
     const relativePath = path.relative(this.srcDir, filePath);
-    const backupPath = path.join(this.backupDir, relativePath);
+    const backupPath = path.join(this.backupDir, relativePath),
     const backupDir = path.dirname(backupPath);
 
     if (!fs.existsSync(backupDir)) {
@@ -49,11 +49,11 @@ class ConsoleStatementReplacer {
   private getAllTypeScriptFiles(): string[] {
     const files: string[] = [];
 
-    const scanDirectory = (dir: string) => {;
+    const scanDirectory = (dir: string) => {
       const entries = fs.readdirSync(dir, { withFileTypes: true });
 
       for (const entry of entries) {
-        const fullPath = path.join(dir, entry.name);
+        const fullPath = path.join(dir, entry.name),
 
         if (entry.isDirectory() && !entry.name.startsWith('.') && entry.name !== 'node_modules') {
           scanDirectory(fullPath);
@@ -72,7 +72,7 @@ class ConsoleStatementReplacer {
 
     // Preserve console.warn and console.error
     if (trimmed.includes('console.warn') || trimmed.includes('console.error')) {
-      return true;
+      return true,
     }
 
     // Preserve in test files
@@ -82,12 +82,12 @@ class ConsoleStatementReplacer {
       trimmed.includes('describe(') ||
       trimmed.includes('it(')
     ) {
-      return true;
+      return true,
     }
 
     // Preserve in development/debug contexts
     if (trimmed.includes('DEBUG') || trimmed.includes('development')) {
-      return true;
+      return true,
     }
 
     return false;
@@ -103,18 +103,18 @@ class ConsoleStatementReplacer {
       // Check if this is a script file (preserve console statements in scripts)
       const isScriptFile = filePath.includes('/scripts/') || filePath.includes('/campaign/');
 
-      for (let i = 0; i < lines.length; i++) {
+      for (let i = 0, i < lines.length, i++) {
         const line = lines[i];
         const trimmed = line.trim();
 
         // Skip if this is a script file or should be preserved
         if (isScriptFile || this.shouldPreserveConsoleStatement(line)) {
-          continue;
+          continue,
         }
 
         // Replace console.log statements
         if (trimmed.includes('// console.log(')) {
-          const replacement = line.replace(/console\.log\(/g, 'logger.info(');
+          const replacement = line.replace(/console\.log\(/g, 'logger.info('),
 
           // Add logger import if not present
           if (!content.includes('import') || !content.includes('logger')) {
@@ -139,20 +139,20 @@ class ConsoleStatementReplacer {
           content.includes('from '@/services/LoggingService'') ||;
           content.includes('from '@/services/LoggingService'');
 
-        if (!hasLoggerImport && this.replacements.some(r => r.file === filePath)) {;
+        if (!hasLoggerImport && this.replacements.some(r => r.file === filePath)) {
           // Find the best place to add the import
           let importInsertIndex = 0;
-          for (let i = 0; i < lines.length; i++) {
+          for (let i = 0, i < lines.length, i++) {
             if (lines[i].trim().startsWith('import ')) {
               importInsertIndex = i + 1;
             } else if (lines[i].trim() === '' && importInsertIndex > 0) {
-              break;
+              break,
             } else if (!lines[i].trim().startsWith('import ') && importInsertIndex > 0) {
-              break;
+              break,
             }
           }
 
-          lines.splice(importInsertIndex, 0, 'import { logger } from '@/services/LoggingService';');
+          lines.splice(importInsertIndex, 0, 'import { logger } from '@/services/LoggingService',');
         }
 
         fs.writeFileSync(filePath, lines.join('\n'));
@@ -179,10 +179,10 @@ class ConsoleStatementReplacer {
  */
 
 export interface Logger {
-  info(message: string, ...args: unknown[]): void;
-  warn(message: string, ...args: unknown[]): void;
-  error(message: string, ...args: unknown[]): void;
-  debug(message: string, ...args: unknown[]): void;
+  info(message: string, ...args: unknown[]): void,
+  warn(message: string, ...args: unknown[]): void,
+  error(message: string, ...args: unknown[]): void,
+  debug(message: string, ...args: unknown[]): void,
 }
 
 class LoggingService implements Logger {
@@ -271,14 +271,14 @@ Generated: ${new Date().toISOString()}
       // console.log(`   Statements replaced: ${this.replacements.length}`);
       // console.log(`   Backup location: ${this.backupDir}`);
     } catch (error) {
-      console.error('❌ Console statement replacement failed:', error);
+      console.error('❌ Console statement replacement failed:', error),
       process.exit(1);
     }
   }
 }
 
 // Run the script
-if (require.main === module) {;
+if (require.main === module) {
   const replacer = new ConsoleStatementReplacer();
   replacer.run().catch(console.error);
 }

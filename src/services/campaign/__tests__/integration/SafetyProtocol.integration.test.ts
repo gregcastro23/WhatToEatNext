@@ -34,7 +34,7 @@ describe('Safety Protocol Integration Tests', () => {
   let mockConfig: CampaignConfig;
 
   beforeEach(() => {
-    mockSafetySettings = {;
+    mockSafetySettings = {
       maxFilesPerBatch: 25,
       buildValidationFrequency: 5,
       testValidationFrequency: 10,
@@ -43,7 +43,7 @@ describe('Safety Protocol Integration Tests', () => {
       stashRetentionDays: 7
     };
 
-    mockConfig = {;
+    mockConfig = {
       phases: [
         {
           id: 'test-phase',
@@ -112,7 +112,7 @@ describe('Safety Protocol Integration Tests', () => {
         mockFs.readFileSync.mockReturnValue(corruptedContent);
 
         // Create a stash first
-        mockExecSync.mockImplementation(command => {;
+        mockExecSync.mockImplementation(command => {
           const cmd: any = command.toString();
           if (cmd.includes('git stash push')) return '';
           if (cmd.includes('git stash list')) return 'stash@{0}: emergency-stash';
@@ -126,7 +126,7 @@ describe('Safety Protocol Integration Tests', () => {
 
         const report: any = await safetyProtocol.detectCorruption(['test-file.ts']);
 
-        if (report.severity === CorruptionSeverity.CRITICAL) {;
+        if (report.severity === CorruptionSeverity.CRITICAL) {
           await safetyProtocol.emergencyRollback();
         }
 
@@ -337,7 +337,7 @@ import type type Something, { a, b } from './module';
 
   describe('Git Operations Integration', () => {
     beforeEach(() => {
-      mockExecSync.mockImplementation(command => {;
+      mockExecSync.mockImplementation(command => {
         const cmd: any = command.toString();
         if (cmd.includes('git status --porcelain')) return '';
         if (cmd.includes('git stash push')) return '';
@@ -381,7 +381,7 @@ import type type Something, { a, b } from './module';
     });
 
     it('should handle git operation failures gracefully', async () => {
-      mockExecSync.mockImplementation(command => {;
+      mockExecSync.mockImplementation(command => {
         if (command.toString().includes('git stash push')) {
           throw new Error('Git stash failed');
         }
@@ -399,7 +399,7 @@ import type type Something, { a, b } from './module';
 
   describe('Stash Management and Cleanup', () => {
     beforeEach(() => {
-      mockExecSync.mockImplementation(command => {;
+      mockExecSync.mockImplementation(command => {
         const cmd: any = command.toString();
         if (cmd.includes('git status --porcelain')) return '';
         if (cmd.includes('git stash push')) return '';
@@ -419,7 +419,7 @@ import type type Something, { a, b } from './module';
       recentDate.setDate(recentDate.getDate() - 3); // 3 days old
 
       // Manually add stashes to simulate age
-      const oldStash: any = {;
+      const oldStash: any = {
         id: 'old-stash',
         description: 'Old stash',
         timestamp: oldDate,
@@ -427,7 +427,7 @@ import type type Something, { a, b } from './module';
         ref: 'stash@{1}'
       };
 
-      const recentStash: any = {;
+      const recentStash: any = {
         id: 'recent-stash',
         description: 'Recent stash',
         timestamp: recentDate,
@@ -463,7 +463,7 @@ import type type Something, { a, b } from './module';
 
   describe('Integration with Campaign Controller', () => {
     it('should integrate safety protocols with phase execution', async () => {
-      const phase: any = mockConfig.phases.[0];
+      const phase: any = mockConfig.phases[0];
 
       // Mock successful execution with safety protocols
       jest.spyOn(campaignController as unknown, 'createSafetyCheckpoint').mockResolvedValue('checkpoint-1');
@@ -482,7 +482,7 @@ import type type Something, { a, b } from './module';
     });
 
     it('should handle rollback scenarios during phase execution', async () => {
-      const phase: any = mockConfig.phases.[0];
+      const phase: any = mockConfig.phases[0];
 
       // Mock validation failure that triggers rollback
       jest.spyOn(campaignController as unknown, 'validatePhaseProgress').mockResolvedValue({

@@ -11,40 +11,40 @@ import { getRecommendedCookingMethodsForIngredient } from './alchemicalTransform
  */
 export async function testCookingMethodRecommendations() {
   // Create a mock ingredient
-  const mockIngredient: AlchemicalItem = {;
+  const mockIngredient: AlchemicalItem = {
     id: 'tomato',
     name: 'Tomato',
     elementalProperties: {
-      Fire: 0.3,
-      Water: 0.7,
-      Earth: 0.4,
+      Fire: 0.3;
+      Water: 0.7;
+      Earth: 0.4;
       Air: 0.2
     },
     alchemicalProperties: {
-      Spirit: 0.4,
-      Essence: 0.3,
-      Matter: 0.6,
+      Spirit: 0.4;
+      Essence: 0.3;
+      Matter: 0.6;
       Substance: 0.7
     },
     transformedElementalProperties: {
-      Fire: 0.3,
-      Water: 0.7,
-      Earth: 0.4,
+      Fire: 0.3;
+      Water: 0.7;
+      Earth: 0.4;
       Air: 0.2
     },
-    heat: 0.3,
-    entropy: 0.4,
-    reactivity: 0.3,
-    gregsEnergy: 0.4,
+    heat: 0.3;
+    entropy: 0.4;
+    reactivity: 0.3;
+    gregsEnergy: 0.4;
     dominantElement: 'Water',
     dominantAlchemicalProperty: 'Substance',
-    planetaryBoost: 1.0,
+    planetaryBoost: 1.0;
     dominantPlanets: ['Venus'],
     planetaryDignities: {}
   };
 
   // Create mock cooking methods
-  const mockCookingMethods = [;
+  const mockCookingMethods = [
     { name: 'baking', element: 'Fire' },
     { name: 'boiling', element: 'Water' },
     { name: 'grilling', element: 'Fire' },
@@ -75,14 +75,14 @@ export async function testCookingMethodRecommendations() {
       true,
       methods,
       5,
-    );
+    ),
     holisticRecs.forEach((rec, index) => {
       console.warn(
         `${index + 1}. ${rec.method} - Compatibility: ${Math.round(rec.compatibility)}% - ${rec.reason}`,
       );
     });
   } catch (error) {
-    console.error('ERROR GETTING HOLISTIC RECOMMENDATIONS:', error);
+    console.error('ERROR GETTING HOLISTIC RECOMMENDATIONS:', error),
     if (error instanceof Error && error.stack) {
       console.error(error.stack);
     }
@@ -95,14 +95,14 @@ export async function testCookingMethodRecommendations() {
       mockIngredient,
       mockCookingMethods as any,
       5,
-    );
+    ),
     recommendations.forEach((rec, index) => {
       console.warn(
         `${index + 1}. ${rec.method} - Compatibility: ${Math.round(rec.compatibility)}%`,
       );
     });
   } catch (error) {
-    console.error('ERROR GETTING RECOMMENDATIONS:', error);
+    console.error('ERROR GETTING RECOMMENDATIONS:', error),
     if (error instanceof Error && error.stack) {
       console.error(error.stack);
     }

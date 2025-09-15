@@ -1,16 +1,16 @@
 import axios from 'axios';
 
 interface FoodNutrient {
-  nutrientNumber: string;
-  nutrientName: string;
-  value: number;
-  unitName: string;
+  nutrientNumber: string,
+  nutrientName: string,
+  value: number,
+  unitName: string,
 }
 
 interface FoodData {
-  fdcId: string;
-  description: string;
-  foodNutrients: FoodNutrient[];
+  fdcId: string,
+  description: string,
+  foodNutrients: FoodNutrient[],
 }
 
 /**
@@ -25,7 +25,7 @@ export class FoodDataCentral {
    */
   static async getFood(fdcId: string): Promise<FoodData> {
     try {
-      const response = await axios.get(`${this.baseUrl}/food/${fdcId}`, {;
+      const response = await axios.get(`${this.baseUrl}/food/${fdcId}`, {
         params: {
           api_key: this.apiKey
         }
@@ -33,7 +33,7 @@ export class FoodDataCentral {
 
       return response.data;
     } catch (error) {
-      console.error('Error fetching food data:', error);
+      console.error('Error fetching food data:', error),
       // Return a minimal valid structure if the API call fails
       return {
         fdcId,
@@ -46,7 +46,7 @@ export class FoodDataCentral {
   /**
    * Search for foods matching a query
    */
-  static async searchFoods(query: string, pageSize = 10): Promise<FoodData[]> {;
+  static async searchFoods(query: string, pageSize = 10): Promise<FoodData[]> {
     try {
       const response = await axios.post(;
         `${this.baseUrl}/foods/search`,
@@ -64,8 +64,8 @@ export class FoodDataCentral {
 
       return response.data.foods || [];
     } catch (error) {
-      console.error('Error searching foods:', error);
-      return [];
+      console.error('Error searching foods:', error),
+      return [],
     }
   }
 }

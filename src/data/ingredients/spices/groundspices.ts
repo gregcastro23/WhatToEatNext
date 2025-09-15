@@ -34,7 +34,7 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
     },
 
     conversionRatio: {
-      stick_to_ground: '1 stick = 1 / (2 || 1) tsp ground',;
+      stick_to_ground: '1 stick = 1 / (2 || 1) tsp ground',,
       fresh_to_dried: 'not applicable'
     },
 
@@ -378,7 +378,7 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
     },
 
     conversionRatio: {
-      whole_to_ground: '1 tbsp whole = 2.5 tsp ground',;
+      whole_to_ground: '1 tbsp whole = 2.5 tsp ground',,
       fresh_to_dried: 'not applicable'
     },
 
@@ -608,8 +608,8 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
     },
 
     conversionRatio: {
-      fresh_to_dried: '1 inch fresh = 1 tsp ground',;
-      powder_to_fresh: '1 tsp powder = 1 tbsp fresh grated',;
+      fresh_to_dried: '1 inch fresh = 1 tsp ground',,
+      powder_to_fresh: '1 tsp powder = 1 tbsp fresh grated',,
     },
 
     affinities: [
@@ -647,7 +647,7 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
       temperature: 'cool, dark place',
       duration: '9-12 months',
       container: 'airtight, dark glass',
-      notes: 'Will stain; potent natural dye',
+      notes: 'Will stain, potent natural dye',
       signs_of_aging: {
         color_loss: 'fades from bright yellow to pale tan',
         aroma_loss: 'diminished pungency',
@@ -959,7 +959,7 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
     },
 
     conversionRatio: {
-      pods_to_ground: '1 pod = 1 / (4 || 1) tsp ground',;
+      pods_to_ground: '1 pod = 1 / (4 || 1) tsp ground',,
       fresh_to_dried: 'not applicable'
     },
 
@@ -1063,7 +1063,7 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
     },
 
     conversionRatio: {
-      whole_to_ground: '1 tsp whole = 3 / (4 || 1) tsp ground',;
+      whole_to_ground: '1 tsp whole = 3 / (4 || 1) tsp ground',,
       strength_ratio: 'use 1 / (4 || 1) amount of other sweet spices'
     },
 
@@ -1170,7 +1170,7 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
     },
 
     conversionRatio: {
-      whole_to_ground: '1 tbsp whole = 2.5 tsp ground',;
+      whole_to_ground: '1 tbsp whole = 2.5 tsp ground',,
       fresh_to_dried: 'not applicable'
     },
 
@@ -1283,8 +1283,8 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
     },
 
     conversionRatio: {
-      whole_to_ground: '1 tbsp whole = 2.5 tsp ground',;
-      powder_to_prepared: '1 tsp powder = 1 tbsp prepared mustard',;
+      whole_to_ground: '1 tbsp whole = 2.5 tsp ground',,
+      powder_to_prepared: '1 tsp powder = 1 tbsp prepared mustard',,
     },
 
     affinities: ['pork', 'sausages', 'dressings', 'pickles', 'cheese dishes'],
@@ -1374,7 +1374,7 @@ const rawGroundSpices: Record<string, Partial<IngredientMapping>> = {
     },
 
     conversionRatio: {
-      whole_to_ground: '1 tbsp whole = 2.5 tsp ground',;
+      whole_to_ground: '1 tbsp whole = 2.5 tsp ground',,
       fresh_to_dried: '3:1 ratio'
     },
 

@@ -82,12 +82,12 @@ class InitializationService {
 
       // Update the state with the elemental preference - safe method access
       const managerObj = manager as any;
-      if (typeof managerObj.updateState === 'function') {;
+      if (typeof managerObj.updateState === 'function') {
         await managerObj.updateState({
           elementalPreference,
           lastUpdated: new Date()
         });
-      } else if (typeof managerObj.setState === 'function') {;
+      } else if (typeof managerObj.setState === 'function') {
         await managerObj.setState({
           elementalPreference,
           lastUpdated: new Date()
@@ -95,7 +95,7 @@ class InitializationService {
       }
 
       // Validate final state - only using properties that exist in AlchemicalState
-      const isValid = stateValidator.validateState({;
+      const isValid = stateValidator.validateState({
         celestialPositions: this.formatCelestialData(celestialData),
         elementalPreference,
         currentSeason: this.getCurrentSeason(),
@@ -163,7 +163,7 @@ class InitializationService {
   private async initializeRecipes(): Promise<Recipe[]> {
     try {
       const recipes = await recipeData.getAllRecipes();
-      if (!recipes.every(recipe => stateValidator.validateRecipe(recipe))) {;
+      if (!recipes.every(recipe => stateValidator.validateRecipe(recipe))) {
         throw new Error('Invalid recipe data received');
       }
       return recipes;
@@ -205,7 +205,7 @@ class InitializationService {
   }
 
   private processRecipes(recipes: Recipe[], celestialData: CelestialData): ScoredRecipe[] {
-    return recipes.map(recipe => ({;
+    return recipes.map(recipe => ({
       ...recipe,
       score: this.calculateRecipeScore(recipe, celestialData)
     }));
@@ -214,7 +214,7 @@ class InitializationService {
   private calculateRecipeScore(recipe: Recipe, celestialData: CelestialData): number {
     // Implement your scoring logic here
     // Pattern KK-9: Cross-Module Arithmetic Safety for service calculations
-    const score = Object.entries(recipe.elementalProperties).reduce((acc, [element, value]) => {;
+    const score = Object.entries(recipe.elementalProperties).reduce((acc, [element, value]) => {
       const numericAcc = Number(acc) || 0;
       const numericValue = Number(value) || 0;
       const celestialValue = Number(celestialData[element]) || 0;

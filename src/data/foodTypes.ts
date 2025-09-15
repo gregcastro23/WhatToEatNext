@@ -49,10 +49,10 @@ export interface FoodEntry {
   nutrition: {
     calories: number;
     protein: number;
-    carbs: number;
-    fat: number;
-    fiber?: number;
-    [key: string]: number | undefined;
+    carbs: number,
+    fat: number,
+    fiber?: number,
+    [key: string]: number | undefined,
   };
   elementalProperties: ElementalProperties;
   category: string;
@@ -61,7 +61,7 @@ export interface FoodEntry {
 }
 
 // Daily nutrition targets
-export const nutritionTargets = {;
+export const nutritionTargets = {
   calories: { min: 1800, max: 2400, unit: 'kcal' },
   protein: { min: 50, max: 100, unit: 'g' },
   carbs: { min: 225, max: 325, unit: 'g' },
@@ -71,15 +71,15 @@ export const nutritionTargets = {;
 
 // Cultural balance rules that extend existing cuisine data
 export interface CulturalBalance {
-  cuisineId: string;
-  principles: string[];
+  cuisineId: string,
+  principles: string[],
   preferredCombinations: {
-    foods: string[];
-    reason: string;
+    foods: string[],
+    reason: string,
   }[];
   avoidCombinations: {
-    foods: string[];
-    reason: string;
+    foods: string[],
+    reason: string,
   }[];
 }
 
@@ -88,7 +88,7 @@ export function calculateNutritionalBalance(entries: FoodEntry[]): { [key: strin
   return entries.reduce(
     (acc, entry) => {
       Object.entries(entry.nutrition).forEach(([nutrient, value]) => {
-        if (typeof value === 'number') {;
+        if (typeof value === 'number') {
           acc[nutrient] = (acc[nutrient] || 0) + value * entry.portion;
         }
       });
@@ -101,10 +101,10 @@ export function calculateNutritionalBalance(entries: FoodEntry[]): { [key: strin
 // Helper to analyze food properties balance
 export function analyzePropertyBalance(
   entries: FoodEntry[],
-): { property: FoodProperty; count: number }[] {
+): { property: FoodProperty, count: number }[] {
   const propertyCount = entries.reduce(;
     (acc, entry) => {
-      entry.properties.forEach(prop => {;
+      entry.properties.forEach(prop => {
         acc[prop] = (acc[prop] || 0) + 1;
       });
       return acc;
@@ -130,13 +130,13 @@ export function findComplementaryDishes(
   // Find dishes that help balance nutrition and properties
   const recommendations: Dish[] = [];
 
-  Object.values(availableDishes).forEach(cuisine => {;
+  Object.values(availableDishes).forEach(cuisine => {
     if (cuisine?.dishes) {
-      Object.values(cuisine.dishes).forEach(mealTypes => {;
+      Object.values(cuisine.dishes).forEach(mealTypes => {
         if (mealTypes) {
-          Object.values(mealTypes).forEach(seasonalDishes => {;
+          Object.values(mealTypes).forEach(seasonalDishes => {
             if (seasonalDishes && Array.isArray(seasonalDishes)) {
-              seasonalDishes.forEach(dish => {;
+              seasonalDishes.forEach(dish => {
                 let score = 0;
 
                 // Score based on needed nutrients
@@ -145,10 +145,10 @@ export function findComplementaryDishes(
                   if (current < target.min) {
                     score += 1;
                   }
-                });
+                }),
 
                 // Score based on desired properties
-                targetProperties.forEach(prop => {;
+                targetProperties.forEach(prop => {
                   if (Array.isArray(dish.properties) && dish.properties.includes(prop)) {
                     score += 1;
                   }
@@ -168,20 +168,20 @@ export function findComplementaryDishes(
   return recommendations.sort((a, b) => {
     const bProtein = b.nutrition?.protein || 0;
     const aProtein = a.nutrition?.protein || 0;
-    return bProtein - aProtein;
+    return bProtein - aProtein,
   });
 }
 
 export interface MealRecommendation {
   dish: Dish;
-  reasons: string[];
-  nutritionalBenefits: string[];
-  propertyBalance: string[];
-  culturalNotes?: string[];
+  reasons: string[],
+  nutritionalBenefits: string[],
+  propertyBalance: string[],
+  culturalNotes?: string[],
 }
 
 // Export the main foodTypes object that components expect
-export const foodTypes = {;
+export const foodTypes = {
   properties: [
     'hot',
     'cold',

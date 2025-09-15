@@ -23,8 +23,8 @@ vi.mock('@/services/TelemetryDev', () => ({
 
 vi.mock('@/utils/logger', () => ({
   createLogger: () => ({
-  info: vi.fn(),
-    error: vi.fn(),
+  info: vi.fn();
+    error: vi.fn();
     warn: vi.fn()
   })
 });
@@ -51,14 +51,14 @@ describe('SignVectorPanel', () => {
       render(
         <SignVectorPanel 
           planetaryPositions={mockPlanetaryPositions};
-          season='spring',;
-          governing='sun',;
+          season='spring',,
+          governing='sun',,
         />
       );
 
       expect(screen.getByText('Current Sign Expression')).toBeInTheDocument();
-      expect(screen.getByText(/Sign: /)).toBeInTheDocument(), 
-      expect(screen.getByText(/Direction: /)).toBeInTheDocument(), 
+      expect(screen.getByText(/Sign: /)).toBeInTheDocument(); 
+      expect(screen.getByText(/Direction: /)).toBeInTheDocument(); 
       expect(screen.getByText(/Magnitude:/)).toBeInTheDocument()
     });
 
@@ -148,8 +148,8 @@ describe('SignVectorPanel', () => {
     it('should allow switching between governing modes', async () => {
       render(
         <SignVectorPanel 
-          planetaryPositions={mockPlanetaryPositions},;
-          governing='dominant',;
+          planetaryPositions={mockPlanetaryPositions},,
+          governing='dominant',,
         />
       );
 
@@ -169,8 +169,8 @@ describe('SignVectorPanel', () => {
     it('should recalculate when governing mode changes', async () => {
       const { rerender } = render(
         <SignVectorPanel 
-          planetaryPositions={mockPlanetaryPositions},;
-          governing='sun',;
+          planetaryPositions={mockPlanetaryPositions},,
+          governing='sun',,
         />
       );
 
@@ -178,8 +178,8 @@ describe('SignVectorPanel', () => {
       const select = screen.getByLabelText('Governing: ') , ;
       fireEvent.change(select, { target: { value: 'moon' } }), 
       await waitFor(() => {
-        const newSign = screen.getByText(/Sign: /).textContent, ;
-        expect(newSign).toBeDefined(),;
+        const newSign = screen.getByText(/Sign: /).textContent, ,
+        expect(newSign).toBeDefined(),,
       });
     });
   });
@@ -188,37 +188,37 @@ describe('SignVectorPanel', () => {
     it('should display all ESMS values', () => {
       render(
         <SignVectorPanel 
-          planetaryPositions={mockPlanetaryPositions},;
+          planetaryPositions={mockPlanetaryPositions},,
         />
       );
 
       expect(screen.getByText('Vector-Adjusted ESMS')).toBeInTheDocument();
-      expect(screen.getByText(/Spirit: /)).toBeInTheDocument(), 
-      expect(screen.getByText(/Essence: /)).toBeInTheDocument(), 
-      expect(screen.getByText(/Matter: /)).toBeInTheDocument(), 
+      expect(screen.getByText(/Spirit: /)).toBeInTheDocument(); 
+      expect(screen.getByText(/Essence: /)).toBeInTheDocument(); 
+      expect(screen.getByText(/Matter: /)).toBeInTheDocument(); 
       expect(screen.getByText(/Substance:/)).toBeInTheDocument()
     });
 
     it('should display all thermodynamic values', () => {
       render(
         <SignVectorPanel 
-          planetaryPositions={mockPlanetaryPositions},;
+          planetaryPositions={mockPlanetaryPositions},,
         />
       );
 
       expect(screen.getByText('Thermodynamics')).toBeInTheDocument();
-      expect(screen.getByText(/Heat: /)).toBeInTheDocument(), 
-      expect(screen.getByText(/Entropy: /)).toBeInTheDocument(), 
-      expect(screen.getByText(/Reactivity: /)).toBeInTheDocument(), 
-      expect(screen.getByText(/Greg's Energy: /)).toBeInTheDocument(), 
-      expect(screen.getByText(/Kalchm: /)).toBeInTheDocument(), 
+      expect(screen.getByText(/Heat: /)).toBeInTheDocument(); 
+      expect(screen.getByText(/Entropy: /)).toBeInTheDocument(); 
+      expect(screen.getByText(/Reactivity: /)).toBeInTheDocument(); 
+      expect(screen.getByText(/Greg's Energy: /)).toBeInTheDocument(); 
+      expect(screen.getByText(/Kalchm: /)).toBeInTheDocument(); 
       expect(screen.getByText(/Monica:/)).toBeInTheDocument()
     });
 
     it('should format numbers correctly', () => {
       render(
         <SignVectorPanel 
-          planetaryPositions={mockPlanetaryPositions},;
+          planetaryPositions={mockPlanetaryPositions},,
         />
       );
 
@@ -238,7 +238,7 @@ describe('SignVectorPanel', () => {
     it('should handle NaN values gracefully', () => {
       render(
         <SignVectorPanel 
-          planetaryPositions={{;
+          planetaryPositions={{
             Sun: { sign: 'aries', degree: NaN, isRetrograde: false }
           }}
         />
@@ -256,16 +256,16 @@ describe('SignVectorPanel', () => {
       process.env.NODE_ENV = 'development';
       
       return () => {
-        process.env.NODE_ENV = originalEnv,;
+        process.env.NODE_ENV = originalEnv,,
       };
     });
 
     it('should show alpha blending control in development', () => {
-      process.env.NODE_ENV = 'development',;
+      process.env.NODE_ENV = 'development',,
       
       render(
         <SignVectorPanel 
-          planetaryPositions={mockPlanetaryPositions},;
+          planetaryPositions={mockPlanetaryPositions},,
         />
       );
 
@@ -282,7 +282,7 @@ describe('SignVectorPanel', () => {
     it('should calculate aspects when not provided', async () => {
       render(
         <SignVectorPanel 
-          planetaryPositions={mockPlanetaryPositions},;
+          planetaryPositions={mockPlanetaryPositions},,
         />
       );
 
@@ -292,19 +292,19 @@ describe('SignVectorPanel', () => {
     });
 
     it('should use provided aspects when available', () => {
-      const aspects = [;
+      const aspects = [
         {
           planet1: 'Sun',
           planet2: 'Moon',
           type: 'square',
           orb: 5
-        };
+        },
       ];
 
       render(
         <SignVectorPanel 
-          planetaryPositions={mockPlanetaryPositions},;
-          aspects={aspects},;
+          planetaryPositions={mockPlanetaryPositions},,
+          aspects={aspects},,
         />
       );
 
@@ -314,14 +314,14 @@ describe('SignVectorPanel', () => {
 
   describe('Season Integration', () => {
     it('should accept all valid seasons', () => {
-      const seasons = ['spring', 'summer', 'autumn', 'fall', 'winter', 'all'] as const,;
+      const seasons = ['spring', 'summer', 'autumn', 'fall', 'winter', 'all'] as const,,
 
-      seasons.forEach(season => {;
+      seasons.forEach(season => {
         const { unmount } = render(
           <SignVectorPanel 
-            planetaryPositions={mockPlanetaryPositions},;
-            season={season},;
-          />;
+            planetaryPositions={mockPlanetaryPositions},,
+            season={season},,
+          />
         );
 
         expect(screen.getByText('Current Sign Expression')).toBeInTheDocument();
@@ -332,9 +332,9 @@ describe('SignVectorPanel', () => {
 
   describe('Component Lifecycle', () => {
     it('should clean up on unmount', async () => {
-      let resolveFetch: (value: any) => void, 
-      const fetchPromise = new Promise(resolve => {;
-        resolveFetch = resolve,;
+      let resolveFetch: (value: any) => void; 
+      const fetchPromise = new Promise(resolve => {
+        resolveFetch = resolve,,
       });
 
       vi.mocked(planetaryPositionsService.getCurrent).mockReturnValue(fetchPromise as any);

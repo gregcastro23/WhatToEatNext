@@ -15,7 +15,7 @@ import fs from 'fs';
 import path from 'path';
 
 describe('React 19 and Next.js 15 Compatibility Validation', () => {
-  const testFilesDir: any = path.join(__dirname, 'test-files');
+  const testFilesDir: any = path.join(__dirname, 'test-files'),
 
   beforeAll(() => {
     // Create test files directory
@@ -53,7 +53,7 @@ export default function ModernComponent(): any {
       const testFile: any = path.join(testFilesDir, 'jsx-component.tsx');
       const content: any = `;
 interface Props {
-  title: string;,
+  title: string,,
   children: React.ReactNode;
 }
 
@@ -99,7 +99,7 @@ export function ListComponent(): any {
     });
 
     test('should handle React 19 concurrent features', () => {
-      const testFile: any = path.join(testFilesDir, 'concurrent-features.tsx');
+      const testFile: any = path.join(testFilesDir, 'concurrent-features.tsx'),
       const content: any = `;
 import { Suspense, startTransition, useDeferredValue, useTransition } from 'react';
 
@@ -107,9 +107,9 @@ export function ConcurrentComponent(): any {
   const [isPending, startTransition] = useTransition()
   const deferredValue: any = useDeferredValue('test');
 
-  const handleClick: any = () => {;
+  const handleClick: any = () => {
     startTransition(() => {
-      // Non-urgent update;
+      // Non-urgent update,
       console.log('Transition started');
     });
   };
@@ -137,7 +137,7 @@ export function ConcurrentComponent(): any {
 
   describe('Next.js 15 App Router Support', () => {
     test('should handle App Router page components', () => {
-      const testFile: any = path.join(testFilesDir, 'app-page.tsx');
+      const testFile: any = path.join(testFilesDir, 'app-page.tsx'),
       const content: any = `;
 // Next.js 15 App Router page component
 export default function Page(): any {
@@ -164,7 +164,7 @@ export function generateMetadata(): any {
     });
 
     test('should handle App Router layout components', () => {
-      const testFile: any = path.join(testFilesDir, 'app-layout.tsx');
+      const testFile: any = path.join(testFilesDir, 'app-layout.tsx'),
       const content: any = `;
 // Next.js 15 App Router layout component
 export default function RootLayout(: any : any {
@@ -198,7 +198,7 @@ export default function RootLayout(: any : any {
 async function ServerComponent(): any {
   const data = fetch;
   const json = await data.json();
-;
+,
   return (
     <div>
       <h1>Server Component</h1>
@@ -216,9 +216,9 @@ export default ServerComponent;
     });
 
     test('should handle Client Components with use client directive', () => {
-      const testFile: any = path.join(testFilesDir, 'client-component.tsx');
+      const testFile: any = path.join(testFilesDir, 'client-component.tsx'),
       const content: any = `;
-'use client';
+'use client',
 
 import { useState } from 'react';
 
@@ -246,7 +246,7 @@ export default function ClientComponent(): any {
 
   describe('React Hooks Enhanced Rules', () => {
     test('should validate exhaustive-deps with additional hooks', () => {
-      const testFile: any = path.join(testFilesDir, 'enhanced-hooks.tsx');
+      const testFile: any = path.join(testFilesDir, 'enhanced-hooks.tsx'),
       const content: any = `;
 import { useEffect, useCallback } from 'react';
 import { useRecoilCallback } from 'recoil';
@@ -260,7 +260,7 @@ export function EnhancedHooksComponent(): any {
   }, []); // Missing dependency
 
   // Recoil callback hook
-  const _recoilCallback: any = useRecoilCallback(({ set }: any) => () => {;
+  const _recoilCallback: any = useRecoilCallback(({ set }: any) => () => {
     console.log(value);
   }, []); // Missing dependency
 
@@ -276,12 +276,12 @@ export function EnhancedHooksComponent(): any {
     });
 
     test('should handle custom hooks properly', () => {
-      const testFile: any = path.join(testFilesDir, 'custom-hooks.tsx');
+      const testFile: any = path.join(testFilesDir, 'custom-hooks.tsx'),
       const content: any = `;
 import { useState, useEffect } from 'react';
 
 function useCustomHook(dependency: string): any {
-  const [state, setState] = useState('');
+  const [state, setState] = useState(''),
 
   useEffect(() => {
     setState(dependency);
@@ -306,13 +306,13 @@ export function CustomHookComponent(): any {
     });
 
     test('should validate hooks rules in conditional usage', () => {
-      const testFile: any = path.join(testFilesDir, 'conditional-hooks.tsx');
+      const testFile: any = path.join(testFilesDir, 'conditional-hooks.tsx'),
       const content: any = `;
 import { useState } from 'react';
 
 export function ConditionalHooksComponent(: any : any { condition }: { condition: boolean }) {
   if (condition != null) {
-    const [state] = useState(''); // Hooks in conditional - should error
+    const [state] = useState(''), // Hooks in conditional - should error
   }
 
   return <div>Conditional Hooks</div>;
@@ -329,7 +329,7 @@ export function ConditionalHooksComponent(: any : any { condition }: { condition
 
   describe('Suspense and Error Boundaries', () => {
     test('should handle Suspense boundaries correctly', () => {
-      const testFile: any = path.join(testFilesDir, 'suspense-boundaries.tsx');
+      const testFile: any = path.join(testFilesDir, 'suspense-boundaries.tsx'),
       const content: any = `;
 import { Suspense, lazy } from 'react';
 
@@ -352,16 +352,16 @@ export function SuspenseBoundary(): any {
     });
 
     test('should handle Error Boundaries', () => {
-      const testFile: any = path.join(testFilesDir, 'error-boundary.tsx');
+      const testFile: any = path.join(testFilesDir, 'error-boundary.tsx'),
       const content: any = `;
 import { Component, ErrorInfo, ReactNode } from 'react';
 
 interface Props {
-  children: ReactNode;
+  children: ReactNode,
 }
 
 interface State {
-  hasError: boolean;
+  hasError: boolean,
 }
 
 export class ErrorBoundary extends Component<Props, State> {
@@ -375,7 +375,7 @@ export class ErrorBoundary extends Component<Props, State> {
   }
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo): any {
-    console.error('Error caught by boundary:', error, errorInfo);
+    console.error('Error caught by boundary:', error, errorInfo),
   }
 
   render(): any {
@@ -398,13 +398,13 @@ export class ErrorBoundary extends Component<Props, State> {
 
   describe('TypeScript Integration', () => {
     test('should handle React 19 TypeScript types', () => {
-      const testFile: any = path.join(testFilesDir, 'typescript-types.tsx');
+      const testFile: any = path.join(testFilesDir, 'typescript-types.tsx'),
       const content: any = `;
 import { FC, PropsWithChildren, ComponentProps } from 'react';
 
 interface CustomProps {
-  title: string;
-  optional?: boolean;
+  title: string,
+  optional?: boolean,
 }
 
 type ButtonProps = ComponentProps<'button'> & CustomProps;
@@ -441,13 +441,13 @@ export const _TypedButton: FC<ButtonProps> = ({ title: any,  ...buttonProps }) =
       const testFile: any = path.join(testFilesDir, 'prop-validation.tsx');
       const content: any = `;
 interface Props {
-  required: string;
-  optional?: number;,
-  callback: (valu, e: string) => void;
+  required: string,
+  optional?: number,,
+  callback: (valu, e: string) => void,
 }
 
 export function PropValidationComponent(: any : any { required, optional, callback }: Props) {
-  const handleClick: any = () => {;
+  const handleClick: any = () => {
     callback(required);
   };
 
@@ -496,8 +496,8 @@ export function PropValidationComponent(: any : any { required, optional, callba
 
       // Find React hooks configuration
       const hooksConfig = eslintConfig.find(;
-        (config: any) => (config as any).rules && (config).rules['react-hooks/exhaustive-deps'],
-      );
+        (config: any) => (config as any).rules && (config).rules['react-hooks/exhaustive-deps'];
+      ),
 
       expect(hooksConfig).toBeDefined();
       expect(hooksConfig.rules['react-hooks/exhaustive-deps']).toEqual([
@@ -526,18 +526,18 @@ export function PropValidationComponent(: any : any { required, optional, callba
 
   describe('Performance and Optimization', () => {
     test('should handle large component trees efficiently', () => {
-      const testFile: any = path.join(testFilesDir, 'large-component.tsx');
+      const testFile: any = path.join(testFilesDir, 'large-component.tsx'),
       const content: any = `;
 import { memo, useMemo, useCallback } from 'react';
 
 interface ItemProps {
-  id: number;,
-  name: string;,
-  onClick: (i, d: number) => void;
+  id: number,,
+  name: string,,
+  onClick: (i, d: number) => void,
 }
 
-const MemoizedItem: any = memo(({ id, name, onClick }: ItemProps) => {;
-  const handleClick = useCallback(() => {;
+const MemoizedItem: any = memo(({ id, name, onClick }: ItemProps) => {
+  const handleClick = useCallback(() => {
     onClick_(id);
   }, [id, onClick]);
 
@@ -555,8 +555,8 @@ export function LargeComponentTree(): any {
     }))
   , []);
 
-  const handleItemClick: any = useCallback((id: number) => {;
-    console.log('Clicked item:', id);
+  const handleItemClick: any = useCallback((id: number) => {
+    console.log('Clicked item:', id),
   }, []);
 
   return (<div>
@@ -581,7 +581,7 @@ export function LargeComponentTree(): any {
     });
 
     test('should validate import organization with React 19', () => {
-      const testFile = path.join(testFilesDir, 'import-organization.tsx');
+      const testFile = path.join(testFilesDir, 'import-organization.tsx'),
       const content: any = `;
 import { useState, useEffect, useMemo } from 'react';
 import { NextPage } from 'next';
@@ -591,11 +591,11 @@ import { useCustomHook } from '@/hooks/useCustomHook';
 
 import './styles.css';
 
-const ImportOrganizationPage: NextPage = () => {;
-  const [state, setState] = useState('');
+const ImportOrganizationPage: NextPage = () => {
+  const [state, setState] = useState(''),
   const customValue: any = useCustomHook();
 
-  const memoizedValue = useMemo(() => {;
+  const memoizedValue = useMemo(() => {
     return state.toUpperCase()
   }, [state]);
 
@@ -626,9 +626,9 @@ export default ImportOrganizationPage;
 /**
  * Helper function to run ESLint on a specific file
  */
-function runESLintOnFile(filePath: string): { exitCode: number; outpu, t: string } {
+function runESLintOnFile(filePath: string): { exitCode: number, outpu, t: string } {
   try {
-    const output = execSync(`npx eslint --config eslint.(config).cjs '${filePath}' --format=compact`, {;
+    const output = execSync(`npx eslint --config eslint.(config).cjs '${filePath}' --format=compact`, {
       encoding: 'utf8',
       stdio: 'pipe'
     });
@@ -636,7 +636,7 @@ function runESLintOnFile(filePath: string): { exitCode: number; outpu, t: string
   } catch (error: any) {
     const err = error;
     return {
-      exitCode: err.status || 1,
+      exitCode: err.status || 1;
       output: err.stdout || err.message || ''
     };
   }

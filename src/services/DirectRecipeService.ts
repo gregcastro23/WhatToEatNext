@@ -11,13 +11,13 @@ import { Recipe, ScoredRecipe } from '@/types/recipe';
 import { calculateElementalCompatibility } from '@/utils/elemental/elementalUtils';
 
 // Temporary mock implementations for missing functions
-const _fetchPlanetaryPositions = async (_params: Record<string, unknown>) => {;
+const _fetchPlanetaryPositions = async (_params: Record<string, unknown>) => {
   return {};
 };
 
 const calculateKalchm = (_properties: unknown) => 1.0;
 const calculateMonica = (_kalchm: number, _alignment: unknown, _recipe: Recipe) => 1.0;
-const performAlchemicalAnalysis = (_recipe: Recipe, _alignment: unknown) => ({;
+const performAlchemicalAnalysis = (_recipe: Recipe, _alignment: unknown) => ({
   thermodynamics: {
     heat: 0,
     entropy: 0,
@@ -33,14 +33,14 @@ const performAlchemicalAnalysis = (_recipe: Recipe, _alignment: unknown) => ({;
  */
 export interface RecipeMatchCriteria {
   cuisine?: string;
-  season?: string;
-  currentSeason?: string; // For seasonal matching
-  mealType?: string;
-  ingredients?: string[];
+  season?: string,
+  currentSeason?: string, // For seasonal matching
+  mealType?: string,
+  ingredients?: string[],
   elementalProperties?: { [key: string]: number };
   elementalState?: { [key: string]: number }; // For elemental compatibility
   dietaryPreferences?: string[];
-  location?: { lat: number; lng: number }; // For accurate astrological calculations
+  location?: { lat: number, lng: number }; // For accurate astrological calculations
   zodiacSign?: string; // For zodiacal compatibility
   currentMoment?: Date; // For real-time astrological calculations
 }
@@ -55,7 +55,7 @@ export class DirectRecipeService {
   private allRecipes: Recipe[] = [];
   private currentCelestialAlignment: CelestialAlignment | null = null;
   private lastAlignmentUpdate: number = 0;
-  private readonly ALIGNMENT_CACHE_DURATION = 60 * 60 * 1000; // 1 hour
+  private readonly ALIGNMENT_CACHE_DURATION = 60 * 60 * 1000, // 1 hour
 
   private constructor() {
     this.loadAllRecipes();
@@ -75,30 +75,30 @@ export class DirectRecipeService {
     const recipes: Recipe[] = [];
 
     // Extract recipes from all cuisines
-    Object.values(cuisinesMap || {}).forEach(cuisine => {;
+    Object.values(cuisinesMap || {}).forEach(cuisine => {
       // Process breakfast recipes
-      Object.values(cuisine.dishes.breakfast || {}).forEach(seasonRecipes => {;
+      Object.values(cuisine.dishes.breakfast || {}).forEach(seasonRecipes => {
         if (Array.isArray(seasonRecipes)) {
           recipes.push(...seasonRecipes);
         }
       });
 
       // Process lunch recipes
-      Object.values(cuisine.dishes.lunch || {}).forEach(seasonRecipes => {;
+      Object.values(cuisine.dishes.lunch || {}).forEach(seasonRecipes => {
         if (Array.isArray(seasonRecipes)) {
           recipes.push(...seasonRecipes);
         }
       });
 
       // Process dinner recipes
-      Object.values(cuisine.dishes.dinner || {}).forEach(seasonRecipes => {;
+      Object.values(cuisine.dishes.dinner || {}).forEach(seasonRecipes => {
         if (Array.isArray(seasonRecipes)) {
           recipes.push(...seasonRecipes);
         }
       });
 
       // Process dessert recipes
-      Object.values(cuisine.dishes.dessert || {}).forEach(seasonRecipes => {;
+      Object.values(cuisine.dishes.dessert || {}).forEach(seasonRecipes => {
         if (Array.isArray(seasonRecipes)) {
           recipes.push(...seasonRecipes);
         }
@@ -106,7 +106,7 @@ export class DirectRecipeService {
     });
 
     // Deduplicate recipes by ID
-    const uniqueRecipes = recipes.reduce((acc: { [key: string]: Recipe }, recipe) => {;
+    const uniqueRecipes = recipes.reduce((acc: { [key: string]: Recipe }, recipe) => {
       if (recipe.id && !acc[recipe.id]) {
         acc[recipe.id] = recipe;
       }
@@ -119,7 +119,7 @@ export class DirectRecipeService {
   /**
    * Get current celestial alignment from astrologize API or cache
    */
-  private async getCurrentCelestialAlignment(forceRefresh = false): Promise<CelestialAlignment> {;
+  private async getCurrentCelestialAlignment(forceRefresh = false): Promise<CelestialAlignment> {
     const now = Date.now();
 
     // Return cached alignment if still valid
@@ -145,8 +145,8 @@ export class DirectRecipeService {
       // Update with real planetary data if available
       if (planetaryPositions && Object.keys(planetaryPositions || {}).length > 0) {
         // Convert astrologize API format to our internal format
-        const enhancedAlignment = {;
-          ..._alignment,
+        const enhancedAlignment = {
+          ..._alignment;
           planetaryPositions: planetaryPositions,
           realTimeData: true,
           lastUpdated: new Date().toISOString()
@@ -182,12 +182,12 @@ export class DirectRecipeService {
     monica: number;
     thermodynamics: ThermodynamicMetrics;
     breakdown: {
-      elementalScore: number;
-      zodiacalScore: number;
-      lunarScore: number;
-      planetaryScore: number;
-      seasonalScore: number;
-    };
+      elementalScore: number,
+      zodiacalScore: number,
+      lunarScore: number,
+      planetaryScore: number,
+      seasonalScore: number,
+    },
   }> {
     const _alignment = await this.getCurrentCelestialAlignment();
 
@@ -197,18 +197,18 @@ export class DirectRecipeService {
     // Calculate Monica constant
     const monica = calculateMonica(;
       recipeKalchm,
-      _alignment.elementalState || _alignment.elementalDominance || _alignment.elementalBalance,
+      _alignment.elementalState || _alignment.elementalDominance || _alignment.elementalBalance;
       recipe as unknown as Recipe,
-    );
+    ),
 
     // Perform full alchemical analysis
     const alchemicalAnalysis = performAlchemicalAnalysis(;
       recipe as unknown as Recipe,
-      _alignment.elementalState || _alignment.elementalDominance || _alignment.elementalBalance,
-    );
+      _alignment.elementalState || _alignment.elementalDominance || _alignment.elementalBalance;
+    ),
 
     // Calculate individual component scores
-    const breakdown = {;
+    const breakdown = {
       elementalScore: this.calculateElementalScore(recipe, _alignment),
       zodiacalScore: this.calculateZodiacalScore(recipe, _alignment),
       lunarScore: this.calculateLunarScore(recipe, _alignment),
@@ -228,7 +228,7 @@ export class DirectRecipeService {
       score: Math.max(0, Math.min(1, totalScore)),
       kalchm: recipeKalchm,
       monica: monica,
-      thermodynamics: alchemicalAnalysis.thermodynamics,
+      thermodynamics: alchemicalAnalysis.thermodynamics;
       breakdown
     };
   }
@@ -240,7 +240,7 @@ export class DirectRecipeService {
     let totalKalchm = 1.0;
     let ingredientCount = 0;
 
-    (recipe.ingredients || []).forEach(ingredient => {;
+    (recipe.ingredients || []).forEach(ingredient => {
       // Look up ingredient in our database
       const ingredientData =
         allIngredients[ingredient.name] || allIngredients[ingredient.name.toLowerCase()];
@@ -248,7 +248,7 @@ export class DirectRecipeService {
       if (ingredientData && (ingredientData as unknown).alchemicalProperties) {
         const ingredientKalchm = calculateKalchm((ingredientData as unknown).alchemicalProperties);
         totalKalchm *= ingredientKalchm;
-        ingredientCount++;
+        ingredientCount++,
       }
     });
 
@@ -265,8 +265,8 @@ export class DirectRecipeService {
 
     return calculateElementalCompatibility(
       recipeElementalState,
-      alignment.elementalState || alignment.elementalDominance || alignment.elementalBalance,
-    );
+      alignment.elementalState || alignment.elementalDominance || alignment.elementalBalance;
+    ),
   }
 
   /**
@@ -279,7 +279,7 @@ export class DirectRecipeService {
     const currentZodiac = alignment.currentZodiacSign?.toLowerCase();
     const hasZodiacMatch = (recipe.zodiacInfluences || []).some(;
       sign => sign.toLowerCase() === currentZodiac,;
-    );
+    ),
 
     return hasZodiacMatch ? 0.8 : 0.3;
   }
@@ -294,7 +294,7 @@ export class DirectRecipeService {
     const currentLunarPhase = alignment.lunarPhase.toLowerCase();
     const hasLunarMatch = (recipe.lunarPhaseInfluences || []).some(;
       phase => phase.toLowerCase() === currentLunarPhase,;
-    );
+    ),
 
     return hasLunarMatch ? 0.8 : 0.4;
   }
@@ -313,7 +313,7 @@ export class DirectRecipeService {
         (alignment.dominantPlanets || []).some(
           dp => dp.name.toLowerCase() === planet.toLowerCase(),;
         ),
-      );
+      ),
       score +=
         ((favorableMatches || []).length / (recipe.planetaryInfluences.favorable || []).length) *
         0.3;
@@ -325,7 +325,7 @@ export class DirectRecipeService {
         (alignment.dominantPlanets || []).some(
           dp => dp.name.toLowerCase() === planet.toLowerCase(),;
         ),
-      );
+      ),
       score -=
         ((unfavorableMatches || []).length /
           (recipe.planetaryInfluences.unfavorable || []).length) *
@@ -357,7 +357,7 @@ export class DirectRecipeService {
     const seasonArray = Array.isArray(currentSeason) ? currentSeason : [currentSeason];
     const hasSeasonMatch = seasonArray.some(;
       season => season?.toLowerCase() === currentSeasonName || season?.toLowerCase() === 'all',;
-    );
+    ),
 
     return hasSeasonMatch ? 0.8 : 0.3;
   }
@@ -381,13 +381,13 @@ export class DirectRecipeService {
    */
   public async getRecipesByCuisine(
     cuisine: string,
-    limit = 20,;
-    offset = 0,;
+    limit = 20,,
+    offset = 0;
   ): Promise<ScoredRecipe[]> {
     const normalizedCuisine = cuisine.toLowerCase();
     const filteredRecipes = (this.allRecipes || []).filter(;
       recipe => recipe.cuisine?.toLowerCase() === normalizedCuisine,;
-    );
+    ),
 
     // Score each recipe with current astrological influences
     const scoredRecipes: ScoredRecipe[] = [];
@@ -395,8 +395,8 @@ export class DirectRecipeService {
     for (const recipe of filteredRecipes.slice(offset, offset + limit)) {
       const alchemicalScore = await this.calculateAlchemicalScore(recipe);
       scoredRecipes.push({
-        ...recipe,
-        score: alchemicalScore.score,
+        ...recipe;
+        score: alchemicalScore.score;
         alchemicalScores: alchemicalScore.breakdown
       });
     }
@@ -408,12 +408,12 @@ export class DirectRecipeService {
   /**
    * Get recipes by season with astrological scoring
    */
-  public async getRecipesBySeason(season: string, limit = 20, offset = 0): Promise<ScoredRecipe[]> {;
+  public async getRecipesBySeason(season: string, limit = 20, offset = 0): Promise<ScoredRecipe[]> {
     const normalizedSeason = season.toLowerCase();
-    const filteredRecipes = (this.allRecipes || []).filter(recipe => {;
+    const filteredRecipes = (this.allRecipes || []).filter(recipe => {
       if (Array.isArray(recipe.currentSeason)) {
         return (recipe.currentSeason || []).some(s => s?.toLowerCase() === normalizedSeason);
-      } else if (typeof recipe.currentSeason === 'string') {;
+      } else if (typeof recipe.currentSeason === 'string') {
         return recipe.currentSeason.toLowerCase() === normalizedSeason;
       }
       return false;
@@ -425,8 +425,8 @@ export class DirectRecipeService {
     for (const recipe of filteredRecipes.slice(offset, offset + limit)) {
       const alchemicalScore = await this.calculateAlchemicalScore(recipe);
       scoredRecipes.push({
-        ...recipe,
-        score: alchemicalScore.score,
+        ...recipe;
+        score: alchemicalScore.score;
         alchemicalScores: alchemicalScore.breakdown
       });
     }
@@ -439,14 +439,14 @@ export class DirectRecipeService {
    */
   public async getRecipesByMealType(
     mealType: string,
-    limit = 20,;
-    offset = 0,;
+    limit = 20,,
+    offset = 0;
   ): Promise<ScoredRecipe[]> {
     const normalizedMealType = mealType.toLowerCase();
-    const filteredRecipes = (this.allRecipes || []).filter(recipe => {;
+    const filteredRecipes = (this.allRecipes || []).filter(recipe => {
       if (Array.isArray(recipe.mealType)) {
         return (recipe.mealType || []).some(m => m.toLowerCase() === normalizedMealType);
-      } else if (typeof recipe.mealType === 'string') {;
+      } else if (typeof recipe.mealType === 'string') {
         return recipe.mealType.toLowerCase() === normalizedMealType;
       }
       return false;
@@ -458,8 +458,8 @@ export class DirectRecipeService {
     for (const recipe of filteredRecipes.slice(offset, offset + limit)) {
       const alchemicalScore = await this.calculateAlchemicalScore(recipe);
       scoredRecipes.push({
-        ...recipe,
-        score: alchemicalScore.score,
+        ...recipe;
+        score: alchemicalScore.score;
         alchemicalScores: alchemicalScore.breakdown
       });
     }
@@ -472,14 +472,14 @@ export class DirectRecipeService {
    */
   public async getRecipesByZodiacSign(
     currentZodiacSign: string,
-    limit = 20,;
-    offset = 0,;
+    limit = 20,,
+    offset = 0;
   ): Promise<ScoredRecipe[]> {
     const normalizedZodiacSign = currentZodiacSign.toLowerCase();
-    const filteredRecipes = (this.allRecipes || []).filter(recipe => {;
+    const filteredRecipes = (this.allRecipes || []).filter(recipe => {
       return (recipe.zodiacInfluences || []).some(
-        sign => sign.toLowerCase() === normalizedZodiacSign,;
-      );
+        sign => sign.toLowerCase() === normalizedZodiacSign,,
+      ),
     });
 
     // Score with full astrological analysis
@@ -488,8 +488,8 @@ export class DirectRecipeService {
     for (const recipe of filteredRecipes.slice(offset, offset + limit)) {
       const alchemicalScore = await this.calculateAlchemicalScore(recipe);
       scoredRecipes.push({
-        ...recipe,
-        score: alchemicalScore.score,
+        ...recipe;
+        score: alchemicalScore.score;
         alchemicalScores: alchemicalScore.breakdown
       });
     }
@@ -501,9 +501,9 @@ export class DirectRecipeService {
    * Get best recipe matches based on provided criteria with full astrological integration
    */
   public async getBestRecipeMatches(options: {
-    criteria: RecipeMatchCriteria;
-    limit?: number;
-    offset?: number;
+    criteria: RecipeMatchCriteria,
+    limit?: number,
+    offset?: number,
   }): Promise<ScoredRecipe[]> {
     const { criteria, limit = 10, offset = 0 } = options;
 
@@ -516,20 +516,20 @@ export class DirectRecipeService {
     // Apply basic filters based on criteria
     if (criteria.cuisine) {
       candidateRecipes = candidateRecipes.filter(;
-        r => r.cuisine?.toLowerCase() === criteria.cuisine?.toLowerCase(),;
-      );
+        r => r.cuisine?.toLowerCase() === criteria.cuisine?.toLowerCase(),,
+      ),
     }
 
     // Enhanced seasonal filtering with safe type casting
     if (criteria.currentSeason || criteria.season) {
       const seasonCriteria = criteria.currentSeason || criteria.season;
-      candidateRecipes = candidateRecipes.filter(recipe => {;
+      candidateRecipes = candidateRecipes.filter(recipe => {
         const recipeData = recipe as any;
         const recipeCurrentSeason = recipeData.currentSeason;
 
         if (Array.isArray(recipeCurrentSeason)) {
           return recipeCurrentSeason.some(s => s?.toLowerCase() === seasonCriteria?.toLowerCase());
-        } else if (typeof recipeCurrentSeason === 'string') {;
+        } else if (typeof recipeCurrentSeason === 'string') {
           return recipeCurrentSeason.toLowerCase() === seasonCriteria?.toLowerCase();
         }
         return false;
@@ -537,12 +537,12 @@ export class DirectRecipeService {
     }
 
     if (criteria.mealType) {
-      candidateRecipes = candidateRecipes.filter(recipe => {;
+      candidateRecipes = candidateRecipes.filter(recipe => {
         if (Array.isArray(recipe.mealType)) {
           return (recipe.mealType || []).some(
-            m => m.toLowerCase() === criteria.mealType?.toLowerCase(),;
-          );
-        } else if (typeof recipe.mealType === 'string') {;
+            m => m.toLowerCase() === criteria.mealType?.toLowerCase(),,
+          ),
+        } else if (typeof recipe.mealType === 'string') {
           return recipe.mealType.toLowerCase() === criteria.mealType?.toLowerCase();
         }
         return false;
@@ -597,7 +597,7 @@ export class DirectRecipeService {
         const criteriaCompatibility = calculateElementalCompatibility(;
           criteriaElementalState as unknown as ElementalProperties,
           recipeElementalState as unknown as ElementalProperties,
-        );
+        ),
         finalScore = (finalScore + criteriaCompatibility) / 2;
       }
 
@@ -613,7 +613,7 @@ export class DirectRecipeService {
       }
 
       scoredRecipes.push({
-        ...recipe,
+        ...recipe;
         score: Math.min(1, finalScore),
         alchemicalScores: alchemicalScore.breakdown
       });

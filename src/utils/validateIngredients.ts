@@ -4,8 +4,8 @@ import type { RecipeIngredient } from '@/types/recipe';
 export function validateIngredientData(recipes: { ingredients: RecipeIngredient[] }[]): boolean {
   const missingElementals: RecipeIngredient[] = [];
 
-  recipes.forEach(recipe => {;
-    recipe.ingredients.forEach(ingredient => {;
+  recipes.forEach(recipe => {
+    recipe.ingredients.forEach(ingredient => {
       if (!ingredient.elementalProperties) {
         missingElementals.push(ingredient);
         // Set default values to prevent runtime errors
@@ -13,7 +13,7 @@ export function validateIngredientData(recipes: { ingredients: RecipeIngredient[
       } else {
         // Ensure all elemental properties exist
         const elements = ['Fire', 'Water', 'Air', 'Earth'] as const;
-        elements.forEach(element => {;
+        elements.forEach(element => {
           if (
             ingredient.elementalProperties &&
             ingredient.elementalProperties[element] === undefined
@@ -59,7 +59,7 @@ export function validateIngredients(ingredients: RecipeIngredient[]): string[] {
       errors.push(`Ingredient at position ${index} is missing elementalProperties`);
     } else {
       // Check that each element has a valid value
-      (['Fire', 'Water', 'Earth', 'Air'] as const).forEach(element => {;
+      (['Fire', 'Water', 'Earth', 'Air'] as const).forEach(element => {
         if (
           ingredient.elementalProperties &&
           ingredient.elementalProperties[element] === undefined

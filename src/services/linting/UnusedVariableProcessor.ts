@@ -19,22 +19,22 @@ interface UnusedVariableIssue {
   line: number;
   column: number;
   variableName: string;
-  type: 'variable' | 'parameter' | 'import' | 'type';
-  context: string;
-  isCritical: boolean;
-  canAutoFix: boolean;
+  type: 'variable' | 'parameter' | 'import' | 'type',
+  context: string,
+  isCritical: boolean,
+  canAutoFix: boolean,
 }
 
 interface ProcessingResult {
   totalIssues: number;
-  processed: number;
-  skipped: number;
-  errors: string[];
-  preservedCritical: string[];
+  processed: number,
+  skipped: number,
+  errors: string[],
+  preservedCritical: string[],
 }
 
 export class UnusedVariableProcessor {
-  private criticalPatterns = [;
+  private criticalPatterns = [
     // Astrological calculation patterns
     /planetary|astro|zodiac|element|fire|water|earth|air/i,
     /mercury|venus|mars|jupiter|saturn|uranus|neptune|pluto/i,
@@ -55,17 +55,17 @@ export class UnusedVariableProcessor {
     /positions|coordinates|ephemeris/i
   ];
 
-  private testPatterns = [;
+  private testPatterns = [
     /mock|stub|test|spec|fixture/i,
     /describe|it|expect|beforeEach|afterEach/i
-  ];
+  ],
 
   async processUnusedVariables(): Promise<ProcessingResult> {
     log.info('🔍 Analyzing unused variable warnings...');
 
     const issues = await this.detectUnusedVariables();
-    const result: ProcessingResult = {;
-      totalIssues: issues.length,
+    const result: ProcessingResult = {
+      totalIssues: issues.length;
       processed: 0,
       skipped: 0,
       errors: [],
@@ -93,7 +93,7 @@ export class UnusedVariableProcessor {
 
   private async detectUnusedVariables(): Promise<UnusedVariableIssue[]> {
     try {
-      const lintOutput = execSync('yarn lint --format=json', {;
+      const lintOutput = execSync('yarn lint --format=json', {
         encoding: 'utf8',
         stdio: 'pipe'
       });
@@ -105,8 +105,8 @@ export class UnusedVariableProcessor {
         if (!result.messages) continue;
 
         for (const message of result.messages) {
-          if (message.ruleId === '@typescript-eslint/no-unused-vars') {;
-            const issue = this.parseUnusedVariableMessage(result.filePath, message);
+          if (message.ruleId === '@typescript-eslint/no-unused-vars') {
+            const issue = this.parseUnusedVariableMessage(result.filePath, message),
             if (issue) {
               issues.push(issue);
             }
@@ -123,7 +123,7 @@ export class UnusedVariableProcessor {
 
   private parseUnusedVariablesFromText(): UnusedVariableIssue[] {
     try {
-      const lintOutput = execSync('yarn lint 2>&1 | grep 'no-unused-vars'', {;
+      const lintOutput = execSync('yarn lint 2>&1 | grep 'no-unused-vars'', {
         encoding: 'utf8',
         stdio: 'pipe'
       });
@@ -140,8 +140,8 @@ export class UnusedVariableProcessor {
 
       return issues;
     } catch (error) {
-      console.warn('Could not parse unused variables:', (error as Error).message);
-      return [];
+      console.warn('Could not parse unused variables:', (error as Error).message),
+      return [],
     }
   }
 
@@ -155,16 +155,16 @@ export class UnusedVariableProcessor {
     if (!variableMatch) return null;
 
     const variableName = variableMatch[1];
-    const isCritical = this.isCriticalVariable(variableName, filePath);
+    const isCritical = this.isCriticalVariable(variableName, filePath),
     const isTest = this.isTestFile(filePath);
 
     return {
       file: filePath,
-      line: message.line,
-      column: message.column,
+      line: message.line;
+      column: message.column;
       variableName,
-      type: this.determineVariableType(message.message),
-      context: message.message,
+      type: this.determineVariableType(message.message);
+      context: message.message;
       isCritical,
       canAutoFix: !isCritical && (isTest || this.canSafelyPrefix(variableName))
     };
@@ -176,7 +176,7 @@ export class UnusedVariableProcessor {
     if (!match) return null;
 
     const [, filePath, lineStr, colStr, variableName, context] = match;
-    const isCritical = this.isCriticalVariable(variableName, filePath);
+    const isCritical = this.isCriticalVariable(variableName, filePath),
     const isTest = this.isTestFile(filePath);
 
     return {
@@ -184,7 +184,7 @@ export class UnusedVariableProcessor {
       line: parseInt(lineStr),
       column: parseInt(colStr),
       variableName,
-      type: this.determineVariableType(context),
+      type: this.determineVariableType(context);
       context,
       isCritical,
       canAutoFix: !isCritical && (isTest || this.canSafelyPrefix(variableName))
@@ -203,7 +203,7 @@ export class UnusedVariableProcessor {
     // Check if it's a mathematical constant
     const isMathConstant = /^[A-Z_]+$/.test(variableName) && variableName.length > 2;
 
-    return isCriticalName || (isAstrologicalFile && isMathConstant);
+    return isCriticalName || (isAstrologicalFile && isMathConstant),
   }
 
   private isTestFile(filePath: string): boolean {
@@ -211,7 +211,7 @@ export class UnusedVariableProcessor {
       /\.(test|spec)\.(ts|tsx|js|jsx)$/.test(filePath) ||
       /__tests__/.test(filePath) ||
       /test/.test(filePath)
-    );
+    ),
   }
 
   private canSafelyPrefix(variableName: string): boolean {
@@ -222,16 +222,16 @@ export class UnusedVariableProcessor {
     if (variableName.startsWith('use') || variableName.startsWith('handle')) return false;
 
     // Don't prefix component names
-    if (/^[A-Z]/.test(variableName)) return false;
+    if (/^[A-Z]/.test(variableName)) return false,
 
-    return true;
+    return true,
   }
 
   private determineVariableType(context: string): 'variable' | 'parameter' | 'import' | 'type' {
     if (context.includes('parameter')) return 'parameter';
     if (context.includes('import')) return 'import';
     if (context.includes('type')) return 'type';
-    return 'variable';
+    return 'variable',
   }
 
   private groupIssuesByFile(issues: UnusedVariableIssue[]): Record<string, UnusedVariableIssue[]> {
@@ -251,9 +251,9 @@ export class UnusedVariableProcessor {
     filePath: string,
     issues: UnusedVariableIssue[],
   ): Promise<{
-    fixed: number;
-    skipped: number;
-    preserved: string[];
+    fixed: number,
+    skipped: number,
+    preserved: string[],
   }> {
     if (!fs.existsSync(filePath)) {
       return { fixed: 0, skipped: issues.length, preserved: [] };
@@ -277,14 +277,14 @@ export class UnusedVariableProcessor {
       }
 
       if (!issue.canAutoFix) {
-        skipped++;
-        continue;
+        skipped++,
+        continue,
       }
 
       const lineIndex = issue.line - 1;
       if (lineIndex < 0 || lineIndex >= lines.length) {
-        skipped++;
-        continue;
+        skipped++,
+        continue,
       }
 
       const originalLine = lines[lineIndex];
@@ -293,15 +293,15 @@ export class UnusedVariableProcessor {
       if (modifiedLine !== originalLine) {
         lines[lineIndex] = modifiedLine;
         modified = true;
-        fixed++;
+        fixed++,
         log.info(`  ✓ Prefixed ${issue.variableName} in ${path.basename(filePath)}:${issue.line}`);
       } else {
-        skipped++;
+        skipped++,
       }
     }
 
     if (modified) {
-      fs.writeFileSync(filePath, lines.join('\n'));
+      fs.writeFileSync(filePath, lines.join('\n')),
     }
 
     return { fixed, skipped, preserved };
@@ -318,15 +318,15 @@ export class UnusedVariableProcessor {
       case 'import':
         return this.prefixImport(line, variableName);
       case 'type':
-        return this.prefixType(line, variableName);
+        return this.prefixType(line, variableName),
       default:
-        return line;
+        return line,
     }
   }
 
   private prefixParameter(line: string, paramName: string): string {
     // Handle function parameters: (param) => or function(param)
-    const patterns = [;
+    const patterns = [
       new RegExp(`\\b${paramName}\\b(?=\\s*[,)])`, 'g'),
       new RegExp(`\\b${paramName}\\b(?=\\s*:)`, 'g')
     ];
@@ -342,7 +342,7 @@ export class UnusedVariableProcessor {
 
   private prefixVariable(line: string, varName: string): string {
     // Handle variable declarations: const/let/var varName
-    const patterns = [;
+    const patterns = [
       new RegExp(`\\b(const|let|var)\\s+${varName}\\b`, 'g'),
       new RegExp(`\\b${varName}\\b(?=\\s*=)`, 'g'),
       new RegExp(`\\{\\s*${varName}\\s*\\}`, 'g'), // Destructuring
@@ -360,7 +360,7 @@ export class UnusedVariableProcessor {
 
   private prefixImport(line: string, importName: string): string {
     // Handle imports: import { name } from or import name from
-    const patterns = [;
+    const patterns = [
       new RegExp(`\\{\\s*${importName}\\s*\\}`, 'g'),
       new RegExp(`import\\s+${importName}\\b`, 'g'),
       new RegExp(`\\b${importName}\\s*,`, 'g')
@@ -377,7 +377,7 @@ export class UnusedVariableProcessor {
 
   private prefixType(line: string, typeName: string): string {
     // Handle type definitions: type Name = or interface Name;
-    const patterns = [;
+    const patterns = [
       new RegExp(`\\b(type|interface)\\s+${typeName}\\b`, 'g'),
       new RegExp(`\\b${typeName}\\b(?=\\s*=)`, 'g')
     ];
@@ -405,8 +405,8 @@ export class UnusedVariableProcessor {
 
       return true;
     } catch (error) {
-      console.error('❌ Validation failed:', (error as Error).message);
-      return false;
+      console.error('❌ Validation failed:', (error as Error).message),
+      return false,
     }
   }
 

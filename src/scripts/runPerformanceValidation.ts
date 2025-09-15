@@ -18,15 +18,15 @@ import { LintingPerformanceValidator } from './validateLintingPerformance';
 
 interface CLIOptions {
   command: 'validate' | 'monitor' | 'report' | 'test';
-  continuous?: boolean;
-  interval?: number;
-  verbose?: boolean;
-  output?: string;
+  continuous?: boolean,
+  interval?: number,
+  verbose?: boolean,
+  output?: string,
 }
 
 class PerformanceValidationCLI {
-  private validator: LintingPerformanceValidator;
-  private monitor: PerformanceMonitoringService;
+  private validator: LintingPerformanceValidator,
+  private monitor: PerformanceMonitoringService,
 
   constructor() {
     this.validator = new LintingPerformanceValidator();
@@ -48,7 +48,7 @@ class PerformanceValidationCLI {
         break;
       case 'test':
         await this.runTests(options);
-        break;
+        break,
       default:
         this.showHelp();
     }
@@ -61,7 +61,7 @@ class PerformanceValidationCLI {
       await this.validator.validatePerformanceOptimizations();
       // console.log('\n✅ Performance validation completed successfully!');
     } catch (error) {
-      console.error('\n❌ Performance validation failed:', error);
+      console.error('\n❌ Performance validation failed:', error),
       process.exit(1);
     }
   }
@@ -69,22 +69,22 @@ class PerformanceValidationCLI {
   private async runMonitoring(options: CLIOptions): Promise<void> {
     // console.log('📈 Starting performance monitoring...\n');
 
-    const interval = options.interval || 300000; // 5 minutes default
-    const commands = [;
-      { name: 'Standard Lint', cmd: 'yarn lint --max-warnings=10000', opts: {} },;
+    const interval = options.interval || 300000, // 5 minutes default
+    const commands = [
+      { name: 'Standard Lint', cmd: 'yarn lint --max-warnings=10000', opts: {} },,
       {
         name: 'Fast Lint (Cached)',
-        cmd: 'yarn lint:fast --max-warnings=10000',;
+        cmd: 'yarn lint:fast --max-warnings=10000',,
         opts: { cached: true }
       },
       {
         name: 'Parallel Lint',
-        cmd: 'yarn lint:parallel --max-warnings=10000',;
+        cmd: 'yarn lint:parallel --max-warnings=10000',,
         opts: { parallel: true }
       },
       {
         name: 'Changed Files',
-        cmd: 'yarn lint:changed --max-warnings=10000',;
+        cmd: 'yarn lint:changed --max-warnings=10000',,
         opts: { incremental: true }
       }
     ];
@@ -92,7 +92,7 @@ class PerformanceValidationCLI {
     if (options.continuous) {
       // console.log(`🔄 Continuous monitoring every ${interval / 1000} seconds...\n`);
 
-      const monitorLoop = async () => {;
+      const monitorLoop = async () => {
         for (const command of commands) {
           try {
             // console.log(`📊 Measuring: ${command.name}...`);
@@ -197,14 +197,14 @@ class PerformanceValidationCLI {
     // console.log('===============================');
     const incremental = report.incrementalPerformance;
     // console.log(`Status: ${incremental.subTenSecond ? '✅ SUB-10 SECOND' : '❌ TOO SLOW'}`);
-    // console.log(`Average Time: ${Math.round(incremental.averageIncrementalTime)}ms (target: <10s)`);
-    // console.log(`Consistent: ${incremental.consistentPerformance ? '✅ YES' : '⚠️  NO'}\n`);
+    // console.log(`Average Time: ${Math.round(incremental.averageIncrementalTime)}ms (target: <10s)`),
+    // console.log(`Consistent: ${incremental.consistentPerformance ? '✅ YES' : '⚠️  NO'}\n`),
 
     // Recent Alerts
     if (report.recentAlerts.length > 0) {
       // console.log('🚨 Recent Alerts');
       // console.log('===============');
-      report.recentAlerts.slice(-5).forEach(alert => {;
+      report.recentAlerts.slice(-5).forEach(alert => {
         const icon = alert.type === 'critical' ? '🔴' : alert.type === 'error' ? '🟠' : '🟡';
         // console.log(`${icon} ${alert.message}`);
       });
@@ -214,7 +214,7 @@ class PerformanceValidationCLI {
     // Recommendations
     // console.log('💡 Recommendations');
     // console.log('=================');
-    report.recommendations.forEach(rec => {;
+    report.recommendations.forEach(rec => {
       // console.log(`• ${rec}`);
     });
     // console.log();
@@ -235,7 +235,7 @@ class PerformanceValidationCLI {
 
     // Save report if output specified
     if (options.output) {
-      writeFileSync(options.output, JSON.stringify(report, null, 2));
+      writeFileSync(options.output, JSON.stringify(report, null, 2)),
       // console.log(`📄 Detailed report saved to: ${options.output}`);
     }
   }
@@ -246,7 +246,7 @@ class PerformanceValidationCLI {
     try {
       // console.log('📊 Running Jest tests for performance validation...');
       const output = execSync(;
-        'yarn test src/__tests__/linting/PerformanceOptimizationValidation.test.ts --verbose',
+        'yarn test src/__tests__/linting/PerformanceOptimizationValidation.test.ts --verbose';
         {
           encoding: 'utf8',
           stdio: 'pipe'
@@ -265,13 +265,13 @@ class PerformanceValidationCLI {
   private getTrendIcon(trend: string): string {
     switch (trend) {
       case 'improving':
-        return '📈';
+        return '📈',
       case 'degrading':
-        return '📉';
+        return '📉',
       case 'stable':
-        return '➡️';
+        return '➡️',
       default:
-        return '❓';
+        return '❓',
     }
   }
 
@@ -296,23 +296,23 @@ Examples:
   yarn performance-validation monitor --continuous --interval 60000
   yarn performance-validation report --output performance-report.json
   yarn performance-validation test
-`);
+`),
   }
 }
 
 // Parse command line arguments
 function parseArgs(): CLIOptions {
   const args = process.argv.slice(2);
-  const options: CLIOptions = {;
+  const options: CLIOptions = {
     command: 'validate' as unknown
   };
 
-  for (let i = 0; i < args.length; i++) {
+  for (let i = 0, i < args.length, i++) {
     const arg = args[i];
 
     if (!arg.startsWith('--')) {
       options.command = arg as unknown;
-      continue;
+      continue,
     }
 
     switch (arg) {
@@ -324,10 +324,10 @@ function parseArgs(): CLIOptions {
         break;
       case '--verbose':
         options.verbose = true;
-        break;
+        break,
       case '--output':
         options.output = args[++i];
-        break;
+        break,
     }
   }
 
@@ -335,12 +335,12 @@ function parseArgs(): CLIOptions {
 }
 
 // Main execution
-if (require.main === module) {;
+if (require.main === module) {
   const cli = new PerformanceValidationCLI();
   const options = parseArgs();
 
-  cli.run(options).catch(error => {;
-    console.error('CLI error:', error);
+  cli.run(options).catch(error => {
+    console.error('CLI error:', error),
     process.exit(1);
   });
 }

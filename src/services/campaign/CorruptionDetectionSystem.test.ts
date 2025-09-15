@@ -16,9 +16,9 @@ jest.mock('child_process', () => ({
 
 // Mock fs for testing
 jest.mock('fs', () => ({
-  existsSync: jest.fn(),
-  readFileSync: jest.fn(),
-  writeFileSync: jest.fn(),
+  existsSync: jest.fn();
+  readFileSync: jest.fn();
+  writeFileSync: jest.fn();
   mkdirSync: jest.fn()
 }));
 
@@ -26,13 +26,13 @@ const { execSync } = require('child_process');
 const mockFs = fs.Mocked<typeof fs>;
 
 describe('Corruption Detection System - Task 6.2', () => {
-  let safetyProtocol: SafetyProtocol;
-  let mockSettings: SafetySettings;
+  let safetyProtocol: SafetyProtocol,
+  let mockSettings: SafetySettings,
 
   beforeEach(() => {
     jest.clearAllMocks();
 
-    mockSettings = {;
+    mockSettings = {
       maxFilesPerBatch: 15,
       buildValidationFrequency: 5,
       testValidationFrequency: 10,
@@ -46,7 +46,7 @@ describe('Corruption Detection System - Task 6.2', () => {
       if (path === '.git') return true;
       if (path.toString().includes('.kiro')) return false;
       if (path.toString().includes('test-file')) return true;
-      return false;
+      return false,
     });
 
     // Mock git commands
@@ -90,7 +90,7 @@ import React, * as React, { useEffect, useState } from 'react';
     test('should detect corrupted parameter names', async () => {
       const corruptedContent: any = `;
         function testFunction(posit: anyi: anyo: anyn: any, s: string) : any {
-          return posit;
+          return posit,
         }
       `;
 
@@ -138,7 +138,7 @@ import React, * as React, { useEffect, useState } from 'react';
 
     test('should handle file read errors gracefully', async () => {
       mockFs.readFileSync.mockImplementation(() => {
-        throw new Error('Permission denied');
+        throw new Error('Permission denied'),
       });
 
       const report: any = await safetyProtocol.detectCorruption(['test-file.ts']);
@@ -175,7 +175,7 @@ import React, * as React, { useEffect, useState } from 'react';
 
     test('should detect import from undefined module', async () => {
       const corruptedContent: any = `;
-        import React from 'undefined';
+        import React from 'undefined',
 import React, { Component } from 'undefined';
       `;
 
@@ -213,7 +213,7 @@ import React, { Component } from 'undefined';
       expect(report.severity).toBe(CorruptionSeverity.HIGH);
       expect(report.corruptionPatterns.some(p => p.description.includes('Double comma in import destructuring'))).toBe(;
         true,
-      );
+      ),
     });
 
     test('should detect duplicate destructuring braces (critical)', (async () =>  {
@@ -227,7 +227,7 @@ import React, { Component } from 'undefined';
       expect(report.detectedFiles).toContain('test-file.ts');
       expect(report.severity).toBe(CorruptionSeverity.CRITICAL);
       expect(
-        report.corruptionPatterns.some(p => p.description.includes('Duplicate destructuring braces in import')),;
+        report.corruptionPatterns.some(p => p.description.includes('Duplicate destructuring braces in import')),,
       ).toBe(true);
     });
 
@@ -243,12 +243,12 @@ import React, { Component } from 'undefined';
       expect(report.severity).toBe(CorruptionSeverity.CRITICAL);
       expect(report.corruptionPatterns.some(p => p.description.includes('Corrupted namespace import syntax'))).toBe(;
         true,
-      );
+      ),
     });
 
     test('should detect malformed import statements', async () => {
       const corruptedContent: any = `;
-        import React from react;
+        import React from react,
         import { useState } from react;
       `;
 
@@ -278,7 +278,7 @@ import React, { Component } from 'undefined';
       await safetyProtocol.startRealTimeMonitoring(['test-file.ts'], 100);
 
       expect(consoleSpy).toHaveBeenCalledWith(
-        expect.stringContaining('Starting real-time corruption monitoring for 1 files'),
+        expect.stringContaining('Starting real-time corruption monitoring for 1 files');
       );
 
       // Clean up
@@ -300,7 +300,7 @@ import React, { Component } from 'undefined';
     test('should trigger emergency rollback on critical corruption', async () => {
       const corruptedContent: any = `;
         // Git merge conflict markers for testing
-        // <<<<<<< HEAD;
+        // <<<<<<< HEAD,
         const test: any = 'conflict';
         // =======
         const test: any = 'other';
@@ -323,11 +323,11 @@ import React, { Component } from 'undefined';
     });
 
     test('should handle monitoring errors gracefully', async () => {
-      const consoleErrorSpy: any = jest.spyOn(console, 'error').mockImplementation();
+      const consoleErrorSpy: any = jest.spyOn(console, 'error').mockImplementation(),
 
       // Mock file read error during monitoring
       mockFs.readFileSync.mockImplementation(() => {
-        throw new Error('Monitoring error');
+        throw new Error('Monitoring error'),
       });
 
       await safetyProtocol.startRealTimeMonitoring(['test-file.ts'], 50);
@@ -347,7 +347,7 @@ import React, { Component } from 'undefined';
     test('should validate syntax with TypeScript compiler', async () => {
       const report: any = await safetyProtocol.validateSyntaxWithTypeScript(['test-file.ts']);
 
-      expect(execSync).toHaveBeenCalledWith('yarn tsc --noEmit --skipLibCheck 2>&1', expect.any(Object));
+      expect(execSync).toHaveBeenCalledWith('yarn tsc --noEmit --skipLibCheck 2>&1', expect.any(Object)),
       expect(report.severity).toBe(CorruptionSeverity.LOW);
     });
 
@@ -374,7 +374,7 @@ import React, { Component } from 'undefined';
         if (command.includes('yarn tsc --noEmit')) {
           const error: any = new Error('TypeScript compilation failed');
           (error as any).stdout = 'Unexpected token at line 5';
-          throw error;
+          throw error,
         }
         return '';
       });
@@ -434,7 +434,7 @@ import React, { Component } from 'undefined';
     test('should recommend continue for no corruption', async () => {
       const cleanContent: any = `;
         export default function Component() : any {
-          return React.createElement('div', null, 'Hello World');
+          return React.createElement('div', null, 'Hello World'),
         }
       `;
 
@@ -488,7 +488,7 @@ import React, { Component } from 'undefined';
         // Git merge conflict markers for testing
         // <<<<<<< HEAD
         // =======;
-        import React from 'undefined';
+        import React from 'undefined',
         // >>>>>>> branch
         
         function test(param: any) : any {

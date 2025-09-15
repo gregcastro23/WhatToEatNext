@@ -15,7 +15,7 @@ describe('Astrological ESLint Rules', () => {
 
   beforeAll(() => {
     // Create ESLint instance with our custom rules
-    eslint = new ESLint({;
+    eslint = new ESLint({
       baseConfig: { languageOptions: {
           ecmaVersion: 2022,
           sourceType: 'module',
@@ -47,11 +47,11 @@ describe('Astrological ESLint Rules', () => {
       `;
 
       const results: any = eslint.lintText(code, { filePath: 'test.ts' });
-      const messages: any = results.[0].messages;
+      const messages: any = results[0].messages;
 
       expect(messages).toHaveLength(1);
-      expect(messages.[0].ruleId).toBe('astrological/preserve-planetary-constants');
-      expect(messages.[0].message).toContain('should not be modified');
+      expect(messages[0].ruleId).toBe('astrological/preserve-planetary-constants');
+      expect(messages[0].message).toContain('should not be modified');
     });
 
     test('should error when modifying constant object properties', async () => {
@@ -61,11 +61,11 @@ describe('Astrological ESLint Rules', () => {
       `;
 
       const results: any = eslint.lintText(code, { filePath: 'test.ts' });
-      const messages: any = results.[0].messages;
+      const messages: any = results[0].messages;
 
       expect(messages).toHaveLength(1);
-      expect(messages.[0].ruleId).toBe('astrological/preserve-planetary-constants');
-      expect(messages.[0].message).toContain('should not be modified');
+      expect(messages[0].ruleId).toBe('astrological/preserve-planetary-constants');
+      expect(messages[0].message).toContain('should not be modified');
     });
 
     test('should error when using update operators on constants', async () => {
@@ -75,11 +75,11 @@ describe('Astrological ESLint Rules', () => {
       `;
 
       const results: any = eslint.lintText(code, { filePath: 'test.ts' });
-      const messages: any = results.[0].messages;
+      const messages: any = results[0].messages;
 
       expect(messages).toHaveLength(1);
-      expect(messages.[0].ruleId).toBe('astrological/preserve-planetary-constants');
-      expect(messages.[0].message).toContain('should not be modified');
+      expect(messages[0].ruleId).toBe('astrological/preserve-planetary-constants');
+      expect(messages[0].message).toContain('should not be modified');
     });
 
     test('should allow using constants without modification', async () => {
@@ -90,7 +90,7 @@ describe('Astrological ESLint Rules', () => {
       `;
 
       const results: any = eslint.lintText(code, { filePath: 'test.ts' });
-      const messages: any = results.[0].messages;
+      const messages: any = results[0].messages;
 
       expect(messages).toHaveLength(0);
     });
@@ -99,7 +99,7 @@ describe('Astrological ESLint Rules', () => {
   describe('validate-planetary-position-structure rule', () => {
     test('should error when planetary position missing required properties', async () => {
       const code: any = `;
-        const position = {;
+        const position = {
           sign: 'aries',
           degree: 15
           // Missing exactLongitude and isRetrograde
@@ -107,18 +107,18 @@ describe('Astrological ESLint Rules', () => {
       `;
 
       const results: any = eslint.lintText(code, { filePath: 'test.ts' });
-      const messages: any = results.[0].messages;
+      const messages: any = results[0].messages;
 
       expect(messages).toHaveLength(1);
-      expect(messages.[0].ruleId).toBe('astrological/validate-planetary-position-structure');
-      expect(messages.[0].message).toContain('missing required properties');
-      expect(messages.[0].message).toContain('exactLongitude');
-      expect(messages.[0].message).toContain('isRetrograde');
+      expect(messages[0].ruleId).toBe('astrological/validate-planetary-position-structure');
+      expect(messages[0].message).toContain('missing required properties');
+      expect(messages[0].message).toContain('exactLongitude');
+      expect(messages[0].message).toContain('isRetrograde');
     });
 
     test('should pass when planetary position has all required properties', async () => {
       const code: any = `;
-        const position = {;
+        const position = {
           sign: 'aries',
           degree: 15.5,
           exactLongitude: 15.5,
@@ -127,26 +127,26 @@ describe('Astrological ESLint Rules', () => {
       `;
 
       const results: any = eslint.lintText(code, { filePath: 'test.ts' });
-      const messages: any = results.[0].messages;
+      const messages: any = results[0].messages;
 
       expect(messages).toHaveLength(0);
     });
 
     test('should not flag non-planetary objects', async () => {
       const code: any = `;
-        const _UNUSED_config = {;
+        const _UNUSED_config = {
           timeout: 5000,
           retries: 3
         };
 
-        const _UNUSED_user: any = {;
+        const _UNUSED_user: any = {
           name: 'John',
           age: 30
         };
       `;
 
       const results: any = eslint.lintText(code, { filePath: 'test.ts' });
-      const messages: any = results.[0].messages;
+      const messages: any = results[0].messages;
 
       expect(messages).toHaveLength(0);
     });
@@ -155,7 +155,7 @@ describe('Astrological ESLint Rules', () => {
   describe('validate-elemental-properties rule', () => {
     test('should error when elemental properties missing required elements', async () => {
       const code: any = `;
-        const properties = {;
+        const properties = {
           Fire: 0.8,
           Water: 0.2
           // Missing Earth and Air
@@ -163,18 +163,18 @@ describe('Astrological ESLint Rules', () => {
       `;
 
       const results: any = eslint.lintText(code, { filePath: 'test.ts' });
-      const messages: any = results.[0].messages;
+      const messages: any = results[0].messages;
 
       expect(messages).toHaveLength(1);
-      expect(messages.[0].ruleId).toBe('astrological/validate-elemental-properties');
-      expect(messages.[0].message).toContain('missing required elements');
-      expect(messages.[0].message).toContain('Earth');
-      expect(messages.[0].message).toContain('Air');
+      expect(messages[0].ruleId).toBe('astrological/validate-elemental-properties');
+      expect(messages[0].message).toContain('missing required elements');
+      expect(messages[0].message).toContain('Earth');
+      expect(messages[0].message).toContain('Air');
     });
 
     test('should error when using invalid element names', async () => {
       const code: any = `;
-        const properties = {;
+        const properties = {
           Fire: 0.5,
           Water: 0.3,
           Earth: 0.1,
@@ -183,17 +183,17 @@ describe('Astrological ESLint Rules', () => {
       `;
 
       const results: any = eslint.lintText(code, { filePath: 'test.ts' });
-      const messages: any = results.[0].messages;
+      const messages: any = results[0].messages;
 
       expect(messages).toHaveLength(1);
-      expect(messages.[0].ruleId).toBe('astrological/validate-elemental-properties');
-      expect(messages.[0].message).toContain('Invalid element names');
-      expect(messages.[0].message).toContain('Wind');
+      expect(messages[0].ruleId).toBe('astrological/validate-elemental-properties');
+      expect(messages[0].message).toContain('Invalid element names');
+      expect(messages[0].message).toContain('Wind');
     });
 
     test('should error when element values are out of range', async () => {
       const code: any = `;
-        const properties = {;
+        const properties = {
           Fire: 1.5, // Too high
           Water: -0.1, // Too low
           Earth: 0.3,
@@ -202,7 +202,7 @@ describe('Astrological ESLint Rules', () => {
       `;
 
       const results: any = eslint.lintText(code, { filePath: 'test.ts' });
-      const messages: any = results.[0].messages;
+      const messages: any = results[0].messages;
 
       expect(messages).toHaveLength(2);
       expect(messages.some(m => m.message.includes('1.5'))).toBe(true);
@@ -211,7 +211,7 @@ describe('Astrological ESLint Rules', () => {
 
     test('should pass when elemental properties are valid', async () => {
       const code: any = `;
-        const properties = {;
+        const properties = {
           Fire: 0.7,
           Water: 0.1,
           Earth: 0.1,
@@ -220,7 +220,7 @@ describe('Astrological ESLint Rules', () => {
       `;
 
       const results: any = eslint.lintText(code, { filePath: 'test.ts' });
-      const messages: any = results.[0].messages;
+      const messages: any = results[0].messages;
 
       expect(messages).toHaveLength(0);
     });
@@ -235,14 +235,14 @@ describe('Astrological ESLint Rules', () => {
         }
       `;
 
-      const results: any = eslint.lintText(code, {;
+      const results: any = eslint.lintText(code, {
         filePath: 'src/calculations/planetary.ts'
       });
-      const messages: any = results.[0].messages;
+      const messages: any = results[0].messages;
 
       expect(messages).toHaveLength(1);
-      expect(messages.[0].ruleId).toBe('astrological/require-transit-date-validation');
-      expect(messages.[0].message).toContain('should import transit validation utilities');
+      expect(messages[0].ruleId).toBe('astrological/require-transit-date-validation');
+      expect(messages[0].message).toContain('should import transit validation utilities');
     });
 
     test('should warn when validation is imported but not used', async () => {
@@ -255,14 +255,14 @@ describe('Astrological ESLint Rules', () => {
         }
       `;
 
-      const results: any = eslint.lintText(code, {;
+      const results: any = eslint.lintText(code, {
         filePath: 'src/calculations/planetary.ts'
       });
-      const messages: any = results.[0].messages;
+      const messages: any = results[0].messages;
 
       expect(messages).toHaveLength(1);
-      expect(messages.[0].ruleId).toBe('astrological/require-transit-date-validation');
-      expect(messages.[0].message).toContain('Consider adding transit date validation calls');
+      expect(messages[0].ruleId).toBe('astrological/require-transit-date-validation');
+      expect(messages[0].message).toContain('Consider adding transit date validation calls');
     });
 
     test('should pass when validation is properly used', async () => {
@@ -275,10 +275,10 @@ describe('Astrological ESLint Rules', () => {
         }
       `;
 
-      const results: any = eslint.lintText(code, {;
+      const results: any = eslint.lintText(code, {
         filePath: 'src/calculations/planetary.ts'
       });
-      const messages: any = results.[0].messages;
+      const messages: any = results[0].messages;
 
       expect(messages).toHaveLength(0);
     });
@@ -290,10 +290,10 @@ describe('Astrological ESLint Rules', () => {
         }
       `;
 
-      const results: any = eslint.lintText(code, {;
+      const results: any = eslint.lintText(code, {
         filePath: 'src/components/Button.tsx'
       });
-      const messages: any = results.[0].messages;
+      const messages: any = results[0].messages;
 
       expect(messages).toHaveLength(0);
     });
@@ -307,11 +307,11 @@ describe('Astrological ESLint Rules', () => {
       `;
 
       const results: any = eslint.lintText(code, { filePath: 'test.ts' });
-      const messages: any = results.[0].messages;
+      const messages: any = results[0].messages;
 
       expect(messages).toHaveLength(2);
-      expect(messages.[0].ruleId).toBe('astrological/preserve-fallback-values');
-      expect(messages.[1].ruleId).toBe('astrological/preserve-fallback-values');
+      expect(messages[0].ruleId).toBe('astrological/preserve-fallback-values');
+      expect(messages[1].ruleId).toBe('astrological/preserve-fallback-values');
       expect(messages.some(m => m.message.includes('FALLBACK_POSITIONS'))).toBe(true);
       expect(messages.some(m => m.message.includes('RELIABLE_DATA'))).toBe(true);
     });
@@ -323,16 +323,16 @@ describe('Astrological ESLint Rules', () => {
       `;
 
       const results: any = eslint.lintText(code, { filePath: 'test.ts' });
-      const messages: any = results.[0].messages;
+      const messages: any = results[0].messages;
 
       expect(messages).toHaveLength(1);
-      expect(messages.[0].ruleId).toBe('astrological/preserve-fallback-values');
-      expect(messages.[0].message).toContain('should not be assigned null');
+      expect(messages[0].ruleId).toBe('astrological/preserve-fallback-values');
+      expect(messages[0].message).toContain('should not be assigned null');
     });
 
     test('should allow valid fallback assignments', async () => {
       const code: any = `;
-        const FALLBACK_POSITIONS = {;
+        const FALLBACK_POSITIONS = {
           sun: { sign: 'aries', degree: 8.5 }
         };
 
@@ -341,7 +341,7 @@ describe('Astrological ESLint Rules', () => {
       `;
 
       const results: any = eslint.lintText(code, { filePath: 'test.ts' });
-      const messages: any = results.[0].messages;
+      const messages: any = results[0].messages;
 
       expect(messages).toHaveLength(0);
     });
@@ -354,7 +354,7 @@ describe('Astrological ESLint Rules', () => {
       `;
 
       const results: any = eslint.lintText(code, { filePath: 'test.ts' });
-      const messages: any = results.[0].messages;
+      const messages: any = results[0].messages;
 
       expect(messages).toHaveLength(0);
     });
@@ -376,7 +376,7 @@ describe('Astrological ESLint Rules', () => {
       `;
 
       const results: any = eslint.lintText(code, { filePath: 'test.ts' });
-      const messages: any = results.[0].messages;
+      const messages: any = results[0].messages;
 
       expect(messages).toHaveLength(0);
     });
@@ -398,7 +398,7 @@ describe('Astrological ESLint Rules', () => {
       `;
 
       const results: any = eslint.lintText(code, { filePath: 'test.tsx' });
-      const messages: any = results.[0].messages;
+      const messages: any = results[0].messages;
 
       expect(messages).toHaveLength(0);
     });
@@ -424,12 +424,12 @@ describe('Astrological ESLint Rules', () => {
       const endTime: any = Date.now();
 
       expect(endTime - startTime).toBeLessThan(1000); // Should complete within 1 second
-      expect(results.[0].messages).toHaveLength(0);
+      expect(results[0].messages).toHaveLength(0);
     });
 
     test('should handle malformed code gracefully', async () => {
       const malformedCode: any = `;
-        const _incomplete = {;
+        const _incomplete = {
           sign: 'aries'
           // Missing comma and closing brace
       `;
@@ -443,7 +443,7 @@ describe('Astrological ESLint Rules', () => {
 
     test('should handle nested objects correctly', async () => {
       const code: any = `;
-        const _UNUSED_planetData = {;
+        const _UNUSED_planetData = {
           mercury: { position: {
               sign: 'gemini',
               degree: 10.5,
@@ -460,7 +460,7 @@ describe('Astrological ESLint Rules', () => {
       `;
 
       const results: any = eslint.lintText(code, { filePath: 'test.ts' });
-      const messages: any = results.[0].messages;
+      const messages: any = results[0].messages;
 
       expect(messages).toHaveLength(0);
     });

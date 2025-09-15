@@ -5,7 +5,7 @@ import type { CookingMethod } from '@/types/shared';
  * Infusing: A technique that transfers flavors, colors, or medicinal properties
  * from one ingredient into a liquid or oil base
  */
-export const infusing: CookingMethodData = {;
+export const infusing: CookingMethodData = {
   name: 'Infusing' as CookingMethod,
   description:
     'A technique that transfers flavors, colors, aromas, or medicinal properties from herbs, spices, fruits, or other ingredients into a liquid base such as oil, water, alcohol, or vinegar.',

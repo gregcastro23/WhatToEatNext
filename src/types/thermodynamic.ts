@@ -60,7 +60,7 @@ export interface TemperatureEffect {
 /**
  * Default balanced thermodynamic properties
  */
-export const DEFAULT_THERMODYNAMIC_PROPERTIES: ThermodynamicProperties = {;
+export const DEFAULT_THERMODYNAMIC_PROPERTIES: ThermodynamicProperties = {
   heat: 0.5,
   entropy: 0.5,
   reactivity: 0.5,
@@ -81,7 +81,7 @@ export function calculateEnergy(props: BasicThermodynamicProperties): number {
 export function normalizeThermodynamicProperties(
   props: ThermodynamicProperties,
 ): ThermodynamicProperties {
-  const normalized: ThermodynamicProperties = {;
+  const normalized: ThermodynamicProperties = {
     heat: Math.max(0, Math.min(1, props.heat)),
     entropy: Math.max(0, Math.min(1, props.entropy)),
     reactivity: Math.max(0, Math.min(1, props.reactivity))
@@ -104,11 +104,11 @@ export function combineThermodynamicProperties(
   propsArray: ThermodynamicProperties[],
   weights: number[] = [],
 ): ThermodynamicProperties {
-  if (propsArray.length === 0) {;
+  if (propsArray.length === 0) {
     return { ...DEFAULT_THERMODYNAMIC_PROPERTIES };
   }
 
-  if (propsArray.length === 1) {;
+  if (propsArray.length === 1) {
     return { ...propsArray[0] };
   }
 
@@ -117,7 +117,7 @@ export function combineThermodynamicProperties(
     weights.length === propsArray.length ? weights : propsArray.map(() => 1 / propsArray.length);
 
   // Calculate weighted sum
-  const result: ThermodynamicProperties = {;
+  const result: ThermodynamicProperties = {
     heat: 0,
     entropy: 0,
     reactivity: 0

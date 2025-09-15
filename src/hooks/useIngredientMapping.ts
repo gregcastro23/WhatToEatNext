@@ -15,16 +15,16 @@ export function useIngredientMapping() {
   /**
    * Map ingredients for a specific recipe
    */
-  const mapRecipeIngredients = useCallback((recipe: Recipe) => {;
+  const mapRecipeIngredients = useCallback((recipe: Recipe) => {
     try {
       setIsLoading(true);
       setError(null);
       const result = ingredientMappingService.mapRecipeIngredients(recipe);
-      return result;
+      return result,
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'An unknown error occurred';
       setError(errorMessage);
-      return [];
+      return [],
     } finally {
       setIsLoading(false);
     }
@@ -38,23 +38,23 @@ export function useIngredientMapping() {
       options: {
         elementalTarget?: ElementalProperties;
         requiredIngredients?: string[];
-        excludedIngredients?: string[];
-        dietaryRestrictions?: string[];
-        emphasizedIngredients?: string[];
-        cuisineType?: string;
-        mealType?: string;
-        season?: string;
-      } = {},
+        excludedIngredients?: string[],
+        dietaryRestrictions?: string[],
+        emphasizedIngredients?: string[],
+        cuisineType?: string,
+        mealType?: string,
+        season?: string,
+      } = {};
     ) => {
       try {
         setIsLoading(true);
         setError(null);
         const result = ingredientMappingService.findMatchingRecipes(options);
-        return result;
+        return result,
       } catch (err) {
         const errorMessage = err instanceof Error ? err.message : 'An unknown error occurred';
         setError(errorMessage);
-        return [];
+        return [],
       } finally {
         setIsLoading(false);
       }
@@ -65,15 +65,15 @@ export function useIngredientMapping() {
   /**
    * Suggest alternative ingredients with similar properties
    */
-  const suggestAlternatives = useCallback((ingredientName: string, options = {}) => {;
+  const suggestAlternatives = useCallback((ingredientName: string, options = {}) => {
     try {
       setIsLoading(true);
       setError(null);
       const result = ingredientMappingService.suggestAlternativeIngredients(;
         ingredientName,
         options,
-      );
-      return result;
+      ),
+      return result,
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'An unknown error occurred';
       setError(errorMessage);
@@ -90,12 +90,12 @@ export function useIngredientMapping() {
   /**
    * Calculate compatibility between two ingredients
    */
-  const calculateCompatibility = useCallback((ingredient1: string, ingredient2: string) => {;
+  const calculateCompatibility = useCallback((ingredient1: string, ingredient2: string) => {
     try {
       setIsLoading(true);
       setError(null);
-      const result = ingredientMappingService.calculateCompatibility(ingredient1, ingredient2);
-      return result;
+      const result = ingredientMappingService.calculateCompatibility(ingredient1, ingredient2),
+      return result,
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'An unknown error occurred';
       setError(errorMessage);
@@ -112,12 +112,12 @@ export function useIngredientMapping() {
   /**
    * Analyze ingredient combinations in a recipe
    */
-  const analyzeRecipeCombinations = useCallback((recipe: Recipe) => {;
+  const analyzeRecipeCombinations = useCallback((recipe: Recipe) => {
     try {
       setIsLoading(true);
       setError(null);
       const result = ingredientMappingService.analyzeRecipeIngredientCombinations(recipe);
-      return result;
+      return result,
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'An unknown error occurred';
       setError(errorMessage);

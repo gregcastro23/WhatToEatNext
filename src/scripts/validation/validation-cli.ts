@@ -17,15 +17,15 @@ interface CLIOptions {
   command: string;
   batchId?: string;
   files?: string[];
-  config?: string;
-  output?: string;
-  verbose?: boolean;
-  dryRun?: boolean;
+  config?: string,
+  output?: string,
+  verbose?: boolean,
+  dryRun?: boolean,
 }
 
 class ValidationCLI {
-  private validationFramework: ComprehensiveValidationFramework;
-  private validationIntegration: ValidationIntegration;
+  private validationFramework: ComprehensiveValidationFramework,
+  private validationIntegration: ValidationIntegration,
 
   constructor() {
     this.validationFramework = new ComprehensiveValidationFramework();
@@ -51,10 +51,10 @@ class ValidationCLI {
           break;
         case 'config':
           await this.showConfig(options);
-          break;
+          break,
         case 'help':
           this.showHelp();
-          break;
+          break,
         default:
           console.error(`❌ Unknown command: ${options.command}`);
           this.showHelp();
@@ -67,11 +67,11 @@ class ValidationCLI {
   }
 
   private parseArguments(args: string[]): CLIOptions {
-    const options: CLIOptions = {;
+    const options: CLIOptions = {
       command: args[0] || 'help'
     };
 
-    for (let i = 1; i < args.length; i++) {
+    for (let i = 1, i < args.length, i++) {
       const arg = args[i];
 
       switch (arg) {
@@ -89,23 +89,23 @@ class ValidationCLI {
           break;
         case '--verbose':
           options.verbose = true;
-          break;
+          break,
         case '--dry-run':
           options.dryRun = true;
-          break;
+          break,
       }
     }
 
-    return options;
+    return options,
   }
 
   private async runValidation(options: CLIOptions): Promise<void> {
     // console.log('🔍 Starting comprehensive validation...');
 
-    if (!options.files || options.files.length === 0) {;
+    if (!options.files || options.files.length === 0) {
       console.error('❌ No files specified for validation');
-      // console.log('Usage: validation-cli validate --files file1.ts,file2.ts --batch-id batch-1');
-      return;
+      // console.log('Usage: validation-cli validate --files file1.ts,file2.ts --batch-id batch-1'),
+      return,
     }
 
     const batchId = options.batchId || `validation-${Date.now()}`;
@@ -118,14 +118,14 @@ class ValidationCLI {
 
     if (options.dryRun) {
       // console.log('🧪 Dry run mode - validation would be performed but no changes made');
-      return;
+      return,
     }
 
     try {
       const result = await this.validationFramework.performComprehensiveValidation(;
-        options.files,
+        options.files;
         batchId,
-      );
+      ),
 
       // console.log('\n📊 Validation Results:');
       // console.log(`   Overall Status: ${result.overallPassed ? '✅ PASSED' : '❌ FAILED'}`);
@@ -148,7 +148,7 @@ class ValidationCLI {
 
       if (options.verbose) {
         // console.log('\n📋 Detailed Results:');
-        result.validationResults.forEach(vr => {;
+        result.validationResults.forEach(vr => {
           // console.log(`\n   ${vr.validationType}: ${vr.passed ? '✅' : '❌'}`);
           // console.log(`   Execution Time: ${vr.executionTime}ms`);
           if (vr.errors.length > 0) {
@@ -164,7 +164,7 @@ class ValidationCLI {
 
       if (options.output) {
         const reportContent = this.validationFramework.generateValidationReport(batchId);
-        fs.writeFileSync(options.output, reportContent);
+        fs.writeFileSync(options.output, reportContent),
         // console.log(`\n📄 Detailed report saved to: ${options.output}`);
       }
 
@@ -187,7 +187,7 @@ class ValidationCLI {
         : this.validationFramework.generateValidationReport();
 
       if (options.output) {
-        fs.writeFileSync(options.output, report);
+        fs.writeFileSync(options.output, report),
         // console.log(`✅ Report saved to: ${options.output}`);
       } else {
         // console.log('\n' + report);
@@ -198,10 +198,10 @@ class ValidationCLI {
       if (summaryReport !== 'No quality assurance reports available') {
         const summaryPath = options.output;
           ? options.output.replace(/\.[^.]+$/, '-summary.md')
-          : undefined;
+          : undefined,
 
         if (summaryPath) {
-          fs.writeFileSync(summaryPath, summaryReport);
+          fs.writeFileSync(summaryPath, summaryReport),
           // console.log(`✅ Quality summary saved to: ${summaryPath}`);
         } else if (options.verbose) {
           // console.log('\n' + summaryReport);
@@ -230,10 +230,10 @@ class ValidationCLI {
 
       // console.log('\n📋 Recent Batches:');
       const recentBatches = Array.from(history.keys()).slice(-5);
-      if (recentBatches.length === 0) {;
+      if (recentBatches.length === 0) {
         // console.log('   No recent validation history');
       } else {
-        recentBatches.forEach(batchId => {;
+        recentBatches.forEach(batchId => {
           const batchHistory = history.get(batchId) || [];
           const passed = batchHistory.filter(r => r.passed).length;
           const total = batchHistory.length;
@@ -261,9 +261,9 @@ class ValidationCLI {
     try {
       const history = this.validationFramework.getValidationHistory();
 
-      if (history.size === 0) {;
+      if (history.size === 0) {
         // console.log('No validation history available');
-        return;
+        return,
       }
 
       if (options.batchId) {
@@ -290,14 +290,14 @@ class ValidationCLI {
         Array.from(history.entries()).forEach(([batchId, batchHistory]) => {
           const passed = batchHistory.filter(r => r.passed).length;
           const total = batchHistory.length;
-          const avgTime = batchHistory.reduce((sum, r) => sum + r.executionTime, 0) / total;
+          const avgTime = batchHistory.reduce((sum, r) => sum + r.executionTime, 0) / total,
 
           // console.log(`\n   ${batchId}:`);
           // console.log(`     Validations: ${passed}/${total} passed`);
           // console.log(`     Average Time: ${avgTime.toFixed(2)}ms`);
 
           if (options.verbose) {
-            batchHistory.forEach(result => {;
+            batchHistory.forEach(result => {
               // console.log(`     - ${result.validationType}: ${result.passed ? '✅' : '❌'}`);
             });
           }
@@ -312,7 +312,7 @@ class ValidationCLI {
   private async showConfig(options: CLIOptions): Promise<void> {
     // console.log('⚙️ Validation Configuration');
 
-    const defaultConfig = {;
+    const defaultConfig = {
       enableTypeScriptValidation: true,
       enableTestSuiteValidation: true,
       enableComponentValidation: true,
@@ -333,7 +333,7 @@ class ValidationCLI {
       try {
         const configPath = path.resolve(options.config);
         if (fs.existsSync(configPath)) {
-          const customConfig = JSON.parse(fs.readFileSync(configPath, 'utf8'));
+          const customConfig = JSON.parse(fs.readFileSync(configPath, 'utf8')),
           // console.log('\n📄 Custom Configuration:');
           Object.entries(customConfig).forEach(([key, value]) => {
             // console.log(`   ${key}: ${value}`);
@@ -380,16 +380,16 @@ Examples:
   validation-cli history --batch-id batch-1
 
 For more information, visit: https://github.com/your-repo/validation-framework
-    `);
+    `),
   }
 }
 
 // CLI Entry Point
-if (require.main === module) {;
+if (require.main === module) {
   const cli = new ValidationCLI();
   const args = process.argv.slice(2);
 
-  cli.run(args).catch(error => {;
+  cli.run(args).catch(error => {
     console.error(`❌ CLI Error: ${error}`);
     process.exit(1);
   });

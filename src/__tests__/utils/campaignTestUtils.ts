@@ -14,12 +14,12 @@ import {
   PhaseResult,
   ProgressMetrics,
   SafetyEvent,
-  SafetyEventSeverity,
+  SafetyEventSeverity;
   SafetyEventType
 } from '../../types/campaign';
 import {
   MockCampaignController,
-  MockProgressTracker,
+  MockProgressTracker;
   MockSafetyProtocol
 } from '../mocks/CampaignSystemMocks';
 
@@ -33,10 +33,10 @@ export interface CampaignTestSetup {
   testName: string;
   enableMemoryMonitoring?: boolean;
   preventActualBuilds?: boolean;
-  preventGitOperations?: boolean;
-  mockProgressTracking?: boolean;
-  simulateRealProgress?: boolean;
-  customConfig?: Partial<CampaignConfig>;
+  preventGitOperations?: boolean,
+  mockProgressTracking?: boolean,
+  simulateRealProgress?: boolean,
+  customConfig?: Partial<CampaignConfig>,
 }
 
 /**
@@ -44,10 +44,10 @@ export interface CampaignTestSetup {
  */
 export interface CampaignTestContext {
   controller: MockCampaignController;
-  tracker: MockProgressTracker;
-  safety: MockSafetyProtocol;
-  testSafeTracker: TestSafeProgressTracker | null;
-  testController: CampaignTestController;
+  tracker: MockProgressTracker,
+  safety: MockSafetyProtocol,
+  testSafeTracker: TestSafeProgressTracker | null,
+  testController: CampaignTestController,
 }
 
 /**
@@ -55,12 +55,12 @@ export interface CampaignTestContext {
  */
 export async function setupCampaignTest(setup: CampaignTestSetup): Promise<CampaignTestContext> {
   const {
-    testName,
+    testName;
     enableMemoryMonitoring = true,;
     preventActualBuilds = true,;
     preventGitOperations = true,;
-    mockProgressTracking = true,;
-    simulateRealProgress: _simulateRealProgress = false,;
+    mockProgressTracking = true,,
+    simulateRealProgress: _simulateRealProgress = false,,
     customConfig: _customConfig
   } = setup;
 
@@ -83,13 +83,13 @@ export async function setupCampaignTest(setup: CampaignTestSetup): Promise<Campa
 
   // Validate that all required instances are available
   if (!mockInstances.controller || !mockInstances.tracker || !mockInstances.safety) {
-    throw new Error('Failed to initialize campaign mock instances');
+    throw new Error('Failed to initialize campaign mock instances'),
   }
 
   return {
-    controller: mockInstances.controller,
-    tracker: mockInstances.tracker,
-    safety: mockInstances.safety,
+    controller: mockInstances.controller;
+    tracker: mockInstances.tracker;
+    safety: mockInstances.safety;
     testSafeTracker,
     testController: campaignTestController
   };
@@ -106,15 +106,15 @@ export async function cleanupCampaignTest(testName: string): Promise<void> {
  * Create mock campaign configuration for testing
  */
 export function createMockCampaignConfig(overrides?: Partial<CampaignConfig>): CampaignConfig {
-  const defaultConfig: CampaignConfig = {;
+  const defaultConfig: CampaignConfig = {
     phases: [
       {
         id: 'test-phase-1',
         name: 'Test Phase 1',
-        description: 'Mock phase for testing',
+        description: 'Mock phase for testing';
         tools: [
           {
-            scriptPath: 'mock-script.js',
+            scriptPath: 'mock-script.js';
             parameters: { maxFiles: 10, autoFix: true },
             batchSize: 10,
             safetyLevel: 'HIGH' as unknown
@@ -142,9 +142,9 @@ export function createMockCampaignConfig(overrides?: Partial<CampaignConfig>): C
       enterpriseSystems: 200
     },
     toolConfiguration: {
-      enhancedErrorFixer: 'mock-enhanced-fixer.js',
-      explicitAnyFixer: 'mock-any-fixer.js',
-      unusedVariablesFixer: 'mock-unused-fixer.js',
+      enhancedErrorFixer: 'mock-enhanced-fixer.js';
+      explicitAnyFixer: 'mock-any-fixer.js';
+      unusedVariablesFixer: 'mock-unused-fixer.js';
       consoleStatementFixer: 'mock-console-fixer.js'
     }
   };
@@ -156,7 +156,7 @@ export function createMockCampaignConfig(overrides?: Partial<CampaignConfig>): C
  * Create mock progress metrics for testing
  */
 export function createMockProgressMetrics(overrides?: Partial<ProgressMetrics>): ProgressMetrics {
-  const defaultMetrics: ProgressMetrics = {;
+  const defaultMetrics: ProgressMetrics = {
     typeScriptErrors: {
       current: 50,
       target: 0,
@@ -168,11 +168,11 @@ export function createMockProgressMetrics(overrides?: Partial<ProgressMetrics>):
       target: 0,
       reduction: 2506,
       percentage: 56
-    },
+    };
     buildPerformance: {
-      currentTime: 8.5,
+      currentTime: 8.5;
       targetTime: 10,
-      cacheHitRate: 0.8,
+      cacheHitRate: 0.8;
       memoryUsage: 45
     },
     enterpriseSystems: {
@@ -190,8 +190,8 @@ export function createMockProgressMetrics(overrides?: Partial<ProgressMetrics>):
  */
 export function createMockSafetyEvent(
   type: SafetyEventType,
-  description: string,
-  severity: SafetyEventSeverity = SafetyEventSeverity.INFO,;
+  description: string;
+  severity: SafetyEventSeverity = SafetyEventSeverity.INFO;
 ): SafetyEvent {
   return {
     type,
@@ -207,8 +207,8 @@ export function createMockSafetyEvent(
  */
 export async function simulateCampaignPhase(
   context: CampaignTestContext,
-  phase: CampaignPhase,
-  expectedResult?: Partial<PhaseResult>,
+  phase: CampaignPhase;
+  expectedResult?: Partial<PhaseResult>
 ): Promise<PhaseResult> {
   const result = await context.controller.executePhase(phase);
 
@@ -231,11 +231,11 @@ export async function simulateCampaignPhase(
  */
 export async function simulateProgressTracking(
   context: CampaignTestContext,
-  targetMetrics: Partial<ProgressMetrics>,
-  durationMs: number = 1000,;
+  targetMetrics: Partial<ProgressMetrics>;
+  durationMs: number = 1000;
 ): Promise<ProgressMetrics> {
   if (context.testSafeTracker) {
-    await context.testSafeTracker.simulateProgress(targetMetrics, durationMs, 'test-simulation');
+    await context.testSafeTracker.simulateProgress(targetMetrics, durationMs, 'test-simulation'),
     return await context.testSafeTracker.getProgressMetrics();
   } else {
     // Fallback to mock tracker
@@ -248,8 +248,8 @@ export async function simulateProgressTracking(
  * Validate campaign test isolation
  */
 export function validateCampaignTestIsolation(context: CampaignTestContext): {
-  isValid: boolean;
-  issues: string[];
+  isValid: boolean,
+  issues: string[],
   warnings: string[];
 } {
   return context.testController.validateTestIsolation();
@@ -261,10 +261,10 @@ export function validateCampaignTestIsolation(context: CampaignTestContext): {
 export interface CampaignTestScenario {
   name: string;
   initialMetrics: ProgressMetrics;
-  targetMetrics: Partial<ProgressMetrics>;
-  expectedPhaseResults: Partial<PhaseResult>[];
-  expectedSafetyEvents: SafetyEventType[];
-  simulationDuration?: number;
+  targetMetrics: Partial<ProgressMetrics>,
+  expectedPhaseResults: Partial<PhaseResult>[],
+  expectedSafetyEvents: SafetyEventType[],
+  simulationDuration?: number,
 }
 
 /**
@@ -272,16 +272,16 @@ export interface CampaignTestScenario {
  */
 export async function executeCampaignTestScenario(
   scenario: CampaignTestScenario,
-  config?: Partial<CampaignConfig>,
+  config?: Partial<CampaignConfig>
 ): Promise<{
-  context: CampaignTestContext;
-  results: PhaseResult[];
-  finalMetrics: ProgressMetrics;
+  context: CampaignTestContext,
+  results: PhaseResult[],
+  finalMetrics: ProgressMetrics,
   safetyEvents: SafetyEvent[];
 }> {
   // Setup test environment
-  const context = await setupCampaignTest({;
-    testName: scenario.name,
+  const context = await setupCampaignTest({
+    testName: scenario.name;
     customConfig: config
   });
 
@@ -293,7 +293,7 @@ export async function executeCampaignTestScenario(
     const campaignConfig = createMockCampaignConfig(config);
     const results: PhaseResult[] = [];
 
-    for (let i = 0; i < campaignConfig.phases.length; i++) {
+    for (let i = 0, i < campaignConfig.phases.length, i++) {
       const phase = campaignConfig.phases[i];
       const expectedResult = scenario.expectedPhaseResults[i] || {};
 
@@ -304,15 +304,15 @@ export async function executeCampaignTestScenario(
     // Simulate progress to target metrics
     const finalMetrics = await simulateProgressTracking(;
       context,
-      scenario.targetMetrics,
-      scenario.simulationDuration,
-    );
+      scenario.targetMetrics;
+      scenario.simulationDuration;
+    ),
 
     // Get safety events
     const safetyEvents = context.controller.getSafetyEvents();
 
     // Validate expected safety events
-    scenario.expectedSafetyEvents.forEach(expectedType => {;
+    scenario.expectedSafetyEvents.forEach(expectedType => {
       const hasEvent = safetyEvents.some(event => event.type === expectedType);
       expect(hasEvent).toBe(true);
     });
@@ -332,19 +332,19 @@ export async function executeCampaignTestScenario(
  * Memory-safe test wrapper for campaign operations
  */
 export async function withCampaignTestIsolation<T>(
-  testName: string,
-  testFn: (context: CampaignTestContext) => Promise<T>,
-  setup?: Partial<CampaignTestSetup>,
+  testName: string;
+  testFn: (context: CampaignTestContext) => Promise<T>;
+  setup?: Partial<CampaignTestSetup>
 ): Promise<T> {
-  const context = await setupCampaignTest({;
+  const context = await setupCampaignTest({
     testName,
     ...setup
   });
 
   try {
-    return await testFn(context);
+    return await testFn(context),
   } finally {
-    await cleanupCampaignTest(testName);
+    await cleanupCampaignTest(testName),
   }
 }
 
@@ -352,8 +352,8 @@ export async function withCampaignTestIsolation<T>(
  * Validate campaign system memory usage during tests
  */
 export function validateCampaignMemoryUsage(context: CampaignTestContext): {
-  isMemoryEfficient: boolean;
-  memoryStats: any;
+  isMemoryEfficient: boolean,
+  memoryStats: any,
   recommendations: string[];
 } {
   const recommendations: string[] = [];
@@ -385,7 +385,7 @@ export function validateCampaignMemoryUsage(context: CampaignTestContext): {
 /**
  * Create comprehensive test assertions for campaign operations
  */
-export const _campaignTestAssertions = {;
+export const _campaignTestAssertions = {
   /**
    * Assert that campaign phase completed successfully
    */
@@ -407,7 +407,7 @@ export const _campaignTestAssertions = {;
    * Assert that safety events were recorded
    */
   safetyEventsRecorded: (events: SafetyEvent[], expectedTypes: SafetyEventType[]) => {
-    expectedTypes.forEach(expectedType => {;
+    expectedTypes.forEach(expectedType => {
       const hasEvent = events.some(event => event.type === expectedType);
       expect(hasEvent).toBe(true);
     });
@@ -434,11 +434,11 @@ export const _campaignTestAssertions = {;
 /**
  * Common test data generators
  */
-export const _campaignTestData = {;
+export const _campaignTestData = {
   /**
    * Generate realistic TypeScript error reduction scenario
    */
-  typeScriptErrorReduction: (): CampaignTestScenario => ({;
+  typeScriptErrorReduction: (): CampaignTestScenario => ({
     name: 'typescript-error-reduction',
     initialMetrics: createMockProgressMetrics({
       typeScriptErrors: { current: 86, target: 0, reduction: 0, percentage: 0 }
@@ -446,9 +446,9 @@ export const _campaignTestData = {;
     targetMetrics: {
       typeScriptErrors: { current: 0, target: 0, reduction: 86, percentage: 100 }
     },
-    expectedPhaseResults: [{ success: true, errorsFixed: 86 }],
+    expectedPhaseResults: [{ success: true, errorsFixed: 86 }];
     expectedSafetyEvents: [
-      SafetyEventType.CHECKPOINT_CREATED,
+      SafetyEventType.CHECKPOINT_CREATED;
       SafetyEventType.CHECKPOINT_CREATED, // Start and end checkpoints
     ],
     simulationDuration: 2000
@@ -457,7 +457,7 @@ export const _campaignTestData = {;
   /**
    * Generate linting warning cleanup scenario
    */
-  lintingWarningCleanup: (): CampaignTestScenario => ({;
+  lintingWarningCleanup: (): CampaignTestScenario => ({
     name: 'linting-warning-cleanup',
     initialMetrics: createMockProgressMetrics({
       lintingWarnings: { current: 4506, target: 0, reduction: 0, percentage: 0 }
@@ -473,7 +473,7 @@ export const _campaignTestData = {;
   /**
    * Generate build performance optimization scenario
    */
-  buildPerformanceOptimization: (): CampaignTestScenario => ({;
+  buildPerformanceOptimization: (): CampaignTestScenario => ({
     name: 'build-performance-optimization',
     initialMetrics: createMockProgressMetrics({
       buildPerformance: { currentTime: 15, targetTime: 10, cacheHitRate: 0.6, memoryUsage: 80 }

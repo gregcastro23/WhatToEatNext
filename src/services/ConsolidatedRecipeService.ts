@@ -89,11 +89,11 @@ export class ConsolidatedRecipeService {
    */
   async searchRecipes(
     criteria: RecipeSearchCriteria,
-    options: RecipeRecommendationOptions = {},;
+    options: RecipeRecommendationOptions = {},
   ): Promise<Recipe[]> {
     try {
       // Convert our criteria to UnifiedRecipeService format
-      const serviceObj = unifiedRecipeService as unknown as {;
+      const serviceObj = unifiedRecipeService as unknown as {
         searchRecipes: (criteria: Record<string, unknown>) => Promise<unknown[]>;
       };
       const unifiedResults = await serviceObj.searchRecipes(criteria as unknown);
@@ -195,7 +195,7 @@ export class ConsolidatedRecipeService {
    */
   async getRecipesForPlanetaryAlignment(
     planetaryInfluences: { [key: string]: number },
-    minMatchScore: number = 0.6,;
+    minMatchScore: number = 0.6,
   ): Promise<Recipe[]> {
     try {
       return (await getRecipesForPlanetaryAlignment(
@@ -216,7 +216,7 @@ export class ConsolidatedRecipeService {
    */
   async getRecipesForFlavorProfile(
     flavorProfile: { [key: string]: number },
-    minMatchScore: number = 0.7,;
+    minMatchScore: number = 0.7,
   ): Promise<Recipe[]> {
     try {
       return (await getRecipesForFlavorProfile(
@@ -246,7 +246,7 @@ export class ConsolidatedRecipeService {
       elementalFocus?: Element;
       maxResults?: number;
     },
-    limit: number = 10,;
+    limit: number = 10,
   ): Promise<Recipe[]> {
     try {
       return (await getBestRecipeMatches(criteria, limit)) as unknown as Recipe[];
@@ -265,7 +265,7 @@ export class ConsolidatedRecipeService {
   async generateRecipe(criteria: RecipeSearchCriteria): Promise<Recipe> {
     try {
       // Apply surgical type casting with variable extraction
-      const serviceData = unifiedRecipeService as unknown as {;
+      const serviceData = unifiedRecipeService as unknown as {
         recommendRecipes: (criteria: Record<string, unknown>) => Promise<unknown[]>;
       };
       const generateRecipeMethod = serviceData?.generateRecipe;
@@ -286,7 +286,7 @@ export class ConsolidatedRecipeService {
   async generateFusionRecipe(cuisines: string[], criteria: RecipeSearchCriteria): Promise<Recipe> {
     try {
       // Apply surgical type casting with variable extraction
-      const serviceData = unifiedRecipeService as unknown as {;
+      const serviceData = unifiedRecipeService as unknown as {
         recommendRecipes: (criteria: Record<string, unknown>) => Promise<unknown[]>;
       };
       const generateFusionRecipeMethod = serviceData?.generateFusionRecipe;
@@ -309,7 +309,7 @@ export class ConsolidatedRecipeService {
   async adaptRecipeForSeason(recipe: Recipe, season?: Season): Promise<Recipe> {
     try {
       // Apply surgical type casting with variable extraction
-      const serviceData = unifiedRecipeService as unknown as {;
+      const serviceData = unifiedRecipeService as unknown as {
         recommendRecipes: (criteria: Record<string, unknown>) => Promise<unknown[]>;
       };
       const adaptRecipeMethod = serviceData?.adaptRecipeForCurrentSeason;

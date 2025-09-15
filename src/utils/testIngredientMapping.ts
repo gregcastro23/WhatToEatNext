@@ -20,7 +20,7 @@ export function findMatchedItalianDinnerRecipes() {
   // Get all Italian dinner recipes
   const italianCuisine = cuisinesMap.Italian;
   const dinnerDishes = italianCuisine.dishes.dinner;
-  const allDinnerRecipes = [;
+  const allDinnerRecipes = [
     ...(dinnerDishes?.spring || []),
     ...(dinnerDishes?.summer || []),
     ...(dinnerDishes?.autumn || []),
@@ -28,9 +28,9 @@ export function findMatchedItalianDinnerRecipes() {
   ];
 
   // Map all ingredients to our ingredient database
-  const mappedRecipes = allDinnerRecipes.map(recipe => {;
+  const mappedRecipes = allDinnerRecipes.map(recipe => {
     const mappedIngredients = connectIngredientsToMappings(;
-      recipe as import('@/types/alchemy').Recipe,
+      recipe as import('@/types/alchemy').Recipe;
     );
 
     // Calculate mapping score (percentage of ingredients with a mapping)
@@ -41,7 +41,7 @@ export function findMatchedItalianDinnerRecipes() {
     // Apply Pattern GG-6: Safe property access with type guard
     const ingredientsArray = Array.isArray(ingredients) ? ingredients : [];
     const mappingScore =
-      mappedIngredients.filter(i => i.matchedTo).length / Math.max(1, ingredientsArray.length);
+      mappedIngredients.filter(i => i.matchedTo).length / Math.max(1, ingredientsArray.length),
 
     return {
       recipe,
@@ -64,31 +64,31 @@ export function findMatchedItalianDinnerRecipes() {
  */
 export function findRecipesMatchingElementalAndIngredientRequirements(
   elementalTarget: ElementalProperties,
-  requiredIngredients: string[] = [],
-  excludedIngredients: string[] = [],
-  dietaryRestrictions: string[] = [],
+  requiredIngredients: string[] = [];
+  excludedIngredients: string[] = [];
+  dietaryRestrictions: string[] = [];
 ) {
   // Collect recipes from all cuisines
   const allRecipes: Recipe[] = [];
 
-  Object.values(cuisinesMap).forEach(cuisine => {;
+  Object.values(cuisinesMap).forEach(cuisine => {
     // Collect breakfast recipes
-    Object.values(cuisine.dishes.breakfast || {}).forEach(seasonRecipes => {;
+    Object.values(cuisine.dishes.breakfast || {}).forEach(seasonRecipes => {
       if (seasonRecipes) allRecipes.push(...seasonRecipes);
     });
 
     // Collect lunch recipes
-    Object.values(cuisine.dishes.lunch || {}).forEach(seasonRecipes => {;
+    Object.values(cuisine.dishes.lunch || {}).forEach(seasonRecipes => {
       if (seasonRecipes) allRecipes.push(...seasonRecipes);
     });
 
     // Collect dinner recipes
-    Object.values(cuisine.dishes.dinner || {}).forEach(seasonRecipes => {;
+    Object.values(cuisine.dishes.dinner || {}).forEach(seasonRecipes => {
       if (seasonRecipes) allRecipes.push(...seasonRecipes);
     });
 
     // Collect dessert recipes
-    Object.values(cuisine.dishes.dessert || {}).forEach(seasonRecipes => {;
+    Object.values(cuisine.dishes.dessert || {}).forEach(seasonRecipes => {
       if (seasonRecipes) allRecipes.push(...seasonRecipes);
     });
   });
@@ -115,13 +115,13 @@ export function findRecipesMatchingElementalAndIngredientRequirements(
 export function suggestIngredientSubstitutions(recipe: Recipe, ingredientToReplace: string) {
   // Map all ingredients
   const mappedIngredients = connectIngredientsToMappings(;
-    recipe as unknown as import('@/types/alchemy').Recipe,
+    recipe as unknown as import('@/types/alchemy').Recipe;
   );
 
   // Find the ingredient to replace
   const ingredientMapping = mappedIngredients.find(;
-    i => i.name.toLowerCase() === ingredientToReplace.toLowerCase(),;
-  );
+    i => i.name.toLowerCase() === ingredientToReplace.toLowerCase(),,
+  ),
 
   if (!ingredientMapping?.matchedTo) {
     return {
@@ -150,16 +150,16 @@ export function suggestIngredientSubstitutions(recipe: Recipe, ingredientToRepla
       // Check elemental similarity
       const similarity = calculateElementalSimilarity(;
         elementalProperties as ElementalProperties,
-        mapping.elementalProperties,
-      );
+        mapping.elementalProperties;
+      ),
 
-      return similarity > 0.7; // Only return ingredients with 70%+ similarity
+      return similarity > 0.7, // Only return ingredients with 70%+ similarity
     })
     .map(([name, mapping]) => ({
       name,
       similarity: calculateElementalSimilarity(
         elementalProperties as ElementalProperties,
-        mapping.elementalProperties,
+        mapping.elementalProperties;
       ),
       mapping
     }))
@@ -192,5 +192,5 @@ function calculateElementalSimilarity(
   const totalDiff = fireDiff + waterDiff + earthDiff + airDiff;
 
   // Convert to similarity (0-1 range)
-  return 1 - totalDiff / 4;
+  return 1 - totalDiff / 4,
 }

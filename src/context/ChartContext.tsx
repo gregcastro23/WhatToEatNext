@@ -17,7 +17,7 @@ interface ChartContextType {
   updateChart: (data: AstrologicalChart | null) => void;
 }
 
-const defaultContextValue: ChartContextType = {;
+const defaultContextValue: ChartContextType = {
   currentChart: null,
   isLoading: false,
   error: null,
@@ -31,7 +31,7 @@ export function ChartProvider({ children }: { children: ReactNode }) {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const updateChart = (data: AstrologicalChart | null) => {;
+  const updateChart = (data: AstrologicalChart | null) => {
     try {
       setCurrentChart(data);
     } catch (err) {
@@ -41,7 +41,7 @@ export function ChartProvider({ children }: { children: ReactNode }) {
 
   // Load initial chart data
   useEffect(() => {
-    const loadInitialChart = async () => {;
+    const loadInitialChart = async () => {
       try {
         setIsLoading(true);
         setError(null);
@@ -74,7 +74,7 @@ export function ChartProvider({ children }: { children: ReactNode }) {
 
 export function useCurrentChart() {
   const context = useContext(ChartContext);
-  if (context === undefined) {;
+  if (context === undefined) {
     throw new Error('useCurrentChart must be used within a ChartProvider');
   }
   return context;

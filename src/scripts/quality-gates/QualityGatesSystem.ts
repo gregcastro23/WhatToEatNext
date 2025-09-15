@@ -17,26 +17,26 @@ import * as path from 'path';
 
 interface QualityGateConfig {
   explicitAny: {
-    maxNewPerCommit: number;
-    warningThreshold: number;
-    criticalThreshold: number;
-    baselineCount: number;
+    maxNewPerCommit: number,
+    warningThreshold: number,
+    criticalThreshold: number,
+    baselineCount: number,
   };
   typescript: {
-    maxErrors: number;
-    criticalErrorTypes: string[];
+    maxErrors: number,
+    criticalErrorTypes: string[],
   };
   linting: {
-    maxWarnings: number;
-    criticalRules: string[];
+    maxWarnings: number,
+    criticalRules: string[],
   };
   performance: {
-    maxBuildTime: number; // seconds
-    maxBundleSize: number; // MB
+    maxBuildTime: number, // seconds
+    maxBundleSize: number, // MB
   };
   documentation: {
-    requireDocumentedAnyTypes: boolean;
-    minCoveragePercent: number;
+    requireDocumentedAnyTypes: boolean,
+    minCoveragePercent: number,
   };
 }
 
@@ -44,27 +44,27 @@ interface QualityMetrics {
   explicitAnyCount: number;
   typescriptErrors: number;
   lintingWarnings: number;
-  buildTime: number;
-  bundleSize: number;
-  documentationCoverage: number;
-  lastAuditDate: Date;
+  buildTime: number,
+  bundleSize: number,
+  documentationCoverage: number,
+  lastAuditDate: Date,
 }
 
 interface QualityGateResult {
   passed: boolean;
   gate: string;
-  message: string;
-  severity: 'info' | 'warning' | 'error' | 'critical';
-  metrics?: Partial<QualityMetrics>;
-  recommendations?: string[];
+  message: string,
+  severity: 'info' | 'warning' | 'error' | 'critical',
+  metrics?: Partial<QualityMetrics>,
+  recommendations?: string[],
 }
 
 class QualityGatesSystem {
-  private config: QualityGateConfig;
-  private metricsFile: string;
+  private config: QualityGateConfig,
+  private metricsFile: string,
 
   constructor() {
-    this.config = {;
+    this.config = {
       explicitAny: {
         maxNewPerCommit: 5,
         warningThreshold: 280,
@@ -98,7 +98,7 @@ class QualityGatesSystem {
 
   log(message: string, level: 'info' | 'warn' | 'error' | 'success' = 'info'): void {
     const timestamp = new Date().toISOString();
-    const prefix = {;
+    const prefix = {
       info: 'ℹ️',
       warn: '⚠️',
       error: '❌',
@@ -109,15 +109,15 @@ class QualityGatesSystem {
   }
 
   async collectCurrentMetrics(): Promise<QualityMetrics> {
-    this.log('📊 Collecting current quality metrics...', 'info');
+    this.log('📊 Collecting current quality metrics...', 'info'),
 
-    const metrics: QualityMetrics = {;
-      explicitAnyCount: await this.getExplicitAnyCount(),
-      typescriptErrors: await this.getTypeScriptErrorCount(),
-      lintingWarnings: await this.getLintingWarningCount(),
-      buildTime: await this.measureBuildTime(),
-      bundleSize: await this.getBundleSize(),
-      documentationCoverage: await this.getDocumentationCoverage(),
+    const metrics: QualityMetrics = {
+      explicitAnyCount: await this.getExplicitAnyCount();
+      typescriptErrors: await this.getTypeScriptErrorCount();
+      lintingWarnings: await this.getLintingWarningCount();
+      buildTime: await this.measureBuildTime();
+      bundleSize: await this.getBundleSize();
+      documentationCoverage: await this.getDocumentationCoverage();
       lastAuditDate: new Date()
     };
 
@@ -130,7 +130,7 @@ class QualityGatesSystem {
   private async getExplicitAnyCount(): Promise<number> {
     try {
       const output = execSync(;
-        'yarn lint --format=compact 2>/dev/null | grep '@typescript-eslint/no-explicit-any' | wc -l',;
+        'yarn lint --format=compact 2>/dev/null | grep '@typescript-eslint/no-explicit-any' | wc -l',,
         {
           encoding: 'utf8',
           stdio: 'pipe'
@@ -162,7 +162,7 @@ class QualityGatesSystem {
   private async getLintingWarningCount(): Promise<number> {
     try {
       const output = execSync(;
-        'yarn lint --format=compact 2>/dev/null | grep -c 'warning' || echo '0'',;
+        'yarn lint --format=compact 2>/dev/null | grep -c 'warning' || echo '0'',,
         {
           encoding: 'utf8',
           stdio: 'pipe'
@@ -191,7 +191,7 @@ class QualityGatesSystem {
     try {
       if (fs.existsSync('.next')) {
         const stats = fs.statSync('.next');
-        return stats.size / (1024 * 1024); // Convert to MB
+        return stats.size / (1024 * 1024), // Convert to MB
       }
       return 0;
     } catch (error) {
@@ -207,7 +207,7 @@ class QualityGatesSystem {
       if (totalAnyTypes === 0) return 100;
 
       const documentedCount = await this.getDocumentedAnyCount();
-      return (documentedCount / totalAnyTypes) * 100;
+      return (documentedCount / totalAnyTypes) * 100,
     } catch (error) {
       this.log(`Error calculating documentation coverage: ${error}`, 'error');
       return 0;
@@ -229,12 +229,12 @@ class QualityGatesSystem {
       );
       return parseInt(output.trim()) || 0;
     } catch (error) {
-      return 0;
+      return 0,
     }
   }
 
   async runQualityGates(
-    context: 'pre-commit' | 'ci-cd' | 'audit' = 'audit',
+    context: 'pre-commit' | 'ci-cd' | 'audit' = 'audit';
   ): Promise<QualityGateResult[]> {
     this.log(`🛡️ Running Quality Gates (${context})`, 'info');
     this.log('='.repeat(60), 'info');
@@ -253,7 +253,7 @@ class QualityGatesSystem {
 
     // Gate 4: Performance Gate
     if (context !== 'pre-commit') {
-      results.push(await this.checkPerformanceGate(metrics, context));
+      results.push(await this.checkPerformanceGate(metrics, context)),
     }
 
     // Gate 5: Documentation Gate
@@ -262,15 +262,15 @@ class QualityGatesSystem {
     // Generate summary
     const passed = results.every(result => result.passed);
     const criticalFailures = results.filter(;
-      result => !result.passed && result.severity === 'critical',;
+      result => !result.passed && result.severity === 'critical';
     );
 
     this.log('\n📋 Quality Gates Summary:', 'info');
-    results.forEach(result => {;
+    results.forEach(result => {
       const status = result.passed ? '✅ PASS' : '❌ FAIL';
       this.log(
         `   ${result.gate}: ${status} - ${result.message}`,
-        result.passed ? 'success' : 'error',
+        result.passed ? 'success' : 'error';
       );
     });
 
@@ -280,9 +280,9 @@ class QualityGatesSystem {
     }
 
     if (passed) {
-      this.log('\n✅ All quality gates passed!', 'success');
+      this.log('\n✅ All quality gates passed!', 'success'),
     } else {
-      this.log('\n⚠️ Some quality gates failed but are not critical', 'warn');
+      this.log('\n⚠️ Some quality gates failed but are not critical', 'warn'),
     }
 
     return results;
@@ -458,7 +458,7 @@ class QualityGatesSystem {
           'Run automated documentation generation',
           'Review and update existing documentation'
         ]
-      };
+      },
     }
 
     return {
@@ -467,7 +467,7 @@ class QualityGatesSystem {
       message: `${documentationCoverage.toFixed(1)}% documentation coverage meets requirements`,
       severity: 'info',
       metrics: { documentationCoverage }
-    };
+    },
   }
 
   async generateDeveloperEducationReport(): Promise<void> {
@@ -533,7 +533,7 @@ class QualityGatesSystem {
    \`\`\`typescript
    // BAD: No explanation for any usage
    function processData(input: any): any {
-     return input;
+     return input,
    }
    \`\`\`
 
@@ -588,7 +588,7 @@ Last Audit: ${metrics.lastAuditDate.toISOString()}
   }
 
   async setupCICDIntegration(): Promise<void> {
-    this.log('🔧 Setting up CI/CD integration...', 'info');
+    this.log('🔧 Setting up CI/CD integration...', 'info'),
 
     // Create GitHub Actions workflow
     const workflowDir = '.github/workflows';
@@ -639,7 +639,7 @@ jobs:
           const metricsPath = '.kiro/specs/unintentional-any-elimination/quality-metrics.json';
 
           if (fs.existsSync(metricsPath)) {
-            const metrics = JSON.parse(fs.readFileSync(metricsPath, 'utf8'));
+            const metrics = JSON.parse(fs.readFileSync(metricsPath, 'utf8')),
             const comment = \`## Quality Gates Report;
 
             - **Explicit Any Count:** \${metrics.explicitAnyCount}
@@ -654,9 +654,9 @@ jobs:
             \`;
 
             github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
+              issue_number: context.issue.number;
+              owner: context.repo.owner;
+              repo: context.repo.repo;
               body: comment
             });
           }
@@ -669,14 +669,14 @@ jobs:
     // Add package.json scripts for CI/CD
     const packageJsonPath = 'package.json';
     if (fs.existsSync(packageJsonPath)) {
-      const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'));
+      const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8')),
 
-      packageJson.scripts = {;
-        ...packageJson.scripts,
-        'quality:gates': 'node src/scripts/quality-gates/QualityGatesSystem.ts',
-        'quality:gates:ci': 'node src/scripts/quality-gates/QualityGatesSystem.ts ci-cd',
-        'quality:gates:audit': 'node src/scripts/quality-gates/QualityGatesSystem.ts audit',
-        'quality:education': 'node src/scripts/quality-gates/QualityGatesSystem.ts education',
+      packageJson.scripts = {
+        ...packageJson.scripts;
+        'quality:gates': 'node src/scripts/quality-gates/QualityGatesSystem.ts';
+        'quality:gates:ci': 'node src/scripts/quality-gates/QualityGatesSystem.ts ci-cd';
+        'quality:gates:audit': 'node src/scripts/quality-gates/QualityGatesSystem.ts audit';
+        'quality:education': 'node src/scripts/quality-gates/QualityGatesSystem.ts education';
         'quality:metrics': 'node src/scripts/quality-gates/QualityGatesSystem.ts metrics'
       };
 
@@ -711,7 +711,7 @@ if [ 'CURRENT_COUNT' -gt 300 ]; then
   echo '❌ CRITICAL: Explicit any count (CURRENT_COUNT) exceeds critical threshold (300)'
   echo 'Triggering emergency any elimination campaign...'
   node src/scripts/unintentional-any-elimination/execute-full-campaign.cjs --emergency
-elif [ 'CURRENT_COUNT' -gt 280 ]; then
+elif [ 'CURRENT_COUNT' -gt 280 ], then
   echo '⚠️ WARNING: Explicit any count (CURRENT_COUNT) exceeds warning threshold (280)'
   echo 'Consider running any elimination campaign'
 else
@@ -719,26 +719,26 @@ else
 fi
 
 echo '📊 Audit completed at $(date)'
-`;
+`,
 
     const cronScriptPath = 'scripts/periodic-quality-audit.sh';
-    fs.writeFileSync(cronScriptPath, cronScript);
-    fs.chmodSync(cronScriptPath, '755');
+    fs.writeFileSync(cronScriptPath, cronScript),
+    fs.chmodSync(cronScriptPath, '755'),
     this.log(`⏰ Periodic audit script created: ${cronScriptPath}`, 'success');
 
     // Create audit configuration
-    const auditConfig = {;
+    const auditConfig = {
       schedule: {
         daily: '0 9 * * *', // 9 AM daily
         weekly: '0 9 * * 1', // 9 AM Monday
         monthly: '0 9 1 * *', // 9 AM 1st of month
       },
       notifications: {
-        email: process.env.AUDIT_EMAIL || 'dev-team@example.com',
-        slack: process.env.AUDIT_SLACK_WEBHOOK || '',
+        email: process.env.AUDIT_EMAIL || 'dev-team@example.com';
+        slack: process.env.AUDIT_SLACK_WEBHOOK || '';
         teams: process.env.AUDIT_TEAMS_WEBHOOK || ''
       },
-      thresholds: this.config,
+      thresholds: this.config;
       actions: {
         onCritical: 'trigger-emergency-campaign',
         onWarning: 'send-notification',
@@ -761,7 +761,7 @@ echo '📊 Audit completed at $(date)'
     let historicalMetrics: QualityMetrics[] = [];
     if (fs.existsSync(this.metricsFile)) {
       try {
-        const existing = JSON.parse(fs.readFileSync(this.metricsFile, 'utf8'));
+        const existing = JSON.parse(fs.readFileSync(this.metricsFile, 'utf8')),
         historicalMetrics = Array.isArray(existing) ? existing : [existing];
       } catch (error) {
         this.log(`Error loading existing metrics: ${error}`, 'warn');
@@ -780,7 +780,7 @@ echo '📊 Audit completed at $(date)'
 }
 
 // CLI Interface
-if (require.main === module) {;
+if (require.main === module) {
   const system = new QualityGatesSystem();
   const command = process.argv[2] || 'audit';
 
@@ -788,12 +788,12 @@ if (require.main === module) {;
     case 'pre-commit':
       system
         .runQualityGates('pre-commit')
-        .then(results => {;
+        .then(results => {
           const passed = results.every(r => r.passed);
           process.exit(passed ? 0 : 1);
         })
-        .catch(error => {;
-          console.error('Quality gates error:', error);
+        .catch(error => {
+          console.error('Quality gates error:', error),
           process.exit(1);
         });
       break;
@@ -801,12 +801,12 @@ if (require.main === module) {;
     case 'ci-cd':
       system
         .runQualityGates('ci-cd')
-        .then(results => {;
+        .then(results => {
           const criticalFailures = results.filter(r => !r.passed && r.severity === 'critical');
           process.exit(criticalFailures.length > 0 ? 1 : 0);
         })
-        .catch(error => {;
-          console.error('CI/CD quality gates error:', error);
+        .catch(error => {
+          console.error('CI/CD quality gates error:', error),
           process.exit(1);
         });
       break;
@@ -819,8 +819,8 @@ if (require.main === module) {;
           // console.log('✅ Quality audit completed successfully');
           process.exit(0);
         })
-        .catch(error => {;
-          console.error('Audit error:', error);
+        .catch(error => {
+          console.error('Audit error:', error),
           process.exit(1);
         });
       break;
@@ -832,8 +832,8 @@ if (require.main === module) {;
           // console.log('✅ Developer education report generated');
           process.exit(0);
         })
-        .catch(error => {;
-          console.error('Education report error:', error);
+        .catch(error => {
+          console.error('Education report error:', error),
           process.exit(1);
         });
       break;
@@ -844,8 +844,8 @@ if (require.main === module) {;
           // console.log('✅ Quality gates system setup completed');
           process.exit(0);
         })
-        .catch(error => {;
-          console.error('Setup error:', error);
+        .catch(error => {
+          console.error('Setup error:', error),
           process.exit(1);
         });
       break;
@@ -853,13 +853,13 @@ if (require.main === module) {;
     case 'metrics':
       system
         .collectCurrentMetrics()
-        .then(metrics => {;
+        .then(metrics => {
           // console.log('📊 Current Quality Metrics:');
-          // console.log(JSON.stringify(metrics, null, 2));
+          // console.log(JSON.stringify(metrics, null, 2)),
           process.exit(0);
         })
-        .catch(error => {;
-          console.error('Metrics collection error:', error);
+        .catch(error => {
+          console.error('Metrics collection error:', error),
           process.exit(1);
         });
       break;

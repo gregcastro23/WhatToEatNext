@@ -6,7 +6,7 @@ import type { Recipe } from '../../types/recipe';
 describe('RecipeElementalService', () => {
   describe('standardizeRecipe', () => {
     it('should add missing elemental properties', () => {
-      const recipe: any = {;
+      const recipe: any = {
         id: 'test-recipe',
         name: 'Test Recipe',
         // No elemental properties provided
@@ -59,21 +59,21 @@ describe('RecipeElementalService', () => {
       const results: any = recipeElementalService.standardizeRecipes(recipes);
 
       expect(results.length).toBe(2);
-      expect(results.[0].elementalProperties).toBeDefined();
-      expect(results.[1].elementalProperties).toBeDefined();
+      expect(results[0].elementalProperties).toBeDefined();
+      expect(results[1].elementalProperties).toBeDefined();
 
       // First recipe should have default properties
-      expect(results.[0].elementalProperties.Fire).toBeCloseTo(0.25, 2);
+      expect(results[0].elementalProperties.Fire).toBeCloseTo(0.25, 2);
 
       // Second recipe should have normalized properties
-      const sum: any = Object.values(results.[1].elementalProperties).reduce((a: any, b: any) => a + b, 0);
+      const sum: any = Object.values(results[1].elementalProperties).reduce((a: any, b: any) => a + b, 0);
       expect(sum).toBeCloseTo(1, 6);
     });
   });
 
   describe('getDominantElement', () => {
     it('should return the dominant element', () => {
-      const recipe: any = {;
+      const recipe: any = {
         id: 'test-recipe',
         name: 'Test Recipe',
         elementalProperties: { Fire: 0.4, Water: 0.3, Earth: 0.2, Air: 0.1 }
@@ -107,7 +107,7 @@ describe('RecipeElementalService', () => {
 
   describe('deriveElementalProperties', () => {
     it('should derive properties based on recipe attributes', () => {
-      const recipe: any = {;
+      const recipe: any = {
         cuisine: 'Mexican',
         cookingMethod: ['grilling']
       };
@@ -122,7 +122,7 @@ describe('RecipeElementalService', () => {
     });
 
     it('should derive properties for a recipe with ingredients', () => {
-      const recipe: any = {;
+      const recipe: any = {
         cuisine: 'Japanese',
         cookingMethod: ['steaming'],
         ingredients: [

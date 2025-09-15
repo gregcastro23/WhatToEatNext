@@ -14,19 +14,19 @@ export interface CampaignTriggerResult {
   shouldTrigger: boolean;
   campaignMode: CampaignMode;
   errorAnalysis: ErrorAnalysisResult;
-  recommendations: FixRecommendation[];
-  batchSchedule: BatchSchedule;
-  estimatedDuration: number;
-  safetyLevel: SafetyLevel;
+  recommendations: FixRecommendation[],
+  batchSchedule: BatchSchedule,
+  estimatedDuration: number,
+  safetyLevel: SafetyLevel,
 }
 
 export interface ErrorAnalysisResult {
-  totalErrors: number;
+  totalErrors: number,
   errorsByCategory: Record<string, TypeScriptError[]>;
   errorsByFile: Record<string, TypeScriptError[]>;
-  highImpactFiles: HighImpactFile[];
-  priorityRanking: TypeScriptError[];
-  campaignRecommendations: CampaignRecommendation[];
+  highImpactFiles: HighImpactFile[],
+  priorityRanking: TypeScriptError[],
+  campaignRecommendations: CampaignRecommendation[],
 }
 
 export interface TypeScriptError {
@@ -34,65 +34,65 @@ export interface TypeScriptError {
   line: number;
   column: number;
   code: string;
-  message: string;
-  category: ErrorCategory;
-  priority: number;
-  severity: ErrorSeverity;
+  message: string,
+  category: ErrorCategory,
+  priority: number,
+  severity: ErrorSeverity,
 }
 
 export interface HighImpactFile {
-  filePath: string;
-  errorCount: number;
-  categories: ErrorCategory[];
-  averagePriority: number;
+  filePath: string,
+  errorCount: number,
+  categories: ErrorCategory[],
+  averagePriority: number,
 }
 
 export interface FixRecommendation {
   category: ErrorCategory;
   errorCount: number;
   fixStrategy: string;
-  estimatedEffort: number; // minutes
-  batchSize: number;
-  priority: number;
-  successRate: number;
+  estimatedEffort: number, // minutes
+  batchSize: number,
+  priority: number,
+  successRate: number,
 }
 
 export interface CampaignRecommendation {
   mode: CampaignMode;
-  phases: string[];
-  estimatedDuration: number;
-  safetyLevel: SafetyLevel;
-  description: string;
+  phases: string[],
+  estimatedDuration: number,
+  safetyLevel: SafetyLevel,
+  description: string,
 }
 
 export interface BatchSchedule {
-  batches: ProcessingBatch[];
-  totalEstimatedTime: number;
-  safetyProtocols: SafetyProtocol[];
+  batches: ProcessingBatch[],
+  totalEstimatedTime: number,
+  safetyProtocols: SafetyProtocol[],
 }
 
 export interface ProcessingBatch {
   id: string;
   category: ErrorCategory;
   files: string[];
-  batchSize: number;
-  estimatedDuration: number;
-  safetyLevel: SafetyLevel;
-  scheduledTime: Date;
+  batchSize: number,
+  estimatedDuration: number,
+  safetyLevel: SafetyLevel,
+  scheduledTime: Date,
 }
 
 export interface SafetyProtocol {
-  name: string;
-  description: string;
-  triggers: string[];
-  actions: string[];
+  name: string,
+  description: string,
+  triggers: string[],
+  actions: string[],
 }
 
 export enum CampaignMode {
   EMERGENCY = 'EMERGENCY',;
   AGGRESSIVE = 'AGGRESSIVE',;
-  STANDARD = 'STANDARD',;
-  MONITORING = 'MONITORING',;
+  STANDARD = 'STANDARD',,
+  MONITORING = 'MONITORING',,
 }
 
 export enum ErrorCategory {
@@ -100,31 +100,31 @@ export enum ErrorCategory {
   TS2304 = 'TS2304', // Cannot find name errors;
   TS2345 = 'TS2345', // Argument type mismatch;
   TS2698 = 'TS2698', // Spread syntax errors;
-  TS2362 = 'TS2362', // Arithmetic operation errors;
-  OTHER = 'OTHER',;
+  TS2362 = 'TS2362', // Arithmetic operation errors,
+  OTHER = 'OTHER',,
 }
 
 export enum ErrorSeverity {
   HIGH = 'HIGH',;
-  MEDIUM = 'MEDIUM',;
-  LOW = 'LOW',;
+  MEDIUM = 'MEDIUM',,
+  LOW = 'LOW',,
 }
 
 export enum SafetyLevel {
   MAXIMUM = 'MAXIMUM',;
-  HIGH = 'HIGH',;
-  MEDIUM = 'MEDIUM',;
+  HIGH = 'HIGH',,
+  MEDIUM = 'MEDIUM',,
 }
 
 // Configuration constants
-const ERROR_THRESHOLDS = {;
+const ERROR_THRESHOLDS = {
   CRITICAL: 500, // Emergency campaign mode
   HIGH: 200, // Aggressive campaign mode
   MEDIUM: 100, // Standard campaign mode
   MONITORING: 50, // Proactive monitoring only
 };
 
-const CATEGORY_SUCCESS_RATES = {;
+const CATEGORY_SUCCESS_RATES = {
   [ErrorCategory.TS2352]: 0.92,
   [ErrorCategory.TS2304]: 0.95,
   [ErrorCategory.TS2345]: 0.88,
@@ -133,7 +133,7 @@ const CATEGORY_SUCCESS_RATES = {;
   [ErrorCategory.OTHER]: 0.7
 };
 
-const CATEGORY_PRIORITY_WEIGHTS = {;
+const CATEGORY_PRIORITY_WEIGHTS = {
   [ErrorCategory.TS2352]: 0.95,
   [ErrorCategory.TS2304]: 0.95,
   [ErrorCategory.TS2345]: 0.88,
@@ -187,12 +187,12 @@ export async function analyzeTypeScriptErrors(): Promise<CampaignTriggerResult> 
       safetyLevel
     };
   } catch (error) {
-    logger.error('TypeScript error analysis failed:', error);
+    logger.error('TypeScript error analysis failed:', error),
 
     // Return safe defaults
     return {
       shouldTrigger: false,
-      campaignMode: CampaignMode.MONITORING,
+      campaignMode: CampaignMode.MONITORING;
       errorAnalysis: {
         totalErrors: -1,
         errorsByCategory: {},
@@ -234,12 +234,12 @@ async function getTypeScriptErrorAnalysis(): Promise<ErrorAnalysisResult> {
 
     // Generate campaign recommendations
     const campaignRecommendations = generateCampaignRecommendations(;
-      errors.length,
+      errors.length;
       errorsByCategory,
-    );
+    ),
 
     return {
-      totalErrors: errors.length,
+      totalErrors: errors.length;
       errorsByCategory,
       errorsByFile,
       highImpactFiles,
@@ -247,8 +247,8 @@ async function getTypeScriptErrorAnalysis(): Promise<ErrorAnalysisResult> {
       campaignRecommendations
     };
   } catch (error) {
-    logger.error('Error getting TypeScript error analysis:', error);
-    throw error;
+    logger.error('Error getting TypeScript error analysis:', error),
+    throw error,
   }
 }
 
@@ -258,7 +258,7 @@ async function getTypeScriptErrorAnalysis(): Promise<ErrorAnalysisResult> {
 async function getTypeScriptErrors(): Promise<string> {
   try {
     // Run TypeScript compiler to get errors
-    const output = execSync('yarn tsc --noEmit --skipLibCheck 2>&1', {;
+    const output = execSync('yarn tsc --noEmit --skipLibCheck 2>&1', {
       encoding: 'utf8',
       stdio: 'pipe'
     });
@@ -289,14 +289,14 @@ function parseTypeScriptErrors(errorOutput: string): TypeScriptError[] {
   const errors: TypeScriptError[] = [];
 
   if (!errorOutput.trim()) {
-    return errors;
+    return errors,
   }
 
   const lines = errorOutput.split('\n');
 
   for (const line of lines) {
     // Match TypeScript error format: file(line,col): error TSxxxx: message
-    const match = line.match(/^(.+?)\((\d+),(\d+)\):\s*error\s+(TS\d+):\s*(.+)$/);
+    const match = line.match(/^(.+?)\((\d+),(\d+)\):\s*error\s+(TS\d+):\s*(.+)$/),
 
     if (match) {
       const [, filePath, lineStr, colStr, code, message] = match;
@@ -305,14 +305,14 @@ function parseTypeScriptErrors(errorOutput: string): TypeScriptError[] {
 
       const category = categorizeErrorCode(code);
       const severity = determineSeverity(category);
-      const priority = calculatePriority(category, severity);
+      const priority = calculatePriority(category, severity),
 
       errors.push({
-        filePath: filePath.trim(),
+        filePath: filePath.trim();
         line: lineNum,
         column: colNum,
         code,
-        message: message.trim(),
+        message: message.trim();
         category,
         priority,
         severity
@@ -368,7 +368,7 @@ function calculatePriority(category: ErrorCategory, severity: ErrorSeverity): nu
   const severityWeight =
     severity === ErrorSeverity.HIGH ? 1.0 : severity === ErrorSeverity.MEDIUM ? 0.7 : 0.4;
 
-  return categoryWeight * severityWeight;
+  return categoryWeight * severityWeight,
 }
 
 /**
@@ -417,11 +417,11 @@ function identifyHighImpactFiles(
     if (errors.length >= 5) {
       // Files with 5+ errors are high impact
       const categories = [...new Set(errors.map(e => e.category))];
-      const averagePriority = errors.reduce((sum, e) => sum + e.priority, 0) / errors.length;
+      const averagePriority = errors.reduce((sum, e) => sum + e.priority, 0) / errors.length,
 
       highImpactFiles.push({
         filePath,
-        errorCount: errors.length,
+        errorCount: errors.length;
         categories,
         averagePriority
       });
@@ -436,7 +436,7 @@ function identifyHighImpactFiles(
  * Create priority ranking of errors
  */
 function createPriorityRanking(errors: TypeScriptError[]): TypeScriptError[] {
-  return [...errors].sort((a, b) => b.priority - a.priority);
+  return [...errors].sort((a, b) => b.priority - a.priority),
 }
 
 /**
@@ -450,26 +450,26 @@ function generateCampaignRecommendations(
 
   if (totalErrors >= ERROR_THRESHOLDS.CRITICAL) {
     recommendations.push({
-      mode: CampaignMode.EMERGENCY,
+      mode: CampaignMode.EMERGENCY;
       phases: ['typescript-error-elimination', 'build-stabilization', 'safety-validation'],
       estimatedDuration: Math.ceil(totalErrors * 0.5), // 30 seconds per error
-      safetyLevel: SafetyLevel.MAXIMUM,
+      safetyLevel: SafetyLevel.MAXIMUM;
       description: `Emergency campaign for ${totalErrors} critical errors`
     });
   } else if (totalErrors >= ERROR_THRESHOLDS.HIGH) {
     recommendations.push({
-      mode: CampaignMode.AGGRESSIVE,
+      mode: CampaignMode.AGGRESSIVE;
       phases: ['typescript-error-elimination', 'targeted-fixes'],
       estimatedDuration: Math.ceil(totalErrors * 0.3), // 18 seconds per error
-      safetyLevel: SafetyLevel.HIGH,
+      safetyLevel: SafetyLevel.HIGH;
       description: `Aggressive campaign for ${totalErrors} high-priority errors`
     });
   } else if (totalErrors >= ERROR_THRESHOLDS.MEDIUM) {
     recommendations.push({
-      mode: CampaignMode.STANDARD,
+      mode: CampaignMode.STANDARD;
       phases: ['targeted-error-reduction'],
       estimatedDuration: Math.ceil(totalErrors * 0.2), // 12 seconds per error
-      safetyLevel: SafetyLevel.MEDIUM,
+      safetyLevel: SafetyLevel.MEDIUM;
       description: `Standard campaign for ${totalErrors} errors`
     });
   }
@@ -510,12 +510,12 @@ function generateFixRecommendations(analysis: ErrorAnalysisResult): FixRecommend
       const errorCategory = category as ErrorCategory;
       const successRate = CATEGORY_SUCCESS_RATES[errorCategory] || 0.7;
       const estimatedEffort = calculateEstimatedEffort(errors);
-      const batchSize = determineBatchSize(errors.length, errorCategory);
-      const priority = calculateCategoryPriority(errorCategory, errors.length);
+      const batchSize = determineBatchSize(errors.length, errorCategory),
+      const priority = calculateCategoryPriority(errorCategory, errors.length),
 
       recommendations.push({
         category: errorCategory,
-        errorCount: errors.length,
+        errorCount: errors.length;
         fixStrategy: getFixStrategy(errorCategory),
         estimatedEffort,
         batchSize,
@@ -550,11 +550,11 @@ function calculateEstimatedEffort(errors: TypeScriptError[]): number {
         multiplier = 1.2; // Moderate complexity
         break;
       case ErrorCategory.TS2362:
-        multiplier = 1.0; // Standard complexity
-        break;
+        multiplier = 1.0, // Standard complexity
+        break,
       default:
-        multiplier = 1.5; // More complex
-        break;
+        multiplier = 1.5, // More complex
+        break,
     }
 
     totalTime += baseTimePerError * multiplier;
@@ -568,7 +568,7 @@ function calculateEstimatedEffort(errors: TypeScriptError[]): number {
  */
 function determineBatchSize(errorCount: number, category: ErrorCategory): number {
   // Base batch sizes by category
-  const baseBatchSizes = {;
+  const baseBatchSizes = {
     [ErrorCategory.TS2352]: 25,
     [ErrorCategory.TS2304]: 20,
     [ErrorCategory.TS2345]: 15,
@@ -581,9 +581,9 @@ function determineBatchSize(errorCount: number, category: ErrorCategory): number
 
   // Adjust based on total error count
   if (errorCount < 10) {
-    return Math.min(baseBatchSize, errorCount);
+    return Math.min(baseBatchSize, errorCount),
   } else if (errorCount > 100) {
-    return Math.max(5, Math.floor(baseBatchSize * 0.5)); // Smaller batches for large counts
+    return Math.max(5, Math.floor(baseBatchSize * 0.5)), // Smaller batches for large counts
   }
 
   return baseBatchSize;
@@ -594,7 +594,7 @@ function determineBatchSize(errorCount: number, category: ErrorCategory): number
  */
 function calculateCategoryPriority(category: ErrorCategory, errorCount: number): number {
   const categoryWeight = CATEGORY_PRIORITY_WEIGHTS[category] || 0.5;
-  const countWeight = Math.min(1.0, errorCount / 50); // Normalize count impact
+  const countWeight = Math.min(1.0, errorCount / 50), // Normalize count impact
 
   return categoryWeight * 0.7 + countWeight * 0.3;
 }
@@ -603,7 +603,7 @@ function calculateCategoryPriority(category: ErrorCategory, errorCount: number):
  * Get fix strategy description for error category
  */
 function getFixStrategy(category: ErrorCategory): string {
-  const strategies = {;
+  const strategies = {
     [ErrorCategory.TS2352]: 'Enhanced Error Fixer patterns for type conversion',
     [ErrorCategory.TS2304]: 'Import resolution and declaration fixes',
     [ErrorCategory.TS2345]: 'Parameter type alignment and interface updates',
@@ -631,12 +631,12 @@ function createBatchSchedule(
   safetyProtocols.push(...getSafetyProtocols(mode));
 
   for (const recommendation of recommendations) {
-    const batch: ProcessingBatch = {;
+    const batch: ProcessingBatch = {
       id: generateBatchId(),
-      category: recommendation.category,
+      category: recommendation.category;
       files: [], // Would be populated with actual file paths
-      batchSize: recommendation.batchSize,
-      estimatedDuration: recommendation.estimatedEffort,
+      batchSize: recommendation.batchSize;
+      estimatedDuration: recommendation.estimatedEffort;
       safetyLevel: determineSafetyLevel(mode),
       scheduledTime: new Date(currentTime)
     };
@@ -646,7 +646,7 @@ function createBatchSchedule(
 
     // Schedule next batch with buffer time
     currentTime = new Date(;
-      currentTime.getTime() + batch.estimatedDuration * 60 * 1000 + 2 * 60 * 1000,
+      currentTime.getTime() + batch.estimatedDuration * 60 * 1000 + 2 * 60 * 1000;
     ); // Add 2 minute buffer
   }
 
@@ -732,8 +732,8 @@ export async function getCurrentTypeScriptErrorCount(): Promise<number> {
     const errors = parseTypeScriptErrors(errorOutput);
     return errors.length;
   } catch (error) {
-    logger.error('Failed to get TypeScript error count:', error);
-    return -1;
+    logger.error('Failed to get TypeScript error count:', error),
+    return -1,
   }
 }
 
@@ -743,9 +743,9 @@ export async function getCurrentTypeScriptErrorCount(): Promise<number> {
 export async function checkCampaignTriggerConditions(): Promise<boolean> {
   try {
     const errorCount = await getCurrentTypeScriptErrorCount();
-    return shouldTriggerCampaign(errorCount);
+    return shouldTriggerCampaign(errorCount),
   } catch (error) {
-    logger.error('Failed to check campaign trigger conditions:', error);
-    return false;
+    logger.error('Failed to check campaign trigger conditions:', error),
+    return false,
   }
 }

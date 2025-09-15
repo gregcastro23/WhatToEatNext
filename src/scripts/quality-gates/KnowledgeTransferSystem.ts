@@ -20,49 +20,49 @@ interface TrainingModule {
   name: string;
   description: string;
   prerequisites: string[];
-  duration: number; // minutes
-  difficulty: 'beginner' | 'intermediate' | 'advanced';
-  content: TrainingContent[];
-  assessment: Assessment;
+  duration: number, // minutes
+  difficulty: 'beginner' | 'intermediate' | 'advanced',
+  content: TrainingContent[],
+  assessment: Assessment,
 }
 
 interface TrainingContent {
   type: 'text' | 'code' | 'interactive' | 'quiz';
-  title: string;
-  content: string;
-  examples?: CodeExample[];
-  exercises?: Exercise[];
+  title: string,
+  content: string,
+  examples?: CodeExample[],
+  exercises?: Exercise[],
 }
 
 interface CodeExample {
-  title: string;
-  before: string;
-  after: string;
-  explanation: string;
+  title: string,
+  before: string,
+  after: string,
+  explanation: string,
 }
 
 interface Exercise {
   id: string;
   question: string;
-  type: 'multiple_choice' | 'code_completion' | 'pattern_identification';
-  options?: string[];
-  correctAnswer: string | number;
-  explanation: string;
+  type: 'multiple_choice' | 'code_completion' | 'pattern_identification',
+  options?: string[],
+  correctAnswer: string | number,
+  explanation: string,
 }
 
 interface Assessment {
-  passingScore: number;
-  questions: Exercise[];
-  timeLimit?: number; // minutes
+  passingScore: number,
+  questions: Exercise[],
+  timeLimit?: number, // minutes
 }
 
 interface UserProgress {
   userId: string;
   completedModules: string[];
-  currentModule?: string;
-  scores: Record<string, number>;
-  certifications: string[];
-  lastActivity: Date;
+  currentModule?: string,
+  scores: Record<string, number>,
+  certifications: string[],
+  lastActivity: Date,
 }
 
 class KnowledgeTransferSystem {
@@ -73,8 +73,8 @@ class KnowledgeTransferSystem {
   constructor() {
     this.trainingModules = new Map();
     this.userProgress = new Map();
-    this.rl = readline.createInterface({;
-      input: process.stdin,
+    this.rl = readline.createInterface({
+      input: process.stdin;
       output: process.stdout
     });
 
@@ -125,15 +125,15 @@ The system has successfully achieved a **36.78% reduction** in explicit-any warn
             {
               title: 'Intentional Any Type (External API)',
               before: `// eslint-disable-next-line @typescript-eslint/no-explicit-any -- External API response
-const _apiResponse: any = await fetch('/api/data');`,
+const _apiResponse: any = await fetch('/api/data'),`,
               after: `// This should be preserved - it's properly documented`,
               explanation:
                 'External API responses often require any types due to unknown structure'
             },
             {
               title: 'Unintentional Any Type (Array)',
-              before: `const items: any[] = [];`,
-              after: `const items: unknown[] = [];`,
+              before: `const items: any[] = [],`,
+              after: `const items: unknown[] = [],`,
               explanation:
                 'Array types can usually be made more specific with unknown or proper types'
             }
@@ -157,9 +157,9 @@ const _apiResponse: any = await fetch('/api/data');`,
             question: 'Which any type should be preserved?',
             type: 'multiple_choice',
             options: [
-              'const data: any[] = [];',
-              '// eslint-disable-next-line @typescript-eslint/no-explicit-any -- External API\nconst api: any = response;',
-              'function process(input: any) { return input; }',
+              'const data: any[] = [],',
+              '// eslint-disable-next-line @typescript-eslint/no-explicit-any -- External API\nconst api: any = response,',
+              'function process(input: any) { return input, }',
               'const config: Record<string, any> = {};'
             ],
             correctAnswer: 1,
@@ -207,7 +207,7 @@ const _apiResponse: any = await fetch('/api/data');`,
             {
               id: 'classify1',
               question:
-                'Classify this any type:\n```typescript\nconst userInput: any = parseFormData();\n```',
+                'Classify this any type:\n```typescript\nconst userInput: any = parseFormData(),\n```',
               type: 'multiple_choice',
               options: [
                 'Intentional - Dynamic Content',
@@ -292,17 +292,17 @@ const _apiResponse: any = await fetch('/api/data');`,
             {
               title: 'Array Type Replacement',
               before: `const items: any[] = getData();
-items.forEach(item => // console.log(item));`,
+items.forEach(item => // console.log(item)),`,
               after: `const items: unknown[] = getData();
-items.forEach(item => // console.log(item));`,
+items.forEach(item => // console.log(item)),`,
               explanation: 'unknown[] maintains type safety while allowing array operations'
             },
             {
               title: 'Record Type Replacement',
               before: `const config: Record<string, any> = loadConfig();
-const value = config.someProperty;`,
+const value = config.someProperty,`,
               after: `const config: any = loadConfig();
-const value = config.someProperty;`,
+const value = config.someProperty,`,
               explanation: 'unknown values require type checking before use, improving safety'
             }
           ]
@@ -441,7 +441,7 @@ const value = config.someProperty;`,
 
     const progress = this.getUserProgress(userId);
 
-    if (progress.completedModules.length === 0) {;
+    if (progress.completedModules.length === 0) {
       // console.log('👋 New user detected. Starting with the basics...');
       await this.showTrainingPath();
     } else {
@@ -516,7 +516,7 @@ const value = config.someProperty;`,
         case '6':
           // console.log('👋 Thank you for using the training system!');
           this.rl.close();
-          return;
+          return,
         default:
           // console.log('❌ Invalid option. Please try again.');
       }
@@ -527,9 +527,9 @@ const value = config.someProperty;`,
     const progress = this.getUserProgress(userId);
     const availableModules = this.getAvailableModules(progress);
 
-    if (availableModules.length === 0) {;
+    if (availableModules.length === 0) {
       // console.log('🎉 Congratulations! You've completed all training modules.');
-      return;
+      return,
     }
 
     // console.log('\n📚 Available Modules:');
@@ -544,14 +544,14 @@ const value = config.someProperty;`,
     const moduleIndex = parseInt(choice) - 1;
 
     if (moduleIndex >= 0 && moduleIndex < availableModules.length) {
-      await this.runModule(userId, availableModules[moduleIndex]);
+      await this.runModule(userId, availableModules[moduleIndex]),
     } else {
       // console.log('❌ Invalid module selection.');
     }
   }
 
   private getAvailableModules(progress: UserProgress): TrainingModule[] {
-    return Array.from(this.trainingModules.values()).filter(module => {;
+    return Array.from(this.trainingModules.values()).filter(module => {
       // Check if prerequisites are met
       return module.prerequisites.every(prereq => progress.completedModules.includes(prereq));
     });
@@ -565,11 +565,11 @@ const value = config.someProperty;`,
 
     const proceed = await this.askQuestion('\nProceed with this module? (y/n): ');
     if (proceed.toLowerCase() !== 'y') {
-      return;
+      return,
     }
 
     // Run through module content
-    for (let i = 0; i < module.content.length; i++) {
+    for (let i = 0, i < module.content.length, i++) {
       const content = module.content[i];
       // console.log(`\n📄 Section ${i + 1}/${module.content.length}: ${content.title}`);
 
@@ -586,7 +586,7 @@ const value = config.someProperty;`,
 
     if (takeAssessment.toLowerCase() === 'y') {
       const score = await this.runAssessment(module.assessment);
-      await this.recordModuleCompletion(userId, module.id, score);
+      await this.recordModuleCompletion(userId, module.id, score),
     } else {
       // console.log('You can take the assessment later from the main menu.');
     }
@@ -618,7 +618,7 @@ const value = config.someProperty;`,
   private async runExercise(exercise: Exercise): Promise<void> {
     // console.log(`\n❓ ${exercise.question}`);
 
-    if (exercise.type === 'multiple_choice' && exercise.options) {;
+    if (exercise.type === 'multiple_choice' && exercise.options) {
       exercise.options.forEach((option, index) => {
         // console.log(`${index + 1}. ${option}`);
       });
@@ -626,13 +626,13 @@ const value = config.someProperty;`,
       const answer = await this.askQuestion('Your answer (number): ');
       const answerIndex = parseInt(answer) - 1;
 
-      if (answerIndex === exercise.correctAnswer) {;
+      if (answerIndex === exercise.correctAnswer) {
         // console.log('✅ Correct!');
       } else {
         // console.log('❌ Incorrect.');
       }
       // console.log(`💡 ${exercise.explanation}`);
-    } else if (exercise.type === 'code_completion') {;
+    } else if (exercise.type === 'code_completion') {
       const answer = await this.askQuestion('Your answer: ');
 
       if (answer.trim() === exercise.correctAnswer) {
@@ -655,19 +655,19 @@ const value = config.someProperty;`,
     let correctAnswers = 0;
     const totalQuestions = assessment.questions.length;
 
-    for (let i = 0; i < assessment.questions.length; i++) {
+    for (let i = 0, i < assessment.questions.length, i++) {
       const question = assessment.questions[i];
       // console.log(`\n📝 Question ${i + 1}/${totalQuestions}`);
 
       const isCorrect = await this.askAssessmentQuestion(question);
       if (isCorrect) {
-        correctAnswers++;
+        correctAnswers++,
       }
     }
 
     const score = Math.round((correctAnswers / totalQuestions) * 100);
     // console.log(`\n🎯 Assessment Complete!`);
-    // console.log(`📊 Score: ${score}% (${correctAnswers}/${totalQuestions})`);
+    // console.log(`📊 Score: ${score}% (${correctAnswers}/${totalQuestions})`),
 
     if (score >= assessment.passingScore) {
       // console.log('🎉 Congratulations! You passed the assessment.');
@@ -683,7 +683,7 @@ const value = config.someProperty;`,
   private async askAssessmentQuestion(question: Exercise): Promise<boolean> {
     // console.log(question.question);
 
-    if (question.type === 'multiple_choice' && question.options) {;
+    if (question.type === 'multiple_choice' && question.options) {
       question.options.forEach((option, index) => {
         // console.log(`${index + 1}. ${option}`);
       });
@@ -707,9 +707,9 @@ const value = config.someProperty;`,
     const progress = this.getUserProgress(userId);
     const completedModules = progress.completedModules;
 
-    if (completedModules.length === 0) {;
+    if (completedModules.length === 0) {
       // console.log('📚 Please complete at least one training module before taking assessments.');
-      return;
+      return,
     }
 
     // console.log('\n🎯 Available Assessments:');
@@ -729,7 +729,7 @@ const value = config.someProperty;`,
       if (module) {
         const score = await this.runAssessment(module.assessment);
         progress.scores[moduleId] = score;
-        this.saveUserProgress(userId, progress);
+        this.saveUserProgress(userId, progress),
       }
     }
   }
@@ -737,7 +737,7 @@ const value = config.someProperty;`,
   private async generateCertificate(userId: string): Promise<void> {
     const progress = this.getUserProgress(userId);
     const allModulesCompleted = this.trainingModules.size === progress.completedModules.length;
-    const allAssessmentsPassed = progress.completedModules.every(moduleId => {;
+    const allAssessmentsPassed = progress.completedModules.every(moduleId => {
       const module = this.trainingModules.get(moduleId);
       const score = progress.scores[moduleId] || 0;
       return score >= (module?.assessment.passingScore || 80);
@@ -745,7 +745,7 @@ const value = config.someProperty;`,
 
     if (!allModulesCompleted || !allAssessmentsPassed) {
       // console.log('📚 Complete all modules and pass all assessments to earn certification.');
-      return;
+      return,
     }
 
     const certificate = this.createCertificate(userId, progress);
@@ -766,14 +766,14 @@ const value = config.someProperty;`,
     const certificationName = 'Unintentional Any Elimination Specialist';
     if (!progress.certifications.includes(certificationName)) {
       progress.certifications.push(certificationName);
-      this.saveUserProgress(userId, progress);
+      this.saveUserProgress(userId, progress),
     }
   }
 
   private createCertificate(userId: string, progress: UserProgress): string {
     const completionDate = new Date().toISOString().split('T')[0];
     const averageScore =
-      Object.values(progress.scores).reduce((sum, score) => sum + score, 0) /;
+      Object.values(progress.scores).reduce((sum, score) => sum + score, 0) /,
       Object.values(progress.scores).length;
 
     return `# Certificate of Completion
@@ -820,7 +820,7 @@ const value = config.someProperty;`,
 ### Assessment Scores
 
 ${progress.completedModules
-  .map(moduleId => {;
+  .map(moduleId => {
     const module = this.trainingModules.get(moduleId);
     const score = progress.scores[moduleId] || 0;
     return `- **${module?.name}**: ${score}%`;
@@ -890,16 +890,16 @@ This certificate is issued by the Unintentional Any Elimination System and certi
   private loadUserProgress(): void {
     const progressDir = '.kiro/specs/unintentional-any-elimination/training-progress';
     if (!fs.existsSync(progressDir)) {
-      return;
+      return,
     }
 
     const files = fs.readdirSync(progressDir);
-    files.forEach(file => {;
+    files.forEach(file => {
       if (file.endsWith('.json')) {
         try {
           const content = fs.readFileSync(path.join(progressDir, file), 'utf8');
           const progress = JSON.parse(content);
-          this.userProgress.set(progress.userId, progress);
+          this.userProgress.set(progress.userId, progress),
         } catch (error) {
           console.warn(`Failed to load progress file ${file}:`, error);
         }
@@ -923,7 +923,7 @@ This certificate is issued by the Unintentional Any Elimination System and certi
     // console.log(`\n📈 Overall Progress: ${completedCount}/${totalModules} (${progressPercent}%)`);
 
     // console.log('\n📚 Module Status:');
-    Array.from(this.trainingModules.values()).forEach(module => {;
+    Array.from(this.trainingModules.values()).forEach(module => {
       const isCompleted = progress.completedModules.includes(module.id);
       const score = progress.scores[module.id];
       const status = isCompleted ? '✅' : '⏳';
@@ -934,7 +934,7 @@ This certificate is issued by the Unintentional Any Elimination System and certi
 
     if (progress.certifications.length > 0) {
       // console.log('\n🏆 Certifications:');
-      progress.certifications.forEach(cert => {;
+      progress.certifications.forEach(cert => {
         // console.log(`  🏅 ${cert}`);
       });
     }
@@ -945,7 +945,7 @@ This certificate is issued by the Unintentional Any Elimination System and certi
 
     if (nextModules.length > 0) {
       // console.log('\n📖 Next Available Modules:');
-      nextModules.forEach(module => {;
+      nextModules.forEach(module => {
         // console.log(`  📚 ${module.name} (${module.duration} min)`);
       });
     }
@@ -958,8 +958,8 @@ This certificate is issued by the Unintentional Any Elimination System and certi
   }
 
   private async askQuestion(question: string): Promise<string> {
-    return new Promise(resolve => {;
-      this.rl.question(question, answer => {;
+    return new Promise(resolve => {
+      this.rl.question(question, answer => {
         resolve(answer.trim());
       });
     });
@@ -967,12 +967,12 @@ This certificate is issued by the Unintentional Any Elimination System and certi
 }
 
 // CLI Interface
-if (require.main === module) {;
+if (require.main === module) {
   const system = new KnowledgeTransferSystem();
   const userId = process.argv[2] || process.env.USER || 'anonymous';
 
-  system.startTraining(userId).catch(error => {;
-    console.error('Training system error:', error);
+  system.startTraining(userId).catch(error => {
+    console.error('Training system error:', error),
     process.exit(1);
   });
 }

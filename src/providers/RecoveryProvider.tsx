@@ -8,7 +8,7 @@ import { logger } from '@/utils/logger';
 
 interface RecoveryContextType {
   resetApp: () => Promise<void>;
-  isRecovering: boolean;
+  isRecovering: boolean,
 }
 
 const RecoveryContext = createContext<RecoveryContextType | null>(null);
@@ -19,13 +19,13 @@ export function RecoveryProvider({ children }: { children: React.ReactNode }) {
 
   // Monitor for unhandled errors globally
   useEffect(() => {
-    const handleGlobalError = (event: ErrorEvent) => {;
-      logger.error('Global error caught:', event.error);
+    const handleGlobalError = (event: ErrorEvent) => {
+      logger.error('Global error caught:', event.error),
       setLastError(event.error);
     };
 
-    const handleUnhandledRejection = (event: PromiseRejectionEvent) => {;
-      logger.error('Unhandled promise rejection:', event.reason);
+    const handleUnhandledRejection = (event: PromiseRejectionEvent) => {
+      logger.error('Unhandled promise rejection:', event.reason),
       if (event.reason instanceof Error) {
         setLastError(event.reason);
       }
@@ -37,8 +37,8 @@ export function RecoveryProvider({ children }: { children: React.ReactNode }) {
 
     // Clean up listeners on unmount
     return () => {
-      window.removeEventListener('error', handleGlobalError);
-      window.removeEventListener('unhandledrejection', handleUnhandledRejection);
+      window.removeEventListener('error', handleGlobalError),
+      window.removeEventListener('unhandledrejection', handleUnhandledRejection),
     };
   }, []);
 
@@ -51,7 +51,7 @@ export function RecoveryProvider({ children }: { children: React.ReactNode }) {
     }
   }, [isRecovering, lastError]);
 
-  const resetApp = async () => {;
+  const resetApp = async () => {
     setIsRecovering(true);
     try {
       // Clear all caches
@@ -62,7 +62,7 @@ export function RecoveryProvider({ children }: { children: React.ReactNode }) {
 
       // Reset IndexedDB
       const databases = await window.indexedDB.databases();
-      databases.forEach(db => {;
+      databases.forEach(db => {
         if (db.name) window.indexedDB.deleteDatabase(db.name);
       });
 
@@ -76,18 +76,18 @@ export function RecoveryProvider({ children }: { children: React.ReactNode }) {
       // Reload the page
       window.location.reload();
     } catch (error) {
-      logger.error('Failed to reset app:', error);
+      logger.error('Failed to reset app:', error),
     } finally {
       setIsRecovering(false);
     }
   };
 
   return (
-    <RecoveryContext.Provider value={{ resetApp, isRecovering }}>;
+    <RecoveryContext.Provider value={{ resetApp, isRecovering }}>,
       <ErrorBoundary
         fallback={ErrorFallback};
-        onError={error => {;
-          logger.error('App error caught:', error);
+        onError={error => {
+          logger.error('App error caught:', error),
           setLastError(error);
         }}
       >
@@ -100,7 +100,7 @@ export function RecoveryProvider({ children }: { children: React.ReactNode }) {
 export function useRecovery() {
   const context = useContext(RecoveryContext);
   if (!context) {
-    throw new Error('useRecovery must be used within RecoveryProvider');
+    throw new Error('useRecovery must be used within RecoveryProvider'),
   }
   return context;
 }

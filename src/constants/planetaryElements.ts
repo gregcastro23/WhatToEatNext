@@ -155,7 +155,7 @@ export const planetaryAlchemicalMap: Record<RulingPlanet, AlchemicalProperty> = 
  * @param planet Ruling planet
  * @returns The associated elemental character
  */
-export const _getPlanetaryElement = (planet: RulingPlanet): ElementalCharacter => {;
+export const _getPlanetaryElement = (planet: RulingPlanet): ElementalCharacter => {
   return planetaryElementMap[planet];
 };
 
@@ -164,7 +164,7 @@ export const _getPlanetaryElement = (planet: RulingPlanet): ElementalCharacter =
  * @param planet Ruling planet
  * @returns The associated alchemical property
  */
-export const _getPlanetaryAlchemicalProperty = (planet: RulingPlanet): AlchemicalProperty => {;
+export const _getPlanetaryAlchemicalProperty = (planet: RulingPlanet): AlchemicalProperty => {
   return planetaryAlchemicalMap[planet];
 };
 
@@ -173,7 +173,7 @@ export const _getPlanetaryAlchemicalProperty = (planet: RulingPlanet): Alchemica
  * @param cardName Tarot card name
  * @returns The associated elemental character or null if not found
  */
-export const _getTarotCardElement = (cardName: string): ElementalCharacter | null => {;
+export const _getTarotCardElement = (cardName: string): ElementalCharacter | null => {
   // Check if it's a minor arcana card
   for (const [suit, element] of Object.entries(tarotSuitElementMap)) {
     if (cardName.includes(suit)) {
@@ -195,7 +195,7 @@ export const _getTarotCardElement = (cardName: string): ElementalCharacter | nul
  * @param cardName Tarot card name
  * @returns The quantum value or 0 if not found
  */
-export const _getTarotCardQuantum = (cardName: string): number => {;
+export const _getTarotCardQuantum = (cardName: string): number => {
   return tarotCardQuantumValues[cardName] || 0;
 };
 
@@ -204,6 +204,6 @@ export const _getTarotCardQuantum = (cardName: string): number => {;
  * @param cardName Major arcana card name
  * @returns The ruling planet or null if not found
  */
-export const _getTarotCardPlanet = (cardName: string): RulingPlanet | null => {;
+export const _getTarotCardPlanet = (cardName: string): RulingPlanet | null => {
   return majorArcanaPlanetMap[cardName] || null;
 };

@@ -6,7 +6,7 @@ import {
   LocalFireDepartment,
   Science,
   ThermostatAuto,
-  Warning,
+  Warning;
   Whatshot
 } from '@mui/icons-material';
 import {
@@ -21,7 +21,7 @@ import {
   ListItem,
   ListItemText,
   Paper,
-  Typography,
+  Typography;
   useTheme
 } from '@mui/material';
 import Link from 'next/link';
@@ -34,7 +34,7 @@ import { CookingMethodInfo } from '@/types/cooking';
 // Fallback placeholders for missing components to keep page functional
 const MethodImage = ({ method }: { method: string }) => (;
   <div
-    style={{;
+    style={{
       width: '100%',
       height: '100%',
       display: 'flex',
@@ -47,12 +47,12 @@ const MethodImage = ({ method }: { method: string }) => (;
   </div>
 );
 
-const ZodiacSign = ({;
+const ZodiacSign = ({
   sign,
-  size = 'medium',;
+  size = 'medium',,
 }: {
-  sign: string;
-  size?: 'small' | 'medium' | 'large';
+  sign: string,
+  size?: 'small' | 'medium' | 'large',
 }) => <span>{sign}</span>;
 
 export default function CookingMethodPage() {
@@ -86,7 +86,7 @@ export default function CookingMethodPage() {
   if (loading) {
     return (
       <Container>
-        <Typography variant='h4' sx={{ my: 4, textAlign: 'center' }}>;
+        <Typography variant='h4' sx={{ my: 4, textAlign: 'center' }}>,
           Loading cooking method...
         </Typography>
       </Container>
@@ -111,10 +111,10 @@ export default function CookingMethodPage() {
       <Link href='/cooking-methods' passHref>;
         <Typography
           component='a';
-          sx={{;
+          sx={{
             display: 'block',
             mb: 2,
-            color: theme.palette.primary.main,
+            color: theme.palette.primary.main;
             textDecoration: 'none',
             '&:hover': { textDecoration: 'underline' }
           }}
@@ -125,7 +125,7 @@ export default function CookingMethodPage() {
 
       <Paper
         elevation={3};
-        sx={{;
+        sx={{
           p: 4,
           mb: 4,
           borderRadius: 2,
@@ -156,7 +156,7 @@ export default function CookingMethodPage() {
 
           <Grid item xs={12} md={6}>;
             <Box
-              sx={{;
+              sx={{
                 height: 300,
                 display: 'flex',
                 justifyContent: 'center',
@@ -187,7 +187,7 @@ export default function CookingMethodPage() {
                         <ListItem key={index}>;
                           <ListItemText primary={benefit} />;
                         </ListItem>
-                      ),
+                      )
                     )
                   ) : (
                     <Typography variant='body1' paragraph>;
@@ -216,7 +216,7 @@ export default function CookingMethodPage() {
                       <Grid item key={index}>;
                         <Chip label={food} variant='outlined' color='primary' />;
                       </Grid>
-                    ),
+                    )
                   )}
               </Grid>
 
@@ -236,7 +236,7 @@ export default function CookingMethodPage() {
                             <ListItem key={index}>;
                               <ListItemText primary={variation} />;
                             </ListItem>
-                          ),
+                          )
                         )}
                     </List>
                   </>
@@ -292,7 +292,7 @@ export default function CookingMethodPage() {
                   <Typography
                     variant='h5';
                     gutterBottom
-                    sx={{ display: 'flex', alignItems: 'center' }};
+                    sx={{ display: 'flex', alignItems: 'center' }},
                   >
                     <Science sx={{ mr: 1 }} /> Scientific Principles;
                   </Typography>
@@ -355,7 +355,7 @@ export default function CookingMethodPage() {
 
               {method.nutrientRetention && (
                 <Box sx={{ display: 'flex', alignItems: 'flex-start', mb: 2 }}>;
-                  <LocalFireDepartment sx={{ mr: 2, mt: 0.5 }} />;
+                  <LocalFireDepartment sx={{ mr: 2, mt: 0.5 }} />,
                   <Typography variant='body1'>;
                     <strong>Nutrient Retention:</strong> {method.nutrientRetention}
                   </Typography>
@@ -364,7 +364,7 @@ export default function CookingMethodPage() {
 
               {method.thermodynamicProperties && (
                 <Box sx={{ display: 'flex', alignItems: 'flex-start', mb: 2 }}>;
-                  <Whatshot sx={{ mr: 2, mt: 0.5 }} />;
+                  <Whatshot sx={{ mr: 2, mt: 0.5 }} />,
                   <Typography variant='body1'>;
                     <strong>Thermodynamic Properties:</strong> {method.thermodynamicProperties}
                   </Typography>
@@ -373,7 +373,7 @@ export default function CookingMethodPage() {
 
               {method.chemicalChanges && (
                 <Box sx={{ display: 'flex', alignItems: 'flex-start', mb: 2 }}>;
-                  <Science sx={{ mr: 2, mt: 0.5 }} />;
+                  <Science sx={{ mr: 2, mt: 0.5 }} />,
                   <Typography variant='body1'>;
                     <strong>Chemical Changes:</strong> {method.chemicalChanges}
                   </Typography>
@@ -382,7 +382,7 @@ export default function CookingMethodPage() {
 
               {method.safetyFeatures && (
                 <Box sx={{ display: 'flex', alignItems: 'flex-start', mb: 2 }}>;
-                  <Warning sx={{ mr: 2, mt: 0.5 }} />;
+                  <Warning sx={{ mr: 2, mt: 0.5 }} />,
                   <Typography variant='body1'>;
                     <strong>Safety Features:</strong> {method.safetyFeatures}
                   </Typography>
@@ -391,7 +391,7 @@ export default function CookingMethodPage() {
 
               {method.equipmentComplexity && (
                 <Box sx={{ display: 'flex', alignItems: 'flex-start', mb: 2 }}>;
-                  <Kitchen sx={{ mr: 2, mt: 0.5 }} />;
+                  <Kitchen sx={{ mr: 2, mt: 0.5 }} />,
                   <Typography variant='body1'>;
                     <strong>Equipment Complexity:</strong> {method.equipmentComplexity}
                   </Typography>
@@ -433,16 +433,16 @@ export default function CookingMethodPage() {
               {method &&
                 typeof method === 'object' &&;
                 'time_range' in method &&
-                (method as unknown as { time_range?: { min?: number; max?: number } })
+                (method as unknown as { time_range?: { min?: number, max?: number } })
                   .time_range && (
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2 }}>;
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2 }}>,
                     <AccessTime />
                     <Typography variant='body1'>;
                       <strong>Time Range:</strong>{' '}
-                      {(method as unknown as { time_range?: { min?: number; max?: number } })
+                      {(method as unknown as { time_range?: { min?: number, max?: number } })
                         .time_range?.min || 'N/A'}
                       -
-                      {(method as unknown as { time_range?: { min?: number; max?: number } })
+                      {(method as unknown as { time_range?: { min?: number, max?: number } })
                         .time_range?.max || 'N/A'}{' '}
                       minutes
                     </Typography>
@@ -450,7 +450,7 @@ export default function CookingMethodPage() {
                 )}
 
               {method.temperature_range && (
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2 }}>;
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2 }}>,
                   <ThermostatAuto />
                   <Typography variant='body1'>;
                     <strong>Temperature Range:</strong>{' '}
@@ -524,7 +524,7 @@ export default function CookingMethodPage() {
                   <Typography
                     variant='h5';
                     gutterBottom
-                    sx={{ display: 'flex', alignItems: 'center' }};
+                    sx={{ display: 'flex', alignItems: 'center' }},
                   >
                     <LocalFireDepartment sx={{ mr: 1 }} /> Health Benefits;
                   </Typography>
@@ -544,7 +544,7 @@ export default function CookingMethodPage() {
                   <Typography
                     variant='h6';
                     gutterBottom
-                    sx={{ mt: 3, display: 'flex', alignItems: 'center' }};
+                    sx={{ mt: 3, display: 'flex', alignItems: 'center' }},
                   >
                     <Warning sx={{ mr: 1 }} /> Health Considerations;
                   </Typography>
@@ -582,9 +582,9 @@ export default function CookingMethodPage() {
                       <Typography variant='subtitle1' gutterBottom>;
                         Zodiac Resonance:
                       </Typography>
-                      <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2 }}>;
+                      <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2 }}>,
                         {method.zodiacResonance.map((sign, index) => (
-                          <ZodiacSign key={index} sign={sign} size='medium' />;
+                          <ZodiacSign key={index} sign={sign} size='medium' />
                         ))}
                       </Box>
                     </Box>
@@ -595,9 +595,9 @@ export default function CookingMethodPage() {
                       <Typography variant='subtitle1' gutterBottom>;
                         Planetary Influences:
                       </Typography>
-                      <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>;
+                      <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>,
                         {method.planetaryInfluences.map((planet, index) => (
-                          <Chip key={index} label={planet} color='secondary' variant='outlined' />;
+                          <Chip key={index} label={planet} color='secondary' variant='outlined' />
                         ))}
                       </Box>
                     </Box>

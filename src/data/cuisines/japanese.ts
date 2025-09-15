@@ -2,7 +2,7 @@
 import type { _, _ZodiacSign } from '@/types/alchemy';
 import type { Cuisine } from '@/types/cuisine';
 
-export const japanese: Cuisine = {;
+export const japanese: Cuisine = {
   id: 'japanese',
   name: 'Japanese',
   description:
@@ -17,9 +17,9 @@ export const japanese: Cuisine = {;
       culinaryUses: ['miso soup', 'noodle broths', 'sauce base', 'braising liquid'],
       derivatives: ['Awase dashi', 'Kombu dashi', 'Shiitake dashi', 'Iriko dashi'],
       elementalProperties: {
-        Water: 0.6,
-        Earth: 0.2,
-        Air: 0.1,
+        Water: 0.6;
+        Earth: 0.2;
+        Air: 0.1;
         Fire: 0.1
       },
       astrologicalInfluences: ['Neptune', 'Moon', 'Pisces'],
@@ -39,9 +39,9 @@ export const japanese: Cuisine = {;
       culinaryUses: ['ramen seasoning', 'glazes', 'marinades', 'dipping sauces'],
       derivatives: ['Shoyu tare', 'Shio tare', 'Miso tare', 'Karaage tare'],
       elementalProperties: {
-        Earth: 0.4,
-        Water: 0.3,
-        Fire: 0.2,
+        Earth: 0.4;
+        Water: 0.3;
+        Fire: 0.2;
         Air: 0.1
       },
       astrologicalInfluences: ['Saturn', 'Mercury', 'Taurus'],
@@ -123,9 +123,9 @@ export const japanese: Cuisine = {;
           season: ['all'],
           mealType: ['breakfast'],
           elementalProperties: {
-            Water: 0.4,
-            Earth: 0.3,
-            Fire: 0.2,
+            Water: 0.4;
+            Earth: 0.3;
+            Fire: 0.2;
             Air: 0.1
           },
           instructions: [
@@ -182,7 +182,7 @@ export const japanese: Cuisine = {;
           prepTime: '5 minutes',
           cookTime: '10 minutes',
           culturalNotes:
-            'A staple in bento boxes and breakfast. The technique of rolling the omelette requires practice and is considered a test of a chef's skill',
+            'A staple in bento boxes and breakfast. The technique of rolling the omelette requires practice and is considered a test of a chef's skill';
           pairingSuggestions: ['steamed rice', 'miso soup', 'pickled vegetables'],
           dietaryInfo: ['vegetarian'],
           spiceLevel: 'none',
@@ -198,9 +198,9 @@ export const japanese: Cuisine = {;
           season: ['all'],
           mealType: ['breakfast', 'bento'],
           elementalProperties: {
-            Fire: 0.4,
-            Air: 0.3,
-            Earth: 0.2,
+            Fire: 0.4;
+            Air: 0.3;
+            Earth: 0.2;
             Water: 0.1
           }
         },
@@ -242,7 +242,7 @@ export const japanese: Cuisine = {;
           prepTime: '5 minutes',
           cookTime: '15 minutes',
           culturalNotes:
-            'A nutritious breakfast dish particularly popular in Eastern Japan. The sticky texture and strong flavor make it an acquired taste for many',
+            'A nutritious breakfast dish particularly popular in Eastern Japan. The sticky texture and strong flavor make it an acquired taste for many';
           pairingSuggestions: ['miso soup', 'pickled vegetables', 'green tea'],
           dietaryInfo: ['vegetarian'],
           spiceLevel: 'mild',
@@ -258,9 +258,9 @@ export const japanese: Cuisine = {;
           season: ['all'],
           mealType: ['breakfast'],
           elementalProperties: {
-            Earth: 0.4,
-            Water: 0.3,
-            Fire: 0.2,
+            Earth: 0.4;
+            Water: 0.3;
+            Fire: 0.2;
             Air: 0.1
           }
         }
@@ -318,7 +318,7 @@ export const japanese: Cuisine = {;
           prepTime: '20 minutes',
           cookTime: '30 minutes',
           culturalNotes:
-            'A portable food dating back to samurai times. Each region has its preferred fillings and shapes',
+            'A portable food dating back to samurai times. Each region has its preferred fillings and shapes';
           pairingSuggestions: ['green tea', 'miso soup', 'pickled vegetables'],
           dietaryInfo: ['pescatarian'],
           spiceLevel: 'none',
@@ -334,9 +334,9 @@ export const japanese: Cuisine = {;
           season: ['all'],
           mealType: ['lunch', 'snack'],
           elementalProperties: {
-            Earth: 0.5,
-            Water: 0.2,
-            Fire: 0.2,
+            Earth: 0.5;
+            Water: 0.2;
+            Fire: 0.2;
             Air: 0.1
           }
         }
@@ -379,7 +379,7 @@ export const japanese: Cuisine = {;
           prepTime: '15 minutes',
           cookTime: '10 minutes',
           culturalNotes:
-            'A refreshing summer dish that became popular in the post-war period. The colorful presentation is as important as the taste',
+            'A refreshing summer dish that became popular in the post-war period. The colorful presentation is as important as the taste';
           pairingSuggestions: ['cold barley tea', 'gyoza', 'pickled ginger'],
           dietaryInfo: ['contains meat'],
           spiceLevel: 'mild',
@@ -395,9 +395,9 @@ export const japanese: Cuisine = {;
           season: ['summer'],
           mealType: ['lunch'],
           elementalProperties: {
-            Water: 0.3,
-            Air: 0.3,
-            Earth: 0.2,
+            Water: 0.3;
+            Air: 0.3;
+            Earth: 0.2;
             Fire: 0.2
           }
         },
@@ -454,9 +454,9 @@ export const japanese: Cuisine = {;
           season: ['summer'],
           mealType: ['lunch', 'dinner'],
           elementalProperties: {
-            Air: 0.4,
-            Water: 0.3,
-            Earth: 0.2,
+            Air: 0.4;
+            Water: 0.3;
+            Earth: 0.2;
             Fire: 0.1
           }
         }
@@ -492,9 +492,9 @@ export const japanese: Cuisine = {;
           season: ['winter'],
           mealType: ['lunch', 'dinner'],
           elementalProperties: {
-            Earth: 0.4,
-            Fire: 0.3,
-            Water: 0.2,
+            Earth: 0.4;
+            Fire: 0.3;
+            Water: 0.2;
             Air: 0.1
           }
         }
@@ -531,9 +531,9 @@ export const japanese: Cuisine = {;
           season: ['all'],
           mealType: ['dinner'],
           elementalProperties: {
-            Water: 0.4,
-            Earth: 0.3,
-            Air: 0.2,
+            Water: 0.4;
+            Earth: 0.3;
+            Air: 0.2;
             Fire: 0.1
           }
         }
@@ -574,9 +574,9 @@ export const japanese: Cuisine = {;
           season: ['winter'],
           mealType: ['dinner'],
           elementalProperties: {
-            Fire: 0.4,
-            Water: 0.3,
-            Earth: 0.2,
+            Fire: 0.4;
+            Water: 0.3;
+            Earth: 0.2;
             Air: 0.1
           }
         },
@@ -622,9 +622,9 @@ export const japanese: Cuisine = {;
           season: ['winter'],
           mealType: ['dinner'],
           elementalProperties: {
-            Water: 0.4,
-            Fire: 0.3,
-            Earth: 0.2,
+            Water: 0.4;
+            Fire: 0.3;
+            Earth: 0.2;
             Air: 0.1
           }
         }
@@ -658,9 +658,9 @@ export const japanese: Cuisine = {;
           season: ['summer'],
           mealType: ['dinner'],
           elementalProperties: {
-            Fire: 0.5,
-            Air: 0.2,
-            Earth: 0.2,
+            Fire: 0.5;
+            Air: 0.2;
+            Earth: 0.2;
             Water: 0.1
           }
         },
@@ -888,7 +888,7 @@ export const japanese: Cuisine = {;
           prepTime: '10 minutes',
           cookTime: '20 minutes',
           culturalNotes:
-            'A comforting noodle dish with regional variations across Japan. The chewy texture of udon is highly prized',
+            'A comforting noodle dish with regional variations across Japan. The chewy texture of udon is highly prized';
           pairingSuggestions: ['tempura', 'onigiri', 'green tea'],
           dietaryInfo: ['vegetarian possible'],
           spiceLevel: 'none',
@@ -942,7 +942,7 @@ export const japanese: Cuisine = {;
           prepTime: '15 minutes',
           cookTime: '20 minutes',
           culturalNotes:
-            'A Western-inspired dish that became a Japanese favorite in the early 1900s. The specific cutting technique and shredded cabbage are essential elements',
+            'A Western-inspired dish that became a Japanese favorite in the early 1900s. The specific cutting technique and shredded cabbage are essential elements';
           pairingSuggestions: ['steamed rice', 'miso soup', 'pickled vegetables'],
           dietaryInfo: ['contains meat'],
           spiceLevel: 'none',
@@ -989,7 +989,7 @@ export const japanese: Cuisine = {;
           prepTime: '20 minutes',
           cookTime: '15 minutes',
           culturalNotes:
-            'A delicate dish that showcases the Japanese mastery of egg cookery. The name means 'steamed in a tea bowl'',
+            'A delicate dish that showcases the Japanese mastery of egg cookery. The name means 'steamed in a tea bowl'';
           pairingSuggestions: ['sake', 'green tea', 'rice'],
           dietaryInfo: ['contains seafood', 'contains meat'],
           spiceLevel: 'none',
@@ -1169,7 +1169,7 @@ export const japanese: Cuisine = {;
           prepTime: '20 minutes',
           cookTime: '25 minutes',
           culturalNotes:
-            'A popular comfort food that combines tonkatsu with the donburi style. Often eaten before important exams as 'katsu' sounds like 'win' in Japanese',
+            'A popular comfort food that combines tonkatsu with the donburi style. Often eaten before important exams as 'katsu' sounds like 'win' in Japanese';
           pairingSuggestions: ['miso soup', 'pickled vegetables', 'green tea'],
           dietaryInfo: ['contains meat'],
           spiceLevel: 'none',
@@ -1303,9 +1303,9 @@ export const japanese: Cuisine = {;
       culinaryUses: ['dipping sauce', 'seasoning', 'marinade', 'flavor base'],
       variants: ['Koikuchi', 'Usukuchi', 'Tamari', 'Saishikomi'],
       elementalProperties: {
-        Water: 0.4,
-        Earth: 0.3,
-        Fire: 0.2,
+        Water: 0.4;
+        Earth: 0.3;
+        Fire: 0.2;
         Air: 0.1
       },
       astrologicalInfluences: ['Saturn', 'Pluto', 'Scorpio'],
@@ -1322,9 +1322,9 @@ export const japanese: Cuisine = {;
       culinaryUses: ['soup base', 'marinade', 'sauce base', 'pickling agent'],
       variants: ['Shiro (white)', 'Aka (red)', 'Awase (mixed)', 'Hatcho (soybean-only)'],
       elementalProperties: {
-        Earth: 0.5,
-        Water: 0.2,
-        Fire: 0.2,
+        Earth: 0.5;
+        Water: 0.2;
+        Fire: 0.2;
         Air: 0.1
       },
       astrologicalInfluences: ['Jupiter', 'Moon', 'Taurus'],

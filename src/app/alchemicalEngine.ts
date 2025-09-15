@@ -26,11 +26,11 @@ export { AlchemicalEngineAdvanced, AlchemicalEngineBase };
 export { alchemize };
 
 // Create and export a unified default object with all alchemical functionality
-const alchemicalEngine = {;
-  alchemize: (birthInfo: BirthInfo, horoscopeDict: HoroscopeData): StandardizedAlchemicalResult => {;
+const alchemicalEngine = {
+  alchemize: (birthInfo: BirthInfo, horoscopeDict: HoroscopeData): StandardizedAlchemicalResult => {
     try {
       const tropical = horoscopeDict.tropical as any | undefined;
-      const extendedHoroscope = {;
+      const extendedHoroscope = {
         ...horoscopeDict,
         tropical: {
           CelestialBodies:
@@ -125,7 +125,7 @@ const alchemicalEngine = {;
     }
   },
 
-  calculateChakraEnergies: (zodiacEnergies: Record<string, number>): ChakraEnergies => {;
+  calculateChakraEnergies: (zodiacEnergies: Record<string, number>): ChakraEnergies => {
     try {
       // Use ESM import binding
       return _calculateChakraEnergies(zodiacEnergies);
@@ -145,7 +145,7 @@ const alchemicalEngine = {;
   },
 
   // Add a convenient factory method to create engine instances with error handling
-  createEngine: (advanced: boolean = false) => {;
+  createEngine: (advanced: boolean = false) => {
     try {
       return advanced ? new AlchemicalEngineAdvanced() : new AlchemicalEngineBase();
     } catch (error) {

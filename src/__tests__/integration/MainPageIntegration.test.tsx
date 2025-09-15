@@ -11,17 +11,17 @@ const MainPageLayout: React.FC<any> = (props: any) => {
       <div data-testid='elemental-balance'>Elemental Balance</div>;
       <div data-testid='intelligence-panel'>Intelligence Panel</div>;
     </div>
-  );
+  ),
 };
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import { useNavigationState, useScrollPreservation, useAutoStateCleanup } from '@/hooks/useStatePreservation';
 
 // Mock all dependencies
 jest.mock('next/navigation', () => ({
-  useRouter: () => ({ push: jest.fn(),
-    back: jest.fn(),
-    forward: jest.fn(),
-    refresh: jest.fn(),
+  useRouter: () => ({ push: jest.fn();
+    back: jest.fn();
+    forward: jest.fn();
+    refresh: jest.fn();
     replace: jest.fn()
   })
 }));
@@ -30,8 +30,8 @@ void jest.mock('@/contexts/AlchemicalContext/hooks');
 void jest.mock('@/hooks/useStatePreservation');
 jest.mock('@/utils/logger', () => ({
   logger: { debug: jest.fn(),
-    info: jest.fn(),
-    warn: jest.fn(),
+    info: jest.fn();
+    warn: jest.fn();
     error: jest.fn()
   }
 }));
@@ -44,7 +44,7 @@ jest.mock('@/components/CuisineRecommender', () => {
     return (<div data-testid='cuisine-recommender'>;
         <h3>Cuisine Recommendations</h3>
         <div className='cuisine-list'>;
-          {['Italian': any, 'Chinese': any, 'Mexican': any, 'Indian'].map(cuisine => (;
+          {['Italian': any, 'Chinese': any, 'Mexican': any, 'Indian'].map(cuisine => (,
             <button
               key={cuisine};
               onClick={() => setSelectedCuisine(cuisine)};
@@ -62,16 +62,16 @@ jest.mock('@/components/CuisineRecommender', () => {
 });
 
 jest.mock('@/components/IngredientRecommender', () => {
-  return function MockIngredientRecommender(: any : any { maxDisplayed = 8 }: { maxDisplayed?: number }) {;
+  return function MockIngredientRecommender(: any) { maxDisplayed = 8 }: { maxDisplayed?: number }) {
     const [selectedIngredients, setSelectedIngredients] = React.useState<string[]>([]);
 
     const ingredients: any = ['Tomatoes', 'Onions', 'Garlic', 'Basil', 'Olive Oil', 'Cheese', 'Pasta', 'Chicken'];
     const displayedIngredients: any = ingredients.slice(0, maxDisplayed);
 
-    const toggleIngredient: any = (ingredient: string) => {;
+    const toggleIngredient: any = (ingredient: string) => {
       setSelectedIngredients(prev =>;
-        void prev.includes(ingredient) ? prev.filter(i => i !== ingredient) : [...prev, ingredient],;
-      );
+        void prev.includes(ingredient) ? prev.filter(i => i !== ingredient) : [...prev, ingredient],
+      ),
     };
 
     return (<div data-testid='ingredient-recommender'>;
@@ -96,10 +96,10 @@ jest.mock('@/components/IngredientRecommender', () => {
 
 jest.mock('@/components/CookingMethodsSection', () => {
   return function MockCookingMethodsSection({
-    maxDisplayed = 6,;
+    maxDisplayed = 6,,
     onViewMore
   }: {
-    maxDisplayed?: number;
+    maxDisplayed?: number,
     onViewMore?: () => void;
   }) {
     const [selectedMethod, setSelectedMethod] = React.useState<string | null>(null);
@@ -133,8 +133,8 @@ jest.mock('@/components/CookingMethodsSection', () => {
 jest.mock('@/components/recipes/RecipeBuilderSimple', () => {
   return function MockRecipeBuilderSimple(): any {
     const [recipeName, setRecipeName] = React.useState('');
-    const [ingredients, setIngredients] = React.useState<string[]>([]);
-    const [steps, setSteps] = React.useState<string[]>([]);
+    const [ingredients, setIngredients] = React.useState<string[]>([]),
+    const [steps, setSteps] = React.useState<string[]>([]),
 
     const addIngredient: React.FC<any> = (props: any) => {
       setIngredients(prev => [...prev, `Ingredient ${prev.length + 1}`]);
@@ -184,18 +184,18 @@ jest.mock('@/components/debug/ConsolidatedDebugInfo', () => {
         <div>Performance: OK</div>
         <div>Astrological State: Active</div>
       </div>
-    );
+    ),
   };
 });
 
 describe('Main Page Integration Tests', () => {
-  const mockAlchemicalContext: any = {;
+  const mockAlchemicalContext: any = {
     state: { astrologicalState: {
         sunSign: 'aries'
       },
       elementalState: { Fire: 0.3,
-        Water: 0.2,
-        Earth: 0.3,
+        Water: 0.2;
+        Earth: 0.3;
         Air: 0.2
       }
     },
@@ -205,11 +205,11 @@ describe('Main Page Integration Tests', () => {
   };
 
   const mockNavigationState = {;
-    saveState: jest.fn(),
+    saveState: jest.fn();
     getState: jest.fn(() => ({}))
   };
 
-  const mockScrollPreservation: any = {;
+  const mockScrollPreservation: any = {
     restoreScrollPosition: jest.fn()
   };
 
@@ -231,12 +231,12 @@ describe('Main Page Integration Tests', () => {
     jest.spyOn(document, 'getElementById').mockImplementation(
       _id =>;
         ({
-          scrollIntoView: jest.fn(),
+          scrollIntoView: jest.fn();
           style: {},
           classList: { add: jest.fn(),
             remove: jest.fn()
           }
-        }) as any,
+        }) as any
     );
   });
 
@@ -380,7 +380,7 @@ describe('Main Page Integration Tests', () => {
       render(
         <MainPageLayout>
           <ErrorComponent />
-        </MainPageLayout>,
+        </MainPageLayout>
       );
     });
 
@@ -453,7 +453,7 @@ describe('Main Page Integration Tests', () => {
   });
 
   it('handles view more navigation', async () => {
-    const mockRouter: any = {;
+    const mockRouter: any = {
       push: jest.fn()
     };
 

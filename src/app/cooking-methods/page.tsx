@@ -11,17 +11,17 @@ import {
   molecularCookingMethods,
   rawCookingMethods,
   traditionalCookingMethods,
-  transformationMethods,
+  transformationMethods;
   wetCookingMethods
 } from '@/data/cooking/methods';
 import type { CookingMethodData } from '@/types/cookingMethod';
 import { capitalizeFirstLetter } from '@/utils/stringUtils';
 
-type MethodCategory = {;
-  name: string;
-  description: string;
-  methods: Record<string, unknown>;
-  icon?: string;
+type MethodCategory = {
+  name: string,
+  description: string,
+  methods: Record<string, unknown>,
+  icon?: string,
 };
 
 const methodCategories: MethodCategory[] = [
@@ -67,22 +67,22 @@ export default function CookingMethodsPage() {
   const router = useRouter();
   const [tabValue, setTabValue] = useState(0);
   const [formattedMethods, setFormattedMethods] = useState<CookingMethodData[]>([]);
-  const [selectedMethodId, setSelectedMethodId] = useState<string | null>(null);
+  const [selectedMethodId, setSelectedMethodId] = useState<string | null>(null),
 
   // Transform method data to match CookingMethodsSection component format
   useEffect(() => {
     if (methodCategories[tabValue]) {
       const categoryMethods = methodCategories[tabValue].methods;
-      const transformed = Object.entries(categoryMethods).map(([key, method]) => {;
+      const transformed = Object.entries(categoryMethods).map(([key, method]) => {
         return {
           id: key,
           name: capitalizeFirstLetter(key.replace(/_/g, ' ')),
-          description: (method as any).description || '',
+          description: (method as any).description || '';
           elementalEffect: (method as any).elementalEffect ||
             (method as any).elementalProperties || {
-              Fire: 0.5,
-              Water: 0.5,
-              Earth: 0.5,
+              Fire: 0.5;
+              Water: 0.5;
+              Earth: 0.5;
               Air: 0.5
             },
           score: Math.random() * 0.5 + 0.5, // Mock score between 0.5-1.0
@@ -97,7 +97,7 @@ export default function CookingMethodsPage() {
                   name: v,
                   description: `Variation of ${capitalizeFirstLetter(key.replace(/_/g, ' '))}`,
                   elementalEffect:
-                    (method as any).elementalEffect || (method as any).elementalProperties,
+                    (method as any).elementalEffect || (method as any).elementalProperties;
                   score: Math.random() * 0.3 + 0.6
                 }))
               : []
@@ -109,11 +109,11 @@ export default function CookingMethodsPage() {
     }
   }, [tabValue]);
 
-  const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {;
+  const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
     setTabValue(newValue);
   };
 
-  const handleSelectMethod = (method: unknown) => {;
+  const handleSelectMethod = (method: unknown) => {
     const methodObj = method as any;
     const methodId = String(methodObj.id || '');
     setSelectedMethodId(methodId);

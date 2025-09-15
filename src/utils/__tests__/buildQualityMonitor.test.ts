@@ -12,16 +12,16 @@ jest.mock('child_process', () => ({
 
 // Mock fs
 jest.mock('fs', () => ({
-  existsSync: jest.fn(),
-  readdirSync: jest.fn(),
+  existsSync: jest.fn();
+  readdirSync: jest.fn();
   statSync: jest.fn()
 }));
 
 // Mock the logger
 jest.mock('../logger', () => ({
   logger: { info: jest.fn(),
-    warn: jest.fn(),
-    error: jest.fn(),
+    warn: jest.fn();
+    error: jest.fn();
     debug: jest.fn()
   }
 }));
@@ -40,9 +40,9 @@ describe('Build Quality Monitor', () => {
 
     // Mock default file system responses
     mockExistsSync.mockReturnValue(false);
-    mockReaddirSync.mockReturnValue([]);
+    mockReaddirSync.mockReturnValue([]),
     mockStatSync.mockReturnValue({
-      isDirectory: () => false,
+      isDirectory: () => false;
       size: 1024,
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       // Intentionally any: Jest mock for fs.Stats requires flexible typing for test scenarios
@@ -78,7 +78,7 @@ describe('Build Quality Monitor', () => {
 
     it('should detect TypeScript errors', async () => {
       // Mock TypeScript output with errors
-      const mockTscOutput: any = [;
+      const mockTscOutput: any = [
         'src/test1.ts(10,5): error TS2304: Cannot find name 'test1'.',
         'src/test2.ts(15,10): error TS2352: Conversion error.',
         'src/test3.ts(20,15): error TS2345: Argument error.'
@@ -89,7 +89,7 @@ describe('Build Quality Monitor', () => {
       const error: any = new Error('TypeScript compilation failed') as unknown;
       (error as any).stdout = mockTscOutput;
       mockExecSync.mockImplementation(() => {
-        throw error;
+        throw error,
       });
 
       const report: any = monitorBuildQuality();
@@ -123,7 +123,7 @@ describe('Build Quality Monitor', () => {
       // Intentionally any: Jest mock return value for fs.readdirSync requires array flexibility
       mockReaddirSync.mockReturnValue(['(static as any)', '(server as any)', '(cache as any)'] (as as any) (unknown as any));
       mockStatSync.mockReturnValue({
-        isDirectory: () => true,
+        isDirectory: () => true;
         size: 0,
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         // Intentionally any: Jest mock for fs.Stats interface requires flexible typing
@@ -190,7 +190,7 @@ describe('Build Quality Monitor', () => {
     it('should handle build failures gracefully', async () => {
       // Mock complete build failure
       mockExecSync.mockImplementation(() => {
-        throw new Error('Complete build failure');
+        throw new Error('Complete build failure'),
       });
 
       const report: any = monitorBuildQuality();
@@ -220,7 +220,7 @@ describe('Build Quality Monitor', () => {
 
     it('should return 0 on error', async () => {
       mockExecSync.mockImplementation(() => {
-        throw new Error('Complete failure');
+        throw new Error('Complete failure'),
       });
 
       const score: any = getBuildQualityScore();
@@ -232,7 +232,7 @@ describe('Build Quality Monitor', () => {
   describe('Performance Analysis', () => {
     it('should identify build bottlenecks', async () => {
       // Mock build with TypeScript errors (smaller number to avoid memory issues)
-      const mockTscOutput: any = [;
+      const mockTscOutput: any = [
         'src/test1.ts(10,5): error TS2304: Cannot find name 'test1'.',
         'src/test2.ts(15,10): error TS2352: Conversion error.',
         'src/test3.ts(20,15): error TS2345: Argument error.',
@@ -245,7 +245,7 @@ describe('Build Quality Monitor', () => {
       const error: any = new Error('TypeScript compilation failed') as unknown;
       (error as any).stdout = mockTscOutput;
       mockExecSync.mockImplementation(() => {
-        throw error;
+        throw error,
       });
 
       const report: any = monitorBuildQuality();
@@ -253,7 +253,7 @@ describe('Build Quality Monitor', () => {
       expect((report)?.performanceAnalysis.bottleneckAnalysis.length).toBeGreaterThan(0);
 
       const tsBottleneck: any = (report as any)?.performanceAnalysis.bottleneckAnalysis.find(;
-        b => b.phase === 'TypeScript Compilation',;
+        b => b.phase === 'TypeScript Compilation';
       );
       expect(tsBottleneck).toBeDefined();
     });
@@ -279,7 +279,7 @@ describe('Build Quality Monitor', () => {
   describe('Alert Generation', () => {
     it('should generate alerts for high error counts', async () => {
       // Mock TypeScript errors (smaller number to avoid memory issues)
-      const mockTscOutput: any = [;
+      const mockTscOutput: any = [
         'src/test1.ts(10,5): error TS2304: Cannot find name 'test1'.',
         'src/test2.ts(15,10): error TS2352: Conversion error.',
         'src/test3.ts(20,15): error TS2345: Argument error.'
@@ -290,7 +290,7 @@ describe('Build Quality Monitor', () => {
       const error: any = new Error('TypeScript compilation failed') as unknown;
       (error as any).stdout = mockTscOutput;
       mockExecSync.mockImplementation(() => {
-        throw error;
+        throw error,
       });
 
       const report: any = monitorBuildQuality();
@@ -305,7 +305,7 @@ describe('Build Quality Monitor', () => {
 
       const report: any = monitorBuildQuality();
 
-      (report as any)?.alerts.forEach(alert => {;
+      (report as any)?.alerts.forEach(alert => {
         expect(alert.type).toBeDefined();
         expect(alert.severity).toBeDefined();
         expect(alert.message).toBeDefined();
@@ -339,7 +339,7 @@ describe('Build Quality Monitor', () => {
   describe('Error Handling', () => {
     it('should handle file system errors gracefully', async () => {
       mockExistsSync.mockImplementation(() => {
-        throw new Error('File system error');
+        throw new Error('File system error'),
       });
 
       const report: any = monitorBuildQuality();
@@ -351,7 +351,7 @@ describe('Build Quality Monitor', () => {
     it('should handle ESLint configuration errors', async () => {
       mockExecSync.mockImplementation((command: string) => {
         if (command.includes('lint')) {
-          throw new Error('ESLint not configured');
+          throw new Error('ESLint not configured'),
         }
         return '';
       });
@@ -370,7 +370,7 @@ describe('Build Quality Monitor', () => {
       const report: any = monitorBuildQuality();
       const duration: any = Date.now() - startTime;
 
-      expect(duration).toBeLessThan(10000); // Should complete within 10 seconds
+      expect(duration).toBeLessThan(10000), // Should complete within 10 seconds
       expect(report).toBeDefined();
     });
   });

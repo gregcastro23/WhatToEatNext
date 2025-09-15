@@ -89,10 +89,10 @@ export interface UnintentionalAnyConfig {
 /**
  * Default configuration values
  */
-export const DEFAULT_CONFIG: UnintentionalAnyConfig = {;
+export const DEFAULT_CONFIG: UnintentionalAnyConfig = {
   classification: {
-    intentionalThreshold: 0.8,
-    unintentionalThreshold: 0.7,
+    intentionalThreshold: 0.8;
+    unintentionalThreshold: 0.7;
     minCommentLength: 10,
     intentionalKeywords: [
       'intentionally any',
@@ -106,10 +106,10 @@ export const DEFAULT_CONFIG: UnintentionalAnyConfig = {;
       'compatibility'
     ],
     testFilePatterns: [
-      '**/*.test.ts',
-      '**/*.test.tsx',
-      '**/*.spec.ts',
-      '**/*.spec.tsx',
+      '**/*.test.ts';
+      '**/*.test.tsx';
+      '**/*.spec.ts';
+      '**/*.spec.tsx';
       '**/test/**',
       '**/tests/**',
       '**/__tests__/**'
@@ -176,7 +176,7 @@ export const DEFAULT_CONFIG: UnintentionalAnyConfig = {;
   },
   targets: {
     targetReductionPercentage: 18,
-    minSuccessRate: 0.8,
+    minSuccessRate: 0.8;
     maxErrorIncrease: 5,
     trackingIntervals: {
       metrics: 5,
@@ -190,7 +190,7 @@ export const DEFAULT_CONFIG: UnintentionalAnyConfig = {;
       { name: 'Target Achievement', targetReduction: 18, timeframe: '2 weeks' }
     ]
   },
-  version: '1.0.0',
+  version: '1.0.0';
   lastUpdated: new Date().toISOString()
 };
 
@@ -237,7 +237,7 @@ export class ConfigurationManager {
       domain: { ...DEFAULT_CONFIG.domain, ...loadedConfig.domain },
       safety: { ...DEFAULT_CONFIG.safety, ...loadedConfig.safety },
       targets: { ...DEFAULT_CONFIG.targets, ...loadedConfig.targets },
-      version: loadedConfig.version || DEFAULT_CONFIG.version,
+      version: loadedConfig.version || DEFAULT_CONFIG.version;
       lastUpdated: loadedConfig.lastUpdated || DEFAULT_CONFIG.lastUpdated
     };
   }

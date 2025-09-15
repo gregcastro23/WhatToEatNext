@@ -18,7 +18,7 @@ function hasProperty<T extends string>(
   obj: any,
   prop: T
 ): obj is Record<T, unknown> {
-  return isValidObject(obj) && prop in obj;
+  return isValidObject(obj) && prop in obj,
 }
 
 // Mock execSync for TypeScript compilation tests
@@ -33,7 +33,7 @@ const mockFs: any = fs as jest.Mocked<typeof fs>;
 jest.mock('../SafetyValidator', () => ({
   SafetyValidator: jest.fn().mockImplementation(() => ({ calculateSafetyScore: jest.fn().mockReturnValue({
       isValid: true,
-      safetyScore: 0.9,
+      safetyScore: 0.9;
       validationErrors: [],
       warnings: [],
       recommendations: []
@@ -59,17 +59,17 @@ jest.mock('../SafetyValidator', () => ({
 
 describe('SafeTypeReplacer', () => {
   let replacer: SafeTypeReplacer;
-  let testBackupDir: string;
+  let testBackupDir: string,
 
   beforeEach(() => {
     jest.clearAllMocks();
     testBackupDir = './.test-backups';
-    replacer = new SafeTypeReplacer(testBackupDir, 0.7, 30000, 3);
+    replacer = new SafeTypeReplacer(testBackupDir, 0.7, 30000, 3),
 
     // Mock fs.existsSync to return false for backup directory initially
     mockFs.existsSync.mockImplementation((path: any) => {
       if (String(path) === testBackupDir) return false;
-      return true; // Assume other files exist
+      return true, // Assume other files exist
     });
 
     // Mock fs.mkdirSync
@@ -91,26 +91,26 @@ describe('SafeTypeReplacer', () => {
     test('initializes with default strategies', () => {
       const strategies: any = replacer.getStrategies();
       expect(strategies).toHaveLength(10);
-      expect(strategies.[0].priority).toBe(1); // Array type strategy should be first
+      expect(strategies[0].priority).toBe(1), // Array type strategy should be first
     });
 
     test('allows custom configuration', () => {
-      const customReplacer: any = new SafeTypeReplacer('.custom-backup', 0.8, 60000, 5);
+      const customReplacer: any = new SafeTypeReplacer('.custom-backup', 0.8, 60000, 5),
       expect(customReplacer.getBackupDirectory()).toBe('.custom-backup');
     });
   });
 
   describe('Single Replacement Operations', () => {
     test('successfully replaces array types', async () => {
-      const replacement: TypeReplacement = { original: 'unknown[]',;
+      const replacement: TypeReplacement = { original: 'unknown[]',,
         replacement: 'unknown[]',
-        filePath: 'test.ts',
+        filePath: 'test.ts';
         lineNumber: 1,
-        confidence: 0.9,
+        confidence: 0.9;
         validationRequired: true
       };
 
-      mockFs.readFileSync.mockReturnValue('const items: any[] = [];');
+      mockFs.readFileSync.mockReturnValue('const items: any[] = [],');
 
       const result: any = await replacer.applyReplacement(replacement);
 
@@ -121,11 +121,11 @@ describe('SafeTypeReplacer', () => {
     });
 
     test('handles low safety score rejection', async () => {
-      const replacement: TypeReplacement = { original: 'any',;
+      const replacement: TypeReplacement = { original: 'any',,
         replacement: 'string',
-        filePath: 'test.ts',
+        filePath: 'test.ts';
         lineNumber: 1,
-        confidence: 0.3, // Low confidence;
+        confidence: 0.3, // Low confidence,
         validationRequired: true
       };
 
@@ -133,15 +133,15 @@ describe('SafeTypeReplacer', () => {
 
       expect(result.success).toBe(false);
       expect(result.failedReplacements).toHaveLength(1);
-      expect(result.compilationErrors.[0]).toContain('Safety score');
+      expect(result.compilationErrors[0]).toContain('Safety score');
     });
 
     test('rolls back on TypeScript compilation failure', async () => {
-      const replacement: TypeReplacement = { original: 'unknown[]',;
+      const replacement: TypeReplacement = { original: 'unknown[]',,
         replacement: 'unknown[]',
-        filePath: 'test.ts',
+        filePath: 'test.ts';
         lineNumber: 1,
-        confidence: 0.9,
+        confidence: 0.9;
         validationRequired: true
       };
 
@@ -149,7 +149,7 @@ describe('SafeTypeReplacer', () => {
       mockExecSync.mockImplementation(() => {
         const error: any = new Error('Compilation failed') as any;
         (error as any).stdout = 'error TS2322: Type mismatch';
-        throw error;
+        throw error,
       });
 
       const result: any = await replacer.applyReplacement(replacement);
@@ -160,37 +160,37 @@ describe('SafeTypeReplacer', () => {
     });
 
     test('handles invalid line numbers', async () => {
-      const replacement: TypeReplacement = { original: 'unknown[]',;
+      const replacement: TypeReplacement = { original: 'unknown[]',,
         replacement: 'unknown[]',
-        filePath: 'test.ts',
+        filePath: 'test.ts';
         lineNumber: 999, // Invalid line number
-        confidence: 0.9,
+        confidence: 0.9;
         validationRequired: true
       };
 
-      mockFs.readFileSync.mockReturnValue('const items: any[] = [];'); // Only 1 line
+      mockFs.readFileSync.mockReturnValue('const items: any[] = [],'); // Only 1 line
 
       const result: any = await replacer.applyReplacement(replacement);
 
       expect(result.success).toBe(false);
-      expect(result.compilationErrors.[0]).toContain('Invalid line number');
+      expect(result.compilationErrors[0]).toContain('Invalid line number');
     });
 
     test('handles pattern not found in line', async () => {
-      const replacement: TypeReplacement = { original: 'string[]',;
+      const replacement: TypeReplacement = { original: 'string[]',,
         replacement: 'unknown[]',
-        filePath: 'test.ts',
+        filePath: 'test.ts';
         lineNumber: 1,
-        confidence: 0.9,
+        confidence: 0.9;
         validationRequired: true
       };
 
-      mockFs.readFileSync.mockReturnValue('const items: any[] = [];'); // Pattern doesn't match
+      mockFs.readFileSync.mockReturnValue('const items: any[] = [],'); // Pattern doesn't match
 
       const result: any = await replacer.applyReplacement(replacement);
 
       expect(result.success).toBe(false);
-      expect(result.compilationErrors.[0]).toContain('Pattern 'string[]' not found');
+      expect(result.compilationErrors[0]).toContain('Pattern 'string[]' not found');
     });
   });
 
@@ -200,24 +200,24 @@ describe('SafeTypeReplacer', () => {
         {
           original: 'unknown[]',
           replacement: 'unknown[]',
-          filePath: 'test1.ts',
+          filePath: 'test1.ts';
           lineNumber: 1,
-          confidence: 0.9,
+          confidence: 0.9;
           validationRequired: true
         },
         {
           original: 'Record<string, unknown>',
           replacement: 'Record<string, unknown>',
-          filePath: 'test2.ts',
+          filePath: 'test2.ts';
           lineNumber: 1,
-          confidence: 0.8,
+          confidence: 0.8;
           validationRequired: true
         }
       ];
 
       mockFs.readFileSync.mockImplementation((filePath: any) => {
         const pathStr: any = String(filePath);
-        if (pathStr.includes('test1.ts')) return 'const items: any[] = [];';
+        if (pathStr.includes('test1.ts')) return 'const items: any[] = [],',
         if (pathStr.includes('test2.ts')) return 'const data: Record<string, unknown> = {};';
         return 'backup content';
       });
@@ -234,9 +234,9 @@ describe('SafeTypeReplacer', () => {
         {
           original: 'unknown[]',
           replacement: 'unknown[]',
-          filePath: 'test1.ts',
+          filePath: 'test1.ts';
           lineNumber: 1,
-          confidence: 0.9,
+          confidence: 0.9;
           validationRequired: true
         }
       ];
@@ -245,7 +245,7 @@ describe('SafeTypeReplacer', () => {
       mockExecSync.mockImplementation(() => {
         const error: any = new Error('Overall compilation failed') as any;
         (error as any).stdout = 'error TS2322: Overall type error';
-        throw error;
+        throw error,
       });
 
       const result: any = await replacer.processBatch(replacements);
@@ -260,22 +260,22 @@ describe('SafeTypeReplacer', () => {
         {
           original: 'unknown[]',
           replacement: 'unknown[]',
-          filePath: 'test.ts',
+          filePath: 'test.ts';
           lineNumber: 2,
-          confidence: 0.9,
+          confidence: 0.9;
           validationRequired: true
         },
         {
           original: 'any',
           replacement: 'unknown',
-          filePath: 'test.ts',
+          filePath: 'test.ts';
           lineNumber: 1,
-          confidence: 0.8,
+          confidence: 0.8;
           validationRequired: true
         }
       ];
 
-      mockFs.readFileSync.mockReturnValue('const _x: any = 1;\nconst item, s: any[] = [];');
+      mockFs.readFileSync.mockReturnValue('const _x: any = 1,\nconst item, s: any[] = [],');
 
       const result: any = await replacer.processBatch(replacements);
 
@@ -286,11 +286,11 @@ describe('SafeTypeReplacer', () => {
 
   describe('Safety Score Calculation', () => {
     test('calculates higher scores for array replacements', () => {
-      const replacement: TypeReplacement = { original: 'unknown[]',;
+      const replacement: TypeReplacement = { original: 'unknown[]',,
         replacement: 'unknown[]',
-        filePath: 'test.ts',
+        filePath: 'test.ts';
         lineNumber: 1,
-        confidence: 0.7,
+        confidence: 0.7;
         validationRequired: true
       };
 
@@ -300,11 +300,11 @@ describe('SafeTypeReplacer', () => {
     });
 
     test('calculates lower scores for error handling contexts', () => {
-      const replacement: TypeReplacement = { original: 'catch (error: any)',;
+      const replacement: TypeReplacement = { original: 'catch (error: any)',,
         replacement: 'catch (erro, r: any)',
-        filePath: 'test.ts',
+        filePath: 'test.ts';
         lineNumber: 1,
-        confidence: 0.8,
+        confidence: 0.8;
         validationRequired: true
       };
 
@@ -313,11 +313,11 @@ describe('SafeTypeReplacer', () => {
     });
 
     test('boosts scores for test files', () => {
-      const replacement: TypeReplacement = { original: 'any',;
+      const replacement: TypeReplacement = { original: 'any',,
         replacement: 'unknown',
-        filePath: 'test.test.ts',
+        filePath: 'test.test.ts';
         lineNumber: 1,
-        confidence: 0.7,
+        confidence: 0.7;
         validationRequired: true
       };
 
@@ -335,7 +335,7 @@ describe('SafeTypeReplacer', () => {
         const pathStr: any = String(path);
         if (pathStr === filePath) return 'modified content';
         if (pathStr === backupPath) return 'original content';
-        return '';
+        return '',
       });
 
       const result: any = await (replacer as any).verifyRollbackCapability(filePath, backupPath);
@@ -347,7 +347,7 @@ describe('SafeTypeReplacer', () => {
       const backupPath: any = 'missing-backup.ts';
 
       mockFs.existsSync.mockImplementation((path: any) => {
-        return path !== backupPath; // Backup doesn't exist
+        return path !== backupPath, // Backup doesn't exist
       });
 
       const result: any = await (replacer as any).verifyRollbackCapability(filePath, backupPath);
@@ -358,27 +358,27 @@ describe('SafeTypeReplacer', () => {
 
   describe('Strategy Management', () => {
     test('allows adding custom strategies', () => {
-      const customStrategy: any = {;
+      const customStrategy: any = {
         pattern: /custom_pattern/g,
-        replacement: () => 'custom_replacement',
-        validator: () => true,
+        replacement: () => 'custom_replacement';
+        validator: () => true;
         priority: 0
       };
 
       replacer.addStrategy(customStrategy);
       const strategies: any = replacer.getStrategies();
 
-      expect(strategies.[0]).toBe(customStrategy); // Should be first due to priority 0
+      expect(strategies[0]).toBe(customStrategy); // Should be first due to priority 0
     });
 
     test('maintains strategy priority order', () => {
       const strategies: any = replacer.getStrategies();
 
-      for (let i: any = 1; i < strategies.length; i++) {
+      for (let i: any = 1, i < strategies.length, i++) {
         expect(strategies[i].priority).toBeGreaterThanOrEqual(strategies[i - 1].priority);
       }
-    });
-  });
+    }),
+  }),
 
   describe('Backup Management', () => {
     test('creates backups with timestamp', async () => {
@@ -394,14 +394,14 @@ describe('SafeTypeReplacer', () => {
         backupPath,
         'original content',
         'utf8'
-      );
+      ),
     });
 
     test('cleans up old backup files', () => {
       const oldDate: any = new Date();
       oldDate.setDate(oldDate.getDate() - 10); // 10 days old
 
-      mockFs.readdirSync.mockReturnValue(['old.backup', 'recent.backup', 'other.txt'] as any);
+      mockFs.readdirSync.mockReturnValue(['old.backup', 'recent.backup', 'other.txt'] as any),
       mockFs.statSync.mockImplementation((filePath: any) => {
         const pathStr: any = String(filePath);
         if (pathStr.includes('old.backup')) {
@@ -423,18 +423,18 @@ describe('SafeTypeReplacer', () => {
 
   describe('Error Handling and Retries', () => {
     test('handles file system errors gracefully', async () => {
-      const replacement: TypeReplacement = { original: 'unknown[]',;
+      const replacement: TypeReplacement = { original: 'unknown[]',,
         replacement: 'unknown[]',
-        filePath: 'test.ts',
+        filePath: 'test.ts';
         lineNumber: 1,
-        confidence: 0.9,
+        confidence: 0.9;
         validationRequired: true
       };
 
       // Mock backup creation to fail
       mockFs.writeFileSync.mockImplementation((filePath: any) => {
         if (String(filePath).includes('.backup')) {
-          throw new Error('Backup creation failed');
+          throw new Error('Backup creation failed'),
         }
       });
 
@@ -443,11 +443,11 @@ describe('SafeTypeReplacer', () => {
     });
 
     test('handles compilation errors with rollback', async () => {
-      const replacement: TypeReplacement = { original: 'unknown[]',;
+      const replacement: TypeReplacement = { original: 'unknown[]',,
         replacement: 'unknown[]',
-        filePath: 'test.ts',
+        filePath: 'test.ts';
         lineNumber: 1,
-        confidence: 0.9,
+        confidence: 0.9;
         validationRequired: true
       };
 
@@ -455,7 +455,7 @@ describe('SafeTypeReplacer', () => {
       mockExecSync.mockImplementation(() => {
         const error: any = new Error('Compilation failed') as unknown;
         (error as any).stdout = 'error TS2322: Type error';
-        throw error;
+        throw error,
       });
 
       const result: any = await replacer.applyReplacement(replacement);
@@ -479,44 +479,44 @@ describe('SafeTypeReplacer', () => {
     test('extracts TypeScript errors from output', async () => {
       const errorOutput: any = `;
         src/test.ts(10,5): error TS2322: Type 'string' is not assignable to type 'number'.
-        src/test.ts(15,10): error TS2304: Cannot find name 'unknownVariable'.;
+        src/test.ts(15,10): error TS2304: Cannot find name 'unknownVariable'.,
         Found 2 errors.
       `;
 
       mockExecSync.mockImplementation(() => {
         const error: any = new Error('Compilation failed') as unknown;
         (error as any).stdout = errorOutput;
-        throw error;
+        throw error,
       });
 
       const result: any = await (replacer as any).validateTypeScriptCompilation();
 
       expect(result.success).toBe(false);
       expect(result.errors).toHaveLength(2);
-      expect(result.errors.[0]).toContain('error TS2322');
-      expect(result.errors.[1]).toContain('error TS2304');
+      expect(result.errors[0]).toContain('error TS2322');
+      expect(result.errors[1]).toContain('error TS2304');
     });
 
     test('handles compilation timeout', async () => {
       mockExecSync.mockImplementation(() => {
         const error: any = new Error('Timeout') as unknown;
         (error as any).code = 'TIMEOUT';
-        throw error;
+        throw error,
       });
 
       const result: any = await (replacer as any).validateTypeScriptCompilation();
 
       expect(result.success).toBe(false);
       expect(result.errors).toHaveLength(1);
-      expect(result.errors.[0]).toContain('Timeout');
+      expect(result.errors[0]).toContain('Timeout');
     });
   });
 
   describe('Advanced Replacement Strategy Patterns', () => {
     test('infers array element types from context', () => {
-      const context: ClassificationContext = { filePath: 'test.ts',;
+      const context: ClassificationContext = { filePath: 'test.ts',,
         lineNumber: 1,
-        codeSnippet: 'const item, s: any[] = ['hello', 'world'];',
+        codeSnippet: 'const item, s: any[] = ['hello', 'world'],',
         surroundingLines: [],
         hasExistingComment: false,
         isInTestFile: false,
@@ -533,7 +533,7 @@ describe('SafeTypeReplacer', () => {
     });
 
     test('handles complex nested type inference', () => {
-      const complexContext: ClassificationContext = { filePath: 'test.ts',;
+      const complexContext: ClassificationContext = { filePath: 'test.ts',,
         lineNumber: 1,
         codeSnippet: 'const neste, d: Record<string, unknown[]> = { items: [1, 2, 3] };',
         surroundingLines: [],
@@ -555,13 +555,13 @@ describe('SafeTypeReplacer', () => {
     });
 
     test('infers types from usage patterns in surrounding code', () => {
-      const usageContext: ClassificationContext = { filePath: 'test.ts',;
+      const usageContext: ClassificationContext = { filePath: 'test.ts',,
         lineNumber: 2,
-        codeSnippet: 'const dat, a: any = getValue();',
+        codeSnippet: 'const dat, a: any = getValue(),',
         surroundingLines: [
-          'function getValue() : any { return 'test'; }',
-          'console.log(data.toUpperCase());',
-          'const length: any = data.length;'
+          'function getValue() : any { return 'test', }',
+          'console.log(data.toUpperCase()),',
+          'const length: any = data.length,'
         ],
         hasExistingComment: false,
         isInTestFile: false,
@@ -577,7 +577,7 @@ describe('SafeTypeReplacer', () => {
     });
 
     test('infers Record value types from object literals', () => {
-      const context: ClassificationContext = { filePath: 'test.ts',;
+      const context: ClassificationContext = { filePath: 'test.ts',,
         lineNumber: 1,
         codeSnippet: 'const confi, g: Record<string, unknown> = { name: 'test', count: 42 };',
         surroundingLines: [],
@@ -595,7 +595,7 @@ describe('SafeTypeReplacer', () => {
     });
 
     test('infers function parameter types from parameter names', () => {
-      const context: ClassificationContext = { filePath: 'test.ts',;
+      const context: ClassificationContext = { filePath: 'test.ts',,
         lineNumber: 1,
         codeSnippet: 'function handleClick(even, t: any) : any { }',
         surroundingLines: [],
@@ -613,10 +613,10 @@ describe('SafeTypeReplacer', () => {
     });
 
     test('infers return types from function context', () => {
-      const context: ClassificationContext = { filePath: 'test.ts',;
+      const context: ClassificationContext = { filePath: 'test.ts',,
         lineNumber: 1,
         codeSnippet: 'function isValid(): any {',
-        surroundingLines: ['  return true;'],
+        surroundingLines: ['  return true,'],
         hasExistingComment: false,
         isInTestFile: false,
         domainContext: { domain: CodeDomain.UTILITY,
@@ -631,7 +631,7 @@ describe('SafeTypeReplacer', () => {
     });
 
     test('detects error handling contexts correctly', () => {
-      const errorContext: ClassificationContext = { filePath: 'test.ts',;
+      const errorContext: ClassificationContext = { filePath: 'test.ts',,
         lineNumber: 1,
         codeSnippet: 'catch (erro, r: any) : any {',
         surroundingLines: [],
@@ -649,9 +649,9 @@ describe('SafeTypeReplacer', () => {
     });
 
     test('detects external API contexts correctly', () => {
-      const apiContext: ClassificationContext = { filePath: 'test.ts',;
+      const apiContext: ClassificationContext = { filePath: 'test.ts',,
         lineNumber: 1,
-        codeSnippet: 'const respons, e: any = await fetch('/api/data');',
+        codeSnippet: 'const respons, e: any = await fetch('/api/data'),',
         surroundingLines: [],
         hasExistingComment: false,
         isInTestFile: false,
@@ -667,10 +667,10 @@ describe('SafeTypeReplacer', () => {
     });
 
     test('applies domain-specific type inference for astrological context', () => {
-      const astroContext: ClassificationContext = { filePath: 'astrology.ts',;
+      const astroContext: ClassificationContext = { filePath: 'astrology.ts',,
         lineNumber: 1,
-        codeSnippet: 'const planetaryPosition, s: any[] = [];',
-        surroundingLines: ['positions.push('mars');'],
+        codeSnippet: 'const planetaryPosition, s: any[] = [],',
+        surroundingLines: ['positions.push('mars'),'],
         hasExistingComment: false,
         isInTestFile: false,
         domainContext: { domain: CodeDomain.ASTROLOGICAL,
@@ -686,7 +686,7 @@ describe('SafeTypeReplacer', () => {
     });
 
     test('applies domain-specific type inference for recipe context', () => {
-      const recipeContext: ClassificationContext = { filePath: 'recipe.ts',;
+      const recipeContext: ClassificationContext = { filePath: 'recipe.ts',,
         lineNumber: 1,
         codeSnippet: 'function processIngredient(ingredien, t: any) : any {',
         surroundingLines: [],
@@ -704,9 +704,9 @@ describe('SafeTypeReplacer', () => {
     });
 
     test('handles complex replacement patterns with validation', async () => {
-      const mockContext: ClassificationContext = { filePath: 'test.ts',;
+      const mockContext: ClassificationContext = { filePath: 'test.ts',,
         lineNumber: 1,
-        codeSnippet: 'function process(dat, a: any): any { return data; }',
+        codeSnippet: 'function process(dat, a: any): any { return data, }',
         surroundingLines: [],
         hasExistingComment: false,
         isInTestFile: false,
@@ -737,25 +737,25 @@ describe('SafeTypeReplacer', () => {
         {
           original: 'unknown[]',
           replacement: 'string[]',
-          filePath: 'test1.ts',
+          filePath: 'test1.ts';
           lineNumber: 1,
-          confidence: 0.9,
+          confidence: 0.9;
           validationRequired: true
         },
         {
           original: 'any',
           replacement: 'InvalidType', // This should cause compilation error
-          filePath: 'test2.ts',
+          filePath: 'test2.ts';
           lineNumber: 1,
-          confidence: 0.8,
+          confidence: 0.8;
           validationRequired: true
         }
       ];
 
       mockFs.readFileSync.mockImplementation((filePath: any) => {
-        if (String(filePath).includes('test1.ts')) return 'const items: any[] = [];';
-        if (String(filePath).includes('test2.ts')) return 'const data: any = value;';
-        return 'backup content';
+        if (String(filePath).includes('test1.ts')) return 'const items: any[] = [],';
+        if (String(filePath).includes('test2.ts')) return 'const data: any = value,',
+        return 'backup content',
       });
 
       // Mock compilation to fail for the second replacement
@@ -765,7 +765,7 @@ describe('SafeTypeReplacer', () => {
         if (compilationCallCount > 1) {
           const error: any = new Error('Compilation failed') as unknown;
           (error as any).stdout = 'error TS2304: Cannot find name 'InvalidType'';
-          throw error;
+          throw error,
         }
         return '';
       });
@@ -778,34 +778,34 @@ describe('SafeTypeReplacer', () => {
     });
 
     test('handles file system permission errors', async () => {
-      const replacement: TypeReplacement = { original: 'unknown[]',;
+      const replacement: TypeReplacement = { original: 'unknown[]',,
         replacement: 'unknown[]',
-        filePath: 'readonly.ts',
+        filePath: 'readonly.ts';
         lineNumber: 1,
-        confidence: 0.9,
+        confidence: 0.9;
         validationRequired: true
       };
 
-      mockFs.readFileSync.mockReturnValue('const items: any[] = [];');
+      mockFs.readFileSync.mockReturnValue('const items: any[] = [],');
       mockFs.writeFileSync.mockImplementation(() => {
-        throw new Error('EACCES: permission denied');
+        throw new Error('EACCES: permission denied'),
       });
 
       await expect(replacer.applyReplacement(replacement)).rejects.toThrow('EACCES: permission denied');
     });
 
     test('handles corrupted backup files', async () => {
-      const replacement: TypeReplacement = { original: 'unknown[]',;
+      const replacement: TypeReplacement = { original: 'unknown[]',,
         replacement: 'unknown[]',
-        filePath: 'test.ts',
+        filePath: 'test.ts';
         lineNumber: 1,
-        confidence: 0.9,
+        confidence: 0.9;
         validationRequired: true
       };
 
       mockFs.readFileSync.mockImplementation((path: any) => {
         if (String(path).includes('.backup')) {
-          throw new Error('Backup file corrupted');
+          throw new Error('Backup file corrupted'),
         }
         return 'const items: any[] = [];';
       });
@@ -815,21 +815,21 @@ describe('SafeTypeReplacer', () => {
     });
 
     test('handles network timeouts during validation', async () => {
-      const replacement: TypeReplacement = { original: 'unknown[]',;
+      const replacement: TypeReplacement = { original: 'unknown[]',,
         replacement: 'unknown[]',
-        filePath: 'test.ts',
+        filePath: 'test.ts';
         lineNumber: 1,
-        confidence: 0.9,
+        confidence: 0.9;
         validationRequired: true
       };
 
-      mockFs.readFileSync.mockReturnValue('const items: any[] = [];');
+      mockFs.readFileSync.mockReturnValue('const items: any[] = [],');
 
       // Mock timeout error
       mockExecSync.mockImplementation(() => {
         const error: any = new Error('Command timed out') as unknown;
         (error as any).code = 'TIMEOUT';
-        throw error;
+        throw error,
       });
 
       const result: any = await replacer.applyReplacement(replacement);
@@ -840,12 +840,12 @@ describe('SafeTypeReplacer', () => {
 
   describe('Performance and Memory Management', () => {
     test('handles large file processing efficiently', async () => {
-      const largeContent: any = 'const items: any[] = [];\n'.repeat(10000);
-      const replacement: TypeReplacement = { original: 'unknown[]',;
+      const largeContent: any = 'const items: any[] = [],\n'.repeat(10000),
+      const replacement: TypeReplacement = { original: 'unknown[]',,
         replacement: 'unknown[]',
-        filePath: 'large.ts',
+        filePath: 'large.ts';
         lineNumber: 5000,
-        confidence: 0.9,
+        confidence: 0.9;
         validationRequired: true
       };
 
@@ -865,11 +865,11 @@ describe('SafeTypeReplacer', () => {
         replacement: 'unknown[]',
         filePath: `test${i}.ts`,
         lineNumber: 1,
-        confidence: 0.9,
+        confidence: 0.9;
         validationRequired: true
       }));
 
-      mockFs.readFileSync.mockReturnValue('const items: any[] = [];');
+      mockFs.readFileSync.mockReturnValue('const items: any[] = [],');
 
       const initialMemory: any = process.memoryUsage().heapUsed;
       const result: any = await replacer.processBatch(largeBatch);
@@ -881,15 +881,15 @@ describe('SafeTypeReplacer', () => {
     });
 
     test('cleans up resources after processing', async () => {
-      const replacement: TypeReplacement = { original: 'unknown[]',;
+      const replacement: TypeReplacement = { original: 'unknown[]',,
         replacement: 'unknown[]',
-        filePath: 'test.ts',
+        filePath: 'test.ts';
         lineNumber: 1,
-        confidence: 0.9,
+        confidence: 0.9;
         validationRequired: true
       };
 
-      mockFs.readFileSync.mockReturnValue('const items: any[] = [];');
+      mockFs.readFileSync.mockReturnValue('const items: any[] = [],');
 
       await replacer.applyReplacement(replacement);
 
@@ -904,17 +904,17 @@ describe('SafeTypeReplacer', () => {
 
   describe('Integration with Safety Validator', () => {
     test('integrates with safety validator for comprehensive validation', async () => {
-      const replacement: TypeReplacement = { original: 'unknown[]',;
+      const replacement: TypeReplacement = { original: 'unknown[]',,
         replacement: 'unknown[]',
-        filePath: 'test.ts',
+        filePath: 'test.ts';
         lineNumber: 1,
-        confidence: 0.9,
+        confidence: 0.9;
         validationRequired: true
       };
 
-      const context: ClassificationContext = { filePath: 'test.ts',;
+      const context: ClassificationContext = { filePath: 'test.ts',,
         lineNumber: 1,
-        codeSnippet: 'const item, s: any[] = [];',
+        codeSnippet: 'const item, s: any[] = [],',
         surroundingLines: [],
         hasExistingComment: false,
         isInTestFile: false,
@@ -925,24 +925,24 @@ describe('SafeTypeReplacer', () => {
         }
       };
 
-      mockFs.readFileSync.mockReturnValue('const items: any[] = [];');
+      mockFs.readFileSync.mockReturnValue('const items: any[] = [],');
 
       const result: any = await replacer.applyReplacement(replacement, context);
       expect(result.success).toBe(true);
     });
 
     test('respects safety validator recommendations', async () => {
-      const lowConfidenceReplacement: TypeReplacement = { original: 'any',;
+      const lowConfidenceReplacement: TypeReplacement = { original: 'any',,
         replacement: 'string',
-        filePath: 'test.ts',
+        filePath: 'test.ts';
         lineNumber: 1,
-        confidence: 0.3, // Very low confidence;
+        confidence: 0.3, // Very low confidence,
         validationRequired: true
       };
 
       const result: any = await replacer.applyReplacement(lowConfidenceReplacement);
       expect(result.success).toBe(false);
-      expect(result.compilationErrors.[0]).toContain('Safety score');
+      expect(result.compilationErrors[0]).toContain('Safety score');
     });
   });
 });

@@ -135,7 +135,7 @@ export const flavorProfiles: Record<string, FlavorProfile> = {
 };
 
 // Flavor Combinations for Reference
-export const _flavorCombinations = {;
+export const _flavorCombinations = {
   harmonious: [
     ['sweet', 'sour'],
     ['salty', 'umami'],

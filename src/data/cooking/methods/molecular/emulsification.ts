@@ -5,7 +5,7 @@ import type { CookingMethod } from '@/types/shared';
  * Emulsification: A molecular gastronomy technique for creating stable mixtures
  * of normally immiscible liquids, such as oil and water
  */
-export const emulsification: CookingMethodData = {;
+export const emulsification: CookingMethodData = {
   name: 'Emulsification' as CookingMethod,
   description:
     'A technique that combines normally immiscible liquids, such as oil and water, into a stable, homogeneous mixture through the use of emulsifiers, agitation, or specialized equipment.',

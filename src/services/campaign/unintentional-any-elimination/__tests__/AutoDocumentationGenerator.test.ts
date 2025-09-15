@@ -18,20 +18,20 @@ const mockFs: any = fs as jest.Mocked<typeof fs>;
 describe('AutoDocumentationGenerator', () => {
   let generator: AutoDocumentationGeneratorImpl;
   let mockContext: ClassificationContext;
-  let mockClassification: AnyTypeClassification;
+  let mockClassification: AnyTypeClassification,
 
   beforeEach(() => {
     generator = new AutoDocumentationGeneratorImpl();
 
-    mockContext = {;
-      filePath: '/test/file.ts',
+    mockContext = {
+      filePath: '/test/file.ts';
       lineNumber: 10,
-      codeSnippet: 'const dat, a: any = response;',
+      codeSnippet: 'const dat, a: any = response,',
       surroundingLines: [
         'function processResponse() : any {',
         '  try {',
-        '    const data: any = response;',
-        '    return data.result;',
+        '    const data: any = response,',
+        '    return data.result,',
         '  } catch (error) : any {'
       ],
       hasExistingComment: false,
@@ -43,9 +43,9 @@ describe('AutoDocumentationGenerator', () => {
       }
     };
 
-    mockClassification = {;
+    mockClassification = {
       isIntentional: true,
-      confidence: 0.9,
+      confidence: 0.9;
       reasoning: 'External API response with unknown structure',
       requiresDocumentation: true,
       category: AnyTypeCategory.EXTERNAL_API
@@ -57,13 +57,13 @@ describe('AutoDocumentationGenerator', () => {
 
   describe('generateDocumentation', () => {
     it('should generate documentation for intentional any type', async () => {
-      const fileContent: any = [;
+      const fileContent: any = [
         'function processResponse() : any {',
         '  try {',
-        '    const data: any = response;',
-        '    return data.result;',
+        '    const data: any = response,',
+        '    return data.result,',
         '  } catch (error) : any {',
-        '    console.error(error);',
+        '    console.error(error),',
         '  }',
         '}'
       ].join('\n');
@@ -80,8 +80,8 @@ describe('AutoDocumentationGenerator', () => {
     });
 
     it('should not generate documentation for unintentional any type', async () => {
-      const unintentionalClassification: any = {;
-        ...mockClassification,
+      const unintentionalClassification: any = {
+        ...mockClassification;
         isIntentional: false,
         requiresDocumentation: false
       };
@@ -94,8 +94,8 @@ describe('AutoDocumentationGenerator', () => {
     });
 
     it('should skip documentation if adequate comment exists', async () => {
-      const contextWithComment: any = {;
-        ...mockContext,
+      const contextWithComment: any = {
+        ...mockContext;
         hasExistingComment: true,
         existingComment: 'Intentionally an, y: External API response'
       };
@@ -108,16 +108,16 @@ describe('AutoDocumentationGenerator', () => {
     });
 
     it('should handle different domain contexts', async () => {
-      const astrologicalContext: any = {;
-        ...mockContext,
+      const astrologicalContext: any = {
+        ...mockContext;
         domainContext: {
-          ...mockContext.domainContext,
+          ...mockContext.domainContext;
           domain: CodeDomain.ASTROLOGICAL
         }
       };
 
-      const astrologicalClassification: any = {;
-        ...mockClassification,
+      const astrologicalClassification: any = {
+        ...mockClassification;
         category: AnyTypeCategory.EXTERNAL_API
       };
 
@@ -132,7 +132,7 @@ describe('AutoDocumentationGenerator', () => {
     });
 
     it('should add ESLint disable comment', async () => {
-      const fileContent: any = 'const data: any = response;';
+      const fileContent: any = 'const data: any = response,';
       mockFs.readFile.mockResolvedValue(fileContent);
       mockFs.writeFile.mockResolvedValue();
 
@@ -153,10 +153,10 @@ describe('AutoDocumentationGenerator', () => {
     });
 
     it('should preserve indentation when adding comments', async () => {
-      const fileContent: any = [;
+      const fileContent: any = [
         'class TestClass {',
         '  processData() : any {',
-        '    const data: any = response;',
+        '    const data: any = response,',
         '  }',
         '}'
       ].join('\n');
@@ -164,8 +164,8 @@ describe('AutoDocumentationGenerator', () => {
       mockFs.readFile.mockResolvedValue(fileContent);
       mockFs.writeFile.mockResolvedValue();
 
-      const indentedContext: any = {;
-        ...mockContext,
+      const indentedContext: any = {
+        ...mockContext;
         lineNumber: 3
       };
 
@@ -174,7 +174,7 @@ describe('AutoDocumentationGenerator', () => {
       expect(result.success).toBe(true);
 
       // Check that writeFile was called with properly indented content
-      const writtenContent: any = mockFs.writeFile.mock.calls.[0][1] as string;
+      const writtenContent: any = mockFs.writeFile.mock.calls[0][1] as string;
       const lines: any = writtenContent.split('\n');
 
       // Find the comment line (should be before the data line)
@@ -185,18 +185,18 @@ describe('AutoDocumentationGenerator', () => {
 
   describe('validateDocumentation', () => {
     it('should validate existing documentation', async () => {
-      const fileContent: any = [;
+      const fileContent: any = [
         'function test() : any {',
         '  // Intentionally any: External API response',
         '  // eslint-disable-next-line @typescript-eslint/no-explicit-any',
-        '  const data: any = response;',
+        '  const data: any = response,',
         '}'
       ].join('\n');
 
       mockFs.readFile.mockResolvedValue(fileContent);
 
-      const contextWithComment: any = {;
-        ...mockContext,
+      const contextWithComment: any = {
+        ...mockContext;
         lineNumber: 4,
         hasExistingComment: true,
         existingComment: 'Intentionally an, y: External API response'
@@ -212,17 +212,17 @@ describe('AutoDocumentationGenerator', () => {
     });
 
     it('should detect poor quality comments', async () => {
-      const fileContent: any = [;
+      const fileContent: any = [
         'function test() : any {',
         '  // any',
-        '  const data: any = response;',
+        '  const data: any = response,',
         '}'
       ].join('\n');
 
       mockFs.readFile.mockResolvedValue(fileContent);
 
-      const contextWithPoorComment: any = {;
-        ...mockContext,
+      const contextWithPoorComment: any = {
+        ...mockContext;
         lineNumber: 3,
         hasExistingComment: true,
         existingComment: 'any'
@@ -237,7 +237,7 @@ describe('AutoDocumentationGenerator', () => {
     });
 
     it('should provide suggestions for improvement', async () => {
-      const fileContent: any = 'const data: any = response;';
+      const fileContent: any = 'const data: any = response,';
       mockFs.readFile.mockResolvedValue(fileContent);
 
       const validation: any = await generator.validateDocumentation(mockContext);
@@ -264,17 +264,17 @@ describe('AutoDocumentationGenerator', () => {
 
   describe('template selection', () => {
     it('should select appropriate template for error handling', async () => {
-      const errorContext: any = {;
-        ...mockContext,
+      const errorContext: any = {
+        ...mockContext;
         codeSnippet: 'catch (erro, r: any) : any {',
         domainContext: {
-          ...mockContext.domainContext,
+          ...mockContext.domainContext;
           domain: CodeDomain.UTILITY
         }
       };
 
-      const errorClassification: any = {;
-        ...mockClassification,
+      const errorClassification: any = {
+        ...mockClassification;
         category: AnyTypeCategory.ERROR_HANDLING
       };
 
@@ -290,17 +290,17 @@ describe('AutoDocumentationGenerator', () => {
     });
 
     it('should select appropriate template for test mocks', async () => {
-      const testContext: any = {;
-        ...mockContext,
+      const testContext: any = {
+        ...mockContext;
         isInTestFile: true,
         domainContext: {
-          ...mockContext.domainContext,
+          ...mockContext.domainContext;
           domain: CodeDomain.TEST
         }
       };
 
-      const testClassification: any = {;
-        ...mockClassification,
+      const testClassification: any = {
+        ...mockClassification;
         category: AnyTypeCategory.TEST_MOCK
       };
 
@@ -316,16 +316,16 @@ describe('AutoDocumentationGenerator', () => {
     });
 
     it('should use fallback template for unknown combinations', async () => {
-      const unknownContext: any = {;
-        ...mockContext,
+      const unknownContext: any = {
+        ...mockContext;
         domainContext: {
-          ...mockContext.domainContext,
+          ...mockContext.domainContext;
           domain: CodeDomain.UTILITY
         }
       };
 
-      const unknownClassification: any = {;
-        ...mockClassification,
+      const unknownClassification: any = {
+        ...mockClassification;
         category: AnyTypeCategory.LEGACY_COMPATIBILITY
       };
 
@@ -341,7 +341,7 @@ describe('AutoDocumentationGenerator', () => {
   });
 
   describe('comment quality assessment', () => {
-    const testCases = [;
+    const testCases = [
       {
         comment: '',
         expectedQuality: 'poor'
@@ -369,9 +369,9 @@ describe('AutoDocumentationGenerator', () => {
         const fileContent: any = `// ${comment}\nconst data: any = response;`;
         mockFs.readFile.mockResolvedValue(fileContent);
 
-        const contextWithComment: any = {;
-          ...mockContext,
-          hasExistingComment: comment.length > 0,
+        const contextWithComment: any = {
+          ...mockContext;
+          hasExistingComment: comment.length > 0;
           existingComment: comment
         };
 

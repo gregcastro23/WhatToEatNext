@@ -21,7 +21,7 @@ export interface NavigationState {
   scrollPosition: number;
 }
 
-const STATE_KEYS = {;
+const STATE_KEYS = {
   MAIN_PAGE_STATE: 'mainPageState',
   NAVIGATION_STATE: 'navigationState',
   COMPONENT_STATES: 'componentStates',
@@ -68,12 +68,12 @@ function safeSetItem(key: string, value: string): boolean {
  */
 export function saveNavigationState(state: Partial<NavigationState>): void {
   const currentState = getNavigationState();
-  const updatedState: NavigationState = {;
+  const updatedState: NavigationState = {
     ...currentState,
     ...state
   };
 
-  const stateWithTimestamp: ComponentState = {;
+  const stateWithTimestamp: ComponentState = {
     timestamp: Date.now(),
     data: updatedState
   };
@@ -85,7 +85,7 @@ export function saveNavigationState(state: Partial<NavigationState>): void {
  * Get navigation state
  */
 export function getNavigationState(): NavigationState {
-  const defaultState: NavigationState = {;
+  const defaultState: NavigationState = {
     activeSection: null,
     navigationHistory: [],
     selectedIngredients: [],
@@ -202,7 +202,7 @@ function getScrollPositions(): Record<string, ComponentState> {
  * Clear all stored state (useful for cleanup)
  */
 export function clearAllState(): void {
-  Object.values(STATE_KEYS).forEach(key => {;
+  Object.values(STATE_KEYS).forEach(key => {
     try {
       sessionStorage.removeItem(key);
     } catch (error) {
@@ -275,7 +275,7 @@ export function useStateCleanup(): (() => void) | void {
     const interval = setInterval(clearExpiredState, 10 * 60 * 1000);
 
     // Cleanup on page unload
-    const cleanup = () => {;
+    const cleanup = () => {
       clearInterval(interval);
       clearExpiredState();
     };

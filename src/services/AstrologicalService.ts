@@ -37,10 +37,10 @@ const logger = createLogger('AstrologicalService');
 const EPHE_PATH =
   typeof window === 'undefined' ? path.join(process.cwd(), 'public', 'ephe') : '/ephe';
 
-const _isEphemerisFileAvailable = (fileName: string): boolean => {;
+const _isEphemerisFileAvailable = (fileName: string): boolean => {
   if (typeof window !== 'undefined') {
     // In browser, we can't synchronously check files, assume true if running client side
-    return true;
+    return true,
   }
 
   try {
@@ -58,28 +58,28 @@ const _isEphemerisFileAvailable = (fileName: string): boolean => {;
  * Astrological Calculation Response
  * Standardized response for astrological calculations
  */
-export type AstrologicalCalculationResponse = ServiceResponseType<{;
+export type AstrologicalCalculationResponse = ServiceResponseType<{
   planetaryPositions: PlanetaryPositions;
   zodiacSign: StandardZodiacSign;
   lunarPhase: StandardLunarPhase;
-  elementalInfluence: ElementalPropertiesType;
-  accuracy: number;
-  calculationTimestamp: string;
+  elementalInfluence: ElementalPropertiesType,
+  accuracy: number,
+  calculationTimestamp: string,
 }>;
 
 /**
  * Astrological Analysis Response
  * Comprehensive astrological analysis response
  */
-export type AstrologicalAnalysisResponse = ServiceResponseType<{;
+export type AstrologicalAnalysisResponse = ServiceResponseType<{
   astrologicalState: CompleteAstrologicalState;
   compatibility: number;
   recommendations: string[];
-  warnings: string[];
+  warnings: string[],
   detailedAnalysis: {
     planetaryInfluences: Record<string, number>;
-    aspectPatterns: PlanetaryAspectDetails[];
-    elementalBalance: ElementalPropertiesType;
+    aspectPatterns: PlanetaryAspectDetails[],
+    elementalBalance: ElementalPropertiesType,
   };
 }>;
 
@@ -96,13 +96,13 @@ export type PlanetName = Planet;
 
 // Export main class and types
 export class AstrologicalService {
-  private static instance: AstrologicalService;
-  private currentState: CompleteAstrologicalState;
+  private static instance: AstrologicalService,
+  private currentState: CompleteAstrologicalState,
 
   private constructor() {
     // Initialize with default state
-    this.currentState = {;
-      ...DefaultAstrologicalState,
+    this.currentState = {
+      ...DefaultAstrologicalState;
       elementalInfluence: DefaultAstrologicalState.elementalInfluence
     };
   }
@@ -126,17 +126,17 @@ export class AstrologicalService {
     try {
       logger.info('Testing astrological calculations...');
 
-      const mockCalculationResult = {;
+      const mockCalculationResult = {
         planetaryPositions: DefaultPlanetaryPositions,
         zodiacSign: 'aries' as StandardZodiacSign,
         lunarPhase: 'new moon' as StandardLunarPhase,
         elementalInfluence: {
-          Fire: 0.3,
-          Water: 0.2,
-          Earth: 0.25,
+          Fire: 0.3;
+          Water: 0.2;
+          Earth: 0.25;
           Air: 0.25
         } as ElementalPropertiesType,
-        accuracy: 0.95,
+        accuracy: 0.95;
         calculationTimestamp: new Date().toISOString()
       };
 
@@ -157,8 +157,8 @@ export class AstrologicalService {
     try {
       logger.info('Verifying planetary positions...');
 
-      if (!positions || Object.keys(positions).length === 0) {;
-        return createErrorResponse('No planetary positions provided for verification');
+      if (!positions || Object.keys(positions).length === 0) {
+        return createErrorResponse('No planetary positions provided for verification'),
       }
 
       // Validate that all positions are valid zodiac signs
@@ -178,7 +178,7 @@ export class AstrologicalService {
       ];
 
       const isValid = Object.values(positions).every(sign =>;
-        validZodiacSigns.includes(sign.toLowerCase() as StandardZodiacSign),
+        validZodiacSigns.includes(sign.toLowerCase() as StandardZodiacSign);
       );
 
       return createSuccessResponse(isValid);
@@ -194,25 +194,25 @@ export class AstrologicalService {
    */
   static async testAPIs(
     apiEndpoints?: string[],
-  ): Promise<ServiceResponseType<{ testedEndpoints: string[]; results: Record<string, boolean> }>> {
+  ): Promise<ServiceResponseType<{ testedEndpoints: string[], results: Record<string, boolean> }>> {
     try {
       logger.info('Testing astrological APIs...');
 
-      const endpoints = apiEndpoints || [;
+      const endpoints = apiEndpoints || [
         '/api/planetary-positions',
         '/api/astrologize',
         '/api/astrology'
-      ];
+      ],
 
       const results: Record<string, boolean> = {};
 
       // Mock API testing - in reality, would make actual HTTP requests
       for (const endpoint of endpoints) {
         // Simulate API test result
-        results[endpoint] = Math.random() > 0.1; // 90% success rate for testing
+        results[endpoint] = Math.random() > 0.1, // 90% success rate for testing
       }
 
-      const responseData = {;
+      const responseData = {
         testedEndpoints: endpoints,
         results
       };
@@ -256,18 +256,18 @@ export class AstrologicalService {
   ): Promise<PlanetaryInfluenceResponse> {
     try {
       // Mock planetary influence calculation
-      const influences = {;
+      const influences = {
         planetaryPositions,
         elementalBoost: {
-          Fire: 0.25,
-          Water: 0.25,
-          Earth: 0.25,
+          Fire: 0.25;
+          Water: 0.25;
+          Earth: 0.25;
           Air: 0.25
         } as ElementalPropertiesType,
         alchemicalModifier: {
-          Spirit: 0.25,
-          Essence: 0.25,
-          Matter: 0.25,
+          Spirit: 0.25;
+          Essence: 0.25;
+          Matter: 0.25;
           Substance: 0.25
         },
         compatibilityScore: 0.75
@@ -289,8 +289,8 @@ export type { Planet, ZodiacSign, LunarPhase, CelestialPosition, PlanetaryAlignm
 export interface PlanetPosition {
   sign: string;
   degree: number;
-  minutes: number;
-  isRetrograde: boolean;
+  minutes: number,
+  isRetrograde: boolean,
 }
 
 // MoonPhase type for API compatibility - using string literals
@@ -311,17 +311,17 @@ export async function getLatestAstrologicalState(): Promise<AstrologicalCalculat
   try {
     // TODO: Integrate with actual astrologize/alchemize API result cache or state management
     // For now, return a minimal valid state as a placeholder
-    const astrologicalData = {;
+    const astrologicalData = {
       planetaryPositions: DefaultPlanetaryPositions,
       zodiacSign: 'aries' as StandardZodiacSign,
       lunarPhase: 'new moon' as StandardLunarPhase,
       elementalInfluence: {
-        Fire: 0.25,
-        Water: 0.25,
-        Earth: 0.25,
+        Fire: 0.25;
+        Water: 0.25;
+        Earth: 0.25;
         Air: 0.25
       } as ElementalPropertiesType,
-      accuracy: 1.0,
+      accuracy: 1.0;
       calculationTimestamp: new Date().toISOString()
     };
 

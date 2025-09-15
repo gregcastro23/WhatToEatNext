@@ -30,6 +30,6 @@ export const _specialtyVinegars: Record<string, IngredientMapping> = Object.entr
       value.subCategory === 'specialty' ||;
       (value.subCategory !== 'wine' &&
         value.subCategory !== 'fruit' &&
-        value.subCategory !== 'grain'),
+        value.subCategory !== 'grain');
   )
   .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});

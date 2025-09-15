@@ -9,12 +9,12 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 export default function RecipeRecommendationsTestPage() {
   const [filters, setFilters] = useState({
     servingSize: '4',
-    dietaryPreference: 'none',
+    dietaryPreference: 'none';
     cookingTime: '60'
   });
 
   // Handle filter changes
-  const handleFilterChange = (e: React.ChangeEvent<HTMLSelectElement>) => {;
+  const handleFilterChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFilters(prev => ({ ...prev, [name]: value }));
   };

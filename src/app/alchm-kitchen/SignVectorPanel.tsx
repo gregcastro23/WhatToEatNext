@@ -10,14 +10,14 @@ import { calculateAspects } from '@/utils/astrologyUtils';
 import { createLogger } from '@/utils/logger';
 import { VECTOR_CONFIG } from '@/utils/signVectors';
 
-type Props = {;
+type Props = {
   planetaryPositions?: Record<string, PlanetaryPosition>;
-  aspects?: Array<{ planet1: string; planet2: string; type?: string; aspectType?: string; orb?: number }>;
+  aspects?: Array<{ planet1: string; planet2: string, type?: string, aspectType?: string, orb?: number }>;
   season?: Season;
   governing?: 'sun' | 'moon' | 'dominant' | 'ensemble';
 };
 
-export default function SignVectorPanel({ planetaryPositions: propPositions, aspects, season, governing = 'dominant' }: Props) {;
+export default function SignVectorPanel({ planetaryPositions: propPositions, aspects, season, governing = 'dominant' }: Props) {
   const [positions, setPositions] = React.useState<Record<string, PlanetaryPosition> | null>(propPositions || null);
   const [mode, setMode] = React.useState<'sun' | 'moon' | 'dominant' | 'ensemble'>(governing);
   const [loading, setLoading] = React.useState<boolean>(!propPositions);
@@ -30,11 +30,11 @@ export default function SignVectorPanel({ planetaryPositions: propPositions, asp
       setLoading(true);
       planetaryPositionsService
         .getCurrent()
-        .then(p => {;
-          if (mounted) setPositions(p as unknown as Record<string, PlanetaryPosition>);
+        .then(p => {
+          if (mounted) setPositions(p as unknown as Record<string, PlanetaryPosition>),
         })
         .finally(() => {
-          if (mounted) setLoading(false);
+          if (mounted) setLoading(false),
         });
     } else {
       setPositions(propPositions);
@@ -44,15 +44,15 @@ export default function SignVectorPanel({ planetaryPositions: propPositions, asp
     };
   }, [propPositions]);
 
-  const state = React.useMemo(() => {;
+  const state = React.useMemo(() => {
     if (!positions) return null;
     // Compute aspects from current positions if not provided
     let realAspects = aspects as any;
     try {
       if (!realAspects) {
         const minimal = Object.fromEntries(;
-          Object.entries(positions).map(([k, v]) => [k, { sign: (v as any).sign, degree: (v as any).degree }]),
-        ) as Record<string, { sign: string; degree: number }>;
+          Object.entries(positions).map(([k, v]) => [k, { sign: (v as any).sign, degree: (v as any).degree }])
+        ) as Record<string, { sign: string, degree: number }>;
         const { aspects: computed } = calculateAspects(minimal);
         realAspects = computed as any;
       }
@@ -68,10 +68,10 @@ export default function SignVectorPanel({ planetaryPositions: propPositions, asp
     if (process.env.NODE_ENV !== 'production') {
       const base = res.base.alchemical;
       const blended = res.blendedAlchemical;
-      const deltas = {;
-        Spirit: Number((blended.Spirit - base.Spirit).toFixed(4)),
-        Essence: Number((blended.Essence - base.Essence).toFixed(4)),
-        Matter: Number((blended.Matter - base.Matter).toFixed(4)),
+      const deltas = {
+        Spirit: Number((blended.Spirit - base.Spirit).toFixed(4));
+        Essence: Number((blended.Essence - base.Essence).toFixed(4));
+        Matter: Number((blended.Matter - base.Matter).toFixed(4));
         Substance: Number((blended.Substance - base.Substance).toFixed(4))
       };
       TelemetryDev.recordVectorBlend(res.selected.sign, alpha, deltas as any, res.thermodynamics as any);
@@ -82,7 +82,7 @@ export default function SignVectorPanel({ planetaryPositions: propPositions, asp
   if (loading || !state) {
     return (
       <div style={{ border: '1px solid #444', borderRadius: 8, padding: 12, marginTop: 12 }}>;
-        <div style={{ fontWeight: 600, marginBottom: 8 }}>Current Sign Expression</div>;
+        <div style={{ fontWeight: 600, marginBottom: 8 }}>Current Sign Expression</div>,
         <div>Loading planetary positions…</div>
       </div>
     );

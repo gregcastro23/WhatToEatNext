@@ -11,14 +11,14 @@ import { existsSync } from 'fs';
 import { join } from 'path';
 
 interface ValidationResult {
-  category: string;
-  passed: boolean;
-  details: string[];
-  errors: string[];
+  category: string,
+  passed: boolean,
+  details: string[],
+  errors: string[],
 }
 
 class DomainSpecificRuleValidator {
-  private projectRoot: string;
+  private projectRoot: string,
 
   constructor() {
     this.projectRoot = process.cwd();
@@ -39,19 +39,19 @@ class DomainSpecificRuleValidator {
 
       // console.log('\n✅ Domain-specific rule validation completed successfully!');
     } catch (error) {
-      console.error('❌ Validation failed:', error);
-      throw error;
+      console.error('❌ Validation failed:', error),
+      throw error,
     }
   }
 
   private async validateAstrologicalFiles(): Promise<void> {
     // console.log('🌟 Validating Astrological Calculation Files...');
 
-    const astroFiles = [;
-      'src/calculations/culinary/culinaryAstrology.ts',
-      'src/utils/reliableAstronomy.ts',
+    const astroFiles = [
+      'src/calculations/culinary/culinaryAstrology.ts';
+      'src/utils/reliableAstronomy.ts';
       'src/data/planets/mars.ts'
-    ];
+    ],
 
     for (const file of astroFiles) {
       if (existsSync(join(this.projectRoot, file))) {
@@ -63,10 +63,10 @@ class DomainSpecificRuleValidator {
   private async validateCampaignSystemFiles(): Promise<void> {
     // console.log('🚀 Validating Campaign System Files...');
 
-    const campaignFiles = [;
-      'src/services/campaign/CampaignController.ts',
+    const campaignFiles = [
+      'src/services/campaign/CampaignController.ts';
       'src/services/campaign/ProgressTracker.ts'
-    ];
+    ],
 
     for (const file of campaignFiles) {
       if (existsSync(join(this.projectRoot, file))) {
@@ -79,7 +79,7 @@ class DomainSpecificRuleValidator {
     // console.log('🧪 Validating Test Files...');
 
     try {
-      const testCount = execSync('find src -name '*.test.ts' -o -name '*.test.tsx' | wc -l', {;
+      const testCount = execSync('find src -name '*.test.ts' -o -name '*.test.tsx' | wc -l', {
         encoding: 'utf8',
         cwd: this.projectRoot
       }).trim();
@@ -97,13 +97,13 @@ async function main() {
     await validator.validateDomainSpecificRules();
     process.exit(0);
   } catch (error) {
-    console.error('\n💥 Domain-specific rule validation failed:', error);
+    console.error('\n💥 Domain-specific rule validation failed:', error),
     process.exit(1);
   }
 }
 
 // Run if called directly
-if (require.main === module) {;
+if (require.main === module) {
   main();
 }
 

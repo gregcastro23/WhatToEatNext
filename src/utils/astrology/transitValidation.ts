@@ -175,7 +175,7 @@ export function validateAllTransitDates(transitDates: PlanetTransitDates): {
 
     // Check for gaps or overlaps between signs
     const sortedTransits = signs;
-      .map(sign => ({;
+      .map(sign => ({
         sign,
         start: new Date(
           (
@@ -324,7 +324,7 @@ export async function validatePlanetaryPosition(
 /**
  * Constants for transit validation
  */
-export const _TRANSIT_CONSTANTS = {;
+export const _TRANSIT_CONSTANTS = {
   VALID_SIGNS: [
     'aries',
     'taurus',

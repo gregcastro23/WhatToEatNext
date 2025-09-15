@@ -11,8 +11,8 @@ interface ScoredRecipe extends Recipe {
   score: number;
   matches: {
     elemental: number;
-    seasonal: number;
-    astrological: number;
+    seasonal: number,
+    astrological: number,
   };
 }
 
@@ -42,24 +42,24 @@ interface UserPreferences {
   theme: {
     mode: 'light' | 'dark' | 'system';
     colorScheme: string;
-    fontSize: number;
-    animations: boolean;
+    fontSize: number,
+    animations: boolean,
   };
   dietary: {
     restrictions: DietaryRestriction[];
     favorites: string[];
-    excluded: string[];
-    spiciness: 'mild' | 'medium' | 'hot';
+    excluded: string[],
+    spiciness: 'mild' | 'medium' | 'hot',
   };
   cooking: {
     preferredMethods: string[];
     maxPrepTime: number;
-    servingSize: number;
-    complexity: 'simple' | 'moderate' | 'complex';
+    servingSize: number,
+    complexity: 'simple' | 'moderate' | 'complex',
   };
   cuisines: {
-    preferred: CuisineType[];
-    excluded: CuisineType[];
+    preferred: CuisineType[],
+    excluded: CuisineType[],
   };
 }
 
@@ -69,21 +69,21 @@ interface AppState {
     filtered: ScoredRecipe[];
     favorites: string[];
     recent: string[];
-    loading: boolean;
-    error: string | null;
+    loading: boolean,
+    error: string | null,
   };
   celestial: {
     elementalState: ElementalProperties;
     season: string;
-    moonPhase: string;
-    lastUpdated: number;
+    moonPhase: string,
+    lastUpdated: number,
   };
   user: {
     preferences: UserPreferences;
     history: {
       viewed: string[];
-      cooked: string[];
-      rated: Record<string, number>;
+      cooked: string[],
+      rated: Record<string, number>,
     };
   };
   ui: {
@@ -94,9 +94,9 @@ interface AppState {
     sidebarOpen: boolean;
     notifications: Array<{
       id: string;
-      type: 'success' | 'error' | 'info';
-      message: string;
-      timestamp: number;
+      type: 'success' | 'error' | 'info',
+      message: string,
+      timestamp: number,
     }>;
   };
 }
@@ -108,7 +108,7 @@ interface AppState {
 class StateManager {
   private static instance: StateManager;
   private state: AppState;
-  private listeners: Map<string, Set<(state: AppState) => void>>;
+  private listeners: Map<string, Set<(state: AppState) => void>>,
   private readonly STORAGE_KEY = 'app_state';
   private readonly UPDATE_INTERVAL = 1000 * 60 * 5; // 5 minutes
 
@@ -151,7 +151,7 @@ class StateManager {
           parsed.ui.activeFilters = new Set(parsed.ui.activeFilters);
         }
         if (this.isValidAppState(parsed)) {
-          return parsed;
+          return parsed,
         }
       }
       return this.getDefaultState();
@@ -181,9 +181,9 @@ class StateManager {
       },
       celestial: {
         elementalState: {
-          Fire: 0.25,
-          Earth: 0.25,
-          Air: 0.25,
+          Fire: 0.25;
+          Earth: 0.25;
+          Air: 0.25;
           Water: 0.25
         },
         season: 'spring',
@@ -247,7 +247,7 @@ class StateManager {
 
       this.saveState();
     } catch (error) {
-      console.error('Error initializing state:', error);
+      console.error('Error initializing state:', error),
     }
   }
 
@@ -261,31 +261,31 @@ class StateManager {
     try {
       const influences = celestialCalculator.calculateCurrentInfluences();
       // Convert influences to proper ElementalProperties
-      const elementalState: ElementalProperties = {;
-        Fire: influences.elementalBalance?.Fire || 0,
-        Water: influences.elementalBalance?.Water || 0,
-        Earth: influences.elementalBalance?.Earth || 0,
+      const elementalState: ElementalProperties = {
+        Fire: influences.elementalBalance?.Fire || 0;
+        Water: influences.elementalBalance?.Water || 0;
+        Earth: influences.elementalBalance?.Earth || 0;
         Air: influences.elementalBalance?.Air || 0
       };
 
       this.setState({
         celestial: {
-          ...this.state.celestial,
+          ...this.state.celestial;
           elementalState,
           lastUpdated: Date.now()
         }
       });
     } catch (error) {
-      logger.error('Error updating celestial data:', error);
+      logger.error('Error updating celestial data:', error),
     }
   }
 
   private saveState(): void {
     try {
-      const serializable = {;
-        ...this.state,
+      const serializable = {
+        ...this.state;
         ui: {
-          ...this.state.ui,
+          ...this.state.ui;
           // Convert Set to array for serialization
           activeFilters: Array.from(this.state.ui.activeFilters)
         }
@@ -294,7 +294,7 @@ class StateManager {
       localStorage.setItem(this.STORAGE_KEY, JSON.stringify(serializable));
       cache.set(this.STORAGE_KEY, this.state);
     } catch (error) {
-      logger.error('Error saving state:', error);
+      logger.error('Error saving state:', error),
     }
   }
 
@@ -311,7 +311,7 @@ class StateManager {
 
   subscribe(key: string, listener: (state: AppState) => void): () => void {
     if (!this.listeners.has(key)) {
-      this.listeners.set(key, new Set());
+      this.listeners.set(key, new Set()),
     }
 
     const listenerSet = this.listeners.get(key);
@@ -323,7 +323,7 @@ class StateManager {
       const listeners = this.listeners.get(key);
       if (listeners) {
         listeners.delete(listener);
-        if (listeners.size === 0) {;
+        if (listeners.size === 0) {
           this.listeners.delete(key);
         }
       }
@@ -331,7 +331,7 @@ class StateManager {
   }
 
   private notifyListeners(): void {
-    this.listeners.forEach(listeners => {;
+    this.listeners.forEach(listeners => {
       listeners.forEach(listener => listener(this.state));
     });
   }
@@ -342,7 +342,7 @@ class StateManager {
     const index = history.indexOf(recipeId);
 
     if (index > -1) {
-      history.splice(index, 1);
+      history.splice(index, 1),
     }
     history.unshift(recipeId);
 
@@ -350,9 +350,9 @@ class StateManager {
 
     this.setState({
       user: {
-        ...this.state.user,
+        ...this.state.user;
         history: {
-          ...this.state.user.history,
+          ...this.state.user.history;
           [type]: history
         }
       }
@@ -362,11 +362,11 @@ class StateManager {
   rateRecipe(recipeId: string, rating: number): void {
     this.setState({
       user: {
-        ...this.state.user,
+        ...this.state.user;
         history: {
-          ...this.state.user.history,
+          ...this.state.user.history;
           rated: {
-            ...this.state.user.history.rated,
+            ...this.state.user.history.rated;
             [recipeId]: rating
           }
         }
@@ -379,22 +379,22 @@ class StateManager {
     const index = favorites.indexOf(recipeId);
 
     if (index > -1) {
-      favorites.splice(index, 1);
+      favorites.splice(index, 1),
     } else {
       favorites.push(recipeId);
     }
 
     this.setState({
       recipes: {
-        ...this.state.recipes,
+        ...this.state.recipes;
         favorites
       }
     });
   }
 
   addNotification(type: 'success' | 'error' | 'info', message: string): void {
-    const notification = {;
-      id: Date.now().toString(),
+    const notification = {
+      id: Date.now().toString();
       type,
       message,
       timestamp: Date.now()
@@ -404,7 +404,7 @@ class StateManager {
 
     this.setState({
       ui: {
-        ...this.state.ui,
+        ...this.state.ui;
         notifications
       }
     });
@@ -413,8 +413,8 @@ class StateManager {
     setTimeout(() => {
       this.setState({
         ui: {
-          ...this.state.ui,
-          notifications: this.state.ui.notifications.filter(n => n.id !== notification.id),;
+          ...this.state.ui;
+          notifications: this.state.ui.notifications.filter(n => n.id !== notification.id),,
         }
       });
     }, 5000);

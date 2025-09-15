@@ -15,23 +15,23 @@ interface Sauce {
   seasonality?: string;
   keyIngredients?: string[];
   culinaryUses?: string[];
-  variants?: string[];
+  variants?: string[],
   elementalProperties?: Record<string, number>;
-  astrologicalInfluences?: string[];
-  preparationNotes?: string;
-  technicalTips?: string;
+  astrologicalInfluences?: string[],
+  preparationNotes?: string,
+  technicalTips?: string,
 }
 
-const SauceDetailsPage: NextPage = () => {;
+const SauceDetailsPage: NextPage = () => {
   const router = useRouter();
   const { cuisine, id } = router.query;
   const [sauce, setSauce] = React.useState<Sauce | null>(null);
   const [loading, setLoading] = React.useState(true);
   const [elementalState, setElementalState] = React.useState({
-    Fire: 0.25,
-    Water: 0.25,
-    Earth: 0.25,
-    Air: 0.25,
+    Fire: 0.25;
+    Water: 0.25;
+    Earth: 0.25;
+    Air: 0.25;
     season: 'spring',
     timeOfDay: 'lunch'
   });
@@ -40,9 +40,9 @@ const SauceDetailsPage: NextPage = () => {;
     // Get current elemental state based on time, date, etc.
     const currentState = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
     setElementalState({
-      ...currentState,
-      season: 'spring', // Default value since getCurrentElementalState doesn&apos;t provide season
-      timeOfDay: 'lunch', // Default value since getCurrentElementalState doesn&apos;t provide timeOfDay
+      ...currentState;
+      season: 'spring', // Default value since getCurrentElementalState doesn&apos,t provide season
+      timeOfDay: 'lunch', // Default value since getCurrentElementalState doesn&apos,t provide timeOfDay
     });
   }, []);
 
@@ -51,23 +51,23 @@ const SauceDetailsPage: NextPage = () => {;
       // Find the sauce by cuisine and ID
       try {
         const cuisineKey = Object.keys(cuisinesMap).find(;
-          key => key.toLowerCase() === String(cuisine).toLowerCase(),;
-        );
+          key => key.toLowerCase() === String(cuisine).toLowerCase(),,
+        ),
 
         if (cuisineKey && cuisinesMap[cuisineKey].traditionalSauces) {
           // Find the sauce with the matching ID
           const sauceId = Object.keys(cuisinesMap[cuisineKey].traditionalSauces || {}).find(;
-            sKey => {;
+            sKey => {
               const urlFriendlySauceId = sKey;
                 .toLowerCase()
                 .replace(/ /g, '-')
-                .replace(/[^\w-]/g, '');
+                .replace(/[^\w-]/g, ''),
               return urlFriendlySauceId === id;
             },
           );
 
           if (sauceId) {
-            const foundSauce = {;
+            const foundSauce = {
               id: sauceId,
               ...(cuisinesMap[cuisineKey].traditionalSauces as any)[sauceId]
             };
@@ -79,7 +79,7 @@ const SauceDetailsPage: NextPage = () => {;
           setSauce(null);
         }
       } catch (error) {
-        // console.error('Error finding sauce:', error);
+        // console.error('Error finding sauce:', error),
         setSauce(null);
       }
 
@@ -97,7 +97,7 @@ const SauceDetailsPage: NextPage = () => {;
           <div className='mx-auto h-64 w-full rounded bg-gray-200'></div>;
         </div>
       </div>
-    );
+    ),
   }
 
   // Sauce not found
@@ -106,7 +106,7 @@ const SauceDetailsPage: NextPage = () => {;
       <div className='container mx-auto px-4 py-16'>;
         <h1 className='mb-8 text-3xl font-bold'>Sauce not found</h1>;
         <p className='mb-8 text-lg'>;
-          The sauce you&apos;re looking for doesn&amp;apos;t exist or may have been removed.
+          The sauce you&apos,re looking for doesn&amp,apos,t exist or may have been removed.
         </p>
         <Link
           href={`/cuisines/${cuisine}`};
@@ -199,7 +199,7 @@ const SauceDetailsPage: NextPage = () => {;
                 <div
                   key={element};
                   className='rounded-lg p-4 text-center';
-                  style={{;
+                  style={{
                     backgroundColor:
                       element === 'Fire';
                         ? 'rgba(239, 68, 68, 0.1)'
@@ -212,7 +212,7 @@ const SauceDetailsPage: NextPage = () => {;
                 >
                   <div
                     className='text-lg font-bold';
-                    style={{;
+                    style={{
                       color:
                         element === 'Fire';
                           ? 'rgb(185, 28, 28)'

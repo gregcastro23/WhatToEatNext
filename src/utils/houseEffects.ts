@@ -9,7 +9,7 @@ import { getZodiacElement } from './astrologyUtils';
  * A utility function for logging debug information
  * This is a safe replacement for console.log that can be disabled in production
  */
-const debugLog = (_message: string, ..._args: unknown[]): void => {;
+const debugLog = (_message: string, ..._args: unknown[]): void => {
   // Comment out console.log to avoid linting warnings
   // log.info(message, ...args);
 };
@@ -188,20 +188,20 @@ export function calculateHouseEffect(
   effects[houseElement] += houseStrength;
 
   // Add synergy effect if sign element matches house element
-  if (signElement === houseElement) {;
+  if (signElement === houseElement) {
     effects[houseElement] += 0.5; // Bonus for matching element
     debugLog(`Element synergy bonus for ${planet} in house ${house}: ${signElement}`);
   }
 
   // Add special effects for certain houses and planets
   // House 1 (Ascendant) bonus
-  if (house === 1) {;
+  if (house === 1) {
     effects[signElement] += 1.0; // Strong effect for 1st house placements
     debugLog(`House 1 bonus applied for ${planet}: +1.0 to ${signElement}`);
   }
 
   // House 10 (Midheaven) bonus
-  if (house === 10) {;
+  if (house === 10) {
     effects[signElement] += 0.8; // Strong effect for 10th house placements
     debugLog(`House 10 bonus applied for ${planet}: +0.8 to ${signElement}`);
   }

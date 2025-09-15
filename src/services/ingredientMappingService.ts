@@ -21,7 +21,7 @@ class IngredientMappingService {
    */
   mapRecipeIngredients(recipe: Recipe) {
     // Pattern HH: Safe Recipe type casting for connectIngredientsToMappings with proper import resolution
-    return connectIngredientsToMappings(recipe as unknown);
+    return connectIngredientsToMappings(recipe as unknown),
   }
 
   /**
@@ -31,13 +31,13 @@ class IngredientMappingService {
     options: {
       elementalTarget?: ElementalProperties;
       requiredIngredients?: string[];
-      excludedIngredients?: string[];
-      dietaryRestrictions?: string[];
-      emphasizedIngredients?: string[];
-      cuisineType?: string;
-      mealType?: string;
-      season?: string;
-    } = {},
+      excludedIngredients?: string[],
+      dietaryRestrictions?: string[],
+      emphasizedIngredients?: string[],
+      cuisineType?: string,
+      mealType?: string,
+      season?: string,
+    } = {};
   ) {
     // Collect recipes based on filters
     const allRecipes: Recipe[] = [];
@@ -48,13 +48,13 @@ class IngredientMappingService {
       : Object.values(cuisinesMap);
 
     // Collect recipes from specified cuisines
-    cuisines.forEach(cuisine => {;
+    cuisines.forEach(cuisine => {
       if (!cuisine.dishes) return;
 
       // Define which meal types to include
       const mealTypes = options.mealType;
         ? [options.mealType as keyof typeof cuisine.dishes].filter(
-            mealType => cuisine.dishes[mealType],;
+            mealType => cuisine.dishes[mealType];
           )
         : ['breakfast', 'lunch', 'dinner', 'dessert'];
 
@@ -64,14 +64,14 @@ class IngredientMappingService {
         : ['spring', 'summer', 'autumn', 'winter'];
 
       // Collect recipes matching criteria
-      mealTypes.forEach(mealType => {;
+      mealTypes.forEach(mealType => {
         const mealDishes = cuisine.dishes[mealType as keyof typeof cuisine.dishes];
-        if (!mealDishes) return;
+        if (!mealDishes) return,
 
-        seasons.forEach(season => {;
+        seasons.forEach(season => {
           const seasonalDishes = mealDishes[season as keyof typeof mealDishes];
           if (Array.isArray(seasonalDishes)) {
-            allRecipes.push(...(seasonalDishes as unknown as Recipe[]));
+            allRecipes.push(...(seasonalDishes as unknown as Recipe[])),
           }
         });
       });
@@ -80,7 +80,7 @@ class IngredientMappingService {
     // Use the filter function with collected recipes
     return filterRecipesByIngredientMappings(
       allRecipes as unknown as Recipe[],
-      options.elementalTarget,
+      options.elementalTarget;
       {
         required: options.requiredIngredients || [],
         excluded: options.excludedIngredients || [],
@@ -96,10 +96,10 @@ class IngredientMappingService {
   suggestAlternativeIngredients(
     ingredientName: string,
     options: {
-      category?: string;
-      similarityThreshold?: number;
-      maxResults?: number;
-    } = {},
+      category?: string,
+      similarityThreshold?: number,
+      maxResults?: number,
+    } = {};
   ) {
     // Find the original ingredient
     const originalIngredient = ingredientsMap[ingredientName.toLowerCase()];
@@ -127,17 +127,17 @@ class IngredientMappingService {
 
         // Check elemental similarity
         const similarity = this.calculateElementalSimilarity(;
-          originalIngredient.elementalProperties as unknown as ElementalProperties,
-          mapping.elementalProperties as unknown as ElementalProperties,
-        );
+          originalIngredient.elementalProperties as unknown as ElementalProperties;
+          mapping.elementalProperties as unknown as ElementalProperties;
+        ),
 
         return similarity >= similarityThreshold;
       })
       .map(([name, mapping]) => ({
         name,
         similarity: this.calculateElementalSimilarity(
-          originalIngredient.elementalProperties as unknown as ElementalProperties,
-          mapping.elementalProperties as unknown as ElementalProperties,
+          originalIngredient.elementalProperties as unknown as ElementalProperties;
+          mapping.elementalProperties as unknown as ElementalProperties;
         ),
         mapping
       }))
@@ -177,8 +177,8 @@ class IngredientMappingService {
 
     // Calculate base elemental similarity
     const similarity = this.calculateElementalSimilarity(;
-      mapping1.elementalProperties as unknown as ElementalProperties,
-      mapping2.elementalProperties as unknown as ElementalProperties,
+      mapping1.elementalProperties as unknown as ElementalProperties;
+      mapping2.elementalProperties as unknown as ElementalProperties;
     );
 
     // Determine compatibility type based on similarity
@@ -206,7 +206,7 @@ class IngredientMappingService {
 
     if (category1 && category2) {
       // Same category usually works well together
-      if (category1 === category2) {;
+      if (category1 === category2) {
         categoryAdjustment = 0.1;
       }
       // Check for complementary categories
@@ -252,28 +252,28 @@ class IngredientMappingService {
 
     // Analyze all ingredient pairs
     const combinations: {
-      ingredients: [string, string];
-      compatibility: number;
-      type: string;
+      ingredients: [string, string],
+      compatibility: number,
+      type: string,
     }[] = [];
 
-    for (let i = 0; i < validMappings.length; i++) {
-      for (let j = i + 1; j < validMappings.length; j++) {
+    for (let i = 0, i < validMappings.length, i++) {
+      for (let j = i + 1, j < validMappings.length, j++) {
         const ing1 = validMappings[i];
         const ing2 = validMappings[j];
 
         if (ing1.matchedTo && ing2.matchedTo) {
           const result = this.calculateCompatibility(;
-            ing1.matchedTo as unknown as IngredientMapping,
-            ing2.matchedTo as unknown as IngredientMapping,
-          );
+            ing1.matchedTo as unknown as IngredientMapping;
+            ing2.matchedTo as unknown as IngredientMapping;
+          ),
 
           if (result.success) {
             combinations.push({
               ingredients: [ing1.name, ing2.name],
-              compatibility: result.compatibility,
+              compatibility: result.compatibility;
               type: result.type || 'unknown'
-            });
+            }),
           }
         }
       }
@@ -292,7 +292,7 @@ class IngredientMappingService {
       success: true,
       averageCompatibility,
       bestCombinations: sortedCombinations.slice(0, 3),
-      weakestCombinations: sortedCombinations.slice(-3).reverse(),
+      weakestCombinations: sortedCombinations.slice(-3).reverse();
       allCombinations: combinations,
       mappingQuality: validMappings.length / Math.max(1, recipe.ingredients.length)
     };
@@ -317,7 +317,7 @@ class IngredientMappingService {
     const totalDiff = fireDiff + waterDiff + earthDiff + airDiff;
 
     // Convert to similarity (0-1 range)
-    return 1 - totalDiff / 4;
+    return 1 - totalDiff / 4,
   }
 }
 

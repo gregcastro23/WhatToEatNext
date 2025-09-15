@@ -24,20 +24,20 @@ const mockFs: any = fs as jest.Mocked<typeof fs>;
 
 describe('AutomatedLintingFixer', () => {
   let fixer: AutomatedLintingFixer;
-  let mockCategorizedErrors: CategorizedErrors;
-  let mockLintingIssues: LintingIssue[];
+  let mockCategorizedErrors: CategorizedErrors,
+  let mockLintingIssues: LintingIssue[],
 
   beforeEach(() => {
     jest.clearAllMocks();
 
     // Setup default mocks
     mockExecSync.mockReturnValue('');
-    mockFs.readFileSync.mockReturnValue('const unusedVar: any = 'test';\nconsole.log('hello');');
+    mockFs.readFileSync.mockReturnValue('const unusedVar: any = 'test',\nconsole.log('hello'),'),
     mockFs.writeFileSync.mockImplementation(() => {});
     mockFs.existsSync.mockReturnValue(true);
 
     // Create fixer instance
-    fixer = new AutomatedLintingFixer('/test/workspace', {;
+    fixer = new AutomatedLintingFixer('/test/workspace', {
       enableRollback: true,
       validateBeforeFix: true,
       validateAfterFix: true,
@@ -45,10 +45,10 @@ describe('AutomatedLintingFixer', () => {
     });
 
     // Setup mock linting issues
-    mockLintingIssues = [;
+    mockLintingIssues = [
       {
         id: 'test-1',
-        file: 'src/test.ts',
+        file: 'src/test.ts';
         line: 1,
         column: 7,
         rule: '@typescript-eslint/no-unused-vars',
@@ -57,7 +57,7 @@ describe('AutomatedLintingFixer', () => {
         category: { primar, y: 'typescript', secondary: 'no-unused-vars', priority: 2 },
         autoFixable: true,
         resolutionStrategy: { type: 'auto-fix',
-          confidence: 0.8,
+          confidence: 0.8;
           riskLevel: 'low',
           requiredValidation: [],
           estimatedEffort: 1,
@@ -66,7 +66,7 @@ describe('AutomatedLintingFixer', () => {
       },
       {
         id: 'test-2',
-        file: 'src/imports.ts',
+        file: 'src/imports.ts';
         line: 1,
         column: 1,
         rule: 'import/order',
@@ -75,19 +75,19 @@ describe('AutomatedLintingFixer', () => {
         category: { primar, y: 'import', secondary: 'order', priority: 3 },
         autoFixable: true,
         resolutionStrategy: { type: 'auto-fix',
-          confidence: 0.9,
+          confidence: 0.9;
           riskLevel: 'low',
           requiredValidation: [],
-          estimatedEffort: 0.5,
+          estimatedEffort: 0.5;
           dependencies: []
         }
       }
     ];
 
-    mockCategorizedErrors = {;
-      total: mockLintingIssues.length,
+    mockCategorizedErrors = {
+      total: mockLintingIssues.length;
       errors: 0,
-      warnings: mockLintingIssues.length,
+      warnings: mockLintingIssues.length;
       byCategory: { typescript: [mockLintingIssues.[0]],
         import: [mockLintingIssues.[1]]
       },
@@ -127,7 +127,7 @@ describe('AutomatedLintingFixer', () => {
     });
 
     it('should handle batch processing with custom batch size', async () => {
-      const batchOptions: Partial<BatchProcessingOptions> = { batchSize: 1,
+      const batchOptions: Partial<BatchProcessingOptions> = { batchSize: 1;
         validateAfterEachBatch: true
       };
 
@@ -150,11 +150,11 @@ describe('AutomatedLintingFixer', () => {
         .mockReturnValueOnce('stash@{0}: automated-linting-fixes') // git stash
         .mockReturnValueOnce('') // eslint fix
         .mockImplementationOnce(() => {
-          throw new Error('Build failed');
+          throw new Error('Build failed'),
         }) // build validation fails
         .mockReturnValueOnce(''); // rollback
 
-      const result: any = await fixer.applyAutomatedFixes(mockCategorizedErrors, {;
+      const result: any = await fixer.applyAutomatedFixes(mockCategorizedErrors, {
         batchSize: 1,
         validateAfterEachBatch: true
       });
@@ -164,13 +164,13 @@ describe('AutomatedLintingFixer', () => {
     });
 
     it('should skip preserved files', async () => {
-      const preservedIssue: LintingIssue = {;
+      const preservedIssue: LintingIssue = {
         ...mockLintingIssues.[0],
         file: 'src/calculations/astrological.ts'
       };
 
-      const categorizedWithPreserved: CategorizedErrors = {;
-        ...mockCategorizedErrors,
+      const categorizedWithPreserved: CategorizedErrors = {
+        ...mockCategorizedErrors;
         autoFixable: [preservedIssue]
       };
 
@@ -185,7 +185,7 @@ describe('AutomatedLintingFixer', () => {
     it('should handle dry run mode', async () => {
       mockExecSync.mockReturnValue('');
 
-      const result: any = await fixer.applyAutomatedFixes(mockCategorizedErrors, {;
+      const result: any = await fixer.applyAutomatedFixes(mockCategorizedErrors, {
         dryRun: true
       });
 
@@ -203,24 +203,24 @@ describe('AutomatedLintingFixer', () => {
         .mockReturnValueOnce('') // initial validation
         .mockReturnValueOnce('stash@{0}') // git stash
         .mockImplementationOnce(() => {
-          throw new Error('Fix failed');
+          throw new Error('Fix failed'),
         }) // first fix fails
         .mockImplementationOnce(() => {
-          throw new Error('Build failed');
+          throw new Error('Build failed'),
         }) // validation fails
         .mockReturnValueOnce('') // rollback
         .mockImplementationOnce(() => {
-          throw new Error('Fix failed');
+          throw new Error('Fix failed'),
         }) // second fix fails
         .mockImplementationOnce(() => {
-          throw new Error('Build failed');
+          throw new Error('Build failed'),
         }) // validation fails
         .mockReturnValueOnce('') // rollback
         .mockImplementationOnce(() => {
-          throw new Error('Fix failed');
+          throw new Error('Fix failed'),
         }); // third fix fails
 
-      const result: any = await fixer.applyAutomatedFixes(mockCategorizedErrors, {;
+      const result: any = await fixer.applyAutomatedFixes(mockCategorizedErrors, {
         batchSize: 1,
         continueOnError: true
       });
@@ -234,7 +234,7 @@ describe('AutomatedLintingFixer', () => {
     it('should prefix unused variables with underscore', async () => {
       const unusedVarIssues: any = [mockLintingIssues.[0]];
 
-      const result: any = await fixer.handleUnusedVariables(unusedVarIssues, {;
+      const result: any = await fixer.handleUnusedVariables(unusedVarIssues, {
         prefixWithUnderscore: true,
         removeCompletely: false
       });
@@ -242,15 +242,15 @@ describe('AutomatedLintingFixer', () => {
       expect(result.success).toBe(true);
       expect(result.fixedIssues).toBe(1);
       expect(mockFs.writeFileSync).toHaveBeenCalledWith(
-        expect.stringContaining('src/test.ts'),
-        expect.stringContaining('_unusedVar'),
+        expect.stringContaining('src/test.ts');
+        expect.stringContaining('_unusedVar');
       );
     });
 
     it('should skip domain files when configured', async () => {
-      const domainIssue: LintingIssue = {;
+      const domainIssue: LintingIssue = {
         ...mockLintingIssues.[0],
-        file: 'src/calculations/planetary.ts',
+        file: 'src/calculations/planetary.ts';
         domainContext: { isAstrologicalCalculation: true,
           isCampaignSystem: false,
           isTestFile: false,
@@ -259,7 +259,7 @@ describe('AutomatedLintingFixer', () => {
         }
       };
 
-      const result: any = await fixer.handleUnusedVariables([domainIssue], {;
+      const result: any = await fixer.handleUnusedVariables([domainIssue], {
         skipDomainFiles: true
       });
 
@@ -268,9 +268,9 @@ describe('AutomatedLintingFixer', () => {
     });
 
     it('should skip test files when configured', async () => {
-      const testIssue: LintingIssue = {;
+      const testIssue: LintingIssue = {
         ...mockLintingIssues.[0],
-        file: 'src/test.spec.ts',
+        file: 'src/test.spec.ts';
         domainContext: { isAstrologicalCalculation: false,
           isCampaignSystem: false,
           isTestFile: true,
@@ -279,7 +279,7 @@ describe('AutomatedLintingFixer', () => {
         }
       };
 
-      const result: any = await fixer.handleUnusedVariables([testIssue], {;
+      const result: any = await fixer.handleUnusedVariables([testIssue], {
         skipTestFiles: true
       });
 
@@ -289,7 +289,7 @@ describe('AutomatedLintingFixer', () => {
 
     it('should handle file read/write errors gracefully', async () => {
       mockFs.readFileSync.mockImplementationOnce(() => {
-        throw new Error('File read error');
+        throw new Error('File read error'),
       });
 
       const result: any = await fixer.handleUnusedVariables([mockLintingIssues.[0]]);
@@ -306,7 +306,7 @@ describe('AutomatedLintingFixer', () => {
       const importIssues: any = [mockLintingIssues.[1]];
       mockExecSync.mockReturnValue('');
 
-      const result = await fixer.optimizeImports(importIssues, {;
+      const result = await fixer.optimizeImports(importIssues, {
         removeDuplicates: true,
         organizeImports: true,
         sortImports: true
@@ -318,7 +318,7 @@ describe('AutomatedLintingFixer', () => {
     });
 
     it('should group issues by file for batch processing', async () => {
-      const multipleImportIssues: any = [;
+      const multipleImportIssues: any = [
         mockLintingIssues.[1],
         {
           ...mockLintingIssues.[1],
@@ -338,7 +338,7 @@ describe('AutomatedLintingFixer', () => {
 
     it('should handle eslint command failures', async () => {
       mockExecSync.mockImplementationOnce(() => {
-        throw new Error('ESLint command failed');
+        throw new Error('ESLint command failed'),
       });
 
       const result: any = await fixer.optimizeImports([mockLintingIssues.[1]]);
@@ -351,7 +351,7 @@ describe('AutomatedLintingFixer', () => {
 
   describe('improveTypeAnnotations', () => {
     it('should improve simple type annotations', async () => {
-      const typeIssue: LintingIssue = {;
+      const typeIssue: LintingIssue = {
         ...mockLintingIssues.[0],
         rule: '@typescript-eslint/no-explicit-any',
         message: ''any' type should be replaced with specific type in parameter',
@@ -360,7 +360,7 @@ describe('AutomatedLintingFixer', () => {
 
       mockExecSync.mockReturnValue('');
 
-      const result: any = await fixer.improveTypeAnnotations([typeIssue], {;
+      const result: any = await fixer.improveTypeAnnotations([typeIssue], {
         maxComplexity: 'simple',
         inferFromUsage: true
       });
@@ -370,14 +370,14 @@ describe('AutomatedLintingFixer', () => {
     });
 
     it('should skip complex type issues when configured for simple only', async () => {
-      const complexTypeIssue: LintingIssue = {;
+      const complexTypeIssue: LintingIssue = {
         ...mockLintingIssues.[0],
         rule: '@typescript-eslint/no-explicit-any',
         message: ''any' type in complex generic constraint',
         autoFixable: false
       };
 
-      const result: any = await fixer.improveTypeAnnotations([complexTypeIssue], {;
+      const result: any = await fixer.improveTypeAnnotations([complexTypeIssue], {
         maxComplexity: 'simple'
       });
 
@@ -385,13 +385,13 @@ describe('AutomatedLintingFixer', () => {
     });
 
     it('should preserve explicit any in specified patterns', async () => {
-      const astroTypeIssue: LintingIssue = {;
+      const astroTypeIssue: LintingIssue = {
         ...mockLintingIssues.[0],
-        file: 'src/calculations/planetary.ts',
+        file: 'src/calculations/planetary.ts';
         rule: '@typescript-eslint/no-explicit-any'
       };
 
-      const result: any = await fixer.improveTypeAnnotations([astroTypeIssue], {;
+      const result: any = await fixer.improveTypeAnnotations([astroTypeIssue], {
         preserveExplicitAny: ['**/calculations/**']
       });
 
@@ -411,13 +411,13 @@ describe('AutomatedLintingFixer', () => {
 
       expect(results).toHaveLength(4);
       expect(results.every(r => r.success)).toBe(true);
-      expect(results.map(r => r.type)).toEqual(['build', 'type-check', 'lint', 'test']);
+      expect(results.map(r => r.type)).toEqual(['build', 'type-check', 'lint', 'test']),
     });
 
     it('should handle validation failures gracefully', async () => {
       mockExecSync
         .mockImplementationOnce(() => {
-          throw new Error('Build failed');
+          throw new Error('Build failed'),
         })
         .mockReturnValueOnce('') // type-check
         .mockReturnValueOnce('') // lint
@@ -470,7 +470,7 @@ describe('AutomatedLintingFixer', () => {
 
       // Mock rollback failure
       mockExecSync.mockImplementationOnce(() => {
-        throw new Error('Rollback failed');
+        throw new Error('Rollback failed'),
       });
 
       const rollbackSuccess: any = await fixer.performRollback();
@@ -486,7 +486,7 @@ describe('AutomatedLintingFixer', () => {
 
   describe('Safety Protocols', () => {
     it('should respect safety protocols configuration', () => {
-      const strictSafetyProtocols: SafetyProtocols = { enableRollback: true,;
+      const strictSafetyProtocols: SafetyProtocols = { enableRollback: true,,
         validateBeforeFix: true,
         validateAfterFix: true,
         maxFailuresBeforeStop: 1,
@@ -499,13 +499,13 @@ describe('AutomatedLintingFixer', () => {
     });
 
     it('should preserve files matching safety patterns', async () => {
-      const criticalIssue: LintingIssue = {;
+      const criticalIssue: LintingIssue = {
         ...mockLintingIssues.[0],
         file: 'src/calculations/critical-astro.ts'
       };
 
-      const result: any = await fixer.applyAutomatedFixes({;
-        ...mockCategorizedErrors,
+      const result: any = await fixer.applyAutomatedFixes({
+        ...mockCategorizedErrors;
         autoFixable: [criticalIssue]
       });
 
@@ -513,7 +513,7 @@ describe('AutomatedLintingFixer', () => {
     });
 
     it('should skip high-risk issues', async () => {
-      const highRiskIssue: LintingIssue = {;
+      const highRiskIssue: LintingIssue = {
         ...mockLintingIssues.[0],
         resolutionStrategy: {
           ...mockLintingIssues.[0].resolutionStrategy,
@@ -521,8 +521,8 @@ describe('AutomatedLintingFixer', () => {
         }
       };
 
-      const result: any = await fixer.applyAutomatedFixes({;
-        ...mockCategorizedErrors,
+      const result: any = await fixer.applyAutomatedFixes({
+        ...mockCategorizedErrors;
         autoFixable: [highRiskIssue]
       });
 
@@ -530,7 +530,7 @@ describe('AutomatedLintingFixer', () => {
     });
 
     it('should skip low-confidence fixes', async () => {
-      const lowConfidenceIssue: LintingIssue = {;
+      const lowConfidenceIssue: LintingIssue = {
         ...mockLintingIssues.[0],
         resolutionStrategy: {
           ...mockLintingIssues.[0].resolutionStrategy,
@@ -538,8 +538,8 @@ describe('AutomatedLintingFixer', () => {
         }
       };
 
-      const result: any = await fixer.applyAutomatedFixes({;
-        ...mockCategorizedErrors,
+      const result: any = await fixer.applyAutomatedFixes({
+        ...mockCategorizedErrors;
         autoFixable: [lowConfidenceIssue]
       });
 
@@ -555,7 +555,7 @@ describe('AutomatedLintingFixer', () => {
         .mockReturnValueOnce('') // initial validation
         .mockReturnValueOnce('stash@{0}') // backup
         .mockImplementationOnce(() => {
-          throw new Error('Fix command failed');
+          throw new Error('Fix command failed'),
         });
 
       const result: any = await fixer.applyAutomatedFixes(mockCategorizedErrors);
@@ -572,7 +572,7 @@ describe('AutomatedLintingFixer', () => {
         .mockReturnValueOnce('') // initial validation
         .mockReturnValueOnce('stash@{0}') // backup
         .mockImplementationOnce(() => {
-          throw new Error('Critical system failure');
+          throw new Error('Critical system failure'),
         })
         .mockReturnValueOnce(''); // emergency rollback
 
@@ -608,11 +608,11 @@ describe('AutomatedLintingFixer', () => {
         .mockReturnValueOnce('stash@{0}') // backup
         .mockReturnValueOnce('') // fix
         .mockImplementationOnce(() => {
-          throw new Error('Validation failed');
+          throw new Error('Validation failed'),
         }) // validation fails
         .mockReturnValueOnce(''); // rollback
 
-      const result: any = await fixer.applyAutomatedFixes(mockCategorizedErrors, {;
+      const result: any = await fixer.applyAutomatedFixes(mockCategorizedErrors, {
         validateAfterEachBatch: true
       });
 

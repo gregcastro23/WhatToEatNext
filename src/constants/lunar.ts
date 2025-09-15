@@ -1,4 +1,4 @@
-export const _LUNAR_PHASES = {;
+export const _LUNAR_PHASES = {
   new: {
     elementalModifier: {
       Fire: 0.1,
@@ -38,7 +38,7 @@ export const _LUNAR_PHASES = {;
   // ... continues with all lunar phases
 };
 
-export const _LUNAR_CYCLE = {;
+export const _LUNAR_CYCLE = {
   averageDuration: 29.53059, // days
   phases: [
     'new',
@@ -57,7 +57,7 @@ export const _LUNAR_CYCLE = {;
 };
 
 // Lunar days information
-export const _LUNAR_DAYS = {;
+export const _LUNAR_DAYS = {
   total: 30, // Traditional lunar calendar has 30 days
   favorableDays: [3, 5, 8, 11, 13, 16, 18, 21, 23, 24, 26, 29],
   challengingDays: [4, 7, 9, 12, 14, 19, 22, 27],

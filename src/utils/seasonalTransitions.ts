@@ -2,7 +2,7 @@ import type { Season } from '@/types/alchemy';
 import type { ElementalState } from '@/types/elemental';
 
 // Default elemental balance
-const defaultBalance: ElementalState = {;
+const defaultBalance: ElementalState = {
   Fire: 0.25,
   Water: 0.25,
   Earth: 0.25,
@@ -18,7 +18,7 @@ const seasonalModifiers: Record<string, Record<string, number>> = {
 };
 
 // Base elements for calculations
-const baseElements: ElementalState = {;
+const baseElements: ElementalState = {
   Fire: 0.25,
   Water: 0.25,
   Earth: 0.25,

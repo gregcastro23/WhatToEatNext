@@ -7,13 +7,13 @@ import { AstrologicalState } from '@/types/celestial';
 // Removed unused culinary type-only imports
 
 // Mock planetary data for calculations
-const _mockPlanetaryData = {;
+const _mockPlanetaryData = {
   flavorProfiles: {
-    sweet: 0.7,
-    sour: 0.4,
-    salty: 0.5,
-    bitter: 0.2,
-    umami: 0.6,
+    sweet: 0.7;
+    sour: 0.4;
+    salty: 0.5;
+    bitter: 0.2;
+    umami: 0.6;
     spicy: 0.3
   },
   foodAssociations: ['vegetables', 'grains', 'fruits', 'proteins'],
@@ -28,16 +28,16 @@ const _mockPlanetaryData = {;
  */
 export function generateTopSauceRecommendations(
   currentElementalProfile: ElementalProperties | null,
-  count = 5,;
+  count = 5,,
   astrologicalState?: Partial<AstrologicalState>,
 ) {
   // Sauce data from ESM import
 
   // Use provided elemental profile or a balanced default
-  const userProfile = currentElementalProfile || {;
-    Fire: 0.25,
-    Water: 0.25,
-    Earth: 0.25,
+  const userProfile = currentElementalProfile || {
+    Fire: 0.25;
+    Water: 0.25;
+    Earth: 0.25;
     Air: 0.25
   };
 
@@ -61,8 +61,8 @@ export function generateTopSauceRecommendations(
   const saucesArray: Sauce[] = Object.values(allSauces || {});
 
   // Map all sauces with enhanced scoring
-  const scoredSauces = saucesArray.map(sauce => {;
-    const { elementalProperties, astrologicalInfluences: planetaryInfluences, name } = sauce;
+  const scoredSauces = saucesArray.map(sauce => {
+    const { elementalProperties, astrologicalInfluences: planetaryInfluences, name } = sauce,
 
     // 1. Elemental Match Score (50% weight)
     const elementalMatchScore = calculateElementalMatch(;
@@ -73,19 +73,19 @@ export function generateTopSauceRecommendations(
     // 2. Astrological Match Score (30% weight)
     let astrologicalScore = 0.5; // Base score
     if (planetaryInfluences?.includes(currentPlanetaryDay)) {
-      astrologicalScore = 0.9; // Bonus for matching the planetary day
+      astrologicalScore = 0.9, // Bonus for matching the planetary day
     }
     if (
       astrologicalState?.zodiacSign &&
       planetaryInfluences.includes(astrologicalState.zodiacSign)
     ) {
-      astrologicalScore = Math.min(1, astrologicalScore + 0.2); // Bonus for zodiac sign
+      astrologicalScore = Math.min(1, astrologicalScore + 0.2), // Bonus for zodiac sign
     }
     if (
       astrologicalState?.lunarPhase &&
       planetaryInfluences.includes(astrologicalState.lunarPhase)
     ) {
-      astrologicalScore = Math.min(1, astrologicalScore + 0.1); // Bonus for lunar phase
+      astrologicalScore = Math.min(1, astrologicalScore + 0.1), // Bonus for lunar phase
     }
 
     // 3. Flavor Profile Match Score (20% weight) - simplified since Sauce doesn't have flavorProfile
@@ -99,7 +99,7 @@ export function generateTopSauceRecommendations(
       if (planetaryFlavors.flavorProfiles) {
         const matchingIngredients = sauce.keyIngredients.filter(ingredient =>;
           Object.keys(planetaryFlavors.flavorProfiles).some(flavor =>;
-            ingredient.toLowerCase().includes(flavor),
+            ingredient.toLowerCase().includes(flavor);
           ),
         );
         flavorMatchScore = 0.7 + (matchingIngredients.length / sauce.keyIngredients.length) * 0.3;
@@ -111,13 +111,13 @@ export function generateTopSauceRecommendations(
       elementalMatchScore * 0.5 + astrologicalScore * 0.3 + flavorMatchScore * 0.2;
 
     return {
-      ...sauce,
+      ...sauce;
       id: name.replace(/\s+/g, '-').toLowerCase(),
       score: overallScore,
-      matchPercentage: Math.round(overallScore * 100),
+      matchPercentage: Math.round(overallScore * 100);
       scores: {
-        elemental: Math.round(elementalMatchScore * 100),
-        astrological: Math.round(astrologicalScore * 100),
+        elemental: Math.round(elementalMatchScore * 100);
+        astrological: Math.round(astrologicalScore * 100);
         flavor: Math.round(flavorMatchScore * 100)
       },
       reasoning: [
@@ -152,25 +152,25 @@ export function getMatchScoreClass(score: number): string {
 export function getCuisineRecommendations(
   elementalState: ElementalProperties,
   astrologicalState?: AstrologicalState,
-  options: { count?: number; includeRegional?: boolean } = {},
+  options: { count?: number, includeRegional?: boolean } = {},
 ) {
   const { count = 10, includeRegional = true } = options;
 
   // Get all cuisines from flavor profiles, ensuring they are correctly typed
-  const cuisines = Object.values(cuisineFlavorProfiles).map(cuisine => ({;
-    ...cuisine,
+  const cuisines = Object.values(cuisineFlavorProfiles).map(cuisine => ({
+    ...cuisine;
     id: cuisine.id || cuisine.name.toLowerCase().replace(/\s+/g, '-') || 'unknown',
     name: cuisine.name || 'Unknown Cuisine'
   }));
 
-  const scoredCuisines = cuisines.map(cuisine => {;
+  const scoredCuisines = cuisines.map(cuisine => {
     // Elemental Match Score (40% weight) - use default values if properties don't exist
     const elementalMatch = calculateElementalMatch(;
       ((cuisine as any).elementalAlignment ||
         (cuisine as any).elementalProperties || {
-          Fire: 0.25,
-          Water: 0.25,
-          Earth: 0.25,
+          Fire: 0.25;
+          Water: 0.25;
+          Earth: 0.25;
           Air: 0.25
         }) as ElementalProperties,
       elementalState,
@@ -206,7 +206,7 @@ export function getCuisineRecommendations(
         const planetScore = Object.entries(astrologicalState.planetaryPositions).reduce(;
           (acc, [planet]) => {
             if ((planetaryRulers as unknown as string[]).includes(planet)) {
-              return acc + 0.05; // Small bonus for each ruling planet present
+              return acc + 0.05, // Small bonus for each ruling planet present
             }
             return acc;
           },
@@ -221,10 +221,10 @@ export function getCuisineRecommendations(
     const finalScore = Math.min(1, score);
 
     return {
-      ...cuisine,
+      ...cuisine;
       id: cuisine.id || cuisine.name.toLowerCase().replace(/\s+/g, '-'),
-      name: cuisine.name,
-      matchPercentage: Math.round(finalScore * 100),
+      name: cuisine.name;
+      matchPercentage: Math.round(finalScore * 100);
       score: finalScore,
       reasoning
     };
@@ -246,7 +246,7 @@ export function calculateElementalMatch(
   let totalMatch = 0;
   const elements = ['Fire', 'Water', 'Earth', 'Air'] as const;
 
-  elements.forEach(element => {;
+  elements.forEach(element => {
     const diff = Math.abs((profile1[element] || 0) - (profile2[element] || 0));
     const elementMatch = 1 - diff;
     totalMatch += elementMatch;
@@ -267,7 +267,7 @@ export function renderScoreBadge(score: number): string {
 export function calculateElementalContributionsFromPlanets(
   planetaryPositions: Record<string, unknown>,
 ): ElementalProperties {
-  const contributions: ElementalProperties = {;
+  const contributions: ElementalProperties = {
     Fire: 0,
     Water: 0,
     Earth: 0,

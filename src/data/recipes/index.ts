@@ -6,7 +6,7 @@ import { getBestRecipeMatches as getBestRecipeMatchesFromMain } from '../recipes
 export { Recipes };
 
 // Create flattened list of all recipes from all cuisines
-const flattenCuisineRecipes = (cuisines: unknown) => {;
+const flattenCuisineRecipes = (cuisines: unknown) => {
   const allRecipes: Recipe[] = [];
 
   // Iterate through all cuisines

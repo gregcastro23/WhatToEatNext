@@ -759,7 +759,7 @@ const rawOils: Record<string, Partial<IngredientMapping>> = {
       vitamins: ['e', 'k'],
       minerals: ['copper', 'selenium'],
       antioxidants: ['resveratrol', 'phytosterols'],
-      notes: 'Popular in Asian cuisine; refined versions have a high smoke point'
+      notes: 'Popular in Asian cuisine, refined versions have a high smoke point'
     },
     preparation: {
       fresh: {

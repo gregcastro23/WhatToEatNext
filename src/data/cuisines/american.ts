@@ -1,7 +1,7 @@
 import type { _, _ZodiacSign } from '@/types/alchemy';
 import type { Cuisine } from '@/types/cuisine';
 
-export const american: Cuisine = {;
+export const american: Cuisine = {
   id: 'american',
   name: 'American',
   description:
@@ -75,9 +75,9 @@ export const american: Cuisine = {;
           season: ['all'],
           mealType: ['breakfast'],
           elementalProperties: {
-            Fire: 0.1,
-            Water: 0.4,
-            Earth: 0.4,
+            Fire: 0.1;
+            Water: 0.4;
+            Earth: 0.4;
             Air: 0.1
           },
           // Enhanced with moon phase affinities
@@ -140,7 +140,7 @@ export const american: Cuisine = {;
           prepTime: '5 minutes',
           cookTime: '5 minutes',
           culturalNotes:
-            'A modern American breakfast that gained popularity in urban centers before spreading nationwide. Represents the fusion of California cuisine with health-conscious trends',
+            'A modern American breakfast that gained popularity in urban centers before spreading nationwide. Represents the fusion of California cuisine with health-conscious trends';
           pairingSuggestions: ['fresh fruit', 'coffee', 'green smoothie'],
           dietaryInfo: ['vegetarian'],
           spiceLevel: 'mild',
@@ -155,9 +155,9 @@ export const american: Cuisine = {;
           season: ['spring', 'summer'],
           mealType: ['breakfast', 'brunch'],
           elementalProperties: {
-            Fire: 0.1,
-            Water: 0.3,
-            Earth: 0.5,
+            Fire: 0.1;
+            Water: 0.3;
+            Earth: 0.5;
             Air: 0.1
           },
           // Enhanced with moon phase affinities
@@ -214,7 +214,7 @@ export const american: Cuisine = {;
           prepTime: '20 minutes',
           cookTime: '20 minutes',
           culturalNotes:
-            'A quintessential Southern breakfast dish with roots in early American frontier cooking. Traditionally served as a hearty start to a day of manual labor',
+            'A quintessential Southern breakfast dish with roots in early American frontier cooking. Traditionally served as a hearty start to a day of manual labor';
           pairingSuggestions: ['fried eggs', 'grits', 'fresh fruit', 'coffee'],
           dietaryInfo: ['contains meat', 'high calorie'],
           spiceLevel: 'mild',
@@ -229,9 +229,9 @@ export const american: Cuisine = {;
           season: ['autumn', 'winter'],
           mealType: ['breakfast'],
           elementalProperties: {
-            Fire: 0.3,
-            Water: 0.3,
-            Earth: 0.4,
+            Fire: 0.3;
+            Water: 0.3;
+            Earth: 0.4;
             Air: 0.0
           },
           // Enhanced with moon phase affinities
@@ -288,9 +288,9 @@ export const american: Cuisine = {;
           season: ['spring'],
           mealType: ['breakfast', 'brunch'],
           elementalProperties: {
-            Fire: 0.1,
-            Water: 0.3,
-            Earth: 0.2,
+            Fire: 0.1;
+            Water: 0.3;
+            Earth: 0.2;
             Air: 0.4
           },
           lunarPhaseInfluences: ['waxing crescent', 'first quarter'],
@@ -334,9 +334,9 @@ export const american: Cuisine = {;
           season: ['summer'],
           mealType: ['breakfast'],
           elementalProperties: {
-            Fire: 0.0,
-            Water: 0.5,
-            Earth: 0.4,
+            Fire: 0.0;
+            Water: 0.5;
+            Earth: 0.4;
             Air: 0.1
           },
           lunarPhaseInfluences: ['full moon', 'waxing gibbous'],
@@ -392,9 +392,9 @@ export const american: Cuisine = {;
           season: ['autumn'],
           mealType: ['breakfast'],
           elementalProperties: {
-            Fire: 0.2,
-            Water: 0.2,
-            Earth: 0.6,
+            Fire: 0.2;
+            Water: 0.2;
+            Earth: 0.6;
             Air: 0.0
           },
           lunarPhaseInfluences: ['waning gibbous', 'last quarter'],
@@ -438,9 +438,9 @@ export const american: Cuisine = {;
           season: ['winter'],
           mealType: ['breakfast'],
           elementalProperties: {
-            Fire: 0.2,
-            Water: 0.2,
-            Earth: 0.5,
+            Fire: 0.2;
+            Water: 0.2;
+            Earth: 0.5;
             Air: 0.1
           },
           lunarPhaseInfluences: ['new moon', 'waning crescent'],
@@ -542,9 +542,9 @@ export const american: Cuisine = {;
           season: ['all', 'summer'],
           mealType: ['lunch', 'dinner'],
           elementalProperties: {
-            Fire: 0.5,
-            Water: 0.1,
-            Earth: 0.3,
+            Fire: 0.5;
+            Water: 0.1;
+            Earth: 0.3;
             Air: 0.1
           },
           lunarPhaseInfluences: ['full moon', 'first quarter'],
@@ -642,9 +642,9 @@ export const american: Cuisine = {;
           season: ['all', 'summer'],
           mealType: ['lunch'],
           elementalProperties: {
-            Fire: 0.2,
-            Water: 0.4,
-            Earth: 0.3,
+            Fire: 0.2;
+            Water: 0.4;
+            Earth: 0.3;
             Air: 0.1
           },
           lunarPhaseInfluences: ['first quarter', 'waxing gibbous'],
@@ -702,7 +702,7 @@ export const american: Cuisine = {;
           prepTime: '20 minutes',
           cookTime: '30 minutes',
           culturalNotes:
-            'A regional specialty from New England dating back to the 18th century. Traditional Friday meal for Catholic New Englanders who avoided meat on Fridays',
+            'A regional specialty from New England dating back to the 18th century. Traditional Friday meal for Catholic New Englanders who avoided meat on Fridays';
           pairingSuggestions: ['oyster crackers', 'sourdough bread', 'green salad'],
           dietaryInfo: ['contains seafood', 'contains pork'],
           spiceLevel: 'none',
@@ -717,9 +717,9 @@ export const american: Cuisine = {;
           season: ['autumn', 'winter'],
           mealType: ['lunch', 'dinner'],
           elementalProperties: {
-            Fire: 0.1,
-            Water: 0.6,
-            Earth: 0.2,
+            Fire: 0.1;
+            Water: 0.6;
+            Earth: 0.2;
             Air: 0.1
           },
           lunarPhaseInfluences: ['full moon', 'waning gibbous'],
@@ -763,9 +763,9 @@ export const american: Cuisine = {;
           season: ['spring'],
           mealType: ['lunch', 'brunch'],
           elementalProperties: {
-            Fire: 0.1,
-            Water: 0.2,
-            Earth: 0.3,
+            Fire: 0.1;
+            Water: 0.2;
+            Earth: 0.3;
             Air: 0.4
           },
           lunarPhaseInfluences: ['waxing crescent', 'first quarter'],
@@ -821,9 +821,9 @@ export const american: Cuisine = {;
           season: ['summer'],
           mealType: ['lunch'],
           elementalProperties: {
-            Fire: 0.0,
-            Water: 0.7,
-            Earth: 0.2,
+            Fire: 0.0;
+            Water: 0.7;
+            Earth: 0.2;
             Air: 0.1
           },
           lunarPhaseInfluences: ['full moon', 'waxing gibbous'],
@@ -879,9 +879,9 @@ export const american: Cuisine = {;
           season: ['autumn'],
           mealType: ['lunch'],
           elementalProperties: {
-            Fire: 0.0,
-            Water: 0.3,
-            Earth: 0.4,
+            Fire: 0.0;
+            Water: 0.3;
+            Earth: 0.4;
             Air: 0.3
           },
           lunarPhaseInfluences: ['waning gibbous', 'last quarter'],
@@ -937,9 +937,9 @@ export const american: Cuisine = {;
           season: ['winter'],
           mealType: ['lunch', 'dinner'],
           elementalProperties: {
-            Fire: 0.1,
-            Water: 0.4,
-            Earth: 0.4,
+            Fire: 0.1;
+            Water: 0.4;
+            Earth: 0.4;
             Air: 0.1
           },
           lunarPhaseInfluences: ['waning crescent', 'new moon'],
@@ -1014,9 +1014,9 @@ export const american: Cuisine = {;
           season: ['summer', 'all'],
           mealType: ['dinner'],
           elementalProperties: {
-            Fire: 0.7,
-            Water: 0.0,
-            Earth: 0.3,
+            Fire: 0.7;
+            Water: 0.0;
+            Earth: 0.3;
             Air: 0.0
           },
           lunarPhaseInfluences: ['full moon', 'first quarter'],
@@ -1075,7 +1075,7 @@ export const american: Cuisine = {;
           prepTime: '25 minutes',
           cookTime: '1 hour',
           culturalNotes:
-            'A quintessential American home-cooked meal that rose to popularity in the 1950s. Represents post-war American comfort food that stretched meat with affordable ingredients',
+            'A quintessential American home-cooked meal that rose to popularity in the 1950s. Represents post-war American comfort food that stretched meat with affordable ingredients';
           pairingSuggestions: ['green beans', 'dinner rolls', 'gravy'],
           dietaryInfo: ['contains meat', 'high protein'],
           spiceLevel: 'none',
@@ -1090,9 +1090,9 @@ export const american: Cuisine = {;
           season: ['autumn', 'winter', 'all'],
           mealType: ['dinner'],
           elementalProperties: {
-            Fire: 0.3,
-            Water: 0.2,
-            Earth: 0.5,
+            Fire: 0.3;
+            Water: 0.2;
+            Earth: 0.5;
             Air: 0.0
           },
           lunarPhaseInfluences: ['waning gibbous', 'full moon'],
@@ -1163,7 +1163,7 @@ export const american: Cuisine = {;
           prepTime: '30 minutes plus marinating time',
           cookTime: '45 minutes',
           culturalNotes:
-            'A cornerstone of Southern American cuisine with roots in African American culinary traditions. Sunday dinners and celebrations often featured this meal',
+            'A cornerstone of Southern American cuisine with roots in African American culinary traditions. Sunday dinners and celebrations often featured this meal';
           pairingSuggestions: ['collard greens', 'mac and cheese', 'sweet tea'],
           dietaryInfo: ['contains meat', 'high calorie'],
           spiceLevel: 'mild',
@@ -1178,9 +1178,9 @@ export const american: Cuisine = {;
           season: ['all'],
           mealType: ['dinner'],
           elementalProperties: {
-            Fire: 0.4,
-            Water: 0.2,
-            Earth: 0.4,
+            Fire: 0.4;
+            Water: 0.2;
+            Earth: 0.4;
             Air: 0.0
           },
           lunarPhaseInfluences: ['full moon', 'waxing gibbous'],
@@ -1243,9 +1243,9 @@ export const american: Cuisine = {;
           season: ['spring'],
           mealType: ['dinner'],
           elementalProperties: {
-            Fire: 0.3,
-            Water: 0.2,
-            Earth: 0.4,
+            Fire: 0.3;
+            Water: 0.2;
+            Earth: 0.4;
             Air: 0.1
           },
           lunarPhaseInfluences: ['waxing crescent', 'first quarter'],
@@ -1314,9 +1314,9 @@ export const american: Cuisine = {;
           season: ['summer'],
           mealType: ['dinner'],
           elementalProperties: {
-            Fire: 0.2,
-            Water: 0.4,
-            Earth: 0.3,
+            Fire: 0.2;
+            Water: 0.4;
+            Earth: 0.3;
             Air: 0.1
           },
           lunarPhaseInfluences: ['full moon', 'waxing gibbous'],
@@ -1372,9 +1372,9 @@ export const american: Cuisine = {;
           season: ['autumn'],
           mealType: ['dinner'],
           elementalProperties: {
-            Fire: 0.4,
-            Water: 0.1,
-            Earth: 0.5,
+            Fire: 0.4;
+            Water: 0.1;
+            Earth: 0.5;
             Air: 0.0
           },
           lunarPhaseInfluences: ['waning gibbous', 'last quarter'],
@@ -1430,9 +1430,9 @@ export const american: Cuisine = {;
           season: ['winter'],
           mealType: ['dinner', 'holiday'],
           elementalProperties: {
-            Fire: 0.1,
-            Water: 0.3,
-            Earth: 0.3,
+            Fire: 0.1;
+            Water: 0.3;
+            Earth: 0.3;
             Air: 0.3
           },
           lunarPhaseInfluences: ['new moon', 'waning crescent'],
@@ -1465,7 +1465,7 @@ export const american: Cuisine = {;
           ingredients: [
             {
               name: 'all-purpose flour',
-              amount: '2.5',
+              amount: '2.5';
               unit: 'cups',
               category: 'grain',
               element: 'Earth'
@@ -1486,7 +1486,7 @@ export const american: Cuisine = {;
           prepTime: '45 minutes',
           cookTime: '50 minutes',
           culturalNotes:
-            'Apple pie is an iconic American dessert that symbolizes American national pride ('as American as apple pie'). Traditional at Thanksgiving and throughout autumn',
+            'Apple pie is an iconic American dessert that symbolizes American national pride ('as American as apple pie'). Traditional at Thanksgiving and throughout autumn';
           pairingSuggestions: ['vanilla ice cream', 'cheddar cheese', 'caramel sauce'],
           dietaryInfo: ['vegetarian'],
           spiceLevel: 'none',
@@ -1501,9 +1501,9 @@ export const american: Cuisine = {;
           season: ['autumn', 'all'],
           mealType: ['dessert'],
           elementalProperties: {
-            Fire: 0.1,
-            Water: 0.3,
-            Earth: 0.6,
+            Fire: 0.1;
+            Water: 0.3;
+            Earth: 0.6;
             Air: 0.0
           },
           lunarPhaseInfluences: ['full moon', 'waning gibbous'],
@@ -1538,7 +1538,7 @@ export const american: Cuisine = {;
           ingredients: [
             {
               name: 'all-purpose flour',
-              amount: '2.25',
+              amount: '2.25';
               unit: 'cups',
               category: 'grain',
               element: 'Earth'
@@ -1592,9 +1592,9 @@ export const american: Cuisine = {;
           season: ['all'],
           mealType: ['dessert', 'snack'],
           elementalProperties: {
-            Fire: 0.2,
-            Water: 0.1,
-            Earth: 0.7,
+            Fire: 0.2;
+            Water: 0.1;
+            Earth: 0.7;
             Air: 0.0
           },
           lunarPhaseInfluences: ['new moon', 'waxing crescent'],
@@ -1671,9 +1671,9 @@ export const american: Cuisine = {;
           season: ['all'],
           mealType: ['dessert'],
           elementalProperties: {
-            Fire: 0.0,
-            Water: 0.2,
-            Earth: 0.7,
+            Fire: 0.0;
+            Water: 0.2;
+            Earth: 0.7;
             Air: 0.1
           },
           lunarPhaseInfluences: ['full moon', 'waxing gibbous'],
@@ -1723,9 +1723,9 @@ export const american: Cuisine = {;
           season: ['spring'],
           mealType: ['dessert'],
           elementalProperties: {
-            Fire: 0.1,
-            Water: 0.4,
-            Earth: 0.5,
+            Fire: 0.1;
+            Water: 0.4;
+            Earth: 0.5;
             Air: 0.0
           },
           lunarPhaseInfluences: ['waxing crescent', 'first quarter'],
@@ -1754,7 +1754,7 @@ export const american: Cuisine = {;
             },
             {
               name: 'chocolate ice cream',
-              amount: '1.5',
+              amount: '1.5';
               unit: 'quarts',
               category: 'dairy',
               element: 'Water'
@@ -1788,9 +1788,9 @@ export const american: Cuisine = {;
           season: ['summer'],
           mealType: ['dessert'],
           elementalProperties: {
-            Fire: 0.1,
-            Water: 0.3,
-            Earth: 0.5,
+            Fire: 0.1;
+            Water: 0.3;
+            Earth: 0.5;
             Air: 0.1
           },
           lunarPhaseInfluences: ['full moon', 'waxing gibbous'],
@@ -1840,9 +1840,9 @@ export const american: Cuisine = {;
           season: ['autumn'],
           mealType: ['dessert'],
           elementalProperties: {
-            Fire: 0.2,
-            Water: 0.2,
-            Earth: 0.6,
+            Fire: 0.2;
+            Water: 0.2;
+            Earth: 0.6;
             Air: 0.0
           },
           lunarPhaseInfluences: ['waning gibbous', 'last quarter'],
@@ -1898,9 +1898,9 @@ export const american: Cuisine = {;
           season: ['winter'],
           mealType: ['dessert', 'holiday'],
           elementalProperties: {
-            Fire: 0.3,
-            Water: 0.0,
-            Earth: 0.7,
+            Fire: 0.3;
+            Water: 0.0;
+            Earth: 0.7;
             Air: 0.0
           },
           lunarPhaseInfluences: ['new moon', 'waning crescent'],
@@ -1935,9 +1935,9 @@ export const american: Cuisine = {;
         'Alabama (white)'
       ],
       elementalProperties: {
-        Fire: 0.5,
-        Earth: 0.3,
-        Water: 0.2,
+        Fire: 0.5;
+        Earth: 0.3;
+        Water: 0.2;
         Air: 0.0
       },
       astrologicalInfluences: ['Mars', 'Sun', 'Aries'],
@@ -1953,9 +1953,9 @@ export const american: Cuisine = {;
       culinaryUses: ['salad dressing', 'dipping sauce', 'sandwich spread', 'vegetable dip'],
       variants: ['Classic', 'Spicy', 'Avocado', 'Chipotle'],
       elementalProperties: {
-        Fire: 0.0,
-        Earth: 0.2,
-        Water: 0.6,
+        Fire: 0.0;
+        Earth: 0.2;
+        Water: 0.6;
         Air: 0.2
       },
       astrologicalInfluences: ['Venus', 'Moon', 'Taurus'],
@@ -1971,9 +1971,9 @@ export const american: Cuisine = {;
       culinaryUses: ['condiment', 'marinade component', 'flavor enhancer', 'heat source'],
       variants: ['Louisiana-style', 'Sriracha-inspired', 'Habanero', 'Smoky Chipotle'],
       elementalProperties: {
-        Fire: 0.9,
-        Earth: 0.0,
-        Water: 0.1,
+        Fire: 0.9;
+        Earth: 0.0;
+        Water: 0.1;
         Air: 0.0
       },
       astrologicalInfluences: ['Mars', 'Pluto', 'Aries'],
@@ -1994,9 +1994,9 @@ export const american: Cuisine = {;
       ],
       variants: ['Brown Gravy', 'Country Gravy', 'Mushroom Gravy', 'Turkey Gravy'],
       elementalProperties: {
-        Fire: 0.2,
-        Earth: 0.5,
-        Water: 0.3,
+        Fire: 0.2;
+        Earth: 0.5;
+        Water: 0.3;
         Air: 0.0
       },
       astrologicalInfluences: ['Saturn', 'Jupiter', 'Taurus'],
@@ -2017,9 +2017,9 @@ export const american: Cuisine = {;
       ],
       variants: ['Traditional', 'Bourbon-infused', 'Spiced', 'Savory'],
       elementalProperties: {
-        Fire: 0.1,
-        Earth: 0.4,
-        Water: 0.5,
+        Fire: 0.1;
+        Earth: 0.4;
+        Water: 0.5;
         Air: 0.0
       },
       astrologicalInfluences: ['Venus', 'Jupiter', 'Libra'],

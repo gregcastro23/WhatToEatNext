@@ -8,10 +8,10 @@ import { log } from '@/services/LoggingService';
 
 // Fallback stubs: real debug components are not available in this build
 const StateInspector = () => (;
-  <div className='rounded border border-gray-200 bg-white p-4'>State Inspector unavailable</div>;
+  <div className='rounded border border-gray-200 bg-white p-4'>State Inspector unavailable</div>
 );
 const DebugHub = () => (;
-  <div className='rounded border border-gray-200 bg-white p-4'>Debug Hub unavailable</div>;
+  <div className='rounded border border-gray-200 bg-white p-4'>Debug Hub unavailable</div>
 );
 
 import { testCookingMethodRecommendations } from '../../utils/testRecommendations';
@@ -19,19 +19,19 @@ import { testCookingMethodRecommendations } from '../../utils/testRecommendation
 // Import debug components
 
 interface TestIngredient {
-  name: string;
-  element: string;
-  elementalCharacter: string;
+  name: string,
+  element: string,
+  elementalCharacter: string,
 }
 
 interface TestResult {
-  ingredient: TestIngredient;
-  holisticRecommendations: Array<{ method: string; compatibility: number; reason: string }>;
-  standardRecommendations: Array<{ method: string; compatibility: number }>;
+  ingredient: TestIngredient,
+  holisticRecommendations: Array<{ method: string, compatibility: number, reason: string }>;
+  standardRecommendations: Array<{ method: string, compatibility: number }>;
 }
 
 function ClientOnly({ children }: { children: React.ReactNode }) {
-  const [hasMounted, setHasMounted] = useState(false);
+  const [hasMounted, setHasMounted] = useState(false),
 
   useEffect(() => {
     setHasMounted(true);
@@ -42,7 +42,7 @@ function ClientOnly({ children }: { children: React.ReactNode }) {
       <div className='p-4 text-center'>;
         <p>Loading debug tools...</p>
       </div>
-    );
+    ),
   }
 
   return <>{children}</>;
@@ -53,7 +53,7 @@ function DebugContent() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const runTest = () => {;
+  const runTest = () => {
     setLoading(true);
     setError(null);
 
@@ -61,10 +61,10 @@ function DebugContent() {
       log.info('Running cooking method recommendations test...');
       const results = testCookingMethodRecommendations();
       setTestResults(results as unknown);
-      log.info('Test complete, results:', results);
+      log.info('Test complete, results:', results),
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Unknown error');
-      console.error('Test failed:', err);
+      console.error('Test failed:', err),
     } finally {
       setLoading(false);
     }

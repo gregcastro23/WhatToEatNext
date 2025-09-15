@@ -1,5 +1,5 @@
 // Planetary data
-export const planetaryData = {;
+export const planetaryData = {
   Sun: {
     element: 'Fire',
     foodCorrespondences: ['sunflower seeds', 'oranges', 'cinnamon'],

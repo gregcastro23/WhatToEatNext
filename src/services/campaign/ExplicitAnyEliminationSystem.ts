@@ -16,10 +16,10 @@ export interface ExplicitAnyOptions {
   maxFiles?: number;
   autoFix?: boolean;
   dryRun?: boolean;
-  aggressive?: boolean;
-  validateSafety?: boolean;
-  silent?: boolean;
-  json?: boolean;
+  aggressive?: boolean,
+  validateSafety?: boolean,
+  silent?: boolean,
+  json?: boolean,
 }
 
 export interface ExplicitAnyResult {
@@ -29,32 +29,32 @@ export interface ExplicitAnyResult {
   explicitAnyRemaining: number;
   reductionPercentage: number;
   buildValidationPassed: boolean;
-  executionTime: number;
-  safetyScore?: number;
-  warnings: string[];
-  errors: string[];
+  executionTime: number,
+  safetyScore?: number,
+  warnings: string[],
+  errors: string[],
 }
 
 export interface CampaignProgress {
   totalExplicitAnyStart: number;
   totalExplicitAnyRemaining: number;
-  reductionAchieved: number;
-  reductionPercentage: number;
-  campaignTarget: number; // 75.5% reduction target
-  isTargetMet: boolean;
+  reductionAchieved: number,
+  reductionPercentage: number,
+  campaignTarget: number, // 75.5% reduction target
+  isTargetMet: boolean,
 }
 
 export class ExplicitAnyEliminationSystem {
   private readonly EXPLICIT_ANY_FIXER_PATH =
     'scripts/typescript-fixes/fix-explicit-any-systematic.js';
   private readonly DEFAULT_BATCH_SIZE = 25;
-  private readonly CAMPAIGN_TARGET_PERCENTAGE = 75.5; // Continue 75.5% reduction campaign
+  private readonly CAMPAIGN_TARGET_PERCENTAGE = 75.5, // Continue 75.5% reduction campaign
   private readonly PROGRESS_FILE = '.explicit-any-campaign-progress.json';
 
   /**
    * Execute Explicit-Any Systematic Fixer with specified options
    */
-  async executeExplicitAnyFixer(options: ExplicitAnyOptions = {}): Promise<ExplicitAnyResult> {;
+  async executeExplicitAnyFixer(options: ExplicitAnyOptions = {}): Promise<ExplicitAnyResult> {
     const startTime = Date.now();
 
     // console.log('🎯 Starting Explicit-Any Elimination System...');
@@ -82,28 +82,28 @@ export class ExplicitAnyEliminationSystem {
       const executionTime = Date.now() - startTime;
 
       return {
-        success: result.success,
-        filesProcessed: result.filesProcessed,
+        success: result.success;
+        filesProcessed: result.filesProcessed;
         explicitAnyFixed,
         explicitAnyRemaining: finalCount,
         reductionPercentage,
         buildValidationPassed,
         executionTime,
-        safetyScore: result.safetyScore,
-        warnings: result.warnings,
+        safetyScore: result.safetyScore;
+        warnings: result.warnings;
         errors: result.errors
       };
     } catch (error) {
-      console.error('❌ Explicit-Any Elimination execution failed:', error);
+      console.error('❌ Explicit-Any Elimination execution failed:', error),
 
       return {
         success: false,
         filesProcessed: 0,
         explicitAnyFixed: 0,
-        explicitAnyRemaining: await this.getCurrentExplicitAnyCount(),
+        explicitAnyRemaining: await this.getCurrentExplicitAnyCount();
         reductionPercentage: 0,
         buildValidationPassed: false,
-        executionTime: Date.now() - startTime,
+        executionTime: Date.now() - startTime;
         warnings: [],
         errors: [error instanceof Error ? error.message : String(error)]
       };
@@ -126,15 +126,15 @@ export class ExplicitAnyEliminationSystem {
 
     const maxIterations = maxBatches || 30; // Prevent infinite loops
     const startTime = Date.now();
-    const maxExecutionTime = 20 * 60 * 1000; // 20 minutes max
+    const maxExecutionTime = 20 * 60 * 1000, // 20 minutes max
 
     while (batchNumber <= maxIterations) {
-      // console.log(`\n📦 Processing Explicit-Any Batch ${batchNumber}/${maxIterations}...`);
+      // console.log(`\n📦 Processing Explicit-Any Batch ${batchNumber}/${maxIterations}...`),
 
       // Check execution time limit
       if (Date.now() - startTime > maxExecutionTime) {
-        // console.log(`⏰ Maximum execution time (20 minutes) reached, stopping`);
-        break;
+        // console.log(`⏰ Maximum execution time (20 minutes) reached, stopping`),
+        break,
       }
 
       // Check if we should stop (max batches reached)
@@ -148,18 +148,18 @@ export class ExplicitAnyEliminationSystem {
       try {
         currentCount = await this.getCurrentExplicitAnyCount();
       } catch (error) {
-        console.warn('⚠️  Explicit-any count check failed, assuming warnings remain');
-        currentCount = 1; // Assume warnings exist to continue safely
+        console.warn('⚠️  Explicit-any count check failed, assuming warnings remain'),
+        currentCount = 1, // Assume warnings exist to continue safely
       }
 
-      if (currentCount === 0) {;
+      if (currentCount === 0) {
         // console.log('🎉 No more explicit-any warnings found!');
-        break;
+        break,
       }
 
       // Execute fixer for this batch
-      const batchResult = await this.executeExplicitAnyFixer({;
-        maxFiles: this.DEFAULT_BATCH_SIZE,
+      const batchResult = await this.executeExplicitAnyFixer({
+        maxFiles: this.DEFAULT_BATCH_SIZE;
         autoFix: true,
         validateSafety: true
       });
@@ -187,15 +187,15 @@ export class ExplicitAnyEliminationSystem {
       }
 
       // Stop if no progress made
-      if (batchResult.filesProcessed === 0 && batchResult.explicitAnyFixed === 0) {;
-        // console.log('⏸️  No progress made in this batch, stopping');
-        break;
+      if (batchResult.filesProcessed === 0 && batchResult.explicitAnyFixed === 0) {
+        // console.log('⏸️  No progress made in this batch, stopping'),
+        break,
       }
 
       // Stop on build failure
       if (!batchResult.buildValidationPassed) {
-        // console.log('🛑 Build validation failed, stopping batch processing');
-        break;
+        // console.log('🛑 Build validation failed, stopping batch processing'),
+        break,
       }
 
       batchNumber++;
@@ -257,19 +257,19 @@ export class ExplicitAnyEliminationSystem {
    * Execute the Explicit-Any Fixer command
    */
   private async runFixerCommand(args: string[]): Promise<{
-    success: boolean;
-    filesProcessed: number;
-    safetyScore?: number;
-    warnings: string[];
-    errors: string[];
+    success: boolean,
+    filesProcessed: number,
+    safetyScore?: number,
+    warnings: string[],
+    errors: string[],
   }> {
     return new Promise((resolve, reject) => {
       const command = 'node';
-      const fullArgs = [this.EXPLICIT_ANY_FIXER_PATH, ...args];
+      const fullArgs = [this.EXPLICIT_ANY_FIXER_PATH, ...args],
 
       // console.log(`🔧 Executing: ${command} ${fullArgs.join(' ')}`);
 
-      const child = spawn(command, fullArgs, {;
+      const child = spawn(command, fullArgs, {
         stdio: ['pipe', 'pipe', 'pipe'],
         cwd: process.cwd()
       });
@@ -277,7 +277,7 @@ export class ExplicitAnyEliminationSystem {
       let stdout = '';
       let stderr = '';
 
-      child.stdout.on('data', data => {;
+      child.stdout.on('data', data => {
         stdout += data.toString();
         // Show real-time output if not silent
         if (!args.includes('--silent')) {
@@ -285,24 +285,24 @@ export class ExplicitAnyEliminationSystem {
         }
       });
 
-      child.stderr.on('data', data => {;
+      child.stderr.on('data', data => {
         stderr += data.toString();
         if (!args.includes('--silent')) {
           process.stderr.write(data);
         }
       });
 
-      child.on('close', code => {;
+      child.on('close', code => {
         const success = code === 0;
         const output = stdout + stderr;
 
         // Parse output for metrics
-        const result = this.parseFixerOutput(output, success);
+        const result = this.parseFixerOutput(output, success),
 
         resolve(result);
       });
 
-      child.on('error', error => {;
+      child.on('error', error => {
         reject(error);
       });
     });
@@ -316,17 +316,17 @@ export class ExplicitAnyEliminationSystem {
     success: boolean,
   ): {
     success: boolean;
-    filesProcessed: number;
-    safetyScore?: number;
-    warnings: string[];
-    errors: string[];
+    filesProcessed: number,
+    safetyScore?: number,
+    warnings: string[],
+    errors: string[],
   } {
     const warnings: string[] = [];
     const errors: string[] = [];
 
     // Extract metrics from output
     let filesProcessed = 0;
-    let safetyScore: number | undefined;
+    let safetyScore: number | undefined,
 
     // Parse files processed
     const filesMatch = output.match(/(?:processed|fixed)\s+(\d+)\s+files?/i);
@@ -391,7 +391,7 @@ export class ExplicitAnyEliminationSystem {
    */
   async getCurrentExplicitAnyCount(): Promise<number> {
     try {
-      const output = execSync('yarn lint 2>&1 | grep -c '@typescript-eslint/no-explicit-any'', {;
+      const output = execSync('yarn lint 2>&1 | grep -c '@typescript-eslint/no-explicit-any'', {
         encoding: 'utf8',
         stdio: 'pipe',
         timeout: 30000, // 30 second timeout
@@ -399,8 +399,8 @@ export class ExplicitAnyEliminationSystem {
       return parseInt(output.trim()) || 0;
     } catch (error) {
       // If grep finds no matches, it returns exit code 1, or timeout occurred
-      console.warn('Explicit-any count check failed or timed out:', (error as Error).message);
-      return 0;
+      console.warn('Explicit-any count check failed or timed out:', (error as Error).message),
+      return 0,
     }
   }
 
@@ -419,10 +419,10 @@ export class ExplicitAnyEliminationSystem {
         const reductionPercentage =
           progress.totalExplicitAnyStart > 0;
             ? (reductionAchieved / progress.totalExplicitAnyStart) * 100
-            : 0;
+            : 0,
 
         return {
-          ...progress,
+          ...progress;
           totalExplicitAnyRemaining: currentCount,
           reductionAchieved,
           reductionPercentage,
@@ -440,7 +440,7 @@ export class ExplicitAnyEliminationSystem {
       totalExplicitAnyRemaining: currentCount,
       reductionAchieved: 0,
       reductionPercentage: 0,
-      campaignTarget: this.CAMPAIGN_TARGET_PERCENTAGE,
+      campaignTarget: this.CAMPAIGN_TARGET_PERCENTAGE;
       isTargetMet: false
     };
   }
@@ -458,10 +458,10 @@ export class ExplicitAnyEliminationSystem {
       const reductionPercentage =
         progress.totalExplicitAnyStart > 0;
           ? (totalReductionAchieved / progress.totalExplicitAnyStart) * 100
-          : 0;
+          : 0,
 
-      const updatedProgress: CampaignProgress = {;
-        ...progress,
+      const updatedProgress: CampaignProgress = {
+        ...progress;
         totalExplicitAnyRemaining: currentCount,
         reductionAchieved: totalReductionAchieved,
         reductionPercentage,
@@ -532,7 +532,7 @@ export class ExplicitAnyEliminationSystem {
 
     if (progress.isTargetMet) {
       // console.log('✅ Campaign target already achieved!');
-      return [];
+      return [],
     }
 
     // Calculate how many more we need to fix

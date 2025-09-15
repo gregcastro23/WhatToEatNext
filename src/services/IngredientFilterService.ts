@@ -18,10 +18,10 @@ export interface DietaryFilter {
   isVegetarian?: boolean;
   isVegan?: boolean;
   isGlutenFree?: boolean;
-  isDairyFree?: boolean;
-  isNutFree?: boolean;
-  isLowSodium?: boolean;
-  isLowSugar?: boolean;
+  isDairyFree?: boolean,
+  isNutFree?: boolean,
+  isLowSodium?: boolean,
+  isLowSugar?: boolean,
 }
 
 // Combined filter interface
@@ -29,10 +29,10 @@ export interface IngredientFilter {
   nutritional?: NutritionalFilter;
   elemental?: ElementalFilter;
   dietary?: DietaryFilter;
-  season?: string[];
-  categories?: string[];
-  searchQuery?: string;
-  excludeIngredients?: string[];
+  season?: string[],
+  categories?: string[],
+  searchQuery?: string,
+  excludeIngredients?: string[],
 }
 
 // Structure for recipe recommendations
@@ -40,20 +40,20 @@ export interface RecipeRecommendation {
   id: string;
   title: string;
   image: string;
-  readyInMinutes: number;
-  healthScore: number;
+  readyInMinutes: number,
+  healthScore: number,
   nutrition: {
     nutrients: Array<{
-      name: string;
-      amount: number;
-      unit: string;
+      name: string,
+      amount: number,
+      unit: string,
     }>;
   };
   usedIngredients: string[];
 }
 
 // Groupings for ingredient types
-export const INGREDIENT_GROUPS = {;
+export const INGREDIENT_GROUPS = {
   PROTEINS: 'Proteins',
   VEGETABLES: 'Vegetables',
   FRUITS: 'Fruits',
@@ -65,13 +65,13 @@ export const INGREDIENT_GROUPS = {;
 
 // Helper class to provide ingredient filtering services
 export class IngredientFilterService {
-  private static instance: IngredientFilterService;
-  private allIngredients: Record<string, Record<string, IngredientMapping>>;
+  private static instance: IngredientFilterService,
+  private allIngredients: Record<string, Record<string, IngredientMapping>>,
   // spoonacularCache removed with cleanup
 
   private constructor() {
     // Initialize with all available ingredient data
-    this.allIngredients = {;
+    this.allIngredients = {
       [INGREDIENT_GROUPS.PROTEINS]: proteins as Record<string, IngredientMapping>,
       [INGREDIENT_GROUPS.VEGETABLES]: vegetables as Record<string, IngredientMapping>,
       [INGREDIENT_GROUPS.FRUITS]: fruits as Record<string, IngredientMapping>,
@@ -91,7 +91,7 @@ export class IngredientFilterService {
   }
 
   // Main filtering method that combines all filter types
-  public filterIngredients(filter: IngredientFilter = {}): Record<string, IngredientMapping[]> {;
+  public filterIngredients(filter: IngredientFilter = {}): Record<string, IngredientMapping[]> {
     // Start with all ingredients, grouped by category
     const filteredResults: Record<string, IngredientMapping[]> = {};
 
@@ -102,8 +102,8 @@ export class IngredientFilterService {
         : Object.keys(this.allIngredients);
 
     // Process each category
-    categoriesToInclude.forEach(category => {;
-      if (!this.allIngredients[category]) return;
+    categoriesToInclude.forEach(category => {
+      if (!this.allIngredients[category]) return,
 
       // Convert object to array of ingredients with names
       const categoryIngredients = Object.entries(this.allIngredients[category]).map(;
@@ -115,32 +115,32 @@ export class IngredientFilterService {
 
       // Apply nutritional filter if specified
       if (filter.nutritional) {
-        filtered = this.applyNutritionalFilter(filtered, filter.nutritional);
+        filtered = this.applyNutritionalFilter(filtered, filter.nutritional),
       }
 
       // Apply elemental filter if specified
       if (filter.elemental) {
-        filtered = this.applyElementalFilter(filtered, filter.elemental);
+        filtered = this.applyElementalFilter(filtered, filter.elemental),
       }
 
       // Apply dietary filter if specified
       if (filter.dietary) {
-        filtered = this.applyDietaryFilter(filtered, filter.dietary);
+        filtered = this.applyDietaryFilter(filtered, filter.dietary),
       }
 
       // Apply seasonal filter if specified
       if (filter.season && filter.season.length > 0) {
-        filtered = this.applySeasonalFilter(filtered, filter.season);
+        filtered = this.applySeasonalFilter(filtered, filter.season),
       }
 
       // Apply search query if specified
       if (filter.searchQuery) {
-        filtered = this.applySearchFilter(filtered, filter.searchQuery);
+        filtered = this.applySearchFilter(filtered, filter.searchQuery),
       }
 
       // Apply exclusion filter if specified
       if (filter.excludeIngredients && filter.excludeIngredients.length > 0) {
-        filtered = this.applyExclusionFilter(filtered, filter.excludeIngredients);
+        filtered = this.applyExclusionFilter(filtered, filter.excludeIngredients),
       }
 
       // Only add category if it has matching ingredients
@@ -157,7 +157,7 @@ export class IngredientFilterService {
     ingredients: IngredientMapping[],
     filter: NutritionalFilter,
   ): IngredientMapping[] {
-    return ingredients.filter(ingredient => {;
+    return ingredients.filter(ingredient => {
       const nutrition = (ingredient.nutritionalProfile || {}) as NutritionData;
 
       // Check protein requirements
@@ -165,7 +165,7 @@ export class IngredientFilterService {
         filter.minProtein !== undefined &&
         (!nutrition.protein_g || nutrition.protein_g < filter.minProtein)
       ) {
-        return false;
+        return false,
       }
 
       if (
@@ -173,7 +173,7 @@ export class IngredientFilterService {
         nutrition.protein_g &&
         nutrition.protein_g > filter.maxProtein
       ) {
-        return false;
+        return false,
       }
 
       // Check fiber requirements
@@ -181,7 +181,7 @@ export class IngredientFilterService {
         filter.minFiber !== undefined &&
         (!nutrition.fiber_g || nutrition.fiber_g < filter.minFiber)
       ) {
-        return false;
+        return false,
       }
 
       if (
@@ -189,7 +189,7 @@ export class IngredientFilterService {
         nutrition.fiber_g &&
         nutrition.fiber_g > filter.maxFiber
       ) {
-        return false;
+        return false,
       }
 
       // Check calorie requirements
@@ -197,7 +197,7 @@ export class IngredientFilterService {
         filter.minCalories !== undefined &&
         (!nutrition.calories || nutrition.calories < filter.minCalories)
       ) {
-        return false;
+        return false,
       }
 
       if (
@@ -205,38 +205,38 @@ export class IngredientFilterService {
         nutrition.calories &&
         nutrition.calories > filter.maxCalories
       ) {
-        return false;
+        return false,
       }
 
       // Check for required vitamins
       if (filter.vitamins && filter.vitamins.length > 0 && nutrition.vitamins) {
         const hasAllVitamins = filter.vitamins.every(;
           vitamin => nutrition.vitamins && nutrition.vitamins.includes(vitamin),;
-        );
-        if (!hasAllVitamins) return false;
+        ),
+        if (!hasAllVitamins) return false,
       }
 
       // Check for required minerals
       if (filter.minerals && filter.minerals.length > 0 && nutrition.minerals) {
         const hasAllMinerals = filter.minerals.every(;
           mineral => nutrition.minerals && nutrition.minerals.includes(mineral),;
-        );
-        if (!hasAllMinerals) return false;
+        ),
+        if (!hasAllMinerals) return false,
       }
 
       // Check high protein requirement
       if (filter.highProtein && (!nutrition.protein_g || nutrition.protein_g < 10)) {
-        return false;
+        return false,
       }
 
       // Check low carb requirement
       if (filter.lowCarb && nutrition.carbs && nutrition.carbs > 20) {
-        return false;
+        return false,
       }
 
       // Check low fat requirement
       if (filter.lowFat && nutrition.fats && nutrition.fats > 5) {
-        return false;
+        return false,
       }
 
       return true;
@@ -248,7 +248,7 @@ export class IngredientFilterService {
     ingredients: IngredientMapping[],
     filter: ElementalFilter,
   ): IngredientMapping[] {
-    return ingredients.filter(ingredient => {;
+    return ingredients.filter(ingredient => {
       const elementalProps = ingredient.elementalProperties as unknown as ElementalProperties;
 
       // Check Fire element range
@@ -256,14 +256,14 @@ export class IngredientFilterService {
         filter.minFire !== undefined &&
         (!elementalProps || !elementalProps.Fire || elementalProps.Fire < filter.minFire)
       ) {
-        return false;
+        return false,
       }
 
       if (
         filter.maxFire !== undefined &&
         (!elementalProps || !elementalProps.Fire || elementalProps.Fire > filter.maxFire)
       ) {
-        return false;
+        return false,
       }
 
       // Check Water element range
@@ -271,14 +271,14 @@ export class IngredientFilterService {
         filter.minWater !== undefined &&
         (!elementalProps || !elementalProps.Water || elementalProps.Water < filter.minWater)
       ) {
-        return false;
+        return false,
       }
 
       if (
         filter.maxWater !== undefined &&
         (!elementalProps || !elementalProps.Water || elementalProps.Water > filter.maxWater)
       ) {
-        return false;
+        return false,
       }
 
       // Check Earth element range
@@ -286,14 +286,14 @@ export class IngredientFilterService {
         filter.minEarth !== undefined &&
         (!elementalProps || !elementalProps.Earth || elementalProps.Earth < filter.minEarth)
       ) {
-        return false;
+        return false,
       }
 
       if (
         filter.maxEarth !== undefined &&
         (!elementalProps || !elementalProps.Earth || elementalProps.Earth > filter.maxEarth)
       ) {
-        return false;
+        return false,
       }
 
       // Check Air element range
@@ -301,14 +301,14 @@ export class IngredientFilterService {
         filter.minAir !== undefined &&
         (!elementalProps || !elementalProps.Air || elementalProps.Air < filter.minAir)
       ) {
-        return false;
+        return false,
       }
 
       if (
         filter.maxAir !== undefined &&
         (!elementalProps || !elementalProps.Air || elementalProps.Air > filter.maxAir)
       ) {
-        return false;
+        return false,
       }
 
       // Check for dominant element if specified
@@ -317,7 +317,7 @@ export class IngredientFilterService {
 
         const dominantElement = Object.entries(elementalProps);
           .filter(([key]) => ['Fire', 'Water', 'Earth', 'Air'].includes(key))
-          .sort(([, a], [, b]) => b - a)[0]?.[0];
+          .sort(([, a], [, b]) => b - a)[0]?.[0],
 
         if (dominantElement !== filter.dominantElement) return false;
       }
@@ -331,40 +331,40 @@ export class IngredientFilterService {
     ingredients: IngredientMapping[],
     filter: DietaryFilter,
   ): IngredientMapping[] {
-    return ingredients.filter(ingredient => {;
+    return ingredients.filter(ingredient => {
       // Check for vegetarian
       if (filter.isVegetarian && !(ingredient as any).isVegetarian) {
-        return false;
+        return false,
       }
 
       // Check for vegan
       if (filter.isVegan && !(ingredient as any).isVegan) {
-        return false;
+        return false,
       }
 
       // Check for gluten-free
       if (filter.isGlutenFree && !(ingredient as any).isGlutenFree) {
-        return false;
+        return false,
       }
 
       // Check for dairy-free
       if (filter.isDairyFree && !(ingredient as any).isDairyFree) {
-        return false;
+        return false,
       }
 
       // Check for nut-free
       if (filter.isNutFree && !(ingredient as any).isNutFree) {
-        return false;
+        return false,
       }
 
       // Check for low sodium
       if (filter.isLowSodium && !(ingredient as any).isLowSodium) {
-        return false;
+        return false,
       }
 
       // Check for low sugar
       if (filter.isLowSugar && !(ingredient as any).isLowSugar) {
-        return false;
+        return false,
       }
 
       return true;
@@ -376,13 +376,13 @@ export class IngredientFilterService {
     ingredients: IngredientMapping[],
     seasons: string[],
   ): IngredientMapping[] {
-    return ingredients.filter(ingredient => {;
+    return ingredients.filter(ingredient => {
       // Safe access to seasonality property with type assertion
       const seasonality = (ingredient as any).seasonality || [];
 
       // If no seasonality data, assume available year-round
-      if (!seasonality || (Array.isArray(seasonality) && seasonality.length === 0)) {;
-        return true;
+      if (!seasonality || (Array.isArray(seasonality) && seasonality.length === 0)) {
+        return true,
       }
 
       // Check if any of the specified seasons match
@@ -398,7 +398,7 @@ export class IngredientFilterService {
 
     const lowerCaseQuery = query.toLowerCase();
 
-    return ingredients.filter(ingredient => {;
+    return ingredients.filter(ingredient => {
       // Safe access to ingredient name with type assertion
       const ingredientName = (ingredient as any).name || ingredient.id || '';
 
@@ -407,14 +407,14 @@ export class IngredientFilterService {
         typeof ingredientName === 'string' &&;
         ingredientName.toLowerCase().includes(lowerCaseQuery)
       ) {
-        return true;
+        return true,
       }
 
       // Check if any preparation notes match (if available)
       const preparationNotes = (ingredient as any).preparationNotes || '';
-      if (typeof preparationNotes === 'string' && preparationNotes.length > 0) {;
+      if (typeof preparationNotes === 'string' && preparationNotes.length > 0) {
         if (preparationNotes.toLowerCase().includes(lowerCaseQuery)) {
-          return true;
+          return true,
         }
       }
 
@@ -423,8 +423,8 @@ export class IngredientFilterService {
       if (Array.isArray(affinities) && affinities.length > 0) {
         return affinities.some(
           (affinity: unknown) =>
-            typeof affinity === 'string' && affinity.toLowerCase().includes(lowerCaseQuery),;
-        );
+            typeof affinity === 'string' && affinity.toLowerCase().includes(lowerCaseQuery),,
+        ),
       }
 
       return false;
@@ -438,7 +438,7 @@ export class IngredientFilterService {
   ): IngredientMapping[] {
     if (!excludedIngredients || excludedIngredients.length === 0) return ingredients;
 
-    return ingredients.filter(ingredient => {;
+    return ingredients.filter(ingredient => {
       // Safe access to ingredient name with type assertion
       const ingredientName = (ingredient as any).name || ingredient.id || '';
 
@@ -446,15 +446,15 @@ export class IngredientFilterService {
         excluded =>;
           typeof ingredientName === 'string' &&;
           typeof excluded === 'string' &&;
-          ingredientName.toLowerCase().includes(excluded.toLowerCase()),
-      );
+          ingredientName.toLowerCase().includes(excluded.toLowerCase());
+      ),
     });
   }
 
   // Get recommended ingredients with balanced nutrition from each group
   public getBalancedRecommendations(
-    count = 3,;
-    filter: IngredientFilter = {},;
+    count = 3,,
+    filter: IngredientFilter = {};
   ): Record<string, IngredientMapping[]> {
     // Apply basic filtering first
     const filteredByCategory = this.filterIngredients(filter);
@@ -463,7 +463,7 @@ export class IngredientFilterService {
     // For each category, select a limited number of most nutritionally balanced items
     Object.entries(filteredByCategory).forEach(([category, ingredients]) => {
       // Sort ingredients by nutritional completeness (if data available)
-      const sorted = [...ingredients].sort((a, b) => {;
+      const sorted = [...ingredients].sort((a, b) => {
         const aNutrition = a.nutritionalProfile || {};
         const bNutrition = b.nutritionalProfile || {};
 
@@ -536,7 +536,7 @@ export class IngredientFilterService {
           (typeof ingredientName === 'string' &&;
             ingredientName.toLowerCase().includes(normalizedName))
         ) {
-          return ingredient;
+          return ingredient,
         }
       }
     }
@@ -553,15 +553,15 @@ export class IngredientFilterService {
       if (ingredient && ingredient.nutritionalProfile) {
         return {
           name: ingredientName,
-          nutrition: ingredient.nutritionalProfile,
+          nutrition: ingredient.nutritionalProfile;
           source: 'local'
         };
       }
 
       return null;
     } catch (error) {
-      console.error('Error fetching local nutrition data:', error);
-      return null;
+      console.error('Error fetching local nutrition data:', error),
+      return null,
     }
   }
 
@@ -575,14 +575,14 @@ export class IngredientFilterService {
       const recommendations: RecipeRecommendation[] = [];
 
       // Create basic recipes based on the ingredients provided
-      for (let i = 0; i < Math.min(ingredients.length, 3); i++) {
+      for (let i = 0, i < Math.min(ingredients.length, 3), i++) {
         const mainIngredient = ingredients[i];
-        const otherIngredients = ingredients.filter(ing => ing !== mainIngredient).slice(0, 2);
+        const otherIngredients = ingredients.filter(ing => ing !== mainIngredient).slice(0, 2),
 
-        const recipe: RecipeRecommendation = {;
+        const recipe: RecipeRecommendation = {
           id: `local_${i + 1}`,
           title: `${mainIngredient} Recipe with ${otherIngredients.join(' and ')}`,
-          image: '/placeholder-recipe.jpg',
+          image: '/placeholder-recipe.jpg';
           readyInMinutes: 30 + i * 10,
           healthScore: 70 + i * 5,
           nutrition: {
@@ -611,20 +611,20 @@ export class IngredientFilterService {
 
       return recommendations;
     } catch (error) {
-      console.error('Error generating recipe recommendations:', error);
-      return [];
+      console.error('Error generating recipe recommendations:', error),
+      return [],
     }
   }
 
   // Check if ingredient is vegetarian-friendly
   private isVegetarianFriendly(ingredient: string): boolean {
-    const vegetarianIngredients = ['vegetables', 'fruits', 'grains', 'herbs', 'spices'];
+    const vegetarianIngredients = ['vegetables', 'fruits', 'grains', 'herbs', 'spices'],
     return vegetarianIngredients.some(cat => ingredient.toLowerCase().includes(cat));
   }
 
   // Check if ingredient is vegan-friendly
   private isVeganFriendly(ingredient: string): boolean {
-    const nonVeganIngredients = ['dairy', 'milk', 'cheese', 'butter', 'eggs', 'meat', 'fish'];
+    const nonVeganIngredients = ['dairy', 'milk', 'cheese', 'butter', 'eggs', 'meat', 'fish'],
     return !nonVeganIngredients.some(cat => ingredient.toLowerCase().includes(cat));
   }
 }

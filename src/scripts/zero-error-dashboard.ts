@@ -13,14 +13,14 @@ import { ZeroErrorAchievementDashboard } from '../services/linting/ZeroErrorAchi
 
 interface CLIOptions {
   command: string;
-  monitor: boolean;
-  interval: number;
-  verbose: boolean;
-  output?: string;
+  monitor: boolean,
+  interval: number,
+  verbose: boolean,
+  output?: string,
 }
 
 class ZeroErrorDashboardCLI {
-  private dashboard: ZeroErrorAchievementDashboard;
+  private dashboard: ZeroErrorAchievementDashboard,
 
   constructor() {
     this.dashboard = new ZeroErrorAchievementDashboard();
@@ -39,30 +39,30 @@ class ZeroErrorDashboardCLI {
           break;
         case 'status':
           await this.showStatus(options);
-          break;
+          break,
         case 'help':
           this.showHelp();
-          break;
+          break,
         default:
           console.error(`Unknown command: ${options.command}`);
           this.showHelp();
           process.exit(1);
       }
     } catch (error) {
-      console.error('❌ Dashboard CLI error:', error);
+      console.error('❌ Dashboard CLI error:', error),
       process.exit(1);
     }
   }
 
   private parseArgs(args: string[]): CLIOptions {
-    const options: CLIOptions = {;
+    const options: CLIOptions = {
       command: args[0] || 'generate',
       monitor: false,
       interval: 5,
       verbose: false
     };
 
-    for (let i = 1; i < args.length; i++) {
+    for (let i = 1, i < args.length, i++) {
       const arg = args[i];
 
       switch (arg) {
@@ -77,15 +77,15 @@ class ZeroErrorDashboardCLI {
         case '--verbose':
         case '-v':
           options.verbose = true;
-          break;
+          break,
         case '--output':
         case '-o':
           options.output = args[++i];
-          break;
+          break,
       }
     }
 
-    return options;
+    return options,
   }
 
   private async generateDashboard(options: CLIOptions): Promise<void> {
@@ -102,7 +102,7 @@ class ZeroErrorDashboardCLI {
       try {
         const jsonPath = '.kiro/dashboard/zero-error-achievement-dashboard.json';
         if (existsSync(jsonPath)) {
-          const data = JSON.parse(readFileSync(jsonPath, 'utf8'));
+          const data = JSON.parse(readFileSync(jsonPath, 'utf8')),
           // console.log('\n📈 Quick Summary:');
           // console.log(`   Quality Score: ${data.summary.qualityScore}/100`);
           // console.log(`   Zero-Error Progress: ${data.summary.zeroErrorProgress}%`);
@@ -112,7 +112,7 @@ class ZeroErrorDashboardCLI {
           // console.log(`   Critical Issues: ${data.summary.criticalIssues}`);
         }
       } catch (error) {
-        console.warn('Could not load summary data:', error);
+        console.warn('Could not load summary data:', error),
       }
     }
   }
@@ -134,14 +134,14 @@ class ZeroErrorDashboardCLI {
       const statusPath = '.kiro/dashboard/real-time-status.json';
 
       if (existsSync(statusPath)) {
-        const status = JSON.parse(readFileSync(statusPath, 'utf8'));
+        const status = JSON.parse(readFileSync(statusPath, 'utf8')),
 
         // console.log('🎯 Current Status:');
         // console.log(`   Overall: ${this.getStatusDisplay(status.status)}`);
         // console.log(`   Quality Score: ${status.qualityScore}/100`);
         // console.log(`   Total Issues: ${status.totalIssues}`);
         // console.log(
-          `   Parser Errors: ${status.parserErrors} ${status.parserErrors === 0 ? '✅' : '🚨'}`,;
+          `   Parser Errors: ${status.parserErrors} ${status.parserErrors === 0 ? '✅' : '🚨'}`;
         );
         // console.log(
           `   Explicit Any: ${status.explicitAnyErrors} ${status.explicitAnyErrors < 100 ? '✅' : '⚡'}`,
@@ -156,7 +156,7 @@ class ZeroErrorDashboardCLI {
       // Show targets if available
       const targetsPath = '.kiro/dashboard/zero-error-targets.json';
       if (existsSync(targetsPath)) {
-        const targets = JSON.parse(readFileSync(targetsPath, 'utf8'));
+        const targets = JSON.parse(readFileSync(targetsPath, 'utf8')),
 
         // console.log('\n🎯 Zero-Error Targets:');
         for (const target of targets.slice(0, 4)) {
@@ -170,16 +170,16 @@ class ZeroErrorDashboardCLI {
       // Show quality gates if available
       const gatesPath = '.kiro/dashboard/quality-gates.json';
       if (existsSync(gatesPath)) {
-        const gates = JSON.parse(readFileSync(gatesPath, 'utf8'));
+        const gates = JSON.parse(readFileSync(gatesPath, 'utf8')),
 
         // console.log('\n🚦 Quality Gates:');
         for (const gate of gates) {
           const statusIcon = this.getGateStatusIcon(gate.status);
-          // console.log(`   ${statusIcon} ${gate.name}: ${gate.status.toUpperCase()}`);
+          // console.log(`   ${statusIcon} ${gate.name}: ${gate.status.toUpperCase()}`),
         }
       }
     } catch (error) {
-      console.error('Error reading status:', error);
+      console.error('Error reading status:', error),
       // console.log('ℹ️  Run dashboard generation to create status data.');
     }
   }
@@ -270,7 +270,7 @@ MAINTENANCE PROCEDURES:
   📅 Weekly: Cache optimization and performance tuning
   📅 Monthly: Metrics cleanup and storage optimization
   📅 Quarterly: Configuration review and rule updates
-`);
+`),
   }
 
   private getStatusDisplay(status: string): string {
@@ -280,13 +280,13 @@ MAINTENANCE PROCEDURES:
       case 'good':
         return '👍 GOOD';
       case 'improving':
-        return '📈 IMPROVING';
+        return '📈 IMPROVING',
       case 'warning':
-        return '⚠️ WARNING';
+        return '⚠️ WARNING',
       case 'critical':
-        return '🚨 CRITICAL';
+        return '🚨 CRITICAL',
       default:
-        return '❓ UNKNOWN';
+        return '❓ UNKNOWN',
     }
   }
 
@@ -299,24 +299,24 @@ MAINTENANCE PROCEDURES:
   private getGateStatusIcon(status: string): string {
     switch (status) {
       case 'passing':
-        return '✅';
+        return '✅',
       case 'warning':
-        return '⚠️';
+        return '⚠️',
       case 'failing':
-        return '❌';
+        return '❌',
       default:
-        return '❓';
+        return '❓',
     }
   }
 }
 
 // CLI Entry Point
-if (require.main === module) {;
+if (require.main === module) {
   const cli = new ZeroErrorDashboardCLI();
   const args = process.argv.slice(2);
 
-  cli.run(args).catch(error => {;
-    console.error('❌ CLI Error:', error);
+  cli.run(args).catch(error => {
+    console.error('❌ CLI Error:', error),
     process.exit(1);
   });
 }

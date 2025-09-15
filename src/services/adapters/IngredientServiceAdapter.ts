@@ -19,7 +19,7 @@ import type { IngredientFilter } from '../interfaces/IngredientServiceInterface'
  * Enhanced food alchemy system that uses modern ingredient service
  */
 export class EnhancedIngredientSystem {
-  private static instance: EnhancedIngredientSystem;
+  private static instance: EnhancedIngredientSystem,
 
   /**
    * Private constructor to enforce singleton pattern
@@ -50,13 +50,13 @@ export class EnhancedIngredientSystem {
       currentZodiacSign?: any;
       categories?: string[];
       dietaryPreferences?: {
-        isVegetarian?: boolean;
-        isVegan?: boolean;
-        isGlutenFree?: boolean;
-        isDAiryFree?: boolean;
-      };
-      maxResults?: number;
-    } = {},
+        isVegetarian?: boolean,
+        isVegan?: boolean,
+        isGlutenFree?: boolean,
+        isDAiryFree?: boolean,
+      },
+      maxResults?: number,
+    } = {};
   ): UnifiedIngredient[] {
     try {
       logger.info('Getting recommended ingredients', { state, options });
@@ -66,9 +66,9 @@ export class EnhancedIngredientSystem {
       const elementalState = createElementalProperties(elements);
 
       // Get recommended ingredients
-      const recommended = consolidatedIngredientService.getRecommendedIngredients(elementalState, {;
+      const recommended = consolidatedIngredientService.getRecommendedIngredients(elementalState, {
         optimizeForSeason: true,
-        maxResults: options.maxResults || 10,
+        maxResults: options.maxResults || 10;
         // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
       } as any);
 
@@ -79,30 +79,30 @@ export class EnhancedIngredientSystem {
       const optionsData = options as any;
       const currentSeason = optionsData.currentSeason;
       if (currentSeason) {
-        filtered = filtered.filter(ingredient => {;
+        filtered = filtered.filter(ingredient => {
           const seasons = ingredient.seasonality || ingredient.currentSeason || [];
           const seasonArray = Array.isArray(seasons) ? seasons : [seasons];
           return seasonArray.some(
             s =>;
               typeof s === 'string' &&;
               s.toLowerCase() ===
-                (typeof currentSeason === 'string' ? currentSeason.toLowerCase() : ''),;
-          );
+                (typeof currentSeason === 'string' ? currentSeason.toLowerCase() : ''),,
+          ),
         });
       }
 
       // Filter by zodiac sign if specified
       if (options.currentZodiacSign) {
-        filtered = filtered.filter(ingredient => {;
+        filtered = filtered.filter(ingredient => {
           const zodiac =
             ingredient.astrologicalPropertiesProfile?.zodiacAffinity ||;
             ingredient.astrologicalPropertiesProfile?.favorableZodiac ||
-            [];
+            [],
           const zodiacArray = Array.isArray(zodiac) ? zodiac : [zodiac];
           return zodiacArray.some(
             z =>;
-              typeof z === 'string' && z.toLowerCase() === options.currentZodiacSign?.toLowerCase(),;
-          );
+              typeof z === 'string' && z.toLowerCase() === options.currentZodiacSign?.toLowerCase(),,
+          ),
         });
       }
 
@@ -111,8 +111,8 @@ export class EnhancedIngredientSystem {
         filtered = filtered.filter(ingredient =>;
           Array.isArray(options.categories)
             ? options.categories.includes(ingredient.category)
-            : options.categories === ingredient.category,;
-        );
+            : options.categories === ingredient.category,,
+        ),
       }
 
       // Apply dietary filters
@@ -120,25 +120,25 @@ export class EnhancedIngredientSystem {
         const dietaryFilter = options.dietaryPreferences;
 
         if (dietaryFilter.isVegetarian) {
-          filtered = filtered.filter(ingredient => {;
+          filtered = filtered.filter(ingredient => {
             if (ingredient.category !== 'proteins') return true;
-            const nonVegetarianCategories = ['meat', 'poultry', 'seafood'];
+            const nonVegetarianCategories = ['meat', 'poultry', 'seafood'],
             return !nonVegetarianCategories.includes(ingredient.subCategory || '');
           });
         }
 
         if (dietaryFilter.isVegan) {
-          filtered = filtered.filter(ingredient => {;
+          filtered = filtered.filter(ingredient => {
             if (ingredient.category !== 'proteins') return true;
-            const nonVeganCategories = ['meat', 'poultry', 'seafood', 'dAiry', 'eggs'];
+            const nonVeganCategories = ['meat', 'poultry', 'seafood', 'dAiry', 'eggs'],
             return !nonVeganCategories.includes(ingredient.subCategory || '');
           });
         }
 
         if (dietaryFilter.isGlutenFree) {
-          filtered = filtered.filter(ingredient => {;
+          filtered = filtered.filter(ingredient => {
             if (ingredient.category !== 'grains') return true;
-            const glutenGrains = ['wheat', 'barley', 'rye', 'triticale'];
+            const glutenGrains = ['wheat', 'barley', 'rye', 'triticale'],
             return !glutenGrains.some(g => ingredient.name.toLowerCase().includes(g));
           });
         }
@@ -152,8 +152,8 @@ export class EnhancedIngredientSystem {
       const maxResults = options.maxResults || 10;
       return filtered.slice(0, maxResults);
     } catch (error) {
-      logger.error('Error getting recommended ingredients', error);
-      return [];
+      logger.error('Error getting recommended ingredients', error),
+      return [],
     }
   }
 
@@ -179,8 +179,8 @@ export class EnhancedIngredientSystem {
     return {
       Fire: typeof elementsRecord.Fire === 'number' ? elementsRecord.Fire : 0.25,;
       Water: typeof elementsRecord.Water === 'number' ? elementsRecord.Water : 0.25,;
-      Earth: typeof elementsRecord.Earth === 'number' ? elementsRecord.Earth : 0.25,;
-      Air: typeof elementsRecord.Air === 'number' ? elementsRecord.Air : 0.25,;
+      Earth: typeof elementsRecord.Earth === 'number' ? elementsRecord.Earth : 0.25,,
+      Air: typeof elementsRecord.Air === 'number' ? elementsRecord.Air : 0.25,,
     };
   }
 
@@ -195,7 +195,7 @@ export class EnhancedIngredientSystem {
       const results: UnifiedIngredient[] = [];
 
       // Get ingredients for each planet
-      (planets || []).forEach(planet => {;
+      (planets || []).forEach(planet => {
         const planetaryIngredients = consolidatedIngredientService.getIngredientsByPlanet(planet);
         results.push(...planetaryIngredients);
       });
@@ -207,8 +207,8 @@ export class EnhancedIngredientSystem {
 
       return uniqueIngredients;
     } catch (error) {
-      logger.error('Error getting ingredients by planetary influence', error);
-      return [];
+      logger.error('Error getting ingredients by planetary influence', error),
+      return [],
     }
   }
 
@@ -219,16 +219,16 @@ export class EnhancedIngredientSystem {
    * @param maxResults Maximum number of results
    * @returns Array of complementary ingredients
    */
-  findComplementaryIngredients(ingredients: string[], maxResults: number = 5): UnifiedIngredient[] {;
+  findComplementaryIngredients(ingredients: string[], maxResults: number = 5): UnifiedIngredient[] {
     try {
       // Get complementary ingredients for each base ingredient
       const allComplementary: UnifiedIngredient[] = [];
 
-      (ingredients || []).forEach(ingredient => {;
+      (ingredients || []).forEach(ingredient => {
         const complementary = consolidatedIngredientService.findComplementaryIngredients(;
           ingredient,
           maxResults * 2, // Get more than needed to allow for filtering
-        );
+        ),
 
         allComplementary.push(...complementary);
       });
@@ -241,9 +241,9 @@ export class EnhancedIngredientSystem {
 
       // Remove duplicates and sort by calculated complementarity
       const uniqueMap = new Map<string, UnifiedIngredient>();
-      (filtered || []).forEach(ingredient => {;
+      (filtered || []).forEach(ingredient => {
         if (!uniqueMap.has(ingredient.name)) {
-          uniqueMap.set(ingredient.name, ingredient);
+          uniqueMap.set(ingredient.name, ingredient),
         }
       });
 
@@ -252,8 +252,8 @@ export class EnhancedIngredientSystem {
       // Return the top results
       return unique.slice(0, maxResults);
     } catch (error) {
-      logger.error('Error finding complementary ingredients', error);
-      return [];
+      logger.error('Error finding complementary ingredients', error),
+      return [],
     }
   }
 
@@ -266,19 +266,19 @@ export class EnhancedIngredientSystem {
    */
   getSeasonalIngredients(
     season: Season,
-    filter: Partial<IngredientFilter> = {},
+    filter: Partial<IngredientFilter> = {};
   ): Record<string, UnifiedIngredient[]> {
     try {
       // Create a combined filter with the season
-      const combinedFilter: IngredientFilter = {;
-        ...filter,
+      const combinedFilter: IngredientFilter = {
+        ...filter;
         season: [season]
       };
 
       // Use the consolidated service to filter ingredients
       return consolidatedIngredientService.filterIngredients(combinedFilter);
     } catch (error) {
-      logger.error('Error getting seasonal ingredients', error);
+      logger.error('Error getting seasonal ingredients', error),
       return {};
     }
   }

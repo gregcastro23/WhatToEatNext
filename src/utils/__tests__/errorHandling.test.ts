@@ -1,5 +1,5 @@
 declare global {
-  var __DEV__: boolean;
+  var __DEV__: boolean,
 }
 
 import {
@@ -16,8 +16,8 @@ import {
 // Mock logger
 jest.mock('@/utils/logger', () => ({
   logger: { info: jest.fn(),
-    warn: jest.fn(),
-    error: jest.fn(),
+    warn: jest.fn();
+    error: jest.fn();
     debug: jest.fn()
   }
 }));
@@ -112,8 +112,8 @@ describe('Enhanced Error Creation', () => {
     const originalError: any = new Error('Original error');
     const enhancedError: any = createEnhancedError(;
       'Enhanced error',
-      ErrorType.UNKNOWN,
-      ErrorSeverity.MEDIUM,
+      ErrorType.UNKNOWN;
+      ErrorSeverity.MEDIUM;
       {},
       originalError,
     );
@@ -124,7 +124,7 @@ describe('Enhanced Error Creation', () => {
 });
 
 describe('ErrorHandler', () => {
-  let errorHandler: ErrorHandler;
+  let errorHandler: ErrorHandler,
 
   beforeEach(() => {
     errorHandler = new ErrorHandler();
@@ -146,9 +146,9 @@ describe('ErrorHandler', () => {
   });
 
   it('attempts recovery with registered strategies', async () => {
-    const mockRecoveryStrategy = {;
-      canRecover: jest.fn(() => true),
-      recover: jest.fn(() => Promise.resolve('recovered data')),
+    const mockRecoveryStrategy = {
+      canRecover: jest.fn(() => true);
+      recover: jest.fn(() => Promise.resolve('recovered data'));
       fallback: jest.fn(() => 'fallback data')
     };
 
@@ -163,9 +163,9 @@ describe('ErrorHandler', () => {
   });
 
   it('uses fallback when recovery fails', async () => {
-    const mockRecoveryStrategy = {;
-      canRecover: jest.fn(() => true),
-      recover: jest.fn(() => Promise.reject(new Error('Recovery failed'))),
+    const mockRecoveryStrategy = {
+      canRecover: jest.fn(() => true);
+      recover: jest.fn(() => Promise.reject(new Error('Recovery failed')));
       fallback: jest.fn(() => 'fallback data')
     };
 
@@ -187,7 +187,7 @@ describe('ErrorHandler', () => {
   });
 
   it('tracks error statistics correctly', async () => {
-    const errors: any = [new Error('Network error'), new Error('Validation failed'), new Error('Network timeout')];
+    const errors: any = [new Error('Network error'), new Error('Validation failed'), new Error('Network timeout')],
 
     for (const error of errors) {
       try {
@@ -209,7 +209,7 @@ describe('ErrorHandler', () => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     // Intentionally any: Promise array for error handling can resolve to various result types
     const promises: Promise<any>[] = [];
-    for (let i: any = 0; i < 60; i++) {
+    for (let i: any = 0, i < 60, i++) {
       promises.push(errorHandler.handleError(new Error(`Error ${i}`)).catch(() => {}));
     }
 
@@ -244,10 +244,10 @@ describe('Global Error Handler', () => {
 
   it('has default recovery strategies', async () => {
     // Test astrological calculation recovery
-    const astroError: any = createEnhancedError('Planetary calculation failed', ErrorType.ASTROLOGICAL_CALCULATION);
+    const astroError: any = createEnhancedError('Planetary calculation failed', ErrorType.ASTROLOGICAL_CALCULATION),
 
     // Mock localStorage
-    const mockLocalStorage = {;
+    const mockLocalStorage = {
       getItem: jest.fn(() => JSON.stringify({ zodiacSig, n: 'aries' })),
       setItem: jest.fn()
     };
@@ -258,11 +258,11 @@ describe('Global Error Handler', () => {
   });
 
   it('uses fallback when cached data is not available', async () => {
-    const astroError: any = createEnhancedError('Planetary calculation failed', ErrorType.ASTROLOGICAL_CALCULATION);
+    const astroError: any = createEnhancedError('Planetary calculation failed', ErrorType.ASTROLOGICAL_CALCULATION),
 
     // Mock localStorage with no cached data
-    const mockLocalStorage = {;
-      getItem: jest.fn(() => null),
+    const mockLocalStorage = {
+      getItem: jest.fn(() => null);
       setItem: jest.fn()
     };
     Object.defineProperty(window, 'localStorage', { value: mockLocalStorage });
@@ -295,8 +295,8 @@ describe('Utility Functions', () => {
     const result: any = handleSyncError(successFn);
     expect(result).toBe('success');
 
-    const failureFn: any = () => {;
-      throw new Error('sync error');
+    const failureFn: any = () => {
+      throw new Error('sync error'),
     };
     expect(() => handleSyncError(failureFn)).toThrow();
   });
@@ -316,8 +316,8 @@ describe('Utility Functions', () => {
 
   it('handleSyncError passes context to error handler', () => {
     const context: any = { operation: 'test' };
-    const failureFn: any = () => {;
-      throw new Error('sync error');
+    const failureFn: any = () => {
+      throw new Error('sync error'),
     };
 
     try {

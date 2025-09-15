@@ -30,7 +30,7 @@ export const _specialtyOils = Object.entries(processedOils);
       !value.subCategory ||
       (value.subCategory !== 'cooking' &&
         value.subCategory !== 'finishing' &&
-        value.subCategory !== 'supplement'),
+        value.subCategory !== 'supplement');
   )
   .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 
@@ -80,7 +80,7 @@ export const _highHeatOils = Object.entries(processedOils);
         'fahrenheit' in value.smokePoint &&
         (value.smokePoint as unknown).fahrenheit >= 400) ||
       value.culinaryApplications?.frying ||
-      value.culinaryApplications?.deepfrying,
+      value.culinaryApplications?.deepfrying;
   )
   .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 
@@ -98,7 +98,7 @@ export const _nutOils = Object.entries(processedOils);
       key.includes('walnut') ||
       key.includes('almond') ||
       key.includes('macadamia') ||
-      key.includes('peanut'),
+      key.includes('peanut');
   )
   .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 

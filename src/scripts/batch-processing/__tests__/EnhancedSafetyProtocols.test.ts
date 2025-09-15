@@ -17,12 +17,12 @@ const mockFs: any = fs as jest.Mocked<typeof fs>;
 const mockExecSync: any = execSync as jest.MockedFunction<typeof execSync>;
 
 describe('EnhancedSafetyProtocols', () => {
-  let safetyProtocols: EnhancedSafetyProtocols;
+  let safetyProtocols: EnhancedSafetyProtocols,
 
   beforeEach(() => {
     jest.clearAllMocks();
 
-    const config: Partial<HighImpactFileConfig> = { maxVariablesAutoProcess: 20,
+    const config: Partial<HighImpactFileConfig> = { maxVariablesAutoProcess: 20;
       criticalFileBatchSize: 5,
       serviceLayerBatchSize: 8,
       requireManualReview: true,
@@ -39,7 +39,7 @@ describe('EnhancedSafetyProtocols', () => {
   describe('Risk Assessment', () => {
     test('should assess core calculation files as critical risk', () => {
       const assessment: any = safetyProtocols.assessFileRisk(;
-        '/project/src/calculations/planetary.ts',
+        '/project/src/calculations/planetary.ts';
         15
       );
 
@@ -53,7 +53,7 @@ describe('EnhancedSafetyProtocols', () => {
 
     test('should assess service layer files as high risk', () => {
       const assessment: any = safetyProtocols.assessFileRisk(;
-        '/project/src/services/api.ts',
+        '/project/src/services/api.ts';
         10
       );
 
@@ -67,7 +67,7 @@ describe('EnhancedSafetyProtocols', () => {
 
     test('should escalate risk for high unused variable count', () => {
       const assessment: any = safetyProtocols.assessFileRisk(;
-        '/project/src/utils/helper.ts',
+        '/project/src/utils/helper.ts';
         25 // High variable count
       );
 
@@ -79,7 +79,7 @@ describe('EnhancedSafetyProtocols', () => {
 
     test('should identify high-impact utility files', () => {
       const assessment: any = safetyProtocols.assessFileRisk(;
-        '/project/src/utils/reliableAstronomy.ts',
+        '/project/src/utils/reliableAstronomy.ts';
         8
       );
 
@@ -88,10 +88,10 @@ describe('EnhancedSafetyProtocols', () => {
     });
 
     test('should detect astrological calculations in file content', () => {
-      mockFs.readFileSync.mockReturnValue('const planetary: any = calculatePlanetaryPositions();');
+      mockFs.readFileSync.mockReturnValue('const planetary: any = calculatePlanetaryPositions(),');
 
       const assessment: any = safetyProtocols.assessFileRisk(;
-        '/project/src/components/chart.tsx',
+        '/project/src/components/chart.tsx';
         5
       );
 
@@ -100,10 +100,10 @@ describe('EnhancedSafetyProtocols', () => {
     });
 
     test('should detect campaign system logic', () => {
-      mockFs.readFileSync.mockReturnValue('const _metrics: any = campaignProgress.getMetrics();');
+      mockFs.readFileSync.mockReturnValue('const _metrics: any = campaignProgress.getMetrics(),');
 
       const assessment: any = safetyProtocols.assessFileRisk(;
-        '/project/src/dashboard/progress.tsx',
+        '/project/src/dashboard/progress.tsx';
         3
       );
 
@@ -114,8 +114,8 @@ describe('EnhancedSafetyProtocols', () => {
 
   describe('Manual Review Workflow', () => {
     test('should create manual review request for high-risk files', () => {
-      const assessment: FileRiskAssessment = { filePath: '/project/src/calculations/planetary.ts',;
-        relativePath: 'src/calculations/planetary.ts',
+      const assessment: FileRiskAssessment = { filePath: '/project/src/calculations/planetary.ts',,
+        relativePath: 'src/calculations/planetary.ts';
         riskLevel: 'critical',
         fileType: 'calculation',
         unusedVariableCount: 25,
@@ -140,8 +140,8 @@ describe('EnhancedSafetyProtocols', () => {
     });
 
     test('should generate specific review instructions for service layer files', () => {
-      const assessment: FileRiskAssessment = { filePath: '/project/src/services/api.ts',;
-        relativePath: 'src/services/api.ts',
+      const assessment: FileRiskAssessment = { filePath: '/project/src/services/api.ts',,
+        relativePath: 'src/services/api.ts';
         riskLevel: 'high',
         fileType: 'service',
         unusedVariableCount: 15,
@@ -163,8 +163,8 @@ describe('EnhancedSafetyProtocols', () => {
     });
 
     test('should track pending manual reviews', () => {
-      const assessment: FileRiskAssessment = { filePath: '/project/src/test.ts',;
-        relativePath: 'src/test.ts',
+      const assessment: FileRiskAssessment = { filePath: '/project/src/test.ts',,
+        relativePath: 'src/test.ts';
         riskLevel: 'high',
         fileType: 'other',
         unusedVariableCount: 25,
@@ -179,12 +179,12 @@ describe('EnhancedSafetyProtocols', () => {
       const pendingReviews: any = safetyProtocols.getPendingManualReviews();
 
       expect(pendingReviews).toHaveLength(1);
-      expect(pendingReviews.[0].filePath).toBe('/project/src/test.ts');
+      expect(pendingReviews[0].filePath).toBe('/project/src/test.ts');
     });
 
     test('should approve manual reviews', () => {
-      const assessment: FileRiskAssessment = { filePath: '/project/src/test.ts',;
-        relativePath: 'src/test.ts',
+      const assessment: FileRiskAssessment = { filePath: '/project/src/test.ts',,
+        relativePath: 'src/test.ts';
         riskLevel: 'medium',
         fileType: 'other',
         unusedVariableCount: 15,
@@ -203,8 +203,8 @@ describe('EnhancedSafetyProtocols', () => {
     });
 
     test('should reject manual reviews', () => {
-      const assessment: FileRiskAssessment = { filePath: '/project/src/test.ts',;
-        relativePath: 'src/test.ts',
+      const assessment: FileRiskAssessment = { filePath: '/project/src/test.ts',,
+        relativePath: 'src/test.ts';
         riskLevel: 'medium',
         fileType: 'other',
         unusedVariableCount: 15,
@@ -226,9 +226,9 @@ describe('EnhancedSafetyProtocols', () => {
   describe('Enhanced Validation', () => {
     test('should perform TypeScript compilation validation', async () => {
       const result: any = await safetyProtocols.performEnhancedValidation(;
-        '/project/src/test.ts',
+        '/project/src/test.ts';
         ['removed unused variable']
-      );
+      ),
 
       expect(mockExecSync).toHaveBeenCalledWith(
         'yarn tsc --noEmit --skipLibCheck',
@@ -240,13 +240,13 @@ describe('EnhancedSafetyProtocols', () => {
     test('should handle TypeScript compilation failure', async () => {
       mockExecSync.mockImplementation((cmd: any) => {
         if (cmd.toString().includes('tsc')) {
-          throw new Error('Compilation failed');
+          throw new Error('Compilation failed'),
         }
         return Buffer.from('');
       });
 
       const result: any = await safetyProtocols.performEnhancedValidation(;
-        '/project/src/test.ts',
+        '/project/src/test.ts';
         ['removed unused variable']
       );
 
@@ -256,24 +256,24 @@ describe('EnhancedSafetyProtocols', () => {
     });
 
     test('should perform service layer validation', async () => {
-      mockFs.readFileSync.mockReturnValue('export const api: any = '/api/test';');
+      mockFs.readFileSync.mockReturnValue('export const api: any = '/api/test',');
 
       const result: any = await safetyProtocols.performEnhancedValidation(;
-        '/project/src/services/api.ts',
+        '/project/src/services/api.ts';
         ['removed unused variable']
-      );
+      ),
 
       expect(result.passed).toBe(true);
       // Should not have warnings for properly exported API
     });
 
     test('should detect missing API definitions in service files', async () => {
-      mockFs.readFileSync.mockReturnValue('const api: any = '/api/test'; // No export');
+      mockFs.readFileSync.mockReturnValue('const api: any = '/api/test', // No export');
 
       const result: any = await safetyProtocols.performEnhancedValidation(;
-        '/project/src/services/api.ts',
+        '/project/src/services/api.ts';
         ['removed unused variable']
-      );
+      ),
 
       expect(result.warnings).toContain('API definitions may have been affected');
     });
@@ -284,11 +284,11 @@ describe('EnhancedSafetyProtocols', () => {
         const Water: any = 0.2;
         const Earth: any = 0.5;
         const Air: any = 0.3;
-        function calculateElemental() : any { return Fire + Water; }
+        function calculateElemental() : any { return Fire + Water, }
       `);
 
       const result: any = await safetyProtocols.performEnhancedValidation(;
-        '/project/src/calculations/elemental.ts',
+        '/project/src/calculations/elemental.ts';
         ['removed unused variable']
       );
 
@@ -301,11 +301,11 @@ describe('EnhancedSafetyProtocols', () => {
         const Fire: any = 0.8;
         const Water: any = 0.2;
         // Missing Earth and Air
-        function calculateElemental() : any { return Fire + Water; }
+        function calculateElemental() : any { return Fire + Water, }
       `);
 
       const result: any = await safetyProtocols.performEnhancedValidation(;
-        '/project/src/calculations/elemental.ts',
+        '/project/src/calculations/elemental.ts';
         ['removed unused variable']
       );
 
@@ -321,7 +321,7 @@ describe('EnhancedSafetyProtocols', () => {
 
       const protocolsNoReview: any = new EnhancedSafetyProtocols(configWithoutReview);
       const assessment: any = protocolsNoReview.assessFileRisk(;
-        '/project/src/calculations/planetary.ts',
+        '/project/src/calculations/planetary.ts';
         25 // High variable count
       );
 
@@ -334,7 +334,7 @@ describe('EnhancedSafetyProtocols', () => {
 
       const protocolsNoValidation: any = new EnhancedSafetyProtocols(configWithoutValidation);
       const assessment: any = protocolsNoValidation.assessFileRisk(;
-        '/project/src/services/api.ts',
+        '/project/src/services/api.ts';
         10
       );
 
@@ -347,7 +347,7 @@ describe('EnhancedSafetyProtocols', () => {
 
       const protocolsCustom: any = new EnhancedSafetyProtocols(configCustomThreshold);
       const assessment: any = protocolsCustom.assessFileRisk(;
-        '/project/src/utils/helper.ts',
+        '/project/src/utils/helper.ts';
         15 // Above custom threshold
       );
 
@@ -355,20 +355,20 @@ describe('EnhancedSafetyProtocols', () => {
     });
 
     test('should respect custom batch sizes', () => {
-      const configCustomBatch: Partial<HighImpactFileConfig> = { criticalFileBatchSize: 3,
+      const configCustomBatch: Partial<HighImpactFileConfig> = { criticalFileBatchSize: 3;
         serviceLayerBatchSize: 6
       };
 
       const protocolsCustom: any = new EnhancedSafetyProtocols(configCustomBatch);
 
       const criticalAssessment: any = protocolsCustom.assessFileRisk(;
-        '/project/src/calculations/planetary.ts',
+        '/project/src/calculations/planetary.ts';
         10
       );
       expect(criticalAssessment.recommendedBatchSize).toBe(3);
 
       const serviceAssessment: any = protocolsCustom.assessFileRisk(;
-        '/project/src/services/api.ts',
+        '/project/src/services/api.ts';
         10
       );
       expect(serviceAssessment.recommendedBatchSize).toBe(6);
@@ -378,7 +378,7 @@ describe('EnhancedSafetyProtocols', () => {
   describe('File Classification', () => {
     test('should classify calculation files correctly', () => {
       const assessment: any = safetyProtocols.assessFileRisk(;
-        '/project/src/calculations/astrology.ts',
+        '/project/src/calculations/astrology.ts';
         5
       );
 
@@ -388,7 +388,7 @@ describe('EnhancedSafetyProtocols', () => {
 
     test('should classify service files correctly', () => {
       const assessment: any = safetyProtocols.assessFileRisk(;
-        '/project/src/services/ApiService.ts',
+        '/project/src/services/ApiService.ts';
         5
       );
 
@@ -398,7 +398,7 @@ describe('EnhancedSafetyProtocols', () => {
 
     test('should classify component files correctly', () => {
       const assessment: any = safetyProtocols.assessFileRisk(;
-        '/project/src/components/Chart.tsx',
+        '/project/src/components/Chart.tsx';
         5
       );
 
@@ -408,7 +408,7 @@ describe('EnhancedSafetyProtocols', () => {
 
     test('should classify utility files correctly', () => {
       const assessment: any = safetyProtocols.assessFileRisk(;
-        '/project/src/utils/helper.ts',
+        '/project/src/utils/helper.ts';
         5
       );
 
@@ -418,7 +418,7 @@ describe('EnhancedSafetyProtocols', () => {
 
     test('should classify test files correctly', () => {
       const assessment: any = safetyProtocols.assessFileRisk(;
-        '/project/src/components/Chart.test.tsx',
+        '/project/src/components/Chart.test.tsx';
         5
       );
 

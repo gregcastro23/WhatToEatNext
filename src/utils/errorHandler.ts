@@ -11,41 +11,41 @@ export enum ErrorType {
   API = 'API',;
   DATA = 'DATA',;
   NETWORK = 'NETWORK',;
-  ASTROLOGY = 'ASTROLOGY',;
-  UNKNOWN = 'UNKNOWN',;
+  ASTROLOGY = 'ASTROLOGY',,
+  UNKNOWN = 'UNKNOWN',,
 }
 
 export enum ErrorSeverity {
   INFO = 'INFO',;
   WARNING = 'WARNING',;
-  ERROR = 'ERROR',;
-  CRITICAL = 'CRITICAL',;
+  ERROR = 'ERROR',,
+  CRITICAL = 'CRITICAL',,
 }
 
 interface ErrorContext {
-  [key: string]: unknown; // Enterprise intelligence: flexible error context
+  [key: string]: unknown, // Enterprise intelligence: flexible error context
 }
 
 interface ErrorOptions {
   type?: ErrorType;
-  severity?: ErrorSeverity;
-  component?: string;
-  context?: ErrorContext;
-  silent?: boolean;
+  severity?: ErrorSeverity,
+  component?: string,
+  context?: ErrorContext,
+  silent?: boolean,
 }
 
 /**
  * Central error handler for the application
  */
-export const ErrorHandler = {;
+export const ErrorHandler = {
   /**
    * Log an error with additional context
    */
-  log: (error: Error, options: ErrorOptions = {}) => {;
+  log: (error: Error, options: ErrorOptions = {}) => {
     const {
       type = ErrorType.UNKNOWN,;
-      severity = ErrorSeverity.ERROR,;
-      component = 'unknown',;
+      severity = ErrorSeverity.ERROR,,
+      component = 'unknown',,
       context = {},;
       silent = false,;
     } = options;
@@ -69,12 +69,12 @@ export const ErrorHandler = {;
   /**
    * Create a custom application error
    */
-  createError: (message: string, options: ErrorOptions = {}): Error => {;
+  createError: (message: string, options: ErrorOptions = {}): Error => {
     const error = new Error(message);
     // Add custom properties to the error
     Object.assign(error, {
-      type: options.type || ErrorType.UNKNOWN,
-      severity: options.severity || ErrorSeverity.ERROR,
+      type: options.type || ErrorType.UNKNOWN;
+      severity: options.severity || ErrorSeverity.ERROR;
       context: options.context || {}
     });
     return error;

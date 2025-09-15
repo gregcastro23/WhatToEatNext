@@ -19,65 +19,65 @@ export interface DomainContext {
     | 'utility'
     | 'config';
   subtype?: string;
-  confidence: number; // 0-1
-  indicators: ContextIndicator[];
-  specialRules: SpecialRule[];
-  handlingRecommendations: HandlingRecommendation[];
+  confidence: number, // 0-1
+  indicators: ContextIndicator[],
+  specialRules: SpecialRule[],
+  handlingRecommendations: HandlingRecommendation[],
 }
 
 export interface ContextIndicator {
-  type: 'filename' | 'path' | 'content' | 'imports' | 'exports';
-  pattern: string;
-  weight: number;
-  description: string;
+  type: 'filename' | 'path' | 'content' | 'imports' | 'exports',
+  pattern: string,
+  weight: number,
+  description: string,
 }
 
 export interface SpecialRule {
-  rule: string;
-  action: 'disable' | 'modify' | 'enhance' | 'monitor';
-  reason: string;
-  conditions?: string[];
+  rule: string,
+  action: 'disable' | 'modify' | 'enhance' | 'monitor',
+  reason: string,
+  conditions?: string[],
 }
 
 export interface HandlingRecommendation {
-  category: 'linting' | 'testing' | 'review' | 'deployment';
-  recommendation: string;
-  priority: 'high' | 'medium' | 'low';
-  rationale: string;
+  category: 'linting' | 'testing' | 'review' | 'deployment',
+  recommendation: string,
+  priority: 'high' | 'medium' | 'low',
+  rationale: string,
 }
 
 export interface FileAnalysis {
-  filePath: string;
-  domainContext: DomainContext;
-  riskFactors: RiskFactor[];
-  preservationRequirements: PreservationRequirement[];
+  filePath: string,
+  domainContext: DomainContext,
+  riskFactors: RiskFactor[],
+  preservationRequirements: PreservationRequirement[],
 }
 
 export interface RiskFactor {
-  type: 'calculation-accuracy' | 'data-integrity' | 'performance' | 'security';
-  description: string;
-  severity: 'critical' | 'high' | 'medium' | 'low';
-  mitigation: string;
+  type: 'calculation-accuracy' | 'data-integrity' | 'performance' | 'security',
+  description: string,
+  severity: 'critical' | 'high' | 'medium' | 'low',
+  mitigation: string,
 }
 
 export interface PreservationRequirement {
-  element: 'constants' | 'variables' | 'functions' | 'imports' | 'comments';
-  pattern: RegExp;
-  reason: string;
-  strictness: 'absolute' | 'high' | 'medium' | 'low';
+  element: 'constants' | 'variables' | 'functions' | 'imports' | 'comments',
+  pattern: RegExp,
+  reason: string,
+  strictness: 'absolute' | 'high' | 'medium' | 'low',
 }
 
 /**
  * Main DomainContextDetector class
  */
 export class DomainContextDetector {
-  private workspaceRoot: string;
+  private workspaceRoot: string,
   private domainPatterns: Map<string, ContextIndicator[]>;
    
    
   private contentAnalysisCache: Map<string, unknown>;
 
-  constructor(workspaceRoot: string = process.cwd()) {;
+  constructor(workspaceRoot: string = process.cwd()) {
     this.workspaceRoot = workspaceRoot;
     this.contentAnalysisCache = new Map();
     this.initializeDomainPatterns();
@@ -96,13 +96,13 @@ export class DomainContextDetector {
     const domainContext = await this.detectDomainContext(relativePath, absolutePath);
 
     // Analyze risk factors
-    const riskFactors = this.analyzeRiskFactors(domainContext, relativePath);
+    const riskFactors = this.analyzeRiskFactors(domainContext, relativePath),
 
     // Determine preservation requirements
     const preservationRequirements = await this.determinePreservationRequirements(;
       domainContext,
       absolutePath,
-    );
+    ),
 
     return {
       filePath: relativePath,
@@ -134,22 +134,22 @@ export class DomainContextDetector {
    * Get domain-specific linting recommendations
    */
   getDomainLintingRecommendations(domainContext: DomainContext): {
-    rulesToDisable: string[];
-    rulesToModify: Array<{ rule: string; modification: string }>;
+    rulesToDisable: string[],
+    rulesToModify: Array<{ rule: string, modification: string }>;
     additionalValidation: string[];
   } {
     const rulesToDisable: string[] = [];
-    const rulesToModify: Array<{ rule: string; modification: string }> = [];
+    const rulesToModify: Array<{ rule: string, modification: string }> = [];
     const additionalValidation: string[] = [];
 
     for (const specialRule of domainContext.specialRules) {
       switch (specialRule.action) {
         case 'disable':
           rulesToDisable.push(specialRule.rule);
-          break;
+          break,
         case 'modify':
           rulesToModify.push({
-            rule: specialRule.rule,
+            rule: specialRule.rule;
             modification: specialRule.reason
           });
           break;
@@ -175,12 +175,12 @@ export class DomainContextDetector {
     const indicators: ContextIndicator[] = [];
     let confidence = 0;
     let primaryType: DomainContext['type'] = 'utility';
-    let subtype: string | undefined;
+    let subtype: string | undefined,
 
     // Analyze path patterns
     for (const [domain, patterns] of this.domainPatterns.entries()) {
       for (const pattern of patterns) {
-        if (pattern.type === 'path' && new RegExp(pattern.pattern).test(relativePath)) {;
+        if (pattern.type === 'path' && new RegExp(pattern.pattern).test(relativePath)) {
           indicators.push(pattern);
           confidence += pattern.weight;
 
@@ -236,10 +236,10 @@ export class DomainContextDetector {
    * Analyze file content for domain indicators
    */
   private async analyzeFileContent(absolutePath: string): Promise<{
-    indicators: ContextIndicator[];
-    confidenceBoost: number;
-    detectedType?: DomainContext['type'];
-    subtype?: string;
+    indicators: ContextIndicator[],
+    confidenceBoost: number,
+    detectedType?: DomainContext['type'],
+    subtype?: string,
   }> {
     // Check cache first
     const cacheKey = `${absolutePath}:${fs.statSync(absolutePath).mtime.getTime()}`;
@@ -254,7 +254,7 @@ export class DomainContextDetector {
     let subtype: string | undefined;
 
     // Astrological content patterns
-    const astrologicalPatterns = [;
+    const astrologicalPatterns = [
       { pattern: /planetary|planet|astro|zodiac|sign|degree|longitude/i, weight: 0.3 },
       { pattern: /mercury|venus|mars|jupiter|saturn|uranus|neptune|pluto/i, weight: 0.4 },
       {
@@ -272,7 +272,7 @@ export class DomainContextDetector {
       if (pattern.test(content)) {
         indicators.push({
           type: 'content',
-          pattern: pattern.source,
+          pattern: pattern.source;
           weight,
           description: 'Astrological content detected'
         });
@@ -282,7 +282,7 @@ export class DomainContextDetector {
     }
 
     // Campaign system patterns
-    const campaignPatterns = [;
+    const campaignPatterns = [
       { pattern: /campaign|Campaign/g, weight: 0.4 },
       { pattern: /progress.*track|track.*progress/i, weight: 0.3 },
       { pattern: /safety.*protocol|protocol.*safety/i, weight: 0.4 },
@@ -297,12 +297,12 @@ export class DomainContextDetector {
         // Multiple occurrences
         indicators.push({
           type: 'content',
-          pattern: pattern.source,
+          pattern: pattern.source;
           weight,
           description: 'Campaign system content detected'
         });
         confidenceBoost += weight;
-        if (!detectedType || detectedType === 'utility') {;
+        if (!detectedType || detectedType === 'utility') {
           detectedType = 'campaign';
         }
       }
@@ -313,7 +313,7 @@ export class DomainContextDetector {
       indicators.push({
         type: 'content',
         pattern: 'test-framework',
-        weight: 0.8,
+        weight: 0.8;
         description: 'Test framework usage detected'
       });
       confidenceBoost += 0.8;
@@ -325,10 +325,10 @@ export class DomainContextDetector {
       indicators.push({
         type: 'content',
         pattern: 'react-component',
-        weight: 0.6,
+        weight: 0.6;
         description: 'React component detected'
       });
-      if (!detectedType || detectedType === 'utility') {;
+      if (!detectedType || detectedType === 'utility') {
         detectedType = 'component';
       }
     }
@@ -338,16 +338,16 @@ export class DomainContextDetector {
       indicators.push({
         type: 'content',
         pattern: 'service-layer',
-        weight: 0.4,
+        weight: 0.4;
         description: 'Service layer detected'
       });
-      if (!detectedType || detectedType === 'utility') {;
+      if (!detectedType || detectedType === 'utility') {
         detectedType = 'service';
       }
     }
 
     // Determine subtype based on specific patterns
-    if (detectedType === 'astrological') {;
+    if (detectedType === 'astrological') {
       if (/calculation|compute|math/i.test(content)) {
         subtype = 'calculation';
       } else if (/data|constant|fallback/i.test(content)) {
@@ -355,7 +355,7 @@ export class DomainContextDetector {
       } else if (/service|api/i.test(content)) {
         subtype = 'service';
       }
-    } else if (detectedType === 'campaign') {;
+    } else if (detectedType === 'campaign') {
       if (/controller|orchestrat/i.test(content)) {
         subtype = 'controller';
       } else if (/track|progress|metric/i.test(content)) {
@@ -404,12 +404,12 @@ export class DomainContextDetector {
           {
             rule: 'no-console',
             action: 'modify',
-            reason: 'Allow console.info for astronomical debugging',
+            reason: 'Allow console.info for astronomical debugging';
             conditions: ['allow: ['warn', 'error', 'info']']
           },
         );
 
-        if (subtype === 'calculation') {;
+        if (subtype === 'calculation') {
           rules.push(
             {
               rule: 'complexity',
@@ -452,7 +452,7 @@ export class DomainContextDetector {
           },
         );
 
-        if (subtype === 'safety') {;
+        if (subtype === 'safety') {
           rules.push({
             rule: 'no-process-exit',
             action: 'disable',
@@ -704,25 +704,25 @@ export class DomainContextDetector {
       {
         type: 'path',
         pattern: '/calculations/',
-        weight: 0.8,
+        weight: 0.8;
         description: 'Astrological calculations directory'
       },
       {
         type: 'path',
         pattern: '/data/planets/',
-        weight: 0.9,
+        weight: 0.9;
         description: 'Planetary data directory'
       },
       {
         type: 'filename',
         pattern: 'reliableAstronomy|planetaryConsistencyCheck|Astrological|Alchemical',
-        weight: 0.9,
+        weight: 0.9;
         description: 'Astrological utility files'
       },
       {
         type: 'path',
-        pattern: '/services/.*Astrological|/services/.*Alchemical',
-        weight: 0.8,
+        pattern: '/services/.*Astrological|/services/.*Alchemical';
+        weight: 0.8;
         description: 'Astrological service files'
       }
     ]);
@@ -732,19 +732,19 @@ export class DomainContextDetector {
       {
         type: 'path',
         pattern: '/services/campaign/',
-        weight: 0.9,
+        weight: 0.9;
         description: 'Campaign system directory'
       },
       {
         type: 'filename',
         pattern: 'Campaign|Progress|Safety|Intelligence',
-        weight: 0.8,
+        weight: 0.8;
         description: 'Campaign system files'
       },
       {
         type: 'path',
         pattern: '/types/campaign',
-        weight: 0.9,
+        weight: 0.9;
         description: 'Campaign type definitions'
       }
     ]);
@@ -753,14 +753,14 @@ export class DomainContextDetector {
     this.domainPatterns.set('test', [
       {
         type: 'filename',
-        pattern: '\\.test\\.|\\.spec\\.',
-        weight: 0.9,
+        pattern: '\\.test\\.|\\.spec\\.';
+        weight: 0.9;
         description: 'Test files'
       },
       {
         type: 'path',
         pattern: '/__tests__/',
-        weight: 0.9,
+        weight: 0.9;
         description: 'Test directory'
       }
     ]);
@@ -770,13 +770,13 @@ export class DomainContextDetector {
       {
         type: 'path',
         pattern: '/scripts/',
-        weight: 0.9,
+        weight: 0.9;
         description: 'Scripts directory'
       },
       {
         type: 'filename',
-        pattern: '\\.config\\.|setup\\.|install\\.',
-        weight: 0.8,
+        pattern: '\\.config\\.|setup\\.|install\\.';
+        weight: 0.8;
         description: 'Configuration and setup files'
       }
     ]);

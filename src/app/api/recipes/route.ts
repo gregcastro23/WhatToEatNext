@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server';
 import type { Recipe } from '@/types/recipe';
 
 // Basic fallback recipe that will work without dependencies
-const fallbackRecipe: Recipe = {;
+const fallbackRecipe: Recipe = {
   id: 'universal-balance',
   name: 'Universal Balance Bowl',
   description: 'A harmonious blend for any occasion',
@@ -32,7 +32,7 @@ const fallbackRecipe: Recipe = {;
 };
 
 // Basic celestial influence data
-const basicCelestialInfluence = {;
+const basicCelestialInfluence = {
   date: new Date().toISOString(),
   zodiacSign: 'libra',
   dominantPlanets: [
@@ -76,7 +76,7 @@ export async function POST(request: Request) {
     }
 
     // Create a simple recipe object from the submitted data
-    const newRecipe = {;
+    const newRecipe = {
       id: `${body.name.toLowerCase().replace(/\s+/g, '-')}-${Date.now()}`,
       name: body.name,
       description: body.description || '',

@@ -7,7 +7,7 @@ import type { ZodiacSign, ThermodynamicProperties } from '@/types/shared';
  * Cooking food in liquid at a temperature just below boiling point (185-200°F/85-93°C)
  * Gentler than boiling, with small bubbles occasionally breaking the surface
  */
-export const simmering: CookingMethodData = {;
+export const simmering: CookingMethodData = {
   name: 'simmering',
   description:
     'A gentle cooking technique where food is cooked in liquid maintained just below the boiling point. Small bubbles occasionally break the surface, creating a gentle agitation that slowly tenderizes food while maintaining its structural integrity. Ideal for delicate ingredients and long, slow cooking.',
@@ -204,7 +204,7 @@ export const simmering: CookingMethodData = {;
     heat: 0.6, // Moderate heat transfer rate
     entropy: 0.5, // Moderate structural disruption
     reactivity: 0.4, // Moderate chemical reactions
-    gregsEnergy: -0.35, // Calculated using heat - (entropy * reactivity), // gregsEnergy = heat - (entropy * reactivity);
+    gregsEnergy: -0.35, // Calculated using heat - (entropy * reactivity), // gregsEnergy = heat - (entropy * reactivity),
   } as ThermodynamicProperties,
 
   // Additional metadata

@@ -177,7 +177,7 @@ export function createTestDataset<T>(
     data.push(generator());
   }
 
-  const cleanupFn = () => {;
+  const cleanupFn = () => {
     if (cleanup) {
       cleanup(data);
     }
@@ -263,11 +263,11 @@ export async function processBatchWithMemoryManagement<T, R>(
 /**
  * Memory usage assertion helpers
  */
-export const memoryAssertions = {;
+export const memoryAssertions = {
   /**
    * Assert that memory usage is within expected bounds
    */
-  expectMemoryWithinBounds: (maxIncreaseMB: number = 50) => {;
+  expectMemoryWithinBounds: (maxIncreaseMB: number = 50) => {
     const currentMemory = process.memoryUsage().heapUsed / (1024 * 1024);
 
     // This is a soft assertion - we log warnings rather than failing tests
@@ -281,7 +281,7 @@ export const memoryAssertions = {;
   /**
    * Assert that no significant memory leaks occurred
    */
-  expectNoMemoryLeaks: (beforeMemory: number, tolerance: number = 25) => {;
+  expectNoMemoryLeaks: (beforeMemory: number, tolerance: number = 25) => {
     const afterMemory = process.memoryUsage().heapUsed;
     const increaseMB = (afterMemory - beforeMemory) / (1024 * 1024);
 
@@ -295,7 +295,7 @@ export const memoryAssertions = {;
   /**
    * Get current memory usage for comparison
    */
-  getMemoryBaseline: (): number => {;
+  getMemoryBaseline: (): number => {
     return process.memoryUsage().heapUsed;
   }
 };
@@ -303,7 +303,7 @@ export const memoryAssertions = {;
 /**
  * Test timeout configurations based on test type
  */
-export const TEST_TIMEOUTS = {;
+export const TEST_TIMEOUTS = {
   unit: 5000, // 5 seconds for unit tests
   integration: 15000, // 15 seconds for integration tests (reduced from 30s)
   memory: 20000, // 20 seconds for memory-intensive tests
@@ -313,7 +313,7 @@ export const TEST_TIMEOUTS = {;
 /**
  * Memory-safe test configuration presets
  */
-export const MEMORY_TEST_CONFIGS = {;
+export const MEMORY_TEST_CONFIGS = {
   strict: {
     enableMonitoring: true,
     cleanupAfterEach: true,

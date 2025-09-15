@@ -16,14 +16,14 @@ describe('Campaign Infrastructure', () => {
 
       expect(config).toBeDefined();
       expect(config.phases).toHaveLength(2);
-      expect(config.phases.[0].id).toBe('phase1');
-      expect(config.phases.[0].name).toBe('TypeScript Error Elimination');
-      expect(config.phases.[1].id).toBe('phase2');
-      expect(config.phases.[1].name).toBe('Linting Excellence Achievement');
+      expect(config.phases[0].id).toBe('phase1');
+      expect(config.phases[0].name).toBe('TypeScript Error Elimination');
+      expect(config.phases[1].id).toBe('phase2');
+      expect(config.phases[1].name).toBe('Linting Excellence Achievement');
     });
 
     test('should create campaign controller with config', () => {
-      const mockConfig: any = {;
+      const mockConfig: any = {
         phases: [],
         safetySettings: { maxFilesPerBatch: 25,
           buildValidationFrequency: 5,
@@ -52,7 +52,7 @@ describe('Campaign Infrastructure', () => {
       const config: any = await CampaignController.loadConfiguration();
       const controller: any = new CampaignController(config);
 
-      const mockPhase: any = {;
+      const mockPhase: any = {
         id: 'test-phase',
         name: 'Test Phase',
         description: 'Test phase for validation',
@@ -72,7 +72,7 @@ describe('Campaign Infrastructure', () => {
 
   describe('SafetyProtocol', () => {
     test('should create safety protocol with settings', () => {
-      const settings: any = {;
+      const settings: any = {
         maxFilesPerBatch: 25,
         buildValidationFrequency: 5,
         testValidationFrequency: 10,
@@ -86,7 +86,7 @@ describe('Campaign Infrastructure', () => {
     });
 
     test('should detect corruption patterns', async () => {
-      const settings: any = {;
+      const settings: any = {
         maxFilesPerBatch: 25,
         buildValidationFrequency: 5,
         testValidationFrequency: 10,
@@ -105,7 +105,7 @@ describe('Campaign Infrastructure', () => {
     });
 
     test('should validate git state', async () => {
-      const settings: any = {;
+      const settings: any = {
         maxFilesPerBatch: 25,
         buildValidationFrequency: 5,
         testValidationFrequency: 10,
@@ -218,7 +218,7 @@ describe('Campaign Infrastructure', () => {
       // Test basic integration
       const metrics: any = await tracker.getProgressMetrics();
       const validation: any = await safetyProtocol.validateGitState();
-      const report: any = await controller.generatePhaseReport(config.phases.[0]);
+      const report: any = await controller.generatePhaseReport(config.phases[0]);
 
       expect(metrics).toBeDefined();
       expect(validation).toBeDefined();

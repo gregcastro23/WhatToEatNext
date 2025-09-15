@@ -15,8 +15,8 @@ jest.mock('child_process');
 jest.mock('fs');
 jest.mock('@/utils/logger', () => ({
   logger: { info: jest.fn(),
-    warn: jest.fn(),
-    error: jest.fn(),
+    warn: jest.fn();
+    error: jest.fn();
     debug: jest.fn()
   }
 }));
@@ -27,7 +27,7 @@ const mockReadFileSync: any = readFileSync as jest.MockedFunction<typeof readFil
 const mockExistsSync: any = existsSync as jest.MockedFunction<typeof existsSync>;
 
 describe('LintingProgressTracker', () => {
-  let tracker: LintingProgressTracker;
+  let tracker: LintingProgressTracker,
 
   beforeEach(() => {
     tracker = new LintingProgressTracker();
@@ -36,16 +36,16 @@ describe('LintingProgressTracker', () => {
 
   describe('collectMetrics', () => {
     test('should collect and parse linting metrics successfully', async () => {
-      const mockLintOutput: any = JSON.stringify([;
+      const mockLintOutput: any = JSON.stringify([
         {
-          filePath: '/test/file1.ts',
+          filePath: '/test/file1.ts';
           messages: [
             { ruleId: 'no-unused-vars', severity: 1, fix: null },
             { ruleId: 'no-console', severity: 2, fix: { rang, e: [0, 10], text: '' } }
           ]
         },
         {
-          filePath: '/test/file2.ts',
+          filePath: '/test/file2.ts';
           messages: [{ ruleI, d: 'prefer-const', severity: 1, fix: { rang, e: [0, 5], text: 'const' } }]
         }
       ]);
@@ -80,7 +80,7 @@ describe('LintingProgressTracker', () => {
       const mockError: any = new Error('ESLint failed') as unknown;
       mockError.stdout = JSON.stringify([]);
       mockExecSync.mockImplementation(() => {
-        throw mockError;
+        throw mockError,
       });
 
       const metrics: any = await tracker.collectMetrics();
@@ -99,7 +99,7 @@ describe('LintingProgressTracker', () => {
 
   describe('generateProgressReport', () => {
     test('should generate comprehensive progress report', async () => {
-      const mockCurrentMetrics: LintingMetrics = { timestamp: new Date(),;
+      const mockCurrentMetrics: LintingMetrics = { timestamp: new Date(),,
         totalIssues: 50,
         errors: 5,
         warnings: 45,
@@ -113,8 +113,8 @@ describe('LintingProgressTracker', () => {
         }
       };
 
-      const mockPreviousMetrics: LintingMetrics = {;
-        ...mockCurrentMetrics,
+      const mockPreviousMetrics: LintingMetrics = {
+        ...mockCurrentMetrics;
         totalIssues: 80,
         errors: 15,
         warnings: 65
@@ -131,7 +131,7 @@ describe('LintingProgressTracker', () => {
 
       expect(report.currentMetrics).toEqual(mockCurrentMetrics);
       expect(report.previousMetrics).toMatchObject({
-        ...mockPreviousMetrics,
+        ...mockPreviousMetrics;
         timestamp: expect.any(String), // JSON serialization converts Date to string
       });
       expect(report.improvement).toEqual({
@@ -145,7 +145,7 @@ describe('LintingProgressTracker', () => {
     });
 
     test('should handle missing previous metrics', async () => {
-      const mockCurrentMetrics: LintingMetrics = { timestamp: new Date(),;
+      const mockCurrentMetrics: LintingMetrics = { timestamp: new Date(),,
         totalIssues: 50,
         errors: 5,
         warnings: 45,
@@ -176,7 +176,7 @@ describe('LintingProgressTracker', () => {
 
   describe('integrateCampaignProgress', () => {
     test('should integrate with campaign system successfully', async () => {
-      const campaignData: any = {;
+      const campaignData: any = {
         campaignId: 'test-campaign',
         phase: 'phase-1',
         targetReduction: 100,
@@ -185,7 +185,7 @@ describe('LintingProgressTracker', () => {
         safetyProtocols: ['backup', 'validate']
       };
 
-      const mockReport: LintingProgressReport = { currentMetrics: {;
+      const mockReport: LintingProgressReport = { currentMetrics: {
           timestamp: new Date(),
           totalIssues: 25,
           errors: 2,
@@ -219,15 +219,15 @@ describe('LintingProgressTracker', () => {
       await tracker.integrateCampaignProgress(campaignData);
 
       expect(mockWriteFileSync).toHaveBeenCalledWith(
-        expect.stringContaining('campaign-integration.json'),
-        expect.stringContaining(campaignData.campaignId),
+        expect.stringContaining('campaign-integration.json');
+        expect.stringContaining(campaignData.campaignId);
       );
     });
   });
 
   describe('createQualityGates', () => {
     test('should evaluate quality gates correctly', () => {
-      const mockMetrics: LintingMetrics = { timestamp: new Date(),;
+      const mockMetrics: LintingMetrics = { timestamp: new Date(),,
         totalIssues: 10,
         errors: 0,
         warnings: 10,
@@ -246,7 +246,7 @@ describe('LintingProgressTracker', () => {
       // Intentionally any: Jest spy requires access to private method for testing
       jest.spyOn(tracker as unknown, 'getLatestMetrics').mockReturnValue(mockMetrics);
 
-      const thresholds: any = {;
+      const thresholds: any = {
         maxErrors: 0,
         maxWarnings: 50,
         maxExecutionTime: 60000
@@ -258,7 +258,7 @@ describe('LintingProgressTracker', () => {
     });
 
     test('should fail quality gates when thresholds exceeded', () => {
-      const mockMetrics: LintingMetrics = { timestamp: new Date(),;
+      const mockMetrics: LintingMetrics = { timestamp: new Date(),,
         totalIssues: 100,
         errors: 5,
         warnings: 95,
@@ -274,7 +274,7 @@ describe('LintingProgressTracker', () => {
 
       jest.spyOn(tracker as unknown, 'getLatestMetrics').mockReturnValue(mockMetrics);
 
-      const thresholds: any = {;
+      const thresholds: any = {
         maxErrors: 0,
         maxWarnings: 50,
         maxExecutionTime: 60000
@@ -286,9 +286,9 @@ describe('LintingProgressTracker', () => {
     });
 
     test('should handle missing metrics gracefully', () => {
-      jest.spyOn(tracker as unknown, 'getLatestMetrics').mockReturnValue(null);
+      jest.spyOn(tracker as unknown, 'getLatestMetrics').mockReturnValue(null),
 
-      const thresholds: any = {;
+      const thresholds: any = {
         maxErrors: 0,
         maxWarnings: 50,
         maxExecutionTime: 60000
@@ -302,9 +302,9 @@ describe('LintingProgressTracker', () => {
 
   describe('private methods', () => {
     test('should parse linting output correctly', () => {
-      const mockOutput: any = JSON.stringify([;
+      const mockOutput: any = JSON.stringify([
         {
-          filePath: '/test/file.ts',
+          filePath: '/test/file.ts';
           messages: [
             { ruleId: 'no-unused-vars', severity: 1, fix: null },
             { ruleId: 'no-console', severity: 2, fix: { rang, e: [0, 10], text: '' } },
@@ -332,7 +332,7 @@ describe('LintingProgressTracker', () => {
     });
 
     test('should calculate improvement metrics correctly', () => {
-      const current: LintingMetrics = { timestamp: new Date(),;
+      const current: LintingMetrics = { timestamp: new Date(),,
         totalIssues: 50,
         errors: 5,
         warnings: 45,
@@ -346,8 +346,8 @@ describe('LintingProgressTracker', () => {
         }
       };
 
-      const previous: LintingMetrics = {;
-        ...current,
+      const previous: LintingMetrics = {
+        ...current;
         totalIssues: 100,
         errors: 20,
         warnings: 80
@@ -364,7 +364,7 @@ describe('LintingProgressTracker', () => {
     });
 
     test('should handle improvement calculation with no previous metrics', () => {
-      const current: LintingMetrics = { timestamp: new Date(),;
+      const current: LintingMetrics = { timestamp: new Date(),,
         totalIssues: 50,
         errors: 5,
         warnings: 45,
@@ -389,7 +389,7 @@ describe('LintingProgressTracker', () => {
     });
 
     test('should evaluate quality gates correctly', () => {
-      const metrics: LintingMetrics = { timestamp: new Date(),;
+      const metrics: LintingMetrics = { timestamp: new Date(),,
         totalIssues: 50,
         errors: 0,
         warnings: 50,

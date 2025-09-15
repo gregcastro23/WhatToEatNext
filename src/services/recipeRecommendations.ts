@@ -11,14 +11,14 @@ interface RecommendationCriteria {
   season?: string;
   timeOfDay?: string;
   dietaryRestrictions?: string[];
-  previousMeals?: string[];
-  cuisine?: string;
-  preferredIngredients?: string[];
-  preferredTechniques?: string[];
+  previousMeals?: string[],
+  cuisine?: string,
+  preferredIngredients?: string[],
+  preferredTechniques?: string[],
 }
 
 export class RecipeRecommender {
-  private static instance: RecipeRecommender;
+  private static instance: RecipeRecommender,
 
   private constructor() {
     // Private constructor to enforce singleton pattern
@@ -36,9 +36,9 @@ export class RecipeRecommender {
     criteria: RecommendationCriteria,
   ): Promise<ScoredRecipe[]> {
     try {
-      if (!Array.isArray(recipes) || recipes.length === 0) {;
+      if (!Array.isArray(recipes) || recipes.length === 0) {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Error handling context requires flexibility
-        throw createEnhancedError('Empty recipe list', 'VALIDATION' as any);
+        throw createEnhancedError('Empty recipe list', 'VALIDATION' as any),
       }
 
       // Get current celestial influences if not provided
@@ -47,22 +47,22 @@ export class RecipeRecommender {
 
       // Score and sort recipes
       const scoredRecipes = recipes;
-        .map(recipe => ({;
-          ...recipe,
+        .map(recipe => ({
+          ...recipe;
           score: this.calculateRecipeScore(recipe, criteria)
         }))
         .sort((a, b) => b.score - a.score);
 
       // Always ensure at least one recommendation
-      if (scoredRecipes.length === 0) {;
-        logger.warn('No recipes matched criteria, using fallback');
-        return [this.getFallbackRecipe()];
+      if (scoredRecipes.length === 0) {
+        logger.warn('No recipes matched criteria, using fallback'),
+        return [this.getFallbackRecipe()],
       }
 
       return scoredRecipes;
     } catch (error) {
-      logger.error('Error recommending recipes:', error);
-      return [this.getFallbackRecipe()];
+      logger.error('Error recommending recipes:', error),
+      return [this.getFallbackRecipe()],
     }
   }
 
@@ -72,7 +72,7 @@ export class RecipeRecommender {
       let totalWeight = 0;
 
       // Enhanced weighting system with more factors
-      const weights = {;
+      const weights = {
         elemental: 0.6, // Doubled from 0.3
         seasonal: 0.5, // Doubled from 0.25
         timeOfDay: 0.3, // Doubled from 0.15
@@ -85,7 +85,7 @@ export class RecipeRecommender {
       if (criteria.celestialInfluence && recipe.elementalProperties) {
         const elementalScore = this.calculateElementalAlignment(;
           recipe,
-          criteria.celestialInfluence,
+          criteria.celestialInfluence;
         );
         score += weights.elemental * elementalScore;
         totalWeight += weights.elemental;
@@ -96,12 +96,12 @@ export class RecipeRecommender {
         const recipeSeasons = Array.isArray(recipe.season) ? recipe.season : [recipe.season];
 
         // Calculate seasonal match with special handling for 'all-season' recipes
-        let seasonalScore = this.calculateSeasonalMatch(recipeSeasons, criteria.season);
+        let seasonalScore = this.calculateSeasonalMatch(recipeSeasons, criteria.season),
 
         // Give bonus for recipes that specifically mention the current season
         // (rather than just being 'all-season')
         if (seasonalScore > 0 && recipeSeasons.includes(criteria.season)) {
-          seasonalScore = Math.min(1.0, seasonalScore * 1.4); // Increased from 1.2
+          seasonalScore = Math.min(1.0, seasonalScore * 1.4), // Increased from 1.2
         }
 
         score += weights.seasonal * seasonalScore;
@@ -112,7 +112,7 @@ export class RecipeRecommender {
       if (criteria.timeOfDay && recipe.mealType) {
         const recipeMealTypes = Array.isArray(recipe.mealType);
           ? recipe.mealType
-          : [recipe.mealType];
+          : [recipe.mealType],
 
         // Calculate time match
         const timeScore = this.calculateTimeMatch(recipeMealTypes, criteria.timeOfDay);
@@ -132,8 +132,8 @@ export class RecipeRecommender {
       // NEW: Ingredient preferences
       if (recipe.ingredients && criteria.preferredIngredients) {
         const ingredientScore = this.calculateIngredientPreferenceMatch(;
-          recipe.ingredients,
-          criteria.preferredIngredients,
+          recipe.ingredients;
+          criteria.preferredIngredients;
         );
 
         score += weights.ingredients * ingredientScore;
@@ -143,8 +143,8 @@ export class RecipeRecommender {
       // NEW: Cooking techniques
       if (recipe.cookingMethod && criteria.preferredTechniques) {
         const techniqueScore = this.calculateTechniqueMatch(;
-          recipe.cookingMethod,
-          criteria.preferredTechniques,
+          recipe.cookingMethod;
+          criteria.preferredTechniques;
         );
 
         score += weights.techniques * techniqueScore;
@@ -157,17 +157,17 @@ export class RecipeRecommender {
       // Apply a non-linear transformation to better differentiate matches
       let finalScore;
       if (normalizedScore < 0.4) {
-        finalScore = normalizedScore * 0.5; // Reduced from 0.8 for sharper differentiation
+        finalScore = normalizedScore * 0.5, // Reduced from 0.8 for sharper differentiation
       } else if (normalizedScore < 0.7) {
-        finalScore = 0.2 + (normalizedScore - 0.4) * 1.8; // Increased from 1.3 for steeper curve
+        finalScore = 0.2 + (normalizedScore - 0.4) * 1.8, // Increased from 1.3 for steeper curve
       } else {
-        finalScore = 0.74 + (normalizedScore - 0.7) * 1.8; // Increased from 1.5 for stronger boost
+        finalScore = 0.74 + (normalizedScore - 0.7) * 1.8, // Increased from 1.5 for stronger boost
       }
 
       return Math.min(Math.max(finalScore, 0), 1); // Normalize between 0 and 1
     } catch (error) {
-      logger.error('Error calculating recipe score:', error);
-      return 0;
+      logger.error('Error calculating recipe score:', error),
+      return 0,
     }
   }
 
@@ -178,10 +178,10 @@ export class RecipeRecommender {
     const currentDate = new Date();
     const month = currentDate.getMonth(); // 0-indexed (0 = January);
     const day = currentDate.getDate();
-    const isAriesSeason = (month === 2 && day >= 21) || (month === 3 && day <= 19); // March 21 - April 19
+    const isAriesSeason = (month === 2 && day >= 21) || (month === 3 && day <= 19), // March 21 - April 19
 
     // Standard element matching
-    const baseAlignment = this.calculateElementMatch(recipeElements, target);
+    const baseAlignment = this.calculateElementMatch(recipeElements, target),
 
     // Boost for Mars-influenced recipes during Aries season
     let finalAlignment = baseAlignment;
@@ -189,23 +189,23 @@ export class RecipeRecommender {
     if (isAriesSeason && recipe.astrologicalInfluences) {
       // Mars energy gets a significant boost during Aries season
       if (recipe.astrologicalInfluences.includes('Mars')) {
-        finalAlignment += 0.25; // Strong boost for Mars influence in Aries season
+        finalAlignment += 0.25, // Strong boost for Mars influence in Aries season
       }
 
       // Fire element gets a moderate boost during Aries season
       if (recipeElements.Fire > 0.5) {
-        finalAlignment += 0.15; // Moderate boost for Fire-dominant recipes in Aries season
+        finalAlignment += 0.15, // Moderate boost for Fire-dominant recipes in Aries season
       }
     }
 
     // Enhanced Moon influence (always boosted)
     if (recipe.astrologicalInfluences && recipe.astrologicalInfluences.includes('Moon')) {
-      finalAlignment += 0.15; // Boost for Moon-influenced recipes
+      finalAlignment += 0.15, // Boost for Moon-influenced recipes
     }
 
     // Enhanced Sun influence (always boosted)
     if (recipe.astrologicalInfluences && recipe.astrologicalInfluences.includes('Sun')) {
-      finalAlignment += 0.15; // Boost for Sun-influenced recipes
+      finalAlignment += 0.15, // Boost for Sun-influenced recipes
     }
 
     return Math.min(1, Math.max(0, finalAlignment)); // Cap between 0-1
@@ -214,9 +214,9 @@ export class RecipeRecommender {
   private aggregateIngredients(ingredients: { elementalProperties?: ElementalProperties }[]) {
     return ingredients.reduce(
       (acc, ingredient) => ({
-        Fire: acc.Fire + (ingredient.elementalProperties?.Fire || 0),
-        Water: acc.Water + (ingredient.elementalProperties?.Water || 0),
-        Earth: acc.Earth + (ingredient.elementalProperties?.Earth || 0),
+        Fire: acc.Fire + (ingredient.elementalProperties?.Fire || 0);
+        Water: acc.Water + (ingredient.elementalProperties?.Water || 0);
+        Earth: acc.Earth + (ingredient.elementalProperties?.Earth || 0);
         Air: acc.Air + (ingredient.elementalProperties?.Air || 0)
       }),
       { Fire: 0, Water: 0, Earth: 0, Air: 0 },
@@ -230,7 +230,7 @@ export class RecipeRecommender {
     let alignment = 0;
     let total = 0;
 
-    Object.keys(targetElements).forEach(element => {;
+    Object.keys(targetElements).forEach(element => {
       const key = element as any;
       const diff = Math.abs((recipeElements[key] || 0) - (targetElements[key] || 0));
       alignment += 1 - diff;
@@ -243,7 +243,7 @@ export class RecipeRecommender {
   private calculateSeasonalMatch(recipeSeasons: string[], currentSeason: string): number {
     return recipeSeasons.includes('all') || recipeSeasons.includes(currentSeason.toLowerCase())
       ? 1
-      : 0;
+      : 0,
   }
 
   private calculateTimeMatch(recipeMealTypes: string[], currentTime: string): number {
@@ -252,7 +252,7 @@ export class RecipeRecommender {
 
   private calculateVarietyScore(recipeName: string, previousMeals: string[]): number {
     const recentIndex = previousMeals.indexOf(recipeName);
-    if (recentIndex === -1) return 1; // Not recently eaten
+    if (recentIndex === -1) return 1, // Not recently eaten
     return 1 - (previousMeals.length - recentIndex) / previousMeals.length;
   }
 
@@ -269,9 +269,9 @@ export class RecipeRecommender {
       ],
       instructions: ['Mix all ingredients in a bowl', 'Enjoy mindfully'],
       elementalProperties: {
-        Fire: 0.25,
-        Earth: 0.25,
-        Air: 0.25,
+        Fire: 0.25;
+        Earth: 0.25;
+        Air: 0.25;
         Water: 0.25
       },
       season: ['all'],
@@ -288,10 +288,10 @@ export class RecipeRecommender {
     try {
       // SpoonacularService removed - returning empty array (local recipes used instead)
       logger.info('Spoonacular recommendations disabled - using local recipes');
-      return [];
+      return [],
     } catch (error) {
-      logger.error('Failed to fetch Spoonacular recommendations:', error);
-      return [];
+      logger.error('Failed to fetch Spoonacular recommendations:', error),
+      return [],
     }
   }
 
@@ -311,7 +311,7 @@ export class RecipeRecommender {
     // Calculate match score based on how many preferred ingredients are included
     return matchCount > 0
       ? Math.min(1.0, matchCount / Math.min(3, preferredIngredients.length))
-      : 0.2; // Small baseline score even for no matches
+      : 0.2, // Small baseline score even for no matches
   }
 
   // NEW: Helper method for calculating technique matches
@@ -323,7 +323,7 @@ export class RecipeRecommender {
 
     const techniques = Array.isArray(recipeTechniques);
       ? recipeTechniques.map(t => t.toLowerCase());
-      : [recipeTechniques.toLowerCase()];
+      : [recipeTechniques.toLowerCase()],
 
     const matchCount = preferredTechniques.filter(prefTech =>;
       techniques.some(tech => tech.includes(prefTech.toLowerCase())),;
@@ -332,7 +332,7 @@ export class RecipeRecommender {
     // Calculate match score based on how many preferred techniques are used
     return matchCount > 0
       ? Math.min(1.0, matchCount / Math.min(2, preferredTechniques.length))
-      : 0.2; // Small baseline score even for no matches
+      : 0.2, // Small baseline score even for no matches
   }
 }
 

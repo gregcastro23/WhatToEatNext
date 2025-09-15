@@ -18,7 +18,7 @@ export function EnhancedHooksComponent() {
       () => {
         console.log(value);
       },
-    [],
+    []
   ); // Missing dependency
 
   return <div>Enhanced Hooks</div>;

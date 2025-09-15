@@ -21,10 +21,10 @@ import { ErrorPattern, ErrorTrend } from './ErrorTrackingEnterpriseSystem';
 export interface PatternFeature {
   featureId: string;
   name: string;
-  value: number;
-  weight: number;
-  category: 'syntax' | 'semantic' | 'structural' | 'contextual';
-  stability: number; // How stable this feature is over time
+  value: number,
+  weight: number,
+  category: 'syntax' | 'semantic' | 'structural' | 'contextual',
+  stability: number, // How stable this feature is over time
 }
 
 export interface PatternSignature {
@@ -32,10 +32,10 @@ export interface PatternSignature {
   features: PatternFeature[];
   confidence: number;
   errorCode: string;
-  category: ErrorCategory;
-  occurrences: number;
-  lastSeen: Date;
-  evolutionScore: number; // How much this pattern has changed
+  category: ErrorCategory,
+  occurrences: number,
+  lastSeen: Date,
+  evolutionScore: number, // How much this pattern has changed
 }
 
 export interface PatternCluster {
@@ -43,10 +43,10 @@ export interface PatternCluster {
   centerSignature: PatternSignature;
   signatures: PatternSignature[];
   density: number;
-  stability: number;
-  predictiveValue: number;
-  fixStrategy: string;
-  automationReadiness: number;
+  stability: number,
+  predictiveValue: number,
+  fixStrategy: string,
+  automationReadiness: number,
 }
 
 export interface PatternPrediction {
@@ -54,30 +54,30 @@ export interface PatternPrediction {
   targetCategory: ErrorCategory;
   probability: number;
   confidence: number;
-  timeframe: number; // minutes
-  triggerConditions: string[];
-  recommendedActions: string[];
-  riskLevel: 'low' | 'medium' | 'high' | 'critical';
+  timeframe: number, // minutes
+  triggerConditions: string[],
+  recommendedActions: string[],
+  riskLevel: 'low' | 'medium' | 'high' | 'critical',
 }
 
 export interface PatternEvolution {
   evolutionId: string;
   patternId: string;
   changeVector: number[];
-  changeRate: number;
-  adaptationScore: number;
-  stabilityTrend: 'increasing' | 'decreasing' | 'stable';
-  lastEvolution: Date;
+  changeRate: number,
+  adaptationScore: number,
+  stabilityTrend: 'increasing' | 'decreasing' | 'stable',
+  lastEvolution: Date,
 }
 
 export interface PatternInsight {
   insightId: string;
   type: 'clustering' | 'prediction' | 'evolution' | 'anomaly';
   significance: number;
-  description: string;
-  actionable: boolean;
-  evidence: string[];
-  recommendations: string[];
+  description: string,
+  actionable: boolean,
+  evidence: string[],
+  recommendations: string[],
 }
 
 // ========== INTELLIGENT PATTERN RECOGNITION SYSTEM ==========;
@@ -89,11 +89,11 @@ export class IntelligentPatternRecognition {
   private evolutions: Map<string, PatternEvolution> = new Map();
   private learningRate: number = 0.1;
   private clusteringThreshold: number = 0.7;
-  private predictionHorizon: number = 60; // minutes
-  private readonly FEATURE_WEIGHTS = {;
-    syntax: 0.25,
-    semantic: 0.35,
-    structural: 0.25,
+  private predictionHorizon: number = 60, // minutes
+  private readonly FEATURE_WEIGHTS = {
+    syntax: 0.25;
+    semantic: 0.35;
+    structural: 0.25;
     contextual: 0.15
   };
 
@@ -117,7 +117,7 @@ export class IntelligentPatternRecognition {
     // Contextual features
     features.push(...this.extractContextualFeatures(error));
 
-    return features;
+    return features,
   }
 
   /**
@@ -131,7 +131,7 @@ export class IntelligentPatternRecognition {
       featureId: 'syntax_error_code',
       name: 'Error Code',
       value: parseInt(error.code.replace('TS', '')) / 10000, // Normalize to 0-1
-      weight: this.FEATURE_WEIGHTS.syntax,
+      weight: this.FEATURE_WEIGHTS.syntax;
       category: 'syntax',
       stability: 0.95, // Error codes are very stable
     });
@@ -141,7 +141,7 @@ export class IntelligentPatternRecognition {
       featureId: 'syntax_message_length',
       name: 'Message Length',
       value: Math.min(error.message.length / 200, 1), // Normalize to 0-1
-      weight: ((this.FEATURE_WEIGHTS as any)?.syntax || 0) * 0.2,
+      weight: ((this.FEATURE_WEIGHTS as any)?.syntax || 0) * 0.2;
       category: 'syntax',
       stability: 0.8
     });
@@ -151,8 +151,8 @@ export class IntelligentPatternRecognition {
     features.push({
       featureId: 'syntax_special_chars',
       name: 'Special Character Density',
-      value: specialChars.length / error.message.length,
-      weight: ((this.FEATURE_WEIGHTS as any)?.syntax || 0) * 0.2,
+      value: specialChars.length / error.message.length;
+      weight: ((this.FEATURE_WEIGHTS as any)?.syntax || 0) * 0.2;
       category: 'syntax',
       stability: 0.75
     });
@@ -167,17 +167,17 @@ export class IntelligentPatternRecognition {
     const features: PatternFeature[] = [];
 
     // Type-related keywords
-    const typeKeywords = ['type', 'interface', 'class', 'function', 'method'];
+    const typeKeywords = ['type', 'interface', 'class', 'function', 'method'],
     const typeKeywordCount = typeKeywords.reduce(;
       (count, keyword) => count + (error.message.toLowerCase().includes(keyword) ? 1 : 0),
       0,
-    );
+    ),
 
     features.push({
       featureId: 'semantic_type_keywords',
       name: 'Type Keywords',
-      value: typeKeywordCount / typeKeywords.length,
-      weight: ((this.FEATURE_WEIGHTS as any)?.semantic || 0) * 0.2,
+      value: typeKeywordCount / typeKeywords.length;
+      weight: ((this.FEATURE_WEIGHTS as any)?.semantic || 0) * 0.2;
       category: 'semantic',
       stability: 0.9
     });
@@ -192,8 +192,8 @@ export class IntelligentPatternRecognition {
     features.push({
       featureId: 'semantic_assignment_keywords',
       name: 'Assignment Keywords',
-      value: assignmentKeywordCount / assignmentKeywords.length,
-      weight: ((this.FEATURE_WEIGHTS as any)?.semantic || 0) * 0.2,
+      value: assignmentKeywordCount / assignmentKeywords.length;
+      weight: ((this.FEATURE_WEIGHTS as any)?.semantic || 0) * 0.2;
       category: 'semantic',
       stability: 0.85
     });
@@ -204,7 +204,7 @@ export class IntelligentPatternRecognition {
       featureId: 'semantic_generic_complexity',
       name: 'Generic Type Complexity',
       value: Math.min(genericMatches.length / 5, 1), // Normalize to 0-1
-      weight: ((this.FEATURE_WEIGHTS as any)?.semantic || 0) * 0.2,
+      weight: ((this.FEATURE_WEIGHTS as any)?.semantic || 0) * 0.2;
       category: 'semantic',
       stability: 0.7
     });
@@ -224,7 +224,7 @@ export class IntelligentPatternRecognition {
       featureId: 'structural_path_depth',
       name: 'File Path Depth',
       value: Math.min(pathDepth / 10, 1), // Normalize to 0-1
-      weight: ((this.FEATURE_WEIGHTS as any)?.structural || 0) * 0.2,
+      weight: ((this.FEATURE_WEIGHTS as any)?.structural || 0) * 0.2;
       category: 'structural',
       stability: 0.9
     });
@@ -236,7 +236,7 @@ export class IntelligentPatternRecognition {
       featureId: 'structural_file_type',
       name: 'File Type',
       value: fileTypeScore,
-      weight: ((this.FEATURE_WEIGHTS as any)?.structural || 0) * 0.2,
+      weight: ((this.FEATURE_WEIGHTS as any)?.structural || 0) * 0.2;
       category: 'structural',
       stability: 0.95
     });
@@ -246,7 +246,7 @@ export class IntelligentPatternRecognition {
       featureId: 'structural_line_position',
       name: 'Line Position',
       value: Math.min(error.line / 1000, 1), // Normalize to 0-1
-      weight: ((this.FEATURE_WEIGHTS as any)?.structural || 0) * 0.2,
+      weight: ((this.FEATURE_WEIGHTS as any)?.structural || 0) * 0.2;
       category: 'structural',
       stability: 0.6
     });
@@ -256,7 +256,7 @@ export class IntelligentPatternRecognition {
       featureId: 'structural_column_position',
       name: 'Column Position',
       value: Math.min(error.column / 100, 1), // Normalize to 0-1
-      weight: ((this.FEATURE_WEIGHTS as any)?.structural || 0) * 0.2,
+      weight: ((this.FEATURE_WEIGHTS as any)?.structural || 0) * 0.2;
       category: 'structural',
       stability: 0.5
     });
@@ -267,7 +267,7 @@ export class IntelligentPatternRecognition {
       featureId: 'structural_directory_type',
       name: 'Directory Type',
       value: directoryType,
-      weight: ((this.FEATURE_WEIGHTS as any)?.structural || 0) * 0.2,
+      weight: ((this.FEATURE_WEIGHTS as any)?.structural || 0) * 0.2;
       category: 'structural',
       stability: 0.9
     });
@@ -286,7 +286,7 @@ export class IntelligentPatternRecognition {
       featureId: 'contextual_priority',
       name: 'Error Priority',
       value: error.priority / 30, // Normalize to 0-1 (assuming max priority is 30)
-      weight: ((this.FEATURE_WEIGHTS as any)?.contextual || 0) * 0.2,
+      weight: ((this.FEATURE_WEIGHTS as any)?.contextual || 0) * 0.2;
       category: 'contextual',
       stability: 0.8
     });
@@ -302,7 +302,7 @@ export class IntelligentPatternRecognition {
       featureId: 'contextual_severity',
       name: 'Error Severity',
       value: severityScore,
-      weight: ((this.FEATURE_WEIGHTS as any)?.contextual || 0) * 0.2,
+      weight: ((this.FEATURE_WEIGHTS as any)?.contextual || 0) * 0.2;
       category: 'contextual',
       stability: 0.85
     });
@@ -313,7 +313,7 @@ export class IntelligentPatternRecognition {
       featureId: 'contextual_time_of_day',
       name: 'Time of Day',
       value: currentHour / 24, // Normalize to 0-1
-      weight: ((this.FEATURE_WEIGHTS as any)?.contextual || 0) * 0.2,
+      weight: ((this.FEATURE_WEIGHTS as any)?.contextual || 0) * 0.2;
       category: 'contextual',
       stability: 0.3
     });
@@ -326,13 +326,13 @@ export class IntelligentPatternRecognition {
    */
   private getFileTypeScore(extension: string): number {
     const scores: Record<string, number> = {
-      ts: 1.0,
-      tsx: 0.9,
-      js: 0.7,
-      jsx: 0.6,
-      vue: 0.5,
-      svelte: 0.4,
-      json: 0.3,
+      ts: 1.0;
+      tsx: 0.9;
+      js: 0.7;
+      jsx: 0.6;
+      vue: 0.5;
+      svelte: 0.4;
+      json: 0.3;
       md: 0.1
     };
 
@@ -363,14 +363,14 @@ export class IntelligentPatternRecognition {
    */
   createPatternSignature(error: TypeScriptError): PatternSignature {
     const features = this.extractPatternFeatures(error);
-    const signatureId = this.generateSignatureId(error, features);
+    const signatureId = this.generateSignatureId(error, features),
 
-    const signature: PatternSignature = {;
+    const signature: PatternSignature = {
       signatureId,
       features,
-      confidence: this.calculateSignatureConfidence(features),
-      errorCode: error.code,
-      category: error.category,
+      confidence: this.calculateSignatureConfidence(features);
+      errorCode: error.code;
+      category: error.category;
       occurrences: 1,
       lastSeen: new Date(),
       evolutionScore: 0
@@ -393,10 +393,10 @@ export class IntelligentPatternRecognition {
    */
   private simpleHash(str: string): string {
     let hash = 0;
-    for (let i = 0; i < str.length; i++) {
+    for (let i = 0, i < str.length, i++) {
       const char = str.charCodeAt(i);
       hash = (hash << 5) - hash + char;
-      hash = hash & hash; // Convert to 32-bit integer
+      hash = hash & hash, // Convert to 32-bit integer
     }
     return Math.abs(hash).toString(36);
   }
@@ -407,7 +407,7 @@ export class IntelligentPatternRecognition {
   private calculateSignatureConfidence(features: PatternFeature[]): number {
     const avgStability = features.reduce((sum, f) => sum + f.stability, 0) / features.length;
     const featureCount = features.length;
-    const completeness = Math.min(featureCount / 10, 1); // Ideal feature count is 10
+    const completeness = Math.min(featureCount / 10, 1), // Ideal feature count is 10
 
     return avgStability * 0.7 + completeness * 0.3;
   }
@@ -425,7 +425,7 @@ export class IntelligentPatternRecognition {
     for (const signature of signatures) {
       if (processed.has(signature.signatureId)) continue;
 
-      const cluster = this.createCluster(signature, signatures, processed);
+      const cluster = this.createCluster(signature, signatures, processed),
       if (cluster.signatures.length > 1) {
         clusters.push(cluster);
       }
@@ -507,10 +507,10 @@ export class IntelligentPatternRecognition {
     let totalSimilarity = 0;
     let pairCount = 0;
 
-    for (let i = 0; i < signatures.length; i++) {
-      for (let j = i + 1; j < signatures.length; j++) {
-        totalSimilarity += this.calculateSignatureSimilarity(signatures[i], signatures[j]);
-        pairCount++;
+    for (let i = 0, i < signatures.length, i++) {
+      for (let j = i + 1, j < signatures.length, j++) {
+        totalSimilarity += this.calculateSignatureSimilarity(signatures[i], signatures[j]),
+        pairCount++,
       }
     }
 
@@ -526,7 +526,7 @@ export class IntelligentPatternRecognition {
     const occurrenceStability = Math.min(;
       signatures.reduce((sum, sig) => sum + sig.occurrences, 0) / 100,
       1,
-    );
+    ),
 
     return avgConfidence * 0.6 + occurrenceStability * 0.4;
   }
@@ -537,9 +537,9 @@ export class IntelligentPatternRecognition {
   private calculatePredictiveValue(signatures: PatternSignature[]): number {
     const totalOccurrences = signatures.reduce((sum, sig) => sum + sig.occurrences, 0);
     const recency =
-      signatures.reduce((sum, sig) => {;
+      signatures.reduce((sum, sig) => {
         const age = Date.now() - sig.lastSeen.getTime();
-        return sum + 1 / (1 + age / (1000 * 60 * 60 * 24)); // Decay over days
+        return sum + 1 / (1 + age / (1000 * 60 * 60 * 24)), // Decay over days
       }, 0) / signatures.length;
 
     const frequency = Math.min(totalOccurrences / 50, 1); // Normalize to 0-1
@@ -551,7 +551,7 @@ export class IntelligentPatternRecognition {
    */
   private determineFixStrategy(signatures: PatternSignature[]): string {
     const errorCode = signatures[0].errorCode;
-    const totalOccurrences = signatures.reduce((sum, sig) => sum + sig.occurrences, 0);
+    const totalOccurrences = signatures.reduce((sum, sig) => sum + sig.occurrences, 0),
 
     const strategies: Record<string, string> = {
       TS2352: 'Type assertion and conversion safety',
@@ -579,17 +579,17 @@ export class IntelligentPatternRecognition {
    */
   private calculateAutomationReadiness(signatures: PatternSignature[]): number {
     const avgConfidence =
-      signatures.reduce((sum, sig) => sum + sig.confidence, 0) / signatures.length;
+      signatures.reduce((sum, sig) => sum + sig.confidence, 0) / signatures.length,
     const errorCode = signatures[0].errorCode;
 
     // Base automation potential by error type
     const baseAutomation: Record<string, number> = {
-      TS2352: 0.85,
-      TS2345: 0.7,
-      TS2304: 0.95,
-      TS2698: 0.6,
-      TS2362: 0.9,
-      TS2322: 0.65,
+      TS2352: 0.85;
+      TS2345: 0.7;
+      TS2304: 0.95;
+      TS2698: 0.6;
+      TS2362: 0.9;
+      TS2322: 0.65;
       TS2339: 0.75
     };
 
@@ -631,9 +631,9 @@ export class IntelligentPatternRecognition {
   private createClusterPrediction(cluster: PatternCluster): PatternPrediction {
     const totalOccurrences = cluster.signatures.reduce((sum, sig) => sum + sig.occurrences, 0);
     const avgRecency =
-      cluster.signatures.reduce((sum, sig) => {;
+      cluster.signatures.reduce((sum, sig) => {
         const age = Date.now() - sig.lastSeen.getTime();
-        return sum + age;
+        return sum + age,
       }, 0) / cluster.signatures.length;
 
     const probability = Math.min(0.95, cluster.predictiveValue * (totalOccurrences / 10));
@@ -644,12 +644,12 @@ export class IntelligentPatternRecognition {
 
     return {
       predictionId: `pred_${cluster.clusterId}_${Date.now()}`,
-      targetCategory: cluster.centerSignature.category,
+      targetCategory: cluster.centerSignature.category;
       probability,
       confidence,
       timeframe,
-      triggerConditions: this.identifyTriggerConditions(cluster),
-      recommendedActions: this.generateRecommendedActions(cluster),
+      triggerConditions: this.identifyTriggerConditions(cluster);
+      recommendedActions: this.generateRecommendedActions(cluster);
       riskLevel: this.assessPredictionRisk(probability, confidence)
     };
   }
@@ -665,7 +665,7 @@ export class IntelligentPatternRecognition {
 
     for (const signature of this.signatures.values()) {
       const current = categoryTrends.get(signature.category) || 0;
-      categoryTrends.set(signature.category, current + signature.occurrences);
+      categoryTrends.set(signature.category, current + signature.occurrences),
     }
 
     categoryTrends.forEach((count, category) => {
@@ -694,16 +694,16 @@ export class IntelligentPatternRecognition {
 
     // Detect unusual patterns
     const avgOccurrences =
-      Array.from(this.signatures.values()).reduce((sum, sig) => sum + sig.occurrences, 0) /;
+      Array.from(this.signatures.values()).reduce((sum, sig) => sum + sig.occurrences, 0) /,
       this.signatures.size;
 
     for (const signature of this.signatures.values()) {
       if (signature.occurrences > avgOccurrences * 2) {
         predictions.push({
           predictionId: `anomaly_${signature.signatureId}_${Date.now()}`,
-          targetCategory: signature.category,
-          probability: 0.6,
-          confidence: 0.7,
+          targetCategory: signature.category;
+          probability: 0.6;
+          confidence: 0.7;
           timeframe: 15,
           triggerConditions: [`Unusual spike in ${signature.errorCode} errors`],
           recommendedActions: [
@@ -768,7 +768,7 @@ export class IntelligentPatternRecognition {
     if (riskScore > 0.8) return 'critical';
     if (riskScore > 0.6) return 'high';
     if (riskScore > 0.4) return 'medium';
-    return 'low';
+    return 'low',
   }
 
   // ========== PATTERN EVOLUTION ==========;
@@ -791,14 +791,14 @@ export class IntelligentPatternRecognition {
 
       // Update signature confidence based on evolution
       existingSignature.confidence = this.updateConfidenceWithEvolution(;
-        existingSignature.confidence,
-        evolution.adaptationScore,
-      );
+        existingSignature.confidence;
+        evolution.adaptationScore;
+      ),
 
       existingSignature.evolutionScore = evolution.changeRate;
     } else {
       // Store new signature
-      this.signatures.set(newSignature.signatureId, newSignature);
+      this.signatures.set(newSignature.signatureId, newSignature),
     }
   }
 
@@ -828,7 +828,7 @@ export class IntelligentPatternRecognition {
 
     return {
       evolutionId: `evo_${oldSignature.signatureId}_${Date.now()}`,
-      patternId: oldSignature.signatureId,
+      patternId: oldSignature.signatureId;
       changeVector,
       changeRate,
       adaptationScore,
@@ -867,7 +867,7 @@ export class IntelligentPatternRecognition {
     // Anomaly insights
     insights.push(...this.generateAnomalyInsights());
 
-    return insights.sort((a, b) => b.significance - a.significance);
+    return insights.sort((a, b) => b.significance - a.significance),
   }
 
   /**
@@ -882,16 +882,16 @@ export class IntelligentPatternRecognition {
       insights.push({
         insightId: `cluster_insight_${cluster.clusterId}`,
         type: 'clustering',
-        significance: cluster.density * cluster.signatures.length,
+        significance: cluster.density * cluster.signatures.length;
         description: `Cluster of ${cluster.signatures.length} similar ${cluster.centerSignature.errorCode} errors detected`,
-        actionable: cluster.automationReadiness > 0.7,
+        actionable: cluster.automationReadiness > 0.7;
         evidence: [
           `${cluster.signatures.length} similar patterns`,
           `${(cluster.density * 100).toFixed(1)}% density`,
           `${(cluster.automationReadiness * 100).toFixed(1)}% automation ready`
         ],
         recommendations: [
-          cluster.fixStrategy,
+          cluster.fixStrategy;
           cluster.automationReadiness > 0.8 ? 'Consider automated fixing' : 'Manual fix required'
         ]
       });
@@ -912,7 +912,7 @@ export class IntelligentPatternRecognition {
       insights.push({
         insightId: `prediction_insight_${prediction.predictionId}`,
         type: 'prediction',
-        significance: prediction.probability * prediction.confidence,
+        significance: prediction.probability * prediction.confidence;
         description: `High probability (${(prediction.probability * 100).toFixed(1)}%) of ${prediction.targetCategory} errors in ${prediction.timeframe} minutes`,
         actionable: true,
         evidence: [
@@ -939,9 +939,9 @@ export class IntelligentPatternRecognition {
       insights.push({
         insightId: `evolution_insight_${evolution.evolutionId}`,
         type: 'evolution',
-        significance: evolution.changeRate,
+        significance: evolution.changeRate;
         description: `Rapid pattern evolution detected in ${evolution.patternId}`,
-        actionable: evolution.adaptationScore < 0.5,
+        actionable: evolution.adaptationScore < 0.5;
         evidence: [
           `${(evolution.changeRate * 100).toFixed(1)}% change rate`,
           `${evolution.stabilityTrend} stability trend`,
@@ -955,7 +955,7 @@ export class IntelligentPatternRecognition {
       });
     }
 
-    return insights;
+    return insights,
   }
 
   /**
@@ -969,14 +969,14 @@ export class IntelligentPatternRecognition {
       this.signatures.size;
 
     const anomalies = Array.from(this.signatures.values()).filter(;
-      sig => sig.occurrences > avgOccurrences * 3,;
-    );
+      sig => sig.occurrences > avgOccurrences * 3;
+    ),
 
     for (const anomaly of anomalies) {
       insights.push({
         insightId: `anomaly_insight_${anomaly.signatureId}`,
         type: 'anomaly',
-        significance: anomaly.occurrences / avgOccurrences,
+        significance: anomaly.occurrences / avgOccurrences;
         description: `Anomalous spike in ${anomaly.errorCode} errors (${anomaly.occurrences} occurrences)`,
         actionable: true,
         evidence: [
@@ -1011,19 +1011,19 @@ export class IntelligentPatternRecognition {
     totalSignatures: number;
     totalClusters: number;
     totalPredictions: number;
-    avgConfidence: number;
-    topPatterns: PatternSignature[];
-    topClusters: PatternCluster[];
-    recentInsights: PatternInsight[];
+    avgConfidence: number,
+    topPatterns: PatternSignature[],
+    topClusters: PatternCluster[],
+    recentInsights: PatternInsight[],
   } {
     const signatures = Array.from(this.signatures.values());
     const avgConfidence =
-      signatures.reduce((sum, sig) => sum + sig.confidence, 0) / signatures.length;
+      signatures.reduce((sum, sig) => sum + sig.confidence, 0) / signatures.length,
 
     return {
-      totalSignatures: signatures.length,
-      totalClusters: this.clusters.length,
-      totalPredictions: this.predictions.length,
+      totalSignatures: signatures.length;
+      totalClusters: this.clusters.length;
+      totalPredictions: this.predictions.length;
       avgConfidence,
       topPatterns: signatures.sort((a, b) => b.occurrences - a.occurrences).slice(0, 5),
       topClusters: this.clusters.sort((a, b) => b.predictiveValue - a.predictiveValue).slice(0, 3),
@@ -1035,15 +1035,15 @@ export class IntelligentPatternRecognition {
    * Get configuration
    */
   getConfiguration(): {
-    learningRate: number;
-    clusteringThreshold: number;
-    predictionHorizon: number;
+    learningRate: number,
+    clusteringThreshold: number,
+    predictionHorizon: number,
     featureWeights: typeof this.FEATURE_WEIGHTS;
   } {
     return {
-      learningRate: this.learningRate,
-      clusteringThreshold: this.clusteringThreshold,
-      predictionHorizon: this.predictionHorizon,
+      learningRate: this.learningRate;
+      clusteringThreshold: this.clusteringThreshold;
+      predictionHorizon: this.predictionHorizon;
       featureWeights: this.FEATURE_WEIGHTS
     };
   }
@@ -1053,21 +1053,21 @@ export class IntelligentPatternRecognition {
    */
   updateConfiguration(
     config: Partial<{
-      learningRate: number;
-      clusteringThreshold: number;
-      predictionHorizon: number;
+      learningRate: number,
+      clusteringThreshold: number,
+      predictionHorizon: number,
     }>,
   ): void {
     if (config.learningRate !== undefined) {
-      this.learningRate = Math.max(0.01, Math.min(0.5, config.learningRate));
+      this.learningRate = Math.max(0.01, Math.min(0.5, config.learningRate)),
     }
 
     if (config.clusteringThreshold !== undefined) {
-      this.clusteringThreshold = Math.max(0.3, Math.min(0.9, config.clusteringThreshold));
+      this.clusteringThreshold = Math.max(0.3, Math.min(0.9, config.clusteringThreshold)),
     }
 
     if (config.predictionHorizon !== undefined) {
-      this.predictionHorizon = Math.max(15, Math.min(240, config.predictionHorizon));
+      this.predictionHorizon = Math.max(15, Math.min(240, config.predictionHorizon)),
     }
   }
 

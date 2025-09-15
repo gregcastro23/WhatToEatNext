@@ -27,7 +27,7 @@ async function testStreamlinedSystem() {
 
   try {
     // Test comprehensive calculation
-    const result = await calculateComprehensiveAlchemicalResult({;
+    const result = await calculateComprehensiveAlchemicalResult({
       planetaryPositions: streamlinedPositions,
       season: 'spring',
       lunarPhase: 'waxing gibbous',

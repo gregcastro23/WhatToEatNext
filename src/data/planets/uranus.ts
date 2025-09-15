@@ -1,6 +1,6 @@
 import { PlanetData } from './types';
 
-const uranusData: PlanetData = {;
+const uranusData: PlanetData = {
   'Dignity Effect': {
     aquarius: 1,
     scorpio: 2,

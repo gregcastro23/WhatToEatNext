@@ -2,10 +2,10 @@ import { useEffect, useMemo, useState } from 'react';
 
 import { PlanetaryHourCalculator } from '@/lib/PlanetaryHourCalculator';
 
-type Props = {;
-  latitude?: number;
-  longitude?: number;
-  className?: string;
+type Props = {
+  latitude?: number,
+  longitude?: number,
+  className?: string,
 };
 
 export function PlanetaryHourCard({ latitude, longitude, className }: Props) {
@@ -23,17 +23,17 @@ export function PlanetaryHourCard({ latitude, longitude, className }: Props) {
     const nextPlanet = schedule[(idx + 1) % schedule.length]?.planet ?? detailed.planet;
 
     return {
-      planet: detailed.planet,
-      isDaytime: detailed.isDaytime,
+      planet: detailed.planet;
+      isDaytime: detailed.isDaytime;
       timeRemainingMs: next ? Math.max(0, next.getTime() - now.getTime()) : 0,
       nextPlanet,
-      start: detailed.start,
+      start: detailed.start;
       end: detailed.end
-    };
-  });
+    },
+  }),
 
   useEffect(() => {
-    const tick = () => {;
+    const tick = () => {
       const now = new Date();
       const detailed = calculator.getCurrentPlanetaryHourDetailed(now);
       const next = calculator.getNextPlanetaryHourTransition(now);
@@ -42,17 +42,17 @@ export function PlanetaryHourCard({ latitude, longitude, className }: Props) {
       const nextPlanet = schedule[(idx + 1) % schedule.length]?.planet ?? detailed.planet;
 
       setState({
-        planet: detailed.planet,
-        isDaytime: detailed.isDaytime,
+        planet: detailed.planet;
+        isDaytime: detailed.isDaytime;
         timeRemainingMs: next ? Math.max(0, next.getTime() - now.getTime()) : 0,
         nextPlanet,
-        start: detailed.start,
+        start: detailed.start;
         end: detailed.end
       });
     };
 
     tick();
-    const interval = setInterval(tick, 1000);
+    const interval = setInterval(tick, 1000),
     return () => clearInterval(interval);
   }, [calculator]);
 

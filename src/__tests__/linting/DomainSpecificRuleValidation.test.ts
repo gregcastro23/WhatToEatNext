@@ -32,19 +32,19 @@ describe('Domain-Specific Rule Validation', () => {
   afterEach(() => {
     // Clean up any temporary test files
     const tempFiles = [;
-      'temp-planetary-test.ts',
-      'temp-elemental-test.ts',
-      'temp-fallback-test.ts',
-      'src/services/campaign/temp-logging-test.ts',
-      'src/services/campaign/temp-variable-test.ts',
-      'temp-mock-test.test.ts',
-      'temp-relaxation-test.test.ts',
-      'temp-globals-test.test.ts',
-      'temp-require-test.config.js',
+      'temp-planetary-test.ts';
+      'temp-elemental-test.ts';
+      'temp-fallback-test.ts';
+      'src/services/campaign/temp-logging-test.ts';
+      'src/services/campaign/temp-variable-test.ts';
+      'temp-mock-test.test.ts';
+      'temp-relaxation-test.test.ts';
+      'temp-globals-test.test.ts';
+      'temp-require-test.config.js';
       'temp-config-relaxation.config.ts'
-    ];
+    ],
 
-    tempFiles.forEach(file => {;
+    tempFiles.forEach(file => {
       try {
         execSync(`rm -f '${join(projectRoot, file)}'`);
       } catch {}
@@ -134,14 +134,14 @@ describe('Domain-Specific Rule Validation', () => {
       writeFileSync(testFile, testContent);
 
       try {
-        const output: any = execSync(`npx eslint '${testFile}' --config eslint.config.cjs --format json`, {;
+        const output: any = execSync(`npx eslint '${testFile}' --config eslint.config.cjs --format json`, {
           encoding: 'utf8',
           cwd: projectRoot
         });
         const result: any = JSON.parse(output);
 
-        if (result.length > 0 && result.[0].messages) {
-          const unusedVarErrors: any = result.[0].messages.filter(;
+        if (result.length > 0 && result[0].messages) {
+          const unusedVarErrors: any = result[0].messages.filter(;
             (msg: any) => {
               const message: any = msg as any;
               return message.ruleId === '@typescript-eslint/no-unused-vars' &&;
@@ -156,8 +156,8 @@ describe('Domain-Specific Rule Validation', () => {
         const output: any = (error as any).stdout.toString() || '';
         if (output != null) {
           const result: any = JSON.parse(output);
-          if (result.length > 0 && result.[0].messages) {
-            const unusedVarErrors: any = result.[0].messages.filter(;
+          if (result.length > 0 && result[0].messages) {
+            const unusedVarErrors: any = result[0].messages.filter(;
               (msg: any) => {
                 const message: any = msg as any;
                 return message.ruleId === '@typescript-eslint/no-unused-vars' &&;
@@ -179,10 +179,10 @@ describe('Domain-Specific Rule Validation', () => {
 
     test('should validate elemental properties structure', async () => {
       const validElementalContent: any = `;
-        const _UNUSED_elementalProps = {;
-          Fire: 0.8,
-          Water: 0.2,
-          Earth: 0.1,
+        const _UNUSED_elementalProps = {
+          Fire: 0.8;
+          Water: 0.2;
+          Earth: 0.1;
           Air: 0.3
         };
       `;
@@ -212,9 +212,9 @@ describe('Domain-Specific Rule Validation', () => {
 
     test('should detect invalid elemental properties', async () => {
       const invalidElementalContent: any = `;
-        const _badElementalProps = {;
-          Fire: 0.8,
-          Water: 0.2,
+        const _badElementalProps = {
+          Fire: 0.8;
+          Water: 0.2;
           // Missing Earth and Air - should be flagged
         };
       `;
@@ -278,10 +278,10 @@ describe('Domain-Specific Rule Validation', () => {
       const testContent: any = `;
         class CampaignController {
           private complexMethod(): any {
-            // Complex enterprise logic with high complexity;
+            // Complex enterprise logic with high complexity,
             let result: any = 0;
-            for (let i: any = 0; i < 10; i++) {
-              for (let j: any = 0; j < 10; j++) {
+            for (let i: any = 0, i < 10, i++) {
+              for (let j: any = 0, j < 10, j++) {
                 if (i > 5) {
                   if (j > 5) {
                     result += i * j;
@@ -302,17 +302,17 @@ describe('Domain-Specific Rule Validation', () => {
       writeFileSync(testFile, testContent);
 
       try {
-        const output: any = execSync(`npx eslint '${testFile}' --config eslint.config.cjs --format json`, {;
+        const output: any = execSync(`npx eslint '${testFile}' --config eslint.config.cjs --format json`, {
           encoding: 'utf8',
           cwd: projectRoot
         });
 
         const result: any = JSON.parse(output);
 
-        if (result.length > 0 && result.[0].messages) {
-          const complexityErrors: any = result.[0].messages.filter(;
+        if (result.length > 0 && result[0].messages) {
+          const complexityErrors: any = result[0].messages.filter(;
             (msg: any) => (msg as any)?.ruleId === 'complexity' && (msg as any)?.severity === 2, // error level;
-          );
+          ),
 
           // Campaign files should allow higher complexity
           expect(complexityErrors.length).toBe(0);
@@ -321,10 +321,10 @@ describe('Domain-Specific Rule Validation', () => {
         const output: any = (error as any).stdout.toString() || '';
         if (output != null) {
           const result: any = JSON.parse(output);
-          if (result.length > 0 && result.[0].messages) {
-            const complexityErrors: any = result.[0].messages.filter(;
+          if (result.length > 0 && result[0].messages) {
+            const complexityErrors: any = result[0].messages.filter(;
               (msg: any) => (msg as any)?.ruleId === 'complexity' && (msg as any)?.severity === 2,;
-            );
+            ),
 
             expect(complexityErrors.length).toBe(0);
           }
@@ -345,20 +345,20 @@ describe('Domain-Specific Rule Validation', () => {
         console.debug('Detailed debugging info');
       `;
 
-      const testFile: any = join(projectRoot, 'src/services/campaign/temp-logging-test.ts');
+      const testFile: any = join(projectRoot, 'src/services/campaign/temp-logging-test.ts'),
       writeFileSync(testFile, testContent);
 
       try {
-        const output: any = execSync(`npx eslint '${testFile}' --config eslint.config.cjs --format json`, {;
+        const output: any = execSync(`npx eslint '${testFile}' --config eslint.config.cjs --format json`, {
           encoding: 'utf8',
           cwd: projectRoot
         });
         const result: any = JSON.parse(output);
 
-        if (result.length > 0 && result.[0].messages) {
-          const consoleErrors: any = result.[0].messages.filter(;
+        if (result.length > 0 && result[0].messages) {
+          const consoleErrors: any = result[0].messages.filter(;
             (msg: any) => (msg as any)?.ruleId === 'no-console' && (msg as any)?.severity === 2, // error level;
-          );
+          ),
 
           // Campaign files should allow console logging
           expect(consoleErrors.length).toBe(0);
@@ -367,10 +367,10 @@ describe('Domain-Specific Rule Validation', () => {
         const output: any = (error as any).stdout.toString() || '';
         if (output != null) {
           const result: any = JSON.parse(output);
-          if (result.length > 0 && result.[0].messages) {
-            const consoleErrors: any = result.[0].messages.filter(;
+          if (result.length > 0 && result[0].messages) {
+            const consoleErrors: any = result[0].messages.filter(;
               (msg: any) => (msg as any)?.ruleId === 'no-console' && (msg as any)?.severity === 2,;
-            );
+            ),
 
             expect(consoleErrors.length).toBe(0);
           }
@@ -395,21 +395,21 @@ describe('Domain-Specific Rule Validation', () => {
       writeFileSync(testFile, testContent);
 
       try {
-        const output: any = execSync(`npx eslint '${testFile}' --config eslint.config.cjs --format json`, {;
+        const output: any = execSync(`npx eslint '${testFile}' --config eslint.config.cjs --format json`, {
           encoding: 'utf8',
           cwd: projectRoot
         });
         const result: any = JSON.parse(output);
 
-        if (result.length > 0 && result.[0].messages) {
-          const unusedVarErrors: any = result.[0].messages.filter(;
+        if (result.length > 0 && result[0].messages) {
+          const unusedVarErrors: any = result[0].messages.filter(;
             (msg: any) =>
               (msg as any)?.ruleId === '@typescript-eslint/no-unused-vars' &&;
               (String((msg as any)?.message).includes('campaign') ||
                 String((msg as any)?.message).includes('progress') ||
                 String((msg as any)?.message).includes('metrics') ||;
-                String((msg as any)?.message).includes('safety')),
-          );
+                String((msg as any)?.message).includes('safety'));
+          ),
 
           expect(unusedVarErrors.length).toBe(0);
         }
@@ -417,15 +417,15 @@ describe('Domain-Specific Rule Validation', () => {
         const output: any = (error as any).stdout.toString() || '';
         if (output != null) {
           const result: any = JSON.parse(output);
-          if (result.length > 0 && result.[0].messages) {
-            const unusedVarErrors: any = result.[0].messages.filter(;
+          if (result.length > 0 && result[0].messages) {
+            const unusedVarErrors: any = result[0].messages.filter(;
               (msg: any) =>
                 (msg as any)?.ruleId === '@typescript-eslint/no-unused-vars' &&;
                 (String((msg as any)?.message).includes('campaign') ||
                   String((msg as any)?.message).includes('progress') ||
                   String((msg as any)?.message).includes('metrics') ||;
-                  String((msg as any)?.message).includes('safety')),
-            );
+                  String((msg as any)?.message).includes('safety'));
+            ),
 
             expect(unusedVarErrors.length).toBe(0);
           }
@@ -451,20 +451,20 @@ describe('Domain-Specific Rule Validation', () => {
       writeFileSync(testFile, testContent);
 
       try {
-        const output: any = execSync(`npx eslint '${testFile}' --config eslint.config.cjs --format json`, {;
+        const output: any = execSync(`npx eslint '${testFile}' --config eslint.config.cjs --format json`, {
           encoding: 'utf8',
           cwd: projectRoot
         });
         const result: any = JSON.parse(output);
 
-        if (result.length > 0 && result.[0].messages) {
-          const unusedVarErrors: any = result.[0].messages.filter(;
+        if (result.length > 0 && result[0].messages) {
+          const unusedVarErrors: any = result[0].messages.filter(;
             (msg: any) =>
               (msg as any)?.ruleId === '@typescript-eslint/no-unused-vars' &&;
               (String((msg as any)?.message).includes('mockFunction') ||
                 String((msg as any)?.message).includes('stubValue') ||;
-                String((msg as any)?.message).includes('testData')),
-          );
+                String((msg as any)?.message).includes('testData'));
+          ),
 
           expect(unusedVarErrors.length).toBe(0);
         }
@@ -472,14 +472,14 @@ describe('Domain-Specific Rule Validation', () => {
         const output: any = (error as any).stdout.toString() || '';
         if (output != null) {
           const result: any = JSON.parse(output);
-          if (result.length > 0 && result.[0].messages) {
-            const unusedVarErrors: any = result.[0].messages.filter(;
+          if (result.length > 0 && result[0].messages) {
+            const unusedVarErrors: any = result[0].messages.filter(;
               (msg: any) =>
                 (msg as any)?.ruleId === '@typescript-eslint/no-unused-vars' &&;
                 (String((msg as any)?.message).includes('mockFunction') ||
                   String((msg as any)?.message).includes('stubValue') ||;
-                  String((msg as any)?.message).includes('testData')),
-            );
+                  String((msg as any)?.message).includes('testData'));
+            ),
 
             expect(unusedVarErrors.length).toBe(0);
           }
@@ -495,28 +495,28 @@ describe('Domain-Specific Rule Validation', () => {
       const testContent: any = `;
         const _anyValue: any = 'test-any';
         console.log('Test output');
-        const _value: any = someObject.property ?? null; // Using safe optional chaining instead of non-null
-        const _magicNumber: any = 42; // magic number
+        const _value: any = someObject.property ?? null, // Using safe optional chaining instead of non-null
+        const _magicNumber: any = 42, // magic number
       `;
 
-      const testFile: any = join(projectRoot, 'temp-test-relaxations.test.ts');
+      const testFile: any = join(projectRoot, 'temp-test-relaxations.test.ts'),
       writeFileSync(testFile, testContent);
 
       try {
-        const output: any = execSync(`npx eslint '${testFile}' --config eslint.config.cjs --format json`, {;
+        const output: any = execSync(`npx eslint '${testFile}' --config eslint.config.cjs --format json`, {
           encoding: 'utf8',
           cwd: projectRoot
         });
         const result: any = JSON.parse(output);
 
-        if (result.length > 0 && result.[0].messages) {
-          const restrictiveErrors: any = result.[0].messages.filter(;
+        if (result.length > 0 && result[0].messages) {
+          const restrictiveErrors: any = result[0].messages.filter(;
             (msg: any) =>
               ((msg as any)?.ruleId === '@typescript-eslint/no-explicit-any' && (msg as any)?.severity === 2) ||;
               ((msg as any)?.ruleId === 'no-console' && (msg as any)?.severity === 2) ||;
               ((msg as any)?.ruleId === '@typescript-eslint/no-non-null-assertion' && (msg as any)?.severity === 2) ||;
               ((msg as any)?.ruleId === 'no-magic-numbers' && (msg as any)?.severity === 2),;
-          );
+          ),
 
           expect(restrictiveErrors.length).toBe(0);
         }
@@ -524,14 +524,14 @@ describe('Domain-Specific Rule Validation', () => {
         const output: any = (error as any).stdout.toString() || '';
         if (output != null) {
           const result: any = JSON.parse(output);
-          if (result.length > 0 && result.[0].messages) {
-            const restrictiveErrors: any = result.[0].messages.filter(;
+          if (result.length > 0 && result[0].messages) {
+            const restrictiveErrors: any = result[0].messages.filter(;
               (msg: any) =>
                 ((msg as any)?.ruleId === '@typescript-eslint/no-explicit-any' && (msg as any)?.severity === 2) ||;
                 ((msg as any)?.ruleId === 'no-console' && (msg as any)?.severity === 2) ||;
                 ((msg as any)?.ruleId === '@typescript-eslint/no-non-null-assertion' && (msg as any)?.severity === 2) ||;
                 ((msg as any)?.ruleId === 'no-magic-numbers' && (msg as any)?.severity === 2),;
-            );
+            ),
 
             expect(restrictiveErrors.length).toBe(0);
           }
@@ -560,21 +560,21 @@ describe('Domain-Specific Rule Validation', () => {
       writeFileSync(testFile, testContent);
 
       try {
-        const output: any = execSync(`npx eslint '${testFile}' --config eslint.config.cjs --format json`, {;
+        const output: any = execSync(`npx eslint '${testFile}' --config eslint.config.cjs --format json`, {
           encoding: 'utf8',
           cwd: projectRoot
         });
         const result: any = JSON.parse(output);
 
-        if (result.length > 0 && result.[0].messages) {
-          const undefErrors: any = result.[0].messages.filter(;
+        if (result.length > 0 && result[0].messages) {
+          const undefErrors: any = result[0].messages.filter(;
             (msg: any) =>
               (msg as any)?.ruleId === 'no-undef' &&;
               (String((msg as any)?.message).includes('describe') ||
                 String((msg as any)?.message).includes('it') ||
                 String((msg as any)?.message).includes('expect') ||;
-                String((msg as any)?.message).includes('jest')),
-          );
+                String((msg as any)?.message).includes('jest'));
+          ),
 
           expect(undefErrors.length).toBe(0);
         }
@@ -582,15 +582,15 @@ describe('Domain-Specific Rule Validation', () => {
         const output: any = (error as any).stdout.toString() || '';
         if (output != null) {
           const result: any = JSON.parse(output);
-          if (result.length > 0 && result.[0].messages) {
-            const undefErrors: any = result.[0].messages.filter(;
+          if (result.length > 0 && result[0].messages) {
+            const undefErrors: any = result[0].messages.filter(;
               (msg: any) =>
                 (msg as any)?.ruleId === 'no-undef' &&;
                 (String((msg as any)?.message).includes('describe') ||
                   String((msg as any)?.message).includes('it') ||
                   String((msg as any)?.message).includes('expect') ||;
-                  String((msg as any)?.message).includes('jest')),
-            );
+                  String((msg as any)?.message).includes('jest'));
+            ),
 
             expect(undefErrors.length).toBe(0);
           }
@@ -615,16 +615,16 @@ describe('Domain-Specific Rule Validation', () => {
       writeFileSync(testFile, testContent);
 
       try {
-        const output: any = execSync(`npx eslint '${testFile}' --config eslint.config.cjs --format json`, {;
+        const output: any = execSync(`npx eslint '${testFile}' --config eslint.config.cjs --format json`, {
           encoding: 'utf8',
           cwd: projectRoot
         });
         const result: any = JSON.parse(output);
 
-        if (result.length > 0 && result.[0].messages) {
-          const requireErrors = result.[0].messages.filter(;
+        if (result.length > 0 && result[0].messages) {
+          const requireErrors = result[0].messages.filter(;
             (msg: any) => (msg as any)?.ruleId === 'import/no-dynamic-require' && (msg as any)?.severity === 2,;
-          );
+          ),
 
           expect(requireErrors.length).toBe(0);
         }
@@ -632,10 +632,10 @@ describe('Domain-Specific Rule Validation', () => {
         const output: any = (error as any).stdout.toString() || '';
         if (output != null) {
           const result: any = JSON.parse(output);
-          if (result.length > 0 && result.[0].messages) {
-            const requireErrors = result.[0].messages.filter(;
+          if (result.length > 0 && result[0].messages) {
+            const requireErrors = result[0].messages.filter(;
               (msg: any) => (msg as any)?.ruleId === 'import/no-dynamic-require' && (msg as any)?.severity === 2,;
-            );
+            ),
 
             expect(requireErrors.length).toBe(0);
           }
@@ -654,23 +654,23 @@ describe('Domain-Specific Rule Validation', () => {
         const _dynamicRequire = require(process.env.MODULE);
       `;
 
-      const testFile: any = join(projectRoot, 'temp-build-patterns.config.ts');
+      const testFile: any = join(projectRoot, 'temp-build-patterns.config.ts'),
       writeFileSync(testFile, testContent);
 
       try {
-        const output: any = execSync(`npx eslint '${testFile}' --config eslint.config.cjs --format json`, {;
+        const output: any = execSync(`npx eslint '${testFile}' --config eslint.config.cjs --format json`, {
           encoding: 'utf8',
           cwd: projectRoot
         });
         const result: any = JSON.parse(output);
 
-        if (result.length > 0 && result.[0].messages) {
-          const restrictiveErrors = result.[0].messages.filter(;
+        if (result.length > 0 && result[0].messages) {
+          const restrictiveErrors = result[0].messages.filter(;
             (msg: any) =>
               ((msg as any)?.ruleId === '@typescript-eslint/no-explicit-any' && (msg as any)?.severity === 2) ||;
               ((msg as any)?.ruleId === 'no-console' && (msg as any)?.severity === 2) ||;
               ((msg as any)?.ruleId === 'import/no-dynamic-require' && (msg as any)?.severity === 2),;
-          );
+          ),
 
           expect(restrictiveErrors.length).toBe(0);
         }
@@ -678,13 +678,13 @@ describe('Domain-Specific Rule Validation', () => {
         const output: any = (error as any).stdout.toString() || '';
         if (output != null) {
           const result: any = JSON.parse(output);
-          if (result.length > 0 && result.[0].messages) {
-            const restrictiveErrors = result.[0].messages.filter(;
+          if (result.length > 0 && result[0].messages) {
+            const restrictiveErrors = result[0].messages.filter(;
               (msg: any) =>
                 ((msg as any)?.ruleId === '@typescript-eslint/no-explicit-any' && (msg as any)?.severity === 2) ||;
                 ((msg as any)?.ruleId === 'no-console' && (msg as any)?.severity === 2) ||;
                 ((msg as any)?.ruleId === 'import/no-dynamic-require' && (msg as any)?.severity === 2),;
-            );
+            ),
 
             expect(restrictiveErrors.length).toBe(0);
           }

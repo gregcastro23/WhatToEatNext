@@ -7,7 +7,7 @@ import { CulturalAnalyticsService } from '../CulturalAnalyticsService';
 describe('CulturalAnalyticsService', () => {
   const mockElementalProfile: ElementalProperties = { Fire: 0.3, Water: 0.2, Earth: 0.3, Air: 0.2 };
 
-  const mockAstrologicalState: any = {;
+  const mockAstrologicalState: any = {
     zodiacSign: 'aries' as const,
     lunarPhase: 'new moon' as const
   };
@@ -77,7 +77,7 @@ describe('CulturalAnalyticsService', () => {
       expect(result.length).toBeLessThanOrEqual(2);
 
       if (result.length > 0) {
-        const fusion: any = result.[0];
+        const fusion: any = result[0];
         expect(fusion.name).toBeDefined();
         expect(fusion.parentCuisines).toContain('japanese');
         expect(fusion.fusionScore).toBeGreaterThanOrEqual(0.6);
@@ -90,9 +90,9 @@ describe('CulturalAnalyticsService', () => {
     it('should return empty array for poor fusion potential', () => {
       const result: any = CulturalAnalyticsService.generateFusionRecommendations(;
         'japanese',
-        ['japanese'], // Same cuisine only;
+        ['japanese'], // Same cuisine only,
         3,
-      );
+      ),
 
       expect(result).toEqual([]);
     });

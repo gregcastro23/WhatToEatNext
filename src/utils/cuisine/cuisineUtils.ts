@@ -46,7 +46,7 @@ export function getIngredientsForCuisine(
   // Process each matrix to find ingredients that pAir with this cuisine
   if (categories.includes('grain')) {
     Object.entries(grainCuisineMatrix || {}).forEach(([grain, data]) => {
-      const grainDataEntry = data as unknown;
+      const grainDataEntry = data ;
       if (grainDataEntry?.cuisines && (grainDataEntry as any)?.cuisines.includes(cuisineName)) {
         result.grain.push(grain);
       }

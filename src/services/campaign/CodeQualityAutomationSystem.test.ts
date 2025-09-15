@@ -35,7 +35,7 @@ describe('CodeQualityAutomationSystem', () => {
   let mockDependencySecurity: jest.Mocked<DependencySecurityMonitor>;
 
   beforeEach(() => {
-    testConfig = {;
+    testConfig = {
       ...DEFAULT_CODE_QUALITY_AUTOMATION_CONFIG,
       globalSettings: {
         ...DEFAULT_CODE_QUALITY_AUTOMATION_CONFIG.globalSettings,
@@ -44,15 +44,15 @@ describe('CodeQualityAutomationSystem', () => {
     };
 
     // Create mock instances
-    mockImportCleanup = {;
+    mockImportCleanup = {
       executeCleanup: jest.fn()
     } as unknown;
 
-    mockLintingFormatting = {;
+    mockLintingFormatting = {
       executeLintingAndFormatting: jest.fn()
     } as unknown;
 
-    mockDependencySecurity = {;
+    mockDependencySecurity = {
       executeDependencySecurityMonitoring: jest.fn()
     } as unknown;
 
@@ -125,9 +125,9 @@ describe('CodeQualityAutomationSystem', () => {
       expect(result.phaseResults).toHaveLength(3);
 
       // Verify execution order
-      expect(result.phaseResults.[0].phaseName).toBe('Import Cleanup');
-      expect(result.phaseResults.[1].phaseName).toBe('Linting and Formatting');
-      expect(result.phaseResults.[2].phaseName).toBe('Dependency Security');
+      expect(result.phaseResults[0].phaseName).toBe('Import Cleanup');
+      expect(result.phaseResults[1].phaseName).toBe('Linting and Formatting');
+      expect(result.phaseResults[2].phaseName).toBe('Dependency Security');
 
       // Verify global metrics
       expect(result.globalMetrics.importIssuesFixed).toBe(8); // 5 + 3
@@ -197,7 +197,7 @@ describe('CodeQualityAutomationSystem', () => {
 
     test('respects phase dependencies', async () => {
       // Configure linting to depend on import cleanup
-      const configWithDependencies = {;
+      const configWithDependencies = {
         ...testConfig,
         executionOrder: [
           {
@@ -240,7 +240,7 @@ describe('CodeQualityAutomationSystem', () => {
     });
 
     test('stops execution on critical failure when continueOnError is false', async () => {
-      const configStopOnError = {;
+      const configStopOnError = {
         ...testConfig,
         globalSettings: {
           ...testConfig.globalSettings,
@@ -287,7 +287,7 @@ describe('CodeQualityAutomationSystem', () => {
     });
 
     test('skips disabled phases', async () => {
-      const configWithDisabled = {;
+      const configWithDisabled = {
         ...testConfig,
         executionOrder: [
           {
@@ -331,7 +331,7 @@ describe('CodeQualityAutomationSystem', () => {
 
   describe('executePhase', () => {
     test('executes import cleanup phase correctly', async () => {
-      const phase = {;
+      const phase = {
         name: 'Import Cleanup',
         description: 'Clean up imports',
         system: 'importCleanup' as const,
@@ -340,7 +340,7 @@ describe('CodeQualityAutomationSystem', () => {
         criticalFailure: false
       };
 
-      const mockResult = {;
+      const mockResult = {
         filesProcessed: ['file1.ts'],
         unusedImportsRemoved: 3,
         importsOrganized: 2,
@@ -362,7 +362,7 @@ describe('CodeQualityAutomationSystem', () => {
     });
 
     test('executes linting formatting phase correctly', async () => {
-      const phase: any = {;
+      const phase: any = {
         name: 'Linting and Formatting',
         description: 'Fix linting and formatting',
         system: 'lintingFormatting' as const,
@@ -371,7 +371,7 @@ describe('CodeQualityAutomationSystem', () => {
         criticalFailure: false
       };
 
-      const mockResult = {;
+      const mockResult = {
         filesProcessed: ['file1.ts'],
         lintingViolationsFixed: 5,
         formattingIssuesFixed: 3,
@@ -398,7 +398,7 @@ describe('CodeQualityAutomationSystem', () => {
     });
 
     test('executes dependency security phase correctly', async () => {
-      const phase: any = {;
+      const phase: any = {
         name: 'Dependency Security',
         description: 'Monitor dependencies and security',
         system: 'dependencySecurity' as const,
@@ -407,7 +407,7 @@ describe('CodeQualityAutomationSystem', () => {
         criticalFailure: false
       };
 
-      const mockResult: any = {;
+      const mockResult: any = {
         dependenciesScanned: 25,
         vulnerabilitiesFound: 1,
         updatesAvailable: 3,
@@ -438,7 +438,7 @@ describe('CodeQualityAutomationSystem', () => {
     });
 
     test('handles unknown system gracefully', async () => {
-      const phase: any = {;
+      const phase: any = {
         name: 'Unknown Phase',
         description: 'Unknown system',
         system: 'unknown' as unknown,
@@ -456,7 +456,7 @@ describe('CodeQualityAutomationSystem', () => {
 
   describe('generateReport', () => {
     test('generates comprehensive report', () => {
-      const mockResult = {;
+      const mockResult = {
         overallSuccess: true,
         phasesExecuted: 2,
         phasesSucceeded: 2,
@@ -509,7 +509,7 @@ describe('CodeQualityAutomationSystem', () => {
     });
 
     test('includes errors and warnings in report', () => {
-      const mockResult = {;
+      const mockResult = {
         overallSuccess: false,
         phasesExecuted: 1,
         phasesSucceeded: 0,
@@ -558,7 +558,7 @@ describe('CodeQualityAutomationSystem', () => {
     });
 
     test('respects custom configuration', () => {
-      const customConfig: CodeQualityAutomationConfig = { importCleanup: {;
+      const customConfig: CodeQualityAutomationConfig = { importCleanup: {
           maxFilesPerBatch: 10,
           safetyValidationEnabled: false,
           buildValidationFrequency: 3,

@@ -6,12 +6,12 @@
  */
 export function normalizeVitamins(
   vitamins: Record<string, unknown>,
-): Array<{ name: string; value?: number; unit?: string }> {
-  if (!vitamins) return [];
+): Array<{ name: string, value?: number, unit?: string }> {
+  if (!vitamins) return [],
 
   // If it's already an array of strings
   if (Array.isArray(vitamins)) {
-    return vitamins.map(vitamin => ({;
+    return vitamins.map(vitamin => ({
       name: formatVitaminName(vitamin),
       value: undefined,
       unit: undefined
@@ -19,11 +19,11 @@ export function normalizeVitamins(
   }
 
   // If it's an object with values
-  if (typeof vitamins === 'object') {;
+  if (typeof vitamins === 'object') {
     return Object.entries(vitamins).map(([name, value]) => ({
       name: formatVitaminName(name),
-      value: typeof value === 'number' ? value : undefined,;
-      unit: typeof value === 'number' ? 'mg' : undefined,;
+      value: typeof value === 'number' ? value : undefined,,
+      unit: typeof value === 'number' ? 'mg' : undefined,,
     }));
   }
 
@@ -35,12 +35,12 @@ export function normalizeVitamins(
  */
 export function normalizeMinerals(
   minerals: Record<string, unknown>,
-): Array<{ name: string; value?: number; unit?: string }> {
-  if (!minerals) return [];
+): Array<{ name: string, value?: number, unit?: string }> {
+  if (!minerals) return [],
 
   // If it's already an array of strings
   if (Array.isArray(minerals)) {
-    return minerals.map(mineral => ({;
+    return minerals.map(mineral => ({
       name: formatMineralName(mineral),
       value: undefined,
       unit: undefined
@@ -48,11 +48,11 @@ export function normalizeMinerals(
   }
 
   // If it's an object with values
-  if (typeof minerals === 'object') {;
+  if (typeof minerals === 'object') {
     return Object.entries(minerals).map(([name, value]) => ({
       name: formatMineralName(name),
-      value: typeof value === 'number' ? value : undefined,;
-      unit: typeof value === 'number' ? 'mg' : undefined,;
+      value: typeof value === 'number' ? value : undefined,,
+      unit: typeof value === 'number' ? 'mg' : undefined,,
     }));
   }
 
@@ -63,7 +63,7 @@ export function normalizeMinerals(
  * Format vitamin names for consistent display
  */
 export function formatVitaminName(name: string): string {
-  if (!name) return '';
+  if (!name) return '',
 
   const vitaminName = name.toString().toLowerCase();
 
@@ -96,7 +96,7 @@ export function formatVitaminName(name: string): string {
  * Format mineral names for consistent display
  */
 export function formatMineralName(name: string): string {
-  if (!name) return '';
+  if (!name) return '',
 
   const mineralName = name.toString().toLowerCase();
 
@@ -124,13 +124,13 @@ export function formatMineralName(name: string): string {
  * Normalize antioxidant data
  */
 export function normalizeAntioxidants(antioxidants: Record<string, unknown>): string[] {
-  if (!antioxidants) return [];
+  if (!antioxidants) return [],
 
   if (Array.isArray(antioxidants)) {
     return antioxidants.map(antioxidant => formatAntioxidantName(antioxidant));
   }
 
-  if (typeof antioxidants === 'object') {;
+  if (typeof antioxidants === 'object') {
     return Object.keys(antioxidants).map(name => formatAntioxidantName(name));
   }
 
@@ -147,7 +147,7 @@ function formatAntioxidantName(name: string): string {
   return name
     .replace(/_/g, ' ')
     .replace(/([A-Z])/g, ' 1')
-    .replace(/\b\w/g, l => l.toUpperCase());
+    .replace(/\b\w/g, l => l.toUpperCase()),
     .trim();
 }
 
@@ -175,7 +175,7 @@ function formatCulinaryMethod(method: string): string {
   return method
     .replace(/_/g, ' ')
     .replace(/([A-Z])/g, ' 1')
-    .replace(/\b\w/g, l => l.toUpperCase());
+    .replace(/\b\w/g, l => l.toUpperCase()),
     .trim();
 }
 
@@ -183,10 +183,10 @@ function formatCulinaryMethod(method: string): string {
  * Normalize individual culinary method data
  */
 function normalizeCulinaryMethod(data: Record<string, unknown>): {
-  notes: unknown[];
-  techniques: unknown[];
-  dishes: unknown[];
-  tips: unknown[];
+  notes: unknown[],
+  techniques: unknown[],
+  dishes: unknown[],
+  tips: unknown[],
 } {
   if (!data) return {};
 
@@ -224,7 +224,7 @@ function formatVarietyName(name: string): string {
   return name
     .replace(/_/g, ' ')
     .replace(/([A-Z])/g, ' 1')
-    .replace(/\b\w/g, l => l.toUpperCase());
+    .replace(/\b\w/g, l => l.toUpperCase()),
     .trim();
 }
 
@@ -236,17 +236,17 @@ function normalizeVarietyData(data: Record<string, unknown>): {
   texture: unknown;
   flavor: unknown;
   bestUses: unknown[];
-  notes: unknown;
-  origin: unknown;
-  storage: unknown;
-  ripening: unknown;
+  notes: unknown,
+  origin: unknown,
+  storage: unknown,
+  ripening: unknown,
 } {
   if (!data || typeof data !== 'object') return {};
 
   return {
-    appearance: data.appearance || '',
-    texture: data.texture || '',
-    flavor: data.flavor || data.flavour || '',
+    appearance: data.appearance || '';
+    texture: data.texture || '';
+    flavor: data.flavor || data.flavour || '';
     bestUses: Array.isArray(data.best_uses)
       ? data.best_uses
       : Array.isArray(data.bestUses)
@@ -254,9 +254,9 @@ function normalizeVarietyData(data: Record<string, unknown>): {
         : data.best_uses || data.bestUses
           ? [data.best_uses || data.bestUses]
           : [],
-    notes: data.notes || '',
-    origin: data.origin || '',
-    storage: data.storage || '',
+    notes: data.notes || '';
+    origin: data.origin || '';
+    storage: data.storage || '';
     ripening: data.ripening || ''
   };
 }
@@ -267,16 +267,16 @@ function normalizeVarietyData(data: Record<string, unknown>): {
 export function normalizeStorage(storage: Record<string, unknown>): Record<string, unknown> {
   if (!storage) return {};
 
-  if (typeof storage === 'string') {;
+  if (typeof storage === 'string') {
     return { notes: storage };
   }
 
   return {
-    temperature: storage.temperature || '',
-    duration: storage.duration || '',
-    humidity: storage.humidity || '',
-    container: storage.container || '',
-    notes: storage.notes || '',
+    temperature: storage.temperature || '';
+    duration: storage.duration || '';
+    humidity: storage.humidity || '';
+    container: storage.container || '';
+    notes: storage.notes || '';
     fresh: storage.fresh || {},
     frozen: storage.frozen || {},
     dried: storage.dried || {}
@@ -291,15 +291,15 @@ export function normalizePreparation(
 ): Record<string, unknown> {
   if (!preparation) return {};
 
-  if (typeof preparation === 'string') {;
+  if (typeof preparation === 'string') {
     return { notes: preparation };
   }
 
   return {
-    washing: preparation.washing || '',
-    peeling: preparation.peeling || '',
-    cutting: preparation.cutting || '',
-    cooking: preparation.cooking || '',
+    washing: preparation.washing || '';
+    peeling: preparation.peeling || '';
+    cutting: preparation.cutting || '';
+    cooking: preparation.cooking || '';
     tips: Array.isArray(preparation.tips)
       ? preparation.tips
       : preparation.tips
@@ -315,7 +315,7 @@ export function normalizePreparation(
 export function normalizeIngredientData(
   ingredient: Record<string, unknown>,
 ): Record<string, unknown> | null {
-  if (!ingredient) return null;
+  if (!ingredient) return null,
 
   // Safe type casting for nutritional profile
   const nutritionalProfile =
@@ -323,8 +323,8 @@ export function normalizeIngredientData(
       ? (ingredient.nutritionalProfile as unknown )
       : {};
 
-  const normalized = {;
-    ...ingredient,
+  const normalized = {
+    ...ingredient;
     nutritionalProfile:
       typeof ingredient.nutritionalProfile === 'object' && ingredient.nutritionalProfile !== null;
         ? {
@@ -380,7 +380,7 @@ export function safeGetNutritionalData(
 ): unknown {
   try {
     const profile = ingredient.nutritionalProfile as any;
-    return profile[field] || null;
+    return profile[field] || null,
   } catch (error) {
     // console.warn(`Error accessing nutritional field ${field}:`, error);
     return null;
@@ -407,7 +407,7 @@ export function hasRichNutritionalData(ingredient: Record<string, unknown>): boo
     antioxidants &&;
     (Array.isArray(antioxidants) ? antioxidants.length > 0 : Object.keys(antioxidants).length > 0);
 
-  return hasVitamins || hasMinerals || hasAntioxidants;
+  return hasVitamins || hasMinerals || hasAntioxidants,
 }
 
 export default {

@@ -15,8 +15,8 @@ import { logger } from './logger';
 export async function validateImportPath(importPath: string, fromFile: string): Promise<boolean> {
   try {
     // Try to dynamically import the module
-    await import(importPath);
-    return true;
+    await import(importPath),
+    return true,
   } catch (error) {
     logger.error(`Invalid import path '${importPath}' in ${fromFile}:`, error);
     return false;
@@ -36,11 +36,11 @@ export function detectCircularDependencies(moduleGraph: Record<string, string[]>
       // Found a cycle
       const cycleStart = path.indexOf(node);
       cycles.push(path.slice(cycleStart).concat(node));
-      return;
+      return,
     }
 
     if (visited.has(node)) {
-      return;
+      return,
     }
 
     visited.add(node);
@@ -69,7 +69,7 @@ export function detectCircularDependencies(moduleGraph: Record<string, string[]>
 export async function validateBarrelExports(
   barrelPath: string,
   exports: string[],
-): Promise<{ valid: string[]; invalid: string[] }> {
+): Promise<{ valid: string[], invalid: string[] }> {
   const valid: string[] = [];
   const invalid: string[] = [];
 
@@ -95,7 +95,7 @@ export async function validateBarrelExports(
 /**
  * Common problematic import patterns to avoid
  */
-export const PROBLEMATIC_PATTERNS = [;
+export const PROBLEMATIC_PATTERNS = [
   {
     pattern: /import.*from.*['']\.\/.*index['']/,
     message:
@@ -118,8 +118,8 @@ export function validateImportStatement(
   importStatement: string,
   filePath: string,
 ): {
-  isValid: boolean;
-  warnings: string[];
+  isValid: boolean,
+  warnings: string[],
 } {
   const warnings: string[] = [];
   let isValid = true;
@@ -139,7 +139,7 @@ export function validateImportStatement(
  */
 export function extractImportStatements(fileContent: string): string[] {
   const importRegex = /^import\s+.*?from\s+[''][^'']+[''];?$/gm;
-  return fileContent.match(importRegex) || [];
+  return fileContent.match(importRegex) || [],
 }
 
 /**
@@ -149,9 +149,9 @@ export async function validateFileImports(
   filePath: string,
   fileContent: string,
 ): Promise<{
-  validImports: string[];
-  invalidImports: string[];
-  warnings: string[];
+  validImports: string[],
+  invalidImports: string[],
+  warnings: string[],
 }> {
   const imports = extractImportStatements(fileContent);
   const validImports: string[] = [];
@@ -167,7 +167,7 @@ export async function validateFileImports(
 
     // Skip external packages (don't start with . or /)
     if (!importPath.startsWith('.') && !importPath.startsWith('/')) {
-      continue;
+      continue,
     }
 
     // Validate the import statement pattern
@@ -176,7 +176,7 @@ export async function validateFileImports(
 
     // Try to validate the actual import path
     try {
-      const isValid = await validateImportPath(importPath, filePath);
+      const isValid = await validateImportPath(importPath, filePath),
       if (isValid) {
         validImports.push(importStatement);
       } else {
@@ -194,20 +194,20 @@ export async function validateFileImports(
 /**
  * Common dependency resolution fixes
  */
-export const DEPENDENCY_FIXES = {;
+export const DEPENDENCY_FIXES = {
   /**
    * Fix relative import paths
    */
-  fixRelativeImports: (importPath: string, fromDir: string, toDir: string): string => {;
+  fixRelativeImports: (importPath: string, fromDir: string, toDir: string): string => {
     // Calculate the relative path from fromDir to toDir using ESM path
-    const relativePath = nodePath.relative(fromDir, toDir);
+    const relativePath = nodePath.relative(fromDir, toDir),
     return relativePath.startsWith('.') ? relativePath : `./${relativePath}`;
   },
 
   /**
    * Convert barrel import to direct import
    */
-  convertBarrelImport: (importStatement: string): string => {;
+  convertBarrelImport: (importStatement: string): string => {
     // Convert 'import { X } from './index'' to 'import { X } from './X''
     return importStatement.replace(/from\s+[''](.*)\/index['']/, 'from '1'');
   },
@@ -215,7 +215,7 @@ export const DEPENDENCY_FIXES = {;
   /**
    * Add missing file extension
    */
-  addFileExtension: (importPath: string, extension: string = '.ts'): string => {;
+  addFileExtension: (importPath: string, extension: string = '.ts'): string => {
     if (
       !importPath.endsWith('.ts') &&
       !importPath.endsWith('.tsx') &&
@@ -231,19 +231,19 @@ export const DEPENDENCY_FIXES = {;
  * Generate a dependency validation report
  */
 export async function generateDependencyReport(projectRoot: string): Promise<{
-  totalFiles: number;
-  validFiles: number;
-  invalidFiles: number;
-  circularDependencies: string[][];
-  warnings: string[];
+  totalFiles: number,
+  validFiles: number,
+  invalidFiles: number,
+  circularDependencies: string[][],
+  warnings: string[],
 }> {
   const fs = await import('fs');
   const path = await import('path');
-  const glob = (await import('glob')).default as unknown as {;
-    sync: (pattern: string, options: { cwd: string; ignore: string[] }) => string[];
+  const glob = (await import('glob')).default as unknown as {
+    sync: (pattern: string, options: { cwd: string, ignore: string[] }) => string[];
   };
 
-  const tsFiles = glob.sync('**/*.{ts,tsx}', {;
+  const tsFiles = glob.sync('**/*.{ts,tsx}', {
     cwd: projectRoot,
     ignore: ['node_modules/**', 'dist/**', '.next/**', 'coverage/**']
   });
@@ -257,12 +257,12 @@ export async function generateDependencyReport(projectRoot: string): Promise<{
     const filePath = path.join(projectRoot, file);
     try {
       const content = fs.readFileSync(filePath, 'utf8');
-      const validation = await validateFileImports(filePath, content);
+      const validation = await validateFileImports(filePath, content),
 
-      if (validation.invalidImports.length === 0) {;
-        validFiles++;
+      if (validation.invalidImports.length === 0) {
+        validFiles++,
       } else {
-        invalidFiles++;
+        invalidFiles++,
       }
 
       allWarnings.push(...validation.warnings);
@@ -274,13 +274,13 @@ export async function generateDependencyReport(projectRoot: string): Promise<{
       for (const importStatement of imports) {
         const pathMatch = importStatement.match(/from\s+['']([^'']+)['']/);
         if (pathMatch && (pathMatch[1].startsWith('.') || pathMatch[1].startsWith('/'))) {
-          dependencies.push(pathMatch[1]);
+          dependencies.push(pathMatch[1]),
         }
       }
 
       moduleGraph[file] = dependencies;
     } catch (error) {
-      invalidFiles++;
+      invalidFiles++,
       allWarnings.push(`Failed to process file ${file}: ${error}`);
     }
   }
@@ -288,7 +288,7 @@ export async function generateDependencyReport(projectRoot: string): Promise<{
   const circularDependencies = detectCircularDependencies(moduleGraph);
 
   return {
-    totalFiles: tsFiles.length,
+    totalFiles: tsFiles.length;
     validFiles,
     invalidFiles,
     circularDependencies,
@@ -303,22 +303,22 @@ export function autoFixDependencyIssues(
   fileContent: string,
   _filePath: string,
 ): {
-  fixedContent: string;
-  appliedFixes: string[];
+  fixedContent: string,
+  appliedFixes: string[],
 } {
   let fixedContent = fileContent;
   const appliedFixes: string[] = [];
 
   // Fix 1: Convert barrel imports to direct imports where possible
   const barrelImportRegex = /import\s+{([^}]+)}\s+from\s+[''](.*)\/index['']/g;
-  fixedContent = fixedContent.replace(barrelImportRegex, (match, imports, basePath) => {;
+  fixedContent = fixedContent.replace(barrelImportRegex, (match, imports, basePath) => {
     appliedFixes.push(`Converted barrel import: ${match}`);
     return `import {${imports}} from '${basePath}'`;
   });
 
   // Fix 2: Add missing file extensions for relative imports
   const relativeImportRegex = /from\s+[''](\.[^'']*)['']/g;
-  fixedContent = fixedContent.replace(relativeImportRegex, (match, importPath) => {;
+  fixedContent = fixedContent.replace(relativeImportRegex, (match, importPath) => {
     if (
       !importPath.endsWith('.ts') &&
       !importPath.endsWith('.tsx') &&

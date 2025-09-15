@@ -38,14 +38,14 @@ export const _ChartProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   const [error, setError] = useState<string | null>(null);
 
   // Safe helper function for planetary data access
-  const getSafePlanetaryData = (data: unknown): SafePlanetaryData => {;
+  const getSafePlanetaryData = (data: unknown): SafePlanetaryData => {
     if (!data || typeof data !== 'object') {
       return {};
     }
     return data as SafePlanetaryData;
   };
 
-  const calculateStelliums = (positions: Record<string, unknown>): Record<string, string[]> => {;
+  const calculateStelliums = (positions: Record<string, unknown>): Record<string, string[]> => {
     const signGroups: Record<string, string[]> = {};
     Object.entries(positions).forEach(([planet, data]) => {
       if (planet === 'ascendant' || !data) return;
@@ -71,7 +71,7 @@ export const _ChartProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     return stelliums;
   };
 
-  const calculateHouseEffects = (positions: Record<string, unknown>): Record<string, number> => {;
+  const calculateHouseEffects = (positions: Record<string, unknown>): Record<string, number> => {
     const houseEffects: Record<string, number> = {
       Fire: 0,
       Water: 0,
@@ -96,7 +96,7 @@ export const _ChartProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     return houseEffects;
   };
 
-  const _getElementFromSign = (sign: string): string => {;
+  const _getElementFromSign = (sign: string): string => {
     const fireElements = ['aries', 'leo', 'sagittarius'];
     const earthElements = ['taurus', 'virgo', 'capricorn'];
     const airElements = ['gemini', 'libra', 'aquarius'];
@@ -109,7 +109,7 @@ export const _ChartProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     return 'Fire'; // Default
   };
 
-  const refreshChart = async () => {;
+  const refreshChart = async () => {
     setLoading(true);
     setError(null);
 
@@ -139,7 +139,7 @@ export const _ChartProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       }
 
       // Validate positions before calculating aspects
-      if (!positions || Object.keys(positions).length === 0) {;
+      if (!positions || Object.keys(positions).length === 0) {
         throw new Error('Unable to calculate planetary positions');
       }
 
@@ -166,7 +166,7 @@ export const _ChartProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     }
   };
 
-  const createChartSvg = () => {;
+  const createChartSvg = () => {
     // Convert chart data to the format expected by components
     const formattedPlanets: Record<string, SafePlanetaryData> = {};
     Object.entries(chart.planetaryPositions).forEach(([key, data]) => {

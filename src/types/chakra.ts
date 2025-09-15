@@ -29,10 +29,10 @@ export interface ChakraProperty {
   element: string;
   color: string;
   description: string;
-  governs: string[];
-  balanceIndicators: string[];
-  imbalanceIndicators: string[];
-  planet?: Planet;
+  governs: string[],
+  balanceIndicators: string[],
+  imbalanceIndicators: string[],
+  planet?: Planet,
 }
 
 // Define chakra properties by position
@@ -42,10 +42,10 @@ export type ChakraProperties = Record<ChakraPosition, ChakraProperty>;
 
 // Define chakra mapping for tarot/major arcana
 export interface KeyCardChakraMapping {
-  cardName: string;
-  chakraPosition: ChakraPosition;
-  planet?: Planet;
-  description: string;
+  cardName: string,
+  chakraPosition: ChakraPosition,
+  planet?: Planet,
+  description: string,
 }
 
 // Define alchemical energy states
@@ -53,16 +53,16 @@ export type AlchemicalEnergyState = 'Spirit' | 'Substance' | 'Essence' | 'Matter
 
 // Define chakra-zodiac mappings
 export interface ChakraZodiacMapping {
-  chakra: ChakraPosition;
-  zodiacSigns: string[];
+  chakra: ChakraPosition,
+  zodiacSigns: string[],
 }
 
 // Define food category
 export interface ChakraFood {
-  name: string;
-  chakra: ChakraPosition;
-  element?: string;
-  benefits: string[];
+  name: string,
+  chakra: ChakraPosition,
+  element?: string,
+  benefits: string[],
 }
 
 // Define zodiac-chakra mappings
@@ -72,7 +72,7 @@ export type ZodiacChakraMappings = Record<string, ChakraPosition[]>;
 export type ChakraBalancingFoods = Record<ChakraPosition, string[]>;
 
 // Constants for reference
-export const _CHAKRAS: ChakraProperties = {;
+export const _CHAKRAS: ChakraProperties = {
   root: {
     name: 'Root Chakra',
     sanskritName: 'Muladhara',
@@ -165,10 +165,10 @@ export const _CHAKRAS: ChakraProperties = {;
 
 // Major Arcana to Chakra mappings
 export interface MajorArcanaChakra {
-  cardName: string;
-  chakraPosition: ChakraPosition;
-  planet?: Planet;
-  description: string;
+  cardName: string,
+  chakraPosition: ChakraPosition,
+  planet?: Planet,
+  description: string,
 }
 
 export const _MAJOR_ARCANA_CHAKRAS: MajorArcanaChakra[] = [
@@ -254,10 +254,10 @@ export const _MAJOR_ARCANA_CHAKRAS: MajorArcanaChakra[] = [
 export interface SuitChakraMapping {
   suit: TarotSuit;
   primaryChakra: ChakraPosition;
-  secondaryChakra?: ChakraPosition;
-  element: Element;
-  energyState: AlchemicalEnergyState;
-  description: string;
+  secondaryChakra?: ChakraPosition,
+  element: Element,
+  energyState: AlchemicalEnergyState,
+  description: string,
 }
 
 export const _SUIT_CHAKRA_MAPPINGS: SuitChakraMapping[] = [
@@ -459,10 +459,10 @@ export const _KEY_CARD_CHAKRA_MAPPINGS: KeyCardChakraMapping[] = [
 
 // Summary mapping table for quick reference
 export interface ChakraMappingSummary {
-  chakra: ChakraPosition;
-  majorArcana: string[];
-  primarySuit?: TarotSuit;
-  secondarySuit?: TarotSuit;
+  chakra: ChakraPosition,
+  majorArcana: string[],
+  primarySuit?: TarotSuit,
+  secondarySuit?: TarotSuit,
 }
 
 export const _CHAKRA_MAPPING_SUMMARY: ChakraMappingSummary[] = [
@@ -508,10 +508,10 @@ export interface ChakraEnergies {
   sacral: number;
   solarPlexus: number;
   heart: number;
-  throat: number;
-  thirdEye: number;
-  crown: number;
-  brow: number;
+  throat: number,
+  thirdEye: number,
+  crown: number,
+  brow: number,
 }
 
 // Export alias for compatibility

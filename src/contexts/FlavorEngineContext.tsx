@@ -14,10 +14,10 @@ import { unifiedFlavorEngine, UnifiedFlavorProfile } from '../data/unified/unifi
 
 // Define the context type
 interface FlavorEngineContextType {
-  isInitialized: boolean;
-  isLoading: boolean;
-  error: Error | null;
-  profileCount: number;
+  isInitialized: boolean,
+  isLoading: boolean,
+  error: Error | null,
+  profileCount: number,
   categories: { [key: string]: number };
   getProfile: (id: string) => UnifiedFlavorProfile | undefined;
   searchProfiles: (criteria: {}) => UnifiedFlavorProfile[];
@@ -25,14 +25,14 @@ interface FlavorEngineContextType {
 }
 
 // Create the context with default values
-const FlavorEngineContext = createContext<FlavorEngineContextType>({;
+const FlavorEngineContext = createContext<FlavorEngineContextType>({
   isInitialized: false,
   isLoading: true,
   error: null,
   profileCount: 0,
   categories: {},
-  getProfile: () => undefined,
-  searchProfiles: () => [],
+  getProfile: () => undefined;
+  searchProfiles: () => [];
   calculateCompatibility: () => ({})
 });
 
@@ -43,7 +43,7 @@ export const _useFlavorEngine = () => useContext(FlavorEngineContext);
 const engine = unifiedFlavorEngine;
 
 // Keep track of initialization outside of component lifecycle
-const globalInitState = {;
+const globalInitState = {
   isInitialized: false,
   isLoading: true,
   error: null as Error | null,
@@ -60,10 +60,10 @@ export function FlavorEngineProvider({ children }: { children: ReactNode }) {
 
   // Create state that won't change during re-renders unless explicitly set
   const [state, setState] = useState({
-    isInitialized: globalInitState.isInitialized,
-    isLoading: globalInitState.isLoading,
-    error: globalInitState.error,
-    profileCount: globalInitState.profileCount,
+    isInitialized: globalInitState.isInitialized;
+    isLoading: globalInitState.isLoading;
+    error: globalInitState.error;
+    profileCount: globalInitState.profileCount;
     categories: globalInitState.categories
   });
 
@@ -75,10 +75,10 @@ export function FlavorEngineProvider({ children }: { children: ReactNode }) {
     if (globalInitState.isInitialized) {
       if (isMountedRef.current) {
         setState({
-          isInitialized: globalInitState.isInitialized,
-          isLoading: globalInitState.isLoading,
-          error: globalInitState.error,
-          profileCount: globalInitState.profileCount,
+          isInitialized: globalInitState.isInitialized;
+          isLoading: globalInitState.isLoading;
+          error: globalInitState.error;
+          profileCount: globalInitState.profileCount;
           categories: globalInitState.categories
         });
       }
@@ -90,7 +90,7 @@ export function FlavorEngineProvider({ children }: { children: ReactNode }) {
       globalInitState.initAttempted = true;
 
       // Function to check engine initialization status
-      const checkEngineInit = () => {;
+      const checkEngineInit = () => {
         try {
           // Get profiles
           const profiles = engine.getAllProfiles();
@@ -98,7 +98,7 @@ export function FlavorEngineProvider({ children }: { children: ReactNode }) {
           if ((profiles || []).length > 0) {
             // Calculate categories
             const categoryMap: { [key: string]: number } = {};
-            (profiles || []).forEach(profile => {;
+            (profiles || []).forEach(profile => {
               categoryMap[profile.category] = (categoryMap[profile.category] || 0) + 1;
             });
 
@@ -120,7 +120,7 @@ export function FlavorEngineProvider({ children }: { children: ReactNode }) {
             }
           } else if (isMountedRef.current) {
             // Schedule another check if no profiles are loaded yet
-            globalInitState.initTimer = setTimeout(checkEngineInit, 500);
+            globalInitState.initTimer = setTimeout(checkEngineInit, 500),
           }
         } catch (err) {
           const error =
@@ -172,21 +172,21 @@ export function FlavorEngineProvider({ children }: { children: ReactNode }) {
   // Create the context value - memoize to prevent unnecessary rerenders
   const contextValue = useMemo(;
     () => ({
-      isInitialized: state.isInitialized,
-      isLoading: state.isLoading,
-      error: state.error,
-      profileCount: state.profileCount,
-      categories: state.categories,
+      isInitialized: state.isInitialized;
+      isLoading: state.isLoading;
+      error: state.error;
+      profileCount: state.profileCount;
+      categories: state.categories;
       getProfile,
       searchProfiles,
       calculateCompatibility
     }),
     [
-      state.isInitialized,
-      state.isLoading,
-      state.error,
-      state.profileCount,
-      state.categories,
+      state.isInitialized;
+      state.isLoading;
+      state.error;
+      state.profileCount;
+      state.categories;
       getProfile,
       searchProfiles,
       calculateCompatibility
@@ -194,7 +194,7 @@ export function FlavorEngineProvider({ children }: { children: ReactNode }) {
   );
 
   return (
-    <FlavorEngineContext.Provider value={contextValue}>{children}</FlavorEngineContext.Provider>;
+    <FlavorEngineContext.Provider value={contextValue}>{children}</FlavorEngineContext.Provider>
   );
 }
 

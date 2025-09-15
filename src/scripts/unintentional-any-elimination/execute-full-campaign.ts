@@ -15,36 +15,36 @@ import * as path from 'path';
 interface PreCampaignAnalysis {
   totalExplicitAny: number;
   nonTestFiles: number;
-  testFiles: number;
-  estimatedUnintentional: number;
-  targetReduction: number;
-  confidenceScore: number;
+  testFiles: number,
+  estimatedUnintentional: number,
+  targetReduction: number,
+  confidenceScore: number,
 }
 
 interface DomainAnalysis {
   domain: string;
-  fileCount: number;
-  anyTypeCount: number;
-  riskLevel: 'low' | 'medium' | 'high';
-  recommendedStrategy: string;
+  fileCount: number,
+  anyTypeCount: number,
+  riskLevel: 'low' | 'medium' | 'high',
+  recommendedStrategy: string,
 }
 
 interface CampaignExecution {
   phase: string;
-  description: string;
-  targetFiles: number;
-  expectedReduction: number;
-  safetyLevel: 'maximum' | 'high' | 'medium';
+  description: string,
+  targetFiles: number,
+  expectedReduction: number,
+  safetyLevel: 'maximum' | 'high' | 'medium',
 }
 
 class FullCampaignExecutor {
-  private startTime: Date;
-  private initialMetrics: any;
-  private campaignPhases: CampaignExecution[];
+  private startTime: Date,
+  private initialMetrics: any,
+  private campaignPhases: CampaignExecution[],
 
   constructor() {
     this.startTime = new Date();
-    this.campaignPhases = [;
+    this.campaignPhases = [
       {
         phase: 'Phase 1: High-Confidence Array Types',
         description: 'Replace any[] with unknown[] - highest success rate',
@@ -85,7 +85,7 @@ class FullCampaignExecutor {
 
   private log(message: string, level: 'info' | 'warn' | 'error' | 'success' = 'info'): void {
     const timestamp = new Date().toISOString();
-    const prefix = {;
+    const prefix = {
       info: 'ℹ️',
       warn: '⚠️',
       error: '❌',
@@ -112,18 +112,18 @@ class FullCampaignExecutor {
 
   private validateBuild(): boolean {
     try {
-      this.log('🔍 Validating TypeScript build...', 'info');
+      this.log('🔍 Validating TypeScript build...', 'info'),
       execSync('yarn tsc --noEmit --skipLibCheck', { stdio: 'pipe' });
       this.log('✅ TypeScript build validation passed', 'success');
       return true;
     } catch (error) {
-      this.log('❌ TypeScript build validation failed', 'error');
-      return false;
+      this.log('❌ TypeScript build validation failed', 'error'),
+      return false,
     }
   }
 
   private analyzeCodebase(): PreCampaignAnalysis {
-    this.log('📊 Analyzing codebase for unintentional any types...', 'info');
+    this.log('📊 Analyzing codebase for unintentional any types...', 'info'),
 
     const totalExplicitAny = this.getCurrentExplicitAnyCount();
 
@@ -148,9 +148,9 @@ class FullCampaignExecutor {
               currentFile.includes('.test.') ||
               currentFile.includes('.spec.')
             ) {
-              testFiles++;
+              testFiles++,
             } else {
-              nonTestFiles++;
+              nonTestFiles++,
             }
           }
         }
@@ -175,17 +175,17 @@ class FullCampaignExecutor {
         totalExplicitAny,
         nonTestFiles: 0,
         testFiles: 0,
-        estimatedUnintentional: Math.floor(totalExplicitAny * 0.5),
-        targetReduction: Math.floor(totalExplicitAny * 0.1),
+        estimatedUnintentional: Math.floor(totalExplicitAny * 0.5);
+        targetReduction: Math.floor(totalExplicitAny * 0.1);
         confidenceScore: 0.5
       };
     }
   }
 
   private analyzeDomains(): DomainAnalysis[] {
-    this.log('🔍 Analyzing domain-specific any type usage...', 'info');
+    this.log('🔍 Analyzing domain-specific any type usage...', 'info'),
 
-    const domains = [;
+    const domains = [
       {
         domain: 'Astrological Calculations',
         patterns: ['astro', 'planetary', 'celestial', 'lunar'],
@@ -224,22 +224,22 @@ class FullCampaignExecutor {
       }
     ];
 
-    return domains.map(domain => ({;
-      domain: domain.domain,
+    return domains.map(domain => ({
+      domain: domain.domain;
       fileCount: 0, // Would need file system analysis
       anyTypeCount: 0, // Would need detailed analysis
-      riskLevel: domain.riskLevel,
+      riskLevel: domain.riskLevel;
       recommendedStrategy: domain.recommendedStrategy
     }));
   }
 
   private executePhase1(): Promise<number> {
-    this.log('\n🚀 Phase 1: High-Confidence Array Types', 'info');
+    this.log('\n🚀 Phase 1: High-Confidence Array Types', 'info'),
 
-    return new Promise(resolve => {;
+    return new Promise(resolve => {
       try {
         // Use existing script for array type fixes
-        const result = execSync('node fix-non-test-explicit-any.cjs', {;
+        const result = execSync('node fix-non-test-explicit-any.cjs', {
           encoding: 'utf8',
           stdio: 'pipe'
         });
@@ -259,9 +259,9 @@ class FullCampaignExecutor {
   }
 
   private executeAdvancedReplacements(): Promise<number> {
-    this.log('\n🔧 Executing advanced type replacements...', 'info');
+    this.log('\n🔧 Executing advanced type replacements...', 'info'),
 
-    return new Promise(resolve => {;
+    return new Promise(resolve => {
       try {
         // Create and execute advanced replacement script
         const advancedScript = `;
@@ -302,8 +302,8 @@ function processAdvancedReplacements() {
         let fileFixes = 0;
 
         // Advanced Record type replacements
-        content = content.replace(/Record<(\\w+),\\s*any>/g, (match, keyType) => {;
-          fileFixes++;
+        content = content.replace(/Record<(\\w+),\\s*any>/g, (match, keyType) => {
+          fileFixes++,
           return \`Record<\${keyType}, unknown>\`;
         });
 
@@ -311,7 +311,7 @@ function processAdvancedReplacements() {
         content = content.replace(/:\\s*{\\s*\\[key:\\s*string\\]:\\s*any\\s*}/g, ': Record<string, unknown>');
 
         // Simple object any replacements
-        content = content.replace(/(\\w+):\\s*any(?=\\s*[,;}])/g, '1: unknown');
+        content = content.replace(/(\\w+):\\s*any(?=\\s*[,,}])/g, '1: unknown');
 
         if (fileFixes > 0) {
           // Create backup
@@ -329,7 +329,7 @@ function processAdvancedReplacements() {
             fs.unlinkSync(backupPath); // Remove backup on success
           } catch (error) {
             // Rollback on failure
-            fs.writeFileSync(filePath, originalContent);
+            fs.writeFileSync(filePath, originalContent),
             fs.unlinkSync(backupPath);
             // console.log(\`❌ Rolled back \${filePath} due to compilation error\`);
           }
@@ -365,9 +365,9 @@ function processAdvancedReplacements() {
   }
 
   private documentIntentionalTypes(): Promise<number> {
-    this.log('\n📝 Documenting intentional any types...', 'info');
+    this.log('\n📝 Documenting intentional any types...', 'info'),
 
-    return new Promise(resolve => {;
+    return new Promise(resolve => {
       try {
         const documentationScript = `;
 const fs = require('fs');
@@ -400,9 +400,9 @@ function documentIntentionalAny() {
 
     // Group by file
     const fileGroups = {};
-    anyLocations.forEach(loc => {;
+    anyLocations.forEach(loc => {
       if (!fileGroups[loc.file]) fileGroups[loc.file] = [];
-      fileGroups[loc.file].push(loc);
+      fileGroups[loc.file].push(loc),
     });
 
     // Process each file
@@ -449,7 +449,7 @@ function documentIntentionalAny() {
         }
 
         if (addedComments > 0) {
-          fs.writeFileSync(filePath, lines.join('\\n'));
+          fs.writeFileSync(filePath, lines.join('\\n')),
           // console.log(\`📝 Added \${addedComments} documentation comments to \${filePath}\`);
           totalDocumented += addedComments;
         }
@@ -485,12 +485,12 @@ function documentIntentionalAny() {
 
   public async executeFullCampaign(): Promise<void> {
     this.log('🚀 Starting Full Unintentional Any Elimination Campaign', 'success');
-    this.log('='.repeat(60), 'info');
+    this.log('='.repeat(60), 'info'),
 
     // Pre-campaign analysis
     const analysis = this.analyzeCodebase();
-    this.initialMetrics = {;
-      initialCount: analysis.totalExplicitAny,
+    this.initialMetrics = {
+      initialCount: analysis.totalExplicitAny;
       targetReduction: analysis.targetReduction
     };
 
@@ -505,7 +505,7 @@ function documentIntentionalAny() {
     // Domain analysis
     const domains = this.analyzeDomains();
     this.log(`\n🔍 Domain Analysis:`, 'info');
-    domains.forEach(domain => {;
+    domains.forEach(domain => {
       this.log(
         `   ${domain.domain}: ${domain.riskLevel} risk - ${domain.recommendedStrategy}`,
         'info',
@@ -514,7 +514,7 @@ function documentIntentionalAny() {
 
     // Initial build validation
     if (!this.validateBuild()) {
-      throw new Error('Initial build validation failed - cannot proceed with campaign');
+      throw new Error('Initial build validation failed - cannot proceed with campaign'),
     }
 
     let totalReductions = 0;
@@ -528,7 +528,7 @@ function documentIntentionalAny() {
 
       // Validate after Phase 1
       if (!this.validateBuild()) {
-        throw new Error('Build validation failed after Phase 1');
+        throw new Error('Build validation failed after Phase 1'),
       }
 
       // Phase 2: Advanced replacements
@@ -538,7 +538,7 @@ function documentIntentionalAny() {
 
       // Validate after Phase 2
       if (!this.validateBuild()) {
-        throw new Error('Build validation failed after Phase 2');
+        throw new Error('Build validation failed after Phase 2'),
       }
 
       // Phase 3: Documentation
@@ -548,7 +548,7 @@ function documentIntentionalAny() {
 
       // Final validation
       if (!this.validateBuild()) {
-        throw new Error('Build validation failed after documentation phase');
+        throw new Error('Build validation failed after documentation phase'),
       }
 
       // Generate final report
@@ -723,8 +723,8 @@ The campaign demonstrates the effectiveness of systematic, safety-first approach
       this.log(`Final Count: ${finalCount}`, 'info');
       this.log(`Reduction: ${actualReduction} (${reductionPercentage.toFixed(2)}%)`, 'success');
       this.log(
-        `Target: 15-20% (${reductionPercentage >= 15 ? 'ACHIEVED' : 'PARTIAL'})`,
-        reductionPercentage >= 15 ? 'success' : 'warn',
+        `Target: 15-20% (${reductionPercentage >= 15 ? 'ACHIEVED' : 'PARTIAL'})`;
+        reductionPercentage >= 15 ? 'success' : 'warn';
       );
       this.log(`Documented: ${totalDocumented} intentional types`, 'info');
       this.log(`Build Status: ✅ Stable`, 'success');
@@ -735,7 +735,7 @@ The campaign demonstrates the effectiveness of systematic, safety-first approach
 }
 
 // Execute the campaign
-if (require.main === module) {;
+if (require.main === module) {
   const executor = new FullCampaignExecutor();
 
   executor
@@ -744,8 +744,8 @@ if (require.main === module) {;
       // console.log('\n🎉 Full Unintentional Any Elimination Campaign completed successfully!');
       process.exit(0);
     })
-    .catch(error => {;
-      console.error('\n❌ Campaign execution failed:', error.message);
+    .catch(error => {
+      console.error('\n❌ Campaign execution failed:', error.message),
       process.exit(1);
     });
 }

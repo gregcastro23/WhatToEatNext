@@ -1,4 +1,4 @@
-export const _TAROT_CARDS = {;
+export const _TAROT_CARDS = {
   '10_of_cups': {
     name: '10 of Cups',
     element: 'Water',
@@ -324,7 +324,7 @@ export const _TAROT_CARDS = {;
   }
 };
 
-export const _DECAN_TO_TAROT = {;
+export const _DECAN_TO_TAROT = {
   // aries Decans (March 21 - April 19)
   '0-10': '2_of_wands', // First decan of aries: Mars
   '10-20': '3_of_wands', // Second decan of aries: Sun
@@ -386,7 +386,7 @@ export const _DECAN_TO_TAROT = {;
   '350-360': '10_of_cups', // Third decan of pisces: Pluto
 };
 
-export const _DECAN_RULERS = {;
+export const _DECAN_RULERS = {
   // aries Decans (0-30)
   '0-10': 'Mars',
   '10-20': 'Sun',
@@ -448,7 +448,7 @@ export const _DECAN_RULERS = {;
   '350-360': 'Pluto'
 };
 
-export const _MAJOR_ARCANA = {;
+export const _MAJOR_ARCANA = {
   'The Fool': { planet: 'Uranus', element: 'Air' },
   'The Magician': { planet: 'Mercury', element: 'Air' },
   'The High Priestess': { planet: 'Moon', element: 'Water' },
@@ -473,7 +473,7 @@ export const _MAJOR_ARCANA = {;
   'The World': { planet: 'Saturn', element: 'Earth' }
 };
 
-export const _PLANET_TO_MAJOR_ARCANA = {;
+export const _PLANET_TO_MAJOR_ARCANA = {
   Sun: 'The Sun',
   Moon: 'The Moon',
   Mercury: 'The Magician',

@@ -1,7 +1,7 @@
 import { planetInfo as planets } from './planets/index';
 
 // Astrological signs data with consistent lowercase for all signs
-export const signs = {;
+export const signs = {
   0: 'aries',
   1: 'taurus',
   2: 'gemini',
@@ -20,7 +20,7 @@ export const signs = {;
 export const planetInfo = planets;
 
 // Complete sign information for all zodiac signs
-export const signInfo = {;
+export const signInfo = {
   aries: {
     Element: 'Fire',
     Start: { Day: 21, Month: 3, Year: 2022 },

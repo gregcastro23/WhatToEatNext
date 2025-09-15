@@ -10,56 +10,56 @@ export interface ErrorClassification {
   category: ErrorCategory;
   severity: ErrorSeverity;
   autoFixCapability: AutoFixCapability;
-  domainImpact: DomainImpact;
-  riskProfile: RiskProfile;
+  domainImpact: DomainImpact,
+  riskProfile: RiskProfile,
 }
 
 export interface ErrorCategory {
   primary: 'syntax' | 'style' | 'logic' | 'performance' | 'security' | 'maintainability';
-  secondary: string;
-  description: string;
+  secondary: string,
+  description: string,
 }
 
 export interface ErrorSeverity {
   level: 'critical' | 'high' | 'medium' | 'low' | 'info';
   score: number; // 0-100
-  factors: SeverityFactor[];
-  businessImpact: 'blocking' | 'degrading' | 'cosmetic' | 'none';
+  factors: SeverityFactor[],
+  businessImpact: 'blocking' | 'degrading' | 'cosmetic' | 'none',
 }
 
 export interface SeverityFactor {
   factor: string;
-  weight: number;
-  description: string;
+  weight: number,
+  description: string,
 }
 
 export interface AutoFixCapability {
   canAutoFix: boolean;
   confidence: number; // 0-1
   complexity: 'trivial' | 'simple' | 'moderate' | 'complex' | 'manual-only';
-  prerequisites: string[];
-  risks: AutoFixRisk[];
+  prerequisites: string[],
+  risks: AutoFixRisk[],
 }
 
 export interface AutoFixRisk {
   type: 'breaking-change' | 'logic-change' | 'performance-impact' | 'side-effects';
   probability: number; // 0-1
-  impact: 'low' | 'medium' | 'high';
-  mitigation: string;
+  impact: 'low' | 'medium' | 'high',
+  mitigation: string,
 }
 
 export interface DomainImpact {
   affectsAstrology: boolean;
   affectsCampaign: boolean;
   affectsCore: boolean;
-  specialHandlingRequired: boolean;
-  expertiseRequired: string[];
+  specialHandlingRequired: boolean,
+  expertiseRequired: string[],
 }
 
 export interface RiskProfile {
   overall: 'low' | 'medium' | 'high' | 'critical';
-  factors: string[];
-  mitigationStrategies: string[];
+  factors: string[],
+  mitigationStrategies: string[],
 }
 
 /**
@@ -73,7 +73,7 @@ export class ErrorClassificationSystem {
     this.ruleClassifications = new Map();
     this.initializeRuleClassifications();
 
-    this.domainPatterns = {;
+    this.domainPatterns = {
       astrological: [
         /\/calculations\//,
         /\/data\/planets\//,
@@ -93,7 +93,7 @@ export class ErrorClassificationSystem {
     ruleId: string,
     message: string,
     filePath: string,
-    hasAutoFix: boolean = false,;
+    hasAutoFix: boolean = false;
   ): ErrorClassification {
     // Get base classification for the rule
     let classification =
@@ -102,7 +102,7 @@ export class ErrorClassificationSystem {
     // Enhance classification based on context
     classification = this.enhanceWithContext(classification, message, filePath, hasAutoFix);
 
-    return classification;
+    return classification,
   }
 
   /**
@@ -111,8 +111,8 @@ export class ErrorClassificationSystem {
   assessOverallSeverity(classifications: ErrorClassification[]): {
     overallSeverity: ErrorSeverity;
     criticalCount: number;
-    highCount: number;
-    recommendations: string[];
+    highCount: number,
+    recommendations: string[],
   } {
     const criticalCount = classifications.filter(c => c.severity.level === 'critical').length;
     const highCount = classifications.filter(c => c.severity.level === 'high').length;
@@ -122,16 +122,16 @@ export class ErrorClassificationSystem {
     const totalScore = classifications.reduce((sum, c) => sum + c.severity.score, 0);
     const averageScore = totalScore / classifications.length;
 
-    let overallLevel: ErrorSeverity['level'];
+    let overallLevel: ErrorSeverity['level'],
     if (criticalCount > 0) overallLevel = 'critical';
     else if (highCount > 10) overallLevel = 'high';
     else if (averageScore > 70) overallLevel = 'high';
     else if (averageScore > 40) overallLevel = 'medium';
     else overallLevel = 'low';
 
-    const overallSeverity: ErrorSeverity = {;
+    const overallSeverity: ErrorSeverity = {
       level: overallLevel,
-      score: Math.round(averageScore),
+      score: Math.round(averageScore);
       factors: [
         {
           factor: 'Critical Issues',
@@ -181,16 +181,16 @@ export class ErrorClassificationSystem {
     totalAutoFixable: number;
     safeAutoFixes: ErrorClassification[];
     riskyAutoFixes: ErrorClassification[];
-    manualOnlyFixes: ErrorClassification[];
-    recommendations: string[];
+    manualOnlyFixes: ErrorClassification[],
+    recommendations: string[],
   } {
     const autoFixable = classifications.filter(c => c.autoFixCapability.canAutoFix);
     const safeAutoFixes = autoFixable.filter(;
-      c => c.autoFixCapability.confidence > 0.8 && c.riskProfile.overall === 'low',;
+      c => c.autoFixCapability.confidence > 0.8 && c.riskProfile.overall === 'low';
     );
     const riskyAutoFixes = autoFixable.filter(;
-      c => c.autoFixCapability.confidence <= 0.8 || c.riskProfile.overall !== 'low',;
-    );
+      c => c.autoFixCapability.confidence <= 0.8 || c.riskProfile.overall !== 'low';
+    ),
     const manualOnlyFixes = classifications.filter(c => !c.autoFixCapability.canAutoFix);
 
     const recommendations: string[] = [];
@@ -206,7 +206,7 @@ export class ErrorClassificationSystem {
     }
 
     return {
-      totalAutoFixable: autoFixable.length,
+      totalAutoFixable: autoFixable.length;
       safeAutoFixes,
       riskyAutoFixes,
       manualOnlyFixes,
@@ -236,7 +236,7 @@ export class ErrorClassificationSystem {
       },
       autoFixCapability: {
         canAutoFix: true,
-        confidence: 0.95,
+        confidence: 0.95;
         complexity: 'trivial',
         prerequisites: [],
         risks: []
@@ -273,13 +273,13 @@ export class ErrorClassificationSystem {
       },
       autoFixCapability: {
         canAutoFix: false,
-        confidence: 0.3,
+        confidence: 0.3;
         complexity: 'complex',
         prerequisites: ['Path mapping configuration', 'Module availability check'],
         risks: [
           {
             type: 'breaking-change',
-            probability: 0.7,
+            probability: 0.7;
             impact: 'high',
             mitigation: 'Verify all import paths before applying fixes'
           }
@@ -318,13 +318,13 @@ export class ErrorClassificationSystem {
       },
       autoFixCapability: {
         canAutoFix: false,
-        confidence: 0.2,
+        confidence: 0.2;
         complexity: 'manual-only',
         prerequisites: ['Type analysis', 'Domain knowledge'],
         risks: [
           {
             type: 'logic-change',
-            probability: 0.8,
+            probability: 0.8;
             impact: 'medium',
             mitigation: 'Careful type analysis and testing required'
           }
@@ -362,13 +362,13 @@ export class ErrorClassificationSystem {
       },
       autoFixCapability: {
         canAutoFix: true,
-        confidence: 0.7,
+        confidence: 0.7;
         complexity: 'simple',
         prerequisites: ['Variable usage analysis'],
         risks: [
           {
             type: 'logic-change',
-            probability: 0.3,
+            probability: 0.3;
             impact: 'low',
             mitigation: 'Verify variable is truly unused before removal'
           }
@@ -405,7 +405,7 @@ export class ErrorClassificationSystem {
         factors: [
           {
             factor: 'Runtime Bugs',
-            weight: 0.9,
+            weight: 0.9;
             description: 'Can cause infinite loops or stale closures'
           },
           { factor: 'Performance', weight: 0.7, description: 'May cause unnecessary re-renders' }
@@ -414,19 +414,19 @@ export class ErrorClassificationSystem {
       },
       autoFixCapability: {
         canAutoFix: true,
-        confidence: 0.4,
+        confidence: 0.4;
         complexity: 'complex',
         prerequisites: ['Dependency analysis', 'Effect logic understanding'],
         risks: [
           {
             type: 'logic-change',
-            probability: 0.6,
+            probability: 0.6;
             impact: 'high',
             mitigation: 'Careful analysis of effect dependencies and potential infinite loops'
           },
           {
             type: 'performance-impact',
-            probability: 0.4,
+            probability: 0.4;
             impact: 'medium',
             mitigation: 'Performance testing after dependency changes'
           }
@@ -464,7 +464,7 @@ export class ErrorClassificationSystem {
         factors: [
           {
             factor: 'Production Cleanliness',
-            weight: 0.6,
+            weight: 0.6;
             description: 'Console logs in production'
           }
         ],
@@ -472,13 +472,13 @@ export class ErrorClassificationSystem {
       },
       autoFixCapability: {
         canAutoFix: true,
-        confidence: 0.8,
+        confidence: 0.8;
         complexity: 'simple',
         prerequisites: ['Context analysis for debugging vs logging'],
         risks: [
           {
             type: 'logic-change',
-            probability: 0.2,
+            probability: 0.2;
             impact: 'low',
             mitigation: 'Preserve console.warn and console.error for important logging'
           }
@@ -506,7 +506,7 @@ export class ErrorClassificationSystem {
    * Add a rule classification to the system
    */
   private addRuleClassification(ruleId: string, classification: ErrorClassification): void {
-    this.ruleClassifications.set(ruleId, classification);
+    this.ruleClassifications.set(ruleId, classification),
   }
 
   /**
@@ -528,13 +528,13 @@ export class ErrorClassificationSystem {
       },
       autoFixCapability: {
         canAutoFix: false,
-        confidence: 0.1,
+        confidence: 0.1;
         complexity: 'manual-only',
         prerequisites: ['Rule analysis'],
         risks: [
           {
             type: 'side-effects',
-            probability: 0.5,
+            probability: 0.5;
             impact: 'medium',
             mitigation: 'Manual analysis required for unknown rule'
           }
@@ -570,9 +570,9 @@ export class ErrorClassificationSystem {
     if (hasAutoFix && !enhanced.autoFixCapability.canAutoFix) {
       enhanced.autoFixCapability.canAutoFix = true;
       enhanced.autoFixCapability.confidence = Math.min(;
-        0.8,
-        enhanced.autoFixCapability.confidence + 0.3,
-      );
+        0.8;
+        enhanced.autoFixCapability.confidence + 0.3;
+      ),
     }
 
     // Enhance domain impact based on file path
@@ -593,12 +593,12 @@ export class ErrorClassificationSystem {
       enhanced.domainImpact.expertiseRequired.push('Campaign system');
 
       // Increase severity for campaign files
-      enhanced.severity.score = Math.min(100, enhanced.severity.score + 5);
+      enhanced.severity.score = Math.min(100, enhanced.severity.score + 5),
     }
 
     // Adjust risk profile based on context
     if (enhanced.domainImpact.specialHandlingRequired) {
-      if (enhanced.riskProfile.overall === 'low') {;
+      if (enhanced.riskProfile.overall === 'low') {
         enhanced.riskProfile.overall = 'medium';
       }
       enhanced.riskProfile.factors.push('Domain-specific file requires expert review');
@@ -610,7 +610,7 @@ export class ErrorClassificationSystem {
   /**
    * Check if file is domain-specific
    */
-  private isDomainSpecificFile(filePath: string): { isAstrological: boolean; isCampaign: boolean } {
+  private isDomainSpecificFile(filePath: string): { isAstrological: boolean, isCampaign: boolean } {
     const isAstrological = this.domainPatterns.astrological.some(pattern => pattern.test(filePath));
     const isCampaign = this.domainPatterns.campaign.some(pattern => pattern.test(filePath));
 

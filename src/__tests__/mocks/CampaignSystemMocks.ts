@@ -113,7 +113,7 @@ export class MockCampaignController {
     const checkpointId = `mock_checkpoint_${Date.now()}`;
 
     // Create mock stash
-    const mockStash: GitStash = {;
+    const mockStash: GitStash = {
       id: checkpointId,
       description: `Mock stash: ${description}`,
       timestamp: new Date(),
@@ -312,7 +312,7 @@ export class MockCampaignController {
 
   private initializeMockStashes(): void {
     // Create some initial mock stashes
-    const initialStashes = [;
+    const initialStashes = [
       {
         id: 'mock_stash_1',
         description: 'Initial mock stash',
@@ -329,7 +329,7 @@ export class MockCampaignController {
       }
     ];
 
-    initialStashes.forEach(stash => {;
+    initialStashes.forEach(stash => {
       this.mockStashes.set(stash.id, stash);
     });
   }
@@ -589,7 +589,7 @@ export class MockSafetyProtocol {
     this.stashCounter++;
     const stashId = `mock_stash_${this.stashCounter}_${Date.now()}`;
 
-    const mockStash: GitStash = {;
+    const mockStash: GitStash = {
       id: stashId,
       description: `Mock stash: ${description}`,
       timestamp: new Date(),
@@ -613,7 +613,7 @@ export class MockSafetyProtocol {
   /**
    * Mock stash application - does not run actual git commands
    */
-  async applyStash(stashId: string, _validateAfter: boolean = true): Promise<void> {;
+  async applyStash(stashId: string, _validateAfter: boolean = true): Promise<void> {
     const stash = this.mockStashes.get(stashId);
     if (!stash) {
       throw new Error(`Mock stash not found: ${stashId}`);
@@ -693,7 +693,7 @@ export class MockSafetyProtocol {
 
   private initializeMockStashes(): void {
     // Create some initial mock stashes
-    const initialStashes = [;
+    const initialStashes = [
       {
         id: 'mock_initial_stash',
         description: 'Initial mock stash for testing',
@@ -703,7 +703,7 @@ export class MockSafetyProtocol {
       }
     ];
 
-    initialStashes.forEach(stash => {;
+    initialStashes.forEach(stash => {
       this.mockStashes.set(stash.id, stash);
     });
   }
@@ -750,7 +750,7 @@ export class CampaignTestIsolationManager {
     tracker: MockProgressTracker;
     safety: MockSafetyProtocol;
   } {
-    const defaultConfig: CampaignConfig = {;
+    const defaultConfig: CampaignConfig = {
       phases: [
         {
           id: 'test-phase',
@@ -870,7 +870,7 @@ export class CampaignTestIsolationManager {
    */
   restoreEnvironment(): void {
     // Restore original environment variables
-    Object.keys(process.env).forEach(key => {;
+    Object.keys(process.env).forEach(key => {
       if (key.startsWith('CAMPAIGN_') || key.startsWith('DISABLE_') || key.startsWith('MOCK_')) {
         delete process.env[key];
       }

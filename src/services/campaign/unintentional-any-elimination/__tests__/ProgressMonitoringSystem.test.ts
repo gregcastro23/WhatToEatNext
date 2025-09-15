@@ -13,7 +13,7 @@ const mockExecSync: any = execSync as jest.MockedFunction<typeof execSync>;
 const mockFs: any = fs as jest.Mocked<typeof fs>;
 
 describe('ProgressMonitoringSystem', () => {
-  let monitoringSystem: ProgressMonitoringSystem;
+  let monitoringSystem: ProgressMonitoringSystem,
   let mockAnalysisToolsInstance: jest.Mocked<AnalysisTools>;
 
   beforeEach(() => {
@@ -21,16 +21,16 @@ describe('ProgressMonitoringSystem', () => {
 
     // Mock file system operations
     mockFs.existsSync.mockReturnValue(false);
-    mockFs.readFileSync.mockReturnValue('[]');
+    mockFs.readFileSync.mockReturnValue('[]'),
     mockFs.writeFileSync.mockImplementation(() => {});
     mockFs.mkdirSync.mockImplementation(() => '');
 
     // Mock AnalysisTools
-    mockAnalysisToolsInstance = {;
-      generateComprehensiveReport: jest.fn(),
-      analyzeDomainDistribution: jest.fn(),
-      generateClassificationAccuracyReport: jest.fn(),
-      generateSuccessRateAnalysis: jest.fn(),
+    mockAnalysisToolsInstance = {
+      generateComprehensiveReport: jest.fn();
+      analyzeDomainDistribution: jest.fn();
+      generateClassificationAccuracyReport: jest.fn();
+      generateSuccessRateAnalysis: jest.fn();
       generateManualReviewRecommendations: jest.fn()
     } as unknown;
 
@@ -58,7 +58,7 @@ describe('ProgressMonitoringSystem', () => {
     });
 
     it('should initialize with custom alert thresholds', () => {
-      const customThresholds: any = {;
+      const customThresholds: any = {
         successRateThreshold: 80,
         buildFailureThreshold: 2
       };
@@ -130,7 +130,7 @@ describe('ProgressMonitoringSystem', () => {
           analysisDate: new Date()
         },
         accuracyReport: { overallAccuracy: 85,
-          averageConfidence: 0.8,
+          averageConfidence: 0.8;
           sampleSize: 100,
           categoryAccuracy: [],
           confidenceDistribution: [],
@@ -170,14 +170,14 @@ describe('ProgressMonitoringSystem', () => {
       expect(progress.classifiedUnintentional).toBe(700);
       expect(progress.averageSuccessRate).toBe(75);
       expect(progress.targetReductionPercentage).toBe(20);
-      expect(progress.buildStable).toBe(true); // Default mock
+      expect(progress.buildStable).toBe(true), // Default mock
       expect(progress.lastUpdate).toBeInstanceOf(Date);
     });
 
     it('should handle build failures in progress metrics', async () => {
       // Mock TypeScript compilation failure
       mockExecSync.mockImplementation(() => {
-        throw new Error('Compilation failed');
+        throw new Error('Compilation failed'),
       });
 
       const progress: any = await monitoringSystem.getProgressMetrics();
@@ -193,34 +193,34 @@ describe('ProgressMonitoringSystem', () => {
       await monitoringSystem.monitorBuildStability();
 
       const history: any = monitoringSystem.getBuildStabilityHistory(1);
-      expect(history.[0].isStable).toBe(true);
-      expect(history.[0].errorCount).toBe(0);
-      expect(history.[0].buildTime).toBeGreaterThanOrEqual(0);
+      expect(history[0].isStable).toBe(true);
+      expect(history[0].errorCount).toBe(0);
+      expect(history[0].buildTime).toBeGreaterThanOrEqual(0);
     });
 
     it('should detect build failures', async () => {
-      const errorOutput: any = 'error TS2304: Cannot find name\nerror TS234, 5: Argument type';
+      const errorOutput: any = 'error TS2304: Cannot find name\nerror TS234, 5: Argument type',
       mockExecSync.mockImplementation(() => {
         const error: any = new Error('Compilation failed');
         (error as any).stdout = errorOutput;
-        throw error;
+        throw error,
       });
 
       await monitoringSystem.monitorBuildStability();
 
       const history: any = monitoringSystem.getBuildStabilityHistory(1);
-      expect(history.[0].isStable).toBe(false);
-      expect(history.[0].errorCount).toBe(2); // Two TS errors
-      expect(history.[0].errorMessage).toContain('error TS2304');
+      expect(history[0].isStable).toBe(false);
+      expect(history[0].errorCount).toBe(2); // Two TS errors
+      expect(history[0].errorMessage).toContain('error TS2304');
     });
 
     it('should emit alert for build failures': any, (done: any) => {
       mockExecSync.mockImplementation(() => {
-        throw new Error('Build failed');
+        throw new Error('Build failed'),
       });
 
       monitoringSystem.on('alert', (alert: Alert) => {
-        if (alert.type === 'build_failure') {;
+        if (alert.type === 'build_failure') {
           expect(alert.severity).toBe('high');
           expect(alert.message).toContain('Build failure detected');
           done();
@@ -232,27 +232,27 @@ describe('ProgressMonitoringSystem', () => {
 
     it('should emit alert for consecutive build failures', async () => {
       mockExecSync.mockImplementation(() => {
-        throw new Error('Build failed');
+        throw new Error('Build failed'),
       });
 
-      const alertPromise: any = new Promise<Alert>((resolve: any) => {;
+      const alertPromise: any = new Promise<Alert>((resolve: any) => {
         monitoringSystem.on('alert', (alert: Alert) => {
-          if (alert.type === 'consecutive_build_failures') {;
+          if (alert.type === 'consecutive_build_failures') {
             resolve(alert);
           }
         });
       });
 
       // Trigger multiple build failures
-      for (let i: any = 0; i < 3; i++) {
+      for (let i: any = 0, i < 3, i++) {
         await monitoringSystem.monitorBuildStability();
       }
 
       const alert: any = await alertPromise;
       expect(alert.severity).toBe('critical');
       expect(alert.message).toContain('consecutive build failures');
-    });
-  });
+    }),
+  }),
 
   describe('alert system', () => {
     beforeEach(() => {
@@ -269,9 +269,9 @@ describe('ProgressMonitoringSystem', () => {
     });
 
     it('should emit low success rate alert', async () => {
-      const alertPromise: any = new Promise<Alert>((resolve: any) => {;
+      const alertPromise: any = new Promise<Alert>((resolve: any) => {
         monitoringSystem.on('alert', (alert: Alert) => {
-          if (alert.type === 'low_success_rate') {;
+          if (alert.type === 'low_success_rate') {
             resolve(alert);
           }
         });
@@ -290,8 +290,8 @@ describe('ProgressMonitoringSystem', () => {
       let alertCount: any = 0;
 
       monitoringSystem.on('alert', (alert: Alert) => {
-        if (alert.type === 'low_success_rate') {;
-          alertCount++;
+        if (alert.type === 'low_success_rate') {
+          alertCount++,
         }
       });
 
@@ -303,7 +303,7 @@ describe('ProgressMonitoringSystem', () => {
     });
 
     it('should handle safety protocol activation', () => {
-      const safetyEvent: any = {;
+      const safetyEvent: any = {
         type: 'corruption_detected',
         severity: 'critical' as const,
         description: 'File corruption detected',
@@ -312,16 +312,16 @@ describe('ProgressMonitoringSystem', () => {
         affectedFiles: ['test.ts']
       };
 
-      const alertPromise: any = new Promise<Alert>((resolve: any) => {;
+      const alertPromise: any = new Promise<Alert>((resolve: any) => {
         monitoringSystem.on('alert', (alert: Alert) => {
-          if (alert.type === 'safety_protocol_activation') {;
+          if (alert.type === 'safety_protocol_activation') {
             resolve(alert);
           }
         });
       });
 
-      const criticalEventPromise: any = new Promise((resolve: any) => {;
-        monitoringSystem.on('critical_safety_event', resolve);
+      const criticalEventPromise: any = new Promise((resolve: any) => {
+        monitoringSystem.on('critical_safety_event', resolve),
       });
 
       monitoringSystem.handleSafetyProtocolActivation(safetyEvent);
@@ -334,13 +334,13 @@ describe('ProgressMonitoringSystem', () => {
     });
 
     it('should update alert thresholds', () => {
-      const newThresholds: any = {;
+      const newThresholds: any = {
         successRateThreshold: 80,
         buildFailureThreshold: 2
       };
 
-      const updatePromise: any = new Promise((resolve: any) => {;
-        monitoringSystem.on('alert_thresholds_updated', resolve);
+      const updatePromise: any = new Promise((resolve: any) => {
+        monitoringSystem.on('alert_thresholds_updated', resolve),
       });
 
       monitoringSystem.updateAlertThresholds(newThresholds);
@@ -369,8 +369,8 @@ describe('ProgressMonitoringSystem', () => {
     });
 
     it('should update dashboard data', async () => {
-      const updatePromise: any = new Promise<DashboardData>((resolve: any) => {;
-        monitoringSystem.on('dashboard_updated', resolve);
+      const updatePromise: any = new Promise<DashboardData>((resolve: any) => {
+        monitoringSystem.on('dashboard_updated', resolve),
       });
 
       await monitoringSystem['updateDashboard']();
@@ -423,7 +423,7 @@ describe('ProgressMonitoringSystem', () => {
 
       const history: any = monitoringSystem.getAlertHistory();
       expect(history.length).toBeGreaterThan(0);
-      expect(history.[0].type).toBe('low_success_rate');
+      expect(history[0].type).toBe('low_success_rate');
     });
 
     it('should limit alert history', () => {
@@ -432,8 +432,8 @@ describe('ProgressMonitoringSystem', () => {
     });
 
     it('should clear alert history', () => {
-      const clearPromise: any = new Promise((resolve: any) => {;
-        monitoringSystem.on('alert_history_cleared', resolve);
+      const clearPromise: any = new Promise((resolve: any) => {
+        monitoringSystem.on('alert_history_cleared', resolve),
       });
 
       monitoringSystem.clearAlertHistory();
@@ -449,9 +449,9 @@ describe('ProgressMonitoringSystem', () => {
     it('should handle dashboard update errors', async () => {
       mockAnalysisToolsInstance.generateComprehensiveReport.mockRejectedValue(
         new Error('Analysis failed')
-      );
+      ),
 
-      await expect(monitoringSystem['updateDashboard']()).rejects.toThrow('Analysis failed');
+      await expect(monitoringSystem['updateDashboard']()).rejects.toThrow('Analysis failed'),
     });
 
     it('should handle monitoring errors gracefully', async () => {
@@ -464,12 +464,12 @@ describe('ProgressMonitoringSystem', () => {
 
       expect(progress.totalAnyTypes).toBe(0);
       expect(progress.averageSuccessRate).toBe(0);
-      expect(progress.buildStable).toBe(true); // Default mock
+      expect(progress.buildStable).toBe(true), // Default mock
     });
 
     it('should handle file system errors gracefully', () => {
       mockFs.writeFileSync.mockImplementation(() => {
-        throw new Error('File system error');
+        throw new Error('File system error'),
       });
 
       // Should not throw error
@@ -511,7 +511,7 @@ describe('ProgressMonitoringSystem', () => {
       const history: any = newMonitoringSystem.getAlertHistory();
 
       expect(history.length).toBe(1);
-      expect(history.[0].type).toBe('low_success_rate');
+      expect(history[0].type).toBe('low_success_rate');
     });
   });
 });

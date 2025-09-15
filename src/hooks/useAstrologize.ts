@@ -28,7 +28,7 @@ interface AstrologizeResult {
  * @param options Configuration options
  * @returns Result with loading state, error, data, and refetch function
  */
-export function useAstrologize(options: AstrologizeOptions = {}): AstrologizeResult {;
+export function useAstrologize(options: AstrologizeOptions = {}): AstrologizeResult {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<Error | null>(null);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
@@ -52,12 +52,12 @@ export function useAstrologize(options: AstrologizeOptions = {}): AstrologizeRes
   // Get current location if needed
   useEffect(() => {
     if (useCurrentLocation && !location) {
-      const getLocation = async () => {;
+      const getLocation = async () => {
         try {
           const coords = await (AstrologicalService as unknown)?.requestLocation?.();
           if (coords) {
             setLocation({
-              latitude: coords.latitude,
+              latitude: coords.latitude;
               longitude: coords.longitude
             });
           }
@@ -76,7 +76,7 @@ export function useAstrologize(options: AstrologizeOptions = {}): AstrologizeRes
   }, [useCurrentLocation, latitude, longitude, location]);
 
   // Fetch data from the API
-  const fetchData = async () => {;
+  const fetchData = async () => {
     setLoading(true);
     setError(null);
 
@@ -89,7 +89,7 @@ export function useAstrologize(options: AstrologizeOptions = {}): AstrologizeRes
       if (!useCurrentTime && year && month && date) {
         // Use POST with custom date/time
         method = 'POST';
-        body = JSON.stringify({;
+        body = JSON.stringify({
           year,
           month,
           date,
@@ -118,7 +118,7 @@ export function useAstrologize(options: AstrologizeOptions = {}): AstrologizeRes
       });
 
       // Make the API request
-      const response = await fetch(url, {;
+      const response = await fetch(url, {
         method,
         headers: {
           'Content-Type': 'application/json'

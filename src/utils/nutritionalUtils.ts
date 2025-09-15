@@ -39,8 +39,8 @@ export async function getNutritionalData(
   if (!profile) return null;
 
   // Convert profile to match alchemy types
-  const alchemyProfile: unknown = {;
-    ...profile,
+  const alchemyProfile: unknown = {
+    ...profile;
     // Convert phytonutrients from Record<string, number> to string[]
     phytonutrients:
       profile.phytonutrients &&
@@ -97,7 +97,7 @@ export async function compareNutritionalValues(
 
   const differences: Record<string, number> = {
     calories:
-      (((profile2.calories || 0) - (profile1.calories || 0)) / (profile1.calories || 1)) * 100,
+      (((profile2.calories || 0) - (profile1.calories || 0)) / (profile1.calories || 1)) * 100;
     protein: profile1Macros.protein
       ? ((profile2Macros.protein - profile1Macros.protein) / profile1Macros.protein) * 100
       : 0,

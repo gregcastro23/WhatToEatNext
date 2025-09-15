@@ -1,6 +1,6 @@
 import { ZODIAC_SIGNS, ZodiacSign } from './signEnergyStates';
 
-export const CHAKRAS = [;
+export const CHAKRAS = [
   'Root', // Muladhara
   'Sacral', // Svadhisthana
   'Solar Plexus', // Manipura
@@ -20,8 +20,8 @@ export interface ChakraProperties {
   element: string;
   planet: string;
   governs: string[];
-  balanceIndicators: string[];
-  imbalanceIndicators: string[];
+  balanceIndicators: string[],
+  imbalanceIndicators: string[],
 }
 
 export const _CHAKRA_PROPERTIES: Record<Chakra, ChakraProperties> = {
@@ -112,7 +112,7 @@ export const CHAKRA_ZODIAC_MAPPINGS: Record<Chakra, ZodiacSign[]> = {
 export const _ZODIAC_CHAKRA_MAPPINGS: Record<ZodiacSign, Chakra[]> = ZODIAC_SIGNS.reduce(
   (mappings, sign) => {
     mappings[sign] = CHAKRAS.filter(chakra => CHAKRA_ZODIAC_MAPPINGS[chakra].includes(sign));
-    return mappings;
+    return mappings,
   },
   {} as Record<ZodiacSign, Chakra[]>,
 );
@@ -123,7 +123,7 @@ export function calculateChakraEnergies(
 ): Record<Chakra, number> {
   const chakraEnergies: Record<Chakra, number> = {} as Record<Chakra, number>;
 
-  CHAKRAS.forEach(chakra => {;
+  CHAKRAS.forEach(chakra => {
     // Get all zodiac signs related to this chakra
     const relatedSigns = CHAKRA_ZODIAC_MAPPINGS[chakra];
 
@@ -135,7 +135,7 @@ export function calculateChakraEnergies(
       );
       chakraEnergies[chakra] = totalEnergy / relatedSigns.length;
     } else {
-      chakraEnergies[chakra] = 0.5; // Default balanced energy
+      chakraEnergies[chakra] = 0.5, // Default balanced energy
     }
   });
 

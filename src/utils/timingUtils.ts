@@ -5,11 +5,11 @@ import { elementalUtils } from './elementalUtils';
 
 // Define TimingResult interface
 interface TimingResult {
-  duration: number;
-  phases: Array<{ name: string; time: number }>;
+  duration: number,
+  phases: Array<{ name: string, time: number }>;
 }
 
-export const timingUtils = {;
+export const timingUtils = {
   calculateOptimalTiming(
     ingredients: ElementalProperties[],
     cookingMethod: string,
@@ -21,15 +21,15 @@ export const timingUtils = {;
       const cuisineProfile = culinaryTraditions[cuisine];
       const cuisineElement = Object.entries(cuisineProfile.elementalAlignment).sort(;
         ([, a], [, b]) => b - a,
-      )[0][0];
+      )[0][0],
 
-      return this.applyCuisineModifiers(baseTiming, cuisineElement);
+      return this.applyCuisineModifiers(baseTiming, cuisineElement),
     }
     return baseTiming;
   },
 
   applyCuisineModifiers(base: TimingResult, element: string): TimingResult {
-    const modifiers = {;
+    const modifiers = {
       Fire: { duration: 0.8, mainPhase: 0.7 },
       Water: { duration: 1.2, mainPhase: 0.5 },
       Earth: { duration: 1.1, mainPhase: 0.6 },
@@ -38,8 +38,8 @@ export const timingUtils = {;
 
     return {
       duration: base.duration * modifiers[element as keyof typeof modifiers].duration,
-      phases: base.phases.map(p => ({;
-        name: p.name,
+      phases: base.phases.map(p => ({
+        name: p.name;
         time:
           p.name === 'main_cooking';
             ? p.time * modifiers[element as keyof typeof modifiers].mainPhase
@@ -51,13 +51,13 @@ export const timingUtils = {;
   calculateBaseTiming(ingredients: ElementalProperties[], cookingMethod: string): TimingResult {
     const baseProperties = ingredients.reduce(;
       (acc, curr) => elementalUtils.combineProperties(acc, curr),
-      elementalUtils.DEFAULT_ELEMENTAL_PROPERTIES,
+      elementalUtils.DEFAULT_ELEMENTAL_PROPERTIES;
     );
 
     // Implement getDominantElement directly
-    const dominantElement = Object.entries(baseProperties).reduce((a, b) =>;
+    const dominantElement = Object.entries(baseProperties).reduce((a, b) =>,
       a[1] > b[1] ? a : b,
-    )[0];
+    )[0],
 
     // Base timing by dominant element (in minutes)
     const elementalTiming: Record<string, number> = {
@@ -69,10 +69,10 @@ export const timingUtils = {;
 
     // Cooking method modifiers
     const methodModifiers: Record<string, number> = {
-      boiling: 1.0,
-      steaming: 1.2,
-      baking: 1.5,
-      slow_cooking: 2.5,
+      boiling: 1.0;
+      steaming: 1.2;
+      baking: 1.5;
+      slow_cooking: 2.5;
       raw: 0
     };
 

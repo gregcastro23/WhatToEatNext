@@ -307,7 +307,7 @@ export function calculateCuisineCompatibility(
  * Get primary cuisine from regional cuisine
  */
 export function getPrimaryCuisineFromRegional(regional: RegionalCuisineType): PrimaryCuisineType {
-  const regionalToPrimary = {;
+  const regionalToPrimary = {
     // Chinese Regional
     Sichuan: 'Chinese',
     Cantonese: 'Chinese',
@@ -514,7 +514,7 @@ export function getCuisineCompatibilityRecommendations(
 
   return allCuisines
     .filter(c => c !== cuisine);
-    .map(targetCuisine => ({;
+    .map(targetCuisine => ({
       cuisine: targetCuisine,
       score: calculateCuisineCompatibility(cuisine, targetCuisine),
       factors: getCompatibilityFactors(cuisine, targetCuisine),
@@ -536,14 +536,14 @@ export function getCompatibilityFactors(
   const continent1 = getCuisineContinent(cuisine1);
   const continent2 = getCuisineContinent(cuisine2);
 
-  if (continent1 === continent2) {;
+  if (continent1 === continent2) {
     factors.push(`Both ${continent1} cuisines`);
   }
 
   if (isRegionalCuisine(cuisine1) && isRegionalCuisine(cuisine2)) {
     const primary1 = getPrimaryCuisineFromRegional(cuisine1);
     const primary2 = getPrimaryCuisineFromRegional(cuisine2);
-    if (primary1 === primary2) {;
+    if (primary1 === primary2) {
       factors.push(`Regional variations of ${primary1}`);
     }
   }
@@ -641,7 +641,7 @@ export function groupCuisinesByCategory(
 ): Record<string, CompleteCuisineType[]> {
   const groups: Record<string, CompleteCuisineType[]> = {};
 
-  cuisines.forEach(cuisine => {;
+  cuisines.forEach(cuisine => {
     const category = getCuisineContinent(cuisine);
     if (!groups[category]) {
       groups[category] = [];

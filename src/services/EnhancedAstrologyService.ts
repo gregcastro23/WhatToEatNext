@@ -61,7 +61,7 @@ export class EnhancedAstrologyService {
   /**
    * Get the most accurate planetary positions using multiple data sources
    */
-  async getEnhancedPlanetaryPositions(date: Date = new Date()): Promise<EnhancedAstrologicalData> {;
+  async getEnhancedPlanetaryPositions(date: Date = new Date()): Promise<EnhancedAstrologicalData> {
     const cacheKey = date.toISOString().split('T')[0];
 
     if (this.cache.has(cacheKey)) {
@@ -88,7 +88,7 @@ export class EnhancedAstrologyService {
   /**
    * Get comprehensive transit analysis for a date
    */
-  async getTransitAnalysis(date: Date = new Date()): Promise<TransitAnalysis> {;
+  async getTransitAnalysis(date: Date = new Date()): Promise<TransitAnalysis> {
     const currentSeason = getTransitForDate(date);
     const _year = date.getFullYear().toString();
     const _availableYears = getAvailableYears();
@@ -118,7 +118,7 @@ export class EnhancedAstrologyService {
   /**
    * Get seasonal recommendations based on current transits
    */
-  async getSeasonalRecommendations(date: Date = new Date()): Promise<{;
+  async getSeasonalRecommendations(date: Date = new Date()): Promise<{
     seasonalThemes: string[];
     culinaryInfluences: string[];
     dominantElements: Record<string, number>;
@@ -134,11 +134,11 @@ export class EnhancedAstrologyService {
       const month = date.getMonth();
       const basicSeasonalData = this.getBasicSeasonalData(month);
       return {
-        seasonalThemes: basicSeasonalData.themes,
-        culinaryInfluences: basicSeasonalData.culinaryInfluences,
-        dominantElements: basicSeasonalData.dominantElements,
-        recommendedCuisines: basicSeasonalData.recommendedCuisines,
-        recommendedCookingMethods: basicSeasonalData.cookingMethods,
+        seasonalThemes: basicSeasonalData.themes;
+        culinaryInfluences: basicSeasonalData.culinaryInfluences;
+        dominantElements: basicSeasonalData.dominantElements;
+        recommendedCuisines: basicSeasonalData.recommendedCuisines;
+        recommendedCookingMethods: basicSeasonalData.cookingMethods;
         alchemicalProperties: basicSeasonalData.alchemicalProperties
       };
     }
@@ -234,10 +234,10 @@ export class EnhancedAstrologyService {
 
       Object.entries(astrologizePositions).forEach(([planet, position]) => {
         celestialPositions[planet] = {
-          sign: position.sign,
-          degree: position.degree,
-          exactLongitude: position.exactLongitude,
-          isRetrograde: position.isRetrograde,
+          sign: position.sign;
+          degree: position.degree;
+          exactLongitude: position.exactLongitude;
+          isRetrograde: position.isRetrograde;
           minutes: position.minute
         };
       });
@@ -272,7 +272,7 @@ export class EnhancedAstrologyService {
       pisces: 'Water'
     };
 
-    Object.values(positions).forEach(position => {;
+    Object.values(positions).forEach(position => {
       const element = signElements[position.sign || 'aries'];
       if (element) {
         elementCounts[element]++;
@@ -282,7 +282,7 @@ export class EnhancedAstrologyService {
     // Normalize to percentages
     const total = Object.values(elementCounts).reduce((sum, count) => sum + count, 0);
     if (total > 0) {
-      Object.keys(elementCounts).forEach(element => {;
+      Object.keys(elementCounts).forEach(element => {
         elementCounts[element] /= total;
       });
     }
@@ -347,7 +347,7 @@ export class EnhancedAstrologyService {
     cookingMethods: string[];
     alchemicalProperties: Record<string, number>;
   } {
-    const seasonalData = {;
+    const seasonalData = {
       0: {
         // January
         themes: ['New beginnings', 'Comfort', 'Warmth'],
@@ -407,7 +407,7 @@ export class EnhancedAstrologyService {
     lastAstrologizeCheck: Date;
   } {
     return {
-      astrologizeAvailable: Date.now() - this.lastAstrologizeCheck < this.astrologizeCheckInterval,
+      astrologizeAvailable: Date.now() - this.lastAstrologizeCheck < this.astrologizeCheckInterval;
       swissEphemerisAvailable: true, // Always available as it's local data
       transitDatabaseAvailable: true, // Always available as it's local data
       lastAstrologizeCheck: new Date(this.lastAstrologizeCheck)

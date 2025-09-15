@@ -38,7 +38,7 @@ jest.spyOn(recipeElementalService, 'standardizeRecipe');
 
 describe('RecipeData Service', () => {
   // Create a test recipe with valid ingredients
-  const testRecipe: any = {;
+  const testRecipe: any = {
     id: 'test-recipe',
     name: 'Test Recipe',
     cuisine: 'Italian',
@@ -96,7 +96,7 @@ describe('RecipeData Service', () => {
       expect(recipes.length).toBeGreaterThan(0);
 
       // Check that the fallback recipe has all required properties
-      const recipe: any = recipes.[0];
+      const recipe: any = recipes[0];
       expect(recipe.id).toBeDefined();
       expect(recipe.name).toBeDefined();
       expect(recipe.elementalProperties).toBeDefined();
@@ -116,7 +116,7 @@ describe('RecipeData Service', () => {
     try {
       // Mock the getAllRecipes method to return test recipes
       const originalGetAllRecipes: any = recipeData.getAllRecipes;
-      recipeData.getAllRecipes = jest.fn().mockResolvedValue([;
+      recipeData.getAllRecipes = jest.fn().mockResolvedValue([
         {
           id: 'recipe1',
           name: 'Test Recipe 1',
@@ -161,8 +161,8 @@ describe('RecipeData Service', () => {
 
       // Mock filterRecipes to isolate test from implementation details
       const originalFilterRecipes: any = recipeData.filterRecipes;
-      recipeData.filterRecipes = jest.fn().mockImplementation(async filters => {;
-        if (filters.cuisine === 'Italian') {;
+      recipeData.filterRecipes = jest.fn().mockImplementation(async filters => {
+        if (filters.cuisine === 'Italian') {
           return [
             {
               id: 'recipe1',
@@ -189,7 +189,7 @@ describe('RecipeData Service', () => {
               // other properties
             }
           ];
-        } else if (filters.isVegetarian === true) {;
+        } else if (filters.isVegetarian === true) {
           return [
             {
               id: 'recipe1',
@@ -198,7 +198,7 @@ describe('RecipeData Service', () => {
               // other properties
             }
           ];
-        } else if (filters.mealType && filters.mealType.includes('dinner') && filters.isGlutenFree === true) {;
+        } else if (filters.mealType && filters.mealType.includes('dinner') && filters.isGlutenFree === true) {
           return [
             {
               id: 'recipe1',
@@ -207,7 +207,7 @@ describe('RecipeData Service', () => {
               // other properties
             }
           ];
-        } else if (filters.cuisine === 'Mexican' && filters.isVegan === true) {;
+        } else if (filters.cuisine === 'Mexican' && filters.isVegan === true) {
           return [
             {
               id: 'fallback-recipe',
@@ -230,50 +230,50 @@ describe('RecipeData Service', () => {
       });
 
       // Test filtering by cuisine
-      const italianRecipes: any = await recipeData.filterRecipes({;
+      const italianRecipes: any = await recipeData.filterRecipes({
         cuisine: 'Italian'
       });
       expect(italianRecipes.length).toBe(1);
-      expect(italianRecipes.[0].id).toBe('recipe1');
+      expect(italianRecipes[0].id).toBe('recipe1');
 
       // Test filtering by meal type
-      const lunchRecipes: any = await recipeData.filterRecipes({;
+      const lunchRecipes: any = await recipeData.filterRecipes({
         mealType: ['lunch']
       });
       expect(lunchRecipes.length).toBe(1);
-      expect(lunchRecipes.[0].id).toBe('recipe2');
+      expect(lunchRecipes[0].id).toBe('recipe2');
 
       // Test filtering by season
-      const summerRecipes: any = await recipeData.filterRecipes({;
+      const summerRecipes: any = await recipeData.filterRecipes({
         season: ['summer']
       });
       expect(summerRecipes.length).toBe(1);
-      expect(summerRecipes.[0].id).toBe('recipe1');
+      expect(summerRecipes[0].id).toBe('recipe1');
 
       // Test filtering by dietary restrictions
-      const vegetarianRecipes: any = await recipeData.filterRecipes({;
+      const vegetarianRecipes: any = await recipeData.filterRecipes({
         isVegetarian: true
       });
       expect(vegetarianRecipes.length).toBe(1);
-      expect(vegetarianRecipes.[0].id).toBe('recipe1');
+      expect(vegetarianRecipes[0].id).toBe('recipe1');
 
       // Test filtering with multiple criteria
-      const complexFilter: any = await recipeData.filterRecipes({;
+      const complexFilter: any = await recipeData.filterRecipes({
         mealType: ['dinner'],
         isGlutenFree: true
       });
       expect(complexFilter.length).toBe(1);
-      expect(complexFilter.[0].id).toBe('recipe1');
+      expect(complexFilter[0].id).toBe('recipe1');
 
       // Test with Mexican & Vegan filter
-      const noMatches: any = await recipeData.filterRecipes({;
+      const noMatches: any = await recipeData.filterRecipes({
         cuisine: 'Mexican',
         isVegan: true
       });
 
       // This should return the fallback recipe
       expect(noMatches.length).toBeGreaterThan(0);
-      expect(noMatches.[0].id).toBe('fallback-recipe');
+      expect(noMatches[0].id).toBe('fallback-recipe');
 
       // Restore original methods
       recipeData.getAllRecipes = originalGetAllRecipes;
@@ -293,7 +293,7 @@ describe('RecipeData Service', () => {
     const originalGetAllRecipes: any = recipeData.getAllRecipes;
 
     // Setup our test recipe with non-normalized properties
-    const nonNormalizedRecipe: any = {;
+    const nonNormalizedRecipe: any = {
       ...testRecipe,
       elementalProperties: { Fire: 0.8,
         Water: 0.8,
@@ -304,7 +304,7 @@ describe('RecipeData Service', () => {
     };
 
     // Create a normalized version that would be returned by standardizeRecipe
-    const normalizedRecipe: any = {;
+    const normalizedRecipe: any = {
       ...nonNormalizedRecipe,
       elementalProperties: { Fire: 0.25,
         Water: 0.25,
@@ -327,14 +327,14 @@ describe('RecipeData Service', () => {
     expect(recipes.length).toBe(1);
 
     // The elemental properties should be normalized (sum to 1)
-    const sum: any = Object.values(recipes.[0].elementalProperties).reduce((a: number, b: number) => a + b, 0);
+    const sum: any = Object.values(recipes[0].elementalProperties).reduce((a: number, b: number) => a + b, 0);
     expect(sum).toBeCloseTo(1, 6);
 
     // All elementalProperties values should be equal since we started with equal values
-    expect(recipes.[0].elementalProperties.Fire).toBeCloseTo(0.25, 6);
-    expect(recipes.[0].elementalProperties.Water).toBeCloseTo(0.25, 6);
-    expect(recipes.[0].elementalProperties.Earth).toBeCloseTo(0.25, 6);
-    expect(recipes.[0].elementalProperties.Air).toBeCloseTo(0.25, 6);
+    expect(recipes[0].elementalProperties.Fire).toBeCloseTo(0.25, 6);
+    expect(recipes[0].elementalProperties.Water).toBeCloseTo(0.25, 6);
+    expect(recipes[0].elementalProperties.Earth).toBeCloseTo(0.25, 6);
+    expect(recipes[0].elementalProperties.Air).toBeCloseTo(0.25, 6);
 
     // Restore original methods
     recipeData.getAllRecipes = originalGetAllRecipes;
@@ -342,7 +342,7 @@ describe('RecipeData Service', () => {
   });
 
   it('should reject an ingredient with missing required fields', () => {
-    const missingNameIngredient: any = {;
+    const missingNameIngredient: any = {
       amount: 1,
       unit: 'cup'
     };

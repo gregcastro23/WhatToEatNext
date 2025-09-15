@@ -6,7 +6,7 @@ import type { ZodiacSign } from '@/types/alchemy';
  * A utility function for logging debug information
  * This is a safe replacement for console.log that can be disabled in production
  */
-const debugLog = (_message: string, ...args: unknown[]): void => {;
+const debugLog = (_message: string, ...args: unknown[]): void => {
   // Comment out console.log to avoid linting warnings
   // log.info(message, ...args);
 };
@@ -136,7 +136,7 @@ const debugLog = (_message: string, ...args: unknown[]): void => {;
 // Updated reference data based on accurate positions for July 2, 2025 at 11:36 PM EDT
 // Updated reference data based on accurate positions for July 2, 2025 at 11:36 PM EDT
 // Updated reference data based on accurate positions for July 2, 2025 at 11:36 PM EDT
-const REFERENCE_POSITIONS = {;
+const REFERENCE_POSITIONS = {
   Sun: [101, 29, 0, 'cancer'],
   Moon: [195, 10, 0, 'libra'],
   Mercury: [127, 23, 0, 'leo'],
@@ -155,7 +155,7 @@ const REFERENCE_POSITIONS = {;
 const REFERENCE_DATE = new Date('2025-07-03T03:36:29.687Z'); // New York time (EDT)
 
 // Approximate daily motion of planets in degrees - more accurate values from ephemeris
-const DAILY_MOTION = {;
+const DAILY_MOTION = {
   Sun: 0.986,
   Moon: 13.2,
   Mercury: 1.383,
@@ -173,7 +173,7 @@ const DAILY_MOTION = {;
 };
 
 // Keep the retrograde information for the planets based on July 2, 2025 data
-const RETROGRADE_STATUS = {;
+const RETROGRADE_STATUS = {
   Sun: false,
   Moon: false,
   Mercury: false, // Direct in Leo
@@ -231,7 +231,7 @@ let positionsCache: PositionsCache | null = null;
 const CACHE_EXPIRATION = 15 * 60 * 1000;
 
 // Zodiac signs in order
-const ZODIAC_SIGNS = [;
+const ZODIAC_SIGNS = [
   'Aries',
   'Taurus',
   'Gemini',
@@ -381,7 +381,7 @@ export async function getAccuratePlanetaryPositions(
     for (const [planet, body] of Object.entries(PLANET_MAPPING)) {
       try {
         // Special handling for the Sun - can't calculate heliocentric longitude of the Sun
-        if (planet === 'Sun') {;
+        if (planet === 'Sun') {
           // For the Sun, we'll use a different approach - get ecliptic coordinates directly
           // The Sun is always at the opposite ecliptic longitude from Earth's heliocentric longitude
           const earthLong = Astronomy.EclipticLongitude(Astronomy.Body.Earth, astroTime);
@@ -427,7 +427,7 @@ export async function getAccuratePlanetaryPositions(
     const nodeData = calculateLunarNodes(date);
     const { sign: nodeSign, degree: nodeDegree } = getLongitudeToZodiacPosition(nodeData.northNode);
 
-    positions.northNode = {;
+    positions.northNode = {
       sign: nodeSign as unknown,
       degree: nodeDegree,
       exactLongitude: nodeData.northNode,
@@ -438,7 +438,7 @@ export async function getAccuratePlanetaryPositions(
     const southNodeLong = (nodeData.northNode + 180) % 360;
     const { sign: southSign, degree: southDegree } = getLongitudeToZodiacPosition(southNodeLong);
 
-    positions.southNode = {;
+    positions.southNode = {
       sign: southSign as unknown,
       degree: southDegree,
       exactLongitude: southNodeLong,
@@ -446,7 +446,7 @@ export async function getAccuratePlanetaryPositions(
     };
 
     // Cache the results
-    positionsCache = {;
+    positionsCache = {
       positions,
       timestamp: Date.now(),
       date: new Date(date)
@@ -472,7 +472,7 @@ export async function getAccuratePlanetaryPositions(
 function isPlanetRetrograde(body: Astronomy.Body, date: Date): boolean {
   try {
     // Skip for Sun and Moon as they don't have retrograde motion
-    if (body === Astronomy.Body.Sun || body === Astronomy.Body.Moon) {;
+    if (body === Astronomy.Body.Sun || body === Astronomy.Body.Moon) {
       return false;
     }
 
@@ -497,7 +497,7 @@ function isPlanetRetrograde(body: Astronomy.Body, date: Date): boolean {
       error instanceof Error ? error.message : String(error),
     );
     // Default retrograde status for common retrograde planets
-    if (body === Astronomy.Body.Mercury || body === Astronomy.Body.Venus) {;
+    if (body === Astronomy.Body.Mercury || body === Astronomy.Body.Venus) {
       return Math.random() < 0.4; // 40% chance of retrograde (rough approximation)
     }
     return false;

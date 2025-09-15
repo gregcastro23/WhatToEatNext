@@ -36,7 +36,7 @@ describe('SafeBatchProcessor', () => {
     processor = new SafeBatchProcessor(config);
 
     // Setup mock files
-    mockFiles = [;
+    mockFiles = [
       {
         filePath: '/project/src/utils/helper.ts',
         relativePath: 'src/utils/helper.ts',
@@ -86,7 +86,7 @@ describe('SafeBatchProcessor', () => {
 
       // Should create multiple batches, each with max 15 files
       expect(results.length).toBeGreaterThan(1);
-      results.forEach(result => {;
+      results.forEach(result => {
         expect(result.files.length).toBeLessThanOrEqual(15);
       });
     });
@@ -105,23 +105,23 @@ describe('SafeBatchProcessor', () => {
       const results: any = await processor.processBatches(criticalFiles);
 
       // Critical files should be processed in smaller batches (max 5)
-      results.forEach(result => {;
+      results.forEach(result => {
         expect(result.files.length).toBeLessThanOrEqual(5);
       });
     });
 
     test('should sort files by risk level', async () => {
       const mixedFiles: FileProcessingInfo[] = [
-        { ...mockFiles.[2], riskLevel: 'high' }, // High risk
-        { ...mockFiles.[0], riskLevel: 'low' },  // Low risk
-        { ...mockFiles.[1], riskLevel: 'medium' } // Medium risk
+        { ...mockFiles[2], riskLevel: 'high' }, // High risk
+        { ...mockFiles[0], riskLevel: 'low' },  // Low risk
+        { ...mockFiles[1], riskLevel: 'medium' } // Medium risk
       ];
 
       const results: any = await processor.processBatches(mixedFiles);
 
       // First batch should contain the low-risk file first
-      const firstBatch: any = results.[0];
-      expect(firstBatch.files.[0]).toContain('helper.ts');
+      const firstBatch: any = results[0];
+      expect(firstBatch.files[0]).toContain('helper.ts');
     });
   });
 
@@ -132,23 +132,23 @@ describe('SafeBatchProcessor', () => {
         .mockReturnValueOnce(Buffer.from('')) // git stash push
         .mockReturnValueOnce(Buffer.from('stash@{0}: unused-vars-batch-1')); // git stash list
 
-      const results: any = await processor.processBatches([mockFiles.[0]]);
+      const results: any = await processor.processBatches([mockFiles[0]]);
 
       expect(mockExecSync).toHaveBeenCalledWith(
         expect.stringContaining('git stash push'),
         expect.any(Object)
       );
-      expect(results.[0].stashId).toBeDefined();
+      expect(results[0].stashId).toBeDefined();
     });
 
     test('should validate TypeScript compilation after each batch', async () => {
-      const results: any = await processor.processBatches([mockFiles.[0]]);
+      const results: any = await processor.processBatches([mockFiles[0]]);
 
       expect(mockExecSync).toHaveBeenCalledWith(
         'yarn tsc --noEmit --skipLibCheck',
         expect.objectContaining({ stdio: 'pipe' })
       );
-      expect(results.[0].compilationPassed).toBe(true);
+      expect(results[0].compilationPassed).toBe(true);
     });
 
     test('should perform rollback on compilation failure', async () => {
@@ -163,10 +163,10 @@ describe('SafeBatchProcessor', () => {
         .mockReturnValueOnce(Buffer.from('')) // git reset --hard HEAD
         .mockReturnValueOnce(Buffer.from('')); // git stash pop
 
-      const results: any = await processor.processBatches([mockFiles.[0]]);
+      const results: any = await processor.processBatches([mockFiles[0]]);
 
-      expect(results.[0].compilationPassed).toBe(false);
-      expect(results.[0].rollbackPerformed).toBe(true);
+      expect(results[0].compilationPassed).toBe(false);
+      expect(results[0].rollbackPerformed).toBe(true);
       expect(mockExecSync).toHaveBeenCalledWith('git reset --hard HEAD', expect.any(Object));
       expect(mockExecSync).toHaveBeenCalledWith(
         expect.stringContaining('git stash pop'),
@@ -175,11 +175,11 @@ describe('SafeBatchProcessor', () => {
     });
 
     test('should create safety checkpoints', async () => {
-      await processor.processBatches([mockFiles.[0]]);
+      await processor.processBatches([mockFiles[0]]);
 
       const checkpoints: any = processor.getSafetyCheckpoints();
       expect(checkpoints.length).toBeGreaterThan(0);
-      expect(checkpoints.[0].id).toBe('initial');
+      expect(checkpoints[0].id).toBe('initial');
     });
   });
 
@@ -192,23 +192,23 @@ describe('SafeBatchProcessor', () => {
         return Buffer.from('');
       });
 
-      const results: any = await processor.processBatches([mockFiles.[0]]);
+      const results: any = await processor.processBatches([mockFiles[0]]);
 
-      expect(results.[0].success).toBe(false);
-      expect(results.[0].errors).toContain(
+      expect(results[0].success).toBe(false);
+      expect(results[0].errors).toContain(
         expect.stringContaining('Git stash creation failed')
       );
     });
 
     test('should stop processing on batch failure', async () => {
-      const multipleFiles: any = [mockFiles.[0], mockFiles.[1], mockFiles.[2]];
+      const multipleFiles: any = [mockFiles[0], mockFiles[1], mockFiles[2]];
 
       // Mock failure on second batch
       let callCount: any = 0;
       mockExecSync.mockImplementation((cmd: any) => {
         if (cmd.toString().includes('tsc')) {
           callCount++;
-          if (callCount === 2) {;
+          if (callCount === 2) {
             throw new Error('Compilation failed');
           }
         }
@@ -238,17 +238,17 @@ describe('SafeBatchProcessor', () => {
     });
 
     test('should record batch processing times', async () => {
-      const results: any = await processor.processBatches([mockFiles.[0]]);
+      const results: any = await processor.processBatches([mockFiles[0]]);
 
-      expect(results.[0].processingTime).toBeGreaterThan(0);
+      expect(results[0].processingTime).toBeGreaterThan(0);
     });
 
     test('should track elimination and preservation counts', async () => {
-      const results: any = await processor.processBatches([mockFiles.[0]]);
+      const results: any = await processor.processBatches([mockFiles[0]]);
 
-      expect(results.[0].processedCount).toBeGreaterThan(0);
-      expect(results.[0].eliminatedCount).toBeGreaterThanOrEqual(0);
-      expect(results.[0].preservedCount).toBeGreaterThanOrEqual(0);
+      expect(results[0].processedCount).toBeGreaterThan(0);
+      expect(results[0].eliminatedCount).toBeGreaterThanOrEqual(0);
+      expect(results[0].preservedCount).toBeGreaterThanOrEqual(0);
     });
   });
 
@@ -258,14 +258,14 @@ describe('SafeBatchProcessor', () => {
       };
 
       const processorNoValidation: any = new SafeBatchProcessor(configWithoutValidation);
-      const results: any = await processorNoValidation.processBatches([mockFiles.[0]]);
+      const results: any = await processorNoValidation.processBatches([mockFiles[0]]);
 
       // Should not call TypeScript compilation
       expect(mockExecSync).not.toHaveBeenCalledWith(
         'yarn tsc --noEmit --skipLibCheck',
         expect.any(Object)
       );
-      expect(results.[0].compilationPassed).toBe(true); // Assumed success
+      expect(results[0].compilationPassed).toBe(true); // Assumed success
     });
 
     test('should respect disabled rollback option', async () => {
@@ -282,9 +282,9 @@ describe('SafeBatchProcessor', () => {
         return Buffer.from('');
       });
 
-      const results: any = await processorNoRollback.processBatches([mockFiles.[0]]);
+      const results: any = await processorNoRollback.processBatches([mockFiles[0]]);
 
-      expect(results.[0].rollbackPerformed).toBe(false);
+      expect(results[0].rollbackPerformed).toBe(false);
       expect(mockExecSync).not.toHaveBeenCalledWith(
         'git reset --hard HEAD',
         expect.any(Object)
@@ -296,13 +296,13 @@ describe('SafeBatchProcessor', () => {
       };
 
       const processorNoStash: any = new SafeBatchProcessor(configWithoutStash);
-      const results: any = await processorNoStash.processBatches([mockFiles.[0]]);
+      const results: any = await processorNoStash.processBatches([mockFiles[0]]);
 
       expect(mockExecSync).not.toHaveBeenCalledWith(
         expect.stringContaining('git stash'),
         expect.any(Object)
       );
-      expect(results.[0].stashId).toBeUndefined();
+      expect(results[0].stashId).toBeUndefined();
     });
   });
 

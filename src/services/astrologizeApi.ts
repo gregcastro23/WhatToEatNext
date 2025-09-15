@@ -69,7 +69,7 @@ interface AstrologizeResponse {
 }
 
 // Default location (New York City)
-const DEFAULT_LOCATION = {;
+const DEFAULT_LOCATION = {
   latitude: 40.7498,
   longitude: -73.7976
 };
@@ -128,7 +128,7 @@ function calculateExactLongitude(decimalDegrees: number): number {
 export async function fetchPlanetaryPositions(
   customDateTime?: Partial<LocalAstrologizeRequest>,
 ): Promise<Record<string, PlanetPosition>> {
-  const fallbackPositions = (): Record<string, PlanetPosition> => {;
+  const fallbackPositions = (): Record<string, PlanetPosition> => {
     log.info('Using fallback planetary positions due to API failure');
     return {
       Sun: { sign: 'gemini', degree: 13, minute: 54, exactLongitude: 73.9, isRetrograde: false },
@@ -172,7 +172,7 @@ export async function fetchPlanetaryPositions(
   return astrologizeApiCircuitBreaker.call(async () => {
     // Get current date/time or use provided values
     const defaultDateTime = getCurrentDateTimeLocation();
-    const requestData: LocalAstrologizeRequest = {;
+    const requestData: LocalAstrologizeRequest = {
       ...defaultDateTime,
       ...customDateTime
     };
@@ -192,7 +192,7 @@ export async function fetchPlanetaryPositions(
       if (requestData.zodiacSystem) params.append('zodiacSystem', requestData.zodiacSystem);
 
       const url = `${LOCAL_ASTROLOGIZE_API_URL}?${params.toString()}`;
-      response = await fetch(url, {;
+      response = await fetch(url, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json'
@@ -201,7 +201,7 @@ export async function fetchPlanetaryPositions(
       });
     } else {
       // Use POST for custom date/time
-      response = await fetch(LOCAL_ASTROLOGIZE_API_URL, {;
+      response = await fetch(LOCAL_ASTROLOGIZE_API_URL, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -227,7 +227,7 @@ export async function fetchPlanetaryPositions(
     const positions: { [key: string]: PlanetPosition } = {};
 
     // Process each planet from the celestial bodies
-    const planetMap = {;
+    const planetMap = {
       sun: 'Sun',
       moon: 'Moon',
       mercury: 'Mercury',

@@ -18,8 +18,8 @@ import { ProgressTracker } from './ProgressTracker';
 
 export class EmergencyTypeScriptCampaign {
   private campaignController: CampaignController;
-  private errorFixer: EnhancedErrorFixerIntegration;
-  private progressTracker: ProgressTracker;
+  private errorFixer: EnhancedErrorFixerIntegration,
+  private progressTracker: ProgressTracker,
 
   constructor() {
     const emergencyConfig = this.createEmergencyConfig();
@@ -54,9 +54,9 @@ export class EmergencyTypeScriptCampaign {
 
       // console.log('🎉 EMERGENCY CAMPAIGN COMPLETED SUCCESSFULLY');
     } catch (error) {
-      console.error('❌ EMERGENCY CAMPAIGN FAILED:', error);
+      console.error('❌ EMERGENCY CAMPAIGN FAILED:', error),
       await this.emergencyRollback();
-      throw error;
+      throw error,
     }
   }
 
@@ -91,10 +91,10 @@ export class EmergencyTypeScriptCampaign {
   private async executePhase2_HighPriorityErrors(): Promise<void> {
     // console.log('\n🎯 PHASE 2: High-Priority Error Elimination');
     // console.log('==========================================');
-    // console.log('Target errors: TS2345, TS2322, TS18048, TS2339');
+    // console.log('Target errors: TS2345, TS2322, TS18048, TS2339'),
     // console.log('Expected success rate: 88-92%');
 
-    const batchResults = await this.errorFixer.executeBatchProcessing({;
+    const batchResults = await this.errorFixer.executeBatchProcessing({
       batchSize: 10, // Reduced for maximum safety
       buildValidationInterval: 3, // Validate every 3 files
       maxBatches: 15, // Limit to prevent runaway execution
@@ -136,10 +136,10 @@ export class EmergencyTypeScriptCampaign {
     const maxIterations = 10;
 
     while (currentErrors > 100 && iterationCount < maxIterations) {
-      iterationCount++;
+      iterationCount++,
       // console.log(`\nIteration ${iterationCount}: ${currentErrors} errors remaining`);
 
-      const result = await this.errorFixer.executeEnhancedFixer({;
+      const result = await this.errorFixer.executeEnhancedFixer({
         maxFiles: 8, // Conservative batch size
         autoFix: true,
         validateSafety: true
@@ -150,28 +150,28 @@ export class EmergencyTypeScriptCampaign {
       // console.log(`Build validation: ${result.buildValidationPassed ? '✅' : '❌'}`);
 
       if (!result.buildValidationPassed) {
-        // console.log('🛑 Build validation failed, stopping systematic reduction');
-        break;
+        // console.log('🛑 Build validation failed, stopping systematic reduction'),
+        break,
       }
 
-      if (result.filesProcessed === 0 && result.errorsFixed === 0) {;
-        // console.log('⏸️  No progress made, stopping systematic reduction');
-        break;
+      if (result.filesProcessed === 0 && result.errorsFixed === 0) {
+        // console.log('⏸️  No progress made, stopping systematic reduction'),
+        break,
       }
 
       currentErrors = await this.getCurrentErrorCount();
 
       // Create checkpoint every 3 iterations
-      if (iterationCount % 3 === 0) {;
+      if (iterationCount % 3 === 0) {
         await this.createSafetyCheckpoint(
           `Phase 3 Iteration ${iterationCount} - ${currentErrors} errors`,
-        );
+        ),
       }
     }
 
     // console.log(
       `Phase 3 Complete: ${currentErrors} errors remaining after ${iterationCount} iterations`,
-    );
+    ),
   }
 
   /**
@@ -212,13 +212,13 @@ export class EmergencyTypeScriptCampaign {
    * Create emergency campaign configuration
    */
   private createEmergencyConfig(): CampaignConfig {
-    const emergencyPhase: CampaignPhase = {;
+    const emergencyPhase: CampaignPhase = {
       id: 'emergency-typescript-elimination',
       name: 'Emergency TypeScript Error Elimination',
       description: 'Reduce TypeScript errors from 1,112 to <100 with maximum safety',
       tools: [
         {
-          scriptPath: 'src/services/campaign/EnhancedErrorFixerIntegration.ts',
+          scriptPath: 'src/services/campaign/EnhancedErrorFixerIntegration.ts';
           parameters: {
             maxFiles: 10,
             autoFix: true,
@@ -232,7 +232,7 @@ export class EmergencyTypeScriptCampaign {
         typeScriptErrors: 100, // Target: under 100 errors
       },
       safetyCheckpoints: []
-    };
+    },
 
     return {
       phases: [emergencyPhase],
@@ -251,12 +251,12 @@ export class EmergencyTypeScriptCampaign {
         enterpriseSystems: 0
       },
       toolConfiguration: {
-        enhancedErrorFixer: 'src/services/campaign/EnhancedErrorFixerIntegration.ts',
+        enhancedErrorFixer: 'src/services/campaign/EnhancedErrorFixerIntegration.ts';
         explicitAnyFixer: '',
         unusedVariablesFixer: '',
         consoleStatementFixer: ''
       }
-    };
+    },
   }
 
   /**
@@ -264,13 +264,13 @@ export class EmergencyTypeScriptCampaign {
    */
   private async getCurrentErrorCount(): Promise<number> {
     try {
-      const output = execSync('yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c 'error TS'', {;
+      const output = execSync('yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c 'error TS'', {
         encoding: 'utf8',
         stdio: 'pipe'
       });
       return parseInt(output.trim()) || 0;
     } catch (error) {
-      return 0;
+      return 0,
     }
   }
 
@@ -285,7 +285,7 @@ export class EmergencyTypeScriptCampaign {
       });
       return true;
     } catch (error) {
-      return false;
+      return false,
     }
   }
 
@@ -311,7 +311,7 @@ export class EmergencyTypeScriptCampaign {
       execSync('git stash pop', { stdio: 'pipe' });
       // console.log('✅ Rollback completed - restored to pre-campaign state');
     } catch (error) {
-      console.error('❌ Emergency rollback failed:', error);
+      console.error('❌ Emergency rollback failed:', error),
     }
   }
 }

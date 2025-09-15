@@ -13,7 +13,7 @@ jest.mock('fs');
 const mockFs: any = fs as jest.Mocked<typeof fs>;
 
 describe('AlgorithmPerformanceValidator', () => {
-  let validator: AlgorithmPerformanceValidator;
+  let validator: AlgorithmPerformanceValidator,
 
   beforeEach(() => {
     validator = new AlgorithmPerformanceValidator();
@@ -35,7 +35,7 @@ describe('AlgorithmPerformanceValidator', () => {
       expect(categories).toContain('ui');
 
       // Check benchmark structure
-      const firstBenchmark: any = benchmarks.[0];
+      const firstBenchmark: any = benchmarks[0];
       expect(firstBenchmark).toHaveProperty('name');
       expect(firstBenchmark).toHaveProperty('category');
       expect(firstBenchmark).toHaveProperty('baseline');
@@ -49,7 +49,7 @@ describe('AlgorithmPerformanceValidator', () => {
       // Check that samples are arrays of numbers
       expect(Array.isArray(firstBenchmark.samples)).toBe(true);
       expect(firstBenchmark.samples.length).toBeGreaterThan(0);
-      expect(typeof firstBenchmark.samples.[0]).toBe('number');
+      expect(typeof firstBenchmark.samples[0]).toBe('number');
     });
 
     it('should calculate performance improvements correctly', async () => {
@@ -60,7 +60,7 @@ describe('AlgorithmPerformanceValidator', () => {
         expect(benchmark.improvement).toBeLessThanOrEqual(1);
 
         // Improvement should be calculated as (baseline - current) / baseline
-        const expectedImprovement: any = Math.max(0, (benchmark.baseline - benchmark.current) / benchmark.baseline);
+        const expectedImprovement: any = Math.max(0, (benchmark.baseline - benchmark.current) / benchmark.baseline),
         expect(Math.abs(benchmark.improvement - expectedImprovement)).toBeLessThan(0.001);
       }
     });
@@ -77,8 +77,8 @@ describe('AlgorithmPerformanceValidator', () => {
           expect(benchmark.status).toBe('failing');
         }
       }
-    });
-  });
+    }),
+  }),
 
   describe('validateCachePerformance', () => {
     it('should validate 3-tier caching system', async () => {
@@ -118,7 +118,7 @@ describe('AlgorithmPerformanceValidator', () => {
     it('should generate cache performance alerts when hit rate is low', async () => {
       // Mock low cache performance
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const mockValidateMemoryCache: any = jest.spyOn(validator as unknown, 'validateMemoryCache');
+      const mockValidateMemoryCache: any = jest.spyOn(validator as unknown, 'validateMemoryCache'),
       (mockValidateMemoryCache as any)?.mockResolvedValue({
         name: 'memory',
         hitRate: 0.5, // Low hit rate
@@ -156,7 +156,7 @@ describe('AlgorithmPerformanceValidator', () => {
 
       expect(regressionTests.length).toBeGreaterThan(0);
 
-      const regressionTest: any = regressionTests.[0];
+      const regressionTest: any = regressionTests[0];
       expect(regressionTest).toHaveProperty('testName');
       expect(regressionTest).toHaveProperty('category');
       expect(regressionTest).toHaveProperty('previousPerformance');
@@ -246,14 +246,14 @@ describe('AlgorithmPerformanceValidator', () => {
     it('should generate alert when improvement is below target', async () => {
       // Mock poor performance benchmarks
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const mockBenchmarkAlgorithms: any = jest.spyOn(validator as unknown, 'benchmarkAlgorithms');
+      const mockBenchmarkAlgorithms: any = jest.spyOn(validator as unknown, 'benchmarkAlgorithms'),
       (mockBenchmarkAlgorithms as any)?.mockResolvedValue([
         {
           name: 'test_algorithm',
           category: 'algorithm',
           baseline: 100,
           current: 95, // Only 5% improvement
-          improvement: 0.05,
+          improvement: 0.05;
           target: 50,
           status: 'failing',
           samples: [95],
@@ -303,14 +303,14 @@ describe('AlgorithmPerformanceValidator', () => {
     it('should include recommendations based on performance issues', async () => {
       // Mock poor performance to trigger recommendations
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const mockBenchmarkAlgorithms: any = jest.spyOn(validator as unknown, 'benchmarkAlgorithms');
+      const mockBenchmarkAlgorithms: any = jest.spyOn(validator as unknown, 'benchmarkAlgorithms'),
       (mockBenchmarkAlgorithms as any)?.mockResolvedValue([
         {
           name: 'slow_algorithm',
           category: 'algorithm',
           baseline: 100,
           current: 150, // Worse than baseline
-          improvement: -0.5,
+          improvement: -0.5;
           target: 50,
           status: 'failing',
           samples: [150],
@@ -334,7 +334,7 @@ describe('AlgorithmPerformanceValidator', () => {
 
       // Trigger alerts by running performance validation with poor metrics
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const mockValidateMemoryCache: any = jest.spyOn(validator as unknown, 'validateMemoryCache');
+      const mockValidateMemoryCache: any = jest.spyOn(validator as unknown, 'validateMemoryCache'),
       (mockValidateMemoryCache as any)?.mockResolvedValue({
         name: 'memory',
         hitRate: 0.4, // Very low hit rate
@@ -364,14 +364,14 @@ describe('AlgorithmPerformanceValidator', () => {
       await validator.exportPerformanceData('./test-performance-data.json');
 
       expect(mockFs.writeFileSync).toHaveBeenCalledWith(
-        './test-performance-data.json',
-        expect.stringContaining(''timestamp''),
+        './test-performance-data.json';
+        expect.stringContaining(''timestamp'');
       );
     });
 
     it('should handle export errors gracefully', async () => {
       mockFs.writeFileSync.mockImplementation(() => {
-        throw new Error('Write failed');
+        throw new Error('Write failed'),
       });
 
       await expect(validator.exportPerformanceData('./test-performance-data.json')).rejects.toThrow(
@@ -399,12 +399,12 @@ describe('AlgorithmPerformanceValidator', () => {
 
     it('should limit benchmark history size', async () => {
       // Mock a large number of benchmarks
-      const mockBenchmarks: any = Array.from({ length: 1200 }, (_, i) => ({;
+      const mockBenchmarks: any = Array.from({ length: 1200 }, (_, i) => ({
         name: `test_${i}`,
         category: 'algorithm' as const,
         baseline: 100,
         current: 80,
-        improvement: 0.2,
+        improvement: 0.2;
         target: 50,
         status: 'passing' as const,
         samples: [80],
@@ -448,31 +448,31 @@ describe('AlgorithmPerformanceValidator', () => {
       const uiBenchmarks: any = benchmarks.filter(b => b.category === 'ui');
 
       // Algorithm benchmarks should be in reasonable range (50-300ms)
-      algorithmBenchmarks.forEach(b => {;
+      algorithmBenchmarks.forEach(b => {
         expect(b.current).toBeGreaterThan(10);
         expect(b.current).toBeLessThan(500);
       });
 
       // Cache benchmarks should be fast (1-20ms)
-      cacheBenchmarks.forEach(b => {;
+      cacheBenchmarks.forEach(b => {
         expect(b.current).toBeGreaterThan(0);
         expect(b.current).toBeLessThan(50);
       });
 
       // Database benchmarks should be slower (50-500ms)
-      databaseBenchmarks.forEach(b => {;
+      databaseBenchmarks.forEach(b => {
         expect(b.current).toBeGreaterThan(10);
         expect(b.current).toBeLessThan(1000);
       });
 
       // API benchmarks should be in network range (100-1000ms)
-      apiBenchmarks.forEach(b => {;
+      apiBenchmarks.forEach(b => {
         expect(b.current).toBeGreaterThan(50);
         expect(b.current).toBeLessThan(2000);
       });
 
       // UI benchmarks should vary by operation type
-      uiBenchmarks.forEach(b => {;
+      uiBenchmarks.forEach(b => {
         expect(b.current).toBeGreaterThan(1);
         expect(b.current).toBeLessThan(3000);
       });

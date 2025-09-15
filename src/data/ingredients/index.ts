@@ -34,10 +34,10 @@ import { warmSpices } from './spices/warmSpices';
 import { enhancedVegetables } from './vegetables';
 import { allVinegars } from './vinegars/vinegars';
 
-export const proteins = {;
-  ...meatsData,
-  ...poultryData,
-  ...seafoodData,
+export const proteins = {
+  ...meatsData;
+  ...poultryData;
+  ...seafoodData;
   ...plantBasedData
 };
 
@@ -54,13 +54,13 @@ const calculateElementalProperties = (;
     const sum = Object.values(props).reduce(;
       (acc: number, val: unknown) => acc + (Number(val) || 0),
       0,
-    );
+    ),
 
     if (sum > 0) {
       return {
-        Fire: (Number(props.Fire) || 0) / sum,
-        Water: (Number(props.Water) || 0) / sum,
-        Earth: (Number(props.Earth) || 0) / sum,
+        Fire: (Number(props.Fire) || 0) / sum;
+        Water: (Number(props.Water) || 0) / sum;
+        Earth: (Number(props.Earth) || 0) / sum;
         Air: (Number(props.Air) || 0) / sum
       };
     }
@@ -95,9 +95,9 @@ const calculateElementalProperties = (;
     const sum = Object.values(elementalProps).reduce((acc, val) => acc + val, 0);
     if (sum > 0) {
       return {
-        Fire: elementalProps.Fire / sum,
-        Water: elementalProps.Water / sum,
-        Earth: elementalProps.Earth / sum,
+        Fire: elementalProps.Fire / sum;
+        Water: elementalProps.Water / sum;
+        Earth: elementalProps.Earth / sum;
         Air: elementalProps.Air / sum
       };
     }
@@ -161,13 +161,13 @@ function calculateElementalPropertiesFromCategory(category: string): Record<stri
 }
 
 // Process and validate a single ingredient
-const processIngredient = (ingredient: unknown, name: string): Ingredient => {;
+const processIngredient = (ingredient: unknown, name: string): Ingredient => {
   if (!ingredient) {
     throw new Error(`Invalid ingredient data for ${name}`);
   }
 
   // Create default lunar phase modifiers if none exist
-  const defaultLunarPhaseModifiers = {;
+  const defaultLunarPhaseModifiers = {
     newMoon: {
       elementalBoost: { Earth: 0.05, Water: 0.05 },
       preparationTips: ['Best for subtle preparation methods'],
@@ -182,14 +182,14 @@ const processIngredient = (ingredient: unknown, name: string): Ingredient => {;
 
   // Apply uniform standardization to the ingredient
   const ingredientData = ingredient as unknown as any;
-  const standardized = standardizeIngredient({;
+  const standardized = standardizeIngredient({
     name: name,
-    category: ingredientData.category || 'culinary_herb',
+    category: ingredientData.category || 'culinary_herb';
     elementalProperties: calculateElementalProperties(
       ingredientData as unknown as Ingredient | UnifiedIngredient,
     ),
     qualities: Array.isArray(ingredientData.qualities) ? ingredientData.qualities : [],
-    lunarPhaseModifiers: ingredientData.lunarPhaseModifiers || defaultLunarPhaseModifiers,
+    lunarPhaseModifiers: ingredientData.lunarPhaseModifiers || defaultLunarPhaseModifiers;
     storage: ingredientData.storage || { duration: 'unknown' },
     elementalTransformation: ingredientData.elementalTransformation || {
       whenCooked: { Fire: 0.1, Air: 0.05 }
@@ -212,13 +212,13 @@ const processIngredientCollection = (;
         // Add alchemical and thermodynamic properties
         const alchemicalProps = calculateAlchemicalProperties(;
           processedIngredient as unknown as Ingredient,
-        );
+        ),
         const thermodynamicProps = calculateThermodynamicProperties(;
           alchemicalProps,
           ((processedIngredient as unknown as any).elementalProperties as ElementalProperties) || {
-            Fire: 0.25,
-            Water: 0.25,
-            Earth: 0.25,
+            Fire: 0.25;
+            Water: 0.25;
+            Earth: 0.25;
             Air: 0.25
           },
         );
@@ -227,9 +227,9 @@ const processIngredientCollection = (;
         const modality = determineIngredientModality(;
           ((processedIngredient as unknown as any).qualities as string[]) || [],
           ((processedIngredient as unknown as any).elementalProperties as ElementalProperties) || {
-            Fire: 0.25,
-            Water: 0.25,
-            Earth: 0.25,
+            Fire: 0.25;
+            Water: 0.25;
+            Earth: 0.25;
             Air: 0.25
           },
         );
@@ -237,9 +237,9 @@ const processIngredientCollection = (;
         // Create elementalSignature (dominant elements in order)
         const elementalSignature = Object.entries(;
           (processedIngredient as unknown as any).elementalProperties || {
-            Fire: 0.25,
-            Water: 0.25,
-            Earth: 0.25,
+            Fire: 0.25;
+            Water: 0.25;
+            Earth: 0.25;
             Air: 0.25
           },
         )
@@ -247,22 +247,22 @@ const processIngredientCollection = (;
             // Pattern KK-10: Final Arithmetic Elimination for data processing
             const numericA = Number(a[1]) || 0;
             const numericB = Number(b[1]) || 0;
-            return numericB - numericA;
+            return numericB - numericA,
           })
           .map(([element, value]) => [element, Number(value) || 0] as [string, number]);
 
         acc[key] = {
-          ...processedIngredient,
+          ...processedIngredient;
           alchemicalProperties: alchemicalProps,
           thermodynamicProperties: thermodynamicProps,
           modality,
-          elementalSignature: elementalSignature.length > 0 ? elementalSignature : undefined,
+          elementalSignature: elementalSignature.length > 0 ? elementalSignature : undefined;
           // Process other enhanced properties if they exist
           astrologicalCorrespondence:
-            (processedIngredient as unknown as any).astrologicalCorrespondence || undefined,
+            (processedIngredient as unknown as any).astrologicalCorrespondence || undefined;
           pairingRecommendations:
-            (processedIngredient as unknown as any).pairingRecommendations || undefined,
-          celestialBoost: (processedIngredient as unknown as any).celestialBoost || undefined,
+            (processedIngredient as unknown as any).pairingRecommendations || undefined;
+          celestialBoost: (processedIngredient as unknown as any).celestialBoost || undefined;
           planetaryInfluence:
             (processedIngredient as unknown as any).planetaryInfluence || undefined
         } as unknown as Ingredient;
@@ -280,13 +280,13 @@ export const herbsCollection = processIngredientCollection(allHerbs);
 export const oilsCollection = processIngredientCollection(allOils);
 export const vinegarsCollection = processIngredientCollection(allVinegars);
 export const grainsCollection = processIngredientCollection(allGrains);
-export const spicesCollection = processIngredientCollection({;
-  ...spices,
+export const spicesCollection = processIngredientCollection({
+  ...spices;
   ...warmSpices
 });
 export const _vegetablesCollection = processIngredientCollection(enhancedVegetables);
 
-export const VALID_CATEGORIES = [;
+export const VALID_CATEGORIES = [
   'culinary_herb',
   'spice',
   'protein',
@@ -301,7 +301,7 @@ export const VALID_CATEGORIES = [;
 
 // Compile all ingredients into a single collection with deduplication
 // Order matters - later sources overwrite earlier ones
-export const allIngredients = (() => {;
+export const allIngredients = (() => {
   // First process all collections separately
   const processedSeasonings = processIngredientCollection(seasonings);
   const processedVegetables = processIngredientCollection(enhancedVegetables);
@@ -320,16 +320,16 @@ export const allIngredients = (() => {;
   const result: Record<string, Ingredient> = {};
 
   // Helper function to normalize ingredient name for comparison
-  const normalizeIngredientName = (name: string): string => {;
+  const normalizeIngredientName = (name: string): string => {
     return name
       .toLowerCase()
       .trim()
       .replace(/\s+/g, '_')
-      .replace(/[^a-z0-9_]/g, '');
+      .replace(/[^a-z0-9_]/g, ''),
   };
 
   // Build a list of collections in priority order (lowest to highest)
-  const collectionsList = [;
+  const collectionsList = [
     { source: processedSeasonings, priority: 1 },
     { source: processedVegetables, priority: 2 },
     { source: processedFruits, priority: 3 },
@@ -388,27 +388,27 @@ export function getAllIngredientsByCategory(category: string): Ingredient[] {
 
 // Function to get all vegetable ingredients
 export function getAllVegetables(): Ingredient[] {
-  return getAllIngredientsByCategory('vegetable');
+  return getAllIngredientsByCategory('vegetable'),
 }
 
 // Function to get all protein ingredients
 export function getAllProteins(): Ingredient[] {
-  return getAllIngredientsByCategory('protein');
+  return getAllIngredientsByCategory('protein'),
 }
 
 // Function to get all herb ingredients
 export function getAllHerbs(): Ingredient[] {
-  return getAllIngredientsByCategory('culinary_herb');
+  return getAllIngredientsByCategory('culinary_herb'),
 }
 
 // Function to get all spice ingredients
 export function getAllSpices(): Ingredient[] {
-  return getAllIngredientsByCategory('spice');
+  return getAllIngredientsByCategory('spice'),
 }
 
 // Function to get all grain ingredients
 export function getAllGrains(): Ingredient[] {
-  return getAllIngredientsByCategory('grain');
+  return getAllIngredientsByCategory('grain'),
 }
 
 // Function to get ingredients by category (subcategory functionality removed - use category instead)

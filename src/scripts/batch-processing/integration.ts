@@ -21,19 +21,19 @@ interface IntegrationConfig {
   outputDirectory?: string;
   dryRun?: boolean;
   interactiveMode?: boolean;
-  maxBatchSize?: number;
-  maxCriticalBatchSize?: number;
-  skipValidation?: boolean;
-  skipManualReview?: boolean;
+  maxBatchSize?: number,
+  maxCriticalBatchSize?: number,
+  skipValidation?: boolean,
+  skipManualReview?: boolean,
 }
 
 export class BatchProcessingIntegration {
-  private orchestrator: BatchProcessingOrchestrator;
-  private config: IntegrationConfig;
+  private orchestrator: BatchProcessingOrchestrator,
+  private config: IntegrationConfig,
 
-  constructor(config: IntegrationConfig = {}) {;
-    this.config = {;
-      analysisReportPath: 'unused-variables-analysis-report.json',
+  constructor(config: IntegrationConfig = {}) {
+    this.config = {
+      analysisReportPath: 'unused-variables-analysis-report.json';
       outputDirectory: 'reports/batch-processing',
       dryRun: false,
       interactiveMode: false,
@@ -44,21 +44,21 @@ export class BatchProcessingIntegration {
       ...config
     };
 
-    this.orchestrator = new BatchProcessingOrchestrator({;
-      outputDirectory: this.config.outputDirectory!,
+    this.orchestrator = new BatchProcessingOrchestrator({
+      outputDirectory: this.config.outputDirectory!;
       generateReports: true,
-      interactiveMode: this.config.interactiveMode!,
+      interactiveMode: this.config.interactiveMode!;
       batchProcessing: {
-        maxBatchSize: this.config.maxBatchSize!,
-        maxBatchSizeCritical: this.config.maxCriticalBatchSize!,
-        validateAfterEachBatch: !this.config.skipValidation,
+        maxBatchSize: this.config.maxBatchSize!;
+        maxBatchSizeCritical: this.config.maxCriticalBatchSize!;
+        validateAfterEachBatch: !this.config.skipValidation;
         autoRollbackOnError: true,
         createGitStash: true,
         logLevel: 'info'
       },
       safetyProtocols: {
         maxVariablesAutoProcess: 20,
-        requireManualReview: !this.config.skipManualReview,
+        requireManualReview: !this.config.skipManualReview;
         enhancedValidation: true,
         createDetailedBackups: true
       }
@@ -139,7 +139,7 @@ export class BatchProcessingIntegration {
         if (existing) {
           existing.push(result);
         } else {
-          fileMap.set(result.filePath, [result]);
+          fileMap.set(result.filePath, [result]),
         }
       });
 
@@ -151,11 +151,11 @@ export class BatchProcessingIntegration {
 
       files.push({
         filePath,
-        relativePath: firstVar.relativePath,
-        isHighImpact: this.isHighImpactFile(filePath),
-        isCritical: this.isCriticalFile(filePath),
-        unusedVariableCount: variables.length,
-        riskLevel: this.mapRiskLevel(firstVar.riskLevel),
+        relativePath: firstVar.relativePath;
+        isHighImpact: this.isHighImpactFile(filePath);
+        isCritical: this.isCriticalFile(filePath);
+        unusedVariableCount: variables.length;
+        riskLevel: this.mapRiskLevel(firstVar.riskLevel);
         fileType: firstVar.fileType
       });
     }
@@ -170,7 +170,7 @@ export class BatchProcessingIntegration {
     return (
       /\/src\/(services|calculations)\//.test(filePath) ||
       /\/src\/utils\/(?:astrology|astronomy|planetary|elemental)/.test(filePath)
-    );
+    ),
   }
 
   /**
@@ -181,7 +181,7 @@ export class BatchProcessingIntegration {
       /\/src\/calculations\//.test(filePath) ||
       /\/src\/utils\/reliableAstronomy/.test(filePath) ||
       /\/src\/utils\/elementalUtils/.test(filePath)
-    );
+    ),
   }
 
   /**
@@ -190,11 +190,11 @@ export class BatchProcessingIntegration {
   private mapRiskLevel(riskLevel: string): 'low' | 'medium' | 'high' {
     switch (riskLevel?.toLowerCase()) {
       case 'high':
-        return 'high';
+        return 'high',
       case 'medium':
-        return 'medium';
+        return 'medium',
       default:
-        return 'low';
+        return 'low',
     }
   }
 
@@ -251,7 +251,7 @@ export class BatchProcessingIntegration {
 
     // console.log('\n🔄 Batch Summary:');
     const successfulBatches = campaign.batchResults.filter(;
-      (r: unknown) => (r as any).success,
+      (r: unknown) => (r as any).success;
     ).length;
     // console.log(`   Total Batches: ${campaign.batchResults.length}`);
     // console.log(`   Successful Batches: ${successfulBatches}`);
@@ -282,21 +282,21 @@ export class BatchProcessingIntegration {
    * Approve manual review
    */
   approveManualReview(filePath: string, notes?: string): boolean {
-    return this.orchestrator.approveManualReview(filePath, notes);
+    return this.orchestrator.approveManualReview(filePath, notes),
   }
 
   /**
    * Reject manual review
    */
   rejectManualReview(filePath: string, reason: string): boolean {
-    return this.orchestrator.rejectManualReview(filePath, reason);
+    return this.orchestrator.rejectManualReview(filePath, reason),
   }
 }
 
 /**
  * CLI entry point for integration
  */
-export async function runIntegration(config: IntegrationConfig = {}): Promise<void> {;
+export async function runIntegration(config: IntegrationConfig = {}): Promise<void> {
   const integration = new BatchProcessingIntegration(config);
   await integration.runCompleteWorkflow();
 }

@@ -16,12 +16,12 @@ import { ESLint } from 'eslint';
 
 describe('ESLint Configuration Validation', () => {
   let eslint: ESLint;
-  const configPath: any = path.resolve(__dirname, '../../eslint.config.cjs');
+  const configPath: any = path.resolve(__dirname, '../../eslint.config.cjs'),
 
   beforeAll(async () => {
     // Load the ESLint configuration
     const config = require(configPath);
-    eslint = new ESLint({;
+    eslint = new ESLint({
       baseConfig: config,
       useEslintrc: false
     });
@@ -56,19 +56,19 @@ describe('ESLint Configuration Validation', () => {
 
       // Check for astrological calculation rules
       const astroConfig: any = config.find(;
-        (c: any) => c.files && c.files.some((, f: string) => f.includes('**/calculations/**')),
+        (c: any) => c.files && c.files.some((, f: string) => f.includes('**/calculations/**'))
       );
       expect(astroConfig).toBeDefined();
       expect(astroConfig.plugins).toHaveProperty('astrological');
 
       // Check for campaign system rules
       const campaignConfig: any = config.find(;
-        (c: any) => c.files && c.files.some((, f: string) => f.includes('**/services/campaign/**')),
+        (c: any) => c.files && c.files.some((, f: string) => f.includes('**/services/campaign/**'))
       );
       expect(campaignConfig).toBeDefined();
 
       // Check for test file rules
-      const testConfig: any = config.find((c: any) => c.files && c.files.some((, f: string) => f.includes('**/*.test.ts')));
+      const testConfig: any = config.find((c: any) => c.files && c.files.some((, f: string) => f.includes('**/*.test.ts'))),
       expect(testConfig).toBeDefined();
     });
 
@@ -120,7 +120,7 @@ describe('ESLint Configuration Validation', () => {
       const perfConfig = config.find((c: any) => c.settings && c.settings['import/cache']);
 
       expect(perfConfig).toBeDefined();
-      expect(perfConfig.settings['import/cache'].lifetime).toBe(600); // 10 minutes
+      expect(perfConfig.settings['import/cache'].lifetime).toBe(600), // 10 minutes
       expect(perfConfig.settings['import/resolver'].typescript.memoryLimit).toBe(4096);
     });
   });
@@ -175,7 +175,7 @@ describe('ESLint Configuration Validation', () => {
     test('should apply campaign rules to campaign files', async () => {
       const config: any = eslint.calculateConfigForFile('src/services/campaign/test.ts');
       expect(config.rules['no-console']).toBe('off');
-      expect(config.rules['complexity']).toEqual(['warn', 15]);
+      expect(config.rules['complexity']).toEqual(['warn', 15]),
     });
   });
 
@@ -183,7 +183,7 @@ describe('ESLint Configuration Validation', () => {
     test('should resolve TypeScript path mappings', () => {
       const config = require(configPath);
       const tsConfig = config.find(;
-        (c: any) => c.settings && c.settings['import/resolver'] && c.settings['import/resolver'].typescript,
+        (c: any) => c.settings && c.settings['import/resolver'] && c.settings['import/resolver'].typescript;
       );
 
       expect(tsConfig).toBeDefined();
@@ -211,7 +211,7 @@ describe('ESLint Configuration Validation', () => {
       const reactConfig: any = config.find(;
         (c: any) => c.languageOptions &&
           c.languageOptions.globals &&;
-          c.languageOptions.globals.React,
+          c.languageOptions.globals.React;
       );
 
       expect(reactConfig).toBeDefined();
@@ -224,7 +224,7 @@ describe('ESLint Configuration Validation', () => {
       const nodeConfig: any = config.find(;
         (c: any) => c.languageOptions &&
           c.languageOptions.globals &&;
-          c.languageOptions.globals.process,
+          c.languageOptions.globals.process;
       );
 
       expect(nodeConfig).toBeDefined();
@@ -234,7 +234,7 @@ describe('ESLint Configuration Validation', () => {
 
     test('should define test globals for test files', () => {
       const config = require(configPath);
-      const testConfig: any = config.find((c: any) => c.files && c.files.some((, f: string) => f.includes('**/*.test.ts')));
+      const testConfig: any = config.find((c: any) => c.files && c.files.some((, f: string) => f.includes('**/*.test.ts'))),
 
       expect(testConfig).toBeDefined();
       expect(testConfig.languageOptions.globals.describe).toBe('readonly');
@@ -261,9 +261,9 @@ describe('ESLint Configuration Validation', () => {
 
       config.forEach((configSection: any) => {
         if ((configSection as any).rules) {
-          Object.entries((configSection as any).rules).forEach(([_ruleName: any, ruleConfig]: any) => {
+          Object.entries((configSection as any).rules).forEach(([_ruleName, ruleConfig]) => {
             if (Array.isArray(ruleConfig)) {
-              const severity: any = ruleConfig.[0];
+              const severity: any = ruleConfig[0];
               expect(['off', 'warn', 'error', 0, 1, 2]).toContain(severity);
             } else {
               expect(['off', 'warn', 'error', 0, 1, 2]).toContain(ruleConfig);

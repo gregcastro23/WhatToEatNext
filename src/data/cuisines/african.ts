@@ -2,7 +2,7 @@
 import type { _, _ZodiacSign } from '@/types/alchemy';
 import type { Cuisine } from '@/types/cuisine';
 
-export const african: Cuisine = {;
+export const african: Cuisine = {
   name: 'African',
   id: 'african',
   description:

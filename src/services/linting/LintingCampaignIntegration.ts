@@ -133,19 +133,19 @@ export class LintingCampaignIntegration {
       // Evaluate success criteria
       const success = this.evaluatePhaseSuccess(phase, prePhaseReport, postPhaseReport);
 
-      const result: CampaignExecutionResult = {;
-        campaignId: config.campaignId,
-        phase: phase.id,
+      const result: CampaignExecutionResult = {
+        campaignId: config.campaignId;
+        phase: phase.id;
         success,
         metricsImprovement: {
-          errorsBefore: prePhaseReport.currentMetrics.errors,
-          errorsAfter: postPhaseReport.currentMetrics.errors,
-          warningsBefore: prePhaseReport.currentMetrics.warnings,
-          warningsAfter: postPhaseReport.currentMetrics.warnings,
+          errorsBefore: prePhaseReport.currentMetrics.errors;
+          errorsAfter: postPhaseReport.currentMetrics.errors;
+          warningsBefore: prePhaseReport.currentMetrics.warnings;
+          warningsAfter: postPhaseReport.currentMetrics.warnings;
           improvementPercentage: postPhaseReport.improvement.percentageImprovement
         },
-        executionTime: Date.now() - startTime,
-        issues: toolResults.issues,
+        executionTime: Date.now() - startTime;
+        issues: toolResults.issues;
         recommendations: toolResults.recommendations
       };
 
@@ -325,23 +325,23 @@ export class LintingCampaignIntegration {
         throw new Error('Campaign data not found');
       }
 
-      const report = {;
+      const report = {
         campaignId,
-        name: config.name,
-        startTime: (activeCampaign as any)?.startTime,
+        name: config.name;
+        startTime: (activeCampaign as any)?.startTime;
         endTime: new Date(),
-        baselineMetrics: (activeCampaign as any)?.baselineMetrics,
-        finalMetrics: currentReport.currentMetrics,
+        baselineMetrics: (activeCampaign as any)?.baselineMetrics;
+        finalMetrics: currentReport.currentMetrics;
         totalImprovement: {
           errorReduction:
-            (activeCampaign as any)?.baselineMetrics.errors - currentReport.currentMetrics.errors,
+            (activeCampaign as any)?.baselineMetrics.errors - currentReport.currentMetrics.errors;
           warningReduction:
             (activeCampaign as any)?.baselineMetrics.warnings -
-            currentReport.currentMetrics.warnings,
+            currentReport.currentMetrics.warnings;
           percentageImprovement: currentReport.improvement.percentageImprovement
         },
         phasesExecuted: (activeCampaign as any)?.phasesExecuted || [],
-        qualityGatesStatus: currentReport.qualityGates,
+        qualityGatesStatus: currentReport.qualityGates;
         recommendations:
           currentReport.improvement.percentageImprovement > 0
             ? ['Continue monitoring for regressions', 'Consider additional optimization phases']
@@ -477,10 +477,10 @@ export class LintingCampaignIntegration {
 
   private setActiveCampaign(campaignId: string, baselineReport: LintingProgressReport): void {
     try {
-      const activeCampaign = {;
+      const activeCampaign = {
         campaignId,
         startTime: new Date(),
-        baselineMetrics: baselineReport.currentMetrics,
+        baselineMetrics: baselineReport.currentMetrics;
         phasesExecuted: []
       };
       writeFileSync(this.activeConfigFile, JSON.stringify(activeCampaign, null, 2));
@@ -508,7 +508,7 @@ export class LintingCampaignIntegration {
   ): Promise<void> {
     try {
       const activeCampaign = this.getActiveCampaign();
-      if (activeCampaign && (activeCampaign as any)?.campaignId === campaignId) {;
+      if (activeCampaign && (activeCampaign as any)?.campaignId === campaignId) {
         (activeCampaign as any)?.phasesExecuted = (activeCampaign as any)?.phasesExecuted || [];
         (activeCampaign as any)?.phasesExecuted.push({
           phaseId,
@@ -528,8 +528,8 @@ export class LintingCampaignIntegration {
   ): Promise<void> {
     // This would integrate with notification systems
     logger.info(`Campaign ${config.name} progress notification:`, {
-      phase: result.phase,
-      success: result.success,
+      phase: result.phase;
+      success: result.success;
       improvement: result.metricsImprovement.improvementPercentage
     });
   }

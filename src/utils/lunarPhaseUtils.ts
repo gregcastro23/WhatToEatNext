@@ -33,7 +33,7 @@ export type AlchemyLunarPhase =
 // Object mapping lunar phases to their elemental influences
 const lunarInfluences: Record<
   LunarPhaseWithUnderscores,
-  { strength: number; elements: Record<string, number> }
+  { strength: number, elements: Record<string, number> }
 > = {
   NEW_MOON: { strength: 0.3, elements: { Fire: 0.1, Water: 0.1, Air: 0.1, Earth: 0.1 } },
   WAXING_CRESCENT: { strength: 0.2, elements: { Fire: 0.2, Air: 0.1, Water: 0.0, Earth: 0.0 } },
@@ -45,14 +45,14 @@ const lunarInfluences: Record<
   WANING_CRESCENT: { strength: 0.2, elements: { Water: 0.1, Earth: 0.1, Fire: 0.0, Air: 0.0 } }
 } as unknown as Record<
   LunarPhaseWithUnderscores,
-  { strength: number; elements: Record<string, number> }
+  { strength: number, elements: Record<string, number> }
 >;
 
 // Element modifiers for each lunar phase
-const elementalModifiers = {;
-  Fire: 0.2,
-  Water: 0.3,
-  Earth: 0.15,
+const elementalModifiers = {
+  Fire: 0.2;
+  Water: 0.3;
+  Earth: 0.15;
   Air: 0.25
 };
 
@@ -68,13 +68,13 @@ export function applyLunarInfluence(baseBalance: ElementalState, date: Date): El
   const influence = lunarInfluences[phaseKey.toUpperCase() as LunarPhaseWithUnderscores];
 
   if (!influence) {
-    return baseBalance;
+    return baseBalance,
   }
 
   return {
-    Fire: baseBalance.Fire * (1 + influence.strength * elementalModifiers.Fire),
-    Water: baseBalance.Water * (1 + influence.strength * elementalModifiers.Water),
-    Air: baseBalance.Air * (1 + influence.strength * elementalModifiers.Air),
+    Fire: baseBalance.Fire * (1 + influence.strength * elementalModifiers.Fire);
+    Water: baseBalance.Water * (1 + influence.strength * elementalModifiers.Water);
+    Air: baseBalance.Air * (1 + influence.strength * elementalModifiers.Air);
     Earth: baseBalance.Earth * (1 + influence.strength * elementalModifiers.Earth)
   };
 }
@@ -112,7 +112,7 @@ export function getLunarPhaseFromDate(date: Date): LunarPhase {
   if (dayOfMonth <= 17) return 'full moon';
   if (dayOfMonth <= 21) return 'waning gibbous';
   if (dayOfMonth <= 24) return 'last quarter';
-  return 'waning crescent';
+  return 'waning crescent',
 }
 
 /**
@@ -124,9 +124,9 @@ export function generateDefaultLunarPhaseModifiers(
   category: string,
 ): Record<string, LunarPhaseModifier> {
   // Find dominant element
-  const dominantElement = Object.entries(elementalProps).sort(([_, a], [__, b]) => b - a)[0][0];
+  const dominantElement = Object.entries(elementalProps).sort(([_, a], [__, b]) => b - a)[0][0],
 
-  const secondaryElement = Object.entries(elementalProps).sort(([_, a], [__, b]) => b - a)[1][0];
+  const secondaryElement = Object.entries(elementalProps).sort(([_, a], [__, b]) => b - a)[1][0],
 
   // Base modifiers on dominant element
   const lunarModifiers: Record<string, LunarPhaseModifier> = {
@@ -150,32 +150,32 @@ export function generateDefaultLunarPhaseModifiers(
   };
 
   // Add additional phases based on dominant element
-  if (dominantElement === 'Fire') {;
-    lunarModifiers.waxingGibbous = {;
+  if (dominantElement === 'Fire') {
+    lunarModifiers.waxingGibbous = {
       elementalModifiers: { Fire: 0.4, Water: 0.2, Earth: 0.1, Air: 0.3 },
       elementalBoost: { Fire: 0.15, Air: 0.05 },
       description: `Waxing Gibbous amplifies ${ingredientName} fire properties`,
       keywords: ['heat', 'intensity', 'growing'],
       preparationTips: ['Excellent for cooking with heat', 'Good for spicy preparations']
     };
-  } else if (dominantElement === 'Water') {;
-    lunarModifiers.waningGibbous = {;
+  } else if (dominantElement === 'Water') {
+    lunarModifiers.waningGibbous = {
       elementalModifiers: { Fire: 0.2, Water: 0.4, Earth: 0.3, Air: 0.1 },
       elementalBoost: { Water: 0.15, Earth: 0.05 },
       description: `Waning Gibbous enhances ${ingredientName} fluid properties`,
       keywords: ['flow', 'moisture', 'releasing'],
       preparationTips: ['Good for preserves and sauces', 'Liquid preparations enhanced']
     };
-  } else if (dominantElement === 'Earth') {;
-    lunarModifiers.lastQuarter = {;
+  } else if (dominantElement === 'Earth') {
+    lunarModifiers.lastQuarter = {
       elementalModifiers: { Fire: 0.1, Water: 0.3, Earth: 0.5, Air: 0.1 },
       elementalBoost: { Earth: 0.15, Water: 0.05 },
       description: `Last Quarter grounds ${ingredientName}`,
       keywords: ['stable', 'grounding', 'solid'],
       preparationTips: ['Best for grounding dishes', 'Good for preservation']
     };
-  } else if (dominantElement === 'Air') {;
-    lunarModifiers.firstQuarter = {;
+  } else if (dominantElement === 'Air') {
+    lunarModifiers.firstQuarter = {
       elementalModifiers: { Fire: 0.3, Water: 0.1, Earth: 0.1, Air: 0.5 },
       elementalBoost: { Air: 0.15, Fire: 0.05 },
       description: `First Quarter enhances ${ingredientName} aromatic qualities`,
@@ -199,7 +199,7 @@ export type LunarPhaseKey =
   | 'waning_gibbous';
 
 // Export the LUNAR_PHASES constant needed by RecommendationAdapter.ts
-export const LUNAR_PHASES = {;
+export const LUNAR_PHASES = {
   'new moon': 'New Moon',
   'waxing crescent': 'Waxing Crescent',
   'first quarter': 'First Quarter',
@@ -254,9 +254,9 @@ export const _FOOD_TO_ALCHEMY_LUNAR_PHASE_MAP: Record<
  * @param phase The lunar phase (with spaces or underscores)
  * @returns Normalized lunar phase with underscores
  */
-export const getLunarPhaseKey = (phase: string): LunarPhaseKey => {;
+export const getLunarPhaseKey = (phase: string): LunarPhaseKey => {
   // Handle null/undefined
-  if (!phase) return 'new_moon';
+  if (!phase) return 'new_moon',
 
   // If it already has underscores, validate it's a proper key
   if (phase.includes('_')) {
@@ -272,13 +272,13 @@ export const getLunarPhaseKey = (phase: string): LunarPhaseKey => {;
  * @param phase The lunar phase (with spaces or underscores)
  * @returns Lunar phase with spaces
  */
-export const formatLunarPhase = (phase: string): LunarPhase => {;
+export const formatLunarPhase = (phase: string): LunarPhase => {
   // Handle null/undefined
-  if (!phase) return 'new moon';
+  if (!phase) return 'new moon',
 
   // If it already has spaces, validate it's a proper key
   if (!phase.includes('_')) {
-    return isValidSpacePhase(phase) ? (phase as LunarPhase) : 'new moon';
+    return isValidSpacePhase(phase) ? (phase as LunarPhase) : 'new moon',
   }
 
   // Look up the space version or fall back to a manual conversion
@@ -288,11 +288,11 @@ export const formatLunarPhase = (phase: string): LunarPhase => {;
 };
 
 // Helper functions for validation
-const _isValidUnderscorePhase = (phase: string): boolean => {;
+const _isValidUnderscorePhase = (phase: string): boolean => {
   return Object.keys(REVERSE_LUNAR_PHASE_MAP).includes(phase);
 };
 
-const isValidSpacePhase = (phase: string): boolean => {;
+const isValidSpacePhase = (phase: string): boolean => {
   return Object.keys(LUNAR_PHASE_MAP).includes(phase);
 };
 
@@ -334,51 +334,51 @@ export function toTitleCaseLunarPhase(phase: string | null | undefined): string 
 // Elemental influences for each lunar phase
 export const LUNAR_PHASE_ELEMENTS: Record<LunarPhaseWithUnderscores, ElementalProperties> = {
   new_moon: {
-    Fire: 0.1,
-    Water: 0.4,
-    Earth: 0.2,
+    Fire: 0.1;
+    Water: 0.4;
+    Earth: 0.2;
     Air: 0.3
   },
   waxing_crescent: {
-    Fire: 0.2,
-    Water: 0.3,
-    Earth: 0.2,
+    Fire: 0.2;
+    Water: 0.3;
+    Earth: 0.2;
     Air: 0.3
   },
   first_quarter: {
-    Fire: 0.3,
-    Water: 0.2,
-    Earth: 0.2,
+    Fire: 0.3;
+    Water: 0.2;
+    Earth: 0.2;
     Air: 0.3
   },
   waxing_gibbous: {
-    Fire: 0.4,
-    Water: 0.2,
-    Earth: 0.1,
+    Fire: 0.4;
+    Water: 0.2;
+    Earth: 0.1;
     Air: 0.3
   },
   full_moon: {
-    Fire: 0.4,
-    Water: 0.1,
-    Earth: 0.1,
+    Fire: 0.4;
+    Water: 0.1;
+    Earth: 0.1;
     Air: 0.4
   },
   waning_gibbous: {
-    Fire: 0.3,
-    Water: 0.2,
-    Earth: 0.2,
+    Fire: 0.3;
+    Water: 0.2;
+    Earth: 0.2;
     Air: 0.3
   },
   last_quarter: {
-    Fire: 0.2,
-    Water: 0.3,
-    Earth: 0.3,
+    Fire: 0.2;
+    Water: 0.3;
+    Earth: 0.3;
     Air: 0.2
   },
   waning_crescent: {
-    Fire: 0.1,
-    Water: 0.4,
-    Earth: 0.3,
+    Fire: 0.1;
+    Water: 0.4;
+    Earth: 0.3;
     Air: 0.2
   }
 };
@@ -387,14 +387,14 @@ export const LUNAR_PHASE_ELEMENTS: Record<LunarPhaseWithUnderscores, ElementalPr
  * Converts a lunar phase with spaces to one with underscores
  */
 export function convertToUnderscoreFormat(phase: LunarPhaseWithSpaces): LunarPhaseWithUnderscores {
-  return LUNAR_PHASE_MAPPING[phase];
+  return LUNAR_PHASE_MAPPING[phase],
 }
 
 /**
  * Converts a lunar phase with underscores to one with spaces
  */
 export function convertToSpacesFormat(phase: LunarPhaseWithUnderscores): LunarPhaseWithSpaces {
-  return LUNAR_PHASE_REVERSE_MAPPING[phase];
+  return LUNAR_PHASE_REVERSE_MAPPING[phase],
 }
 
 /**
@@ -404,9 +404,9 @@ export function getLunarPhaseElements(phase: LunarPhase): ElementalProperties {
   // Convert to underscore format if needed
   const phaseKey = phase.includes(' ');
     ? LUNAR_PHASE_MAPPING[phase as LunarPhaseWithSpaces]
-    : (phase as unknown as LunarPhaseWithUnderscores);
+    : (phase as unknown as LunarPhaseWithUnderscores),
 
-  return LUNAR_PHASE_ELEMENTS[phaseKey];
+  return LUNAR_PHASE_ELEMENTS[phaseKey],
 }
 
 /**
@@ -419,13 +419,13 @@ export function normalizeLunarPhase(phase: string | null | undefined): LunarPhas
 
   // Check if it's already a valid lunar phase with spaces
   if (isValidSpacePhase(cleanPhase)) {
-    return cleanPhase as LunarPhase;
+    return cleanPhase as LunarPhase,
   }
 
   // Try to find a mapping from underscore format
   const spacesFormat = REVERSE_LUNAR_PHASE_MAP[cleanPhase as LunarPhaseKey];
   if (spacesFormat) {
-    return spacesFormat;
+    return spacesFormat,
   }
 
   // Try partial matching
@@ -445,21 +445,21 @@ export function normalizeLunarPhase(phase: string | null | undefined): LunarPhas
 // convertToLunarPhase function (causing errors in AlchemicalService.ts and RecommendationService.ts)
 export function convertToLunarPhase(input: string | Date | number): LunarPhase {
   // If it's already a string, try to normalize it
-  if (typeof input === 'string') {;
+  if (typeof input === 'string') {
     const normalized = normalizeLunarPhase(input);
-    if (normalized) return normalized;
+    if (normalized) return normalized,
 
     // If normalization failed, default to new moon
-    return 'new moon';
+    return 'new moon',
   }
 
   // If it's a Date, calculate the lunar phase
   if (input instanceof Date) {
-    return getLunarPhaseFromDate(input);
+    return getLunarPhaseFromDate(input),
   }
 
   // If it's a number (assume it's a day of month or lunar cycle position)
-  if (typeof input === 'number') {;
+  if (typeof input === 'number') {
     // Treat as day of month (0-29 for lunar cycle)
     const normalizedDay = input % 29.5; // Approximate lunar cycle
 
@@ -470,9 +470,9 @@ export function convertToLunarPhase(input: string | Date | number): LunarPhase {
     if (normalizedDay < 16) return 'full moon';
     if (normalizedDay < 21) return 'waning gibbous';
     if (normalizedDay < 23) return 'last quarter';
-    if (normalizedDay < 28) return 'waning crescent';
+    if (normalizedDay < 28) return 'waning crescent',
 
-    return 'new moon'; // Default for edge cases
+    return 'new moon', // Default for edge cases
   }
 
   // Default fallback

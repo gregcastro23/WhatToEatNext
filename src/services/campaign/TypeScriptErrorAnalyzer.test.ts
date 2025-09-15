@@ -27,7 +27,7 @@ src/types/index.ts(5,1): error TS2304: Cannot find name 'UnknownType'.
 
       expect(errors).toHaveLength(3);
 
-      expect(errors.[0]).toMatchObject({
+      expect(errors[0]).toMatchObject({
         filePath: 'src/components/test.tsx',
         line: 10,
         column: 5,
@@ -36,7 +36,7 @@ src/types/index.ts(5,1): error TS2304: Cannot find name 'UnknownType'.
         severity: ErrorSeverity.HIGH
       });
 
-      expect(errors.[1]).toMatchObject({
+      expect(errors[1]).toMatchObject({
         filePath: 'src/services/api.ts',
         line: 25,
         column: 12,
@@ -45,7 +45,7 @@ src/types/index.ts(5,1): error TS2304: Cannot find name 'UnknownType'.
         severity: ErrorSeverity.HIGH
       });
 
-      expect(errors.[2]).toMatchObject({
+      expect(errors[2]).toMatchObject({
         filePath: 'src/types/index.ts',
         line: 5,
         column: 1,
@@ -97,7 +97,7 @@ src/types/index.ts(5,1): error TS2304: Cannot find name 'UnknownType'.
 
   describe('createErrorDistribution', () => {
     it('should create proper error distribution', () => {
-      const mockErrors: any = [;
+      const mockErrors: any = [
         {
           filePath: 'src/test1.ts',
           line: 1,
@@ -138,13 +138,13 @@ src/types/index.ts(5,1): error TS2304: Cannot find name 'UnknownType'.
       expect(distribution.errorsByCategory[ErrorCategory.TS2345_ARGUMENT_MISMATCH]).toHaveLength(1);
       expect(distribution.errorsByFile['src/test1.ts']).toHaveLength(2);
       expect(distribution.errorsByFile['src/test2.ts']).toHaveLength(1);
-      expect(distribution.priorityRanking.[0].priority).toBe(20); // Highest priority first
+      expect(distribution.priorityRanking[0].priority).toBe(20); // Highest priority first
     });
   });
 
   describe('generateRecommendations', () => {
     it('should generate recommendations in priority order', () => {
-      const mockDistribution: any = {;
+      const mockDistribution: any = {
         totalErrors: 3,
         errorsByCategory: {
           [ErrorCategory.TS2352_TYPE_CONVERSION]: [{ code: 'TS2352' }, { code: 'TS2352' }],
@@ -163,10 +163,10 @@ src/types/index.ts(5,1): error TS2304: Cannot find name 'UnknownType'.
       const recommendations: any = recommendMethod(mockDistribution);
 
       expect(recommendations).toHaveLength(2);
-      expect(recommendations.[0].category).toBe(ErrorCategory.TS2352_TYPE_CONVERSION);
-      expect(recommendations.[0].priority).toBe(1);
-      expect(recommendations.[1].category).toBe(ErrorCategory.TS2345_ARGUMENT_MISMATCH);
-      expect(recommendations.[1].priority).toBe(2);
+      expect(recommendations[0].category).toBe(ErrorCategory.TS2352_TYPE_CONVERSION);
+      expect(recommendations[0].priority).toBe(1);
+      expect(recommendations[1].category).toBe(ErrorCategory.TS2345_ARGUMENT_MISMATCH);
+      expect(recommendations[1].priority).toBe(2);
     });
   });
 
@@ -186,7 +186,7 @@ src/types/index.ts(5,1): error TS2304: Cannot find name 'UnknownType'.
     it('should return 0 when no errors found', async () => {
       // Mock execSync to throw (grep returns exit code 1 when no matches)
       const originalExecSync = require('child_process').execSync;
-      require('child_process').execSync = jest.fn().mockImplementation(() => {;
+      require('child_process').execSync = jest.fn().mockImplementation(() => {
         throw new Error('No matches found');
       });
 

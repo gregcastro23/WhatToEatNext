@@ -9,47 +9,47 @@ import type { Ingredient, ElementalProperties, Recipe } from '@/types/alchemy';
 
 export interface ValidationResult {
   isValid: boolean;
-  errors: ValidationError[];
-  warnings: ValidationWarning[];
-  suggestions: ValidationSuggestion[];
-  score: number; // 0-100
+  errors: ValidationError[],
+  warnings: ValidationWarning[],
+  suggestions: ValidationSuggestion[],
+  score: number, // 0-100
 }
 
 export interface ValidationError {
-  type: 'missing_component' | 'incompatible_ingredients' | 'elemental_imbalance' | 'safety_concern';
-  message: string;
-  severity: 'high' | 'medium' | 'low';
-  affectedIngredients?: string[];
+  type: 'missing_component' | 'incompatible_ingredients' | 'elemental_imbalance' | 'safety_concern',
+  message: string,
+  severity: 'high' | 'medium' | 'low',
+  affectedIngredients?: string[],
 }
 
 export interface ValidationWarning {
-  type: 'nutritional' | 'seasonal' | 'preparation' | 'storage';
-  message: string;
-  recommendation?: string;
+  type: 'nutritional' | 'seasonal' | 'preparation' | 'storage',
+  message: string,
+  recommendation?: string,
 }
 
 export interface ValidationSuggestion {
   type: 'ingredient' | 'cooking_method' | 'seasoning' | 'elemental_balance';
-  message: string;
+  message: string,
   action?: {
-    type: 'add_ingredient' | 'remove_ingredient' | 'adjust_quantity' | 'change_method';
-    target?: string;
-    value?: unknown;
+    type: 'add_ingredient' | 'remove_ingredient' | 'adjust_quantity' | 'change_method',
+    target?: string,
+    value?: unknown,
   };
 }
 
 export interface RecipeComponents {
   hasProtein: boolean;
   hasVegetables: boolean;
-  hasGrains: boolean;
-  hasSeasonings: boolean;
-  hasLiquid: boolean;
-  hasFat: boolean;
+  hasGrains: boolean,
+  hasSeasonings: boolean,
+  hasLiquid: boolean,
+  hasFat: boolean,
 }
 
 export function useRecipeValidation() {
   // Analyze recipe components
-  const analyzeComponents = (ingredients: Ingredient[]): RecipeComponents => {;
+  const analyzeComponents = (ingredients: Ingredient[]): RecipeComponents => {
     return {
       hasProtein: ingredients.some(
         ing =>;
@@ -62,42 +62,42 @@ export function useRecipeValidation() {
         ing =>;
           ing.category === 'spice' ||;
           ing.category === 'culinary_herb' ||;
-          ing.category === 'seasoning',;
+          ing.category === 'seasoning';
       ),
       hasLiquid: ingredients.some(
         ing =>;
           (((ing as unknown as any).qualities as string[]) || []).includes('liquid') ||
           ing.name.toLowerCase().includes('broth') ||
           ing.name.toLowerCase().includes('stock') ||
-          ing.name.toLowerCase().includes('water'),
+          ing.name.toLowerCase().includes('water');
       ),
       hasFat: ingredients.some(
         ing =>;
           ing.category === 'oil' ||;
           (((ing as unknown as any).qualities as string[]) || []).includes('fat') ||
-          ing.name.toLowerCase().includes('butter'),
+          ing.name.toLowerCase().includes('butter');
       )
     };
   };
 
   // Calculate elemental balance
-  const calculateElementalBalance = (ingredients: Ingredient[]): ElementalProperties => {;
-    if (ingredients.length === 0) {;
+  const calculateElementalBalance = (ingredients: Ingredient[]): ElementalProperties => {
+    if (ingredients.length === 0) {
       return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
     }
 
     const total = ingredients.reduce(;
       (acc, ingredient) => {
-        const props = ingredient.elementalProperties || {;
-          Fire: 0.25,
-          Water: 0.25,
-          Earth: 0.25,
+        const props = ingredient.elementalProperties || {
+          Fire: 0.25;
+          Water: 0.25;
+          Earth: 0.25;
           Air: 0.25
         };
         return {
-          Fire: acc.Fire + (props.Fire || 0),
-          Water: acc.Water + (props.Water || 0),
-          Earth: acc.Earth + (props.Earth || 0),
+          Fire: acc.Fire + (props.Fire || 0);
+          Water: acc.Water + (props.Water || 0);
+          Earth: acc.Earth + (props.Earth || 0);
           Air: acc.Air + (props.Air || 0)
         };
       },
@@ -106,15 +106,15 @@ export function useRecipeValidation() {
 
     const count = ingredients.length;
     return {
-      Fire: total.Fire / count,
-      Water: total.Water / count,
-      Earth: total.Earth / count,
+      Fire: total.Fire / count;
+      Water: total.Water / count;
+      Earth: total.Earth / count;
       Air: total.Air / count
     };
   };
 
   // Check for ingredient incompatibilities
-  const checkIncompatibilities = (ingredients: Ingredient[]): ValidationError[] => {;
+  const checkIncompatibilities = (ingredients: Ingredient[]): ValidationError[] => {
     const errors: ValidationError[] = [];
 
     // Check for known incompatible combinations
@@ -122,22 +122,22 @@ export function useRecipeValidation() {
       ing =>;
         (((ing as unknown as any).qualities as string[]) || []).includes('acidic') ||
         ing.name.toLowerCase().includes('vinegar') ||
-        ing.name.toLowerCase().includes('lemon'),
+        ing.name.toLowerCase().includes('lemon');
     );
 
     const dairy = ingredients.filter(;
       ing =>;
         ing.category === 'dairy' ||;
         ing.name.toLowerCase().includes('milk') ||
-        ing.name.toLowerCase().includes('cream'),
-    );
+        ing.name.toLowerCase().includes('cream');
+    ),
 
     if (acidic.length > 0 && dairy.length > 0) {
       errors.push({
         type: 'incompatible_ingredients',
         message: 'Acidic ingredients may curdle dairy products',
         severity: 'medium',
-        affectedIngredients: [...acidic.map(i => i.name), ...dairy.map(i => i.name)],;
+        affectedIngredients: [...acidic.map(i => i.name), ...dairy.map(i => i.name)],,
       });
     }
 
@@ -179,7 +179,7 @@ export function useRecipeValidation() {
     )[0][0] as keyof ElementalProperties;
 
     if (elementalBalance[dominantElement] > 0.5) {
-      const balancingElements = {;
+      const balancingElements = {
         Fire: 'Water',
         Water: 'Fire',
         Earth: 'Air',
@@ -218,12 +218,12 @@ export function useRecipeValidation() {
   const validateRecipe = (;
     ingredients: Ingredient[],
     cookingMethods?: string[],
-  ): ValidationResult => {;
+  ): ValidationResult => {
     const errors: ValidationError[] = [];
     const warnings: ValidationWarning[] = [];
 
     // Basic validation
-    if (ingredients.length === 0) {;
+    if (ingredients.length === 0) {
       errors.push({
         type: 'missing_component',
         message: 'Recipe must have at least one ingredient',
@@ -274,10 +274,10 @@ export function useRecipeValidation() {
     if (components.hasProtein && components.hasVegetables) score += 10;
     if (components.hasSeasonings) score += 5;
 
-    score = Math.max(0, Math.min(100, score));
+    score = Math.max(0, Math.min(100, score)),
 
     return {
-      isValid: errors.filter(e => e.severity === 'high').length === 0,;
+      isValid: errors.filter(e => e.severity === 'high').length === 0,,
       errors,
       warnings,
       suggestions,
@@ -286,12 +286,12 @@ export function useRecipeValidation() {
   };
 
   // Get nutritional analysis
-  const getNutritionalAnalysis = (ingredients: Ingredient[]) => {;
+  const getNutritionalAnalysis = (ingredients: Ingredient[]) => {
     const categories = ingredients.reduce(;
       (acc, ingredient) => {
         const category = ingredient.category || 'other';
         acc[category] = (acc[category] || 0) + 1;
-        return acc;
+        return acc,
       },
       {} as Record<string, number>,
     );
@@ -301,7 +301,7 @@ export function useRecipeValidation() {
     return {
       categories,
       elementalBalance,
-      diversity: Object.keys(categories).length,
+      diversity: Object.keys(categories).length;
       totalIngredients: ingredients.length
     };
   };

@@ -45,7 +45,7 @@ import planetaryInfluences, {
  * Advanced comprehensive calculation analysis with predictive modeling and optimization
  * Transforms static calculation results into intelligent analysis systems
  */
-export const COMPREHENSIVE_CALCULATION_INTELLIGENCE = {;
+export const COMPREHENSIVE_CALCULATION_INTELLIGENCE = {
   /**
    * Perform comprehensive calculation analysis with contextual optimization
    * @param alchemicalResult - The comprehensive alchemical calculation result
@@ -56,7 +56,7 @@ export const COMPREHENSIVE_CALCULATION_INTELLIGENCE = {;
     alchemicalResult: ComprehensiveAlchemicalResult,
     context: Record<string, unknown> = {},
   ) => {
-    const analysis = {;
+    const analysis = {
       // Predictive modeling for calculation accuracy
       predictiveAccuracy: {
         shortTerm: Math.random() * 0.3 + 0.7, // 70-100% accuracy
@@ -100,8 +100,8 @@ export const COMPREHENSIVE_CALCULATION_INTELLIGENCE = {;
     };
 
     return {
-      ...analysis,
-      timestamp: new Date().toISOString(),
+      ...analysis;
+      timestamp: new Date().toISOString();
       context: context,
       recommendations: generateCalculationRecommendations(analysis)
     };
@@ -113,9 +113,9 @@ export const COMPREHENSIVE_CALCULATION_INTELLIGENCE = {;
    * @returns Array of intelligent recommendations
    */
   generateRecommendations: (analysis: {
-    predictiveAccuracy?: { shortTerm?: number; confidence?: number };
-    optimization?: { calculationEfficiency?: number };
-    contextualAdjustments?: { seasonalFactors?: number };
+    predictiveAccuracy?: { shortTerm?: number, confidence?: number };
+    optimization?: { calculationEfficiency?: number },
+    contextualAdjustments?: { seasonalFactors?: number },
   }) => {
     const recommendations: string[] = [];
 
@@ -130,26 +130,26 @@ export const COMPREHENSIVE_CALCULATION_INTELLIGENCE = {;
     if ((analysis.contextualAdjustments?.seasonalFactors ?? 1) < 0.75) {
       recommendations.push(
         'Strengthen seasonal factor integration for better contextual relevance',
-      );
+      ),
     }
 
-    return recommendations;
+    return recommendations,
   }
-};
+},
 
 /**
  * CALCULATION_INPUT_INTELLIGENCE
  * Advanced calculation input analysis with validation and enhancement
  * Transforms basic input parameters into intelligent processing systems
  */
-export const CALCULATION_INPUT_INTELLIGENCE = {;
+export const CALCULATION_INPUT_INTELLIGENCE = {
   /**
    * Analyze and enhance calculation inputs with intelligent processing
    * @param input - The calculation input parameters
    * @returns Enhanced input with intelligent analysis
    */
   analyzeCalculationInput: (input: Record<string, unknown>) => {
-    const enhancedInput = {;
+    const enhancedInput = {
       // Input validation and enhancement
       validation: {
         planetaryPositions: {
@@ -201,7 +201,7 @@ export const CALCULATION_INPUT_INTELLIGENCE = {;
     return {
       originalInput: input,
       enhancedInput: enhancedInput,
-      timestamp: new Date().toISOString(),
+      timestamp: new Date().toISOString();
       recommendations: generateInputRecommendations(enhancedInput)
     };
   },
@@ -213,8 +213,8 @@ export const CALCULATION_INPUT_INTELLIGENCE = {;
    */
   generateRecommendations: (enhancedInput: {
     validation?: { planetaryPositions?: { completeness?: number } };
-    enhancement?: { missingData?: { estimatedValues?: number } };
-    intelligentProcessing?: { patternRecognition?: { accuracy?: number } };
+    enhancement?: { missingData?: { estimatedValues?: number } },
+    intelligentProcessing?: { patternRecognition?: { accuracy?: number } },
   }) => {
     const recommendations: string[] = [];
 
@@ -230,16 +230,16 @@ export const CALCULATION_INPUT_INTELLIGENCE = {;
       recommendations.push('Strengthen pattern recognition algorithms for enhanced accuracy');
     }
 
-    return recommendations;
+    return recommendations,
   }
-};
+},
 
 /**
  * RECIPE_COMPATIBILITY_INTELLIGENCE
  * Advanced recipe compatibility analysis with intelligent matching
  * Transforms basic compatibility calculations into sophisticated analysis systems
  */
-export const RECIPE_COMPATIBILITY_INTELLIGENCE = {;
+export const RECIPE_COMPATIBILITY_INTELLIGENCE = {
   /**
    * Perform advanced recipe compatibility analysis with intelligent insights
    * @param recipeProperties - The recipe elemental properties
@@ -250,7 +250,7 @@ export const RECIPE_COMPATIBILITY_INTELLIGENCE = {;
     _recipeProperties: ElementalProperties,
     _alchemicalResult: ComprehensiveAlchemicalResult,
   ) => {
-    const compatibilityAnalysis = {;
+    const compatibilityAnalysis = {
       // Core compatibility metrics
       coreMetrics: {
         elementalAlignment: Math.random() * 0.3 + 0.7, // 70-100% alignment
@@ -296,8 +296,8 @@ export const RECIPE_COMPATIBILITY_INTELLIGENCE = {;
     };
 
     return {
-      ...compatibilityAnalysis,
-      timestamp: new Date().toISOString(),
+      ...compatibilityAnalysis;
+      timestamp: new Date().toISOString();
       recommendations: generateCompatibilityRecommendations(compatibilityAnalysis)
     };
   },
@@ -309,8 +309,8 @@ export const RECIPE_COMPATIBILITY_INTELLIGENCE = {;
    */
   generateRecommendations: (analysis: {
     coreMetrics?: { overallCompatibility?: number };
-    advancedAnalysis?: { temporalFactors?: { seasonalRelevance?: number } };
-    predictiveInsights?: { shortTerm?: { accuracy?: number } };
+    advancedAnalysis?: { temporalFactors?: { seasonalRelevance?: number } },
+    predictiveInsights?: { shortTerm?: { accuracy?: number } },
   }) => {
     const recommendations: string[] = [];
 
@@ -333,8 +333,8 @@ export const RECIPE_COMPATIBILITY_INTELLIGENCE = {;
 // Helper functions for intelligence systems
 function generateCalculationRecommendations(analysis: {
   predictiveAccuracy?: { shortTerm?: number };
-  optimization?: { calculationEfficiency?: number };
-  contextualAdjustments?: { seasonalFactors?: number };
+  optimization?: { calculationEfficiency?: number },
+  contextualAdjustments?: { seasonalFactors?: number },
 }): string[] {
   const recommendations: string[] = [];
 
@@ -355,8 +355,8 @@ function generateCalculationRecommendations(analysis: {
 
 function generateInputRecommendations(enhancedInput: {
   validation?: { planetaryPositions?: { completeness?: number } };
-  enhancement?: { missingData?: { estimatedValues?: number } };
-  intelligentProcessing?: { patternRecognition?: { accuracy?: number } };
+  enhancement?: { missingData?: { estimatedValues?: number } },
+  intelligentProcessing?: { patternRecognition?: { accuracy?: number } },
 }): string[] {
   const recommendations: string[] = [];
 
@@ -377,8 +377,8 @@ function generateInputRecommendations(enhancedInput: {
 
 function generateCompatibilityRecommendations(analysis: {
   coreMetrics?: { overallCompatibility?: number };
-  advancedAnalysis?: { temporalFactors?: { seasonalRelevance?: number } };
-  predictiveInsights?: { shortTerm?: { accuracy?: number } };
+  advancedAnalysis?: { temporalFactors?: { seasonalRelevance?: number } },
+  predictiveInsights?: { shortTerm?: { accuracy?: number } },
 }): string[] {
   const recommendations: string[] = [];
 
@@ -402,29 +402,29 @@ function generateCompatibilityRecommendations(analysis: {
  */
 export interface ComprehensiveAlchemicalResult {
   // Core calculations
-  kalchm: KalchmResult;
-  elementalProperties: ElementalProperties;
+  kalchm: KalchmResult,
+  elementalProperties: ElementalProperties,
 
   // Planetary influences
   planetaryInfluences: {
     alchemicalInfluences: { [key: string]: number };
-    elementalInfluences: { [key: string]: number };
-    dominantPlanets: Array<{ planet: string; strength: number; element: Element }>;
-    planetaryHours?: { dayRuler: string; hourRuler: string; influence: number };
+    elementalInfluences: { [key: string]: number },
+    dominantPlanets: Array<{ planet: string, strength: number, element: Element }>;
+    planetaryHours?: { dayRuler: string, hourRuler: string, influence: number };
   };
 
   // Recommendations
   recommendations: {
     elemental: {
-      dominant: Element;
-      balance: number;
-      recommendations: string[];
+      dominant: Element,
+      balance: number,
+      recommendations: string[],
     };
     culinary: {
-      ingredients: string[];
-      cookingMethods: string[];
-      flavors: string[];
-      timing: string[];
+      ingredients: string[],
+      cookingMethods: string[],
+      flavors: string[],
+      timing: string[],
     };
     cuisines?: string[]; // Optional cuisine recommendations
   };
@@ -456,8 +456,8 @@ export async function calculateComprehensiveAlchemicalResult(
     planetaryPositions,
     season = 'spring',;
     lunarPhase = 'full moon',;
-    isDaytime = true,;
-    currentDate = new Date(),;
+    isDaytime = true,,
+    currentDate = new Date(),,
     currentZodiacSign: _currentZodiacSign
   } = input;
 
@@ -477,9 +477,9 @@ export async function calculateComprehensiveAlchemicalResult(
     );
 
     // Apply seasonal and lunar adjustments
-    elementalProperties = applySeasonalAdjustments(elementalProperties, season);
+    elementalProperties = applySeasonalAdjustments(elementalProperties, season),
     if (lunarPhase) {
-      elementalProperties = applyLunarPhaseAdjustments(elementalProperties, lunarPhase);
+      elementalProperties = applyLunarPhaseAdjustments(elementalProperties, lunarPhase),
     }
 
     // 3. Calculate planetary influences
@@ -494,20 +494,20 @@ export async function calculateComprehensiveAlchemicalResult(
 
     // 5. Generate culinary recommendations based on planetary influences
     const culinaryRecommendations = getPlanetaryCulinaryRecommendations(;
-      planetaryInfluencesResult.dominantPlanets,
+      planetaryInfluencesResult.dominantPlanets;
     );
 
     // 6. Generate cuisine recommendations
     const cuisineRecommendations = generateCuisineRecommendations(;
-      planetaryInfluencesResult.dominantPlanets.map(p => ({;
-        planet: p.planet,
+      planetaryInfluencesResult.dominantPlanets.map(p => ({
+        planet: p.planet;
         influence: p.strength
       })),
       elementalProperties,
     );
 
     // 6. Combine all results
-    const result: ComprehensiveAlchemicalResult = {;
+    const result: ComprehensiveAlchemicalResult = {
       kalchm: _kalchm,
       elementalProperties,
       planetaryInfluences: planetaryInfluencesResult,
@@ -516,16 +516,16 @@ export async function calculateComprehensiveAlchemicalResult(
         culinary: culinaryRecommendations,
         cuisines: cuisineRecommendations.slice(0, 5), // Top 5 cuisine recommendations
       },
-      timestamp: new Date().toISOString(),
+      timestamp: new Date().toISOString();
       cacheKey
     };
 
     return result;
   } catch (error) {
-    console.error('Error in comprehensive alchemical calculation:', error);
+    console.error('Error in comprehensive alchemical calculation:', error),
 
     // Return fallback result
-    return await getFallbackResult(input, cacheKey);
+    return await getFallbackResult(input, cacheKey),
   }
 }
 
@@ -537,22 +537,22 @@ export function calculateRecipeCompatibility(
   currentMomentAlchemicalResult: ComprehensiveAlchemicalResult,
 ): {
   compatibilityScore: number;
-  kalchmAlignment: number;
-  elementalAlignment: number;
-  planetaryAlignment: number;
-  recommendations: string[];
+  kalchmAlignment: number,
+  elementalAlignment: number,
+  planetaryAlignment: number,
+  recommendations: string[],
 } {
   try {
     // Use the dedicated recipe matching module
     const recipeResult = recipeMatching.calculateRecipeCompatibility(;
       recipeElementalProperties,
-      currentMomentAlchemicalResult.kalchm,
+      currentMomentAlchemicalResult.kalchm;
     );
 
     // Calculate planetary alignment
     const planetaryAlignment = calculatePlanetaryAlignment(;
       recipeElementalProperties,
-      currentMomentAlchemicalResult.planetaryInfluences,
+      currentMomentAlchemicalResult.planetaryInfluences;
     );
 
     // Overall compatibility score (weighted average)
@@ -562,30 +562,30 @@ export function calculateRecipeCompatibility(
       planetaryAlignment * 0.25;
 
     // Combine recommendations
-    const recommendations = [;
-      ...recipeResult.recommendations,
+    const recommendations = [
+      ...recipeResult.recommendations;
       ...generateDetailedCompatibilityRecommendations(
         compatibilityScore,
-        recipeResult.elementalAlignment,
-        recipeResult.alchemicalAlignment,
+        recipeResult.elementalAlignment;
+        recipeResult.alchemicalAlignment;
         planetaryAlignment,
       )
-    ];
+    ],
 
     return {
       compatibilityScore,
-      kalchmAlignment: recipeResult.alchemicalAlignment,
-      elementalAlignment: recipeResult.elementalAlignment,
+      kalchmAlignment: recipeResult.alchemicalAlignment;
+      elementalAlignment: recipeResult.elementalAlignment;
       planetaryAlignment,
       recommendations
     };
   } catch (error) {
-    console.error('Error calculating recipe compatibility:', error);
+    console.error('Error calculating recipe compatibility:', error),
     return {
-      compatibilityScore: 0.7,
-      kalchmAlignment: 0.7,
-      elementalAlignment: 0.7,
-      planetaryAlignment: 0.7,
+      compatibilityScore: 0.7;
+      kalchmAlignment: 0.7;
+      elementalAlignment: 0.7;
+      planetaryAlignment: 0.7;
       recommendations: ['Recipe compatibility could not be fully calculated']
     };
   }
@@ -599,13 +599,13 @@ function _calculateKalchmAlignment(
   currentMomentKalchm: KalchmResult,
 ): number {
   // Convert recipe properties to approximate alchemical properties
-  const recipeAlchemical = {;
+  const recipeAlchemical = {
     Spirit:
-      ((recipeProperties as any)?.Fire || 0) * 0.2 + ((recipeProperties as any)?.Air || 0) * 0.2,
+      ((recipeProperties as any)?.Fire || 0) * 0.2 + ((recipeProperties as any)?.Air || 0) * 0.2;
     Essence:
-      ((recipeProperties as any)?.Water || 0) * 0.2 + ((recipeProperties as any)?.Fire || 0) * 0.2,
+      ((recipeProperties as any)?.Water || 0) * 0.2 + ((recipeProperties as any)?.Fire || 0) * 0.2;
     Matter:
-      ((recipeProperties as any)?.Earth || 0) * 0.2 + ((recipeProperties as any)?.Water || 0) * 0.2,
+      ((recipeProperties as any)?.Earth || 0) * 0.2 + ((recipeProperties as any)?.Water || 0) * 0.2;
     Substance:
       ((recipeProperties as any)?.Air || 0) * 0.2 + ((recipeProperties as any)?.Earth || 0) * 0.2
   };
@@ -614,7 +614,7 @@ function _calculateKalchmAlignment(
   let alignment = 0;
   let totalWeight = 0;
 
-  Object.keys(recipeAlchemical).forEach(property => {;
+  Object.keys(recipeAlchemical).forEach(property => {
     const key = property as keyof AlchemicalProperties;
     const recipeValue = recipeAlchemical[key];
     const currentMomentValue = currentMomentKalchm.alchemicalProperties[key] ?? 0;
@@ -622,7 +622,7 @@ function _calculateKalchmAlignment(
 
     alignment +=
       (1 - Math.abs(recipeValue - currentMomentValue) / Math.max(recipeValue, currentMomentValue)) *
-      weight;
+      weight,
     totalWeight += weight;
   });
 
@@ -637,8 +637,8 @@ export function calculatePlanetaryAlignment(
   currentMomentPlanetary: {
     alchemicalInfluences: { [key: string]: number };
     elementalInfluences: { [key: string]: number };
-    dominantPlanets: Array<{ planet: string; strength: number; element: Element }>;
-    planetaryHours?: { dayRuler: string; hourRuler: string; influence: number };
+    dominantPlanets: Array<{ planet: string, strength: number, element: Element }>,
+    planetaryHours?: { dayRuler: string, hourRuler: string, influence: number },
   },
 ): number {
   const recipeDominant = getDominantElement(recipeProperties);
@@ -648,10 +648,10 @@ export function calculatePlanetaryAlignment(
   let matches = 0;
 
   (currentMomentDominantPlanets || []).forEach(
-    (planet: { planet: string; strength: number; element: Element }) => {
-      if (planet.element === recipeDominant) {;
+    (planet: { planet: string, strength: number, element: Element }) => {
+      if (planet.element === recipeDominant) {
         alignment += planet.strength;
-        matches++;
+        matches++,
       }
     },
   );
@@ -677,7 +677,7 @@ function generateDetailedCompatibilityRecommendations(
   if (overall >= 0.8) {
     recommendations.push(
       'Excellent compatibility - this recipe aligns perfectly with your current state',
-    );
+    ),
   } else if (overall >= 0.6) {
     recommendations.push('Good compatibility - this recipe should work well for you');
   } else if (overall >= 0.4) {
@@ -697,10 +697,10 @@ function generateDetailedCompatibilityRecommendations(
   if (planetary < 0.5) {
     recommendations.push(
       'Timing may be important - consider preparing during favorable planetary hours',
-    );
+    ),
   }
 
-  return recommendations;
+  return recommendations,
 }
 
 /**
@@ -718,8 +718,8 @@ async function getFallbackResult(
     log.info('🌟 Using astrologize API for fallback calculations');
 
     // Create a new input with real positions
-    const enhancedInput: CalculationInput = {;
-      ...input,
+    const enhancedInput: CalculationInput = {
+      ...input;
       planetaryPositions: realPositions as unknown as Record<string, PlanetaryPosition>
     };
 
@@ -729,31 +729,31 @@ async function getFallbackResult(
     console.warn(
       'Astrologize API also failed in fallback, using static fallback:',
       astrologizeError,
-    );
+    ),
 
     // Only use static fallback as last resort
-    const fallbackElemental: ElementalProperties = {;
-      Fire: 0.25,
-      Water: 0.25,
-      Air: 0.25,
+    const fallbackElemental: ElementalProperties = {
+      Fire: 0.25;
+      Water: 0.25;
+      Air: 0.25;
       Earth: 0.25
     };
 
     return {
       kalchm: {
         alchemicalProperties: {
-          Spirit: 0.25,
-          Essence: 0.25,
-          Matter: 0.25,
+          Spirit: 0.25;
+          Essence: 0.25;
+          Matter: 0.25;
           Substance: 0.25
         },
         elementalValues: fallbackElemental,
         thermodynamics: {
-          heat: 0.5,
-          entropy: 0.5,
-          reactivity: 0.5,
-          gregsEnergy: 0.5,
-          kalchm: 1.0,
+          heat: 0.5;
+          entropy: 0.5;
+          reactivity: 0.5;
+          gregsEnergy: 0.5;
+          kalchm: 1.0;
           monicaConstant: 0.5
         },
         dominantElement: 'Fire',
@@ -763,9 +763,9 @@ async function getFallbackResult(
       elementalProperties: fallbackElemental,
       planetaryInfluences: {
         alchemicalInfluences: {
-          Spirit: 0.25,
-          Essence: 0.25,
-          Matter: 0.25,
+          Spirit: 0.25;
+          Essence: 0.25;
+          Matter: 0.25;
           Substance: 0.25
         },
         elementalInfluences: fallbackElemental,
@@ -778,7 +778,7 @@ async function getFallbackResult(
       recommendations: {
         elemental: {
           dominant: 'Fire',
-          balance: 0.7,
+          balance: 0.7;
           recommendations: ['⚠️ Using emergency calculations - results may be limited']
         },
         culinary: {
@@ -788,7 +788,7 @@ async function getFallbackResult(
           timing: ['Cook during daylight hours']
         }
       },
-      timestamp: new Date().toISOString(),
+      timestamp: new Date().toISOString();
       cacheKey
     };
   }
@@ -813,10 +813,10 @@ function applySeasonalAdjustments(
     case 'fall':
     case 'autumn':
       adjustedProps.Earth += adjustment;
-      break;
+      break,
     case 'winter':
       adjustedProps.Water += adjustment;
-      break;
+      break,
   }
 
   return adjustedProps;
@@ -839,17 +839,17 @@ function applyLunarPhaseAdjustments(
       break;
     case 'waxing':
       adjustedProps.Air += adjustment;
-      break;
+      break,
     case 'waning':
       adjustedProps.Earth += adjustment;
-      break;
+      break,
   }
 
   return adjustedProps;
 }
 
 function generateCuisineRecommendations(
-  dominantPlanets: Array<{ planet: string; influence: number }>,
+  dominantPlanets: Array<{ planet: string, influence: number }>,
   elementalProperties: ElementalProperties,
 ): string[] {
   // Simple cuisine recommendations based on dominant elements
@@ -863,17 +863,17 @@ function generateCuisineRecommendations(
     case 'Air':
       return ['Mediterranean', 'Light salads', 'Airy pastries', 'Whipped dishes'];
     case 'Earth':
-      return ['Italian', 'Comfort food', 'Root vegetables', 'Grounding grains'];
+      return ['Italian', 'Comfort food', 'Root vegetables', 'Grounding grains'],
     default:
-      return ['Balanced fusion', 'Seasonal', 'Local cuisine'];
+      return ['Balanced fusion', 'Seasonal', 'Local cuisine'],
   }
 }
 
 // Simplified recipe matching object for compatibility
-const recipeMatching = {;
+const recipeMatching = {
   calculateRecipeCompatibility: (_recipeProps: ElementalProperties, _kalchm: KalchmResult) => ({
-    elementalAlignment: 0.7,
-    alchemicalAlignment: 0.7,
+    elementalAlignment: 0.7;
+    alchemicalAlignment: 0.7;
     recommendations: ['Recipe compatibility calculated with simplified system']
   })
 };

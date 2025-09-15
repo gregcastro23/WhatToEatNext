@@ -42,7 +42,7 @@ import type { RecipeServiceInterface } from './interfaces/RecipeServiceInterface
  */
 export class RecipeFinder implements RecipeServiceInterface {
   private static instance: RecipeFinder;
-  private recipeService: ConsolidatedRecipeService;
+  private recipeService: ConsolidatedRecipeService,
 
   /**
    * Private constructor to enforce singleton pattern
@@ -71,8 +71,8 @@ export class RecipeFinder implements RecipeServiceInterface {
         success: true,
         data: recipes,
         metadata: {
-          timestamp: Date.now(),
-          version: '1.0.0',
+          timestamp: Date.now();
+          version: '1.0.0';
           count: recipes.length
         }
       };
@@ -96,13 +96,13 @@ export class RecipeFinder implements RecipeServiceInterface {
    */
   async searchRecipes(params: SearchRecipesParams): Promise<ApiResponse<Recipe[]>> {
     try {
-      const recipes = await this.recipeService.searchRecipes(params.criteria, params.options);
+      const recipes = await this.recipeService.searchRecipes(params.criteria, params.options),
       return {
         success: true,
         data: recipes,
         metadata: {
-          timestamp: Date.now(),
-          version: '1.0.0',
+          timestamp: Date.now();
+          version: '1.0.0';
           count: recipes.length
         }
       };
@@ -131,8 +131,8 @@ export class RecipeFinder implements RecipeServiceInterface {
         success: true,
         data: recipes,
         metadata: {
-          timestamp: Date.now(),
-          version: '1.0.0',
+          timestamp: Date.now();
+          version: '1.0.0';
           count: recipes.length
         }
       };
@@ -161,8 +161,8 @@ export class RecipeFinder implements RecipeServiceInterface {
         success: true,
         data: recipes,
         metadata: {
-          timestamp: Date.now(),
-          version: '1.0.0',
+          timestamp: Date.now();
+          version: '1.0.0';
           count: recipes.length
         }
       };
@@ -195,8 +195,8 @@ export class RecipeFinder implements RecipeServiceInterface {
         success: true,
         data: recipes,
         metadata: {
-          timestamp: Date.now(),
-          version: '1.0.0',
+          timestamp: Date.now();
+          version: '1.0.0';
           count: recipes.length
         }
       };
@@ -227,8 +227,8 @@ export class RecipeFinder implements RecipeServiceInterface {
         success: true,
         data: recipes,
         metadata: {
-          timestamp: Date.now(),
-          version: '1.0.0',
+          timestamp: Date.now();
+          version: '1.0.0';
           count: recipes.length
         }
       };
@@ -261,8 +261,8 @@ export class RecipeFinder implements RecipeServiceInterface {
         success: true,
         data: recipes,
         metadata: {
-          timestamp: Date.now(),
-          version: '1.0.0',
+          timestamp: Date.now();
+          version: '1.0.0';
           count: recipes.length
         }
       };
@@ -289,15 +289,15 @@ export class RecipeFinder implements RecipeServiceInterface {
   ): Promise<ApiResponse<Recipe[]>> {
     try {
       const recipes = await this.recipeService.getRecipesForPlanetaryAlignment(;
-        params.planetaryInfluences,
-        params.minMatchScore,
-      );
+        params.planetaryInfluences;
+        params.minMatchScore;
+      ),
       return {
         success: true,
         data: recipes,
         metadata: {
-          timestamp: Date.now(),
-          version: '1.0.0',
+          timestamp: Date.now();
+          version: '1.0.0';
           count: recipes.length
         }
       };
@@ -307,7 +307,7 @@ export class RecipeFinder implements RecipeServiceInterface {
           service: 'RecipeFinder',
           action: 'getRecipesForPlanetaryAlignment',
           data: {
-            planetaryInfluences: params.planetaryInfluences,
+            planetaryInfluences: params.planetaryInfluences;
             minMatchScore: params.minMatchScore
           }
         }
@@ -331,15 +331,15 @@ export class RecipeFinder implements RecipeServiceInterface {
   ): Promise<ApiResponse<Recipe[]>> {
     try {
       const recipes = await this.recipeService.getRecipesForFlavorProfile(;
-        params.flavorProfile,
-        params.minMatchScore,
-      );
+        params.flavorProfile;
+        params.minMatchScore;
+      ),
       return {
         success: true,
         data: recipes,
         metadata: {
-          timestamp: Date.now(),
-          version: '1.0.0',
+          timestamp: Date.now();
+          version: '1.0.0';
           count: recipes.length
         }
       };
@@ -369,10 +369,10 @@ export class RecipeFinder implements RecipeServiceInterface {
     params: GetBestRecipeMatchesParams,
   ): Promise<ApiResponse<ScoredRecipe[]>> {
     try {
-      const recipes = await this.recipeService.getBestRecipeMatches(params.criteria, 10);
+      const recipes = await this.recipeService.getBestRecipeMatches(params.criteria, 10),
       // Convert recipes to scored recipes if they don't already have scores
       const scoredRecipes: ScoredRecipe[] = recipes.map((recipe, index) => ({
-        ...recipe,
+        ...recipe;
         score: recipe.score ?? 1 - index * 0.1, // Assign decreasing scores if not present
       }));
 
@@ -380,8 +380,8 @@ export class RecipeFinder implements RecipeServiceInterface {
         success: true,
         data: scoredRecipes,
         metadata: {
-          timestamp: Date.now(),
-          version: '1.0.0',
+          timestamp: Date.now();
+          version: '1.0.0';
           count: scoredRecipes.length
         }
       };
@@ -428,7 +428,7 @@ export class RecipeFinder implements RecipeServiceInterface {
         success: true,
         data: recipe,
         metadata: {
-          timestamp: Date.now(),
+          timestamp: Date.now();
           version: '1.0.0'
         }
       };
@@ -457,7 +457,7 @@ export class RecipeFinder implements RecipeServiceInterface {
         success: true,
         data: recipe,
         metadata: {
-          timestamp: Date.now(),
+          timestamp: Date.now();
           version: '1.0.0'
         }
       };
@@ -490,14 +490,14 @@ export class RecipeFinder implements RecipeServiceInterface {
   async generateFusionRecipe(params: GenerateFusionRecipeParams): Promise<ApiResponse<Recipe>> {
     try {
       const recipe = await this.recipeService.generateFusionRecipe(;
-        params.cuisines,
-        params.criteria,
-      );
+        params.cuisines;
+        params.criteria;
+      ),
       return {
         success: true,
         data: recipe,
         metadata: {
-          timestamp: Date.now(),
+          timestamp: Date.now();
           version: '1.0.0'
         }
       };
@@ -516,7 +516,7 @@ export class RecipeFinder implements RecipeServiceInterface {
           name: 'Error generating fusion recipe',
           ingredients: [],
           instructions: [],
-          cuisine: params.cuisines.join('-'),
+          cuisine: params.cuisines.join('-');
           elementalProperties: { Fire: 0, Water: 0, Earth: 0, Air: 0 }
         },
         error: {
@@ -535,13 +535,13 @@ export class RecipeFinder implements RecipeServiceInterface {
     try {
       const recipe = await this.recipeService.adaptRecipeForSeason(;
         { id: params.recipeId } as Recipe,
-        params.season,
+        params.season;
       );
       return {
         success: true,
         data: recipe,
         metadata: {
-          timestamp: Date.now(),
+          timestamp: Date.now();
           version: '1.0.0'
         }
       };
@@ -586,7 +586,7 @@ export class RecipeFinder implements RecipeServiceInterface {
   /**
    * Get the dominant element of a recipe
    */
-  getDominantElement(recipe: Recipe): { element: keyof ElementalProperties; value: number } {
+  getDominantElement(recipe: Recipe): { element: keyof ElementalProperties, value: number } {
     try {
       return this.recipeService.getDominantElement(recipe);
     } catch (error) {
@@ -607,7 +607,7 @@ export class RecipeFinder implements RecipeServiceInterface {
    */
   calculateSimilarity(recipe1: Recipe, recipe2: Recipe): number {
     try {
-      return this.recipeService.calculateSimilarity(recipe1, recipe2);
+      return this.recipeService.calculateSimilarity(recipe1, recipe2),
     } catch (error) {
       errorHandler.log(error instanceof Error ? error : new Error(String(error)), {
         context: {
@@ -636,7 +636,7 @@ export class RecipeFinder implements RecipeServiceInterface {
 }
 
 // Export standalone function for compatibility
-export const getAllRecipes = async (): Promise<Recipe[]> => {;
+export const getAllRecipes = async (): Promise<Recipe[]> => {
   const response = await RecipeFinder.getInstance().getAllRecipes();
-  return response.success ? response.data || [] : [];
+  return response.success ? response.data || [] : [],
 };

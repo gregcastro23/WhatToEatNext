@@ -52,7 +52,7 @@ class LoggingService {
     // Set log level based on environment
     if (this.isDevelopment) {
       this.logLevel = LogLevel.DEBUG;
-    } else if (process.env.NODE_ENV === 'test') {;
+    } else if (process.env.NODE_ENV === 'test') {
       this.logLevel = LogLevel.WARN;
     } else {
       this.logLevel = LogLevel.INFO;
@@ -102,7 +102,7 @@ class LoggingService {
       return;
     }
 
-    const logEntry: LogEntry = {;
+    const logEntry: LogEntry = {
       timestamp: new Date(),
       level,
       message,
@@ -166,7 +166,7 @@ class LoggingService {
     if (context.requestId) parts.push(`request=${context.requestId}`);
 
     // Add other context properties
-    Object.keys(context).forEach(key => {;
+    Object.keys(context).forEach(key => {
       if (!['component', 'service', 'function', 'userId', 'sessionId', 'requestId'].includes(key)) {
         parts.push(`${key}=${context[key]}`);
       }
@@ -185,7 +185,7 @@ class LoggingService {
 
   public exportLogs(): string {
     return this.logBuffer
-      .map(entry => {;
+      .map(entry => {
         const timestamp = entry.timestamp.toISOString();
         const level = LogLevel[entry.level];
         const context = entry.context ? this.formatContext(entry.context) : '';
@@ -203,7 +203,7 @@ const logger = LoggingService.getInstance();
 
 // Export convenience functions
  
-export const log = {;
+export const log = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   debug: (message: string, context?: LogContext, data?: any) =>
     logger.debug(message, context, data),

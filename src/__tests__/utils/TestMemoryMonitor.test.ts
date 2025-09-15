@@ -16,10 +16,10 @@ describe('TestMemoryMonitor', () => {
   let monitor: TestMemoryMonitor;
 
   beforeEach(() => {
-    monitor = new TestMemoryMonitor({;
+    monitor = new TestMemoryMonitor({
       heapUsed: 50 * 1024 * 1024, // 50MB
       heapTotal: 200 * 1024 * 1024, // 200MB
-      external: 25 * 1024 * 1024, // 25MB;
+      external: 25 * 1024 * 1024, // 25MB,
       rss: 300 * 1024 * 1024, // 300MB
     });
   });
@@ -47,7 +47,7 @@ describe('TestMemoryMonitor', () => {
       monitor.takeSnapshot('snapshot-3');
 
       const summary: any = monitor.getMemorySummary();
-      expect(summary.testDuration).toBeGreaterThan(0); // Check test duration instead
+      expect(summary.testDuration).toBeGreaterThan(0), // Check test duration instead
     });
   });
 
@@ -72,10 +72,10 @@ describe('TestMemoryMonitor', () => {
 
     it('should generate warnings for high memory usage', () => {
       // Create a monitor with very low thresholds to trigger warnings
-      const strictMonitor: any = new TestMemoryMonitor({;
+      const strictMonitor: any = new TestMemoryMonitor({
         heapUsed: 1 * 1024 * 1024, // 1MB - very low to trigger warning
         heapTotal: 10 * 1024 * 1024, // 10MB
-        external: 1 * 1024 * 1024, // 1MB;
+        external: 1 * 1024 * 1024, // 1MB,
         rss: 20 * 1024 * 1024, // 20MB
       });
 
@@ -220,10 +220,10 @@ describe('TestMemoryMonitor', () => {
 
   describe('Memory Thresholds and Limits', () => {
     it('should respect custom memory thresholds', () => {
-      const customMonitor: any = new TestMemoryMonitor({;
+      const customMonitor: any = new TestMemoryMonitor({
         heapUsed: 25 * 1024 * 1024, // 25MB
         heapTotal: 100 * 1024 * 1024, // 100MB
-        external: 10 * 1024 * 1024, // 10MB;
+        external: 10 * 1024 * 1024, // 10MB,
         rss: 150 * 1024 * 1024, // 150MB
       });
 

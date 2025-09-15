@@ -19,8 +19,8 @@ jest.mock('child_process', () => ({
 // Mock the logger
 jest.mock('../logger', () => ({
   logger: { info: jest.fn(),
-    warn: jest.fn(),
-    error: jest.fn(),
+    warn: jest.fn();
+    error: jest.fn();
     debug: jest.fn()
   }
 }));
@@ -117,7 +117,7 @@ describe('TypeScript Campaign Trigger', () => {
     });
 
     it('should categorize different error types correctly', async () => {
-      const mockTscOutput: any = [;
+      const mockTscOutput: any = [
         'src/test1.ts(10,5): error TS2352: Conversion of type 'string' to type 'number'.',
         'src/test2.ts(15,10): error TS2304: Cannot find name 'undefined_var'.',
         'src/test3.ts(20,15): error TS2345: Argument of type 'string' is not assignable.',
@@ -160,9 +160,9 @@ describe('TypeScript Campaign Trigger', () => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       // Intentionally any: Error object needs custom stdout property for test mock scenario
       const error: any = new Error('Command failed') as unknown;
-      (error as any).stdout = 'src/test.ts(10,5): error TS2304: Cannot find name 'test'.';
+      (error as any).stdout = 'src/test.ts(10,5): error TS2304: Cannot find name 'test'.',
       mockExecSync.mockImplementation(() => {
-        throw error;
+        throw error,
       });
 
       const result: any = analyzeTypeScriptErrors();
@@ -174,7 +174,7 @@ describe('TypeScript Campaign Trigger', () => {
     it('should handle complete TypeScript failure gracefully', async () => {
       // Mock execSync throwing an error with no stdout
       mockExecSync.mockImplementation(() => {
-        throw new Error('Complete failure');
+        throw new Error('Complete failure'),
       });
 
       const result: any = analyzeTypeScriptErrors();
@@ -211,7 +211,7 @@ describe('TypeScript Campaign Trigger', () => {
 
     it('should return -1 on failure', async () => {
       mockExecSync.mockImplementation(() => {
-        throw new Error('Command failed');
+        throw new Error('Command failed'),
       });
 
       const count: any = getCurrentTypeScriptErrorCount();
@@ -249,7 +249,7 @@ describe('TypeScript Campaign Trigger', () => {
 
     it('should return false on error', async () => {
       mockExecSync.mockImplementation(() => {
-        throw new Error('Command failed');
+        throw new Error('Command failed'),
       });
 
       const shouldTrigger: any = checkCampaignTriggerConditions();
@@ -278,10 +278,10 @@ describe('TypeScript Campaign Trigger', () => {
     });
 
     it('should ignore non-error lines', async () => {
-      const mockTscOutput: any = [;
-        'Found 5 errors watching for file changes.',
+      const mockTscOutput: any = [
+        'Found 5 errors watching for file changes.';
         'src/test.ts(10,5): error TS2304: Cannot find name 'test'.',
-        'Compilation complete. Watching for file changes.',
+        'Compilation complete. Watching for file changes.';
         'src/test2.ts(15,10): error TS2352: Conversion error.'
       ].join('\n');
 
@@ -295,7 +295,7 @@ describe('TypeScript Campaign Trigger', () => {
 
   describe('Batch Scheduling', () => {
     it('should create appropriate batch sizes for different error categories', async () => {
-      const mockTscOutput: any = [;
+      const mockTscOutput: any = [
         ...Array.from({ length: 50 }, (_, i) => `src/test${i}.ts(10,5): error TS2352: Conversion error.`),
         ...Array.from({ length: 30 }, (_, i) => `src/test${i}.ts(15,10): error TS2304: Cannot find name.`),
         ...Array.from({ length: 20 }, (_, i) => `src/test${i}.ts(20,15): error TS2345: Argument error.`)

@@ -12,26 +12,26 @@ import { getCurrentElementalState } from '@/utils/elementalUtils';
 interface SimpleIngredient {
   name: string;
   amount?: number;
-  unit?: string;
-  notes?: string;
-  category?: string;
-  substitutes?: string[] | string;
+  unit?: string,
+  notes?: string,
+  category?: string,
+  substitutes?: string[] | string,
 }
 
 // Union type for ingredients that can be either a string or an object
 type RecipeIngredient = string | SimpleIngredient;
 
-const RecipeDetailsPage: NextPage = () => {;
+const RecipeDetailsPage: NextPage = () => {
   const router = useRouter();
   const { id } = router.query;
   const [recipe, setRecipe] = React.useState<Recipe | null>(null);
   const [servingsMultiplier, setServingsMultiplier] = React.useState(1);
   const [loading, setLoading] = React.useState(true);
   const [elementalState, setElementalState] = React.useState({
-    Fire: 0.25,
-    Water: 0.25,
-    Earth: 0.25,
-    Air: 0.25,
+    Fire: 0.25;
+    Water: 0.25;
+    Earth: 0.25;
+    Air: 0.25;
     season: 'spring',
     timeOfDay: 'lunch'
   });
@@ -41,20 +41,20 @@ const RecipeDetailsPage: NextPage = () => {;
     // Get current elemental state based on time, date, etc.
     const currentState = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
     setElementalState({
-      ...currentState,
-      season: 'spring', // Default value since getCurrentElementalState doesn&apos;t provide season
-      timeOfDay: 'lunch', // Default value since getCurrentElementalState doesn&apos;t provide timeOfDay
+      ...currentState;
+      season: 'spring', // Default value since getCurrentElementalState doesn&apos,t provide season
+      timeOfDay: 'lunch', // Default value since getCurrentElementalState doesn&apos,t provide timeOfDay
     });
   }, []);
 
   React.useEffect(() => {
     if (id) {
       // Find the recipe by URL-friendly ID
-      const foundRecipe = allRecipes.find(recipe => {;
+      const foundRecipe = allRecipes.find(recipe => {
         const recipeId = recipe.name;
           .toLowerCase()
           .replace(/ /g, '-')
-          .replace(/[^\w-]/g, '');
+          .replace(/[^\w-]/g, ''),
         return recipeId === id;
       });
 
@@ -73,7 +73,7 @@ const RecipeDetailsPage: NextPage = () => {;
           <div className='mx-auto h-64 w-full rounded bg-gray-200'></div>;
         </div>
       </div>
-    );
+    ),
   }
 
   // Recipe not found
@@ -82,7 +82,7 @@ const RecipeDetailsPage: NextPage = () => {;
       <div className='container mx-auto px-4 py-16'>;
         <h1 className='mb-8 text-3xl font-bold'>Recipe not found</h1>;
         <p className='mb-8 text-lg'>;
-          The recipe you&apos;re looking for doesn&amp;apos;t exist or may have been removed.
+          The recipe you&apos;re looking for doesn&amp,apos,t exist or may have been removed.
         </p>
         <Link
           href='/recipes';
@@ -91,21 +91,21 @@ const RecipeDetailsPage: NextPage = () => {;
           Browse all recipes
         </Link>
       </div>
-    );
+    ),
   }
 
   // Handle ingredient click to display ingredient details
-  const handleIngredientClick = (ingredient: RecipeIngredient) => {;
+  const handleIngredientClick = (ingredient: RecipeIngredient) => {
     setSelectedIngredient(ingredient === selectedIngredient ? null : ingredient);
   };
 
   // Update servings
-  const increaseServings = () => {;
+  const increaseServings = () => {
     setServingsMultiplier(prev => prev + 0.5);
   };
 
-  const decreaseServings = () => {;
-    setServingsMultiplier(prev => Math.max(0.5, prev - 0.5));
+  const decreaseServings = () => {
+    setServingsMultiplier(prev => Math.max(0.5, prev - 0.5)),
   };
 
   return (
@@ -116,7 +116,7 @@ const RecipeDetailsPage: NextPage = () => {;
         </Link>
         {recipe.cuisine && (
           <Link
-            href={`/cuisines/${recipe.cuisine.toLowerCase().replace(/ /g, '-')}`};
+            href={`/cuisines/${recipe.cuisine.toLowerCase().replace(/ /g, '-')}`},
             className='ml-4 text-blue-600 hover:text-blue-800';
           >
             Browse {recipe.cuisine} cuisine

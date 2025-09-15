@@ -46,7 +46,7 @@ export class PlanetaryHourCalculator {
     'Mars'
   ];
 
-  private readonly planetaryRulers = [;
+  private readonly planetaryRulers = [
     'Sun',
     'Moon',
     'Mars',
@@ -56,7 +56,7 @@ export class PlanetaryHourCalculator {
     'Saturn'
   ];
 
-  private coordinates = {;
+  private coordinates = {
     latitude: 40.7128, // Default to New York
     longitude: -74.006
   };
@@ -92,7 +92,7 @@ export class PlanetaryHourCalculator {
     const dayOfWeek = date.getDay();
 
     // Return the planetary ruler for that day
-    return PlanetaryHourCalculator.dayRulers[dayOfWeek];
+    return PlanetaryHourCalculator.dayRulers[dayOfWeek],
   }
 
   /**
@@ -138,14 +138,14 @@ export class PlanetaryHourCalculator {
     // The minute ruler is the hour ruler + minute segment, wrapping around if needed
     const minuteRulerIndex = (rulerSequenceStart + minuteSegment) % 7;
 
-    return planetarySequence[minuteRulerIndex];
+    return planetarySequence[minuteRulerIndex],
   }
 
   /**
    * Calculate the current planetary hour
    * @returns The planet ruling the current hour
    */
-  getCurrentPlanetaryHour(): { planet: Planet; hourNumber: number; isDaytime: boolean } {
+  getCurrentPlanetaryHour(): { planet: Planet, hourNumber: number, isDaytime: boolean } {
     return this.getPlanetaryHour(new Date());
   }
 
@@ -154,12 +154,12 @@ export class PlanetaryHourCalculator {
    * @param date The date to calculate the planetary hour for
    * @returns Object containing the planet ruling the hour, hour number and if it's daytime
    */
-  getPlanetaryHour(date: Date): { planet: Planet; hourNumber: number; isDaytime: boolean } {
+  getPlanetaryHour(date: Date): { planet: Planet, hourNumber: number, isDaytime: boolean } {
     // Get sun times for the day
     const times = SunCalc.getTimes(;
       new Date(date.getFullYear(), date.getMonth(), date.getDate()),
-      this.coordinates.latitude,
-      this.coordinates.longitude,
+      this.coordinates.latitude;
+      this.coordinates.longitude;
     );
 
     const sunrise = times.sunrise;
@@ -238,31 +238,31 @@ export class PlanetaryHourCalculator {
     // Each planetary hour spans approximately 1.714 clock hours
 
     // Day hours (6am to 6pm)
-    for (let i = 0; i < 7; i++) {
+    for (let i = 0, i < 7, i++) {
       const startHour = Math.floor(6 + i * 1.714);
       const endHour = Math.floor(6 + (i + 1) * 1.714) - 1;
 
-      for (let hour = startHour; hour <= endHour; hour++) {
-        result.set(hour, rulers[i]);
+      for (let hour = startHour, hour <= endHour, hour++) {
+        result.set(hour, rulers[i]),
       }
     }
 
     // Night hours (6pm to 6am)
-    for (let i = 0; i < 7; i++) {
+    for (let i = 0, i < 7, i++) {
       const startHour = Math.floor(18 + i * 1.714) % 24;
       const endHour = (Math.floor(18 + (i + 1) * 1.714) % 24) - 1;
 
       if (endHour < startHour) {
         // Handle hours that cross midnight
-        for (let hour = startHour; hour < 24; hour++) {
-          result.set(hour, rulers[i]);
+        for (let hour = startHour, hour < 24, hour++) {
+          result.set(hour, rulers[i]),
         }
-        for (let hour = 0; hour <= endHour; hour++) {
-          result.set(hour, rulers[i]);
+        for (let hour = 0, hour <= endHour, hour++) {
+          result.set(hour, rulers[i]),
         }
       } else {
-        for (let hour = startHour; hour <= endHour; hour++) {
-          result.set(hour, rulers[i]);
+        for (let hour = startHour, hour <= endHour, hour++) {
+          result.set(hour, rulers[i]),
         }
       }
     }
@@ -282,15 +282,15 @@ export class PlanetaryHourCalculator {
 
   // Fallback calculation in case SunCalc fails
   private getFallbackPlanetaryHour(date: Date): {
-    planet: Planet;
-    hourNumber: number;
-    isDaytime: boolean;
+    planet: Planet,
+    hourNumber: number,
+    isDaytime: boolean,
   } {
     const hour = date.getHours();
     const dayOfWeek = date.getDay();
 
     // Approximate planetary hour based on 24-hour day divided into 12 day and 12 night hours
-    let hourIndex;
+    let hourIndex,
     if (hour >= 6 && hour < 18) {
       // Daytime hour
       hourIndex = Math.floor(((hour - 6) / 12) * 12);

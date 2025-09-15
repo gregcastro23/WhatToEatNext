@@ -2,7 +2,7 @@
 import type { _, _ZodiacSign } from '@/types/alchemy';
 import type { Cuisine } from '@/types/cuisine';
 
-export const italian: Cuisine = {;
+export const italian: Cuisine = {
   id: 'italian',
   name: 'Italian',
   description:
@@ -783,9 +783,9 @@ export const italian: Cuisine = {;
           season: ['all'],
           mealType: ['dinner'],
           elementalProperties: {
-            Earth: 0.4,
-            Water: 0.3,
-            Fire: 0.2,
+            Earth: 0.4;
+            Water: 0.3;
+            Fire: 0.2;
             Air: 0.1
           }
         }
@@ -1090,9 +1090,9 @@ export const italian: Cuisine = {;
       culinaryUses: ['pasta sauce', 'pizza base', 'dipping sauce', 'casserole base'],
       derivatives: ['Arrabbiata', 'Puttanesca', 'Alla Norma'],
       elementalProperties: {
-        Fire: 0.4,
-        Earth: 0.3,
-        Water: 0.2,
+        Fire: 0.4;
+        Earth: 0.3;
+        Water: 0.2;
         Air: 0.1
       },
       astrologicalInfluences: ['Mars', 'Sun', 'Leo'],
@@ -1117,9 +1117,9 @@ export const italian: Cuisine = {;
       ],
       derivatives: ['Mornay sauce', 'Soubise', 'Infused besciamella'],
       elementalProperties: {
-        Water: 0.4,
-        Earth: 0.4,
-        Air: 0.1,
+        Water: 0.4;
+        Earth: 0.4;
+        Air: 0.1;
         Fire: 0.1
       },
       astrologicalInfluences: ['Moon', 'Venus', 'Cancer'],
@@ -1142,9 +1142,9 @@ export const italian: Cuisine = {;
       culinaryUses: ['pasta sauce', 'pizza base', 'dipping sauce', 'casserole base'],
       variants: ['Arrabbiata', 'Puttanesca', 'Alla Norma'],
       elementalProperties: {
-        Fire: 0.4,
-        Earth: 0.3,
-        Water: 0.2,
+        Fire: 0.4;
+        Earth: 0.3;
+        Water: 0.2;
         Air: 0.1
       },
       astrologicalInfluences: ['Mars', 'Sun', 'leo'],
@@ -1167,9 +1167,9 @@ export const italian: Cuisine = {;
       culinaryUses: ['pasta sauce', 'sandwich spread', 'marinade', 'flavor enhancer'],
       variants: ['Red pesto', 'Pesto alla Siciliana', 'Pesto alla Trapanese'],
       elementalProperties: {
-        Air: 0.4,
-        Earth: 0.3,
-        Fire: 0.2,
+        Air: 0.4;
+        Earth: 0.3;
+        Fire: 0.2;
         Water: 0.1
       },
       astrologicalInfluences: ['Mercury', 'Venus', 'gemini'],
@@ -1189,9 +1189,9 @@ export const italian: Cuisine = {;
         'Vegetarian carbonara'
       ],
       elementalProperties: {
-        Earth: 0.4,
-        Air: 0.3,
-        Fire: 0.2,
+        Earth: 0.4;
+        Air: 0.3;
+        Fire: 0.2;
         Water: 0.1
       },
       astrologicalInfluences: ['Jupiter', 'Mars', 'aries'],
@@ -1208,9 +1208,9 @@ export const italian: Cuisine = {;
       culinaryUses: ['pasta sauce', 'lasagna filling', 'polenta topping', 'stuffed pasta filling'],
       variants: ['Ragù Napoletano', 'White ragù', 'Wild boar ragù', 'Vegetarian mushroom ragù'],
       elementalProperties: {
-        Earth: 0.5,
-        Fire: 0.3,
-        Water: 0.1,
+        Earth: 0.5;
+        Fire: 0.3;
+        Water: 0.1;
         Air: 0.1
       },
       astrologicalInfluences: ['Saturn', 'Mars', 'taurus'],
@@ -1231,9 +1231,9 @@ export const italian: Cuisine = {;
       ],
       variants: ['Mornay sauce', 'Soubise', 'Infused besciamella'],
       elementalProperties: {
-        Water: 0.4,
-        Earth: 0.4,
-        Air: 0.1,
+        Water: 0.4;
+        Earth: 0.4;
+        Air: 0.1;
         Fire: 0.1
       },
       astrologicalInfluences: ['Moon', 'Venus', 'cancer'],

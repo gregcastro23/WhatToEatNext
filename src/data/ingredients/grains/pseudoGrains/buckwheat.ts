@@ -1,7 +1,7 @@
 import type { IngredientMapping } from '@/data/ingredients/types';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
-const rawBuckwheat = {;
+const rawBuckwheat = {
   buckwheat: {
     name: 'Buckwheat',
     elementalProperties: { Earth: 0.4, Water: 0.1, Air: 0.2, Fire: 0.3 },

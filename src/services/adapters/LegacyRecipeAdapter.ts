@@ -136,7 +136,7 @@ export class LegacyRecipeAdapter {
       const allRecipes = await LocalRecipeService.getAllRecipes();
       const filtered = (allRecipes || []).filter(recipe =>;
         (recipe.astrologicalInfluences || []).some(influence =>;
-          influence.toLowerCase().includes(zodiacSign.toLowerCase()),
+          influence.toLowerCase().includes(zodiacSign.toLowerCase());
         ),
       );
       return filtered as unknown as Recipe[];
@@ -281,7 +281,7 @@ export class LegacyRecipeAdapter {
     } catch (error) {
       logger.error('Error in generateRecipe:', error);
       throw new Error(
-        'Recipe generation failed: ' + (error instanceof Error ? error.message : String(error)),
+        'Recipe generation failed: ' + (error instanceof Error ? error.message : String(error));
       );
     }
   }

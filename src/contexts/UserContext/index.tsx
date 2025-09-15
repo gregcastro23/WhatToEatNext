@@ -13,7 +13,7 @@ interface UserProfile {
 }
 
 // Mock userService for build compatibility
-const userService = {;
+const userService = {
   getUserProfile: async (userId: string): Promise<UserProfile> => {
     return { userId, name: 'Mock User', email: 'mock@example.com' };
   },
@@ -42,7 +42,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
-  const loadProfile = async () => {;
+  const loadProfile = async () => {
     setIsLoading(true);
     setError(null);
     try {
@@ -57,7 +57,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     }
   };
 
-  const updateProfile = async (data: Partial<UserProfile>): Promise<UserProfile | null> => {;
+  const updateProfile = async (data: Partial<UserProfile>): Promise<UserProfile | null> => {
     setIsLoading(true);
     setError(null);
     try {
@@ -65,7 +65,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
         throw new Error('No user profile loaded');
       }
 
-      const updatedProfile = await userService.saveUserProfile({;
+      const updatedProfile = await userService.saveUserProfile({
         ...data,
         userId: currentUser.userId
       });
@@ -81,7 +81,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     }
   };
 
-  const logout = () => {;
+  const logout = () => {
     setCurrentUser(null);
   };
 
@@ -89,7 +89,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     void loadProfile();
   }, []);
 
-  const value = {;
+  const value = {
     currentUser,
     isLoading,
     error,
@@ -101,7 +101,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;
 };
 
-export const useUser = (): UserContextType => {;
+export const useUser = (): UserContextType => {
   const context = useContext(UserContext);
   if (!context) {
     throw new Error('useUser must be used within a UserProvider');

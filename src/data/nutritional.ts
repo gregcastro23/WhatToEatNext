@@ -5,10 +5,10 @@ import { _, _ZodiacSign, _Planet } from '@/types/alchemy';
 interface NutritionalProfile {
   calories?: number;
   macros?: {
-    protein?: number;
-    carbs?: number;
-    fat?: number;
-    fiber?: number;
+    protein?: number,
+    carbs?: number,
+    fat?: number,
+    fiber?: number,
   };
   vitamins?: Record<string, number>;
   minerals?: Record<string, number>;
@@ -24,24 +24,24 @@ export const baseNutritionalProfiles: Record<string, NutritionalProfile> = {
     macros: {
       protein: 2,
       carbs: 10,
-      fat: 0.5,
+      fat: 0.5;
       fiber: 3
     },
     vitamins: {
-      A: 0.2,
-      C: 0.3,
-      K: 0.25,
-      E: 0.1,
+      A: 0.2;
+      C: 0.3;
+      K: 0.25;
+      E: 0.1;
       B6: 0.1
     },
     minerals: {
-      potassium: 0.2,
-      magnesium: 0.15,
-      iron: 0.1,
+      potassium: 0.2;
+      magnesium: 0.15;
+      iron: 0.1;
       calcium: 0.1
     },
     phytonutrients: {
-      antioxidants: 0.3,
+      antioxidants: 0.3;
       flavonoids: 0.25
     }
   },
@@ -50,23 +50,23 @@ export const baseNutritionalProfiles: Record<string, NutritionalProfile> = {
     macros: {
       protein: 1,
       carbs: 20,
-      fat: 0.2,
+      fat: 0.2;
       fiber: 3
     },
     vitamins: {
-      A: 0.1,
-      C: 0.4,
-      E: 0.1,
+      A: 0.1;
+      C: 0.4;
+      E: 0.1;
       B6: 0.1
     },
     minerals: {
-      potassium: 0.2,
-      magnesium: 0.1,
-      iron: 0.05,
+      potassium: 0.2;
+      magnesium: 0.1;
+      iron: 0.05;
       calcium: 0.05
     },
     phytonutrients: {
-      antioxidants: 0.35,
+      antioxidants: 0.35;
       flavonoids: 0.3
     }
   },
@@ -79,15 +79,15 @@ export const baseNutritionalProfiles: Record<string, NutritionalProfile> = {
       fiber: 4
     },
     vitamins: {
-      B1: 0.2,
-      B3: 0.2,
-      B6: 0.1,
+      B1: 0.2;
+      B3: 0.2;
+      B6: 0.1;
       E: 0.1
     },
     minerals: {
-      iron: 0.15,
-      magnesium: 0.15,
-      zinc: 0.1,
+      iron: 0.15;
+      magnesium: 0.15;
+      zinc: 0.1;
       selenium: 0.1
     }
   },
@@ -100,15 +100,15 @@ export const baseNutritionalProfiles: Record<string, NutritionalProfile> = {
       fiber: 7
     },
     vitamins: {
-      B1: 0.1,
-      B6: 0.1,
-      K: 0.1,
+      B1: 0.1;
+      B6: 0.1;
+      K: 0.1;
       folate: 0.2
     },
     minerals: {
-      iron: 0.2,
-      magnesium: 0.15,
-      zinc: 0.1,
+      iron: 0.2;
+      magnesium: 0.15;
+      zinc: 0.1;
       potassium: 0.15
     },
     phytonutrients: {
@@ -124,13 +124,13 @@ export const baseNutritionalProfiles: Record<string, NutritionalProfile> = {
       fiber: 3
     },
     vitamins: {
-      E: 0.3,
+      E: 0.3;
       B6: 0.1
     },
     minerals: {
-      magnesium: 0.2,
-      zinc: 0.15,
-      selenium: 0.2,
+      magnesium: 0.2;
+      zinc: 0.15;
+      selenium: 0.2;
       copper: 0.2
     },
     phytonutrients: {
@@ -146,15 +146,15 @@ export const baseNutritionalProfiles: Record<string, NutritionalProfile> = {
       fiber: 0
     },
     vitamins: {
-      A: 0.1,
-      D: 0.15,
-      B12: 0.2,
+      A: 0.1;
+      D: 0.15;
+      B12: 0.2;
       riboflavin: 0.25
     },
     minerals: {
-      calcium: 0.3,
-      phosphorus: 0.2,
-      selenium: 0.1,
+      calcium: 0.3;
+      phosphorus: 0.2;
+      selenium: 0.1;
       zinc: 0.1
     }
   },
@@ -167,15 +167,15 @@ export const baseNutritionalProfiles: Record<string, NutritionalProfile> = {
       fiber: 0
     },
     vitamins: {
-      B12: 0.4,
-      B6: 0.2,
-      niacin: 0.25,
+      B12: 0.4;
+      B6: 0.2;
+      niacin: 0.25;
       riboflavin: 0.15
     },
     minerals: {
-      iron: 0.2,
-      zinc: 0.3,
-      phosphorus: 0.2,
+      iron: 0.2;
+      zinc: 0.3;
+      phosphorus: 0.2;
       selenium: 0.2
     }
   },
@@ -188,15 +188,15 @@ export const baseNutritionalProfiles: Record<string, NutritionalProfile> = {
       fiber: 0
     },
     vitamins: {
-      D: 0.3,
-      B12: 0.3,
-      niacin: 0.2,
+      D: 0.3;
+      B12: 0.3;
+      niacin: 0.2;
       B6: 0.15
     },
     minerals: {
-      selenium: 0.3,
-      phosphorus: 0.2,
-      iodine: 0.2,
+      selenium: 0.3;
+      phosphorus: 0.2;
+      iodine: 0.2;
       magnesium: 0.1
     }
   }
@@ -272,9 +272,9 @@ export const zodiacNutritionalNeeds: Record<
   string,
   {
     elementalNeeds: Record<string, number>;
-    nutritionalFocus: string[];
-    beneficialFoods: string[];
-    challengeFoods: string[];
+    nutritionalFocus: string[],
+    beneficialFoods: string[],
+    challengeFoods: string[],
   }
 > = {
   aries: {
@@ -361,9 +361,9 @@ export const zodiacNutritionalNeeds: Record<
 export const planetaryNutritionInfluence: Record<
   string,
   {
-    nutrientRulership: string[];
-    healthDomain: string[];
-    beneficialFoods: string[];
+    nutrientRulership: string[],
+    healthDomain: string[],
+    beneficialFoods: string[],
   }
 > = {
   sun: {
@@ -422,9 +422,9 @@ export const planetaryNutritionInfluence: Record<
 export const seasonalNutritionFocus: Record<
   string,
   {
-    elementalEmphasis: string;
-    nutritionalFocus: string[];
-    recommendedFoods: string[];
+    elementalEmphasis: string,
+    nutritionalFocus: string[],
+    recommendedFoods: string[],
   }
 > = {
   spring: {
@@ -536,8 +536,8 @@ export async function fetchNutritionalData(foodName: string): Promise<Nutritiona
     log.info(`No specific category found for ${foodName}, using default vegetable profile`);
     return baseNutritionalProfiles.vegetables;
   } catch (error) {
-    console.error('Error fetching nutritional data:', error);
-    return null;
+    console.error('Error fetching nutritional data:', error),
+    return null,
   }
 }
 
@@ -545,9 +545,9 @@ export async function fetchNutritionalData(foodName: string): Promise<Nutritiona
 
 // Interface for ingredients with nutritional profiles
 interface IngredientWithNutrition {
-  nutritionalProfile?: NutritionalProfile;
-  amount?: number;
-  [key: string]: unknown;
+  nutritionalProfile?: NutritionalProfile,
+  amount?: number,
+  [key: string]: unknown,
 }
 
 /**
@@ -556,7 +556,7 @@ interface IngredientWithNutrition {
 export function calculateNutritionalBalance(
   ingredients: IngredientWithNutrition[],
 ): NutritionalProfile {
-  const defaultProfile: NutritionalProfile = {;
+  const defaultProfile: NutritionalProfile = {
     calories: 0,
     macros: {
       protein: 0,
@@ -569,8 +569,8 @@ export function calculateNutritionalBalance(
     phytonutrients: {}
   };
 
-  if (!ingredients || ingredients.length === 0) {;
-    return defaultProfile;
+  if (!ingredients || ingredients.length === 0) {
+    return defaultProfile,
   }
 
   return ingredients.reduce((acc, ingredient) => {
@@ -622,10 +622,10 @@ export function calculateNutritionalBalance(
  * Convert NutritionalProfile to elemental influences
  */
 export function nutritionalToElemental(profile: NutritionalProfile): {
-  Fire: number;
-  Water: number;
-  Earth: number;
-  Air: number;
+  Fire: number,
+  Water: number,
+  Earth: number,
+  Air: number,
 } {
   if (!profile) {
     return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
@@ -678,9 +678,9 @@ export function nutritionalToElemental(profile: NutritionalProfile): {
  */
 export function getZodiacNutritionalRecommendations(sign: string): {
   elementalBalance: Record<string, number>;
-  focusNutrients: string[];
-  recommendedFoods: string[];
-  avoidFoods: string[];
+  focusNutrients: string[],
+  recommendedFoods: string[],
+  avoidFoods: string[],
 } {
   const signData = zodiacNutritionalNeeds[sign];
 
@@ -688,7 +688,7 @@ export function getZodiacNutritionalRecommendations(sign: string): {
     elementalBalance:
       (signData as { elementalNeeds?: Record<string, number> })?.elementalNeeds ?? {},
     focusNutrients: (signData as { nutritionalFocus?: string[] })?.nutritionalFocus ?? [],
-    recommendedFoods: signData.beneficialFoods,
+    recommendedFoods: signData.beneficialFoods;
     avoidFoods: signData.challengeFoods
   };
 }
@@ -696,7 +696,7 @@ export function getZodiacNutritionalRecommendations(sign: string): {
 /**
  * Map planets to their elemental influences (diurnal and nocturnal elements)
  */
-const planetaryElements: Record<string, { diurnal: string; nocturnal: string }> = {
+const planetaryElements: Record<string, { diurnal: string, nocturnal: string }> = {
   sun: { diurnal: 'Fire', nocturnal: 'Fire' },
   moon: { diurnal: 'Water', nocturnal: 'Water' },
   mercury: { diurnal: 'Air', nocturnal: 'Earth' },
@@ -712,7 +712,7 @@ const planetaryElements: Record<string, { diurnal: string; nocturnal: string }> 
 /**
  * Helper function to determine if it's currently daytime (6am-6pm)
  */
-function isDaytime(date: Date = new Date()): boolean {;
+function isDaytime(date: Date = new Date()): boolean {
   const hour = date.getHours();
   return hour >= 6 && hour < 18;
 }
@@ -727,12 +727,12 @@ function isDaytime(date: Date = new Date()): boolean {;
 export function getEnhancedPlanetaryNutritionalRecommendations(
   planetaryDay: string,
   planetaryHour: string,
-  currentTime: Date = new Date(),;
+  currentTime: Date = new Date(),,
 ): {
   elements: Record<string, number>;
-  focusNutrients: string[];
-  healthAreas: string[];
-  recommendedFoods: string[];
+  focusNutrients: string[],
+  healthAreas: string[],
+  recommendedFoods: string[],
 } {
   // Normalize planet names to lowercase
   const dayPlanet = planetaryDay.toLowerCase();
@@ -791,7 +791,7 @@ export function getEnhancedPlanetaryNutritionalRecommendations(
   // Normalize elements to sum to 1.0
   const elementsTotal = Object.values(elements).reduce((sum, val) => sum + val, 0);
   if (elementsTotal > 0) {
-    Object.keys(elements).forEach(element => {;
+    Object.keys(elements).forEach(element => {
       elements[element] = elements[element] / elementsTotal;
     });
   }
@@ -810,16 +810,16 @@ export function getEnhancedPlanetaryNutritionalRecommendations(
  * Legacy method - consider using getEnhancedPlanetaryNutritionalRecommendations instead
  */
 export function getPlanetaryNutritionalRecommendations(planets: string[]): {
-  focusNutrients: string[];
-  healthAreas: string[];
-  recommendedFoods: string[];
+  focusNutrients: string[],
+  healthAreas: string[],
+  recommendedFoods: string[],
 } {
   // Combine recommendations from all influential planets
   const focusNutrients: string[] = [];
   const healthAreas: string[] = [];
   const recommendedFoods: string[] = [];
 
-  planets.forEach(planet => {;
+  planets.forEach(planet => {
     const influence = planetaryNutritionInfluence[planet];
     if (influence) {
       focusNutrients.push(...influence.nutrientRulership);
@@ -840,9 +840,9 @@ export function getPlanetaryNutritionalRecommendations(planets: string[]): {
  * Get seasonal nutritional recommendations
  */
 export function getSeasonalNutritionalRecommendations(season: string): {
-  element: string;
-  focusNutrients: string[];
-  seasonalFoods: string[];
+  element: string,
+  focusNutrients: string[],
+  seasonalFoods: string[],
 } {
   // Normalize season name
   const normalizedSeason = season.toLowerCase();
@@ -865,19 +865,19 @@ export function getSeasonalNutritionalRecommendations(season: string): {
  */
 export function evaluateNutritionalElementalBalance(
   profile: NutritionalProfile,
-  targetElements: { Fire: number; Water: number; Earth: number; Air: number },
+  targetElements: { Fire: number, Water: number, Earth: number, Air: number },
 ): {
-  score: number;
-  imbalances: string[];
-  recommendations: string[];
+  score: number,
+  imbalances: string[],
+  recommendations: string[],
 } {
   const currentElements = nutritionalToElemental(profile);
 
   // Calculate difference between current and target
-  const differences = {;
-    Fire: Math.abs(currentElements.Fire - targetElements.Fire),
-    Water: Math.abs(currentElements.Water - targetElements.Water),
-    Earth: Math.abs(currentElements.Earth - targetElements.Earth),
+  const differences = {
+    Fire: Math.abs(currentElements.Fire - targetElements.Fire);
+    Water: Math.abs(currentElements.Water - targetElements.Water);
+    Earth: Math.abs(currentElements.Earth - targetElements.Earth);
     Air: Math.abs(currentElements.Air - targetElements.Air)
   };
 

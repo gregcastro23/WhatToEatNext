@@ -18,10 +18,10 @@ import path from 'path';
 export interface HighImpactFileConfig {
   maxVariablesAutoProcess: number;
   criticalFileBatchSize: number;
-  serviceLayerBatchSize: number;
-  requireManualReview: boolean;
-  enhancedValidation: boolean;
-  createDetailedBackups: boolean;
+  serviceLayerBatchSize: number,
+  requireManualReview: boolean,
+  enhancedValidation: boolean,
+  createDetailedBackups: boolean,
 }
 
 export interface FileRiskAssessment {
@@ -31,35 +31,35 @@ export interface FileRiskAssessment {
   fileType: 'service' | 'calculation' | 'component' | 'utility' | 'test' | 'other';
   unusedVariableCount: number;
   requiresManualReview: boolean;
-  requiresEnhancedValidation: boolean;
-  recommendedBatchSize: number;
-  riskFactors: string[];
-  mitigationStrategies: string[];
+  requiresEnhancedValidation: boolean,
+  recommendedBatchSize: number,
+  riskFactors: string[],
+  mitigationStrategies: string[],
 }
 
 export interface ManualReviewRequest {
   filePath: string;
-  unusedVariableCount: number;
-  riskFactors: string[];
-  reviewInstructions: string[];
-  approvalRequired: boolean;
+  unusedVariableCount: number,
+  riskFactors: string[],
+  reviewInstructions: string[],
+  approvalRequired: boolean,
 }
 
 export interface ValidationResult {
   passed: boolean;
-  errors: string[];
-  warnings: string[];
-  recommendations: string[];
-  requiresRollback: boolean;
+  errors: string[],
+  warnings: string[],
+  recommendations: string[],
+  requiresRollback: boolean,
 }
 
 export class EnhancedSafetyProtocols {
-  private config: HighImpactFileConfig;
+  private config: HighImpactFileConfig,
   private manualReviewQueue: ManualReviewRequest[] = [];
-  private validationHistory: Map<string, ValidationResult[]> = new Map();
+  private validationHistory: Map<string, ValidationResult[]> = new Map(),
 
   constructor(config: Partial<HighImpactFileConfig> = {}) {
-    this.config = {;
+    this.config = {
       maxVariablesAutoProcess: 20,
       criticalFileBatchSize: 5,
       serviceLayerBatchSize: 8,
@@ -107,7 +107,7 @@ export class EnhancedSafetyProtocols {
       mitigationStrategies.push('Mandatory manual review required');
       mitigationStrategies.push('Process in smallest possible batches');
     } else if (unusedVariableCount > 10) {
-      riskLevel = this.escalateRiskLevel(riskLevel, 1);
+      riskLevel = this.escalateRiskLevel(riskLevel, 1),
       riskFactors.push(`Moderate unused variable count (${unusedVariableCount})`);
       mitigationStrategies.push('Enhanced pre-processing validation');
     }
@@ -160,7 +160,7 @@ export class EnhancedSafetyProtocols {
       reviewInstructions.push('Verify that no planetary calculation variables are eliminated');
       reviewInstructions.push(
         'Ensure elemental property variables (Fire, Water, Earth, Air) are preserved',
-      );
+      ),
       reviewInstructions.push('Check that astronomical data processing remains intact');
     }
 
@@ -180,12 +180,12 @@ export class EnhancedSafetyProtocols {
     reviewInstructions.push('Verify TypeScript compilation passes');
     reviewInstructions.push('Check that no runtime errors are introduced');
 
-    const request: ManualReviewRequest = {;
-      filePath: assessment.filePath,
-      unusedVariableCount: assessment.unusedVariableCount,
-      riskFactors: assessment.riskFactors,
+    const request: ManualReviewRequest = {
+      filePath: assessment.filePath;
+      unusedVariableCount: assessment.unusedVariableCount;
+      riskFactors: assessment.riskFactors;
       reviewInstructions,
-      approvalRequired: assessment.riskLevel === 'critical' || assessment.unusedVariableCount > 30,;
+      approvalRequired: assessment.riskLevel === 'critical' || assessment.unusedVariableCount > 30,,
     };
 
     this.manualReviewQueue.push(request);
@@ -196,7 +196,7 @@ export class EnhancedSafetyProtocols {
    * Perform enhanced validation for high-impact files
    */
   async performEnhancedValidation(filePath: string, changes: string[]): Promise<ValidationResult> {
-    const result: ValidationResult = {;
+    const result: ValidationResult = {
       passed: true,
       errors: [],
       warnings: [],
@@ -255,7 +255,7 @@ export class EnhancedSafetyProtocols {
       if (history) {
         history.push(result);
       } else {
-        this.validationHistory.set(filePath, [result]);
+        this.validationHistory.set(filePath, [result]),
       }
     } catch (error) {
       result.passed = false;
@@ -270,7 +270,7 @@ export class EnhancedSafetyProtocols {
    * Get pending manual review requests
    */
   getPendingManualReviews(): ManualReviewRequest[] {
-    return [...this.manualReviewQueue];
+    return [...this.manualReviewQueue],
   }
 
   /**
@@ -278,8 +278,8 @@ export class EnhancedSafetyProtocols {
    */
   approveManualReview(filePath: string, reviewerNotes?: string): boolean {
     const index = this.manualReviewQueue.findIndex(req => req.filePath === filePath);
-    if (index === -1) {;
-      return false;
+    if (index === -1) {
+      return false,
     }
 
     this.manualReviewQueue.splice(index, 1);
@@ -295,8 +295,8 @@ export class EnhancedSafetyProtocols {
    */
   rejectManualReview(filePath: string, reason: string): boolean {
     const index = this.manualReviewQueue.findIndex(req => req.filePath === filePath);
-    if (index === -1) {;
-      return false;
+    if (index === -1) {
+      return false,
     }
 
     this.manualReviewQueue.splice(index, 1);
@@ -313,14 +313,14 @@ export class EnhancedSafetyProtocols {
     if (/\/components\//.test(filePath)) return 'component';
     if (/\/utils\//.test(filePath)) return 'utility';
     if (/\.(test|spec)\./.test(filePath)) return 'test';
-    return 'other';
+    return 'other',
   }
 
   private isCoreCalculationFile(filePath: string): boolean {
     return (
       /\/src\/calculations\//.test(filePath) ||
       /\/src\/utils\/.*(?:astrology|astronomy|planetary|elemental)/.test(filePath)
-    );
+    ),
   }
 
   private isServiceLayerFile(filePath: string): boolean {
@@ -328,13 +328,13 @@ export class EnhancedSafetyProtocols {
       /\/src\/services\//.test(filePath) ||
       /Service\.ts$/.test(filePath) ||
       /Client\.ts$/.test(filePath)
-    );
+    ),
   }
 
   private isHighImpactUtility(filePath: string): boolean {
     return /\/src\/utils\/(?:reliableAstronomy|elementalUtils|planetaryConsistencyCheck)/.test(
       filePath,
-    );
+    ),
   }
 
   private hasComplexDependencies(filePath: string): boolean {
@@ -342,40 +342,40 @@ export class EnhancedSafetyProtocols {
       const content = fs.readFileSync(filePath, 'utf8');
       const importCount = (content.match(/^import\s+/gm) || []).length;
       const requireCount = (content.match(/require\s*\(/g) || []).length;
-      return importCount + requireCount > 10;
+      return importCount + requireCount > 10,
     } catch {
-      return false;
+      return false,
     }
   }
 
   private containsAstrologicalCalculations(filePath: string): boolean {
     try {
-      const content = fs.readFileSync(filePath, 'utf8');
+      const content = fs.readFileSync(filePath, 'utf8'),
       return /\b(?:planetary|zodiac|astrology|ephemeris|longitude|latitude|degree)\b/i.test(
         content,
-      );
+      ),
     } catch {
-      return false;
+      return false,
     }
   }
 
   private containsCampaignSystemLogic(filePath: string): boolean {
     try {
-      const content = fs.readFileSync(filePath, 'utf8');
+      const content = fs.readFileSync(filePath, 'utf8'),
       return /\b(?:campaign|metrics|progress|intelligence|monitoring)\b/i.test(content);
     } catch {
-      return false;
+      return false,
     }
   }
 
   private escalateRiskLevel(
     currentLevel: FileRiskAssessment['riskLevel'],
-    steps: number = 2,;
+    steps: number = 2;
   ): FileRiskAssessment['riskLevel'] {
     const levels: FileRiskAssessment['riskLevel'][] = ['low', 'medium', 'high', 'critical'];
     const currentIndex = levels.indexOf(currentLevel);
-    const newIndex = Math.min(levels.length - 1, currentIndex + steps);
-    return levels[newIndex];
+    const newIndex = Math.min(levels.length - 1, currentIndex + steps),
+    return levels[newIndex],
   }
 
   private shouldRequireManualReview(
@@ -386,8 +386,8 @@ export class EnhancedSafetyProtocols {
     return (
       unusedVariableCount > this.config.maxVariablesAutoProcess ||
       riskLevel === 'critical' ||;
-      riskLevel === 'high';
-    );
+      riskLevel === 'high'
+    ),
   }
 
   private shouldRequireEnhancedValidation(
@@ -399,24 +399,24 @@ export class EnhancedSafetyProtocols {
       riskLevel === 'critical' ||;
       riskLevel === 'high' ||;
       fileType === 'service' ||;
-      fileType === 'calculation';
-    );
+      fileType === 'calculation'
+    ),
   }
 
   private getRecommendedBatchSize(
     riskLevel: FileRiskAssessment['riskLevel'],
     fileType: FileRiskAssessment['fileType'],
   ): number {
-    if (riskLevel === 'critical' || fileType === 'calculation') {;
+    if (riskLevel === 'critical' || fileType === 'calculation') {
       return this.config.criticalFileBatchSize;
     }
-    if (riskLevel === 'high' || fileType === 'service') {;
+    if (riskLevel === 'high' || fileType === 'service') {
       return this.config.serviceLayerBatchSize;
     }
     return 15; // Default batch size
   }
 
-  private async validateTypeScriptCompilation(): Promise<{ passed: boolean; errors: string[] }> {
+  private async validateTypeScriptCompilation(): Promise<{ passed: boolean, errors: string[] }> {
     try {
       execSync('yarn tsc --noEmit --skipLibCheck', { stdio: 'pipe', timeout: 30000 });
       return { passed: true, errors: [] };
@@ -430,13 +430,13 @@ export class EnhancedSafetyProtocols {
 
   private async validateServiceLayer(
     filePath: string,
-  ): Promise<{ passed: boolean; errors: string[]; warnings: string[] }> {
+  ): Promise<{ passed: boolean, errors: string[], warnings: string[] }> {
     const errors: string[] = [];
     const warnings: string[] = [];
 
     try {
       // Check for common service layer patterns that might be broken
-      const content = fs.readFileSync(filePath, 'utf8');
+      const content = fs.readFileSync(filePath, 'utf8'),
 
       // Check for API endpoint definitions
       if (/\/api\//.test(content) && !/export.*api/i.test(content)) {
@@ -460,7 +460,7 @@ export class EnhancedSafetyProtocols {
 
   private async validateCoreCalculations(
     filePath: string,
-  ): Promise<{ passed: boolean; errors: string[] }> {
+  ): Promise<{ passed: boolean, errors: string[] }> {
     const errors: string[] = [];
 
     try {
@@ -468,7 +468,7 @@ export class EnhancedSafetyProtocols {
       const content = fs.readFileSync(filePath, 'utf8');
 
       // Check for elemental properties
-      const elementalProps = ['Fire', 'Water', 'Earth', 'Air'];
+      const elementalProps = ['Fire', 'Water', 'Earth', 'Air'],
       const missingElements = elementalProps.filter(element => !content.includes(element));
       if (missingElements.length > 0) {
         errors.push(`Missing elemental properties: ${missingElements.join(', ')}`);
@@ -487,10 +487,10 @@ export class EnhancedSafetyProtocols {
   }
 
   private async validateDependencies(filePath: string): Promise<{
-    passed: boolean;
-    errors: string[];
-    warnings: string[];
-    critical: boolean;
+    passed: boolean,
+    errors: string[],
+    warnings: string[],
+    critical: boolean,
   }> {
     const errors: string[] = [];
     const warnings: string[] = [];
@@ -503,7 +503,7 @@ export class EnhancedSafetyProtocols {
       // This is a simplified check - in a real implementation, you might want to
       // actually try importing the module or running dependency analysis tools
       if (fs.existsSync(filePath)) {
-        const content = fs.readFileSync(filePath, 'utf8');
+        const content = fs.readFileSync(filePath, 'utf8'),
 
         // Check for syntax errors that might prevent import
         if (content.includes('undefined') && content.includes('export')) {
@@ -525,7 +525,7 @@ export class EnhancedSafetyProtocols {
 
   private async validateRuntime(
     filePath: string,
-  ): Promise<{ warnings: string[]; recommendations: string[] }> {
+  ): Promise<{ warnings: string[], recommendations: string[] }> {
     const warnings: string[] = [];
     const recommendations: string[] = [];
 

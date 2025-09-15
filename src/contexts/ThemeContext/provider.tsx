@@ -19,7 +19,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     }
   }, []);
 
-  const handleThemeChange = (newTheme: Theme) => {;
+  const handleThemeChange = (newTheme: Theme) => {
     setTheme(newTheme);
     themeManager.updateTheme(newTheme);
   };

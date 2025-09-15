@@ -15,7 +15,7 @@ const mockExecSync: any = execSync as jest.MockedFunction<typeof execSync>;
 const mockFs: any = fs as jest.Mocked<typeof fs>;
 
 describe('ValidationFramework', () => {
-  let validationFramework: ValidationFramework;
+  let validationFramework: ValidationFramework,
 
   beforeEach(() => {
     validationFramework = new ValidationFramework();
@@ -27,7 +27,7 @@ describe('ValidationFramework', () => {
       const phases: any = validationFramework.getAvailablePhases();
 
       expect(phases).toHaveLength(4);
-      expect(phases.map(p => p.id)).toEqual(['phase1', 'phase2', 'phase3', 'phase4']);
+      expect(phases.map(p => p.id)).toEqual(['phase1', 'phase2', 'phase3', 'phase4']),
     });
   });
 
@@ -55,7 +55,7 @@ describe('ValidationFramework', () => {
     it('should throw error for unknown phase', async () => {
       await expect(validationFramework.validatePhase('unknown-phase')).rejects.toThrow(
         'Unknown phase ID: any-phase',
-      );
+      ),
     });
 
     it('should validate Phase 1 successfully with zero TypeScript errors', async () => {
@@ -68,12 +68,12 @@ describe('ValidationFramework', () => {
       expect(result.success).toBe(true);
       expect(result.score).toBeGreaterThan(0.9); // Should be high score
       expect(result.passedCriteria).toBeGreaterThan(0);
-      expect(result.results).toHaveLength(3); // 3 criteria for phase 1
+      expect(result.results).toHaveLength(3), // 3 criteria for phase 1
     });
 
     it('should validate Phase 1 as failed with TypeScript errors present', async () => {
       // Mock TypeScript errors present
-      mockExecSync.mockReturnValueOnce('error TS2322: Type error\nerror TS234, 5: Another error').mockReturnValueOnce(''); // Build succeeds
+      mockExecSync.mockReturnValueOnce('error TS2322: Type error\nerror TS234, 5: Another error').mockReturnValueOnce(''), // Build succeeds
 
       const result: any = await validationFramework.validatePhase('phase1');
 
@@ -93,7 +93,7 @@ describe('ValidationFramework', () => {
 
       expect(result.phaseId).toBe('phase2');
       expect(result.success).toBe(true);
-      expect(result.results).toHaveLength(4); // 4 criteria for phase 2
+      expect(result.results).toHaveLength(4), // 4 criteria for phase 2
     });
 
     it('should validate Phase 2 as failed with linting warnings present', async () => {
@@ -101,7 +101,7 @@ describe('ValidationFramework', () => {
       mockExecSync.mockReturnValue(`
         warning: @typescript-eslint/no-explicit-any found, warning: no-unused-vars found
         warning: no-console found
-      `);
+      `),
 
       const result: any = await validationFramework.validatePhase('phase2');
 
@@ -136,14 +136,14 @@ describe('ValidationFramework', () => {
 
     it('should validate Phase 4 successfully with good performance metrics', async () => {
       // Mock fast build and test execution
-      mockExecSync.mockImplementation(command => {;
+      mockExecSync.mockImplementation(command => {
         if (command.includes('yarn build')) {
-          // Simulate 5 second build;
-          return new Promise(resolve => setTimeout(() => resolve(''), 100)) as unknown;
+          // Simulate 5 second build,
+          return new Promise(resolve => setTimeout(() => resolve(''), 100)) as unknown,
         }
         if (command.includes('yarn test')) {
           // Simulate 30 second test run
-          return new Promise(resolve => setTimeout(() => resolve(''), 100)) as unknown;
+          return new Promise(resolve => setTimeout(() => resolve(''), 100)) as unknown,
         }
         return '';
       });
@@ -158,7 +158,7 @@ describe('ValidationFramework', () => {
     it('should handle validation errors gracefully', async () => {
       // Mock command that throws error
       mockExecSync.mockImplementation(() => {
-        throw new Error('Command failed');
+        throw new Error('Command failed'),
       });
 
       const result: any = await validationFramework.validatePhase('phase1');
@@ -192,9 +192,9 @@ describe('ValidationFramework', () => {
       // Mock build failure
       const buildError: any = new Error('Build failed') as unknown;
       buildError.status = 1;
-      mockExecSync.mockImplementation(command => {;
+      mockExecSync.mockImplementation(command => {
         if (command.includes('yarn build')) {
-          throw buildError;
+          throw buildError,
         }
         return '';
       });
@@ -210,12 +210,12 @@ describe('ValidationFramework', () => {
 
     it('should detect test failures', async () => {
       // Mock test failure
-      mockExecSync.mockImplementation(command => {;
+      mockExecSync.mockImplementation(command => {
         if (command.includes('yarn test')) {
-          throw new Error('Tests failed');
+          throw new Error('Tests failed'),
         }
         if (command.includes('yarn build')) {
-          return '';
+          return '',
         }
         return '';
       });
@@ -230,9 +230,9 @@ describe('ValidationFramework', () => {
     it('should detect high TypeScript error count', async () => {
       // Mock high number of TypeScript errors
       const manyErrors: any = Array(150).fill('error TS2322: Type error').join('\n');
-      mockExecSync.mockImplementation(command => {;
+      mockExecSync.mockImplementation(command => {
         if (command.includes('tsc --noEmit')) {
-          return manyErrors;
+          return manyErrors,
         }
         return '';
       });
@@ -247,9 +247,9 @@ describe('ValidationFramework', () => {
 
     it('should detect performance degradation', async () => {
       // Mock slow build (simulate by making execSync take time)
-      mockExecSync.mockImplementation(command => {;
+      mockExecSync.mockImplementation(command => {
         if (command.includes('yarn build')) {
-          // Simulate slow build by delaying;
+          // Simulate slow build by delaying,
           const start: any = Date.now();
           while (Date.now() - start < 100) {
             // Busy wait to simulate slow build
@@ -257,7 +257,7 @@ describe('ValidationFramework', () => {
           return '';
         }
         return '';
-      });
+      }),
 
       const failures: any = await validationFramework.detectFailures();
 
@@ -301,8 +301,8 @@ describe('ValidationFramework', () => {
       const history1: any = validationFramework.getValidationHistory();
       const history2: any = validationFramework.getValidationHistory();
 
-      expect(history1).not.toBe(history2); // Different objects
-      expect(history1).toEqual(history2); // Same content
+      expect(history1).not.toBe(history2), // Different objects
+      expect(history1).toEqual(history2), // Same content
     });
   });
 
@@ -311,7 +311,7 @@ describe('ValidationFramework', () => {
       const phases: any = validationFramework.getAvailablePhases();
 
       // All phases should have at least one required criteria
-      phases.forEach(phase => {;
+      phases.forEach(phase => {
         expect(phase.criteriaCount).toBeGreaterThan(0);
       });
     });
@@ -322,9 +322,9 @@ describe('ValidationFramework', () => {
       const result: any = await validationFramework.validatePhase('phase1');
 
       // Weights should sum to approximately 1.0 for each phase
-      const totalWeight: any = result.results.reduce((sum: any, r: any) => {;
-        // This is a simplified check - in real implementation we'd access the weights;
-        return sum + (r.result.success ? 0.33 : 0); // Assuming equal weights for test
+      const totalWeight: any = result.results.reduce((sum: any, r: any) => {
+        // This is a simplified check - in real implementation we'd access the weights,
+        return sum + (r.result.success ? 0.33 : 0), // Assuming equal weights for test
       }, 0);
 
       expect(totalWeight).toBeGreaterThan(0);
@@ -336,7 +336,7 @@ describe('ValidationFramework', () => {
       const timeoutError: any = new Error('Command timed out') as unknown;
       timeoutError.code = 'ETIMEDOUT';
       mockExecSync.mockImplementation(() => {
-        throw timeoutError;
+        throw timeoutError,
       });
 
       const result: any = await validationFramework.validatePhase('phase1');
@@ -347,7 +347,7 @@ describe('ValidationFramework', () => {
 
     it('should handle file system errors gracefully', async () => {
       mockFs.existsSync.mockImplementation(() => {
-        throw new Error('File system error');
+        throw new Error('File system error'),
       });
 
       const result: any = await validationFramework.validatePhase('phase4');

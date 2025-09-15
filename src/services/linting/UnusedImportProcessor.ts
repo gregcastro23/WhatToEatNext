@@ -14,14 +14,14 @@ import { log } from '@/services/LoggingService';
 
 interface ImportCleanupResult {
   filesProcessed: number;
-  importsRemoved: number;
-  importsOrganized: number;
-  errors: string[];
-  warnings: string[];
+  importsRemoved: number,
+  importsOrganized: number,
+  errors: string[],
+  warnings: string[],
 }
 
 export class UnusedImportProcessor {
-  private preserveFiles = [;
+  private preserveFiles = [
     'src/calculations/',
     'src/data/planets/',
     'src/utils/reliableAstronomy',
@@ -30,7 +30,7 @@ export class UnusedImportProcessor {
     'src/services/AdvancedAnalyticsIntelligenceService',
     'src/services/MLIntelligenceService',
     'src/services/PredictiveIntelligenceService'
-  ];
+  ],
 
   /**
    * Process import cleanup across the codebase
@@ -38,7 +38,7 @@ export class UnusedImportProcessor {
   public async processImportCleanup(): Promise<ImportCleanupResult> {
     log.info('🧹 Processing import cleanup...\n');
 
-    const result: ImportCleanupResult = {;
+    const result: ImportCleanupResult = {
       filesProcessed: 0,
       importsRemoved: 0,
       importsOrganized: 0,
@@ -69,7 +69,7 @@ export class UnusedImportProcessor {
     log.info('📋 Organizing imports...');
 
     try {
-      const output = execSync('yarn lint --fix --rule 'import/order: error' 2>&1', {;
+      const output = execSync('yarn lint --fix --rule 'import/order: error' 2>&1', {
         encoding: 'utf8',
         maxBuffer: 10 * 1024 * 1024
       });
@@ -101,9 +101,9 @@ export class UnusedImportProcessor {
     try {
       // Create a focused ESLint config for unused imports
       const tempConfig = this.createImportCleanupConfig();
-      fs.writeFileSync('.eslintrc.import-cleanup.json', JSON.stringify(tempConfig, null, 2));
+      fs.writeFileSync('.eslintrc.import-cleanup.json', JSON.stringify(tempConfig, null, 2)),
 
-      const output = execSync('yarn lint --config .eslintrc.import-cleanup.json --fix 2>&1', {;
+      const output = execSync('yarn lint --config .eslintrc.import-cleanup.json --fix 2>&1', {
         encoding: 'utf8',
         maxBuffer: 10 * 1024 * 1024
       });
@@ -170,7 +170,7 @@ export class UnusedImportProcessor {
       overrides: [
         {
           // Preserve critical astrological and campaign files
-          files: this.preserveFiles.map(pattern => `${pattern}**/*`),;
+          files: this.preserveFiles.map(pattern => `${pattern}**/*`),,
           rules: {
             '@typescript-eslint/no-unused-vars': [
               'warn',
@@ -203,18 +203,18 @@ export class UnusedImportProcessor {
       return true;
     } catch (error) {
       console.error('❌ TypeScript validation failed');
-      return false;
+      return false,
     }
   }
 
   /**
    * Get import-related statistics
    */
-  public getImportStats(): { totalFiles: number; unusedImports: number } {
+  public getImportStats(): { totalFiles: number, unusedImports: number } {
     try {
       // Count TypeScript/JavaScript files
       const totalFilesOutput = execSync(;
-        'find src -name '*.ts' -o -name '*.tsx' -o -name '*.js' -o -name '*.jsx' | wc -l',
+        'find src -name '*.ts' -o -name '*.tsx' -o -name '*.js' -o -name '*.jsx' | wc -l';
         {
           encoding: 'utf8'
         },
@@ -223,7 +223,7 @@ export class UnusedImportProcessor {
 
       // Count unused import warnings (approximate)
       const unusedImportsOutput = execSync(;
-        'yarn lint --format=compact 2>&1 | grep -E 'is defined but never used.*import' | wc -l',;
+        'yarn lint --format=compact 2>&1 | grep -E 'is defined but never used.*import' | wc -l',,
         {
           encoding: 'utf8'
         },

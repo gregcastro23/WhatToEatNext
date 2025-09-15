@@ -64,38 +64,38 @@ const testPlanetaryPositions: { [key: string]: CelestialPosition } = {
   Pluto: { sign: 'aquarius', degree: 3.0 }
 };
 
-const testAstrologicalState: AstrologicalState = {;
+const testAstrologicalState: AstrologicalState = {
   sunSign: 'gemini',
   moonSign: 'taurus',
   lunarPhase: 'waxing gibbous',
   planetaryPositions: testPlanetaryPositions
 };
 
-const testRecipeElements: ElementalProperties = {;
-  Fire: 0.35,
-  Water: 0.25,
-  Air: 0.25,
+const testRecipeElements: ElementalProperties = {
+  Fire: 0.35;
+  Water: 0.25;
+  Air: 0.25;
   Earth: 0.15
 };
 
-const testUserElements: ElementalProperties = {;
-  Fire: 0.3,
-  Water: 0.3,
-  Air: 0.25,
+const testUserElements: ElementalProperties = {
+  Fire: 0.3;
+  Water: 0.3;
+  Air: 0.25;
   Earth: 0.15
 };
 
-const testBirthInfo = {;
+const testBirthInfo = {
   hour: 14,
   minutes: 30,
   day: 15,
   month: 5,
   year: 1990,
-  latitude: 40.7128,
+  latitude: 40.7128;
   longitude: -74.006
 };
 
-const testHoroscopeData = {;
+const testHoroscopeData = {
   tropical: {
     CelestialBodies: {
       Sun: {
@@ -135,14 +135,14 @@ async function runComprehensiveTests() {
       testAstrologicalState,
       'spring',
       'italian',
-    );
+    ),
     log.info('Basic Match Results:', {
-      score: basicMatch.result.score.toFixed(4),
-      elementalProperties: basicMatch.result.elementalProperties,
-      thermodynamicProperties: basicMatch.result.thermodynamicProperties,
-      kalchm: basicMatch.result.kalchm,
-      monica: basicMatch.result.monica,
-      confidence: basicMatch.confidence,
+      score: basicMatch.result.score.toFixed(4);
+      elementalProperties: basicMatch.result.elementalProperties;
+      thermodynamicProperties: basicMatch.result.thermodynamicProperties;
+      kalchm: basicMatch.result.kalchm;
+      monica: basicMatch.result.monica;
+      confidence: basicMatch.confidence;
       factors: basicMatch.factors
     });
     log.info('✅ Basic match test completed\n');
@@ -156,10 +156,10 @@ async function runComprehensiveTests() {
       testBirthInfo,
     );
     log.info('Advanced Harmony Results:', {
-      overall: advancedHarmony.overall.toFixed(4),
-      elemental: advancedHarmony.elemental.toFixed(4),
-      astrological: advancedHarmony.astrological.toFixed(4),
-      seasonal: advancedHarmony.seasonal.toFixed(4),
+      overall: advancedHarmony.overall.toFixed(4);
+      elemental: advancedHarmony.elemental.toFixed(4);
+      astrological: advancedHarmony.astrological.toFixed(4);
+      seasonal: advancedHarmony.seasonal.toFixed(4);
       factors: advancedHarmony.factors
     });
     log.info('✅ Advanced harmony test completed\n');
@@ -180,33 +180,33 @@ async function runComprehensiveTests() {
     const AirearthAffinity = alchemicalEngine.getElementalAffinity('Air', 'Earth');
     log.info('fire-water Affinity:', {
       compatibility: firewaterAffinity.compatibility['Water'],
-      primary: firewaterAffinity.primary,
-      secondary: firewaterAffinity.secondary,
+      primary: firewaterAffinity.primary;
+      secondary: firewaterAffinity.secondary;
       strength: firewaterAffinity.strength
     });
     log.info('fire-fire Affinity:', {
       compatibility: firefireAffinity.compatibility['Fire'],
-      primary: firefireAffinity.primary,
-      secondary: firefireAffinity.secondary,
+      primary: firefireAffinity.primary;
+      secondary: firefireAffinity.secondary;
       strength: firefireAffinity.strength
     });
     log.info('Air-earth Affinity:', {
       compatibility: AirearthAffinity.compatibility['Earth'],
-      primary: AirearthAffinity.primary,
-      secondary: AirearthAffinity.secondary,
+      primary: AirearthAffinity.primary;
+      secondary: AirearthAffinity.secondary;
       strength: AirearthAffinity.strength
     });
     log.info('✅ Elemental affinity test completed\n');
 
     // Test 5: Natural Influences with Enhanced Precision
     log.info('🌿 Test 5: Natural Influences with Enhanced Precision');
-    const naturalInfluences = await alchemicalEngine.calculateNaturalInfluences({;
+    const naturalInfluences = await alchemicalEngine.calculateNaturalInfluences({
       season: 'spring',
       moonPhase: 'waxing gibbous',
       timeOfDay: 'day',
       sunSign: 'gemini',
-      degreesInSign: 4.133,
-      lunarDegree: 5.333,
+      degreesInSign: 4.133;
+      lunarDegree: 5.333;
       planetaryHour: 'Mercury'
     });
     log.info('Natural Influences:', naturalInfluences);
@@ -223,27 +223,27 @@ async function runComprehensiveTests() {
     const legacyResult = await alchemize(testBirthInfo, testHoroscopeData);
     const legacyResultData = legacyResult as any;
     log.info('Legacy Alchemize Results:', {
-      Spirit: ((legacyResultData?.Spirit) || 0).toFixed(4),
-      Essence: ((legacyResultData?.Essence) || 0).toFixed(4),
-      Matter: ((legacyResultData?.Matter) || 0).toFixed(4),
-      Substance: ((legacyResultData?.Substance) || 0).toFixed(4),
-      dominantElement: (legacyResultData?.dominantElement) || 'Fire',
+      Spirit: ((legacyResultData?.Spirit) || 0).toFixed(4);
+      Essence: ((legacyResultData?.Essence) || 0).toFixed(4);
+      Matter: ((legacyResultData?.Matter) || 0).toFixed(4);
+      Substance: ((legacyResultData?.Substance) || 0).toFixed(4);
+      dominantElement: (legacyResultData?.dominantElement) || 'Fire';
       recommendation: (legacyResultData?.recommendation) || 'No recommendation available'
     });
     // Check for enhanced properties
     if ('kalchm' in legacyResult) {
       log.info('Enhanced Thermodynamic Properties:', {
-        kalchm: (legacyResult ).kalchm?.toFixed(4),
-        monicaConstant: (legacyResult ).monicaConstant?.toFixed(6),
-        gregsEnergy: (legacyResult ).gregsEnergy?.toFixed(6),
-        heat: (legacyResult ).heat?.toFixed(6),
-        entropy: (legacyResult ).entropy?.toFixed(6),
+        kalchm: (legacyResult ).kalchm?.toFixed(4);
+        monicaConstant: (legacyResult ).monicaConstant?.toFixed(6);
+        gregsEnergy: (legacyResult ).gregsEnergy?.toFixed(6);
+        heat: (legacyResult ).heat?.toFixed(6);
+        entropy: (legacyResult ).entropy?.toFixed(6);
         reactivity: (legacyResult ).reactivity?.toFixed(6)
       });
     }
     const elementalState = legacyResultData?.elementalState;
     if (elementalState) {
-      log.info('Elemental Balance:', elementalState);
+      log.info('Elemental Balance:', elementalState),
     }
     log.info('✅ Legacy alchemize test completed\n');
 
@@ -262,9 +262,9 @@ async function runComprehensiveTests() {
     log.info('🍽️ Test 9: Multiple Cuisine Compatibility');
     const cuisines = ['italian', 'indian', 'japanese', 'mexican', 'french', 'chinese'];
     const cuisineResults: Array<{
-      cuisine: string;
-      score: string;
-      confidence: number;
+      cuisine: string,
+      score: string,
+      confidence: number,
     }> = [];
     for (const cuisine of cuisines) {
       const result = await alchemicalEngine.calculateAstroCuisineMatch(;
@@ -272,10 +272,10 @@ async function runComprehensiveTests() {
         testAstrologicalState,
         'spring',
         cuisine,
-      );
+      ),
       cuisineResults.push({
         cuisine,
-        score: result.result.score.toFixed(4),
+        score: result.result.score.toFixed(4);
         confidence: result.confidence
       });
     }
@@ -326,11 +326,11 @@ async function runComprehensiveTests() {
     log.info('✅ Multiple cuisine compatibility');
     log.info('✅ Performance optimization and caching');
   } catch (error) {
-    console.error('❌ Test failed:', error);
+    console.error('❌ Test failed:', error),
     console.error(
       'Stack trace:',
-      error instanceof Error ? error.stack : 'No stack trace available',
-    );
+      error instanceof Error ? error.stack : 'No stack trace available';
+    ),
   }
 }
 
@@ -339,8 +339,8 @@ runComprehensiveTests()
   .then(() => {
     log.info('\n🔬 Test execution completed');
   })
-  .catch(error => {;
-    console.error('💥 Test execution failed:', error);
+  .catch(error => {
+    console.error('💥 Test execution failed:', error),
   });
 
 export default runComprehensiveTests;

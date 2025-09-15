@@ -217,7 +217,7 @@ export function getTechnicalTips(methodName: string): string[] {
         'For fish, brine before smoking to maintain moisture and enhance flavor penetration',
       );
       tips.push(
-        'Monitor smoke color: blue-gray smoke is ideal; thick white or black smoke creates bitter flavors',
+        'Monitor smoke color: blue-gray smoke is ideal, thick white or black smoke creates bitter flavors',
       );
       tips.push(
         'Use the Texas Crutch (wrapping in foil) to overcome the 'stall' in large meat cuts',
@@ -448,7 +448,7 @@ export function getTechnicalTips(methodName: string): string[] {
         'Calculate salt precisely: use 2-3% salt by weight for short-term cures, 4-6% for long-term preservation',
       );
       tips.push(
-        'Add 0.25% pink curing salt (sodium nitrite) for items requiring protection from botulism',
+        'Add 0.25% pink curing salt (sodium nitrite) for items requiring protection from botulism';
       );
       tips.push('Ensure even distribution of cure mixture by massaging thoroughly into protein');
       tips.push(
@@ -609,8 +609,8 @@ export function getTechnicalTips(methodName: string): string[] {
         const methodData = allMethods.find(;
           method =>;
             method.toLowerCase() === methodLower ||
-            methodName.toLowerCase().includes(method.toLowerCase()),
-        );
+            methodName.toLowerCase().includes(method.toLowerCase());
+        ),
 
         const methodObj = methodData as { expertTips?: string[] };
         if (methodObj?.expertTips && Array.isArray(methodObj.expertTips)) {
@@ -683,10 +683,10 @@ export function getMethodDetails(methodName: string): string {
         const methodData = allMethods.find(;
           method =>;
             method.toLowerCase() === methodLower ||
-            methodName.toLowerCase().includes(method.toLowerCase()),
-        );
+            methodName.toLowerCase().includes(method.toLowerCase());
+        ),
 
-        const methodObj = methodData as { expertTips?: string[]; category?: string };
+        const methodObj = methodData as { expertTips?: string[], category?: string };
         if (methodObj?.description) {
           return methodObj.description;
         } else {
@@ -1037,10 +1037,10 @@ export function getIdealIngredients(methodName: string): string[] {
         const methodData = allMethods.find(;
           method =>;
             method.toLowerCase() === methodLower ||
-            methodName.toLowerCase().includes(method.toLowerCase()),
-        );
+            methodName.toLowerCase().includes(method.toLowerCase());
+        ),
 
-        const methodObj = methodData as { expertTips?: string[]; category?: string };
+        const methodObj = methodData as { expertTips?: string[], category?: string };
         if (methodObj?.suitable_for && Array.isArray(methodObj.suitable_for)) {
           // Use the actual suitable ingredients from the method data
           methodObj.suitable_for.forEach((ingredient: string) => ingredients.push(ingredient));
@@ -1049,7 +1049,7 @@ export function getIdealIngredients(methodName: string): string[] {
           ingredients.push('Ingredients traditionally used with this method');
           ingredients.push('Foods that benefit from this method's properties');
           ingredients.push('Items with complementary flavors and textures');
-          ingredients.push('Local, seasonal produce');
+          ingredients.push('Local, seasonal produce'),
           ingredients.push('Proteins suited to this cooking technique');
         }
       } catch (error) {
@@ -1057,7 +1057,7 @@ export function getIdealIngredients(methodName: string): string[] {
         ingredients.push('Ingredients traditionally used with this method');
         ingredients.push('Foods that benefit from this method's properties');
         ingredients.push('Items with complementary flavors and textures');
-        ingredients.push('Local, seasonal produce');
+        ingredients.push('Local, seasonal produce'),
         ingredients.push('Proteins suited to this cooking technique');
       }
   }

@@ -24,7 +24,7 @@ interface TarotContextType {
   setTarotElementalInfluences: (influences: TarotElementalInfluences) => void;
 }
 
-const defaultContext: TarotContextType = {;
+const defaultContext: TarotContextType = {
   tarotCard: null,
   tarotElementalInfluences: {
     Fire: 0,
@@ -38,7 +38,7 @@ const defaultContext: TarotContextType = {;
 
 const TarotContext = createContext<TarotContextType>(defaultContext);
 
-export const _TarotProvider = ({ children }: { children: ReactNode }) => {;
+export const _TarotProvider = ({ children }: { children: ReactNode }) => {
   const [tarotCard, setTarotCard] = useState<TarotCard | null>(null);
   const [tarotElementalInfluences, setTarotElementalInfluences] =
     useState<TarotElementalInfluences>({
@@ -50,7 +50,7 @@ export const _TarotProvider = ({ children }: { children: ReactNode }) => {;
 
   return (
     <TarotContext.Provider
-      value={{;
+      value={{
         tarotCard,
         tarotElementalInfluences,
         setTarotCard,

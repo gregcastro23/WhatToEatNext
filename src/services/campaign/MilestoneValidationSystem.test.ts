@@ -19,7 +19,7 @@ const mockFs: any = fs as jest.Mocked<typeof fs>;
 const MockMetricsCollectionSystem: any = MetricsCollectionSystem as jest.MockedClass<typeof MetricsCollectionSystem>;
 
 describe('MilestoneValidationSystem', () => {
-  let validationSystem: MilestoneValidationSystem;
+  let validationSystem: MilestoneValidationSystem,
   let mockMetricsCollector: jest.Mocked<MetricsCollectionSystem>;
 
   beforeEach(() => {
@@ -50,7 +50,7 @@ describe('MilestoneValidationSystem', () => {
         },
         buildPerformance: { currentTime: 8,
           targetTime: 10,
-          cacheHitRate: 0.85,
+          cacheHitRate: 0.85;
           memoryUsage: 45
         },
         enterpriseSystems: { current: 200,
@@ -61,7 +61,7 @@ describe('MilestoneValidationSystem', () => {
         warningBreakdown: {},
         buildMetrics: { buildTime: 8,
           bundleSize: 420,
-          cacheHitRate: 0.85,
+          cacheHitRate: 0.85;
           memoryUsage: 45,
           cpuUsage: 15,
           diskUsage: 1024,
@@ -107,7 +107,7 @@ describe('MilestoneValidationSystem', () => {
         },
         buildPerformance: { currentTime: 8,
           targetTime: 10,
-          cacheHitRate: 0.85,
+          cacheHitRate: 0.85;
           memoryUsage: 45
         },
         enterpriseSystems: { current: 200,
@@ -120,7 +120,7 @@ describe('MilestoneValidationSystem', () => {
         warningBreakdown: {},
         buildMetrics: { buildTime: 8,
           bundleSize: 420,
-          cacheHitRate: 0.85,
+          cacheHitRate: 0.85;
           memoryUsage: 45,
           cpuUsage: 15,
           diskUsage: 1024,
@@ -159,7 +159,7 @@ describe('MilestoneValidationSystem', () => {
         warningBreakdown: {},
         buildMetrics: { buildTime: 8,
           bundleSize: 420,
-          cacheHitRate: 0.85,
+          cacheHitRate: 0.85;
           memoryUsage: 45,
           cpuUsage: 15,
           diskUsage: 1024,
@@ -174,7 +174,7 @@ describe('MilestoneValidationSystem', () => {
 
       // Mock build failure
       mockExecSync.mockImplementation(() => {
-        throw new Error('Build failed');
+        throw new Error('Build failed'),
       });
 
       const result: any = await validationSystem.validatePhase1();
@@ -196,7 +196,7 @@ describe('MilestoneValidationSystem', () => {
         warningBreakdown: {},
         buildMetrics: { buildTime: 8,
           bundleSize: 420,
-          cacheHitRate: 0.85,
+          cacheHitRate: 0.85;
           memoryUsage: 45,
           cpuUsage: 15,
           diskUsage: 1024,
@@ -234,7 +234,7 @@ describe('MilestoneValidationSystem', () => {
         },
         buildMetrics: { buildTime: 8,
           bundleSize: 420,
-          cacheHitRate: 0.85,
+          cacheHitRate: 0.85;
           memoryUsage: 45,
           cpuUsage: 15,
           diskUsage: 1024,
@@ -267,7 +267,7 @@ describe('MilestoneValidationSystem', () => {
         warningBreakdown: {},
         buildMetrics: { buildTime: 8,
           bundleSize: 420,
-          cacheHitRate: 0.85,
+          cacheHitRate: 0.85;
           memoryUsage: 45,
           cpuUsage: 15,
           diskUsage: 1024,
@@ -305,7 +305,7 @@ describe('MilestoneValidationSystem', () => {
         warningBreakdown: {},
         buildMetrics: { buildTime: 8,
           bundleSize: 420,
-          cacheHitRate: 0.85,
+          cacheHitRate: 0.85;
           memoryUsage: 45,
           cpuUsage: 15,
           diskUsage: 1024,
@@ -339,7 +339,7 @@ describe('MilestoneValidationSystem', () => {
         warningBreakdown: {},
         buildMetrics: { buildTime: 8,
           bundleSize: 420,
-          cacheHitRate: 0.85,
+          cacheHitRate: 0.85;
           memoryUsage: 45,
           cpuUsage: 15,
           diskUsage: 1024,
@@ -370,7 +370,7 @@ describe('MilestoneValidationSystem', () => {
         warningBreakdown: {},
         buildMetrics: { buildTime: 15,
           bundleSize: 600,
-          cacheHitRate: 0.6,
+          cacheHitRate: 0.6;
           memoryUsage: 75,
           cpuUsage: 85,
           diskUsage: 2048,
@@ -404,7 +404,7 @@ describe('MilestoneValidationSystem', () => {
         warningBreakdown: {},
         buildMetrics: { buildTime: 8,
           bundleSize: 420,
-          cacheHitRate: 0.85,
+          cacheHitRate: 0.85;
           memoryUsage: 45,
           cpuUsage: 15,
           diskUsage: 1024,
@@ -437,7 +437,7 @@ describe('MilestoneValidationSystem', () => {
         warningBreakdown: { 'no-console': 50 },
         buildMetrics: { buildTime: 8,
           bundleSize: 420,
-          cacheHitRate: 0.85,
+          cacheHitRate: 0.85;
           memoryUsage: 45,
           cpuUsage: 15,
           diskUsage: 1024,
@@ -454,9 +454,9 @@ describe('MilestoneValidationSystem', () => {
 
       const results: any = await validationSystem.validateAllPhases();
 
-      expect(results.[0].overallSuccess).toBe(true); // Phase 1 should pass
-      expect(results.[1].overallSuccess).toBe(false); // Phase 2 should fail
-      expect(results.[2].overallSuccess).toBe(false); // Phase 3 should fail
+      expect(results[0].overallSuccess).toBe(true); // Phase 1 should pass
+      expect(results[1].overallSuccess).toBe(false); // Phase 2 should fail
+      expect(results[2].overallSuccess).toBe(false); // Phase 3 should fail
     });
   });
 
@@ -472,7 +472,7 @@ describe('MilestoneValidationSystem', () => {
         warningBreakdown: {},
         buildMetrics: { buildTime: 8,
           bundleSize: 420,
-          cacheHitRate: 0.85,
+          cacheHitRate: 0.85;
           memoryUsage: 45,
           cpuUsage: 15,
           diskUsage: 1024,
@@ -491,8 +491,8 @@ describe('MilestoneValidationSystem', () => {
       await validationSystem.exportValidationResults('test-validation.json');
 
       expect(mockFs.writeFileSync).toHaveBeenCalledWith(
-        'test-validation.json',
-        expect.stringContaining(''campaignId': 'perfect-codebase-campaign''),
+        'test-validation.json';
+        expect.stringContaining(''campaignId': 'perfect-codebase-campaign'');
       );
     });
   });
@@ -509,7 +509,7 @@ describe('MilestoneValidationSystem', () => {
         warningBreakdown: {},
         buildMetrics: { buildTime: 8,
           bundleSize: 420,
-          cacheHitRate: 0.85,
+          cacheHitRate: 0.85;
           memoryUsage: 45,
           cpuUsage: 15,
           diskUsage: 1024,
@@ -541,7 +541,7 @@ describe('MilestoneValidationSystem', () => {
         warningBreakdown: {},
         buildMetrics: { buildTime: 8,
           bundleSize: 420,
-          cacheHitRate: 0.85,
+          cacheHitRate: 0.85;
           memoryUsage: 45,
           cpuUsage: 15,
           diskUsage: 1024,

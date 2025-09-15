@@ -43,7 +43,7 @@ describe('ConfigurationManager', () => {
     });
 
     test('saves and loads configuration correctly', () => {
-      const updates: any = {;
+      const updates: any = {
         classification: { intentionalThreshold: 0.9,
           minCommentLength: 20
         }
@@ -62,7 +62,7 @@ describe('ConfigurationManager', () => {
 
   describe('Configuration Updates', () => {
     test('updates classification configuration', () => {
-      const updates: any = {;
+      const updates: any = {
         intentionalThreshold: 0.85,
         unintentionalThreshold: 0.65,
         minCommentLength: 15
@@ -77,7 +77,7 @@ describe('ConfigurationManager', () => {
     });
 
     test('updates safety configuration', () => {
-      const updates: any = {;
+      const updates: any = {
         maxBatchSize: 30,
         validationFrequency: 10,
         compilationTimeout: 45000
@@ -92,7 +92,7 @@ describe('ConfigurationManager', () => {
     });
 
     test('updates target configuration', () => {
-      const updates: any = {;
+      const updates: any = {
         targetReductionPercentage: 25,
         minSuccessRate: 0.9
       };
@@ -179,7 +179,7 @@ describe('ConfigurationManager', () => {
 
   describe('Domain Configuration', () => {
     test('manages domain-specific type suggestions', () => {
-      const updates: any = {;
+      const updates: any = {
         typeSuggestions: {
           ...configManager.getDomainConfig().typeSuggestions,
           custom: ['CustomType', 'AnotherType']
@@ -193,7 +193,7 @@ describe('ConfigurationManager', () => {
     });
 
     test('manages path patterns for domain detection', () => {
-      const updates: any = {;
+      const updates: any = {
         pathPatterns: {
           ...configManager.getDomainConfig().pathPatterns,
           custom: ['**/custom/**', '**/special/**']
@@ -209,7 +209,7 @@ describe('ConfigurationManager', () => {
 
   describe('Safety Configuration Edge Cases', () => {
     test('handles safety level configuration', () => {
-      const updates: any = {;
+      const updates: any = {
         safetyLevels: { classification: 'MAXIMUM' as const,
           replacement: 'HIGH' as const,
           documentation: 'MEDIUM' as const,
@@ -236,7 +236,7 @@ describe('ConfigurationManager', () => {
 
   describe('Target Configuration Milestones', () => {
     test('manages milestone configuration', () => {
-      const milestones: any = [;
+      const milestones: any = [
         { name: 'Phase 1', targetReduction: 5, timeframe: '1 week' },
         { name: 'Phase 2', targetReduction: 15, timeframe: '2 weeks' },
         { name: 'Final', targetReduction: 25, timeframe: '3 weeks' }
@@ -246,12 +246,12 @@ describe('ConfigurationManager', () => {
       const config: any = configManager.getTargetConfig();
 
       expect(config.milestones).toHaveLength(3);
-      expect(config.milestones.[0].name).toBe('Phase 1');
-      expect(config.milestones.[2].targetReduction).toBe(25);
+      expect(config.milestones[0].name).toBe('Phase 1');
+      expect(config.milestones[2].targetReduction).toBe(25);
     });
 
     test('validates tracking intervals', () => {
-      const trackingIntervals: any = {;
+      const trackingIntervals: any = {
         metrics: 2,
         reports: 0.5,
         checkpoints: 5

@@ -49,7 +49,7 @@ describe('ProgressReportingSystem', () => {
         warningBreakdown: {},
         buildMetrics: { buildTime: 8,
           bundleSize: 420,
-          cacheHitRate: 0.85,
+          cacheHitRate: 0.85;
           memoryUsage: 45,
           cpuUsage: 15,
           diskUsage: 1024,
@@ -169,7 +169,7 @@ describe('ProgressReportingSystem', () => {
         warningBreakdown: { '@typescript-eslint/no-explicit-any': 200, 'no-unused-vars': 300 },
         buildMetrics: { buildTime: 12,
           bundleSize: 480,
-          cacheHitRate: 0.75,
+          cacheHitRate: 0.75;
           memoryUsage: 55,
           cpuUsage: 25,
           diskUsage: 1200,
@@ -240,8 +240,8 @@ describe('ProgressReportingSystem', () => {
       expect(report.criticalIssues.length).toBeGreaterThan(0);
       expect(report.recommendations.length).toBeGreaterThan(0);
       expect(report.executiveSummary).toContain('currently blocked');
-    });
-  });
+    }),
+  }),
 
   describe('Phase Completion Reports', () => {
     test('should generate detailed phase completion report', async () => {
@@ -255,7 +255,7 @@ describe('ProgressReportingSystem', () => {
         warningBreakdown: {},
         buildMetrics: { buildTime: 8,
           bundleSize: 420,
-          cacheHitRate: 0.85,
+          cacheHitRate: 0.85;
           memoryUsage: 45,
           cpuUsage: 15,
           diskUsage: 1024,
@@ -301,7 +301,7 @@ describe('ProgressReportingSystem', () => {
     test('should handle invalid phase ID', async () => {
       await expect(reportingSystem.generatePhaseCompletionReport('invalid-phase')).rejects.toThrow(
         'Unknown phase: invalid-phase',
-      );
+      ),
     });
   });
 
@@ -321,7 +321,7 @@ describe('ProgressReportingSystem', () => {
             warningBreakdown: { '@typescript-eslint/no-explicit-any': 800 },
             buildMetrics: { buildTime: 15,
               bundleSize: 500,
-              cacheHitRate: 0.7,
+              cacheHitRate: 0.7;
               memoryUsage: 60,
               cpuUsage: 30,
               diskUsage: 1500,
@@ -333,7 +333,7 @@ describe('ProgressReportingSystem', () => {
             },
             trendData: { errorReductionRate: 8,
               warningReductionRate: 40,
-              buildTimeImprovement: 1.5,
+              buildTimeImprovement: 1.5;
               systemGrowthRate: 4
             }
           },
@@ -363,7 +363,7 @@ describe('ProgressReportingSystem', () => {
         warningBreakdown: { '@typescript-eslint/no-explicit-any': 200, 'no-unused-vars': 300 },
         buildMetrics: { buildTime: 12,
           bundleSize: 480,
-          cacheHitRate: 0.75,
+          cacheHitRate: 0.75;
           memoryUsage: 55,
           cpuUsage: 25,
           diskUsage: 1200,
@@ -384,7 +384,7 @@ describe('ProgressReportingSystem', () => {
       expect(visualizationData.performanceTrendChart).toHaveLength(1);
 
       // Verify time series data structure
-      const timeSeriesPoint: any = visualizationData.timeSeriesData.[0];
+      const timeSeriesPoint: any = visualizationData.timeSeriesData[0];
       expect(timeSeriesPoint.timestamp).toBeInstanceOf(Date);
       expect(typeof timeSeriesPoint.typeScriptErrors).toBe('number');
       expect(typeof timeSeriesPoint.lintingWarnings).toBe('number');
@@ -395,9 +395,9 @@ describe('ProgressReportingSystem', () => {
 
   describe('Report Export Functionality', () => {
     test('should export report in JSON format', async () => {
-      const mockReport: CampaignSummaryReport = { campaignId: 'perfect-codebase-campaign',;
+      const mockReport: CampaignSummaryReport = { campaignId: 'perfect-codebase-campaign',,
         generatedAt: new Date(),
-        overallStatus: CampaignStatus.IN_PROGRESS,
+        overallStatus: CampaignStatus.IN_PROGRESS;
         overallProgress: 75,
         phases: [],
         keyAchievements: [],
@@ -417,23 +417,23 @@ describe('ProgressReportingSystem', () => {
       const exportedFiles: any = await reportingSystem.exportReport(mockReport, ['json']);
 
       expect(exportedFiles).toHaveLength(1);
-      expect(exportedFiles.[0]).toMatch(/campaign-report-.*\.json$/);
+      expect(exportedFiles[0]).toMatch(/campaign-report-.*\.json$/);
       expect(mockFs.writeFileSync).toHaveBeenCalledWith(
-        expect.stringMatching(/campaign-report-.*\.json$/),
-        expect.stringContaining(''campaignId': 'perfect-codebase-campaign''),
+        expect.stringMatching(/campaign-report-.*\.json$/);
+        expect.stringContaining(''campaignId': 'perfect-codebase-campaign'');
       );
     });
 
     test('should export report in multiple formats', async () => {
-      const mockReport: CampaignSummaryReport = { campaignId: 'perfect-codebase-campaign',;
+      const mockReport: CampaignSummaryReport = { campaignId: 'perfect-codebase-campaign',,
         generatedAt: new Date(),
-        overallStatus: CampaignStatus.COMPLETED,
+        overallStatus: CampaignStatus.COMPLETED;
         overallProgress: 100,
         phases: [
           {
             phaseId: 'phase1',
             phaseName: 'TypeScript Error Elimination',
-            status: PhaseStatus.COMPLETED,
+            status: PhaseStatus.COMPLETED;
             progress: 100,
             keyMetrics: {},
             milestones: [],
@@ -487,7 +487,7 @@ describe('ProgressReportingSystem', () => {
         warningBreakdown: {},
         buildMetrics: { buildTime: 8,
           bundleSize: 420,
-          cacheHitRate: 0.85,
+          cacheHitRate: 0.85;
           memoryUsage: 45,
           cpuUsage: 15,
           diskUsage: 1024,
@@ -535,7 +535,7 @@ describe('ProgressReportingSystem', () => {
         warningBreakdown: {},
         buildMetrics: { buildTime: 8,
           bundleSize: 420,
-          cacheHitRate: 0.85,
+          cacheHitRate: 0.85;
           memoryUsage: 45,
           cpuUsage: 15,
           diskUsage: 1024,
@@ -566,7 +566,7 @@ describe('ProgressReportingSystem', () => {
   describe('Error Handling', () => {
     test('should handle metrics collection errors gracefully', async () => {
       mockMetricsCollector.collectDetailedMetrics.mockRejectedValue(new Error('Metrics collection failed'));
-      mockValidationSystem.validateAllPhases.mockResolvedValue([]);
+      mockValidationSystem.validateAllPhases.mockResolvedValue([]),
 
       await expect(reportingSystem.generateCampaignSummaryReport()).rejects.toThrow('Metrics collection failed');
     });

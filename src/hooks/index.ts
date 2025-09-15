@@ -26,7 +26,7 @@ export function useAstroTarotElementalState() {
 
   useEffect(() => {
     // Simulate tarot reading influence (could be replaced with actual tarot API)
-    const generateTarotInfluence = () => {;
+    const generateTarotInfluence = () => {
       // Simple randomization for tarot influence (replace with actual tarot logic)
       const random = Math.random();
       if (random < 0.25) {
@@ -45,7 +45,7 @@ export function useAstroTarotElementalState() {
   }, []);
 
   // Combine astrological and tarot influences
-  const combinedState: ElementalProperties = {;
+  const combinedState: ElementalProperties = {
     Fire: Fire * 0.7 + ((tarotInfluence as any)?.Fire || 0) * 0.2,
     Water: Water * 0.7 + ((tarotInfluence as any)?.Water || 0) * 0.2,
     Earth: Earth * 0.7 + ((tarotInfluence as any)?.Earth || 0) * 0.2,

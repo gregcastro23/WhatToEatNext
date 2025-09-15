@@ -17,10 +17,10 @@ export interface Sauce {
   ingredients?: string[];
   preparationSteps?: string[];
   storageInstructions?: string;
-  prepTime?: string;
-  cookTime?: string;
-  difficulty?: string;
-  yield?: string;
+  prepTime?: string,
+  cookTime?: string,
+  difficulty?: string,
+  yield?: string,
 }
 
 export interface SauceRecommendation {
@@ -28,8 +28,8 @@ export interface SauceRecommendation {
   forVegetable: Record<string, string[]>;
   forCookingMethod: Record<string, string[]>;
   byAstrological: Record<string, string[]>;
-  byRegion: Record<string, string[]>;
-  byDietary: Record<string, string[]>;
+  byRegion: Record<string, string[]>,
+  byDietary: Record<string, string[]>,
 }
 
 // Italian sauces
@@ -43,9 +43,9 @@ export const italianSauces: Record<string, Sauce> = {
     culinaryUses: ['pasta sauce', 'pizza base', 'dipping sauce', 'casserole base'],
     variants: ['Arrabbiata', 'Puttanesca', 'Alla Norma'],
     elementalProperties: {
-      Fire: 0.4,
-      Earth: 0.3,
-      Water: 0.2,
+      Fire: 0.4;
+      Earth: 0.3;
+      Water: 0.2;
       Air: 0.1
     },
     astrologicalInfluences: ['Mars', 'Sun', 'leo'],
@@ -65,18 +65,18 @@ export const italianSauces: Record<string, Sauce> = {
       '1 pinch red pepper flakes (optional)'
     ],
     preparationSteps: [
-      'Heat olive oil in a large saucepan over medium heat.',
+      'Heat olive oil in a large saucepan over medium heat.';
       'Add minced garlic (and onion if using) and sauté until fragrant but not browned, about 1-2 minutes.',
       'If using red pepper flakes, add them with the garlic.',
       'Pour in the tomatoes with their juices, crushing them with your hands or a potato masher as you add them.',
       'Add salt, pepper, and dried oregano.',
-      'Bring to a gentle simmer and reduce heat to low.',
+      'Bring to a gentle simmer and reduce heat to low.';
       'Cook uncovered, stirring occasionally, for 25-30 minutes until slightly thickened.',
-      'Remove from heat and stir in fresh basil.',
+      'Remove from heat and stir in fresh basil.';
       'Taste and adjust seasoning if necessary.'
     ],
     storageInstructions:
-      'Refrigerate for up to 5 days in an airtight container. Can be frozen for up to 3 months.',
+      'Refrigerate for up to 5 days in an airtight container. Can be frozen for up to 3 months.';
     prepTime: '10 minutes',
     cookTime: '30 minutes',
     difficulty: 'Easy',
@@ -98,9 +98,9 @@ export const italianSauces: Record<string, Sauce> = {
     culinaryUses: ['pasta sauce', 'sandwich spread', 'marinade', 'flavor enhancer'],
     variants: ['Red pesto', 'Pesto alla Siciliana', 'Pesto alla Trapanese'],
     elementalProperties: {
-      Air: 0.4,
-      Earth: 0.3,
-      Fire: 0.2,
+      Air: 0.4;
+      Earth: 0.3;
+      Fire: 0.2;
       Water: 0.1
     },
     astrologicalInfluences: ['Mercury', 'Venus', 'gemini'],
@@ -121,11 +121,11 @@ export const italianSauces: Record<string, Sauce> = {
     preparationSteps: [
       'If using a mortar and pestle (traditional method): Add garlic and salt, pound until creamy. Add pine nuts and work into a paste. Add basil leaves in small batches, grinding until smooth. Mix in cheeses, then slowly drizzle in olive oil while mixing.',
       'If using a food processor: Pulse pine nuts and garlic until coarsely chopped. Add basil and pulse again. Add cheeses and pulse to combine. With processor running, slowly drizzle in olive oil until desired consistency is reached.',
-      'Season with salt and pepper to taste.',
+      'Season with salt and pepper to taste.';
       'If not using immediately, cover the surface directly with plastic wrap or a thin layer of olive oil to prevent oxidation.'
     ],
     storageInstructions:
-      'Refrigerate for up to 3 days with a thin layer of olive oil on top to prevent browning. Can be frozen in ice cube trays for up to 3 months.',
+      'Refrigerate for up to 3 days with a thin layer of olive oil on top to prevent browning. Can be frozen in ice cube trays for up to 3 months.';
     prepTime: '15 minutes',
     cookTime: '0 minutes',
     difficulty: 'Easy',
@@ -144,9 +144,9 @@ export const italianSauces: Record<string, Sauce> = {
       'Vegetarian carbonara'
     ],
     elementalProperties: {
-      Earth: 0.4,
-      Air: 0.3,
-      Fire: 0.2,
+      Earth: 0.4;
+      Air: 0.3;
+      Fire: 0.2;
       Water: 0.1
     },
     astrologicalInfluences: ['Jupiter', 'Mars', 'aries'],
@@ -169,15 +169,15 @@ export const italianSauces: Record<string, Sauce> = {
       'In a medium bowl, whisk together egg yolks, whole eggs, Pecorino Romano, Parmigiano (if using), and black pepper. Set aside.',
       'In a large skillet over medium heat, cook the diced guanciale until the fat renders and meat is crispy but not burnt, about 8-10 minutes.',
       'Meanwhile, cook pasta in well-salted water according to package instructions until al dente.',
-      'Turn off heat under the skillet with guanciale. Remove about 1/2 cup of the pasta cooking water before draining.',
+      'Turn off heat under the skillet with guanciale. Remove about 1/2 cup of the pasta cooking water before draining.';
       'Working quickly, add drained pasta to the skillet with guanciale and toss to coat in the rendered fat.',
-      'Allow pasta to cool for 1 minute (to prevent scrambling the eggs).',
-      'Add 1/4 cup of the reserved pasta water to the egg mixture and whisk quickly.',
+      'Allow pasta to cool for 1 minute (to prevent scrambling the eggs).';
+      'Add 1/4 cup of the reserved pasta water to the egg mixture and whisk quickly.';
       'Pour the egg mixture over the pasta and toss vigorously with tongs until a creamy sauce forms. If too thick, add more pasta water 1 tablespoon at a time.',
       'Serve immediately with additional grated cheese and black pepper on top.'
     ],
     storageInstructions:
-      'Carbonara is best eaten immediately after preparation. Not recommended for storage as the sauce will solidify when cold and may separate when reheated.',
+      'Carbonara is best eaten immediately after preparation. Not recommended for storage as the sauce will solidify when cold and may separate when reheated.';
     prepTime: '15 minutes',
     cookTime: '15 minutes',
     difficulty: 'Medium',
@@ -192,9 +192,9 @@ export const italianSauces: Record<string, Sauce> = {
     culinaryUses: ['pasta sauce', 'lasagna filling', 'polenta topping', 'stuffed pasta filling'],
     variants: ['Ragù Napoletano', 'White ragù', 'Wild boar ragù', 'Vegetarian mushroom ragù'],
     elementalProperties: {
-      Earth: 0.5,
-      Fire: 0.3,
-      Water: 0.1,
+      Earth: 0.5;
+      Fire: 0.3;
+      Water: 0.1;
       Air: 0.1
     },
     astrologicalInfluences: ['Saturn', 'Mars', 'taurus'],
@@ -223,18 +223,18 @@ export const italianSauces: Record<string, Sauce> = {
       'Heat olive oil in a large, heavy-bottomed pot or Dutch oven over medium heat.',
       'Add pancetta and cook until fat renders, about 5 minutes.',
       'Add onion, carrot, and celery (soffritto) and sauté until softened but not browned, about 5-7 minutes.',
-      'Add garlic and cook for another minute until fragrant.',
+      'Add garlic and cook for another minute until fragrant.';
       'Increase heat to medium-high and add ground beef and pork. Break up the meat with a wooden spoon and cook until no longer pink, about 8-10 minutes.',
       'Add tomato paste and cook, stirring constantly, for 2-3 minutes until it darkens slightly.',
       'Pour in red wine and scrape up any browned bits from the bottom of the pot. Allow wine to reduce by half, about A-5 minutes.',
       'Add beef stock, bay leaf, and a generous pinch of salt and pepper. Bring to a boil, then reduce heat to the lowest setting.',
       'Partially cover and simmer very gently, stirring occasionally, for at least 2 hours (3-4 hours is better).',
       'In the final 30 minutes of cooking, stir in the milk and grated nutmeg.',
-      'Continue to simmer uncovered until the sauce reaches your desired consistency.',
+      'Continue to simmer uncovered until the sauce reaches your desired consistency.';
       'Taste and adjust seasoning with salt and pepper before serving.'
     ],
     storageInstructions:
-      'Refrigerate for up to 5 days. Freezes extremely well for up to 3 months. The flavor often improves after a day in the refrigerator.',
+      'Refrigerate for up to 5 days. Freezes extremely well for up to 3 months. The flavor often improves after a day in the refrigerator.';
     prepTime: '30 minutes',
     cookTime: '3-4 hours',
     difficulty: 'Medium',
@@ -254,9 +254,9 @@ export const italianSauces: Record<string, Sauce> = {
     ],
     variants: ['Mornay sauce', 'Soubise', 'Infused besciamella'],
     elementalProperties: {
-      Water: 0.4,
-      Earth: 0.4,
-      Air: 0.1,
+      Water: 0.4;
+      Earth: 0.4;
+      Air: 0.1;
       Fire: 0.1
     },
     astrologicalInfluences: ['Moon', 'Venus', 'cancer'],
@@ -278,7 +278,7 @@ export const italianSauces: Record<string, Sauce> = {
     ],
     preparationSteps: [
       'In a medium saucepan, combine milk, bay leaf, onion (with clove stuck into it), and warm over medium-low heat until steaming but not boiling. Turn off heat and let infuse for 15 minutes.',
-      'Strain the infused milk into a pitcher or bowl and discard the solids.',
+      'Strain the infused milk into a pitcher or bowl and discard the solids.';
       'In a large saucepan, melt butter over medium-low heat.',
       'Add flour and whisk continuously until well combined and slightly golden (a blonde roux), about 2-3 minutes.',
       'Slowly add the warm infused milk, about 1/2 cup at a time, whisking constantly to prevent lumps. Wait until each addition is fully incorporated before adding more.',
@@ -301,9 +301,9 @@ export const italianSauces: Record<string, Sauce> = {
     keyIngredients: ['tomatoes', 'garlic', 'chili peppers', 'olive oil', 'parsley'],
     culinaryUses: ['pasta sauce', 'pizza topping', 'protein topping', 'dipping sauce'],
     elementalProperties: {
-      Fire: 0.7,
-      Earth: 0.2,
-      Water: 0.1,
+      Fire: 0.7;
+      Earth: 0.2;
+      Water: 0.1;
       Air: 0.0
     },
     astrologicalInfluences: ['Mars', 'Sun', 'Aries'],
@@ -322,18 +322,18 @@ export const italianSauces: Record<string, Sauce> = {
       '1 tbsp tomato paste (optional, for deeper flavor)'
     ],
     preparationSteps: [
-      'Heat olive oil in a large saucepan over medium heat.',
-      'Add sliced garlic and chili peppers (or red pepper flakes). Sauté for 1-2 minutes until fragrant but not browned.',
+      'Heat olive oil in a large saucepan over medium heat.';
+      'Add sliced garlic and chili peppers (or red pepper flakes). Sauté for 1-2 minutes until fragrant but not browned.';
       'If using tomato paste, add it now and cook for 30 seconds, stirring constantly.',
       'Add the tomatoes, crushing them with your hands or a potato masher as you add them to the pan.',
-      'Add salt and dried oregano if using.',
+      'Add salt and dried oregano if using.';
       'Bring to a simmer, then reduce heat to medium-low and cook uncovered for 20-25 minutes, stirring occasionally.',
       'The sauce should reduce and thicken slightly. For a smoother sauce, use an immersion blender or let cool slightly and transfer to a blender.',
-      'Stir in fresh parsley just before serving.',
+      'Stir in fresh parsley just before serving.';
       'Taste and adjust seasoning if necessary.'
     ],
     storageInstructions:
-      'Refrigerate for up to 5 days in an airtight container. Can be frozen for up to 3 months.',
+      'Refrigerate for up to 5 days in an airtight container. Can be frozen for up to 3 months.';
     prepTime: '10 minutes',
     cookTime: '25 minutes',
     difficulty: 'Easy',
@@ -352,9 +352,9 @@ export const mexicanSauces: Record<string, Sauce> = {
     culinaryUses: ['protein topping', 'enchilada sauce', 'tamale filling'],
     variants: ['Mole Negro', 'Mole Verde', 'Mole Amarillo', 'Mole Colorado'],
     elementalProperties: {
-      Earth: 0.4,
-      Fire: 0.4,
-      Water: 0.1,
+      Earth: 0.4;
+      Fire: 0.4;
+      Water: 0.1;
       Air: 0.1
     },
     astrologicalInfluences: ['Mars', 'Pluto', 'Scorpio'],
@@ -386,7 +386,7 @@ export const mexicanSauces: Record<string, Sauce> = {
       'Add tomatoes and cook until softened, about 5 minutes. Transfer to a bowl.',
       'In the same skillet, toast pumpkin seeds and sesame seeds until golden, about 2-3 minutes. Add to the bowl with tomatoes.',
       'Toast almonds in the skillet until fragrant, about 3 minutes. Add to the same bowl.',
-      'Add raisins and torn tortilla to the bowl.',
+      'Add raisins and torn tortilla to the bowl.';
       'Drain the soaked chilies, reserving 1 cup of the soaking liquid.',
       'In a blender, combine the soaked chilies, the tomato-seed-nut mixture, spices, and enough reserved soaking liquid to blend smoothly. Work in batches if needed.',
       'Heat remaining oil in a large pot. Carefully pour in the blended sauce (it may splatter). Cook, stirring constantly, for 5 minutes.',
@@ -396,7 +396,7 @@ export const mexicanSauces: Record<string, Sauce> = {
       'Season with salt to taste. For a smoother sauce, blend again or strain through a fine-mesh sieve.'
     ],
     storageInstructions:
-      'Refrigerate for up to 5 days or freeze for up to 3 months. The flavor actually improves after a day in the refrigerator as the complex flavors meld together.',
+      'Refrigerate for up to 5 days or freeze for up to 3 months. The flavor actually improves after a day in the refrigerator as the complex flavors meld together.';
     prepTime: '45 minutes',
     cookTime: '1 hour',
     difficulty: 'Complex',
@@ -411,9 +411,9 @@ export const mexicanSauces: Record<string, Sauce> = {
     culinaryUses: ['dip', 'topping', 'marinade', 'cooking sauce'],
     variants: ['Salsa Verde', 'Pico de Gallo', 'Salsa Taquera'],
     elementalProperties: {
-      Fire: 0.5,
-      Water: 0.3,
-      Earth: 0.1,
+      Fire: 0.5;
+      Water: 0.3;
+      Earth: 0.1;
       Air: 0.1
     },
     astrologicalInfluences: ['Mars', 'Sun', 'Aries'],
@@ -433,23 +433,23 @@ export const mexicanSauces: Record<string, Sauce> = {
     preparationSteps: [
       'Fresh (Raw) Method:',
       'Roughly chop tomatoes, chilies, and onion.',
-      'Place all ingredients except cilantro and lime juice in a food processor or blender.',
-      'Pulse to desired consistency - chunky or smooth.',
-      'Stir in cilantro and lime juice.',
-      'Adjust seasoning with salt to taste.',
-      'Let sit for at least 30 minutes before serving to allow flavors to meld.',
+      'Place all ingredients except cilantro and lime juice in a food processor or blender.';
+      'Pulse to desired consistency - chunky or smooth.';
+      'Stir in cilantro and lime juice.';
+      'Adjust seasoning with salt to taste.';
+      'Let sit for at least 30 minutes before serving to allow flavors to meld.';
       '',
       'Roasted Method:',
-      'Preheat oven to 450°F (230°C) or heat a comal/cast-iron skillet over medium-high heat.',
+      'Preheat oven to 450°F (230°C) or heat a comal/cast-iron skillet over medium-high heat.';
       'Place whole tomatoes, chilies, onion quarters, and garlic on a baking sheet. Drizzle with oil.',
       'Roast for 15-20 minutes, turning once, until vegetables have charred spots and tomatoes are soft.',
       'Let cool slightly, then transfer to a blender or food processor.',
       'Add cilantro, lime juice, salt, and cumin if using.',
-      'Pulse to desired consistency.',
+      'Pulse to desired consistency.';
       'Adjust seasoning to taste.'
     ],
     storageInstructions:
-      'Refrigerate in an airtight container for up to 1 week. Fresh salsa is best consumed within 3-4 days for optimal flavor. Not recommended for freezing as texture will change.',
+      'Refrigerate in an airtight container for up to 1 week. Fresh salsa is best consumed within 3-4 days for optimal flavor. Not recommended for freezing as texture will change.';
     prepTime: '15 minutes',
     cookTime: '0 minutes (fresh) or 20 minutes (roasted)',
     difficulty: 'Easy',
@@ -468,9 +468,9 @@ export const asianSauces: Record<string, Sauce> = {
     culinaryUses: ['curry base', 'marinade', 'stir-fry seasoning', 'soup flavoring'],
     variants: ['Red Curry Paste', 'Yellow Curry Paste', 'Panang Curry Paste'],
     elementalProperties: {
-      Fire: 0.5,
-      Water: 0.2,
-      Air: 0.2,
+      Fire: 0.5;
+      Water: 0.2;
+      Air: 0.2;
       Earth: 0.1
     },
     astrologicalInfluences: ['Mars', 'Mercury', 'Leo'],
@@ -499,7 +499,7 @@ export const asianSauces: Record<string, Sauce> = {
       'To use: For a basic curry, fry 2-3 tablespoons of paste in coconut milk until fragrant before adding proteins and vegetables.'
     ],
     storageInstructions:
-      'Store in an airtight container in the refrigerator for up to 2 weeks or freeze in ice cube trays for up to 3 months. Freeze small portions for easy use. Add a thin layer of oil on top of refrigerated paste to preserve freshness.',
+      'Store in an airtight container in the refrigerator for up to 2 weeks or freeze in ice cube trays for up to 3 months. Freeze small portions for easy use. Add a thin layer of oil on top of refrigerated paste to preserve freshness.';
     prepTime: '30 minutes',
     cookTime: '0 minutes',
     difficulty: 'Medium',
@@ -509,14 +509,14 @@ export const asianSauces: Record<string, Sauce> = {
 
 // Consolidate all sauces
 export const allSauces: Record<string, Sauce> = {
-  ...italianSauces,
-  ...mexicanSauces,
-  ...asianSauces,
+  ...italianSauces;
+  ...mexicanSauces;
+  ...asianSauces;
   // Add other cuisine sauces as they become available
 };
 
 // Sauce recommendations
-export const sauceRecommendations: SauceRecommendation = {;
+export const sauceRecommendations: SauceRecommendation = {
   forProtein: {
     beef: [
       'ragù alla Bolognese',
@@ -573,25 +573,25 @@ export const sauceRecommendations: SauceRecommendation = {;
 // Helper functions
 export function getSaucesByAstrologicalInfluence(influence: string): Sauce[] {
   return Object.values(allSauces).filter(sauce =>;
-    sauce.astrologicalInfluences.some(infl => infl.toLowerCase() === influence.toLowerCase()),;
-  );
+    sauce.astrologicalInfluences.some(infl => infl.toLowerCase() === influence.toLowerCase()),,
+  ),
 }
 
 export function getSaucesByElement(element: keyof ElementalProperties): Sauce[] {
-  return Object.values(allSauces).filter(sauce => {;
+  return Object.values(allSauces).filter(sauce => {
     // Find the dominant element
     const dominantElement = Object.entries(sauce.elementalProperties).sort(;
       ([, a], [, b]) => b - a,
-    )[0][0];
+    )[0][0],
     return dominantElement === element;
   });
 }
 
 export function getMarsInfluencedSauces(): Sauce[] {
-  return getSaucesByAstrologicalInfluence('Mars');
+  return getSaucesByAstrologicalInfluence('Mars'),
 }
 
-const saucesExport = {;
+const saucesExport = {
   italianSauces,
   mexicanSauces,
   asianSauces,

@@ -6,7 +6,7 @@ import type { ZodiacSign, ThermodynamicProperties } from '@/types/shared';
  *
  * Biological transformation of food through microbial activity
  */
-export const fermentation: CookingMethodData = {;
+export const fermentation: CookingMethodData = {
   name: 'fermentation',
   description:
     'Biological transformation of food through controlled microbial activity, creating complex flavors, preserving foods, and enhancing nutritional value',
@@ -342,9 +342,9 @@ export const fermentation: CookingMethodData = {;
     grain_ferments:
       'Sourdough: starter maintenance every 12-24 hours at room temperature; dough proof 3-5 hours or 12-18 hours refrigerated; koji: 36-48 hours at 86°F (30°C); tempeh: 24-48 hours at 86-88°F (30-31°C).',
     maturation_periods:
-      'Miso: 3 months to 3+ years; soy sauce: 6 months to 3+ years; vinegar: 2-6 months; aged salami: 1-6 months. Long maturation at cool temperatures develops deeper, more complex flavors through slow enzymatic activity. Accelerated high-temperature fermentation often results in simpler flavor profiles.',
+      'Miso: 3 months to 3+ years, soy sauce: 6 months to 3+ years, vinegar: 2-6 months, aged salami: 1-6 months. Long maturation at cool temperatures develops deeper, more complex flavors through slow enzymatic activity. Accelerated high-temperature fermentation often results in simpler flavor profiles.',
     seasonal_considerations:
-      'Spring and fall offer moderate temperatures ideal for many fermentations. Summer requires more cooling control; winter may require warming. Humidity impacts evaporation rate and mold development, particularly for surface-ripened ferments. Traditional timing often aligned with harvest seasons for optimal ingredient quality.'
+      'Spring and fall offer moderate temperatures ideal for many fermentations. Summer requires more cooling control, winter may require warming. Humidity impacts evaporation rate and mold development, particularly for surface-ripened ferments. Traditional timing often aligned with harvest seasons for optimal ingredient quality.'
   },
 
   doneness_indicators: {
@@ -353,11 +353,11 @@ export const fermentation: CookingMethodData = {;
     texture_changes:
       'Vegetables maintain crispness with translucent appearance; bread dough increases in elasticity and gas retention; dairy thickens appropriately; meat develops firm texture with appropriate moisture loss in dry curing.',
     visual_cues:
-      'Active bubbling during initial fermentation; appropriate color development; clear liquid with settled sediment in many liquid ferments; surface changes specific to ferment type (bloom on cheese, pellicle on kombucha).',
+      'Active bubbling during initial fermentation, appropriate color development; clear liquid with settled sediment in many liquid ferments; surface changes specific to ferment type (bloom on cheese, pellicle on kombucha).',
     pH_levels:
-      'Vegetable ferments: below 4.0 for safety, typically 3.4-3.8 for flavor balance; dairy ferments: yogurt 4.0-4.5, cheese varies by type; sourdough: 3.8-4.5; kombucha: 2.5-3.5.',
+      'Vegetable ferments: below 4.0 for safety, typically 3.4-3.8 for flavor balance; dairy ferments: yogurt 4.0-4.5, cheese varies by type, sourdough: 3.8-4.5, kombucha: 2.5-3.5.',
     aroma_development:
-      'Complex, often fruity, dairy, floral or umami notes replacing raw material smells; absence of putrid, overly alcoholic, or cleaning chemical smells. Specific desirable aromatic compounds for each ferment.',
+      'Complex, often fruity, dairy, floral or umami notes replacing raw material smells, absence of putrid, overly alcoholic, or cleaning chemical smells. Specific desirable aromatic compounds for each ferment.',
     acidity_balance:
       'Lactic acid provides roundness and depth, acetic acid provides sharpness and higher notes, butyric acid (when appropriate) provides richness. Balance depends on ferment type and regional preferences.',
     microbial_succession:
@@ -368,7 +368,7 @@ export const fermentation: CookingMethodData = {;
     salt_effects:
       'Creates selective pressure favoring salt-tolerant microbes like Lactobacillus while inhibiting pathogens. Above 10% primarily favors yeast activity. Traditional ranges: vegetables (1.5-3%), cheese (1-5%), bread (1.8-2.2% of flour weight), meat ferments (2.5-3.5%).',
     sugar_concentration:
-      'Provides food for microbes, influencing rate of fermentation and final product. Higher concentrations (above 55%) become preservative, inhibiting most microbial activity. In vegetable ferments, natural sugars are converted to acids; in beverages, determines potential alcohol content.',
+      'Provides food for microbes, influencing rate of fermentation and final product. Higher concentrations (above 55%) become preservative, inhibiting most microbial activity. In vegetable ferments, natural sugars are converted to acids, in beverages, determines potential alcohol content.',
     protein_breakdown:
       'Proteolysis during fermentation breaks proteins into peptides and amino acids, enhancing digestibility and flavor (especially umami). Particularly important in soy, dairy, and meat ferments. Different microbial strains produce distinct proteolytic enzyme profiles.',
     tannin_impact:
@@ -382,7 +382,7 @@ export const fermentation: CookingMethodData = {;
     mineral_availability:
       'Minerals act as cofactors for microbial enzymes. Calcium strengthens cell walls in vegetable ferments maintaining crispness. Traditional use of mineral-rich water sources (spring water) can affect fermentation outcomes.',
     oxygen_exposure:
-      'Determines whether aerobic or anaerobic processes dominate. Surface yeasts and molds require oxygen; lactic acid bacteria are facultative anaerobes; acetobacter requires oxygen for converting alcohol to acetic acid.',
+      'Determines whether aerobic or anaerobic processes dominate. Surface yeasts and molds require oxygen, lactic acid bacteria are facultative anaerobes, acetobacter requires oxygen for converting alcohol to acetic acid.',
     phenolic_compounds:
       'Present in many plant materials, can be transformed during fermentation into more bioavailable forms with enhanced health benefits. Some inhibit certain microbes while encouraging others, acting as natural selectors.'
   },
@@ -390,7 +390,7 @@ export const fermentation: CookingMethodData = {;
   technicalNotes: {
     microbial_communities: {
       lactic_acid_bacteria:
-        'Lactobacillus, Leuconostoc, Pediococcus, and others convert sugars primarily to lactic acid. Key in vegetable ferments, dairy, sourdough, and many traditional fermentations. Homofermentative species produce primarily lactic acid; heterofermentative produce lactic acid plus carbon dioxide and acetic acid/ethanol.',
+        'Lactobacillus, Leuconostoc, Pediococcus, and others convert sugars primarily to lactic acid. Key in vegetable ferments, dairy, sourdough, and many traditional fermentations. Homofermentative species produce primarily lactic acid, heterofermentative produce lactic acid plus carbon dioxide and acetic acid/ethanol.',
       yeasts:
         'Saccharomyces, Brettanomyces, Candida, and others convert sugars to alcohol and carbon dioxide. Important in bread, beer, wine, kefir, kombucha. Different strains contribute distinct flavor profiles and alcohol tolerance levels.',
       acetic_acid_bacteria:
@@ -406,9 +406,9 @@ export const fermentation: CookingMethodData = {;
       airlock_systems:
         'Water-sealed crocks, one-way valve systems, or simple weighted lids maintain anaerobic environment while allowing gas escape. Critical for vegetable fermentation and some alcoholic ferments.',
       temperature_control:
-        'Dedicated fermentation chambers with heating/cooling capability; water bath systems; insulated containers; traditional root cellars or spring houses. Temperature stability often more important than exact value.',
+        'Dedicated fermentation chambers with heating/cooling capability, water bath systems; insulated containers, traditional root cellars or spring houses. Temperature stability often more important than exact value.',
       humidity_regulation:
-        'Critical for surface-ripened cheeses, mold-based ferments, and dry-cured meats. Traditional solutions include limestone caves; modern approaches use humidity-controlled chambers.',
+        'Critical for surface-ripened cheeses, mold-based ferments, and dry-cured meats. Traditional solutions include limestone caves, modern approaches use humidity-controlled chambers.',
       measuring_tools:
         'pH meters, acid titration kits, hydrometers for sugar/alcohol content, thermometers, salinity refractometers. Improve consistency and safety across batches.'
     },

@@ -6,7 +6,7 @@ import type { ZodiacSign, ThermodynamicProperties } from '@/types/shared';
  *
  * Cooking food with intense heat from above, typically in an oven broiler
  */
-export const broiling: CookingMethodData = {;
+export const broiling: CookingMethodData = {
   name: 'broiling',
   description:
     'Cooking food by exposing it to direct radiant heat from above, typically in an oven broiler, creating a browned exterior while maintaining moisture inside',
@@ -209,16 +209,16 @@ export const broiling: CookingMethodData = {;
     'temperature readings':
       'For meats, follow standard temperature guidelines (e.g., 135°F for medium-rare steak).',
     'timing benchmarks':
-      'Thin items (≤1/2 inch): 2-4 minutes total; Medium items (1 inch): 8-10 minutes total; Thick items (>1 inch): 12-15 minutes total.'
+      'Thin items (≤1/2 inch): 2-4 minutes total, Medium items (1 inch): 8-10 minutes total, Thick items (>1 inch): 12-15 minutes total.'
   },
 
   ingredientInteractions: {
     sugars: 'Caramelize quickly and can burn easily; add sweet glazes in final minutes only.',
     proteins: 'Form a protective barrier when heated quickly, sealing moisture inside.',
-    fats: 'Render out and may cause flare-ups; trim excess fat or score fat cap on meats.',
-    marinades: 'High sugar content marinades can burn; wipe excess marinade before broiling.',
-    herbs: 'Fresh herbs may burn; use in compound butters or apply after cooking.',
-    acids: 'Can denature proteins before cooking; limit marinating time for acidic marinades.'
+    fats: 'Render out and may cause flare-ups, trim excess fat or score fat cap on meats.',
+    marinades: 'High sugar content marinades can burn, wipe excess marinade before broiling.',
+    herbs: 'Fresh herbs may burn, use in compound butters or apply after cooking.',
+    acids: 'Can denature proteins before cooking, limit marinating time for acidic marinades.'
   },
 
   technicalNotes: {
@@ -228,7 +228,7 @@ export const broiling: CookingMethodData = {;
       'salamander broilers':
         'Professional equipment allowing precise control and higher temperatures.',
       'drawer broilers':
-        'Located below oven in some models; typically smaller capacity but good heat.'
+        'Located below oven in some models, typically smaller capacity but good heat.'
     },
     'distance effects': {
       'close positioning': 'Faster cooking, more external browning, less interior cooking.',
@@ -238,7 +238,7 @@ export const broiling: CookingMethodData = {;
     },
     'surface treatments': {
       'oil application': 'Thin layer conducts heat better and prevents sticking.',
-      'dry rubs': 'Apply before cooking; high sugar content rubs may burn.',
+      'dry rubs': 'Apply before cooking, high sugar content rubs may burn.',
       'wet marinades': 'Pat dry before broiling to prevent steaming instead of browning.',
       basting: 'Apply during cooking to add flavor and prevent drying.'
     }

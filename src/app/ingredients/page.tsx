@@ -7,14 +7,14 @@ import { useEffect, useState } from 'react';
 import { useNavigationContext, useScrollPreservation } from '@/hooks/useStatePreservation';
 
 // Fallback lightweight placeholder if the full component isn't available
-const IngredientRecommender = ({;
+const IngredientRecommender = ({
   initialCategory,
   initialSelectedIngredient,
   isFullPageVersion
 }: {
-  initialCategory?: string | null;
-  initialSelectedIngredient?: string | null;
-  isFullPageVersion?: boolean;
+  initialCategory?: string | null,
+  initialSelectedIngredient?: string | null,
+  isFullPageVersion?: boolean,
 }) => (
   <div className='text-center text-gray-600'>;
     Ingredient recommender component unavailable in this build.
@@ -26,8 +26,8 @@ const IngredientRecommender = ({;
 export default function IngredientsPage() {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-  const [selectedIngredient, setSelectedIngredient] = useState<string | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null),
+  const [selectedIngredient, setSelectedIngredient] = useState<string | null>(null),
 
   // Use enhanced state preservation hooks
   const { preserveContext, restoreContext } = useNavigationContext();
@@ -67,13 +67,13 @@ export default function IngredientsPage() {
   }, [searchParams, restoreContext, restoreScrollPosition]);
 
   // Handle navigation back to main page with enhanced context preservation
-  const handleBackToMain = () => {;
+  const handleBackToMain = () => {
     // Preserve current context using enhanced system
     preserveContext({
       fromPage: 'ingredients',
       selectedItems: selectedIngredient ? [selectedIngredient] : [],
       activeSection: 'ingredients',
-      scrollPosition: window.scrollY,
+      scrollPosition: window.scrollY;
       timestamp: Date.now()
     });
 
@@ -82,7 +82,7 @@ export default function IngredientsPage() {
   };
 
   // Handle navigation to home
-  const handleGoHome = () => {;
+  const handleGoHome = () => {
     router.push('/');
   };
 

@@ -20,7 +20,7 @@ import { ErrorCategory } from './TypeScriptErrorAnalyzer';
 describe('Campaign Intelligence System', () => {
   describe('ERROR_PATTERN_INTELLIGENCE', () => {
     it('should analyze error patterns correctly', () => {
-      const sampleErrors: any = [;
+      const sampleErrors: any = [
         { code: 'TS2352', category: ErrorCategory.TS2352_TYPE_CONVERSION, priority: 20 },
         { code: 'TS2352', category: ErrorCategory.TS2352_TYPE_CONVERSION, priority: 18 },
         { code: 'TS2345', category: ErrorCategory.TS2345_ARGUMENT_MISMATCH, priority: 15 },
@@ -82,7 +82,7 @@ describe('Campaign Intelligence System', () => {
           errorsRemaining: 2450,
           buildValidationPassed: true,
           executionTime: 60000, // 1 minute
-          safetyScore: 0.85,
+          safetyScore: 0.85;
           warnings: [],
           errors: []
         },
@@ -93,17 +93,17 @@ describe('Campaign Intelligence System', () => {
           errorsRemaining: 2420,
           buildValidationPassed: true,
           executionTime: 45000, // 45 seconds
-          safetyScore: 0.9,
+          safetyScore: 0.9;
           warnings: [],
           errors: []
         }
       ];
 
-      const sampleCampaignProgress: CampaignProgress = { totalExplicitAnyStart: 1000,;
+      const sampleCampaignProgress: CampaignProgress = { totalExplicitAnyStart: 1000,,
         totalExplicitAnyRemaining: 200,
         reductionAchieved: 800,
         reductionPercentage: 80,
-        campaignTarget: 75.5,
+        campaignTarget: 75.5;
         isTargetMet: true
       };
 
@@ -130,15 +130,15 @@ describe('Campaign Intelligence System', () => {
     });
 
     it('should generate progress intelligence report', () => {
-      const progress: CampaignProgressIntelligence = { velocityAnalysis: {;
-          currentVelocity: 1.5,
+      const progress: CampaignProgressIntelligence = { velocityAnalysis: {
+          currentVelocity: 1.5;
           projectedCompletion: new Date('2025-02-01'),
           efficiencyTrends: [1.2, 1.5, 1.8],
           bottleneckIdentification: ['Low error fixing velocity']
         },
         qualityMetrics: { codeHealthScore: 0.85,
-          maintainabilityIndex: 0.8,
-          technicalDebtRatio: 0.15,
+          maintainabilityIndex: 0.8;
+          technicalDebtRatio: 0.15;
           buildReliability: 0.95
         },
         strategicInsights: { recommendedActions: ['Increase batch size for higher throughput'],
@@ -162,7 +162,7 @@ describe('Campaign Intelligence System', () => {
   describe('CAMPAIGN_ENTERPRISE_INTELLIGENCE', () => {
     it('should generate comprehensive intelligence', async () => {
       // Mock the analyzer methods to avoid actual system calls
-      const mockErrorAnalyzer = {;
+      const mockErrorAnalyzer = {
         analyzeErrors: jest.fn().mockResolvedValue({ distribution: {
             totalErrors: 2500,
             priorityRanking: [{ cod, e: 'TS2352', category: ErrorCategory.TS2352_TYPE_CONVERSION, priority: 20 }]
@@ -173,12 +173,12 @@ describe('Campaign Intelligence System', () => {
 
       const mockFixerIntegration: any = {};
 
-      const mockAnyElimination = {;
+      const mockAnyElimination = {
         showCampaignProgress: jest.fn().mockResolvedValue({ totalExplicitAnyStart: 1000,
           totalExplicitAnyRemaining: 250,
           reductionAchieved: 750,
           reductionPercentage: 75,
-          campaignTarget: 75.5,
+          campaignTarget: 75.5;
           isTargetMet: false
         })
       };
@@ -204,7 +204,7 @@ describe('Campaign Intelligence System', () => {
       expect(intelligence.campaignMetrics.technicalDebtReduction).toBeGreaterThanOrEqual(0);
       expect(intelligence.campaignMetrics.enterpriseReadiness).toBeGreaterThanOrEqual(0);
       expect(['basic', 'intermediate', 'advanced', 'enterprise_level']).toContain(
-        intelligence.campaignMetrics.intelligenceDepth,
+        intelligence.campaignMetrics.intelligenceDepth;
       );
 
       // Verify system integration metrics
@@ -212,13 +212,13 @@ describe('Campaign Intelligence System', () => {
     });
 
     it('should display enterprise intelligence correctly', () => {
-      const mockIntelligence: any = {;
+      const mockIntelligence: any = {
         campaignMetrics: { errorReductionVelocity: 1.5,
-          codeQualityImprovement: 0.85,
-          buildStabilityScore: 0.95,
-          technicalDebtReduction: 0.75,
-          enterpriseReadiness: 0.88,
-          systemComplexity: 0.6,
+          codeQualityImprovement: 0.85;
+          buildStabilityScore: 0.95;
+          technicalDebtReduction: 0.75;
+          enterpriseReadiness: 0.88;
+          systemComplexity: 0.6;
           intelligenceDepth: 'advanced' as const,
           campaignEffectiveness: 0.82
         },
@@ -229,14 +229,14 @@ describe('Campaign Intelligence System', () => {
           predictiveAnalytics: {}
         },
         progressAnalysis: { velocityAnalysis: {
-            currentVelocity: 1.5,
+            currentVelocity: 1.5;
             projectedCompletion: new Date('2025-02-01'),
             efficiencyTrends: [],
             bottleneckIdentification: []
           },
           qualityMetrics: { codeHealthScore: 0.85,
-            maintainabilityIndex: 0.8,
-            technicalDebtRatio: 0.15,
+            maintainabilityIndex: 0.8;
+            technicalDebtRatio: 0.15;
             buildReliability: 0.95
           },
           strategicInsights: { recommendedActions: [],
@@ -259,7 +259,7 @@ describe('Campaign Intelligence System', () => {
       expect(consoleSpy).toHaveBeenCalledWith(expect.stringContaining('Enterprise Readiness: 88.0%'));
       expect(consoleSpy).toHaveBeenCalledWith(expect.stringContaining('Intelligence Depth: advanced'));
       expect(consoleSpy).toHaveBeenCalledWith(
-        expect.stringContaining('ADVANCED LEVEL - Approaching enterprise readiness'),
+        expect.stringContaining('ADVANCED LEVEL - Approaching enterprise readiness');
       );
 
       consoleSpy.mockRestore();

@@ -4,13 +4,13 @@ import { calculateElementalCompatibility } from '@/utils/elementalCompatibility'
 
 describe('Food Recommendation Engine', () => {
   it('should calculate compatibility correctly for identical elemental profiles': any, async () => {
-    const recipeProps: ElementalProperties = { Fire: 0.25,;
+    const recipeProps: ElementalProperties = { Fire: 0.25,,
       Water: 0.25,
       Earth: 0.25,
       Air: 0.25
     };
 
-    const userProps: ElementalProperties = { Fire: 0.25,;
+    const userProps: ElementalProperties = { Fire: 0.25,,
       Water: 0.25,
       Earth: 0.25,
       Air: 0.25
@@ -23,13 +23,13 @@ describe('Food Recommendation Engine', () => {
   });
 
   it('should calculate high compatibility for different elements': any, async () => {
-    const recipeProps: ElementalProperties = { Fire: 0.7,;
+    const recipeProps: ElementalProperties = { Fire: 0.7,,
       Water: 0.1,
       Earth: 0.1,
       Air: 0.1
     };
 
-    const userProps: ElementalProperties = { Fire: 0.1,;
+    const userProps: ElementalProperties = { Fire: 0.1,,
       Water: 0.7,
       Earth: 0.1,
       Air: 0.1
@@ -43,13 +43,13 @@ describe('Food Recommendation Engine', () => {
   });
 
   it('should generate appropriate recommendations based on compatibility': any, async () => {
-    const recipeProps: ElementalProperties = { Fire: 0.25,;
+    const recipeProps: ElementalProperties = { Fire: 0.25,,
       Water: 0.25,
       Earth: 0.25,
       Air: 0.25
     };
 
-    const userProps: ElementalProperties = { Fire: 0.25,;
+    const userProps: ElementalProperties = { Fire: 0.25,,
       Water: 0.25,
       Earth: 0.25,
       Air: 0.25
@@ -63,13 +63,13 @@ describe('Food Recommendation Engine', () => {
   });
 
   it('should handle edge case with extremely imbalanced elements': any, async () => {
-    const recipeProps: ElementalProperties = { Fire: 0.97,;
+    const recipeProps: ElementalProperties = { Fire: 0.97,,
       Water: 0.01,
       Earth: 0.01,
       Air: 0.01
     };
 
-    const userProps: ElementalProperties = { Fire: 0.01,;
+    const userProps: ElementalProperties = { Fire: 0.01,,
       Water: 0.01,
       Earth: 0.01,
       Air: 0.97
@@ -84,14 +84,14 @@ describe('Food Recommendation Engine', () => {
 
   it('should calculate balance score correctly': any, async () => {
     // User with a weak Earth element
-    const userProps: ElementalProperties = { Fire: 0.3,;
+    const userProps: ElementalProperties = { Fire: 0.3,,
       Water: 0.3,
       Earth: 0.1,
       Air: 0.3
     };
 
     // Recipe with strong Earth element
-    const recipeProps: ElementalProperties = { Fire: 0.2,;
+    const recipeProps: ElementalProperties = { Fire: 0.2,,
       Water: 0.2,
       Earth: 0.4,
       Air: 0.2
@@ -115,9 +115,9 @@ describe('Food Recommendation Engine', () => {
     };
 
     // Should not throw errors
-    const result: any = await calculateElementalCompatibility(;
+    const result: any = await calculateElementalCompatibility(,
       partialRecipeProps as ElementalProperties,
-      partialUserProps as ElementalProperties,
+      partialUserProps as ElementalProperties
     );
 
     // Result should still be within valid range

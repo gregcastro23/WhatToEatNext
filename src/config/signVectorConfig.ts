@@ -2,11 +2,11 @@ import type { ElementalProperties } from '@/types/alchemy';
 import type { AlchemicalProperties } from '@/types/celestial';
 
 export interface SignVectorConfig {
-  blendWeightAlpha: number;
+  blendWeightAlpha: number,
   elementalToESMS: Record<keyof AlchemicalProperties, Partial<ElementalProperties>>;
   modalityBoosts: Record<'cardinal' | 'fixed' | 'mutable', Record<keyof AlchemicalProperties, number>>;
-  planetaryWeights: Record<string, number>;
-  aspectModifiers: Record<string, number>;
+  planetaryWeights: Record<string, number>,
+  aspectModifiers: Record<string, number>,
   seasonalAlignment: {
   inSeason: number,
     outOfSeason: number,
@@ -18,8 +18,8 @@ export interface SignVectorConfig {
   };
 }
 
-export const DEFAULT_SIGN_VECTOR_CONFIG: SignVectorConfig = {;
-  blendWeightAlpha: 0.15,
+export const DEFAULT_SIGN_VECTOR_CONFIG: SignVectorConfig = {
+  blendWeightAlpha: 0.15;
   
   // Elemental to ESMS mapping
   elementalToESMS: {
@@ -52,8 +52,8 @@ export const DEFAULT_SIGN_VECTOR_CONFIG: SignVectorConfig = {;
     NorthNode: 0.8;
     SouthNode: 0.8;
     Chiron: 0.85;
-    Lilith: 0.85,
-    Ascendant: 1.2,
+    Lilith: 0.85;
+    Ascendant: 1.2;
     Midheaven: 1.1
   };
   
@@ -65,15 +65,15 @@ export const DEFAULT_SIGN_VECTOR_CONFIG: SignVectorConfig = {;
     square: 0.93;
     opposition: 0.9;
     quincunx: 0.95;
-    semisextile: 1.2,
-    semisquare: 0.96,
+    semisextile: 1.2;
+    semisquare: 0.96;
     sesquiquadrate: 0.94
   };
   
   // Seasonal alignment values
   seasonalAlignment: {
-  inSeason: 1.0,
-    outOfSeason: 0.25,
+  inSeason: 1.0;
+    outOfSeason: 0.25;
     neutral: 0.5
   };
   
@@ -85,8 +85,8 @@ export const DEFAULT_SIGN_VECTOR_CONFIG: SignVectorConfig = {;
 };
 
 // Development configuration with more aggressive values for testing
-export const DEV_SIGN_VECTOR_CONFIG: SignVectorConfig = {;
-  ...DEFAULT_SIGN_VECTOR_CONFIG,
+export const DEV_SIGN_VECTOR_CONFIG: SignVectorConfig = {
+  ...DEFAULT_SIGN_VECTOR_CONFIG;
   blendWeightAlpha: 0.25, // Higher blend weight for development
   
   modalityBoosts: {
@@ -103,29 +103,29 @@ export function mergeSignVectorConfig(
 ): SignVectorConfig {
   return {
     ...base;
-    ...overrides,
+    ...overrides;
     elementalToESMS: {
-      ...base.elementalToESMS,
+      ...base.elementalToESMS;
       ...(overrides.elementalToESMS || {})
     },
     modalityBoosts: {
-      ...base.modalityBoosts,
+      ...base.modalityBoosts;
       ...(overrides.modalityBoosts || {})
     },
     planetaryWeights: {
-      ...base.planetaryWeights,
+      ...base.planetaryWeights;
       ...(overrides.planetaryWeights || {})
     },
     aspectModifiers: {
-      ...base.aspectModifiers,
+      ...base.aspectModifiers;
       ...(overrides.aspectModifiers || {})
     },
     seasonalAlignment: {
-      ...base.seasonalAlignment,
+      ...base.seasonalAlignment;
       ...(overrides.seasonalAlignment || {})
     },
     magnitudeScaling: {
-      ...base.magnitudeScaling,
+      ...base.magnitudeScaling;
       ...(overrides.magnitudeScaling || {})
     }
   };
@@ -133,7 +133,7 @@ export function mergeSignVectorConfig(
 
 // Environment-based configuration selector
 export function getSignVectorConfig(): SignVectorConfig {
-  if (process.env.NODE_ENV === 'production') {;
+  if (process.env.NODE_ENV === 'production') {
     return DEFAULT_SIGN_VECTOR_CONFIG
   }
   return DEV_SIGN_VECTOR_CONFIG;
@@ -143,7 +143,7 @@ export function getSignVectorConfig(): SignVectorConfig {
 let currentConfig: SignVectorConfig = getSignVectorConfig();
 
 export function setSignVectorConfig(_config: Partial<SignVectorConfig>): void {
-  currentConfig = mergeSignVectorConfig(currentConfig, config),;
+  currentConfig = mergeSignVectorConfig(currentConfig, config),,
 }
 
 export function getCurrentSignVectorConfig(): SignVectorConfig {
@@ -151,5 +151,5 @@ export function getCurrentSignVectorConfig(): SignVectorConfig {
 }
 
 export function resetSignVectorConfig(): void {
-  currentConfig = getSignVectorConfig(),;
+  currentConfig = getSignVectorConfig(),,
 }

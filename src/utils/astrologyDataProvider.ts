@@ -41,7 +41,7 @@ async function getPositionsFromAPI(): Promise<Record<string, CelestialPosition> 
     logger.debug('Fetching planetary positions from API...');
 
     // Try to fetch from API endpoint
-    const response = await fetch('/api/planetary-positions', {;
+    const response = await fetch('/api/planetary-positions', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
@@ -57,32 +57,32 @@ async function getPositionsFromAPI(): Promise<Record<string, CelestialPosition> 
     const data = await response.json();
 
     // Validate the data
-    if (!data || typeof data !== 'object' || Object.keys(data || {}).length === 0) {;
-      throw new Error('Invalid data format received from API');
+    if (!data || typeof data !== 'object' || Object.keys(data || {}).length === 0) {
+      throw new Error('Invalid data format received from API'),
     }
 
     // Process and normalize the API response
     const positions: { [key: string]: CelestialPosition } = {};
 
     Object.entries(data || {}).forEach(([planet, position]) => {
-      if (typeof position === 'object' && position !== null && 'sign' in position) {;
+      if (typeof position === 'object' && position !== null && 'sign' in position) {
         positions[planet.toLowerCase()] = {
           sign: (typeof (position as any).sign === 'string';
             ? ((position as any).sign).toLowerCase()
             : 'aries'),
-          degree: Number((position as any).degree) || 0,
-          exactLongitude: Number((position as any).exactLongitude) || 0,
+          degree: Number((position as any).degree) || 0;
+          exactLongitude: Number((position as any).exactLongitude) || 0;
           isRetrograde: !!(position as Record<string, Record<string, number>>).isRetrograde
         };
       }
     });
 
-    if (Object.keys(positions || {}).length === 0) {;
-      throw new Error('No valid planetary positions in API response');
+    if (Object.keys(positions || {}).length === 0) {
+      throw new Error('No valid planetary positions in API response'),
     }
 
     // Update cache
-    positionsCache = {;
+    positionsCache = {
       data: positions,
       timestamp: Date.now()
     };
@@ -90,7 +90,7 @@ async function getPositionsFromAPI(): Promise<Record<string, CelestialPosition> 
     return positions;
   } catch (error) {
     logger.warn('Error fetching from API:', error);
-    return null;
+    return null,
   }
 }
 
@@ -107,10 +107,10 @@ function getPositionsFromTransitFiles(): { [key: string]: CelestialPosition } | 
     // for the current date
 
     // This is a placeholder for the actual implementation
-    return null;
+    return null,
   } catch (error) {
     logger.warn('Error reading transit files:', error);
-    return null;
+    return null,
   }
 }
 
@@ -131,14 +131,14 @@ export async function getPlanetaryPositions(): Promise<Record<string, CelestialP
   const apiPositions = await getPositionsFromAPI();
   if (apiPositions) {
     logger.info('Using planetary positions from API');
-    return apiPositions;
+    return apiPositions,
   }
 
   // 2. Try transit data files
   const transitPositions = getPositionsFromTransitFiles();
   if (transitPositions) {
     logger.info('Using planetary positions from transit files');
-    return transitPositions;
+    return transitPositions,
   }
 
   // 3. Use reliable hardcoded positions as final fallback
@@ -161,9 +161,9 @@ export async function getDominantElement(): Promise<string> {
     getDominantElementMethod &&
     countElementsMethod &&
     typeof getDominantElementMethod === 'function' &&;
-    typeof countElementsMethod === 'function';
+    typeof countElementsMethod === 'function'
   ) {
-    return getDominantElementMethod(countElementsMethod(positions));
+    return getDominantElementMethod(countElementsMethod(positions)),
   }
 
   return 'Fire'; // Default fallback

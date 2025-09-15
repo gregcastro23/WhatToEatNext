@@ -8,8 +8,8 @@ import { getCurrentElementalState } from '@/utils/elementalUtils';
 export interface ElementalCompatibility {
   compatibility: number; // 0-1 score
   dominantPair: {
-    recipe: keyof ElementalProperties;
-    user: keyof ElementalProperties;
+    recipe: keyof ElementalProperties,
+    user: keyof ElementalProperties,
   };
   complementaryScore: number; // 0-1 score for how well elements complement each other
   balanceScore: number; // 0-1 score for overall balance
@@ -21,7 +21,7 @@ export interface ElementalCompatibility {
  */
 export async function calculateElementalCompatibility(
   recipeElemental: ElementalProperties,
-  userElemental: ElementalProperties = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },;
+  userElemental: ElementalProperties = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
 ): Promise<ElementalCompatibility> {
   // Ensure properties are standardized
   const recipe = recipeElementalService.standardizeRecipe({ elementalProperties: recipeElemental });
@@ -29,8 +29,8 @@ export async function calculateElementalCompatibility(
 
   // Calculate simple similarity score
   const similarity = recipeElementalService.calculateSimilarity(;
-    recipe.elementalProperties,
-    user.elementalProperties,
+    recipe.elementalProperties;
+    user.elementalProperties;
   );
 
   // Find dominant elements
@@ -62,7 +62,7 @@ export async function calculateElementalCompatibility(
  * Get the dominant element from elemental properties
  */
 function getDominantElement(props: ElementalProperties): keyof ElementalProperties {
-  return Object.entries(props).sort(([, a], [, b]) => b - a)[0][0] as keyof ElementalProperties;
+  return Object.entries(props).sort(([, a], [, b]) => b - a)[0][0] as keyof ElementalProperties,
 }
 
 /**
@@ -74,12 +74,12 @@ function calculateComplementaryScore(
   element2: keyof ElementalProperties,
 ): number {
   // All elements work together in various ways
-  if (element1 === element2) {;
-    return 0.9; // Same element - highest compatibility (like reinforces like)
+  if (element1 === element2) {
+    return 0.9, // Same element - highest compatibility (like reinforces like)
   } else {
     // All combinations of different elements are complementary
     // Providing different yet harmonious qualities
-    return 0.7; // Different elements - good compatibility
+    return 0.7, // Different elements - good compatibility
   }
 }
 
@@ -120,7 +120,7 @@ function generateRecommendation(
   userDominant: keyof ElementalProperties,
 ): string {
   if (score <= 0.4) {
-    return `This recipe's ${recipeDominant} energy contrasts with your ${userDominant} energy. This contrasts with your natural balance and might feel disharmonious.`;
+    return `This recipe's ${recipeDominant} energy contrasts with your ${userDominant} energy. This contrasts with your natural balance and might feel disharmonious.`,
   } else if (score > 0.8) {
     return `Excellent match! This ${recipeDominant}-dominant recipe complements your ${userDominant} energy perfectly.`;
   } else if (score > 0.6) {

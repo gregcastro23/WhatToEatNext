@@ -94,7 +94,7 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
       // Use safe type casting for errorHandler service access
       const errorHandlerService = errorHandler as unknown as any;
       const logError = errorHandlerService.logError as Function;
-      if (typeof logError === 'function') {;
+      if (typeof logError === 'function') {
         logError(error, {
           context: 'NutritionalDataAdapter',
           action: 'getNutritionalData',
@@ -117,7 +117,7 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
       // Use safe type casting for errorHandler service access
       const errorHandlerService = errorHandler as unknown as any;
       const logError = errorHandlerService.logError as Function;
-      if (typeof logError === 'function') {;
+      if (typeof logError === 'function') {
         logError(error, {
           context: 'NutritionalDataAdapter',
           action: 'calculateNutritionalBalance'
@@ -155,7 +155,7 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
       // Use safe type casting for errorHandler service access
       const errorHandlerService = errorHandler as unknown as any;
       const logError = errorHandlerService.logError as Function;
-      if (typeof logError === 'function') {;
+      if (typeof logError === 'function') {
         logError(error, {
           context: 'NutritionalDataAdapter',
           action: 'convertNutritionalToElemental'
@@ -190,7 +190,7 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
       // Use safe type casting for errorHandler service access
       const errorHandlerService = errorHandler as unknown as any;
       const logError = errorHandlerService.logError as Function;
-      if (typeof logError === 'function') {;
+      if (typeof logError === 'function') {
         logError(error, {
           context: 'NutritionalDataAdapter',
           action: 'getZodiacNutritionalRecommendations',
@@ -222,7 +222,7 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
       // Use safe type casting for errorHandler service access
       const errorHandlerService = errorHandler as unknown as any;
       const logError = errorHandlerService.logError as Function;
-      if (typeof logError === 'function') {;
+      if (typeof logError === 'function') {
         logError(error, {
           context: 'NutritionalDataAdapter',
           action: 'getPlanetaryNutritionalRecommendations'
@@ -258,7 +258,7 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
       const result = getEnhancedPlanetaryNutritionalRecommendations(dayStr, hourStr, currentTime);
 
       // Convert elements to proper ElementalProperties
-      const elements = createElementalProperties({;
+      const elements = createElementalProperties({
         Fire: result.elements.Fire || 0,
         Water: result.elements.Water || 0,
         Earth: result.elements.Earth || 0,
@@ -275,7 +275,7 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
       // Use safe type casting for errorHandler service access
       const errorHandlerService = errorHandler as unknown as any;
       const logError = errorHandlerService.logError as Function;
-      if (typeof logError === 'function') {;
+      if (typeof logError === 'function') {
         logError(error, {
           context: 'NutritionalDataAdapter',
           action: 'getEnhancedPlanetaryNutritionalRecommendations',
@@ -311,7 +311,7 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
       };
     } catch (error) {
       // Use safe type casting for errorHandler service access
-      type ErrorHandlerWithLogError = typeof errorHandler & {;
+      type ErrorHandlerWithLogError = typeof errorHandler & {
         logError?: (error: unknown, context: unknown) => void;
       };
       const errorHandlerService = errorHandler as ErrorHandlerWithLogError;
@@ -341,7 +341,7 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
   } {
     try {
       // Convert targetElements to the format expected by the original function
-      const legacyTargetElements = {;
+      const legacyTargetElements = {
         Fire: targetElements.Fire,
         Water: targetElements.Water,
         Earth: targetElements.Earth, // Convert to legacy capitalization
@@ -353,7 +353,7 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
       // Use safe type casting for errorHandler service access
       const errorHandlerService = errorHandler as unknown as any;
       const logError = errorHandlerService.logError as Function;
-      if (typeof logError === 'function') {;
+      if (typeof logError === 'function') {
         logError(error, {
           context: 'NutritionalDataAdapter',
           action: 'evaluateNutritionalElementalBalance'

@@ -20,16 +20,16 @@ interface CLIOptions {
   verbose?: boolean;
   securityOnly?: boolean;
   updatesOnly?: boolean;
-  enableAutoUpdate?: boolean;
-  skipTests?: boolean;
-  excludePackages?: string[];
-  severityThreshold?: 'critical' | 'high' | 'moderate' | 'low';
+  enableAutoUpdate?: boolean,
+  skipTests?: boolean,
+  excludePackages?: string[],
+  severityThreshold?: 'critical' | 'high' | 'moderate' | 'low',
 }
 
 class DependencySecurityCLI {
-  private options: CLIOptions;
+  private options: CLIOptions,
 
-  constructor(options: CLIOptions = {}) {;
+  constructor(options: CLIOptions = {}) {
     this.options = options;
   }
 
@@ -46,7 +46,7 @@ class DependencySecurityCLI {
       if (this.options.dryRun) {
         // console.log('🔍 DRY RUN MODE - No changes will be made\n');
         await this.runDryRun(securityMonitor);
-        return;
+        return,
       }
 
       // Execute monitoring based on options
@@ -62,8 +62,8 @@ class DependencySecurityCLI {
     } catch (error: unknown) {
       console.error(
         '❌ Dependency security monitoring failed:',
-        error instanceof Error ? error.message : String(error),
-      );
+        error instanceof Error ? error.message : String(error);
+      ),
       if (this.options.verbose) {
         console.error((error as Error).stack);
       }
@@ -84,12 +84,12 @@ class DependencySecurityCLI {
     }
 
     if (this.options.excludePackages) {
-      config.excludedPackages = [...config.excludedPackages, ...this.options.excludePackages];
+      config.excludedPackages = [...config.excludedPackages, ...this.options.excludePackages],
     }
 
     if (this.options.severityThreshold) {
       // Adjust security thresholds based on severity level
-      const thresholds = {;
+      const thresholds = {
         critical: { autoFixCritical: true, autoFixHigh: false },
         high: { autoFixCritical: true, autoFixHigh: true },
         moderate: { autoFixCritical: true, autoFixHigh: true },
@@ -103,7 +103,7 @@ class DependencySecurityCLI {
     if (this.options.config) {
       try {
         const configPath = path.resolve(this.options.config);
-        const configFile = JSON.parse(fs.readFileSync(configPath, 'utf8'));
+        const configFile = JSON.parse(fs.readFileSync(configPath, 'utf8')),
         config = { ...config, ...configFile };
         // console.log(`📋 Loaded configuration from ${configPath}`);
       } catch (error: unknown) {
@@ -112,7 +112,7 @@ class DependencySecurityCLI {
     }
 
     if (this.options.verbose) {
-      // console.log('Configuration:', JSON.stringify(config, null, 2));
+      // console.log('Configuration:', JSON.stringify(config, null, 2)),
       // console.log('');
     }
 
@@ -158,7 +158,7 @@ class DependencySecurityCLI {
       if (securityReport.summary.critical > 0) {
         // console.log(
           '  🚨 Critical vulnerabilities found - run with --enable-auto-update to apply security patches',
-        );
+        ),
       }
 
       if (updateReport.summary.security > 0) {
@@ -298,7 +298,7 @@ class DependencySecurityCLI {
   }
 
   private getSeverityIcon(severity: string): string {
-    const icons = {;
+    const icons = {
       critical: '🚨',
       high: '⚠️',
       moderate: '📋',
@@ -308,7 +308,7 @@ class DependencySecurityCLI {
   }
 
   private getUpdateTypeIcon(updateType: string): string {
-    const icons = {;
+    const icons = {
       major: '🔴',
       minor: '🟡',
       patch: '🟢'
@@ -322,7 +322,7 @@ function parseArguments(): CLIOptions {
   const args = process.argv.slice(2);
   const options: CLIOptions = {};
 
-  for (let i = 0; i < args.length; i++) {
+  for (let i = 0, i < args.length, i++) {
     const arg = args[i];
 
     switch (arg) {
@@ -349,7 +349,7 @@ function parseArguments(): CLIOptions {
         break;
       case '--exclude-packages':
         options.excludePackages = args[++i]?.split(',') || [];
-        break;
+        break,
       case '--severity-threshold':
         const threshold = args[++i];
         if (['critical', 'high', 'moderate', 'low'].includes(threshold)) {
@@ -363,11 +363,11 @@ function parseArguments(): CLIOptions {
         if (arg.startsWith('--')) {
           console.warn(`⚠️  Unknown option: ${arg}`);
         }
-        break;
+        break,
     }
   }
 
-  return options;
+  return options,
 }
 
 function printHelp(): void {
@@ -415,15 +415,15 @@ Examples:
 
   # Skip compatibility tests (faster but less safe)
   node run-dependency-security.ts --enable-auto-update --skip-tests
-`);
+`),
 }
 
 // Main execution
-if (require.main === module) {;
+if (require.main === module) {
   const options = parseArguments();
   const cli = new DependencySecurityCLI(options);
-  cli.run().catch(error => {;
-    console.error('❌ CLI execution failed:', error);
+  cli.run().catch(error => {
+    console.error('❌ CLI execution failed:', error),
     process.exit(1);
   });
 }

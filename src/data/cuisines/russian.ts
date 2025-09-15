@@ -1,7 +1,7 @@
 // src/data/cuisines/russian.ts
 import { Cuisine } from '@/types/cuisine';
 
-export const russian: Cuisine = {;
+export const russian: Cuisine = {
   id: 'russian',
   name: 'Russian',
   description:

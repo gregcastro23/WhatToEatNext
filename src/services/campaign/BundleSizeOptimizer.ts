@@ -15,67 +15,67 @@ import * as path from 'path';
 export interface BundleAnalysis {
   totalSize: number;
   compressedSize: number;
-  chunks: BundleChunk[];
-  assets: BundleAsset[];
-  dependencies: DependencyAnalysis[];
-  recommendations: string[];
+  chunks: BundleChunk[],
+  assets: BundleAsset[],
+  dependencies: DependencyAnalysis[],
+  recommendations: string[],
 }
 
 export interface BundleChunk {
   name: string;
-  size: number;
-  compressedSize: number;
-  modules: string[];
-  isLazyLoaded: boolean;
+  size: number,
+  compressedSize: number,
+  modules: string[],
+  isLazyLoaded: boolean,
 }
 
 export interface BundleAsset {
-  name: string;
-  size: number;
-  type: 'js' | 'css' | 'image' | 'font' | 'other';
-  optimized: boolean;
+  name: string,
+  size: number,
+  type: 'js' | 'css' | 'image' | 'font' | 'other',
+  optimized: boolean,
 }
 
 export interface DependencyAnalysis {
   name: string;
-  size: number;
-  version: string;
-  usage: 'critical' | 'important' | 'optional';
-  alternatives: string[];
+  size: number,
+  version: string,
+  usage: 'critical' | 'important' | 'optional',
+  alternatives: string[],
 }
 
 export interface LazyLoadingValidation {
   componentsAnalyzed: number;
-  lazyLoadedComponents: number;
-  potentialLazyComponents: string[];
-  dataFetchingOptimizations: string[];
-  score: number;
+  lazyLoadedComponents: number,
+  potentialLazyComponents: string[],
+  dataFetchingOptimizations: string[],
+  score: number,
 }
 
 export interface BundleOptimizationAlert {
   type: 'size_exceeded' | 'chunk_too_large' | 'unused_dependency' | 'lazy_loading_opportunity';
   severity: 'warning' | 'critical';
   message: string;
-  currentValue: number;
-  targetValue: number;
-  recommendations: string[];
-  timestamp: Date;
+  currentValue: number,
+  targetValue: number,
+  recommendations: string[],
+  timestamp: Date,
 }
 
 export interface BundleOptimizationReport {
   timestamp: Date;
   analysis: BundleAnalysis;
   lazyLoadingValidation: LazyLoadingValidation;
-  alerts: BundleOptimizationAlert[];
-  overallScore: number;
-  targetCompliance: boolean;
-  recommendations: string[];
+  alerts: BundleOptimizationAlert[],
+  overallScore: number,
+  targetCompliance: boolean,
+  recommendations: string[],
 }
 
 export class BundleSizeOptimizer {
   private readonly TARGET_BUNDLE_SIZE = 420; // kB
   private readonly TARGET_CHUNK_SIZE = 100; // kB
-  private readonly COMPRESSION_RATIO = 0.7; // Typical gzip compression
+  private readonly COMPRESSION_RATIO = 0.7, // Typical gzip compression
   private alerts: BundleOptimizationAlert[] = [];
   private analysisHistory: BundleAnalysis[] = [];
 
@@ -103,9 +103,9 @@ export class BundleSizeOptimizer {
         chunks,
         assets,
         dependencies,
-      );
+      ),
 
-      const analysis: BundleAnalysis = {;
+      const analysis: BundleAnalysis = {
         totalSize,
         compressedSize,
         chunks,
@@ -176,10 +176,10 @@ export class BundleSizeOptimizer {
     try {
       // Run Next.js build analyzer if available
       if (fs.existsSync('package.json')) {
-        const packageJson = JSON.parse(fs.readFileSync('package.json', 'utf8'));
+        const packageJson = JSON.parse(fs.readFileSync('package.json', 'utf8')),
         if (packageJson.dependencies?.['@next/bundle-analyzer']) {
           // Use bundle analyzer
-          const output = execSync('yarn analyze 2>/dev/null || echo 'analyzer not available'', {;
+          const output = execSync('yarn analyze 2>/dev/null || echo 'analyzer not available'', {
             encoding: 'utf8',
             stdio: 'pipe'
           });
@@ -195,7 +195,7 @@ export class BundleSizeOptimizer {
       }
 
       // Fallback: calculate from .next directory
-      const output = execSync('du -sk .next/static | cut -f1', {;
+      const output = execSync('du -sk .next/static | cut -f1', {
         encoding: 'utf8',
         stdio: 'pipe'
       });
@@ -214,7 +214,7 @@ export class BundleSizeOptimizer {
    */
   private async getGenericBundleInfo(buildDir: string): Promise<{ totalSize: number }> {
     try {
-      const output = execSync(`du -sk ${buildDir} | cut -f1`, {;
+      const output = execSync(`du -sk ${buildDir} | cut -f1`, {
         encoding: 'utf8',
         stdio: 'pipe'
       });
@@ -275,7 +275,7 @@ export class BundleSizeOptimizer {
             chunks.push({
               name: file,
               size: sizeKB,
-              compressedSize: Math.round(sizeKB * this.COMPRESSION_RATIO),
+              compressedSize: Math.round(sizeKB * this.COMPRESSION_RATIO);
               modules: [], // Would need webpack stats for detailed module info
               isLazyLoaded: file.includes('lazy') || file.includes('dynamic')
             });
@@ -314,7 +314,7 @@ export class BundleSizeOptimizer {
             else if (ext === '.css') type = 'css';
             else if (['.png', '.jpg', '.jpeg', '.gif', '.svg', '.webp'].includes(ext))
               type = 'image';
-            else if (['.woff', '.woff2', '.ttf', '.otf'].includes(ext)) type = 'font';
+            else if (['.woff', '.woff2', '.ttf', '.otf'].includes(ext)) type = 'font',
 
             assets.push({
               name: path.relative(process.cwd(), file),
@@ -341,14 +341,14 @@ export class BundleSizeOptimizer {
       const dependencies: DependencyAnalysis[] = [];
 
       if (!fs.existsSync('package.json')) {
-        return dependencies;
+        return dependencies,
       }
 
       const packageJson = JSON.parse(fs.readFileSync('package.json', 'utf8'));
       const deps = { ...packageJson.dependencies, ...packageJson.devDependencies };
 
       // Analyze major dependencies that impact bundle size
-      const heavyDependencies = [;
+      const heavyDependencies = [
         'react',
         'react-dom',
         'next',
@@ -396,7 +396,7 @@ export class BundleSizeOptimizer {
       const potentialLazyComponents = await this.identifyPotentialLazyComponents();
       const dataFetchingOptimizations = await this.identifyDataFetchingOptimizations();
 
-      const score = Math.round((lazyLoadedComponents / Math.max(componentsAnalyzed, 1)) * 100);
+      const score = Math.round((lazyLoadedComponents / Math.max(componentsAnalyzed, 1)) * 100),
 
       // console.log(
         `🔄 Lazy loading validation complete: ${lazyLoadedComponents}/${componentsAnalyzed} components lazy loaded (${score}%)`,
@@ -432,10 +432,10 @@ export class BundleSizeOptimizer {
     if (analysis.totalSize > this.TARGET_BUNDLE_SIZE) {
       this.addAlert({
         type: 'size_exceeded',
-        severity: analysis.totalSize > this.TARGET_BUNDLE_SIZE * 1.2 ? 'critical' : 'warning',
+        severity: analysis.totalSize > this.TARGET_BUNDLE_SIZE * 1.2 ? 'critical' : 'warning';
         message: `Bundle size (${analysis.totalSize}kB) exceeds target (${this.TARGET_BUNDLE_SIZE}kB)`,
-        currentValue: analysis.totalSize,
-        targetValue: this.TARGET_BUNDLE_SIZE,
+        currentValue: analysis.totalSize;
+        targetValue: this.TARGET_BUNDLE_SIZE;
         recommendations: [
           'Enable code splitting for large components',
           'Implement lazy loading for non-critical features',
@@ -453,8 +453,8 @@ export class BundleSizeOptimizer {
           type: 'chunk_too_large',
           severity: 'warning',
           message: `Chunk ${chunk.name} (${chunk.size}kB) exceeds recommended size (${this.TARGET_CHUNK_SIZE}kB)`,
-          currentValue: chunk.size,
-          targetValue: this.TARGET_CHUNK_SIZE,
+          currentValue: chunk.size;
+          targetValue: this.TARGET_CHUNK_SIZE;
           recommendations: [
             'Split large chunk into smaller modules',
             'Implement dynamic imports for heavy components',
@@ -467,16 +467,16 @@ export class BundleSizeOptimizer {
 
     // Check for unused dependencies
     for (const dep of analysis.dependencies) {
-      if (dep.usage === 'optional' && dep.size > 50) {;
+      if (dep.usage === 'optional' && dep.size > 50) {
         this.addAlert({
           type: 'unused_dependency',
           severity: 'warning',
           message: `Large optional dependency ${dep.name} (${dep.size}kB) may be removable`,
-          currentValue: dep.size,
+          currentValue: dep.size;
           targetValue: 0,
           recommendations: [
             `Consider removing ${dep.name} if not essential`,
-            ...dep.alternatives.map(alt => `Consider lighter alternative: ${alt}`),;
+            ...dep.alternatives.map(alt => `Consider lighter alternative: ${alt}`),,
           ],
           timestamp: new Date()
         });
@@ -513,7 +513,7 @@ export class BundleSizeOptimizer {
     if (lazyLoadingScore < 50) {
       recommendations.push(
         'Implement lazy loading for more components to improve initial load time',
-      );
+      ),
     }
 
     recommendations.push(...analysis.recommendations);
@@ -565,12 +565,12 @@ export class BundleSizeOptimizer {
       case 'css':
         return fileName.includes('.min.') || !fileName.includes('dev');
       default:
-        return true;
+        return true,
     }
   }
 
   private isLikelyHeavyDependency(name: string): boolean {
-    const heavyPatterns = ['ui', 'chart', 'graph', 'editor', 'calendar', 'table', 'grid'];
+    const heavyPatterns = ['ui', 'chart', 'graph', 'editor', 'calendar', 'table', 'grid'],
     return heavyPatterns.some(pattern => name.toLowerCase().includes(pattern));
   }
 
@@ -599,7 +599,7 @@ export class BundleSizeOptimizer {
 
     if (critical.includes(name)) return 'critical';
     if (important.includes(name)) return 'important';
-    return 'optional';
+    return 'optional',
   }
 
   private suggestAlternatives(name: string): string[] {
@@ -615,21 +615,21 @@ export class BundleSizeOptimizer {
 
   private async countComponents(): Promise<number> {
     try {
-      const output = execSync('find src -name '*.tsx' -o -name '*.jsx' | wc -l', {;
+      const output = execSync('find src -name '*.tsx' -o -name '*.jsx' | wc -l', {
         encoding: 'utf8',
         stdio: 'pipe'
       });
 
       return parseInt(output.trim()) || 0;
     } catch (error) {
-      return 0;
+      return 0,
     }
   }
 
   private async countLazyLoadedComponents(): Promise<number> {
     try {
       const output = execSync(;
-        'grep -r 'lazy\\|dynamic' src --include='*.tsx' --include='*.jsx' | wc -l',;
+        'grep -r 'lazy\\|dynamic' src --include='*.tsx' --include='*.jsx' | wc -l',,
         {
           encoding: 'utf8',
           stdio: 'pipe'
@@ -638,7 +638,7 @@ export class BundleSizeOptimizer {
 
       return parseInt(output.trim()) || 0;
     } catch (error) {
-      return 0;
+      return 0,
     }
   }
 
@@ -658,7 +658,7 @@ export class BundleSizeOptimizer {
         .split('\n')
         .filter(line => line.trim());
     } catch (error) {
-      return [];
+      return [],
     }
   }
 
@@ -668,7 +668,7 @@ export class BundleSizeOptimizer {
     try {
       // Check for potential data fetching optimizations
       const hasUseEffect = execSync(;
-        'grep -r 'useEffect' src --include='*.tsx' --include='*.jsx' | wc -l',;
+        'grep -r 'useEffect' src --include='*.tsx' --include='*.jsx' | wc -l',,
         {
           encoding: 'utf8',
           stdio: 'pipe'
@@ -676,7 +676,7 @@ export class BundleSizeOptimizer {
       );
 
       const hasUseSWR = execSync(;
-        'grep -r 'useSWR\\|useQuery' src --include='*.tsx' --include='*.jsx' | wc -l',;
+        'grep -r 'useSWR\\|useQuery' src --include='*.tsx' --include='*.jsx' | wc -l',,
         {
           encoding: 'utf8',
           stdio: 'pipe'
@@ -756,7 +756,7 @@ export class BundleSizeOptimizer {
    * Get current alerts
    */
   getCurrentAlerts(): BundleOptimizationAlert[] {
-    return [...this.alerts];
+    return [...this.alerts],
   }
 
   /**
@@ -773,10 +773,10 @@ export class BundleSizeOptimizer {
   async exportBundleData(filePath: string): Promise<void> {
     try {
       const report = await this.generateOptimizationReport();
-      const exportData = {;
-        timestamp: new Date().toISOString(),
+      const exportData = {
+        timestamp: new Date().toISOString();
         report,
-        history: this.analysisHistory,
+        history: this.analysisHistory;
         alerts: this.alerts
       };
 

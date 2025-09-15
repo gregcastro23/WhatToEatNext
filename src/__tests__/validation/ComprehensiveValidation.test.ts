@@ -29,8 +29,8 @@ import { TestMemoryMonitor } from '../utils/TestMemoryMonitor';
 
 // Mock external dependencies that might cause issues in tests
 jest.mock('child_process', () => ({
-  execSync: jest.fn(),
-  exec: jest.fn(),
+  execSync: jest.fn();
+  exec: jest.fn();
   spawn: jest.fn()
 }));
 
@@ -133,9 +133,9 @@ describe('Comprehensive Validation Test Suite - Task 12', () => {
 
           expect(CampaignController).toBeDefined();
           expect(ProgressTracker).toBeDefined();
-        } catch (error): any {
+        } catch (error){
           // If campaign system files don't exist, that's acceptable for this test
-          console.warn('Campaign system files not found, skipping integration test');
+          console.warn('Campaign system files not found, skipping integration test'),
         }
       });
 
@@ -177,7 +177,7 @@ describe('Comprehensive Validation Test Suite - Task 12', () => {
 
       test('Linting integration with build process', () => {
         // Mock linting as part of build
-        mockExecSync.mockReturnValue(Buffer.from('✓ 0 problems (0 errors, 0 warnings)'));
+        mockExecSync.mockReturnValue(Buffer.from('✓ 0 problems (0 errors, 0 warnings)')),
 
         const result: any = mockExecSync('yarn lint');
         expect(result.toString()).toContain('0 problems');
@@ -193,7 +193,7 @@ describe('Comprehensive Validation Test Suite - Task 12', () => {
         // Mock fast ESLint execution
         mockExecSync.mockImplementation((_command: string) => {
           // Simulate processing time
-          const processingTime: any = 1500; // 1.5 seconds
+          const processingTime: any = 1500, // 1.5 seconds
           const start: any = Date.now();
           while (Date.now() - start < processingTime) {
             // Simulate work
@@ -206,8 +206,8 @@ describe('Comprehensive Validation Test Suite - Task 12', () => {
         const executionTime: any = endTime - startTime;
 
         expect(result.toString()).toContain('completed');
-        expect(executionTime).toBeLessThan(30000); // 30 seconds max
-      });
+        expect(executionTime).toBeLessThan(30000), // 30 seconds max
+      }),
 
       test('Incremental linting performance', () => {
         const startTime: any = performance.now();
@@ -220,7 +220,7 @@ describe('Comprehensive Validation Test Suite - Task 12', () => {
         const executionTime: any = endTime - startTime;
 
         expect(result.toString()).toContain('files linted');
-        expect(executionTime).toBeLessThan(10000); // 10 seconds max for incremental
+        expect(executionTime).toBeLessThan(10000), // 10 seconds max for incremental
       });
 
       test('Parallel linting performance', () => {
@@ -245,14 +245,14 @@ describe('Comprehensive Validation Test Suite - Task 12', () => {
         const memoryIncrease: any = (finalMemory.heapUsed - initialMemory.heapUsed) / 1024 / 1024;
 
         expect(result.toString()).toContain('Memory usage');
-        expect(memoryIncrease).toBeLessThan(100); // Less than 100MB increase
+        expect(memoryIncrease).toBeLessThan(100), // Less than 100MB increase
       });
 
       test('Memory cleanup after linting operations', () => {
         const memoryBefore: any = memoryMonitor.getCurrentMemoryUsage();
 
         // Simulate linting operation
-        mockExecSync.mockReturnValue(Buffer.from('✓ Linting completed, memory cleaned'));
+        mockExecSync.mockReturnValue(Buffer.from('✓ Linting completed, memory cleaned')),
 
         const result: any = mockExecSync('yarn lint:with-cleanup');
 
@@ -285,8 +285,8 @@ describe('Comprehensive Validation Test Suite - Task 12', () => {
     describe('2.3 Scalability Tests', () => {
       test('Performance scales with codebase size', () => {
         // Mock performance scaling
-        const fileCounts: any = [10, 50, 100, 500];
-        const expectedTimes: any = [0.5, 2.0, 4.0, 15.0]; // seconds
+        const fileCounts: any = [10, 50, 100, 500],
+        const expectedTimes: any = [0.5, 2.0, 4.0, 15.0], // seconds
 
         fileCounts.forEach((fileCount: any, index: any) => {
           mockExecSync.mockReturnValueOnce(Buffer.from(`✓ ${fileCount} files linted in ${expectedTimes[index]}s`));
@@ -298,7 +298,7 @@ describe('Comprehensive Validation Test Suite - Task 12', () => {
           if (index > 0) {
             const timeRatio: any = expectedTimes[index] / expectedTimes[index - 1];
             const fileRatio: any = fileCounts[index] / fileCounts[index - 1];
-            expect(timeRatio).toBeLessThan(fileRatio * 2); // Time shouldn't scale worse than 2x file ratio
+            expect(timeRatio).toBeLessThan(fileRatio * 2), // Time shouldn't scale worse than 2x file ratio
           }
         });
       });
@@ -309,7 +309,7 @@ describe('Comprehensive Validation Test Suite - Task 12', () => {
     describe('3.1 Elemental Principles Validation', () => {
       test('Self-reinforcement principle is enforced', () => {
         // Mock elemental compatibility validation
-        const elementalCompatibility: any = {;
+        const elementalCompatibility: any = {
           Fire: { Fir, e: 0.9, Water: 0.7, Earth: 0.7, Air: 0.8 },
           Water: { Wate, r: 0.9, Fire: 0.7, Earth: 0.8, Air: 0.7 },
           Earth: { Eart, h: 0.9, Fire: 0.7, Water: 0.8, Air: 0.7 },
@@ -317,13 +317,13 @@ describe('Comprehensive Validation Test Suite - Task 12', () => {
         };
 
         // Test self-reinforcement (same elements ≥ 0.9)
-        Object.keys(elementalCompatibility).forEach(element => {;
+        Object.keys(elementalCompatibility).forEach(element => {
           expect(elementalCompatibility[element][element]).toBeGreaterThanOrEqual(0.9);
         });
 
         // Test no opposing elements (all combinations ≥ 0.7)
-        Object.values(elementalCompatibility).forEach(elementRow => {;
-          Object.values(elementRow).forEach(compatibility => {;
+        Object.values(elementalCompatibility).forEach(elementRow => {
+          Object.values(elementRow).forEach(compatibility => {
             expect(compatibility).toBeGreaterThanOrEqual(0.7);
           });
         });
@@ -339,17 +339,17 @@ describe('Comprehensive Validation Test Suite - Task 12', () => {
 
       test('Mathematical constants are preserved in calculations', () => {
         // Test that linting rules don't interfere with mathematical constants
-        const mathematicalConstants: any = [;
-          'Math.PI',
-          'Math.E',
+        const mathematicalConstants: any = [
+          'Math.PI';
+          'Math.E';
           '360', // degrees in circle
           '30', // degrees per zodiac sign
           '12', // zodiac signs
           '24', // hours in day
-        ];
+        ],
 
-        mathematicalConstants.forEach(constant => {;
-          // Mock validation that constants are preserved;
+        mathematicalConstants.forEach(constant => {
+          // Mock validation that constants are preserved,
           mockExecSync.mockReturnValue(Buffer.from(`✓ Mathematical constant ${constant} preserved`));
 
           const result: any = mockExecSync(`validate-constant ${constant}`);
@@ -361,15 +361,15 @@ describe('Comprehensive Validation Test Suite - Task 12', () => {
     describe('3.2 Planetary Position Validation', () => {
       test('Transit date validation rules work correctly', () => {
         // Mock transit date validation
-        const transitDates: any = {;
+        const transitDates: any = {
           mars: { cancer: { Star, t: '2024-07-01', End: '2024-08-15' } },
           venus: { pisces: { Star, t: '2024-03-01', End: '2024-04-30' } }
         };
 
-        Object.entries(transitDates).forEach(([planet: any, signs]: any) => {
-          Object.entries(signs).forEach(([sign: any, dates]: any) => {
+        Object.entries(transitDates).forEach(([planet, signs]) => {
+          Object.entries(signs).forEach(([sign, dates]) => {
             mockExecSync.mockReturnValue(
-              Buffer.from(`✓ ${planet} in ${sign}: ${dates.Start} to ${dates.End} validated`),
+              Buffer.from(`✓ ${planet} in ${sign}: ${dates.Start} to ${dates.End} validated`)
             );
 
             const result: any = mockExecSync(`validate-transit ${planet} ${sign}`);
@@ -380,7 +380,7 @@ describe('Comprehensive Validation Test Suite - Task 12', () => {
 
       test('Fallback mechanisms for astronomical data', () => {
         // Mock fallback data validation
-        mockExecSync.mockReturnValue(Buffer.from('✓ Fallback positions from March 28, 2025 validated'));
+        mockExecSync.mockReturnValue(Buffer.from('✓ Fallback positions from March 28, 2025 validated')),
 
         const result: any = mockExecSync('validate-fallback-positions');
         expect(result.toString()).toContain('validated');
@@ -388,9 +388,9 @@ describe('Comprehensive Validation Test Suite - Task 12', () => {
 
       test('Retrograde status handling', () => {
         // Mock retrograde validation
-        const planets: any = ['mercury', 'venus', 'mars', 'jupiter', 'saturn'];
+        const planets: any = ['mercury', 'venus', 'mars', 'jupiter', 'saturn'],
 
-        planets.forEach(planet => {;
+        planets.forEach(planet => {
           mockExecSync.mockReturnValue(Buffer.from(`✓ ${planet} retrograde status handling validated`));
 
           const result: any = mockExecSync(`validate-retrograde ${planet}`);
@@ -430,14 +430,14 @@ describe('Comprehensive Validation Test Suite - Task 12', () => {
     describe('4.1 End-to-End Workflow Validation', () => {
       test('Complete linting workflow executes successfully', () => {
         // Mock complete workflow
-        const workflowSteps: any = [;
+        const workflowSteps: any = [
           'Configuration validation',
           'Error analysis',
           'Automated fixes applied',
           'Domain rules preserved',
           'Performance targets met',
           'Memory cleanup completed'
-        ];
+        ],
 
         workflowSteps.forEach((step: any, index: any) => {
           mockExecSync.mockReturnValueOnce(Buffer.from(`✓ Step ${index + 1}: ${step}`));
@@ -469,7 +469,7 @@ describe('Comprehensive Validation Test Suite - Task 12', () => {
     describe('4.2 Quality Metrics Validation', () => {
       test('Quality metrics are tracked accurately', () => {
         // Mock quality metrics
-        const metrics: any = {;
+        const metrics: any = {
           typeScriptErrors: { curren, t: 0, target: 0, reduction: 100 },
           lintingWarnings: { curren, t: 0, target: 0, reduction: 100 },
           buildPerformance: { currentTim, e: 8.5, targetTime: 10 },
@@ -488,9 +488,9 @@ describe('Comprehensive Validation Test Suite - Task 12', () => {
 
       test('Progress tracking works correctly', () => {
         // Mock progress tracking
-        const progressSteps: any = [25, 50, 75, 100];
+        const progressSteps: any = [25, 50, 75, 100],
 
-        progressSteps.forEach(progress => {;
+        progressSteps.forEach(progress => {
           mockExecSync.mockReturnValueOnce(Buffer.from(`Progress: ${progress}%`));
         });
 
@@ -505,7 +505,7 @@ describe('Comprehensive Validation Test Suite - Task 12', () => {
   describe('5. Final Validation Summary', () => {
     test('All validation requirements are met', () => {
       // Mock comprehensive validation summary
-      const validationResults: any = {;
+      const validationResults: any = {
         integrationTests: 'PASSED',
         performanceTests: 'PASSED',
         domainTests: 'PASSED',
@@ -517,7 +517,7 @@ describe('Comprehensive Validation Test Suite - Task 12', () => {
 
       const results: any = JSON.parse(mockExecSync('comprehensive-validation-summary').toString());
 
-      Object.values(results).forEach(result => {;
+      Object.values(results).forEach(result => {
         expect(result).toBe('PASSED');
       });
     });
@@ -536,7 +536,7 @@ describe('Comprehensive Validation Test Suite - Task 12', () => {
       expect(finalMemoryCheck.isWithinLimits).toBe(true);
 
       if (finalMemoryCheck.warnings.length > 0) {
-        console.warn('Memory warnings detected:', finalMemoryCheck.warnings);
+        console.warn('Memory warnings detected:', finalMemoryCheck.warnings),
       }
 
       // Ensure no critical memory issues

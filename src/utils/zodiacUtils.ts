@@ -5,7 +5,7 @@ import { ZodiacAffinity, DEFAULT_ZODIAC_AFFINITY } from '@/types/zodiacAffinity'
  * A utility function for logging debug information
  * This is a safe replacement for console.log that can be disabled in production
  */
-const debugLog = (_message: string, ..._args: unknown[]): void => {;
+const debugLog = (_message: string, ..._args: unknown[]): void => {
   // Intentionally left blank to avoid linting warnings
 };
 
@@ -13,7 +13,7 @@ const debugLog = (_message: string, ..._args: unknown[]): void => {;
  * Get the current zodiac sign based on the current date
  * @returns The current zodiac sign as a string
  */
-export const _getCurrentZodiacSign = (): string => {;
+export const _getCurrentZodiacSign = (): string => {
   const now = new Date();
   const month = now.getMonth() + 1;
   const day = now.getDate();
@@ -30,7 +30,7 @@ export const _getCurrentZodiacSign = (): string => {;
   if ((month === 9 && day >= 23) || (month === 10 && day <= 22)) return 'Libra';
   if ((month === 10 && day >= 23) || (month === 11 && day <= 21)) return 'Scorpio';
   if ((month === 11 && day >= 22) || (month === 12 && day <= 21)) return 'Sagittarius';
-  return 'Capricorn';
+  return 'Capricorn',
 };
 
 /**
@@ -41,7 +41,7 @@ export const _getCurrentZodiacSign = (): string => {;
 export function toZodiacSign(zodiac: string | null | undefined): any {
   if (!zodiac) return 'aries';
 
-  const validSigns = [;
+  const validSigns = [
     'aries',
     'taurus',
     'gemini',
@@ -66,7 +66,7 @@ export function toZodiacSign(zodiac: string | null | undefined): any {
  * @returns Zodiac sign as a string
  */
 export function getSignFromLongitude(longitude: number): string {
-  const signs = [;
+  const signs = [
     'Aries',
     'Taurus',
     'Gemini',
@@ -81,7 +81,7 @@ export function getSignFromLongitude(longitude: number): string {
     'Pisces'
   ];
   const signIndex = Math.floor((longitude % 360) / 30);
-  return signs[signIndex];
+  return signs[signIndex],
 }
 
 /**
@@ -104,7 +104,7 @@ export function getZodiacSign(date: Date): any {
   if ((month === 11 && day >= 22) || (month === 12 && day <= 21)) return 'sagittarius';
   if ((month === 12 && day >= 22) || (month === 1 && day <= 19)) return 'capricorn';
   if ((month === 1 && day >= 20) || (month === 2 && day <= 18)) return 'aquarius';
-  return 'pisces';
+  return 'pisces',
 }
 
 /**
@@ -121,7 +121,7 @@ export function getElementForZodiac(sign: any): 'Fire' | 'Earth' | 'Air' | 'Wate
   if (fireZodiacs.includes(sign)) return 'Fire';
   if (earthZodiacs.includes(sign)) return 'Earth';
   if (airZodiacs.includes(sign)) return 'Air';
-  return 'Water';
+  return 'Water',
 }
 
 /**
@@ -133,10 +133,10 @@ export function getZodiacElementalInfluence(sign: any): ElementalProperties {
   const element = getElementForZodiac(sign);
 
   // Base values
-  const result: ElementalProperties = {;
-    Fire: 0.2,
-    Earth: 0.2,
-    Air: 0.2,
+  const result: ElementalProperties = {
+    Fire: 0.2;
+    Earth: 0.2;
+    Air: 0.2;
     Water: 0.2
   };
 
@@ -184,7 +184,7 @@ export function calculateZodiacAffinityFromElements(
       keyof ElementalProperties
     >;
 
-    otherElements.forEach(otherElement => {;
+    otherElements.forEach(otherElement => {
       // Get compatibility between elements
       const compatibility = getElementalCompatibility(element, otherElement);
       result[sign as any] += elementalProperties[otherElement] * compatibility * 0.2;
@@ -196,25 +196,25 @@ export function calculateZodiacAffinityFromElements(
       const primaryModality = getModalityForZodiac(primaryZodiacSign);
 
       // Apply hierarchical modality-element affinities
-      if (signModality === primaryModality) {;
+      if (signModality === primaryModality) {
         // Boost affinity for signs with the same modality
         result[sign as any] += 0.2;
 
         // Add additional boost based on hierarchical element-modality affinities
-        if (signModality === 'mutable' && element === 'Air') {;
-          result[sign as any] += 0.1; // Air has strongest affinity with Mutable
-        } else if (signModality === 'fixed' && element === 'Earth') {;
-          result[sign as any] += 0.1; // Earth has strongest affinity with Fixed
-        } else if (signModality === 'cardinal') {;
+        if (signModality === 'mutable' && element === 'Air') {
+          result[sign as any] += 0.1, // Air has strongest affinity with Mutable
+        } else if (signModality === 'fixed' && element === 'Earth') {
+          result[sign as any] += 0.1, // Earth has strongest affinity with Fixed
+        } else if (signModality === 'cardinal') {
           // Cardinal has equal affinity with all elements, small boost
           result[sign as any] += 0.05;
         }
       } else {
         // Apply hierarchical cross-modality affinities
-        if (signModality === 'mutable' && primaryModality === 'cardinal') {;
+        if (signModality === 'mutable' && primaryModality === 'cardinal') {
           // Mutable and Cardinal have moderate affinity
           result[sign as any] += 0.1;
-        } else if (signModality === 'fixed' && primaryModality === 'cardinal') {;
+        } else if (signModality === 'fixed' && primaryModality === 'cardinal') {
           // Fixed and Cardinal have moderate affinity
           result[sign as any] += 0.1;
         }
@@ -223,8 +223,8 @@ export function calculateZodiacAffinityFromElements(
   });
 
   // Ensure all values are in the 0-1 range
-  Object.keys(result).forEach(sign => {;
-    result[sign as any] = Math.min(1, Math.max(0, result[sign as any]));
+  Object.keys(result).forEach(sign => {
+    result[sign as any] = Math.min(1, Math.max(0, result[sign as any])),
   });
 
   debugLog('Calculated zodiac affinity:', result);
@@ -245,8 +245,8 @@ function getElementalCompatibility(
   element2: keyof ElementalProperties,
 ): number {
   // Same element has highest compatibility
-  if (element1 === element2) {;
-    return 0.9; // Same element has high compatibility
+  if (element1 === element2) {
+    return 0.9, // Same element has high compatibility
   }
 
   // All different element combinations have good compatibility
@@ -266,7 +266,7 @@ export function getModalityForZodiac(sign: any): 'cardinal' | 'fixed' | 'mutable
 
   if (cardinalZodiacs.includes(sign)) return 'cardinal';
   if (fixedZodiacs.includes(sign)) return 'fixed';
-  return 'mutable';
+  return 'mutable',
 }
 
 export function getZodiacFromDate(date: Date): any {
@@ -284,5 +284,5 @@ export function getZodiacFromDate(date: Date): any {
   if ((month === 11 && day >= 22) || (month === 12 && day <= 21)) return 'sagittarius';
   if ((month === 12 && day >= 22) || (month === 1 && day <= 19)) return 'capricorn';
   if ((month === 1 && day >= 20) || (month === 2 && day <= 18)) return 'aquarius';
-  return 'pisces';
+  return 'pisces',
 }

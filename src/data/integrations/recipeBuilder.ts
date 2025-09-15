@@ -1,6 +1,6 @@
 import type { _ } from '@/types/alchemy';
 
-export const _recipeBuilder = {;
+export const _recipeBuilder = {
   baseTemplates: {
     soup: {
       elementalBase: {

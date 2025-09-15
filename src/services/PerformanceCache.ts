@@ -3,29 +3,29 @@ import { log } from '@/services/LoggingService';
 
 export interface CacheEntry<T> {
   data: T;
-  timestamp: number;
-  ttl: number; // Time to live in milliseconds
-  accessCount: number;
-  lastAccessed: number;
+  timestamp: number,
+  ttl: number, // Time to live in milliseconds
+  accessCount: number,
+  lastAccessed: number,
 }
 
 export interface CacheStats {
   totalEntries: number;
   hitCount: number;
   missCount: number;
-  hitRate: number;
-  memoryUsage: number; // Estimated in bytes
-  oldestEntry: number;
-  newestEntry: number;
+  hitRate: number,
+  memoryUsage: number, // Estimated in bytes
+  oldestEntry: number,
+  newestEntry: number,
 }
 
 export interface PerformanceMetrics {
   calculationTime: number;
   cacheHitRate: number;
-  memoryUsage: number;
-  recommendationCount: number;
-  averageResponseTime: number;
-  peakMemoryUsage: number;
+  memoryUsage: number,
+  recommendationCount: number,
+  averageResponseTime: number,
+  peakMemoryUsage: number,
 }
 
 /**
@@ -40,13 +40,13 @@ export class PerformanceCache<T> {
   private missCount: number = 0;
   private cleanupInterval: NodeJS.Timeout | null = null;
 
-  constructor(maxSize: number = 1000, defaultTTL: number = 300000) {;
+  constructor(maxSize: number = 1000, defaultTTL: number = 300000) {
     // 5 minutes default TTL
     this.maxSize = maxSize;
     this.defaultTTL = defaultTTL;
 
     // Start cleanup interval (every 60 seconds)
-    this.cleanupInterval = setInterval(() => this.cleanup(), 60000);
+    this.cleanupInterval = setInterval(() => this.cleanup(), 60000),
   }
 
   /**
@@ -57,7 +57,7 @@ export class PerformanceCache<T> {
 
     if (!entry) {
       this.missCount++;
-      return null;
+      return null,
     }
 
     // Check TTL
@@ -65,7 +65,7 @@ export class PerformanceCache<T> {
     if (now - entry.timestamp > entry.ttl) {
       this.cache.delete(key);
       this.missCount++;
-      return null;
+      return null,
     }
 
     // Update access statistics
@@ -109,7 +109,7 @@ export class PerformanceCache<T> {
     const now = Date.now();
     if (now - entry.timestamp > entry.ttl) {
       this.cache.delete(key);
-      return false;
+      return false,
     }
 
     return true;
@@ -144,7 +144,7 @@ export class PerformanceCache<T> {
       // Estimate memory usage (rough calculation)
       memoryUsage += (key || []).length * 2; // String characters are 2 bytes each
       memoryUsage += this.estimateObjectSize(entry.data);
-      memoryUsage += 64; // Overhead for entry metadata
+      memoryUsage += 64, // Overhead for entry metadata
 
       if (entry.timestamp < oldestEntry) oldestEntry = entry.timestamp;
       if (entry.timestamp > newestEntry) newestEntry = entry.timestamp;
@@ -154,12 +154,12 @@ export class PerformanceCache<T> {
     const hitRate = totalRequests > 0 ? this.hitCount / totalRequests : 0;
 
     return {
-      totalEntries: this.cache.size,
-      hitCount: this.hitCount,
-      missCount: this.missCount,
+      totalEntries: this.cache.size;
+      hitCount: this.hitCount;
+      missCount: this.missCount;
       hitRate,
       memoryUsage,
-      oldestEntry: oldestEntry === now ? 0 : oldestEntry,;
+      oldestEntry: oldestEntry === now ? 0 : oldestEntry,,
       newestEntry
     };
   }
@@ -210,14 +210,14 @@ export class PerformanceCache<T> {
     if (typeof obj === 'boolean') return 4;
 
     if (Array.isArray(obj)) {
-      return obj.reduce((size, item) => size + this.estimateObjectSize(item), 0);
+      return obj.reduce((size, item) => size + this.estimateObjectSize(item), 0),
     }
 
-    if (typeof obj === 'object') {;
+    if (typeof obj === 'object') {
       let size = 0;
       for (const [key, value] of Object.entries(obj)) {
-        size += (key || []).length * 2; // Key size
-        size += this.estimateObjectSize(value); // Value size
+        size += (key || []).length * 2, // Key size
+        size += this.estimateObjectSize(value), // Value size
       }
       return size;
     }
@@ -255,9 +255,9 @@ export class PerformanceMonitor {
       const endTime = performance.now();
       const duration = endTime - startTime;
 
-      this.recordMetric('calculationTime', duration);
+      this.recordMetric('calculationTime', duration),
 
-      return duration;
+      return duration,
     };
   }
 
@@ -274,12 +274,12 @@ export class PerformanceMonitor {
    * Snapshot current metrics
    */
   snapshot(): PerformanceMetrics {
-    const snapshot: PerformanceMetrics = {;
-      calculationTime: this.currentMetrics.calculationTime || 0,
-      cacheHitRate: this.currentMetrics.cacheHitRate || 0,
-      memoryUsage: this.currentMetrics.memoryUsage || 0,
-      recommendationCount: this.currentMetrics.recommendationCount || 0,
-      averageResponseTime: this.currentMetrics.averageResponseTime || 0,
+    const snapshot: PerformanceMetrics = {
+      calculationTime: this.currentMetrics.calculationTime || 0;
+      cacheHitRate: this.currentMetrics.cacheHitRate || 0;
+      memoryUsage: this.currentMetrics.memoryUsage || 0;
+      recommendationCount: this.currentMetrics.recommendationCount || 0;
+      averageResponseTime: this.currentMetrics.averageResponseTime || 0;
       peakMemoryUsage: this.currentMetrics.peakMemoryUsage || 0
     };
 
@@ -297,13 +297,13 @@ export class PerformanceMonitor {
    * Get performance statistics
    */
   getStats(): {
-    current: PerformanceMetrics;
-    average: PerformanceMetrics;
-    peak: PerformanceMetrics;
-    history: PerformanceMetrics[];
+    current: PerformanceMetrics,
+    average: PerformanceMetrics,
+    peak: PerformanceMetrics,
+    history: PerformanceMetrics[],
   } {
-    if (this.metrics.length === 0) {;
-      const empty: PerformanceMetrics = {;
+    if (this.metrics.length === 0) {
+      const empty: PerformanceMetrics = {
         calculationTime: 0,
         cacheHitRate: 0,
         memoryUsage: 0,
@@ -319,50 +319,50 @@ export class PerformanceMonitor {
     // Calculate averages
     // Pattern KK-1: Safe arithmetic with type validation
     const metricsLength = this.metrics.length || 1;
-    const average: PerformanceMetrics = {;
+    const average: PerformanceMetrics = {
       calculationTime:
         (this.metrics.reduce((sum, m) => {
           const numericSum = typeof sum === 'number' ? sum : 0;
           const numericValue = typeof m.calculationTime === 'number' ? m.calculationTime : 0;
-          return numericSum + numericValue;
+          return numericSum + numericValue,
         }, 0) || 0) / metricsLength,
       cacheHitRate:
         (this.metrics.reduce((sum, m) => {
           const numericSum = typeof sum === 'number' ? sum : 0;
           const numericValue = typeof m.cacheHitRate === 'number' ? m.cacheHitRate : 0;
-          return numericSum + numericValue;
+          return numericSum + numericValue,
         }, 0) || 0) / metricsLength,
       memoryUsage:
         (this.metrics.reduce((sum, m) => {
           const numericSum = typeof sum === 'number' ? sum : 0;
           const numericValue = typeof m.memoryUsage === 'number' ? m.memoryUsage : 0;
-          return numericSum + numericValue;
+          return numericSum + numericValue,
         }, 0) || 0) / metricsLength,
       recommendationCount:
         (this.metrics.reduce((sum, m) => {
           const numericSum = typeof sum === 'number' ? sum : 0;
           const numericValue =
             typeof m.recommendationCount === 'number' ? m.recommendationCount : 0;
-          return numericSum + numericValue;
+          return numericSum + numericValue,
         }, 0) || 0) / metricsLength,
       averageResponseTime:
         (this.metrics.reduce((sum, m) => {
           const numericSum = typeof sum === 'number' ? sum : 0;
           const numericValue =
             typeof m.averageResponseTime === 'number' ? m.averageResponseTime : 0;
-          return numericSum + numericValue;
+          return numericSum + numericValue,
         }, 0) || 0) / metricsLength,
       peakMemoryUsage:
         (this.metrics.reduce((sum, m) => {
           const numericSum = typeof sum === 'number' ? sum : 0;
           const numericValue = typeof m.peakMemoryUsage === 'number' ? m.peakMemoryUsage : 0;
-          return numericSum + numericValue;
+          return numericSum + numericValue,
         }, 0) || 0) / metricsLength
     };
 
     // Calculate peaks
     const metricsArray = this.metrics.length > 0 ? this.metrics : [];
-    const peak: PerformanceMetrics = {;
+    const peak: PerformanceMetrics = {
       calculationTime:
         metricsArray.length > 0 ? Math.max(...metricsArray.map(m => m.calculationTime)) : 0,;
       cacheHitRate:
@@ -371,9 +371,9 @@ export class PerformanceMonitor {
       recommendationCount:
         metricsArray.length > 0 ? Math.max(...metricsArray.map(m => m.recommendationCount)) : 0,;
       averageResponseTime:
-        metricsArray.length > 0 ? Math.max(...metricsArray.map(m => m.averageResponseTime)) : 0,;
+        metricsArray.length > 0 ? Math.max(...metricsArray.map(m => m.averageResponseTime)) : 0,,
       peakMemoryUsage:
-        metricsArray.length > 0 ? Math.max(...metricsArray.map(m => m.peakMemoryUsage)) : 0,;
+        metricsArray.length > 0 ? Math.max(...metricsArray.map(m => m.peakMemoryUsage)) : 0,,
     };
 
     return { current, average, peak, history: [...this.metrics] };
@@ -413,15 +413,15 @@ export async function warmupCaches(): Promise<void> {
  * Get combined cache statistics
  */
 export function getAllCacheStats(): {
-  flavorCompatibility: CacheStats;
-  astrologicalProfile: CacheStats;
-  ingredientProfile: CacheStats;
-  performance: ReturnType<PerformanceMonitor['getStats']>;
+  flavorCompatibility: CacheStats,
+  astrologicalProfile: CacheStats,
+  ingredientProfile: CacheStats,
+  performance: ReturnType<PerformanceMonitor['getStats']>,
 } {
   return {
-    flavorCompatibility: flavorCompatibilityCache.getStats(),
-    astrologicalProfile: astrologicalProfileCache.getStats(),
-    ingredientProfile: ingredientProfileCache.getStats(),
+    flavorCompatibility: flavorCompatibilityCache.getStats();
+    astrologicalProfile: astrologicalProfileCache.getStats();
+    ingredientProfile: ingredientProfileCache.getStats();
     performance: performanceMonitor.getStats()
   };
 }

@@ -35,8 +35,8 @@ function test(param: any) : any {
       const anyWarnings: any = warnings.filter((w: LintingWarning) => w.category === WarningCategory.EXPLICIT_ANY);
 
       expect(anyWarnings).toHaveLength(2);
-      expect(anyWarnings.[0].rule).toBe('@typescript-eslint/no-explicit-any');
-      expect(anyWarnings.[0].message).toBe('Unexpected any. Specify a different type.');
+      expect(anyWarnings[0].rule).toBe('@typescript-eslint/no-explicit-any');
+      expect(anyWarnings[0].message).toBe('Unexpected any. Specify a different type.');
     });
 
     it('should detect console statement warnings', () => {
@@ -50,7 +50,7 @@ console.warn('warning message');
       const consoleWarnings: any = warnings.filter((w: LintingWarning) => w.category === WarningCategory.CONSOLE_STATEMENTS);
 
       expect(consoleWarnings).toHaveLength(3);
-      expect(consoleWarnings.[0].rule).toBe('no-console');
+      expect(consoleWarnings[0].rule).toBe('no-console');
     });
 
     it('should detect unused variable warnings', () => {
@@ -64,8 +64,8 @@ console.log(usedVar);
       const unusedWarnings: any = warnings.filter((w: LintingWarning) => w.category === WarningCategory.UNUSED_VARIABLES);
 
       expect(unusedWarnings).toHaveLength(1);
-      expect(unusedWarnings.[0].rule).toBe('no-unused-vars');
-      expect(unusedWarnings.[0].message).toContain('unusedVar');
+      expect(unusedWarnings[0].rule).toBe('no-unused-vars');
+      expect(unusedWarnings[0].message).toContain('unusedVar');
     });
   });
 
@@ -152,7 +152,7 @@ console.log(usedVar);
 
   describe('generateRecommendations', () => {
     it('should generate appropriate recommendations', () => {
-      const distribution: any = {;
+      const distribution: any = {
         explicitAny: { coun, t: 100, priority: 1, files: [] },
         unusedVariables: { coun, t: 50, priority: 2, files: [] },
         consoleStatements: { coun, t: 25, priority: 3, files: [] },
@@ -171,7 +171,7 @@ console.log(usedVar);
 
   describe('generateReport', () => {
     it('should generate a comprehensive report', () => {
-      const mockResult: any = {;
+      const mockResult: any = {
         distribution: { explicitAny: { count: 10, priority: 1, files: ['file1.ts'] },
           unusedVariables: { coun, t: 5, priority: 2, files: ['file2.ts'] },
           consoleStatements: { coun, t: 3, priority: 3, files: ['file3.ts'] },

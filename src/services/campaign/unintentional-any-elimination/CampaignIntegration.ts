@@ -25,17 +25,17 @@ import { UnintentionalAnyEliminationCampaign } from './UnintentionalAnyEliminati
  * Extended Campaign Controller with Unintentional Any Elimination support
  */
 export class UnintentionalAnyCampaignController extends CampaignController {
-  private unintentionalAnyCampaign: UnintentionalAnyEliminationCampaign;
-  private unintentionalAnyConfig: UnintentionalAnyConfig;
+  private unintentionalAnyCampaign: UnintentionalAnyEliminationCampaign,
+  private unintentionalAnyConfig: UnintentionalAnyConfig,
 
   constructor(config: CampaignConfig, unintentionalAnyConfig?: Partial<UnintentionalAnyConfig>) {
     super(config);
 
     // Default configuration for unintentional any elimination
-    this.unintentionalAnyConfig = {;
+    this.unintentionalAnyConfig = {
       maxFilesPerBatch: 15,
       targetReductionPercentage: 15,
-      confidenceThreshold: 0.8,
+      confidenceThreshold: 0.8;
       enableDomainAnalysis: true,
       enableDocumentation: true,
       safetyLevel: 'CONSERVATIVE',
@@ -44,7 +44,7 @@ export class UnintentionalAnyCampaignController extends CampaignController {
     };
 
     this.unintentionalAnyCampaign = new UnintentionalAnyEliminationCampaign(;
-      this.unintentionalAnyConfig,
+      this.unintentionalAnyConfig;
     );
   }
 
@@ -74,13 +74,13 @@ export class UnintentionalAnyCampaignController extends CampaignController {
       const metricsImprovement = this.calculateUnintentionalAnyImprovement(;
         initialUnintentionalAnyMetrics,
         finalUnintentionalAnyMetrics,
-      );
+      ),
 
       // Validate phase completion
       const validation = await this.validateUnintentionalAnyPhaseCompletion(;
         phase,
         finalUnintentionalAnyMetrics,
-      );
+      ),
 
       if (!validation.success && this.config.safetySettings.automaticRollbackEnabled) {
         console.warn(`⚠️ Phase validation failed, rolling back to checkpoint: ${checkpointId}`);
@@ -90,18 +90,18 @@ export class UnintentionalAnyCampaignController extends CampaignController {
 
       const executionTime = Date.now() - startTime;
 
-      const result: PhaseResult = {;
-        phaseId: phase.id,
-        success: campaignResult.success,
+      const result: PhaseResult = {
+        phaseId: phase.id;
+        success: campaignResult.success;
         metricsImprovement: {
-          typeScriptErrorsReduced: metricsImprovement.explicitAnyWarningsReduced,
-          lintingWarningsReduced: metricsImprovement.explicitAnyWarningsReduced,
+          typeScriptErrorsReduced: metricsImprovement.explicitAnyWarningsReduced;
+          lintingWarningsReduced: metricsImprovement.explicitAnyWarningsReduced;
           buildTimeImproved: 0, // Not directly impacted by any elimination
           enterpriseSystemsAdded: 0
         },
-        filesProcessed: campaignResult.filesProcessed,
-        errorsFixed: campaignResult.errorsFixed,
-        warningsFixed: campaignResult.warningsFixed,
+        filesProcessed: campaignResult.filesProcessed;
+        errorsFixed: campaignResult.errorsFixed;
+        warningsFixed: campaignResult.warningsFixed;
         executionTime,
         safetyEvents: campaignResult.safetyEvents
       };
@@ -113,12 +113,12 @@ export class UnintentionalAnyCampaignController extends CampaignController {
 
       return result;
     } catch (error) {
-      console.error(`❌ Unintentional Any Elimination Phase failed:`, error);
+      console.error(`❌ Unintentional Any Elimination Phase failed:`, error),
 
       const executionTime = Date.now() - startTime;
 
       return {
-        phaseId: phase.id,
+        phaseId: phase.id;
         success: false,
         metricsImprovement: {
           typeScriptErrorsReduced: 0,
@@ -132,10 +132,10 @@ export class UnintentionalAnyCampaignController extends CampaignController {
         executionTime,
         safetyEvents: [
           {
-            type: SafetyEventType.EMERGENCY_RECOVERY,
+            type: SafetyEventType.EMERGENCY_RECOVERY;
             timestamp: new Date(),
             description: `Unintentional Any Elimination Phase failed: ${error instanceof Error ? error.message : String(error)}`,
-            severity: SafetyEventSeverity.ERROR,
+            severity: SafetyEventSeverity.ERROR;
             action: 'PHASE_FAILURE'
           }
         ]
@@ -152,10 +152,10 @@ export class UnintentionalAnyCampaignController extends CampaignController {
   ): CampaignConfig {
     const unintentionalAnyCampaign = new UnintentionalAnyEliminationCampaign(;
       unintentionalAnyConfig,
-    );
+    ),
     const unintentionalAnyPhases = unintentionalAnyCampaign.createCampaignPhases();
 
-    const defaultConfig: CampaignConfig = {;
+    const defaultConfig: CampaignConfig = {
       phases: [
         // Include existing phases if provided
         ...(baseConfig?.phases || []),
@@ -163,8 +163,8 @@ export class UnintentionalAnyCampaignController extends CampaignController {
         ...unintentionalAnyPhases
       ],
       safetySettings: {
-        maxFilesPerBatch: unintentionalAnyConfig?.maxFilesPerBatch || 15,
-        buildValidationFrequency: unintentionalAnyConfig?.validationFrequency || 5,
+        maxFilesPerBatch: unintentionalAnyConfig?.maxFilesPerBatch || 15;
+        buildValidationFrequency: unintentionalAnyConfig?.validationFrequency || 5;
         testValidationFrequency: 10,
         corruptionDetectionEnabled: true,
         automaticRollbackEnabled: true,
@@ -179,11 +179,11 @@ export class UnintentionalAnyCampaignController extends CampaignController {
         ...baseConfig?.progressTargets
       },
       toolConfiguration: {
-        enhancedErrorFixer: 'scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js',
+        enhancedErrorFixer: 'scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js';
         explicitAnyFixer:
-          'src/services/campaign/unintentional-any-elimination/ProgressiveImprovementEngine.ts',
-        unusedVariablesFixer: 'scripts/typescript-fixes/fix-unused-variables-enhanced.js',
-        consoleStatementFixer: 'scripts/lint-fixes/fix-console-statements-only.js',
+          'src/services/campaign/unintentional-any-elimination/ProgressiveImprovementEngine.ts';
+        unusedVariablesFixer: 'scripts/typescript-fixes/fix-unused-variables-enhanced.js';
+        consoleStatementFixer: 'scripts/lint-fixes/fix-console-statements-only.js';
         ...baseConfig?.toolConfiguration
       }
     };
@@ -205,14 +205,14 @@ export class UnintentionalAnyCampaignController extends CampaignController {
 
       return {
         totalAnyTypes: explicitAnyWarnings,
-        intentionalAnyTypes: documentationReport.totalIntentionalAnyTypes,
-        unintentionalAnyTypes: explicitAnyWarnings - documentationReport.totalIntentionalAnyTypes,
+        intentionalAnyTypes: documentationReport.totalIntentionalAnyTypes;
+        unintentionalAnyTypes: explicitAnyWarnings - documentationReport.totalIntentionalAnyTypes;
         documentedAnyTypes: Math.round(
           (documentationReport.totalIntentionalAnyTypes *
             documentationReport.documentationCoverage) /
             100,
         ),
-        documentationCoverage: documentationReport.documentationCoverage,
+        documentationCoverage: documentationReport.documentationCoverage;
         reductionFromBaseline: 0, // Would be calculated from initial baseline
         targetReduction: this.unintentionalAnyConfig.targetReductionPercentage
       };
@@ -241,7 +241,7 @@ export class UnintentionalAnyCampaignController extends CampaignController {
     const unintentionalAnyMetrics = await this.getUnintentionalAnyMetrics();
 
     return {
-      ...baseMetrics,
+      ...baseMetrics;
       unintentionalAnyMetrics
     };
   }
@@ -294,7 +294,7 @@ export class UnintentionalAnyCampaignController extends CampaignController {
       }
 
       return {
-        success: errors.length === 0,;
+        success: errors.length === 0,,
         errors,
         warnings,
         metrics: await this.getCurrentMetrics()
@@ -304,7 +304,7 @@ export class UnintentionalAnyCampaignController extends CampaignController {
         success: false,
         errors: [`Validation error: ${error instanceof Error ? error.message : String(error)}`],
         warnings: []
-      };
+      },
     }
   }
 
@@ -314,11 +314,11 @@ export class UnintentionalAnyCampaignController extends CampaignController {
   private calculateUnintentionalAnyImprovement(
     initial: UnintentionalAnyMetrics,
     final: UnintentionalAnyMetrics,
-  ): { explicitAnyWarningsReduced: number; documentationImproved: number } {
+  ): { explicitAnyWarningsReduced: number, documentationImproved: number } {
     return {
-      explicitAnyWarningsReduced: initial.unintentionalAnyTypes - final.unintentionalAnyTypes,
+      explicitAnyWarningsReduced: initial.unintentionalAnyTypes - final.unintentionalAnyTypes;
       documentationImproved: final.documentationCoverage - initial.documentationCoverage
-    };
+    },
   }
 
   /**
@@ -330,7 +330,7 @@ export class UnintentionalAnyCampaignController extends CampaignController {
       return execSync('yarn lint 2>&1', { encoding: 'utf8', stdio: 'pipe' });
     } catch (error: unknown) {
       // ESLint returns non-zero exit code when warnings/errors are found
-      const err = error as { stdout?: string; message?: string };
+      const err = error as { stdout?: string, message?: string };
       return err.stdout || err.message || '';
     }
   }
@@ -346,7 +346,7 @@ export class UnintentionalAnyCampaignController extends CampaignController {
   /**
    * Validate build after changes
    */
-  private async validateBuild(): Promise<{ success: boolean; errors: string[] }> {
+  private async validateBuild(): Promise<{ success: boolean, errors: string[] }> {
     try {
       const { execSync } = await import('child_process');
       execSync('yarn build', { encoding: 'utf8', stdio: 'pipe' });
@@ -392,9 +392,9 @@ export function createUnintentionalAnyCampaignController(
   const config = UnintentionalAnyCampaignController.createUnintentionalAnyEliminationConfig(;
     baseConfig,
     unintentionalAnyConfig,
-  );
+  ),
 
-  return new UnintentionalAnyCampaignController(config, unintentionalAnyConfig);
+  return new UnintentionalAnyCampaignController(config, unintentionalAnyConfig),
 }
 
 /**
@@ -410,11 +410,11 @@ export class UnintentionalAnyIntegrationHelper {
   ): CampaignConfig {
     const unintentionalAnyCampaign = new UnintentionalAnyEliminationCampaign(;
       unintentionalAnyConfig,
-    );
+    ),
     const unintentionalAnyPhases = unintentionalAnyCampaign.createCampaignPhases();
 
     return {
-      ...existingConfig,
+      ...existingConfig;
       phases: [...existingConfig.phases, ...unintentionalAnyPhases]
     };
   }
@@ -423,15 +423,15 @@ export class UnintentionalAnyIntegrationHelper {
    * Create compatibility layer with existing automation scripts
    */
   static createAutomationScriptCompatibility(): {
-    explicitAnyFixer: string;
-    unintentionalAnyAnalyzer: string;
-    documentationGenerator: string;
+    explicitAnyFixer: string,
+    unintentionalAnyAnalyzer: string,
+    documentationGenerator: string,
   } {
     return {
       explicitAnyFixer:
-        'src/services/campaign/unintentional-any-elimination/ProgressiveImprovementEngine.ts',
+        'src/services/campaign/unintentional-any-elimination/ProgressiveImprovementEngine.ts';
       unintentionalAnyAnalyzer:
-        'src/services/campaign/unintentional-any-elimination/AnyTypeClassifier.ts',
+        'src/services/campaign/unintentional-any-elimination/AnyTypeClassifier.ts';
       documentationGenerator:
         'src/services/campaign/unintentional-any-elimination/AutoDocumentationGenerator.ts'
     };
@@ -445,15 +445,15 @@ export class UnintentionalAnyIntegrationHelper {
     priorityOrder: string[],
   ): CampaignConfig {
     // Sort campaigns by priority order
-    const sortedCampaigns = campaigns.sort((a, b) => {;
+    const sortedCampaigns = campaigns.sort((a, b) => {
       const aIndex = priorityOrder.findIndex(p => a.phases.some(phase => phase.id.includes(p)));
       const bIndex = priorityOrder.findIndex(p => b.phases.some(phase => phase.id.includes(p)));
-      return aIndex - bIndex;
+      return aIndex - bIndex,
     });
 
     // Merge campaigns with priority-based phase ordering
     const mergedPhases: CampaignPhase[] = [];
-    const mergedSafetySettings: SafetySettings = {;
+    const mergedSafetySettings: SafetySettings = {
       maxFilesPerBatch: Math.min(...campaigns.map(c => c.safetySettings.maxFilesPerBatch)),;
       buildValidationFrequency: Math.min(
         ...campaigns.map(c => c.safetySettings.buildValidationFrequency),;
@@ -462,8 +462,8 @@ export class UnintentionalAnyIntegrationHelper {
         ...campaigns.map(c => c.safetySettings.testValidationFrequency),;
       ),
       corruptionDetectionEnabled: campaigns.every(c => c.safetySettings.corruptionDetectionEnabled),;
-      automaticRollbackEnabled: campaigns.every(c => c.safetySettings.automaticRollbackEnabled),;
-      stashRetentionDays: Math.max(...campaigns.map(c => c.safetySettings.stashRetentionDays)),;
+      automaticRollbackEnabled: campaigns.every(c => c.safetySettings.automaticRollbackEnabled),,
+      stashRetentionDays: Math.max(...campaigns.map(c => c.safetySettings.stashRetentionDays)),,
     };
 
     // Add phases in priority order

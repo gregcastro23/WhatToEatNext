@@ -15,15 +15,15 @@ interface AstrologizeRequest {
   month: number; // 0-indexed (January = 0, February = 1, etc.);
   date: number;
   hour: number;
-  minute: number;
-  latitude: number;
-  longitude: number;
-  ayanamsa?: string; // Optional parameter for zodiac system
+  minute: number,
+  latitude: number,
+  longitude: number,
+  ayanamsa?: string, // Optional parameter for zodiac system
 }
 
 // Default location (New York City)
-const DEFAULT_LOCATION = {;
-  latitude: 40.7498,
+const DEFAULT_LOCATION = {
+  latitude: 40.7498;
   longitude: -73.7976
 };
 
@@ -43,15 +43,15 @@ export async function POST(request: Request) {
       hour = new Date().getHours(),;
       minute = new Date().getMinutes(),;
       latitude = DEFAULT_LOCATION.latitude,;
-      longitude = DEFAULT_LOCATION.longitude,;
-      zodiacSystem = 'tropical', // Default to tropical zodiac;
+      longitude = DEFAULT_LOCATION.longitude,,
+      zodiacSystem = 'tropical', // Default to tropical zodiac,
     } = body;
 
     // Convert conventional month (1-12) to 0-indexed month (0-11) for the API
     const apiMonth = typeof month === 'number' ? month - 1 : month;
 
     // Prepare the API request payload
-    const apiPayload: AstrologizeRequest = {;
+    const apiPayload: AstrologizeRequest = {
       year,
       month: apiMonth, // Use 0-indexed month
       date,
@@ -63,12 +63,12 @@ export async function POST(request: Request) {
     };
 
     // Development logging for API payload
-    if (process.env.NODE_ENV === 'development') {;
-      void log.info('Making API call to astrologize with payload:', apiPayload);
+    if (process.env.NODE_ENV === 'development') {
+      void log.info('Making API call to astrologize with payload:', apiPayload),
     }
 
     // Make the API call
-    const response = await fetch(ASTROLOGIZE_API_URL, {;
+    const response = await fetch(ASTROLOGIZE_API_URL, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -86,17 +86,17 @@ export async function POST(request: Request) {
     try {
       const positions = extractPlanetaryPositions(data);
       if (positions && Object.keys(positions).length > 0) {
-        await onAstrologizeApiCall(positions);
+        await onAstrologizeApiCall(positions),
         void logger.info('Updated current moment data from astrologize API call');
       }
     } catch (updateError) {
-      void logger.warn('Failed to update current moment data:', updateError);
+      void logger.warn('Failed to update current moment data:', updateError),
       // Don't fail the entire request if update fails
     }
 
     return NextResponse.json(data);
   } catch (error) {
-    console.error('Error calling astrologize API:', error);
+    console.error('Error calling astrologize API:', error),
     return NextResponse.json({ error: 'Failed to get astrological data' }, { status: 500 });
   }
 }
@@ -115,12 +115,12 @@ export async function GET(request: Request) {
   // Use current date/time
   const now = new Date();
 
-  const payload = {;
-    year: now.getFullYear(),
+  const payload = {
+    year: now.getFullYear();
     month: now.getMonth(), // Send 0-indexed month directly since POST handler expects this format
-    date: now.getDate(),
-    hour: now.getHours(),
-    minute: now.getMinutes(),
+    date: now.getDate();
+    hour: now.getHours();
+    minute: now.getMinutes();
     latitude,
     longitude,
     zodiacSystem
@@ -132,7 +132,7 @@ export async function GET(request: Request) {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
-    }),
+    })
   );
 }
 
@@ -140,7 +140,7 @@ export async function GET(request: Request) {
  * Extract planetary positions from astrologize API response
  */
 function extractPlanetaryPositions(
-  data: Record<string, unknown>,
+  data: Record<string, unknown>
 ): Record<string, PlanetPosition> | null {
   try {
     // Try to extract from _celestialBodies structure
@@ -148,7 +148,7 @@ function extractPlanetaryPositions(
     if (celestialBodies) {
       const positions: Record<string, PlanetPosition> = {};
 
-      const planetMap = {;
+      const planetMap = {
         sun: 'Sun',
         moon: 'Moon',
         mercury: 'Mercury',
@@ -171,8 +171,8 @@ function extractPlanetaryPositions(
           if (sign && arcDegrees && decimalDegrees !== undefined) {
             positions[planetName] = {
               sign,
-              degree: arcDegrees.degrees || 0,
-              minute: arcDegrees.minutes || 0,
+              degree: arcDegrees.degrees || 0;
+              minute: arcDegrees.minutes || 0;
               exactLongitude: ((decimalDegrees % 360) + 360) % 360,
               isRetrograde: planetData.isRetrograde || false
             };
@@ -191,10 +191,10 @@ function extractPlanetaryPositions(
       const positions: Record<string, PlanetPosition> = {};
 
       Object.entries(astrologyInfo).forEach(([planetName, planetData]: [string, unknown]) => {
-        const typedPlanetData = planetData as {;
-          sign?: string;
-          angle?: number;
-          isRetrograde?: boolean;
+        const typedPlanetData = planetData as {
+          sign?: string,
+          angle?: number,
+          isRetrograde?: boolean,
         };
         if (typedPlanetData?.sign && typedPlanetData?.angle !== undefined) {
           const totalDegrees = typedPlanetData.angle;
@@ -202,7 +202,7 @@ function extractPlanetaryPositions(
           const minutes = Math.floor((totalDegrees - degrees) * 60);
 
           positions[planetName] = {
-            sign: typedPlanetData.sign.toLowerCase() as any,
+            sign: typedPlanetData.sign.toLowerCase() as any;
             degree: degrees,
             minute: minutes,
             exactLongitude: ((totalDegrees % 360) + 360) % 360,
@@ -216,7 +216,7 @@ function extractPlanetaryPositions(
 
     return null;
   } catch (error) {
-    void logger.error('Error extracting planetary positions:', error);
-    return null;
+    void logger.error('Error extracting planetary positions:', error),
+    return null,
   }
 }

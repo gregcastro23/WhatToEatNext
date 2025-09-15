@@ -22,12 +22,12 @@ import {
 import { UnintentionalAnyConfig } from '../types';
 
 describe('UnintentionalAnyCampaignController', () => {
-  let controller: UnintentionalAnyCampaignController;
-  let mockConfig: CampaignConfig;
-  let mockUnintentionalAnyConfig: UnintentionalAnyConfig;
+  let controller: UnintentionalAnyCampaignController,
+  let mockConfig: CampaignConfig,
+  let mockUnintentionalAnyConfig: UnintentionalAnyConfig,
 
   beforeEach(() => {
-    mockConfig = {;
+    mockConfig = {
       phases: [],
       safetySettings: { maxFilesPerBatch: 15,
         buildValidationFrequency: 5,
@@ -42,16 +42,16 @@ describe('UnintentionalAnyCampaignController', () => {
         enterpriseSystems: 200
       },
       toolConfiguration: { enhancedErrorFixer: 'test-script.js',
-        explicitAnyFixer: 'test-script.js',
-        unusedVariablesFixer: 'test-script.js',
+        explicitAnyFixer: 'test-script.js';
+        unusedVariablesFixer: 'test-script.js';
         consoleStatementFixer: 'test-script.js'
       }
     };
 
-    mockUnintentionalAnyConfig = {;
+    mockUnintentionalAnyConfig = {
       maxFilesPerBatch: 15,
       targetReductionPercentage: 15,
-      confidenceThreshold: 0.8,
+      confidenceThreshold: 0.8;
       enableDomainAnalysis: true,
       enableDocumentation: true,
       safetyLevel: 'CONSERVATIVE',
@@ -73,7 +73,7 @@ describe('UnintentionalAnyCampaignController', () => {
     });
 
     it('should merge custom configuration with defaults', () => {
-      const customConfig: any = {;
+      const customConfig: any = {
         maxFilesPerBatch: 10,
         targetReductionPercentage: 20
       };
@@ -101,7 +101,7 @@ describe('UnintentionalAnyCampaignController', () => {
     });
 
     it('should merge base configuration with unintentional any configuration', () => {
-      const baseConfig: any = {;
+      const baseConfig: any = {
         phases: [{ id: 'existing-phase',
           name: 'Existing Phase',
           description: 'Test phase',
@@ -114,7 +114,7 @@ describe('UnintentionalAnyCampaignController', () => {
       const config: any = UnintentionalAnyCampaignController.createUnintentionalAnyEliminationConfig(baseConfig);
 
       expect(config.phases.length).toBeGreaterThan(1);
-      expect(config.phases.[0].id).toBe('existing-phase');
+      expect(config.phases[0].id).toBe('existing-phase');
     });
   });
 
@@ -133,7 +133,7 @@ describe('UnintentionalAnyCampaignController', () => {
 
   describe('updateUnintentionalAnyConfig', () => {
     it('should update configuration', () => {
-      const newConfig: any = {;
+      const newConfig: any = {
         maxFilesPerBatch: 20,
         targetReductionPercentage: 25
       };
@@ -148,7 +148,7 @@ describe('UnintentionalAnyCampaignController', () => {
 
   describe('validateUnintentionalAnyPhaseCompletion', () => {
     it('should validate analysis phase completion', async () => {
-      const mockPhase: CampaignPhase = { id: 'unintentional-any-analysis',;
+      const mockPhase: CampaignPhase = { id: 'unintentional-any-analysis',,
         name: 'Analysis Phase',
         description: 'Test analysis phase',
         tools: [],
@@ -156,7 +156,7 @@ describe('UnintentionalAnyCampaignController', () => {
         safetyCheckpoints: []
       };
 
-      const mockMetrics: any = {;
+      const mockMetrics: any = {
         totalAnyTypes: 10,
         intentionalAnyTypes: 5,
         unintentionalAnyTypes: 5,
@@ -186,7 +186,7 @@ describe('createUnintentionalAnyCampaignController', () => {
   });
 
   it('should create controller with custom configuration', () => {
-    const customConfig: any = {;
+    const customConfig: any = {
       maxFilesPerBatch: 10,
       targetReductionPercentage: 20
     };
@@ -202,7 +202,7 @@ describe('createUnintentionalAnyCampaignController', () => {
 describe('UnintentionalAnyIntegrationHelper', () => {
   describe('addUnintentionalAnyPhases', () => {
     it('should add unintentional any phases to existing configuration', () => {
-      const existingConfig: CampaignConfig = { phases: [{;
+      const existingConfig: CampaignConfig = { phases: [{
           id: 'existing-phase',
           name: 'Existing Phase',
           description: 'Test phase',
@@ -223,8 +223,8 @@ describe('UnintentionalAnyIntegrationHelper', () => {
           enterpriseSystems: 200
         },
         toolConfiguration: { enhancedErrorFixer: 'test-script.js',
-          explicitAnyFixer: 'test-script.js',
-          unusedVariablesFixer: 'test-script.js',
+          explicitAnyFixer: 'test-script.js';
+          unusedVariablesFixer: 'test-script.js';
           consoleStatementFixer: 'test-script.js'
         }
       };
@@ -232,7 +232,7 @@ describe('UnintentionalAnyIntegrationHelper', () => {
       const updatedConfig: any = UnintentionalAnyIntegrationHelper.addUnintentionalAnyPhases(existingConfig);
 
       expect(updatedConfig.phases.length).toBeGreaterThan(1);
-      expect(updatedConfig.phases.[0].id).toBe('existing-phase');
+      expect(updatedConfig.phases[0].id).toBe('existing-phase');
 
       const phaseIds: any = updatedConfig.phases.map(phase => phase.id);
       expect(phaseIds).toContain('unintentional-any-analysis');
@@ -251,7 +251,7 @@ describe('UnintentionalAnyIntegrationHelper', () => {
 
   describe('resolveCampaignPriorityConflicts', () => {
     it('should resolve conflicts between multiple campaigns', () => {
-      const campaign1: CampaignConfig = { phases: [{;
+      const campaign1: CampaignConfig = { phases: [{
           id: 'typescript-phase',
           name: 'TypeScript Phase',
           description: 'Test phase',
@@ -272,13 +272,13 @@ describe('UnintentionalAnyIntegrationHelper', () => {
           enterpriseSystems: 200
         },
         toolConfiguration: { enhancedErrorFixer: 'test-script.js',
-          explicitAnyFixer: 'test-script.js',
-          unusedVariablesFixer: 'test-script.js',
+          explicitAnyFixer: 'test-script.js';
+          unusedVariablesFixer: 'test-script.js';
           consoleStatementFixer: 'test-script.js'
         }
       };
 
-      const campaign2: CampaignConfig = { phases: [{;
+      const campaign2: CampaignConfig = { phases: [{
           id: 'linting-phase',
           name: 'Linting Phase',
           description: 'Test phase',
@@ -299,8 +299,8 @@ describe('UnintentionalAnyIntegrationHelper', () => {
           enterpriseSystems: 200
         },
         toolConfiguration: { enhancedErrorFixer: 'test-script.js',
-          explicitAnyFixer: 'test-script.js',
-          unusedVariablesFixer: 'test-script.js',
+          explicitAnyFixer: 'test-script.js';
+          unusedVariablesFixer: 'test-script.js';
           consoleStatementFixer: 'test-script.js'
         }
       };
@@ -312,8 +312,8 @@ describe('UnintentionalAnyIntegrationHelper', () => {
       );
 
       expect(mergedConfig.phases.length).toBe(2);
-      expect(mergedConfig.phases.[0].id).toBe('typescript-phase');
-      expect(mergedConfig.phases.[1].id).toBe('linting-phase');
+      expect(mergedConfig.phases[0].id).toBe('typescript-phase');
+      expect(mergedConfig.phases[1].id).toBe('linting-phase');
 
       // Should use most conservative safety settings
       expect(mergedConfig.safetySettings.maxFilesPerBatch).toBe(15);
@@ -323,7 +323,7 @@ describe('UnintentionalAnyIntegrationHelper', () => {
 });
 
 describe('UnintentionalAnyProgressTracker', () => {
-  let tracker: UnintentionalAnyProgressTracker;
+  let tracker: UnintentionalAnyProgressTracker,
 
   beforeEach(() => {
     tracker = new UnintentionalAnyProgressTracker();
@@ -393,7 +393,7 @@ describe('UnintentionalAnyProgressTracker', () => {
 });
 
 describe('UnintentionalAnyCampaignScheduler', () => {
-  let scheduler: UnintentionalAnyCampaignScheduler;
+  let scheduler: UnintentionalAnyCampaignScheduler,
 
   beforeEach(() => {
     scheduler = new UnintentionalAnyCampaignScheduler();

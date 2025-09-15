@@ -1,7 +1,7 @@
 import type { IngredientMapping } from '@/data/ingredients/types';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
-const rawNightshades = {;
+const rawNightshades = {
   tomato: {
     name: 'Tomato',
     elementalProperties: { Water: 0.4, Fire: 0.3, Air: 0.2, Earth: 0.1 },

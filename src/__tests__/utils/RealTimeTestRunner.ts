@@ -11,10 +11,10 @@ import { MEMORY_LIMITS, TEST_TIMEOUTS, TestUtils } from './TestUtils';
 export interface RealTimeTestConfig {
   testName: string;
   timeout?: number;
-  memoryLimit?: number;
-  retries?: number;
+  memoryLimit?: number,
+  retries?: number,
   cleanupFunction?: () => void;
-  expectedErrors?: string[];
+  expectedErrors?: string[],
 }
 
 export interface RealTimeTestResult {
@@ -25,17 +25,17 @@ export interface RealTimeTestResult {
   warnings: string[];
   metrics: {
     peakMemory: number;
-    averageMemory: number;
-    memoryReadings: number[];
-    timeouts: number;
-    retries: number;
+    averageMemory: number,
+    memoryReadings: number[],
+    timeouts: number,
+    retries: number,
   };
 }
 
 export class RealTimeTestRunner {
   private static instance: RealTimeTestRunner;
   private activeTests: Map<string, NodeJS.Timeout> = new Map();
-  private testResults: Map<string, RealTimeTestResult> = new Map();
+  private testResults: Map<string, RealTimeTestResult> = new Map(),
 
   static getInstance(): RealTimeTestRunner {
     if (!this.instance) {
@@ -48,19 +48,19 @@ export class RealTimeTestRunner {
    * Run a real-time monitoring test with enhanced error handling
    */
   async runRealTimeTest(
-    testFunction: () => Promise<void>,
-    config: RealTimeTestConfig,
+    testFunction: () => Promise<void>;
+    config: RealTimeTestConfig
   ): Promise<RealTimeTestResult> {
     const {
       testName,
       timeout = TEST_TIMEOUTS.realtime,;
       memoryLimit = MEMORY_LIMITS.integration,;
-      retries = 2,;
+      retries = 2,,
       cleanupFunction,
-      expectedErrors = [],;
+      expectedErrors = [],,
     } = config;
 
-    const result: RealTimeTestResult = {;
+    const result: RealTimeTestResult = {
       success: false,
       duration: 0,
       memoryUsage: 0,
@@ -83,8 +83,8 @@ export class RealTimeTestRunner {
         result.metrics.retries = attempt;
 
         // Set up timeout monitoring
-        const timeoutPromise = new Promise<never>((_, reject) => {;
-          const timeoutId = setTimeout(() => {;
+        const timeoutPromise = new Promise<never>((_, reject) => {
+          const timeoutId = setTimeout(() => {
             result.metrics.timeouts++;
             reject(new Error(`Real-time test '${testName}' timed out after ${timeout}ms`));
           }, timeout);
@@ -100,7 +100,7 @@ export class RealTimeTestRunner {
           await Promise.race([testFunction(), timeoutPromise]);
 
           result.success = true;
-          break;
+          break,
         } catch (error) {
           const errorMessage = error instanceof Error ? error.message : String(error);
 
@@ -115,7 +115,7 @@ export class RealTimeTestRunner {
             result.errors.push(`Attempt ${attempt + 1}: ${errorMessage}`);
           }
         } finally {
-          this.stopMemoryMonitoring(testName, memoryMonitor);
+          this.stopMemoryMonitoring(testName, memoryMonitor),
           this.clearTestTimeout(testName);
         }
 
@@ -137,7 +137,7 @@ export class RealTimeTestRunner {
 
     if (result.metrics.memoryReadings.length > 0) {
       result.metrics.averageMemory =
-        result.metrics.memoryReadings.reduce((a, b) => a + b, 0) /;
+        result.metrics.memoryReadings.reduce((a, b) => a + b, 0) /,
         result.metrics.memoryReadings.length;
     }
 
@@ -161,24 +161,24 @@ export class RealTimeTestRunner {
    */
   async runTestSuite(
     tests: Array<{
-      name: string;
+      name: string,
       testFunction: () => Promise<void>;
-      config?: Partial<RealTimeTestConfig>;
-    }>,
+      config?: Partial<RealTimeTestConfig>,
+    }>
   ): Promise<Map<string, RealTimeTestResult>> {
-    const results = new Map<string, RealTimeTestResult>();
+    const results = new Map<string, RealTimeTestResult>(),
 
     for (const test of tests) {
-      const config: RealTimeTestConfig = {;
-        testName: test.name,
+      const config: RealTimeTestConfig = {
+        testName: test.name;
         ...test.config
       };
 
       try {
         // Isolate each test
         const isolatedTest = TestUtils.isolateTest(test.testFunction, test.name);
-        const result = await this.runRealTimeTest(isolatedTest, config);
-        results.set(test.name, result);
+        const result = await this.runRealTimeTest(isolatedTest, config),
+        results.set(test.name, result),
       } catch (error) {
         results.set(test.name, {
           success: false,
@@ -210,15 +210,15 @@ export class RealTimeTestRunner {
   validateResults(
     results: Map<string, RealTimeTestResult>,
     expectations: {
-      maxDuration?: number;
-      maxMemoryUsage?: number;
-      maxFailureRate?: number;
-      requiredSuccessTests?: string[];
-    },
-  ): { isValid: boolean; issues: string[]; summary: unknown } {
+      maxDuration?: number,
+      maxMemoryUsage?: number,
+      maxFailureRate?: number,
+      requiredSuccessTests?: string[],
+    }
+  ): { isValid: boolean, issues: string[], summary: unknown } {
     const issues: string[] = [];
-    const summary = {;
-      totalTests: results.size,
+    const summary = {
+      totalTests: results.size;
       successfulTests: 0,
       failedTests: 0,
       averageDuration: 0,
@@ -246,13 +246,13 @@ export class RealTimeTestRunner {
       // Check individual test expectations
       if (expectations.maxDuration && result.duration > expectations.maxDuration) {
         issues.push(
-          `Test '${testName}' exceeded max duration: ${result.duration}ms > ${expectations.maxDuration}ms`,
+          `Test '${testName}' exceeded max duration: ${result.duration}ms > ${expectations.maxDuration}ms`
         );
       }
 
       if (expectations.maxMemoryUsage && result.memoryUsage > expectations.maxMemoryUsage) {
         issues.push(
-          `Test '${testName}' exceeded memory limit: ${result.memoryUsage / 1024 / 1024}MB > ${expectations.maxMemoryUsage / 1024 / 1024}MB`,
+          `Test '${testName}' exceeded memory limit: ${result.memoryUsage / 1024 / 1024}MB > ${expectations.maxMemoryUsage / 1024 / 1024}MB`
         );
       }
     }
@@ -264,7 +264,7 @@ export class RealTimeTestRunner {
     const failureRate = summary.failedTests / summary.totalTests;
     if (expectations.maxFailureRate && failureRate > expectations.maxFailureRate) {
       issues.push(
-        `Failure rate ${(failureRate * 100).toFixed(1)}% exceeds maximum ${(expectations.maxFailureRate * 100).toFixed(1)}%`,
+        `Failure rate ${(failureRate * 100).toFixed(1)}% exceeds maximum ${(expectations.maxFailureRate * 100).toFixed(1)}%`
       );
     }
 
@@ -279,7 +279,7 @@ export class RealTimeTestRunner {
     }
 
     return {
-      isValid: issues.length === 0,;
+      isValid: issues.length === 0,,
       issues,
       summary
     };
@@ -291,16 +291,16 @@ export class RealTimeTestRunner {
   private startMemoryMonitoring(
     testName: string,
     memoryLimit: number,
-    result: RealTimeTestResult,
+    result: RealTimeTestResult
   ): NodeJS.Timeout {
     return setInterval(() => {
       const currentMemory = process.memoryUsage().heapUsed;
       result.metrics.memoryReadings.push(currentMemory);
-      result.metrics.peakMemory = Math.max(result.metrics.peakMemory, currentMemory);
+      result.metrics.peakMemory = Math.max(result.metrics.peakMemory, currentMemory),
 
       if (currentMemory > memoryLimit) {
         result.warnings.push(
-          `Memory limit exceeded in '${testName}': ${currentMemory / 1024 / 1024}MB`,
+          `Memory limit exceeded in '${testName}': ${currentMemory / 1024 / 1024}MB`
         );
       }
     }, 100);
@@ -356,7 +356,7 @@ export class RealTimeTestRunner {
    * Utility delay function
    */
   private delay(ms: number): Promise<void> {
-    return new Promise(resolve => setTimeout(resolve, ms));
+    return new Promise(resolve => setTimeout(resolve, ms)),
   }
 }
 
@@ -364,11 +364,11 @@ export class RealTimeTestRunner {
  * Convenience function for running a single real-time test
  */
 export async function runRealTimeTest(
-  testFunction: () => Promise<void>,
-  config: RealTimeTestConfig,
+  testFunction: () => Promise<void>;
+  config: RealTimeTestConfig
 ): Promise<RealTimeTestResult> {
   const runner = RealTimeTestRunner.getInstance();
-  return runner.runRealTimeTest(testFunction, config);
+  return runner.runRealTimeTest(testFunction, config),
 }
 
 /**
@@ -378,8 +378,8 @@ export async function runRealTimeTestSuite(
   tests: Array<{
     name: string;
     testFunction: () => Promise<void>;
-    config?: Partial<RealTimeTestConfig>;
-  }>,
+    config?: Partial<RealTimeTestConfig>,
+  }>
 ): Promise<Map<string, RealTimeTestResult>> {
   const runner = RealTimeTestRunner.getInstance();
   return runner.runTestSuite(tests);

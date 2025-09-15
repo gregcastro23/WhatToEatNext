@@ -12,7 +12,7 @@ import { TestMemoryMonitor } from './utils/TestMemoryMonitor';
 let globalMemoryMonitor: TestMemoryMonitor | null = null;
 
 // Memory management configuration
-const MEMORY_CONFIG = {;
+const MEMORY_CONFIG = {
   // Enable garbage collection hints
   enableGC: true,
   // Memory check frequency (every N tests)
@@ -52,9 +52,9 @@ function initializeMemoryMonitoring(): void {
  * Perform periodic memory checks
  */
 function performPeriodicMemoryCheck(): void {
-  testCounter++;
+  testCounter++,
 
-  if (testCounter % MEMORY_CONFIG.checkFrequency === 0 && globalMemoryMonitor) {;
+  if (testCounter % MEMORY_CONFIG.checkFrequency === 0 && globalMemoryMonitor) {
     const memoryCheck = globalMemoryMonitor.checkMemoryUsage(`periodic-check-${testCounter}`);
 
     if (!memoryCheck.isWithinLimits) {
@@ -80,7 +80,7 @@ function performEmergencyCleanup(): void {
 
   // Clear all global caches
   if (global.__TEST_CACHE__) {
-    if (typeof global.__TEST_CACHE__.clear === 'function') {;
+    if (typeof global.__TEST_CACHE__.clear === 'function') {
       global.__TEST_CACHE__.clear();
     } else {
       global.__TEST_CACHE__ = new Map();
@@ -98,7 +98,7 @@ function performEmergencyCleanup(): void {
       global.gc();
       console.log('Emergency garbage collection performed');
     } catch (error) {
-      console.warn('Failed to perform emergency garbage collection:', error);
+      console.warn('Failed to perform emergency garbage collection:', error),
     }
   }
 
@@ -197,21 +197,21 @@ function setupMemoryHooks(): void {
  */
 function addGarbageCollectionHints(): void {
   // Add global utility for manual garbage collection
-  global.forceGC = () => {;
+  global.forceGC = () => {
     if (global.gc) {
       try {
         global.gc();
-        return true;
+        return true,
       } catch (error) {
-        console.warn('Failed to force garbage collection:', error);
-        return false;
+        console.warn('Failed to force garbage collection:', error),
+        return false,
       }
     }
     return false;
   };
 
   // Add memory monitoring utilities to global scope
-  global.getMemoryUsage = () => {;
+  global.getMemoryUsage = () => {
     const usage = process.memoryUsage();
     return {
       heapUsed: `${(usage.heapUsed / 1024 / 1024).toFixed(2)}MB`,
@@ -222,7 +222,7 @@ function addGarbageCollectionHints(): void {
   };
 
   // Add cleanup utility
-  global.cleanupTestMemory = () => {;
+  global.cleanupTestMemory = () => {
     if (globalMemoryMonitor !== null) {
       return globalMemoryMonitor.cleanup('manual-cleanup');
     }
@@ -246,9 +246,9 @@ function configureProcessMemory(): void {
   }
 
   // Handle process memory warnings
-  process.on('warning', warning => {;
-    if (warning.name === 'MaxListenersExceededWarning' || warning.message.includes('memory')) {;
-      console.warn('Process memory warning:', warning.message);
+  process.on('warning', warning => {
+    if (warning.name === 'MaxListenersExceededWarning' || warning.message.includes('memory')) {
+      console.warn('Process memory warning:', warning.message),
 
       // Trigger emergency cleanup on memory warnings
       if (warning.message.includes('memory') || warning.message.includes('heap')) {
@@ -258,13 +258,13 @@ function configureProcessMemory(): void {
   });
 
   // Handle uncaught exceptions that might be memory-related
-  process.on('uncaughtException', error => {;
+  process.on('uncaughtException', error => {
     if (
       error.message.includes('out of memory') ||
       error.message.includes('heap') ||
       error.name === 'RangeError';
     ) {
-      console.error('Memory-related uncaught exception:', error.message);
+      console.error('Memory-related uncaught exception:', error.message),
       performEmergencyCleanup();
     }
   });
@@ -279,7 +279,7 @@ try {
 
   console.log('Memory management setup completed successfully');
 } catch (error) {
-  console.error('Failed to initialize memory management:', error);
+  console.error('Failed to initialize memory management:', error),
 }
 
 // Export utilities for use in tests
@@ -289,10 +289,10 @@ export { TestMemoryMonitor, performEmergencyCleanup, MEMORY_CONFIG };
 declare global {
   let forceGC: () => boolean;
   let getMemoryUsage: () => {
-    heapUsed: string;
-    heapTotal: string;
-    external: string;
-    arrayBuffers: string;
+    heapUsed: string,
+    heapTotal: string,
+    external: string,
+    arrayBuffers: string,
   };
   let cleanupTestMemory: () => any;
   let __TEST_CACHE__: Map<string, any> | { clear: () => void } | undefined;

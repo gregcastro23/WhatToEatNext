@@ -2,7 +2,7 @@ import type { IngredientMapping } from '@/types/alchemy';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
 // Helper function for generating consistent numeric values
-const generateVegetableAttributes = (vegData: {;
+const generateVegetableAttributes = (vegData: {
   water: number; // water content percentage (0-100)
   fiber: number; // fiber content (0-10 scale)
   bitterness: number; // bitterness level (0-10 scale)
@@ -24,7 +24,7 @@ const generateVegetableAttributes = (vegData: {;
   };
 };
 
-const rawLeafyGreens = {;
+const rawLeafyGreens = {
   kale: {
     name: 'Kale',
     category: 'vegetable',

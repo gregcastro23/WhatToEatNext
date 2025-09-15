@@ -6,7 +6,7 @@ import type { CookingMethodData } from '@/types/cookingMethod';
  *
  * Preparation of food without applying heat, preserving natural enzymes and nutrients
  */
-export const raw: CookingMethodData = {;
+export const raw: CookingMethodData = {
   name: 'raw',
   description:
     'Preparing and serving food without applying heat, preserving natural enzymes, nutrients, and flavors while utilizing techniques like chopping, blending, dehydrating, fermenting, sprouting, and marinating to create textures and enhance digestibility.',

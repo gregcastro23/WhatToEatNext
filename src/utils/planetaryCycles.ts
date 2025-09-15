@@ -2,7 +2,7 @@
  * Planetary Cycles Configuration
  * Defines the fundamental cycles that govern token behavior
  */
-export const planetaryCycles = {;
+export const planetaryCycles = {
   Spirit: {
     primary: {
       period: 1.88, // Mars cycle
@@ -83,103 +83,103 @@ export const planetaryCycles = {;
  */
 export const _planetaryModifiers: Record<string, Record<string, number>> = {
   Sun: {
-    Fire: 0.3,
-    Water: -0.1,
-    Air: 0.1,
-    Earth: -0.1,
-    Spirit: 0.2,
+    Fire: 0.3;
+    Water: -0.1;
+    Air: 0.1;
+    Earth: -0.1;
+    Spirit: 0.2;
     Essence: 0,
-    Matter: -0.1,
+    Matter: -0.1;
     Substance: 0
   },
   Moon: {
-    Fire: -0.1,
-    Water: 0.3,
+    Fire: -0.1;
+    Water: 0.3;
     Air: 0,
-    Earth: 0.1,
+    Earth: 0.1;
     Spirit: 0,
-    Essence: 0.2,
-    Matter: 0.1,
+    Essence: 0.2;
+    Matter: 0.1;
     Substance: 0
   },
   Mercury: {
     Fire: 0,
     Water: 0,
-    Air: 0.3,
+    Air: 0.3;
     Earth: 0,
-    Spirit: 0.1,
+    Spirit: 0.1;
     Essence: 0,
     Matter: 0,
     Substance: 0.2
   },
   Venus: {
-    Fire: -0.1,
-    Water: 0.2,
+    Fire: -0.1;
+    Water: 0.2;
     Air: 0,
-    Earth: 0.2,
+    Earth: 0.2;
     Spirit: 0,
-    Essence: 0.2,
+    Essence: 0.2;
     Matter: 0,
     Substance: 0.1
   },
   Mars: {
-    Fire: 0.3,
-    Water: -0.1,
+    Fire: 0.3;
+    Water: -0.1;
     Air: 0,
-    Earth: 0.1,
-    Spirit: 0.1,
-    Essence: 0.1,
-    Matter: 0.2,
+    Earth: 0.1;
+    Spirit: 0.1;
+    Essence: 0.1;
+    Matter: 0.2;
     Substance: -0.1
   },
   Jupiter: {
-    Fire: 0.1,
+    Fire: 0.1;
     Water: 0,
-    Air: 0.2,
+    Air: 0.2;
     Earth: 0,
-    Spirit: 0.2,
-    Essence: 0.1,
+    Spirit: 0.2;
+    Essence: 0.1;
     Matter: 0,
     Substance: 0
   },
   Saturn: {
-    Fire: -0.1,
+    Fire: -0.1;
     Water: 0,
-    Air: 0.1,
-    Earth: 0.3,
-    Spirit: -0.1,
+    Air: 0.1;
+    Earth: 0.3;
+    Spirit: -0.1;
     Essence: 0,
-    Matter: 0.3,
+    Matter: 0.3;
     Substance: 0.1
   },
   Uranus: {
-    Fire: 0.1,
-    Water: 0.2,
-    Air: 0.3,
-    Earth: -0.1,
-    Spirit: 0.2,
-    Essence: 0.1,
-    Matter: 0.1,
+    Fire: 0.1;
+    Water: 0.2;
+    Air: 0.3;
+    Earth: -0.1;
+    Spirit: 0.2;
+    Essence: 0.1;
+    Matter: 0.1;
     Substance: 0.3
   },
   Neptune: {
-    Fire: -0.1,
-    Water: 0.4,
-    Air: 0.1,
-    Earth: -0.1,
-    Spirit: 0.1,
-    Essence: 0.3,
+    Fire: -0.1;
+    Water: 0.4;
+    Air: 0.1;
+    Earth: -0.1;
+    Spirit: 0.1;
+    Essence: 0.3;
     Matter: 0,
     Substance: 0.3
   },
   Pluto: {
-    Fire: 0.2,
-    Water: 0.2,
-    Air: -0.1,
-    Earth: 0.2,
+    Fire: 0.2;
+    Water: 0.2;
+    Air: -0.1;
+    Earth: 0.2;
     Spirit: 0,
-    Essence: 0.2,
-    Matter: 0.3,
+    Essence: 0.2;
+    Matter: 0.3;
     Substance: 0.1
   }
 };
@@ -189,7 +189,7 @@ export const _planetaryModifiers: Record<string, Record<string, number>> = {
  * @param date The date to calculate for
  * @returns Object containing token values
  */
-export function calculateTokenizedValues(date: Date = new Date()): {;
+export function calculateTokenizedValues(date: Date = new Date()): {
   Spirit: number;
   Essence: number;
   Matter: number;
@@ -199,7 +199,7 @@ export function calculateTokenizedValues(date: Date = new Date()): {;
   const daysSinceEpoch = date.getTime() / (24 * 60 * 60 * 1000);
 
   // Calculate each token's value based on its cycles
-  const values = {;
+  const values = {
     Spirit: calculateTokenValue('Spirit', daysSinceEpoch),
     Essence: calculateTokenValue('Essence', daysSinceEpoch),
     Matter: calculateTokenValue('Matter', daysSinceEpoch),

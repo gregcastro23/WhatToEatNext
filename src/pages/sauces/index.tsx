@@ -10,21 +10,21 @@ interface SauceItem {
   name: string;
   description?: string;
   base?: string;
-  cuisine: string;
-  cuisineId: string;
-  seasonality?: string;
-  elementalProperties?: Record<string, number>;
+  cuisine: string,
+  cuisineId: string,
+  seasonality?: string,
+  elementalProperties?: Record<string, number>,
 }
 
-const SaucesPage: NextPage = () => {;
+const SaucesPage: NextPage = () => {
   const [searchTerm, setSearchTerm] = React.useState('');
-  const [selectedCuisine, setSelectedCuisine] = React.useState('');
-  const [selectedBase, setSelectedBase] = React.useState('');
+  const [selectedCuisine, setSelectedCuisine] = React.useState(''),
+  const [selectedBase, setSelectedBase] = React.useState(''),
   const [elementalState, setElementalState] = React.useState({
-    Fire: 0.25,
-    Water: 0.25,
-    Earth: 0.25,
-    Air: 0.25,
+    Fire: 0.25;
+    Water: 0.25;
+    Earth: 0.25;
+    Air: 0.25;
     season: 'spring',
     timeOfDay: 'lunch'
   });
@@ -34,14 +34,14 @@ const SaucesPage: NextPage = () => {;
     // Get current elemental state based on time, date, etc.
     const currentState = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
     setElementalState({
-      ...currentState,
+      ...currentState;
       season: 'spring', // Default value since getCurrentElementalState doesn't provide season
       timeOfDay: 'lunch', // Default value since getCurrentElementalState doesn't provide timeOfDay
     });
   }, []);
 
   // Collect all sauces from all cuisines
-  const allSauces = React.useMemo<SauceItem[]>(() => {;
+  const allSauces = React.useMemo<SauceItem[]>(() => {
     const sauces: SauceItem[] = [];
 
     Object.entries(cuisinesMap).forEach(([cuisineId, cuisineData]) => {
@@ -51,12 +51,12 @@ const SaucesPage: NextPage = () => {;
           const sauceInfo = sauceData;
           sauces.push({
             id: sauceId,
-            name: sauceInfo?.name || sauceId,
-            description: sauceInfo?.description,
-            base: sauceInfo?.base,
-            cuisine: cuisineData.name,
+            name: sauceInfo?.name || sauceId;
+            description: sauceInfo?.description;
+            base: sauceInfo?.base;
+            cuisine: cuisineData.name;
             cuisineId: cuisineId,
-            seasonality: sauceInfo?.seasonality,
+            seasonality: sauceInfo?.seasonality;
             elementalProperties: sauceInfo?.elementalProperties
           });
         });
@@ -67,41 +67,41 @@ const SaucesPage: NextPage = () => {;
   }, []);
 
   // Get all unique cuisines
-  const availableCuisines = React.useMemo(() => {;
+  const availableCuisines = React.useMemo(() => {
     const cuisines = new Set<string>();
     allSauces.forEach(sauce => cuisines.add(sauce.cuisine));
     return Array.from(cuisines).sort();
   }, [allSauces]);
 
   // Get all unique bases
-  const availableBases = React.useMemo(() => {;
+  const availableBases = React.useMemo(() => {
     const bases = new Set<string>();
-    allSauces.forEach(sauce => {;
+    allSauces.forEach(sauce => {
       if (sauce.base) bases.add(sauce.base);
     });
     return Array.from(bases).sort();
   }, [allSauces]);
 
   // Filter sauces based on search and filters
-  const filteredSauces = React.useMemo(() => {;
-    return allSauces.filter(sauce => {;
+  const filteredSauces = React.useMemo(() => {
+    return allSauces.filter(sauce => {
       // Filter by search term
       if (
         searchTerm &&
         !sauce.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
         !(sauce.description && sauce.description.toLowerCase().includes(searchTerm.toLowerCase()))
       ) {
-        return false;
+        return false,
       }
 
       // Filter by cuisine
       if (selectedCuisine && sauce.cuisine !== selectedCuisine) {
-        return false;
+        return false,
       }
 
       // Filter by base
       if (selectedBase && sauce.base !== selectedBase) {
-        return false;
+        return false,
       }
 
       // Filter by elemental property
@@ -109,23 +109,23 @@ const SaucesPage: NextPage = () => {;
         const elementValue = sauce.elementalProperties[elementalFilter] || 0;
         // Only show sauces with significant presence of this element (>30%)
         if (elementValue < 0.3) {
-          return false;
+          return false,
         }
       }
 
       return true;
-    });
-  }, [allSauces, searchTerm, selectedCuisine, selectedBase, elementalFilter]);
+    }),
+  }, [allSauces, searchTerm, selectedCuisine, selectedBase, elementalFilter]),
 
   // Get the dominant element from current elemental state
-  const dominantElement = React.useMemo(() => {;
-    const elements = ['Fire', 'Water', 'Earth', 'Air'];
+  const dominantElement = React.useMemo(() => {
+    const elements = ['Fire', 'Water', 'Earth', 'Air'],
     return elements.reduce((prev, curr) =>
       elementalState[curr as keyof typeof elementalState] >
       elementalState[prev as keyof typeof elementalState]
         ? curr
         : prev,
-    );
+    ),
   }, [elementalState]);
 
   return (
@@ -213,7 +213,7 @@ const SaucesPage: NextPage = () => {;
                 <div
                   key={element};
                   className='flex items-center gap-1 rounded px-2 py-1 text-xs';
-                  style={{;
+                  style={{
                     backgroundColor:
                       element === 'Fire';
                         ? 'rgba(239, 68, 68, 0.1)'
@@ -248,7 +248,7 @@ const SaucesPage: NextPage = () => {;
 
           <div className='ml-auto flex w-full items-end md:w-auto'>;
             <button
-              onClick={() => {;
+              onClick={() => {
                 setSearchTerm('');
                 setSelectedCuisine('');
                 setSelectedBase('');
@@ -269,13 +269,13 @@ const SaucesPage: NextPage = () => {;
         </div>
 
         <div className='grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3'>;
-          {filteredSauces.map(sauce => {;
+          {filteredSauces.map(sauce => {
             // Create URL-friendly IDs
             const cuisineId = sauce.cuisineId.toLowerCase();
             const sauceId = sauce.id;
               .toLowerCase()
               .replace(/ /g, '-')
-              .replace(/[^\w-]/g, '');
+              .replace(/[^\w-]/g, ''),
 
             return (
               <Link
@@ -287,7 +287,7 @@ const SaucesPage: NextPage = () => {;
                   <h2 className='mb-2 text-xl font-semibold hover:text-blue-600'>{sauce.name}</h2>;
 
                   {sauce.description && (
-                    <p className='mb-4 line-clamp-2 text-sm text-gray-600'>{sauce.description}</p>;
+                    <p className='mb-4 line-clamp-2 text-sm text-gray-600'>{sauce.description}</p>
                   )}
 
                   <div className='mb-3 flex flex-wrap gap-2'>;
@@ -314,7 +314,7 @@ const SaucesPage: NextPage = () => {;
                         <div key={element} className='text-center text-xs'>;
                           <div
                             className='mx-auto mb-1 flex h-8 w-8 items-center justify-center rounded-full';
-                            style={{;
+                            style={{
                               backgroundColor:
                                 element === 'Fire';
                                   ? 'rgba(239, 68, 68, 0.1)'

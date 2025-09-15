@@ -19,19 +19,19 @@ import { getRecommendedIngredients, EnhancedIngredient } from '@/utils/foodRecom
 interface ChakraInfluencedFoodResult {
   recommendations: EnhancedIngredient[];
   chakraEnergies: ChakraEnergies;
-  loading: boolean;
-  error: string | null;
+  loading: boolean,
+  error: string | null,
   refreshRecommendations: () => Promise<void>;
-  chakraRecommendations: Record<string, EnhancedIngredient[]>;
+  chakraRecommendations: Record<string, EnhancedIngredient[]>,
 }
 
 /**
  * A hook that combines chakra energy calculations with food recommendations
  */
-export const useChakraInfluencedFood = (options?: {;
-  limit?: number;
+export const useChakraInfluencedFood = (options?: {
+  limit?: number,
   filter?: (ingredient: EnhancedIngredient) => boolean;
-}): ChakraInfluencedFoodResult => {;
+}): ChakraInfluencedFoodResult => {
   // Get astrological data
   const { state, planetaryPositions } = useAlchemical();
   const {
@@ -76,10 +76,10 @@ export const useChakraInfluencedFood = (options?: {;
   useEffect(() => {
     try {
       const hourInfo = planetaryHourCalculator.getCurrentPlanetaryHour();
-      if (hourInfo && typeof hourInfo.planet === 'string') {;
+      if (hourInfo && typeof hourInfo.planet === 'string') {
         // Pattern X: Safe Planet type casting with proper validation
         const planetName = hourInfo.planet.toLowerCase();
-        const validPlanets = [;
+        const validPlanets = [
           'sun',
           'moon',
           'mercury',
@@ -90,18 +90,18 @@ export const useChakraInfluencedFood = (options?: {;
           'uranus',
           'neptune',
           'pluto'
-        ];
+        ],
         if (validPlanets.includes(planetName)) {
           setPlanetaryHour(planetName as unknown as Planet);
         }
       }
     } catch (error) {
-      console.error('Error getting planetary hour:', error);
+      console.error('Error getting planetary hour:', error),
     }
   }, [planetaryHourCalculator]);
 
   // Memoize the astrological state to prevent unnecessary re-renders
-  const astroState = useMemo(() => {;
+  const astroState = useMemo(() => {
     return {
       currentZodiac: currentZodiac || 'aries',
       moonPhase: lunarPhase || 'NEW_MOON',
@@ -122,8 +122,8 @@ export const useChakraInfluencedFood = (options?: {;
     activePlanets,
     planetaryPositions,
     planetaryHour,
-    state.astrologicalState.aspects,
-    state.astrologicalState.tarotElementBoosts,
+    state.astrologicalState.aspects;
+    state.astrologicalState.tarotElementBoosts;
     state.astrologicalState.tarotPlanetaryBoosts
   ]);
 
@@ -139,10 +139,10 @@ export const useChakraInfluencedFood = (options?: {;
         (moonSign || 'taurus'),
         // Pattern Y: Safe Planet array casting with validation and null checking
         (activePlanets
-          ? activePlanets.slice(0, 3).map(p => (typeof p === 'string' ? p.toLowerCase() : p));
+          ? activePlanets.slice(0, 3).map(p => (typeof p === 'string' ? p.toLowerCase() : p)),
           : ['sun', 'moon', 'mercury']) as unknown as Planet[],
         planetaryHour,
-      );
+      ),
 
       setChakraEnergies(energies);
     }
@@ -150,7 +150,7 @@ export const useChakraInfluencedFood = (options?: {;
 
   // Generate food recommendations with chakra influence
   useEffect(() => {
-    const fetchRecommendations = async () => {;
+    const fetchRecommendations = async () => {
       try {
         setLoading(true);
         setError(null);
@@ -162,67 +162,67 @@ export const useChakraInfluencedFood = (options?: {;
         const chakraFiltered: Record<string, EnhancedIngredient[]> = {};
 
         // Group ingredients by which chakra they support the most
-        Object.keys(chakraEnergies).forEach(chakraKey => {;
+        Object.keys(chakraEnergies).forEach(chakraKey => {
           const energy = chakraEnergies[chakraKey as keyof ChakraEnergies];
 
           // Get ingredients that match the chakra's elemental properties
           let matchingIngredients: EnhancedIngredient[] = [];
 
           // Match ingredients to chakras based on elemental affinities and alchemical energy states
-          if (chakraKey === 'root') {;
+          if (chakraKey === 'root') {
             // Root chakra - Matter energy state: Water and Earth (no Fire)
             // (-) Heat, (-) Entropy, (-) Reactivity
             matchingIngredients = results.filter(;
               ing =>;
                 ing.elementalProperties.Earth > 0.5 &&
                 ing.elementalProperties.Water > 0.3 &&
-                ing.elementalProperties.Fire < 0.3,
-            );
-          } else if (chakraKey === 'sacral') {;
+                ing.elementalProperties.Fire < 0.3;
+            ),
+          } else if (chakraKey === 'sacral') {
             // Sacral chakra - Essence energy state: region between Fire and Water
             // (-) Heat, (-) Entropy, (+) Reactivity
             matchingIngredients = results.filter(;
-              ing => ing.elementalProperties.Water > 0.5 && ing.elementalProperties.Fire > 0.3,;
-            );
-          } else if (chakraKey === 'solarPlexus') {;
+              ing => ing.elementalProperties.Water > 0.5 && ing.elementalProperties.Fire > 0.3;
+            ),
+          } else if (chakraKey === 'solarPlexus') {
             // Solar Plexus - Essence energy state: region between Fire and Water
             // (-) Heat, (-) Entropy, (+) Reactivity
             matchingIngredients = results.filter(;
-              ing => ing.elementalProperties.Fire > 0.5 && ing.elementalProperties.Water > 0.3,;
-            );
-          } else if (chakraKey === 'heart') {;
+              ing => ing.elementalProperties.Fire > 0.5 && ing.elementalProperties.Water > 0.3;
+            ),
+          } else if (chakraKey === 'heart') {
             // Heart chakra - Transition between Essence and Spirit
             // Balance of elements
             matchingIngredients = results.filter(;
-              ing => ing.elementalProperties.Air > 0.4 && ing.elementalProperties.Fire > 0.3,;
-            );
-          } else if (chakraKey === 'throat') {;
+              ing => ing.elementalProperties.Air > 0.4 && ing.elementalProperties.Fire > 0.3;
+            ),
+          } else if (chakraKey === 'throat') {
             // Throat chakra - Substance energy state: Air and Earth (no Fire)
             // (-) Heat, (+) Entropy, (+) Reactivity
             matchingIngredients = results.filter(;
               ing =>;
                 ing.elementalProperties.Air > 0.5 &&
                 ing.elementalProperties.Earth > 0.3 &&
-                ing.elementalProperties.Fire < 0.3,
-            );
-          } else if (chakraKey === 'thirdEye') {;
+                ing.elementalProperties.Fire < 0.3;
+            ),
+          } else if (chakraKey === 'thirdEye') {
             // Third Eye chakra - Essence energy state: region between Fire and Water
             // (-) Heat, (-) Entropy, (+) Reactivity
             matchingIngredients = results.filter(;
               ing =>;
                 ing.elementalProperties.Water > 0.4 &&
                 ing.elementalProperties.Air > 0.3 &&
-                ing.elementalProperties.Fire > 0.2,
-            );
-          } else if (chakraKey === 'crown') {;
+                ing.elementalProperties.Fire > 0.2;
+            ),
+          } else if (chakraKey === 'crown') {
             // Crown chakra - Spirit energy state: Fire and Air (NOT Water)
             // (+) Heat, (+) Entropy, (+) Reactivity
             matchingIngredients = results.filter(;
               ing =>;
                 ing.elementalProperties.Air > 0.5 &&
                 ing.elementalProperties.Fire > 0.4 &&
-                ing.elementalProperties.Water < 0.3,
-            );
+                ing.elementalProperties.Water < 0.3;
+            ),
           }
 
           // Sort by score and limit
@@ -243,19 +243,19 @@ export const useChakraInfluencedFood = (options?: {;
 
         // Modify scores based on chakra energy levels
         const chakraModifiedResults = limitedResults;
-          .map(ingredient => {;
+          .map(ingredient => {
             const basedElemental = ingredient.astrologicalProfile.elementalAffinity.base;
 
             // Apply chakra influence to scoring
-            let chakraScore = 0.5; // Default neutral score
+            let chakraScore = 0.5, // Default neutral score
 
             // Calculate a chakra influence score based on the element's relationship with chakras
             // and thermodynamic properties according to alchemical energy states
-            if (basedElemental === 'Earth') {;
+            if (basedElemental === 'Earth') {
               // Earth is strongest in Root (Matter) and Throat (Substance)
               chakraScore =
                 (chakraEnergies.root / 10) * 0.6 + (chakraEnergies.throat / 10) * 0.3 + 0.1;
-            } else if (basedElemental === 'Water') {;
+            } else if (basedElemental === 'Water') {
               // Water is strongest in Root (Matter), Sacral and Solar Plexus (Essence)
               // Avoid Crown (Spirit) which should not include Water
               chakraScore =
@@ -265,7 +265,7 @@ export const useChakraInfluencedFood = (options?: {;
                   10) *
                   0.1 +
                 0.1;
-            } else if (basedElemental === 'Fire') {;
+            } else if (basedElemental === 'Fire') {
               // Fire is strongest in Crown and Heart (Spirit) and Solar Plexus (Essence)
               // Avoid Root (Matter) and Throat (Substance) which should not include Fire
               chakraScore =
@@ -273,7 +273,7 @@ export const useChakraInfluencedFood = (options?: {;
                 (chakraEnergies.crown / 10) * 0.3 +
                 (chakraEnergies.heart / 10) * 0.1 +
                 0.1;
-            } else if (basedElemental === 'Air') {;
+            } else if (basedElemental === 'Air') {
               // Air is strongest in Crown (Spirit), Throat (Substance), and Heart
               chakraScore =
                 (chakraEnergies.throat / 10) * 0.4 +;
@@ -308,7 +308,7 @@ export const useChakraInfluencedFood = (options?: {;
                       chakraEnergies.solarPlexus / 10 +
                       chakraEnergies.sacral / 10) /
                       3) /
-                  2;
+                  2,
               }
 
               // Root (Matter): (-) Heat, (-) Entropy, (-) Reactivity
@@ -319,20 +319,20 @@ export const useChakraInfluencedFood = (options?: {;
 
             // Add the chakra score to the ingredient's scoreDetails
             return {
-              ...ingredient,
+              ...ingredient;
               scoreDetails: {
                 ...(ingredient.scoreDetails || {}),
                 chakraScore: chakraScore
               },
               // Adjust the overall score to incorporate chakra influence (30% influence)
               score: (ingredient.score || 0) * 0.7 + chakraScore * 0.3
-            };
+            },
           })
           .sort((a, b) => (b.score || 0) - (a.score || 0));
 
         setRecommendations(chakraModifiedResults);
       } catch (err) {
-        console.error('Error fetching chakra-influenced food recommendations:', err);
+        console.error('Error fetching chakra-influenced food recommendations:', err),
         setError(err instanceof Error ? err.message : 'Unknown error occurred');
         setRecommendations([]);
       } finally {
@@ -344,7 +344,7 @@ export const useChakraInfluencedFood = (options?: {;
   }, [astroState, chakraEnergies, options?.filter, options?.limit]);
 
   // Function to manually refresh recommendations
-  const refreshRecommendations = async () => {;
+  const refreshRecommendations = async () => {
     try {
       setLoading(true);
 
@@ -354,7 +354,7 @@ export const useChakraInfluencedFood = (options?: {;
         (moonSign || 'taurus'),
         // Pattern Z: Safe Planet array casting with validation and null checking for refresh function
         (activePlanets
-          ? activePlanets.slice(0, 3).map(p => (typeof p === 'string' ? p.toLowerCase() : p));
+          ? activePlanets.slice(0, 3).map(p => (typeof p === 'string' ? p.toLowerCase() : p)),
           : ['sun', 'moon', 'mercury']) as unknown as Planet[],
         planetaryHour,
       );
@@ -376,16 +376,16 @@ export const useChakraInfluencedFood = (options?: {;
 
       // Apply chakra influence to scores (simplified)
       const chakraModifiedResults = limitedResults;
-        .map(ingredient => {;
+        .map(ingredient => {
           const baseElement = ingredient.astrologicalProfile.elementalAffinity.base;
-          let chakraScore = 0.5; // Default
+          let chakraScore = 0.5, // Default
 
           // Apply alchemical energy state principles to score calculation
-          if (baseElement === 'Earth') {;
+          if (baseElement === 'Earth') {
             // Earth is strongest in Root (Matter) and Throat (Substance)
             chakraScore =
               (chakraEnergies.root / 10) * 0.6 + (chakraEnergies.throat / 10) * 0.3 + 0.1;
-          } else if (baseElement === 'Water') {;
+          } else if (baseElement === 'Water') {
             // Water is strongest in Root (Matter), Sacral and Third Eye (Essence)
             // Avoid Crown (Spirit) which should not include Water
             chakraScore =
@@ -395,7 +395,7 @@ export const useChakraInfluencedFood = (options?: {;
                 10) *
                 0.1 +
               0.1;
-          } else if (baseElement === 'Fire') {;
+          } else if (baseElement === 'Fire') {
             // Fire is strongest in Crown (Spirit) and Solar Plexus (Essence)
             // Avoid Root (Matter) and Throat (Substance) which should not include Fire
             chakraScore =
@@ -403,7 +403,7 @@ export const useChakraInfluencedFood = (options?: {;
               (chakraEnergies.crown / 10) * 0.3 +
               (chakraEnergies.heart / 10) * 0.1 +
               0.1;
-          } else if (baseElement === 'Air') {;
+          } else if (baseElement === 'Air') {
             // Air is strongest in Crown (Spirit), Throat (Substance), and Heart
             chakraScore =
               (chakraEnergies.throat / 10) * 0.4 +;
@@ -438,7 +438,7 @@ export const useChakraInfluencedFood = (options?: {;
                     chakraEnergies.solarPlexus / 10 +
                     chakraEnergies.sacral / 10) /
                     3) /
-                2;
+                2,
             }
 
             // Root (Matter): (-) Heat, (-) Entropy, (-) Reactivity
@@ -448,20 +448,20 @@ export const useChakraInfluencedFood = (options?: {;
           }
 
           return {
-            ...ingredient,
+            ...ingredient;
             scoreDetails: {
               ...(ingredient.scoreDetails || {}),
               chakraScore: chakraScore
             },
             score: (ingredient.score || 0) * 0.7 + chakraScore * 0.3
-          };
+          },
         })
         .sort((a, b) => (b.score || 0) - (a.score || 0));
 
       setRecommendations(chakraModifiedResults);
       setError(null);
     } catch (err) {
-      console.error('Error refreshing chakra-influenced food recommendations:', err);
+      console.error('Error refreshing chakra-influenced food recommendations:', err),
       setError(err instanceof Error ? err.message : 'Unknown error occurred');
     } finally {
       setLoading(false);

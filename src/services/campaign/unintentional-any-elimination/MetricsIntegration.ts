@@ -20,21 +20,21 @@ import { UnintentionalAnyMetrics, UnintentionalAnyProgressMetrics } from './type
 export class UnintentionalAnyProgressTracker extends ProgressTracker {
   private documentationGenerator: AutoDocumentationGenerator;
   private qualityAssurance: DocumentationQualityAssurance;
-  private baselineMetrics?: UnintentionalAnyMetrics;
+  private baselineMetrics?: UnintentionalAnyMetrics,
   private metricsHistory: UnintentionalAnyMetrics[] = [];
 
   constructor() {
     super();
     this.documentationGenerator = new AutoDocumentationGenerator();
-    this.qualityAssurance = new DocumentationQualityAssurance({;
+    this.qualityAssurance = new DocumentationQualityAssurance({
       sourceDirectories: ['src'],
       excludePatterns: [
         'node_modules/**',
         'dist/**',
         'build/**',
-        '**/*.test.ts',
-        '**/*.test.tsx',
-        '**/*.spec.ts',
+        '**/*.test.ts';
+        '**/*.test.tsx';
+        '**/*.spec.ts';
         '**/*.spec.tsx'
       ]
     });
@@ -55,7 +55,7 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
       const intentionalAnyTypes = documentationReport.totalIntentionalAnyTypes;
       const unintentionalAnyTypes = Math.max(0, explicitAnyCount - intentionalAnyTypes);
       const documentedAnyTypes = Math.round(;
-        (intentionalAnyTypes * documentationReport.documentationCoverage) / 100,
+        (intentionalAnyTypes * documentationReport.documentationCoverage) / 100;
       );
 
       // Calculate reduction from baseline
@@ -67,12 +67,12 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
         }
       }
 
-      const metrics: UnintentionalAnyMetrics = {;
+      const metrics: UnintentionalAnyMetrics = {
         totalAnyTypes: explicitAnyCount,
         intentionalAnyTypes,
         unintentionalAnyTypes,
         documentedAnyTypes,
-        documentationCoverage: documentationReport.documentationCoverage,
+        documentationCoverage: documentationReport.documentationCoverage;
         reductionFromBaseline,
         targetReduction: 15, // Default target, can be configured
       };
@@ -109,7 +109,7 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
     const unintentionalAnyMetrics = await this.getUnintentionalAnyMetrics();
 
     return {
-      ...baseMetrics,
+      ...baseMetrics;
       unintentionalAnyMetrics
     };
   }
@@ -120,9 +120,9 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
   async setBaselineMetrics(): Promise<void> {
     this.baselineMetrics = await this.getUnintentionalAnyMetrics();
     // console.log(`📊 Baseline metrics set:`, {
-      totalAnyTypes: this.baselineMetrics.totalAnyTypes,
-      intentionalAnyTypes: this.baselineMetrics.intentionalAnyTypes,
-      unintentionalAnyTypes: this.baselineMetrics.unintentionalAnyTypes,
+      totalAnyTypes: this.baselineMetrics.totalAnyTypes;
+      intentionalAnyTypes: this.baselineMetrics.intentionalAnyTypes;
+      unintentionalAnyTypes: this.baselineMetrics.unintentionalAnyTypes;
       documentationCoverage: `${this.baselineMetrics.documentationCoverage.toFixed(1)}%`
     });
   }
@@ -132,7 +132,7 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
    */
   async getExplicitAnyWarningCount(): Promise<number> {
     try {
-      const output = execSync('yarn lint 2>&1', {;
+      const output = execSync('yarn lint 2>&1', {
         encoding: 'utf8',
         stdio: 'pipe'
       });
@@ -153,7 +153,7 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
    */
   async getExplicitAnyBreakdownByFile(): Promise<Record<string, number>> {
     try {
-      const output = execSync('yarn lint 2>&1', {;
+      const output = execSync('yarn lint 2>&1', {
         encoding: 'utf8',
         stdio: 'pipe'
       });
@@ -205,8 +205,8 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
         phaseId: 'unintentional-any-analysis',
         phaseName: 'Unintentional Any Type Analysis',
         startTime: new Date(),
-        status: PhaseStatus.COMPLETED,
-        metrics: await this.getProgressMetrics(),
+        status: PhaseStatus.COMPLETED;
+        metrics: await this.getProgressMetrics();
         achievements: [
           `Analyzed ${unintentionalAnyMetrics.totalAnyTypes} any types`,
           `Identified ${unintentionalAnyMetrics.intentionalAnyTypes} intentional any types`,
@@ -227,8 +227,8 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
         status:
           unintentionalAnyMetrics.reductionFromBaseline > 0
             ? PhaseStatus.COMPLETED
-            : PhaseStatus.NOT_STARTED,
-        metrics: await this.getProgressMetrics(),
+            : PhaseStatus.NOT_STARTED;
+        metrics: await this.getProgressMetrics();
         achievements:
           unintentionalAnyMetrics.reductionFromBaseline > 0
             ? [`Achieved ${unintentionalAnyMetrics.reductionFromBaseline.toFixed(1)}% reduction`]
@@ -248,8 +248,8 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
         status:
           unintentionalAnyMetrics.documentationCoverage >= 80
             ? PhaseStatus.COMPLETED
-            : PhaseStatus.IN_PROGRESS,
-        metrics: await this.getProgressMetrics(),
+            : PhaseStatus.IN_PROGRESS;
+        metrics: await this.getProgressMetrics();
         achievements:
           unintentionalAnyMetrics.documentationCoverage >= 80
             ? [
@@ -264,16 +264,16 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
             : [],
         recommendations: this.generateDocumentationRecommendations(unintentionalAnyMetrics)
       }
-    ];
+    ],
 
     return {
-      ...baseReport,
+      ...baseReport;
       unintentionalAnyMetrics,
       unintentionalAnyPhases,
       fileBreakdown,
-      metricsHistory: this.getUnintentionalAnyMetricsHistory(),
+      metricsHistory: this.getUnintentionalAnyMetricsHistory();
       improvement: this.calculateUnintentionalAnyImprovement()
-    };
+    },
   }
 
   /**
@@ -282,11 +282,11 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
   async exportUnintentionalAnyMetrics(filePath: string): Promise<void> {
     try {
       const report = await this.generateUnintentionalAnyProgressReport();
-      const exportData = {;
-        timestamp: new Date().toISOString(),
+      const exportData = {
+        timestamp: new Date().toISOString();
         report,
-        history: this.metricsHistory,
-        baseline: this.baselineMetrics,
+        history: this.metricsHistory;
+        baseline: this.baselineMetrics;
         fileBreakdown: await this.getExplicitAnyBreakdownByFile()
       };
 
@@ -319,8 +319,8 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
       current: metrics,
       trend,
       topFiles,
-      alerts: this.generateAlerts(metrics),
-      recommendations: this.generateUnintentionalAnyRecommendations(metrics),
+      alerts: this.generateAlerts(metrics);
+      recommendations: this.generateUnintentionalAnyRecommendations(metrics);
       lastUpdated: new Date()
     };
   }
@@ -339,7 +339,7 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
         return (
           metrics.totalAnyTypes > 0 &&
           metrics.intentionalAnyTypes + metrics.unintentionalAnyTypes > 0
-        );
+        ),
 
       case 'target-reduction-achieved':
         return metrics.reductionFromBaseline >= metrics.targetReduction;
@@ -360,7 +360,7 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
    * Get metrics history for trend analysis
    */
   getUnintentionalAnyMetricsHistory(): UnintentionalAnyMetrics[] {
-    return [...this.metricsHistory];
+    return [...this.metricsHistory],
   }
 
   /**
@@ -380,9 +380,9 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
     const latest = this.metricsHistory[this.metricsHistory.length - 1];
 
     return {
-      totalAnyTypesReduced: first.totalAnyTypes - latest.totalAnyTypes,
-      unintentionalAnyTypesReduced: first.unintentionalAnyTypes - latest.unintentionalAnyTypes,
-      documentationImproved: latest.documentationCoverage - first.documentationCoverage,
+      totalAnyTypesReduced: first.totalAnyTypes - latest.totalAnyTypes;
+      unintentionalAnyTypesReduced: first.unintentionalAnyTypes - latest.unintentionalAnyTypes;
+      documentationImproved: latest.documentationCoverage - first.documentationCoverage;
       reductionRate: latest.reductionFromBaseline
     };
   }
@@ -392,7 +392,7 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
    */
   private calculateMetricsTrend(): 'improving' | 'stable' | 'declining' {
     if (this.metricsHistory.length < 3) {
-      return 'stable';
+      return 'stable',
     }
 
     const recent = this.metricsHistory.slice(-3);
@@ -400,11 +400,11 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
     const unintentionalTrend = recent[2].unintentionalAnyTypes - recent[0].unintentionalAnyTypes;
 
     if (totalAnyTrend < -2 || unintentionalTrend < -2) {
-      return 'improving';
+      return 'improving',
     } else if (totalAnyTrend > 2 || unintentionalTrend > 2) {
-      return 'declining';
+      return 'declining',
     } else {
-      return 'stable';
+      return 'stable',
     }
   }
 
@@ -441,7 +441,7 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
       });
     }
 
-    return alerts;
+    return alerts,
   }
 
   /**
@@ -453,7 +453,7 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
     if (metrics.unintentionalAnyTypes > 50) {
       recommendations.push(
         'Run unintentional any elimination campaign to reduce unintentional any types',
-      );
+      ),
     }
 
     if (metrics.documentationCoverage < 80) {
@@ -466,13 +466,13 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
       );
     }
 
-    if (metrics.totalAnyTypes === 0) {;
+    if (metrics.totalAnyTypes === 0) {
       recommendations.push(
-        'Excellent! Zero any types achieved. Consider setting up monitoring to prevent regression',
-      );
+        'Excellent! Zero any types achieved. Consider setting up monitoring to prevent regression';
+      ),
     }
 
-    return recommendations;
+    return recommendations,
   }
 
   /**
@@ -488,7 +488,7 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
     if (metrics.reductionFromBaseline < 10) {
       recommendations.push(
         'Consider increasing confidence threshold for more aggressive replacement',
-      );
+      ),
     }
 
     if (metrics.reductionFromBaseline >= metrics.targetReduction) {
@@ -510,7 +510,7 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
       recommendations.push('Improve documentation coverage to reach 80% target');
     }
 
-    if (metrics.intentionalAnyTypes > 0 && metrics.documentedAnyTypes === 0) {;
+    if (metrics.intentionalAnyTypes > 0 && metrics.documentedAnyTypes === 0) {
       recommendations.push('Start documenting intentional any types with explanatory comments');
     }
 
@@ -530,33 +530,33 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
 // Additional types for metrics integration
 export interface UnintentionalAnyProgressReport extends ProgressReport {
   unintentionalAnyMetrics: UnintentionalAnyMetrics;
-  unintentionalAnyPhases: PhaseReport[];
-  fileBreakdown: Record<string, number>;
-  metricsHistory: UnintentionalAnyMetrics[];
-  improvement: UnintentionalAnyImprovement;
+  unintentionalAnyPhases: PhaseReport[],
+  fileBreakdown: Record<string, number>,
+  metricsHistory: UnintentionalAnyMetrics[],
+  improvement: UnintentionalAnyImprovement,
 }
 
 export interface UnintentionalAnyImprovement {
-  totalAnyTypesReduced: number;
-  unintentionalAnyTypesReduced: number;
-  documentationImproved: number;
-  reductionRate: number;
+  totalAnyTypesReduced: number,
+  unintentionalAnyTypesReduced: number,
+  documentationImproved: number,
+  reductionRate: number,
 }
 
 export interface UnintentionalAnyDashboardMetrics {
-  current: UnintentionalAnyMetrics;
-  trend: 'improving' | 'stable' | 'declining';
-  topFiles: Array<{ file: string; count: number }>;
+  current: UnintentionalAnyMetrics,
+  trend: 'improving' | 'stable' | 'declining',
+  topFiles: Array<{ file: string, count: number }>;
   alerts: UnintentionalAnyAlert[];
   recommendations: string[];
   lastUpdated: Date;
 }
 
 export interface UnintentionalAnyAlert {
-  type: string;
-  severity: 'info' | 'warning' | 'error';
-  message: string;
-  recommendation: string;
+  type: string,
+  severity: 'info' | 'warning' | 'error',
+  message: string,
+  recommendation: string,
 }
 
 export type UnintentionalAnyMilestone =
@@ -571,7 +571,7 @@ export type UnintentionalAnyMilestone =
  * Provides compatibility with existing campaign scheduling systems
  */
 export class UnintentionalAnyCampaignScheduler {
-  private progressTracker: UnintentionalAnyProgressTracker;
+  private progressTracker: UnintentionalAnyProgressTracker,
 
   constructor() {
     this.progressTracker = new UnintentionalAnyProgressTracker();
@@ -581,9 +581,9 @@ export class UnintentionalAnyCampaignScheduler {
    * Check if unintentional any elimination campaign should be triggered
    */
   async shouldTriggerCampaign(): Promise<{
-    shouldTrigger: boolean;
-    reason: string;
-    priority: 'low' | 'medium' | 'high';
+    shouldTrigger: boolean,
+    reason: string,
+    priority: 'low' | 'medium' | 'high',
   }> {
     const metrics = await this.progressTracker.getUnintentionalAnyMetrics();
 
@@ -601,7 +601,7 @@ export class UnintentionalAnyCampaignScheduler {
         shouldTrigger: true,
         reason: 'Regression detected: any types have increased significantly',
         priority: 'high'
-      };
+      },
     }
 
     // Medium priority triggers
@@ -618,7 +618,7 @@ export class UnintentionalAnyCampaignScheduler {
         shouldTrigger: true,
         reason: `Low documentation coverage: ${metrics.documentationCoverage.toFixed(1)}%`,
         priority: 'medium'
-      };
+      },
     }
 
     // Low priority triggers
@@ -644,18 +644,18 @@ export class UnintentionalAnyCampaignScheduler {
     activeCampaigns: string[],
     proposedCampaign: 'unintentional-any-elimination',
   ): {
-    canProceed: boolean;
-    conflictingCampaigns: string[];
-    resolution: string;
+    canProceed: boolean,
+    conflictingCampaigns: string[],
+    resolution: string,
   } {
     const conflictingCampaigns = activeCampaigns.filter(;
       campaign =>;
         campaign.includes('typescript') ||
         campaign.includes('linting') ||
-        campaign.includes('explicit-any'),
-    );
+        campaign.includes('explicit-any');
+    ),
 
-    if (conflictingCampaigns.length === 0) {;
+    if (conflictingCampaigns.length === 0) {
       return {
         canProceed: true,
         conflictingCampaigns: [],
@@ -690,21 +690,21 @@ export class UnintentionalAnyCampaignScheduler {
     activeCampaigns: string[],
     systemLoad: 'low' | 'medium' | 'high',
   ): {
-    recommendedTime: Date;
-    reason: string;
-    estimatedDuration: number; // minutes
+    recommendedTime: Date,
+    reason: string,
+    estimatedDuration: number, // minutes
   } {
     const now = new Date();
     const recommendedTime = new Date(now);
     let reason = '';
     let estimatedDuration = 30; // Default 30 minutes
 
-    if (systemLoad === 'high' || activeCampaigns.length > 2) {;
+    if (systemLoad === 'high' || activeCampaigns.length > 2) {
       // Schedule for later when system load is lower
       recommendedTime.setHours(recommendedTime.getHours() + 2);
       reason = 'Scheduled for later due to high system load or active campaigns';
       estimatedDuration = 45;
-    } else if (systemLoad === 'medium' || activeCampaigns.length > 0) {;
+    } else if (systemLoad === 'medium' || activeCampaigns.length > 0) {
       // Schedule for near future
       recommendedTime.setMinutes(recommendedTime.getMinutes() + 30);
       reason = 'Scheduled for near future due to moderate system load';

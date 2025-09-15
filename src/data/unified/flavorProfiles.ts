@@ -26,20 +26,20 @@ import { unifiedSeasonalSystem } from './seasonal';
 export interface BaseFlavorNotes {
   sweet: number;
   sour: number;
-  salty: number;
-  bitter: number;
-  umami: number;
-  spicy: number;
+  salty: number,
+  bitter: number,
+  umami: number,
+  spicy: number,
 }
 
 /**
  * Describes how flavors are modified by various conditions
  */
 export interface FlavorModification {
-  intensityMultiplier: number;
-  complexityBonus: number;
-  harmonicResonance: number;
-  temperatureOptimal: number;
+  intensityMultiplier: number,
+  complexityBonus: number,
+  harmonicResonance: number,
+  temperatureOptimal: number,
 }
 
 /**
@@ -49,11 +49,11 @@ export interface PlanetaryFlavorInfluence {
   influence: number;
   flavorModification: FlavorModification;
   seasonalVariation: Record<Season, number>;
-  monicaOptimization: number;
+  monicaOptimization: number,
   optimalTiming: {
-    planetaryHour: boolean;
-    dayOfWeek: number;
-    lunarPhases: string[];
+    planetaryHour: boolean,
+    dayOfWeek: number,
+    lunarPhases: string[],
   };
 }
 
@@ -63,10 +63,10 @@ export interface PlanetaryFlavorInfluence {
 export interface CuisineFlavorCompatibility {
   compatibility: number;
   traditionalUse: boolean;
-  modernAdaptations: string[];
-  kalchmHarmony: number;
-  culturalSignificance: string;
-  preparationMethods: string[];
+  modernAdaptations: string[],
+  kalchmHarmony: number,
+  culturalSignificance: string,
+  preparationMethods: string[],
 }
 
 /**
@@ -77,16 +77,16 @@ export interface UnifiedFlavorProfile {
   id: string;
   name: string;
   description: string;
-  category: 'cuisine' | 'planetary' | 'ingredient' | 'elemental' | 'fusion';
+  category: 'cuisine' | 'planetary' | 'ingredient' | 'elemental' | 'fusion',
 
   // Base flavor components
-  baseNotes: BaseFlavorNotes;
+  baseNotes: BaseFlavorNotes,
 
   // Elemental properties (self-reinforcement compliant)
-  elementalFlavors: ElementalProperties;
+  elementalFlavors: ElementalProperties,
 
   // Planetary influences
-  planetaryResonance: Record<PlanetName, PlanetaryFlavorInfluence>;
+  planetaryResonance: Record<PlanetName, PlanetaryFlavorInfluence>,
 
   // Cuisine compatibility
   cuisineCompatibility: { [key: string]: CuisineFlavorCompatibility };
@@ -106,7 +106,7 @@ export interface UnifiedFlavorProfile {
 
   // Integration properties
   cookingMethodAffinity: Record<string, number>;
-  temperatureRange: { min: number; max: number };
+  temperatureRange: { min: number, max: number };
   pairingRecommendations: string[];
   avoidCombinations: string[];
 
@@ -122,23 +122,23 @@ export interface FlavorCompatibilityResult {
   compatibility: number;
   elementalHarmony: number;
   kalchmResonance: number;
-  monicaOptimization: number;
-  seasonalAlignment: number;
-  recommendations: string[];
-  warnings: string[];
+  monicaOptimization: number,
+  seasonalAlignment: number,
+  recommendations: string[],
+  warnings: string[],
 }
 
 /**
  * Criteria for searching and filtering flavor profiles
  */
 export interface FlavorCriteria {
-  elementalFocus?: Element;
-  intensityRange?: { min: number; max: number };
-  complexityRange?: { min: number; max: number };
+  elementalFocus?: Element,
+  intensityRange?: { min: number, max: number };
+  complexityRange?: { min: number, max: number };
   seasonalAlignment?: Season;
   cuisineStyle?: string;
   planetaryInfluence?: PlanetName;
-  kalchmRange?: { min: number; max: number };
+  kalchmRange?: { min: number, max: number };
   avoidElements?: Element[];
   culturalPreference?: string[];
 }
@@ -149,10 +149,10 @@ export interface FlavorCriteria {
 export interface FlavorRecommendations {
   primary: UnifiedFlavorProfile[];
   complementary: UnifiedFlavorProfile[];
-  seasonal: UnifiedFlavorProfile[];
-  fusion: UnifiedFlavorProfile[];
-  monicaOptimized: UnifiedFlavorProfile[];
-  kalchmBalanced: UnifiedFlavorProfile[];
+  seasonal: UnifiedFlavorProfile[],
+  fusion: UnifiedFlavorProfile[],
+  monicaOptimized: UnifiedFlavorProfile[],
+  kalchmBalanced: UnifiedFlavorProfile[],
 }
 
 /**
@@ -162,10 +162,10 @@ export interface SystemConditions {
   season: Season;
   planetaryHour: PlanetName;
   temperature: number;
-  lunarPhase: string;
-  gregsEnergy: number;
-  reactivity: number;
-  kalchm: number;
+  lunarPhase: string,
+  gregsEnergy: number,
+  reactivity: number,
+  kalchm: number,
 }
 
 /**
@@ -181,8 +181,8 @@ export function isUnifiedFlavorProfile(obj: unknown): obj is UnifiedFlavorProfil
     typeof profile.description === 'string' &&;
     profile.baseNotes !== undefined &&
     profile.elementalFlavors !== undefined &&
-    typeof profile.kalchm === 'number';
-  );
+    typeof profile.kalchm === 'number'
+  ),
 }
 
 /**
@@ -190,11 +190,11 @@ export function isUnifiedFlavorProfile(obj: unknown): obj is UnifiedFlavorProfil
  */
 export function createBaseFlavorNotes(props?: Partial<BaseFlavorNotes>): BaseFlavorNotes {
   return {
-    sweet: props?.sweet ?? 0,
-    sour: props?.sour ?? 0,
-    salty: props?.salty ?? 0,
-    bitter: props?.bitter ?? 0,
-    umami: props?.umami ?? 0,
+    sweet: props?.sweet ?? 0;
+    sour: props?.sour ?? 0;
+    salty: props?.salty ?? 0;
+    bitter: props?.bitter ?? 0;
+    umami: props?.umami ?? 0;
     spicy: props?.spicy ?? 0
   };
 }
@@ -221,7 +221,7 @@ export class UnifiedFlavorProfileSystem {
   ): UnifiedFlavorProfile | undefined {
     // Direct lookup first
     if (this.flavorProfiles[identifier]) {
-      return this.flavorProfiles[identifier];
+      return this.flavorProfiles[identifier],
     }
 
     // Try case-insensitive lookup
@@ -232,7 +232,7 @@ export class UnifiedFlavorProfileSystem {
 
     // If type is specified, ensure the profile matches the type
     if (profile && type && profile.category !== type) {
-      return undefined;
+      return undefined,
     }
 
     return profile;
@@ -245,7 +245,7 @@ export class UnifiedFlavorProfileSystem {
     category: 'cuisine' | 'planetary' | 'ingredient' | 'elemental' | 'fusion',
   ): UnifiedFlavorProfile[] {
     return Object.values(this.flavorProfiles || {}).filter(
-      profile => profile.category === category,;
+      profile => profile.category === category;
     );
   }
 
@@ -258,8 +258,8 @@ export class UnifiedFlavorProfileSystem {
   ): FlavorCompatibilityResult {
     // Calculate elemental harmony using our self-reinforcement principles
     const elementalHarmony = calculateElementalCompatibility(;
-      profile1.elementalFlavors,
-      profile2.elementalFlavors,
+      profile1.elementalFlavors;
+      profile2.elementalFlavors;
     );
 
     // Calculate Kalchm resonance
@@ -283,7 +283,7 @@ export class UnifiedFlavorProfileSystem {
             Number((profile1.seasonalPeak || []).length),
             Number((profile2.seasonalPeak || []).length),
           )
-        : 0.5; // Default moderate alignment if no overlap
+        : 0.5, // Default moderate alignment if no overlap
 
     // Calculate overall compatibility with weighted factors
     const compatibility =

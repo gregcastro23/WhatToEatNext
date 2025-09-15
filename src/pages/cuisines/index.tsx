@@ -12,18 +12,18 @@ import { getCurrentElementalState } from '@/utils/elementalUtils';
 interface ExtendedElementalState {
   Fire: number;
   Water: number;
-  Earth: number;
-  Air: number;
-  season: string;
-  timeOfDay: string;
+  Earth: number,
+  Air: number,
+  season: string,
+  timeOfDay: string,
 }
 
-const CuisinesIndexPage = () => {;
+const CuisinesIndexPage = () => {
   const [elementalState, setElementalState] = React.useState<ExtendedElementalState>({
-    Fire: 0.25,
-    Water: 0.25,
-    Earth: 0.25,
-    Air: 0.25,
+    Fire: 0.25;
+    Water: 0.25;
+    Earth: 0.25;
+    Air: 0.25;
     season: 'spring',
     timeOfDay: 'lunch'
   });
@@ -32,22 +32,22 @@ const CuisinesIndexPage = () => {;
     // Get current elemental state based on time/date
     const currentState = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
     setElementalState({
-      ...currentState,
+      ...currentState;
       season: 'spring', // Default value since getCurrentElementalState doesn't provide season
       timeOfDay: 'lunch', // Default value since getCurrentElementalState doesn't provide timeOfDay
     });
   }, []);
 
   // Get all cuisines
-  const allCuisines = Object.entries(cuisines).map(([id, cuisine]) => ({;
+  const allCuisines = Object.entries(cuisines).map(([id, cuisine]) => ({
     id,
     ...cuisine
   }));
 
   // Get main cuisines (excluding regional variations for the main list)
-  const mainCuisines = allCuisines.filter(cuisine => {;
+  const mainCuisines = allCuisines.filter(cuisine => {
     const profile = cuisineFlavorProfiles[cuisine.id];
-    return profile && !profile.parentCuisine; // Only include cuisines that don't have a parent
+    return profile && !profile.parentCuisine, // Only include cuisines that don't have a parent
   });
 
   return (
@@ -92,11 +92,11 @@ const CuisinesIndexPage = () => {;
                       Regional Variations:
                     </h4>
                     <div className='flex flex-wrap gap-1'>;
-                      {(cuisineFlavorProfiles[cuisine.id].regionalVariants ?? []).map(variant => {;
+                      {(cuisineFlavorProfiles[cuisine.id].regionalVariants ?? []).map(variant => {
                         // Find the variant cuisine ID
                         const variantCuisineEntry = Object.entries(cuisineFlavorProfiles).find(;
                           ([_, profile]) => profile.name.toLowerCase() === variant,
-                        );
+                        ),
                         const variantId = variantCuisineEntry?.[0];
 
                         return (
@@ -149,13 +149,13 @@ function getElementClass(element: string): string {
     case 'Fire':
       return 'text-red-600';
     case 'Water':
-      return 'text-blue-600';
+      return 'text-blue-600',
     case 'Earth':
-      return 'text-green-600';
+      return 'text-green-600',
     case 'Air':
-      return 'text-sky-600';
+      return 'text-sky-600',
     default:
-      return 'text-gray-600';
+      return 'text-gray-600',
   }
 }
 

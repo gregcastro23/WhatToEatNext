@@ -10,7 +10,7 @@ import { jest } from '@jest/globals';
 import type { MockPlanetaryPositions } from '../types/testUtils.d';
 
 // Mock planetary positions data
-export const mockPlanetaryPositions: MockPlanetaryPositions = {;
+export const mockPlanetaryPositions: MockPlanetaryPositions = {
   sun: { sign: 'aries', degree: 8.5, exactLongitude: 8.5, isRetrograde: false },
   moon: { sign: 'aries', degree: 1.57, exactLongitude: 1.57, isRetrograde: false },
   mercury: { sign: 'aries', degree: 0.85, exactLongitude: 0.85, isRetrograde: true },
@@ -26,7 +26,7 @@ export const mockPlanetaryPositions: MockPlanetaryPositions = {;
 };
 
 // Mock logger implementation
-export const mockLogger = {;
+export const mockLogger = {
   info: jest.fn(),
   debug: jest.fn(),
   warn: jest.fn(),
@@ -38,7 +38,7 @@ export const mockLogger = {;
 export const mockCreateLogger = jest.fn(() => mockLogger);
 
 // Mock Next.js router
-export const mockRouter = {;
+export const mockRouter = {
   push: jest.fn(),
   replace: jest.fn(),
   prefetch: jest.fn(),
@@ -54,12 +54,12 @@ export const mockRouter = {;
 export const mockUseRouter = () => mockRouter;
 
 // Mock reliable astronomy utility
-export const mockReliableAstronomy = {;
+export const mockReliableAstronomy = {
   getReliablePlanetaryPositions: jest.fn(() => Promise.resolve(mockPlanetaryPositions))
 };
 
 // Mock agent hooks
-export const mockAgentHooks = {;
+export const mockAgentHooks = {
   useAgentHooks: () => ({
     hookState: { isActive: false, lastRun: null, results: [] },
     startAgentHooks: jest.fn(),
@@ -93,7 +93,7 @@ export const mockAgentHooks = {;
 };
 
 // Mock MCP server integration
-export const mockMCPServerIntegration = {;
+export const mockMCPServerIntegration = {
   useMCPServerIntegration: () => ({
     isConnected: true,
     serverStatus: 'connected',
@@ -114,7 +114,7 @@ export const mockMCPServerIntegration = {;
 };
 
 // Mock development experience optimizations
-export const mockDevelopmentExperienceOptimizations = {;
+export const mockDevelopmentExperienceOptimizations = {
   useDevelopmentExperienceOptimizations: () => ({
     optimizationsActive: true,
     performanceMetrics: {},
@@ -126,7 +126,7 @@ export const mockDevelopmentExperienceOptimizations = {;
 };
 
 // Mock state preservation hooks
-export const mockStatePreservationHooks = {;
+export const mockStatePreservationHooks = {
   useNavigationState: () => ({
     saveState: jest.fn(),
     getState: jest.fn(() => null)
@@ -153,7 +153,7 @@ export const mockStatePreservationHooks = {;
 };
 
 // Mock error handling
-export const mockErrorHandler = {;
+export const mockErrorHandler = {
   useErrorHandler: () => ({
     handleError: jest.fn(),
     clearErrors: jest.fn(),
@@ -162,14 +162,14 @@ export const mockErrorHandler = {;
 };
 
 // Mock steering file intelligence
-export const mockSteeringFileIntelligence = {;
+export const mockSteeringFileIntelligence = {
   useSteeringFileIntelligence: () => ({
     getGuidance: jest.fn(() => Promise.resolve({}))
   })
 };
 
 // Mock alchemical context
-export const mockAlchemicalContext = {;
+export const mockAlchemicalContext = {
   useAlchemical: () => ({
     state: {
       astrologicalState: { sunSign: 'Aries' },
@@ -181,7 +181,7 @@ export const mockAlchemicalContext = {;
 };
 
 // Export all mocks for easy importing
-export const _allMocks = {;
+export const _allMocks = {
   mockPlanetaryPositions,
   mockLogger,
   mockCreateLogger,

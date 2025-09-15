@@ -43,7 +43,7 @@ export class TestMemoryMonitor {
 
   constructor(limits?: Partial<TestMemoryMonitor['memoryLimits']>) {
     this.startTime = Date.now();
-    this.memoryLimits = {;
+    this.memoryLimits = {
       heapUsed: 200 * 1024 * 1024, // 200MB
       heapTotal: 300 * 1024 * 1024, // 300MB
       external: 50 * 1024 * 1024, // 50MB
@@ -76,7 +76,7 @@ export class TestMemoryMonitor {
    */
   takeSnapshot(testName: string): MemorySnapshot {
     const usage = process.memoryUsage();
-    const snapshot: MemorySnapshot = {;
+    const snapshot: MemorySnapshot = {
       timestamp: new Date(),
       testName,
       heapUsed: usage.heapUsed,
@@ -148,7 +148,7 @@ export class TestMemoryMonitor {
    * Get memory usage summary since monitoring started
    */
   getMemorySummary(): MemorySummary {
-    if (this.snapshots.length === 0) {;
+    if (this.snapshots.length === 0) {
       const current = this.getCurrentMemoryUsage();
       return {
         initialMemory: current.heapUsed / 1024 / 1024,
@@ -221,7 +221,7 @@ export class TestMemoryMonitor {
     try {
       // Clear any test-specific caches
       if (global.__TEST_CACHE__) {
-        if (typeof global.__TEST_CACHE__.clear === 'function') {;
+        if (typeof global.__TEST_CACHE__.clear === 'function') {
           global.__TEST_CACHE__.clear();
           actions.push('Cleared test cache');
         }

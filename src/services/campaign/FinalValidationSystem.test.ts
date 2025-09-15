@@ -17,7 +17,7 @@ const mockedExecSync: any = execSync as jest.MockedFunction<typeof execSync>;
 const mockedFs: any = fs as jest.Mocked<typeof fs>;
 
 describe('FinalValidationSystem', () => {
-  let validationSystem: FinalValidationSystem;
+  let validationSystem: FinalValidationSystem,
 
   beforeEach(() => {
     validationSystem = new FinalValidationSystem();
@@ -32,8 +32,8 @@ describe('FinalValidationSystem', () => {
       const result: any = await (;
         validationSystem as unknown as {
           validateTypeScriptErrors: () => Promise<{ category: string;
-            passed: boolean;, current: number;
-            target: number;, criticalIssues: any[];
+            passed: boolean,, current: number,
+            target: number,, criticalIssues: any[],
           }>;
         }
       ).validateTypeScriptErrors();
@@ -53,14 +53,14 @@ src/test.ts(10,5): error TS2304: Cannot find name 'unknownVariable'.;
 src/test.ts(15,10): error TS2345: Argument of type 'string' is not assignable to parameter of type 'number'.
       `;
       mockedExecSync.mockImplementation(() => {
-        throw mockError;
+        throw mockError,
       });
 
       const result: any = await (;
         validationSystem as unknown as {
           validateTypeScriptErrors: () => Promise<{ category: string;
-            passed: boolean;, current: number;
-            target: number;, criticalIssues: any[];
+            passed: boolean,, current: number,
+            target: number,, criticalIssues: any[],
           }>;
         }
       ).validateTypeScriptErrors();
@@ -98,7 +98,7 @@ src/test.ts: 15:10 - warnin, g: 'unusedVar' is defined but never used (no-unused
 src/test.ts: 20:8 - warnin, g: Unexpected console statement (no-console)
       `;
       mockedExecSync.mockImplementation(() => {
-        throw mockError;
+        throw mockError,
       });
 
       const result: any = await (;
@@ -154,7 +154,7 @@ src/test.ts: 20:8 - warnin, g: Unexpected console statement (no-console)
       // Mock grep failure (no matches found)
       const mockError: any = new Error('No matches found');
       mockedExecSync.mockImplementation(() => {
-        throw mockError;
+        throw mockError,
       });
 
       const result: any = await (;
@@ -180,9 +180,9 @@ src/test.ts: 20:8 - warnin, g: Unexpected console statement (no-console)
       // Mock Date.now to simulate 5-second build
       const originalDateNow: any = Date.now;
       let callCount: any = 0;
-      Date.now = jest.fn(() => {;
-        callCount++;
-        return callCount === 1 ? 1000 : 6000; // 5 second difference
+      Date.now = jest.fn(() => {
+        callCount++,
+        return callCount === 1 ? 1000 : 6000, // 5 second difference
       });
 
       const result: any = await (;
@@ -209,9 +209,9 @@ src/test.ts: 20:8 - warnin, g: Unexpected console statement (no-console)
       // Mock Date.now to simulate 15-second build
       const originalDateNow: any = Date.now;
       let callCount: any = 0;
-      Date.now = jest.fn(() => {;
-        callCount++;
-        return callCount === 1 ? 1000 : 16000; // 15 second difference
+      Date.now = jest.fn(() => {
+        callCount++,
+        return callCount === 1 ? 1000 : 16000, // 15 second difference
       });
 
       const result: any = await (;
@@ -234,7 +234,7 @@ src/test.ts: 20:8 - warnin, g: Unexpected console statement (no-console)
       // Mock successful build and tests
       mockedExecSync
         .mockReturnValueOnce('') // yarn build
-        .mockReturnValueOnce(''); // yarn test
+        .mockReturnValueOnce(''), // yarn test
 
       const result: any = await (;
         validationSystem as unknown as { validateBuildAndTests: () => Promise<Record<string, unknown>> }
@@ -251,7 +251,7 @@ src/test.ts: 20:8 - warnin, g: Unexpected console statement (no-console)
       // Mock build failure
       mockedExecSync
         .mockImplementationOnce(() => {
-          throw new Error('Build failed');
+          throw new Error('Build failed'),
         })
         .mockReturnValueOnce(''); // yarn test succeeds
 
@@ -271,7 +271,7 @@ src/test.ts: 20:8 - warnin, g: Unexpected console statement (no-console)
       mockedExecSync
         .mockReturnValueOnce('') // yarn build succeeds
         .mockImplementationOnce(() => {
-          throw new Error('Tests failed');
+          throw new Error('Tests failed'),
         });
 
       const result: any = await (;
@@ -289,7 +289,7 @@ src/test.ts: 20:8 - warnin, g: Unexpected console statement (no-console)
   describe('Campaign Summary Generation', () => {
     it('should generate accurate campaign summary with baseline', async () => {
       // Mock baseline file
-      const mockBaseline: any = {;
+      const mockBaseline: any = {
         errors: 100,
         warnings: 500,
         intelligence: 10
@@ -324,7 +324,7 @@ src/test.ts: 20:8 - warnin, g: Unexpected console statement (no-console)
       mockedExecSync
         .mockReturnValueOnce('') // TypeScript - no errors
         .mockReturnValueOnce('') // Linting - no warnings
-        .mockReturnValueOnce(Array(200).fill('INTELLIGENCE_SYSTEM').join('\n')); // 200 intelligence systems
+        .mockReturnValueOnce(Array(200).fill('INTELLIGENCE_SYSTEM').join('\n')), // 200 intelligence systems
 
       const summary: any = await (;
         validationSystem as unknown as { generateCampaignSummary: () => Promise<Record<string, unknown>> }
@@ -338,7 +338,7 @@ src/test.ts: 20:8 - warnin, g: Unexpected console statement (no-console)
 
   describe('Certification Status Determination', () => {
     it('should achieve ENTERPRISE certification for perfect codebase', () => {
-      const mockValidationResults: any = [;
+      const mockValidationResults: any = [
         { category: 'TypeScript', passed: true, current: 0, target: 0, details: [], criticalIssues: [] },
         { category: 'Linting', passed: true, current: 0, target: 0, details: [], criticalIssues: [] },
         { category: 'Intelligence', passed: true, current: 250, target: 200, details: [], criticalIssues: [] },
@@ -346,7 +346,7 @@ src/test.ts: 20:8 - warnin, g: Unexpected console statement (no-console)
         { category: 'Build/Test', passed: true, current: 1, target: 1, details: [], criticalIssues: [] }
       ];
 
-      const mockPerformanceMetrics: any = {;
+      const mockPerformanceMetrics: any = {
         buildTime: 8,
         memoryUsage: 40,
         bundleSize: '400kB',
@@ -358,7 +358,7 @@ src/test.ts: 20:8 - warnin, g: Unexpected console statement (no-console)
         validationSystem as unknown as {
           determineCertificationStatus: (, results: Record<string, unknown>,
             summary: Record<string, unknown>,
-          ) => Record<string, unknown>;
+          ) => Record<string, unknown>,
         }
       ).determineCertificationStatus(mockValidationResults, mockPerformanceMetrics);
 
@@ -370,7 +370,7 @@ src/test.ts: 20:8 - warnin, g: Unexpected console statement (no-console)
     });
 
     it('should achieve BASIC certification for incomplete campaign', () => {
-      const mockValidationResults: any = [;
+      const mockValidationResults: any = [
         { category: 'TypeScript', passed: false, current: 10, target: 0, details: [], criticalIssues: [] },
         { category: 'Linting', passed: false, current: 50, target: 0, details: [], criticalIssues: [] },
         { category: 'Intelligence', passed: false, current: 100, target: 200, details: [], criticalIssues: [] },
@@ -378,7 +378,7 @@ src/test.ts: 20:8 - warnin, g: Unexpected console statement (no-console)
         { category: 'Build/Test', passed: true, current: 1, target: 1, details: [], criticalIssues: [] }
       ];
 
-      const mockPerformanceMetrics: any = {;
+      const mockPerformanceMetrics: any = {
         buildTime: 15,
         memoryUsage: 60,
         bundleSize: '500kB',
@@ -390,7 +390,7 @@ src/test.ts: 20:8 - warnin, g: Unexpected console statement (no-console)
         validationSystem as unknown as {
           determineCertificationStatus: (, results: Record<string, unknown>,
             summary: Record<string, unknown>,
-          ) => Record<string, unknown>;
+          ) => Record<string, unknown>,
         }
       ).determineCertificationStatus(mockValidationResults, mockPerformanceMetrics);
 
@@ -417,7 +417,7 @@ src/test.ts: 20:8 - warnin, g: Unexpected console statement (no-console)
         .mockReturnValueOnce('') // Performance metrics build
         .mockReturnValueOnce('') // TypeScript for summary
         .mockReturnValueOnce('') // Linting for summary
-        .mockReturnValueOnce(Array(250).fill('INTELLIGENCE_SYSTEM').join('\n')); // Intelligence for summary
+        .mockReturnValueOnce(Array(250).fill('INTELLIGENCE_SYSTEM').join('\n')), // Intelligence for summary
 
       // Mock file system operations
       mockedFs.existsSync.mockReturnValue(true);
@@ -428,9 +428,9 @@ src/test.ts: 20:8 - warnin, g: Unexpected console statement (no-console)
       // Mock Date.now for consistent build time
       const originalDateNow: any = Date.now;
       let callCount: any = 0;
-      Date.now = jest.fn(() => {;
-        callCount++;
-        return callCount % 2 === 1 ? 1000 : 6000; // 5 second build times
+      Date.now = jest.fn(() => {
+        callCount++,
+        return callCount % 2 === 1 ? 1000 : 6000, // 5 second build times
       });
 
       const report: any = await validationSystem.executeComprehensiveValidation();
@@ -449,7 +449,7 @@ src/test.ts: 20:8 - warnin, g: Unexpected console statement (no-console)
       const mockError: any = new Error('Validation failed');
       (mockError as any).stdout = 'error TS2304: Cannot find name';
       mockedExecSync.mockImplementation(() => {
-        throw mockError;
+        throw mockError,
       });
 
       // Mock file system operations
@@ -467,7 +467,7 @@ src/test.ts: 20:8 - warnin, g: Unexpected console statement (no-console)
 
   describe('Report Generation', () => {
     it('should save validation report to file', async () => {
-      const mockReport: any = {;
+      const mockReport: any = {
         timestamp: '2025-01-15T10:0, 0:00.000Z',
         overallSuccess: true,
         validationResults: [],
@@ -499,13 +499,13 @@ src/test.ts: 20:8 - warnin, g: Unexpected console statement (no-console)
 
       expect(mockedFs.mkdirSync).toHaveBeenCalledWith('.campaign-progress', { recursive: true });
       expect(mockedFs.writeFileSync).toHaveBeenCalledWith(
-        expect.stringMatching(/\.campaign-progress\/final-validation-report-\d+\.json/),
+        expect.stringMatching(/\.campaign-progress\/final-validation-report-\d+\.json/);
         JSON.stringify(mockReport, null, 2),
       );
     });
 
     it('should create certification document for successful campaigns', async () => {
-      const mockReport: any = {;
+      const mockReport: any = {
         timestamp: '2025-01-15T10:0, 0:00.000Z',
         overallSuccess: true,
         validationResults: [
@@ -536,12 +536,12 @@ src/test.ts: 20:8 - warnin, g: Unexpected console statement (no-console)
       ).createCertification(mockReport);
 
       expect(mockedFs.writeFileSync).toHaveBeenCalledWith(
-        'PERFECT_CODEBASE_CERTIFICATION.md',
-        expect.stringContaining('# Perfect Codebase Campaign - Certification'),
+        'PERFECT_CODEBASE_CERTIFICATION.md';
+        expect.stringContaining('# Perfect Codebase Campaign - Certification');
       );
       expect(mockedFs.writeFileSync).toHaveBeenCalledWith(
-        'PERFECT_CODEBASE_CERTIFICATION.md',
-        expect.stringContaining('**Certification Level**: ENTERPRISE'),
+        'PERFECT_CODEBASE_CERTIFICATION.md';
+        expect.stringContaining('**Certification Level**: ENTERPRISE');
       );
     });
   });

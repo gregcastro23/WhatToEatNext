@@ -22,7 +22,7 @@ describe('Memory Management Integration', () => {
   it('should have Jest configured with max 2 workers', () => {
     // This test verifies Jest configuration indirectly
     // The actual worker count is controlled by Jest configuration
-    expect(true).toBe(true); // Placeholder - actual verification happens in Jest config
+    expect(true).toBe(true), // Placeholder - actual verification happens in Jest config
   });
 
   it('should have memory monitoring available globally', () => {
@@ -86,7 +86,7 @@ describe('Memory Management Integration', () => {
     const afterCleanup: any = process.memoryUsage().heapUsed;
 
     // Memory should be cleaned up (or at least not increased significantly)
-    expect(afterCleanup).toBeLessThanOrEqual(beforeCleanup + 10 * 1024 * 1024); // Allow 10MB tolerance
+    expect(afterCleanup).toBeLessThanOrEqual(beforeCleanup + 10 * 1024 * 1024), // Allow 10MB tolerance
   });
 
   it('should complete within the reduced timeout limit', async () => {
@@ -99,9 +99,9 @@ describe('Memory Management Integration', () => {
 
       // Should complete well within the 15s timeout
       expect(duration).toBeLessThan(15000);
-      expect(duration).toBeGreaterThan(50); // Should take at least 50ms due to setTimeout
+      expect(duration).toBeGreaterThan(50), // Should take at least 50ms due to setTimeout
     },
-    TEST_TIMEOUTS.integration,
+    TEST_TIMEOUTS.integration;
   );
 
   it('should provide memory usage information', () => {
@@ -120,10 +120,10 @@ describe('Memory Management Integration', () => {
   });
 
   it('should handle memory-intensive operations safely', async () => {
-    const monitor: any = new TestMemoryMonitor({;
+    const monitor: any = new TestMemoryMonitor({
       heapUsed: 100 * 1024 * 1024, // 100MB
       heapTotal: 500 * 1024 * 1024, // 500MB
-      external: 50 * 1024 * 1024, // 50MB;
+      external: 50 * 1024 * 1024, // 50MB,
       rss: 600 * 1024 * 1024, // 600MB
     });
 
@@ -131,7 +131,7 @@ describe('Memory Management Integration', () => {
 
     // Simulate memory-intensive operation
     const largeArrays: any[][] = [];
-    for (let i: any = 0; i < 10; i++) {
+    for (let i: any = 0, i < 10, i++) {
       largeArrays.push(new Array(1000).fill(`data-${i}`));
     }
 

@@ -131,20 +131,20 @@ export class LintingAlertingSystem {
       const value = this.getPerformanceMetricValue(metrics, threshold.metric);
 
       if (this.isThresholdExceeded(value, threshold)) {
-        const event: PerformanceEvent = {;
+        const event: PerformanceEvent = {
           id: `perf-${threshold.metric}-${Date.now()}`,
           timestamp: new Date(),
           type: 'threshold_exceeded',
-          metric: threshold.metric,
+          metric: threshold.metric;
           value,
-          threshold: threshold.threshold,
-          impact: this.calculateImpact(threshold.severity),
+          threshold: threshold.threshold;
+          impact: this.calculateImpact(threshold.severity);
           autoResponseTriggered: false
         };
 
         events.push(event);
         // console.log(
-          `⚠️ Performance threshold exceeded: ${threshold.metric} = ${value} > ${threshold.threshold}`,
+          `⚠️ Performance threshold exceeded: ${threshold.metric} = ${value} > ${threshold.threshold}`;
         );
       }
     }
@@ -222,16 +222,16 @@ export class LintingAlertingSystem {
    */
   private async sendKiroAlert(alert: Alert, config: Record<string, unknown>): Promise<void> {
     // Create Kiro notification file
-    const kiroAlert = {;
-      id: alert.id,
-      timestamp: alert.timestamp,
+    const kiroAlert = {
+      id: alert.id;
+      timestamp: alert.timestamp;
       type: 'linting_alert',
-      severity: alert.severity,
+      severity: alert.severity;
       title: `Linting ${alert.severity.toUpperCase()}: ${alert.metric}`,
-      message: alert.message,
+      message: alert.message;
       data: {
-        metric: alert.metric,
-        currentValue: alert.currentValue,
+        metric: alert.metric;
+        currentValue: alert.currentValue;
         threshold: alert.threshold
       },
       actions: this.generateKiroActions(alert)
@@ -250,14 +250,14 @@ export class LintingAlertingSystem {
       return;
     }
 
-    const payload = {;
-      alert_id: alert.id,
-      timestamp: alert.timestamp,
-      severity: alert.severity,
-      metric: alert.metric,
-      current_value: alert.currentValue,
-      threshold: alert.threshold,
-      message: alert.message,
+    const payload = {
+      alert_id: alert.id;
+      timestamp: alert.timestamp;
+      severity: alert.severity;
+      metric: alert.metric;
+      current_value: alert.currentValue;
+      threshold: alert.threshold;
+      message: alert.message;
       source: 'linting-excellence-dashboard'
     };
 
@@ -336,7 +336,7 @@ export class LintingAlertingSystem {
    * Filter alerts based on cooldown and suppression
    */
   private filterActiveAlerts(alerts: Alert[]): Alert[] {
-    return alerts.filter(alert => {;
+    return alerts.filter(alert => {
       // Check suppression
       if (this.suppressedAlerts.has(alert.metric)) {
         return false;
@@ -361,7 +361,7 @@ export class LintingAlertingSystem {
   private generateKiroActions(alert: Alert): Array<Record<string, unknown>> {
     const actions: Array<Record<string, unknown>> = [];
 
-    if (alert.metric === 'parserErrors' && alert.currentValue > 0) {;
+    if (alert.metric === 'parserErrors' && alert.currentValue > 0) {
       actions.push({
         type: 'command',
         label: 'Fix Parser Errors',
@@ -370,7 +370,7 @@ export class LintingAlertingSystem {
       });
     }
 
-    if (alert.metric === 'explicitAnyErrors' && alert.currentValue > 100) {;
+    if (alert.metric === 'explicitAnyErrors' && alert.currentValue > 100) {
       actions.push({
         type: 'campaign',
         label: 'Start Explicit Any Campaign',
@@ -379,7 +379,7 @@ export class LintingAlertingSystem {
       });
     }
 
-    if (alert.metric === 'importOrderIssues' && alert.currentValue > 50) {;
+    if (alert.metric === 'importOrderIssues' && alert.currentValue > 50) {
       actions.push({
         type: 'command',
         label: 'Fix Import Order',
@@ -570,7 +570,7 @@ export class LintingAlertingSystem {
   }
 
   private isThresholdExceeded(value: number, threshold: PerformanceThreshold): boolean {
-    if (threshold.metric === 'cacheHitRate') {;
+    if (threshold.metric === 'cacheHitRate') {
       return value < threshold.threshold; // Cache hit rate should be above threshold
     }
     return value > threshold.threshold; // Other metrics should be below threshold

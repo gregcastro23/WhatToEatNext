@@ -13,7 +13,7 @@ export interface IngredientFlavorProfile {
 
 // Helper function to add flavor profiles to ingredients
 export function enrichIngredientsWithFlavorProfiles(ingredients: Ingredient[]): Ingredient[] {
-  return ingredients.map(ingredient => {;
+  return ingredients.map(ingredient => {
     if (!(ingredient as unknown)?.flavorProfile) {
       (ingredient as unknown).flavorProfile = getFlavorProfileForIngredient(ingredient.name);
     }
@@ -364,7 +364,7 @@ const ingredientFlavorMap: Record<string, IngredientFlavorProfile & Record<strin
  */
 export function getFlavorProfileForIngredient(ingredientName: string): IngredientFlavorProfile {
   // Default flavor profile if nothing is found
-  const defaultProfile: IngredientFlavorProfile = {;
+  const defaultProfile: IngredientFlavorProfile = {
     spicy: 0.0,
     sweet: 0.2,
     sour: 0.0,

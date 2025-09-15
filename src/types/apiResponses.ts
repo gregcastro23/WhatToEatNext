@@ -26,12 +26,12 @@ export type ServiceResponse<T> = ServiceResponseType<T>;
  * Alchemical Recommendation Response
  * Standardized response for alchemical recommendation services
  */
-export type AlchemicalRecommendationResponse = ServiceResponseType<{;
-  recommendations: AlchemicalTransformationResultType[];
-  compatibility: number;
-  reasoning: string[];
-  elementalBalance: ElementalPropertiesType;
-  thermodynamicMetrics: ThermodynamicMetricsType;
+export type AlchemicalRecommendationResponse = ServiceResponseType<{
+  recommendations: AlchemicalTransformationResultType[],
+  compatibility: number,
+  reasoning: string[],
+  elementalBalance: ElementalPropertiesType,
+  thermodynamicMetrics: ThermodynamicMetricsType,
 }>;
 
 /**
@@ -44,25 +44,25 @@ export type PlanetaryInfluenceResponse = ServiceResponseType<PlanetaryInfluenceR
  * Standardized Planetary Position Response
  * Common structure for planetary position data from any API
  */
-export type StandardizedPlanetaryResponse = ServiceResponseType<{;
+export type StandardizedPlanetaryResponse = ServiceResponseType<{
   positions: Record<string, StandardizedPlanetaryPosition>;
-  timestamp: string;
-  source: string;
-  accuracy: number;
+  timestamp: string,
+  source: string,
+  accuracy: number,
 }>;
 
 /**
  * Recipe Recommendation Response
  * Standardized response for recipe recommendations
  */
-export type RecipeRecommendationResponse = ServiceResponseType<{;
+export type RecipeRecommendationResponse = ServiceResponseType<{
   recipes: Array<{
-    id: string;
-    name: string;
-    compatibility: number;
-    elementalBalance: ElementalPropertiesType;
-    ingredients: string[];
-    reasoning: string[];
+    id: string,
+    name: string,
+    compatibility: number,
+    elementalBalance: ElementalPropertiesType,
+    ingredients: string[],
+    reasoning: string[],
   }>;
   totalMatches: number;
   searchCriteria: Record<string, Record<string, number>>;
@@ -72,16 +72,16 @@ export type RecipeRecommendationResponse = ServiceResponseType<{;
  * Culinary Analysis Response
  * Comprehensive culinary analysis response
  */
-export type CulinaryAnalysisResponse = ServiceResponseType<{;
+export type CulinaryAnalysisResponse = ServiceResponseType<{
   overallCompatibility: number;
   elementalAnalysis: ElementalPropertiesType;
-  thermodynamicProfile: ThermodynamicMetricsType;
+  thermodynamicProfile: ThermodynamicMetricsType,
   recommendations: {
-    ingredients: string[];
-    cookingMethods: string[];
-    seasonalTiming: string[];
-  };
-  warnings: string[];
+    ingredients: string[],
+    cookingMethods: string[],
+    seasonalTiming: string[],
+  },
+  warnings: string[],
 }>;
 
 // ========== EXTERNAL API RESPONSE TYPES ==========;
@@ -93,19 +93,19 @@ export interface NasaHorizonsResponse {
   /**
    * Result string containing the data in text format
    */
-  result?: string;
+  result?: string,
 
   /**
    * Error message if the request failed
    */
-  error?: string;
+  error?: string,
 
   /**
    * Signature indicating the type of error
    */
   signature?: {
-    source?: string;
-    version?: string;
+    source?: string,
+    version?: string,
   };
 }
 
@@ -137,21 +137,21 @@ export interface AstronomyApiResponse {
           /**
            * Planet name
            */
-          name?: string;
+          name?: string,
 
           /**
            * Equatorial coordinates (right ascension and declination)
            */
           equatorialCoordinates?: {
             rightAscension?: {
-              hours?: number;
-              minutes?: number;
-              seconds?: number;
+              hours?: number,
+              minutes?: number,
+              seconds?: number,
             };
             declination?: {
-              degrees?: number;
-              minutes?: number;
-              seconds?: number;
+              degrees?: number,
+              minutes?: number,
+              seconds?: number,
             };
           };
 
@@ -160,17 +160,17 @@ export interface AstronomyApiResponse {
            */
           eclipticCoordinates?: {
             longitude?: {
-              degrees?: number;
-              minutes?: number;
-              seconds?: number;
+              degrees?: number,
+              minutes?: number,
+              seconds?: number,
             };
             latitude?: {
-              degrees?: number;
-              minutes?: number;
-              seconds?: number;
+              degrees?: number,
+              minutes?: number,
+              seconds?: number,
             };
-          };
-        };
+          },
+        },
       }>;
     };
   };
@@ -179,8 +179,8 @@ export interface AstronomyApiResponse {
    * Error information
    */
   error?: {
-    code?: number;
-    message?: string;
+    code?: number,
+    message?: string,
   };
 }
 
@@ -195,7 +195,7 @@ export interface SwissEphemerisApiResponse {
     /**
      * Planet name
      */
-    name?: string;
+    name?: string,
 
     /**
      * Position information
@@ -204,18 +204,18 @@ export interface SwissEphemerisApiResponse {
       /**
        * Longitude in degrees (0-360)
        */
-      longitude?: number;
+      longitude?: number,
 
       /**
        * Whether the planet is retrograde
        */
-      retrograde?: boolean;
+      retrograde?: boolean,
 
       /**
        * Speed of the planet
        */
-      speed?: number;
-    };
+      speed?: number,
+    },
   }>;
 
   /**
@@ -224,8 +224,8 @@ export interface SwissEphemerisApiResponse {
   error?:
     | string
     | {
-        message?: string;
-        code?: number;
+        message?: string,
+        code?: number,
       };
 }
 
@@ -246,22 +246,22 @@ export interface StandardizedPlanetaryPosition {
   /**
    * Exact longitude in degrees (0-360)
    */
-  exactLongitude?: number;
+  exactLongitude?: number,
 
   /**
    * Whether the planet is retrograde
    */
-  isRetrograde?: boolean;
+  isRetrograde?: boolean,
 
   /**
    * Minutes within the degree (0-59)
    */
-  minute?: number;
+  minute?: number,
 
   /**
    * Speed of the planet (positive for direct, negative for retrograde)
    */
-  speed?: number;
+  speed?: number,
 }
 
 /**
@@ -273,7 +273,7 @@ export function isValidNasaHorizonsResponse(data: unknown): data is NasaHorizons
     data !== null &&
     (('result' in data && typeof (data as NasaHorizonsResponse).result === 'string') ||;
       ('error' in data && typeof (data as NasaHorizonsResponse).error === 'string'));
-  );
+  ),
 }
 
 /**

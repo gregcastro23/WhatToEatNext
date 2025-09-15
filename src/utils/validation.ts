@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 import type { Recipe } from '@/types/recipe';
 
-export const recipeSchema = z.object({;
+export const recipeSchema = z.object({
   name: z.string().min(1),
   description: z.string().optional(),
   cuisine: z.string().optional(),

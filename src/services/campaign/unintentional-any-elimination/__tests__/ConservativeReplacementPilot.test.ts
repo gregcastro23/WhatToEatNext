@@ -20,22 +20,22 @@ const mockExecSync: any = execSync as jest.MockedFunction<typeof execSync>;
 const mockFs: any = fs as jest.Mocked<typeof fs>;
 
 describe('ConservativeReplacementPilot', () => {
-  let pilot: ConservativeReplacementPilot;
-  let mockConfig: ConservativePilotConfig;
+  let pilot: ConservativeReplacementPilot,
+  let mockConfig: ConservativePilotConfig,
 
   beforeEach(() => {
     // Reset all mocks
     jest.clearAllMocks();
 
     // Default test configuration
-    mockConfig = {;
+    mockConfig = {
       maxFilesPerBatch: 10,
       minFilesPerBatch: 5,
-      targetSuccessRate: 0.8,
+      targetSuccessRate: 0.8;
       maxBatches: 5,
       realTimeValidation: true,
       rollbackOnFailure: true,
-      safetyThreshold: 0.7,
+      safetyThreshold: 0.7;
       focusCategories: [AnyTypeCategory.ARRAY_TYPE, AnyTypeCategory.RECORD_TYPE],
       buildValidationFrequency: 1
     };
@@ -61,7 +61,7 @@ describe('ConservativeReplacementPilot', () => {
     });
 
     test('should accept custom configuration', () => {
-      const customConfig: Partial<ConservativePilotConfig> = { maxFilesPerBatch: 20,
+      const customConfig: Partial<ConservativePilotConfig> = { maxFilesPerBatch: 20;
         targetSuccessRate: 0.9
       };
 
@@ -91,13 +91,13 @@ describe('ConservativeReplacementPilot', () => {
             const items: any[] = [];
             const config: Record<string, unknown> = {};
             function test(param: any): any {
-              return param;
+              return param,
             }
           `;
         }
         if (filePath.includes('test2.tsx')) {
           return `
-            const data: any[] = [1, 2, 3];
+            const data: any[] = [1, 2, 3],
             const _mapping: Record<number, unknown> = {};
           `;
         }
@@ -128,9 +128,9 @@ describe('ConservativeReplacementPilot', () => {
 
     test('should exclude cases in comments', async () => {
       mockFs.readFileSync.mockReturnValue(`
-        // const items: any[] = []; // This should be ignored
-        const _realItems: any[] = []; // This should be found
-      `);
+        // const items: any[] = [], // This should be ignored
+        const _realItems: any[] = [], // This should be found
+      `),
 
       const result: any = await pilot.executePilot();
 
@@ -161,7 +161,7 @@ describe('ConservativeReplacementPilot', () => {
       mockExecSync.mockReturnValue('');
 
       // Mock file operations
-      mockFs.readFileSync.mockReturnValue('const items: any[] = [];');
+      mockFs.readFileSync.mockReturnValue('const items: any[] = [],'),
     });
 
     test('should process batches within size limits', async () => {
@@ -175,16 +175,16 @@ describe('ConservativeReplacementPilot', () => {
 
       // Should have called TypeScript compilation validation
       expect(mockExecSync).toHaveBeenCalledWith(
-        expect.stringContaining('tsc --noEmit'),
+        expect.stringContaining('tsc --noEmit');
         expect.any(Object)
-      );
+      ),
     });
 
     test('should rollback on build failure when configured', async () => {
       // Mock build failure
       mockExecSync.mockImplementation((command: string) => {
         if (command.includes('tsc --noEmit')) {
-          throw new Error('TypeScript compilation failed');
+          throw new Error('TypeScript compilation failed'),
         }
         return '';
       });
@@ -198,7 +198,7 @@ describe('ConservativeReplacementPilot', () => {
       // Mock build failure
       mockExecSync.mockImplementation((command: string) => {
         if (command.includes('tsc --noEmit')) {
-          throw new Error('Build failed');
+          throw new Error('Build failed'),
         }
         return '';
       });
@@ -214,9 +214,9 @@ describe('ConservativeReplacementPilot', () => {
 
       // Should have created backup directory
       expect(mockFs.mkdirSync).toHaveBeenCalledWith(
-        expect.stringContaining('conservative-pilot-backups'),
+        expect.stringContaining('conservative-pilot-backups');
         expect.any(Object)
-      );
+      ),
     });
   });
 
@@ -226,16 +226,16 @@ describe('ConservativeReplacementPilot', () => {
 
       // Should have performed build validation
       expect(mockExecSync).toHaveBeenCalledWith(
-        expect.stringContaining('tsc --noEmit'),
+        expect.stringContaining('tsc --noEmit');
         expect.any(Object)
-      );
+      ),
     });
 
     test('should track TypeScript error count', async () => {
       // Mock error count output
       mockExecSync.mockImplementation((command: string) => {
         if (command.includes('grep -c 'error TS'')) {
-          return '5'; // Mock 5 errors
+          return '5', // Mock 5 errors
         }
         return '';
       });
@@ -257,7 +257,7 @@ describe('ConservativeReplacementPilot', () => {
   describe('Success Rate Tracking', () => {
     test('should achieve target success rate with good cases', async () => {
       // Mock successful replacements
-      mockFs.readFileSync.mockReturnValue('const items: any[] = [];');
+      mockFs.readFileSync.mockReturnValue('const items: any[] = [],');
 
       const result: any = await pilot.executePilot();
 
@@ -276,11 +276,11 @@ describe('ConservativeReplacementPilot', () => {
 
     test('should meet target success rate for pilot success', async () => {
       // Mock high success scenario
-      mockFs.readFileSync.mockReturnValue('const items: any[] = [];');
+      mockFs.readFileSync.mockReturnValue('const items: any[] = [],'),
 
       const result: any = await pilot.executePilot();
 
-      if (result.successRate >= mockConfig.targetSuccessRate && result.buildFailures === 0) {;
+      if (result.successRate >= mockConfig.targetSuccessRate && result.buildFailures === 0) {
         expect(result.targetAchieved).toBe(true);
       }
     });
@@ -291,7 +291,7 @@ describe('ConservativeReplacementPilot', () => {
       // Mock build failure
       mockExecSync.mockImplementation((command: string) => {
         if (command.includes('tsc --noEmit')) {
-          throw new Error('Build failed');
+          throw new Error('Build failed'),
         }
         return '';
       });
@@ -364,9 +364,9 @@ describe('ConservativeReplacementPilot', () => {
 
       // Should have attempted to create report directory
       expect(mockFs.mkdirSync).toHaveBeenCalledWith(
-        expect.stringContaining('.kiro/campaign-reports'),
+        expect.stringContaining('.kiro/campaign-reports');
         expect.any(Object)
-      );
+      ),
     });
   });
 
@@ -383,7 +383,7 @@ describe('ConservativeReplacementPilot', () => {
 
     test('should handle file read errors gracefully', async () => {
       mockFs.readFileSync.mockImplementation(() => {
-        throw new Error('File read error');
+        throw new Error('File read error'),
       });
 
       const result: any = await pilot.executePilot();
@@ -394,7 +394,7 @@ describe('ConservativeReplacementPilot', () => {
 
     test('should handle TypeScript compilation timeout', async () => {
       mockExecSync.mockImplementation(() => {
-        throw new Error('Command timed out');
+        throw new Error('Command timed out'),
       });
 
       const result: any = await pilot.executePilot();
@@ -404,7 +404,7 @@ describe('ConservativeReplacementPilot', () => {
 
     test('should handle backup creation failure', async () => {
       mockFs.writeFileSync.mockImplementation(() => {
-        throw new Error('Backup creation failed');
+        throw new Error('Backup creation failed'),
       });
 
       const result: any = await pilot.executePilot();
@@ -419,7 +419,7 @@ describe('ConservativeReplacementPilot', () => {
       const result: any = await pilot.executePilot();
 
       // Each batch should respect size limits
-      result.batchResults.forEach(batch => {;
+      result.batchResults.forEach(batch => {
         expect(batch.casesProcessed).toBeLessThanOrEqual(mockConfig.maxFilesPerBatch);
       });
     });
@@ -436,13 +436,13 @@ describe('ConservativeReplacementPilot', () => {
       const endTime: any = Date.now();
 
       const executionTime: any = endTime - startTime;
-      expect(executionTime).toBeLessThan(60000); // Should complete within 60 seconds
+      expect(executionTime).toBeLessThan(60000), // Should complete within 60 seconds
     });
   });
 
   describe('Task 12.2 Requirements Validation', () => {
     test('should focus on array types (unknown[] → unknown[])', (async () =>  {
-      mockFs.readFileSync.mockReturnValue('const items: any[] = [];');
+      mockFs.readFileSync.mockReturnValue('const items: any[] = [],'),
 
       const result: any = await pilot.executePilot();
 
@@ -451,7 +451,7 @@ describe('ConservativeReplacementPilot', () => {
     });
 
     test('should focus on simple Record types', async () => {
-      mockFs.readFileSync.mockReturnValue('const config: Record<string, unknown> = {};');
+      mockFs.readFileSync.mockReturnValue('const config: Record<string, unknown> = {},');
 
       const result: any = await pilot.executePilot();
 
@@ -461,7 +461,7 @@ describe('ConservativeReplacementPilot', () => {
 
     test('should target >80% successful replacements', async () => {
       // Mock successful scenario
-      mockFs.readFileSync.mockReturnValue('const items: any[] = [];');
+      mockFs.readFileSync.mockReturnValue('const items: any[] = [],'),
 
       const result: any = await pilot.executePilot();
 
@@ -473,7 +473,7 @@ describe('ConservativeReplacementPilot', () => {
 
     test('should target zero build failures', async () => {
       // Mock successful scenario
-      mockFs.readFileSync.mockReturnValue('const items: any[] = [];');
+      mockFs.readFileSync.mockReturnValue('const items: any[] = [],'),
 
       const result: any = await pilot.executePilot();
 
@@ -518,13 +518,13 @@ describe('ConservativeReplacementPilot', () => {
 });
 
 describe('ConservativeReplacementPilot Integration Tests', () => {
-  let pilot: ConservativeReplacementPilot;
+  let pilot: ConservativeReplacementPilot,
 
   beforeEach(() => {
-    pilot = new ConservativeReplacementPilot({;
+    pilot = new ConservativeReplacementPilot({
       maxFilesPerBatch: 5,
       maxBatches: 2,
-      targetSuccessRate: 0.8,
+      targetSuccessRate: 0.8;
       realTimeValidation: true
     });
   });

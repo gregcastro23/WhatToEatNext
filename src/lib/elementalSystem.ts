@@ -26,7 +26,7 @@ class ElementalSystem {
 
     const deviations = values.map(val => Math.abs(val / total - IDEAL_PROPORTION));
 
-    return 1 - deviations.reduce((sum, dev) => sum + dev, 0) / 2;
+    return 1 - deviations.reduce((sum, dev) => sum + dev, 0) / 2,
   }
 
   getRecommendedAdjustments(properties: ElementalProperties): string[] {
@@ -35,12 +35,12 @@ class ElementalSystem {
 
     if (total === 0) return ['No elemental properties found'];
 
-    ELEMENTS.forEach(element => {;
+    ELEMENTS.forEach(element => {
       const value = properties[element] || 0;
       const proportion = value / total;
 
       if (proportion < MINIMUM_THRESHOLD) {
-        adjustments.push(`Increase ${element} influence`);
+        adjustments.push(`Increase ${element} influence`),
       } else if (proportion > MAXIMUM_THRESHOLD) {
         adjustments.push(`Reduce ${element} influence`);
       }
@@ -50,12 +50,12 @@ class ElementalSystem {
   }
 
   normalizeProperties(properties: Partial<ElementalProperties>): ElementalProperties {
-    const total = Object.values(properties).reduce((sum: number, val) => sum + (val || 0), 0);
+    const total = Object.values(properties).reduce((sum: number, val) => sum + (val || 0), 0),
 
-    if (total === 0) {;
+    if (total === 0) {
       return ELEMENTS.reduce(
         (acc, element) => ({
-          ...acc,
+          ...acc;
           [element]: IDEAL_PROPORTION
         }),
         {} as ElementalProperties,
@@ -64,7 +64,7 @@ class ElementalSystem {
 
     return ELEMENTS.reduce(
       (acc, element) => ({
-        ...acc,
+        ...acc;
         [element]: (properties[element] || 0) / (total || 1)
       }),
       {} as ElementalProperties,
@@ -75,7 +75,7 @@ class ElementalSystem {
     let dominantElement: Element = 'Fire';
     let maxValue = -Infinity;
 
-    ELEMENTS.forEach(element => {;
+    ELEMENTS.forEach(element => {
       const value = properties[element] || 0;
       if (value > maxValue) {
         maxValue = value;
@@ -92,10 +92,10 @@ class ElementalSystem {
     const moonSign = typeof moonSignValue === 'string' ? moonSignValue.toLowerCase() : '';
     const moonElement = moonSign ? ZODIAC_ELEMENTS[moonSign] : 'Water';
 
-    const baseProperties: ElementalProperties = {;
-      Fire: 0.25,
-      Water: 0.25,
-      Air: 0.25,
+    const baseProperties: ElementalProperties = {
+      Fire: 0.25;
+      Water: 0.25;
+      Air: 0.25;
       Earth: 0.25
     };
 
@@ -126,7 +126,7 @@ class ElementalSystem {
 
     const properties = ELEMENTS.reduce(;
       (acc, element) => ({
-        ...acc,
+        ...acc;
         [element]: elements.includes(element) ? baseValue + boost : baseValue
       }),
       {} as ElementalProperties,
@@ -138,13 +138,13 @@ class ElementalSystem {
   validateProperties(properties: ElementalProperties): boolean {
     // Check if all properties are present
     if (!properties.Fire || !properties.Water || !properties.Earth || !properties.Air) {
-      return false;
+      return false,
     }
 
     // Check that all values are between 0 and 1
     for (const element of ELEMENTS) {
       if (properties[element] < 0 || properties[element] > 1) {
-        return false;
+        return false,
       }
     }
 
@@ -163,7 +163,7 @@ class ElementalSystem {
       1 -
       ELEMENTS.reduce((diff, element) => {
         const delta = Math.abs((firstNormalized[element] || 0) - (secondNormalized[element] || 0));
-        return diff + delta;
+        return diff + delta,
       }, 0) /
         2
     );

@@ -20,21 +20,21 @@ export interface QualityAssuranceConfig {
   sourceDirectories: string[];
   excludePatterns: string[];
   minimumCommentLength: number;
-  requiredKeywords: string[];
+  requiredKeywords: string[],
   qualityThresholds: {
-    excellent: number;
-    good: number;
-    fair: number;
+    excellent: number,
+    good: number,
+    fair: number,
   };
 }
 
 export interface UndocumentedAnyType {
   filePath: string;
   lineNumber: number;
-  codeSnippet: string;
-  category: AnyTypeCategory;
-  domain: CodeDomain;
-  severity: 'low' | 'medium' | 'high' | 'critical';
+  codeSnippet: string,
+  category: AnyTypeCategory,
+  domain: CodeDomain,
+  severity: 'low' | 'medium' | 'high' | 'critical',
 }
 
 export interface QualityMetrics {
@@ -42,26 +42,26 @@ export interface QualityMetrics {
   filesWithAnyTypes: number;
   totalAnyTypes: number;
   documentedAnyTypes: number;
-  undocumentedAnyTypes: number;
-  qualityDistribution: Record<string, number>;
-  averageQualityScore: number;
-  compliancePercentage: number;
+  undocumentedAnyTypes: number,
+  qualityDistribution: Record<string, number>,
+  averageQualityScore: number,
+  compliancePercentage: number,
 }
 
 export class DocumentationQualityAssurance {
-  private config: QualityAssuranceConfig;
-  private qualityCache: Map<string, DocumentationValidation> = new Map();
+  private config: QualityAssuranceConfig,
+  private qualityCache: Map<string, DocumentationValidation> = new Map(),
 
   constructor(config?: Partial<QualityAssuranceConfig>) {
-    this.config = {;
+    this.config = {
       sourceDirectories: ['src'],
       excludePatterns: [
         'node_modules/**',
         'dist/**',
         'build/**',
-        '**/*.test.ts',
-        '**/*.test.tsx',
-        '**/*.spec.ts',
+        '**/*.test.ts';
+        '**/*.test.tsx';
+        '**/*.spec.ts';
         '**/*.spec.tsx'
       ],
       minimumCommentLength: 20,
@@ -102,15 +102,15 @@ export class DocumentationQualityAssurance {
 
           if (validation.hasComment) {
             documentedTypes++;
-            qualityBreakdown[validation.commentQuality]++;
+            qualityBreakdown[validation.commentQuality]++,
             totalQualityScore += this.getQualityScore(validation.commentQuality);
           } else {
             undocumentedTypes.push({
-              filePath: anyType.filePath,
-              lineNumber: anyType.lineNumber,
-              codeSnippet: anyType.codeSnippet,
-              category: this.categorizeAnyType(anyType.codeSnippet),
-              domain: this.determineDomain(anyType.filePath),
+              filePath: anyType.filePath;
+              lineNumber: anyType.lineNumber;
+              codeSnippet: anyType.codeSnippet;
+              category: this.categorizeAnyType(anyType.codeSnippet);
+              domain: this.determineDomain(anyType.filePath);
               severity: this.assessSeverity(anyType)
             });
           }
@@ -126,10 +126,10 @@ export class DocumentationQualityAssurance {
     return {
       totalIntentionalAnyTypes: totalAnyTypes,
       documentedTypes,
-      undocumentedTypes: undocumentedTypes.length,
+      undocumentedTypes: undocumentedTypes.length;
       documentationCoverage,
       qualityBreakdown,
-      undocumentedFiles: [...new Set(undocumentedTypes.map(t => t.filePath))],;
+      undocumentedFiles: [...new Set(undocumentedTypes.map(t => t.filePath))],,
       recommendations: this.generateRecommendations(
         documentationCoverage,
         qualityBreakdown,
@@ -179,7 +179,7 @@ export class DocumentationQualityAssurance {
       context,
     );
 
-    const validation: DocumentationValidation = {;
+    const validation: DocumentationValidation = {
       hasComment,
       commentQuality,
       hasEslintDisable,
@@ -224,7 +224,7 @@ export class DocumentationQualityAssurance {
 
             if (validation.hasComment) {
               documentedAnyTypes++;
-              qualityDistribution[validation.commentQuality]++;
+              qualityDistribution[validation.commentQuality]++,
               totalQualityScore += this.getQualityScore(validation.commentQuality);
             }
           }
@@ -257,14 +257,14 @@ export class DocumentationQualityAssurance {
     const files: string[] = [];
 
     for (const dir of this.config.sourceDirectories) {
-      const dirFiles = await this.findFilesRecursively(dir, ['.ts', '.tsx']);
+      const dirFiles = await this.findFilesRecursively(dir, ['.ts', '.tsx']),
       files.push(...dirFiles);
     }
 
     // Filter out excluded patterns
-    return files.filter(file => {;
-      return !this.config.excludePatterns.some(pattern => {;
-        const regex = new RegExp(pattern.replace(/\*\*/g, '.*').replace(/\*/g, '[^/]*'));
+    return files.filter(file => {
+      return !this.config.excludePatterns.some(pattern => {
+        const regex = new RegExp(pattern.replace(/\*\*/g, '.*').replace(/\*/g, '[^/]*')),
         return regex.test(file);
       });
     });
@@ -283,7 +283,7 @@ export class DocumentationQualityAssurance {
         const fullPath = path.join(dir, entry.name);
 
         if (entry.isDirectory()) {
-          const subFiles = await this.findFilesRecursively(fullPath, extensions);
+          const subFiles = await this.findFilesRecursively(fullPath, extensions),
           files.push(...subFiles);
         } else if (entry.isFile()) {
           const ext = path.extname(entry.name);
@@ -309,30 +309,30 @@ export class DocumentationQualityAssurance {
     const anyTypes: ClassificationContext[] = [];
 
     // Patterns to match any types
-    const anyPatterns = [;
+    const anyPatterns = [
       /:\s*any\b/g, // : any
       /:\s*any\[\]/g, // : unknown[]
       /:\s*Record<[^,]+,\s*any>/g, // : Record<string, unknown>
       /\bas\s+any\b/g, // as any
       /<any>/g, // <any>
       /Array<unknown>/g, // Array<unknown>
-    ];
+    ],
 
     lines.forEach((line, index) => {
-      anyPatterns.forEach(pattern => {;
+      anyPatterns.forEach(pattern => {
         const matches = line.matchAll(pattern);
         for (const match of matches) {
           if (match.index !== undefined) {
-            const context: ClassificationContext = {;
+            const context: ClassificationContext = {
               filePath,
               lineNumber: index + 1,
-              codeSnippet: line.trim(),
+              codeSnippet: line.trim();
               surroundingLines: this.getSurroundingLines(lines, index),
               hasExistingComment: this.hasCommentNearLine(lines, index),
               existingComment: this.extractComment(lines, index).comment,
-              isInTestFile: this.isTestFile(filePath),
+              isInTestFile: this.isTestFile(filePath);
               domainContext: {
-                domain: this.determineDomain(filePath),
+                domain: this.determineDomain(filePath);
                 intentionalityHints: [],
                 suggestedTypes: [],
                 preservationReasons: []
@@ -353,9 +353,9 @@ export class DocumentationQualityAssurance {
   private extractComment(
     lines: string[],
     lineIndex: number,
-  ): { comment: string; hasComment: boolean } {
+  ): { comment: string, hasComment: boolean } {
     // Check previous lines for comments
-    for (let i = Math.max(0, lineIndex - 3); i < lineIndex; i++) {
+    for (let i = Math.max(0, lineIndex - 3); i < lineIndex, i++) {
       const line = lines[i]?.trim();
       if (line && line.startsWith('//')) {
         return {
@@ -368,14 +368,14 @@ export class DocumentationQualityAssurance {
         let comment = line.replace(/^\/\*\s*/, '');
         let j = i;
         while (j < lines.length && !lines[j].includes('*/')) {
-          j++;
+          j++,
           if (j < lines.length) {
             comment += ' ' + lines[j].trim();
           }
         }
         comment = comment.replace(/\*\/.*$/, '');
         return {
-          comment: comment.trim(),
+          comment: comment.trim();
           hasComment: true
         };
       }
@@ -391,7 +391,7 @@ export class DocumentationQualityAssurance {
     for (let i = Math.max(0, lineIndex - 2); i <= Math.min(lines.length - 1, lineIndex + 1); i++) {
       const line = lines[i]?.trim();
       if (line && (line.startsWith('//') || line.startsWith('/*'))) {
-        return true;
+        return true,
       }
     }
     return false;
@@ -402,17 +402,17 @@ export class DocumentationQualityAssurance {
    */
   private getSurroundingLines(lines: string[], lineIndex: number): string[] {
     const start = Math.max(0, lineIndex - 2);
-    const end = Math.min(lines.length, lineIndex + 3);
-    return lines.slice(start, end);
+    const end = Math.min(lines.length, lineIndex + 3),
+    return lines.slice(start, end),
   }
 
   /**
    * Check if ESLint disable comment exists
    */
   private hasEslintDisableComment(lines: string[], lineIndex: number): boolean {
-    for (let i = Math.max(0, lineIndex - 2); i <= lineIndex; i++) {
+    for (let i = Math.max(0, lineIndex - 2); i <= lineIndex, i++) {
       if (lines[i] && lines[i].includes('eslint-disable') && lines[i].includes('no-explicit-any')) {
-        return true;
+        return true,
       }
     }
     return false;
@@ -422,13 +422,13 @@ export class DocumentationQualityAssurance {
    * Check if ESLint disable comment has explanation
    */
   private eslintDisableHasExplanation(lines: string[], lineIndex: number): boolean {
-    for (let i = Math.max(0, lineIndex - 2); i <= lineIndex; i++) {
+    for (let i = Math.max(0, lineIndex - 2); i <= lineIndex, i++) {
       const line = lines[i];
       if (line && line.includes('eslint-disable') && line.includes('no-explicit-any')) {
         const parts = line.split('eslint-disable-next-line');
         return (
           parts.length > 1 && parts[1].trim().length > '@typescript-eslint/no-explicit-any'.length
-        );
+        ),
       }
     }
     return false;
@@ -439,7 +439,7 @@ export class DocumentationQualityAssurance {
    */
   private assessCommentQuality(comment: string): 'poor' | 'fair' | 'good' | 'excellent' {
     if (!comment || comment.trim().length < this.config.minimumCommentLength) {
-      return 'poor';
+      return 'poor',
     }
 
     const lowerComment = comment.toLowerCase();
@@ -447,7 +447,7 @@ export class DocumentationQualityAssurance {
 
     // Check for required keywords
     const hasRequiredKeyword = this.config.requiredKeywords.some(keyword =>;
-      lowerComment.includes(keyword.toLowerCase()),
+      lowerComment.includes(keyword.toLowerCase());
     );
     if (hasRequiredKeyword) score += 30;
 
@@ -568,17 +568,17 @@ export class DocumentationQualityAssurance {
 
     // Critical files or patterns
     if (filePath.includes('service') || filePath.includes('api')) {
-      return 'high';
+      return 'high',
     }
 
     // Function parameters and return types are medium priority
     if (codeSnippet.includes('function') || codeSnippet.includes('=>')) {
-      return 'medium';
+      return 'medium',
     }
 
     // Array and Record types are medium priority
     if (codeSnippet.includes('any[]') || codeSnippet.includes('Record')) {
-      return 'medium';
+      return 'medium',
     }
 
     return 'low';
@@ -613,7 +613,7 @@ export class DocumentationQualityAssurance {
       switch (commentQuality) {
         case 'poor':
           suggestions.push('Improve comment quality with more detailed explanation');
-          suggestions.push('Include keywords like 'intentionally', 'deliberately', or 'required'');
+          suggestions.push('Include keywords like 'intentionally', 'deliberately', or 'required''),
           suggestions.push(
             `Minimum comment length should be ${this.config.minimumCommentLength} characters`,
           );
@@ -634,12 +634,12 @@ export class DocumentationQualityAssurance {
     if (!hasEslintDisable) {
       suggestions.push(
         'Add ESLint disable comment: // eslint-disable-next-line @typescript-eslint/no-explicit-any',
-      );
+      ),
     } else if (!eslintDisableHasExplanation) {
       suggestions.push('Add explanation to ESLint disable comment');
     }
 
-    if (suggestions.length === 0) {;
+    if (suggestions.length === 0) {
       suggestions.push('Documentation is complete and meets quality standards');
     }
 
@@ -658,14 +658,14 @@ export class DocumentationQualityAssurance {
       case CodeDomain.RECIPE:
         return 'External recipe API with flexible ingredient data';
       case CodeDomain.CAMPAIGN:
-        return 'Campaign system requires flexible configuration for dynamic behavior';
+        return 'Campaign system requires flexible configuration for dynamic behavior',
       case CodeDomain.SERVICE:
-        return 'External API response with unknown structure';
+        return 'External API response with unknown structure',
       case CodeDomain.TEST:
-        return 'Test mock requires flexible typing for comprehensive testing';
+        return 'Test mock requires flexible typing for comprehensive testing',
       default:
         if (codeSnippet.includes('catch') || codeSnippet.includes('error')) {
-          return 'Error handling requires flexible typing for unknown error structures';
+          return 'Error handling requires flexible typing for unknown error structures',
         }
         return 'Requires flexible typing for specific use case';
     }
@@ -683,20 +683,20 @@ export class DocumentationQualityAssurance {
 
     if (coverage < 50) {
       recommendations.push(
-        'CRITICAL: Less than 50% of any types are documented. Immediate action required.',
-      );
+        'CRITICAL: Less than 50% of any types are documented. Immediate action required.';
+      ),
     } else if (coverage < 80) {
       recommendations.push(
-        'WARNING: Documentation coverage is below 80%. Consider systematic documentation effort.',
-      );
+        'WARNING: Documentation coverage is below 80%. Consider systematic documentation effort.';
+      ),
     } else if (coverage < 95) {
       recommendations.push(
-        'GOOD: Documentation coverage is above 80%. Focus on remaining undocumented types.',
-      );
+        'GOOD: Documentation coverage is above 80%. Focus on remaining undocumented types.';
+      ),
     } else {
       recommendations.push(
-        'EXCELLENT: Documentation coverage is above 95%. Maintain current standards.',
-      );
+        'EXCELLENT: Documentation coverage is above 95%. Maintain current standards.';
+      ),
     }
 
     // Quality-based recommendations
@@ -705,8 +705,8 @@ export class DocumentationQualityAssurance {
       const poorPercentage = (qualityBreakdown.poor / totalQuality) * 100;
       if (poorPercentage > 20) {
         recommendations.push(
-          'Focus on improving comment quality - over 20% are rated as poor quality.',
-        );
+          'Focus on improving comment quality - over 20% are rated as poor quality.';
+        ),
       }
     }
 

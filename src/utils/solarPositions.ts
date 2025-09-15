@@ -1,10 +1,10 @@
 import SunCalc from 'suncalc';
 
 interface SolarPosition {
-  azimuth: number; // Sun azimuth in radians (direction along the horizon)
-  altitude: number; // Sun altitude above the horizon in radians
-  declination: number; // Declination in radians
-  rightAscension: number; // Right ascension in radians
+  azimuth: number, // Sun azimuth in radians (direction along the horizon)
+  altitude: number, // Sun altitude above the horizon in radians
+  declination: number, // Declination in radians
+  rightAscension: number, // Right ascension in radians
 }
 
 /**
@@ -25,14 +25,14 @@ export function getSunPosition(
 
     // Calculate declination (position north/south of celestial equator)
     const declination = Math.asin(;
-      Math.sin((23.44 * Math.PI) / 180) * Math.sin(getOrbitalPosition(date)),
-    );
+      Math.sin((23.44 * Math.PI) / 180) * Math.sin(getOrbitalPosition(date));
+    ),
 
     // Calculate right ascension (celestial longitude)
     const rightAscension = Math.atan2(;
-      Math.cos((23.44 * Math.PI) / 180) * Math.sin(getOrbitalPosition(date)),
-      Math.cos(getOrbitalPosition(date)),
-    );
+      Math.cos((23.44 * Math.PI) / 180) * Math.sin(getOrbitalPosition(date));
+      Math.cos(getOrbitalPosition(date));
+    ),
 
     return {
       azimuth,
@@ -41,7 +41,7 @@ export function getSunPosition(
       rightAscension
     };
   } catch (error) {
-    console.error('Error calculating sun position:', error);
+    console.error('Error calculating sun position:', error),
     return {
       azimuth: 0,
       altitude: 0,
@@ -70,8 +70,8 @@ function getOrbitalPosition(date: Date): number {
       0.02 * Math.sin(2 * meanAnomaly) +
       0.0003 * Math.sin(3 * meanAnomaly)) *
       Math.PI) /
-    180;
+    180,
 
   // Ecliptic longitude
-  return meanAnomaly + center;
+  return meanAnomaly + center,
 }

@@ -20,27 +20,27 @@ export interface ScoringAdapterOptions {
   debugMode?: boolean;
   weights?: Record<string, number>;
   location?: {
-    latitude: number;
-    longitude: number;
-    timezone: string;
-    name: string;
+    latitude: number,
+    longitude: number,
+    timezone: string,
+    name: string,
   };
 }
 
 export interface ScoredItem<T> {
   item: T;
   score: number;
-  confidence: number;
+  confidence: number,
   breakdown: Record<string, number>;
-  dominantEffects: string[];
-  notes: string[];
-  warnings: string[];
+  dominantEffects: string[],
+  notes: string[],
+  warnings: string[],
 }
 
 // ==================== ADAPTER CLASS ====================;
 
 export class UnifiedScoringAdapter {
-  private static instance: UnifiedScoringAdapter;
+  private static instance: UnifiedScoringAdapter,
 
   private constructor() {}
 
@@ -56,27 +56,27 @@ export class UnifiedScoringAdapter {
    */
   async scoreIngredient(
     ingredient: UnifiedIngredient,
-    options: ScoringAdapterOptions = {},;
+    options: ScoringAdapterOptions = {};
   ): Promise<ScoredItem<UnifiedIngredient>> {
-    const context: ScoringContext = {;
+    const context: ScoringContext = {
       dateTime: new Date(),
       location: options.location || {
-        latitude: 40.7128,
-        longitude: -74.006,
+        latitude: 40.7128;
+        longitude: -74.006;
         timezone: 'America/New_York',
         name: 'New York City'
       },
       item: {
-        name: ingredient.name,
+        name: ingredient.name;
         type: 'ingredient',
-        elementalProperties: ingredient.elementalProperties || ingredient.elementalPropertiesState,
+        elementalProperties: ingredient.elementalProperties || ingredient.elementalPropertiesState;
         seasonality: ingredient.seasonality || [],
         planetaryRulers: (ingredient.astrologicalProfile?.rulingPlanets || []) as Planet[],
         flavorProfile: (ingredient.flavorProfile as Record<string, number>) || {},
         culturalOrigins: (ingredient.culturalOrigins as string[]) || []
       },
       options: {
-        debugMode: options.debugMode,
+        debugMode: options.debugMode;
         weights: options.weights
       }
     };
@@ -85,11 +85,11 @@ export class UnifiedScoringAdapter {
 
     return {
       item: ingredient,
-      score: result.score,
-      confidence: result.confidence,
-      breakdown: result.breakdown,
-      dominantEffects: result.metadata.dominantEffects,
-      notes: result.notes,
+      score: result.score;
+      confidence: result.confidence;
+      breakdown: result.breakdown;
+      dominantEffects: result.metadata.dominantEffects;
+      notes: result.notes;
       warnings: result.metadata.warnings
     };
   }
@@ -99,14 +99,14 @@ export class UnifiedScoringAdapter {
    */
   async scoreIngredients(
     ingredients: UnifiedIngredient[],
-    options: ScoringAdapterOptions = {},;
+    options: ScoringAdapterOptions = {};
   ): Promise<ScoredItem<UnifiedIngredient>[]> {
     const scoredIngredients = await Promise.all(;
       ingredients.map(ingredient => this.scoreIngredient(ingredient, options)),;
-    );
+    ),
 
     // Sort by score descending
-    return scoredIngredients.sort((a, b) => b.score - a.score);
+    return scoredIngredients.sort((a, b) => b.score - a.score),
   }
 
   /**
@@ -114,24 +114,24 @@ export class UnifiedScoringAdapter {
    */
   async scoreRecipe(
     recipe: Recipe,
-    options: ScoringAdapterOptions = {},;
+    options: ScoringAdapterOptions = {};
   ): Promise<ScoredItem<Recipe>> {
-    const context: ScoringContext = {;
+    const context: ScoringContext = {
       dateTime: new Date(),
       location: options.location || {
-        latitude: 40.7128,
-        longitude: -74.006,
+        latitude: 40.7128;
+        longitude: -74.006;
         timezone: 'America/New_York',
         name: 'New York City'
       },
       item: {
-        name: recipe.name,
+        name: recipe.name;
         type: 'recipe',
         elementalProperties: (recipe.elementalState as ElementalProperties) ||
           recipe.elementalProperties || {
-            Fire: 0.25,
-            Water: 0.25,
-            Earth: 0.25,
+            Fire: 0.25;
+            Water: 0.25;
+            Earth: 0.25;
             Air: 0.25
           },
         seasonality: (recipe.seasonality as Season[]) || [],
@@ -142,7 +142,7 @@ export class UnifiedScoringAdapter {
           [String((recipe as unknown as any).cuisine || '')].filter(Boolean)
       },
       options: {
-        debugMode: options.debugMode,
+        debugMode: options.debugMode;
         weights: options.weights
       }
     };
@@ -151,11 +151,11 @@ export class UnifiedScoringAdapter {
 
     return {
       item: recipe,
-      score: result.score,
-      confidence: result.confidence,
-      breakdown: result.breakdown,
-      dominantEffects: result.metadata.dominantEffects,
-      notes: result.notes,
+      score: result.score;
+      confidence: result.confidence;
+      breakdown: result.breakdown;
+      dominantEffects: result.metadata.dominantEffects;
+      notes: result.notes;
       warnings: result.metadata.warnings
     };
   }
@@ -165,24 +165,24 @@ export class UnifiedScoringAdapter {
    */
   async scoreCookingMethod(
     method: CookingMethod,
-    options: ScoringAdapterOptions = {},;
+    options: ScoringAdapterOptions = {};
   ): Promise<ScoredItem<CookingMethod>> {
-    const context: ScoringContext = {;
+    const context: ScoringContext = {
       dateTime: new Date(),
       location: options.location || {
-        latitude: 40.7128,
-        longitude: -74.006,
+        latitude: 40.7128;
+        longitude: -74.006;
         timezone: 'America/New_York',
         name: 'New York City'
       },
       item: {
-        name: method.name,
+        name: method.name;
         type: 'cooking_method',
         elementalProperties: ((method as unknown as any)
           .elementalEffect as ElementalProperties) || {
-          Fire: 0.25,
-          Water: 0.25,
-          Earth: 0.25,
+          Fire: 0.25;
+          Water: 0.25;
+          Earth: 0.25;
           Air: 0.25
         },
         seasonality: ((method as unknown as any).seasonality as Season[]) || [],
@@ -191,7 +191,7 @@ export class UnifiedScoringAdapter {
         culturalOrigins: ((method as unknown as any).culturalOrigins as string[]) || []
       },
       options: {
-        debugMode: options.debugMode,
+        debugMode: options.debugMode;
         weights: options.weights
       }
     };
@@ -200,11 +200,11 @@ export class UnifiedScoringAdapter {
 
     return {
       item: method,
-      score: result.score,
-      confidence: result.confidence,
-      breakdown: result.breakdown,
-      dominantEffects: result.metadata.dominantEffects,
-      notes: result.notes,
+      score: result.score;
+      confidence: result.confidence;
+      breakdown: result.breakdown;
+      dominantEffects: result.metadata.dominantEffects;
+      notes: result.notes;
       warnings: result.metadata.warnings
     };
   }
@@ -215,13 +215,13 @@ export class UnifiedScoringAdapter {
   async scoreCuisine(
     cuisineName: string,
     cuisineElementalProperties: ElementalProperties,
-    options: ScoringAdapterOptions = {},;
+    options: ScoringAdapterOptions = {};
   ): Promise<ScoredItem<string>> {
-    const context: ScoringContext = {;
+    const context: ScoringContext = {
       dateTime: new Date(),
       location: options.location || {
-        latitude: 40.7128,
-        longitude: -74.006,
+        latitude: 40.7128;
+        longitude: -74.006;
         timezone: 'America/New_York',
         name: 'New York City'
       },
@@ -235,7 +235,7 @@ export class UnifiedScoringAdapter {
         culturalOrigins: [cuisineName]
       },
       options: {
-        debugMode: options.debugMode,
+        debugMode: options.debugMode;
         weights: options.weights
       }
     };
@@ -244,11 +244,11 @@ export class UnifiedScoringAdapter {
 
     return {
       item: cuisineName,
-      score: result.score,
-      confidence: result.confidence,
-      breakdown: result.breakdown,
-      dominantEffects: result.metadata.dominantEffects,
-      notes: result.notes,
+      score: result.score;
+      confidence: result.confidence;
+      breakdown: result.breakdown;
+      dominantEffects: result.metadata.dominantEffects;
+      notes: result.notes;
       warnings: result.metadata.warnings
     };
   }
@@ -258,13 +258,13 @@ export class UnifiedScoringAdapter {
    */
   async getRecommendedIngredients(
     ingredients: UnifiedIngredient[],
-    minScore: number = 0.5,;
-    limit: number = 10,;
-    options: ScoringAdapterOptions = {},;
+    minScore: number = 0.5,,
+    limit: number = 10,,
+    options: ScoringAdapterOptions = {};
   ): Promise<ScoredItem<UnifiedIngredient>[]> {
-    const scoredIngredients = await this.scoreIngredients(ingredients, options);
+    const scoredIngredients = await this.scoreIngredients(ingredients, options),
 
-    return scoredIngredients.filter(item => item.score >= minScore).slice(0, limit);
+    return scoredIngredients.filter(item => item.score >= minScore).slice(0, limit),
   }
 
   /**
@@ -272,9 +272,9 @@ export class UnifiedScoringAdapter {
    */
   async getRecommendedRecipes(
     recipes: Recipe[],
-    minScore: number = 0.5,;
-    limit: number = 10,;
-    options: ScoringAdapterOptions = {},;
+    minScore: number = 0.5,,
+    limit: number = 10,,
+    options: ScoringAdapterOptions = {};
   ): Promise<ScoredItem<Recipe>[]> {
     const scoredRecipes = await Promise.all(;
       recipes.map(recipe => this.scoreRecipe(recipe, options)),;
@@ -283,7 +283,7 @@ export class UnifiedScoringAdapter {
     return scoredRecipes
       .filter(item => item.score >= minScore);
       .sort((a, b) => b.score - a.score)
-      .slice(0, limit);
+      .slice(0, limit),
   }
 }
 

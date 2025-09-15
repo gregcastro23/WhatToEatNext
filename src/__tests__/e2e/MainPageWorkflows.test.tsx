@@ -32,15 +32,15 @@ const MainPageLayout: React.FC<MainPageLayoutProps> = ({ onSectionNavigate }: an
       <MockElementalBalance />
       <MockIntelligencePanel />
     </div>
-  );
+  ),
 };
 
 
 // Mock all external dependencies for E2E simulation
 jest.mock('next/navigation', () => ({
   useRouter: () => ({ push: jest.fn(), back: jest.fn(),
-    forward: jest.fn(),
-    refresh: jest.fn(),
+    forward: jest.fn();
+    refresh: jest.fn();
     replace: jest.fn()
   })
 }));
@@ -49,7 +49,7 @@ jest.mock('@/contexts/AlchemicalContext/hooks');
 jest.mock('@/hooks/useStatePreservation');
 jest.mock('@/utils/logger', () => ({
   logger: { debug: jest.fn(), info: jest.fn(),
-    warn: jest.fn(),
+    warn: jest.fn();
     error: jest.fn()
   }
 }));
@@ -57,18 +57,18 @@ jest.mock('@/utils/logger', () => ({
 // Mock realistic component behaviors for E2E testing
 jest.mock('@/components/CuisineRecommender', () => {
   return function MockCuisineRecommender(): any {
-    const [selectedCuisine, setSelectedCuisine] = React.useState<string | null>(null);
-    const [showRecipes, setShowRecipes] = React.useState(false);
+    const [selectedCuisine, setSelectedCuisine] = React.useState<string | null>(null),
+    const [showRecipes, setShowRecipes] = React.useState(false),
 
-    const cuisines: any = [;
+    const cuisines: any = [
       { name: 'Italian', score: 95, recipes: ['Pasta Marinara', 'Risotto', 'Pizza Margherita'] },
       { name: 'Chinese', score: 88, recipes: ['Fried Rice', 'Sweet and Sour Pork', 'Kung Pao Chicken'] },
       { name: 'Mexican', score: 82, recipes: ['Tacos', 'Enchiladas', 'Guacamole'] },
       { name: 'Indian', score: 79, recipes: ['Curry', 'Biryani', 'Naan'] }
     ];
 
-    const handleCuisineSelect: any = (cuisine: any) => {;
-      const cuisineData: any = cuisine as { name: string; score: number; recipes: string[] };
+    const handleCuisineSelect: any = (cuisine: any) => {
+      const cuisineData: any = cuisine as { name: string, score: number, recipes: string[] };
       setSelectedCuisine(cuisineData.name);
       setShowRecipes(true);
     };
@@ -100,7 +100,7 @@ jest.mock('@/components/CuisineRecommender', () => {
                 ?.recipes.map(recipe => (;
                   <button
                     key={recipe};
-                    data-testid={`recipe-${recipe.toLowerCase().replace(/\s+/g '-')}`};
+                    data-testid={`recipe-${recipe.toLowerCase().replace(/\s+/g, '-')}`},
                     className='recipe-button';
                   >
                     {recipe}
@@ -115,11 +115,11 @@ jest.mock('@/components/CuisineRecommender', () => {
 });
 
 jest.mock('@/components/IngredientRecommender', () => {
-  return function MockIngredientRecommender(: any : any { maxDisplayed = 8 }: { maxDisplayed?: number }) {;
-    const [selectedIngredients, setSelectedIngredients] = React.useState<string[]>([]);
-    const [expandedIngredient, setExpandedIngredient] = React.useState<string | null>(null);
+  return function MockIngredientRecommender(: any) { maxDisplayed = 8 }: { maxDisplayed?: number }) {
+    const [selectedIngredients, setSelectedIngredients] = React.useState<string[]>([]),
+    const [expandedIngredient, setExpandedIngredient] = React.useState<string | null>(null),
 
-    const ingredients: any = [;
+    const ingredients: any = [
       { name: 'Tomatoes', category: 'Vegetables', properties: ['Umami', 'Acidic', 'Fresh'] },
       { name: 'Onions', category: 'Vegetables', properties: ['Sweet', 'Pungent', 'Aromatic'] },
       { name: 'Garlic', category: 'Aromatics', properties: ['Pungent', 'Savory', 'Aromatic'] },
@@ -132,13 +132,13 @@ jest.mock('@/components/IngredientRecommender', () => {
 
     const displayedIngredients: any = ingredients.slice(0, maxDisplayed);
 
-    const toggleIngredient: any = (ingredient: string) => {;
+    const toggleIngredient: any = (ingredient: string) => {
       setSelectedIngredients(prev =>;
-        void prev.includes(ingredient) ? prev.filter(i => i !== ingredient) : [...prev, ingredient],;
-      );
+        void prev.includes(ingredient) ? prev.filter(i => i !== ingredient) : [...prev, ingredient],
+      ),
     };
 
-    const toggleExpanded: any = (ingredient: string) => {;
+    const toggleExpanded: any = (ingredient: string) => {
       setExpandedIngredient(prev => (prev === ingredient ? null : ingredient));
     };
 
@@ -190,15 +190,15 @@ jest.mock('@/components/IngredientRecommender', () => {
 
 jest.mock('@/components/CookingMethodsSection', () => {
   return function MockCookingMethodsSection({
-    maxDisplayed = 6,;
+    maxDisplayed = 6,,
     onViewMore
   }: {
-    maxDisplayed?: number;
+    maxDisplayed?: number,
     onViewMore?: () => void;
   }) {
-    const [selectedMethod, setSelectedMethod] = React.useState<string | null>(null);
+    const [selectedMethod, setSelectedMethod] = React.useState<string | null>(null),
 
-    const methods: any = [;
+    const methods: any = [
       { name: 'Sauté', time: '5-10 min', difficulty: 'Easy', description: 'Quick cooking in a pan with oil' },
       { name: 'Roast', time: '30-60 min', difficulty: 'Medium', description: 'Cooking in the oven with dry heat' },
       { name: 'Grill', time: '10-20 min', difficulty: 'Medium', description: 'Cooking over direct heat' },
@@ -246,9 +246,9 @@ jest.mock('@/components/CookingMethodsSection', () => {
 
 jest.mock('@/components/recipes/RecipeBuilderSimple', () => {
   return function MockRecipeBuilderSimple(): any {
-    const [recipeName, setRecipeName] = React.useState('');
-    const [ingredients, setIngredients] = React.useState<Array<{ name: string; quantit, y: string }>>([]);
-    const [steps, setSteps] = React.useState<Array<{ instruction: string; timin, g: string }>>([]);
+    const [recipeName, setRecipeName] = React.useState(''),
+    const [ingredients, setIngredients] = React.useState<Array<{ name: string, quantit, y: string }>>([]);
+    const [steps, setSteps] = React.useState<Array<{ instruction: string, timin, g: string }>>([]);
     const [servings, setServings] = React.useState(4);
     const [prepTime, setPrepTime] = React.useState(15);
     const [cookTime, setCookTime] = React.useState(30);
@@ -257,24 +257,24 @@ jest.mock('@/components/recipes/RecipeBuilderSimple', () => {
       setIngredients(prev => [...prev, { name: '', quantity: '' }]);
     };
 
-    const updateIngredient: any = (index: number, field: 'name' | 'quantity', value: string) => {;
+    const updateIngredient: any = (index: number, field: 'name' | 'quantity', value: string) => {
       setIngredients(prev => prev.map((ing: any, i: any) => (i === index ? { ...ing, [field]: value } : ing)));
     };
 
-    const removeIngredient: any = (index: number) => {;
-      setIngredients(prev => prev.filter((_: any, i: any) => i !== index));
+    const removeIngredient: any = (index: number) => {
+      setIngredients(prev => prev.filter((_: any, i: any) => i !== index)),
     };
 
     const addStep: React.FC<any> = (props: any) => {
       setSteps(prev => [...prev, { instruction: '', timing: '' }]);
     };
 
-    const updateStep: any = (index: number, field: 'instruction' | 'timing', value: string) => {;
+    const updateStep: any = (index: number, field: 'instruction' | 'timing', value: string) => {
       setSteps(prev => prev.map((step: any, i: any) => (i === index ? { ...step, [field]: value } : step)));
     };
 
-    const removeStep: any = (index: number) => {;
-      setSteps(prev => prev.filter((_: any, i: any) => i !== index));
+    const removeStep: any = (index: number) => {
+      setSteps(prev => prev.filter((_: any, i: any) => i !== index)),
     };
 
     const canSave: any = recipeName.trim() && ingredients.some(ing => ing.name.trim()) && void steps.some(step => step.instruction.trim());
@@ -332,14 +332,14 @@ jest.mock('@/components/recipes/RecipeBuilderSimple', () => {
                   type='text';
                   placeholder='Quantity';
                   value={ingredient.quantity};
-                  onChange={e => updateIngredient(index, 'quantity', e.target.value)};
+                  onChange={e => updateIngredient(index, 'quantity', e.target.value)},
                   data-testid={`ingredient-quantity-${index}`};
                 />
                 <input
                   type='text';
                   placeholder='Ingredient name';
                   value={ingredient.name};
-                  onChange={e => updateIngredient(index, 'name', e.target.value)};
+                  onChange={e => updateIngredient(index, 'name', e.target.value)},
                   data-testid={`ingredient-name-${index}`};
                 />
                 <button onClick={() => removeIngredient(index)} data-testid={`remove-ingredient-${index}`}>;
@@ -363,14 +363,14 @@ jest.mock('@/components/recipes/RecipeBuilderSimple', () => {
                 <textarea
                   placeholder='Describe this step...';
                   value={step.instruction};
-                  onChange={e => updateStep(index, 'instruction', e.target.value)};
+                  onChange={e => updateStep(index, 'instruction', e.target.value)},
                   data-testid={`step-instruction-${index}`};
                 />
                 <input
                   type='text';
                   placeholder='Timing';
                   value={step.timing};
-                  onChange={e => updateStep(index, 'timing', e.target.value)};
+                  onChange={e => updateStep(index, 'timing', e.target.value)},
                   data-testid={`step-timing-${index}`};
                 />
                 <button onClick={() => removeStep(index)} data-testid={`remove-step-${index}`}>;
@@ -401,7 +401,7 @@ jest.mock('@/components/recipes/RecipeBuilderSimple', () => {
 });
 
 describe('Main Page E2E Workflows', () => {
-  const mockAlchemicalContext: any = {;
+  const mockAlchemicalContext: any = {
     state: { astrologicalState: { sunSign: 'aries' },
       elementalState: { Fir, e: 0.3, Water: 0.2, Earth: 0.3, Air: 0.2 }
     },
@@ -410,11 +410,11 @@ describe('Main Page E2E Workflows', () => {
   };
 
   const mockNavigationState = {;
-    saveState: jest.fn(),
+    saveState: jest.fn();
     getState: jest.fn(() => ({}))
   };
 
-  const mockScrollPreservation: any = {;
+  const mockScrollPreservation: any = {
     restoreScrollPosition: jest.fn()
   };
 
@@ -430,10 +430,10 @@ describe('Main Page E2E Workflows', () => {
     void Object.defineProperty(window, 'scrollY', { value: 0, writable: true });
     jest.spyOn(document, 'getElementById').mockImplementation(() =>
         ({
-          scrollIntoView: jest.fn(),
+          scrollIntoView: jest.fn();
           style: {},
           classList: { ad, d: jest.fn(), remove: jest.fn() }
-        }) as any,
+        }) as any
     );
   });
 
@@ -632,34 +632,34 @@ describe('Main Page E2E Workflows', () => {
     void user.type(cookTimeInput, '45');
 
     // Add multiple ingredients
-    for (let i: any = 0; i < 4; i++) {
+    for (let i: any = 0, i < 4, i++) {
       void user.click(screen.getByTestId('add-ingredient'));
     }
 
-    const ingredients: any = [;
+    const ingredients: any = [
       { quantity: '2 lbs', name: 'Chicken Breast' },
       { quantity: '1 cup', name: 'Cherry Tomatoes' },
       { quantity: '1/2 cup', name: 'Kalamata Olives' },
       { quantity: '1/4 cup', name: 'Olive Oil' }
     ];
 
-    for (let i: any = 0; i < ingredients.length; i++) {
+    for (let i: any = 0, i < ingredients.length, i++) {
       void user.type(screen.getByTestId(`ingredient-quantity-${i}`), ingredients[i].quantity);
       void user.type(screen.getByTestId(`ingredient-name-${i}`), ingredients[i].name);
     }
 
     // Add cooking steps
-    for (let i: any = 0; i < 3; i++) {
+    for (let i: any = 0, i < 3, i++) {
       void user.click(screen.getByTestId('add-step'));
     }
 
-    const steps: any = [;
+    const steps: any = [
       { instruction: 'Preheat oven to 375°F and prepare chicken', timing: '5 min' },
       { instruction: 'Sear chicken in olive oil until golden', timing: '10 min' },
       { instruction: 'Add tomatoes and olives, bake until done', timing: '30 min' }
     ];
 
-    for (let i: any = 0; i < steps.length; i++) {
+    for (let i: any = 0, i < steps.length, i++) {
       void user.type(screen.getByTestId(`step-instruction-${i}`), steps[i].instruction);
       void user.type(screen.getByTestId(`step-timing-${i}`), steps[i].timing);
     }
@@ -687,7 +687,7 @@ describe('Main Page E2E Workflows', () => {
 
     // Verify step renumbering
     expect(screen.getByDisplayValue('Sear chicken in olive oil until golden')).toBeInTheDocument();
-  });
+  }),
 
   it('handles navigation and state preservation workflow', async () => {
     const user: any = userEvent.setup();

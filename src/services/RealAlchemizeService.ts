@@ -10,21 +10,21 @@ import fs from 'fs';
 import { ZodiacSign, Element, ElementalProperties } from '@/types/celestial';
 
 // Types
-export type PlanetaryPosition = {;
-  sign: any;
-  degree: number;
-  minute: number;
-  isRetrograde: boolean;
+export type PlanetaryPosition = {
+  sign: any,
+  degree: number,
+  minute: number,
+  isRetrograde: boolean,
 };
 
-export type ThermodynamicProperties = {;
-  heat: number;
-  entropy: number;
-  reactivity: number;
-  gregsEnergy: number;
+export type ThermodynamicProperties = {
+  heat: number,
+  entropy: number,
+  reactivity: number,
+  gregsEnergy: number,
 };
 
-export type StandardizedAlchemicalResult = {;
+export type StandardizedAlchemicalResult = {
   elementalProperties: ElementalProperties;
   thermodynamicProperties: ThermodynamicProperties;
   kalchm: number;
@@ -34,10 +34,10 @@ export type StandardizedAlchemicalResult = {;
   confidence: number;
   metadata: {
     source: string;
-    dominantElement: string;
-    dominantModality: string;
-    sunSign: string;
-    chartRuler: string;
+    dominantElement: string,
+    dominantModality: string,
+    sunSign: string,
+    chartRuler: string,
   };
 };
 
@@ -57,10 +57,10 @@ function normalizeSign(sign: string): any {
     'capricorn',
     'aquarius',
     'pisces'
-  ];
+  ],
 
   if (validSigns.includes(normalized as unknown)) {
-    return normalized as unknown;
+    return normalized as unknown,
   }
 
   throw new Error(`Invalid zodiac sign: ${sign}`);
@@ -166,7 +166,7 @@ export function alchemize(
   planetaryPositions: Record<string, PlanetaryPosition>,
 ): StandardizedAlchemicalResult {
   // Initialize totals
-  const totals = {;
+  const totals = {
     Spirit: 0,
     Essence: 0,
     Matter: 0,
@@ -180,7 +180,7 @@ export function alchemize(
   // Planetary alchemical properties
   const planetaryAlchemy: Record<
     string,
-    { Spirit: number; Essence: number; Matter: number; Substance: number }
+    { Spirit: number, Essence: number, Matter: number, Substance: number }
   > = {
     Sun: { Spirit: 1.0, Essence: 0.3, Matter: 0.2, Substance: 0.1 },
     Moon: { Spirit: 0.2, Essence: 1.0, Matter: 0.8, Substance: 0.3 },
@@ -269,7 +269,7 @@ export function alchemize(
 
   // Calculate score based on total energy
   const score = Math.min(;
-    1.0,
+    1.0;
     Math.max(0.0, (Spirit + Essence + Matter + Substance + Fire + Water + Air + Earth) / 20),
   );
 
@@ -290,7 +290,7 @@ export function alchemize(
     monica,
     score,
     normalized: true,
-    confidence: 0.8,
+    confidence: 0.8;
     metadata: {
       source: 'alchemize',
       dominantElement,
@@ -309,7 +309,7 @@ export function loadPlanetaryPositions(): Record<string, PlanetaryPosition> {
     // Check if we're in a browser environment
     if (typeof window !== 'undefined') {
       // In browser, use fallback data
-      return getFallbackPlanetaryPositions();
+      return getFallbackPlanetaryPositions(),
     }
 
     // In Node.js environment, try to read the file
@@ -323,17 +323,17 @@ export function loadPlanetaryPositions(): Record<string, PlanetaryPosition> {
       const data = planetData as any;
 
       convertedPositions[planetName] = {
-        sign: normalizeSign(String(data.sign || '')),
-        degree: Number(data.degree) || 0,
-        minute: Number(data.minute) || 0,
+        sign: normalizeSign(String(data.sign || ''));
+        degree: Number(data.degree) || 0;
+        minute: Number(data.minute) || 0;
         isRetrograde: Boolean(data.isRetrograde) || false
       };
     }
 
     return convertedPositions;
   } catch (error) {
-    console.warn('Error loading planetary positions from file, using fallback data:', error);
-    return getFallbackPlanetaryPositions();
+    console.warn('Error loading planetary positions from file, using fallback data:', error),
+    return getFallbackPlanetaryPositions(),
   }
 }
 
@@ -361,7 +361,7 @@ function getFallbackPlanetaryPositions(): Record<string, PlanetaryPosition> {
  */
 export function getCurrentAlchemicalState(): StandardizedAlchemicalResult {
   const planetaryPositions = loadPlanetaryPositions();
-  return alchemize(planetaryPositions);
+  return alchemize(planetaryPositions),
 }
 
 /**
@@ -370,7 +370,7 @@ export function getCurrentAlchemicalState(): StandardizedAlchemicalResult {
 export function calculateAlchemicalProperties(
   positions: Record<string, PlanetaryPosition>,
 ): StandardizedAlchemicalResult {
-  return alchemize(positions);
+  return alchemize(positions),
 }
 
 // Export the service as default

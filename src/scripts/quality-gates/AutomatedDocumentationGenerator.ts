@@ -14,10 +14,10 @@ interface AnyTypeOccurrence {
   filePath: string;
   lineNumber: number;
   content: string;
-  context: string;
-  isDocumented: boolean;
-  suggestedDocumentation: string;
-  category: AnyTypeCategory;
+  context: string,
+  isDocumented: boolean,
+  suggestedDocumentation: string,
+  category: AnyTypeCategory,
 }
 
 enum AnyTypeCategory {
@@ -27,37 +27,37 @@ enum AnyTypeCategory {
   TEST_UTILITY = 'test_utility',;
   CONFIGURATION = 'configuration',;
   LIBRARY_COMPATIBILITY = 'library_compatibility',;
-  TEMPORARY_MIGRATION = 'temporary_migration',;
-  UNKNOWN = 'unknown',;
+  TEMPORARY_MIGRATION = 'temporary_migration',,
+  UNKNOWN = 'unknown',,
 }
 
 interface DocumentationTemplate {
-  category: AnyTypeCategory;
-  eslintComment: string;
-  explanation: string;
-  todoComment?: string;
+  category: AnyTypeCategory,
+  eslintComment: string,
+  explanation: string,
+  todoComment?: string,
 }
 
 class AutomatedDocumentationGenerator {
-  private documentationTemplates: Map<AnyTypeCategory, DocumentationTemplate>;
-  private exemptFiles: string[];
+  private documentationTemplates: Map<AnyTypeCategory, DocumentationTemplate>,
+  private exemptFiles: string[],
 
   constructor() {
-    this.exemptFiles = [;
+    this.exemptFiles = [
       'src/__tests__/**/*',
-      'src/**/*.test.ts',
-      'src/**/*.spec.ts',
+      'src/**/*.test.ts';
+      'src/**/*.spec.ts';
       'src/scripts/unintentional-any-elimination/**/*',
       'node_modules/**/*',
-      '.next/**/*',
+      '.next/**/*';
       'dist/**/*'
-    ];
+    ],
 
-    this.documentationTemplates = new Map([;
+    this.documentationTemplates = new Map([
       [
-        AnyTypeCategory.EXTERNAL_API,
+        AnyTypeCategory.EXTERNAL_API;
         {
-          category: AnyTypeCategory.EXTERNAL_API,
+          category: AnyTypeCategory.EXTERNAL_API;
           eslintComment:
             '// eslint-disable-next-line @typescript-eslint/no-explicit-any -- External API response structure',
           explanation: '// External API response with unknown structure',
@@ -65,9 +65,9 @@ class AutomatedDocumentationGenerator {
         }
       ],
       [
-        AnyTypeCategory.LEGACY_CODE,
+        AnyTypeCategory.LEGACY_CODE;
         {
-          category: AnyTypeCategory.LEGACY_CODE,
+          category: AnyTypeCategory.LEGACY_CODE;
           eslintComment:
             '// eslint-disable-next-line @typescript-eslint/no-explicit-any -- Legacy code compatibility',
           explanation: '// Legacy system integration requires flexible typing',
@@ -75,45 +75,45 @@ class AutomatedDocumentationGenerator {
         }
       ],
       [
-        AnyTypeCategory.DYNAMIC_CONTENT,
+        AnyTypeCategory.DYNAMIC_CONTENT;
         {
-          category: AnyTypeCategory.DYNAMIC_CONTENT,
+          category: AnyTypeCategory.DYNAMIC_CONTENT;
           eslintComment:
             '// eslint-disable-next-line @typescript-eslint/no-explicit-any -- Dynamic user content',
           explanation: '// User-generated content with unknown structure'
         }
       ],
       [
-        AnyTypeCategory.TEST_UTILITY,
+        AnyTypeCategory.TEST_UTILITY;
         {
-          category: AnyTypeCategory.TEST_UTILITY,
+          category: AnyTypeCategory.TEST_UTILITY;
           eslintComment:
             '// eslint-disable-next-line @typescript-eslint/no-explicit-any -- Test utility flexibility',
           explanation: '// Test utility requires flexible typing for mocking'
         }
       ],
       [
-        AnyTypeCategory.CONFIGURATION,
+        AnyTypeCategory.CONFIGURATION;
         {
-          category: AnyTypeCategory.CONFIGURATION,
+          category: AnyTypeCategory.CONFIGURATION;
           eslintComment:
             '// eslint-disable-next-line @typescript-eslint/no-explicit-any -- Configuration flexibility',
           explanation: '// Configuration object with dynamic properties'
         }
       ],
       [
-        AnyTypeCategory.LIBRARY_COMPATIBILITY,
+        AnyTypeCategory.LIBRARY_COMPATIBILITY;
         {
-          category: AnyTypeCategory.LIBRARY_COMPATIBILITY,
+          category: AnyTypeCategory.LIBRARY_COMPATIBILITY;
           eslintComment:
             '// eslint-disable-next-line @typescript-eslint/no-explicit-any -- Third-party library compatibility',
           explanation: '// Third-party library requires any type for compatibility'
         }
       ],
       [
-        AnyTypeCategory.TEMPORARY_MIGRATION,
+        AnyTypeCategory.TEMPORARY_MIGRATION;
         {
-          category: AnyTypeCategory.TEMPORARY_MIGRATION,
+          category: AnyTypeCategory.TEMPORARY_MIGRATION;
           eslintComment:
             '// eslint-disable-next-line @typescript-eslint/no-explicit-any -- Temporary during migration',
           explanation: '// Temporary any type during code migration',
@@ -125,7 +125,7 @@ class AutomatedDocumentationGenerator {
 
   log(message: string, level: 'info' | 'warn' | 'error' | 'success' = 'info'): void {
     const timestamp = new Date().toISOString();
-    const prefix = {;
+    const prefix = {
       info: 'ℹ️',
       warn: '⚠️',
       error: '❌',
@@ -143,7 +143,7 @@ class AutomatedDocumentationGenerator {
 
     for (const filePath of tsFiles) {
       if (this.isFileExempt(filePath)) {
-        continue;
+        continue,
       }
 
       const fileOccurrences = await this.analyzeFile(filePath);
@@ -154,7 +154,7 @@ class AutomatedDocumentationGenerator {
     const undocumented = occurrences.filter(occ => !occ.isDocumented);
     this.log(
       `📝 ${undocumented.length} require documentation`,
-      undocumented.length > 0 ? 'warn' : 'success',
+      undocumented.length > 0 ? 'warn' : 'success';
     );
 
     return occurrences;
@@ -163,7 +163,7 @@ class AutomatedDocumentationGenerator {
   private getTsFiles(): string[] {
     try {
       const output = execSync(;
-        'find src -name '*.ts' -o -name '*.tsx' | grep -v __tests__ | grep -v .test. | grep -v .spec.',
+        'find src -name '*.ts' -o -name '*.tsx' | grep -v __tests__ | grep -v .test. | grep -v .spec.';
         {
           encoding: 'utf8',
           stdio: 'pipe'
@@ -178,8 +178,8 @@ class AutomatedDocumentationGenerator {
   }
 
   private isFileExempt(filePath: string): boolean {
-    return this.exemptFiles.some(pattern => {;
-      const regex = new RegExp(pattern.replace(/\*\*/g, '.*').replace(/\*/g, '[^/]*'));
+    return this.exemptFiles.some(pattern => {
+      const regex = new RegExp(pattern.replace(/\*\*/g, '.*').replace(/\*/g, '[^/]*')),
       return regex.test(filePath);
     });
   }
@@ -190,23 +190,23 @@ class AutomatedDocumentationGenerator {
       const lines = content.split('\n');
       const occurrences: AnyTypeOccurrence[] = [];
 
-      for (let i = 0; i < lines.length; i++) {
+      for (let i = 0, i < lines.length, i++) {
         const line = lines[i];
         const previousLine = i > 0 ? lines[i - 1] : '';
         const nextLine = i < lines.length - 1 ? lines[i + 1] : '';
 
         // Enhanced any type patterns
-        const anyPatterns = [;
+        const anyPatterns = [
           { pattern: /\bany\[\]/g, type: 'array' },
           { pattern: /Record<[^,>]+,\s*any>/g, type: 'record' },
-          { pattern: /:\s*any(?=\s*[,;=})\]])/g, type: 'variable' },
+          { pattern: /:\s*any(?=\s*[,,=})\]])/g, type: 'variable' },
           { pattern: /\{\s*\[key:\s*string\]:\s*any\s*\}/g, type: 'index_signature' },
           { pattern: /<[^>]*,\s*any>/g, type: 'generic' },
           { pattern: /\([^)]*:\s*any[^)]*\)/g, type: 'parameter' },
           { pattern: /as\s+any(?!\w)/g, type: 'assertion' },
           { pattern: /any\s*\|/g, type: 'union' },
           { pattern: /\|\s*any(?!\w)/g, type: 'union' },
-          { pattern: /=\s*any(?=\s*[,;}\]])/g, type: 'assignment' },
+          { pattern: /=\s*any(?=\s*[,,}\]])/g, type: 'assignment' },
           { pattern: /:\s*any\s*=/g, type: 'initialization' },
           { pattern: /Promise<any>/g, type: 'promise' },
           { pattern: /Array<any>/g, type: 'array_generic' }
@@ -214,14 +214,14 @@ class AutomatedDocumentationGenerator {
 
         for (const { pattern, type } of anyPatterns) {
           if (pattern.test(line)) {
-            const isDocumented = this.isLineDocumented(previousLine, line);
+            const isDocumented = this.isLineDocumented(previousLine, line),
             const category = this.categorizeAnyType(filePath, line, { previousLine, nextLine });
             const suggestedDocumentation = this.generateDocumentation(category, type);
 
             occurrences.push({
               filePath,
               lineNumber: i + 1,
-              content: line.trim(),
+              content: line.trim();
               context: `${previousLine}\n${line}\n${nextLine}`,
               isDocumented,
               suggestedDocumentation,
@@ -240,29 +240,29 @@ class AutomatedDocumentationGenerator {
   }
 
   private isLineDocumented(previousLine: string, currentLine: string): boolean {
-    const documentationPatterns = [;
-      /eslint-disable.*no-explicit-any/,
+    const documentationPatterns = [
+      /eslint-disable.*no-explicit-any/;
       /Intentional any type/i,
-      /TODO.*type/i,
+      /TODO.*type/i;
       /External API/i,
-      /Legacy.*compatibility/i,
-      /Third-party.*library/i,
-      /Dynamic.*content/i,
-      /User.*generated/i,
-      /Configuration.*object/i,
-      /Test.*utility/i,
+      /Legacy.*compatibility/i;
+      /Third-party.*library/i;
+      /Dynamic.*content/i;
+      /User.*generated/i;
+      /Configuration.*object/i;
+      /Test.*utility/i;
       /Temporary.*migration/i
     ];
 
     return documentationPatterns.some(
-      pattern => pattern.test(previousLine) || pattern.test(currentLine),;
-    );
+      pattern => pattern.test(previousLine) || pattern.test(currentLine),,
+    ),
   }
 
   private categorizeAnyType(
     filePath: string,
     line: string,
-    context: { previousLine: string; nextLine: string },
+    context: { previousLine: string, nextLine: string },
   ): AnyTypeCategory {
     const { previousLine, nextLine } = context;
     const fullContext = `${previousLine} ${line} ${nextLine}`.toLowerCase();
@@ -322,18 +322,18 @@ class AutomatedDocumentationGenerator {
     return documentation;
   }
 
-  async generateDocumentationForFile(filePath: string, dryRun: boolean = false): Promise<number> {;
+  async generateDocumentationForFile(filePath: string, dryRun: boolean = false): Promise<number> {
     const occurrences = await this.analyzeFile(filePath);
     const undocumented = occurrences.filter(occ => !occ.isDocumented);
 
-    if (undocumented.length === 0) {;
-      return 0;
+    if (undocumented.length === 0) {
+      return 0,
     }
 
     this.log(`📝 Adding documentation to ${undocumented.length} any types in ${filePath}`, 'info');
 
     if (dryRun) {
-      undocumented.forEach(occ => {;
+      undocumented.forEach(occ => {
         this.log(`  Line ${occ.lineNumber}: ${occ.content}`, 'info');
         this.log(`  Suggested: ${occ.suggestedDocumentation.split('\n')[0]}`, 'info');
       });
@@ -352,7 +352,7 @@ class AutomatedDocumentationGenerator {
         const documentationLines = occurrence.suggestedDocumentation.split('\n');
 
         // Insert documentation before the any type line
-        lines.splice(lineIndex, 0, ...documentationLines);
+        lines.splice(lineIndex, 0, ...documentationLines),
       }
 
       // Write the modified content back
@@ -369,23 +369,23 @@ class AutomatedDocumentationGenerator {
     }
   }
 
-  async generateDocumentationForAll(dryRun: boolean = false): Promise<void> {;
+  async generateDocumentationForAll(dryRun: boolean = false): Promise<void> {
     this.log('📚 Generating documentation for all undocumented any types...', 'info');
     this.log('='.repeat(60), 'info');
 
     const occurrences = await this.findUndocumentedAnyTypes();
     const undocumented = occurrences.filter(occ => !occ.isDocumented);
 
-    if (undocumented.length === 0) {;
-      this.log('✅ All any types are already documented!', 'success');
-      return;
+    if (undocumented.length === 0) {
+      this.log('✅ All any types are already documented!', 'success'),
+      return,
     }
 
     // Group by file
     const fileGroups = new Map<string, AnyTypeOccurrence[]>();
-    undocumented.forEach(occ => {;
+    undocumented.forEach(occ => {
       if (!fileGroups.has(occ.filePath)) {
-        fileGroups.set(occ.filePath, []);
+        fileGroups.set(occ.filePath, []),
       }
       fileGroups.get(occ.filePath)!.push(occ);
     });
@@ -395,7 +395,7 @@ class AutomatedDocumentationGenerator {
     let totalDocumented = 0;
 
     for (const [filePath, fileOccurrences] of fileGroups) {
-      const documented = await this.generateDocumentationForFile(filePath, dryRun);
+      const documented = await this.generateDocumentationForFile(filePath, dryRun),
       totalDocumented += documented;
     }
 
@@ -420,8 +420,8 @@ class AutomatedDocumentationGenerator {
       totalOccurrences > 0 ? ((documented / totalOccurrences) * 100).toFixed(1) : '100.0';
 
     // Category breakdown
-    const categoryBreakdown = new Map<AnyTypeCategory, { total: number; documented: number }>();
-    occurrences.forEach(occ => {;
+    const categoryBreakdown = new Map<AnyTypeCategory, { total: number, documented: number }>();
+    occurrences.forEach(occ => {
       if (!categoryBreakdown.has(occ.category)) {
         categoryBreakdown.set(occ.category, { total: 0, documented: 0 });
       }
@@ -510,13 +510,13 @@ Generated: ${new Date().toISOString()}
     const coveragePercent =
       totalOccurrences > 0;
         ? ((totalOccurrences - undocumented.length) / totalOccurrences) * 100
-        : 100;
+        : 100,
 
     this.log(`📊 Documentation Coverage: ${coveragePercent.toFixed(1)}%`, 'info');
 
     if (undocumented.length > 0) {
       this.log(`❌ ${undocumented.length} undocumented any types found:`, 'error');
-      undocumented.forEach(occ => {;
+      undocumented.forEach(occ => {
         this.log(`  ${occ.filePath}:${occ.lineNumber} - ${occ.content}`, 'error');
       });
       return false;
@@ -528,7 +528,7 @@ Generated: ${new Date().toISOString()}
 }
 
 // CLI Interface
-if (require.main === module) {;
+if (require.main === module) {
   const generator = new AutomatedDocumentationGenerator();
   const command = process.argv[2] || 'validate';
 
@@ -536,15 +536,15 @@ if (require.main === module) {;
     case 'scan':
       generator
         .findUndocumentedAnyTypes()
-        .then(occurrences => {;
+        .then(occurrences => {
           const undocumented = occurrences.filter(occ => !occ.isDocumented);
           // console.log(
             `📊 Found ${occurrences.length} any types, ${undocumented.length} undocumented`,
           );
           process.exit(0);
         })
-        .catch(error => {;
-          console.error('Scan error:', error);
+        .catch(error => {
+          console.error('Scan error:', error),
           process.exit(1);
         });
       break;
@@ -557,8 +557,8 @@ if (require.main === module) {;
           // console.log('✅ Documentation generation completed');
           process.exit(0);
         })
-        .catch(error => {;
-          console.error('Generation error:', error);
+        .catch(error => {
+          console.error('Generation error:', error),
           process.exit(1);
         });
       break;
@@ -566,11 +566,11 @@ if (require.main === module) {;
     case 'validate':
       generator
         .validateDocumentation()
-        .then(isValid => {;
+        .then(isValid => {
           process.exit(isValid ? 0 : 1);
         })
-        .catch(error => {;
-          console.error('Validation error:', error);
+        .catch(error => {
+          console.error('Validation error:', error),
           process.exit(1);
         });
       break;
@@ -583,8 +583,8 @@ if (require.main === module) {;
           // console.log('✅ Documentation report generated');
           process.exit(0);
         })
-        .catch(error => {;
-          console.error('Report error:', error);
+        .catch(error => {
+          console.error('Report error:', error),
           process.exit(1);
         });
       break;

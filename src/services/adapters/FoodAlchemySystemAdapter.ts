@@ -30,7 +30,7 @@ import { FoodAlchemySystem } from '../FoodAlchemySystem';
  * Enhanced food alchemy system that uses modern service architecture
  */
 export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
-  private static instance: EnhancedFoodAlchemySystem;
+  private static instance: EnhancedFoodAlchemySystem,
 
   /**
    * Private constructor to enforce singleton pattern
@@ -61,14 +61,14 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
     state: SystemState,
     criteria: {
       cuisine?: string;
-      season?: Season;
-      mealType?: string;
-      currentZodiacSign?: any;
-      lunarPhase?: LunarPhase;
-      dietaryPreferences?: string[];
-      ingredients?: string[];
-    } = {},
-    limit: number = 10,;
+      season?: Season,
+      mealType?: string,
+      currentZodiacSign?: any,
+      lunarPhase?: LunarPhase,
+      dietaryPreferences?: string[],
+      ingredients?: string[],
+    } = {};
+    limit: number = 10;
   ): Promise<ScoredRecipe[]> {
     try {
       logger.info('Getting recommended recipes', { state, criteria });
@@ -77,8 +77,8 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
       const flavorProfile = this.createFlavorProfileFromState(state);
 
       // Prepare criteria for recipe service
-      const recipeCriteria = {;
-        ...criteria,
+      const recipeCriteria = {
+        ...criteria;
         flavorProfile,
         elementalPreference: this.createElementalPreferenceFromState(state)
       };
@@ -87,8 +87,8 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
       const recipes = await consolidatedRecipeService.getBestRecipeMatches(recipeCriteria, limit);
       return recipes as unknown as ScoredRecipe[];
     } catch (error) {
-      logger.error('Error getting recommended recipes', error);
-      return [];
+      logger.error('Error getting recommended recipes', error),
+      return [],
     }
   }
 
@@ -101,11 +101,11 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
    */
   async getRecipesForCurrentPlanetaryAlignment(
     state: SystemState,
-    minMatchScore: number = 0.6,;
+    minMatchScore: number = 0.6;
   ): Promise<Recipe[]> {
     try {
       if (!state.planetaryPositions) {
-        return [];
+        return [],
       }
 
       // Create a planetary influences object from the positions
@@ -139,8 +139,8 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
       );
       return recipes as unknown as Recipe[];
     } catch (error) {
-      logger.error('Error getting recipes for planetary alignment', error);
-      return [];
+      logger.error('Error getting recipes for planetary alignment', error),
+      return [],
     }
   }
 
@@ -158,17 +158,17 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
       currentZodiacSign?: any;
       categories?: string[];
       dietaryPreferences?: {
-        isVegetarian?: boolean;
-        isVegan?: boolean;
-        isGlutenFree?: boolean;
-        isDAiryFree?: boolean;
-      };
-      maxResults?: number;
-    } = {},
+        isVegetarian?: boolean,
+        isVegan?: boolean,
+        isGlutenFree?: boolean,
+        isDAiryFree?: boolean,
+      },
+      maxResults?: number,
+    } = {};
   ): UnifiedIngredient[] {
     // ✅ Pattern MM-1: Safe type conversion with runtime validation
     const stateRecord = this.convertSystemStateToRecord(state);
-    return enhancedIngredientSystem.getRecommendedIngredients(stateRecord as unknown, options);
+    return enhancedIngredientSystem.getRecommendedIngredients(stateRecord as unknown, options),
   }
 
   /**
@@ -178,8 +178,8 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
    * @param maxResults Maximum number of results
    * @returns Array of complementary ingredients
    */
-  findComplementaryIngredients(ingredients: string[], maxResults: number = 5): UnifiedIngredient[] {;
-    return enhancedIngredientSystem.findComplementaryIngredients(ingredients, maxResults);
+  findComplementaryIngredients(ingredients: string[], maxResults: number = 5): UnifiedIngredient[] {
+    return enhancedIngredientSystem.findComplementaryIngredients(ingredients, maxResults),
   }
 
   /**
@@ -192,17 +192,17 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
   getSeasonalIngredients(
     season: Season,
     filter: {
-      categories?: string[];
+      categories?: string[],
       dietary?: {
-        isVegetarian?: boolean;
-        isVegan?: boolean;
-        isGlutenFree?: boolean;
-        isDAiryFree?: boolean;
-      };
-    } = {},
+        isVegetarian?: boolean,
+        isVegan?: boolean,
+        isGlutenFree?: boolean,
+        isDAiryFree?: boolean,
+      },
+    } = {};
   ): Record<string, UnifiedIngredient[]> {
     return enhancedIngredientSystem.getSeasonalIngredients(season, {
-      categories: filter.categories,
+      categories: filter.categories;
       dietary: filter.dietary
     });
   }
@@ -236,9 +236,9 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
    */
   private convertSystemStateToRecord(state: SystemState): Record<string, unknown> {
     return {
-      elements: state.elements,
-      metrics: state.metrics,
-      planetaryPositions: state.planetaryPositions,
+      elements: state.elements;
+      metrics: state.metrics;
+      planetaryPositions: state.planetaryPositions;
       // Add other relevant state properties
       ...(state as unknown)
     };
@@ -255,7 +255,7 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
 
     // Find the element that needs balancing the most
     // (the element that's furthest from 0.25, the ideal balance)
-    const elements = [;
+    const elements = [
       { name: 'Fire', value: Fire, diff: Math.abs(Fire - 0.25) },
       { name: 'Water', value: Water, diff: Math.abs(Water - 0.25) },
       { name: 'Earth', value: Earth, diff: Math.abs(Earth - 0.25) },

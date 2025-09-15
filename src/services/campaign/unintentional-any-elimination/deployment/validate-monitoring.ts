@@ -52,7 +52,7 @@ function validateDirectories(): ValidationResult {
 
   const missingDirs = requiredDirs.filter(dir => !existsSync(dir));
 
-  if (missingDirs.length === 0) {;
+  if (missingDirs.length === 0) {
     return {
       component: 'Directories',
       status: 'pass',
@@ -257,7 +257,7 @@ async function validateHealthChecks(): Promise<ValidationResult[]> {
     const config = JSON.parse(readFileSync(configPath, 'utf8'));
     const healthChecks = config.healthChecks?.endpoints || [];
 
-    if (healthChecks.length === 0) {;
+    if (healthChecks.length === 0) {
       return [
         {
           component: 'Health Checks',
@@ -368,7 +368,7 @@ async function main(): Promise<void> {
 }
 
 // Run validation if called directly
-if (require.main === module) {;
+if (require.main === module) {
   main();
 }
 

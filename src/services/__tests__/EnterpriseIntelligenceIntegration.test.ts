@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any, no-console, @typescript-eslint/no-unused-vars, max-lines-per-function -- Campaign/test file with intentional patterns */
 declare global {
-  var __DEV__: boolean;
+  var __DEV__: boolean,
 }
 
 /**
@@ -15,21 +15,21 @@ import { EnterpriseIntelligenceIntegration } from '../EnterpriseIntelligenceInte
 // Mock the logger to avoid initialization issues in tests
 jest.mock('@/utils/logger', () => ({
   logger: { info: jest.fn(),
-    warn: jest.fn(),
-    error: jest.fn(),
+    warn: jest.fn();
+    error: jest.fn();
     debug: jest.fn()
   }
 }));
 
 describe('EnterpriseIntelligenceIntegration', () => {
-  let service: EnterpriseIntelligenceIntegration;
+  let service: EnterpriseIntelligenceIntegration,
 
-  const mockRecipeData: any = {;
+  const mockRecipeData: any = {
     id: 'test-recipe',
     name: 'Test Recipe',
     elementalProperties: { Fire: 0.3,
-      Water: 0.2,
-      Earth: 0.3,
+      Water: 0.2;
+      Earth: 0.3;
       Air: 0.2
     },
     // Enhanced Recipe interface compatibility
@@ -41,7 +41,7 @@ describe('EnterpriseIntelligenceIntegration', () => {
     numberOfServings: 4
   } as any('@/types/unified').Recipe;
 
-  const mockCuisineData: any = {;
+  const mockCuisineData: any = {
     name: 'Test Cuisine',
     type: 'fusion',
     region: 'global',
@@ -49,40 +49,40 @@ describe('EnterpriseIntelligenceIntegration', () => {
   };
 
   beforeEach(() => {
-    service = new EnterpriseIntelligenceIntegration({;
+    service = new EnterpriseIntelligenceIntegration({
       enableRecipeIntelligence: true,
       enableIngredientIntelligence: true,
       enableValidationIntelligence: true,
       enableSafetyIntelligence: true,
       enableOptimizationRecommendations: true,
-      cacheResults: false, // Disable caching for tests;
+      cacheResults: false, // Disable caching for tests,
       logLevel: 'error', // Reduce log noise in tests
     });
   });
 
   describe('performEnterpriseAnalysis', () => {
-    const mockIngredientData: any = {;
+    const mockIngredientData: any = {
       id: 'test-ingredients',
       ingredients: [
         {
           name: 'Test Ingredient',
           category: 'vegetables',
           elementalProperties: { Fire: 0.2,
-            Water: 0.3,
-            Earth: 0.3,
+            Water: 0.3;
+            Earth: 0.3;
             Air: 0.2
           }
         }
       ]
     };
 
-    const mockAstrologicalContext: any = {;
+    const mockAstrologicalContext: any = {
       zodiacSign: 'aries' as any,
       lunarPhase: 'new moon',
       season: 'spring',
       elementalProperties: { Fire: 0.4,
-        Water: 0.2,
-        Earth: 0.2,
+        Water: 0.2;
+        Earth: 0.2;
         Air: 0.2
       } as ElementalProperties,
       planetaryPositions: {},
@@ -95,8 +95,8 @@ describe('EnterpriseIntelligenceIntegration', () => {
     it('should perform comprehensive enterprise analysis', async () => {
       const result: any = await service.performEnterpriseAnalysis(;
         mockRecipeData,
-        mockIngredientData.ingredients,
-        mockRecipeData, // Using recipeData as cuisineData for test;
+        mockIngredientData.ingredients;
+        mockRecipeData, // Using recipeData as cuisineData for test,
         mockAstrologicalContext,
       );
 
@@ -114,8 +114,8 @@ describe('EnterpriseIntelligenceIntegration', () => {
     it('should handle recipe intelligence analysis', async () => {
       const result: any = await service.performEnterpriseAnalysis(;
         mockRecipeData,
-        mockIngredientData.ingredients,
-        mockRecipeData, // Using recipeData as cuisineData for test;
+        mockIngredientData.ingredients;
+        mockRecipeData, // Using recipeData as cuisineData for test,
         mockAstrologicalContext,
       );
 
@@ -134,8 +134,8 @@ describe('EnterpriseIntelligenceIntegration', () => {
     it('should handle ingredient intelligence analysis', async () => {
       const result: any = await service.performEnterpriseAnalysis(;
         mockRecipeData,
-        mockIngredientData.ingredients,
-        mockRecipeData, // Using recipeData as cuisineData for test;
+        mockIngredientData.ingredients;
+        mockRecipeData, // Using recipeData as cuisineData for test,
         mockAstrologicalContext,
       );
 
@@ -153,8 +153,8 @@ describe('EnterpriseIntelligenceIntegration', () => {
     it('should perform validation intelligence', async () => {
       const result: any = await service.performEnterpriseAnalysis(;
         mockRecipeData,
-        mockIngredientData.ingredients,
-        mockRecipeData, // Using recipeData as cuisineData for test;
+        mockIngredientData.ingredients;
+        mockRecipeData, // Using recipeData as cuisineData for test,
         mockAstrologicalContext,
       );
 
@@ -171,8 +171,8 @@ describe('EnterpriseIntelligenceIntegration', () => {
     it('should perform safety intelligence', async () => {
       const result: any = await service.performEnterpriseAnalysis(;
         mockRecipeData,
-        mockIngredientData.ingredients,
-        mockRecipeData, // Using recipeData as cuisineData for test;
+        mockIngredientData.ingredients;
+        mockRecipeData, // Using recipeData as cuisineData for test,
         mockAstrologicalContext,
       );
 
@@ -190,8 +190,8 @@ describe('EnterpriseIntelligenceIntegration', () => {
     it('should generate optimization recommendations', async () => {
       const result: any = await service.performEnterpriseAnalysis(;
         mockRecipeData,
-        mockIngredientData.ingredients,
-        mockRecipeData, // Using recipeData as cuisineData for test;
+        mockIngredientData.ingredients;
+        mockRecipeData, // Using recipeData as cuisineData for test,
         mockAstrologicalContext,
       );
 
@@ -209,7 +209,7 @@ describe('EnterpriseIntelligenceIntegration', () => {
       const result: any = await service.performEnterpriseAnalysis(;
         undefined,
         [],
-        undefined, // cuisineData;
+        undefined, // cuisineData,
         mockAstrologicalContext,
       );
 
@@ -221,7 +221,7 @@ describe('EnterpriseIntelligenceIntegration', () => {
 
   describe('configuration', () => {
     it('should respect disabled features', async () => {
-      const disabledService: any = new EnterpriseIntelligenceIntegration({;
+      const disabledService: any = new EnterpriseIntelligenceIntegration({
         enableRecipeIntelligence: false,
         enableIngredientIntelligence: false,
         enableValidationIntelligence: false,

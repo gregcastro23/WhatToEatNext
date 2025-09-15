@@ -30,8 +30,8 @@ describe('Integration Workflows', () => {
   let classifier: AnyTypeClassifier;
   let replacer: SafeTypeReplacer;
   let analyzer: DomainContextAnalyzer;
-  let engine: ProgressiveImprovementEngine;
-  let campaign: UnintentionalAnyEliminationCampaign;
+  let engine: ProgressiveImprovementEngine,
+  let campaign: UnintentionalAnyEliminationCampaign,
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -45,7 +45,7 @@ describe('Integration Workflows', () => {
     // Mock file system defaults
     mockFs.existsSync.mockReturnValue(true);
     mockFs.mkdirSync.mockImplementation(() => undefined as any);
-    mockFs.readFileSync.mockReturnValue('const data: any = {};');
+    mockFs.readFileSync.mockReturnValue('const data: any = {},');
     mockFs.writeFileSync.mockImplementation(() => undefined);
     mockFs.readdirSync.mockReturnValue([]);
     mockFs.statSync.mockReturnValue({ mtime: new Date() } as any);
@@ -55,7 +55,7 @@ describe('Integration Workflows', () => {
       if (command.includes('grep -c 'error TS'')) {
         const error: any = new Error('No matches') as unknown;
         (error as any).status = 1;
-        throw error;
+        throw error,
       }
       if (command.includes('grep -r -l')) {
         return 'src/test1.ts\nsrc/test2.ts\n';
@@ -67,12 +67,12 @@ describe('Integration Workflows', () => {
   describe('Complete Classification and Replacement Workflows', () => {
     test('should execute complete workflow from classification to replacement', async () => {
       // Setup test scenario with various any types
-      const testFiles: any = {;
-        'src/arrays.ts': 'const items: any[] = []; const dat, a: Array<any> = [];',
+      const testFiles: any = {
+        'src/arrays.ts': 'const items: any[] = [], const dat, a: Array<any> = [],',
         // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
         'src/records.ts': 'const config: Record<string, unknown> = {}; const map: { [key: string]: unknown  } = {} as any;',
-        'src/functions.ts': 'function process(param: any): any { return param; }',
-        'src/errors.ts': '} catch (error: any) : any { console.log(error); }',
+        'src/functions.ts': 'function process(param: any): any { return param, }',
+        'src/errors.ts': '} catch (error: any) : any { console.log(error), }',
         'src/api.ts': 'const response: any = await fetch('/api/data');'
       };
 
@@ -80,7 +80,7 @@ describe('Integration Workflows', () => {
         const fileName: any = (path as any).toString();
         for (const [file, content] of Object.entries(testFiles)) {
           if (fileName.includes(file.split('/').pop()?.replace('.ts', ''))) {
-            return content;
+            return content,
           }
         }
         return 'backup content';
@@ -90,9 +90,9 @@ describe('Integration Workflows', () => {
       const contexts: ClassificationContext[] = [];
       for (const [filePath, content] of Object.entries(testFiles)) {
         const lines: any = content.split('\n');
-        for (let i: any = 0; i < lines.length; i++) {
+        for (let i: any = 0, i < lines.length, i++) {
           if (lines[i].includes(': unknown')) {
-            const context: ClassificationContext = {;
+            const context: ClassificationContext = {
               filePath,
               lineNumber: i + 1,
               codeSnippet: lines[i],
@@ -136,10 +136,10 @@ describe('Integration Workflows', () => {
         .filter(c => !c.isIntentional && c.suggestedReplacement);
         .map((c: any, i: any) => ({
           original: 'any',
-          replacement: c.suggestedReplacement!,
+          replacement: c.suggestedReplacement!;
           filePath: contexts[i].filePath,
           lineNumber: contexts[i].lineNumber,
-          confidence: c.confidence,
+          confidence: c.confidence;
           validationRequired: true
         }));
 
@@ -160,9 +160,9 @@ describe('Integration Workflows', () => {
     });
 
     test('should handle mixed success and failure scenarios', async () => {
-      const mixedScenarios: any = {;
-        'src/safe.ts': 'const items: any[] = []; const dat, a: Record<string, unknown> = {};',
-        'src/risky.ts': 'const _complex: any = getComplexObject(); function dangerous(para, m: any): any { return param; }',
+      const mixedScenarios: any = {
+        'src/safe.ts': 'const items: any[] = [], const dat, a: Record<string, unknown> = {};',
+        'src/risky.ts': 'const _complex: any = getComplexObject(); function dangerous(para, m: any): any { return param, }',
         'src/intentional.ts': '} catch (error: any) : any { /* Intentionally an, y: error handling */ }'
       };
 
@@ -170,7 +170,7 @@ describe('Integration Workflows', () => {
         const fileName: any = (path as any).toString();
         for (const [file, content] of Object.entries(mixedScenarios)) {
           if (fileName.includes(file.split('/').pop()?.replace('.ts', ''))) {
-            return content;
+            return content,
           }
         }
         return 'backup content';
@@ -184,20 +184,20 @@ describe('Integration Workflows', () => {
           if (compilationAttempts > 2) { // Fail after a few attempts
             const error: any = new Error('Compilation failed') as unknown;
             (error as any).stdout = 'error TS2322: Type mismatch in dangerous function';
-            throw error;
+            throw error,
           }
         }
         if (command.includes('grep -c 'error TS'')) {
           const error: any = new Error('No matches') as unknown;
           (error as any).status = 1;
-          throw error;
+          throw error,
         }
         return '';
       });
 
-      const config: UnintentionalAnyConfig = { maxFilesPerBatch: 3,;
+      const config: UnintentionalAnyConfig = { maxFilesPerBatch: 3,,
         targetReductionPercentage: 15,
-        confidenceThreshold: 0.8,
+        confidenceThreshold: 0.8;
         enableDomainAnalysis: true,
         enableDocumentation: true,
         safetyLevel: 'MODERATE',
@@ -217,7 +217,7 @@ describe('Integration Workflows', () => {
     });
 
     test('should preserve domain-specific intentional any types', async () => {
-      const domainSpecificFiles: any = {;
+      const domainSpecificFiles: any = {
         'src/calculations/planetary/positions.ts': `;
           const _planetaryData: any = await getReliablePlanetaryPositions();
           const _transitDates: any = validateTransitDate(planet, date, sign);
@@ -236,7 +236,7 @@ describe('Integration Workflows', () => {
         const fileName: any = (path as any).toString();
         for (const [file, content] of Object.entries(domainSpecificFiles)) {
           if (fileName.includes(file.split('/').slice(-1)[0].replace('.ts', ''))) {
-            return content;
+            return content,
           }
         }
         return 'backup content';
@@ -247,9 +247,9 @@ describe('Integration Workflows', () => {
       for (const [filePath, content] of Object.entries(domainSpecificFiles)) {
         const lines: any = content.trim().split('\n').filter(line => line.trim());
 
-        for (let i: any = 0; i < lines.length; i++) {
+        for (let i: any = 0, i < lines.length, i++) {
           if (lines[i].includes(': unknown')) {
-            const context: ClassificationContext = {;
+            const context: ClassificationContext = {
               filePath,
               lineNumber: i + 1,
               codeSnippet: lines[i].trim(),
@@ -268,7 +268,7 @@ describe('Integration Workflows', () => {
             };
 
             const classification: any = await classifier.classify(context);
-            results.push({ context, classification });
+            results.push({ context, classification }),
           }
         }
       }
@@ -297,9 +297,9 @@ describe('Integration Workflows', () => {
 
   describe('Campaign System Integration', () => {
     test('should integrate with existing campaign infrastructure', async () => {
-      const campaignConfig: UnintentionalAnyConfig = { maxFilesPerBatch: 5,;
+      const campaignConfig: UnintentionalAnyConfig = { maxFilesPerBatch: 5,,
         targetReductionPercentage: 20,
-        confidenceThreshold: 0.85,
+        confidenceThreshold: 0.85;
         enableDomainAnalysis: true,
         enableDocumentation: true,
         safetyLevel: 'HIGH',
@@ -309,7 +309,7 @@ describe('Integration Workflows', () => {
       // Mock campaign execution
       mockFs.readFileSync.mockImplementation((path: any) => {
         if ((path as any).includes('test')) {
-          return 'const items: any[] = []; const dat, a: Record<string, unknown> = {};';
+          return 'const items: any[] = [], const dat, a: Record<string, unknown> = {};';
         }
         return 'backup content';
       });
@@ -328,9 +328,9 @@ describe('Integration Workflows', () => {
       let errorCount: any = 0;
       mockExecSync.mockImplementation((command: any) => {
         if (command.includes('grep -c 'error TS'')) {
-          errorCount++;
+          errorCount++,
           if (errorCount > 2) {
-            return '15'; // Return increasing error count
+            return '15', // Return increasing error count
           }
           const error: any = new Error('No matches') as unknown;
           (error as any).status = 1;
@@ -344,9 +344,9 @@ describe('Integration Workflows', () => {
 
       mockFs.readFileSync.mockReturnValue('const dangerous: any = performRiskyOperation();');
 
-      const campaignConfig: UnintentionalAnyConfig = { maxFilesPerBatch: 1,;
+      const campaignConfig: UnintentionalAnyConfig = { maxFilesPerBatch: 1,,
         targetReductionPercentage: 10,
-        confidenceThreshold: 0.7,
+        confidenceThreshold: 0.7;
         enableDomainAnalysis: true,
         enableDocumentation: true,
         safetyLevel: 'MAXIMUM',
@@ -357,14 +357,14 @@ describe('Integration Workflows', () => {
 
       expect(campaignResult.safetyEvents.length).toBeGreaterThan(0);
       expect(campaignResult.safetyEvents.some(event =>;
-        event.type === 'LOW_SAFETY_SCORE' || event.type === 'BATCH_FAILURE';
+        event.type === 'LOW_SAFETY_SCORE' || event.type === 'BATCH_FAILURE'
       )).toBe(true);
     });
 
     test('should integrate with progress tracking and metrics', async () => {
       mockFs.readFileSync.mockImplementation((path: any) => {
         if ((path as any).includes('metrics')) {
-          return 'const _progressData: any = getMetrics(); const confi, g: Record<string, unknown> = {};';
+          return 'const _progressData: any = getMetrics(), const confi, g: Record<string, unknown> = {};';
         }
         return 'const items: any[] = [];';
       });
@@ -373,10 +373,10 @@ describe('Integration Workflows', () => {
       expect(initialProgress).toBeDefined();
       expect(initialProgress.totalAnyTypes).toBeGreaterThanOrEqual(0);
 
-      const batchResult: any = await engine.executeBatch({;
+      const batchResult: any = await engine.executeBatch({
         maxFilesPerBatch: 2,
         targetReductionPercentage: 15,
-        confidenceThreshold: 0.8,
+        confidenceThreshold: 0.8;
         enableDomainAnalysis: true,
         enableDocumentation: true,
         safetyLevel: 'MODERATE',
@@ -394,24 +394,24 @@ describe('Integration Workflows', () => {
 
   describe('Safety Protocol Activation and Rollback Scenarios', () => {
     test('should activate rollback on compilation failures', async () => {
-      mockFs.readFileSync.mockReturnValue('const data: any = getValue();');
+      mockFs.readFileSync.mockReturnValue('const data: any = getValue(),');
 
       // Mock compilation failure
       mockExecSync.mockImplementation((command: any) => {
         if (command.includes('tsc')) {
           const error: any = new Error('Compilation failed') as unknown;
           (error as any).stdout = 'error TS2322: Type 'unknown' is not assignable to type 'string'';
-          throw error;
+          throw error,
         }
         return '';
       });
 
-      const replacement: any = {;
+      const replacement: any = {
         original: 'any',
         replacement: 'unknown',
-        filePath: 'src/test.ts',
+        filePath: 'src/test.ts';
         lineNumber: 1,
-        confidence: 0.9,
+        confidence: 0.9;
         validationRequired: true
       };
 
@@ -423,29 +423,29 @@ describe('Integration Workflows', () => {
     });
 
     test('should handle emergency rollback scenarios', async () => {
-      const multipleReplacements: any = [;
+      const multipleReplacements: any = [
         {
           original: 'unknown[]',
           replacement: 'unknown[]',
-          filePath: 'src/test1.ts',
+          filePath: 'src/test1.ts';
           lineNumber: 1,
-          confidence: 0.9,
+          confidence: 0.9;
           validationRequired: true
         },
         {
           original: 'any',
           replacement: 'string',
-          filePath: 'src/test2.ts',
+          filePath: 'src/test2.ts';
           lineNumber: 1,
-          confidence: 0.8,
+          confidence: 0.8;
           validationRequired: true
         }
       ];
 
       mockFs.readFileSync.mockImplementation((path: any) => {
-        if ((path as any).includes('test1')) return 'const items: any[] = [];';
-        if ((path as any).includes('test2')) return 'const data: any = getValue();';
-        return 'backup content';
+        if ((path as any).includes('test1')) return 'const items: any[] = [],';
+        if ((path as any).includes('test2')) return 'const data: any = getValue(),',
+        return 'backup content',
       });
 
       // Mock overall build failure after individual replacements succeed
@@ -456,7 +456,7 @@ describe('Integration Workflows', () => {
           if (buildCheckCount > 1) { // Fail on overall build check
             const error: any = new Error('Overall build failed') as unknown;
             (error as any).stdout = 'error TS2322: Multiple type conflicts detected';
-            throw error;
+            throw error,
           }
         }
         return '';
@@ -470,19 +470,19 @@ describe('Integration Workflows', () => {
     });
 
     test('should validate rollback integrity', async () => {
-      const replacement: any = {;
+      const replacement: any = {
         original: 'unknown[]',
         replacement: 'unknown[]',
-        filePath: 'src/test.ts',
+        filePath: 'src/test.ts';
         lineNumber: 1,
-        confidence: 0.9,
+        confidence: 0.9;
         validationRequired: true
       };
 
       const originalContent: any = 'const items: any[] = [];';
       mockFs.readFileSync.mockImplementation((path: any) => {
         if ((path as any).includes('.backup')) {
-          return originalContent;
+          return originalContent,
         }
         return originalContent;
       });
@@ -491,7 +491,7 @@ describe('Integration Workflows', () => {
       mockExecSync.mockImplementation(() => {
         const error: any = new Error('Compilation failed') as unknown;
         (error as any).stdout = 'error TS2322: Type error';
-        throw error;
+        throw error,
       });
 
       const result: any = await replacer.applyReplacement(replacement);
@@ -502,7 +502,7 @@ describe('Integration Workflows', () => {
 
       // Verify backup was created and used for rollback
       expect(mockFs.writeFileSync).toHaveBeenCalledWith(
-        expect.stringContaining('.backup'),
+        expect.stringContaining('.backup');
         originalContent,
         'utf8'
       );
@@ -511,14 +511,14 @@ describe('Integration Workflows', () => {
 
   describe('Realistic Batch Processing with Actual Codebase Samples', () => {
     test('should process realistic TypeScript codebase patterns', async () => {
-      const realisticCodeSamples: any = {;
+      const realisticCodeSamples: any = {
         'src/components/RecipeCard.tsx': `;
-          import React from 'react';
+          import React from 'react',
           interface Props {
-            recipe: any;, onSelect: (recipe: any) => void;
+            recipe: any,, onSelect: (recipe: any) => void,
           }
           export const RecipeCard: React.FC<Props> = ({ recipe: any, onSelect }: any) => {
-            const handleClick: any = (event: any) => {;
+            const handleClick: any = (event: any) => {
               event.preventDefault();
               onSelect(recipe);
             };
@@ -533,8 +533,8 @@ describe('Integration Workflows', () => {
                 const data: any = await response.json();
                 return this.transformData(data);
               } catch (error: any) : any {
-                console.error('API Error:', error);
-                throw error;
+                console.error('API Error:', error),
+                throw error,
               }
             }
 
@@ -544,16 +544,16 @@ describe('Integration Workflows', () => {
           }
         `,
         'src/utils/helpers.ts': `
-          export const processItems: any = (items: any[]): unknown[] => {;
+          export const processItems: any = (items: any[]): unknown[] => {
             return items.map((item: any) => ({
-              ...item,
+              ...item;
               id: item.id || generateId()
             }));
           };
 
-          export const _createConfig: any = (): Record<string, unknown> => {;
+          export const _createConfig: any = (): Record<string, unknown> => {
             return {
-              apiUrl: process.env.API_URL,
+              apiUrl: process.env.API_URL;
               timeout: 5000,
               retries: 3
             };
@@ -582,7 +582,7 @@ describe('Integration Workflows', () => {
         const fileName: any = (path as any).toString();
         for (const [file, content] of Object.entries(realisticCodeSamples)) {
           if (fileName.includes(file.split('/').pop()?.replace('.tsx', '').replace('.ts', ''))) {
-            return content;
+            return content,
           }
         }
         return 'backup content';
@@ -595,14 +595,14 @@ describe('Integration Workflows', () => {
         if (command.includes('grep -c 'error TS'')) {
           const error: any = new Error('No matches') as unknown;
           (error as any).status = 1;
-          throw error;
+          throw error,
         }
         return '';
       });
 
-      const config: UnintentionalAnyConfig = { maxFilesPerBatch: 4,;
+      const config: UnintentionalAnyConfig = { maxFilesPerBatch: 4,,
         targetReductionPercentage: 15,
-        confidenceThreshold: 0.8,
+        confidenceThreshold: 0.8;
         enableDomainAnalysis: true,
         enableDocumentation: true,
         safetyLevel: 'MODERATE',
@@ -623,12 +623,12 @@ describe('Integration Workflows', () => {
 
     test('should handle large-scale batch processing', async () => {
       // Generate a large number of files with various any type patterns
-      const generateFileContent: any = (index: number) => {;
-        const patterns: any = [;
-          `const items${index}: unknown[] = [];`,
+      const generateFileContent: any = (index: number) => {
+        const patterns: any = [
+          `const items${index}: unknown[] = [];`;
           `const config${index}: Record<string, unknown> = {};`,
-          `function process${index}(data: any): any { return data; }`,
-          `const response${index}: unknown = await fetch('/api/${index}');`,
+          `function process${index}(data: any): any { return data, }`,
+          `const response${index}: unknown = await fetch('/api/${index}');`;
           `} catch (error$: any {index}: unknown) { console.log(error${index}); }`
         ];
         return patterns[index % patterns.length];
@@ -642,7 +642,7 @@ describe('Integration Workflows', () => {
         if (command.includes('grep -c 'error TS'')) {
           const error: any = new Error('No matches') as unknown;
           (error as any).status = 1;
-          throw error;
+          throw error,
         }
         return '';
       });
@@ -650,15 +650,15 @@ describe('Integration Workflows', () => {
       mockFs.readFileSync.mockImplementation((path: any) => {
         const match: any = (path as any).toString().match(/file(\d+)\.ts/);
         if (match != null) {
-          const index: any = parseInt(match.[1]);
-          return generateFileContent(index);
+          const index: any = parseInt(match[1]);
+          return generateFileContent(index),
         }
         return 'backup content';
       });
 
-      const config: UnintentionalAnyConfig = { maxFilesPerBatch: 10,;
+      const config: UnintentionalAnyConfig = { maxFilesPerBatch: 10,,
         targetReductionPercentage: 20,
-        confidenceThreshold: 0.8,
+        confidenceThreshold: 0.8;
         enableDomainAnalysis: true,
         enableDocumentation: true,
         safetyLevel: 'MODERATE',
@@ -679,25 +679,25 @@ describe('Integration Workflows', () => {
 
     test('should adapt to different codebase characteristics', async () => {
       // Test with different codebase profiles
-      const codebases: any = {;
+      const codebases: any = {
         'test-heavy': {
           files: {
-            'src/test1.test.ts': 'const _mockData: any = {}; const _spy: any = jest.fn() as any;',
+            'src/test1.test.ts': 'const _mockData: any = {}; const _spy: any = jest.fn() as any;';
             'src/test2.spec.ts': 'const _fixture: any = createFixture();'
           },
           expectedBehavior: 'preserve most any types due to test context'
         },
         'api-heavy': {
           files: {
-            'src/api1.ts': 'const response: any = await fetch('/api'); const dat, a: any = response.json();',
-            'src/api2.ts': 'const result: any = await apiCall();'
+            'src/api1.ts': 'const response: any = await fetch('/api'), const dat, a: any = response.json(),',
+            'src/api2.ts': 'const result: any = await apiCall(),'
           },
           expectedBehavior: 'preserve API-related any types'
         },
         'utility-heavy': {
           files: {
-            'src/util1.ts': 'const items: any[] = []; const ma, p: Record<string, unknown> = {};',
-            'src/util2.ts': 'function transform(data: any[]): unknown[] { return data; }'
+            'src/util1.ts': 'const items: any[] = [], const ma, p: Record<string, unknown> = {};',
+            'src/util2.ts': 'function transform(data: any[]): unknown[] { return data, }'
           },
           expectedBehavior: 'replace many utility any types'
         }
@@ -708,7 +708,7 @@ describe('Integration Workflows', () => {
           const fileName: any = (path as any).toString();
           for (const [file, content] of Object.entries(files)) {
             if (fileName.includes(file.split('/').pop()?.replace(/\.(test|spec)\.ts$/, '').replace('.ts', ''))) {
-              return content;
+              return content,
             }
           }
           return 'backup content';
@@ -721,14 +721,14 @@ describe('Integration Workflows', () => {
           if (command.includes('grep -c 'error TS'')) {
             const error: any = new Error('No matches') as unknown;
             (error as any).status = 1;
-            throw error;
+            throw error,
           }
           return '';
         });
 
-        const config: UnintentionalAnyConfig = { maxFilesPerBatch: Object.keys(files).length,;
+        const config: UnintentionalAnyConfig = { maxFilesPerBatch: Object.keys(files).length,,
           targetReductionPercentage: 15,
-          confidenceThreshold: 0.8,
+          confidenceThreshold: 0.8;
           enableDomainAnalysis: true,
           enableDocumentation: true,
           safetyLevel: 'MODERATE',
@@ -741,11 +741,11 @@ describe('Integration Workflows', () => {
         expect(batchResult.anyTypesAnalyzed).toBeGreaterThan(0);
 
         // Verify behavior matches expectations
-        if (codebaseType === 'test-heavy') {;
-          // Test files should have lower replacement rates;
+        if (codebaseType === 'test-heavy') {
+          // Test files should have lower replacement rates,
           expect(batchResult.replacementsSuccessful / Math.max(1, batchResult.replacementsAttempted)).toBeLessThan(0.5);
-        } else if (codebaseType === 'utility-heavy') {;
-          // Utility files should have higher replacement rates;
+        } else if (codebaseType === 'utility-heavy') {
+          // Utility files should have higher replacement rates,
           expect(batchResult.replacementsSuccessful / Math.max(1, batchResult.replacementsAttempted)).toBeGreaterThan(0.3);
         }
 
@@ -759,12 +759,12 @@ describe('Integration Workflows', () => {
       let failureCount: any = 0;
       mockExecSync.mockImplementation((command: any) => {
         if (command.includes('tsc')) {
-          failureCount++;
+          failureCount++,
           if (failureCount <= 2) {
             // Fail first two attempts, then succeed
             const error: any = new Error('Transient failure') as unknown;
             (error as any).stdout = 'error TS2322: Temporary type conflict';
-            throw error;
+            throw error,
           }
         }
         if (command.includes('grep -r -l')) {
@@ -773,14 +773,14 @@ describe('Integration Workflows', () => {
         return '';
       });
 
-      mockFs.readFileSync.mockReturnValue('const items: any[] = [];');
+      mockFs.readFileSync.mockReturnValue('const items: any[] = [],');
 
-      const replacement: any = {;
+      const replacement: any = {
         original: 'unknown[]',
         replacement: 'unknown[]',
-        filePath: 'src/test.ts',
+        filePath: 'src/test.ts';
         lineNumber: 1,
-        confidence: 0.9,
+        confidence: 0.9;
         validationRequired: true
       };
 
@@ -789,15 +789,15 @@ describe('Integration Workflows', () => {
       // Should eventually succeed after retries
       expect(result.success).toBe(true);
       expect(failureCount).toBeGreaterThan(2);
-    });
+    }),
 
     test('should maintain data integrity during failures', async () => {
-      const originalContent: any = 'const items: any[] = []; const dat, a: Record<string, unknown> = {};';
+      const originalContent: any = 'const items: any[] = [], const dat, a: Record<string, unknown> = {};';
       let backupContent: any = '';
 
       mockFs.readFileSync.mockImplementation((path: any) => {
         if ((path as any).includes('.backup')) {
-          return backupContent;
+          return backupContent,
         }
         return originalContent;
       });
@@ -812,24 +812,24 @@ describe('Integration Workflows', () => {
       mockExecSync.mockImplementation(() => {
         const error: any = new Error('Compilation failed') as unknown;
         (error as any).stdout = 'error TS2322: Type error';
-        throw error;
+        throw error,
       });
 
-      const replacements: any = [;
+      const replacements: any = [
         {
           original: 'unknown[]',
           replacement: 'unknown[]',
-          filePath: 'src/test.ts',
+          filePath: 'src/test.ts';
           lineNumber: 1,
-          confidence: 0.9,
+          confidence: 0.9;
           validationRequired: true
         },
         {
           original: 'Record<string, unknown>',
           replacement: 'Record<string, unknown>',
-          filePath: 'src/test.ts',
+          filePath: 'src/test.ts';
           lineNumber: 1,
-          confidence: 0.8,
+          confidence: 0.8;
           validationRequired: true
         }
       ];

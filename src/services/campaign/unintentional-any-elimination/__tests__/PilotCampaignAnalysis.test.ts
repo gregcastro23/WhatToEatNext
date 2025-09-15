@@ -18,7 +18,7 @@ describe('PilotCampaignAnalysis', () => {
   let mockConfig: PilotAnalysisConfig;
 
   beforeEach(() => {
-    mockConfig = {;
+    mockConfig = {
       maxFilesToAnalyze: 100,
       sampleSizeForAccuracy: 50,
       confidenceThreshold: 0.7,

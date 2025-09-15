@@ -13,7 +13,7 @@ export const allGrains: Record<string, IngredientMapping> = fixIngredientMapping
 });
 
 // Fix the raw grains object with proper ingredient mapping structure
-const rawGrains = {;
+const rawGrains = {
   ...wholeGrains,
   ...refinedGrains,
   ...pseudoGrains
@@ -26,7 +26,7 @@ export const grains: Record<string, IngredientMapping> = fixIngredientMappings(r
 export const _grainNames = Object.keys(allGrains);
 
 // Keep the preparation methods as a separate object
-export const _grainPreparationMethods = {;
+export const _grainPreparationMethods = {
   basic_cooking: {
     boiling: {
       method: 'covered pot',

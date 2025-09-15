@@ -15,17 +15,17 @@ const logger = createLogger('ServicesManager');
 export enum InitializationStatus {
   NOT_STARTED = 'not_started',;
   IN_PROGRESS = 'in_progress',;
-  COMPLETED = 'completed',;
-  FAILED = 'failed',;
+  COMPLETED = 'completed',,
+  FAILED = 'failed',,
 }
 
 // Define service initialization result
 export interface ServiceInitializationResult {
   success: boolean;
-  serviceName: string;
-  message?: string;
-  error?: Error;
-  timestamp: number;
+  serviceName: string,
+  message?: string,
+  error?: Error,
+  timestamp: number,
 }
 
 /**
@@ -79,7 +79,7 @@ export class ServicesManager {
    * Get detailed initialization results
    */
   get serviceResults(): ServiceInitializationResult[] {
-    return [...this._serviceResults];
+    return [...this._serviceResults],
   }
 
   /**
@@ -88,12 +88,12 @@ export class ServicesManager {
   async initialize(): Promise<void> {
     if (this._isInitialized) {
       logger.info('Services already initialized');
-      return;
+      return,
     }
 
-    if (this._initializationStatus === InitializationStatus.IN_PROGRESS) {;
+    if (this._initializationStatus === InitializationStatus.IN_PROGRESS) {
       logger.warn('Services initialization already in progress');
-      return;
+      return,
     }
 
     try {
@@ -119,7 +119,7 @@ export class ServicesManager {
     } catch (error) {
       this._initializationError = error instanceof Error ? error : new Error(String(error));
       this._initializationStatus = InitializationStatus.FAILED;
-      logger.error('Error initializing services:', this._initializationError);
+      logger.error('Error initializing services:', this._initializationError),
       throw this._initializationError;
     }
   }
@@ -133,7 +133,7 @@ export class ServicesManager {
 
       // The engine is already initialized through its singleton instance
       // Just perform a simple operation to verify it's working
-      const dummyPositions = {;
+      const dummyPositions = {
         Sun: 'aries',
         moon: 'taurus',
         Mercury: 'gemini',
@@ -160,7 +160,7 @@ export class ServicesManager {
       logger.info('AlchemicalEngine initialized successfully');
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : String(error);
-      logger.error('Error initializing AlchemicalEngine:', errorMessage);
+      logger.error('Error initializing AlchemicalEngine:', errorMessage),
 
       this._serviceResults.push({
         success: false,
@@ -198,7 +198,7 @@ export class ServicesManager {
       logger.info('AstrologyService initialized successfully');
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : String(error);
-      logger.error('Error initializing AstrologyService:', errorMessage);
+      logger.error('Error initializing AstrologyService:', errorMessage),
 
       this._serviceResults.push({
         success: false,
@@ -234,7 +234,7 @@ export class ServicesManager {
       logger.info('IngredientService initialized successfully');
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : String(error);
-      logger.error('Error initializing IngredientService:', errorMessage);
+      logger.error('Error initializing IngredientService:', errorMessage),
 
       this._serviceResults.push({
         success: false,
@@ -270,7 +270,7 @@ export class ServicesManager {
       logger.info('RecipeService initialized successfully');
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : String(error);
-      logger.error('Error initializing RecipeService:', errorMessage);
+      logger.error('Error initializing RecipeService:', errorMessage),
 
       this._serviceResults.push({
         success: false,
@@ -313,7 +313,7 @@ export class ServicesManager {
       logger.info('RecommendationService initialized successfully');
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : String(error);
-      logger.error('Error initializing RecommendationService:', errorMessage);
+      logger.error('Error initializing RecommendationService:', errorMessage),
 
       this._serviceResults.push({
         success: false,
@@ -336,7 +336,7 @@ export class ServicesManager {
 
       // Ensure the service is initialized
       // ✅ Pattern MM-1: Type assertion for Record<Planet, ZodiacSign> compatibility
-      const dummyPositions = {;
+      const dummyPositions = {
         Sun: 'aries',
         moon: 'taurus',
         Mercury: 'gemini',
@@ -352,7 +352,7 @@ export class ServicesManager {
       } as any;
 
       // ✅ Pattern MM-1: Provide complete Recipe object with type assertion
-      const testRecipe = {;
+      const testRecipe = {
         id: 'test',
         name: 'Test Recipe',
         ingredients: [],
@@ -377,7 +377,7 @@ export class ServicesManager {
       logger.info('AlchemicalRecommendationService initialized successfully');
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : String(error);
-      logger.error('Error initializing AlchemicalRecommendationService:', errorMessage);
+      logger.error('Error initializing AlchemicalRecommendationService:', errorMessage),
 
       this._serviceResults.push({
         success: false,

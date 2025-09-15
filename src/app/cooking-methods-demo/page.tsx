@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react';
 import { CookingMethodsSection } from '@/app/test/migrated-components/cooking-methods-section/page';
 import {
   dryCookingMethods,
-  molecularCookingMethods,
+  molecularCookingMethods;
   wetCookingMethods
 } from '@/data/cooking/methods';
 import type { CookingMethodData } from '@/types/cookingMethod';
@@ -18,20 +18,20 @@ export default function CookingMethodsDemoPage() {
 
   useEffect(() => {
     // Prepare demo data by formatting methods from different categories
-    const demoMethods = [;
+    const demoMethods = [
       ..._formatMethodsForComponent(dryCookingMethods as any, 'dry'),
       ..._formatMethodsForComponent(wetCookingMethods as any, 'wet'),
       ..._formatMethodsForComponent(molecularCookingMethods as unknown, 'molecular')
     ];
 
     // Sort by score for a more realistic demo
-    demoMethods.sort((a, b) => (b.score || 0) - (a.score || 0));
+    demoMethods.sort((a, b) => (b.score || 0) - (a.score || 0)),
 
     // Limit to 12 methods for the demo
-    setMethods(demoMethods.slice(0, 12) as CookingMethodData[]);
+    setMethods(demoMethods.slice(0, 12) as CookingMethodData[]),
   }, []);
 
-  const _formatMethodsForComponent = (methodsObj: Record<string, unknown>, prefix: string) => {;
+  const _formatMethodsForComponent = (methodsObj: Record<string, unknown>, prefix: string) => {
     return Object.entries(methodsObj).map(([key, method]) => {
       // Format method name
       const name = key;
@@ -45,12 +45,12 @@ export default function CookingMethodsDemoPage() {
       return {
         id: `${prefix}_${key}`,
         name,
-        description: (method as any).description || '',
+        description: (method as any).description || '';
         elementalEffect: (method as any).elementalEffect ||
           (method as any).elementalProperties || {
-            Fire: Math.random(),
-            Water: Math.random(),
-            Earth: Math.random(),
+            Fire: Math.random();
+            Water: Math.random();
+            Earth: Math.random();
             Air: Math.random()
           },
         score,
@@ -65,9 +65,9 @@ export default function CookingMethodsDemoPage() {
                 name: v,
                 description: `A variation of ${name} with different characteristics.`,
                 elementalEffect: {
-                  Fire: Math.random(),
-                  Water: Math.random(),
-                  Earth: Math.random(),
+                  Fire: Math.random();
+                  Water: Math.random();
+                  Earth: Math.random();
                   Air: Math.random()
                 },
                 score: score - 0.1 + Math.random() * 0.2, // Slightly vary from parent score
@@ -78,7 +78,7 @@ export default function CookingMethodsDemoPage() {
     });
   };
 
-  const handleSelectMethod = (method: unknown) => {;
+  const handleSelectMethod = (method: unknown) => {
     setSelectedMethod(method as CookingMethodData);
   };
 
@@ -98,7 +98,7 @@ export default function CookingMethodsDemoPage() {
           <CookingMethodsSection
             methods={methods};
             onSelectMethod={handleSelectMethod};
-            selectedMethodId={;
+            selectedMethodId={
               selectedMethod && typeof selectedMethod === 'object' && 'id' in selectedMethod;
                 ? (selectedMethod as { id: string }).id
                 : null
@@ -107,11 +107,11 @@ export default function CookingMethodsDemoPage() {
           />
         </Box>
       ) : (
-        <Typography align='center'>Loading cooking methods...</Typography>;
+        <Typography align='center'>Loading cooking methods...</Typography>
       )}
 
       {selectedMethod && (
-        <Box sx={{ mt: 4, p: 3, bgcolor: 'background.paper', borderRadius: 2, boxShadow: 2 }}>;
+        <Box sx={{ mt: 4, p: 3, bgcolor: 'background.paper', borderRadius: 2, boxShadow: 2 }}>,
           <Typography variant='h5' gutterBottom>;
             Selected Method:{' '}
             {selectedMethod && typeof selectedMethod === 'object' && 'name' in selectedMethod;
@@ -125,7 +125,7 @@ export default function CookingMethodsDemoPage() {
           </Typography>
           <Box
             component='pre';
-            sx={{;
+            sx={{
               p: 2,
               bgcolor: 'rgba(0,0,0,0.05)',
               borderRadius: 1,

@@ -15,7 +15,7 @@ export class GitOperationsMock {
    * Mock git stash creation
    */
   mockCreateStash(stashId: string, description: string): GitStash {
-    const stash: GitStash = {;
+    const stash: GitStash = {
       id: stashId,
       description,
       timestamp: new Date(),

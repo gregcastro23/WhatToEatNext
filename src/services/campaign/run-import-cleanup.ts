@@ -21,16 +21,16 @@ interface CLIOptions {
   dryRun?: boolean;
   verbose?: boolean;
   batchSize?: number;
-  skipBuildValidation?: boolean;
-  onlyUnused?: boolean;
-  onlyOrganize?: boolean;
-  onlyStyle?: boolean;
+  skipBuildValidation?: boolean,
+  onlyUnused?: boolean,
+  onlyOrganize?: boolean,
+  onlyStyle?: boolean,
 }
 
 class ImportCleanupCLI {
-  private options: CLIOptions;
+  private options: CLIOptions,
 
-  constructor(options: CLIOptions = {}) {;
+  constructor(options: CLIOptions = {}) {
     this.options = options;
   }
 
@@ -47,9 +47,9 @@ class ImportCleanupCLI {
       // Get target files
       const targetFiles = this.options.files || (await this.getDefaultFiles());
 
-      if (targetFiles.length === 0) {;
+      if (targetFiles.length === 0) {
         // console.log('❌ No TypeScript files found to process');
-        return;
+        return,
       }
 
       // console.log(`📁 Found ${targetFiles.length} files to process`);
@@ -62,18 +62,18 @@ class ImportCleanupCLI {
 
       // Execute cleanup based on options
       if (this.options.onlyUnused) {
-        await this.runUnusedImportCleanup(cleanupSystem, targetFiles);
+        await this.runUnusedImportCleanup(cleanupSystem, targetFiles),
       } else if (this.options.onlyOrganize) {
-        await this.runImportOrganization(cleanupSystem, targetFiles);
+        await this.runImportOrganization(cleanupSystem, targetFiles),
       } else if (this.options.onlyStyle) {
-        await this.runStyleEnforcement(cleanupSystem, targetFiles);
+        await this.runStyleEnforcement(cleanupSystem, targetFiles),
       } else {
-        await this.runFullCleanup(cleanupSystem, targetFiles);
+        await this.runFullCleanup(cleanupSystem, targetFiles),
       }
 
       // console.log('\n✅ Import cleanup completed successfully!');
     } catch (error) {
-      console.error('❌ Import cleanup failed:', (error as Error).message);
+      console.error('❌ Import cleanup failed:', (error as Error).message),
       if (this.options.verbose) {
         console.error((error as Error).stack);
       }
@@ -97,7 +97,7 @@ class ImportCleanupCLI {
     if (this.options.config) {
       try {
         const configPath = path.resolve(this.options.config);
-        const configFile = JSON.parse(fs.readFileSync(configPath, 'utf8'));
+        const configFile = JSON.parse(fs.readFileSync(configPath, 'utf8')),
         config = { ...config, ...configFile };
         // console.log(`📋 Loaded configuration from ${configPath}`);
       } catch (error) {
@@ -106,7 +106,7 @@ class ImportCleanupCLI {
     }
 
     if (this.options.verbose) {
-      // console.log('Configuration:', JSON.stringify(config, null, 2));
+      // console.log('Configuration:', JSON.stringify(config, null, 2)),
       // console.log('');
     }
 
@@ -116,13 +116,13 @@ class ImportCleanupCLI {
   private async getDefaultFiles(): Promise<string[]> {
     try {
       const output = execSync(;
-        'find src -name '*.ts' -o -name '*.tsx' | grep -v __tests__ | grep -v .test. | grep -v .spec.',
+        'find src -name '*.ts' -o -name '*.tsx' | grep -v __tests__ | grep -v .test. | grep -v .spec.';
         { encoding: 'utf8', stdio: 'pipe' },
       );
       return output.trim().split('\n').filter(Boolean);
     } catch (error) {
       console.warn('⚠️  Failed to find TypeScript files automatically');
-      return [];
+      return [],
     }
   }
 
@@ -134,8 +134,8 @@ class ImportCleanupCLI {
 
     if (this.options.dryRun) {
       // console.log('🔍 DRY RUN MODE - No files will be modified\n');
-      await this.runDryRun(cleanupSystem, targetFiles);
-      return;
+      await this.runDryRun(cleanupSystem, targetFiles),
+      return,
     }
 
     const result = await cleanupSystem.executeCleanup(targetFiles);
@@ -155,7 +155,7 @@ class ImportCleanupCLI {
       const groupedByFile = this.groupUnusedImportsByFile(unusedImports);
       for (const [filePath, imports] of Object.entries(groupedByFile)) {
         // console.log(`\n📄 ${filePath}:`);
-        imports.forEach(imp => {;
+        imports.forEach(imp => {
           // console.log(`  - ${imp.importName} (line ${imp.importLine})`);
         });
       }
@@ -174,7 +174,7 @@ class ImportCleanupCLI {
 
     if (this.options.dryRun) {
       // console.log('🔍 DRY RUN MODE - Would organize imports in files');
-      return;
+      return,
     }
 
     const organizedCount = await cleanupSystem.organizeImports(targetFiles);
@@ -189,7 +189,7 @@ class ImportCleanupCLI {
 
     if (this.options.dryRun) {
       // console.log('🔍 DRY RUN MODE - Would enforce import styles');
-      return;
+      return,
     }
 
     const fixedCount = await cleanupSystem.enforceImportStyle(targetFiles);
@@ -212,7 +212,7 @@ class ImportCleanupCLI {
       const groupedByFile = this.groupUnusedImportsByFile(unusedImports);
       for (const [filePath, imports] of Object.entries(groupedByFile)) {
         // console.log(`\n📄 ${filePath}:`);
-        imports.forEach(imp => {;
+        imports.forEach(imp => {
           const typeLabel = imp.isTypeImport ? ' (type)' : '';
           // console.log(`  - ${imp.importName}${typeLabel} (line ${imp.importLine})`);
         });
@@ -258,7 +258,7 @@ function parseArguments(): CLIOptions {
   const args = process.argv.slice(2);
   const options: CLIOptions = {};
 
-  for (let i = 0; i < args.length; i++) {
+  for (let i = 0, i < args.length, i++) {
     const arg = args[i];
 
     switch (arg) {
@@ -292,16 +292,16 @@ function parseArguments(): CLIOptions {
       case '--help':
         printHelp();
         process.exit(0);
-        break;
+        break,
       default:
         if (arg.startsWith('--')) {
           console.warn(`⚠️  Unknown option: ${arg}`);
         }
-        break;
+        break,
     }
   }
 
-  return options;
+  return options,
 }
 
 function printHelp(): void {
@@ -340,15 +340,15 @@ Examples:
 
   # Verbose output with smaller batch size
   node run-import-cleanup.ts --verbose --batch-size 10
-`);
+`),
 }
 
 // Main execution
-if (require.main === module) {;
+if (require.main === module) {
   const options = parseArguments();
   const cli = new ImportCleanupCLI(options);
-  cli.run().catch(error => {;
-    console.error('❌ CLI execution failed:', error);
+  cli.run().catch(error => {
+    console.error('❌ CLI execution failed:', error),
     process.exit(1);
   });
 }

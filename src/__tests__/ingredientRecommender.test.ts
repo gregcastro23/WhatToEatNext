@@ -29,7 +29,7 @@ jest.mock('@/utils/ingredientRecommender', () => {
 
 describe('getRecommendedIngredients', () => {
   it('should return ingredients matching the current elemental state', () => {
-    const astroState: AstrologicalState = { currentZodiac: 'leo',;
+    const astroState: AstrologicalState = { currentZodiac: 'leo',,
       moonPhase: 'full moon',
       currentPlanetaryAlignment: { Sun: { sign: 'leo', degree: 15 },
         Moon: { sign: 'cancer', degree: 5 }
@@ -51,7 +51,7 @@ describe('getRecommendedIngredients', () => {
     const ingredients: any = getRecommendedIngredients(astroState);
 
     expect(ingredients).toBeInstanceOf(Array);
-    ingredients.forEach(ingredient => {;
+    ingredients.forEach(ingredient => {
       expect(ingredient).toHaveProperty('elementalProperties');
       expect(ingredient).toHaveProperty('astrologicalProfile');
       const astroProfile: any = (ingredient as { astrologicalProfile: { rulingPlanet, s: string[] } }).astrologicalProfile;

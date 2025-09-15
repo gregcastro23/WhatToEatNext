@@ -23,17 +23,17 @@ interface TarotCard {
   number?: number;
   suit?: string;
   planet?: string;
-  element?: string;
-  description?: string;
-  keywords?: string[];
-  [key: string]: unknown;
+  element?: string,
+  description?: string,
+  keywords?: string[],
+  [key: string]: unknown,
 }
 
 // Adapter function to convert between different lunar phase formats
 export function adaptLunarPhase(
   phase: FoodAssociationsLunarPhase | null | undefined,
 ): LunarPhaseWithSpaces | null {
-  if (!phase) return null;
+  if (!phase) return null,
 
   // Direct mapping without needing REVERSE_LUNAR_PHASE_MAP
   const phaseMap: Record<string, LunarPhaseWithSpaces> = {
@@ -55,9 +55,9 @@ export interface TarotAstrologyData {
   currentPlanetaryAlignment: Record<
     string,
     {
-      sign: string;
-      degree: number;
-      exactLongitude?: number;
+      sign: string,
+      degree: number,
+      exactLongitude?: number,
     }
   >;
   currentZodiac: string | null;
@@ -72,10 +72,10 @@ export interface TarotAstrologyData {
 
   // Alchemical values from tarot
   alchemicalValues: {
-    Spirit: number;
-    Essence: number;
-    Matter: number;
-    Substance: number;
+    Spirit: number,
+    Essence: number,
+    Matter: number,
+    Substance: number,
   };
 
   // Derived data
@@ -85,11 +85,11 @@ export interface TarotAstrologyData {
 }
 
 export interface TarotAstrologyResult extends TarotAstrologyData {
-  isLoading: boolean;
-  error: string | null;
+  isLoading: boolean,
+  error: string | null,
 }
 
-export const _useTarotAstrologyData = (): TarotAstrologyResult => {;
+export const _useTarotAstrologyData = (): TarotAstrologyResult => {
   const {
     currentPlanetaryAlignment: rawPlanetaryAlignment,
     currentZodiac,
@@ -103,28 +103,28 @@ export const _useTarotAstrologyData = (): TarotAstrologyResult => {;
   const currentPlanetaryAlignment = rawPlanetaryAlignment as unknown as Record<;
     string,
     {
-      sign: string;
-      degree: number;
-      exactLongitude?: number;
+      sign: string,
+      degree: number,
+      exactLongitude?: number,
     }
   >;
 
   // Convert the lunarPhase to the alchemy format
-  const lunarPhase = useMemo(() => {;
+  const lunarPhase = useMemo(() => {
     try {
       // Cast the string to FoodAssociationsLunarPhase since it matches the expected format
       return foodAssociationsLunarPhase
         ? adaptLunarPhase(foodAssociationsLunarPhase as unknown as FoodAssociationsLunarPhase)
-        : null;
+        : null,
     } catch (error) {
-      logger.error('Error converting lunar phase', error);
-      return null;
+      logger.error('Error converting lunar phase', error),
+      return null,
     }
   }, [foodAssociationsLunarPhase]);
 
   const [tarotCards, setTarotCards] = useState<{
-    minorCard: TarotCard | null;
-    majorCard: TarotCard | null;
+    minorCard: TarotCard | null,
+    majorCard: TarotCard | null,
   }>({
     minorCard: null,
     majorCard: null
@@ -140,10 +140,10 @@ export const _useTarotAstrologyData = (): TarotAstrologyResult => {;
   const [currentLunarPhase, setCurrentLunarPhase] = useState<LunarPhaseWithSpaces | null>(null);
   const [signEnergyStates, setSignEnergyStates] = useState<SignEnergyState[]>([]);
   const [alchemicalValues, setAlchemicalValues] = useState<{
-    Spirit: number;
-    Essence: number;
-    Matter: number;
-    Substance: number;
+    Spirit: number,
+    Essence: number,
+    Matter: number,
+    Substance: number,
   }>({
     Spirit: 0,
     Essence: 0,
@@ -153,14 +153,14 @@ export const _useTarotAstrologyData = (): TarotAstrologyResult => {;
 
   // Move the function declaration before any usage
   const calculatePlanetaryEnergy = useCallback(;
-    (planet: string): number => {;
+    (planet: string): number => {
       try {
         if (currentPlanetaryAlignment[planet.toLowerCase()]) {
           const position = currentPlanetaryAlignment[planet.toLowerCase()];
 
           // Check if position has a sign property and it's defined
           if (!position || !position.sign) {
-            return 0.5; // Default middle value if position or sign is missing
+            return 0.5, // Default middle value if position or sign is missing
           }
 
           // Get the sign's current energy state
@@ -168,13 +168,13 @@ export const _useTarotAstrologyData = (): TarotAstrologyResult => {;
             state =>;
               state.sign &&
               position.sign &&
-              state.sign.toLowerCase() === position.sign.toLowerCase(),
+              state.sign.toLowerCase() === position.sign.toLowerCase();
           );
 
           if (signState) {
             // Use the sign's current energy as a base
             const degreeModifier = position.degree / 30.0;
-            return Math.min(1.0, Math.max(0.1, signState.currentEnergy * degreeModifier));
+            return Math.min(1.0, Math.max(0.1, signState.currentEnergy * degreeModifier)),
           }
         }
         return 0.5; // Default middle value if position unknown
@@ -194,7 +194,7 @@ export const _useTarotAstrologyData = (): TarotAstrologyResult => {;
       // Get sun position from planetary alignment if available
       const sunPosition = currentPlanetaryAlignment.sun;
         ? {
-            sign: currentPlanetaryAlignment.sun.sign,
+            sign: currentPlanetaryAlignment.sun.sign;
             degree: currentPlanetaryAlignment.sun.degree || 0
           }
         : undefined;
@@ -205,13 +205,13 @@ export const _useTarotAstrologyData = (): TarotAstrologyResult => {;
       // Calculate cards with sun position - don't use cache to ensure fresh calculation
       const cards = getTarotCardsForDate(currentDate, sunPosition);
       setTarotCards({
-        minorCard: cards.minorCard || null,
+        minorCard: cards.minorCard || null;
         majorCard: cards.majorCard
           ? ({
-              name: cards.majorCard.name,
-              planet: cards.majorCard.planet,
-              element: cards.majorCard.element,
-              keywords: cards.majorCard.keywords,
+              name: cards.majorCard.name;
+              planet: cards.majorCard.planet;
+              element: cards.majorCard.element;
+              keywords: cards.majorCard.keywords;
               suit: 'Major Arcana', // Major arcana cards don't have suits, so use a placeholder
               number: 0, // Major arcana cards don't have numbers, so use 0
             } as TarotCard)
@@ -219,19 +219,19 @@ export const _useTarotAstrologyData = (): TarotAstrologyResult => {;
       });
     } catch (err) {
       setTarotError('Failed to load tarot cards');
-      logger.error('Error loading tarot cards:', err);
+      logger.error('Error loading tarot cards:', err),
       // Set fallback values
       setTarotCards({ minorCard: null, majorCard: null });
     }
   }, [currentPlanetaryAlignment]);
 
   // Calculate planetaryCards - mapping of planets to their tarot cards
-  const planetaryCards = useMemo(() => {;
+  const planetaryCards = useMemo(() => {
     const cardMap: Record<string, TarotCard> = {};
 
     try {
       if (activePlanets.length) {
-        activePlanets.forEach(planet => {;
+        activePlanets.forEach(planet => {
           const planetName = planet.charAt(0).toUpperCase() + planet.slice(1);
           // Type guard to check if planetName is a valid key in PLANET_TO_MAJOR_ARCANA
           if (planetName in PLANET_TO_MAJOR_ARCANA) {
@@ -247,7 +247,7 @@ export const _useTarotAstrologyData = (): TarotAstrologyResult => {;
       }
       return cardMap;
     } catch (error) {
-      logger.error('Error calculating planetary cards', error);
+      logger.error('Error calculating planetary cards', error),
       return {};
     }
   }, [activePlanets, currentPlanetaryAlignment, signEnergyStates, calculatePlanetaryEnergy]);
@@ -306,7 +306,7 @@ export const _useTarotAstrologyData = (): TarotAstrologyResult => {;
         }
       }
     } catch (error) {
-      logger.error('Error calculating tarot element boosts', error);
+      logger.error('Error calculating tarot element boosts', error),
     }
   }, [tarotCards]);
 
@@ -326,13 +326,13 @@ export const _useTarotAstrologyData = (): TarotAstrologyResult => {;
         setCurrentLunarPhase('full moon' as LunarPhaseWithSpaces);
       }
     } catch (error) {
-      logger.error('Error determining lunar phase', error);
+      logger.error('Error determining lunar phase', error),
       setCurrentLunarPhase('full moon' as LunarPhaseWithSpaces);
     }
   }, [foodAssociationsLunarPhase]);
 
   // Helper function to get element for major arcana
-  const getMajorArcanaElement = (cardName: string): string | null => {;
+  const getMajorArcanaElement = (cardName: string): string | null => {
     // Map major arcana cards to elements
     const elementMap: Record<string, ElementalCharacter> = {
       'The Emperor': 'Fire',
@@ -361,13 +361,13 @@ export const _useTarotAstrologyData = (): TarotAstrologyResult => {;
     (
       cards: TarotCard[],
     ): {
-      Spirit: number;
-      Essence: number;
-      Matter: number;
-      Substance: number;
+      Spirit: number,
+      Essence: number,
+      Matter: number,
+      Substance: number,
     } => {
       try {
-        const result = {;
+        const result = {
           Spirit: 0,
           Essence: 0,
           Matter: 0,
@@ -382,7 +382,7 @@ export const _useTarotAstrologyData = (): TarotAstrologyResult => {;
           Air: 'Substance'
         };
 
-        cards.forEach(card => {;
+        cards.forEach(card => {
           // Get card element
           let element: ElementalCharacter | string | null = null;
 
@@ -413,18 +413,18 @@ export const _useTarotAstrologyData = (): TarotAstrologyResult => {;
         // Normalize values to be between 0 and 1
         const total = Object.values(result).reduce((sum, val) => sum + val, 0);
         if (total > 0) {
-          Object.keys(result).forEach(key => {;
+          Object.keys(result).forEach(key => {
             result[key as keyof typeof result] /= total;
           });
         }
 
         return result;
       } catch (error) {
-        logger.error('Error calculating tarot energy boosts', error);
+        logger.error('Error calculating tarot energy boosts', error),
         return {
-          Spirit: 0.25,
-          Essence: 0.25,
-          Matter: 0.25,
+          Spirit: 0.25;
+          Essence: 0.25;
+          Matter: 0.25;
           Substance: 0.25
         };
       }
@@ -437,7 +437,7 @@ export const _useTarotAstrologyData = (): TarotAstrologyResult => {;
     try {
       setSignEnergyStates(calculateSignEnergyStates({}, []));
     } catch (error) {
-      logger.error('Error calculating sign energy states', error);
+      logger.error('Error calculating sign energy states', error),
     }
   }, []);
 
@@ -447,8 +447,8 @@ export const _useTarotAstrologyData = (): TarotAstrologyResult => {;
     activePlanets,
     isDaytime,
     lunarPhase,
-    minorCard: tarotCards.minorCard,
-    majorCard: tarotCards.majorCard,
+    minorCard: tarotCards.minorCard;
+    majorCard: tarotCards.majorCard;
     planetaryCards,
     alchemicalValues,
     tarotElementBoosts,

@@ -14,12 +14,12 @@ export default function PlanetTestLayout({ children }: { children: React.ReactNo
     const originalError = console.error;
     const originalLog = console.log;
 
-    console.error = (...args) => {;
+    console.error = (...args) => {
       setErrors(prev => [...prev, args.join(' ')]);
       originalError(...args);
     };
 
-    console.log = (...args) => {;
+    console.log = (...args) => {
       setLogs(prev => [...prev, args.join(' ')]);
       originalLog(...args);
     };

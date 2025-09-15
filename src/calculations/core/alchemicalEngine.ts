@@ -17,7 +17,7 @@ interface NaturalInfluenceParams {
 // --- Core Alchemizer Engine with Kalchm and Monica Constant ---
 
 // Zodiac sign names
-const signs = {;
+const signs = {
   0: 'aries',
   1: 'taurus',
   2: 'gemini',
@@ -149,7 +149,7 @@ const signInfo: Record<string, SignInfo> = {
 };
 
 // --- Types ---
-type AlchemyTotals = {;
+type AlchemyTotals = {
   Spirit: number;
   Essence: number;
   Matter: number;
@@ -160,7 +160,7 @@ type AlchemyTotals = {;
   Earth: number;
 };
 
-type ThermodynamicMetrics = {;
+type ThermodynamicMetrics = {
   heat: number;
   entropy: number;
   reactivity: number;
@@ -172,7 +172,7 @@ type ThermodynamicMetrics = {;
 // --- Core Calculation Function ---
 function alchemize(planetaryPositions: { [planet: string]: string }): ThermodynamicMetrics {
   // 1. Aggregate alchemical and elemental properties
-  const totals: AlchemyTotals = {;
+  const totals: AlchemyTotals = {
     Spirit: 0,
     Essence: 0,
     Matter: 0,
@@ -330,11 +330,11 @@ export class AlchemicalEngine {
     weight2?: number,
   ) {
     // If weights are provided, combine with weights; else, sum
-    if (typeof weight1 === 'number' && typeof weight2 === 'number') {;
+    if (typeof weight1 === 'number' && typeof weight2 === 'number') {
       return {
-        Fire: elementObject1.Fire * weight1 + elementObject2.Fire * weight2,
-        Water: elementObject1.Water * weight1 + elementObject2.Water * weight2,
-        Air: elementObject1.Air * weight1 + elementObject2.Air * weight2,
+        Fire: elementObject1.Fire * weight1 + elementObject2.Fire * weight2;
+        Water: elementObject1.Water * weight1 + elementObject2.Water * weight2;
+        Air: elementObject1.Air * weight1 + elementObject2.Air * weight2;
         Earth: elementObject1.Earth * weight1 + elementObject2.Earth * weight2
       };
     }

@@ -1,7 +1,7 @@
 import type { IngredientMapping } from '@/data/ingredients/types';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
-const rawLegumes = {;
+const rawLegumes = {
   black_beans: {
     name: 'Black Beans',
     description:
@@ -106,7 +106,7 @@ const rawLegumes = {;
       heartHealth: {
         benefit: 'Cardiovascular Support',
         mechanism:
-          'Soluble fiber helps lower cholesterol; potassium supports blood pressure regulation',
+          'Soluble fiber helps lower cholesterol, potassium supports blood pressure regulation',
         evidence:
           'Multiple studies show regular consumption associated with reduced heart disease risk'
       },

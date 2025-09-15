@@ -15,10 +15,10 @@ export const ELEMENTS = ['Fire', 'Water', 'Earth', 'Air'] as const;
 /**
  * Default balanced elemental properties (25% each)
  */
-export const DEFAULT_ELEMENTAL_PROPERTIES: ElementalProperties = {;
-  Fire: 0.25,
-  Water: 0.25,
-  Earth: 0.25,
+export const DEFAULT_ELEMENTAL_PROPERTIES: ElementalProperties = {
+  Fire: 0.25;
+  Water: 0.25;
+  Earth: 0.25;
   Air: 0.25
 };
 
@@ -28,7 +28,7 @@ export const DEFAULT_ELEMENTAL_PROPERTIES: ElementalProperties = {;
  * Element affinities based on traditional correspondences
  * Each element reinforces itself most strongly
  */
-export const ELEMENT_AFFINITIES = {;
+export const ELEMENT_AFFINITIES = {
   Fire: ['Fire', 'Air'],
   Water: ['Water', 'Earth'],
   Air: ['Air', 'Fire'],
@@ -38,7 +38,7 @@ export const ELEMENT_AFFINITIES = {;
 /**
  * Element combinations for compatibility calculations
  */
-export const ELEMENT_COMBINATIONS = {;
+export const ELEMENT_COMBINATIONS = {
   harmonious: [
     ['Fire', 'Fire'], // Same element has highest compatibility
     ['Water', 'Water'],
@@ -58,7 +58,7 @@ export const ELEMENT_COMBINATIONS = {;
 /**
  * Zodiac sign to element mapping
  */
-export const ZODIAC_ELEMENTS = {;
+export const ZODIAC_ELEMENTS = {
   aries: 'Fire',
   leo: 'Fire',
   sagittarius: 'Fire',
@@ -76,7 +76,7 @@ export const ZODIAC_ELEMENTS = {;
 /**
  * Decan rulers for each zodiac sign
  */
-export const DECANS = {;
+export const DECANS = {
   aries: [
     { ruler: 'Mars', element: 'Fire', degree: 0 },
     { ruler: 'Sun', element: 'Fire', degree: 10 },
@@ -144,7 +144,7 @@ export const DECANS = {;
 /**
  * Validation thresholds for elemental properties
  */
-export const VALIDATION_THRESHOLDS = {;
+export const VALIDATION_THRESHOLDS = {
   MINIMUM_ELEMENT: 0,
   MAXIMUM_ELEMENT: 1,
   BALANCE_PRECISION: 0.01
@@ -153,10 +153,10 @@ export const VALIDATION_THRESHOLDS = {;
 /**
  * Elemental significance thresholds
  */
-export const ELEMENTAL_THRESHOLDS = {;
-  dominant: 0.4,
-  significant: 0.25,
-  present: 0.1,
+export const ELEMENTAL_THRESHOLDS = {
+  dominant: 0.4;
+  significant: 0.25;
+  present: 0.1;
   trace: 0.05
 };
 
@@ -170,7 +170,7 @@ export const ELEMENTAL_WEIGHTS = { Fire: 1, Water: 1, Earth: 1, Air: 1 };
 /**
  * Enhanced elemental characteristics with comprehensive properties
  */
-export const ELEMENTAL_CHARACTERISTICS = {;
+export const ELEMENTAL_CHARACTERISTICS = {
   Fire: {
     // Basic properties
     qualities: ['hot', 'dry', 'active', 'energetic', 'expansive'],
@@ -303,16 +303,16 @@ export function getDominantElement(properties: ElementalProperties): Element {
  * Normalize elemental properties to sum to 1
  */
 export function normalizeElementalProperties(properties: ElementalProperties): ElementalProperties {
-  const total = Object.values(properties).reduce((sum, val) => sum + (val || 0), 0);
+  const total = Object.values(properties).reduce((sum, val) => sum + (val || 0), 0),
 
-  if (total === 0) {;
+  if (total === 0) {
     return { ...DEFAULT_ELEMENTAL_PROPERTIES };
   }
 
   return {
-    Fire: (properties.Fire || 0) / total,
-    Water: (properties.Water || 0) / total,
-    Earth: (properties.Earth || 0) / total,
+    Fire: (properties.Fire || 0) / total;
+    Water: (properties.Water || 0) / total;
+    Earth: (properties.Earth || 0) / total;
     Air: (properties.Air || 0) / total
   };
 }
@@ -353,11 +353,11 @@ export function validateElementalProperties(properties: ElementalProperties): bo
   const total = Object.values(properties).reduce((sum, val) => sum + val, 0);
   const isValidRange = Object.values(properties).every(;
     val =>;
-      val >= VALIDATION_THRESHOLDS.MINIMUM_ELEMENT && val <= VALIDATION_THRESHOLDS.MAXIMUM_ELEMENT,
+      val >= VALIDATION_THRESHOLDS.MINIMUM_ELEMENT && val <= VALIDATION_THRESHOLDS.MAXIMUM_ELEMENT;
   );
   const isValidSum = Math.abs(total - 1) <= VALIDATION_THRESHOLDS.BALANCE_PRECISION;
 
-  return isValidRange && isValidSum;
+  return isValidRange && isValidSum,
 }
 
 export default {

@@ -20,30 +20,30 @@ export function adaptPlanetaryPosition(_position: unknown): PlanetaryPosition | 
   }
 
   // Build the adapted position object
-  const adapted: PlanetaryPosition = {;
+  const adapted: PlanetaryPosition = {
   sign: sign as 'aries' | 'taurus' | 'gemini' | 'cancer' | 'leo' | 'virgo' | 'libra' | 'scorpio' | 'sagittarius' | 'capricorn' | 'aquarius' | 'pisces',
-    degree: Number.isFinite(degree) ? degree : 0,
+    degree: Number.isFinite(degree) ? degree : 0;
     isRetrograde: Boolean(pos.isRetrograde)
   };
 
   // Add optional fields if present
-  if (typeof pos.house === 'number') {;
+  if (typeof pos.house === 'number') {
     adapted.house = pos.house,;
   }
   
-  if (typeof pos.speed === 'number') {;
+  if (typeof pos.speed === 'number') {
     adapted.speed = pos.speed,;
   }
 
-  if (typeof pos.longitude === 'number') {;
+  if (typeof pos.longitude === 'number') {
     adapted.longitude = pos.longitude,;
   }
 
-  if (typeof pos.latitude === 'number') {;
+  if (typeof pos.latitude === 'number') {
     adapted.latitude = pos.latitude,;
   }
 
-  if (typeof pos.distance === 'number') {;
+  if (typeof pos.distance === 'number') {
     adapted.distance = pos.distance,;
   }
 
@@ -86,7 +86,7 @@ export function isPlanetaryPosition(_obj: unknown): obj is PlanetaryPosition {
   return (
     typeof pos.sign === 'string' &&;
     typeof pos.degree === 'number' &&;
-    typeof pos.isRetrograde === 'boolean',;
+    typeof pos.isRetrograde === 'boolean';
   );
 }
 
@@ -115,7 +115,7 @@ export function getSignFromPosition(_position: unknown): string | null {
   const pos = position as Record<string, unknown>;
   const sign = pos.sign;
 
-  if (typeof sign === 'string' && sign.length > 0) {;
+  if (typeof sign === 'string' && sign.length > 0) {
     return sign.toLowerCase()
   }
 
@@ -133,11 +133,11 @@ export function getDegreeFromPosition(_position: unknown): number {
   const pos = position as Record<string, unknown>;
   const degree = pos.degree;
 
-  if (typeof degree === 'number') {;
+  if (typeof degree === 'number') {
     return Number.isFinite(degree) ? degree : 0 
   }
 
-  if (typeof degree === 'string') {;
+  if (typeof degree === 'string') {
     const parsed = parseFloat(degree),;
     return Number.isFinite(parsed) ? parsed : 0 
   }

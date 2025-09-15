@@ -35,20 +35,20 @@ export class ConservativeReplacementPilot {
   private classifier: AnyTypeClassifier;
   private replacer: SafeTypeReplacer;
   private progressiveEngine: ProgressiveImprovementEngine;
-  private config: ConservativePilotConfig;
-  private pilotStartTime: Date;
+  private config: ConservativePilotConfig,
+  private pilotStartTime: Date,
   private batchResults: BatchProcessingResult[] = [];
-  private safetyMetrics: SafetyMetrics;
+  private safetyMetrics: SafetyMetrics,
 
   constructor(config: Partial<ConservativePilotConfig> = {}) {
-    this.config = {;
+    this.config = {
       maxFilesPerBatch: 15,
       minFilesPerBatch: 10,
-      targetSuccessRate: 0.8,
+      targetSuccessRate: 0.8;
       maxBatches: 10,
       realTimeValidation: true,
       rollbackOnFailure: true,
-      safetyThreshold: 0.7,
+      safetyThreshold: 0.7;
       focusCategories: [AnyTypeCategory.ARRAY_TYPE, AnyTypeCategory.RECORD_TYPE],
       buildValidationFrequency: 1, // Validate after every batch
       ...config
@@ -56,8 +56,8 @@ export class ConservativeReplacementPilot {
 
     this.classifier = new AnyTypeClassifier();
     this.replacer = new SafeTypeReplacer(;
-      './.conservative-pilot-backups',
-      this.config.safetyThreshold,
+      './.conservative-pilot-backups';
+      this.config.safetyThreshold;
     );
     this.progressiveEngine = new ProgressiveImprovementEngine();
     this.pilotStartTime = new Date();
@@ -79,8 +79,8 @@ export class ConservativeReplacementPilot {
       const highConfidenceCases = await this.identifyHighConfidenceCases();
       // console.log(`📊 Found ${highConfidenceCases.length} high-confidence cases`);
 
-      if (highConfidenceCases.length === 0) {;
-        return this.createPilotResult(false, 'No high-confidence cases found for replacement');
+      if (highConfidenceCases.length === 0) {
+        return this.createPilotResult(false, 'No high-confidence cases found for replacement'),
       }
 
       // Phase 2: Execute batch processing
@@ -91,10 +91,10 @@ export class ConservativeReplacementPilot {
 
       // Phase 4: Generate comprehensive results
       const pilotResult = this.createPilotResult(;
-        batchProcessingResult.success && integrationValidation.success,
+        batchProcessingResult.success && integrationValidation.success;
         batchProcessingResult.success
           ? 'Pilot completed successfully'
-          : batchProcessingResult.error,
+          : batchProcessingResult.error;
       );
 
       // Phase 5: Report results
@@ -103,7 +103,7 @@ export class ConservativeReplacementPilot {
       return pilotResult;
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : String(error);
-      console.error('❌ Conservative Replacement Pilot failed:', errorMessage);
+      console.error('❌ Conservative Replacement Pilot failed:', errorMessage),
 
       return this.createPilotResult(false, `Pilot execution failed: ${errorMessage}`);
     }
@@ -136,7 +136,7 @@ export class ConservativeReplacementPilot {
 
             // Focus on high-confidence, low-risk categories
             if (this.isHighConfidenceCase(classification)) {
-              const replacement = this.createTypeReplacement(occurrence, classification);
+              const replacement = this.createTypeReplacement(occurrence, classification),
               if (replacement) {
                 highConfidenceCases.push(replacement);
               }
@@ -144,7 +144,7 @@ export class ConservativeReplacementPilot {
           }
 
           filesAnalyzed++;
-          if (filesAnalyzed % 10 === 0) {;
+          if (filesAnalyzed % 10 === 0) {
             // console.log(
               `📊 Analyzed ${filesAnalyzed} files, found ${highConfidenceCases.length} high-confidence cases`,
             );
@@ -163,8 +163,8 @@ export class ConservativeReplacementPilot {
       );
       return highConfidenceCases;
     } catch (error) {
-      console.error('❌ Failed to identify high-confidence cases:', error);
-      return [];
+      console.error('❌ Failed to identify high-confidence cases:', error),
+      return [],
     }
   }
 
@@ -185,16 +185,16 @@ export class ConservativeReplacementPilot {
       const fileGroups = Array.from(casesByFile.entries());
 
       while (totalProcessed < cases.length && batchNumber < this.config.maxBatches) {
-        batchNumber++;
-        // console.log(`\n📦 Processing Batch ${batchNumber}...`);
+        batchNumber++,
+        // console.log(`\n📦 Processing Batch ${batchNumber}...`),
 
         // Select files for this batch
-        const batchFiles = this.selectBatchFiles(fileGroups, totalProcessed);
+        const batchFiles = this.selectBatchFiles(fileGroups, totalProcessed),
         const batchCases = batchFiles.flatMap(([_, fileCases]) => fileCases);
 
-        if (batchCases.length === 0) {;
+        if (batchCases.length === 0) {
           // console.log('ℹ️ No more cases to process');
-          break;
+          break,
         }
 
         // console.log(
@@ -213,7 +213,7 @@ export class ConservativeReplacementPilot {
         // Real-time validation and safety checks
         const validationResult = await this.performRealTimeValidation(batchResult);
         if (!validationResult.buildStable) {
-          console.error('❌ Build stability compromised, stopping pilot');
+          console.error('❌ Build stability compromised, stopping pilot'),
           return {
             success: false,
             error: 'Build stability compromised during batch processing',
@@ -255,14 +255,14 @@ export class ConservativeReplacementPilot {
         totalProcessed,
         totalSuccessful,
         totalFailed,
-        batchResults: this.batchResults,
+        batchResults: this.batchResults;
         finalSuccessRate
       };
     } catch (error) {
-      console.error('❌ Batch processing failed:', error);
+      console.error('❌ Batch processing failed:', error),
       return {
         success: false,
-        error: error instanceof Error ? error.message : String(error),
+        error: error instanceof Error ? error.message : String(error);
         totalProcessed,
         totalSuccessful,
         totalFailed,
@@ -293,7 +293,7 @@ export class ConservativeReplacementPilot {
           endTime: new Date(),
           casesProcessed: 0,
           successfulReplacements: 0,
-          failedReplacements: cases.length,
+          failedReplacements: cases.length;
           buildStable: false,
           rollbackPerformed: false,
           error: 'Pre-batch build validation failed'
@@ -317,15 +317,15 @@ export class ConservativeReplacementPilot {
       // Update safety metrics
       this.updateSafetyMetrics(replacementResult, buildStable);
 
-      const batchResult: BatchProcessingResult = {;
+      const batchResult: BatchProcessingResult = {
         batchNumber,
         startTime: batchStartTime,
         endTime: new Date(),
-        casesProcessed: cases.length,
-        successfulReplacements: replacementResult.appliedReplacements.length,
-        failedReplacements: replacementResult.failedReplacements.length,
+        casesProcessed: cases.length;
+        successfulReplacements: replacementResult.appliedReplacements.length;
+        failedReplacements: replacementResult.failedReplacements.length;
         buildStable,
-        rollbackPerformed: replacementResult.rollbackPerformed,
+        rollbackPerformed: replacementResult.rollbackPerformed;
         compilationErrors: replacementResult.compilationErrors
       };
 
@@ -342,9 +342,9 @@ export class ConservativeReplacementPilot {
         batchNumber,
         startTime: batchStartTime,
         endTime: new Date(),
-        casesProcessed: cases.length,
+        casesProcessed: cases.length;
         successfulReplacements: 0,
-        failedReplacements: cases.length,
+        failedReplacements: cases.length;
         buildStable: false,
         rollbackPerformed: false,
         error: error instanceof Error ? error.message : String(error)
@@ -370,12 +370,12 @@ export class ConservativeReplacementPilot {
       // Safety metrics check
       const safetyScore = this.calculateSafetyScore();
 
-      const validationResult: RealTimeValidationResult = {;
-        buildStable: buildValidation.buildSuccessful,
+      const validationResult: RealTimeValidationResult = {
+        buildStable: buildValidation.buildSuccessful;
         typeScriptErrorCount: currentErrorCount,
         safetyScore,
         validationTime: new Date(),
-        batchNumber: batchResult.batchNumber,
+        batchNumber: batchResult.batchNumber;
         warnings: []
       };
 
@@ -387,7 +387,7 @@ export class ConservativeReplacementPilot {
       if (safetyScore < this.config.safetyThreshold) {
         validationResult.warnings.push(
           `Safety score ${safetyScore.toFixed(2)} below threshold ${this.config.safetyThreshold}`,
-        );
+        ),
       }
 
       if (this.safetyMetrics.rollbacksPerformed > 0) {
@@ -402,13 +402,13 @@ export class ConservativeReplacementPilot {
 
       return validationResult;
     } catch (error) {
-      console.error('❌ Real-time validation failed:', error);
+      console.error('❌ Real-time validation failed:', error),
       return {
         buildStable: false,
         typeScriptErrorCount: -1,
         safetyScore: 0,
         validationTime: new Date(),
-        batchNumber: batchResult.batchNumber,
+        batchNumber: batchResult.batchNumber;
         warnings: ['Validation process failed'],
         error: error instanceof Error ? error.message : String(error)
       };
@@ -418,7 +418,7 @@ export class ConservativeReplacementPilot {
   /**
    * Validate integration with existing campaign infrastructure
    */
-  private async validateCampaignIntegration(): Promise<{ success: boolean; error?: string }> {
+  private async validateCampaignIntegration(): Promise<{ success: boolean, error?: string }> {
     // console.log('🔗 Validating campaign infrastructure integration...');
 
     try {
@@ -443,13 +443,13 @@ export class ConservativeReplacementPilot {
         }
       } catch (error) {
         // Progressive engine validation is optional for pilot
-        console.warn('Progressive engine validation skipped:', error);
+        console.warn('Progressive engine validation skipped:', error),
       }
 
       // console.log('✅ Campaign infrastructure integration validated successfully');
       return { success: true };
     } catch (error) {
-      console.error('❌ Campaign integration validation failed:', error);
+      console.error('❌ Campaign integration validation failed:', error),
       return {
         success: false,
         error: error instanceof Error ? error.message : String(error)
@@ -469,14 +469,14 @@ export class ConservativeReplacementPilot {
     }
 
     // Generate detailed report
-    const report = {;
+    const report = {
       pilotId: `conservative-pilot-${Date.now()}`,
-      timestamp: new Date().toISOString(),
-      configuration: this.config,
+      timestamp: new Date().toISOString();
+      configuration: this.config;
       results: result,
-      batchResults: this.batchResults,
-      safetyMetrics: this.safetyMetrics,
-      executionTime: new Date().getTime() - this.pilotStartTime.getTime(),
+      batchResults: this.batchResults;
+      safetyMetrics: this.safetyMetrics;
+      executionTime: new Date().getTime() - this.pilotStartTime.getTime();
       recommendations: this.generateRecommendations(result)
     };
 
@@ -497,7 +497,7 @@ export class ConservativeReplacementPilot {
   private async getTypeScriptFiles(): Promise<string[]> {
     try {
       const output = execSync(;
-        'find src -name '*.ts' -o -name '*.tsx' | grep -v __tests__ | grep -v .test. | head -200',
+        'find src -name '*.ts' -o -name '*.tsx' | grep -v __tests__ | grep -v .test. | head -200';
         {
           encoding: 'utf8',
           stdio: 'pipe'
@@ -508,7 +508,7 @@ export class ConservativeReplacementPilot {
         .split('\n')
         .filter(file => file.trim());
     } catch (error) {
-      console.warn('Failed to get TypeScript files, using fallback method');
+      console.warn('Failed to get TypeScript files, using fallback method'),
       return this.getFallbackTypeScriptFiles();
     }
   }
@@ -519,7 +519,7 @@ export class ConservativeReplacementPilot {
     const srcDir = 'src';
 
     if (fs.existsSync(srcDir)) {
-      const walkDir = (dir: string) => {;
+      const walkDir = (dir: string) => {
         const items = fs.readdirSync(dir);
         for (const item of items) {
           const fullPath = path.join(dir, item);
@@ -547,11 +547,11 @@ export class ConservativeReplacementPilot {
   private findAnyTypeOccurrences(
     content: string,
     filePath: string,
-  ): Array<{ context: any; lineNumber: number }> {
+  ): Array<{ context: any, lineNumber: number }> {
     const lines = content.split('\n');
-    const occurrences: Array<{ context: unknown; lineNumber: number }> = [];
+    const occurrences: Array<{ context: unknown, lineNumber: number }> = [];
 
-    for (let i = 0; i < lines.length; i++) {
+    for (let i = 0, i < lines.length, i++) {
       const line = lines[i];
 
        
@@ -562,14 +562,14 @@ export class ConservativeReplacementPilot {
           context: {
             filePath,
             lineNumber: i + 1,
-            codeSnippet: line.trim(),
+            codeSnippet: line.trim();
             surroundingLines: this.getSurroundingLines(lines, i),
             hasExistingComment: this.hasCommentAbove(lines, i),
-            isInTestFile: filePath.includes('.test.') || filePath.includes('__tests__'),
+            isInTestFile: filePath.includes('.test.') || filePath.includes('__tests__');
             domainContext: { domain: this.inferDomain(filePath) }
           },
           lineNumber: i + 1
-        });
+        }),
       }
 
        
@@ -582,10 +582,10 @@ export class ConservativeReplacementPilot {
           context: {
             filePath,
             lineNumber: i + 1,
-            codeSnippet: line.trim(),
+            codeSnippet: line.trim();
             surroundingLines: this.getSurroundingLines(lines, i),
             hasExistingComment: this.hasCommentAbove(lines, i),
-            isInTestFile: filePath.includes('.test.') || filePath.includes('__tests__'),
+            isInTestFile: filePath.includes('.test.') || filePath.includes('__tests__');
             domainContext: { domain: this.inferDomain(filePath) }
           },
           lineNumber: i + 1
@@ -596,10 +596,10 @@ export class ConservativeReplacementPilot {
     return occurrences;
   }
 
-  private getSurroundingLines(lines: string[], index: number, context = 2): string[] {;
+  private getSurroundingLines(lines: string[], index: number, context = 2): string[] {
     const start = Math.max(0, index - context);
-    const end = Math.min(lines.length, index + context + 1);
-    return lines.slice(start, end);
+    const end = Math.min(lines.length, index + context + 1),
+    return lines.slice(start, end),
   }
 
   private hasCommentAbove(lines: string[], index: number): boolean {
@@ -616,20 +616,20 @@ export class ConservativeReplacementPilot {
       filePath.includes('planet') ||
       filePath.includes('calculation')
     ) {
-      return 'astrological';
+      return 'astrological',
     }
     if (
       filePath.includes('recipe') ||
       filePath.includes('ingredient') ||
       filePath.includes('food')
     ) {
-      return 'recipe';
+      return 'recipe',
     }
     if (filePath.includes('campaign') || filePath.includes('intelligence')) {
-      return 'campaign';
+      return 'campaign',
     }
     if (filePath.includes('service') || filePath.includes('api')) {
-      return 'service';
+      return 'service',
     }
     return 'utility';
   }
@@ -637,25 +637,25 @@ export class ConservativeReplacementPilot {
   private isHighConfidenceCase(classification: AnyTypeClassification): boolean {
     // Focus on specific categories for conservative pilot
     if (!this.config.focusCategories.includes(classification.category)) {
-      return false;
+      return false,
     }
 
     // High confidence threshold
     if (classification.confidence < 0.8) {
-      return false;
+      return false,
     }
 
     // Must be classified as unintentional
     if (classification.isIntentional) {
-      return false;
+      return false,
     }
 
     // Additional safety checks
-    if (classification.category === AnyTypeCategory.ARRAY_TYPE) {;
-      return true; // Array types are very safe
+    if (classification.category === AnyTypeCategory.ARRAY_TYPE) {
+      return true, // Array types are very safe
     }
 
-    if (classification.category === AnyTypeCategory.RECORD_TYPE) {;
+    if (classification.category === AnyTypeCategory.RECORD_TYPE) {
       // Only simple Record types
       return classification.suggestedReplacement?.includes('unknown') || false;
     }
@@ -670,31 +670,31 @@ export class ConservativeReplacementPilot {
     classification: AnyTypeClassification,
   ): TypeReplacement | null {
     if (!classification.suggestedReplacement) {
-      return null;
+      return null,
     }
 
     let original: string;
-    let replacement: string;
+    let replacement: string,
 
-    if (classification.category === AnyTypeCategory.ARRAY_TYPE) {;
+    if (classification.category === AnyTypeCategory.ARRAY_TYPE) {
        
       original = 'unknown[]';
       replacement = 'unknown[]';
-    } else if (classification.category === AnyTypeCategory.RECORD_TYPE) {;
+    } else if (classification.category === AnyTypeCategory.RECORD_TYPE) {
        
        
-      original = 'Record<string, unknown>';
-      replacement = 'Record<string, unknown>';
+      original = 'Record<string, unknown>',
+      replacement = 'Record<string, unknown>',
     } else {
-      return null;
+      return null,
     }
 
     return {
       original,
       replacement,
-      filePath: occurrence.context.filePath,
-      lineNumber: occurrence.lineNumber,
-      confidence: classification.confidence,
+      filePath: occurrence.context.filePath;
+      lineNumber: occurrence.lineNumber;
+      confidence: classification.confidence;
       validationRequired: true
     };
   }
@@ -707,7 +707,7 @@ export class ConservativeReplacementPilot {
       if (existing) {
         existing.push(case_);
       } else {
-        grouped.set(case_.filePath, [case_]);
+        grouped.set(case_.filePath, [case_]),
       }
     }
 
@@ -727,10 +727,10 @@ export class ConservativeReplacementPilot {
     let totalCases = 0;
 
     for (const [filePath, cases] of remainingFiles) {
-      const unprocessedCases = cases.filter(c => !this.isProcessed(c, processedCount));
+      const unprocessedCases = cases.filter(c => !this.isProcessed(c, processedCount)),
 
       if (totalCases + unprocessedCases.length <= this.config.maxFilesPerBatch) {
-        selectedFiles.push([filePath, unprocessedCases]);
+        selectedFiles.push([filePath, unprocessedCases]),
         totalCases += unprocessedCases.length;
       }
 
@@ -738,7 +738,7 @@ export class ConservativeReplacementPilot {
         selectedFiles.length >= this.config.maxFilesPerBatch ||
         totalCases >= this.config.maxFilesPerBatch
       ) {
-        break;
+        break,
       }
     }
 
@@ -747,10 +747,10 @@ export class ConservativeReplacementPilot {
 
   private isProcessed(case_: TypeReplacement, processedCount: number): boolean {
     // Simple tracking - in a real implementation, this would be more sophisticated
-    return false; // For now, assume no cases are pre-processed
+    return false, // For now, assume no cases are pre-processed
   }
 
-  private async validateBuildStability(): Promise<{ buildSuccessful: boolean; errors?: string[] }> {
+  private async validateBuildStability(): Promise<{ buildSuccessful: boolean, errors?: string[] }> {
     try {
       execSync('yarn tsc --noEmit --skipLibCheck', {
         stdio: 'pipe',
@@ -776,7 +776,7 @@ export class ConservativeReplacementPilot {
       );
       return parseInt(output.trim()) || 0;
     } catch (error) {
-      return -1; // Error in getting count
+      return -1, // Error in getting count
     }
   }
 
@@ -809,7 +809,7 @@ export class ConservativeReplacementPilot {
     if (totalBatches === 0) return 1.0;
 
     const successfulBatches = this.batchResults.filter(;
-      b => b.buildStable && !b.rollbackPerformed,;
+      b => b.buildStable && !b.rollbackPerformed;
     ).length;
     const baseScore = successfulBatches / totalBatches;
 
@@ -819,7 +819,7 @@ export class ConservativeReplacementPilot {
       ((this.safetyMetrics as any)?.rollbacksPerformed || 0) * 0.2 +
       ((this.safetyMetrics as any)?.batchFailures || 0) * 0.2;
 
-    return Math.max(0, baseScore - penalties);
+    return Math.max(0, baseScore - penalties),
   }
 
   private createPilotResult(success: boolean, message?: string): ConservativePilotResult {
@@ -827,24 +827,24 @@ export class ConservativeReplacementPilot {
     const totalSuccessful = this.batchResults.reduce(;
       (sum, batch) => sum + batch.successfulReplacements,
       0,
-    );
+    ),
     const successRate = totalProcessed > 0 ? totalSuccessful / totalProcessed : 0;
 
     return {
       success,
       message,
-      pilotStartTime: this.pilotStartTime,
+      pilotStartTime: this.pilotStartTime;
       pilotEndTime: new Date(),
       totalCasesProcessed: totalProcessed,
       totalSuccessfulReplacements: totalSuccessful,
       successRate,
-      batchesExecuted: this.batchResults.length,
-      buildFailures: this.safetyMetrics.buildFailures,
-      rollbacksPerformed: this.safetyMetrics.rollbacksPerformed,
-      safetyScore: this.calculateSafetyScore(),
+      batchesExecuted: this.batchResults.length;
+      buildFailures: this.safetyMetrics.buildFailures;
+      rollbacksPerformed: this.safetyMetrics.rollbacksPerformed;
+      safetyScore: this.calculateSafetyScore();
       targetAchieved:
-        successRate >= this.config.targetSuccessRate && this.safetyMetrics.buildFailures === 0,;
-      batchResults: this.batchResults,
+        successRate >= this.config.targetSuccessRate && this.safetyMetrics.buildFailures === 0,,
+      batchResults: this.batchResults;
       safetyMetrics: this.safetyMetrics
     };
   }
@@ -855,7 +855,7 @@ export class ConservativeReplacementPilot {
     if (result.successRate < this.config.targetSuccessRate) {
       recommendations.push(
         `Success rate ${(result.successRate * 100).toFixed(1)}% below target ${(this.config.targetSuccessRate * 100).toFixed(1)}%. Consider more conservative classification thresholds.`,
-      );
+      ),
     }
 
     if (result.buildFailures > 0) {
@@ -873,20 +873,20 @@ export class ConservativeReplacementPilot {
     if (result.safetyScore < this.config.safetyThreshold) {
       recommendations.push(
         `Safety score ${result.safetyScore.toFixed(2)} below threshold. Implement additional safety measures before full campaign.`,
-      );
+      ),
     }
 
     if (result.targetAchieved) {
       recommendations.push(
-        'Pilot successful! Ready to proceed to full campaign execution (Task 12.3).',
-      );
+        'Pilot successful! Ready to proceed to full campaign execution (Task 12.3).';
+      ),
     } else {
       recommendations.push(
-        'Pilot did not meet all targets. Review results and adjust strategy before full campaign.',
-      );
+        'Pilot did not meet all targets. Review results and adjust strategy before full campaign.';
+      ),
     }
 
-    return recommendations;
+    return recommendations,
   }
 
   private generateMarkdownReport(report: unknown): string {

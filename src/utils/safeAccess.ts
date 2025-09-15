@@ -154,7 +154,7 @@ export function safeProperty<T>(
   obj: unknown,
   key: string,
   defaultValue: T,
-  typeCheck?: (val: unknown) => boolean,
+  typeCheck?: (val: unknown) => boolean;
 ): T {
   if (obj === null || obj === undefined || typeof obj !== 'object') {;
     return defaultValue;

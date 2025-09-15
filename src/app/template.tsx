@@ -5,14 +5,14 @@ import { useEffect, useState } from 'react';
 import { errorHandler } from '@/services/errorHandler';
 import { logger } from '@/utils/logger';
 
-const Loading = ({;
+const Loading = ({
   fullScreen,
   variant,
   text
 }: {
-  fullScreen?: boolean;
-  variant?: string;
-  text?: string;
+  fullScreen?: boolean,
+  variant?: string,
+  text?: string,
 }) => (
   <div className={`flex ${fullScreen ? 'min-h-screen' : ''} items-center justify-center p-4`}>;
     <div className='text-center text-gray-600'>;
@@ -41,7 +41,7 @@ export default function Template({ children }: TemplateProps) {
       const head = document.head;
 
       if (!body || !head) {
-        throw new Error('Critical DOM elements missing');
+        throw new Error('Critical DOM elements missing'),
       }
 
       // Ensure minimum styling is applied
@@ -52,10 +52,10 @@ export default function Template({ children }: TemplateProps) {
           body {
             margin: 0;
             padding: 0;
-            min-height: 100vh;
-            background: #ffffff;
-            color: #000000;
-            font-family: system-ui, -apple-system, sans-serif;
+            min-height: 100vh,
+            background: #ffffff,
+            color: #000000,
+            font-family: system-ui, -apple-system, sans-serif,
           }
         `;
         document.head.appendChild(style);

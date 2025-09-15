@@ -12,13 +12,13 @@ import { starchyVegetables } from './starchy';
 
 // Combine all vegetable categories
 export const vegetables: Record<string, IngredientMapping> = fixIngredientMappings({
-  ...leafyGreens,
-  ...roots,
-  ...cruciferous,
-  ...nightshades,
-  ...alliums,
-  ...squash,
-  ...starchyVegetables,
+  ...leafyGreens;
+  ...roots;
+  ...cruciferous;
+  ...nightshades;
+  ...alliums;
+  ...squash;
+  ...starchyVegetables;
   ...legumes
 });
 
@@ -45,17 +45,17 @@ export const _getVegetablesBySubCategory = (;
   subCategory: string,
 ): Record<string, IngredientMapping> => {
   return Object.entries(vegetables)
-    .filter(([_, value]) => value.subCategory === subCategory);
+    .filter(([_, value]) => value.subCategory === subCategory),
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 };
 
-export const _getSeasonalVegetables = (season: string): Record<string, IngredientMapping> => {;
+export const _getSeasonalVegetables = (season: string): Record<string, IngredientMapping> => {
   return Object.entries(vegetables)
     .filter(([_, value]) => Array.isArray(value.season) && value.season.includes(season))
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 };
 
-export const _getVegetablesByCookingMethod = (method: string): Record<string, IngredientMapping> => {;
+export const _getVegetablesByCookingMethod = (method: string): Record<string, IngredientMapping> => {
   return Object.entries(vegetables)
     .filter(
       ([_, value]) => Array.isArray(value.cookingMethods) && value.cookingMethods.includes(method),

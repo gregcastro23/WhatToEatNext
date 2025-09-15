@@ -14,14 +14,14 @@ import path from 'path';
 import { log } from '@/services/LoggingService';
 
 interface FixResult {
-  filesProcessed: number;
-  variablesFixed: number;
-  errors: string[];
-  warnings: string[];
+  filesProcessed: number,
+  variablesFixed: number,
+  errors: string[],
+  warnings: string[],
 }
 
 export class UnusedVariableTargetedFixer {
-  private preservePatterns = [;
+  private preservePatterns = [
     // Astrological calculation files
     /src\/calculations\//,
     /src\/data\/planets\//,
@@ -38,7 +38,7 @@ export class UnusedVariableTargetedFixer {
     /PredictiveIntelligenceService/,
     /campaign/i,
     /intelligence/i
-  ];
+  ],
 
   /**
    * Fix unused function parameters by prefixing with underscore
@@ -46,7 +46,7 @@ export class UnusedVariableTargetedFixer {
   public async fixUnusedFunctionParameters(): Promise<FixResult> {
     log.info('🔧 Fixing unused function parameters...\n');
 
-    const result: FixResult = {;
+    const result: FixResult = {
       filesProcessed: 0,
       variablesFixed: 0,
       errors: [],
@@ -55,7 +55,7 @@ export class UnusedVariableTargetedFixer {
 
     try {
       // Get files with unused function parameters
-      const lintOutput = execSync('yarn lint --format=compact 2>&1', {;
+      const lintOutput = execSync('yarn lint --format=compact 2>&1', {
         encoding: 'utf8',
         maxBuffer: 10 * 1024 * 1024
       });
@@ -94,7 +94,7 @@ export class UnusedVariableTargetedFixer {
   public async fixUnusedDestructuredVariables(): Promise<FixResult> {
     log.info('🔧 Fixing unused destructured variables...\n');
 
-    const result: FixResult = {;
+    const result: FixResult = {
       filesProcessed: 0,
       variablesFixed: 0,
       errors: [],
@@ -102,7 +102,7 @@ export class UnusedVariableTargetedFixer {
     };
 
     try {
-      const lintOutput = execSync('yarn lint --format=compact 2>&1', {;
+      const lintOutput = execSync('yarn lint --format=compact 2>&1', {
         encoding: 'utf8',
         maxBuffer: 10 * 1024 * 1024
       });
@@ -141,7 +141,7 @@ export class UnusedVariableTargetedFixer {
   public async removeUnusedImports(): Promise<FixResult> {
     log.info('🔧 Removing unused imports...\n');
 
-    const result: FixResult = {;
+    const result: FixResult = {
       filesProcessed: 0,
       variablesFixed: 0,
       errors: [],
@@ -176,8 +176,8 @@ export class UnusedVariableTargetedFixer {
    */
   private extractUnusedParameters(
     lintOutput: string,
-  ): Array<{ file: string; line: number; param: string }> {
-    const params: Array<{ file: string; line: number; param: string }> = [];
+  ): Array<{ file: string, line: number, param: string }> {
+    const params: Array<{ file: string, line: number, param: string }> = [];
     const lines = lintOutput.split('\n');
 
     for (const line of lines) {
@@ -186,7 +186,7 @@ export class UnusedVariableTargetedFixer {
         line.includes('Allowed unused args must match')
       ) {
         const match = line.match(;
-          /^(.+):(\d+):\d+:\s+warning\s+(.+?)\s+@typescript-eslint\/no-unused-vars/,
+          /^(.+):(\d+):\d+:\s+warning\s+(.+?)\s+@typescript-eslint\/no-unused-vars/;
         );
         if (match) {
           const [, filePath, lineNum, message] = match;
@@ -212,8 +212,8 @@ export class UnusedVariableTargetedFixer {
    */
   private extractUnusedDestructuredVariables(
     lintOutput: string,
-  ): Array<{ file: string; line: number; variable: string }> {
-    const vars: Array<{ file: string; line: number; variable: string }> = [];
+  ): Array<{ file: string, line: number, variable: string }> {
+    const vars: Array<{ file: string, line: number, variable: string }> = [];
     const lines = lintOutput.split('\n');
 
     for (const line of lines) {
@@ -222,7 +222,7 @@ export class UnusedVariableTargetedFixer {
         line.includes('array destructuring patterns must match')
       ) {
         const match = line.match(;
-          /^(.+):(\d+):\d+:\s+warning\s+(.+?)\s+@typescript-eslint\/no-unused-vars/,
+          /^(.+):(\d+):\d+:\s+warning\s+(.+?)\s+@typescript-eslint\/no-unused-vars/;
         );
         if (match) {
           const [, filePath, lineNum, message] = match;
@@ -257,8 +257,8 @@ export class UnusedVariableTargetedFixer {
     return items.reduce(
       (acc, item) => {
         if (!acc[item.file]) acc[item.file] = [];
-        acc[item.file].push(item);
-        return acc;
+        acc[item.file].push(item),
+        return acc,
       },
       {} as Record<string, T[]>,
     );
@@ -269,7 +269,7 @@ export class UnusedVariableTargetedFixer {
    */
   private async fixParametersInFile(
     filePath: string,
-    params: Array<{ line: number; param: string }>,
+    params: Array<{ line: number, param: string }>,
   ): Promise<number> {
     const content = fs.readFileSync(filePath, 'utf8');
     const lines = content.split('\n');
@@ -287,17 +287,17 @@ export class UnusedVariableTargetedFixer {
         const updatedLine = line.replace(;
           new RegExp(`\\b${param.param}\\b`, 'g'),
           `_${param.param}`,
-        );
+        ),
 
         if (updatedLine !== line) {
           lines[lineIndex] = updatedLine;
-          fixedCount++;
+          fixedCount++,
         }
       }
     }
 
     if (fixedCount > 0) {
-      fs.writeFileSync(filePath, lines.join('\n'));
+      fs.writeFileSync(filePath, lines.join('\n')),
     }
 
     return fixedCount;
@@ -308,7 +308,7 @@ export class UnusedVariableTargetedFixer {
    */
   private async fixDestructuredVariablesInFile(
     filePath: string,
-    vars: Array<{ line: number; variable: string }>,
+    vars: Array<{ line: number, variable: string }>,
   ): Promise<number> {
     const content = fs.readFileSync(filePath, 'utf8');
     const lines = content.split('\n');
@@ -326,17 +326,17 @@ export class UnusedVariableTargetedFixer {
         const updatedLine = line.replace(;
           new RegExp(`\\b${variable.variable}\\b`, 'g'),
           `_${variable.variable}`,
-        );
+        ),
 
         if (updatedLine !== line) {
           lines[lineIndex] = updatedLine;
-          fixedCount++;
+          fixedCount++,
         }
       }
     }
 
     if (fixedCount > 0) {
-      fs.writeFileSync(filePath, lines.join('\n'));
+      fs.writeFileSync(filePath, lines.join('\n')),
     }
 
     return fixedCount;
@@ -357,7 +357,7 @@ export class UnusedVariableTargetedFixer {
       return true;
     } catch (error) {
       console.error('❌ Build validation failed');
-      return false;
+      return false,
     }
   }
 }

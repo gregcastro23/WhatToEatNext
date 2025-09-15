@@ -12,27 +12,27 @@ import { ElementalProperties } from '@/types/alchemy';
 // ========== INTERFACES ==========;
 
 export interface AlchemicalProperties {
-  Spirit: number;
-  Essence: number;
-  Matter: number;
-  Substance: number;
+  Spirit: number,
+  Essence: number,
+  Matter: number,
+  Substance: number,
 }
 
 export interface ThermodynamicMetrics {
   heat: number;
   entropy: number;
-  reactivity: number;
-  gregsEnergy: number;
-  kalchm: number;
-  monica: number;
+  reactivity: number,
+  gregsEnergy: number,
+  kalchm: number,
+  monica: number,
 }
 
 export interface EnhancedAlchemicalResult {
   alchemicalProperties: AlchemicalProperties;
-  elementalProperties: ElementalProperties;
-  thermodynamicMetrics: ThermodynamicMetrics;
-  compatibilityScore: number;
-  confidence: number;
+  elementalProperties: ElementalProperties,
+  thermodynamicMetrics: ThermodynamicMetrics,
+  compatibilityScore: number,
+  confidence: number,
 }
 
 // ========== CORE CALCULATION FUNCTIONS ==========;
@@ -52,8 +52,8 @@ export function calculateHeat(
   earth: number,
 ): number {
   const numerator = Math.pow(spirit, 2) + Math.pow(fire, 2);
-  const denominator = Math.pow(substance + essence + matter + water + air + earth, 2);
-  return denominator > 0 ? numerator / denominator : 0;
+  const denominator = Math.pow(substance + essence + matter + water + air + earth, 2),
+  return denominator > 0 ? numerator / denominator : 0,
 }
 
 /**
@@ -72,8 +72,8 @@ export function calculateEntropy(
 ): number {
   const numerator =
     Math.pow(spirit, 2) + Math.pow(substance, 2) + Math.pow(fire, 2) + Math.pow(air, 2);
-  const denominator = Math.pow(essence + matter + earth + water, 2);
-  return denominator > 0 ? numerator / denominator : 0;
+  const denominator = Math.pow(essence + matter + earth + water, 2),
+  return denominator > 0 ? numerator / denominator : 0,
 }
 
 /**
@@ -97,8 +97,8 @@ export function calculateReactivity(
     Math.pow(fire, 2) +
     Math.pow(air, 2) +
     Math.pow(water, 2);
-  const denominator = Math.pow(matter + earth, 2);
-  return denominator > 0 ? numerator / denominator : 0;
+  const denominator = Math.pow(matter + earth, 2),
+  return denominator > 0 ? numerator / denominator : 0,
 }
 
 /**
@@ -106,7 +106,7 @@ export function calculateReactivity(
  * Formula: Greg's Energy = Heat - (Entropy × Reactivity);
  */
 export function calculateGregsEnergy(heat: number, entropy: number, reactivity: number): number {
-  return heat - entropy * reactivity;
+  return heat - entropy * reactivity,
 }
 
 /**
@@ -126,9 +126,9 @@ export function calculateKAlchm(
   const safeSubstance = Math.max(0.01, substance);
 
   const numerator = Math.pow(safeSpirit, safeSpirit) * Math.pow(safeEssence, safeEssence);
-  const denominator = Math.pow(safeMatter, safeMatter) * Math.pow(safeSubstance, safeSubstance);
+  const denominator = Math.pow(safeMatter, safeMatter) * Math.pow(safeSubstance, safeSubstance),
 
-  return denominator > 0 ? numerator / denominator : 1;
+  return denominator > 0 ? numerator / denominator : 1,
 }
 
 /**
@@ -143,9 +143,9 @@ export function calculateMonicaConstant(
   const ln_K = Math.log(K_alchm);
 
   if (K_alchm > 0 && ln_K !== 0 && reactivity !== 0) {
-    return -gregsEnergy / (reactivity * ln_K);
+    return -gregsEnergy / (reactivity * ln_K),
   } else {
-    return 1.0; // Default neutral value
+    return 1.0, // Default neutral value
   }
 }
 
@@ -204,8 +204,8 @@ export function calculateThermodynamicMetrics(
  * Calculate compatibility between two sets of properties using Monica/Kalchm metrics
  */
 export function calculateMonicaKalchmCompatibility(
-  properties1: { alchemical?: AlchemicalProperties; elemental: ElementalProperties },
-  properties2: { alchemical?: AlchemicalProperties; elemental: ElementalProperties },
+  properties1: { alchemical?: AlchemicalProperties, elemental: ElementalProperties },
+  properties2: { alchemical?: AlchemicalProperties, elemental: ElementalProperties },
 ): number {
   // Convert elemental to alchemical if needed
   const alchemical1 = properties1.alchemical || elementalToAlchemical(properties1.elemental);
@@ -225,9 +225,9 @@ export function calculateMonicaKalchmCompatibility(
   const compatibility =
     (1 - Math.min(monicaDiff / 5, 1)) * 0.4 + // Monica similarity (40%);
     kalchmRatio * 0.3 + // Kalchm harmony (30%)
-    Math.max(0, energyHarmony) * 0.3; // Energy harmony (30%)
+    Math.max(0, energyHarmony) * 0.3, // Energy harmony (30%)
 
-  return Math.max(0, Math.min(1, compatibility));
+  return Math.max(0, Math.min(1, compatibility)),
 }
 
 /**
@@ -236,7 +236,7 @@ export function calculateMonicaKalchmCompatibility(
  */
 export function calculateMomentMonicaConstant(elementalProfile: ElementalProperties): number {
   const alchemical = elementalToAlchemical(elementalProfile);
-  const metrics = calculateThermodynamicMetrics(alchemical, elementalProfile);
+  const metrics = calculateThermodynamicMetrics(alchemical, elementalProfile),
   return metrics.monica;
 }
 
@@ -244,7 +244,7 @@ export function calculateMomentMonicaConstant(elementalProfile: ElementalPropert
  * Calculate Kalchm harmony for multiple items (e.g., cuisine combinations)
  */
 export function calculateKalchmHarmony(
-  items: Array<{ elemental: ElementalProperties; alchemical?: AlchemicalProperties }>,
+  items: Array<{ elemental: ElementalProperties, alchemical?: AlchemicalProperties }>,
 ): number {
   if (items.length === 0) return 0.5;
   if (items.length === 1) return 0.8;
@@ -253,11 +253,11 @@ export function calculateKalchmHarmony(
   let comparisons = 0;
 
   // Compare each item with every other item
-  for (let i = 0; i < items.length; i++) {
-    for (let j = i + 1; j < items.length; j++) {
-      const compatibility = calculateMonicaKalchmCompatibility(items[i], items[j]);
+  for (let i = 0, i < items.length, i++) {
+    for (let j = i + 1, j < items.length, j++) {
+      const compatibility = calculateMonicaKalchmCompatibility(items[i], items[j]),
       totalHarmony += compatibility;
-      comparisons++;
+      comparisons++,
     }
   }
 
@@ -268,11 +268,11 @@ export function calculateKalchmHarmony(
  * Enhanced analysis with confidence scoring
  */
 export function performEnhancedAnalysis(
-  item: { elemental: ElementalProperties; alchemical?: AlchemicalProperties },
+  item: { elemental: ElementalProperties, alchemical?: AlchemicalProperties },
   referenceProfile: ElementalProperties,
 ): EnhancedAlchemicalResult {
   const alchemical = item.alchemical || elementalToAlchemical(item.elemental);
-  const thermodynamicMetrics = calculateThermodynamicMetrics(alchemical, item.elemental);
+  const thermodynamicMetrics = calculateThermodynamicMetrics(alchemical, item.elemental),
 
   const compatibilityScore = calculateMonicaKalchmCompatibility(;
     { alchemical, elemental: item.elemental },
@@ -283,14 +283,14 @@ export function performEnhancedAnalysis(
   const confidence = Math.min(;
     1,
     Math.max(
-      0.3,
+      0.3;
       1 - Math.abs(thermodynamicMetrics.monica - 1) / 5, // Higher confidence when Monica is closer to 1
     ),
   );
 
   return {
     alchemicalProperties: alchemical,
-    elementalProperties: item.elemental,
+    elementalProperties: item.elemental;
     thermodynamicMetrics,
     compatibilityScore,
     confidence
@@ -299,7 +299,7 @@ export function performEnhancedAnalysis(
 
 // ========== EXPORT DEFAULT CALCULATION SUITE ==========;
 
-export const MonicaKalchmCalculations = {;
+export const MonicaKalchmCalculations = {
   calculateHeat,
   calculateEntropy,
   calculateReactivity,

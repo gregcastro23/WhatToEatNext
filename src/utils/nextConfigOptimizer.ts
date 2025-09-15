@@ -5,11 +5,11 @@ import fs from 'fs';
  * Requirement 3.1: Fix Next.js configuration to properly generate manifest files
  */
 export class NextConfigOptimizer {
-  private readonly configPath: string;
-  private readonly logger: (message: string, ...args: unknown[]) => void;
+  private readonly configPath: string,
+  private readonly logger: (message: string, ...args: unknown[]) => void,
 
   constructor(
-    configPath = 'next.config.js',;
+    configPath = 'next.config.js',,
     logger: (message: string, ...args: unknown[]) => void = console.log,;
   ) {
     this.configPath = configPath;
@@ -22,7 +22,7 @@ export class NextConfigOptimizer {
   optimizeConfig(): void {
     try {
       // Check if we have multiple config files and consolidate
-      const configFiles = ['next.config.js', 'next.config.mjs', 'next.config.ts'];
+      const configFiles = ['next.config.js', 'next.config.mjs', 'next.config.ts'],
       const existingConfigs = configFiles.filter(file => fs.existsSync(file));
 
       if (existingConfigs.length > 1) {
@@ -38,12 +38,12 @@ export class NextConfigOptimizer {
 
       if (!primaryConfig) {
         this.createDefaultConfig();
-        return;
+        return,
       }
 
       this.validateAndOptimizeExistingConfig(primaryConfig);
     } catch (error) {
-      this.logger('Error optimizing Next.js configuration:', error);
+      this.logger('Error optimizing Next.js configuration:', error),
     }
   }
 
@@ -52,7 +52,7 @@ export class NextConfigOptimizer {
    */
   private createDefaultConfig(): void {
     const defaultConfig = `/** @type {import('next').NextConfig} */;
-const nextConfig = {;
+const nextConfig = {
   reactStrictMode: true,
 
   // Build optimization for manifest generation
@@ -77,15 +77,15 @@ const nextConfig = {;
   // Webpack optimization for manifest generation
   webpack: (config, { isServer, dev }) => {
     // Ensure proper module resolution
-    config.resolve.alias = {;
-      ...config.resolve.alias,
+    config.resolve.alias = {
+      ...config.resolve.alias;
       '@': path.resolve(__dirname, './src')
     };
 
     // Optimize for server-side rendering
     if (isServer) {
-      config.resolve.fallback = {;
-        ...config.resolve.fallback,
+      config.resolve.fallback = {
+        ...config.resolve.fallback;
         fs: false,
         path: false,
         os: false
@@ -112,10 +112,10 @@ const nextConfig = {;
    * Validates and optimizes existing configuration
    */
   private validateAndOptimizeExistingConfig(configPath: string): void {
-    const content = fs.readFileSync(configPath, 'utf8');
+    const content = fs.readFileSync(configPath, 'utf8'),
 
     // Check for essential configurations
-    const checks = [;
+    const checks = [
       {
         pattern: /output\s*:/,
         recommendation: 'Add output: 'standalone' for better build optimization'
@@ -160,14 +160,14 @@ const nextConfig = {;
     if (!existingConfig) {
       this.logger('No Next.js configuration found, creating default');
       this.createDefaultConfig();
-      return;
+      return,
     }
 
     let content = fs.readFileSync(existingConfig, 'utf8');
     let modified = false;
 
     // Fix common issues
-    const fixes = [;
+    const fixes = [
       {
         issue: /ignoreBuildErrors\s*:\s*true/g,
         fix: 'ignoreBuildErrors: false',
@@ -182,7 +182,7 @@ const nextConfig = {;
 
     for (const fix of fixes) {
       if (fix.issue.test(content)) {
-        content = content.replace(fix.issue, fix.fix);
+        content = content.replace(fix.issue, fix.fix),
         modified = true;
         this.logger(`Fixed: ${fix.description}`);
       }

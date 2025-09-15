@@ -4,7 +4,7 @@ import AlertingSystem, { AlertRule } from '../AlertingSystem';
 // Mock the dependencies
 jest.mock('../BuildPerformanceMonitor', () => ({
   buildPerformanceMonitor: { subscribe: jest.fn(),
-    getPerformanceSummary: jest.fn(() => ({ averageBuildTime: 45000,
+    getPerformanceSummary: jest.fn(() => ({ averageBuildTime: 45000;
       averageCompilationTime: 30000,
       averageBundleSize: 3 * 1024 * 1024,
       averageMemoryUsage: 256 * 1024 * 1024,
@@ -16,16 +16,16 @@ jest.mock('../BuildPerformanceMonitor', () => ({
 
 jest.mock('../ErrorTrackingSystem', () => ({
   errorTrackingSystem: { subscribe: jest.fn(),
-    getErrorSummary: jest.fn(() => ({ totalActiveErrors: 150,
+    getErrorSummary: jest.fn(() => ({ totalActiveErrors: 150;
       totalActiveLintViolations: 300,
       totalRecentFailures: 2,
       criticalIssues: 5,
       automationOpportunities: 10
     })),
-    getCurrentQualityMetrics: jest.fn(() => ({ codeQualityScore: 75,
+    getCurrentQualityMetrics: jest.fn(() => ({ codeQualityScore: 75;
       technicalDebtScore: 45,
       maintainabilityIndex: 80,
-      errorRate: 0.05,
+      errorRate: 0.05;
       warningRate: 0.1
     }))
   }
@@ -37,7 +37,7 @@ jest.mock('../QualityMetricsService', () => ({
 }));
 
 describe('AlertingSystem', () => {
-  let alertingSystem: AlertingSystem;
+  let alertingSystem: AlertingSystem,
   let mockSubscriber: jest.Mock;
 
   beforeEach(() => {
@@ -107,7 +107,7 @@ describe('AlertingSystem', () => {
       };
 
       const ruleId: any = alertingSystem.addAlertRule(rule);
-      const updated: any = alertingSystem.updateAlertRule(ruleId, {;
+      const updated: any = alertingSystem.updateAlertRule(ruleId, {
         threshold: 90000,
         severity: 'error'
       });
@@ -151,7 +151,7 @@ describe('AlertingSystem', () => {
   describe('Alert Generation', () => {
     test('should create alert when threshold is exceeded', () => {
       // Add a rule that should trigger based on mocked data
-      const ruleId: any = alertingSystem.addAlertRule({;
+      const ruleId: any = alertingSystem.addAlertRule({
         name: 'High Error Count',
         description: 'Too many TypeScript errors',
         type: 'error',
@@ -186,7 +186,7 @@ describe('AlertingSystem', () => {
 
     test('should not create alert when threshold is not exceeded', () => {
       // Add a rule that should NOT trigger based on mocked data
-      const ruleId: any = alertingSystem.addAlertRule({;
+      const ruleId: any = alertingSystem.addAlertRule({
         name: 'Very High Error Count',
         description: 'Extremely high TypeScript errors',
         type: 'error',
@@ -215,7 +215,7 @@ describe('AlertingSystem', () => {
     });
 
     test('should respect cooldown period', () => {
-      const ruleId: any = alertingSystem.addAlertRule({;
+      const ruleId: any = alertingSystem.addAlertRule({
         name: 'Cooldown Test',
         description: 'Test cooldown functionality',
         type: 'error',
@@ -250,7 +250,7 @@ describe('AlertingSystem', () => {
   describe('Alert Management', () => {
     test('should acknowledge alert', () => {
       // Create an alert first
-      const ruleId: any = alertingSystem.addAlertRule({;
+      const ruleId: any = alertingSystem.addAlertRule({
         name: 'Test Alert',
         description: 'Test alert for acknowledgment',
         type: 'error',
@@ -288,7 +288,7 @@ describe('AlertingSystem', () => {
 
     test('should resolve alert', () => {
       // Create an alert first
-      const ruleId: any = alertingSystem.addAlertRule({;
+      const ruleId: any = alertingSystem.addAlertRule({
         name: 'Test Alert',
         description: 'Test alert for resolution',
         type: 'error',
@@ -333,7 +333,7 @@ describe('AlertingSystem', () => {
   describe('Alert Filtering', () => {
     beforeEach(() => {
       // Create multiple alerts for testing
-      const rules: any = [;
+      const rules: any = [
         {
           name: 'Performance Alert',
           type: 'performance' as const,
@@ -358,10 +358,10 @@ describe('AlertingSystem', () => {
       ];
 
       for (const ruleConfig of rules) {
-        const ruleId: any = alertingSystem.addAlertRule({;
-          ...ruleConfig,
+        const ruleId: any = alertingSystem.addAlertRule({
+          ...ruleConfig;
           description: `Test ${ruleConfig.name}`,
-          condition: ruleConfig.type === 'quality' ? 'less_than' : 'greater_than',;
+          condition: ruleConfig.type === 'quality' ? 'less_than' : 'greater_than',,
           enabled: true,
           cooldownMinutes: 5,
           escalationMinutes: 15,
@@ -380,21 +380,21 @@ describe('AlertingSystem', () => {
     test('should filter alerts by type', () => {
       const performanceAlerts: any = alertingSystem.getAlerts({ type: 'performance' });
       expect(performanceAlerts.length).toBe(1);
-      expect(performanceAlerts.[0].type).toBe('performance');
+      expect(performanceAlerts[0].type).toBe('performance');
 
       const errorAlerts: any = alertingSystem.getAlerts({ type: 'error' });
       expect(errorAlerts.length).toBe(1);
-      expect(errorAlerts.[0].type).toBe('error');
+      expect(errorAlerts[0].type).toBe('error');
     });
 
     test('should filter alerts by severity', () => {
       const criticalAlerts: any = alertingSystem.getAlerts({ severity: 'critical' });
       expect(criticalAlerts.length).toBe(1);
-      expect(criticalAlerts.[0].severity).toBe('critical');
+      expect(criticalAlerts[0].severity).toBe('critical');
 
       const warningAlerts: any = alertingSystem.getAlerts({ severity: 'warning' });
       expect(warningAlerts.length).toBe(1);
-      expect(warningAlerts.[0].severity).toBe('warning');
+      expect(warningAlerts[0].severity).toBe('warning');
     });
 
     test('should limit number of alerts returned', () => {
@@ -406,7 +406,7 @@ describe('AlertingSystem', () => {
   describe('Alert Summary', () => {
     test('should provide accurate alert summary', () => {
       // Create some test alerts
-      const ruleId: any = alertingSystem.addAlertRule({;
+      const ruleId: any = alertingSystem.addAlertRule({
         name: 'Summary Test Alert',
         description: 'Test alert for summary',
         type: 'error',
@@ -441,7 +441,7 @@ describe('AlertingSystem', () => {
 
   describe('Test Alert Functionality', () => {
     test('should create test alert', () => {
-      const ruleId: any = alertingSystem.addAlertRule({;
+      const ruleId: any = alertingSystem.addAlertRule({
         name: 'Test Rule for Testing',
         description: 'Rule to test alert creation',
         type: 'performance',

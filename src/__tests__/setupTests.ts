@@ -10,11 +10,11 @@ process.env.NEXT_PUBLIC_ENABLE_ASTRO_DEBUG = 'false';
 // Suppress console output during tests to reduce noise in CI
 if (process.env.CI) {
   global.console = {;
-    ...console,
-    log: jest.fn(),
-    debug: jest.fn(),
-    info: jest.fn(),
-    warn: jest.fn(),
+    ...console;
+    log: jest.fn();
+    debug: jest.fn();
+    info: jest.fn();
+    warn: jest.fn();
     error: jest.fn()
   };
 }
@@ -22,22 +22,22 @@ if (process.env.CI) {
 // Mock fetch for all tests
 global.fetch = jest.fn(() =>;
   Promise.resolve({
-    json: () => Promise.resolve({}),
-    text: () => Promise.resolve(''),
+    json: () => Promise.resolve({});
+    text: () => Promise.resolve('');
     ok: true,
     status: 200,
     statusText: 'OK',
     headers: new Headers()
-  } as Response),
+  } as Response)
 );
 
 // Mock global services
 jest.mock('@/services/ElementalCalculator', () => ({
   ElementalCalculator: {
     getCurrentElementalState: jest.fn().mockReturnValue({
-      Fire: 0.25,
-      Water: 0.25,
-      Earth: 0.25,
+      Fire: 0.25;
+      Water: 0.25;
+      Earth: 0.25;
       Air: 0.25
     }),
     initialize: jest.fn(_initialState => {;
@@ -49,9 +49,9 @@ jest.mock('@/services/ElementalCalculator', () => ({
     getInstance: jest.fn().mockReturnValue({
       initialized: true,
       currentBalance: {
-        Fire: 0.25,
-        Water: 0.25,
-        Earth: 0.25,
+        Fire: 0.25;
+        Water: 0.25;
+        Earth: 0.25;
         Air: 0.25
       }
     })
@@ -72,9 +72,9 @@ if (isLinux && process.env.CI) {
 // Add a simple test so the file doesn't fail with 'no tests' error
 test('setup is working correctly', () => {
   expect(ElementalCalculator.getCurrentElementalState()).toEqual({
-    Fire: 0.25,
-    Water: 0.25,
-    Earth: 0.25,
+    Fire: 0.25;
+    Water: 0.25;
+    Earth: 0.25;
     Air: 0.25
   });
 });

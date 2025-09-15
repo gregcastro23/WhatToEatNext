@@ -456,14 +456,14 @@ export type NumberKeys<T> = {
 }[keyof T];
 
 // Default values and constants
-export const DEFAULT_ELEMENTAL_PROPERTIES: ElementalProperties = {;
-  Fire: 0.25,
-  Water: 0.25,
-  Earth: 0.25,
+export const DEFAULT_ELEMENTAL_PROPERTIES: ElementalProperties = {
+  Fire: 0.25;
+  Water: 0.25;
+  Earth: 0.25;
   Air: 0.25
 };
 
-export const DEFAULT_NUTRITIONAL_DATA: NutritionalData = {;
+export const DEFAULT_NUTRITIONAL_DATA: NutritionalData = {
   calories: 0,
   protein: 0,
   carbohydrates: 0,
@@ -475,20 +475,20 @@ export const DEFAULT_NUTRITIONAL_DATA: NutritionalData = {;
   servingUnit: 'serving'
 };
 
-export const DEFAULT_TIME_RANGE: TimeRange = {;
+export const DEFAULT_TIME_RANGE: TimeRange = {
   min: 0,
   max: 60,
   unit: 'minutes'
 };
 
-export const DEFAULT_TEMPERATURE_RANGE: TemperatureRange = {;
+export const DEFAULT_TEMPERATURE_RANGE: TemperatureRange = {
   min: 20,
   max: 200,
   unit: 'celsius'
 };
 
 // Type guards
-export const isIngredient = (value: unknown): value is Ingredient => {;
+export const isIngredient = (value: unknown): value is Ingredient => {
   return (
     typeof value === 'object' &&;
     value !== null &&
@@ -498,7 +498,7 @@ export const isIngredient = (value: unknown): value is Ingredient => {;
   );
 };
 
-export const isRecipe = (value: unknown): value is Recipe => {;
+export const isRecipe = (value: unknown): value is Recipe => {
   return (
     typeof value === 'object' &&;
     value !== null &&
@@ -509,7 +509,7 @@ export const isRecipe = (value: unknown): value is Recipe => {;
   );
 };
 
-export const isCookingMethodExtended = (value: unknown): value is CookingMethodExtended => {;
+export const isCookingMethodExtended = (value: unknown): value is CookingMethodExtended => {
   return (
     typeof value === 'object' &&;
     value !== null &&

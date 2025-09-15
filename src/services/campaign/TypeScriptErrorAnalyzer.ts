@@ -17,10 +17,10 @@ export interface TypeScriptError {
   line: number;
   column: number;
   code: string;
-  message: string;
-  category: ErrorCategory;
-  priority: number;
-  severity: ErrorSeverity;
+  message: string,
+  category: ErrorCategory,
+  priority: number,
+  severity: ErrorSeverity,
 }
 
 export enum ErrorCategory {
@@ -28,37 +28,37 @@ export enum ErrorCategory {
   TS2345_ARGUMENT_MISMATCH = 'TS2345',;
   TS2698_SPREAD_TYPE = 'TS2698',;
   TS2304_CANNOT_FIND_NAME = 'TS2304',;
-  TS2362_ARITHMETIC_OPERATION = 'TS2362',;
-  OTHER = 'OTHER',;
+  TS2362_ARITHMETIC_OPERATION = 'TS2362',,
+  OTHER = 'OTHER',,
 }
 
 export enum ErrorSeverity {
   HIGH = 'HIGH',;
-  MEDIUM = 'MEDIUM',;
-  LOW = 'LOW',;
+  MEDIUM = 'MEDIUM',,
+  LOW = 'LOW',,
 }
 
 export interface ErrorDistribution {
   totalErrors: number;
   errorsByCategory: Record<ErrorCategory, TypeScriptError[]>;
   errorsByFile: Record<string, TypeScriptError[]>;
-  priorityRanking: TypeScriptError[];
+  priorityRanking: TypeScriptError[],
   highImpactFiles: Array<{
-    filePath: string;
-    errorCount: number;
-    categories: ErrorCategory[];
-    averagePriority: number;
+    filePath: string,
+    errorCount: number,
+    categories: ErrorCategory[],
+    averagePriority: number,
   }>;
 }
 
 export interface AnalysisResult {
-  distribution: ErrorDistribution;
+  distribution: ErrorDistribution,
   recommendations: Array<{
-    category: ErrorCategory;
-    errorCount: number;
-    priority: number;
-    description: string;
-    estimatedReduction: number;
+    category: ErrorCategory,
+    errorCount: number,
+    priority: number,
+    description: string,
+    estimatedReduction: number,
   }>;
   timestamp: string;
 }
@@ -114,20 +114,20 @@ export class TypeScriptErrorAnalyzer {
 
     for (const line of lines) {
       // Parse TypeScript error format: file(line,col): error TS#### message
-      const match = line.match(/^(.+?)\((\d+),(\d+)\):\s+error\s+(TS\d+):\s*(.+)$/);
+      const match = line.match(/^(.+?)\((\d+),(\d+)\):\s+error\s+(TS\d+):\s*(.+)$/),
       if (match) {
-        const [, filePath, lineNum, colNum, code, message] = match;
+        const [, filePath, lineNum, colNum, code, message] = match,
 
         // Clean up file path to be relative to project root
-        const cleanFilePath = filePath.replace(/^.*?\/WhatToEatNext\//, '');
+        const cleanFilePath = filePath.replace(/^.*?\/WhatToEatNext\//, ''),
 
-        const error: TypeScriptError = {;
+        const error: TypeScriptError = {
           filePath: cleanFilePath,
           line: parseInt(lineNum),
           column: parseInt(colNum),
           code,
-          message: message.trim(),
-          category: this.categorizeError(code),
+          message: message.trim();
+          category: this.categorizeError(code);
           priority: this.calculateErrorPriority(code, cleanFilePath, message),
           severity: this.determineSeverity(code, message)
         };
@@ -228,7 +228,7 @@ export class TypeScriptErrorAnalyzer {
 
     // Categorize errors
     for (const error of errors) {
-      errorsByCategory[error.category].push(error);
+      errorsByCategory[error.category].push(error),
 
       if (!errorsByFile[error.filePath]) {
         errorsByFile[error.filePath] = [];
@@ -244,14 +244,14 @@ export class TypeScriptErrorAnalyzer {
       .filter(([, fileErrors]) => fileErrors.length > 10)
       .map(([filePath, fileErrors]) => ({
         filePath,
-        errorCount: fileErrors.length,
-        categories: [...new Set(fileErrors.map(e => e.category))],;
+        errorCount: fileErrors.length;
+        categories: [...new Set(fileErrors.map(e => e.category))],,
         averagePriority: fileErrors.reduce((sum, e) => sum + e.priority, 0) / fileErrors.length
       }))
       .sort((a, b) => b.errorCount - a.errorCount);
 
     return {
-      totalErrors: errors.length,
+      totalErrors: errors.length;
       errorsByCategory,
       errorsByFile,
       priorityRanking,
@@ -263,25 +263,25 @@ export class TypeScriptErrorAnalyzer {
    * Generate fix recommendations based on error distribution
    */
   private generateRecommendations(distribution: ErrorDistribution): Array<{
-    category: ErrorCategory;
-    errorCount: number;
-    priority: number;
-    description: string;
-    estimatedReduction: number;
+    category: ErrorCategory,
+    errorCount: number,
+    priority: number,
+    description: string,
+    estimatedReduction: number,
   }> {
     const recommendations: Array<{
-      category: ErrorCategory;
-      errorCount: number;
-      priority: number;
-      description: string;
-      estimatedReduction: number;
+      category: ErrorCategory,
+      errorCount: number,
+      priority: number,
+      description: string,
+      estimatedReduction: number,
     }> = [];
 
     // TS2352 Type Conversion Errors (highest priority per requirements)
     const ts2352Count = distribution.errorsByCategory[ErrorCategory.TS2352_TYPE_CONVERSION].length;
     if (ts2352Count > 0) {
       recommendations.push({
-        category: ErrorCategory.TS2352_TYPE_CONVERSION,
+        category: ErrorCategory.TS2352_TYPE_CONVERSION;
         errorCount: ts2352Count,
         priority: 1,
         description:
@@ -295,7 +295,7 @@ export class TypeScriptErrorAnalyzer {
       distribution.errorsByCategory[ErrorCategory.TS2345_ARGUMENT_MISMATCH].length;
     if (ts2345Count > 0) {
       recommendations.push({
-        category: ErrorCategory.TS2345_ARGUMENT_MISMATCH,
+        category: ErrorCategory.TS2345_ARGUMENT_MISMATCH;
         errorCount: ts2345Count,
         priority: 2,
         description:
@@ -308,7 +308,7 @@ export class TypeScriptErrorAnalyzer {
     const ts2304Count = distribution.errorsByCategory[ErrorCategory.TS2304_CANNOT_FIND_NAME].length;
     if (ts2304Count > 0) {
       recommendations.push({
-        category: ErrorCategory.TS2304_CANNOT_FIND_NAME,
+        category: ErrorCategory.TS2304_CANNOT_FIND_NAME;
         errorCount: ts2304Count,
         priority: 3,
         description:
@@ -321,7 +321,7 @@ export class TypeScriptErrorAnalyzer {
     const ts2698Count = distribution.errorsByCategory[ErrorCategory.TS2698_SPREAD_TYPE].length;
     if (ts2698Count > 0) {
       recommendations.push({
-        category: ErrorCategory.TS2698_SPREAD_TYPE,
+        category: ErrorCategory.TS2698_SPREAD_TYPE;
         errorCount: ts2698Count,
         priority: 4,
         description: 'Fix spread operator type errors - requires careful type analysis',
@@ -334,7 +334,7 @@ export class TypeScriptErrorAnalyzer {
       distribution.errorsByCategory[ErrorCategory.TS2362_ARITHMETIC_OPERATION].length;
     if (ts2362Count > 0) {
       recommendations.push({
-        category: ErrorCategory.TS2362_ARITHMETIC_OPERATION,
+        category: ErrorCategory.TS2362_ARITHMETIC_OPERATION;
         errorCount: ts2362Count,
         priority: 5,
         description:
@@ -363,7 +363,7 @@ export class TypeScriptErrorAnalyzer {
     });
 
     // console.log('\n🔥 High-Impact Files (>10 errors):');
-    result.distribution.highImpactFiles.slice(0, 10).forEach(file => {;
+    result.distribution.highImpactFiles.slice(0, 10).forEach(file => {
       // console.log(
         `  ${file.filePath}: ${file.errorCount} errors (avg priority: ${file.averagePriority.toFixed(1)})`,
       );
@@ -371,7 +371,7 @@ export class TypeScriptErrorAnalyzer {
     });
 
     // console.log('\n💡 Recommended Fix Order:');
-    result.recommendations.forEach(rec => {;
+    result.recommendations.forEach(rec => {
       // console.log(`  ${rec.priority}. ${rec.category}: ${rec.errorCount} errors`);
       // console.log(`     Expected reduction: ~${rec.estimatedReduction} errors`);
       // console.log(`     ${rec.description}\n`);
@@ -397,7 +397,7 @@ export class TypeScriptErrorAnalyzer {
     const filePath = outputPath || defaultPath;
 
     try {
-      await fs.promises.writeFile(filePath, JSON.stringify(result, null, 2));
+      await fs.promises.writeFile(filePath, JSON.stringify(result, null, 2)),
       // console.log(`\n💾 Analysis saved to: ${filePath}`);
     } catch (error) {
       console.error(`❌ Failed to save analysis: ${error}`);
@@ -409,7 +409,7 @@ export class TypeScriptErrorAnalyzer {
    */
   async getCurrentErrorCount(): Promise<number> {
     try {
-      const output = execSync('yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c 'error TS'', {;
+      const output = execSync('yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c 'error TS'', {
         encoding: 'utf8',
         stdio: 'pipe',
         timeout: 30000, // 30 second timeout
@@ -417,8 +417,8 @@ export class TypeScriptErrorAnalyzer {
       return parseInt(output.trim()) || 0;
     } catch (error) {
       // If grep finds no matches, it returns exit code 1, or timeout occurred
-      console.warn('TypeScript error count check failed or timed out:', (error as Error).message);
-      return 0;
+      console.warn('TypeScript error count check failed or timed out:', (error as Error).message),
+      return 0,
     }
   }
 }

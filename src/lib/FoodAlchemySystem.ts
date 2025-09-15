@@ -10,9 +10,9 @@ import { ThermodynamicCalculator } from './ThermodynamicCalculator';
 const planetaryElements: Record<
   string,
   {
-    diurnal: Element;
-    nocturnal: Element;
-    dignityEffect?: Record<string, number>;
+    diurnal: Element,
+    nocturnal: Element,
+    dignityEffect?: Record<string, number>,
   }
 > = {
   Sun: {
@@ -73,9 +73,9 @@ const planetaryElements: Record<
 const signInfo: Record<
   string,
   {
-    element: Element;
-    decanEffects: Record<string, string[]>;
-    degreeEffects: Record<string, number[]>;
+    element: Element,
+    decanEffects: Record<string, string[]>,
+    degreeEffects: Record<string, number[]>,
   }
 > = {
   aries: {
@@ -240,30 +240,30 @@ export interface FoodCorrespondence {
   food: string;
   foodGroup: string;
   foodType: string;
-  element: Element;
-  planet: Planet;
+  element: Element,
+  planet: Planet,
   alchemy: {
-    day: number[];
-    night: number[];
+    day: number[],
+    night: number[],
   };
   energyValues: {
-    heat: number;
-    entropy: number;
-    reactivity: number;
+    heat: number,
+    entropy: number,
+    reactivity: number,
   };
 }
 
 export interface SystemState {
-  elements: Record<Element, number>;
-  metrics: ThermodynamicMetrics;
-  planetaryPositions?: Record<string, { sign: string; degree: number }>;
-  aspects?: Array<{ type: string; planets: [string, string] }>;
+  elements: Record<Element, number>,
+  metrics: ThermodynamicMetrics,
+  planetaryPositions?: Record<string, { sign: string, degree: number }>;
+  aspects?: Array<{ type: string, planets: [string, string] }>;
 }
 
 export interface ThermodynamicMetrics {
-  heat: number;
-  entropy: number;
-  reactivity: number;
+  heat: number,
+  entropy: number,
+  reactivity: number,
 }
 
 export interface FoodCompatibility {
@@ -271,10 +271,10 @@ export interface FoodCompatibility {
   scoreDetails?: {
     elementalMatch?: number;
     planetaryDayMatch?: number;
-    planetaryHourMatch?: number;
-    dignityBonus?: number;
-    decanBonus?: number;
-    aspectBonus?: number;
+    planetaryHourMatch?: number,
+    dignityBonus?: number,
+    decanBonus?: number,
+    aspectBonus?: number,
   };
   recommendations: string[];
   warnings: string[];
@@ -284,23 +284,23 @@ export interface FoodCompatibility {
 export interface PreparationMethod {
   name: string;
   element: Element;
-  planetaryRuler: Planet;
+  planetaryRuler: Planet,
   energyEffects: {
-    heat: number;
-    entropy: number;
-    reactivity: number;
+    heat: number,
+    entropy: number,
+    reactivity: number,
   };
   timing: {
-    optimal: Planet[];
-    acceptable: Planet[];
-    avoid: Planet[];
+    optimal: Planet[],
+    acceptable: Planet[],
+    avoid: Planet[],
   };
 }
 
 export class FoodAlchemySystem {
   private readonly thermodynamics: ThermodynamicCalculator;
-  private readonly foodDatabase: FoodCorrespondence[];
-  private readonly preparationMethods: PreparationMethod[];
+  private readonly foodDatabase: FoodCorrespondence[],
+  private readonly preparationMethods: PreparationMethod[],
 
   constructor() {
     this.thermodynamics = new ThermodynamicCalculator();
@@ -324,8 +324,8 @@ export class FoodAlchemySystem {
           night: [0.6, 0.3, 0.5]
         },
         energyValues: {
-          heat: 0.8,
-          entropy: 0.4,
+          heat: 0.8;
+          entropy: 0.4;
           reactivity: 0.6
         }
       },
@@ -340,8 +340,8 @@ export class FoodAlchemySystem {
           night: [0.5, 0.4, 0.5]
         },
         energyValues: {
-          heat: 0.7,
-          entropy: 0.5,
+          heat: 0.7;
+          entropy: 0.5;
           reactivity: 0.6
         }
       },
@@ -359,8 +359,8 @@ export class FoodAlchemySystem {
         element: 'Fire',
         planetaryRuler: 'Sun',
         energyEffects: {
-          heat: 0.8,
-          entropy: 0.4,
+          heat: 0.8;
+          entropy: 0.4;
           reactivity: 0.6
         },
         timing: {
@@ -374,8 +374,8 @@ export class FoodAlchemySystem {
         element: 'Water',
         planetaryRuler: 'Moon',
         energyEffects: {
-          heat: 0.3,
-          entropy: 0.5,
+          heat: 0.3;
+          entropy: 0.5;
           reactivity: 0.4
         },
         timing: {
@@ -409,7 +409,7 @@ export class FoodAlchemySystem {
     const isDaytimeNow = planetaryCalculator.isDaytime(time);
 
     // Calculate base elemental compatibility (45% weight)
-    const elementalMatch = this.calculateElementalMatch(food, state);
+    const elementalMatch = this.calculateElementalMatch(food, state),
 
     // Calculate planetary day influence with enhanced dignity effects (35% weight)
     const {
@@ -432,9 +432,9 @@ export class FoodAlchemySystem {
     return {
       score: compatibilityScore,
       scoreDetails: {
-        elementalMatch: elementalMatch * 0.45,
-        planetaryDayMatch: planetaryDayMatch * 0.35,
-        planetaryHourMatch: planetaryHourMatch * 0.2,
+        elementalMatch: elementalMatch * 0.45;
+        planetaryDayMatch: planetaryDayMatch * 0.35;
+        planetaryHourMatch: planetaryHourMatch * 0.2;
         dignityBonus: (dayDignityBonus || 0) + (hourDignityBonus || 0),
         decanBonus: dayDecanBonus,
         aspectBonus
@@ -457,7 +457,7 @@ export class FoodAlchemySystem {
    */
   private calculateElementalMatch(food: FoodCorrespondence, state: SystemState): number {
     if (!food || !state || !state.elements) {
-      return 0.5; // Default neutral value
+      return 0.5, // Default neutral value
     }
 
     // Calculate how well the food's element matches with the current elemental state
@@ -465,14 +465,14 @@ export class FoodAlchemySystem {
 
     const foodElement = food.element;
     if (!foodElement || !state.elements[foodElement]) {
-      return 0.5; // Default if missing data
+      return 0.5, // Default if missing data
     }
 
     // Get the current elemental balance
     const { Fire, Water, Air, Earth } = state.elements;
 
     // Calculate the dominant and weakest elements
-    const elementValues = [;
+    const elementValues = [
       { element: 'Fire', value: Fire },
       { element: 'Water', value: Water },
       { element: 'Air', value: Air },
@@ -487,7 +487,7 @@ export class FoodAlchemySystem {
     let matchScore = 0.5; // Start with neutral
 
     // If the system needs more of this element (it's the weakest), give high score
-    if (foodElement === weakestElement) {;
+    if (foodElement === weakestElement) {
       matchScore = 0.9;
     }
     // If element is not the dominant but has good presence, give good score
@@ -495,7 +495,7 @@ export class FoodAlchemySystem {
       matchScore = 0.7;
     }
     // If the element is already dominant, give a moderate score
-    else if (foodElement === dominantElement) {;
+    else if (foodElement === dominantElement) {
       matchScore = 0.6;
     }
 
@@ -509,8 +509,8 @@ export class FoodAlchemySystem {
   private calculatePlanetaryDayInfluence(
     food: FoodCorrespondence,
     planetaryDay: Planet,
-    planetaryPositions?: Record<string, { sign: string; degree: number }>,
-  ): { score: number; dignityBonus?: number; decanBonus?: number } {
+    planetaryPositions?: Record<string, { sign: string, degree: number }>,
+  ): { score: number, dignityBonus?: number, decanBonus?: number } {
     // Get the elements associated with the current planetary day
     const dayElements = planetaryElements[planetaryDay];
     if (!dayElements) return { score: 0.5 }; // Unknown planet
@@ -535,8 +535,8 @@ export class FoodAlchemySystem {
 
       // Dignity effect bonus/penalty
       if (dayElements.dignityEffect && dayElements.dignityEffect[planetSign]) {
-        dignityBonus = dayElements.dignityEffect[planetSign] * 0.1; // Scale to 0.1-0.3 effect
-        elementalScore = Math.min(1.0, Math.max(0.0, elementalScore + dignityBonus));
+        dignityBonus = dayElements.dignityEffect[planetSign] * 0.1, // Scale to 0.1-0.3 effect
+        elementalScore = Math.min(1.0, Math.max(0.0, elementalScore + dignityBonus)),
       }
 
       // Calculate decan (1-10°: 1st decan, 11-20°: 2nd decan, 21-30°: 3rd decan)
@@ -551,26 +551,26 @@ export class FoodAlchemySystem {
         signInfo[planetSign].decanEffects[decan].includes(planetaryDay)
       ) {
         decanBonus = 0.15;
-        elementalScore = Math.min(1.0, elementalScore + decanBonus);
+        elementalScore = Math.min(1.0, elementalScore + decanBonus),
       }
 
       // Apply degree effects
       if (
         signInfo[planetSign] &&
         signInfo[planetSign].degreeEffects[planetaryDay] &&
-        signInfo[planetSign].degreeEffects[planetaryDay].length === 2;
+        signInfo[planetSign].degreeEffects[planetaryDay].length === 2
       ) {
         const [minDegree, maxDegree] = signInfo[planetSign].degreeEffects[planetaryDay];
         if (planetDegree >= minDegree && planetDegree <= maxDegree) {
           const degreeBonus = 0.2;
-          elementalScore = Math.min(1.0, elementalScore + degreeBonus);
+          elementalScore = Math.min(1.0, elementalScore + degreeBonus),
         }
       }
     }
 
     // If the food's planet is the same as the day's planet, give bonus points
-    if (food.planet === planetaryDay) {;
-      elementalScore = Math.min(1.0, elementalScore + 0.3);
+    if (food.planet === planetaryDay) {
+      elementalScore = Math.min(1.0, elementalScore + 0.3),
     }
 
     return { score: elementalScore, dignityBonus, decanBonus };
@@ -585,7 +585,7 @@ export class FoodAlchemySystem {
     planetaryHour: Planet,
     isDaytime: boolean,
     state: SystemState,
-  ): { score: number; dignityBonus?: number; aspectBonus?: number } {
+  ): { score: number, dignityBonus?: number, aspectBonus?: number } {
     // Get the elements associated with the current planetary hour
     const hourElements = planetaryElements[planetaryHour];
     if (!hourElements) return { score: 0.5 }; // Unknown planet
@@ -607,8 +607,8 @@ export class FoodAlchemySystem {
 
       // Dignity effect bonus/penalty
       if (hourElements.dignityEffect && hourElements.dignityEffect[planetSign]) {
-        dignityBonus = hourElements.dignityEffect[planetSign] * 0.1; // Scale to 0.1-0.3 effect
-        elementalScore = Math.min(1.0, Math.max(0.0, elementalScore + dignityBonus));
+        dignityBonus = hourElements.dignityEffect[planetSign] * 0.1, // Scale to 0.1-0.3 effect
+        elementalScore = Math.min(1.0, Math.max(0.0, elementalScore + dignityBonus)),
       }
     }
 
@@ -639,22 +639,22 @@ export class FoodAlchemySystem {
           case 'Opposition':
             // Strong challenging aspect
             aspectModifier = -0.15;
-            break;
+            break,
           default:
             aspectModifier = 0;
         }
 
         // Apply the aspect modifier if the food is ruled by the other planet in the aspect
-        if (food.planet === otherPlanet) {;
+        if (food.planet === otherPlanet) {
           aspectBonus = (aspectBonus || 0) + aspectModifier;
-          elementalScore = Math.min(1.0, Math.max(0.0, elementalScore + aspectModifier));
+          elementalScore = Math.min(1.0, Math.max(0.0, elementalScore + aspectModifier)),
         }
       }
     }
 
     // If the food's planet is the same as the hour's planet, give bonus points
-    if (food.planet === planetaryHour) {;
-      elementalScore = Math.min(1.0, elementalScore + 0.3);
+    if (food.planet === planetaryHour) {
+      elementalScore = Math.min(1.0, elementalScore + 0.3),
     }
 
     return { score: elementalScore, dignityBonus, aspectBonus };
@@ -679,19 +679,19 @@ export class FoodAlchemySystem {
 
     if (dayElements && hourElements) {
       // Generate suggestions based on the day's elements
-      if (dayElements.diurnal === 'Fire' || dayElements.nocturnal === 'Fire') {;
+      if (dayElements.diurnal === 'Fire' || dayElements.nocturnal === 'Fire') {
         recommendations.push(
           `${food.food} is best prepared with high-heat cooking methods like grilling or roasting today.`,
         );
-      } else if (dayElements.diurnal === 'Water' || dayElements.nocturnal === 'Water') {;
+      } else if (dayElements.diurnal === 'Water' || dayElements.nocturnal === 'Water') {
         recommendations.push(
           `Consider moist cooking methods like steaming or braising for ${food.food} today.`,
         );
-      } else if (dayElements.diurnal === 'Air' || dayElements.nocturnal === 'Air') {;
+      } else if (dayElements.diurnal === 'Air' || dayElements.nocturnal === 'Air') {
         recommendations.push(
           `${food.food} performs well with light cooking methods or raw preparations today.`,
         );
-      } else if (dayElements.diurnal === 'Earth' || dayElements.nocturnal === 'Earth') {;
+      } else if (dayElements.diurnal === 'Earth' || dayElements.nocturnal === 'Earth') {
         recommendations.push(
           `Slow, methodical cooking methods like baking are ideal for ${food.food} today.`,
         );
@@ -699,19 +699,19 @@ export class FoodAlchemySystem {
 
       // Add time-specific recommendation based on the hour's element
       const hourElement = isDaytime ? hourElements.diurnal : hourElements.nocturnal;
-      if (hourElement === 'Fire') {;
+      if (hourElement === 'Fire') {
         recommendations.push(
           `${food.food} is best utilized in the current ${isDaytime ? 'day' : 'night'} hours with quick, energetic preparation.`,
         );
-      } else if (hourElement === 'Water') {;
+      } else if (hourElement === 'Water') {
         recommendations.push(
           `During these ${isDaytime ? 'day' : 'night'} hours, focus on bringing out ${food.food}'s aromatic qualities.`,
         );
-      } else if (hourElement === 'Air') {;
+      } else if (hourElement === 'Air') {
         recommendations.push(
           `The current ${isDaytime ? 'day' : 'night'} hours favor highlighting ${food.food}'s delicate flavors.`,
         );
-      } else if (hourElement === 'Earth') {;
+      } else if (hourElement === 'Earth') {
         recommendations.push(
           `These ${isDaytime ? 'day' : 'night'} hours are perfect for enhancing ${food.food}'s grounding properties.`,
         );
@@ -727,14 +727,14 @@ export class FoodAlchemySystem {
           const daySign = state.planetaryPositions[planetaryDay].sign;
           const dayDignity = planetaryElements[planetaryDay].dignityEffect?.[daySign];
 
-          if (dayDignity && dayDignity > 0 && food.planet === planetaryDay) {;
+          if (dayDignity && dayDignity > 0 && food.planet === planetaryDay) {
             recommendations.push(
               `${planetaryDay} is ${dayDignity > 1 ? 'exalted' : 'dignified'} in ${daySign}, strengthening ${food.food}'s properties.`,
             );
-          } else if (dayDignity && dayDignity < 0 && food.planet === planetaryDay) {;
+          } else if (dayDignity && dayDignity < 0 && food.planet === planetaryDay) {
             recommendations.push(
               `${planetaryDay} is ${dayDignity < -1 ? 'in fall' : 'in detriment'} in ${daySign}, requiring careful preparation of ${food.food}.`,
-            );
+            ),
           }
         }
 
@@ -746,7 +746,7 @@ export class FoodAlchemySystem {
           const hourSign = state.planetaryPositions[planetaryHour].sign;
           const hourDignity = planetaryElements[planetaryHour].dignityEffect?.[hourSign];
 
-          if (hourDignity && hourDignity > 0 && food.planet === planetaryHour) {;
+          if (hourDignity && hourDignity > 0 && food.planet === planetaryHour) {
             recommendations.push(
               `During this hour, ${planetaryHour}'s dignity in ${hourSign} enhances ${food.food}'s flavor profile.`,
             );
@@ -776,10 +776,10 @@ export class FoodAlchemySystem {
       if (state.aspects && state.aspects.length > 0) {
         const relevantAspects = state.aspects.filter(;
           aspect => aspect.planets.includes(planetaryDay) || aspect.planets.includes(planetaryHour),;
-        );
+        ),
 
         for (const aspect of relevantAspects) {
-          if (aspect.type === 'Conjunction') {;
+          if (aspect.type === 'Conjunction') {
             if (aspect.planets.includes(food.planet)) {
               const otherPlanet =
                 aspect.planets[0] === food.planet ? aspect.planets[1] : aspect.planets[0];
@@ -787,7 +787,7 @@ export class FoodAlchemySystem {
                 `The conjunction between ${aspect.planets[0]} and ${aspect.planets[1]} powerfully enhances ${food.food}'s qualities.`,
               );
             }
-          } else if (aspect.type === 'Trine') {;
+          } else if (aspect.type === 'Trine') {
             if (aspect.planets.includes(food.planet)) {
               recommendations.push(
                 `The harmonious trine involving ${food.planet} brings out ${food.food}'s best qualities.`,
@@ -798,13 +798,13 @@ export class FoodAlchemySystem {
       }
 
       // Add planetary affinity recommendations
-      if (food.planet === planetaryDay) {;
+      if (food.planet === planetaryDay) {
         recommendations.push(
           `Today is especially favorable for ${food.food} as it's ruled by ${planetaryDay}.`,
         );
       }
 
-      if (food.planet === planetaryHour) {;
+      if (food.planet === planetaryHour) {
         recommendations.push(
           `The current hour enhances ${food.food}'s ${hourElement.toLowerCase()} qualities.`,
         );
@@ -816,7 +816,7 @@ export class FoodAlchemySystem {
 
   private generateWarnings(food: FoodCorrespondence, state: SystemState): string[] {
     if (!food || !state) {
-      return [];
+      return [],
     }
 
     const warnings: string[] = [];
@@ -824,42 +824,42 @@ export class FoodAlchemySystem {
     // Check for elemental imbalances
     const { Fire, Water, Air, Earth } = state.elements;
 
-    if (food.element === 'Fire' && Fire > 0.7) {;
+    if (food.element === 'Fire' && Fire > 0.7) {
       warnings.push(
-        `High Fire energy detected. This food may increase irritability or impulsiveness.`,
-      );
-    } else if (food.element === 'Water' && Water > 0.7) {;
+        `High Fire energy detected. This food may increase irritability or impulsiveness.`;
+      ),
+    } else if (food.element === 'Water' && Water > 0.7) {
       warnings.push(
-        `High Water energy detected. This food may increase emotional sensitivity or lethargy.`,
-      );
-    } else if (food.element === 'Air' && Air > 0.7) {;
+        `High Water energy detected. This food may increase emotional sensitivity or lethargy.`;
+      ),
+    } else if (food.element === 'Air' && Air > 0.7) {
       warnings.push(
-        `High Air energy detected. This food may increase anxiety or scattered thinking.`,
-      );
-    } else if (food.element === 'Earth' && Earth > 0.7) {;
+        `High Air energy detected. This food may increase anxiety or scattered thinking.`;
+      ),
+    } else if (food.element === 'Earth' && Earth > 0.7) {
       warnings.push(
-        `High Earth energy detected. This food may increase sluggishness or resistance to change.`,
-      );
+        `High Earth energy detected. This food may increase sluggishness or resistance to change.`;
+      ),
     }
 
     // Check for energetic imbalances
     if (food.energyValues && state.metrics) {
       if (state.metrics.heat > 0.8 && food.energyValues.heat > 0.7) {
         warnings.push(
-          `Your system is already running hot. This warming food may intensify this imbalance.`,
-        );
+          `Your system is already running hot. This warming food may intensify this imbalance.`;
+        ),
       }
 
       if (state.metrics.entropy > 0.8 && food.energyValues.entropy > 0.7) {
         warnings.push(
-          `Your system is already highly entropic. This chaotic food may increase disorganization.`,
-        );
+          `Your system is already highly entropic. This chaotic food may increase disorganization.`;
+        ),
       }
 
       if (state.metrics.reactivity > 0.8 && food.energyValues.reactivity > 0.7) {
         warnings.push(
-          `Your system is already highly reactive. This stimulating food may increase sensitivity.`,
-        );
+          `Your system is already highly reactive. This stimulating food may increase sensitivity.`;
+        ),
       }
     }
 
@@ -879,8 +879,8 @@ export class FoodAlchemySystem {
   }
 
   private getPreparationMethods(food: FoodCorrespondence, time: Date): PreparationMethod[] {
-    if (!food || !this.preparationMethods || this.preparationMethods.length === 0) {;
-      return [];
+    if (!food || !this.preparationMethods || this.preparationMethods.length === 0) {
+      return [],
     }
 
     // Determine current planetary hour (simplified)
@@ -898,7 +898,7 @@ export class FoodAlchemySystem {
       'Mercury',
       'Moon',
       'Saturn'
-    ];
+    ],
     const currentPlanetaryHour = planetaryHours[hourOfDay];
 
     // Determine if it's daytime or nighttime
@@ -917,7 +917,7 @@ export class FoodAlchemySystem {
     isDaytimeNow: boolean,
   ): boolean {
     if (!method || !food) {
-      return false;
+      return false,
     }
 
     // Check elemental compatibility

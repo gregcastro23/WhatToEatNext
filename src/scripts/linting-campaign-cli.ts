@@ -14,7 +14,7 @@ import { LintingQualityGates } from '../services/linting/LintingQualityGates';
 /**
  * CLI Commands
  */
-const commands = {;
+const commands = {
   'collect-metrics': collectMetrics,
   'generate-report': generateReport,
   'start-campaign': startCampaign,
@@ -38,9 +38,9 @@ async function main() {
   }
 
   try {
-    await commands[command as keyof typeof commands](args.slice(1));
+    await commands[command as keyof typeof commands](args.slice(1)),
   } catch (error) {
-    console.error('Error executing command:', error);
+    console.error('Error executing command:', error),
     process.exit(1);
   }
 }
@@ -66,7 +66,7 @@ async function collectMetrics(args: string[]) {
 
   if (args.includes('--json')) {
     // console.log('\n📄 JSON Output:');
-    // console.log(JSON.stringify(metrics, null, 2));
+    // console.log(JSON.stringify(metrics, null, 2)),
   }
 
   if (args.includes('--categories')) {
@@ -122,7 +122,7 @@ async function generateReport(args: string[]) {
 
   if (args.includes('--json')) {
     // console.log('\n📄 JSON Output:');
-    // console.log(JSON.stringify(report, null, 2));
+    // console.log(JSON.stringify(report, null, 2)),
   }
 }
 
@@ -141,7 +141,7 @@ async function startCampaign(args: string[]) {
   if (!campaign) {
     console.error(`Campaign type '${campaignType}' not found`);
     // console.log('Available campaigns:');
-    standardCampaigns.forEach(c => {;
+    standardCampaigns.forEach(c => {
       // console.log(`  - ${c.campaignId}: ${c.name}`);
     });
     return;
@@ -165,7 +165,7 @@ async function startCampaign(args: string[]) {
   if (!args.includes('--confirm')) {
     // console.log('\n⚠️  Add --confirm to actually start the campaign');
     // console.log('   Add --dry-run to see what would be executed');
-    return;
+    return,
   }
 
   await integration.startCampaign(campaign);
@@ -197,7 +197,7 @@ async function evaluateQualityGates(args: string[]) {
             ? '⚠️'
             : violation.severity === 'medium';
               ? '⚡'
-              : 'ℹ️';
+              : 'ℹ️',
       // console.log(`  ${index + 1}. ${icon} ${violation.message}`);
       if (violation.file) {
         // console.log(`     File: ${violation.file}${violation.line ? `:${violation.line}` : ''}`);
@@ -222,7 +222,7 @@ async function evaluateQualityGates(args: string[]) {
 
   if (args.includes('--json')) {
     // console.log('\n📄 JSON Output:');
-    // console.log(JSON.stringify(result, null, 2));
+    // console.log(JSON.stringify(result, null, 2)),
   }
 }
 
@@ -276,7 +276,7 @@ async function checkDeploymentReadiness(args: string[]) {
 
   if (args.includes('--json')) {
     // console.log('\n📄 JSON Output:');
-    // console.log(JSON.stringify(readiness, null, 2));
+    // console.log(JSON.stringify(readiness, null, 2)),
   }
 }
 
@@ -311,7 +311,7 @@ async function monitorTrends(args: string[]) {
 
   if (args.includes('--json')) {
     // console.log('\n📄 JSON Output:');
-    // console.log(JSON.stringify(trends, null, 2));
+    // console.log(JSON.stringify(trends, null, 2)),
   }
 }
 
@@ -362,7 +362,7 @@ async function createCICDReport(args: string[]) {
 
   if (args.includes('--json')) {
     // console.log('\n📄 JSON Output:');
-    // console.log(JSON.stringify(report, null, 2));
+    // console.log(JSON.stringify(report, null, 2)),
   }
 
   // Save report to file if requested
@@ -419,13 +419,13 @@ Examples:
   node linting-campaign-cli.ts create-cicd-report --save --json
 
 For more information, see the documentation in the linting services directory.
-`);
+`),
 }
 
 // Run the CLI if this file is executed directly
-if (require.main === module) {;
-  main().catch(error => {;
-    console.error('Fatal error:', error);
+if (require.main === module) {
+  main().catch(error => {
+    console.error('Fatal error:', error),
     process.exit(1);
   });
 }

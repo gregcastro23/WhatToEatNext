@@ -1,7 +1,7 @@
 /**
  * Cooking methods with their elemental properties, astrological influences, and alchemical attributes
  */
-export const cookingMethods = {;
+export const cookingMethods = {
   roasting: {
     name: 'Roasting',
     elementalEffect: {

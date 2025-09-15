@@ -18,15 +18,15 @@ export function adaptRecipeData(recipeData: RecipeData): Recipe {
   );
 
   // Create a base recipe with required properties
-  const recipe: Recipe = {;
+  const recipe: Recipe = {
     id: recipeData.id || `recipe-${Date.now()}`,
-    name: recipeData.name || 'Unnamed Recipe',
+    name: recipeData.name || 'Unnamed Recipe';
     ingredients,
     instructions: recipeData.instructions || ['Combine ingredients and cook as desired.'],
     elementalProperties: ((recipeData as unknown as any).elementalState as ElementalProperties) || {
-      Fire: 0.25,
-      Water: 0.25,
-      Earth: 0.25,
+      Fire: 0.25;
+      Water: 0.25;
+      Earth: 0.25;
       Air: 0.25
     }
   };
@@ -60,10 +60,10 @@ export function adaptRecipeData(recipeData: RecipeData): Recipe {
     recipe.elementalState = recipeDataAny.elementalState as ElementalProperties;
   } else {
     // Create default elemental properties
-    recipe.elementalState = createElementalProperties({;
-      Fire: 0.25,
-      Water: 0.25,
-      Earth: 0.25,
+    recipe.elementalState = createElementalProperties({
+      Fire: 0.25;
+      Water: 0.25;
+      Earth: 0.25;
       Air: 0.25
     });
   }
@@ -99,7 +99,7 @@ export function adaptRecipeData(recipeData: RecipeData): Recipe {
     }
 
     if (energyProfile.planetary) {
-      recipe.planetaryInfluences = {;
+      recipe.planetaryInfluences = {
         favorable: energyProfile.planetary as string[],
         unfavorable: [], // ← Pattern GG-6: Added missing unfavorable property
       };
@@ -122,7 +122,7 @@ export function adaptRecipeData(recipeData: RecipeData): Recipe {
       'low-carb',
       'keto',
       'paleo'
-    ].includes(tag.toLowerCase()),
+    ].includes(tag.toLowerCase());
   );
 
   if (dietaryTags.includes('vegetarian')) {
@@ -145,7 +145,7 @@ export function adaptRecipeData(recipeData: RecipeData): Recipe {
   if (recipeData.tags) {
     const mealTypeValues = ['breakfast', 'lunch', 'dinner', 'snack', 'dessert', 'appetizer'];
     const mealTypes = (recipeData.tags || []).filter(tag =>;
-      mealTypeValues.includes(tag.toLowerCase()),
+      mealTypeValues.includes(tag.toLowerCase());
     );
     if (mealTypes.length > 0) {
       recipe.mealType = mealTypes;
@@ -157,11 +157,11 @@ export function adaptRecipeData(recipeData: RecipeData): Recipe {
     const nutritionData = recipeData.nutrition as any;
     const macronutrients = (nutritionData.macronutrients as unknown) || {};
     const micronutrients = (nutritionData.micronutrients ) || {};
-    recipe.nutrition = {;
-      calories: Number(nutritionData.calories) || 0,
-      protein: Number(nutritionData.protein) || Number(macronutrients.protein) || 0,
-      carbs: Number(nutritionData.carbs) || Number(macronutrients.carbs) || 0,
-      fat: Number(nutritionData.fat) || Number(macronutrients.fat) || 0,
+    recipe.nutrition = {
+      calories: Number(nutritionData.calories) || 0;
+      protein: Number(nutritionData.protein) || Number(macronutrients.protein) || 0;
+      carbs: Number(nutritionData.carbs) || Number(macronutrients.carbs) || 0;
+      fat: Number(nutritionData.fat) || Number(macronutrients.fat) || 0;
       vitamins: (nutritionData.vitamins as string[]) || (micronutrients.vitamins as string[]) || [],
       minerals: (nutritionData.minerals as string[]) || (micronutrients.minerals as string[]) || []
     };
@@ -207,10 +207,10 @@ export function adaptRecipeData(recipeData: RecipeData): Recipe {
  * @returns Array of type-safe RecipeIngredient objects
  */
 function adaptIngredients(ingredients: Recipe[]): RecipeIngredient[] {
-  return (ingredients || []).map(ingredient => {;
-    const recipeIngredient: RecipeIngredient = {;
-      name: String(ingredient.name) || 'Unknown Ingredient',
-      amount: Number(ingredient.amount),
+  return (ingredients || []).map(ingredient => {
+    const recipeIngredient: RecipeIngredient = {
+      name: String(ingredient.name) || 'Unknown Ingredient';
+      amount: Number(ingredient.amount);
       unit: String(ingredient.unit) || ''
     };
 
@@ -245,8 +245,8 @@ export function createScoredRecipe(recipe: Recipe, matchScore: number): ScoredRe
   const score = Math.round(matchScore * 100);
 
   // Create the scored recipe
-  const scoredRecipe: ScoredRecipe = {;
-    ...adaptedRecipe,
+  const scoredRecipe: ScoredRecipe = {
+    ...adaptedRecipe;
     score,
     alchemicalScores: {
       elementalScore: 0,
@@ -308,7 +308,7 @@ export function extractElementalProperties(recipeData: RecipeData): ElementalPro
 export function getCookingMethodsFromRecipe(recipeData: RecipeData): string[] {
   // Try to derive cooking methods from tags if they exist
   if (recipeData.tags && Array.isArray(recipeData.tags)) {
-    const cookingMethodKeywords = [;
+    const cookingMethodKeywords = [
       'baking',
       'roasting',
       'grilling',
@@ -355,9 +355,9 @@ export function createMinimalRecipe(name: string): Recipe {
     name,
     ingredients: [],
     elementalProperties: createElementalProperties({
-      Fire: 0.25,
-      Water: 0.25,
-      Earth: 0.25,
+      Fire: 0.25;
+      Water: 0.25;
+      Earth: 0.25;
       Air: 0.25
     }),
     instructions: [], // ← Pattern GG-4: Added missing instructions property

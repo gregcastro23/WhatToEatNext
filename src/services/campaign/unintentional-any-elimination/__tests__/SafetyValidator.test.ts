@@ -17,7 +17,7 @@ jest.mock('fs');
 const mockFs: any = fs as jest.Mocked<typeof fs>;
 
 describe('SafetyValidator', () => {
-  let validator: SafetyValidator;
+  let validator: SafetyValidator,
 
   beforeEach(() => {
     validator = new SafetyValidator();
@@ -38,29 +38,29 @@ describe('SafetyValidator', () => {
     test('handles compilation errors', async () => {
       const errorOutput: any = `;
         src/test.ts(10,5): error TS2322: Type 'string' is not assignable to type 'number'.
-        src/test.ts(15,10): error TS2304: Cannot find name 'unknownVariable'.;
+        src/test.ts(15,10): error TS2304: Cannot find name 'unknownVariable'.,
         Found 2 errors.
       `;
 
       mockExecSync.mockImplementation(() => {
         const error: any = new Error('Compilation failed') as unknown;
         (error as any).stdout = errorOutput;
-        throw error;
+        throw error,
       });
 
       const result: any = await validator.validateTypeScriptCompilation();
 
       expect(result.buildSuccessful).toBe(false);
       expect(result.compilationErrors).toHaveLength(2);
-      expect(result.compilationErrors.[0]).toContain('error TS2322');
-      expect(result.compilationErrors.[1]).toContain('error TS2304');
+      expect(result.compilationErrors[0]).toContain('error TS2322');
+      expect(result.compilationErrors[1]).toContain('error TS2304');
     });
 
     test('handles compilation timeout', async () => {
       mockExecSync.mockImplementation(() => {
         const error: any = new Error('Timeout') as unknown;
         (error as any).code = 'TIMEOUT';
-        throw error;
+        throw error,
       });
 
       const result: any = await validator.validateTypeScriptCompilation();
@@ -102,7 +102,7 @@ describe('SafetyValidator', () => {
         return '';
       });
 
-      const slowValidator: any = new SafetyValidator(60000, {;
+      const slowValidator: any = new SafetyValidator(60000, {
         maximumBuildTime: 50 // Very low threshold
       });
 
@@ -162,17 +162,17 @@ describe('SafetyValidator', () => {
 
   describe('Safety Score Calculation', () => {
     test('calculates safety score for array replacement', () => {
-      const replacement: TypeReplacement = { original: 'any[]',;
+      const replacement: TypeReplacement = { original: 'any[]',,
         replacement: 'unknown[]',
-        filePath: 'test.ts',
+        filePath: 'test.ts';
         lineNumber: 1,
-        confidence: 0.9,
+        confidence: 0.9;
         validationRequired: true
       };
 
-      const context: ClassificationContext = { filePath: 'test.ts',;
+      const context: ClassificationContext = { filePath: 'test.ts',,
         lineNumber: 1,
-        codeSnippet: 'const item, s: any[] = [];',
+        codeSnippet: 'const item, s: any[] = [],',
         surroundingLines: [],
         hasExistingComment: false,
         isInTestFile: false,
@@ -191,15 +191,15 @@ describe('SafetyValidator', () => {
     });
 
     test('reduces safety score for error handling contexts', () => {
-      const replacement: TypeReplacement = { original: 'any',;
+      const replacement: TypeReplacement = { original: 'any',,
         replacement: 'unknown',
-        filePath: 'test.ts',
+        filePath: 'test.ts';
         lineNumber: 1,
-        confidence: 0.8,
+        confidence: 0.8;
         validationRequired: true
       };
 
-      const errorContext: ClassificationContext = { filePath: 'test.ts',;
+      const errorContext: ClassificationContext = { filePath: 'test.ts',,
         lineNumber: 1,
         codeSnippet: 'catch (erro, r: any) : any {',
         surroundingLines: [],
@@ -219,17 +219,17 @@ describe('SafetyValidator', () => {
     });
 
     test('boosts safety score for test files', () => {
-      const replacement: TypeReplacement = { original: 'any[]',;
+      const replacement: TypeReplacement = { original: 'any[]',,
         replacement: 'unknown[]',
-        filePath: 'test.test.ts',
+        filePath: 'test.test.ts';
         lineNumber: 1,
-        confidence: 0.8,
+        confidence: 0.8;
         validationRequired: true
       };
 
-      const testContext: ClassificationContext = { filePath: 'test.test.ts',;
+      const testContext: ClassificationContext = { filePath: 'test.test.ts',,
         lineNumber: 1,
-        codeSnippet: 'const mockDat, a: any[] = [];',
+        codeSnippet: 'const mockDat, a: any[] = [],',
         surroundingLines: [],
         hasExistingComment: false,
         isInTestFile: true,
@@ -246,17 +246,17 @@ describe('SafetyValidator', () => {
     });
 
     test('warns about external API contexts', () => {
-      const replacement: TypeReplacement = { original: 'any',;
+      const replacement: TypeReplacement = { original: 'any',,
         replacement: 'unknown',
-        filePath: 'api.ts',
+        filePath: 'api.ts';
         lineNumber: 1,
-        confidence: 0.8,
+        confidence: 0.8;
         validationRequired: true
       };
 
-      const apiContext: ClassificationContext = { filePath: 'api.ts',;
+      const apiContext: ClassificationContext = { filePath: 'api.ts',,
         lineNumber: 1,
-        codeSnippet: 'const respons, e: any = await fetch('/api/data');',
+        codeSnippet: 'const respons, e: any = await fetch('/api/data'),',
         surroundingLines: [],
         hasExistingComment: false,
         isInTestFile: false,
@@ -274,15 +274,15 @@ describe('SafetyValidator', () => {
     });
 
     test('handles function parameter replacements with caution', () => {
-      const replacement: TypeReplacement = { original: 'any',;
+      const replacement: TypeReplacement = { original: 'any',,
         replacement: 'unknown',
-        filePath: 'function.ts',
+        filePath: 'function.ts';
         lineNumber: 1,
-        confidence: 0.8,
+        confidence: 0.8;
         validationRequired: true
       };
 
-      const functionContext: ClassificationContext = { filePath: 'function.ts',;
+      const functionContext: ClassificationContext = { filePath: 'function.ts',,
         lineNumber: 1,
         codeSnippet: 'function process(dat, a: any) : any {',
         surroundingLines: [],
@@ -311,8 +311,8 @@ describe('SafetyValidator', () => {
     });
 
     test('updates safety thresholds', () => {
-      const newThresholds: any = {;
-        minimumSafetyScore: 0.9,
+      const newThresholds: any = {
+        minimumSafetyScore: 0.9;
         maximumBuildTime: 60000
       };
 
@@ -326,21 +326,21 @@ describe('SafetyValidator', () => {
 
   describe('Performance Metrics Validation', () => {
     test('validates acceptable performance metrics', () => {
-      const fastValidator: any = new SafetyValidator(60000, {;
+      const fastValidator: any = new SafetyValidator(60000, {
         maximumBuildTime: 30000
       });
 
-      const mockReplacement: TypeReplacement = { original: 'any[]',;
+      const mockReplacement: TypeReplacement = { original: 'any[]',,
         replacement: 'unknown[]',
-        filePath: 'test.ts',
+        filePath: 'test.ts';
         lineNumber: 1,
-        confidence: 0.9,
+        confidence: 0.9;
         validationRequired: true
       };
 
-      const mockContext: ClassificationContext = { filePath: 'test.ts',;
+      const mockContext: ClassificationContext = { filePath: 'test.ts',,
         lineNumber: 1,
-        codeSnippet: 'const item, s: any[] = [];',
+        codeSnippet: 'const item, s: any[] = [],',
         surroundingLines: [],
         hasExistingComment: false,
         isInTestFile: false,
@@ -361,23 +361,23 @@ describe('SafetyValidator', () => {
       const complexErrorOutput: any = `;
         src/file1.ts(10,5): error TS2322: Type 'string' is not assignable to type 'number'.
         src/file2.ts(15,10): error TS2304: Cannot find name 'unknownVariable'.
-        src/file3.ts(20,15): error TS2345: Argument of type 'number' is not assignable to parameter of type 'string'.;
+        src/file3.ts(20,15): error TS2345: Argument of type 'number' is not assignable to parameter of type 'string'.,
         Found 3 errors.
       `;
 
       mockExecSync.mockImplementation(() => {
         const error: any = new Error('Compilation failed') as unknown;
         (error as any).stdout = complexErrorOutput;
-        throw error;
+        throw error,
       });
 
       const result: any = await validator.validateTypeScriptCompilation();
 
       expect(result.buildSuccessful).toBe(false);
       expect(result.compilationErrors).toHaveLength(3);
-      expect(result.compilationErrors.[0]).toContain('TS2322');
-      expect(result.compilationErrors.[1]).toContain('TS2304');
-      expect(result.compilationErrors.[2]).toContain('TS2345');
+      expect(result.compilationErrors[0]).toContain('TS2322');
+      expect(result.compilationErrors[1]).toContain('TS2304');
+      expect(result.compilationErrors[2]).toContain('TS2345');
     });
 
     test('limits error count to maximum threshold', async () => {
@@ -388,10 +388,10 @@ describe('SafetyValidator', () => {
       mockExecSync.mockImplementation(() => {
         const error: any = new Error('Many errors') as unknown;
         (error as any).stdout = manyErrorsOutput;
-        throw error;
+        throw error,
       });
 
-      const limitedValidator: any = new SafetyValidator(60000, {;
+      const limitedValidator: any = new SafetyValidator(60000, {
         maximumErrorCount: 5
       });
 

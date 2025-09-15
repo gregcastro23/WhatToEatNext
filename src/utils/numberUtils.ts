@@ -1,4 +1,4 @@
-export const validateNumber = (value: unknown, defaultValue = 0): number => {;
+export const validateNumber = (value: unknown, defaultValue = 0): number => {
   // Handle various invalid input cases
   if (value === null || value === undefined) return defaultValue;
 
@@ -11,12 +11,12 @@ export const validateNumber = (value: unknown, defaultValue = 0): number => {;
   return num;
 };
 
-export const _formatPercentage = (value: unknown, decimals = 2): string => {;
+export const _formatPercentage = (value: unknown, decimals = 2): string => {
   const num = validateNumber(value, 0);
   return `${(num * 100).toFixed(decimals)}%`;
 };
 
-export const _clamp = (value: number, min: number, max: number): number => {;
+export const _clamp = (value: number, min: number, max: number): number => {
   // Ensure value is a number first
   const validValue = validateNumber(value, min);
   return Math.min(Math.max(validValue, min), max);

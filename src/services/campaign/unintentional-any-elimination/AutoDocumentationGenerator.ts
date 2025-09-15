@@ -20,7 +20,7 @@ import {
 } from './types';
 
 export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerator {
-  private templates: Map<string, DocumentationTemplate> = new Map();
+  private templates: Map<string, DocumentationTemplate> = new Map(),
   private processedFiles: Set<string> = new Set();
 
   constructor() {
@@ -34,16 +34,16 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
     const templates: DocumentationTemplate[] = [
       // Error Handling Templates
       {
-        category: AnyTypeCategory.ERROR_HANDLING,
-        domain: CodeDomain.UTILITY,
+        category: AnyTypeCategory.ERROR_HANDLING;
+        domain: CodeDomain.UTILITY;
         template:
           '// Intentionally any: Error handling requires flexible typing for unknown error structures',
         eslintDisableComment: '// eslint-disable-next-line @typescript-eslint/no-explicit-any',
         explanation: 'Error objects can have unpredictable structures from various sources'
       },
       {
-        category: AnyTypeCategory.ERROR_HANDLING,
-        domain: CodeDomain.SERVICE,
+        category: AnyTypeCategory.ERROR_HANDLING;
+        domain: CodeDomain.SERVICE;
         template: '// Intentionally any: Service error handling for external API failures',
         eslintDisableComment: '// eslint-disable-next-line @typescript-eslint/no-explicit-any',
         explanation: 'External services may return varied error formats'
@@ -51,22 +51,22 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
 
       // External API Templates
       {
-        category: AnyTypeCategory.EXTERNAL_API,
-        domain: CodeDomain.ASTROLOGICAL,
+        category: AnyTypeCategory.EXTERNAL_API;
+        domain: CodeDomain.ASTROLOGICAL;
         template: '// Intentionally any: External astrological API response with dynamic structure',
         eslintDisableComment: '// eslint-disable-next-line @typescript-eslint/no-explicit-any',
         explanation: 'Astrological APIs may return varied planetary position formats'
       },
       {
-        category: AnyTypeCategory.EXTERNAL_API,
-        domain: CodeDomain.RECIPE,
+        category: AnyTypeCategory.EXTERNAL_API;
+        domain: CodeDomain.RECIPE;
         template: '// Intentionally any: External recipe API with flexible ingredient data',
         eslintDisableComment: '// eslint-disable-next-line @typescript-eslint/no-explicit-any',
         explanation: 'Recipe APIs have diverse ingredient and nutritional data structures'
       },
       {
-        category: AnyTypeCategory.EXTERNAL_API,
-        domain: CodeDomain.SERVICE,
+        category: AnyTypeCategory.EXTERNAL_API;
+        domain: CodeDomain.SERVICE;
         template: '// Intentionally any: External API response with unknown structure',
         eslintDisableComment: '// eslint-disable-next-line @typescript-eslint/no-explicit-any',
         explanation: 'Third-party APIs may change response formats without notice'
@@ -74,8 +74,8 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
 
       // Test Mock Templates
       {
-        category: AnyTypeCategory.TEST_MOCK,
-        domain: CodeDomain.TEST,
+        category: AnyTypeCategory.TEST_MOCK;
+        domain: CodeDomain.TEST;
         template:
           '// Intentionally any: Test mock requires flexible typing for comprehensive testing',
         eslintDisableComment: '// eslint-disable-next-line @typescript-eslint/no-explicit-any',
@@ -84,16 +84,16 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
 
       // Dynamic Configuration Templates
       {
-        category: AnyTypeCategory.DYNAMIC_CONFIG,
-        domain: CodeDomain.CAMPAIGN,
+        category: AnyTypeCategory.DYNAMIC_CONFIG;
+        domain: CodeDomain.CAMPAIGN;
         template:
           '// Intentionally any: Campaign system requires flexible configuration for dynamic behavior',
         eslintDisableComment: '// eslint-disable-next-line @typescript-eslint/no-explicit-any',
         explanation: 'Campaign configurations adapt to various automation scenarios'
       },
       {
-        category: AnyTypeCategory.DYNAMIC_CONFIG,
-        domain: CodeDomain.INTELLIGENCE,
+        category: AnyTypeCategory.DYNAMIC_CONFIG;
+        domain: CodeDomain.INTELLIGENCE;
         template:
           '// Intentionally any: Intelligence system configuration with adaptive parameters',
         eslintDisableComment: '// eslint-disable-next-line @typescript-eslint/no-explicit-any',
@@ -102,8 +102,8 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
 
       // Legacy Compatibility Templates
       {
-        category: AnyTypeCategory.LEGACY_COMPATIBILITY,
-        domain: CodeDomain.UTILITY,
+        category: AnyTypeCategory.LEGACY_COMPATIBILITY;
+        domain: CodeDomain.UTILITY;
         template: '// Intentionally any: Legacy compatibility layer for gradual migration',
         eslintDisableComment: '// eslint-disable-next-line @typescript-eslint/no-explicit-any',
         explanation: 'Maintains compatibility with existing untyped code during migration'
@@ -111,8 +111,8 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
 
       // Component Templates
       {
-        category: AnyTypeCategory.EXTERNAL_API,
-        domain: CodeDomain.COMPONENT,
+        category: AnyTypeCategory.EXTERNAL_API;
+        domain: CodeDomain.COMPONENT;
         template: '// Intentionally any: React component props with dynamic external data',
         eslintDisableComment: '// eslint-disable-next-line @typescript-eslint/no-explicit-any',
         explanation: 'Component receives data from external sources with varying structures'
@@ -120,15 +120,15 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
 
       // Default fallback template
       {
-        category: AnyTypeCategory.LEGACY_COMPATIBILITY,
-        domain: CodeDomain.UTILITY,
+        category: AnyTypeCategory.LEGACY_COMPATIBILITY;
+        domain: CodeDomain.UTILITY;
         template: '// Intentionally any: Requires flexible typing for specific use case',
         eslintDisableComment: '// eslint-disable-next-line @typescript-eslint/no-explicit-any',
         explanation: 'Type flexibility needed for this specific implementation'
       }
     ];
 
-    templates.forEach(template => {;
+    templates.forEach(template => {
       const key = `${template.category}_${template.domain}`;
       this.templates.set(key, template);
     });
@@ -144,10 +144,10 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
     try {
       if (!classification.isIntentional || !classification.requiresDocumentation) {
         return {
-          filePath: context.filePath,
-          lineNumber: context.lineNumber,
-          originalCode: context.codeSnippet,
-          documentedCode: context.codeSnippet,
+          filePath: context.filePath;
+          lineNumber: context.lineNumber;
+          originalCode: context.codeSnippet;
+          documentedCode: context.codeSnippet;
           commentAdded: '',
           success: false,
           error: 'Type is not intentional or does not require documentation'
@@ -157,11 +157,11 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
       // Skip if already has adequate documentation
       if (context.hasExistingComment && this.isCommentAdequate(context.existingComment || '')) {
         return {
-          filePath: context.filePath,
-          lineNumber: context.lineNumber,
-          originalCode: context.codeSnippet,
-          documentedCode: context.codeSnippet,
-          commentAdded: context.existingComment || '',
+          filePath: context.filePath;
+          lineNumber: context.lineNumber;
+          originalCode: context.codeSnippet;
+          documentedCode: context.codeSnippet;
+          commentAdded: context.existingComment || '';
           success: true
         };
       }
@@ -177,7 +177,7 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
       // Insert documentation
       const { updatedLines, insertedComment } = this.insertDocumentation(
         lines,
-        context.lineNumber,
+        context.lineNumber;
         documentationComment,
         eslintDisableComment,
       );
@@ -189,9 +189,9 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
       this.processedFiles.add(context.filePath);
 
       return {
-        filePath: context.filePath,
-        lineNumber: context.lineNumber,
-        originalCode: context.codeSnippet,
+        filePath: context.filePath;
+        lineNumber: context.lineNumber;
+        originalCode: context.codeSnippet;
         documentedCode: updatedLines[context.lineNumber - 1] || context.codeSnippet,
         commentAdded: insertedComment,
         eslintDisableAdded: eslintDisableComment,
@@ -199,10 +199,10 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
       };
     } catch (error) {
       return {
-        filePath: context.filePath,
-        lineNumber: context.lineNumber,
-        originalCode: context.codeSnippet,
-        documentedCode: context.codeSnippet,
+        filePath: context.filePath;
+        lineNumber: context.lineNumber;
+        originalCode: context.codeSnippet;
+        documentedCode: context.codeSnippet;
         commentAdded: '',
         success: false,
         error: error instanceof Error ? error.message : 'Unknown error'
@@ -239,7 +239,7 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
       commentQuality,
       hasEslintDisable,
       eslintDisableHasExplanation,
-    );
+    ),
 
     return {
       hasComment,
@@ -257,7 +257,7 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
   async generateReport(): Promise<DocumentationReport> {
     // This would typically scan the entire codebase
     // For now, we'll return a basic structure
-    const report: DocumentationReport = {;
+    const report: DocumentationReport = {
       totalIntentionalAnyTypes: 0,
       documentedTypes: 0,
       undocumentedTypes: 0,
@@ -288,7 +288,7 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
     const template = this.templates.get(key);
 
     if (template) {
-      return template;
+      return template,
     }
 
     // Try with default domain
@@ -296,7 +296,7 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
     const defaultTemplate = this.templates.get(defaultKey);
 
     if (defaultTemplate) {
-      return defaultTemplate;
+      return defaultTemplate,
     }
 
     // Fallback to generic template
@@ -343,7 +343,7 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
     lineNumber: number,
     comment: string,
     eslintDisable?: string,
-  ): { updatedLines: string[]; insertedComment: string } {
+  ): { updatedLines: string[], insertedComment: string } {
     const lineIndex = lineNumber - 1;
     const updatedLines = [...lines];
     const indentation = this.getIndentation(lines[lineIndex] || '');
@@ -375,7 +375,7 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
    */
   private getIndentation(line: string): string {
     const match = line.match(/^(\s*)/);
-    return match ? match[1] : '';
+    return match ? match[1] : '',
   }
 
   /**
@@ -390,7 +390,7 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
       lowerComment.includes('deliberately') ||
       lowerComment.includes('required for') ||
       lowerComment.includes('needed for')
-    );
+    ),
   }
 
   /**
@@ -398,9 +398,9 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
    */
   private hasEslintDisableComment(lines: string[], lineIndex: number): boolean {
     // Check current line and previous lines
-    for (let i = Math.max(0, lineIndex - 2); i <= lineIndex; i++) {
+    for (let i = Math.max(0, lineIndex - 2); i <= lineIndex, i++) {
       if (lines[i] && lines[i].includes('eslint-disable') && lines[i].includes('no-explicit-any')) {
-        return true;
+        return true,
       }
     }
     return false;
@@ -410,14 +410,14 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
    * Check if ESLint disable comment has explanation
    */
   private eslintDisableHasExplanation(lines: string[], lineIndex: number): boolean {
-    for (let i = Math.max(0, lineIndex - 2); i <= lineIndex; i++) {
+    for (let i = Math.max(0, lineIndex - 2); i <= lineIndex, i++) {
       const line = lines[i];
       if (line && line.includes('eslint-disable') && line.includes('no-explicit-any')) {
         // Check if it's just the disable comment or has explanation
         const parts = line.split('eslint-disable-next-line');
         return (
           parts.length > 1 && parts[1].trim().length > '@typescript-eslint/no-explicit-any'.length
-        );
+        ),
       }
     }
     return false;
@@ -428,7 +428,7 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
    */
   private assessCommentQuality(comment: string): 'poor' | 'fair' | 'good' | 'excellent' {
     if (!comment || comment.trim().length < 10) {
-      return 'poor';
+      return 'poor',
     }
 
     const lowerComment = comment.toLowerCase();
@@ -487,9 +487,9 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
 
     if (!hasComment) {
       suggestions.push('Add explanatory comment indicating intentional use of any type');
-    } else if (commentQuality === 'poor') {;
+    } else if (commentQuality === 'poor') {
       suggestions.push('Improve comment quality with more detailed explanation');
-    } else if (commentQuality === 'fair') {;
+    } else if (commentQuality === 'fair') {
       suggestions.push('Consider adding more context about why any type is necessary');
     }
 
@@ -499,7 +499,7 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
       suggestions.push('Add explanation to ESLint disable comment');
     }
 
-    if (suggestions.length === 0) {;
+    if (suggestions.length === 0) {
       suggestions.push('Documentation is complete and well-structured');
     }
 

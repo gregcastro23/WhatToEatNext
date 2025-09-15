@@ -11,16 +11,16 @@ import { Element, ElementalProperties } from '@/types/alchemy';
  */
 export interface CuisineRecommendation {
   cuisine: string;
-  compatibility: number;
-  reasons: string[];
-  elementalAlignment: ElementalProperties;
-  suggestedDishes: string[];
+  compatibility: number,
+  reasons: string[],
+  elementalAlignment: ElementalProperties,
+  suggestedDishes: string[],
 }
 
 /**
  * Planetary cuisine associations
  */
-const PLANETARY_CUISINES = {;
+const PLANETARY_CUISINES = {
   Sun: ['Mediterranean', 'Italian', 'Spanish', 'Greek'],
   moon: ['Japanese', 'Korean', 'Scandinavian', 'British'],
   Mercury: ['Thai', 'Vietnamese', 'Lebanese', 'Moroccan'],
@@ -36,7 +36,7 @@ const PLANETARY_CUISINES = {;
 /**
  * Elemental cuisine characteristics
  */
-const ELEMENTAL_CUISINES = {;
+const ELEMENTAL_CUISINES = {
   Fire: {
     cuisines: ['Mexican', 'Indian', 'Thai', 'Cajun', 'Ethiopian'],
     characteristics: ['Spicy', 'Grilled', 'Roasted', 'High heat cooking'],
@@ -63,7 +63,7 @@ const ELEMENTAL_CUISINES = {;
  * Generate cuisine recommendations based on dominant planets
  */
 export function generateCuisineRecommendations(
-  dominantPlanets: Array<{ planet: string; strength: number; element: Element }>,
+  dominantPlanets: Array<{ planet: string, strength: number, element: Element }>,
   elementalProperties: ElementalProperties,
 ): CuisineRecommendation[] {
   const recommendations: CuisineRecommendation[] = [];
@@ -73,13 +73,13 @@ export function generateCuisineRecommendations(
   dominantPlanets.slice(0, 3).forEach(({ planet, strength, element }) => {
     const planetaryCuisines = PLANETARY_CUISINES[planet as keyof typeof PLANETARY_CUISINES] || [];
 
-    (planetaryCuisines || []).forEach(cuisine => {;
+    (planetaryCuisines || []).forEach(cuisine => {
       if (!processedCuisines.has(cuisine)) {
         processedCuisines.add(cuisine);
 
         const compatibility = calculateCuisineCompatibility(cuisine, elementalProperties, strength);
-        const reasons = generateCuisineReasons(cuisine, planet, element, strength);
-        const suggestedDishes = getSuggestedDishes(cuisine, elementalProperties);
+        const reasons = generateCuisineReasons(cuisine, planet, element, strength),
+        const suggestedDishes = getSuggestedDishes(cuisine, elementalProperties),
 
         recommendations.push({
           cuisine,
@@ -98,12 +98,12 @@ export function generateCuisineRecommendations(
       // Only recommend if element is prominent
       const elementalCuisines = ELEMENTAL_CUISINES[element as keyof typeof ELEMENTAL_CUISINES];
 
-      (elementalCuisines.cuisines || []).forEach(cuisine => {;
+      (elementalCuisines.cuisines || []).forEach(cuisine => {
         if (!processedCuisines.has(cuisine)) {
           processedCuisines.add(cuisine);
 
-          const compatibility = value * 0.8; // Base on elemental strength
-          const reasons = [;
+          const compatibility = value * 0.8, // Base on elemental strength
+          const reasons = [
             `Strong ${element} element aligns with ${cuisine} cuisine characteristics`
           ];
           const suggestedDishes = getSuggestedDishes(cuisine, elementalProperties);
@@ -130,7 +130,7 @@ export function generateCuisineRecommendations(
 function calculateCuisineCompatibility(
   cuisine: string,
   userElementals: ElementalProperties,
-  planetaryStrength: number = 1.0,;
+  planetaryStrength: number = 1.0;
 ): number {
   const cuisineElementals = calculateCuisineElementalAlignment(cuisine);
 

@@ -71,7 +71,7 @@ export class ScriptIntegrationSystem {
   private readonly scriptsBasePath: string;
   private readonly scriptConfigs: Map<string, ScriptConfig>;
 
-  constructor(scriptsBasePath: string = 'scripts') {;
+  constructor(scriptsBasePath: string = 'scripts') {
     this.scriptsBasePath = scriptsBasePath;
     this.scriptConfigs = new Map();
     this.initializeScriptConfigs();
@@ -148,7 +148,7 @@ export class ScriptIntegrationSystem {
    */
   async executeScript(
     scriptId: string,
-    options: ScriptExecutionOptions = {},;
+    options: ScriptExecutionOptions = {},
   ): Promise<ScriptExecutionResult> {
     const config = this.scriptConfigs.get(scriptId);
     if (!config) {
@@ -180,7 +180,7 @@ export class ScriptIntegrationSystem {
     let result: ScriptExecutionResult;
 
     try {
-      const output = execSync(command, {;
+      const output = execSync(command, {
         encoding: 'utf8',
         timeout: 300000, // 5 minute timeout
         maxBuffer: 10 * 1024 * 1024, // 10MB buffer
@@ -212,7 +212,7 @@ export class ScriptIntegrationSystem {
     }
 
     try {
-      const result = await this.executeScript(scriptId, {;
+      const result = await this.executeScript(scriptId, {
         showMetrics: true,
         json: true,
         silent: true
@@ -258,7 +258,7 @@ export class ScriptIntegrationSystem {
     }
 
     try {
-      const result = await this.executeScript(scriptId, {;
+      const result = await this.executeScript(scriptId, {
         validateSafety: true,
         json: true,
         silent: true
@@ -377,7 +377,7 @@ export class ScriptIntegrationSystem {
     success: boolean,
     exitCode: number,
   ): ScriptExecutionResult {
-    const result: ScriptExecutionResult = {;
+    const result: ScriptExecutionResult = {
       success,
       exitCode,
       stdout: output,
@@ -394,7 +394,7 @@ export class ScriptIntegrationSystem {
       if (output.trim().startsWith('{')) {
         const jsonData = JSON.parse(output);
         if (jsonData.safetyMetrics) {
-          result.metrics = {;
+          result.metrics = {
             totalRuns: jsonData.safetyMetrics.totalRuns || 0,
             successfulRuns: jsonData.safetyMetrics.successfulRuns || 0,
             filesProcessed: jsonData.safetyMetrics.filesProcessed || 0,
@@ -510,7 +510,7 @@ export class ScriptIntegrationSystem {
 
     if (result.safetyEvents.length > 0) {
       // console.log(`🚨 Safety Events: ${result.safetyEvents.length}`);
-      result.safetyEvents.forEach(event => {;
+      result.safetyEvents.forEach(event => {
         // console.log(`   ${event.type}: ${event.description}`);
       });
     }

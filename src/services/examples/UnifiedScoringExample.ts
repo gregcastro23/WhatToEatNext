@@ -23,7 +23,7 @@ export class UnifiedScoringExample {
    * Example 1: Score an ingredient recommendation
    */
   static async scoreIngredient(): Promise<ScoringResult> {
-    const context: ScoringContext = {;
+    const context: ScoringContext = {
       dateTime: new Date(),
       location: {
         latitude: 40.7128,
@@ -70,7 +70,7 @@ export class UnifiedScoringExample {
    * Example 2: Score a cooking method
    */
   static async scoreCookingMethod(): Promise<ScoringResult> {
-    const context: ScoringContext = {;
+    const context: ScoringContext = {
       dateTime: new Date(),
       location: {
         latitude: 34.0522,
@@ -110,7 +110,7 @@ export class UnifiedScoringExample {
    * Example 3: Score a recipe with complex preferences
    */
   static async scoreRecipe(): Promise<ScoringResult> {
-    const context: ScoringContext = {;
+    const context: ScoringContext = {
       dateTime: new Date(),
       item: {
         name: 'Mushroom Risotto',
@@ -152,7 +152,7 @@ export class UnifiedScoringExample {
    * Example 4: Score a cuisine type
    */
   static async scoreCuisine(): Promise<ScoringResult> {
-    const context: ScoringContext = {;
+    const context: ScoringContext = {
       dateTime: new Date(),
       location: {
         latitude: 35.6762,
@@ -254,7 +254,7 @@ export class UnifiedScoringExample {
   static async useSingletonExample(): Promise<void> {
     const scoringService = UnifiedScoringService.getInstance();
 
-    const context: ScoringContext = {;
+    const context: ScoringContext = {
       dateTime: new Date(),
       item: {
         name: 'Sage',
@@ -273,7 +273,7 @@ export class UnifiedScoringExample {
    * Example comparing multiple items
    */
   static async compareItems(): Promise<void> {
-    const baseContext = {;
+    const baseContext = {
       dateTime: new Date(),
       preferences: {
         intensityPreference: 'moderate' as const,
@@ -281,7 +281,7 @@ export class UnifiedScoringExample {
       }
     };
 
-    const items = [;
+    const items = [
       {
         name: 'Rosemary',
         type: 'ingredient' as const,
@@ -315,7 +315,7 @@ export class UnifiedScoringExample {
     log.info('=== Comparing Herbs ===');
 
     for (const item of items) {
-      const context: ScoringContext = {;
+      const context: ScoringContext = {
         ...baseContext,
         item
       };

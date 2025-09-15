@@ -15,7 +15,7 @@ const mockFs: any = fs as jest.Mocked<typeof fs>;
 const mockExecSync: any = execSync as jest.MockedFunction<typeof execSync>;
 
 describe('MakefileIntegration', () => {
-  let makefileIntegration: MakefileIntegration;
+  let makefileIntegration: MakefileIntegration,
 
   beforeEach(() => {
     makefileIntegration = new MakefileIntegration();
@@ -98,7 +98,7 @@ describe('MakefileIntegration', () => {
       error.status = 2;
       (error as any).stdout = 'Error output';
       mockExecSync.mockImplementation(() => {
-        throw error;
+        throw error,
       });
 
       const result: any = await makefileIntegration.executeMakeTarget('failing-target');
@@ -137,7 +137,7 @@ describe('MakefileIntegration', () => {
         .mockReturnValueOnce('5') // TypeScript errors
         .mockReturnValueOnce('10') // Linting warnings
         .mockReturnValueOnce('150') // Enterprise systems
-        .mockReturnValueOnce(''); // Build (successful)
+        .mockReturnValueOnce(''), // Build (successful)
     });
 
     it('should return campaign progress with correct phase determination', async () => {
@@ -181,7 +181,7 @@ describe('MakefileIntegration', () => {
         .mockReturnValueOnce('0') // No TypeScript errors
         .mockReturnValueOnce('0') // No linting warnings
         .mockReturnValueOnce('250') // Enough enterprise systems
-        .mockReturnValueOnce(''); // Build successful but need to check time
+        .mockReturnValueOnce(''), // Build successful but need to check time
 
       const progress: any = await makefileIntegration.getCampaignProgress();
 
@@ -190,7 +190,7 @@ describe('MakefileIntegration', () => {
 
     it('should handle errors gracefully', async () => {
       mockExecSync.mockImplementation(() => {
-        throw new Error('Command failed');
+        throw new Error('Command failed'),
       });
 
       const progress: any = await makefileIntegration.getCampaignProgress();
@@ -215,9 +215,9 @@ describe('MakefileIntegration', () => {
       expect(result).toBe(true);
       expect(mockFs.writeFileSync).toHaveBeenCalledWith(
         'Makefile',
-        expect.stringContaining('# Campaign Execution Framework'),
+        expect.stringContaining('# Campaign Execution Framework');
         'utf8',
-      );
+      ),
     });
 
     it('should not add targets if they already exist', async () => {
@@ -240,7 +240,7 @@ describe('MakefileIntegration', () => {
 
     it('should handle file system errors', async () => {
       mockFs.readFileSync.mockImplementation(() => {
-        throw new Error('File read error');
+        throw new Error('File read error'),
       });
 
       const result: any = await makefileIntegration.addCampaignTargetsToMakefile();
@@ -260,9 +260,9 @@ describe('MakefileIntegration', () => {
     });
 
     it('should identify missing targets', async () => {
-      mockExecSync.mockImplementation(command => {;
+      mockExecSync.mockImplementation(command => {
         if (command.includes('make errors')) {
-          throw new Error('Target not found');
+          throw new Error('Target not found'),
         }
         return 'Success';
       });
@@ -281,7 +281,7 @@ describe('MakefileIntegration', () => {
       // Should have called execSync for each required target
       expect(mockExecSync).toHaveBeenCalledTimes(requiredTargets.length);
 
-      requiredTargets.forEach(target => {;
+      requiredTargets.forEach(target => {
         expect(mockExecSync).toHaveBeenCalledWith(`make ${target}`, expect.any(Object));
       });
     });
@@ -294,16 +294,16 @@ describe('MakefileIntegration', () => {
 
       await makefileIntegration.addCampaignTargetsToMakefile();
 
-      const writtenContent: any = mockFs.writeFileSync.mock.calls.[0][1] as string;
+      const writtenContent: any = mockFs.writeFileSync.mock.calls[0][1] as string;
 
       // Check for proper Makefile syntax
       expect(writtenContent).toContain('.PHONY:');
       expect(writtenContent).toContain('campaign-phase1:');
-      expect(writtenContent).toContain('\t@echo'); // Commands should be indented with tabs
+      expect(writtenContent).toContain('\t@echo'), // Commands should be indented with tabs
 
       // Check that all campaign targets are included
       const targets: any = makefileIntegration.getCampaignTargets();
-      targets.forEach(target => {;
+      targets.forEach(target => {
         expect(writtenContent).toContain(`${target.name}:`);
         expect(writtenContent).toContain(target.description);
       });
@@ -315,7 +315,7 @@ describe('MakefileIntegration', () => {
 
       await makefileIntegration.addCampaignTargetsToMakefile();
 
-      const writtenContent: any = mockFs.writeFileSync.mock.calls.[0][1] as string;
+      const writtenContent: any = mockFs.writeFileSync.mock.calls[0][1] as string;
       const phonyLine: any = writtenContent.split('\n').find(line => line.startsWith('.PHONY:'));
 
       expect(phonyLine).toBeDefined();
@@ -329,7 +329,7 @@ describe('MakefileIntegration', () => {
 
       await makefileIntegration.addCampaignTargetsToMakefile();
 
-      const writtenContent: any = mockFs.writeFileSync.mock.calls.[0][1] as string;
+      const writtenContent: any = mockFs.writeFileSync.mock.calls[0][1] as string;
 
       // Phase 2 should depend on phase 1 validation
       expect(writtenContent).toContain('campaign-phase2: campaign-validate-phase1');

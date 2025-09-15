@@ -17,17 +17,17 @@ const mockExecSync: any = execSync as jest.MockedFunction<typeof execSync>;
 const mockFs: any = fs as jest.Mocked<typeof fs>;
 
 describe('FullCampaignExecutor', () => {
-  let executor: FullCampaignExecutor;
-  let mockConfig: Partial<FullCampaignConfig>;
+  let executor: FullCampaignExecutor,
+  let mockConfig: Partial<FullCampaignConfig>,
 
   beforeEach(() => {
     jest.clearAllMocks();
 
-    mockConfig = {;
-      targetReductionPercentage: 17.5,
+    mockConfig = {
+      targetReductionPercentage: 17.5;
       targetFixCount: 300,
       maxBatchSize: 25,
-      safetyThreshold: 0.7,
+      safetyThreshold: 0.7;
       enableDocumentation: true,
       generateFinalReport: true
     };
@@ -36,16 +36,16 @@ describe('FullCampaignExecutor', () => {
 
     // Mock file system operations
     mockFs.existsSync.mockReturnValue(true);
-    mockFs.readFileSync.mockReturnValue('const test: any = {};');
+    mockFs.readFileSync.mockReturnValue('const test: any = {},');
     mockFs.writeFileSync.mockImplementation(() => {});
 
     // Mock successful build validation
     mockExecSync.mockImplementation((command: string) => {
       if (command.includes('tsc --noEmit')) {
-        return '';
+        return '',
       }
       if (command.includes('grep -c 'error TS'')) {
-        return '0';
+        return '0',
       }
       if (command.includes('find src')) {
         return 'src/test1.ts\nsrc/test2.ts\nsrc/test3.ts';
@@ -74,26 +74,26 @@ describe('FullCampaignExecutor', () => {
         if (command.includes('tsc --noEmit')) return '';
         if (command.includes('grep -c 'error TS'')) return '100'; // Initial errors
         if (command.includes('find src')) return 'src/test1.ts\nsrc/test2.ts';
-        return '';
+        return '',
       });
 
       const result: any = await executor.executeFullCampaign();
 
       expect(result.success).toBe(true);
       expect(result.phases).toHaveLength(6); // All 6 phases
-      expect(result.phases.[0].name).toBe('Initial Analysis and Baseline');
-      expect(result.phases.[1].name).toBe('High-Confidence Replacements');
-      expect(result.phases.[2].name).toBe('Medium-Risk Category Processing');
-      expect(result.phases.[3].name).toBe('Domain-Specific Processing');
-      expect(result.phases.[4].name).toBe('Documentation and Validation');
-      expect(result.phases.[5].name).toBe('Final Validation and Reporting');
+      expect(result.phases[0].name).toBe('Initial Analysis and Baseline');
+      expect(result.phases[1].name).toBe('High-Confidence Replacements');
+      expect(result.phases[2].name).toBe('Medium-Risk Category Processing');
+      expect(result.phases[3].name).toBe('Domain-Specific Processing');
+      expect(result.phases[4].name).toBe('Documentation and Validation');
+      expect(result.phases[5].name).toBe('Final Validation and Reporting');
     });
 
     test('should handle campaign execution failure gracefully', async () => {
       // Mock build failure
       mockExecSync.mockImplementation((command: string) => {
         if (command.includes('tsc --noEmit')) {
-          throw new Error('Build failed');
+          throw new Error('Build failed'),
         }
         return '';
       });
@@ -131,11 +131,11 @@ describe('FullCampaignExecutor', () => {
       mockExecSync.mockImplementation((command: string) => {
         if (command.includes('grep -c 'error TS'')) return '150';
         if (command.includes('find src')) return 'src/test1.ts\nsrc/test2.ts';
-        return '';
+        return '',
       });
 
       const result: any = await executor.executeFullCampaign();
-      const phase1: any = result.phases.[0];
+      const phase1: any = result.phases[0];
 
       expect(phase1.name).toBe('Initial Analysis and Baseline');
       expect(phase1.success).toBe(true);
@@ -145,7 +145,7 @@ describe('FullCampaignExecutor', () => {
 
     test('should execute Phase 2: High-Confidence Replacements', (async () =>  {
       const result: any = await executor.executeFullCampaign();
-      const phase2: any = result.phases.[1];
+      const phase2: any = result.phases[1];
 
       expect(phase2.name).toBe('High-Confidence Replacements');
       expect(phase2.success).toBe(true);
@@ -155,7 +155,7 @@ describe('FullCampaignExecutor', () => {
 
     test('should execute Phase 3: Medium-Risk Category Processing', (async () =>  {
       const result: any = await executor.executeFullCampaign();
-      const phase3: any = result.phases.[2];
+      const phase3: any = result.phases[2];
 
       expect(phase3.name).toBe('Medium-Risk Category Processing');
       expect(phase3.success).toBe(true);
@@ -164,7 +164,7 @@ describe('FullCampaignExecutor', () => {
 
     test('should execute Phase 4: Domain-Specific Processing', (async () =>  {
       const result: any = await executor.executeFullCampaign();
-      const phase4: any = result.phases.[3];
+      const phase4: any = result.phases[3];
 
       expect(phase4.name).toBe('Domain-Specific Processing');
       expect(phase4.success).toBe(true);
@@ -175,7 +175,7 @@ describe('FullCampaignExecutor', () => {
 
     test('should execute Phase 5: Documentation and Validation', (async () =>  {
       const result: any = await executor.executeFullCampaign();
-      const phase5: any = result.phases.[4];
+      const phase5: any = result.phases[4];
 
       expect(phase5.name).toBe('Documentation and Validation');
       expect(phase5.success).toBe(true);
@@ -185,7 +185,7 @@ describe('FullCampaignExecutor', () => {
 
     test('should execute Phase 6: Final Validation and Reporting', (async () =>  {
       const result: any = await executor.executeFullCampaign();
-      const phase6: any = result.phases.[5];
+      const phase6: any = result.phases[5];
 
       expect(phase6.name).toBe('Final Validation and Reporting');
       expect(phase6.success).toBe(true);
@@ -234,7 +234,7 @@ describe('FullCampaignExecutor', () => {
 
       expect(result.buildStable).toBeDefined();
       // Each phase should have validated build stability
-      result.phases.forEach(phase => {;
+      result.phases.forEach(phase => {
         expect(phase.success).toBeDefined();
       });
     });
@@ -244,9 +244,9 @@ describe('FullCampaignExecutor', () => {
       let callCount: any = 0;
       mockExecSync.mockImplementation((command: string) => {
         if (command.includes('tsc --noEmit')) {
-          callCount++;
+          callCount++,
           if (callCount > 2) {
-            throw new Error('Build failed');
+            throw new Error('Build failed'),
           }
           return '';
         }
@@ -266,7 +266,7 @@ describe('FullCampaignExecutor', () => {
         if (command.includes('mkdir -p')) return '';
         if (command.includes('cp -r')) return '';
         if (command.includes('rm -rf')) return '';
-        return '';
+        return '',
       });
 
       const result: any = await executor.executeFullCampaign();
@@ -280,7 +280,7 @@ describe('FullCampaignExecutor', () => {
   describe('Documentation System', () => {
     test('should add ESLint disable comments for intentional any types', async () => {
       const result: any = await executor.executeFullCampaign();
-      const documentationPhase: any = result.phases.[4];
+      const documentationPhase: any = result.phases[4];
 
       expect(documentationPhase.details.eslintResult).toBeDefined();
       expect(documentationPhase.details.eslintResult.added).toBeGreaterThanOrEqual(0);
@@ -288,7 +288,7 @@ describe('FullCampaignExecutor', () => {
 
     test('should validate documentation completeness', async () => {
       const result: any = await executor.executeFullCampaign();
-      const documentationPhase: any = result.phases.[4];
+      const documentationPhase: any = result.phases[4];
 
       expect(documentationPhase.details.validationResult).toBeDefined();
       expect(documentationPhase.details.validationResult.complete).toBeDefined();
@@ -298,7 +298,7 @@ describe('FullCampaignExecutor', () => {
       const result: any = await executor.executeFullCampaign();
 
       // Documentation phase should complete successfully
-      expect(result.phases.[4].success).toBe(true);
+      expect(result.phases[4].success).toBe(true);
     });
   });
 
@@ -313,7 +313,7 @@ describe('FullCampaignExecutor', () => {
       });
 
       const result: any = await executor.executeFullCampaign();
-      const domainPhase: any = result.phases.[3];
+      const domainPhase: any = result.phases[3];
 
       expect(domainPhase.details.domainResults).toBeDefined();
       const astroResult: any = domainPhase.details.domainResults.find(;
@@ -332,7 +332,7 @@ describe('FullCampaignExecutor', () => {
       });
 
       const result: any = await executor.executeFullCampaign();
-      const domainPhase: any = result.phases.[3];
+      const domainPhase: any = result.phases[3];
 
       expect(domainPhase.details.domainResults).toBeDefined();
       const recipeResult: any = domainPhase.details.domainResults.find(;
@@ -351,7 +351,7 @@ describe('FullCampaignExecutor', () => {
       });
 
       const result: any = await executor.executeFullCampaign();
-      const domainPhase: any = result.phases.[3];
+      const domainPhase: any = result.phases[3];
 
       expect(domainPhase.details.domainResults).toBeDefined();
       const campaignResult: any = domainPhase.details.domainResults.find(;
@@ -381,7 +381,7 @@ describe('FullCampaignExecutor', () => {
     test('should handle classification errors gracefully', async () => {
       // Mock classification error
       mockFs.readFileSync.mockImplementation(() => {
-        throw new Error('File read error');
+        throw new Error('File read error'),
       });
 
       const result: any = await executor.executeFullCampaign();
@@ -395,9 +395,9 @@ describe('FullCampaignExecutor', () => {
       let buildCallCount: any = 0;
       mockExecSync.mockImplementation((command: string) => {
         if (command.includes('tsc --noEmit')) {
-          buildCallCount++;
+          buildCallCount++,
           if (buildCallCount > 3) {
-            throw new Error('Build failed after replacement');
+            throw new Error('Build failed after replacement'),
           }
           return '';
         }
@@ -412,9 +412,9 @@ describe('FullCampaignExecutor', () => {
 
     test('should handle emergency stop conditions', async () => {
       // Mock emergency stop scenario
-      const emergencyConfig: any = {;
-        ...mockConfig,
-        emergencyStopThreshold: 0.9, // Very high threshold;
+      const emergencyConfig: any = {
+        ...mockConfig;
+        emergencyStopThreshold: 0.9, // Very high threshold,
         maxCampaignDuration: 1000 // Very short duration
       };
 
@@ -460,9 +460,9 @@ describe('FullCampaignExecutor', () => {
 
   describe('Configuration Validation', () => {
     test('should handle invalid configuration gracefully', () => {
-      const invalidConfig: any = {;
+      const invalidConfig: any = {
         targetReductionPercentage: -10, // Invalid negative percentage
-        targetFixCount: -100, // Invalid negative count;
+        targetFixCount: -100, // Invalid negative count,
         maxBatchSize: 0 // Invalid zero batch size
       };
 

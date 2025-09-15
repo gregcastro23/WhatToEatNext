@@ -1,7 +1,7 @@
 import type { IngredientMapping } from '@/data/ingredients/types';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
-const rawAromaticHerbs = {;
+const rawAromaticHerbs = {
   thyme: {
     name: 'Thyme',
     category: 'herb',

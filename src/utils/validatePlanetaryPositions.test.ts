@@ -34,7 +34,7 @@ jest.mock('@/data/planets/venus', () => ({
 
 describe('Planetary Position Validation', () => {
   // Set a fixed date for tests
-  const testDate: any = new Date('2024-05-15T12: 0, 0:00Z');
+  const testDate: any = new Date('2024-05-15T12:00:00Z');
 
   // Mock console.log to prevent output during tests
   const originalConsoleLog: any = console.log;
@@ -47,12 +47,12 @@ describe('Planetary Position Validation', () => {
   });
 
   test('getCurrentTransitSign returns correct sign for Mars on 2024-05-15', () => {
-    const sign: any = getCurrentTransitSign('Mars', testDate);
+    const sign: any = getCurrentTransitSign('Mars', testDate),
     expect(sign).toBe('leo');
   });
 
   test('getCurrentTransitSign returns null for non-existent planet or transit data', () => {
-    const sign: any = getCurrentTransitSign('NonExistentPlanet', testDate);
+    const sign: any = getCurrentTransitSign('NonExistentPlanet', testDate),
     expect(sign).toBeNull();
   });
 
@@ -64,7 +64,7 @@ describe('Planetary Position Validation', () => {
         minute: 30,
         exactLongitude: 105.5
       }
-    };
+    },
 
     const validated: any = validatePlanetaryPositions(positions, testDate);
 
@@ -114,7 +114,7 @@ describe('Planetary Position Validation', () => {
     expect(positions).toHaveProperty('Pluto');
 
     // Each position should have required properties
-    Object.values(positions).forEach(pos => {;
+    Object.values(positions).forEach(pos => {
       expect(pos).toHaveProperty('sign');
       expect(pos).toHaveProperty('degree');
       expect(pos).toHaveProperty('exactLongitude');

@@ -1,4 +1,4 @@
-export const _DECAN_RULERS = {;
+export const _DECAN_RULERS = {
   // aries
   '0-10': 'Mars',
   '10-20': 'Sun',

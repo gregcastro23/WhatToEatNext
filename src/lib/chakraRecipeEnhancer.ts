@@ -12,10 +12,10 @@ export interface ChakraRecipeRecommendation {
   recipe: Recipe;
   elementalAlignment: number;
   chakraAlignment: number;
-  planetaryAlignment: number;
-  totalScore: number;
-  dominantChakra: keyof ChakraEnergies;
-  recommendations: KeyCardChakraMapping[];
+  planetaryAlignment: number,
+  totalScore: number,
+  dominantChakra: keyof ChakraEnergies,
+  recommendations: KeyCardChakraMapping[],
 }
 
 /**
@@ -24,7 +24,7 @@ export interface ChakraRecipeRecommendation {
 function getDominantElement(props: ElementalProperties): keyof ElementalProperties {
   return Object.entries(props).reduce((a, b) =>
     a[1] > b[1] ? a : b,
-  )[0] as keyof ElementalProperties;
+  )[0] as keyof ElementalProperties,
 }
 
 /**
@@ -43,8 +43,8 @@ function getElementalChakraMap(): Record<keyof ElementalProperties, Array<keyof 
  * ChakraRecipeEnhancer enhances recipes with chakra information
  */
 export class ChakraRecipeEnhancer {
-  private chakraService: ChakraAlchemyService;
-  private planetaryCalculator: PlanetaryHourCalculator;
+  private chakraService: ChakraAlchemyService,
+  private planetaryCalculator: PlanetaryHourCalculator,
 
   constructor() {
     this.chakraService = new ChakraAlchemyService();
@@ -62,7 +62,7 @@ export class ChakraRecipeEnhancer {
     // Use type assertion to help TypeScript understand this is a valid key
     const chakraKeys = chakraMap[dominantElement];
     if (chakraKeys && chakraKeys.length > 0) {
-      return chakraKeys[0];
+      return chakraKeys[0],
     }
 
     // Return a default chakra if no mapping is found
@@ -103,20 +103,20 @@ export class ChakraRecipeEnhancer {
     recipes: Recipe[],
     sunSign: any,
     moonSign: any,
-    dominantPlanets: Planet[] = [],
+    dominantPlanets: Planet[] = [];
   ): ChakraRecipeRecommendation[] {
     // Get current planetary hour
     let planetaryHour: Planet = 'Sun' as unknown as Planet;
     try {
       const hourInfo = this.planetaryCalculator.getCurrentPlanetaryHour();
-      if (hourInfo && typeof hourInfo.planet === 'string') {;
+      if (hourInfo && typeof hourInfo.planet === 'string') {
         const planetName = hourInfo.planet as unknown as string;
         // Ensure the planet name is a valid Planet type (capitalize first letter)
         const capitalizedName =
           planetName.charAt(0).toUpperCase() + planetName.slice(1).toLowerCase();
 
         // Create Planet type validation with enhanced safety
-        const planetValidator = (name: string): Planet | null => {;
+        const planetValidator = (name: string): Planet | null => {
           const validPlanets: string[] = [
             'Sun',
             'Moon',
@@ -125,7 +125,7 @@ export class ChakraRecipeEnhancer {
             'Jupiter',
             'Venus',
             'Saturn'
-          ];
+          ],
           return validPlanets.includes(name) ? (name as unknown as Planet) : null;
         };
 
@@ -135,7 +135,7 @@ export class ChakraRecipeEnhancer {
         }
       }
     } catch (error) {
-      console.error('Error getting planetary hour:', error);
+      console.error('Error getting planetary hour:', error),
     }
 
     // Calculate current chakra energies
@@ -148,7 +148,7 @@ export class ChakraRecipeEnhancer {
 
     // Enhance each recipe
     return recipes
-      .map(recipe => {;
+      .map(recipe => {
         if (!recipe.elementalProperties) {
           recipe.elementalProperties = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
         }
@@ -168,7 +168,7 @@ export class ChakraRecipeEnhancer {
           } else {
             const hourChakras = this.chakraService.getChakrasByPlanet(planetaryHour);
             const recipeChakras = (planets as Planet[]).flatMap((planet: Planet) =>;
-              this.chakraService.getChakrasByPlanet(planet),
+              this.chakraService.getChakrasByPlanet(planet);
             );
 
             // Check for overlapping chakras
@@ -185,7 +185,7 @@ export class ChakraRecipeEnhancer {
         if (recipe.elementalProperties) {
           const dominantElement = getDominantElement(recipe.elementalProperties);
           const elementValue = recipe.elementalProperties[dominantElement];
-          elementalAlignment = Math.min(elementValue, 1.0);
+          elementalAlignment = Math.min(elementValue, 1.0),
         }
 
         // Get tarot recommendations for the dominant chakra

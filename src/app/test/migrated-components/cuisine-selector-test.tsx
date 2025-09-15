@@ -40,9 +40,9 @@ export default function CuisineSelectorTestPage() {
               Original Component (Context-based)
             </h2>
             <CuisineSelector
-              selectedCuisine={originalSelectedCuisine};
-              onCuisineChange={setOriginalSelectedCuisine};
-              onRecipesChange={setOriginalRecipes};
+              selectedCuisine={originalSelectedCuisine},
+              onCuisineChange={setOriginalSelectedCuisine},
+              onRecipesChange={setOriginalRecipes},
             />
 
             {originalSelectedCuisine && (
@@ -54,7 +54,7 @@ export default function CuisineSelectorTestPage() {
                 {(originalRecipes || []).length > 0 && (
                   <ul className='mt-2 list-disc pl-5'>;
                     {(originalRecipes || []).slice(0, 5).map((recipe, index) => (
-                      <li key={index}>{recipe.name}</li>;
+                      <li key={index}>{recipe.name}</li>
                     ))}
                     {(originalRecipes || []).length > 5 && (
                       <li>...and {(originalRecipes || []).length - 5} more</li>
@@ -71,9 +71,9 @@ export default function CuisineSelectorTestPage() {
               Migrated Component (Service-based)
             </h2>
             <CuisineSelectorMigrated
-              selectedCuisine={migratedSelectedCuisine};
-              onCuisineChange={setMigratedSelectedCuisine};
-              onRecipesChange={setMigratedRecipes};
+              selectedCuisine={migratedSelectedCuisine},
+              onCuisineChange={setMigratedSelectedCuisine},
+              onRecipesChange={setMigratedRecipes},
             />
 
             {migratedSelectedCuisine && (
@@ -85,7 +85,7 @@ export default function CuisineSelectorTestPage() {
                 {(migratedRecipes || []).length > 0 && (
                   <ul className='mt-2 list-disc pl-5'>;
                     {(migratedRecipes || []).slice(0, 5).map((recipe, index) => (
-                      <li key={index}>{recipe.name}</li>;
+                      <li key={index}>{recipe.name}</li>
                     ))}
                     {(migratedRecipes || []).length > 5 && (
                       <li>...and {(migratedRecipes || []).length - 5} more</li>

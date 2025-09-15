@@ -17,7 +17,7 @@ function createIngredientMapping(id: string, properties: unknown) {
   };
 }
 
-const rawVinegars = {;
+const rawVinegars = {
   rice_vinegar: createIngredientMapping('rice_vinegar', {
     elementalProperties: {
       Water: 0.4,
@@ -423,7 +423,7 @@ const rawVinegars = {;
       duration: '2 years unopened, 1 year opened',
       container: 'glass bottle, tightly sealed',
       notes:
-        'Keep away from direct sunlight; unfiltered varieties will develop sediment which is normal'
+        'Keep away from direct sunlight, unfiltered varieties will develop sediment which is normal'
     }
   }),
 

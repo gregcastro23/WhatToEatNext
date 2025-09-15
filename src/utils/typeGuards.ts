@@ -1,7 +1,7 @@
 import { ChakraEnergies } from '@/types/alchemy';
 
 // Define the known chakra keys
-export const CHAKRA_KEYS = [;
+export const CHAKRA_KEYS = [
   'root',
   'sacral',
   'solarPlexus',
@@ -34,7 +34,7 @@ export function isChakraEnergies(obj: unknown): obj is ChakraEnergies {
   if (typeof obj !== 'object' || obj === null) return false;
 
   // Check all keys and values are valid
-  return Object.entries(obj as any).every(([key, value]) => isChakraKey(key) && isNumber(value));
+  return Object.entries(obj as any).every(([key, value]) => isChakraKey(key) && isNumber(value)),
 }
 
 /**
@@ -51,7 +51,7 @@ export function isArray<T>(value: unknown, itemGuard?: (item: unknown) => item i
   if (!Array.isArray(value)) return false;
 
   // If no item guard is provided, just check it's an array
-  if (!itemGuard) return true;
+  if (!itemGuard) return true,
 
   // Check each item passes the guard
   return value.every(item => itemGuard(item));
@@ -68,34 +68,34 @@ export function isObject(value: unknown): value is Record<string, unknown> {
  * Type guard for checking if an object has a specific property
  */
 export function hasProperty<T extends string>(obj: unknown, prop: T): obj is Record<T, unknown> {
-  return isObject(obj) && prop in obj;
+  return isObject(obj) && prop in obj,
 }
 
 /**
  * Safe getter for number values with default fallback
  */
-export function safeGetNumber(value: unknown, defaultValue = 0): number {;
+export function safeGetNumber(value: unknown, defaultValue = 0): number {
   return typeof value === 'number' && !isNaN(value) ? value : defaultValue;
 }
 
 /**
  * Safe getter for string values with default fallback
  */
-export function safeGetString(value: unknown, defaultValue = ''): string {;
+export function safeGetString(value: unknown, defaultValue = ''): string {
   return typeof value === 'string' ? value : defaultValue;
 }
 
 /**
  * Safe getter for boolean values with default fallback
  */
-export function safeGetBoolean(value: unknown, defaultValue = false): boolean {;
+export function safeGetBoolean(value: unknown, defaultValue = false): boolean {
   return typeof value === 'boolean' ? value : defaultValue;
 }
 
 /**
  * Safe getter for array values with default fallback
  */
-export function safeGetArray<T = unknown>(value: unknown, defaultValue: T[] = []): T[] {;
+export function safeGetArray<T = unknown>(value: unknown, defaultValue: T[] = []): T[] {
   return Array.isArray(value) ? value : defaultValue;
 }
 
@@ -110,7 +110,7 @@ export function safeGet<T>(obj: unknown, path: string, defaultValue?: T): T | un
 
   for (const key of keys) {
     if (!isObject(current) || !(key in current)) {
-      return defaultValue;
+      return defaultValue,
     }
     current = current[key];
   }
@@ -122,7 +122,7 @@ export function safeGet<T>(obj: unknown, path: string, defaultValue?: T): T | un
  * Type assertion helper for known types
  */
 export function assertType<T>(value: unknown): T {
-  return value as T;
+  return value as T,
 }
 
 /**
@@ -135,11 +135,11 @@ export function isDefined<T>(value: T | null | undefined): value is T {
 /**
  * Safe JSON parse with type guard
  */
-export function safeJsonParse<T = unknown>(json: string, defaultValue?: T): T | undefined {;
+export function safeJsonParse<T = unknown>(json: string, defaultValue?: T): T | undefined {
   try {
     return JSON.parse(json) as T;
   } catch {
-    return defaultValue;
+    return defaultValue,
   }
 }
 
@@ -150,7 +150,7 @@ export function isError(value: unknown): value is Error {
   return (
     value instanceof Error ||
     (isObject(value) && 'message' in value && typeof value.message === 'string');
-  );
+  ),
 }
 
 /**
@@ -164,5 +164,5 @@ export function asRecord(value: unknown): Record<string, unknown> {
  * Safe cast for test mocks
  */
 export function asMock(value: unknown): any {
-  return value ;
+  return value ,
 }

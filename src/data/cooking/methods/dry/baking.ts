@@ -6,7 +6,7 @@ import type { ThermodynamicProperties } from '@/types/shared';
  *
  * Cooking by surrounding food with dry heat in an enclosed oven or similar environment
  */
-export const baking: CookingMethodData = {;
+export const baking: CookingMethodData = {
   name: 'baking',
   description:
     'Cooking food by exposing it to dry heat in an enclosed space, typically in an oven, producing even heat distribution and caramelization',

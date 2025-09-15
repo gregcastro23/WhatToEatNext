@@ -17,8 +17,8 @@ import {
 
 describe('Domain-Specific Testing', () => {
   let classifier: AnyTypeClassifier;
-  let analyzer: DomainContextAnalyzer;
-  let replacer: SafeTypeReplacer;
+  let analyzer: DomainContextAnalyzer,
+  let replacer: SafeTypeReplacer,
 
   beforeEach(() => {
     classifier = new AnyTypeClassifier();
@@ -30,17 +30,17 @@ describe('Domain-Specific Testing', () => {
     codeSnippet: string,
     filePath: string,
     domain: CodeDomain,
-    surroundingLines: string[] = [],
-    hasComment = false,;
+    surroundingLines: string[] = [];
+    hasComment = false,,
     comment?: string
-  ): ClassificationContext => ({;
+  ): ClassificationContext => ({
     filePath,
     lineNumber: 1,
     codeSnippet,
     surroundingLines,
     hasExistingComment: hasComment,
     existingComment: comment,
-    isInTestFile: filePath.includes('.test.') || filePath.includes('.spec.'),
+    isInTestFile: filePath.includes('.test.') || filePath.includes('.spec.');
     domainContext: {
       domain,
       intentionalityHints: [],
@@ -53,11 +53,11 @@ describe('Domain-Specific Testing', () => {
     describe('Planetary Position Data Preservation', () => {
       test('should preserve planetary position API responses', async () => {
         const context: any = createDomainContext(;
-          'const _planetaryPositions: any = await getReliablePlanetaryPositions();',
-          'src/calculations/planetary/positions.ts',
-          CodeDomain.ASTROLOGICAL,
+          'const _planetaryPositions: any = await getReliablePlanetaryPositions(),',
+          'src/calculations/planetary/positions.ts';
+          CodeDomain.ASTROLOGICAL;
           [
-            'import { getReliablePlanetaryPositions } from '@/utils/reliableAstronomy';',
+            'import { getReliablePlanetaryPositions } from '@/utils/reliableAstronomy',',
             'export async function calculateCurrentPositions() : any {'
           ]
         );
@@ -76,11 +76,11 @@ describe('Domain-Specific Testing', () => {
 
       test('should preserve ephemeris data from external sources', async () => {
         const context: any = createDomainContext(;
-          'const _ephemerisData: any = astronomyEngine.getEphemeris(date);',
-          'src/calculations/ephemeris/calculator.ts',
-          CodeDomain.ASTROLOGICAL,
+          'const _ephemerisData: any = astronomyEngine.getEphemeris(date),',
+          'src/calculations/ephemeris/calculator.ts';
+          CodeDomain.ASTROLOGICAL;
           [
-            'import { astronomyEngine } from 'astronomy-engine';',
+            'import { astronomyEngine } from 'astronomy-engine',',
             'function calculateTransits(startDate: Date, endDate: Date) : any {'
           ]
         );
@@ -94,13 +94,13 @@ describe('Domain-Specific Testing', () => {
       test('should preserve Swiss Ephemeris compatibility', async () => {
         const context: any = createDomainContext(;
           'const _swissData: any = swisseph.calc_ut(julianDay, planet);',
-          'src/calculations/swiss-ephemeris/wrapper.ts',
-          CodeDomain.ASTROLOGICAL,
+          'src/calculations/swiss-ephemeris/wrapper.ts';
+          CodeDomain.ASTROLOGICAL;
           [
-            'import * as swisseph from 'swisseph';',
+            'import * as swisseph from 'swisseph',',
             'export function calculatePlanetPosition(planet: number, date: Date): any {'
           ]
-        );
+        ),
 
         const classification: any = await classifier.classify(context);
         expect(classification.isIntentional).toBe(true);
@@ -110,14 +110,14 @@ describe('Domain-Specific Testing', () => {
 
       test('should preserve NASA JPL Horizons API responses', async () => {
         const context: any = createDomainContext(;
-          'const _horizonsResponse: any = await nasaJplApi.getHorizonsData(params);',
-          'src/services/astronomy/nasa-jpl.ts',
-          CodeDomain.ASTROLOGICAL,
+          'const _horizonsResponse: any = await nasaJplApi.getHorizonsData(params);';
+          'src/services/astronomy/nasa-jpl.ts';
+          CodeDomain.ASTROLOGICAL;
           [
             'class NasaJplService {',
             '  async fetchPlanetaryData(params: HorizonsParams): Promise<any> {'
           ]
-        );
+        ),
 
         const classification: any = await classifier.classify(context);
         expect(classification.isIntentional).toBe(true);
@@ -129,11 +129,11 @@ describe('Domain-Specific Testing', () => {
     describe('Elemental Properties Preservation', () => {
       test('should preserve dynamic elemental calculations', async () => {
         const context: any = createDomainContext(;
-          'const _elementalBalance: any = calculateElementalHarmony(ingredients);',
-          'src/calculations/elemental/harmony.ts',
-          CodeDomain.ASTROLOGICAL,
+          'const _elementalBalance: any = calculateElementalHarmony(ingredients),',
+          'src/calculations/elemental/harmony.ts';
+          CodeDomain.ASTROLOGICAL;
           [
-            'import { ElementalProperties } from '@/types';',
+            'import { ElementalProperties } from '@/types',',
             'function calculateCompatibility(source: ElementalProperties, target: ElementalProperties): any {'
           ]
         );
@@ -145,13 +145,13 @@ describe('Domain-Specific Testing', () => {
 
       test('should suggest specific types for elemental properties when possible', async () => {
         const context: any = createDomainContext(;
-          'const _fireValue: any = ingredient.fire;',
-          'src/calculations/elemental/properties.ts',
-          CodeDomain.ASTROLOGICAL,
+          'const _fireValue: any = ingredient.fire,',
+          'src/calculations/elemental/properties.ts';
+          CodeDomain.ASTROLOGICAL;
           [
             'interface ElementalProperties {',
-            '  fire: number;',
-            '  water: number;'
+            '  fire: number,',
+            '  water: number,'
           ]
         );
 
@@ -162,12 +162,12 @@ describe('Domain-Specific Testing', () => {
 
       test('should preserve complex elemental compatibility matrices', async () => {
         const context: any = createDomainContext(;
-          'const _compatibilityMatrix: any = buildElementalMatrix();',
-          'src/calculations/elemental/compatibility.ts',
-          CodeDomain.ASTROLOGICAL,
+          'const _compatibilityMatrix: any = buildElementalMatrix(),',
+          'src/calculations/elemental/compatibility.ts';
+          CodeDomain.ASTROLOGICAL;
           [
             'function buildElementalMatrix(): Record<string, unknown> {',
-            '  return { Fire: { Fir, e: 0.9, Water: 0.7 } };'
+            '  return { Fire: { Fir, e: 0.9, Water: 0.7 } },'
           ]
         );
 
@@ -180,12 +180,12 @@ describe('Domain-Specific Testing', () => {
     describe('Transit and Timing Calculations', () => {
       test('should preserve transit date validation logic', async () => {
         const context: any = createDomainContext(;
-          'const _transitData: any = validateTransitDate(planet, date, sign);',
-          'src/utils/planetaryConsistencyCheck.ts',
-          CodeDomain.ASTROLOGICAL,
+          'const _transitData: any = validateTransitDate(planet, date, sign),',
+          'src/utils/planetaryConsistencyCheck.ts';
+          CodeDomain.ASTROLOGICAL;
           [
             'export function validateTransitDate(planet: string, date: Date, sign: string): any {',
-            '  const _planetData = require(`@/data/planets/${planet.toLowerCase()}`);'
+            '  const _planetData = require(`@/data/planets/${planet.toLowerCase()}`),'
           ]
         );
 
@@ -197,11 +197,11 @@ describe('Domain-Specific Testing', () => {
       test('should preserve retrograde motion calculations', async () => {
         const context: any = createDomainContext(;
           'const _retrogradeData: any = calculateRetrogradePhases(planet, year);',
-          'src/calculations/retrograde/motion.ts',
-          CodeDomain.ASTROLOGICAL,
+          'src/calculations/retrograde/motion.ts';
+          CodeDomain.ASTROLOGICAL;
           [
             'function calculateRetrogradePhases(planet: string, year: number): any {',
-            '  const _phases: any = getRetrogradePhases(planet, year);'
+            '  const _phases: any = getRetrogradePhases(planet, year),'
           ]
         );
 
@@ -214,11 +214,11 @@ describe('Domain-Specific Testing', () => {
     describe('Astrological Chart Calculations', () => {
       test('should preserve house system calculations', async () => {
         const context: any = createDomainContext(;
-          'const _houseData: any = calculateHouses(latitude, longitude, time);',
-          'src/calculations/houses/systems.ts',
-          CodeDomain.ASTROLOGICAL,
+          'const _houseData: any = calculateHouses(latitude, longitude, time),',
+          'src/calculations/houses/systems.ts';
+          CodeDomain.ASTROLOGICAL;
           [
-            'import { HouseSystem } from '@/types/astrology';',
+            'import { HouseSystem } from '@/types/astrology',',
             'export function calculateHouses(lat: number, lon: number, time: Date): any {'
           ]
         );
@@ -230,12 +230,12 @@ describe('Domain-Specific Testing', () => {
 
       test('should preserve aspect calculations', async () => {
         const context: any = createDomainContext(;
-          'const aspects: any[] = calculateAspects(planetPositions);',
-          'src/calculations/aspects/calculator.ts',
-          CodeDomain.ASTROLOGICAL,
+          'const aspects: any[] = calculateAspects(planetPositions);';
+          'src/calculations/aspects/calculator.ts';
+          CodeDomain.ASTROLOGICAL;
           [
             'function calculateAspects(positions: PlanetaryPosition[]): unknown[] {',
-            '  const aspects: any = [];'
+            '  const aspects: any = [],'
           ]
         );
 
@@ -250,11 +250,11 @@ describe('Domain-Specific Testing', () => {
     describe('Ingredient Data Type Suggestions', () => {
       test('should suggest Ingredient interface for ingredient data', async () => {
         const context: any = createDomainContext(;
-          'const ingredient: any = getIngredientData(name);',
-          'src/data/ingredients/processor.ts',
-          CodeDomain.RECIPE,
+          'const ingredient: any = getIngredientData(name),',
+          'src/data/ingredients/processor.ts';
+          CodeDomain.RECIPE;
           [
-            'import { Ingredient } from '@/types';',
+            'import { Ingredient } from '@/types',',
             'export function processIngredient(name: string): Ingredient {'
           ]
         );
@@ -268,20 +268,20 @@ describe('Domain-Specific Testing', () => {
       });
 
       test('should suggest specific ingredient subtypes', async () => {
-        const contexts: any = [;
+        const contexts: any = [
           createDomainContext(
-            'const _spice: any = getSpiceProperties(name);',
-            'src/data/ingredients/spices.ts',
+            'const _spice: any = getSpiceProperties(name);';
+            'src/data/ingredients/spices.ts';
             CodeDomain.RECIPE
           ),
           createDomainContext(
-            'const _herb: any = getHerbData(name);',
-            'src/data/ingredients/herbs.ts',
+            'const _herb: any = getHerbData(name),',
+            'src/data/ingredients/herbs.ts';
             CodeDomain.RECIPE
           ),
           createDomainContext(
-            'const _vegetable: any = getVegetableInfo(name);',
-            'src/data/ingredients/vegetables.ts',
+            'const _vegetable: any = getVegetableInfo(name),',
+            'src/data/ingredients/vegetables.ts';
             CodeDomain.RECIPE
           )
         ];
@@ -305,9 +305,9 @@ describe('Domain-Specific Testing', () => {
 
       test('should suggest array types for ingredient collections', async () => {
         const context: any = createDomainContext(;
-          'const ingredients: any[] = getAllIngredients();',
-          'src/data/ingredients/collection.ts',
-          CodeDomain.RECIPE,
+          'const ingredients: any[] = getAllIngredients(),',
+          'src/data/ingredients/collection.ts';
+          CodeDomain.RECIPE;
           [
             'export function getAllIngredients(): Ingredient[] {',
             '  return ingredientDatabase.getAll();'
@@ -322,11 +322,11 @@ describe('Domain-Specific Testing', () => {
 
       test('should suggest nutritional info types', async () => {
         const context: any = createDomainContext(;
-          'const nutrition: any = getNutritionalData(ingredient);',
-          'src/data/nutrition/calculator.ts',
-          CodeDomain.RECIPE,
+          'const nutrition: any = getNutritionalData(ingredient),',
+          'src/data/nutrition/calculator.ts';
+          CodeDomain.RECIPE;
           [
-            'import { NutritionalInfo } from '@/types';',
+            'import { NutritionalInfo } from '@/types',',
             'function calculateNutrition(ingredient: Ingredient): NutritionalInfo {'
           ]
         );
@@ -340,11 +340,11 @@ describe('Domain-Specific Testing', () => {
     describe('Recipe Data Type Suggestions', () => {
       test('should suggest Recipe interface for recipe data', async () => {
         const context: any = createDomainContext(;
-          'const recipe: any = buildRecipe(ingredients, instructions);',
-          'src/data/recipes/builder.ts',
-          CodeDomain.RECIPE,
+          'const recipe: any = buildRecipe(ingredients, instructions),',
+          'src/data/recipes/builder.ts';
+          CodeDomain.RECIPE;
           [
-            'import { Recipe, Ingredient, CookingInstruction } from '@/types';',
+            'import { Recipe, Ingredient, CookingInstruction } from '@/types',',
             'export function buildRecipe(ingredients: Ingredient[], instructions: CookingInstruction[]): Recipe {'
           ]
         );
@@ -356,11 +356,11 @@ describe('Domain-Specific Testing', () => {
 
       test('should suggest cooking method types', async () => {
         const context: any = createDomainContext(;
-          'const method: any = selectCookingMethod(ingredients);',
-          'src/data/cooking/methods.ts',
-          CodeDomain.RECIPE,
+          'const method: any = selectCookingMethod(ingredients),',
+          'src/data/cooking/methods.ts';
+          CodeDomain.RECIPE;
           [
-            'import { CookingMethod } from '@/types';',
+            'import { CookingMethod } from '@/types',',
             'export function selectOptimalMethod(ingredients: Ingredient[]): CookingMethod {'
           ]
         );
@@ -372,11 +372,11 @@ describe('Domain-Specific Testing', () => {
 
       test('should suggest cuisine type for cultural data', async () => {
         const context: any = createDomainContext(;
-          'const cuisine: any = identifyCuisineType(recipe);',
-          'src/data/cuisines/classifier.ts',
-          CodeDomain.RECIPE,
+          'const cuisine: any = identifyCuisineType(recipe),',
+          'src/data/cuisines/classifier.ts';
+          CodeDomain.RECIPE;
           [
-            'import { CuisineType } from '@/types';',
+            'import { CuisineType } from '@/types',',
             'function classifyCuisine(recipe: Recipe): CuisineType {'
           ]
         );
@@ -390,14 +390,14 @@ describe('Domain-Specific Testing', () => {
     describe('External Food API Preservation', () => {
       test('should preserve Spoonacular API responses', async () => {
         const context: any = createDomainContext(;
-          'const _spoonacularData: any = await spoonacularApi.getRecipe(id);',
-          'src/services/external/spoonacular.ts',
-          CodeDomain.RECIPE,
+          'const _spoonacularData: any = await spoonacularApi.getRecipe(id);';
+          'src/services/external/spoonacular.ts';
+          CodeDomain.RECIPE;
           [
             'class SpoonacularService {',
             '  async fetchRecipeData(recipeId: number): Promise<any> {'
           ]
-        );
+        ),
 
         const classification: any = await classifier.classify(context);
         expect(classification.isIntentional).toBe(true);
@@ -407,12 +407,12 @@ describe('Domain-Specific Testing', () => {
 
       test('should preserve USDA Food Data Central responses', async () => {
         const context: any = createDomainContext(;
-          'const _usdaResponse: any = await usdaApi.getFoodData(fdcId);',
-          'src/services/external/usda.ts',
-          CodeDomain.RECIPE,
+          'const _usdaResponse: any = await usdaApi.getFoodData(fdcId),',
+          'src/services/external/usda.ts';
+          CodeDomain.RECIPE;
           [
             'async function fetchNutritionalData(fdcId: string): Promise<any> {',
-            '  const response: any = await fetch(`https://api.nal.usda.gov/fdc/v1/food/${fdcId}`);'
+            '  const response: any = await fetch(`https://api.nal.usda.gov/fdc/v1/food/${fdcId}`),'
           ]
         );
 
@@ -425,12 +425,12 @@ describe('Domain-Specific Testing', () => {
     describe('Elemental Properties in Recipe Context', () => {
       test('should suggest ElementalProperties for ingredient elements', async () => {
         const context: any = createDomainContext(;
-          'const elements: any = ingredient.elementalProperties;',
-          'src/data/ingredients/elemental.ts',
-          CodeDomain.RECIPE,
+          'const elements: any = ingredient.elementalProperties,',
+          'src/data/ingredients/elemental.ts';
+          CodeDomain.RECIPE;
           [
             'interface Ingredient {',
-            '  elementalProperties: ElementalProperties;',
+            '  elementalProperties: ElementalProperties,',
             '}'
           ]
         );
@@ -442,14 +442,14 @@ describe('Domain-Specific Testing', () => {
 
       test('should preserve dynamic elemental calculations in recipes', async () => {
         const context: any = createDomainContext(;
-          'const harmony: any = calculateRecipeHarmony(recipe);',
-          'src/calculations/recipe/harmony.ts',
-          CodeDomain.RECIPE,
+          'const harmony: any = calculateRecipeHarmony(recipe);';
+          'src/calculations/recipe/harmony.ts';
+          CodeDomain.RECIPE;
           [
             'function calculateRecipeHarmony(recipe: Recipe): any {',
             '  return recipe.ingredients.reduce((harmony: any, ingredient: any) => {'
           ]
-        );
+        ),
 
         const classification: any = await classifier.classify(context);
         expect(classification.isIntentional).toBe(true);
@@ -462,14 +462,14 @@ describe('Domain-Specific Testing', () => {
     describe('Dynamic Configuration Preservation', () => {
       test('should preserve campaign configuration flexibility', async () => {
         const context: any = createDomainContext(;
-          'const _campaignConfig: any = loadDynamicConfig(environment);',
-          'src/services/campaign/ConfigLoader.ts',
-          CodeDomain.CAMPAIGN,
+          'const _campaignConfig: any = loadDynamicConfig(environment);';
+          'src/services/campaign/ConfigLoader.ts';
+          CodeDomain.CAMPAIGN;
           [
             'export class ConfigLoader {',
             '  loadDynamicConfig(env: string): any {'
           ]
-        );
+        ),
 
         const classification: any = await classifier.classify(context);
         expect(classification.isIntentional).toBe(true);
@@ -479,14 +479,14 @@ describe('Domain-Specific Testing', () => {
 
       test('should preserve adaptive strategy configurations', async () => {
         const context: any = createDomainContext(;
-          'const _adaptiveSettings: any = calculateOptimalSettings(metrics);',
-          'src/services/campaign/AdaptiveStrategy.ts',
-          CodeDomain.CAMPAIGN,
+          'const _adaptiveSettings: any = calculateOptimalSettings(metrics);';
+          'src/services/campaign/AdaptiveStrategy.ts';
+          CodeDomain.CAMPAIGN;
           [
             'class AdaptiveStrategy {',
             '  calculateOptimalSettings(metrics: ProgressMetrics): any {'
           ]
-        );
+        ),
 
         const classification: any = await classifier.classify(context);
         expect(classification.isIntentional).toBe(true);
@@ -495,14 +495,14 @@ describe('Domain-Specific Testing', () => {
 
       test('should preserve intelligence system configurations', async () => {
         const context: any = createDomainContext(;
-          'const _intelligenceConfig: any = buildIntelligenceSystem(params);',
-          'src/services/campaign/IntelligenceSystem.ts',
-          CodeDomain.CAMPAIGN,
+          'const _intelligenceConfig: any = buildIntelligenceSystem(params);';
+          'src/services/campaign/IntelligenceSystem.ts';
+          CodeDomain.CAMPAIGN;
           [
             'export class IntelligenceSystem {',
             '  buildIntelligenceSystem(params: IntelligenceParams): any {'
           ]
-        );
+        ),
 
         const classification: any = await classifier.classify(context);
         expect(classification.isIntentional).toBe(true);
@@ -513,11 +513,11 @@ describe('Domain-Specific Testing', () => {
     describe('Metrics and Progress Tracking', () => {
       test('should suggest specific types for well-defined metrics', async () => {
         const context: any = createDomainContext(;
-          'const _progress: any = calculateProgress();',
-          'src/services/campaign/ProgressTracker.ts',
-          CodeDomain.CAMPAIGN,
+          'const _progress: any = calculateProgress(),',
+          'src/services/campaign/ProgressTracker.ts';
+          CodeDomain.CAMPAIGN;
           [
-            'import { ProgressMetrics } from '@/types';',
+            'import { ProgressMetrics } from '@/types',',
             'function calculateProgress(): ProgressMetrics {'
           ]
         );
@@ -529,9 +529,9 @@ describe('Domain-Specific Testing', () => {
 
       test('should preserve dynamic metrics calculations', async () => {
         const context: any = createDomainContext(;
-          'const _dynamicMetrics: any = aggregateMetrics(sources);',
-          'src/services/campaign/MetricsAggregator.ts',
-          CodeDomain.CAMPAIGN,
+          'const _dynamicMetrics: any = aggregateMetrics(sources),',
+          'src/services/campaign/MetricsAggregator.ts';
+          CodeDomain.CAMPAIGN;
           [
             'function aggregateMetrics(sources: MetricsSource[]): any {',
             '  return sources.reduce((agg: any, source: any) => ({ ...agg, ...source.getMetrics() }), {});'
@@ -545,11 +545,11 @@ describe('Domain-Specific Testing', () => {
 
       test('should suggest TypeScriptError for error analysis', async () => {
         const context: any = createDomainContext(;
-          'const errors: any[] = analyzeTypeScriptErrors();',
-          'src/services/campaign/TypeScriptErrorAnalyzer.ts',
-          CodeDomain.CAMPAIGN,
+          'const errors: any[] = analyzeTypeScriptErrors(),',
+          'src/services/campaign/TypeScriptErrorAnalyzer.ts';
+          CodeDomain.CAMPAIGN;
           [
-            'import { TypeScriptError } from '@/types';',
+            'import { TypeScriptError } from '@/types',',
             'function analyzeTypeScriptErrors(): TypeScriptError[] {'
           ]
         );
@@ -564,13 +564,13 @@ describe('Domain-Specific Testing', () => {
       test('should preserve tool integration configurations', async () => {
         const context: any = createDomainContext(;
           'const _toolConfig: any = integrateExternalTool(toolName, settings);',
-          'src/services/campaign/ToolIntegration.ts',
-          CodeDomain.CAMPAIGN,
+          'src/services/campaign/ToolIntegration.ts';
+          CodeDomain.CAMPAIGN;
           [
             'class ToolIntegration {',
             '  integrateExternalTool(name: string, settings: any): any {'
           ]
-        );
+        ),
 
         const classification: any = await classifier.classify(context);
         expect(classification.isIntentional).toBe(true);
@@ -580,13 +580,13 @@ describe('Domain-Specific Testing', () => {
       test('should preserve validation framework flexibility', async () => {
         const context: any = createDomainContext(;
           'const _validationResult: any = runValidation(rules, data);',
-          'src/services/campaign/ValidationFramework.ts',
-          CodeDomain.CAMPAIGN,
+          'src/services/campaign/ValidationFramework.ts';
+          CodeDomain.CAMPAIGN;
           [
             'export class ValidationFramework {',
             '  runValidation(rules: ValidationRule[], data: any): any {'
           ]
-        );
+        ),
 
         const classification: any = await classifier.classify(context);
         expect(classification.isIntentional).toBe(true);
@@ -598,13 +598,13 @@ describe('Domain-Specific Testing', () => {
       test('should preserve safety event handling', async () => {
         const context: any = createDomainContext(;
           'const _safetyEvent: any = createSafetyEvent(type, data);',
-          'src/services/campaign/SafetyProtocol.ts',
-          CodeDomain.CAMPAIGN,
+          'src/services/campaign/SafetyProtocol.ts';
+          CodeDomain.CAMPAIGN;
           [
             'class SafetyProtocol {',
             '  createSafetyEvent(type: SafetyEventType, data: any): any {'
           ]
-        );
+        ),
 
         const classification: any = await classifier.classify(context);
         expect(classification.isIntentional).toBe(true);
@@ -613,14 +613,14 @@ describe('Domain-Specific Testing', () => {
 
       test('should preserve rollback mechanism flexibility', async () => {
         const context: any = createDomainContext(;
-          'const _rollbackData: any = prepareRollback(changes);',
-          'src/services/campaign/RollbackManager.ts',
-          CodeDomain.CAMPAIGN,
+          'const _rollbackData: any = prepareRollback(changes);';
+          'src/services/campaign/RollbackManager.ts';
+          CodeDomain.CAMPAIGN;
           [
             'export class RollbackManager {',
             '  prepareRollback(changes: FileChange[]): any {'
           ]
-        );
+        ),
 
         const classification: any = await classifier.classify(context);
         expect(classification.isIntentional).toBe(true);
@@ -633,14 +633,14 @@ describe('Domain-Specific Testing', () => {
     describe('API Service Interface Suggestions', () => {
       test('should suggest ApiResponse for API service responses', async () => {
         const context: any = createDomainContext(;
-          'const response: any = await this.httpClient.get(endpoint);',
-          'src/services/api/BaseApiService.ts',
-          CodeDomain.SERVICE,
+          'const response: any = await this.httpClient.get(endpoint);';
+          'src/services/api/BaseApiService.ts';
+          CodeDomain.SERVICE;
           [
             'export class BaseApiService {',
             '  async get<T>(endpoint: string): Promise<ApiResponse<T>> {'
           ]
-        );
+        ),
 
         const classification: any = await classifier.classify(context);
         expect(classification.isIntentional).toBe(false);
@@ -648,20 +648,20 @@ describe('Domain-Specific Testing', () => {
       });
 
       test('should suggest specific service interfaces', async () => {
-        const contexts: any = [;
+        const contexts: any = [
           createDomainContext(
-            'const service: any = new RecommendationService();',
-            'src/services/RecommendationService.ts',
+            'const service: any = new RecommendationService(),',
+            'src/services/RecommendationService.ts';
             CodeDomain.SERVICE
           ),
           createDomainContext(
-            'const _astroService: any = new AstrologicalService();',
-            'src/services/AstrologicalService.ts',
+            'const _astroService: any = new AstrologicalService(),',
+            'src/services/AstrologicalService.ts';
             CodeDomain.SERVICE
           ),
           createDomainContext(
-            'const _recipeService: any = new RecipeService();',
-            'src/services/RecipeService.ts',
+            'const _recipeService: any = new RecipeService(),',
+            'src/services/RecipeService.ts';
             CodeDomain.SERVICE
           )
         ];
@@ -682,14 +682,14 @@ describe('Domain-Specific Testing', () => {
 
       test('should preserve external service integration flexibility', async () => {
         const context: any = createDomainContext(;
-          'const _externalService: any = createExternalServiceClient(config);',
-          'src/services/external/ExternalServiceFactory.ts',
-          CodeDomain.SERVICE,
+          'const _externalService: any = createExternalServiceClient(config);';
+          'src/services/external/ExternalServiceFactory.ts';
+          CodeDomain.SERVICE;
           [
             'export class ExternalServiceFactory {',
             '  createExternalServiceClient(config: ServiceConfig): any {'
           ]
-        );
+        ),
 
         const classification: any = await classifier.classify(context);
         expect(classification.isIntentional).toBe(true);
@@ -700,14 +700,14 @@ describe('Domain-Specific Testing', () => {
     describe('Data Transformation Service Suggestions', () => {
       test('should suggest specific transformer interfaces', async () => {
         const context: any = createDomainContext(;
-          'const transformer: any = new DataTransformer();',
-          'src/services/data/DataTransformer.ts',
-          CodeDomain.SERVICE,
+          'const transformer: any = new DataTransformer();';
+          'src/services/data/DataTransformer.ts';
+          CodeDomain.SERVICE;
           [
             'export class DataTransformer {',
             '  transform<T, U>(data: T): U {'
           ]
-        );
+        ),
 
         const classification: any = await classifier.classify(context);
         expect(classification.isIntentional).toBe(false);
@@ -717,11 +717,11 @@ describe('Domain-Specific Testing', () => {
       test('should suggest mapper interfaces for data mapping', async () => {
         const context: any = createDomainContext(;
           'const mapper: any = createMapper(sourceSchema, targetSchema);',
-          'src/services/data/SchemaMapper.ts',
-          CodeDomain.SERVICE,
+          'src/services/data/SchemaMapper.ts';
+          CodeDomain.SERVICE;
           [
             'export function createMapper(source: Schema, target: Schema): any {',
-            '  return new SchemaMapper(source, target);'
+            '  return new SchemaMapper(source, target),'
           ]
         );
 
@@ -734,14 +734,14 @@ describe('Domain-Specific Testing', () => {
     describe('Caching Service Interface Suggestions', () => {
       test('should suggest cache interface types', async () => {
         const context: any = createDomainContext(;
-          'const cache: any = new CacheService();',
-          'src/services/cache/CacheService.ts',
-          CodeDomain.SERVICE,
+          'const cache: any = new CacheService();';
+          'src/services/cache/CacheService.ts';
+          CodeDomain.SERVICE;
           [
             'export class CacheService {',
             '  get<T>(key: string): Promise<T | null> {'
           ]
-        );
+        ),
 
         const classification: any = await classifier.classify(context);
         expect(classification.isIntentional).toBe(false);
@@ -750,14 +750,14 @@ describe('Domain-Specific Testing', () => {
 
       test('should suggest cache entry types', async () => {
         const context: any = createDomainContext(;
-          'const entry: any = cache.get(key);',
-          'src/services/cache/CacheManager.ts',
-          CodeDomain.SERVICE,
+          'const entry: any = cache.get(key);';
+          'src/services/cache/CacheManager.ts';
+          CodeDomain.SERVICE;
           [
             'class CacheManager {',
             '  async getCacheEntry(key: string): Promise<CacheEntry | null> {'
           ]
-        );
+        ),
 
         const classification: any = await classifier.classify(context);
         expect(classification.isIntentional).toBe(false);
@@ -768,14 +768,14 @@ describe('Domain-Specific Testing', () => {
     describe('Validation Service Interface Suggestions', () => {
       test('should suggest validation result interfaces', async () => {
         const context: any = createDomainContext(;
-          'const result: any = validator.validate(data);',
-          'src/services/validation/ValidationService.ts',
-          CodeDomain.SERVICE,
+          'const result: any = validator.validate(data);';
+          'src/services/validation/ValidationService.ts';
+          CodeDomain.SERVICE;
           [
             'export class ValidationService {',
             '  validate(data: any): ValidationResult {'
           ]
-        );
+        ),
 
         const classification: any = await classifier.classify(context);
         expect(classification.isIntentional).toBe(false);
@@ -784,11 +784,11 @@ describe('Domain-Specific Testing', () => {
 
       test('should suggest schema validation interfaces', async () => {
         const context: any = createDomainContext(;
-          'const schema: any = buildValidationSchema(rules);',
-          'src/services/validation/SchemaBuilder.ts',
-          CodeDomain.SERVICE,
+          'const schema: any = buildValidationSchema(rules),',
+          'src/services/validation/SchemaBuilder.ts';
+          CodeDomain.SERVICE;
           [
-            'import { ValidationSchema } from '@/types';',
+            'import { ValidationSchema } from '@/types',',
             'function buildValidationSchema(rules: ValidationRule[]): ValidationSchema {'
           ]
         );
@@ -803,13 +803,13 @@ describe('Domain-Specific Testing', () => {
       test('should preserve service error handling flexibility', async () => {
         const context: any = createDomainContext(;
           'const error: any = new ServiceError(message, code);',
-          'src/services/errors/ServiceError.ts',
-          CodeDomain.SERVICE,
+          'src/services/errors/ServiceError.ts';
+          CodeDomain.SERVICE;
           [
             'export class ServiceError extends Error {',
             '  constructor(message: string, code: string, details?: unknown) : any {'
           ]
-        );
+        ),
 
         const classification: any = await classifier.classify(context);
         expect(classification.isIntentional).toBe(true);
@@ -818,11 +818,11 @@ describe('Domain-Specific Testing', () => {
 
       test('should suggest specific error types when available', async () => {
         const context: any = createDomainContext(;
-          'const _apiError: any = handleApiError(response);',
-          'src/services/errors/ApiErrorHandler.ts',
-          CodeDomain.SERVICE,
+          'const _apiError: any = handleApiError(response),',
+          'src/services/errors/ApiErrorHandler.ts';
+          CodeDomain.SERVICE;
           [
-            'import { ApiError } from '@/types';',
+            'import { ApiError } from '@/types',',
             'function handleApiError(response: Response): ApiError {'
           ]
         );
@@ -839,13 +839,13 @@ describe('Domain-Specific Testing', () => {
       // Test a service that integrates astrological calculations with recipe recommendations
       const context: any = createDomainContext(;
         'const _recommendation: any = await astroRecipeService.getRecommendation(userChart, preferences);',
-        'src/services/AstrologicalRecipeService.ts',
-        CodeDomain.SERVICE,
+        'src/services/AstrologicalRecipeService.ts';
+        CodeDomain.SERVICE;
         [
           'export class AstrologicalRecipeService {',
           '  async getRecommendation(chart: AstrologyChart, prefs: UserPreferences): Promise<RecipeRecommendation> {'
         ]
-      );
+      ),
 
       const classification: any = await classifier.classify(context);
       expect(classification.isIntentional).toBe(false);
@@ -854,14 +854,14 @@ describe('Domain-Specific Testing', () => {
 
     test('should preserve campaign system integration with domain services', async () => {
       const context: any = createDomainContext(;
-        'const _campaignData: any = integrateDomainServices(services);',
-        'src/services/campaign/DomainIntegration.ts',
-        CodeDomain.CAMPAIGN,
+        'const _campaignData: any = integrateDomainServices(services);';
+        'src/services/campaign/DomainIntegration.ts';
+        CodeDomain.CAMPAIGN;
         [
           'class DomainIntegration {',
           '  integrateDomainServices(services: DomainService[]): any {'
         ]
-      );
+      ),
 
       const classification: any = await classifier.classify(context);
       expect(classification.isIntentional).toBe(true);
@@ -875,25 +875,25 @@ describe('Domain-Specific Testing', () => {
         {
           original: 'any',
           replacement: 'Ingredient',
-          filePath: 'src/data/ingredients/processor.ts',
+          filePath: 'src/data/ingredients/processor.ts';
           lineNumber: 1,
-          confidence: 0.9,
+          confidence: 0.9;
           validationRequired: true
         },
         {
           original: 'any',
           replacement: 'PlanetaryPosition',
-          filePath: 'src/calculations/planetary/positions.ts',
+          filePath: 'src/calculations/planetary/positions.ts';
           lineNumber: 1,
-          confidence: 0.8,
+          confidence: 0.8;
           validationRequired: true
         },
         {
           original: 'any',
           replacement: 'ProgressMetrics',
-          filePath: 'src/services/campaign/ProgressTracker.ts',
+          filePath: 'src/services/campaign/ProgressTracker.ts';
           lineNumber: 1,
-          confidence: 0.9,
+          confidence: 0.9;
           validationRequired: true
         }
       ];
@@ -901,9 +901,9 @@ describe('Domain-Specific Testing', () => {
       // Mock file system for domain-specific content
       jest.spyOn(require('fs'), 'readFileSync').mockImplementation((path: any) => {
         if (path.includes('ingredients')) return 'const ingredient: any = getData();';
-        if (path.includes('planetary')) return 'const position: any = calculate();';
-        if (path.includes('campaign')) return 'const metrics: any = getProgress();';
-        return 'backup content';
+        if (path.includes('planetary')) return 'const position: any = calculate(),';
+        if (path.includes('campaign')) return 'const metrics: any = getProgress(),',
+        return 'backup content',
       });
 
       jest.spyOn(require('fs'), 'writeFileSync').mockImplementation(() => undefined);
@@ -916,7 +916,7 @@ describe('Domain-Specific Testing', () => {
         replacements.map(replacement => replacer.applyReplacement(replacement));
       );
 
-      results.forEach(result => {;
+      results.forEach(result => {
         expect(result.success).toBe(true);
         expect(result.appliedReplacements).toHaveLength(1);
       });

@@ -13,8 +13,8 @@ export interface AstrologyHookData {
   currentZodiac: any;
   currentPlanetaryAlignment: PlanetaryAlignment;
   lunarPhase: LunarPhase;
-  activePlanets: string[];
-  domElements: { Fire: number; Water: number; Earth: number; Air: number };
+  activePlanets: string[],
+  domElements: { Fire: number, Water: number, Earth: number, Air: number };
   loading: boolean;
   isReady: boolean;
   isDaytime: boolean;
@@ -25,11 +25,11 @@ export interface AstrologyHookData {
 // Helper function to create a celestial position with defaults
 function _createCelestialPosition(
   sign: any,
-  longOffset = 0,;
+  longOffset = 0,,
   options?: { planetName?: string },
 ): CelestialPosition {
   // Calculate a reasonable longitude based on the zodiac sign
-  const signIndex = [;
+  const signIndex = [
     'aries',
     'taurus',
     'gemini',
@@ -48,19 +48,19 @@ function _createCelestialPosition(
 
   // Determine default speed based on planet traits
   // Moon moves fastest, inner planets medium, outer planets slow
-  const getPlanetSpeed = (planetName?: string): number => {;
-    if (!planetName) return 0.5; // Default
+  const getPlanetSpeed = (planetName?: string): number => {
+    if (!planetName) return 0.5, // Default
 
     const planetSpeeds: Record<string, number> = {
-      moon: 13.2,
-      sun: 1.0,
-      mercury: 1.4,
-      venus: 1.2,
-      mars: 0.5,
-      jupiter: 0.1,
-      saturn: 0.03,
-      uranus: 0.01,
-      neptune: 0.005,
+      moon: 13.2;
+      sun: 1.0;
+      mercury: 1.4;
+      venus: 1.2;
+      mars: 0.5;
+      jupiter: 0.1;
+      saturn: 0.03;
+      uranus: 0.01;
+      neptune: 0.005;
       pluto: 0.002
     };
 
@@ -69,10 +69,10 @@ function _createCelestialPosition(
 
   return {
     sign,
-    degree: Math.floor(longOffset),
+    degree: Math.floor(longOffset);
     exactLongitude: baseLongitude,
     isRetrograde: false,
-    minutes: Math.floor((longOffset % 1) * 60),
+    minutes: Math.floor((longOffset % 1) * 60);
     speed: getPlanetSpeed(options?.planetName)
   };
 }
@@ -85,7 +85,7 @@ export function useAstrologicalState(): AstrologyHookData {
   // Track renders for debugging - add empty dependency array to run only once
   useEffect(() => {
     // We don't want to increment renderCount in every render cycle
-    if (renderCount === 0) {;
+    if (renderCount === 0) {
       setRenderCount(1);
       logger.debug(`Hook initialized`);
     }
@@ -93,11 +93,11 @@ export function useAstrologicalState(): AstrologyHookData {
 
   // Initial state
   const [astroState, setAstroState] = useState<{
-    currentZodiac: string;
+    currentZodiac: string,
     currentPlanetaryAlignment: Record<string, CelestialPosition>;
     lunarPhase: LunarPhase;
-    activePlanets: string[];
-    domElements: { Fire: number; Water: number; Earth: number; Air: number };
+    activePlanets: string[],
+    domElements: { Fire: number, Water: number, Earth: number, Air: number };
     loading: boolean;
   }>({
     currentZodiac: '',
@@ -111,15 +111,15 @@ export function useAstrologicalState(): AstrologyHookData {
   // Calculate active planets based on their positions and dignities
   const getActivePlanets = useCallback(;
     (
-      positions: Record<string, { sign?: string; degree?: number; exactLongitude?: number }>,
+      positions: Record<string, { sign?: string, degree?: number, exactLongitude?: number }>,
     ): string[] => {
       if (!positions || typeof positions !== 'object') {
         logger.warn('Invalid planetary positions for calculating active planets');
-        return [];
+        return [],
       }
 
       // List of planets we want to check
-      const planetKeys = [;
+      const planetKeys = [
         'sun',
         'moon',
         'mercury',
@@ -155,13 +155,13 @@ export function useAstrologicalState(): AstrologyHookData {
 
           // Add the ruler of the current sun sign
           if (signRulers[sunSign] && !activePlanets.includes(signRulers[sunSign])) {
-            activePlanets.push(signRulers[sunSign]);
+            activePlanets.push(signRulers[sunSign]),
           }
         }
 
         Object.entries(positions).forEach(([planet, position]) => {
           if (!planetKeys.includes(planet.toLowerCase()) || !position || !position.sign) {
-            return;
+            return,
           }
 
           const planetLower = planet.toLowerCase();
@@ -196,21 +196,21 @@ export function useAstrologicalState(): AstrologyHookData {
           }
         });
       } catch (error) {
-        logger.error('Error calculating active planets', error);
+        logger.error('Error calculating active planets', error),
       }
 
       // Ensure uniqueness
       return [...new Set(activePlanets)];
     },
     [],
-  );
+  ),
 
   // Extract stringified positions to avoid complex expression in dependency array
   const planetaryPositionsString = JSON.stringify(planetaryPositions);
 
   // Memoize key values to prevent unnecessary updates
-  const memoizedPlanetaryPositions = useMemo(() => {;
-    return planetaryPositions;
+  const memoizedPlanetaryPositions = useMemo(() => {
+    return planetaryPositions,
   }, [planetaryPositionsString]);
 
   // Track changes to planetary positions and update state
@@ -237,11 +237,11 @@ export function useAstrologicalState(): AstrologyHookData {
               JSON.stringify(memoizedPlanetaryPositions)
           ) {
             logger.debug('Skipping astro state update as nothing changed');
-            return prev;
+            return prev,
           }
 
           return {
-            ...prev,
+            ...prev;
             currentZodiac,
             currentPlanetaryAlignment: memoizedPlanetaryPositions,
             activePlanets,
@@ -251,12 +251,12 @@ export function useAstrologicalState(): AstrologyHookData {
         setIsReady(true);
       }
     } catch (error) {
-      logger.error('Failed to update astrological state', error);
+      logger.error('Failed to update astrological state', error),
     }
   }, [memoizedPlanetaryPositions, getActivePlanets]);
 
   // Memoize the current planetary alignment to prevent unnecessary recalculations
-  const currentPlanetaryAlignment = useMemo(() => {;
+  const currentPlanetaryAlignment = useMemo(() => {
     return astroState.currentPlanetaryAlignment;
   }, [astroState.currentPlanetaryAlignment]);
 
@@ -269,14 +269,14 @@ export function useAstrologicalState(): AstrologyHookData {
       setCurrentPlanetaryHour(hourInfo.planet);
 
       // Add a refresh interval if needed
-      const intervalId = setInterval(() => {;
+      const intervalId = setInterval(() => {
         const hourInfo = calculator.getCurrentPlanetaryHour();
         setCurrentPlanetaryHour(hourInfo.planet);
       }, 60000); // Update every minute
 
       return () => clearInterval(intervalId);
     } catch (error) {
-      logger.error('Failed to calculate planetary hour', error);
+      logger.error('Failed to calculate planetary hour', error),
       setCurrentPlanetaryHour(null);
       return () => {
         // Intentionally empty - no cleanup needed in error case
@@ -286,14 +286,14 @@ export function useAstrologicalState(): AstrologyHookData {
 
   // Return the astro state with isReady flag
   return {
-    ...astroState,
+    ...astroState;
     isReady,
     isDaytime: isDaytime,
     renderCount,
     currentPlanetaryHour: currentPlanetaryHour || 'sun',
-    currentZodiac: (astroState.currentZodiac || 'aries') as any,
+    currentZodiac: (astroState.currentZodiac || 'aries') as any;
     currentPlanetaryAlignment:
-      astroState.currentPlanetaryAlignment as unknown as PlanetaryAlignment,
+      astroState.currentPlanetaryAlignment as unknown as PlanetaryAlignment;
     lunarPhase: astroState.lunarPhase
   } as AstrologyHookData;
 }

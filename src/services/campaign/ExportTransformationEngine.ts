@@ -25,19 +25,19 @@ export interface TransformationConfig {
   buildValidationEnabled: boolean;
   testValidationEnabled: boolean;
   rollbackOnFailure: boolean;
-  outputDirectory: string;
-  backupDirectory: string;
-  maxRetries: number;
-  dryRun: boolean;
+  outputDirectory: string,
+  backupDirectory: string,
+  maxRetries: number,
+  dryRun: boolean,
 }
 
 export interface TransformationBatch {
   id: string;
   files: FileAnalysis[];
-  priority: BatchPriority;
-  estimatedDuration: number;
-  safetyScore: number;
-  transformationCandidates: number;
+  priority: BatchPriority,
+  estimatedDuration: number,
+  safetyScore: number,
+  transformationCandidates: number,
 }
 
 export interface TransformationResult {
@@ -46,10 +46,10 @@ export interface TransformationResult {
   filesProcessed: number;
   systemsGenerated: number;
   errors: TransformationError[];
-  warnings: string[];
-  duration: number;
-  rollbackPerformed: boolean;
-  generationResults: GenerationResult[];
+  warnings: string[],
+  duration: number,
+  rollbackPerformed: boolean,
+  generationResults: GenerationResult[],
 }
 
 export interface TransformationSummary {
@@ -60,35 +60,35 @@ export interface TransformationSummary {
   totalSystemsGenerated: number;
   totalErrors: number;
   totalWarnings: number;
-  totalDuration: number;
-  averageBatchDuration: number;
-  successRate: number;
-  generationSummary: GenerationSummary;
+  totalDuration: number,
+  averageBatchDuration: number,
+  successRate: number,
+  generationSummary: GenerationSummary,
 }
 
 export interface TransformationError {
   type: TransformationErrorType;
   message: string;
   filePath?: string;
-  exportName?: string;
-  severity: ErrorSeverity;
-  recoverable: boolean;
-  timestamp: Date;
+  exportName?: string,
+  severity: ErrorSeverity,
+  recoverable: boolean,
+  timestamp: Date,
 }
 
 export interface ValidationResult {
   buildSuccess: boolean;
   testSuccess: boolean;
-  lintSuccess: boolean;
-  errors: string[];
-  warnings: string[];
-  duration: number;
+  lintSuccess: boolean,
+  errors: string[],
+  warnings: string[],
+  duration: number,
 }
 
 export enum BatchPriority {
   HIGH = 'HIGH',;
-  MEDIUM = 'MEDIUM',;
-  LOW = 'LOW',;
+  MEDIUM = 'MEDIUM',,
+  LOW = 'LOW',,
 }
 
 export enum TransformationErrorType {
@@ -97,34 +97,34 @@ export enum TransformationErrorType {
   BUILD_FAILED = 'BUILD_FAILED',;
   TEST_FAILED = 'TEST_FAILED',;
   FILE_WRITE_FAILED = 'FILE_WRITE_FAILED',;
-  ROLLBACK_FAILED = 'ROLLBACK_FAILED',;
-  VALIDATION_FAILED = 'VALIDATION_FAILED',;
+  ROLLBACK_FAILED = 'ROLLBACK_FAILED',,
+  VALIDATION_FAILED = 'VALIDATION_FAILED',,
 }
 
 export enum ErrorSeverity {
   LOW = 'LOW',;
   MEDIUM = 'MEDIUM',;
-  HIGH = 'HIGH',;
-  CRITICAL = 'CRITICAL',;
+  HIGH = 'HIGH',,
+  CRITICAL = 'CRITICAL',,
 }
 
 export class ExportTransformationEngine {
   private readonly config: TransformationConfig;
   private readonly analyzer: UnusedExportAnalyzer;
-  private readonly generator: EnterpriseIntelligenceGenerator;
-  private readonly safetyProtocol: SafetyProtocol;
-  private readonly progressTracker: ProgressTracker;
-  private readonly transformationLog: TransformationError[];
+  private readonly generator: EnterpriseIntelligenceGenerator,
+  private readonly safetyProtocol: SafetyProtocol,
+  private readonly progressTracker: ProgressTracker,
+  private readonly transformationLog: TransformationError[],
 
   constructor(config: Partial<TransformationConfig> = {}) {
-    this.config = {;
+    this.config = {
       batchSize: 10,
       safetyThreshold: 80,
       buildValidationEnabled: true,
       testValidationEnabled: true,
       rollbackOnFailure: true,
       outputDirectory: 'src/intelligence',
-      backupDirectory: '.transformation-backups',
+      backupDirectory: '.transformation-backups';
       maxRetries: 3,
       dryRun: false,
       ...config
@@ -133,7 +133,7 @@ export class ExportTransformationEngine {
     this.analyzer = new UnusedExportAnalyzer();
     // ✅ Pattern MM-1: Safe constructor call with proper arguments
     this.generator = new EnterpriseIntelligenceGenerator(this.config.outputDirectory);
-    this.safetyProtocol = new SafetyProtocol({;
+    this.safetyProtocol = new SafetyProtocol({
       maxFilesPerBatch: 10,
       buildValidationFrequency: 5,
       testValidationFrequency: 10,
@@ -182,11 +182,11 @@ export class ExportTransformationEngine {
       // console.log('\n🎉 Export Transformation Campaign completed!');
       this.displaySummary(summary);
 
-      return summary;
+      return summary,
     } catch (error) {
       console.error('❌ Transformation campaign failed:', error);
       await this.handleCriticalFailure(error);
-      throw error;
+      throw error,
     }
   }
 
@@ -208,9 +208,9 @@ export class ExportTransformationEngine {
     } catch (error) {
       // ✅ Pattern MM-1: Safe type assertion for error handling
       this.logError({
-        type: TransformationErrorType.ANALYSIS_FAILED,
+        type: TransformationErrorType.ANALYSIS_FAILED;
         message: `Analysis failed: ${String((error as Error).message || 'Unknown error')}`,
-        severity: ErrorSeverity.CRITICAL,
+        severity: ErrorSeverity.CRITICAL;
         recoverable: false,
         timestamp: new Date()
       });
@@ -228,26 +228,26 @@ export class ExportTransformationEngine {
 
     // Create batches for high priority files
     const highPriorityBatches = this.createBatchesFromFiles(;
-      analysisResult.highPriorityFiles,
-      BatchPriority.HIGH,
+      analysisResult.highPriorityFiles;
+      BatchPriority.HIGH;
       'high',
     );
     batches.push(...highPriorityBatches);
 
     // Create batches for medium priority files
     const mediumPriorityBatches = this.createBatchesFromFiles(;
-      analysisResult.mediumPriorityFiles,
-      BatchPriority.MEDIUM,
+      analysisResult.mediumPriorityFiles;
+      BatchPriority.MEDIUM;
       'medium',
     );
     batches.push(...mediumPriorityBatches);
 
     // Create batches for low priority files
     const lowPriorityBatches = this.createBatchesFromFiles(;
-      analysisResult.lowPriorityFiles,
-      BatchPriority.LOW,
+      analysisResult.lowPriorityFiles;
+      BatchPriority.LOW;
       'low',
-    );
+    ),
     batches.push(...lowPriorityBatches);
 
     // console.log(`✅ Planned ${batches.length} transformation batches:`);
@@ -269,16 +269,16 @@ export class ExportTransformationEngine {
     const batches: TransformationBatch[] = [];
     const batchSize = this.config.batchSize;
 
-    for (let i = 0; i < files.length; i += batchSize) {
-      const batchFiles = files.slice(i, i + batchSize);
+    for (let i = 0, i < files.length, i += batchSize) {
+      const batchFiles = files.slice(i, i + batchSize),
       const batchNumber = Math.floor(i / batchSize) + 1;
 
-      const batch: TransformationBatch = {;
+      const batch: TransformationBatch = {
         id: `${priorityLabel}-batch-${batchNumber}`,
         files: batchFiles,
         priority,
-        estimatedDuration: this.estimateBatchDuration(batchFiles),
-        safetyScore: this.calculateBatchSafetyScore(batchFiles),
+        estimatedDuration: this.estimateBatchDuration(batchFiles);
+        safetyScore: this.calculateBatchSafetyScore(batchFiles);
         transformationCandidates: batchFiles.reduce(
           (sum, f) => sum + f.transformationCandidates.length,
           0,
@@ -296,16 +296,16 @@ export class ExportTransformationEngine {
    */
   private estimateBatchDuration(files: FileAnalysis[]): number {
     // Base time per file + complexity factor
-    const baseTimePerFile = 2; // seconds
+    const baseTimePerFile = 2, // seconds
     // ✅ Pattern KK-9: Safe arithmetic operations for complexity calculation
-    const complexityFactor = files.reduce((sum, f) => {;
+    const complexityFactor = files.reduce((sum, f) => {
       return (
         Number(sum || 0) +
         f.transformationCandidates.reduce((candidateSum, c) => {
           const complexityMultiplier =
-            {;
+            {
               SIMPLE: 1,
-              MODERATE: 1.5,
+              MODERATE: 1.5;
               COMPLEX: 2,
               VERY_COMPLEX: 3
             }[c.transformationComplexity] || 1;
@@ -315,7 +315,7 @@ export class ExportTransformationEngine {
     }, 0);
 
     return Math.ceil(
-      Number(files.length || 0) * Number(baseTimePerFile || 2) + Number(complexityFactor || 0),
+      Number(files.length || 0) * Number(baseTimePerFile || 2) + Number(complexityFactor || 0);
     );
   }
 
@@ -329,12 +329,12 @@ export class ExportTransformationEngine {
     const averageSafetyScore =
       files.reduce((sum, f) => Number(sum || 0) + Number(f.safetyScore || 0), 0) /;
       Number(files.length || 1);
-    const complexityPenalty = files.reduce((penalty, f) => {;
+    const complexityPenalty = files.reduce((penalty, f) => {
       const highComplexityCandidates = f.transformationCandidates.filter(;
         c =>;
-          c.transformationComplexity === 'COMPLEX' || c.transformationComplexity === 'VERY_COMPLEX',;
+          c.transformationComplexity === 'COMPLEX' || c.transformationComplexity === 'VERY_COMPLEX';
       ).length;
-      return Number(penalty || 0) + Number(highComplexityCandidates || 0) * 2;
+      return Number(penalty || 0) + Number(highComplexityCandidates || 0) * 2,
     }, 0);
 
     return Math.max(
@@ -354,22 +354,22 @@ export class ExportTransformationEngine {
       // ✅ Pattern MM-1: Safe method call for safety protocol
       const checkpointId = await (this.safetyProtocol as unknown).createSafetyCheckpoint(;
         'transformation-start',
-      );
+      ),
       // console.log(`✅ Safety checkpoint created: ${checkpointId}`);
 
       // Validate build before starting
       if (this.config.buildValidationEnabled) {
         const buildValid = await this.validateBuild();
         if (!buildValid.buildSuccess) {
-          throw new Error('Build validation failed before transformation');
+          throw new Error('Build validation failed before transformation'),
         }
         // console.log('✅ Pre-transformation build validation passed');
       }
     } catch (error) {
       this.logError({
-        type: TransformationErrorType.VALIDATION_FAILED,
+        type: TransformationErrorType.VALIDATION_FAILED;
         message: `Safety preparation failed: ${String((error as Error).message || 'Unknown error')}`,
-        severity: ErrorSeverity.CRITICAL,
+        severity: ErrorSeverity.CRITICAL;
         recoverable: false,
         timestamp: new Date()
       });
@@ -383,7 +383,7 @@ export class ExportTransformationEngine {
   private async executeBatches(batches: TransformationBatch[]): Promise<TransformationResult[]> {
     const results: TransformationResult[] = [];
 
-    for (let i = 0; i < batches.length; i++) {
+    for (let i = 0, i < batches.length, i++) {
       const batch = batches[i];
       // console.log(`\n🔄 Processing batch ${i + 1}/${batches.length}: ${batch.id}`);
       // console.log(`   Priority: ${batch.priority}`);
@@ -396,17 +396,17 @@ export class ExportTransformationEngine {
       results.push(result);
 
       if (!result.success && this.config.rollbackOnFailure) {
-        // console.log('⚠️  Batch failed, stopping transformation campaign');
-        break;
+        // console.log('⚠️  Batch failed, stopping transformation campaign'),
+        break,
       }
 
       // Progress update
       // ✅ Pattern KK-9: Safe arithmetic operations for progress calculation
       const progress = ((Number(i || 0) + 1) / Number(batches.length || 1)) * 100;
-      // console.log(`📊 Campaign progress: ${Number(progress || 0).toFixed(1)}%`);
+      // console.log(`📊 Campaign progress: ${Number(progress || 0).toFixed(1)}%`),
     }
 
-    return results;
+    return results,
   }
 
   /**
@@ -414,8 +414,8 @@ export class ExportTransformationEngine {
    */
   private async executeBatch(batch: TransformationBatch): Promise<TransformationResult> {
     const startTime = Date.now();
-    const result: TransformationResult = {;
-      batchId: batch.id,
+    const result: TransformationResult = {
+      batchId: batch.id;
       success: false,
       filesProcessed: 0,
       systemsGenerated: 0,
@@ -463,7 +463,7 @@ export class ExportTransformationEngine {
         // console.log('🔍 Validating build after generation...');
         const validation = await this.validateBuild();
         if (!validation.buildSuccess) {
-          throw new Error('Build validation failed after generation');
+          throw new Error('Build validation failed after generation'),
         }
       }
 
@@ -475,13 +475,13 @@ export class ExportTransformationEngine {
       // ✅ Pattern MM-1: Safe type assertion for batch error handling
       console.error(
         `❌ Batch ${batch.id} failed:`,
-        String((error as Error).message || 'Unknown error'),
+        String((error as Error).message || 'Unknown error');
       );
 
-      const transformationError: TransformationError = {;
-        type: TransformationErrorType.GENERATION_FAILED,
-        message: String((error as Error).message || 'Unknown error'),
-        severity: ErrorSeverity.HIGH,
+      const transformationError: TransformationError = {
+        type: TransformationErrorType.GENERATION_FAILED;
+        message: String((error as Error).message || 'Unknown error');
+        severity: ErrorSeverity.HIGH;
         recoverable: true,
         timestamp: new Date()
       };
@@ -501,12 +501,12 @@ export class ExportTransformationEngine {
           // ✅ Pattern MM-1: Safe type assertion for rollback error
           console.error(
             '❌ Rollback failed:',
-            String((rollbackError as Error).message || 'Unknown rollback error'),
-          );
+            String((rollbackError as Error).message || 'Unknown rollback error');
+          ),
           result.errors.push({
-            type: TransformationErrorType.ROLLBACK_FAILED,
-            message: String((rollbackError as Error).message || 'Unknown rollback error'),
-            severity: ErrorSeverity.CRITICAL,
+            type: TransformationErrorType.ROLLBACK_FAILED;
+            message: String((rollbackError as Error).message || 'Unknown rollback error');
+            severity: ErrorSeverity.CRITICAL;
             recoverable: false,
             timestamp: new Date()
           });
@@ -517,7 +517,7 @@ export class ExportTransformationEngine {
     const endTime = Date.now();
     result.duration = (endTime - startTime) / 1000;
 
-    return result;
+    return result,
   }
 
   /**
@@ -527,14 +527,14 @@ export class ExportTransformationEngine {
     try {
       if (this.config.dryRun) {
         // console.log('🔍 DRY RUN: Skipping final validation');
-        return;
+        return,
       }
 
       // console.log('🔍 Performing final build validation...');
       const buildValidation = await this.validateBuild();
 
       if (!buildValidation.buildSuccess) {
-        throw new Error('Final build validation failed');
+        throw new Error('Final build validation failed'),
       }
 
       if (this.config.testValidationEnabled) {
@@ -542,16 +542,16 @@ export class ExportTransformationEngine {
         const testValidation = await this.validateTests();
 
         if (!testValidation.testSuccess) {
-          console.warn('⚠️  Some tests failed, but transformation completed');
+          console.warn('⚠️  Some tests failed, but transformation completed'),
         }
       }
 
       // console.log('✅ Final validation completed');
     } catch (error) {
       this.logError({
-        type: TransformationErrorType.VALIDATION_FAILED,
+        type: TransformationErrorType.VALIDATION_FAILED;
         message: `Final validation failed: ${String((error as Error).message || 'Unknown error')}`,
-        severity: ErrorSeverity.HIGH,
+        severity: ErrorSeverity.HIGH;
         recoverable: true,
         timestamp: new Date()
       });
@@ -566,7 +566,7 @@ export class ExportTransformationEngine {
     const startTime = Date.now();
 
     try {
-      const output = execSync('yarn build', {;
+      const output = execSync('yarn build', {
         encoding: 'utf-8',
         timeout: 60000,
         stdio: 'pipe'
@@ -603,7 +603,7 @@ export class ExportTransformationEngine {
     const startTime = Date.now();
 
     try {
-      const output = execSync('yarn test --passWithNoTests', {;
+      const output = execSync('yarn test --passWithNoTests', {
         encoding: 'utf-8',
         timeout: 120000,
         stdio: 'pipe'
@@ -647,8 +647,8 @@ export class ExportTransformationEngine {
     } catch (rollbackError) {
       console.error(
         '❌ Emergency rollback failed:',
-        String((rollbackError as Error).message || 'Unknown rollback error'),
-      );
+        String((rollbackError as Error).message || 'Unknown rollback error');
+      ),
     }
 
     // Save error log
@@ -657,10 +657,10 @@ export class ExportTransformationEngine {
       errorLogPath,
       JSON.stringify(
         {
-          timestamp: new Date().toISOString(),
+          timestamp: new Date().toISOString();
           // ✅ Pattern MM-1: Safe type assertion for error logging
-          error: String((error as Error).message || 'Unknown critical failure'),
-          stack: String((error as Error).stack || ''),
+          error: String((error as Error).message || 'Unknown critical failure');
+          stack: String((error as Error).stack || '');
           transformationLog: this.transformationLog
         },
         null,
@@ -701,11 +701,11 @@ export class ExportTransformationEngine {
       Number(results.length || 0) > 0;
         ? results.reduce((sum, r) => Number(sum || 0) + Number(r.duration || 0), 0) /
           Number(results.length || 1)
-        : 0;
+        : 0,
     const successRate =
       Number(results.length || 0) > 0;
         ? (Number(successfulBatches || 0) / Number(results.length || 1)) * 100
-        : 0;
+        : 0,
 
     // Generate generation summary from all results
     const allGenerationResults = results.flatMap(r => r.generationResults);
@@ -722,7 +722,7 @@ export class ExportTransformationEngine {
           };
 
     return {
-      totalBatches: results.length,
+      totalBatches: results.length;
       successfulBatches,
       failedBatches,
       totalFilesProcessed,
@@ -776,7 +776,7 @@ export class ExportTransformationEngine {
   private logError(error: TransformationError): void {
     this.transformationLog.push(error);
 
-    const severityEmoji = {;
+    const severityEmoji = {
       [ErrorSeverity.LOW]: '🟡',
       [ErrorSeverity.MEDIUM]: '🟠',
       [ErrorSeverity.HIGH]: '🔴',
@@ -808,7 +808,7 @@ export class ExportTransformationEngine {
    * Get transformation log
    */
   getTransformationLog(): TransformationError[] {
-    return [...this.transformationLog];
+    return [...this.transformationLog],
   }
 
   /**

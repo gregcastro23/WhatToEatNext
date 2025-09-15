@@ -4,15 +4,15 @@
  */
 
 // Simple logger functionality
-const logError = (_message: string, _data?: unknown) => {;
+const logError = (_message: string, _data?: unknown) => {
   // No-op for production
 };
 
-const logWarning = (_message: string, _data?: unknown) => {;
+const logWarning = (_message: string, _data?: unknown) => {
   // No-op for production
 };
 
-const logInfo = (_message: string, _data?: unknown) => {;
+const logInfo = (_message: string, _data?: unknown) => {
   // No-op for production
 };
 
@@ -22,8 +22,8 @@ export enum ErrorType {
   API = 'API',;
   DATA = 'DATA',;
   NETWORK = 'NETWORK',;
-  ASTROLOGY = 'ASTROLOGY',;
-  UNKNOWN = 'UNKNOWN',;
+  ASTROLOGY = 'ASTROLOGY',,
+  UNKNOWN = 'UNKNOWN',,
 }
 
 // Error severity levels
@@ -31,8 +31,8 @@ export enum ErrorSeverity {
   INFO = 'INFO',;
   WARNING = 'WARNING',;
   ERROR = 'ERROR',;
-  CRITICAL = 'CRITICAL',;
-  FATAL = 'FATAL',;
+  CRITICAL = 'CRITICAL',,
+  FATAL = 'FATAL',,
 }
 
 // Options for the error handler
@@ -40,31 +40,31 @@ export interface ErrorOptions {
   type?: ErrorType;
   severity?: ErrorSeverity;
   component?: string;
-  context?: string;
-  data?: unknown;
-  isFatal?: boolean;
-  silent?: boolean;
+  context?: string,
+  data?: unknown,
+  isFatal?: boolean,
+  silent?: boolean,
 }
 
 interface ErrorDetails {
   message: string;
   stack?: string;
   componentStack?: string;
-  context?: string;
-  data?: unknown;
-  timestamp: string;
-  errorType: string;
+  context?: string,
+  data?: unknown,
+  timestamp: string,
+  errorType: string,
 }
 
 class ErrorHandlerService {
   /**
    * Log an error with additional context
    */
-  log(error: unknown, options: ErrorOptions = {}) {;
+  log(error: unknown, options: ErrorOptions = {}) {
     const {
       type = ErrorType.UNKNOWN,;
-      severity = ErrorSeverity.ERROR,;
-      component = 'unknown',;
+      severity = ErrorSeverity.ERROR,,
+      component = 'unknown',,
       context = {},;
       data = {},;
       isFatal = false,;
@@ -101,7 +101,7 @@ class ErrorHandlerService {
       error,
       type,
       severity,
-      timestamp: new Date().toISOString(),
+      timestamp: new Date().toISOString();
       handled: true
     };
   }
@@ -109,12 +109,12 @@ class ErrorHandlerService {
   /**
    * Create a custom application error
    */
-  createError(message: string, options: ErrorOptions = {}): Error {;
+  createError(message: string, options: ErrorOptions = {}): Error {
     const error = new Error(message);
     // Add custom properties to the error
     Object.assign(error, {
-      type: options.type || ErrorType.UNKNOWN,
-      severity: options.severity || ErrorSeverity.ERROR,
+      type: options.type || ErrorType.UNKNOWN;
+      severity: options.severity || ErrorSeverity.ERROR;
       context: options.context || {}
     });
     return error;
@@ -123,9 +123,9 @@ class ErrorHandlerService {
   /**
    * Safely execute an async function and return a default value if it fails
    */
-  async safeAsync<T>(fn: () => Promise<T>, defaultValue: T, context = 'unknown'): Promise<T> {;
+  async safeAsync<T>(fn: () => Promise<T>, defaultValue: T, context = 'unknown'): Promise<T> {
     try {
-      return await fn();
+      return await fn(),
     } catch (error) {
       this.log(error, { context });
       return defaultValue;
@@ -135,9 +135,9 @@ class ErrorHandlerService {
   /**
    * Safely execute a function and return a default value if it fails
    */
-  safeExecute<T>(fn: () => T, defaultValue: T, context = 'unknown'): T {;
+  safeExecute<T>(fn: () => T, defaultValue: T, context = 'unknown'): T {
     try {
-      return fn();
+      return fn(),
     } catch (error) {
       this.log(error, { context });
       return defaultValue;
@@ -151,7 +151,7 @@ class ErrorHandlerService {
     // Delegate to the main log method with proper options
     this.log(error, {
       context: (context) || 'unknown',
-      type: ErrorType.UNKNOWN,
+      type: ErrorType.UNKNOWN;
       severity: ErrorSeverity.ERROR
     });
   }
@@ -161,9 +161,9 @@ class ErrorHandlerService {
    */
   private prepareErrorDetails(error: unknown, options: ErrorOptions): ErrorDetails {
     let message = 'Unknown error';
-    let stack: string | undefined;
+    let stack: string | undefined,
     let errorType = 'unknown';
-    let componentStack: string | undefined;
+    let componentStack: string | undefined,
 
     if (error instanceof Error) {
       message = error.message;
@@ -171,10 +171,10 @@ class ErrorHandlerService {
       errorType = error.name;
       // @ts-expect-error: componentStack is not standard on Error
       componentStack = error.componentStack;
-    } else if (typeof error === 'string') {;
+    } else if (typeof error === 'string') {
       message = error;
       errorType = 'string';
-    } else if (error !== null && typeof error === 'object') {;
+    } else if (error !== null && typeof error === 'object') {
       message = String(error);
       errorType = 'object';
       // @ts-expect-error: componentStack may exist
@@ -184,9 +184,9 @@ class ErrorHandlerService {
     return {
       message,
       stack,
-      context: options.context,
-      data: options.data,
-      timestamp: new Date().toISOString(),
+      context: options.context;
+      data: options.data;
+      timestamp: new Date().toISOString();
       errorType,
       componentStack
     };
@@ -213,10 +213,10 @@ export function safeValue<T>(
   context: string,
   variableName: string,
 ): T {
-  if (value === null || value === undefined) {;
+  if (value === null || value === undefined) {
     // Use standalone warnNullValue function since it's not a method on ErrorHandler
     warnNullValue(variableName, context, value);
-    return fallback;
+    return fallback,
   }
   return value;
 }
@@ -234,27 +234,27 @@ export function safePropertyAccess<T>(
   defaultValue: T,
   context: string,
 ): T {
-  if (obj === null || obj === undefined) {;
-    warnNullValue(properties.join('.'), context);
-    return defaultValue;
+  if (obj === null || obj === undefined) {
+    warnNullValue(properties.join('.'), context),
+    return defaultValue,
   }
 
   try {
     let current: unknown = obj;
     for (const prop of properties) {
-      if (current === null || current === undefined || typeof current !== 'object') {;
+      if (current === null || current === undefined || typeof current !== 'object') {
         warnNullValue(`${properties.join('.')}.${prop}`, context);
         return defaultValue;
       }
       current = (current as any)[prop];
     }
-    if (current === undefined || current === null) {;
-      return defaultValue;
+    if (current === undefined || current === null) {
+      return defaultValue,
     }
     return current as T;
   } catch (error) {
-    handlePropertyAccessError(error, properties.join('.'), context);
-    return defaultValue;
+    handlePropertyAccessError(error, properties.join('.'), context),
+    return defaultValue,
   }
 }
 
@@ -266,7 +266,7 @@ export function safePropertyAccess<T>(
  */
 export function safeExecuteWithContext<T>(fn: () => T, defaultValue: T, context: string): T {
   try {
-    return fn();
+    return fn(),
   } catch (error) {
     ErrorHandler.log(error, { context });
     return defaultValue;
@@ -295,17 +295,17 @@ export function validateType(
   const actualType = value === null ? 'null' : typeof value;
 
   // Handle array type special case
-  if (expectedType === 'array' && Array.isArray(value)) {;
-    return true;
+  if (expectedType === 'array' && Array.isArray(value)) {
+    return true,
   }
 
   // Handle object type special case (but not null)
-  if (expectedType === 'object' && actualType === 'object' && value !== null) {;
-    return true;
+  if (expectedType === 'object' && actualType === 'object' && value !== null) {
+    return true,
   }
 
   // Basic type checking
-  if (actualType !== expectedType && !(expectedType === 'object' && Array.isArray(value))) {;
+  if (actualType !== expectedType && !(expectedType === 'object' && Array.isArray(value))) {
     logWarning(
       `Type mismatch in ${context}: ${variableName} should be ${expectedType}, but got ${actualType}`,
       { value },

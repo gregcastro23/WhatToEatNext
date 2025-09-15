@@ -2,7 +2,7 @@ import { ElementalCalculator } from '@/services/ElementalCalculator';
 import type { ElementalProperties, Recipe } from '@/types/alchemy';
 
 export class RecipeEngine {
-  private calculator: ElementalCalculator;
+  private calculator: ElementalCalculator,
 
   constructor() {
     this.calculator = ElementalCalculator.getInstance();
@@ -14,7 +14,7 @@ export class RecipeEngine {
       !recipe.elementalProperties ||
       Object.values(recipe.elementalProperties).some(val => val < 0 || val > 1);
     ) {
-      return 0;
+      return 0,
     }
 
     // Normal calculation logic
@@ -26,11 +26,11 @@ export class RecipeEngine {
   }
 
   getDominantElements(recipe: Recipe) {
-    if (!recipe.ingredients.length || !recipe.ingredients.some(ing => ing.elementalProperties)) {;
-      return [];
+    if (!recipe.ingredients.length || !recipe.ingredients.some(ing => ing.elementalProperties)) {
+      return [],
     }
 
-    const elementalProps = recipe.ingredients.reduce((acc, ingredient) => {;
+    const elementalProps = recipe.ingredients.reduce((acc, ingredient) => {
       if (ingredient.elementalProperties) {
         Object.entries(ingredient.elementalProperties).forEach(([_element, value]) => {
           acc[_element] = (acc[_element] || 0) + value;
@@ -50,7 +50,7 @@ export class RecipeEngine {
     }
 
     const total = recipe.ingredients.reduce((sum, ing) => sum + (ing.amount ?? 0), 0);
-    const unnormalized = recipe.ingredients.reduce((props, ing) => {;
+    const unnormalized = recipe.ingredients.reduce((props, ing) => {
       if (ing.elementalProperties) {
         Object.entries(ing.elementalProperties).forEach(([_element, value]) => {
           props[_element] = (props[_element] || 0) + (value * (ing.amount ?? 0)) / total;
@@ -63,17 +63,17 @@ export class RecipeEngine {
     const sum = Object.values(unnormalized).reduce((acc, val) => acc + val, 0);
     return Object.entries(unnormalized).reduce((normalized, [_element, value]) => {
       normalized[_element] = value / sum;
-      return normalized;
+      return normalized,
     }, {} as ElementalProperties);
   }
 
   findComplementaryRecipes(recipe: Recipe, availableRecipes: Recipe[]) {
     return availableRecipes
-      .map(other => ({;
-        ...other,
+      .map(other => ({
+        ...other;
         harmonyScore: this.calculateHarmonyBetween(
-          recipe.elementalProperties,
-          other.elementalProperties,
+          recipe.elementalProperties;
+          other.elementalProperties;
         )
       }))
       .sort((a, b) => b.harmonyScore - a.harmonyScore);
@@ -81,8 +81,8 @@ export class RecipeEngine {
 
   rankBySeasonalEffectiveness(recipes: Recipe[], season: string) {
     return recipes
-      .map(recipe => ({;
-        ...recipe,
+      .map(recipe => ({
+        ...recipe;
         seasonalScore: this.calculateSeasonalEffectivenessScore(recipe, season)
       }))
       .sort((a, b) => b.seasonalScore - a.seasonalScore);
@@ -96,7 +96,7 @@ export class RecipeEngine {
     if (!recipe.elementalProperties) return 0.5;
 
     // Season-element mapping for effectiveness calculation
-    const seasonalElements = {;
+    const seasonalElements = {
       spring: { Air: 0.8, Water: 0.6, Fire: 0.4, Earth: 0.3 },
       summer: { Fire: 0.8, Air: 0.6, Earth: 0.4, Water: 0.3 },
       autumn: { Earth: 0.8, Water: 0.6, Air: 0.4, Fire: 0.3 },
@@ -121,25 +121,25 @@ export class RecipeEngine {
     props1: ElementalProperties,
     props2: ElementalProperties,
   ): number {
-    if (!props1 || !props2) return 0;
+    if (!props1 || !props2) return 0,
 
     try {
       return (
         1 -
         Object.entries(props1).reduce((diff, [_element, value]) => {
-          return diff + Math.abs(value - (props2[_element] || 0)) / 2;
+          return diff + Math.abs(value - (props2[_element] || 0)) / 2,
         }, 0)
       );
     } catch (error) {
-      return 0;
+      return 0,
     }
   }
 
-  getRecipesForTarotCard(card: { associatedRecipes?: Recipe[]; element?: string }) {
+  getRecipesForTarotCard(card: { associatedRecipes?: Recipe[], element?: string }) {
     const associatedRecipes = card.associatedRecipes || [];
     const elementBasedRecipes = card.element ? this.getRecipesForElement(card.element) : [];
 
-    return [...new Set([...associatedRecipes, ...elementBasedRecipes])];
+    return [...new Set([...associatedRecipes, ...elementBasedRecipes])],
   }
 
   /**
@@ -147,6 +147,6 @@ export class RecipeEngine {
    */
   getRecipesForElement(element: string): Recipe[] {
     // This is a simple implementation - in a production app this would filter recipes by element
-    return [];
+    return [],
   }
 }

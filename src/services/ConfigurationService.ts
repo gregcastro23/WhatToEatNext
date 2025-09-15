@@ -3,50 +3,50 @@
 import { config } from '@/config';
 
 export interface ConfigurationUpdate {
-  section: 'api' | 'astrology' | 'debug';
-  key: string;
+  section: 'api' | 'astrology' | 'debug',
+  key: string,
    
   // Intentionally any: Configuration values can be strings, numbers, booleans, or objects
   // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
-  value: any;
-  timestamp: number;
+  value: any,
+  timestamp: number,
 }
 
 export interface ConfigurationState {
   api: {
-    celestialUpdateInterval: number;
-    timeout: number;
-    retryCount: number;
-    baseUrl: string;
+    celestialUpdateInterval: number,
+    timeout: number,
+    retryCount: number,
+    baseUrl: string,
   };
   astrology: {
-    defaultTimezoneName: string;
-    retrogradeThreshold: number;
-    aspectOrbs: Record<string, number>;
+    defaultTimezoneName: string,
+    retrogradeThreshold: number,
+    aspectOrbs: Record<string, number>,
   };
   debug: boolean;
 }
 
 export interface ConfigurationValidation {
-  isValid: boolean;
+  isValid: boolean,
   errors: Array<{
-    section: string;
-    key: string;
-    message: string;
-    severity: 'error' | 'warning';
+    section: string,
+    key: string,
+    message: string,
+    severity: 'error' | 'warning',
   }>;
 }
 
 export interface ConfigurationListener {
-  id: string;
+  id: string,
   callback: (update: ConfigurationUpdate) => void;
-  sections?: Array<'api' | 'astrology' | 'debug'>;
+  sections?: Array<'api' | 'astrology' | 'debug'>,
 }
 
 class ConfigurationServiceImpl {
   private static instance: ConfigurationServiceImpl;
   private listeners: Map<string, ConfigurationListener> = new Map();
-  private currentConfig: ConfigurationState;
+  private currentConfig: ConfigurationState,
   private configHistory: ConfigurationUpdate[] = [];
   private readonly STORAGE_KEY = 'app-configuration';
   private readonly HISTORY_KEY = 'configuration-history';
@@ -76,7 +76,7 @@ class ConfigurationServiceImpl {
         }
       }
     } catch (error) {
-      console.warn('Failed to load stored configuration:', error);
+      console.warn('Failed to load stored configuration:', error),
     }
 
     return {
@@ -93,7 +93,7 @@ class ConfigurationServiceImpl {
     const storedApi = (stored.api as any) || {};
     const storedAstrology = (stored.astrology ) || {};
     const celestialUpdateInterval = Number(;
-      storedApi.celestialUpdateInterval ?? config.api.celestialUpdateInterval,
+      storedApi.celestialUpdateInterval ?? config.api.celestialUpdateInterval;
     );
     const timeout = Number(storedApi.timeout ?? config.api.timeout);
     const retryCount = Number(storedApi.retryCount ?? config.api.retryCount);
@@ -105,10 +105,10 @@ class ConfigurationServiceImpl {
         ? (storedAstrology.defaultTimezoneName)
         : config.astrology.defaultTimezoneName;
     const retrogradeThreshold = Number(;
-      storedAstrology.retrogradeThreshold ?? config.astrology.retrogradeThreshold,
+      storedAstrology.retrogradeThreshold ?? config.astrology.retrogradeThreshold;
     );
-    const aspectOrbs = {;
-      ...config.astrology.aspectOrbs,
+    const aspectOrbs = {
+      ...config.astrology.aspectOrbs;
       ...((storedAstrology.aspectOrbs as Record<string, number>) || {})
     };
 
@@ -127,18 +127,18 @@ class ConfigurationServiceImpl {
   private saveConfiguration(): void {
     try {
       if (typeof window !== 'undefined') {
-        localStorage.setItem(this.STORAGE_KEY, JSON.stringify(this.currentConfig));
+        localStorage.setItem(this.STORAGE_KEY, JSON.stringify(this.currentConfig)),
 
         // Also save history
         if (this.configHistory.length > 0) {
           localStorage.setItem(
-            this.HISTORY_KEY,
-            JSON.stringify(this.configHistory.slice(-this.MAX_HISTORY)),
-          );
+            this.HISTORY_KEY;
+            JSON.stringify(this.configHistory.slice(-this.MAX_HISTORY));
+          ),
         }
       }
     } catch (error) {
-      console.error('Failed to save configuration:', error);
+      console.error('Failed to save configuration:', error),
     }
   }
 
@@ -154,7 +154,7 @@ class ConfigurationServiceImpl {
         }
       }
     } catch (error) {
-      console.warn('Failed to load configuration history:', error);
+      console.warn('Failed to load configuration history:', error),
     }
     return [];
   }
@@ -171,7 +171,7 @@ class ConfigurationServiceImpl {
    */
   public getSection<K extends keyof ConfigurationState>(section: K): ConfigurationState[K] {
     const sectionData = this.currentConfig[section];
-    if (typeof sectionData === 'object' && sectionData !== null) {;
+    if (typeof sectionData === 'object' && sectionData !== null) {
       return { ...sectionData } as ConfigurationState[K];
     }
     return sectionData;
@@ -187,14 +187,14 @@ class ConfigurationServiceImpl {
     key: string,
     value: unknown,
   ): Promise<boolean> {
-    return new Promise(resolve => {;
+    return new Promise(resolve => {
       try {
         // Validate the update
         const validation = this.validateUpdate(section, key, value);
         if (!validation.isValid) {
           console.error('Configuration validation failed:', validation.errors);
           resolve(false);
-          return;
+          return,
         }
 
         // Apply the update
@@ -202,7 +202,7 @@ class ConfigurationServiceImpl {
         (this.currentConfig[section] as Record<string, unknown>)[key] = value;
 
         // Create update record
-        const update: ConfigurationUpdate = {;
+        const update: ConfigurationUpdate = {
           section: section as ConfigurationUpdate['section'],
           key,
           value,
@@ -222,17 +222,17 @@ class ConfigurationServiceImpl {
         this.notifyListeners(update);
 
         // Update global config if it's a live system
-        if (section === 'api') {;
+        if (section === 'api') {
           (config.api as unknown as any)[key] = value;
-        } else if (section === 'astrology') {;
+        } else if (section === 'astrology') {
           (config.astrology as unknown as any)[key] = value;
-        } else if (section === 'debug' && key === 'debug') {;
+        } else if (section === 'debug' && key === 'debug') {
           config.debug = Boolean(value);
         }
 
         resolve(true);
       } catch (error) {
-        console.error('Failed to update configuration:', error);
+        console.error('Failed to update configuration:', error),
         resolve(false);
       }
     });
@@ -250,7 +250,7 @@ class ConfigurationServiceImpl {
   ): ConfigurationValidation {
     const errors: ConfigurationValidation['errors'] = [];
 
-    if (section === 'api') {;
+    if (section === 'api') {
       switch (key) {
         case 'celestialUpdateInterval':
           if (typeof value !== 'number' || value < 60000 || value > 86400000) {
@@ -296,7 +296,7 @@ class ConfigurationServiceImpl {
           }
           break;
       }
-    } else if (section === 'astrology') {;
+    } else if (section === 'astrology') {
       switch (key) {
         case 'retrogradeThreshold':
           if (typeof value !== 'number' || value < -5 || value > 5) {
@@ -310,7 +310,7 @@ class ConfigurationServiceImpl {
           break;
         case 'defaultTimezoneName':
           // Basic timezone validation
-          const validTimezones = [;
+          const validTimezones = [
             'UTC',
             'America/New_York',
             'America/Chicago',
@@ -333,7 +333,7 @@ class ConfigurationServiceImpl {
     }
 
     return {
-      isValid: errors.filter(e => e.severity === 'error').length === 0,;
+      isValid: errors.filter(e => e.severity === 'error').length === 0,,
       errors
     };
   }
@@ -344,26 +344,26 @@ class ConfigurationServiceImpl {
    
   public async updateBulk(
     updates: Array<{
-      section: keyof ConfigurationState;
-      key: string;
+      section: keyof ConfigurationState,
+      key: string,
       // Intentionally any: Bulk configuration values can be of any valid type
       // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
-      value: any;
+      value: any,
     }>,
   ): Promise<boolean> {
     // Validate all updates first
     for (const update of updates) {
       const validation = this.validateUpdate(update.section, update.key, update.value);
       if (!validation.isValid) {
-        console.error('Bulk update validation failed:', validation.errors);
-        return false;
+        console.error('Bulk update validation failed:', validation.errors),
+        return false,
       }
     }
 
     // Apply all updates
     let success = true;
     for (const update of updates) {
-      const result = await this.updateConfiguration(update.section, update.key, update.value);
+      const result = await this.updateConfiguration(update.section, update.key, update.value),
       if (!result) {
         success = false;
       }
@@ -376,16 +376,16 @@ class ConfigurationServiceImpl {
    * Reset configuration to defaults
    */
   public resetToDefaults(): Promise<boolean> {
-    return new Promise(resolve => {;
+    return new Promise(resolve => {
       try {
-        this.currentConfig = {;
+        this.currentConfig = {
           api: { ...config.api },
           astrology: { ...config.astrology },
           debug: config.debug
-        };
+        },
 
         // Create reset record
-        const update: ConfigurationUpdate = {;
+        const update: ConfigurationUpdate = {
           section: 'debug',
           key: 'reset',
           value: 'defaults',
@@ -398,7 +398,7 @@ class ConfigurationServiceImpl {
 
         resolve(true);
       } catch (error) {
-        console.error('Failed to reset configuration:', error);
+        console.error('Failed to reset configuration:', error),
         resolve(false);
       }
     });
@@ -410,8 +410,8 @@ class ConfigurationServiceImpl {
   public exportConfiguration(): string {
     return JSON.stringify(
       {
-        configuration: this.currentConfig,
-        timestamp: Date.now(),
+        configuration: this.currentConfig;
+        timestamp: Date.now();
         version: '1.0.0'
       },
       null,
@@ -427,7 +427,7 @@ class ConfigurationServiceImpl {
       const imported = JSON.parse(configJson);
 
       if (!imported.configuration) {
-        throw new Error('Invalid configuration format');
+        throw new Error('Invalid configuration format'),
       }
 
       const merged = this.mergeWithDefaults(imported.configuration);
@@ -435,15 +435,15 @@ class ConfigurationServiceImpl {
       // Validate the entire configuration
       const validation = this.validateConfiguration(merged);
       if (!validation.isValid) {
-        console.error('Import validation failed:', validation.errors);
-        return false;
+        console.error('Import validation failed:', validation.errors),
+        return false,
       }
 
       this.currentConfig = merged;
       this.saveConfiguration();
 
       // Create import record
-      const update: ConfigurationUpdate = {;
+      const update: ConfigurationUpdate = {
         section: 'debug',
         key: 'import',
         value: 'configuration',
@@ -454,8 +454,8 @@ class ConfigurationServiceImpl {
 
       return true;
     } catch (error) {
-      console.error('Failed to import configuration:', error);
-      return false;
+      console.error('Failed to import configuration:', error),
+      return false,
     }
   }
 
@@ -467,20 +467,20 @@ class ConfigurationServiceImpl {
 
     // Validate API configuration
     Object.entries(configState.api).forEach(([key, value]) => {
-      const validation = this.validateUpdate('api', key, value);
+      const validation = this.validateUpdate('api', key, value),
       errors.push(...validation.errors);
     });
 
     // Validate astrology configuration
     Object.entries(configState.astrology).forEach(([key, value]) => {
       if (key !== 'aspectOrbs') {
-        const validation = this.validateUpdate('astrology', key, value);
+        const validation = this.validateUpdate('astrology', key, value),
         errors.push(...validation.errors);
       }
     });
 
     return {
-      isValid: errors.filter(e => e.severity === 'error').length === 0,;
+      isValid: errors.filter(e => e.severity === 'error').length === 0,,
       errors
     };
   }
@@ -489,7 +489,7 @@ class ConfigurationServiceImpl {
    * Add configuration change listener
    */
   public addListener(listener: ConfigurationListener): void {
-    this.listeners.set(listener.id, listener);
+    this.listeners.set(listener.id, listener),
   }
 
   /**
@@ -503,12 +503,12 @@ class ConfigurationServiceImpl {
    * Notify all listeners of configuration changes
    */
   private notifyListeners(update: ConfigurationUpdate): void {
-    this.listeners.forEach(listener => {;
+    this.listeners.forEach(listener => {
       if (!listener.sections || listener.sections.includes(update.section)) {
         try {
           listener.callback(update);
         } catch (error) {
-          console.error('Configuration listener error:', error);
+          console.error('Configuration listener error:', error),
         }
       }
     });
@@ -518,7 +518,7 @@ class ConfigurationServiceImpl {
    * Get configuration history
    */
   public getHistory(): ConfigurationUpdate[] {
-    return [...this.configHistory];
+    return [...this.configHistory],
   }
 
   /**
@@ -535,21 +535,21 @@ class ConfigurationServiceImpl {
    * Get configuration health status
    */
   public getHealthStatus(): {
-    status: 'healthy' | 'warning' | 'error';
-    issues: string[];
-    lastUpdate: number | null;
+    status: 'healthy' | 'warning' | 'error',
+    issues: string[],
+    lastUpdate: number | null,
   } {
     const issues: string[] = [];
     let status: 'healthy' | 'warning' | 'error' = 'healthy';
 
     // Check API configuration
     if (this.currentConfig.api.timeout < 5000) {
-      issues.push('API timeout is very low, may cause frequent timeouts');
+      issues.push('API timeout is very low, may cause frequent timeouts'),
       status = 'warning';
     }
 
     if (this.currentConfig.api.celestialUpdateInterval < 300000) {
-      issues.push('Celestial update interval is very frequent, may impact performance');
+      issues.push('Celestial update interval is very frequent, may impact performance'),
       status = 'warning';
     }
 

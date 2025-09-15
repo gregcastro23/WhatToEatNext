@@ -15,7 +15,7 @@ import { useEffect, useState } from 'react';
  
 // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
 const SauceRecommender = (props: any) => (;
-  <div className='rounded border p-4 text-gray-600'>SauceRecommender unavailable.</div>;
+  <div className='rounded border p-4 text-gray-600'>SauceRecommender unavailable.</div>
 );
 
 // Import all cuisines
@@ -33,27 +33,27 @@ interface Sauce {
   name: string;
   description?: string;
   base?: string;
-  keyIngredients?: string[];
-  culinaryUses?: string[];
-  elementalProperties?: ElementalProperties;
-  astrologicalInfluences?: string[];
+  keyIngredients?: string[],
+  culinaryUses?: string[],
+  elementalProperties?: ElementalProperties,
+  astrologicalInfluences?: string[],
 }
 
 // Define interface for sauce recommender structure
 interface CuisineSauceRecommender {
   forProtein?: Record<string, string[]>;
-  forVegetable?: Record<string, string[]>;
-  forCookingMethod?: Record<string, string[]>;
+  forVegetable?: Record<string, string[]>,
+  forCookingMethod?: Record<string, string[]>,
 }
 
 // Define interface for cuisine objects
 interface Cuisine {
   name: string;
   id?: string;
-  description?: string;
-  traditionalSauces?: Record<string, Sauce>;
-  sauceRecommender?: CuisineSauceRecommender;
-  elementalProperties?: ElementalProperties;
+  description?: string,
+  traditionalSauces?: Record<string, Sauce>,
+  sauceRecommender?: CuisineSauceRecommender,
+  elementalProperties?: ElementalProperties,
 }
 
 // Define type for all cuisines record
@@ -63,14 +63,14 @@ export default function SauceExplorer() {
   // State for selected filters
   const [selectedCuisine, setSelectedCuisine] = useState<string>('');
   const [selectedProtein, setSelectedProtein] = useState<string>('');
-  const [selectedVegetable, setSelectedVegetable] = useState<string>('');
-  const [selectedCookingMethod, setSelectedCookingMethod] = useState<string>('');
+  const [selectedVegetable, setSelectedVegetable] = useState<string>(''),
+  const [selectedCookingMethod, setSelectedCookingMethod] = useState<string>(''),
 
   // State for elemental profile sliders
   const [elementalProfile, setElementalProfile] = useState<ElementalProperties>({
-    Fire: 0.25,
-    Water: 0.25,
-    Earth: 0.25,
+    Fire: 0.25;
+    Water: 0.25;
+    Earth: 0.25;
     Air: 0.25
   });
 
@@ -79,7 +79,7 @@ export default function SauceExplorer() {
 
   // Load all cuisines on component mount
   useEffect(() => {
-    const cuisines = {;
+    const cuisines = {
       italian: italianCuisine,
       french: frenchCuisine,
       japanese: japaneseCuisine,
@@ -92,14 +92,14 @@ export default function SauceExplorer() {
   }, []);
 
   // Handle elemental profile change
-  const handleElementChange = (element: keyof ElementalProperties, value: number) => {;
+  const handleElementChange = (element: keyof ElementalProperties, value: number) => {
     // Normalize all elements to ensure they sum to 1
     const newProfile = { ...elementalProfile, [element]: value };
     const sum = Object.values(newProfile).reduce((acc, val) => acc + val, 0);
 
     if (sum > 0) {
       const normalized: ElementalProperties = {} as ElementalProperties;
-      Object.keys(newProfile).forEach(key => {;
+      Object.keys(newProfile).forEach(key => {
         normalized[key as any] = newProfile[key as any] / sum;
       });
 
@@ -108,9 +108,9 @@ export default function SauceExplorer() {
   };
 
   // Get protein options
-  const getProteinOptions = () => {;
+  const getProteinOptions = () => {
     if (!selectedCuisine || !allCuisines[selectedCuisine]) {
-      return [];
+      return [],
     }
 
     const cuisine = allCuisines[selectedCuisine];
@@ -123,9 +123,9 @@ export default function SauceExplorer() {
   };
 
   // Get vegetable options
-  const getVegetableOptions = () => {;
+  const getVegetableOptions = () => {
     if (!selectedCuisine || !allCuisines[selectedCuisine]) {
-      return [];
+      return [],
     }
 
     const cuisine = allCuisines[selectedCuisine];
@@ -138,9 +138,9 @@ export default function SauceExplorer() {
   };
 
   // Get cooking method options
-  const getCookingMethodOptions = () => {;
+  const getCookingMethodOptions = () => {
     if (!selectedCuisine || !allCuisines[selectedCuisine]) {
-      return [];
+      return [],
     }
 
     const cuisine = allCuisines[selectedCuisine];
@@ -153,18 +153,18 @@ export default function SauceExplorer() {
   };
 
   // Reset filters
-  const resetFilters = () => {;
+  const resetFilters = () => {
     setSelectedProtein('');
     setSelectedVegetable('');
     setSelectedCookingMethod('');
   };
 
   // Reset elemental profile
-  const resetElementalProfile = () => {;
+  const resetElementalProfile = () => {
     setElementalProfile({
-      Fire: 0.25,
-      Water: 0.25,
-      Earth: 0.25,
+      Fire: 0.25;
+      Water: 0.25;
+      Earth: 0.25;
       Air: 0.25
     });
   };
@@ -193,7 +193,7 @@ export default function SauceExplorer() {
             </label>
             <select
               value={selectedCuisine};
-              onChange={e => {;
+              onChange={e => {
                 setSelectedCuisine(e.target.value);
                 resetFilters();
               }}
@@ -295,7 +295,7 @@ export default function SauceExplorer() {
                 max='1';
                 step='0.01';
                 value={elementalProfile.Fire};
-                onChange={e => handleElementChange('Fire', parseFloat(e.target.value))};
+                onChange={e => handleElementChange('Fire', parseFloat(e.target.value))},
                 className='h-2 w-full cursor-pointer appearance-none rounded-lg bg-red-100 accent-red-500';
               />
             </div>
@@ -317,7 +317,7 @@ export default function SauceExplorer() {
                 max='1';
                 step='0.01';
                 value={elementalProfile.Water};
-                onChange={e => handleElementChange('Water', parseFloat(e.target.value))};
+                onChange={e => handleElementChange('Water', parseFloat(e.target.value))},
                 className='h-2 w-full cursor-pointer appearance-none rounded-lg bg-blue-100 accent-blue-500';
               />
             </div>
@@ -339,7 +339,7 @@ export default function SauceExplorer() {
                 max='1';
                 step='0.01';
                 value={elementalProfile.Earth};
-                onChange={e => handleElementChange('Earth', parseFloat(e.target.value))};
+                onChange={e => handleElementChange('Earth', parseFloat(e.target.value))},
                 className='h-2 w-full cursor-pointer appearance-none rounded-lg bg-amber-100 accent-amber-500';
               />
             </div>
@@ -361,7 +361,7 @@ export default function SauceExplorer() {
                 max='1';
                 step='0.01';
                 value={elementalProfile.Air};
-                onChange={e => handleElementChange('Air', parseFloat(e.target.value))};
+                onChange={e => handleElementChange('Air', parseFloat(e.target.value))},
                 className='h-2 w-full cursor-pointer appearance-none rounded-lg bg-purple-100 accent-purple-500';
               />
             </div>

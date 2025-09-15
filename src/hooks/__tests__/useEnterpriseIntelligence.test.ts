@@ -12,39 +12,39 @@ import { useEnterpriseIntelligence } from '../useEnterpriseIntelligence';
 // Mock the logger to avoid initialization issues in tests
 jest.mock('@/utils/logger', () => ({
   logger: { info: jest.fn(),
-    warn: jest.fn(),
-    error: jest.fn(),
+    warn: jest.fn();
+    error: jest.fn();
     debug: jest.fn()
   }
 }));
 
 describe('useEnterpriseIntelligence', () => {
-  const mockRecipeData: any = {;
+  const mockRecipeData: any = {
     id: 'test-recipe',
     name: 'Test Recipe',
     elementalProperties: { Fire: 0.3,
-      Water: 0.2,
-      Earth: 0.3,
+      Water: 0.2;
+      Earth: 0.3;
       Air: 0.2
     }
   };
 
-  const mockIngredientData: any = {;
+  const mockIngredientData: any = {
     name: 'Test Ingredient',
     category: 'vegetables',
     elementalProperties: { Fire: 0.2,
-      Water: 0.3,
-      Earth: 0.3,
+      Water: 0.3;
+      Earth: 0.3;
       Air: 0.2
     }
   };
 
-  const mockAstrologicalContext: any = {;
+  const mockAstrologicalContext: any = {
     zodiacSign: 'aries' as any,
     lunarPhase: 'new moon' as LunarPhase,
     elementalProperties: { Fire: 0.4,
-      Water: 0.2,
-      Earth: 0.2,
+      Water: 0.2;
+      Earth: 0.2;
       Air: 0.2
     } as ElementalProperties,
     planetaryPositions: {}
@@ -83,7 +83,7 @@ describe('useEnterpriseIntelligence', () => {
     const { result } = renderHook(() => useEnterpriseIntelligence());
 
     await act(async () => {
-      await result.current.actions.performAnalysis(mockRecipeData, mockIngredientData, mockAstrologicalContext);
+      await result.current.actions.performAnalysis(mockRecipeData, mockIngredientData, mockAstrologicalContext),
     });
 
     expect(result.current.recommendations).toBeDefined();
@@ -98,7 +98,7 @@ describe('useEnterpriseIntelligence', () => {
     const { result } = renderHook(() => useEnterpriseIntelligence());
 
     await act(async () => {
-      await result.current.actions.performAnalysis(mockRecipeData, mockIngredientData, mockAstrologicalContext);
+      await result.current.actions.performAnalysis(mockRecipeData, mockIngredientData, mockAstrologicalContext),
     });
 
     expect(result.current.systemHealth).toBeDefined();
@@ -142,7 +142,7 @@ describe('useEnterpriseIntelligence', () => {
 
     // First perform an analysis
     await act(async () => {
-      await result.current.actions.performAnalysis(mockRecipeData, mockIngredientData, mockAstrologicalContext);
+      await result.current.actions.performAnalysis(mockRecipeData, mockIngredientData, mockAstrologicalContext),
     });
 
     expect(result.current.state.analysis).toBeDefined();

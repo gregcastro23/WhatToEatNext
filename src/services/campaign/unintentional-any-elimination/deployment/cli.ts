@@ -67,7 +67,7 @@ program
   .option('-p, --phases <phases>', 'Comma-separated list of phases to run', 'all')
   .option('-c, --config <config>', 'Custom deployment configuration file')
   .option('--dry-run', 'Show what would be deployed without executing')
-  .action(async options => {;
+  .action(async options => {
     try {
       // console.log('🚀 Starting Unintentional Any Elimination deployment...');
 
@@ -75,10 +75,10 @@ program
 
       // Filter phases if specified
       if (options.phases !== 'all') {
-        const selectedPhases = options.phases.split(',').map((p: string) => p.trim());
+        const selectedPhases = options.phases.split(',').map((p: string) => p.trim()),
         phases = phases.filter(phase => selectedPhases.includes(phase.id));
 
-        if (phases.length === 0) {;
+        if (phases.length === 0) {
           console.error('❌ No valid phases selected');
           process.exit(1);
         }
@@ -98,7 +98,7 @@ program
 
       if (options.dryRun) {
         // console.log('\n📋 DRY RUN - Phases that would be executed:');
-        phases.forEach(phase => {;
+        phases.forEach(phase => {
           // console.log(`  - ${phase.id}: ${phase.name}`);
           // console.log(`    Tasks: ${phase.tasks.length}`);
           // console.log(`    Validations: ${phase.validationChecks.length}`);
@@ -121,7 +121,7 @@ program
       const success = results.every(r => r.success);
       process.exit(success ? 0 : 1);
     } catch (error) {
-      console.error('❌ Deployment failed:', error);
+      console.error('❌ Deployment failed:', error),
       process.exit(1);
     }
   });
@@ -134,7 +134,7 @@ program
     const phases = createStandardDeploymentPhases();
 
     // console.log('\n📋 Available Deployment Phases:');
-    phases.forEach(phase => {;
+    phases.forEach(phase => {
       // console.log(`\n${phase.id}: ${phase.name}`);
       // console.log(`  Description: ${phase.description}`);
       // console.log(`  Tasks: ${phase.tasks.length}`);
@@ -148,7 +148,7 @@ program
   .command('validate')
   .description('Validate deployment readiness')
   .option('-p, --phase <phase>', 'Validate specific phase')
-  .action(async options => {;
+  .action(async options => {
     try {
       // console.log('🔍 Validating deployment readiness...');
 
@@ -163,8 +163,8 @@ program
 
         // console.log(`Validating phase: ${phase.name}`);
         // Run phase-specific validation
-        const result = await deploymentManager.executePhase({;
-          ...phase,
+        const result = await deploymentManager.executePhase({
+          ...phase;
           tasks: [], // Skip tasks, only run validations
         });
 
@@ -189,7 +189,7 @@ program
         // console.log('✅ System validation passed');
       }
     } catch (error) {
-      console.error('❌ Validation failed:', error);
+      console.error('❌ Validation failed:', error),
       process.exit(1);
     }
   });
@@ -204,9 +204,9 @@ monitoringCommand
   .description('Setup monitoring and alerting')
   .action(async () => {
     try {
-      await setupMonitoring();
+      await setupMonitoring(),
     } catch (error) {
-      console.error('❌ Monitoring setup failed:', error);
+      console.error('❌ Monitoring setup failed:', error),
       process.exit(1);
     }
   });
@@ -216,9 +216,9 @@ monitoringCommand
   .description('Validate monitoring setup')
   .action(async () => {
     try {
-      await validateMonitoring();
+      await validateMonitoring(),
     } catch (error) {
-      console.error('❌ Monitoring validation failed:', error);
+      console.error('❌ Monitoring validation failed:', error),
       process.exit(1);
     }
   });
@@ -235,7 +235,7 @@ monitoringCommand
       // console.log('  Last Check: Just now');
       // console.log('\nUse 'npx tsx .kiro/monitoring/dashboard.ts' for detailed dashboard');
     } catch (error) {
-      console.error('❌ Failed to get monitoring status:', error);
+      console.error('❌ Failed to get monitoring status:', error),
       process.exit(1);
     }
   });
@@ -247,12 +247,12 @@ program
   .option('-p, --phase <phase>', 'Rollback specific phase')
   .option('-t, --to <checkpoint>', 'Rollback to specific checkpoint')
   .option('--confirm', 'Skip confirmation prompt')
-  .action(async options => {;
+  .action(async options => {
     try {
       if (!options.confirm) {
         // console.log('⚠️  This will rollback the deployment.');
         // console.log('Use --confirm to proceed without this prompt.');
-        return;
+        return,
       }
 
       // console.log('🔄 Starting rollback procedure...');
@@ -271,7 +271,7 @@ program
       // For now, this is a placeholder
       // console.log('✅ Rollback completed successfully');
     } catch (error) {
-      console.error('❌ Rollback failed:', error);
+      console.error('❌ Rollback failed:', error),
       process.exit(1);
     }
   });
@@ -302,14 +302,14 @@ program
         if (logFiles.length > 0) {
           // console.log('\nRecent Deployments:');
           logFiles.forEach((file: string) => {
-            const timestamp = file.replace('deployment-', '').replace('.log', '');
+            const timestamp = file.replace('deployment-', '').replace('.log', ''),
             const date = new Date(parseInt(timestamp)).toLocaleString();
             // console.log(`  - ${date}`);
           });
         }
       }
     } catch (error) {
-      console.error('❌ Failed to get status:', error);
+      console.error('❌ Failed to get status:', error),
       process.exit(1);
     }
   });
@@ -319,19 +319,19 @@ program
   .command('export-config')
   .description('Export deployment configuration')
   .argument('<file>', 'Output file path')
-  .action(file => {;
+  .action(file => {
     try {
       const phases = createStandardDeploymentPhases();
-      const config = {;
-        version: '1.0.0',
-        timestamp: new Date().toISOString(),
+      const config = {
+        version: '1.0.0';
+        timestamp: new Date().toISOString();
         phases: phases
       };
 
       writeFileSync(file, JSON.stringify(config, null, 2));
       // console.log(`✅ Deployment configuration exported to ${file}`);
     } catch (error) {
-      console.error('❌ Export failed:', error);
+      console.error('❌ Export failed:', error),
       process.exit(1);
     }
   });
@@ -340,7 +340,7 @@ program
   .command('import-config')
   .description('Import deployment configuration')
   .argument('<file>', 'Input file path')
-  .action(file => {;
+  .action(file => {
     try {
       if (!existsSync(file)) {
         console.error(`❌ File not found: ${file}`);
@@ -352,7 +352,7 @@ program
       // console.log(`Version: ${config.version}`);
       // console.log(`Phases: ${config.phases?.length || 0}`);
     } catch (error) {
-      console.error('❌ Import failed:', error);
+      console.error('❌ Import failed:', error),
       process.exit(1);
     }
   });

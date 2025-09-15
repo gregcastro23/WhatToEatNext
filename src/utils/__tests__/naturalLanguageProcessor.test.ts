@@ -71,7 +71,7 @@ describe('naturalLanguageProcessor', () => {
   });
 
   describe('enhancedSearch', () => {
-    const mockItems: any = [;
+    const mockItems: any = [
       { id: 1, name: 'Italian Pasta', description: 'Delicious pasta from Italy' },
       { id: 2, name: 'Chinese Noodles', description: 'Traditional Chinese noodle dish' },
       { id: 3, name: 'Japanese Ramen', description: 'Authentic ramen from Japan' },
@@ -116,7 +116,7 @@ describe('naturalLanguageProcessor', () => {
   });
 
   describe('applyFilters', () => {
-    const mockItems: any = [;
+    const mockItems: any = [
       {
         id: 1,
         name: 'Italian Pasta',
@@ -150,7 +150,7 @@ describe('naturalLanguageProcessor', () => {
     ];
 
     it('filters by dietary restrictions', () => {
-      const filters: any = {;
+      const filters: any = {
         query: '',
         dietaryRestrictions: ['vegetarian'],
         difficultyLevel: [],
@@ -168,7 +168,7 @@ describe('naturalLanguageProcessor', () => {
     });
 
     it('filters by difficulty level', () => {
-      const filters: any = {;
+      const filters: any = {
         query: '',
         dietaryRestrictions: [],
         difficultyLevel: ['easy'],
@@ -186,7 +186,7 @@ describe('naturalLanguageProcessor', () => {
     });
 
     it('filters by cooking time', () => {
-      const filters: any = {;
+      const filters: any = {
         query: '',
         dietaryRestrictions: [],
         difficultyLevel: [],
@@ -204,7 +204,7 @@ describe('naturalLanguageProcessor', () => {
     });
 
     it('filters by cuisine type', () => {
-      const filters: any = {;
+      const filters: any = {
         query: '',
         dietaryRestrictions: [],
         difficultyLevel: [],
@@ -222,7 +222,7 @@ describe('naturalLanguageProcessor', () => {
     });
 
     it('filters by meal type', () => {
-      const filters: any = {;
+      const filters: any = {
         query: '',
         dietaryRestrictions: [],
         difficultyLevel: [],
@@ -240,7 +240,7 @@ describe('naturalLanguageProcessor', () => {
     });
 
     it('filters by spiciness', () => {
-      const filters: any = {;
+      const filters: any = {
         query: '',
         dietaryRestrictions: [],
         difficultyLevel: [],
@@ -258,7 +258,7 @@ describe('naturalLanguageProcessor', () => {
     });
 
     it('applies multiple filters simultaneously', () => {
-      const filters: any = {;
+      const filters: any = {
         query: '',
         dietaryRestrictions: [],
         difficultyLevel: ['easy'],
@@ -276,7 +276,7 @@ describe('naturalLanguageProcessor', () => {
     });
 
     it('returns empty array when no items match filters', () => {
-      const filters: any = {;
+      const filters: any = {
         query: '',
         dietaryRestrictions: ['vegan'],
         difficultyLevel: ['hard'],

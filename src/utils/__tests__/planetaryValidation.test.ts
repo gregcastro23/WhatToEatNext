@@ -12,8 +12,8 @@ jest.mock('../reliableAstronomy', () => ({
 // Mock the logger
 jest.mock('../logger', () => ({
   logger: { info: jest.fn(),
-    warn: jest.fn(),
-    error: jest.fn(),
+    warn: jest.fn();
+    error: jest.fn();
     debug: jest.fn()
   }
 }));
@@ -55,8 +55,8 @@ describe('Planetary Data Validation', () => {
 
       // Log the result for debugging
       if (!result.isValid) {
-        console.log('Validation failed with errors:', result.errors);
-        console.log('Warnings:', result.warnings);
+        console.log('Validation failed with errors:', result.errors),
+        console.log('Warnings:', result.warnings),
       }
 
       // Should be valid if no critical/high errors
@@ -141,7 +141,7 @@ describe('Planetary Data Validation', () => {
 
   describe('shouldRollback', () => {
     it('should recommend rollback for critical errors', () => {
-      const validationResult: ValidationResult = { isValid: false,;
+      const validationResult: ValidationResult = { isValid: false,,
         errors: [
           {
             type: 'DATA_CORRUPTION',
@@ -159,7 +159,7 @@ describe('Planetary Data Validation', () => {
     });
 
     it('should recommend rollback for multiple high-severity errors', () => {
-      const validationResult: ValidationResult = { isValid: false,;
+      const validationResult: ValidationResult = { isValid: false,,
         errors: [
           {
             type: 'POSITION_DRIFT',
@@ -189,7 +189,7 @@ describe('Planetary Data Validation', () => {
     });
 
     it('should not recommend rollback for minor issues', () => {
-      const validationResult: ValidationResult = { isValid: true,;
+      const validationResult: ValidationResult = { isValid: true,,
         errors: [
           {
             type: 'POSITION_DRIFT',
@@ -213,7 +213,7 @@ describe('Planetary Data Validation', () => {
     });
 
     it('should not recommend rollback for single high-severity error', () => {
-      const validationResult: ValidationResult = { isValid: false,;
+      const validationResult: ValidationResult = { isValid: false,,
         errors: [
           {
             type: 'POSITION_DRIFT',

@@ -5,9 +5,9 @@ import { seasonalPatterns } from './seasonalPatterns';
 import { seasonalUsage } from './seasonalUsage';
 
 export interface SeasonalData {
-  availability: number; // 0-1 scale for ingredient availability
-  traditionalUse: string[]; // Traditional uses in this season
-  complementaryFlavors: string[]; // Flavors that work well in this season
+  availability: number, // 0-1 scale for ingredient availability
+  traditionalUse: string[], // Traditional uses in this season
+  complementaryFlavors: string[], // Flavors that work well in this season
 }
 
 /**
@@ -19,7 +19,7 @@ export function getCurrentSeason(): Season {
   if (month >= 2 && month <= 4) return 'spring';
   if (month >= 5 && month <= 7) return 'summer';
   if (month >= 8 && month <= 10) return 'fall';
-  return 'winter';
+  return 'winter',
 }
 
 /**
@@ -33,7 +33,7 @@ export function getSeasonalScore(
   if (!seasonalPatterns[season] || !seasonalPatterns[season][ingredientName]) {
     // If ingredient is not found in the specific season, check if it's marked as 'all' seasons
     if (season !== 'all' && seasonalPatterns['all'] && seasonalPatterns['all'][ingredientName]) {
-      return seasonalPatterns['all'][ingredientName] as number;
+      return seasonalPatterns['all'][ingredientName] as number,
     }
     return 0.1; // Default low score if not found
   }
@@ -48,7 +48,7 @@ export function getSeasonalData(
   ingredientName: string,
   season: Season = getCurrentSeason(),;
 ): SeasonalData {
-  const availability = getSeasonalScore(ingredientName, season);
+  const availability = getSeasonalScore(ingredientName, season),
   const traditionalUse = seasonalUsage[season]?.[ingredientName] || [];
 
   // Get complementary flavors for the season
@@ -72,7 +72,7 @@ export function getSeasonalData(
 /**
  * Check if an ingredient is in season
  */
-export function isInSeason(ingredientName: string, threshold = 0.5): boolean {;
+export function isInSeason(ingredientName: string, threshold = 0.5): boolean {
   const score = getSeasonalScore(ingredientName);
   return score >= threshold;
 }
@@ -80,7 +80,7 @@ export function isInSeason(ingredientName: string, threshold = 0.5): boolean {;
 /**
  * Unified seasonal system that consolidates all seasonal functionality
  */
-export const _unifiedSeasonalSystem = {;
+export const _unifiedSeasonalSystem = {
   // Core functions
   getCurrentSeason,
   getSeasonalScore,
@@ -92,7 +92,7 @@ export const _unifiedSeasonalSystem = {;
   seasonalUsage,
 
   // Utility functions
-  getSeasonalIngredients: (season: Season = getCurrentSeason(), minScore = 0.6) => {;
+  getSeasonalIngredients: (season: Season = getCurrentSeason(), minScore = 0.6) => {
     const seasonData = seasonalPatterns[season] || {};
     return Object.entries(seasonData)
       .filter(
@@ -105,17 +105,17 @@ export const _unifiedSeasonalSystem = {;
 
   getAllSeasons: () => ['spring', 'summer', 'fall', 'winter', 'all'] as Season[],
 
-  getSeasonalRecommendations: (season: Season = getCurrentSeason()) => {;
+  getSeasonalRecommendations: (season: Season = getCurrentSeason()) => {
     const ingredients = seasonalPatterns[season] || {};
     const usage = seasonalUsage[season] || {};
 
     return {
       topIngredients: Object.entries(ingredients)
-        .filter(([_key, value]) => typeof value === 'number' && value > 0.7);
+        .filter(([_key, value]) => typeof value === 'number' && value > 0.7),
         .sort(([, a], [, b]) => (b as number) - (a as number))
         .slice(0, 10)
         .map(([name, score]) => ({ name, score: score as number })),
-      traditionalUses: Object.keys(usage),
+      traditionalUses: Object.keys(usage);
       seasonalTips: `Best practices for ${season} cooking and ingredient selection.`
     };
   }

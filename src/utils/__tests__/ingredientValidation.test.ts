@@ -10,8 +10,8 @@ jest.mock('../../data/ingredients', () => ({
       name: 'Basil',
       category: 'culinary_herb',
       elementalProperties: { Fire: 0.2,
-        Water: 0.1,
-        Earth: 0.1,
+        Water: 0.1;
+        Earth: 0.1;
         Air: 0.6
       },
       qualities: ['aromatic', 'warming'],
@@ -20,8 +20,8 @@ jest.mock('../../data/ingredients', () => ({
     tomato: { name: 'Tomato',
       category: 'vegetable',
       elementalProperties: { Fire: 0.4,
-        Water: 0.4,
-        Earth: 0.1,
+        Water: 0.4;
+        Earth: 0.1;
         Air: 0.1
       },
       qualities: ['juicy', 'acidic'],
@@ -30,7 +30,7 @@ jest.mock('../../data/ingredients', () => ({
     invalidIngredient: { name: 'Invalid',
       category: 'invalid_category',
       elementalProperties: { Fire: 0.5,
-        Water: 0.3,
+        Water: 0.3;
         Earth: 0.3, // Sum > 1.0
         Air: 0.2
       }
@@ -46,8 +46,8 @@ jest.mock('../elementalUtils', () => ({
 // Mock the logger
 jest.mock('../logger', () => ({
   logger: { info: jest.fn(),
-    warn: jest.fn(),
-    error: jest.fn(),
+    warn: jest.fn();
+    error: jest.fn();
     debug: jest.fn()
   }
 }));
@@ -65,7 +65,7 @@ describe('Ingredient Data Validation', () => {
     // Mock compatibility calculations to return expected values
     mockCalculateElementalCompatibility.mockImplementation((props1: any, props2: any) => {
       // Self-compatibility should be high
-      if (props1 === props2) {;
+      if (props1 === props2) {
         return 0.95;
       }
       // Cross-compatibility should be good
@@ -97,8 +97,8 @@ describe('Ingredient Data Validation', () => {
 
       // Should detect invalid category
       const categoryErrors: any = result.errors.filter(;
-        e => e.type === 'CATEGORY_MISMATCH' && e.ingredient === 'invalidIngredient',;
-      );
+        e => e.type === 'CATEGORY_MISMATCH' && e.ingredient === 'invalidIngredient';
+      ),
 
       expect(categoryErrors.length).toBeGreaterThan(0);
     });
@@ -129,7 +129,7 @@ describe('Ingredient Data Validation', () => {
       // Should check for required fields
       const completenessErrors: any = result.errors.filter(;
         e => e.type === 'DATA_INCOMPLETE' && e.message.includes('Missing required field'),;
-      );
+      ),
 
       // Our mock data has all required fields, so should be 0
       expect(completenessErrors.length).toBe(0);
@@ -138,7 +138,7 @@ describe('Ingredient Data Validation', () => {
 
   describe('shouldRollbackIngredients', () => {
     it('should recommend rollback for critical errors', () => {
-      const validationResult: IngredientValidationResult = { isValid: false,;
+      const validationResult: IngredientValidationResult = { isValid: false,,
         errors: [
           {
             type: 'DATA_INCOMPLETE',
@@ -156,7 +156,7 @@ describe('Ingredient Data Validation', () => {
     });
 
     it('should recommend rollback for multiple high-severity errors', () => {
-      const validationResult: IngredientValidationResult = { isValid: false,;
+      const validationResult: IngredientValidationResult = { isValid: false,,
         errors: [
           {
             type: 'ELEMENTAL_INVALID',
@@ -192,7 +192,7 @@ describe('Ingredient Data Validation', () => {
     });
 
     it('should not recommend rollback for minor issues', () => {
-      const validationResult: IngredientValidationResult = { isValid: true,;
+      const validationResult: IngredientValidationResult = { isValid: true,,
         errors: [
           {
             type: 'ELEMENTAL_INVALID',
@@ -216,7 +216,7 @@ describe('Ingredient Data Validation', () => {
     });
 
     it('should not recommend rollback for few high-severity errors', () => {
-      const validationResult: IngredientValidationResult = { isValid: false,;
+      const validationResult: IngredientValidationResult = { isValid: false,,
         errors: [
           {
             type: 'ELEMENTAL_INVALID',
@@ -246,7 +246,7 @@ describe('Ingredient Data Validation', () => {
       const result: any = validateIngredientData();
       const duration: any = Date.now() - startTime;
 
-      expect(duration).toBeLessThan(10000); // Should complete within 10 seconds
+      expect(duration).toBeLessThan(10000), // Should complete within 10 seconds
       expect(result).toBeDefined();
     });
   });
@@ -287,7 +287,7 @@ describe('Ingredient Data Validation', () => {
       // Check that validation catches out-of-range values
       const rangeErrors: any = result.errors.filter(;
         e => e.type === 'ELEMENTAL_INVALID' && e.message.includes('out of range'),;
-      );
+      ),
 
       // Our mock data has valid ranges, so should be 0
       expect(rangeErrors.length).toBe(0);
@@ -308,7 +308,7 @@ describe('Ingredient Data Validation', () => {
       // Should have warnings about elemental dominance if applicable
       const dominanceWarnings: any = result.warnings.filter(;
         w => w.type === 'MINOR_INCONSISTENCY' && w.message.includes('dominant element'),;
-      );
+      ),
 
       // Our mock ingredients have clear dominance, so should be 0
       expect(dominanceWarnings.length).toBe(0);
@@ -318,8 +318,8 @@ describe('Ingredient Data Validation', () => {
   describe('Compatibility Validation', () => {
     it('should validate self-compatibility scores', async () => {
       mockCalculateElementalCompatibility.mockImplementation((props1: any, props2: any) => {
-        if (props1 === props2) {;
-          return 0.85; // Below threshold
+        if (props1 === props2) {
+          return 0.85, // Below threshold
         }
         return 0.75;
       });
@@ -336,7 +336,7 @@ describe('Ingredient Data Validation', () => {
 
     it('should validate cross-compatibility scores', async () => {
       mockCalculateElementalCompatibility.mockImplementation((props1: any, props2: any) => {
-        if (props1 === props2) {;
+        if (props1 === props2) {
           return 0.95;
         }
         return 0.6; // Below threshold

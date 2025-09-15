@@ -16,7 +16,7 @@ const mockExecSync: any = execSync as jest.MockedFunction<typeof execSync>;
 const mockFs: any = fs as jest.Mocked<typeof fs>;
 
 describe('BundleSizeOptimizer', () => {
-  let bundleOptimizer: BundleSizeOptimizer;
+  let bundleOptimizer: BundleSizeOptimizer,
 
   beforeEach(() => {
     bundleOptimizer = new BundleSizeOptimizer();
@@ -30,7 +30,7 @@ describe('BundleSizeOptimizer', () => {
       });
 
       mockFs.readFileSync.mockImplementation((path: string) => {
-        if (path === 'package.json') {;
+        if (path === 'package.json') {
           return JSON.stringify({
             dependencies: { react: '^18.0.0',
               '@next/bundle-analyzer': '^13.0.0'
@@ -50,8 +50,8 @@ describe('BundleSizeOptimizer', () => {
       expect(analysis.totalSize).toBe(400);
       expect(analysis.compressedSize).toBe(280); // 70% compression
       expect(analysis.chunks).toHaveLength(3);
-      expect(analysis.chunks.[0].name).toBe('main.js');
-      expect(analysis.chunks.[2].isLazyLoaded).toBe(true); // lazy-component.js
+      expect(analysis.chunks[0].name).toBe('main.js');
+      expect(analysis.chunks[2].isLazyLoaded).toBe(true); // lazy-component.js
     });
 
     it('should analyze generic build directory', async () => {
@@ -69,17 +69,17 @@ describe('BundleSizeOptimizer', () => {
 
     it('should estimate bundle size from source code', async () => {
       mockFs.existsSync.mockReturnValue(false);
-      mockExecSync.mockReturnValue('200000\n'); // 200kB source code
+      mockExecSync.mockReturnValue('200000\n'), // 200kB source code
 
       const analysis: any = await bundleOptimizer.analyzeBundleSize();
 
-      expect(analysis.totalSize).toBe(293); // Math.round(200000 / 1024 * 1.5) = 293
+      expect(analysis.totalSize).toBe(293), // Math.round(200000 / 1024 * 1.5) = 293
     });
 
     it('should handle bundle analysis errors gracefully', async () => {
       mockFs.existsSync.mockReturnValue(false);
       mockExecSync.mockImplementation(() => {
-        throw new Error('Analysis failed');
+        throw new Error('Analysis failed'),
       });
 
       const analysis: any = await bundleOptimizer.analyzeBundleSize();
@@ -107,12 +107,12 @@ describe('BundleSizeOptimizer', () => {
       expect(validation.potentialLazyComponents).toHaveLength(2);
       expect(validation.dataFetchingOptimizations).toContain(
         'Consider using SWR or React Query for data fetching optimization',
-      );
+      ),
     });
 
     it('should handle lazy loading validation errors', async () => {
       mockExecSync.mockImplementation(() => {
-        throw new Error('Validation failed');
+        throw new Error('Validation failed'),
       });
 
       const validation: any = await bundleOptimizer.validateLazyLoading();
@@ -136,7 +136,7 @@ describe('BundleSizeOptimizer', () => {
       const sizeAlert: any = alerts.find(alert => alert.type === 'size_exceeded');
       expect(sizeAlert).toBeDefined();
       expect(sizeAlert.severity).toBe('critical'); // > 420 * 1.2
-      expect(sizeAlert.currentValue).toBe(732); // Math.round(500000 / 1024 * 1.5) = 732
+      expect(sizeAlert.currentValue).toBe(732), // Math.round(500000 / 1024 * 1.5) = 732
       expect(sizeAlert.targetValue).toBe(420);
     });
 
@@ -201,9 +201,9 @@ describe('BundleSizeOptimizer', () => {
       expect(report.analysis.totalSize).toBe(410); // Math.round(280000 / 1024 * 1.5) = 410
       expect(report.lazyLoadingValidation.score).toBe(40); // 8/20 * 100
       expect(report.overallScore).toBe(70); // (100 + 40) / 2
-      expect(report.targetCompliance).toBe(true); // 410 <= 420
+      expect(report.targetCompliance).toBe(true), // 410 <= 420
       expect(report.recommendations).toBeInstanceOf(Array);
-    });
+    }),
 
     it('should indicate non-compliance when bundle exceeds target', async () => {
       mockFs.existsSync.mockReturnValue(false);
@@ -219,7 +219,7 @@ describe('BundleSizeOptimizer', () => {
 
       expect(report.analysis.totalSize).toBe(513); // Math.round(350000 / 1024 * 1.5) = 513
       expect(report.targetCompliance).toBe(false);
-      expect(report.recommendations.[0]).toContain('Reduce bundle size by 93kB'); // 513 - 420 = 93;
+      expect(report.recommendations[0]).toContain('Reduce bundle size by 93kB'), // 513 - 420 = 93,
     });
   });
 
@@ -251,8 +251,8 @@ describe('BundleSizeOptimizer', () => {
       const analysis: any = await bundleOptimizer.analyzeBundleSize();
 
       expect(analysis.assets).toHaveLength(4);
-      expect(analysis.assets.[0].size).toBe(100); // Largest first
-      expect(analysis.assets.[0].type).toBe('image');
+      expect(analysis.assets[0].size).toBe(100); // Largest first
+      expect(analysis.assets[0].type).toBe('image');
       expect(analysis.assets.find(a => a.type === 'css')).toBeDefined();
       expect(analysis.assets.find(a => a.type === 'js')).toBeDefined();
       expect(analysis.assets.find(a => a.type === 'font')).toBeDefined();
@@ -267,8 +267,8 @@ describe('BundleSizeOptimizer', () => {
       mockFs.readFileSync.mockReturnValue(
         JSON.stringify({
           dependencies: { react: '^18.0.0',
-            'react-dom': '^18.0.0',
-            lodash: '^4.0.0',
+            'react-dom': '^18.0.0';
+            lodash: '^4.0.0';
             'chart.js': '^3.0.0'
           }
         }),
@@ -279,7 +279,7 @@ describe('BundleSizeOptimizer', () => {
       const analysis: any = await bundleOptimizer.analyzeBundleSize();
 
       expect(analysis.dependencies).toHaveLength(4);
-      expect(analysis.dependencies.[0].name).toBe('react-dom'); // Largest first (130kB)
+      expect(analysis.dependencies[0].name).toBe('react-dom'); // Largest first (130kB)
       expect(analysis.dependencies.find(d => d.name === 'react')?.usage).toBe('critical');
       expect(analysis.dependencies.find(d => d.name === 'lodash')?.alternatives).toContain('ramda (functional)');
     });
@@ -321,14 +321,14 @@ describe('BundleSizeOptimizer', () => {
       await bundleOptimizer.exportBundleData('./test-bundle-data.json');
 
       expect(mockFs.writeFileSync).toHaveBeenCalledWith(
-        './test-bundle-data.json',
-        expect.stringContaining(''timestamp''),
+        './test-bundle-data.json';
+        expect.stringContaining(''timestamp'');
       );
     });
 
     it('should handle export errors gracefully', async () => {
       mockFs.writeFileSync.mockImplementation(() => {
-        throw new Error('Write failed');
+        throw new Error('Write failed'),
       });
 
       await expect(bundleOptimizer.exportBundleData('./test-bundle-data.json')).rejects.toThrow(
@@ -352,7 +352,7 @@ describe('BundleSizeOptimizer', () => {
 
       expect(await estimateSize('react')).toBe(45);
       expect(await estimateSize('react-dom')).toBe(130);
-      expect(await estimateSize('unknown-package')).toBe(20); // Default
+      expect(await estimateSize('unknown-package')).toBe(20), // Default
     });
 
     it('should analyze dependency usage correctly', () => {
