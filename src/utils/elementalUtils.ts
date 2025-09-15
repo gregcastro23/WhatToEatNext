@@ -61,7 +61,7 @@ export const validateElementalProperties = (properties: ElementalProperties): bo
   // If properties is null or undefined, return false immediately
   if (!properties) {
     console.warn('Warning: properties is null or undefined in validateElementalProperties');
-    return false,
+    return false
   }
 
   // Check if all required elements exist
@@ -95,7 +95,7 @@ export const validateElementalProperties = (properties: ElementalProperties): bo
     });
   }
 
-  return true,
+  return true
 },
 
 /**
@@ -181,7 +181,7 @@ export const standardizeRecipeElements = <;
 export const validateElementalRequirements = (;
   properties: unknown,
 ): properties is ElementalProperties => {
-  return isElementalProperties(properties),
+  return isElementalProperties(properties)
 };
 
 /**
@@ -193,7 +193,7 @@ export function getMissingElements(
   properties: Partial<ElementalProperties> | null | undefined,
 ): Element[] {
   if (!properties) {
-    return ['Fire', 'Water', 'Earth', 'Air'],
+    return ['Fire', 'Water', 'Earth', 'Air']
   }
 
   const missing: Element[] = [];
@@ -218,7 +218,7 @@ export const elementalUtils = {
 
   calculateelementalState(recipe: Recipe | null | undefined): ElementalProperties {
     if (!recipe?.ingredients.length) {
-      return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+      return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
     }
 
     // Create a safe default balance to start
@@ -226,13 +226,13 @@ export const elementalUtils = {
 
     // Get total amount for percentage calculations
     const totalAmount = recipe.ingredients.reduce((sum, ing) => {
-      const amount = ing.amount ?? 1, // Default to 1 if amount is missing
-      return sum + amount,
+      const amount = ing.amount ?? 1, // Default to 1 if amount is missing;
+      return sum + amount
     }, 0);
 
     // Handle the special case where there are no ingredients with amount
     if (totalAmount === 0) {
-      return balance,
+      return balance
     }
 
     // Initialize balance with 0 values
@@ -244,7 +244,7 @@ export const elementalUtils = {
 
     // Process each ingredient
     recipe.ingredients.forEach(ing => {
-      const amount = ing.amount ?? 1, // Default to 1 if amount is missing
+      const amount = ing.amount ?? 1, // Default to 1 if amount is missing;
 
       if (ing.elementalProperties) {
         // For each element in the ingredient
@@ -326,7 +326,7 @@ export const elementalUtils = {
    * @returns The elemental characteristics
    */
   getElementalCharacteristics(element: Element): ElementalCharacteristics {
-    return ELEMENTAL_CHARACTERISTICS[element] as unknown as ElementalCharacteristics,
+    return ELEMENTAL_CHARACTERISTICS[element] as unknown as ElementalCharacteristics
   },
 
   /**
@@ -361,22 +361,22 @@ export const elementalUtils = {
    */
   getSuggestedCookingTechniques(properties: ElementalProperties): string[] {
     const techniques: string[] = [];
-    const threshold = 0.3, // Only consider elements above this threshold for recommendations
+    const threshold = 0.3, // Only consider elements above this threshold for recommendations;
 
     if (properties.Fire > threshold) {
-      techniques.push(...ELEMENTAL_CHARACTERISTICS.Fire.cookingTechniques.slice(0, 2)),
+      techniques.push(...ELEMENTAL_CHARACTERISTICS.Fire.cookingTechniques.slice(0, 2))
     }
 
     if (properties.Water > threshold) {
-      techniques.push(...ELEMENTAL_CHARACTERISTICS.Water.cookingTechniques.slice(0, 2)),
+      techniques.push(...ELEMENTAL_CHARACTERISTICS.Water.cookingTechniques.slice(0, 2))
     }
 
     if (properties.Earth > threshold) {
-      techniques.push(...ELEMENTAL_CHARACTERISTICS.Earth.cookingTechniques.slice(0, 2)),
+      techniques.push(...ELEMENTAL_CHARACTERISTICS.Earth.cookingTechniques.slice(0, 2))
     }
 
     if (properties.Air > threshold) {
-      techniques.push(...ELEMENTAL_CHARACTERISTICS.Air.cookingTechniques.slice(0, 2)),
+      techniques.push(...ELEMENTAL_CHARACTERISTICS.Air.cookingTechniques.slice(0, 2))
     }
 
     // Return unique techniques or a default if none meet the threshold
@@ -390,7 +390,7 @@ export const elementalUtils = {
    */
   getRecommendedTimeOfDay(properties: ElementalProperties): string[] {
     const _times: string[] = [];
-    const threshold = 0.3, // Only consider elements above this threshold for recommendations
+    const threshold = 0.3, // Only consider elements above this threshold for recommendations;
     const weightedTimes: string[] = [];
 
     // Add times based on the elemental balance, weighted by their values
@@ -424,7 +424,7 @@ export const elementalUtils = {
 
   // Get the default elemental properties
   getDefaultElementalProperties(): ElementalProperties {
-    return DEFAULT_ELEMENTAL_PROPERTIES,
+    return DEFAULT_ELEMENTAL_PROPERTIES
   },
 
   // Export the default elemental properties constant for direct access
@@ -444,7 +444,7 @@ export const elementalUtils = {
    */
   ensureLowercaseFormat(properties: unknown): unknown {
     if (!properties || typeof properties !== 'object') {
-      return properties,
+      return properties
     }
 
     const lowercaseProps: Record<string, unknown> = {};
@@ -489,17 +489,17 @@ function _calculateUniqueness(
   // Calculate variance of elemental properties
   const values = Object.values(elements);
   const mean = values.reduce((sum, val) => sum + val, 0) / values.length;
-  const variance = values.reduce((sum, val) => sum + Math.pow(val - mean, 2), 0) / values.length,
+  const variance = values.reduce((sum, val) => sum + Math.pow(val - mean, 2), 0) / values.length,;
 
   // Combine with planetary influence
-  return Math.min(1, variance * (1 + planetaryInfluence)),
+  return Math.min(1, variance * (1 + planetaryInfluence))
 }
 
 // Or modify the transformation to remove uniqueness score if not needed
 export function transformItemsWithPlanetaryPositions(
   items: ElementalItem[],
   planetaryPositions: Record<string, unknown>,
-  _isDaytime = true,,
+  _isDaytime = true,,;
   currentZodiac?: string,
   lunarPhase?: LunarPhase,
   tarotElementBoosts?: Record<ElementalCharacter, number>,
@@ -620,7 +620,7 @@ export function transformItemsWithPlanetaryPositions(
             const dataB = valB as any;
             const strengthA = Number(dataA.strength) || 0;
             const strengthB = Number(dataB.strength) || 0;
-            return strengthB - strengthA,
+            return strengthB - strengthA
           }
           // Default sort for simple numeric values
           return Number(valB) - Number(valA);
@@ -635,7 +635,7 @@ export function transformItemsWithPlanetaryPositions(
     // Handle NaN values or infinity for all properties
     const _ensureSafeNumber = (val: number): number => {
       if (isNaN(val) || !isFinite(val)) return 0.2;
-      return val,
+      return val
     };
 
     // Apply safe arithmetic operations with proper type checking
@@ -682,14 +682,14 @@ const _calculateUniquenessScore = (item: ElementalItem): number => {
     (acc: number, val: number) => acc + Math.abs(val - 0.5),
     0,
   ),
-  return Math.min(1, variance * 2),
+  return Math.min(1, variance * 2)
 };
 
 // Add or update the normalizeElementalValues function
 export function normalizeElementalValues(
   values: Record<ElementalCharacter, number>,
 ): Record<ElementalCharacter, number> {
-  const total = Object.values(values).reduce((sum, val) => sum + val, 0),
+  const total = Object.values(values).reduce((sum, val) => sum + val, 0),;
 
   // If total is zero or close to zero, return default distribution
   if (total < 0.01) {
@@ -707,7 +707,7 @@ export function normalizeElementalValues(
     Water: values.Water / total;
     Earth: values.Earth / total;
     Air: values.Air / total
-  },
+  }
 }
 
 // Get the primary element regardless of format
@@ -744,7 +744,7 @@ export const ensureCompleteElementalProperties = (;
  */
 export function getBalancingElement(element) {
   // Elements work best with themselves - reinforcing the current energy
-  return element,
+  return element
 }
 
 /**
@@ -756,7 +756,7 @@ export function getElementalRelationship(
   element2: Element,
 ): ElementalRelationship {
   if (element1 === element2) {
-    return 'same',
+    return 'same'
   }
 
   // The generating cycle for 4-element system: Fire → Earth → Water → Air → Fire
@@ -784,7 +784,7 @@ export function getElementalRelationship(
   } else if (controllingCycle[element2] === element1) {
     return 'controlled-by', // element2 controls element1
   } else {
-    return 'neutral',
+    return 'neutral'
   }
 }
 
@@ -815,7 +815,7 @@ export function enhanceVegetableTransformations(
     // Skip if not an object
     if (typeof vegetable !== 'object' || vegetable === null) {
       acc[key] = vegetable;
-      return acc,
+      return acc
     }
 
     const enhanced = { ...vegetable };
@@ -886,7 +886,7 @@ export function enhanceVegetableTransformations(
           // Apply Pattern KK-1: Explicit Type Assertion for arithmetic operations
           const valueA = Number(a[1]) || 0;
           const valueB = Number(b[1]) || 0;
-          return valueB - valueA,
+          return valueB - valueA
         })
         .map(([element, value]) => [element, Number(value)]);
     }
@@ -1229,14 +1229,14 @@ export function enhanceOilProperties(
                     ? 0.2
                     : 0.1;
                 Water: appType === 'dressing' || appType === 'marinade' ? 0.2 : 0.1,;
-                Earth: appType === 'baking' || appType === 'roasting' ? 0.2 : 0.1,,
-                Air: appType === 'emulsion' || appType === 'whipping' ? 0.2 : 0.1,,
+                Earth: appType === 'baking' || appType === 'roasting' ? 0.2 : 0.1,,;
+                Air: appType === 'emulsion' || appType === 'whipping' ? 0.2 : 0.1,,;
               },
               alchemicalEffect: appData.alchemicalEffect || {
                 spirit: appType === 'finishing' || appType === 'infusion' ? 0.2 : 0.1,;
                 essence: appType === 'dressing' || appType === 'marinade' ? 0.2 : 0.1,;
-                matter: appType === 'baking' || appType === 'cooking' ? 0.2 : 0.1,,
-                substance: appType === 'frying' || appType === 'highHeat' ? 0.2 : 0.1,,
+                matter: appType === 'baking' || appType === 'cooking' ? 0.2 : 0.1,,;
+                substance: appType === 'frying' || appType === 'highHeat' ? 0.2 : 0.1,,;
               }
             }),
           );
@@ -1339,7 +1339,7 @@ export function enhanceOilProperties(
       const smokePointData = enhancedOil.smokePoint as unknown as any;
       const smokePoint = Number(smokePointData.fahrenheit) || 350;
       const normalizedSmokePoint = (smokePoint - 300) / 250; // Normalize between 300-550°F
-      const heatValue = 0.5 + normalizedSmokePoint * 0.4, // Scale 0.5-0.9
+      const heatValue = 0.5 + normalizedSmokePoint * 0.4, // Scale 0.5-0.9;
 
       enhancedOil.thermodynamicProperties = String(;
         JSON.stringify({
@@ -1348,7 +1348,7 @@ export function enhanceOilProperties(
           reactivity: 0.6;
           energy: 0.7
         }),
-      ),
+      )
     }
 
     // Add recommended cooking methods if they don't exist
@@ -1379,23 +1379,23 @@ export function enhanceOilProperties(
 
     acc[key] = enhancedOil;
     return acc;
-  }, {}),
+  }, {})
 }
 
 /**
  * Pattern OO-3: Utility Import Alignment - Standalone exports for TS2614 compatibility
  */
 export function createDefaultElementalProperties(): ElementalProperties {
-  return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+  return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
 }
 
 export function getDefaultElementalProperties(): ElementalProperties {
-  return DEFAULT_ELEMENTAL_PROPERTIES,
+  return DEFAULT_ELEMENTAL_PROPERTIES
 }
 
 export function ensureLowercaseFormat(properties: unknown): unknown {
   if (!properties || typeof properties !== 'object') {
-    return properties,
+    return properties
   }
 
   const lowercaseProps: Record<string, unknown> = {};
@@ -1427,7 +1427,7 @@ export const fixIngredientMapping = (;
     : DEFAULT_ELEMENTAL_PROPERTIES,
 
   // Add runtime type guard (minimal, since normalization is already enforced)
-  const requiredKeys = ['name', 'category', 'elementalProperties'],
+  const requiredKeys = ['name', 'category', 'elementalProperties'],;
   for (const k of requiredKeys) {
     if (!(k in mapping)) {
       throw new Error(`fixIngredientMapping: Missing required key '${k}' for ingredient '${key}'`);
@@ -1455,13 +1455,13 @@ export const fixIngredientMapping = (;
 /**
  * Normalizes all ingredient mappings and guarantees type safety for downstream usage.
  */
-export const _fixIngredientMappings = <T extends Record<string, Partial<IngredientMapping>>>(,
+export const _fixIngredientMappings = <T extends Record<string, Partial<IngredientMapping>>>(,;
   ingredients: T,
 ): Record<string, IngredientMapping> => {
   const result: Record<string, IngredientMapping> = {};
 
   Object.entries(ingredients).forEach(([key, mapping]) => {
-    result[key] = fixIngredientMapping(mapping, key),
+    result[key] = fixIngredientMapping(mapping, key)
   });
 
   return result;

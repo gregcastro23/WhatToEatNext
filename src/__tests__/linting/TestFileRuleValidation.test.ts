@@ -222,7 +222,7 @@ describe('Test File Rule Validation', () => {
           });
           
           test('should handle API responses with any', () => {
-            const apiResponse: any = { data: { id: 1, name: 'test' },
+            const apiResponse: any = { data: { id: 1, name: 'test' },;
               status: 200,
               headers: { 'content-type': 'application/json' }
             };
@@ -759,7 +759,7 @@ describe('Test File Rule Validation', () => {
 
       testFiles.forEach(file => {
         // Check if file would match test patterns in ESLint config
-        const matchesTestPattern =,
+        const matchesTestPattern =,;
           file.includes('.test.') || file.includes('.spec.') || file.includes('__tests__/') || file.includes('/tests/');
 
         expect(matchesTestPattern).toBe(true);
@@ -777,7 +777,7 @@ describe('Test File Rule Validation', () => {
 
       nonTestFiles.forEach(file => {
         // Check that file would NOT match test patterns
-        const matchesTestPattern =,
+        const matchesTestPattern =,;
           file.includes('.test.') || file.includes('.spec.') || file.includes('__tests__/') || file.includes('/tests/');
 
         expect(matchesTestPattern).toBe(false);

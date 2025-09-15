@@ -98,7 +98,7 @@ describe('Linting Performance and Memory Usage', () => {
 
     test('should handle incremental linting efficiently', async () => {
       // Mock git diff output for changed files
-      const changedFiles: any = ['src/calculations/planetary.ts', 'src/components/AstrologicalChart.tsx'],
+      const changedFiles: any = ['src/calculations/planetary.ts', 'src/components/AstrologicalChart.tsx'],;
 
       const gitDiffOutput: any = changedFiles.join('\n');
       const mockLintOutput: any = JSON.stringify(;
@@ -226,8 +226,7 @@ describe('Linting Performance and Memory Usage', () => {
       const mockCacheData: any = JSON.stringify({
         version: '1.0.0';
         files: {
-          '/test/file.ts': { hash: 'abc123', results: [] }
-        }
+          '/test/file.ts': { hash: 'abc123', results: [] };
       });
 
       mockExistsSync.mockReturnValue(true);
@@ -309,7 +308,7 @@ describe('Linting Performance and Memory Usage', () => {
       // Should handle corrupted cache without failing
       expect(() => {
         try {
-          JSON.parse(String(mockReadFileSync('.eslint-cache.json', 'utf8'))),
+          JSON.parse(String(mockReadFileSync('.eslint-cache.json', 'utf8')))
         } catch (error) {
           // Simulate graceful handling
           return mockExecSync('yarn lint --no-cache --format=json', { encoding: 'utf8' });
@@ -347,8 +346,8 @@ describe('Linting Performance and Memory Usage', () => {
       // Simulate concurrent processes
       const promises: any = [
         Promise.resolve(mockExecSync('yarn lint file1.ts --format=json', { encoding: 'utf8' })),;
-        Promise.resolve(mockExecSync('yarn lint file2.ts --format=json', { encoding: 'utf8' })),,
-        Promise.resolve(mockExecSync('yarn lint file3.ts --format=json', { encoding: 'utf8' })),,
+        Promise.resolve(mockExecSync('yarn lint file2.ts --format=json', { encoding: 'utf8' })),,;
+        Promise.resolve(mockExecSync('yarn lint file3.ts --format=json', { encoding: 'utf8' })),,;
       ];
 
       const results: any = await Promise.all(promises);
@@ -384,8 +383,7 @@ describe('Linting Performance and Memory Usage', () => {
           '@typescript-eslint/no-unused-vars': { executionTime: 150, fileCount: 50 },
           'import/order': { executionTime: 200, fileCount: 50 },
           'astrological/preserve-planetary-constants': { executionTime: 50, fileCount: 10 },
-          'react-hooks/exhaustive-deps': { executionTime: 100, fileCount: 25 }
-        }
+          'react-hooks/exhaustive-deps': { executionTime: 100, fileCount: 25 };
       };
 
       mockReadFileSync.mockReturnValue(JSON.stringify(rulePerformanceData));
@@ -403,7 +401,7 @@ describe('Linting Performance and Memory Usage', () => {
 
   describe('Scalability Tests', () => {
     test('should scale with increasing file count', async () => {
-      const fileCounts: any = [10, 50, 100, 500],
+      const fileCounts: any = [10, 50, 100, 500],;
       const executionTimes: number[] = [];
 
       fileCounts.forEach(count => {

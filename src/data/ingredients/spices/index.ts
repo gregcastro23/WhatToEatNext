@@ -1,4 +1,3 @@
-import { CUISINE_TYPES } from '@/constants/cuisineTypes';
 import type { IngredientMapping } from '@/types/alchemy';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
@@ -57,7 +56,7 @@ export const _addHeatLevels = (spices: Record<string, Ingredient>): Record<strin
       ([, a], [, b]) => b - a,
     )[0][0];
     const potencyBase = normalizedProperties[dominantElement] * 8;
-    const potency = Math.min(10, Math.max(1, Math.round(potencyBase + Math.random() * 2))),
+    const potency = Math.min(10, Math.max(1, Math.round(potencyBase + Math.random() * 2))),;
 
     return {
       ...acc;
@@ -306,7 +305,7 @@ export { wholeSpices, groundSpices, spiceBlends },
 // Helper functions
 export const _getSpicesBySubCategory = (subCategory: string): Record<string, IngredientMapping> => {
   return Object.entries(spices)
-    .filter(([_, value]) => (value as any).subCategory === subCategory),
+    .filter(([_, value]) => (value as any).subCategory === subCategory),;
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 };
 
@@ -332,7 +331,7 @@ export const _getSpicesByElementalProperty = (;
 
 export const _getSpiceBlendComponents = (blendName: string): string[] => {
   const blend = spiceBlends[blendName];
-  return blend ? (blend.baseIngredients as string[]) : [],
+  return blend ? (blend.baseIngredients as string[]) : []
 };
 
 export const _getCompatibleSpices = (spiceName: string): string[] => {
@@ -350,7 +349,7 @@ export const _getCompatibleSpices = (spiceName: string): string[] => {
         (valueData.affinities as string[]).some((affinity: string) =>
           (spiceData.affinities as string[]).includes(affinity),
         )
-      ),
+      )
     })
     .map(([key, _]) => key);
 };
@@ -373,7 +372,7 @@ export const _getSubstitutions = (spiceName: string): string[] => {
         Number(
           ((value as any).elementalProperties )[Object.keys(spice.elementalProperties)[0]],
         ) >= 0.3
-      ),
+      )
     })
     .map(([key, _]) => key);
 };
@@ -402,7 +401,7 @@ export const _getSpiceConversionRatio = (fromSpice: string, toSpice: string): st
   const target = spices[toSpice];
 
   if (!source || !target || !source.conversionRatio || !target.conversionRatio) {
-    return null,
+    return null
   }
 
   // Return a default ratio if implementation is missing

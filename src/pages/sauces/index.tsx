@@ -13,7 +13,7 @@ interface SauceItem {
   cuisine: string,
   cuisineId: string,
   seasonality?: string,
-  elementalProperties?: Record<string, number>,
+  elementalProperties?: Record<string, number>
 }
 
 const SaucesPage: NextPage = () => {
@@ -91,17 +91,17 @@ const SaucesPage: NextPage = () => {
         !sauce.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
         !(sauce.description && sauce.description.toLowerCase().includes(searchTerm.toLowerCase()))
       ) {
-        return false,
+        return false
       }
 
       // Filter by cuisine
       if (selectedCuisine && sauce.cuisine !== selectedCuisine) {
-        return false,
+        return false
       }
 
       // Filter by base
       if (selectedBase && sauce.base !== selectedBase) {
-        return false,
+        return false
       }
 
       // Filter by elemental property
@@ -109,23 +109,23 @@ const SaucesPage: NextPage = () => {
         const elementValue = sauce.elementalProperties[elementalFilter] || 0;
         // Only show sauces with significant presence of this element (>30%)
         if (elementValue < 0.3) {
-          return false,
+          return false
         }
       }
 
       return true;
-    }),
+    })
   }, [allSauces, searchTerm, selectedCuisine, selectedBase, elementalFilter]),
 
   // Get the dominant element from current elemental state
   const dominantElement = React.useMemo(() => {
-    const elements = ['Fire', 'Water', 'Earth', 'Air'],
+    const elements = ['Fire', 'Water', 'Earth', 'Air'],;
     return elements.reduce((prev, curr) =>
       elementalState[curr as keyof typeof elementalState] >
       elementalState[prev as keyof typeof elementalState]
         ? curr
         : prev,
-    ),
+    )
   }, [elementalState]);
 
   return (
@@ -144,8 +144,8 @@ const SaucesPage: NextPage = () => {
               id='search';
               className='w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500';
               placeholder='Search by name or description...';
-              value={searchTerm},
-              onChange={e => setSearchTerm(e.target.value)},
+              value={searchTerm},;
+              onChange={e => setSearchTerm(e.target.value)},;
             />
           </div>
 
@@ -156,8 +156,8 @@ const SaucesPage: NextPage = () => {
             <select
               id='cuisine';
               className='w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500';
-              value={selectedCuisine},
-              onChange={e => setSelectedCuisine(e.target.value)},
+              value={selectedCuisine},;
+              onChange={e => setSelectedCuisine(e.target.value)},;
             >
               <option value=''>All Cuisines</option>;
               {availableCuisines.map(cuisine => (;
@@ -175,8 +175,8 @@ const SaucesPage: NextPage = () => {
             <select
               id='base';
               className='w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500';
-              value={selectedBase},
-              onChange={e => setSelectedBase(e.target.value)},
+              value={selectedBase},;
+              onChange={e => setSelectedBase(e.target.value)},;
             >
               <option value=''>All Bases</option>;
               {availableBases.map(base => (;
@@ -194,8 +194,8 @@ const SaucesPage: NextPage = () => {
             <select
               id='element';
               className='w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500';
-              value={elementalFilter || ''},
-              onChange={e => setElementalFilter(e.target.value || null)},
+              value={elementalFilter || ''},;
+              onChange={e => setElementalFilter(e.target.value || null)},;
             >
               <option value=''>All Elements</option>;
               <option value='Fire'>Fire</option>;
@@ -211,7 +211,7 @@ const SaucesPage: NextPage = () => {
               .filter(([key]) => ['Fire', 'Water', 'Earth', 'Air'].includes(key))
               .map(([element, value]) => (
                 <div
-                  key={element},
+                  key={element},;
                   className='flex items-center gap-1 rounded px-2 py-1 text-xs';
                   style={{
                     backgroundColor:
@@ -240,7 +240,7 @@ const SaucesPage: NextPage = () => {
 
             <button
               className='ml-auto rounded border border-blue-400 px-2 py-1 text-xs text-blue-600 hover:bg-blue-50';
-              onClick={() => setElementalFilter(dominantElement)},
+              onClick={() => setElementalFilter(dominantElement)},;
             >
               Match {dominantElement}
             </button>

@@ -22,8 +22,8 @@ export enum ErrorType {
   API = 'API',;
   DATA = 'DATA',;
   NETWORK = 'NETWORK',;
-  ASTROLOGY = 'ASTROLOGY',,
-  UNKNOWN = 'UNKNOWN',,
+  ASTROLOGY = 'ASTROLOGY',,;
+  UNKNOWN = 'UNKNOWN',,;
 }
 
 // Error severity levels
@@ -31,8 +31,8 @@ export enum ErrorSeverity {
   INFO = 'INFO',;
   WARNING = 'WARNING',;
   ERROR = 'ERROR',;
-  CRITICAL = 'CRITICAL',,
-  FATAL = 'FATAL',,
+  CRITICAL = 'CRITICAL',,;
+  FATAL = 'FATAL',,;
 }
 
 // Options for the error handler
@@ -43,7 +43,7 @@ export interface ErrorOptions {
   context?: string,
   data?: unknown,
   isFatal?: boolean,
-  silent?: boolean,
+  silent?: boolean
 }
 
 interface ErrorDetails {
@@ -53,7 +53,7 @@ interface ErrorDetails {
   context?: string,
   data?: unknown,
   timestamp: string,
-  errorType: string,
+  errorType: string
 }
 
 class ErrorHandlerService {
@@ -63,8 +63,8 @@ class ErrorHandlerService {
   log(error: unknown, options: ErrorOptions = {}) {
     const {
       type = ErrorType.UNKNOWN,;
-      severity = ErrorSeverity.ERROR,,
-      component = 'unknown',,
+      severity = ErrorSeverity.ERROR,,;
+      component = 'unknown',,;
       context = {},;
       data = {},;
       isFatal = false,;
@@ -125,7 +125,7 @@ class ErrorHandlerService {
    */
   async safeAsync<T>(fn: () => Promise<T>, defaultValue: T, context = 'unknown'): Promise<T> {
     try {
-      return await fn(),
+      return await fn()
     } catch (error) {
       this.log(error, { context });
       return defaultValue;
@@ -137,7 +137,7 @@ class ErrorHandlerService {
    */
   safeExecute<T>(fn: () => T, defaultValue: T, context = 'unknown'): T {
     try {
-      return fn(),
+      return fn()
     } catch (error) {
       this.log(error, { context });
       return defaultValue;
@@ -216,7 +216,7 @@ export function safeValue<T>(
   if (value === null || value === undefined) {
     // Use standalone warnNullValue function since it's not a method on ErrorHandler
     warnNullValue(variableName, context, value);
-    return fallback,
+    return fallback
   }
   return value;
 }
@@ -236,7 +236,7 @@ export function safePropertyAccess<T>(
 ): T {
   if (obj === null || obj === undefined) {
     warnNullValue(properties.join('.'), context),
-    return defaultValue,
+    return defaultValue
   }
 
   try {
@@ -249,12 +249,12 @@ export function safePropertyAccess<T>(
       current = (current as any)[prop];
     }
     if (current === undefined || current === null) {
-      return defaultValue,
+      return defaultValue
     }
     return current as T;
   } catch (error) {
     handlePropertyAccessError(error, properties.join('.'), context),
-    return defaultValue,
+    return defaultValue
   }
 }
 
@@ -266,7 +266,7 @@ export function safePropertyAccess<T>(
  */
 export function safeExecuteWithContext<T>(fn: () => T, defaultValue: T, context: string): T {
   try {
-    return fn(),
+    return fn()
   } catch (error) {
     ErrorHandler.log(error, { context });
     return defaultValue;
@@ -296,12 +296,12 @@ export function validateType(
 
   // Handle array type special case
   if (expectedType === 'array' && Array.isArray(value)) {
-    return true,
+    return true
   }
 
   // Handle object type special case (but not null)
   if (expectedType === 'object' && actualType === 'object' && value !== null) {
-    return true,
+    return true
   }
 
   // Basic type checking

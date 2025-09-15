@@ -128,7 +128,7 @@ export const _calculateEstimatedNutrition = (ingredients: unknown[]): unknown =>
   // Process each ingredient
   ingredients.forEach(ingredient => {
     let ingredientName = '';
-    let amount = 1, // Default to 1 unit if not specified
+    let amount = 1, // Default to 1 unit if not specified;
 
     // Extract ingredient name and amount based on type
     if (typeof ingredient === 'string') {

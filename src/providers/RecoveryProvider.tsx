@@ -8,7 +8,7 @@ import { logger } from '@/utils/logger';
 
 interface RecoveryContextType {
   resetApp: () => Promise<void>;
-  isRecovering: boolean,
+  isRecovering: boolean
 }
 
 const RecoveryContext = createContext<RecoveryContextType | null>(null);
@@ -38,7 +38,7 @@ export function RecoveryProvider({ children }: { children: React.ReactNode }) {
     // Clean up listeners on unmount
     return () => {
       window.removeEventListener('error', handleGlobalError),
-      window.removeEventListener('unhandledrejection', handleUnhandledRejection),
+      window.removeEventListener('unhandledrejection', handleUnhandledRejection)
     };
   }, []);
 
@@ -76,16 +76,16 @@ export function RecoveryProvider({ children }: { children: React.ReactNode }) {
       // Reload the page
       window.location.reload();
     } catch (error) {
-      logger.error('Failed to reset app:', error),
+      logger.error('Failed to reset app:', error)
     } finally {
       setIsRecovering(false);
     }
   };
 
   return (
-    <RecoveryContext.Provider value={{ resetApp, isRecovering }}>,
+    <RecoveryContext.Provider value={{ resetApp, isRecovering }}>,;
       <ErrorBoundary
-        fallback={ErrorFallback},
+        fallback={ErrorFallback},;
         onError={error => {
           logger.error('App error caught:', error),
           setLastError(error);
@@ -100,7 +100,7 @@ export function RecoveryProvider({ children }: { children: React.ReactNode }) {
 export function useRecovery() {
   const context = useContext(RecoveryContext);
   if (!context) {
-    throw new Error('useRecovery must be used within RecoveryProvider'),
+    throw new Error('useRecovery must be used within RecoveryProvider')
   }
   return context;
 }

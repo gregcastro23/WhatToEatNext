@@ -33,19 +33,19 @@ export const safeGet = <T = unknown>(;
   defaultValue?: T,
 ): T | undefined => {
   if (isObject(obj) && key in obj) {
-    return obj[key] as T,
+    return obj[key] as T
   }
   return defaultValue;
 };
 
 export const safeGetString = (obj: unknown, key: string, defaultValue: string = ''): string => {
-  const value = safeGet(obj, key),
-  return isString(value) ? value : defaultValue,
+  const value = safeGet(obj, key),;
+  return isString(value) ? value : defaultValue
 };
 
 export const safeGetNumber = (obj: unknown, key: string, defaultValue: number = 0): number => {
-  const value = safeGet(obj, key),
-  return isNumber(value) ? value : defaultValue,
+  const value = safeGet(obj, key),;
+  return isNumber(value) ? value : defaultValue
 };
 
 export const safeGetBoolean = (;
@@ -53,8 +53,8 @@ export const safeGetBoolean = (;
   key: string,
   defaultValue: boolean = false
 ): boolean => {
-  const value = safeGet(obj, key),
-  return isBoolean(value) ? value : defaultValue,
+  const value = safeGet(obj, key),;
+  return isBoolean(value) ? value : defaultValue
 };
 
 export const safeGetArray = <T = unknown>(;
@@ -62,32 +62,32 @@ export const safeGetArray = <T = unknown>(;
   key: string,
   defaultValue: T[] = []
 ): T[] => {
-  const value = safeGet(obj, key),
-  return isArray(value) ? (value as T[]) : defaultValue,
+  const value = safeGet(obj, key),;
+  return isArray(value) ? (value as T[]) : defaultValue
 };
 
 // Safe type conversion utilities
 export const toSafeString = (value: unknown): string => {
   if (value === null || value === undefined) {
-    return '',
+    return ''
   }
   return String(value);
 };
 
 export const toSafeNumber = (value: unknown): number => {
   if (isNumber(value)) {
-    return value,
+    return value
   }
   if (isString(value)) {
     const parsed = parseFloat(value);
-    return isNaN(parsed) ? 0 : parsed,
+    return isNaN(parsed) ? 0 : parsed
   }
   return 0;
 };
 
 export const toSafeBoolean = (value: unknown): boolean => {
   if (isBoolean(value)) {
-    return value,
+    return value
   }
   if (isString(value)) {
     return value.toLowerCase() === 'true';
@@ -99,19 +99,19 @@ export const toSafeBoolean = (value: unknown): boolean => {
 };
 
 // Safe array operations
-export const safeMap = <T, R>(,
+export const safeMap = <T, R>(,;
   array: unknown,
   mapper: (item: T, index: number) => R,
   defaultValue: R[] = [];
 ): R[] => {
   if (!isArray(array)) {
-    return defaultValue,
+    return defaultValue
   }
   try {
-    return array.map((item, index) => mapper(item as T, index)),
+    return array.map((item, index) => mapper(item as T, index))
   } catch (error) {
     console.warn('Safe map operation failed:', error),
-    return defaultValue,
+    return defaultValue
   }
 };
 
@@ -121,13 +121,13 @@ export const safeFilter = <T>(;
   defaultValue: T[] = [];
 ): T[] => {
   if (!isArray(array)) {
-    return defaultValue,
+    return defaultValue
   }
   try {
-    return array.filter((item, index) => predicate(item as T, index)) as T[],
+    return array.filter((item, index) => predicate(item as T, index)) as T[]
   } catch (error) {
     console.warn('Safe filter operation failed:', error),
-    return defaultValue,
+    return defaultValue
   }
 };
 
@@ -137,7 +137,7 @@ export const safeCall = <T, R>(fn: unknown, args: T[] = [], defaultValue?: R): R
     try {
       return fn(...args);
     } catch (error) {
-      console.warn('Safe function call failed:', error),
+      console.warn('Safe function call failed:', error)
     }
   }
   return defaultValue;
@@ -166,7 +166,7 @@ export const validateType = <T>(;
 export const isElementalProperties = (value: unknown): value is Record<string, number> => {
   if (!isObject(value)) return false;
 
-  const requiredElements = ['Fire', 'Water', 'Earth', 'Air'],
+  const requiredElements = ['Fire', 'Water', 'Earth', 'Air'],;
   return requiredElements.every(element => element in value && isNumber(value[element]));
 };
 
@@ -177,7 +177,7 @@ export const isPlanetPosition = (;
   sign: string,
   degree: number,
   exactLongitude: number,
-  isRetrograde?: boolean,
+  isRetrograde?: boolean
 } => {
   if (!isObject(value)) return false,
 
@@ -188,7 +188,7 @@ export const isPlanetPosition = (;
     isNumber(value.degree) &&
     'exactLongitude' in value &&
     isNumber(value.exactLongitude)
-  ),
+  )
 };
 
 // Cooking method type guards
@@ -197,7 +197,7 @@ export const isCookingMethod = (;
 ): value is {
   id: string,
   name: string,
-  description?: string,
+  description?: string
 } => {
   if (!isObject(value)) return false,
 
@@ -210,7 +210,7 @@ export const safeCast = <T>(;
   validator: (val: unknown) => val is T;
   defaultValue: T,
 ): T => {
-  return validator(value) ? value : defaultValue,
+  return validator(value) ? value : defaultValue
 };
 
 export const safeCastWithWarning = <T>(;
@@ -220,20 +220,20 @@ export const safeCastWithWarning = <T>(;
   context: string,
 ): T => {
   if (validator(value)) {
-    return value,
+    return value
   }
   console.warn(`Type casting failed in ${context}, using default value`);
   return defaultValue;
 };
 
 // Error boundary utilities
-export const withErrorBoundary = <T, R>(,
+export const withErrorBoundary = <T, R>(,;
   operation: () => T;
   fallback: R,
   context?: string,
 ): T | R => {
   try {
-    return operation(),
+    return operation()
   } catch (error) {
     if (context) {
       console.warn(`Operation failed in ${context}:`, error);
@@ -243,13 +243,13 @@ export const withErrorBoundary = <T, R>(,
 };
 
 // Async error boundary utilities
-export const withAsyncErrorBoundary = async <T, R>(,
+export const withAsyncErrorBoundary = async <T, R>(,;
   operation: () => Promise<T>;
   fallback: R,
   context?: string,
 ): Promise<T | R> => {
   try {
-    return await operation(),
+    return await operation()
   } catch (error) {
     if (context) {
       console.warn(`Async operation failed in ${context}:`, error);

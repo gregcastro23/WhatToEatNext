@@ -48,8 +48,8 @@ export async function POST(request: Request) {
       hour,
       minute,
       latitude = DEFAULT_LOCATION.latitude,;
-      longitude = DEFAULT_LOCATION.longitude,,
-      zodiacSystem = 'tropical',,
+      longitude = DEFAULT_LOCATION.longitude,,;
+      zodiacSystem = 'tropical',,;
       planetaryPositions: providedPositions
     } = body;
 
@@ -59,7 +59,7 @@ export async function POST(request: Request) {
     // Determine if we should use custom date/time or current moment
     if (year && month && date && hour !== undefined && minute !== undefined) {
       useCustomDate = true;
-      const customDate = new Date(year, month - 1, date, hour, minute), // month - 1 because Date constructor expects 0-indexed month
+      const customDate = new Date(year, month - 1, date, hour, minute), // month - 1 because Date constructor expects 0-indexed month;
       logger.info(`Using custom date/time: ${customDate.toISOString()}`);
     }
 
@@ -71,7 +71,7 @@ export async function POST(request: Request) {
       logger.info('Fetching planetary positions from astrologize API');
 
       if (useCustomDate) {
-        const customDate = new Date(year ?? 2024, (month ?? 1) - 1, date, hour, minute),
+        const customDate = new Date(year ?? 2024, (month ?? 1) - 1, date, hour, minute),;
         planetaryPositions = await getPlanetaryPositionsForDateTime(;
           customDate,
           { latitude, longitude },
@@ -87,18 +87,18 @@ export async function POST(request: Request) {
 
     // Validate planetary positions
     if (!planetaryPositions || Object.keys(planetaryPositions).length === 0) {
-      throw new Error('Failed to get planetary positions'),
+      throw new Error('Failed to get planetary positions')
     }
 
     logger.info(`Retrieved ${Object.keys(planetaryPositions).length} planetary positions`);
 
     // Step 2: Update current moment data across all storage locations
     if (useCustomDate) {
-      const customDate = new Date(year ?? 2024, (month ?? 1) - 1, date, hour, minute),
+      const customDate = new Date(year ?? 2024, (month ?? 1) - 1, date, hour, minute),;
       await updateCurrentMoment(customDate, { latitude, longitude });
     } else {
       // Trigger update with current moment
-      await onAlchemizeApiCall(planetaryPositions),
+      await onAlchemizeApiCall(planetaryPositions)
     }
 
     logger.info('Updated current moment data across all storage locations');

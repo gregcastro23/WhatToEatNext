@@ -21,7 +21,7 @@ export interface DeploymentPhase {
   tasks: DeploymentTask[],
   rollbackTasks: DeploymentTask[],
   validationChecks: ValidationCheck[],
-  successCriteria: SuccessCriteria,
+  successCriteria: SuccessCriteria
 }
 
 export interface DeploymentTask {
@@ -32,7 +32,7 @@ export interface DeploymentTask {
   timeout: number,
   retries: number,
   critical: boolean,
-  environment?: Record<string, string>,
+  environment?: Record<string, string>
 }
 
 export interface ValidationCheck {
@@ -69,7 +69,7 @@ export interface DeploymentResult {
   validationResults: ValidationResult[],
   errors: string[],
   warnings: string[],
-  rollbackPerformed: boolean,
+  rollbackPerformed: boolean
 }
 
 export interface ValidationResult {
@@ -78,7 +78,7 @@ export interface ValidationResult {
   success: boolean,
   output: string,
   duration: number,
-  error?: string,
+  error?: string
 }
 
 /**
@@ -397,7 +397,7 @@ export class DeploymentManager {
     }
 
     return {
-      success: errors.length === 0,,
+      success: errors.length === 0,,;
       errors
     };
   }
@@ -429,14 +429,14 @@ export class DeploymentManager {
     const timestamp = new Date().toISOString();
     const logMessage = `[${timestamp}] ${message}`;
     this.deploymentLog.push(logMessage);
-    // console.log(logMessage);
+    // // console.log(logMessage);
   }
 
   /**
    * Get deployment log
    */
   getDeploymentLog(): string[] {
-    return [...this.deploymentLog],
+    return [...this.deploymentLog]
   }
 
   /**
@@ -591,7 +591,7 @@ export function createStandardDeploymentPhases(): DeploymentPhase[] {
           id: 'run-integration-tests',
           name: 'Run Integration Tests',
           command: 'npm',
-          args: ['test', '--', '--testPathPattern=integration'],,
+          args: ['test', '--', '--testPathPattern=integration'],,;
           timeout: 300000,
           retries: 1,
           critical: true
@@ -616,7 +616,7 @@ export function createStandardDeploymentPhases(): DeploymentPhase[] {
           name: 'Integration Test Validation',
           type: 'test',
           command: 'npm',
-          args: ['test', '--', '--testPathPattern=integration', '--passWithNoTests'],,
+          args: ['test', '--', '--testPathPattern=integration', '--passWithNoTests'],,;
           timeout: 300000,
           expectedExitCode: 0
         }
@@ -733,7 +733,7 @@ export function createStandardDeploymentPhases(): DeploymentPhase[] {
                 const validation = configManager.validateConfig();
                 return validation.isValid;
               } catch {
-                return false,
+                return false
               }
             }
           }

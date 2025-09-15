@@ -306,9 +306,9 @@ async function validateHealthChecks(): Promise<ValidationResult[]> {
  * Display validation results
  */
 function displayResults(results: ValidationResult[]): void {
-  // console.log('='.repeat(80));
-  // console.log('  MONITORING VALIDATION RESULTS');
-  // console.log('='.repeat(80));
+  // // console.log('='.repeat(80));
+  // // console.log('  MONITORING VALIDATION RESULTS');
+  // // console.log('='.repeat(80));
 
   let passCount = 0;
   let failCount = 0;
@@ -317,10 +317,10 @@ function displayResults(results: ValidationResult[]): void {
   for (const result of results) {
     const icon = result.status === 'pass' ? '✅' : result.status === 'fail' ? '❌' : '⚠️';
 
-    // console.log(`\n${icon} ${result.component}: ${result.message}`);
+    // // console.log(`\n${icon} ${result.component}: ${result.message}`);
 
     if (result.details) {
-      // console.log(`   Details: ${result.details}`);
+      // // console.log(`   Details: ${result.details}`);
     }
 
     switch (result.status) {
@@ -336,19 +336,19 @@ function displayResults(results: ValidationResult[]): void {
     }
   }
 
-  // console.log('\n' + '='.repeat(80));
-  // console.log(`SUMMARY: ${passCount} passed, ${failCount} failed, ${warningCount} warnings`);
+  // // console.log('\n' + '='.repeat(80));
+  // // console.log(`SUMMARY: ${passCount} passed, ${failCount} failed, ${warningCount} warnings`);
 
   if (failCount > 0) {
-    // console.log('\n❌ Monitoring validation FAILED');
-    // console.log('Please fix the issues above before proceeding with deployment.');
+    // // console.log('\n❌ Monitoring validation FAILED');
+    // // console.log('Please fix the issues above before proceeding with deployment.');
     process.exit(1);
   } else if (warningCount > 0) {
-    // console.log('\n⚠️  Monitoring validation passed with WARNINGS');
-    // console.log('Consider addressing the warnings for optimal monitoring.');
+    // // console.log('\n⚠️  Monitoring validation passed with WARNINGS');
+    // // console.log('Consider addressing the warnings for optimal monitoring.');
   } else {
-    // console.log('\n✅ Monitoring validation PASSED');
-    // console.log('All monitoring components are properly configured.');
+    // // console.log('\n✅ Monitoring validation PASSED');
+    // // console.log('All monitoring components are properly configured.');
   }
 }
 
@@ -356,7 +356,7 @@ function displayResults(results: ValidationResult[]): void {
  * Main validation function
  */
 async function main(): Promise<void> {
-  // console.log('Validating monitoring and alerting setup...\n');
+  // // console.log('Validating monitoring and alerting setup...\n');
 
   try {
     const results = await validateMonitoring();

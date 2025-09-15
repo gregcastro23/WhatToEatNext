@@ -96,7 +96,7 @@ export class RecipeFinder implements RecipeServiceInterface {
    */
   async searchRecipes(params: SearchRecipesParams): Promise<ApiResponse<Recipe[]>> {
     try {
-      const recipes = await this.recipeService.searchRecipes(params.criteria, params.options),
+      const recipes = await this.recipeService.searchRecipes(params.criteria, params.options),;
       return {
         success: true,
         data: recipes,
@@ -369,7 +369,7 @@ export class RecipeFinder implements RecipeServiceInterface {
     params: GetBestRecipeMatchesParams,
   ): Promise<ApiResponse<ScoredRecipe[]>> {
     try {
-      const recipes = await this.recipeService.getBestRecipeMatches(params.criteria, 10),
+      const recipes = await this.recipeService.getBestRecipeMatches(params.criteria, 10),;
       // Convert recipes to scored recipes if they don't already have scores
       const scoredRecipes: ScoredRecipe[] = recipes.map((recipe, index) => ({
         ...recipe;
@@ -607,7 +607,7 @@ export class RecipeFinder implements RecipeServiceInterface {
    */
   calculateSimilarity(recipe1: Recipe, recipe2: Recipe): number {
     try {
-      return this.recipeService.calculateSimilarity(recipe1, recipe2),
+      return this.recipeService.calculateSimilarity(recipe1, recipe2)
     } catch (error) {
       errorHandler.log(error instanceof Error ? error : new Error(String(error)), {
         context: {
@@ -638,5 +638,5 @@ export class RecipeFinder implements RecipeServiceInterface {
 // Export standalone function for compatibility
 export const getAllRecipes = async (): Promise<Recipe[]> => {
   const response = await RecipeFinder.getInstance().getAllRecipes();
-  return response.success ? response.data || [] : [],
+  return response.success ? response.data || [] : []
 };

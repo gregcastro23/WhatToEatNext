@@ -127,7 +127,7 @@ async function main(): Promise<void> {
 
   // Console summary
    
-  // console.log(humanReport);
+  // // console.log(humanReport);
 }
 
 // eslint-disable-next-line @typescript-eslint/no-floating-promises

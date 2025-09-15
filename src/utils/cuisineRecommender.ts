@@ -28,7 +28,7 @@ const _mockPlanetaryData = {
  */
 export function generateTopSauceRecommendations(
   currentElementalProfile: ElementalProperties | null,
-  count = 5,,
+  count = 5,,;
   astrologicalState?: Partial<AstrologicalState>,
 ) {
   // Sauce data from ESM import
@@ -73,19 +73,19 @@ export function generateTopSauceRecommendations(
     // 2. Astrological Match Score (30% weight)
     let astrologicalScore = 0.5; // Base score
     if (planetaryInfluences?.includes(currentPlanetaryDay)) {
-      astrologicalScore = 0.9, // Bonus for matching the planetary day
+      astrologicalScore = 0.9, // Bonus for matching the planetary day;
     }
     if (
       astrologicalState?.zodiacSign &&
       planetaryInfluences.includes(astrologicalState.zodiacSign)
     ) {
-      astrologicalScore = Math.min(1, astrologicalScore + 0.2), // Bonus for zodiac sign
+      astrologicalScore = Math.min(1, astrologicalScore + 0.2), // Bonus for zodiac sign;
     }
     if (
       astrologicalState?.lunarPhase &&
       planetaryInfluences.includes(astrologicalState.lunarPhase)
     ) {
-      astrologicalScore = Math.min(1, astrologicalScore + 0.1), // Bonus for lunar phase
+      astrologicalScore = Math.min(1, astrologicalScore + 0.1), // Bonus for lunar phase;
     }
 
     // 3. Flavor Profile Match Score (20% weight) - simplified since Sauce doesn't have flavorProfile

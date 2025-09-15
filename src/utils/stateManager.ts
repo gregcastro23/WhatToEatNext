@@ -12,7 +12,7 @@ interface ScoredRecipe extends Recipe {
   matches: {
     elemental: number;
     seasonal: number,
-    astrological: number,
+    astrological: number
   };
 }
 
@@ -43,23 +43,23 @@ interface UserPreferences {
     mode: 'light' | 'dark' | 'system';
     colorScheme: string;
     fontSize: number,
-    animations: boolean,
+    animations: boolean
   };
   dietary: {
     restrictions: DietaryRestriction[];
     favorites: string[];
     excluded: string[],
-    spiciness: 'mild' | 'medium' | 'hot',
+    spiciness: 'mild' | 'medium' | 'hot'
   };
   cooking: {
     preferredMethods: string[];
     maxPrepTime: number;
     servingSize: number,
-    complexity: 'simple' | 'moderate' | 'complex',
+    complexity: 'simple' | 'moderate' | 'complex'
   };
   cuisines: {
     preferred: CuisineType[],
-    excluded: CuisineType[],
+    excluded: CuisineType[]
   };
 }
 
@@ -70,20 +70,20 @@ interface AppState {
     favorites: string[];
     recent: string[];
     loading: boolean,
-    error: string | null,
+    error: string | null
   };
   celestial: {
     elementalState: ElementalProperties;
     season: string;
     moonPhase: string,
-    lastUpdated: number,
+    lastUpdated: number
   };
   user: {
     preferences: UserPreferences;
     history: {
       viewed: string[];
       cooked: string[],
-      rated: Record<string, number>,
+      rated: Record<string, number>
     };
   };
   ui: {
@@ -96,7 +96,7 @@ interface AppState {
       id: string;
       type: 'success' | 'error' | 'info',
       message: string,
-      timestamp: number,
+      timestamp: number
     }>;
   };
 }
@@ -151,7 +151,7 @@ class StateManager {
           parsed.ui.activeFilters = new Set(parsed.ui.activeFilters);
         }
         if (this.isValidAppState(parsed)) {
-          return parsed,
+          return parsed
         }
       }
       return this.getDefaultState();
@@ -247,7 +247,7 @@ class StateManager {
 
       this.saveState();
     } catch (error) {
-      console.error('Error initializing state:', error),
+      console.error('Error initializing state:', error)
     }
   }
 
@@ -276,7 +276,7 @@ class StateManager {
         }
       });
     } catch (error) {
-      logger.error('Error updating celestial data:', error),
+      logger.error('Error updating celestial data:', error)
     }
   }
 
@@ -294,7 +294,7 @@ class StateManager {
       localStorage.setItem(this.STORAGE_KEY, JSON.stringify(serializable));
       cache.set(this.STORAGE_KEY, this.state);
     } catch (error) {
-      logger.error('Error saving state:', error),
+      logger.error('Error saving state:', error)
     }
   }
 
@@ -311,7 +311,7 @@ class StateManager {
 
   subscribe(key: string, listener: (state: AppState) => void): () => void {
     if (!this.listeners.has(key)) {
-      this.listeners.set(key, new Set()),
+      this.listeners.set(key, new Set())
     }
 
     const listenerSet = this.listeners.get(key);
@@ -342,7 +342,7 @@ class StateManager {
     const index = history.indexOf(recipeId);
 
     if (index > -1) {
-      history.splice(index, 1),
+      history.splice(index, 1)
     }
     history.unshift(recipeId);
 
@@ -379,7 +379,7 @@ class StateManager {
     const index = favorites.indexOf(recipeId);
 
     if (index > -1) {
-      favorites.splice(index, 1),
+      favorites.splice(index, 1)
     } else {
       favorites.push(recipeId);
     }
@@ -414,7 +414,7 @@ class StateManager {
       this.setState({
         ui: {
           ...this.state.ui;
-          notifications: this.state.ui.notifications.filter(n => n.id !== notification.id),,
+          notifications: this.state.ui.notifications.filter(n => n.id !== notification.id),,;
         }
       });
     }, 5000);

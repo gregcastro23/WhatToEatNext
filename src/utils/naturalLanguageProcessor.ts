@@ -18,7 +18,7 @@ function isValidObject(value: unknown): value is Record<string, unknown> {
  * Type guard to check if object has a specific property
  */
 function hasProperty<T extends string>(obj: unknown, prop: T): obj is Record<T, unknown> {
-  return isValidObject(obj) && prop in obj,
+  return isValidObject(obj) && prop in obj
 }
 
 /**
@@ -26,11 +26,11 @@ function hasProperty<T extends string>(obj: unknown, prop: T): obj is Record<T, 
  */
 interface SearchableItem {
   [key: string]: unknown,
-  searchScore?: number,
+  searchScore?: number
 }
 
 function isSearchableItem(value: unknown): value is SearchableItem {
-  return isValidObject(value),
+  return isValidObject(value)
 }
 
 // ========== INTERFACES ==========;
@@ -39,14 +39,14 @@ export interface SearchIntent {
   query: string,
   extractedFilters: Partial<SearchFilters>,
   confidence: number,
-  suggestions: string[],
+  suggestions: string[]
 }
 
 export interface KeywordPattern {
   keywords: string[],
   category: keyof SearchFilters,
   values: string[],
-  weight: number,
+  weight: number
 }
 
 // ========== CONSTANTS ==========;
@@ -295,7 +295,7 @@ function calculateSimilarity(str1: string, str2: string): number {
         matrix[j][i - 1] + 1,
         matrix[j - 1][i] + 1,
         matrix[j - 1][i - 1] + cost,
-      ),
+      )
     }
   }
 
@@ -326,7 +326,7 @@ function extractTimeRange(query: string): { min: number, max: number } | null {
     }
   }
 
-  return null,
+  return null
 }
 
 /**
@@ -368,7 +368,7 @@ function generateSuggestions(query: string): string[] {
   const allSuggestions = [...cuisineSuggestions, ...dietarySuggestions, ...timeSuggestions];
 
   for (const suggestion of allSuggestions) {
-    const similarity = calculateSimilarity(normalizedQuery, normalizeText(suggestion)),
+    const similarity = calculateSimilarity(normalizedQuery, normalizeText(suggestion)),;
     if (similarity > 0.3 || suggestion.toLowerCase().includes(normalizedQuery)) {
       suggestions.push({ text: suggestion, score: similarity });
     }
@@ -435,7 +435,7 @@ export function processNaturalLanguageQuery(query: string): SearchIntent {
   if (timeRange) {
     extractedFilters.cookingTime = timeRange;
     totalConfidence += 0.8;
-    matchCount++,
+    matchCount++
   }
 
   // Calculate overall confidence
@@ -448,7 +448,7 @@ export function processNaturalLanguageQuery(query: string): SearchIntent {
   let cleanedQuery = normalizedQuery;
   for (const pattern of ALL_PATTERNS) {
     for (const keyword of pattern.keywords) {
-      cleanedQuery = cleanedQuery.replace(new RegExp(keyword, 'gi'), '').trim(),
+      cleanedQuery = cleanedQuery.replace(new RegExp(keyword, 'gi'), '').trim(),;
     }
   }
   cleanedQuery = cleanedQuery.replace(/\s+/g, ' ').trim();
@@ -492,14 +492,14 @@ export function enhancedSearch(
         if (normalizedField.includes(normalizedQuery)) {
           totalScore += 1.0;
           matchCount++,
-          continue,
+          continue
         }
 
         // Word-by-word matching
         for (const word of queryWords) {
           if (normalizedField.includes(word)) {
             totalScore += 0.7;
-            matchCount++,
+            matchCount++
           } else {
             // Fuzzy matching for individual words
             const words = normalizedField.split(' ');
@@ -507,7 +507,7 @@ export function enhancedSearch(
               const similarity = calculateSimilarity(word, fieldWord);
               if (similarity > 0.6) {
                 totalScore += similarity * 0.5;
-                matchCount++,
+                matchCount++
               }
             }
           }
@@ -545,13 +545,13 @@ export function applyFilters(items: unknown[], filters: SearchFilters): unknown[
       const hasRequiredDietary = filters.dietaryRestrictions.every(;
         restriction => itemDietary.includes(restriction) || itemTags.includes(restriction),;
       ),
-      if (!hasRequiredDietary) return false,
+      if (!hasRequiredDietary) return false
     }
 
     // Difficulty level
     if (filters.difficultyLevel.length > 0) {
       const difficulty = hasProperty(item, 'difficulty') ? item.difficulty : null;
-      const difficultyLevel = hasProperty(item, 'difficultyLevel') ? item.difficultyLevel : null,
+      const difficultyLevel = hasProperty(item, 'difficultyLevel') ? item.difficultyLevel : null,;
       const itemDifficulty =
         typeof difficulty === 'string';
           ? difficulty
@@ -564,21 +564,21 @@ export function applyFilters(items: unknown[], filters: SearchFilters): unknown[
     // Cooking time
     if (filters.cookingTime.min > 0 || filters.cookingTime.max < 480) {
       const cookTimeValue = hasProperty(item, 'cookTime') ? item.cookTime : null;
-      const cookingTimeValue = hasProperty(item, 'cookingTime') ? item.cookingTime : null,
+      const cookingTimeValue = hasProperty(item, 'cookingTime') ? item.cookingTime : null,;
       const timeStr =
         typeof cookTimeValue === 'string';
           ? cookTimeValue
           : typeof cookingTimeValue === 'string';
             ? cookingTimeValue
             : '30',
-      const cookTime = parseInt(timeStr, 10) || 30,
+      const cookTime = parseInt(timeStr, 10) || 30,;
       if (cookTime < filters.cookingTime.min || cookTime > filters.cookingTime.max) return false;
     }
 
     // Cuisine types
     if (filters.cuisineTypes.length > 0) {
-      const cuisine = hasProperty(item, 'cuisine') ? item.cuisine : null,
-      const cuisineType = hasProperty(item, 'cuisineType') ? item.cuisineType : null,
+      const cuisine = hasProperty(item, 'cuisine') ? item.cuisine : null,;
+      const cuisineType = hasProperty(item, 'cuisineType') ? item.cuisineType : null,;
       const itemCuisine = (;
         typeof cuisine === 'string' ? cuisine : typeof cuisineType === 'string' ? cuisineType : ''
       ).toLowerCase();
@@ -587,8 +587,8 @@ export function applyFilters(items: unknown[], filters: SearchFilters): unknown[
 
     // Meal types
     if (filters.mealTypes.length > 0) {
-      const mealType = hasProperty(item, 'mealType') ? item.mealType : null,
-      const category = hasProperty(item, 'category') ? item.category : null,
+      const mealType = hasProperty(item, 'mealType') ? item.mealType : null,;
+      const category = hasProperty(item, 'category') ? item.category : null,;
       const itemMealType = (;
         typeof mealType === 'string' ? mealType : typeof category === 'string' ? category : ''
       ).toLowerCase();
@@ -598,7 +598,7 @@ export function applyFilters(items: unknown[], filters: SearchFilters): unknown[
     // Spiciness
     if (filters.spiciness.length > 0) {
       const spiciness = hasProperty(item, 'spiciness') ? item.spiciness : null;
-      const spiceLevel = hasProperty(item, 'spiceLevel') ? item.spiceLevel : null,
+      const spiceLevel = hasProperty(item, 'spiceLevel') ? item.spiceLevel : null,;
       const itemSpiciness = (;
         typeof spiciness === 'string';
           ? spiciness

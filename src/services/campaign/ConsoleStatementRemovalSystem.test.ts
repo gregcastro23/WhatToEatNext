@@ -94,7 +94,7 @@ const _another: any = 'value';
     it('should mark error statements as critical', () => {
       const isCritical: any = (;
         removalSystem as unknown as {
-          isConsoleStatementCritical: (filePat, h: string, statement: Record<string, unknown>) => boolean,
+          isConsoleStatementCritical: (filePat, h: string, statement: Record<string, unknown>) => boolean
         }
       ).isConsoleStatementCritical(
         '/test/file.ts';
@@ -139,7 +139,7 @@ const _another: any = 'value';
 
       const isCritical: any = (;
         removalSystem as unknown as {
-          isConsoleStatementCritical: (filePat, h: string, statement: Record<string, unknown>) => boolean,
+          isConsoleStatementCritical: (filePat, h: string, statement: Record<string, unknown>) => boolean
         }
       ).isConsoleStatementCritical('/test/file.ts', 'console.log('Error occurred')', context, 'log');
 
@@ -149,7 +149,7 @@ const _another: any = 'value';
     it('should mark statements with important patterns as critical', () => {
       const isCritical: any = (;
         removalSystem as unknown as {
-          isConsoleStatementCritical: (filePat, h: string, statement: Record<string, unknown>) => boolean,
+          isConsoleStatementCritical: (filePat, h: string, statement: Record<string, unknown>) => boolean
         }
       ).isConsoleStatementCritical(
         '/test/file.ts';
@@ -219,7 +219,7 @@ const _another: any = 'value';
 
     it('should handle git stash errors gracefully', async () => {
       mockExecSync.mockImplementation(() => {
-        throw new Error('Git error'),
+        throw new Error('Git error')
       });
 
       const stashId: any = await (;
@@ -299,7 +299,7 @@ const _another: any = 'value';
 
     it('should handle script execution errors', async () => {
       mockExecSync.mockImplementation(() => {
-        throw new Error('Script execution failed'),
+        throw new Error('Script execution failed')
       });
 
       const result: any = await (removalSystem as any).executeScript([]);
@@ -329,7 +329,7 @@ const _another: any = 'value';
 
   describe('generateReport', () => {
     it('should generate single execution report', () => {
-      const result: ConsoleRemovalResult = { success: true,,
+      const result: ConsoleRemovalResult = { success: true,,;
         filesProcessed: 10,
         consoleStatementsRemoved: 25,
         consoleStatementsPreserved: 5,
@@ -352,7 +352,7 @@ const _another: any = 'value';
     });
 
     it('should generate failure report', () => {
-      const result: ConsoleRemovalResult = { success: false,,
+      const result: ConsoleRemovalResult = { success: false,,;
         filesProcessed: 0,
         consoleStatementsRemoved: 0,
         consoleStatementsPreserved: 0,
@@ -374,7 +374,7 @@ const _another: any = 'value';
     it('should return default estimate when analyzer fails', async () => {
       // Mock the dynamic import to fail
       jest.doMock('./LintingWarningAnalyzer.js'( {
-        throw new Error('Module not found'),
+        throw new Error('Module not found')
       });
 
       const estimate: any = await (;
@@ -387,7 +387,7 @@ const _another: any = 'value';
 
   describe('saveMetrics', () => {
     it('should save metrics to file', async () => {
-      const result: ConsoleRemovalResult = { success: true,,
+      const result: ConsoleRemovalResult = { success: true,,;
         filesProcessed: 5,
         consoleStatementsRemoved: 10,
         consoleStatementsPreserved: 2,
@@ -410,7 +410,7 @@ const _another: any = 'value';
     });
 
     it('should handle save metrics errors gracefully', async () => {
-      const result: ConsoleRemovalResult = { success: true,,
+      const result: ConsoleRemovalResult = { success: true,,;
         filesProcessed: 5,
         consoleStatementsRemoved: 10,
         consoleStatementsPreserved: 2,
@@ -421,7 +421,7 @@ const _another: any = 'value';
       };
 
       mockFs.writeFileSync.mockImplementation(() => {
-        throw new Error('Write failed'),
+        throw new Error('Write failed')
       });
 
       await expect(

@@ -39,7 +39,7 @@ export const _useDebugSettings = () => {
         setSettings({ ...DEFAULT_SETTINGS, ...parsedSettings });
       }
     } catch (error) {
-      console.warn('[Debug Settings] Failed to load settings:', error),
+      console.warn('[Debug Settings] Failed to load settings:', error)
     }
   }, []);
 
@@ -50,9 +50,9 @@ export const _useDebugSettings = () => {
       setSettings(updatedSettings);
 
       try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(updatedSettings)),
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(updatedSettings))
       } catch (error) {
-        console.warn('[Debug Settings] Failed to save settings:', error),
+        console.warn('[Debug Settings] Failed to save settings:', error)
       }
     },
     [settings],
@@ -112,7 +112,7 @@ export const _useDebugSettings = () => {
     try {
       localStorage.removeItem(STORAGE_KEY);
     } catch (error) {
-      console.warn('[Debug Settings] Failed to reset settings:', error),
+      console.warn('[Debug Settings] Failed to reset settings:', error)
     }
   }, []);
 

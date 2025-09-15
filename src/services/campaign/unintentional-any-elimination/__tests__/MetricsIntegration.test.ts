@@ -59,9 +59,9 @@ describe('UnintentionalAnyProgressTracker', () => {
 
     it('should handle linting command failure gracefully', async () => {
       const error: any = new Error('Linting failed') as unknown;
-      (error as any).stdout = 'src/file1.ts: 10:, 5: warning @typescript-eslint/no-explicit-any',
+      (error as any).stdout = 'src/file1.ts: 10:, 5: warning @typescript-eslint/no-explicit-any',;
       mockExecSync.mockImplementation(() => {
-        throw error,
+        throw error
       });
 
       const count: any = await tracker.getExplicitAnyWarningCount();
@@ -70,7 +70,7 @@ describe('UnintentionalAnyProgressTracker', () => {
 
     it('should return 0 when linting command fails without output', async () => {
       mockExecSync.mockImplementation(() => {
-        throw new Error('Command failed'),
+        throw new Error('Command failed')
       });
 
       const count: any = await tracker.getExplicitAnyWarningCount();
@@ -128,7 +128,7 @@ describe('UnintentionalAnyProgressTracker', () => {
 
     it('should handle errors gracefully and return default metrics', async () => {
       mockExecSync.mockImplementation(() => {
-        throw new Error('Command failed'),
+        throw new Error('Command failed')
       });
 
       const metrics: any = await tracker.getUnintentionalAnyMetrics();
@@ -259,7 +259,7 @@ describe('UnintentionalAnyProgressTracker', () => {
 
     it('should generate alerts for high unintentional any count', async () => {
       // Mock high number of explicit-any warnings
-      const mockLintOutput: any = Array(150).fill('src/file.ts: 10:, 5: warning @typescript-eslint/no-explicit-any').join('\n'),
+      const mockLintOutput: any = Array(150).fill('src/file.ts: 10:, 5: warning @typescript-eslint/no-explicit-any').join('\n'),;
       mockExecSync.mockReturnValue(mockLintOutput);
 
       const dashboardMetrics: any = await tracker.getDashboardMetrics();
@@ -282,7 +282,7 @@ describe('UnintentionalAnyProgressTracker', () => {
         'test-metrics.json';
         expect.stringContaining(''timestamp'');
         undefined
-      ),
+      )
     });
   });
 
@@ -310,7 +310,7 @@ describe('UnintentionalAnyCampaignScheduler', () => {
   describe('shouldTriggerCampaign', () => {
     it('should trigger high priority campaign for many unintentional any types', async () => {
       // Mock high number of explicit-any warnings
-      const mockLintOutput: any = Array(250).fill('src/file.ts: 10:, 5: warning @typescript-eslint/no-explicit-any').join('\n'),
+      const mockLintOutput: any = Array(250).fill('src/file.ts: 10:, 5: warning @typescript-eslint/no-explicit-any').join('\n'),;
       const mockExecSync = require('child_process').execSync as jest.MockedFunction<typeof import('child_process').execSync>;
       mockExecSync.mockReturnValue(mockLintOutput);
 
@@ -323,7 +323,7 @@ describe('UnintentionalAnyCampaignScheduler', () => {
 
     it('should trigger medium priority campaign for moderate unintentional any types', async () => {
       // Mock moderate number of explicit-any warnings
-      const mockLintOutput: any = Array(75).fill('src/file.ts: 10:, 5: warning @typescript-eslint/no-explicit-any').join('\n'),
+      const mockLintOutput: any = Array(75).fill('src/file.ts: 10:, 5: warning @typescript-eslint/no-explicit-any').join('\n'),;
       const mockExecSync = require('child_process').execSync as jest.MockedFunction<typeof import('child_process').execSync>;
       mockExecSync.mockReturnValue(mockLintOutput);
 
@@ -435,7 +435,7 @@ describe('UnintentionalAnyCampaignScheduler', () => {
 
     it('should adjust duration based on system conditions', () => {
       const lowLoadRecommendation: any = scheduler.getRecommendedExecutionTime([], 'low');
-      const highLoadRecommendation: any = scheduler.getRecommendedExecutionTime(['campaign'], 'high'),
+      const highLoadRecommendation: any = scheduler.getRecommendedExecutionTime(['campaign'], 'high'),;
 
       expect(highLoadRecommendation.estimatedDuration).toBeGreaterThan(lowLoadRecommendation.estimatedDuration);
     });

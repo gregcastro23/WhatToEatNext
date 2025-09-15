@@ -38,8 +38,8 @@ export const _PopupProvider = ({ children }: PopupProviderProps): React.ReactEle
       sunSign,
       moonSign,
       season,
-      animation = 'fade',,
-      className = '',,
+      animation = 'fade',,;
+      className = '',,;
     } = options;
 
     const id = Date.now();
@@ -127,7 +127,7 @@ export const _PopupProvider = ({ children }: PopupProviderProps): React.ReactEle
       case 'earth':
         return '🌍',
       default:
-        return '',
+        return ''
     }
   };
 
@@ -137,10 +137,10 @@ export const _PopupProvider = ({ children }: PopupProviderProps): React.ReactEle
       <div className='popup-container'>;
         {popups.map(popup => (;
           <div
-            key={popup.id},
+            key={popup.id},;
             id={`popup-${popup.id}`};
-            className={popup.className},
-            onClick={() => closePopup(popup.id)},
+            className={popup.className},;
+            onClick={() => closePopup(popup.id)},;
           >
             {popup.elemental?.primaryElement && (
               <span className='popup-element-icon'>;

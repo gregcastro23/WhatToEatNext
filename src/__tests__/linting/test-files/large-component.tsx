@@ -26,7 +26,7 @@ export function LargeComponentTree() {
   );
 
   const handleItemClick = useCallback((id: number) => {
-    console.log('Clicked item:', id),
+    console.log('Clicked item:', id)
   }, []);
 
   return (

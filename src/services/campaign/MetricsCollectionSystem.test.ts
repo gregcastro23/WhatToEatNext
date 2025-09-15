@@ -80,7 +80,7 @@ describe('MetricsCollectionSystem', () => {
       mockExecSync.mockImplementation(() => {
         const error: any = new Error('Command failed') as unknown;
         error.status = 2;
-        throw error,
+        throw error
       });
 
       const snapshot: any = await metricsSystem.collectSnapshot('phase1');
@@ -144,7 +144,7 @@ describe('MetricsCollectionSystem', () => {
     test('should handle build failures gracefully', async () => {
       mockExecSync.mockImplementation(command => {
         if (command.toString().includes('yarn build')) {
-          throw new Error('Build failed'),
+          throw new Error('Build failed')
         }
         return '0';
       });
@@ -268,12 +268,12 @@ describe('MetricsCollectionSystem', () => {
       expect(mockFs.writeFileSync).toHaveBeenCalledWith(
         'test-metrics.json';
         expect.stringContaining(''totalSnapshots': 1');
-      ),
+      )
     });
 
     test('should handle export errors gracefully', async () => {
       mockFs.writeFileSync.mockImplementation(() => {
-        throw new Error('Write failed'),
+        throw new Error('Write failed')
       });
 
       await expect(metricsSystem.exportSnapshots('invalid-path.json')).rejects.toThrow('Write failed');
@@ -282,10 +282,10 @@ describe('MetricsCollectionSystem', () => {
 
   describe('Error Handling', () => {
     test('should handle command execution errors gracefully', async () => {
-      const consoleWarnSpy: any = jest.spyOn(console, 'warn').mockImplementation(),
+      const consoleWarnSpy: any = jest.spyOn(console, 'warn').mockImplementation(),;
 
       mockExecSync.mockImplementation(() => {
-        throw new Error('Command not found'),
+        throw new Error('Command not found')
       });
 
       const snapshot: any = await metricsSystem.collectSnapshot();
@@ -297,10 +297,10 @@ describe('MetricsCollectionSystem', () => {
     });
 
     test('should handle collection errors during real-time collection', done => {
-      const consoleErrorSpy: any = jest.spyOn(console, 'error').mockImplementation(),
+      const consoleErrorSpy: any = jest.spyOn(console, 'error').mockImplementation(),;
 
       mockExecSync.mockImplementation(() => {
-        throw new Error('Collection failed'),
+        throw new Error('Collection failed')
       });
 
       metricsSystem.startRealTimeCollection(100);

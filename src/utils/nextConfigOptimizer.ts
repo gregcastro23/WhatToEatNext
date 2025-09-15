@@ -9,7 +9,7 @@ export class NextConfigOptimizer {
   private readonly logger: (message: string, ...args: unknown[]) => void,
 
   constructor(
-    configPath = 'next.config.js',,
+    configPath = 'next.config.js',,;
     logger: (message: string, ...args: unknown[]) => void = console.log,;
   ) {
     this.configPath = configPath;
@@ -22,7 +22,7 @@ export class NextConfigOptimizer {
   optimizeConfig(): void {
     try {
       // Check if we have multiple config files and consolidate
-      const configFiles = ['next.config.js', 'next.config.mjs', 'next.config.ts'],
+      const configFiles = ['next.config.js', 'next.config.mjs', 'next.config.ts'],;
       const existingConfigs = configFiles.filter(file => fs.existsSync(file));
 
       if (existingConfigs.length > 1) {
@@ -38,12 +38,12 @@ export class NextConfigOptimizer {
 
       if (!primaryConfig) {
         this.createDefaultConfig();
-        return,
+        return
       }
 
       this.validateAndOptimizeExistingConfig(primaryConfig);
     } catch (error) {
-      this.logger('Error optimizing Next.js configuration:', error),
+      this.logger('Error optimizing Next.js configuration:', error)
     }
   }
 
@@ -112,7 +112,7 @@ const nextConfig = {
    * Validates and optimizes existing configuration
    */
   private validateAndOptimizeExistingConfig(configPath: string): void {
-    const content = fs.readFileSync(configPath, 'utf8'),
+    const content = fs.readFileSync(configPath, 'utf8'),;
 
     // Check for essential configurations
     const checks = [
@@ -160,7 +160,7 @@ const nextConfig = {
     if (!existingConfig) {
       this.logger('No Next.js configuration found, creating default');
       this.createDefaultConfig();
-      return,
+      return
     }
 
     let content = fs.readFileSync(existingConfig, 'utf8');
@@ -182,7 +182,7 @@ const nextConfig = {
 
     for (const fix of fixes) {
       if (fix.issue.test(content)) {
-        content = content.replace(fix.issue, fix.fix),
+        content = content.replace(fix.issue, fix.fix),;
         modified = true;
         this.logger(`Fixed: ${fix.description}`);
       }

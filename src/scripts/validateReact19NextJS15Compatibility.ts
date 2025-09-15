@@ -23,7 +23,7 @@ interface ValidationResult {
   test: string;
   passed: boolean;
   details: string,
-  errors?: string[],
+  errors?: string[]
 }
 
 class React19NextJS15Validator {
@@ -50,7 +50,7 @@ class React19NextJS15Validator {
   private runESLint(filePath: string): { success: boolean, output: string, errors: string[] } {
     try {
       const output = execSync(;
-        `npx eslint --config eslint.config.cjs '${filePath}' --format=compact`,,
+        `npx eslint --config eslint.config.cjs '${filePath}' --format=compact`,,;
         {
           encoding: 'utf8',
           stdio: 'pipe',
@@ -79,13 +79,13 @@ class React19NextJS15Validator {
    * Validate React 19 Modern JSX Transform
    */
   private validateModernJSXTransform(): void {
-    // console.log('🔍 Validating React 19 Modern JSX Transform...');
+    // // console.log('🔍 Validating React 19 Modern JSX Transform...');
 
     // Test 1: Component without React import
     const modernJSXFile = path.join(this.tempDir, 'modern-jsx.tsx');
     const modernJSXContent = `;
 export default function ModernComponent() {
-  return <div>Hello World</div>,
+  return <div>Hello World</div>
 }
 `;
     void fs.writeFileSync(modernJSXFile, modernJSXContent);
@@ -112,7 +112,7 @@ export function FragmentComponent() {
       <div>First</div>
       <div>Second</div>
     </>
-  ),
+  )
 }
 `;
     void fs.writeFileSync(fragmentFile, fragmentContent);
@@ -135,7 +135,7 @@ export function FragmentComponent() {
    * Validate Next.js 15 App Router Support
    */
   private validateAppRouterSupport(): void {
-    // console.log('🔍 Validating Next.js 15 App Router Support...');
+    // // console.log('🔍 Validating Next.js 15 App Router Support...');
 
     // Test 1: App Router page component
     const pageFile = path.join(this.tempDir, 'page.tsx');
@@ -145,7 +145,7 @@ export default function Page() {
     <main>
       <h1>App Router Page</h1>
     </main>
-  ),
+  )
 }
 
 export function generateMetadata() {
@@ -241,7 +241,7 @@ export default function ClientComponent() {
    * Validate React Concurrent Features
    */
   private validateConcurrentFeatures(): void {
-    // console.log('🔍 Validating React Concurrent Features...');
+    // // console.log('🔍 Validating React Concurrent Features...');
 
     // Test 1: Suspense and lazy loading
     const suspenseFile = path.join(this.tempDir, 'suspense.tsx');
@@ -282,7 +282,7 @@ export function TransitionComponent() {
   
   const handleClick = () => {
     startTransition(() => {
-      // console.log('Transition started');
+      // // console.log('Transition started');
     });
   };
   
@@ -314,7 +314,7 @@ export function TransitionComponent() {
    * Validate Enhanced React Hooks Rules
    */
   private validateEnhancedHooksRules(): void {
-    // console.log('🔍 Validating Enhanced React Hooks Rules...');
+    // // console.log('🔍 Validating Enhanced React Hooks Rules...');
 
     // Test 1: Standard exhaustive-deps validation
     const exhaustiveDepsFile = path.join(this.tempDir, 'exhaustive-deps.tsx');
@@ -325,7 +325,7 @@ export function ExhaustiveDepsComponent() {
   const value = 'test';
   
   useEffect(() => {
-    // console.log(value);
+    // // console.log(value);
   }, []); // Missing dependency - should be detected
   
   return <div>Exhaustive Deps Component</div>;
@@ -379,7 +379,7 @@ export function ConditionalHooksComponent({ condition }: { condition: boolean })
    * Validate Configuration Settings
    */
   private async validateConfiguration(): Promise<void> {
-    // console.log('🔍 Validating Configuration Settings...');
+    // // console.log('🔍 Validating Configuration Settings...');
 
     try {
       // Check package.json versions
@@ -495,7 +495,7 @@ export function ConditionalHooksComponent({ condition }: { condition: boolean })
    * Run all validations
    */
   public async validate(): Promise<void> {
-    // console.log('🚀 Starting React 19 and Next.js 15 Compatibility Validation\n');
+    // // console.log('🚀 Starting React 19 and Next.js 15 Compatibility Validation\n');
 
     try {
       void this.validateModernJSXTransform();
@@ -514,16 +514,16 @@ export function ConditionalHooksComponent({ condition }: { condition: boolean })
    * Generate validation report
    */
   private generateReport(): void {
-    // console.log('\n📊 Validation Report\n');
-    // console.log('='.repeat(80));
+    // // console.log('\n📊 Validation Report\n');
+    // // console.log('='.repeat(80));
 
     const categories = [...new Set(this.results.map(r => r.category))];
     let totalTests = 0;
     let passedTests = 0;
 
     for (const category of categories) {
-      // console.log(`\n📂 ${category}`);
-      // console.log('-'.repeat(40));
+      // // console.log(`\n📂 ${category}`);
+      // // console.log('-'.repeat(40));
 
       const categoryResults = this.results.filter(r => r.category === category);
 
@@ -532,27 +532,27 @@ export function ConditionalHooksComponent({ condition }: { condition: boolean })
         if (result.passed) passedTests++;
 
         const status = result.passed ? '✅' : '❌';
-        // console.log(`${status} ${result.test}`);
-        // console.log(`   ${result.details}`);
+        // // console.log(`${status} ${result.test}`);
+        // // console.log(`   ${result.details}`);
 
         if (result.errors && result.errors.length > 0) {
-          // console.log('   Errors:');
+          // // console.log('   Errors:');
           result.errors.forEach(error => {
-            // console.log(`     - ${error}`);
+            // // console.log(`     - ${error}`);
           });
         }
       }
     }
 
-    // console.log('\n' + '='.repeat(80));
-    // console.log(
+    // // console.log('\n' + '='.repeat(80));
+    // // console.log(
       `📈 Summary: ${passedTests}/${totalTests} tests passed (${Math.round((passedTests / totalTests) * 100)}%)`,
     );
 
     if (passedTests === totalTests) {
-      // console.log('🎉 All React 19 and Next.js 15 compatibility validations passed!');
+      // // console.log('🎉 All React 19 and Next.js 15 compatibility validations passed!');
     } else {
-      // console.log('⚠️  Some validations failed. Please review the configuration.');
+      // // console.log('⚠️  Some validations failed. Please review the configuration.');
       void process.exit(1);
     }
   }

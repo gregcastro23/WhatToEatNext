@@ -29,7 +29,7 @@ export interface BaseFlavorNotes {
   salty: number,
   bitter: number,
   umami: number,
-  spicy: number,
+  spicy: number
 }
 
 /**
@@ -39,7 +39,7 @@ export interface FlavorModification {
   intensityMultiplier: number,
   complexityBonus: number,
   harmonicResonance: number,
-  temperatureOptimal: number,
+  temperatureOptimal: number
 }
 
 /**
@@ -53,7 +53,7 @@ export interface PlanetaryFlavorInfluence {
   optimalTiming: {
     planetaryHour: boolean,
     dayOfWeek: number,
-    lunarPhases: string[],
+    lunarPhases: string[]
   };
 }
 
@@ -66,7 +66,7 @@ export interface CuisineFlavorCompatibility {
   modernAdaptations: string[],
   kalchmHarmony: number,
   culturalSignificance: string,
-  preparationMethods: string[],
+  preparationMethods: string[]
 }
 
 /**
@@ -125,7 +125,7 @@ export interface FlavorCompatibilityResult {
   monicaOptimization: number,
   seasonalAlignment: number,
   recommendations: string[],
-  warnings: string[],
+  warnings: string[]
 }
 
 /**
@@ -152,7 +152,7 @@ export interface FlavorRecommendations {
   seasonal: UnifiedFlavorProfile[],
   fusion: UnifiedFlavorProfile[],
   monicaOptimized: UnifiedFlavorProfile[],
-  kalchmBalanced: UnifiedFlavorProfile[],
+  kalchmBalanced: UnifiedFlavorProfile[]
 }
 
 /**
@@ -165,7 +165,7 @@ export interface SystemConditions {
   lunarPhase: string,
   gregsEnergy: number,
   reactivity: number,
-  kalchm: number,
+  kalchm: number
 }
 
 /**
@@ -182,7 +182,7 @@ export function isUnifiedFlavorProfile(obj: unknown): obj is UnifiedFlavorProfil
     profile.baseNotes !== undefined &&
     profile.elementalFlavors !== undefined &&
     typeof profile.kalchm === 'number'
-  ),
+  )
 }
 
 /**
@@ -221,7 +221,7 @@ export class UnifiedFlavorProfileSystem {
   ): UnifiedFlavorProfile | undefined {
     // Direct lookup first
     if (this.flavorProfiles[identifier]) {
-      return this.flavorProfiles[identifier],
+      return this.flavorProfiles[identifier]
     }
 
     // Try case-insensitive lookup
@@ -232,7 +232,7 @@ export class UnifiedFlavorProfileSystem {
 
     // If type is specified, ensure the profile matches the type
     if (profile && type && profile.category !== type) {
-      return undefined,
+      return undefined
     }
 
     return profile;

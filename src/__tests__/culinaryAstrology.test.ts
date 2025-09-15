@@ -45,7 +45,7 @@ describe('CulinaryAstrologer', () => {
   });
 
   it('should return recipe recommendations based on astrological state', () => {
-    const astroState: AstrologicalState = { currentZodiac: 'leo', moonPhase: 'full moon',
+    const astroState: AstrologicalState = { currentZodiac: 'leo', moonPhase: 'full moon',;
       currentPlanetaryAlignment: { Sun: { sign: 'leo', degree: 15  },
         Moon: { sign: 'cancer', degree: 5 }
       },

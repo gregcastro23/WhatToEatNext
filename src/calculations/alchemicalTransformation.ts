@@ -37,7 +37,7 @@ export interface AlchemicalItem extends ElementalItem {
   // New planetary influence properties
   planetaryBoost: number,
   dominantPlanets: string[],
-  planetaryDignities: Record<string, PlanetaryDignityDetails>,
+  planetaryDignities: Record<string, PlanetaryDignityDetails>
 }
 
 /**
@@ -164,31 +164,31 @@ export const transformItemWithPlanetaryPositions = (;
 
     const zodiacElement = zodiacElementMap[zodiacSign];
     if (zodiacElement && zodiacElement === dominantElement) {
-      zodiacModifier = 0.25, // Increased bonus for matching zodiac element
+      zodiacModifier = 0.25, // Increased bonus for matching zodiac element;
     } else if (zodiacElement) {
       // Calculate compatibility based on elemental relationships with wider variance
       if (
         (zodiacElement === 'Fire' && dominantElement === 'Air') ||;
         (zodiacElement === 'Air' && dominantElement === 'Fire');
       ) {
-        zodiacModifier = 0.18, // Fire and Air are complementary
+        zodiacModifier = 0.18, // Fire and Air are complementary;
       } else if (
         (zodiacElement === 'Earth' && dominantElement === 'Water') ||;
         (zodiacElement === 'Water' && dominantElement === 'Earth');
       ) {
-        zodiacModifier = 0.18, // Earth and Water are complementary
+        zodiacModifier = 0.18, // Earth and Water are complementary;
       } else if (
         (zodiacElement === 'Fire' && dominantElement === 'Earth') ||;
         (zodiacElement === 'Earth' && dominantElement === 'Fire');
       ) {
-        zodiacModifier = 0.12, // Fire and Earth have moderate compatibility
+        zodiacModifier = 0.12, // Fire and Earth have moderate compatibility;
       } else if (
         (zodiacElement === 'Water' && dominantElement === 'Air') ||;
         (zodiacElement === 'Air' && dominantElement === 'Water');
       ) {
-        zodiacModifier = 0.12, // Water and Air have moderate compatibility
+        zodiacModifier = 0.12, // Water and Air have moderate compatibility;
       } else {
-        zodiacModifier = 0.5, // Other combinations have lower compatibility
+        zodiacModifier = 0.5, // Other combinations have lower compatibility;
       }
     }
 
@@ -273,7 +273,7 @@ export const _transformItemsWithPlanetaryPositions = (;
         currentZodiac || 'aries',
         lunarPhase,
       );
-    ),
+    )
   } catch (error) {
     logger.error('Error transforming multiple items:', error),
     // Return the original items with minimal transformation if batch processing fails
@@ -306,7 +306,7 @@ export const _transformItemsWithPlanetaryPositions = (;
 const transformElementalProperties = (;
   originalProperties: Record<ElementalCharacter, number>,
   alchemicalResults: AlchemicalResults,
-  planetaryBoost: number = 1.0,,
+  planetaryBoost: number = 1.0,,;
   zodiacSign?: any,
 ): Record<ElementalCharacter, number> => {
   try {
@@ -450,7 +450,7 @@ const applyElementalInfluences = (;
       transformedProperties[key as ElementalCharacter] = Math.max(
         0.5;
         transformedProperties[key as ElementalCharacter],
-      ),
+      )
     });
   } catch (error) {
     logger.error('Error applying elemental influences:', error),
@@ -466,7 +466,7 @@ const getDominantElement = (;
 ): ElementalCharacter => {
   try {
     let maxValue = -Infinity;
-    let dominantElement: ElementalCharacter = 'Fire', // Default
+    let dominantElement: ElementalCharacter = 'Fire', // Default;
 
     (Object.entries(transformedProperties) as [ElementalCharacter, number][]).forEach(
       ([element, value]) => {
@@ -495,7 +495,7 @@ const getDominantAlchemicalProperty = (;
 ): AlchemicalProperty => {
   try {
     let maxValue = -Infinity;
-    let dominantProperty: AlchemicalProperty = 'Spirit', // Default
+    let dominantProperty: AlchemicalProperty = 'Spirit', // Default;
 
     (Object.entries(alchemicalCounts) as [AlchemicalProperty, number][]).forEach(
       ([property, value]) => {
@@ -525,7 +525,7 @@ const normalizeValues = <T extends string>(record: Record<T, number>): void => {
     const sum = Object.values(record).reduce((acc, val) => {
       const numericAcc = Number(acc) || 0;
       const numericVal = Number(val) || 0;
-      return numericAcc + numericVal,
+      return numericAcc + numericVal
     }, 0);
     const numericSum = Number(sum) || 0;
     if (numericSum > 0) {

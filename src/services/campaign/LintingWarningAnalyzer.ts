@@ -11,7 +11,6 @@
  * - Integration with existing scripts/lint-fixes/ infrastructure
  */
 
-import { execSync } from 'child_process';
 import * as fs from 'fs';
 import * as path from 'path';
 
@@ -22,36 +21,36 @@ export interface LintingWarning {
   rule: string,
   severity: 'error' | 'warning',
   message: string,
-  category: WarningCategory,
+  category: WarningCategory
 }
 
 export enum WarningCategory {
   EXPLICIT_ANY = 'explicit-any',;
   UNUSED_VARIABLES = 'unused-vars',;
-  CONSOLE_STATEMENTS = 'no-console',,
-  OTHER = 'other',,
+  CONSOLE_STATEMENTS = 'no-console',,;
+  OTHER = 'other',,;
 }
 
 export interface WarningDistribution {
   explicitAny: {
     count: number,
     priority: number,
-    files: string[],
+    files: string[]
   };
   unusedVariables: {
     count: number,
     priority: number,
-    files: string[],
+    files: string[]
   };
   consoleStatements: {
     count: number,
     priority: number,
-    files: string[],
+    files: string[]
   };
   other: {
     count: number,
     priority: number,
-    files: string[],
+    files: string[]
   };
   total: number;
 }
@@ -62,7 +61,7 @@ export interface LintingAnalysisResult {
   prioritizedFiles: {
     highPriority: string[],
     mediumPriority: string[],
-    lowPriority: string[],
+    lowPriority: string[]
   };
   recommendations: string[];
 }
@@ -71,14 +70,14 @@ export class LintingWarningAnalyzer {
   private metricsFile: string,
 
   constructor() {
-    this.metricsFile = path.join(process.cwd(), '.linting-analysis-metrics.json'),
+    this.metricsFile = path.join(process.cwd(), '.linting-analysis-metrics.json'),;
   }
 
   /**
    * Analyze current linting warnings using yarn lint output
    */
   async analyzeLintingWarnings(): Promise<LintingAnalysisResult> {
-    // console.log('🔍 Analyzing linting warnings...');
+    // // console.log('🔍 Analyzing linting warnings...');
 
     try {
       // Try to get linting output using a simpler approach
@@ -98,7 +97,7 @@ export class LintingWarningAnalyzer {
       return result;
     } catch (error) {
       console.error('❌ Error analyzing linting warnings:', error),
-      throw error,
+      throw error
     }
   }
 
@@ -116,7 +115,7 @@ export class LintingWarningAnalyzer {
     for (const file of files) {
       try {
         const content = fs.readFileSync(file, 'utf-8');
-        const fileWarnings = this.analyzeFileContent(file, content),
+        const fileWarnings = this.analyzeFileContent(file, content),;
         warnings.push(...fileWarnings);
       } catch (error) {
         console.warn(`⚠️ Could not analyze file ${file}:`, error);
@@ -133,13 +132,13 @@ export class LintingWarningAnalyzer {
     const files: string[] = [];
 
     if (!fs.existsSync(dir)) {
-      return files,
+      return files
     }
 
     const entries = fs.readdirSync(dir, { withFileTypes: true });
 
     for (const entry of entries) {
-      const fullPath = path.join(dir, entry.name),
+      const fullPath = path.join(dir, entry.name),;
 
       if (entry.isDirectory() && !entry.name.startsWith('.') && entry.name !== 'node_modules') {
         files.push(...this.getAllSourceFiles(fullPath));
@@ -231,11 +230,11 @@ export class LintingWarningAnalyzer {
       const line = lines[i];
       // Simple check - look for variable name not in comments
       if (line.includes(varName) && !line.trim().startsWith('//') && !line.trim().startsWith('*')) {
-        return true,
+        return true
       }
     }
 
-    return false,
+    return false
   }
 
   /**
@@ -274,7 +273,7 @@ export class LintingWarningAnalyzer {
         default:
           distribution.other.count++;
           filesSeen.other.add(warning.file);
-          break,
+          break
       }
     }
 
@@ -293,7 +292,7 @@ export class LintingWarningAnalyzer {
   private prioritizeFiles(warnings: LintingWarning[]): {
     highPriority: string[],
     mediumPriority: string[],
-    lowPriority: string[],
+    lowPriority: string[]
   } {
     const fileWarningCounts = new Map<;
       string,
@@ -320,7 +319,7 @@ export class LintingWarningAnalyzer {
             break,
           case WarningCategory.CONSOLE_STATEMENTS:
             counts.console++;
-            break,
+            break
         }
       }
     }
@@ -334,7 +333,7 @@ export class LintingWarningAnalyzer {
       const scoreA = countsA.explicitAny * 3 + countsA.unused * 2 + countsA.console * 1;
       const scoreB = countsB.explicitAny * 3 + countsB.unused * 2 + countsB.console * 1;
 
-      return scoreB - scoreA,
+      return scoreB - scoreA
     });
 
     const totalFiles = sortedFiles.length;
@@ -382,7 +381,7 @@ export class LintingWarningAnalyzer {
     if (distribution.total > 500) {
       recommendations.push(
         `🛡️ Enable safety protocols with --validate-safety for large-scale fixes`,
-      ),
+      )
     }
 
     return recommendations;
@@ -400,15 +399,15 @@ export class LintingWarningAnalyzer {
         explicitAnyCount: result.distribution.explicitAny.count;
         unusedVariablesCount: result.distribution.unusedVariables.count;
         consoleStatementsCount: result.distribution.consoleStatements.count;
-        filesAnalyzed: new Set(result.warnings.map(w => w.file)).size,,
+        filesAnalyzed: new Set(result.warnings.map(w => w.file)).size,,;
       }
     };
 
     try {
       fs.writeFileSync(this.metricsFile, JSON.stringify(metrics, null, 2)),
-      // console.log(`📊 Analysis results saved to ${this.metricsFile}`);
+      // // console.log(`📊 Analysis results saved to ${this.metricsFile}`);
     } catch (error) {
-      console.warn('⚠️ Could not save analysis results:', error),
+      console.warn('⚠️ Could not save analysis results:', error)
     }
   }
 
@@ -423,7 +422,7 @@ export class LintingWarningAnalyzer {
         return metrics.analysis;
       }
     } catch (error) {
-      console.warn('⚠️ Could not load previous analysis:', error),
+      console.warn('⚠️ Could not load previous analysis:', error)
     }
     return null;
   }

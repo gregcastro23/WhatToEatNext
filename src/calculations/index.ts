@@ -115,7 +115,7 @@ export const COMPREHENSIVE_CALCULATION_INTELLIGENCE = {
   generateRecommendations: (analysis: {
     predictiveAccuracy?: { shortTerm?: number, confidence?: number };
     optimization?: { calculationEfficiency?: number },
-    contextualAdjustments?: { seasonalFactors?: number },
+    contextualAdjustments?: { seasonalFactors?: number }
   }) => {
     const recommendations: string[] = [];
 
@@ -130,10 +130,10 @@ export const COMPREHENSIVE_CALCULATION_INTELLIGENCE = {
     if ((analysis.contextualAdjustments?.seasonalFactors ?? 1) < 0.75) {
       recommendations.push(
         'Strengthen seasonal factor integration for better contextual relevance',
-      ),
+      )
     }
 
-    return recommendations,
+    return recommendations
   }
 },
 
@@ -214,7 +214,7 @@ export const CALCULATION_INPUT_INTELLIGENCE = {
   generateRecommendations: (enhancedInput: {
     validation?: { planetaryPositions?: { completeness?: number } };
     enhancement?: { missingData?: { estimatedValues?: number } },
-    intelligentProcessing?: { patternRecognition?: { accuracy?: number } },
+    intelligentProcessing?: { patternRecognition?: { accuracy?: number } }
   }) => {
     const recommendations: string[] = [];
 
@@ -230,7 +230,7 @@ export const CALCULATION_INPUT_INTELLIGENCE = {
       recommendations.push('Strengthen pattern recognition algorithms for enhanced accuracy');
     }
 
-    return recommendations,
+    return recommendations
   }
 },
 
@@ -310,7 +310,7 @@ export const RECIPE_COMPATIBILITY_INTELLIGENCE = {
   generateRecommendations: (analysis: {
     coreMetrics?: { overallCompatibility?: number };
     advancedAnalysis?: { temporalFactors?: { seasonalRelevance?: number } },
-    predictiveInsights?: { shortTerm?: { accuracy?: number } },
+    predictiveInsights?: { shortTerm?: { accuracy?: number } }
   }) => {
     const recommendations: string[] = [];
 
@@ -334,7 +334,7 @@ export const RECIPE_COMPATIBILITY_INTELLIGENCE = {
 function generateCalculationRecommendations(analysis: {
   predictiveAccuracy?: { shortTerm?: number };
   optimization?: { calculationEfficiency?: number },
-  contextualAdjustments?: { seasonalFactors?: number },
+  contextualAdjustments?: { seasonalFactors?: number }
 }): string[] {
   const recommendations: string[] = [];
 
@@ -356,7 +356,7 @@ function generateCalculationRecommendations(analysis: {
 function generateInputRecommendations(enhancedInput: {
   validation?: { planetaryPositions?: { completeness?: number } };
   enhancement?: { missingData?: { estimatedValues?: number } },
-  intelligentProcessing?: { patternRecognition?: { accuracy?: number } },
+  intelligentProcessing?: { patternRecognition?: { accuracy?: number } }
 }): string[] {
   const recommendations: string[] = [];
 
@@ -378,7 +378,7 @@ function generateInputRecommendations(enhancedInput: {
 function generateCompatibilityRecommendations(analysis: {
   coreMetrics?: { overallCompatibility?: number };
   advancedAnalysis?: { temporalFactors?: { seasonalRelevance?: number } },
-  predictiveInsights?: { shortTerm?: { accuracy?: number } },
+  predictiveInsights?: { shortTerm?: { accuracy?: number } }
 }): string[] {
   const recommendations: string[] = [];
 
@@ -418,13 +418,13 @@ export interface ComprehensiveAlchemicalResult {
     elemental: {
       dominant: Element,
       balance: number,
-      recommendations: string[],
+      recommendations: string[]
     };
     culinary: {
       ingredients: string[],
       cookingMethods: string[],
       flavors: string[],
-      timing: string[],
+      timing: string[]
     };
     cuisines?: string[]; // Optional cuisine recommendations
   };
@@ -456,8 +456,8 @@ export async function calculateComprehensiveAlchemicalResult(
     planetaryPositions,
     season = 'spring',;
     lunarPhase = 'full moon',;
-    isDaytime = true,,
-    currentDate = new Date(),,
+    isDaytime = true,,;
+    currentDate = new Date(),,;
     currentZodiacSign: _currentZodiacSign
   } = input;
 
@@ -477,9 +477,9 @@ export async function calculateComprehensiveAlchemicalResult(
     );
 
     // Apply seasonal and lunar adjustments
-    elementalProperties = applySeasonalAdjustments(elementalProperties, season),
+    elementalProperties = applySeasonalAdjustments(elementalProperties, season),;
     if (lunarPhase) {
-      elementalProperties = applyLunarPhaseAdjustments(elementalProperties, lunarPhase),
+      elementalProperties = applyLunarPhaseAdjustments(elementalProperties, lunarPhase),;
     }
 
     // 3. Calculate planetary influences
@@ -525,7 +525,7 @@ export async function calculateComprehensiveAlchemicalResult(
     console.error('Error in comprehensive alchemical calculation:', error),
 
     // Return fallback result
-    return await getFallbackResult(input, cacheKey),
+    return await getFallbackResult(input, cacheKey)
   }
 }
 
@@ -540,7 +540,7 @@ export function calculateRecipeCompatibility(
   kalchmAlignment: number,
   elementalAlignment: number,
   planetaryAlignment: number,
-  recommendations: string[],
+  recommendations: string[]
 } {
   try {
     // Use the dedicated recipe matching module
@@ -638,7 +638,7 @@ export function calculatePlanetaryAlignment(
     alchemicalInfluences: { [key: string]: number };
     elementalInfluences: { [key: string]: number };
     dominantPlanets: Array<{ planet: string, strength: number, element: Element }>,
-    planetaryHours?: { dayRuler: string, hourRuler: string, influence: number },
+    planetaryHours?: { dayRuler: string, hourRuler: string, influence: number }
   },
 ): number {
   const recipeDominant = getDominantElement(recipeProperties);
@@ -651,7 +651,7 @@ export function calculatePlanetaryAlignment(
     (planet: { planet: string, strength: number, element: Element }) => {
       if (planet.element === recipeDominant) {
         alignment += planet.strength;
-        matches++,
+        matches++
       }
     },
   );
@@ -677,7 +677,7 @@ function generateDetailedCompatibilityRecommendations(
   if (overall >= 0.8) {
     recommendations.push(
       'Excellent compatibility - this recipe aligns perfectly with your current state',
-    ),
+    )
   } else if (overall >= 0.6) {
     recommendations.push('Good compatibility - this recipe should work well for you');
   } else if (overall >= 0.4) {
@@ -697,10 +697,10 @@ function generateDetailedCompatibilityRecommendations(
   if (planetary < 0.5) {
     recommendations.push(
       'Timing may be important - consider preparing during favorable planetary hours',
-    ),
+    )
   }
 
-  return recommendations,
+  return recommendations
 }
 
 /**
@@ -816,7 +816,7 @@ function applySeasonalAdjustments(
       break,
     case 'winter':
       adjustedProps.Water += adjustment;
-      break,
+      break
   }
 
   return adjustedProps;
@@ -842,7 +842,7 @@ function applyLunarPhaseAdjustments(
       break,
     case 'waning':
       adjustedProps.Earth += adjustment;
-      break,
+      break
   }
 
   return adjustedProps;
@@ -865,7 +865,7 @@ function generateCuisineRecommendations(
     case 'Earth':
       return ['Italian', 'Comfort food', 'Root vegetables', 'Grounding grains'],
     default:
-      return ['Balanced fusion', 'Seasonal', 'Local cuisine'],
+      return ['Balanced fusion', 'Seasonal', 'Local cuisine']
   }
 }
 

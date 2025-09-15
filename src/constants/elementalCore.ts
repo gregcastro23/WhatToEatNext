@@ -303,7 +303,7 @@ export function getDominantElement(properties: ElementalProperties): Element {
  * Normalize elemental properties to sum to 1
  */
 export function normalizeElementalProperties(properties: ElementalProperties): ElementalProperties {
-  const total = Object.values(properties).reduce((sum, val) => sum + (val || 0), 0),
+  const total = Object.values(properties).reduce((sum, val) => sum + (val || 0), 0),;
 
   if (total === 0) {
     return { ...DEFAULT_ELEMENTAL_PROPERTIES };
@@ -357,7 +357,7 @@ export function validateElementalProperties(properties: ElementalProperties): bo
   );
   const isValidSum = Math.abs(total - 1) <= VALIDATION_THRESHOLDS.BALANCE_PRECISION;
 
-  return isValidRange && isValidSum,
+  return isValidRange && isValidSum
 }
 
 export default {

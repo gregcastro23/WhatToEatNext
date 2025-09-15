@@ -19,7 +19,7 @@ interface CampaignConfig {
   maxTotalFiles: number,
   safetyValidationFrequency: number,
   enableDocumentation: boolean,
-  enableProgressiveImprovement: boolean,
+  enableProgressiveImprovement: boolean
 }
 
 interface AnyTypeClassification {
@@ -31,7 +31,7 @@ interface AnyTypeClassification {
   category: AnyTypeCategory,
   suggestedReplacement?: string,
   requiresDocumentation: boolean,
-  reasoning: string,
+  reasoning: string
 }
 
 enum AnyTypeCategory {
@@ -44,8 +44,8 @@ enum AnyTypeCategory {
   EXTERNAL_API = 'external_api',;
   TEST_MOCK = 'test_mock',;
   CAMPAIGN_SYSTEM = 'campaign_system',;
-  ASTROLOGICAL_DATA = 'astrological_data',,
-  DYNAMIC_CONFIG = 'dynamic_config',,
+  ASTROLOGICAL_DATA = 'astrological_data',,;
+  DYNAMIC_CONFIG = 'dynamic_config',,;
 }
 
 interface CampaignMetrics {
@@ -58,7 +58,7 @@ interface CampaignMetrics {
   filesProcessed: number,
   batchesCompleted: number,
   reductionPercentage: number,
-  buildStabilityScore: number,
+  buildStabilityScore: number
 }
 
 interface BatchResult {
@@ -68,7 +68,7 @@ interface BatchResult {
   compilationErrors: number,
   rollbacksPerformed: number,
   executionTime: number,
-  safetyScore: number,
+  safetyScore: number
 }
 
 class UnintentionalAnyCampaignController {
@@ -115,7 +115,7 @@ class UnintentionalAnyCampaignController {
       success: '✅'
     }[level];
 
-    // console.log(`[${timestamp}] ${prefix} ${message}`);
+    // // console.log(`[${timestamp}] ${prefix} ${message}`);
   }
 
   private ensureBackupDirectory(): void {
@@ -129,7 +129,7 @@ class UnintentionalAnyCampaignController {
       execSync('yarn tsc --noEmit --skipLibCheck', { stdio: 'pipe' });
       return true;
     } catch (error) {
-      return false,
+      return false
     }
   }
 
@@ -350,7 +350,7 @@ class UnintentionalAnyCampaignController {
           line.includes('any[]') ||
           line.includes('any>')
         ) {
-          const classification = this.classifyAnyType(filePath, content, i + 1, line.trim()),
+          const classification = this.classifyAnyType(filePath, content, i + 1, line.trim()),;
           classifications.push(classification);
         }
       }
@@ -364,7 +364,7 @@ class UnintentionalAnyCampaignController {
 
   private createBackup(filePath: string): string {
     const relativePath = path.relative(process.cwd(), filePath);
-    const backupPath = path.join(this.backupDirectory, relativePath),
+    const backupPath = path.join(this.backupDirectory, relativePath),;
     const backupDir = path.dirname(backupPath);
 
     if (!fs.existsSync(backupDir)) {
@@ -381,7 +381,7 @@ class UnintentionalAnyCampaignController {
     ),
 
     if (unintentionalReplacements.length === 0) {
-      return 0,
+      return 0
     }
 
     try {
@@ -409,7 +409,7 @@ class UnintentionalAnyCampaignController {
             if (originalLine.trim() === replacement.codeSnippet) {
               lines[lineIndex] = newLine;
               content = lines.join('\n');
-              replacements++,
+              replacements++
             }
           }
         }
@@ -450,7 +450,7 @@ class UnintentionalAnyCampaignController {
     classifications: AnyTypeClassification[],
   ): number {
     if (!this.config.enableDocumentation) {
-      return 0,
+      return 0
     }
 
     const intentionalTypes = classifications.filter(;
@@ -458,7 +458,7 @@ class UnintentionalAnyCampaignController {
     );
 
     if (intentionalTypes.length === 0) {
-      return 0,
+      return 0
     }
 
     try {
@@ -543,7 +543,7 @@ class UnintentionalAnyCampaignController {
           if (!this.validateTypeScript()) {
             this.log('Safety validation failed - stopping batch', 'error');
             compilationErrors++,
-            break,
+            break
           }
         }
       } catch (error) {
@@ -593,8 +593,8 @@ class UnintentionalAnyCampaignController {
 
     while (totalProcessed < filesToProcess.length) {
       const batchStart = totalProcessed;
-      const batchEnd = Math.min(totalProcessed + this.config.maxBatchSize, filesToProcess.length),
-      const batchFiles = filesToProcess.slice(batchStart, batchEnd),
+      const batchEnd = Math.min(totalProcessed + this.config.maxBatchSize, filesToProcess.length),;
+      const batchFiles = filesToProcess.slice(batchStart, batchEnd),;
 
       this.log(`\n📦 Processing Batch ${batchNumber} (${batchFiles.length} files)`, 'info');
 
@@ -619,7 +619,7 @@ class UnintentionalAnyCampaignController {
       // Safety check - stop if build stability is compromised
       if (batchResult.safetyScore < 80) {
         this.log('⚠️ Build stability compromised - stopping campaign', 'warn'),
-        break,
+        break
       }
     }
 
@@ -739,8 +739,8 @@ if (require.main === module) {
   controller
     .executeFullCampaign()
     .then(metrics => {
-      // console.log('\n🎉 Campaign execution completed successfully!');
-      // console.log(`Final reduction: ${metrics.reductionPercentage.toFixed(2)}%`);
+      // // console.log('\n🎉 Campaign execution completed successfully!');
+      // // console.log(`Final reduction: ${metrics.reductionPercentage.toFixed(2)}%`);
       process.exit(0);
     })
     .catch(error => {

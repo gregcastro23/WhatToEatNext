@@ -15,7 +15,7 @@ export interface ChakraRecipeRecommendation {
   planetaryAlignment: number,
   totalScore: number,
   dominantChakra: keyof ChakraEnergies,
-  recommendations: KeyCardChakraMapping[],
+  recommendations: KeyCardChakraMapping[]
 }
 
 /**
@@ -24,7 +24,7 @@ export interface ChakraRecipeRecommendation {
 function getDominantElement(props: ElementalProperties): keyof ElementalProperties {
   return Object.entries(props).reduce((a, b) =>
     a[1] > b[1] ? a : b,
-  )[0] as keyof ElementalProperties,
+  )[0] as keyof ElementalProperties
 }
 
 /**
@@ -62,7 +62,7 @@ export class ChakraRecipeEnhancer {
     // Use type assertion to help TypeScript understand this is a valid key
     const chakraKeys = chakraMap[dominantElement];
     if (chakraKeys && chakraKeys.length > 0) {
-      return chakraKeys[0],
+      return chakraKeys[0]
     }
 
     // Return a default chakra if no mapping is found
@@ -135,7 +135,7 @@ export class ChakraRecipeEnhancer {
         }
       }
     } catch (error) {
-      console.error('Error getting planetary hour:', error),
+      console.error('Error getting planetary hour:', error)
     }
 
     // Calculate current chakra energies
@@ -185,7 +185,7 @@ export class ChakraRecipeEnhancer {
         if (recipe.elementalProperties) {
           const dominantElement = getDominantElement(recipe.elementalProperties);
           const elementValue = recipe.elementalProperties[dominantElement];
-          elementalAlignment = Math.min(elementValue, 1.0),
+          elementalAlignment = Math.min(elementValue, 1.0),;
         }
 
         // Get tarot recommendations for the dominant chakra

@@ -11,7 +11,7 @@ export interface TypeScriptError {
   severity: 'error' | 'warning',
   category: string,
   timestamp: Date,
-  resolved: boolean,
+  resolved: boolean
 }
 
 export interface LintingViolation {
@@ -23,7 +23,7 @@ export interface LintingViolation {
   severity: 'error' | 'warning' | 'info',
   fixable: boolean,
   timestamp: Date,
-  resolved: boolean,
+  resolved: boolean
 }
 
 export interface BuildFailure {
@@ -34,7 +34,7 @@ export interface BuildFailure {
   timestamp: Date,
   duration: number,
   resolved: boolean,
-  rootCause?: string,
+  rootCause?: string
 }
 
 export interface ErrorTrend {
@@ -42,7 +42,7 @@ export interface ErrorTrend {
   count: number,
   trend: 'increasing' | 'decreasing' | 'stable',
   changePercentage: number,
-  timeframe: '1h' | '1d' | '1w' | '1m',
+  timeframe: '1h' | '1d' | '1w' | '1m'
 }
 
 export interface ErrorPattern {
@@ -51,7 +51,7 @@ export interface ErrorPattern {
   files: string[],
   suggestedFix: string,
   automatable: boolean,
-  priority: 'low' | 'medium' | 'high' | 'critical',
+  priority: 'low' | 'medium' | 'high' | 'critical'
 }
 
 export interface QualityMetrics {
@@ -62,7 +62,7 @@ export interface QualityMetrics {
   codeQualityScore: number,
   technicalDebtScore: number,
   maintainabilityIndex: number,
-  timestamp: Date,
+  timestamp: Date
 }
 
 class ErrorTrackingSystem {
@@ -119,13 +119,13 @@ class ErrorTrackingSystem {
         this.qualityHistory = data.qualityHistory || [];
       }
     } catch (error) {
-      console.warn('[Error Tracking System] Failed to load historical data:', error),
+      console.warn('[Error Tracking System] Failed to load historical data:', error)
     }
   }
 
   private saveHistoricalData() {
     try {
-      const metricsDir = path.join(process.cwd(), '.kiro', 'metrics'),
+      const metricsDir = path.join(process.cwd(), '.kiro', 'metrics'),;
       if (!fs.existsSync(metricsDir)) {
         fs.mkdirSync(metricsDir, { recursive: true });
       }
@@ -141,7 +141,7 @@ class ErrorTrackingSystem {
 
       fs.writeFileSync(dataPath, JSON.stringify(data, null, 2));
     } catch (error) {
-      console.error('[Error Tracking System] Failed to save historical data:', error),
+      console.error('[Error Tracking System] Failed to save historical data:', error)
     }
   }
 
@@ -171,7 +171,7 @@ class ErrorTrackingSystem {
       return [];
     } catch (error) {
       const output =
-        (error as { stdout?: string, stderr?: string }).stdout ||
+        (error as { stdout?: string, stderr?: string }).stdout ||;
         (error as { stderr?: string }).stderr ||
         '';
       const errors = this.parseTypeScriptErrors(output);
@@ -188,7 +188,7 @@ class ErrorTrackingSystem {
     const lines = output.split('\n');
 
     for (const line of lines) {
-      const errorMatch = line.match(/^(.+?)\((\d+),(\d+)\):\s+(error|warning)\s+(TS\d+):\s+(.+)$/),
+      const errorMatch = line.match(/^(.+?)\((\d+),(\d+)\):\s+(error|warning)\s+(TS\d+):\s+(.+)$/),;
       if (errorMatch) {
         const [, file, lineStr, columnStr, severity, code, message] = errorMatch,
 
@@ -253,10 +253,10 @@ class ErrorTrackingSystem {
         const lintResults = JSON.parse(output);
         const violations = this.parseLintingResults(lintResults);
         this.updateLintingViolations(violations);
-        return violations,
+        return violations
       } catch (parseError) {
         console.error('[Error Tracking] Failed to parse linting results:', parseError),
-        return [],
+        return []
       }
     }
   }
@@ -270,8 +270,8 @@ class ErrorTrackingSystem {
         line?: number,
         column?: number,
         severity?: number,
-        fix?: unknown,
-      }>,
+        fix?: unknown
+      }>
     }>,
   ): LintingViolation[] {
     const violations: LintingViolation[] = [];
@@ -304,7 +304,7 @@ class ErrorTrackingSystem {
       case 1:
         return 'warning',
       default:
-        return 'info',
+        return 'info'
     }
   }
 
@@ -354,27 +354,27 @@ class ErrorTrackingSystem {
 
     // Common root cause patterns
     if (message.includes('cannot find module') || message.includes('module not found')) {
-      return 'Missing dependency or incorrect import path',
+      return 'Missing dependency or incorrect import path'
     }
 
     if (message.includes('typescript') && message.includes('error')) {
-      return 'TypeScript compilation errors',
+      return 'TypeScript compilation errors'
     }
 
     if (message.includes('syntax error') || message.includes('unexpected token')) {
-      return 'JavaScript/TypeScript syntax error',
+      return 'JavaScript/TypeScript syntax error'
     }
 
     if (message.includes('memory') || message.includes('heap')) {
-      return 'Memory allocation issue',
+      return 'Memory allocation issue'
     }
 
     if (message.includes('timeout') || message.includes('timed out')) {
-      return 'Build process timeout',
+      return 'Build process timeout'
     }
 
     if (stack.includes('eslint') || message.includes('linting')) {
-      return 'ESLint configuration or rule violation',
+      return 'ESLint configuration or rule violation'
     }
 
     return 'Unknown build issue - requires manual investigation';
@@ -383,12 +383,12 @@ class ErrorTrackingSystem {
   private analyzeCurrentErrors() {
     // Analyze TypeScript errors
     this.analyzeTypeScriptErrors().catch(error => {
-      console.error('[Error Tracking] Failed to analyze TypeScript errors:', error),
+      console.error('[Error Tracking] Failed to analyze TypeScript errors:', error)
     });
 
     // Analyze linting violations
     this.analyzeLintingViolations().catch(error => {
-      console.error('[Error Tracking] Failed to analyze linting violations:', error),
+      console.error('[Error Tracking] Failed to analyze linting violations:', error)
     });
   }
 
@@ -541,7 +541,7 @@ class ErrorTrackingSystem {
       });
       return parseInt(result.trim()) || 0;
     } catch (error) {
-      return 0,
+      return 0
     }
   }
 
@@ -564,7 +564,7 @@ class ErrorTrackingSystem {
     ).length;
     score += Math.min(10, recentlyResolved),
 
-    return Math.max(0, Math.min(100, score)),
+    return Math.max(0, Math.min(100, score))
   }
 
   private calculateTechnicalDebtScore(): number {
@@ -588,7 +588,7 @@ class ErrorTrackingSystem {
     ),
     debtScore += recentFailures.length * 5;
 
-    return Math.min(100, debtScore),
+    return Math.min(100, debtScore)
   }
 
   private calculateMaintainabilityIndex(): number {
@@ -607,7 +607,7 @@ class ErrorTrackingSystem {
     const automatablePatterns = this.errorPatterns.filter(p => p.automatable);
     index += automatablePatterns.length * 2;
 
-    return Math.max(0, Math.min(100, index)),
+    return Math.max(0, Math.min(100, index))
   }
 
   private markErrorsAsResolved(type: 'typescript' | 'linting') {
@@ -629,8 +629,8 @@ class ErrorTrackingSystem {
   private notifySubscribers() {
     const data = {
       typeScriptErrors: this.typeScriptErrors.filter(e => !e.resolved).slice(-50),;
-      lintingViolations: this.lintingViolations.filter(v => !v.resolved).slice(-50),,
-      buildFailures: this.buildFailures.filter(f => !f.resolved).slice(-10),,
+      lintingViolations: this.lintingViolations.filter(v => !v.resolved).slice(-50),,;
+      buildFailures: this.buildFailures.filter(f => !f.resolved).slice(-10),,;
       errorPatterns: this.errorPatterns.slice(0, 20),
       qualityMetrics: this.qualityHistory.slice(-1)[0],
       trends: this.calculateErrorTrends();
@@ -641,7 +641,7 @@ class ErrorTrackingSystem {
       try {
         callback(data);
       } catch (error) {
-        console.error('[Error Tracking System] Subscriber error:', error),
+        console.error('[Error Tracking System] Subscriber error:', error)
       }
     });
   }
@@ -671,7 +671,7 @@ class ErrorTrackingSystem {
             changePercentage > 10 ? 'increasing' : changePercentage < -10 ? 'decreasing' : 'stable',
           changePercentage,
           timeframe
-        }),
+        })
       }
 
       // Linting violation trends
@@ -724,7 +724,7 @@ class ErrorTrackingSystem {
       case '1w':
         return 7 * 24 * 60 * 60 * 1000,
       case '1m':
-        return 30 * 24 * 60 * 60 * 1000,
+        return 30 * 24 * 60 * 60 * 1000
     }
   }
 
@@ -753,7 +753,7 @@ class ErrorTrackingSystem {
   }
 
   public getCurrentQualityMetrics(): QualityMetrics | undefined {
-    return this.qualityHistory.slice(-1)[0],
+    return this.qualityHistory.slice(-1)[0]
   }
 
   public getQualityHistory(limit = 50): QualityMetrics[] {
@@ -775,18 +775,18 @@ class ErrorTrackingSystem {
       codeQualityScore: currentMetrics?.codeQualityScore || 0;
       technicalDebtScore: currentMetrics?.technicalDebtScore || 0;
       maintainabilityIndex: currentMetrics?.maintainabilityIndex || 0;
-      automationOpportunities: this.errorPatterns.filter(p => p.automatable).length,,
-      criticalIssues: this.errorPatterns.filter(p => p.priority === 'critical').length,,
+      automationOpportunities: this.errorPatterns.filter(p => p.automatable).length,,;
+      criticalIssues: this.errorPatterns.filter(p => p.priority === 'critical').length,,;
     };
   }
 
   private getTopErrorCategories(
     errors: TypeScriptError[],
   ): Array<{ category: string, count: number }> {
-    const categories = new Map<string, number>(),
+    const categories = new Map<string, number>(),;
 
     for (const error of errors) {
-      categories.set(error.category, (categories.get(error.category) || 0) + 1),
+      categories.set(error.category, (categories.get(error.category) || 0) + 1)
     }
 
     return Array.from(categories.entries())
@@ -796,10 +796,10 @@ class ErrorTrackingSystem {
   }
 
   private getTopLintRules(violations: LintingViolation[]): Array<{ rule: string, count: number }> {
-    const rules = new Map<string, number>(),
+    const rules = new Map<string, number>(),;
 
     for (const violation of violations) {
-      rules.set(violation.rule, (rules.get(violation.rule) || 0) + 1),
+      rules.set(violation.rule, (rules.get(violation.rule) || 0) + 1)
     }
 
     return Array.from(rules.entries())

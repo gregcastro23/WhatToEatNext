@@ -26,7 +26,7 @@ type CelestialPosition = {
   };
   time: {
     hours: number,
-    minutes: number,
+    minutes: number
   };
   timestamp: number;
 };
@@ -36,10 +36,10 @@ const CACHE_DURATION = 3600000; // 1 hour in milliseconds
 
 export const _getCurrentCelestialPositions = async (): Promise<CelestialPosition> => {
   try {
-    return await getCachedCelestialPositions(),
+    return await getCachedCelestialPositions()
   } catch (error) {
     console.error('Error fetching celestial positions:', error),
-    return getFallbackPositions(),
+    return getFallbackPositions()
   }
 };
 
@@ -80,7 +80,7 @@ export const _getCelestialPositionsForDate = async (date: Date): Promise<Celesti
     };
   } catch (error) {
     console.error('Error calculating positions for date:', error),
-    return getFallbackPositions(date),
+    return getFallbackPositions(date)
   }
 };
 
@@ -89,7 +89,7 @@ const getCachedCelestialPositions = async (): Promise<CelestialPosition> => {
 
   // Return cached data if valid
   if (cachedPositions && now - cachedPositions.timestamp < CACHE_DURATION) {
-    return cachedPositions,
+    return cachedPositions
   }
 
   try {
@@ -118,7 +118,7 @@ const getCachedCelestialPositions = async (): Promise<CelestialPosition> => {
     return cachedPositions;
   } catch (error) {
     console.error('Error calling AstrologicalService:', error),
-    return getFallbackPositions(),
+    return getFallbackPositions()
   }
 };
 
@@ -195,7 +195,7 @@ function getSunSignFromDate(date: Date): string {
   if ((month === 9 && day >= 23) || (month === 10 && day <= 22)) return 'libra';
   if ((month === 10 && day >= 23) || (month === 11 && day <= 21)) return 'scorpio';
   if ((month === 11 && day >= 22) || (month === 12 && day <= 21)) return 'sagittarius';
-  return 'capricorn',
+  return 'capricorn'
 }
 
 export const _getElementalInfluence = async (): Promise<ElementalProperties> => {
@@ -264,7 +264,7 @@ export const _getElementalInfluence = async (): Promise<ElementalProperties> => 
       return elementalState;
     }
   } catch (error) {
-    console.error('Error getting elemental influence:', error),
+    console.error('Error getting elemental influence:', error)
   }
 
   // Fallback to default
@@ -305,14 +305,14 @@ function getSignFromDegree(degree: number): string {
     'pisces'
   ];
   const signIndex = Math.floor(degree / 30) % 12;
-  return signs[signIndex],
+  return signs[signIndex]
 }
 
 // Helper function to get zodiac element
 function getZodiacElement(sign: string): string {
   const elements = ['Fire', 'Water', 'Earth', 'Air'];
   const elementIndex = Math.floor(elements.indexOf(sign) / 2);
-  return elements[elementIndex],
+  return elements[elementIndex]
 }
 
 // New function to calculate elemental balance based on all available planetary positions

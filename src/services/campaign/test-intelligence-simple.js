@@ -258,7 +258,7 @@ async function runSimpleTest() {
       {
         target: 'src/components/dashboard/IntelligenceDashboard.tsx',
         method: 'DEPENDENCY_INJECTION',
-        code: `const testFunctionWidget = { title: 'TEST_FUNCTION_INTELLIGENCE_SYSTEM', component: () => <IntelligenceWidget system={test_function_intelligence_system} /> };`,
+        code: `const _testFunctionWidget = { title: 'TEST_FUNCTION_INTELLIGENCE_SYSTEM', component: () => <IntelligenceWidget system={test_function_intelligence_system} /> };`,
         priority: 'MEDIUM',
       },
       {

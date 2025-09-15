@@ -78,7 +78,7 @@ describe('SafetyProtocol', () => {
       const stashId: any = await safetyProtocol.createStash('Test stash', 'phase1');
 
       expect(stashId).toMatch(/^campaign-phase1-\d+-/);
-      expect(mockExecSync).toHaveBeenCalledWith(expect.stringContaining('git stash push -u -m'), expect.any(Object)),
+      expect(mockExecSync).toHaveBeenCalledWith(expect.stringContaining('git stash push -u -m'), expect.any(Object))
     });
 
     it('should store stash information', async () => {
@@ -122,7 +122,7 @@ describe('SafetyProtocol', () => {
     it('should handle git stash creation failure', async () => {
       mockExecSync.mockImplementation(command => {
         if (command.toString().includes('git stash push')) {
-          throw new Error('Git stash failed'),
+          throw new Error('Git stash failed')
         }
         return '';
       });
@@ -189,7 +189,7 @@ describe('SafetyProtocol', () => {
     it('should handle git stash apply failure', async () => {
       mockExecSync.mockImplementation(command => {
         if (command.toString().includes('git stash apply')) {
-          throw new Error('Git stash apply failed'),
+          throw new Error('Git stash apply failed')
         }
         return '';
       });
@@ -303,7 +303,7 @@ describe('SafetyProtocol', () => {
 
     it('should handle file read errors', async () => {
       mockFs.readFileSync.mockImplementation(() => {
-        throw new Error('Permission denied'),
+        throw new Error('Permission denied')
       });
 
       const report: any = await safetyProtocol.detectCorruption(['file1.ts']);
@@ -520,7 +520,7 @@ import something, { a, b } from './module',
     it('should handle git command failure', async () => {
       mockFs.existsSync.mockReturnValue(true);
       mockExecSync.mockImplementation(() => {
-        throw new Error('Git command failed'),
+        throw new Error('Git command failed')
       });
 
       const result: any = await safetyProtocol.validateGitState();
@@ -576,7 +576,7 @@ import something, { a, b } from './module',
     it('should handle git stash drop failures gracefully', async () => {
       mockExecSync.mockImplementation(command => {
         if (command.toString().includes('git stash drop')) {
-          throw new Error('Stash not found'),
+          throw new Error('Stash not found')
         }
         return '';
       });

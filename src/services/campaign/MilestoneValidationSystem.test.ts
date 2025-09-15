@@ -174,7 +174,7 @@ describe('MilestoneValidationSystem', () => {
 
       // Mock build failure
       mockExecSync.mockImplementation(() => {
-        throw new Error('Build failed'),
+        throw new Error('Build failed')
       });
 
       const result: any = await validationSystem.validatePhase1();

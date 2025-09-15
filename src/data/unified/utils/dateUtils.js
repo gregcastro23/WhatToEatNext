@@ -154,7 +154,7 @@ function getmoonPhase() {
 }
 exports.getmoonPhase = getmoonPhase;
 // Helper function to get all dishes for a cuisine
-const getAllDishesForCuisine = cuisineId => {
+const _getAllDishesForCuisine = cuisineId => {
   const cuisine = cuisines_1.cuisines[cuisineId];
   if (!cuisine || !cuisine.dishes) return [];
   let allDishes = [];

@@ -81,7 +81,7 @@ describe('InfrastructurePreparation', () => {
 
       // Mock ESLint execution failure
       mockExecSync.mockImplementation(() => {
-        throw new Error('ESLint execution failed'),
+        throw new Error('ESLint execution failed')
       });
 
       const status = await infrastructurePrep.prepareInfrastructure();
@@ -99,11 +99,11 @@ describe('InfrastructurePreparation', () => {
       mockExecSync.mockImplementation((command: string) => {
         if (command.includes('lint:quick')) {
           // Simulate fast execution
-          return '',
+          return ''
         }
         if (command.includes('lint:type-aware')) {
           // Simulate slower execution
-          return '',
+          return ''
         }
         return '';
       });
@@ -120,7 +120,7 @@ describe('InfrastructurePreparation', () => {
       // Mock git availability
       mockExecSync.mockImplementation((command: string) => {
         if (command.includes('git status') || command.includes('git stash list')) {
-          return '',
+          return ''
         }
         return '';
       });
@@ -138,7 +138,7 @@ describe('InfrastructurePreparation', () => {
       // Mock git unavailability
       mockExecSync.mockImplementation((command: string) => {
         if (command.includes('git')) {
-          throw new Error('Git not available'),
+          throw new Error('Git not available')
         }
         return '';
       });
@@ -159,7 +159,7 @@ describe('InfrastructurePreparation', () => {
       expect(mockWriteFileSync).toHaveBeenCalledWith(
         expect.stringContaining('backup-config.json');
         expect.stringContaining('retentionPolicy')
-      ),
+      )
     });
   });
 
@@ -168,7 +168,7 @@ describe('InfrastructurePreparation', () => {
       // Mock successful build
       mockExecSync.mockImplementation((command: string) => {
         if (command.includes('yarn build')) {
-          return '',
+          return ''
         }
         return '';
       });
@@ -185,7 +185,7 @@ describe('InfrastructurePreparation', () => {
       // Mock build failure
       mockExecSync.mockImplementation((command: string) => {
         if (command.includes('yarn build')) {
-          throw new Error('Build failed'),
+          throw new Error('Build failed')
         }
         return '';
       });
@@ -206,7 +206,7 @@ describe('InfrastructurePreparation', () => {
       expect(mockWriteFileSync).toHaveBeenCalledWith(
         expect.stringContaining('checkpoint-config.json');
         expect.stringContaining('validationSteps')
-      ),
+      )
     });
 
     test('should setup performance monitoring configuration', async () => {
@@ -219,7 +219,7 @@ describe('InfrastructurePreparation', () => {
       expect(mockWriteFileSync).toHaveBeenCalledWith(
         expect.stringContaining('performance-config.json');
         expect.stringContaining('thresholds')
-      ),
+      )
     });
   });
 
@@ -245,7 +245,7 @@ describe('InfrastructurePreparation', () => {
       expect(mockWriteFileSync).toHaveBeenCalledWith(
         expect.stringContaining('batch-config.json');
         expect.stringContaining('safetyValidation')
-      ),
+      )
     });
 
     test('should create safety validation script', async () => {
@@ -258,7 +258,7 @@ describe('InfrastructurePreparation', () => {
       expect(mockWriteFileSync).toHaveBeenCalledWith(
         expect.stringContaining('safety-validation.js');
         expect.stringContaining('validateBatch')
-      ),
+      )
     });
 
     test('should configure appropriate batch sizes', async () => {
@@ -297,7 +297,7 @@ describe('InfrastructurePreparation', () => {
       expect(mockWriteFileSync).toHaveBeenCalledWith(
         expect.stringContaining('metrics-config.json');
         expect.stringContaining('real-time')
-      ),
+      )
     });
 
     test('should create progress tracking script', async () => {
@@ -310,7 +310,7 @@ describe('InfrastructurePreparation', () => {
       expect(mockWriteFileSync).toHaveBeenCalledWith(
         expect.stringContaining('progress-tracker.js');
         expect.stringContaining('ProgressTracker')
-      ),
+      )
     });
 
     test('should create dashboard integration', async () => {
@@ -323,7 +323,7 @@ describe('InfrastructurePreparation', () => {
       expect(mockWriteFileSync).toHaveBeenCalledWith(
         expect.stringContaining('dashboard.js');
         expect.stringContaining('InfrastructureDashboard')
-      ),
+      )
     });
 
     test('should setup alerting system', async () => {
@@ -336,7 +336,7 @@ describe('InfrastructurePreparation', () => {
       expect(mockWriteFileSync).toHaveBeenCalledWith(
         expect.stringContaining('alerting-config.json');
         expect.stringContaining('thresholds')
-      ),
+      )
     });
   });
 
@@ -369,7 +369,7 @@ describe('InfrastructurePreparation', () => {
       // Mock systems as non-functional
       mockExistsSync.mockReturnValue(false);
       mockExecSync.mockImplementation(() => {
-        throw new Error('System not available'),
+        throw new Error('System not available')
       });
 
       const status = await infrastructurePrep.prepareInfrastructure();
@@ -397,14 +397,14 @@ describe('InfrastructurePreparation', () => {
       expect(mockWriteFileSync).toHaveBeenCalledWith(
         expect.stringContaining('infrastructure-report.html');
         expect.stringContaining('Infrastructure Preparation Report')
-      ),
+      )
     });
 
     test('should include recommendations in reports when needed', async () => {
       // Mock some systems as non-functional to generate recommendations
       mockExistsSync.mockReturnValue(false);
       mockExecSync.mockImplementation(() => {
-        throw new Error('System not available'),
+        throw new Error('System not available')
       });
 
       await infrastructurePrep.prepareInfrastructure();
@@ -420,7 +420,7 @@ describe('InfrastructurePreparation', () => {
   describe('Error Handling', () => {
     test('should handle file system errors gracefully', async () => {
       mockExistsSync.mockImplementation(() => {
-        throw new Error('File system error'),
+        throw new Error('File system error')
       });
 
       // Should not throw, but handle gracefully
@@ -432,7 +432,7 @@ describe('InfrastructurePreparation', () => {
 
     test('should handle command execution timeouts', async () => {
       mockExecSync.mockImplementation(() => {
-        throw new Error('Command timeout'),
+        throw new Error('Command timeout')
       });
 
       const status = await infrastructurePrep.prepareInfrastructure();
@@ -444,7 +444,7 @@ describe('InfrastructurePreparation', () => {
     test('should provide meaningful error messages in recommendations', async () => {
       mockExistsSync.mockReturnValue(false);
       mockExecSync.mockImplementation(() => {
-        throw new Error('System unavailable'),
+        throw new Error('System unavailable')
       });
 
       const status = await infrastructurePrep.prepareInfrastructure();

@@ -25,7 +25,7 @@ export interface ServiceIntegrationConfig {
   testTimeout: number,
   qualityTarget: number, // 90% unused variable reduction target
   buildStabilityTarget: number, // 100% build stability target
-  logLevel: 'debug' | 'info' | 'warn' | 'error',
+  logLevel: 'debug' | 'info' | 'warn' | 'error'
 }
 
 export interface ApiEndpointInfo {
@@ -34,7 +34,7 @@ export interface ApiEndpointInfo {
   filePath: string,
   lineNumber: number,
   isActive: boolean,
-  dependencies: string[],
+  dependencies: string[]
 }
 
 export interface ServiceMethodInfo {
@@ -45,7 +45,7 @@ export interface ServiceMethodInfo {
   isExported: boolean,
   parameters: string[],
   returnType?: string,
-  dependencies: string[],
+  dependencies: string[]
 }
 
 export interface ConfigurationDependency {
@@ -54,7 +54,7 @@ export interface ConfigurationDependency {
   lineNumber: number,
   isRequired: boolean,
   defaultValue?: string,
-  usageContext: string,
+  usageContext: string
 }
 
 export interface ServiceIntegrationResult {
@@ -70,7 +70,7 @@ export interface ServiceIntegrationResult {
     serviceMethods?: ServiceMethodInfo[],
     configDependencies?: ConfigurationDependency[],
     testResults?: any,
-    qualityMetrics?: QualityMetrics,
+    qualityMetrics?: QualityMetrics
   };
 }
 
@@ -84,7 +84,7 @@ export interface QualityMetrics {
     reductionTarget: number, // 90%
     stabilityTarget: number, // 100%
     reductionAchieved: boolean,
-    stabilityAchieved: boolean,
+    stabilityAchieved: boolean
   };
 }
 
@@ -100,7 +100,7 @@ export interface ComprehensiveQualityReport {
   targetStatus: {
     reductionTargetMet: boolean,
     stabilityTargetMet: boolean,
-    readyForProduction: boolean,
+    readyForProduction: boolean
   };
 }
 
@@ -192,25 +192,25 @@ export class ServiceIntegrationValidator {
     try {
       // 1. API Endpoint Validation
       if (this.config.enableApiEndpointValidation) {
-        const apiResult = await this.validateApiEndpoints(servicePath, batchId),
+        const apiResult = await this.validateApiEndpoints(servicePath, batchId),;
         results.push(apiResult);
       }
 
       // 2. Service Method Validation
       if (this.config.enableServiceMethodValidation) {
-        const methodResult = await this.validateServiceMethods(servicePath, batchId),
+        const methodResult = await this.validateServiceMethods(servicePath, batchId),;
         results.push(methodResult);
       }
 
       // 3. Configuration Validation
       if (this.config.enableConfigurationValidation) {
-        const configResult = await this.validateConfigurationDependencies(servicePath, batchId),
+        const configResult = await this.validateConfigurationDependencies(servicePath, batchId),;
         results.push(configResult);
       }
 
       // 4. Integration Test Validation
       if (this.config.enableIntegrationTests) {
-        const testResult = await this.validateIntegrationTests(servicePath, batchId),
+        const testResult = await this.validateIntegrationTests(servicePath, batchId),;
         results.push(testResult);
       }
     } catch (error) {
@@ -535,8 +535,8 @@ export class ServiceIntegrationValidator {
     qualityMetrics: QualityMetrics,
   ): ComprehensiveQualityReport {
     const overallAssessment = this.calculateOverallAssessment(qualityMetrics);
-    const actionItems = this.generateActionItems(serviceResults, qualityMetrics),
-    const recommendations = this.generateRecommendations(serviceResults, qualityMetrics),
+    const actionItems = this.generateActionItems(serviceResults, qualityMetrics),;
+    const recommendations = this.generateRecommendations(serviceResults, qualityMetrics),;
 
     const targetStatus = {
       reductionTargetMet: qualityMetrics.targetAchievement.reductionAchieved;
@@ -569,7 +569,7 @@ export class ServiceIntegrationValidator {
         /Service\.ts$/.test(file) ||
         /Client\.ts$/.test(file) ||
         /\/api\//.test(file);
-    ),
+    )
   }
 
   private async analyzeApiEndpoints(servicePath: string): Promise<ApiEndpointInfo[]> {
@@ -733,7 +733,7 @@ export class ServiceIntegrationValidator {
   private findIntegrationTestFiles(servicePath: string): string[] {
     const testFiles: string[] = [];
     const serviceDir = path.dirname(servicePath);
-    const serviceName = path.basename(servicePath, path.extname(servicePath)),
+    const serviceName = path.basename(servicePath, path.extname(servicePath)),;
 
     // Common test file patterns
     const testPatterns = [
@@ -798,7 +798,7 @@ export class ServiceIntegrationValidator {
       for (const result of lintResults) {
         for (const message of result.messages) {
           if (message.ruleId === '@typescript-eslint/no-unused-vars') {
-            unusedVarCount++,
+            unusedVarCount++
           }
         }
       }
@@ -840,7 +840,7 @@ export class ServiceIntegrationValidator {
     if (score >= 85) return 'good';
     if (score >= 70) return 'acceptable';
     if (score >= 50) return 'needs-improvement';
-    return 'critical',
+    return 'critical'
   }
 
   private generateActionItems(
@@ -895,14 +895,14 @@ export class ServiceIntegrationValidator {
     }
 
     // Remove duplicates
-    return [...new Set(recommendations)],
+    return [...new Set(recommendations)]
   }
 
   // Utility methods
 
   private extractHttpMethod(line: string): 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH' | undefined {
     const methodMatch = line.match(/\.(get|post|put|delete|patch)\s*\(/i);
-    return methodMatch ? (methodMatch[1].toUpperCase() as any) : undefined,
+    return methodMatch ? (methodMatch[1].toUpperCase() as any) : undefined
   }
 
   private extractParameters(line: string): string[] {
@@ -921,7 +921,7 @@ export class ServiceIntegrationValidator {
     // Extract import dependencies
     const importMatch = line.match(/from\s+['']([^'']+)['']/);
     if (importMatch) {
-      dependencies.push(importMatch[1]),
+      dependencies.push(importMatch[1])
     }
 
     return dependencies;
@@ -969,7 +969,7 @@ export class ServiceIntegrationValidator {
     if (messageLevel >= configLevel) {
       const timestamp = new Date().toISOString();
       const prefix = level.toUpperCase().padEnd(5);
-      // console.log(`[${timestamp}] ${prefix} ${message}`);
+      // // console.log(`[${timestamp}] ${prefix} ${message}`);
     }
   }
 }

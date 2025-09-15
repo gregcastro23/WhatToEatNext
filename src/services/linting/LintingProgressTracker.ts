@@ -25,7 +25,7 @@ export interface LintingMetrics {
   performanceMetrics: {
     executionTime: number;
     memoryUsage: number,
-    cacheHitRate: number,
+    cacheHitRate: number
   };
 }
 
@@ -39,17 +39,17 @@ export interface LintingProgressReport {
     totalIssuesReduced: number;
     errorsReduced: number;
     warningsReduced: number,
-    percentageImprovement: number,
+    percentageImprovement: number
   };
   trends: {
     last24Hours: number;
     last7Days: number,
-    last30Days: number,
+    last30Days: number
   };
   qualityGates: {
     zeroErrors: boolean;
     warningsUnderThreshold: boolean,
-    performanceAcceptable: boolean,
+    performanceAcceptable: boolean
   };
 }
 
@@ -62,7 +62,7 @@ export interface CampaignIntegrationData {
   targetReduction: number;
   currentProgress: number;
   estimatedCompletion: Date,
-  safetyProtocols: string[],
+  safetyProtocols: string[]
 }
 
 /**
@@ -109,7 +109,7 @@ export class LintingProgressTracker {
       return fullMetrics;
     } catch (error) {
       logger.error('Error collecting linting metrics:', error);
-      throw error,
+      throw error
     }
   }
 
@@ -138,7 +138,7 @@ export class LintingProgressTracker {
       return report;
     } catch (error) {
       logger.error('Error generating progress report:', error);
-      throw error,
+      throw error
     }
   }
 
@@ -170,7 +170,7 @@ export class LintingProgressTracker {
       logger.info(`Campaign integration completed for ${campaignData.phase}`);
     } catch (error) {
       logger.error('Error integrating with campaign system:', error);
-      throw error,
+      throw error
     }
   }
 
@@ -180,13 +180,13 @@ export class LintingProgressTracker {
   createQualityGates(thresholds: {
     maxErrors: number,
     maxWarnings: number,
-    maxExecutionTime: number,
+    maxExecutionTime: number
   }): boolean {
     try {
       const metrics = this.getLatestMetrics();
       if (!metrics) {
         logger.warn('No metrics available for quality gate evaluation');
-        return false,
+        return false
       }
 
       const gates = {
@@ -210,7 +210,7 @@ export class LintingProgressTracker {
       return allGatesPassed;
     } catch (error) {
       logger.error('Error evaluating quality gates:', error);
-      return false,
+      return false
     }
   }
 
@@ -261,8 +261,8 @@ export class LintingProgressTracker {
           messages?: Array<{
             ruleId?: string,
             severity?: number,
-            fix?: unknown,
-          }>,
+            fix?: unknown
+          }>
         }) => {
           file.messages?.forEach(message => {
             totalIssues++,
@@ -278,7 +278,7 @@ export class LintingProgressTracker {
             }
 
             if (message.fix) {
-              fixableIssues++,
+              fixableIssues++
             }
           });
         },
@@ -295,7 +295,7 @@ export class LintingProgressTracker {
       };
     } catch (error) {
       logger.error('Error parsing linting output:', error);
-      throw error,
+      throw error
     }
   }
 
@@ -337,7 +337,7 @@ export class LintingProgressTracker {
 
     const last24Hours = this.calculateTrendForPeriod(history, oneDayAgo);
     const last7Days = this.calculateTrendForPeriod(history, sevenDaysAgo);
-    const last30Days = this.calculateTrendForPeriod(history, thirtyDaysAgo),
+    const last30Days = this.calculateTrendForPeriod(history, thirtyDaysAgo),;
 
     return { last24Hours, last7Days, last30Days };
   }
@@ -360,7 +360,7 @@ export class LintingProgressTracker {
    */
   private evaluateQualityGates(metrics: LintingMetrics) {
     return {
-      zeroErrors: metrics.errors === 0,,
+      zeroErrors: metrics.errors === 0,,;
       warningsUnderThreshold: metrics.warnings < 1000, // Configurable threshold
       performanceAcceptable: metrics.performanceMetrics.executionTime < 60000, // 1 minute
     };
@@ -383,7 +383,7 @@ export class LintingProgressTracker {
       Math.min(100, ((baselineIssues - currentIssues) / baselineIssues) * 100),
     );
 
-    return progress,
+    return progress
   }
 
   /**
@@ -400,7 +400,7 @@ export class LintingProgressTracker {
 
     return (
       errorScore * errorWeight + warningScore * warningWeight + performanceScore * performanceWeight
-    ),
+    )
   }
 
   /**
@@ -410,11 +410,11 @@ export class LintingProgressTracker {
     const { currentMetrics, improvement } = report,
 
     if (currentMetrics.errors > 100 || improvement.percentageImprovement < -10) {
-      return 'high',
+      return 'high'
     } else if (currentMetrics.errors > 10 || improvement.percentageImprovement < 0) {
-      return 'medium',
+      return 'medium'
     } else {
-      return 'low',
+      return 'low'
     }
   }
 
@@ -467,9 +467,9 @@ export class LintingProgressTracker {
 
       // Keep only last 100 entries
       const trimmedHistory = history.slice(-100);
-      writeFileSync(this.historyFile, JSON.stringify(trimmedHistory, null, 2)),
+      writeFileSync(this.historyFile, JSON.stringify(trimmedHistory, null, 2))
     } catch (error) {
-      logger.error('Error saving metrics:', error),
+      logger.error('Error saving metrics:', error)
     }
   }
 
@@ -480,7 +480,7 @@ export class LintingProgressTracker {
         return JSON.parse(data);
       }
     } catch (error) {
-      logger.warn('Error reading previous metrics:', error),
+      logger.warn('Error reading previous metrics:', error)
     }
     return undefined;
   }
@@ -494,10 +494,10 @@ export class LintingProgressTracker {
       if (existsSync(this.historyFile)) {
         const data = readFileSync(this.historyFile, 'utf8');
         const parsed = JSON.parse(data);
-        return Array.isArray(parsed) ? parsed : [],
+        return Array.isArray(parsed) ? parsed : []
       }
     } catch (error) {
-      logger.warn('Error reading metrics history:', error),
+      logger.warn('Error reading metrics history:', error)
     }
     return [];
   }
@@ -515,9 +515,9 @@ export class LintingProgressTracker {
   private saveCampaignIntegration(data: Record<string, unknown>): void {
     try {
       const integrationFile = '.kiro/metrics/campaign-integration.json';
-      writeFileSync(integrationFile, JSON.stringify(data, null, 2)),
+      writeFileSync(integrationFile, JSON.stringify(data, null, 2))
     } catch (error) {
-      logger.error('Error saving campaign integration data:', error),
+      logger.error('Error saving campaign integration data:', error)
     }
   }
 
@@ -531,6 +531,6 @@ export class LintingProgressTracker {
 
   private async notifyCampaignSystem(data: Record<string, unknown>): Promise<void> {
     // This would integrate with the existing campaign system
-    logger.info('Campaign system notification:', data),
+    logger.info('Campaign system notification:', data)
   }
 }

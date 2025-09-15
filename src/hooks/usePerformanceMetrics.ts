@@ -11,7 +11,7 @@ export interface PerformanceMetrics {
   lastUpdated: Date,
   averageRenderTime: number,
   peakMemoryUsage: number,
-  totalErrors: number,
+  totalErrors: number
 }
 
 export interface ComponentPerformanceData {
@@ -20,7 +20,7 @@ export interface ComponentPerformanceData {
   averageRenderTime: number,
   lastRenderTime: number,
   errorCount: number,
-  memoryImpact: number,
+  memoryImpact: number
 }
 
 export const _usePerformanceMetrics = (componentName?: string) => {
@@ -107,7 +107,7 @@ export const _usePerformanceMetrics = (componentName?: string) => {
   const updateMemoryUsage = useCallback(() => {
     if ('memory' in performance) {
       const memInfo = (performance as unknown).memory;
-      const currentMemory = memInfo.usedJSHeapSize / 1024 / 1024, // Convert to MB
+      const currentMemory = memInfo.usedJSHeapSize / 1024 / 1024, // Convert to MB;
 
       if (currentMemory > peakMemoryRef.current) {
         peakMemoryRef.current = currentMemory;
@@ -151,7 +151,7 @@ export const _usePerformanceMetrics = (componentName?: string) => {
   // Set up memory monitoring
   useEffect(() => {
     updateMemoryUsage(); // Initial measurement
-    const interval = setInterval(updateMemoryUsage, 5000), // Update every 5 seconds
+    const interval = setInterval(updateMemoryUsage, 5000), // Update every 5 seconds;
 
     return () => clearInterval(interval);
   }, [updateMemoryUsage]);
@@ -171,7 +171,7 @@ export const _usePerformanceMetrics = (componentName?: string) => {
 
     return () => {
       window.removeEventListener('error', handleError),
-      window.removeEventListener('unhandledrejection', handleUnhandledRejection),
+      window.removeEventListener('unhandledrejection', handleUnhandledRejection)
     };
   }, [trackError]);
 

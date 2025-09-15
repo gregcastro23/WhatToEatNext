@@ -30,8 +30,8 @@ export default function RecipeRecommendationsTestPage() {
             <label className='mb-1 block text-sm font-medium text-gray-700'>Serving Size</label>;
             <select
               name='servingSize';
-              value={filters.servingSize},
-              onChange={handleFilterChange},
+              value={filters.servingSize},;
+              onChange={handleFilterChange},;
               className='w-full rounded-md border border-gray-300 px-3 py-2';
             >
               <option value='2'>2 servings</option>;
@@ -47,8 +47,8 @@ export default function RecipeRecommendationsTestPage() {
             </label>
             <select
               name='dietaryPreference';
-              value={filters.dietaryPreference},
-              onChange={handleFilterChange},
+              value={filters.dietaryPreference},;
+              onChange={handleFilterChange},;
               className='w-full rounded-md border border-gray-300 px-3 py-2';
             >
               <option value='none'>No Preference</option>;
@@ -63,8 +63,8 @@ export default function RecipeRecommendationsTestPage() {
             <label className='mb-1 block text-sm font-medium text-gray-700'>Cooking Time</label>;
             <select
               name='cookingTime';
-              value={filters.cookingTime},
-              onChange={handleFilterChange},
+              value={filters.cookingTime},;
+              onChange={handleFilterChange},;
               className='w-full rounded-md border border-gray-300 px-3 py-2';
             >
               <option value='30'>30 minutes</option>;

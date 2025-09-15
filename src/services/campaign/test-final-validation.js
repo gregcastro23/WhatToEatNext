@@ -39,7 +39,7 @@ async function testFinalValidationSystem() {
     try {
       // Use require to test the compiled JavaScript
       const { FinalValidationSystem } = require('./FinalValidationSystem.ts');
-      const validator = new FinalValidationSystem();
+      const _validator = new FinalValidationSystem();
       console.log('✅ System instantiation: PASSED');
     } catch (error) {
       console.log('❌ System instantiation: FAILED');

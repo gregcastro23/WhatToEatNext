@@ -13,7 +13,7 @@ export function enhanceSecurity() {
       document.addEventListener('click', event => {
         const target = event.target as HTMLElement;
         if (target.tagName === 'A' && target.getAttribute('target') === '_blank') {
-          target.setAttribute('rel', 'noopener noreferrer'),
+          target.setAttribute('rel', 'noopener noreferrer')
         }
       });
 
@@ -28,7 +28,7 @@ export function enhanceSecurity() {
               target.value = target.value.replace(;
                 /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi,
                 '',
-              ),
+              )
             }
           });
         });
@@ -36,7 +36,7 @@ export function enhanceSecurity() {
 
       // Run sanitization when DOM is loaded
       if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', sanitizeInputs),
+        document.addEventListener('DOMContentLoaded', sanitizeInputs)
       } else {
         sanitizeInputs();
       }
@@ -48,6 +48,6 @@ export function enhanceSecurity() {
     return true;
   } catch (error) {
     logger.error('Failed to initialize security enhancements', error);
-    return false,
+    return false
   }
 }

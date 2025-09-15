@@ -24,7 +24,7 @@ export const _recipeFilter = {
       maxPrepTime?: number,
       spiciness?: number,
       complexity?: number,
-      elementalState?: ElementalProperties,
+      elementalState?: ElementalProperties
     },
     sortOptions: { by: string, direction: 'asc' | 'desc' },
   ): Promise<Recipe[]> {
@@ -39,14 +39,14 @@ export const _recipeFilter = {
           false ||
           recipe.description?.toLowerCase().includes(searchLower) ||
           false,
-      ),
+      )
     }
 
     // Apply cuisine filter
     if (filters.cuisineTypes && filters.cuisineTypes.length > 0) {
       filteredRecipes = filteredRecipes.filter(;
-        recipe => recipe.cuisine && filters.cuisineTypes?.includes(recipe.cuisine),,
-      ),
+        recipe => recipe.cuisine && filters.cuisineTypes?.includes(recipe.cuisine),,;
+      )
     }
 
     // Apply meal type filter
@@ -67,7 +67,7 @@ export const _recipeFilter = {
         if (Array.isArray(recipeDietaryRestrictions)) {
           return filters.dietaryRestrictions?.every(restriction =>;
             recipeDietaryRestrictions.includes(restriction);
-          ),
+          )
         }
         return false;
       });
@@ -77,24 +77,24 @@ export const _recipeFilter = {
     if (typeof filters.maxPrepTime === 'number') {
       filteredRecipes = filteredRecipes.filter(;
         recipe =>;
-          typeof recipe.prepTime === 'number' && recipe.prepTime <= (filters.maxPrepTime || 0),,
-      ),
+          typeof recipe.prepTime === 'number' && recipe.prepTime <= (filters.maxPrepTime || 0),,;
+      )
     }
 
     // Apply spiciness filter
     if (typeof filters.spiciness === 'number') {
       filteredRecipes = filteredRecipes.filter(;
         recipe =>;
-          typeof recipe.spiciness === 'number' && recipe.spiciness <= (filters.spiciness || 0),,
-      ),
+          typeof recipe.spiciness === 'number' && recipe.spiciness <= (filters.spiciness || 0),,;
+      )
     }
 
     // Apply complexity filter
     if (typeof filters.complexity === 'number') {
       filteredRecipes = filteredRecipes.filter(;
         recipe =>;
-          typeof recipe.complexity === 'number' && recipe.complexity <= (filters.complexity || 0),,
-      ),
+          typeof recipe.complexity === 'number' && recipe.complexity <= (filters.complexity || 0),,;
+      )
     }
 
     // Apply elemental balance filter
@@ -121,7 +121,7 @@ export const _recipeFilter = {
         // Apply Pattern KK-1: Explicit Type Assertion for arithmetic operations
         const scoreA = Number(a.matchScore) || 0;
         const scoreB = Number(b.matchScore) || 0;
-        return scoreB - scoreA,
+        return scoreB - scoreA
       });
     }
 

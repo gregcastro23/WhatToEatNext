@@ -31,7 +31,7 @@ describe('DeploymentManager', () => {
 
   describe('Phase Execution', () => {
     test('executes simple phase successfully', async () => {
-      const phase: DeploymentPhase = { id: 'test-phase',,
+      const phase: DeploymentPhase = { id: 'test-phase',,;
         name: 'Test Phase',
         description: 'Simple test phase',
         prerequisites: [],
@@ -67,7 +67,7 @@ describe('DeploymentManager', () => {
     });
 
     test('handles task failure correctly', async () => {
-      const phase: DeploymentPhase = { id: 'failing-phase',,
+      const phase: DeploymentPhase = { id: 'failing-phase',,;
         name: 'Failing Phase',
         description: 'Phase with failing task',
         prerequisites: [],
@@ -106,7 +106,7 @@ describe('DeploymentManager', () => {
       const testFile: any = join(tempDir, 'test-file.txt');
       writeFileSync(testFile, 'test content');
 
-      const phase: DeploymentPhase = { id: 'rollback-phase',,
+      const phase: DeploymentPhase = { id: 'rollback-phase',,;
         name: 'Rollback Phase',
         description: 'Phase that triggers rollback',
         prerequisites: [],
@@ -149,7 +149,7 @@ describe('DeploymentManager', () => {
     });
 
     test('handles non-critical task failures gracefully', async () => {
-      const phase: DeploymentPhase = { id: 'mixed-phase',,
+      const phase: DeploymentPhase = { id: 'mixed-phase',,;
         name: 'Mixed Phase',
         description: 'Phase with critical and non-critical tasks',
         prerequisites: [],
@@ -204,7 +204,7 @@ describe('DeploymentManager', () => {
 
   describe('Validation Checks', () => {
     test('runs validation checks successfully', async () => {
-      const phase: DeploymentPhase = { id: 'validation-phase',,
+      const phase: DeploymentPhase = { id: 'validation-phase',,;
         name: 'Validation Phase',
         description: 'Phase with validation checks',
         prerequisites: [],
@@ -238,7 +238,7 @@ describe('DeploymentManager', () => {
     });
 
     test('handles validation check failures', async () => {
-      const phase: DeploymentPhase = { id: 'failing-validation-phase',,
+      const phase: DeploymentPhase = { id: 'failing-validation-phase',,;
         name: 'Failing Validation Phase',
         description: 'Phase with failing validation',
         prerequisites: [],
@@ -271,7 +271,7 @@ describe('DeploymentManager', () => {
     });
 
     test('validates output with custom validator', async () => {
-      const phase: DeploymentPhase = { id: 'output-validation-phase',,
+      const phase: DeploymentPhase = { id: 'output-validation-phase',,;
         name: 'Output Validation Phase',
         description: 'Phase with output validation',
         prerequisites: [],
@@ -309,7 +309,7 @@ describe('DeploymentManager', () => {
     test('evaluates custom success criteria', async () => {
       let customCheckCalled: any = false;
 
-      const phase: DeploymentPhase = { id: 'custom-criteria-phase',,
+      const phase: DeploymentPhase = { id: 'custom-criteria-phase',,;
         name: 'Custom Criteria Phase',
         description: 'Phase with custom success criteria',
         prerequisites: [],
@@ -325,7 +325,7 @@ describe('DeploymentManager', () => {
               name: 'Custom Check',
               validator: async () => {
                 customCheckCalled = true;
-                return true,
+                return true
               }
             }
           ]
@@ -339,7 +339,7 @@ describe('DeploymentManager', () => {
     });
 
     test('fails when custom criteria not met', async () => {
-      const phase: DeploymentPhase = { id: 'failing-criteria-phase',,
+      const phase: DeploymentPhase = { id: 'failing-criteria-phase',,;
         name: 'Failing Criteria Phase',
         description: 'Phase with failing custom criteria',
         prerequisites: [],
@@ -544,7 +544,7 @@ describe('DeploymentManager', () => {
 
   describe('Deployment Logging', () => {
     test('maintains deployment log', async () => {
-      const phase: DeploymentPhase = { id: 'logging-phase',,
+      const phase: DeploymentPhase = { id: 'logging-phase',,;
         name: 'Logging Phase',
         description: 'Phase for testing logging',
         prerequisites: [],
@@ -578,7 +578,7 @@ describe('DeploymentManager', () => {
     });
 
     test('saves deployment log to file', async () => {
-      const phase: DeploymentPhase = { id: 'save-log-phase',,
+      const phase: DeploymentPhase = { id: 'save-log-phase',,;
         name: 'Save Log Phase',
         description: 'Phase for testing log saving',
         prerequisites: [],

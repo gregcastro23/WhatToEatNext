@@ -30,7 +30,7 @@ export const _getCurrentZodiacSign = (): string => {
   if ((month === 9 && day >= 23) || (month === 10 && day <= 22)) return 'Libra';
   if ((month === 10 && day >= 23) || (month === 11 && day <= 21)) return 'Scorpio';
   if ((month === 11 && day >= 22) || (month === 12 && day <= 21)) return 'Sagittarius';
-  return 'Capricorn',
+  return 'Capricorn'
 };
 
 /**
@@ -81,7 +81,7 @@ export function getSignFromLongitude(longitude: number): string {
     'Pisces'
   ];
   const signIndex = Math.floor((longitude % 360) / 30);
-  return signs[signIndex],
+  return signs[signIndex]
 }
 
 /**
@@ -104,7 +104,7 @@ export function getZodiacSign(date: Date): any {
   if ((month === 11 && day >= 22) || (month === 12 && day <= 21)) return 'sagittarius';
   if ((month === 12 && day >= 22) || (month === 1 && day <= 19)) return 'capricorn';
   if ((month === 1 && day >= 20) || (month === 2 && day <= 18)) return 'aquarius';
-  return 'pisces',
+  return 'pisces'
 }
 
 /**
@@ -121,7 +121,7 @@ export function getElementForZodiac(sign: any): 'Fire' | 'Earth' | 'Air' | 'Wate
   if (fireZodiacs.includes(sign)) return 'Fire';
   if (earthZodiacs.includes(sign)) return 'Earth';
   if (airZodiacs.includes(sign)) return 'Air';
-  return 'Water',
+  return 'Water'
 }
 
 /**
@@ -224,7 +224,7 @@ export function calculateZodiacAffinityFromElements(
 
   // Ensure all values are in the 0-1 range
   Object.keys(result).forEach(sign => {
-    result[sign as any] = Math.min(1, Math.max(0, result[sign as any])),
+    result[sign as any] = Math.min(1, Math.max(0, result[sign as any]))
   });
 
   debugLog('Calculated zodiac affinity:', result);
@@ -266,7 +266,7 @@ export function getModalityForZodiac(sign: any): 'cardinal' | 'fixed' | 'mutable
 
   if (cardinalZodiacs.includes(sign)) return 'cardinal';
   if (fixedZodiacs.includes(sign)) return 'fixed';
-  return 'mutable',
+  return 'mutable'
 }
 
 export function getZodiacFromDate(date: Date): any {
@@ -284,5 +284,5 @@ export function getZodiacFromDate(date: Date): any {
   if ((month === 11 && day >= 22) || (month === 12 && day <= 21)) return 'sagittarius';
   if ((month === 12 && day >= 22) || (month === 1 && day <= 19)) return 'capricorn';
   if ((month === 1 && day >= 20) || (month === 2 && day <= 18)) return 'aquarius';
-  return 'pisces',
+  return 'pisces'
 }

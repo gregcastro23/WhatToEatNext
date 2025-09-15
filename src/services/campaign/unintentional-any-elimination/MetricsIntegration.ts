@@ -119,7 +119,7 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
    */
   async setBaselineMetrics(): Promise<void> {
     this.baselineMetrics = await this.getUnintentionalAnyMetrics();
-    // console.log(`📊 Baseline metrics set:`, {
+    // // console.log(`📊 Baseline metrics set:`, {
       totalAnyTypes: this.baselineMetrics.totalAnyTypes;
       intentionalAnyTypes: this.baselineMetrics.intentionalAnyTypes;
       unintentionalAnyTypes: this.baselineMetrics.unintentionalAnyTypes;
@@ -273,7 +273,7 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
       fileBreakdown,
       metricsHistory: this.getUnintentionalAnyMetricsHistory();
       improvement: this.calculateUnintentionalAnyImprovement()
-    },
+    }
   }
 
   /**
@@ -291,7 +291,7 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
       };
 
       fs.writeFileSync(filePath, JSON.stringify(exportData, null, 2));
-      // console.log(`📊 Unintentional Any metrics exported to: ${filePath}`);
+      // // console.log(`📊 Unintentional Any metrics exported to: ${filePath}`);
     } catch (error) {
       throw new Error(
         `Failed to export unintentional any metrics: ${error instanceof Error ? error.message : String(error)}`,
@@ -360,7 +360,7 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
    * Get metrics history for trend analysis
    */
   getUnintentionalAnyMetricsHistory(): UnintentionalAnyMetrics[] {
-    return [...this.metricsHistory],
+    return [...this.metricsHistory]
   }
 
   /**
@@ -392,7 +392,7 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
    */
   private calculateMetricsTrend(): 'improving' | 'stable' | 'declining' {
     if (this.metricsHistory.length < 3) {
-      return 'stable',
+      return 'stable'
     }
 
     const recent = this.metricsHistory.slice(-3);
@@ -400,11 +400,11 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
     const unintentionalTrend = recent[2].unintentionalAnyTypes - recent[0].unintentionalAnyTypes;
 
     if (totalAnyTrend < -2 || unintentionalTrend < -2) {
-      return 'improving',
+      return 'improving'
     } else if (totalAnyTrend > 2 || unintentionalTrend > 2) {
-      return 'declining',
+      return 'declining'
     } else {
-      return 'stable',
+      return 'stable'
     }
   }
 
@@ -441,7 +441,7 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
       });
     }
 
-    return alerts,
+    return alerts
   }
 
   /**
@@ -453,7 +453,7 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
     if (metrics.unintentionalAnyTypes > 50) {
       recommendations.push(
         'Run unintentional any elimination campaign to reduce unintentional any types',
-      ),
+      )
     }
 
     if (metrics.documentationCoverage < 80) {
@@ -469,10 +469,10 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
     if (metrics.totalAnyTypes === 0) {
       recommendations.push(
         'Excellent! Zero any types achieved. Consider setting up monitoring to prevent regression'
-      ),
+      )
     }
 
-    return recommendations,
+    return recommendations
   }
 
   /**
@@ -488,7 +488,7 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
     if (metrics.reductionFromBaseline < 10) {
       recommendations.push(
         'Consider increasing confidence threshold for more aggressive replacement',
-      ),
+      )
     }
 
     if (metrics.reductionFromBaseline >= metrics.targetReduction) {
@@ -523,7 +523,7 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
   resetUnintentionalAnyMetricsHistory(): void {
     this.metricsHistory = [];
     this.baselineMetrics = undefined;
-    // console.log('📊 Unintentional Any metrics history reset');
+    // // console.log('📊 Unintentional Any metrics history reset');
   }
 }
 
@@ -533,14 +533,14 @@ export interface UnintentionalAnyProgressReport extends ProgressReport {
   unintentionalAnyPhases: PhaseReport[],
   fileBreakdown: Record<string, number>,
   metricsHistory: UnintentionalAnyMetrics[],
-  improvement: UnintentionalAnyImprovement,
+  improvement: UnintentionalAnyImprovement
 }
 
 export interface UnintentionalAnyImprovement {
   totalAnyTypesReduced: number,
   unintentionalAnyTypesReduced: number,
   documentationImproved: number,
-  reductionRate: number,
+  reductionRate: number
 }
 
 export interface UnintentionalAnyDashboardMetrics {
@@ -556,7 +556,7 @@ export interface UnintentionalAnyAlert {
   type: string,
   severity: 'info' | 'warning' | 'error',
   message: string,
-  recommendation: string,
+  recommendation: string
 }
 
 export type UnintentionalAnyMilestone =
@@ -583,7 +583,7 @@ export class UnintentionalAnyCampaignScheduler {
   async shouldTriggerCampaign(): Promise<{
     shouldTrigger: boolean,
     reason: string,
-    priority: 'low' | 'medium' | 'high',
+    priority: 'low' | 'medium' | 'high'
   }> {
     const metrics = await this.progressTracker.getUnintentionalAnyMetrics();
 
@@ -601,7 +601,7 @@ export class UnintentionalAnyCampaignScheduler {
         shouldTrigger: true,
         reason: 'Regression detected: any types have increased significantly',
         priority: 'high'
-      },
+      }
     }
 
     // Medium priority triggers
@@ -618,7 +618,7 @@ export class UnintentionalAnyCampaignScheduler {
         shouldTrigger: true,
         reason: `Low documentation coverage: ${metrics.documentationCoverage.toFixed(1)}%`,
         priority: 'medium'
-      },
+      }
     }
 
     // Low priority triggers
@@ -646,7 +646,7 @@ export class UnintentionalAnyCampaignScheduler {
   ): {
     canProceed: boolean,
     conflictingCampaigns: string[],
-    resolution: string,
+    resolution: string
   } {
     const conflictingCampaigns = activeCampaigns.filter(;
       campaign =>;

@@ -20,7 +20,7 @@ export interface Sauce {
   prepTime?: string,
   cookTime?: string,
   difficulty?: string,
-  yield?: string,
+  yield?: string
 }
 
 export interface SauceRecommendation {
@@ -29,7 +29,7 @@ export interface SauceRecommendation {
   forCookingMethod: Record<string, string[]>;
   byAstrological: Record<string, string[]>;
   byRegion: Record<string, string[]>,
-  byDietary: Record<string, string[]>,
+  byDietary: Record<string, string[]>
 }
 
 // Italian sauces
@@ -573,8 +573,8 @@ export const sauceRecommendations: SauceRecommendation = {
 // Helper functions
 export function getSaucesByAstrologicalInfluence(influence: string): Sauce[] {
   return Object.values(allSauces).filter(sauce =>;
-    sauce.astrologicalInfluences.some(infl => infl.toLowerCase() === influence.toLowerCase()),,
-  ),
+    sauce.astrologicalInfluences.some(infl => infl.toLowerCase() === influence.toLowerCase()),,;
+  )
 }
 
 export function getSaucesByElement(element: keyof ElementalProperties): Sauce[] {
@@ -588,7 +588,7 @@ export function getSaucesByElement(element: keyof ElementalProperties): Sauce[] 
 }
 
 export function getMarsInfluencedSauces(): Sauce[] {
-  return getSaucesByAstrologicalInfluence('Mars'),
+  return getSaucesByAstrologicalInfluence('Mars')
 }
 
 const saucesExport = {

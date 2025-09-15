@@ -27,7 +27,7 @@ export interface QualityDashboardConfig {
   reportingPath: string,
   enableRealTimeMonitoring: boolean,
   enableAutomaticReporting: boolean,
-  logLevel: 'debug' | 'info' | 'warn' | 'error',
+  logLevel: 'debug' | 'info' | 'warn' | 'error'
 }
 
 export interface QualityMetrics {
@@ -43,7 +43,7 @@ export interface QualityMetrics {
     reductionTargetMet: boolean,
     stabilityTargetMet: boolean,
     qualityThresholdMet: boolean,
-    productionReady: boolean,
+    productionReady: boolean
   };
 }
 
@@ -64,7 +64,7 @@ export interface ProductionReadinessAssessment {
   requiredActions: {
     critical: string[],
     important: string[],
-    optional: string[],
+    optional: string[]
   };
 }
 
@@ -75,7 +75,7 @@ export interface ComprehensiveDashboardReport {
     overallStatus: 'excellent' | 'good' | 'needs-attention' | 'critical',
     keyAchievements: string[],
     criticalIssues: string[],
-    nextSteps: string[],
+    nextSteps: string[]
   };
   qualityMetrics: QualityMetrics;
   qualityTrends: QualityTrend[];
@@ -85,12 +85,12 @@ export interface ComprehensiveDashboardReport {
     successfulBatches: number,
     averageQualityScore: number,
     totalFilesProcessed: number,
-    totalVariablesEliminated: number,
+    totalVariablesEliminated: number
   };
   recommendations: {
     immediate: string[],
     shortTerm: string[],
-    longTerm: string[],
+    longTerm: string[]
   };
 }
 
@@ -126,7 +126,7 @@ export class QualityAssuranceDashboard {
   startMonitoring(): void {
     if (!this.config.enableRealTimeMonitoring) {
       this.log('info', '📊 Real-time monitoring disabled'),
-      return,
+      return
     }
 
     this.log(
@@ -156,7 +156,7 @@ export class QualityAssuranceDashboard {
     if (this.monitoringTimer) {
       clearInterval(this.monitoringTimer);
       this.monitoringTimer = undefined;
-      this.log('info', '📊 Quality monitoring stopped'),
+      this.log('info', '📊 Quality monitoring stopped')
     }
   }
 
@@ -360,7 +360,7 @@ export class QualityAssuranceDashboard {
     }
 
     // Ensure readiness score doesn't go below 0
-    readinessScore = Math.max(0, readinessScore),
+    readinessScore = Math.max(0, readinessScore),;
 
     // Estimate readiness date if not ready
     let estimatedReadinessDate: Date | undefined,
@@ -388,7 +388,7 @@ export class QualityAssuranceDashboard {
    */
   private calculateQualityTrends(): QualityTrend[] {
     if (this.qualityHistory.length < 2) {
-      return [],
+      return []
     }
 
     const trends: QualityTrend[] = [];
@@ -422,7 +422,7 @@ export class QualityAssuranceDashboard {
    */
   private calculateTrend(values: { timestamp: Date, value: number }[]): {
     direction: 'improving' | 'stable' | 'declining',
-    changeRate: number,
+    changeRate: number
   } {
     if (values.length < 2) {
       return { direction: 'stable', changeRate: 0 };
@@ -459,7 +459,7 @@ export class QualityAssuranceDashboard {
     ),
 
     // Estimate variables eliminated (this would need actual tracking in a real implementation)
-    const totalVariablesEliminated = Math.round(totalFilesProcessed * 5.2), // Average estimate
+    const totalVariablesEliminated = Math.round(totalFilesProcessed * 5.2), // Average estimate;
 
     return {
       totalBatches: validationStats.totalBatches;
@@ -569,7 +569,7 @@ export class QualityAssuranceDashboard {
    */
   private estimateReadinessDate(currentMetrics: QualityMetrics): Date | undefined {
     if (this.qualityHistory.length < 3) {
-      return undefined,
+      return undefined
     }
 
     // Calculate improvement rate based on recent history
@@ -616,7 +616,7 @@ export class QualityAssuranceDashboard {
     if (daysDiff <= 0) return 0;
 
     const qualityImprovement = last.overallQualityScore - first.overallQualityScore;
-    return qualityImprovement / daysDiff,
+    return qualityImprovement / daysDiff
   }
 
   /**
@@ -625,7 +625,7 @@ export class QualityAssuranceDashboard {
   private calculateTestCoverageScore(): number {
     // In a real implementation, this would analyze actual test coverage
     // For now, return a reasonable estimate
-    return 75,
+    return 75
   }
 
   /**
@@ -668,10 +668,10 @@ export class QualityAssuranceDashboard {
       ...report.executiveSummary.keyAchievements.map(achievement => `- ${achievement}`),;
       '',
       '### Critical Issues',
-      ...report.executiveSummary.criticalIssues.map(issue => `- ${issue}`),,
+      ...report.executiveSummary.criticalIssues.map(issue => `- ${issue}`),,;
       '',
       '### Next Steps',
-      ...report.executiveSummary.nextSteps.map(step => `- ${step}`),,
+      ...report.executiveSummary.nextSteps.map(step => `- ${step}`),,;
       '',
       '## Quality Metrics',
       `- **Unused Variable Reduction:** ${report.qualityMetrics.unusedVariableReduction.toFixed(1)}% (Target: ${this.config.reductionTarget}%)`,
@@ -726,14 +726,14 @@ export class QualityAssuranceDashboard {
    * Get current quality metrics
    */
   getCurrentQualityMetrics(): QualityMetrics | undefined {
-    return this.qualityHistory[this.qualityHistory.length - 1],
+    return this.qualityHistory[this.qualityHistory.length - 1]
   }
 
   /**
    * Get quality history
    */
   getQualityHistory(): QualityMetrics[] {
-    return [...this.qualityHistory],
+    return [...this.qualityHistory]
   }
 
   /**
@@ -751,7 +751,7 @@ export class QualityAssuranceDashboard {
     if (messageLevel >= configLevel) {
       const timestamp = new Date().toISOString();
       const prefix = level.toUpperCase().padEnd(5);
-      // console.log(`[${timestamp}] ${prefix} ${message}`);
+      // // console.log(`[${timestamp}] ${prefix} ${message}`);
     }
   }
 }

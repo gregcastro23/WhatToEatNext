@@ -22,7 +22,7 @@ export interface CulturalCookingMethod {
     Fire: number,
     Water: number,
     Earth: number,
-    Air: number,
+    Air: number
   };
   culturalOrigin: string;
   toolsRequired?: string[];
@@ -30,7 +30,7 @@ export interface CulturalCookingMethod {
   astrologicalInfluences?: {
     favorableZodiac?: string[],
     unfavorableZodiac?: string[],
-    dominantPlanets?: string[],
+    dominantPlanets?: string[]
   };
   relatedToMainMethod?: string; // Add a property to link to the main cooking method
   variationName?: string; // Optional name of the variation
@@ -179,7 +179,7 @@ export function extractCulturalCookingMethods(): CulturalCookingMethod[] {
       // Skip if this is a duplicate name/cuisine combination
       const caseInsensitiveKey = `${cuisine.name.toLowerCase()}:${methodName.toLowerCase()}`;
       if (addedMethods.has(caseInsensitiveKey)) {
-        return,
+        return
       }
       addedMethods.add(caseInsensitiveKey);
 
@@ -198,7 +198,7 @@ export function extractCulturalCookingMethods(): CulturalCookingMethod[] {
 
         const culturalMethodKey = `${cuisine.name.toLowerCase()}:${relatedMainMethod}`;
         if (methodVariationsMap[relatedMainMethod].has(culturalMethodKey)) {
-          return,
+          return
         }
         methodVariationsMap[relatedMainMethod].add(culturalMethodKey);
       }
@@ -257,8 +257,8 @@ export const culturalCookingMethods = extractCulturalCookingMethods();
 // Helper to get methods by cultural origin
 export function getMethodsByCulture(culture: string): CulturalCookingMethod[] {
   return culturalCookingMethods.filter(
-    method => method.culturalOrigin.toLowerCase() === culture.toLowerCase(),,
-  ),
+    method => method.culturalOrigin.toLowerCase() === culture.toLowerCase(),,;
+  )
 }
 
 // Helper to get cultural variations of a main cooking method
@@ -270,5 +270,5 @@ export function getCulturalVariations(mainMethod: string): CulturalCookingMethod
 export function mapElementsToAstrology(methods: CulturalCookingMethod[]): CulturalCookingMethod[] {
   // This is where we could add logic to derive astrological influences from elemental properties
   // For now, returning as-is
-  return methods,
+  return methods
 }

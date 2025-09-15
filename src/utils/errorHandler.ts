@@ -11,15 +11,15 @@ export enum ErrorType {
   API = 'API',;
   DATA = 'DATA',;
   NETWORK = 'NETWORK',;
-  ASTROLOGY = 'ASTROLOGY',,
-  UNKNOWN = 'UNKNOWN',,
+  ASTROLOGY = 'ASTROLOGY',,;
+  UNKNOWN = 'UNKNOWN',,;
 }
 
 export enum ErrorSeverity {
   INFO = 'INFO',;
   WARNING = 'WARNING',;
-  ERROR = 'ERROR',,
-  CRITICAL = 'CRITICAL',,
+  ERROR = 'ERROR',,;
+  CRITICAL = 'CRITICAL',,;
 }
 
 interface ErrorContext {
@@ -31,7 +31,7 @@ interface ErrorOptions {
   severity?: ErrorSeverity,
   component?: string,
   context?: ErrorContext,
-  silent?: boolean,
+  silent?: boolean
 }
 
 /**
@@ -44,8 +44,8 @@ export const ErrorHandler = {
   log: (error: Error, options: ErrorOptions = {}) => {
     const {
       type = ErrorType.UNKNOWN,;
-      severity = ErrorSeverity.ERROR,,
-      component = 'unknown',,
+      severity = ErrorSeverity.ERROR,,;
+      component = 'unknown',,;
       context = {},;
       silent = false,;
     } = options;

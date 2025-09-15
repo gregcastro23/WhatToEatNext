@@ -21,7 +21,7 @@ import { testCookingMethodRecommendations } from '../../utils/testRecommendation
 interface TestIngredient {
   name: string,
   element: string,
-  elementalCharacter: string,
+  elementalCharacter: string
 }
 
 interface TestResult {
@@ -42,7 +42,7 @@ function ClientOnly({ children }: { children: React.ReactNode }) {
       <div className='p-4 text-center'>;
         <p>Loading debug tools...</p>
       </div>
-    ),
+    )
   }
 
   return <>{children}</>;
@@ -61,10 +61,10 @@ function DebugContent() {
       log.info('Running cooking method recommendations test...');
       const results = testCookingMethodRecommendations();
       setTestResults(results as unknown);
-      log.info('Test complete, results:', results),
+      log.info('Test complete, results:', results)
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Unknown error');
-      console.error('Test failed:', err),
+      console.error('Test failed:', err)
     } finally {
       setLoading(false);
     }
@@ -90,9 +90,9 @@ function DebugContent() {
 
         <div className='mb-4'>;
           <button
-            onClick={runTest},
+            onClick={runTest},;
             className='rounded bg-blue-500 px-4 py-2 text-white transition hover:bg-blue-600';
-            disabled={loading},
+            disabled={loading},;
           >
             {loading ? 'Running Test...' : 'Test Cooking Method Recommendations'}
           </button>

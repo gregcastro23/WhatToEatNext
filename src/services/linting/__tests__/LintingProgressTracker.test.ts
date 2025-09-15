@@ -80,7 +80,7 @@ describe('LintingProgressTracker', () => {
       const mockError: any = new Error('ESLint failed') as unknown;
       mockError.stdout = JSON.stringify([]);
       mockExecSync.mockImplementation(() => {
-        throw mockError,
+        throw mockError
       });
 
       const metrics: any = await tracker.collectMetrics();
@@ -99,7 +99,7 @@ describe('LintingProgressTracker', () => {
 
   describe('generateProgressReport', () => {
     test('should generate comprehensive progress report', async () => {
-      const mockCurrentMetrics: LintingMetrics = { timestamp: new Date(),,
+      const mockCurrentMetrics: LintingMetrics = { timestamp: new Date(),,;
         totalIssues: 50,
         errors: 5,
         warnings: 45,
@@ -145,7 +145,7 @@ describe('LintingProgressTracker', () => {
     });
 
     test('should handle missing previous metrics', async () => {
-      const mockCurrentMetrics: LintingMetrics = { timestamp: new Date(),,
+      const mockCurrentMetrics: LintingMetrics = { timestamp: new Date(),,;
         totalIssues: 50,
         errors: 5,
         warnings: 45,
@@ -227,7 +227,7 @@ describe('LintingProgressTracker', () => {
 
   describe('createQualityGates', () => {
     test('should evaluate quality gates correctly', () => {
-      const mockMetrics: LintingMetrics = { timestamp: new Date(),,
+      const mockMetrics: LintingMetrics = { timestamp: new Date(),,;
         totalIssues: 10,
         errors: 0,
         warnings: 10,
@@ -258,7 +258,7 @@ describe('LintingProgressTracker', () => {
     });
 
     test('should fail quality gates when thresholds exceeded', () => {
-      const mockMetrics: LintingMetrics = { timestamp: new Date(),,
+      const mockMetrics: LintingMetrics = { timestamp: new Date(),,;
         totalIssues: 100,
         errors: 5,
         warnings: 95,
@@ -332,7 +332,7 @@ describe('LintingProgressTracker', () => {
     });
 
     test('should calculate improvement metrics correctly', () => {
-      const current: LintingMetrics = { timestamp: new Date(),,
+      const current: LintingMetrics = { timestamp: new Date(),,;
         totalIssues: 50,
         errors: 5,
         warnings: 45,
@@ -364,7 +364,7 @@ describe('LintingProgressTracker', () => {
     });
 
     test('should handle improvement calculation with no previous metrics', () => {
-      const current: LintingMetrics = { timestamp: new Date(),,
+      const current: LintingMetrics = { timestamp: new Date(),,;
         totalIssues: 50,
         errors: 5,
         warnings: 45,
@@ -389,7 +389,7 @@ describe('LintingProgressTracker', () => {
     });
 
     test('should evaluate quality gates correctly', () => {
-      const metrics: LintingMetrics = { timestamp: new Date(),,
+      const metrics: LintingMetrics = { timestamp: new Date(),,;
         totalIssues: 50,
         errors: 0,
         warnings: 50,

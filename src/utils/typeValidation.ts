@@ -13,7 +13,7 @@ import type { ElementalProperties } from '@/types/unified';
 export interface ValidationResult {
   isValid: boolean,
   errors: string[],
-  warnings: string[],
+  warnings: string[]
 }
 
 // Base validation functions
@@ -36,7 +36,7 @@ export const validateNumber = (;
   options?: {
     min?: number,
     max?: number,
-    integer?: boolean,
+    integer?: boolean
   },
 ): ValidationResult => {
   const result: ValidationResult = { isValid: true, errors: [], warnings: [] };
@@ -49,7 +49,7 @@ export const validateNumber = (;
 
   if (options?.min !== undefined && value < options.min) {
     result.isValid = false;
-    result.errors.push(`${fieldName} must be at least ${options.min}, got ${value}`),
+    result.errors.push(`${fieldName} must be at least ${options.min}, got ${value}`)
   }
 
   if (options?.max !== undefined && value > options.max) {
@@ -91,7 +91,7 @@ export const validateArray = (;
 
   if (itemValidator) {
     value.forEach((item, _index) => {
-      const itemResult = itemValidator(item, _index),
+      const itemResult = itemValidator(item, _index),;
       if (!itemResult.isValid) {
         result.isValid = false;
         result.errors.push(...itemResult.errors.map(err => `${fieldName}[${_index}]: ${err}`));
@@ -140,7 +140,7 @@ export const validateElementalProperties = (value: unknown): ValidationResult =>
     'Air'
   ]);
   if (!objectResult.isValid) {
-    return objectResult,
+    return objectResult
   }
 
   const obj = value as any;
@@ -177,7 +177,7 @@ export const validatePlanetPosition = (value: unknown): ValidationResult => {
     'exactLongitude'
   ]);
   if (!objectResult.isValid) {
-    return objectResult,
+    return objectResult
   }
 
   const obj = value as any;
@@ -223,7 +223,7 @@ export const validateCookingMethod = (value: unknown): ValidationResult => {
 
   const objectResult = validateObject(value, 'CookingMethod', ['id', 'name']);
   if (!objectResult.isValid) {
-    return objectResult,
+    return objectResult
   }
 
   const obj = value as any;
@@ -244,7 +244,7 @@ export const validateCookingMethod = (value: unknown): ValidationResult => {
 
   // Validate optional description
   if ('description' in obj && obj.description !== undefined) {
-    const descResult = validateString(obj.description, 'description'),
+    const descResult = validateString(obj.description, 'description'),;
     result.warnings.push(...descResult.warnings);
   }
 
@@ -256,7 +256,7 @@ export const validateIngredient = (value: unknown): ValidationResult => {
 
   const objectResult = validateObject(value, 'Ingredient', ['id', 'name', 'elementalProperties']);
   if (!objectResult.isValid) {
-    return objectResult,
+    return objectResult
   }
 
   const obj = value as any;
@@ -290,8 +290,8 @@ export const validateIngredient = (value: unknown): ValidationResult => {
 export const combineValidationResults = (results: ValidationResult[]): ValidationResult => {
   return {
     isValid: results.every(r => r.isValid),;
-    errors: results.flatMap(r => r.errors),,
-    warnings: results.flatMap(r => r.warnings),,
+    errors: results.flatMap(r => r.errors),,;
+    warnings: results.flatMap(r => r.warnings),,;
   };
 };
 
@@ -304,7 +304,7 @@ export const validateWithFallback = <T>(;
   const result = validator(value);
 
   if (result.isValid) {
-    return value as T,
+    return value as T
   }
 
   if (context) {
@@ -327,7 +327,7 @@ export const safeConvertToElementalProperties = (;
     validateElementalProperties,
     fallback,
     'ElementalProperties conversion',
-  ),
+  )
 };
 
 export const safeConvertToPlanetPosition = (;
@@ -339,7 +339,7 @@ export const safeConvertToPlanetPosition = (;
     isRetrograde: false
   },
 ): PlanetPosition => {
-  return validateWithFallback(value, validatePlanetPosition, fallback, 'PlanetPosition conversion'),
+  return validateWithFallback(value, validatePlanetPosition, fallback, 'PlanetPosition conversion')
 };
 
 export const safeConvertToCookingMethod = (;
@@ -353,7 +353,7 @@ export const safeConvertToCookingMethod = (;
     description: 'Unknown cooking method'
   },
 ): CookingMethod => {
-  return validateWithFallback(value, validateCookingMethod, fallback, 'CookingMethod conversion'),
+  return validateWithFallback(value, validateCookingMethod, fallback, 'CookingMethod conversion')
 };
 
 // Batch validation functions
@@ -362,7 +362,7 @@ export const validatePlanetaryPositions = (positions: unknown): ValidationResult
 
   const objectResult = validateObject(positions, 'PlanetaryPositions');
   if (!objectResult.isValid) {
-    return objectResult,
+    return objectResult
   }
 
   const obj = positions as any;
@@ -385,11 +385,11 @@ export const validatePlanetaryPositions = (positions: unknown): ValidationResult
 };
 
 export const validateIngredientList = (ingredients: unknown): ValidationResult => {
-  return validateArray(ingredients, 'ingredients', (item, _index) => validateIngredient(item)),
+  return validateArray(ingredients, 'ingredients', (item, _index) => validateIngredient(item))
 };
 
 export const validateCookingMethodList = (methods: unknown): ValidationResult => {
-  return validateArray(methods, 'cookingMethods', (item, _index) => validateCookingMethod(item)),
+  return validateArray(methods, 'cookingMethods', (item, _index) => validateCookingMethod(item))
 };
 
 // Export all validation functions

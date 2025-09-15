@@ -40,9 +40,9 @@ export default function CuisineSelectorTestPage() {
               Original Component (Context-based)
             </h2>
             <CuisineSelector
-              selectedCuisine={originalSelectedCuisine},
-              onCuisineChange={setOriginalSelectedCuisine},
-              onRecipesChange={setOriginalRecipes},
+              selectedCuisine={originalSelectedCuisine},;
+              onCuisineChange={setOriginalSelectedCuisine},;
+              onRecipesChange={setOriginalRecipes},;
             />
 
             {originalSelectedCuisine && (
@@ -71,9 +71,9 @@ export default function CuisineSelectorTestPage() {
               Migrated Component (Service-based)
             </h2>
             <CuisineSelectorMigrated
-              selectedCuisine={migratedSelectedCuisine},
-              onCuisineChange={setMigratedSelectedCuisine},
-              onRecipesChange={setMigratedRecipes},
+              selectedCuisine={migratedSelectedCuisine},;
+              onCuisineChange={setMigratedSelectedCuisine},;
+              onRecipesChange={setMigratedRecipes},;
             />
 
             {migratedSelectedCuisine && (

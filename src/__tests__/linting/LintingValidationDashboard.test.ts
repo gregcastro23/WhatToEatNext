@@ -419,7 +419,7 @@ describe('LintingValidationDashboard', () => {
             line: 1,
             column: 1
           }
-        ]
+        ];
       }));
 
       mockExecSync.mockReturnValue(JSON.stringify(mockLintResults));

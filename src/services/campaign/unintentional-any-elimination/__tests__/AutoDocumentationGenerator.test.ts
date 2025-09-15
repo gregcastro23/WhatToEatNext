@@ -26,11 +26,11 @@ describe('AutoDocumentationGenerator', () => {
     mockContext = {
       filePath: '/test/file.ts';
       lineNumber: 10,
-      codeSnippet: 'const dat, a: any = response,',
+      codeSnippet: 'const dat, a: any = response,',;
       surroundingLines: [
         'function processResponse() : any {',
         '  try {',
-        '    const data: any = response,',
+        '    const data: any = response,',;
         '    return data.result,',
         '  } catch (error) : any {'
       ],
@@ -60,7 +60,7 @@ describe('AutoDocumentationGenerator', () => {
       const fileContent: any = [
         'function processResponse() : any {',
         '  try {',
-        '    const data: any = response,',
+        '    const data: any = response,',;
         '    return data.result,',
         '  } catch (error) : any {',
         '    console.error(error),',
@@ -156,7 +156,7 @@ describe('AutoDocumentationGenerator', () => {
       const fileContent: any = [
         'class TestClass {',
         '  processData() : any {',
-        '    const data: any = response,',
+        '    const data: any = response,',;
         '  }',
         '}'
       ].join('\n');
@@ -189,7 +189,7 @@ describe('AutoDocumentationGenerator', () => {
         'function test() : any {',
         '  // Intentionally any: External API response',
         '  // eslint-disable-next-line @typescript-eslint/no-explicit-any',
-        '  const data: any = response,',
+        '  const data: any = response,',;
         '}'
       ].join('\n');
 
@@ -215,7 +215,7 @@ describe('AutoDocumentationGenerator', () => {
       const fileContent: any = [
         'function test() : any {',
         '  // any',
-        '  const data: any = response,',
+        '  const data: any = response,',;
         '}'
       ].join('\n');
 

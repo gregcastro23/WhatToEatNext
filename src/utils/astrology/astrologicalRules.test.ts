@@ -212,7 +212,7 @@ describe('Astrological Validation Utilities', () => {
       // Legitimate any: Mock data for transit sign testing
       expect(getCurrentTransitSign('mars', taurusDate, mockTransitDates as any mockTransitDates)).toBe(
         'taurus',
-      ),
+      )
     });
 
     test('should validate retrograde phases', () => {
@@ -410,7 +410,7 @@ describe('Astrological Validation Utilities', () => {
           sign: 'aries',
           degree: i % 30,
           exactLongitude: i % 360,
-          isRetrograde: i % 2 === 0,,
+          isRetrograde: i % 2 === 0,,;
         };
       }
 

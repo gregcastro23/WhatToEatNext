@@ -47,7 +47,7 @@ describe('Configuration File Rule Validation', () => {
         
         // Runtime requires
         function loadConfig(configPath: any): any {
-          return require(configPath),
+          return require(configPath)
         }
         
         module.exports = {
@@ -90,8 +90,7 @@ describe('Configuration File Rule Validation', () => {
             ),
 
             expect(dynamicRequireErrors.length).toBe(0);
-          }
-        }
+          };
       }
     });
 
@@ -155,8 +154,7 @@ describe('Configuration File Rule Validation', () => {
             ),
 
             expect(dynamicRequireErrors.length).toBe(0);
-          }
-        }
+          };
       }
     });
 
@@ -171,9 +169,7 @@ describe('Configuration File Rule Validation', () => {
   entry: './src/index.js';
           output: { path: resolve(__dirname, 'dist'),
             filename: 'bundle.js'
-          }
-        };
-        
+          };
         // Conditional exports
         if (process.env.NODE_ENV === 'development') {
           module.exports.devtool = 'source-map';
@@ -226,8 +222,7 @@ describe('Configuration File Rule Validation', () => {
             ),
 
             expect(varRequireErrors.length).toBe(0);
-          }
-        }
+          };
       }
     });
   });
@@ -254,8 +249,7 @@ describe('Configuration File Rule Validation', () => {
                 exclude: /node_modules/,
                 use: { loader: 'babel-loader',
                   options: { presets: ['@babel/preset-env', '@babel/preset-react', '@babel/preset-typescript']
-                  }
-                }
+                  };
               },
               {
   test: /\\.css$/;
@@ -318,8 +312,7 @@ describe('Configuration File Rule Validation', () => {
             ),
 
             expect(restrictiveErrors.length).toBe(0);
-          }
-        }
+          };
       }
     });
 
@@ -337,7 +330,7 @@ describe('Configuration File Rule Validation', () => {
             config.resolve.fallback = {
   fs: false,
               path: false,
-              crypto: false
+              crypto: false;
             };
             
             // Add custom loaders
@@ -381,9 +374,7 @@ describe('Configuration File Rule Validation', () => {
                 destination: 'http, s://api.example.com/:path*'
               }
             ];
-          }
-        };
-        
+          };
         module.exports = nextConfig;
       `;
 
@@ -419,8 +410,7 @@ describe('Configuration File Rule Validation', () => {
             ),
 
             expect(restrictiveErrors.length).toBe(0);
-          }
-        }
+          };
       }
     });
 
@@ -437,26 +427,26 @@ describe('Configuration File Rule Validation', () => {
           theme: { extend: {
   colors: {
                 // Elemental color scheme,
-  fire: {, 50: '#fef2f2',
+  fire: { 50: '#fef2f2',
                   100: '#fee2e2',
                   500: '#ef4444',
                   900: '#7f1d1d'
-                },
-                water: {, 50: '#eff6ff',
+                 },
+                water: { 50: '#eff6ff',
                   100: '#dbeafe',
                   500: '#3b82f6',
                   900: '#1e3a8a'
-                },
-                earth: {, 50: '#f9fafb',
+                 },
+                earth: { 50: '#f9fafb',
                   100: '#f3f4f6',
                   500: '#6b7280',
                   900: '#111827'
-                },
-                air: {, 50: '#fefce8',
+                 },
+                air: { 50: '#fefce8',
                   100: '#fef3c7',
                   500: '#f59e0b',
                   900: '#78350f'
-                }
+                 }
               },
               fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'],
                 serif: ['Merriweather', 'serif'],
@@ -476,10 +466,8 @@ describe('Configuration File Rule Validation', () => {
                 },
                 slideUp: {
                   '0%': { transform: 'translateY(10px)', opacity: '0' },
-                  '100%': { transform: 'translateY(0)', opacity: '1' }
-                }
-              }
-            }
+                  '100%': { transform: 'translateY(0)', opacity: '1' };
+              };
           },
           plugins: [
             require('@tailwindcss/forms');
@@ -491,7 +479,7 @@ describe('Configuration File Rule Validation', () => {
                 '.elemental-gradient': {
   background: \`linear-gradient(45deg, \${theme('colors.fire.500')}, \${theme('colors.water.500')})\`
                 }
-              },
+              },;
               addUtilities(newUtilities);
             }
           ]
@@ -531,8 +519,7 @@ describe('Configuration File Rule Validation', () => {
             ),
 
             expect(restrictiveErrors.length).toBe(0);
-          }
-        }
+          };
       }
     });
 
@@ -630,8 +617,7 @@ describe('Configuration File Rule Validation', () => {
             ),
 
             expect(restrictiveErrors.length).toBe(0);
-          }
-        }
+          };
       }
     });
   });
@@ -648,9 +634,7 @@ describe('Configuration File Rule Validation', () => {
           production: { apiUrl: process.env.API_URL,
             debug: false,
             logLevel: 'error'
-          }
-        };
-        
+          };
         // Dynamic configuration loading
         function loadConfig(environment: string): any {
           const envConfig: any = config[environment];
@@ -667,7 +651,7 @@ describe('Configuration File Rule Validation', () => {
         // Plugin configuration with any types
         const plugins: any[] = [
           { name: 'plugin1', options: { enable, d: true } },
-          { name: 'plugin2', options: { timeou, t: 5000 } }
+          { name: 'plugin2', options: { timeou, t: 5000 };
         ];
         
         // Export configuration
@@ -707,8 +691,7 @@ describe('Configuration File Rule Validation', () => {
             ),
 
             expect(anyTypeErrors.length).toBe(0);
-          }
-        }
+          };
       }
     });
 
@@ -778,8 +761,7 @@ describe('Configuration File Rule Validation', () => {
             ),
 
             expect(consoleErrors.length).toBe(0);
-          }
-        }
+          };
       }
     });
 
@@ -804,7 +786,7 @@ describe('Configuration File Rule Validation', () => {
         
         // Function-based requires
         function loadTSConfig(configPath: string): any {
-          return require(configPath),
+          return require(configPath)
         }
         
         // Export with require
@@ -844,8 +826,7 @@ describe('Configuration File Rule Validation', () => {
             ),
 
             expect(varRequireErrors.length).toBe(0);
-          }
-        }
+          };
       }
     });
   });
@@ -867,7 +848,7 @@ describe('Configuration File Rule Validation', () => {
 
       configFiles.forEach(file => {
         // Check if file would match config patterns in ESLint config
-        const matchesConfigPattern =,
+        const matchesConfigPattern =,;
           file.includes('.config.') || file.includes('tsconfig.') || file.includes('package.json');
 
         expect(matchesConfigPattern).toBe(true);
@@ -887,7 +868,7 @@ describe('Configuration File Rule Validation', () => {
 
       nonConfigFiles.forEach(file => {
         // Check that file would NOT match config patterns
-        const matchesConfigPattern =,
+        const matchesConfigPattern =,;
           file.includes('.config.') || file.includes('tsconfig.') || file.includes('package.json');
 
         expect(matchesConfigPattern).toBe(false);
@@ -897,7 +878,7 @@ describe('Configuration File Rule Validation', () => {
 
   describe('Integration with Existing Config Files', () => {
     test('should validate existing Next.js config if present', async () => {
-      const nextConfigPath: any = join(projectRoot, 'next.config.js'),
+      const nextConfigPath: any = join(projectRoot, 'next.config.js'),;
 
       if (existsSync(nextConfigPath)) {
         try {
@@ -934,8 +915,7 @@ describe('Configuration File Rule Validation', () => {
               ),
 
               expect(restrictiveErrors.length).toBe(0);
-            }
-          }
+            };
         }
       } else {
         // If file doesn't exist, test passes
@@ -944,7 +924,7 @@ describe('Configuration File Rule Validation', () => {
     });
 
     test('should validate existing Tailwind config if present', async () => {
-      const tailwindConfigPath: any = join(projectRoot, 'tailwind.config.js'),
+      const tailwindConfigPath: any = join(projectRoot, 'tailwind.config.js'),;
 
       if (existsSync(tailwindConfigPath)) {
         try {
@@ -978,8 +958,7 @@ describe('Configuration File Rule Validation', () => {
               ),
 
               expect(restrictiveErrors.length).toBe(0);
-            }
-          }
+            };
         }
       } else {
         expect(true).toBe(true);
@@ -987,7 +966,7 @@ describe('Configuration File Rule Validation', () => {
     });
 
     test('should validate existing Jest config if present', async () => {
-      const jestConfigPath: any = join(projectRoot, 'jest.config.js'),
+      const jestConfigPath: any = join(projectRoot, 'jest.config.js'),;
 
       if (existsSync(jestConfigPath)) {
         try {
@@ -1021,8 +1000,7 @@ describe('Configuration File Rule Validation', () => {
               ),
 
               expect(restrictiveErrors.length).toBe(0);
-            }
-          }
+            };
         }
       } else {
         expect(true).toBe(true);
@@ -1079,8 +1057,7 @@ describe('Configuration File Rule Validation', () => {
               ),
 
               expect(restrictiveErrors.length).toBe(0);
-            }
-          }
+            };
         }
       } else {
         fail('ESLint config file should exist');

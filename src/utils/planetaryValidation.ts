@@ -14,7 +14,7 @@ export interface ValidationResult {
   errors: ValidationError[],
   warnings: ValidationWarning[],
   summary: string,
-  timestamp: Date,
+  timestamp: Date
 }
 
 export interface ValidationError {
@@ -24,14 +24,14 @@ export interface ValidationError {
   expectedValue?: unknown,
   actualValue?: unknown,
   message: string,
-  timestamp: Date,
+  timestamp: Date
 }
 
 export interface ValidationWarning {
   type: 'MINOR_DRIFT' | 'CACHE_STALE' | 'API_SLOW' | 'DATA_OUTDATED',
   planet?: string,
   message: string,
-  timestamp: Date,
+  timestamp: Date
 }
 
 export interface TestResult {
@@ -39,7 +39,7 @@ export interface TestResult {
   passed: boolean,
   duration: number,
   error?: string,
-  details?: Record<string, unknown>,
+  details?: Record<string, unknown>
 }
 
 // Validation tolerances
@@ -86,7 +86,7 @@ export async function validatePlanetaryData(): Promise<ValidationResult> {
     const isValid =
       errors.filter(e => e.severity === 'CRITICAL' || e.severity === 'HIGH').length === 0;
 
-    const summary = generateValidationSummary(isValid, errors, warnings, duration),
+    const summary = generateValidationSummary(isValid, errors, warnings, duration),;
 
     logger.info(
       `Planetary validation completed in ${duration}ms: ${isValid ? 'PASSED' : 'FAILED'}`,
@@ -122,13 +122,13 @@ export async function validatePlanetaryData(): Promise<ValidationResult> {
  */
 async function validateTransitDates(): Promise<{
   errors: ValidationError[],
-  warnings: ValidationWarning[],
+  warnings: ValidationWarning[]
 }> {
   const errors: ValidationError[] = [];
   const warnings: ValidationWarning[] = [];
 
   try {
-    const planets = ['mars', 'venus', 'mercury', 'jupiter', 'saturn'],
+    const planets = ['mars', 'venus', 'mercury', 'jupiter', 'saturn'],;
     const currentDate = new Date();
 
     for (const planetName of planets) {
@@ -193,7 +193,7 @@ function validatePlanetTransitDates(
 
       // Skip complex structures like RetrogradePhases that don't have simple Start/End
       if (!transit || typeof transit !== 'object') {
-        continue,
+        continue
       }
 
       // Handle different transit data structures
@@ -273,7 +273,7 @@ function validatePlanetTransitDates(
  */
 async function validatePositionConsistency(): Promise<{
   errors: ValidationError[],
-  warnings: ValidationWarning[],
+  warnings: ValidationWarning[]
 }> {
   const errors: ValidationError[] = [];
   const warnings: ValidationWarning[] = [];
@@ -289,7 +289,7 @@ async function validatePositionConsistency(): Promise<{
           degree: number,
           exactLongitude: number,
           sign: string,
-          isRetrograde: boolean,
+          isRetrograde: boolean
         };
 
         if (typeof pos.degree === 'number' && typeof pos.exactLongitude === 'number') {
@@ -426,14 +426,14 @@ async function getExpectedSignsForPlanet(planetName: string): Promise<string[]> 
         }
       }
 
-      return possibleSigns,
+      return possibleSigns
     }
   } catch (error) {
     // If we can't load the data, return empty array (no validation)
-    return [],
+    return []
   }
 
-  return [],
+  return []
 }
 
 /**
@@ -457,7 +457,7 @@ async function runAstronomicalTests(): Promise<TestResult[]> {
   // Test 5: API fallback mechanism
   testResults.push(await testApiFallbackMechanism());
 
-  return testResults,
+  return testResults
 }
 
 /**
@@ -478,10 +478,10 @@ async function testPlanetaryPositionAccuracy(): Promise<TestResult> {
         const pos = positions[planet]  as {
           degree: number,
           exactLongitude: number,
-          sign: string,
+          sign: string
         };
         if (typeof pos.degree === 'number' && typeof pos.exactLongitude === 'number' && pos.sign) {
-          passedChecks++,
+          passedChecks++
         }
       }
     }
@@ -524,12 +524,12 @@ async function testTransitDateValidation(): Promise<TestResult> {
       try {
         const planetModule = await import(`../data/planets/${planet}`);
         const planetSpecific = planetModule.default.PlanetSpecific as {
-          TransitDates?: Record<string, unknown>,
+          TransitDates?: Record<string, unknown>
         };
         const transitDates = planetSpecific?.TransitDates;
 
         if (transitDates && Object.keys(transitDates).length > 0) {
-          validTransits++,
+          validTransits++
         }
       } catch (error) {
         // Planet data not found or invalid
@@ -585,7 +585,7 @@ async function testRetrogradeDetection(): Promise<TestResult> {
       if (positions[planet] && typeof positions[planet] === 'object') {
         const pos = positions[planet] as { isRetrograde: boolean };
         if (typeof pos.isRetrograde === 'boolean') {
-          validRetrogradeData++,
+          validRetrogradeData++
         }
       }
     }
@@ -625,12 +625,12 @@ async function testLunarNodeCalculation(): Promise<TestResult> {
     const northNode = positions.northNode  as {
       exactLongitude: number,
       sign: string,
-      degree: number,
+      degree: number
     };
     const southNode = positions.southNode  as {
       exactLongitude: number,
       sign: string,
-      degree: number,
+      degree: number
     };
 
     let passed = true;
@@ -651,7 +651,7 @@ async function testLunarNodeCalculation(): Promise<TestResult> {
     // Check that nodes are opposite (180 degrees apart)
     if (passed && northNode && southNode) {
       const longitudeDiff = Math.abs(northNode.exactLongitude - southNode.exactLongitude);
-      const isOpposite = Math.abs(longitudeDiff - 180) < 1, // Within 1 degree tolerance
+      const isOpposite = Math.abs(longitudeDiff - 180) < 1, // Within 1 degree tolerance;
 
       if (!isOpposite) {
         passed = false;
@@ -667,14 +667,14 @@ async function testLunarNodeCalculation(): Promise<TestResult> {
       duration,
       details,
       error: passed ? undefined : `Lunar nodes validation failed: ${JSON.stringify(details)}`
-    },
+    }
   } catch (error) {
     return {
       testName: 'Lunar Node Calculation',
       passed: false,
       duration: Date.now() - startTime;
       error: error instanceof Error ? error.message : 'Unknown error'
-    },
+    }
   }
 }
 
@@ -696,7 +696,7 @@ async function testApiFallbackMechanism(): Promise<TestResult> {
       if (positions[planet] && typeof positions[planet] === 'object') {
         const pos = positions[planet] as { sign: string, degree: number };
         if (pos.sign && typeof pos.degree === 'number') {
-          validPositions++,
+          validPositions++
         }
       }
     }
@@ -729,13 +729,13 @@ async function testApiFallbackMechanism(): Promise<TestResult> {
  */
 async function validateElementalProperties(): Promise<{
   errors: ValidationError[],
-  warnings: ValidationWarning[],
+  warnings: ValidationWarning[]
 }> {
   const errors: ValidationError[] = [];
   const warnings: ValidationWarning[] = [];
 
   try {
-    const planets = ['sun', 'moon', 'mercury', 'venus', 'mars', 'jupiter', 'saturn'],
+    const planets = ['sun', 'moon', 'mercury', 'venus', 'mars', 'jupiter', 'saturn'],;
 
     for (const planetName of planets) {
       try {
@@ -744,7 +744,7 @@ async function validateElementalProperties(): Promise<{
 
         // Check elemental properties
         if (planetData?.Elements && Array.isArray(planetData.Elements)) {
-          const validElements = ['Fire', 'Water', 'Earth', 'Air'],
+          const validElements = ['Fire', 'Water', 'Earth', 'Air'],;
           const invalidElements = planetData.Elements.filter(;
             (el: string) => !validElements.includes(el);
           ),
@@ -762,7 +762,7 @@ async function validateElementalProperties(): Promise<{
 
         // Check alchemical properties
         if (planetData?.Alchemy) {
-          const requiredAlchemical = ['Spirit', 'Essence', 'Matter', 'Substance'],
+          const requiredAlchemical = ['Spirit', 'Essence', 'Matter', 'Substance'],;
           const missingAlchemical = requiredAlchemical.filter(;
             prop => typeof planetData.Alchemy[prop] !== 'number'
           ),
@@ -802,7 +802,7 @@ async function validateElementalProperties(): Promise<{
  */
 function analyzeTestResults(testResults: TestResult[]): {
   errors: ValidationError[],
-  warnings: ValidationWarning[],
+  warnings: ValidationWarning[]
 } {
   const errors: ValidationError[] = [];
   const warnings: ValidationWarning[] = [];
@@ -817,7 +817,7 @@ function analyzeTestResults(testResults: TestResult[]): {
       severity: 'HIGH',
       message: `Test pass rate ${passRate.toFixed(1)}% below threshold ${VALIDATION_TOLERANCES.TEST_PASS_THRESHOLD}%`,
       timestamp: new Date()
-    }),
+    })
   }
 
   // Check individual test failures
@@ -833,7 +833,7 @@ function analyzeTestResults(testResults: TestResult[]): {
         severity: severity,
         message: `Test failed: ${test.testName}${test.error ? ` - ${test.error}` : ''}`,
         timestamp: new Date()
-      }),
+      })
     }
 
     // Check for slow tests
@@ -899,7 +899,7 @@ export function shouldRollback(validationResult: ValidationResult): boolean {
   const highErrors = validationResult.errors.filter(e => e.severity === 'HIGH').length;
 
   // Rollback if there are any critical errors or more than 2 high-severity errors
-  return criticalErrors > 0 || highErrors > 2,
+  return criticalErrors > 0 || highErrors > 2
 }
 
 /**

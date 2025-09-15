@@ -19,25 +19,25 @@ export interface PerformanceMetrics {
     current: number,
     target: number,
     average: number,
-    trend: 'improving' | 'stable' | 'degrading',
+    trend: 'improving' | 'stable' | 'degrading'
   };
   cacheHitRate: {
     current: number,
     target: number,
     average: number,
-    trend: 'improving' | 'stable' | 'degrading',
+    trend: 'improving' | 'stable' | 'degrading'
   };
   memoryUsage: {
     current: number,
     target: number,
     peak: number,
-    average: number,
+    average: number
   };
   bundleSize: {
     current: number,
     target: number,
     compressed: number,
-    trend: 'improving' | 'stable' | 'degrading',
+    trend: 'improving' | 'stable' | 'degrading'
   };
 }
 
@@ -48,7 +48,7 @@ export interface PerformanceAlert {
   currentValue: number,
   targetValue: number,
   timestamp: Date,
-  recommendations: string[],
+  recommendations: string[]
 }
 
 export interface PerformanceReport {
@@ -57,7 +57,7 @@ export interface PerformanceReport {
   alerts: PerformanceAlert[],
   regressionDetected: boolean,
   overallScore: number,
-  recommendations: string[],
+  recommendations: string[]
 }
 
 export class PerformanceMonitoringSystem extends ProgressTracker {
@@ -80,7 +80,7 @@ export class PerformanceMonitoringSystem extends ProgressTracker {
    */
   async measureBuildTime(): Promise<number> {
     try {
-      // console.log('📊 Measuring build time...');
+      // // console.log('📊 Measuring build time...');
 
       // Use time command to measure build execution
       const startTime = process.hrtime.bigint();
@@ -98,7 +98,7 @@ export class PerformanceMonitoringSystem extends ProgressTracker {
       const timeMatch = timeOutput.match(/real\s+(\d+\.\d+)/);
       const measuredTime = timeMatch ? parseFloat(timeMatch[1]) : buildTimeSeconds;
 
-      // console.log(`⏱️  Build completed in ${measuredTime.toFixed(2)}s`);
+      // // console.log(`⏱️  Build completed in ${measuredTime.toFixed(2)}s`);
       return measuredTime;
     } catch (error) {
       console.warn(`⚠️  Build time measurement failed: ${(error as Error).message}`);
@@ -110,7 +110,7 @@ export class PerformanceMonitoringSystem extends ProgressTracker {
         const endTime = Date.now();
         const fallbackTime = (endTime - startTime) / 1000;
 
-        // console.log(`⏱️  Build completed in ${fallbackTime.toFixed(2)}s (fallback timing)`);
+        // // console.log(`⏱️  Build completed in ${fallbackTime.toFixed(2)}s (fallback timing)`);
         return fallbackTime;
       } catch (buildError) {
         console.error(`❌ Build failed: ${(buildError as Error).message}`);
@@ -140,7 +140,7 @@ export class PerformanceMonitoringSystem extends ProgressTracker {
           // This is a simplified estimation - in a real system, you'd track actual cache hits
           const estimatedHitRate = Math.min(0.95, Math.max(0.5, cacheCount / 1000));
 
-          // console.log(`📈 Cache hit rate estimated: ${(estimatedHitRate * 100).toFixed(1)}%`);
+          // // console.log(`📈 Cache hit rate estimated: ${(estimatedHitRate * 100).toFixed(1)}%`);
           return estimatedHitRate;
         }
       }
@@ -166,7 +166,7 @@ export class PerformanceMonitoringSystem extends ProgressTracker {
       // Estimate hit rate based on cache size (simplified heuristic)
       const estimatedHitRate = totalCacheSize > 10000 ? 0.8 : 0.6;
 
-      // console.log(
+      // // console.log(
         `📈 Cache hit rate estimated: ${(estimatedHitRate * 100).toFixed(1)}% (based on cache size: ${totalCacheSize}kB)`,
       );
       return estimatedHitRate;
@@ -195,15 +195,15 @@ export class PerformanceMonitoringSystem extends ProgressTracker {
 
         const memMatch = systemMemOutput.match(/\s+(\d+)\s+(\d+)\s+(\d+)/);
         if (memMatch) {
-          const systemCurrentMB = Math.round(parseInt(memMatch[3]) / 1024), // RSS in MB
-          // console.log(`💾 Memory usage: ${currentMB}MB (heap), ${systemCurrentMB}MB (system)`);
+          const systemCurrentMB = Math.round(parseInt(memMatch[3]) / 1024), // RSS in MB;
+          // // console.log(`💾 Memory usage: ${currentMB}MB (heap), ${systemCurrentMB}MB (system)`);
           return { current: Math.max(currentMB, systemCurrentMB), peak: peakMB };
         }
       } catch (systemError) {
         // Fallback to Node.js memory only
       }
 
-      // console.log(`💾 Memory usage: ${currentMB}MB (current), ${peakMB}MB (peak)`);
+      // // console.log(`💾 Memory usage: ${currentMB}MB (current), ${peakMB}MB (peak)`);
       return { current: currentMB, peak: peakMB };
     } catch (error) {
       console.warn(`⚠️  Memory usage tracking failed: ${(error as Error).message}`);
@@ -307,11 +307,11 @@ export class PerformanceMonitoringSystem extends ProgressTracker {
 
     // Log alert immediately
     const severityIcon = alert.severity === 'critical' ? '🚨' : '⚠️';
-    // console.log(`${severityIcon} Performance Alert: ${alert.message}`);
+    // // console.log(`${severityIcon} Performance Alert: ${alert.message}`);
 
     if (alert.recommendations.length > 0) {
-      // console.log('💡 Recommendations:');
-      alert.recommendations.forEach(rec => // console.log(`   • ${rec}`));
+      // // console.log('💡 Recommendations:');
+      alert.recommendations.forEach(rec => // // console.log(`   • ${rec}`));
     }
   }
 
@@ -353,7 +353,7 @@ export class PerformanceMonitoringSystem extends ProgressTracker {
       cacheHitRate,
     );
     const bundleSizeTrend = this.calculateTrend(;
-      this.performanceHistory.map(m => m.bundleSize.current),,
+      this.performanceHistory.map(m => m.bundleSize.current),,;
       bundleSize,
     ),
 
@@ -407,7 +407,7 @@ export class PerformanceMonitoringSystem extends ProgressTracker {
     const changePercent = ((current - average) / average) * 100;
 
     if (Math.abs(changePercent) < 5) return 'stable';
-    return changePercent < 0 ? 'improving' : 'degrading',
+    return changePercent < 0 ? 'improving' : 'degrading'
   }
 
   /**
@@ -457,7 +457,7 @@ export class PerformanceMonitoringSystem extends ProgressTracker {
     if (metrics.cacheHitRate.current < this.PERFORMANCE_TARGETS.cacheHitRate) {
       recommendations.push(
         `Cache hit rate (${(metrics.cacheHitRate.current * 100).toFixed(1)}%) below target (${this.PERFORMANCE_TARGETS.cacheHitRate * 100}%)`,
-      ),
+      )
     }
 
     if (metrics.memoryUsage.current > this.PERFORMANCE_TARGETS.memoryUsage) {
@@ -490,7 +490,7 @@ export class PerformanceMonitoringSystem extends ProgressTracker {
       clearInterval(this.monitoringInterval);
     }
 
-    // console.log(`📊 Starting performance monitoring (every ${intervalMinutes} minutes)`);
+    // // console.log(`📊 Starting performance monitoring (every ${intervalMinutes} minutes)`);
 
     this.monitoringInterval = setInterval(;
       () => {
@@ -514,7 +514,7 @@ export class PerformanceMonitoringSystem extends ProgressTracker {
     if (this.monitoringInterval) {
       clearInterval(this.monitoringInterval);
       this.monitoringInterval = null;
-      // console.log('📊 Performance monitoring stopped');
+      // // console.log('📊 Performance monitoring stopped');
     }
   }
 
@@ -533,7 +533,7 @@ export class PerformanceMonitoringSystem extends ProgressTracker {
       };
 
       fs.writeFileSync(filePath, JSON.stringify(exportData, null, 2));
-      // console.log(`📊 Performance data exported to: ${filePath}`);
+      // // console.log(`📊 Performance data exported to: ${filePath}`);
     } catch (error) {
       throw new Error(`Failed to export performance data: ${(error as Error).message}`);
     }
@@ -543,7 +543,7 @@ export class PerformanceMonitoringSystem extends ProgressTracker {
    * Get current alerts
    */
   getCurrentAlerts(): PerformanceAlert[] {
-    return [...this.alerts],
+    return [...this.alerts]
   }
 
   /**
@@ -551,13 +551,13 @@ export class PerformanceMonitoringSystem extends ProgressTracker {
    */
   clearAlerts(): void {
     this.alerts = [];
-    // console.log('📊 Performance alerts cleared');
+    // // console.log('📊 Performance alerts cleared');
   }
 
   /**
    * Get performance history
    */
   getPerformanceHistory(): PerformanceMetrics[] {
-    return [...this.performanceHistory],
+    return [...this.performanceHistory]
   }
 }

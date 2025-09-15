@@ -21,7 +21,7 @@ export interface UseRecommendationAnalyticsOptions {
   enablePerformanceTracking?: boolean;
   enableCaching?: boolean;
   enableInteractionTracking?: boolean,
-  metricsUpdateInterval?: number,
+  metricsUpdateInterval?: number
 }
 
 export interface RecommendationAnalyticsState {
@@ -29,12 +29,12 @@ export interface RecommendationAnalyticsState {
   cacheStats: {
     hitRate: number;
     totalEntries: number,
-    memoryUsage: number,
+    memoryUsage: number
   };
   performanceTrends: {
     averageLoadTime: number;
     averageCacheHitRate: number,
-    performanceScore: number,
+    performanceScore: number
   };
   isLoading: boolean;
   error: string | null;
@@ -61,7 +61,7 @@ export function useRecommendationAnalytics(
     enablePerformanceTracking = true,;
     enableCaching = true,;
     enableInteractionTracking = true,;
-    metricsUpdateInterval = 5000, // 5 seconds,
+    metricsUpdateInterval = 5000, // 5 seconds,;
   } = options;
 
   // ========== STATE ==========;
@@ -92,7 +92,7 @@ export function useRecommendationAnalytics(
       // Start periodic metrics collection
       metricsIntervalRef.current = setInterval(() => {
         if (mountedRef.current) {
-          void updateMetrics(),
+          void updateMetrics()
         }
       }, metricsUpdateInterval);
 
@@ -181,7 +181,7 @@ export function useRecommendationAnalytics(
   const getCachedRecommendation = useCallback(;
     <T>(key: string): T | null => {
       if (!enableCaching) {
-        return null,
+        return null
       }
 
       return recommendationAnalytics.getCachedRecommendation<T>(key);
@@ -192,7 +192,7 @@ export function useRecommendationAnalytics(
   const cacheRecommendation = useCallback(;
     <T>(key: string, data: T, confidenceScore?: number) => {
       if (enableCaching) {
-        recommendationAnalytics.cacheRecommendation(key, data, confidenceScore),
+        recommendationAnalytics.cacheRecommendation(key, data, confidenceScore)
       }
     },
     [enableCaching],
@@ -221,7 +221,7 @@ export function useRecommendationAnalytics(
 
   const clearAnalytics = useCallback(() => {
     recommendationAnalytics.clearAnalytics();
-    void updateMetrics(),
+    void updateMetrics()
   }, [updateMetrics]);
 
   // ========== RETURN ==========;
@@ -283,7 +283,7 @@ export function useRecommendationCache<T>() {
 
   const getCached = useCallback(;
     (key: string): T | null => {
-      return getCachedRecommendation<T>(key),
+      return getCachedRecommendation<T>(key)
     },
     [getCachedRecommendation],
   );

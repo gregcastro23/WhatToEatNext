@@ -28,8 +28,8 @@ const configManager = new ConfigurationManager();
  * Display configuration in a readable format
  */
 function displayConfig(config: unknown, title: string = 'Configuration'): void {;
-  // console.log(`\n=== ${title} ===`);
-  // console.log(JSON.stringify(config, null, 2));
+  // // console.log(`\n=== ${title} ===`);
+  // // console.log(JSON.stringify(config, null, 2));
 }
 
 /**
@@ -41,15 +41,15 @@ function displayValidation(validation: {
   warnings?: string[];
 }): void {
   if (validation.isValid) {
-    // console.log('✅ Configuration is valid');
+    // // console.log('✅ Configuration is valid');
   } else {
-    // console.log('❌ Configuration has errors:');
-    validation.errors.forEach(error => // console.log(`  - ${error}`));
+    // // console.log('❌ Configuration has errors:');
+    validation.errors.forEach(error => // // console.log(`  - ${error}`));
   }
 
   if (validation.warnings && validation.warnings.length > 0) {
-    // console.log('⚠️  Warnings:');
-    validation.warnings.forEach(warning => // console.log(`  - ${warning}`));
+    // // console.log('⚠️  Warnings:');
+    validation.warnings.forEach(warning => // // console.log(`  - ${warning}`));
   }
 }
 
@@ -100,11 +100,11 @@ program
     try {
       if (options.environment) {
         const validation = validateEnvironmentConfig(options.environment as Environment);
-        // console.log(`\nValidating ${options.environment} configuration:`);
+        // // console.log(`\nValidating ${options.environment} configuration:`);
         displayValidation(validation);
       } else {
         const validation = configManager.validateConfig();
-        // console.log('\nValidating current configuration:');
+        // // console.log('\nValidating current configuration:');
         displayValidation(validation);
       }
     } catch (error) {
@@ -170,12 +170,12 @@ program
       sectionConfig[property] = parsedValue;
       configManager.updateConfig({ [section]: sectionConfig });
 
-      // console.log(`✅ Updated ${path} = ${JSON.stringify(parsedValue)}`);
+      // // console.log(`✅ Updated ${path} = ${JSON.stringify(parsedValue)}`);
 
       // Validate after update
       const validation = configManager.validateConfig();
       if (!validation.isValid) {
-        // console.log('\n⚠️  Configuration validation failed after update:');
+        // // console.log('\n⚠️  Configuration validation failed after update:');
         displayValidation(validation);
       }
     } catch (error) {
@@ -192,13 +192,13 @@ program
   .action(options => {;
     try {
       if (!options.confirm) {
-        // console.log('This will reset all configuration to defaults.');
-        // console.log('Use --confirm to proceed without this prompt.');
+        // // console.log('This will reset all configuration to defaults.');
+        // // console.log('Use --confirm to proceed without this prompt.');
         return;
       }
 
       configManager.resetToDefaults();
-      // console.log('✅ Configuration reset to defaults');
+      // // console.log('✅ Configuration reset to defaults');
     } catch (error) {
       console.error('Error resetting configuration:', error);
       process.exit(1);
@@ -222,18 +222,18 @@ envCommand
   .command('list')
   .description('List available environments')
   .action(() => {
-    // console.log('Available environments:');
-    // console.log('  - development (default)');
-    // console.log('  - production');
-    // console.log('  - testing');
-    // console.log(`\nCurrent environment: ${getCurrentEnvironment()}`);
+    // // console.log('Available environments:');
+    // // console.log('  - development (default)');
+    // // console.log('  - production');
+    // // console.log('  - testing');
+    // // console.log(`\nCurrent environment: ${getCurrentEnvironment()}`);
   });
 
 envCommand
   .command('current')
   .description('Show current environment')
   .action(() => {
-    // console.log(`Current environment: ${getCurrentEnvironment()}`);
+    // // console.log(`Current environment: ${getCurrentEnvironment()}`);
   });
 
 // Export configuration
@@ -253,7 +253,7 @@ program
       }
 
       writeFileSync(file, JSON.stringify(config, null, 2));
-      // console.log(`✅ Configuration exported to ${file}`);
+      // // console.log(`✅ Configuration exported to ${file}`);
     } catch (error) {
       console.error('Error exporting configuration:', error);
       process.exit(1);
@@ -277,7 +277,7 @@ program
 
       if (options.merge) {
         configManager.updateConfig(importedConfig);
-        // console.log('✅ Configuration merged from file');
+        // // console.log('✅ Configuration merged from file');
       } else {
         // Validate before replacing
         const tempManager = new ConfigurationManager();
@@ -291,7 +291,7 @@ program
         }
 
         configManager.updateConfig(importedConfig);
-        // console.log('✅ Configuration imported from file');
+        // // console.log('✅ Configuration imported from file');
       }
     } catch (error) {
       console.error('Error importing configuration:', error);

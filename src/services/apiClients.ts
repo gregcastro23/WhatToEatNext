@@ -4,13 +4,13 @@ interface FoodNutrient {
   nutrientNumber: string,
   nutrientName: string,
   value: number,
-  unitName: string,
+  unitName: string
 }
 
 interface FoodData {
   fdcId: string,
   description: string,
-  foodNutrients: FoodNutrient[],
+  foodNutrients: FoodNutrient[]
 }
 
 /**
@@ -65,7 +65,7 @@ export class FoodDataCentral {
       return response.data.foods || [];
     } catch (error) {
       console.error('Error searching foods:', error),
-      return [],
+      return []
     }
   }
 }

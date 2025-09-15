@@ -123,7 +123,7 @@ export const UnifiedStateProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   useEffect(() => {
-    void refreshData(),
+    void refreshData()
   }, [refreshData]);
 
   const value = {
@@ -143,7 +143,7 @@ export const UnifiedStateProvider = ({ children }: { children: ReactNode }) => {
 export const useUnifiedState = () => {
   const context = useContext(UnifiedContext);
   if (context === undefined) {
-    throw new Error('useUnifiedState must be used within a UnifiedStateProvider'),
+    throw new Error('useUnifiedState must be used within a UnifiedStateProvider')
   }
   return context;
 };

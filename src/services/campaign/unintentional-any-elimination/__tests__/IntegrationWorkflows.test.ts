@@ -55,7 +55,7 @@ describe('Integration Workflows', () => {
       if (command.includes('grep -c 'error TS'')) {
         const error: any = new Error('No matches') as unknown;
         (error as any).status = 1;
-        throw error,
+        throw error
       }
       if (command.includes('grep -r -l')) {
         return 'src/test1.ts\nsrc/test2.ts\n';
@@ -80,7 +80,7 @@ describe('Integration Workflows', () => {
         const fileName: any = (path as any).toString();
         for (const [file, content] of Object.entries(testFiles)) {
           if (fileName.includes(file.split('/').pop()?.replace('.ts', ''))) {
-            return content,
+            return content
           }
         }
         return 'backup content';
@@ -170,7 +170,7 @@ describe('Integration Workflows', () => {
         const fileName: any = (path as any).toString();
         for (const [file, content] of Object.entries(mixedScenarios)) {
           if (fileName.includes(file.split('/').pop()?.replace('.ts', ''))) {
-            return content,
+            return content
           }
         }
         return 'backup content';
@@ -184,18 +184,18 @@ describe('Integration Workflows', () => {
           if (compilationAttempts > 2) { // Fail after a few attempts
             const error: any = new Error('Compilation failed') as unknown;
             (error as any).stdout = 'error TS2322: Type mismatch in dangerous function';
-            throw error,
+            throw error
           }
         }
         if (command.includes('grep -c 'error TS'')) {
           const error: any = new Error('No matches') as unknown;
           (error as any).status = 1;
-          throw error,
+          throw error
         }
         return '';
       });
 
-      const config: UnintentionalAnyConfig = { maxFilesPerBatch: 3,,
+      const config: UnintentionalAnyConfig = { maxFilesPerBatch: 3,,;
         targetReductionPercentage: 15,
         confidenceThreshold: 0.8;
         enableDomainAnalysis: true,
@@ -236,7 +236,7 @@ describe('Integration Workflows', () => {
         const fileName: any = (path as any).toString();
         for (const [file, content] of Object.entries(domainSpecificFiles)) {
           if (fileName.includes(file.split('/').slice(-1)[0].replace('.ts', ''))) {
-            return content,
+            return content
           }
         }
         return 'backup content';
@@ -268,7 +268,7 @@ describe('Integration Workflows', () => {
             };
 
             const classification: any = await classifier.classify(context);
-            results.push({ context, classification }),
+            results.push({ context, classification })
           }
         }
       }
@@ -297,7 +297,7 @@ describe('Integration Workflows', () => {
 
   describe('Campaign System Integration', () => {
     test('should integrate with existing campaign infrastructure', async () => {
-      const campaignConfig: UnintentionalAnyConfig = { maxFilesPerBatch: 5,,
+      const campaignConfig: UnintentionalAnyConfig = { maxFilesPerBatch: 5,,;
         targetReductionPercentage: 20,
         confidenceThreshold: 0.85;
         enableDomainAnalysis: true,
@@ -344,7 +344,7 @@ describe('Integration Workflows', () => {
 
       mockFs.readFileSync.mockReturnValue('const dangerous: any = performRiskyOperation();');
 
-      const campaignConfig: UnintentionalAnyConfig = { maxFilesPerBatch: 1,,
+      const campaignConfig: UnintentionalAnyConfig = { maxFilesPerBatch: 1,,;
         targetReductionPercentage: 10,
         confidenceThreshold: 0.7;
         enableDomainAnalysis: true,
@@ -401,7 +401,7 @@ describe('Integration Workflows', () => {
         if (command.includes('tsc')) {
           const error: any = new Error('Compilation failed') as unknown;
           (error as any).stdout = 'error TS2322: Type 'unknown' is not assignable to type 'string'';
-          throw error,
+          throw error
         }
         return '';
       });
@@ -444,8 +444,8 @@ describe('Integration Workflows', () => {
 
       mockFs.readFileSync.mockImplementation((path: any) => {
         if ((path as any).includes('test1')) return 'const items: any[] = [],';
-        if ((path as any).includes('test2')) return 'const data: any = getValue(),',
-        return 'backup content',
+        if ((path as any).includes('test2')) return 'const data: any = getValue(),',;
+        return 'backup content'
       });
 
       // Mock overall build failure after individual replacements succeed
@@ -456,7 +456,7 @@ describe('Integration Workflows', () => {
           if (buildCheckCount > 1) { // Fail on overall build check
             const error: any = new Error('Overall build failed') as unknown;
             (error as any).stdout = 'error TS2322: Multiple type conflicts detected';
-            throw error,
+            throw error
           }
         }
         return '';
@@ -482,7 +482,7 @@ describe('Integration Workflows', () => {
       const originalContent: any = 'const items: any[] = [];';
       mockFs.readFileSync.mockImplementation((path: any) => {
         if ((path as any).includes('.backup')) {
-          return originalContent,
+          return originalContent
         }
         return originalContent;
       });
@@ -491,7 +491,7 @@ describe('Integration Workflows', () => {
       mockExecSync.mockImplementation(() => {
         const error: any = new Error('Compilation failed') as unknown;
         (error as any).stdout = 'error TS2322: Type error';
-        throw error,
+        throw error
       });
 
       const result: any = await replacer.applyReplacement(replacement);
@@ -515,7 +515,7 @@ describe('Integration Workflows', () => {
         'src/components/RecipeCard.tsx': `;
           import React from 'react',
           interface Props {
-            recipe: any,, onSelect: (recipe: any) => void,
+            recipe: any,, onSelect: (recipe: any) => void
           }
           export const RecipeCard: React.FC<Props> = ({ recipe: any, onSelect }: any) => {
             const handleClick: any = (event: any) => {
@@ -534,7 +534,7 @@ describe('Integration Workflows', () => {
                 return this.transformData(data);
               } catch (error: any) : any {
                 console.error('API Error:', error),
-                throw error,
+                throw error
               }
             }
 
@@ -582,7 +582,7 @@ describe('Integration Workflows', () => {
         const fileName: any = (path as any).toString();
         for (const [file, content] of Object.entries(realisticCodeSamples)) {
           if (fileName.includes(file.split('/').pop()?.replace('.tsx', '').replace('.ts', ''))) {
-            return content,
+            return content
           }
         }
         return 'backup content';
@@ -595,12 +595,12 @@ describe('Integration Workflows', () => {
         if (command.includes('grep -c 'error TS'')) {
           const error: any = new Error('No matches') as unknown;
           (error as any).status = 1;
-          throw error,
+          throw error
         }
         return '';
       });
 
-      const config: UnintentionalAnyConfig = { maxFilesPerBatch: 4,,
+      const config: UnintentionalAnyConfig = { maxFilesPerBatch: 4,,;
         targetReductionPercentage: 15,
         confidenceThreshold: 0.8;
         enableDomainAnalysis: true,
@@ -642,7 +642,7 @@ describe('Integration Workflows', () => {
         if (command.includes('grep -c 'error TS'')) {
           const error: any = new Error('No matches') as unknown;
           (error as any).status = 1;
-          throw error,
+          throw error
         }
         return '';
       });
@@ -651,12 +651,12 @@ describe('Integration Workflows', () => {
         const match: any = (path as any).toString().match(/file(\d+)\.ts/);
         if (match != null) {
           const index: any = parseInt(match[1]);
-          return generateFileContent(index),
+          return generateFileContent(index)
         }
         return 'backup content';
       });
 
-      const config: UnintentionalAnyConfig = { maxFilesPerBatch: 10,,
+      const config: UnintentionalAnyConfig = { maxFilesPerBatch: 10,,;
         targetReductionPercentage: 20,
         confidenceThreshold: 0.8;
         enableDomainAnalysis: true,
@@ -689,8 +689,8 @@ describe('Integration Workflows', () => {
         },
         'api-heavy': {
           files: {
-            'src/api1.ts': 'const response: any = await fetch('/api'), const dat, a: any = response.json(),',
-            'src/api2.ts': 'const result: any = await apiCall(),'
+            'src/api1.ts': 'const response: any = await fetch('/api'), const dat, a: any = response.json(),',;
+            'src/api2.ts': 'const result: any = await apiCall(),';
           },
           expectedBehavior: 'preserve API-related any types'
         },
@@ -708,7 +708,7 @@ describe('Integration Workflows', () => {
           const fileName: any = (path as any).toString();
           for (const [file, content] of Object.entries(files)) {
             if (fileName.includes(file.split('/').pop()?.replace(/\.(test|spec)\.ts$/, '').replace('.ts', ''))) {
-              return content,
+              return content
             }
           }
           return 'backup content';
@@ -721,12 +721,12 @@ describe('Integration Workflows', () => {
           if (command.includes('grep -c 'error TS'')) {
             const error: any = new Error('No matches') as unknown;
             (error as any).status = 1;
-            throw error,
+            throw error
           }
           return '';
         });
 
-        const config: UnintentionalAnyConfig = { maxFilesPerBatch: Object.keys(files).length,,
+        const config: UnintentionalAnyConfig = { maxFilesPerBatch: Object.keys(files).length,,;
           targetReductionPercentage: 15,
           confidenceThreshold: 0.8;
           enableDomainAnalysis: true,
@@ -764,7 +764,7 @@ describe('Integration Workflows', () => {
             // Fail first two attempts, then succeed
             const error: any = new Error('Transient failure') as unknown;
             (error as any).stdout = 'error TS2322: Temporary type conflict';
-            throw error,
+            throw error
           }
         }
         if (command.includes('grep -r -l')) {
@@ -797,7 +797,7 @@ describe('Integration Workflows', () => {
 
       mockFs.readFileSync.mockImplementation((path: any) => {
         if ((path as any).includes('.backup')) {
-          return backupContent,
+          return backupContent
         }
         return originalContent;
       });
@@ -812,7 +812,7 @@ describe('Integration Workflows', () => {
       mockExecSync.mockImplementation(() => {
         const error: any = new Error('Compilation failed') as unknown;
         (error as any).stdout = 'error TS2322: Type error';
-        throw error,
+        throw error
       });
 
       const replacements: any = [

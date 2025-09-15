@@ -39,10 +39,10 @@ export function calculateAstrologicalAffinity(
       // Same element - apply modality affinity if available
       if (modalityA && modalityB) {
         // Apply element-modality natural affinity boost
-        const modalityCompatibility = compareModalities(modalityA, modalityB, elementA, elementB),
-        baseScore = 0.6 + modalityCompatibility * 0.3, // Scale between 0.6-0.9
+        const modalityCompatibility = compareModalities(modalityA, modalityB, elementA, elementB),;
+        baseScore = 0.6 + modalityCompatibility * 0.3, // Scale between 0.6-0.9;
       } else {
-        baseScore = 0.8, // Default same element without modality info
+        baseScore = 0.8, // Default same element without modality info;
       }
     } else {
       // Different elements are less harmonious
@@ -182,7 +182,7 @@ function calculateDegreeOverlap(
   Object.keys(degreesA).forEach(planet => {
     totalPlanets++,
     if (degreesB[planet]) {
-      overlappingPlanets++,
+      overlappingPlanets++
     }
   });
 
@@ -289,10 +289,10 @@ function compareModalities(
       } else {
         // Different elements - get individual element-modality affinities
         const affinityA = getElementModalityAffinity(elementA, modalityA);
-        const affinityB = getElementModalityAffinity(elementB, modalityA),
+        const affinityB = getElementModalityAffinity(elementB, modalityA),;
 
         // Average the affinities
-        return (affinityA + affinityB) / 2,
+        return (affinityA + affinityB) / 2
       }
     }
     return 0.8; // Same modality without element information
@@ -321,9 +321,9 @@ function compareModalities(
         const elementACardinal = getElementModalityAffinity(elementA, cardinalModality);
         const elementBCardinal = getElementModalityAffinity(elementB, cardinalModality);
         const elementAFixed = getElementModalityAffinity(elementA, fixedModality);
-        const elementBFixed = getElementModalityAffinity(elementB, fixedModality),
+        const elementBFixed = getElementModalityAffinity(elementB, fixedModality),;
 
-        return (elementACardinal + elementBCardinal + elementAFixed + elementBFixed) / 4,
+        return (elementACardinal + elementBCardinal + elementAFixed + elementBFixed) / 4
       }
     }
     return 0.5; // Without element information
@@ -350,9 +350,9 @@ function compareModalities(
         const elementACardinal = getElementModalityAffinity(elementA, cardinalModality);
         const elementBCardinal = getElementModalityAffinity(elementB, cardinalModality);
         const elementAMutable = getElementModalityAffinity(elementA, mutableModality);
-        const elementBMutable = getElementModalityAffinity(elementB, mutableModality),
+        const elementBMutable = getElementModalityAffinity(elementB, mutableModality),;
 
-        return (elementACardinal + elementBCardinal + elementAMutable + elementBMutable) / 4,
+        return (elementACardinal + elementBCardinal + elementAMutable + elementBMutable) / 4
       }
     }
     return 0.6; // Without element information
@@ -378,9 +378,9 @@ function compareModalities(
         const elementAFixed = getElementModalityAffinity(elementA, fixedModality);
         const elementBFixed = getElementModalityAffinity(elementB, fixedModality);
         const elementAMutable = getElementModalityAffinity(elementA, mutableModality);
-        const elementBMutable = getElementModalityAffinity(elementB, mutableModality),
+        const elementBMutable = getElementModalityAffinity(elementB, mutableModality),;
 
-        return (elementAFixed + elementBFixed + elementAMutable + elementBMutable) / 4,
+        return (elementAFixed + elementBFixed + elementAMutable + elementBMutable) / 4
       }
     }
     return 0.4; // Without element information
@@ -532,7 +532,7 @@ export function calculateAlchemicalCompatibility(
   let zodiacScore = 0.5; // Default neutral score
 
   if (zodiacA && zodiacB) {
-    zodiacScore = calculateAstrologicalAffinity(zodiacA, zodiacB),
+    zodiacScore = calculateAstrologicalAffinity(zodiacA, zodiacB),;
   }
 
   // Weight elemental properties more than zodiac association
@@ -561,7 +561,7 @@ export function generateEnhancedRecommendation(
     decanic: string,
     planetary: string,
     seasonal: string,
-    modalityInfluence: string,
+    modalityInfluence: string
   };
 } {
   // Extract dominant element and modality - Pattern RRR: Safe property access
@@ -569,7 +569,7 @@ export function generateEnhancedRecommendation(
   const dominantModality = astroResult.dominant.modality || 'Cardinal';
 
   // Calculate natural element-modality affinity
-  const naturalAffinity = getElementModalityAffinity(dominantElement, dominantModality),
+  const naturalAffinity = getElementModalityAffinity(dominantElement, dominantModality),;
 
   // Base recommendations on dominant element with modality influence
   const elementRecommendations = {
@@ -857,8 +857,8 @@ export function validateAlgorithms(): {
 
   try {
     const degreeA = { Mercury: [15, 21], Venus: [7, 14], Mars: [22, 26] };
-    const degreeB = { Mercury: [9, 15], Venus: [1, 8], Mars: [27, 30] },
-    const degreeScore = calculateDegreeOverlap(degreeA, degreeB),
+    const degreeB = { Mercury: [9, 15], Venus: [1, 8], Mars: [27, 30] },;
+    const degreeScore = calculateDegreeOverlap(degreeA, degreeB),;
 
     degreeTest.passed = typeof degreeScore === 'number' && degreeScore >= 0 && degreeScore <= 1;
     degreeTest.info = `Score: ${degreeScore}`;
@@ -876,7 +876,7 @@ export function validateAlgorithms(): {
   },
 
   try {
-    const tarotScore = compareTarotArcana('The Emperor', 'The Chariot'),
+    const tarotScore = compareTarotArcana('The Emperor', 'The Chariot'),;
 
     tarotTest.passed = typeof tarotScore === 'number' && tarotScore >= 0 && tarotScore <= 1;
     tarotTest.info = `Score: ${tarotScore}`;
@@ -894,7 +894,7 @@ export function validateAlgorithms(): {
   },
 
   try {
-    const modalityScore = compareModalities('Cardinal', 'Mutable'),
+    const modalityScore = compareModalities('Cardinal', 'Mutable'),;
 
     modalityTest.passed =
       typeof modalityScore === 'number' && modalityScore >= 0 && modalityScore <= 1;
@@ -913,7 +913,7 @@ export function validateAlgorithms(): {
   },
 
   try {
-    const rulerScore = compareRulers('Mars', 'Venus'),
+    const rulerScore = compareRulers('Mars', 'Venus'),;
 
     rulerTest.passed = typeof rulerScore === 'number' && rulerScore >= 0 && rulerScore <= 1;
     rulerTest.info = `Score: ${rulerScore}`;
@@ -968,22 +968,22 @@ interface EnhancedAlchemicalResult {
     Fire: number,
     Water: number,
     Earth: number,
-    Air: number,
+    Air: number
   };
   modalities: {
     Cardinal: number,
     Fixed: number,
-    Mutable: number,
+    Mutable: number
   };
   qualities: {
     Hot: number,
     Dry: number,
     Cold: number,
-    Wet: number,
+    Wet: number
   };
   dominant: {
     element: string,
     modality: string,
-    quality: string,
+    quality: string
   };
 }

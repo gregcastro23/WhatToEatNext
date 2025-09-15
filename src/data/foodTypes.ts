@@ -1,8 +1,6 @@
 // src/data/foodTypes.ts
 
-import { _ } from '@/constants/recipe';
 import { ElementalProperties } from '@/types/alchemy';
-import { Recipe as Dish } from '@/types/recipe';
 
 import { Cuisine } from './cuisines';
 
@@ -52,7 +50,7 @@ export interface FoodEntry {
     carbs: number,
     fat: number,
     fiber?: number,
-    [key: string]: number | undefined,
+    [key: string]: number | undefined
   };
   elementalProperties: ElementalProperties;
   category: string;
@@ -75,11 +73,11 @@ export interface CulturalBalance {
   principles: string[],
   preferredCombinations: {
     foods: string[],
-    reason: string,
+    reason: string
   }[];
   avoidCombinations: {
     foods: string[],
-    reason: string,
+    reason: string
   }[];
 }
 
@@ -168,7 +166,7 @@ export function findComplementaryDishes(
   return recommendations.sort((a, b) => {
     const bProtein = b.nutrition?.protein || 0;
     const aProtein = a.nutrition?.protein || 0;
-    return bProtein - aProtein,
+    return bProtein - aProtein
   });
 }
 
@@ -177,7 +175,7 @@ export interface MealRecommendation {
   reasons: string[],
   nutritionalBenefits: string[],
   propertyBalance: string[],
-  culturalNotes?: string[],
+  culturalNotes?: string[]
 }
 
 // Export the main foodTypes object that components expect

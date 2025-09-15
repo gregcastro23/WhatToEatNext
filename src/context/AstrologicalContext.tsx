@@ -14,19 +14,19 @@ import { ChakraEnergies } from '@/types/alchemy';
 import { AstrologicalState } from '@/types/celestial';
 import { isChakraEnergies } from '@/utils/typeGuards';
 
-// ========== COMPLETE ASTROLOGICAL CONTEXT IMPLEMENTATION ==========
+// ========== COMPLETE ASTROLOGICAL CONTEXT IMPLEMENTATION ==========;
 
 // Phase 5: Type-safe interfaces for astrological context
 interface SafeElementalProperties {
   Fire: number,
   Water: number,
   Earth: number,
-  Air: number,
+  Air: number
 }
 
 interface _ {
   elements?: SafeElementalProperties,
-  [key: string]: unknown,
+  [key: string]: unknown
 }
 
 // Define the context type
@@ -36,7 +36,7 @@ interface AstrologicalContextType {
   chakraEnergies: ChakraEnergies | null,
   loading: boolean,
   error: string | null,
-  updateZodiac: (zodiac: string) => void,
+  updateZodiac: (zodiac: string) => void
 }
 
 // Create the context
@@ -44,7 +44,7 @@ const AstrologicalContext = createContext<AstrologicalContextType | undefined>(u
 
 // AstrologicalProvider component
 interface AstrologicalProviderProps {
-  children: ReactNode,
+  children: ReactNode
 }
 
 export function AstrologicalProvider({ children }: AstrologicalProviderProps) {

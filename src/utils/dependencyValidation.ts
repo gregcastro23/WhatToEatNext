@@ -16,7 +16,7 @@ export async function validateImportPath(importPath: string, fromFile: string): 
   try {
     // Try to dynamically import the module
     await import(importPath),
-    return true,
+    return true
   } catch (error) {
     logger.error(`Invalid import path '${importPath}' in ${fromFile}:`, error);
     return false;
@@ -36,11 +36,11 @@ export function detectCircularDependencies(moduleGraph: Record<string, string[]>
       // Found a cycle
       const cycleStart = path.indexOf(node);
       cycles.push(path.slice(cycleStart).concat(node));
-      return,
+      return
     }
 
     if (visited.has(node)) {
-      return,
+      return
     }
 
     visited.add(node);
@@ -119,7 +119,7 @@ export function validateImportStatement(
   filePath: string,
 ): {
   isValid: boolean,
-  warnings: string[],
+  warnings: string[]
 } {
   const warnings: string[] = [];
   let isValid = true;
@@ -139,7 +139,7 @@ export function validateImportStatement(
  */
 export function extractImportStatements(fileContent: string): string[] {
   const importRegex = /^import\s+.*?from\s+[''][^'']+[''];?$/gm;
-  return fileContent.match(importRegex) || [],
+  return fileContent.match(importRegex) || []
 }
 
 /**
@@ -151,7 +151,7 @@ export async function validateFileImports(
 ): Promise<{
   validImports: string[],
   invalidImports: string[],
-  warnings: string[],
+  warnings: string[]
 }> {
   const imports = extractImportStatements(fileContent);
   const validImports: string[] = [];
@@ -167,7 +167,7 @@ export async function validateFileImports(
 
     // Skip external packages (don't start with . or /)
     if (!importPath.startsWith('.') && !importPath.startsWith('/')) {
-      continue,
+      continue
     }
 
     // Validate the import statement pattern
@@ -176,7 +176,7 @@ export async function validateFileImports(
 
     // Try to validate the actual import path
     try {
-      const isValid = await validateImportPath(importPath, filePath),
+      const isValid = await validateImportPath(importPath, filePath),;
       if (isValid) {
         validImports.push(importStatement);
       } else {
@@ -200,7 +200,7 @@ export const DEPENDENCY_FIXES = {
    */
   fixRelativeImports: (importPath: string, fromDir: string, toDir: string): string => {
     // Calculate the relative path from fromDir to toDir using ESM path
-    const relativePath = nodePath.relative(fromDir, toDir),
+    const relativePath = nodePath.relative(fromDir, toDir),;
     return relativePath.startsWith('.') ? relativePath : `./${relativePath}`;
   },
 
@@ -235,7 +235,7 @@ export async function generateDependencyReport(projectRoot: string): Promise<{
   validFiles: number,
   invalidFiles: number,
   circularDependencies: string[][],
-  warnings: string[],
+  warnings: string[]
 }> {
   const fs = await import('fs');
   const path = await import('path');
@@ -257,12 +257,12 @@ export async function generateDependencyReport(projectRoot: string): Promise<{
     const filePath = path.join(projectRoot, file);
     try {
       const content = fs.readFileSync(filePath, 'utf8');
-      const validation = await validateFileImports(filePath, content),
+      const validation = await validateFileImports(filePath, content),;
 
       if (validation.invalidImports.length === 0) {
-        validFiles++,
+        validFiles++
       } else {
-        invalidFiles++,
+        invalidFiles++
       }
 
       allWarnings.push(...validation.warnings);
@@ -274,7 +274,7 @@ export async function generateDependencyReport(projectRoot: string): Promise<{
       for (const importStatement of imports) {
         const pathMatch = importStatement.match(/from\s+['']([^'']+)['']/);
         if (pathMatch && (pathMatch[1].startsWith('.') || pathMatch[1].startsWith('/'))) {
-          dependencies.push(pathMatch[1]),
+          dependencies.push(pathMatch[1])
         }
       }
 
@@ -304,7 +304,7 @@ export function autoFixDependencyIssues(
   _filePath: string,
 ): {
   fixedContent: string,
-  appliedFixes: string[],
+  appliedFixes: string[]
 } {
   let fixedContent = fileContent;
   const appliedFixes: string[] = [];

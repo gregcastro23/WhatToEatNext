@@ -8,7 +8,7 @@ export interface SeasonalEffectiveness {
   breakdown: {
     elementalAlignment: number;
     ingredientSuitability: number,
-    seasonalBonus: number,
+    seasonalBonus: number
   };
   elementalBreakdown?: Record<string, number>;
 }
@@ -52,7 +52,7 @@ export function calculateSeasonalEffectiveness(
       if (Array.isArray(ingredient.seasonality)) {
         const lowerSeasons = ingredient.seasonality.map((s: string) => s.toLowerCase());
         if (lowerSeasons.includes(seasonLower) || lowerSeasons.includes('all')) {
-          seasonalCount++,
+          seasonalCount++
         }
       }
     }
@@ -100,7 +100,7 @@ export function calculateSeasonalElements(
   return Object.fromEntries(
     Object.entries(baseElements).map(([element, value]) => {
       const adjusted = value + (modifier[element as any] || 0);
-      return [element, Math.max(0, Math.min(1, adjusted))],
+      return [element, Math.max(0, Math.min(1, adjusted))]
     }),
   ) as ElementalProperties;
 }
@@ -110,7 +110,7 @@ export function calculateSeasonalScores(
   zodiacSign?: string,
 ): {
   seasonalScore: number,
-  astrologicalInfluence: number,
+  astrologicalInfluence: number
 } {
   // Get current zodiac sign if none provided
   const currentZodiac = zodiacSign?.toLowerCase() || getCurrentZodiacSeason().toLowerCase();
@@ -132,7 +132,7 @@ export function calculateSeasonalScores(
 
 // Helper function to get current season as a zodiac sign
 function getCurrentZodiacSeason(): any {
-  return getZodiacSignForDate(new Date()),
+  return getZodiacSignForDate(new Date())
 }
 
 // For backward compatibility
@@ -140,13 +140,13 @@ function _getCurrentSeason(): Season {
   const zodiacSign = getCurrentZodiacSeason();
   // Map zodiac sign to a season
   if (['aries', 'taurus', 'gemini'].includes(zodiacSign)) {
-    return 'spring',
+    return 'spring'
   } else if (['cancer', 'leo', 'virgo'].includes(zodiacSign)) {
-    return 'summer',
+    return 'summer'
   } else if (['libra', 'scorpio', 'sagittarius'].includes(zodiacSign)) {
-    return 'autumn',
+    return 'autumn'
   } else {
-    return 'winter',
+    return 'winter'
   }
 }
 

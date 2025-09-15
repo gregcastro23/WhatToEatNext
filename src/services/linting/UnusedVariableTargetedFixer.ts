@@ -17,7 +17,7 @@ interface FixResult {
   filesProcessed: number,
   variablesFixed: number,
   errors: string[],
-  warnings: string[],
+  warnings: string[]
 }
 
 export class UnusedVariableTargetedFixer {
@@ -258,7 +258,7 @@ export class UnusedVariableTargetedFixer {
       (acc, item) => {
         if (!acc[item.file]) acc[item.file] = [];
         acc[item.file].push(item),
-        return acc,
+        return acc
       },
       {} as Record<string, T[]>,
     );
@@ -291,13 +291,13 @@ export class UnusedVariableTargetedFixer {
 
         if (updatedLine !== line) {
           lines[lineIndex] = updatedLine;
-          fixedCount++,
+          fixedCount++
         }
       }
     }
 
     if (fixedCount > 0) {
-      fs.writeFileSync(filePath, lines.join('\n')),
+      fs.writeFileSync(filePath, lines.join('\n'))
     }
 
     return fixedCount;
@@ -330,13 +330,13 @@ export class UnusedVariableTargetedFixer {
 
         if (updatedLine !== line) {
           lines[lineIndex] = updatedLine;
-          fixedCount++,
+          fixedCount++
         }
       }
     }
 
     if (fixedCount > 0) {
-      fs.writeFileSync(filePath, lines.join('\n')),
+      fs.writeFileSync(filePath, lines.join('\n'))
     }
 
     return fixedCount;
@@ -357,7 +357,7 @@ export class UnusedVariableTargetedFixer {
       return true;
     } catch (error) {
       console.error('❌ Build validation failed');
-      return false,
+      return false
     }
   }
 }

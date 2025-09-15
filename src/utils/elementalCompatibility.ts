@@ -9,7 +9,7 @@ export interface ElementalCompatibility {
   compatibility: number; // 0-1 score
   dominantPair: {
     recipe: keyof ElementalProperties,
-    user: keyof ElementalProperties,
+    user: keyof ElementalProperties
   };
   complementaryScore: number; // 0-1 score for how well elements complement each other
   balanceScore: number; // 0-1 score for overall balance
@@ -62,7 +62,7 @@ export async function calculateElementalCompatibility(
  * Get the dominant element from elemental properties
  */
 function getDominantElement(props: ElementalProperties): keyof ElementalProperties {
-  return Object.entries(props).sort(([, a], [, b]) => b - a)[0][0] as keyof ElementalProperties,
+  return Object.entries(props).sort(([, a], [, b]) => b - a)[0][0] as keyof ElementalProperties
 }
 
 /**
@@ -120,7 +120,7 @@ function generateRecommendation(
   userDominant: keyof ElementalProperties,
 ): string {
   if (score <= 0.4) {
-    return `This recipe's ${recipeDominant} energy contrasts with your ${userDominant} energy. This contrasts with your natural balance and might feel disharmonious.`,
+    return `This recipe's ${recipeDominant} energy contrasts with your ${userDominant} energy. This contrasts with your natural balance and might feel disharmonious.`
   } else if (score > 0.8) {
     return `Excellent match! This ${recipeDominant}-dominant recipe complements your ${userDominant} energy perfectly.`;
   } else if (score > 0.6) {

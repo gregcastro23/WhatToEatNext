@@ -39,7 +39,7 @@ export const _transformIngredients = (;
     isDaytime,
     currentZodiac,
     lunarPhase,
-  ),
+  )
 };
 
 /**
@@ -73,7 +73,7 @@ export const _transformCookingMethods = (;
   return transformedItems.map(method => {
     const methodName = method.name.toLowerCase();
     // Apply pillar-based transformations to the method
-    return applyPillarTransformation(method, methodName),
+    return applyPillarTransformation(method, methodName)
   });
 };
 
@@ -100,7 +100,7 @@ export const _transformCuisines = (;
     isDaytime,
     currentZodiac,
     lunarPhase,
-  ),
+  )
 };
 
 /**
@@ -116,7 +116,7 @@ export const _sortByAlchemicalCompatibility = (;
 ): AlchemicalItem[] => {
   // If no target properties, sort by gregsEnergy
   if (!targetElementalProperties) {
-    return [...items].sort((a, b) => (b.gregsEnergy || 0) - (a.gregsEnergy || 0)),
+    return [...items].sort((a, b) => (b.gregsEnergy || 0) - (a.gregsEnergy || 0))
   }
 
   // Calculate compatibility scores for each item based on elemental properties
@@ -180,7 +180,7 @@ export const _filterByAlchemicalCompatibility = (;
 ): AlchemicalItem[] => {
   // If no targets are specified, return all items
   if (!targetElement && !targetProperty) {
-    return items,
+    return items
   }
 
   return items.filter(item => {
@@ -188,7 +188,7 @@ export const _filterByAlchemicalCompatibility = (;
     const elementMatch = !targetElement || item.dominantElement === targetElement;
     const propertyMatch = !targetProperty || item.dominantAlchemicalProperty === targetProperty;
 
-    return elementMatch || propertyMatch,
+    return elementMatch || propertyMatch
   });
 };
 
@@ -201,7 +201,7 @@ export const _filterByAlchemicalCompatibility = (;
  */
 export const _getTopCompatibleItems = (items: AlchemicalItem[], count = 5): AlchemicalItem[] => {
   // Sort by gregsEnergy for basic compatibility
-  return [...items].sort((a, b) => (b.gregsEnergy || 0) - (a.gregsEnergy || 0)).slice(0, count),
+  return [...items].sort((a, b) => (b.gregsEnergy || 0) - (a.gregsEnergy || 0)).slice(0, count)
 };
 
 /**
@@ -281,7 +281,7 @@ function _calculateAlchemicalScore(item: AlchemicalItem): number {
   ['spirit', 'essence', 'matter', 'substance'].forEach(prop => {
     if (prop in item && typeof item[prop as keyof AlchemicalItem] === 'number') {
       score += item[prop as keyof AlchemicalItem] as number;
-      count++,
+      count++
     }
   });
 
@@ -289,7 +289,7 @@ function _calculateAlchemicalScore(item: AlchemicalItem): number {
   ['heat', 'entropy', 'reactivity', 'gregsEnergy'].forEach(prop => {
     if (prop in item && typeof item[prop as keyof AlchemicalItem] === 'number') {
       score += item[prop as keyof AlchemicalItem] as number;
-      count++,
+      count++
     }
   });
 

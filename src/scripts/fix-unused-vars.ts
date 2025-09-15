@@ -63,20 +63,20 @@ function fixUnusedVariables(unusedVars) {
     fs.writeFileSync(filePath, lines.join('\n'));
     processedFiles.add(filePath);
 
-    // // console.log(`Fixed unused variable '${varName}' in ${filePath}`);
+    // // // console.log(`Fixed unused variable '${varName}' in ${filePath}`);
   }
 
-  // // console.log(`\nProcessed ${processedFiles.size} files`);
+  // // // console.log(`\nProcessed ${processedFiles.size} files`);
 }
 
 // Main function
 function main() {
-  // // console.log('Identifying unused variables...');
+  // // // console.log('Identifying unused variables...');
   const unusedVars = getUnusedVariables();
-  // // console.log(`Found ${unusedVars.length} unused variables`);
+  // // // console.log(`Found ${unusedVars.length} unused variables`);
 
   if (unusedVars.length > 0) {
-    // // console.log('Fixing unused variables...');
+    // // // console.log('Fixing unused variables...');
     fixUnusedVariables(unusedVars);
   }
 }

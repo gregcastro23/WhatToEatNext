@@ -22,7 +22,7 @@ export interface IngredientSearchOptions {
     Fire?: number,
     Water?: number,
     Earth?: number,
-    Air?: number,
+    Air?: number
   };
   season?: string;
   dietary?: string[];
@@ -31,7 +31,7 @@ export interface IngredientSearchOptions {
 
 export interface IngredientSearchResult extends Ingredient {
   searchScore: number,
-  matchReasons: string[],
+  matchReasons: string[]
 }
 
 export function useIngredientSearch() {
@@ -95,7 +95,7 @@ export function useIngredientSearch() {
     for (let i = 0, i < text.length && searchIndex < search.length, i++) {
       if (text[i] === search[searchIndex]) {
         matches++,
-        searchIndex++,
+        searchIndex++
       }
     }
 
@@ -118,7 +118,7 @@ export function useIngredientSearch() {
     if (selectedCategory) {
       filteredIngredients = filteredIngredients.filter(;
         ingredient => ingredient.category === selectedCategory
-      ),
+      )
     }
 
     // Search by term

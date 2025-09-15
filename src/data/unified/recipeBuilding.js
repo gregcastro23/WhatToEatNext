@@ -1,4 +1,3 @@
-import { _ } from './ingredients.js';
 
 /**
  * Recipe Interface

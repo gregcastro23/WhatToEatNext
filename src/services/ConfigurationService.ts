@@ -9,7 +9,7 @@ export interface ConfigurationUpdate {
   // Intentionally any: Configuration values can be strings, numbers, booleans, or objects
   // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
   value: any,
-  timestamp: number,
+  timestamp: number
 }
 
 export interface ConfigurationState {
@@ -17,12 +17,12 @@ export interface ConfigurationState {
     celestialUpdateInterval: number,
     timeout: number,
     retryCount: number,
-    baseUrl: string,
+    baseUrl: string
   };
   astrology: {
     defaultTimezoneName: string,
     retrogradeThreshold: number,
-    aspectOrbs: Record<string, number>,
+    aspectOrbs: Record<string, number>
   };
   debug: boolean;
 }
@@ -33,14 +33,14 @@ export interface ConfigurationValidation {
     section: string,
     key: string,
     message: string,
-    severity: 'error' | 'warning',
+    severity: 'error' | 'warning'
   }>;
 }
 
 export interface ConfigurationListener {
   id: string,
   callback: (update: ConfigurationUpdate) => void;
-  sections?: Array<'api' | 'astrology' | 'debug'>,
+  sections?: Array<'api' | 'astrology' | 'debug'>
 }
 
 class ConfigurationServiceImpl {
@@ -76,7 +76,7 @@ class ConfigurationServiceImpl {
         }
       }
     } catch (error) {
-      console.warn('Failed to load stored configuration:', error),
+      console.warn('Failed to load stored configuration:', error)
     }
 
     return {
@@ -134,11 +134,11 @@ class ConfigurationServiceImpl {
           localStorage.setItem(
             this.HISTORY_KEY;
             JSON.stringify(this.configHistory.slice(-this.MAX_HISTORY));
-          ),
+          )
         }
       }
     } catch (error) {
-      console.error('Failed to save configuration:', error),
+      console.error('Failed to save configuration:', error)
     }
   }
 
@@ -154,7 +154,7 @@ class ConfigurationServiceImpl {
         }
       }
     } catch (error) {
-      console.warn('Failed to load configuration history:', error),
+      console.warn('Failed to load configuration history:', error)
     }
     return [];
   }
@@ -194,7 +194,7 @@ class ConfigurationServiceImpl {
         if (!validation.isValid) {
           console.error('Configuration validation failed:', validation.errors);
           resolve(false);
-          return,
+          return
         }
 
         // Apply the update
@@ -333,7 +333,7 @@ class ConfigurationServiceImpl {
     }
 
     return {
-      isValid: errors.filter(e => e.severity === 'error').length === 0,,
+      isValid: errors.filter(e => e.severity === 'error').length === 0,,;
       errors
     };
   }
@@ -348,7 +348,7 @@ class ConfigurationServiceImpl {
       key: string,
       // Intentionally any: Bulk configuration values can be of any valid type
       // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
-      value: any,
+      value: any
     }>,
   ): Promise<boolean> {
     // Validate all updates first
@@ -356,14 +356,14 @@ class ConfigurationServiceImpl {
       const validation = this.validateUpdate(update.section, update.key, update.value);
       if (!validation.isValid) {
         console.error('Bulk update validation failed:', validation.errors),
-        return false,
+        return false
       }
     }
 
     // Apply all updates
     let success = true;
     for (const update of updates) {
-      const result = await this.updateConfiguration(update.section, update.key, update.value),
+      const result = await this.updateConfiguration(update.section, update.key, update.value),;
       if (!result) {
         success = false;
       }
@@ -427,7 +427,7 @@ class ConfigurationServiceImpl {
       const imported = JSON.parse(configJson);
 
       if (!imported.configuration) {
-        throw new Error('Invalid configuration format'),
+        throw new Error('Invalid configuration format')
       }
 
       const merged = this.mergeWithDefaults(imported.configuration);
@@ -436,7 +436,7 @@ class ConfigurationServiceImpl {
       const validation = this.validateConfiguration(merged);
       if (!validation.isValid) {
         console.error('Import validation failed:', validation.errors),
-        return false,
+        return false
       }
 
       this.currentConfig = merged;
@@ -455,7 +455,7 @@ class ConfigurationServiceImpl {
       return true;
     } catch (error) {
       console.error('Failed to import configuration:', error),
-      return false,
+      return false
     }
   }
 
@@ -467,20 +467,20 @@ class ConfigurationServiceImpl {
 
     // Validate API configuration
     Object.entries(configState.api).forEach(([key, value]) => {
-      const validation = this.validateUpdate('api', key, value),
+      const validation = this.validateUpdate('api', key, value),;
       errors.push(...validation.errors);
     });
 
     // Validate astrology configuration
     Object.entries(configState.astrology).forEach(([key, value]) => {
       if (key !== 'aspectOrbs') {
-        const validation = this.validateUpdate('astrology', key, value),
+        const validation = this.validateUpdate('astrology', key, value),;
         errors.push(...validation.errors);
       }
     });
 
     return {
-      isValid: errors.filter(e => e.severity === 'error').length === 0,,
+      isValid: errors.filter(e => e.severity === 'error').length === 0,,;
       errors
     };
   }
@@ -489,7 +489,7 @@ class ConfigurationServiceImpl {
    * Add configuration change listener
    */
   public addListener(listener: ConfigurationListener): void {
-    this.listeners.set(listener.id, listener),
+    this.listeners.set(listener.id, listener)
   }
 
   /**
@@ -508,7 +508,7 @@ class ConfigurationServiceImpl {
         try {
           listener.callback(update);
         } catch (error) {
-          console.error('Configuration listener error:', error),
+          console.error('Configuration listener error:', error)
         }
       }
     });
@@ -518,7 +518,7 @@ class ConfigurationServiceImpl {
    * Get configuration history
    */
   public getHistory(): ConfigurationUpdate[] {
-    return [...this.configHistory],
+    return [...this.configHistory]
   }
 
   /**
@@ -537,7 +537,7 @@ class ConfigurationServiceImpl {
   public getHealthStatus(): {
     status: 'healthy' | 'warning' | 'error',
     issues: string[],
-    lastUpdate: number | null,
+    lastUpdate: number | null
   } {
     const issues: string[] = [];
     let status: 'healthy' | 'warning' | 'error' = 'healthy';

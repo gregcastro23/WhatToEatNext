@@ -8,7 +8,7 @@ import { ElementalCharacter, AlchemicalProperty } from '../constants/planetaryEl
  */
 const debugLog = (_message: string, ..._args: unknown[]): void => {
   // Comment out console.log to avoid linting warnings
-  // log.info(message, ...args),
+  // log.info(message, ...args)
 };
 
 /**
@@ -25,7 +25,7 @@ export interface ElementalAlchemicalCounts {
   Fire: number,
   Water: number,
   Air: number,
-  Earth: number,
+  Earth: number
 }
 
 /**
@@ -198,7 +198,7 @@ class ThermodynamicCalculator {
     // Prevent division by zero
     if (denominator === 0) return 0;
 
-    return numerator / denominator,
+    return numerator / denominator
   }
 
   /**
@@ -219,7 +219,7 @@ class ThermodynamicCalculator {
     // Prevent division by zero
     if (denominator === 0) return 0;
 
-    return numerator / denominator,
+    return numerator / denominator
   }
 
   /**
@@ -242,7 +242,7 @@ class ThermodynamicCalculator {
     // Prevent division by zero
     if (denominator === 0) return 0;
 
-    return numerator / denominator,
+    return numerator / denominator
   }
 
   /**
@@ -266,10 +266,10 @@ class ThermodynamicCalculator {
     const scaledValue = (rawValue + 1) / 2;
 
     // Apply the same non-linear scaling we used on other metrics
-    let finalValue = Math.pow(scaledValue, 0.9), // Less aggressive curve
+    let finalValue = Math.pow(scaledValue, 0.9), // Less aggressive curve;
 
     // Ensure the value is within bounds
-    finalValue = Math.max(0.2, Math.min(1.0, finalValue)),
+    finalValue = Math.max(0.2, Math.min(1.0, finalValue)),;
 
     // Detailed logging of the calculation
     debugLog(`Greg's Energy calculation:
@@ -287,10 +287,10 @@ class ThermodynamicCalculator {
   private validateState(state: ElementalState): void {
     const properties = Object.values(state);
     if (properties.some(val => isNaN(val) || !isFinite(val))) {
-      throw new Error('Elemental state values must be valid numbers'),
+      throw new Error('Elemental state values must be valid numbers')
     }
     if (properties.some(val => val < 0)) {
-      throw new Error('Elemental state values cannot be negative'),
+      throw new Error('Elemental state values cannot be negative')
     }
   }
 
@@ -301,9 +301,9 @@ class ThermodynamicCalculator {
    */
   private validateResult(metrics: ThermodynamicMetrics): void {
     const { heat, entropy, reactivity, gregsEnergy } = metrics,
-    const values = [heat, entropy, reactivity, gregsEnergy],
+    const values = [heat, entropy, reactivity, gregsEnergy],;
     if (values.some(val => isNaN(val) || !isFinite(val))) {
-      throw new Error('All thermodynamic metrics must be valid numbers'),
+      throw new Error('All thermodynamic metrics must be valid numbers')
     }
   }
 
@@ -376,7 +376,7 @@ class ThermodynamicCalculator {
    */
   private normalizeValue(value: number): number {
     if (isNaN(value) || !isFinite(value)) return 0,
-    return Math.max(0, Math.min(1, Number(value.toFixed(2)))),
+    return Math.max(0, Math.min(1, Number(value.toFixed(2))))
   }
 }
 
@@ -464,7 +464,7 @@ export function calculateReactivity(
  */
 export function calculateGregsEnergy(heat: number, entropy: number, reactivity: number): number {
   const calculator = new ThermodynamicCalculator();
-  return calculator.calculateGregsEnergy(heat, entropy, reactivity),
+  return calculator.calculateGregsEnergy(heat, entropy, reactivity)
 }
 
 /**
@@ -475,7 +475,7 @@ export function calculateGregsEnergy(heat: number, entropy: number, reactivity: 
 export const countElementalAlchemicalProperties = (;
   items: Array<{
     elementalProperties?: Record<ElementalCharacter, number>,
-    alchemicalProperties?: Record<AlchemicalProperty, number>,
+    alchemicalProperties?: Record<AlchemicalProperty, number>
   }>,
 ): ElementalAlchemicalCounts => {
   const elementalCounts: Record<ElementalCharacter, number> = {

@@ -20,7 +20,7 @@ interface ImportIssue {
   column: number,
   rule: string,
   message: string,
-  severity: 'error' | 'warning',
+  severity: 'error' | 'warning'
 }
 
 interface ImportAnalysis {
@@ -28,7 +28,7 @@ interface ImportAnalysis {
   importOrderIssues: ImportIssue[],
   circularDependencies: ImportIssue[],
   namedImportIssues: ImportIssue[],
-  totalIssues: number,
+  totalIssues: number
 }
 
 class ImportOrganizationFixer {
@@ -49,7 +49,7 @@ class ImportOrganizationFixer {
 
   private createBackup(filePath: string): void {
     const relativePath = path.relative(this.srcDir, filePath);
-    const backupPath = path.join(this.backupDir, relativePath),
+    const backupPath = path.join(this.backupDir, relativePath),;
     const backupDir = path.dirname(backupPath);
 
     if (!fs.existsSync(backupDir)) {
@@ -60,12 +60,12 @@ class ImportOrganizationFixer {
   }
 
   private async analyzeImportIssues(): Promise<ImportAnalysis> {
-    // console.log('🔍 Analyzing import issues...');
+    // // console.log('🔍 Analyzing import issues...');
 
     try {
       // Run ESLint with JSON output to get detailed import issues
       const eslintOutput = execSync(;
-        'yarn lint --format=json --no-eslintrc --config eslint.config.cjs src/',,
+        'yarn lint --format=json --no-eslintrc --config eslint.config.cjs src/',,;
         {
           encoding: 'utf8',
           stdio: 'pipe',
@@ -90,7 +90,7 @@ class ImportOrganizationFixer {
             column: message.column;
             rule: message.ruleId;
             message: message.message;
-            severity: message.severity === 2 ? 'error' : 'warning',,
+            severity: message.severity === 2 ? 'error' : 'warning',,;
           };
 
           // Categorize import issues
@@ -154,7 +154,7 @@ class ImportOrganizationFixer {
           if (match) {
             const source = match[1];
             if (!importSources.has(source)) {
-              importSources.set(source, []),
+              importSources.set(source, [])
             }
             importSources.get(source)?.push(index + 1);
           }
@@ -189,7 +189,7 @@ class ImportOrganizationFixer {
       const entries = fs.readdirSync(dir, { withFileTypes: true });
 
       for (const entry of entries) {
-        const fullPath = path.join(dir, entry.name),
+        const fullPath = path.join(dir, entry.name),;
 
         if (entry.isDirectory() && !entry.name.startsWith('.') && entry.name !== 'node_modules') {
           scanDirectory(fullPath);
@@ -204,7 +204,7 @@ class ImportOrganizationFixer {
   }
 
   private async fixDuplicateImports(files: string[]): Promise<number> {
-    // console.log('🔧 Fixing duplicate imports...');
+    // // console.log('🔧 Fixing duplicate imports...');
     let fixedCount = 0;
 
     for (const file of files) {
@@ -220,7 +220,7 @@ class ImportOrganizationFixer {
             lines: number[],
             imports: string[],
             defaultImport?: string,
-            namespaceImport?: string,
+            namespaceImport?: string
           }
         >();
 
@@ -265,7 +265,7 @@ class ImportOrganizationFixer {
             }
 
             // Default import
-            const defaultMatch = importPart.match(/^([^{,*]+)(?=,|\s*$)/),
+            const defaultMatch = importPart.match(/^([^{,*]+)(?=,|\s*$)/),;
             if (defaultMatch && !defaultMatch[1].includes('*')) {
               if (group) group.defaultImport = defaultMatch[1].trim();
             }
@@ -324,7 +324,7 @@ class ImportOrganizationFixer {
   }
 
   private async fixImportOrder(): Promise<number> {
-    // console.log('🔧 Fixing import order...');
+    // // console.log('🔧 Fixing import order...');
 
     try {
       // Use ESLint's --fix to automatically fix import order
@@ -336,7 +336,7 @@ class ImportOrganizationFixer {
         },
       );
 
-      // console.log('✅ Import order fixed using ESLint --fix');
+      // // console.log('✅ Import order fixed using ESLint --fix');
       return 1; // Indicate success
     } catch (error) {
       console.warn('⚠️ ESLint --fix failed, using manual approach'),
@@ -364,7 +364,7 @@ class ImportOrganizationFixer {
           if (line.startsWith('import ') || line === '') {
             importEndIndex = i;
           } else {
-            break,
+            break
           }
         }
 
@@ -399,23 +399,23 @@ class ImportOrganizationFixer {
 
         // Sort each category alphabetically
         Object.keys(categorizedImports).forEach(key => {
-          categorizedImports[key as keyof typeof categorizedImports].sort(),
+          categorizedImports[key as keyof typeof categorizedImports].sort()
         });
 
         // Rebuild import section
         const newImports: string[] = [];
 
         if (categorizedImports.builtin.length > 0) {
-          newImports.push(...categorizedImports.builtin, ''),
+          newImports.push(...categorizedImports.builtin, '')
         }
         if (categorizedImports.external.length > 0) {
-          newImports.push(...categorizedImports.external, ''),
+          newImports.push(...categorizedImports.external, '')
         }
         if (categorizedImports.internal.length > 0) {
-          newImports.push(...categorizedImports.internal, ''),
+          newImports.push(...categorizedImports.internal, '')
         }
         if (categorizedImports.relative.length > 0) {
-          newImports.push(...categorizedImports.relative, ''),
+          newImports.push(...categorizedImports.relative, '')
         }
 
         // Remove trailing empty line
@@ -444,7 +444,7 @@ class ImportOrganizationFixer {
   }
 
   private async detectCircularDependencies(): Promise<string[]> {
-    // console.log('🔍 Detecting circular dependencies...');
+    // // console.log('🔍 Detecting circular dependencies...');
 
     const files = this.getAllTypeScriptFiles();
     const dependencyGraph = new Map<string, Set<string>>();
@@ -464,10 +464,10 @@ class ImportOrganizationFixer {
 
             // Convert relative imports to absolute paths
             if (source.startsWith('./') || source.startsWith('../')) {
-              const absolutePath = path.resolve(path.dirname(file), source),
+              const absolutePath = path.resolve(path.dirname(file), source),;
               dependencies.add(absolutePath);
             } else if (source.startsWith('@/')) {
-              const absolutePath = path.resolve(this.srcDir, source.substring(2)),
+              const absolutePath = path.resolve(this.srcDir, source.substring(2)),;
               dependencies.add(absolutePath);
             }
           }
@@ -493,7 +493,7 @@ class ImportOrganizationFixer {
       }
 
       if (visited.has(node)) {
-        return false,
+        return false
       }
 
       visited.add(node);
@@ -521,18 +521,18 @@ class ImportOrganizationFixer {
   }
 
   private async validateBuild(): Promise<boolean> {
-    // console.log('🔍 Validating build after import fixes...');
+    // // console.log('🔍 Validating build after import fixes...');
 
     try {
       execSync('yarn tsc --noEmit --skipLibCheck', {
         stdio: 'pipe',
         timeout: 60000, // 1 minute timeout
       });
-      // console.log('✅ Build validation passed');
+      // // console.log('✅ Build validation passed');
       return true;
     } catch (error) {
       console.error('❌ Build validation failed:', (error as Error).message),
-      return false,
+      return false
     }
   }
 
@@ -559,26 +559,26 @@ Generated: ${new Date().toISOString()}
 `;
 
     fs.writeFileSync('import-organization-report.md', report);
-    // console.log('📊 Report generated: import-organization-report.md');
+    // // console.log('📊 Report generated: import-organization-report.md');
   }
 
   public async run(): Promise<void> {
-    // console.log('🚀 Starting Import Organization and Duplicate Removal');
-    // console.log('='.repeat(60));
+    // // console.log('🚀 Starting Import Organization and Duplicate Removal');
+    // // console.log('='.repeat(60));
 
     try {
       // Step 1: Analyze current import issues
       const analysis = await this.analyzeImportIssues();
 
-      // console.log(`📊 Found ${analysis.totalIssues} import issues:`);
-      // console.log(`   - Duplicate imports: ${analysis.duplicateImports.length}`);
-      // console.log(`   - Import order issues: ${analysis.importOrderIssues.length}`);
-      // console.log(`   - Circular dependencies: ${analysis.circularDependencies.length}`);
-      // console.log(`   - Named import issues: ${analysis.namedImportIssues.length}`);
+      // // console.log(`📊 Found ${analysis.totalIssues} import issues:`);
+      // // console.log(`   - Duplicate imports: ${analysis.duplicateImports.length}`);
+      // // console.log(`   - Import order issues: ${analysis.importOrderIssues.length}`);
+      // // console.log(`   - Circular dependencies: ${analysis.circularDependencies.length}`);
+      // // console.log(`   - Named import issues: ${analysis.namedImportIssues.length}`);
 
       if (analysis.totalIssues === 0) {
-        // console.log('✅ No import issues found ?? undefined');
-        return,
+        // // console.log('✅ No import issues found ?? undefined');
+        return
       }
 
       // Step 2: Fix duplicate imports
@@ -593,8 +593,8 @@ Generated: ${new Date().toISOString()}
       // Step 4: Detect circular dependencies (informational)
       const cycles = await this.detectCircularDependencies();
       if (cycles.length > 0) {
-        // console.log('⚠️ Circular dependencies detected:');
-        cycles.forEach(cycle => // console.log(`   ${cycle}`));
+        // // console.log('⚠️ Circular dependencies detected:');
+        cycles.forEach(cycle => // // console.log(`   ${cycle}`));
       }
 
       // Step 5: Validate build
@@ -602,17 +602,17 @@ Generated: ${new Date().toISOString()}
 
       if (!buildValid) {
         console.error('❌ Build validation failed. Consider rolling back changes.');
-        return,
+        return
       }
 
       // Step 6: Generate report
       this.generateReport(analysis, this.fixedIssues);
 
-      // console.log('='.repeat(60));
-      // console.log(`✅ Import organization completed successfully ?? undefined`);
-      // console.log(`   Files processed: ${this.processedFiles}`);
-      // console.log(`   Issues fixed: ${this.fixedIssues}`);
-      // console.log(`   Backup location: ${this.backupDir}`);
+      // // console.log('='.repeat(60));
+      // // console.log(`✅ Import organization completed successfully ?? undefined`);
+      // // console.log(`   Files processed: ${this.processedFiles}`);
+      // // console.log(`   Issues fixed: ${this.fixedIssues}`);
+      // // console.log(`   Backup location: ${this.backupDir}`);
     } catch (error) {
       console.error('❌ Import organization failed:', error),
       process.exit(1);

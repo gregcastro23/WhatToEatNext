@@ -44,7 +44,7 @@ function processFile(filePath) {
   const fileModified = false;
 
   // Check if file uses rawX pattern with fixIngredientMappings
-  const usesFixIngredientMappings = content.includes('fixIngredientMappings');
+  const _usesFixIngredientMappings = content.includes('fixIngredientMappings');
 
   // Find all nutritionalProfile objects
   const profileRegex = /nutritionalProfile\s*:\s*{([^}]*)}/g;

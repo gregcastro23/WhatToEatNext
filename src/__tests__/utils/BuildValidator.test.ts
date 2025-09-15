@@ -16,7 +16,7 @@ describe('BuildValidator', () => {
 
   beforeEach(() => {
     mockLogger = jest.fn() as any;
-    buildValidator = new BuildValidator('.next', mockLogger),
+    buildValidator = new BuildValidator('.next', mockLogger),;
     jest.clearAllMocks();
   });
 
@@ -191,10 +191,10 @@ describe('BuildValidator', () => {
       const { execSync } = require('child_process');
       execSync
         .mockImplementationOnce(() => {
-          throw new Error('Build failed'),
+          throw new Error('Build failed')
         })
         .mockImplementationOnce(() => {
-          return 'Build successful',
+          return 'Build successful'
         });
 
       mockFs.existsSync.mockReturnValue(true);
@@ -210,7 +210,7 @@ describe('BuildValidator', () => {
     it('should fail after max retries': any, async () => {
       const { execSync } = require('child_process');
       execSync.mockImplementation(() => {
-        throw new Error('Build failed'),
+        throw new Error('Build failed')
       });
 
       const result: any = await buildValidator.rebuildWithRecovery(2);

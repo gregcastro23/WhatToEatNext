@@ -15,12 +15,12 @@ interface AstrologicalCulinaryGuidance {
   technique: {
     name: string,
     rationale: string,
-    optimalTiming: string,
+    optimalTiming: string
   };
   ingredientFocus: {
     element: string,
     examples: string[],
-    pairingTip: string,
+    pairingTip: string
   };
   cuisineRecommendation: CuisineRecommendation;
 }
@@ -28,7 +28,7 @@ interface AstrologicalCulinaryGuidance {
 interface CuisineRecommendation {
   style: string,
   modification: string,
-  astrologicalBoost: number,
+  astrologicalBoost: number
 }
 
 // Need to define this as it's referenced in the code
@@ -38,7 +38,7 @@ interface CookingMethodData {
   benefits: string[],
   astrologicalInfluences?: {
     dominantPlanets?: string[],
-    lunarPhaseEffect?: Record<string, number>,
+    lunarPhaseEffect?: Record<string, number>
   };
 }
 
@@ -49,7 +49,7 @@ interface CuisineProfile {
   astrologicalProfile: {
     rulingPlanets: string[],
     aspectEnhancers: string[],
-    seasonalPreference?: string[],
+    seasonalPreference?: string[]
   };
   seasonalPreferences?: string[];
 }
@@ -59,7 +59,7 @@ interface RecipeRecommendation {
   name: string,
   alignmentScore: number,
   elementDistribution: Record<string, number>,
-  planetaryActivators: string[],
+  planetaryActivators: string[]
 }
 
 export class CulinaryAstrologer {
@@ -106,7 +106,7 @@ export class CulinaryAstrologer {
   private getOptimalTechnique(astroState: AstrologicalState) {
     const viableMethods = Object.values(cookingMethods).filter(method => {
       const element = this.getDominantElementFromAstro(astroState);
-      return method.elementalEffect[element] > 0.3,
+      return method.elementalEffect[element] > 0.3
     });
 
     const bestMethod = viableMethods.sort(;
@@ -135,7 +135,7 @@ export class CulinaryAstrologer {
         0,
       ) || 0,
 
-    return planetScore,
+    return planetScore
   }
 
   private calculateOptimalTiming(method: CookingMethodData, astroState: AstrologicalState): string {
@@ -153,7 +153,7 @@ export class CulinaryAstrologer {
   private getIngredientFocus(astroState: AstrologicalState): {
     element: string,
     examples: string[],
-    pairingTip: string,
+    pairingTip: string
   } {
     const dominantElement = this.getDominantElementFromAstro(astroState);
 
@@ -220,7 +220,7 @@ export class CulinaryAstrologer {
     let planetaryBoost = 0;
     if (cuisine.astrologicalProfile.rulingPlanets.length > 0) {
       // More ruling planets = higher base boost;
-      planetaryBoost = Math.min(0.1 * cuisine.astrologicalProfile.rulingPlanets.length, 0.3),
+      planetaryBoost = Math.min(0.1 * cuisine.astrologicalProfile.rulingPlanets.length, 0.3),;
     }
 
     // Combine all boosts with appropriate weights
@@ -278,7 +278,7 @@ export class CulinaryAstrologer {
 
     // Check if Jupiter is active and in recipe's ruling planets using Type Harmony
     const bridge2 = createAstrologicalBridge();
-    const activePlanets2 = bridge2.safeAccess<string[]>(astroState, 'activePlanets') || [],
+    const activePlanets2 = bridge2.safeAccess<string[]>(astroState, 'activePlanets') || [],;
     if (
       recipe.astrologicalProfile.rulingPlanets.includes('Jupiter') &&
       activePlanets2.includes('jupiter')

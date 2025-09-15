@@ -4,7 +4,7 @@ import { AlchemicalState, AstrologicalState } from './types';
 
 // Define action types
 export type AlchemicalAction =
-  | { type: 'SET_SEASONAL_STATE', payload: { season: string } }
+  | { type: 'SET_SEASONAL_STATE', payload: { season: string } };
   | { type: 'SET_ELEMENTAL_PREFERENCE', payload: { element: string, value: number } }
   | {
       type: 'SET_ELEMENTAL_STATE',

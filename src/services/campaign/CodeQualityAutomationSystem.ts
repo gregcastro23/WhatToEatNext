@@ -29,7 +29,7 @@ export interface CodeQualityAutomationConfig {
   lintingFormatting: LintingFormattingConfig,
   dependencySecurity: DependencySecurityConfig,
   executionOrder: AutomationPhase[],
-  globalSettings: GlobalAutomationSettings,
+  globalSettings: GlobalAutomationSettings
 }
 
 export interface GlobalAutomationSettings {
@@ -38,7 +38,7 @@ export interface GlobalAutomationSettings {
   buildValidationFrequency: number,
   rollbackOnFailure: boolean,
   continueOnError: boolean,
-  reportingEnabled: boolean,
+  reportingEnabled: boolean
 }
 
 export interface AutomationPhase {
@@ -47,7 +47,7 @@ export interface AutomationPhase {
   system: 'importCleanup' | 'lintingFormatting' | 'dependencySecurity',
   enabled: boolean,
   dependencies: string[],
-  criticalFailure: boolean,
+  criticalFailure: boolean
 }
 
 export interface CodeQualityAutomationResult {
@@ -60,7 +60,7 @@ export interface CodeQualityAutomationResult {
   globalMetrics: GlobalQualityMetrics,
   errors: string[],
   warnings: string[],
-  recommendations: string[],
+  recommendations: string[]
 }
 
 export interface PhaseExecutionResult {
@@ -70,7 +70,7 @@ export interface PhaseExecutionResult {
   executionTime: number,
   result: unknown,
   errors: string[],
-  warnings: string[],
+  warnings: string[]
 }
 
 export interface GlobalQualityMetrics {
@@ -81,7 +81,7 @@ export interface GlobalQualityMetrics {
   securityVulnerabilitiesFixed: number,
   dependencyUpdatesApplied: number,
   buildValidationsPassed: number,
-  buildValidationsFailed: number,
+  buildValidationsFailed: number
 }
 
 export class CodeQualityAutomationSystem {
@@ -132,7 +132,7 @@ export class CodeQualityAutomationSystem {
 
       for (const phase of enabledPhases) {
         // Check dependencies
-        const dependenciesMet = await this.checkPhaseDependencies(phase, result.phaseResults),
+        const dependenciesMet = await this.checkPhaseDependencies(phase, result.phaseResults),;
         if (!dependenciesMet) {
           result.warnings.push(`Skipping phase ${phase.name} - dependencies not met`);
           continue;
@@ -146,7 +146,7 @@ export class CodeQualityAutomationSystem {
 
         if (phaseResult.success) {
           result.phasesSucceeded++;
-          this.updateGlobalMetrics(result.globalMetrics, phaseResult),
+          this.updateGlobalMetrics(result.globalMetrics, phaseResult)
         } else {
           result.phasesFailed++;
           result.errors.push(...phaseResult.errors);
@@ -360,7 +360,7 @@ export class CodeQualityAutomationSystem {
     completedPhases: PhaseExecutionResult[],
   ): Promise<boolean> {
     if (phase.dependencies.length === 0) {
-      return true,
+      return true
     }
 
     const completedPhaseNames = completedPhases.filter(p => p.success).map(p => p.phaseName);
@@ -390,7 +390,7 @@ export class CodeQualityAutomationSystem {
       case 'dependencySecurity':
         metrics.securityVulnerabilitiesFixed += (result as any).securityPatchesApplied || 0;
         metrics.dependencyUpdatesApplied += (result as any).updatesApplied || 0;
-        break,
+        break
     }
   }
 
@@ -404,7 +404,7 @@ export class CodeQualityAutomationSystem {
       return true;
     } catch (error) {
       logger.warn('Build validation failed', error),
-      return false,
+      return false
     }
   }
 
@@ -449,7 +449,7 @@ export class CodeQualityAutomationSystem {
       // 5 minutes
       recommendations.push(
         '⏱️ Automation took longer than expected - consider optimizing batch sizes',
-      ),
+      )
     }
 
     // Maintenance recommendations
@@ -461,7 +461,7 @@ export class CodeQualityAutomationSystem {
     if (totalImprovements > 100) {
       recommendations.push(
         '📈 High number of issues fixed - consider running automation more frequently',
-      ),
+      )
     }
 
     return recommendations;

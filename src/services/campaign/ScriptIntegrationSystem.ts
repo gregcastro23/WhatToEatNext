@@ -173,8 +173,8 @@ export class ScriptIntegrationSystem {
     const args = this.buildCommandArguments(mergedOptions);
     const command = `node ${scriptPath} ${args.join(' ')}`;
 
-    // console.log(`🚀 Executing script: ${scriptId}`);
-    // console.log(`📝 Command: ${command}`);
+    // // console.log(`🚀 Executing script: ${scriptId}`);
+    // // console.log(`📝 Command: ${command}`);
 
     const startTime = Date.now();
     let result: ScriptExecutionResult;
@@ -501,23 +501,23 @@ export class ScriptIntegrationSystem {
    * Log execution summary
    */
   private logExecutionSummary(scriptId: string, result: ScriptExecutionResult): void {
-    // console.log(`\n📊 Script Execution Summary: ${scriptId}`);
-    // console.log(`✅ Success: ${result.success}`);
-    // console.log(`⏱️ Execution Time: ${result.executionTime}ms`);
-    // console.log(`📁 Files Processed: ${result.filesProcessed}`);
-    // console.log(`🔧 Errors Fixed: ${result.errorsFixed}`);
-    // console.log(`⚠️ Warnings Fixed: ${result.warningsFixed}`);
+    // // console.log(`\n📊 Script Execution Summary: ${scriptId}`);
+    // // console.log(`✅ Success: ${result.success}`);
+    // // console.log(`⏱️ Execution Time: ${result.executionTime}ms`);
+    // // console.log(`📁 Files Processed: ${result.filesProcessed}`);
+    // // console.log(`🔧 Errors Fixed: ${result.errorsFixed}`);
+    // // console.log(`⚠️ Warnings Fixed: ${result.warningsFixed}`);
 
     if (result.safetyEvents.length > 0) {
-      // console.log(`🚨 Safety Events: ${result.safetyEvents.length}`);
+      // // console.log(`🚨 Safety Events: ${result.safetyEvents.length}`);
       result.safetyEvents.forEach(event => {
-        // console.log(`   ${event.type}: ${event.description}`);
+        // // console.log(`   ${event.type}: ${event.description}`);
       });
     }
 
     if (result.metrics) {
-      // console.log(`📈 Safety Score: ${(result.metrics.safetyScore * 100).toFixed(1)}%`);
-      // console.log(`🎯 Recommended Batch Size: ${result.metrics.recommendedBatchSize}`);
+      // // console.log(`📈 Safety Score: ${(result.metrics.safetyScore * 100).toFixed(1)}%`);
+      // // console.log(`🎯 Recommended Batch Size: ${result.metrics.recommendedBatchSize}`);
     }
   }
 }

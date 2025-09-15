@@ -143,7 +143,7 @@ describe('Simplified Main Page Validation - Task 12', () => {
     });
 
     test('Props passing works correctly', () => {
-      const TestComponent: any = ({ title, onClick }: { title: string, onClic, k: () => void }) =>
+      const TestComponent: any = ({ title, onClick }: { title: string, onClic, k: () => void }) =>;
         React.createElement('button', { onClick }, title);
 
       const mockClick = jest.fn() as any;
@@ -193,7 +193,7 @@ describe('Simplified Main Page Validation - Task 12', () => {
     });
 
     test('Semantic HTML elements work', () => {
-      const semanticElements: any = ['main', 'nav', 'section', 'article', 'aside', 'header', 'footer'],
+      const semanticElements: any = ['main', 'nav', 'section', 'article', 'aside', 'header', 'footer'],;
 
       semanticElements.forEach(tag => {
         const element: any = React.createElement(tag, {}, 'Content');
@@ -206,7 +206,7 @@ describe('Simplified Main Page Validation - Task 12', () => {
     test('TypeScript interfaces work with React', () => {
       interface TestProps {
         title: string,, count: number,
-        optional?: boolean,
+        optional?: boolean
       }
 
       const TypedComponent: any = ({ title, count, optional }: TestProps) =>;
@@ -226,7 +226,7 @@ describe('Simplified Main Page Validation - Task 12', () => {
 
     test('Generic components work', () => {
       interface GenericProps<T> {
-        data: T,, render: (data: T) => React.ReactElement,
+        data: T,, render: (data: T) => React.ReactElement
       }
 
       const GenericComponent: any = <T,>({ data, render }: GenericProps<T>) => render(data);

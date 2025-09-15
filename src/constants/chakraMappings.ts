@@ -21,7 +21,7 @@ export interface ChakraProperties {
   planet: string;
   governs: string[];
   balanceIndicators: string[],
-  imbalanceIndicators: string[],
+  imbalanceIndicators: string[]
 }
 
 export const _CHAKRA_PROPERTIES: Record<Chakra, ChakraProperties> = {
@@ -112,7 +112,7 @@ export const CHAKRA_ZODIAC_MAPPINGS: Record<Chakra, ZodiacSign[]> = {
 export const _ZODIAC_CHAKRA_MAPPINGS: Record<ZodiacSign, Chakra[]> = ZODIAC_SIGNS.reduce(
   (mappings, sign) => {
     mappings[sign] = CHAKRAS.filter(chakra => CHAKRA_ZODIAC_MAPPINGS[chakra].includes(sign));
-    return mappings,
+    return mappings
   },
   {} as Record<ZodiacSign, Chakra[]>,
 );

@@ -19,7 +19,7 @@ export function getCurrentSeason(): Season {
   if (month >= 2 && month <= 4) return 'spring';
   if (month >= 5 && month <= 7) return 'summer';
   if (month >= 8 && month <= 10) return 'fall';
-  return 'winter',
+  return 'winter'
 }
 
 /**
@@ -33,7 +33,7 @@ export function getSeasonalScore(
   if (!seasonalPatterns[season] || !seasonalPatterns[season][ingredientName]) {
     // If ingredient is not found in the specific season, check if it's marked as 'all' seasons
     if (season !== 'all' && seasonalPatterns['all'] && seasonalPatterns['all'][ingredientName]) {
-      return seasonalPatterns['all'][ingredientName] as number,
+      return seasonalPatterns['all'][ingredientName] as number
     }
     return 0.1; // Default low score if not found
   }
@@ -48,7 +48,7 @@ export function getSeasonalData(
   ingredientName: string,
   season: Season = getCurrentSeason(),;
 ): SeasonalData {
-  const availability = getSeasonalScore(ingredientName, season),
+  const availability = getSeasonalScore(ingredientName, season),;
   const traditionalUse = seasonalUsage[season]?.[ingredientName] || [];
 
   // Get complementary flavors for the season
@@ -111,7 +111,7 @@ export const _unifiedSeasonalSystem = {
 
     return {
       topIngredients: Object.entries(ingredients)
-        .filter(([_key, value]) => typeof value === 'number' && value > 0.7),
+        .filter(([_key, value]) => typeof value === 'number' && value > 0.7),;
         .sort(([, a], [, b]) => (b as number) - (a as number))
         .slice(0, 10)
         .map(([name, score]) => ({ name, score: score as number })),

@@ -119,7 +119,7 @@ export function getFoodRecommendationsFromChakras(chakraEnergyStates: ChakraEner
   primaryFoods: string[],
   secondaryFoods: string[],
   avoidFoods: string[],
-  balancingMeals: string[],
+  balancingMeals: string[]
 } {
   // Identify underactive chakras that need support
   const underactiveChakras = chakraEnergyStates;
@@ -154,7 +154,7 @@ export function getFoodRecommendationsFromChakras(chakraEnergyStates: ChakraEner
       'Walnuts',
       'Quinoa',
       'Salmon'
-    ],
+    ]
   }
 
   // Get secondary supporting food groups (for chakras that are neutral)
@@ -182,7 +182,7 @@ export function getFoodRecommendationsFromChakras(chakraEnergyStates: ChakraEner
       'Olive Oil',
       'Garlic',
       'Ginger'
-    ],
+    ]
   }
 
   // Get food groups to avoid (those that might stimulate overactive chakras)
@@ -204,7 +204,7 @@ export function getFoodRecommendationsFromChakras(chakraEnergyStates: ChakraEner
       'Caffeine',
       'Alcohol',
       'Fried Foods'
-    ],
+    ]
   }
 
   // Generate balancing meal ideas
@@ -239,13 +239,13 @@ function generateBalancingMeals(
     meals.push('Nourishing soup with root vegetables and leafy greens');
     meals.push('Energizing smoothie with berries, greens, and seeds');
     meals.push('Grounding grain bowl with quinoa, vegetables, and healthy fats'),
-    return meals,
+    return meals
   }
 
   // Root chakra meals
   if (underactiveChakras.includes('Root')) {
     meals.push('Hearty root vegetable soup with beans and grains');
-    meals.push('Protein-rich bowl with quinoa, lentils, and roasted sweet potatoes'),
+    meals.push('Protein-rich bowl with quinoa, lentils, and roasted sweet potatoes')
   }
 
   // Sacral chakra meals
@@ -297,7 +297,7 @@ function generateBalancingMeals(
     );
 
     const vegetables = primaryFoods.filter(;
-      food => !FOOD_ITEMS_BY_GROUP['Proteins'].includes(food) || false,,
+      food => !FOOD_ITEMS_BY_GROUP['Proteins'].includes(food) || false,,;
     ),
 
     if (proteins.length > 0 && vegetables.length > 0) {

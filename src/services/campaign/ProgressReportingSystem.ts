@@ -27,7 +27,7 @@ export interface CampaignSummaryReport {
   performanceMetrics: PerformanceSnapshot,
   recommendations: Recommendation[],
   estimatedCompletion: Date,
-  executiveSummary: string,
+  executiveSummary: string
 }
 
 export interface PhaseProgressSummary {
@@ -40,14 +40,14 @@ export interface PhaseProgressSummary {
   duration?: number, // in hours
   keyMetrics: Record<string, number>,
   milestones: MilestoneSummary[],
-  blockers: string[],
+  blockers: string[]
 }
 
 export interface MilestoneSummary {
   name: string,
   completed: boolean,
   completionDate?: Date,
-  criticalPath: boolean,
+  criticalPath: boolean
 }
 
 export interface Achievement {
@@ -56,7 +56,7 @@ export interface Achievement {
   phase: string,
   achievedAt: Date,
   impact: AchievementImpact,
-  metrics: Record<string, number>,
+  metrics: Record<string, number>
 }
 
 export interface Issue {
@@ -86,7 +86,7 @@ export interface PerformanceSnapshot {
     currentTime: number,
     targetTime: number,
     improvement: number,
-    cacheEfficiency: number,
+    cacheEfficiency: number
   };
   enterpriseSystems: {
     initial: number,
@@ -102,14 +102,14 @@ export interface Recommendation {
   priority: RecommendationPriority,
   phase: string,
   estimatedImpact: string,
-  actionItems: string[],
+  actionItems: string[]
 }
 
 export interface VisualizationData {
   timeSeriesData: TimeSeriesPoint[],
   phaseProgressChart: PhaseProgressPoint[],
   errorDistributionChart: ErrorDistributionPoint[],
-  performanceTrendChart: PerformanceTrendPoint[],
+  performanceTrendChart: PerformanceTrendPoint[]
 }
 
 export interface TimeSeriesPoint {
@@ -117,57 +117,57 @@ export interface TimeSeriesPoint {
   typeScriptErrors: number,
   lintingWarnings: number,
   buildTime: number,
-  enterpriseSystems: number,
+  enterpriseSystems: number
 }
 
 export interface PhaseProgressPoint {
   phase: string,
   progress: number,
   target: number,
-  status: PhaseStatus,
+  status: PhaseStatus
 }
 
 export interface ErrorDistributionPoint {
   errorType: string,
   count: number,
-  percentage: number,
+  percentage: number
 }
 
 export interface PerformanceTrendPoint {
   timestamp: Date,
   buildTime: number,
   memoryUsage: number,
-  cacheHitRate: number,
+  cacheHitRate: number
 }
 
 export enum CampaignStatus {
   NOT_STARTED = 'NOT_STARTED',;
   IN_PROGRESS = 'IN_PROGRESS',;
   COMPLETED = 'COMPLETED',;
-  BLOCKED = 'BLOCKED',,
-  FAILED = 'FAILED',,
+  BLOCKED = 'BLOCKED',,;
+  FAILED = 'FAILED',,;
 }
 
 export enum AchievementImpact {
   LOW = 'LOW',;
   MEDIUM = 'MEDIUM',;
-  HIGH = 'HIGH',,
-  CRITICAL = 'CRITICAL',,
+  HIGH = 'HIGH',,;
+  CRITICAL = 'CRITICAL',,;
 }
 
 export enum IssueSeverity {
   LOW = 'LOW',;
   MEDIUM = 'MEDIUM',;
   HIGH = 'HIGH',;
-  CRITICAL = 'CRITICAL',,
-  BLOCKER = 'BLOCKER',,
+  CRITICAL = 'CRITICAL',,;
+  BLOCKER = 'BLOCKER',,;
 }
 
 export enum RecommendationPriority {
   LOW = 'LOW',;
   MEDIUM = 'MEDIUM',;
-  HIGH = 'HIGH',,
-  URGENT = 'URGENT',,
+  HIGH = 'HIGH',,;
+  URGENT = 'URGENT',,;
 }
 
 export class ProgressReportingSystem {
@@ -184,7 +184,7 @@ export class ProgressReportingSystem {
    * Generate comprehensive campaign summary report
    */
   async generateCampaignSummaryReport(): Promise<CampaignSummaryReport> {
-    // console.log('📊 Generating comprehensive campaign summary report...');
+    // // console.log('📊 Generating comprehensive campaign summary report...');
 
     const [currentMetrics, phaseValidations] = await Promise.all([
       this.metricsCollector.collectDetailedMetrics();
@@ -198,7 +198,7 @@ export class ProgressReportingSystem {
     const criticalIssues = this.identifyCriticalIssues(phaseValidations);
     const performanceMetrics = this.createPerformanceSnapshot(currentMetrics);
     const recommendations = this.generateRecommendations(phaseValidations, currentMetrics);
-    const estimatedCompletion = this.estimateCompletionDate(overallProgress, currentMetrics),
+    const estimatedCompletion = this.estimateCompletionDate(overallProgress, currentMetrics),;
     const executiveSummary = this.generateExecutiveSummary(;
       overallStatus,
       overallProgress,
@@ -221,7 +221,7 @@ export class ProgressReportingSystem {
     };
 
     this.reportHistory.push(report);
-    // console.log(`✅ Campaign summary report generated: ${overallProgress}% complete`);
+    // // console.log(`✅ Campaign summary report generated: ${overallProgress}% complete`);
 
     return report;
   }
@@ -230,7 +230,7 @@ export class ProgressReportingSystem {
    * Generate detailed phase completion report
    */
   async generatePhaseCompletionReport(phaseId: string): Promise<PhaseReport> {
-    // console.log(`📊 Generating phase completion report for ${phaseId}...`);
+    // // console.log(`📊 Generating phase completion report for ${phaseId}...`);
 
     const currentMetrics = await this.metricsCollector.collectDetailedMetrics();
     let phaseValidation: PhaseValidationResult;
@@ -268,7 +268,7 @@ export class ProgressReportingSystem {
       recommendations
     };
 
-    // console.log(
+    // // console.log(
       `✅ Phase ${phaseId} report generated: ${phaseValidation.overallSuccess ? 'COMPLETED' : 'IN PROGRESS'}`,
     );
     return report;
@@ -278,7 +278,7 @@ export class ProgressReportingSystem {
    * Generate visualization data for charts and graphs
    */
   async generateVisualizationData(): Promise<VisualizationData> {
-    // console.log('📊 Generating visualization data...');
+    // // console.log('📊 Generating visualization data...');
 
     const snapshots = this.metricsCollector.getSnapshots();
     const phaseValidations = await this.validationSystem.validateAllPhases();
@@ -305,7 +305,7 @@ export class ProgressReportingSystem {
     formats: ('json' | 'html' | 'markdown' | 'csv')[] = ['json'];
   ): Promise<string[]> {
     const exportedFiles: string[] = [];
-    const timestamp = new Date().toISOString().replace(/[:.]/g, '-'),
+    const timestamp = new Date().toISOString().replace(/[:.]/g, '-'),;
     const baseFileName = `campaign-report-${timestamp}`;
 
     for (const format of formats) {
@@ -339,7 +339,7 @@ export class ProgressReportingSystem {
 
       fs.writeFileSync(filePath, content);
       exportedFiles.push(filePath);
-      // console.log(`📄 Report exported to: ${filePath}`);
+      // // console.log(`📄 Report exported to: ${filePath}`);
     }
 
     return exportedFiles;
@@ -351,7 +351,7 @@ export class ProgressReportingSystem {
   async generateDashboardData(): Promise<{
     summary: CampaignSummaryReport,
     visualization: VisualizationData,
-    recentActivity: ActivityItem[],
+    recentActivity: ActivityItem[]
   }> {
     const [summary, visualization] = await Promise.all([
       this.generateCampaignSummaryReport();
@@ -479,10 +479,10 @@ export class ProgressReportingSystem {
           targetTime: 10,
           improvement: 10 - metrics.buildPerformance.currentTime
         }
-      }),
+      })
     }
 
-    return achievements,
+    return achievements
   }
 
   private identifyCriticalIssues(phaseValidations: PhaseValidationResult[]): Issue[] {
@@ -789,7 +789,7 @@ ${issue.description}
       phase.blockers.join(', ')
     ]),
 
-    return [headers, ...rows].map(row => row.join(',')).join('\n'),
+    return [headers, ...rows].map(row => row.join(',')).join('\n'),;
   }
 
   private generateRecentActivity(): ActivityItem[] {
@@ -808,7 +808,7 @@ ${issue.description}
   private extractKeyMetrics(validation: PhaseValidationResult): Record<string, number> {
     return {
       completionPercentage: validation.completionPercentage;
-      milestonesCompleted: validation.milestones.filter(m => m.success).length,,
+      milestonesCompleted: validation.milestones.filter(m => m.success).length,,;
       totalMilestones: validation.milestones.length;
       criticalFailures: validation.criticalFailures.length
     };
@@ -836,7 +836,7 @@ ${issue.description}
     if (failure.includes('TypeScript')) return 4;
     if (failure.includes('linting')) return 2;
     if (failure.includes('build')) return 6;
-    return 3,
+    return 3
   }
 
   private determinePriority(step: string): RecommendationPriority {
@@ -849,7 +849,7 @@ ${issue.description}
     if (step.includes('zero') || step.includes('complete')) return 'High - Milestone completion';
     if (step.includes('reduce') || step.includes('improve'))
       return 'Medium - Incremental improvement',
-    return 'Low - Maintenance task',
+    return 'Low - Maintenance task'
   }
 
   private generateActionItems(step: string): string[] {
@@ -868,7 +868,7 @@ ${issue.description}
       case CampaignStatus.FAILED:
         return '#f44336',
       default:
-        return '#757575',
+        return '#757575'
     }
   }
 
@@ -876,7 +876,7 @@ ${issue.description}
    * Get report history
    */
   getReportHistory(): CampaignSummaryReport[] {
-    return [...this.reportHistory],
+    return [...this.reportHistory]
   }
 
   /**
@@ -884,7 +884,7 @@ ${issue.description}
    */
   clearReportHistory(): void {
     this.reportHistory = [];
-    // console.log('📊 Report history cleared');
+    // // console.log('📊 Report history cleared');
   }
 }
 
@@ -892,5 +892,5 @@ interface ActivityItem {
   timestamp: Date,
   type: string,
   description: string,
-  phase: string,
+  phase: string
 }

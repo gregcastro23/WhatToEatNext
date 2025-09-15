@@ -37,7 +37,6 @@ export { CuisineEnhancer, CuisineAnalyzer } from './cuisines';
 
 // Export singleton instances
 import { _, _ } from '@/types/alchemy';
-import { _Recipe } from '@/types/recipe';
 
 // Placeholder classes until imports are fixed
 class UnifiedSeasonalSystem {}

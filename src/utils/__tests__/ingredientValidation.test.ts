@@ -138,7 +138,7 @@ describe('Ingredient Data Validation', () => {
 
   describe('shouldRollbackIngredients', () => {
     it('should recommend rollback for critical errors', () => {
-      const validationResult: IngredientValidationResult = { isValid: false,,
+      const validationResult: IngredientValidationResult = { isValid: false,,;
         errors: [
           {
             type: 'DATA_INCOMPLETE',
@@ -156,7 +156,7 @@ describe('Ingredient Data Validation', () => {
     });
 
     it('should recommend rollback for multiple high-severity errors', () => {
-      const validationResult: IngredientValidationResult = { isValid: false,,
+      const validationResult: IngredientValidationResult = { isValid: false,,;
         errors: [
           {
             type: 'ELEMENTAL_INVALID',
@@ -192,7 +192,7 @@ describe('Ingredient Data Validation', () => {
     });
 
     it('should not recommend rollback for minor issues', () => {
-      const validationResult: IngredientValidationResult = { isValid: true,,
+      const validationResult: IngredientValidationResult = { isValid: true,,;
         errors: [
           {
             type: 'ELEMENTAL_INVALID',
@@ -216,7 +216,7 @@ describe('Ingredient Data Validation', () => {
     });
 
     it('should not recommend rollback for few high-severity errors', () => {
-      const validationResult: IngredientValidationResult = { isValid: false,,
+      const validationResult: IngredientValidationResult = { isValid: false,,;
         errors: [
           {
             type: 'ELEMENTAL_INVALID',

@@ -68,7 +68,7 @@ export function applyLunarInfluence(baseBalance: ElementalState, date: Date): El
   const influence = lunarInfluences[phaseKey.toUpperCase() as LunarPhaseWithUnderscores];
 
   if (!influence) {
-    return baseBalance,
+    return baseBalance
   }
 
   return {
@@ -112,7 +112,7 @@ export function getLunarPhaseFromDate(date: Date): LunarPhase {
   if (dayOfMonth <= 17) return 'full moon';
   if (dayOfMonth <= 21) return 'waning gibbous';
   if (dayOfMonth <= 24) return 'last quarter';
-  return 'waning crescent',
+  return 'waning crescent'
 }
 
 /**
@@ -124,9 +124,9 @@ export function generateDefaultLunarPhaseModifiers(
   category: string,
 ): Record<string, LunarPhaseModifier> {
   // Find dominant element
-  const dominantElement = Object.entries(elementalProps).sort(([_, a], [__, b]) => b - a)[0][0],
+  const dominantElement = Object.entries(elementalProps).sort(([_, a], [__, b]) => b - a)[0][0],;
 
-  const secondaryElement = Object.entries(elementalProps).sort(([_, a], [__, b]) => b - a)[1][0],
+  const secondaryElement = Object.entries(elementalProps).sort(([_, a], [__, b]) => b - a)[1][0],;
 
   // Base modifiers on dominant element
   const lunarModifiers: Record<string, LunarPhaseModifier> = {
@@ -278,7 +278,7 @@ export const formatLunarPhase = (phase: string): LunarPhase => {
 
   // If it already has spaces, validate it's a proper key
   if (!phase.includes('_')) {
-    return isValidSpacePhase(phase) ? (phase as LunarPhase) : 'new moon',
+    return isValidSpacePhase(phase) ? (phase as LunarPhase) : 'new moon'
   }
 
   // Look up the space version or fall back to a manual conversion
@@ -387,14 +387,14 @@ export const LUNAR_PHASE_ELEMENTS: Record<LunarPhaseWithUnderscores, ElementalPr
  * Converts a lunar phase with spaces to one with underscores
  */
 export function convertToUnderscoreFormat(phase: LunarPhaseWithSpaces): LunarPhaseWithUnderscores {
-  return LUNAR_PHASE_MAPPING[phase],
+  return LUNAR_PHASE_MAPPING[phase]
 }
 
 /**
  * Converts a lunar phase with underscores to one with spaces
  */
 export function convertToSpacesFormat(phase: LunarPhaseWithUnderscores): LunarPhaseWithSpaces {
-  return LUNAR_PHASE_REVERSE_MAPPING[phase],
+  return LUNAR_PHASE_REVERSE_MAPPING[phase]
 }
 
 /**
@@ -406,7 +406,7 @@ export function getLunarPhaseElements(phase: LunarPhase): ElementalProperties {
     ? LUNAR_PHASE_MAPPING[phase as LunarPhaseWithSpaces]
     : (phase as unknown as LunarPhaseWithUnderscores),
 
-  return LUNAR_PHASE_ELEMENTS[phaseKey],
+  return LUNAR_PHASE_ELEMENTS[phaseKey]
 }
 
 /**
@@ -419,13 +419,13 @@ export function normalizeLunarPhase(phase: string | null | undefined): LunarPhas
 
   // Check if it's already a valid lunar phase with spaces
   if (isValidSpacePhase(cleanPhase)) {
-    return cleanPhase as LunarPhase,
+    return cleanPhase as LunarPhase
   }
 
   // Try to find a mapping from underscore format
   const spacesFormat = REVERSE_LUNAR_PHASE_MAP[cleanPhase as LunarPhaseKey];
   if (spacesFormat) {
-    return spacesFormat,
+    return spacesFormat
   }
 
   // Try partial matching
@@ -450,12 +450,12 @@ export function convertToLunarPhase(input: string | Date | number): LunarPhase {
     if (normalized) return normalized,
 
     // If normalization failed, default to new moon
-    return 'new moon',
+    return 'new moon'
   }
 
   // If it's a Date, calculate the lunar phase
   if (input instanceof Date) {
-    return getLunarPhaseFromDate(input),
+    return getLunarPhaseFromDate(input)
   }
 
   // If it's a number (assume it's a day of month or lunar cycle position)

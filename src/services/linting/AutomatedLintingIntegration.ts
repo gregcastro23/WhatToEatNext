@@ -16,14 +16,13 @@ import {
 } from './AutomatedLintingFixer';
 import { LintingAnalysisService, ComprehensiveAnalysisResult } from './LintingAnalysisService';
 import { LintingIssue, CategorizedErrors } from './LintingErrorAnalyzer';
-import { ResolutionStrategy } from './ResolutionStrategyGenerator';
 
 export interface AutomatedLintingWorkflowOptions {
   analysisOptions?: {
     includeFileAnalysis?: boolean,
     generateStrategies?: boolean,
     focusAreas?: ('import' | 'typescript' | 'react' | 'style' | 'domain')[],
-    riskTolerance?: 'conservative' | 'moderate' | 'aggressive',
+    riskTolerance?: 'conservative' | 'moderate' | 'aggressive'
   };
   batchProcessingOptions?: Partial<BatchProcessingOptions>;
   safetyProtocols?: Partial<SafetyProtocols>;
@@ -37,7 +36,7 @@ export interface AutomatedLintingWorkflowResult {
     automated: AutomatedFixResult,
     unusedVariables?: AutomatedFixResult,
     imports?: AutomatedFixResult,
-    typeAnnotations?: AutomatedFixResult,
+    typeAnnotations?: AutomatedFixResult
   };
   summary: WorkflowSummary;
   recommendations: WorkflowRecommendation[];
@@ -52,7 +51,7 @@ export interface WorkflowSummary {
   timeToCompletion: number,
   safetyEventsTriggered: number,
   rollbacksPerformed: number,
-  overallSuccess: boolean,
+  overallSuccess: boolean
 }
 
 export interface WorkflowRecommendation {
@@ -62,7 +61,7 @@ export interface WorkflowRecommendation {
   description: string,
   actionItems: string[],
   estimatedImpact: 'high' | 'medium' | 'low',
-  automatable: boolean,
+  automatable: boolean
 }
 
 export interface WorkflowMetrics {
@@ -73,7 +72,7 @@ export interface WorkflowMetrics {
   issuesPerMinute: number,
   automationEfficiency: number,
   safetyProtocolEffectiveness: number,
-  qualityImprovement: number,
+  qualityImprovement: number
 }
 
 /**
@@ -157,7 +156,7 @@ export class AutomatedLintingIntegration {
       return result;
     } catch (error) {
       console.error('❌ Automated linting workflow failed:', error),
-      throw error,
+      throw error
     }
   }
 
@@ -194,8 +193,8 @@ export class AutomatedLintingIntegration {
       const quickWinIssues = quickAnalysis.quickWins;
       const categorizedQuickWins: CategorizedErrors = {
         total: quickWinIssues.length;
-        errors: quickWinIssues.filter(i => i.severity === 'error').length,,
-        warnings: quickWinIssues.filter(i => i.severity === 'warning').length,,
+        errors: quickWinIssues.filter(i => i.severity === 'error').length,,;
+        warnings: quickWinIssues.filter(i => i.severity === 'warning').length,,;
         byCategory: this.groupIssuesByCategory(quickWinIssues);
         byPriority: this.groupIssuesByPriority(quickWinIssues);
         byFile: this.groupIssuesByFile(quickWinIssues);
@@ -218,7 +217,7 @@ export class AutomatedLintingIntegration {
       return result;
     } catch (error) {
       console.error('❌ Quick fixes failed:', error),
-      throw error,
+      throw error
     }
   }
 
@@ -231,7 +230,7 @@ export class AutomatedLintingIntegration {
       removeCompletely?: boolean,
       skipDomainFiles?: boolean,
       skipTestFiles?: boolean,
-      dryRun?: boolean,
+      dryRun?: boolean
     } = {}
   ): Promise<AutomatedFixResult> {
     log.info('🧹 Executing unused variable cleanup...');
@@ -295,7 +294,7 @@ export class AutomatedLintingIntegration {
       return result;
     } catch (error) {
       console.error('❌ Unused variable cleanup failed:', error),
-      throw error,
+      throw error
     }
   }
 
@@ -308,7 +307,7 @@ export class AutomatedLintingIntegration {
       organizeImports?: boolean,
       removeUnused?: boolean,
       sortImports?: boolean,
-      dryRun?: boolean,
+      dryRun?: boolean
     } = {}
   ): Promise<AutomatedFixResult> {
     log.info('📦 Executing import optimization...');
@@ -350,7 +349,7 @@ export class AutomatedLintingIntegration {
       return result;
     } catch (error) {
       console.error('❌ Import optimization failed:', error),
-      throw error,
+      throw error
     }
   }
 
@@ -383,10 +382,10 @@ export class AutomatedLintingIntegration {
 
     // Adjust based on risk assessment
     if (analysis.summary.overallRiskLevel === 'critical') {
-      maxFailures = Math.min(maxFailures, 2),
+      maxFailures = Math.min(maxFailures, 2),;
       requireManualApproval = true;
     } else if (analysis.summary.overallRiskLevel === 'high') {
-      maxFailures = Math.min(maxFailures, 3),
+      maxFailures = Math.min(maxFailures, 3),;
     }
 
     return {
@@ -558,7 +557,7 @@ export class AutomatedLintingIntegration {
         ],
         estimatedImpact: 'high',
         automatable: false
-      }),
+      })
     }
 
     // Short-term improvements
@@ -690,7 +689,7 @@ export class AutomatedLintingIntegration {
     for (const issue of issues) {
       const category = issue.category.primary;
       if (!grouped[category]) grouped[category] = [];
-      grouped[category].push(issue),
+      grouped[category].push(issue)
     }
     return grouped;
   }
@@ -700,7 +699,7 @@ export class AutomatedLintingIntegration {
     for (const issue of issues) {
       const priority = issue.category.priority;
       if (!grouped[priority]) grouped[priority] = [];
-      grouped[priority].push(issue),
+      grouped[priority].push(issue)
     }
     return grouped;
   }
@@ -709,7 +708,7 @@ export class AutomatedLintingIntegration {
     const grouped: Record<string, LintingIssue[]> = {};
     for (const issue of issues) {
       if (!grouped[issue.file]) grouped[issue.file] = [];
-      grouped[issue.file].push(issue),
+      grouped[issue.file].push(issue)
     }
     return grouped;
   }

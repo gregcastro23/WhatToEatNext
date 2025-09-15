@@ -285,7 +285,7 @@ const y: any = 2;
 
       const expectedContent: any = `;
   function test() : any {
-    return true,
+    return true
   }
 `;
 
@@ -375,7 +375,7 @@ const _greeting: any = 'Hi there';
 
   describe('executeLintingAndFormatting', () => {
     test('executes complete linting and formatting workflow', async () => {
-      const testFiles: any = ['file1.ts', 'file2.ts'],
+      const testFiles: any = ['file1.ts', 'file2.ts'],;
 
       // Mock ESLint output
       const eslintOutput: any = JSON.stringify([
@@ -396,7 +396,7 @@ const _greeting: any = 'Hi there';
         .mockReturnValueOnce(''); // Build validation
 
       mockFs.readFileSync
-        .mockReturnValue('const x: any = 1,') // File content for formatting
+        .mockReturnValue('const x: any = 1,') // File content for formatting;
         .mockReturnValue('const x: any = 1,'); // File content after formatting
 
       mockFs.writeFileSync.mockImplementation(() => {});
@@ -417,7 +417,7 @@ const _greeting: any = 'Hi there';
         .mockReturnValueOnce('') // Prettier
         .mockImplementationOnce(() => {
           // Build validation failure
-          throw new Error('Build failed'),
+          throw new Error('Build failed')
         });
 
       mockFs.readFileSync.mockReturnValue('const x: any = 1,');
@@ -477,7 +477,7 @@ const _greeting: any = 'Hi there';
   describe('error handling', () => {
     test('handles file read errors gracefully', async () => {
       mockFs.readFileSync.mockImplementation(() => {
-        throw new Error('File not found'),
+        throw new Error('File not found')
       });
 
       const fixesApplied: any = await lintingFormattingSystem.applyPatternBasedFixes(['nonexistent.ts']);
@@ -487,7 +487,7 @@ const _greeting: any = 'Hi there';
 
     test('handles ESLint execution errors gracefully', async () => {
       mockExecSync.mockImplementation(() => {
-        throw new Error('ESLint failed'),
+        throw new Error('ESLint failed')
       });
 
       const violations: any = await lintingFormattingSystem.detectLintingViolations(['test-file.ts']);
@@ -496,12 +496,12 @@ const _greeting: any = 'Hi there';
     });
 
     test('continues processing other files when one fails', async () => {
-      const testFiles: any = ['good.ts', 'bad.ts', 'good2.ts'],
+      const testFiles: any = ['good.ts', 'bad.ts', 'good2.ts'],;
 
       mockFs.readFileSync
-        .mockReturnValueOnce('const x: any = 1,') // good.ts
+        .mockReturnValueOnce('const x: any = 1,') // good.ts;
         .mockImplementationOnce(() => {
-          throw new Error('Bad file'),
+          throw new Error('Bad file')
         }) // bad.ts
         .mockReturnValueOnce('const y: any = 2,'); // good2.ts
 
@@ -519,7 +519,7 @@ const _greeting: any = 'Hi there';
     });
 
     test('respects custom configuration', () => {
-      const customConfig: LintingFormattingConfig = { maxFilesPerBatch: 10,,
+      const customConfig: LintingFormattingConfig = { maxFilesPerBatch: 10,,;
         safetyValidationEnabled: false,
         buildValidationFrequency: 3,
         autoFixEnabled: false,

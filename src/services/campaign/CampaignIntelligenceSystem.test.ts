@@ -99,7 +99,7 @@ describe('Campaign Intelligence System', () => {
         }
       ];
 
-      const sampleCampaignProgress: CampaignProgress = { totalExplicitAnyStart: 1000,,
+      const sampleCampaignProgress: CampaignProgress = { totalExplicitAnyStart: 1000,,;
         totalExplicitAnyRemaining: 200,
         reductionAchieved: 800,
         reductionPercentage: 80,

@@ -17,9 +17,7 @@ import { createElementalProperties } from '../../utils/elemental/elementalUtils'
 // Simple alchemical properties interface for this module
 // Import ingredient data from their original sources
 import { fruits } from '../ingredients/fruits';
-import { allGrains as grains } from '../ingredients/grains';
 import { herbs } from '../ingredients/herbs';
-import { allOils as oils } from '../ingredients/oils';
 import { meats, plantBased, poultry, seafood } from '../ingredients/proteins';
 import { seasonings } from '../ingredients/seasonings';
 import { spices } from '../ingredients/spices';
@@ -73,11 +71,11 @@ function calculateMonica(
   const energyValue = gregsEnergy !== undefined ? gregsEnergy : energy || 0;
 
   // Safe calculation of logarithm
-  const lnK = Math.log(Math.max(0.001, kalchm)),
+  const lnK = Math.log(Math.max(0.001, kalchm)),;
 
   // Calculate monica value
   if (lnK !== 0 && reactivity !== 0) {
-    return -energyValue / (reactivity * lnK),
+    return -energyValue / (reactivity * lnK)
   }
 
   return 0;
@@ -145,7 +143,7 @@ function enhanceIngredient(
       enhancedAt: new Date().toISOString();
       kalchmCalculated: true
     }
-  },
+  }
 }
 
 /**
@@ -159,7 +157,7 @@ function createUnifiedCollection(
   return Object.entries(sourceCollection || {}).reduce(
     (result, [key, ingredient]) => {
       result[key] = enhanceIngredient(ingredient, category),
-      return result,
+      return result
     },
     {} as Record<string, UnifiedIngredient>,
   );
@@ -224,7 +222,7 @@ export const unifiedIngredients: { [key: string]: UnifiedIngredient } = {
 export function getUnifiedIngredient(name: string): UnifiedIngredient | undefined {
   // Try direct access first
   if (unifiedIngredients[name]) {
-    return unifiedIngredients[name],
+    return unifiedIngredients[name]
   }
 
   // ✅ Pattern KK-1: Safe string conversion for case-insensitive search
@@ -238,7 +236,7 @@ export function getUnifiedIngredient(name: string): UnifiedIngredient | undefine
  * Get a unified ingredient by ID
  */
 export function getIngredientById(id: string): UnifiedIngredient | undefined {
-  return getUnifiedIngredient(id),
+  return getUnifiedIngredient(id)
 }
 
 /**
@@ -256,7 +254,7 @@ export function getUnifiedIngredientsByCategory(category: string): UnifiedIngred
  * Get ingredients by category (alias for backward compatibility)
  */
 export function getIngredientsByCategory(category: string): UnifiedIngredient[] {
-  return getUnifiedIngredientsByCategory(category),
+  return getUnifiedIngredientsByCategory(category)
 }
 
 /**
@@ -295,7 +293,7 @@ export function getHighKalchmIngredients(threshold = 1.5): UnifiedIngredient[] {
  * Get ingredients by Kalchm range (alias for backward compatibility)
  */
 export function getIngredientsByKalchmRange(
-  min: number = 1.5,,
+  min: number = 1.5,,;
   max: number = Infinity
 ): UnifiedIngredient[] {
   // ✅ Pattern KK-1: Safe number conversion for kalchm range comparison
@@ -336,7 +334,7 @@ export function getIngredientsByElement(
     .sort((a, b) => {
       const valueA = Number(a.elementalProperties[element] || 0);
       const valueB = Number(b.elementalProperties[element] || 0);
-      return valueB - valueA,
+      return valueB - valueA
     });
 }
 
@@ -352,7 +350,7 @@ export function findComplementaryIngredients(
     typeof ingredient === 'string' ? getUnifiedIngredient(ingredient) : ingredient;
 
   if (!targetIngredient) {
-    return [],
+    return []
   }
 
   // ✅ Pattern KK-1: Safe division for complementary relationship criteria

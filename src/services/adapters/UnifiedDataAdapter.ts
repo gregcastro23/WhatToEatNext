@@ -6,7 +6,6 @@
  * the unified data system and the application's services.
  */
 
-import { UnifiedIngredient } from '@/data/unified/unifiedTypes';
 import {
   Element,
   ElementalProperties,

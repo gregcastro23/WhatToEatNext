@@ -31,7 +31,7 @@ export type AlchemicalRecommendationResponse = ServiceResponseType<{
   compatibility: number,
   reasoning: string[],
   elementalBalance: ElementalPropertiesType,
-  thermodynamicMetrics: ThermodynamicMetricsType,
+  thermodynamicMetrics: ThermodynamicMetricsType
 }>;
 
 /**
@@ -48,7 +48,7 @@ export type StandardizedPlanetaryResponse = ServiceResponseType<{
   positions: Record<string, StandardizedPlanetaryPosition>;
   timestamp: string,
   source: string,
-  accuracy: number,
+  accuracy: number
 }>;
 
 /**
@@ -62,7 +62,7 @@ export type RecipeRecommendationResponse = ServiceResponseType<{
     compatibility: number,
     elementalBalance: ElementalPropertiesType,
     ingredients: string[],
-    reasoning: string[],
+    reasoning: string[]
   }>;
   totalMatches: number;
   searchCriteria: Record<string, Record<string, number>>;
@@ -79,9 +79,9 @@ export type CulinaryAnalysisResponse = ServiceResponseType<{
   recommendations: {
     ingredients: string[],
     cookingMethods: string[],
-    seasonalTiming: string[],
+    seasonalTiming: string[]
   },
-  warnings: string[],
+  warnings: string[]
 }>;
 
 // ========== EXTERNAL API RESPONSE TYPES ==========;
@@ -105,7 +105,7 @@ export interface NasaHorizonsResponse {
    */
   signature?: {
     source?: string,
-    version?: string,
+    version?: string
   };
 }
 
@@ -146,12 +146,12 @@ export interface AstronomyApiResponse {
             rightAscension?: {
               hours?: number,
               minutes?: number,
-              seconds?: number,
+              seconds?: number
             };
             declination?: {
               degrees?: number,
               minutes?: number,
-              seconds?: number,
+              seconds?: number
             };
           };
 
@@ -162,15 +162,15 @@ export interface AstronomyApiResponse {
             longitude?: {
               degrees?: number,
               minutes?: number,
-              seconds?: number,
+              seconds?: number
             };
             latitude?: {
               degrees?: number,
               minutes?: number,
-              seconds?: number,
+              seconds?: number
             };
-          },
-        },
+          }
+        }
       }>;
     };
   };
@@ -180,7 +180,7 @@ export interface AstronomyApiResponse {
    */
   error?: {
     code?: number,
-    message?: string,
+    message?: string
   };
 }
 
@@ -214,8 +214,8 @@ export interface SwissEphemerisApiResponse {
       /**
        * Speed of the planet
        */
-      speed?: number,
-    },
+      speed?: number
+    }
   }>;
 
   /**
@@ -225,7 +225,7 @@ export interface SwissEphemerisApiResponse {
     | string
     | {
         message?: string,
-        code?: number,
+        code?: number
       };
 }
 
@@ -261,7 +261,7 @@ export interface StandardizedPlanetaryPosition {
   /**
    * Speed of the planet (positive for direct, negative for retrograde)
    */
-  speed?: number,
+  speed?: number
 }
 
 /**
@@ -273,7 +273,7 @@ export function isValidNasaHorizonsResponse(data: unknown): data is NasaHorizons
     data !== null &&
     (('result' in data && typeof (data as NasaHorizonsResponse).result === 'string') ||;
       ('error' in data && typeof (data as NasaHorizonsResponse).error === 'string'));
-  ),
+  )
 }
 
 /**

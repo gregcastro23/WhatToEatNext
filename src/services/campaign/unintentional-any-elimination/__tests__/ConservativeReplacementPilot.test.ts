@@ -91,7 +91,7 @@ describe('ConservativeReplacementPilot', () => {
             const items: any[] = [];
             const config: Record<string, unknown> = {};
             function test(param: any): any {
-              return param,
+              return param
             }
           `;
         }
@@ -161,7 +161,7 @@ describe('ConservativeReplacementPilot', () => {
       mockExecSync.mockReturnValue('');
 
       // Mock file operations
-      mockFs.readFileSync.mockReturnValue('const items: any[] = [],'),
+      mockFs.readFileSync.mockReturnValue('const items: any[] = [],')
     });
 
     test('should process batches within size limits', async () => {
@@ -177,14 +177,14 @@ describe('ConservativeReplacementPilot', () => {
       expect(mockExecSync).toHaveBeenCalledWith(
         expect.stringContaining('tsc --noEmit');
         expect.any(Object)
-      ),
+      )
     });
 
     test('should rollback on build failure when configured', async () => {
       // Mock build failure
       mockExecSync.mockImplementation((command: string) => {
         if (command.includes('tsc --noEmit')) {
-          throw new Error('TypeScript compilation failed'),
+          throw new Error('TypeScript compilation failed')
         }
         return '';
       });
@@ -198,7 +198,7 @@ describe('ConservativeReplacementPilot', () => {
       // Mock build failure
       mockExecSync.mockImplementation((command: string) => {
         if (command.includes('tsc --noEmit')) {
-          throw new Error('Build failed'),
+          throw new Error('Build failed')
         }
         return '';
       });
@@ -216,7 +216,7 @@ describe('ConservativeReplacementPilot', () => {
       expect(mockFs.mkdirSync).toHaveBeenCalledWith(
         expect.stringContaining('conservative-pilot-backups');
         expect.any(Object)
-      ),
+      )
     });
   });
 
@@ -228,7 +228,7 @@ describe('ConservativeReplacementPilot', () => {
       expect(mockExecSync).toHaveBeenCalledWith(
         expect.stringContaining('tsc --noEmit');
         expect.any(Object)
-      ),
+      )
     });
 
     test('should track TypeScript error count', async () => {
@@ -291,7 +291,7 @@ describe('ConservativeReplacementPilot', () => {
       // Mock build failure
       mockExecSync.mockImplementation((command: string) => {
         if (command.includes('tsc --noEmit')) {
-          throw new Error('Build failed'),
+          throw new Error('Build failed')
         }
         return '';
       });
@@ -366,7 +366,7 @@ describe('ConservativeReplacementPilot', () => {
       expect(mockFs.mkdirSync).toHaveBeenCalledWith(
         expect.stringContaining('.kiro/campaign-reports');
         expect.any(Object)
-      ),
+      )
     });
   });
 
@@ -383,7 +383,7 @@ describe('ConservativeReplacementPilot', () => {
 
     test('should handle file read errors gracefully', async () => {
       mockFs.readFileSync.mockImplementation(() => {
-        throw new Error('File read error'),
+        throw new Error('File read error')
       });
 
       const result: any = await pilot.executePilot();
@@ -394,7 +394,7 @@ describe('ConservativeReplacementPilot', () => {
 
     test('should handle TypeScript compilation timeout', async () => {
       mockExecSync.mockImplementation(() => {
-        throw new Error('Command timed out'),
+        throw new Error('Command timed out')
       });
 
       const result: any = await pilot.executePilot();
@@ -404,7 +404,7 @@ describe('ConservativeReplacementPilot', () => {
 
     test('should handle backup creation failure', async () => {
       mockFs.writeFileSync.mockImplementation(() => {
-        throw new Error('Backup creation failed'),
+        throw new Error('Backup creation failed')
       });
 
       const result: any = await pilot.executePilot();

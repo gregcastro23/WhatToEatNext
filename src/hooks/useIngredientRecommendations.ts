@@ -1,6 +1,5 @@
 import { useState, useEffect, useMemo } from 'react';
 
-import { type IngredientRecommendation } from '@/types';
 import { type ElementalProperties } from '@/types/alchemy';
 
 import { useAlchemical } from './useAlchemical';
@@ -21,7 +20,7 @@ export interface IngredientRecommendationsData {
   error: string | null;
   filters: {
     category?: string,
-    maxResults?: number,
+    maxResults?: number
   };
 }
 
@@ -30,7 +29,7 @@ export interface RecommendationCriteria {
   season?: string;
   mealType?: string;
   dietaryRestrictions?: string[],
-  servings?: number,
+  servings?: number
 }
 
 export function useIngredientRecommendations(_criteria?: RecommendationCriteria) {
@@ -73,7 +72,7 @@ export function useIngredientRecommendations(_criteria?: RecommendationCriteria)
     Object.values(planetaryPositions || {}).forEach(position => {
       const element = elementMap[(position as unknown)?.sign as keyof typeof elementMap];
       if (element) {
-        elementCounts[element as keyof typeof elementCounts]++,
+        elementCounts[element as keyof typeof elementCounts]++
       }
     });
 
@@ -161,7 +160,7 @@ export function useIngredientRecommendations(_criteria?: RecommendationCriteria)
         if (state.filters.category) {
           filteredIngredients = filteredIngredients.filter(;
             i => i.category === state.filters.category
-          ),
+          )
         }
 
         // Sort by score and limit results
@@ -262,7 +261,7 @@ function generateRecommendationReason(
     a[1] > b[1] ? a : b,
   )[0];
 
-  const currentDominant = Object.entries(currentProfile).reduce((a, b) => (a[1] > b[1] ? a : b))[0],
+  const currentDominant = Object.entries(currentProfile).reduce((a, b) => (a[1] > b[1] ? a : b))[0],;
 
   const timeContext = isDaytime ? 'daytime solar' : 'nighttime lunar';
 

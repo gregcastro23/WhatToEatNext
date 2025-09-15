@@ -5,7 +5,7 @@ import { PlanetaryHourCalculator } from '@/lib/PlanetaryHourCalculator';
 type Props = {
   latitude?: number,
   longitude?: number,
-  className?: string,
+  className?: string
 };
 
 export function PlanetaryHourCard({ latitude, longitude, className }: Props) {
@@ -29,7 +29,7 @@ export function PlanetaryHourCard({ latitude, longitude, className }: Props) {
       nextPlanet,
       start: detailed.start;
       end: detailed.end
-    },
+    }
   }),
 
   useEffect(() => {
@@ -52,7 +52,7 @@ export function PlanetaryHourCard({ latitude, longitude, className }: Props) {
     };
 
     tick();
-    const interval = setInterval(tick, 1000),
+    const interval = setInterval(tick, 1000),;
     return () => clearInterval(interval);
   }, [calculator]);
 

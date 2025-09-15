@@ -89,7 +89,7 @@ describe('Build Quality Monitor', () => {
       const error: any = new Error('TypeScript compilation failed') as unknown;
       (error as any).stdout = mockTscOutput;
       mockExecSync.mockImplementation(() => {
-        throw error,
+        throw error
       });
 
       const report: any = monitorBuildQuality();
@@ -190,7 +190,7 @@ describe('Build Quality Monitor', () => {
     it('should handle build failures gracefully', async () => {
       // Mock complete build failure
       mockExecSync.mockImplementation(() => {
-        throw new Error('Complete build failure'),
+        throw new Error('Complete build failure')
       });
 
       const report: any = monitorBuildQuality();
@@ -220,7 +220,7 @@ describe('Build Quality Monitor', () => {
 
     it('should return 0 on error', async () => {
       mockExecSync.mockImplementation(() => {
-        throw new Error('Complete failure'),
+        throw new Error('Complete failure')
       });
 
       const score: any = getBuildQualityScore();
@@ -245,7 +245,7 @@ describe('Build Quality Monitor', () => {
       const error: any = new Error('TypeScript compilation failed') as unknown;
       (error as any).stdout = mockTscOutput;
       mockExecSync.mockImplementation(() => {
-        throw error,
+        throw error
       });
 
       const report: any = monitorBuildQuality();
@@ -290,7 +290,7 @@ describe('Build Quality Monitor', () => {
       const error: any = new Error('TypeScript compilation failed') as unknown;
       (error as any).stdout = mockTscOutput;
       mockExecSync.mockImplementation(() => {
-        throw error,
+        throw error
       });
 
       const report: any = monitorBuildQuality();
@@ -339,7 +339,7 @@ describe('Build Quality Monitor', () => {
   describe('Error Handling', () => {
     it('should handle file system errors gracefully', async () => {
       mockExistsSync.mockImplementation(() => {
-        throw new Error('File system error'),
+        throw new Error('File system error')
       });
 
       const report: any = monitorBuildQuality();
@@ -351,7 +351,7 @@ describe('Build Quality Monitor', () => {
     it('should handle ESLint configuration errors', async () => {
       mockExecSync.mockImplementation((command: string) => {
         if (command.includes('lint')) {
-          throw new Error('ESLint not configured'),
+          throw new Error('ESLint not configured')
         }
         return '';
       });

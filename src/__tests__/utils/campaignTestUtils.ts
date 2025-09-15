@@ -36,7 +36,7 @@ export interface CampaignTestSetup {
   preventGitOperations?: boolean,
   mockProgressTracking?: boolean,
   simulateRealProgress?: boolean,
-  customConfig?: Partial<CampaignConfig>,
+  customConfig?: Partial<CampaignConfig>
 }
 
 /**
@@ -47,7 +47,7 @@ export interface CampaignTestContext {
   tracker: MockProgressTracker,
   safety: MockSafetyProtocol,
   testSafeTracker: TestSafeProgressTracker | null,
-  testController: CampaignTestController,
+  testController: CampaignTestController
 }
 
 /**
@@ -59,8 +59,8 @@ export async function setupCampaignTest(setup: CampaignTestSetup): Promise<Campa
     enableMemoryMonitoring = true,;
     preventActualBuilds = true,;
     preventGitOperations = true,;
-    mockProgressTracking = true,,
-    simulateRealProgress: _simulateRealProgress = false,,
+    mockProgressTracking = true,,;
+    simulateRealProgress: _simulateRealProgress = false,,;
     customConfig: _customConfig
   } = setup;
 
@@ -83,7 +83,7 @@ export async function setupCampaignTest(setup: CampaignTestSetup): Promise<Campa
 
   // Validate that all required instances are available
   if (!mockInstances.controller || !mockInstances.tracker || !mockInstances.safety) {
-    throw new Error('Failed to initialize campaign mock instances'),
+    throw new Error('Failed to initialize campaign mock instances')
   }
 
   return {
@@ -264,7 +264,7 @@ export interface CampaignTestScenario {
   targetMetrics: Partial<ProgressMetrics>,
   expectedPhaseResults: Partial<PhaseResult>[],
   expectedSafetyEvents: SafetyEventType[],
-  simulationDuration?: number,
+  simulationDuration?: number
 }
 
 /**
@@ -342,9 +342,9 @@ export async function withCampaignTestIsolation<T>(
   });
 
   try {
-    return await testFn(context),
+    return await testFn(context)
   } finally {
-    await cleanupCampaignTest(testName),
+    await cleanupCampaignTest(testName)
   }
 }
 

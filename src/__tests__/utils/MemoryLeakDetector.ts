@@ -11,7 +11,7 @@ interface MemoryLeakPattern {
   detector: () => boolean;
   description: string,
   fix: string,
-  severity: 'low' | 'medium' | 'high' | 'critical',
+  severity: 'low' | 'medium' | 'high' | 'critical'
 }
 
 interface MemoryLeakReport {
@@ -20,7 +20,7 @@ interface MemoryLeakReport {
   memoryUsage: {
     current: number,
     baseline: number,
-    increase: number,
+    increase: number
   };
   timestamp: string;
 }
@@ -69,7 +69,7 @@ export class MemoryLeakDetector {
         name: 'Large Test Cache',
         detector: () => {
           if (global.__TEST_CACHE__ && global.__TEST_CACHE__ instanceof Map) {
-            return (global.__TEST_CACHE__ as Map<unknown, unknown>).size > 100,
+            return (global.__TEST_CACHE__ as Map<unknown, unknown>).size > 100
           }
           return false;
         },
@@ -93,7 +93,7 @@ export class MemoryLeakDetector {
         detector: () => {
           if (typeof require !== 'undefined' && require.cache) {
             const cacheSize = Object.keys(require.cache).length;
-            return cacheSize > 500,
+            return cacheSize > 500
           }
           return false;
         },
@@ -106,7 +106,7 @@ export class MemoryLeakDetector {
         detector: () => {
           if (typeof document !== 'undefined') {
             const nodeCount = document.querySelectorAll('*').length;
-            return nodeCount > 1000,
+            return nodeCount > 1000
           }
           return false;
         },
@@ -118,7 +118,7 @@ export class MemoryLeakDetector {
         name: 'Global Reference Accumulation',
         detector: () => {
           if (global.__TEST_REFS__) {
-            return (global.__TEST_REFS__ as unknown[]).length > 50,
+            return (global.__TEST_REFS__ as unknown[]).length > 50
           }
           return false;
         },
@@ -219,7 +219,7 @@ export class MemoryLeakDetector {
             ] || [];
           listeners.forEach((listener: (event: Event) => void) => {
             try {
-              window.removeEventListener(eventType, listener),
+              window.removeEventListener(eventType, listener)
             } catch (error) {
               // Ignore errors for already removed listeners
             }
@@ -238,7 +238,7 @@ export class MemoryLeakDetector {
         if (typeof (global.__TEST_CACHE__ as { clear?: () => void }).clear === 'function') {
           (global.__TEST_CACHE__ as { clear: () => void }).clear();
         } else {
-          global.__TEST_CACHE__ = new Map<unknown, unknown>(),
+          global.__TEST_CACHE__ = new Map<unknown, unknown>(),;
         }
         fixed.push('Cleared test cache');
       }

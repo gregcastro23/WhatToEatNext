@@ -11,26 +11,26 @@ export interface ErrorClassification {
   severity: ErrorSeverity;
   autoFixCapability: AutoFixCapability;
   domainImpact: DomainImpact,
-  riskProfile: RiskProfile,
+  riskProfile: RiskProfile
 }
 
 export interface ErrorCategory {
   primary: 'syntax' | 'style' | 'logic' | 'performance' | 'security' | 'maintainability';
   secondary: string,
-  description: string,
+  description: string
 }
 
 export interface ErrorSeverity {
   level: 'critical' | 'high' | 'medium' | 'low' | 'info';
   score: number; // 0-100
   factors: SeverityFactor[],
-  businessImpact: 'blocking' | 'degrading' | 'cosmetic' | 'none',
+  businessImpact: 'blocking' | 'degrading' | 'cosmetic' | 'none'
 }
 
 export interface SeverityFactor {
   factor: string;
   weight: number,
-  description: string,
+  description: string
 }
 
 export interface AutoFixCapability {
@@ -38,14 +38,14 @@ export interface AutoFixCapability {
   confidence: number; // 0-1
   complexity: 'trivial' | 'simple' | 'moderate' | 'complex' | 'manual-only';
   prerequisites: string[],
-  risks: AutoFixRisk[],
+  risks: AutoFixRisk[]
 }
 
 export interface AutoFixRisk {
   type: 'breaking-change' | 'logic-change' | 'performance-impact' | 'side-effects';
   probability: number; // 0-1
   impact: 'low' | 'medium' | 'high',
-  mitigation: string,
+  mitigation: string
 }
 
 export interface DomainImpact {
@@ -53,13 +53,13 @@ export interface DomainImpact {
   affectsCampaign: boolean;
   affectsCore: boolean;
   specialHandlingRequired: boolean,
-  expertiseRequired: string[],
+  expertiseRequired: string[]
 }
 
 export interface RiskProfile {
   overall: 'low' | 'medium' | 'high' | 'critical';
   factors: string[],
-  mitigationStrategies: string[],
+  mitigationStrategies: string[]
 }
 
 /**
@@ -102,7 +102,7 @@ export class ErrorClassificationSystem {
     // Enhance classification based on context
     classification = this.enhanceWithContext(classification, message, filePath, hasAutoFix);
 
-    return classification,
+    return classification
   }
 
   /**
@@ -112,7 +112,7 @@ export class ErrorClassificationSystem {
     overallSeverity: ErrorSeverity;
     criticalCount: number;
     highCount: number,
-    recommendations: string[],
+    recommendations: string[]
   } {
     const criticalCount = classifications.filter(c => c.severity.level === 'critical').length;
     const highCount = classifications.filter(c => c.severity.level === 'high').length;
@@ -182,7 +182,7 @@ export class ErrorClassificationSystem {
     safeAutoFixes: ErrorClassification[];
     riskyAutoFixes: ErrorClassification[];
     manualOnlyFixes: ErrorClassification[],
-    recommendations: string[],
+    recommendations: string[]
   } {
     const autoFixable = classifications.filter(c => c.autoFixCapability.canAutoFix);
     const safeAutoFixes = autoFixable.filter(;
@@ -506,7 +506,7 @@ export class ErrorClassificationSystem {
    * Add a rule classification to the system
    */
   private addRuleClassification(ruleId: string, classification: ErrorClassification): void {
-    this.ruleClassifications.set(ruleId, classification),
+    this.ruleClassifications.set(ruleId, classification)
   }
 
   /**
@@ -572,7 +572,7 @@ export class ErrorClassificationSystem {
       enhanced.autoFixCapability.confidence = Math.min(;
         0.8;
         enhanced.autoFixCapability.confidence + 0.3
-      ),
+      )
     }
 
     // Enhance domain impact based on file path
@@ -593,7 +593,7 @@ export class ErrorClassificationSystem {
       enhanced.domainImpact.expertiseRequired.push('Campaign system');
 
       // Increase severity for campaign files
-      enhanced.severity.score = Math.min(100, enhanced.severity.score + 5),
+      enhanced.severity.score = Math.min(100, enhanced.severity.score + 5),;
     }
 
     // Adjust risk profile based on context

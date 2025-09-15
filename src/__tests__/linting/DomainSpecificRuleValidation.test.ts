@@ -89,8 +89,7 @@ describe('Domain-Specific Rule Validation', () => {
       // Create test file with protected constants
       const testContent: any = `;
         const UNUSED_DEGREES_PER_SIGN: any = 30;
-        const _RELIABLE_POSITIONS: any = { sun: { sign: 'aries', degree: 8.5 } };
-
+        const _RELIABLE_POSITIONS: any = { sun: { sign: 'aries', degree: 8.5 };
         // This should be flagged
         // UNUSED_DEGREES_PER_SIGN = 25;
       `;
@@ -117,8 +116,7 @@ describe('Domain-Specific Rule Validation', () => {
         // Clean up
         try {
           execSync(`rm -f '${testFile}'`);
-        } catch {}
-      }
+        } catch {};
     });
 
     test('should recognize planetary variable patterns', async () => {
@@ -168,13 +166,11 @@ describe('Domain-Specific Rule Validation', () => {
             );
 
             expect(unusedVarErrors.length).toBe(0);
-          }
-        }
+          };
       } finally {
         try {
           execSync(`rm -f '${testFile}'`);
-        } catch {}
-      }
+        } catch {};
     });
 
     test('should validate elemental properties structure', async () => {
@@ -206,8 +202,7 @@ describe('Domain-Specific Rule Validation', () => {
       } finally {
         try {
           execSync(`rm -f '${testFile}'`);
-        } catch {}
-      }
+        } catch {};
     });
 
     test('should detect invalid elemental properties', async () => {
@@ -238,15 +233,14 @@ describe('Domain-Specific Rule Validation', () => {
       } finally {
         try {
           execSync(`rm -f '${testFile}'`);
-        } catch {}
-      }
+        } catch {};
     });
 
     test('should preserve fallback values', async () => {
       const testContent: any = `;
-        const _FALLBACK_POSITIONS: any = { sun: { sign: 'aries', degree: 8.5 } };
-        const _RELIABLE_DATA: any = { mars: { sign: 'cancer', degree: 22.63 } };
-        const _MARCH2025_BACKUP: any = { moon: { sign: 'aries', degree: 1.57 } };
+        const _FALLBACK_POSITIONS: any = { sun: { sign: 'aries', degree: 8.5 };
+        const _RELIABLE_DATA: any = { mars: { sign: 'cancer', degree: 22.63 };
+        const _MARCH2025_BACKUP: any = { moon: { sign: 'aries', degree: 1.57 };
       `;
 
       const testFile: any = join(projectRoot, 'src/calculations/temp-fallback-valid.ts');
@@ -268,8 +262,7 @@ describe('Domain-Specific Rule Validation', () => {
       } finally {
         try {
           execSync(`rm -f '${testFile}'`);
-        } catch {}
-      }
+        } catch {};
     });
   });
 
@@ -290,12 +283,10 @@ describe('Domain-Specific Rule Validation', () => {
                   }
                 } else {
                   result += i - j;
-                }
-              }
+                };
             }
             return result;
-          }
-        }
+          };
       `;
 
       const testFile: any = join(projectRoot, 'src/services/campaign/temp-enterprise-test.ts');
@@ -327,13 +318,11 @@ describe('Domain-Specific Rule Validation', () => {
             ),
 
             expect(complexityErrors.length).toBe(0);
-          }
-        }
+          };
       } finally {
         try {
           execSync(`rm -f '${testFile}'`);
-        } catch {}
-      }
+        } catch {};
     });
 
     test('should allow extensive logging', async () => {
@@ -345,7 +334,7 @@ describe('Domain-Specific Rule Validation', () => {
         console.debug('Detailed debugging info');
       `;
 
-      const testFile: any = join(projectRoot, 'src/services/campaign/temp-logging-test.ts'),
+      const testFile: any = join(projectRoot, 'src/services/campaign/temp-logging-test.ts'),;
       writeFileSync(testFile, testContent);
 
       try {
@@ -373,13 +362,11 @@ describe('Domain-Specific Rule Validation', () => {
             ),
 
             expect(consoleErrors.length).toBe(0);
-          }
-        }
+          };
       } finally {
         try {
           execSync(`rm -f '${testFile}'`);
-        } catch {}
-      }
+        } catch {};
     });
 
     test('should recognize campaign variable patterns', async () => {
@@ -428,13 +415,11 @@ describe('Domain-Specific Rule Validation', () => {
             ),
 
             expect(unusedVarErrors.length).toBe(0);
-          }
-        }
+          };
       } finally {
         try {
           execSync(`rm -f '${testFile}'`);
-        } catch {}
-      }
+        } catch {};
     });
   });
 
@@ -482,24 +467,22 @@ describe('Domain-Specific Rule Validation', () => {
             ),
 
             expect(unusedVarErrors.length).toBe(0);
-          }
-        }
+          };
       } finally {
         try {
           execSync(`rm -f '${testFile}'`);
-        } catch {}
-      }
+        } catch {};
     });
 
     test('should have relaxed rules for testing patterns', async () => {
       const testContent: any = `;
         const _anyValue: any = 'test-any';
         console.log('Test output');
-        const _value: any = someObject.property ?? null, // Using safe optional chaining instead of non-null
-        const _magicNumber: any = 42, // magic number
+        const _value: any = someObject.property ?? null, // Using safe optional chaining instead of non-null;
+        const _magicNumber: any = 42, // magic number;
       `;
 
-      const testFile: any = join(projectRoot, 'temp-test-relaxations.test.ts'),
+      const testFile: any = join(projectRoot, 'temp-test-relaxations.test.ts'),;
       writeFileSync(testFile, testContent);
 
       try {
@@ -534,13 +517,11 @@ describe('Domain-Specific Rule Validation', () => {
             ),
 
             expect(restrictiveErrors.length).toBe(0);
-          }
-        }
+          };
       } finally {
         try {
           execSync(`rm -f '${testFile}'`);
-        } catch {}
-      }
+        } catch {};
     });
 
     test('should have Jest globals available', async () => {
@@ -593,13 +574,11 @@ describe('Domain-Specific Rule Validation', () => {
             ),
 
             expect(undefErrors.length).toBe(0);
-          }
-        }
+          };
       } finally {
         try {
           execSync(`rm -f '${testFile}'`);
-        } catch {}
-      }
+        } catch {};
     });
   });
 
@@ -638,13 +617,11 @@ describe('Domain-Specific Rule Validation', () => {
             ),
 
             expect(requireErrors.length).toBe(0);
-          }
-        }
+          };
       } finally {
         try {
           execSync(`rm -f '${testFile}'`);
-        } catch {}
-      }
+        } catch {};
     });
 
     test('should have relaxed rules for build patterns', async () => {
@@ -654,7 +631,7 @@ describe('Domain-Specific Rule Validation', () => {
         const _dynamicRequire = require(process.env.MODULE);
       `;
 
-      const testFile: any = join(projectRoot, 'temp-build-patterns.config.ts'),
+      const testFile: any = join(projectRoot, 'temp-build-patterns.config.ts'),;
       writeFileSync(testFile, testContent);
 
       try {
@@ -687,13 +664,11 @@ describe('Domain-Specific Rule Validation', () => {
             ),
 
             expect(restrictiveErrors.length).toBe(0);
-          }
-        }
+          };
       } finally {
         try {
           execSync(`rm -f '${testFile}'`);
-        } catch {}
-      }
+        } catch {};
     });
   });
 

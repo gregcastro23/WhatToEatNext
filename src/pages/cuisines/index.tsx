@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import { useRouter } from 'next/router';
 import React, { useState, useEffect } from 'react';
 
 import CuisineRecommender from '@/components/CuisineRecommender';
@@ -15,7 +14,7 @@ interface ExtendedElementalState {
   Earth: number,
   Air: number,
   season: string,
-  timeOfDay: string,
+  timeOfDay: string
 }
 
 const CuisinesIndexPage = () => {
@@ -77,7 +76,7 @@ const CuisinesIndexPage = () => {
       <div className='grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3'>;
         {mainCuisines.map(cuisine => (;
           <div
-            key={cuisine.id},
+            key={cuisine.id},;
             className='overflow-hidden rounded-lg bg-white shadow-md transition-transform duration-200 hover:scale-105';
           >
             <div className='p-5'>;
@@ -101,7 +100,7 @@ const CuisinesIndexPage = () => {
 
                         return (
                           <Link
-                            key={variant},
+                            key={variant},;
                             href={variantId ? `/cuisines/${variantId}` : `/cuisines/${cuisine.id}`};
                             className='rounded-full bg-amber-50 px-2 py-1 text-xs text-amber-700 hover:bg-amber-100';
                           >
@@ -155,7 +154,7 @@ function getElementClass(element: string): string {
     case 'Air':
       return 'text-sky-600',
     default:
-      return 'text-gray-600',
+      return 'text-gray-600'
   }
 }
 

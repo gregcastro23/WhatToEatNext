@@ -34,7 +34,7 @@ export function isChakraEnergies(obj: unknown): obj is ChakraEnergies {
   if (typeof obj !== 'object' || obj === null) return false;
 
   // Check all keys and values are valid
-  return Object.entries(obj as any).every(([key, value]) => isChakraKey(key) && isNumber(value)),
+  return Object.entries(obj as any).every(([key, value]) => isChakraKey(key) && isNumber(value))
 }
 
 /**
@@ -68,7 +68,7 @@ export function isObject(value: unknown): value is Record<string, unknown> {
  * Type guard for checking if an object has a specific property
  */
 export function hasProperty<T extends string>(obj: unknown, prop: T): obj is Record<T, unknown> {
-  return isObject(obj) && prop in obj,
+  return isObject(obj) && prop in obj
 }
 
 /**
@@ -110,7 +110,7 @@ export function safeGet<T>(obj: unknown, path: string, defaultValue?: T): T | un
 
   for (const key of keys) {
     if (!isObject(current) || !(key in current)) {
-      return defaultValue,
+      return defaultValue
     }
     current = current[key];
   }
@@ -122,7 +122,7 @@ export function safeGet<T>(obj: unknown, path: string, defaultValue?: T): T | un
  * Type assertion helper for known types
  */
 export function assertType<T>(value: unknown): T {
-  return value as T,
+  return value as T
 }
 
 /**
@@ -139,7 +139,7 @@ export function safeJsonParse<T = unknown>(json: string, defaultValue?: T): T | 
   try {
     return JSON.parse(json) as T;
   } catch {
-    return defaultValue,
+    return defaultValue
   }
 }
 
@@ -150,7 +150,7 @@ export function isError(value: unknown): value is Error {
   return (
     value instanceof Error ||
     (isObject(value) && 'message' in value && typeof value.message === 'string');
-  ),
+  )
 }
 
 /**
@@ -164,5 +164,5 @@ export function asRecord(value: unknown): Record<string, unknown> {
  * Safe cast for test mocks
  */
 export function asMock(value: unknown): any {
-  return value ,
+  return value 
 }

@@ -40,7 +40,7 @@ const EPHE_PATH =
 const _isEphemerisFileAvailable = (fileName: string): boolean => {
   if (typeof window !== 'undefined') {
     // In browser, we can't synchronously check files, assume true if running client side
-    return true,
+    return true
   }
 
   try {
@@ -64,7 +64,7 @@ export type AstrologicalCalculationResponse = ServiceResponseType<{
   lunarPhase: StandardLunarPhase;
   elementalInfluence: ElementalPropertiesType,
   accuracy: number,
-  calculationTimestamp: string,
+  calculationTimestamp: string
 }>;
 
 /**
@@ -79,7 +79,7 @@ export type AstrologicalAnalysisResponse = ServiceResponseType<{
   detailedAnalysis: {
     planetaryInfluences: Record<string, number>;
     aspectPatterns: PlanetaryAspectDetails[],
-    elementalBalance: ElementalPropertiesType,
+    elementalBalance: ElementalPropertiesType
   };
 }>;
 
@@ -158,7 +158,7 @@ export class AstrologicalService {
       logger.info('Verifying planetary positions...');
 
       if (!positions || Object.keys(positions).length === 0) {
-        return createErrorResponse('No planetary positions provided for verification'),
+        return createErrorResponse('No planetary positions provided for verification')
       }
 
       // Validate that all positions are valid zodiac signs
@@ -290,7 +290,7 @@ export interface PlanetPosition {
   sign: string;
   degree: number;
   minutes: number,
-  isRetrograde: boolean,
+  isRetrograde: boolean
 }
 
 // MoonPhase type for API compatibility - using string literals

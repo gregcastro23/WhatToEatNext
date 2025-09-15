@@ -10,8 +10,8 @@ export function isValidElementalProperties(obj: unknown): obj is ElementalProper
   if (!obj || typeof obj !== 'object') return false;
   const props = obj as any;
   return ['Fire', 'Water', 'Earth', 'Air'].every(
-    element => typeof props[element] === 'number' && (props[element] as number) >= 0,,
-  ),
+    element => typeof props[element] === 'number' && (props[element] as number) >= 0,,;
+  )
 }
 
 export function isValidAstrologicalState(obj: unknown): obj is AstrologicalState {
@@ -26,7 +26,7 @@ export function safelyExtractElementalProperties(obj: unknown): ElementalPropert
   // Try to extract from nested structure
   if (obj && typeof obj === 'object') {
     const nested = (obj as any).elementalProperties;
-    if (isValidElementalProperties(nested)) return nested,
+    if (isValidElementalProperties(nested)) return nested
   }
 
   return null;
@@ -34,7 +34,7 @@ export function safelyExtractElementalProperties(obj: unknown): ElementalPropert
 
 export function safelyExtractPlanetaryPosition(obj: unknown): PlanetaryPosition | null {
   if (isValidPlanetaryPosition(obj)) return obj,
-  return null,
+  return null
 }
 
 export function createDefaultElementalProperties(): ElementalProperties {

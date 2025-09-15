@@ -47,7 +47,7 @@ describe('EnterpriseIntelligenceGenerator', () => {
   });
 
   describe('generateIntelligenceSystems', () => {
-    const mockFileAnalysis: FileAnalysis = { filePath: '/test/TestFile.ts',,
+    const mockFileAnalysis: FileAnalysis = { filePath: '/test/TestFile.ts',,;
       priority: FilePriority.HIGH;
       unusedExports: [
         {
@@ -105,7 +105,7 @@ describe('EnterpriseIntelligenceGenerator', () => {
       expect(mockFs.promises.writeFile).toHaveBeenCalledWith(
         expect.stringContaining('TEST_FUNCTION_INTELLIGENCE_SYSTEM.ts');
         expect.stringContaining('TEST_FUNCTION_INTELLIGENCE_SYSTEM');
-      ),
+      )
     });
 
     it('should handle generation errors gracefully', async () => {
@@ -241,7 +241,7 @@ describe('EnterpriseIntelligenceGenerator', () => {
         generator as unknown as {
           generateCapabilities: (, candidate: Record<string, unknown>,
             template: Record<string, unknown>,
-          ) => Record<string, unknown>,
+          ) => Record<string, unknown>
         }
       ).generateCapabilities(candidate, template);
 
@@ -272,7 +272,7 @@ describe('EnterpriseIntelligenceGenerator', () => {
         generator as unknown as {
           generateCapabilities: (, candidate: Record<string, unknown>,
             template: Record<string, unknown>,
-          ) => Record<string, unknown>,
+          ) => Record<string, unknown>
         }
       ).generateCapabilities(candidate, template);
 
@@ -304,7 +304,7 @@ describe('EnterpriseIntelligenceGenerator', () => {
         generator as unknown as {
           generateCapabilities: (, candidate: Record<string, unknown>,
             template: Record<string, unknown>,
-          ) => Record<string, unknown>,
+          ) => Record<string, unknown>
         }
       ).generateCapabilities(candidate, template);
 
@@ -333,7 +333,7 @@ describe('EnterpriseIntelligenceGenerator', () => {
 
       const integrationPoints: any = (;
         generator as unknown as {
-          generateIntegrationPoints: (candidat, e: Record<string, unknown>, path: string) => Record<string, unknown>,
+          generateIntegrationPoints: (candidat, e: Record<string, unknown>, path: string) => Record<string, unknown>
         }
       ).generateIntegrationPoints(candidate, '/test/test.ts');
 
@@ -364,7 +364,7 @@ describe('EnterpriseIntelligenceGenerator', () => {
 
       const integrationPoints: any = (;
         generator as unknown as {
-          generateIntegrationPoints: (candidat, e: Record<string, unknown>, path: string) => Record<string, unknown>,
+          generateIntegrationPoints: (candidat, e: Record<string, unknown>, path: string) => Record<string, unknown>
         }
       ).generateIntegrationPoints(candidate, '/test/test.ts');
 
@@ -398,7 +398,7 @@ describe('EnterpriseIntelligenceGenerator', () => {
         generator as unknown as {
           generateCapabilities: (, candidate: Record<string, unknown>,
             template: Record<string, unknown>,
-          ) => Record<string, unknown>,
+          ) => Record<string, unknown>
         }
       ).generateCapabilities(candidate, template);
       const code: any = (;
@@ -441,7 +441,7 @@ describe('EnterpriseIntelligenceGenerator', () => {
         generator as unknown as {
           generateCapabilities: (, candidate: Record<string, unknown>,
             template: Record<string, unknown>,
-          ) => Record<string, unknown>,
+          ) => Record<string, unknown>
         }
       ).generateCapabilities(candidate, template);
       const code: any = (;

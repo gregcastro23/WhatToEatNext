@@ -22,49 +22,49 @@ export interface DomainContext {
   confidence: number, // 0-1
   indicators: ContextIndicator[],
   specialRules: SpecialRule[],
-  handlingRecommendations: HandlingRecommendation[],
+  handlingRecommendations: HandlingRecommendation[]
 }
 
 export interface ContextIndicator {
   type: 'filename' | 'path' | 'content' | 'imports' | 'exports',
   pattern: string,
   weight: number,
-  description: string,
+  description: string
 }
 
 export interface SpecialRule {
   rule: string,
   action: 'disable' | 'modify' | 'enhance' | 'monitor',
   reason: string,
-  conditions?: string[],
+  conditions?: string[]
 }
 
 export interface HandlingRecommendation {
   category: 'linting' | 'testing' | 'review' | 'deployment',
   recommendation: string,
   priority: 'high' | 'medium' | 'low',
-  rationale: string,
+  rationale: string
 }
 
 export interface FileAnalysis {
   filePath: string,
   domainContext: DomainContext,
   riskFactors: RiskFactor[],
-  preservationRequirements: PreservationRequirement[],
+  preservationRequirements: PreservationRequirement[]
 }
 
 export interface RiskFactor {
   type: 'calculation-accuracy' | 'data-integrity' | 'performance' | 'security',
   description: string,
   severity: 'critical' | 'high' | 'medium' | 'low',
-  mitigation: string,
+  mitigation: string
 }
 
 export interface PreservationRequirement {
   element: 'constants' | 'variables' | 'functions' | 'imports' | 'comments',
   pattern: RegExp,
   reason: string,
-  strictness: 'absolute' | 'high' | 'medium' | 'low',
+  strictness: 'absolute' | 'high' | 'medium' | 'low'
 }
 
 /**
@@ -96,7 +96,7 @@ export class DomainContextDetector {
     const domainContext = await this.detectDomainContext(relativePath, absolutePath);
 
     // Analyze risk factors
-    const riskFactors = this.analyzeRiskFactors(domainContext, relativePath),
+    const riskFactors = this.analyzeRiskFactors(domainContext, relativePath),;
 
     // Determine preservation requirements
     const preservationRequirements = await this.determinePreservationRequirements(;
@@ -239,7 +239,7 @@ export class DomainContextDetector {
     indicators: ContextIndicator[],
     confidenceBoost: number,
     detectedType?: DomainContext['type'],
-    subtype?: string,
+    subtype?: string
   }> {
     // Check cache first
     const cacheKey = `${absolutePath}:${fs.statSync(absolutePath).mtime.getTime()}`;

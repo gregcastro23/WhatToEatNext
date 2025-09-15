@@ -17,7 +17,7 @@ interface AstrologyOptions {
   longitude?: number,
   date?: Date,
   autoLoad?: boolean,
-  useFallback?: boolean,
+  useFallback?: boolean
 }
 
 interface AstrologyState {
@@ -28,7 +28,7 @@ interface AstrologyState {
     currentSign: any | null,
     lunarPhase: LunarPhase | null,
     elementalBalance: Record<string, number> | null,
-    aspectsInfluence: number | null,
+    aspectsInfluence: number | null
   };
   lastUpdated: number | null;
 }
@@ -87,7 +87,7 @@ export function useAstrology(options: AstrologyOptions = {}) {
       if (!isClient || !isMountedRef.current) return null;
       if (state.loading) {
         logger.debug('Skipping redundant API call while loading');
-        return null,
+        return null
       }
 
       // Validate inputs before proceeding
@@ -115,7 +115,7 @@ export function useAstrology(options: AstrologyOptions = {}) {
 
       if (existingRequest) {
         logger.debug('Using existing API request from cache');
-        return existingRequest,
+        return existingRequest
       }
 
       setState(prev => ({ ...prev, loading: true, error: null }));
@@ -140,14 +140,14 @@ export function useAstrology(options: AstrologyOptions = {}) {
               if (response && response.status < 500) break;
 
               // Exponential backoff
-              const delay = Math.pow(2, retryCount) * 300,
+              const delay = Math.pow(2, retryCount) * 300,;
               await new Promise(resolve => setTimeout(resolve, delay));
               retryCount++;
             } catch (fetchError) {
               if (retryCount >= maxRetries) throw fetchError;
               retryCount++;
-              const delay = Math.pow(2, retryCount) * 300,
-              await new Promise(resolve => setTimeout(resolve, delay)),
+              const delay = Math.pow(2, retryCount) * 300,;
+              await new Promise(resolve => setTimeout(resolve, delay)),;
             }
           }
 
@@ -231,7 +231,7 @@ export function useAstrology(options: AstrologyOptions = {}) {
         const calcLng = lng !== undefined ? lng : longitude;
 
         if (calcLat === null || calcLng === null) {
-          throw new Error('Latitude and longitude are required'),
+          throw new Error('Latitude and longitude are required')
         }
 
         // Create cache key for this request
@@ -239,7 +239,7 @@ export function useAstrology(options: AstrologyOptions = {}) {
         const existingRequest = activeRequests.get(cacheKey);
 
         if (existingRequest) {
-          return existingRequest,
+          return existingRequest
         }
 
         const requestPromise = (async () => {
@@ -283,7 +283,7 @@ export function useAstrology(options: AstrologyOptions = {}) {
 
             // Use fallback if fallback mode is on
             if (useFallback) {
-              return useFallbackElementalBalance(),
+              return useFallbackElementalBalance()
             }
 
             return null;
@@ -296,7 +296,7 @@ export function useAstrology(options: AstrologyOptions = {}) {
         return requestPromise;
       } catch (error) {
         logger.error('Error in calculateElementalBalance:', error),
-        return null,
+        return null
       }
     },
     [isClient, latitude, longitude, useFallback, state.loading],
@@ -307,12 +307,12 @@ export function useAstrology(options: AstrologyOptions = {}) {
    */
   const getAstrologicalProfile = useCallback(;
     async (
-      profileDate: Date = dateRef.current,,
-      calcLatitude: number = latitude || 0,,
+      profileDate: Date = dateRef.current,,;
+      calcLatitude: number = latitude || 0,,;
       calcLongitude: number = longitude || 0
     ): Promise<AstrologicalProfile | null> => {
       if (!isClient || !isMountedRef.current || calcLatitude === null || calcLongitude === null) {
-        return null,
+        return null
       }
 
       if (state.loading) return null; // Prevent concurrent requests
@@ -321,7 +321,7 @@ export function useAstrology(options: AstrologyOptions = {}) {
       const existingRequest = activeRequests.get(cacheKey);
 
       if (existingRequest) {
-        return existingRequest,
+        return existingRequest
       }
 
       const requestPromise = (async () => {
@@ -367,7 +367,7 @@ export function useAstrology(options: AstrologyOptions = {}) {
           return profile;
         } catch (error) {
           logger.error('Error getting astrological profile:', error),
-          return null,
+          return null
         } finally {
           activeRequests.delete(cacheKey);
         }
@@ -415,7 +415,7 @@ export function useAstrology(options: AstrologyOptions = {}) {
       };
     } catch (error) {
       logger.error('Error using fallback data:', error),
-      return null,
+      return null
     }
   }, []);
 
@@ -534,10 +534,10 @@ export function useAstrology(options: AstrologyOptions = {}) {
     if (isClient && autoLoad && latitude !== null && longitude !== null && isMountedRef.current) {
       // Prevent duplicate fetch requests shortly after fetching
       const now = Date.now();
-      const THROTTLE_TIME = 5000, // 5 seconds
+      const THROTTLE_TIME = 5000, // 5 seconds;
 
       if (!state.lastUpdated || now - state.lastUpdated > THROTTLE_TIME) {
-        void fetchAstrologyData(latitude, longitude, dateRef.current),
+        void fetchAstrologyData(latitude, longitude, dateRef.current)
       }
     }
   }, [isClient, autoLoad, latitude, longitude, fetchAstrologyData, state.lastUpdated]);
@@ -545,7 +545,7 @@ export function useAstrology(options: AstrologyOptions = {}) {
   // Force refresh data method
   const refreshData = useCallback(() => {
     if (latitude !== null && longitude !== null) {
-      void fetchAstrologyData(latitude, longitude, dateRef.current),
+      void fetchAstrologyData(latitude, longitude, dateRef.current)
     }
   }, [latitude, longitude, fetchAstrologyData]);
 

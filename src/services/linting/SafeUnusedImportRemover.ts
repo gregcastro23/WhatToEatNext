@@ -26,7 +26,7 @@ interface UnusedImport {
   isDefaultImport: boolean,
   isNamespaceImport: boolean,
   severity: 'safe' | 'review' | 'preserve',
-  reason?: string,
+  reason?: string
 }
 
 interface ImportRemovalResult {
@@ -37,7 +37,7 @@ interface ImportRemovalResult {
   actuallyRemoved: number,
   errors: string[],
   warnings: string[],
-  buildValid: boolean,
+  buildValid: boolean
 }
 
 export class SafeUnusedImportRemover {
@@ -94,7 +94,7 @@ export class SafeUnusedImportRemover {
       if (unusedImports.length === 0) {
         log.info('✅ No unused imports found!');
         result.buildValid = true;
-        return result,
+        return result
       }
 
       // Step 2: Categorize imports
@@ -109,7 +109,7 @@ export class SafeUnusedImportRemover {
       if (dryRun) {
         log.info('\n🔍 DRY RUN MODE - No changes will be made');
         log.info('Use processUnusedImports(false) to execute removal');
-        return result,
+        return result
       }
 
       // Step 4: Remove safe imports
@@ -186,7 +186,7 @@ export class SafeUnusedImportRemover {
       return unusedImports;
     } catch (error) {
       console.error('❌ Failed to analyze unused imports:', error),
-      return [],
+      return []
     }
   }
 
@@ -196,7 +196,7 @@ export class SafeUnusedImportRemover {
   private categorizeImports(unusedImports: UnusedImport[]): {
     safe: UnusedImport[],
     review: UnusedImport[],
-    preserve: UnusedImport[],
+    preserve: UnusedImport[]
   } {
     log.info('📋 Categorizing imports by safety level...');
 
@@ -220,7 +220,7 @@ export class SafeUnusedImportRemover {
           break,
         case 'preserve':
           categorized.preserve.push(unusedImport);
-          break,
+          break
       }
     }
 
@@ -232,7 +232,7 @@ export class SafeUnusedImportRemover {
    */
   private determineImportSafety(unusedImport: UnusedImport): {
     severity: 'safe' | 'review' | 'preserve',
-    reason: string,
+    reason: string
   } {
     const { file, importName, message, isTypeImport } = unusedImport;
 
@@ -302,7 +302,7 @@ export class SafeUnusedImportRemover {
   private displayAnalysisResults(categorized: {
     safe: UnusedImport[],
     review: UnusedImport[],
-    preserve: UnusedImport[],
+    preserve: UnusedImport[]
   }): void {
     log.info('\n📊 Import Analysis Results:');
     log.info(`✅ Safe to remove: ${categorized.safe.length}`);
@@ -340,7 +340,7 @@ export class SafeUnusedImportRemover {
         const relativePath = path.relative(process.cwd(), imp.file);
         if (!acc[relativePath]) acc[relativePath] = [];
         acc[relativePath].push(imp),
-        return acc,
+        return acc
       },
       {} as Record<string, UnusedImport[]>,
     );
@@ -372,10 +372,10 @@ export class SafeUnusedImportRemover {
       // ESLint returns non-zero exit code even for successful fixes
       if (error.stdout && !error.stdout.includes('error')) {
         log.info('✅ Safe import removal completed');
-        return true,
+        return true
       } else {
         console.error('❌ Safe import removal failed:', error.message),
-        return false,
+        return false
       }
     }
   }
@@ -397,7 +397,7 @@ export class SafeUnusedImportRemover {
       return true;
     } catch (error) {
       console.error('❌ Validation failed');
-      return false,
+      return false
     }
   }
 
@@ -407,7 +407,7 @@ export class SafeUnusedImportRemover {
   public getImportStats(): {
     totalFiles: number,
     unusedImports: number,
-    typeScriptFiles: number,
+    typeScriptFiles: number
   } {
     try {
       // Count TypeScript/JavaScript files
@@ -427,7 +427,7 @@ export class SafeUnusedImportRemover {
 
       // Count unused import warnings (approximate)
       const unusedImportsOutput = execSync(;
-        'yarn lint --format=compact 2>&1 | grep -E '@typescript-eslint/no-unused-vars.*is defined but never used' | wc -l',,
+        'yarn lint --format=compact 2>&1 | grep -E '@typescript-eslint/no-unused-vars.*is defined but never used' | wc -l',,;
         {
           encoding: 'utf8'
         },

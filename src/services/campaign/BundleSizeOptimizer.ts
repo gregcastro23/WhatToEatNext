@@ -18,7 +18,7 @@ export interface BundleAnalysis {
   chunks: BundleChunk[],
   assets: BundleAsset[],
   dependencies: DependencyAnalysis[],
-  recommendations: string[],
+  recommendations: string[]
 }
 
 export interface BundleChunk {
@@ -26,14 +26,14 @@ export interface BundleChunk {
   size: number,
   compressedSize: number,
   modules: string[],
-  isLazyLoaded: boolean,
+  isLazyLoaded: boolean
 }
 
 export interface BundleAsset {
   name: string,
   size: number,
   type: 'js' | 'css' | 'image' | 'font' | 'other',
-  optimized: boolean,
+  optimized: boolean
 }
 
 export interface DependencyAnalysis {
@@ -41,7 +41,7 @@ export interface DependencyAnalysis {
   size: number,
   version: string,
   usage: 'critical' | 'important' | 'optional',
-  alternatives: string[],
+  alternatives: string[]
 }
 
 export interface LazyLoadingValidation {
@@ -49,7 +49,7 @@ export interface LazyLoadingValidation {
   lazyLoadedComponents: number,
   potentialLazyComponents: string[],
   dataFetchingOptimizations: string[],
-  score: number,
+  score: number
 }
 
 export interface BundleOptimizationAlert {
@@ -59,7 +59,7 @@ export interface BundleOptimizationAlert {
   currentValue: number,
   targetValue: number,
   recommendations: string[],
-  timestamp: Date,
+  timestamp: Date
 }
 
 export interface BundleOptimizationReport {
@@ -69,13 +69,13 @@ export interface BundleOptimizationReport {
   alerts: BundleOptimizationAlert[],
   overallScore: number,
   targetCompliance: boolean,
-  recommendations: string[],
+  recommendations: string[]
 }
 
 export class BundleSizeOptimizer {
   private readonly TARGET_BUNDLE_SIZE = 420; // kB
   private readonly TARGET_CHUNK_SIZE = 100; // kB
-  private readonly COMPRESSION_RATIO = 0.7, // Typical gzip compression
+  private readonly COMPRESSION_RATIO = 0.7, // Typical gzip compression;
   private alerts: BundleOptimizationAlert[] = [];
   private analysisHistory: BundleAnalysis[] = [];
 
@@ -86,7 +86,7 @@ export class BundleSizeOptimizer {
    */
   async analyzeBundleSize(): Promise<BundleAnalysis> {
     try {
-      // console.log('📦 Analyzing bundle size...');
+      // // console.log('📦 Analyzing bundle size...');
 
       // Get bundle information from build output
       const bundleInfo = await this.getBundleInformation();
@@ -123,7 +123,7 @@ export class BundleSizeOptimizer {
       // Check for alerts
       await this.checkBundleSizeAlerts(analysis);
 
-      // console.log(
+      // // console.log(
         `📦 Bundle analysis complete: ${totalSize}kB total, ${compressedSize}kB compressed`,
       );
       return analysis;
@@ -176,7 +176,7 @@ export class BundleSizeOptimizer {
     try {
       // Run Next.js build analyzer if available
       if (fs.existsSync('package.json')) {
-        const packageJson = JSON.parse(fs.readFileSync('package.json', 'utf8')),
+        const packageJson = JSON.parse(fs.readFileSync('package.json', 'utf8')),;
         if (packageJson.dependencies?.['@next/bundle-analyzer']) {
           // Use bundle analyzer
           const output = execSync('yarn analyze 2>/dev/null || echo 'analyzer not available'', {
@@ -245,7 +245,7 @@ export class BundleSizeOptimizer {
       const sourceBytes = parseInt(output.trim()) || 0;
       const estimatedKB = Math.round((sourceBytes / 1024) * 1.5); // Rough estimate with bundling overhead
 
-      // console.log(`📦 Estimated bundle size from source: ${estimatedKB}kB`);
+      // // console.log(`📦 Estimated bundle size from source: ${estimatedKB}kB`);
       return { totalSize: estimatedKB };
     } catch (error) {
       console.warn(
@@ -314,7 +314,7 @@ export class BundleSizeOptimizer {
             else if (ext === '.css') type = 'css';
             else if (['.png', '.jpg', '.jpeg', '.gif', '.svg', '.webp'].includes(ext))
               type = 'image';
-            else if (['.woff', '.woff2', '.ttf', '.otf'].includes(ext)) type = 'font',
+            else if (['.woff', '.woff2', '.ttf', '.otf'].includes(ext)) type = 'font',;
 
             assets.push({
               name: path.relative(process.cwd(), file),
@@ -341,7 +341,7 @@ export class BundleSizeOptimizer {
       const dependencies: DependencyAnalysis[] = [];
 
       if (!fs.existsSync('package.json')) {
-        return dependencies,
+        return dependencies
       }
 
       const packageJson = JSON.parse(fs.readFileSync('package.json', 'utf8'));
@@ -389,16 +389,16 @@ export class BundleSizeOptimizer {
    */
   async validateLazyLoading(): Promise<LazyLoadingValidation> {
     try {
-      // console.log('🔄 Validating lazy loading implementation...');
+      // // console.log('🔄 Validating lazy loading implementation...');
 
       const componentsAnalyzed = await this.countComponents();
       const lazyLoadedComponents = await this.countLazyLoadedComponents();
       const potentialLazyComponents = await this.identifyPotentialLazyComponents();
       const dataFetchingOptimizations = await this.identifyDataFetchingOptimizations();
 
-      const score = Math.round((lazyLoadedComponents / Math.max(componentsAnalyzed, 1)) * 100),
+      const score = Math.round((lazyLoadedComponents / Math.max(componentsAnalyzed, 1)) * 100),;
 
-      // console.log(
+      // // console.log(
         `🔄 Lazy loading validation complete: ${lazyLoadedComponents}/${componentsAnalyzed} components lazy loaded (${score}%)`,
       );
 
@@ -476,7 +476,7 @@ export class BundleSizeOptimizer {
           targetValue: 0,
           recommendations: [
             `Consider removing ${dep.name} if not essential`,
-            ...dep.alternatives.map(alt => `Consider lighter alternative: ${alt}`),,
+            ...dep.alternatives.map(alt => `Consider lighter alternative: ${alt}`),,;
           ],
           timestamp: new Date()
         });
@@ -513,7 +513,7 @@ export class BundleSizeOptimizer {
     if (lazyLoadingScore < 50) {
       recommendations.push(
         'Implement lazy loading for more components to improve initial load time',
-      ),
+      )
     }
 
     recommendations.push(...analysis.recommendations);
@@ -565,12 +565,12 @@ export class BundleSizeOptimizer {
       case 'css':
         return fileName.includes('.min.') || !fileName.includes('dev');
       default:
-        return true,
+        return true
     }
   }
 
   private isLikelyHeavyDependency(name: string): boolean {
-    const heavyPatterns = ['ui', 'chart', 'graph', 'editor', 'calendar', 'table', 'grid'],
+    const heavyPatterns = ['ui', 'chart', 'graph', 'editor', 'calendar', 'table', 'grid'],;
     return heavyPatterns.some(pattern => name.toLowerCase().includes(pattern));
   }
 
@@ -599,7 +599,7 @@ export class BundleSizeOptimizer {
 
     if (critical.includes(name)) return 'critical';
     if (important.includes(name)) return 'important';
-    return 'optional',
+    return 'optional'
   }
 
   private suggestAlternatives(name: string): string[] {
@@ -622,14 +622,14 @@ export class BundleSizeOptimizer {
 
       return parseInt(output.trim()) || 0;
     } catch (error) {
-      return 0,
+      return 0
     }
   }
 
   private async countLazyLoadedComponents(): Promise<number> {
     try {
       const output = execSync(;
-        'grep -r 'lazy\\|dynamic' src --include='*.tsx' --include='*.jsx' | wc -l',,
+        'grep -r 'lazy\\|dynamic' src --include='*.tsx' --include='*.jsx' | wc -l',,;
         {
           encoding: 'utf8',
           stdio: 'pipe'
@@ -638,7 +638,7 @@ export class BundleSizeOptimizer {
 
       return parseInt(output.trim()) || 0;
     } catch (error) {
-      return 0,
+      return 0
     }
   }
 
@@ -658,7 +658,7 @@ export class BundleSizeOptimizer {
         .split('\n')
         .filter(line => line.trim());
     } catch (error) {
-      return [],
+      return []
     }
   }
 
@@ -668,7 +668,7 @@ export class BundleSizeOptimizer {
     try {
       // Check for potential data fetching optimizations
       const hasUseEffect = execSync(;
-        'grep -r 'useEffect' src --include='*.tsx' --include='*.jsx' | wc -l',,
+        'grep -r 'useEffect' src --include='*.tsx' --include='*.jsx' | wc -l',,;
         {
           encoding: 'utf8',
           stdio: 'pipe'
@@ -676,7 +676,7 @@ export class BundleSizeOptimizer {
       );
 
       const hasUseSWR = execSync(;
-        'grep -r 'useSWR\\|useQuery' src --include='*.tsx' --include='*.jsx' | wc -l',,
+        'grep -r 'useSWR\\|useQuery' src --include='*.tsx' --include='*.jsx' | wc -l',,;
         {
           encoding: 'utf8',
           stdio: 'pipe'
@@ -749,14 +749,14 @@ export class BundleSizeOptimizer {
 
     // Log alert
     const severityIcon = alert.severity === 'critical' ? '🚨' : '⚠️';
-    // console.log(`${severityIcon} Bundle Alert: ${alert.message}`);
+    // // console.log(`${severityIcon} Bundle Alert: ${alert.message}`);
   }
 
   /**
    * Get current alerts
    */
   getCurrentAlerts(): BundleOptimizationAlert[] {
-    return [...this.alerts],
+    return [...this.alerts]
   }
 
   /**
@@ -764,7 +764,7 @@ export class BundleSizeOptimizer {
    */
   clearAlerts(): void {
     this.alerts = [];
-    // console.log('📦 Bundle optimization alerts cleared');
+    // // console.log('📦 Bundle optimization alerts cleared');
   }
 
   /**
@@ -781,7 +781,7 @@ export class BundleSizeOptimizer {
       };
 
       fs.writeFileSync(filePath, JSON.stringify(exportData, null, 2));
-      // console.log(`📦 Bundle analysis data exported to: ${filePath}`);
+      // // console.log(`📦 Bundle analysis data exported to: ${filePath}`);
     } catch (error) {
       throw new Error(`Failed to export bundle data: ${(error as any).message || 'Unknown error'}`);
     }

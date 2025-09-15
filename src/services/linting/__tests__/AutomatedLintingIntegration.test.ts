@@ -130,7 +130,7 @@ describe('AutomatedLintingIntegration', () => {
         fixedIssues: 1
       });
 
-      const options: AutomatedLintingWorkflowOptions = { automationLevel: 'moderate',,
+      const options: AutomatedLintingWorkflowOptions = { automationLevel: 'moderate',,;
         dryRun: false
       };
 

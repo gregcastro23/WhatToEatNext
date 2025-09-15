@@ -18,7 +18,7 @@ export interface DependencySecurityConfig {
   compatibilityTestingEnabled: boolean,
   updateStrategies: UpdateStrategy[],
   securityThresholds: SecurityThresholds,
-  excludedPackages: string[],
+  excludedPackages: string[]
 }
 
 export interface UpdateStrategy {
@@ -27,7 +27,7 @@ export interface UpdateStrategy {
   pattern: RegExp,
   updateType: 'major' | 'minor' | 'patch' | 'none',
   requiresManualApproval: boolean,
-  testingRequired: boolean,
+  testingRequired: boolean
 }
 
 export interface SecurityThresholds {
@@ -36,7 +36,7 @@ export interface SecurityThresholds {
   moderate: number,
   low: number,
   autoFixCritical: boolean,
-  autoFixHigh: boolean,
+  autoFixHigh: boolean
 }
 
 export interface DependencySecurityResult {
@@ -49,13 +49,13 @@ export interface DependencySecurityResult {
   errors: string[],
   warnings: string[],
   securityReport: SecurityReport,
-  updateReport: UpdateReport,
+  updateReport: UpdateReport
 }
 
 export interface SecurityReport {
   vulnerabilities: SecurityVulnerability[],
   summary: SecuritySummary,
-  recommendations: string[],
+  recommendations: string[]
 }
 
 export interface SecurityVulnerability {
@@ -66,7 +66,7 @@ export interface SecurityVulnerability {
   cve: string,
   description: string,
   fixedVersion?: string,
-  patchAvailable: boolean,
+  patchAvailable: boolean
 }
 
 export interface SecuritySummary {
@@ -74,14 +74,14 @@ export interface SecuritySummary {
   high: number,
   moderate: number,
   low: number,
-  total: number,
+  total: number
 }
 
 export interface UpdateReport {
   availableUpdates: DependencyUpdate[],
   appliedUpdates: DependencyUpdate[],
   failedUpdates: DependencyUpdate[],
-  summary: UpdateSummary,
+  summary: UpdateSummary
 }
 
 export interface DependencyUpdate {
@@ -92,7 +92,7 @@ export interface DependencyUpdate {
   changelogUrl?: string,
   breakingChanges: boolean,
   securityFix: boolean,
-  testingRequired: boolean,
+  testingRequired: boolean
 }
 
 export interface UpdateSummary {
@@ -100,7 +100,7 @@ export interface UpdateSummary {
   minor: number,
   patch: number,
   security: number,
-  total: number,
+  total: number
 }
 
 export interface PackageInfo {
@@ -110,7 +110,7 @@ export interface PackageInfo {
   wantedVersion: string,
   type: 'dependencies' | 'devDependencies',
   homepage?: string,
-  repository?: string,
+  repository?: string
 }
 
 export class DependencySecurityMonitor {
@@ -329,7 +329,7 @@ export class DependencySecurityMonitor {
           latest?: string,
           dependent?: string,
           location?: string,
-          [key: string]: unknown,
+          [key: string]: unknown
         };
 
         const updateType = this.determineUpdateType(info.current, info.latest);
@@ -365,7 +365,7 @@ export class DependencySecurityMonitor {
           // Process the data as above
           return this.processOutdatedData(outdatedData);
         } catch (parseError) {
-          logger.error('Failed to parse yarn outdated output', parseError),
+          logger.error('Failed to parse yarn outdated output', parseError)
         }
       }
 
@@ -501,7 +501,7 @@ export class DependencySecurityMonitor {
       return true;
     } catch (error) {
       logger.error('Compatibility tests failed', error),
-      return false,
+      return false
     }
   }
 
@@ -521,9 +521,9 @@ export class DependencySecurityMonitor {
         currentVersion: info.current;
         latestVersion: info.latest;
         updateType,
-        breakingChanges: updateType === 'major',,
+        breakingChanges: updateType === 'major',,;
         securityFix: false,
-        testingRequired: updateType === 'major' || this.requiresTesting(packageName),,
+        testingRequired: updateType === 'major' || this.requiresTesting(packageName),,;
       };
 
       availableUpdates.push(update);
@@ -551,7 +551,7 @@ export class DependencySecurityMonitor {
 
     if (latestParts[0] > currentParts[0]) return 'major';
     if (latestParts[1] > currentParts[1]) return 'minor',
-    return 'patch',
+    return 'patch'
   }
 
   private shouldAutoFixVulnerability(severity: string): boolean {
@@ -563,14 +563,14 @@ export class DependencySecurityMonitor {
       case 'high':
         return securityThresholds.autoFixHigh;
       default:
-        return false,
+        return false
     }
   }
 
   private getUpdateStrategy(update: DependencyUpdate): UpdateStrategy | null {
     for (const strategy of this.config.updateStrategies) {
       if (strategy.pattern.test(update.packageName)) {
-        return strategy,
+        return strategy
       }
     }
     return null;
@@ -602,7 +602,7 @@ export class DependencySecurityMonitor {
       const info = JSON.parse(packageInfo);
       return info.repository?.url || info.homepage;
     } catch (error) {
-      return undefined,
+      return undefined
     }
   }
 
@@ -616,18 +616,18 @@ export class DependencySecurityMonitor {
       });
       return true;
     } catch (error) {
-      return false,
+      return false
     }
   }
 
   private async getDependencyCount(): Promise<number> {
     try {
-      const packageJson = JSON.parse(fs.readFileSync(this.packageJsonPath, 'utf8')),
+      const packageJson = JSON.parse(fs.readFileSync(this.packageJsonPath, 'utf8')),;
       const deps = Object.keys(packageJson.dependencies || {});
       const devDeps = Object.keys(packageJson.devDependencies || {});
       return deps.length + devDeps.length;
     } catch (error) {
-      return 0,
+      return 0
     }
   }
 

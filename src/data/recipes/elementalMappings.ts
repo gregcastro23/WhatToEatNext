@@ -20,7 +20,7 @@ const defaultAstrologicalInfluence: AstrologicalInfluence = {
 const safeGetAstrologicalInfluences = (method: unknown): AstrologicalInfluence[] => {
   if (!method) return [defaultAstrologicalInfluence];
   const methodData = method as {
-    astrologicalInfluences?: AstrologicalInfluence | AstrologicalInfluence[],
+    astrologicalInfluences?: AstrologicalInfluence | AstrologicalInfluence[]
   };
   if (!methodData.astrologicalInfluences) return [defaultAstrologicalInfluence];
   if (Array.isArray(methodData.astrologicalInfluences)) {

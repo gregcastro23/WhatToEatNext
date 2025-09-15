@@ -292,7 +292,7 @@ exports.elementalUtils = {
   getRecommendedTimeOfDay(properties) {
     const recommendations = [];
     const dominantElement = Object.entries(properties).sort(([_, a], [__, b]) => b - a)[0][0];
-    const secondaryElement = Object.entries(properties).sort(([_, a], [__, b]) => b - a)[1][0];
+    const _secondaryElement = Object.entries(properties).sort(([_, a], [__, b]) => b - a)[1][0];
     // fire is strongest in the afternoon
     if (dominantElement === 'Fire' || properties.Fire > 0.3) {
       recommendations.push('afternoon');
@@ -483,7 +483,7 @@ exports.transformItemsWithPlanetaryPositions = transformItemsWithPlanetaryPositi
  * Apply non-linear scaling to elemental properties
  * This enhances the dominant element while preserving the overall balance
  */
-const applyNonLinearScaling = props => ({
+const _applyNonLinearScaling = props => ({
   Fire: Math.pow(props.Fire, 0.8),
   Water: Math.pow(props.Water, 0.8),
   Earth: Math.pow(props.Earth, 0.8),

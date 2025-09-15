@@ -160,9 +160,9 @@ describe('TypeScript Campaign Trigger', () => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       // Intentionally any: Error object needs custom stdout property for test mock scenario
       const error: any = new Error('Command failed') as unknown;
-      (error as any).stdout = 'src/test.ts(10,5): error TS2304: Cannot find name 'test'.',
+      (error as any).stdout = 'src/test.ts(10,5): error TS2304: Cannot find name 'test'.',;
       mockExecSync.mockImplementation(() => {
-        throw error,
+        throw error
       });
 
       const result: any = analyzeTypeScriptErrors();
@@ -174,7 +174,7 @@ describe('TypeScript Campaign Trigger', () => {
     it('should handle complete TypeScript failure gracefully', async () => {
       // Mock execSync throwing an error with no stdout
       mockExecSync.mockImplementation(() => {
-        throw new Error('Complete failure'),
+        throw new Error('Complete failure')
       });
 
       const result: any = analyzeTypeScriptErrors();
@@ -211,7 +211,7 @@ describe('TypeScript Campaign Trigger', () => {
 
     it('should return -1 on failure', async () => {
       mockExecSync.mockImplementation(() => {
-        throw new Error('Command failed'),
+        throw new Error('Command failed')
       });
 
       const count: any = getCurrentTypeScriptErrorCount();
@@ -249,7 +249,7 @@ describe('TypeScript Campaign Trigger', () => {
 
     it('should return false on error', async () => {
       mockExecSync.mockImplementation(() => {
-        throw new Error('Command failed'),
+        throw new Error('Command failed')
       });
 
       const shouldTrigger: any = checkCampaignTriggerConditions();

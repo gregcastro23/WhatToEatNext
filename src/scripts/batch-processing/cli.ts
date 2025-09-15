@@ -25,12 +25,12 @@ interface AnalysisReport {
   metadata: {
     analysisDate: string;
     totalVariables: number,
-    analyzer: string,
+    analyzer: string
   };
   summary: {
     total: number;
     preserved: number,
-    forElimination: number,
+    forElimination: number
   };
   detailedResults: Array<{
     id: string;
@@ -44,13 +44,13 @@ interface AnalysisReport {
       shouldPreserve: boolean;
       domain: string;
       reason: string,
-      confidence: number,
+      confidence: number
     };
     eliminationStrategy: {
       method: string;
       confidence: number,
-      priority: number,
-    },
+      priority: number
+    }
   }>;
 }
 
@@ -86,7 +86,7 @@ class BatchProcessingCLI {
         if (existing) {
           existing.push(result);
         } else {
-          fileMap.set(result.filePath, [result]),
+          fileMap.set(result.filePath, [result])
         }
       });
 
@@ -99,8 +99,8 @@ class BatchProcessingCLI {
       files.push({
         filePath,
         relativePath: firstVar.relativePath;
-        isHighImpact: firstVar.riskLevel === 'high',,
-        isCritical: firstVar.fileType === 'calculations' || firstVar.fileType === 'services',,
+        isHighImpact: firstVar.riskLevel === 'high',,;
+        isCritical: firstVar.fileType === 'calculations' || firstVar.fileType === 'services',,;
         unusedVariableCount: variables.length;
         riskLevel: this.mapRiskLevel(firstVar.riskLevel);
         fileType: firstVar.fileType
@@ -120,7 +120,7 @@ class BatchProcessingCLI {
       case 'medium':
         return 'medium',
       default:
-        return 'low',
+        return 'low'
     }
   }
 
@@ -129,7 +129,7 @@ class BatchProcessingCLI {
    */
   async createPlan(reportPath: string, options: any): Promise<void> {
     try {
-      // console.log('📋 Creating batch processing plan...');
+      // // console.log('📋 Creating batch processing plan...');
 
       const files = this.loadAnalysisReport(reportPath);
       const plan = await this.orchestrator.createProcessingPlan(files);
@@ -137,10 +137,10 @@ class BatchProcessingCLI {
       if (options.output) {
         const planPath = path.resolve(options.output);
         fs.writeFileSync(planPath, JSON.stringify(plan, null, 2)),
-        // console.log(`📄 Processing plan saved to: ${planPath}`);
+        // // console.log(`📄 Processing plan saved to: ${planPath}`);
       }
 
-      // console.log('\n✅ Processing plan created successfully');
+      // // console.log('\n✅ Processing plan created successfully');
     } catch (error) {
       console.error(`❌ Failed to create processing plan: ${error}`);
       process.exit(1);
@@ -152,7 +152,7 @@ class BatchProcessingCLI {
    */
   async executeCampaign(reportPath: string, options: any): Promise<void> {
     try {
-      // console.log('🚀 Starting batch processing campaign...');
+      // // console.log('🚀 Starting batch processing campaign...');
 
       // Configure orchestrator based on options
       const config: Partial<OrchestratorConfig> = {
@@ -177,23 +177,23 @@ class BatchProcessingCLI {
       const files = this.loadAnalysisReport(reportPath);
 
       if (options.dryRun) {
-        // console.log('🔍 Dry run mode - no changes will be made');
+        // // console.log('🔍 Dry run mode - no changes will be made');
         const plan = await this.orchestrator.createProcessingPlan(files);
-        // console.log('\n📊 Dry Run Results:');
-        // console.log(`   Files to process: ${plan.automaticProcessing.length}`);
-        // console.log(`   Manual reviews needed: ${plan.manualReviewRequired.length}`);
-        // console.log(`   Estimated batches: ${plan.estimatedBatches}`);
+        // // console.log('\n📊 Dry Run Results:');
+        // // console.log(`   Files to process: ${plan.automaticProcessing.length}`);
+        // // console.log(`   Manual reviews needed: ${plan.manualReviewRequired.length}`);
+        // // console.log(`   Estimated batches: ${plan.estimatedBatches}`);
         return;
       }
 
       const campaign = await this.orchestrator.executeCampaign(files);
 
-      // console.log('\n✅ Campaign completed successfully');
-      // console.log(`📊 Final Stats:`);
-      // console.log(`   Processed: ${campaign.finalStats.totalProcessed}`);
-      // console.log(`   Eliminated: ${campaign.finalStats.totalEliminated}`);
-      // console.log(`   Preserved: ${campaign.finalStats.totalPreserved}`);
-      // console.log(`   Success Rate: ${campaign.finalStats.successRate.toFixed(1)}%`);
+      // // console.log('\n✅ Campaign completed successfully');
+      // // console.log(`📊 Final Stats:`);
+      // // console.log(`   Processed: ${campaign.finalStats.totalProcessed}`);
+      // // console.log(`   Eliminated: ${campaign.finalStats.totalEliminated}`);
+      // // console.log(`   Preserved: ${campaign.finalStats.totalPreserved}`);
+      // // console.log(`   Success Rate: ${campaign.finalStats.successRate.toFixed(1)}%`);
     } catch (error) {
       console.error(`❌ Campaign failed: ${error}`);
       process.exit(1);
@@ -208,37 +208,37 @@ class BatchProcessingCLI {
       const pendingReviews = this.orchestrator.getPendingManualReviews();
 
       if (pendingReviews.length === 0) {
-        // console.log('✅ No pending manual reviews');
-        return,
+        // // console.log('✅ No pending manual reviews');
+        return
       }
 
-      // console.log(`👥 ${pendingReviews.length} manual reviews pending:`);
+      // // console.log(`👥 ${pendingReviews.length} manual reviews pending:`);
 
       pendingReviews.forEach((review, index) => {
-        // console.log(`\n${index + 1}. ${path.relative(process.cwd(), review.filePath)}`);
-        // console.log(`   Variables: ${review.unusedVariableCount}`);
-        // console.log(`   Risk Factors: ${review.riskFactors.join(', ')}`);
-        // console.log(`   Approval Required: ${review.approvalRequired ? 'Yes' : 'No'}`);
+        // // console.log(`\n${index + 1}. ${path.relative(process.cwd(), review.filePath)}`);
+        // // console.log(`   Variables: ${review.unusedVariableCount}`);
+        // // console.log(`   Risk Factors: ${review.riskFactors.join(', ')}`);
+        // // console.log(`   Approval Required: ${review.approvalRequired ? 'Yes' : 'No'}`);
       });
 
       if (options.approve) {
         const filePath = path.resolve(options.approve);
-        const success = this.orchestrator.approveManualReview(filePath, options.notes),
+        const success = this.orchestrator.approveManualReview(filePath, options.notes),;
         if (success) {
-          // console.log(`✅ Manual review approved for ${options.approve}`);
+          // // console.log(`✅ Manual review approved for ${options.approve}`);
         } else {
-          // console.log(`❌ Failed to approve review for ${options.approve}`);
+          // // console.log(`❌ Failed to approve review for ${options.approve}`);
         }
       }
 
       if (options.reject) {
         const filePath = path.resolve(options.reject);
         const reason = options.reason || 'No reason provided';
-        const success = this.orchestrator.rejectManualReview(filePath, reason),
+        const success = this.orchestrator.rejectManualReview(filePath, reason),;
         if (success) {
-          // console.log(`❌ Manual review rejected for ${options.reject}`);
+          // // console.log(`❌ Manual review rejected for ${options.reject}`);
         } else {
-          // console.log(`❌ Failed to reject review for ${options.reject}`);
+          // // console.log(`❌ Failed to reject review for ${options.reject}`);
         }
       }
     } catch (error) {
@@ -255,25 +255,25 @@ class BatchProcessingCLI {
       const campaign = this.orchestrator.getCurrentCampaign();
 
       if (!campaign) {
-        // console.log('ℹ️  No active campaign');
-        return,
+        // // console.log('ℹ️  No active campaign');
+        return
       }
 
-      // console.log(`📊 Campaign Status: ${campaign.campaignId}`);
-      // console.log(`   Status: ${campaign.status.toUpperCase()}`);
-      // console.log(`   Start Time: ${campaign.startTime.toISOString()}`);
+      // // console.log(`📊 Campaign Status: ${campaign.campaignId}`);
+      // // console.log(`   Status: ${campaign.status.toUpperCase()}`);
+      // // console.log(`   Start Time: ${campaign.startTime.toISOString()}`);
 
       if (campaign.endTime) {
         const duration = campaign.endTime.getTime() - campaign.startTime.getTime();
-        // console.log(`   Duration: ${Math.floor(duration / 60000)} minutes`);
+        // // console.log(`   Duration: ${Math.floor(duration / 60000)} minutes`);
       }
 
-      // console.log(`   Processed: ${campaign.finalStats.totalProcessed}`);
-      // console.log(`   Success Rate: ${campaign.finalStats.successRate.toFixed(1)}%`);
+      // // console.log(`   Processed: ${campaign.finalStats.totalProcessed}`);
+      // // console.log(`   Success Rate: ${campaign.finalStats.successRate.toFixed(1)}%`);
 
       const pendingReviews = this.orchestrator.getPendingManualReviews();
       if (pendingReviews.length > 0) {
-        // console.log(`   Pending Reviews: ${pendingReviews.length}`);
+        // // console.log(`   Pending Reviews: ${pendingReviews.length}`);
       }
     } catch (error) {
       console.error(`❌ Failed to check status: ${error}`);
@@ -296,7 +296,7 @@ program
   .argument('<report>', 'Path to unused variables analysis report')
   .option('-o, --output <path>', 'Output path for processing plan')
   .action(async (report, options) => {
-    await cli.createPlan(report, options),
+    await cli.createPlan(report, options)
   });
 
 program
@@ -315,7 +315,7 @@ program
   .option('--no-stash', 'Disable git stash creation')
   .option('--verbose', 'Enable verbose logging')
   .action(async (report, options) => {
-    await cli.executeCampaign(report, options),
+    await cli.executeCampaign(report, options)
   });
 
 program

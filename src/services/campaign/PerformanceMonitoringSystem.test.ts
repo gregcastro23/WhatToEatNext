@@ -1,5 +1,5 @@
 declare global {
-  var __DEV__: boolean,
+  var __DEV__: boolean
 }
 
 /**
@@ -61,7 +61,7 @@ describe('PerformanceMonitoringSystem', () => {
     it('should fallback to simple timing if time command fails', async () => {
       mockExecSync
         .mockImplementationOnce(() => {
-          throw new Error('time command not found'),
+          throw new Error('time command not found')
         })
         .mockReturnValueOnce('Build completed successfully');
 
@@ -82,7 +82,7 @@ describe('PerformanceMonitoringSystem', () => {
 
     it('should return -1 if build fails', async () => {
       mockExecSync.mockImplementation(() => {
-        throw new Error('Build failed'),
+        throw new Error('Build failed')
       });
 
       const buildTime: any = await performanceMonitor.measureBuildTime();
@@ -120,7 +120,7 @@ describe('PerformanceMonitoringSystem', () => {
     it('should return default estimate if cache monitoring fails', async () => {
       mockFs.existsSync.mockReturnValue(false);
       mockExecSync.mockImplementation(() => {
-        throw new Error('Cache monitoring failed'),
+        throw new Error('Cache monitoring failed')
       });
 
       const cacheHitRate: any = await performanceMonitor.monitorCacheHitRate();
@@ -148,7 +148,7 @@ describe('PerformanceMonitoringSystem', () => {
 
     it('should handle memory tracking errors gracefully', async () => {
       (process(memoryUsage as any).Mock).mockImplementation(() => {
-        throw new Error('Memory tracking failed'),
+        throw new Error('Memory tracking failed')
       });
 
       const memoryUsage: any = await performanceMonitor.trackMemoryUsage();
@@ -366,7 +366,7 @@ describe('PerformanceMonitoringSystem', () => {
 
     it('should handle export errors gracefully', async () => {
       mockFs.writeFileSync.mockImplementation(() => {
-        throw new Error('Write failed'),
+        throw new Error('Write failed')
       });
 
       await expect(performanceMonitor.exportPerformanceData('./test-performance-data.json')).rejects.toThrow(
@@ -381,7 +381,7 @@ describe('PerformanceMonitoringSystem', () => {
       expect(initialAlerts).toHaveLength(0);
 
       // Add alert through private method (simulate regression detection)
-      const mockAlert: PerformanceAlert = { type: 'build_time',,
+      const mockAlert: PerformanceAlert = { type: 'build_time',,;
         severity: 'warning',
         message: 'Test alert',
         currentValue: 15,

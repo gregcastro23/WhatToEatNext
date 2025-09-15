@@ -31,7 +31,7 @@ export interface AgentHookState {
   lastValidation: number,
   validationResults: Record<string, ValidationResult>,
   campaignTriggers: CampaignTrigger[],
-  qualityMetrics: QualityMetrics,
+  qualityMetrics: QualityMetrics
 }
 
 /**
@@ -78,7 +78,7 @@ export function useAgentHooks(config: Partial<AgentHookConfig> = {}) {
               results.planetary = planetaryResult;
 
               if (!planetaryResult.isValid) {
-                logger.warn('Planetary data validation failed:', planetaryResult.issues),
+                logger.warn('Planetary data validation failed:', planetaryResult.issues)
               }
             }
 
@@ -86,7 +86,7 @@ export function useAgentHooks(config: Partial<AgentHookConfig> = {}) {
             if (finalConfig.enableCampaignTriggers) {
               const trigger = await qa.checkTypeScriptErrorThreshold();
               if (trigger?.triggered) {
-                logger.warn('TypeScript campaign trigger activated:', trigger),
+                logger.warn('TypeScript campaign trigger activated:', trigger)
               }
             }
 
@@ -101,7 +101,7 @@ export function useAgentHooks(config: Partial<AgentHookConfig> = {}) {
 
             logger.debug('Agent hooks validation cycle completed');
           } catch (error) {
-            logger.error('Error in agent hooks validation cycle:', error),
+            logger.error('Error in agent hooks validation cycle:', error)
           }
         })();
       },
@@ -153,7 +153,7 @@ export function useAgentHooks(config: Partial<AgentHookConfig> = {}) {
         return results;
       } catch (error) {
         logger.error('Error in manual validation:', error),
-        throw error,
+        throw error
       }
     },
     [qa],
@@ -206,7 +206,7 @@ export function usePlanetaryDataValidationHook(autoStart: boolean = true) {
         return result;
       } catch (error) {
         logger.error('Error in planetary data validation hook:', error),
-        throw error,
+        throw error
       } finally {
         setIsValidating(false);
       }
@@ -242,11 +242,11 @@ export function useIngredientConsistencyHook() {
       ingredients: Array<{
         name: string,
         elementalProperties: ElementalProperties,
-        category?: string,
+        category?: string
       }>,
     ) => {
       if (ingredients.length === 0) {
-        return null,
+        return null
       }
 
       setIsValidating(true);
@@ -270,7 +270,7 @@ export function useIngredientConsistencyHook() {
         return result;
       } catch (error) {
         logger.error('Error in ingredient consistency validation:', error),
-        throw error,
+        throw error
       } finally {
         setIsValidating(false);
       }
@@ -316,7 +316,7 @@ export function useTypeScriptCampaignHook(autoCheck: boolean = true) {
       return trigger;
     } catch (error) {
       logger.error('Error checking TypeScript error threshold:', error),
-      throw error,
+      throw error
     } finally {
       setIsChecking(false);
     }
@@ -328,7 +328,7 @@ export function useTypeScriptCampaignHook(autoCheck: boolean = true) {
       checkErrorThreshold();
 
       // Check every 10 minutes
-      const interval = setInterval(() => void checkErrorThreshold(), 10 * 60 * 1000),
+      const interval = setInterval(() => void checkErrorThreshold(), 10 * 60 * 1000),;
       return () => clearInterval(interval);
     }
   }, [autoCheck, checkErrorThreshold]);
@@ -354,7 +354,7 @@ export function useBuildQualityMonitoringHook() {
       buildTime?: number,
       bundleSize?: number,
       memoryUsage?: number,
-      errorCount?: number,
+      errorCount?: number
     }) => {
       setIsMonitoring(true);
       try {
@@ -377,7 +377,7 @@ export function useBuildQualityMonitoringHook() {
         return result;
       } catch (error) {
         logger.error('Error in build quality monitoring:', error),
-        throw error,
+        throw error
       } finally {
         setIsMonitoring(false);
       }
@@ -410,7 +410,7 @@ export function useQualityMetricsHook(updateInterval: number = 30000) {
 
   // Update metrics periodically
   useEffect(() => {
-    const interval = setInterval(() => void updateMetrics(), updateInterval),
+    const interval = setInterval(() => void updateMetrics(), updateInterval),;
     return () => clearInterval(interval);
   }, [updateMetrics, updateInterval]);
 
@@ -430,7 +430,7 @@ export function useAgentHookConfiguration() {
   const updateConfiguration = useCallback(;
     (config: Partial<QualityAssuranceConfig>) => {
       qa.updateConfig(config);
-      logger.info('Agent hook configuration updated:', config),
+      logger.info('Agent hook configuration updated:', config)
     },
     [qa],
   );

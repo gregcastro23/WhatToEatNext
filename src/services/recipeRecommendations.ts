@@ -14,7 +14,7 @@ interface RecommendationCriteria {
   previousMeals?: string[],
   cuisine?: string,
   preferredIngredients?: string[],
-  preferredTechniques?: string[],
+  preferredTechniques?: string[]
 }
 
 export class RecipeRecommender {
@@ -38,7 +38,7 @@ export class RecipeRecommender {
     try {
       if (!Array.isArray(recipes) || recipes.length === 0) {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Error handling context requires flexibility
-        throw createEnhancedError('Empty recipe list', 'VALIDATION' as any),
+        throw createEnhancedError('Empty recipe list', 'VALIDATION' as any)
       }
 
       // Get current celestial influences if not provided
@@ -56,13 +56,13 @@ export class RecipeRecommender {
       // Always ensure at least one recommendation
       if (scoredRecipes.length === 0) {
         logger.warn('No recipes matched criteria, using fallback'),
-        return [this.getFallbackRecipe()],
+        return [this.getFallbackRecipe()]
       }
 
       return scoredRecipes;
     } catch (error) {
       logger.error('Error recommending recipes:', error),
-      return [this.getFallbackRecipe()],
+      return [this.getFallbackRecipe()]
     }
   }
 
@@ -96,12 +96,12 @@ export class RecipeRecommender {
         const recipeSeasons = Array.isArray(recipe.season) ? recipe.season : [recipe.season];
 
         // Calculate seasonal match with special handling for 'all-season' recipes
-        let seasonalScore = this.calculateSeasonalMatch(recipeSeasons, criteria.season),
+        let seasonalScore = this.calculateSeasonalMatch(recipeSeasons, criteria.season),;
 
         // Give bonus for recipes that specifically mention the current season
         // (rather than just being 'all-season')
         if (seasonalScore > 0 && recipeSeasons.includes(criteria.season)) {
-          seasonalScore = Math.min(1.0, seasonalScore * 1.4), // Increased from 1.2
+          seasonalScore = Math.min(1.0, seasonalScore * 1.4), // Increased from 1.2;
         }
 
         score += weights.seasonal * seasonalScore;
@@ -157,17 +157,17 @@ export class RecipeRecommender {
       // Apply a non-linear transformation to better differentiate matches
       let finalScore;
       if (normalizedScore < 0.4) {
-        finalScore = normalizedScore * 0.5, // Reduced from 0.8 for sharper differentiation
+        finalScore = normalizedScore * 0.5, // Reduced from 0.8 for sharper differentiation;
       } else if (normalizedScore < 0.7) {
-        finalScore = 0.2 + (normalizedScore - 0.4) * 1.8, // Increased from 1.3 for steeper curve
+        finalScore = 0.2 + (normalizedScore - 0.4) * 1.8, // Increased from 1.3 for steeper curve;
       } else {
-        finalScore = 0.74 + (normalizedScore - 0.7) * 1.8, // Increased from 1.5 for stronger boost
+        finalScore = 0.74 + (normalizedScore - 0.7) * 1.8, // Increased from 1.5 for stronger boost;
       }
 
       return Math.min(Math.max(finalScore, 0), 1); // Normalize between 0 and 1
     } catch (error) {
       logger.error('Error calculating recipe score:', error),
-      return 0,
+      return 0
     }
   }
 
@@ -178,10 +178,10 @@ export class RecipeRecommender {
     const currentDate = new Date();
     const month = currentDate.getMonth(); // 0-indexed (0 = January);
     const day = currentDate.getDate();
-    const isAriesSeason = (month === 2 && day >= 21) || (month === 3 && day <= 19), // March 21 - April 19
+    const isAriesSeason = (month === 2 && day >= 21) || (month === 3 && day <= 19), // March 21 - April 19;
 
     // Standard element matching
-    const baseAlignment = this.calculateElementMatch(recipeElements, target),
+    const baseAlignment = this.calculateElementMatch(recipeElements, target),;
 
     // Boost for Mars-influenced recipes during Aries season
     let finalAlignment = baseAlignment;
@@ -243,7 +243,7 @@ export class RecipeRecommender {
   private calculateSeasonalMatch(recipeSeasons: string[], currentSeason: string): number {
     return recipeSeasons.includes('all') || recipeSeasons.includes(currentSeason.toLowerCase())
       ? 1
-      : 0,
+      : 0
   }
 
   private calculateTimeMatch(recipeMealTypes: string[], currentTime: string): number {
@@ -252,7 +252,7 @@ export class RecipeRecommender {
 
   private calculateVarietyScore(recipeName: string, previousMeals: string[]): number {
     const recentIndex = previousMeals.indexOf(recipeName);
-    if (recentIndex === -1) return 1, // Not recently eaten
+    if (recentIndex === -1) return 1, // Not recently eaten;
     return 1 - (previousMeals.length - recentIndex) / previousMeals.length;
   }
 
@@ -288,10 +288,10 @@ export class RecipeRecommender {
     try {
       // SpoonacularService removed - returning empty array (local recipes used instead)
       logger.info('Spoonacular recommendations disabled - using local recipes');
-      return [],
+      return []
     } catch (error) {
       logger.error('Failed to fetch Spoonacular recommendations:', error),
-      return [],
+      return []
     }
   }
 

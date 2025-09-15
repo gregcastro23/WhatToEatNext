@@ -34,7 +34,7 @@ export interface OrchestratorConfig {
   safetyProtocols: Partial<HighImpactFileConfig>,
   outputDirectory: string,
   generateReports: boolean,
-  interactiveMode: boolean,
+  interactiveMode: boolean
 }
 
 export interface ProcessingPlan {
@@ -47,7 +47,7 @@ export interface ProcessingPlan {
     low: number,
     medium: number,
     high: number,
-    critical: number,
+    critical: number
   };
 }
 
@@ -64,7 +64,7 @@ export interface CampaignReport {
     totalEliminated: number,
     totalPreserved: number,
     successRate: number,
-    timeElapsed: number,
+    timeElapsed: number
   };
   recommendations: string[];
 }
@@ -98,7 +98,7 @@ export class BatchProcessingOrchestrator {
    * Create a comprehensive processing plan
    */
   async createProcessingPlan(files: FileProcessingInfo[]): Promise<ProcessingPlan> {
-    // console.log('📋 Creating comprehensive processing plan...');
+    // // console.log('📋 Creating comprehensive processing plan...');
 
     const assessments = files.map(file =>;
       this.safetyProtocols.assessFileRisk(file.filePath, file.unusedVariableCount),
@@ -111,8 +111,8 @@ export class BatchProcessingOrchestrator {
     const riskSummary = {
       low: assessments.filter(a => a.riskLevel === 'low').length,;
       medium: assessments.filter(a => a.riskLevel === 'medium').length,;
-      high: assessments.filter(a => a.riskLevel === 'high').length,,
-      critical: assessments.filter(a => a.riskLevel === 'critical').length,,
+      high: assessments.filter(a => a.riskLevel === 'high').length,,;
+      critical: assessments.filter(a => a.riskLevel === 'critical').length,,;
     };
 
     // Estimate number of batches
@@ -131,13 +131,13 @@ export class BatchProcessingOrchestrator {
       riskSummary
     };
 
-    // console.log(`📊 Processing Plan Summary:`);
-    // console.log(`   Total Files: ${plan.totalFiles}`);
-    // console.log(`   Automatic Processing: ${plan.automaticProcessing.length}`);
-    // console.log(`   Manual Review Required: ${plan.manualReviewRequired.length}`);
-    // console.log(`   Estimated Batches: ${plan.estimatedBatches}`);
-    // console.log(`   Estimated Duration: ${plan.estimatedDuration}`);
-    // console.log(
+    // // console.log(`📊 Processing Plan Summary:`);
+    // // console.log(`   Total Files: ${plan.totalFiles}`);
+    // // console.log(`   Automatic Processing: ${plan.automaticProcessing.length}`);
+    // // console.log(`   Manual Review Required: ${plan.manualReviewRequired.length}`);
+    // // console.log(`   Estimated Batches: ${plan.estimatedBatches}`);
+    // // console.log(`   Estimated Duration: ${plan.estimatedDuration}`);
+    // // console.log(
       `   Risk Distribution: Low(${riskSummary.low}) Medium(${riskSummary.medium}) High(${riskSummary.high}) Critical(${riskSummary.critical})`,
     );
 
@@ -149,7 +149,7 @@ export class BatchProcessingOrchestrator {
    */
   async executeCampaign(files: FileProcessingInfo[]): Promise<CampaignReport> {
     const campaignId = `unused-vars-campaign-${Date.now()}`;
-    // console.log(`🚀 Starting batch processing campaign: ${campaignId}`);
+    // // console.log(`🚀 Starting batch processing campaign: ${campaignId}`);
 
     // Create processing plan
     const processingPlan = await this.createProcessingPlan(files);
@@ -183,7 +183,7 @@ export class BatchProcessingOrchestrator {
       const automaticFiles = this.convertAssessmentsToFileInfo(processingPlan.automaticProcessing);
 
       if (automaticFiles.length > 0) {
-        // console.log(`\n🔄 Processing ${automaticFiles.length} files automatically...`);
+        // // console.log(`\n🔄 Processing ${automaticFiles.length} files automatically...`);
         const batchResults = await this.batchProcessor.processBatches(automaticFiles);
         this.currentCampaign.batchResults = batchResults;
       }
@@ -197,7 +197,7 @@ export class BatchProcessingOrchestrator {
       this.currentCampaign.status = 'completed';
       this.currentCampaign.endTime = new Date();
 
-      // console.log(`\n✅ Campaign completed successfully: ${campaignId}`);
+      // // console.log(`\n✅ Campaign completed successfully: ${campaignId}`);
     } catch (error) {
       console.error(`❌ Campaign failed: ${error}`);
       this.currentCampaign.status = 'failed';
@@ -217,7 +217,7 @@ export class BatchProcessingOrchestrator {
    * Handle manual review workflow
    */
   private async handleManualReviews(assessments: FileRiskAssessment[]): Promise<void> {
-    // console.log(`\n👥 Manual Review Required for ${assessments.length} files:`);
+    // // console.log(`\n👥 Manual Review Required for ${assessments.length} files:`);
 
     for (const assessment of assessments) {
       const reviewRequest = this.safetyProtocols.createManualReviewRequest(assessment);
@@ -225,21 +225,21 @@ export class BatchProcessingOrchestrator {
         this.currentCampaign.manualReviews.push(reviewRequest);
       }
 
-      // console.log(`\n📋 Manual Review: ${assessment.relativePath}`);
-      // console.log(`   Risk Level: ${assessment.riskLevel.toUpperCase()}`);
-      // console.log(`   Unused Variables: ${assessment.unusedVariableCount}`);
-      // console.log(`   Risk Factors:`);
-      assessment.riskFactors.forEach(factor => // console.log(`     - ${factor}`));
-      // console.log(`   Review Instructions:`);
-      reviewRequest.reviewInstructions.forEach(instruction => // console.log(`     - ${instruction}`));
+      // // console.log(`\n📋 Manual Review: ${assessment.relativePath}`);
+      // // console.log(`   Risk Level: ${assessment.riskLevel.toUpperCase()}`);
+      // // console.log(`   Unused Variables: ${assessment.unusedVariableCount}`);
+      // // console.log(`   Risk Factors:`);
+      assessment.riskFactors.forEach(factor => // // console.log(`     - ${factor}`));
+      // // console.log(`   Review Instructions:`);
+      reviewRequest.reviewInstructions.forEach(instruction => // // console.log(`     - ${instruction}`));
 
       if (this.config.interactiveMode) {
         // In a real implementation, this would prompt for user input
         // For now, we'll simulate approval for non-critical files
         if (assessment.riskLevel !== 'critical') {
-          this.safetyProtocols.approveManualReview(assessment.filePath, 'Auto-approved for demo'),
+          this.safetyProtocols.approveManualReview(assessment.filePath, 'Auto-approved for demo')
         } else {
-          // console.log(`   ⚠️  CRITICAL FILE - Manual approval required before processing`);
+          // // console.log(`   ⚠️  CRITICAL FILE - Manual approval required before processing`);
         }
       }
     }
@@ -252,8 +252,8 @@ export class BatchProcessingOrchestrator {
     return assessments.map(assessment => ({
       filePath: assessment.filePath;
       relativePath: assessment.relativePath;
-      isHighImpact: assessment.riskLevel === 'high' || assessment.riskLevel === 'critical',,
-      isCritical: assessment.riskLevel === 'critical',,
+      isHighImpact: assessment.riskLevel === 'high' || assessment.riskLevel === 'critical',,;
+      isCritical: assessment.riskLevel === 'critical',,;
       unusedVariableCount: assessment.unusedVariableCount;
       riskLevel: assessment.riskLevel;
       fileType: assessment.fileType
@@ -280,12 +280,12 @@ export class BatchProcessingOrchestrator {
         currentBatchSize = 1;
         currentBatchLimit = fileLimit;
       } else {
-        currentBatchSize++,
+        currentBatchSize++
       }
     }
 
     if (currentBatchSize > 0) {
-      batches++,
+      batches++
     }
 
     return batches;
@@ -351,7 +351,7 @@ export class BatchProcessingOrchestrator {
       if (eliminationRate < 70) {
         recommendations.push(
           'Review preservation patterns - elimination rate is lower than expected',
-        ),
+        )
       }
     }
 
@@ -389,8 +389,8 @@ export class BatchProcessingOrchestrator {
     const summary = this.generateMarkdownSummary();
     fs.writeFileSync(summaryPath, summary);
 
-    // console.log(`📄 Campaign report saved to: ${reportPath}`);
-    // console.log(`📄 Campaign summary saved to: ${summaryPath}`);
+    // // console.log(`📄 Campaign report saved to: ${reportPath}`);
+    // // console.log(`📄 Campaign summary saved to: ${summaryPath}`);
   }
 
   /**
@@ -503,13 +503,13 @@ ${checkpoint.stashId ? `- **Stash ID**: ${checkpoint.stashId}` : ''}
    * Approve a manual review
    */
   approveManualReview(filePath: string, reviewerNotes?: string): boolean {
-    return this.safetyProtocols.approveManualReview(filePath, reviewerNotes),
+    return this.safetyProtocols.approveManualReview(filePath, reviewerNotes)
   }
 
   /**
    * Reject a manual review
    */
   rejectManualReview(filePath: string, reason: string): boolean {
-    return this.safetyProtocols.rejectManualReview(filePath, reason),
+    return this.safetyProtocols.rejectManualReview(filePath, reason)
   }
 }

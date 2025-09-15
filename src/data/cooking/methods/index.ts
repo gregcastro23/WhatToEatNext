@@ -70,7 +70,7 @@ export const _getMethodsForIngredientType = (;
       const methodData = method ;
       return (methodData?.suitable_for || []).some((type: string) =>
         type?.toLowerCase()?.includes(ingredientType.toLowerCase());
-      ),
+      )
     })
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 };
@@ -88,7 +88,7 @@ export const _getMethodsByPlanet = (planet: string): Record<string, CookingMetho
       return (
         methodData?.astrologicalInfluences?.dominantPlanets?.includes(planet) ||
         methodData?.astrologicalInfluences?.rulingPlanets?.includes(planet)
-      ),
+      )
     })
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 };

@@ -34,8 +34,8 @@ export class SafeTypeReplacer {
 
   constructor(
     backupDirectory = './.any-elimination-backups',;
-    safetyThreshold = 0.7,,
-    validationTimeout = 30000,,
+    safetyThreshold = 0.7,,;
+    validationTimeout = 30000,,;
     maxRetries = 3
   ) {
     this.backupDirectory = backupDirectory;
@@ -61,7 +61,7 @@ export class SafeTypeReplacer {
     let safetyValidation: SafetyValidationResult,
 
     if (context) {
-      safetyValidation = this.safetyValidator.calculateSafetyScore(replacement, context),
+      safetyValidation = this.safetyValidator.calculateSafetyScore(replacement, context),;
     } else {
       // Fallback to basic safety score calculation
       const basicSafetyScore = this.calculateSafetyScore(replacement);
@@ -113,10 +113,10 @@ export class SafeTypeReplacer {
             };
           }
 
-          return result,
+          return result
         } else {
           // If replacement failed with specific errors, return immediately (don't retry)
-          return result,
+          return result
         }
       } catch (error) {
         retryCount++,
@@ -164,7 +164,7 @@ export class SafeTypeReplacer {
       for (const replacement of replacements) {
         if (!backupPaths.has(replacement.filePath)) {
           const backupPath = await this.createBackup(replacement.filePath);
-          backupPaths.set(replacement.filePath, backupPath),
+          backupPaths.set(replacement.filePath, backupPath)
         }
       }
 
@@ -234,7 +234,7 @@ export class SafeTypeReplacer {
         'Batch replacement failed with emergency rollback',
         Array.from(backupPaths.values())[0] || '',
         Array.from(backupPaths.keys());
-      ),
+      )
     }
   }
 
@@ -292,7 +292,7 @@ export class SafeTypeReplacer {
         pattern: /\[key:\s*string\]\s*:\s*any/g,
         replacement: (match: string, context: ClassificationContext) => {
           const inferredValueType = this.inferIndexSignatureValueType(context);
-          return match.replace('any', inferredValueType),
+          return match.replace('any', inferredValueType)
         },
         validator: (context: ClassificationContext) =>
           context.codeSnippet.includes('[key: string]: any') &&
@@ -306,8 +306,8 @@ export class SafeTypeReplacer {
         replacement: (match: string, context: ClassificationContext) => {
           const paramName = match.match(/\(\s*([^:)]+):/)?.[1]?.trim();
           if (paramName) {
-            const inferredType = this.inferFunctionParameterType(context, paramName),
-            return match.replace('any', inferredType),
+            const inferredType = this.inferFunctionParameterType(context, paramName),;
+            return match.replace('any', inferredType)
           }
           return match.replace('any', 'unknown');
         },
@@ -324,8 +324,8 @@ export class SafeTypeReplacer {
         replacement: (match: string, context: ClassificationContext) => {
           const paramName = match.match(/\(\s*([^:)]+):/)?.[1]?.trim();
           if (paramName) {
-            const inferredType = this.inferFunctionParameterType(context, paramName),
-            return match.replace('any', inferredType),
+            const inferredType = this.inferFunctionParameterType(context, paramName),;
+            return match.replace('any', inferredType)
           }
           return match.replace('any', 'unknown');
         },
@@ -339,7 +339,7 @@ export class SafeTypeReplacer {
         pattern: /\):\s*any(?=\s*[{])/g;
         replacement: (match: string, context: ClassificationContext) => {
           const inferredReturnType = this.inferReturnType(context);
-          return match.replace('any', inferredReturnType),
+          return match.replace('any', inferredReturnType)
         },
         validator: (context: ClassificationContext) =>
           this.isFunctionReturnTypeContext(context) &&
@@ -353,7 +353,7 @@ export class SafeTypeReplacer {
         pattern: /<\s*any\s*>/g,
         replacement: (match: string, context: ClassificationContext) => {
           const inferredGenericType = this.inferGenericType(context);
-          return match.replace('any', inferredGenericType),
+          return match.replace('any', inferredGenericType)
         },
         validator: (context: ClassificationContext) =>
           context.codeSnippet.includes('<any>') && !this.isInErrorHandlingContext(context);
@@ -366,8 +366,8 @@ export class SafeTypeReplacer {
         replacement: (match: string, context: ClassificationContext) => {
           const propertyName = match.match(/(\w+):/)?.[1];
           if (propertyName) {
-            const inferredType = this.inferObjectPropertyType(context, propertyName),
-            return match.replace('any', inferredType),
+            const inferredType = this.inferObjectPropertyType(context, propertyName),;
+            return match.replace('any', inferredType)
           }
           return match.replace('any', 'unknown');
         },
@@ -382,7 +382,7 @@ export class SafeTypeReplacer {
         replacement: (match: string, context: ClassificationContext) => {
           // Try to infer from assignment or usage
           const inferredType = this.inferVariableType(context);
-          return match.replace('any', inferredType),
+          return match.replace('any', inferredType)
         },
         validator: (context: ClassificationContext) =>
           !this.isInErrorHandlingContext(context) &&
@@ -394,7 +394,7 @@ export class SafeTypeReplacer {
   }
 
   private async createBackup(filePath: string): Promise<string> {
-    const timestamp = new Date().toISOString().replace(/[:.]/g, '-'),
+    const timestamp = new Date().toISOString().replace(/[:.]/g, '-'),;
     const fileName = path.basename(filePath);
     const backupFileName = `${fileName}.${timestamp}.backup`;
     const backupPath = path.join(this.backupDirectory, backupFileName);
@@ -407,14 +407,14 @@ export class SafeTypeReplacer {
 
   private async rollbackFromBackup(filePath: string, backupPath: string): Promise<void> {
     if (fs.existsSync(backupPath)) {
-      const backupContent = fs.readFileSync(backupPath, 'utf8'),
-      fs.writeFileSync(filePath, backupContent, 'utf8'),
+      const backupContent = fs.readFileSync(backupPath, 'utf8'),;
+      fs.writeFileSync(filePath, backupContent, 'utf8')
     }
   }
 
   private async rollbackAllFiles(backupPaths: Map<string, string>): Promise<void> {
     for (const [filePath, backupPath] of Array.from(backupPaths.entries())) {
-      await this.rollbackFromBackup(filePath, backupPath),
+      await this.rollbackFromBackup(filePath, backupPath)
     }
   }
 
@@ -426,13 +426,13 @@ export class SafeTypeReplacer {
       if (existing) {
         existing.push(replacement);
       } else {
-        grouped.set(replacement.filePath, [replacement]),
+        grouped.set(replacement.filePath, [replacement])
       }
     }
 
     // Sort replacements within each file by line number (descending to avoid line number shifts)
     for (const fileReplacements of grouped.values()) {
-      fileReplacements.sort((a, b) => b.lineNumber - a.lineNumber),
+      fileReplacements.sort((a, b) => b.lineNumber - a.lineNumber)
     }
 
     return grouped;
@@ -577,7 +577,7 @@ export class SafeTypeReplacer {
       };
     } catch (error) {
       // Don't rollback here - let the calling method handle it
-      throw error,
+      throw error
     }
   }
 
@@ -615,7 +615,7 @@ export class SafeTypeReplacer {
    * Calculate safety score for a replacement based on multiple factors
    */
   private calculateSafetyScore(replacement: TypeReplacement): number {
-    let score = replacement.confidence, // Base score from classification confidence
+    let score = replacement.confidence, // Base score from classification confidence;
 
     // Adjust based on replacement type
     if (replacement.replacement.includes('unknown')) {
@@ -654,7 +654,7 @@ export class SafeTypeReplacer {
    * Get replacement strategies sorted by priority
    */
   getStrategies(): ReplacementStrategy[] {
-    return [...this.strategies].sort((a, b) => a.priority - b.priority),
+    return [...this.strategies].sort((a, b) => a.priority - b.priority)
   }
 
   /**
@@ -662,7 +662,7 @@ export class SafeTypeReplacer {
    */
   addStrategy(strategy: ReplacementStrategy): void {
     this.strategies.push(strategy);
-    this.strategies.sort((a, b) => a.priority - b.priority),
+    this.strategies.sort((a, b) => a.priority - b.priority)
   }
 
   /**
@@ -694,7 +694,7 @@ export class SafeTypeReplacer {
       }
     } catch (error) {
       // Log error but don't throw - cleanup is not critical
-      console.warn('Failed to cleanup old backups:', error),
+      console.warn('Failed to cleanup old backups:', error)
     }
   }
 
@@ -710,15 +710,15 @@ export class SafeTypeReplacer {
     if (codeSnippet.includes('= [')) {
       // Check if array has string literals
       if (codeSnippet.includes(''') || codeSnippet.includes(''')) {
-        return 'string',
+        return 'string'
       }
       // Check if array has numbers
       if (/=\s*\[\s*\d/.test(codeSnippet)) {
-        return 'number',
+        return 'number'
       }
       // Check if array has boolean values
       if (codeSnippet.includes('true') || codeSnippet.includes('false')) {
-        return 'boolean',
+        return 'boolean'
       }
     }
 
@@ -726,26 +726,26 @@ export class SafeTypeReplacer {
     const allContext = [codeSnippet, ...surroundingLines].join(' ');
     if (allContext.includes('.push(')) {
       if (allContext.includes('.push('') || allContext.includes('.push('')) {
-        return 'string',
+        return 'string'
       }
       if (/\.push\(\d/.test(allContext)) {
-        return 'number',
+        return 'number'
       }
     }
 
     // Domain-specific inference
     if (context.domainContext.domain === CodeDomain.ASTROLOGICAL) {
       if (codeSnippet.includes('planet') || codeSnippet.includes('sign')) {
-        return 'string',
+        return 'string'
       }
       if (codeSnippet.includes('position') || codeSnippet.includes('degree')) {
-        return 'number',
+        return 'number'
       }
     }
 
     if (context.domainContext.domain === CodeDomain.RECIPE) {
       if (codeSnippet.includes('ingredient') || codeSnippet.includes('recipe')) {
-        return 'string',
+        return 'string'
       }
     }
 
@@ -763,15 +763,15 @@ export class SafeTypeReplacer {
     if (codeSnippet.includes('= {')) {
       // Check for string values
       if (codeSnippet.includes(': '') || codeSnippet.includes(': '')) {
-        return 'string',
+        return 'string'
       }
       // Check for number values
       if (/:\s*\d/.test(codeSnippet)) {
-        return 'number',
+        return 'number'
       }
       // Check for boolean values
       if (codeSnippet.includes(': true') || codeSnippet.includes(': false')) {
-        return 'boolean',
+        return 'boolean'
       }
     }
 
@@ -784,7 +784,7 @@ export class SafeTypeReplacer {
       allContext.includes('.toLowerCase()') ||
       allContext.includes('.toUpperCase()')
     ) {
-      return 'string',
+      return 'string'
     }
 
     // Check for number operations
@@ -793,7 +793,7 @@ export class SafeTypeReplacer {
       allContext.includes('parseFloat(') ||
       allContext.includes('Number(')
     ) {
-      return 'number',
+      return 'number'
     }
 
     // Domain-specific inference
@@ -836,17 +836,17 @@ export class SafeTypeReplacer {
 
     // Error parameters
     if (paramLower.includes('error') || paramLower === 'err') {
-      return 'Error',
+      return 'Error'
     }
 
     // ID parameters
     if (paramLower.includes('id') || paramLower === 'key') {
-      return 'string | number',
+      return 'string | number'
     }
 
     // Index parameters
     if (paramLower.includes('index') || paramLower === 'i') {
-      return 'number',
+      return 'number'
     }
 
     // Data parameters
@@ -856,7 +856,7 @@ export class SafeTypeReplacer {
       paramLower.includes('element')
     ) {
       // Try to infer from usage in function body
-      const allContext = [codeSnippet, ...surroundingLines].join(' '),
+      const allContext = [codeSnippet, ...surroundingLines].join(' '),;
       if (allContext.includes(`${paramName}.`)) {
         return 'object', // If accessing properties, likely an object
       }
@@ -866,22 +866,22 @@ export class SafeTypeReplacer {
     // Domain-specific inference
     if (context.domainContext.domain === CodeDomain.ASTROLOGICAL) {
       if (paramLower.includes('planet') || paramLower.includes('sign')) {
-        return 'string',
+        return 'string'
       }
       if (paramLower.includes('position') || paramLower.includes('degree')) {
-        return 'number',
+        return 'number'
       }
       if (paramLower.includes('properties') || paramLower.includes('element')) {
-        return 'ElementalProperties',
+        return 'ElementalProperties'
       }
     }
 
     if (context.domainContext.domain === CodeDomain.RECIPE) {
       if (paramLower.includes('ingredient')) {
-        return 'Ingredient',
+        return 'Ingredient'
       }
       if (paramLower.includes('recipe')) {
-        return 'Recipe',
+        return 'Recipe'
       }
     }
 
@@ -895,39 +895,39 @@ export class SafeTypeReplacer {
     const { codeSnippet, surroundingLines } = context,
 
     // Look for return statements in surrounding lines
-    const allContext = [codeSnippet, ...surroundingLines].join(' '),
+    const allContext = [codeSnippet, ...surroundingLines].join(' '),;
 
     // Check for explicit return statements
     if (allContext.includes('return ')) {
       // String returns
       if (allContext.includes('return '') || allContext.includes('return '')) {
-        return 'string',
+        return 'string'
       }
       // Number returns
       if (/return\s+\d/.test(allContext)) {
-        return 'number',
+        return 'number'
       }
       // Boolean returns
       if (allContext.includes('return true') || allContext.includes('return false')) {
-        return 'boolean',
+        return 'boolean'
       }
       // Array returns
       if (allContext.includes('return [')) {
-        return 'unknown[]',
+        return 'unknown[]'
       }
       // Object returns
       if (allContext.includes('return {')) {
-        return 'object',
+        return 'object'
       }
       // Promise returns
       if (allContext.includes('return Promise') || allContext.includes('return new Promise')) {
-        return 'Promise<unknown>',
+        return 'Promise<unknown>'
       }
     }
 
     // Check for async functions
     if (codeSnippet.includes('async ')) {
-      return 'Promise<unknown>',
+      return 'Promise<unknown>'
     }
 
     // Function name inference
@@ -954,15 +954,15 @@ export class SafeTypeReplacer {
 
     // Check for common generic patterns
     if (codeSnippet.includes('Array<unknown>')) {
-      return 'unknown',
+      return 'unknown'
     }
 
     if (codeSnippet.includes('Promise<any>')) {
-      return 'unknown',
+      return 'unknown'
     }
 
     if (codeSnippet.includes('Map<') || codeSnippet.includes('Set<')) {
-      return 'unknown',
+      return 'unknown'
     }
 
     // Domain-specific generics
@@ -987,7 +987,7 @@ export class SafeTypeReplacer {
 
     // Common property patterns
     if (propLower.includes('id') || propLower === 'key') {
-      return 'string | number',
+      return 'string | number'
     }
 
     if (
@@ -995,11 +995,11 @@ export class SafeTypeReplacer {
       propLower.includes('title') ||
       propLower.includes('description')
     ) {
-      return 'string',
+      return 'string'
     }
 
     if (propLower.includes('count') || propLower.includes('length') || propLower.includes('size')) {
-      return 'number',
+      return 'number'
     }
 
     if (
@@ -1007,20 +1007,20 @@ export class SafeTypeReplacer {
       propLower.includes('active') ||
       propLower.includes('visible')
     ) {
-      return 'boolean',
+      return 'boolean'
     }
 
     if (propLower.includes('date') || propLower.includes('time')) {
-      return 'Date | string',
+      return 'Date | string'
     }
 
     // Look for assignment patterns
     const allContext = [codeSnippet, ...surroundingLines].join(' ');
     if (allContext.includes(`${propertyName}: '`)) {
-      return 'string',
+      return 'string'
     }
     if (allContext.includes(`${propertyName}: \d`)) {
-      return 'number',
+      return 'number'
     }
 
     // Domain-specific inference
@@ -1032,10 +1032,10 @@ export class SafeTypeReplacer {
         propLower.includes('earth') ||
         propLower.includes('air')
       ) {
-        return 'number',
+        return 'number'
       }
       if (propLower.includes('sign') || propLower.includes('planet')) {
-        return 'string',
+        return 'string'
       }
     }
 
@@ -1050,30 +1050,30 @@ export class SafeTypeReplacer {
 
     // Look for assignment patterns
     if (codeSnippet.includes('= '') || codeSnippet.includes('= '')) {
-      return 'string',
+      return 'string'
     }
 
     if (/=\s*\d/.test(codeSnippet)) {
-      return 'number',
+      return 'number'
     }
 
     if (codeSnippet.includes('= true') || codeSnippet.includes('= false')) {
-      return 'boolean',
+      return 'boolean'
     }
 
     if (codeSnippet.includes('= [')) {
-      return 'unknown[]',
+      return 'unknown[]'
     }
 
     if (codeSnippet.includes('= {')) {
-      return 'object',
+      return 'object'
     }
 
     if (codeSnippet.includes('= new ')) {
       // Try to extract constructor name
       const constructorMatch = codeSnippet.match(/= new (\w+)/);
       if (constructorMatch) {
-        return constructorMatch[1],
+        return constructorMatch[1]
       }
       return 'object';
     }
@@ -1164,7 +1164,7 @@ export class SafeTypeReplacer {
   private isFunctionReturnTypeContext(context: ClassificationContext): boolean {
     const { codeSnippet } = context;
 
-    return codeSnippet.includes('):') && (codeSnippet.includes('{') || codeSnippet.includes(',')),
+    return codeSnippet.includes('):') && (codeSnippet.includes('{') || codeSnippet.includes(','))
   }
 
   /**
@@ -1176,7 +1176,7 @@ export class SafeTypeReplacer {
     return (
       codeSnippet.includes(':') &&
       (codeSnippet.includes(',') || codeSnippet.includes('}') || codeSnippet.includes(','))
-    ),
+    )
   }
 
   // Enhanced Safety Validation Methods
@@ -1188,7 +1188,7 @@ export class SafeTypeReplacer {
     replacement: TypeReplacement,
     context: ClassificationContext,
   ): Promise<SafetyValidationResult> {
-    return this.safetyValidator.calculateSafetyScore(replacement, context),
+    return this.safetyValidator.calculateSafetyScore(replacement, context)
   }
 
   /**
@@ -1198,7 +1198,7 @@ export class SafeTypeReplacer {
     modifiedFiles: string[],
     includeTests = false
   ): Promise<BuildValidationResult> {
-    return this.safetyValidator.validateBuildAfterBatch(modifiedFiles, includeTests),
+    return this.safetyValidator.validateBuildAfterBatch(modifiedFiles, includeTests)
   }
 
   /**
@@ -1208,7 +1208,7 @@ export class SafeTypeReplacer {
     originalFiles: Map<string, string>,
     backupFiles: Map<string, string>,
   ) {
-    return this.safetyValidator.validateRollbackCapability(originalFiles, backupFiles),
+    return this.safetyValidator.validateRollbackCapability(originalFiles, backupFiles)
   }
 
   /**

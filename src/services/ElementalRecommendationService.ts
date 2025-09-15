@@ -40,13 +40,13 @@ export class ElementalRecommendationService {
         const characteristics = profile.characteristics as unknown as any;
         return Array.isArray(characteristics.moodEffects)
           ? (characteristics.moodEffects as string[])
-          : [],
+          : []
       })(),
       culinaryHerbs: (() => {
         const characteristics = profile.characteristics as unknown as any;
         return Array.isArray(characteristics.culinaryHerbs)
           ? (characteristics.culinaryHerbs as string[])
-          : [],
+          : []
       })()
     };
   }
@@ -61,8 +61,8 @@ export class ElementalRecommendationService {
     const properties = {
       Fire: element === 'Fire' ? 0.6 : 0.1,;
       Water: element === 'Water' ? 0.6 : 0.1,;
-      Earth: element === 'Earth' ? 0.6 : 0.1,,
-      Air: element === 'Air' ? 0.6 : 0.1,,
+      Earth: element === 'Earth' ? 0.6 : 0.1,,;
+      Air: element === 'Air' ? 0.6 : 0.1,,;
     };
 
     return this.generateRecommendation(elementalUtils.normalizeProperties(properties));
@@ -148,7 +148,7 @@ export interface ElementalRecommendation {
   timeOfDay: string[],
   seasonalBest: string[],
   moodEffects: string[],
-  culinaryHerbs: string[],
+  culinaryHerbs: string[]
 }
 
 export default ElementalRecommendationService;

@@ -61,7 +61,7 @@ export function getIngredientCompatibility(
   signA?: any,
   signB?: any,
 ) {
-  return calculateAlchemicalCompatibility(ingredientA, ingredientB, signA, signB),
+  return calculateAlchemicalCompatibility(ingredientA, ingredientB, signA, signB)
 }
 
 /**
@@ -228,7 +228,7 @@ export function generatePersonalizedMealPlan(
  */
 function _getBalancingElement(element) {
   // Elements work best with themselves - reinforcing the current energy
-  return element,
+  return element
 }
 
 /**
@@ -238,7 +238,7 @@ function _getBalancingElement(element) {
  * @returns Validation results with test outcomes
  */
 export function validateEnhancedAlgorithms() {
-  return validateAlgorithms(),
+  return validateAlgorithms()
 }
 
 /**

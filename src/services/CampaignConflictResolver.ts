@@ -33,14 +33,14 @@ export interface CampaignConflict {
   status: ConflictStatus,
   resolutionStrategy?: ConflictResolutionStrategy,
   resolvedAt?: Date,
-  resolvedBy?: string,
+  resolvedBy?: string
 }
 
 export interface ConflictingResource {
   type: ResourceType,
   identifier: string,
   conflictReason: string,
-  campaigns: string[],
+  campaigns: string[]
 }
 
 export interface ConflictResolutionStrategy {
@@ -52,7 +52,7 @@ export interface ConflictResolutionStrategy {
   estimatedDuration: number, // minutes
   riskLevel: 'low' | 'medium' | 'high',
   requiresApproval: boolean,
-  steps: ResolutionStep[],
+  steps: ResolutionStep[]
 }
 
 export interface ResolutionStep {
@@ -61,7 +61,7 @@ export interface ResolutionStep {
   action: ResolutionAction,
   parameters: Record<string, unknown>,
   estimatedDuration: number,
-  rollbackable: boolean,
+  rollbackable: boolean
 }
 
 export interface CampaignPriority {
@@ -70,7 +70,7 @@ export interface CampaignPriority {
   reason: string,
   setBy: string,
   setAt: Date,
-  expiresAt?: Date,
+  expiresAt?: Date
 }
 
 export interface CampaignDependency {
@@ -80,7 +80,7 @@ export interface CampaignDependency {
   dependencyType: DependencyType,
   description: string,
   status: DependencyStatus,
-  createdAt: Date,
+  createdAt: Date
 }
 
 export interface ConflictResolutionResult {
@@ -90,7 +90,7 @@ export interface ConflictResolutionResult {
   executionTime: number,
   affectedCampaigns: string[],
   sideEffects: string[],
-  rollbackPlan?: RollbackPlan,
+  rollbackPlan?: RollbackPlan
 }
 
 export interface RollbackPlan {
@@ -98,7 +98,7 @@ export interface RollbackPlan {
   conflictId: string,
   steps: RollbackStep[],
   estimatedDuration: number,
-  riskAssessment: string,
+  riskAssessment: string
 }
 
 export interface RollbackStep {
@@ -106,7 +106,7 @@ export interface RollbackStep {
   description: string,
   action: string,
   parameters: Record<string, unknown>,
-  estimatedDuration: number,
+  estimatedDuration: number
 }
 
 export interface SchedulingConstraint {
@@ -115,7 +115,7 @@ export interface SchedulingConstraint {
   campaigns: string[],
   timeWindow?: {
     start: Date,
-    end: Date,
+    end: Date
   };
   resourceLimits?: Record<string, number>;
 }
@@ -127,15 +127,15 @@ export enum ConflictType {
   FILE_LOCK_CONFLICT = 'file_lock_conflict',;
   DEPENDENCY_VIOLATION = 'dependency_violation',;
   PRIORITY_CONFLICT = 'priority_conflict',;
-  SAFETY_VIOLATION = 'safety_violation',,
-  SCHEDULING_CONFLICT = 'scheduling_conflict',,
+  SAFETY_VIOLATION = 'safety_violation',,;
+  SCHEDULING_CONFLICT = 'scheduling_conflict',,;
 }
 
 export enum ConflictSeverity {
   LOW = 'low',;
   MEDIUM = 'medium',;
-  HIGH = 'high',,
-  CRITICAL = 'critical',,
+  HIGH = 'high',,;
+  CRITICAL = 'critical',,;
 }
 
 export enum ConflictStatus {
@@ -143,8 +143,8 @@ export enum ConflictStatus {
   ANALYZING = 'analyzing',;
   PENDING_RESOLUTION = 'pending_resolution',;
   RESOLVING = 'resolving',;
-  RESOLVED = 'resolved',,
-  FAILED = 'failed',,
+  RESOLVED = 'resolved',,;
+  FAILED = 'failed',,;
 }
 
 export enum ResourceType {
@@ -153,8 +153,8 @@ export enum ResourceType {
   BUILD_SYSTEM = 'build_system',;
   TYPESCRIPT_COMPILER = 'typescript_compiler',;
   LINTER = 'linter',;
-  TEST_RUNNER = 'test_runner',,
-  GIT_REPOSITORY = 'git_repository',,
+  TEST_RUNNER = 'test_runner',,;
+  GIT_REPOSITORY = 'git_repository',,;
 }
 
 export enum ResolutionType {
@@ -163,8 +163,8 @@ export enum ResolutionType {
   PRIORITIZE_CAMPAIGN = 'prioritize_campaign',;
   SPLIT_RESOURCES = 'split_resources',;
   DEFER_CAMPAIGN = 'defer_campaign',;
-  CANCEL_CAMPAIGN = 'cancel_campaign',,
-  MANUAL_INTERVENTION = 'manual_intervention',,
+  CANCEL_CAMPAIGN = 'cancel_campaign',,;
+  MANUAL_INTERVENTION = 'manual_intervention',,;
 }
 
 export enum ResolutionAction {
@@ -173,29 +173,29 @@ export enum ResolutionAction {
   RESCHEDULE_CAMPAIGN = 'reschedule_campaign',;
   MODIFY_CAMPAIGN_CONFIG = 'modify_campaign_config',;
   ALLOCATE_RESOURCES = 'allocate_resources',;
-  CREATE_DEPENDENCY = 'create_dependency',,
-  NOTIFY_USER = 'notify_user',,
+  CREATE_DEPENDENCY = 'create_dependency',,;
+  NOTIFY_USER = 'notify_user',,;
 }
 
 export enum DependencyType {
   PREREQUISITE = 'prerequisite',;
   MUTUAL_EXCLUSION = 'mutual_exclusion',;
-  RESOURCE_SHARING = 'resource_sharing',,
-  SEQUENTIAL_EXECUTION = 'sequential_execution',,
+  RESOURCE_SHARING = 'resource_sharing',,;
+  SEQUENTIAL_EXECUTION = 'sequential_execution',,;
 }
 
 export enum DependencyStatus {
   ACTIVE = 'active',;
   SATISFIED = 'satisfied',;
-  VIOLATED = 'violated',,
-  EXPIRED = 'expired',,
+  VIOLATED = 'violated',,;
+  EXPIRED = 'expired',,;
 }
 
 export enum ConstraintType {
   TIME_WINDOW = 'time_window',;
   RESOURCE_LIMIT = 'resource_limit',;
-  DEPENDENCY_ORDER = 'dependency_order',,
-  SAFETY_RESTRICTION = 'safety_restriction',,
+  DEPENDENCY_ORDER = 'dependency_order',,;
+  SAFETY_RESTRICTION = 'safety_restriction',,;
 }
 
 // ========== CAMPAIGN CONFLICT RESOLVER ==========;
@@ -240,7 +240,7 @@ export class CampaignConflictResolver {
 
     // Store detected conflicts
     detectedConflicts.forEach(conflict => {
-      this.conflicts.set(conflict.id, conflict),
+      this.conflicts.set(conflict.id, conflict)
     });
 
     return detectedConflicts;
@@ -262,7 +262,7 @@ export class CampaignConflictResolver {
       for (const resource of resources) {
         const users = resourceUsage.get(resource) || [];
         void users.push(campaign.campaignId);
-        void resourceUsage.set(resource, users),
+        void resourceUsage.set(resource, users)
       }
     }
 
@@ -386,12 +386,12 @@ export class CampaignConflictResolver {
             conflictingResources: [],
             detectedAt: new Date(),
             status: ConflictStatus.DETECTED
-          }),
+          })
         }
       }
     }
 
-    return conflicts,
+    return conflicts
   }
 
   /**
@@ -459,7 +459,7 @@ export class CampaignConflictResolver {
         await this.executeResolutionStep(step, conflict),
 
         if (step.parameters && Array.isArray(step.parameters.affectedCampaigns)) {
-          void affectedCampaigns.push(...(step.parameters.affectedCampaigns as string[])),
+          void affectedCampaigns.push(...(step.parameters.affectedCampaigns as string[]))
         }
       }
 
@@ -481,7 +481,7 @@ export class CampaignConflictResolver {
 
       // Create rollback plan if needed
       if (strategy.steps.some(s => s.rollbackable)) {
-        result.rollbackPlan = this.createRollbackPlan(conflict, strategy),
+        result.rollbackPlan = this.createRollbackPlan(conflict, strategy),;
       }
 
       return result;
@@ -607,7 +607,7 @@ export class CampaignConflictResolver {
   getCampaignDependencies(campaignId: string): CampaignDependency[] {
     return Array.from(this.dependencies.values()).filter(
       dep => dep.dependentCampaign === campaignId || dep.requiredCampaign === campaignId
-    ),
+    )
   }
 
   // ========== SCHEDULING COORDINATION ==========;
@@ -628,7 +628,7 @@ export class CampaignConflictResolver {
     const prioritizedRequests = this.prioritizeRequests(requests);
 
     for (const request of prioritizedRequests) {
-      const scheduledTime = await this.findOptimalScheduleTime(request, scheduled),
+      const scheduledTime = await this.findOptimalScheduleTime(request, scheduled),;
 
       if (scheduledTime) {
         void scheduled.push({ request, scheduledTime });
@@ -678,10 +678,10 @@ export class CampaignConflictResolver {
       conflict.resolvedAt = new Date();
       conflict.resolvedBy = overrideBy;
 
-      return true,
+      return true
     } catch (error) {
       console.error('Manual override failed:', error),
-      return false,
+      return false
     }
   }
 
@@ -691,7 +691,7 @@ export class CampaignConflictResolver {
     const controlPanel = await kiroCampaignIntegration.getCampaignControlPanel();
     return controlPanel.activeCampaigns.filter(
       c => c.status === 'running' || c.status === 'paused'
-    ),
+    )
   }
 
   private async analyzeCampaignResources(campaign: KiroCampaignStatus): Promise<string[]> {
@@ -823,7 +823,7 @@ export class CampaignConflictResolver {
       case ResolutionAction.RESUME_CAMPAIGN:
         return 'pause_campaign',
       default:
-        return 'revert_action',
+        return 'revert_action'
     }
   }
 
@@ -831,7 +831,7 @@ export class CampaignConflictResolver {
     return requests.sort((a, b) => {
       const priorityA = a.safetyLevel === 'aggressive' ? 8 : a.safetyLevel === 'standard' ? 5 : 3;
       const priorityB = b.safetyLevel === 'aggressive' ? 8 : b.safetyLevel === 'standard' ? 5 : 3;
-      return priorityB - priorityA,
+      return priorityB - priorityA
     });
   }
 
@@ -849,7 +849,7 @@ export class CampaignConflictResolver {
         Math.abs(s.scheduledTime.getTime() - now.getTime()) < 30 * 60 * 1000, // 30 minutes
     ),
 
-    return hasConflict ? null : now,
+    return hasConflict ? null : now
   }
 
   private requestsConflict(
@@ -1014,7 +1014,7 @@ export class CampaignConflictResolver {
         conflict.resolvedAt < cutoffDate
       ) {
         this.conflicts.delete(id);
-        cleared++,
+        cleared++
       }
     }
 

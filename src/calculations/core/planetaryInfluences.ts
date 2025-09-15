@@ -130,7 +130,7 @@ export function calculatePlanetaryDignity(
   sign: string,
 ): {
   type: 'rulership' | 'exaltation' | 'detriment' | 'fall' | 'neutral',
-  modifier: number,
+  modifier: number
 } {
   const planetKey = planet.toLowerCase();
   const signKey = sign.toLowerCase();
@@ -182,7 +182,7 @@ export function calculatePlanetaryStrength(
 
   // Base strength from dignity
   if (position.sign) {
-    const dignity = calculatePlanetaryDignity(planet, position.sign),
+    const dignity = calculatePlanetaryDignity(planet, position.sign),;
     strength *= dignity.modifier;
   }
 
@@ -215,7 +215,7 @@ export function calculatePlanetaryStrength(
           break,
         case 'opposition':
           strength *= 0.85;
-          break,
+          break
       }
     });
   }
@@ -237,7 +237,7 @@ export function getPlanetaryElementalInfluence(
     (PLANETARY_ELEMENTAL_MAPPINGS[timeKey][
       planetKey as keyof typeof PLANETARY_ELEMENTAL_MAPPINGS.diurnal
     ] as keyof ElementalProperties) || 'Fire'
-  ),
+  )
 }
 
 /**
@@ -246,7 +246,7 @@ export function getPlanetaryElementalInfluence(
 export function calculatePlanetaryHoursInfluence(date: Date): {
   dayRuler: string,
   hourRuler: string,
-  influence: number,
+  influence: number
 } {
   const dayOfWeek = date.getDay();
   const hour = date.getHours();
@@ -285,9 +285,9 @@ export function calculatePlanetaryHoursInfluence(date: Date): {
   // Calculate combined influence
   let influence = 1.0;
   if (dayRuler === hourRuler) {
-    influence = 1.5, // Same planet rules both day and hour
+    influence = 1.5, // Same planet rules both day and hour;
   } else {
-    influence = 1.2, // Different planets
+    influence = 1.2, // Different planets;
   }
 
   return { dayRuler, hourRuler, influence };
@@ -298,7 +298,7 @@ export function calculatePlanetaryHoursInfluence(date: Date): {
  */
 export function calculatePlanetaryInfluences(
   planetaryPositions: { [key: string]: PlanetaryPosition },
-  isDaytime: boolean = true,,
+  isDaytime: boolean = true,,;
   currentDate?: Date,
 ): {
   alchemicalInfluences: { [key: string]: number };
@@ -345,7 +345,7 @@ export function calculatePlanetaryInfluences(
           alchemicalInfluences.Substance += mapping.Substance * strength;
 
           // Get elemental influence
-          const _element = getPlanetaryElementalInfluence(planet, isDaytime),
+          const _element = getPlanetaryElementalInfluence(planet, isDaytime),;
           elementalInfluences[_element] += strength;
 
           // Add to dominant planets list
@@ -391,7 +391,7 @@ export function getPlanetaryCulinaryRecommendations(
   ingredients: string[],
   cookingMethods: string[],
   flavors: string[],
-  timing: string[],
+  timing: string[]
 } {
   const recommendations = {
     ingredients: [] as string[],
@@ -449,7 +449,7 @@ export function getPlanetaryCulinaryRecommendations(
         recommendations.cookingMethods.push('slow roasting', 'preservation');
         recommendations.flavors.push('earthy', 'structured', 'grounding');
         recommendations.timing.push('late evening', 'discipline hours'),
-        break,
+        break
     }
   });
 

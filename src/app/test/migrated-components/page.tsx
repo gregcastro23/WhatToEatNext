@@ -11,11 +11,11 @@ const ElementalRecommendations = () => (;
 const ElementalRecommendationsMigrated = ElementalRecommendations;
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
-const Tabs = ({ children, defaultValue, className }: any) => (,
+const Tabs = ({ children, defaultValue, className }: any) => (,;
   <div className={className}>{children}</div>
 );
 // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
-const TabsList = ({ children, className }: any) => (,
+const TabsList = ({ children, className }: any) => (,;
   <div className={`flex gap-2 ${className || ''}`}>{children}</div>
 );
 // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility

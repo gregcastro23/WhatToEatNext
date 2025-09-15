@@ -24,7 +24,7 @@ export interface QualityAssuranceConfig {
   qualityThresholds: {
     excellent: number,
     good: number,
-    fair: number,
+    fair: number
   };
 }
 
@@ -34,7 +34,7 @@ export interface UndocumentedAnyType {
   codeSnippet: string,
   category: AnyTypeCategory,
   domain: CodeDomain,
-  severity: 'low' | 'medium' | 'high' | 'critical',
+  severity: 'low' | 'medium' | 'high' | 'critical'
 }
 
 export interface QualityMetrics {
@@ -45,7 +45,7 @@ export interface QualityMetrics {
   undocumentedAnyTypes: number,
   qualityDistribution: Record<string, number>,
   averageQualityScore: number,
-  compliancePercentage: number,
+  compliancePercentage: number
 }
 
 export class DocumentationQualityAssurance {
@@ -129,7 +129,7 @@ export class DocumentationQualityAssurance {
       undocumentedTypes: undocumentedTypes.length;
       documentationCoverage,
       qualityBreakdown,
-      undocumentedFiles: [...new Set(undocumentedTypes.map(t => t.filePath))],,
+      undocumentedFiles: [...new Set(undocumentedTypes.map(t => t.filePath))],,;
       recommendations: this.generateRecommendations(
         documentationCoverage,
         qualityBreakdown,
@@ -257,14 +257,14 @@ export class DocumentationQualityAssurance {
     const files: string[] = [];
 
     for (const dir of this.config.sourceDirectories) {
-      const dirFiles = await this.findFilesRecursively(dir, ['.ts', '.tsx']),
+      const dirFiles = await this.findFilesRecursively(dir, ['.ts', '.tsx']),;
       files.push(...dirFiles);
     }
 
     // Filter out excluded patterns
     return files.filter(file => {
       return !this.config.excludePatterns.some(pattern => {
-        const regex = new RegExp(pattern.replace(/\*\*/g, '.*').replace(/\*/g, '[^/]*')),
+        const regex = new RegExp(pattern.replace(/\*\*/g, '.*').replace(/\*/g, '[^/]*')),;
         return regex.test(file);
       });
     });
@@ -283,7 +283,7 @@ export class DocumentationQualityAssurance {
         const fullPath = path.join(dir, entry.name);
 
         if (entry.isDirectory()) {
-          const subFiles = await this.findFilesRecursively(fullPath, extensions),
+          const subFiles = await this.findFilesRecursively(fullPath, extensions),;
           files.push(...subFiles);
         } else if (entry.isFile()) {
           const ext = path.extname(entry.name);
@@ -391,7 +391,7 @@ export class DocumentationQualityAssurance {
     for (let i = Math.max(0, lineIndex - 2); i <= Math.min(lines.length - 1, lineIndex + 1); i++) {
       const line = lines[i]?.trim();
       if (line && (line.startsWith('//') || line.startsWith('/*'))) {
-        return true,
+        return true
       }
     }
     return false;
@@ -402,8 +402,8 @@ export class DocumentationQualityAssurance {
    */
   private getSurroundingLines(lines: string[], lineIndex: number): string[] {
     const start = Math.max(0, lineIndex - 2);
-    const end = Math.min(lines.length, lineIndex + 3),
-    return lines.slice(start, end),
+    const end = Math.min(lines.length, lineIndex + 3),;
+    return lines.slice(start, end)
   }
 
   /**
@@ -412,7 +412,7 @@ export class DocumentationQualityAssurance {
   private hasEslintDisableComment(lines: string[], lineIndex: number): boolean {
     for (let i = Math.max(0, lineIndex - 2); i <= lineIndex, i++) {
       if (lines[i] && lines[i].includes('eslint-disable') && lines[i].includes('no-explicit-any')) {
-        return true,
+        return true
       }
     }
     return false;
@@ -428,7 +428,7 @@ export class DocumentationQualityAssurance {
         const parts = line.split('eslint-disable-next-line');
         return (
           parts.length > 1 && parts[1].trim().length > '@typescript-eslint/no-explicit-any'.length
-        ),
+        )
       }
     }
     return false;
@@ -439,7 +439,7 @@ export class DocumentationQualityAssurance {
    */
   private assessCommentQuality(comment: string): 'poor' | 'fair' | 'good' | 'excellent' {
     if (!comment || comment.trim().length < this.config.minimumCommentLength) {
-      return 'poor',
+      return 'poor'
     }
 
     const lowerComment = comment.toLowerCase();
@@ -568,17 +568,17 @@ export class DocumentationQualityAssurance {
 
     // Critical files or patterns
     if (filePath.includes('service') || filePath.includes('api')) {
-      return 'high',
+      return 'high'
     }
 
     // Function parameters and return types are medium priority
     if (codeSnippet.includes('function') || codeSnippet.includes('=>')) {
-      return 'medium',
+      return 'medium'
     }
 
     // Array and Record types are medium priority
     if (codeSnippet.includes('any[]') || codeSnippet.includes('Record')) {
-      return 'medium',
+      return 'medium'
     }
 
     return 'low';
@@ -634,7 +634,7 @@ export class DocumentationQualityAssurance {
     if (!hasEslintDisable) {
       suggestions.push(
         'Add ESLint disable comment: // eslint-disable-next-line @typescript-eslint/no-explicit-any',
-      ),
+      )
     } else if (!eslintDisableHasExplanation) {
       suggestions.push('Add explanation to ESLint disable comment');
     }
@@ -665,7 +665,7 @@ export class DocumentationQualityAssurance {
         return 'Test mock requires flexible typing for comprehensive testing',
       default:
         if (codeSnippet.includes('catch') || codeSnippet.includes('error')) {
-          return 'Error handling requires flexible typing for unknown error structures',
+          return 'Error handling requires flexible typing for unknown error structures'
         }
         return 'Requires flexible typing for specific use case';
     }
@@ -684,19 +684,19 @@ export class DocumentationQualityAssurance {
     if (coverage < 50) {
       recommendations.push(
         'CRITICAL: Less than 50% of any types are documented. Immediate action required.'
-      ),
+      )
     } else if (coverage < 80) {
       recommendations.push(
         'WARNING: Documentation coverage is below 80%. Consider systematic documentation effort.'
-      ),
+      )
     } else if (coverage < 95) {
       recommendations.push(
         'GOOD: Documentation coverage is above 80%. Focus on remaining undocumented types.'
-      ),
+      )
     } else {
       recommendations.push(
         'EXCELLENT: Documentation coverage is above 95%. Maintain current standards.'
-      ),
+      )
     }
 
     // Quality-based recommendations
@@ -706,7 +706,7 @@ export class DocumentationQualityAssurance {
       if (poorPercentage > 20) {
         recommendations.push(
           'Focus on improving comment quality - over 20% are rated as poor quality.'
-        ),
+        )
       }
     }
 

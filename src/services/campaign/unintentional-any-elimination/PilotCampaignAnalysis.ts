@@ -53,30 +53,30 @@ export class PilotCampaignAnalysis {
    * Execute comprehensive analysis-only pilot phase
    */
   async executePilotAnalysis(): Promise<PilotAnalysisResults> {
-    // console.log('🚀 Starting Pilot Campaign Analysis Phase');
-    // console.log(`Configuration: ${JSON.stringify(this.config, null, 2)}`);
+    // // console.log('🚀 Starting Pilot Campaign Analysis Phase');
+    // // console.log(`Configuration: ${JSON.stringify(this.config, null, 2)}`);
 
     const startTime = Date.now();
 
     try {
       // Step 1: Execute comprehensive analysis of current codebase
-      // console.log('\n📊 Step 1: Executing comprehensive codebase analysis...');
+      // // console.log('\n📊 Step 1: Executing comprehensive codebase analysis...');
       const codebaseAnalysis = await this.executeCodebaseAnalysis();
 
       // Step 2: Validate classification accuracy through manual review
-      // console.log('\n🔍 Step 2: Validating classification accuracy...');
+      // // console.log('\n🔍 Step 2: Validating classification accuracy...');
       const accuracyValidation = await this.validateClassificationAccuracy();
 
       // Step 3: Generate baseline metrics and success rate predictions
-      // console.log('\n📈 Step 3: Generating baseline metrics and predictions...');
+      // // console.log('\n📈 Step 3: Generating baseline metrics and predictions...');
       const baselineMetrics = await this.generateBaselineMetrics();
 
       // Step 4: Tune classification algorithms based on pilot results
-      // console.log('\n⚙️ Step 4: Tuning classification algorithms...');
+      // // console.log('\n⚙️ Step 4: Tuning classification algorithms...');
       const tuningResults = await this.tuneClassificationAlgorithms(accuracyValidation);
 
       // Step 5: Generate comprehensive pilot report
-      // console.log('\n📋 Step 5: Generating comprehensive pilot report...');
+      // // console.log('\n📋 Step 5: Generating comprehensive pilot report...');
       const pilotReport = await this.generatePilotReport({
         codebaseAnalysis,
         accuracyValidation,
@@ -101,14 +101,14 @@ export class PilotCampaignAnalysis {
       // Save results
       await this.savePilotResults(results);
 
-      // console.log(
+      // // console.log(
         `\n✅ Pilot Campaign Analysis completed successfully in ${(executionTime / 1000).toFixed(2)}s`,
       );
-      // console.log(
+      // // console.log(
         `📊 Total any types analyzed: ${codebaseAnalysis.domainDistribution.totalAnyTypes}`,
       );
-      // console.log(`🎯 Classification accuracy: ${accuracyValidation.overallAccuracy.toFixed(1)}%`);
-      // console.log(`📈 Predicted success rate: ${baselineMetrics.projectedSuccessRate.toFixed(1)}%`);
+      // // console.log(`🎯 Classification accuracy: ${accuracyValidation.overallAccuracy.toFixed(1)}%`);
+      // // console.log(`📈 Predicted success rate: ${baselineMetrics.projectedSuccessRate.toFixed(1)}%`);
 
       return results;
     } catch (error) {
@@ -133,11 +133,11 @@ export class PilotCampaignAnalysis {
    * Execute comprehensive analysis of current codebase
    */
   private async executeCodebaseAnalysis(): Promise<AnalysisReport> {
-    // console.log('Analyzing current codebase for any type distribution...');
+    // // console.log('Analyzing current codebase for any type distribution...');
 
     // Get current TypeScript error count for baseline
     const currentErrors = await this.getCurrentTypeScriptErrorCount();
-    // console.log(`Current TypeScript errors: ${currentErrors}`);
+    // // console.log(`Current TypeScript errors: ${currentErrors}`);
 
     // Generate comprehensive analysis report
     const analysisReport = await this.analysisTools.generateComprehensiveReport();
@@ -159,7 +159,7 @@ export class PilotCampaignAnalysis {
       }
     };
 
-    // console.log(
+    // // console.log(
       `✅ Codebase analysis complete: ${analysisReport.summary.totalAnyTypes} any types found`,
     );
     return enhancedReport;
@@ -169,7 +169,7 @@ export class PilotCampaignAnalysis {
    * Validate classification accuracy through manual review simulation
    */
   private async validateClassificationAccuracy(): Promise<ClassificationAccuracyReport> {
-    // console.log('Validating classification accuracy with enhanced testing...');
+    // // console.log('Validating classification accuracy with enhanced testing...');
 
     // Generate base accuracy report
     const baseAccuracyReport = await this.analysisTools.generateClassificationAccuracyReport();
@@ -187,7 +187,7 @@ export class PilotCampaignAnalysis {
       }
     };
 
-    // console.log(
+    // // console.log(
       `✅ Classification accuracy validation complete: ${enhancedReport.overallAccuracy.toFixed(1)}% accuracy`,
     );
     return enhancedReport;
@@ -197,7 +197,7 @@ export class PilotCampaignAnalysis {
    * Generate baseline metrics and success rate predictions
    */
   private async generateBaselineMetrics(): Promise<SuccessRatePrediction> {
-    // console.log('Generating baseline metrics and success rate predictions...');
+    // // console.log('Generating baseline metrics and success rate predictions...');
 
     const successRateAnalysis = await this.analysisTools.generateSuccessRateAnalysis();
 
@@ -217,7 +217,7 @@ export class PilotCampaignAnalysis {
       lastUpdated: new Date()
     };
 
-    // console.log(
+    // // console.log(
       `✅ Baseline metrics generated: ${baselineMetrics.projectedSuccessRate.toFixed(1)}% projected success rate`,
     );
     return baselineMetrics;
@@ -230,14 +230,14 @@ export class PilotCampaignAnalysis {
     accuracyReport: ClassificationAccuracyReport,
   ): Promise<ClassificationTuningResults> {
     if (!this.config.enableTuning) {
-      // console.log('⏭️ Classification tuning disabled, skipping...'),
+      // // console.log('⏭️ Classification tuning disabled, skipping...'),
       return {
         tuningPerformed: false,
         reason: 'Tuning disabled in configuration'
       };
     }
 
-    // console.log('Tuning classification algorithms based on pilot results...');
+    // // console.log('Tuning classification algorithms based on pilot results...');
 
     const tuningResults: ClassificationTuningResults = {
       tuningPerformed: true,
@@ -258,11 +258,11 @@ export class PilotCampaignAnalysis {
         .filter(cat => cat.accuracy < 80);
         .sort((a, b) => a.accuracy - b.accuracy),
 
-      // console.log(`Found ${lowAccuracyCategories.length} categories needing tuning`);
+      // // console.log(`Found ${lowAccuracyCategories.length} categories needing tuning`);
 
       // Apply tuning adjustments
       for (const category of lowAccuracyCategories) {
-        const adjustment = await this.tuneCategory(category.category, category.accuracy),
+        const adjustment = await this.tuneCategory(category.category, category.accuracy),;
         if (adjustment) {
           tuningResults.adjustmentsMade.push(adjustment);
         }
@@ -270,7 +270,7 @@ export class PilotCampaignAnalysis {
 
       // Re-validate accuracy after tuning
       if (tuningResults.adjustmentsMade.length > 0) {
-        // console.log('Re-validating accuracy after tuning...');
+        // // console.log('Re-validating accuracy after tuning...');
         const postTuningAccuracy = await this.validateClassificationAccuracy();
         tuningResults.tunedAccuracy = postTuningAccuracy.overallAccuracy;
         tuningResults.improvementPercentage =
@@ -281,13 +281,13 @@ export class PilotCampaignAnalysis {
         tuningResults.categoryImprovements = this.calculateCategoryImprovements(;
           accuracyReport.categoryAccuracy;
           postTuningAccuracy.categoryAccuracy
-        ),
+        )
       } else {
         tuningResults.tunedAccuracy = tuningResults.originalAccuracy;
         tuningResults.reason = 'No tuning adjustments were necessary';
       }
 
-      // console.log(
+      // // console.log(
         `✅ Classification tuning complete: ${tuningResults.improvementPercentage.toFixed(1)}% improvement`,
       );
     } catch (error) {
@@ -306,9 +306,9 @@ export class PilotCampaignAnalysis {
     codebaseAnalysis: AnalysisReport,
     accuracyValidation: ClassificationAccuracyReport,
     baselineMetrics: SuccessRatePrediction,
-    tuningResults: ClassificationTuningResults,
+    tuningResults: ClassificationTuningResults
   }): Promise<AnalysisReport> {
-    // console.log('Generating comprehensive pilot report...');
+    // // console.log('Generating comprehensive pilot report...');
 
     const pilotReport: AnalysisReport = {
       ...data.codebaseAnalysis;
@@ -324,7 +324,7 @@ export class PilotCampaignAnalysis {
       }
     };
 
-    // console.log('✅ Comprehensive pilot report generated');
+    // // console.log('✅ Comprehensive pilot report generated');
     return pilotReport;
   }
 
@@ -342,7 +342,7 @@ export class PilotCampaignAnalysis {
       return parseInt(output.trim()) || 0;
     } catch (error) {
       console.warn('Could not get TypeScript error count:', error),
-      return -1,
+      return -1
     }
   }
 
@@ -354,14 +354,14 @@ export class PilotCampaignAnalysis {
       });
       return Math.min(parseInt(output.trim()) || 0, this.config.maxFilesToAnalyze);
     } catch (error) {
-      return 0,
+      return 0
     }
   }
 
   private async calculateAnalysisCoverage(): Promise<number> {
     const totalFiles = await this.getTotalTypeScriptFiles();
     const analyzedFiles = await this.getActualFilesAnalyzed();
-    return totalFiles > 0 ? (analyzedFiles / totalFiles) * 100 : 0,
+    return totalFiles > 0 ? (analyzedFiles / totalFiles) * 100 : 0
   }
 
   private async getTotalTypeScriptFiles(): Promise<number> {
@@ -372,7 +372,7 @@ export class PilotCampaignAnalysis {
       });
       return parseInt(output.trim()) || 0;
     } catch (error) {
-      return 0,
+      return 0
     }
   }
 
@@ -387,10 +387,10 @@ export class PilotCampaignAnalysis {
         .filter(d => d.count > 0);
         .sort((a, b) => a.count - b.count)
         .slice(0, 3),
-      testFileImpact: distribution.byDomain.find(d => d.domain === CodeDomain.TEST)?.count || 0,,
+      testFileImpact: distribution.byDomain.find(d => d.domain === CodeDomain.TEST)?.count || 0,,;
       productionCodeImpact:
         distribution.totalAnyTypes -
-        (distribution.byDomain.find(d => d.domain === CodeDomain.TEST)?.count || 0),,
+        (distribution.byDomain.find(d => d.domain === CodeDomain.TEST)?.count || 0),,;
     };
   }
 
@@ -475,7 +475,7 @@ export class PilotCampaignAnalysis {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
   private async calculateSuccessRatePredictions(analysis: SuccessRateAnalysis): Promise<any> {
     const currentRate = analysis.currentSuccessRate;
-    const targetRate = 85, // Target 85% success rate
+    const targetRate = 85, // Target 85% success rate;
 
     // Calculate projected success rate based on category analysis
     const weightedSuccessRate = this.calculateWeightedSuccessRate(analysis.categorySuccessRates);
@@ -515,14 +515,14 @@ export class PilotCampaignAnalysis {
       0,
     ),
 
-    return weightedSum / totalSamples,
+    return weightedSum / totalSamples
   }
 
   private calculateTimeToTarget(currentRate: number, targetRate: number): string {
     if (currentRate >= targetRate) return 'Target already achieved';
 
     const rateGap = targetRate - currentRate;
-    const estimatedWeeks = Math.ceil(rateGap / 2), // Assume 2% improvement per week
+    const estimatedWeeks = Math.ceil(rateGap / 2), // Assume 2% improvement per week;
 
     return `${estimatedWeeks} weeks`;
   }
@@ -563,7 +563,7 @@ export class PilotCampaignAnalysis {
     if (successRate > 85) return 25;
     if (successRate > 75) return 20;
     if (successRate > 65) return 15,
-    return 10,
+    return 10
   }
 
   private estimateTotalReductions(analysis: SuccessRateAnalysis): number {
@@ -653,7 +653,7 @@ export class PilotCampaignAnalysis {
             ]
           : [],
       recommendations: this.generateReadinessRecommendations(overallReadiness)
-    },
+    }
   }
 
   private generateReadinessRecommendations(readiness: number): string[] {
@@ -662,19 +662,19 @@ export class PilotCampaignAnalysis {
         'System is ready for conservative replacement pilot',
         'Proceed with small batch sizes initially',
         'Monitor success rates closely'
-      ],
+      ]
     } else if (readiness > 70) {
       return [
         'Additional tuning recommended before pilot',
         'Consider manual review for edge cases',
         'Use very conservative batch sizes'
-      ],
+      ]
     } else {
       return [
         'System not ready for replacement pilot',
         'Focus on improving classification accuracy',
         'Consider additional training data'
-      ],
+      ]
     }
   }
 
@@ -705,7 +705,7 @@ export class PilotCampaignAnalysis {
         'Monitor build stability continuously',
         'Maintain detailed logs for analysis'
       ]
-    },
+    }
   }
 
   private async generateDetailedRecommendations(data: unknown): Promise<string[]> {
@@ -715,7 +715,7 @@ export class PilotCampaignAnalysis {
     if ((data as any)?.(accuracyValidation as any).overallAccuracy < 80) {
       recommendations.push(
         'Improve classification accuracy before proceeding to replacement phase',
-      ),
+      )
     }
 
     // Based on success rate
@@ -730,7 +730,7 @@ export class PilotCampaignAnalysis {
     ) {
       recommendations.push(
         'Tuning showed significant improvement - proceed with enhanced algorithms',
-      ),
+      )
     }
 
     // General recommendations
@@ -770,7 +770,7 @@ export class PilotCampaignAnalysis {
     if ((report as any)?.pilotPhase?.(readinessAssessment as any)?.overallReadiness > 80) {
       nextSteps.push('Proceed to Task 12.2: Execute conservative replacement pilot');
       nextSteps.push('Configure safety protocols and monitoring systems');
-      nextSteps.push('Start with high-confidence, low-risk categories'),
+      nextSteps.push('Start with high-confidence, low-risk categories')
     } else {
       nextSteps.push('Address classification accuracy issues identified in pilot');
       nextSteps.push('Perform additional algorithm tuning');
@@ -797,8 +797,8 @@ export class PilotCampaignAnalysis {
 
       // Save detailed report if enabled
       if (this.config.generateDetailedReports && results.pilotReport) {
-        const reportPath = path.join(outputDir, 'detailed-pilot-report.json'),
-        fs.writeFileSync(reportPath, JSON.stringify(results.pilotReport, null, 2)),
+        const reportPath = path.join(outputDir, 'detailed-pilot-report.json'),;
+        fs.writeFileSync(reportPath, JSON.stringify(results.pilotReport, null, 2))
       }
 
       // Save summary report
@@ -806,9 +806,9 @@ export class PilotCampaignAnalysis {
       const summary = this.generateMarkdownSummary(results);
       fs.writeFileSync(summaryPath, summary);
 
-      // console.log(`📁 Pilot results saved to: ${outputDir}`);
+      // // console.log(`📁 Pilot results saved to: ${outputDir}`);
     } catch (error) {
-      console.warn('⚠️ Could not save pilot results:', error),
+      console.warn('⚠️ Could not save pilot results:', error)
     }
   }
 

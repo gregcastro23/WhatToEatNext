@@ -66,7 +66,7 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
       currentZodiacSign?: any,
       lunarPhase?: LunarPhase,
       dietaryPreferences?: string[],
-      ingredients?: string[],
+      ingredients?: string[]
     } = {};
     limit: number = 10
   ): Promise<ScoredRecipe[]> {
@@ -88,7 +88,7 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
       return recipes as unknown as ScoredRecipe[];
     } catch (error) {
       logger.error('Error getting recommended recipes', error),
-      return [],
+      return []
     }
   }
 
@@ -105,7 +105,7 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
   ): Promise<Recipe[]> {
     try {
       if (!state.planetaryPositions) {
-        return [],
+        return []
       }
 
       // Create a planetary influences object from the positions
@@ -140,7 +140,7 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
       return recipes as unknown as Recipe[];
     } catch (error) {
       logger.error('Error getting recipes for planetary alignment', error),
-      return [],
+      return []
     }
   }
 
@@ -161,14 +161,14 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
         isVegetarian?: boolean,
         isVegan?: boolean,
         isGlutenFree?: boolean,
-        isDAiryFree?: boolean,
+        isDAiryFree?: boolean
       },
-      maxResults?: number,
+      maxResults?: number
     } = {}
   ): UnifiedIngredient[] {
     // ✅ Pattern MM-1: Safe type conversion with runtime validation
     const stateRecord = this.convertSystemStateToRecord(state);
-    return enhancedIngredientSystem.getRecommendedIngredients(stateRecord as unknown, options),
+    return enhancedIngredientSystem.getRecommendedIngredients(stateRecord as unknown, options)
   }
 
   /**
@@ -179,7 +179,7 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
    * @returns Array of complementary ingredients
    */
   findComplementaryIngredients(ingredients: string[], maxResults: number = 5): UnifiedIngredient[] {
-    return enhancedIngredientSystem.findComplementaryIngredients(ingredients, maxResults),
+    return enhancedIngredientSystem.findComplementaryIngredients(ingredients, maxResults)
   }
 
   /**
@@ -197,8 +197,8 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
         isVegetarian?: boolean,
         isVegan?: boolean,
         isGlutenFree?: boolean,
-        isDAiryFree?: boolean,
-      },
+        isDAiryFree?: boolean
+      }
     } = {}
   ): Record<string, UnifiedIngredient[]> {
     return enhancedIngredientSystem.getSeasonalIngredients(season, {

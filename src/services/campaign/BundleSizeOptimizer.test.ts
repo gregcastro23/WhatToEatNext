@@ -79,7 +79,7 @@ describe('BundleSizeOptimizer', () => {
     it('should handle bundle analysis errors gracefully', async () => {
       mockFs.existsSync.mockReturnValue(false);
       mockExecSync.mockImplementation(() => {
-        throw new Error('Analysis failed'),
+        throw new Error('Analysis failed')
       });
 
       const analysis: any = await bundleOptimizer.analyzeBundleSize();
@@ -107,12 +107,12 @@ describe('BundleSizeOptimizer', () => {
       expect(validation.potentialLazyComponents).toHaveLength(2);
       expect(validation.dataFetchingOptimizations).toContain(
         'Consider using SWR or React Query for data fetching optimization',
-      ),
+      )
     });
 
     it('should handle lazy loading validation errors', async () => {
       mockExecSync.mockImplementation(() => {
-        throw new Error('Validation failed'),
+        throw new Error('Validation failed')
       });
 
       const validation: any = await bundleOptimizer.validateLazyLoading();
@@ -219,7 +219,7 @@ describe('BundleSizeOptimizer', () => {
 
       expect(report.analysis.totalSize).toBe(513); // Math.round(350000 / 1024 * 1.5) = 513
       expect(report.targetCompliance).toBe(false);
-      expect(report.recommendations[0]).toContain('Reduce bundle size by 93kB'), // 513 - 420 = 93,
+      expect(report.recommendations[0]).toContain('Reduce bundle size by 93kB'), // 513 - 420 = 93,;
     });
   });
 
@@ -328,7 +328,7 @@ describe('BundleSizeOptimizer', () => {
 
     it('should handle export errors gracefully', async () => {
       mockFs.writeFileSync.mockImplementation(() => {
-        throw new Error('Write failed'),
+        throw new Error('Write failed')
       });
 
       await expect(bundleOptimizer.exportBundleData('./test-bundle-data.json')).rejects.toThrow(

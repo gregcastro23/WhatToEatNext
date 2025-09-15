@@ -18,7 +18,7 @@ interface PreCampaignAnalysis {
   testFiles: number,
   estimatedUnintentional: number,
   targetReduction: number,
-  confidenceScore: number,
+  confidenceScore: number
 }
 
 interface DomainAnalysis {
@@ -26,7 +26,7 @@ interface DomainAnalysis {
   fileCount: number,
   anyTypeCount: number,
   riskLevel: 'low' | 'medium' | 'high',
-  recommendedStrategy: string,
+  recommendedStrategy: string
 }
 
 interface CampaignExecution {
@@ -34,7 +34,7 @@ interface CampaignExecution {
   description: string,
   targetFiles: number,
   expectedReduction: number,
-  safetyLevel: 'maximum' | 'high' | 'medium',
+  safetyLevel: 'maximum' | 'high' | 'medium'
 }
 
 class FullCampaignExecutor {
@@ -92,7 +92,7 @@ class FullCampaignExecutor {
       success: '✅'
     }[level];
 
-    // console.log(`[${timestamp}] ${prefix} ${message}`);
+    // // console.log(`[${timestamp}] ${prefix} ${message}`);
   }
 
   private getCurrentExplicitAnyCount(): number {
@@ -118,7 +118,7 @@ class FullCampaignExecutor {
       return true;
     } catch (error) {
       this.log('❌ TypeScript build validation failed', 'error'),
-      return false,
+      return false
     }
   }
 
@@ -148,9 +148,9 @@ class FullCampaignExecutor {
               currentFile.includes('.test.') ||
               currentFile.includes('.spec.')
             ) {
-              testFiles++,
+              testFiles++
             } else {
-              nonTestFiles++,
+              nonTestFiles++
             }
           }
         }
@@ -324,29 +324,29 @@ function processAdvancedReplacements() {
           // Validate
           try {
             execSync('yarn tsc --noEmit --skipLibCheck', { stdio: 'pipe' });
-            // console.log(\`✅ Applied \${fileFixes} advanced fixes to \${filePath}\`);
+            // // console.log(\`✅ Applied \${fileFixes} advanced fixes to \${filePath}\`);
             totalFixes += fileFixes;
             fs.unlinkSync(backupPath); // Remove backup on success
           } catch (error) {
             // Rollback on failure
             fs.writeFileSync(filePath, originalContent),
             fs.unlinkSync(backupPath);
-            // console.log(\`❌ Rolled back \${filePath} due to compilation error\`);
+            // // console.log(\`❌ Rolled back \${filePath} due to compilation error\`);
           }
         }
       } catch (error) {
-        // console.log(\`Error processing \${filePath}: \${error.message}\`);
+        // // console.log(\`Error processing \${filePath}: \${error.message}\`);
       }
     }
 
     return totalFixes;
   } catch (error) {
-    // console.log(\`Advanced replacement error: \${error.message}\`);
+    // // console.log(\`Advanced replacement error: \${error.message}\`);
     return 0;
   }
 }
 
-// console.log(processAdvancedReplacements());
+// // console.log(processAdvancedReplacements());
 `;
 
         fs.writeFileSync('temp-advanced-replacements.js', advancedScript);
@@ -402,7 +402,7 @@ function documentIntentionalAny() {
     const fileGroups = {};
     anyLocations.forEach(loc => {
       if (!fileGroups[loc.file]) fileGroups[loc.file] = [];
-      fileGroups[loc.file].push(loc),
+      fileGroups[loc.file].push(loc)
     });
 
     // Process each file
@@ -450,22 +450,22 @@ function documentIntentionalAny() {
 
         if (addedComments > 0) {
           fs.writeFileSync(filePath, lines.join('\\n')),
-          // console.log(\`📝 Added \${addedComments} documentation comments to \${filePath}\`);
+          // // console.log(\`📝 Added \${addedComments} documentation comments to \${filePath}\`);
           totalDocumented += addedComments;
         }
       } catch (error) {
-        // console.log(\`Error documenting \${filePath}: \${error.message}\`);
+        // // console.log(\`Error documenting \${filePath}: \${error.message}\`);
       }
     }
 
     return totalDocumented;
   } catch (error) {
-    // console.log(\`Documentation error: \${error.message}\`);
+    // // console.log(\`Documentation error: \${error.message}\`);
     return 0;
   }
 }
 
-// console.log(documentIntentionalAny());
+// // console.log(documentIntentionalAny());
 `;
 
         fs.writeFileSync('temp-documentation.js', documentationScript);
@@ -514,7 +514,7 @@ function documentIntentionalAny() {
 
     // Initial build validation
     if (!this.validateBuild()) {
-      throw new Error('Initial build validation failed - cannot proceed with campaign'),
+      throw new Error('Initial build validation failed - cannot proceed with campaign')
     }
 
     let totalReductions = 0;
@@ -528,7 +528,7 @@ function documentIntentionalAny() {
 
       // Validate after Phase 1
       if (!this.validateBuild()) {
-        throw new Error('Build validation failed after Phase 1'),
+        throw new Error('Build validation failed after Phase 1')
       }
 
       // Phase 2: Advanced replacements
@@ -538,7 +538,7 @@ function documentIntentionalAny() {
 
       // Validate after Phase 2
       if (!this.validateBuild()) {
-        throw new Error('Build validation failed after Phase 2'),
+        throw new Error('Build validation failed after Phase 2')
       }
 
       // Phase 3: Documentation
@@ -548,7 +548,7 @@ function documentIntentionalAny() {
 
       // Final validation
       if (!this.validateBuild()) {
-        throw new Error('Build validation failed after documentation phase'),
+        throw new Error('Build validation failed after documentation phase')
       }
 
       // Generate final report
@@ -741,7 +741,7 @@ if (require.main === module) {
   executor
     .executeFullCampaign()
     .then(() => {
-      // console.log('\n🎉 Full Unintentional Any Elimination Campaign completed successfully!');
+      // // console.log('\n🎉 Full Unintentional Any Elimination Campaign completed successfully!');
       process.exit(0);
     })
     .catch(error => {

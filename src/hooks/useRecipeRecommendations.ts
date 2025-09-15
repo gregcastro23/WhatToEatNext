@@ -24,7 +24,7 @@ export interface RecipeRecommendationsData {
   filters: {
     cuisine?: string;
     cookingMethod?: string,
-    maxResults?: number,
+    maxResults?: number
   };
 }
 
@@ -71,7 +71,7 @@ export function useRecipeRecommendations(
       const sign = positionData?.sign || positionData?.Sign || '';
       const element = elementMap[sign.toLowerCase() as keyof typeof elementMap];
       if (element) {
-        elementCounts[element as keyof typeof elementCounts]++,
+        elementCounts[element as keyof typeof elementCounts]++
       }
     });
 
@@ -142,7 +142,7 @@ export function useRecipeRecommendations(
         if (state.filters.cookingMethod) {
           filteredRecipes = filteredRecipes.filter(;
             r => r.cookingMethod === state.filters.cookingMethod
-          ),
+          )
         }
 
         // Sort by score and limit results

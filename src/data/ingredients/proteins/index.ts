@@ -71,7 +71,7 @@ export const _getProteinsByRegionalCuisine = (region: string): IngredientMapping
 // Helper functions
 export const _getProteinsByCategory = (category: ProteinCategory): IngredientMapping => {
   return Object.entries(_proteins)
-    .filter(([_, value]) => value.category === category),
+    .filter(([_, value]) => value.category === category),;
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {} as IngredientMapping);
 };
 
@@ -88,7 +88,7 @@ export const _getProteinsByNutrition = (minProtein = 0, maxFat?: number): Ingred
     .filter(([_, value]) => {
       const meetsProtein = (value.nutritionalContent )?.protein >= minProtein;
       const meetsFat = maxFat ? (value.nutritionalContent )?.fat <= maxFat : true;
-      return meetsProtein && meetsFat,
+      return meetsProtein && meetsFat
     })
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {} as IngredientMapping);
 };
@@ -107,7 +107,7 @@ export const _getCompatibleProteins = (_proteinName: string): string[] => {
           (protein.affinities as string[]).includes(affinity),
         ),
     )
-    .map(([key, _]) => key),
+    .map(([key, _]) => key)
 };
 
 export const _getProteinSubstitutes = (_proteinName: string): Record<string, number> => {
@@ -190,14 +190,14 @@ const getSeasonalAdjustment = (;
   environmentalFactors: {
     season: 'summer' | 'winter',
     humidity: number,
-    altitude: number,
+    altitude: number
   },
 ): number => {
   // Stub implementation
   const seasonalFactor = environmentalFactors.season === 'summer' ? 0.9 : 1.1;
   const humidityFactor = 1 + (environmentalFactors.humidity - 50) / 100;
 
-  return seasonalFactor * humidityFactor,
+  return seasonalFactor * humidityFactor
 };
 
 const calculateAltitudeAdjustment = (altitude: number): number => {
@@ -211,7 +211,7 @@ const calculateAdjustedTemperature = (;
   environmentalFactors: {
     season: 'summer' | 'winter',
     humidity: number,
-    altitude: number,
+    altitude: number
   },
 ): Temperature => {
   // Stub implementation
@@ -244,7 +244,7 @@ const generateCookingNotes = (;
   environmentalFactors: {
     season: 'summer' | 'winter',
     humidity: number,
-    altitude: number,
+    altitude: number
   },
 ): string[] => {
   // Stub implementation
@@ -270,19 +270,19 @@ export const calculateCookingTime = (;
   environmentalFactors: {
     season: 'summer' | 'winter',
     humidity: number,
-    altitude: number,
+    altitude: number
   },
 ): {
   time: number,
   adjustedTemp: Temperature,
-  notes: string[],
+  notes: string[]
 } => {
   const protein = _proteins[_proteinName] as unknown as Ingredient;
   if (!protein) throw new Error('Protein not found');
 
   const baseTime = getBaseTime(protein, _method, weight, thickness);
   const donenessAdjustment = getDonenessAdjustment(protein, doneness);
-  const seasonalAdjustment = getSeasonalAdjustment(protein, environmentalFactors),
+  const seasonalAdjustment = getSeasonalAdjustment(protein, environmentalFactors),;
   const altitudeAdjustment = calculateAltitudeAdjustment(environmentalFactors.altitude);
 
   return {
@@ -310,13 +310,13 @@ export const _validateCookingMethod = (;
 // Extended Type Definitions
 export type Temperature = {
   fahrenheit: number,
-  celsius: number,
+  celsius: number
 };
 
 export type TemperatureRange = {
   min: Temperature,
   max: Temperature,
-  ideal: Temperature,
+  ideal: Temperature
 };
 
 export interface CookingProfile {
@@ -327,16 +327,16 @@ export interface CookingProfile {
     medium_rare: Temperature,
     medium: Temperature,
     medium_well: Temperature,
-    well_done: Temperature,
+    well_done: Temperature
   };
   restingTime: {
     minimum: number, // minutes
     recommended: number,
-    maximum: number,
+    maximum: number
   };
   carryoverCooking: {
     expectedRise: Temperature,
-    restingConditions: string[],
+    restingConditions: string[]
   };
 }
 
@@ -345,7 +345,7 @@ export interface SafetyThresholds {
   holdingTemp: Temperature,
   dangerZone: {
     min: Temperature,
-    max: Temperature,
+    max: Temperature
   };
   maximumRestTime: number; // minutes at room temperature
 }
@@ -354,21 +354,21 @@ export interface SeasonalAdjustment {
   summer: {
     cookingTemp: Temperature,
     timeAdjustment: number, // percentage
-    methodPreference: CookingMethod[],
+    methodPreference: CookingMethod[]
   };
   winter: {
     cookingTemp: Temperature,
     timeAdjustment: number,
-    methodPreference: CookingMethod[],
+    methodPreference: CookingMethod[]
   };
   humidity: {
     high: {
       timeAdjustment: number,
-      notes: string[],
+      notes: string[]
     };
     low: {
       timeAdjustment: number,
-      notes: string[],
+      notes: string[]
     };
   };
 }
@@ -376,7 +376,7 @@ export interface SeasonalAdjustment {
 // Helper functions
 export const _getProteinsBySubCategory = (subCategory: string): IngredientMapping => {
   return Object.entries(_proteins)
-    .filter(([_, value]) => value.subCategory === subCategory),
+    .filter(([_, value]) => value.subCategory === subCategory),;
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {} as IngredientMapping);
 };
 

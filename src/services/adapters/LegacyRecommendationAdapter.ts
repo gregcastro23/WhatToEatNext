@@ -84,7 +84,7 @@ export class LegacyRecommendationAdapter {
     try {
       return (await unifiedRecommendationService.getRecommendedIngredients(
         criteria,
-      )) as unknown as RecommendationResult<UnifiedIngredient>,
+      )) as unknown as RecommendationResult<UnifiedIngredient>
     } catch (error) {
       logger.error('Error in getRecommendedIngredients:', error),
       // Return minimal result
@@ -148,7 +148,7 @@ export class LegacyRecommendationAdapter {
     target: ElementalProperties,
   ): number {
     try {
-      return unifiedRecommendationService.calculateElementalCompatibility(source, target),
+      return unifiedRecommendationService.calculateElementalCompatibility(source, target)
     } catch (error) {
       logger.error('Error in calculateElementalCompatibility:', error);
       // Simple fallback calculation
@@ -158,7 +158,7 @@ export class LegacyRecommendationAdapter {
           Math.pow(source.Earth - target.Earth, 2) +
           Math.pow(source.Air - target.Air, 2),
       );
-      return Math.max(0, 1 - euclideanDistance),
+      return Math.max(0, 1 - euclideanDistance)
     }
   }
 
@@ -175,7 +175,7 @@ export class LegacyRecommendationAdapter {
         elementalProperties,
         type,
         limit,
-      ),
+      )
     } catch (error) {
       logger.error(`Error in getRecommendationsForElements for type '${type}':`, error);
       // Return minimal result
@@ -202,7 +202,7 @@ export class LegacyRecommendationAdapter {
         planetaryPositions,
         type,
         limit,
-      ),
+      )
     } catch (error) {
       logger.error(`Error in getRecommendationsForPlanetaryAlignment for type '${type}':`, error);
       // Return minimal result
@@ -229,7 +229,7 @@ export class LegacyRecommendationAdapter {
         planetaryPositions as unknown,
         ingredients,
         cookingMethods as unknown,
-      ),
+      )
     } catch (error) {
       logger.error('Error in generateAlchemicalRecommendations:', error),
       // Return minimal result with default values
@@ -259,7 +259,7 @@ export class LegacyRecommendationAdapter {
       return alchemicalRecommendationService.getRecipeRecommendations(
         recipe as unknown,
         planetaryPositions,
-      ),
+      )
     } catch (error) {
       logger.error(`Error in getRecipeRecommendations for recipe '${recipe.name}':`, error);
       // Return minimal result with default values

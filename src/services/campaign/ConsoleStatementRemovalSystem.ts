@@ -24,7 +24,7 @@ export interface ConsoleRemovalConfig {
   enableGitStash: boolean,
   buildValidation: boolean,
   batchSize: number,
-  selectiveRemoval: boolean,
+  selectiveRemoval: boolean
 }
 
 export interface ConsoleRemovalResult {
@@ -35,7 +35,7 @@ export interface ConsoleRemovalResult {
   buildTime: number,
   errors: string[],
   warnings: string[],
-  preservedFiles: string[],
+  preservedFiles: string[]
 }
 
 export interface BatchRemovalResult {
@@ -46,7 +46,7 @@ export interface BatchRemovalResult {
   totalConsoleStatementsProcessed: number,
   averageBuildTime: number,
   errors: string[],
-  preservedCriticalStatements: number,
+  preservedCriticalStatements: number
 }
 
 export interface ConsoleStatement {
@@ -57,7 +57,7 @@ export interface ConsoleStatement {
   content: string,
   context: string,
   isCritical: boolean,
-  shouldPreserve: boolean,
+  shouldPreserve: boolean
 }
 
 export class ConsoleStatementRemovalSystem {
@@ -66,8 +66,8 @@ export class ConsoleStatementRemovalSystem {
   private config: ConsoleRemovalConfig,
 
   constructor(config: Partial<ConsoleRemovalConfig> = {}) {
-    this.scriptPath = path.join(process.cwd(), 'scripts/lint-fixes/fix-console-statements-only.js'),
-    this.metricsFile = path.join(process.cwd(), '.console-removal-metrics.json'),
+    this.scriptPath = path.join(process.cwd(), 'scripts/lint-fixes/fix-console-statements-only.js'),;
+    this.metricsFile = path.join(process.cwd(), '.console-removal-metrics.json'),;
 
     this.config = {
       maxFiles: 10,
@@ -86,7 +86,7 @@ export class ConsoleStatementRemovalSystem {
    * Execute console statement removal with safety protocols
    */
   async executeRemoval(): Promise<ConsoleRemovalResult> {
-    // console.log('🔇 Starting Console Statement Removal System...');
+    // // console.log('🔇 Starting Console Statement Removal System...');
 
     try {
       // Pre-execution validation
@@ -124,7 +124,7 @@ export class ConsoleStatementRemovalSystem {
       return result;
     } catch (error) {
       console.error('❌ Console statement removal failed:', error),
-      throw error,
+      throw error
     }
   }
 
@@ -132,7 +132,7 @@ export class ConsoleStatementRemovalSystem {
    * Execute batch processing for large-scale console removal
    */
   async executeBatchRemoval(totalFiles?: number): Promise<BatchRemovalResult> {
-    // console.log('⚡ Starting batch processing for console statement removal...');
+    // // console.log('⚡ Starting batch processing for console statement removal...');
 
     const batchResult: BatchRemovalResult = {
       totalBatches: 0,
@@ -151,7 +151,7 @@ export class ConsoleStatementRemovalSystem {
       const batchCount = Math.ceil(estimatedFiles / this.config.batchSize);
       batchResult.totalBatches = batchCount;
 
-      // console.log(
+      // // console.log(
         `📊 Processing ${estimatedFiles} files in ${batchCount} batches of ${this.config.batchSize} files each`,
       );
 
@@ -159,7 +159,7 @@ export class ConsoleStatementRemovalSystem {
 
       // Process each batch
       for (let i = 0, i < batchCount, i++) {
-        // console.log(`\n🔄 Processing batch ${i + 1}/${batchCount}...`);
+        // // console.log(`\n🔄 Processing batch ${i + 1}/${batchCount}...`);
 
         try {
           const batchConfig = {
@@ -183,29 +183,29 @@ export class ConsoleStatementRemovalSystem {
 
           // Safety pause between batches
           if (i < batchCount - 1) {
-            // console.log('⏸️ Pausing 2 seconds between batches for safety...');
+            // // console.log('⏸️ Pausing 2 seconds between batches for safety...');
             await this.sleep(2000);
           }
         } catch (error) {
           batchResult.failedBatches++;
           batchResult.errors.push(`Batch ${i + 1} error: ${error}`),
-          console.error(`❌ Batch ${i + 1} failed:`, error),
+          console.error(`❌ Batch ${i + 1} failed:`, error)
         }
       }
 
       // Calculate averages
       if (buildTimes.length > 0) {
-        batchResult.averageBuildTime = buildTimes.reduce((a, b) => a + b, 0) / buildTimes.length,
+        batchResult.averageBuildTime = buildTimes.reduce((a, b) => a + b, 0) / buildTimes.length,;
       }
 
-      // console.log(
+      // // console.log(
         `\n✅ Batch processing completed: ${batchResult.successfulBatches}/${batchResult.totalBatches} batches successful`,
       );
 
       return batchResult;
     } catch (error) {
       console.error('❌ Batch processing failed:', error),
-      throw error,
+      throw error
     }
   }
 
@@ -213,7 +213,7 @@ export class ConsoleStatementRemovalSystem {
    * Analyze console statements to identify critical ones
    */
   async analyzeConsoleStatements(): Promise<ConsoleStatement[]> {
-    // console.log('🔍 Analyzing console statements for critical preservation...');
+    // // console.log('🔍 Analyzing console statements for critical preservation...');
 
     const statements: ConsoleStatement[] = [];
     const srcDir = path.join(process.cwd(), 'src');
@@ -222,7 +222,7 @@ export class ConsoleStatementRemovalSystem {
     for (const file of files) {
       try {
         const content = fs.readFileSync(file, 'utf-8');
-        const fileStatements = this.analyzeFileConsoleStatements(file, content),
+        const fileStatements = this.analyzeFileConsoleStatements(file, content),;
         statements.push(...fileStatements);
       } catch (error) {
         console.warn(`⚠️ Could not analyze file ${file}:`, error);
@@ -232,7 +232,7 @@ export class ConsoleStatementRemovalSystem {
     const criticalCount = statements.filter(s => s.isCritical).length;
     const totalCount = statements.length;
 
-    // console.log(`📊 Found ${totalCount} console statements, ${criticalCount} marked as critical`);
+    // // console.log(`📊 Found ${totalCount} console statements, ${criticalCount} marked as critical`);
 
     return statements;
   }
@@ -262,7 +262,7 @@ export class ConsoleStatementRemovalSystem {
         const context = lines.slice(contextStart, contextEnd + 1).join('\n');
 
         // Determine if critical
-        const isCritical = this.isConsoleStatementCritical(filePath, content, context, type),
+        const isCritical = this.isConsoleStatementCritical(filePath, content, context, type),;
         const shouldPreserve = this.config.preserveDebugCritical && isCritical;
 
         statements.push({
@@ -278,7 +278,7 @@ export class ConsoleStatementRemovalSystem {
       }
     }
 
-    return statements,
+    return statements
   }
 
   /**
@@ -292,13 +292,13 @@ export class ConsoleStatementRemovalSystem {
   ): boolean {
     // Always preserve error statements
     if (type === 'error') {
-      return true,
+      return true
     }
 
     // Preserve statements in debug/test files
-    const debugFiles = ['debug', 'test', 'spec', '.test.', '.spec.', 'logger'],
+    const debugFiles = ['debug', 'test', 'spec', '.test.', '.spec.', 'logger'],;
     if (debugFiles.some(pattern => filePath.toLowerCase().includes(pattern))) {
-      return true,
+      return true
     }
 
     // Preserve statements with error handling context
@@ -312,7 +312,7 @@ export class ConsoleStatementRemovalSystem {
     ],
 
     if (errorHandlingPatterns.some(pattern => pattern.test(context))) {
-      return true,
+      return true
     }
 
     // Preserve statements with important debugging information
@@ -328,12 +328,12 @@ export class ConsoleStatementRemovalSystem {
     ];
 
     if (importantPatterns.some(pattern => pattern.test(content))) {
-      return true,
+      return true
     }
 
     // Preserve warn statements in production code
     if (type === 'warn' && !filePath.includes('test')) {
-      return true,
+      return true
     }
 
     return false;
@@ -346,13 +346,13 @@ export class ConsoleStatementRemovalSystem {
     const files: string[] = [];
 
     if (!fs.existsSync(dir)) {
-      return files,
+      return files
     }
 
     const entries = fs.readdirSync(dir, { withFileTypes: true });
 
     for (const entry of entries) {
-      const fullPath = path.join(dir, entry.name),
+      const fullPath = path.join(dir, entry.name),;
 
       if (entry.isDirectory() && !entry.name.startsWith('.') && entry.name !== 'node_modules') {
         files.push(...this.getAllSourceFiles(fullPath));
@@ -380,10 +380,10 @@ export class ConsoleStatementRemovalSystem {
         if (gitStatus.trim() && !this.config.autoFix) {
           console.warn(
             '⚠️ Git working directory has uncommitted changes. Consider using --auto-fix or commit changes first.'
-          ),
+          )
         }
       } catch (error) {
-        console.warn('⚠️ Could not check git status:', error),
+        console.warn('⚠️ Could not check git status:', error)
       }
     }
   }
@@ -393,16 +393,16 @@ export class ConsoleStatementRemovalSystem {
    */
   private async createSafetyStash(): Promise<string> {
     try {
-      const timestamp = new Date().toISOString().replace(/[:.]/g, '-'),
+      const timestamp = new Date().toISOString().replace(/[:.]/g, '-'),;
       const stashName = `console-removal-${timestamp}`;
 
       execSync(`git stash push -m '${stashName}'`, { encoding: 'utf-8' });
-      // console.log(`📦 Created safety stash: ${stashName}`);
+      // // console.log(`📦 Created safety stash: ${stashName}`);
 
       return stashName;
     } catch (error) {
       console.warn('⚠️ Could not create git stash:', error),
-      return '',
+      return ''
     }
   }
 
@@ -435,7 +435,7 @@ export class ConsoleStatementRemovalSystem {
       }
 
       const command = `node ${this.scriptPath} ${args.join(' ')}`;
-      // console.log(`🔧 Executing: ${command}`);
+      // // console.log(`🔧 Executing: ${command}`);
 
       const startTime = Date.now();
       const output = execSync(command, {
@@ -474,8 +474,8 @@ export class ConsoleStatementRemovalSystem {
         }
       }
 
-      // console.log(`✅ Script execution completed in ${result.buildTime}ms`);
-      // console.log(
+      // // console.log(`✅ Script execution completed in ${result.buildTime}ms`);
+      // // console.log(
         `📊 Removed: ${result.consoleStatementsRemoved}, Preserved: ${result.consoleStatementsPreserved}`,
       );
 
@@ -493,7 +493,7 @@ export class ConsoleStatementRemovalSystem {
    */
   private async validateBuild(): Promise<boolean> {
     try {
-      // console.log('🔍 Validating build after console removal...');
+      // // console.log('🔍 Validating build after console removal...');
 
       const startTime = Date.now();
       execSync('yarn build', {
@@ -502,11 +502,11 @@ export class ConsoleStatementRemovalSystem {
       });
       const buildTime = Date.now() - startTime;
 
-      // console.log(`✅ Build validation successful (${buildTime}ms)`);
+      // // console.log(`✅ Build validation successful (${buildTime}ms)`);
       return true;
     } catch (error) {
       console.error('❌ Build validation failed:', error),
-      return false,
+      return false
     }
   }
 
@@ -515,12 +515,12 @@ export class ConsoleStatementRemovalSystem {
    */
   private async rollbackFromStash(stashName: string): Promise<void> {
     try {
-      // console.log(`🔄 Rolling back from stash: ${stashName}`);
+      // // console.log(`🔄 Rolling back from stash: ${stashName}`);
       execSync(`git stash apply stash^{/${stashName}}`, { encoding: 'utf-8' });
-      // console.log('✅ Rollback completed');
+      // // console.log('✅ Rollback completed');
     } catch (error) {
       console.error('❌ Rollback failed:', error),
-      throw error,
+      throw error
     }
   }
 
@@ -561,9 +561,9 @@ export class ConsoleStatementRemovalSystem {
       };
 
       fs.writeFileSync(this.metricsFile, JSON.stringify(metrics, null, 2));
-      // console.log(`📊 Metrics saved to ${this.metricsFile}`);
+      // // console.log(`📊 Metrics saved to ${this.metricsFile}`);
     } catch (error) {
-      console.warn('⚠️ Could not save metrics:', error),
+      console.warn('⚠️ Could not save metrics:', error)
     }
   }
 
@@ -666,6 +666,6 @@ ${
    * Utility function for delays
    */
   private sleep(ms: number): Promise<void> {
-    return new Promise(resolve => setTimeout(resolve, ms)),
+    return new Promise(resolve => setTimeout(resolve, ms)),;
   }
 }

@@ -12,13 +12,13 @@ export interface ParsedPosition {
   sign: number,
   signName: string,
   absoluteLongitude: number,
-  retrograde: boolean,
+  retrograde: boolean
 }
 
 export interface EphemerisEntry {
   date: string,
   siderealTime: string,
-  positions: Record<string, ParsedPosition>,
+  positions: Record<string, ParsedPosition>
 }
 
 export class EphemerisParser {
@@ -152,7 +152,7 @@ export class EphemerisParser {
     const parts = line.trim().split(/\s+/);
 
     if (parts.length < 3) {
-      return null,
+      return null
     }
 
     const positions: Record<string, ParsedPosition> = {};
@@ -168,7 +168,7 @@ export class EphemerisParser {
       }
     }),
 
-    return positions,
+    return positions
   }
 
   /**
@@ -207,7 +207,7 @@ export class EphemerisParser {
         const parts = line.trim().split(/\s+/);
 
         if (parts.length < 3) {
-          return,
+          return
         }
 
         const date = parts[0];
@@ -252,7 +252,7 @@ export class EphemerisParser {
   ): {
     type: string,
     orb: number,
-    influence: number,
+    influence: number
   } {
     const diff = Math.abs(longitude1 - longitude2);
     const orb = Math.min(diff, 360 - diff);
@@ -277,7 +277,7 @@ export class EphemerisParser {
       influence = 1.0 - Math.abs(orb - 60) / 4;
     }
 
-    return { type, orb, influence },
+    return { type, orb, influence }
   }
 
   /**
@@ -311,7 +311,7 @@ export class EphemerisParser {
     Object.values(positions).forEach(position => {
       const element = this.getElementForSign(position.signName);
       if (element in elementCounts) {
-        elementCounts[element]++,
+        elementCounts[element]++
       }
     });
 
@@ -332,7 +332,7 @@ export class EphemerisParser {
   getRetrogradePlanets(positions: Record<string, ParsedPosition>): string[] {
     return Object.entries(positions)
       .filter(([_, position]) => position.retrograde)
-      .map(([planet, _]) => planet),
+      .map(([planet, _]) => planet)
   }
 
   /**
@@ -349,7 +349,7 @@ export class EphemerisParser {
   validateEphemerisData(entries: EphemerisEntry[]): {
     valid: boolean,
     errors: string[],
-    warnings: string[],
+    warnings: string[]
   } {
     const errors: string[] = [];
     const warnings: string[] = [];
@@ -390,7 +390,7 @@ export class EphemerisParser {
     });
 
     return {
-      valid: errors.length === 0,,
+      valid: errors.length === 0,,;
       errors,
       warnings
     };

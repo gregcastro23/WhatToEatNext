@@ -14,7 +14,6 @@
  */
 
 import { TypeScriptError, ErrorCategory, ErrorSeverity } from './campaign/TypeScriptErrorAnalyzer';
-import { ErrorPattern, ErrorTrend } from './ErrorTrackingEnterpriseSystem';
 
 // ========== PATTERN RECOGNITION INTERFACES ==========;
 
@@ -46,7 +45,7 @@ export interface PatternCluster {
   stability: number,
   predictiveValue: number,
   fixStrategy: string,
-  automationReadiness: number,
+  automationReadiness: number
 }
 
 export interface PatternPrediction {
@@ -57,7 +56,7 @@ export interface PatternPrediction {
   timeframe: number, // minutes
   triggerConditions: string[],
   recommendedActions: string[],
-  riskLevel: 'low' | 'medium' | 'high' | 'critical',
+  riskLevel: 'low' | 'medium' | 'high' | 'critical'
 }
 
 export interface PatternEvolution {
@@ -67,7 +66,7 @@ export interface PatternEvolution {
   changeRate: number,
   adaptationScore: number,
   stabilityTrend: 'increasing' | 'decreasing' | 'stable',
-  lastEvolution: Date,
+  lastEvolution: Date
 }
 
 export interface PatternInsight {
@@ -77,7 +76,7 @@ export interface PatternInsight {
   description: string,
   actionable: boolean,
   evidence: string[],
-  recommendations: string[],
+  recommendations: string[]
 }
 
 // ========== INTELLIGENT PATTERN RECOGNITION SYSTEM ==========;
@@ -89,7 +88,7 @@ export class IntelligentPatternRecognition {
   private evolutions: Map<string, PatternEvolution> = new Map();
   private learningRate: number = 0.1;
   private clusteringThreshold: number = 0.7;
-  private predictionHorizon: number = 60, // minutes
+  private predictionHorizon: number = 60, // minutes;
   private readonly FEATURE_WEIGHTS = {
     syntax: 0.25;
     semantic: 0.35;
@@ -117,7 +116,7 @@ export class IntelligentPatternRecognition {
     // Contextual features
     features.push(...this.extractContextualFeatures(error));
 
-    return features,
+    return features
   }
 
   /**
@@ -167,7 +166,7 @@ export class IntelligentPatternRecognition {
     const features: PatternFeature[] = [];
 
     // Type-related keywords
-    const typeKeywords = ['type', 'interface', 'class', 'function', 'method'],
+    const typeKeywords = ['type', 'interface', 'class', 'function', 'method'],;
     const typeKeywordCount = typeKeywords.reduce(;
       (count, keyword) => count + (error.message.toLowerCase().includes(keyword) ? 1 : 0),
       0,
@@ -363,7 +362,7 @@ export class IntelligentPatternRecognition {
    */
   createPatternSignature(error: TypeScriptError): PatternSignature {
     const features = this.extractPatternFeatures(error);
-    const signatureId = this.generateSignatureId(error, features),
+    const signatureId = this.generateSignatureId(error, features),;
 
     const signature: PatternSignature = {
       signatureId,
@@ -396,7 +395,7 @@ export class IntelligentPatternRecognition {
     for (let i = 0, i < str.length, i++) {
       const char = str.charCodeAt(i);
       hash = (hash << 5) - hash + char;
-      hash = hash & hash, // Convert to 32-bit integer
+      hash = hash & hash, // Convert to 32-bit integer;
     }
     return Math.abs(hash).toString(36);
   }
@@ -407,7 +406,7 @@ export class IntelligentPatternRecognition {
   private calculateSignatureConfidence(features: PatternFeature[]): number {
     const avgStability = features.reduce((sum, f) => sum + f.stability, 0) / features.length;
     const featureCount = features.length;
-    const completeness = Math.min(featureCount / 10, 1), // Ideal feature count is 10
+    const completeness = Math.min(featureCount / 10, 1), // Ideal feature count is 10;
 
     return avgStability * 0.7 + completeness * 0.3;
   }
@@ -425,7 +424,7 @@ export class IntelligentPatternRecognition {
     for (const signature of signatures) {
       if (processed.has(signature.signatureId)) continue;
 
-      const cluster = this.createCluster(signature, signatures, processed),
+      const cluster = this.createCluster(signature, signatures, processed),;
       if (cluster.signatures.length > 1) {
         clusters.push(cluster);
       }
@@ -510,7 +509,7 @@ export class IntelligentPatternRecognition {
     for (let i = 0, i < signatures.length, i++) {
       for (let j = i + 1, j < signatures.length, j++) {
         totalSimilarity += this.calculateSignatureSimilarity(signatures[i], signatures[j]),
-        pairCount++,
+        pairCount++
       }
     }
 
@@ -551,7 +550,7 @@ export class IntelligentPatternRecognition {
    */
   private determineFixStrategy(signatures: PatternSignature[]): string {
     const errorCode = signatures[0].errorCode;
-    const totalOccurrences = signatures.reduce((sum, sig) => sum + sig.occurrences, 0),
+    const totalOccurrences = signatures.reduce((sum, sig) => sum + sig.occurrences, 0),;
 
     const strategies: Record<string, string> = {
       TS2352: 'Type assertion and conversion safety',
@@ -579,7 +578,7 @@ export class IntelligentPatternRecognition {
    */
   private calculateAutomationReadiness(signatures: PatternSignature[]): number {
     const avgConfidence =
-      signatures.reduce((sum, sig) => sum + sig.confidence, 0) / signatures.length,
+      signatures.reduce((sum, sig) => sum + sig.confidence, 0) / signatures.length,;
     const errorCode = signatures[0].errorCode;
 
     // Base automation potential by error type
@@ -633,7 +632,7 @@ export class IntelligentPatternRecognition {
     const avgRecency =
       cluster.signatures.reduce((sum, sig) => {
         const age = Date.now() - sig.lastSeen.getTime();
-        return sum + age,
+        return sum + age
       }, 0) / cluster.signatures.length;
 
     const probability = Math.min(0.95, cluster.predictiveValue * (totalOccurrences / 10));
@@ -665,7 +664,7 @@ export class IntelligentPatternRecognition {
 
     for (const signature of this.signatures.values()) {
       const current = categoryTrends.get(signature.category) || 0;
-      categoryTrends.set(signature.category, current + signature.occurrences),
+      categoryTrends.set(signature.category, current + signature.occurrences)
     }
 
     categoryTrends.forEach((count, category) => {
@@ -694,7 +693,7 @@ export class IntelligentPatternRecognition {
 
     // Detect unusual patterns
     const avgOccurrences =
-      Array.from(this.signatures.values()).reduce((sum, sig) => sum + sig.occurrences, 0) /,
+      Array.from(this.signatures.values()).reduce((sum, sig) => sum + sig.occurrences, 0) /,;
       this.signatures.size;
 
     for (const signature of this.signatures.values()) {
@@ -768,7 +767,7 @@ export class IntelligentPatternRecognition {
     if (riskScore > 0.8) return 'critical';
     if (riskScore > 0.6) return 'high';
     if (riskScore > 0.4) return 'medium';
-    return 'low',
+    return 'low'
   }
 
   // ========== PATTERN EVOLUTION ==========;
@@ -798,7 +797,7 @@ export class IntelligentPatternRecognition {
       existingSignature.evolutionScore = evolution.changeRate;
     } else {
       // Store new signature
-      this.signatures.set(newSignature.signatureId, newSignature),
+      this.signatures.set(newSignature.signatureId, newSignature)
     }
   }
 
@@ -867,7 +866,7 @@ export class IntelligentPatternRecognition {
     // Anomaly insights
     insights.push(...this.generateAnomalyInsights());
 
-    return insights.sort((a, b) => b.significance - a.significance),
+    return insights.sort((a, b) => b.significance - a.significance)
   }
 
   /**
@@ -955,7 +954,7 @@ export class IntelligentPatternRecognition {
       });
     }
 
-    return insights,
+    return insights
   }
 
   /**
@@ -1014,11 +1013,11 @@ export class IntelligentPatternRecognition {
     avgConfidence: number,
     topPatterns: PatternSignature[],
     topClusters: PatternCluster[],
-    recentInsights: PatternInsight[],
+    recentInsights: PatternInsight[]
   } {
     const signatures = Array.from(this.signatures.values());
     const avgConfidence =
-      signatures.reduce((sum, sig) => sum + sig.confidence, 0) / signatures.length,
+      signatures.reduce((sum, sig) => sum + sig.confidence, 0) / signatures.length,;
 
     return {
       totalSignatures: signatures.length;
@@ -1055,19 +1054,19 @@ export class IntelligentPatternRecognition {
     config: Partial<{
       learningRate: number,
       clusteringThreshold: number,
-      predictionHorizon: number,
+      predictionHorizon: number
     }>,
   ): void {
     if (config.learningRate !== undefined) {
-      this.learningRate = Math.max(0.01, Math.min(0.5, config.learningRate)),
+      this.learningRate = Math.max(0.01, Math.min(0.5, config.learningRate)),;
     }
 
     if (config.clusteringThreshold !== undefined) {
-      this.clusteringThreshold = Math.max(0.3, Math.min(0.9, config.clusteringThreshold)),
+      this.clusteringThreshold = Math.max(0.3, Math.min(0.9, config.clusteringThreshold)),;
     }
 
     if (config.predictionHorizon !== undefined) {
-      this.predictionHorizon = Math.max(15, Math.min(240, config.predictionHorizon)),
+      this.predictionHorizon = Math.max(15, Math.min(240, config.predictionHorizon)),;
     }
   }
 

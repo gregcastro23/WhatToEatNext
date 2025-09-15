@@ -70,7 +70,7 @@ try {
   const lines = fileContent.split('\n');
 
   // Track which lines have been modified to avoid duplicate changes
-  const modifiedLines = new Set();
+  const _modifiedLines = new Set();
 
   // For each error, find the declaration line and replace 'const' with 'let'
   let updatedContent = fileContent;

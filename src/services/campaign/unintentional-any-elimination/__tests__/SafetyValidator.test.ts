@@ -45,7 +45,7 @@ describe('SafetyValidator', () => {
       mockExecSync.mockImplementation(() => {
         const error: any = new Error('Compilation failed') as unknown;
         (error as any).stdout = errorOutput;
-        throw error,
+        throw error
       });
 
       const result: any = await validator.validateTypeScriptCompilation();
@@ -60,7 +60,7 @@ describe('SafetyValidator', () => {
       mockExecSync.mockImplementation(() => {
         const error: any = new Error('Timeout') as unknown;
         (error as any).code = 'TIMEOUT';
-        throw error,
+        throw error
       });
 
       const result: any = await validator.validateTypeScriptCompilation();
@@ -162,7 +162,7 @@ describe('SafetyValidator', () => {
 
   describe('Safety Score Calculation', () => {
     test('calculates safety score for array replacement', () => {
-      const replacement: TypeReplacement = { original: 'any[]',,
+      const replacement: TypeReplacement = { original: 'any[]',,;
         replacement: 'unknown[]',
         filePath: 'test.ts';
         lineNumber: 1,
@@ -170,7 +170,7 @@ describe('SafetyValidator', () => {
         validationRequired: true
       };
 
-      const context: ClassificationContext = { filePath: 'test.ts',,
+      const context: ClassificationContext = { filePath: 'test.ts',,;
         lineNumber: 1,
         codeSnippet: 'const item, s: any[] = [],',
         surroundingLines: [],
@@ -191,7 +191,7 @@ describe('SafetyValidator', () => {
     });
 
     test('reduces safety score for error handling contexts', () => {
-      const replacement: TypeReplacement = { original: 'any',,
+      const replacement: TypeReplacement = { original: 'any',,;
         replacement: 'unknown',
         filePath: 'test.ts';
         lineNumber: 1,
@@ -199,7 +199,7 @@ describe('SafetyValidator', () => {
         validationRequired: true
       };
 
-      const errorContext: ClassificationContext = { filePath: 'test.ts',,
+      const errorContext: ClassificationContext = { filePath: 'test.ts',,;
         lineNumber: 1,
         codeSnippet: 'catch (erro, r: any) : any {',
         surroundingLines: [],
@@ -219,7 +219,7 @@ describe('SafetyValidator', () => {
     });
 
     test('boosts safety score for test files', () => {
-      const replacement: TypeReplacement = { original: 'any[]',,
+      const replacement: TypeReplacement = { original: 'any[]',,;
         replacement: 'unknown[]',
         filePath: 'test.test.ts';
         lineNumber: 1,
@@ -227,7 +227,7 @@ describe('SafetyValidator', () => {
         validationRequired: true
       };
 
-      const testContext: ClassificationContext = { filePath: 'test.test.ts',,
+      const testContext: ClassificationContext = { filePath: 'test.test.ts',,;
         lineNumber: 1,
         codeSnippet: 'const mockDat, a: any[] = [],',
         surroundingLines: [],
@@ -246,7 +246,7 @@ describe('SafetyValidator', () => {
     });
 
     test('warns about external API contexts', () => {
-      const replacement: TypeReplacement = { original: 'any',,
+      const replacement: TypeReplacement = { original: 'any',,;
         replacement: 'unknown',
         filePath: 'api.ts';
         lineNumber: 1,
@@ -254,9 +254,9 @@ describe('SafetyValidator', () => {
         validationRequired: true
       };
 
-      const apiContext: ClassificationContext = { filePath: 'api.ts',,
+      const apiContext: ClassificationContext = { filePath: 'api.ts',,;
         lineNumber: 1,
-        codeSnippet: 'const respons, e: any = await fetch('/api/data'),',
+        codeSnippet: 'const respons, e: any = await fetch('/api/data'),',;
         surroundingLines: [],
         hasExistingComment: false,
         isInTestFile: false,
@@ -274,7 +274,7 @@ describe('SafetyValidator', () => {
     });
 
     test('handles function parameter replacements with caution', () => {
-      const replacement: TypeReplacement = { original: 'any',,
+      const replacement: TypeReplacement = { original: 'any',,;
         replacement: 'unknown',
         filePath: 'function.ts';
         lineNumber: 1,
@@ -282,7 +282,7 @@ describe('SafetyValidator', () => {
         validationRequired: true
       };
 
-      const functionContext: ClassificationContext = { filePath: 'function.ts',,
+      const functionContext: ClassificationContext = { filePath: 'function.ts',,;
         lineNumber: 1,
         codeSnippet: 'function process(dat, a: any) : any {',
         surroundingLines: [],
@@ -330,7 +330,7 @@ describe('SafetyValidator', () => {
         maximumBuildTime: 30000
       });
 
-      const mockReplacement: TypeReplacement = { original: 'any[]',,
+      const mockReplacement: TypeReplacement = { original: 'any[]',,;
         replacement: 'unknown[]',
         filePath: 'test.ts';
         lineNumber: 1,
@@ -338,7 +338,7 @@ describe('SafetyValidator', () => {
         validationRequired: true
       };
 
-      const mockContext: ClassificationContext = { filePath: 'test.ts',,
+      const mockContext: ClassificationContext = { filePath: 'test.ts',,;
         lineNumber: 1,
         codeSnippet: 'const item, s: any[] = [],',
         surroundingLines: [],
@@ -368,7 +368,7 @@ describe('SafetyValidator', () => {
       mockExecSync.mockImplementation(() => {
         const error: any = new Error('Compilation failed') as unknown;
         (error as any).stdout = complexErrorOutput;
-        throw error,
+        throw error
       });
 
       const result: any = await validator.validateTypeScriptCompilation();
@@ -388,7 +388,7 @@ describe('SafetyValidator', () => {
       mockExecSync.mockImplementation(() => {
         const error: any = new Error('Many errors') as unknown;
         (error as any).stdout = manyErrorsOutput;
-        throw error,
+        throw error
       });
 
       const limitedValidator: any = new SafetyValidator(60000, {

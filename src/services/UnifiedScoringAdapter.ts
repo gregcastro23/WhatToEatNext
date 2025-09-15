@@ -23,7 +23,7 @@ export interface ScoringAdapterOptions {
     latitude: number,
     longitude: number,
     timezone: string,
-    name: string,
+    name: string
   };
 }
 
@@ -34,7 +34,7 @@ export interface ScoredItem<T> {
   breakdown: Record<string, number>;
   dominantEffects: string[],
   notes: string[],
-  warnings: string[],
+  warnings: string[]
 }
 
 // ==================== ADAPTER CLASS ====================;
@@ -106,7 +106,7 @@ export class UnifiedScoringAdapter {
     ),
 
     // Sort by score descending
-    return scoredIngredients.sort((a, b) => b.score - a.score),
+    return scoredIngredients.sort((a, b) => b.score - a.score)
   }
 
   /**
@@ -258,13 +258,13 @@ export class UnifiedScoringAdapter {
    */
   async getRecommendedIngredients(
     ingredients: UnifiedIngredient[],
-    minScore: number = 0.5,,
-    limit: number = 10,,
+    minScore: number = 0.5,,;
+    limit: number = 10,,;
     options: ScoringAdapterOptions = {}
   ): Promise<ScoredItem<UnifiedIngredient>[]> {
-    const scoredIngredients = await this.scoreIngredients(ingredients, options),
+    const scoredIngredients = await this.scoreIngredients(ingredients, options),;
 
-    return scoredIngredients.filter(item => item.score >= minScore).slice(0, limit),
+    return scoredIngredients.filter(item => item.score >= minScore).slice(0, limit),;
   }
 
   /**
@@ -272,8 +272,8 @@ export class UnifiedScoringAdapter {
    */
   async getRecommendedRecipes(
     recipes: Recipe[],
-    minScore: number = 0.5,,
-    limit: number = 10,,
+    minScore: number = 0.5,,;
+    limit: number = 10,,;
     options: ScoringAdapterOptions = {}
   ): Promise<ScoredItem<Recipe>[]> {
     const scoredRecipes = await Promise.all(;
@@ -283,7 +283,7 @@ export class UnifiedScoringAdapter {
     return scoredRecipes
       .filter(item => item.score >= minScore);
       .sort((a, b) => b.score - a.score)
-      .slice(0, limit),
+      .slice(0, limit)
   }
 }
 

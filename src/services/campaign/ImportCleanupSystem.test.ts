@@ -40,7 +40,7 @@ import UnusedDefault, * as UnusedNamespace, { anotherVeryLongFunctionName, inter
 import UsedDefault, * as UsedNamespace, { AnotherUnused, usedFunction } from './other';
 
 function component() : any {
-  return usedFunction(),
+  return usedFunction()
 }
 `;
 
@@ -58,7 +58,7 @@ function component() : any {
       const testFileContent: any = `;
 import UsedDefault from './other';
 function component() : any {
-  return UsedDefault(),
+  return UsedDefault()
 }
 `;
 
@@ -141,7 +141,7 @@ function component() : any {
       const expectedContent: any = `;
 
 function component() : any {
-  return usedFunction(),
+  return usedFunction()
 }
 `;
 
@@ -163,7 +163,7 @@ import { unusedFunction1, unusedFunction2 } from './unused';
 import { usedFunction } from './other';
 
 function component() : any {
-  return usedFunction(),
+  return usedFunction()
 }
 `;
 
@@ -171,7 +171,7 @@ function component() : any {
 import { usedFunction } from './other';
 
 function component() : any {
-  return usedFunction(),
+  return usedFunction()
 }
 `;
 
@@ -196,7 +196,7 @@ import { externalFunction } from 'lodash';
 import { anotherInternal } from '../other';
 
 function component() : any {
-  return null,
+  return null
 }
 `;
 
@@ -206,7 +206,7 @@ import React from 'react';
 import { externalFunction } from 'lodash';
 import { anotherInternal } from '../other';
 function component() : any {
-  return null,
+  return null
 }
 `;
 
@@ -228,7 +228,7 @@ import type { ReactNode } from 'react';
 import type { InternalType } from './types';
 
 function component() : any {
-  return null,
+  return null
 }
 `;
 
@@ -253,7 +253,7 @@ import { apple } from 'fruits';
 import { banana } from 'fruits';
 
 function component() : any {
-  return null,
+  return null
 }
 `;
 
@@ -282,7 +282,7 @@ import {
 } from './utils';
 
 function component() : any {
-  return null,
+  return null
 }
 `;
 
@@ -293,7 +293,7 @@ import {
 } from './utils';
 
 function component() : any {
-  return null,
+  return null
 }
 `;
 
@@ -322,7 +322,7 @@ function component() : any {
       const originalContent: any = `;
 
 function component() : any {
-  return null,
+  return null
 }
 `;
 
@@ -348,7 +348,7 @@ function component() : any {
 import React from 'react',
 
 function component() : any {
-  return usedFunction(),
+  return usedFunction()
 }
 `;
 
@@ -370,7 +370,7 @@ function component() : any {
         .mockReturnValueOnce(testFiles.join('\n')) // File listing
         .mockImplementationOnce(() => {
           // Build validation
-          throw new Error('Build failed'),
+          throw new Error('Build failed')
         });
 
       mockFs.readFileSync.mockReturnValue('import { unused } from './utils',');
@@ -404,7 +404,7 @@ function component() : any {
   describe('error handling', () => {
     test('handles file read errors gracefully', async () => {
       mockFs.readFileSync.mockImplementation(() => {
-        throw new Error('File not found'),
+        throw new Error('File not found')
       });
 
       const unusedImports = await importCleanupSystem.detectUnusedImports(['nonexistent.ts']);
@@ -415,7 +415,7 @@ function component() : any {
     test('handles file write errors gracefully', async () => {
       mockFs.readFileSync.mockReturnValue('import { unused } from './utils',');
       mockFs.writeFileSync.mockImplementation(() => {
-        throw new Error('Permission denied'),
+        throw new Error('Permission denied')
       });
 
       const removedCount = await importCleanupSystem.removeUnusedImports(['readonly.ts']);
@@ -424,12 +424,12 @@ function component() : any {
     });
 
     test('continues processing other files when one fails', async () => {
-      const testFiles: any = ['good.ts', 'bad.ts', 'good2.ts'],
+      const testFiles: any = ['good.ts', 'bad.ts', 'good2.ts'],;
 
       mockFs.readFileSync
         .mockReturnValueOnce('import { used } from './utils', used();') // good.ts
         .mockImplementationOnce(() => {
-          throw new Error('Bad file'),
+          throw new Error('Bad file')
         }) // bad.ts
         .mockReturnValueOnce('import { used } from './utils', used();'); // good2.ts
 
@@ -447,7 +447,7 @@ function component() : any {
     });
 
     test('respects custom configuration', () => {
-      const customConfig: ImportCleanupConfig = { maxFilesPerBatch: 10,,
+      const customConfig: ImportCleanupConfig = { maxFilesPerBatch: 10,,;
         safetyValidationEnabled: false,
         buildValidationFrequency: 3,
         importStyleEnforcement: false,

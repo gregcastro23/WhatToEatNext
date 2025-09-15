@@ -18,7 +18,7 @@ export interface LintingFormattingConfig {
   formattingEnabled: boolean,
   lintingRules: LintingRuleConfig,
   formattingRules: FormattingRuleConfig,
-  patternBasedFixes: PatternBasedFixConfig[],
+  patternBasedFixes: PatternBasedFixConfig[]
 }
 
 export interface LintingRuleConfig {
@@ -26,7 +26,7 @@ export interface LintingRuleConfig {
   enforceReactRules: boolean,
   enforceImportRules: boolean,
   maxWarningsThreshold: number,
-  customRuleOverrides: Record<string, string>,
+  customRuleOverrides: Record<string, string>
 }
 
 export interface FormattingRuleConfig {
@@ -35,7 +35,7 @@ export interface FormattingRuleConfig {
   enforceSemicolons: boolean,
   enforceQuoteStyle: 'single' | 'double' | 'consistent',
   enforceLineLength: number,
-  enforceSpacing: boolean,
+  enforceSpacing: boolean
 }
 
 export interface PatternBasedFixConfig {
@@ -44,7 +44,7 @@ export interface PatternBasedFixConfig {
   pattern: RegExp,
   replacement: string,
   fileExtensions: string[],
-  enabled: boolean,
+  enabled: boolean
 }
 
 export interface LintingFormattingResult {
@@ -55,7 +55,7 @@ export interface LintingFormattingResult {
   buildValidationPassed: boolean,
   errors: string[],
   warnings: string[],
-  violationBreakdown: ViolationBreakdown,
+  violationBreakdown: ViolationBreakdown
 }
 
 export interface ViolationBreakdown {
@@ -63,7 +63,7 @@ export interface ViolationBreakdown {
   reactViolations: number,
   importViolations: number,
   formattingIssues: number,
-  customPatternFixes: number,
+  customPatternFixes: number
 }
 
 export interface LintingViolation {
@@ -73,7 +73,7 @@ export interface LintingViolation {
   ruleId: string,
   message: string,
   severity: 'error' | 'warning',
-  fixable: boolean,
+  fixable: boolean
 }
 
 export class LintingFormattingSystem {
@@ -142,7 +142,7 @@ export class LintingFormattingSystem {
         formattingFixed: totalResult.formattingIssuesFixed
       });
 
-      return totalResult,
+      return totalResult
     } catch (error) {
       logger.error('Linting and formatting system failed', error),
       return {
@@ -160,7 +160,7 @@ export class LintingFormattingSystem {
           formattingIssues: 0,
           customPatternFixes: 0
         }
-      },
+      }
     }
   }
 
@@ -176,7 +176,7 @@ export class LintingFormattingSystem {
       const parsedViolations = this.parseESLintOutput(eslintOutput);
       violations.push(...parsedViolations);
     } catch (error) {
-      logger.error('Failed to detect linting violations', error),
+      logger.error('Failed to detect linting violations', error)
     }
 
     return violations;
@@ -188,7 +188,7 @@ export class LintingFormattingSystem {
   async fixLintingViolations(filePaths: string[]): Promise<number> {
     if (!this.config.autoFixEnabled) {
       logger.warn('Auto-fix is disabled in configuration');
-      return 0,
+      return 0
     }
 
     try {
@@ -199,10 +199,10 @@ export class LintingFormattingSystem {
       const fixedCount = beforeViolations.length - afterViolations.length;
       filePaths.forEach(file => this.processedFiles.add(file));
 
-      return Math.max(0, fixedCount),
+      return Math.max(0, fixedCount)
     } catch (error) {
       logger.error('Failed to fix linting violations', error),
-      return 0,
+      return 0
     }
   }
 
@@ -212,7 +212,7 @@ export class LintingFormattingSystem {
   async formatCode(filePaths: string[]): Promise<number> {
     if (!this.config.formattingEnabled) {
       logger.warn('Formatting is disabled in configuration');
-      return 0,
+      return 0
     }
 
     let formattedCount = 0;
@@ -366,7 +366,7 @@ export class LintingFormattingSystem {
             column: message.column;
             ruleId: message.ruleId;
             message: message.message;
-            severity: message.severity === 2 ? 'error' : 'warning',,
+            severity: message.severity === 2 ? 'error' : 'warning',,;
             fixable: message.fix !== undefined
           });
         }
@@ -375,13 +375,13 @@ export class LintingFormattingSystem {
       return violations;
     } catch (error) {
       logger.error('Failed to parse ESLint output', error),
-      return [],
+      return []
     }
   }
 
   private async formatFile(filePath: string): Promise<boolean> {
     try {
-      const originalContent = fs.readFileSync(filePath, 'utf8'),
+      const originalContent = fs.readFileSync(filePath, 'utf8'),;
 
       // Run Prettier
       const _formattedContent = execSync(`npx prettier --write ${filePath}`, {
@@ -411,7 +411,7 @@ export class LintingFormattingSystem {
     for (const pattern of enabledPatterns) {
       const matches = modifiedContent.match(pattern.pattern);
       if (matches) {
-        modifiedContent = modifiedContent.replace(pattern.pattern, pattern.replacement),
+        modifiedContent = modifiedContent.replace(pattern.pattern, pattern.replacement),;
         fixesApplied += matches.length;
         logger.info(
           `Applied pattern fix '${pattern.name}' to ${filePath}: ${matches.length} occurrences`,
@@ -420,7 +420,7 @@ export class LintingFormattingSystem {
     }
 
     if (fixesApplied > 0) {
-      fs.writeFileSync(filePath, modifiedContent, 'utf8'),
+      fs.writeFileSync(filePath, modifiedContent, 'utf8')
     }
 
     return fixesApplied;
@@ -440,8 +440,8 @@ export class LintingFormattingSystem {
         const line = modifiedLines[i];
         if (line.match(/^\t/)) {
           // Convert tabs to spaces
-          modifiedLines[i] = line.replace(/^\t+/, match => '  '.repeat(match.length)),
-          fixesApplied++,
+          modifiedLines[i] = line.replace(/^\t+/, match => '  '.repeat(match.length)),;
+          fixesApplied++
         }
       }
     }
@@ -455,7 +455,7 @@ export class LintingFormattingSystem {
           const nextLine = modifiedLines[i + 1];
           if (nextLine && (nextLine.includes('}') || nextLine.includes(']'))) {
             modifiedLines[i] = line.replace(/([^,\s])\s*$/, '1,'),
-            fixesApplied++,
+            fixesApplied++
           }
         }
       }
@@ -477,7 +477,7 @@ export class LintingFormattingSystem {
           // Add semicolon to statements that need them
           if (line.match(/^(const|let|var|return|throw|break|continue|import|export)/)) {
             modifiedLines[i] = modifiedLines[i].replace(/([^,])$/, '1;'),
-            fixesApplied++,
+            fixesApplied++
           }
         }
       }
@@ -492,7 +492,7 @@ export class LintingFormattingSystem {
         const line = modifiedLines[i];
         if (line.includes(sourceQuote)) {
           modifiedLines[i] = line.replace(new RegExp(sourceQuote, 'g'), targetQuote),
-          fixesApplied++,
+          fixesApplied++
         }
       }
     }
@@ -513,9 +513,9 @@ export class LintingFormattingSystem {
                   i + j,
                   0,
                   indent + '  ' + parts[j].trim() + (j < parts.length - 1 ? ',' : ''),
-                ),
+                )
               }
-              fixesApplied++,
+              fixesApplied++
             }
           }
         }
@@ -523,7 +523,7 @@ export class LintingFormattingSystem {
     }
 
     if (fixesApplied > 0) {
-      fs.writeFileSync(filePath, modifiedLines.join('\n'), 'utf8'),
+      fs.writeFileSync(filePath, modifiedLines.join('\n'), 'utf8')
     }
 
     return fixesApplied;
@@ -564,16 +564,16 @@ export class LintingFormattingSystem {
       return output.trim().split('\n').filter(Boolean);
     } catch (error) {
       logger.error('Failed to get source files', error),
-      return [],
+      return []
     }
   }
 
   private batchFiles(files: string[]): string[][] {
     const batches: string[][] = [];
     for (let i = 0, i < files.length, i += this.config.maxFilesPerBatch) {
-      batches.push(files.slice(i, i + this.config.maxFilesPerBatch)),
+      batches.push(files.slice(i, i + this.config.maxFilesPerBatch))
     }
-    return batches,
+    return batches
   }
 
   private async validateBuild(): Promise<boolean> {
@@ -586,7 +586,7 @@ export class LintingFormattingSystem {
       return true;
     } catch (error) {
       logger.warn('Build validation failed during linting/formatting', error),
-      return false,
+      return false
     }
   }
 

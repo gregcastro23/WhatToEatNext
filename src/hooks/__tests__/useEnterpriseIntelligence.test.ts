@@ -83,7 +83,7 @@ describe('useEnterpriseIntelligence', () => {
     const { result } = renderHook(() => useEnterpriseIntelligence());
 
     await act(async () => {
-      await result.current.actions.performAnalysis(mockRecipeData, mockIngredientData, mockAstrologicalContext),
+      await result.current.actions.performAnalysis(mockRecipeData, mockIngredientData, mockAstrologicalContext)
     });
 
     expect(result.current.recommendations).toBeDefined();
@@ -98,7 +98,7 @@ describe('useEnterpriseIntelligence', () => {
     const { result } = renderHook(() => useEnterpriseIntelligence());
 
     await act(async () => {
-      await result.current.actions.performAnalysis(mockRecipeData, mockIngredientData, mockAstrologicalContext),
+      await result.current.actions.performAnalysis(mockRecipeData, mockIngredientData, mockAstrologicalContext)
     });
 
     expect(result.current.systemHealth).toBeDefined();
@@ -142,7 +142,7 @@ describe('useEnterpriseIntelligence', () => {
 
     // First perform an analysis
     await act(async () => {
-      await result.current.actions.performAnalysis(mockRecipeData, mockIngredientData, mockAstrologicalContext),
+      await result.current.actions.performAnalysis(mockRecipeData, mockIngredientData, mockAstrologicalContext)
     });
 
     expect(result.current.state.analysis).toBeDefined();

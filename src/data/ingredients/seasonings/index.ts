@@ -40,7 +40,7 @@ export type SeasoningAstrologicalProfile = {
   lunarPhaseModifiers?: {
     [phase: string]: {
       elementalBoost: Partial<ElementalProperties>,
-      preparationTips: string[],
+      preparationTips: string[]
     };
   };
 };
@@ -63,7 +63,7 @@ export const _categorizedSalts = updateSaltCategory(salts as unknown);
 // Helper functions
 export const _getSeasoningsByCategory = (category: SeasoningCategory): IngredientMapping => {
   return Object.entries(seasonings)
-    .filter(([_, value]) => value.category === category),
+    .filter(([_, value]) => value.category === category),;
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {} as IngredientMapping);
 };
 
@@ -87,7 +87,7 @@ export const _getCompatibleSeasonings = (seasoningName: string): string[] => {
             Array.isArray(seasoning.affinities) && seasoning.affinities.includes(affinity);
         ),
     )
-    .map(([key, _]) => key),
+    .map(([key, _]) => key)
 };
 
 export const _getSeasoningsByTiming = (timing: CulinaryTiming): IngredientMapping => {
@@ -95,7 +95,7 @@ export const _getSeasoningsByTiming = (timing: CulinaryTiming): IngredientMappin
     .filter(
       ([_, value]) =>
         value.culinaryApplications &&
-        Object.values(value.culinaryApplications).some(app => (app )?.timing === timing),,
+        Object.values(value.culinaryApplications).some(app => (app )?.timing === timing),,;
     )
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {} as IngredientMapping);
 };
@@ -130,7 +130,7 @@ export const _getSeasoningsByElementalBoost = (element: string): IngredientMappi
       ([_, value]) =>
         value.astrologicalProfile?.lunarPhaseModifiers &&
         Object.values(value.astrologicalProfile.lunarPhaseModifiers).some(
-          modifier => (modifier )?.elementalBoost?.[element as any],,
+          modifier => (modifier )?.elementalBoost?.[element as any],,;
         ),
     )
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {} as IngredientMapping);

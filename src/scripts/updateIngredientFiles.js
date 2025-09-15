@@ -49,7 +49,7 @@ TARGET_FILES.forEach(filename => {
   const content = fs.readFileSync(filePath, 'utf8');
 
   // Extract the category name from the file
-  const categoryMatch = content.match(/const CATEGORY = ['"]([^'"]+)['"]/);
+  const categoryMatch = content.match(/const _CATEGORY = ['"]([^'"]+)['"]/);
   const category = categoryMatch
     ? categoryMatch[1]
     : filename.replace('update', '').replace('.ts', '').toLowerCase();

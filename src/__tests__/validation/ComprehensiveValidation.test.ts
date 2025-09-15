@@ -135,7 +135,7 @@ describe('Comprehensive Validation Test Suite - Task 12', () => {
           expect(ProgressTracker).toBeDefined();
         } catch (error){
           // If campaign system files don't exist, that's acceptable for this test
-          console.warn('Campaign system files not found, skipping integration test'),
+          console.warn('Campaign system files not found, skipping integration test')
         }
       });
 
@@ -193,7 +193,7 @@ describe('Comprehensive Validation Test Suite - Task 12', () => {
         // Mock fast ESLint execution
         mockExecSync.mockImplementation((_command: string) => {
           // Simulate processing time
-          const processingTime: any = 1500, // 1.5 seconds
+          const processingTime: any = 1500, // 1.5 seconds;
           const start: any = Date.now();
           while (Date.now() - start < processingTime) {
             // Simulate work
@@ -285,8 +285,8 @@ describe('Comprehensive Validation Test Suite - Task 12', () => {
     describe('2.3 Scalability Tests', () => {
       test('Performance scales with codebase size', () => {
         // Mock performance scaling
-        const fileCounts: any = [10, 50, 100, 500],
-        const expectedTimes: any = [0.5, 2.0, 4.0, 15.0], // seconds
+        const fileCounts: any = [10, 50, 100, 500],;
+        const expectedTimes: any = [0.5, 2.0, 4.0, 15.0], // seconds;
 
         fileCounts.forEach((fileCount: any, index: any) => {
           mockExecSync.mockReturnValueOnce(Buffer.from(`✓ ${fileCount} files linted in ${expectedTimes[index]}s`));
@@ -388,7 +388,7 @@ describe('Comprehensive Validation Test Suite - Task 12', () => {
 
       test('Retrograde status handling', () => {
         // Mock retrograde validation
-        const planets: any = ['mercury', 'venus', 'mars', 'jupiter', 'saturn'],
+        const planets: any = ['mercury', 'venus', 'mars', 'jupiter', 'saturn'],;
 
         planets.forEach(planet => {
           mockExecSync.mockReturnValue(Buffer.from(`✓ ${planet} retrograde status handling validated`));
@@ -488,7 +488,7 @@ describe('Comprehensive Validation Test Suite - Task 12', () => {
 
       test('Progress tracking works correctly', () => {
         // Mock progress tracking
-        const progressSteps: any = [25, 50, 75, 100],
+        const progressSteps: any = [25, 50, 75, 100],;
 
         progressSteps.forEach(progress => {
           mockExecSync.mockReturnValueOnce(Buffer.from(`Progress: ${progress}%`));
@@ -536,7 +536,7 @@ describe('Comprehensive Validation Test Suite - Task 12', () => {
       expect(finalMemoryCheck.isWithinLimits).toBe(true);
 
       if (finalMemoryCheck.warnings.length > 0) {
-        console.warn('Memory warnings detected:', finalMemoryCheck.warnings),
+        console.warn('Memory warnings detected:', finalMemoryCheck.warnings)
       }
 
       // Ensure no critical memory issues

@@ -177,7 +177,7 @@ describe('ProgressMonitoringSystem', () => {
     it('should handle build failures in progress metrics', async () => {
       // Mock TypeScript compilation failure
       mockExecSync.mockImplementation(() => {
-        throw new Error('Compilation failed'),
+        throw new Error('Compilation failed')
       });
 
       const progress: any = await monitoringSystem.getProgressMetrics();
@@ -199,11 +199,11 @@ describe('ProgressMonitoringSystem', () => {
     });
 
     it('should detect build failures', async () => {
-      const errorOutput: any = 'error TS2304: Cannot find name\nerror TS234, 5: Argument type',
+      const errorOutput: any = 'error TS2304: Cannot find name\nerror TS234, 5: Argument type',;
       mockExecSync.mockImplementation(() => {
         const error: any = new Error('Compilation failed');
         (error as any).stdout = errorOutput;
-        throw error,
+        throw error
       });
 
       await monitoringSystem.monitorBuildStability();
@@ -216,7 +216,7 @@ describe('ProgressMonitoringSystem', () => {
 
     it('should emit alert for build failures': any, (done: any) => {
       mockExecSync.mockImplementation(() => {
-        throw new Error('Build failed'),
+        throw new Error('Build failed')
       });
 
       monitoringSystem.on('alert', (alert: Alert) => {
@@ -232,7 +232,7 @@ describe('ProgressMonitoringSystem', () => {
 
     it('should emit alert for consecutive build failures', async () => {
       mockExecSync.mockImplementation(() => {
-        throw new Error('Build failed'),
+        throw new Error('Build failed')
       });
 
       const alertPromise: any = new Promise<Alert>((resolve: any) => {
@@ -251,7 +251,7 @@ describe('ProgressMonitoringSystem', () => {
       const alert: any = await alertPromise;
       expect(alert.severity).toBe('critical');
       expect(alert.message).toContain('consecutive build failures');
-    }),
+    })
   }),
 
   describe('alert system', () => {
@@ -291,7 +291,7 @@ describe('ProgressMonitoringSystem', () => {
 
       monitoringSystem.on('alert', (alert: Alert) => {
         if (alert.type === 'low_success_rate') {
-          alertCount++,
+          alertCount++
         }
       });
 
@@ -321,7 +321,7 @@ describe('ProgressMonitoringSystem', () => {
       });
 
       const criticalEventPromise: any = new Promise((resolve: any) => {
-        monitoringSystem.on('critical_safety_event', resolve),
+        monitoringSystem.on('critical_safety_event', resolve)
       });
 
       monitoringSystem.handleSafetyProtocolActivation(safetyEvent);
@@ -340,7 +340,7 @@ describe('ProgressMonitoringSystem', () => {
       };
 
       const updatePromise: any = new Promise((resolve: any) => {
-        monitoringSystem.on('alert_thresholds_updated', resolve),
+        monitoringSystem.on('alert_thresholds_updated', resolve)
       });
 
       monitoringSystem.updateAlertThresholds(newThresholds);
@@ -370,7 +370,7 @@ describe('ProgressMonitoringSystem', () => {
 
     it('should update dashboard data', async () => {
       const updatePromise: any = new Promise<DashboardData>((resolve: any) => {
-        monitoringSystem.on('dashboard_updated', resolve),
+        monitoringSystem.on('dashboard_updated', resolve)
       });
 
       await monitoringSystem['updateDashboard']();
@@ -433,7 +433,7 @@ describe('ProgressMonitoringSystem', () => {
 
     it('should clear alert history', () => {
       const clearPromise: any = new Promise((resolve: any) => {
-        monitoringSystem.on('alert_history_cleared', resolve),
+        monitoringSystem.on('alert_history_cleared', resolve)
       });
 
       monitoringSystem.clearAlertHistory();
@@ -451,7 +451,7 @@ describe('ProgressMonitoringSystem', () => {
         new Error('Analysis failed')
       ),
 
-      await expect(monitoringSystem['updateDashboard']()).rejects.toThrow('Analysis failed'),
+      await expect(monitoringSystem['updateDashboard']()).rejects.toThrow('Analysis failed')
     });
 
     it('should handle monitoring errors gracefully', async () => {
@@ -469,7 +469,7 @@ describe('ProgressMonitoringSystem', () => {
 
     it('should handle file system errors gracefully', () => {
       mockFs.writeFileSync.mockImplementation(() => {
-        throw new Error('File system error'),
+        throw new Error('File system error')
       });
 
       // Should not throw error

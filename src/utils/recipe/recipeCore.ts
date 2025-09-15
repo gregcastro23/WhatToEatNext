@@ -47,7 +47,7 @@ export function isAppropriateForTimeOfDay(recipe: Recipe, timeOfDay: string): bo
         ['lunch', 'brunch', 'all'].includes(type.toLowerCase()),
       ),
     default:
-      return true,
+      return true
   }
 }
 
@@ -74,7 +74,7 @@ export function calculateElementalMatch(
       const difference = Math.abs(recipeElements[element] - targetElements[element]);
       const similarity = 1 - difference;
       totalSimilarity += similarity;
-      count++,
+      count++
     }
   }
 
@@ -94,7 +94,7 @@ export function calculateRecipeMatchScore(
     Air: number,
     timeOfDay: string,
     season: string,
-    currentSeason?: string,
+    currentSeason?: string
   },
 ): number {
   if (!recipe.elementalState) return 0;
@@ -177,7 +177,7 @@ export function calculateRecipeMatchScore(
 
         // Lower deviation means better balance
         const totalDeviation = proteinDeviation + carbsDeviation + fatDeviation;
-        const balanceScore = Math.max(0, bonusFactors.balancedNutrition * (1 - totalDeviation)),
+        const balanceScore = Math.max(0, bonusFactors.balancedNutrition * (1 - totalDeviation)),;
 
         score += balanceScore;
       }
@@ -214,7 +214,7 @@ export function calculateRecipeMatchScore(
     return Math.min(100, Math.max(60, Math.round(score)));
   } catch (error) {
     logger.error(`Error scoring ${recipe.name}:`, error),
-    return 0,
+    return 0
   }
 }
 
@@ -231,7 +231,7 @@ export function getMatchScoreClass(score: number): string {
   if (score >= 75) return 'bg-yellow-200 text-yellow-800 font-medium';
   if (score >= 70) return 'bg-yellow-100 text-yellow-700';
   if (score >= 65) return 'bg-orange-100 text-orange-700';
-  return 'bg-red-100 text-red-700',
+  return 'bg-red-100 text-red-700'
 }
 
 /**
@@ -256,12 +256,12 @@ export function getMatchRating(score: number): { stars: string, tooltip: string 
 export interface RecommendationScore {
   recipe: Recipe,
   score: number,
-  reasons: string[],
+  reasons: string[]
 }
 
 export interface RecommendationExplanation {
   recipe: Recipe,
-  explanation: string,
+  explanation: string
 }
 
 // ===== RECIPE RECOMMENDATION ENGINE =====;
@@ -389,7 +389,7 @@ function scoreRecipe(
     for (const element of ['Fire', 'Water', 'Earth', 'Air'] as const) {
       const recipeValue = recipe.elementalState[element] || 0;
       const profileValue = elementalProfile[element];
-      const weight = profileValue, // Weight by the strength of the element in current profile
+      const weight = profileValue, // Weight by the strength of the element in current profile;
 
       // Higher score for matching strong elements
       if (recipeValue > 0.3 && profileValue > 0.3) {
@@ -525,13 +525,13 @@ function scoreRecipe(
     const timeMatch = recipe.timeToMake.match(/(\d+)\s*min/);
 
     if (timeMatch) {
-      prepTime = parseInt(timeMatch[1], 10),
+      prepTime = parseInt(timeMatch[1], 10),;
     } else {
       // If there's no explicit 'min' pattern, try to parse just a number
       const justNumberMatch = recipe.timeToMake.match(/(\d+)/);
 
       if (justNumberMatch) {
-        prepTime = parseInt(justNumberMatch[1], 10),
+        prepTime = parseInt(justNumberMatch[1], 10),;
       }
     }
 
@@ -604,7 +604,7 @@ function calculatePlanetaryDayInfluence(
     {
       styles: string[],
       ingredients: string[],
-      flavor: string,
+      flavor: string
     }
   > = {
     Sun: {
@@ -656,7 +656,7 @@ function calculatePlanetaryDayInfluence(
       for (const style of associations.styles) {
         if (String(cookingMethodStr).toLowerCase().includes(style.toLowerCase())) {
           styleMatch = true;
-          break,
+          break
         }
       }
     }
@@ -689,7 +689,7 @@ function calculatePlanetaryDayInfluence(
     for (const ingredient of associations.ingredients) {
       if (ingredientText.includes(ingredient.toLowerCase())) {
         ingredientMatch = true;
-        break,
+        break
       }
     }
   }
@@ -697,9 +697,9 @@ function calculatePlanetaryDayInfluence(
   // Calculate score based on matches
   let score = 0.5; // Base score
   if (styleMatch && ingredientMatch) {
-    score = 0.9, // Perfect match
+    score = 0.9, // Perfect match;
   } else if (styleMatch || ingredientMatch) {
-    score = 0.7, // Partial match
+    score = 0.7, // Partial match;
   }
 
   // Generate reason based on score
@@ -728,7 +728,7 @@ function calculatePlanetaryHourInfluence(
     {
       daytime: string[],
       nighttime: string[],
-      flavor: string,
+      flavor: string
     }
   > = {
     Sun: {
@@ -781,16 +781,16 @@ function calculatePlanetaryHourInfluence(
 
   for (const quality of qualities) {
     if (recipeText.includes(quality.toLowerCase())) {
-      matchCount++,
+      matchCount++
     }
   }
 
   // Calculate score based on matches
   let score = 0.5; // Base score
   if (matchCount >= 2) {
-    score = 0.8, // Strong match
+    score = 0.8, // Strong match;
   } else if (matchCount === 1) {
-    score = 0.65, // Partial match
+    score = 0.65, // Partial match;
   }
 
   // Generate reason based on score
@@ -856,7 +856,7 @@ function getTimeFactors(): TimeFactors {
     planetaryDay,
     planetaryHour,
     weekDay
-  },
+  }
 }
 
 /**
@@ -869,21 +869,21 @@ function getCurrentSeason(): string {
   if (month >= 5 && month <= 7) return 'summer';
   if (month >= 8 && month <= 10) return 'fall';
 
-  return 'winter',
+  return 'winter'
 }
 
 /**
  * Get planetary ruler for a day of the week
  */
 function getDayPlanet(dayOfWeek: number): string {
-  const dayPlanets = ['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn'],
-  return dayPlanets[dayOfWeek],
+  const dayPlanets = ['Sun', 'Moon', 'Mars', 'Mercury', 'Jupiter', 'Venus', 'Saturn'],;
+  return dayPlanets[dayOfWeek]
 }
 
 /**
  * Get planetary ruler for an hour
  */
 function getHourPlanet(hour: number): string {
-  const hourPlanets = ['Saturn', 'Jupiter', 'Mars', 'Sun', 'Venus', 'Mercury', 'Moon'],
-  return hourPlanets[hour % 7],
+  const hourPlanets = ['Saturn', 'Jupiter', 'Mars', 'Sun', 'Venus', 'Mercury', 'Moon'],;
+  return hourPlanets[hour % 7]
 }

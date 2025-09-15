@@ -98,7 +98,7 @@ describe('MakefileIntegration', () => {
       error.status = 2;
       (error as any).stdout = 'Error output';
       mockExecSync.mockImplementation(() => {
-        throw error,
+        throw error
       });
 
       const result: any = await makefileIntegration.executeMakeTarget('failing-target');
@@ -190,7 +190,7 @@ describe('MakefileIntegration', () => {
 
     it('should handle errors gracefully', async () => {
       mockExecSync.mockImplementation(() => {
-        throw new Error('Command failed'),
+        throw new Error('Command failed')
       });
 
       const progress: any = await makefileIntegration.getCampaignProgress();
@@ -217,7 +217,7 @@ describe('MakefileIntegration', () => {
         'Makefile',
         expect.stringContaining('# Campaign Execution Framework');
         'utf8',
-      ),
+      )
     });
 
     it('should not add targets if they already exist', async () => {
@@ -240,7 +240,7 @@ describe('MakefileIntegration', () => {
 
     it('should handle file system errors', async () => {
       mockFs.readFileSync.mockImplementation(() => {
-        throw new Error('File read error'),
+        throw new Error('File read error')
       });
 
       const result: any = await makefileIntegration.addCampaignTargetsToMakefile();
@@ -262,7 +262,7 @@ describe('MakefileIntegration', () => {
     it('should identify missing targets', async () => {
       mockExecSync.mockImplementation(command => {
         if (command.includes('make errors')) {
-          throw new Error('Target not found'),
+          throw new Error('Target not found')
         }
         return 'Success';
       });

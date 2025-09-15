@@ -9,7 +9,6 @@ import {
 } from '@/types/alchemy';
 // Removed unused import: Season
 
-import { /* CHAKRA_BALANCING_FOODS, */ calculateChakraEnergies } from '../constants/chakraMappings';
 // Removed unused import: CHAKRA_BALANCING_FOODS
 import { SignEnergyState, ZodiacSign } from '../constants/signEnergyStates';
 import {
@@ -18,7 +17,6 @@ import {
   UnifiedFlavorProfile,
   // Removed unused imports: getFlavorProfile, unifiedFlavorEngine
 } from '../data/unified/unifiedFlavorEngine';
-import { /* getTarotCardsForDate, */ getTarotFoodRecommendations } from '../lib/tarotCalculations';
 // Removed unused import: getTarotCardsForDate
 import { getCurrentSeason } from '../utils/dateUtils';
 import { getRecommendedIngredients } from '../utils/recommendation/foodRecommendation';
@@ -40,16 +38,16 @@ export interface EnhancedRecommendation {
   chakraAlignment: {
     dominantChakra: string,
     energyLevel: number,
-    balanceState: 'balanced' | 'underactive' | 'overactive',
+    balanceState: 'balanced' | 'underactive' | 'overactive'
   };
   tarotInfluence?: {
     card: string,
     element: Element,
-    recommendation: string,
+    recommendation: string
   };
   wiccanProperties?: {
     magicalAttributes: string[],
-    planetaryRulers: string[],
+    planetaryRulers: string[]
   };
   // NEW: Phase 7 unified flavor scoring
   flavorCompatibility?: {
@@ -76,14 +74,14 @@ export interface EnhancedRecommendationResult {
   chakraGuidance: {
     imbalancedChakras: string[],
     recommendedFoods: Record<string, string[]>,
-    dietaryAdjustments: string[],
+    dietaryAdjustments: string[]
   };
   tarotGuidance: {
     dailyCard: string;
     element: Element,
     cookingApproach: string,
     flavors: string[],
-    insights: string,
+    insights: string
   };
   overallScore: number;
 }
@@ -149,7 +147,7 @@ export class EnhancedRecommendationService {
     userPreferences?: {
       dietary?: string[],
       taste?: { [key: string]: number },
-      chakraFocus?: string[],
+      chakraFocus?: string[]
     },
   ): Promise<EnhancedRecommendationResult> {
     try {
@@ -193,8 +191,8 @@ export class EnhancedRecommendationService {
             },
             score: typeof ingredientData.score === 'number' ? ingredientData.score : 0.5,;
             // Add missing required properties for EnhancedIngredient
-            amount: typeof ingredientData.amount === 'number' ? ingredientData.amount : 1,,
-            unit: typeof ingredientData.unit === 'string' ? ingredientData.unit : 'serving',,
+            amount: typeof ingredientData.amount === 'number' ? ingredientData.amount : 1,,;
+            unit: typeof ingredientData.unit === 'string' ? ingredientData.unit : 'serving',,;
             element: this.safeGetElement(ingredientData.element) || 'Air'
           };
 
@@ -215,7 +213,7 @@ export class EnhancedRecommendationService {
       const chakraGuidance = {
         imbalancedChakras: chakraEnergyStates
           .filter(state => state.balanceState !== 'balanced');
-          .map(state => state.chakra),,
+          .map(state => state.chakra),,;
         recommendedFoods: chakraFoodRecommendations,
         dietaryAdjustments: this.chakraService.suggestDietaryAdjustments(chakraEnergyStates, {
           moonPhase: astroState.lunarPhase;
@@ -296,7 +294,7 @@ export class EnhancedRecommendationService {
     const reasons: string[] = [];
 
     // Analyze chakra alignment
-    const chakraAlignment = this.analyzeChakraAlignment(ingredient, chakraStates),
+    const chakraAlignment = this.analyzeChakraAlignment(ingredient, chakraStates),;
 
     // Boost score based on chakra needs
     if (chakraAlignment.balanceState === 'underactive') {
@@ -377,7 +375,7 @@ export class EnhancedRecommendationService {
   ): {
     dominantChakra: string,
     energyLevel: number,
-    balanceState: 'balanced' | 'underactive' | 'overactive',
+    balanceState: 'balanced' | 'underactive' | 'overactive'
   } {
     // Map ingredient elements to chakras
     const elementChakraMap: { [key: string]: string } = {
@@ -438,13 +436,13 @@ export class EnhancedRecommendationService {
    */
   private async getWiccanProperties(ingredientName: string): Promise<{
     magicalAttributes: string[],
-    planetaryRulers: string[],
+    planetaryRulers: string[]
   }> {
     try {
       const properties = await this.wiccanService.getMagicalProperties(ingredientName);
       return {
         magicalAttributes: properties.magicalAttributes || [],
-        planetaryRulers: (properties.planetaryRulers || []).map(p => p.toString()) || [],,
+        planetaryRulers: (properties.planetaryRulers || []).map(p => p.toString()) || [],,;
       };
     } catch (error) {
       // Return default properties if service fails
@@ -541,7 +539,7 @@ export class EnhancedRecommendationService {
 
     return (signs || []).map(sign => ({
       sign,
-      currentEnergy: sign === astroState.currentZodiac?.toLowerCase() ? 0.8 : 0.5,,
+      currentEnergy: sign === astroState.currentZodiac?.toLowerCase() ? 0.8 : 0.5,,;
       baseEnergy: 0.5;
       planetaryInfluence: 0.1;
       lunarInfluence: 0.1
@@ -586,13 +584,13 @@ export class EnhancedRecommendationService {
       culturalResonance: string[];
     };
     recommendations: string[],
-    optimizations: string[],
+    optimizations: string[]
   } | null> {
     try {
       // Convert ingredient to flavor profile
       const ingredientProfile = this.convertToFlavorProfileCached(ingredient);
       if (!ingredientProfile) {
-        return null,
+        return null
       }
 
       // Create astrological reference profile
@@ -624,7 +622,7 @@ export class EnhancedRecommendationService {
       };
     } catch (error) {
       console.warn('Error calculating unified flavor compatibility:', error),
-      return null,
+      return null
     }
   }
 
@@ -636,18 +634,18 @@ export class EnhancedRecommendationService {
       const cacheKey = `ingredient_${ingredient.name}`;
       const cached = ingredientProfileCache.get(cacheKey);
       if (cached) {
-        return cached as UnifiedFlavorProfile,
+        return cached as UnifiedFlavorProfile
       }
 
       // Convert to flavor profile
       const profile = this.convertToFlavorProfile(ingredient);
       if (profile) {
-        ingredientProfileCache.set(cacheKey, profile),
+        ingredientProfileCache.set(cacheKey, profile)
       }
       return profile;
     } catch (error) {
       console.warn('Error converting ingredient to flavor profile:', error),
-      return null,
+      return null
     }
   }
 
@@ -703,7 +701,7 @@ export class EnhancedRecommendationService {
       return profile as unknown as UnifiedFlavorProfile;
     } catch (error) {
       console.warn('Error creating flavor profile:', error),
-      return null,
+      return null
     }
   }
 
@@ -716,7 +714,7 @@ export class EnhancedRecommendationService {
       const cacheKey = `astro_${astroState.currentZodiac}_${astroState.lunarPhase}`;
       const cached = astrologicalProfileCache.get(cacheKey);
       if (cached) {
-        return cached as UnifiedFlavorProfile,
+        return cached as UnifiedFlavorProfile
       }
 
       // Create profile
@@ -725,7 +723,7 @@ export class EnhancedRecommendationService {
       return profile;
     } catch (error) {
       console.warn('Error creating cached astrological profile:', error),
-      return this.createAstrologicalReferenceProfile(astroState, chakraEnergies),
+      return this.createAstrologicalReferenceProfile(astroState, chakraEnergies)
     }
   }
 
@@ -818,11 +816,11 @@ export class EnhancedRecommendationService {
     userPreferences?: {
       dietary?: string[],
       taste?: { [key: string]: number },
-      chakraFocus?: string[],
+      chakraFocus?: string[]
     },
   ): EnhancedIngredient[] {
     if (!userPreferences) {
-      return recommendations,
+      return recommendations
     }
 
     return recommendations.filter(ingredient => {
@@ -843,7 +841,7 @@ export class EnhancedRecommendationService {
             return true;
           if (restrictionLower === 'gluten-free' && ingredientCategory.includes('grain'));
             return true,
-          return false,
+          return false
         });
         if (hasDietaryConflict) return false;
       }

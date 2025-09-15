@@ -32,7 +32,7 @@ export interface ChakraProperty {
   governs: string[],
   balanceIndicators: string[],
   imbalanceIndicators: string[],
-  planet?: Planet,
+  planet?: Planet
 }
 
 // Define chakra properties by position
@@ -45,7 +45,7 @@ export interface KeyCardChakraMapping {
   cardName: string,
   chakraPosition: ChakraPosition,
   planet?: Planet,
-  description: string,
+  description: string
 }
 
 // Define alchemical energy states
@@ -54,7 +54,7 @@ export type AlchemicalEnergyState = 'Spirit' | 'Substance' | 'Essence' | 'Matter
 // Define chakra-zodiac mappings
 export interface ChakraZodiacMapping {
   chakra: ChakraPosition,
-  zodiacSigns: string[],
+  zodiacSigns: string[]
 }
 
 // Define food category
@@ -62,7 +62,7 @@ export interface ChakraFood {
   name: string,
   chakra: ChakraPosition,
   element?: string,
-  benefits: string[],
+  benefits: string[]
 }
 
 // Define zodiac-chakra mappings
@@ -168,7 +168,7 @@ export interface MajorArcanaChakra {
   cardName: string,
   chakraPosition: ChakraPosition,
   planet?: Planet,
-  description: string,
+  description: string
 }
 
 export const _MAJOR_ARCANA_CHAKRAS: MajorArcanaChakra[] = [
@@ -257,7 +257,7 @@ export interface SuitChakraMapping {
   secondaryChakra?: ChakraPosition,
   element: Element,
   energyState: AlchemicalEnergyState,
-  description: string,
+  description: string
 }
 
 export const _SUIT_CHAKRA_MAPPINGS: SuitChakraMapping[] = [
@@ -462,7 +462,7 @@ export interface ChakraMappingSummary {
   chakra: ChakraPosition,
   majorArcana: string[],
   primarySuit?: TarotSuit,
-  secondarySuit?: TarotSuit,
+  secondarySuit?: TarotSuit
 }
 
 export const _CHAKRA_MAPPING_SUMMARY: ChakraMappingSummary[] = [
@@ -511,7 +511,7 @@ export interface ChakraEnergies {
   throat: number,
   thirdEye: number,
   crown: number,
-  brow: number,
+  brow: number
 }
 
 // Export alias for compatibility

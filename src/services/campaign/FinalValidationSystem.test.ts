@@ -33,7 +33,7 @@ describe('FinalValidationSystem', () => {
         validationSystem as unknown as {
           validateTypeScriptErrors: () => Promise<{ category: string;
             passed: boolean,, current: number,
-            target: number,, criticalIssues: any[],
+            target: number,, criticalIssues: any[]
           }>;
         }
       ).validateTypeScriptErrors();
@@ -53,14 +53,14 @@ src/test.ts(10,5): error TS2304: Cannot find name 'unknownVariable'.;
 src/test.ts(15,10): error TS2345: Argument of type 'string' is not assignable to parameter of type 'number'.
       `;
       mockedExecSync.mockImplementation(() => {
-        throw mockError,
+        throw mockError
       });
 
       const result: any = await (;
         validationSystem as unknown as {
           validateTypeScriptErrors: () => Promise<{ category: string;
             passed: boolean,, current: number,
-            target: number,, criticalIssues: any[],
+            target: number,, criticalIssues: any[]
           }>;
         }
       ).validateTypeScriptErrors();
@@ -98,7 +98,7 @@ src/test.ts: 15:10 - warnin, g: 'unusedVar' is defined but never used (no-unused
 src/test.ts: 20:8 - warnin, g: Unexpected console statement (no-console)
       `;
       mockedExecSync.mockImplementation(() => {
-        throw mockError,
+        throw mockError
       });
 
       const result: any = await (;
@@ -154,7 +154,7 @@ src/test.ts: 20:8 - warnin, g: Unexpected console statement (no-console)
       // Mock grep failure (no matches found)
       const mockError: any = new Error('No matches found');
       mockedExecSync.mockImplementation(() => {
-        throw mockError,
+        throw mockError
       });
 
       const result: any = await (;
@@ -182,7 +182,7 @@ src/test.ts: 20:8 - warnin, g: Unexpected console statement (no-console)
       let callCount: any = 0;
       Date.now = jest.fn(() => {
         callCount++,
-        return callCount === 1 ? 1000 : 6000, // 5 second difference
+        return callCount === 1 ? 1000 : 6000, // 5 second difference;
       });
 
       const result: any = await (;
@@ -211,7 +211,7 @@ src/test.ts: 20:8 - warnin, g: Unexpected console statement (no-console)
       let callCount: any = 0;
       Date.now = jest.fn(() => {
         callCount++,
-        return callCount === 1 ? 1000 : 16000, // 15 second difference
+        return callCount === 1 ? 1000 : 16000, // 15 second difference;
       });
 
       const result: any = await (;
@@ -251,7 +251,7 @@ src/test.ts: 20:8 - warnin, g: Unexpected console statement (no-console)
       // Mock build failure
       mockedExecSync
         .mockImplementationOnce(() => {
-          throw new Error('Build failed'),
+          throw new Error('Build failed')
         })
         .mockReturnValueOnce(''); // yarn test succeeds
 
@@ -271,7 +271,7 @@ src/test.ts: 20:8 - warnin, g: Unexpected console statement (no-console)
       mockedExecSync
         .mockReturnValueOnce('') // yarn build succeeds
         .mockImplementationOnce(() => {
-          throw new Error('Tests failed'),
+          throw new Error('Tests failed')
         });
 
       const result: any = await (;
@@ -358,7 +358,7 @@ src/test.ts: 20:8 - warnin, g: Unexpected console statement (no-console)
         validationSystem as unknown as {
           determineCertificationStatus: (, results: Record<string, unknown>,
             summary: Record<string, unknown>,
-          ) => Record<string, unknown>,
+          ) => Record<string, unknown>
         }
       ).determineCertificationStatus(mockValidationResults, mockPerformanceMetrics);
 
@@ -390,7 +390,7 @@ src/test.ts: 20:8 - warnin, g: Unexpected console statement (no-console)
         validationSystem as unknown as {
           determineCertificationStatus: (, results: Record<string, unknown>,
             summary: Record<string, unknown>,
-          ) => Record<string, unknown>,
+          ) => Record<string, unknown>
         }
       ).determineCertificationStatus(mockValidationResults, mockPerformanceMetrics);
 
@@ -430,7 +430,7 @@ src/test.ts: 20:8 - warnin, g: Unexpected console statement (no-console)
       let callCount: any = 0;
       Date.now = jest.fn(() => {
         callCount++,
-        return callCount % 2 === 1 ? 1000 : 6000, // 5 second build times
+        return callCount % 2 === 1 ? 1000 : 6000, // 5 second build times;
       });
 
       const report: any = await validationSystem.executeComprehensiveValidation();
@@ -449,7 +449,7 @@ src/test.ts: 20:8 - warnin, g: Unexpected console statement (no-console)
       const mockError: any = new Error('Validation failed');
       (mockError as any).stdout = 'error TS2304: Cannot find name';
       mockedExecSync.mockImplementation(() => {
-        throw mockError,
+        throw mockError
       });
 
       // Mock file system operations

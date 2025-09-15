@@ -745,7 +745,7 @@ export const DEFAULT_API_CONFIG = {
  */
 export function cloneDefault<T>(defaultObject: T): T {
   if (typeof defaultObject !== 'object' || defaultObject === null) {
-    return defaultObject,
+    return defaultObject
   }
 
   if (Array.isArray(defaultObject)) {
@@ -766,21 +766,21 @@ export function cloneDefault<T>(defaultObject: T): T {
  * Get default elemental properties
  */
 export function getDefaultElementalProperties(): ElementalProperties {
-  return cloneDefault(DEFAULT_ELEMENTAL_PROPERTIES),
+  return cloneDefault(DEFAULT_ELEMENTAL_PROPERTIES)
 }
 
 /**
  * Get default astrological state
  */
 export function getDefaultAstrologicalState(): AstrologicalState {
-  return cloneDefault(DEFAULT_ASTROLOGICAL_STATE),
+  return cloneDefault(DEFAULT_ASTROLOGICAL_STATE)
 }
 
 /**
  * Get default planetary positions
  */
 export function getDefaultPlanetaryPositions(): Record<string, CelestialPosition> {
-  return cloneDefault(DEFAULT_PLANETARY_POSITIONS),
+  return cloneDefault(DEFAULT_PLANETARY_POSITIONS)
 }
 
 /**
@@ -799,9 +799,9 @@ export function mergeWithDefaults<T extends Record<string, unknown>>(
         typeof defaults[key] === 'object' &&
         !Array.isArray(userValues[key])
       ) {
-        result[key] = mergeWithDefaults(userValues[key] as Record<string, unknown>, defaults[key]),
+        result[key] = mergeWithDefaults(userValues[key] as Record<string, unknown>, defaults[key])
       } else {
-        result[key] = userValues[key] as T[Extract<keyof T, string>],
+        result[key] = userValues[key] as T[Extract<keyof T, string>]
       }
     }
   }
@@ -838,7 +838,7 @@ export function validateAgainstDefaults<T extends object>(
   }
 
   return {
-    isValid: (errors || []).length === 0,,
+    isValid: (errors || []).length === 0,,;
     errors
   };
 }
@@ -850,7 +850,7 @@ export function validateAgainstDefaults<T extends object>(
 export function getLatestAstrologicalState() {
   throw new Error(
     'getLatestAstrologicalState is deprecated in systemDefaults.ts. Import from '@/services/AstrologicalService' instead.'
-  ),
+  )
 }
 
 export default {

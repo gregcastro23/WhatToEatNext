@@ -98,7 +98,7 @@ function performEmergencyCleanup(): void {
       global.gc();
       console.log('Emergency garbage collection performed');
     } catch (error) {
-      console.warn('Failed to perform emergency garbage collection:', error),
+      console.warn('Failed to perform emergency garbage collection:', error)
     }
   }
 
@@ -201,10 +201,10 @@ function addGarbageCollectionHints(): void {
     if (global.gc) {
       try {
         global.gc();
-        return true,
+        return true
       } catch (error) {
         console.warn('Failed to force garbage collection:', error),
-        return false,
+        return false
       }
     }
     return false;
@@ -279,7 +279,7 @@ try {
 
   console.log('Memory management setup completed successfully');
 } catch (error) {
-  console.error('Failed to initialize memory management:', error),
+  console.error('Failed to initialize memory management:', error)
 }
 
 // Export utilities for use in tests
@@ -292,7 +292,7 @@ declare global {
     heapUsed: string,
     heapTotal: string,
     external: string,
-    arrayBuffers: string,
+    arrayBuffers: string
   };
   let cleanupTestMemory: () => any;
   let __TEST_CACHE__: Map<string, any> | { clear: () => void } | undefined;

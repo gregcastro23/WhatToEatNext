@@ -11,7 +11,7 @@ export interface TestValidationRule {
   name: string;
   validator: (result: unknown) => boolean;
   errorMessage: string,
-  severity: 'error' | 'warning' | 'info',
+  severity: 'error' | 'warning' | 'info'
 }
 
 export interface TestConsistencyCheck {
@@ -31,7 +31,7 @@ export interface ValidationResult {
     totalChecks: number,
     passedChecks: number,
     failedChecks: number,
-    warningChecks: number,
+    warningChecks: number
   };
 }
 
@@ -124,7 +124,7 @@ export class TestResultValidator {
           typeof result === 'object' &&;
           result !== null &&
           typeof (result as any).resourcesCleanedUp === 'boolean' &&;
-          (result as any).resourcesCleanedUp === true,,
+          (result as any).resourcesCleanedUp === true,,;
         errorMessage: 'Resources were not properly cleaned up',
         severity: 'warning'
       }
@@ -138,7 +138,7 @@ export class TestResultValidator {
           typeof result === 'object' &&;
           result !== null &&
           typeof (result as any).success === 'boolean' &&;
-          (result as any).success === true,,
+          (result as any).success === true,,;
         errorMessage: 'Build did not complete successfully',
         severity: 'error'
       },
@@ -203,14 +203,14 @@ export class TestResultValidator {
    * Add validation rules for a specific test category
    */
   addValidationRules(category: string, rules: TestValidationRule[]): void {
-    this.validationRules.set(category, rules),
+    this.validationRules.set(category, rules)
   }
 
   /**
    * Add consistency check for a test
    */
   addConsistencyCheck(testName: string, check: TestConsistencyCheck): void {
-    this.consistencyChecks.set(testName, check),
+    this.consistencyChecks.set(testName, check)
   }
 
   /**
@@ -285,7 +285,7 @@ export class TestResultValidator {
     const check = this.consistencyChecks.get(testName);
     if (!check) {
       validationResult.warnings.push(`No consistency check defined for test: ${testName}`);
-      return validationResult,
+      return validationResult
     }
 
     validationResult.summary.totalChecks = 1;
@@ -319,7 +319,7 @@ export class TestResultValidator {
         const numericResults = results.filter(r => typeof r === 'number') as number[];
         if (numericResults.length > 1) {
           const mean = numericResults.reduce((a, b) => a + b, 0) / numericResults.length;
-          const variance = this.calculateVariance(numericResults, mean),
+          const variance = this.calculateVariance(numericResults, mean),;
           const variancePercent = (variance / mean) * 100;
 
           if (variancePercent > check.tolerancePercent) {
@@ -372,8 +372,8 @@ export class TestResultValidator {
 
     for (const [testName, result] of suiteResults) {
       const category = categoryMapping.get(testName) || 'default';
-      const validation = this.validateResult(result, category),
-      validationResults.set(testName, validation),
+      const validation = this.validateResult(result, category),;
+      validationResults.set(testName, validation)
     }
 
     return validationResults;
@@ -394,7 +394,7 @@ export class TestResultValidator {
       isValid: boolean,
       errorCount: number,
       warningCount: number,
-      issues: string[],
+      issues: string[]
     }>;
   } {
     const summary = {
@@ -409,7 +409,7 @@ export class TestResultValidator {
         isValid: boolean,
         errorCount: number,
         warningCount: number,
-        issues: string[],
+        issues: string[]
       }>
     };
 
@@ -440,8 +440,8 @@ export class TestResultValidator {
    * Calculate variance for numeric array
    */
   private calculateVariance(numbers: number[], mean: number): number {
-    const squaredDiffs = numbers.map(x => Math.pow(x - mean, 2)),
-    return Math.sqrt(squaredDiffs.reduce((a, b) => a + b, 0) / squaredDiffs.length),
+    const squaredDiffs = numbers.map(x => Math.pow(x - mean, 2)),;
+    return Math.sqrt(squaredDiffs.reduce((a, b) => a + b, 0) / squaredDiffs.length)
   }
 
   /**
@@ -456,7 +456,7 @@ export class TestResultValidator {
    * Get validation rules for a category
    */
   getValidationRules(category: string): TestValidationRule[] {
-    return this.validationRules.get(category) || [],
+    return this.validationRules.get(category) || []
   }
 
   /**
@@ -472,7 +472,7 @@ export class TestResultValidator {
  */
 export function validateTestResult(result: unknown, category: string): ValidationResult {
   const validator = TestResultValidator.getInstance();
-  return validator.validateResult(result, category),
+  return validator.validateResult(result, category)
 }
 
 /**
@@ -480,7 +480,7 @@ export function validateTestResult(result: unknown, category: string): Validatio
  */
 export function validateTestConsistency(testName: string, results: unknown[]): ValidationResult {
   const validator = TestResultValidator.getInstance();
-  return validator.validateConsistency(testName, results),
+  return validator.validateConsistency(testName, results)
 }
 
 /**

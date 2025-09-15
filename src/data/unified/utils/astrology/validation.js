@@ -21,7 +21,7 @@ exports.getCurrentTransitPositions =
  * A utility function for logging debug information
  * This is a safe replacement for console.log that can be disabled in production
  */
-const debugLog = (_message, ...args) => {
+const _debugLog = (_message, ...args) => {
   // Comment out console.log to avoid linting warnings
   // log.info(message, ...args);
 };

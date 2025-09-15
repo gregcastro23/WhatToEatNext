@@ -13,7 +13,7 @@ describe('Cache Hit Rate Performance Tests', () => {
   let mockConfig: CampaignConfig,
 
   beforeEach(() => {
-    const safetySettings: SafetySettings = { maxFilesPerBatch: 25,,
+    const safetySettings: SafetySettings = { maxFilesPerBatch: 25,,;
       buildValidationFrequency: 5,
       testValidationFrequency: 10,
       corruptionDetectionEnabled: true,
@@ -95,7 +95,7 @@ describe('Cache Hit Rate Performance Tests', () => {
         callCount++;
         // Simulate cache warming up - performance improves over time
         const baseRate: any = 0.6;
-        const improvement: any = Math.min(0.3, callCount * 0.05), // Max 30% improvement
+        const improvement: any = Math.min(0.3, callCount * 0.05), // Max 30% improvement;
         return Math.min(0.95, baseRate + improvement), // Cap at 95%
       });
 
@@ -113,7 +113,7 @@ describe('Cache Hit Rate Performance Tests', () => {
       const lastReading: any = cacheReadings[cacheReadings.length - 1];
       expect(lastReading).toBeGreaterThanOrEqual(firstReading);
       expect(lastReading).toBeGreaterThanOrEqual(0.8); // Should reach target
-    }),
+    })
   }),
 
   describe('Cache Performance Optimization', () => {
@@ -166,7 +166,7 @@ describe('Cache Hit Rate Performance Tests', () => {
         // Simulate cache warming - exponential improvement
         const maxRate: any = 0.9;
         const warmupRate: any = maxRate * (1 - Math.exp(-warmupStep * 0.3));
-        return Math.min(maxRate, warmupRate),
+        return Math.min(maxRate, warmupRate)
       });
 
       // Simulate cache warming process
@@ -221,7 +221,7 @@ describe('Cache Hit Rate Performance Tests', () => {
         // Simulate cache performance degradation under high load
         const loadFactor: any = Math.min(1, concurrentRequests / maxConcurrentRequests);
         const baseRate: any = 0.85;
-        const degradation: any = loadFactor * 0.1, // Up to 10% degradation under full load
+        const degradation: any = loadFactor * 0.1, // Up to 10% degradation under full load;
 
         setTimeout(() => concurrentRequests--, 100), // Simulate request completion
 
@@ -324,7 +324,7 @@ describe('Cache Hit Rate Performance Tests', () => {
         const startTime: any = Date.now();
 
         // Simulate cache lookup time
-        const lookupDelay: any = 5 + Math.random() * 10, // 5-15ms lookup time
+        const lookupDelay: any = 5 + Math.random() * 10, // 5-15ms lookup time;
         const endTime: any = startTime + lookupDelay;
         while (Date.now() < endTime) {
           // Busy wait to simulate lookup
@@ -393,7 +393,7 @@ describe('Cache Hit Rate Performance Tests', () => {
           return 0.85, // Good hit rate before invalidation
         } else {
           // Simulate cache rebuilding after invalidation
-          const rebuildProgress: any = Math.min(1, (Date.now() % 1000) / 1000),
+          const rebuildProgress: any = Math.min(1, (Date.now() % 1000) / 1000),;
           return 0.3 + 0.55 * rebuildProgress, // 30% to 85% recovery
         }
       });

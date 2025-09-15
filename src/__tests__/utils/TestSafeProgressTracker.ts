@@ -21,14 +21,14 @@ interface TestProgressConfig {
   memoryCheckFrequency: number,
   enableMemoryMonitoring: boolean,
   simulateRealProgress: boolean,
-  progressUpdateInterval: number,
+  progressUpdateInterval: number
 }
 
 interface ProgressSnapshot {
   timestamp: number,
   metrics: ProgressMetrics,
   testName?: string,
-  memoryUsage?: number,
+  memoryUsage?: number
 }
 
 /**
@@ -73,7 +73,7 @@ export class TestSafeProgressTracker {
   startTracking(testName?: string): void {
     if (this.isTracking) {
       console.warn('Progress tracking already active');
-      return,
+      return
     }
 
     this.isTracking = true;
@@ -99,7 +99,7 @@ export class TestSafeProgressTracker {
    */
   stopTracking(testName?: string): void {
     if (!this.isTracking) {
-      return,
+      return
     }
 
     this.isTracking = false;
@@ -132,7 +132,7 @@ export class TestSafeProgressTracker {
    */
   updateMetrics(updates: Partial<ProgressMetrics>, testName?: string): void {
     // Deep merge the updates
-    this.currentMetrics = this.deepMergeMetrics(this.currentMetrics, updates),
+    this.currentMetrics = this.deepMergeMetrics(this.currentMetrics, updates),;
 
     // Take snapshot of the update
     this.takeProgressSnapshot(`update-${testName || 'manual'}`);
@@ -159,7 +159,7 @@ export class TestSafeProgressTracker {
         const progress = Math.min(1, currentStep / steps);
 
         // Interpolate between start and target metrics
-        const interpolatedMetrics = this.interpolateMetrics(startMetrics, targetMetrics, progress),
+        const interpolatedMetrics = this.interpolateMetrics(startMetrics, targetMetrics, progress),;
 
         this.currentMetrics = interpolatedMetrics;
         this.takeProgressSnapshot(`simulate-step-${currentStep}-${testName || 'auto'}`);
@@ -180,7 +180,7 @@ export class TestSafeProgressTracker {
     const targetMetrics = this.createTargetMetrics();
 
     // Calculate overall progress
-    const overallProgress = this.calculateOverallProgress(currentMetrics, targetMetrics),
+    const overallProgress = this.calculateOverallProgress(currentMetrics, targetMetrics),;
 
     // Generate mock phase reports
     const phases: PhaseReport[] = [
@@ -225,10 +225,10 @@ export class TestSafeProgressTracker {
     currentUsage: string,
     peakUsage: string,
     snapshotCount: number,
-    memoryEfficient: boolean,
+    memoryEfficient: boolean
   } | null {
     if (!this.memoryMonitor) {
-      return null,
+      return null
     }
 
     const summary = this.memoryMonitor.getMemorySummary();
@@ -268,7 +268,7 @@ export class TestSafeProgressTracker {
     }
 
     return {
-      success: errors.length === 0,,
+      success: errors.length === 0,,;
       errors,
       warnings
     };
@@ -347,7 +347,7 @@ export class TestSafeProgressTracker {
     // Maintain history size limit to prevent memory issues
     if (this.progressHistory.length > this.config.maxHistorySize) {
       const excessCount = this.progressHistory.length - this.config.maxHistorySize;
-      this.progressHistory.splice(0, excessCount),
+      this.progressHistory.splice(0, excessCount)
     }
   }
 
@@ -383,14 +383,14 @@ export class TestSafeProgressTracker {
       try {
         global.gc();
       } catch (error) {
-        console.warn('Failed to force garbage collection:', error),
+        console.warn('Failed to force garbage collection:', error)
       }
     }
   }
 
   private startProgressSimulation(): void {
     if (this.progressUpdateTimer) {
-      return,
+      return
     }
 
     this.progressUpdateTimer = setInterval(() => {
@@ -498,7 +498,7 @@ export class TestSafeProgressTracker {
       const targetValue = target.typeScriptErrors.current;
       result.typeScriptErrors.current = Math.round(;
         startValue + (targetValue - startValue) * progress
-      ),
+      )
     }
 
     // Interpolate linting warnings
@@ -507,7 +507,7 @@ export class TestSafeProgressTracker {
       const targetValue = target.lintingWarnings.current;
       result.lintingWarnings.current = Math.round(;
         startValue + (targetValue - startValue) * progress
-      ),
+      )
     }
 
     return result;
@@ -544,7 +544,7 @@ export class TestSafeProgressTracker {
       achievements.push('Build time under 10 seconds');
     }
 
-    return achievements,
+    return achievements
   }
 
   private generateMockIssues(metrics: ProgressMetrics): string[] {

@@ -2,7 +2,7 @@ function getAstrologicalElementalProfile(astroState: unknown): ElementalProperti
   if (astroState && typeof astroState === 'object' && 'elementalProperties' in astroState) {
     const props = (astroState as any).elementalProperties;
     if (props && typeof props === 'object') {
-      return props as ElementalProperties,
+      return props as ElementalProperties
     }
   }
   return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
@@ -50,7 +50,7 @@ interface FlavorProperties {
   sour?: number,
   salty?: number,
   umami?: number,
-  [key: string]: number | undefined,
+  [key: string]: number | undefined
 }
 
 function _hasFlavorProperties(obj: unknown): obj is FlavorProperties {
@@ -63,13 +63,13 @@ function _hasFlavorProperties(obj: unknown): obj is FlavorProperties {
     typeof objRecord.sour === 'number' ||;
     typeof objRecord.salty === 'number' ||;
     typeof objRecord.umami === 'number'
-  ),
+  )
 }
 
 // Safe access to elemental properties
 function _getElementalProperty(obj: unknown, property: keyof ElementalProperties): number {
   if (isElementalProperties(obj) && typeof obj[property] === 'number') {
-    return obj[property],
+    return obj[property]
   }
   return 0;
 }
@@ -84,14 +84,14 @@ interface CookingMethodData {
   elementalProperties?: ElementalProperties,
   duration: {
     min: number,
-    max: number,
+    max: number
   };
   suitable_for: string[];
   benefits: string[];
   astrologicalInfluences?: {
     favorableZodiac?: any[],
     unfavorableZodiac?: any[],
-    dominantPlanets?: string[],
+    dominantPlanets?: string[]
   };
   toolsRequired?: string[];
   bestFor?: string[];
@@ -236,7 +236,7 @@ export function getMethodThermodynamics(
   const constantThermoData =
     COOKING_METHOD_THERMODYNAMICS[methodNameLower as keyof typeof COOKING_METHOD_THERMODYNAMICS];
   if (constantThermoData) {
-    return constantThermoData,
+    return constantThermoData
   }
 
   // 4. Fallback logic based on method name characteristics - Safe string access
@@ -305,7 +305,7 @@ export function calculateThermodynamicBaseScore(
 // ===== UTILITY FUNCTIONS =====;
 
 export function normalizeMethodName(methodName: string): string {
-  return methodName.toLowerCase().replace(/[^a-z0-9]/g, ''),
+  return methodName.toLowerCase().replace(/[^a-z0-9]/g, '')
 }
 
 export function areSimilarMethods(method1: string, method2: string): boolean {
@@ -324,7 +324,7 @@ export function areSimilarMethods(method1: string, method2: string): boolean {
 
   let matches = 0;
   for (let i = 0, i < (shorter || []).length, i++) {
-    if (longer.includes(shorter[i])) matches++,
+    if (longer.includes(shorter[i])) matches++
   }
 
   return matches / (shorter || []).length >= similarityThreshold;
@@ -431,7 +431,7 @@ export function getRecommendedCookingMethods(
   elementalComposition: ElementalProperties,
   currentZodiac?: any,
   planets?: string[],
-  season = getCurrentSeason(),,
+  season = getCurrentSeason(),,;
   culturalPreference?: string,
   dietaryPreferences?: string[],
   availableTools?: string[],
@@ -440,12 +440,12 @@ export function getRecommendedCookingMethods(
     method: CookingMethodData,
     score: number,
     reasons: string[],
-    thermodynamics: BasicThermodynamicProperties,
+    thermodynamics: BasicThermodynamicProperties
   }> = [];
 
   // Score each cooking method
   Object.values(allCookingMethodsCombined || {}).forEach(method => {
-    let score = 0.5, // Base score
+    let score = 0.5, // Base score;
     const reasons: string[] = [];
 
     // Elemental compatibility (40% weight)
@@ -617,7 +617,7 @@ export function calculateMethodScore(
   const astroElemental = getAstrologicalElementalProfile(astroState);
 
   if (methodElemental && astroElemental) {
-    const elementalCompatibility = calculateElementalCompatibility(methodElemental, astroElemental),
+    const elementalCompatibility = calculateElementalCompatibility(methodElemental, astroElemental),;
     score += elementalCompatibility * 0.4;
   }
 
@@ -668,7 +668,7 @@ export function createElementalProfileFromAstroState(
   // Enhance the dominant element
   Object.keys(profile || {}).forEach(element => {
     if (element === astroState.dominantElement) {
-      profile[element as Element] = Math.min(1.0, profile[element as Element] + 0.3),
+      profile[element as Element] = Math.min(1.0, profile[element as Element] + 0.3)
     }
   });
 
@@ -693,7 +693,7 @@ export function calculateElementalCompatibility(
     // Higher compatibility for similar values (following elemental principles)
     const compatibility = 1 - Math.abs((Number(valueA) || 0) - (Number(valueB) || 0));
     totalCompatibility += compatibility;
-    elementCount++,
+    elementCount++
   });
 
   return elementCount > 0 ? (Number(totalCompatibility) || 0) / (Number(elementCount) || 0) : 0.5;
@@ -772,7 +772,7 @@ export function getHolisticCookingRecommendations(
   ingredient: Ingredient | UnifiedIngredient,
   astroState?: Record<string, unknown>,
   season?: string,
-  includeReasons = false,,
+  includeReasons = false,,;
   availableMethods: string[] = [];
   limit = 5
 ): { method: string, compatibility: number, reason?: string }[] {
@@ -823,7 +823,7 @@ export function getHolisticCookingRecommendations(
   } catch (error) {
     console.error('Error in getHolisticCookingRecommendations:', error),
     // Return empty array as fallback
-    return [],
+    return []
   }
 }
 
@@ -851,7 +851,7 @@ export function getRecommendedCookingMethodsForIngredient(
       const methodElement = String(methodData.element || '').toLowerCase();
 
       // Simple compatibility based on elemental harmony
-      let compatibility = 0.5, // Base score
+      let compatibility = 0.5, // Base score;
 
       // Boost score for matching element
       if (methodElement === String(ingredient.element || '').toLowerCase()) {
@@ -875,6 +875,6 @@ export function getRecommendedCookingMethodsForIngredient(
   } catch (error) {
     console.error('Error in getRecommendedCookingMethodsForIngredient:', error),
     // Return empty array as fallback
-    return [],
+    return []
   }
 }

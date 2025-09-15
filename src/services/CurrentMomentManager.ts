@@ -26,13 +26,13 @@ export interface CurrentMomentData {
   location: {
     latitude: number,
     longitude: number,
-    timezone: string,
+    timezone: string
   };
   planetaryPositions: Record<string, PlanetPosition>;
   metadata: {
     source: 'api' | 'calculated' | 'fallback',
     apiCallTimestamp?: string,
-    lastUpdated: string,
+    lastUpdated: string
   };
 }
 
@@ -87,7 +87,7 @@ class CurrentMomentManager {
       void logger.info('Update already in progress, waiting...'),
       // Wait for current update to complete
       while (this.updateInProgress) {
-        await new Promise(resolve => setTimeout(resolve, 100)),
+        await new Promise(resolve => setTimeout(resolve, 100)),;
       }
       return this.currentMoment!;
     }
@@ -113,7 +113,7 @@ class CurrentMomentManager {
 
       try {
         if (customDateTime) {
-          planetaryPositions = await getPlanetaryPositionsForDateTime(targetDate, location),
+          planetaryPositions = await getPlanetaryPositionsForDateTime(targetDate, location),;
         } else {
           planetaryPositions = await getCurrentPlanetaryPositions(location);
         }
@@ -170,7 +170,7 @@ class CurrentMomentManager {
       this.performanceMetrics.failedUpdates++;
       this.performanceMetrics.lastError = error instanceof Error ? error.message : 'Unknown error';
       void logger.error('Current moment update failed', error),
-      throw error,
+      throw error
     } finally {
       this.updateInProgress = false;
     }
@@ -250,7 +250,7 @@ class CurrentMomentManager {
           'sns.set_palette('husl')\n';
           '\n',
           `# LIVE CURRENT MOMENT ANALYSIS - ${momentData.date}\n`,
-          `current_timestamp = datetime.fromisoformat('${momentData.timestamp.slice(0, -1)}').isoformat()  # ${momentData.date}\n`,,
+          `current_timestamp = datetime.fromisoformat('${momentData.timestamp.slice(0, -1)}').isoformat()  # ${momentData.date}\n`,,;
           `print(f\'🌟 RUNNING LIVE API CALL FOR ${momentData.date.toUpperCase()}: {current_timestamp}\")\n`,
           '\n',
           `# CORRECT PLANETARY POSITIONS FOR ${momentData.date.toUpperCase()}\n`,
@@ -259,7 +259,7 @@ class CurrentMomentManager {
           '\n',
           `print(f\"🎉 SUCCESS - Live planetary positions for ${momentData.date}:\")\n`,
           'for planet, data in live_positions.items():\n',
-          '    retro = ' (R)' if data.get(\'retrograde\') else ''\n',,
+          '    retro = ' (R)' if data.get(\'retrograde\') else ''\n',,;
           '    print(f\'   {planet}: {data['minutes']} {data['sign']}{retro} ({data['element']})\")\n',
           '\n',
           'print('✅ CURRENT MOMENT ANALYSIS COMPLETE')\n'
@@ -273,7 +273,7 @@ class CurrentMomentManager {
       }
     } catch (error) {
       void logger.error('Failed to update notebook:', error),
-      throw error,
+      throw error
     }
   }
 
@@ -301,7 +301,7 @@ class CurrentMomentManager {
       void logger.info('Updated systemDefaults.ts successfully');
     } catch (error) {
       void logger.error('Failed to update systemDefaults:', error),
-      throw error,
+      throw error
     }
   }
 
@@ -332,7 +332,7 @@ class CurrentMomentManager {
       void logger.info('Updated streamlinedPlanetaryPositions.ts successfully');
     } catch (error) {
       void logger.error('Failed to update streamlinedPlanetaryPositions:', error),
-      throw error,
+      throw error
     }
   }
 
@@ -352,7 +352,7 @@ class CurrentMomentManager {
 
       // Replace the REFERENCE_POSITIONS constant
       const updatedContent = content;
-        .replace(/const REFERENCE_POSITIONS = \{[\s\S]*?\},/, newPositions)
+        .replace(/const REFERENCE_POSITIONS = \{[\s\S]*?\},/, newPositions);
         .replace(
           /const REFERENCE_DATE = new Date\('[^']+'\);/;
           `const REFERENCE_DATE = new Date('${momentData.timestamp}');`;
@@ -362,7 +362,7 @@ class CurrentMomentManager {
       void logger.info('Updated accurateAstronomy.ts successfully');
     } catch (error) {
       void logger.error('Failed to update accurateAstronomy:', error),
-      throw error,
+      throw error
     }
   }
 
@@ -444,7 +444,7 @@ class CurrentMomentManager {
   ): string {
     const lines = [
       `// Updated reference data based on accurate positions for ${dateStr}`,
-      'const REFERENCE_POSITIONS = {',,
+      'const REFERENCE_POSITIONS = {',,;
     ],
 
     Object.entries(positions).forEach(([planet, position]) => {

@@ -14,7 +14,7 @@ jest.mock('glob');
 
 const mockFs = fs.Mocked<typeof fs>;
 const mockGlob = require('glob') as {
-  glob: jest.MockedFunction<(patter, n: string, options?: unknown) => Promise<string[]>>,
+  glob: jest.MockedFunction<(patter, n: string, options?: unknown) => Promise<string[]>>
 };
 
 describe('UnusedExportAnalyzer', () => {
@@ -127,7 +127,7 @@ export interface TestInterface {}
 export type TestType = string;
       `;
 
-      const exports = (analyzer as { extractExports: (conten, t: string) => string[] }).extractExports(,
+      const exports = (analyzer as { extractExports: (conten, t: string) => string[] }).extractExports(,;
         content,
       );
 
@@ -146,7 +146,7 @@ export default class DefaultClass {};
 export default TestComponent;
       `;
 
-      const exports = (analyzer as { extractExports: (conten, t: string) => string[] }).extractExports(,
+      const exports = (analyzer as { extractExports: (conten, t: string) => string[] }).extractExports(,;
         content,
       );
 
@@ -159,7 +159,7 @@ export default TestComponent;
 export { testA, testB, testC as aliasC };
       `;
 
-      const exports = (analyzer as { extractExports: (conten, t: string) => string[] }).extractExports(,
+      const exports = (analyzer as { extractExports: (conten, t: string) => string[] }).extractExports(,;
         content,
       );
 
@@ -172,21 +172,21 @@ export { testA, testB, testC as aliasC };
 
   describe('determinePriority', () => {
     it('should assign HIGH priority to recipe files', () => {
-      const priority = (analyzer as { determinePriority: (pat, h: string) => FilePriority }).determinePriority(,
+      const priority = (analyzer as { determinePriority: (pat, h: string) => FilePriority }).determinePriority(,;
         '/project/src/data/recipes/TestRecipe.ts'
       );
       expect(priority).toBe(FilePriority.HIGH);
     });
 
     it('should assign MEDIUM priority to component files', () => {
-      const priority = (analyzer as { determinePriority: (pat, h: string) => FilePriority }).determinePriority(,
+      const priority = (analyzer as { determinePriority: (pat, h: string) => FilePriority }).determinePriority(,;
         '/project/src/components/TestComponent.tsx'
       );
       expect(priority).toBe(FilePriority.MEDIUM);
     });
 
     it('should assign LOW priority to type files', () => {
-      const priority = (analyzer as { determinePriority: (pat, h: string) => FilePriority }).determinePriority(,
+      const priority = (analyzer as { determinePriority: (pat, h: string) => FilePriority }).determinePriority(,;
         '/project/src/types/TestTypes.ts'
       );
       expect(priority).toBe(FilePriority.LOW);
@@ -195,28 +195,28 @@ export { testA, testB, testC as aliasC };
 
   describe('determineCategory', () => {
     it('should categorize recipe files correctly', () => {
-      const category = (analyzer as { determineCategory: (pat, h: string) => FileCategory }).determineCategory(,
+      const category = (analyzer as { determineCategory: (pat, h: string) => FileCategory }).determineCategory(,;
         '/project/src/data/recipes/TestRecipe.ts'
       );
       expect(category).toBe(FileCategory.RECIPE);
     });
 
     it('should categorize core files correctly', () => {
-      const category = (analyzer as { determineCategory: (pat, h: string) => FileCategory }).determineCategory(,
+      const category = (analyzer as { determineCategory: (pat, h: string) => FileCategory }).determineCategory(,;
         '/project/src/components/TestComponent.tsx'
       );
       expect(category).toBe(FileCategory.CORE);
     });
 
     it('should categorize external files correctly', () => {
-      const category = (analyzer as { determineCategory: (pat, h: string) => FileCategory }).determineCategory(,
+      const category = (analyzer as { determineCategory: (pat, h: string) => FileCategory }).determineCategory(,;
         '/project/src/types/TestTypes.ts'
       );
       expect(category).toBe(FileCategory.EXTERNAL);
     });
 
     it('should categorize test files correctly', () => {
-      const category = (analyzer as { determineCategory: (pat, h: string) => FileCategory }).determineCategory(,
+      const category = (analyzer as { determineCategory: (pat, h: string) => FileCategory }).determineCategory(,;
         '/project/src/components/TestComponent.test.tsx'
       );
       expect(category).toBe(FileCategory.TEST);
@@ -225,7 +225,7 @@ export { testA, testB, testC as aliasC };
 
   describe('calculateSafetyScore', () => {
     it('should return high score for simple files', () => {
-      const content: any = 'export const simple = 'test',',
+      const content: any = 'export const simple = 'test',',;
       const unusedExports: any = [
         {
           exportName: 'simple',
@@ -245,7 +245,7 @@ export { testA, testB, testC as aliasC };
     });
 
     it('should return lower score for complex files', () => {
-      const content: any = 'export const complex = 'test',\n'.repeat(600), // Large file
+      const content: any = 'export const complex = 'test',\n'.repeat(600), // Large file;
       const unusedExports: any = Array(15).fill({
         exportName: 'test',
         exportType: 'const' as const,
@@ -263,7 +263,7 @@ export { testA, testB, testC as aliasC };
     });
 
     it('should increase score for test files', () => {
-      const content: any = 'export const testExport = 'test',\n'.repeat(300), // Medium complexity file
+      const content: any = 'export const testExport = 'test',\n'.repeat(300), // Medium complexity file;
       const unusedExports: any = Array(8).fill({
         exportName: 'testExport',
         exportType: 'const' as const,
@@ -335,7 +335,7 @@ export { testA, testB, testC as aliasC };
 
       const complexity = (;
         analyzer as {
-          assessTransformationComplexity: (exportInf, o: Record<string, unknown>) => TransformationComplexity,
+          assessTransformationComplexity: (exportInf, o: Record<string, unknown>) => TransformationComplexity
         }
       ).assessTransformationComplexity(exportInfo);
       expect(complexity).toBe(TransformationComplexity.SIMPLE);
@@ -354,7 +354,7 @@ export { testA, testB, testC as aliasC };
 
       const complexity = (;
         analyzer as {
-          assessTransformationComplexity: (exportInf, o: Record<string, unknown>) => TransformationComplexity,
+          assessTransformationComplexity: (exportInf, o: Record<string, unknown>) => TransformationComplexity
         }
       ).assessTransformationComplexity(exportInfo);
       expect(complexity).toBe(TransformationComplexity.MODERATE);
@@ -373,7 +373,7 @@ export { testA, testB, testC as aliasC };
 
       const complexity = (;
         analyzer as {
-          assessTransformationComplexity: (exportInf, o: Record<string, unknown>) => TransformationComplexity,
+          assessTransformationComplexity: (exportInf, o: Record<string, unknown>) => TransformationComplexity
         }
       ).assessTransformationComplexity(exportInfo);
       expect(complexity).toBe(TransformationComplexity.COMPLEX);
@@ -392,7 +392,7 @@ export { testA, testB, testC as aliasC };
 
       const complexity = (;
         analyzer as {
-          assessTransformationComplexity: (exportInf, o: Record<string, unknown>) => TransformationComplexity,
+          assessTransformationComplexity: (exportInf, o: Record<string, unknown>) => TransformationComplexity
         }
       ).assessTransformationComplexity(exportInfo);
       expect(complexity).toBe(TransformationComplexity.VERY_COMPLEX);

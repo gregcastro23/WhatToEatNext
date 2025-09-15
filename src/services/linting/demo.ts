@@ -197,7 +197,7 @@ async function demonstrateDomainContextDetection() {
           confidence: number,
           indicators: unknown[],
           specialRules: unknown[],
-          handlingRecommendations: unknown[],
+          handlingRecommendations: unknown[]
         },
       );
       if (recommendations.rulesToDisable.length > 0) {
@@ -442,13 +442,13 @@ async function runDemonstration() {
     log.info('• ✅ Risk assessment and mitigation planning');
     log.info('• ✅ Comprehensive workflow integration');
   } catch (error) {
-    console.error('❌ Demonstration failed:', error),
+    console.error('❌ Demonstration failed:', error)
   }
 }
 
 // Run the demonstration if this file is executed directly
 if (require.main === module) {
-  void runDemonstration(),
+  void runDemonstration()
 }
 
 export { runDemonstration };

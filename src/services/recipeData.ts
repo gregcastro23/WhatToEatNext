@@ -10,7 +10,7 @@ export interface RecipeDataEnhanced {
     lunarPhase?: string,
     planetaryInfluences?: Record<string, number>;
     elementalProperties?: Record<string, number>,
-    seasonalAlignment?: number,
+    seasonalAlignment?: number
   };
   season?: string | string[];
   mealType?: string | string[];
@@ -49,7 +49,7 @@ const RECIPE_CACHE_KEY = 'all_recipes';
 // Helper function for safe string extraction
 function safeGetString(value: unknown): string | undefined {
   if (typeof value === 'string') {
-    return value,
+    return value
   }
   return undefined;
 }
@@ -60,14 +60,14 @@ function safeGetString(value: unknown): string | undefined {
  */
 function ensureRecipeProperties(recipe: Partial<Recipe>): Recipe {
   if (!recipe) {
-    throw new Error('Recipe cannot be null or undefined'),
+    throw new Error('Recipe cannot be null or undefined')
   }
 
   // Validate name format
   const recipeName = (recipe as any).name;
   if (recipeName && typeof recipeName === 'string') {
     if (recipeName.length < 3 || recipeName.length > 100) {
-      throw new Error('Recipe name must be between 3 and 100 characters'),
+      throw new Error('Recipe name must be between 3 and 100 characters')
     }
   }
 
@@ -105,12 +105,12 @@ function ensureRecipeProperties(recipe: Partial<Recipe>): Recipe {
   if (recipe.astrologicalInfluences) {
     safeRecipe.astrologicalInfluences = validateAstrologicalInfluences(;
       recipe.astrologicalInfluences
-    ),
+    )
   }
   if ((recipe as any).nutrition) {
     safeRecipe.nutrition = validateAndNormalizeNutrition(;
       (recipe as any).nutrition as NutritionData;
-    ),
+    )
   }
 
   // Timestamp handling
@@ -125,16 +125,16 @@ function validateAndNormalizeIngredients(
   ingredients: Array<Partial<RecipeIngredient>>,
 ): RecipeIngredient[] {
   if (!Array.isArray(ingredients)) {
-    throw new Error('Ingredients must be an array'),
+    throw new Error('Ingredients must be an array')
   }
 
   if (ingredients.length === 0) {
-    throw new Error('Recipe must have at least one ingredient'),
+    throw new Error('Recipe must have at least one ingredient')
   }
 
   return ingredients.map(ing => ({
     name: safeGetString((ing as any).name) || 'Unknown Ingredient';
-    amount: typeof ing.amount === 'number' ? ing.amount : 1,,
+    amount: typeof ing.amount === 'number' ? ing.amount : 1,,;
     unit: ing.unit || 'piece';
     category: ing.category || 'other';
     optional: ing.optional || false;
@@ -147,11 +147,11 @@ function validateAndNormalizeIngredients(
 
 function validateAndNormalizeInstructions(instructions: string[] | unknown[]): string[] {
   if (!Array.isArray(instructions)) {
-    return ['Prepare ingredients', 'Cook until done'],
+    return ['Prepare ingredients', 'Cook until done']
   }
 
   if (instructions.length === 0) {
-    return ['Prepare ingredients', 'Cook until done'],
+    return ['Prepare ingredients', 'Cook until done']
   }
 
   return instructions.map(step =>;
@@ -169,7 +169,7 @@ function validateAndNormalizeTime(time: string | number | unknown): string {
   if (typeof time === 'string') {
     // Check if already has time units
     if (/minutes|mins|hours|hrs/i.test(time)) {
-      return time,
+      return time
     }
 
     // Try to parse
@@ -184,13 +184,13 @@ function validateAndNormalizeTime(time: string | number | unknown): string {
 
 function validateServings(servings: number | string | unknown): number {
   if (typeof servings === 'number') {
-    return Math.max(1, Math.min(12, Math.round(servings))),
+    return Math.max(1, Math.min(12, Math.round(servings)))
   }
 
   if (typeof servings === 'string') {
-    const num = parseInt(servings, 10),
+    const num = parseInt(servings, 10),;
     if (!isNaN(num)) {
-      return Math.max(1, Math.min(12, num)),
+      return Math.max(1, Math.min(12, num))
     }
   }
 
@@ -211,7 +211,7 @@ function validateMealType(mealType: string | string[] | unknown): string[] {
 
   if (typeof mealType === 'string') {
     if (validMealTypes.includes(mealType.toLowerCase())) {
-      return [mealType.toLowerCase()],
+      return [mealType.toLowerCase()]
     }
     return ['dinner'];
   }
@@ -222,18 +222,18 @@ function validateMealType(mealType: string | string[] | unknown): string[] {
       .map(type => (type).toLowerCase());
       .filter(type => validMealTypes.includes(type));
 
-    return validEntries.length > 0 ? validEntries : ['dinner'],
+    return validEntries.length > 0 ? validEntries : ['dinner']
   }
 
   return ['dinner'];
 }
 
 function validateSeason(season: string | string[] | unknown): string[] {
-  const validSeasons = ['spring', 'summer', 'fall', 'winter', 'all'],
+  const validSeasons = ['spring', 'summer', 'fall', 'winter', 'all'],;
 
   if (typeof season === 'string') {
     if (validSeasons.includes(season.toLowerCase())) {
-      return [season.toLowerCase()],
+      return [season.toLowerCase()]
     }
     return ['all'];
   }
@@ -244,7 +244,7 @@ function validateSeason(season: string | string[] | unknown): string[] {
       .map(s => (s).toLowerCase());
       .filter(s => validSeasons.includes(s));
 
-    return validEntries.length > 0 ? validEntries : ['all'],
+    return validEntries.length > 0 ? validEntries : ['all']
   }
 
   return ['all'];
@@ -252,13 +252,13 @@ function validateSeason(season: string | string[] | unknown): string[] {
 
 function validateAstrologicalInfluences(influences: string | string[] | unknown): string[] {
   if (typeof influences === 'string') {
-    return [influences],
+    return [influences]
   }
 
   if (Array.isArray(influences)) {
     const validEntries = influences.filter(i => typeof i === 'string').filter(i => i.length > 0);
 
-    return validEntries.length > 0 ? validEntries : ['all'],
+    return validEntries.length > 0 ? validEntries : ['all']
   }
 
   return ['all'];
@@ -313,7 +313,7 @@ class RecipeData {
         logger.error('recipeElementalMappings not found or invalid');
         this.recipes = [];
         this.initialized = true;
-        return,
+        return
       }
 
       // Handle different formats of recipeElementalMappings
@@ -359,7 +359,7 @@ class RecipeData {
                 const ingData = ing as any;
                 return {
                   name: String(ingData.name || 'Unknown Ingredient');
-                  amount: typeof ingData.amount === 'number' ? ingData.amount : 1,,
+                  amount: typeof ingData.amount === 'number' ? ingData.amount : 1,,;
                   unit: String(ingData.unit || 'piece');
                   category: String(ingData.category || 'other')
                 };
@@ -451,7 +451,7 @@ class RecipeData {
       // If we still have no recipes, return at least a fallback recipe
       if (!this.recipes.length) {
         const fallbackRecipe = this.getFallbackRecipe();
-        return [fallbackRecipe],
+        return [fallbackRecipe]
       }
 
       // Standardize all recipes
@@ -577,7 +577,7 @@ class RecipeData {
     // Clear cache
     cache.delete(RECIPE_CACHE_KEY);
 
-    return newRecipe,
+    return newRecipe
   }
 
   async getRecipeById(id: string): Promise<Recipe | null> {
@@ -585,7 +585,7 @@ class RecipeData {
       const recipes = await this.getAllRecipes();
       const recipe = recipes.find(r => r.id === id);
 
-      return recipe || null,
+      return recipe || null
     } catch (error) {
       errorHandler.handleError(error, {
         context: 'RecipeData',
@@ -604,7 +604,7 @@ class RecipeData {
     isVegetarian?: boolean,
     isVegan?: boolean,
     isGlutenFree?: boolean,
-    isDairyFree?: boolean,
+    isDairyFree?: boolean
   }): Promise<Recipe[]> {
     try {
       if (this.initPromise) {
@@ -620,7 +620,7 @@ class RecipeData {
           const targetCuisine = String(filters.cuisine || '').toLowerCase();
 
           if (!recipeCuisine.includes(targetCuisine)) {
-            return false,
+            return false
           }
         }
 
@@ -633,7 +633,7 @@ class RecipeData {
           const targetMealTypes = filters.mealType.map(mt => String(mt || '').toLowerCase());
 
           if (!targetMealTypes.some(target => mealTypes.includes(target))) {
-            return false,
+            return false
           }
         }
 
@@ -648,7 +648,7 @@ class RecipeData {
             const targetSeasons = filters.season.map(s => String(s || '').toLowerCase());
 
             if (!targetSeasons.some(target => seasons.includes(target))) {
-              return false,
+              return false
             }
           }
         }
@@ -668,26 +668,26 @@ class RecipeData {
             ),
 
             if (!hasMatch) {
-              return false,
+              return false
             }
           }
         }
 
         // Filter by dietary restrictions
         if (filters.isVegetarian && recipe.isVegetarian === false) {
-          return false,
+          return false
         }
 
         if (filters.isVegan && recipe.isVegan === false) {
-          return false,
+          return false
         }
 
         if (filters.isGlutenFree && recipe.isGlutenFree === false) {
-          return false,
+          return false
         }
 
         if (filters.isDairyFree && recipe.isDairyFree === false) {
-          return false,
+          return false
         }
 
         return true;

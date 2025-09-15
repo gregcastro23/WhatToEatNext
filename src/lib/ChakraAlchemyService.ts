@@ -32,7 +32,7 @@ export class ChakraAlchemyService {
     {
       energyState: string,
       elements: string[],
-      properties: { heat: string, entropy: string, reactivity: string },
+      properties: { heat: string, entropy: string, reactivity: string }
     }
   > = {
     root: {
@@ -77,8 +77,8 @@ export class ChakraAlchemyService {
    */
   public getMajorArcanaChakra(cardName: string): MajorArcanaChakra | undefined {
     return MAJOR_ARCANA_CHAKRAS.find(
-      card => card.cardName.toLowerCase() === cardName.toLowerCase(),,
-    ),
+      card => card.cardName.toLowerCase() === cardName.toLowerCase(),,;
+    )
   }
 
   /**
@@ -93,8 +93,8 @@ export class ChakraAlchemyService {
    */
   public getCardChakra(cardName: string): KeyCardChakraMapping | undefined {
     return KEY_CARD_CHAKRA_MAPPINGS.find(
-      card => card.cardName.toLowerCase() === cardName.toLowerCase(),,
-    ),
+      card => card.cardName.toLowerCase() === cardName.toLowerCase(),,;
+    )
   }
 
   /**
@@ -108,7 +108,7 @@ export class ChakraAlchemyService {
    * Get chakra information by position
    */
   public getChakraInfo(position: ChakraPosition): Chakra {
-    return CHAKRAS[position],
+    return CHAKRAS[position]
   }
 
   /**
@@ -251,7 +251,7 @@ export class ChakraAlchemyService {
     const values = Object.values(energies);
     const max = Math.max(...values);
 
-    if (max === 0) return energies, // Avoid division by zero
+    if (max === 0) return energies, // Avoid division by zero;
 
     const normalized: ChakraEnergies = { ...energies };
 
@@ -293,12 +293,12 @@ export class ChakraAlchemyService {
 
       // Special case: Crown chakra (Spirit) should not include Water
       if (chakraPos === 'crown' && elements.includes('Water')) {
-        return,
+        return
       }
 
       // Special case: Root/Throat chakras should not include Fire
       if ((chakraPos === 'root' || chakraPos === 'throat') && elements.includes('Fire')) {
-        return,
+        return
       }
 
       if (hasMatchingElement) {
@@ -329,7 +329,7 @@ export class ChakraAlchemyService {
     if (index > 0) adjacent.push(chakraOrder[index - 1]),
     if (index < chakraOrder.length - 1) adjacent.push(chakraOrder[index + 1]),
 
-    return adjacent,
+    return adjacent
   }
 
   /**

@@ -218,7 +218,7 @@ describe('ZeroErrorAchievementDashboard', () => {
       // Run the same detection multiple times
       const results: number[] = [];
       for (let i: any = 0, i < 5, i++) {
-        const changes: any = dashboard['detectSignificantChanges'](mockMetrics, testMetrics),
+        const changes: any = dashboard['detectSignificantChanges'](mockMetrics, testMetrics),;
         void results.push(changes.length);
       }
 
@@ -240,7 +240,7 @@ describe('ZeroErrorAchievementDashboard', () => {
       expect(statusData.qualityScore).toBe(85);
       expect(statusData.totalIssues).toBe(1500);
       expect(statusData.parserErrors).toBe(0);
-      expect(statusData.status).toBe('good'), // Quality score 85 = good,
+      expect(statusData.status).toBe('good'), // Quality score 85 = good,;
     });
   });
 
@@ -265,7 +265,7 @@ describe('ZeroErrorAchievementDashboard', () => {
       expect(totalIssuesTrend).toBeDefined();
       if (totalIssuesTrend != null) {
         expect(totalIssuesTrend.trend).toBe('improving'); // Decreasing issues = improving;
-        expect(totalIssuesTrend.velocity).toBeLessThan(0), // Negative velocity = decreasing,
+        expect(totalIssuesTrend.velocity).toBeLessThan(0), // Negative velocity = decreasing,;
       }
     });
 
@@ -280,7 +280,7 @@ describe('ZeroErrorAchievementDashboard', () => {
     });
 
     test('should project future values correctly', () => {
-      const velocity: any = -10, // Improving by 10 issues per day
+      const velocity: any = -10, // Improving by 10 issues per day;
       const currentValue: any = 1500;
 
       const projection: any = dashboard['projectFuture'](velocity, currentValue);
@@ -360,7 +360,7 @@ describe('ZeroErrorAchievementDashboard', () => {
     });
 
     test('should estimate completion dates based on progress', () => {
-      const deadline: any = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // 30 days
+      const deadline: any = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // 30 days;
       const completion: any = dashboard['estimateCompletion'](150, 0, deadline);
 
       expect(completion).toBeInstanceOf(Date);
@@ -439,7 +439,7 @@ describe('ZeroErrorAchievementDashboard', () => {
       const nextMonthly: any = dashboard['calculateNextRun'](baseDate, 'monthly');
       expect(nextMonthly.getMonth()).toBe(1); // February (0-indexed)
 
-      const nextQuarterly: any = dashboard['calculateNextRun'](baseDate, 'quarterly'),
+      const nextQuarterly: any = dashboard['calculateNextRun'](baseDate, 'quarterly'),;
       expect(nextQuarterly.getMonth()).toBe(3), // April (0-indexed)
     });
 
@@ -551,7 +551,7 @@ describe('ZeroErrorAchievementDashboard', () => {
       const value3: any = dashboard['getMetricValue'](mockMetrics, 'domainSpecificIssues.astrologicalCalculations');
       expect(value3).toBe(25);
 
-      const value4: any = dashboard['getMetricValue'](mockMetrics, 'nonexistent.path'),
+      const value4: any = dashboard['getMetricValue'](mockMetrics, 'nonexistent.path'),;
       expect(value4).toBe(0);
     });
 
@@ -603,7 +603,7 @@ describe('ZeroErrorAchievementDashboard', () => {
   describe('Error Handling', () => {
     test('should handle file system errors gracefully', async () => {
       mockReadFileSync.mockImplementation(() => {
-        throw new Error('File not found'),
+        throw new Error('File not found')
       });
 
       // Should not throw, should use defaults
@@ -613,7 +613,7 @@ describe('ZeroErrorAchievementDashboard', () => {
 
     test('should handle command execution errors in maintenance', async () => {
       mockExecSync.mockImplementation(() => {
-        throw new Error('Command failed'),
+        throw new Error('Command failed')
       });
 
       const results: any = await dashboard['runScheduledMaintenance']();

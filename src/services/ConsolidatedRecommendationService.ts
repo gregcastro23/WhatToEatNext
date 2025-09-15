@@ -7,7 +7,6 @@ import { Recipe } from '../types/recipe';
 // Import utility functions
 import { getCuisineRecommendations } from '../utils/cuisineRecommender';
 import { calculateElementalCompatibility } from '../utils/elemental/elementalUtils';
-import { getIngredientRecommendations } from '../utils/recommendation/foodRecommendation';
 import { getCookingMethodRecommendations } from '../utils/recommendation/methodRecommendation';
 
 // Import consolidated services
@@ -107,7 +106,7 @@ export class ConsolidatedRecommendationService implements RecommendationServiceI
                 .toLowerCase()
                 .includes(String(ingredient || '').toLowerCase());
             ),
-          ),
+          )
         });
       }
 
@@ -122,7 +121,7 @@ export class ConsolidatedRecommendationService implements RecommendationServiceI
                 .toLowerCase()
                 .includes(String(ingredient || '').toLowerCase());
             ),
-          ),
+          )
         });
       }
 
@@ -135,7 +134,7 @@ export class ConsolidatedRecommendationService implements RecommendationServiceI
           scores[String(recipeData.id || '')] = this.calculateElementalCompatibility(
             elementalState as ElementalProperties,
             recipeData.elementalState as ElementalProperties
-          ),
+          )
         } else {
           scores[String(recipeData.id || '')] = 0.5, // Default score if we can't calculate compatibility
         }
@@ -145,12 +144,12 @@ export class ConsolidatedRecommendationService implements RecommendationServiceI
       filteredRecipes.sort((a, b) => {
         const recipeA = a as any;
         const recipeB = b as any;
-        return scores[String(recipeB.id || '')] - scores[String(recipeA.id || '')],
+        return scores[String(recipeB.id || '')] - scores[String(recipeA.id || '')]
       });
 
       // Apply limit if specified
       if (criteria.limit && criteria.limit > 0) {
-        filteredRecipes = filteredRecipes.slice(0, criteria.limit),
+        filteredRecipes = filteredRecipes.slice(0, criteria.limit),;
       }
 
       return {
@@ -254,7 +253,7 @@ export class ConsolidatedRecommendationService implements RecommendationServiceI
             String(ingredientData.name || '')
               .toLowerCase()
               .includes(String(excludeIngredient || '').toLowerCase());
-          ),
+          )
         });
       }
 
@@ -275,7 +274,7 @@ export class ConsolidatedRecommendationService implements RecommendationServiceI
           scores[ingredientId] = this.calculateElementalCompatibility(
             criteria.elementalProperties;
             ingredientData.elementalPropertiesState as ElementalProperties
-          ),
+          )
         } else {
           scores[ingredientId] = 0.5, // Default score if we can't calculate compatibility
         }
@@ -287,12 +286,12 @@ export class ConsolidatedRecommendationService implements RecommendationServiceI
         const ingredientB = b as any;
         const idA = String(ingredientA.id || '');
         const idB = String(ingredientB.id || '');
-        return scores[idB] - scores[idA],
+        return scores[idB] - scores[idA]
       });
 
       // Apply limit if specified
       if (criteria.limit && criteria.limit > 0) {
-        filteredIngredients = filteredIngredients.slice(0, criteria.limit),
+        filteredIngredients = filteredIngredients.slice(0, criteria.limit),;
       }
 
       return {
@@ -338,7 +337,7 @@ export class ConsolidatedRecommendationService implements RecommendationServiceI
       const scores = Object.fromEntries(;
         cuisineRecommendations.map((rec: unknown) => {
           const recData = rec as any;
-          return [String(recData.name || ''), Number(recData.matchPercentage || 0)],
+          return [String(recData.name || ''), Number(recData.matchPercentage || 0)]
         }),
       );
 
@@ -447,7 +446,7 @@ export class ConsolidatedRecommendationService implements RecommendationServiceI
     source: ElementalProperties,
     target: ElementalProperties,
   ): number {
-    return calculateElementalCompatibility(source, target),
+    return calculateElementalCompatibility(source, target)
   }
 
   /**

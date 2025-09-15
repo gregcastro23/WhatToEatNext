@@ -25,7 +25,7 @@ export interface AstrologyHookData {
 // Helper function to create a celestial position with defaults
 function _createCelestialPosition(
   sign: any,
-  longOffset = 0,,
+  longOffset = 0,,;
   options?: { planetName?: string },
 ): CelestialPosition {
   // Calculate a reasonable longitude based on the zodiac sign
@@ -115,7 +115,7 @@ export function useAstrologicalState(): AstrologyHookData {
     ): string[] => {
       if (!positions || typeof positions !== 'object') {
         logger.warn('Invalid planetary positions for calculating active planets');
-        return [],
+        return []
       }
 
       // List of planets we want to check
@@ -155,13 +155,13 @@ export function useAstrologicalState(): AstrologyHookData {
 
           // Add the ruler of the current sun sign
           if (signRulers[sunSign] && !activePlanets.includes(signRulers[sunSign])) {
-            activePlanets.push(signRulers[sunSign]),
+            activePlanets.push(signRulers[sunSign])
           }
         }
 
         Object.entries(positions).forEach(([planet, position]) => {
           if (!planetKeys.includes(planet.toLowerCase()) || !position || !position.sign) {
-            return,
+            return
           }
 
           const planetLower = planet.toLowerCase();
@@ -196,7 +196,7 @@ export function useAstrologicalState(): AstrologyHookData {
           }
         });
       } catch (error) {
-        logger.error('Error calculating active planets', error),
+        logger.error('Error calculating active planets', error)
       }
 
       // Ensure uniqueness
@@ -210,7 +210,7 @@ export function useAstrologicalState(): AstrologyHookData {
 
   // Memoize key values to prevent unnecessary updates
   const memoizedPlanetaryPositions = useMemo(() => {
-    return planetaryPositions,
+    return planetaryPositions
   }, [planetaryPositionsString]);
 
   // Track changes to planetary positions and update state
@@ -237,7 +237,7 @@ export function useAstrologicalState(): AstrologyHookData {
               JSON.stringify(memoizedPlanetaryPositions)
           ) {
             logger.debug('Skipping astro state update as nothing changed');
-            return prev,
+            return prev
           }
 
           return {
@@ -251,7 +251,7 @@ export function useAstrologicalState(): AstrologyHookData {
         setIsReady(true);
       }
     } catch (error) {
-      logger.error('Failed to update astrological state', error),
+      logger.error('Failed to update astrological state', error)
     }
   }, [memoizedPlanetaryPositions, getActivePlanets]);
 

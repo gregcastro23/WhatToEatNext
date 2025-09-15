@@ -42,10 +42,10 @@ describe('FullCampaignExecutor', () => {
     // Mock successful build validation
     mockExecSync.mockImplementation((command: string) => {
       if (command.includes('tsc --noEmit')) {
-        return '',
+        return ''
       }
       if (command.includes('grep -c 'error TS'')) {
-        return '0',
+        return '0'
       }
       if (command.includes('find src')) {
         return 'src/test1.ts\nsrc/test2.ts\nsrc/test3.ts';
@@ -74,7 +74,7 @@ describe('FullCampaignExecutor', () => {
         if (command.includes('tsc --noEmit')) return '';
         if (command.includes('grep -c 'error TS'')) return '100'; // Initial errors
         if (command.includes('find src')) return 'src/test1.ts\nsrc/test2.ts';
-        return '',
+        return ''
       });
 
       const result: any = await executor.executeFullCampaign();
@@ -93,7 +93,7 @@ describe('FullCampaignExecutor', () => {
       // Mock build failure
       mockExecSync.mockImplementation((command: string) => {
         if (command.includes('tsc --noEmit')) {
-          throw new Error('Build failed'),
+          throw new Error('Build failed')
         }
         return '';
       });
@@ -131,7 +131,7 @@ describe('FullCampaignExecutor', () => {
       mockExecSync.mockImplementation((command: string) => {
         if (command.includes('grep -c 'error TS'')) return '150';
         if (command.includes('find src')) return 'src/test1.ts\nsrc/test2.ts';
-        return '',
+        return ''
       });
 
       const result: any = await executor.executeFullCampaign();
@@ -246,7 +246,7 @@ describe('FullCampaignExecutor', () => {
         if (command.includes('tsc --noEmit')) {
           callCount++,
           if (callCount > 2) {
-            throw new Error('Build failed'),
+            throw new Error('Build failed')
           }
           return '';
         }
@@ -266,7 +266,7 @@ describe('FullCampaignExecutor', () => {
         if (command.includes('mkdir -p')) return '';
         if (command.includes('cp -r')) return '';
         if (command.includes('rm -rf')) return '';
-        return '',
+        return ''
       });
 
       const result: any = await executor.executeFullCampaign();
@@ -381,7 +381,7 @@ describe('FullCampaignExecutor', () => {
     test('should handle classification errors gracefully', async () => {
       // Mock classification error
       mockFs.readFileSync.mockImplementation(() => {
-        throw new Error('File read error'),
+        throw new Error('File read error')
       });
 
       const result: any = await executor.executeFullCampaign();
@@ -397,7 +397,7 @@ describe('FullCampaignExecutor', () => {
         if (command.includes('tsc --noEmit')) {
           buildCallCount++,
           if (buildCallCount > 3) {
-            throw new Error('Build failed after replacement'),
+            throw new Error('Build failed after replacement')
           }
           return '';
         }

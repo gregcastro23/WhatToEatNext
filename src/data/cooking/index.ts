@@ -31,7 +31,7 @@ export const _getAstrologicalEffect = (;
   const methodData = allCookingMethods[method as unknown as keyof typeof allCookingMethods];
   if (!methodData || !methodData.astrologicalInfluences) return 0.5;
 
-  let effectScore = 0.5, // Neutral score as default
+  let effectScore = 0.5, // Neutral score as default;
 
   // Check zodiac sign
   if (
@@ -80,8 +80,8 @@ export const _calculateModifiedElementalEffect = (;
   const normalizedDuration = Math.min(1.0, duration / (methodData.duration.max || 60));
   if (normalizedDuration > 0.7) {
     // Longer cooking enhances Fire and reduces Water
-    baseEffect.Fire = Math.min(1.0, (baseEffect.Fire || 0) * 1.2),
-    baseEffect.Water = Math.max(0.0, (baseEffect.Water || 0) * 0.8),
+    baseEffect.Fire = Math.min(1.0, (baseEffect.Fire || 0) * 1.2),;
+    baseEffect.Water = Math.max(0.0, (baseEffect.Water || 0) * 0.8),;
   }
 
   // Return the modified effect
@@ -96,7 +96,7 @@ export interface CookingState {
   astrologicalState: AstrologicalState,
   modifiers?: {
     seasonings?: string[],
-    techniques?: string[],
+    techniques?: string[]
   };
 }
 
@@ -124,7 +124,7 @@ export {
  * @returns The cooking method data or undefined if not found
  */
 export function getCookingMethod(name: string): CookingMethodData | undefined {
-  return allCookingMethods[name] || allCookingMethods[name.toLowerCase()],
+  return allCookingMethods[name] || allCookingMethods[name.toLowerCase()]
 }
 
 /**
@@ -198,7 +198,7 @@ export function getCookingMethodsByTemperature(
         const numericMinTemp = Number(minTemp) || 0;
         const numericMaxTemp = Number(maxTemp) || 999;
         return numericTemp >= numericMinTemp && numericTemp <= numericMaxTemp;
-      }),
+      })
     })
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 }
@@ -221,6 +221,6 @@ export function getCookingMethodsBySustainability(descending = true): CookingMet
       const bData = b as unknown;
       const aRating = aData?.sustainabilityRating || 0;
       const bRating = bData?.sustainabilityRating || 0;
-      return descending ? bRating - aRating : aRating - bRating,
+      return descending ? bRating - aRating : aRating - bRating
     });
 }

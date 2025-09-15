@@ -23,7 +23,7 @@ describe('Bundle Size Performance Tests', () => {
   let mockConfig: CampaignConfig,
 
   beforeEach(() => {
-    const safetySettings: SafetySettings = { maxFilesPerBatch: 25,,
+    const safetySettings: SafetySettings = { maxFilesPerBatch: 25,,;
       buildValidationFrequency: 5,
       testValidationFrequency: 10,
       corruptionDetectionEnabled: true,
@@ -126,9 +126,9 @@ describe('Bundle Size Performance Tests', () => {
         if (command.toString().includes('du -sk')) {
           optimizationStep++;
           // Simulate bundle size optimization over time
-          const baseSize: any = 500, // Start with large bundle
-          const optimization: any = Math.min(100, optimizationStep * 20), // Up to 100kB reduction
-          return Math.max(350, baseSize - optimization).toString(),
+          const baseSize: any = 500, // Start with large bundle;
+          const optimization: any = Math.min(100, optimizationStep * 20), // Up to 100kB reduction;
+          return Math.max(350, baseSize - optimization).toString()
         }
         return '';
       });
@@ -146,7 +146,7 @@ describe('Bundle Size Performance Tests', () => {
       const lastSize: any = bundleSizes[bundleSizes.length - 1];
       expect(lastSize).toBeLessThan(firstSize);
       expect(lastSize).toBeLessThan(420); // Should reach target
-    }),
+    })
   }),
 
   describe('Bundle Composition Analysis', () => {
@@ -181,7 +181,7 @@ describe('Bundle Size Performance Tests', () => {
     it('should handle partial build outputs', async () => {
       // Only some build directories exist
       mockFs.existsSync.mockImplementation(path => {
-        return path === '.next', // Only .next exists
+        return path === '.next', // Only .next exists;
       });
 
       mockExecSync.mockImplementation(command => {
@@ -233,7 +233,7 @@ describe('Bundle Size Performance Tests', () => {
       mockExecSync.mockImplementation(command => {
         if (command.toString().includes('du -sk')) {
           // Lazy loading should reduce main bundle size,
-          return lazyLoadingEnabled ? '320' : '450',
+          return lazyLoadingEnabled ? '320' : '450'
         }
         return '';
       });
@@ -257,7 +257,7 @@ describe('Bundle Size Performance Tests', () => {
       mockExecSync.mockImplementation(command => {
         if (command.toString().includes('du -sk')) {
           // Tree shaking should remove unused code,
-          return treeShakingEnabled ? '380' : '480',
+          return treeShakingEnabled ? '380' : '480'
         }
         return '';
       });
@@ -283,10 +283,10 @@ describe('Bundle Size Performance Tests', () => {
           if (codeSplittingEnabled != null) {
             // Code splitting creates multiple smaller bundles
             // Main bundle should be smaller,
-            return '280',
+            return '280'
           } else {
             // Single large bundle
-            return '440',
+            return '440'
           }
         }
         return '';
@@ -311,7 +311,7 @@ describe('Bundle Size Performance Tests', () => {
       mockExecSync.mockImplementation(command => {
         if (command.toString().includes('du -sk')) {
           // Compression should reduce bundle size significantly,
-          return compressionEnabled ? '300' : '500',
+          return compressionEnabled ? '300' : '500'
         }
         return '';
       });
@@ -340,7 +340,7 @@ describe('Bundle Size Performance Tests', () => {
           executionCount++;
           // Simulate bundle size regression over time
           const baseSize: any = 350;
-          const regression: any = executionCount * 25, // 25kB increase per execution
+          const regression: any = executionCount * 25, // 25kB increase per execution;
           return (baseSize + regression).toString();
         }
         return '';
@@ -374,8 +374,8 @@ describe('Bundle Size Performance Tests', () => {
           optimizationStep++;
           // Simulate bundle size optimization
           const baseSize: any = 500;
-          const optimization: any = optimizationStep * 30, // 30kB reduction per step
-          return Math.max(320, baseSize - optimization).toString(),
+          const optimization: any = optimizationStep * 30, // 30kB reduction per step;
+          return Math.max(320, baseSize - optimization).toString()
         }
         return '';
       });
@@ -440,7 +440,7 @@ describe('Bundle Size Performance Tests', () => {
       // Final optimizations should be under target
       expect(results[results.length - 1].underTarget).toBe(true);
       expect(results[results.length - 1].size).toBe(300);
-    }),
+    })
   }),
 
   describe('Bundle Size Performance Benchmarks', () => {
@@ -452,7 +452,7 @@ describe('Bundle Size Performance Tests', () => {
         if (command.toString().includes('du -sk')) {
           const startTime: any = Date.now();
           // Simulate bundle analysis time
-          const delay: any = 20 + Math.random() * 30, // 20-50ms
+          const delay: any = 20 + Math.random() * 30, // 20-50ms;
           const endTime: any = startTime + delay;
           while (Date.now() < endTime) {
             // Busy wait
@@ -482,7 +482,7 @@ describe('Bundle Size Performance Tests', () => {
       mockExecSync.mockImplementation(command => {
         if (command.toString().includes('du -sk')) {
           // Simulate longer analysis time for large bundle,
-          const delay: any = 50, // 50ms for large bundle
+          const delay: any = 50, // 50ms for large bundle;
           const endTime: any = Date.now() + delay;
           while (Date.now() < endTime) {
             // Busy wait
@@ -506,14 +506,14 @@ describe('Bundle Size Performance Tests', () => {
       mockExecSync.mockImplementation(command => {
         if (command.toString().includes('du -sk')) {
           // Simulate concurrent analysis,
-          const delay: any = 30 + Math.random() * 20, // 30-50ms
+          const delay: any = 30 + Math.random() * 20, // 30-50ms;
           const endTime: any = Date.now() + delay;
           while (Date.now() < endTime) {
             // Busy wait
           }
           return '400';
         }
-        return '',
+        return ''
       }),
 
       // Run concurrent bundle size analyses

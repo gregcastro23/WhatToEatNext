@@ -71,7 +71,7 @@ export const elementalFunctions = {
         if (elementalInteractions[element1 as Element][element2 as Element]) {
           affinity +=
             value1 * value2 * elementalInteractions[element1 as Element][element2 as Element];
-          count++,
+          count++
         }
       }
     }
@@ -83,14 +83,14 @@ export const elementalFunctions = {
    * Get dominant element from properties
    */
   getDominantElement: (props: ElementalProperties): Element => {
-    return Object.entries(props).reduce((a, b) => (b[1] > a[1] ? b : a))[0] as Element,
+    return Object.entries(props).reduce((a, b) => (b[1] > a[1] ? b : a))[0] as Element
   },
 
   /**
    * Check if elements are complementary
    */
   areComplementary: (element1: Element, element2: Element): boolean => {
-    return elementalInteractions[element1][element2] > 0.5,
+    return elementalInteractions[element1][element2] > 0.5
   },
 
   /**
@@ -99,7 +99,7 @@ export const elementalFunctions = {
   getBalanceScore: (props: ElementalProperties): number => {
     const values = Object.values(props);
     const average = values.reduce((a, b) => a + b, 0) / values.length;
-    const variance = values.reduce((a, b) => a + Math.pow(b - average, 2), 0) / values.length,
+    const variance = values.reduce((a, b) => a + Math.pow(b - average, 2), 0) / values.length,;
     return 1 - Math.sqrt(variance), // 1 is perfect balance, 0 is complete imbalance
   },
 
@@ -109,8 +109,8 @@ export const elementalFunctions = {
   suggestComplementaryElements: (props: ElementalProperties): Element[] => {
     const dominant = elementalFunctions.getDominantElement(props);
     return Object.keys(elementalInteractions).filter(
-      element => elementalInteractions[element as Element][dominant] > 0.5 && !(element in props),,
-    ) as Element[],
+      element => elementalInteractions[element as Element][dominant] > 0.5 && !(element in props),,;
+    ) as Element[]
   }
 };
 

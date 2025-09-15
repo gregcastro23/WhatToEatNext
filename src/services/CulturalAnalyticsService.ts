@@ -17,7 +17,7 @@ export interface CulturalAnalytics {
   fusionPotential: number,
   culturalDiversityScore: number,
   traditionalPrinciples: string[],
-  modernAdaptations: string[],
+  modernAdaptations: string[]
 }
 
 export interface CulturalSynergyScore {
@@ -25,7 +25,7 @@ export interface CulturalSynergyScore {
   reasoning: string[],
   culturalGroup: string,
   proximityBonus: number,
-  diversityBonus: number,
+  diversityBonus: number
 }
 
 export interface FusionCuisineRecommendation {
@@ -36,7 +36,7 @@ export interface FusionCuisineRecommendation {
   recommendedDishes: string[],
   culturalNotes: string[],
   blendRatio: number,
-  seasonalOptimization: Record<string, number>,
+  seasonalOptimization: Record<string, number>
 }
 
 export interface CulturalContext {
@@ -45,7 +45,7 @@ export interface CulturalContext {
   culturalInfluences: string[],
   traditionalOccasions: string[],
   modernEvolution: string[],
-  globalAdaptations: string[],
+  globalAdaptations: string[]
 }
 
 // ===== CULTURAL GROUPS AND PROXIMITY =====;
@@ -200,7 +200,7 @@ export class CulturalAnalyticsService {
     options: {
       includeHistoricalContext?: boolean,
       includeFusionPotential?: boolean,
-      season?: string,
+      season?: string
     } = {}
   ): CulturalSynergyScore {
     try {
@@ -231,12 +231,12 @@ export class CulturalAnalyticsService {
         synergyScore += diversityBonus;
         reasoning.push(
           `Cultural diversity bonus for ${uniqueGroups.size} cultural groups (+${diversityBonus})`,
-        ),
+        )
       }
 
       // Apply seasonal cultural preferences
       if (options.season) {
-        const seasonalBonus = this.calculateSeasonalCulturalBonus(primaryCuisine, options.season),
+        const seasonalBonus = this.calculateSeasonalCulturalBonus(primaryCuisine, options.season),;
         synergyScore += seasonalBonus;
         if (seasonalBonus > 0) {
           reasoning.push(
@@ -275,7 +275,7 @@ export class CulturalAnalyticsService {
     elementalProfile: ElementalProperties,
     astrologicalState: {
       zodiacSign: any,
-      lunarPhase: LunarPhase,
+      lunarPhase: LunarPhase
     },
   ): CulturalAnalytics {
     try {
@@ -311,7 +311,7 @@ export class CulturalAnalyticsService {
       const traditionalPrinciples = culturalRulesData.principles || [];
 
       // Generate modern adaptations
-      const modernAdaptations = this.generateModernAdaptations(cuisineName, historicalContext),
+      const modernAdaptations = this.generateModernAdaptations(cuisineName, historicalContext),;
 
       return {
         culturalSynergy: synergyData.score;
@@ -344,7 +344,7 @@ export class CulturalAnalyticsService {
       const candidateCuisines = availableCuisines.filter(c => c !== primaryCuisine);
 
       for (const secondaryCuisine of candidateCuisines) {
-        const fusionData = this.calculateFusionCompatibility(primaryCuisine, secondaryCuisine),
+        const fusionData = this.calculateFusionCompatibility(primaryCuisine, secondaryCuisine),;
 
         if (fusionData.fusionScore > 0.6) {
           // Only recommend good fusion potential
@@ -372,7 +372,7 @@ export class CulturalAnalyticsService {
         .slice(0, maxRecommendations);
     } catch (error) {
       logger.error('Error generating fusion recommendations:', error),
-      return [],
+      return []
     }
   }
 
@@ -381,7 +381,7 @@ export class CulturalAnalyticsService {
   private static getCulturalGroup(cuisine: string): string {
     for (const [groupName, groupData] of Object.entries(CULTURAL_GROUPS)) {
       if (groupData.cuisines.includes(cuisine)) {
-        return groupName,
+        return groupName
       }
     }
     return 'other';
@@ -390,7 +390,7 @@ export class CulturalAnalyticsService {
   private static calculateSeasonalCulturalBonus(cuisine: string, season: string): number {
     const culinaryTradition = culinaryTraditions[cuisine];
     if (!culinaryTradition.astrologicalProfile.seasonalPreference) {
-      return 0,
+      return 0
     }
 
     const seasonalPrefs = culinaryTradition.astrologicalProfile.seasonalPreference;
@@ -454,7 +454,7 @@ export class CulturalAnalyticsService {
     const elementalValues = Object.values(elementalProfile);
     const balance = 1 - (Math.max(...elementalValues) - Math.min(...elementalValues));
 
-    return Math.max(0.5, Math.min(1.0, balance + 0.3)),
+    return Math.max(0.5, Math.min(1.0, balance + 0.3))
   }
 
   private static calculateCulturalDiversityScore(cuisine: string): number {
@@ -465,7 +465,7 @@ export class CulturalAnalyticsService {
     const influenceCount = historicalContext.culturalInfluences.length;
     const adaptationCount = historicalContext.globalAdaptations.length;
 
-    return Math.min(1.0, influenceCount * 0.1 + adaptationCount * 0.15 + 0.3),
+    return Math.min(1.0, influenceCount * 0.1 + adaptationCount * 0.15 + 0.3)
   }
 
   private static generateModernAdaptations(cuisine: string, context?: CulturalContext): string[] {
@@ -475,7 +475,7 @@ export class CulturalAnalyticsService {
 
     return [
       ...context.modernEvolution;
-      ...context.globalAdaptations.map(adaptation => `Global: ${adaptation}`),,
+      ...context.globalAdaptations.map(adaptation => `Global: ${adaptation}`),,;
     ];
   }
 
@@ -485,7 +485,7 @@ export class CulturalAnalyticsService {
   ): {
     fusionScore: number,
     culturalHarmony: number,
-    blendRatio: number,
+    blendRatio: number
   } {
     const group1 = this.getCulturalGroup(cuisine1);
     const group2 = this.getCulturalGroup(cuisine2);

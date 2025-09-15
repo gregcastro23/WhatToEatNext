@@ -22,13 +22,13 @@ export interface LintingIssue {
   category: IssueCategory,
   autoFixable: boolean,
   domainContext?: DomainContext,
-  resolutionStrategy: ResolutionStrategy,
+  resolutionStrategy: ResolutionStrategy
 }
 
 export interface IssueCategory {
   primary: 'import' | 'typescript' | 'react' | 'style' | 'domain',
   secondary: string,
-  priority: 1 | 2 | 3 | 4,
+  priority: 1 | 2 | 3 | 4
 }
 
 export interface DomainContext {
@@ -36,7 +36,7 @@ export interface DomainContext {
   isCampaignSystem: boolean,
   isTestFile: boolean,
   isScriptFile: boolean,
-  requiresSpecialHandling: boolean,
+  requiresSpecialHandling: boolean
 }
 
 export interface ResolutionStrategy {
@@ -51,7 +51,7 @@ export interface ResolutionStrategy {
 export interface ValidationRequirement {
   type: 'build' | 'test' | 'type-check' | 'manual-review',
   description: string,
-  automated: boolean,
+  automated: boolean
 }
 
 export interface CategorizedErrors {
@@ -62,14 +62,14 @@ export interface CategorizedErrors {
   byPriority: Record<number, LintingIssue[]>;
   byFile: Record<string, LintingIssue[]>,
   autoFixable: LintingIssue[],
-  requiresManualReview: LintingIssue[],
+  requiresManualReview: LintingIssue[]
 }
 
 export interface ResolutionPlan {
   phases: ResolutionPhase[],
   totalEstimatedTime: number,
   riskAssessment: RiskAssessment,
-  successProbability: number,
+  successProbability: number
 }
 
 export interface ResolutionPhase {
@@ -78,13 +78,13 @@ export interface ResolutionPhase {
   issues: LintingIssue[],
   estimatedTime: number,
   riskLevel: 'low' | 'medium' | 'high',
-  dependencies: string[],
+  dependencies: string[]
 }
 
 export interface RiskAssessment {
   overall: 'low' | 'medium' | 'high',
   factors: string[],
-  mitigations: string[],
+  mitigations: string[]
 }
 
 /**
@@ -97,7 +97,7 @@ export class LintingErrorAnalyzer {
 
   constructor(workspaceRoot: string = process.cwd()) {
     this.workspaceRoot = workspaceRoot;
-    this.eslintConfigPath = path.join(workspaceRoot, 'eslint.config.cjs'),
+    this.eslintConfigPath = path.join(workspaceRoot, 'eslint.config.cjs'),;
 
     // Define domain-specific file patterns
     this.domainPatterns = {
@@ -140,7 +140,7 @@ export class LintingErrorAnalyzer {
       return categorized;
     } catch (error) {
       console.error('❌ Error during linting analysis:', error),
-      throw error,
+      throw error
     }
   }
 
@@ -280,7 +280,7 @@ export class LintingErrorAnalyzer {
     try {
       const results = JSON.parse(output) as Array<{
         filePath: string,
-        messages: Array<Record<string, unknown>>,
+        messages: Array<Record<string, unknown>>
       }>;
       const issues: Array<Record<string, unknown>> = [];
 
@@ -296,7 +296,7 @@ export class LintingErrorAnalyzer {
       return issues;
     } catch (error) {
       console.error('Failed to parse ESLint output:', error),
-      return [],
+      return []
     }
   }
 
@@ -308,8 +308,8 @@ export class LintingErrorAnalyzer {
       .replace(this.workspaceRoot, '')
       .replace(/^\//, '');
     const domainContext = this.detectDomainContext(file);
-    const category = this.categorizeIssue(rawIssue, domainContext),
-    const resolutionStrategy = this.determineResolutionStrategy(rawIssue, category, domainContext),
+    const category = this.categorizeIssue(rawIssue, domainContext),;
+    const resolutionStrategy = this.determineResolutionStrategy(rawIssue, category, domainContext),;
 
     const issue: LintingIssue = {
       id: `${file}:${String(rawIssue.line)}:${String(rawIssue.column)}:${String(rawIssue.ruleId)}`,
@@ -546,8 +546,8 @@ export class LintingErrorAnalyzer {
   private categorizeIssues(issues: LintingIssue[]): CategorizedErrors {
     const categorized: CategorizedErrors = {
       total: issues.length;
-      errors: issues.filter(i => i.severity === 'error').length,,
-      warnings: issues.filter(i => i.severity === 'warning').length,,
+      errors: issues.filter(i => i.severity === 'error').length,,;
+      warnings: issues.filter(i => i.severity === 'warning').length,,;
       byCategory: {},
       byPriority: {},
       byFile: {},

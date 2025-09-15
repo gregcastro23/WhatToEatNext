@@ -85,7 +85,7 @@ describe('DependencySecurityMonitor', () => {
 
     test('handles npm audit errors gracefully', async () => {
       mockExecSync.mockImplementation(() => {
-        throw new Error('npm audit failed'),
+        throw new Error('npm audit failed')
       });
 
       const securityReport: any = await dependencyMonitor.scanSecurityVulnerabilities();
@@ -139,7 +139,7 @@ describe('DependencySecurityMonitor', () => {
       const error: any = new Error('npm outdated found updates') as unknown;
       (error as any).stdout = outdatedOutput;
       mockExecSync.mockImplementation(() => {
-        throw error,
+        throw error
       });
 
       const updateReport: any = await dependencyMonitor.checkDependencyUpdates();
@@ -200,7 +200,7 @@ describe('DependencySecurityMonitor', () => {
       expect(appliedUpdates).toHaveLength(1);
       expect(appliedUpdates[0].packageName).toBe('lodash');
       expect(appliedUpdates[0].securityFix).toBe(true);
-      expect(mockExecSync).toHaveBeenCalledWith('yarn add lodash@4.17.21', expect.any(Object)),
+      expect(mockExecSync).toHaveBeenCalledWith('yarn add lodash@4.17.21', expect.any(Object))
     }),
 
     test('skips excluded packages', async () => {
@@ -262,7 +262,7 @@ describe('DependencySecurityMonitor', () => {
       const appliedUpdates: any = await monitor.applySecurityPatches(vulnerabilities);
 
       expect(appliedUpdates).toHaveLength(0);
-    }),
+    })
   }),
 
   describe('applySafeUpdates', () => {
@@ -340,7 +340,7 @@ describe('DependencySecurityMonitor', () => {
 
       expect(result).toBe(true);
       expect(mockExecSync).toHaveBeenCalledWith('yarn build', expect.any(Object)),
-      expect(mockExecSync).toHaveBeenCalledWith('yarn test', expect.any(Object)),
+      expect(mockExecSync).toHaveBeenCalledWith('yarn test', expect.any(Object))
     });
 
     test('returns false when tests fail', async () => {
@@ -348,7 +348,7 @@ describe('DependencySecurityMonitor', () => {
         .mockReturnValueOnce('') // Build succeeds
         .mockImplementationOnce(() => {
           // Test fails
-          throw new Error('Tests failed'),
+          throw new Error('Tests failed')
         });
 
       const result: any = await dependencyMonitor.runCompatibilityTests();
@@ -358,7 +358,7 @@ describe('DependencySecurityMonitor', () => {
 
     test('returns false when build fails', async () => {
       mockExecSync.mockImplementation(() => {
-        throw new Error('Build failed'),
+        throw new Error('Build failed')
       });
 
       const result: any = await dependencyMonitor.runCompatibilityTests();
@@ -426,7 +426,7 @@ describe('DependencySecurityMonitor', () => {
         }
       });
       mockExecSync.mockImplementationOnce(() => {
-        throw outdatedError,
+        throw outdatedError
       });
 
       // Mock security patch application
@@ -491,7 +491,7 @@ describe('DependencySecurityMonitor', () => {
     });
 
     test('respects custom configuration', () => {
-      const customConfig: DependencySecurityConfig = { maxDependenciesPerBatch: 5,,
+      const customConfig: DependencySecurityConfig = { maxDependenciesPerBatch: 5,,;
         safetyValidationEnabled: false,
         autoUpdateEnabled: true,
         securityScanEnabled: false,

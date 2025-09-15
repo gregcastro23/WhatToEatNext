@@ -223,12 +223,12 @@ function enrichAndNormalizeSeasons(seasons?: string[]): string[] {
 function deriveCelestialTiming(recipe: Recipe): {
   optimalMoonPhase?: string,
   optimalPlanetaryHour?: string,
-  bestZodiacSeason?: string,
+  bestZodiacSeason?: string
 } {
   const timing: {
     optimalMoonPhase?: string,
     optimalPlanetaryHour?: string,
-    bestZodiacSeason?: string,
+    bestZodiacSeason?: string
   } = {};
 
   // Determine optimal Moon phase based on recipe characteristics
@@ -239,25 +239,25 @@ function deriveCelestialTiming(recipe: Recipe): {
       methodStr?.includes('rise') ||
       methodStr?.includes('proof')
     ) {
-      timing.optimalMoonPhase = 'waxing', // Growing energy for fermentation
+      timing.optimalMoonPhase = 'waxing', // Growing energy for fermentation;
     } else if (
       methodStr?.includes('preserve') ||
       methodStr?.includes('cure') ||
       methodStr?.includes('age')
     ) {
-      timing.optimalMoonPhase = 'waning', // Reducing energy for preservation
+      timing.optimalMoonPhase = 'waning', // Reducing energy for preservation;
     } else if (
       methodStr?.includes('quick') ||
       methodStr?.includes('flash') ||
       methodStr?.includes('instant')
     ) {
-      timing.optimalMoonPhase = 'new', // New beginnings for quick cooking
+      timing.optimalMoonPhase = 'new', // New beginnings for quick cooking;
     } else if (
       methodStr?.includes('slow') ||
       methodStr?.includes('braise') ||
       methodStr?.includes('stew')
     ) {
-      timing.optimalMoonPhase = 'full', // Full energy for long cooking
+      timing.optimalMoonPhase = 'full', // Full energy for long cooking;
     }
   }
 
@@ -349,7 +349,7 @@ export function enhanceWithNutritionalEstimates(recipe: Recipe): Recipe {
     Object.keys(estimatedNutrition).forEach(key => {
       estimatedNutrition[key] = Math.round(
         estimatedNutrition[key] / (recipe.numberOfServings ?? 1),
-      ),
+      )
     });
   }
 

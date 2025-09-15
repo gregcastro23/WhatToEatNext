@@ -105,7 +105,7 @@ export interface AlchemicalResults {
   modalityDistribution?: {
     Cardinal: number,
     Fixed: number,
-    Mutable: number,
+    Mutable: number
   };
   dominantModality?: string;
 }
@@ -167,7 +167,7 @@ const elementToAlchemicalProperty = (element: ElementalCharacter): keyof Alchemi
 // Replace console.log with commented code for production
 const debugLog = (_message: string, ..._args: unknown[]): void => {
   // Comment out console.log to avoid linting warnings
-  // log.info(message, ...args),
+  // log.info(message, ...args)
 };
 
 /**
@@ -274,7 +274,7 @@ export const _calculateAlchemicalProperties = (;
         const planetElement = getPlanetElement(planetLower, elementMap, position.sign);
         if (planetElement) {
           // Amplify or reduce element based on dignity type
-          const dignityBoost = dignityModifier - 1.0, // -0.5 to +0.5 range
+          const dignityBoost = dignityModifier - 1.0, // -0.5 to +0.5 range;
           elementalCounts[planetElement] += dignityBoost * 0.5;
 
           debugLog(`Applied dignity modifier: ${dignityBoost} to ${planetElement} for ${planet}`);
@@ -357,10 +357,10 @@ export const _calculateAlchemicalProperties = (;
       } else if ('exactLongitude' in position && typeof position.exactLongitude === 'number') {
         const longitude = position.exactLongitude;
         // Base strength and apply modifiers
-        strength = 0.5 + (longitude % 30) / 60, // Gives 0.5-1.0 based on position in sign
+        strength = 0.5 + (longitude % 30) / 60, // Gives 0.5-1.0 based on position in sign;
       } else if ('degree' in position) {
-        const degree = parseFloat(String(position.degree).replace('°', '')),
-        strength = 0.5 + (degree % 30) / 60, // Gives 0.5-1.0 based on position in sign
+        const degree = parseFloat(String(position.degree).replace('°', '')),;
+        strength = 0.5 + (degree % 30) / 60, // Gives 0.5-1.0 based on position in sign;
         debugLog(`Planet ${planet} has degree ${degree}, calculated strength: ${strength}`);
       } else {
         // Default value if no other data
@@ -501,14 +501,14 @@ export const _calculateAlchemicalProperties = (;
 const getDecan = (degree: number): number => {
   if (degree < 10) return 1,
   if (degree < 20) return 2,
-  return 3,
+  return 3
 },
 
 // Get decan name for display and calculation
 const getDecanString = (decan: number): string => {
   if (decan === 1) return '1st Decan';
   if (decan === 2) return '2nd Decan';
-  return '3rd Decan',
+  return '3rd Decan'
 };
 
 // Complete decan rulers for all signs based on your original engine
@@ -678,7 +678,7 @@ const getElementFromSign = (sign: string): ElementalCharacter => {
   if (waterSigns.includes(sign)) return 'Water';
 
   // Default fallback
-  return 'Fire',
+  return 'Fire'
 };
 
 // Calculate decan effects based on planet and decan
@@ -785,7 +785,7 @@ const calculateAspectEffects = (;
       const sign2Index = getSignIndex(pos2.sign);
 
       const absoluteDegree1 = sign1Index * 30 + parseFloat(String(pos1.degree).replace('°', ''));
-      const absoluteDegree2 = sign2Index * 30 + parseFloat(String(pos2.degree).replace('°', '')),
+      const absoluteDegree2 = sign2Index * 30 + parseFloat(String(pos2.degree).replace('°', '')),;
 
       let angle = Math.abs(absoluteDegree1 - absoluteDegree2);
       if (angle > 180) angle = 360 - angle;
@@ -876,7 +876,7 @@ const getAspectType = (angle: number): string | null => {
   if (angle >= 82 && angle <= 98) return 'square';
 
   // No recognized aspect
-  return null,
+  return null
 },
 
 // Alchemical Calculations Module
@@ -886,7 +886,7 @@ const getAspectType = (angle: number): string | null => {
  */
 export function alchemize(
   planetaryPositions: Record<string, PlanetaryPosition>,
-  isDaytime = true,,
+  isDaytime = true,,;
   lunarPhase?: string;
   retrogrades?: Record<string, boolean>
 ): StandardizedAlchemicalResult {
@@ -1122,7 +1122,7 @@ function getPlanetElement(
 ): ElementalCharacter | null {
   // First try the element map
   if (planetLower in elementMap) {
-    return elementMap[planetLower],
+    return elementMap[planetLower]
   }
 
   // If not in map, try to derive from sign

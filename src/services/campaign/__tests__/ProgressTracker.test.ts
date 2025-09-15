@@ -51,7 +51,7 @@ describe('ProgressTracker', () => {
       expect(mockExecSync).toHaveBeenCalledWith(
         'yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c 'error TS'',
         expect.any(Object);
-      ),
+      )
     });
 
     it('should return 0 when no errors found', async () => {
@@ -114,7 +114,7 @@ describe('ProgressTracker', () => {
 
     it('should handle command failure gracefully', async () => {
       mockExecSync.mockImplementation(() => {
-        throw new Error('Command failed'),
+        throw new Error('Command failed')
       });
 
       const breakdown: any = await progressTracker.getTypeScriptErrorBreakdown();
@@ -130,7 +130,7 @@ describe('ProgressTracker', () => {
       const count: any = await progressTracker.getLintingWarningCount();
 
       expect(count).toBe(42);
-      expect(mockExecSync).toHaveBeenCalledWith('yarn lint 2>&1 | grep -c 'warning'', expect.any(Object)),
+      expect(mockExecSync).toHaveBeenCalledWith('yarn lint 2>&1 | grep -c 'warning'', expect.any(Object))
     });
 
     it('should return 0 when no warnings found', async () => {
@@ -184,7 +184,7 @@ describe('ProgressTracker', () => {
 
     it('should handle command failure gracefully', async () => {
       mockExecSync.mockImplementation(() => {
-        throw new Error('Command failed'),
+        throw new Error('Command failed')
       });
 
       const breakdown: any = await progressTracker.getLintingWarningBreakdown();
@@ -198,7 +198,7 @@ describe('ProgressTracker', () => {
       // Mock successful build
       mockExecSync.mockImplementation(() => {
         // Simulate build taking some time
-        return '',
+        return ''
       });
 
       const buildTime: any = await progressTracker.getBuildTime();
@@ -209,7 +209,7 @@ describe('ProgressTracker', () => {
 
     it('should return -1 on build failure', async () => {
       mockExecSync.mockImplementation(() => {
-        throw new Error('Build failed'),
+        throw new Error('Build failed')
       });
 
       const buildTime: any = await progressTracker.getBuildTime();
@@ -225,7 +225,7 @@ describe('ProgressTracker', () => {
       const count: any = await progressTracker.getEnterpriseSystemCount();
 
       expect(count).toBe(25);
-      expect(mockExecSync).toHaveBeenCalledWith('grep -r 'INTELLIGENCE_SYSTEM' src/ | wc -l', expect.any(Object)),
+      expect(mockExecSync).toHaveBeenCalledWith('grep -r 'INTELLIGENCE_SYSTEM' src/ | wc -l', expect.any(Object))
     });
 
     it('should return 0 when no systems found', async () => {
@@ -238,7 +238,7 @@ describe('ProgressTracker', () => {
 
     it('should handle command failure gracefully', async () => {
       mockExecSync.mockImplementation(() => {
-        throw new Error('Command failed'),
+        throw new Error('Command failed')
       });
 
       const count: any = await progressTracker.getEnterpriseSystemCount();
@@ -257,7 +257,7 @@ describe('ProgressTracker', () => {
     it('should handle errors gracefully', async () => {
       // Mock implementation that throws
       jest.spyOn(progressTracker as unknown, 'getCacheHitRate').mockImplementation(() => {
-        throw new Error('Cache measurement failed'),
+        throw new Error('Cache measurement failed')
       });
 
       const rate: any = (await progressTracker.getCacheHitRate()).catch(() => 0);
@@ -287,7 +287,7 @@ describe('ProgressTracker', () => {
     it('should handle memory measurement errors', async () => {
       const originalMemoryUsage: any = process.memoryUsage;
       process.memoryUsage = jest.fn().mockImplementation(() => {
-        throw new Error('Memory measurement failed'),
+        throw new Error('Memory measurement failed')
       }) as unknown;
 
       const memory: any = await progressTracker.getMemoryUsage();
@@ -306,10 +306,10 @@ describe('ProgressTracker', () => {
 
       mockExecSync.mockImplementation(command => {
         if (command.toString().includes('du -sk .next')) {
-          return '300',
+          return '300'
         }
         if (command.toString().includes('du -sk dist')) {
-          return '120',
+          return '120'
         }
         return '';
       });
@@ -330,7 +330,7 @@ describe('ProgressTracker', () => {
     it('should handle command failure gracefully', async () => {
       mockFs.existsSync.mockReturnValue(true);
       mockExecSync.mockImplementation(() => {
-        throw new Error('Command failed'),
+        throw new Error('Command failed')
       });
 
       const size: any = await progressTracker.getBundleSize();
@@ -346,7 +346,7 @@ describe('ProgressTracker', () => {
       jest.spyOn(progressTracker, 'getBuildTime').mockResolvedValue(8.5);
       jest.spyOn(progressTracker, 'getEnterpriseSystemCount').mockResolvedValue(100);
       jest.spyOn(progressTracker, 'getCacheHitRate').mockResolvedValue(0.85),
-      jest.spyOn(progressTracker, 'getMemoryUsage').mockResolvedValue(42),
+      jest.spyOn(progressTracker, 'getMemoryUsage').mockResolvedValue(42)
     });
 
     it('should return comprehensive progress metrics', async () => {
@@ -586,7 +586,7 @@ describe('ProgressTracker', () => {
         'test-metrics.json';
         expect.stringContaining(''campaignId': 'perfect-codebase-campaign'');
         undefined,
-      ),
+      )
     });
 
     it('should include timestamp in export', async () => {
@@ -601,7 +601,7 @@ describe('ProgressTracker', () => {
 
     it('should handle export errors', async () => {
       mockFs.writeFileSync.mockImplementation(() => {
-        throw new Error('Write failed'),
+        throw new Error('Write failed')
       });
 
       await expect(progressTracker.exportMetrics('test-metrics.json')).rejects.toThrow(

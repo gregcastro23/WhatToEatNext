@@ -17,7 +17,7 @@ interface AnyTypeOccurrence {
   context: string,
   isDocumented: boolean,
   suggestedDocumentation: string,
-  category: AnyTypeCategory,
+  category: AnyTypeCategory
 }
 
 enum AnyTypeCategory {
@@ -27,15 +27,15 @@ enum AnyTypeCategory {
   TEST_UTILITY = 'test_utility',;
   CONFIGURATION = 'configuration',;
   LIBRARY_COMPATIBILITY = 'library_compatibility',;
-  TEMPORARY_MIGRATION = 'temporary_migration',,
-  UNKNOWN = 'unknown',,
+  TEMPORARY_MIGRATION = 'temporary_migration',,;
+  UNKNOWN = 'unknown',,;
 }
 
 interface DocumentationTemplate {
   category: AnyTypeCategory,
   eslintComment: string,
   explanation: string,
-  todoComment?: string,
+  todoComment?: string
 }
 
 class AutomatedDocumentationGenerator {
@@ -132,7 +132,7 @@ class AutomatedDocumentationGenerator {
       success: '✅'
     }[level];
 
-    // console.log(`[${timestamp}] ${prefix} ${message}`);
+    // // console.log(`[${timestamp}] ${prefix} ${message}`);
   }
 
   async findUndocumentedAnyTypes(): Promise<AnyTypeOccurrence[]> {
@@ -143,7 +143,7 @@ class AutomatedDocumentationGenerator {
 
     for (const filePath of tsFiles) {
       if (this.isFileExempt(filePath)) {
-        continue,
+        continue
       }
 
       const fileOccurrences = await this.analyzeFile(filePath);
@@ -179,7 +179,7 @@ class AutomatedDocumentationGenerator {
 
   private isFileExempt(filePath: string): boolean {
     return this.exemptFiles.some(pattern => {
-      const regex = new RegExp(pattern.replace(/\*\*/g, '.*').replace(/\*/g, '[^/]*')),
+      const regex = new RegExp(pattern.replace(/\*\*/g, '.*').replace(/\*/g, '[^/]*')),;
       return regex.test(filePath);
     });
   }
@@ -214,7 +214,7 @@ class AutomatedDocumentationGenerator {
 
         for (const { pattern, type } of anyPatterns) {
           if (pattern.test(line)) {
-            const isDocumented = this.isLineDocumented(previousLine, line),
+            const isDocumented = this.isLineDocumented(previousLine, line),;
             const category = this.categorizeAnyType(filePath, line, { previousLine, nextLine });
             const suggestedDocumentation = this.generateDocumentation(category, type);
 
@@ -255,8 +255,8 @@ class AutomatedDocumentationGenerator {
     ];
 
     return documentationPatterns.some(
-      pattern => pattern.test(previousLine) || pattern.test(currentLine),,
-    ),
+      pattern => pattern.test(previousLine) || pattern.test(currentLine),,;
+    )
   }
 
   private categorizeAnyType(
@@ -327,7 +327,7 @@ class AutomatedDocumentationGenerator {
     const undocumented = occurrences.filter(occ => !occ.isDocumented);
 
     if (undocumented.length === 0) {
-      return 0,
+      return 0
     }
 
     this.log(`📝 Adding documentation to ${undocumented.length} any types in ${filePath}`, 'info');
@@ -352,7 +352,7 @@ class AutomatedDocumentationGenerator {
         const documentationLines = occurrence.suggestedDocumentation.split('\n');
 
         // Insert documentation before the any type line
-        lines.splice(lineIndex, 0, ...documentationLines),
+        lines.splice(lineIndex, 0, ...documentationLines)
       }
 
       // Write the modified content back
@@ -378,14 +378,14 @@ class AutomatedDocumentationGenerator {
 
     if (undocumented.length === 0) {
       this.log('✅ All any types are already documented!', 'success'),
-      return,
+      return
     }
 
     // Group by file
     const fileGroups = new Map<string, AnyTypeOccurrence[]>();
     undocumented.forEach(occ => {
       if (!fileGroups.has(occ.filePath)) {
-        fileGroups.set(occ.filePath, []),
+        fileGroups.set(occ.filePath, [])
       }
       fileGroups.get(occ.filePath)!.push(occ);
     });
@@ -395,7 +395,7 @@ class AutomatedDocumentationGenerator {
     let totalDocumented = 0;
 
     for (const [filePath, fileOccurrences] of fileGroups) {
-      const documented = await this.generateDocumentationForFile(filePath, dryRun),
+      const documented = await this.generateDocumentationForFile(filePath, dryRun),;
       totalDocumented += documented;
     }
 
@@ -538,7 +538,7 @@ if (require.main === module) {
         .findUndocumentedAnyTypes()
         .then(occurrences => {
           const undocumented = occurrences.filter(occ => !occ.isDocumented);
-          // console.log(
+          // // console.log(
             `📊 Found ${occurrences.length} any types, ${undocumented.length} undocumented`,
           );
           process.exit(0);
@@ -554,7 +554,7 @@ if (require.main === module) {
       generator
         .generateDocumentationForAll(dryRun)
         .then(() => {
-          // console.log('✅ Documentation generation completed');
+          // // console.log('✅ Documentation generation completed');
           process.exit(0);
         })
         .catch(error => {
@@ -580,7 +580,7 @@ if (require.main === module) {
         .findUndocumentedAnyTypes()
         .then(occurrences => generator.generateDocumentationReport(occurrences));
         .then(() => {
-          // console.log('✅ Documentation report generated');
+          // // console.log('✅ Documentation report generated');
           process.exit(0);
         })
         .catch(error => {
@@ -590,7 +590,7 @@ if (require.main === module) {
       break;
 
     default:
-      // console.log(`
+      // // console.log(`
 Usage: node AutomatedDocumentationGenerator.ts <command>
 
 Commands:

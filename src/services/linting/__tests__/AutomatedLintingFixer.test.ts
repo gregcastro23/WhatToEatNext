@@ -32,7 +32,7 @@ describe('AutomatedLintingFixer', () => {
 
     // Setup default mocks
     mockExecSync.mockReturnValue('');
-    mockFs.readFileSync.mockReturnValue('const unusedVar: any = 'test',\nconsole.log('hello'),'),
+    mockFs.readFileSync.mockReturnValue('const unusedVar: any = 'test',\nconsole.log('hello'),'),;
     mockFs.writeFileSync.mockImplementation(() => {});
     mockFs.existsSync.mockReturnValue(true);
 
@@ -150,7 +150,7 @@ describe('AutomatedLintingFixer', () => {
         .mockReturnValueOnce('stash@{0}: automated-linting-fixes') // git stash
         .mockReturnValueOnce('') // eslint fix
         .mockImplementationOnce(() => {
-          throw new Error('Build failed'),
+          throw new Error('Build failed')
         }) // build validation fails
         .mockReturnValueOnce(''); // rollback
 
@@ -203,21 +203,21 @@ describe('AutomatedLintingFixer', () => {
         .mockReturnValueOnce('') // initial validation
         .mockReturnValueOnce('stash@{0}') // git stash
         .mockImplementationOnce(() => {
-          throw new Error('Fix failed'),
+          throw new Error('Fix failed')
         }) // first fix fails
         .mockImplementationOnce(() => {
-          throw new Error('Build failed'),
+          throw new Error('Build failed')
         }) // validation fails
         .mockReturnValueOnce('') // rollback
         .mockImplementationOnce(() => {
-          throw new Error('Fix failed'),
+          throw new Error('Fix failed')
         }) // second fix fails
         .mockImplementationOnce(() => {
-          throw new Error('Build failed'),
+          throw new Error('Build failed')
         }) // validation fails
         .mockReturnValueOnce('') // rollback
         .mockImplementationOnce(() => {
-          throw new Error('Fix failed'),
+          throw new Error('Fix failed')
         }); // third fix fails
 
       const result: any = await fixer.applyAutomatedFixes(mockCategorizedErrors, {
@@ -289,7 +289,7 @@ describe('AutomatedLintingFixer', () => {
 
     it('should handle file read/write errors gracefully', async () => {
       mockFs.readFileSync.mockImplementationOnce(() => {
-        throw new Error('File read error'),
+        throw new Error('File read error')
       });
 
       const result: any = await fixer.handleUnusedVariables([mockLintingIssues.[0]]);
@@ -338,7 +338,7 @@ describe('AutomatedLintingFixer', () => {
 
     it('should handle eslint command failures', async () => {
       mockExecSync.mockImplementationOnce(() => {
-        throw new Error('ESLint command failed'),
+        throw new Error('ESLint command failed')
       });
 
       const result: any = await fixer.optimizeImports([mockLintingIssues.[1]]);
@@ -411,13 +411,13 @@ describe('AutomatedLintingFixer', () => {
 
       expect(results).toHaveLength(4);
       expect(results.every(r => r.success)).toBe(true);
-      expect(results.map(r => r.type)).toEqual(['build', 'type-check', 'lint', 'test']),
+      expect(results.map(r => r.type)).toEqual(['build', 'type-check', 'lint', 'test']),;
     });
 
     it('should handle validation failures gracefully', async () => {
       mockExecSync
         .mockImplementationOnce(() => {
-          throw new Error('Build failed'),
+          throw new Error('Build failed')
         })
         .mockReturnValueOnce('') // type-check
         .mockReturnValueOnce('') // lint
@@ -470,7 +470,7 @@ describe('AutomatedLintingFixer', () => {
 
       // Mock rollback failure
       mockExecSync.mockImplementationOnce(() => {
-        throw new Error('Rollback failed'),
+        throw new Error('Rollback failed')
       });
 
       const rollbackSuccess: any = await fixer.performRollback();
@@ -486,7 +486,7 @@ describe('AutomatedLintingFixer', () => {
 
   describe('Safety Protocols', () => {
     it('should respect safety protocols configuration', () => {
-      const strictSafetyProtocols: SafetyProtocols = { enableRollback: true,,
+      const strictSafetyProtocols: SafetyProtocols = { enableRollback: true,,;
         validateBeforeFix: true,
         validateAfterFix: true,
         maxFailuresBeforeStop: 1,
@@ -555,7 +555,7 @@ describe('AutomatedLintingFixer', () => {
         .mockReturnValueOnce('') // initial validation
         .mockReturnValueOnce('stash@{0}') // backup
         .mockImplementationOnce(() => {
-          throw new Error('Fix command failed'),
+          throw new Error('Fix command failed')
         });
 
       const result: any = await fixer.applyAutomatedFixes(mockCategorizedErrors);
@@ -572,7 +572,7 @@ describe('AutomatedLintingFixer', () => {
         .mockReturnValueOnce('') // initial validation
         .mockReturnValueOnce('stash@{0}') // backup
         .mockImplementationOnce(() => {
-          throw new Error('Critical system failure'),
+          throw new Error('Critical system failure')
         })
         .mockReturnValueOnce(''); // emergency rollback
 
@@ -608,7 +608,7 @@ describe('AutomatedLintingFixer', () => {
         .mockReturnValueOnce('stash@{0}') // backup
         .mockReturnValueOnce('') // fix
         .mockImplementationOnce(() => {
-          throw new Error('Validation failed'),
+          throw new Error('Validation failed')
         }) // validation fails
         .mockReturnValueOnce(''); // rollback
 

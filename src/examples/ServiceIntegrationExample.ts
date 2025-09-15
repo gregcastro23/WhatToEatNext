@@ -62,7 +62,7 @@ export async function runServiceIntegrationExample() {
     log.info('Recommended ingredients:', {
        
        
-      items: (ingredientRecommendations.items || ([] as unknown[])).map(ing => ing.name),,
+      items: (ingredientRecommendations.items || ([] as unknown[])).map(ing => ing.name),,;
       scores: ingredientRecommendations.scores
     });
 
@@ -75,7 +75,7 @@ export async function runServiceIntegrationExample() {
     log.info('Recommended recipes:', {
        
        
-      items: (recipeRecommendations.items || ([] as unknown[])).map(recipe => recipe.name),,
+      items: (recipeRecommendations.items || ([] as unknown[])).map(recipe => recipe.name),,;
       scores: recipeRecommendations.scores
     });
 
@@ -88,7 +88,7 @@ export async function runServiceIntegrationExample() {
     log.info('Recommended cooking methods:', {
        
        
-      items: (cookingMethodRecommendations.items || ([] as unknown[])).map(method => method.name),,
+      items: (cookingMethodRecommendations.items || ([] as unknown[])).map(method => method.name),,;
       scores: cookingMethodRecommendations.scores
     });
 
@@ -131,7 +131,7 @@ export async function runServiceIntegrationExample() {
 
     log.info('\n=== Service Integration Example Completed ===');
   } catch (error) {
-    console.error('Error in Service Integration Example:', error),
+    console.error('Error in Service Integration Example:', error)
   }
 }
 

@@ -167,7 +167,7 @@ describe('Integration Validation Tests - Task 12', () => {
 
           console.log('SafeUnusedImportRemover integration validated');
         } catch (error){
-          console.warn('SafeUnusedImportRemover not available, skipping integration test'),
+          console.warn('SafeUnusedImportRemover not available, skipping integration test')
         }
       });
 
@@ -193,7 +193,7 @@ describe('Integration Validation Tests - Task 12', () => {
       });
 
       test('Batch processing works with safety protocols', () => {
-        const batchSizes: any = [5, 10, 15, 25],
+        const batchSizes: any = [5, 10, 15, 25],;
 
         batchSizes.forEach(batchSize => {
           mockExecSync.mockReturnValue(;

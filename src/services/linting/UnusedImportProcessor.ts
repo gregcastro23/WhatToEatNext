@@ -17,7 +17,7 @@ interface ImportCleanupResult {
   importsRemoved: number,
   importsOrganized: number,
   errors: string[],
-  warnings: string[],
+  warnings: string[]
 }
 
 export class UnusedImportProcessor {
@@ -170,7 +170,7 @@ export class UnusedImportProcessor {
       overrides: [
         {
           // Preserve critical astrological and campaign files
-          files: this.preserveFiles.map(pattern => `${pattern}**/*`),,
+          files: this.preserveFiles.map(pattern => `${pattern}**/*`),,;
           rules: {
             '@typescript-eslint/no-unused-vars': [
               'warn',
@@ -203,7 +203,7 @@ export class UnusedImportProcessor {
       return true;
     } catch (error) {
       console.error('❌ TypeScript validation failed');
-      return false,
+      return false
     }
   }
 
@@ -223,7 +223,7 @@ export class UnusedImportProcessor {
 
       // Count unused import warnings (approximate)
       const unusedImportsOutput = execSync(;
-        'yarn lint --format=compact 2>&1 | grep -E 'is defined but never used.*import' | wc -l',,
+        'yarn lint --format=compact 2>&1 | grep -E 'is defined but never used.*import' | wc -l',,;
         {
           encoding: 'utf8'
         },

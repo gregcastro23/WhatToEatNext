@@ -9,7 +9,7 @@ export interface PlanetaryFlavorProfile {
     sour: number,
     bitter: number,
     salty: number,
-    umami: number,
+    umami: number
   };
   elementalInfluence: ElementalProperties;
   complementaryIngredients: string[];
@@ -396,7 +396,7 @@ export const _getResonantCuisines = (planetaryInfluences: Record<string, number>
 export const _getDominantFlavor = (planetaryInfluences: Record<string, number>): string => {
   const flavorProfile = calculateFlavorProfile(planetaryInfluences);
 
-  return Object.entries(flavorProfile).sort(([, valueA], [, valueB]) => valueB - valueA)[0][0],
+  return Object.entries(flavorProfile).sort(([, valueA], [, valueB]) => valueB - valueA)[0][0]
 };
 
 /**
@@ -452,7 +452,7 @@ export const _calculatePlanetaryFlavorMatch = (;
 
   // Get the recipe's elemental properties if available
   if (recipeFlavors.elementalProperties) {
-    const recipeElements = recipeFlavors.elementalProperties as unknown as Record<string, number>,
+    const recipeElements = recipeFlavors.elementalProperties as unknown as Record<string, number>,;
 
     // Get the elemental profile from planetary influences
     const elementalProfile = {

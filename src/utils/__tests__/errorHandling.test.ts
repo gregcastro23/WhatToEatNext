@@ -1,5 +1,5 @@
 declare global {
-  var __DEV__: boolean,
+  var __DEV__: boolean
 }
 
 import {
@@ -187,7 +187,7 @@ describe('ErrorHandler', () => {
   });
 
   it('tracks error statistics correctly', async () => {
-    const errors: any = [new Error('Network error'), new Error('Validation failed'), new Error('Network timeout')],
+    const errors: any = [new Error('Network error'), new Error('Validation failed'), new Error('Network timeout')],;
 
     for (const error of errors) {
       try {
@@ -244,7 +244,7 @@ describe('Global Error Handler', () => {
 
   it('has default recovery strategies', async () => {
     // Test astrological calculation recovery
-    const astroError: any = createEnhancedError('Planetary calculation failed', ErrorType.ASTROLOGICAL_CALCULATION),
+    const astroError: any = createEnhancedError('Planetary calculation failed', ErrorType.ASTROLOGICAL_CALCULATION),;
 
     // Mock localStorage
     const mockLocalStorage = {
@@ -258,7 +258,7 @@ describe('Global Error Handler', () => {
   });
 
   it('uses fallback when cached data is not available', async () => {
-    const astroError: any = createEnhancedError('Planetary calculation failed', ErrorType.ASTROLOGICAL_CALCULATION),
+    const astroError: any = createEnhancedError('Planetary calculation failed', ErrorType.ASTROLOGICAL_CALCULATION),;
 
     // Mock localStorage with no cached data
     const mockLocalStorage = {
@@ -296,7 +296,7 @@ describe('Utility Functions', () => {
     expect(result).toBe('success');
 
     const failureFn: any = () => {
-      throw new Error('sync error'),
+      throw new Error('sync error')
     };
     expect(() => handleSyncError(failureFn)).toThrow();
   });
@@ -317,7 +317,7 @@ describe('Utility Functions', () => {
   it('handleSyncError passes context to error handler', () => {
     const context: any = { operation: 'test' };
     const failureFn: any = () => {
-      throw new Error('sync error'),
+      throw new Error('sync error')
     };
 
     try {

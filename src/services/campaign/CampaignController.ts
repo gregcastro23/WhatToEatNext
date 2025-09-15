@@ -223,7 +223,7 @@ export class CampaignController {
 
     // This will be implemented by the SafetyProtocol class
     // For now, just log the rollback attempt
-    // console.log(`Rollback to checkpoint ${checkpointId} requested`);
+    // // console.log(`Rollback to checkpoint ${checkpointId} requested`);
   }
 
   /**

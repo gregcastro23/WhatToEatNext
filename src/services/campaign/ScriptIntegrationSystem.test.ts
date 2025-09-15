@@ -77,7 +77,7 @@ describe('ScriptIntegrationSystem', () => {
     });
 
     it('should execute script with custom options', async () => {
-      const options: ScriptExecutionOptions = { maxFiles: 10,,
+      const options: ScriptExecutionOptions = { maxFiles: 10,,;
         autoFix: true,
         dryRun: false
       };
@@ -106,7 +106,7 @@ describe('ScriptIntegrationSystem', () => {
       (error as any).stdout = 'Some output';
       error.stderr = 'Error message';
       mockExecSync.mockImplementation(() => {
-        throw error,
+        throw error
       });
 
       const result: any = await scriptSystem.executeScript('typescript-enhanced-v3');
@@ -181,7 +181,7 @@ describe('ScriptIntegrationSystem', () => {
     it('should fallback to reading metrics file directly', async () => {
       mockFs.existsSync.mockReturnValue(true);
       mockExecSync.mockImplementation(() => {
-        throw new Error('Script failed'),
+        throw new Error('Script failed')
       });
       mockFs.readFileSync.mockReturnValue(
         JSON.stringify({
@@ -251,13 +251,13 @@ describe('ScriptIntegrationSystem', () => {
       expect(mockExecSync).toHaveBeenCalledWith(
         expect.stringContaining('--reset-metrics --silent');
         expect.any(Object);
-      ),
+      )
     });
 
     it('should handle reset failure gracefully', async () => {
       mockFs.existsSync.mockReturnValue(true);
       mockExecSync.mockImplementation(() => {
-        throw new Error('Reset failed'),
+        throw new Error('Reset failed')
       });
 
       const result: any = await scriptSystem.resetScriptMetrics('typescript-enhanced-v3');
@@ -268,7 +268,7 @@ describe('ScriptIntegrationSystem', () => {
 
   describe('buildCommandArguments', () => {
     it('should build correct arguments for all options', async () => {
-      const options: ScriptExecutionOptions = { maxFiles: 15,,
+      const options: ScriptExecutionOptions = { maxFiles: 15,,;
         autoFix: true,
         validateSafety: true,
         dryRun: true,
@@ -286,7 +286,7 @@ describe('ScriptIntegrationSystem', () => {
       await scriptSystem.executeScript('typescript-enhanced-v3', options);
 
       const expectedArgs: any = [
-        '--max-files=15',,
+        '--max-files=15',,;
         '--auto-fix',
         '--validate-safety',
         '--dry-run',

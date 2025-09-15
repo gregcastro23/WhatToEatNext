@@ -54,7 +54,7 @@ async function testUnusedVariablesCleanup() {
 
     // Test 3: Configuration validation
     console.log('\n📋 Test 3: Configuration Validation');
-    const configSystem = new UnusedVariablesCleanupSystem({
+    const _configSystem = new UnusedVariablesCleanupSystem({
       maxFiles: 20,
       autoFix: false,
       dryRun: true,

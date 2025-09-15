@@ -73,5 +73,5 @@ function getOrbitalPosition(date: Date): number {
     180,
 
   // Ecliptic longitude
-  return meanAnomaly + center,
+  return meanAnomaly + center
 }

@@ -14,8 +14,8 @@ function testGasGiantInfluences() {
     const influences = celestialCalculator.calculateCurrentInfluences();
 
     // Find Jupiter and Saturn in dominant planets
-    const jupiter = influences.dominantPlanets?.find(p => p.name === 'Jupiter');
-    const saturn = influences.dominantPlanets?.find(p => p.name === 'Saturn');
+    const _jupiter = influences.dominantPlanets?.find(p => p.name === 'Jupiter');
+    const _saturn = influences.dominantPlanets?.find(p => p.name === 'Saturn');
 
     console.log('Current Influences:');
     console.log(`Zodiac Sign: ${influences.zodiacSign || 'unknown'}`);

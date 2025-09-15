@@ -24,7 +24,7 @@ jest.mock('@/utils/ingredientRecommender', () => {
 
 describe('getRecommendedIngredients', () => {
   it('should return ingredients matching the current elemental state', () => {
-    const astroState: AstrologicalState = { currentZodiac: 'leo', moonPhase: 'full moon',
+    const astroState: AstrologicalState = { currentZodiac: 'leo', moonPhase: 'full moon',;
       currentPlanetaryAlignment: { Sun: { sign: 'leo', degree: 15  },
         Moon: { sign: 'cancer', degree: 5 }
       },

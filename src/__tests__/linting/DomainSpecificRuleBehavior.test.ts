@@ -51,9 +51,7 @@ describe('Domain-Specific Rule Behavior', () => {
       const RELIABLE_POSITIONS: any = {
         sun: { sign: 'aries', degree: 8.5, exactLongitude: 8.5, isRetrograde: false },
         moon: { sign: 'aries', degree: 1.57, exactLongitude: 1.57, isRetrograde: false },
-        mercury: { sign: 'aries', degree: 0.85, exactLongitude: 0.85, isRetrograde: true }
-      };
-
+        mercury: { sign: 'aries', degree: 0.85, exactLongitude: 0.85, isRetrograde: true };
       // Fallback positions should maintain structure
       Object.values(RELIABLE_POSITIONS).forEach(position => {
         expect(position).toHaveProperty('sign');
@@ -114,7 +112,7 @@ describe('Domain-Specific Rule Behavior', () => {
       };
 
       const positions: any = { sun: invalidPosition };
-      const result: any = validatePlanetaryPositions(positions, { strictMode: true }),
+      const result: any = validatePlanetaryPositions(positions, { strictMode: true }),;
 
       expect(result.isValid).toBe(false);
       expect(result.errors.some(error => error.includes('35'))).toBe(true);
@@ -204,9 +202,7 @@ describe('Domain-Specific Rule Behavior', () => {
     test('should validate transit date structures', () => {
       const mockTransitDates: any = {
         aries: { Star, t: '2024-03-20', End: '2024-04-19' },
-        taurus: { Star, t: '2024-04-20', End: '2024-05-20' }
-      };
-
+        taurus: { Star, t: '2024-04-20', End: '2024-05-20' };
       const validDate: any = new Date('2024-04-01');
       const result: any = validateTransitDate('mars', validDate, 'aries', mockTransitDates);
 
@@ -215,9 +211,7 @@ describe('Domain-Specific Rule Behavior', () => {
 
     test('should detect invalid transit dates', () => {
       const mockTransitDates: any = {
-        aries: { Star, t: '2024-03-20', End: '2024-04-19' }
-      };
-
+        aries: { Star, t: '2024-03-20', End: '2024-04-19' };
       const invalidDate: any = new Date('2024-05-01'); // Outside aries period
       const result: any = validateTransitDate('mars', invalidDate, 'aries', mockTransitDates);
 
@@ -255,9 +249,7 @@ describe('Domain-Specific Rule Behavior', () => {
     test('should preserve fallback data integrity', () => {
       const FALLBACK_POSITIONS: any = {
         sun: { sign: 'aries', degree: 8.5, exactLongitude: 8.5, isRetrograde: false },
-        moon: { sign: 'aries', degree: 1.57, exactLongitude: 1.57, isRetrograde: false }
-      };
-
+        moon: { sign: 'aries', degree: 1.57, exactLongitude: 1.57, isRetrograde: false };
       // Fallback data should never be null or undefined
       expect(FALLBACK_POSITIONS).not.toBeNull();
       expect(FALLBACK_POSITIONS).not.toBeUndefined();
@@ -332,14 +324,14 @@ describe('Domain-Specific Rule Behavior', () => {
 
       accuracyVariables.forEach(variable => {
         // Should indicate precision or validation,
-        const precisionTerms: any = ['exact', 'precise', 'calculated', 'validated'],
+        const precisionTerms: any = ['exact', 'precise', 'calculated', 'validated'],;
         const indicatesPrecision: any = precisionTerms.some(term => variable.toLowerCase().includes(term.toLowerCase()));
         expect(indicatesPrecision).toBe(true);
       });
     });
 
     test('should handle mathematical calculation variables', () => {
-      const mathVariables: any = ['DEGREES_PER_SIGN', 'SIGNS_PER_CIRCLE', 'MAX_LONGITUDE', 'PI', 'RADIANS_TO_DEGREES'],
+      const mathVariables: any = ['DEGREES_PER_SIGN', 'SIGNS_PER_CIRCLE', 'MAX_LONGITUDE', 'PI', 'RADIANS_TO_DEGREES'],;
 
       mathVariables.forEach(variable => {
         // Mathematical constants should be uppercase
@@ -360,10 +352,10 @@ describe('Domain-Specific Rule Behavior', () => {
       // Test that our domain-specific rules don't conflict with TypeScript
       interface PlanetaryPosition {
         sign: string,, degree: number,
-        exactLongitude: number,, isRetrograde: boolean,
+        exactLongitude: number,, isRetrograde: boolean
       }
 
-      const position: PlanetaryPosition = { sign: 'aries',,
+      const position: PlanetaryPosition = { sign: 'aries',,;
         degree: 15.5;
         exactLongitude: 15.5;
         isRetrograde: false
@@ -422,7 +414,7 @@ describe('Domain-Specific Rule Behavior', () => {
           ((elemProps as any)?.Air || 0) * 0.2;
         const transitModifier: any = transitDates ? 1.1 : 0.9;
 
-        return Math.min(1.0, baseInfluence * elementalModifier * transitModifier),
+        return Math.min(1.0, baseInfluence * elementalModifier * transitModifier)
       };
 
       const result: any = calculatePlanetaryInfluence(;
@@ -446,7 +438,7 @@ describe('Domain-Specific Rule Behavior', () => {
           sign: 'aries',
           degree: i % 30,
           exactLongitude: i % 360,
-          isRetrograde: i % 2 === 0,,
+          isRetrograde: i % 2 === 0,,;
         };
       }
 

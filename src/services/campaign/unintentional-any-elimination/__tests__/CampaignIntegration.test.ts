@@ -148,7 +148,7 @@ describe('UnintentionalAnyCampaignController', () => {
 
   describe('validateUnintentionalAnyPhaseCompletion', () => {
     it('should validate analysis phase completion', async () => {
-      const mockPhase: CampaignPhase = { id: 'unintentional-any-analysis',,
+      const mockPhase: CampaignPhase = { id: 'unintentional-any-analysis',,;
         name: 'Analysis Phase',
         description: 'Test analysis phase',
         tools: [],

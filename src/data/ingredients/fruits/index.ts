@@ -49,7 +49,7 @@ export const getFruitsByPreparation = (method: string): Record<string, Ingredien
     .filter(([_, value]) => {
       const fruitData = value as unknown as any;
       const preparationData = fruitData.preparation as unknown;
-      return preparationData && preparationData[String(method || '')],
+      return preparationData && preparationData[String(method || '')]
     })
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 };
@@ -60,7 +60,7 @@ export const findCompatibleFruits = (ingredientName: string): string[] => {
   if (!fruit) return [];
   const fruitData = fruit as unknown as any;
   const affinitiesData = fruitData.affinities;
-  return Array.isArray(affinitiesData) ? (affinitiesData as string[]) : [],
+  return Array.isArray(affinitiesData) ? (affinitiesData as string[]) : []
 };
 
 // Types
@@ -180,9 +180,9 @@ export const FRUIT_CATEGORIZATION_INTELLIGENCE = {
     categoryMetrics: Record<string, number>;
     categoryStructure: Record<string, number>;
     categoryOptimization: Record<string, string[]>,
-    categoryHarmony: Record<string, number>,
+    categoryHarmony: Record<string, number>
   } => {
-    const testCategories = ['citrus', 'berry', 'tropical', 'stone fruit', 'pome', 'melon'],
+    const testCategories = ['citrus', 'berry', 'tropical', 'stone fruit', 'pome', 'melon'],;
 
     const categoryAnalysis = {
       functionName: subcategoryFunc.name;
@@ -222,10 +222,10 @@ export const FRUIT_CATEGORIZATION_INTELLIGENCE = {
         categoryBalance:
           1 -
           (Math.max(
-            ...testCategories.map(cat => Number(Object.keys(subcategoryFunc(cat)).length || 0)),,
+            ...testCategories.map(cat => Number(Object.keys(subcategoryFunc(cat)).length || 0)),,;
           ) -
             Math.min(
-              ...testCategories.map(cat => Number(Object.keys(subcategoryFunc(cat)).length || 0)),,
+              ...testCategories.map(cat => Number(Object.keys(subcategoryFunc(cat)).length || 0)),,;
             )) /
             Number(Object.keys(fruits).length || 1)
       }
@@ -235,7 +235,7 @@ export const FRUIT_CATEGORIZATION_INTELLIGENCE = {
       (acc, category) => {
         const results = subcategoryFunc(category);
         acc[category] = Object.keys(results).length;
-        return acc,
+        return acc
       },
       {} as Record<string, number>,
     );
@@ -244,7 +244,7 @@ export const FRUIT_CATEGORIZATION_INTELLIGENCE = {
       (acc, category) => {
         const results = subcategoryFunc(category);
         acc[category] = Object.keys(results).length;
-        return acc,
+        return acc
       },
       {} as Record<string, number>,
     );
@@ -253,7 +253,7 @@ export const FRUIT_CATEGORIZATION_INTELLIGENCE = {
       (acc, category) => {
         const results = subcategoryFunc(category);
         acc[category] = Object.keys(results).slice(0, 5),
-        return acc,
+        return acc
       },
       {} as Record<string, string[]>,
     );
@@ -262,7 +262,7 @@ export const FRUIT_CATEGORIZATION_INTELLIGENCE = {
       (acc, category) => {
         const results = subcategoryFunc(category);
         acc[category] = Object.keys(results).length > 0 ? 1.0 : 0.0;
-        return acc,
+        return acc
       },
       {} as Record<string, number>,
     );
@@ -284,9 +284,9 @@ export const FRUIT_CATEGORIZATION_INTELLIGENCE = {
     seasonalMetrics: Record<string, number>;
     seasonalStructure: Record<string, number>;
     seasonalOptimization: Record<string, string[]>,
-    seasonalHarmony: Record<string, number>,
+    seasonalHarmony: Record<string, number>
   } => {
-    const testSeasons = ['spring', 'summer', 'autumn', 'winter'],
+    const testSeasons = ['spring', 'summer', 'autumn', 'winter'],;
 
     const seasonalAnalysis = {
       functionName: seasonalFunc.name;
@@ -317,7 +317,7 @@ export const FRUIT_CATEGORIZATION_INTELLIGENCE = {
           ...testSeasons.map(season => Object.keys(seasonalFunc(season)).length),;
         ),
         minSeasonalSize: Math.min(
-          ...testSeasons.map(season => Object.keys(seasonalFunc(season)).length),,
+          ...testSeasons.map(season => Object.keys(seasonalFunc(season)).length),,;
         ),
         seasonalBalance:
           1 -
@@ -331,7 +331,7 @@ export const FRUIT_CATEGORIZATION_INTELLIGENCE = {
       (acc, season) => {
         const results = seasonalFunc(season);
         acc[season] = Object.keys(results).length;
-        return acc,
+        return acc
       },
       {} as Record<string, number>,
     );
@@ -340,7 +340,7 @@ export const FRUIT_CATEGORIZATION_INTELLIGENCE = {
       (acc, season) => {
         const results = seasonalFunc(season);
         acc[season] = Object.keys(results).length;
-        return acc,
+        return acc
       },
       {} as Record<string, number>,
     );
@@ -349,7 +349,7 @@ export const FRUIT_CATEGORIZATION_INTELLIGENCE = {
       (acc, season) => {
         const results = seasonalFunc(season);
         acc[season] = Object.keys(results).slice(0, 5),
-        return acc,
+        return acc
       },
       {} as Record<string, string[]>,
     );
@@ -358,7 +358,7 @@ export const FRUIT_CATEGORIZATION_INTELLIGENCE = {
       (acc, season) => {
         const results = seasonalFunc(season);
         acc[season] = Object.keys(results).length > 0 ? 1.0 : 0.0;
-        return acc,
+        return acc
       },
       {} as Record<string, number>,
     );
@@ -380,9 +380,9 @@ export const FRUIT_CATEGORIZATION_INTELLIGENCE = {
     preparationMetrics: Record<string, number>;
     preparationStructure: Record<string, number>;
     preparationOptimization: Record<string, string[]>,
-    preparationHarmony: Record<string, number>,
+    preparationHarmony: Record<string, number>
   } => {
-    const testMethods = ['raw', 'cooked', 'juiced', 'dried', 'frozen'],
+    const testMethods = ['raw', 'cooked', 'juiced', 'dried', 'frozen'],;
 
     const preparationAnalysis = {
       functionName: preparationFunc.name;
@@ -416,7 +416,7 @@ export const FRUIT_CATEGORIZATION_INTELLIGENCE = {
           ...testMethods.map(method => Object.keys(preparationFunc(method)).length),;
         ),
         minPreparationSize: Math.min(
-          ...testMethods.map(method => Object.keys(preparationFunc(method)).length),,
+          ...testMethods.map(method => Object.keys(preparationFunc(method)).length),,;
         ),
         preparationBalance:
           1 -
@@ -430,7 +430,7 @@ export const FRUIT_CATEGORIZATION_INTELLIGENCE = {
       (acc, method) => {
         const results = preparationFunc(method);
         acc[method] = Object.keys(results).length;
-        return acc,
+        return acc
       },
       {} as Record<string, number>,
     );
@@ -439,7 +439,7 @@ export const FRUIT_CATEGORIZATION_INTELLIGENCE = {
       (acc, method) => {
         const results = preparationFunc(method);
         acc[method] = Object.keys(results).length;
-        return acc,
+        return acc
       },
       {} as Record<string, number>,
     );
@@ -448,7 +448,7 @@ export const FRUIT_CATEGORIZATION_INTELLIGENCE = {
       (acc, method) => {
         const results = preparationFunc(method);
         acc[method] = Object.keys(results).slice(0, 5),
-        return acc,
+        return acc
       },
       {} as Record<string, string[]>,
     );
@@ -457,7 +457,7 @@ export const FRUIT_CATEGORIZATION_INTELLIGENCE = {
       (acc, method) => {
         const results = preparationFunc(method);
         acc[method] = Object.keys(results).length > 0 ? 1.0 : 0.0;
-        return acc,
+        return acc
       },
       {} as Record<string, number>,
     );
@@ -480,9 +480,9 @@ export const FRUIT_PREPARATION_INTELLIGENCE = {
     methodMetrics: Record<string, number>;
     methodStructure: Record<string, number>;
     methodOptimization: Record<string, string[]>,
-    methodHarmony: Record<string, number>,
+    methodHarmony: Record<string, number>
   } => {
-    const testMethods = ['raw', 'cooked', 'juiced', 'dried', 'frozen'],
+    const testMethods = ['raw', 'cooked', 'juiced', 'dried', 'frozen'],;
 
     const methodAnalysis = {
       totalMethods: testMethods.length;
@@ -507,10 +507,10 @@ export const FRUIT_PREPARATION_INTELLIGENCE = {
         methodBalance:
           1 -
           (Math.max(
-            ...testMethods.map(method => Object.keys(getFruitsByPreparation(method)).length),,
+            ...testMethods.map(method => Object.keys(getFruitsByPreparation(method)).length),,;
           ) -
             Math.min(
-              ...testMethods.map(method => Object.keys(getFruitsByPreparation(method)).length),,
+              ...testMethods.map(method => Object.keys(getFruitsByPreparation(method)).length),,;
             )) /
             Object.keys(fruits).length
       }
@@ -520,7 +520,7 @@ export const FRUIT_PREPARATION_INTELLIGENCE = {
       (acc, method) => {
         const results = getFruitsByPreparation(method);
         acc[method] = Object.keys(results).length;
-        return acc,
+        return acc
       },
       {} as Record<string, number>,
     );
@@ -529,7 +529,7 @@ export const FRUIT_PREPARATION_INTELLIGENCE = {
       (acc, method) => {
         const results = getFruitsByPreparation(method);
         acc[method] = Object.keys(results).length;
-        return acc,
+        return acc
       },
       {} as Record<string, number>,
     );
@@ -538,7 +538,7 @@ export const FRUIT_PREPARATION_INTELLIGENCE = {
       (acc, method) => {
         const results = getFruitsByPreparation(method);
         acc[method] = Object.keys(results).slice(0, 5),
-        return acc,
+        return acc
       },
       {} as Record<string, string[]>,
     );
@@ -547,7 +547,7 @@ export const FRUIT_PREPARATION_INTELLIGENCE = {
       (acc, method) => {
         const results = getFruitsByPreparation(method);
         acc[method] = Object.keys(results).length > 0 ? 1.0 : 0.0;
-        return acc,
+        return acc
       },
       {} as Record<string, number>,
     );
@@ -567,7 +567,7 @@ export const FRUIT_PREPARATION_INTELLIGENCE = {
     integrityMetrics: Record<string, number>;
     integrityStructure: Record<string, number>;
     integrityOptimization: Record<string, string[]>,
-    integrityHarmony: Record<string, number>,
+    integrityHarmony: Record<string, number>
   } => {
     const testMethods = ['raw', 'cooked', 'juiced', 'dried', 'frozen'];
 
@@ -626,7 +626,7 @@ export const FRUIT_PREPARATION_INTELLIGENCE = {
       (acc, method) => {
         const results = getFruitsByPreparation(method);
         acc[method] = Object.keys(results).length;
-        return acc,
+        return acc
       },
       {} as Record<string, number>,
     );
@@ -635,7 +635,7 @@ export const FRUIT_PREPARATION_INTELLIGENCE = {
       (acc, method) => {
         const results = getFruitsByPreparation(method);
         acc[method] = Object.keys(results).length;
-        return acc,
+        return acc
       },
       {} as Record<string, number>,
     );
@@ -644,7 +644,7 @@ export const FRUIT_PREPARATION_INTELLIGENCE = {
       (acc, method) => {
         const results = getFruitsByPreparation(method);
         acc[method] = Object.keys(results).slice(0, 5),
-        return acc,
+        return acc
       },
       {} as Record<string, string[]>,
     );
@@ -653,7 +653,7 @@ export const FRUIT_PREPARATION_INTELLIGENCE = {
       (acc, method) => {
         const results = getFruitsByPreparation(method);
         acc[method] = Object.keys(results).length > 0 ? 1.0 : 0.0;
-        return acc,
+        return acc
       },
       {} as Record<string, number>,
     );
@@ -676,9 +676,9 @@ export const FRUIT_TYPE_INTELLIGENCE = {
     typeMetrics: Record<string, number>;
     typeStructure: Record<string, number>;
     typeOptimization: Record<string, string[]>,
-    typeHarmony: Record<string, number>,
+    typeHarmony: Record<string, number>
   } => {
-    const fruitTypes = ['citrus', 'berry', 'tropical', 'stone fruit', 'pome', 'melon'] as const,
+    const fruitTypes = ['citrus', 'berry', 'tropical', 'stone fruit', 'pome', 'melon'] as const,;
 
     const typeAnalysis = {
       totalTypes: fruitTypes.length;
@@ -698,7 +698,7 @@ export const FRUIT_TYPE_INTELLIGENCE = {
           ...fruitTypes.map(type => Object.keys(getFruitsBySubCategory(type)).length),;
         ),
         minTypeSize: Math.min(
-          ...fruitTypes.map(type => Object.keys(getFruitsBySubCategory(type)).length),,
+          ...fruitTypes.map(type => Object.keys(getFruitsBySubCategory(type)).length),,;
         ),
         typeBalance:
           1 -
@@ -712,7 +712,7 @@ export const FRUIT_TYPE_INTELLIGENCE = {
       (acc, type) => {
         const results = getFruitsBySubCategory(type);
         acc[type] = Object.keys(results).length;
-        return acc,
+        return acc
       },
       {} as Record<string, number>,
     );
@@ -721,7 +721,7 @@ export const FRUIT_TYPE_INTELLIGENCE = {
       (acc, type) => {
         const results = getFruitsBySubCategory(type);
         acc[type] = Object.keys(results).length;
-        return acc,
+        return acc
       },
       {} as Record<string, number>,
     );
@@ -730,7 +730,7 @@ export const FRUIT_TYPE_INTELLIGENCE = {
       (acc, type) => {
         const results = getFruitsBySubCategory(type);
         acc[type] = Object.keys(results).slice(0, 5),
-        return acc,
+        return acc
       },
       {} as Record<string, string[]>,
     );
@@ -739,7 +739,7 @@ export const FRUIT_TYPE_INTELLIGENCE = {
       (acc, type) => {
         const results = getFruitsBySubCategory(type);
         acc[type] = Object.keys(results).length > 0 ? 1.0 : 0.0;
-        return acc,
+        return acc
       },
       {} as Record<string, number>,
     );
@@ -764,9 +764,9 @@ export const FRUIT_COMPATIBILITY_INTELLIGENCE = {
     compatibilityMetrics: Record<string, number>;
     compatibilityStructure: Record<string, number>;
     compatibilityOptimization: Record<string, string[]>,
-    compatibilityHarmony: Record<string, number>,
+    compatibilityHarmony: Record<string, number>
   } => {
-    const sampleFruits = Object.keys(fruits).slice(0, 10), // Test with first 10 fruits
+    const sampleFruits = Object.keys(fruits).slice(0, 10), // Test with first 10 fruits;
 
     const compatibilityAnalysis = {
       functionName: compatibilityFunc.name;
@@ -792,8 +792,8 @@ export const FRUIT_COMPATIBILITY_INTELLIGENCE = {
         averageConnections:
           sampleFruits.reduce((sum, fruit) => sum + compatibilityFunc(fruit).length, 0) /
           sampleFruits.length;
-        maxConnections: Math.max(...sampleFruits.map(fruit => compatibilityFunc(fruit).length)),,
-        minConnections: Math.min(...sampleFruits.map(fruit => compatibilityFunc(fruit).length)),,
+        maxConnections: Math.max(...sampleFruits.map(fruit => compatibilityFunc(fruit).length)),,;
+        minConnections: Math.min(...sampleFruits.map(fruit => compatibilityFunc(fruit).length)),,;
         connectionDensity:
           sampleFruits.reduce((sum, fruit) => sum + compatibilityFunc(fruit).length, 0) /
           (sampleFruits.length * sampleFruits.length)
@@ -893,7 +893,7 @@ export const FRUIT_COMPATIBILITY_INTELLIGENCE = {
       compatibilityStructure,
       compatibilityOptimization: { suggestions: compatibilityOptimization },
       compatibilityHarmony
-    },
+    }
   }
 },
 
@@ -909,10 +909,10 @@ export const FRUIT_ASTROLOGICAL_INTELLIGENCE = {
     astrologicalMetrics: Record<string, number>;
     astrologicalStructure: Record<string, number>;
     astrologicalOptimization: Record<string, string[]>,
-    astrologicalHarmony: Record<string, number>,
+    astrologicalHarmony: Record<string, number>
   } => {
     const testPlanets = ['Sun', 'Moon', 'Mars', 'Venus', 'Jupiter', 'Saturn', 'Mercury'];
-    const testElements = ['Fire', 'Water', 'Earth', 'Air'],
+    const testElements = ['Fire', 'Water', 'Earth', 'Air'],;
 
     const astrologicalAnalysis = {
       planetaryAnalysis: testPlanets.map(planet => {
@@ -1081,7 +1081,7 @@ export const FRUIT_VALIDATION_INTELLIGENCE = {
     validationMetrics: Record<string, number>;
     validationStructure: Record<string, number>;
     validationOptimization: Record<string, string[]>,
-    validationHarmony: Record<string, number>,
+    validationHarmony: Record<string, number>
   } => {
     const sampleFruits = Object.values(fruits).slice(0, 10); // Test with first 10 fruits
 
@@ -1254,7 +1254,7 @@ export const FRUIT_DEMONSTRATION_PLATFORM = {
     systemDemonstration: Record<string, unknown>;
     demonstrationMetrics: Record<string, number>;
     integrationAnalysis: Record<string, number>,
-    demonstrationResults: Record<string, unknown>,
+    demonstrationResults: Record<string, unknown>
   } => {
     // Demonstrate all intelligence systems working together
     const categorizationResults =

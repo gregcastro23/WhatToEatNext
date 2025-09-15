@@ -16,7 +16,7 @@ export interface DetailedMetrics extends ProgressMetrics {
   warningBreakdown: Record<string, number>;
   buildMetrics: BuildMetrics,
   resourceMetrics: ResourceMetrics,
-  trendData: TrendData,
+  trendData: TrendData
 }
 
 export interface BuildMetrics {
@@ -35,13 +35,13 @@ export interface ResourceMetrics {
     total: number,
     free: number,
     used: number,
-    percentage: number,
+    percentage: number
   };
   diskSpace: {
     total: number,
     free: number,
     used: number,
-    percentage: number,
+    percentage: number
   };
 }
 
@@ -58,7 +58,7 @@ export interface MetricsSnapshot {
   metrics: DetailedMetrics,
   phase: string,
   milestone?: string,
-  notes?: string,
+  notes?: string
 }
 
 export class MetricsCollectionSystem {
@@ -71,12 +71,12 @@ export class MetricsCollectionSystem {
    */
   startRealTimeCollection(intervalMs: number = 30000): void {
     if (this.isCollecting) {
-      // console.log('📊 Metrics collection already running');
-      return,
+      // // console.log('📊 Metrics collection already running');
+      return
     }
 
     this.isCollecting = true;
-    // console.log(`📊 Starting real-time metrics collection (interval: ${intervalMs}ms)`);
+    // // console.log(`📊 Starting real-time metrics collection (interval: ${intervalMs}ms)`);
 
     this.collectionInterval = setInterval(() => {
       void (async () => {
@@ -86,7 +86,7 @@ export class MetricsCollectionSystem {
           console.error(
             '❌ Error during metrics collection:',
             (error as any).message || 'Unknown error';
-          ),
+          )
         }
       })();
     }, intervalMs);
@@ -104,7 +104,7 @@ export class MetricsCollectionSystem {
       this.collectionInterval = null;
     }
     this.isCollecting = false;
-    // console.log('📊 Stopped real-time metrics collection');
+    // // console.log('📊 Stopped real-time metrics collection');
   }
 
   /**
@@ -118,7 +118,7 @@ export class MetricsCollectionSystem {
     const timestamp = new Date();
     const id = `snapshot_${timestamp.getTime()}`;
 
-    // console.log('📊 Collecting metrics snapshot...');
+    // // console.log('📊 Collecting metrics snapshot...');
 
     const metrics = await this.collectDetailedMetrics();
 
@@ -138,7 +138,7 @@ export class MetricsCollectionSystem {
       this.snapshots = this.snapshots.slice(-500);
     }
 
-    // console.log(`📊 Snapshot collected: ${id}`);
+    // // console.log(`📊 Snapshot collected: ${id}`);
     return snapshot;
   }
 
@@ -206,7 +206,7 @@ export class MetricsCollectionSystem {
    */
   private async collectTypeScriptMetrics(): Promise<{
     count: number,
-    breakdown: Record<string, number>,
+    breakdown: Record<string, number>
   }> {
     try {
       // Get total error count
@@ -249,7 +249,7 @@ export class MetricsCollectionSystem {
           console.warn(
             'Could not get TypeScript error breakdown:',
             (error as any).message || 'Unknown error';
-          ),
+          )
         }
       }
 
@@ -268,7 +268,7 @@ export class MetricsCollectionSystem {
    */
   private async collectLintingMetrics(): Promise<{
     count: number,
-    breakdown: Record<string, number>,
+    breakdown: Record<string, number>
   }> {
     try {
       // Get total warning count
@@ -304,7 +304,7 @@ export class MetricsCollectionSystem {
           console.warn(
             'Could not get linting warning breakdown:',
             (error as any).message || 'Unknown error';
-          ),
+          )
         }
       }
 
@@ -340,14 +340,14 @@ export class MetricsCollectionSystem {
       console.warn(
         'Build failed during metrics collection:',
         (error as any).message || 'Unknown error';
-      ),
+      )
     }
 
     try {
       // Get bundle size
       bundleSize = await this.getBundleSize();
     } catch (error) {
-      console.warn('Could not measure bundle size:', (error as any).message || 'Unknown error'),
+      console.warn('Could not measure bundle size:', (error as any).message || 'Unknown error')
     }
 
     return {
@@ -419,7 +419,7 @@ export class MetricsCollectionSystem {
       warningReductionRate: warningReduction / timeSpanHours,
       buildTimeImprovement: buildTimeImprovement / timeSpanHours,
       systemGrowthRate: systemGrowth / timeSpanHours
-    },
+    }
   }
 
   /**
@@ -433,13 +433,13 @@ export class MetricsCollectionSystem {
       });
       return parseInt(output.trim()) || 0;
     } catch (error) {
-      return 0,
+      return 0
     }
   }
 
   private async getBundleSize(): Promise<number> {
     try {
-      const buildDirs = ['.next', 'dist', 'build'],
+      const buildDirs = ['.next', 'dist', 'build'],;
       let totalSize = 0;
 
       for (const dir of buildDirs) {
@@ -454,7 +454,7 @@ export class MetricsCollectionSystem {
 
       return totalSize;
     } catch (error) {
-      return 0,
+      return 0
     }
   }
 
@@ -477,7 +477,7 @@ export class MetricsCollectionSystem {
       });
       return parseFloat(output.trim()) || 0;
     } catch (error) {
-      return 0,
+      return 0
     }
   }
 
@@ -490,13 +490,13 @@ export class MetricsCollectionSystem {
       // Convert to MB (rough estimation)
       const sizeStr = output.trim();
       if (sizeStr.includes('G')) {
-        return parseFloat(sizeStr) * 1024,
+        return parseFloat(sizeStr) * 1024
       } else if (sizeStr.includes('M')) {
-        return parseFloat(sizeStr),
+        return parseFloat(sizeStr)
       }
       return 0;
     } catch (error) {
-      return 0,
+      return 0
     }
   }
 
@@ -508,7 +508,7 @@ export class MetricsCollectionSystem {
       });
       return parseInt(output.trim()) || 0;
     } catch (error) {
-      return 0,
+      return 0
     }
   }
 
@@ -580,18 +580,18 @@ export class MetricsCollectionSystem {
     if (sizeStr.includes('G')) return num * 1024;
     if (sizeStr.includes('M')) return num;
     if (sizeStr.includes('K')) return num / 1024;
-    return num,
+    return num
   }
 
   /**
    * Export methods for external access
    */
   getSnapshots(): MetricsSnapshot[] {
-    return [...this.snapshots],
+    return [...this.snapshots]
   }
 
   getLatestSnapshot(): MetricsSnapshot | null {
-    return this.snapshots.length > 0 ? this.snapshots[this.snapshots.length - 1] : null,
+    return this.snapshots.length > 0 ? this.snapshots[this.snapshots.length - 1] : null
   }
 
   async exportSnapshots(filePath: string): Promise<void> {
@@ -612,11 +612,11 @@ export class MetricsCollectionSystem {
     };
 
     fs.writeFileSync(filePath, JSON.stringify(exportData, null, 2));
-    // console.log(`📊 Metrics snapshots exported to: ${filePath}`);
+    // // console.log(`📊 Metrics snapshots exported to: ${filePath}`);
   }
 
   clearSnapshots(): void {
     this.snapshots = [];
-    // console.log('📊 Metrics snapshots cleared');
+    // // console.log('📊 Metrics snapshots cleared');
   }
 }

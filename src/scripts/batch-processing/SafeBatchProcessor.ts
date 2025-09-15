@@ -20,7 +20,7 @@ export interface BatchProcessingConfig {
   validateAfterEachBatch: boolean,
   autoRollbackOnError: boolean,
   createGitStash: boolean,
-  logLevel: 'debug' | 'info' | 'warn' | 'error',
+  logLevel: 'debug' | 'info' | 'warn' | 'error'
 }
 
 export interface FileProcessingInfo {
@@ -30,7 +30,7 @@ export interface FileProcessingInfo {
   isCritical: boolean,
   unusedVariableCount: number,
   riskLevel: 'low' | 'medium' | 'high',
-  fileType: string,
+  fileType: string
 }
 
 export interface BatchResult {
@@ -45,7 +45,7 @@ export interface BatchResult {
   errors: string[],
   warnings: string[],
   processingTime: number,
-  stashId?: string,
+  stashId?: string
 }
 
 export interface SafetyCheckpoint {
@@ -54,7 +54,7 @@ export interface SafetyCheckpoint {
   batchId: string,
   compilationStatus: boolean,
   errorCount: number,
-  stashId?: string,
+  stashId?: string
 }
 
 export class SafeBatchProcessor {
@@ -143,7 +143,7 @@ export class SafeBatchProcessor {
 
     const result: BatchResult = {
       batchId,
-      files: files.map(f => f.filePath),,
+      files: files.map(f => f.filePath),,;
       success: false,
       processedCount: 0,
       eliminatedCount: 0,
@@ -196,13 +196,13 @@ export class SafeBatchProcessor {
           if (this.config.autoRollbackOnError && stashId) {
             await this.performRollback(stashId);
             result.rollbackPerformed = true;
-            this.log('info', '🔄 Automatic rollback performed'),
+            this.log('info', '🔄 Automatic rollback performed')
           }
         } else {
-          this.log('info', '✅ TypeScript compilation passed'),
+          this.log('info', '✅ TypeScript compilation passed')
         }
       } else {
-        result.compilationPassed = true, // Assume success if not validating
+        result.compilationPassed = true, // Assume success if not validating;
       }
 
       result.success = result.compilationPassed && result.errors.length === 0;
@@ -262,7 +262,7 @@ export class SafeBatchProcessor {
       // Process low-risk files first
       const riskOrder = { low: 1, medium: 2, high: 3 };
       if (riskOrder[a.riskLevel] !== riskOrder[b.riskLevel]) {
-        return riskOrder[a.riskLevel] - riskOrder[b.riskLevel],
+        return riskOrder[a.riskLevel] - riskOrder[b.riskLevel]
       }
 
       // Within same risk level, process files with fewer variables first
@@ -391,8 +391,8 @@ export class SafeBatchProcessor {
    */
   private async createSafetyCheckpoint(
     id: string,
-    compilationStatus: boolean = true,,
-    errorCount: number = 0,,
+    compilationStatus: boolean = true,,;
+    errorCount: number = 0,,;
     stashId?: string,
   ): Promise<void> {
     const checkpoint: SafetyCheckpoint = {
@@ -425,7 +425,7 @@ export class SafeBatchProcessor {
    * Get all safety checkpoints
    */
   getSafetyCheckpoints(): SafetyCheckpoint[] {
-    return [...this.checkpoints],
+    return [...this.checkpoints]
   }
 
   /**
@@ -439,7 +439,7 @@ export class SafeBatchProcessor {
     if (messageLevel >= configLevel) {
       const timestamp = new Date().toISOString();
       const prefix = level.toUpperCase().padEnd(5);
-      // console.log(`[${timestamp}] ${prefix} ${message}`);
+      // // console.log(`[${timestamp}] ${prefix} ${message}`);
     }
   }
 }

@@ -94,7 +94,7 @@ function calculateElementalCompatibility(source, target) {
   const sourceDominant = getDominantElement(sourceProps);
   const targetDominant = getDominantElement(targetProps);
   // Calculate direct compatibility between dominant elements
-  const baseCompatibility = compatibilityScores[sourceDominant][targetDominant] || 0.7;
+  const _baseCompatibility = compatibilityScores[sourceDominant][targetDominant] || 0.7;
   // Calculate weighted compatibility across all elements
   let weightedSum = 0;
   let totalWeight = 0;

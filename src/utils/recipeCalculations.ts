@@ -7,7 +7,7 @@ import { RecipeElementalMapping } from '@/types/recipes';
  */
 const debugLog = (_message: string, ..._args: unknown[]): void => {
   // Comment out console.log to avoid linting warnings
-  // log.info(message, ...args),
+  // log.info(message, ...args)
 };
 
 /**
@@ -23,7 +23,7 @@ export const _recipeCalculations = {
     const cuisineElements = recipe.cuisine.elementalAlignment;
     const alignmentScore = Object.entries(recipe.elementalProperties).reduce(;
       (sum, [element, value]) => {
-        return sum + value * cuisineElements[element as unknown],
+        return sum + value * cuisineElements[element as unknown]
       },
       0,
     );
@@ -42,7 +42,7 @@ export const _recipeCalculations = {
    */
   getOptimalCookingWindow(recipe: RecipeElementalMapping): string[] {
     const optimalTimes = [
-      ...recipe.astrologicalProfile.rulingPlanets.map(p => `${p} dominant hours`),,
+      ...recipe.astrologicalProfile.rulingPlanets.map(p => `${p} dominant hours`),,;
       ...recipe.cuisine.astrologicalProfile.aspectEnhancers
     ];
 

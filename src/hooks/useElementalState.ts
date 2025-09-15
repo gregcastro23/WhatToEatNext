@@ -8,7 +8,7 @@ export interface ElementalState {
   Fire: number,
   Water: number,
   Earth: number,
-  Air: number,
+  Air: number
 }
 export function useElementalState() {
   const { planetaryPositions, isLoading } = useAlchemical();
@@ -45,7 +45,7 @@ export function useElementalState() {
     Object.values(planetaryPositions || {}).forEach(position => {
       const element = elementMap[(position as unknown)?.sign as keyof typeof elementMap];
       if (element) {
-        elementCounts[element as keyof typeof elementCounts]++,
+        elementCounts[element as keyof typeof elementCounts]++
       }
     });
 

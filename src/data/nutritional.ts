@@ -8,7 +8,7 @@ interface NutritionalProfile {
     protein?: number,
     carbs?: number,
     fat?: number,
-    fiber?: number,
+    fiber?: number
   };
   vitamins?: Record<string, number>;
   minerals?: Record<string, number>;
@@ -274,7 +274,7 @@ export const zodiacNutritionalNeeds: Record<
     elementalNeeds: Record<string, number>;
     nutritionalFocus: string[],
     beneficialFoods: string[],
-    challengeFoods: string[],
+    challengeFoods: string[]
   }
 > = {
   aries: {
@@ -363,7 +363,7 @@ export const planetaryNutritionInfluence: Record<
   {
     nutrientRulership: string[],
     healthDomain: string[],
-    beneficialFoods: string[],
+    beneficialFoods: string[]
   }
 > = {
   sun: {
@@ -424,7 +424,7 @@ export const seasonalNutritionFocus: Record<
   {
     elementalEmphasis: string,
     nutritionalFocus: string[],
-    recommendedFoods: string[],
+    recommendedFoods: string[]
   }
 > = {
   spring: {
@@ -537,7 +537,7 @@ export async function fetchNutritionalData(foodName: string): Promise<Nutritiona
     return baseNutritionalProfiles.vegetables;
   } catch (error) {
     console.error('Error fetching nutritional data:', error),
-    return null,
+    return null
   }
 }
 
@@ -547,7 +547,7 @@ export async function fetchNutritionalData(foodName: string): Promise<Nutritiona
 interface IngredientWithNutrition {
   nutritionalProfile?: NutritionalProfile,
   amount?: number,
-  [key: string]: unknown,
+  [key: string]: unknown
 }
 
 /**
@@ -570,7 +570,7 @@ export function calculateNutritionalBalance(
   };
 
   if (!ingredients || ingredients.length === 0) {
-    return defaultProfile,
+    return defaultProfile
   }
 
   return ingredients.reduce((acc, ingredient) => {
@@ -625,7 +625,7 @@ export function nutritionalToElemental(profile: NutritionalProfile): {
   Fire: number,
   Water: number,
   Earth: number,
-  Air: number,
+  Air: number
 } {
   if (!profile) {
     return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
@@ -680,7 +680,7 @@ export function getZodiacNutritionalRecommendations(sign: string): {
   elementalBalance: Record<string, number>;
   focusNutrients: string[],
   recommendedFoods: string[],
-  avoidFoods: string[],
+  avoidFoods: string[]
 } {
   const signData = zodiacNutritionalNeeds[sign];
 
@@ -727,12 +727,12 @@ function isDaytime(date: Date = new Date()): boolean {
 export function getEnhancedPlanetaryNutritionalRecommendations(
   planetaryDay: string,
   planetaryHour: string,
-  currentTime: Date = new Date(),,
+  currentTime: Date = new Date(),,;
 ): {
   elements: Record<string, number>;
   focusNutrients: string[],
   healthAreas: string[],
-  recommendedFoods: string[],
+  recommendedFoods: string[]
 } {
   // Normalize planet names to lowercase
   const dayPlanet = planetaryDay.toLowerCase();
@@ -812,7 +812,7 @@ export function getEnhancedPlanetaryNutritionalRecommendations(
 export function getPlanetaryNutritionalRecommendations(planets: string[]): {
   focusNutrients: string[],
   healthAreas: string[],
-  recommendedFoods: string[],
+  recommendedFoods: string[]
 } {
   // Combine recommendations from all influential planets
   const focusNutrients: string[] = [];
@@ -842,7 +842,7 @@ export function getPlanetaryNutritionalRecommendations(planets: string[]): {
 export function getSeasonalNutritionalRecommendations(season: string): {
   element: string,
   focusNutrients: string[],
-  seasonalFoods: string[],
+  seasonalFoods: string[]
 } {
   // Normalize season name
   const normalizedSeason = season.toLowerCase();
@@ -869,7 +869,7 @@ export function evaluateNutritionalElementalBalance(
 ): {
   score: number,
   imbalances: string[],
-  recommendations: string[],
+  recommendations: string[]
 } {
   const currentElements = nutritionalToElemental(profile);
 

@@ -1,5 +1,5 @@
 declare global {
-  var __DEV__: boolean,
+  var __DEV__: boolean
 }
 
 /**
@@ -20,9 +20,9 @@ describe('DomainContextAnalyzer', () => {
   describe('Domain Detection', () => {
     describe('Path-based Detection', () => {
       test('detects astrological domain from file paths', async () => {
-        const context: ClassificationContext = { filePath: 'src/calculations/culinary/planetaryInfluence.ts',,
+        const context: ClassificationContext = { filePath: 'src/calculations/culinary/planetaryInfluence.ts',,;
           lineNumber: 10,
-          codeSnippet: 'const dat, a: any = response,',
+          codeSnippet: 'const dat, a: any = response,',;
           surroundingLines: [],
           hasExistingComment: false,
           isInTestFile: false,
@@ -34,7 +34,7 @@ describe('DomainContextAnalyzer', () => {
       });
 
       test('detects recipe domain from file paths', async () => {
-        const context: ClassificationContext = { filePath: 'src/data/ingredients/vegetables.ts',,
+        const context: ClassificationContext = { filePath: 'src/data/ingredients/vegetables.ts',,;
           lineNumber: 5,
           codeSnippet: 'const ingredien, t: any = {};',
           surroundingLines: [],
@@ -48,7 +48,7 @@ describe('DomainContextAnalyzer', () => {
       });
 
       test('detects campaign domain from file paths', async () => {
-        const context: ClassificationContext = { filePath: 'src/services/campaign/TypeScriptErrorAnalyzer.ts',,
+        const context: ClassificationContext = { filePath: 'src/services/campaign/TypeScriptErrorAnalyzer.ts',,;
           lineNumber: 15,
           codeSnippet: 'const metric, s: any = {};',
           surroundingLines: [],
@@ -62,7 +62,7 @@ describe('DomainContextAnalyzer', () => {
       });
 
       test('detects component domain from file extensions', async () => {
-        const context: ClassificationContext = { filePath: 'src/components/Button.tsx',,
+        const context: ClassificationContext = { filePath: 'src/components/Button.tsx',,;
           lineNumber: 8,
           codeSnippet: 'const prop, s: any = {};',
           surroundingLines: [],
@@ -76,7 +76,7 @@ describe('DomainContextAnalyzer', () => {
       });
 
       test('detects test domain from test file paths', async () => {
-        const context: ClassificationContext = { filePath: 'src/components/__tests__/Button.test.tsx',,
+        const context: ClassificationContext = { filePath: 'src/components/__tests__/Button.test.tsx',,;
           lineNumber: 12,
           codeSnippet: 'const mockDat, a: any = {};',
           surroundingLines: [],
@@ -92,13 +92,13 @@ describe('DomainContextAnalyzer', () => {
 
     describe('Content-based Detection', () => {
       test('detects astrological domain from content patterns', async () => {
-        const context: ClassificationContext = { filePath: 'src/utils/someFile.ts',,
+        const context: ClassificationContext = { filePath: 'src/utils/someFile.ts',,;
           lineNumber: 10,
-          codeSnippet: 'const planetaryPosition, s: any = calculatePositions(),',
+          codeSnippet: 'const planetaryPosition, s: any = calculatePositions(),',;
           surroundingLines: [
             'import { PlanetaryPosition } from '@/types',',
             'function calculateElementalProperties() : any {',
-            '  const fire: any = 0.8, water = 0.2,'
+            '  const fire: any = 0.8, water = 0.2,';
           ],
           hasExistingComment: false,
           isInTestFile: false,
@@ -110,13 +110,13 @@ describe('DomainContextAnalyzer', () => {
       });
 
       test('detects recipe domain from content patterns', async () => {
-        const context: ClassificationContext = { filePath: 'src/utils/someFile.ts',,
+        const context: ClassificationContext = { filePath: 'src/utils/someFile.ts',,;
           lineNumber: 5,
-          codeSnippet: 'const ingredien, t: any = getIngredientData(),',
+          codeSnippet: 'const ingredien, t: any = getIngredientData(),',;
           surroundingLines: [
             'import { Recipe, Ingredient } from '@/types',',
             'function processCookingMethod() : any {',
-            '  const spices: any = ['cumin', 'paprika'],'
+            '  const spices: any = ['cumin', 'paprika'],';
           ],
           hasExistingComment: false,
           isInTestFile: false,
@@ -128,13 +128,13 @@ describe('DomainContextAnalyzer', () => {
       });
 
       test('detects campaign domain from content patterns', async () => {
-        const context: ClassificationContext = { filePath: 'src/utils/someFile.ts',,
+        const context: ClassificationContext = { filePath: 'src/utils/someFile.ts',,;
           lineNumber: 8,
-          codeSnippet: 'const metric, s: any = getProgressMetrics(),',
+          codeSnippet: 'const metric, s: any = getProgressMetrics(),',;
           surroundingLines: [
             'import { CampaignConfig } from '@/types',',
             'function validateTypeScriptErrors() : any {',
-            '  const _lintingResults: any = runLinter(),'
+            '  const _lintingResults: any = runLinter(),';
           ],
           hasExistingComment: false,
           isInTestFile: false,
@@ -148,9 +148,9 @@ describe('DomainContextAnalyzer', () => {
 
     describe('Import-based Detection', () => {
       test('detects astrological domain from imports', async () => {
-        const context: ClassificationContext = { filePath: 'src/utils/calculations.ts',,
+        const context: ClassificationContext = { filePath: 'src/utils/calculations.ts',,;
           lineNumber: 10,
-          codeSnippet: 'const dat, a: any = response,',
+          codeSnippet: 'const dat, a: any = response,',;
           surroundingLines: [
             'import { astronomia } from 'astronomia',',
             'import { getReliablePlanetaryPositions } from '@/utils/reliableAstronomy',',
@@ -166,7 +166,7 @@ describe('DomainContextAnalyzer', () => {
       });
 
       test('detects component domain from React imports', async () => {
-        const context: ClassificationContext = { filePath: 'src/utils/someFile.ts',,
+        const context: ClassificationContext = { filePath: 'src/utils/someFile.ts',,;
           lineNumber: 5,
           codeSnippet: 'const prop, s: any = {};',
           surroundingLines: [
@@ -184,7 +184,7 @@ describe('DomainContextAnalyzer', () => {
       });
 
       test('detects test domain from testing library imports', async () => {
-        const context: ClassificationContext = { filePath: 'src/utils/someFile.ts',,
+        const context: ClassificationContext = { filePath: 'src/utils/someFile.ts',,;
           lineNumber: 8,
           codeSnippet: 'const mockDat, a: any = {};',
           surroundingLines: [
@@ -205,12 +205,12 @@ describe('DomainContextAnalyzer', () => {
 
   describe('Subdomain Detection', () => {
     test('detects planetary subdomain in astrological code', async () => {
-      const context: ClassificationContext = { filePath: 'src/calculations/planetary/positions.ts',,
+      const context: ClassificationContext = { filePath: 'src/calculations/planetary/positions.ts',,;
         lineNumber: 10,
-        codeSnippet: 'const planetaryDat, a: any = calculatePlanetaryPositions(),',
+        codeSnippet: 'const planetaryDat, a: any = calculatePlanetaryPositions(),',;
         surroundingLines: [
           'function getPlanetDegree() : any {',
-          '  const longitude: any = 45.5,',
+          '  const longitude: any = 45.5,',;
           '  return convertToZodiacPosition(longitude),'
         ],
         hasExistingComment: false,
@@ -224,13 +224,13 @@ describe('DomainContextAnalyzer', () => {
     });
 
     test('detects elemental subdomain in astrological code', async () => {
-      const context: ClassificationContext = { filePath: 'src/calculations/elemental/harmony.ts',,
+      const context: ClassificationContext = { filePath: 'src/calculations/elemental/harmony.ts',,;
         lineNumber: 5,
         codeSnippet: 'const _elementalProps: any = { fir, e: 0.8, water: 0.2 };',
         surroundingLines: [
           'function calculateElementalCompatibility() : any {',
-          '  const fire: any = ingredient.fire,',
-          '  const earth: any = ingredient.earth,'
+          '  const fire: any = ingredient.fire,',;
+          '  const earth: any = ingredient.earth,';
         ],
         hasExistingComment: false,
         isInTestFile: false,
@@ -243,11 +243,11 @@ describe('DomainContextAnalyzer', () => {
     });
 
     test('detects ingredients subdomain in recipe code', async () => {
-      const context: ClassificationContext = { filePath: 'src/data/ingredients/spices.ts',,
+      const context: ClassificationContext = { filePath: 'src/data/ingredients/spices.ts',,;
         lineNumber: 8,
-        codeSnippet: 'const spiceDat, a: any = getSpiceProperties(),',
+        codeSnippet: 'const spiceDat, a: any = getSpiceProperties(),',;
         surroundingLines: [
-          'export const cumin = {',,
+          'export const cumin = {',,;
           '  name: 'cumin',',
           '  elementalProperties: { fir, e: 0.9, earth: 0.7 }'
         ],
@@ -262,12 +262,12 @@ describe('DomainContextAnalyzer', () => {
     });
 
     test('detects typescript-errors subdomain in campaign code', async () => {
-      const context: ClassificationContext = { filePath: 'src/services/campaign/TypeScriptErrorAnalyzer.ts',,
+      const context: ClassificationContext = { filePath: 'src/services/campaign/TypeScriptErrorAnalyzer.ts',,;
         lineNumber: 12,
-        codeSnippet: 'const errorDat, a: any = analyzeTypeScriptErrors(),',
+        codeSnippet: 'const errorDat, a: any = analyzeTypeScriptErrors(),',;
         surroundingLines: [
           'function getTS2352Errors() : any {',
-          '  const _compilationErrors: any = runTypeCheck(),',
+          '  const _compilationErrors: any = runTypeCheck(),',;
           '  return filterErrorsByCode('TS2352'),'
         ],
         hasExistingComment: false,
@@ -283,9 +283,9 @@ describe('DomainContextAnalyzer', () => {
 
   describe('Type Suggestions', () => {
     test('provides astrological type suggestions', async () => {
-      const context: ClassificationContext = { filePath: 'src/calculations/planetary.ts',,
+      const context: ClassificationContext = { filePath: 'src/calculations/planetary.ts',,;
         lineNumber: 10,
-        codeSnippet: 'const positio, n: any = getPlanetaryPosition(),',
+        codeSnippet: 'const positio, n: any = getPlanetaryPosition(),',;
         surroundingLines: [],
         hasExistingComment: false,
         isInTestFile: false,
@@ -299,9 +299,9 @@ describe('DomainContextAnalyzer', () => {
     });
 
     test('provides recipe type suggestions', async () => {
-      const context: ClassificationContext = { filePath: 'src/data/recipes.ts',,
+      const context: ClassificationContext = { filePath: 'src/data/recipes.ts',,;
         lineNumber: 5,
-        codeSnippet: 'const recip, e: any = getRecipeData(),',
+        codeSnippet: 'const recip, e: any = getRecipeData(),',;
         surroundingLines: [],
         hasExistingComment: false,
         isInTestFile: false,
@@ -315,9 +315,9 @@ describe('DomainContextAnalyzer', () => {
     });
 
     test('provides campaign type suggestions', async () => {
-      const context: ClassificationContext = { filePath: 'src/services/campaign/metrics.ts',,
+      const context: ClassificationContext = { filePath: 'src/services/campaign/metrics.ts',,;
         lineNumber: 8,
-        codeSnippet: 'const metric, s: any = getProgressMetrics(),',
+        codeSnippet: 'const metric, s: any = getProgressMetrics(),',;
         surroundingLines: [],
         hasExistingComment: false,
         isInTestFile: false,
@@ -331,12 +331,12 @@ describe('DomainContextAnalyzer', () => {
     });
 
     test('provides contextual type suggestions based on code content', async () => {
-      const context: ClassificationContext = { filePath: 'src/services/api.ts',,
+      const context: ClassificationContext = { filePath: 'src/services/api.ts',,;
         lineNumber: 10,
-        codeSnippet: 'const respons, e: any = await fetch(url),',
+        codeSnippet: 'const respons, e: any = await fetch(url),',;
         surroundingLines: [
           'async function makeApiRequest() : any {',
-          '  const _requestData: any = { method: 'GET' },'
+          '  const _requestData: any = { method: 'GET' },';
         ],
         hasExistingComment: false,
         isInTestFile: false,
@@ -351,9 +351,9 @@ describe('DomainContextAnalyzer', () => {
 
   describe('Intentionality Hints', () => {
     test('provides preservation hints for astrological code', async () => {
-      const context: ClassificationContext = { filePath: 'src/calculations/planetary.ts',,
+      const context: ClassificationContext = { filePath: 'src/calculations/planetary.ts',,;
         lineNumber: 10,
-        codeSnippet: 'const planetaryDat, a: any = externalAstrologyApi.getPositions(),',
+        codeSnippet: 'const planetaryDat, a: any = externalAstrologyApi.getPositions(),',;
         surroundingLines: [],
         hasExistingComment: false,
         isInTestFile: false,
@@ -369,9 +369,9 @@ describe('DomainContextAnalyzer', () => {
     });
 
     test('provides replacement hints for recipe code', async () => {
-      const context: ClassificationContext = { filePath: 'src/data/ingredients.ts',,
+      const context: ClassificationContext = { filePath: 'src/data/ingredients.ts',,;
         lineNumber: 5,
-        codeSnippet: 'const ingredien, t: any = getIngredientData(),',
+        codeSnippet: 'const ingredien, t: any = getIngredientData(),',;
         surroundingLines: [],
         hasExistingComment: false,
         isInTestFile: false,
@@ -384,9 +384,9 @@ describe('DomainContextAnalyzer', () => {
     });
 
     test('provides preservation hints for campaign code', async () => {
-      const context: ClassificationContext = { filePath: 'src/services/campaign/config.ts',,
+      const context: ClassificationContext = { filePath: 'src/services/campaign/config.ts',,;
         lineNumber: 8,
-        codeSnippet: 'const confi, g: any = getCampaignConfig(),',
+        codeSnippet: 'const confi, g: any = getCampaignConfig(),',;
         surroundingLines: [],
         hasExistingComment: false,
         isInTestFile: false,
@@ -399,7 +399,7 @@ describe('DomainContextAnalyzer', () => {
     });
 
     test('provides preservation hints for test files', async () => {
-      const context: ClassificationContext = { filePath: 'src/utils/__tests__/helper.test.ts',,
+      const context: ClassificationContext = { filePath: 'src/utils/__tests__/helper.test.ts',,;
         lineNumber: 12,
         codeSnippet: 'const mockDat, a: any = {};',
         surroundingLines: [],
@@ -416,9 +416,9 @@ describe('DomainContextAnalyzer', () => {
 
   describe('Preservation Reasons', () => {
     test('provides astrological preservation reasons', async () => {
-      const context: ClassificationContext = { filePath: 'src/calculations/ephemeris.ts',,
+      const context: ClassificationContext = { filePath: 'src/calculations/ephemeris.ts',,;
         lineNumber: 10,
-        codeSnippet: 'const dat, a: any = astronomyLibrary.calculate(),',
+        codeSnippet: 'const dat, a: any = astronomyLibrary.calculate(),',;
         surroundingLines: [],
         hasExistingComment: false,
         isInTestFile: false,
@@ -435,9 +435,9 @@ describe('DomainContextAnalyzer', () => {
     });
 
     test('provides campaign preservation reasons', async () => {
-      const context: ClassificationContext = { filePath: 'src/services/campaign/intelligence.ts',,
+      const context: ClassificationContext = { filePath: 'src/services/campaign/intelligence.ts',,;
         lineNumber: 5,
-        codeSnippet: 'const metric, s: any = dynamicMetricsCalculation(),',
+        codeSnippet: 'const metric, s: any = dynamicMetricsCalculation(),',;
         surroundingLines: [],
         hasExistingComment: false,
         isInTestFile: false,
@@ -454,9 +454,9 @@ describe('DomainContextAnalyzer', () => {
     });
 
     test('provides test file preservation reasons', async () => {
-      const context: ClassificationContext = { filePath: 'src/utils/helper.test.ts',,
+      const context: ClassificationContext = { filePath: 'src/utils/helper.test.ts',,;
         lineNumber: 8,
-        codeSnippet: 'const testDat, a: any = createMockData(),',
+        codeSnippet: 'const testDat, a: any = createMockData(),',;
         surroundingLines: [],
         hasExistingComment: false,
         isInTestFile: true,
@@ -473,9 +473,9 @@ describe('DomainContextAnalyzer', () => {
     });
 
     test('provides existing comment preservation reasons', async () => {
-      const context: ClassificationContext = { filePath: 'src/utils/helper.ts',,
+      const context: ClassificationContext = { filePath: 'src/utils/helper.ts',,;
         lineNumber: 10,
-        codeSnippet: 'const dat, a: any = externalApi(),',
+        codeSnippet: 'const dat, a: any = externalApi(),',;
         surroundingLines: [],
         hasExistingComment: true,
         existingComment: '// Intentionally an, y: External API compatibility',
@@ -492,9 +492,9 @@ describe('DomainContextAnalyzer', () => {
 
   describe('Domain-Specific Type Suggestions Method', () => {
     test('returns domain-specific suggestions for astrological domain', () => {
-      const context: ClassificationContext = { filePath: 'src/calculations/planetary.ts',,
+      const context: ClassificationContext = { filePath: 'src/calculations/planetary.ts',,;
         lineNumber: 10,
-        codeSnippet: 'const positio, n: any = getPlanetaryPosition(),',
+        codeSnippet: 'const positio, n: any = getPlanetaryPosition(),',;
         surroundingLines: [],
         hasExistingComment: false,
         isInTestFile: false,
@@ -508,9 +508,9 @@ describe('DomainContextAnalyzer', () => {
     });
 
     test('returns domain-specific suggestions for recipe domain', () => {
-      const context: ClassificationContext = { filePath: 'src/data/ingredients.ts',,
+      const context: ClassificationContext = { filePath: 'src/data/ingredients.ts',,;
         lineNumber: 5,
-        codeSnippet: 'const ingredien, t: any = getIngredientData(),',
+        codeSnippet: 'const ingredien, t: any = getIngredientData(),',;
         surroundingLines: [],
         hasExistingComment: false,
         isInTestFile: false,
@@ -524,9 +524,9 @@ describe('DomainContextAnalyzer', () => {
     });
 
     test('returns domain-specific suggestions for campaign domain', () => {
-      const context: ClassificationContext = { filePath: 'src/services/campaign/metrics.ts',,
+      const context: ClassificationContext = { filePath: 'src/services/campaign/metrics.ts',,;
         lineNumber: 8,
-        codeSnippet: 'const metric, s: any = getProgressMetrics(),',
+        codeSnippet: 'const metric, s: any = getProgressMetrics(),',;
         surroundingLines: [],
         hasExistingComment: false,
         isInTestFile: false,
@@ -543,9 +543,9 @@ describe('DomainContextAnalyzer', () => {
   describe('Advanced Type Suggestions', () => {
     describe('Variable Name Based Suggestions', () => {
       test('suggests specific planetary types based on variable names', () => {
-        const context: ClassificationContext = { filePath: 'src/calculations/planetary.ts',,
+        const context: ClassificationContext = { filePath: 'src/calculations/planetary.ts',,;
           lineNumber: 10,
-          codeSnippet: 'const sunPositio, n: any = calculateSunPosition(),',
+          codeSnippet: 'const sunPositio, n: any = calculateSunPosition(),',;
           surroundingLines: [],
           hasExistingComment: false,
           isInTestFile: false,
@@ -558,9 +558,9 @@ describe('DomainContextAnalyzer', () => {
       });
 
       test('suggests specific ingredient types based on variable names', () => {
-        const context: ClassificationContext = { filePath: 'src/data/ingredients.ts',,
+        const context: ClassificationContext = { filePath: 'src/data/ingredients.ts',,;
           lineNumber: 5,
-          codeSnippet: 'const spiceDat, a: any = getSpiceProperties(),',
+          codeSnippet: 'const spiceDat, a: any = getSpiceProperties(),',;
           surroundingLines: [],
           hasExistingComment: false,
           isInTestFile: false,
@@ -573,9 +573,9 @@ describe('DomainContextAnalyzer', () => {
       });
 
       test('suggests campaign-specific types based on variable names', () => {
-        const context: ClassificationContext = { filePath: 'src/services/campaign/typescript.ts',,
+        const context: ClassificationContext = { filePath: 'src/services/campaign/typescript.ts',,;
           lineNumber: 8,
-          codeSnippet: 'const typescriptError, s: any = analyzeErrors(),',
+          codeSnippet: 'const typescriptError, s: any = analyzeErrors(),',;
           surroundingLines: [],
           hasExistingComment: false,
           isInTestFile: false,
@@ -590,7 +590,7 @@ describe('DomainContextAnalyzer', () => {
 
     describe('Pattern Based Suggestions', () => {
       test('suggests array types for any[] patterns', () => {
-        const context: ClassificationContext = { filePath: 'src/calculations/planetary.ts',,
+        const context: ClassificationContext = { filePath: 'src/calculations/planetary.ts',,;
           lineNumber: 10,
           codeSnippet: 'const planet, s: any[] = getAllPlanets(),',
           surroundingLines: [],
@@ -605,7 +605,7 @@ describe('DomainContextAnalyzer', () => {
       });
 
       test('suggests Record types for object patterns', () => {
-        const context: ClassificationContext = { filePath: 'src/data/ingredients.ts',,
+        const context: ClassificationContext = { filePath: 'src/data/ingredients.ts',,;
           lineNumber: 5,
           codeSnippet: 'const ingredientMa, p: Record<string, unknown> = {};',
           surroundingLines: [],
@@ -619,7 +619,7 @@ describe('DomainContextAnalyzer', () => {
       });
 
       test('suggests Promise types for async patterns', () => {
-        const context = { filePath: 'src/services/api.ts',,
+        const context = { filePath: 'src/services/api.ts',,;
           lineNumber: 8,
           codeSnippet: 'async function fetchData(): Promise<any> {',
           surroundingLines: [],
@@ -634,7 +634,7 @@ describe('DomainContextAnalyzer', () => {
       });
 
       test('suggests function parameter types', () => {
-        const context = { filePath: 'src/components/Button.tsx',,
+        const context = { filePath: 'src/components/Button.tsx',,;
           lineNumber: 5,
           codeSnippet: 'function handleClick(even, t: any) : any {',
           surroundingLines: [],
@@ -651,13 +651,13 @@ describe('DomainContextAnalyzer', () => {
 
     describe('Contextual Content Analysis', () => {
       test('analyzes surrounding content for better suggestions', () => {
-        const context: ClassificationContext = { filePath: 'src/calculations/elemental.ts',,
+        const context: ClassificationContext = { filePath: 'src/calculations/elemental.ts',,;
           lineNumber: 10,
-          codeSnippet: 'const dat, a: any = processElementalData(),',
+          codeSnippet: 'const dat, a: any = processElementalData(),',;
           surroundingLines: [
             'import { ElementalProperties } from '@/types',',
             'function calculateFireCompatibility() : any {',
-            '  const fire: any = 0.8, water = 0.2, earth = 0.5, air = 0.3,'
+            '  const fire: any = 0.8, water = 0.2, earth = 0.5, air = 0.3,';
           ],
           hasExistingComment: false,
           isInTestFile: false,
@@ -671,9 +671,9 @@ describe('DomainContextAnalyzer', () => {
       });
 
       test('detects React component patterns', () => {
-        const context: ClassificationContext = { filePath: 'src/components/RecipeForm.tsx',,
+        const context: ClassificationContext = { filePath: 'src/components/RecipeForm.tsx',,;
           lineNumber: 8,
-          codeSnippet: 'const formDat, a: any = getFormData(),',
+          codeSnippet: 'const formDat, a: any = getFormData(),',;
           surroundingLines: [
             'import React from 'react',',
             'function onSubmit(event: React.FormEvent) : any {',
@@ -690,13 +690,13 @@ describe('DomainContextAnalyzer', () => {
       });
 
       test('detects test mock patterns', () => {
-        const context = { filePath: 'src/utils/__tests__/helper.test.ts',,
+        const context = { filePath: 'src/utils/__tests__/helper.test.ts',,;
           lineNumber: 12,
-          codeSnippet: 'const mockFunctio, n: any = jest.fn(),',
+          codeSnippet: 'const mockFunctio, n: any = jest.fn(),',;
           surroundingLines: [
             'import { jest } from '@jest/globals',',
             'describe('Helper functions'( {',
-            '  const _spy: any = jest.spyOn(console, 'log'),'
+            '  const _spy: any = jest.spyOn(console, 'log'),';
           ],
           hasExistingComment: false,
           isInTestFile: true,
@@ -712,7 +712,7 @@ describe('DomainContextAnalyzer', () => {
 
   describe('Edge Cases', () => {
     test('handles empty file paths gracefully', async () => {
-      const context: ClassificationContext = { filePath: '',,
+      const context: ClassificationContext = { filePath: '',,;
         lineNumber: 1,
         codeSnippet: 'const dat, a: any = {};',
         surroundingLines: [],
@@ -728,9 +728,9 @@ describe('DomainContextAnalyzer', () => {
     });
 
     test('handles mixed domain signals correctly', async () => {
-      const context: ClassificationContext = { filePath: 'src/components/ChartDisplay.tsx',,
+      const context: ClassificationContext = { filePath: 'src/components/ChartDisplay.tsx',,;
         lineNumber: 10,
-        codeSnippet: 'const chartDat, a: any = props.data,',
+        codeSnippet: 'const chartDat, a: any = props.data,',;
         surroundingLines: [
           'import React from 'react',',
           'function renderChart() : any {',
@@ -748,7 +748,7 @@ describe('DomainContextAnalyzer', () => {
     });
 
     test('handles Windows file paths correctly', async () => {
-      const context: ClassificationContext = { filePath: 'src\\calculations\\planetary\\positions.ts',,
+      const context: ClassificationContext = { filePath: 'src\\calculations\\planetary\\positions.ts',,;
         lineNumber: 5,
         codeSnippet: 'const dat, a: any = {};',
         surroundingLines: [],

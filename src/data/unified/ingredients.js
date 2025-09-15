@@ -71,15 +71,15 @@ export const unifiedIngredients = [
   },
 ];
 
-export const getIngredientById = id => {
+export const _getIngredientById = id => {
   return unifiedIngredients.find(ingredient => ingredient.id === id);
 };
 
-export const getIngredientsByCategory = category => {
+export const _getIngredientsByCategory = category => {
   return unifiedIngredients.filter(ingredient => ingredient.category === category);
 };
 
-export const getIngredientsByElement = (element, threshold = 0.5) => {
+export const _getIngredientsByElement = (element, threshold = 0.5) => {
   return unifiedIngredients.filter(ingredient => ingredient.elements[element] >= threshold);
 };
 
@@ -89,7 +89,7 @@ export const getIngredientsByKalchmRange = (min, max) => {
   );
 };
 
-export const getIngredientsBySeason = season => {
+export const _getIngredientsBySeason = season => {
   return unifiedIngredients.filter(
     ingredient => ingredient.season.includes(season) || ingredient.season.includes('all'),
   );

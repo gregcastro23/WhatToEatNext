@@ -122,7 +122,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
         ).length;
 
         if (excludedCount > 0) {
-          score = 0, // Automatic disqualification if excluded ingredients are present
+          score = 0, // Automatic disqualification if excluded ingredients are present;
         }
       }
 
@@ -150,7 +150,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
     });
 
     return {
-      items: (limitedRecipes || []).map(item => item.recipe),,
+      items: (limitedRecipes || []).map(item => item.recipe),,;
       scores,
       context: {
         criteriaUsed: Object.keys(criteria || {}).filter(key => criteria[key] !== undefined),;
@@ -221,10 +221,10 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
       if (criteria.excludeIngredients && criteria.excludeIngredients.length > 0) {
         if (
           (criteria.excludeIngredients || []).some(
-            ing => ing.toLowerCase() === ingredient.name.toLowerCase(),,
+            ing => ing.toLowerCase() === ingredient.name.toLowerCase(),,;
           )
         ) {
-          score = 0, // Automatic disqualification if excluded
+          score = 0, // Automatic disqualification if excluded;
         }
       }
 
@@ -252,7 +252,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
     });
 
     return {
-      items: (limitedIngredients || []).map(item => item.ingredient) as unknown as Ingredient[], // TODO: Review this cast for type safety,
+      items: (limitedIngredients || []).map(item => item.ingredient) as unknown as Ingredient[], // TODO: Review this cast for type safety,;
       scores,
       context: {
         criteriaUsed: Object.keys(criteria || {}).filter(key => criteria[key] !== undefined),;
@@ -312,8 +312,8 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
     if (criteria.excludeCuisines && (criteria.excludeCuisines || []).length > 0) {
       const excludedSet = new Set((criteria.excludeCuisines || []).map(c => c.toLowerCase()));
       availableCuisines = (cuisines || []).filter(;
-        cuisine => !excludedSet.has(cuisine.toLowerCase()),,
-      ),
+        cuisine => !excludedSet.has(cuisine.toLowerCase()),,;
+      )
     }
 
     // Score cuisines based on criteria
@@ -331,7 +331,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
           cuisineElements[cuisine],
         ),
 
-        score = elementalScore, // Base score on elemental compatibility
+        score = elementalScore, // Base score on elemental compatibility;
       }
 
       return {
@@ -358,7 +358,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
     });
 
     return {
-      items: (limitedCuisines || []).map(item => item.cuisine),,
+      items: (limitedCuisines || []).map(item => item.cuisine),,;
       scores,
       context: {
         criteriaUsed: Object.keys(criteria || {}).filter(key => criteria[key] !== undefined),;
@@ -450,7 +450,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
           methodData.elementalEffect
         ),
 
-        score = elementalScore, // Base score on elemental compatibility
+        score = elementalScore, // Base score on elemental compatibility;
       }
 
       return {
@@ -479,7 +479,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
     });
 
     return {
-      items: (limitedMethods || []).map(item => item.method),,
+      items: (limitedMethods || []).map(item => item.method),,;
       scores,
       context: {
         criteriaUsed: Object.keys(criteria || {}).filter(key => criteria[key] !== undefined),;
@@ -504,7 +504,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
           source: ElementalProperties,
           target: ElementalProperties,
         ) => number
-      )(source, target),
+      )(source, target)
     }
 
     // Fallback calculation

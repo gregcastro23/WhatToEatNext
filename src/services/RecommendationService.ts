@@ -53,7 +53,7 @@ interface PlanetData {
   degree?: number;
   isRetrograde?: boolean;
   exactLongitude?: number,
-  speed?: number,
+  speed?: number
 }
 
 /**
@@ -103,7 +103,7 @@ export class RecommendationService {
     cuisines: ElementalItem[] = []
   ): RecommendationService {
     if (!RecommendationService.instance) {
-      RecommendationService.instance = new RecommendationService(ingredients, methods, cuisines),
+      RecommendationService.instance = new RecommendationService(ingredients, methods, cuisines),;
     }
     return RecommendationService.instance;
   }
@@ -117,7 +117,7 @@ export class RecommendationService {
     planetaryPositions: { [key: string]: PlanetData },
     isDaytime = true,;
     currentZodiac: string | null = null,;
-    lunarPhase: LunarPhaseWithSpaces | null = null,,
+    lunarPhase: LunarPhaseWithSpaces | null = null,,;
     tarotElementBoosts?: Record<ElementalCharacter, number>,
     tarotPlanetaryBoosts?: { [key: string]: number },
     aspects: PlanetaryAspect[] = []
@@ -183,10 +183,10 @@ export class RecommendationService {
       // Initialize with calculated values
       this.initialize(positions, isDaytime, currentZodiac, lunarPhaseFormatted);
       logger.info('Initialized service with current planetary positions');
-      return this,
+      return this
     } catch (error) {
       logger.error('Failed to initialize from current positions', error);
-      throw error,
+      throw error
     }
   }
 
@@ -196,7 +196,7 @@ export class RecommendationService {
   setIngredients(ingredients: ElementalItem[]): RecommendationService {
     this.ingredients = ingredients;
     this.transformItems();
-    return this,
+    return this
   }
 
   /**
@@ -205,7 +205,7 @@ export class RecommendationService {
   setCookingMethods(methods: ElementalItem[]): RecommendationService {
     this.methods = methods;
     this.transformItems();
-    return this,
+    return this
   }
 
   /**
@@ -214,7 +214,7 @@ export class RecommendationService {
   setCuisines(cuisines: ElementalItem[]): RecommendationService {
     this.cuisines = cuisines;
     this.transformItems();
-    return this,
+    return this
   }
 
   // ===== TRANSFORMATION METHODS =====;
@@ -260,7 +260,7 @@ export class RecommendationService {
 
       logger.info('Items transformed using planetary positions');
     } catch (error) {
-      logger.error('Error transforming items:', error),
+      logger.error('Error transforming items:', error)
     }
   }
 
@@ -314,21 +314,21 @@ export class RecommendationService {
    * Get recommended ingredients based on current planetary positions
    */
   getRecommendedIngredients(limit = 10): AlchemicalItem[] {
-    return this.getSortedItems(this.transformedIngredients, limit),
+    return this.getSortedItems(this.transformedIngredients, limit)
   }
 
   /**
    * Get recommended cooking methods based on current planetary positions
    */
   getRecommendedCookingMethods(limit = 5): AlchemicalItem[] {
-    return this.getSortedItems(this.transformedMethods, limit),
+    return this.getSortedItems(this.transformedMethods, limit)
   }
 
   /**
    * Get recommended cuisines based on current planetary positions
    */
   getRecommendedCuisines(limit = 5): AlchemicalItem[] {
-    return this.getSortedItems(this.transformedCuisines, limit),
+    return this.getSortedItems(this.transformedCuisines, limit)
   }
 
   /**
@@ -420,13 +420,13 @@ export class RecommendationService {
       // Always ensure at least one recommendation
       if ((scoredRecipes || []).length === 0) {
         logger.warn('No recipes matched criteria, using fallback');
-        return [this.getFallbackRecipe()],
+        return [this.getFallbackRecipe()]
       }
 
       return scoredRecipes;
     } catch (error) {
       logger.error('Error recommending recipes:', error);
-      return [this.getFallbackRecipe()],
+      return [this.getFallbackRecipe()]
     }
   }
 
@@ -480,7 +480,7 @@ export class RecommendationService {
       let nutritionalScore = 0.5; // Default neutral score
       if (recipe.nutrition) {
         // Basic nutritional matching logic here
-        nutritionalScore = 0.7, // Placeholder - could be enhanced
+        nutritionalScore = 0.7, // Placeholder - could be enhanced;
       }
       score += nutritionalScore * 0.2; // 20% weight for nutritional matching
     }
@@ -539,7 +539,7 @@ export class RecommendationService {
         currentZodiac?: string;
         lunarPhase?: string;
         activePlanets?: string[],
-        [key: string]: unknown,
+        [key: string]: unknown
       };
       const currentMomentElements: ElementalProperties = (;
         astroStateData.elementalProperties &&
@@ -694,7 +694,7 @@ export class RecommendationService {
       const similarity = 1 - Math.abs(recipeRelative - currentMomentRelative) / maxRelative;
 
       totalSimilarity += similarity;
-      count++,
+      count++
     }
 
     return count > 0 ? totalSimilarity / count : 0.5;
@@ -736,7 +736,7 @@ export class RecommendationService {
     return entries.reduce(
       (dominant, [element, value]) => (value > (elements[dominant] || 0) ? element : dominant),
       'Fire',
-    ),
+    )
   }
 
   /**
@@ -772,9 +772,9 @@ export class RecommendationService {
         astrologicalState,
         alchemicalResult,
         planetaryPositions,
-      ),
+      )
     } catch (error) {
-      logger.error('Error storing recommendation result in cache:', error),
+      logger.error('Error storing recommendation result in cache:', error)
     }
   }
 
@@ -843,10 +843,10 @@ export class RecommendationService {
     try {
       // This would be implemented to call Spoonacular API
       // For example: using SpoonacularService
-      return [],
+      return []
     } catch (error) {
       logger.error('Error getting Spoonacular recommendations:', error);
-      return [],
+      return []
     }
   }
 }

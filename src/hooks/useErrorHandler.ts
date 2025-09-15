@@ -1,14 +1,13 @@
 'use client';
 import React, { useState, useCallback, useEffect } from 'react';
 
-import { ApiError } from '../types/errors';
 import handleError, { ErrorType, ErrorSeverity } from '../utils/errorHandler';
 import { createLogger } from '../utils/logger';
 // Logger instance
 const logger = createLogger('useErrorHandler');
 // Component props
 interface UseErrorHandlerProps {
-  componentName: string,
+  componentName: string
 }
 
 // Return type
@@ -18,7 +17,7 @@ interface UseErrorHandlerReturn {
   foodLoading: boolean,
   foodRecommendations: unknown[] | null,
    
-  setFoodRecommendations: React.Dispatch<React.SetStateAction<unknown[] | null>>,
+  setFoodRecommendations: React.Dispatch<React.SetStateAction<unknown[] | null>>
 }
 
 /**

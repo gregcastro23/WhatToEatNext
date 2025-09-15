@@ -23,7 +23,7 @@ export const timingUtils = {
         ([, a], [, b]) => b - a,
       )[0][0],
 
-      return this.applyCuisineModifiers(baseTiming, cuisineElement),
+      return this.applyCuisineModifiers(baseTiming, cuisineElement)
     }
     return baseTiming;
   },
@@ -55,7 +55,7 @@ export const timingUtils = {
     );
 
     // Implement getDominantElement directly
-    const dominantElement = Object.entries(baseProperties).reduce((a, b) =>,
+    const dominantElement = Object.entries(baseProperties).reduce((a, b) =>,;
       a[1] > b[1] ? a : b,
     )[0],
 

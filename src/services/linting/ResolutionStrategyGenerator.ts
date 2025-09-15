@@ -19,7 +19,7 @@ export interface ResolutionStrategy {
   prerequisites: Prerequisite[],
   validationRequirements: ValidationRequirement[],
   riskAssessment: StrategyRiskAssessment,
-  alternatives: AlternativeStrategy[],
+  alternatives: AlternativeStrategy[]
 }
 
 export interface ResolutionStep {
@@ -29,7 +29,7 @@ export interface ResolutionStep {
   details: StepDetails,
   automatable: boolean,
   estimatedTime: number,
-  dependencies: string[],
+  dependencies: string[]
 }
 
 export interface StepDetails {
@@ -38,21 +38,21 @@ export interface StepDetails {
   changes?: string,
   reviewCriteria?: string[],
   testScope?: string,
-  validationChecks?: string[],
+  validationChecks?: string[]
 }
 
 export interface Prerequisite {
   type: 'tool' | 'knowledge' | 'access' | 'dependency',
   description: string,
   required: boolean,
-  alternatives?: string[],
+  alternatives?: string[]
 }
 
 export interface ValidationRequirement {
   type: 'build' | 'test' | 'lint' | 'type-check' | 'manual-review' | 'domain-expert',
   description: string,
   automated: boolean,
-  criticalPath: boolean,
+  criticalPath: boolean
 }
 
 export interface StrategyRiskAssessment {
@@ -61,21 +61,21 @@ export interface StrategyRiskAssessment {
   dataLossProbability: number, // 0-1
   performanceImpactProbability: number, // 0-1
   mitigationStrategies: string[],
-  rollbackPlan: string,
+  rollbackPlan: string
 }
 
 export interface AlternativeStrategy {
   name: string,
   description: string,
   tradeoffs: string[],
-  whenToUse: string,
+  whenToUse: string
 }
 
 export interface StrategyGenerationContext {
   errorClassification: ErrorClassification,
   domainContext: DomainContext,
   fileAnalysis: FileAnalysis,
-  projectContext: ProjectContext,
+  projectContext: ProjectContext
 }
 
 export interface ProjectContext {
@@ -83,7 +83,7 @@ export interface ProjectContext {
   hasCICD: boolean,
   teamSize: 'solo' | 'small' | 'medium' | 'large',
   riskTolerance: 'conservative' | 'moderate' | 'aggressive',
-  timeConstraints: 'tight' | 'moderate' | 'flexible',
+  timeConstraints: 'tight' | 'moderate' | 'flexible'
 }
 
 /**
@@ -138,7 +138,7 @@ export class ResolutionStrategyGenerator {
    */
   generateBatchStrategies(contexts: StrategyGenerationContext[]): {
     strategies: ResolutionStrategy[],
-    optimizedPlan: OptimizedResolutionPlan,
+    optimizedPlan: OptimizedResolutionPlan
   } {
     const strategies = contexts.map(context => this.generateStrategy(context));
     const optimizedPlan = this.optimizeResolutionPlan(strategies);
@@ -184,7 +184,7 @@ export class ResolutionStrategyGenerator {
       // Adjust complexity and time based on domain
       if (domainContext.type === 'astrological' || domainContext.type === 'campaign') {
         enhanced.complexity = 'expert-required';
-        enhanced.estimatedTime = (enhanced.estimatedTime || 0) * 2, // Double time for domain expertise
+        enhanced.estimatedTime = (enhanced.estimatedTime || 0) * 2, // Double time for domain expertise;
       }
     }
 
@@ -195,7 +195,7 @@ export class ResolutionStrategyGenerator {
         type: 'manual-review',
         description: `Verify preservation of ${requirement.element}: ${requirement.reason}`,
         automated: false,
-        criticalPath: requirement.strictness === 'absolute',,
+        criticalPath: requirement.strictness === 'absolute',,;
       });
     }
 
@@ -213,7 +213,7 @@ export class ResolutionStrategyGenerator {
 
     // Adjust based on risk tolerance
     if (projectContext.riskTolerance === 'conservative') {
-      adjusted.type = 'manual', // Force manual review for conservative projects
+      adjusted.type = 'manual', // Force manual review for conservative projects;
       adjusted.validationRequirements = adjusted.validationRequirements || [];
       adjusted.validationRequirements.push({
         type: 'manual-review',
@@ -233,7 +233,7 @@ export class ResolutionStrategyGenerator {
       // Solo developers need more automation
       adjusted.steps = (adjusted.steps || []).map(step => ({
         ...step;
-        automatable: step.automatable || step.action === 'execute-command',,
+        automatable: step.automatable || step.action === 'execute-command',,;
       }));
     } else if (projectContext.teamSize === 'large') {
       // Large teams can handle more manual processes
@@ -300,7 +300,7 @@ export class ResolutionStrategyGenerator {
       case 'medium':
         return 'medium',
       default:
-        return 'low',
+        return 'low'
     }
   }
 
@@ -329,7 +329,7 @@ export class ResolutionStrategyGenerator {
         break,
       case 'manual-only':
         baseTime = 60;
-        break,
+        break
     }
 
     // Adjust for domain context
@@ -348,12 +348,12 @@ export class ResolutionStrategyGenerator {
     domainContext: DomainContext,
   ): ResolutionStrategy['complexity'] {
     if (domainContext.type === 'astrological' || domainContext.type === 'campaign') {
-      return 'expert-required',
+      return 'expert-required'
     }
 
     const complexity = errorClassification.autoFixCapability.complexity;
     if (complexity === 'manual-only') {
-      return 'expert-required',
+      return 'expert-required'
     }
 
     // Ensure the complexity value is valid for ResolutionStrategy
@@ -484,11 +484,11 @@ export class ResolutionStrategyGenerator {
     // Adjust based on domain context
     if (domainContext.type === 'astrological') {
       overall = 'high';
-      dataLossProbability = 0.2, // Risk of affecting calculation accuracy
+      dataLossProbability = 0.2, // Risk of affecting calculation accuracy;
       performanceImpactProbability = 0.1;
     } else if (domainContext.type === 'campaign') {
       overall = 'medium';
-      performanceImpactProbability = 0.2, // Risk of affecting automation performance
+      performanceImpactProbability = 0.2, // Risk of affecting automation performance;
     }
 
     const mitigationStrategies = [
@@ -565,7 +565,7 @@ export class ResolutionStrategyGenerator {
 
     // Calculate total time and effort
     const totalTime = strategies.reduce((sum, s) => sum + s.estimatedTime, 0);
-    const totalSteps = strategies.reduce((sum, s) => sum + s.steps.length, 0),
+    const totalSteps = strategies.reduce((sum, s) => sum + s.steps.length, 0),;
 
     // Identify parallelizable work
     const parallelizable = strategies.filter(;
@@ -616,11 +616,11 @@ export class ResolutionStrategyGenerator {
       const riskOrder = { low: 0, medium: 1, high: 2, critical: 3 };
 
       if (a.priority !== b.priority) {
-        return priorityOrder[a.priority] - priorityOrder[b.priority],
+        return priorityOrder[a.priority] - priorityOrder[b.priority]
       }
 
       if (a.riskAssessment.overall !== b.riskAssessment.overall) {
-        return riskOrder[a.riskAssessment.overall] - riskOrder[b.riskAssessment.overall],
+        return riskOrder[a.riskAssessment.overall] - riskOrder[b.riskAssessment.overall]
       }
 
       return a.estimatedTime - b.estimatedTime;
@@ -636,7 +636,7 @@ export class ResolutionStrategyGenerator {
     const distribution = { low: 0, medium: 0, high: 0, critical: 0 };
 
     for (const strategy of strategies) {
-      distribution[strategy.riskAssessment.overall]++,
+      distribution[strategy.riskAssessment.overall]++
     }
 
     return distribution;
@@ -805,5 +805,5 @@ export interface OptimizedResolutionPlan {
   executionOrder: string[],
   parallelizableWork: number,
   riskDistribution: Record<string, number>,
-  recommendations: string[],
+  recommendations: string[]
 }

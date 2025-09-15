@@ -28,7 +28,7 @@ export class UnifiedRecipeService {
   async getAllRecipes(): Promise<Recipe[]> {
     try {
       // TODO: Implement recipe fetching logic
-      return [],
+      return []
     } catch (error) {
       errorHandler.log(error, { context: 'UnifiedRecipeService.getAllRecipes' });
       return [];
@@ -41,7 +41,7 @@ export class UnifiedRecipeService {
   async getRecipeById(id: string): Promise<Recipe | null> {
     try {
       // TODO: Implement recipe fetching by ID
-      return null,
+      return null
     } catch (error) {
       errorHandler.log(error, { context: 'UnifiedRecipeService.getRecipeById' });
       return null;
@@ -54,7 +54,7 @@ export class UnifiedRecipeService {
   async searchRecipes(query: string): Promise<Recipe[]> {
     try {
       // TODO: Implement recipe search logic
-      return [],
+      return []
     } catch (error) {
       errorHandler.log(error, { context: 'UnifiedRecipeService.searchRecipes' });
       return [];
@@ -78,7 +78,7 @@ export class UnifiedRecipeService {
       return filtered as unknown as ExtendedRecipe[];
     } catch (error) {
       console.error('Error getting recipes for cuisine:', error),
-      return [],
+      return []
     }
   }
 
@@ -96,11 +96,11 @@ export class UnifiedRecipeService {
     try {
       const allRecipes = await this.getAllRecipes();
       // Simple implementation for now
-      const matches = allRecipes.slice(0, 10),
-      return matches as unknown as ExtendedRecipe[],
+      const matches = allRecipes.slice(0, 10),;
+      return matches as unknown as ExtendedRecipe[]
     } catch (error) {
       console.error('Error getting best recipe matches:', error),
-      return [],
+      return []
     }
   }
 }

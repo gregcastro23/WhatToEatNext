@@ -12,7 +12,6 @@ import type { UnifiedIngredient } from '@/data/unified/unifiedTypes';
 import type { ThermodynamicMetrics } from '@/types/alchemical';
 import type { ElementalProperties, Season, ZodiacSign, PlanetName } from '@/types/ingredient';
 import { Recipe, RecipeIngredient } from '@/types/recipe';
-import { Ingredient } from '@/types/unified';
 
 import { createLogger } from '../../utils/logger';
 import { IngredientService } from '../IngredientService';
@@ -58,7 +57,7 @@ export class LegacyIngredientAdapter {
   public getAllIngredients(): Record<string, UnifiedIngredient[]> {
     try {
       const result: unknown = unifiedIngredientService.getAllIngredients();
-      return result as Record<string, UnifiedIngredient[]>,
+      return result as Record<string, UnifiedIngredient[]>
     } catch (error) {
       logger.error('Error in getAllIngredients:', error);
       // Fall back to original implementation if needed
@@ -72,7 +71,7 @@ export class LegacyIngredientAdapter {
   public getAllIngredientsFlat(): UnifiedIngredient[] {
     try {
       const result: unknown = unifiedIngredientService.getAllIngredientsFlat();
-      return result as UnifiedIngredient[],
+      return result as UnifiedIngredient[]
     } catch (error) {
       logger.error('Error in getAllIngredientsFlat:', error);
       // Fall back to original implementation if needed
@@ -86,7 +85,7 @@ export class LegacyIngredientAdapter {
   public getIngredientByName(name: string): UnifiedIngredient | undefined {
     try {
       const result: unknown = unifiedIngredientService.getIngredientByName(name);
-      return result as UnifiedIngredient | undefined,
+      return result as UnifiedIngredient | undefined
     } catch (error) {
       logger.error(`Error in getIngredientByName for '${name}':`, error);
       // Fall back to original implementation if needed
@@ -100,7 +99,7 @@ export class LegacyIngredientAdapter {
   public getIngredientsByCategory(category: string): UnifiedIngredient[] {
     try {
       const result: unknown = unifiedIngredientService.getIngredientsByCategory(category);
-      return result as UnifiedIngredient[],
+      return result as UnifiedIngredient[]
     } catch (error) {
       logger.error(`Error in getIngredientsByCategory for '${category}':`, error);
       // Fall back to original implementation if needed
@@ -116,7 +115,7 @@ export class LegacyIngredientAdapter {
       const result: unknown = unifiedIngredientService.filterIngredients(;
         filter ,
       ); // Pattern UUU: Import Path Interface Resolution
-      return result as Record<string, UnifiedIngredient[]>,
+      return result as Record<string, UnifiedIngredient[]>
     } catch (error) {
       logger.error('Error in filterIngredients:', error);
       // Fall back to original implementation if needed
@@ -137,7 +136,7 @@ export class LegacyIngredientAdapter {
       logger.error('Error in getIngredientsByElement:', error),
       // Fall back to original implementation if needed
       return this.legacyService.getIngredientsByElement({ element: elementalFilter } as {
-        element: Element,
+        element: Element
       });
     }
   }
@@ -154,10 +153,10 @@ export class LegacyIngredientAdapter {
         ingredient,
         maxResults,
       ); // Pattern UUU: Import Path Interface Resolution
-      return result as UnifiedIngredient[],
+      return result as UnifiedIngredient[]
     } catch (error) {
       logger.error(
-        `Error in findComplementaryIngredients for '${typeof ingredient === 'string' ? ingredient : ingredient.name}':`,,
+        `Error in findComplementaryIngredients for '${typeof ingredient === 'string' ? ingredient : ingredient.name}':`,,;
         error,
       );
       // Fall back to original implementation if needed
@@ -193,11 +192,11 @@ export class LegacyIngredientAdapter {
         elementalState,
         options,
       );
-      return result as UnifiedIngredient[],
+      return result as UnifiedIngredient[]
     } catch (error) {
       logger.error('Error in getRecommendedIngredients:', error);
       // Fall back to original implementation if needed
-      return this.legacyService.getRecommendedIngredients(elementalState, options),
+      return this.legacyService.getRecommendedIngredients(elementalState, options)
     }
   }
 

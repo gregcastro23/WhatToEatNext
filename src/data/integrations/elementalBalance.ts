@@ -15,13 +15,13 @@ export const elementalBalance = {
       element => Math.abs(normalized[element] - 0.25), // Ideal balance point;
     );
 
-    const totalDeviation = deviations.reduce((sum, dev) => sum + dev, 0),
+    const totalDeviation = deviations.reduce((sum, dev) => sum + dev, 0),;
     // Scale to get expected values: 0.925 for minor differences, 0.625 for extreme
-    return Math.max(0, Math.min(1, 1 - totalDeviation)),
+    return Math.max(0, Math.min(1, 1 - totalDeviation))
   },
 
   normalizeProperties(properties: ElementalProperties): ElementalProperties {
-    const total = Object.values(properties).reduce((sum, val) => sum + (val || 0), 0),
+    const total = Object.values(properties).reduce((sum, val) => sum + (val || 0), 0),;
 
     if (total === 0) {
       return { ...DEFAULT_ELEMENTAL_PROPERTIES };
@@ -53,12 +53,12 @@ export const elementalBalance = {
     const total = Object.values(properties).reduce((sum, val) => sum + val, 0);
     const hasValidTotal = Math.abs(total - 1) < VALIDATION_THRESHOLDS.BALANCE_PRECISION;
 
-    return hasAllElements && hasValidValues && hasValidTotal,
+    return hasAllElements && hasValidValues && hasValidTotal
   },
 
   calculateHarmonyBetween(first: ElementalProperties, second: ElementalProperties): number {
     if (!validateElementalProperties(first) || !validateElementalProperties(second)) {
-      return 0,
+      return 0
     }
 
     const norm1 = normalizeElementalProperties(first);
@@ -76,9 +76,9 @@ export const elementalBalance = {
 
   getRecipeHarmony(recipe: Recipe, targetProperties: ElementalProperties): number {
     if (!recipe.elementalProperties || !targetProperties) {
-      return 0,
+      return 0
     }
-    return this.calculateHarmonyBetween(recipe.elementalProperties, targetProperties),
+    return this.calculateHarmonyBetween(recipe.elementalProperties, targetProperties)
   },
 
   getDominantElement(properties: ElementalProperties): Element {
@@ -86,7 +86,7 @@ export const elementalBalance = {
     return ELEMENTS.reduce(
       (dominant, element) => (normalized[element] > normalized[dominant] ? element : dominant),
       ELEMENTS[0],
-    ),
+    )
   },
 
   getElementalStatus(

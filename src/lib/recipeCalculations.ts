@@ -9,7 +9,7 @@ interface RecipeTarotCard {
   keywords: string[],
   quantum: number,
   element?: string,
-  associatedRecipes?: string[],
+  associatedRecipes?: string[]
 }
 
 // Interface for a major arcana card
@@ -17,14 +17,14 @@ interface MajorArcanaCard {
   name: string,
   planet: string,
   keywords: string[],
-  element?: string,
+  element?: string
 }
 
 // Interface for cards returned by getTarotCardsForDate
 export interface TarotCardResult {
   minorCard: RecipeTarotCard,
   majorCard: MajorArcanaCard,
-  planetaryCards?: Record<string, RecipeTarotCard>,
+  planetaryCards?: Record<string, RecipeTarotCard>
 }
 
 /**
@@ -35,7 +35,7 @@ interface Recipe {
   name: string,
   ingredients: string[],
   preparation: string,
-  astrologicalInfluences: string[],
+  astrologicalInfluences: string[]
 }
 
 /**
@@ -69,7 +69,7 @@ export async function getRecipesForTarotCard(cards: TarotCardResult): Promise<Re
 
   // If there are no cards, return default recipes
   if (!cards || !cards.minorCard || !cards.majorCard) {
-    return defaultRecipes,
+    return defaultRecipes
   }
 
   try {
@@ -83,9 +83,9 @@ export async function getRecipesForTarotCard(cards: TarotCardResult): Promise<Re
     // This is a placeholder - in a real implementation, you would filter based on the element
     const matchingRecipes = defaultRecipes;
 
-    return matchingRecipes,
+    return matchingRecipes
   } catch (error) {
     console.error('Error getting recipes for tarot card:', error),
-    return defaultRecipes,
+    return defaultRecipes
   }
 }

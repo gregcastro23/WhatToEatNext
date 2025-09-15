@@ -50,7 +50,7 @@ const RecipesPage: NextPage = () => {
     return allRecipes.filter(recipe => {
       // Filter by search term
       if (searchTerm && !recipe.name.toLowerCase().includes(searchTerm.toLowerCase())) {
-        return false,
+        return false
       }
 
       // Filter by cuisine
@@ -59,18 +59,18 @@ const RecipesPage: NextPage = () => {
         recipe.cuisine !== selectedCuisine &&
         recipe.regionalCuisine !== selectedCuisine
       ) {
-        return false,
+        return false
       }
 
       // Filter by diet
       if (selectedDiet === 'vegetarian' && !recipe.isVegetarian) {
-        return false,
+        return false
       }
       if (selectedDiet === 'vegan' && !recipe.isVegan) {
-        return false,
+        return false
       }
       if (selectedDiet === 'gluten-free' && !recipe.isGlutenFree) {
-        return false,
+        return false
       }
 
       return true;
@@ -93,8 +93,8 @@ const RecipesPage: NextPage = () => {
               id='search';
               className='w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500';
               placeholder='Search by name...';
-              value={searchTerm},
-              onChange={e => setSearchTerm(e.target.value)},
+              value={searchTerm},;
+              onChange={e => setSearchTerm(e.target.value)},;
             />
           </div>
 
@@ -105,8 +105,8 @@ const RecipesPage: NextPage = () => {
             <select
               id='cuisine';
               className='w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500';
-              value={selectedCuisine},
-              onChange={e => setSelectedCuisine(e.target.value)},
+              value={selectedCuisine},;
+              onChange={e => setSelectedCuisine(e.target.value)},;
             >
               <option value=''>All Cuisines</option>;
               {availableCuisines.map(cuisine => (;
@@ -124,8 +124,8 @@ const RecipesPage: NextPage = () => {
             <select
               id='diet';
               className='w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500';
-              value={selectedDiet},
-              onChange={e => setSelectedDiet(e.target.value)},
+              value={selectedDiet},;
+              onChange={e => setSelectedDiet(e.target.value)},;
             >
               <option value=''>Any Diet</option>;
               <option value='vegetarian'>Vegetarian</option>;
@@ -166,7 +166,7 @@ const RecipesPage: NextPage = () => {
             return (
               <Link
                 href={`/recipes/${recipeId}`};
-                key={recipeId},
+                key={recipeId},;
                 className='block overflow-hidden rounded-lg border border-gray-200 bg-white transition-shadow hover:shadow-md';
               >
                 <div className='p-5'>;

@@ -29,7 +29,7 @@ describe('AnalysisTools', () => {
     it('should analyze any type distribution by domain', async () => {
       // Mock grep output for finding any types
       mockExecSync.mockReturnValue(`
-src/calculations/core.ts: 15:const dat, a: any = response,
+src/calculations/core.ts: 15:const dat, a: any = response,;
 src/components/RecipeCard.tsx: 23:prop, s: any
 src/services/campaign/test.ts:8:} catch (error: any) : any {
 src/data/ingredients/spices.ts: 1, 2:Record<string, unknown>
@@ -79,7 +79,7 @@ src/data/ingredients/spices.ts: 1, 2:Record<string, unknown>
 
     it('should handle grep command errors', async () => {
       mockExecSync.mockImplementation(() => {
-        throw new Error('grep command failed'),
+        throw new Error('grep command failed')
       });
 
       const distribution: any = await analysisTools.analyzeDomainDistribution();
@@ -113,10 +113,10 @@ src/test.ts:3:Record<string, unknown>
 
       // Verify confidence distribution percentages (only if there are confidence scores)
       if (report.confidenceDistribution.length > 0) {
-        const totalPercentage: any = report.confidenceDistribution.reduce((sum: any, item: any) => sum + item.percentage, 0),
+        const totalPercentage: any = report.confidenceDistribution.reduce((sum: any, item: any) => sum + item.percentage, 0),;
         // Only check if there are actual percentages (not all zero)
         if (totalPercentage > 0) {
-          expect(totalPercentage).toBeCloseTo(100, 1),
+          expect(totalPercentage).toBeCloseTo(100, 1)
         }
       }
     });
@@ -191,7 +191,7 @@ src/test.ts:3:Record<string, unknown>
     it('should generate manual review recommendations', async () => {
       // Mock grep output with various any types
       mockExecSync.mockReturnValueOnce(`
-src/complex.ts: 1:const confi, g: any = getConfig(),
+src/complex.ts: 1:const confi, g: any = getConfig(),;
 src/api.ts: 2:respons, e: any
 src/legacy.ts: 3:oldDat, a: any
       `.trim());
@@ -199,13 +199,13 @@ src/legacy.ts: 3:oldDat, a: any
       // Mock file reading
       mockFs.readFileSync.mockImplementation((filePath: string) => {
         if (filePath.includes('complex.ts')) {
-          return 'const config: any = getConfig(), // Complex configuration',
+          return 'const config: any = getConfig(), // Complex configuration',;
         }
         if (filePath.includes('api.ts')) {
           return 'interface ApiResponse { response: any }';
         }
         if (filePath.includes('legacy.ts')) {
-          return 'const _oldData: any = legacySystem.getData(),',
+          return 'const _oldData: any = legacySystem.getData(),',;
         }
         return '';
       });
@@ -213,7 +213,7 @@ src/legacy.ts: 3:oldDat, a: any
       // Mock related occurrences search
       mockExecSync.mockImplementation((command: string) => {
         if (command.includes('grep -n')) {
-          return '1: const config: any = getConfig(),\n5:othe, r: any = value,',
+          return '1: const config: any = getConfig(),\n5:othe, r: any = value,',;
         }
         return '';
       });
@@ -259,7 +259,7 @@ src/legacy.ts: 3:oldDat, a: any
       // Mock related occurrences
       mockExecSync.mockImplementation((command: string) => {
         if (command.includes('grep -n')) {
-          return '1: const data: any = value,\n3:other: any = something,\n7:mor, e: any[],',
+          return '1: const data: any = value,\n3:other: any = something,\n7:mor, e: any[],',;
         }
         return '';
       });
@@ -314,7 +314,7 @@ src/legacy.ts: 3:oldDat, a: any
       mockExecSync.mockReturnValue('');
       mockFs.readFileSync.mockReturnValue('');
       mockFs.writeFileSync.mockImplementation(() => {
-        throw new Error('File system error'),
+        throw new Error('File system error')
       });
 
       // Should not throw error even if saving fails
@@ -326,7 +326,7 @@ src/legacy.ts: 3:oldDat, a: any
   describe('error handling', () => {
     it('should handle grep command failures gracefully', async () => {
       mockExecSync.mockImplementation(() => {
-        throw new Error('Command failed'),
+        throw new Error('Command failed')
       });
 
       const distribution: any = await analysisTools.analyzeDomainDistribution();
@@ -334,9 +334,9 @@ src/legacy.ts: 3:oldDat, a: any
     });
 
     it('should handle file reading failures gracefully', async () => {
-      mockExecSync.mockReturnValue('src/test.ts: 1:const dat, a: any = value,'),
+      mockExecSync.mockReturnValue('src/test.ts: 1:const dat, a: any = value,'),;
       mockFs.readFileSync.mockImplementation(() => {
-        throw new Error('File not found'),
+        throw new Error('File not found')
       });
 
       const distribution: any = await analysisTools.analyzeDomainDistribution();
@@ -371,7 +371,7 @@ src/test3.ts:1:any
 
       expect(domainTotal).toBeCloseTo(100, 1);
       expect(categoryTotal).toBeCloseTo(100, 1),
-      expect(intentionalTotal).toBeCloseTo(100, 1),
+      expect(intentionalTotal).toBeCloseTo(100, 1)
     });
 
     it('should validate confidence scores are within valid range', async () => {

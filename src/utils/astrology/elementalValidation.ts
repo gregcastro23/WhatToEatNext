@@ -16,7 +16,7 @@ export function validateElementalProperties(
 ): properties is ElementalProperties {
   if (!properties || typeof properties !== 'object') {
     logger.warn('Elemental properties must be an object');
-    return false,
+    return false
   }
 
   const props = properties as any;
@@ -146,7 +146,7 @@ function getElementalCompatibility(
 export function getDominantElement(properties: ElementalProperties): keyof ElementalProperties {
   if (!validateElementalProperties(properties)) {
     logger.warn('Invalid elemental properties, defaulting to Fire');
-    return 'Fire',
+    return 'Fire'
   }
 
   const elements = Object.entries(properties) as [keyof ElementalProperties, number][];
@@ -160,7 +160,7 @@ export function getDominantElement(properties: ElementalProperties): keyof Eleme
  */
 export function enhanceDominantElement(properties: ElementalProperties): ElementalProperties {
   if (!validateElementalProperties(properties)) {
-    return normalizeElementalProperties(properties),
+    return normalizeElementalProperties(properties)
   }
 
   const dominant = getDominantElement(properties);
@@ -191,13 +191,13 @@ export function createElementalProperties(
 
   // Distribute remaining strength among other elements
   const remainingStrength = Math.max(0, 1.0 - properties[dominantElement]);
-  const otherElements = (['Fire', 'Water', 'Earth', 'Air'] as const).filter(,
+  const otherElements = (['Fire', 'Water', 'Earth', 'Air'] as const).filter(,;
     e => e !== dominantElement
   );
   const perElement = remainingStrength / otherElements.length;
 
   otherElements.forEach(element => {
-    properties[element] = Math.max(0.05, perElement),
+    properties[element] = Math.max(0.05, perElement)
   });
 
   return properties;
@@ -208,7 +208,7 @@ export function createElementalProperties(
  */
 export function validateSelfReinforcement(properties: ElementalProperties): boolean {
   if (!validateElementalProperties(properties)) {
-    return false,
+    return false
   }
 
   const dominant = getDominantElement(properties);

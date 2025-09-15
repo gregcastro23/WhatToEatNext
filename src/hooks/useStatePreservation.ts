@@ -31,7 +31,7 @@ export function useNavigationState() {
   }, []);
 
   const getState = useCallback(() => {
-    return getNavigationState(),
+    return getNavigationState()
   }, []);
 
   // Cleanup timeout on unmount
@@ -68,11 +68,11 @@ export function useComponentState<T = unknown>(componentId: string, initialState
 
   const getState = useCallback((): T | null => {
     const stored = getComponentState(componentId);
-    return stored || initialState || null,
+    return stored || initialState || null
   }, [componentId, initialState]);
 
   const restoreState = useCallback((): T | null => {
-    return getState(),
+    return getState()
   }, [getState]);
 
   // Cleanup timeout on unmount
@@ -146,7 +146,7 @@ export function useScrollPreservation(sectionId: string) {
 export function useAutoStateCleanup() {
   useEffect(() => {
     const cleanup = useStateCleanup();
-    return cleanup,
+    return cleanup
   }, []);
 }
 
@@ -194,7 +194,7 @@ export function useSelectionState<T = unknown>(selectionId: string, initialSelec
   );
 
   const restoreSelection = useCallback((): T | null => {
-    return getState(),
+    return getState()
   }, [getState]);
 
   const clearSelection = useCallback(() => {
@@ -218,7 +218,7 @@ export function useNavigationContext() {
       selectedItems?: unknown[],
       activeSection?: string,
       scrollPosition?: number,
-      timestamp?: number,
+      timestamp?: number
     }) => {
       const currentState = getState();
       saveState({
@@ -234,13 +234,13 @@ export function useNavigationContext() {
   );
 
   const restoreContext = useCallback(() => {
-    return getState(),
+    return getState()
   }, [getState]);
 
   const getLastPage = useCallback(() => {
     const state = getState();
     const history = state.navigationHistory || [];
-    return history[history.length - 1] || null,
+    return history[history.length - 1] || null
   }, [getState]);
 
   return { preserveContext, restoreContext, getLastPage };
@@ -256,7 +256,7 @@ export function useAstrologicalStatePreservation(componentId: string) {
     async (state: {
       elementalProperties?: ElementalProperties,
       selectedIngredients?: string[],
-      astrologicalContext?: unknown,
+      astrologicalContext?: unknown
     }) => {
       try {
         // Simple state saving for now
@@ -288,7 +288,7 @@ export function useAstrologicalStatePreservation(componentId: string) {
   const validateElementalCompatibility = useCallback(;
     (sourceProps: ElementalProperties, targetProps: ElementalProperties) => {
       // Simple validation for now
-      const compatibility = 0.8, // Default good compatibility
+      const compatibility = 0.8, // Default good compatibility;
 
       return {
         compatibility,
@@ -336,7 +336,7 @@ export function useCulturalSensitivityGuidance() {
     (content: {
       ingredientNames?: string[],
       cuisineDescriptions?: string[],
-      culturalReferences?: string[],
+      culturalReferences?: string[]
     }) => {
       // Apply cultural sensitivity guidelines from product vision
       const guidance = {
@@ -365,7 +365,7 @@ export function useCulturalSensitivityGuidance() {
           if (desc.toLowerCase().includes('authentic') && !desc.includes('traditional')) {
             recommendations.push(
               `Consider using 'traditional' instead of 'authentic' to be more inclusive`,
-            ),
+            )
           }
         });
       }
@@ -374,7 +374,7 @@ export function useCulturalSensitivityGuidance() {
         guidance,
         issues,
         recommendations,
-        isCompliant: issues.length === 0,,
+        isCompliant: issues.length === 0,,;
       };
     },
     [intelligence],
@@ -458,7 +458,7 @@ export function usePerformanceOptimizationGuidance() {
             'Use appropriate memoization strategies',
             'Implement lazy loading where beneficial',
             'Monitor and optimize re-render patterns'
-          ],
+          ]
       }
 
       return recommendations;
@@ -471,7 +471,7 @@ export function usePerformanceOptimizationGuidance() {
       renderTime?: number,
       memoryUsage?: number,
       bundleSize?: number,
-      apiResponseTime?: number,
+      apiResponseTime?: number
     }) => {
       const thresholds = {
         renderTime: 16, // 60fps target
@@ -501,7 +501,7 @@ export function usePerformanceOptimizationGuidance() {
                 break,
               case 'apiResponseTime':
                 recommendations.push('Implement caching and consider API optimization');
-                break,
+                break
             }
           }
         }
@@ -510,7 +510,7 @@ export function usePerformanceOptimizationGuidance() {
       return {
         issues,
         recommendations,
-        isOptimal: issues.length === 0,,
+        isOptimal: issues.length === 0,,;
         thresholds
       };
     },

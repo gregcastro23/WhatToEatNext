@@ -24,7 +24,7 @@ interface IntegrationConfig {
   maxBatchSize?: number,
   maxCriticalBatchSize?: number,
   skipValidation?: boolean,
-  skipManualReview?: boolean,
+  skipManualReview?: boolean
 }
 
 export class BatchProcessingIntegration {
@@ -69,23 +69,23 @@ export class BatchProcessingIntegration {
    * Run complete analysis and batch processing workflow
    */
   async runCompleteWorkflow(): Promise<void> {
-    // console.log('🚀 Starting complete unused variable elimination workflow...\n');
+    // // console.log('🚀 Starting complete unused variable elimination workflow...\n');
 
     try {
       // Step 1: Run analysis if report doesn't exist
       if (!fs.existsSync(this.config.analysisReportPath!)) {
-        // console.log('📊 Running unused variable analysis...');
+        // // console.log('📊 Running unused variable analysis...');
         await this.runAnalysis();
       } else {
-        // console.log('📄 Using existing analysis report...');
+        // // console.log('📄 Using existing analysis report...');
       }
 
       // Step 2: Load analysis results
       const files = this.loadAnalysisResults();
-      // console.log(`📋 Loaded ${files.length} files for processing`);
+      // // console.log(`📋 Loaded ${files.length} files for processing`);
 
       // Step 3: Create processing plan
-      // console.log('\n📋 Creating processing plan...');
+      // // console.log('\n📋 Creating processing plan...');
       const plan = await this.orchestrator.createProcessingPlan(files);
 
       // Step 4: Display plan summary
@@ -93,13 +93,13 @@ export class BatchProcessingIntegration {
 
       // Step 5: Execute batch processing (if not dry run)
       if (!this.config.dryRun) {
-        // console.log('\n🔄 Executing batch processing campaign...');
+        // // console.log('\n🔄 Executing batch processing campaign...');
         const campaign = await this.orchestrator.executeCampaign(files);
 
         // Step 6: Display results
         this.displayCampaignResults(campaign);
       } else {
-        // console.log('\n🔍 Dry run completed - no changes made');
+        // // console.log('\n🔍 Dry run completed - no changes made');
       }
     } catch (error) {
       console.error(`❌ Workflow failed: ${error}`);
@@ -113,7 +113,7 @@ export class BatchProcessingIntegration {
   async runAnalysis(): Promise<void> {
     const analyzer = new UnusedVariableAnalyzer();
     await analyzer.analyze();
-    // console.log('✅ Analysis completed');
+    // // console.log('✅ Analysis completed');
   }
 
   /**
@@ -139,7 +139,7 @@ export class BatchProcessingIntegration {
         if (existing) {
           existing.push(result);
         } else {
-          fileMap.set(result.filePath, [result]),
+          fileMap.set(result.filePath, [result])
         }
       });
 
@@ -170,7 +170,7 @@ export class BatchProcessingIntegration {
     return (
       /\/src\/(services|calculations)\//.test(filePath) ||
       /\/src\/utils\/(?:astrology|astronomy|planetary|elemental)/.test(filePath)
-    ),
+    )
   }
 
   /**
@@ -181,7 +181,7 @@ export class BatchProcessingIntegration {
       /\/src\/calculations\//.test(filePath) ||
       /\/src\/utils\/reliableAstronomy/.test(filePath) ||
       /\/src\/utils\/elementalUtils/.test(filePath)
-    ),
+    )
   }
 
   /**
@@ -194,7 +194,7 @@ export class BatchProcessingIntegration {
       case 'medium':
         return 'medium',
       default:
-        return 'low',
+        return 'low'
     }
   }
 
@@ -202,28 +202,28 @@ export class BatchProcessingIntegration {
    * Display processing plan summary
    */
   private displayPlanSummary(plan: any): void {
-    // console.log('\n📊 Processing Plan Summary:');
-    // console.log(`   Total Files: ${plan.totalFiles}`);
-    // console.log(`   Automatic Processing: ${plan.automaticProcessing.length}`);
-    // console.log(`   Manual Review Required: ${plan.manualReviewRequired.length}`);
-    // console.log(`   Estimated Batches: ${plan.estimatedBatches}`);
-    // console.log(`   Estimated Duration: ${plan.estimatedDuration}`);
+    // // console.log('\n📊 Processing Plan Summary:');
+    // // console.log(`   Total Files: ${plan.totalFiles}`);
+    // // console.log(`   Automatic Processing: ${plan.automaticProcessing.length}`);
+    // // console.log(`   Manual Review Required: ${plan.manualReviewRequired.length}`);
+    // // console.log(`   Estimated Batches: ${plan.estimatedBatches}`);
+    // // console.log(`   Estimated Duration: ${plan.estimatedDuration}`);
 
-    // console.log('\n📈 Risk Distribution:');
-    // console.log(`   Low Risk: ${plan.riskSummary.low} files`);
-    // console.log(`   Medium Risk: ${plan.riskSummary.medium} files`);
-    // console.log(`   High Risk: ${plan.riskSummary.high} files`);
-    // console.log(`   Critical Risk: ${plan.riskSummary.critical} files`);
+    // // console.log('\n📈 Risk Distribution:');
+    // // console.log(`   Low Risk: ${plan.riskSummary.low} files`);
+    // // console.log(`   Medium Risk: ${plan.riskSummary.medium} files`);
+    // // console.log(`   High Risk: ${plan.riskSummary.high} files`);
+    // // console.log(`   Critical Risk: ${plan.riskSummary.critical} files`);
 
     if (plan.manualReviewRequired.length > 0) {
-      // console.log('\n👥 Files Requiring Manual Review:');
+      // // console.log('\n👥 Files Requiring Manual Review:');
       plan.manualReviewRequired.slice(0, 5).forEach((file: any) => {
-        // console.log(
+        // // console.log(
           `   - ${file.relativePath} (${file.unusedVariableCount} variables, ${file.riskLevel} risk)`,
         );
       });
       if (plan.manualReviewRequired.length > 5) {
-        // console.log(`   ... and ${plan.manualReviewRequired.length - 5} more files`);
+        // // console.log(`   ... and ${plan.manualReviewRequired.length - 5} more files`);
       }
     }
   }
@@ -232,43 +232,43 @@ export class BatchProcessingIntegration {
    * Display campaign results
    */
   private displayCampaignResults(campaign: any): void {
-    // console.log('\n🎯 Campaign Results:');
-    // console.log(`   Campaign ID: ${campaign.campaignId}`);
-    // console.log(`   Status: ${campaign.status.toUpperCase()}`);
-    // console.log(`   Duration: ${Math.floor(campaign.finalStats.timeElapsed / 60000)} minutes`);
+    // // console.log('\n🎯 Campaign Results:');
+    // // console.log(`   Campaign ID: ${campaign.campaignId}`);
+    // // console.log(`   Status: ${campaign.status.toUpperCase()}`);
+    // // console.log(`   Duration: ${Math.floor(campaign.finalStats.timeElapsed / 60000)} minutes`);
 
-    // console.log('\n📊 Final Statistics:');
-    // console.log(`   Total Processed: ${campaign.finalStats.totalProcessed}`);
-    // console.log(`   Total Eliminated: ${campaign.finalStats.totalEliminated}`);
-    // console.log(`   Total Preserved: ${campaign.finalStats.totalPreserved}`);
-    // console.log(`   Success Rate: ${campaign.finalStats.successRate.toFixed(1)}%`);
+    // // console.log('\n📊 Final Statistics:');
+    // // console.log(`   Total Processed: ${campaign.finalStats.totalProcessed}`);
+    // // console.log(`   Total Eliminated: ${campaign.finalStats.totalEliminated}`);
+    // // console.log(`   Total Preserved: ${campaign.finalStats.totalPreserved}`);
+    // // console.log(`   Success Rate: ${campaign.finalStats.successRate.toFixed(1)}%`);
 
     if (campaign.finalStats.totalProcessed > 0) {
       const eliminationRate =
         (campaign.finalStats.totalEliminated / campaign.finalStats.totalProcessed) * 100;
-      // console.log(`   Elimination Rate: ${eliminationRate.toFixed(1)}%`);
+      // // console.log(`   Elimination Rate: ${eliminationRate.toFixed(1)}%`);
     }
 
-    // console.log('\n🔄 Batch Summary:');
+    // // console.log('\n🔄 Batch Summary:');
     const successfulBatches = campaign.batchResults.filter(;
       (r: unknown) => (r as any).success;
     ).length;
-    // console.log(`   Total Batches: ${campaign.batchResults.length}`);
-    // console.log(`   Successful Batches: ${successfulBatches}`);
-    // console.log(`   Failed Batches: ${campaign.batchResults.length - successfulBatches}`);
+    // // console.log(`   Total Batches: ${campaign.batchResults.length}`);
+    // // console.log(`   Successful Batches: ${successfulBatches}`);
+    // // console.log(`   Failed Batches: ${campaign.batchResults.length - successfulBatches}`);
 
     if (campaign.manualReviews.length > 0) {
-      // console.log(`\n👥 Manual Reviews: ${campaign.manualReviews.length} pending`);
+      // // console.log(`\n👥 Manual Reviews: ${campaign.manualReviews.length} pending`);
     }
 
     if (campaign.recommendations.length > 0) {
-      // console.log('\n💡 Recommendations:');
+      // // console.log('\n💡 Recommendations:');
       campaign.recommendations.forEach((rec: string) => {
-        // console.log(`   - ${rec}`);
+        // // console.log(`   - ${rec}`);
       });
     }
 
-    // console.log(`\n📄 Detailed reports saved to: ${this.config.outputDirectory}`);
+    // // console.log(`\n📄 Detailed reports saved to: ${this.config.outputDirectory}`);
   }
 
   /**
@@ -282,14 +282,14 @@ export class BatchProcessingIntegration {
    * Approve manual review
    */
   approveManualReview(filePath: string, notes?: string): boolean {
-    return this.orchestrator.approveManualReview(filePath, notes),
+    return this.orchestrator.approveManualReview(filePath, notes)
   }
 
   /**
    * Reject manual review
    */
   rejectManualReview(filePath: string, reason: string): boolean {
-    return this.orchestrator.rejectManualReview(filePath, reason),
+    return this.orchestrator.rejectManualReview(filePath, reason)
   }
 }
 

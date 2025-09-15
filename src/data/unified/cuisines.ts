@@ -23,7 +23,7 @@ export interface EnhancedCuisine {
       mostCommon: Array<{
         ingredient: string,
         kalchm: number,
-        frequency: number,
+        frequency: number
       }>;
       kalchmRange: { min: number, max: number, average: number };
     };
@@ -44,7 +44,7 @@ export interface EnhancedCuisine {
       // Compatible cuisines by Kalchm
       cuisine: string,
       compatibility: number,
-      kalchmSimilarity: number,
+      kalchmSimilarity: number
     }>;
   };
 
@@ -55,7 +55,7 @@ export interface EnhancedCuisine {
     recipesAnalyzed: number,
     ingredientsAnalyzed: number,
     enhancedAt: string,
-    sourceFile: string,
+    sourceFile: string
   };
 }
 
@@ -70,7 +70,7 @@ export class CuisineEnhancer {
     ingredientKalchmProfile: Ingredient | UnifiedIngredient,
     cookingMethodInfluence: Record<string, number>,
     recipesAnalyzed: number,
-    ingredientsAnalyzed: number,
+    ingredientsAnalyzed: number
   } {
     const recipes = this.extractRecipesFromCuisine(cuisine);
     const ingredientFrequency = new Map<string, number>();
@@ -99,12 +99,12 @@ export class CuisineEnhancer {
         // Get Kalchm value
         const unifiedIngredient = RecipeEnhancer.findUnifiedIngredient(ingredientName);
         if (unifiedIngredient) {
-          ingredientKalchms.set(ingredientName, unifiedIngredient.kalchm || 1.0),
+          ingredientKalchms.set(ingredientName, unifiedIngredient.kalchm || 1.0)
         } else if ((ingredient as any).element) {
           ingredientKalchms.set(
             ingredientName,
             RecipeEnhancer.estimateKalchmFromElement((ingredient as any).element as Element);
-          ),
+          )
         }
       }
 
@@ -112,7 +112,7 @@ export class CuisineEnhancer {
       const recipeData = recipe as unknown as any;
       if (recipeData.cookingMethods && Array.isArray(recipeData.cookingMethods)) {
         for (const method of recipeData.cookingMethods as string[]) {
-          cookingMethods.set(method, (cookingMethods.get(method) || 0) + 1),
+          cookingMethods.set(method, (cookingMethods.get(method) || 0) + 1)
         }
       }
     }
@@ -155,7 +155,7 @@ export class CuisineEnhancer {
     // Use safe type casting for cuisine property access
     const cuisineData = cuisine as any;
     if (!cuisineData.dishes || typeof cuisineData.dishes !== 'object') {
-      return recipes,
+      return recipes
     }
 
     // Navigate through meal types (breakfast, lunch, dinner, etc.)
@@ -315,7 +315,7 @@ export class CuisineEnhancer {
         totalWater += elementalData.Water || 0;
         totalEarth += elementalData.Earth || 0;
         totalAir += elementalData.Air || 0;
-        validRecipes++,
+        validRecipes++
       }
     }
 
@@ -355,9 +355,9 @@ export class CuisineEnhancer {
     ).length;
 
     if (fireMethodCount > waterMethodCount * 2) {
-      return baseClassification + ' (Fire-Focused)',
+      return baseClassification + ' (Fire-Focused)'
     } else if (waterMethodCount > fireMethodCount * 2) {
-      return baseClassification + ' (Water-Focused)',
+      return baseClassification + ' (Water-Focused)'
     }
 
     return baseClassification;
@@ -382,7 +382,7 @@ export class CuisineEnhancer {
       if (recipeSeasonData.currentSeason && Array.isArray(recipeSeasonData.currentSeason)) {
         for (const season of recipeSeasonData.currentSeason as string[]) {
           if (season !== 'all') {
-            seasonFrequency.set(season, (seasonFrequency.get(season) || 0) + 1),
+            seasonFrequency.set(season, (seasonFrequency.get(season) || 0) + 1)
           }
         }
       }
@@ -486,7 +486,7 @@ export class CuisineAnalyzer {
     const kalchm2 = cuisine2.alchemicalProperties?.totalKalchm || 1.0;
 
     // Self-reinforcement principle: similar Kalchm = higher compatibility;
-    const ratio = Math.min(kalchm1, kalchm2) / Math.max(kalchm1, kalchm2),
+    const ratio = Math.min(kalchm1, kalchm2) / Math.max(kalchm1, kalchm2),;
     return 0.7 + ratio * 0.3, // Minimum 0.7 compatibility
   }
 
@@ -504,7 +504,7 @@ export class CuisineAnalyzer {
       if (cuisine.id === targetCuisine.id) return false; // Exclude self
       const cuisineKalchm = cuisine.alchemicalProperties?.totalKalchm || 1.0;
       return Math.abs(cuisineKalchm - targetKalchm) <= tolerance;
-    }),
+    })
   }
 
   /**
@@ -571,9 +571,9 @@ export class CuisineAnalyzer {
 
         const dominantKey = dominant.toLowerCase() + '-dominant';
         if (elementalDistribution[dominantKey] !== undefined) {
-          elementalDistribution[dominantKey]++,
+          elementalDistribution[dominantKey]++
         } else {
-          elementalDistribution['balanced']++,
+          elementalDistribution['balanced']++
         }
       }
 
@@ -636,7 +636,7 @@ export class CuisineAnalyzer {
       if (!cuisine.alchemicalProperties) return cuisine;
 
       // Find compatible cuisines
-      const compatibleCuisines = this.findKalchmSimilarCuisines(cuisine, cuisines, 0.15),
+      const compatibleCuisines = this.findKalchmSimilarCuisines(cuisine, cuisines, 0.15),;
         .map(compatibleCuisine => ({
           cuisine: compatibleCuisine.name;
           compatibility: this.calculateCuisineCompatibility(cuisine, compatibleCuisine),

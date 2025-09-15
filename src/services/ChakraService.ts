@@ -14,7 +14,7 @@ export interface ChakraEnergyState {
     sanskritName: string;
     color: string;
     element: string,
-    planet: string,
+    planet: string
   };
   balanceState: 'balanced' | 'underactive' | 'overactive';
   relatedSigns: any[];
@@ -129,7 +129,7 @@ export class ChakraService {
     if (rootState && rootState.balanceState === 'underactive') {
       suggestions.push('Increase grounding foods like root vegetables and proteins');
     } else if (rootState && rootState.balanceState === 'overactive') {
-      suggestions.push('Reduce heavy, dense foods and incorporate more light plant foods'),
+      suggestions.push('Reduce heavy, dense foods and incorporate more light plant foods')
     }
 
     // Check for sacral chakra imbalance
@@ -154,9 +154,9 @@ export class ChakraService {
     if (state) {
       // Add moon phase based suggestions
       if (state.moonPhase === 'full moon') {
-        suggestions.push('During full moon, focus on purifying foods like lemons and ginger'),
+        suggestions.push('During full moon, focus on purifying foods like lemons and ginger')
       } else if (state.moonPhase === 'new moon') {
-        suggestions.push('During new moon, grounding foods like root vegetables are beneficial'),
+        suggestions.push('During new moon, grounding foods like root vegetables are beneficial')
       }
 
       // Add sun sign based suggestions

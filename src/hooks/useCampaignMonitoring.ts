@@ -22,7 +22,7 @@ export interface CampaignMonitoringState {
   systemHealth: SystemHealthStatus | null,
   loading: boolean,
   error: string | null,
-  lastUpdate: Date | null,
+  lastUpdate: Date | null
 }
 
 export interface CampaignMonitoringActions {
@@ -47,7 +47,7 @@ export interface UseCampaignMonitoringOptions {
 
 export interface UseCampaignMonitoringReturn {
   state: CampaignMonitoringState,
-  actions: CampaignMonitoringActions,
+  actions: CampaignMonitoringActions
 }
 
 /**
@@ -57,8 +57,8 @@ export const useCampaignMonitoring = (;
   options: UseCampaignMonitoringOptions = {}
 ): UseCampaignMonitoringReturn => {
   const {
-    autoRefresh = true,,
-    refreshInterval = 30000, // 30 seconds,
+    autoRefresh = true,,;
+    refreshInterval = 30000, // 30 seconds,;
     onCampaignStart,
     onCampaignComplete,
     onCampaignFailed,
@@ -119,7 +119,7 @@ export const useCampaignMonitoring = (;
                 .filter(e => e.severity === 'ERROR');
                 .map(e => e.description);
                 .join(', ') || 'Campaign failed',
-            onCampaignFailed?.(campaign.campaignId, errorMessage),
+            onCampaignFailed?.(campaign.campaignId, errorMessage)
           }
         }
 
@@ -146,7 +146,7 @@ export const useCampaignMonitoring = (;
         await refreshData();
 
         onCampaignStart?.(campaignId);
-        return campaignId,
+        return campaignId
       } catch (error) {
         const errorMessage = error instanceof Error ? error.message : 'Failed to start campaign';
         setState(prev => ({ ...prev, error: errorMessage }));
@@ -162,7 +162,7 @@ export const useCampaignMonitoring = (;
       try {
         const success = await kiroCampaignIntegration.pauseCampaign(campaignId);
         if (success) {
-          await refreshData(),
+          await refreshData()
         }
         return success;
       } catch (error) {
@@ -180,7 +180,7 @@ export const useCampaignMonitoring = (;
       try {
         const success = await kiroCampaignIntegration.resumeCampaign(campaignId);
         if (success) {
-          await refreshData(),
+          await refreshData()
         }
         return success;
       } catch (error) {
@@ -252,7 +252,7 @@ export const useCampaignMonitoring = (;
 
     // Setup auto-refresh if enabled
     if (autoRefresh) {
-      refreshIntervalRef.current = setInterval(() => void refreshData(), refreshInterval),
+      refreshIntervalRef.current = setInterval(() => void refreshData(), refreshInterval),;
     }
 
     // Cleanup
@@ -312,7 +312,7 @@ export const _useCampaignStatus = (campaignId: string) => {
     void refreshStatus();
 
     // Refresh every 10 seconds for active campaigns
-    const interval = setInterval(() => void refreshStatus(), 10000),
+    const interval = setInterval(() => void refreshStatus(), 10000),;
     return () => clearInterval(interval);
   }, [refreshStatus]);
 
@@ -344,7 +344,7 @@ export const _useSystemHealth = () => {
     void refreshHealth();
 
     // Refresh every 30 seconds
-    const interval = setInterval(() => void refreshHealth(), 30000),
+    const interval = setInterval(() => void refreshHealth(), 30000),;
     return () => clearInterval(interval);
   }, [refreshHealth]);
 

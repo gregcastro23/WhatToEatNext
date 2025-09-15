@@ -23,7 +23,7 @@ export interface ExtendedRecipeIngredient extends RecipeIngredient {
   notes?: string,
   function?: string,
   cookingPoint?: string,
-  substitutes?: string[],
+  substitutes?: string[]
 }
 
 /**
@@ -70,7 +70,7 @@ export interface ExtendedRecipe extends Recipe {
       salty: number,
       sour: number,
       bitter: number,
-      umami: number,
+      umami: number
     };
   };
 
@@ -86,7 +86,7 @@ export interface ExtendedRecipe extends Recipe {
     wines?: string[],
     beverages?: string[],
     sides?: string[],
-    condiments?: string[],
+    condiments?: string[]
   };
 
   nutrition?: {
@@ -96,7 +96,7 @@ export interface ExtendedRecipe extends Recipe {
       protein: number,
       carbs: number,
       fat: number,
-      fiber: number,
+      fiber: number
     };
   };
 
@@ -111,7 +111,7 @@ export interface ExtendedRecipe extends Recipe {
     visual: string[],
     aroma: string[],
     texture: string[],
-    sound: string[],
+    sound: string[]
   };
 
   keywords?: string[];
@@ -130,7 +130,7 @@ export interface ExtendedScoredRecipe extends ExtendedRecipe {
     zodiacalScore: number,
     lunarScore: number,
     planetaryScore: number,
-    seasonalScore: number,
+    seasonalScore: number
   };
 }
 
@@ -143,7 +143,7 @@ export function isExtendedRecipe(recipe: unknown): recipe is ExtendedRecipe {
     recipe !== null &&
     typeof (recipe as ExtendedRecipe).id === 'string' &&;
     typeof (recipe as ExtendedRecipe).name === 'string';
-  ),
+  )
 }
 
 /**
@@ -168,8 +168,8 @@ export function toExtendedRecipe(recipe: Recipe): ExtendedRecipe {
         preparation:
           typeof extendedIngredient.preparation === 'string' ? extendedIngredient.preparation : '',;
         optional:
-          typeof extendedIngredient.optional === 'boolean' ? extendedIngredient.optional : false,,
-        notes: typeof extendedIngredient.notes === 'string' ? extendedIngredient.notes : '',,
+          typeof extendedIngredient.optional === 'boolean' ? extendedIngredient.optional : false,,;
+        notes: typeof extendedIngredient.notes === 'string' ? extendedIngredient.notes : '',,;
       };
     })
   } as ExtendedRecipe;

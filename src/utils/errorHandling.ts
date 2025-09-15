@@ -14,16 +14,16 @@ export enum ErrorType {
   CLIENT_ERROR = 'CLIENT_ERROR',;
   ASTROLOGICAL_CALCULATION = 'ASTROLOGICAL_CALCULATION',;
   DATA_PROCESSING = 'DATA_PROCESSING',;
-  COMPONENT_ERROR = 'COMPONENT_ERROR',,
-  UNKNOWN = 'UNKNOWN',,
+  COMPONENT_ERROR = 'COMPONENT_ERROR',,;
+  UNKNOWN = 'UNKNOWN',,;
 }
 
 // Error severity levels
 export enum ErrorSeverity {
   LOW = 'LOW',;
   MEDIUM = 'MEDIUM',;
-  HIGH = 'HIGH',,
-  CRITICAL = 'CRITICAL',,
+  HIGH = 'HIGH',,;
+  CRITICAL = 'CRITICAL',,;
 }
 
 // Enhanced error interface
@@ -35,7 +35,7 @@ export interface EnhancedError extends Error {
   recoverable?: boolean,
   retryable?: boolean,
   timestamp: Date,
-  errorId: string,
+  errorId: string
 }
 
 // Error recovery strategies
@@ -65,8 +65,8 @@ const USER_FRIENDLY_MESSAGES: Record<ErrorType, string> = {
 // Create enhanced error
 export function createEnhancedError(
   message: string,
-  type: ErrorType = ErrorType.UNKNOWN,,
-  severity: ErrorSeverity = ErrorSeverity.MEDIUM,,
+  type: ErrorType = ErrorType.UNKNOWN,,;
+  severity: ErrorSeverity = ErrorSeverity.MEDIUM,,;
   context?: Record<string, unknown>,
   originalError?: Error,
 ): EnhancedError {
@@ -185,7 +185,7 @@ export class ErrorHandler {
     } else {
       const type = classifyError(error);
       const severity = this.determineSeverity(type);
-      enhancedError = createEnhancedError(error.message, type, severity, context, error),
+      enhancedError = createEnhancedError(error.message, type, severity, context, error),;
     }
 
     // Log the error
@@ -282,7 +282,7 @@ export class ErrorHandler {
 
       case ErrorSeverity.LOW:
         logger.info('Low severity error:', logData),
-        break,
+        break
     }
   }
 
@@ -301,7 +301,7 @@ export class ErrorHandler {
     total: number,
     byType: Record<ErrorType, number>;
     bySeverity: Record<ErrorSeverity, number>,
-    recent: EnhancedError[],
+    recent: EnhancedError[]
   } {
     const byType = {} as Record<ErrorType, number>;
     const bySeverity = {} as Record<ErrorSeverity, number>;
@@ -330,7 +330,7 @@ export const globalErrorHandler = new ErrorHandler();
 
 // Default recovery strategies
 globalErrorHandler.addRecoveryStrategy({
-  canRecover: error => error.type === ErrorType.ASTROLOGICAL_CALCULATION,,
+  canRecover: error => error.type === ErrorType.ASTROLOGICAL_CALCULATION,,;
   recover: async error => {
     logger.info(`Attempting to recover from astrological calculation error: ${error.errorId}`);
     // Return cached astrological data
@@ -351,7 +351,7 @@ globalErrorHandler.addRecoveryStrategy({
 });
 
 globalErrorHandler.addRecoveryStrategy({
-  canRecover: error => error.type === ErrorType.NETWORK,,
+  canRecover: error => error.type === ErrorType.NETWORK,,;
   recover: async error => {
     logger.info(`Attempting to recover from network error: ${error.errorId}`);
     // Try to use cached data
@@ -372,15 +372,15 @@ export function handleAsyncError<T>(
   context?: Record<string, unknown>,
 ): Promise<T> {
   return promise.catch(error => {
-    return globalErrorHandler.handleError(error, context),
+    return globalErrorHandler.handleError(error, context)
   });
 }
 
 export function handleSyncError<T>(fn: () => T, context?: Record<string, unknown>): T {
   try {
-    return fn(),
+    return fn()
   } catch (error) {
-    throw globalErrorHandler.handleError(error as Error, context),
+    throw globalErrorHandler.handleError(error as Error, context)
   }
 }
 
@@ -388,10 +388,10 @@ export function handleSyncError<T>(fn: () => T, context?: Record<string, unknown
 export function useErrorHandler() {
   const handleError = React.useCallback(async (error: Error, context?: Record<string, unknown>) => {
     try {
-      return await globalErrorHandler.handleError(error, context),
+      return await globalErrorHandler.handleError(error, context)
     } catch (enhancedError) {
       // Re-throw enhanced error for component error boundaries to catch
-      throw enhancedError,
+      throw enhancedError
     }
   }, []);
 

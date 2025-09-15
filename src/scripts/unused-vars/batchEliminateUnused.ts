@@ -201,7 +201,7 @@ async function main(): Promise<void> {
   const batches = batchFiles(files, opts.maxBatch, opts.maxBatchCritical);
 
    
-  // console.log(
+  // // console.log(
     `Processing ${files.length} files across ${batches.length} batches (dryRun=${opts.dryRun})`,;
   );
 

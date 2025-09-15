@@ -90,7 +90,7 @@ describe('AnyTypeClassifier', () => {
   describe('Existing Documentation', () => {
     test('respects existing intentional documentation', async () => {
       const context: any = createContext(;
-        'const data: any = response,',
+        'const data: any = response,',;
         {
           hasExistingComment: true,
           existingComment: '// Intentionally an, y: External API response'
@@ -108,7 +108,7 @@ describe('AnyTypeClassifier', () => {
   describe('Test File Context', () => {
     test('classifies test mocks as intentional', async () => {
       const context = createContext(;
-        'const mockFn = jest.fn() as any as unknown,',
+        'const mockFn = jest.fn() as any as unknown,',;
         { isInTestFile: true }
       );
 
@@ -122,7 +122,7 @@ describe('AnyTypeClassifier', () => {
   describe('Domain-Specific Analysis', () => {
     test('analyzes astrological domain context', async () => {
       const context: any = createContext(;
-        'const _planetaryPositions: any = data,',
+        'const _planetaryPositions: any = data,',;
         {
           filePath: 'src/calculations/planetary/positions.ts';
           domainContext: { domain: CodeDomain.ASTROLOGICAL,
@@ -142,7 +142,7 @@ describe('AnyTypeClassifier', () => {
 
     test('analyzes recipe domain context', async () => {
       const context: any = createContext(;
-        'const ingredient: any = data,',
+        'const ingredient: any = data,',;
         {
           filePath: 'src/data/ingredients/herbs.ts';
           domainContext: { domain: CodeDomain.RECIPE,
@@ -196,7 +196,7 @@ describe('AnyTypeClassifier', () => {
   describe('Contextual Analysis', () => {
     test('analyzes surrounding code context for error handling', async () => {
       const context: any = createContext(;
-        'const error: any = e,',
+        'const error: any = e,',;
         {
           surroundingLines: [
             'try {',
@@ -215,7 +215,7 @@ describe('AnyTypeClassifier', () => {
 
     test('analyzes file type context', async () => {
       const context: any = createContext(;
-        'const _mockData: any = {},',
+        'const _mockData: any = {},',;
         {
           filePath: 'src/components/__tests__/Component.test.tsx';
           isInTestFile: true
@@ -229,11 +229,11 @@ describe('AnyTypeClassifier', () => {
 
     test('detects API interaction context', async () => {
       const context: any = createContext(;
-        'const response: any = data,',
+        'const response: any = data,',;
         {
           surroundingLines: [
-            'const response: any = await fetch('/api/data'),',
-            'const data: any = await response.json(),'
+            'const response: any = await fetch('/api/data'),',;
+            'const data: any = await response.json(),';
           ]
         }
       );
@@ -249,7 +249,7 @@ describe('AnyTypeClassifier', () => {
   describe('Enhanced Domain-Specific Analysis', () => {
     test('analyzes astrological planetary position patterns', async () => {
       const context: any = createContext(;
-        'const positions: any = planetaryData,',
+        'const positions: any = planetaryData,',;
         {
           filePath: 'src/calculations/planetary/positions.ts';
           domainContext: { domain: CodeDomain.ASTROLOGICAL,
@@ -258,8 +258,8 @@ describe('AnyTypeClassifier', () => {
             preservationReasons: []
           },
           surroundingLines: [
-            'const planetaryData: any = await getReliablePlanetaryPositions(),',
-            'const _transitDates: any = validateTransitDate(planet, date, sign),'
+            'const planetaryData: any = await getReliablePlanetaryPositions(),',;
+            'const _transitDates: any = validateTransitDate(planet, date, sign),';
           ]
         }
       );
@@ -273,7 +273,7 @@ describe('AnyTypeClassifier', () => {
 
     test('analyzes recipe ingredient patterns', async () => {
       const context: any = createContext(;
-        'const ingredient: any = data,',
+        'const ingredient: any = data,',;
         {
           filePath: 'src/data/ingredients/herbs.ts';
           domainContext: { domain: CodeDomain.RECIPE,
@@ -282,8 +282,8 @@ describe('AnyTypeClassifier', () => {
             preservationReasons: []
           },
           surroundingLines: [
-            'const _ingredientData: any = await fetchIngredientInfo(),',
-            'const _elementalProperties: any = calculateElementalBalance(),'
+            'const _ingredientData: any = await fetchIngredientInfo(),',;
+            'const _elementalProperties: any = calculateElementalBalance(),';
           ]
         }
       );
@@ -297,7 +297,7 @@ describe('AnyTypeClassifier', () => {
 
     test('analyzes campaign system configuration', async () => {
       const context: any = createContext(;
-        'const config: any = campaignSettings,',
+        'const config: any = campaignSettings,',;
         {
           filePath: 'src/services/campaign/CampaignController.ts';
           domainContext: { domain: CodeDomain.CAMPAIGN,
@@ -306,8 +306,8 @@ describe('AnyTypeClassifier', () => {
             preservationReasons: []
           },
           surroundingLines: [
-            'const campaignSettings: any = loadDynamicConfig(),',
-            'const _adaptiveStrategy: any = adjustCampaignBehavior(),'
+            'const campaignSettings: any = loadDynamicConfig(),',;
+            'const _adaptiveStrategy: any = adjustCampaignBehavior(),';
           ]
         }
       );
@@ -321,7 +321,7 @@ describe('AnyTypeClassifier', () => {
 
     test('analyzes service layer external integration', async () => {
       const context: any = createContext(;
-        'const _serviceResponse: any = response,',
+        'const _serviceResponse: any = response,',;
         {
           filePath: 'src/services/ExternalApiService.ts';
           domainContext: { domain: CodeDomain.SERVICE,
@@ -330,8 +330,8 @@ describe('AnyTypeClassifier', () => {
             preservationReasons: []
           },
           surroundingLines: [
-            'const response: any = await externalService.call(),',
-            'const _mappedData: any = transformServiceResponse(response),'
+            'const response: any = await externalService.call(),',;
+            'const _mappedData: any = transformServiceResponse(response),';
           ]
         }
       );
@@ -347,7 +347,7 @@ describe('AnyTypeClassifier', () => {
   describe('Enhanced Documentation Analysis', () => {
     test('detects ESLint disable comments with explanations', async () => {
       const context: any = createContext(;
-        'const data: any = response,',
+        'const data: any = response,',;
         {
           hasExistingComment: true,
           existingComment: '// eslint-disable-next-line @typescript-eslint/no-explicit-any -- External API response structure unknown'
@@ -362,7 +362,7 @@ describe('AnyTypeClassifier', () => {
 
     test('detects flexible typing documentation', async () => {
       const context: any = createContext(;
-        'const config: any = settings,',
+        'const config: any = settings,',;
         {
           hasExistingComment: true,
           existingComment: '// Flexible typing needed for dynamic configuration'
@@ -376,7 +376,7 @@ describe('AnyTypeClassifier', () => {
 
     test('ignores TODO/FIXME comments as intentional markers', async () => {
       const context: any = createContext(;
-        'const data: any = response,',
+        'const data: any = response,',;
         {
           hasExistingComment: true,
           existingComment: '// TOD, O: Fix this any type when API schema is available'
@@ -411,10 +411,10 @@ describe('AnyTypeClassifier', () => {
 
     test('analyzes arrow function return types', async () => {
       const context: any = createContext(;
-        'const fn = (): unknown => {',,
+        'const fn = (): unknown => {',,;
         {
           surroundingLines: [
-            'const fn: any = (): unknown => {',,
+            'const fn: any = (): unknown => {',,;
             '  return { id: 1, name: 'test' },',
             '}'
           ]
@@ -431,7 +431,7 @@ describe('AnyTypeClassifier', () => {
 
   describe('Confidence Scoring', () => {
     test('provides high confidence for clear patterns', async () => {
-      const context: any = createContext('const items: any[] = [],'),
+      const context: any = createContext('const items: any[] = [],'),;
       const result: any = await classifier.classify(context);
 
       expect(result.confidence).toBeGreaterThan(0.9);
@@ -439,9 +439,9 @@ describe('AnyTypeClassifier', () => {
 
     test('provides moderate confidence for contextual patterns', async () => {
       const context: any = createContext(;
-        'const data: any = value,',
+        'const data: any = value,',;
         {
-          surroundingLines: ['const response: any = await fetch('/api'),']
+          surroundingLines: ['const response: any = await fetch('/api'),'];
         }
       );
 
@@ -452,7 +452,7 @@ describe('AnyTypeClassifier', () => {
     });
 
     test('provides low confidence for unclear patterns', async () => {
-      const context: any = createContext('const value: any = something,'),
+      const context: any = createContext('const value: any = something,'),;
       const result: any = await classifier.classify(context);
 
       expect(result.confidence).toBeLessThan(0.7);
@@ -478,12 +478,12 @@ describe('AnyTypeClassifier', () => {
 
     test('handles classification errors gracefully', async () => {
       // Mock a scenario that would cause an error
-      const context: any = createContext('const test: any = value,'),
+      const context: any = createContext('const test: any = value,'),;
 
       // Spy on the internal method to throw an error
       const originalMethod: any = classifier['analyzeSurroundingCodeContext'];
       jest.spyOn(classifier as unknown, 'analyzeSurroundingCodeContext').mockImplementation(() => {
-        throw new Error('Test error'),
+        throw new Error('Test error')
       });
 
       await expect(classifier.classify(context)).rejects.toThrow('Failed to classify any type');
@@ -497,7 +497,7 @@ describe('AnyTypeClassifier', () => {
         createContext('const _incomplete: any');
         createContext('function broken(param: any');
         createContext('} catch (error: any');
-        createContext('const _weird: any = {'),,
+        createContext('const _weird: any = {'),,;
         createContext('return data as unknown,')
       ];
 
@@ -530,7 +530,7 @@ describe('AnyTypeClassifier', () => {
 
     test('handles deeply nested surrounding lines', async () => {
       const context: any = createContext(;
-        'const data: any = response,',
+        'const data: any = response,',;
         {
           surroundingLines: Array(50).fill('  // nested comment line')
         }
@@ -544,7 +544,7 @@ describe('AnyTypeClassifier', () => {
 
   describe('Performance and Stress Testing', () => {
     test('handles large batch processing efficiently', async () => {
-      const largeBatch: any = Array(100).fill(null).map((_: any, i: any) =>,
+      const largeBatch: any = Array(100).fill(null).map((_: any, i: any) =>,;
         createContext(`const item${i}: unknown[] = [],`)
       );
 
@@ -574,7 +574,7 @@ describe('AnyTypeClassifier', () => {
       results.forEach(result => {
         expect(result.isIntentional).toBe(firstResult.isIntentional);
         expect(result.category).toBe(firstResult.category);
-        expect(result.confidence).toBeCloseTo(firstResult.confidence, 2),
+        expect(result.confidence).toBeCloseTo(firstResult.confidence, 2)
       });
     });
 
@@ -603,7 +603,7 @@ describe('AnyTypeClassifier', () => {
   describe('Integration with Domain Context', () => {
     test('integrates with domain analyzer for complex scenarios', async () => {
       const astroContext: any = createContext(;
-        'const planetaryData: any = await getReliablePlanetaryPositions(),',
+        'const planetaryData: any = await getReliablePlanetaryPositions(),',;
         {
           filePath: 'src/calculations/planetary/positions.ts';
           domainContext: { domain: CodeDomain.ASTROLOGICAL,

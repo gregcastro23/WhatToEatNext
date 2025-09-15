@@ -43,8 +43,8 @@ export async function POST(request: Request) {
       hour = new Date().getHours(),;
       minute = new Date().getMinutes(),;
       latitude = DEFAULT_LOCATION.latitude,;
-      longitude = DEFAULT_LOCATION.longitude,,
-      zodiacSystem = 'tropical', // Default to tropical zodiac,
+      longitude = DEFAULT_LOCATION.longitude,,;
+      zodiacSystem = 'tropical', // Default to tropical zodiac,;
     } = body;
 
     // Convert conventional month (1-12) to 0-indexed month (0-11) for the API
@@ -64,7 +64,7 @@ export async function POST(request: Request) {
 
     // Development logging for API payload
     if (process.env.NODE_ENV === 'development') {
-      void log.info('Making API call to astrologize with payload:', apiPayload),
+      void log.info('Making API call to astrologize with payload:', apiPayload)
     }
 
     // Make the API call
@@ -194,7 +194,7 @@ function extractPlanetaryPositions(
         const typedPlanetData = planetData as {
           sign?: string,
           angle?: number,
-          isRetrograde?: boolean,
+          isRetrograde?: boolean
         };
         if (typedPlanetData?.sign && typedPlanetData?.angle !== undefined) {
           const totalDegrees = typedPlanetData.angle;
@@ -217,6 +217,6 @@ function extractPlanetaryPositions(
     return null;
   } catch (error) {
     void logger.error('Error extracting planetary positions:', error),
-    return null,
+    return null
   }
 }

@@ -23,7 +23,7 @@ interface PreCommitConfig {
     linting: boolean,
     documentation: boolean,
     performance: boolean,
-    formatting: boolean,
+    formatting: boolean
   };
   thresholds: {
     maxNewAnyTypes: number;
@@ -35,12 +35,12 @@ interface PreCommitConfig {
   autoFix: {
     formatting: boolean,
     linting: boolean,
-    documentation: boolean,
+    documentation: boolean
   };
   exemptions: {
     files: string[],
     directories: string[],
-    patterns: string[],
+    patterns: string[]
   };
 }
 
@@ -50,7 +50,7 @@ interface PreCommitResult {
   message: string,
   severity: 'info' | 'warning' | 'error' | 'critical',
   autoFixed: boolean,
-  details?: any,
+  details?: any
 }
 
 class EnhancedPreCommitHook {
@@ -98,7 +98,7 @@ class EnhancedPreCommitHook {
       success: '✅'
     }[level];
 
-    // console.log(`[${timestamp}] ${prefix} ${message}`);
+    // // console.log(`[${timestamp}] ${prefix} ${message}`);
   }
 
   private getStagedFiles(): string[] {
@@ -122,17 +122,17 @@ class EnhancedPreCommitHook {
   private isFileExempt(filePath: string): boolean {
     // Check exact file matches
     if (this.config.exemptions.files.includes(filePath)) {
-      return true,
+      return true
     }
 
     // Check directory matches
     if (this.config.exemptions.directories.some(dir => filePath.startsWith(dir))) {
-      return true,
+      return true
     }
 
     // Check pattern matches
     return this.config.exemptions.patterns.some(pattern => {
-      const regex = new RegExp(pattern.replace(/\*\*/g, '.*').replace(/\*/g, '[^/]*')),
+      const regex = new RegExp(pattern.replace(/\*\*/g, '.*').replace(/\*/g, '[^/]*')),;
       return regex.test(filePath);
     });
   }
@@ -143,7 +143,7 @@ class EnhancedPreCommitHook {
 
     if (this.stagedFiles.length === 0) {
       this.log('No eligible files staged for commit', 'info'),
-      return true,
+      return true
     }
 
     this.log(`📁 Checking ${this.stagedFiles.length} staged files`, 'info');
@@ -211,12 +211,12 @@ class EnhancedPreCommitHook {
     }
 
     if (passed) {
-      this.log('\n✅ All pre-commit checks passed! Commit approved.', 'success'),
+      this.log('\n✅ All pre-commit checks passed! Commit approved.', 'success')
     } else {
       this.log(
         '\n⚠️ Some checks failed but are not critical. Commit allowed with warnings.';
         'warn',
-      ),
+      )
     }
 
     return true;
@@ -300,7 +300,7 @@ class EnhancedPreCommitHook {
   private async checkLinting(): Promise<PreCommitResult> {
     try {
       const tsFiles = this.stagedFiles.filter(;
-        file => file.endsWith('.ts') || file.endsWith('.tsx'),,
+        file => file.endsWith('.ts') || file.endsWith('.tsx'),,;
       ),
 
       if (tsFiles.length === 0) {
@@ -493,7 +493,7 @@ class EnhancedPreCommitHook {
         severity: isWithinThreshold ? 'info' : 'warning',
         autoFixed: false,
         details: { buildTime: duration }
-      },
+      }
     } catch (error) {
       return {
         check: 'Performance Impact',
@@ -501,7 +501,7 @@ class EnhancedPreCommitHook {
         message: `Performance check skipped: ${error}`,
         severity: 'info',
         autoFixed: false
-      },
+      }
     }
   }
 
@@ -580,10 +580,10 @@ if (require.main === module) {
         .runPreCommitChecks()
         .then(passed => {
           if (passed) {
-            // console.log('\n✅ Pre-commit checks passed!');
+            // // console.log('\n✅ Pre-commit checks passed!');
             process.exit(0);
           } else {
-            // console.log('\n❌ Pre-commit checks failed!');
+            // // console.log('\n❌ Pre-commit checks failed!');
             process.exit(1);
           }
         })
@@ -597,7 +597,7 @@ if (require.main === module) {
       hook
         .generatePreCommitReport()
         .then(() => {
-          // console.log('✅ Pre-commit report generated');
+          // // console.log('✅ Pre-commit report generated');
           process.exit(0);
         })
         .catch(error => {
@@ -607,7 +607,7 @@ if (require.main === module) {
       break;
 
     default:
-      // console.log(`
+      // // console.log(`
 Usage: node EnhancedPreCommitHook.ts <command>
 
 Commands:

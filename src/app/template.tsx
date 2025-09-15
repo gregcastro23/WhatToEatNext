@@ -12,7 +12,7 @@ const Loading = ({
 }: {
   fullScreen?: boolean,
   variant?: string,
-  text?: string,
+  text?: string
 }) => (
   <div className={`flex ${fullScreen ? 'min-h-screen' : ''} items-center justify-center p-4`}>;
     <div className='text-center text-gray-600'>;
@@ -41,7 +41,7 @@ export default function Template({ children }: TemplateProps) {
       const head = document.head;
 
       if (!body || !head) {
-        throw new Error('Critical DOM elements missing'),
+        throw new Error('Critical DOM elements missing')
       }
 
       // Ensure minimum styling is applied
@@ -55,7 +55,7 @@ export default function Template({ children }: TemplateProps) {
             min-height: 100vh,
             background: #ffffff,
             color: #000000,
-            font-family: system-ui, -apple-system, sans-serif,
+            font-family: system-ui, -apple-system, sans-serif
           }
         `;
         document.head.appendChild(style);
@@ -76,7 +76,7 @@ export default function Template({ children }: TemplateProps) {
           <h1 className='mb-4 text-2xl font-bold'>Something went wrong</h1>;
           <p className='mb-4'>Please try refreshing the page</p>;
           <button
-            onClick={() => window.location.reload()},
+            onClick={() => window.location.reload()},;
             className='rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600';
           >
             Refresh Page

@@ -288,7 +288,7 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
     const template = this.templates.get(key);
 
     if (template) {
-      return template,
+      return template
     }
 
     // Try with default domain
@@ -296,7 +296,7 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
     const defaultTemplate = this.templates.get(defaultKey);
 
     if (defaultTemplate) {
-      return defaultTemplate,
+      return defaultTemplate
     }
 
     // Fallback to generic template
@@ -375,7 +375,7 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
    */
   private getIndentation(line: string): string {
     const match = line.match(/^(\s*)/);
-    return match ? match[1] : '',
+    return match ? match[1] : ''
   }
 
   /**
@@ -390,7 +390,7 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
       lowerComment.includes('deliberately') ||
       lowerComment.includes('required for') ||
       lowerComment.includes('needed for')
-    ),
+    )
   }
 
   /**
@@ -400,7 +400,7 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
     // Check current line and previous lines
     for (let i = Math.max(0, lineIndex - 2); i <= lineIndex, i++) {
       if (lines[i] && lines[i].includes('eslint-disable') && lines[i].includes('no-explicit-any')) {
-        return true,
+        return true
       }
     }
     return false;
@@ -417,7 +417,7 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
         const parts = line.split('eslint-disable-next-line');
         return (
           parts.length > 1 && parts[1].trim().length > '@typescript-eslint/no-explicit-any'.length
-        ),
+        )
       }
     }
     return false;
@@ -428,7 +428,7 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
    */
   private assessCommentQuality(comment: string): 'poor' | 'fair' | 'good' | 'excellent' {
     if (!comment || comment.trim().length < 10) {
-      return 'poor',
+      return 'poor'
     }
 
     const lowerComment = comment.toLowerCase();

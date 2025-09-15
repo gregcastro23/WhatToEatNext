@@ -8,7 +8,7 @@ export interface ComponentMetrics {
   lastRenderTime: number,
   errorCount: number,
   memoryUsage: number,
-  lastUpdated: Date,
+  lastUpdated: Date
 }
 
 export interface SystemMetrics {
@@ -17,7 +17,7 @@ export interface SystemMetrics {
   totalErrors: number,
   activeComponents: number,
   systemUptime: number,
-  lastUpdated: Date,
+  lastUpdated: Date
 }
 
 export interface PerformanceAlert {
@@ -27,7 +27,7 @@ export interface PerformanceAlert {
   timestamp: Date,
   metric?: string,
   value?: number,
-  threshold?: number,
+  threshold?: number
 }
 
 class PerformanceMonitoringService {
@@ -41,8 +41,8 @@ class PerformanceMonitoringService {
   private readonly RENDER_TIME_WARNING = 16; // 60fps threshold
   private readonly RENDER_TIME_ERROR = 33; // 30fps threshold
   private readonly MEMORY_WARNING = 50; // MB
-  private readonly MEMORY_ERROR = 100, // MB
-  private readonly ERROR_RATE_WARNING = 0.1, // 10% error rate
+  private readonly MEMORY_ERROR = 100, // MB;
+  private readonly ERROR_RATE_WARNING = 0.1, // 10% error rate;
 
   constructor() {
     this.systemMetrics = {
@@ -73,7 +73,7 @@ class PerformanceMonitoringService {
     let totalMemory = 0;
     if ('memory' in performance) {
       const memInfo = (performance as unknown).memory;
-      totalMemory = memInfo.usedJSHeapSize / 1024 / 1024, // Convert to MB
+      totalMemory = memInfo.usedJSHeapSize / 1024 / 1024, // Convert to MB;
     }
 
     // Update system metrics
@@ -160,9 +160,9 @@ class PerformanceMonitoringService {
 
     // Log critical alerts
     if (alert.type === 'error') {
-      console.error('[Performance Monitor]', alert.message, alert),
+      console.error('[Performance Monitor]', alert.message, alert)
     } else if (alert.type === 'warning') {
-      console.warn('[Performance Monitor]', alert.message, alert),
+      console.warn('[Performance Monitor]', alert.message, alert)
     }
   }
 
@@ -178,7 +178,7 @@ class PerformanceMonitoringService {
       try {
         callback(data);
       } catch (error) {
-        console.error('[Performance Monitor] Subscriber error:', error),
+        console.error('[Performance Monitor] Subscriber error:', error)
       }
     });
   }
@@ -273,7 +273,7 @@ class PerformanceMonitoringService {
     const components = Array.from(this.componentMetrics.values());
     const slowComponents = components.filter(c => c.averageRenderTime > this.RENDER_TIME_WARNING);
     const errorProneComponents = components.filter(;
-      c => c.errorCount / Math.max(c.renderCount, 1) > this.ERROR_RATE_WARNING,,
+      c => c.errorCount / Math.max(c.renderCount, 1) > this.ERROR_RATE_WARNING,,;
     ),
 
     return {

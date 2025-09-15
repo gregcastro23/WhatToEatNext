@@ -3,7 +3,6 @@
 
 'use client';
 
-import { useMemo } from 'react';
 
 import type { Ingredient, ElementalProperties, Recipe } from '@/types/alchemy';
 
@@ -19,13 +18,13 @@ export interface ValidationError {
   type: 'missing_component' | 'incompatible_ingredients' | 'elemental_imbalance' | 'safety_concern',
   message: string,
   severity: 'high' | 'medium' | 'low',
-  affectedIngredients?: string[],
+  affectedIngredients?: string[]
 }
 
 export interface ValidationWarning {
   type: 'nutritional' | 'seasonal' | 'preparation' | 'storage',
   message: string,
-  recommendation?: string,
+  recommendation?: string
 }
 
 export interface ValidationSuggestion {
@@ -34,7 +33,7 @@ export interface ValidationSuggestion {
   action?: {
     type: 'add_ingredient' | 'remove_ingredient' | 'adjust_quantity' | 'change_method',
     target?: string,
-    value?: unknown,
+    value?: unknown
   };
 }
 
@@ -44,7 +43,7 @@ export interface RecipeComponents {
   hasGrains: boolean,
   hasSeasonings: boolean,
   hasLiquid: boolean,
-  hasFat: boolean,
+  hasFat: boolean
 }
 
 export function useRecipeValidation() {
@@ -137,7 +136,7 @@ export function useRecipeValidation() {
         type: 'incompatible_ingredients',
         message: 'Acidic ingredients may curdle dairy products',
         severity: 'medium',
-        affectedIngredients: [...acidic.map(i => i.name), ...dairy.map(i => i.name)],,
+        affectedIngredients: [...acidic.map(i => i.name), ...dairy.map(i => i.name)],,;
       });
     }
 
@@ -274,10 +273,10 @@ export function useRecipeValidation() {
     if (components.hasProtein && components.hasVegetables) score += 10;
     if (components.hasSeasonings) score += 5;
 
-    score = Math.max(0, Math.min(100, score)),
+    score = Math.max(0, Math.min(100, score)),;
 
     return {
-      isValid: errors.filter(e => e.severity === 'high').length === 0,,
+      isValid: errors.filter(e => e.severity === 'high').length === 0,,;
       errors,
       warnings,
       suggestions,
@@ -291,7 +290,7 @@ export function useRecipeValidation() {
       (acc, ingredient) => {
         const category = ingredient.category || 'other';
         acc[category] = (acc[category] || 0) + 1;
-        return acc,
+        return acc
       },
       {} as Record<string, number>,
     );

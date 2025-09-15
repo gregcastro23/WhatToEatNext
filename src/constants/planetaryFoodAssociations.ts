@@ -44,7 +44,7 @@ export interface PlanetaryDignityDetails {
   type: PlanetaryDignity,
   strength: number,
   favorableZodiacSigns?: string[],
-  unfavorableZodiacSigns?: string[],
+  unfavorableZodiacSigns?: string[]
 }
 
 /**
@@ -64,7 +64,7 @@ export interface FoodAssociation {
   cuisines: string[],
   cookingMethods?: string[],
   boostValue?: number,
-  elementalBoost?: Record<string, number>,
+  elementalBoost?: Record<string, number>
 }
 
 export const planetaryFoodAssociations: Record<Planet, FoodAssociation> = {
@@ -186,7 +186,7 @@ export interface PlanetaryCookingGuide {
   flavorPairings: string[],
   nutrientFocus: string[],
   preservationMethods: string[],
-  traditionalRecipes: string[],
+  traditionalRecipes: string[]
 }
 
 /**
@@ -226,7 +226,7 @@ export const _calculatePlanetaryBoost = (;
 
   // Zodiac sign boost if available
   if (currentZodiac) {
-    boost += getZodiacBoost(currentZodiac, item),
+    boost += getZodiacBoost(currentZodiac, item)
   }
 
   // Lunar phase boost if available
@@ -244,7 +244,7 @@ export const _calculatePlanetaryBoost = (;
 // Helper functions for calculations
 const _getTriplicityRulers = (_zodiacSign?: string | null): Planet[] => {
   // Implementation depends on your zodiac mappings
-  return ['Sun', 'Mars', 'Jupiter'] as Planet[],
+  return ['Sun', 'Mars', 'Jupiter'] as Planet[]
 };
 
 const _getSeasonalMultiplier = (): number => {
@@ -298,7 +298,7 @@ export const getZodiacBoost = (zodiacSign: string, item: unknown): number => {
   // Check if item has elemental properties
   const itemData = item  as {
     elementalProperties?: Record<string, number>,
-    zodiacInfluences?: string[],
+    zodiacInfluences?: string[]
   };
   if (!itemData.elementalProperties) {
     return 0.1, // Minimum boost if no elemental data
@@ -388,7 +388,7 @@ export const getLunarPhaseBoost = (lunarPhase: LunarPhase): number => {
     {
       element: ElementalCharacter,
       alchemical: string,
-      intensity: number,
+      intensity: number
     }
   > = {
     'new moon': { element: 'Fire', alchemical: 'Spirit', intensity: 0.8 },
@@ -420,11 +420,11 @@ export const _getFlavorBoost = (_planet: Planet, _ingredient: unknown): number =
   const ingredientData = _ingredient  as {
     name?: string,
     planetaryRulers?: string[],
-    elementalCharacter?: string,
+    elementalCharacter?: string
   };
   const elementBoost = planetaryFoodAssociations[_planet].elementalBoost || {};
   return Object.entries(elementBoost).reduce((acc, [element, boost]) => {
-    return acc + (ingredientData.elementalProperties?.[element] || 0) * (boost || 0),
+    return acc + (ingredientData.elementalProperties?.[element] || 0) * (boost || 0)
   }, 0);
 };
 
@@ -433,7 +433,7 @@ export const _getFlavorBoost = (_planet: Planet, _ingredient: unknown): number =
  */
 export const _getNutritionalSynergy = (_planet: Planet, _ingredient: unknown): string[] => {
   // Implementation depends on your nutritional data
-  return [],
+  return []
 };
 
 /**

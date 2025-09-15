@@ -120,7 +120,7 @@ describe('Chakra System', () => {
     // Artificially set some chakras to underactive to generate recommendations
     const modifiedChakraStates: any = chakraEnergyStates.map((state: any, index: any) => ({
       ...state,
-      energyLevel: index % 3 === 0 ? 0.3 : 0.6, // Set some to underactive,
+      energyLevel: index % 3 === 0 ? 0.3 : 0.6, // Set some to underactive,;
       balanceState: index % 3 === 0 ? ('underactive' as const) : ('balanced' as const),}));
 
     const suggestions: any = chakraService.suggestDietaryAdjustments(modifiedChakraStates);

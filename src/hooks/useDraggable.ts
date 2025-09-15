@@ -12,7 +12,7 @@ interface DraggableOptions {
     left?: number;
     top?: number;
     right?: number,
-    bottom?: number,
+    bottom?: number
   };
 }
 
@@ -78,16 +78,16 @@ export const _useDraggable = (options: DraggableOptions = {}) => {
         const rect = element.getBoundingClientRect();
 
         if (options.bounds.left !== undefined) {
-          newX = Math.max(options.bounds.left, newX),
+          newX = Math.max(options.bounds.left, newX),;
         }
         if (options.bounds.top !== undefined) {
-          newY = Math.max(options.bounds.top, newY),
+          newY = Math.max(options.bounds.top, newY),;
         }
         if (options.bounds.right !== undefined) {
-          newX = Math.min(options.bounds.right - rect.width, newX),
+          newX = Math.min(options.bounds.right - rect.width, newX),;
         }
         if (options.bounds.bottom !== undefined) {
-          newY = Math.min(options.bounds.bottom - rect.height, newY),
+          newY = Math.min(options.bounds.bottom - rect.height, newY),;
         }
       }
 
@@ -118,7 +118,7 @@ export const _useDraggable = (options: DraggableOptions = {}) => {
 
       // Get final position
       const rect = elementRef.current.getBoundingClientRect();
-      options.onDragEnd?.(rect.left, rect.top),
+      options.onDragEnd?.(rect.left, rect.top)
     },
     [options, handleMouseMove],
   );
@@ -176,16 +176,16 @@ export const _useDraggable = (options: DraggableOptions = {}) => {
         const rect = element.getBoundingClientRect();
 
         if (options.bounds.left !== undefined) {
-          newX = Math.max(options.bounds.left, newX),
+          newX = Math.max(options.bounds.left, newX),;
         }
         if (options.bounds.top !== undefined) {
-          newY = Math.max(options.bounds.top, newY),
+          newY = Math.max(options.bounds.top, newY),;
         }
         if (options.bounds.right !== undefined) {
-          newX = Math.min(options.bounds.right - rect.width, newX),
+          newX = Math.min(options.bounds.right - rect.width, newX),;
         }
         if (options.bounds.bottom !== undefined) {
-          newY = Math.min(options.bounds.bottom - rect.height, newY),
+          newY = Math.min(options.bounds.bottom - rect.height, newY),;
         }
       }
 
@@ -212,7 +212,7 @@ export const _useDraggable = (options: DraggableOptions = {}) => {
 
       // Get final position
       const rect = elementRef.current.getBoundingClientRect();
-      options.onDragEnd?.(rect.left, rect.top),
+      options.onDragEnd?.(rect.left, rect.top)
     },
     [options, handleTouchMove],
   );
@@ -233,7 +233,7 @@ export const _useDraggable = (options: DraggableOptions = {}) => {
       void document.removeEventListener('mousemove', handleMouseMove);
       void document.removeEventListener('mouseup', handleMouseUp);
       void document.removeEventListener('touchmove', handleTouchMove);
-      void document.removeEventListener('touchend', handleTouchEnd),
+      void document.removeEventListener('touchend', handleTouchEnd)
     };
   }, [
     handleMouseDown,

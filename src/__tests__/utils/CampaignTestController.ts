@@ -29,7 +29,7 @@ interface CampaignTestState {
   pausedAt: Date | null,
   resumedAt: Date | null,
   testName: string | null,
-  originalState: unknown,
+  originalState: unknown
 }
 
 interface TestIsolationConfig {
@@ -38,7 +38,7 @@ interface TestIsolationConfig {
   preventGitOperations: boolean,
   enableMemoryMonitoring: boolean,
   isolateFileSystem: boolean,
-  mockExternalAPIs: boolean,
+  mockExternalAPIs: boolean
 }
 
 /**
@@ -53,7 +53,7 @@ export class CampaignTestController {
   private mockInstances: {
     controller: MockCampaignController | null,
     tracker: MockProgressTracker | null,
-    safety: MockSafetyProtocol | null,
+    safety: MockSafetyProtocol | null
   };
   private originalEnvVars: Record<string, string | undefined> = {};
   private activeTestName: string | null = null;
@@ -161,7 +161,7 @@ export class CampaignTestController {
   async resumeCampaignAfterTest(testName: string): Promise<void> {
     if (!this.testState.isPaused) {
       console.warn('Campaign is not paused, nothing to resume'),
-      return,
+      return
     }
 
     if (this.testState.testName !== testName) {
@@ -200,7 +200,7 @@ export class CampaignTestController {
   getMockInstances(): {
     controller: MockCampaignController | null,
     tracker: MockProgressTracker | null,
-    safety: MockSafetyProtocol | null,
+    safety: MockSafetyProtocol | null
   } {
     return { ...this.mockInstances };
   }
@@ -231,11 +231,11 @@ export class CampaignTestController {
    */
   async simulateProgress(
     targetMetrics: Partial<ProgressMetrics>,
-    durationMs: number = 1000,,
+    durationMs: number = 1000,,;
     testName?: string
   ): Promise<void> {
     if (!this.testSafeTracker) {
-      throw new Error('Test-safe tracker not initialized'),
+      throw new Error('Test-safe tracker not initialized')
     }
 
     await this.testSafeTracker.simulateProgress(
@@ -251,7 +251,7 @@ export class CampaignTestController {
   updateMockMetrics(updates: Partial<ProgressMetrics>, testName?: string): void {
     // Update test-safe tracker
     if (this.testSafeTracker) {
-      this.testSafeTracker.updateMetrics(updates, testName),
+      this.testSafeTracker.updateMetrics(updates, testName)
     }
 
     // Update mock tracker
@@ -288,7 +288,7 @@ export class CampaignTestController {
   validateTestIsolation(): {
     isValid: boolean,
     issues: string[],
-    warnings: string[],
+    warnings: string[]
   } {
     const issues: string[] = [];
     const warnings: string[] = [];
@@ -328,7 +328,7 @@ export class CampaignTestController {
     }
 
     return {
-      isValid: issues.length === 0,,
+      isValid: issues.length === 0,,;
       issues,
       warnings
     };
@@ -450,7 +450,7 @@ export class CampaignTestController {
       if (value !== undefined) {
         process.env[key] = value;
       } else {
-        delete process.env[key],
+        delete process.env[key]
       }
     });
   }
@@ -468,10 +468,10 @@ export class CampaignTestController {
         return '', // No linting warnings
       }
       if (command.includes('yarn build')) {
-        return 'Build completed successfully',
+        return 'Build completed successfully'
       }
       if (command.includes('git stash')) {
-        return 'Saved working directory and index state',
+        return 'Saved working directory and index state'
       }
 
       return 'Mock command output';
@@ -494,14 +494,14 @@ export class CampaignTestController {
         path.includes('package.json') ||
         path.includes('tsconfig.json')
       ) {
-        return true,
+        return true
       }
       return false;
     });
 
     // Mock file reading
     jest.spyOn(fs, 'readFileSync').mockImplementation((_path: string) => {
-      return 'Mock file content',
+      return 'Mock file content'
     });
 
     // Mock file writing
@@ -522,7 +522,7 @@ export class CampaignTestController {
     if ((originalState as any).envVars) {
       Object.keys(process.env).forEach(key => {
         if (!(key in (originalState as any).envVars)) {
-          delete process.env[key],
+          delete process.env[key]
         }
       });
 

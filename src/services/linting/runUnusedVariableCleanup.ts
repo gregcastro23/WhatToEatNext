@@ -68,7 +68,7 @@ async function main() {
       execSync('git stash pop', { stdio: 'inherit' });
       log.info('🔄 Backup restored successfully');
     } catch (restoreError) {
-      console.error('❌ Failed to restore backup:', (restoreError as Error).message),
+      console.error('❌ Failed to restore backup:', (restoreError as Error).message)
     }
 
     process.exit(1);
@@ -83,7 +83,7 @@ async function getUnusedVariableCount(): Promise<number> {
     });
     return parseInt(output.trim()) || 0;
   } catch (error) {
-    return 0,
+    return 0
   }
 }
 

@@ -5,7 +5,7 @@ export type ElementalColor = {
   secondary: string,
   text: string,
   border: string,
-  bg: string,
+  bg: string
 };
 
 // Define the color mappings
@@ -44,7 +44,7 @@ export const _calculateDominantElement = (;
   elementalState: ElementalProperties,
 ): keyof ElementalProperties => {
   // Find the element with the highest value using a type-safe approach
-  let dominantElement: keyof ElementalProperties = 'Fire', // Default
+  let dominantElement: keyof ElementalProperties = 'Fire', // Default;
   let highestValue = elementalState.Fire || 0;
 
   // Check each element and update if higher value found

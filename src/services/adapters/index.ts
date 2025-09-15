@@ -1,4 +1,3 @@
-import { Recipe } from '@/types/recipe';
 
 /**
  * Service Adapters Index

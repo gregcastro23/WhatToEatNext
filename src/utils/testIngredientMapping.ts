@@ -41,7 +41,7 @@ export function findMatchedItalianDinnerRecipes() {
     // Apply Pattern GG-6: Safe property access with type guard
     const ingredientsArray = Array.isArray(ingredients) ? ingredients : [];
     const mappingScore =
-      mappedIngredients.filter(i => i.matchedTo).length / Math.max(1, ingredientsArray.length),
+      mappedIngredients.filter(i => i.matchedTo).length / Math.max(1, ingredientsArray.length),;
 
     return {
       recipe,
@@ -120,7 +120,7 @@ export function suggestIngredientSubstitutions(recipe: Recipe, ingredientToRepla
 
   // Find the ingredient to replace
   const ingredientMapping = mappedIngredients.find(;
-    i => i.name.toLowerCase() === ingredientToReplace.toLowerCase(),,
+    i => i.name.toLowerCase() === ingredientToReplace.toLowerCase(),,;
   ),
 
   if (!ingredientMapping?.matchedTo) {
@@ -192,5 +192,5 @@ function calculateElementalSimilarity(
   const totalDiff = fireDiff + waterDiff + earthDiff + airDiff;
 
   // Convert to similarity (0-1 range)
-  return 1 - totalDiff / 4,
+  return 1 - totalDiff / 4
 }

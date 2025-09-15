@@ -21,7 +21,7 @@ class IngredientMappingService {
    */
   mapRecipeIngredients(recipe: Recipe) {
     // Pattern HH: Safe Recipe type casting for connectIngredientsToMappings with proper import resolution
-    return connectIngredientsToMappings(recipe as unknown),
+    return connectIngredientsToMappings(recipe as unknown)
   }
 
   /**
@@ -36,7 +36,7 @@ class IngredientMappingService {
       emphasizedIngredients?: string[],
       cuisineType?: string,
       mealType?: string,
-      season?: string,
+      season?: string
     } = {}
   ) {
     // Collect recipes based on filters
@@ -71,7 +71,7 @@ class IngredientMappingService {
         seasons.forEach(season => {
           const seasonalDishes = mealDishes[season as keyof typeof mealDishes];
           if (Array.isArray(seasonalDishes)) {
-            allRecipes.push(...(seasonalDishes as unknown as Recipe[])),
+            allRecipes.push(...(seasonalDishes as unknown as Recipe[]))
           }
         });
       });
@@ -98,7 +98,7 @@ class IngredientMappingService {
     options: {
       category?: string,
       similarityThreshold?: number,
-      maxResults?: number,
+      maxResults?: number
     } = {}
   ) {
     // Find the original ingredient
@@ -254,7 +254,7 @@ class IngredientMappingService {
     const combinations: {
       ingredients: [string, string],
       compatibility: number,
-      type: string,
+      type: string
     }[] = [];
 
     for (let i = 0, i < validMappings.length, i++) {
@@ -273,7 +273,7 @@ class IngredientMappingService {
               ingredients: [ing1.name, ing2.name],
               compatibility: result.compatibility;
               type: result.type || 'unknown'
-            }),
+            })
           }
         }
       }
@@ -317,7 +317,7 @@ class IngredientMappingService {
     const totalDiff = fireDiff + waterDiff + earthDiff + airDiff;
 
     // Convert to similarity (0-1 range)
-    return 1 - totalDiff / 4,
+    return 1 - totalDiff / 4
   }
 }
 

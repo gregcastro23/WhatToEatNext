@@ -1,5 +1,4 @@
 import { culinaryTraditions } from '@/data/cuisines/culinaryTraditions';
-import { Cuisine } from '@/types/cuisine';
 
 export interface CuisineRecommendation {
   id: string;

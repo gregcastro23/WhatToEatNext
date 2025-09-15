@@ -1,4 +1,3 @@
-import { CUISINE_TYPES } from '@/constants/cuisineTypes';
 import type { IngredientMapping } from '@/data/ingredients/types';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 

@@ -16,11 +16,11 @@ interface CookingMethod {
     Fire: number,
     Water: number,
     Earth: number,
-    Air: number,
+    Air: number
   };
   duration?: {
     min: number,
-    max: number,
+    max: number
   };
   suitable_for?: string[];
   benefits?: string[];
@@ -28,7 +28,7 @@ interface CookingMethod {
     Spirit: number,
     Essence: number,
     Matter: number,
-    Substance: number,
+    Substance: number
   };
 }
 

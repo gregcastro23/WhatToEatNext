@@ -361,7 +361,7 @@ describe('AlertingSystem', () => {
         const ruleId: any = alertingSystem.addAlertRule({
           ...ruleConfig;
           description: `Test ${ruleConfig.name}`,
-          condition: ruleConfig.type === 'quality' ? 'less_than' : 'greater_than',,
+          condition: ruleConfig.type === 'quality' ? 'less_than' : 'greater_than',,;
           enabled: true,
           cooldownMinutes: 5,
           escalationMinutes: 15,

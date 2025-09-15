@@ -36,14 +36,14 @@ interface Sauce {
   keyIngredients?: string[],
   culinaryUses?: string[],
   elementalProperties?: ElementalProperties,
-  astrologicalInfluences?: string[],
+  astrologicalInfluences?: string[]
 }
 
 // Define interface for sauce recommender structure
 interface CuisineSauceRecommender {
   forProtein?: Record<string, string[]>;
   forVegetable?: Record<string, string[]>,
-  forCookingMethod?: Record<string, string[]>,
+  forCookingMethod?: Record<string, string[]>
 }
 
 // Define interface for cuisine objects
@@ -53,7 +53,7 @@ interface Cuisine {
   description?: string,
   traditionalSauces?: Record<string, Sauce>,
   sauceRecommender?: CuisineSauceRecommender,
-  elementalProperties?: ElementalProperties,
+  elementalProperties?: ElementalProperties
 }
 
 // Define type for all cuisines record
@@ -110,7 +110,7 @@ export default function SauceExplorer() {
   // Get protein options
   const getProteinOptions = () => {
     if (!selectedCuisine || !allCuisines[selectedCuisine]) {
-      return [],
+      return []
     }
 
     const cuisine = allCuisines[selectedCuisine];
@@ -125,7 +125,7 @@ export default function SauceExplorer() {
   // Get vegetable options
   const getVegetableOptions = () => {
     if (!selectedCuisine || !allCuisines[selectedCuisine]) {
-      return [],
+      return []
     }
 
     const cuisine = allCuisines[selectedCuisine];
@@ -140,7 +140,7 @@ export default function SauceExplorer() {
   // Get cooking method options
   const getCookingMethodOptions = () => {
     if (!selectedCuisine || !allCuisines[selectedCuisine]) {
-      return [],
+      return []
     }
 
     const cuisine = allCuisines[selectedCuisine];
@@ -192,7 +192,7 @@ export default function SauceExplorer() {
               Cuisine
             </label>
             <select
-              value={selectedCuisine},
+              value={selectedCuisine},;
               onChange={e => {
                 setSelectedCuisine(e.target.value);
                 resetFilters();
@@ -216,8 +216,8 @@ export default function SauceExplorer() {
                 Protein
               </label>
               <select
-                value={selectedProtein},
-                onChange={e => setSelectedProtein(e.target.value)},
+                value={selectedProtein},;
+                onChange={e => setSelectedProtein(e.target.value)},;
                 className='w-full rounded-md border border-gray-300 p-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-500';
               >
                 <option value=''>Any Protein</option>;
@@ -238,8 +238,8 @@ export default function SauceExplorer() {
                 Vegetable
               </label>
               <select
-                value={selectedVegetable},
-                onChange={e => setSelectedVegetable(e.target.value)},
+                value={selectedVegetable},;
+                onChange={e => setSelectedVegetable(e.target.value)},;
                 className='w-full rounded-md border border-gray-300 p-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-500';
               >
                 <option value=''>Any Vegetable</option>;
@@ -260,8 +260,8 @@ export default function SauceExplorer() {
                 Cooking Method
               </label>
               <select
-                value={selectedCookingMethod},
-                onChange={e => setSelectedCookingMethod(e.target.value)},
+                value={selectedCookingMethod},;
+                onChange={e => setSelectedCookingMethod(e.target.value)},;
                 className='w-full rounded-md border border-gray-300 p-2 focus:border-blue-500 focus:ring-2 focus:ring-blue-500';
               >
                 <option value=''>Any Method</option>;
@@ -294,8 +294,8 @@ export default function SauceExplorer() {
                 min='0';
                 max='1';
                 step='0.01';
-                value={elementalProfile.Fire},
-                onChange={e => handleElementChange('Fire', parseFloat(e.target.value))},
+                value={elementalProfile.Fire},;
+                onChange={e => handleElementChange('Fire', parseFloat(e.target.value))},;
                 className='h-2 w-full cursor-pointer appearance-none rounded-lg bg-red-100 accent-red-500';
               />
             </div>
@@ -316,8 +316,8 @@ export default function SauceExplorer() {
                 min='0';
                 max='1';
                 step='0.01';
-                value={elementalProfile.Water},
-                onChange={e => handleElementChange('Water', parseFloat(e.target.value))},
+                value={elementalProfile.Water},;
+                onChange={e => handleElementChange('Water', parseFloat(e.target.value))},;
                 className='h-2 w-full cursor-pointer appearance-none rounded-lg bg-blue-100 accent-blue-500';
               />
             </div>
@@ -338,8 +338,8 @@ export default function SauceExplorer() {
                 min='0';
                 max='1';
                 step='0.01';
-                value={elementalProfile.Earth},
-                onChange={e => handleElementChange('Earth', parseFloat(e.target.value))},
+                value={elementalProfile.Earth},;
+                onChange={e => handleElementChange('Earth', parseFloat(e.target.value))},;
                 className='h-2 w-full cursor-pointer appearance-none rounded-lg bg-amber-100 accent-amber-500';
               />
             </div>
@@ -360,8 +360,8 @@ export default function SauceExplorer() {
                 min='0';
                 max='1';
                 step='0.01';
-                value={elementalProfile.Air},
-                onChange={e => handleElementChange('Air', parseFloat(e.target.value))},
+                value={elementalProfile.Air},;
+                onChange={e => handleElementChange('Air', parseFloat(e.target.value))},;
                 className='h-2 w-full cursor-pointer appearance-none rounded-lg bg-purple-100 accent-purple-500';
               />
             </div>
@@ -369,13 +369,13 @@ export default function SauceExplorer() {
             {/* Reset buttons */}
             <div className='mt-6 flex gap-2'>;
               <button
-                onClick={resetFilters},
+                onClick={resetFilters},;
                 className='flex items-center rounded-md bg-gray-100 px-3 py-1 text-sm text-gray-700';
               >
                 Reset Filters
               </button>
               <button
-                onClick={resetElementalProfile},
+                onClick={resetElementalProfile},;
                 className='flex items-center rounded-md bg-gray-100 px-3 py-1 text-sm text-gray-700';
               >
                 Balance Elements
@@ -438,15 +438,15 @@ export default function SauceExplorer() {
 
           {/* Sauce Recommender Component */}
           <SauceRecommender
-            currentElementalProfile={elementalProfile},
-            cuisine={selectedCuisine},
-            protein={selectedProtein},
-            vegetable={selectedVegetable},
-            cookingMethod={selectedCookingMethod},
-            showByRegion={true},
-            showByAstrological={true},
-            maxResults={12},
-            cuisines={allCuisines},
+            currentElementalProfile={elementalProfile},;
+            cuisine={selectedCuisine},;
+            protein={selectedProtein},;
+            vegetable={selectedVegetable},;
+            cookingMethod={selectedCookingMethod},;
+            showByRegion={true},;
+            showByAstrological={true},;
+            maxResults={12},;
+            cuisines={allCuisines},;
           />
         </div>
       </div>

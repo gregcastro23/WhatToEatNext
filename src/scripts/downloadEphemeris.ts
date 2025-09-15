@@ -34,7 +34,7 @@ async function downloadFile(filename: string, baseUrl = BASE_URL): Promise<void>
       .get(url, response => {;
         // Handle redirects or failed downloads
         if (response.statusCode === 302 || response.statusCode === 404) {;
-          // // console.log(`File ${filename} not found at primary source, trying backup...`);
+          // // // console.log(`File ${filename} not found at primary source, trying backup...`);
           if (BACKUP_FILES.includes(filename)) {
             downloadFile(filename, BACKUP_URL).then(resolve).catch(reject);
           } else {
@@ -48,7 +48,7 @@ async function downloadFile(filename: string, baseUrl = BASE_URL): Promise<void>
         response.pipe(fileStream);
         fileStream.on('finish', () => {
           fileStream.close();
-          // // console.log(`Successfully downloaded ${filename}`);
+          // // // console.log(`Successfully downloaded ${filename}`);
           resolve();
         });
       })
@@ -56,7 +56,7 @@ async function downloadFile(filename: string, baseUrl = BASE_URL): Promise<void>
         // console.error(`Error downloading ${filename}:`, error.message);
         // Try backup for essential files
         if (BACKUP_FILES.includes(filename)) {
-          // // console.log(`Trying backup source for ${filename}...`);
+          // // // console.log(`Trying backup source for ${filename}...`);
           downloadFile(filename, BACKUP_URL).then(resolve).catch(reject);
         } else {
           reject(error);
@@ -68,7 +68,7 @@ async function downloadFile(filename: string, baseUrl = BASE_URL): Promise<void>
 async function main() {
   try {
     await Promise.all(FILES.map(file => downloadFile(file)));
-    // // console.log('Ephemeris files downloaded successfully');
+    // // // console.log('Ephemeris files downloaded successfully');
   } catch (error) {
     // console.error('Failed to download ephemeris files:', error);
     process.exit(1);

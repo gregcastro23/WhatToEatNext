@@ -34,7 +34,7 @@ describe('End-to-End Campaign Integration Tests', () => {
 
   beforeEach(() => {
     // Setup comprehensive campaign configuration
-    const safetySettings: SafetySettings = { maxFilesPerBatch: 25,,
+    const safetySettings: SafetySettings = { maxFilesPerBatch: 25,,;
       buildValidationFrequency: 5,
       testValidationFrequency: 10,
       corruptionDetectionEnabled: true,
@@ -377,7 +377,7 @@ describe('End-to-End Campaign Integration Tests', () => {
         await safetyProtocol.createStash('Emergency stash');
         await safetyProtocol.emergencyRollback();
 
-        expect(mockExecSync).toHaveBeenCalledWith(expect.stringContaining('git stash apply'), expect.any(Object)),
+        expect(mockExecSync).toHaveBeenCalledWith(expect.stringContaining('git stash apply'), expect.any(Object))
       }
     });
 
@@ -387,7 +387,7 @@ describe('End-to-End Campaign Integration Tests', () => {
       // Mock build failure
       mockExecSync.mockImplementation(command => {
         if (command.toString().includes('yarn build')) {
-          throw new Error('Build compilation failed'),
+          throw new Error('Build compilation failed')
         }
         return '';
       });
@@ -410,7 +410,7 @@ describe('End-to-End Campaign Integration Tests', () => {
         .mockImplementation(async () => {
           toolCallCount++,
           if (toolCallCount === 1) {
-            throw new Error('First tool failed'),
+            throw new Error('First tool failed')
           }
           return {
             filesProcessed: ['file1.ts', 'file2.ts'],
@@ -499,7 +499,7 @@ describe('End-to-End Campaign Integration Tests', () => {
     });
 
     it('should support custom safety settings', async () => {
-      const customSafetySettings: SafetySettings = { maxFilesPerBatch: 50,,
+      const customSafetySettings: SafetySettings = { maxFilesPerBatch: 50,,;
         buildValidationFrequency: 10,
         testValidationFrequency: 20,
         corruptionDetectionEnabled: false,
@@ -520,7 +520,7 @@ describe('End-to-End Campaign Integration Tests', () => {
         successCriteria: { typeScriptErrors: 5, // Allow 5 errors instead of 0
           customValidation: async () => {
             // Custom validation logic,
-            return true,
+            return true
           }
         }
       };

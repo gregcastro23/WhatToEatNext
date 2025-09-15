@@ -23,14 +23,14 @@ interface UnusedImport {
   message: string,
   isTypeImport: boolean,
   isDefaultImport: boolean,
-  isNamespaceImport: boolean,
+  isNamespaceImport: boolean
 }
 
 interface ImportAnalysis {
   totalUnusedImports: number,
   safeToRemove: UnusedImport[],
   requiresManualReview: UnusedImport[],
-  preserved: UnusedImport[],
+  preserved: UnusedImport[]
 }
 
 class SafeUnusedImportRemover {
@@ -71,7 +71,7 @@ class SafeUnusedImportRemover {
    * Analyze unused imports from ESLint output
    */
   public analyzeUnusedImports(): ImportAnalysis {
-    // console.log('🔍 Analyzing unused imports...\n');
+    // // console.log('🔍 Analyzing unused imports...\n');
 
     // Get ESLint output for unused imports
     const lintOutput = this.getLintOutput();
@@ -104,30 +104,30 @@ class SafeUnusedImportRemover {
   public removeSafeUnusedImports(dryRun: boolean = true): void {
     const analysis = this.analyzeUnusedImports();
 
-    // console.log(`📊 Import Analysis Results:`);
-    // console.log(`Total unused imports: ${analysis.totalUnusedImports}`);
-    // console.log(`Safe to remove: ${analysis.safeToRemove.length}`);
-    // console.log(`Requires manual review: ${analysis.requiresManualReview.length}`);
-    // console.log(`Preserved (critical): ${analysis.preserved.length}\n`);
+    // // console.log(`📊 Import Analysis Results:`);
+    // // console.log(`Total unused imports: ${analysis.totalUnusedImports}`);
+    // // console.log(`Safe to remove: ${analysis.safeToRemove.length}`);
+    // // console.log(`Requires manual review: ${analysis.requiresManualReview.length}`);
+    // // console.log(`Preserved (critical): ${analysis.preserved.length}\n`);
 
     if (analysis.safeToRemove.length === 0) {
-      // console.log('✅ No safe unused imports to remove.');
-      return,
+      // // console.log('✅ No safe unused imports to remove.');
+      return
     }
 
     if (dryRun) {
-      // console.log('🔍 DRY RUN - Would remove the following imports:\n');
+      // // console.log('🔍 DRY RUN - Would remove the following imports:\n');
       this.displayImportsToRemove(analysis.safeToRemove);
-      return,
+      return
     }
 
-    // console.log('🚀 Removing safe unused imports...\n');
+    // // console.log('🚀 Removing safe unused imports...\n');
     this.performImportRemoval(analysis.safeToRemove);
 
     // Organize imports after removal
     this.organizeImports();
 
-    // console.log('✅ Safe unused import removal completed!');
+    // // console.log('✅ Safe unused import removal completed!');
   }
 
   /**
@@ -192,28 +192,28 @@ class SafeUnusedImportRemover {
 
     // Preserve imports in critical astrological files
     if (this.astrologicalFiles.some(pattern => file.includes(pattern))) {
-      return true,
+      return true
     }
 
     // Preserve imports in campaign system files
     if (this.campaignSystemFiles.some(pattern => file.includes(pattern))) {
-      return true,
+      return true
     }
 
     // Preserve imports that match preserve patterns
     const fileContent = this.getFileContent(file);
     if (this.preservePatterns.some(pattern => pattern.test(fileContent))) {
-      return true,
+      return true
     }
 
     // Preserve React component imports (might be used in JSX)
     if (importName.match(/^[A-Z]/) && file.includes('.tsx')) {
-      return true,
+      return true
     }
 
     // Preserve type imports (might be used in type annotations)
     if (unusedImport.isTypeImport) {
-      return true,
+      return true
     }
 
     // Preserve imports with specific patterns
@@ -231,7 +231,7 @@ class SafeUnusedImportRemover {
     ];
 
     if (preserveNames.some(name => importName.toLowerCase().includes(name.toLowerCase()))) {
-      return true,
+      return true
     }
 
     return false;
@@ -245,7 +245,7 @@ class SafeUnusedImportRemover {
 
     // Don't remove from critical files
     if (this.shouldPreserve(unusedImport)) {
-      return false,
+      return false
     }
 
     // Safe to remove obvious unused imports
@@ -264,7 +264,7 @@ class SafeUnusedImportRemover {
       ],
 
       if (utilityPatterns.some(pattern => pattern.test(importName))) {
-        return true,
+        return true
       }
     }
 
@@ -276,9 +276,9 @@ class SafeUnusedImportRemover {
    */
   private getFileContent(filePath: string): string {
     try {
-      return fs.readFileSync(filePath, 'utf8'),
+      return fs.readFileSync(filePath, 'utf8')
     } catch (error) {
-      return '',
+      return ''
     }
   }
 
@@ -290,17 +290,17 @@ class SafeUnusedImportRemover {
       (acc, imp) => {
         if (!acc[imp.file]) acc[imp.file] = [];
         acc[imp.file].push(imp),
-        return acc,
+        return acc
       },
       {} as Record<string, UnusedImport[]>,
     );
 
     Object.entries(groupedByFile).forEach(([file, fileImports]) => {
-      // console.log(`📄 ${file.replace(process.cwd(), '')}:`);
+      // // console.log(`📄 ${file.replace(process.cwd(), '')}:`);
       fileImports.forEach(imp => {
-        // console.log(`  - Line ${imp.line}: ${imp.importName}`);
+        // // console.log(`  - Line ${imp.line}: ${imp.importName}`);
       });
-      // console.log('');
+      // // console.log('');
     });
   }
 
@@ -313,7 +313,7 @@ class SafeUnusedImportRemover {
       (acc, imp) => {
         if (!acc[imp.file]) acc[imp.file] = [];
         acc[imp.file].push(imp),
-        return acc,
+        return acc
       },
       {} as Record<string, UnusedImport[]>,
     );
@@ -334,12 +334,12 @@ class SafeUnusedImportRemover {
             const line = lines[lineIndex];
 
             // Remove the specific import from the line
-            const updatedLine = this.removeImportFromLine(line, imp.importName),
+            const updatedLine = this.removeImportFromLine(line, imp.importName),;
 
             if (updatedLine !== line) {
               if (updatedLine.trim() === '' || updatedLine.match(/^import\s*{\s*}\s*from/)) {
                 // Remove entire line if it becomes empty
-                lines.splice(lineIndex, 1),
+                lines.splice(lineIndex, 1)
               } else {
                 // Update the line
                 lines[lineIndex] = updatedLine;
@@ -351,7 +351,7 @@ class SafeUnusedImportRemover {
 
         // Write the updated content back
         fs.writeFileSync(filePath, lines.join('\n'));
-        // console.log(
+        // // console.log(
           `✅ Updated ${filePath.replace(process.cwd(), '')}: ${fileImports.length} imports removed`,
         );
       } catch (error) {
@@ -359,7 +359,7 @@ class SafeUnusedImportRemover {
       }
     });
 
-    // console.log(`\n🎉 Total imports removed: ${totalRemoved}`);
+    // // console.log(`\n🎉 Total imports removed: ${totalRemoved}`);
   }
 
   /**
@@ -370,7 +370,7 @@ class SafeUnusedImportRemover {
 
     // Default import: import ImportName from 'module'
     if (line.includes(`import ${importName} from`)) {
-      return '',
+      return ''
     }
 
     // Named import: import { ImportName } from 'module'
@@ -389,7 +389,7 @@ class SafeUnusedImportRemover {
 
     // Namespace import: import * as ImportName from 'module'
     if (line.includes(`* as ${importName}`)) {
-      return '',
+      return ''
     }
 
     return line;
@@ -399,16 +399,16 @@ class SafeUnusedImportRemover {
    * Organize imports after removal
    */
   private organizeImports(): void {
-    // console.log('\n📋 Organizing imports...');
+    // // console.log('\n📋 Organizing imports...');
 
     try {
       execSync('yarn lint --fix --rule 'import/order: error"', {
         stdio: 'pipe',
         encoding: 'utf8'
       });
-      // console.log('✅ Import organization completed');
+      // // console.log('✅ Import organization completed');
     } catch (error) {
-      // console.log('⚠️  Import organization had some issues (this is normal)');
+      // // console.log('⚠️  Import organization had some issues (this is normal)');
     }
   }
 
@@ -416,18 +416,18 @@ class SafeUnusedImportRemover {
    * Validate changes by running build
    */
   public validateChanges(): boolean {
-    // console.log('\n🔍 Validating changes...');
+    // // console.log('\n🔍 Validating changes...');
 
     try {
       execSync('yarn build', {
         stdio: 'pipe',
         encoding: 'utf8'
       });
-      // console.log('✅ Build validation passed');
+      // // console.log('✅ Build validation passed');
       return true;
     } catch (error) {
       console.error('❌ Build validation failed');
-      return false,
+      return false
     }
   }
 }
@@ -440,7 +440,7 @@ if (import.meta.url === `file://${process.argv[1]}`) {
   const dryRun = !args.includes('--execute');
 
   if (dryRun) {
-    // console.log('🔍 Running in DRY RUN mode. Use --execute to actually remove imports.\n');
+    // // console.log('🔍 Running in DRY RUN mode. Use --execute to actually remove imports.\n');
   }
 
   remover.removeSafeUnusedImports(dryRun);
@@ -448,7 +448,7 @@ if (import.meta.url === `file://${process.argv[1]}`) {
   if (!dryRun) {
     const isValid = remover.validateChanges();
     if (!isValid) {
-      // console.log('\n⚠️  Build validation failed. Please review changes manually.');
+      // // console.log('\n⚠️  Build validation failed. Please review changes manually.');
       process.exit(1);
     }
   }

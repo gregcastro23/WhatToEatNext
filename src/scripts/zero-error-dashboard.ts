@@ -16,7 +16,7 @@ interface CLIOptions {
   monitor: boolean,
   interval: number,
   verbose: boolean,
-  output?: string,
+  output?: string
 }
 
 class ZeroErrorDashboardCLI {
@@ -81,111 +81,111 @@ class ZeroErrorDashboardCLI {
         case '--output':
         case '-o':
           options.output = args[++i];
-          break,
+          break
       }
     }
 
-    return options,
+    return options
   }
 
   private async generateDashboard(options: CLIOptions): Promise<void> {
-    // console.log('🎯 Generating Zero-Error Achievement Dashboard...\n');
+    // // console.log('🎯 Generating Zero-Error Achievement Dashboard...\n');
 
     await this.dashboard.generateDashboard();
 
-    // console.log('\n📊 Dashboard generated successfully!');
-    // console.log('📁 View report: .kiro/dashboard/zero-error-achievement-dashboard.md');
-    // console.log('📊 JSON data: .kiro/dashboard/zero-error-achievement-dashboard.json');
+    // // console.log('\n📊 Dashboard generated successfully!');
+    // // console.log('📁 View report: .kiro/dashboard/zero-error-achievement-dashboard.md');
+    // // console.log('📊 JSON data: .kiro/dashboard/zero-error-achievement-dashboard.json');
 
     if (options.verbose) {
       // Show quick summary
       try {
         const jsonPath = '.kiro/dashboard/zero-error-achievement-dashboard.json';
         if (existsSync(jsonPath)) {
-          const data = JSON.parse(readFileSync(jsonPath, 'utf8')),
-          // console.log('\n📈 Quick Summary:');
-          // console.log(`   Quality Score: ${data.summary.qualityScore}/100`);
-          // console.log(`   Zero-Error Progress: ${data.summary.zeroErrorProgress}%`);
-          // console.log(
+          const data = JSON.parse(readFileSync(jsonPath, 'utf8')),;
+          // // console.log('\n📈 Quick Summary:');
+          // // console.log(`   Quality Score: ${data.summary.qualityScore}/100`);
+          // // console.log(`   Zero-Error Progress: ${data.summary.zeroErrorProgress}%`);
+          // // console.log(
             `   Quality Gates: ${data.summary.qualityGatesPassing}/${data.summary.totalQualityGates} passing`,
           );
-          // console.log(`   Critical Issues: ${data.summary.criticalIssues}`);
+          // // console.log(`   Critical Issues: ${data.summary.criticalIssues}`);
         }
       } catch (error) {
-        console.warn('Could not load summary data:', error),
+        console.warn('Could not load summary data:', error)
       }
     }
   }
 
   private async startMonitoring(options: CLIOptions): Promise<void> {
-    // console.log(`👀 Starting Zero-Error Achievement Monitoring...\n`);
-    // console.log(`📊 Monitoring interval: ${options.interval} minutes`);
-    // console.log(`🔍 Verbose mode: ${options.verbose ? 'enabled' : 'disabled'}`);
-    // console.log('Press Ctrl+C to stop monitoring\n');
+    // // console.log(`👀 Starting Zero-Error Achievement Monitoring...\n`);
+    // // console.log(`📊 Monitoring interval: ${options.interval} minutes`);
+    // // console.log(`🔍 Verbose mode: ${options.verbose ? 'enabled' : 'disabled'}`);
+    // // console.log('Press Ctrl+C to stop monitoring\n');
 
     // Start real-time monitoring
     await this.dashboard.startRealTimeMonitoring(options.interval);
   }
 
   private async showStatus(options: CLIOptions): Promise<void> {
-    // console.log('📊 Zero-Error Achievement Status\n');
+    // // console.log('📊 Zero-Error Achievement Status\n');
 
     try {
       const statusPath = '.kiro/dashboard/real-time-status.json';
 
       if (existsSync(statusPath)) {
-        const status = JSON.parse(readFileSync(statusPath, 'utf8')),
+        const status = JSON.parse(readFileSync(statusPath, 'utf8')),;
 
-        // console.log('🎯 Current Status:');
-        // console.log(`   Overall: ${this.getStatusDisplay(status.status)}`);
-        // console.log(`   Quality Score: ${status.qualityScore}/100`);
-        // console.log(`   Total Issues: ${status.totalIssues}`);
-        // console.log(
+        // // console.log('🎯 Current Status:');
+        // // console.log(`   Overall: ${this.getStatusDisplay(status.status)}`);
+        // // console.log(`   Quality Score: ${status.qualityScore}/100`);
+        // // console.log(`   Total Issues: ${status.totalIssues}`);
+        // // console.log(
           `   Parser Errors: ${status.parserErrors} ${status.parserErrors === 0 ? '✅' : '🚨'}`
         );
-        // console.log(
+        // // console.log(
           `   Explicit Any: ${status.explicitAnyErrors} ${status.explicitAnyErrors < 100 ? '✅' : '⚡'}`,
         );
-        // console.log(`   Critical Issues: ${status.criticalIssues}`);
-        // console.log(`   Last Update: ${new Date(status.timestamp).toLocaleString()}`);
+        // // console.log(`   Critical Issues: ${status.criticalIssues}`);
+        // // console.log(`   Last Update: ${new Date(status.timestamp).toLocaleString()}`);
       } else {
-        // console.log('ℹ️  No status data available. Run dashboard generation first.');
-        // console.log('   Command: node src/scripts/zero-error-dashboard.ts generate');
+        // // console.log('ℹ️  No status data available. Run dashboard generation first.');
+        // // console.log('   Command: node src/scripts/zero-error-dashboard.ts generate');
       }
 
       // Show targets if available
       const targetsPath = '.kiro/dashboard/zero-error-targets.json';
       if (existsSync(targetsPath)) {
-        const targets = JSON.parse(readFileSync(targetsPath, 'utf8')),
+        const targets = JSON.parse(readFileSync(targetsPath, 'utf8')),;
 
-        // console.log('\n🎯 Zero-Error Targets:');
+        // // console.log('\n🎯 Zero-Error Targets:');
         for (const target of targets.slice(0, 4)) {
           // Show top 4 targets
           const progressBar = this.getProgressBar(target.progress);
-          // console.log(`   ${target.metric}: ${target.progress}% ${progressBar}`);
-          // console.log(`     Current: ${target.currentValue} → Target: ${target.targetValue}`);
+          // // console.log(`   ${target.metric}: ${target.progress}% ${progressBar}`);
+          // // console.log(`     Current: ${target.currentValue} → Target: ${target.targetValue}`);
         }
       }
 
       // Show quality gates if available
       const gatesPath = '.kiro/dashboard/quality-gates.json';
       if (existsSync(gatesPath)) {
-        const gates = JSON.parse(readFileSync(gatesPath, 'utf8')),
+        const gates = JSON.parse(readFileSync(gatesPath, 'utf8')),;
 
-        // console.log('\n🚦 Quality Gates:');
+        // // console.log('\n🚦 Quality Gates:');
         for (const gate of gates) {
           const statusIcon = this.getGateStatusIcon(gate.status);
-          // console.log(`   ${statusIcon} ${gate.name}: ${gate.status.toUpperCase()}`),
+          // // console.log(`   ${statusIcon} ${gate.name}: ${gate.status.toUpperCase()}`)
         }
       }
     } catch (error) {
       console.error('Error reading status:', error),
-      // console.log('ℹ️  Run dashboard generation to create status data.');
+      // // console.log('ℹ️  Run dashboard generation to create status data.');
     }
   }
 
   private showHelp(): void {
-    // console.log(`
+    // // console.log(`
 🎯 Zero-Error Achievement Dashboard CLI
 
 USAGE:
@@ -270,7 +270,7 @@ MAINTENANCE PROCEDURES:
   📅 Weekly: Cache optimization and performance tuning
   📅 Monthly: Metrics cleanup and storage optimization
   📅 Quarterly: Configuration review and rule updates
-`),
+`)
   }
 
   private getStatusDisplay(status: string): string {
@@ -286,7 +286,7 @@ MAINTENANCE PROCEDURES:
       case 'critical':
         return '🚨 CRITICAL',
       default:
-        return '❓ UNKNOWN',
+        return '❓ UNKNOWN'
     }
   }
 
@@ -305,7 +305,7 @@ MAINTENANCE PROCEDURES:
       case 'failing':
         return '❌',
       default:
-        return '❓',
+        return '❓'
     }
   }
 }

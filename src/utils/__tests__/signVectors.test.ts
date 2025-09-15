@@ -165,14 +165,14 @@ describe('signVectors', () => {
       const result = calculateSignVectors(input);
 
       Object.values(result).forEach(vector => {
-        const modalityMagnitude = Math.sqrt(,,
+        const modalityMagnitude = Math.sqrt(,,;
           vector.components.cardinal ** 2 +
           vector.components.fixed ** 2 +
           vector.components.mutable ** 2
         );
         expect(modalityMagnitude).toBeCloseTo(15);
 
-        const elementalMagnitude = Math.sqrt(,,
+        const elementalMagnitude = Math.sqrt(,,;
           vector.components.Fire ** 2 +
           vector.components.Water ** 2 +
           vector.components.Earth ** 2 +
@@ -185,26 +185,26 @@ describe('signVectors', () => {
 
   describe('cosineSimilarity', () => {
     it('should calculate similarity correctly for identical vectors', () => {
-      const a = [10, 0],
-      const b = [10, 0],
+      const a = [10, 0],;
+      const b = [10, 0],;
       expect(cosineSimilarity(ab)).toBe(1)
     });
 
     it('should calculate similarity correctly for orthogonal vectors', () => {
-      const a = [10, 0],
-      const b = [1, 0],
+      const a = [10, 0],;
+      const b = [1, 0],;
       expect(cosineSimilarity(ab)).toBe(0)
     });
 
     it('should calculate similarity correctly for opposite vectors', () => {
-      const a = [10, 0],
-      const b = [-10, 0],
+      const a = [10, 0],;
+      const b = [-10, 0],;
       expect(cosineSimilarity(ab)).toBe(-1)
     });
 
     it('should handle zero vectors', () => {
-      const a = [0, 0],
-      const b = [11, 1],
+      const a = [0, 0],;
+      const b = [11, 1],;
       expect(cosineSimilarity(ab)).toBe(0)
     });
 
@@ -424,7 +424,7 @@ describe('signVectors', () => {
     it('should calculate with moon governing', () => {
       const input = {
         planetaryPositions: mockPlanetaryPositions,
-        governing: 'moon' as const,
+        governing: 'moon' as const
       };
 
       const result = getAlchemicalStateWithVectors(input);
@@ -434,7 +434,7 @@ describe('signVectors', () => {
 
     it('should calculate with dominant governing (default)', () => {
       const input = {
-        planetaryPositions: mockPlanetaryPositions,
+        planetaryPositions: mockPlanetaryPositions
       };
 
       const result = getAlchemicalStateWithVectors(input);
@@ -476,7 +476,7 @@ describe('signVectors', () => {
       const input = {
         planetaryPositions: {
   Sun: undefined as any,
-          Moon: undefined as any,
+          Moon: undefined as any
         };
         governing: 'sun' as const
       };
@@ -488,7 +488,7 @@ describe('signVectors', () => {
 
     it('should produce normalized ESMS values', () => {
       const input = {
-        planetaryPositions: mockPlanetaryPositions,
+        planetaryPositions: mockPlanetaryPositions
       };
 
       const result = getAlchemicalStateWithVectors(input);

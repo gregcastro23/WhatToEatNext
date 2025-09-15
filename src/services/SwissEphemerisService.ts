@@ -53,7 +53,7 @@ export interface SwissEphemerisData {
   G_retrograde?: boolean,
   O_retrograde?: boolean,
   I_retrograde?: boolean,
-  J_retrograde?: boolean,
+  J_retrograde?: boolean
 }
 
 /**
@@ -68,7 +68,7 @@ export interface SeasonalTransit {
   keyAspects: PlanetaryAspect[],
   planetaryPlacements: Record<string, CelestialPosition>,
   seasonalThemes: string[],
-  culinaryInfluences: string[],
+  culinaryInfluences: string[]
 }
 
 /**
@@ -80,7 +80,7 @@ export interface PlanetaryAspect {
   aspectType: 'conjunction' | 'opposition' | 'trine' | 'square' | 'sextile',
   orb: number,
   influence: number,
-  description: string,
+  description: string
 }
 
 /**
@@ -574,7 +574,7 @@ export class SwissEphemerisService {
   private ephemerisData: Record<string, SwissEphemerisData[]> = COMPREHENSIVE_EPHEMERIS_DATA;
   private seasonalTransits: Record<string, SeasonalTransit[]> = SEASONAL_TRANSITS;
   private cache: Map<string, Record<string, CelestialPosition>> = new Map();
-  private cacheExpiration = 5 * 60 * 1000, // 5 minutes
+  private cacheExpiration = 5 * 60 * 1000, // 5 minutes;
 
   constructor() {
     logger.info('Swiss Ephemeris Service initialized with comprehensive transit data');
@@ -600,7 +600,7 @@ export class SwissEphemerisService {
       return positions;
     } catch (error) {
       logger.error('Error getting Swiss Ephemeris positions:', error),
-      throw error,
+      throw error
     }
   }
 
@@ -608,7 +608,7 @@ export class SwissEphemerisService {
    * Get comprehensive seasonal transit information
    */
   getSeasonalTransits(year: string): SeasonalTransit[] {
-    return this.seasonalTransits[year] || [],
+    return this.seasonalTransits[year] || []
   }
 
   /**
@@ -639,7 +639,7 @@ export class SwissEphemerisService {
     keyAspects: PlanetaryAspect[],
     dominantElements: Record<string, number>,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
-    planetaryTrends: Record<string, any[]>,
+    planetaryTrends: Record<string, any[]>
   } {
     const seasonalTransits: SeasonalTransit[] = [];
     const keyAspects: PlanetaryAspect[] = [];
@@ -739,7 +739,7 @@ export class SwissEphemerisService {
     );
 
     if (dayEntry) {
-      return dayEntry,
+      return dayEntry
     }
 
     // Find closest day if exact day not found
@@ -841,7 +841,7 @@ export class SwissEphemerisService {
    */
   getDataRange(): { start: Date, end: Date } {
     const allData = Object.values(this.ephemerisData).flat();
-    const sortedData = allData.sort((a, b) => a.date.getTime() - b.date.getTime()),
+    const sortedData = allData.sort((a, b) => a.date.getTime() - b.date.getTime()),;
     return {
       start: sortedData[0].date,
       end: sortedData[sortedData.length - 1].date
@@ -868,7 +868,7 @@ export class SwissEphemerisService {
    * Export planetary positions in astrologize API compatible format
    */
   async getPositionsInAstrologizeFormat(
-    date: Date = new Date(),,
+    date: Date = new Date(),,;
   ): Promise<Record<string, PlanetaryPosition>> {
     const positions = await this.getPlanetaryPositions(date);
     const astrologizeFormat: Record<string, PlanetaryPosition> = {};

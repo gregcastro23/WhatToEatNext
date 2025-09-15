@@ -20,11 +20,11 @@ export function useIngredientMapping() {
       setIsLoading(true);
       setError(null);
       const result = ingredientMappingService.mapRecipeIngredients(recipe);
-      return result,
+      return result
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'An unknown error occurred';
       setError(errorMessage);
-      return [],
+      return []
     } finally {
       setIsLoading(false);
     }
@@ -43,18 +43,18 @@ export function useIngredientMapping() {
         emphasizedIngredients?: string[],
         cuisineType?: string,
         mealType?: string,
-        season?: string,
+        season?: string
       } = {}
     ) => {
       try {
         setIsLoading(true);
         setError(null);
         const result = ingredientMappingService.findMatchingRecipes(options);
-        return result,
+        return result
       } catch (err) {
         const errorMessage = err instanceof Error ? err.message : 'An unknown error occurred';
         setError(errorMessage);
-        return [],
+        return []
       } finally {
         setIsLoading(false);
       }
@@ -73,7 +73,7 @@ export function useIngredientMapping() {
         ingredientName,
         options,
       ),
-      return result,
+      return result
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'An unknown error occurred';
       setError(errorMessage);
@@ -94,8 +94,8 @@ export function useIngredientMapping() {
     try {
       setIsLoading(true);
       setError(null);
-      const result = ingredientMappingService.calculateCompatibility(ingredient1, ingredient2),
-      return result,
+      const result = ingredientMappingService.calculateCompatibility(ingredient1, ingredient2),;
+      return result
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'An unknown error occurred';
       setError(errorMessage);
@@ -117,7 +117,7 @@ export function useIngredientMapping() {
       setIsLoading(true);
       setError(null);
       const result = ingredientMappingService.analyzeRecipeIngredientCombinations(recipe);
-      return result,
+      return result
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'An unknown error occurred';
       setError(errorMessage);

@@ -47,12 +47,12 @@ describe('Planetary Position Validation', () => {
   });
 
   test('getCurrentTransitSign returns correct sign for Mars on 2024-05-15', () => {
-    const sign: any = getCurrentTransitSign('Mars', testDate),
+    const sign: any = getCurrentTransitSign('Mars', testDate),;
     expect(sign).toBe('leo');
   });
 
   test('getCurrentTransitSign returns null for non-existent planet or transit data', () => {
-    const sign: any = getCurrentTransitSign('NonExistentPlanet', testDate),
+    const sign: any = getCurrentTransitSign('NonExistentPlanet', testDate),;
     expect(sign).toBeNull();
   });
 

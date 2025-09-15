@@ -35,7 +35,7 @@ export interface EnhancedPlanetaryPosition {
   isRetrograde: boolean,
   dignity: {
     type: 'rulership' | 'exaltation' | 'detriment' | 'fall' | 'neutral',
-    modifier: number,
+    modifier: number
   };
   strength: number;
   locationInfluence: number;
@@ -52,19 +52,19 @@ export interface EnhancedTransitInfluence {
   aspectInfluences: {
     aspect: PlanetaryAspect,
     dignityModifiedInfluence: number,
-    culinaryEffects: string[],
+    culinaryEffects: string[]
   }[];
   locationSpecificRecommendations: {
     ingredients: string[],
     cookingMethods: string[],
     flavorProfiles: string[],
-    timing: string[],
+    timing: string[]
   };
   dominantInfluences: {
     strongestPlanet: EnhancedPlanetaryPosition,
     dominantElement: string,
     seasonalTheme: string,
-    optimalCookingTimes: string[],
+    optimalCookingTimes: string[]
   };
 }
 
@@ -83,12 +83,12 @@ export class EnhancedTransitAnalysisService {
     const year = date.getFullYear().toString();
     const yearData = COMPREHENSIVE_TRANSIT_DATABASE[year];
     if (!yearData) {
-      throw new Error('No transit data available for the current year'),
+      throw new Error('No transit data available for the current year')
     }
 
     const season = yearData.seasons.find(s => date >= s.startDate && date <= s.endDate);
     if (!season) {
-      throw new Error('No transit data available for the current date'),
+      throw new Error('No transit data available for the current date')
     }
 
     // Get location-specific planetary influences
@@ -250,7 +250,7 @@ export class EnhancedTransitAnalysisService {
     if ((planetData as unknown as any).FoodAssociations) {
       recommendations.push(
         ...((planetData as unknown as any).FoodAssociations as string[]).slice(0, 3),
-      ),
+      )
     }
 
     // Modify recommendations based on dignity
@@ -266,7 +266,7 @@ export class EnhancedTransitAnalysisService {
 
     // Add location-specific recommendations
     if (locationInfluence?.culinaryRecommendations) {
-      recommendations.push(...locationInfluence.culinaryRecommendations.slice(0, 2)),
+      recommendations.push(...locationInfluence.culinaryRecommendations.slice(0, 2))
     }
 
     return recommendations;
@@ -331,7 +331,7 @@ export class EnhancedTransitAnalysisService {
     ingredients: string[],
     cookingMethods: string[],
     flavorProfiles: string[],
-    timing: string[],
+    timing: string[]
   } {
     // Get regional profile
     const regionalProfile = PlanetaryLocationService.getRegionalProfile(location);
@@ -350,7 +350,7 @@ export class EnhancedTransitAnalysisService {
 
     // Add regional traditional ingredients
     if (regionalProfile.seasonalIngredients[season.sunSign]) {
-      ingredients.push(...regionalProfile.seasonalIngredients[season.sunSign].slice(0, 2)),
+      ingredients.push(...regionalProfile.seasonalIngredients[season.sunSign].slice(0, 2))
     }
 
     // Add strongest planetary influences
@@ -358,7 +358,7 @@ export class EnhancedTransitAnalysisService {
       .sort((a, b) => b.strength - a.strength)
       .slice(0, 3)
       .forEach(planet => {
-        ingredients.push(...planet.culinaryRecommendations.slice(0, 1)),
+        ingredients.push(...planet.culinaryRecommendations.slice(0, 1))
       });
 
     // Add regional cooking methods
@@ -368,7 +368,7 @@ export class EnhancedTransitAnalysisService {
     aspectInfluences.forEach(aspectInfluence => {
       const effects = (aspectInfluence as unknown as any).culinaryEffects as string[];
       if (Array.isArray(effects)) {
-        cookingMethods.push(...effects.slice(0, 1)),
+        cookingMethods.push(...effects.slice(0, 1))
       }
     });
 
@@ -410,13 +410,13 @@ export class EnhancedTransitAnalysisService {
     strongestPlanet: EnhancedPlanetaryPosition,
     dominantElement: string,
     seasonalTheme: string,
-    optimalCookingTimes: string[],
+    optimalCookingTimes: string[]
   } {
     // Find strongest planet (highest combined strength and location influence)
     const strongestPlanet = enhancedPositions.reduce((strongest, current) => {
       const currentScore = current.strength * current.locationInfluence;
       const strongestScore = strongest.strength * strongest.locationInfluence;
-      return currentScore > strongestScore ? current : strongest,
+      return currentScore > strongestScore ? current : strongest
     });
 
     // Determine dominant element
@@ -451,7 +451,7 @@ export class EnhancedTransitAnalysisService {
     preferences: {
       dietaryRestrictions?: string[],
       preferredCuisines?: string[],
-      mealType?: 'breakfast' | 'lunch' | 'dinner' | 'snack',
+      mealType?: 'breakfast' | 'lunch' | 'dinner' | 'snack'
     } = {}
   ): Promise<{
     analysis: EnhancedTransitInfluence,
@@ -459,8 +459,8 @@ export class EnhancedTransitAnalysisService {
       primarySuggestions: string[],
       alternativeSuggestions: string[],
       cookingGuidance: string[],
-      timingAdvice: string[],
-    },
+      timingAdvice: string[]
+    }
   }> {
     const analysis = await this.getEnhancedTransitAnalysis(location);
 
@@ -470,8 +470,8 @@ export class EnhancedTransitAnalysisService {
       .flatMap(planet => planet.culinaryRecommendations);
       .slice(0, 5);
 
-    const cookingGuidance = analysis.locationSpecificRecommendations.cookingMethods.slice(0, 4),
-    const timingAdvice = analysis.dominantInfluences.optimalCookingTimes.slice(0, 3),
+    const cookingGuidance = analysis.locationSpecificRecommendations.cookingMethods.slice(0, 4),;
+    const timingAdvice = analysis.dominantInfluences.optimalCookingTimes.slice(0, 3),;
 
     return {
       analysis,

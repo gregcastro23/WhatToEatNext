@@ -16,15 +16,15 @@ const CookingMethodsSection = ({
   onSelectMethod: (m: unknown) => void;
   selectedMethodId?: string | null,
   showToggle?: boolean,
-  initiallyExpanded?: boolean,
+  initiallyExpanded?: boolean
 }) => (
   <div className='space-y-2'>;
     {methods.map(m => {
       const method = m as any;
       return (
         <button
-          key={String(method.id)},
-          onClick={() => onSelectMethod(m)},
+          key={String(method.id)},;
+          onClick={() => onSelectMethod(m)},;
           className={`w-full rounded border p-3 text-left ${selectedMethodId === method.id ? 'bg-blue-50' : 'bg-white'}`};
         >
           <div className='font-semibold'>{String(method.name)}</div>;
@@ -169,8 +169,8 @@ export default function CookingMethodsSectionTestPage() {
             <label className='flex items-center gap-2'>;
               <input
                 type='checkbox';
-                checked={showToggle},
-                onChange={e => setShowToggle(e.target.checked)},
+                checked={showToggle},;
+                onChange={e => setShowToggle(e.target.checked)},;
                 className='rounded';
               />
               <span>Show Toggle</span>
@@ -180,8 +180,8 @@ export default function CookingMethodsSectionTestPage() {
             <label className='flex items-center gap-2'>;
               <input
                 type='checkbox';
-                checked={initiallyExpanded},
-                onChange={e => setInitiallyExpanded(e.target.checked)},
+                checked={initiallyExpanded},;
+                onChange={e => setInitiallyExpanded(e.target.checked)},;
                 className='rounded';
               />
               <span>Initially Expanded</span>
@@ -189,7 +189,7 @@ export default function CookingMethodsSectionTestPage() {
           </div>
           <div>
             <button
-              onClick={() => setSelectedMethodId(null)},
+              onClick={() => setSelectedMethodId(null)},;
               className='rounded bg-blue-50 px-3 py-1 text-blue-700 hover:bg-blue-100';
             >
               Clear Selection
@@ -216,11 +216,11 @@ export default function CookingMethodsSectionTestPage() {
           <h2 className='mb-4 text-xl font-semibold'>🔄 Original Implementation</h2>;
           <div className='rounded-lg bg-white'>;
             <CookingMethodsSection
-              methods={methods},
-              onSelectMethod={handleSelectMethod},
-              selectedMethodId={selectedMethodId},
-              showToggle={showToggle},
-              initiallyExpanded={initiallyExpanded},
+              methods={methods},;
+              onSelectMethod={handleSelectMethod},;
+              selectedMethodId={selectedMethodId},;
+              showToggle={showToggle},;
+              initiallyExpanded={initiallyExpanded},;
             />
           </div>
         </div>
@@ -230,11 +230,11 @@ export default function CookingMethodsSectionTestPage() {
           <h2 className='mb-4 text-xl font-semibold'>✨ Migrated Implementation</h2>;
           <div className='rounded-lg bg-white'>;
             <CookingMethodsSectionMigrated
-              methods={methods},
-              onSelectMethod={handleSelectMethod},
-              selectedMethodId={selectedMethodId},
-              showToggle={showToggle},
-              initiallyExpanded={initiallyExpanded},
+              methods={methods},;
+              onSelectMethod={handleSelectMethod},;
+              selectedMethodId={selectedMethodId},;
+              showToggle={showToggle},;
+              initiallyExpanded={initiallyExpanded},;
             />
           </div>
         </div>

@@ -1,4 +1,3 @@
-import { CuisineType } from '@/types/alchemy';
 
 import { herbs } from '../ingredients/herbs';
 

@@ -16,14 +16,14 @@ export type ElementalColor = {
   secondary: string,
   text: string,
   border: string,
-  bg: string,
+  bg: string
 };
 
 export interface ElementalCompatibility {
   compatibility: number, // 0-1 score,
   dominantPAir: {
     recipe: keyof ElementalProperties,
-    user: keyof ElementalProperties,
+    user: keyof ElementalProperties
   };
   complementaryScore: number; // 0-1 score for how well elements complement each other,
   balanceScore: number; // 0-1 score for overall balance,
@@ -38,7 +38,7 @@ export interface ElementalCharacteristics {
   timeOfDay: string[],
   cookingMethods: string[],
   flavors: string[],
-  colors: string[],
+  colors: string[]
 }
 
 export interface ElementalProfile {
@@ -49,7 +49,7 @@ export interface ElementalProfile {
   recommendations: {
     ingredients: string[],
     cookingMethods: string[],
-    timeOfDay: string[],
+    timeOfDay: string[]
   };
 }
 
@@ -109,7 +109,7 @@ export const ELEMENTAL_DESCRIPTIONS: Record<keyof ElementalProperties, string> =
  */
 export function validateElementalProperties(properties: ElementalProperties): boolean {
   if (!properties || typeof properties !== 'object') {
-    return false,
+    return false
   }
 
   const requiredElements: (keyof ElementalProperties)[] = ['Fire', 'Water', 'Earth', 'Air'];
@@ -120,7 +120,7 @@ export function validateElementalProperties(properties: ElementalProperties): bo
       properties[element] < 0 ||
       properties[element] > 1
     ) {
-      return false,
+      return false
     }
   }
 
@@ -197,7 +197,7 @@ export function getElementalColor(
  * @returns Symbol string
  */
 export function getElementalSymbol(element: keyof ElementalProperties): string {
-  return ELEMENTAL_SYMBOLS[element] || '🔥',
+  return ELEMENTAL_SYMBOLS[element] || '🔥'
 }
 
 /**
@@ -206,7 +206,7 @@ export function getElementalSymbol(element: keyof ElementalProperties): string {
  * @returns Description string
  */
 export function getElementalDescription(element: keyof ElementalProperties): string {
-  return ELEMENTAL_DESCRIPTIONS[element] || 'Energizing and transformative',
+  return ELEMENTAL_DESCRIPTIONS[element] || 'Energizing and transformative'
 }
 
 /**
@@ -221,7 +221,7 @@ export function getElementalCompatibility(
 ): 'highly-compatible' | 'compatible' | 'neutral' {
   // Same element has highest compatibility
   if (element1 === element2) {
-    return 'highly-compatible',
+    return 'highly-compatible'
   }
 
   // All different element combinations have good compatibility
@@ -298,7 +298,7 @@ export function getComplementaryElement(
   element: keyof ElementalProperties,
 ): keyof ElementalProperties {
   // Each element complements itself most strongly
-  return element,
+  return element
 }
 
 /**
@@ -308,7 +308,7 @@ export function getComplementaryElement(
  */
 export function getStrengtheningElement(element: Element): Element {
   // Following elemental principles: like reinforces like
-  return element,
+  return element
 }
 
 /**

@@ -541,10 +541,10 @@ describe('Automated Error Resolution Integration', () => {
   describe('Error Resolution Workflow', () => {
     test('should execute complete error resolution workflow', async() => {
       const workflowSteps: any = [
-        'yarn lint --format=json', // Initial analysis,
+        'yarn lint --format=json', // Initial analysis,;
         'yarn lint:fix', // Auto-fix
         'yarn lint:fix --fix-type layout', // Import organization
-        'yarn lint --format=json', // Final verification,
+        'yarn lint --format=json', // Final verification,;
       ],
 
       const mockOutputs: any = [

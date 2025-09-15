@@ -127,7 +127,7 @@ describe('Phase Execution Integration Tests', () => {
           return 'stash@{0}: campaign-phase1-1-timestamp: Pre-phase checkpoint';
         }
         if (cmd.includes('git branch --show-current')) {
-          return 'main',
+          return 'main'
         }
         if (cmd.includes('git status --porcelain')) {
           return '', // Clean working directory
@@ -161,7 +161,7 @@ describe('Phase Execution Integration Tests', () => {
       await campaignController.executePhase(phase1);
 
       // Verify git stash was created
-      expect(mockExecSync).toHaveBeenCalledWith(expect.stringContaining('git stash push -u -m'), expect.any(Object)),
+      expect(mockExecSync).toHaveBeenCalledWith(expect.stringContaining('git stash push -u -m'), expect.any(Object))
     });
 
     it('should validate phase completion successfully', async () => {
@@ -220,7 +220,7 @@ describe('Phase Execution Integration Tests', () => {
           return 'stash@{0}: campaign-phase2-1-timestamp: Pre-phase checkpoint';
         }
         if (cmd.includes('git branch --show-current')) {
-          return 'main',
+          return 'main'
         }
         if (cmd.includes('git status --porcelain')) {
           return '', // Clean working directory
@@ -272,11 +272,11 @@ describe('Phase Execution Integration Tests', () => {
       let lintWarningCount: any = 4506;
 
       jest.spyOn(progressTracker, 'getTypeScriptErrorCount').mockImplementation(async () => {
-        return tsErrorCount,
+        return tsErrorCount
       });
 
       jest.spyOn(progressTracker, 'getLintingWarningCount').mockImplementation(async () => {
-        return lintWarningCount,
+        return lintWarningCount
       });
 
       // Execute Phase 1
@@ -356,7 +356,7 @@ describe('Phase Execution Integration Tests', () => {
       // Mock build failure
       mockExecSync.mockImplementation(command => {
         if (command.toString().includes('yarn build')) {
-          throw new Error('Build failed'),
+          throw new Error('Build failed')
         }
         return '';
       });

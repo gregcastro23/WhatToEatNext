@@ -26,7 +26,7 @@ interface TarotCard {
   element?: string,
   description?: string,
   keywords?: string[],
-  [key: string]: unknown,
+  [key: string]: unknown
 }
 
 // Adapter function to convert between different lunar phase formats
@@ -57,7 +57,7 @@ export interface TarotAstrologyData {
     {
       sign: string,
       degree: number,
-      exactLongitude?: number,
+      exactLongitude?: number
     }
   >;
   currentZodiac: string | null;
@@ -75,7 +75,7 @@ export interface TarotAstrologyData {
     Spirit: number,
     Essence: number,
     Matter: number,
-    Substance: number,
+    Substance: number
   };
 
   // Derived data
@@ -86,7 +86,7 @@ export interface TarotAstrologyData {
 
 export interface TarotAstrologyResult extends TarotAstrologyData {
   isLoading: boolean,
-  error: string | null,
+  error: string | null
 }
 
 export const _useTarotAstrologyData = (): TarotAstrologyResult => {
@@ -105,7 +105,7 @@ export const _useTarotAstrologyData = (): TarotAstrologyResult => {
     {
       sign: string,
       degree: number,
-      exactLongitude?: number,
+      exactLongitude?: number
     }
   >;
 
@@ -115,16 +115,16 @@ export const _useTarotAstrologyData = (): TarotAstrologyResult => {
       // Cast the string to FoodAssociationsLunarPhase since it matches the expected format
       return foodAssociationsLunarPhase
         ? adaptLunarPhase(foodAssociationsLunarPhase as unknown as FoodAssociationsLunarPhase)
-        : null,
+        : null
     } catch (error) {
       logger.error('Error converting lunar phase', error),
-      return null,
+      return null
     }
   }, [foodAssociationsLunarPhase]);
 
   const [tarotCards, setTarotCards] = useState<{
     minorCard: TarotCard | null,
-    majorCard: TarotCard | null,
+    majorCard: TarotCard | null
   }>({
     minorCard: null,
     majorCard: null
@@ -143,7 +143,7 @@ export const _useTarotAstrologyData = (): TarotAstrologyResult => {
     Spirit: number,
     Essence: number,
     Matter: number,
-    Substance: number,
+    Substance: number
   }>({
     Spirit: 0,
     Essence: 0,
@@ -174,7 +174,7 @@ export const _useTarotAstrologyData = (): TarotAstrologyResult => {
           if (signState) {
             // Use the sign's current energy as a base
             const degreeModifier = position.degree / 30.0;
-            return Math.min(1.0, Math.max(0.1, signState.currentEnergy * degreeModifier)),
+            return Math.min(1.0, Math.max(0.1, signState.currentEnergy * degreeModifier))
           }
         }
         return 0.5; // Default middle value if position unknown
@@ -306,7 +306,7 @@ export const _useTarotAstrologyData = (): TarotAstrologyResult => {
         }
       }
     } catch (error) {
-      logger.error('Error calculating tarot element boosts', error),
+      logger.error('Error calculating tarot element boosts', error)
     }
   }, [tarotCards]);
 
@@ -364,7 +364,7 @@ export const _useTarotAstrologyData = (): TarotAstrologyResult => {
       Spirit: number,
       Essence: number,
       Matter: number,
-      Substance: number,
+      Substance: number
     } => {
       try {
         const result = {
@@ -437,7 +437,7 @@ export const _useTarotAstrologyData = (): TarotAstrologyResult => {
     try {
       setSignEnergyStates(calculateSignEnergyStates({}, []));
     } catch (error) {
-      logger.error('Error calculating sign energy states', error),
+      logger.error('Error calculating sign energy states', error)
     }
   }, []);
 

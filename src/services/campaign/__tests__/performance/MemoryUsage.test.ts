@@ -17,7 +17,7 @@ describe('Memory Usage Performance Tests', () => {
   let mockConfig: CampaignConfig,
 
   beforeEach(() => {
-    const safetySettings: SafetySettings = { maxFilesPerBatch: 25,,
+    const safetySettings: SafetySettings = { maxFilesPerBatch: 25,,;
       buildValidationFrequency: 5,
       testValidationFrequency: 10,
       corruptionDetectionEnabled: true,
@@ -100,7 +100,7 @@ describe('Memory Usage Performance Tests', () => {
     it('should handle memory measurement errors gracefully', async () => {
       const originalMemoryUsage: any = process.memoryUsage;
       process.memoryUsage = jest.fn().mockImplementation(() => {
-        throw new Error('Memory measurement failed'),
+        throw new Error('Memory measurement failed')
       }) as any process.memoryUsage;
 
       const memoryUsage: any = await progressTracker.getMemoryUsage();
@@ -119,7 +119,7 @@ describe('Memory Usage Performance Tests', () => {
         callCount++;
         // Simulate memory usage that increases then decreases (garbage collection)
         const baseMemory: any = 30;
-        const variation: any = Math.sin(callCount * 0.5) * 10, // ±10MB variation
+        const variation: any = Math.sin(callCount * 0.5) * 10, // ±10MB variation;
         const heapUsed: any = (baseMemory + variation) * 1024 * 1024;
 
         return {
@@ -153,7 +153,7 @@ describe('Memory Usage Performance Tests', () => {
   describe('Memory Leak Detection', () => {
     it('should detect potential memory leaks in progress tracking', async () => {
       const originalMemoryUsage: any = process.memoryUsage;
-      let simulatedMemoryLeak: any = 30, // Start at 30MB
+      let simulatedMemoryLeak: any = 30, // Start at 30MB;
 
       process.memoryUsage = jest.fn().mockImplementation(() => {
         // Simulate memory leak - memory increases with each call,
@@ -187,7 +187,7 @@ describe('Memory Usage Performance Tests', () => {
 
     it('should validate memory cleanup in safety protocol', async () => {
       const originalMemoryUsage: any = process.memoryUsage;
-      const memoryUsage: any = 35, // Start at 35MB
+      const memoryUsage: any = 35, // Start at 35MB;
 
       process.memoryUsage = jest.fn().mockImplementation(() => {
         return {
@@ -224,7 +224,7 @@ describe('Memory Usage Performance Tests', () => {
 
     it('should validate memory cleanup in progress tracker', async () => {
       const originalMemoryUsage: any = process.memoryUsage;
-      const memoryUsage: any = 30, // Start at 30MB
+      const memoryUsage: any = 30, // Start at 30MB;
 
       process.memoryUsage = jest.fn().mockImplementation(() => {
         return {
@@ -261,7 +261,7 @@ describe('Memory Usage Performance Tests', () => {
       expect(finalMemoryUsage).toBeLessThan(50);
 
       process.memoryUsage = originalMemoryUsage;
-    }),
+    })
   }),
 
   describe('Memory Efficiency Testing', () => {
@@ -271,7 +271,7 @@ describe('Memory Usage Performance Tests', () => {
 
       process.memoryUsage = jest.fn().mockImplementation(() => {
         // Memory should not increase significantly with large file counts,
-        const memoryIncrease: any = Math.min(10, Math.random() * 5), // Max 10MB increase
+        const memoryIncrease: any = Math.min(10, Math.random() * 5), // Max 10MB increase;
         return {
           heapUsed: (baseMemory + memoryIncrease) * 1024 * 1024,
           heapTotal: (baseMemory + memoryIncrease) * 2 * 1024 * 1024,
@@ -310,7 +310,7 @@ describe('Memory Usage Performance Tests', () => {
 
       process.memoryUsage = jest.fn().mockImplementation(() => {
         // Memory should remain stable during concurrent operations,
-        const variation: any = Math.random() * 5, // ±5MB variation
+        const variation: any = Math.random() * 5, // ±5MB variation;
         return {
           heapUsed: (baseMemory + variation) * 1024 * 1024,
           heapTotal: (baseMemory + variation) * 2 * 1024 * 1024,
@@ -326,7 +326,7 @@ describe('Memory Usage Performance Tests', () => {
           progressTracker.getMemoryUsage();
           progressTracker.getProgressMetrics();
           safetyProtocol.validateGitState()
-        ]),
+        ])
       });
 
       const results: any = await Promise.all(promises);
@@ -347,7 +347,7 @@ describe('Memory Usage Performance Tests', () => {
 
       process.memoryUsage = jest.fn().mockImplementation(() => {
         // Simulate memory pressure scenario,
-        const baseMemory: any = memoryPressure ? 48 : 35, // High memory when under pressure
+        const baseMemory: any = memoryPressure ? 48 : 35, // High memory when under pressure;
         return {
           heapUsed: baseMemory * 1024 * 1024,
           heapTotal: baseMemory * 2 * 1024 * 1024,
@@ -386,8 +386,8 @@ describe('Memory Usage Performance Tests', () => {
         allocationCount++;
         // Simulate realistic memory allocation pattern
         const baseMemory: any = 30;
-        const cyclicPattern: any = Math.sin(allocationCount * 0.3) * 8, // ±8MB cyclic pattern
-        const growthTrend: any = allocationCount * 0.1, // Slight growth trend
+        const cyclicPattern: any = Math.sin(allocationCount * 0.3) * 8, // ±8MB cyclic pattern;
+        const growthTrend: any = allocationCount * 0.1, // Slight growth trend;
         const totalMemory: any = baseMemory + cyclicPattern + growthTrend;
 
         return {
@@ -452,11 +452,11 @@ describe('Memory Usage Performance Tests', () => {
             baseMemory = 28; // Simple grep uses less memory
             break;
           case 'buildTime':
-            baseMemory = 40, // Build process uses more memory
+            baseMemory = 40, // Build process uses more memory;
             break,
           case 'progressMetrics':
-            baseMemory = 33, // Metrics collection uses moderate memory
-            break,
+            baseMemory = 33, // Metrics collection uses moderate memory;
+            break
         }
 
         return {
@@ -484,7 +484,7 @@ describe('Memory Usage Performance Tests', () => {
         for (let i: any = 0, i < 5, i++) {
           await operation.fn();
           const memoryUsage: any = await progressTracker.getMemoryUsage();
-          operationMemoryUsage[operation.name].push(memoryUsage),
+          operationMemoryUsage[operation.name].push(memoryUsage)
         }
       }
 

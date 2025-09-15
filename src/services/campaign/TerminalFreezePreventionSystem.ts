@@ -16,7 +16,7 @@ export interface ProcessMonitorConfig {
   maxExecutionTime: number, // milliseconds
   maxMemoryUsage: number, // MB
   heartbeatInterval: number, // milliseconds
-  killOnTimeout: boolean,
+  killOnTimeout: boolean
 }
 
 export interface ProcessStatus {
@@ -26,7 +26,7 @@ export interface ProcessStatus {
   isRunning: boolean,
   memoryUsage: number,
   cpuUsage: number,
-  hasTimedOut: boolean,
+  hasTimedOut: boolean
 }
 
 export class TerminalFreezePreventionSystem {
@@ -56,7 +56,7 @@ export class TerminalFreezePreventionSystem {
     };
 
     try {
-      // console.log(`🔧 Executing with timeout (${safeOptions.timeout}ms): ${command}`);
+      // // console.log(`🔧 Executing with timeout (${safeOptions.timeout}ms): ${command}`);
       const output = execSync(command, safeOptions);
       return output.toString();
     } catch (error: unknown) {
@@ -78,7 +78,7 @@ export class TerminalFreezePreventionSystem {
   ): Promise<{
     stdout: string,
     stderr: string,
-    exitCode: number,
+    exitCode: number
   }> {
     return new Promise((resolve, reject) => {
       const child = spawn(command, args, {
@@ -162,7 +162,7 @@ export class TerminalFreezePreventionSystem {
       this.checkRunningProcesses();
     }, this.config.heartbeatInterval);
 
-    // console.log(`🔍 Started process monitoring (interval: ${this.config.heartbeatInterval}ms)`);
+    // // console.log(`🔍 Started process monitoring (interval: ${this.config.heartbeatInterval}ms)`);
   }
 
   /**
@@ -179,7 +179,7 @@ export class TerminalFreezePreventionSystem {
         console.warn(`⚠️  Process ${pid} has been running for ${runTime}ms (${status.command})`);
 
         if (this.config.killOnTimeout) {
-          this.killProcess(pid, 'timeout'),
+          this.killProcess(pid, 'timeout')
         }
       }
 
@@ -189,7 +189,7 @@ export class TerminalFreezePreventionSystem {
         console.warn(`⚠️  Process ${pid} using ${status.memoryUsage}MB memory (${status.command})`);
 
         if (this.config.killOnTimeout) {
-          this.killProcess(pid, 'memory'),
+          this.killProcess(pid, 'memory')
         }
       }
     }
@@ -210,7 +210,7 @@ export class TerminalFreezePreventionSystem {
       const status = this.runningProcesses.get(pid);
 
       if (status) {
-        status.memoryUsage = parseInt(rss) / 1024, // Convert KB to MB
+        status.memoryUsage = parseInt(rss) / 1024, // Convert KB to MB;
         status.cpuUsage = parseFloat(pcpu);
       }
     } catch (error) {
@@ -256,10 +256,10 @@ export class TerminalFreezePreventionSystem {
    * Kill all monitored processes
    */
   killAllProcesses(): void {
-    // console.log(`🛑 Killing ${this.runningProcesses.size} monitored processes`);
+    // // console.log(`🛑 Killing ${this.runningProcesses.size} monitored processes`);
 
     for (const pid of this.runningProcesses.keys()) {
-      this.killProcess(pid, 'shutdown'),
+      this.killProcess(pid, 'shutdown')
     }
   }
 
@@ -273,7 +273,7 @@ export class TerminalFreezePreventionSystem {
     }
 
     this.killAllProcesses();
-    // console.log('🔍 Stopped process monitoring');
+    // // console.log('🔍 Stopped process monitoring');
   }
 
   /**
@@ -282,7 +282,7 @@ export class TerminalFreezePreventionSystem {
   async detectInfiniteLoops(): Promise<{
     detected: boolean,
     suspiciousProcesses: ProcessStatus[],
-    recommendations: string[],
+    recommendations: string[]
   }> {
     const suspiciousProcesses: ProcessStatus[] = [];
     const recommendations: string[] = [];
@@ -317,7 +317,7 @@ export class TerminalFreezePreventionSystem {
    * Emergency stop all campaign processes
    */
   async emergencyStop(): Promise<void> {
-    // console.log('🚨 EMERGENCY STOP: Killing all processes');
+    // // console.log('🚨 EMERGENCY STOP: Killing all processes');
 
     // Kill all monitored processes
     this.killAllProcesses();
@@ -331,7 +331,7 @@ export class TerminalFreezePreventionSystem {
       // Ignore errors, processes might not exist
     }
 
-    // console.log('🚨 Emergency stop completed');
+    // // console.log('🚨 Emergency stop completed');
   }
 }
 

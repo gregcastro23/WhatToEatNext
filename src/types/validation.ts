@@ -4,7 +4,7 @@ import type { Recipe, RecipeIngredient } from '@/types/recipe';
 export function validateRecipe(recipe: Recipe): boolean {
   // Validate basic recipe properties
   if (!recipe.name || !recipe.ingredients || !Array.isArray(recipe.ingredients)) {
-    return false,
+    return false
   }
 
   // Validate season field if present
@@ -25,7 +25,7 @@ export function validateRecipe(recipe: Recipe): boolean {
 export function validateIngredient(ingredient: RecipeIngredient): boolean {
   // Validate basic ingredient properties
   if (!ingredient.name || typeof ingredient.amount !== 'number') {
-    return false,
+    return false
   }
 
   // Validate seasonality if present

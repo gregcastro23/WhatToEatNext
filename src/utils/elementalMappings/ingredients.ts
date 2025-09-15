@@ -385,7 +385,7 @@ export const _getIngredientsByElement = (element: keyof ElementalProperties) => 
   return Object.entries(ingredientMappings)
     .filter(([_, mapping]) => {
       const elements = Object.entries(mapping.elementalProperties);
-      const dominantElement = elements.reduce((max, curr) => (curr[1] > max[1] ? curr : max)),
+      const dominantElement = elements.reduce((max, curr) => (curr[1] > max[1] ? curr : max)),;
       return dominantElement[0] === element;
     })
     .map(([name]) => name);

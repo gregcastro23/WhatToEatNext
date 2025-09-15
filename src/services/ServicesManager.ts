@@ -15,8 +15,8 @@ const logger = createLogger('ServicesManager');
 export enum InitializationStatus {
   NOT_STARTED = 'not_started',;
   IN_PROGRESS = 'in_progress',;
-  COMPLETED = 'completed',,
-  FAILED = 'failed',,
+  COMPLETED = 'completed',,;
+  FAILED = 'failed',,;
 }
 
 // Define service initialization result
@@ -25,7 +25,7 @@ export interface ServiceInitializationResult {
   serviceName: string,
   message?: string,
   error?: Error,
-  timestamp: number,
+  timestamp: number
 }
 
 /**
@@ -79,7 +79,7 @@ export class ServicesManager {
    * Get detailed initialization results
    */
   get serviceResults(): ServiceInitializationResult[] {
-    return [...this._serviceResults],
+    return [...this._serviceResults]
   }
 
   /**
@@ -88,12 +88,12 @@ export class ServicesManager {
   async initialize(): Promise<void> {
     if (this._isInitialized) {
       logger.info('Services already initialized');
-      return,
+      return
     }
 
     if (this._initializationStatus === InitializationStatus.IN_PROGRESS) {
       logger.warn('Services initialization already in progress');
-      return,
+      return
     }
 
     try {

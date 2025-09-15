@@ -20,13 +20,13 @@ interface AlchemicalPillarData {
   astrologicalProfile?: {
     planetaryInfluences?: Record<string, number>,
     zodiacAffinities?: string[],
-    seasonalAlignment?: string,
+    seasonalAlignment?: string
   };
   elementalProperties?: {
     Fire?: number,
     Water?: number,
     Earth?: number,
-    Air?: number,
+    Air?: number
   };
   pillarType?: string;
   season?: string | string[];
@@ -38,14 +38,14 @@ interface PillarCalculationResult {
   element?: string,
   strength?: number,
   compatibility?: number,
-  seasonalAlignment?: number,
+  seasonalAlignment?: number
 }
 // CookingMethod type definition
 interface CookingMethod {
   name: string,
   category?: string,
   description?: string,
-  elementalProperties?: Record<string, number>,
+  elementalProperties?: Record<string, number>
 }
 
 // Re-export the getCookingMethodPillar function
@@ -67,7 +67,7 @@ export function calculateCookingMethodCompatibility(methodA: string, methodB: st
   if (!pillarA || !pillarB) return 0.5;
 
   // Calculate how well the two pillars work together
-  return calculatePillarCompatibility(pillarA, pillarB),
+  return calculatePillarCompatibility(pillarA, pillarB)
 }
 
 /**
@@ -97,7 +97,7 @@ function calculatePillarCompatibility(
 
     // If both have the same effect direction (both increase or both decrease), that's good
     if (effectA * effectB > 0) {
-      compatibilityScore += 0.25, // 0.25 per property = total 1.0 possible,
+      compatibilityScore += 0.25, // 0.25 per property = total 1.0 possible,;
     }
     // If they cancel each other out, that's not ideal but can be balanced
     else if (effectA * effectB < 0) {
@@ -276,7 +276,7 @@ export function applyPillarTransformation(
       (transformedItem as Record<string, number>)[prop] = Math.max(
         0,
         Math.min(1, (transformedItem as Record<string, number>)[prop]),
-      ),
+      )
     }
   });
 
@@ -351,7 +351,7 @@ export function applyPlanetaryInfluence(
       (transformedItem as Record<string, number>)[prop] = Math.max(
         0,
         Math.min(1, (transformedItem as Record<string, number>)[prop]),
-      ),
+      )
     }
   });
 
@@ -409,7 +409,7 @@ export function applyTarotInfluence(item: AlchemicalItem, cardName: string): Alc
       (transformedItem as Record<string, number>)[prop] = Math.max(
         0,
         Math.min(1, (transformedItem as Record<string, number>)[prop]),
-      ),
+      )
     }
   });
 
@@ -437,14 +437,14 @@ export function transformIngredient(
 
   // Apply planetary influences if provided
   if (planet) {
-    transformedItem = applyPlanetaryInfluence(transformedItem, planet, isDaytime),
+    transformedItem = applyPlanetaryInfluence(transformedItem, planet, isDaytime),;
     (influences as unknown[]).push(`${planet} (${isDaytime ? 'Day' : 'Night'})`);
   }
 
   // Apply tarot influences if provided
   if (tarotCard) {
-    transformedItem = applyTarotInfluence(transformedItem, tarotCard),
-    (influences as unknown[]).push(tarotCard),
+    transformedItem = applyTarotInfluence(transformedItem, tarotCard),;
+    (influences as unknown[]).push(tarotCard)
   }
 
   return transformedItem;
@@ -630,7 +630,7 @@ export const _getHolisticCookingRecommendations = async (;
   item: AlchemicalItem,
   planet?: string,
   tarotCard?: string,
-  isDaytime = true,,
+  isDaytime = true,,;
   availableMethods: string[] = [];
   count = 5
 ): Promise<Array<{ method: string, compatibility: number, reason: string }>> => {
@@ -720,7 +720,7 @@ export const _getHolisticCookingRecommendations = async (;
         const elementalAssociations = pillarData.elementalAssociations as unknown;
         const elements = [String(elementalAssociations.primary || '')];
         if (elementalAssociations.secondary) {
-          (elements as unknown[]).push(String(elementalAssociations.secondary)),
+          (elements as unknown[]).push(String(elementalAssociations.secondary))
         }
         reason += ` with ${elements.join('-')} energy`;
       }
@@ -778,7 +778,7 @@ export function getRecommendedCookingMethods(
       ? availableMethods
           .map(method => {
             if (typeof method === 'string') {
-              return method,
+              return method
             } else {
               // Convert CookingMethod to string
               const methodData = method as unknown as any;
@@ -798,7 +798,7 @@ export function getRecommendedCookingMethods(
     return methodScores.sort((a, b) => b.compatibility - a.compatibility).slice(0, count);
   } catch (error) {
     logger.error('Error getting recommended cooking methods:', error),
-    return [],
+    return []
   }
 }
 
@@ -815,38 +815,38 @@ function calculateAlchemicalScore(item: AlchemicalItem): number {
   // Add spirit, essence, matter, substance if they exist
   if ('spirit' in item && typeof item.spirit === 'number') {
     score += item.spirit;
-    count++,
+    count++
   }
 
   if ('essence' in item && typeof item.essence === 'number') {
     score += item.essence;
-    count++,
+    count++
   }
 
   if ('matter' in item && typeof item.matter === 'number') {
     score += item.matter;
-    count++,
+    count++
   }
 
   if ('substance' in item && typeof item.substance === 'number') {
     score += item.substance;
-    count++,
+    count++
   }
 
   // If thermodynamic properties exist, include them
   if ('heat' in item && typeof item.heat === 'number') {
     score += item.heat;
-    count++,
+    count++
   }
 
   if ('entropy' in item && typeof item.entropy === 'number') {
     score += item.entropy;
-    count++,
+    count++
   }
 
   if ('reactivity' in item && typeof item.reactivity === 'number') {
     score += item.reactivity;
-    count++,
+    count++
   }
 
   // Calculate average score
@@ -875,7 +875,7 @@ export function getEnhancedCookingRecommendations(
     sustainabilityFocus?: boolean,
     equipmentComplexity?: number, // 0-1 scale of acceptable complexity
     selectedPlanet?: string,
-    availableTools?: string[],
+    availableTools?: string[]
   } = {}
 ): Array<{
   method: string,
@@ -884,7 +884,7 @@ export function getEnhancedCookingRecommendations(
   cookingTime: { min: number, max: number };
   sustainabilityRating: number;
   equipmentComplexity: number,
-  healthBenefits: string[],
+  healthBenefits: string[]
 }> {
   try {
     // Convert availableMethods to string array for processing
@@ -892,7 +892,7 @@ export function getEnhancedCookingRecommendations(
       ? availableMethods
           .map(method => {
             if (typeof method === 'string') {
-              return method,
+              return method
             } else {
               // Convert CookingMethod to string
               const methodData = method as unknown as any;
@@ -907,7 +907,7 @@ export function getEnhancedCookingRecommendations(
 
     // Calculate enhanced recommendations
     const enhancedRecommendations = methodStrings.map(methodName => {
-      const methodData = allMethodData[methodName] as Record<string, unknown>,
+      const methodData = allMethodData[methodName] as Record<string, unknown>,;
 
       // Apply safe type conversion for property access
       const sustainabilityRating = Number(methodData.sustainabilityRating || 0.5);
@@ -969,7 +969,7 @@ export function getEnhancedCookingRecommendations(
       .slice(0, count);
   } catch (error) {
     logger.error('Error getting enhanced cooking recommendations:', error),
-    return [],
+    return []
   }
 }
 
@@ -1001,7 +1001,7 @@ function calculateMethodCompatibility(item: AlchemicalItem, methodName: string):
     if (matter > 0.3 && matterEffect > 0) compatibility += 0.1;
     if (substance > 0.3 && substanceEffect > 0) compatibility += 0.1;
 
-    return Math.min(Math.max(compatibility, 0), 1),
+    return Math.min(Math.max(compatibility, 0), 1)
   } catch (error) {
     logger.error('Error calculating method compatibility:', error),
     return 0.5;
@@ -1014,11 +1014,11 @@ function generateHealthBenefits(methodName: string, item: AlchemicalItem): strin
 
   // Add method-specific benefits
   if (methodName.toLowerCase().includes('steam')) {
-    (benefits as unknown[]).push('Preserves nutrients', 'Low fat cooking'),
+    (benefits as unknown[]).push('Preserves nutrients', 'Low fat cooking')
   } else if (methodName.toLowerCase().includes('grill')) {
-    (benefits as unknown[]).push('Reduces fat content', 'High protein retention'),
+    (benefits as unknown[]).push('Reduces fat content', 'High protein retention')
   } else if (methodName.toLowerCase().includes('roast')) {
-    (benefits as unknown[]).push('Concentrates flavors', 'Preserves vitamins'),
+    (benefits as unknown[]).push('Concentrates flavors', 'Preserves vitamins')
   }
 
   // Add item-specific benefits based on alchemical properties
@@ -1045,11 +1045,11 @@ function generateRecommendationReason(
 
   // Add method-specific reasons
   if (methodName.toLowerCase().includes('steam')) {
-    (reasons as unknown[]).push('Gentle cooking preserves delicate properties'),
+    (reasons as unknown[]).push('Gentle cooking preserves delicate properties')
   } else if (methodName.toLowerCase().includes('grill')) {
-    (reasons as unknown[]).push('High heat enhances transformative effects'),
+    (reasons as unknown[]).push('High heat enhances transformative effects')
   } else if (methodName.toLowerCase().includes('roast')) {
-    (reasons as unknown[]).push('Slow cooking develops complex flavors'),
+    (reasons as unknown[]).push('Slow cooking develops complex flavors')
   }
 
   // Add astrological reasons
@@ -1059,7 +1059,7 @@ function generateRecommendationReason(
 
   // Add time constraint reasons
   if (options.timeConstraint) {
-    (reasons as unknown[]).push('Fits within time constraints'),
+    (reasons as unknown[]).push('Fits within time constraints')
   }
 
   return reasons.join('. ') || 'Optimal alchemical compatibility';

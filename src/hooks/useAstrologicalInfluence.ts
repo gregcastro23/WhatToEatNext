@@ -11,7 +11,7 @@ export interface AstrologicalInfluence {
   lunarPhase: string,
   dominantElement: string,
   aspectStrength: number,
-  overallInfluence: number,
+  overallInfluence: number
 }
 
 export function useAstrologicalInfluence() {
@@ -25,7 +25,7 @@ export function useAstrologicalInfluence() {
         const state = await getCurrentAstrologicalState();
         setAstrologicalState(state);
       } catch (error) {
-        console.error('Failed to get astrological state:', error),
+        console.error('Failed to get astrological state:', error)
       }
     }
 
@@ -64,7 +64,7 @@ export function useAstrologicalInfluence() {
     Object.values(planetaryPositions || {}).forEach(position => {
       const element = elementMap[(position as unknown)?.sign as keyof typeof elementMap];
       if (element) {
-        elementCounts[element as keyof typeof elementCounts]++,
+        elementCounts[element as keyof typeof elementCounts]++
       }
     });
 

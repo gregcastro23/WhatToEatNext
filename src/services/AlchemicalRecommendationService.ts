@@ -20,7 +20,7 @@ export interface AlchemicalRecommendation {
   recommendedIngredients: string[],
   recommendedCookingMethods: CookingMethod[],
   recommendations: string[],
-  warnings: string[],
+  warnings: string[]
 }
 
 /**
@@ -91,7 +91,7 @@ export class AlchemicalRecommendationService {
     return {
       dominantElement,
       thermodynamics: _thermodynamics,
-  recommendedIngredients: (compatibleIngredients || []).map(i => i.name),,
+  recommendedIngredients: (compatibleIngredients || []).map(i => i.name),,;
       recommendedCookingMethods: compatibleMethods || [],
       recommendations,
       warnings
@@ -209,14 +209,14 @@ export class AlchemicalRecommendationService {
       case 'Air':
         recommendations.push('Light cooking methods will enhance flavors today.');
         recommendations.push('Incorporate aromatic herbs and light textures.');
-        break,
+        break
     }
 
     // Add recommendations based on thermodynamics
     if (thermodynamics.heat > 0.7) {
       recommendations.push(
         'The planetary energy is highly active - cooking quickly will preserve this energy.'
-      ),
+      )
     }
 
     if (thermodynamics.entropy > 0.7) {
@@ -228,7 +228,7 @@ export class AlchemicalRecommendationService {
     if ((thermodynamicsData.kalchm) > 2.0) {
       recommendations.push(
         'Exceptional transformation potential - fermentation and aging processes are enhanced.'
-      ),
+      )
     }
 
     // Add seasonal recommendation
@@ -248,12 +248,12 @@ export class AlchemicalRecommendationService {
     if (thermodynamics.entropy > 0.9) {
       warnings.push(
         'High entropy may lead to unpredictable cooking results - measure ingredients precisely.'
-      ),
+      )
     }
     if (thermodynamics.reactivity > 0.8) {
       warnings.push(
         'Heightened reactivity may cause flavor clashes - simplify ingredient combinations.'
-      ),
+      )
     }
     // Use a type with optional kalchm property
     type WithKalchm = ThermodynamicProperties & { kalchm?: number };
@@ -261,7 +261,7 @@ export class AlchemicalRecommendationService {
     if (typeof t.kalchm === 'number' && t.kalchm < 0.5) {
       warnings.push(
         'Low kalchm levels indicate poor transformation potential - avoid fermentation or chemical leavening.'
-      ),
+      )
     }
     return warnings;
   }
@@ -348,7 +348,7 @@ export class AlchemicalRecommendationService {
   ): {
     compatibility: number,
   suggestions: string[],
-    adjustments: string[],
+    adjustments: string[]
   } {
     // Calculate thermodynamic properties using the engine
     const _thermodynamics = this.engine.alchemize(;
@@ -397,7 +397,7 @@ export class AlchemicalRecommendationService {
           break,
         case 'Air':
           adjustments.push('Incorporate aromatic herbs or use more whipping/folding techniques.');
-          break,
+          break
       }
     } else {
       suggestions.push(
@@ -428,7 +428,7 @@ export class AlchemicalRecommendationService {
         case 'Air':
           adjustments.push('Lighten the dish with fresh herbs and citrus zest.');
           adjustments.push('Incorporate more whipping, aeration, or leavening.'),
-          break,
+          break
       }
     }
 

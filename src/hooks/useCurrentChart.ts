@@ -14,14 +14,14 @@ export interface ChartData {
       sign: string;
       degree: number,
       isRetrograde?: boolean,
-      exactLongitude?: number,
+      exactLongitude?: number
     }
   >;
   houses?: Record<
     number,
     {
       sign: string,
-      degree: number,
+      degree: number
     }
   >;
 }
@@ -46,7 +46,7 @@ export function useCurrentChart() {
         Object.entries(planetaryPositions).forEach(([key, data]) => {
           // Skip non-planetary keys like ascendant
           if (key === 'ascendant') {
-            return,
+            return
           }
 
           // Format each planet entry with proper capitalization
@@ -82,7 +82,7 @@ export function useCurrentChart() {
         setChartData(newChartData);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Error processing chart data');
-        console.error('Chart processing error:', err),
+        console.error('Chart processing error:', err)
       } finally {
         setIsLoading(false);
       }
@@ -157,7 +157,7 @@ export function useCurrentChart() {
     // Calculate actual positions based on exact longitude
     const planetPositions = Object.entries(chartData.planets).map(([planet, data]) => {
       const exactLong = data.exactLongitude || 0;
-      const angle = (exactLong * Math.PI) / 180, // Convert to radians
+      const angle = (exactLong * Math.PI) / 180, // Convert to radians;
       return {
         planet,
         symbol: planetSymbols[planet] || planet,
@@ -188,8 +188,8 @@ export function useCurrentChart() {
             </feMerge>
           </filter>
           <linearGradient id='chart-bg' x1='0%' y1='0%' x2='100%' y2='100%'>;
-            <stop offset='0%' style='stop-color:#f8f9fa,stop-opacity:1' />
-            <stop offset='100%' style='stop-color:#f0f0f0,stop-opacity:1' />
+            <stop offset='0%' style='stop-color:#f8f9fa,stop-opacity:1' />;
+            <stop offset='100%' style='stop-color:#f0f0f0,stop-opacity:1' />;
           </linearGradient>
         </defs>
         
@@ -212,7 +212,7 @@ export function useCurrentChart() {
               const endY = 160 + 145 * Math.sin(endAngle);
 
               // Use arc paths for the zodiac segments
-              const largeArcFlag = 0, // 0 for arcs less than 180 degrees
+              const largeArcFlag = 0, // 0 for arcs less than 180 degrees;
 
               return `
               <path d='M 160 160 L ${startX} ${startY} A 145 145 0 ${largeArcFlag} 1 ${endX} ${endY} Z' ;
@@ -320,7 +320,7 @@ export function useCurrentChart() {
     planetaryPositions: Object.entries(chartData.planets).reduce(
       (acc, [key, value]) => {
         acc[key.toLowerCase()] = value;
-        return acc,
+        return acc
       },
       {} as Record<string, unknown>,
     ),
@@ -338,7 +338,7 @@ export function useCurrentChart() {
     error,
     refreshChart: async () => {
       setIsLoading(true);
-      setTimeout(() => setIsLoading(false), 500),
+      setTimeout(() => setIsLoading(false), 500)
     },
     // Add the chart property for CookingMethods.tsx
     chart: chartObj

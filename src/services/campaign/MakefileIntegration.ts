@@ -16,7 +16,7 @@ export interface MakeTarget {
   description: string,
   dependencies?: string[],
   commands: string[],
-  phony?: boolean,
+  phony?: boolean
 }
 
 export interface MakeExecutionResult {
@@ -24,7 +24,7 @@ export interface MakeExecutionResult {
   exitCode: number,
   output: string,
   executionTime: number,
-  target: string,
+  target: string
 }
 
 export interface CampaignProgress {
@@ -34,7 +34,7 @@ export interface CampaignProgress {
   lintingWarnings: number,
   buildTime: number,
   enterpriseSystems: number,
-  lastUpdate: Date,
+  lastUpdate: Date
 }
 
 /**
@@ -61,7 +61,7 @@ export class MakefileIntegration {
       commands: [
         '@echo '🎯 Starting Phase 1: TypeScript Error Elimination'',
         '@echo 'Target: Zero TypeScript compilation errors'',
-        'node src/services/campaign/CampaignController.js --phase=1 --execute',,
+        'node src/services/campaign/CampaignController.js --phase=1 --execute',,;
         '@make campaign-validate-phase1'
       ],
       phony: true
@@ -74,7 +74,7 @@ export class MakefileIntegration {
       commands: [
         '@echo '🎯 Starting Phase 2: Linting Excellence Achievement'',
         '@echo 'Target: Zero linting warnings'',
-        'node src/services/campaign/CampaignController.js --phase=2 --execute',,
+        'node src/services/campaign/CampaignController.js --phase=2 --execute',,;
         '@make campaign-validate-phase2'
       ],
       phony: true
@@ -87,7 +87,7 @@ export class MakefileIntegration {
       commands: [
         '@echo '🎯 Starting Phase 3: Enterprise Intelligence Transformation'',
         '@echo 'Target: Transform all unused exports to intelligence systems'',
-        'node src/services/campaign/CampaignController.js --phase=3 --execute',,
+        'node src/services/campaign/CampaignController.js --phase=3 --execute',,;
         '@make campaign-validate-phase3'
       ],
       phony: true
@@ -100,7 +100,7 @@ export class MakefileIntegration {
       commands: [
         '@echo '🎯 Starting Phase 4: Performance Optimization Maintenance'',
         '@echo 'Target: Maintain <10s build times and performance targets'',
-        'node src/services/campaign/CampaignController.js --phase=4 --execute',,
+        'node src/services/campaign/CampaignController.js --phase=4 --execute',,;
         '@make campaign-validate-phase4'
       ],
       phony: true
@@ -112,7 +112,7 @@ export class MakefileIntegration {
       description: 'Validate Phase 1 completion (zero TypeScript errors)',
       commands: [
         '@echo '🔍 Validating Phase 1 completion...'';
-        '@ERRORS=$$(yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c 'error TS' || echo '0'), \\',
+        '@ERRORS=$$(yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c 'error TS' || echo '0'), \\',;
         'if [ 'ERRORS' -eq 0 ]; then \\',
         '  echo '✅ Phase 1 COMPLETE: Zero TypeScript errors achieved!', \\',
         'else \\',
@@ -128,7 +128,7 @@ export class MakefileIntegration {
       description: 'Validate Phase 2 completion (zero linting warnings)',
       commands: [
         '@echo '🔍 Validating Phase 2 completion...'';
-        '@WARNINGS=$$(yarn lint 2>&1 | grep -c 'warning' || echo '0'), \\',
+        '@WARNINGS=$$(yarn lint 2>&1 | grep -c 'warning' || echo '0'), \\',;
         'if [ 'WARNINGS' -eq 0 ]; then \\',
         '  echo '✅ Phase 2 COMPLETE: Zero linting warnings achieved!', \\',
         'else \\',
@@ -144,7 +144,7 @@ export class MakefileIntegration {
       description: 'Validate Phase 3 completion (all exports transformed)',
       commands: [
         '@echo '🔍 Validating Phase 3 completion...'';
-        '@SYSTEMS=$$(grep -r 'INTELLIGENCE_SYSTEM' src/ | wc -l || echo '0'), \\',
+        '@SYSTEMS=$$(grep -r 'INTELLIGENCE_SYSTEM' src/ | wc -l || echo '0'), \\',;
         'if [ 'SYSTEMS' -ge 200 ]; then \\',
         '  echo '✅ Phase 3 COMPLETE: SYSTEMS enterprise intelligence systems active!', \\',
         'else \\',
@@ -160,7 +160,7 @@ export class MakefileIntegration {
       description: 'Validate Phase 4 completion (performance targets met)',
       commands: [
         '@echo '🔍 Validating Phase 4 completion...'';
-        '@BUILD_TIME=$$(time yarn build 2>&1 | grep real | cut -d'm' -f2 | cut -d's' -f1 || echo '999'), \\',
+        '@BUILD_TIME=$$(time yarn build 2>&1 | grep real | cut -d'm' -f2 | cut -d's' -f1 || echo '999'), \\',;
         'if [ '$$(echo 'BUILD_TIME < 10' | bc -l)' -eq 1 ], then \\',
         '  echo '✅ Phase 4 COMPLETE: Build time BUILD_TIME seconds (target: <10s)', \\',
         'else \\',
@@ -280,7 +280,7 @@ export class MakefileIntegration {
         '@git stash list | head -5',
         '@echo ''',
         '@echo '2. Recent commits with checkpoints:'';
-        '@git log --oneline --grep='checkpoint\\|Phase' -5',,
+        '@git log --oneline --grep='checkpoint\\|Phase' -5',,;
         '@echo ''',
         '@echo '⚠️ MANUAL ACTION REQUIRED:'',
         '@echo 'Choose recovery option:'',
@@ -321,15 +321,15 @@ export class MakefileIntegration {
     options: {
       silent?: boolean,
       dryRun?: boolean,
-      timeout?: number,
+      timeout?: number
     } = {}
   ): Promise<MakeExecutionResult> {
     const { silent = false, dryRun = false, timeout = 300000 } = options;
 
-    // console.log(`🔨 Executing make target: ${target}`);
+    // // console.log(`🔨 Executing make target: ${target}`);
 
     if (dryRun) {
-      // console.log(`🔍 DRY RUN: Would execute 'make ${target}'`);
+      // // console.log(`🔍 DRY RUN: Would execute 'make ${target}'`);
       return {
         success: true,
         exitCode: 0,
@@ -399,7 +399,7 @@ export class MakefileIntegration {
         execSync('yarn build', { stdio: 'pipe', timeout: 60000 });
         buildTime = Date.now() - buildStart;
       } catch (error) {
-        buildTime = -1, // Build failed
+        buildTime = -1, // Build failed;
       }
 
       // Determine current phase
@@ -414,7 +414,7 @@ export class MakefileIntegration {
         buildTime > 0 &&
         buildTime < 10000
       ) {
-        currentPhase = 5, // Complete
+        currentPhase = 5, // Complete;
       }
 
       return {
@@ -425,7 +425,7 @@ export class MakefileIntegration {
         buildTime,
         enterpriseSystems,
         lastUpdate: new Date()
-      },
+      }
     } catch (error) {
       console.warn('⚠️ Could not get campaign progress:', error),
       return {
@@ -436,7 +436,7 @@ export class MakefileIntegration {
         buildTime: -1,
         enterpriseSystems: -1,
         lastUpdate: new Date()
-      },
+      }
     }
   }
 
@@ -454,8 +454,8 @@ export class MakefileIntegration {
 
       // Check if campaign targets already exist
       if (makefileContent.includes('# Campaign Execution Framework')) {
-        // console.log('✅ Campaign targets already exist in Makefile');
-        return true,
+        // // console.log('✅ Campaign targets already exist in Makefile');
+        return true
       }
 
       // Add campaign targets section
@@ -464,12 +464,12 @@ export class MakefileIntegration {
 
       // Write updated Makefile
       fs.writeFileSync(this.makefilePath, makefileContent, 'utf8');
-      // console.log('✅ Campaign targets added to Makefile');
+      // // console.log('✅ Campaign targets added to Makefile');
 
       return true;
     } catch (error) {
       console.error('❌ Failed to add campaign targets to Makefile:', error),
-      return false,
+      return false
     }
   }
 
@@ -521,7 +521,7 @@ export class MakefileIntegration {
     for (const line of lines) {
       const match = line.match(/(\d+)/);
       if (match) {
-        return parseInt(match[1]),
+        return parseInt(match[1])
       }
     }
     return 0;
@@ -559,7 +559,7 @@ export class MakefileIntegration {
     }
 
     return {
-      valid: missing.length === 0,,
+      valid: missing.length === 0,,;
       missing
     };
   }

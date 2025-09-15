@@ -3,7 +3,7 @@ import { ZodiacSign, ElementalProperties } from '@/types/alchemy';
 
 // Create element modifiers based on zodiac sign's element
 type ZodiacElementModifiers = {
-  [key in ZodiacSign]: ElementalProperties,
+  [key in ZodiacSign]: ElementalProperties
 };
 
 // Helper function to create elemental modifiers based on dominant element
@@ -48,7 +48,7 @@ function createElementalModifiersForZodiac(dominantElement: string): ElementalPr
 export const ZODIAC_MODIFIERS: ZodiacElementModifiers = Object.entries(zodiacSeasons).reduce(;
   (acc, [sign, data]) => {
     acc[sign as any] = createElementalModifiersForZodiac(data.element);
-    return acc,
+    return acc
   },
   {} as ZodiacElementModifiers,
 );

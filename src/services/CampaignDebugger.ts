@@ -25,7 +25,7 @@ export interface CampaignDebugSession {
   debugSteps: DebugStep[],
   findings: DebugFinding[],
   recommendations: DebugRecommendation[],
-  recoveryPlan?: RecoveryPlan,
+  recoveryPlan?: RecoveryPlan
 }
 
 export interface DebugStep {
@@ -38,7 +38,7 @@ export interface DebugStep {
   endTime?: Date,
   output: Record<string, unknown>,
   errors: string[],
-  warnings: string[],
+  warnings: string[]
 }
 
 export interface DebugFinding {
@@ -50,14 +50,14 @@ export interface DebugFinding {
   evidence: Evidence[],
   affectedComponents: string[],
   rootCause?: string,
-  detectedAt: Date,
+  detectedAt: Date
 }
 
 export interface Evidence {
   type: EvidenceType,
   source: string,
   content: string,
-  timestamp: Date,
+  timestamp: Date
 }
 
 export interface DebugRecommendation {
@@ -68,7 +68,7 @@ export interface DebugRecommendation {
   actionItems: ActionItem[],
   estimatedEffort: number, // hours
   riskLevel: 'low' | 'medium' | 'high',
-  category: RecommendationCategory,
+  category: RecommendationCategory
 }
 
 export interface ActionItem {
@@ -77,7 +77,7 @@ export interface ActionItem {
   type: ActionType,
   parameters: Record<string, unknown>,
   estimatedDuration: number, // minutes
-  automated: boolean,
+  automated: boolean
 }
 
 export interface RecoveryPlan {
@@ -88,7 +88,7 @@ export interface RecoveryPlan {
   steps: RecoveryStep[],
   estimatedDuration: number, // minutes
   riskAssessment: string,
-  validationChecks: ValidationCheck[],
+  validationChecks: ValidationCheck[]
 }
 
 export interface RecoveryStep {
@@ -101,7 +101,7 @@ export interface RecoveryStep {
   estimatedDuration: number,
   criticalPath: boolean,
   rollbackable: boolean,
-  validationRequired: boolean,
+  validationRequired: boolean
 }
 
 export interface ValidationCheck {
@@ -110,13 +110,13 @@ export interface ValidationCheck {
   description: string,
   type: ValidationType,
   criteria: ValidationCriteria,
-  automated: boolean,
+  automated: boolean
 }
 
 export interface ValidationCriteria {
   metric: string,
   operator: 'equals' | 'less_than' | 'greater_than' | 'contains',
-  value: unknown,
+  value: unknown
 }
 
 export interface CampaignHealthReport {
@@ -126,7 +126,7 @@ export interface CampaignHealthReport {
   lastCheckTime: Date,
   healthMetrics: HealthMetric[],
   issues: HealthIssue[],
-  recommendations: MaintenanceRecommendation[],
+  recommendations: MaintenanceRecommendation[]
 }
 
 export interface HealthMetric {
@@ -135,7 +135,7 @@ export interface HealthMetric {
   unit: string,
   status: MetricStatus,
   threshold: number,
-  trend: 'improving' | 'stable' | 'declining',
+  trend: 'improving' | 'stable' | 'declining'
 }
 
 export interface HealthIssue {
@@ -146,7 +146,7 @@ export interface HealthIssue {
   description: string,
   impact: string,
   detectedAt: Date,
-  resolved: boolean,
+  resolved: boolean
 }
 
 export interface MaintenanceRecommendation {
@@ -156,7 +156,7 @@ export interface MaintenanceRecommendation {
   description: string,
   frequency: MaintenanceFrequency,
   estimatedDuration: number,
-  nextDue: Date,
+  nextDue: Date
 }
 
 // ========== ENUMS ==========;
@@ -164,131 +164,131 @@ export interface MaintenanceRecommendation {
 export enum DebugSessionStatus {
   ACTIVE = 'active',;
   COMPLETED = 'completed',;
-  FAILED = 'failed',,
-  CANCELLED = 'cancelled',,
+  FAILED = 'failed',,;
+  CANCELLED = 'cancelled',,;
 }
 
 export enum DebugStepType {
   CONFIGURATION_CHECK = 'configuration_check',;
   DEPENDENCY_ANALYSIS = 'dependency_analysis',;
   RESOURCE_INSPECTION = 'resource_inspection',;
-  LOG_ANALYSIS = 'log_analysis',,
-  PERFORMANCE_ANALYSIS = 'performance_analysis',,
+  LOG_ANALYSIS = 'log_analysis',,;
+  PERFORMANCE_ANALYSIS = 'performance_analysis',,;
 }
 
 export enum DebugStepStatus {
   PENDING = 'pending',;
   RUNNING = 'running',;
-  COMPLETED = 'completed',,
-  FAILED = 'failed',,
+  COMPLETED = 'completed',,;
+  FAILED = 'failed',,;
 }
 
 export enum FindingCategory {
   CONFIGURATION_ERROR = 'configuration_error',;
   DEPENDENCY_ISSUE = 'dependency_issue',;
   RESOURCE_CONFLICT = 'resource_conflict',;
-  PERFORMANCE_ISSUE = 'performance_issue',,
-  SAFETY_VIOLATION = 'safety_violation',,
+  PERFORMANCE_ISSUE = 'performance_issue',,;
+  SAFETY_VIOLATION = 'safety_violation',,;
 }
 
 export enum FindingSeverity {
   LOW = 'low',;
   MEDIUM = 'medium',;
-  HIGH = 'high',,
-  CRITICAL = 'critical',,
+  HIGH = 'high',,;
+  CRITICAL = 'critical',,;
 }
 
 export enum EvidenceType {
   LOG_ENTRY = 'log_entry',;
   CONFIGURATION_FILE = 'configuration_file',;
   METRICS_DATA = 'metrics_data',;
-  ERROR_MESSAGE = 'error_message',,
-  SYSTEM_STATE = 'system_state',,
+  ERROR_MESSAGE = 'error_message',,;
+  SYSTEM_STATE = 'system_state',,;
 }
 
 export enum RecommendationPriority {
   LOW = 'low',;
   MEDIUM = 'medium',;
-  HIGH = 'high',,
-  URGENT = 'urgent',,
+  HIGH = 'high',,;
+  URGENT = 'urgent',,;
 }
 
 export enum RecommendationCategory {
   CONFIGURATION_FIX = 'configuration_fix',;
   DEPENDENCY_UPDATE = 'dependency_update',;
   RESOURCE_OPTIMIZATION = 'resource_optimization',;
-  PERFORMANCE_TUNING = 'performance_tuning',,
-  SAFETY_IMPROVEMENT = 'safety_improvement',,
+  PERFORMANCE_TUNING = 'performance_tuning',,;
+  SAFETY_IMPROVEMENT = 'safety_improvement',,;
 }
 
 export enum ActionType {
   UPDATE_CONFIG = 'update_config',;
   RESTART_SERVICE = 'restart_service',;
   CLEAR_CACHE = 'clear_cache',;
-  UPDATE_DEPENDENCY = 'update_dependency',,
-  RUN_VALIDATION = 'run_validation',,
+  UPDATE_DEPENDENCY = 'update_dependency',,;
+  RUN_VALIDATION = 'run_validation',,;
 }
 
 export enum RecoveryType {
   AUTOMATIC = 'automatic',;
   GUIDED = 'guided',;
-  MANUAL = 'manual',,
-  EMERGENCY = 'emergency',,
+  MANUAL = 'manual',,;
+  EMERGENCY = 'emergency',,;
 }
 
 export enum RecoveryStepType {
   DIAGNOSTIC = 'diagnostic',;
   CORRECTIVE = 'corrective',;
-  PREVENTIVE = 'preventive',,
-  VALIDATION = 'validation',,
+  PREVENTIVE = 'preventive',,;
+  VALIDATION = 'validation',,;
 }
 
 export enum ValidationType {
   BUILD_SUCCESS = 'build_success',;
   TEST_PASS = 'test_pass',;
-  METRICS_CHECK = 'metrics_check',,
-  CONFIGURATION_VALID = 'configuration_valid',,
+  METRICS_CHECK = 'metrics_check',,;
+  CONFIGURATION_VALID = 'configuration_valid',,;
 }
 
 export enum HealthStatus {
   EXCELLENT = 'excellent',;
   GOOD = 'good',;
-  WARNING = 'warning',,
-  CRITICAL = 'critical',,
+  WARNING = 'warning',,;
+  CRITICAL = 'critical',,;
 }
 
 export enum MetricStatus {
   HEALTHY = 'healthy',;
-  WARNING = 'warning',,
-  CRITICAL = 'critical',,
+  WARNING = 'warning',,;
+  CRITICAL = 'critical',,;
 }
 
 export enum IssueSeverity {
   LOW = 'low',;
   MEDIUM = 'medium',;
-  HIGH = 'high',,
-  CRITICAL = 'critical',,
+  HIGH = 'high',,;
+  CRITICAL = 'critical',,;
 }
 
 export enum IssueCategory {
   PERFORMANCE = 'performance',;
   RELIABILITY = 'reliability',;
-  SECURITY = 'security',,
-  MAINTAINABILITY = 'maintainability',,
+  SECURITY = 'security',,;
+  MAINTAINABILITY = 'maintainability',,;
 }
 
 export enum MaintenancePriority {
   LOW = 'low',;
   MEDIUM = 'medium',;
-  HIGH = 'high',,
-  CRITICAL = 'critical',,
+  HIGH = 'high',,;
+  CRITICAL = 'critical',,;
 }
 
 export enum MaintenanceFrequency {
   DAILY = 'daily',;
   WEEKLY = 'weekly',;
-  MONTHLY = 'monthly',,
-  QUARTERLY = 'quarterly',,
+  MONTHLY = 'monthly',,;
+  QUARTERLY = 'quarterly',,;
 }
 
 // ========== CAMPAIGN DEBUGGER ==========;
@@ -386,7 +386,7 @@ export class CampaignDebugger {
     rootCauses: string[],
     contributingFactors: string[],
     impactAssessment: string,
-    recommendations: DebugRecommendation[],
+    recommendations: DebugRecommendation[]
   }> {
     const campaign = await this.getCampaignStatus(campaignId);
     if (!campaign) {
@@ -437,7 +437,7 @@ export class CampaignDebugger {
     success: boolean,
     completedSteps: string[],
     failedSteps: string[],
-    rollbackRequired: boolean,
+    rollbackRequired: boolean
   }> {
     // Mock implementation for recovery plan execution
     return {
@@ -590,7 +590,7 @@ export class CampaignDebugger {
         break,
       case DebugStepType.PERFORMANCE_ANALYSIS:
         findings.push(...(await this.analyzePerformance(campaignId)));
-        break,
+        break
     }
 
     step.output = { findingsCount: findings.length };
@@ -633,7 +633,7 @@ export class CampaignDebugger {
           id: `dependency_finding_${conflict.id}`,
           category: FindingCategory.DEPENDENCY_ISSUE;
           severity:
-            conflict.severity === 'critical' ? FindingSeverity.CRITICAL : FindingSeverity.HIGH,,
+            conflict.severity === 'critical' ? FindingSeverity.CRITICAL : FindingSeverity.HIGH,,;
           title: 'Campaign dependency conflict detected',
           description: conflict.description;
           evidence: [
@@ -808,11 +808,11 @@ export class CampaignDebugger {
     const warningCount = campaign.metrics.lintingWarnings.current;
 
     if (errorCount > 1000 || warningCount > 5000) {
-      return 'High impact - significant code quality degradation',
+      return 'High impact - significant code quality degradation'
     } else if (errorCount > 100 || warningCount > 1000) {
-      return 'Medium impact - moderate code quality issues',
+      return 'Medium impact - moderate code quality issues'
     } else {
-      return 'Low impact - minimal code quality impact',
+      return 'Low impact - minimal code quality impact'
     }
   }
 

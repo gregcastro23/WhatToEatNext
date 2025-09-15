@@ -28,7 +28,7 @@ export interface ValidationResult {
   message: string,
   details?: string,
   timestamp: Date,
-  executionTime: number,
+  executionTime: number
 }
 
 export interface PhaseValidation {
@@ -47,7 +47,7 @@ export interface MilestoneValidationResult {
   failedCriteria: number,
   results: Array<{
     criteriaId: string,
-    result: ValidationResult,
+    result: ValidationResult
   }>;
   executionTime: number;
   timestamp: Date;
@@ -60,7 +60,7 @@ export interface FailureDetectionResult {
   category: 'build' | 'test' | 'typescript' | 'linting' | 'performance' | 'corruption',
   description: string,
   recoveryActions: string[],
-  automaticRecovery: boolean,
+  automaticRecovery: boolean
 }
 
 /**
@@ -104,7 +104,7 @@ export class ValidationFramework {
               const executionTime = Date.now() - startTime;
 
               return {
-                success: errorCount === 0,,
+                success: errorCount === 0,,;
                 value: errorCount,
                 expected: 0,
                 message:
@@ -196,7 +196,7 @@ export class ValidationFramework {
               const executionTime = Date.now() - startTime;
 
               return {
-                success: criticalErrors === 0,,
+                success: criticalErrors === 0,,;
                 value: criticalErrors,
                 expected: 0,
                 message:
@@ -249,7 +249,7 @@ export class ValidationFramework {
               const executionTime = Date.now() - startTime;
 
               return {
-                success: warningCount === 0,,
+                success: warningCount === 0,,;
                 value: warningCount,
                 expected: 0,
                 message:
@@ -299,7 +299,7 @@ export class ValidationFramework {
               const executionTime = Date.now() - startTime;
 
               return {
-                success: explicitAnyCount === 0,,
+                success: explicitAnyCount === 0,,;
                 value: explicitAnyCount,
                 expected: 0,
                 message:
@@ -343,7 +343,7 @@ export class ValidationFramework {
               const executionTime = Date.now() - startTime;
 
               return {
-                success: unusedVarsCount === 0,,
+                success: unusedVarsCount === 0,,;
                 value: unusedVarsCount,
                 expected: 0,
                 message:
@@ -387,7 +387,7 @@ export class ValidationFramework {
               const executionTime = Date.now() - startTime;
 
               return {
-                success: consoleCount === 0,,
+                success: consoleCount === 0,,;
                 value: consoleCount,
                 expected: 0,
                 message:
@@ -488,7 +488,7 @@ export class ValidationFramework {
               const executionTime = Date.now() - startTime;
 
               return {
-                success: unusedExports === 0,,
+                success: unusedExports === 0,,;
                 value: unusedExports,
                 expected: 0,
                 message:
@@ -552,7 +552,7 @@ export class ValidationFramework {
                   (error as Error).message;
                 timestamp: new Date(),
                 executionTime
-              },
+              }
             }
           }
         }
@@ -606,7 +606,7 @@ export class ValidationFramework {
                   (error as Error).message;
                 timestamp: new Date(),
                 executionTime: Date.now() - startTime
-              },
+              }
             }
           }
         },
@@ -687,7 +687,7 @@ export class ValidationFramework {
                   message: 'Bundle size check skipped (no build output)',
                   timestamp: new Date(),
                   executionTime: Date.now() - startTime
-                },
+                }
               }
                
               // Intentionally any: Error objects from validation processes have varying structures
@@ -700,7 +700,7 @@ export class ValidationFramework {
                 details: (error as Error).message;
                 timestamp: new Date(),
                 executionTime: Date.now() - startTime
-              },
+              }
             }
           }
         },
@@ -739,12 +739,12 @@ export class ValidationFramework {
                 details: (error as Error).message;
                 timestamp: new Date(),
                 executionTime: Date.now() - startTime
-              },
+              }
             }
           }
         }
       ]
-    }),
+    })
   }
 
   /**
@@ -756,7 +756,7 @@ export class ValidationFramework {
       throw new Error(`Unknown phase ID: ${phaseId}`);
     }
 
-    // console.log(`🔍 Validating ${phaseValidation.phaseName}...`);
+    // // console.log(`🔍 Validating ${phaseValidation.phaseName}...`);
 
     const startTime = Date.now();
     const results: Array<{ criteriaId: string, result: ValidationResult }> = [];
@@ -765,7 +765,7 @@ export class ValidationFramework {
 
     // Execute all validation criteria
     for (const criteria of phaseValidation.criteria) {
-      // console.log(`  ⏳ Checking: ${criteria.name}`);
+      // // console.log(`  ⏳ Checking: ${criteria.name}`);
 
       try {
         const result = await criteria.validator();
@@ -774,11 +774,11 @@ export class ValidationFramework {
         if (result.success) {
           totalScore += criteria.weight;
           passedCriteria++,
-          // console.log(`  ✅ ${criteria.name}: ${result.message}`);
+          // // console.log(`  ✅ ${criteria.name}: ${result.message}`);
         } else {
-          // console.log(`  ❌ ${criteria.name}: ${result.message}`);
+          // // console.log(`  ❌ ${criteria.name}: ${result.message}`);
           if (criteria.required) {
-            // console.log(`  🚨 REQUIRED CRITERIA FAILED: ${criteria.name}`);
+            // // console.log(`  🚨 REQUIRED CRITERIA FAILED: ${criteria.name}`);
           }
         }
       } catch (error) {
@@ -789,7 +789,7 @@ export class ValidationFramework {
           executionTime: 0
         };
         results.push({ criteriaId: criteria.id, result: failedResult });
-        // console.log(`  ❌ ${criteria.name}: Validation error - ${error}`);
+        // // console.log(`  ❌ ${criteria.name}: Validation error - ${error}`);
       }
     }
 
@@ -817,17 +817,17 @@ export class ValidationFramework {
     this.validationHistory.push(validationResult);
 
     // Log summary
-    // console.log(`\n📊 ${phaseValidation.phaseName} Validation Summary:`);
-    // console.log(`✅ Success: ${success}`);
-    // console.log(
+    // // console.log(`\n📊 ${phaseValidation.phaseName} Validation Summary:`);
+    // // console.log(`✅ Success: ${success}`);
+    // // console.log(
       `📈 Score: ${(totalScore * 100).toFixed(1)}% (threshold: ${(phaseValidation.successThreshold * 100).toFixed(1)}%)`,
     );
-    // console.log(`📋 Criteria: ${passedCriteria}/${phaseValidation.criteria.length} passed`);
-    // console.log(`⏱️ Execution Time: ${executionTime}ms`);
+    // // console.log(`📋 Criteria: ${passedCriteria}/${phaseValidation.criteria.length} passed`);
+    // // console.log(`⏱️ Execution Time: ${executionTime}ms`);
 
     if (recommendations.length > 0) {
-      // console.log(`\n💡 Recommendations:`);
-      recommendations.forEach(rec => // console.log(`  • ${rec}`));
+      // // console.log(`\n💡 Recommendations:`);
+      recommendations.forEach(rec => // // console.log(`  • ${rec}`));
     }
 
     return validationResult;
@@ -931,7 +931,7 @@ export class ValidationFramework {
    * Get validation history
    */
   getValidationHistory(): MilestoneValidationResult[] {
-    return [...this.validationHistory],
+    return [...this.validationHistory]
   }
 
   /**

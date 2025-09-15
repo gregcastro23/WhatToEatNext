@@ -34,7 +34,7 @@ export interface KiroCampaignStatus {
   metrics: ProgressMetrics,
   safetyEvents: SafetyEvent[],
   lastUpdate: Date,
-  estimatedCompletion?: Date,
+  estimatedCompletion?: Date
 }
 
 export interface KiroCampaignControlPanel {
@@ -42,7 +42,7 @@ export interface KiroCampaignControlPanel {
   availablePhases: CampaignPhase[],
   systemHealth: SystemHealthStatus,
   quickActions: QuickAction[],
-  recentResults: CampaignResult[],
+  recentResults: CampaignResult[]
 }
 
 export interface SystemHealthStatus {
@@ -51,7 +51,7 @@ export interface SystemHealthStatus {
   lintingWarnings: number,
   buildTime: number,
   lastHealthCheck: Date,
-  healthTrends: HealthTrend[],
+  healthTrends: HealthTrend[]
 }
 
 export interface QuickAction {
@@ -61,7 +61,7 @@ export interface QuickAction {
   icon: string,
   enabled: boolean,
   estimatedDuration: number, // minutes
-  safetyLevel: 'low' | 'medium' | 'high' | 'maximum',
+  safetyLevel: 'low' | 'medium' | 'high' | 'maximum'
 }
 
 export interface CampaignResult {
@@ -72,7 +72,7 @@ export interface CampaignResult {
   metricsImprovement: {
     errorsReduced: number,
     warningsReduced: number,
-    buildTimeImproved: number,
+    buildTimeImproved: number
   };
   duration: number; // minutes
 }
@@ -81,7 +81,7 @@ export interface HealthTrend {
   metric: string,
   trend: 'improving' | 'stable' | 'declining',
   changePercentage: number,
-  timeframe: string,
+  timeframe: string
 }
 
 export interface CampaignExecutionRequest {
@@ -89,7 +89,7 @@ export interface CampaignExecutionRequest {
   safetyLevel: 'conservative' | 'standard' | 'aggressive',
   batchSize?: number,
   dryRun?: boolean,
-  approvalRequired?: boolean,
+  approvalRequired?: boolean
 }
 
 export interface CampaignSchedule {
@@ -100,7 +100,7 @@ export interface CampaignSchedule {
   recurrence?: 'daily' | 'weekly' | 'monthly',
   enabled: boolean,
   lastRun?: Date,
-  nextRun?: Date,
+  nextRun?: Date
 }
 
 // ========== KIRO CAMPAIGN INTEGRATION SERVICE ==========;
@@ -116,7 +116,7 @@ export class KiroCampaignIntegration {
     this.campaignController = new CampaignController(this.getDefaultConfig());
     this.progressTracker = new ProgressTracker();
     this.intelligenceSystem = CampaignIntelligenceSystem as unknown as {
-      initialize: (config: Record<string, unknown>) => Promise<void>,
+      initialize: (config: Record<string, unknown>) => Promise<void>
     };
   }
 
@@ -153,7 +153,7 @@ export class KiroCampaignIntegration {
     status.metrics = currentMetrics;
     status.lastUpdate = new Date();
 
-    return status,
+    return status
   }
 
   /**
@@ -226,7 +226,7 @@ export class KiroCampaignIntegration {
       buildTime: metrics.buildPerformance.currentTime;
       lastHealthCheck: new Date(),
       healthTrends
-    },
+    }
   }
 
   // ========== CAMPAIGN CONTROL ==========;
@@ -398,7 +398,7 @@ export class KiroCampaignIntegration {
     Object.assign(schedule, updates),
 
     if (updates.scheduledTime || updates.recurrence) {
-      schedule.nextRun = this.calculateNextRun(schedule.scheduledTime, schedule.recurrence),
+      schedule.nextRun = this.calculateNextRun(schedule.scheduledTime, schedule.recurrence),;
     }
 
     return true;
@@ -440,7 +440,7 @@ export class KiroCampaignIntegration {
   async getCampaignAnalysis(campaignId: string): Promise<{
     intelligence: unknown,
     recommendations: string[],
-    nextSteps: string[],
+    nextSteps: string[]
   }> {
     const intelligence = await (;
       this.intelligenceSystem as unknown as {
@@ -448,7 +448,7 @@ export class KiroCampaignIntegration {
           controller: unknown,
           options: Record<string, unknown>,
           context: Record<string, unknown>,
-        ) => Promise<Record<string, unknown>>,
+        ) => Promise<Record<string, unknown>>
       }
     ).generateComprehensiveIntelligence(this.campaignController, {}, {});
 
@@ -512,7 +512,7 @@ export class KiroCampaignIntegration {
 
   private async getRecentCampaignResults(): Promise<CampaignResult[]> {
     // This would be populated from actual campaign history
-    return [],
+    return []
   }
 
   private async createCampaignConfig(request: CampaignExecutionRequest): Promise<CampaignConfig> {
@@ -528,10 +528,10 @@ export class KiroCampaignIntegration {
     };
 
     if (request.safetyLevel === 'conservative') {
-      safetySettings.maxFilesPerBatch = Math.min(safetySettings.maxFilesPerBatch, 10),
+      safetySettings.maxFilesPerBatch = Math.min(safetySettings.maxFilesPerBatch, 10),;
       safetySettings.buildValidationFrequency = 3;
     } else if (request.safetyLevel === 'aggressive') {
-      safetySettings.maxFilesPerBatch = Math.max(safetySettings.maxFilesPerBatch, 25),
+      safetySettings.maxFilesPerBatch = Math.max(safetySettings.maxFilesPerBatch, 25),;
       safetySettings.buildValidationFrequency = 10;
     }
 

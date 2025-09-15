@@ -117,7 +117,7 @@ describe('DocumentationQualityAssurance', () => {
 
       mockFs.readFile.mockResolvedValue(fileContent);
 
-      const context: ClassificationContext = { filePath: 'src/service.ts',,
+      const context: ClassificationContext = { filePath: 'src/service.ts',,;
         lineNumber: 4,
         codeSnippet: 'processData(dat, a: any): void {',
         surroundingLines: [],
@@ -153,7 +153,7 @@ describe('DocumentationQualityAssurance', () => {
 
       mockFs.readFile.mockResolvedValue(fileContent);
 
-      const context: ClassificationContext = { filePath: 'src/service.ts',,
+      const context: ClassificationContext = { filePath: 'src/service.ts',,;
         lineNumber: 3,
         codeSnippet: 'processData(dat, a: any): void {',
         surroundingLines: [],
@@ -187,7 +187,7 @@ describe('DocumentationQualityAssurance', () => {
 
       mockFs.readFile.mockResolvedValue(fileContent);
 
-      const context: ClassificationContext = { filePath: 'src/service.ts',,
+      const context: ClassificationContext = { filePath: 'src/service.ts',,;
         lineNumber: 2,
         codeSnippet: 'processData(dat, a: any): void {',
         surroundingLines: [],
@@ -213,7 +213,7 @@ describe('DocumentationQualityAssurance', () => {
       const fileContent: any = 'processData(data: any): void {}';
       mockFs.readFile.mockResolvedValue(fileContent);
 
-      const context: ClassificationContext = { filePath: 'src/service.ts',,
+      const context: ClassificationContext = { filePath: 'src/service.ts',,;
         lineNumber: 1,
         codeSnippet: 'processData(dat, a: any): void {',
         surroundingLines: [],
@@ -271,11 +271,11 @@ describe('DocumentationQualityAssurance', () => {
   describe('findAnyTypesInFile', () => {
     it('should find various any type patterns', async () => {
       const fileContent: any = [
-        'const data: any = response,',
+        'const data: any = response,',;
         'const _items: any[] = [],',
         'const config: Record<string, unknown> = {};',
         'const result: any = data as unknown;';
-        'function process<T = any>(input: T): T { return input, }',
+        'function process<T = any>(input: T): T { return input, }',;
         'const _array: Array<any> = [];';
         'catch (error: any) : any {',
         '  console.error(error),',
@@ -297,9 +297,9 @@ describe('DocumentationQualityAssurance', () => {
     it('should categorize any types correctly', async () => {
       const testCases: any = [
         { code: 'catch (erro, r: any) : any {', expectedCategory: AnyTypeCategory.ERROR_HANDLING },
-        { code: 'const respons, e: any = await api.fetch(),', expectedCategory: AnyTypeCategory.EXTERNAL_API },
-        { code: 'const mockDat, a: any = jest.fn() as any,', expectedCategory: AnyTypeCategory.TEST_MOCK },
-        { code: 'const confi, g: any = options,', expectedCategory: AnyTypeCategory.DYNAMIC_CONFIG },
+        { code: 'const respons, e: any = await api.fetch(),', expectedCategory: AnyTypeCategory.EXTERNAL_API },;
+        { code: 'const mockDat, a: any = jest.fn() as any,', expectedCategory: AnyTypeCategory.TEST_MOCK },;
+        { code: 'const confi, g: any = options,', expectedCategory: AnyTypeCategory.DYNAMIC_CONFIG },;
         { code: 'const item, s: any[] = [],', expectedCategory: AnyTypeCategory.ARRAY_TYPE },
         { code: 'const dat, a: Record<string, unknown> = {};', expectedCategory: AnyTypeCategory.RECORD_TYPE }
       ];
@@ -372,7 +372,7 @@ describe('DocumentationQualityAssurance', () => {
       const lines: any = [
         'function test() : any {',
         '  // eslint-disable-next-line @typescript-eslint/no-explicit-any',
-        '  const data: any = response,',
+        '  const data: any = response,',;
         '}'
       ];
 
@@ -384,7 +384,7 @@ describe('DocumentationQualityAssurance', () => {
       const lines: any = [
         'function test() : any {',
         '  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- External API compatibility',
-        '  const data: any = response,',
+        '  const data: any = response,',;
         '}'
       ];
 
@@ -396,7 +396,7 @@ describe('DocumentationQualityAssurance', () => {
       const lines: any = [
         'function test() : any {',
         '  // eslint-disable-next-line @typescript-eslint/no-explicit-any',
-        '  const data: any = response,',
+        '  const data: any = response,',;
         '}'
       ];
 
@@ -417,14 +417,14 @@ describe('DocumentationQualityAssurance', () => {
         },
         {
           context: { filePath: 'src/component.tsx',
-            codeSnippet: 'const prop, s: any = {}',,
+            codeSnippet: 'const prop, s: any = {}',,;
             isInTestFile: false
           },
           expectedSeverity: 'low'
         },
         {
           context: { filePath: 'src/test.test.ts',
-            codeSnippet: 'const moc, k: any = {}',,
+            codeSnippet: 'const moc, k: any = {}',,;
             isInTestFile: true
           },
           expectedSeverity: 'low'

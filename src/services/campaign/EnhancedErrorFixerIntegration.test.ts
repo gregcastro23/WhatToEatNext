@@ -23,7 +23,7 @@ describe('EnhancedErrorFixerIntegration', () => {
 
   describe('buildFixerArguments', () => {
     it('should build correct arguments for basic options', () => {
-      const options: FixerOptions = { maxFiles: 15,,
+      const options: FixerOptions = { maxFiles: 15,,;
         autoFix: true,
         validateSafety: true
       };
@@ -40,7 +40,7 @@ describe('EnhancedErrorFixerIntegration', () => {
     });
 
     it('should build correct arguments for dry run', () => {
-      const options: FixerOptions = { dryRun: true,,
+      const options: FixerOptions = { dryRun: true,,;
         silent: true,
         json: true
       };
@@ -68,7 +68,7 @@ describe('EnhancedErrorFixerIntegration', () => {
 
       const parseMethod: any = (;
         integration as unknown as {
-          parseFixerOutput: (outpu, t: string, validateSafety: boolean) => Record<string, unknown>,
+          parseFixerOutput: (outpu, t: string, validateSafety: boolean) => Record<string, unknown>
         }
       ).parseFixerOutput.bind(integration);
       const result: any = parseMethod(mockOutput, true);
@@ -88,7 +88,7 @@ describe('EnhancedErrorFixerIntegration', () => {
 
       const parseMethod: any = (;
         integration as unknown as {
-          parseFixerOutput: (outpu, t: string, validateSafety: boolean) => Record<string, unknown>,
+          parseFixerOutput: (outpu, t: string, validateSafety: boolean) => Record<string, unknown>
         }
       ).parseFixerOutput.bind(integration);
       const result: any = parseMethod(mockOutput, false);
@@ -118,7 +118,7 @@ describe('EnhancedErrorFixerIntegration', () => {
 
     it('should return false when build fails', async () => {
       mockExecSync.mockImplementation(() => {
-        throw new Error('Build failed'),
+        throw new Error('Build failed')
       });
 
       const validateMethod: any = (integration as unknown as { validateBuild: () => Promise<boolean> }).validateBuild.bind(;
@@ -148,7 +148,7 @@ describe('EnhancedErrorFixerIntegration', () => {
 
     it('should return 0 when no errors found', async () => {
       mockExecSync.mockImplementation(() => {
-        throw new Error('No matches found'),
+        throw new Error('No matches found')
       });
 
       const countMethod: any = (;
@@ -176,7 +176,7 @@ describe('EnhancedErrorFixerIntegration', () => {
       mockSpawn.mockReturnValue(mockChild as any<typeof spawn>);
       mockExecSync.mockReturnValue('Build successful'); // Mock build validation
 
-      const options: FixerOptions = { maxFiles: 10,,
+      const options: FixerOptions = { maxFiles: 10,,;
         autoFix: true,
         validateSafety: true
       };
@@ -187,7 +187,7 @@ describe('EnhancedErrorFixerIntegration', () => {
         'node',
         [
           'scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js';
-          '--max-files=10',,
+          '--max-files=10',,;
           '--auto-fix',
           '--validate-safety'
         ],
@@ -221,7 +221,7 @@ describe('EnhancedErrorFixerIntegration', () => {
         .mockReturnValueOnce('Build successful') // Third build validation
         .mockReturnValueOnce('0\n'); // Final error count (no more errors)
 
-      const options: BatchProcessingOptions = { batchSize: 15,,
+      const options: BatchProcessingOptions = { batchSize: 15,,;
         buildValidationInterval: 5,
         maxBatches: 3,
         stopOnBuildFailure: true
@@ -248,11 +248,11 @@ describe('EnhancedErrorFixerIntegration', () => {
       mockSpawn.mockReturnValue(mockChild as any<typeof spawn>);
       mockExecSync
         .mockImplementationOnce(() => {
-          throw new Error('Build failed'),
+          throw new Error('Build failed')
         }) // Build validation fails
         .mockReturnValue('50\n'); // Error count
 
-      const options: BatchProcessingOptions = { batchSize: 10,,
+      const options: BatchProcessingOptions = { batchSize: 10,,;
         buildValidationInterval: 5,
         maxBatches: 5,
         stopOnBuildFailure: true

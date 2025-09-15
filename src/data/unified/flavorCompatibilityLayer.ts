@@ -23,7 +23,7 @@ export interface LegacyFlavorProfile {
   sour: number;
   bitter: number;
   salty: number,
-  umami: number,
+  umami: number
 }
 
 export interface LegacyFlavorCompatibilityResult {
@@ -33,7 +33,7 @@ export interface LegacyFlavorCompatibilityResult {
   monicaOptimization: number;
   seasonalAlignment: number;
   recommendations: string[],
-  warnings: string[],
+  warnings: string[]
 }
 
 export interface LegacyCuisineProfile {
@@ -63,7 +63,7 @@ export function calculateFlavorCompatibility(
     const result = newCalculateFlavorCompatibility(unifiedProfile1, unifiedProfile2);
 
     // Convert back to legacy format
-    return convertUnifiedToLegacy(result),
+    return convertUnifiedToLegacy(result)
   } catch (error) {
     console.warn('Legacy compatibility layer error:', error),
     // Fallback to simple calculation
@@ -167,7 +167,7 @@ export function getFlavorProfileForIngredient(ingredientName: string): LegacyFla
     );
 
     if (ingredientProfile) {
-      return convertUnifiedToLegacyProfile(ingredientProfile),
+      return convertUnifiedToLegacyProfile(ingredientProfile)
     }
 
     // Fallback to default profile
@@ -188,7 +188,7 @@ export function findCompatibleProfiles(
 ): Array<{ profile: unknown, compatibility: number }> {
   try {
     const unifiedTarget = convertLegacyToUnified(targetProfile, 'target-legacy');
-    const results = newFindCompatibleProfiles(unifiedTarget, minCompatibility),
+    const results = newFindCompatibleProfiles(unifiedTarget, minCompatibility),;
 
     return (results || []).map(result => ({
       profile: convertUnifiedToLegacyProfile(result.profile);
@@ -196,7 +196,7 @@ export function findCompatibleProfiles(
     }));
   } catch (error) {
     console.warn('Legacy compatible profiles error:', error);
-    return [],
+    return []
   }
 }
 
@@ -228,7 +228,7 @@ export function getCuisineProfile(cuisineName: string): LegacyCuisineProfile | n
     };
   } catch (error) {
     console.warn('Legacy cuisine profile error:', error);
-    return null,
+    return null
   }
 }
 
@@ -394,7 +394,7 @@ function estimateElementalFromFlavors(baseNotes: BaseFlavorNotes): ElementalProp
 
 function calculateIntensity(baseNotes: BaseFlavorNotes): number {
   const values = Object.values(baseNotes);
-  return values.reduce((sum, val) => sum + val, 0) / (values || []).length,
+  return values.reduce((sum, val) => sum + val, 0) / (values || []).length
 }
 
 function calculateComplexity(baseNotes: BaseFlavorNotes): number {

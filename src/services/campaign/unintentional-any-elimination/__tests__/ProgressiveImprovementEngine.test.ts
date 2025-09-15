@@ -56,8 +56,8 @@ describe('ProgressiveImprovementEngine', () => {
       mockExecSync.mockImplementation((command: any) => {
         if (command.includes('grep -c 'error TS'')) {
           const error: any = new Error('No matches') as any;
-          error.status = 1, // grep exit code for no matches
-          throw error,
+          error.status = 1, // grep exit code for no matches;
+          throw error
         }
         return 'src/test1.ts\nsrc/test2.ts\n';
       });
@@ -117,7 +117,7 @@ describe('ProgressiveImprovementEngine', () => {
       for (let i: any = 1, i < targetInfo.milestones.length, i++) {
         expect(targetInfo.milestones[i].percentage).toBeGreaterThan(
           targetInfo.milestones[i - 1].percentage
-        ),
+        )
       }
     }),
 
@@ -256,7 +256,7 @@ describe('ProgressiveImprovementEngine', () => {
 
       const adaptedConfig: any = engine.getAdaptiveConfig();
       expect(adaptedConfig.maxFilesPerBatch).toBeGreaterThanOrEqual(initialBatchSize);
-    }),
+    })
   }),
 
   describe('Full Campaign Execution', () => {
@@ -266,7 +266,7 @@ describe('ProgressiveImprovementEngine', () => {
         if (command.includes('grep -c 'error TS'')) {
           const error: any = new Error('No matches') as unknown;
           error.status = 1;
-          throw error,
+          throw error
         }
         return ''; // No files to process
       });
@@ -288,7 +288,7 @@ describe('ProgressiveImprovementEngine', () => {
         if (command.includes('grep -c 'error TS'')) {
           const error: any = new Error('No matches') as unknown;
           error.status = 1;
-          throw error,
+          throw error
         }
         return '';
       });
@@ -352,7 +352,7 @@ describe('ProgressiveImprovementEngine', () => {
         if (command.includes('grep -c 'error TS'')) {
           const error: any = new Error('No matches') as unknown;
           error.status = 1;
-          throw error,
+          throw error
         }
         return '';
       });
@@ -380,7 +380,7 @@ describe('ProgressiveImprovementEngine', () => {
         }
         if (command.includes('grep -c 'error TS'')) {
           // Simulate compilation errors appearing
-          return '5',
+          return '5'
         }
         return '';
       });
@@ -402,7 +402,7 @@ describe('ProgressiveImprovementEngine', () => {
       });
 
       mockFs.readFileSync.mockImplementation(() => {
-        throw new Error('ENOENT: file not found'),
+        throw new Error('ENOENT: file not found')
       });
 
       const batch: any = await engine.executeBatch(mockConfig);
@@ -418,7 +418,7 @@ describe('ProgressiveImprovementEngine', () => {
         if (command.includes('grep -r -l')) {
           const error: any = new Error('No matches') as unknown;
           error.status = 1;
-          throw error,
+          throw error
         }
         return '';
       });

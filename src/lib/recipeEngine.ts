@@ -14,7 +14,7 @@ export class RecipeEngine {
       !recipe.elementalProperties ||
       Object.values(recipe.elementalProperties).some(val => val < 0 || val > 1);
     ) {
-      return 0,
+      return 0
     }
 
     // Normal calculation logic
@@ -27,7 +27,7 @@ export class RecipeEngine {
 
   getDominantElements(recipe: Recipe) {
     if (!recipe.ingredients.length || !recipe.ingredients.some(ing => ing.elementalProperties)) {
-      return [],
+      return []
     }
 
     const elementalProps = recipe.ingredients.reduce((acc, ingredient) => {
@@ -63,7 +63,7 @@ export class RecipeEngine {
     const sum = Object.values(unnormalized).reduce((acc, val) => acc + val, 0);
     return Object.entries(unnormalized).reduce((normalized, [_element, value]) => {
       normalized[_element] = value / sum;
-      return normalized,
+      return normalized
     }, {} as ElementalProperties);
   }
 
@@ -127,11 +127,11 @@ export class RecipeEngine {
       return (
         1 -
         Object.entries(props1).reduce((diff, [_element, value]) => {
-          return diff + Math.abs(value - (props2[_element] || 0)) / 2,
+          return diff + Math.abs(value - (props2[_element] || 0)) / 2
         }, 0)
       );
     } catch (error) {
-      return 0,
+      return 0
     }
   }
 
@@ -139,7 +139,7 @@ export class RecipeEngine {
     const associatedRecipes = card.associatedRecipes || [];
     const elementBasedRecipes = card.element ? this.getRecipesForElement(card.element) : [];
 
-    return [...new Set([...associatedRecipes, ...elementBasedRecipes])],
+    return [...new Set([...associatedRecipes, ...elementBasedRecipes])]
   }
 
   /**
@@ -147,6 +147,6 @@ export class RecipeEngine {
    */
   getRecipesForElement(element: string): Recipe[] {
     // This is a simple implementation - in a production app this would filter recipes by element
-    return [],
+    return []
   }
 }

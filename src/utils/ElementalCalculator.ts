@@ -5,7 +5,7 @@ export function calculateMatchScore(
     mealType?: string,
     season?: string,
     cuisine?: string,
-    preferHigherContrast?: boolean,
+    preferHigherContrast?: boolean
   },
 ) {
   // Validate input properties to avoid NaN results
@@ -173,13 +173,13 @@ export function calculateMatchScore(
   } else {
     // For similarity mode (default)
     if (rawScore > 0.85) {
-      finalScore = 0.85 + (rawScore - 0.85) * 1.5, // Boost high scores
+      finalScore = 0.85 + (rawScore - 0.85) * 1.5, // Boost high scores;
     } else if (rawScore > 0.6) {
-      finalScore = 0.6 + (rawScore - 0.6) * 1.25, // Medium-high boost
+      finalScore = 0.6 + (rawScore - 0.6) * 1.25, // Medium-high boost;
     } else if (rawScore > 0.4) {
-      finalScore = 0.4 + (rawScore - 0.4) * 1.1, // Medium boost
+      finalScore = 0.4 + (rawScore - 0.4) * 1.1, // Medium boost;
     } else {
-      finalScore = rawScore * 0.9, // Slightly reduce low scores
+      finalScore = rawScore * 0.9, // Slightly reduce low scores;
     }
   }
 

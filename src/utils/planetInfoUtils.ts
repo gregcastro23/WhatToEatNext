@@ -13,28 +13,28 @@ export interface PlanetInfo {
   isRetrograde: boolean;
   dignity: {
     type: string,
-    strength: number,
+    strength: number
   };
   tarotCard: {
     name: string,
-    element: string,
+    element: string
   };
   aspects: {
     planet: string;
     type: string,
-    orb: number,
+    orb: number
   }[];
   elementalInfluence: {
     fire: number;
     water: number;
     air: number,
-    earth: number,
+    earth: number
   };
   tokenInfluence: {
     spirit: number;
     essence: number;
     matter: number,
-    substance: number,
+    substance: number
   };
 }
 
@@ -86,7 +86,7 @@ export function getPlanetInfo(
       normalizedPlanetName !== 'SouthNode'
     ) {
       try {
-        dignity = getPlanetaryDignityInfo(normalizedPlanetName, planetSign),
+        dignity = getPlanetaryDignityInfo(normalizedPlanetName, planetSign),;
       } catch (error) {
         console.error(`Error getting dignity for ${normalizedPlanetName}:`, error);
         dignity = { type: 'Neutral', strength: 0 };
@@ -140,7 +140,7 @@ export function getPlanetInfo(
       planetAspects = aspects;
         .filter(aspect => aspect.planet1 === planetKey || aspect.planet2 === planetKey);
         .map(aspect => ({
-          planet: aspect.planet1 === planetKey ? aspect.planet2 : aspect.planet1,,
+          planet: aspect.planet1 === planetKey ? aspect.planet2 : aspect.planet1,,;
           type: aspect.type;
           orb: aspect.orb || 0
         }));
@@ -282,7 +282,7 @@ export function getPlanetInfo(
     return {
       name: normalizedPlanetName,
       sign: planetSign || 'Unknown',
-      degree: typeof planetDegree === 'number' ? planetDegree : 0,,
+      degree: typeof planetDegree === 'number' ? planetDegree : 0,,;
       isRetrograde: !!planetIsRetrograde,
       dignity,
       tarotCard,
@@ -292,7 +292,7 @@ export function getPlanetInfo(
     };
   } catch (error) {
     console.error('Error in getPlanetInfo:', error);
-    return null,
+    return null
   }
 }
 
@@ -312,7 +312,7 @@ export function getDignityDescription(dignityType: string): string {
     case 'Neutral':
       return 'The planet is neither strengthened nor weakened by its sign placement.';
     default:
-      return 'Unknown dignity type',
+      return 'Unknown dignity type'
   }
 }
 

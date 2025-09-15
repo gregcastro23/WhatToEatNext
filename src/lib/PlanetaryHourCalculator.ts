@@ -92,7 +92,7 @@ export class PlanetaryHourCalculator {
     const dayOfWeek = date.getDay();
 
     // Return the planetary ruler for that day
-    return PlanetaryHourCalculator.dayRulers[dayOfWeek],
+    return PlanetaryHourCalculator.dayRulers[dayOfWeek]
   }
 
   /**
@@ -138,7 +138,7 @@ export class PlanetaryHourCalculator {
     // The minute ruler is the hour ruler + minute segment, wrapping around if needed
     const minuteRulerIndex = (rulerSequenceStart + minuteSegment) % 7;
 
-    return planetarySequence[minuteRulerIndex],
+    return planetarySequence[minuteRulerIndex]
   }
 
   /**
@@ -243,7 +243,7 @@ export class PlanetaryHourCalculator {
       const endHour = Math.floor(6 + (i + 1) * 1.714) - 1;
 
       for (let hour = startHour, hour <= endHour, hour++) {
-        result.set(hour, rulers[i]),
+        result.set(hour, rulers[i])
       }
     }
 
@@ -255,14 +255,14 @@ export class PlanetaryHourCalculator {
       if (endHour < startHour) {
         // Handle hours that cross midnight
         for (let hour = startHour, hour < 24, hour++) {
-          result.set(hour, rulers[i]),
+          result.set(hour, rulers[i])
         }
         for (let hour = 0, hour <= endHour, hour++) {
-          result.set(hour, rulers[i]),
+          result.set(hour, rulers[i])
         }
       } else {
         for (let hour = startHour, hour <= endHour, hour++) {
-          result.set(hour, rulers[i]),
+          result.set(hour, rulers[i])
         }
       }
     }
@@ -284,7 +284,7 @@ export class PlanetaryHourCalculator {
   private getFallbackPlanetaryHour(date: Date): {
     planet: Planet,
     hourNumber: number,
-    isDaytime: boolean,
+    isDaytime: boolean
   } {
     const hour = date.getHours();
     const dayOfWeek = date.getDay();

@@ -21,7 +21,7 @@ export interface PerformanceMetrics {
   parallelProcesses: number,
   incrementalTime?: number,
   errorCount: number,
-  warningCount: number,
+  warningCount: number
 }
 
 export interface PerformanceThresholds {
@@ -38,7 +38,7 @@ export interface PerformanceAlert {
   threshold: number,
   actual: number,
   timestamp: Date,
-  message: string,
+  message: string
 }
 
 export class PerformanceMonitoringService {
@@ -70,7 +70,7 @@ export class PerformanceMonitoringService {
     options: {
       incremental?: boolean,
       parallel?: boolean,
-      cached?: boolean,
+      cached?: boolean
     } = {}
   ): Promise<PerformanceMetrics> {
     const startTime = Date.now();
@@ -80,7 +80,7 @@ export class PerformanceMonitoringService {
     // Monitor memory usage during execution
     const memoryMonitor = setInterval(() => {
       const currentMemory = process.memoryUsage().heapUsed;
-      peakMemoryUsage = Math.max(peakMemoryUsage, currentMemory),
+      peakMemoryUsage = Math.max(peakMemoryUsage, currentMemory),;
     }, 100);
 
     let output = '';
@@ -140,7 +140,7 @@ export class PerformanceMonitoringService {
     improvement: number,
     passed: boolean,
     baseline: PerformanceMetrics | null,
-    current: PerformanceMetrics | null,
+    current: PerformanceMetrics | null
   } {
     if (this.metrics.length < 2) {
       return {
@@ -148,7 +148,7 @@ export class PerformanceMonitoringService {
         passed: false,
         baseline: null,
         current: null
-      },
+      }
     }
 
     // Get baseline (oldest metrics without cache)
@@ -176,7 +176,7 @@ export class PerformanceMonitoringService {
   validateParallelProcessing(): {
     filesPerProcess: number,
     optimalDistribution: boolean,
-    processCount: number,
+    processCount: number
   } {
     const latestMetrics = this.getLatestMetrics();
     if (!latestMetrics) {
@@ -184,7 +184,7 @@ export class PerformanceMonitoringService {
         filesPerProcess: 0,
         optimalDistribution: false,
         processCount: 0
-      },
+      }
     }
 
     const filesPerProcess = latestMetrics.filesProcessed / latestMetrics.parallelProcesses;
@@ -203,7 +203,7 @@ export class PerformanceMonitoringService {
   validateMemoryOptimization(): {
     peakMemoryMB: number,
     withinLimit: boolean,
-    memoryEfficient: boolean,
+    memoryEfficient: boolean
   } {
     const latestMetrics = this.getLatestMetrics();
     if (!latestMetrics) {
@@ -222,7 +222,7 @@ export class PerformanceMonitoringService {
       peakMemoryMB,
       withinLimit,
       memoryEfficient
-    },
+    }
   }
 
   /**
@@ -231,7 +231,7 @@ export class PerformanceMonitoringService {
   validateIncrementalPerformance(): {
     averageIncrementalTime: number,
     subTenSecond: boolean,
-    consistentPerformance: boolean,
+    consistentPerformance: boolean
   } {
     const incrementalMetrics = this.metrics.filter(m => m.incrementalTime !== undefined);
 
@@ -269,7 +269,7 @@ export class PerformanceMonitoringService {
       averageExecutionTime: number,
       averageMemoryUsage: number,
       averageCacheHitRate: number,
-      totalAlerts: number,
+      totalAlerts: number
     },
     performanceImprovement: ReturnType<typeof this.validatePerformanceImprovement>;
     parallelProcessing: ReturnType<typeof this.validateParallelProcessing>;
@@ -318,7 +318,7 @@ export class PerformanceMonitoringService {
    * Get latest performance metrics
    */
   getLatestMetrics(): PerformanceMetrics | null {
-    return this.metrics.length > 0 ? this.metrics[this.metrics.length - 1] : null,
+    return this.metrics.length > 0 ? this.metrics[this.metrics.length - 1] : null
   }
 
   /**
@@ -327,7 +327,7 @@ export class PerformanceMonitoringService {
   getPerformanceTrend(days: number = 7): {
     executionTimeTrend: 'improving' | 'degrading' | 'stable',
     memoryUsageTrend: 'improving' | 'degrading' | 'stable',
-    cacheHitRateTrend: 'improving' | 'degrading' | 'stable',
+    cacheHitRateTrend: 'improving' | 'degrading' | 'stable'
   } {
     const cutoffDate = new Date(Date.now() - days * 24 * 60 * 60 * 1000);
     const recentMetrics = this.metrics.filter(m => m.timestamp >= cutoffDate);
@@ -340,7 +340,7 @@ export class PerformanceMonitoringService {
       };
     }
 
-    const firstHalf = recentMetrics.slice(0, Math.floor(recentMetrics.length / 2)),
+    const firstHalf = recentMetrics.slice(0, Math.floor(recentMetrics.length / 2)),;
     const secondHalf = recentMetrics.slice(Math.floor(recentMetrics.length / 2));
 
     const avgExecutionTimeFirst =
@@ -374,13 +374,13 @@ export class PerformanceMonitoringService {
     const change = (second - first) / first;
 
     if (Math.abs(change) < threshold) {
-      return 'stable',
+      return 'stable'
     }
 
     if (lowerIsBetter) {
-      return change < 0 ? 'improving' : 'degrading',
+      return change < 0 ? 'improving' : 'degrading'
     } else {
-      return change > 0 ? 'improving' : 'degrading',
+      return change > 0 ? 'improving' : 'degrading'
     }
   }
 
@@ -431,7 +431,7 @@ export class PerformanceMonitoringService {
         actual: metrics.cacheHitRate;
         timestamp: new Date(),
         message: `Cache hit rate (${metrics.cacheHitRate}%) below optimal threshold (${this.thresholds.minCacheHitRate}%)`
-      }),
+      })
     }
 
     // Check incremental time
@@ -480,7 +480,7 @@ export class PerformanceMonitoringService {
     // Try to extract file count from ESLint output
     const fileMatches = output.match(/(\d+)\s+files?\s+linted/i);
     if (fileMatches) {
-      return parseInt(fileMatches[1]),
+      return parseInt(fileMatches[1])
     }
 
     // Fallback: count lines that look like file paths
@@ -499,9 +499,9 @@ export class PerformanceMonitoringService {
   private getParallelProcessCount(): number {
     try {
       const cpuCount = os.cpus().length;
-      return Math.min(cpuCount, 4),
+      return Math.min(cpuCount, 4)
     } catch {
-      return 1,
+      return 1
     }
   }
 
@@ -517,11 +517,11 @@ export class PerformanceMonitoringService {
       if (performanceImprovement.improvement < 60) {
         recommendations.push(
           'Consider enabling more aggressive caching or optimizing ESLint configuration',
-        ),
+        )
       } else if (performanceImprovement.improvement > 80) {
         recommendations.push(
           'Performance improvement is higher than expected - verify baseline measurements',
-        ),
+        )
       }
     }
 
@@ -529,7 +529,7 @@ export class PerformanceMonitoringService {
       if (parallelProcessing.filesPerProcess < 25) {
         recommendations.push(
           'Consider reducing parallel process count to optimize file distribution',
-        ),
+        )
       } else if (parallelProcessing.filesPerProcess > 35) {
         recommendations.push('Consider increasing parallel process count for better distribution');
       }
@@ -538,13 +538,13 @@ export class PerformanceMonitoringService {
     if (!memoryOptimization.withinLimit) {
       recommendations.push(
         'Memory usage exceeds 4GB limit - consider optimizing ESLint rules or reducing batch size',
-      ),
+      )
     }
 
     if (!incrementalPerformance.subTenSecond) {
       recommendations.push(
         'Incremental linting exceeds 10-second target - optimize change detection or cache strategy',
-      ),
+      )
     }
 
     if (recommendations.length === 0) {
@@ -557,7 +557,7 @@ export class PerformanceMonitoringService {
   private loadExistingMetrics(): void {
     try {
       if (existsSync(this.metricsFile)) {
-        const data = readFileSync(this.metricsFile, 'utf8'),
+        const data = readFileSync(this.metricsFile, 'utf8'),;
         const parsed = JSON.parse(data);
         this.metrics = parsed.map((m: unknown) => ({
           ...m;
@@ -573,7 +573,7 @@ export class PerformanceMonitoringService {
   private loadExistingAlerts(): void {
     try {
       if (existsSync(this.alertsFile)) {
-        const data = readFileSync(this.alertsFile, 'utf8'),
+        const data = readFileSync(this.alertsFile, 'utf8'),;
         const parsed = JSON.parse(data);
         this.alerts = parsed.map((a: unknown) => ({
           ...a;
@@ -588,17 +588,17 @@ export class PerformanceMonitoringService {
 
   private saveMetrics(): void {
     try {
-      writeFileSync(this.metricsFile, JSON.stringify(this.metrics, null, 2)),
+      writeFileSync(this.metricsFile, JSON.stringify(this.metrics, null, 2))
     } catch (error) {
-      console.warn('Could not save metrics:', error),
+      console.warn('Could not save metrics:', error)
     }
   }
 
   private saveAlerts(): void {
     try {
-      writeFileSync(this.alertsFile, JSON.stringify(this.alerts, null, 2)),
+      writeFileSync(this.alertsFile, JSON.stringify(this.alerts, null, 2))
     } catch (error) {
-      console.warn('Could not save alerts:', error),
+      console.warn('Could not save alerts:', error)
     }
   }
 }

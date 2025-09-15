@@ -40,11 +40,11 @@ export class ProgressMonitoringSystem extends EventEmitter {
    */
   startMonitoring(intervalMinutes: number = 5): void {
     if (this.isMonitoring) {
-      // console.log('Progress monitoring is already running');
-      return,
+      // // console.log('Progress monitoring is already running');
+      return
     }
 
-    // console.log(`Starting progress monitoring with ${intervalMinutes}-minute intervals`);
+    // // console.log(`Starting progress monitoring with ${intervalMinutes}-minute intervals`);
     this.isMonitoring = true;
 
     // Initial update
@@ -79,11 +79,11 @@ export class ProgressMonitoringSystem extends EventEmitter {
    */
   stopMonitoring(): void {
     if (!this.isMonitoring) {
-      // console.log('Progress monitoring is not running');
-      return,
+      // // console.log('Progress monitoring is not running');
+      return
     }
 
-    // console.log('Stopping progress monitoring');
+    // // console.log('Stopping progress monitoring');
     this.isMonitoring = false;
 
     if (this.monitoringInterval) {
@@ -105,7 +105,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
    * Get real-time progress metrics
    */
   async getProgressMetrics(): Promise<UnintentionalAnyProgress> {
-    // console.log('Collecting real-time progress metrics...');
+    // // console.log('Collecting real-time progress metrics...');
 
     try {
       const currentReport = await this.analysisTools.generateComprehensiveReport();
@@ -249,7 +249,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
           currentAccuracy: this.dashboardData.accuracyReport.overallAccuracy;
           threshold: this.alertThresholds.classificationAccuracyThreshold
         }
-      }),
+      })
     }
 
     // Check for progress stall
@@ -293,11 +293,11 @@ export class ProgressMonitoringSystem extends EventEmitter {
    * Handle safety protocol activation
    */
   handleSafetyProtocolActivation(event: SafetyEvent): void {
-    // console.log(`Safety protocol activated: ${event.type}`);
+    // // console.log(`Safety protocol activated: ${event.type}`);
 
     this.emitAlert({
       type: 'safety_protocol_activation',
-      severity: event.severity === 'critical' ? 'critical' : 'high',,
+      severity: event.severity === 'critical' ? 'critical' : 'high',,;
       message: `Safety protocol activated: ${event.description}`,
       timestamp: new Date(),
       data: {
@@ -309,7 +309,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
 
     // If it's a critical safety event, consider stopping monitoring temporarily
     if (event.severity === 'critical') {
-      this.emit('critical_safety_event', event),
+      this.emit('critical_safety_event', event)
     }
   }
 
@@ -317,16 +317,16 @@ export class ProgressMonitoringSystem extends EventEmitter {
    * Get alert history
    */
   getAlertHistory(limit?: number): Alert[] {
-    const alerts = [...this.alertHistory].reverse(), // Most recent first
-    return limit ? alerts.slice(0, limit) : alerts,
+    const alerts = [...this.alertHistory].reverse(), // Most recent first;
+    return limit ? alerts.slice(0, limit) : alerts
   }
 
   /**
    * Get build stability history
    */
   getBuildStabilityHistory(limit?: number): BuildStabilityRecord[] {
-    const history = [...this.buildStabilityHistory].reverse(), // Most recent first
-    return limit ? history.slice(0, limit) : history,
+    const history = [...this.buildStabilityHistory].reverse(), // Most recent first;
+    return limit ? history.slice(0, limit) : history
   }
 
   /**
@@ -357,7 +357,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
 
   private async updateDashboard(): Promise<void> {
     try {
-      // console.log('Updating dashboard data...');
+      // // console.log('Updating dashboard data...');
 
       const [analysisReport, progressMetrics, buildStability] = await Promise.all([
         this.analysisTools.generateComprehensiveReport();
@@ -374,8 +374,8 @@ export class ProgressMonitoringSystem extends EventEmitter {
           totalAlerts: this.alertHistory.length;
           criticalAlerts: this.alertHistory.filter(a => a.severity === 'critical').length,;
           highAlerts: this.alertHistory.filter(a => a.severity === 'high').length,;
-          mediumAlerts: this.alertHistory.filter(a => a.severity === 'medium').length,,
-          lowAlerts: this.alertHistory.filter(a => a.severity === 'low').length,,
+          mediumAlerts: this.alertHistory.filter(a => a.severity === 'medium').length,,;
+          lowAlerts: this.alertHistory.filter(a => a.severity === 'low').length,,;
           recentAlerts: this.getRecentAlerts(24), // Last 24 hours
         },
         trendingData: this.calculateTrendingData();
@@ -385,7 +385,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
       this.emit('dashboard_updated', this.dashboardData);
     } catch (error) {
       console.error('Error updating dashboard:', error),
-      throw error,
+      throw error
     }
   }
 
@@ -441,7 +441,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
 
     // Assume baseline was 100% unintentional, calculate current reduction
     const currentUnintentionalPercentage = (unintentional / total) * 100;
-    return Math.max(0, 100 - currentUnintentionalPercentage),
+    return Math.max(0, 100 - currentUnintentionalPercentage)
   }
 
   private getBatchesCompleted(): number {
@@ -469,7 +469,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
       this.saveAlertHistory();
       this.emit('alert', alert);
 
-      // console.log(`Alert emitted: ${alert.type} (${alert.severity}) - ${alert.message}`);
+      // // console.log(`Alert emitted: ${alert.type} (${alert.severity}) - ${alert.message}`);
     }
   }
 
@@ -482,7 +482,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
   private getRecentSafetyEvents(): SafetyEvent[] {
     // This would track actual safety events in real implementation
     // For now, return empty array
-    return [],
+    return []
   }
 
   private getRecentAlerts(hours: number): Alert[] {
@@ -533,7 +533,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
       lastCheck: new Date(),
       issues: recentAlerts
         .filter(a => a.severity === 'critical' || a.severity === 'high');
-        .map(a => a.message),,
+        .map(a => a.message),,;
     };
   }
 
@@ -546,7 +546,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
         'alert-history.json';
       ),
       if (fs.existsSync(historyPath)) {
-        const historyData = fs.readFileSync(historyPath, 'utf8'),
+        const historyData = fs.readFileSync(historyPath, 'utf8'),;
         this.alertHistory = JSON.parse(historyData).map((alert: unknown) => ({
           ...alert;
           timestamp: new Date(alert.timestamp)
@@ -560,7 +560,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
 
   private saveAlertHistory(): void {
     try {
-      const historyDir = path.join(process.cwd(), '.kiro', 'campaign-reports'),
+      const historyDir = path.join(process.cwd(), '.kiro', 'campaign-reports'),;
       if (!fs.existsSync(historyDir)) {
         fs.mkdirSync(historyDir, { recursive: true });
       }
@@ -568,7 +568,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
       const historyPath = path.join(historyDir, 'alert-history.json');
       fs.writeFileSync(historyPath, JSON.stringify(this.alertHistory, null, 2));
     } catch (error) {
-      console.warn('Could not save alert history:', error),
+      console.warn('Could not save alert history:', error)
     }
   }
 
@@ -581,7 +581,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
         'build-stability-history.json';
       ),
       if (fs.existsSync(historyPath)) {
-        const historyData = fs.readFileSync(historyPath, 'utf8'),
+        const historyData = fs.readFileSync(historyPath, 'utf8'),;
         this.buildStabilityHistory = JSON.parse(historyData).map((record: unknown) => ({
           ...record;
           timestamp: new Date(record.timestamp)
@@ -595,7 +595,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
 
   private async saveBuildStabilityHistory(): Promise<void> {
     try {
-      const historyDir = path.join(process.cwd(), '.kiro', 'campaign-reports'),
+      const historyDir = path.join(process.cwd(), '.kiro', 'campaign-reports'),;
       if (!fs.existsSync(historyDir)) {
         fs.mkdirSync(historyDir, { recursive: true });
       }
@@ -603,7 +603,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
       const historyPath = path.join(historyDir, 'build-stability-history.json');
       fs.writeFileSync(historyPath, JSON.stringify(this.buildStabilityHistory, null, 2));
     } catch (error) {
-      console.warn('Could not save build stability history:', error),
+      console.warn('Could not save build stability history:', error)
     }
   }
 }
@@ -617,7 +617,7 @@ export interface DashboardData {
   buildStability: BuildStabilityRecord,
   alertSummary: AlertSummary,
   trendingData: TrendingData[],
-  systemHealth: SystemHealth,
+  systemHealth: SystemHealth
 }
 
 export interface AlertThresholds {
@@ -633,7 +633,7 @@ export interface Alert {
   severity: 'low' | 'medium' | 'high' | 'critical',
   message: string,
   timestamp: Date,
-  data?: unknown,
+  data?: unknown
 }
 
 export type AlertType =
@@ -652,7 +652,7 @@ export interface SafetyEvent {
   description: string,
   action: string,
   timestamp: Date,
-  affectedFiles?: string[],
+  affectedFiles?: string[]
 }
 
 export interface BuildStabilityRecord {
@@ -660,7 +660,7 @@ export interface BuildStabilityRecord {
   isStable: boolean,
   buildTime: number,
   errorCount: number,
-  errorMessage: string | null,
+  errorMessage: string | null
 }
 
 export interface AlertSummary {
@@ -669,12 +669,12 @@ export interface AlertSummary {
   highAlerts: number,
   mediumAlerts: number,
   lowAlerts: number,
-  recentAlerts: Alert[],
+  recentAlerts: Alert[]
 }
 
 export interface SystemHealth {
   score: number, // 0-100
   status: 'healthy' | 'warning' | 'critical',
   lastCheck: Date,
-  issues: string[],
+  issues: string[]
 }

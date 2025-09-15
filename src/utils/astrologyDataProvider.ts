@@ -58,7 +58,7 @@ async function getPositionsFromAPI(): Promise<Record<string, CelestialPosition> 
 
     // Validate the data
     if (!data || typeof data !== 'object' || Object.keys(data || {}).length === 0) {
-      throw new Error('Invalid data format received from API'),
+      throw new Error('Invalid data format received from API')
     }
 
     // Process and normalize the API response
@@ -78,7 +78,7 @@ async function getPositionsFromAPI(): Promise<Record<string, CelestialPosition> 
     });
 
     if (Object.keys(positions || {}).length === 0) {
-      throw new Error('No valid planetary positions in API response'),
+      throw new Error('No valid planetary positions in API response')
     }
 
     // Update cache
@@ -90,7 +90,7 @@ async function getPositionsFromAPI(): Promise<Record<string, CelestialPosition> 
     return positions;
   } catch (error) {
     logger.warn('Error fetching from API:', error);
-    return null,
+    return null
   }
 }
 
@@ -107,10 +107,10 @@ function getPositionsFromTransitFiles(): { [key: string]: CelestialPosition } | 
     // for the current date
 
     // This is a placeholder for the actual implementation
-    return null,
+    return null
   } catch (error) {
     logger.warn('Error reading transit files:', error);
-    return null,
+    return null
   }
 }
 
@@ -131,14 +131,14 @@ export async function getPlanetaryPositions(): Promise<Record<string, CelestialP
   const apiPositions = await getPositionsFromAPI();
   if (apiPositions) {
     logger.info('Using planetary positions from API');
-    return apiPositions,
+    return apiPositions
   }
 
   // 2. Try transit data files
   const transitPositions = getPositionsFromTransitFiles();
   if (transitPositions) {
     logger.info('Using planetary positions from transit files');
-    return transitPositions,
+    return transitPositions
   }
 
   // 3. Use reliable hardcoded positions as final fallback
@@ -163,7 +163,7 @@ export async function getDominantElement(): Promise<string> {
     typeof getDominantElementMethod === 'function' &&;
     typeof countElementsMethod === 'function'
   ) {
-    return getDominantElementMethod(countElementsMethod(positions)),
+    return getDominantElementMethod(countElementsMethod(positions))
   }
 
   return 'Fire'; // Default fallback

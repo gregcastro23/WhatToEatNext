@@ -243,7 +243,7 @@ async function runComprehensiveTests() {
     }
     const elementalState = legacyResultData?.elementalState;
     if (elementalState) {
-      log.info('Elemental Balance:', elementalState),
+      log.info('Elemental Balance:', elementalState)
     }
     log.info('✅ Legacy alchemize test completed\n');
 
@@ -264,7 +264,7 @@ async function runComprehensiveTests() {
     const cuisineResults: Array<{
       cuisine: string,
       score: string,
-      confidence: number,
+      confidence: number
     }> = [];
     for (const cuisine of cuisines) {
       const result = await alchemicalEngine.calculateAstroCuisineMatch(;
@@ -330,7 +330,7 @@ async function runComprehensiveTests() {
     console.error(
       'Stack trace:',
       error instanceof Error ? error.stack : 'No stack trace available'
-    ),
+    )
   }
 }
 
@@ -340,7 +340,7 @@ runComprehensiveTests()
     log.info('\n🔬 Test execution completed');
   })
   .catch(error => {
-    console.error('💥 Test execution failed:', error),
+    console.error('💥 Test execution failed:', error)
   });
 
 export default runComprehensiveTests;

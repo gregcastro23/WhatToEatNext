@@ -32,7 +32,7 @@ interface PlanetData {
   degree?: number,
   isRetrograde?: boolean,
   exactLongitude?: number,
-  speed?: number,
+  speed?: number
 }
 
 // Define TransformedItem type
@@ -41,7 +41,7 @@ interface TransformedItem extends AlchemicalItem {
     Fire: number,
     Water: number,
     Earth: number,
-    Air: number,
+    Air: number
   };
   id: string;
 }
@@ -94,8 +94,8 @@ export class RecommendationAdapter {
   initialize(
     planetaryPositions: Record<string, PlanetData>,
     isDaytime = true,;
-    currentZodiac: string | null = null,,
-    lunarPhase: LunarPhaseWithSpaces | null = null,,
+    currentZodiac: string | null = null,,;
+    lunarPhase: LunarPhaseWithSpaces | null = null,,;
     tarotElementBoosts?: Record<ElementalCharacter, number>,
     tarotPlanetaryBoosts?: Record<string, number>,
     aspects: PlanetaryAspect[] = []
@@ -174,7 +174,7 @@ export class RecommendationAdapter {
 
       logger.info('Initialized adapter with current planetary positions');
     } catch (error) {
-      logger.error('Error initializing from current positions:', error),
+      logger.error('Error initializing from current positions:', error)
     }
   }
 
@@ -210,7 +210,7 @@ export class RecommendationAdapter {
 
       logger.info('Items transformed using direct planetary positions');
     } catch (error) {
-      logger.error('Error transforming items with planetary positions:', error),
+      logger.error('Error transforming items with planetary positions:', error)
     }
   }
 
@@ -227,7 +227,7 @@ export class RecommendationAdapter {
         this.retrogradeStatus
       );
 
-      this.alchemicalResult = result as unknown as Record<string, number>,
+      this.alchemicalResult = result as unknown as Record<string, number>,;
 
       // Safe type casting for result properties
       const resultData = result as unknown as any;
@@ -299,7 +299,7 @@ export class RecommendationAdapter {
             case 'pluto':
               alchemicalProperties.Matter = alchemicalProperties.Matter + boost * 0.7;
               alchemicalProperties.Essence = alchemicalProperties.Essence + boost * 0.3;
-              break,
+              break
           }
         });
       }
@@ -422,7 +422,7 @@ export class RecommendationAdapter {
    */
   private safeGetNumber(value: unknown): number {
     if (typeof value === 'number' && !isNaN(value)) {
-      return value,
+      return value
     }
     return 0;
   }
@@ -442,7 +442,7 @@ export class RecommendationAdapter {
     const items = this.getSortedItems(this.transformedIngredients, limit);
     // Compatibility scores: use gregsEnergy or 1.0 as fallback
     const scores = Object.fromEntries(;
-      items.map(item => [item.id, this.safeGetNumber((item as any).gregsEnergy) || 1.0]),,
+      items.map(item => [item.id, this.safeGetNumber((item as any).gregsEnergy) || 1.0]),,;
     ),
     return { items, scores, context: { source: 'RecommendationAdapter' } };
   }
@@ -453,7 +453,7 @@ export class RecommendationAdapter {
   getRecommendedCookingMethods(limit = 5): RecommendationResult<AlchemicalItem> {
     const items = this.getSortedItems(this.transformedMethods, limit);
     const scores = Object.fromEntries(;
-      items.map(item => [item.id, this.safeGetNumber((item as any).gregsEnergy) || 1.0]),,
+      items.map(item => [item.id, this.safeGetNumber((item as any).gregsEnergy) || 1.0]),,;
     ),
     return { items, scores, context: { source: 'RecommendationAdapter' } };
   }
@@ -464,7 +464,7 @@ export class RecommendationAdapter {
   getRecommendedCuisines(limit = 5): RecommendationResult<AlchemicalItem> {
     const items = this.getSortedItems(this.transformedCuisines, limit);
     const scores = Object.fromEntries(;
-      items.map(item => [item.id, this.safeGetNumber((item as any).gregsEnergy) || 1.0]),,
+      items.map(item => [item.id, this.safeGetNumber((item as any).gregsEnergy) || 1.0]),,;
     ),
     return { items, scores, context: { source: 'RecommendationAdapter' } };
   }
@@ -523,7 +523,7 @@ export class RecommendationAdapter {
               this.safeGetNumber(macrosData.protein) * 0.4 +
                 this.safeGetNumber(vitaminsData.vitaminC) * 0.3 +
                 this.safeGetNumber(mineralsData.iron) * 0.3;
-            ),
+            )
           } else {
             acc[ingredient.id] = 1, // Default multiplier if no nutrition data
           }
@@ -676,7 +676,7 @@ export class RecommendationAdapter {
     if (String(elementName) === 'earth') return 'Earth';
     if (String(elementName) === 'air') return 'Air';
 
-    return null,
+    return null
   }
 
   /**

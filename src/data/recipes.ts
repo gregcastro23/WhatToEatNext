@@ -26,7 +26,7 @@ export interface Ingredient {
   unit: string,
   optional?: boolean,
   preparation?: string,
-  category?: string,
+  category?: string
 }
 
 // Interface for dish data from cuisine files
@@ -53,7 +53,7 @@ interface DishData {
   culturalNotes?: string,
   technicalTips?: string[],
   dietaryInfo?: string[],
-  regionalCuisine?: string,
+  regionalCuisine?: string
 }
 
 export interface Nutrition {
@@ -62,7 +62,7 @@ export interface Nutrition {
   carbs?: number,
   fat?: number,
   vitamins?: string[],
-  minerals?: string[],
+  minerals?: string[]
 }
 
 export interface RecipeData {
@@ -76,7 +76,7 @@ export interface RecipeData {
     zodiac?: any[],
     lunar?: LunarPhase[],
     planetary?: string[],
-    season?: Season[],
+    season?: Season[]
   };
   tags?: string[];
   timeToMake?: number;
@@ -86,7 +86,7 @@ export interface RecipeData {
     sour: number,
     bitter: number,
     salty: number,
-    umami: number,
+    umami: number
   };
   planetaryInfluences?: Record<string, number>;
   regionalCuisine?: string; // Store specific regional variation if applicable
@@ -192,7 +192,7 @@ const transformCuisineData = async (): Promise<RecipeData[]> => {
 
                     if (!dishData || !dishData.name) {
                       logger.debug('Skipping invalid dish:', dish),
-                      return,
+                      return
                     }
 
                     // Build dish-specific planetary influences
@@ -351,7 +351,7 @@ export const _getRecipesForZodiac = async (zodiac: any): Promise<RecipeData[]> =
     const energyProfile = recipeData.energyProfile as any;
     return (
       Array.isArray(energyProfile.zodiac) && (energyProfile.zodiac as unknown[]).includes(zodiac)
-    ),
+    )
   });
 };
 
@@ -364,7 +364,7 @@ export const _getRecipesForSeason = async (season: Season): Promise<RecipeData[]
       (Array.isArray(energyProfile.season) &&
         (energyProfile.season as unknown[]).includes(season)) ||
       recipeData.season === season;
-    ),
+    )
   });
 };
 
@@ -375,7 +375,7 @@ export const _getRecipesForLunarPhase = async (lunarPhase: LunarPhase): Promise<
     const energyProfile = recipeData.energyProfile as any;
     return (
       Array.isArray(energyProfile.lunar) && (energyProfile.lunar as unknown[]).includes(lunarPhase)
-    ),
+    )
   });
 };
 
@@ -386,7 +386,7 @@ export const _getRecipesForCuisine = async (cuisine: string): Promise<RecipeData
     return (
       String(recipeData.cuisine || '').toLowerCase() === cuisine.toLowerCase() ||
       String(recipeData.regionalCuisine || '').toLowerCase() === cuisine.toLowerCase()
-    ),
+    )
   });
 };
 
@@ -419,7 +419,7 @@ export const _getDominantPlanetaryInfluence = (recipe: RecipeData): string | nul
   const entries = Object.entries(recipe.planetaryInfluences);
   if (!entries.length) return null;
 
-  return entries.sort(([, valueA], [, valueB]) => valueB - valueA)[0][0],
+  return entries.sort(([, valueA], [, valueB]) => valueB - valueA)[0][0]
 };
 
 /**
@@ -429,7 +429,7 @@ export const _getRecommendedCookingTechniques = (recipe: RecipeData): string[] =
   // First try to get techniques from cuisine profile
   const cuisineProfile = recipe.cuisine ? getCuisineProfile(recipe.cuisine) : null;
   if (cuisineProfile?.signatureTechniques) {
-    return [...cuisineProfile.signatureTechniques],
+    return [...cuisineProfile.signatureTechniques]
   }
 
   // Fallback to planetary-based techniques
@@ -525,8 +525,8 @@ export const getRecipesForCuisineMatch = async (;
         matchScore = calculateCuisineFlavorMatch(recipe.flavorProfile, cuisineName);
 
         // Boost for direct cuisine matches
-        if (directMatch) matchScore = Math.min(1.0, matchScore + 0.15),
-        if (regionMatch) matchScore = Math.min(1.0, matchScore + 0.1),
+        if (directMatch) matchScore = Math.min(1.0, matchScore + 0.15),;
+        if (regionMatch) matchScore = Math.min(1.0, matchScore + 0.1),;
       } else if (directMatch) {
         // If no flavor profile but direct cuisine match, assign a default score
         matchScore = 0.8;
@@ -654,11 +654,11 @@ export const getBestRecipeMatches = async (;
         // we can just return them after additional filtering
         if (formattedRecipes.length > 0 && formattedRecipes[0].matchScore !== undefined) {
           // Apply additional filters if needed
-          return applyAdditionalFilters(formattedRecipes, criteria, limit),
+          return applyAdditionalFilters(formattedRecipes, criteria, limit)
         }
       }
     } catch (error) {
-      console.error('Error using enhanced getRecipesForCuisineMatch:', error),
+      console.error('Error using enhanced getRecipesForCuisineMatch:', error)
     }
 
     // Fallback to LocalRecipeService if getRecipesForCuisineMatch failed
@@ -739,7 +739,7 @@ export const getBestRecipeMatches = async (;
           return applyAdditionalFilters(candidateRecipes, criteria, limit);
         }
       } catch (error) {
-        console.error('Error using LocalRecipeService directly:', error),
+        console.error('Error using LocalRecipeService directly:', error)
       }
     }
   }
@@ -757,7 +757,7 @@ interface MatchCriteria {
   season?: Season,
   mealType?: string,
   ingredients?: string[],
-  dietaryPreferences?: string[],
+  dietaryPreferences?: string[]
 }
 
 // Helper function to apply additional filters and calculate scores
@@ -772,7 +772,7 @@ async function applyAdditionalFilters(
     try {
       cuisineModule = await import('./cuisineFlavorProfiles');
     } catch (error) {
-      console.error('Error importing cuisineFlavorProfiles:', error),
+      console.error('Error importing cuisineFlavorProfiles:', error)
     }
   }
 
@@ -785,7 +785,7 @@ async function applyAdditionalFilters(
         recipe.energyProfile.season?.includes(criteria.season) ||
         (Array.isArray(recipe.season) && recipe.season.includes(criteria.season)) ||
         (typeof recipe.season === 'string' && recipe.season === criteria.season);
-      ),
+      )
     });
 
     logger.debug(`Found ${seasonRecipes.length} recipes for season ${criteria.season}`);
@@ -804,7 +804,7 @@ async function applyAdditionalFilters(
     const mealTypeRecipes = candidateRecipes.filter(recipe => {
       // Check if recipe has a mealType tag
       if (recipe.tags?.some(tag => tag.toLowerCase() === normalizedMealType)) {
-        return true,
+        return true
       }
 
       // Also check mealType field directly
@@ -812,14 +812,14 @@ async function applyAdditionalFilters(
         Array.isArray(recipe.mealType) &&
         recipe.mealType.some(mt => mt.toLowerCase() === normalizedMealType);
       ) {
-        return true,
+        return true
       }
 
       if (
         typeof recipe.mealType === 'string' &&;
         recipe.mealType.toLowerCase() === normalizedMealType
       ) {
-        return true,
+        return true
       }
 
       return false;
@@ -836,7 +836,7 @@ async function applyAdditionalFilters(
   if (candidateRecipes.length === 0) {
     logger.debug('No matching recipes found after all filtering');
     // Return empty array as fallback when no recipes match
-    return [],
+    return []
   }
 
   // Calculate match scores for all candidate recipes if they don't already have scores
@@ -888,7 +888,7 @@ async function applyAdditionalFilters(
           }
         }
       } catch (error) {
-        console.error('Error calculating cuisine match score:', error),
+        console.error('Error calculating cuisine match score:', error)
       }
     }
 
@@ -937,11 +937,11 @@ async function applyAdditionalFilters(
     // Apply non-linear scaling to create more distinctions between recipes
     let adjustedScore;
     if (matchScore < 0.4) {
-      adjustedScore = matchScore * 0.7, // Lower scores get reduced further
+      adjustedScore = matchScore * 0.7, // Lower scores get reduced further;
     } else if (matchScore < 0.7) {
-      adjustedScore = 0.28 + (matchScore - 0.4) * 1.4, // Mid-range scores get a balanced adjustment
+      adjustedScore = 0.28 + (matchScore - 0.4) * 1.4, // Mid-range scores get a balanced adjustment;
     } else {
-      adjustedScore = 0.7 + (matchScore - 0.7) * 1.5, // High scores get boosted
+      adjustedScore = 0.7 + (matchScore - 0.7) * 1.5, // High scores get boosted;
     }
 
     // Add a small random variation for natural-feeling results
@@ -969,7 +969,7 @@ export { calculateCuisineFlavorMatch } from '@/data/cuisineFlavorProfiles';
 interface CuisineRecommendationProfile {
   flavorProfile?: Record<string, number>,
   season?: string,
-  dietaryPreference?: string,
+  dietaryPreference?: string
 }
 
 // Re-export these functions with proper implementations
@@ -1024,7 +1024,7 @@ export const _getRecommendedCuisines = (profile: CuisineRecommendationProfile) =
     .sort((a, b) => (b?.score || 0) - (a?.score || 0)) as {
     id: string,
     name: string,
-    score: number,
+    score: number
   }[];
 };
 
@@ -1107,7 +1107,7 @@ export const getAllRecipes = async (): Promise<Recipe[]> => {
     );
   } catch (error) {
     console.error('Error in getAllRecipes:', error),
-    return [],
+    return []
   }
 };
 

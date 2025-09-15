@@ -45,7 +45,7 @@ export function isPlanetaryPosition(obj: unknown): obj is PlanetaryPosition {
     typeof (obj as any).degree === 'number' &&;
     (typeof (obj as any).exactLongitude === 'number' ||;
       typeof (obj as any).exactLongitude === 'undefined');
-  ),
+  )
 }
 
 // Utility to normalize planetary position keys (e.g., Sun/sun)
@@ -88,13 +88,13 @@ export type PlanetPositionData = {
   sign: any,
   degree: number,
   minute?: number,
-  exactLongitude?: number,
+  exactLongitude?: number
 };
 
 export interface PlanetaryDignity {
   type: DignityType,
   value: number,
-  description: string,
+  description: string
 }
 
 // Add type assertion for zodiac signs
@@ -125,7 +125,7 @@ export async function calculateActivePlanets(
   positions: Record<string, unknown>,
 ): Promise<string[]> {
   if (!positions || typeof positions !== 'object') {
-    return [],
+    return []
   }
 
   // List of planets we want to check
@@ -165,13 +165,13 @@ export async function calculateActivePlanets(
 
       // Add the ruler of the current sun sign
       if (signRulers[sunSign] && !activePlanets.includes(signRulers[sunSign])) {
-        activePlanets.push(signRulers[sunSign]),
+        activePlanets.push(signRulers[sunSign])
       }
     }
 
     Object.entries(positions).forEach(([planet, position]) => {
       if (!planetKeys.includes(planet.toLowerCase()) || !position || !(position as any)?.sign) {
-        return,
+        return
       }
 
       const planetLower = planet.toLowerCase();
@@ -204,13 +204,13 @@ export async function calculateActivePlanets(
           activePlanets.push(planetLower);
         }
       }
-    }),
+    })
   } catch (error) {
     errorLog('Error calculating active planets', error);
   }
 
   // Ensure uniqueness
-  return [...new Set(activePlanets)],
+  return [...new Set(activePlanets)]
 }
 
 /**
@@ -268,7 +268,7 @@ export async function calculateLunarPhase(date: Date = new Date()): Promise<numb
     const rawPositions = await getAccuratePlanetaryPositions(date);
     const positions = normalizePlanetaryPositions(rawPositions);
     if (!positions.Sun || !positions.Moon) {
-      throw new Error('Sun or Moon position missing'),
+      throw new Error('Sun or Moon position missing')
     }
     // Calculate the angular distance between Sun and Moon
     // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
@@ -309,7 +309,7 @@ export function getLunarPhaseName(phase: number): LunarPhase {
   if (phaseNormalized < 4.5) return 'full moon';
   if (phaseNormalized < 5.5) return 'waning gibbous';
   if (phaseNormalized < 6.5) return 'last quarter';
-  return 'waning crescent',
+  return 'waning crescent'
 }
 
 /**
@@ -328,10 +328,10 @@ export async function getmoonIllumination(date: Date = new Date()): Promise<numb
 
     if (phase <= 0.5) {
       // Waxing: 0 to 1
-      return phase * 2,
+      return phase * 2
     } else {
       // Waning: 1 to 0
-      return 2 - phase * 2,
+      return 2 - phase * 2
     }
   } catch (error) {
     errorLog(
@@ -348,7 +348,7 @@ export async function getmoonIllumination(date: Date = new Date()): Promise<numb
  * @returns Zodiac sign
  */
 export function calculateSunSign(date: Date = new Date()): any | undefined {
-  const month = date.getMonth() + 1, // getMonth() returns 0-11
+  const month = date.getMonth() + 1, // getMonth() returns 0-11;
   const day = date.getDate();
   // Approximate Sun sign dates (tropical zodiac)
   if ((month === 3 && day >= 21) || (month === 4 && day <= 19)) return 'aries';
@@ -363,7 +363,7 @@ export function calculateSunSign(date: Date = new Date()): any | undefined {
   if ((month === 12 && day >= 22) || (month === 1 && day <= 19)) return 'capricorn';
   if ((month === 1 && day >= 20) || (month === 2 && day <= 18)) return 'aquarius';
   // If date is out of range, return undefined and let the UI handle the error
-  return undefined,
+  return undefined
 }
 
 /**
@@ -400,7 +400,7 @@ export async function calculatePlanetaryPositions(
     // Get and normalize planetary positions
     const rawPositions = await getAccuratePlanetaryPositions(date);
     const positions = normalizePlanetaryPositions(rawPositions);
-    return positions,
+    return positions
   } catch (error) {
     errorLog(
       'Error calculating planetary positions:',
@@ -536,7 +536,7 @@ export function getPlanetaryElementalInfluence(planet: PlanetName): Element {
 export function getZodiacElementalInfluence(sign: any): Element {
   const element = getZodiacElement(sign);
   // Convert ElementalCharacter to celestial Element type
-  return element as Element,
+  return element as Element
 }
 
 /**
@@ -580,7 +580,7 @@ export async function calculateDominantElement(
       // Weight by planet importance
       let weight = 1;
       if (planet === 'Sun' || planet === 'Moon') weight = 3;
-      else if (['Mercury', 'Venus', 'Mars'].includes(planet)) weight = 2,
+      else if (['Mercury', 'Venus', 'Mars'].includes(planet)) weight = 2,;
 
       elementCounts[element] += weight;
     });
@@ -625,7 +625,7 @@ export async function calculateElementalProfile(
       // Weight by planet importance
       let weight = 1;
       if (planet === 'Sun' || planet === 'Moon') weight = 3;
-      else if (['Mercury', 'Venus', 'Mars'].includes(planet)) weight = 2,
+      else if (['Mercury', 'Venus', 'Mars'].includes(planet)) weight = 2,;
 
       elementCounts[element] += weight;
     });
@@ -666,7 +666,7 @@ export async function calculateAspects(
     orb: number,
     significance: number,
     harmonic: number,
-    description?: string,
+    description?: string
   }
 
   // Using Record instead of any for aspect types
@@ -687,7 +687,7 @@ export async function calculateAspects(
   const getLongitude = (position: { sign: string, degree: number }): number => {
     if (!position || !position.sign) {
       debugLog('Invalid position object encountered:', position);
-      return 0,
+      return 0
     }
 
     const signs = [

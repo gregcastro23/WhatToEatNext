@@ -48,7 +48,7 @@ const ALL_CATEGORIES = [
  * @returns {Promise<void>}
  */
 async function updateCategories(categories: string[]): Promise<void> {
-  // // console.log(`Starting update for categories: ${categories.join(', ')}`);
+  // // // console.log(`Starting update for categories: ${categories.join(', ')}`);
 
   for (const category of categories) {
     const updater = categoryUpdaters[category];
@@ -57,7 +57,7 @@ async function updateCategories(categories: string[]): Promise<void> {
       continue;
     }
 
-    // // console.log(`\n========== UPDATING ${category.toUpperCase()} ==========\n`);
+    // // // console.log(`\n========== UPDATING ${category.toUpperCase()} ==========\n`);
     try {
       await updater();
     } catch (error) {
@@ -65,7 +65,7 @@ async function updateCategories(categories: string[]): Promise<void> {
     }
   }
 
-  // // console.log('\nAll specified categories have been processed.');
+  // // // console.log('\nAll specified categories have been processed.');
 }
 
 // Main function

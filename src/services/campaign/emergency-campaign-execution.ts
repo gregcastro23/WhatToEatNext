@@ -32,12 +32,12 @@ export class EmergencyTypeScriptCampaign {
    * Execute Emergency TypeScript Error Elimination Campaign
    */
   async executeCampaign(): Promise<void> {
-    // console.log('🚨 EMERGENCY CAMPAIGN ACTIVATION');
-    // console.log('================================');
-    // console.log('Campaign: TypeScript Error Elimination');
-    // console.log('Safety Level: MAXIMUM');
-    // console.log('Target: <100 errors from 1,136 errors');
-    // console.log('');
+    // // console.log('🚨 EMERGENCY CAMPAIGN ACTIVATION');
+    // // console.log('================================');
+    // // console.log('Campaign: TypeScript Error Elimination');
+    // // console.log('Safety Level: MAXIMUM');
+    // // console.log('Target: <100 errors from 1,136 errors');
+    // // console.log('');
 
     try {
       // Phase 1: Initial Error Assessment
@@ -52,11 +52,11 @@ export class EmergencyTypeScriptCampaign {
       // Phase 4: Final Validation
       await this.executePhase4_FinalValidation();
 
-      // console.log('🎉 EMERGENCY CAMPAIGN COMPLETED SUCCESSFULLY');
+      // // console.log('🎉 EMERGENCY CAMPAIGN COMPLETED SUCCESSFULLY');
     } catch (error) {
       console.error('❌ EMERGENCY CAMPAIGN FAILED:', error),
       await this.emergencyRollback();
-      throw error,
+      throw error
     }
   }
 
@@ -64,21 +64,21 @@ export class EmergencyTypeScriptCampaign {
    * Phase 1: Initial Error Assessment and Safety Validation
    */
   private async executePhase1_ErrorAssessment(): Promise<void> {
-    // console.log('\n📊 PHASE 1: Error Assessment and Safety Validation');
-    // console.log('================================================');
+    // // console.log('\n📊 PHASE 1: Error Assessment and Safety Validation');
+    // // console.log('================================================');
 
     // Get current error count
     const initialErrors = await this.getCurrentErrorCount();
-    // console.log(`Initial error count: ${initialErrors}`);
+    // // console.log(`Initial error count: ${initialErrors}`);
 
     // Validate safety protocols
     const safetyCheck = await this.errorFixer.validateSafety();
-    // console.log(`Safety score: ${safetyCheck.safetyScore}`);
-    // console.log(`Recommended batch size: ${safetyCheck.recommendedBatchSize}`);
+    // // console.log(`Safety score: ${safetyCheck.safetyScore}`);
+    // // console.log(`Recommended batch size: ${safetyCheck.recommendedBatchSize}`);
 
     if (!safetyCheck.safe) {
-      // console.log('⚠️  Safety issues detected:');
-      safetyCheck.issues.forEach(issue => // console.log(`   - ${issue}`));
+      // // console.log('⚠️  Safety issues detected:');
+      safetyCheck.issues.forEach(issue => // // console.log(`   - ${issue}`));
     }
 
     // Create initial checkpoint
@@ -89,10 +89,10 @@ export class EmergencyTypeScriptCampaign {
    * Phase 2: High-Priority Error Elimination (TS2345, TS2322, TS18048, TS2339)
    */
   private async executePhase2_HighPriorityErrors(): Promise<void> {
-    // console.log('\n🎯 PHASE 2: High-Priority Error Elimination');
-    // console.log('==========================================');
-    // console.log('Target errors: TS2345, TS2322, TS18048, TS2339'),
-    // console.log('Expected success rate: 88-92%');
+    // // console.log('\n🎯 PHASE 2: High-Priority Error Elimination');
+    // // console.log('==========================================');
+    // // console.log('Target errors: TS2345, TS2322, TS18048, TS2339'),
+    // // console.log('Expected success rate: 88-92%');
 
     const batchResults = await this.errorFixer.executeBatchProcessing({
       batchSize: 10, // Reduced for maximum safety
@@ -108,18 +108,18 @@ export class EmergencyTypeScriptCampaign {
     batchResults.forEach((result, index) => {
       totalFilesProcessed += result.filesProcessed;
       totalErrorsFixed += result.errorsFixed;
-      // console.log(
+      // // console.log(
         `Batch ${index + 1}: ${result.filesProcessed} files, ${result.errorsFixed} errors fixed`,
       );
     });
 
-    // console.log(
+    // // console.log(
       `Phase 2 Summary: ${totalFilesProcessed} files processed, ${totalErrorsFixed} errors fixed`,
     );
 
     // Validate progress
     const currentErrors = await this.getCurrentErrorCount();
-    // console.log(`Current error count: ${currentErrors}`);
+    // // console.log(`Current error count: ${currentErrors}`);
 
     await this.createSafetyCheckpoint('Phase 2 Complete - High-Priority Errors');
   }
@@ -128,8 +128,8 @@ export class EmergencyTypeScriptCampaign {
    * Phase 3: Systematic Error Reduction
    */
   private async executePhase3_SystematicReduction(): Promise<void> {
-    // console.log('\n🔄 PHASE 3: Systematic Error Reduction');
-    // console.log('=====================================');
+    // // console.log('\n🔄 PHASE 3: Systematic Error Reduction');
+    // // console.log('=====================================');
 
     let currentErrors = await this.getCurrentErrorCount();
     let iterationCount = 0;
@@ -137,7 +137,7 @@ export class EmergencyTypeScriptCampaign {
 
     while (currentErrors > 100 && iterationCount < maxIterations) {
       iterationCount++,
-      // console.log(`\nIteration ${iterationCount}: ${currentErrors} errors remaining`);
+      // // console.log(`\nIteration ${iterationCount}: ${currentErrors} errors remaining`);
 
       const result = await this.errorFixer.executeEnhancedFixer({
         maxFiles: 8, // Conservative batch size
@@ -145,18 +145,18 @@ export class EmergencyTypeScriptCampaign {
         validateSafety: true
       });
 
-      // console.log(`Files processed: ${result.filesProcessed}`);
-      // console.log(`Errors fixed: ${result.errorsFixed}`);
-      // console.log(`Build validation: ${result.buildValidationPassed ? '✅' : '❌'}`);
+      // // console.log(`Files processed: ${result.filesProcessed}`);
+      // // console.log(`Errors fixed: ${result.errorsFixed}`);
+      // // console.log(`Build validation: ${result.buildValidationPassed ? '✅' : '❌'}`);
 
       if (!result.buildValidationPassed) {
-        // console.log('🛑 Build validation failed, stopping systematic reduction'),
-        break,
+        // // console.log('🛑 Build validation failed, stopping systematic reduction'),
+        break
       }
 
       if (result.filesProcessed === 0 && result.errorsFixed === 0) {
-        // console.log('⏸️  No progress made, stopping systematic reduction'),
-        break,
+        // // console.log('⏸️  No progress made, stopping systematic reduction'),
+        break
       }
 
       currentErrors = await this.getCurrentErrorCount();
@@ -165,42 +165,42 @@ export class EmergencyTypeScriptCampaign {
       if (iterationCount % 3 === 0) {
         await this.createSafetyCheckpoint(
           `Phase 3 Iteration ${iterationCount} - ${currentErrors} errors`,
-        ),
+        )
       }
     }
 
-    // console.log(
+    // // console.log(
       `Phase 3 Complete: ${currentErrors} errors remaining after ${iterationCount} iterations`,
-    ),
+    )
   }
 
   /**
    * Phase 4: Final Validation and Reporting
    */
   private async executePhase4_FinalValidation(): Promise<void> {
-    // console.log('\n✅ PHASE 4: Final Validation and Reporting');
-    // console.log('=========================================');
+    // // console.log('\n✅ PHASE 4: Final Validation and Reporting');
+    // // console.log('=========================================');
 
     // Final error count
     const finalErrors = await this.getCurrentErrorCount();
-    // console.log(`Final error count: ${finalErrors}`);
+    // // console.log(`Final error count: ${finalErrors}`);
 
     // Build validation
     const buildValid = await this.validateBuild();
-    // console.log(`Build validation: ${buildValid ? '✅ PASSED' : '❌ FAILED'}`);
+    // // console.log(`Build validation: ${buildValid ? '✅ PASSED' : '❌ FAILED'}`);
 
     // Campaign success assessment
     const campaignSuccess = finalErrors < 100 && buildValid;
-    // console.log(`Campaign success: ${campaignSuccess ? '✅ SUCCESS' : '❌ FAILED'}`);
+    // // console.log(`Campaign success: ${campaignSuccess ? '✅ SUCCESS' : '❌ FAILED'}`);
 
     if (campaignSuccess) {
-      // console.log('🎉 EMERGENCY CAMPAIGN TARGET ACHIEVED');
-      // console.log(
+      // // console.log('🎉 EMERGENCY CAMPAIGN TARGET ACHIEVED');
+      // // console.log(
         `Error reduction: 1,136 → ${finalErrors} (${Math.round(((1136 - finalErrors) / 1136) * 100)}% reduction)`,
       );
     } else {
-      // console.log('⚠️  Campaign target not fully achieved');
-      // console.log(
+      // // console.log('⚠️  Campaign target not fully achieved');
+      // // console.log(
         `Progress made: 1,136 → ${finalErrors} (${Math.round(((1136 - finalErrors) / 1136) * 100)}% reduction)`,
       );
     }
@@ -256,7 +256,7 @@ export class EmergencyTypeScriptCampaign {
         unusedVariablesFixer: '',
         consoleStatementFixer: ''
       }
-    },
+    }
   }
 
   /**
@@ -270,7 +270,7 @@ export class EmergencyTypeScriptCampaign {
       });
       return parseInt(output.trim()) || 0;
     } catch (error) {
-      return 0,
+      return 0
     }
   }
 
@@ -285,7 +285,7 @@ export class EmergencyTypeScriptCampaign {
       });
       return true;
     } catch (error) {
-      return false,
+      return false
     }
   }
 
@@ -296,9 +296,9 @@ export class EmergencyTypeScriptCampaign {
     try {
       const stashMessage = `Campaign checkpoint: ${description}`;
       execSync(`git stash push -m '${stashMessage}'`, { stdio: 'pipe' });
-      // console.log(`🛡️  Safety checkpoint created: ${description}`);
+      // // console.log(`🛡️  Safety checkpoint created: ${description}`);
     } catch (error) {
-      // console.log(`⚠️  Could not create safety checkpoint: ${error}`);
+      // // console.log(`⚠️  Could not create safety checkpoint: ${error}`);
     }
   }
 
@@ -307,11 +307,11 @@ export class EmergencyTypeScriptCampaign {
    */
   private async emergencyRollback(): Promise<void> {
     try {
-      // console.log('🚨 EMERGENCY ROLLBACK INITIATED');
+      // // console.log('🚨 EMERGENCY ROLLBACK INITIATED');
       execSync('git stash pop', { stdio: 'pipe' });
-      // console.log('✅ Rollback completed - restored to pre-campaign state');
+      // // console.log('✅ Rollback completed - restored to pre-campaign state');
     } catch (error) {
-      console.error('❌ Emergency rollback failed:', error),
+      console.error('❌ Emergency rollback failed:', error)
     }
   }
 }

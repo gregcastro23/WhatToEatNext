@@ -29,7 +29,7 @@ interface RecipeData {
   astrologicalAffinities?: {
     planets?: string[],
     zodiac?: string[],
-    lunar?: string[],
+    lunar?: string[]
   };
   zodiacInfluences?: string[];
   lunarPhaseInfluences?: string[];
@@ -51,7 +51,7 @@ interface EnhancedRecipeMatch {
   description: string,
   ingredients: unknown[],
   season: string[],
-  mealType: string[],
+  mealType: string[]
 }
 
 interface TimeFactors {
@@ -59,7 +59,7 @@ interface TimeFactors {
   planetaryHour: PlanetaryHour,
   timeOfDay: TimeOfDay,
   currentSeason: Season,
-  currentDate: Date,
+  currentDate: Date
 }
 
 type PlanetaryDay = 'Sun' | 'Moon' | 'Mars' | 'Mercury' | 'Jupiter' | 'Venus' | 'Saturn';
@@ -100,7 +100,7 @@ export class EnhancedCuisineRecommender {
   public getRecommendationsForCuisine(
     cuisineName: string,
     astroState: AstrologicalState,
-    count: number = 5,,
+    count: number = 5,,;
     mealType?: string,
     dietaryRestrictions?: string[],
   ): EnhancedRecipeMatch[] {
@@ -110,7 +110,7 @@ export class EnhancedCuisineRecommender {
     // Get cuisine data
     const cuisine = this.getCuisine(cuisineName);
     if (!cuisine) {
-      return [],
+      return []
     }
 
     // Get all recipes from the specified cuisine
@@ -129,7 +129,7 @@ export class EnhancedCuisineRecommender {
             restriction =>;
               recipeDietary.includes(restriction) ||
               !this.conflictsWithRestriction(recipe, restriction),
-          ),
+          )
         })
       : filteredRecipes;
 
@@ -140,7 +140,7 @@ export class EnhancedCuisineRecommender {
       const planetaryHourScore = this.calculatePlanetaryHourScore(recipe, timeFactors, astroState);
       const elementalScore = this.calculateElementalScore(recipe, astroState);
       const astrologicalScore = this.calculateAstrologicalScore(recipe, astroState);
-      const timeOfDayScore = this.calculateTimeOfDayScore(recipe, timeFactors),
+      const timeOfDayScore = this.calculateTimeOfDayScore(recipe, timeFactors),;
 
       // Overall match percentage - weighted combination of all scores
       const matchPercentage = this.calculateOverallMatch(;
@@ -216,7 +216,7 @@ export class EnhancedCuisineRecommender {
 
     // Determine current season based on month in Northern Hemisphere
     // (This could be improved to account for Southern Hemisphere)
-    const month = now.getMonth(); // 0 = January, 11 = December,
+    const month = now.getMonth(); // 0 = January, 11 = December,;
     let currentSeason: Season,
     if (month >= 2 && month <= 4) {
       currentSeason = 'spring';
@@ -234,7 +234,7 @@ export class EnhancedCuisineRecommender {
       timeOfDay,
       currentSeason,
       currentDate: now
-    },
+    }
   }
 
   /**
@@ -245,7 +245,7 @@ export class EnhancedCuisineRecommender {
       key => key.toLowerCase() === cuisineName.toLowerCase(),;
     ),
 
-    return cuisineKey ? cuisinesMap[cuisineKey as keyof typeof cuisinesMap] : null,
+    return cuisineKey ? cuisinesMap[cuisineKey as keyof typeof cuisinesMap] : null
   }
 
   /**
@@ -263,7 +263,7 @@ export class EnhancedCuisineRecommender {
 
       // Add current season recipes
       if (mealTypeData && bridge.safeAccess(mealTypeData, currentSeason)) {
-        const seasonRecipes = bridge.safeAccess(mealTypeData, currentSeason),
+        const seasonRecipes = bridge.safeAccess(mealTypeData, currentSeason),;
         if (Array.isArray(seasonRecipes)) {
           allRecipes.push(...seasonRecipes);
         }
@@ -271,7 +271,7 @@ export class EnhancedCuisineRecommender {
 
       // Add 'all' season recipes if they exist
       if (mealTypeData && bridge.safeAccess(mealTypeData, 'all')) {
-        const allSeasonRecipes = bridge.safeAccess(mealTypeData, 'all'),
+        const allSeasonRecipes = bridge.safeAccess(mealTypeData, 'all'),;
         if (Array.isArray(allSeasonRecipes)) {
           allRecipes.push(...allSeasonRecipes);
         }
@@ -359,7 +359,7 @@ export class EnhancedCuisineRecommender {
         (p: string) => p.toLowerCase() === planetaryDay.toLowerCase();
       )
     ) {
-      elementalScore = Math.min(1.0, elementalScore + 0.3),
+      elementalScore = Math.min(1.0, elementalScore + 0.3),;
     }
 
     return elementalScore;
@@ -417,7 +417,7 @@ export class EnhancedCuisineRecommender {
         (p: string) => p.toLowerCase() === planetaryHour.toLowerCase();
       )
     ) {
-      elementalScore = Math.min(1.0, elementalScore + 0.3),
+      elementalScore = Math.min(1.0, elementalScore + 0.3),;
     }
 
     return elementalScore;
@@ -591,7 +591,7 @@ export class EnhancedCuisineRecommender {
       if (restrictedItems) {
         return recipe.allergens.some((allergen: string) =>
           restrictedItems.includes(allergen.toLowerCase());
-        ),
+        )
       }
     }
 

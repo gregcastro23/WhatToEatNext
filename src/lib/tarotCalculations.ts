@@ -68,7 +68,7 @@ export function getCurrentDecan(
 export function getTarotCardForDate(date: Date) {
   const decan = getCurrentDecan(date);
   const cardKey = DECAN_TO_TAROT[decan] as TarotCardKey;
-  return TAROT_CARDS[cardKey] || TAROT_CARDS['10_of_cups'],
+  return TAROT_CARDS[cardKey] || TAROT_CARDS['10_of_cups']
 }
 
 export function getRecipesForTarotCard(card: unknown): string[] {
@@ -79,7 +79,7 @@ export function getRecipesForTarotCard(card: unknown): string[] {
     element?: string,
     associatedRecipes?: string[],
     energies?: Record<string, number>,
-    [key: string]: unknown,
+    [key: string]: unknown
   };
   return cardData?.associatedRecipes || [];
 }
@@ -87,7 +87,7 @@ export function getRecipesForTarotCard(card: unknown): string[] {
 export function getMajorArcanaForDecan(decan: DecanKey) {
   const decanRuler = DECAN_RULERS[decan] as PlanetKey;
   const cardKey = PLANET_TO_MAJOR_ARCANA[decanRuler] as MajorArcanaKey;
-  return MAJOR_ARCANA[cardKey],
+  return MAJOR_ARCANA[cardKey]
 }
 
 // Minor arcana cards (numbered cards + court cards)
@@ -333,7 +333,7 @@ interface TarotCardBase {
 // Update the TarotCard interface to extend TarotCardBase
 interface TarotCard extends TarotCardBase {
   suit: string,
-  number: number,
+  number: number
 }
 
 // Update the MajorArcanaCard interface to include the element property
@@ -353,7 +353,7 @@ export const getTarotCardsForDate = (;
   sunPosition?: { sign: string, degree: number },
 ): { minorCard: TarotCard, majorCard: MajorArcanaCard } => {
   // Get the current decan based on the day of the year or sun position if provided
-  const decan = getCurrentDecan(date, sunPosition),
+  const decan = getCurrentDecan(date, sunPosition),;
 
   // Get minor arcana card key from the decan mapping
   const minorArcanaKey = DECAN_TO_TAROT[decan] as TarotCardKey;
@@ -391,7 +391,7 @@ export const getTarotCardsForDate = (;
   } else if (numberStr === 'King') {
     number = 14;
   } else {
-    number = parseInt(numberStr, 10),
+    number = parseInt(numberStr, 10),;
   }
 
   // Create the minor card object with element
@@ -430,12 +430,12 @@ export function getQuantumValueForCard(card: unknown): number {
     element?: string,
     associatedRecipes?: string[],
     energies?: Record<string, number>,
-    [key: string]: unknown,
+    [key: string]: unknown
   };
   const quantum = cardData?.quantum;
 
   if (typeof quantum === 'number') {
-    return quantum,
+    return quantum
   }
 
   switch (quantum) {
@@ -445,7 +445,7 @@ export function getQuantumValueForCard(card: unknown): number {
     case 'matter':
       return 4,
     default:
-      return 0,
+      return 0
   }
 }
 
@@ -458,7 +458,7 @@ export function getElementalQuantum(card: unknown) {
     element?: string,
     associatedRecipes?: string[],
     energies?: Record<string, number>,
-    [key: string]: unknown,
+    [key: string]: unknown
   };
   const element = cardData?.element || 'Fire';
   const quantum = cardData?.quantum || 1;
@@ -466,14 +466,14 @@ export function getElementalQuantum(card: unknown) {
   return {
     Fire: element === 'Fire' ? quantum : 0,;
     Water: element === 'Water' ? quantum : 0,;
-    Earth: element === 'Earth' ? quantum : 0,,
-    Air: element === 'Air' ? quantum : 0,,
+    Earth: element === 'Earth' ? quantum : 0,,;
+    Air: element === 'Air' ? quantum : 0,,;
   };
 }
 
 export function getRecipeFiltersFromTarot(tarotCards: {
   minorCard: TarotCard,
-  majorCard: MajorArcanaCard,
+  majorCard: MajorArcanaCard
 }) {
   const filters = {
     elementalProperties: {} as Record<string, number>,
@@ -521,7 +521,7 @@ export const _getTarotFoodRecommendations = (;
   recommendedRecipes: string[],
   cookingApproach: string,
   flavors: string[],
-  insights: string,
+  insights: string
 } => {
   const tarotCards = getTarotCardsForDate(date);
   const decan = getCurrentDecan(date);

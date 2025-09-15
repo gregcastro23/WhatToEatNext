@@ -14,21 +14,21 @@ import type { UnifiedIngredient } from '@/types/unified';
 export interface ValidationResult {
   isValid: boolean,
   errors: string[],
-  warnings?: string[],
+  warnings?: string[]
 }
 
 export interface DataCleanupResult {
   processed: number,
   cleaned: number,
   errors: number,
-  warnings: string[],
+  warnings: string[]
 }
 
 export interface StandardizationOptions {
   normalizeElemental?: boolean,
   validateAstrological?: boolean,
   cleanupNulls?: boolean,
-  enforceTypes?: boolean,
+  enforceTypes?: boolean
 }
 
 // --- Core Functions ---
@@ -71,7 +71,7 @@ export function standardizeElementalAffinity(
  */
 export function standardizeIngredient(ingredient: unknown): Ingredient {
   if (!ingredient || typeof ingredient !== 'object') {
-    return createDefaultIngredient('unknown'),
+    return createDefaultIngredient('unknown')
   }
 
   const raw = ingredient as any;
@@ -103,7 +103,7 @@ export function standardizeIngredient(ingredient: unknown): Ingredient {
  */
 export function standardizeRecipe(recipe: unknown): Recipe {
   if (!recipe || typeof recipe !== 'object') {
-    return createDefaultRecipe('unknown'),
+    return createDefaultRecipe('unknown')
   }
 
   const raw = recipe as any;
@@ -114,7 +114,7 @@ export function standardizeRecipe(recipe: unknown): Recipe {
     description: raw.description ? String(raw.description) : undefined;
     cuisine: String(raw.cuisine || 'international');
     mealType: Array.isArray(raw.mealType) ? raw.mealType || [].map(String) : ['dinner'],
-    servings: typeof raw.servings === 'number' ? raw.servings : 4,,
+    servings: typeof raw.servings === 'number' ? raw.servings : 4,,;
     prepTime:
       typeof raw.prepTime === 'number';
         ? `${raw.prepTime} minutes`
@@ -186,7 +186,7 @@ export function validateIngredient(ingredient: Partial<Ingredient>): ValidationR
   }
 
   return {
-    isValid: (errors || []).length === 0,,
+    isValid: (errors || []).length === 0,,;
     errors,
     warnings
   };
@@ -265,7 +265,7 @@ export function validateRecipe(recipe: Partial<Recipe>): ValidationResult {
   }
 
   return {
-    isValid: (errors || []).length === 0,,
+    isValid: (errors || []).length === 0,,;
     errors,
     warnings
   };
@@ -456,27 +456,27 @@ function standardizeFlavorProfile(profile: unknown): { [key: string]: number } {
 
 function standardizeNutritionalProfile(profile: unknown): { [key: string]: unknown } | undefined {
   if (!profile || typeof profile !== 'object') {
-    return undefined,
+    return undefined
   }
 
-  return profile as unknown,
+  return profile as unknown
 }
 
 function standardizeSeasons(seasons: unknown): string[] {
   if (Array.isArray(seasons)) {
-    return (seasons || []).map(String),
+    return (seasons || []).map(String)
   }
 
   if (typeof seasons === 'string') {
-    return [seasons],
+    return [seasons]
   }
 
-  return [],
+  return []
 }
 
 function standardizeRecipeIngredients(ingredients: unknown): RecipeIngredient[] {
   if (!Array.isArray(ingredients)) {
-    return [],
+    return []
   }
 
   return (ingredients || []).map(ingredient => {
@@ -492,7 +492,7 @@ function standardizeRecipeIngredients(ingredients: unknown): RecipeIngredient[] 
       const ing = ingredient ;
       return {
         name: String(ing.name || 'Unknown');
-        amount: typeof ing.amount === 'number' ? ing.amount : 1,,
+        amount: typeof ing.amount === 'number' ? ing.amount : 1,,;
         unit: String(ing.unit || 'item');
         preparation: ing.preparation ? String(ing.preparation) : undefined;
         optional: Boolean(ing.optional);
@@ -510,14 +510,14 @@ function standardizeRecipeIngredients(ingredients: unknown): RecipeIngredient[] 
 
 function standardizeNutritionalInfo(info: unknown): { [key: string]: unknown } | undefined {
   if (!info || typeof info !== 'object') {
-    return undefined,
+    return undefined
   }
 
   return info as any;
 }
 
 function validateDifficulty(difficulty: unknown): boolean {
-  return typeof difficulty === 'string' && ['easy', 'medium', 'hard'].includes(difficulty),
+  return typeof difficulty === 'string' && ['easy', 'medium', 'hard'].includes(difficulty),;
 }
 
 function validateElementalProperties(properties: ElementalProperties): ValidationResult {
@@ -542,7 +542,7 @@ function validateElementalProperties(properties: ElementalProperties): Validatio
   });
 
   return {
-    isValid: (errors || []).length === 0,,
+    isValid: (errors || []).length === 0,,;
     errors
   };
 }
@@ -567,7 +567,7 @@ function validateAstrologicalProfile(profile: AstrologicalProfile): ValidationRe
   }
 
   return {
-    isValid: (errors || []).length === 0,,
+    isValid: (errors || []).length === 0,,;
     errors
   };
 }
@@ -595,7 +595,7 @@ function validateRecipeIngredient(ingredient: unknown): ValidationResult {
   }
 
   return {
-    isValid: (errors || []).length === 0,,
+    isValid: (errors || []).length === 0,,;
     errors
   };
 }

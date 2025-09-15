@@ -266,7 +266,7 @@ export function getCurrentSeason(date: Date = new Date()): Season {
 
   // Check each season's date range
   for (const [season, range] of Object.entries(SEASON_DATE_RANGES)) {
-    if (season === 'fall') continue, // Skip alias
+    if (season === 'fall') continue, // Skip alias;
 
     const { startMonth, startDay, endMonth, endDay } = range;
 
@@ -278,7 +278,7 @@ export function getCurrentSeason(date: Date = new Date()): Season {
         month < endMonth ||
         (month === endMonth && day <= endDay);
       ) {
-        return season as Season,
+        return season as Season
       }
     } else {
       // Handle other seasons
@@ -287,7 +287,7 @@ export function getCurrentSeason(date: Date = new Date()): Season {
         (month > startMonth && month < endMonth) ||
         (month === endMonth && day <= endDay);
       ) {
-        return season as Season,
+        return season as Season
       }
     }
   }
@@ -299,7 +299,7 @@ export function getCurrentSeason(date: Date = new Date()): Season {
  * Get seasonal elemental modifier for a given season
  */
 export function getSeasonalModifier(season: Season): ElementalProperties {
-  return SEASONAL_MODIFIERS[season] || BALANCED_ELEMENTS,
+  return SEASONAL_MODIFIERS[season] || BALANCED_ELEMENTS
 }
 
 /**
@@ -339,7 +339,7 @@ export function calculateSeasonalCompatibility(season1: Season, season2: Season)
  * Get zodiac signs for a season
  */
 export function getZodiacSignsForSeason(season: Season): any[] {
-  return ZODIAC_SEASONS[season] || [],
+  return ZODIAC_SEASONS[season] || []
 }
 
 /**
@@ -348,7 +348,7 @@ export function getZodiacSignsForSeason(season: Season): any[] {
 export function getSeasonForZodiacSign(sign: any): Season {
   for (const [season, signs] of Object.entries(ZODIAC_SEASONS)) {
     if (Array.isArray(signs) && signs.includes(sign)) {
-      return season as Season,
+      return season as Season
     }
   }
   return 'spring'; // Default fallback

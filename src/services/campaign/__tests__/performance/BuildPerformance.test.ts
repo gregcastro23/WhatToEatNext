@@ -24,7 +24,7 @@ describe('Build Performance Tests', () => {
   let mockConfig: CampaignConfig,
 
   beforeEach(() => {
-    const safetySettings: SafetySettings = { maxFilesPerBatch: 25,,
+    const safetySettings: SafetySettings = { maxFilesPerBatch: 25,,;
       buildValidationFrequency: 5,
       testValidationFrequency: 10,
       corruptionDetectionEnabled: true,
@@ -100,7 +100,7 @@ describe('Build Performance Tests', () => {
       mockExecSync.mockImplementation(command => {
         if (command.toString().includes('yarn build')) {
           // Simulate slow build (12 seconds),
-          const delay: any = 100, // Use shorter delay for test performance
+          const delay: any = 100, // Use shorter delay for test performance;
           const endTime: any = Date.now() + delay;
           while (Date.now() < endTime) {
             // Busy wait
@@ -119,7 +119,7 @@ describe('Build Performance Tests', () => {
     it('should handle build failures gracefully', async () => {
       mockExecSync.mockImplementation(command => {
         if (command.toString().includes('yarn build')) {
-          throw new Error('Build compilation failed'),
+          throw new Error('Build compilation failed')
         }
         return '';
       });
@@ -137,9 +137,9 @@ describe('Build Performance Tests', () => {
         if (command.toString().includes('yarn build')) {
           // Simulate consistent build time with small variance;
           const baseTime: any = targetBuildTime * 1000;
-          const variance: any = Math.random() * 1000, // ±1 second variance
-          const delay: any = Math.max(100, baseTime + variance - 500), // Minimum 100ms for test performance
-          const endTime: any = Date.now() + Math.min(delay, 200), // Cap at 200ms for test performance
+          const variance: any = Math.random() * 1000, // ±1 second variance;
+          const delay: any = Math.max(100, baseTime + variance - 500), // Minimum 100ms for test performance;
+          const endTime: any = Date.now() + Math.min(delay, 200), // Cap at 200ms for test performance;
           while (Date.now() < endTime) {
             // Busy wait
           }
@@ -275,7 +275,7 @@ describe('Build Performance Tests', () => {
 
     it('should measure bundle size across different build outputs', async () => {
       const buildDirs: any = ['.next', 'dist', 'build'];
-      const _expectedSizes: any = [200, 150, 50], // kB
+      const _expectedSizes: any = [200, 150, 50], // kB;
 
       mockFs.existsSync.mockImplementation(path => {
         return buildDirs.includes(path);
@@ -286,7 +286,7 @@ describe('Build Performance Tests', () => {
         if (cmd.includes('du -sk .next')) return '200';
         if (cmd.includes('du -sk dist')) return '150';
         if (cmd.includes('du -sk build')) return '50';
-        return '',
+        return ''
       });
 
       const bundleSize: any = await progressTracker.getBundleSize();
@@ -376,7 +376,7 @@ describe('Build Performance Tests', () => {
       expect(lastMetrics.buildPerformance.currentTime).toBeLessThan(firstMetrics.buildPerformance.currentTime);
       expect(lastMetrics.buildPerformance.cacheHitRate).toBeGreaterThan(firstMetrics.buildPerformance.cacheHitRate);
       expect(lastMetrics.buildPerformance.memoryUsage).toBeLessThan(firstMetrics.buildPerformance.memoryUsage);
-    }),
+    })
   }),
 
   describe('Performance Benchmarking', () => {
@@ -387,7 +387,7 @@ describe('Build Performance Tests', () => {
         if (command.toString().includes('yarn tsc')) {
           const startTime: any = Date.now();
           // Simulate TypeScript compilation time
-          const delay: any = 50 + Math.random() * 100, // 50-150ms
+          const delay: any = 50 + Math.random() * 100, // 50-150ms;
           const endTime: any = startTime + delay;
           while (Date.now() < endTime) {
             // Busy wait
@@ -418,7 +418,7 @@ describe('Build Performance Tests', () => {
         if (command.toString().includes('yarn lint')) {
           const startTime: any = Date.now();
           // Simulate linting time
-          const delay: any = 30 + Math.random() * 70, // 30-100ms
+          const delay: any = 30 + Math.random() * 70, // 30-100ms;
           const endTime: any = startTime + delay;
           while (Date.now() < endTime) {
             // Busy wait
@@ -449,7 +449,7 @@ describe('Build Performance Tests', () => {
         if (command.toString().includes('grep -r 'INTELLIGENCE_SYSTEM'')) {
           const startTime: any = Date.now();
           // Simulate grep operation time
-          const delay: any = 20 + Math.random() * 30, // 20-50ms
+          const delay: any = 20 + Math.random() * 30, // 20-50ms;
           const endTime: any = startTime + delay;
           while (Date.now() < endTime) {
             // Busy wait
@@ -481,7 +481,7 @@ describe('Build Performance Tests', () => {
         const cmd: any = command.toString();
         if (cmd.includes('yarn tsc')) {
           // Simulate longer compilation for large codebase
-          const delay: any = 100, // 100ms for test performance
+          const delay: any = 100, // 100ms for test performance;
           const endTime: any = Date.now() + delay;
           while (Date.now() < endTime) {
             // Busy wait

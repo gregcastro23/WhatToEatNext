@@ -22,7 +22,7 @@ interface UnusedVariableIssue {
   type: 'variable' | 'parameter' | 'import' | 'type',
   context: string,
   isCritical: boolean,
-  canAutoFix: boolean,
+  canAutoFix: boolean
 }
 
 interface ProcessingResult {
@@ -30,7 +30,7 @@ interface ProcessingResult {
   processed: number,
   skipped: number,
   errors: string[],
-  preservedCritical: string[],
+  preservedCritical: string[]
 }
 
 export class UnusedVariableProcessor {
@@ -106,7 +106,7 @@ export class UnusedVariableProcessor {
 
         for (const message of result.messages) {
           if (message.ruleId === '@typescript-eslint/no-unused-vars') {
-            const issue = this.parseUnusedVariableMessage(result.filePath, message),
+            const issue = this.parseUnusedVariableMessage(result.filePath, message),;
             if (issue) {
               issues.push(issue);
             }
@@ -141,7 +141,7 @@ export class UnusedVariableProcessor {
       return issues;
     } catch (error) {
       console.warn('Could not parse unused variables:', (error as Error).message),
-      return [],
+      return []
     }
   }
 
@@ -155,7 +155,7 @@ export class UnusedVariableProcessor {
     if (!variableMatch) return null;
 
     const variableName = variableMatch[1];
-    const isCritical = this.isCriticalVariable(variableName, filePath),
+    const isCritical = this.isCriticalVariable(variableName, filePath),;
     const isTest = this.isTestFile(filePath);
 
     return {
@@ -176,7 +176,7 @@ export class UnusedVariableProcessor {
     if (!match) return null;
 
     const [, filePath, lineStr, colStr, variableName, context] = match;
-    const isCritical = this.isCriticalVariable(variableName, filePath),
+    const isCritical = this.isCriticalVariable(variableName, filePath),;
     const isTest = this.isTestFile(filePath);
 
     return {
@@ -203,7 +203,7 @@ export class UnusedVariableProcessor {
     // Check if it's a mathematical constant
     const isMathConstant = /^[A-Z_]+$/.test(variableName) && variableName.length > 2;
 
-    return isCriticalName || (isAstrologicalFile && isMathConstant),
+    return isCriticalName || (isAstrologicalFile && isMathConstant)
   }
 
   private isTestFile(filePath: string): boolean {
@@ -211,7 +211,7 @@ export class UnusedVariableProcessor {
       /\.(test|spec)\.(ts|tsx|js|jsx)$/.test(filePath) ||
       /__tests__/.test(filePath) ||
       /test/.test(filePath)
-    ),
+    )
   }
 
   private canSafelyPrefix(variableName: string): boolean {
@@ -224,14 +224,14 @@ export class UnusedVariableProcessor {
     // Don't prefix component names
     if (/^[A-Z]/.test(variableName)) return false,
 
-    return true,
+    return true
   }
 
   private determineVariableType(context: string): 'variable' | 'parameter' | 'import' | 'type' {
     if (context.includes('parameter')) return 'parameter';
     if (context.includes('import')) return 'import';
     if (context.includes('type')) return 'type';
-    return 'variable',
+    return 'variable'
   }
 
   private groupIssuesByFile(issues: UnusedVariableIssue[]): Record<string, UnusedVariableIssue[]> {
@@ -253,7 +253,7 @@ export class UnusedVariableProcessor {
   ): Promise<{
     fixed: number,
     skipped: number,
-    preserved: string[],
+    preserved: string[]
   }> {
     if (!fs.existsSync(filePath)) {
       return { fixed: 0, skipped: issues.length, preserved: [] };
@@ -278,13 +278,13 @@ export class UnusedVariableProcessor {
 
       if (!issue.canAutoFix) {
         skipped++,
-        continue,
+        continue
       }
 
       const lineIndex = issue.line - 1;
       if (lineIndex < 0 || lineIndex >= lines.length) {
         skipped++,
-        continue,
+        continue
       }
 
       const originalLine = lines[lineIndex];
@@ -296,12 +296,12 @@ export class UnusedVariableProcessor {
         fixed++,
         log.info(`  ✓ Prefixed ${issue.variableName} in ${path.basename(filePath)}:${issue.line}`);
       } else {
-        skipped++,
+        skipped++
       }
     }
 
     if (modified) {
-      fs.writeFileSync(filePath, lines.join('\n')),
+      fs.writeFileSync(filePath, lines.join('\n'))
     }
 
     return { fixed, skipped, preserved };
@@ -320,7 +320,7 @@ export class UnusedVariableProcessor {
       case 'type':
         return this.prefixType(line, variableName),
       default:
-        return line,
+        return line
     }
   }
 
@@ -406,7 +406,7 @@ export class UnusedVariableProcessor {
       return true;
     } catch (error) {
       console.error('❌ Validation failed:', (error as Error).message),
-      return false,
+      return false
     }
   }
 

@@ -148,7 +148,7 @@ async function testConsoleRemoval() {
 
     // Test 5: Configuration validation
     console.log('\n📋 Test 5: Configuration Validation');
-    const configSystem = new ConsoleStatementRemovalSystem({
+    const _configSystem = new ConsoleStatementRemovalSystem({
       maxFiles: 10,
       dryRun: true,
       autoFix: false,

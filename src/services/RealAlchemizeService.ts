@@ -14,14 +14,14 @@ export type PlanetaryPosition = {
   sign: any,
   degree: number,
   minute: number,
-  isRetrograde: boolean,
+  isRetrograde: boolean
 };
 
 export type ThermodynamicProperties = {
   heat: number,
   entropy: number,
   reactivity: number,
-  gregsEnergy: number,
+  gregsEnergy: number
 };
 
 export type StandardizedAlchemicalResult = {
@@ -37,7 +37,7 @@ export type StandardizedAlchemicalResult = {
     dominantElement: string,
     dominantModality: string,
     sunSign: string,
-    chartRuler: string,
+    chartRuler: string
   };
 };
 
@@ -60,7 +60,7 @@ function normalizeSign(sign: string): any {
   ],
 
   if (validSigns.includes(normalized as unknown)) {
-    return normalized as unknown,
+    return normalized as unknown
   }
 
   throw new Error(`Invalid zodiac sign: ${sign}`);
@@ -309,7 +309,7 @@ export function loadPlanetaryPositions(): Record<string, PlanetaryPosition> {
     // Check if we're in a browser environment
     if (typeof window !== 'undefined') {
       // In browser, use fallback data
-      return getFallbackPlanetaryPositions(),
+      return getFallbackPlanetaryPositions()
     }
 
     // In Node.js environment, try to read the file
@@ -333,7 +333,7 @@ export function loadPlanetaryPositions(): Record<string, PlanetaryPosition> {
     return convertedPositions;
   } catch (error) {
     console.warn('Error loading planetary positions from file, using fallback data:', error),
-    return getFallbackPlanetaryPositions(),
+    return getFallbackPlanetaryPositions()
   }
 }
 
@@ -361,7 +361,7 @@ function getFallbackPlanetaryPositions(): Record<string, PlanetaryPosition> {
  */
 export function getCurrentAlchemicalState(): StandardizedAlchemicalResult {
   const planetaryPositions = loadPlanetaryPositions();
-  return alchemize(planetaryPositions),
+  return alchemize(planetaryPositions)
 }
 
 /**
@@ -370,7 +370,7 @@ export function getCurrentAlchemicalState(): StandardizedAlchemicalResult {
 export function calculateAlchemicalProperties(
   positions: Record<string, PlanetaryPosition>,
 ): StandardizedAlchemicalResult {
-  return alchemize(positions),
+  return alchemize(positions)
 }
 
 // Export the service as default

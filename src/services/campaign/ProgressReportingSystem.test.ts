@@ -240,7 +240,7 @@ describe('ProgressReportingSystem', () => {
       expect(report.criticalIssues.length).toBeGreaterThan(0);
       expect(report.recommendations.length).toBeGreaterThan(0);
       expect(report.executiveSummary).toContain('currently blocked');
-    }),
+    })
   }),
 
   describe('Phase Completion Reports', () => {
@@ -301,7 +301,7 @@ describe('ProgressReportingSystem', () => {
     test('should handle invalid phase ID', async () => {
       await expect(reportingSystem.generatePhaseCompletionReport('invalid-phase')).rejects.toThrow(
         'Unknown phase: invalid-phase',
-      ),
+      )
     });
   });
 
@@ -395,7 +395,7 @@ describe('ProgressReportingSystem', () => {
 
   describe('Report Export Functionality', () => {
     test('should export report in JSON format', async () => {
-      const mockReport: CampaignSummaryReport = { campaignId: 'perfect-codebase-campaign',,
+      const mockReport: CampaignSummaryReport = { campaignId: 'perfect-codebase-campaign',,;
         generatedAt: new Date(),
         overallStatus: CampaignStatus.IN_PROGRESS;
         overallProgress: 75,
@@ -425,7 +425,7 @@ describe('ProgressReportingSystem', () => {
     });
 
     test('should export report in multiple formats', async () => {
-      const mockReport: CampaignSummaryReport = { campaignId: 'perfect-codebase-campaign',,
+      const mockReport: CampaignSummaryReport = { campaignId: 'perfect-codebase-campaign',,;
         generatedAt: new Date(),
         overallStatus: CampaignStatus.COMPLETED;
         overallProgress: 100,

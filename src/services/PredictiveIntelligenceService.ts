@@ -31,7 +31,7 @@ interface PredictiveIntelligenceResult {
   recipePrediction?: unknown,
   ingredientPrediction?: unknown,
   cuisinePrediction?: unknown,
-  astrologicalPrediction?: unknown,
+  astrologicalPrediction?: unknown
 }
 
 interface PredictiveMetrics {
@@ -46,7 +46,7 @@ interface PredictiveMetrics {
   averageConfidence: number,
   cacheHitRate: number,
   errorRate: number,
-  executionTimes: number[],
+  executionTimes: number[]
 }
 
 // Note: These functions are not yet implemented in calculations/index
@@ -159,7 +159,7 @@ export class PredictiveIntelligenceService {
         this.log('debug', 'Using cached predictive intelligence analysis');
         const cachedResult = this.cache.get(cacheKey);
         if (cachedResult) {
-          return cachedResult,
+          return cachedResult
         }
       }
 
@@ -185,7 +185,7 @@ export class PredictiveIntelligenceService {
 
       // Cache the results
       if (this.config.cacheResults) {
-        this.cache.set(cacheKey, result),
+        this.cache.set(cacheKey, result)
       }
 
       // Update metrics
@@ -199,7 +199,7 @@ export class PredictiveIntelligenceService {
       return result;
     } catch (error) {
       this.handleError('generatePredictiveIntelligence', error),
-      throw error,
+      throw error
     }
   }
 
@@ -381,7 +381,7 @@ export class PredictiveIntelligenceService {
     culinaryContext: {
       recipe?: Recipe,
       ingredients?: Ingredient[],
-      cuisine?: Record<string, unknown>,
+      cuisine?: Record<string, unknown>
     },
   ): Promise<PredictiveIntelligenceResult['astrologicalPrediction']> {
     try {
@@ -428,7 +428,7 @@ export class PredictiveIntelligenceService {
     seasonalOptimization: number,
     astrologicalAlignment: number,
     recipeComplexity: string,
-    userPreferences: number,
+    userPreferences: number
   }): number {
     const {
       elementalAlignment,
@@ -467,7 +467,7 @@ export class PredictiveIntelligenceService {
     successProbability: number,
     elementalAlignment: number,
     seasonalOptimization: number,
-    recipeQuality: number,
+    recipeQuality: number
   }): number {
     const { successProbability, elementalAlignment, seasonalOptimization, recipeQuality } = factors;
 
@@ -493,13 +493,13 @@ export class PredictiveIntelligenceService {
 
     // Determine optimal timing based on astrological and seasonal factors
     if (seasonalOptimization > 0.8) {
-      return 'Immediate - Optimal seasonal and astrological alignment',
+      return 'Immediate - Optimal seasonal and astrological alignment'
     } else if (seasonalOptimization > 0.6) {
-      return 'Within 1-2 days - Good alignment window',
+      return 'Within 1-2 days - Good alignment window'
     } else if (seasonalOptimization > 0.4) {
-      return 'Within 1 week - Moderate alignment',
+      return 'Within 1 week - Moderate alignment'
     } else {
-      return 'Plan for next lunar cycle - Wait for better alignment',
+      return 'Plan for next lunar cycle - Wait for better alignment'
     }
   }
 
@@ -535,11 +535,11 @@ export class PredictiveIntelligenceService {
     if (successProbability > 0.8) {
       return `Maintain ${difficulty} - Excellent alignment supports current difficulty`;
     } else if (successProbability > 0.6) {
-      return `Slight reduction recommended - Good alignment with minor adjustments`,
+      return `Slight reduction recommended - Good alignment with minor adjustments`
     } else if (successProbability > 0.4) {
-      return `Reduce difficulty - Moderate alignment suggests simplification`,
+      return `Reduce difficulty - Moderate alignment suggests simplification`
     } else {
-      return `Significant simplification needed - Poor alignment requires easier approach`,
+      return `Significant simplification needed - Poor alignment requires easier approach`
     }
   }
 
@@ -561,7 +561,7 @@ export class PredictiveIntelligenceService {
           astrologicalContext,
         ),
         totalCompatibility += compatibility;
-        pairCount++,
+        pairCount++
       }
     }
 
@@ -576,7 +576,7 @@ export class PredictiveIntelligenceService {
     const diversityScore = this.calculateIngredientDiversity(ingredients);
     const astrologicalFlexibility = this.calculateAstrologicalFlexibility(astrologicalContext);
 
-    return Math.max(0, Math.min(1, (diversityScore + astrologicalFlexibility) / 2)),
+    return Math.max(0, Math.min(1, (diversityScore + astrologicalFlexibility) / 2))
   }
 
   private calculateFlavorHarmonyPrediction(
@@ -587,7 +587,7 @@ export class PredictiveIntelligenceService {
     const elementalBalance = this.calculateElementalBalance(ingredients);
     const astrologicalHarmony = this.calculateAstrologicalHarmony(astrologicalContext);
 
-    return Math.max(0, Math.min(1, (elementalBalance + astrologicalHarmony) / 2)),
+    return Math.max(0, Math.min(1, (elementalBalance + astrologicalHarmony) / 2))
   }
 
   private calculateNutritionalOptimizationPrediction(
@@ -599,7 +599,7 @@ export class PredictiveIntelligenceService {
     const astrologicalNutritionalNeeds =
       this.calculateAstrologicalNutritionalNeeds(astrologicalContext);
 
-    return Math.max(0, Math.min(1, (nutritionalVariety + astrologicalNutritionalNeeds) / 2)),
+    return Math.max(0, Math.min(1, (nutritionalVariety + astrologicalNutritionalNeeds) / 2))
   }
 
   private calculateFusionSuccessPrediction(
@@ -610,7 +610,7 @@ export class PredictiveIntelligenceService {
     const culturalCompatibility = this.calculateCulturalCompatibility(cuisineData);
     const astrologicalInnovation = this.calculateAstrologicalInnovation(astrologicalContext);
 
-    return Math.max(0, Math.min(1, (culturalCompatibility + astrologicalInnovation) / 2)),
+    return Math.max(0, Math.min(1, (culturalCompatibility + astrologicalInnovation) / 2))
   }
 
   private calculateCulturalAcceptancePrediction(
@@ -622,7 +622,7 @@ export class PredictiveIntelligenceService {
     const astrologicalCulturalAlignment =
       this.calculateAstrologicalCulturalAlignment(astrologicalContext);
 
-    return Math.max(0, Math.min(1, (culturalRelevance + astrologicalCulturalAlignment) / 2)),
+    return Math.max(0, Math.min(1, (culturalRelevance + astrologicalCulturalAlignment) / 2))
   }
 
   private calculateSeasonalRelevancePrediction(
@@ -636,7 +636,7 @@ export class PredictiveIntelligenceService {
       currentSeason,
     ),
 
-    return Math.max(0, Math.min(1, (seasonalRelevance + astrologicalSeasonalAlignment) / 2)),
+    return Math.max(0, Math.min(1, (seasonalRelevance + astrologicalSeasonalAlignment) / 2))
   }
 
   private calculateInnovationPotentialPrediction(
@@ -647,7 +647,7 @@ export class PredictiveIntelligenceService {
     const astrologicalInnovationSupport =
       this.calculateAstrologicalInnovationSupport(astrologicalContext);
 
-    return Math.max(0, Math.min(1, (innovationPotential + astrologicalInnovationSupport) / 2)),
+    return Math.max(0, Math.min(1, (innovationPotential + astrologicalInnovationSupport) / 2))
   }
 
   private calculateAstrologicalAlignmentPrediction(
@@ -656,9 +656,9 @@ export class PredictiveIntelligenceService {
   ): number {
     const planetaryAlignment = this.calculatePlanetaryAlignment(astrologicalContext);
     const lunarAlignment = this.calculateLunarAlignment(astrologicalContext);
-    const zodiacAlignment = this.calculateZodiacAlignment(astrologicalContext, culinaryContext),
+    const zodiacAlignment = this.calculateZodiacAlignment(astrologicalContext, culinaryContext),;
 
-    return Math.max(0, Math.min(1, (planetaryAlignment + lunarAlignment + zodiacAlignment) / 3)),
+    return Math.max(0, Math.min(1, (planetaryAlignment + lunarAlignment + zodiacAlignment) / 3))
   }
 
   private determineTimingOptimizationPrediction(
@@ -671,13 +671,13 @@ export class PredictiveIntelligenceService {
     ),
 
     if (alignment > 0.8) {
-      return 'Optimal timing - Perfect astrological alignment',
+      return 'Optimal timing - Perfect astrological alignment'
     } else if (alignment > 0.6) {
-      return 'Good timing - Strong astrological support',
+      return 'Good timing - Strong astrological support'
     } else if (alignment > 0.4) {
-      return 'Moderate timing - Adequate astrological conditions',
+      return 'Moderate timing - Adequate astrological conditions'
     } else {
-      return 'Suboptimal timing - Consider waiting for better alignment',
+      return 'Suboptimal timing - Consider waiting for better alignment'
     }
   }
 
@@ -728,7 +728,7 @@ export class PredictiveIntelligenceService {
         ? calculateElementalCompatibility(ing1.elementalProperties, ing2.elementalProperties)
         : 0.7;
 
-    return Math.max(0, Math.min(1, elementalCompatibility)),
+    return Math.max(0, Math.min(1, elementalCompatibility))
   }
 
   private calculateIngredientDiversity(ingredients: Ingredient[]): number {
@@ -845,7 +845,7 @@ export class PredictiveIntelligenceService {
 
     // Planetary harmony (simplified)
     if (planetaryPositions && Object.keys(planetaryPositions).length > 5) {
-      harmony += 0.1, // More planetary data = better harmony calculation,
+      harmony += 0.1, // More planetary data = better harmony calculation,;
     }
 
     return Math.max(0.3, Math.min(1, harmony));
@@ -965,7 +965,7 @@ export class PredictiveIntelligenceService {
     // Ingredient accessibility
     const commonIngredients = (cuisine.commonIngredients as string[]) || [];
     if (commonIngredients.length > 0) {
-      const accessibilityScore = Math.min(0.15, ((commonIngredients as any)?.length || 0) * 0.2),
+      const accessibilityScore = Math.min(0.15, ((commonIngredients as any)?.length || 0) * 0.2),;
       compatibility += accessibilityScore;
     }
 
@@ -1001,10 +1001,10 @@ export class PredictiveIntelligenceService {
     if (planetaryPositions) {
       const planets = planetaryPositions as unknown as Record<string, Record<string, unknown>>;
       if (planets.Uranus && Number(planets.Uranus.strength) > 0.7) {
-        innovation += 0.1, // Uranus = innovation planet,
+        innovation += 0.1, // Uranus = innovation planet,;
       }
       if (planets.Mercury && Number(planets.Mercury.strength) > 0.7) {
-        innovation += 0.05, // Mercury = mental agility,
+        innovation += 0.05, // Mercury = mental agility,;
       }
     }
 
@@ -1095,7 +1095,7 @@ export class PredictiveIntelligenceService {
       const earthElement = Number(elementalProperties.Earth) || 0; // Traditional, grounded cultures
       const airElement = Number(elementalProperties.Air) || 0; // Light, innovative cultures
 
-      const dominantElement = Math.max(fireElement, waterElement, earthElement, airElement),
+      const dominantElement = Math.max(fireElement, waterElement, earthElement, airElement),;
       if (dominantElement > 0.6) {
         alignment += 0.1;
       }
@@ -1189,7 +1189,7 @@ export class PredictiveIntelligenceService {
       (result as any).astrologicalPrediction.alignmentPrediction
     ],
 
-    return predictions.reduce((sum, pred) => sum + pred, 0) / predictions.length,
+    return predictions.reduce((sum, pred) => sum + pred, 0) / predictions.length
   }
 
   private generateCacheKey(
@@ -1316,7 +1316,7 @@ export class PredictiveIntelligenceService {
 
   clearCache(): void {
     this.cache.clear();
-    this.log('info', 'Predictive Intelligence Service cache cleared'),
+    this.log('info', 'Predictive Intelligence Service cache cleared')
   }
 
   resetMetrics(): void {

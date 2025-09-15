@@ -105,7 +105,7 @@ export function getPlanetaryDignity(
   planet: string,
   sign: any | undefined,
 ): { type: DignityType, strength: number } {
-  return getPlanetaryDignityInfo(planet, sign),
+  return getPlanetaryDignityInfo(planet, sign)
 }
 
 // Add type definition for PlanetPosition
@@ -115,7 +115,7 @@ export interface PlanetPosition {
   minute: number,
   exactLongitude: number,
   isRetrograde?: boolean,
-  error?: boolean,
+  error?: boolean
 }
 
 // Use the imported ElementalProperties (uppercase Fire, Water, Earth, Air)
@@ -140,7 +140,7 @@ export interface AstrologicalEffects {
   aspect: LowercaseElementalProperties,
   stellium: LowercaseElementalProperties,
   house: Record<ElementalCharacter, number>,
-  joy: LowercaseElementalProperties,
+  joy: LowercaseElementalProperties
 }
 
 // Export zodiac signs array for use by other modules (enterprise intelligence pattern)
@@ -168,13 +168,13 @@ export type PlanetPositionData = {
   sign: any,
   degree: number,
   minute?: number,
-  exactLongitude?: number,
+  exactLongitude?: number
 };
 
 export interface PlanetaryDignity {
   type: DignityType,
   value: number,
-  description: string,
+  description: string
 }
 
 /**
@@ -192,7 +192,7 @@ export async function calculateLunarPhase(date: Date = new Date()): Promise<numb
       typeof positions.Sun.exactLongitude !== 'number' ||
       typeof positions.Moon.exactLongitude !== 'number'
     ) {
-      throw new Error('Sun or Moon position missing required exactLongitude data'),
+      throw new Error('Sun or Moon position missing required exactLongitude data')
     }
 
     // Calculate the angular distance between sun and moon
@@ -232,7 +232,7 @@ export function getLunarPhaseName(phase: number): LunarPhase {
   if (phaseNormalized < 4.5) return 'full moon';
   if (phaseNormalized < 5.5) return 'waning gibbous';
   if (phaseNormalized < 6.5) return 'last quarter';
-  return 'waning crescent',
+  return 'waning crescent'
 }
 
 /**
@@ -251,7 +251,7 @@ export async function getMoonIllumination(date: Date = new Date()): Promise<numb
       typeof moonIllumination.fraction !== 'number' ||
       isNaN(moonIllumination.fraction)
     ) {
-      throw new Error('Invalid moon illumination data from SunCalc'),
+      throw new Error('Invalid moon illumination data from SunCalc')
     }
 
     // Get lunar phase (0-1)
@@ -267,9 +267,9 @@ export async function getMoonIllumination(date: Date = new Date()): Promise<numb
 
     // Correction for phase transitions (improves visual perception)
     if (phaseName === 'new moon') {
-      correctedFraction = Math.min(correctedFraction, 0.02), // Cap at 2%
+      correctedFraction = Math.min(correctedFraction, 0.02), // Cap at 2%;
     } else if (phaseName === 'full moon') {
-      correctedFraction = Math.max(correctedFraction, 0.98), // Minimum 98%
+      correctedFraction = Math.max(correctedFraction, 0.98), // Minimum 98%;
     }
 
     debugLog('Moon illumination calculated:', {
@@ -309,7 +309,7 @@ export async function getMoonIllumination(date: Date = new Date()): Promise<numb
         case 'waning crescent':
           return 25,
         default:
-          return 50,
+          return 50
       }
     } catch (_fallbackError) {
       errorLog('Fallback moon illumination calculation failed');
@@ -339,7 +339,7 @@ export function calculateSunSign(date: Date = new Date()): any {
   if ((month === 11 && day >= 22) || (month === 12 && day <= 21)) return 'sagittarius';
   if ((month === 12 && day >= 22) || (month === 1 && day <= 19)) return 'capricorn';
   if ((month === 1 && day >= 20) || (month === 2 && day <= 18)) return 'aquarius';
-  return 'pisces',
+  return 'pisces'
 }
 
 /**
@@ -358,7 +358,7 @@ export async function calculateMoonSign(date: Date = new Date()): Promise<Zodiac
     errorLog('Error in calculateMoonSign:', error);
     // Fallback to simplified calculation
     const moonLongitude = calculateMoonLongitude(calculateJulianDate(date));
-    return getZodiacSign(moonLongitude) as any,
+    return getZodiacSign(moonLongitude) as any
   }
 }
 
@@ -448,7 +448,7 @@ function _validatePlanetaryPositions(positions: Record<string, number>): boolean
   // Check if we have an empty object (positions parameter is defined by function signature)
   if (Object.keys(positions).length === 0) {
     errorLog('Validation failed: No positions provided in object');
-    return false,
+    return false
   }
 
   // Log the positions for debugging
@@ -458,7 +458,7 @@ function _validatePlanetaryPositions(positions: Record<string, number>): boolean
   const validation = REQUIRED_PLANETS.every(requiredPlanet => {
     // Check if the planet exists in the positions object (case insensitive)
     const planetKey = Object.keys(positions).find(;
-      key => key.toLowerCase() === requiredPlanet.toLowerCase(),,
+      key => key.toLowerCase() === requiredPlanet.toLowerCase(),,;
     ),
 
     if (!planetKey) {
@@ -485,7 +485,7 @@ function _calculatePlanetPosition(
   jd: number,
   planet: string,
 ): { sign: string, degree: number, minute: number } {
-  const longitude = calculatePlanetLongitude(jd, planet),
+  const longitude = calculatePlanetLongitude(jd, planet),;
   const position = longitudeToZodiacPosition(longitude);
 
   return {
@@ -554,7 +554,7 @@ function calculateJulianDate(date: Date): number {
   // Add time of day
   jd += (hour - 12) / 24 + minute / 1440 + second / 86400;
 
-  return jd,
+  return jd
 }
 
 /**
@@ -567,7 +567,7 @@ function calculateSunLongitude(jd: number): number {
   const T = (jd - 2451545.0) / 36525;
   let L0 = 280.46646 + T * (36000.76983 + T * 0.0003032);
   L0 = (L0 + 360) % 360;
-  return L0,
+  return L0
 }
 
 /**
@@ -581,7 +581,7 @@ function calculateMoonLongitude(jd: number): number {
   let L = 218.3164477 + 481267.88123421 * T;
   L += 6.2886 * Math.sin(((134.9633964 + 477198.8675055 * T) * Math.PI) / 180);
   L += 1.274 * Math.sin(((235.7 + 483202.0175233 * T) * Math.PI) / 180);
-  return (L + 360) % 360,
+  return (L + 360) % 360
 }
 
 /**
@@ -713,7 +713,7 @@ function calculateOuterPlanetLongitude(jd: number, planet: string): number {
     const t = jd - 2451545.0; // Days since J2000
     const meanLongitude = ((t / period) * 360) % 360;
 
-    return meanLongitude,
+    return meanLongitude
   }
 }
 
@@ -810,7 +810,7 @@ export function calculateHousePosition(risingDegree: number, planetDegree: numbe
   // Convert to house (each house is 30 degrees)
   const house = Math.floor(relativeDegree / 30) + 1;
 
-  return house,
+  return house
 }
 
 /**
@@ -924,17 +924,17 @@ export function calculateEnhancedStelliumEffects(
             break;
           case 'ascendant':
           case 'rising':
-            planetElement = 'earth', // Ascendant is Earth element
+            planetElement = 'earth', // Ascendant is Earth element;
             break,
           default:
-            planetElement = 'fire', // Default to fire
+            planetElement = 'fire', // Default to fire;
         }
 
         elementsByPlanet[planet] = planetElement;
 
         // Check if planet's element matches the sign's element
         if (planetElement === element) {
-          matchingElementCount++,
+          matchingElementCount++
         }
       }),
 
@@ -955,7 +955,7 @@ export function calculateEnhancedStelliumEffects(
       // Count non-matching elements
       Object.values(elementsByPlanet).forEach(planetElement => {
         if (planetElement !== element) {
-          nonMatchingElements[planetElement as keyof LowercaseElementalProperties]++,
+          nonMatchingElements[planetElement as keyof LowercaseElementalProperties]++
         }
       });
 
@@ -979,7 +979,7 @@ export function calculateEnhancedStelliumEffects(
 
       // Calculate house position
       const absoluteDegree = getLongitudeFromSignAndDegree(position.sign, position.degree);
-      const house = calculateHousePosition(risingDegree, absoluteDegree),
+      const house = calculateHousePosition(risingDegree, absoluteDegree),;
 
       if (!planetsByHouse[house]) {
         planetsByHouse[house] = [];
@@ -1479,7 +1479,7 @@ export function calculateAspects(
             type === 'square' &&;
             (planet1.toLowerCase() === 'ascendant' || planet2.toLowerCase() === 'ascendant')
           ) {
-            multiplier = 1, // From original algorithm: Square to Ascendant is +1 instead of -1
+            multiplier = 1, // From original algorithm: Square to Ascendant is +1 instead of -1;
           }
 
           // Add to aspects array
@@ -1510,7 +1510,7 @@ export function calculateAspects(
     }
   }
 
-  return { aspects: _aspects, elementalEffects },
+  return { aspects: _aspects, elementalEffects }
 }
 
 /**
@@ -1519,7 +1519,7 @@ export function calculateAspects(
  * @returns Complete astrological state object
  */
 export async function getCurrentAstrologicalState(
-  date: Date = new Date(),,
+  date: Date = new Date(),,;
 ): Promise<AstrologicalState> {
   try {
     // Calculate all the astrological factors
@@ -1557,7 +1557,7 @@ export async function getCurrentAstrologicalState(
       .filter(([planet, position]) => {
         // Always include outer planets in activePlanets array
         if (['Uranus', 'Neptune', 'Pluto'].includes(planet)) {
-          return true,
+          return true
         }
 
         // For traditional planets, check for dignity
@@ -1744,9 +1744,9 @@ export function getZodiacSign(longitude: number): string {
   const adjustedLong = (longitude + 0.00001) % 360;
 
   // Each sign spans 30 degrees
-  const signIndex = Math.min(11, Math.floor(adjustedLong / 30)),
+  const signIndex = Math.min(11, Math.floor(adjustedLong / 30)),;
 
-  return signs[signIndex],
+  return signs[signIndex]
 }
 
 const PLANETARY_ORBS: Record<string, number> = {
@@ -1763,7 +1763,7 @@ const PLANETARY_ORBS: Record<string, number> = {
 };
 
 function _getAspectOrb(planet1: string, planet2: string): number {
-  return (PLANETARY_ORBS[planet1] + PLANETARY_ORBS[planet2]) / 2,
+  return (PLANETARY_ORBS[planet1] + PLANETARY_ORBS[planet2]) / 2
 }
 
 /**
@@ -1778,7 +1778,7 @@ function _calculatePlacidusHouses(jd: number, lat: number, lon: number): number[
   try {
     // Validate inputs
     if (isNaN(jd) || isNaN(lat) || isNaN(lon)) {
-      throw new Error('Invalid inputs for Placidus house calculation'),
+      throw new Error('Invalid inputs for Placidus house calculation')
     }
 
     // Convert latitude to radians
@@ -1864,7 +1864,7 @@ function _calculatePlacidusHouses(jd: number, lat: number, lon: number): number[
     errorLog('Error calculating Placidus houses:', error);
 
     // Return equally-spaced houses as fallback (30° per house)
-    return [0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330],
+    return [0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330]
   }
 }
 
@@ -1930,7 +1930,7 @@ function _calculatePlanetPositionsInternal(date: Date): Record<string, number> {
  */
 export function calculateLunarNodes(date: Date = new Date()): {
   northNode: number,
-  isRetrograde: boolean,
+  isRetrograde: boolean
 } {
   try {
     debugLog('Calculating lunar nodes for date:', date);
@@ -1976,7 +1976,7 @@ export function getNodeInfo(nodeLongitude: number): {
   sign: string,
   degree: number,
   exactLongitude: number,
-  isRetrograde: boolean,
+  isRetrograde: boolean
 } {
   const { sign, degree } = getSignFromLongitude(nodeLongitude);
 
@@ -2117,7 +2117,7 @@ export const _parseAstroChartAspects = (;
   planet1: string,
   planet2: string,
   orb: number,
-  applying: boolean,
+  applying: boolean
 }> => {
   try {
     const aspects: Array<{
@@ -2125,7 +2125,7 @@ export const _parseAstroChartAspects = (;
       planet1: string,
       planet2: string,
       orb: number,
-      applying: boolean,
+      applying: boolean
     }> = [];
 
     const data = astroChartData as any;
@@ -2155,7 +2155,7 @@ export const _parseAstroChartAspects = (;
             planet1: String(aspectData.planet1);
             planet2: String(aspectData.planet2);
             orb: Number(aspectData.orb) || 0;
-            applying: aspectData.applying === true,,
+            applying: aspectData.applying === true,,;
           });
         }
       });
@@ -2164,7 +2164,7 @@ export const _parseAstroChartAspects = (;
     return aspects;
   } catch (error) {
     console.error('Error parsing AstroCharts aspects:', error),
-    return [],
+    return []
   }
 };
 
@@ -2371,11 +2371,11 @@ export function calculateElementalProfile(
 export function transformItemsWithPlanetaryPositions(
   items: ElementalItem[],
   planetaryPositions: { [key: string]: unknown },
-  isDaytime: boolean = true,,
+  isDaytime: boolean = true,,;
   currentZodiac?: string,
 ): AlchemicalItem[] {
   if (!items || items.length === 0) {
-    return [],
+    return []
   }
 
   try {
@@ -2620,7 +2620,7 @@ function calculateItemCompatibilityScore(
  */
 function getDominantElementFromProperties(properties: ElementalProperties): ElementalCharacter {
   try {
-    const elements = Object.entries(properties) as [ElementalCharacter, number][],
+    const elements = Object.entries(properties) as [ElementalCharacter, number][],;
     const dominant = elements.reduce(;
       (max, [element, value]) => (value > max.value ? { element, value } : max),
       { element: 'Fire' as ElementalCharacter, value: 0 },
@@ -2628,7 +2628,7 @@ function getDominantElementFromProperties(properties: ElementalProperties): Elem
 
     return dominant.element;
   } catch (error) {
-    return 'Fire',
+    return 'Fire'
   }
 }
 
@@ -2768,7 +2768,7 @@ function calculateElementalTransformations(
 
     return transformations;
   } catch (error) {
-    return [],
+    return []
   }
 }
 

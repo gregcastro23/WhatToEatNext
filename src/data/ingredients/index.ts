@@ -247,7 +247,7 @@ const processIngredientCollection = (;
             // Pattern KK-10: Final Arithmetic Elimination for data processing
             const numericA = Number(a[1]) || 0;
             const numericB = Number(b[1]) || 0;
-            return numericB - numericA,
+            return numericB - numericA
           })
           .map(([element, value]) => [element, Number(value) || 0] as [string, number]);
 
@@ -325,7 +325,7 @@ export const allIngredients = (() => {
       .toLowerCase()
       .trim()
       .replace(/\s+/g, '_')
-      .replace(/[^a-z0-9_]/g, ''),
+      .replace(/[^a-z0-9_]/g, '')
   };
 
   // Build a list of collections in priority order (lowest to highest)
@@ -388,27 +388,27 @@ export function getAllIngredientsByCategory(category: string): Ingredient[] {
 
 // Function to get all vegetable ingredients
 export function getAllVegetables(): Ingredient[] {
-  return getAllIngredientsByCategory('vegetable'),
+  return getAllIngredientsByCategory('vegetable')
 }
 
 // Function to get all protein ingredients
 export function getAllProteins(): Ingredient[] {
-  return getAllIngredientsByCategory('protein'),
+  return getAllIngredientsByCategory('protein')
 }
 
 // Function to get all herb ingredients
 export function getAllHerbs(): Ingredient[] {
-  return getAllIngredientsByCategory('culinary_herb'),
+  return getAllIngredientsByCategory('culinary_herb')
 }
 
 // Function to get all spice ingredients
 export function getAllSpices(): Ingredient[] {
-  return getAllIngredientsByCategory('spice'),
+  return getAllIngredientsByCategory('spice')
 }
 
 // Function to get all grain ingredients
 export function getAllGrains(): Ingredient[] {
-  return getAllIngredientsByCategory('grain'),
+  return getAllIngredientsByCategory('grain')
 }
 
 // Function to get ingredients by category (subcategory functionality removed - use category instead)

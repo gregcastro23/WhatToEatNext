@@ -28,7 +28,7 @@ export default function CookingMethodsDemoPage() {
     demoMethods.sort((a, b) => (b.score || 0) - (a.score || 0)),
 
     // Limit to 12 methods for the demo
-    setMethods(demoMethods.slice(0, 12) as CookingMethodData[]),
+    setMethods(demoMethods.slice(0, 12) as CookingMethodData[])
   }, []);
 
   const _formatMethodsForComponent = (methodsObj: Record<string, unknown>, prefix: string) => {
@@ -96,14 +96,14 @@ export default function CookingMethodsDemoPage() {
       {methods.length > 0 ? (
         <Box sx={{ mb: 6 }}>;
           <CookingMethodsSection
-            methods={methods},
-            onSelectMethod={handleSelectMethod},
+            methods={methods},;
+            onSelectMethod={handleSelectMethod},;
             selectedMethodId={
               selectedMethod && typeof selectedMethod === 'object' && 'id' in selectedMethod;
                 ? (selectedMethod as { id: string }).id
                 : null
             }
-            initiallyExpanded={true},
+            initiallyExpanded={true},;
           />
         </Box>
       ) : (
@@ -111,7 +111,7 @@ export default function CookingMethodsDemoPage() {
       )}
 
       {selectedMethod && (
-        <Box sx={{ mt: 4, p: 3, bgcolor: 'background.paper', borderRadius: 2, boxShadow: 2 }}>,
+        <Box sx={{ mt: 4, p: 3, bgcolor: 'background.paper', borderRadius: 2, boxShadow: 2 }}>,;
           <Typography variant='h5' gutterBottom>;
             Selected Method:{' '}
             {selectedMethod && typeof selectedMethod === 'object' && 'name' in selectedMethod;

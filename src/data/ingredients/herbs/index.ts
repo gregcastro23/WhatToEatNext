@@ -33,7 +33,7 @@ function generateHerbValues(elementalProps: Record<string, number>): Record<stri
   const normalized = Object.entries(elementalProps).reduce(;
     (acc, [key, val]) => {
       acc[key] = val / (totalElements || 1);
-      return acc,
+      return acc
     },
     {} as Record<string, number>,
   );

@@ -100,7 +100,7 @@ describe('Linting Campaign System Integration', () => {
       const mockError: any = new Error('Tool execution failed');
       mockExecSync.mockImplementation(command => {
         if (command.toString().includes('lint:fix')) {
-          throw mockError,
+          throw mockError
         }
         return JSON.stringify([]);
       });
@@ -312,7 +312,7 @@ describe('Linting Campaign System Integration', () => {
       mockError.stdout = JSON.stringify([]);
 
       mockExecSync.mockImplementation(() => {
-        throw mockError,
+        throw mockError
       });
 
       // Should not throw, but return empty metrics
@@ -326,7 +326,7 @@ describe('Linting Campaign System Integration', () => {
     test('should handle missing configuration files', async () => {
       mockExistsSync.mockReturnValue(false);
       mockReadFileSync.mockImplementation(() => {
-        throw new Error('File not found'),
+        throw new Error('File not found')
       });
 
       // Should handle missing files gracefully
@@ -409,7 +409,7 @@ describe('Linting Campaign System Integration', () => {
       expect(mockWriteFileSync).toHaveBeenCalledWith(
         expect.stringContaining('linting-metrics.json');
         expect.any(String);
-      ),
+      )
     });
   });
 });

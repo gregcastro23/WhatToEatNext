@@ -37,7 +37,7 @@ interface ScoringWeights {
   recipe: number,
   cuisine: number,
   cooking_method: number,
-  [key: string]: number,
+  [key: string]: number
 }
 
 // ==================== INTERFACES ====================;
@@ -59,7 +59,7 @@ export interface ScoringBreakdown {
   kalchmResonance: number,
   monicaOptimization: number,
   retrogradeEffect: number,
-  [key: string]: number,
+  [key: string]: number
 }
 
 /**
@@ -75,7 +75,7 @@ export interface ScoringResult {
     timestamp: Date,
     location?: GeographicCoordinates,
     dominantEffects: string[],
-    warnings: string[],
+    warnings: string[]
   };
 }
 
@@ -108,7 +108,7 @@ export interface ScoringContext {
      
     // Intentionally any: Item properties vary by type (ingredient/recipe/cuisine/method)
     // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
-    [key: string]: any,
+    [key: string]: any
   };
 
   // User preferences
@@ -120,7 +120,7 @@ export interface ScoringContext {
      
     // Intentionally any: User preferences can include custom fields
     // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
-    [key: string]: any,
+    [key: string]: any
   };
 
   // Calculation options
@@ -128,7 +128,7 @@ export interface ScoringContext {
     includeEffects?: string[],
     excludeEffects?: string[],
     weights?: Partial<ScoringBreakdown>,
-    debugMode?: boolean,
+    debugMode?: boolean
   };
 }
 
@@ -143,18 +143,18 @@ export interface AstrologicalData {
       transitingPlanet: Planet,
       natalPlanet: Planet,
       aspect: AspectType,
-      strength: number,
+      strength: number
     }>;
     seasonal: {
       currentSeason: Season,
       alignment: number,
-      recommendation: string,
+      recommendation: string
     };
   };
   lunarPhase: {
     name: LunarPhase,
     illumination: number,
-    effect: string,
+    effect: string
   };
   dignity: Record<Planet, number>;
   houses?: Record<string, number>;
@@ -431,7 +431,7 @@ export function calculateAspectEffect(
           break,
         case 'opposition':
           score -= aspectStrength * 0.15;
-          break,
+          break
       }
     }
   }
@@ -522,7 +522,7 @@ export function calculateKalchmResonance(
     return -0.05;
   }
 
-  return 0,
+  return 0
 }
 
 /**
@@ -687,7 +687,7 @@ export class UnifiedScoringService {
         } as AstrologicalData;
       }
     } catch (error) {
-      console.warn('Astrologize API unavailable, falling back to Swiss Ephemeris'),
+      console.warn('Astrologize API unavailable, falling back to Swiss Ephemeris')
     }
 
     try {
@@ -735,7 +735,7 @@ export class UnifiedScoringService {
       return this.transformAstrologizeResponse(data);
     } catch (error) {
       console.error('Error fetching Astrologize data:', error),
-      return null,
+      return null
     }
   }
 
@@ -832,7 +832,7 @@ export class UnifiedScoringService {
     if (!context.item.elementalProperties) confidence -= 0.1;
     if (!context.item.planetaryRulers?.length) confidence -= 0.1;
 
-    return Math.max(0.1, Math.min(1.0, confidence)),
+    return Math.max(0.1, Math.min(1.0, confidence))
   }
 
   /**
@@ -862,7 +862,7 @@ export class UnifiedScoringService {
     // Add source information
     notes.push(`Astrological data from: ${astroData.source}`),
 
-    return notes,
+    return notes
   }
 
   /**
@@ -901,7 +901,7 @@ export class UnifiedScoringService {
       warnings.push('Challenging planetary transits detected');
     }
 
-    return warnings,
+    return warnings
   }
 }
 

@@ -21,7 +21,7 @@ export interface RecommendationMetrics {
   recommendationCount: number,
   averageConfidenceScore: number,
   userInteractionRate: number,
-  timestamp: number,
+  timestamp: number
 }
 
 export interface ConfidenceFactors {
@@ -30,21 +30,21 @@ export interface ConfidenceFactors {
   culturalRelevance: number,
   seasonalOptimization: number,
   userPreferenceMatch: number,
-  dataQuality: number,
+  dataQuality: number
 }
 
 export interface RecommendationConfidence {
   overallScore: number,
   factors: ConfidenceFactors,
   reasoning: string[],
-  reliability: 'high' | 'medium' | 'low',
+  reliability: 'high' | 'medium' | 'low'
 }
 
 export interface UserInteraction {
   type: 'view' | 'select' | 'expand' | 'filter' | 'search' | 'retry',
   target: string,
   timestamp: number,
-  metadata?: Record<string, unknown>,
+  metadata?: Record<string, unknown>
 }
 
 export interface AnalyticsSnapshot {
@@ -55,7 +55,7 @@ export interface AnalyticsSnapshot {
   cacheStats: {
     hitRate: number,
     totalEntries: number,
-    memoryUsage: number,
+    memoryUsage: number
   };
 }
 
@@ -74,7 +74,7 @@ class RecommendationAnalyticsService {
   constructor() {
     this.performanceMonitor = new PerformanceMonitor();
     this.recommendationCache = new PerformanceCache<unknown>(1000, 600000); // 10 minutes TTL
-    this.confidenceCache = new PerformanceCache<RecommendationConfidence>(500, 300000), // 5 minutes TTL
+    this.confidenceCache = new PerformanceCache<RecommendationConfidence>(500, 300000), // 5 minutes TTL;
     this.sessionId = this.generateSessionId();
   }
 
@@ -92,7 +92,7 @@ class RecommendationAnalyticsService {
 
       this.performanceMonitor.recordMetric('calculationTime', duration),
 
-      return duration,
+      return duration
     };
   }
 
@@ -100,14 +100,14 @@ class RecommendationAnalyticsService {
    * Record API response time
    */
   recordApiResponseTime(duration: number): void {
-    this.performanceMonitor.recordMetric('averageResponseTime', duration),
+    this.performanceMonitor.recordMetric('averageResponseTime', duration)
   }
 
   /**
    * Record recommendation load time
    */
   recordLoadTime(duration: number): void {
-    this.performanceMonitor.recordMetric('calculationTime', duration),
+    this.performanceMonitor.recordMetric('calculationTime', duration)
   }
 
   // ========== INTELLIGENT CACHING ==========;
@@ -134,15 +134,15 @@ class RecommendationAnalyticsService {
    */
   cacheRecommendation<T>(key: string, data: T, confidenceScore?: number): void {
     // Adjust TTL based on confidence score
-    let ttl = 600000, // Default 10 minutes
+    let ttl = 600000, // Default 10 minutes;
 
     if (confidenceScore) {
       if (confidenceScore >= 0.9) {
-        ttl = 1800000, // 30 minutes for high confidence
+        ttl = 1800000, // 30 minutes for high confidence;
       } else if (confidenceScore >= 0.7) {
-        ttl = 900000, // 15 minutes for medium confidence
+        ttl = 900000, // 15 minutes for medium confidence;
       } else {
-        ttl = 300000, // 5 minutes for low confidence
+        ttl = 300000, // 5 minutes for low confidence;
       }
     }
 
@@ -163,7 +163,7 @@ class RecommendationAnalyticsService {
     const cached = this.confidenceCache.get(cacheKey);
 
     if (cached) {
-      return cached,
+      return cached
     }
 
     // Default factor values
@@ -188,7 +188,7 @@ class RecommendationAnalyticsService {
 
     const overallScore = Object.entries(completedFactors).reduce((sum, [key, value]) => {
       const weight = weights[key as keyof ConfidenceFactors];
-      return sum + value * weight,
+      return sum + value * weight
     }, 0);
 
     // Generate reasoning based on factors
@@ -315,7 +315,7 @@ class RecommendationAnalyticsService {
   recordMetricsSnapshot(): RecommendationMetrics {
     const performanceStats = this.performanceMonitor.getStats();
     const cacheStats = this.recommendationCache.getStats();
-    const interactionAnalytics = this.getInteractionAnalytics(300000), // Last 5 minutes
+    const interactionAnalytics = this.getInteractionAnalytics(300000), // Last 5 minutes;
 
     const metrics: RecommendationMetrics = {
       loadTime: performanceStats.current.calculationTime;
@@ -343,7 +343,7 @@ class RecommendationAnalyticsService {
   getAnalyticsSnapshot(): AnalyticsSnapshot {
     const metrics = this.recordMetricsSnapshot();
     const cacheStats = this.recommendationCache.getStats();
-    const recentInteractions = this.userInteractions.slice(-20), // Last 20 interactions
+    const recentInteractions = this.userInteractions.slice(-20), // Last 20 interactions;
 
     return {
       sessionId: this.sessionId;
@@ -367,7 +367,7 @@ class RecommendationAnalyticsService {
     interactionRateTrend: number[],
     averageLoadTime: number,
     averageCacheHitRate: number,
-    performanceScore: number,
+    performanceScore: number
   } {
     const now = Date.now();
     const windowStart = timeWindow ? now - timeWindow : 0;

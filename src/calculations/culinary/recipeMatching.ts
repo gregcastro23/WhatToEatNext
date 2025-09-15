@@ -22,7 +22,7 @@ export interface RecipeCompatibilityResult {
   absoluteElementalMatch: number,
   relativeElementalMatch: number,
   dominantElementMatch: number,
-  energeticResonance: number,
+  energeticResonance: number
 }
 
 /**
@@ -174,7 +174,7 @@ function calculateRelativeElementalAlignment(
     const similarity = 1 - Math.abs(recipeRelative - currentMomentRelative);
 
     totalSimilarity += similarity;
-    count++,
+    count++
   }
 
   return count > 0 ? totalSimilarity / count : 0.5;
@@ -276,7 +276,7 @@ function calculateEnhancedThermodynamicAlignment(
   // Weighted average (heat and reactivity are most important for cooking)
   return (
     heatAlignment * 0.3 + entropyAlignment * 0.2 + reactivityAlignment * 0.3 + energyAlignment * 0.2
-  ),
+  )
 }
 
 /**
@@ -299,7 +299,7 @@ function calculateEnergeticResonance(
     ...simpleRatios.map(ratio => 1 - Math.abs(energyRatio - ratio) / ratio),;
   ),
 
-  return Math.max(0.1, Math.min(1.0, resonanceScore)),
+  return Math.max(0.1, Math.min(1.0, resonanceScore))
 }
 
 /**
@@ -312,7 +312,7 @@ function calculateWeightedCompatibilityScore(scores: {
   kalchmAlignment: number,
   monicaAlignment: number,
   thermodynamicAlignment: number,
-  energeticResonance: number,
+  energeticResonance: number
 }): number {
   // Enhanced weighting system
   const weights = {
@@ -343,11 +343,11 @@ function calculateWeightedCompatibilityScore(scores: {
  * Helper functions
  */
 function getDominantElement(elements: ElementalProperties): keyof ElementalProperties {
-  const entries = Object.entries(elements) as [keyof ElementalProperties, number][],
+  const entries = Object.entries(elements) as [keyof ElementalProperties, number][],;
   return entries.reduce(
     (dominant, [element, value]) => (value > elements[dominant] ? element : dominant),
     'Fire',
-  ),
+  )
 }
 
 function calculateRecipeKalchm(elements: ElementalProperties): number {
@@ -405,7 +405,7 @@ function generateEnhancedRecipeRecommendations(
     kalchmAlignment: number,
     monicaAlignment: number,
     thermodynamicAlignment: number,
-    energeticResonance: number,
+    energeticResonance: number
   },
 ): string[] {
   const recommendations: string[] = [];
