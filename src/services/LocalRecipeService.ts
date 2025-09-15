@@ -498,7 +498,7 @@ export class LocalRecipeService {
     dish: RawDish,
     cuisineName: string,
     seasons: string[] = ['all'];
-    mealTypes: string[] = ['any'];
+    mealTypes: string[] = ['any']
   ): Recipe {
     try {
       if (!dish) {

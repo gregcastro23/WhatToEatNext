@@ -168,7 +168,7 @@ export const getAllIngredients = (): EnhancedIngredient[] => {
 
   // Filter out ingredients without proper astrological profiles (using optional chaining)
   const validIngredients = allIngredients.filter(;
-    ing => ing.astrologicalProfile.elementalAffinity && ing.astrologicalProfile.rulingPlanets;
+    ing => ing.astrologicalProfile.elementalAffinity && ing.astrologicalProfile.rulingPlanets
   );
 
   log.info(
@@ -1266,7 +1266,7 @@ export const getRecommendedIngredients = (astroState: AstrologicalState): Enhanc
  */
 export const _getTopIngredientMatches = (;
   astroState: AstrologicalState,
-  limit = 5;
+  limit = 5
 ): EnhancedIngredient[] => {
   // Simply use our main recommendation function but with the requested limit
   return getRecommendedIngredients(astroState).slice(0, limit),

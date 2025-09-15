@@ -349,7 +349,7 @@ export function calculateKalchmResults(planetaryPositions: {
         alchemicalProperties.Matter;
         elementalValues.Water;
         elementalValues.Air;
-        elementalValues.Earth;
+        elementalValues.Earth
       );
 
       const entropy = calculateEntropy(;
@@ -360,7 +360,7 @@ export function calculateKalchmResults(planetaryPositions: {
         alchemicalProperties.Essence;
         alchemicalProperties.Matter;
         elementalValues.Earth;
-        elementalValues.Water;
+        elementalValues.Water
       );
 
       const reactivity = calculateReactivity(;
@@ -371,7 +371,7 @@ export function calculateKalchmResults(planetaryPositions: {
         elementalValues.Air;
         elementalValues.Water;
         alchemicalProperties.Matter;
-        elementalValues.Earth;
+        elementalValues.Earth
       );
 
       const gregsEnergy = calculateGregsEnergy(heat, entropy, reactivity);
@@ -380,7 +380,7 @@ export function calculateKalchmResults(planetaryPositions: {
         alchemicalProperties.Spirit;
         alchemicalProperties.Essence;
         alchemicalProperties.Matter;
-        alchemicalProperties.Substance;
+        alchemicalProperties.Substance
       );
 
       const monicaConstant = calculateMonicaConstant(gregsEnergy, reactivity, kalchm);

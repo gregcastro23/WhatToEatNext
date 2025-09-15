@@ -103,7 +103,7 @@ export class ChakraRecipeEnhancer {
     recipes: Recipe[],
     sunSign: any,
     moonSign: any,
-    dominantPlanets: Planet[] = [];
+    dominantPlanets: Planet[] = []
   ): ChakraRecipeRecommendation[] {
     // Get current planetary hour
     let planetaryHour: Planet = 'Sun' as unknown as Planet;

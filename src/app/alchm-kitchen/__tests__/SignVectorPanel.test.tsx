@@ -50,7 +50,7 @@ describe('SignVectorPanel', () => {
     it('should render with provided planetary positions', () => {
       render(
         <SignVectorPanel 
-          planetaryPositions={mockPlanetaryPositions};
+          planetaryPositions={mockPlanetaryPositions},
           season='spring',,
           governing='sun',,
         />

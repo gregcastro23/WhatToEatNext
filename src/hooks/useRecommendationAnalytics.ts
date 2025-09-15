@@ -55,7 +55,7 @@ export interface RecommendationAnalyticsActions {
 // ========== HOOK IMPLEMENTATION ==========;
 
 export function useRecommendationAnalytics(
-  options: UseRecommendationAnalyticsOptions = {};
+  options: UseRecommendationAnalyticsOptions = {}
 ): [RecommendationAnalyticsState, RecommendationAnalyticsActions] {
   const {
     enablePerformanceTracking = true,;

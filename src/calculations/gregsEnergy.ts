@@ -337,7 +337,7 @@ class ThermodynamicCalculator {
       'Modified state after planetary influences:',
       modifiedState,
       'Current planetary influence:',
-      this.currentPlanetaryInfluence;
+      this.currentPlanetaryInfluence
     );
 
     const heat = this.calculateHeat(modifiedState);

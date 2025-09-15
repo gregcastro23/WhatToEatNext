@@ -332,7 +332,7 @@ export class ExportTransformationEngine {
     const complexityPenalty = files.reduce((penalty, f) => {
       const highComplexityCandidates = f.transformationCandidates.filter(;
         c =>;
-          c.transformationComplexity === 'COMPLEX' || c.transformationComplexity === 'VERY_COMPLEX';
+          c.transformationComplexity === 'COMPLEX' || c.transformationComplexity === 'VERY_COMPLEX'
       ).length;
       return Number(penalty || 0) + Number(highComplexityCandidates || 0) * 2,
     }, 0);

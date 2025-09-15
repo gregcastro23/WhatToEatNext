@@ -845,7 +845,7 @@ export const FRUIT_COMPATIBILITY_INTELLIGENCE = {
         sampleFruits.length;
       moderatelyConnected:
         compatibilityAnalysis.compatibilityResults.filter(
-          r => r.compatibleCount >= 2 && r.compatibleCount <= 5;
+          r => r.compatibleCount >= 2 && r.compatibleCount <= 5
         ).length / sampleFruits.length;
       poorlyConnected:
         compatibilityAnalysis.compatibilityResults.filter(r => r.compatibleCount < 2).length /;
@@ -1146,7 +1146,7 @@ export const FRUIT_VALIDATION_INTELLIGENCE = {
       validationReliability: validationAnalysis.validationStatistics.validationPassRate;
       completenessQuality: validationAnalysis.validationStatistics.averageCompleteness;
       validationRobustness: validationAnalysis.validationResults.every(
-        r => typeof r.isValid === 'boolean';
+        r => typeof r.isValid === 'boolean'
       )
         ? 1.0
         : 0.8;

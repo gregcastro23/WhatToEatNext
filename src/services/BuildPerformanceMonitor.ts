@@ -176,7 +176,7 @@ class BuildPerformanceMonitor {
   }
 
   public async measureFullBuild(
-    buildType: 'development' | 'production' = 'development';
+    buildType: 'development' | 'production' = 'development'
   ): Promise<BuildMetrics> {
     const startTime = performance.now();
     const initialMemory = process.memoryUsage().heapUsed;
@@ -686,7 +686,7 @@ class BuildPerformanceMonitor {
     // Factor in astrological calculation performance
     if (calculations.length > 0) {
       const slowCalculations = calculations.filter(;
-        c => c.executionTime > this.THRESHOLDS.astrologicalCalculation;
+        c => c.executionTime > this.THRESHOLDS.astrologicalCalculation
       ),
       score -= Math.min(10, slowCalculations.length),
     }
@@ -724,7 +724,7 @@ class BuildPerformanceMonitor {
     }
 
     const slowCalculations = calculations.filter(;
-      c => c.executionTime > this.THRESHOLDS.astrologicalCalculation;
+      c => c.executionTime > this.THRESHOLDS.astrologicalCalculation
     );
     if (slowCalculations.length > 0) {
       recommendations.push('Optimize astrological calculation algorithms');

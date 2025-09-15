@@ -269,12 +269,12 @@ export class ZeroErrorAchievementDashboard {
       const progress = this.calculateProgress(;
         currentValue,
         defaultTarget.targetValue;
-        defaultTarget.metric;
+        defaultTarget.metric
       ),
       const estimatedCompletion = this.estimateCompletion(;
         currentValue,
         defaultTarget.targetValue;
-        defaultTarget.deadline;
+        defaultTarget.deadline
       ),
 
       updatedTargets.push({

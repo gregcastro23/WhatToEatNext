@@ -703,11 +703,11 @@ export async function getIngredientRecommendations(
         );
         const seasonalScore = await calculateSeasonalScore(;
           ingredient as unknown as Ingredient,
-          _elementalProps.timestamp;
+          _elementalProps.timestamp
         );
         const modalityScore = await calculateModalityScore(;
           ingredient.qualities || [],
-          _options.modalityPreference;
+          _options.modalityPreference
         );
 
         // NEW: Unified flavor compatibility scoring
@@ -783,7 +783,7 @@ export async function getIngredientRecommendations(
 
 export const _getTopIngredientMatches = async (;
   astroState: AstrologicalState,
-  limit = 5;
+  limit = 5
 ): Promise<EnhancedIngredient[]> => {
   const allIngredients = await getAllIngredients();
 
@@ -808,7 +808,7 @@ export const _getTopIngredientMatches = async (;
     // Zodiac compatibility
     if (astroState.currentZodiac && ingredient.astrologicalProfile?.favorableZodiac) {
       const zodiacMatch = ingredient.astrologicalProfile.favorableZodiac.includes(;
-        astroState.currentZodiac;
+        astroState.currentZodiac
       ),
       if (zodiacMatch) score += 0.2;
     }
@@ -1017,7 +1017,7 @@ export const _getAllIngredientsFromCategories = getAllIngredients;
 
 export async function recommendIngredients(
   astroState: AstrologicalState,
-  options: RecommendationOptions = {};
+  options: RecommendationOptions = {}
 ): Promise<IngredientRecommendation[]> {
   const elementalProps = {
     Fire: 0.25;

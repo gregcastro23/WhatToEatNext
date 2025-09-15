@@ -75,7 +75,7 @@ export const CurrentChartProvider: React.FC<{ children: React.ReactNode }> = ({ 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const calculateStelliums = (positions: Record<string, unknown>): Record<string, string[]> => {;
+  const calculateStelliums = (positions: Record<string, unknown>): Record<string, string[]> => {
     const signGroups: Record<string, string[]> = {};
     Object.entries(positions).forEach(([planet, data]) => {
       const planetData = data  as { sign?: string; degree?: number };
@@ -98,7 +98,7 @@ export const CurrentChartProvider: React.FC<{ children: React.ReactNode }> = ({ 
     return stelliums;
   };
 
-  const calculateHouseEffects = (positions: Record<string, unknown>): Record<string, number> => {;
+  const calculateHouseEffects = (positions: Record<string, unknown>): Record<string, number> => {
     const houseEffects: Record<string, number> = {
       Fire: 0,
       Water: 0,
@@ -120,7 +120,7 @@ export const CurrentChartProvider: React.FC<{ children: React.ReactNode }> = ({ 
     return houseEffects;
   };
 
-  const _getElementFromSign = (sign: string): string => {;
+  const _getElementFromSign = (sign: string): string => {
     const fireElements = ['aries', 'leo', 'sagittarius'];
     const earthElements = ['taurus', 'virgo', 'capricorn'];
     const airElements = ['gemini', 'Libra', 'aquarius'];
@@ -133,7 +133,7 @@ export const CurrentChartProvider: React.FC<{ children: React.ReactNode }> = ({ 
     return 'Fire'; // Default
   };
 
-  const _getSignFromDegree = (degree: number): string => {;
+  const _getSignFromDegree = (degree: number): string => {
     const signIndex = Math.floor(degree / 30);
     return [
       'aries',
@@ -151,8 +151,8 @@ export const CurrentChartProvider: React.FC<{ children: React.ReactNode }> = ({ 
     ][signIndex];
   };
 
-  const _getHouseElement = (house: number): string => {;
-    const houseElements = [;
+  const _getHouseElement = (house: number): string => {
+    const houseElements = [
       'Fire',
       'Earth',
       'Air',
@@ -169,7 +169,7 @@ export const CurrentChartProvider: React.FC<{ children: React.ReactNode }> = ({ 
     return houseElements[house - 1] || 'Fire';
   };
 
-  const refreshChart = async () => {;
+  const refreshChart = async () => {
     setLoading(true);
     setError(null);
 
@@ -194,7 +194,7 @@ export const CurrentChartProvider: React.FC<{ children: React.ReactNode }> = ({ 
       }
 
       // Validate positions before calculating aspects
-      if (!positions || Object.keys(positions).length === 0) {;
+      if (!positions || Object.keys(positions).length === 0) {
         throw new Error('Unable to calculate planetary positions');
       }
 
@@ -221,7 +221,7 @@ export const CurrentChartProvider: React.FC<{ children: React.ReactNode }> = ({ 
     }
   };
 
-  const createChartSvg = () => {;
+  const createChartSvg = () => {
     // Convert chart data to the format expected by components
     const formattedPlanets: Record<string, unknown> = {};
     Object.entries(chart.planetaryPositions).forEach(([key, data]) => {
@@ -238,7 +238,7 @@ export const CurrentChartProvider: React.FC<{ children: React.ReactNode }> = ({ 
     });
 
     // Create a basic SVG representation
-    const ascendantData = chart.planetaryPositions.ascendant  as {;
+    const ascendantData = chart.planetaryPositions.ascendant  as {
       sign?: string;
       degree?: number;
     };
@@ -272,14 +272,14 @@ export const CurrentChartProvider: React.FC<{ children: React.ReactNode }> = ({ 
   );
 };
 
-export const useCurrentChart = () => {;
+export const useCurrentChart = () => {
   const context = useContext(CurrentChartContext);
   if (!context) {
     throw new Error('useCurrentChart must be used within a CurrentChartProvider');
   }
 
   // Return the same interface that standalone hook would return for compatibility
-  const ascendantData = context.chart.planetaryPositions.ascendant  as {;
+  const ascendantData = context.chart.planetaryPositions.ascendant  as {
     sign?: string;
     degree?: number;
   };

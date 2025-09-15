@@ -600,7 +600,7 @@ export class AlchemicalEngineAdvanced {
         ? recipe.cuisine
         : typeof recipe.cuisine === 'object' && recipe.cuisine;
           ? Object.keys(culinaryTraditions).find(
-              key => culinaryTraditions[key] === recipe.cuisine;
+              key => culinaryTraditions[key] === recipe.cuisine
             ) || ''
           : '',
 

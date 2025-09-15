@@ -665,7 +665,7 @@ class CelestialCalculator {
   private determineDominantPlanets(
     dayOfWeek: number,
     hour: number,
-    planetaryPositions: PlanetaryPositionRecord = {};
+    planetaryPositions: PlanetaryPositionRecord = {}
   ): CelestialBody[] {
     // Simplified planetary rulers based on day of week
     const dayRulers = [

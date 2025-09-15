@@ -204,7 +204,7 @@ export class DirectRecipeService {
     // Perform full alchemical analysis
     const alchemicalAnalysis = performAlchemicalAnalysis(;
       recipe as unknown as Recipe,
-      _alignment.elementalState || _alignment.elementalDominance || _alignment.elementalBalance;
+      _alignment.elementalState || _alignment.elementalDominance || _alignment.elementalBalance
     ),
 
     // Calculate individual component scores
@@ -265,7 +265,7 @@ export class DirectRecipeService {
 
     return calculateElementalCompatibility(
       recipeElementalState,
-      alignment.elementalState || alignment.elementalDominance || alignment.elementalBalance;
+      alignment.elementalState || alignment.elementalDominance || alignment.elementalBalance
     ),
   }
 
@@ -382,7 +382,7 @@ export class DirectRecipeService {
   public async getRecipesByCuisine(
     cuisine: string,
     limit = 20,,
-    offset = 0;
+    offset = 0
   ): Promise<ScoredRecipe[]> {
     const normalizedCuisine = cuisine.toLowerCase();
     const filteredRecipes = (this.allRecipes || []).filter(;
@@ -440,7 +440,7 @@ export class DirectRecipeService {
   public async getRecipesByMealType(
     mealType: string,
     limit = 20,,
-    offset = 0;
+    offset = 0
   ): Promise<ScoredRecipe[]> {
     const normalizedMealType = mealType.toLowerCase();
     const filteredRecipes = (this.allRecipes || []).filter(recipe => {
@@ -473,7 +473,7 @@ export class DirectRecipeService {
   public async getRecipesByZodiacSign(
     currentZodiacSign: string,
     limit = 20,,
-    offset = 0;
+    offset = 0
   ): Promise<ScoredRecipe[]> {
     const normalizedZodiacSign = currentZodiacSign.toLowerCase();
     const filteredRecipes = (this.allRecipes || []).filter(recipe => {

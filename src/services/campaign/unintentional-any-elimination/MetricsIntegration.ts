@@ -468,7 +468,7 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
 
     if (metrics.totalAnyTypes === 0) {
       recommendations.push(
-        'Excellent! Zero any types achieved. Consider setting up monitoring to prevent regression';
+        'Excellent! Zero any types achieved. Consider setting up monitoring to prevent regression'
       ),
     }
 

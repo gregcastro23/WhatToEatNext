@@ -942,7 +942,7 @@ export function validateAlgorithms(): {
     const recommendation = generateEnhancedRecommendation(mockResult as unknown, [], 'summer');
 
     recipeTest.passed = Boolean(;
-      recommendation?.mainIngredient && recommendation.cookingMethod && recommendation.reasoning;
+      recommendation?.mainIngredient && recommendation.cookingMethod && recommendation.reasoning
     );
 
     recipeTest.info = `Main ingredient: ${recommendation.mainIngredient}`;

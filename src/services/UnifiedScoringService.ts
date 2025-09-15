@@ -279,7 +279,7 @@ export function calculateLocationEffect(
 
   const locationInfluences = PlanetaryLocationService.calculateLocationPlanetaryInfluences(;
     context.location;
-    context.dateTime;
+    context.dateTime
   );
 
   const itemRulers = context.item.planetaryRulers || [];

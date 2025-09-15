@@ -51,7 +51,7 @@ export class AlchemicalRecommendationService {
   public async generateRecommendations(
     planetaryPositions: Record<string, ZodiacSign>,
     ingredients: UnifiedIngredient[],
-    cookingMethods: CookingMethod[],
+  cookingMethods: CookingMethod[],
   ): Promise<AlchemicalRecommendation> {
     // Calculate thermodynamic properties using the engine
     const _thermodynamics = this.engine.alchemize(;
@@ -91,7 +91,7 @@ export class AlchemicalRecommendationService {
     return {
       dominantElement,
       thermodynamics: _thermodynamics,
-      recommendedIngredients: (compatibleIngredients || []).map(i => i.name),,
+  recommendedIngredients: (compatibleIngredients || []).map(i => i.name),,
       recommendedCookingMethods: compatibleMethods || [],
       recommendations,
       warnings
@@ -104,7 +104,7 @@ export class AlchemicalRecommendationService {
    */
   private async findCompatibleIngredients(
     ingredients: UnifiedIngredient[],
-    elementalProperties: ElementalProperties,
+  elementalProperties: ElementalProperties,
     thermodynamics: ThermodynamicProperties,
   ): Promise<UnifiedIngredient[]> {
     // Import the unified scoring service
@@ -115,12 +115,12 @@ export class AlchemicalRecommendationService {
         try {
           const context = {
             dateTime: new Date(),
-            item: {
+  item: {
               name: ingredient.name;
               type: 'ingredient' as const,
-              elementalProperties: ingredient.elementalProperties;
+  elementalProperties: ingredient.elementalProperties;
               seasonality: ingredient.season || [],
-              planetaryRulers: (ingredient.astrologicalProfile?.rulingPlanets || []) as Planet[],
+  planetaryRulers: (ingredient.astrologicalProfile?.rulingPlanets || []) as Planet[],
               flavorProfile: ingredient.culinaryProfile?.flavorProfile || {},
               culturalOrigins: ingredient.origin || []
             }
@@ -139,7 +139,7 @@ export class AlchemicalRecommendationService {
             ingredient,
             score: this.engine.calculateElementalCompatibility(
               elementalProperties,
-              ingredient.elementalProperties;
+              ingredient.elementalProperties
             ),
             confidence: 0.5;
             dominantEffects: ['fallback']
@@ -160,7 +160,7 @@ export class AlchemicalRecommendationService {
    */
   private findCompatibleCookingMethods(
     methods: CookingMethod[],
-    elementalProperties: ElementalProperties,
+  elementalProperties: ElementalProperties,
     thermodynamics: ThermodynamicProperties,
   ): CookingMethod[] {
     return methods
@@ -187,7 +187,7 @@ export class AlchemicalRecommendationService {
    */
   private generateTextRecommendations(
     elementalProperties: ElementalProperties,
-    thermodynamics: ThermodynamicProperties,
+  thermodynamics: ThermodynamicProperties,
     dominantElement: keyof ElementalProperties,
   ): string[] {
     const recommendations: string[] = [];
@@ -215,7 +215,7 @@ export class AlchemicalRecommendationService {
     // Add recommendations based on thermodynamics
     if (thermodynamics.heat > 0.7) {
       recommendations.push(
-        'The planetary energy is highly active - cooking quickly will preserve this energy.';
+        'The planetary energy is highly active - cooking quickly will preserve this energy.'
       ),
     }
 
@@ -227,7 +227,7 @@ export class AlchemicalRecommendationService {
     const thermodynamicsData = thermodynamics as unknown as any;
     if ((thermodynamicsData.kalchm) > 2.0) {
       recommendations.push(
-        'Exceptional transformation potential - fermentation and aging processes are enhanced.';
+        'Exceptional transformation potential - fermentation and aging processes are enhanced.'
       ),
     }
 
@@ -247,12 +247,12 @@ export class AlchemicalRecommendationService {
     const warnings: string[] = [];
     if (thermodynamics.entropy > 0.9) {
       warnings.push(
-        'High entropy may lead to unpredictable cooking results - measure ingredients precisely.';
+        'High entropy may lead to unpredictable cooking results - measure ingredients precisely.'
       ),
     }
     if (thermodynamics.reactivity > 0.8) {
       warnings.push(
-        'Heightened reactivity may cause flavor clashes - simplify ingredient combinations.';
+        'Heightened reactivity may cause flavor clashes - simplify ingredient combinations.'
       ),
     }
     // Use a type with optional kalchm property
@@ -260,7 +260,7 @@ export class AlchemicalRecommendationService {
     const t = thermodynamics as WithKalchm;
     if (typeof t.kalchm === 'number' && t.kalchm < 0.5) {
       warnings.push(
-        'Low kalchm levels indicate poor transformation potential - avoid fermentation or chemical leavening.';
+        'Low kalchm levels indicate poor transformation potential - avoid fermentation or chemical leavening.'
       ),
     }
     return warnings;
@@ -344,10 +344,10 @@ export class AlchemicalRecommendationService {
    */
   public getRecipeRecommendations(
     recipe: Recipe,
-    planetaryPositions: Record<string, ZodiacSign>,
+  planetaryPositions: Record<string, ZodiacSign>,
   ): {
     compatibility: number,
-    suggestions: string[],
+  suggestions: string[],
     adjustments: string[],
   } {
     // Calculate thermodynamic properties using the engine
@@ -401,7 +401,7 @@ export class AlchemicalRecommendationService {
       }
     } else {
       suggestions.push(
-        'This recipe may need significant adjustments for current planetary alignments.';
+        'This recipe may need significant adjustments for current planetary alignments.'
       );
 
       // Generate more substantial adjustments

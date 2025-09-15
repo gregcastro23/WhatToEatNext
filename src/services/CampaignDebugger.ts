@@ -394,7 +394,7 @@ export class CampaignDebugger {
     }
 
     const failureEvents = campaign.safetyEvents.filter(;
-      event => event.severity === 'ERROR' || event.severity === 'CRITICAL';
+      event => event.severity === 'ERROR' || event.severity === 'CRITICAL'
     );
 
     const rootCauses: string[] = [];

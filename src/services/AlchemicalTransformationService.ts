@@ -81,7 +81,7 @@ export class AlchemicalTransformationService {
   constructor(
     ingredients: ElementalItem[] = [];
     cookingMethods: ElementalItem[] = [];
-    cuisines: ElementalItem[] = [];
+    cuisines: ElementalItem[] = []
   ) {
     this.ingredients = ingredients;
     this.cookingMethods = cookingMethods;
@@ -167,7 +167,7 @@ export class AlchemicalTransformationService {
       this.planetPositions;
       this.isDaytime;
       this.currentZodiac;
-      this.lunarPhase as unknown as LunarPhaseWithSpaces;
+      this.lunarPhase as unknown as LunarPhaseWithSpaces
     ),
   }
 
@@ -180,7 +180,7 @@ export class AlchemicalTransformationService {
       this.planetPositions;
       this.isDaytime;
       this.currentZodiac;
-      this.lunarPhase as unknown as LunarPhaseWithSpaces;
+      this.lunarPhase as unknown as LunarPhaseWithSpaces
     ),
   }
 
@@ -193,7 +193,7 @@ export class AlchemicalTransformationService {
       this.planetPositions;
       this.isDaytime;
       this.currentZodiac;
-      this.lunarPhase as unknown as LunarPhaseWithSpaces;
+      this.lunarPhase as unknown as LunarPhaseWithSpaces
     ),
   }
 
@@ -366,7 +366,7 @@ export class AlchemicalTransformationService {
   getTargetedRecommendations(
     targetElement?: ElementalCharacter,
     targetAlchemicalProperty?: AlchemicalProperty,
-    count = 5;
+    count = 5
   ): AlchemicalRecommendations {
     const transformedIngredients = this.getTransformedIngredients();
     const transformedMethods = this.getTransformedCookingMethods();
@@ -506,7 +506,7 @@ export class AlchemicalTransformationService {
       elements.Fire || 0;
       elements.Water || 0;
       elements.Earth || 0;
-      elements.Air || 0;
+      elements.Air || 0
     );
 
     if (dominantValue === elements.Fire) return 'Fire';

@@ -186,7 +186,7 @@ export class AlchemicalService {
   initialize(
     ingredients: ElementalItem[] = [];
     cookingMethods: ElementalItem[] = [];
-    cuisines: ElementalItem[] = [];
+    cuisines: ElementalItem[] = []
   ): AlchemicalService {
     this.ingredients = ingredients;
     this.cookingMethods = cookingMethods;
@@ -335,7 +335,7 @@ export class AlchemicalService {
       this.planetPositions as unknown as Record<RulingPlanet, number>,
       this.isDaytime;
       this.currentZodiac;
-      this.lunarPhase as unknown as LunarPhaseWithSpaces;
+      this.lunarPhase as unknown as LunarPhaseWithSpaces
     ),
   }
 
@@ -348,7 +348,7 @@ export class AlchemicalService {
       this.planetPositions as unknown as Record<RulingPlanet, number>,
       this.isDaytime;
       this.currentZodiac;
-      this.lunarPhase as unknown as LunarPhaseWithSpaces;
+      this.lunarPhase as unknown as LunarPhaseWithSpaces
     ),
   }
 
@@ -361,7 +361,7 @@ export class AlchemicalService {
       this.planetPositions as unknown as Record<RulingPlanet, number>,
       this.isDaytime;
       this.currentZodiac;
-      this.lunarPhase as unknown as LunarPhaseWithSpaces;
+      this.lunarPhase as unknown as LunarPhaseWithSpaces
     ),
   }
 

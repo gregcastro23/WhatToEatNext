@@ -216,7 +216,7 @@ export class PredictiveIntelligenceService {
         recipe.elementalProperties && astrologicalContext.elementalProperties;
           ? calculateElementalCompatibility(
               recipe.elementalProperties;
-              astrologicalContext.elementalProperties;
+              astrologicalContext.elementalProperties
             )
           : 0.5;
 
@@ -231,7 +231,7 @@ export class PredictiveIntelligenceService {
       const astrologicalAlignment = calculateAstrologicalAlignment(;
         recipe,
         astrologicalContext.zodiacSign || 'aries';
-        astrologicalContext.lunarPhase || 'new';
+        astrologicalContext.lunarPhase || 'new'
       ),
 
       // Calculate success probability based on multiple factors

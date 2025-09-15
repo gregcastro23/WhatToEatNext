@@ -296,7 +296,7 @@ export function getHighKalchmIngredients(threshold = 1.5): UnifiedIngredient[] {
  */
 export function getIngredientsByKalchmRange(
   min: number = 1.5,,
-  max: number = Infinity;
+  max: number = Infinity
 ): UnifiedIngredient[] {
   // ✅ Pattern KK-1: Safe number conversion for kalchm range comparison
   return Object.values(unifiedIngredients || {})
@@ -325,7 +325,7 @@ export function getIngredientsByMonicaRange(min: number, max: number): UnifiedIn
  */
 export function getIngredientsByElement(
   element: keyof ElementalProperties,
-  threshold = 0.6;
+  threshold = 0.6
 ): UnifiedIngredient[] {
   // ✅ Pattern GG-6: Safe property access for elemental properties
   return Object.values(unifiedIngredients || {})
@@ -345,7 +345,7 @@ export function getIngredientsByElement(
  */
 export function findComplementaryIngredients(
   ingredient: UnifiedIngredient | string,
-  maxResults: number = 10;
+  maxResults: number = 10
 ): UnifiedIngredient[] {
   // If string is provided, convert to ingredient
   const targetIngredient =

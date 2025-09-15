@@ -176,25 +176,25 @@ export const useChakraInfluencedFood = (options?: {
               ing =>;
                 ing.elementalProperties.Earth > 0.5 &&
                 ing.elementalProperties.Water > 0.3 &&
-                ing.elementalProperties.Fire < 0.3;
+                ing.elementalProperties.Fire < 0.3
             ),
           } else if (chakraKey === 'sacral') {
             // Sacral chakra - Essence energy state: region between Fire and Water
             // (-) Heat, (-) Entropy, (+) Reactivity
             matchingIngredients = results.filter(;
-              ing => ing.elementalProperties.Water > 0.5 && ing.elementalProperties.Fire > 0.3;
+              ing => ing.elementalProperties.Water > 0.5 && ing.elementalProperties.Fire > 0.3
             ),
           } else if (chakraKey === 'solarPlexus') {
             // Solar Plexus - Essence energy state: region between Fire and Water
             // (-) Heat, (-) Entropy, (+) Reactivity
             matchingIngredients = results.filter(;
-              ing => ing.elementalProperties.Fire > 0.5 && ing.elementalProperties.Water > 0.3;
+              ing => ing.elementalProperties.Fire > 0.5 && ing.elementalProperties.Water > 0.3
             ),
           } else if (chakraKey === 'heart') {
             // Heart chakra - Transition between Essence and Spirit
             // Balance of elements
             matchingIngredients = results.filter(;
-              ing => ing.elementalProperties.Air > 0.4 && ing.elementalProperties.Fire > 0.3;
+              ing => ing.elementalProperties.Air > 0.4 && ing.elementalProperties.Fire > 0.3
             ),
           } else if (chakraKey === 'throat') {
             // Throat chakra - Substance energy state: Air and Earth (no Fire)
@@ -203,7 +203,7 @@ export const useChakraInfluencedFood = (options?: {
               ing =>;
                 ing.elementalProperties.Air > 0.5 &&
                 ing.elementalProperties.Earth > 0.3 &&
-                ing.elementalProperties.Fire < 0.3;
+                ing.elementalProperties.Fire < 0.3
             ),
           } else if (chakraKey === 'thirdEye') {
             // Third Eye chakra - Essence energy state: region between Fire and Water
@@ -212,7 +212,7 @@ export const useChakraInfluencedFood = (options?: {
               ing =>;
                 ing.elementalProperties.Water > 0.4 &&
                 ing.elementalProperties.Air > 0.3 &&
-                ing.elementalProperties.Fire > 0.2;
+                ing.elementalProperties.Fire > 0.2
             ),
           } else if (chakraKey === 'crown') {
             // Crown chakra - Spirit energy state: Fire and Air (NOT Water)
@@ -221,7 +221,7 @@ export const useChakraInfluencedFood = (options?: {
               ing =>;
                 ing.elementalProperties.Air > 0.5 &&
                 ing.elementalProperties.Fire > 0.4 &&
-                ing.elementalProperties.Water < 0.3;
+                ing.elementalProperties.Water < 0.3
             ),
           }
 

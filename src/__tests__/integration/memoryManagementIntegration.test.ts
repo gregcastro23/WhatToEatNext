@@ -15,13 +15,13 @@ import { TestMemoryMonitor } from '../utils/TestMemoryMonitor';
 
 describe('Memory Management Integration', () => {
   it('should have reduced test timeout from 30s to 15s', () => {
-    // Verify that integration test timeout is set to 15s
+    // Verify that integration test timeout is set to 15s;
     expect(TEST_TIMEOUTS.integration).toBe(15000);
   });
 
   it('should have Jest configured with max 2 workers', () => {
     // This test verifies Jest configuration indirectly
-    // The actual worker count is controlled by Jest configuration
+    // The actual worker count is controlled by Jest configuration;
     expect(true).toBe(true), // Placeholder - actual verification happens in Jest config
   });
 
@@ -40,22 +40,22 @@ describe('Memory Management Integration', () => {
       const gcResult: any = global.forceGC();
       expect(typeof gcResult).toBe('boolean');
     } else {
-      // If GC is not available, that's also acceptable
+      // If GC is not available, that's also acceptable;
       expect(global.forceGC).toBeUndefined();
     }
   });
 
-  itWithMemoryCleanup('should work with memory-safe test wrapper': any, async () => {
-    // This test uses the memory-safe wrapper
+  itWithMemoryCleanup('should work with memory-safe test wrapper': any, async() => {
+    // This test uses the memory-safe wrapper;
     const initialMemory: any = process.memoryUsage().heapUsed;
 
-    // Simulate some memory allocation
+    // Simulate some memory allocation;
     const testData: any = new Array(1000).fill('test-data');
 
     const afterAllocation: any = process.memoryUsage().heapUsed;
     expect(afterAllocation).toBeGreaterThan(initialMemory);
 
-    // Cleanup happens automatically via the wrapper
+    // Cleanup happens automatically via the wrapper;
     testData.length = 0;
   });
 
@@ -66,13 +66,13 @@ describe('Memory Management Integration', () => {
     expect(initialSnapshot).toBeDefined();
     expect(initialSnapshot.heapUsed).toBeGreaterThan(0);
 
-    // Simulate test operations
+    // Simulate test operations;
     const testArray: any = new Array(100).fill('integration-test-data');
 
     const finalSnapshot: any = monitor.takeSnapshot('integration-test-end');
     expect(finalSnapshot.heapUsed).toBeGreaterThan(initialSnapshot.heapUsed);
 
-    // Cleanup
+    // Cleanup;
     testArray.length = 0;
     monitor.cleanup('integration-test-cleanup');
   });
@@ -80,24 +80,24 @@ describe('Memory Management Integration', () => {
   it('should handle memory cleanup without affecting test execution', () => {
     const beforeCleanup: any = process.memoryUsage().heapUsed;
 
-    // Perform cleanup
+    // Perform cleanup;
     global.testUtils.cleanupMemory();
 
     const afterCleanup: any = process.memoryUsage().heapUsed;
 
-    // Memory should be cleaned up (or at least not increased significantly)
+    // Memory should be cleaned up (or at least not increased significantly);
     expect(afterCleanup).toBeLessThanOrEqual(beforeCleanup + 10 * 1024 * 1024), // Allow 10MB tolerance
   });
 
-  it('should complete within the reduced timeout limit', async () => {
+  it('should complete within the reduced timeout limit', async() => {
       const startTime: any = Date.now();
 
-      // Simulate an integration test operation
+      // Simulate an integration test operation;
       await new Promise(resolve => setTimeout(resolve, 100));
 
       const duration: any = Date.now() - startTime;
 
-      // Should complete well within the 15s timeout
+      // Should complete well within the 15s timeout;
       expect(duration).toBeLessThan(15000);
       expect(duration).toBeGreaterThan(50), // Should take at least 50ms due to setTimeout
     },
@@ -112,24 +112,24 @@ describe('Memory Management Integration', () => {
     expect(memoryInfo).toHaveProperty('external');
     expect(memoryInfo).toHaveProperty('arrayBuffers');
 
-    // All values should be formatted as MB strings
+    // All values should be formatted as MB strings;
     expect(memoryInfo.heapUsed).toMatch(/^\d+\.\d+MB$/);
     expect(memoryInfo.heapTotal).toMatch(/^\d+\.\d+MB$/);
     expect(memoryInfo.external).toMatch(/^\d+\.\d+MB$/);
     expect(memoryInfo.arrayBuffers).toMatch(/^\d+\.\d+MB$/);
   });
 
-  it('should handle memory-intensive operations safely', async () => {
+  it('should handle memory-intensive operations safely', async() => {
     const monitor: any = new TestMemoryMonitor({
-      heapUsed: 100 * 1024 * 1024, // 100MB
-      heapTotal: 500 * 1024 * 1024, // 500MB
+      heapUsed: 100 * 1024 * 1024, // 100MB,
+      heapTotal: 500 * 1024 * 1024, // 500MB,
       external: 50 * 1024 * 1024, // 50MB,
       rss: 600 * 1024 * 1024, // 600MB
     });
 
     const initialMemory: any = monitor.takeSnapshot('memory-intensive-start');
 
-    // Simulate memory-intensive operation
+    // Simulate memory-intensive operation;
     const largeArrays: any[][] = [];
     for (let i: any = 0, i < 10, i++) {
       largeArrays.push(new Array(1000).fill(`data-${i}`));
@@ -138,7 +138,7 @@ describe('Memory Management Integration', () => {
     const afterAllocation: any = monitor.takeSnapshot('memory-intensive-peak');
     expect(afterAllocation.heapUsed).toBeGreaterThan(initialMemory.heapUsed);
 
-    // Cleanup
+    // Cleanup;
     largeArrays.forEach(arr => (arr.length = 0));
     largeArrays.length = 0;
 
@@ -151,16 +151,16 @@ describe('Memory Management Configuration Verification', () => {
   it('should have Jest configured with memory-safe settings', () => {
     // These tests verify that our Jest configuration is properly applied
 
-    // Check that we have the memory management setup files
+    // Check that we have the memory management setup files;
     expect(global.testUtils).toBeDefined();
     expect(global.getMemoryUsage).toBeDefined();
     expect(global.cleanupTestMemory).toBeDefined();
   });
 
   it('should have proper timeout configuration', () => {
-    // Verify timeout constants are properly set
+    // Verify timeout constants are properly set;
     expect(TEST_TIMEOUTS.unit).toBe(5000);
-    expect(TEST_TIMEOUTS.integration).toBe(15000); // Reduced from 30s
+    expect(TEST_TIMEOUTS.integration).toBe(15000); // Reduced from 30s;
     expect(TEST_TIMEOUTS.memory).toBe(20000);
     expect(TEST_TIMEOUTS.performance).toBe(30000);
   });

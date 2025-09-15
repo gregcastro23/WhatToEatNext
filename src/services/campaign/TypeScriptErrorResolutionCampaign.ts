@@ -298,12 +298,12 @@ export class TypeScriptErrorResolutionCampaign {
       total: unusedVarAnalysis.length;
       safeToRemove: unusedVarAnalysis.filter(v => v.removalRecommendation === 'remove').length,,
       requiresInvestigation: unusedVarAnalysis.filter(
-        v => v.removalRecommendation === 'investigate';
+        v => v.removalRecommendation === 'investigate'
       ).length;
       businessCritical: unusedVarAnalysis.filter(
         v =>;
           v.enterpriseContext?.businessLogicRelevance &&
-          v.enterpriseContext.businessLogicRelevance > 0.7;
+          v.enterpriseContext.businessLogicRelevance > 0.7
       ).length
     };
 

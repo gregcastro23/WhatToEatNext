@@ -210,7 +210,7 @@ export class AutomatedQualityAssurance {
     ingredients.forEach((ingredient, index) => {
       // Validate elemental properties structure
       const isValidStructure = intelligence.validateElementalProperties(;
-        ingredient.elementalProperties;
+        ingredient.elementalProperties
       ),
       if (!isValidStructure) {
         issues.push(`Invalid elemental properties for ingredient: ${ingredient.name}`);
@@ -243,7 +243,7 @@ export class AutomatedQualityAssurance {
         // Use calculateElementalCompatibility directly
         const compatibility = calculateElementalAffinity(;
           ingredient.elementalProperties as unknown;
-          prevIngredient.elementalProperties as unknown;
+          prevIngredient.elementalProperties as unknown
         ),
 
         if (compatibility < 0.7) {

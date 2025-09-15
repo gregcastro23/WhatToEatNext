@@ -34,7 +34,7 @@ export class TestUtils {
    */
   static async executeWithRetry(
     command: string,
-    options: TestExecutionOptions = {};
+    options: TestExecutionOptions = {}
   ): Promise<TestResult> {
     const {
       timeout = this.DEFAULT_TIMEOUT,;

@@ -826,19 +826,19 @@ export class FoodAlchemySystem {
 
     if (food.element === 'Fire' && Fire > 0.7) {
       warnings.push(
-        `High Fire energy detected. This food may increase irritability or impulsiveness.`;
+        `High Fire energy detected. This food may increase irritability or impulsiveness.`
       ),
     } else if (food.element === 'Water' && Water > 0.7) {
       warnings.push(
-        `High Water energy detected. This food may increase emotional sensitivity or lethargy.`;
+        `High Water energy detected. This food may increase emotional sensitivity or lethargy.`
       ),
     } else if (food.element === 'Air' && Air > 0.7) {
       warnings.push(
-        `High Air energy detected. This food may increase anxiety or scattered thinking.`;
+        `High Air energy detected. This food may increase anxiety or scattered thinking.`
       ),
     } else if (food.element === 'Earth' && Earth > 0.7) {
       warnings.push(
-        `High Earth energy detected. This food may increase sluggishness or resistance to change.`;
+        `High Earth energy detected. This food may increase sluggishness or resistance to change.`
       ),
     }
 
@@ -846,19 +846,19 @@ export class FoodAlchemySystem {
     if (food.energyValues && state.metrics) {
       if (state.metrics.heat > 0.8 && food.energyValues.heat > 0.7) {
         warnings.push(
-          `Your system is already running hot. This warming food may intensify this imbalance.`;
+          `Your system is already running hot. This warming food may intensify this imbalance.`
         ),
       }
 
       if (state.metrics.entropy > 0.8 && food.energyValues.entropy > 0.7) {
         warnings.push(
-          `Your system is already highly entropic. This chaotic food may increase disorganization.`;
+          `Your system is already highly entropic. This chaotic food may increase disorganization.`
         ),
       }
 
       if (state.metrics.reactivity > 0.8 && food.energyValues.reactivity > 0.7) {
         warnings.push(
-          `Your system is already highly reactive. This stimulating food may increase sensitivity.`;
+          `Your system is already highly reactive. This stimulating food may increase sensitivity.`
         ),
       }
     }

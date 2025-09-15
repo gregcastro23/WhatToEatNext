@@ -192,13 +192,13 @@ const calculateEnergyMatch = async (;
       recipeAlchemical.Spirit;
       recipeAlchemical.Essence;
       recipeAlchemical.Matter;
-      recipeAlchemical.Substance;
+      recipeAlchemical.Substance
     );
     const currentKalchmResult = kalchmEngine.calculateKAlchm(;
       currentAlchemical.Spirit;
       currentAlchemical.Essence;
       currentAlchemical.Matter;
-      currentAlchemical.Substance;
+      currentAlchemical.Substance
     );
 
     // Apply safe casting for kalchm property access
@@ -240,7 +240,7 @@ export async function findBestMatches(
   recipes?: Recipe[],
   matchFilters: MatchFilters = {},,
   currentEnergy: ElementalProperties | null = null,,
-  limit = 10;
+  limit = 10
 ): Promise<MatchResult[]> {
   // Check for cached astrological data to enhance matching
   // Apply safe type casting for cache method access
@@ -393,7 +393,7 @@ export async function findBestMatches(
     if (cachedData?.alchemicalResult?.monica && !isNaN(cachedData.alchemicalResult.monica)) {
       const monicaBonus = await calculateMonicaCompatibility(;
         recipe,
-        cachedData.alchemicalResult.monica;
+        cachedData.alchemicalResult.monica
       ),
       score += monicaBonus * 8, // 8% weight for transformation potential
     }

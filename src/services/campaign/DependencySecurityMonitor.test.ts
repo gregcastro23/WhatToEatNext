@@ -93,7 +93,7 @@ describe('DependencySecurityMonitor', () => {
       expect(securityReport.vulnerabilities).toHaveLength(0);
       expect(securityReport.summary.total).toBe(0);
       expect(securityReport.recommendations).toContain(
-        'Failed to scan for vulnerabilities. Please run npm audit manually.';
+        'Failed to scan for vulnerabilities. Please run npm audit manually.'
       );
     });
 

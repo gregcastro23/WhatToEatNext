@@ -290,7 +290,7 @@ export class RecipeFinder implements RecipeServiceInterface {
     try {
       const recipes = await this.recipeService.getRecipesForPlanetaryAlignment(;
         params.planetaryInfluences;
-        params.minMatchScore;
+        params.minMatchScore
       ),
       return {
         success: true,
@@ -332,7 +332,7 @@ export class RecipeFinder implements RecipeServiceInterface {
     try {
       const recipes = await this.recipeService.getRecipesForFlavorProfile(;
         params.flavorProfile;
-        params.minMatchScore;
+        params.minMatchScore
       ),
       return {
         success: true,
@@ -491,7 +491,7 @@ export class RecipeFinder implements RecipeServiceInterface {
     try {
       const recipe = await this.recipeService.generateFusionRecipe(;
         params.cuisines;
-        params.criteria;
+        params.criteria
       ),
       return {
         success: true,
@@ -535,7 +535,7 @@ export class RecipeFinder implements RecipeServiceInterface {
     try {
       const recipe = await this.recipeService.adaptRecipeForSeason(;
         { id: params.recipeId } as Recipe,
-        params.season;
+        params.season
       );
       return {
         success: true,

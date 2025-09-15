@@ -887,7 +887,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
           'cpu',
           'Critical CPU usage detected',
           this.THRESHOLDS.cpu.critical;
-          snapshot.systemMetrics.cpu.usage;
+          snapshot.systemMetrics.cpu.usage
         ),
       ),
     } else if (snapshot.systemMetrics.cpu.usage > this.THRESHOLDS.cpu.error) {
@@ -897,7 +897,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
           'cpu',
           'High CPU usage detected',
           this.THRESHOLDS.cpu.error;
-          snapshot.systemMetrics.cpu.usage;
+          snapshot.systemMetrics.cpu.usage
         ),
       ),
     } else if (snapshot.systemMetrics.cpu.usage > this.THRESHOLDS.cpu.warning) {
@@ -907,7 +907,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
           'cpu',
           'Elevated CPU usage detected',
           this.THRESHOLDS.cpu.warning;
-          snapshot.systemMetrics.cpu.usage;
+          snapshot.systemMetrics.cpu.usage
         ),
       ),
     }
@@ -920,7 +920,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
           'memory',
           'Critical memory usage detected',
           this.THRESHOLDS.memory.critical;
-          snapshot.systemMetrics.memory.usage;
+          snapshot.systemMetrics.memory.usage
         ),
       ),
     } else if (snapshot.systemMetrics.memory.usage > this.THRESHOLDS.memory.error) {
@@ -930,7 +930,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
           'memory',
           'High memory usage detected',
           this.THRESHOLDS.memory.error;
-          snapshot.systemMetrics.memory.usage;
+          snapshot.systemMetrics.memory.usage
         ),
       ),
     } else if (snapshot.systemMetrics.memory.usage > this.THRESHOLDS.memory.warning) {
@@ -940,7 +940,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
           'memory',
           'Elevated memory usage detected',
           this.THRESHOLDS.memory.warning;
-          snapshot.systemMetrics.memory.usage;
+          snapshot.systemMetrics.memory.usage
         ),
       ),
     }
@@ -953,7 +953,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
           'disk',
           'Critical disk usage detected',
           this.THRESHOLDS.disk.critical;
-          snapshot.systemMetrics.disk.usage;
+          snapshot.systemMetrics.disk.usage
         ),
       ),
     } else if (snapshot.systemMetrics.disk.usage > this.THRESHOLDS.disk.error) {
@@ -963,7 +963,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
           'disk',
           'High disk usage detected',
           this.THRESHOLDS.disk.error;
-          snapshot.systemMetrics.disk.usage;
+          snapshot.systemMetrics.disk.usage
         ),
       ),
     } else if (snapshot.systemMetrics.disk.usage > this.THRESHOLDS.disk.warning) {
@@ -973,7 +973,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
           'disk',
           'Elevated disk usage detected',
           this.THRESHOLDS.disk.warning;
-          snapshot.systemMetrics.disk.usage;
+          snapshot.systemMetrics.disk.usage
         ),
       ),
     }
@@ -986,7 +986,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
           'build',
           'Critical build time detected',
           this.THRESHOLDS.buildTime.critical;
-          snapshot.buildMetrics.buildTime;
+          snapshot.buildMetrics.buildTime
         ),
       ),
     } else if (snapshot.buildMetrics.buildTime > this.THRESHOLDS.buildTime.error) {
@@ -996,7 +996,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
           'build',
           'High build time detected',
           this.THRESHOLDS.buildTime.error;
-          snapshot.buildMetrics.buildTime;
+          snapshot.buildMetrics.buildTime
         ),
       ),
     } else if (snapshot.buildMetrics.buildTime > this.THRESHOLDS.buildTime.warning) {
@@ -1006,7 +1006,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
           'build',
           'Elevated build time detected',
           this.THRESHOLDS.buildTime.warning;
-          snapshot.buildMetrics.buildTime;
+          snapshot.buildMetrics.buildTime
         ),
       ),
     }
@@ -1019,7 +1019,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
           'typescript',
           'Critical TypeScript error count',
           this.THRESHOLDS.errorCount.critical;
-          snapshot.typeScriptMetrics.errorCount;
+          snapshot.typeScriptMetrics.errorCount
         ),
       ),
     } else if (snapshot.typeScriptMetrics.errorCount > this.THRESHOLDS.errorCount.error) {
@@ -1029,7 +1029,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
           'typescript',
           'High TypeScript error count',
           this.THRESHOLDS.errorCount.error;
-          snapshot.typeScriptMetrics.errorCount;
+          snapshot.typeScriptMetrics.errorCount
         ),
       ),
     } else if (snapshot.typeScriptMetrics.errorCount > this.THRESHOLDS.errorCount.warning) {
@@ -1039,7 +1039,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
           'typescript',
           'Elevated TypeScript error count',
           this.THRESHOLDS.errorCount.warning;
-          snapshot.typeScriptMetrics.errorCount;
+          snapshot.typeScriptMetrics.errorCount
         ),
       ),
     }
@@ -1148,7 +1148,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
       existingTrend.prediction = this.calculatePrediction(;
         metricName,
         value,
-        existingTrend.changeRate;
+        existingTrend.changeRate
       ),
 
       this.trends.set(metricName, existingTrend),
@@ -1201,7 +1201,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
    * Generate performance report
    */
   generatePerformanceReport(
-    timeframe: '1h' | '6h' | '24h' | '7d' | '30d' = '24h';
+    timeframe: '1h' | '6h' | '24h' | '7d' | '30d' = '24h'
   ): PerformanceReport {
     const endTime = new Date();
     const startTime = new Date(endTime);
@@ -1219,7 +1219,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
 
     // Filter snapshots by timeframe
     const timeframeSnapshots = this.snapshots.filter(;
-      snapshot => snapshot.timestamp >= startTime && snapshot.timestamp <= endTime;
+      snapshot => snapshot.timestamp >= startTime && snapshot.timestamp <= endTime
     ),
 
     if (timeframeSnapshots.length === 0) {

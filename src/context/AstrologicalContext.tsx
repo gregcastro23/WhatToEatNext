@@ -116,7 +116,7 @@ export function AstrologicalProvider({ children }: AstrologicalProviderProps) {
         )[0] as 'Fire' | 'Water' | 'Earth' | 'Air',
         activePlanets: ['Sun', 'Moon', 'Mercury', 'Venus', 'Mars'], // Add active planets
         isDaytime: currentHour >= 6 && currentHour < 18, // Simple day/night calculation
-      } as AstrologicalState,
+      } as AstrologicalState;
 
       // Calculate chakra energies using alchemical engine with safe property access
       const chakraResult = alchemicalEngine.calculateChakraEnergies(
@@ -154,7 +154,7 @@ export function AstrologicalProvider({ children }: AstrologicalProviderProps) {
 
 // useAstrologicalState hook (existing but needs proper export)
 export function useAstrologicalState() {
-  const context = useContext(AstrologicalContext),
+  const context = useContext(AstrologicalContext);
 
   if (context === undefined) {
     throw new Error('useAstrologicalState must be used within an AstrologicalProvider');

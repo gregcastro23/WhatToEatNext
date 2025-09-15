@@ -309,7 +309,7 @@ export function useAstrology(options: AstrologyOptions = {}) {
     async (
       profileDate: Date = dateRef.current,,
       calcLatitude: number = latitude || 0,,
-      calcLongitude: number = longitude || 0;
+      calcLongitude: number = longitude || 0
     ): Promise<AstrologicalProfile | null> => {
       if (!isClient || !isMountedRef.current || calcLatitude === null || calcLongitude === null) {
         return null,

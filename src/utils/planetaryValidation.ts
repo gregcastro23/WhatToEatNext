@@ -764,7 +764,7 @@ async function validateElementalProperties(): Promise<{
         if (planetData?.Alchemy) {
           const requiredAlchemical = ['Spirit', 'Essence', 'Matter', 'Substance'],
           const missingAlchemical = requiredAlchemical.filter(;
-            prop => typeof planetData.Alchemy[prop] !== 'number';
+            prop => typeof planetData.Alchemy[prop] !== 'number'
           ),
 
           if (missingAlchemical.length > 0) {

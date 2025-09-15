@@ -94,7 +94,7 @@ export default function IngredientsPage() {
           <div className='mb-4 flex items-center justify-between'>;
             <div className='flex items-center gap-4'>;
               <button
-                onClick={handleBackToMain};
+                onClick={handleBackToMain},
                 className='flex items-center gap-2 rounded-lg px-3 py-2 font-medium text-indigo-600 transition-colors hover:bg-indigo-50 hover:text-indigo-800';
               >
                 <ArrowLeft size={20} />;
@@ -102,7 +102,7 @@ export default function IngredientsPage() {
               </button>
 
               <button
-                onClick={handleGoHome};
+                onClick={handleGoHome},
                 className='flex items-center gap-2 rounded-lg px-3 py-2 font-medium text-gray-600 transition-colors hover:bg-gray-50 hover:text-gray-800';
               >
                 <Home size={20} />;
@@ -143,9 +143,9 @@ export default function IngredientsPage() {
         <main className='mx-auto max-w-6xl'>;
           <div className='rounded-lg bg-white p-6 shadow-md'>;
             <IngredientRecommender
-              initialCategory={selectedCategory};
-              initialSelectedIngredient={selectedIngredient};
-              isFullPageVersion={true};
+              initialCategory={selectedCategory},
+              initialSelectedIngredient={selectedIngredient},
+              isFullPageVersion={true},
             />
           </div>
         </main>

@@ -191,7 +191,7 @@ export function createMockProgressMetrics(overrides?: Partial<ProgressMetrics>):
 export function createMockSafetyEvent(
   type: SafetyEventType,
   description: string;
-  severity: SafetyEventSeverity = SafetyEventSeverity.INFO;
+  severity: SafetyEventSeverity = SafetyEventSeverity.INFO
 ): SafetyEvent {
   return {
     type,
@@ -232,7 +232,7 @@ export async function simulateCampaignPhase(
 export async function simulateProgressTracking(
   context: CampaignTestContext,
   targetMetrics: Partial<ProgressMetrics>;
-  durationMs: number = 1000;
+  durationMs: number = 1000
 ): Promise<ProgressMetrics> {
   if (context.testSafeTracker) {
     await context.testSafeTracker.simulateProgress(targetMetrics, durationMs, 'test-simulation'),
@@ -305,7 +305,7 @@ export async function executeCampaignTestScenario(
     const finalMetrics = await simulateProgressTracking(;
       context,
       scenario.targetMetrics;
-      scenario.simulationDuration;
+      scenario.simulationDuration
     ),
 
     // Get safety events

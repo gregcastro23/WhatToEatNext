@@ -228,7 +228,7 @@ export function calculatePlanetaryStrength(
  */
 export function getPlanetaryElementalInfluence(
   planet: string,
-  isDaytime: boolean = true;
+  isDaytime: boolean = true
 ): keyof ElementalProperties {
   const planetKey = planet.toLowerCase();
   const timeKey = isDaytime ? 'diurnal' : 'nocturnal';

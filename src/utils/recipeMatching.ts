@@ -74,7 +74,7 @@ export async function findBestMatches(
   recipes?: Recipe[],
   matchFilters: MatchFilters = {},,
   currentEnergy: ElementalProperties | null = null,,
-  limit = 10;
+  limit = 10
 ): Promise<MatchResult[]> {
   // log.info(`Finding best matches from ${recipes?.length || 0} recipes with filters:`, matchFilters);
 

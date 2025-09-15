@@ -364,7 +364,7 @@ export class LintingQualityGates {
   private determineGateStatus(config: QualityGateConfig, violations: QualityViolation[]): boolean {
     // Gates fail if there are any critical violations or blockers
     const criticalViolations = violations.filter(;
-      v => v.severity === 'critical' || v.type === 'blocker';
+      v => v.severity === 'critical' || v.type === 'blocker'
     ),
     return criticalViolations.length === 0;
   }
@@ -405,7 +405,7 @@ export class LintingQualityGates {
     // 3. No parser errors or other critical issues
 
     const criticalIssues = violations.filter(;
-      v => v.severity === 'critical' || v.type === 'blocker';
+      v => v.severity === 'critical' || v.type === 'blocker'
     ),
     const errorCountAcceptable = metrics.errors <= config.thresholds.maxErrors;
 

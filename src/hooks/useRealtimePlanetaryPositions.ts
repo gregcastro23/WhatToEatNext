@@ -103,7 +103,7 @@ export function useRealtimePlanetaryPositions(options: UseRealtimePlanetaryPosit
 export function usePlanetaryPositionsForDate(
   date: Date,
   location?: { latitude: number; longitude: number },
-  zodiacSystem: 'tropical' | 'sidereal' = 'tropical';
+  zodiacSystem: 'tropical' | 'sidereal' = 'tropical'
 ) {
   const [state, setState] = useState<PlanetaryPositionsState>({
     positions: null,

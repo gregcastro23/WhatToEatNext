@@ -179,7 +179,7 @@ class EnhancedPreCommitHook {
     // Analyze results
     const passed = results.every(result => result.passed);
     const criticalFailures = results.filter(;
-      result => !result.passed && result.severity === 'critical';
+      result => !result.passed && result.severity === 'critical'
     );
     const autoFixed = results.filter(result => result.autoFixed);
 
@@ -190,7 +190,7 @@ class EnhancedPreCommitHook {
       const autoFixNote = result.autoFixed ? ' (auto-fixed)' : '';
       this.log(
         `   ${result.check}: ${status}${autoFixNote} - ${result.message}`,
-        result.passed ? 'success' : result.severity === 'critical' ? 'error' : 'warn';
+        result.passed ? 'success' : result.severity === 'critical' ? 'error' : 'warn'
       );
     });
 

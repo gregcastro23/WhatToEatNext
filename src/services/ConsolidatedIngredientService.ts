@@ -353,7 +353,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
    */
   findComplementaryIngredients(
     ingredient: UnifiedIngredient | string,
-    maxResults: number = 10;
+    maxResults: number = 10
   ): UnifiedIngredient[] {
     try {
       // Get the target ingredient if string was provided
@@ -446,7 +446,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
    */
   getIngredientsByFlavor(
     flavorProfile: { [key: string]: number },
-    minMatchScore: number = 0.7;
+    minMatchScore: number = 0.7
   ): UnifiedIngredient[] {
     try {
       const ingredients = this.getAllIngredientsFlat();
@@ -516,7 +516,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
    */
   getRecommendedIngredients(
     elementalState: ElementalProperties,
-    options: IngredientRecommendationOptions = {};
+    options: IngredientRecommendationOptions = {}
   ): UnifiedIngredient[] {
     try {
       // Default options with safe type casting
@@ -1280,7 +1280,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
       // Calculate elemental compatibility
       const elementalCompatibility = this.calculateElementalCompatibility(;
         ing1.elementalProperties;
-        ing2.elementalProperties;
+        ing2.elementalProperties
       );
 
       // Calculate flavor compatibility
@@ -1510,7 +1510,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
     try {
       // Extract ingredient names from the recipe
       const ingredientNames = (recipe.ingredients || []).map(ing =>;
-        typeof ing === 'string' ? ing : ing.name;
+        typeof ing === 'string' ? ing : ing.name
       );
 
       // Get ingredient objects
@@ -1720,7 +1720,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
       category?: string,
       similarityThreshold?: number,
       maxResults?: number,
-    } = {};
+    } = {}
   ): Array<{ ingredient: UnifiedIngredient, similarityScore: number }> {
     try {
       // Default options
@@ -1755,7 +1755,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
         if (baseIngredient.flavorProfile && ingredient.flavorProfile) {
           flavorScore = this.calculateFlavorSimilarity(;
             baseIngredient.flavorProfile;
-            ingredient.flavorProfile;
+            ingredient.flavorProfile
           ),
         }
 

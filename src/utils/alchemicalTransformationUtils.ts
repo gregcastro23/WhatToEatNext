@@ -218,7 +218,7 @@ export const _getTopCompatibleItems = (items: AlchemicalItem[], count = 5): Alch
 export const _getRecommendedCookingMethodsForIngredient = async (;
   ingredient: AlchemicalItem,
   cookingMethods: AlchemicalItem[],
-  count = 5;
+  count = 5
 ): Promise<Array<{ method: string, compatibility: number }>> => {
   // For each method, calculate how well it transforms the ingredient using enhanced algorithm
   // that takes into account elemental character associations

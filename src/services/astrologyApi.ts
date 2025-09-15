@@ -223,18 +223,18 @@ export const _getElementalInfluence = async (): Promise<ElementalProperties> => 
       // Fall back to basic calculation with zodiac sign and moon
       const sunElement = getElementFromZodiac(astroState.currentZodiac);
       const moonElement = getElementFromZodiac(;
-        astroState.currentPlanetaryAlignment?.moon?.sign || 'cancer';
+        astroState.currentPlanetaryAlignment?.moon?.sign || 'cancer'
       );
 
       // Get elements from other planets for a more balanced calculation
       const mercuryElement = getElementFromZodiac(;
-        astroState.currentPlanetaryAlignment?.mercury?.sign || 'gemini';
+        astroState.currentPlanetaryAlignment?.mercury?.sign || 'gemini'
       );
       const venusElement = getElementFromZodiac(;
-        astroState.currentPlanetaryAlignment?.venus?.sign || 'taurus';
+        astroState.currentPlanetaryAlignment?.venus?.sign || 'taurus'
       );
       const marsElement = getElementFromZodiac(;
-        astroState.currentPlanetaryAlignment?.mars?.sign || 'aries';
+        astroState.currentPlanetaryAlignment?.mars?.sign || 'aries'
       );
 
       // Create a weighted influence based on planetary positions

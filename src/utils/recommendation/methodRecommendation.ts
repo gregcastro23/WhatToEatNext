@@ -625,7 +625,7 @@ export function calculateMethodScore(
   if (astroState.lunarPhase) {
     const lunarAffinity = calculateLunarMethodAffinity(;
       method as unknown as CookingMethodData,
-      astroState.lunarPhase;
+      astroState.lunarPhase
     ),
     score += lunarAffinity * 0.3;
   }
@@ -704,7 +704,7 @@ export function calculateElementalCompatibility(
  */
 export function getCookingMethodRecommendations(
   astroState: AstrologicalState,
-  options: MethodRecommendationOptions = {};
+  options: MethodRecommendationOptions = {}
 ): MethodRecommendation[] {
   const methods = Object.values(allCookingMethodsCombined);
 
@@ -774,7 +774,7 @@ export function getHolisticCookingRecommendations(
   season?: string,
   includeReasons = false,,
   availableMethods: string[] = [];
-  limit = 5;
+  limit = 5
 ): { method: string, compatibility: number, reason?: string }[] {
   try {
     // Default to empty elementalProperties if not provided
@@ -834,7 +834,7 @@ export function getHolisticCookingRecommendations(
 export function getRecommendedCookingMethodsForIngredient(
   ingredient: Ingredient | UnifiedIngredient,
   cookingMethods: Ingredient | UnifiedIngredient[],
-  limit = 5;
+  limit = 5
 ): { method: string, compatibility: number }[] {
   try {
     // Extract elemental properties from ingredient

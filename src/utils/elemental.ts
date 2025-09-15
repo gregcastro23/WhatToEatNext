@@ -68,7 +68,7 @@ export const _calculateDominantElement = (;
 
 export const _getElementalColor = (;
   element: keyof ElementalProperties | undefined,
-  type: keyof ElementalColor = 'text';
+  type: keyof ElementalColor = 'text'
 ): string => {
   if (!element || !elementalColors[element]) {
     // Return default color if element is undefined or invalid

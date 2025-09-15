@@ -91,7 +91,7 @@ export class LintingAnalysisService {
    * Perform comprehensive linting analysis
    */
   async performComprehensiveAnalysis(
-    options: LintingAnalysisOptions = {};
+    options: LintingAnalysisOptions = {}
   ): Promise<ComprehensiveAnalysisResult> {
     const startTime = Date.now();
 
@@ -245,7 +245,7 @@ export class LintingAnalysisService {
         issue.rule;
         issue.message;
         issue.file;
-        issue.autoFixable;
+        issue.autoFixable
       );
 
       classifications.push(classification);
@@ -326,7 +326,7 @@ export class LintingAnalysisService {
     // Determine overall risk level
     const highRiskCount = classifications.filter(c => c.riskProfile.overall === 'high').length;
     const criticalRiskCount = classifications.filter(;
-      c => c.riskProfile.overall === 'critical';
+      c => c.riskProfile.overall === 'critical'
     ).length;
 
     let overallRiskLevel: AnalysisSummary['overallRiskLevel'] = 'low';

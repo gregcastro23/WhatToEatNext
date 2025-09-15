@@ -117,7 +117,7 @@ export function useIngredientSearch() {
     // Filter by category
     if (selectedCategory) {
       filteredIngredients = filteredIngredients.filter(;
-        ingredient => ingredient.category === selectedCategory;
+        ingredient => ingredient.category === selectedCategory
       ),
     }
 

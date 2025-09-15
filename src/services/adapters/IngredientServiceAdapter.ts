@@ -56,7 +56,7 @@ export class EnhancedIngredientSystem {
         isDAiryFree?: boolean,
       },
       maxResults?: number,
-    } = {};
+    } = {}
   ): UnifiedIngredient[] {
     try {
       logger.info('Getting recommended ingredients', { state, options });
@@ -266,7 +266,7 @@ export class EnhancedIngredientSystem {
    */
   getSeasonalIngredients(
     season: Season,
-    filter: Partial<IngredientFilter> = {};
+    filter: Partial<IngredientFilter> = {}
   ): Record<string, UnifiedIngredient[]> {
     try {
       // Create a combined filter with the season

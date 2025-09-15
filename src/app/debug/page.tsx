@@ -90,9 +90,9 @@ function DebugContent() {
 
         <div className='mb-4'>;
           <button
-            onClick={runTest};
+            onClick={runTest},
             className='rounded bg-blue-500 px-4 py-2 text-white transition hover:bg-blue-600';
-            disabled={loading};
+            disabled={loading},
           >
             {loading ? 'Running Test...' : 'Test Cooking Method Recommendations'}
           </button>

@@ -50,7 +50,7 @@ export interface ValidationOptions {
  */
 export function validatePlanetaryPositions(
   positions: Record<string, unknown>,
-  options: ValidationOptions = {};
+  options: ValidationOptions = {}
 ): ValidationResult {
   const { strictMode = false, autoCorrect = false, logWarnings = true } = options;
   const errors: string[] = [];
@@ -147,7 +147,7 @@ export function validatePlanetaryPositions(
 function validateSinglePlanetaryPosition(
   planet: string,
   position: unknown,
-  strictMode: boolean = false;
+  strictMode: boolean = false
 ): ValidationResult {
   const errors: string[] = [];
   const warnings: string[] = [];
@@ -398,7 +398,7 @@ export async function validateAstrologicalCalculation(
     constants?: Record<string, number>,
     date?: Date,
   },
-  options: ValidationOptions = {};
+  options: ValidationOptions = {}
 ): Promise<ValidationResult> {
   const { validateTransits = false } = options;
   const errors: string[] = [];
@@ -423,7 +423,7 @@ export async function validateAstrologicalCalculation(
             const isValid = await validatePlanetaryPosition(;
               planet,
               position ,
-              input.date;
+              input.date
             ),
             if (!isValid) {
               warnings.push(`Transit validation failed for ${planet}`);

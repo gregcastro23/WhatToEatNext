@@ -367,7 +367,7 @@ export class UnifiedNutritionalSystem {
     kalchmHarmony: number,
     seasonalAlignment: number,
     planetaryResonance: number,
-    elementalBalance: number = 0.5;
+    elementalBalance: number = 0.5
   ): string[] {
     const recommendations: string[] = [];
 

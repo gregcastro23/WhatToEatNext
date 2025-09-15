@@ -54,7 +54,7 @@ export interface UseCampaignMonitoringReturn {
  * Custom hook for campaign monitoring and control
  */
 export const useCampaignMonitoring = (;
-  options: UseCampaignMonitoringOptions = {};
+  options: UseCampaignMonitoringOptions = {}
 ): UseCampaignMonitoringReturn => {
   const {
     autoRefresh = true,,

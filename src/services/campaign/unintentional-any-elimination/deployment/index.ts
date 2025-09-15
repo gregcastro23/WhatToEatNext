@@ -191,7 +191,7 @@ export class DeploymentManager {
       // Check success criteria
       const criteriaResult = await this.checkSuccessCriteria(;
         phase.successCriteria;
-        result.validationResults;
+        result.validationResults
       );
       result.success = criteriaResult.success;
 

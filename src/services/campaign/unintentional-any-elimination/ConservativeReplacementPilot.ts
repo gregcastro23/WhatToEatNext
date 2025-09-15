@@ -57,7 +57,7 @@ export class ConservativeReplacementPilot {
     this.classifier = new AnyTypeClassifier();
     this.replacer = new SafeTypeReplacer(;
       './.conservative-pilot-backups';
-      this.config.safetyThreshold;
+      this.config.safetyThreshold
     );
     this.progressiveEngine = new ProgressiveImprovementEngine();
     this.pilotStartTime = new Date();
@@ -94,7 +94,7 @@ export class ConservativeReplacementPilot {
         batchProcessingResult.success && integrationValidation.success;
         batchProcessingResult.success
           ? 'Pilot completed successfully'
-          : batchProcessingResult.error;
+          : batchProcessingResult.error
       );
 
       // Phase 5: Report results
@@ -809,7 +809,7 @@ export class ConservativeReplacementPilot {
     if (totalBatches === 0) return 1.0;
 
     const successfulBatches = this.batchResults.filter(;
-      b => b.buildStable && !b.rollbackPerformed;
+      b => b.buildStable && !b.rollbackPerformed
     ).length;
     const baseScore = successfulBatches / totalBatches;
 
@@ -882,7 +882,7 @@ export class ConservativeReplacementPilot {
       ),
     } else {
       recommendations.push(
-        'Pilot did not meet all targets. Review results and adjust strategy before full campaign.';
+        'Pilot did not meet all targets. Review results and adjust strategy before full campaign.'
       ),
     }
 

@@ -494,7 +494,7 @@ export async function calculateComprehensiveAlchemicalResult(
 
     // 5. Generate culinary recommendations based on planetary influences
     const culinaryRecommendations = getPlanetaryCulinaryRecommendations(;
-      planetaryInfluencesResult.dominantPlanets;
+      planetaryInfluencesResult.dominantPlanets
     );
 
     // 6. Generate cuisine recommendations
@@ -546,13 +546,13 @@ export function calculateRecipeCompatibility(
     // Use the dedicated recipe matching module
     const recipeResult = recipeMatching.calculateRecipeCompatibility(;
       recipeElementalProperties,
-      currentMomentAlchemicalResult.kalchm;
+      currentMomentAlchemicalResult.kalchm
     );
 
     // Calculate planetary alignment
     const planetaryAlignment = calculatePlanetaryAlignment(;
       recipeElementalProperties,
-      currentMomentAlchemicalResult.planetaryInfluences;
+      currentMomentAlchemicalResult.planetaryInfluences
     );
 
     // Overall compatibility score (weighted average)

@@ -323,7 +323,7 @@ export const _getSpicesByOrigin = (origin: string): Record<string, IngredientMap
 
 export const _getSpicesByElementalProperty = (;
   element: string,
-  minStrength: number = 0.3;
+  minStrength: number = 0.3
 ): Record<string, IngredientMapping> => {
   return Object.entries(spices)
     .filter(([_, value]) => value.elementalProperties[element] >= minStrength)

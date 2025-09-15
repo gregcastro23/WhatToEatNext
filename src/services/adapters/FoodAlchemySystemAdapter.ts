@@ -68,7 +68,7 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
       dietaryPreferences?: string[],
       ingredients?: string[],
     } = {};
-    limit: number = 10;
+    limit: number = 10
   ): Promise<ScoredRecipe[]> {
     try {
       logger.info('Getting recommended recipes', { state, criteria });
@@ -101,7 +101,7 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
    */
   async getRecipesForCurrentPlanetaryAlignment(
     state: SystemState,
-    minMatchScore: number = 0.6;
+    minMatchScore: number = 0.6
   ): Promise<Recipe[]> {
     try {
       if (!state.planetaryPositions) {
@@ -164,7 +164,7 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
         isDAiryFree?: boolean,
       },
       maxResults?: number,
-    } = {};
+    } = {}
   ): UnifiedIngredient[] {
     // ✅ Pattern MM-1: Safe type conversion with runtime validation
     const stateRecord = this.convertSystemStateToRecord(state);
@@ -199,7 +199,7 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
         isGlutenFree?: boolean,
         isDAiryFree?: boolean,
       },
-    } = {};
+    } = {}
   ): Record<string, UnifiedIngredient[]> {
     return enhancedIngredientSystem.getSeasonalIngredients(season, {
       categories: filter.categories;

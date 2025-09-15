@@ -97,7 +97,7 @@ describe('AutomatedLintingIntegration', () => {
       };
 
       mockAnalysisService.performComprehensiveAnalysis.mockResolvedValue(
-        mockAnalysis as any<ReturnType<typeof mockAnalysisService.performComprehensiveAnalysis>>;
+        mockAnalysis as any<ReturnType<typeof mockAnalysisService.performComprehensiveAnalysis>>
       );
 
       // Mock automated fixes
@@ -187,7 +187,7 @@ describe('AutomatedLintingIntegration', () => {
       };
 
       mockAnalysisService.performComprehensiveAnalysis.mockResolvedValue(
-        mockAnalysis as any<ReturnType<typeof mockAnalysisService.performComprehensiveAnalysis>>;
+        mockAnalysis as any<ReturnType<typeof mockAnalysisService.performComprehensiveAnalysis>>
       );
       mockFixer.applyAutomatedFixes.mockResolvedValue({
         success: true,
@@ -264,7 +264,7 @@ describe('AutomatedLintingIntegration', () => {
       };
 
       mockAnalysisService.performComprehensiveAnalysis.mockResolvedValue(
-        mockAnalysis as any<ReturnType<typeof mockAnalysisService.performComprehensiveAnalysis>>;
+        mockAnalysis as any<ReturnType<typeof mockAnalysisService.performComprehensiveAnalysis>>
       );
       mockFixer.applyAutomatedFixes.mockResolvedValue({
         success: true,
@@ -341,7 +341,7 @@ describe('AutomatedLintingIntegration', () => {
       };
 
       mockAnalysisService.performComprehensiveAnalysis.mockResolvedValue(
-        mockAnalysis as any<ReturnType<typeof mockAnalysisService.performComprehensiveAnalysis>>;
+        mockAnalysis as any<ReturnType<typeof mockAnalysisService.performComprehensiveAnalysis>>
       );
       mockFixer.applyAutomatedFixes.mockResolvedValue({
         success: true,
@@ -401,7 +401,7 @@ describe('AutomatedLintingIntegration', () => {
       };
 
       mockAnalysisService.performQuickAnalysis.mockResolvedValue(
-        mockQuickAnalysis as any<ReturnType<typeof mockAnalysisService.performQuickAnalysis>>;
+        mockQuickAnalysis as any<ReturnType<typeof mockAnalysisService.performQuickAnalysis>>
       );
       mockFixer.applyAutomatedFixes.mockResolvedValue({
         success: true,
@@ -454,7 +454,7 @@ describe('AutomatedLintingIntegration', () => {
       };
 
       mockAnalysisService.performQuickAnalysis.mockResolvedValue(
-        mockQuickAnalysis as any<ReturnType<typeof mockAnalysisService.performQuickAnalysis>>;
+        mockQuickAnalysis as any<ReturnType<typeof mockAnalysisService.performQuickAnalysis>>
       );
       mockFixer.applyAutomatedFixes.mockResolvedValue({
         success: true,
@@ -532,7 +532,7 @@ describe('AutomatedLintingIntegration', () => {
       };
 
       mockAnalysisService.performComprehensiveAnalysis.mockResolvedValue(
-        mockAnalysis as any<ReturnType<typeof mockAnalysisService.performComprehensiveAnalysis>>;
+        mockAnalysis as any<ReturnType<typeof mockAnalysisService.performComprehensiveAnalysis>>
       );
       mockFixer.handleUnusedVariables.mockResolvedValue({
         success: true,
@@ -611,7 +611,7 @@ describe('AutomatedLintingIntegration', () => {
       };
 
       mockAnalysisService.performComprehensiveAnalysis.mockResolvedValue(
-        mockAnalysis as any<ReturnType<typeof mockAnalysisService.performComprehensiveAnalysis>>;
+        mockAnalysis as any<ReturnType<typeof mockAnalysisService.performComprehensiveAnalysis>>
       );
 
       const result: any = await integration.executeUnusedVariableCleanup();
@@ -669,7 +669,7 @@ describe('AutomatedLintingIntegration', () => {
       };
 
       mockAnalysisService.performComprehensiveAnalysis.mockResolvedValue(
-        mockAnalysis as any<ReturnType<typeof mockAnalysisService.performComprehensiveAnalysis>>;
+        mockAnalysis as any<ReturnType<typeof mockAnalysisService.performComprehensiveAnalysis>>
       );
       mockFixer.optimizeImports.mockResolvedValue({
         success: true,
@@ -748,7 +748,7 @@ describe('AutomatedLintingIntegration', () => {
       };
 
       mockAnalysisService.performComprehensiveAnalysis.mockResolvedValue(
-        mockAnalysis as any<ReturnType<typeof mockAnalysisService.performComprehensiveAnalysis>>;
+        mockAnalysis as any<ReturnType<typeof mockAnalysisService.performComprehensiveAnalysis>>
       );
 
       const result: any = await integration.executeImportOptimization();
@@ -808,7 +808,7 @@ describe('AutomatedLintingIntegration', () => {
       };
 
       mockAnalysisService.performComprehensiveAnalysis.mockResolvedValue(
-        mockAnalysis as any<ReturnType<typeof mockAnalysisService.performComprehensiveAnalysis>>;
+        mockAnalysis as any<ReturnType<typeof mockAnalysisService.performComprehensiveAnalysis>>
       );
       mockFixer.applyAutomatedFixes.mockResolvedValue({
         success: false,
@@ -888,7 +888,7 @@ describe('AutomatedLintingIntegration', () => {
       };
 
       mockAnalysisService.performComprehensiveAnalysis.mockResolvedValue(
-        mockAnalysis as any<ReturnType<typeof mockAnalysisService.performComprehensiveAnalysis>>;
+        mockAnalysis as any<ReturnType<typeof mockAnalysisService.performComprehensiveAnalysis>>
       );
       mockFixer.applyAutomatedFixes.mockResolvedValue({
         success: true,

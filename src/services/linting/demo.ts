@@ -123,7 +123,7 @@ function demonstrateErrorClassification() {
       testCase.rule;
       testCase.message;
       testCase.file;
-      testCase.hasAutoFix;
+      testCase.hasAutoFix
     ),
 
     log.info(`\n📋 Rule: ${testCase.rule}`);
@@ -363,7 +363,7 @@ function demonstrateCompleteWorkflow() {
   const allIssues = Object.values(mockCategorizedErrors.byCategory).flat();
   mockCategorizedErrors.autoFixable = allIssues.filter(i => i.autoFixable);
   mockCategorizedErrors.requiresManualReview = allIssues.filter(;
-    i => i.resolutionStrategy.type === 'manual-review';
+    i => i.resolutionStrategy.type === 'manual-review'
   );
 
   // Group by priority and file

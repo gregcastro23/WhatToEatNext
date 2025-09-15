@@ -278,7 +278,7 @@ export class IntelligentBatchProcessor extends EventEmitter {
   async createIntelligentBatches(
     errors: TypeScriptError[],
     patterns: ErrorPattern[],
-    optimizationStrategy: string = 'hybrid';
+    optimizationStrategy: string = 'hybrid'
   ): Promise<BatchJob[]> {
     log.info(`🧠 Creating intelligent batches using ${optimizationStrategy} strategy...`);
 
@@ -1068,7 +1068,7 @@ export class IntelligentBatchProcessor extends EventEmitter {
         } else if (!result.success) {
           optimization.parameters.maxBatchSize = Math.max(;
             5,
-            optimization.parameters.maxBatchSize - 2;
+            optimization.parameters.maxBatchSize - 2
           ),
         }
         break;
@@ -1169,7 +1169,7 @@ export class IntelligentBatchProcessor extends EventEmitter {
   createBatchQueue(
     queueId: string,
     jobs: BatchJob[],
-    maxConcurrency: number = this.MAX_CONCURRENT_JOBS;
+    maxConcurrency: number = this.MAX_CONCURRENT_JOBS
   ): BatchQueue {
     const queue: BatchQueue = {
       queueId,

@@ -329,7 +329,7 @@ async function runComprehensiveTests() {
     console.error('❌ Test failed:', error),
     console.error(
       'Stack trace:',
-      error instanceof Error ? error.stack : 'No stack trace available';
+      error instanceof Error ? error.stack : 'No stack trace available'
     ),
   }
 }

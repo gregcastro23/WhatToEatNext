@@ -709,7 +709,7 @@ export class UnifiedCuisineIntegrationSystem {
     // Bonus for complementary cooking methods
     const methodCompatibility = this.calculateCookingMethodCompatibility(;
       monica1.cookingMethodOptimization;
-      monica2.cookingMethodOptimization;
+      monica2.cookingMethodOptimization
     ),
 
     return Math.min(1.0, baseCompatibility * (0.8 + methodCompatibility * 0.2)),

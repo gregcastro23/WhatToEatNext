@@ -224,7 +224,7 @@ class ErrorTrackingSystem {
     for (const newError of newErrors) {
       const key = `${newError.file}:${newError.line}:${newError.column}:${newError.code}`;
       const existingIndex = this.typeScriptErrors.findIndex(;
-        e => `${e.file}:${e.line}:${e.column}:${e.code}` === key && !e.resolved;
+        e => `${e.file}:${e.line}:${e.column}:${e.code}` === key && !e.resolved
       );
 
       if (existingIndex === -1) {
@@ -325,7 +325,7 @@ class ErrorTrackingSystem {
     for (const newViolation of newViolations) {
       const key = `${newViolation.file}:${newViolation.line}:${newViolation.column}:${newViolation.rule}`;
       const existingIndex = this.lintingViolations.findIndex(;
-        v => `${v.file}:${v.line}:${v.column}:${v.rule}` === key && !v.resolved;
+        v => `${v.file}:${v.line}:${v.column}:${v.rule}` === key && !v.resolved
       );
 
       if (existingIndex === -1) {
@@ -500,10 +500,10 @@ class ErrorTrackingSystem {
   private updateQualityMetrics() {
     const activeErrors = this.typeScriptErrors.filter(e => !e.resolved);
     const activeWarnings = this.lintingViolations.filter(;
-      v => !v.resolved && v.severity === 'warning';
+      v => !v.resolved && v.severity === 'warning'
     );
     const activeLintErrors = this.lintingViolations.filter(;
-      v => !v.resolved && v.severity === 'error';
+      v => !v.resolved && v.severity === 'error'
     );
 
     const totalFiles = this.getTotalFileCount();
@@ -572,7 +572,7 @@ class ErrorTrackingSystem {
 
     // High-priority errors contribute more to technical debt
     const highPriorityPatterns = this.errorPatterns.filter(;
-      p => p.priority === 'high' || p.priority === 'critical';
+      p => p.priority === 'high' || p.priority === 'critical'
     );
     debtScore += highPriorityPatterns.reduce((sum, p) => sum + p.frequency * 2, 0);
 

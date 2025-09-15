@@ -71,7 +71,7 @@ export class PerformanceMonitoringService {
       incremental?: boolean,
       parallel?: boolean,
       cached?: boolean,
-    } = {};
+    } = {}
   ): Promise<PerformanceMetrics> {
     const startTime = Date.now();
     const startMemory = process.memoryUsage();
@@ -509,7 +509,7 @@ export class PerformanceMonitoringService {
     performanceImprovement: ReturnType<typeof this.validatePerformanceImprovement>;
     parallelProcessing: ReturnType<typeof this.validateParallelProcessing>;
     memoryOptimization: ReturnType<typeof this.validateMemoryOptimization>;
-    incrementalPerformance: ReturnType<typeof this.validateIncrementalPerformance>;
+    incrementalPerformance: ReturnType<typeof this.validateIncrementalPerformance>
   ): string[] {
     const recommendations: string[] = [];
 

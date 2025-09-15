@@ -409,7 +409,7 @@ export class ComprehensiveValidationFramework {
       if (componentInfo.propsInterface) {
         const propsValidation = await this.validateComponentProps(;
           componentPath,
-          componentInfo.propsInterface;
+          componentInfo.propsInterface
         ),
         if (!propsValidation.success) {
           result.warnings.push(
@@ -501,7 +501,7 @@ export class ComprehensiveValidationFramework {
       if (serviceInfo.apiEndpoints.length > 0) {
         const endpointValidation = await this.validateApiEndpoints(;
           servicePath,
-          serviceInfo.apiEndpoints;
+          serviceInfo.apiEndpoints
         ),
         if (!endpointValidation.success) {
           result.warnings.push(`API endpoints may be affected: ${endpointValidation.warning}`);
@@ -511,7 +511,7 @@ export class ComprehensiveValidationFramework {
       // Check if exported methods are intact
       const methodValidation = await this.validateServiceMethods(;
         servicePath,
-        serviceInfo.exportedMethods;
+        serviceInfo.exportedMethods
       );
       if (!methodValidation.success) {
         result.passed = false;

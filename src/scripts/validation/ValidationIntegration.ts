@@ -88,7 +88,7 @@ export class ValidationIntegration {
       // Perform comprehensive validation
       const validationResult = await this.validationFramework.performComprehensiveValidation(;
         processedFiles,
-        batchResult.batchId;
+        batchResult.batchId
       );
 
       // Integrate validation results

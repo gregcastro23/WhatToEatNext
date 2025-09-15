@@ -31,7 +31,7 @@ describe('Domain-Specific Rule Validation', () => {
 
   afterEach(() => {
     // Clean up any temporary test files
-    const tempFiles = [;
+    const tempFiles = [
       'temp-planetary-test.ts';
       'temp-elemental-test.ts';
       'temp-fallback-test.ts';

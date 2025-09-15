@@ -46,7 +46,7 @@ function normalizeFromEngine(raw: Record<string, { sign: any; degree: number; ex
 export class PlanetaryPositionsService {
   async getCurrent(
     location?: { latitude: number; longitude: number },
-    zodiacSystem: 'tropical' | 'sidereal' = 'tropical';
+    zodiacSystem: 'tropical' | 'sidereal' = 'tropical'
   ): Promise<PositionRecord> {
     const key = makeKey(undefined, location?.latitude, location?.longitude, zodiacSystem);
     if (isFresh(cache, key)) return cache.positions;
@@ -68,7 +68,7 @@ export class PlanetaryPositionsService {
   async getForDate(
     date: Date,
     location?: { latitude: number; longitude: number },
-    zodiacSystem: 'tropical' | 'sidereal' = 'tropical';
+    zodiacSystem: 'tropical' | 'sidereal' = 'tropical'
   ): Promise<PositionRecord> {
     const key = makeKey(date, location?.latitude, location?.longitude, zodiacSystem);
     if (isFresh(cache, key)) return cache.positions;

@@ -66,7 +66,7 @@ export function calculateRecipeCompatibility(
   // Calculate thermodynamic alignment
   const thermodynamicAlignment = calculateEnhancedThermodynamicAlignment(;
     recipeElementalProperties,
-    currentMomentKalchmResult.thermodynamics;
+    currentMomentKalchmResult.thermodynamics
   ),
 
   // Calculate energetic resonance (how well the energies harmonize)
@@ -270,7 +270,7 @@ function calculateEnhancedThermodynamicAlignment(
     1 - Math.abs(recipeThermodynamics.reactivity - userThermodynamics.reactivity);
   const energyAlignment = calculateEnergyAlignment(;
     recipeThermodynamics.gregsEnergy;
-    userThermodynamics.gregsEnergy;
+    userThermodynamics.gregsEnergy
   ),
 
   // Weighted average (heat and reactivity are most important for cooking)

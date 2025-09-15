@@ -224,7 +224,7 @@ export function calculateCuisineKalchm(
 export function findKalchmSimilarIngredients(
   targetKalchm: number,
   ingredientPool: AlchemicalIngredient[],
-  tolerance = 0.2;
+  tolerance = 0.2
 ): AlchemicalIngredient[] {
   return (ingredientPool || []).filter(ingredient => {
     const compatibility = calculateKalchmCompatibility(targetKalchm, ingredient.kalchm);

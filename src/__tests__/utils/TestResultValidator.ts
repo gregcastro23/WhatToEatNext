@@ -304,7 +304,7 @@ export class TestResultValidator {
       if (check.requiredFields) {
         for (const field of check.requiredFields) {
           const fieldCheck = results.every(;
-            result => typeof result === 'object' && result !== null && field in result;
+            result => typeof result === 'object' && result !== null && field in result
           ),
           if (!fieldCheck) {
             validationResult.errors.push(`Required field missing: ${field}`);

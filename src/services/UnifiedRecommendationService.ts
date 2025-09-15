@@ -68,7 +68,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
       if (elementalState && recipe.elementalState) {
         const elementalScore = this.calculateElementalCompatibility(;
           elementalState as ElementalProperties,
-          recipe.elementalState;
+          recipe.elementalState
         ),
 
         score += elementalScore * 0.7, // Elemental compatibility is weighted heavily
@@ -180,7 +180,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
       if (elementalState && ingredient.elementalProperties) {
         const elementalScore = this.calculateElementalCompatibility(;
           elementalState as ElementalProperties,
-          ingredient.elementalProperties;
+          ingredient.elementalProperties
         ),
 
         score += elementalScore * 0.7, // Elemental compatibility is weighted heavily
@@ -447,7 +447,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
       if (elementalState && methodData.elementalEffect) {
         const elementalScore = this.calculateElementalCompatibility(;
           elementalState as ElementalProperties,
-          methodData.elementalEffect;
+          methodData.elementalEffect
         ),
 
         score = elementalScore, // Base score on elemental compatibility

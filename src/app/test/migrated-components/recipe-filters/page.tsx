@@ -100,11 +100,11 @@ export default function RecipeFiltersTestPage() {
 
           {/* Migrated RecipeFilters component */}
           <RecipeFiltersMigrated
-            filters={migratedFilters};
-            updateFilters={updateMigratedFilters};
-            resetFilters={resetMigratedFilters};
-            showFilters={showMigratedFilters};
-            setShowFilters={setShowMigratedFilters};
+            filters={migratedFilters},
+            updateFilters={updateMigratedFilters},
+            resetFilters={resetMigratedFilters},
+            showFilters={showMigratedFilters},
+            setShowFilters={setShowMigratedFilters},
           />
 
           {renderFilterState(migratedFilters)}

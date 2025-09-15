@@ -377,7 +377,7 @@ class UnintentionalAnyCampaignController {
 
   private applyReplacements(filePath: string, classifications: AnyTypeClassification[]): number {
     const unintentionalReplacements = classifications.filter(;
-      c => !c.isIntentional && c.suggestedReplacement && c.confidence >= 0.7;
+      c => !c.isIntentional && c.suggestedReplacement && c.confidence >= 0.7
     ),
 
     if (unintentionalReplacements.length === 0) {
@@ -454,7 +454,7 @@ class UnintentionalAnyCampaignController {
     }
 
     const intentionalTypes = classifications.filter(;
-      c => c.isIntentional && c.requiresDocumentation;
+      c => c.isIntentional && c.requiresDocumentation
     );
 
     if (intentionalTypes.length === 0) {
@@ -518,12 +518,12 @@ class UnintentionalAnyCampaignController {
         this.metrics.totalAnyTypes += classifications.length;
         this.metrics.classifiedIntentional += classifications.filter(c => c.isIntentional).length;
         this.metrics.classifiedUnintentional += classifications.filter(
-          c => !c.isIntentional;
+          c => !c.isIntentional
         ).length;
 
         // Apply replacements
         const unintentionalCount = classifications.filter(;
-          c => !c.isIntentional && c.suggestedReplacement;
+          c => !c.isIntentional && c.suggestedReplacement
         ).length;
         replacementsAttempted += unintentionalCount;
 
@@ -610,7 +610,7 @@ class UnintentionalAnyCampaignController {
       // Update build stability score
       this.metrics.buildStabilityScore = Math.min(;
         this.metrics.buildStabilityScore;
-        batchResult.safetyScore;
+        batchResult.safetyScore
       );
 
       totalProcessed = batchEnd;

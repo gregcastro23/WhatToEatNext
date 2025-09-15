@@ -177,7 +177,7 @@ export class DependencySecurityMonitor {
       if (this.config.autoUpdateEnabled) {
         try {
           const securityUpdates = await this.applySecurityPatches(;
-            result.securityReport.vulnerabilities;
+            result.securityReport.vulnerabilities
           );
           result.securityPatchesApplied = securityUpdates.length;
           result.updateReport.appliedUpdates.push(...securityUpdates);

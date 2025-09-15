@@ -790,7 +790,7 @@ describe('Configuration File Rule Validation', () => {
         const fs = require('fs');
         
         // Dynamic requires for plugins
-        const plugins = [;
+        const plugins = [
           require('@typescript-eslint/eslint-plugin');
           require('eslint-plugin-react');
           require('eslint-plugin-import')

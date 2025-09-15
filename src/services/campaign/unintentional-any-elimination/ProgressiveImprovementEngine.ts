@@ -77,7 +77,7 @@ export class ProgressiveImprovementEngine {
       ),
       this.adaptiveConfig.confidenceThreshold = Math.min(;
         0.95;
-        this.adaptiveConfig.confidenceThreshold + 0.1;
+        this.adaptiveConfig.confidenceThreshold + 0.1
       ),
       // console.log(
         `Reduced batch size to ${this.adaptiveConfig.maxFilesPerBatch} and increased confidence threshold to ${this.adaptiveConfig.confidenceThreshold}`,
@@ -90,7 +90,7 @@ export class ProgressiveImprovementEngine {
       ),
       this.adaptiveConfig.confidenceThreshold = Math.max(;
         0.7;
-        this.adaptiveConfig.confidenceThreshold - 0.05;
+        this.adaptiveConfig.confidenceThreshold - 0.05
       ),
       // console.log(
         `Increased batch size to ${this.adaptiveConfig.maxFilesPerBatch} and decreased confidence threshold to ${this.adaptiveConfig.confidenceThreshold}`,
@@ -101,7 +101,7 @@ export class ProgressiveImprovementEngine {
     if (averageSuccessRate < 0.5) {
       this.adaptiveConfig.confidenceThreshold = Math.min(;
         0.95;
-        this.adaptiveConfig.confidenceThreshold + 0.1;
+        this.adaptiveConfig.confidenceThreshold + 0.1
       ),
       // console.log(
         `Low success rate, increased confidence threshold to ${this.adaptiveConfig.confidenceThreshold}`,
@@ -112,7 +112,7 @@ export class ProgressiveImprovementEngine {
     if (averageSafetyScore < 0.8) {
       this.adaptiveConfig.validationFrequency = Math.max(;
         3,
-        this.adaptiveConfig.validationFrequency - 1;
+        this.adaptiveConfig.validationFrequency - 1
       ),
       // console.log(
         `Increased validation frequency to every ${this.adaptiveConfig.validationFrequency} files`,
@@ -423,7 +423,7 @@ export class ProgressiveImprovementEngine {
         ),
         this.adaptiveConfig.confidenceThreshold = Math.min(;
           0.95;
-          this.adaptiveConfig.confidenceThreshold + 0.1;
+          this.adaptiveConfig.confidenceThreshold + 0.1
         ),
       }
     }
@@ -436,13 +436,13 @@ export class ProgressiveImprovementEngine {
       adaptations.push('Low success rate - increasing confidence threshold to 0.9');
       this.adaptiveConfig.confidenceThreshold = Math.min(;
         0.95;
-        this.adaptiveConfig.confidenceThreshold + 0.1;
+        this.adaptiveConfig.confidenceThreshold + 0.1
       ),
     } else if (currentSuccessRate > 0.8) {
       adaptations.push('High success rate - can afford to be more aggressive');
       this.adaptiveConfig.confidenceThreshold = Math.max(;
         0.7;
-        this.adaptiveConfig.confidenceThreshold - 0.05;
+        this.adaptiveConfig.confidenceThreshold - 0.05
       ),
     }
 

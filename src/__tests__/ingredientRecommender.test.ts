@@ -3,25 +3,20 @@ import { AstrologicalState } from '@/types/alchemy';
 import { Ingredient } from '@/types/ingredient';
 import { getRecommendedIngredients } from '@/utils/ingredientRecommender';
 
-// Mock implementation of getRecommendedIngredients
+// Mock implementation of getRecommendedIngredients;
 jest.mock('@/utils/ingredientRecommender', () => {
-  return {
-    getRecommendedIngredients: (): Ingredient[] => [
+  return { getRecommendedIngredients: (): Ingredient[] => [
       {
-        name: 'Rosemary',
-        category: 'culinary_herb',
+        name: 'Rosemary', category: 'culinary_herb',
         qualities: ['aromatic', 'warming'],
-        elementalProperties: { Fir, e: 0.6, Air: 0.3, Earth: 0.1, Water: 0 },
+        elementalProperties: { Fir, e: 0.6, Air: 0.3, Earth: 0.1, Water: 0  },
         astrologicalProfile: { rulingPlanets: ['Sun', 'Mercury']
         }
       } as Ingredient,
-      {
-        name: 'Thyme',
-        category: 'culinary_herb',
+      { name: 'Thyme', category: 'culinary_herb',
         qualities: ['aromatic', 'warming'],
-        elementalProperties: { Fir, e: 0.4, Air: 0.4, Earth: 0.2, Water: 0 },
-        astrologicalProfile: { rulingPlanets: ['Mercury']
-        }
+        elementalProperties: { Fir, e: 0.4, Air: 0.4, Earth: 0.2, Water: 0  },
+        astrologicalProfile: { rulingPlanets: ['Mercury'],   }
       } as Ingredient
     ]
   };
@@ -29,9 +24,8 @@ jest.mock('@/utils/ingredientRecommender', () => {
 
 describe('getRecommendedIngredients', () => {
   it('should return ingredients matching the current elemental state', () => {
-    const astroState: AstrologicalState = { currentZodiac: 'leo',,
-      moonPhase: 'full moon',
-      currentPlanetaryAlignment: { Sun: { sign: 'leo', degree: 15 },
+    const astroState: AstrologicalState = { currentZodiac: 'leo', moonPhase: 'full moon',
+      currentPlanetaryAlignment: { Sun: { sign: 'leo', degree: 15  },
         Moon: { sign: 'cancer', degree: 5 }
       },
       activePlanets: ['sun', 'moon'],
@@ -57,8 +51,7 @@ describe('getRecommendedIngredients', () => {
       const astroProfile: any = (ingredient as { astrologicalProfile: { rulingPlanet, s: string[] } }).astrologicalProfile;
       expect(astroProfile).toHaveProperty('rulingPlanets');
       expect(astroProfile.rulingPlanets.some((planet: string) => ['Sun', 'Mercury', 'Saturn'].includes(planet))).toBe(
-        true,
-      );
+        true);
     });
   });
 });

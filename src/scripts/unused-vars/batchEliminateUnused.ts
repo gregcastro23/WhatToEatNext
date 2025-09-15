@@ -15,7 +15,7 @@ import path from 'node:path';
 
 import { classifyFileKind, isHighImpactFile } from './domainPreservation';
 
-type Finding = {;
+type Finding = {
   filePath: string;
   fileKind: ReturnType<typeof classifyFileKind>;
   variableName: string;
@@ -26,7 +26,7 @@ type Finding = {;
   confidence: number;
 };
 
-type CliOptions = {;
+type CliOptions = {
   inPath: string;
   dryRun: boolean;
   maxBatch: number;

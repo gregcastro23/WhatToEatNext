@@ -583,15 +583,15 @@ export class QualityAssuranceDashboard {
     // Calculate days needed to reach targets
     const reductionGap = Math.max(;
       0,
-      this.config.reductionTarget - currentMetrics.unusedVariableReduction;
+      this.config.reductionTarget - currentMetrics.unusedVariableReduction
     );
     const stabilityGap = Math.max(;
       0,
-      this.config.stabilityTarget - currentMetrics.buildStabilityScore;
+      this.config.stabilityTarget - currentMetrics.buildStabilityScore
     );
     const qualityGap = Math.max(;
       0,
-      this.config.qualityThreshold - currentMetrics.overallQualityScore;
+      this.config.qualityThreshold - currentMetrics.overallQualityScore
     );
 
     const maxGap = Math.max(reductionGap, stabilityGap, qualityGap);

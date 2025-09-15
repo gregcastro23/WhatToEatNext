@@ -652,7 +652,7 @@ export class PlanetaryLocationService {
       flavorProfiles: this.getFlavorProfilesForInfluences(topInfluences);
       nutritionalFocus: this.getNutritionalFocusForSeason(
         season,
-        regionalProfile.climateConsiderations;
+        regionalProfile.climateConsiderations
       )
     };
   }

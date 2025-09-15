@@ -165,7 +165,7 @@ class AstrologizeApiCache {
     lng: number,
     date: Date,
     maxDistanceKm: number = 50,;
-    maxDaysDiff: number = 7;
+    maxDaysDiff: number = 7
   ): CachedAstrologicalData[] {
     const results: CachedAstrologicalData[] = [];
     const targetTime = date.getTime();

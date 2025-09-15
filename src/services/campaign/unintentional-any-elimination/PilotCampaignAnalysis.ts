@@ -153,7 +153,7 @@ export class PilotCampaignAnalysis {
           coveragePercentage: await this.calculateAnalysisCoverage()
         },
         domainBreakdown: await this.generateDetailedDomainBreakdown(
-          analysisReport.domainDistribution;
+          analysisReport.domainDistribution
         ),
         riskAssessment: await this.assessReplacementRisks(analysisReport.domainDistribution)
       }
@@ -280,7 +280,7 @@ export class PilotCampaignAnalysis {
         // Calculate category-specific improvements
         tuningResults.categoryImprovements = this.calculateCategoryImprovements(;
           accuracyReport.categoryAccuracy;
-          postTuningAccuracy.categoryAccuracy;
+          postTuningAccuracy.categoryAccuracy
         ),
       } else {
         tuningResults.tunedAccuracy = tuningResults.originalAccuracy;

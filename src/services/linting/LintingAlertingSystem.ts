@@ -144,7 +144,7 @@ export class LintingAlertingSystem {
 
         events.push(event);
         // console.log(
-          `⚠️ Performance threshold exceeded: ${threshold.metric} = ${value} > ${threshold.threshold}`;
+          `⚠️ Performance threshold exceeded: ${threshold.metric} = ${value} > ${threshold.threshold}`
         );
       }
     }

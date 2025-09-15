@@ -454,7 +454,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
     // Check if this is a duplicate alert (same type within last hour)
     const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000);
     const recentSimilarAlerts = this.alertHistory.filter(;
-      a => a.type === alert.type && a.timestamp > oneHourAgo;
+      a => a.type === alert.type && a.timestamp > oneHourAgo
     );
 
     // Only emit if no similar alert in the last hour

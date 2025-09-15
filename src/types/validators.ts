@@ -43,7 +43,7 @@ export const validateElementalProperties = (properties: ElementalProperties): bo
 
   const requiredElements = ['Fire', 'Water', 'Earth', 'Air'];
   const hasAllElements = requiredElements.every(;
-    element => typeof properties[element as any] === 'number';
+    element => typeof properties[element as any] === 'number'
   );
 
   if (!hasAllElements) return false;

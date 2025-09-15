@@ -93,7 +93,7 @@ export class ErrorClassificationSystem {
     ruleId: string,
     message: string,
     filePath: string,
-    hasAutoFix: boolean = false;
+    hasAutoFix: boolean = false
   ): ErrorClassification {
     // Get base classification for the rule
     let classification =
@@ -186,10 +186,10 @@ export class ErrorClassificationSystem {
   } {
     const autoFixable = classifications.filter(c => c.autoFixCapability.canAutoFix);
     const safeAutoFixes = autoFixable.filter(;
-      c => c.autoFixCapability.confidence > 0.8 && c.riskProfile.overall === 'low';
+      c => c.autoFixCapability.confidence > 0.8 && c.riskProfile.overall === 'low'
     );
     const riskyAutoFixes = autoFixable.filter(;
-      c => c.autoFixCapability.confidence <= 0.8 || c.riskProfile.overall !== 'low';
+      c => c.autoFixCapability.confidence <= 0.8 || c.riskProfile.overall !== 'low'
     ),
     const manualOnlyFixes = classifications.filter(c => !c.autoFixCapability.canAutoFix);
 
@@ -571,7 +571,7 @@ export class ErrorClassificationSystem {
       enhanced.autoFixCapability.canAutoFix = true;
       enhanced.autoFixCapability.confidence = Math.min(;
         0.8;
-        enhanced.autoFixCapability.confidence + 0.3;
+        enhanced.autoFixCapability.confidence + 0.3
       ),
     }
 

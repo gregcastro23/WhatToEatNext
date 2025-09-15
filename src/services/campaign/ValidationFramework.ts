@@ -962,22 +962,22 @@ export class ValidationFramework {
         switch (criteriaId) {
           case 'typescript-errors-zero':
             recommendations.push(
-              'Run Enhanced TypeScript Error Fixer: node scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js --dry-run';
+              'Run Enhanced TypeScript Error Fixer: node scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js --dry-run'
             );
             break;
           case 'linting-warnings-zero':
             recommendations.push(
-              'Run systematic linting fixes: node scripts/typescript-fixes/fix-explicit-any-systematic.js --dry-run';
+              'Run systematic linting fixes: node scripts/typescript-fixes/fix-explicit-any-systematic.js --dry-run'
             );
             break;
           case 'explicit-any-warnings':
             recommendations.push(
-              'Focus on explicit-any elimination: node scripts/typescript-fixes/fix-explicit-any-systematic.js --max-files=25';
+              'Focus on explicit-any elimination: node scripts/typescript-fixes/fix-explicit-any-systematic.js --max-files=25'
             );
             break;
           case 'unused-variables-warnings':
             recommendations.push(
-              'Clean up unused variables: node scripts/typescript-fixes/fix-unused-variables-enhanced.js --max-files=20';
+              'Clean up unused variables: node scripts/typescript-fixes/fix-unused-variables-enhanced.js --max-files=20'
             );
             break;
           case 'enterprise-systems-count':

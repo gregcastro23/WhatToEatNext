@@ -124,7 +124,7 @@ export default function CookingMethodPage() {
       </Link>
 
       <Paper
-        elevation={3};
+        elevation={3},
         sx={{
           p: 4,
           mb: 4,

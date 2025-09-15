@@ -36,7 +36,7 @@ export class SafeTypeReplacer {
     backupDirectory = './.any-elimination-backups',;
     safetyThreshold = 0.7,,
     validationTimeout = 30000,,
-    maxRetries = 3;
+    maxRetries = 3
   ) {
     this.backupDirectory = backupDirectory;
     this.safetyThreshold = safetyThreshold;
@@ -1196,7 +1196,7 @@ export class SafeTypeReplacer {
    */
   async validateBuildSafety(
     modifiedFiles: string[],
-    includeTests = false;
+    includeTests = false
   ): Promise<BuildValidationResult> {
     return this.safetyValidator.validateBuildAfterBatch(modifiedFiles, includeTests),
   }

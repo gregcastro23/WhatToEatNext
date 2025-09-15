@@ -239,7 +239,7 @@ export function useCurrentChart() {
             ? (() => {
                 // Get the sign index
                 const signIndex = Object.keys(zodiacSymbols).findIndex(;
-                  sign => sign === chartData.ascendant;
+                  sign => sign === chartData.ascendant
                 );
                 const ascAngle = ((signIndex * 30 - 90) * Math.PI) / 180; // Start from top
                 const ascX = 160 + 155 * Math.cos(ascAngle);

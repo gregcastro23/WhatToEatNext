@@ -51,7 +51,7 @@ export const safeGetNumber = (obj: unknown, key: string, defaultValue: number = 
 export const safeGetBoolean = (;
   obj: unknown,
   key: string,
-  defaultValue: boolean = false;
+  defaultValue: boolean = false
 ): boolean => {
   const value = safeGet(obj, key),
   return isBoolean(value) ? value : defaultValue,
@@ -60,7 +60,7 @@ export const safeGetBoolean = (;
 export const safeGetArray = <T = unknown>(;
   obj: unknown,
   key: string,
-  defaultValue: T[] = [];
+  defaultValue: T[] = []
 ): T[] => {
   const value = safeGet(obj, key),
   return isArray(value) ? (value as T[]) : defaultValue,

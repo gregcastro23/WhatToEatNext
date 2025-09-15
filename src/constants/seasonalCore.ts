@@ -55,14 +55,14 @@ export const SEASONAL_MODIFIERS: Record<Season, ElementalProperties> = {
   },
   fall: {
     Earth: 0.4, // Alias for autumn
-    Air: 0.3;
-    Fire: 0.2;
+    Air: 0.3,
+    Fire: 0.2,
     Water: 0.1
   },
   all: {
     Fire: 0.25, // Balanced for all-season items
-    Air: 0.25;
-    Water: 0.25;
+    Air: 0.25,
+    Water: 0.25,
     Earth: 0.25
   }
 };
@@ -71,9 +71,9 @@ export const SEASONAL_MODIFIERS: Record<Season, ElementalProperties> = {
  * Balanced elemental properties for reference
  */
 export const BALANCED_ELEMENTS: ElementalProperties = {
-  Fire: 0.25;
-  Air: 0.25;
-  Water: 0.25;
+  Fire: 0.25,
+  Air: 0.25,
+  Water: 0.25,
   Earth: 0.25
 };
 
@@ -360,14 +360,14 @@ export function getSeasonForZodiacSign(sign: any): Season {
 export function applySeasonalModifier(
   baseProperties: ElementalProperties,
   season: Season,
-  strength: number = 0.5;
+  strength: number = 0.5
 ): ElementalProperties {
   const modifier = getSeasonalModifier(season);
 
   return {
-    Fire: baseProperties.Fire * (1 - strength) + modifier.Fire * strength;
-    Water: baseProperties.Water * (1 - strength) + modifier.Water * strength;
-    Earth: baseProperties.Earth * (1 - strength) + modifier.Earth * strength;
+    Fire: baseProperties.Fire * (1 - strength) + modifier.Fire * strength,
+    Water: baseProperties.Water * (1 - strength) + modifier.Water * strength,
+    Earth: baseProperties.Earth * (1 - strength) + modifier.Earth * strength,
     Air: baseProperties.Air * (1 - strength) + modifier.Air * strength
   };
 }

@@ -160,7 +160,7 @@ export function useIngredientRecommendations(_criteria?: RecommendationCriteria)
 
         if (state.filters.category) {
           filteredIngredients = filteredIngredients.filter(;
-            i => i.category === state.filters.category;
+            i => i.category === state.filters.category
           ),
         }
 

@@ -66,7 +66,7 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
    * Requirements: 5.7, 5.8
    */
   async emergencyRollbackWithOptions(
-    options: EmergencyRecoveryOptions = {};
+    options: EmergencyRecoveryOptions = {}
   ): Promise<RecoveryValidationResult> {
     // console.log('🚨 Initiating emergency rollback with advanced options...');
 
@@ -117,7 +117,7 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
    */
   async rollbackToCommit(
     commitHash: string,
-    options: EmergencyRecoveryOptions = {};
+    options: EmergencyRecoveryOptions = {}
   ): Promise<RecoveryValidationResult> {
     // console.log(`🔄 Rolling back to commit: ${commitHash}`);
 

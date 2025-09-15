@@ -96,7 +96,7 @@ export const transformItemWithPlanetaryPositions = (;
     // Calculate dominant element and alchemical property
     const dominantElement = getDominantElement(transformedElementalProperties);
     const dominantAlchemicalProperty = getDominantAlchemicalProperty(;
-      alchemicalResults.alchemicalCounts;
+      alchemicalResults.alchemicalCounts
     );
 
     // Apply safety checks for energy metrics
@@ -149,17 +149,17 @@ export const transformItemWithPlanetaryPositions = (;
     const zodiacSign = (currentZodiac || 'aries').toLowerCase() as any;
     const zodiacElementMap: Record<ZodiacSign, ElementalCharacter> = {
       aries: 'Fire',
-      leo: 'Fire',
+  leo: 'Fire',
       sagittarius: 'Fire',
-      taurus: 'Earth',
+  taurus: 'Earth',
       virgo: 'Earth',
-      capricorn: 'Earth',
+  capricorn: 'Earth',
       gemini: 'Air',
-      libra: 'Air',
+  libra: 'Air',
       aquarius: 'Air',
-      cancer: 'Water',
+  cancer: 'Water',
       scorpio: 'Water',
-      pisces: 'Water'
+  pisces: 'Water'
     };
 
     const zodiacElement = zodiacElementMap[zodiacSign];
@@ -188,7 +188,7 @@ export const transformItemWithPlanetaryPositions = (;
       ) {
         zodiacModifier = 0.12, // Water and Air have moderate compatibility
       } else {
-        zodiacModifier = 0.05, // Other combinations have lower compatibility
+        zodiacModifier = 0.5, // Other combinations have lower compatibility
       }
     }
 
@@ -196,7 +196,7 @@ export const transformItemWithPlanetaryPositions = (;
     const planetaryModifier = Math.min(0.25, (planetaryBoost - 1.0) * 0.8);
 
     // Add randomized factor to create more variance (±7%)
-    const randomVariance = Math.random() * 0.14 - 0.07;
+    const randomVariance = Math.random() * 0.14 - 0.7;
 
     // Combine all influences for a more varied energy calculation
     const adjustedEnergy =
@@ -220,9 +220,9 @@ export const transformItemWithPlanetaryPositions = (;
       alchemicalProperties: alchemicalResults.alchemicalCounts;
       transformedElementalProperties,
       heat: safeHeat,
-      entropy: safeEntropy,
+  entropy: safeEntropy,
       reactivity: safeReactivity,
-      gregsEnergy: safeGregsEnergy,
+  gregsEnergy: safeGregsEnergy,
       dominantElement,
       dominantAlchemicalProperty,
       planetaryBoost,
@@ -247,9 +247,9 @@ export const transformItemWithPlanetaryPositions = (;
       gregsEnergy: 0.5;
       dominantElement: getDominantElement(item.elementalProperties);
       dominantAlchemicalProperty: 'Essence',
-      planetaryBoost: 1.0;
+  planetaryBoost: 1.0;
       dominantPlanets: [],
-      planetaryDignities: {}
+  planetaryDignities: {}
     };
   }
 };
@@ -292,9 +292,9 @@ export const _transformItemsWithPlanetaryPositions = (;
       gregsEnergy: 0.5;
       dominantElement: getDominantElement(item.elementalProperties);
       dominantAlchemicalProperty: 'Essence' as AlchemicalProperty,
-      planetaryBoost: 1.0;
+  planetaryBoost: 1.0;
       dominantPlanets: [],
-      planetaryDignities: {}
+  planetaryDignities: {}
     }));
   }
 };
@@ -358,7 +358,7 @@ const transformElementalProperties = (;
     );
 
     // Boost the dominant element slightly to preserve ingredient character, but cap the boost
-    transformedProperties[dominantElement] *= Math.min(1.05, 1.1 * planetaryBoost);
+    transformedProperties[dominantElement] *= Math.min(1.5, 1.1 * planetaryBoost);
 
     // Apply zodiac-specific boost if available
     if (zodiacSign) {
@@ -386,23 +386,23 @@ const applyZodiacBoost = (;
   try {
     const zodiacElementMap: Record<ZodiacSign, ElementalCharacter> = {
       aries: 'Fire',
-      taurus: 'Earth',
+  taurus: 'Earth',
       gemini: 'Air',
-      cancer: 'Water',
+  cancer: 'Water',
       leo: 'Fire',
-      virgo: 'Earth',
+  virgo: 'Earth',
       libra: 'Air',
-      scorpio: 'Water',
+  scorpio: 'Water',
       sagittarius: 'Fire',
-      capricorn: 'Earth',
+  capricorn: 'Earth',
       aquarius: 'Air',
-      pisces: 'Water'
+  pisces: 'Water'
     };
 
     const zodiacElement = zodiacElementMap[zodiacSign];
     if (zodiacElement) {
       // Apply a small boost to the corresponding element
-      transformedProperties[zodiacElement] *= 1.05;
+      transformedProperties[zodiacElement] *= 1.5;
     }
   } catch (error) {
     logger.error(`Error applying zodiac boost for ${zodiacSign}:`, error);
@@ -417,7 +417,7 @@ const applyElementalInfluences = (;
   transformedProperties: Record<ElementalCharacter, number>,
   elementalCounts: Record<ElementalCharacter, number>,
   originalProperties: Record<ElementalCharacter, number>,
-  planetaryBoost: number = 1.0;
+  planetaryBoost: number = 1.0
 ): void => {
   try {
     // Calculate influence factors based on elemental counts
@@ -448,7 +448,7 @@ const applyElementalInfluences = (;
     // Ensure all values remain positive
     Object.keys(transformedProperties).forEach(key => {
       transformedProperties[key as ElementalCharacter] = Math.max(
-        0.05;
+        0.5;
         transformedProperties[key as ElementalCharacter],
       ),
     });

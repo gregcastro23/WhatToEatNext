@@ -329,7 +329,7 @@ function getTimeFactors(): TimeFactors {
 export function getDetailedRecipeRecommendations(
   recipes: Recipe[],
   astrologicalState: AstrologicalState,
-  limit = 3;
+  limit = 3
 ): RecommendationExplanation[] {
   const timeFactors = getTimeFactors();
 

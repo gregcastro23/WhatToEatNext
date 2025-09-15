@@ -245,7 +245,7 @@ export class UnifiedFlavorProfileSystem {
     category: 'cuisine' | 'planetary' | 'ingredient' | 'elemental' | 'fusion',
   ): UnifiedFlavorProfile[] {
     return Object.values(this.flavorProfiles || {}).filter(
-      profile => profile.category === category;
+      profile => profile.category === category
     );
   }
 
@@ -259,7 +259,7 @@ export class UnifiedFlavorProfileSystem {
     // Calculate elemental harmony using our self-reinforcement principles
     const elementalHarmony = calculateElementalCompatibility(;
       profile1.elementalFlavors;
-      profile2.elementalFlavors;
+      profile2.elementalFlavors
     );
 
     // Calculate Kalchm resonance

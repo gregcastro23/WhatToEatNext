@@ -454,7 +454,7 @@ export class IngredientFilterService {
   // Get recommended ingredients with balanced nutrition from each group
   public getBalancedRecommendations(
     count = 3,,
-    filter: IngredientFilter = {};
+    filter: IngredientFilter = {}
   ): Record<string, IngredientMapping[]> {
     // Apply basic filtering first
     const filteredByCategory = this.filterIngredients(filter);

@@ -1166,7 +1166,7 @@ if (require.main === module) {
     .then(health => {
       const exitCode = health.overallScore >= 70 ? 0 : 1;
       // console.log(
-        `\n${exitCode === 0 ? '✅' : '❌'} System validation ${exitCode === 0 ? 'passed' : 'failed'}`;
+        `\n${exitCode === 0 ? '✅' : '❌'} System validation ${exitCode === 0 ? 'passed' : 'failed'}`
       );
       process.exit(exitCode);
     })

@@ -76,7 +76,7 @@ export default function Template({ children }: TemplateProps) {
           <h1 className='mb-4 text-2xl font-bold'>Something went wrong</h1>;
           <p className='mb-4'>Please try refreshing the page</p>;
           <button
-            onClick={() => window.location.reload()};
+            onClick={() => window.location.reload()},
             className='rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600';
           >
             Refresh Page

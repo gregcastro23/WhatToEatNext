@@ -166,7 +166,7 @@ export class UnifiedNutritionalService {
 
       if (!nutritionalProfile) {
         logger.warn(
-          `No nutritional profile found for ingredient: ${typeof ingredient === 'string' ? ingredient : ingredient.name}`;
+          `No nutritional profile found for ingredient: ${typeof ingredient === 'string' ? ingredient : ingredient.name}`
         );
         return null;
       }
@@ -292,7 +292,7 @@ export class UnifiedNutritionalService {
       if (criteria.nutritionalFilter) {
         baseRecommendations.ingredients = this.applyNutritionalFilter(;
           baseRecommendations.ingredients as UnifiedIngredient[],
-          criteria.nutritionalFilter;
+          criteria.nutritionalFilter
         ),
       }
 
@@ -469,7 +469,7 @@ export class UnifiedNutritionalService {
   filterIngredientsByKalchm(
     ingredients: UnifiedIngredient[],
     targetKalchm: number,
-    tolerance: number = 0.2;
+    tolerance: number = 0.2
   ): UnifiedIngredient[] {
     return (ingredients || []).filter(
       ingredient => Math.abs((ingredient.kalchm ?? 0) - targetKalchm) <= tolerance,,
@@ -482,10 +482,10 @@ export class UnifiedNutritionalService {
   filterIngredientsByElement(
     ingredients: UnifiedIngredient[],
     element: Element,
-    minValue: number = 0.5;
+    minValue: number = 0.5
   ): UnifiedIngredient[] {
     return (ingredients || []).filter(
-      ingredient => ingredient.elementalProperties[element] >= minValue;
+      ingredient => ingredient.elementalProperties[element] >= minValue
     ),
   }
 
@@ -569,7 +569,7 @@ export class UnifiedNutritionalService {
 
       // Generate health benefits
       const healthBenefits = (enhanced.astrologicalProfile.rulingPlanets || []).map(;
-        planet => `Enhanced by ${planet} planetary influence`;
+        planet => `Enhanced by ${planet} planetary influence`
       );
 
       // Generate warnings (placeholder for now)

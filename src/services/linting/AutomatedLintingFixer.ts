@@ -137,7 +137,7 @@ export class AutomatedLintingFixer {
    */
   async applyAutomatedFixes(
     categorizedErrors: CategorizedErrors,
-    options: Partial<BatchProcessingOptions> = {};
+    options: Partial<BatchProcessingOptions> = {}
   ): Promise<AutomatedFixResult> {
     const startTime = new Date();
     log.info('🔧 Starting automated linting fixes with safety protocols...');
@@ -305,7 +305,7 @@ export class AutomatedLintingFixer {
    */
   async handleUnusedVariables(
     issues: LintingIssue[],
-    options: Partial<UnusedVariableFixOptions> = {};
+    options: Partial<UnusedVariableFixOptions> = {}
   ): Promise<AutomatedFixResult> {
     log.info('🧹 Handling unused variables...');
 
@@ -402,7 +402,7 @@ export class AutomatedLintingFixer {
    */
   async optimizeImports(
     issues: LintingIssue[],
-    options: Partial<ImportOptimizationOptions> = {};
+    options: Partial<ImportOptimizationOptions> = {}
   ): Promise<AutomatedFixResult> {
     log.info('📦 Optimizing import statements...');
 
@@ -494,7 +494,7 @@ export class AutomatedLintingFixer {
    */
   async improveTypeAnnotations(
     issues: LintingIssue[],
-    options: Partial<TypeAnnotationOptions> = {};
+    options: Partial<TypeAnnotationOptions> = {}
   ): Promise<AutomatedFixResult> {
     log.info('🏷️ Improving type annotations...');
 

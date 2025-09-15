@@ -2,7 +2,7 @@
 import { CulinaryAstrologer } from '@/calculations/culinaryAstrology';
 import { AstrologicalState } from '@/types/alchemy';
 
-// Mock the getRecipeRecommendations method
+// Mock the getRecipeRecommendations method;
 jest.mock('@/calculations/culinaryAstrology', () => {
   const original = jest.requireActual('@/calculations/culinaryAstrology');
   return {
@@ -10,36 +10,27 @@ jest.mock('@/calculations/culinaryAstrology', () => {
     CulinaryAstrologer: class MockCulinaryAstrologer {
       getRecipeRecommendations(): any {
         return [
-          {
-            name: 'Grilled Salmon',
-            alignmentScore: 0.85;
-            elementDistribution: { Fir, e: 0.5, Water: 0.3, Earth: 0.1, Air: 0.1 },
+          { name: 'Grilled Salmon', alignmentScore: 0.85;
+            elementDistribution: { Fir, e: 0.5, Water: 0.3, Earth: 0.1, Air: 0.1  },
             planetaryActivators: ['Sun', 'Mars']
           },
-          {
-            name: 'Roasted Vegetables',
-            alignmentScore: 0.78;
-            elementDistribution: { Fir, e: 0.6, Earth: 0.3, Air: 0.1, Water: 0 },
+          { name: 'Roasted Vegetables', alignmentScore: 0.78;
+            elementDistribution: { Fir, e: 0.6, Earth: 0.3, Air: 0.1, Water: 0  },
             planetaryActivators: ['Sun', 'Saturn']
           }
         ];
       }
 
       getGuidance(): any {
-        return {
-          dominantElement: 'Fire',
-          technique: { name: 'Roasting',
-            rationale: 'Aligns with Fire dominance',
+        return { dominantElement: 'Fire', technique: { name: 'Roasting', rationale: 'Aligns with Fire dominance',
             optimalTiming: 'Best during full moon'
-          },
-          ingredientFocus: { element: 'Fire',
-            examples: ['Beef', 'Lamb', 'Chicken'],
+            },
+          ingredientFocus: { element: 'Fire', examples: ['Beef', 'Lamb', 'Chicken'],
             pairingTip: 'Combine with Air-dominant preparations'
-          },
-          cuisineRecommendation: { style: 'Mediterranean',
-            modification: 'Use more spices',
+           },
+          cuisineRecommendation: { style: 'Mediterranean', modification: 'Use more spices',
             astrologicalBoost: 0.75
-          }
+           }
         };
       }
     }
@@ -54,9 +45,8 @@ describe('CulinaryAstrologer', () => {
   });
 
   it('should return recipe recommendations based on astrological state', () => {
-    const astroState: AstrologicalState = { currentZodiac: 'leo',,
-      moonPhase: 'full moon',
-      currentPlanetaryAlignment: { Sun: { sign: 'leo', degree: 15 },
+    const astroState: AstrologicalState = { currentZodiac: 'leo', moonPhase: 'full moon',
+      currentPlanetaryAlignment: { Sun: { sign: 'leo', degree: 15  },
         Moon: { sign: 'cancer', degree: 5 }
       },
       activePlanets: ['sun', 'moon'],

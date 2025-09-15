@@ -87,7 +87,7 @@ export interface UseEnterpriseIntelligenceReturn {
 // ========== HOOK IMPLEMENTATION ==========;
 
 export function useEnterpriseIntelligence(
-  config: UseEnterpriseIntelligenceConfig = {};
+  config: UseEnterpriseIntelligenceConfig = {}
 ): UseEnterpriseIntelligenceReturn {
   // ========== STATE ==========;
 
@@ -382,7 +382,7 @@ export function useEnterpriseIntelligence(
     await performAnalysis(
       lastAnalysisParams.recipeData;
       lastAnalysisParams.ingredientData;
-      lastAnalysisParams.astrologicalContext;
+      lastAnalysisParams.astrologicalContext
     );
   }, [lastAnalysisParams, performAnalysis]);
 

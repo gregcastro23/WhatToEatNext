@@ -263,7 +263,7 @@ export const elementalUtils = {
   combineProperties(
     a: ElementalProperties,
     b: ElementalProperties,
-    bWeight = 0.5;
+    bWeight = 0.5
   ): ElementalProperties {
     const combinedProps = {} as ElementalProperties;
     const aWeight = 1 - bWeight;

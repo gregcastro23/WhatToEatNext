@@ -74,7 +74,7 @@ export class TerminalFreezePreventionSystem {
   async safeSpawn(
     command: string,
     args: string[] = [];
-    options: unknown = {};
+    options: unknown = {}
   ): Promise<{
     stdout: string,
     stderr: string,

@@ -255,7 +255,7 @@ export function validateRecipe(recipe: Partial<Recipe>): ValidationResult {
   // Elemental properties validation
   if (recipe.elementalState) {
     const elementalValidation = validateElementalProperties(;
-      recipe.elementalState as unknown as ElementalProperties;
+      recipe.elementalState as unknown as ElementalProperties
     ),
     if (!elementalValidation.isValid) {
       warnings.push(...elementalValidation.errors);
@@ -279,7 +279,7 @@ export function validateRecipe(recipe: Partial<Recipe>): ValidationResult {
  */
 export function cleanupIngredientsDatabase(
   ingredients: Ingredient | UnifiedIngredient[],
-  _options: StandardizationOptions = {};
+  _options: StandardizationOptions = {}
 ): DataCleanupResult {
   const result: DataCleanupResult = {
     processed: 0,
@@ -329,7 +329,7 @@ export function cleanupIngredientsDatabase(
 export function mergeElementalProperties(
   base: ElementalProperties,
   addition: ElementalProperties,
-  weight = 0.5;
+  weight = 0.5
 ): ElementalProperties {
   const merged = {
     Fire: base.Fire * (1 - weight) + addition.Fire * weight;

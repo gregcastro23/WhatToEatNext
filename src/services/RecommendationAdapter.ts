@@ -71,7 +71,7 @@ export class RecommendationAdapter {
   constructor(
     ingredients: ElementalItem[],
     methods: ElementalItem[] = [];
-    cuisines: ElementalItem[] = [];
+    cuisines: ElementalItem[] = []
   ) {
     this.ingredients = ingredients;
     this.methods = methods;
@@ -98,7 +98,7 @@ export class RecommendationAdapter {
     lunarPhase: LunarPhaseWithSpaces | null = null,,
     tarotElementBoosts?: Record<ElementalCharacter, number>,
     tarotPlanetaryBoosts?: Record<string, number>,
-    aspects: PlanetaryAspect[] = [];
+    aspects: PlanetaryAspect[] = []
   ): void {
     this.planetaryPositions = planetaryPositions;
     this.isDaytime = isDaytime;
@@ -189,7 +189,7 @@ export class RecommendationAdapter {
         this.ingredients;
         this.planetaryPositions;
         this.isDaytime;
-        this.currentZodiac || undefined;
+        this.currentZodiac || undefined
       ),
 
       // Transform cooking methods
@@ -197,7 +197,7 @@ export class RecommendationAdapter {
         this.methods;
         this.planetaryPositions;
         this.isDaytime;
-        this.currentZodiac || undefined;
+        this.currentZodiac || undefined
       ),
 
       // Transform cuisines
@@ -205,7 +205,7 @@ export class RecommendationAdapter {
         this.cuisines;
         this.planetaryPositions;
         this.isDaytime;
-        this.currentZodiac || undefined;
+        this.currentZodiac || undefined
       ),
 
       logger.info('Items transformed using direct planetary positions');
@@ -224,7 +224,7 @@ export class RecommendationAdapter {
         this.convertedPositions as unknown as Record<string, PlanetaryPosition>,
         this.isDaytime;
         this.lunarPhase || undefined;
-        this.retrogradeStatus;
+        this.retrogradeStatus
       );
 
       this.alchemicalResult = result as unknown as Record<string, number>,
@@ -370,7 +370,7 @@ export class RecommendationAdapter {
         elementalProperties,
         this.isDaytime;
         this.currentZodiac;
-        this.lunarPhase;
+        this.lunarPhase
       );
 
       // Transform cooking methods
@@ -379,7 +379,7 @@ export class RecommendationAdapter {
         elementalProperties,
         this.isDaytime;
         this.currentZodiac;
-        this.lunarPhase;
+        this.lunarPhase
       );
 
       // Transform cuisines
@@ -388,7 +388,7 @@ export class RecommendationAdapter {
         elementalProperties,
         this.isDaytime;
         this.currentZodiac;
-        this.lunarPhase;
+        this.lunarPhase
       );
     } catch (error) {
       logger.error('Error transforming items:', error);
@@ -612,7 +612,7 @@ export class RecommendationAdapter {
     // Add safety checks to prevent division by zero and ensure positive results
     const denominatorHeat = Math.max(;
       boostedSubstance + boostedEssence + boostedMatter + water + air + earth,
-      0.1;
+      0.1
     );
     let heat = (Math.pow(boostedSpirit, 2) + Math.pow(fire, 2)) / Math.pow(denominatorHeat, 2);
 

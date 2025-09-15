@@ -73,7 +73,7 @@ export class RecipeEngine {
         ...other;
         harmonyScore: this.calculateHarmonyBetween(
           recipe.elementalProperties;
-          other.elementalProperties;
+          other.elementalProperties
         )
       }))
       .sort((a, b) => b.harmonyScore - a.harmonyScore);

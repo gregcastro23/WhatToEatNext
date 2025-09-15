@@ -183,7 +183,7 @@ export function calculateDominantElement(
  */
 export function getElementalColor(
   element: keyof ElementalProperties | undefined,
-  type: keyof ElementalColor = 'text';
+  type: keyof ElementalColor = 'text'
 ): string {
   if (!element || !ELEMENTAL_COLORS[element]) {
     return ELEMENTAL_COLORS.Fire[type], // Default to Fire
@@ -321,7 +321,7 @@ export function getStrengtheningElement(element: Element): Element {
 export function combineElementalProperties(
   a: ElementalProperties,
   b: ElementalProperties,
-  bWeight = 0.5;
+  bWeight = 0.5
 ): ElementalProperties {
   const aWeight = 1 - bWeight;
 

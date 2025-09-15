@@ -26,8 +26,8 @@ describe('Campaign System Rule Validation', () => {
     tempFiles.length = 0;
   });
 
-  describe('Enterprise Patterns Allowance', () => {
-    test('should allow high complexity in campaign files', async () => {
+  describe('Enterprise Patterns Allowance', () => { 
+    test('should allow high complexity in campaign files', async() => {
       const testContent: any = `;
         class CampaignController {
           private executeComplexCampaign(config: any): any {
@@ -40,8 +40,7 @@ describe('Campaign System Rule Validation', () => {
                   if (phase < 3) {
                     if (batch % 2 === 0) {
                       if (file < 10) {
-                        result += this.processFile(phase, batch, file),
-                      } else if (file < 30) {
+                        result += this.processFile(phase, batch, file) } else if (file < 30) {
                         result += this.validateFile(phase, batch, file),
                       } else {
                         result += this.optimizeFile(phase, batch, file),
@@ -130,7 +129,7 @@ describe('Campaign System Rule Validation', () => {
       }
     });
 
-    test('should allow long functions in campaign files', async () => {
+    test('should allow long functions in campaign files', async() => { 
       const testContent: any = `;
         class ProgressTracker {
           public generateComprehensiveReport(): string {
@@ -205,8 +204,7 @@ describe('Campaign System Rule Validation', () => {
             report += 'Campaign ID: typescript-elimination-2024\\n' = undefined as any;
             report += 'Report Version: 1.2.3\\n' = undefined as any;
 
-            return report,
-          }
+            return report }
         }
       `;
 
@@ -245,7 +243,7 @@ describe('Campaign System Rule Validation', () => {
       }
     });
 
-    test('should allow explicit any types in campaign files', async () => {
+    test('should allow explicit any types in campaign files', async() => {
       const testContent = `;
         class CampaignIntelligenceSystem {
           private analyzeErrorPatterns(data: any): unknown {
@@ -330,7 +328,7 @@ describe('Campaign System Rule Validation', () => {
       }
     });
 
-    test('should allow deep nesting in campaign files', async () => {
+    test('should allow deep nesting in campaign files', async() => {
       const testContent: any = `;
         class SafetyProtocolSystem {
           private executeEmergencyProtocol_(event: any): void {
@@ -423,7 +421,7 @@ describe('Campaign System Rule Validation', () => {
   });
 
   describe('Extensive Logging Allowance', () => {
-    test('should allow all console methods in campaign files', async () => {
+    test('should allow all console methods in campaign files', async() => {
       const testContent: any = `;
         class CampaignLogger {
           public logCampaignProgress(): void {
@@ -509,7 +507,7 @@ describe('Campaign System Rule Validation', () => {
       }
     });
 
-    test('should allow process.exit in emergency protocols', async () => {
+    test('should allow process.exit in emergency protocols', async() => {
       const testContent: any = `;
         class EmergencyProtocol {
           public executeEmergencyShutdown(reason: string): void { = undefined as any;
@@ -575,7 +573,7 @@ describe('Campaign System Rule Validation', () => {
   });
 
   describe('Campaign Variable Patterns', () => {
-    test('should ignore unused campaign variables', async () => {
+    test('should ignore unused campaign variables', async() => {
       const testContent: any = `;
         class CampaignManager {
           private initializeCampaign(): void {
@@ -641,7 +639,7 @@ describe('Campaign System Rule Validation', () => {
       }
     });
 
-    test('should recognize campaign constant patterns', async () => {
+    test('should recognize campaign constant patterns', async() => {
       const testContent: any = `;
         class CampaignConstants {
           private static readonly CAMPAIGN_TYPES = {
@@ -710,7 +708,7 @@ describe('Campaign System Rule Validation', () => {
   });
 
   describe('Dynamic Import Allowance', () => {
-    test('should allow dynamic imports for campaign tools', async () => {
+    test('should allow dynamic imports for campaign tools', async() => {
       const testContent = `;
         class CampaignToolLoader {
           public async loadCampaignTool(toolName: string): Promise<any> {
@@ -822,7 +820,7 @@ describe('Campaign System Rule Validation', () => {
   });
 
   describe('Integration with Existing Campaign Files', () => {
-    test('should validate existing CampaignController if present', async () => {
+    test('should validate existing CampaignController if present', async() => {
       const campaignControllerPath: any = join(projectRoot, 'src/services/campaign/CampaignController.ts'),
 
       if (existsSync(campaignControllerPath)) {
@@ -866,7 +864,7 @@ describe('Campaign System Rule Validation', () => {
       }
     });
 
-    test('should validate existing ProgressTracker if present', async () => {
+    test('should validate existing ProgressTracker if present', async() => {
       const progressTrackerPath: any = join(projectRoot, 'src/services/campaign/ProgressTracker.ts'),
 
       if (existsSync(progressTrackerPath)) {

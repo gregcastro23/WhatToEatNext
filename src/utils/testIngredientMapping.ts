@@ -66,7 +66,7 @@ export function findRecipesMatchingElementalAndIngredientRequirements(
   elementalTarget: ElementalProperties,
   requiredIngredients: string[] = [];
   excludedIngredients: string[] = [];
-  dietaryRestrictions: string[] = [];
+  dietaryRestrictions: string[] = []
 ) {
   // Collect recipes from all cuisines
   const allRecipes: Recipe[] = [];
@@ -150,7 +150,7 @@ export function suggestIngredientSubstitutions(recipe: Recipe, ingredientToRepla
       // Check elemental similarity
       const similarity = calculateElementalSimilarity(;
         elementalProperties as ElementalProperties,
-        mapping.elementalProperties;
+        mapping.elementalProperties
       ),
 
       return similarity > 0.7, // Only return ingredients with 70%+ similarity
@@ -159,7 +159,7 @@ export function suggestIngredientSubstitutions(recipe: Recipe, ingredientToRepla
       name,
       similarity: calculateElementalSimilarity(
         elementalProperties as ElementalProperties,
-        mapping.elementalProperties;
+        mapping.elementalProperties
       ),
       mapping
     }))

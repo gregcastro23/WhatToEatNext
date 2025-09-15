@@ -274,7 +274,7 @@ export class UnifiedFlavorEngine {
     // 1. Elemental Harmony (Self-Reinforcement Compliant) - Phase 8 Optimized
     const elemental = this.calculateElementalHarmonyOptimized(;
       _profile1.elementalFlavors;
-      _profile2.elementalFlavors;
+      _profile2.elementalFlavors
     );
 
     // 2. Kalchm Resonance
@@ -283,7 +283,7 @@ export class UnifiedFlavorEngine {
     // 3. Monica Optimization
     const monica = this.calculateMonicaOptimization(;
       _profile1.monicaOptimization;
-      _profile2.monicaOptimization;
+      _profile2.monicaOptimization
     );
 
     // 4. Seasonal Alignment
@@ -293,7 +293,7 @@ export class UnifiedFlavorEngine {
     const cultural = this.calculateCulturalCompatibility(;
       _profile1,
       _profile2,
-      _context?.culturalPreference;
+      _context?.culturalPreference
     );
 
     // 6. Nutritional Synergy
@@ -303,7 +303,7 @@ export class UnifiedFlavorEngine {
     const preparation = this.calculatePreparationCompatibility(;
       _profile1,
       _profile2,
-      _context?.preparationMethod;
+      _context?.preparationMethod
     );
 
     // 8. Base Flavor Harmony
@@ -333,7 +333,7 @@ export class UnifiedFlavorEngine {
     const breakdown = {
       elementalDetails: this.getElementalBreakdown(
         _profile1.elementalFlavors;
-        _profile2.elementalFlavors;
+        _profile2.elementalFlavors
       ),
       flavorHarmony: this.getFlavorHarmonyBreakdown(_profile1.baseNotes, _profile2.baseNotes),
       seasonalAlignment: this.getSeasonalBreakdown(_profile1, _profile2),
@@ -783,14 +783,14 @@ export class UnifiedFlavorEngine {
     if (criteria.intensityRange) {
       const intensityRange = criteria.intensityRange;
       results = (results || []).filter(;
-        p => p.intensity >= intensityRange.min && p.intensity <= intensityRange.max;
+        p => p.intensity >= intensityRange.min && p.intensity <= intensityRange.max
       ),
     }
 
     if (criteria.complexityRange) {
       const complexityRange = criteria.complexityRange;
       results = (results || []).filter(;
-        p => p.complexity >= complexityRange.min && p.complexity <= complexityRange.max;
+        p => p.complexity >= complexityRange.min && p.complexity <= complexityRange.max
       ),
     }
 
@@ -885,7 +885,7 @@ export class UnifiedFlavorEngine {
     if (this.compatibilityCache.size > maxCacheSize) {
       const keysToDelete = Array.from(this.compatibilityCache.keys()).slice(;
         0,
-        this.compatibilityCache.size - maxCacheSize;
+        this.compatibilityCache.size - maxCacheSize
       ),
       keysToDelete.forEach(key => this.compatibilityCache.delete(key));
     }
@@ -894,7 +894,7 @@ export class UnifiedFlavorEngine {
     if (this.searchCache.size > maxSearchCacheSize) {
       const keysToDelete = Array.from(this.searchCache.keys()).slice(;
         0,
-        this.searchCache.size - maxSearchCacheSize;
+        this.searchCache.size - maxSearchCacheSize
       ),
       keysToDelete.forEach(key => this.searchCache.delete(key));
     }

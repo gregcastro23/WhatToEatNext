@@ -184,7 +184,7 @@ export function getFlavorProfileForIngredient(ingredientName: string): LegacyFla
  */
 export function findCompatibleProfiles(
   targetProfile,
-  minCompatibility = 0.7;
+  minCompatibility = 0.7
 ): Array<{ profile: unknown, compatibility: number }> {
   try {
     const unifiedTarget = convertLegacyToUnified(targetProfile, 'target-legacy');

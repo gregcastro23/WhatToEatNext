@@ -79,7 +79,7 @@ export class LegacyRecipeAdapter {
    */
   public async searchRecipes(
     criteria: RecipeSearchCriteria,
-    options: RecipeRecommendationOptions = {},;
+    options: RecipeRecommendationOptions = {},
   ): Promise<Recipe[]> {
     try {
       // ✅ Pattern MM-1: Safe type conversion for search criteria
@@ -92,10 +92,10 @@ export class LegacyRecipeAdapter {
       // ✅ Pattern MM-1: Safe argument type conversion for string parameter
       const criteriaData = criteria as unknown as any;
       const queryValue = criteriaData.query;
-      if (queryValue && typeof queryValue === 'string') {;
+      if (queryValue && typeof queryValue === 'string') {
         const recipes = await LocalRecipeService.searchRecipes(queryValue);
         return recipes as unknown as Recipe[];
-      } else if (criteria && typeof criteria === 'object') {;
+      } else if (criteria && typeof criteria === 'object') {
         // Convert criteria object to search string
         const searchString = JSON.stringify(criteria).toLowerCase();
         const recipes = await LocalRecipeService.searchRecipes(searchString);
@@ -243,7 +243,7 @@ export class LegacyRecipeAdapter {
       elementalFocus?: Element;
       maxResults?: number;
     },
-    limit: number = 10,;
+    limit: number = 10,
   ): Promise<ScoredRecipe[]> {
     try {
       // Add limit to criteria if needed
@@ -304,7 +304,7 @@ export class LegacyRecipeAdapter {
       const defaultProperties = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
 
       // Basic calculation based on recipe properties if available
-      if (recipe.elementalState && typeof recipe.elementalState === 'object') {;
+      if (recipe.elementalState && typeof recipe.elementalState === 'object') {
         // Ensure it has all required properties
         const state = recipe.elementalState as any;
         if (

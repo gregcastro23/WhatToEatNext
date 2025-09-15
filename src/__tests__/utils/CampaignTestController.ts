@@ -241,7 +241,7 @@ export class CampaignTestController {
     await this.testSafeTracker.simulateProgress(
       targetMetrics,
       durationMs,
-      testName || this.activeTestName || 'unknown';
+      testName || this.activeTestName || 'unknown'
     );
   }
 
@@ -271,7 +271,7 @@ export class CampaignTestController {
   createMockSafetyEvent(
     type: SafetyEventType,
     description: string,
-    severity: SafetyEventSeverity = SafetyEventSeverity.INFO;
+    severity: SafetyEventSeverity = SafetyEventSeverity.INFO
   ): SafetyEvent {
     return {
       type,

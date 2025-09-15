@@ -201,7 +201,7 @@ export class CulturalAnalyticsService {
       includeHistoricalContext?: boolean,
       includeFusionPotential?: boolean,
       season?: string,
-    } = {};
+    } = {}
   ): CulturalSynergyScore {
     try {
       const primaryGroup = this.getCulturalGroup(primaryCuisine);
@@ -335,7 +335,7 @@ export class CulturalAnalyticsService {
   static generateFusionRecommendations(
     primaryCuisine: string,
     availableCuisines: string[],
-    maxRecommendations: number = 3;
+    maxRecommendations: number = 3
   ): FusionCuisineRecommendation[] {
     try {
       const fusionRecommendations: FusionCuisineRecommendation[] = [];

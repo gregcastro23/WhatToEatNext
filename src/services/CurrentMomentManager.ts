@@ -288,7 +288,7 @@ class CurrentMomentManager {
       // Generate new positions constant
       const newPositions = this.formatPositionsForSystemDefaults(;
         momentData.planetaryPositions;
-        momentData.date;
+        momentData.date
       ),
 
       // Replace the DEFAULT_PLANETARY_POSITIONS constant
@@ -319,7 +319,7 @@ class CurrentMomentManager {
       // Generate new base positions
       const newPositions = this.formatPositionsForStreamlined(;
         momentData.planetaryPositions;
-        momentData.date;
+        momentData.date
       ),
 
       // Replace the basePositions object
@@ -347,7 +347,7 @@ class CurrentMomentManager {
       // Generate new reference positions
       const newPositions = this.formatPositionsForAccurateAstronomy(;
         momentData.planetaryPositions;
-        momentData.date;
+        momentData.date
       ),
 
       // Replace the REFERENCE_POSITIONS constant

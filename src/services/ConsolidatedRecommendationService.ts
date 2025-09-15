@@ -74,7 +74,7 @@ export class ConsolidatedRecommendationService implements RecommendationServiceI
 
           const compatibilityScore = this.calculateElementalCompatibility(;
             elementalState as ElementalProperties,
-            recipeData.elementalState as ElementalProperties;
+            recipeData.elementalState as ElementalProperties
           );
 
           return compatibilityScore >= (criteria.minCompatibility || 0.6);
@@ -134,7 +134,7 @@ export class ConsolidatedRecommendationService implements RecommendationServiceI
         if (recipeData.elementalState && elementalState) {
           scores[String(recipeData.id || '')] = this.calculateElementalCompatibility(
             elementalState as ElementalProperties,
-            recipeData.elementalState as ElementalProperties;
+            recipeData.elementalState as ElementalProperties
           ),
         } else {
           scores[String(recipeData.id || '')] = 0.5, // Default score if we can't calculate compatibility
@@ -219,7 +219,7 @@ export class ConsolidatedRecommendationService implements RecommendationServiceI
 
           const compatibilityScore = this.calculateElementalCompatibility(;
             elementalState,
-            ingredientData.elementalPropertiesState as ElementalProperties;
+            ingredientData.elementalPropertiesState as ElementalProperties
           );
 
           return compatibilityScore >= (criteria.minCompatibility || 0.6);
@@ -274,7 +274,7 @@ export class ConsolidatedRecommendationService implements RecommendationServiceI
         if (ingredientData.elementalPropertiesState && criteria.elementalProperties) {
           scores[ingredientId] = this.calculateElementalCompatibility(
             criteria.elementalProperties;
-            ingredientData.elementalPropertiesState as ElementalProperties;
+            ingredientData.elementalPropertiesState as ElementalProperties
           ),
         } else {
           scores[ingredientId] = 0.5, // Default score if we can't calculate compatibility

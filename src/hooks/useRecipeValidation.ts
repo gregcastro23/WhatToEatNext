@@ -62,7 +62,7 @@ export function useRecipeValidation() {
         ing =>;
           ing.category === 'spice' ||;
           ing.category === 'culinary_herb' ||;
-          ing.category === 'seasoning';
+          ing.category === 'seasoning'
       ),
       hasLiquid: ingredients.some(
         ing =>;

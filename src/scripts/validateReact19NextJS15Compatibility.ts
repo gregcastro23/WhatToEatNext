@@ -100,7 +100,7 @@ export default function ModernComponent() {
       hasReactInScopeError
         ? 'ESLint still requires React import for JSX'
         : 'Modern JSX transform working correctly',
-      hasReactInScopeError ? result1.errors : undefined;
+      hasReactInScopeError ? result1.errors : undefined
     );
 
     // Test 2: JSX with fragments
@@ -127,7 +127,7 @@ export function FragmentComponent() {
       hasFragmentError
         ? 'ESLint requires React import for fragments'
         : 'JSX fragments working correctly',
-      hasFragmentError ? result2.errors : undefined;
+      hasFragmentError ? result2.errors : undefined
     );
   }
 
@@ -166,7 +166,7 @@ export function generateMetadata() {
       hasDefaultExportError
         ? 'ESLint prevents default exports in pages'
         : 'App Router page components working correctly',
-      hasDefaultExportError ? result1.errors : undefined;
+      hasDefaultExportError ? result1.errors : undefined
     );
 
     // Test 2: Server Component with async
@@ -198,7 +198,7 @@ export default ServerComponent;
       hasAsyncError
         ? 'ESLint has issues with async Server Components'
         : 'Async Server Components working correctly',
-      hasAsyncError ? result2.errors : undefined;
+      hasAsyncError ? result2.errors : undefined
     );
 
     // Test 3: Client Component with 'use client'
@@ -233,7 +233,7 @@ export default function ClientComponent() {
       hasClientError
         ? 'ESLint has issues with Client Components'
         : 'Client Components working correctly',
-      hasClientError ? result3.errors : undefined;
+      hasClientError ? result3.errors : undefined
     );
   }
 
@@ -268,7 +268,7 @@ export function SuspenseBoundary() {
       'Suspense and lazy loading',
       !hasSuspenseError,
       hasSuspenseError ? 'ESLint has issues with Suspense' : 'Suspense working correctly',
-      hasSuspenseError ? result1.errors : undefined;
+      hasSuspenseError ? result1.errors : undefined
     );
 
     // Test 2: Transitions and deferred values
@@ -306,7 +306,7 @@ export function TransitionComponent() {
       'Transitions and deferred values',
       !hasTransitionError,
       hasTransitionError ? 'ESLint has issues with transitions' : 'Transitions working correctly',
-      hasTransitionError ? result2.errors : undefined;
+      hasTransitionError ? result2.errors : undefined
     );
   }
 

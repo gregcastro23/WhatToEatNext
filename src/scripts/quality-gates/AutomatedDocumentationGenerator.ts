@@ -154,7 +154,7 @@ class AutomatedDocumentationGenerator {
     const undocumented = occurrences.filter(occ => !occ.isDocumented);
     this.log(
       `📝 ${undocumented.length} require documentation`,
-      undocumented.length > 0 ? 'warn' : 'success';
+      undocumented.length > 0 ? 'warn' : 'success'
     );
 
     return occurrences;

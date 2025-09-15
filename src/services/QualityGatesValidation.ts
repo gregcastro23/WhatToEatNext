@@ -557,7 +557,7 @@ export class QualityGatesValidation extends EventEmitter {
       parallel?: boolean,
       failFast?: boolean,
       skipDependencies?: boolean,
-    } = {};
+    } = {}
   ): Promise<QualityReport> {
     if (this.isExecuting) {
       throw new Error('Quality gates are already being executed'),
@@ -1446,7 +1446,7 @@ export class QualityGatesValidation extends EventEmitter {
     if (result.errors.length > 0) return 'error';
 
     const criticalFailures = result.thresholdResults.filter(;
-      t => !t.passed && t.severity === 'critical';
+      t => !t.passed && t.severity === 'critical'
     );
     if (criticalFailures.length > 0) return 'failed';
 
@@ -1454,7 +1454,7 @@ export class QualityGatesValidation extends EventEmitter {
     if (errorFailures.length > 0) return 'failed';
 
     const warningFailures = result.thresholdResults.filter(;
-      t => !t.passed && t.severity === 'warning';
+      t => !t.passed && t.severity === 'warning'
     );
     if (warningFailures.length > 0) return 'warning';
 

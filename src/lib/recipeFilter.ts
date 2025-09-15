@@ -111,7 +111,7 @@ export const _recipeFilter = {
             ...recipe;
             matchScore: calculateElementalHarmony(
               recipeElementalProps,
-              filters.elementalState as ElementalProperties;
+              filters.elementalState as ElementalProperties
             ).elementalHarmony
           };
         }),

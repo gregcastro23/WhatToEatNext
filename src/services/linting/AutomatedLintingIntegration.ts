@@ -94,7 +94,7 @@ export class AutomatedLintingIntegration {
    * Execute complete automated linting workflow
    */
   async executeAutomatedWorkflow(
-    options: AutomatedLintingWorkflowOptions = {};
+    options: AutomatedLintingWorkflowOptions = {}
   ): Promise<AutomatedLintingWorkflowResult> {
     const workflowStart = Date.now();
     log.info('🚀 Starting automated linting workflow...');
@@ -165,7 +165,7 @@ export class AutomatedLintingIntegration {
    * Execute quick automated fixes for immediate wins
    */
   async executeQuickFixes(
-    options: Partial<AutomatedLintingWorkflowOptions> = {};
+    options: Partial<AutomatedLintingWorkflowOptions> = {}
   ): Promise<AutomatedFixResult> {
     log.info('⚡ Executing quick automated fixes...');
 
@@ -232,7 +232,7 @@ export class AutomatedLintingIntegration {
       skipDomainFiles?: boolean,
       skipTestFiles?: boolean,
       dryRun?: boolean,
-    } = {};
+    } = {}
   ): Promise<AutomatedFixResult> {
     log.info('🧹 Executing unused variable cleanup...');
 
@@ -309,7 +309,7 @@ export class AutomatedLintingIntegration {
       removeUnused?: boolean,
       sortImports?: boolean,
       dryRun?: boolean,
-    } = {};
+    } = {}
   ): Promise<AutomatedFixResult> {
     log.info('📦 Executing import optimization...');
 

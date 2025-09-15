@@ -894,7 +894,7 @@ export class IngredientService implements IngredientServiceInterface {
    */
   public getIngredientsByFlavor(
     flavorProfile: { [key: string]: number },
-    minMatchScore = 0.7;
+    minMatchScore = 0.7
   ): UnifiedIngredient[] {
     try {
       return (this.unifiedIngredientsFlat || []).filter(ingredient => {
@@ -967,7 +967,7 @@ export class IngredientService implements IngredientServiceInterface {
    */
   public getBalancedRecommendations(
     count = 3,,
-    filter: IngredientFilter = {};
+    filter: IngredientFilter = {}
   ): Record<string, UnifiedIngredient[]> {
     try {
       // Get initial filtered results
@@ -1073,7 +1073,7 @@ export class IngredientService implements IngredientServiceInterface {
       cuisineType?: string,
       mealType?: string,
       season?: string,
-    } = {};
+    } = {}
   ) {
     // Collect recipes based on filters
     const allRecipes: Recipe[] = [];
@@ -1138,7 +1138,7 @@ export class IngredientService implements IngredientServiceInterface {
       category?: string,
       similarityThreshold?: number,
       maxResults?: number,
-    } = {};
+    } = {}
   ): Array<{
     ingredient: UnifiedIngredient,
     similarityScore: number,
@@ -1169,7 +1169,7 @@ export class IngredientService implements IngredientServiceInterface {
 
       // Filter out the original ingredient
       potentialAlternatives = (potentialAlternatives || []).filter(;
-        ing => ing.name !== originalIngredient.name;
+        ing => ing.name !== originalIngredient.name
       );
 
       // Calculate similarity scores
@@ -1184,7 +1184,7 @@ export class IngredientService implements IngredientServiceInterface {
 
       // Filter by similarity threshold
       const filteredAlternatives = (alternatives || []).filter(;
-        alt => alt.similarityScore >= similarityThreshold;
+        alt => alt.similarityScore >= similarityThreshold
       );
 
       // Sort by similarity score (descending)
@@ -1557,7 +1557,7 @@ export class IngredientService implements IngredientServiceInterface {
   public getHighKalchmIngredients(threshold = 1.5): UnifiedIngredient[] {
     try {
       return (this.unifiedIngredientsFlat || []).filter(
-        ingredient => ingredient.kalchm !== undefined && ingredient.kalchm >= threshold;
+        ingredient => ingredient.kalchm !== undefined && ingredient.kalchm >= threshold
       ),
     } catch (error) {
       logger.error('Error getting high Kalchm ingredients:', error),
@@ -1570,7 +1570,7 @@ export class IngredientService implements IngredientServiceInterface {
    */
   public findComplementaryIngredients(
     ingredient: UnifiedIngredient | string,
-    maxResults = 5;
+    maxResults = 5
   ): UnifiedIngredient[] {
     try {
       // Get ingredient object if string was provided
@@ -1580,7 +1580,7 @@ export class IngredientService implements IngredientServiceInterface {
       // Return empty array if ingredient not found
       if (!targetIngredient) {
         logger.error(
-          `Ingredient not found: ${typeof ingredient === 'string' ? ingredient : 'unknown'}`;
+          `Ingredient not found: ${typeof ingredient === 'string' ? ingredient : 'unknown'}`
         );
         return [];
       }
@@ -1936,7 +1936,7 @@ export class IngredientService implements IngredientServiceInterface {
    */
   public getRecommendedIngredients(
     elementalState: ElementalProperties,
-    options: IngredientRecommendationOptions = {};
+    options: IngredientRecommendationOptions = {}
   ): UnifiedIngredient[] {
     try {
       const {

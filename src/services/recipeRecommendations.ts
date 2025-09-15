@@ -85,7 +85,7 @@ export class RecipeRecommender {
       if (criteria.celestialInfluence && recipe.elementalProperties) {
         const elementalScore = this.calculateElementalAlignment(;
           recipe,
-          criteria.celestialInfluence;
+          criteria.celestialInfluence
         );
         score += weights.elemental * elementalScore;
         totalWeight += weights.elemental;
@@ -133,7 +133,7 @@ export class RecipeRecommender {
       if (recipe.ingredients && criteria.preferredIngredients) {
         const ingredientScore = this.calculateIngredientPreferenceMatch(;
           recipe.ingredients;
-          criteria.preferredIngredients;
+          criteria.preferredIngredients
         );
 
         score += weights.ingredients * ingredientScore;
@@ -144,7 +144,7 @@ export class RecipeRecommender {
       if (recipe.cookingMethod && criteria.preferredTechniques) {
         const techniqueScore = this.calculateTechniqueMatch(;
           recipe.cookingMethod;
-          criteria.preferredTechniques;
+          criteria.preferredTechniques
         );
 
         score += weights.techniques * techniqueScore;

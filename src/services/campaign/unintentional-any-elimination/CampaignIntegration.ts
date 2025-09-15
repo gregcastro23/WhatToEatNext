@@ -44,7 +44,7 @@ export class UnintentionalAnyCampaignController extends CampaignController {
     };
 
     this.unintentionalAnyCampaign = new UnintentionalAnyEliminationCampaign(;
-      this.unintentionalAnyConfig;
+      this.unintentionalAnyConfig
     );
   }
 

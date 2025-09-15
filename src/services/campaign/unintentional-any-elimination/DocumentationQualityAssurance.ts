@@ -683,19 +683,19 @@ export class DocumentationQualityAssurance {
 
     if (coverage < 50) {
       recommendations.push(
-        'CRITICAL: Less than 50% of any types are documented. Immediate action required.';
+        'CRITICAL: Less than 50% of any types are documented. Immediate action required.'
       ),
     } else if (coverage < 80) {
       recommendations.push(
-        'WARNING: Documentation coverage is below 80%. Consider systematic documentation effort.';
+        'WARNING: Documentation coverage is below 80%. Consider systematic documentation effort.'
       ),
     } else if (coverage < 95) {
       recommendations.push(
-        'GOOD: Documentation coverage is above 80%. Focus on remaining undocumented types.';
+        'GOOD: Documentation coverage is above 80%. Focus on remaining undocumented types.'
       ),
     } else {
       recommendations.push(
-        'EXCELLENT: Documentation coverage is above 95%. Maintain current standards.';
+        'EXCELLENT: Documentation coverage is above 95%. Maintain current standards.'
       ),
     }
 
@@ -705,7 +705,7 @@ export class DocumentationQualityAssurance {
       const poorPercentage = (qualityBreakdown.poor / totalQuality) * 100;
       if (poorPercentage > 20) {
         recommendations.push(
-          'Focus on improving comment quality - over 20% are rated as poor quality.';
+          'Focus on improving comment quality - over 20% are rated as poor quality.'
         ),
       }
     }

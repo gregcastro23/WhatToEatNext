@@ -203,7 +203,7 @@ export class UnusedVariableDetector extends EventEmitter {
    */
   async detectUnusedVariables(
     targetPath: string = '.',,
-    options: Partial<DetectionOptions> = {};
+    options: Partial<DetectionOptions> = {}
   ): Promise<DetectionResult[]> {
     const mergedOptions = { ...this.DEFAULT_OPTIONS, ...options };
 
@@ -393,7 +393,7 @@ export class UnusedVariableDetector extends EventEmitter {
 
       // Filter by confidence threshold
       const filteredVariables = unusedVariables.filter(;
-        v => v.confidence >= options.confidenceThreshold;
+        v => v.confidence >= options.confidenceThreshold
       );
 
       // Generate recommendations

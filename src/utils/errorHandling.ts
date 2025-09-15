@@ -436,7 +436,7 @@ export function createErrorBoundaryForType(errorType: ErrorType) {
                   key: 'message',
                   className: 'text-yellow-700 text-sm mb-3'
                 },
-                enhancedError.userMessage;
+                enhancedError.userMessage
               ),
               React.createElement(
                 'button',

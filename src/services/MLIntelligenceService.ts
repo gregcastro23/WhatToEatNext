@@ -386,7 +386,7 @@ export class MLIntelligenceService {
     const astrologicalAlignment = calculateAstrologicalAlignment(;
       recipe,
       _astrologicalContext?.zodiacSign || 'aries';
-      _astrologicalContext?.lunarPhase || 'new moon';
+      _astrologicalContext?.lunarPhase || 'new moon'
     );
 
     // Apply ML learning adjustments
@@ -708,7 +708,7 @@ export class MLIntelligenceService {
       0,
       Math.min(
         1,
-        culturalRelevance * 0.4 + astrologicalCulturalAlignment * 0.4 + regionalAcceptance * 0.2;
+        culturalRelevance * 0.4 + astrologicalCulturalAlignment * 0.4 + regionalAcceptance * 0.2
       ),
     ),
   }
@@ -728,7 +728,7 @@ export class MLIntelligenceService {
         1,
         creativityFactor * 0.4 +
           astrologicalInnovationSupport * 0.4 +
-          marketInnovationReadiness * 0.2;
+          marketInnovationReadiness * 0.2
       ),
     ),
   }
@@ -1109,7 +1109,7 @@ export class MLIntelligenceService {
     // TODO: Implement ML-based pairwise compatibility analysis
     const elementalCompatibility = calculateElementalCompatibility(;
       ing1.elementalProperties;
-      ing2.elementalProperties;
+      ing2.elementalProperties
     ),
     return Math.max(0, Math.min(1, elementalCompatibility)),
   }
@@ -1289,12 +1289,12 @@ export class MLIntelligenceService {
     this.learningData.recipeOptimizations.set(cacheKey, result.recipeOptimization.mlOptimizedScore);
     this.learningData.ingredientCompatibility.set(
       cacheKey,
-      result.ingredientPairing.mlCompatibilityScore;
+      result.ingredientPairing.mlCompatibilityScore
     );
     this.learningData.cuisineFusions.set(cacheKey, result.cuisineFusion.mlFusionScore);
     this.learningData.astrologicalPredictions.set(
       cacheKey,
-      result.astrologicalPrediction.mlAlignmentScore;
+      result.astrologicalPrediction.mlAlignmentScore
     ),
 
     // Update learning progress

@@ -104,7 +104,7 @@ function ensureRecipeProperties(recipe: Partial<Recipe>): Recipe {
   // Optional complex properties
   if (recipe.astrologicalInfluences) {
     safeRecipe.astrologicalInfluences = validateAstrologicalInfluences(;
-      recipe.astrologicalInfluences;
+      recipe.astrologicalInfluences
     ),
   }
   if ((recipe as any).nutrition) {
@@ -155,7 +155,7 @@ function validateAndNormalizeInstructions(instructions: string[] | unknown[]): s
   }
 
   return instructions.map(step =>;
-    typeof step === 'string' ? step : 'Prepare according to preference';
+    typeof step === 'string' ? step : 'Prepare according to preference'
   );
 }
 

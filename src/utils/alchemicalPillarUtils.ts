@@ -294,7 +294,7 @@ export function applyPillarTransformation(
 export function applyPlanetaryInfluence(
   item: AlchemicalItem,
   planet: string,
-  isDaytime = true;
+  isDaytime = true
 ): AlchemicalItem {
   // Clone the item to avoid modifying the original
   const transformedItem = { ...item };
@@ -429,7 +429,7 @@ export function transformIngredient(
   item: AlchemicalItem,
   planet?: string,
   tarotCard?: string,
-  isDaytime = true;
+  isDaytime = true
 ): AlchemicalItem {
   // Clone the item to avoid modifying the original
   let transformedItem = { ...item };
@@ -632,7 +632,7 @@ export const _getHolisticCookingRecommendations = async (;
   tarotCard?: string,
   isDaytime = true,,
   availableMethods: string[] = [];
-  count = 5;
+  count = 5
 ): Promise<Array<{ method: string, compatibility: number, reason: string }>> => {
   logger.debug('\n--- HOLISTIC COOKING RECOMMENDATIONS ---');
   logger.debug(`Ingredient: ${(item as any).name}`);
@@ -770,7 +770,7 @@ async function getCookingMethods(): Promise<Record<string, number>> {
 export function getRecommendedCookingMethods(
   item: AlchemicalItem,
   availableMethods: string[] | CookingMethod[],
-  count = 5;
+  count = 5
 ): Array<{ method: string, compatibility: number }> {
   try {
     // Convert availableMethods to string array for processing
@@ -876,7 +876,7 @@ export function getEnhancedCookingRecommendations(
     equipmentComplexity?: number, // 0-1 scale of acceptable complexity
     selectedPlanet?: string,
     availableTools?: string[],
-  } = {};
+  } = {}
 ): Array<{
   method: string,
   compatibility: number,

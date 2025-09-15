@@ -317,7 +317,7 @@ async function validateCompatibilityScores(): Promise<{
 
         const selfCompatibility = calculateElementalPropertiesCompatibility(;
           ingredient.elementalProperties;
-          ingredient.elementalProperties;
+          ingredient.elementalProperties
         ),
 
         // Self-reinforcement: same ingredient should have high compatibility (≥0.9)
@@ -357,7 +357,7 @@ async function validateCompatibilityScores(): Promise<{
         try {
           const crossCompatibility = calculateElementalPropertiesCompatibility(;
             ingredient1.elementalProperties;
-            ingredient2.elementalProperties;
+            ingredient2.elementalProperties
           ),
 
           // Cross-compatibility should be at least 0.7 (no opposing elements)
@@ -732,7 +732,7 @@ async function testCompatibilityCalculations(): Promise<IngredientTestResult> {
         totalCalculations++;
         const selfCompatibility = calculateElementalPropertiesCompatibility(;
           ingredient.elementalProperties;
-          ingredient.elementalProperties;
+          ingredient.elementalProperties
         ),
 
         // Self-compatibility should be high (≥0.9)

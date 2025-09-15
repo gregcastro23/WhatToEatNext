@@ -173,7 +173,7 @@ export class ChakraService {
 
     // General recommendation based on overall chakra balance
     const underactiveChakras = chakraEnergyStates.filter(;
-      state => state.balanceState === 'underactive';
+      state => state.balanceState === 'underactive'
     );
     if (underactiveChakras.length > 3) {
       suggestions.push('Consider a rainbow diet with foods of all colors to balance all chakras');

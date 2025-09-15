@@ -487,7 +487,7 @@ export class AdvancedAnalyticsIntelligenceService {
     // Calculate base dimensions
     const elementalDimension = calculateElementalCompatibility(;
       recipe.elementalProperties;
-      astrologicalContext.elementalProperties;
+      astrologicalContext.elementalProperties
     );
 
     const recipeData = recipe as unknown;
@@ -498,7 +498,7 @@ export class AdvancedAnalyticsIntelligenceService {
     const astrologicalDimension = calculateAstrologicalAlignment(;
       recipe,
       astrologicalContext.zodiacSign;
-      astrologicalContext.lunarPhase.phase;
+      astrologicalContext.lunarPhase.phase
     );
 
     // Calculate advanced dimensions
@@ -1120,7 +1120,7 @@ export class AdvancedAnalyticsIntelligenceService {
     // Simplified ingredient interaction calculation
     const elementalCompatibility = calculateElementalCompatibility(;
       ing1.elementalProperties;
-      ing2.elementalProperties;
+      ing2.elementalProperties
     ),
 
     return Math.max(0, Math.min(1, elementalCompatibility)),
@@ -1432,7 +1432,7 @@ export class AdvancedAnalyticsIntelligenceService {
     // Update pattern recognition accuracy
     this.metrics.patternRecognitionAccuracy = Math.min(;
       1,
-      this.metrics.patternRecognitionAccuracy + 0.001;
+      this.metrics.patternRecognitionAccuracy + 0.001
     ),
   }
 

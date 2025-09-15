@@ -541,7 +541,7 @@ export async function getIngredientRecommendations(
       // Calculate modality score (15% of total)
       const modalityScore = calculateModalityScore(;
         ingredient.qualities || [],
-        options.modalityPreference;
+        options.modalityPreference
       );
 
       // Calculate seasonal score (15% of total)
@@ -953,7 +953,7 @@ export function calculateElementalInfluences(
  */
 export function getChakraBasedRecommendations(
   chakraEnergies: ChakraEnergies,
-  limit = 3;
+  limit = 3
 ): GroupedIngredientRecommendations {
   // Find the dominant chakras (highest energy levels)
   const chakraEntries = Object.entries(chakraEnergies);
@@ -1185,7 +1185,7 @@ function isMarsAssociatedIngredient(ingredientName: string): boolean {
 function calculateVenusInfluence(
   ingredient: Ingredient,
   zodiacSign?: string,
-  isVenusRetrograde = false;
+  isVenusRetrograde = false
 ): number {
   let score = 0;
 
@@ -1791,7 +1791,7 @@ function enhanceVenusIngredientBatch(
 function calculateMarsInfluence(
   ingredient: Ingredient,
   zodiacSign?: string,
-  isMarsRetrograde = false;
+  isMarsRetrograde = false
 ): number {
   let score = 0;
 
@@ -2068,7 +2068,7 @@ function isMercuryAssociatedIngredient(ingredientName: string): boolean {
 function calculateMercuryInfluence(
   ingredient: Ingredient,
   zodiacSign?: string,
-  isMercuryRetrograde = false;
+  isMercuryRetrograde = false
 ): number {
   let score = 0;
 
@@ -2788,7 +2788,7 @@ function calculatePlanetaryHourInfluence(
   if (aspects && aspects.length > 0) {
     // Find aspects involving the planetary hour ruler
     const hourAspects = (aspects || []).filter(;
-      a => a.planet1 === planetaryHour || a.planet2 === planetaryHour;
+      a => a.planet1 === planetaryHour || a.planet2 === planetaryHour
     );
 
     for (const aspect of hourAspects) {
@@ -2849,7 +2849,7 @@ function isDaytime(date: Date = new Date()): boolean {
  */
 export async function recommendIngredients(
   astroState: AstrologicalState,
-  options: RecommendationOptions = {};
+  options: RecommendationOptions = {}
 ): Promise<IngredientRecommendation[]> {
   // Get all available ingredients
   const allIngredients = getAllIngredients();
@@ -3152,7 +3152,7 @@ function generateRecommendationsForIngredient(
         aspect.planet1 === planetaryDay ||;
         aspect.planet2 === planetaryDay ||;
         aspect.planet1 === planetaryHour ||;
-        aspect.planet2 === planetaryHour;
+        aspect.planet2 === planetaryHour
     );
 
     for (const aspect of relevantAspects) {

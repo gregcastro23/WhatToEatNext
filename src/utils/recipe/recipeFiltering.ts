@@ -273,7 +273,7 @@ export class RecipeFilter {
         if (options.elementalState) {
           score *= this.calculateElementalScore(
             recipeData.elementalState as ElementalProperties;
-            options.elementalState;
+            options.elementalState
           ),
         }
 

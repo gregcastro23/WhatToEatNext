@@ -204,7 +204,7 @@ describe('Campaign Intelligence System', () => {
       expect(intelligence.campaignMetrics.technicalDebtReduction).toBeGreaterThanOrEqual(0);
       expect(intelligence.campaignMetrics.enterpriseReadiness).toBeGreaterThanOrEqual(0);
       expect(['basic', 'intermediate', 'advanced', 'enterprise_level']).toContain(
-        intelligence.campaignMetrics.intelligenceDepth;
+        intelligence.campaignMetrics.intelligenceDepth
       );
 
       // Verify system integration metrics

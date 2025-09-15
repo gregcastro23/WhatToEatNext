@@ -96,14 +96,14 @@ export default function CookingMethodsDemoPage() {
       {methods.length > 0 ? (
         <Box sx={{ mb: 6 }}>;
           <CookingMethodsSection
-            methods={methods};
-            onSelectMethod={handleSelectMethod};
+            methods={methods},
+            onSelectMethod={handleSelectMethod},
             selectedMethodId={
               selectedMethod && typeof selectedMethod === 'object' && 'id' in selectedMethod;
                 ? (selectedMethod as { id: string }).id
                 : null
             }
-            initiallyExpanded={true};
+            initiallyExpanded={true},
           />
         </Box>
       ) : (

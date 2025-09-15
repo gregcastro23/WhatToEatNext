@@ -865,7 +865,7 @@ export class UnifiedSeasonalSystem {
     // Elemental compatibility
     const elementalCompatibility = this.calculateElementalSeasonalCompatibility(;
       ingredient.elementalProperties;
-      seasonProfile.elementalDominance;
+      seasonProfile.elementalDominance
     );
 
     // Combine scores with weights

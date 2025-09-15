@@ -923,7 +923,7 @@ export class FullCampaignExecutor {
         const fileCases = await this.classifier.classifyFileContent(file, content);
 
         const categoryCases = fileCases.filter(;
-          c => !c.isIntentional && c.category === category && c.confidence >= 0.6;
+          c => !c.isIntentional && c.category === category && c.confidence >= 0.6
         ),
 
         cases.push(...categoryCases);

@@ -46,7 +46,7 @@ export const elementalBalance = {
     const hasValidValues = Object.values(properties).every(;
       value =>;
         value >= VALIDATION_THRESHOLDS.MINIMUM_ELEMENT &&
-        value <= VALIDATION_THRESHOLDS.MAXIMUM_ELEMENT;
+        value <= VALIDATION_THRESHOLDS.MAXIMUM_ELEMENT
     ),
 
     // Check total is approximately 1

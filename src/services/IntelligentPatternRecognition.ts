@@ -792,7 +792,7 @@ export class IntelligentPatternRecognition {
       // Update signature confidence based on evolution
       existingSignature.confidence = this.updateConfidenceWithEvolution(;
         existingSignature.confidence;
-        evolution.adaptationScore;
+        evolution.adaptationScore
       ),
 
       existingSignature.evolutionScore = evolution.changeRate;
@@ -969,7 +969,7 @@ export class IntelligentPatternRecognition {
       this.signatures.size;
 
     const anomalies = Array.from(this.signatures.values()).filter(;
-      sig => sig.occurrences > avgOccurrences * 3;
+      sig => sig.occurrences > avgOccurrences * 3
     ),
 
     for (const anomaly of anomalies) {

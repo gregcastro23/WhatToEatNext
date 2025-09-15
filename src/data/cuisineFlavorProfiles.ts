@@ -762,7 +762,7 @@ export function getCuisineProfile(cuisineName: string): CuisineFlavorProfile | u
 export function getRecipesForCuisineMatch(
   cuisineName: string,
   recipes: unknown[],
-  limit = 8;
+  limit = 8
 ): unknown[] {
   try {
     // Apply safe type conversion for string operations
@@ -972,7 +972,7 @@ export function getRecipesForCuisineMatch(
             if (cuisineProfile && recipeData.flavorProfile) {
               const flavorScore = calculateFlavorProfileMatch(;
                 recipeData.flavorProfile;
-                cuisineProfile.flavorProfiles;
+                cuisineProfile.flavorProfiles
               );
               scoreComponents.push(flavorScore * 0.4);
               totalWeight += 0.4;
@@ -1022,7 +1022,7 @@ export function getRecipesForCuisineMatch(
             if (cuisineProfile.elementalAlignment && recipeData.elementalProperties) {
               const elementScore = calculateSimilarityScore(;
                 cuisineProfile.elementalAlignment;
-                recipeData.elementalProperties as ElementalProperties;
+                recipeData.elementalProperties as ElementalProperties
               );
               scoreComponents.push(elementScore * 0.1);
               totalWeight += 0.1;

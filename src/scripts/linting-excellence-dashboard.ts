@@ -131,7 +131,7 @@ class LintingExcellenceDashboardCLI {
     // console.log('🔍 DETAILED METRICS');
     // console.log('-'.repeat(30));
     // console.log(
-      `Parser Errors: ${result.metrics.parserErrors} ${result.metrics.parserErrors === 0 ? '✅' : '🚨'}`;
+      `Parser Errors: ${result.metrics.parserErrors} ${result.metrics.parserErrors === 0 ? '✅' : '🚨'}`
     );
     // console.log(
       `Explicit Any Errors: ${result.metrics.explicitAnyErrors} ${result.metrics.explicitAnyErrors < 100 ? '✅' : '⚡'}`,
@@ -342,10 +342,10 @@ class LintingExcellenceDashboardCLI {
         const issuesChange = current.totalIssues - previous.totalIssues;
 
         // console.log(
-          `Quality Score: ${qualityChange >= 0 ? '+' : ''}${qualityChange} ${qualityChange >= 0 ? '📈' : '📉'}`;
+          `Quality Score: ${qualityChange >= 0 ? '+' : ''}${qualityChange} ${qualityChange >= 0 ? '📈' : '📉'}`
         );
         // console.log(
-          `Total Issues: ${issuesChange >= 0 ? '+' : ''}${issuesChange} ${issuesChange <= 0 ? '📈' : '📉'}`;
+          `Total Issues: ${issuesChange >= 0 ? '+' : ''}${issuesChange} ${issuesChange <= 0 ? '📈' : '📉'}`
         ),
       }
     } catch (error) {

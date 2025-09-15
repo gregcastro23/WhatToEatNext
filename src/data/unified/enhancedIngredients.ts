@@ -264,7 +264,7 @@ export class EnhancedIngredientsSystem {
     // Filter by subcategory
     if (criteria.subcategory) {
       results = (results || []).filter(;
-        ingredient => ingredient.subcategory === criteria.subcategory;
+        ingredient => ingredient.subcategory === criteria.subcategory
       ),
     }
 
@@ -292,10 +292,10 @@ export class EnhancedIngredientsSystem {
       results = (results || []).filter(;
         ingredient =>;
           ingredient.culinaryProperties.seasonality.peak.includes(
-            criteria.seasonalAlignment as Season;
+            criteria.seasonalAlignment as Season
           ) ||
           ingredient.culinaryProperties.seasonality.optimal.includes(
-            criteria.seasonalAlignment as Season;
+            criteria.seasonalAlignment as Season
           ),
       ),
     }
@@ -303,7 +303,7 @@ export class EnhancedIngredientsSystem {
     // Filter by planetary ruler
     if (criteria.planetaryRuler) {
       results = (results || []).filter(;
-        ingredient => ingredient.astrologicalProfile.planetaryRuler === criteria.planetaryRuler;
+        ingredient => ingredient.astrologicalProfile.planetaryRuler === criteria.planetaryRuler
       ),
     }
 
@@ -346,7 +346,7 @@ export class EnhancedIngredientsSystem {
       // Calculate compatibility between the target flavor profile and this ingredient's profile
       const compatibility = this.flavorProfileSystem.calculateFlavorCompatibility(;
         flavorProfile,
-        ingredient.unifiedFlavorProfile;
+        ingredient.unifiedFlavorProfile
       ),
 
       return compatibility.compatibility > 0.7;
@@ -358,7 +358,7 @@ export class EnhancedIngredientsSystem {
    */
   findFlavorCompatibleIngredients(
     targetIngredient: EnhancedIngredient,
-    tolerance = 0.7;
+    tolerance = 0.7
   ): EnhancedIngredient[] {
     // Ensure ingredient has a flavor profile
     if (!targetIngredient.unifiedFlavorProfile) {
@@ -452,7 +452,7 @@ export class EnhancedIngredientsSystem {
    */
   findElementallyCompatibleIngredients(
     targetIngredient: EnhancedIngredient,
-    tolerance = 0.7;
+    tolerance = 0.7
   ): EnhancedIngredient[] {
     return Object.values(this.ingredients)
       .filter(ingredient => {
@@ -462,7 +462,7 @@ export class EnhancedIngredientsSystem {
         // Calculate elemental compatibility
         const compatibility = calculateElementalCompatibility(;
           targetIngredient.elementalProperties;
-          ingredient.elementalProperties;
+          ingredient.elementalProperties
         ),
 
         return compatibility >= tolerance;
@@ -470,12 +470,12 @@ export class EnhancedIngredientsSystem {
       .sort((a, b) => {
         const compatA = calculateElementalCompatibility(;
           targetIngredient.elementalProperties;
-          a.elementalProperties;
+          a.elementalProperties
         );
 
         const compatB = calculateElementalCompatibility(;
           targetIngredient.elementalProperties;
-          b.elementalProperties;
+          b.elementalProperties
         ),
 
         return compatB - compatA,
@@ -962,7 +962,7 @@ export class EnhancedIngredientsSystem {
           ingredient,
           score: calculateElementalCompatibility(
             avgElementalProperties,
-            ingredient.elementalProperties;
+            ingredient.elementalProperties
           )
         }))
         // Sort by score (highest first)
@@ -992,7 +992,7 @@ export class EnhancedIngredientsSystem {
           ingredient: other,
           score: calculateElementalCompatibility(
             ingredient.elementalProperties;
-            other.elementalProperties;
+            other.elementalProperties
           )
         }))
         .sort((a, b) => b.score - a.score)
@@ -1038,7 +1038,7 @@ export class EnhancedIngredientsSystem {
           other.category !== ingredient.category &&
           calculateElementalCompatibility(
             ingredient.elementalProperties;
-            other.elementalProperties;
+            other.elementalProperties
           ) >= compatibility;
       )
       .slice(0, 8);

@@ -395,7 +395,7 @@ export const _getRecipesForCuisine = async (cuisine: string): Promise<RecipeData
  */
 export const _getRecipesForPlanetaryAlignment = async (;
   planetaryInfluences: Record<string, number>,
-  minMatchScore = 0.6;
+  minMatchScore = 0.6
 ): Promise<RecipeData[]> => {
   const recipes = await getRecipes();
   return recipes
@@ -464,7 +464,7 @@ export {
  */
 export const _getRecipesForFlavorProfile = async (;
   flavorProfile: Record<string, number>,
-  minMatchScore = 0.7;
+  minMatchScore = 0.7
 ): Promise<RecipeData[]> => {
   const recipes = await getRecipes();
   return recipes
@@ -501,7 +501,7 @@ export const _getRecipesForFlavorProfile = async (;
  */
 export const getRecipesForCuisineMatch = async (;
   cuisineName: string,
-  minMatchScore = 0.7;
+  minMatchScore = 0.7
 ): Promise<RecipeData[]> => {
   const recipes = await getRecipes();
   // Get the cuisine's flavor profile
@@ -549,7 +549,7 @@ export const getRecipesForCuisineMatch = async (;
  */
 export const getBestRecipeMatches = async (;
   criteria: MatchCriteria,
-  limit = 10;
+  limit = 10
 ): Promise<RecipeData[]> => {
   logger.debug('getBestRecipeMatches called with criteria:', criteria),
 

@@ -367,7 +367,7 @@ export class AnyTypeClassifier {
       fileName.includes('.spec.') ||
       fileName.includes('__tests__') ||
       pathSegments.some(
-        segment => segment === 'tests' || segment === '__tests__' || segment === 'test';
+        segment => segment === 'tests' || segment === '__tests__' || segment === 'test'
       );
 
     // Config file detection
@@ -401,7 +401,7 @@ export class AnyTypeClassifier {
       fileName.includes('util') ||;
       fileName.includes('helper') ||
       pathSegments.some(
-        segment => segment === 'utils' || segment === 'helpers' || segment === 'lib';
+        segment => segment === 'utils' || segment === 'helpers' || segment === 'lib'
       );
 
     // Determine file category
@@ -1334,7 +1334,7 @@ export class AnyTypeClassifier {
     baseScore: number,
     category: AnyTypeCategory,
     surroundingContext: ReturnType<typeof this.analyzeSurroundingCodeContext>;
-    fileTypeInfo: ReturnType<typeof this.analyzeFileType>;
+    fileTypeInfo: ReturnType<typeof this.analyzeFileType>
   ): number {
     let adjustedScore = baseScore;
 
@@ -1375,7 +1375,7 @@ export class AnyTypeClassifier {
   private buildContextualReasoning(
     category: AnyTypeCategory,
     surroundingContext: ReturnType<typeof this.analyzeSurroundingCodeContext>;
-    fileTypeInfo: ReturnType<typeof this.analyzeFileType>;
+    fileTypeInfo: ReturnType<typeof this.analyzeFileType>
   ): string {
     const baseReasoning = this.getReasoningForCategory(category, {} as ClassificationContext);
     const contextualInfo: string[] = [];
@@ -1397,7 +1397,7 @@ export class AnyTypeClassifier {
 
   private getContextualEnhancement(
     surroundingContext: ReturnType<typeof this.analyzeSurroundingCodeContext>;
-    fileTypeInfo: ReturnType<typeof this.analyzeFileType>;
+    fileTypeInfo: ReturnType<typeof this.analyzeFileType>
   ): string {
     const enhancements: string[] = [];
 
@@ -1415,7 +1415,7 @@ export class AnyTypeClassifier {
   private calculateContextualConfidence(
     context: ClassificationContext,
     surroundingContext: ReturnType<typeof this.analyzeSurroundingCodeContext>;
-    fileTypeInfo: ReturnType<typeof this.analyzeFileType>;
+    fileTypeInfo: ReturnType<typeof this.analyzeFileType>
   ): number {
     let confidence = 0.5; // Base confidence
 
@@ -1480,7 +1480,7 @@ export class AnyTypeClassifier {
   private buildDefaultContextualReasoning(
     confidence: number,
     surroundingContext: ReturnType<typeof this.analyzeSurroundingCodeContext>;
-    fileTypeInfo: ReturnType<typeof this.analyzeFileType>;
+    fileTypeInfo: ReturnType<typeof this.analyzeFileType>
   ): string {
     const contextualInfo: string[] = [];
 

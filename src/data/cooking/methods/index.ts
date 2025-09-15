@@ -45,7 +45,7 @@ export const _getMethodsForZodiacSign = (sign: any): Record<string, CookingMetho
  */
 export const _getMethodsByElement = (;
   element: Element,
-  threshold = 0.4;
+  threshold = 0.4
 ): Record<string, CookingMethodData> => {
   return Object.entries(allCookingMethods)
     .filter(([_, method]) => {

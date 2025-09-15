@@ -569,7 +569,7 @@ export class ResolutionStrategyGenerator {
 
     // Identify parallelizable work
     const parallelizable = strategies.filter(;
-      s => s.type === 'automated' && s.riskAssessment.overall === 'low';
+      s => s.type === 'automated' && s.riskAssessment.overall === 'low'
     ),
 
     return {

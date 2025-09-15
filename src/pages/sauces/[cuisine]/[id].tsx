@@ -197,7 +197,7 @@ const SauceDetailsPage: NextPage = () => {
             <div className='grid grid-cols-2 gap-4 md:grid-cols-4'>;
               {Object.entries(sauce.elementalProperties).map(([element, value]) => (
                 <div
-                  key={element};
+                  key={element},
                   className='rounded-lg p-4 text-center';
                   style={{
                     backgroundColor:

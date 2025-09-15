@@ -103,7 +103,7 @@ class StateValidator {
       }
     }
     return requiredElements.every(
-      element => typeof props[element] === 'number' && props[element] >= 0 && props[element] <= 1;
+      element => typeof props[element] === 'number' && props[element] >= 0 && props[element] <= 1
     );
   }
 

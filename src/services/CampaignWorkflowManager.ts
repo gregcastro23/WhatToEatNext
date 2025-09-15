@@ -405,7 +405,7 @@ export class CampaignWorkflowManager {
     campaignId: string,
     config: CampaignConfig,
     description: string,
-    createdBy: string = 'system';
+    createdBy: string = 'system'
   ): Promise<string> {
     const versions = this.versions.get(campaignId) || [];
     const versionNumber = `v${versions.length + 1}.0`;

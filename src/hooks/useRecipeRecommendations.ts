@@ -141,7 +141,7 @@ export function useRecipeRecommendations(
 
         if (state.filters.cookingMethod) {
           filteredRecipes = filteredRecipes.filter(;
-            r => r.cookingMethod === state.filters.cookingMethod;
+            r => r.cookingMethod === state.filters.cookingMethod
           ),
         }
 

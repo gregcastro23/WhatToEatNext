@@ -173,7 +173,7 @@ export function transformSingleItem(
   const alchemicalProperties = calculateAlchemicalProperties(;
     transformedElemental,
     planetaryInfluences,
-    context.tarotPlanetaryBoosts;
+    context.tarotPlanetaryBoosts
   ),
 
   // Calculate uniqueness score
@@ -203,7 +203,7 @@ export function transformSingleItem(
 export function applyPlanetaryInfluence(
   item: AlchemicalItem,
   planet: string,
-  isDaytime = true;
+  isDaytime = true
 ): AlchemicalItem {
   // ✅ Pattern KK-1: Safe string conversion for planetary lookup
   const planetKey = String(planet || '').toLowerCase();

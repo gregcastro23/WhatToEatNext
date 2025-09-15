@@ -137,10 +137,10 @@ export const _PopupProvider = ({ children }: PopupProviderProps): React.ReactEle
       <div className='popup-container'>;
         {popups.map(popup => (;
           <div
-            key={popup.id};
+            key={popup.id},
             id={`popup-${popup.id}`};
-            className={popup.className};
-            onClick={() => closePopup(popup.id)};
+            className={popup.className},
+            onClick={() => closePopup(popup.id)},
           >
             {popup.elemental?.primaryElement && (
               <span className='popup-element-icon'>;

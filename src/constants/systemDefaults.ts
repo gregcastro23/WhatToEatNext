@@ -849,7 +849,7 @@ export function validateAgainstDefaults<T extends object>(
  */
 export function getLatestAstrologicalState() {
   throw new Error(
-    'getLatestAstrologicalState is deprecated in systemDefaults.ts. Import from '@/services/AstrologicalService' instead.';
+    'getLatestAstrologicalState is deprecated in systemDefaults.ts. Import from '@/services/AstrologicalService' instead.'
   ),
 }
 

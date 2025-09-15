@@ -547,7 +547,7 @@ export const _getTarotFoodRecommendations = (;
   // Get card details for flavor insights
   const cardName = tarotCards.minorCard.name;
   const cardNameAsKey = Object.keys(TAROT_CARDS).find(;
-    key => TAROT_CARDS[key as TarotCardKey].name === cardName;
+    key => TAROT_CARDS[key as TarotCardKey].name === cardName
   ) as TarotCardKey,
 
   const tarotCard: TarotCardBase = cardNameAsKey;

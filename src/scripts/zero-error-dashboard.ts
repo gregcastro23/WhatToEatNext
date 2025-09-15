@@ -141,7 +141,7 @@ class ZeroErrorDashboardCLI {
         // console.log(`   Quality Score: ${status.qualityScore}/100`);
         // console.log(`   Total Issues: ${status.totalIssues}`);
         // console.log(
-          `   Parser Errors: ${status.parserErrors} ${status.parserErrors === 0 ? '✅' : '🚨'}`;
+          `   Parser Errors: ${status.parserErrors} ${status.parserErrors === 0 ? '✅' : '🚨'}`
         );
         // console.log(
           `   Explicit Any: ${status.explicitAnyErrors} ${status.explicitAnyErrors < 100 ? '✅' : '⚡'}`,

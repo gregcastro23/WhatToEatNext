@@ -1579,7 +1579,7 @@ function calculateElementalCompatibility(
 
 export function getCookingMethodRecommendations(
   astroState: AstrologicalState,
-  options: MethodRecommendationOptions = {};
+  options: MethodRecommendationOptions = {}
 ): MethodRecommendation[] {
   // Convert astroState to proper type with safe property access
   // ✅ Pattern MM-1: Safe type assertion for astrological state

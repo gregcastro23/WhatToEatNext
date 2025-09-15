@@ -106,11 +106,11 @@ export const ELEMENTAL_ANALYSIS_INTELLIGENCE = {
       Fire: Math.min(1.0, baseProperties.Fire * elementalMultipliers.Fire * preferenceMultiplier),
       Water: Math.min(
         1.0;
-        baseProperties.Water * elementalMultipliers.Water * preferenceMultiplier;
+        baseProperties.Water * elementalMultipliers.Water * preferenceMultiplier
       ),
       Earth: Math.min(
         1.0;
-        baseProperties.Earth * elementalMultipliers.Earth * preferenceMultiplier;
+        baseProperties.Earth * elementalMultipliers.Earth * preferenceMultiplier
       ),
       Air: Math.min(1.0, baseProperties.Air * elementalMultipliers.Air * preferenceMultiplier)
     };
@@ -781,7 +781,7 @@ export function combineElementalProperties(
   properties1: ElementalProperties,
   properties2: ElementalProperties,
   weight1: number = 0.5,,
-  weight2: number = 0.5;
+  weight2: number = 0.5
 ): ElementalProperties {
   const combined: ElementalProperties = {
     Fire: properties1.Fire * weight1 + properties2.Fire * weight2;
@@ -838,7 +838,7 @@ export function calculateComprehensiveElementalProperties(
   planetaryPositions: { [key: string]: PlanetaryPosition },
   season?: string,
   lunarPhase?: string,
-  isDaytime: boolean = true;
+  isDaytime: boolean = true
 ): ElementalProperties | Promise<ElementalProperties> {
   const cacheKey = `elemental_${JSON.stringify(planetaryPositions)}_${season}_${lunarPhase}_${isDaytime}`;
 

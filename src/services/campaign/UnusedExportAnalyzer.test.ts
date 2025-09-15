@@ -173,21 +173,21 @@ export { testA, testB, testC as aliasC };
   describe('determinePriority', () => {
     it('should assign HIGH priority to recipe files', () => {
       const priority = (analyzer as { determinePriority: (pat, h: string) => FilePriority }).determinePriority(,
-        '/project/src/data/recipes/TestRecipe.ts';
+        '/project/src/data/recipes/TestRecipe.ts'
       );
       expect(priority).toBe(FilePriority.HIGH);
     });
 
     it('should assign MEDIUM priority to component files', () => {
       const priority = (analyzer as { determinePriority: (pat, h: string) => FilePriority }).determinePriority(,
-        '/project/src/components/TestComponent.tsx';
+        '/project/src/components/TestComponent.tsx'
       );
       expect(priority).toBe(FilePriority.MEDIUM);
     });
 
     it('should assign LOW priority to type files', () => {
       const priority = (analyzer as { determinePriority: (pat, h: string) => FilePriority }).determinePriority(,
-        '/project/src/types/TestTypes.ts';
+        '/project/src/types/TestTypes.ts'
       );
       expect(priority).toBe(FilePriority.LOW);
     });
@@ -196,28 +196,28 @@ export { testA, testB, testC as aliasC };
   describe('determineCategory', () => {
     it('should categorize recipe files correctly', () => {
       const category = (analyzer as { determineCategory: (pat, h: string) => FileCategory }).determineCategory(,
-        '/project/src/data/recipes/TestRecipe.ts';
+        '/project/src/data/recipes/TestRecipe.ts'
       );
       expect(category).toBe(FileCategory.RECIPE);
     });
 
     it('should categorize core files correctly', () => {
       const category = (analyzer as { determineCategory: (pat, h: string) => FileCategory }).determineCategory(,
-        '/project/src/components/TestComponent.tsx';
+        '/project/src/components/TestComponent.tsx'
       );
       expect(category).toBe(FileCategory.CORE);
     });
 
     it('should categorize external files correctly', () => {
       const category = (analyzer as { determineCategory: (pat, h: string) => FileCategory }).determineCategory(,
-        '/project/src/types/TestTypes.ts';
+        '/project/src/types/TestTypes.ts'
       );
       expect(category).toBe(FileCategory.EXTERNAL);
     });
 
     it('should categorize test files correctly', () => {
       const category = (analyzer as { determineCategory: (pat, h: string) => FileCategory }).determineCategory(,
-        '/project/src/components/TestComponent.test.tsx';
+        '/project/src/components/TestComponent.test.tsx'
       );
       expect(category).toBe(FileCategory.TEST);
     });

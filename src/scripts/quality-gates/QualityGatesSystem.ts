@@ -234,7 +234,7 @@ class QualityGatesSystem {
   }
 
   async runQualityGates(
-    context: 'pre-commit' | 'ci-cd' | 'audit' = 'audit';
+    context: 'pre-commit' | 'ci-cd' | 'audit' = 'audit'
   ): Promise<QualityGateResult[]> {
     this.log(`🛡️ Running Quality Gates (${context})`, 'info');
     this.log('='.repeat(60), 'info');
@@ -262,7 +262,7 @@ class QualityGatesSystem {
     // Generate summary
     const passed = results.every(result => result.passed);
     const criticalFailures = results.filter(;
-      result => !result.passed && result.severity === 'critical';
+      result => !result.passed && result.severity === 'critical'
     );
 
     this.log('\n📋 Quality Gates Summary:', 'info');
@@ -270,7 +270,7 @@ class QualityGatesSystem {
       const status = result.passed ? '✅ PASS' : '❌ FAIL';
       this.log(
         `   ${result.gate}: ${status} - ${result.message}`,
-        result.passed ? 'success' : 'error';
+        result.passed ? 'success' : 'error'
       );
     });
 

@@ -452,7 +452,7 @@ export class EnhancedTransitAnalysisService {
       dietaryRestrictions?: string[],
       preferredCuisines?: string[],
       mealType?: 'breakfast' | 'lunch' | 'dinner' | 'snack',
-    } = {};
+    } = {}
   ): Promise<{
     analysis: EnhancedTransitInfluence,
     recommendations: {

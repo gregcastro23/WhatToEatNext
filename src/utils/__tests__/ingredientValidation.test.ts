@@ -97,7 +97,7 @@ describe('Ingredient Data Validation', () => {
 
       // Should detect invalid category
       const categoryErrors: any = result.errors.filter(;
-        e => e.type === 'CATEGORY_MISMATCH' && e.ingredient === 'invalidIngredient';
+        e => e.type === 'CATEGORY_MISMATCH' && e.ingredient === 'invalidIngredient'
       ),
 
       expect(categoryErrors.length).toBeGreaterThan(0);

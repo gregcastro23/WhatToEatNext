@@ -130,7 +130,7 @@ export function generateCuisineRecommendations(
 function calculateCuisineCompatibility(
   cuisine: string,
   userElementals: ElementalProperties,
-  planetaryStrength: number = 1.0;
+  planetaryStrength: number = 1.0
 ): number {
   const cuisineElementals = calculateCuisineElementalAlignment(cuisine);
 

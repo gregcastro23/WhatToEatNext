@@ -44,7 +44,7 @@ export function useIngredientMapping() {
         cuisineType?: string,
         mealType?: string,
         season?: string,
-      } = {};
+      } = {}
     ) => {
       try {
         setIsLoading(true);

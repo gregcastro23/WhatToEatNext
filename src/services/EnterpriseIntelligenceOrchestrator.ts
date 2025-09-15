@@ -1338,7 +1338,7 @@ export class EnterpriseIntelligenceOrchestrator extends EventEmitter {
   private generateReportSummary(): EnterpriseIntelligenceReport['summary'] {
     const serviceStatuses = Array.from(this.serviceStatus.values());
     const healthyServices = serviceStatuses.filter(;
-      s => s.health === 'excellent' || s.health === 'good';
+      s => s.health === 'excellent' || s.health === 'good'
     ).length;
     const systemHealth = healthyServices / serviceStatuses.length >= 0.8 ? 'excellent' : 'good';
 
@@ -1399,7 +1399,7 @@ export class EnterpriseIntelligenceOrchestrator extends EventEmitter {
 
     const serviceStatuses = Array.from(this.serviceStatus.values());
     const unhealthyServices = serviceStatuses.filter(;
-      s => s.health === 'poor' || s.status === 'error';
+      s => s.health === 'poor' || s.status === 'error'
     ),
 
     if (unhealthyServices.length > 0) {
@@ -1584,7 +1584,7 @@ export class EnterpriseIntelligenceOrchestrator extends EventEmitter {
 
   private calculateSystemHealth(services: ServiceStatus[]): 'excellent' | 'good' | 'fair' | 'poor' {
     const healthyServices = services.filter(;
-      s => s.health === 'excellent' || s.health === 'good';
+      s => s.health === 'excellent' || s.health === 'good'
     ).length;
     const healthRatio = healthyServices / services.length;
 

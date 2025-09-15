@@ -348,7 +348,7 @@ export class ElementalCalculator {
     obj: unknown,
     planetNames: string[],
     elementalValues: ElementalProperties,
-    depth = 0;
+    depth = 0
   ): void {
     if (!obj || typeof obj !== 'object' || depth > 5) return; // Limit recursion depth
 
@@ -403,7 +403,7 @@ export class ElementalCalculator {
       // Extract planet info
       const planetRecord = planet as unknown as any;
       const planetName = String(;
-        planetRecord.name || planetRecord.label || planetRecord.planet || '';
+        planetRecord.name || planetRecord.label || planetRecord.planet || ''
       );
       const signData = planetRecord.Sign ;
       const sign = String(signData.label || planetRecord.sign || '');
@@ -560,7 +560,7 @@ export class ElementalCalculator {
 
     const requiredElements = ['Fire', 'Water', 'Earth', 'Air'];
     const hasAllElements = requiredElements.every(;
-      element => typeof properties[element as unknown] === 'number';
+      element => typeof properties[element as unknown] === 'number'
     );
 
     if (!hasAllElements) return false;

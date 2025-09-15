@@ -218,7 +218,7 @@ export class UnusedVariablesCleanupSystem {
         const gitStatus = execSync('git status --porcelain', { encoding: 'utf-8' });
         if (gitStatus.trim() && !this.config.autoFix) {
           console.warn(
-            '⚠️ Git working directory has uncommitted changes. Consider using --auto-fix or commit changes first.';
+            '⚠️ Git working directory has uncommitted changes. Consider using --auto-fix or commit changes first.'
           ),
         }
       } catch (error) {

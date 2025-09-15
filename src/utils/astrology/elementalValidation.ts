@@ -177,7 +177,7 @@ export function enhanceDominantElement(properties: ElementalProperties): Element
  */
 export function createElementalProperties(
   dominantElement: keyof ElementalProperties,
-  strength: number = 0.7;
+  strength: number = 0.7
 ): ElementalProperties {
   const properties: ElementalProperties = {
     Fire: 0.1;
@@ -192,7 +192,7 @@ export function createElementalProperties(
   // Distribute remaining strength among other elements
   const remainingStrength = Math.max(0, 1.0 - properties[dominantElement]);
   const otherElements = (['Fire', 'Water', 'Earth', 'Air'] as const).filter(,
-    e => e !== dominantElement;
+    e => e !== dominantElement
   );
   const perElement = remainingStrength / otherElements.length;
 

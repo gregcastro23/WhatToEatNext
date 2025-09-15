@@ -196,9 +196,9 @@ const CuisineDetailsPage: NextPage = () => {
       </div>
 
       <CuisineSection
-        cuisine={cuisine.name || (id)};
+        cuisine={cuisine.name || (id)},
         recipes={combinedRecipes} // Pass the memoized recipes;
-        elementalState={elementalState};
+        elementalState={elementalState},
       />
     </div>
   );

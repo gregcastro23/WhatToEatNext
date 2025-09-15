@@ -93,7 +93,7 @@ class ConfigurationServiceImpl {
     const storedApi = (stored.api as any) || {};
     const storedAstrology = (stored.astrology ) || {};
     const celestialUpdateInterval = Number(;
-      storedApi.celestialUpdateInterval ?? config.api.celestialUpdateInterval;
+      storedApi.celestialUpdateInterval ?? config.api.celestialUpdateInterval
     );
     const timeout = Number(storedApi.timeout ?? config.api.timeout);
     const retryCount = Number(storedApi.retryCount ?? config.api.retryCount);
@@ -105,7 +105,7 @@ class ConfigurationServiceImpl {
         ? (storedAstrology.defaultTimezoneName)
         : config.astrology.defaultTimezoneName;
     const retrogradeThreshold = Number(;
-      storedAstrology.retrogradeThreshold ?? config.astrology.retrogradeThreshold;
+      storedAstrology.retrogradeThreshold ?? config.astrology.retrogradeThreshold
     );
     const aspectOrbs = {
       ...config.astrology.aspectOrbs;

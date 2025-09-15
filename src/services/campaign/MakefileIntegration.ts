@@ -322,7 +322,7 @@ export class MakefileIntegration {
       silent?: boolean,
       dryRun?: boolean,
       timeout?: number,
-    } = {};
+    } = {}
   ): Promise<MakeExecutionResult> {
     const { silent = false, dryRun = false, timeout = 300000 } = options;
 

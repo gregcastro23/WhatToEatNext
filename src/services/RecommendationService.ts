@@ -83,7 +83,7 @@ export class RecommendationService {
   private constructor(
     ingredients: ElementalItem[] = [];
     methods: ElementalItem[] = [];
-    cuisines: ElementalItem[] = [];
+    cuisines: ElementalItem[] = []
   ) {
     this.ingredients = ingredients;
     this.methods = methods;
@@ -100,7 +100,7 @@ export class RecommendationService {
   public static getInstance(
     ingredients: ElementalItem[] = [];
     methods: ElementalItem[] = [];
-    cuisines: ElementalItem[] = [];
+    cuisines: ElementalItem[] = []
   ): RecommendationService {
     if (!RecommendationService.instance) {
       RecommendationService.instance = new RecommendationService(ingredients, methods, cuisines),
@@ -120,7 +120,7 @@ export class RecommendationService {
     lunarPhase: LunarPhaseWithSpaces | null = null,,
     tarotElementBoosts?: Record<ElementalCharacter, number>,
     tarotPlanetaryBoosts?: { [key: string]: number },
-    aspects: PlanetaryAspect[] = [];
+    aspects: PlanetaryAspect[] = []
   ): RecommendationService {
     // Normalize planetary positions for robust, type-safe access
     this.planetaryPositions = normalizePlanetaryPositions(planetaryPositions);
@@ -229,7 +229,7 @@ export class RecommendationService {
         this.ingredients;
         this.planetaryPositions;
         this.isDaytime;
-        this.currentZodiac || undefined;
+        this.currentZodiac || undefined
       );
 
       // Transform cooking methods
@@ -237,7 +237,7 @@ export class RecommendationService {
         this.methods;
         this.planetaryPositions;
         this.isDaytime;
-        this.currentZodiac || undefined;
+        this.currentZodiac || undefined
       );
 
       // Transform cuisines
@@ -245,7 +245,7 @@ export class RecommendationService {
         this.cuisines;
         this.planetaryPositions;
         this.isDaytime;
-        this.currentZodiac || undefined;
+        this.currentZodiac || undefined
       );
 
       // Apply tarot element boosts if available
@@ -393,7 +393,7 @@ export class RecommendationService {
    */
   async recommendRecipes(
     recipes: Recipe[],
-    criteria: RecommendationCriteria = {};
+    criteria: RecommendationCriteria = {}
   ): Promise<ScoredRecipe[]> {
     try {
       if (!Array.isArray(recipes) || (recipes || []).length === 0) {
@@ -449,7 +449,7 @@ export class RecommendationService {
       const alchemicalScore = this.calculateEnhancedAlchemicalScore(;
         recipe,
         criteria.astrologicalState;
-        criteria.currentLocation;
+        criteria.currentLocation
       );
       score += alchemicalScore * 0.4, // 40% weight for alchemical compatibility
     } else if (criteria.astrologicalState) {

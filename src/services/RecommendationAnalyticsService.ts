@@ -272,7 +272,7 @@ class RecommendationAnalyticsService {
     const windowStart = timeWindow ? now - timeWindow : 0;
 
     const relevantInteractions = this.userInteractions.filter(;
-      interaction => interaction.timestamp >= windowStart;
+      interaction => interaction.timestamp >= windowStart
     ),
 
     // Count interactions by type

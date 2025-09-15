@@ -340,7 +340,7 @@ export class AnalysisTools {
   }): Promise<ClassificationContext> {
     const surroundingLines = await this.getSurroundingLines(;
       occurrence.filePath;
-      occurrence.lineNumber;
+      occurrence.lineNumber
     ),
     const hasExistingComment = this.hasExistingComment(surroundingLines);
     const domainContext = await this.domainAnalyzer.analyzeDomain({

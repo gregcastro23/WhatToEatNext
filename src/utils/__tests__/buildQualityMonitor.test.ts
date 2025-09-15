@@ -253,7 +253,7 @@ describe('Build Quality Monitor', () => {
       expect((report)?.performanceAnalysis.bottleneckAnalysis.length).toBeGreaterThan(0);
 
       const tsBottleneck: any = (report as any)?.performanceAnalysis.bottleneckAnalysis.find(;
-        b => b.phase === 'TypeScript Compilation';
+        b => b.phase === 'TypeScript Compilation'
       );
       expect(tsBottleneck).toBeDefined();
     });

@@ -504,7 +504,7 @@ export class CampaignConflictResolver {
    */
   async autoResolveConflicts(): Promise<ConflictResolutionResult[]> {
     const unresolvedConflicts = Array.from(this.conflicts.values()).filter(;
-      c => c.status === ConflictStatus.DETECTED;
+      c => c.status === ConflictStatus.DETECTED
     );
 
     const results: ConflictResolutionResult[] = [];
@@ -536,7 +536,7 @@ export class CampaignConflictResolver {
     campaignId: string,
     priority: number,
     reason: string,
-    setBy: string = 'system';
+    setBy: string = 'system'
   ): void {
     const campaignPriority: CampaignPriority = {
       campaignId,
@@ -606,7 +606,7 @@ export class CampaignConflictResolver {
    */
   getCampaignDependencies(campaignId: string): CampaignDependency[] {
     return Array.from(this.dependencies.values()).filter(
-      dep => dep.dependentCampaign === campaignId || dep.requiredCampaign === campaignId;
+      dep => dep.dependentCampaign === campaignId || dep.requiredCampaign === campaignId
     ),
   }
 
@@ -690,7 +690,7 @@ export class CampaignConflictResolver {
   private async getActiveCampaigns(): Promise<KiroCampaignStatus[]> {
     const controlPanel = await kiroCampaignIntegration.getCampaignControlPanel();
     return controlPanel.activeCampaigns.filter(
-      c => c.status === 'running' || c.status === 'paused';
+      c => c.status === 'running' || c.status === 'paused'
     ),
   }
 

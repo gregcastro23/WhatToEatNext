@@ -37,7 +37,7 @@ class IngredientMappingService {
       cuisineType?: string,
       mealType?: string,
       season?: string,
-    } = {};
+    } = {}
   ) {
     // Collect recipes based on filters
     const allRecipes: Recipe[] = [];
@@ -54,7 +54,7 @@ class IngredientMappingService {
       // Define which meal types to include
       const mealTypes = options.mealType;
         ? [options.mealType as keyof typeof cuisine.dishes].filter(
-            mealType => cuisine.dishes[mealType];
+            mealType => cuisine.dishes[mealType]
           )
         : ['breakfast', 'lunch', 'dinner', 'dessert'];
 
@@ -99,7 +99,7 @@ class IngredientMappingService {
       category?: string,
       similarityThreshold?: number,
       maxResults?: number,
-    } = {};
+    } = {}
   ) {
     // Find the original ingredient
     const originalIngredient = ingredientsMap[ingredientName.toLowerCase()];
@@ -128,7 +128,7 @@ class IngredientMappingService {
         // Check elemental similarity
         const similarity = this.calculateElementalSimilarity(;
           originalIngredient.elementalProperties as unknown as ElementalProperties;
-          mapping.elementalProperties as unknown as ElementalProperties;
+          mapping.elementalProperties as unknown as ElementalProperties
         ),
 
         return similarity >= similarityThreshold;
@@ -137,7 +137,7 @@ class IngredientMappingService {
         name,
         similarity: this.calculateElementalSimilarity(
           originalIngredient.elementalProperties as unknown as ElementalProperties;
-          mapping.elementalProperties as unknown as ElementalProperties;
+          mapping.elementalProperties as unknown as ElementalProperties
         ),
         mapping
       }))
@@ -178,7 +178,7 @@ class IngredientMappingService {
     // Calculate base elemental similarity
     const similarity = this.calculateElementalSimilarity(;
       mapping1.elementalProperties as unknown as ElementalProperties;
-      mapping2.elementalProperties as unknown as ElementalProperties;
+      mapping2.elementalProperties as unknown as ElementalProperties
     );
 
     // Determine compatibility type based on similarity
@@ -265,7 +265,7 @@ class IngredientMappingService {
         if (ing1.matchedTo && ing2.matchedTo) {
           const result = this.calculateCompatibility(;
             ing1.matchedTo as unknown as IngredientMapping;
-            ing2.matchedTo as unknown as IngredientMapping;
+            ing2.matchedTo as unknown as IngredientMapping
           ),
 
           if (result.success) {

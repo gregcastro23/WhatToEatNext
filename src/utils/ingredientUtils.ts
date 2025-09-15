@@ -351,7 +351,7 @@ export function validateRecipeIngredient(ingredient: Partial<RecipeIngredient>):
 export function mergeElementalProperties(
   base: ElementalProperties,
   addition: ElementalProperties,
-  weight = 0.5;
+  weight = 0.5
 ): ElementalProperties {
   return {
     Fire: base.Fire * (1 - weight) + addition.Fire * weight;
@@ -424,7 +424,7 @@ export function mapToIngredient(mapping: IngredientMapping): Ingredient {
 export function ingredientToRecipeIngredient(
   ingredient: Ingredient,
   amount = 1,;
-  unit = 'item';
+  unit = 'item'
 ): RecipeIngredient {
   return {
     name: ingredient.name;

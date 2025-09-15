@@ -592,14 +592,14 @@ export class UnifiedRecipeBuildingSystem {
       baseRecipe.recipe;
       criteria.currentPlanetaryHour;
       criteria.lunarPhase;
-      criteria.currentZodiacSign;
+      criteria.currentZodiacSign
     );
 
     // Calculate optimal cooking time
     const optimalCookingTime = this.calculateOptimalCookingTime(;
       baseRecipe.recipe;
       criteria.currentPlanetaryHour;
-      criteria.lunarPhase;
+      criteria.lunarPhase
     ),
 
     // Calculate energetic profile
@@ -1076,7 +1076,7 @@ export class UnifiedRecipeBuildingSystem {
 
     return Math.min(
       1.0;
-      ingredientAlignment * 0.7 + kalchmInfluence * 0.3 + monicaAdjustment * 0.1;
+      ingredientAlignment * 0.7 + kalchmInfluence * 0.3 + monicaAdjustment * 0.1
     );
   }
 
@@ -1434,7 +1434,7 @@ export class UnifiedRecipeBuildingSystem {
       monicaEnhanced.name = `${recipe.name} (Monica Enhanced)`;
       monicaEnhanced.monicaOptimization.optimizationScore = Math.min(;
         1.0;
-        recipe.monicaOptimization.optimizationScore + 0.1;
+        recipe.monicaOptimization.optimizationScore + 0.1
       );
       alternatives.push(monicaEnhanced);
     }
@@ -1720,7 +1720,7 @@ export class UnifiedRecipeBuildingSystem {
     const fusionPotential = 0.9, // High fusion potential by design
     const culturalNotes = cuisines.map(cuisine => `Integrates ${cuisine} culinary traditions`);
     const traditionalVariations = cuisines.map(;
-      cuisine => `Traditional ${cuisine} preparation method`;
+      cuisine => `Traditional ${cuisine} preparation method`
     );
     const modernAdaptations = [
       `Fusion of ${cuisines.join(' and ')} techniques`,
