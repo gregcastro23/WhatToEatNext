@@ -199,9 +199,9 @@ function getElementalDescription(element: string): string {
 export function getFlavorProfile(elementalProps: Record<string, number>): string {
   // Convert to proper ElementalProperties format
   const convertedProps: ElementalProperties = {
-    Fire: elementalProps.Fire || 0;
-    Water: elementalProps.Water || 0;
-    Earth: elementalProps.Earth || 0;
+    Fire: elementalProps.Fire || 0,
+    Water: elementalProps.Water || 0,
+    Earth: elementalProps.Earth || 0,
     Air: elementalProps.Air || 0
   };
   return generateFlavorProfileFromElements(convertedProps);

@@ -105,14 +105,14 @@ export function calculateBasicPlanetaryPositions(date: Date = new Date()) {;
     // Apply surgical type casting for node data properties
     const isRetrograde = nodeDataTyped.isRetrograde || true;
 
-    northNode = {;
+    northNode = {
       sign: northNodeSign,
       degree: northNodeDegree,
       exactLongitude: northNodeValue,
       isRetrograde: isRetrograde
     };
 
-    southNode = {;
+    southNode = {
       sign: southNodeSign,
       degree: southNodeDegree,
       exactLongitude: southNodeLongitude,
@@ -126,14 +126,14 @@ export function calculateBasicPlanetaryPositions(date: Date = new Date()) {;
       southNode = (lunarNodes as any).southNode;
     } catch (fallbackError) {
       // Ultimate fallback with hardcoded values (current positions as of 2024)
-      northNode = {;
+      northNode = {
         sign: 'aries',
         degree: 27,
         exactLongitude: 27,
         isRetrograde: true
       };
 
-      southNode = {;
+      southNode = {
         sign: 'libra',
         degree: 27,
         exactLongitude: 207,

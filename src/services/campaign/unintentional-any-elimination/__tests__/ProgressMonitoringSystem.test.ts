@@ -27,10 +27,10 @@ describe('ProgressMonitoringSystem', () => {
 
     // Mock AnalysisTools
     mockAnalysisToolsInstance = {
-      generateComprehensiveReport: jest.fn();
-      analyzeDomainDistribution: jest.fn();
-      generateClassificationAccuracyReport: jest.fn();
-      generateSuccessRateAnalysis: jest.fn();
+      generateComprehensiveReport: jest.fn(),
+      analyzeDomainDistribution: jest.fn(),
+      generateClassificationAccuracyReport: jest.fn(),
+      generateSuccessRateAnalysis: jest.fn(),
       generateManualReviewRecommendations: jest.fn()
     } as unknown;
 
@@ -130,7 +130,7 @@ describe('ProgressMonitoringSystem', () => {
           analysisDate: new Date()
         },
         accuracyReport: { overallAccuracy: 85,
-          averageConfidence: 0.8;
+          averageConfidence: 0.8,
           sampleSize: 100,
           categoryAccuracy: [],
           confidenceDistribution: [],

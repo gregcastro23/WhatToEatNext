@@ -111,7 +111,7 @@ export const ZODIAC_SEASONS: Record<Season, ZodiacSign[]> = {
  */
 export const SEASONAL_PROPERTIES = {
   spring: {
-    elementalModifier: SEASONAL_MODIFIERS.spring;
+    elementalModifier: SEASONAL_MODIFIERS.spring,
     qualities: ['ascending', 'expanding', 'growing', 'fresh'],
     peak: { month: 4, day: 1 }, // May 1st
 
@@ -132,7 +132,7 @@ export const SEASONAL_PROPERTIES = {
     moodEffects: ['optimistic', 'energizing', 'creative', 'social']
   },
   summer: {
-    elementalModifier: SEASONAL_MODIFIERS.summer;
+    elementalModifier: SEASONAL_MODIFIERS.summer,
     qualities: ['expansive', 'active', 'abundant', 'hot'],
     peak: { month: 7, day: 1 }, // August 1st
 
@@ -153,7 +153,7 @@ export const SEASONAL_PROPERTIES = {
     moodEffects: ['joyful', 'active', 'social', 'confident']
   },
   autumn: {
-    elementalModifier: SEASONAL_MODIFIERS.autumn;
+    elementalModifier: SEASONAL_MODIFIERS.autumn,
     qualities: ['contracting', 'descending', 'harvesting', 'grounding'],
     peak: { month: 10, day: 1 }, // November 1st
 
@@ -174,7 +174,7 @@ export const SEASONAL_PROPERTIES = {
     moodEffects: ['contemplative', 'grounding', 'introspective', 'grateful']
   },
   winter: {
-    elementalModifier: SEASONAL_MODIFIERS.winter;
+    elementalModifier: SEASONAL_MODIFIERS.winter,
     qualities: ['contracting', 'storing', 'deep', 'still'],
     peak: { month: 1, day: 1 }, // February 1st
 
@@ -230,9 +230,9 @@ export const SEASON_DATE_RANGES = {
 export const SEASONAL_INFLUENCE = {
   // Each season's influence strength (0-1)
   strength: {
-    spring: 0.7;
-    summer: 0.9;
-    autumn: 0.6;
+    spring: 0.7,
+    summer: 0.9,
+    autumn: 0.6,
     winter: 0.8
   },
   // How seasons affect mood and energy
@@ -266,7 +266,7 @@ export function getCurrentSeason(date: Date = new Date()): Season {
 
   // Check each season's date range
   for (const [season, range] of Object.entries(SEASON_DATE_RANGES)) {
-    if (season === 'fall') continue, // Skip alias;
+    if (season === 'fall') continue; // Skip alias
 
     const { startMonth, startDay, endMonth, endDay } = range;
 

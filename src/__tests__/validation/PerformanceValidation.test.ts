@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any, no-console, @typescript-eslint/no-unused-vars, max-lines-per-function -- Campaign/test file with intentional patterns */
 declare global {
-  var __DEV__: boolean;
+  var __DEV__: boolean
 }
 
 /**
@@ -91,7 +91,7 @@ describe('Performance Validation Tests - Task 12', () => {
       // Mock cached linting (very fast)
       mockExecSync.mockImplementation((_command: string) => {
         const mockProcessingTime: any = 3000, // 3 seconds;
-        return Buffer.from(`✓ Fast linting with cache completed in ${mockProcessingTime / 1000}s (cache hit: 85%)`);
+        return Buffer.from(`✓ Fast linting with cache completed in ${mockProcessingTime / 1000}s (cache hit: 85%)`)
       });
 
       const result: any = mockExecSync('yarn lint:fast');
@@ -359,7 +359,7 @@ describe('Performance Validation Tests - Task 12', () => {
 
       // Mock cached run
       mockExecSync.mockImplementationOnce(() => {
-        return Buffer.from(`✓ With cache: ${withCacheTime / 1000}s (cache hit: 90%)`);
+        return Buffer.from(`✓ With cache: ${withCacheTime / 1000}s (cache hit: 90%)`)
       });
 
       const noCacheResult: any = mockExecSync('yarn lint:no-cache');

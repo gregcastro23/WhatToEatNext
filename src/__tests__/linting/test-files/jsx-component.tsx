@@ -1,7 +1,7 @@
  
 interface Props {
-  title: string;
-  children: React.ReactNode;
+  title: string,
+  children: React.ReactNode,
 }
 
 export function JSXComponent({ title, children }: Props) {

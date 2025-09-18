@@ -253,7 +253,7 @@ describe('AlgorithmPerformanceValidator', () => {
           category: 'algorithm',
           baseline: 100,
           current: 95, // Only 5% improvement
-          improvement: 0.05;
+          improvement: 0.05,
           target: 50,
           status: 'failing',
           samples: [95],
@@ -310,7 +310,7 @@ describe('AlgorithmPerformanceValidator', () => {
           category: 'algorithm',
           baseline: 100,
           current: 150, // Worse than baseline
-          improvement: -0.5;
+          improvement: -0.5,
           target: 50,
           status: 'failing',
           samples: [150],
@@ -404,7 +404,7 @@ describe('AlgorithmPerformanceValidator', () => {
         category: 'algorithm' as const,
         baseline: 100,
         current: 80,
-        improvement: 0.2;
+        improvement: 0.2,
         target: 50,
         status: 'passing' as const,
         samples: [80],

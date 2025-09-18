@@ -1,8 +1,8 @@
 import { RulingPlanet, ElementalCharacter, Season } from '../types/wiccan';
 
 interface WiccanProperties {
-  magicalAttributes: string[];
-  planetaryRulers: RulingPlanet[];
+  magicalAttributes: string[],
+  planetaryRulers: RulingPlanet[],
   elementalAffinities: ElementalCharacter[],
   seasonalStrengths: Season[]
 }

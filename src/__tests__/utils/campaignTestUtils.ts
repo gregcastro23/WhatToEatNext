@@ -43,7 +43,7 @@ export interface CampaignTestSetup {
  * Campaign test context that provides access to all mock instances
  */
 export interface CampaignTestContext {
-  controller: MockCampaignController;
+  controller: MockCampaignController,
   tracker: MockProgressTracker,
   safety: MockSafetyProtocol,
   testSafeTracker: TestSafeProgressTracker | null,
@@ -87,8 +87,8 @@ export async function setupCampaignTest(setup: CampaignTestSetup): Promise<Campa
   }
 
   return {
-    controller: mockInstances.controller;
-    tracker: mockInstances.tracker;
+    controller: mockInstances.controller,
+    tracker: mockInstances.tracker,
     safety: mockInstances.safety;
     testSafeTracker,
     testController: campaignTestController
@@ -111,10 +111,10 @@ export function createMockCampaignConfig(overrides?: Partial<CampaignConfig>): C
       {
         id: 'test-phase-1',
         name: 'Test Phase 1',
-        description: 'Mock phase for testing';
+        description: 'Mock phase for testing',
         tools: [
           {
-            scriptPath: 'mock-script.js';
+            scriptPath: 'mock-script.js',
             parameters: { maxFiles: 10, autoFix: true },
             batchSize: 10,
             safetyLevel: 'HIGH' as unknown
@@ -142,9 +142,9 @@ export function createMockCampaignConfig(overrides?: Partial<CampaignConfig>): C
       enterpriseSystems: 200
     },
     toolConfiguration: {
-      enhancedErrorFixer: 'mock-enhanced-fixer.js';
-      explicitAnyFixer: 'mock-any-fixer.js';
-      unusedVariablesFixer: 'mock-unused-fixer.js';
+      enhancedErrorFixer: 'mock-enhanced-fixer.js',
+      explicitAnyFixer: 'mock-any-fixer.js',
+      unusedVariablesFixer: 'mock-unused-fixer.js',
       consoleStatementFixer: 'mock-console-fixer.js'
     }
   };
@@ -170,9 +170,9 @@ export function createMockProgressMetrics(overrides?: Partial<ProgressMetrics>):
       percentage: 56
     };
     buildPerformance: {
-      currentTime: 8.5;
+      currentTime: 8.5,
       targetTime: 10,
-      cacheHitRate: 0.8;
+      cacheHitRate: 0.8,
       memoryUsage: 45
     },
     enterpriseSystems: {
@@ -190,7 +190,7 @@ export function createMockProgressMetrics(overrides?: Partial<ProgressMetrics>):
  */
 export function createMockSafetyEvent(
   type: SafetyEventType,
-  description: string;
+  description: string,
   severity: SafetyEventSeverity = SafetyEventSeverity.INFO
 ): SafetyEvent {
   return {
@@ -207,7 +207,7 @@ export function createMockSafetyEvent(
  */
 export async function simulateCampaignPhase(
   context: CampaignTestContext,
-  phase: CampaignPhase;
+  phase: CampaignPhase,
   expectedResult?: Partial<PhaseResult>
 ): Promise<PhaseResult> {
   const result = await context.controller.executePhase(phase);
@@ -231,7 +231,7 @@ export async function simulateCampaignPhase(
  */
 export async function simulateProgressTracking(
   context: CampaignTestContext,
-  targetMetrics: Partial<ProgressMetrics>;
+  targetMetrics: Partial<ProgressMetrics>,
   durationMs: number = 1000
 ): Promise<ProgressMetrics> {
   if (context.testSafeTracker) {
@@ -250,7 +250,7 @@ export async function simulateProgressTracking(
 export function validateCampaignTestIsolation(context: CampaignTestContext): {
   isValid: boolean,
   issues: string[],
-  warnings: string[];
+  warnings: string[],
 } {
   return context.testController.validateTestIsolation();
 }
@@ -259,8 +259,8 @@ export function validateCampaignTestIsolation(context: CampaignTestContext): {
  * Create test scenario for campaign operations
  */
 export interface CampaignTestScenario {
-  name: string;
-  initialMetrics: ProgressMetrics;
+  name: string,
+  initialMetrics: ProgressMetrics,
   targetMetrics: Partial<ProgressMetrics>,
   expectedPhaseResults: Partial<PhaseResult>[],
   expectedSafetyEvents: SafetyEventType[],
@@ -277,11 +277,11 @@ export async function executeCampaignTestScenario(
   context: CampaignTestContext,
   results: PhaseResult[],
   finalMetrics: ProgressMetrics,
-  safetyEvents: SafetyEvent[];
+  safetyEvents: SafetyEvent[],
 }> {
   // Setup test environment
   const context = await setupCampaignTest({
-    testName: scenario.name;
+    testName: scenario.name,
     customConfig: config
   });
 
@@ -332,8 +332,8 @@ export async function executeCampaignTestScenario(
  * Memory-safe test wrapper for campaign operations
  */
 export async function withCampaignTestIsolation<T>(
-  testName: string;
-  testFn: (context: CampaignTestContext) => Promise<T>;
+  testName: string,
+  testFn: (context: CampaignTestContext) => Promise<T>,
   setup?: Partial<CampaignTestSetup>
 ): Promise<T> {
   const context = await setupCampaignTest({
@@ -354,7 +354,7 @@ export async function withCampaignTestIsolation<T>(
 export function validateCampaignMemoryUsage(context: CampaignTestContext): {
   isMemoryEfficient: boolean,
   memoryStats: any,
-  recommendations: string[];
+  recommendations: string[],
 } {
   const recommendations: string[] = [];
   let isMemoryEfficient = true;

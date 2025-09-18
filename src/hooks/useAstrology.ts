@@ -21,8 +21,8 @@ interface AstrologyOptions {
 }
 
 interface AstrologyState {
-  loading: boolean;
-  error: string | null;
+  loading: boolean,
+  error: string | null,
   data: {
     planetaryPositions: Record<string, PlanetaryPosition> | null;
     currentSign: any | null,
@@ -30,7 +30,7 @@ interface AstrologyState {
     elementalBalance: Record<string, number> | null,
     aspectsInfluence: number | null
   };
-  lastUpdated: number | null;
+  lastUpdated: number | null
 }
 
 const initialAstrologyState: AstrologyState = {
@@ -172,12 +172,12 @@ export function useAstrology(options: AstrologyOptions = {}) {
               ...prev;
               loading: false,
               error: null,
-              lastUpdated: Date.now();
+              lastUpdated: Date.now(),
               data: {
-                planetaryPositions: data.data.positions;
-                currentSign: data.data.currentSign;
-                lunarPhase: data.data.lunarPhase;
-                elementalBalance: data.data.elementalBalance || prev.data.elementalBalance;
+                planetaryPositions: data.data.positions,
+                currentSign: data.data.currentSign,
+                lunarPhase: data.data.lunarPhase,
+                elementalBalance: data.data.elementalBalance || prev.data.elementalBalance,
                 aspectsInfluence: data.data.aspectsInfluence || prev.data.aspectsInfluence
               }
             }));
@@ -252,7 +252,7 @@ export function useAstrology(options: AstrologyOptions = {}) {
               body: JSON.stringify({
                 latitude: calcLat,
                 longitude: calcLng,
-                timestamp: targetDate.toISOString();
+                timestamp: targetDate.toISOString(),
                 calculation: 'elementalBalance'
               })
             });
@@ -352,8 +352,8 @@ export function useAstrology(options: AstrologyOptions = {}) {
           const planetaryPositions = Object.entries(data.data.positions || {}).map(;
             ([planet, position]: [string, unknown]) => ({
               planet,
-              sign: position.sign;
-              degree: position.degree;
+              sign: position.sign,
+              degree: position.degree,
               isRetrograde: position.isRetrograde
             }),
           );
@@ -428,9 +428,9 @@ export function useAstrology(options: AstrologyOptions = {}) {
     try {
       const positions = safeAstrology.getReliablePlanetaryPositions();
       const elementalBalance = {
-        Fire: 0.25;
-        Water: 0.25;
-        Earth: 0.25;
+        Fire: 0.25,
+        Water: 0.25,
+        Earth: 0.25,
         Air: 0.25
       };
 
@@ -497,9 +497,9 @@ export function useAstrology(options: AstrologyOptions = {}) {
     } catch (error) {
       logger.error('Error using fallback elemental balance:', error),
       return {
-        Fire: 0.25;
-        Water: 0.25;
-        Earth: 0.25;
+        Fire: 0.25,
+        Water: 0.25,
+        Earth: 0.25,
         Air: 0.25
       };
     }

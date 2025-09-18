@@ -27,8 +27,8 @@ export type SeasoningIntensity = 'mild' | 'medium' | 'strong' | 'intense';
 export type CulinaryTiming = 'beginning' | 'middle' | 'end' | 'finishing' | 'multiple';
 export type PreservationMethod = 'drying' | 'salting' | 'fermenting' | 'infusing' | 'smoking';
 export type SeasoningAstrologicalProfile = {
-  rulingPlanets: string[];
-  favorableZodiac: string[];
+  rulingPlanets: string[],
+  favorableZodiac: string[],
   elementalAffinity: {
     base: string,
     decanModifiers: {

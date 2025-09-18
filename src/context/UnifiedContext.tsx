@@ -17,13 +17,13 @@ import { logger } from '@/utils/logger';
 
 // Define the shape of our unified state
 interface UnifiedState {
-  isLoading: boolean;
-  error: string | null;
+  isLoading: boolean,
+  error: string | null,
   astrologicalData: Record<string, PlanetPosition> | null;
-  alchemicalData: StandardizedAlchemicalResult | null;
-  recommendationData: AlchemicalRecommendation | null;
+  alchemicalData: StandardizedAlchemicalResult | null,
+  recommendationData: AlchemicalRecommendation | null,
   lastUpdated: Date | null,
-  refreshData: () => void;
+  refreshData: () => void,
 }
 
 // Create the context with a default value
@@ -77,9 +77,9 @@ export const UnifiedStateProvider = ({ children }: { children: ReactNode }) => {
         const planetData = astroData[dataKey];
         if (planetData && typeof planetData === 'object' && 'sign' in planetData) {
           planetaryPositions[planetName] = {
-            sign: planetData.sign;
-            degree: planetData.degree;
-            minute: planetData.minute;
+            sign: planetData.sign,
+            degree: planetData.degree,
+            minute: planetData.minute,
             isRetrograde: planetData.isRetrograde || false
           };
         }

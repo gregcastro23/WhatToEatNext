@@ -18,7 +18,7 @@ const logger = createLogger('StreamlinedPlanetaryPositions');
 // Cache system to avoid redundant calculations
 interface PositionsCache {
   positions: { [key: string]: CelestialPosition };
-  timestamp: number;
+  timestamp: number
 }
 
 let positionsCache: PositionsCache | null = null;
@@ -228,7 +228,7 @@ export function getCurrentPlanetaryPositions(): { [key: string]: CelestialPositi
   const validatedPositions = validatePositionsWithTransitDates(basePositions);
 
   // Cache the positions
-  positionsCache = {;
+  positionsCache = {
     positions: validatedPositions,
     timestamp: Date.now()
   };
@@ -248,7 +248,7 @@ export function getCurrentPlanetaryPositions(): { [key: string]: CelestialPositi
  * @returns Validated positions
  */
 function validatePositionsWithTransitDates(positions: { [key: string]: CelestialPosition }): {
-  [key: string]: CelestialPosition;
+  [key: string]: CelestialPosition
 } {
   const validatedPositions = { ...positions };
   const currentDate = new Date();

@@ -24,8 +24,8 @@ import {
 import { TestSafeProgressTracker } from './TestSafeProgressTracker';
 
 interface CampaignTestState {
-  isPaused: boolean;
-  isIsolated: boolean;
+  isPaused: boolean,
+  isIsolated: boolean,
   pausedAt: Date | null,
   resumedAt: Date | null,
   testName: string | null,
@@ -33,8 +33,8 @@ interface CampaignTestState {
 }
 
 interface TestIsolationConfig {
-  pauseProgressTracking: boolean;
-  preventBuildExecution: boolean;
+  pauseProgressTracking: boolean,
+  preventBuildExecution: boolean,
   preventGitOperations: boolean,
   enableMemoryMonitoring: boolean,
   isolateFileSystem: boolean,
@@ -112,7 +112,7 @@ export class CampaignTestController {
       this.testSafeTracker = new TestSafeProgressTracker({
         maxHistorySize: 10, // Smaller for tests
         memoryCheckFrequency: 3,
-        enableMemoryMonitoring: this.isolationConfig.enableMemoryMonitoring;
+        enableMemoryMonitoring: this.isolationConfig.enableMemoryMonitoring,
         simulateRealProgress: false
       });
     }
@@ -402,10 +402,10 @@ export class CampaignTestController {
   private setupTestEnvironment(): void {
     // Store original environment variables
     this.originalEnvVars = {
-      NODE_ENV: process.env.NODE_ENV;
-      CAMPAIGN_TEST_MODE: process.env.CAMPAIGN_TEST_MODE;
-      DISABLE_ACTUAL_BUILDS: process.env.DISABLE_ACTUAL_BUILDS;
-      DISABLE_GIT_OPERATIONS: process.env.DISABLE_GIT_OPERATIONS;
+      NODE_ENV: process.env.NODE_ENV,
+      CAMPAIGN_TEST_MODE: process.env.CAMPAIGN_TEST_MODE,
+      DISABLE_ACTUAL_BUILDS: process.env.DISABLE_ACTUAL_BUILDS,
+      DISABLE_GIT_OPERATIONS: process.env.DISABLE_GIT_OPERATIONS,
       MOCK_CAMPAIGN_SYSTEM: process.env.MOCK_CAMPAIGN_SYSTEM
     };
 

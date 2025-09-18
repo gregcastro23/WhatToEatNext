@@ -40,9 +40,9 @@ export function useSafeFlavorEngine() {
       return {
         isReady: true,
         error: null,
-        getProfile: () => undefined;
-        searchProfiles: () => [];
-        calculateCompatibility: () => null;
+        getProfile: () => undefined,
+        searchProfiles: () => [],
+        calculateCompatibility: () => null,
         profileCount: 0,
         categories: {}
       };

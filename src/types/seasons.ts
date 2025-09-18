@@ -1,17 +1,17 @@
 export type Season = 'spring' | 'summer' | 'autumn' | 'fall' | 'winter' | 'all';
 
 export interface SeasonalProfile {
-  spring: number;
-  summer: number;
-  autumn: number;
-  winter: number;
+  spring: number,
+  summer: number,
+  autumn: number,
+  winter: number,
   [key: string]: number; // Allow indexing with string
 }
 
 export interface SeasonalAdjustment {
-  season: Season;
-  effectStrength: number;
-  recommendations: string[];
+  season: Season,
+  effectStrength: number,
+  recommendations: string[]
 }
 
 // ========== MISSING TYPES FOR TS2305 FIXES ==========;
@@ -19,32 +19,32 @@ export interface SeasonalAdjustment {
 // SeasonalRecommendations (causing error in recipeBuilding.ts)
 export interface SeasonalRecommendations {
   spring: {
-    ingredients: string[];
-    recipes: string[];
-    techniques: string[];
-    energies: string[];
+    ingredients: string[],
+    recipes: string[],
+    techniques: string[],
+    energies: string[],
   };
   summer: {
-    ingredients: string[];
-    recipes: string[];
-    techniques: string[];
-    energies: string[];
+    ingredients: string[],
+    recipes: string[],
+    techniques: string[],
+    energies: string[],
   };
   autumn: {
-    ingredients: string[];
-    recipes: string[];
-    techniques: string[];
-    energies: string[];
+    ingredients: string[],
+    recipes: string[],
+    techniques: string[],
+    energies: string[],
   };
   winter: {
-    ingredients: string[];
-    recipes: string[];
-    techniques: string[];
-    energies: string[];
+    ingredients: string[],
+    recipes: string[],
+    techniques: string[],
+    energies: string[],
   };
   general: {
-    transitions: string[];
-    balancing: string[];
+    transitions: string[],
+    balancing: string[],
   };
 }
 
@@ -61,14 +61,14 @@ export function getCurrentSeason(): Season {
 
 // recipe type (simple type, causing error in AlchemicalRecommendationService.ts)
 export interface recipe {
-  id: string;
-  name: string;
+  id: string,
+  name: string,
   season?: Season | Season[];
   ingredients?: string[];
   elementalProperties?: {
-    Fire: number;
-    Water: number;
-    Earth: number;
-    Air: number;
+    Fire: number,
+    Water: number,
+    Earth: number,
+    Air: number,
   };
 }

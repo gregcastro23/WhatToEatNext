@@ -268,7 +268,7 @@ export const _useDraggable = (options: DraggableOptions = {}) => {
 
   return {
     ref: elementRef,
-    isDragging: isDragging.current;
+    isDragging: isDragging.current,
     resetPosition,
     setPosition
   };

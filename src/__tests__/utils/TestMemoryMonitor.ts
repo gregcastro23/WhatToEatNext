@@ -7,38 +7,38 @@
  */
 
 interface MemorySnapshot {
-  timestamp: Date;
-  testName: string;
-  heapUsed: number;
-  heapTotal: number;
-  external: number;
-  arrayBuffers: number;
-  rss: number;
+  timestamp: Date,
+  testName: string,
+  heapUsed: number,
+  heapTotal: number,
+  external: number,
+  arrayBuffers: number,
+  rss: number
 }
 
 interface MemoryCheck {
-  isWithinLimits: boolean;
-  currentUsage: NodeJS.MemoryUsage;
-  warnings: string[];
-  errors: string[];
+  isWithinLimits: boolean,
+  currentUsage: NodeJS.MemoryUsage,
+  warnings: string[],
+  errors: string[],
 }
 
 interface MemorySummary {
-  initialMemory: number;
-  currentMemory: number;
-  peakMemory: number;
-  totalIncrease: number;
-  testDuration: number;
+  initialMemory: number,
+  currentMemory: number,
+  peakMemory: number,
+  totalIncrease: number,
+  testDuration: number
 }
 
 export class TestMemoryMonitor {
   private snapshots: MemorySnapshot[] = [];
   private startTime: number;
   private memoryLimits: {
-    heapUsed: number;
-    heapTotal: number;
-    external: number;
-    rss: number;
+    heapUsed: number,
+    heapTotal: number,
+    external: number,
+    rss: number,
   };
 
   constructor(limits?: Partial<TestMemoryMonitor['memoryLimits']>) {
@@ -176,9 +176,9 @@ export class TestMemoryMonitor {
    * Get memory usage trend analysis
    */
   getMemoryTrend(): {
-    isIncreasing: boolean;
-    averageIncrease: number;
-    concerningTrend: boolean;
+    isIncreasing: boolean,
+    averageIncrease: number,
+    concerningTrend: boolean
   } {
     if (this.snapshots.length < 3) {
       return {
@@ -211,9 +211,9 @@ export class TestMemoryMonitor {
    * Perform memory cleanup and optimization
    */
   cleanup(testName: string): {
-    success: boolean;
-    freedMemory: string;
-    actions: string[];
+    success: boolean,
+    freedMemory: string,
+    actions: string[]
   } {
     const beforeCleanup = this.getCurrentMemoryUsage();
     const actions: string[] = [];
@@ -275,10 +275,10 @@ export class TestMemoryMonitor {
    * Get detailed memory report
    */
   getDetailedReport(): {
-    summary: MemorySummary;
-    trend: ReturnType<TestMemoryMonitor['getMemoryTrend']>;
-    snapshots: MemorySnapshot[];
-    recommendations: string[];
+    summary: MemorySummary,
+    trend: ReturnType<TestMemoryMonitor['getMemoryTrend']>,
+    snapshots: MemorySnapshot[],
+    recommendations: string[],
   } {
     const summary = this.getMemorySummary();
     const trend = this.getMemoryTrend();
@@ -322,13 +322,13 @@ export class TestMemoryMonitor {
    */
   exportData(): {
     metadata: {
-      startTime: number;
-      endTime: number;
-      duration: number;
-      snapshotCount: number;
+      startTime: number,
+      endTime: number,
+      duration: number,
+      snapshotCount: number,
     };
-    snapshots: MemorySnapshot[];
-    summary: MemorySummary;
+    snapshots: MemorySnapshot[],
+    summary: MemorySummary,
   } {
     return {
       metadata: {

@@ -195,13 +195,13 @@ export class ConsolidatedRecommendationService implements RecommendationServiceI
             // Apply safe type conversion for property access
             const itemData = item as any;
             return {
-              id: String(itemData.id || '');
-              name: String(itemData.name || '');
-              category: String(itemData.category || '');
+              id: String(itemData.id || ''),
+              name: String(itemData.name || ''),
+              category: String(itemData.category || ''),
               elementalProperties: (itemData.elementalProperties as ElementalProperties) || {
-                Fire: 0.25;
-                Water: 0.25;
-                Earth: 0.25;
+                Fire: 0.25,
+                Water: 0.25,
+                Earth: 0.25,
                 Air: 0.25
               },
               ...itemData
@@ -352,8 +352,8 @@ export class ConsolidatedRecommendationService implements RecommendationServiceI
         scores,
         context: {
           criteria,
-          totalCuisines: items.length;
-          filteredCount: filteredItems.length;
+          totalCuisines: items.length,
+          filteredCount: filteredItems.length,
           details: cuisineRecommendations
         }
       };
@@ -383,7 +383,7 @@ export class ConsolidatedRecommendationService implements RecommendationServiceI
       // ✅ Pattern MM-1: Type assertion to match AstrologicalState interface
       const methodRecommendations = await getCookingMethodRecommendations({
         elementalPreference: elementalState,
-        planetaryPositions: criteria.planetaryPositions;
+        planetaryPositions: criteria.planetaryPositions,
         limit: criteria.limit
       } as unknown);
 
@@ -392,8 +392,8 @@ export class ConsolidatedRecommendationService implements RecommendationServiceI
       const items: CookingMethod[] = (methodRecommendations || []).map((method: unknown) => {
         const methodData = method ;
         return {
-          id: String(methodData.id || methodData.name || '');
-          name: String(methodData.name || '');
+          id: String(methodData.id || methodData.name || ''),
+          name: String(methodData.name || ''),
           description: String(methodData.description || '');
           ...methodData
         } as CookingMethod;
@@ -422,8 +422,8 @@ export class ConsolidatedRecommendationService implements RecommendationServiceI
         scores,
         context: {
           criteria,
-          totalMethods: items.length;
-          filteredCount: filteredItems.length;
+          totalMethods: items.length,
+          filteredCount: filteredItems.length,
           details: methodRecommendations
         }
       };

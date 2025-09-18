@@ -15,9 +15,9 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 export interface LintingWarning {
-  file: string;
-  line: number;
-  column: number;
+  file: string,
+  line: number,
+  column: number,
   rule: string,
   severity: 'error' | 'warning',
   message: string,
@@ -52,18 +52,18 @@ export interface WarningDistribution {
     priority: number,
     files: string[]
   };
-  total: number;
+  total: number
 }
 
 export interface LintingAnalysisResult {
-  distribution: WarningDistribution;
+  distribution: WarningDistribution,
   warnings: LintingWarning[],
   prioritizedFiles: {
     highPriority: string[],
     mediumPriority: string[],
     lowPriority: string[]
   };
-  recommendations: string[];
+  recommendations: string[]
 }
 
 export class LintingWarningAnalyzer {
@@ -172,7 +172,7 @@ export class LintingWarningAnalyzer {
             column,
             rule: '@typescript-eslint/no-explicit-any',
             severity: 'warning',
-            message: 'Unexpected any. Specify a different type.';
+            message: 'Unexpected any. Specify a different type.',
             category: WarningCategory.EXPLICIT_ANY
           });
         }
@@ -189,7 +189,7 @@ export class LintingWarningAnalyzer {
             column,
             rule: 'no-console',
             severity: 'warning',
-            message: `Unexpected console statement.`;
+            message: `Unexpected console statement.`,
             category: WarningCategory.CONSOLE_STATEMENTS
           });
         }
@@ -392,13 +392,13 @@ export class LintingWarningAnalyzer {
    */
   private async saveAnalysisResults(result: LintingAnalysisResult): Promise<void> {
     const metrics = {
-      timestamp: new Date().toISOString();
+      timestamp: new Date().toISOString(),
       analysis: result,
       summary: {
-        totalWarnings: result.distribution.total;
-        explicitAnyCount: result.distribution.explicitAny.count;
-        unusedVariablesCount: result.distribution.unusedVariables.count;
-        consoleStatementsCount: result.distribution.consoleStatements.count;
+        totalWarnings: result.distribution.total,
+        explicitAnyCount: result.distribution.explicitAny.count,
+        unusedVariablesCount: result.distribution.unusedVariables.count,
+        consoleStatementsCount: result.distribution.consoleStatements.count,
         filesAnalyzed: new Set(result.warnings.map(w => w.file)).size,,;
       }
     };

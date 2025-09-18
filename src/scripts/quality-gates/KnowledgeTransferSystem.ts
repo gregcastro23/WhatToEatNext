@@ -16,10 +16,10 @@ import * as path from 'path';
 import * as readline from 'readline';
 
 interface TrainingModule {
-  id: string;
-  name: string;
-  description: string;
-  prerequisites: string[];
+  id: string,
+  name: string,
+  description: string,
+  prerequisites: string[],
   duration: number, // minutes
   difficulty: 'beginner' | 'intermediate' | 'advanced',
   content: TrainingContent[],
@@ -27,7 +27,7 @@ interface TrainingModule {
 }
 
 interface TrainingContent {
-  type: 'text' | 'code' | 'interactive' | 'quiz';
+  type: 'text' | 'code' | 'interactive' | 'quiz',
   title: string,
   content: string,
   examples?: CodeExample[],
@@ -42,8 +42,8 @@ interface CodeExample {
 }
 
 interface Exercise {
-  id: string;
-  question: string;
+  id: string,
+  question: string,
   type: 'multiple_choice' | 'code_completion' | 'pattern_identification',
   options?: string[],
   correctAnswer: string | number,
@@ -57,8 +57,8 @@ interface Assessment {
 }
 
 interface UserProgress {
-  userId: string;
-  completedModules: string[];
+  userId: string,
+  completedModules: string[],
   currentModule?: string,
   scores: Record<string, number>,
   certifications: string[],
@@ -74,7 +74,7 @@ class KnowledgeTransferSystem {
     this.trainingModules = new Map();
     this.userProgress = new Map();
     this.rl = readline.createInterface({
-      input: process.stdin;
+      input: process.stdin,
       output: process.stdout
     });
 
@@ -291,7 +291,7 @@ const _apiResponse: any = await fetch('/api/data'),`,;
           examples: [
             {
               title: 'Array Type Replacement',
-              before: `const items: any[] = getData();
+              before: `const items: any[] = getData(),
 items.forEach(item => // // console.log(item)),`,;
               after: `const items: unknown[] = getData();
 items.forEach(item => // // console.log(item)),`,;
@@ -459,7 +459,7 @@ const value = config.someProperty,`,;
     // // console.log('3. Replacement Patterns (60 min) - Intermediate');
     // // console.log('4. Safety Protocols (40 min) - Advanced');
     // // console.log('5. Quality Gates (35 min) - Advanced');
-    // // console.log('\nTotal estimated time: 3.5 hours');
+    // // console.log('\nTotal estimated time: 3.5 hours')
   }
 
   private async showProgressSummary(progress: UserProgress): Promise<void> {
@@ -518,7 +518,7 @@ const value = config.someProperty,`,;
           this.rl.close();
           return,
         default:
-          // // console.log('❌ Invalid option. Please try again.');
+          // // console.log('❌ Invalid option. Please try again.')
       }
     }
   }

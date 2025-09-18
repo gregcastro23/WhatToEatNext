@@ -10,10 +10,10 @@ import { logger } from '@/utils/logger';
 // ===== INTERFACES =====;
 
 export interface CulturalAnalytics {
-  culturalSynergy: number;
-  culturalCompatibility: number;
-  historicalSignificance: string;
-  culturalContext: string;
+  culturalSynergy: number,
+  culturalCompatibility: number,
+  historicalSignificance: string,
+  culturalContext: string,
   fusionPotential: number,
   culturalDiversityScore: number,
   traditionalPrinciples: string[],
@@ -21,7 +21,7 @@ export interface CulturalAnalytics {
 }
 
 export interface CulturalSynergyScore {
-  score: number;
+  score: number,
   reasoning: string[],
   culturalGroup: string,
   proximityBonus: number,
@@ -29,10 +29,10 @@ export interface CulturalSynergyScore {
 }
 
 export interface FusionCuisineRecommendation {
-  name: string;
-  parentCuisines: string[];
-  fusionScore: number;
-  culturalHarmony: number;
+  name: string,
+  parentCuisines: string[],
+  fusionScore: number,
+  culturalHarmony: number,
   recommendedDishes: string[],
   culturalNotes: string[],
   blendRatio: number,
@@ -40,8 +40,8 @@ export interface FusionCuisineRecommendation {
 }
 
 export interface CulturalContext {
-  origin: string;
-  historicalPeriod: string;
+  origin: string,
+  historicalPeriod: string,
   culturalInfluences: string[],
   traditionalOccasions: string[],
   modernEvolution: string[],
@@ -196,7 +196,7 @@ export class CulturalAnalyticsService {
    */
   static calculateCulturalSynergy(
     primaryCuisine: string,
-    secondaryCuisines: string[] = [];
+    secondaryCuisines: string[] = [],
     options: {
       includeHistoricalContext?: boolean,
       includeFusionPotential?: boolean,
@@ -258,7 +258,7 @@ export class CulturalAnalyticsService {
     } catch (error) {
       logger.error('Error calculating cultural synergy:', error),
       return {
-        score: 0.7;
+        score: 0.7,
         reasoning: ['Default cultural synergy applied due to calculation error'],
         culturalGroup: 'unknown',
         proximityBonus: 0,
@@ -351,11 +351,11 @@ export class CulturalAnalyticsService {
           const fusionRecommendation: FusionCuisineRecommendation = {
             name: this.generateFusionName(primaryCuisine, secondaryCuisine),
             parentCuisines: [primaryCuisine, secondaryCuisine],
-            fusionScore: fusionData.fusionScore;
-            culturalHarmony: fusionData.culturalHarmony;
+            fusionScore: fusionData.fusionScore,
+            culturalHarmony: fusionData.culturalHarmony,
             recommendedDishes: this.generateFusionDishes(primaryCuisine, secondaryCuisine),
             culturalNotes: this.generateFusionCulturalNotes(primaryCuisine, secondaryCuisine),
-            blendRatio: fusionData.blendRatio;
+            blendRatio: fusionData.blendRatio,
             seasonalOptimization: this.calculateSeasonalFusionOptimization(
               primaryCuisine,
               secondaryCuisine,
@@ -570,9 +570,9 @@ export class CulturalAnalyticsService {
   ): Record<string, number> {
     // Simple seasonal optimization based on cuisine characteristics
     const optimization: Record<string, number> = {
-      spring: 0.8;
-      summer: 0.8;
-      autumn: 0.8;
+      spring: 0.8,
+      summer: 0.8,
+      autumn: 0.8,
       winter: 0.8
     };
 
@@ -594,12 +594,12 @@ export class CulturalAnalyticsService {
 
   private static getDefaultCulturalAnalytics(cuisineName: string): CulturalAnalytics {
     return {
-      culturalSynergy: 0.7;
-      culturalCompatibility: 0.7;
+      culturalSynergy: 0.7,
+      culturalCompatibility: 0.7,
       historicalSignificance: `${cuisineName} cuisine has rich cultural traditions and historical significance.`,
       culturalContext: `${cuisineName} cuisine reflects the cultural values and culinary heritage of its region.`,
-      fusionPotential: 0.7;
-      culturalDiversityScore: 0.6;
+      fusionPotential: 0.7,
+      culturalDiversityScore: 0.6,
       traditionalPrinciples: [
         'Traditional cooking methods',
         'Cultural food combinations',

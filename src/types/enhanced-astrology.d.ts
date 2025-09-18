@@ -76,7 +76,7 @@ declare global {
       /** Earth element strength (0-1) - Grounding, root vegetables, slow cooking, stability */
       Earth: number;
       /** Air element strength (0-1) - Light, leafy greens, raw preparations, clarity */
-      Air: number;
+      Air: number
     }
 
     // Planetary correspondences for culinary applications
@@ -114,7 +114,7 @@ declare global {
       /** Active planetary influences */
       activePlanets: Planet[];
       /** Current season */
-      season: 'spring' | 'summer' | 'autumn' | 'winter';
+      season: 'spring' | 'summer' | 'autumn' | 'winter'
     }
 
     // Culinary astrology calculations with enhanced typing
@@ -123,27 +123,27 @@ declare global {
       dominantElement: Element;
       /** Recommended cooking methods with astrological reasoning */
       recommendedMethods: Array<{
-        method: string;
-        element: Element;
-        planets: Planet[];
-        reasoning: string;
+        method: string,
+        element: Element,
+        planets: Planet[],
+        reasoning: string,
       }>;
       /** Optimal ingredients for current conditions */
       optimalIngredients: Array<{
-        name: string;
-        element: Element;
-        planet: Planet;
-        compatibility: number;
+        name: string,
+        element: Element,
+        planet: Planet,
+        compatibility: number,
       }>;
       /** Timing recommendations */
       timing: {
-        bestHours: string[];
-        lunarPhase: string;
-        planetaryHour: Planet;
-        optimalDays: string[];
+        bestHours: string[],
+        lunarPhase: string,
+        planetaryHour: Planet,
+        optimalDays: string[],
       };
       /** Elemental balance recommendations */
-      elementalBalance: ElementalProperties;
+      elementalBalance: ElementalProperties
     }
 
     // Type guards for runtime validation with enhanced error messages
@@ -153,7 +153,7 @@ declare global {
       isValidCompatibilityScore(score: number): boolean;
       isZodiacSign(sign: string): sign is ZodiacSign;
       isPlanet(planet: string): planet is Planet;
-      isElement(element: string): element is Element;
+      isElement(element: string): element is Element
     }
 
     // Compatibility calculation utilities
@@ -166,7 +166,7 @@ declare global {
       /** Calculate planetary compatibility based on aspects */
       calculatePlanetaryCompatibility(planet1: Planet, planet2: Planet): number;
       /** Calculate overall astrological compatibility */
-      calculateOverallCompatibility(state1: AstrologicalState, state2: AstrologicalState): number;
+      calculateOverallCompatibility(state1: AstrologicalState, state2: AstrologicalState): number
     }
 
     // Astrological calculation utilities
@@ -179,10 +179,10 @@ declare global {
       getRulingPlanetForSign(sign: any): Planet;
       /** Calculate planetary aspects */
       calculateAspects(positions: Record<Planet, PlanetaryPosition>): Array<{
-        planet1: Planet;
-        planet2: Planet;
-        aspect: 'conjunction' | 'opposition' | 'trine' | 'square' | 'sextile';
-        orb: number;
+        planet1: Planet,
+        planet2: Planet,
+        aspect: 'conjunction' | 'opposition' | 'trine' | 'square' | 'sextile',
+        orb: number,
       }>;
     }
   }
@@ -209,24 +209,24 @@ export interface EnhancedIngredient {
     /** Ingredient pairings */
     pairings: string[];
     /** Preparation tips */
-    preparationTips: string[];
+    preparationTips: string[]
   };
   /** Optional nutritional data */
   nutritionalData?: {
-    calories: number;
-    protein: number;
-    carbohydrates: number;
-    fat: number;
-    fiber: number;
-    vitamins: string[];
-    minerals: string[];
+    calories: number,
+    protein: number,
+    carbohydrates: number,
+    fat: number,
+    fiber: number,
+    vitamins: string[],
+    minerals: string[]
   };
   /** Cultural significance and sensitivity */
   culturalContext?: {
-    origin: string;
-    traditionalUses: string[];
-    culturalSignificance: string;
-    respectfulUsage: string[];
+    origin: string,
+    traditionalUses: string[],
+    culturalSignificance: string,
+    respectfulUsage: string[],
   };
 }
 
@@ -238,15 +238,15 @@ export interface EnhancedRecipe {
   name: string;
   /** List of ingredients with quantities */
   ingredients: Array<{
-    ingredient: EnhancedIngredient;
-    quantity: string;
-    preparation: string;
-    timing: 'early' | 'middle' | 'late';
+    ingredient: EnhancedIngredient,
+    quantity: string,
+    preparation: string,
+    timing: 'early' | 'middle' | 'late',
   }>;
   /** Step-by-step instructions */
   instructions: Array<{
-    step: number;
-    instruction: string;
+    step: number,
+    instruction: string,
     timing?: string;
     temperature?: string;
     technique?: string;
@@ -257,14 +257,14 @@ export interface EnhancedRecipe {
   elementalBalance: Astrology.ElementalProperties;
   /** Timing information */
   timing: {
-    prepTime: number;
-    cookTime: number;
+    prepTime: number,
+    cookTime: number,
     totalTime: number;
     optimalStartTime?: string;
     planetaryTiming?: {
-      bestPlanetaryHour: Astrology.Planet;
-      bestLunarPhase: string;
-      bestSeason: string;
+      bestPlanetaryHour: Astrology.Planet,
+      bestLunarPhase: string,
+      bestSeason: string
     };
   };
   /** Serving information */
@@ -273,10 +273,10 @@ export interface EnhancedRecipe {
   difficulty: 'beginner' | 'intermediate' | 'advanced' | 'expert';
   /** Cultural context */
   culturalContext?: {
-    cuisine: string;
-    region: string;
-    traditionalSignificance: string;
-    modernAdaptations: string[];
+    cuisine: string,
+    region: string,
+    traditionalSignificance: string,
+    modernAdaptations: string[],
   };
 }
 
@@ -294,20 +294,20 @@ export interface EnhancedCookingMethod {
   benefits: string[];
   /** Optimal timing for this method */
   optimalTiming: {
-    planetaryHours: Astrology.Planet[];
-    lunarPhases: string[];
-    seasons: string[];
+    planetaryHours: Astrology.Planet[],
+    lunarPhases: string[],
+    seasons: string[]
   };
   /** Temperature range */
   temperatureRange?: {
-    min: number;
-    max: number;
-    unit: 'celsius' | 'fahrenheit';
+    min: number,
+    max: number,
+    unit: 'celsius' | 'fahrenheit'
   };
   /** Equipment needed */
   equipment: string[];
   /** Difficulty level */
-  difficulty: 'easy' | 'medium' | 'hard';
+  difficulty: 'easy' | 'medium' | 'hard'
 }
 
 // Cuisine profile with astrological characteristics
@@ -324,15 +324,15 @@ export interface EnhancedCuisineProfile {
   signatureModifications: Record<string, string>;
   /** Astrological profile */
   astrologicalProfile: {
-    rulingPlanets: Astrology.Planet[];
-    aspectEnhancers: string[];
-    seasonalPreferences: string[];
+    rulingPlanets: Astrology.Planet[],
+    aspectEnhancers: string[],
+    seasonalPreferences: string[]
   };
   /** Cultural sensitivity guidelines */
   culturalGuidelines: {
-    respectfulRepresentation: string[];
-    traditionalContext: string;
-    modernAdaptations: string[];
+    respectfulRepresentation: string[],
+    traditionalContext: string,
+    modernAdaptations: string[]
   };
 }
 
@@ -351,23 +351,23 @@ export type { EnhancedCookingMethod, EnhancedCuisineProfile, EnhancedIngredient,
 export type WithAstrologicalData<T = {}> = T & {;
   astrologicalState?: Astrology.AstrologicalState;
   elementalProperties?: Astrology.ElementalProperties;
-  onAstrologicalUpdate?: (state: Astrology.AstrologicalState) => void;
+  onAstrologicalUpdate?: (state: Astrology.AstrologicalState) => void
 };
 
 // Utility type for components that can be culturally sensitive
 export type WithCulturalSensitivity<T = {}> = T & {;
   culturalContext?: {
-    respectTraditionalUses: boolean;
-    acknowledgeOrigins: boolean;
-    useInclusiveLanguage: boolean;
+    respectTraditionalUses: boolean,
+    acknowledgeOrigins: boolean,
+    useInclusiveLanguage: boolean
   };
 };
 
 // Utility type for performance-optimized components
 export type WithPerformanceOptimization<T = {}> = T & {;
   performanceConfig?: {
-    enableMemoization: boolean;
-    enableLazyLoading: boolean;
-    enableVirtualization: boolean;
+    enableMemoization: boolean,
+    enableLazyLoading: boolean,
+    enableVirtualization: boolean
   };
 };

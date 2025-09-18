@@ -26,11 +26,11 @@ describe('Domain-Specific Testing', () => {
     replacer = new SafeTypeReplacer();
   });
 
-  const createDomainContext: any = (;
+  const createDomainContext: any = (,
     codeSnippet: string,
     filePath: string,
     domain: CodeDomain,
-    surroundingLines: string[] = [];
+    surroundingLines: string[] = [],
     hasComment = false,,;
     comment?: string
   ): ClassificationContext => ({
@@ -40,7 +40,7 @@ describe('Domain-Specific Testing', () => {
     surroundingLines,
     hasExistingComment: hasComment,
     existingComment: comment,
-    isInTestFile: filePath.includes('.test.') || filePath.includes('.spec.');
+    isInTestFile: filePath.includes('.test.') || filePath.includes('.spec.'),
     domainContext: {
       domain,
       intentionalityHints: [],
@@ -875,25 +875,25 @@ describe('Domain-Specific Testing', () => {
         {
           original: 'any',
           replacement: 'Ingredient',
-          filePath: 'src/data/ingredients/processor.ts';
+          filePath: 'src/data/ingredients/processor.ts',
           lineNumber: 1,
-          confidence: 0.9;
+          confidence: 0.9,
           validationRequired: true
         },
         {
           original: 'any',
           replacement: 'PlanetaryPosition',
-          filePath: 'src/calculations/planetary/positions.ts';
+          filePath: 'src/calculations/planetary/positions.ts',
           lineNumber: 1,
-          confidence: 0.8;
+          confidence: 0.8,
           validationRequired: true
         },
         {
           original: 'any',
           replacement: 'ProgressMetrics',
-          filePath: 'src/services/campaign/ProgressTracker.ts';
+          filePath: 'src/services/campaign/ProgressTracker.ts',
           lineNumber: 1,
-          confidence: 0.9;
+          confidence: 0.9,
           validationRequired: true
         }
       ];

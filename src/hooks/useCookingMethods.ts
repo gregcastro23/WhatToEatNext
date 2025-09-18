@@ -6,8 +6,8 @@ import { log } from '@/services/LoggingService';
 
 // Define the interface for cooking methods that the component expects
 interface CookingMethod {
-  id: string;
-  name: string;
+  id: string,
+  name: string,
   description: string;
   score?: number;
   culturalOrigin?: string;
@@ -50,9 +50,9 @@ export function useCookingMethods() {
             description: (data as any).description || `Cooking method: ${key}`,
             score: (data as any).score || Math.random() * 0.5 + 0.5, // Random score between 0.5 and 1.0
             elementalEffect: (data as any).elementalEffect || {
-              Fire: 0.25;
-              Water: 0.25;
-              Earth: 0.25;
+              Fire: 0.25,
+              Water: 0.25,
+              Earth: 0.25,
               Air: 0.25
             },
             duration: (data as any).duration || {
@@ -62,9 +62,9 @@ export function useCookingMethods() {
             suitable_for: (data as any).suitable_for || ['various ingredients'],
             benefits: (data as any).benefits || ['cooking'],
             alchemicalProperties: (data as any).alchemicalProperties || {
-              Spirit: 0.5;
-              Essence: 0.5;
-              Matter: 0.5;
+              Spirit: 0.5,
+              Essence: 0.5,
+              Matter: 0.5,
               Substance: 0.5
             }
           };
@@ -80,11 +80,11 @@ export function useCookingMethods() {
             id: key,
             name: (data as any).name || key.replace(/_/g, ' '),
             description: (data as any).description || `Cooking method: ${key}`,
-            score: (data as any).score || Math.random() * 0.5 + 0.5;
+            score: (data as any).score || Math.random() * 0.5 + 0.5,
             elementalEffect: (data as any).elementalEffect || {
-              Fire: 0.25;
-              Water: 0.25;
-              Earth: 0.25;
+              Fire: 0.25,
+              Water: 0.25,
+              Earth: 0.25,
               Air: 0.25
             },
             duration: (data as any).duration || {
@@ -94,9 +94,9 @@ export function useCookingMethods() {
             suitable_for: (data as any).suitable_for || ['various ingredients'],
             benefits: (data as any).benefits || ['cooking'],
             alchemicalProperties: (data as any).alchemicalProperties || {
-              Spirit: 0.5;
-              Essence: 0.5;
-              Matter: 0.5;
+              Spirit: 0.5,
+              Essence: 0.5,
+              Matter: 0.5,
               Substance: 0.5
             }
           };

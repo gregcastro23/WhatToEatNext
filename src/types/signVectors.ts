@@ -9,25 +9,25 @@ import type { PlanetaryAspect, PlanetaryPosition, ZodiacSign } from '@/types/cel
  */
 export interface SignVectorComponents {
   // Modality components
-  cardinal: number;
-  fixed: number;
+  cardinal: number,
+  fixed: number,
   mutable: number;
 
   // Elemental components
-  Fire: number;
-  Water: number;
-  Earth: number;
-  Air: number;
+  Fire: number,
+  Water: number,
+  Earth: number,
+  Air: number,
 
   // Seasonal component (0-1 alignment with active season)
-  seasonal: number;
+  seasonal: number
 }
 
 export type SignDirection = 'cardinal' | 'fixed' | 'mutable';
 
 export interface SignVector {
-  sign: ZodiacSign;
-  magnitude: number; // 0-1: intensity of sign expression at the moment
+  sign: any,
+  magnitude: number, // 0-1: intensity of sign expression at the moment
   direction: SignDirection; // dominant modality expression
   components: SignVectorComponents; // multi-dimensional breakdown
 }
@@ -42,7 +42,7 @@ export type SignVectorMap = Record<ZodiacSign, SignVector>;
 
 export interface SignVectorCompatibilityResult {
   similarity: number; // 0-1 cosine similarity across components
-  dominantSharedAxis: 'modality' | 'elemental' | 'seasonal' | 'none';
+  dominantSharedAxis: 'modality' | 'elemental' | 'seasonal' | 'none'
 }
 
 export function signVectorComponentsToArray(components: SignVectorComponents): number[] {

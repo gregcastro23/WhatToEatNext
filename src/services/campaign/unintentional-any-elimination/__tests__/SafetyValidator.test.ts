@@ -143,7 +143,7 @@ describe('SafetyValidator', () => {
 
       expect(result.canRollback).toBe(false);
       expect(result.backupIntegrity).toBe(false);
-      expect(result.rollbackErrors).toContain('Backup file missing: missing.backup');
+      expect(result.rollbackErrors).toContain('Backup file missing: missing.backup')
     });
 
     test('detects empty backup files', async () => {
@@ -156,7 +156,7 @@ describe('SafetyValidator', () => {
       const result: any = await validator.validateRollbackCapability(originalFiles, backupFiles);
 
       expect(result.backupIntegrity).toBe(false);
-      expect(result.rollbackErrors).toContain('Backup file is empty: empty.backup');
+      expect(result.rollbackErrors).toContain('Backup file is empty: empty.backup')
     });
   });
 
@@ -164,9 +164,9 @@ describe('SafetyValidator', () => {
     test('calculates safety score for array replacement', () => {
       const replacement: TypeReplacement = { original: 'any[]',,;
         replacement: 'unknown[]',
-        filePath: 'test.ts';
+        filePath: 'test.ts',
         lineNumber: 1,
-        confidence: 0.9;
+        confidence: 0.9,
         validationRequired: true
       };
 
@@ -193,9 +193,9 @@ describe('SafetyValidator', () => {
     test('reduces safety score for error handling contexts', () => {
       const replacement: TypeReplacement = { original: 'any',,;
         replacement: 'unknown',
-        filePath: 'test.ts';
+        filePath: 'test.ts',
         lineNumber: 1,
-        confidence: 0.8;
+        confidence: 0.8,
         validationRequired: true
       };
 
@@ -221,9 +221,9 @@ describe('SafetyValidator', () => {
     test('boosts safety score for test files', () => {
       const replacement: TypeReplacement = { original: 'any[]',,;
         replacement: 'unknown[]',
-        filePath: 'test.test.ts';
+        filePath: 'test.test.ts',
         lineNumber: 1,
-        confidence: 0.8;
+        confidence: 0.8,
         validationRequired: true
       };
 
@@ -248,9 +248,9 @@ describe('SafetyValidator', () => {
     test('warns about external API contexts', () => {
       const replacement: TypeReplacement = { original: 'any',,;
         replacement: 'unknown',
-        filePath: 'api.ts';
+        filePath: 'api.ts',
         lineNumber: 1,
-        confidence: 0.8;
+        confidence: 0.8,
         validationRequired: true
       };
 
@@ -276,9 +276,9 @@ describe('SafetyValidator', () => {
     test('handles function parameter replacements with caution', () => {
       const replacement: TypeReplacement = { original: 'any',,;
         replacement: 'unknown',
-        filePath: 'function.ts';
+        filePath: 'function.ts',
         lineNumber: 1,
-        confidence: 0.8;
+        confidence: 0.8,
         validationRequired: true
       };
 
@@ -312,7 +312,7 @@ describe('SafetyValidator', () => {
 
     test('updates safety thresholds', () => {
       const newThresholds: any = {
-        minimumSafetyScore: 0.9;
+        minimumSafetyScore: 0.9,
         maximumBuildTime: 60000
       };
 
@@ -332,9 +332,9 @@ describe('SafetyValidator', () => {
 
       const mockReplacement: TypeReplacement = { original: 'any[]',,;
         replacement: 'unknown[]',
-        filePath: 'test.ts';
+        filePath: 'test.ts',
         lineNumber: 1,
-        confidence: 0.9;
+        confidence: 0.9,
         validationRequired: true
       };
 

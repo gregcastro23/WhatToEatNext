@@ -43,7 +43,7 @@ interface TransformedItem extends AlchemicalItem {
     Earth: number,
     Air: number
   };
-  id: string;
+  id: string
 }
 
 /**
@@ -70,7 +70,7 @@ export class RecommendationAdapter {
 
   constructor(
     ingredients: ElementalItem[],
-    methods: ElementalItem[] = [];
+    methods: ElementalItem[] = [],
     cuisines: ElementalItem[] = []
   ) {
     this.ingredients = ingredients;
@@ -124,8 +124,8 @@ export class RecommendationAdapter {
       Object.entries(planetaryPositions).forEach(([planet, data]) => {
         if (typeof data === 'object' && data !== null) {
           this.convertedPositions[planet] = {
-            sign: data.sign || '';
-            degree: data.degree || 0;
+            sign: data.sign || '',
+            degree: data.degree || 0,
             ...(data.isRetrograde !== undefined ? { isRetrograde: data.isRetrograde } : {})
           };
         } else if (typeof data === 'number') {
@@ -234,18 +234,18 @@ export class RecommendationAdapter {
 
       // Prepare alchemical properties
       const alchemicalProperties = {
-        Spirit: this.safeGetNumber(resultData.spirit);
-        Essence: this.safeGetNumber(resultData.essence);
-        Matter: this.safeGetNumber(resultData.matter);
+        Spirit: this.safeGetNumber(resultData.spirit),
+        Essence: this.safeGetNumber(resultData.essence),
+        Matter: this.safeGetNumber(resultData.matter),
         Substance: this.safeGetNumber(resultData.substance)
       };
 
       // Prepare elemental properties, converting to uppercase keys - safe property access
       const elementalBalance = this.safeExtractElementalBalance(resultData.elementalBalance);
       const elementalProperties = {
-        Fire: elementalBalance.Fire || 0;
-        Earth: elementalBalance.Earth || 0;
-        Air: elementalBalance.Air || 0;
+        Fire: elementalBalance.Fire || 0,
+        Earth: elementalBalance.Earth || 0,
+        Air: elementalBalance.Air || 0,
         Water: elementalBalance.Water || 0
       };
 
@@ -410,9 +410,9 @@ export class RecommendationAdapter {
 
     const balanceRecord = balance as any;
     return {
-      Fire: this.safeGetNumber(balanceRecord.Fire || balanceRecord.fire);
-      Water: this.safeGetNumber(balanceRecord.Water || balanceRecord.water);
-      Earth: this.safeGetNumber(balanceRecord.Earth || balanceRecord.earth);
+      Fire: this.safeGetNumber(balanceRecord.Fire || balanceRecord.fire),
+      Water: this.safeGetNumber(balanceRecord.Water || balanceRecord.water),
+      Earth: this.safeGetNumber(balanceRecord.Earth || balanceRecord.earth),
       Air: this.safeGetNumber(balanceRecord.Air || balanceRecord.air)
     };
   }
@@ -544,9 +544,9 @@ export class RecommendationAdapter {
     return {
       ...item;
       elementalProperties: {
-        Fire: item.elementalProperties.Fire * boost;
-        Water: item.elementalProperties.Water * boost;
-        Earth: item.elementalProperties.Earth * boost;
+        Fire: item.elementalProperties.Fire * boost,
+        Water: item.elementalProperties.Water * boost,
+        Earth: item.elementalProperties.Earth * boost,
         Air: item.elementalProperties.Air * boost
       }
     };
@@ -558,9 +558,9 @@ export class RecommendationAdapter {
   ): AlchemicalItem {
     // Calculate alchemical properties from elemental properties if they don't exist
     const elementalProps = ingredient.elementalProperties || {
-      Fire: 0.25;
-      Water: 0.25;
-      Earth: 0.25;
+      Fire: 0.25,
+      Water: 0.25,
+      Earth: 0.25,
       Air: 0.25
     };
 
@@ -687,9 +687,9 @@ export class RecommendationAdapter {
 
     // Find the dominant property based on the highest value
     const properties = {
-      Spirit: this.alchemicalResult.spirit || 0;
-      Essence: this.alchemicalResult.essence || 0;
-      Matter: this.alchemicalResult.matter || 0;
+      Spirit: this.alchemicalResult.spirit || 0,
+      Essence: this.alchemicalResult.essence || 0,
+      Matter: this.alchemicalResult.matter || 0,
       Substance: this.alchemicalResult.substance || 0
     };
 

@@ -19,9 +19,9 @@ import {
 } from './ResolutionStrategyGenerator';
 
 export interface ComprehensiveAnalysisResult {
-  summary: AnalysisSummary;
-  categorizedErrors: CategorizedErrors;
-  fileAnalyses: FileAnalysis[];
+  summary: AnalysisSummary,
+  categorizedErrors: CategorizedErrors,
+  fileAnalyses: FileAnalysis[],
   resolutionStrategies: ResolutionStrategy[],
   optimizedPlan: OptimizedResolutionPlan,
   recommendations: AnalysisRecommendation[],
@@ -29,10 +29,10 @@ export interface ComprehensiveAnalysisResult {
 }
 
 export interface AnalysisSummary {
-  totalIssues: number;
-  errorCount: number;
-  warningCount: number;
-  autoFixableCount: number;
+  totalIssues: number,
+  errorCount: number,
+  warningCount: number,
+  autoFixableCount: number,
   domainSpecificCount: number,
   criticalIssuesCount: number,
   estimatedResolutionTime: number,
@@ -40,9 +40,9 @@ export interface AnalysisSummary {
 }
 
 export interface AnalysisRecommendation {
-  type: 'immediate' | 'short-term' | 'long-term' | 'strategic';
-  priority: 'critical' | 'high' | 'medium' | 'low';
-  title: string;
+  type: 'immediate' | 'short-term' | 'long-term' | 'strategic',
+  priority: 'critical' | 'high' | 'medium' | 'low',
+  title: string,
   description: string,
   rationale: string,
   estimatedImpact: 'high' | 'medium' | 'low',
@@ -50,8 +50,8 @@ export interface AnalysisRecommendation {
 }
 
 export interface AnalysisMetrics {
-  analysisTime: number;
-  filesAnalyzed: number;
+  analysisTime: number,
+  filesAnalyzed: number,
   rulesTriggered: string[],
   domainDistribution: Record<string, number>;
   severityDistribution: Record<string, number>;
@@ -298,7 +298,7 @@ export class LintingAnalysisService {
       if (classification && fileAnalysis) {
         contexts.push({
           errorClassification: classification,
-          domainContext: fileAnalysis.domainContext;
+          domainContext: fileAnalysis.domainContext,
           fileAnalysis,
           projectContext: fullProjectContext
         });
@@ -335,12 +335,12 @@ export class LintingAnalysisService {
     else if (highRiskCount > 0 || categorizedErrors.errors > 50) overallRiskLevel = 'medium';
 
     return {
-      totalIssues: categorizedErrors.total;
-      errorCount: categorizedErrors.errors;
-      warningCount: categorizedErrors.warnings;
-      autoFixableCount: categorizedErrors.autoFixable.length;
-      domainSpecificCount: domainSpecificIssues.length;
-      criticalIssuesCount: criticalClassifications.length;
+      totalIssues: categorizedErrors.total,
+      errorCount: categorizedErrors.errors,
+      warningCount: categorizedErrors.warnings,
+      autoFixableCount: categorizedErrors.autoFixable.length,
+      domainSpecificCount: domainSpecificIssues.length,
+      criticalIssuesCount: criticalClassifications.length,
       estimatedResolutionTime: estimatedTime,
       overallRiskLevel
     };

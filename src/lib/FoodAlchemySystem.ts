@@ -237,9 +237,9 @@ const signInfo: Record<
 };
 
 export interface FoodCorrespondence {
-  food: string;
-  foodGroup: string;
-  foodType: string;
+  food: string,
+  foodGroup: string,
+  foodType: string,
   element: Element,
   planet: Planet,
   alchemy: {
@@ -276,14 +276,14 @@ export interface FoodCompatibility {
     decanBonus?: number,
     aspectBonus?: number
   };
-  recommendations: string[];
-  warnings: string[];
-  preparationMethods: PreparationMethod[];
+  recommendations: string[],
+  warnings: string[],
+  preparationMethods: PreparationMethod[]
 }
 
 export interface PreparationMethod {
-  name: string;
-  element: Element;
+  name: string,
+  element: Element,
   planetaryRuler: Planet,
   energyEffects: {
     heat: number,
@@ -324,8 +324,8 @@ export class FoodAlchemySystem {
           night: [0.6, 0.3, 0.5]
         },
         energyValues: {
-          heat: 0.8;
-          entropy: 0.4;
+          heat: 0.8,
+          entropy: 0.4,
           reactivity: 0.6
         }
       },
@@ -340,8 +340,8 @@ export class FoodAlchemySystem {
           night: [0.5, 0.4, 0.5]
         },
         energyValues: {
-          heat: 0.7;
-          entropy: 0.5;
+          heat: 0.7,
+          entropy: 0.5,
           reactivity: 0.6
         }
       },
@@ -359,8 +359,8 @@ export class FoodAlchemySystem {
         element: 'Fire',
         planetaryRuler: 'Sun',
         energyEffects: {
-          heat: 0.8;
-          entropy: 0.4;
+          heat: 0.8,
+          entropy: 0.4,
           reactivity: 0.6
         },
         timing: {
@@ -374,8 +374,8 @@ export class FoodAlchemySystem {
         element: 'Water',
         planetaryRuler: 'Moon',
         energyEffects: {
-          heat: 0.3;
-          entropy: 0.5;
+          heat: 0.3,
+          entropy: 0.5,
           reactivity: 0.4
         },
         timing: {
@@ -432,9 +432,9 @@ export class FoodAlchemySystem {
     return {
       score: compatibilityScore,
       scoreDetails: {
-        elementalMatch: elementalMatch * 0.45;
-        planetaryDayMatch: planetaryDayMatch * 0.35;
-        planetaryHourMatch: planetaryHourMatch * 0.2;
+        elementalMatch: elementalMatch * 0.45,
+        planetaryDayMatch: planetaryDayMatch * 0.35,
+        planetaryHourMatch: planetaryHourMatch * 0.2,
         dignityBonus: (dayDignityBonus || 0) + (hourDignityBonus || 0),
         decanBonus: dayDecanBonus,
         aspectBonus
@@ -641,7 +641,7 @@ export class FoodAlchemySystem {
             aspectModifier = -0.15;
             break,
           default:
-            aspectModifier = 0;
+            aspectModifier = 0
         }
 
         // Apply the aspect modifier if the food is ruled by the other planet in the aspect

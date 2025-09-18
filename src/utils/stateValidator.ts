@@ -4,18 +4,18 @@ import { logger } from '@/utils/logger';
 
 // Define type for recipe objects
 interface Recipe {
-  id: string;
-  name: string;
+  id: string,
+  name: string,
   elementalProperties: ElementalProperties;
   [key: string]: unknown; // Allow additional properties
 }
 
 // Define type for elemental properties
 interface ElementalProperties {
-  Fire: number;
-  Earth: number;
-  Air: number;
-  Water: number;
+  Fire: number,
+  Earth: number,
+  Air: number,
+  Water: number,
   [key: string]: number; // Allow additional elements
 }
 

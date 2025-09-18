@@ -11,9 +11,9 @@ function createIngredientMapping(
     id: _id,
     name: _id,
     elementalProperties: properties.elementalProperties || {
-      Earth: 0.25;
-      Water: 0.25;
-      Fire: 0.25;
+      Earth: 0.25,
+      Water: 0.25,
+      Fire: 0.25,
       Air: 0.25
     },
     category: properties.category || '';
@@ -60,16 +60,16 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
         fiber: 6
       },
       vitamins: {
-        B2: 0.18;
-        B3: 0.12;
-        B6: 0.15;
+        B2: 0.18,
+        B3: 0.12,
+        B6: 0.15,
         folate: 0.14
       },
       minerals: {
-        manganese: 0.65;
-        copper: 0.4;
-        phosphorus: 0.22;
-        magnesium: 0.2;
+        manganese: 0.65,
+        copper: 0.4,
+        phosphorus: 0.22,
+        magnesium: 0.2,
         iron: 0.12
       },
       source: 'USDA FoodData Central',

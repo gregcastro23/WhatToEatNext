@@ -13,10 +13,10 @@ import fs from 'fs';
 import path from 'path';
 
 export interface ValidationCriteria {
-  id: string;
-  name: string;
+  id: string,
+  name: string,
   description: string,
-  validator: () => Promise<ValidationResult>;
+  validator: () => Promise<ValidationResult>,
   required: boolean,
   weight: number, // 0-1, for weighted scoring
 }
@@ -39,9 +39,9 @@ export interface PhaseValidation {
 }
 
 export interface MilestoneValidationResult {
-  phaseId: string;
-  success: boolean;
-  score: number;
+  phaseId: string,
+  success: boolean,
+  score: number,
   totalCriteria: number,
   passedCriteria: number,
   failedCriteria: number,
@@ -49,14 +49,14 @@ export interface MilestoneValidationResult {
     criteriaId: string,
     result: ValidationResult
   }>;
-  executionTime: number;
-  timestamp: Date;
-  recommendations: string[];
+  executionTime: number,
+  timestamp: Date,
+  recommendations: string[]
 }
 
 export interface FailureDetectionResult {
-  detected: boolean;
-  severity: 'low' | 'medium' | 'high' | 'critical';
+  detected: boolean,
+  severity: 'low' | 'medium' | 'high' | 'critical',
   category: 'build' | 'test' | 'typescript' | 'linting' | 'performance' | 'corruption',
   description: string,
   recoveryActions: string[],
@@ -91,7 +91,7 @@ export class ValidationFramework {
           name: 'Zero TypeScript Errors',
           description: 'All TypeScript compilation errors must be eliminated',
           required: true,
-          weight: 0.6;
+          weight: 0.6,
           validator: async () => {
             const startTime = Date.now();
             try {
@@ -108,10 +108,10 @@ export class ValidationFramework {
                 value: errorCount,
                 expected: 0,
                 message:
-                  errorCount === 0;
+                  errorCount === 0,
                     ? 'All TypeScript errors eliminated'
                     : `${errorCount} TypeScript errors remaining`,
-                details: errorCount > 0 ? output.split('\n').slice(-10).join('\n') : undefined;
+                details: errorCount > 0 ? output.split('\n').slice(-10).join('\n') : undefined,
                 timestamp: new Date(),
                 executionTime
               };
@@ -140,7 +140,7 @@ export class ValidationFramework {
           name: 'Build Stability',
           description: 'Project must build successfully without errors',
           required: true,
-          weight: 0.3;
+          weight: 0.3,
           validator: async () => {
             const startTime = Date.now();
             try {
@@ -168,7 +168,7 @@ export class ValidationFramework {
                 value: false,
                 expected: true,
                 message: 'Build failed',
-                details: err.stdout || err.stderr || err.message;
+                details: err.stdout || err.stderr || err.message,
                 timestamp: new Date(),
                 executionTime
               };
@@ -181,7 +181,7 @@ export class ValidationFramework {
           description:
             'High-priority error types (TS2352, TS2345, TS2698, TS2304, TS2362) must be zero',
           required: false,
-          weight: 0.1;
+          weight: 0.1,
           validator: async () => {
             const startTime = Date.now();
             try {
@@ -200,7 +200,7 @@ export class ValidationFramework {
                 value: criticalErrors,
                 expected: 0,
                 message:
-                  criticalErrors === 0;
+                  criticalErrors === 0,
                     ? 'All critical error types eliminated'
                     : `${criticalErrors} critical errors remaining`,
                 timestamp: new Date(),
@@ -215,7 +215,7 @@ export class ValidationFramework {
                 value: -1,
                 expected: 0,
                 message: 'Could not analyze critical error types',
-                details: (error as Error).message;
+                details: (error as Error).message,
                 timestamp: new Date(),
                 executionTime
               };
@@ -236,7 +236,7 @@ export class ValidationFramework {
           name: 'Zero Linting Warnings',
           description: 'All linting warnings must be eliminated',
           required: true,
-          weight: 0.5;
+          weight: 0.5,
           validator: async () => {
             const startTime = Date.now();
             try {
@@ -253,10 +253,10 @@ export class ValidationFramework {
                 value: warningCount,
                 expected: 0,
                 message:
-                  warningCount === 0;
+                  warningCount === 0,
                     ? 'All linting warnings eliminated'
                     : `${warningCount} linting warnings remaining`,
-                details: warningCount > 0 ? output.split('\n').slice(-15).join('\n') : undefined;
+                details: warningCount > 0 ? output.split('\n').slice(-15).join('\n') : undefined,
                 timestamp: new Date(),
                 executionTime
               };
@@ -285,7 +285,7 @@ export class ValidationFramework {
           name: 'Explicit-Any Warnings Eliminated',
           description: 'All @typescript-eslint/no-explicit-any warnings must be eliminated',
           required: true,
-          weight: 0.25;
+          weight: 0.25,
           validator: async () => {
             const startTime = Date.now();
             try {
@@ -303,7 +303,7 @@ export class ValidationFramework {
                 value: explicitAnyCount,
                 expected: 0,
                 message:
-                  explicitAnyCount === 0;
+                  explicitAnyCount === 0,
                     ? 'All explicit-any warnings eliminated'
                     : `${explicitAnyCount} explicit-any warnings remaining`,
                 timestamp: new Date(),
@@ -318,7 +318,7 @@ export class ValidationFramework {
                 value: -1,
                 expected: 0,
                 message: 'Could not analyze explicit-any warnings',
-                details: (error as Error).message;
+                details: (error as Error).message,
                 timestamp: new Date(),
                 executionTime
               };
@@ -330,7 +330,7 @@ export class ValidationFramework {
           name: 'Unused Variables Warnings Eliminated',
           description: 'All no-unused-vars warnings must be eliminated',
           required: true,
-          weight: 0.15;
+          weight: 0.15,
           validator: async () => {
             const startTime = Date.now();
             try {
@@ -347,7 +347,7 @@ export class ValidationFramework {
                 value: unusedVarsCount,
                 expected: 0,
                 message:
-                  unusedVarsCount === 0;
+                  unusedVarsCount === 0,
                     ? 'All unused variables warnings eliminated'
                     : `${unusedVarsCount} unused variables warnings remaining`,
                 timestamp: new Date(),
@@ -362,7 +362,7 @@ export class ValidationFramework {
                 value: -1,
                 expected: 0,
                 message: 'Could not analyze unused variables warnings',
-                details: (error as Error).message;
+                details: (error as Error).message,
                 timestamp: new Date(),
                 executionTime
               };
@@ -374,7 +374,7 @@ export class ValidationFramework {
           name: 'Console Statement Warnings Eliminated',
           description: 'All no-console warnings must be eliminated',
           required: false,
-          weight: 0.1;
+          weight: 0.1,
           validator: async () => {
             const startTime = Date.now();
             try {
@@ -391,7 +391,7 @@ export class ValidationFramework {
                 value: consoleCount,
                 expected: 0,
                 message:
-                  consoleCount === 0;
+                  consoleCount === 0,
                     ? 'All console warnings eliminated'
                     : `${consoleCount} console warnings remaining`,
                 timestamp: new Date(),
@@ -406,7 +406,7 @@ export class ValidationFramework {
                 value: -1,
                 expected: 0,
                 message: 'Could not analyze console warnings',
-                details: (error as Error).message;
+                details: (error as Error).message,
                 timestamp: new Date(),
                 executionTime
               };
@@ -427,7 +427,7 @@ export class ValidationFramework {
           name: 'Enterprise Intelligence Systems Count',
           description: 'Must have 200+ active enterprise intelligence systems',
           required: true,
-          weight: 0.6;
+          weight: 0.6,
           validator: async () => {
             const startTime = Date.now();
             try {
@@ -440,7 +440,7 @@ export class ValidationFramework {
               const executionTime = Date.now() - startTime;
 
               return {
-                success: systemCount >= 200;
+                success: systemCount >= 200,
                 value: systemCount,
                 expected: 200,
                 message:
@@ -459,7 +459,7 @@ export class ValidationFramework {
                 value: 0,
                 expected: 200,
                 message: 'Could not count enterprise intelligence systems',
-                details: (error as Error).message;
+                details: (error as Error).message,
                 timestamp: new Date(),
                 executionTime
               };
@@ -471,7 +471,7 @@ export class ValidationFramework {
           name: 'Unused Exports Eliminated',
           description: 'All unused exports should be transformed or eliminated',
           required: true,
-          weight: 0.3;
+          weight: 0.3,
           validator: async () => {
             const startTime = Date.now();
             try {
@@ -492,7 +492,7 @@ export class ValidationFramework {
                 value: unusedExports,
                 expected: 0,
                 message:
-                  unusedExports === 0;
+                  unusedExports === 0,
                     ? 'All unused exports transformed'
                     : `${unusedExports} unused exports remaining`,
                 timestamp: new Date(),
@@ -507,7 +507,7 @@ export class ValidationFramework {
                 value: 0,
                 expected: 0,
                 message: 'Could not analyze unused exports (assuming transformed)',
-                details: (error as Error).message;
+                details: (error as Error).message,
                 timestamp: new Date(),
                 executionTime
               };
@@ -519,7 +519,7 @@ export class ValidationFramework {
           name: 'Build Stability After Transformation',
           description: 'Build must remain stable after intelligence system transformation',
           required: true,
-          weight: 0.1;
+          weight: 0.1,
           validator: async () => {
             const startTime = Date.now();
             try {
@@ -570,7 +570,7 @@ export class ValidationFramework {
           name: 'Build Time Under 10 Seconds',
           description: 'Build time must be under 10 seconds',
           required: true,
-          weight: 0.4;
+          weight: 0.4,
           validator: async () => {
             const startTime = Date.now();
             try {
@@ -615,7 +615,7 @@ export class ValidationFramework {
           name: 'Test Suite Performance',
           description: 'Test suite must complete successfully within reasonable time',
           required: true,
-          weight: 0.3;
+          weight: 0.3,
           validator: async () => {
             const startTime = Date.now();
             try {
@@ -657,7 +657,7 @@ export class ValidationFramework {
           name: 'Bundle Size Optimization',
           description: 'Bundle size should be optimized and within targets',
           required: false,
-          weight: 0.2;
+          weight: 0.2,
           validator: async () => {
             const startTime = Date.now();
             try {
@@ -697,7 +697,7 @@ export class ValidationFramework {
                 value: 0,
                 expected: 420,
                 message: 'Bundle size check failed (non-critical)',
-                details: (error as Error).message;
+                details: (error as Error).message,
                 timestamp: new Date(),
                 executionTime: Date.now() - startTime
               }
@@ -709,7 +709,7 @@ export class ValidationFramework {
           name: 'Memory Usage Optimization',
           description: 'Memory usage should be within acceptable limits',
           required: false,
-          weight: 0.1;
+          weight: 0.1,
           validator: async () => {
             const startTime = Date.now();
             try {
@@ -736,7 +736,7 @@ export class ValidationFramework {
                 value: 0,
                 expected: 50,
                 message: 'Memory usage check failed (non-critical)',
-                details: (error as Error).message;
+                details: (error as Error).message,
                 timestamp: new Date(),
                 executionTime: Date.now() - startTime
               }
@@ -804,7 +804,7 @@ export class ValidationFramework {
       phaseId,
       success,
       score: totalScore,
-      totalCriteria: phaseValidation.criteria.length;
+      totalCriteria: phaseValidation.criteria.length,
       passedCriteria,
       failedCriteria,
       results,
@@ -940,7 +940,7 @@ export class ValidationFramework {
   getAvailablePhases(): Array<{ id: string, name: string, criteriaCount: number }> {
     return Array.from(this.phaseValidations.entries()).map(([id, validation]) => ({
       id,
-      name: validation.phaseName;
+      name: validation.phaseName,
       criteriaCount: validation.criteria.length
     }));
   }

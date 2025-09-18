@@ -297,7 +297,7 @@ export const combineValidationResults = (results: ValidationResult[]): Validatio
 
 export const validateWithFallback = <T>(;
   value: unknown,
-  validator: (val: unknown) => ValidationResult;
+  validator: (val: unknown) => ValidationResult,
   fallback: T,
   context?: string,
 ): T => {

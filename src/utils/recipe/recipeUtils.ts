@@ -254,7 +254,7 @@ export function isRecipeCompatibleWithDiet(recipe: Recipe, restriction: string):
     case 'paleo':
       return recipeData.isPaleo === true;
     default:
-      return true;
+      return true
   }
 }
 
@@ -408,10 +408,10 @@ export function getRecipeIngredients(recipe: Recipe): RecipeIngredient[] {
 
       if (typeof ingredientData === 'object') {
         return {
-          name: ingredientData.name || 'Unknown ingredient';
-          amount: ingredientData.amount || 1;
-          unit: ingredientData.unit || 'piece';
-          optional: ingredientData.optional || false;
+          name: ingredientData.name || 'Unknown ingredient',
+          amount: ingredientData.amount || 1,
+          unit: ingredientData.unit || 'piece',
+          optional: ingredientData.optional || false,
           preparation: ingredientData.preparation || undefined
         } as RecipeIngredient;
       }

@@ -101,7 +101,7 @@ class ErrorHandlerService {
       error,
       type,
       severity,
-      timestamp: new Date().toISOString();
+      timestamp: new Date().toISOString(),
       handled: true
     };
   }
@@ -113,8 +113,8 @@ class ErrorHandlerService {
     const error = new Error(message);
     // Add custom properties to the error
     Object.assign(error, {
-      type: options.type || ErrorType.UNKNOWN;
-      severity: options.severity || ErrorSeverity.ERROR;
+      type: options.type || ErrorType.UNKNOWN,
+      severity: options.severity || ErrorSeverity.ERROR,
       context: options.context || {}
     });
     return error;
@@ -151,7 +151,7 @@ class ErrorHandlerService {
     // Delegate to the main log method with proper options
     this.log(error, {
       context: (context) || 'unknown',
-      type: ErrorType.UNKNOWN;
+      type: ErrorType.UNKNOWN,
       severity: ErrorSeverity.ERROR
     });
   }
@@ -184,8 +184,8 @@ class ErrorHandlerService {
     return {
       message,
       stack,
-      context: options.context;
-      data: options.data;
+      context: options.context,
+      data: options.data,
       timestamp: new Date().toISOString();
       errorType,
       componentStack

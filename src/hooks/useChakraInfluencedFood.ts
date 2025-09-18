@@ -17,11 +17,11 @@ import { getRecommendedIngredients, EnhancedIngredient } from '@/utils/foodRecom
  * Interface for the chakra-influenced food recommendations
  */
 interface ChakraInfluencedFoodResult {
-  recommendations: EnhancedIngredient[];
-  chakraEnergies: ChakraEnergies;
+  recommendations: EnhancedIngredient[],
+  chakraEnergies: ChakraEnergies,
   loading: boolean,
   error: string | null,
-  refreshRecommendations: () => Promise<void>;
+  refreshRecommendations: () => Promise<void>,
   chakraRecommendations: Record<string, EnhancedIngredient[]>
 }
 
@@ -30,7 +30,7 @@ interface ChakraInfluencedFoodResult {
  */
 export const useChakraInfluencedFood = (options?: {
   limit?: number,
-  filter?: (ingredient: EnhancedIngredient) => boolean;
+  filter?: (ingredient: EnhancedIngredient) => boolean
 }): ChakraInfluencedFoodResult => {
   // Get astrological data
   const { state, planetaryPositions } = useAlchemical();

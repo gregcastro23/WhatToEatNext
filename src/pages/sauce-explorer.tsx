@@ -29,8 +29,8 @@ import { ElementalProperties } from '@/types/alchemy';
 
 // Define interface for sauce data
 interface Sauce {
-  id: string;
-  name: string;
+  id: string,
+  name: string,
   description?: string;
   base?: string;
   keyIngredients?: string[],
@@ -68,9 +68,9 @@ export default function SauceExplorer() {
 
   // State for elemental profile sliders
   const [elementalProfile, setElementalProfile] = useState<ElementalProperties>({
-    Fire: 0.25;
-    Water: 0.25;
-    Earth: 0.25;
+    Fire: 0.25,
+    Water: 0.25,
+    Earth: 0.25,
     Air: 0.25
   });
 
@@ -162,9 +162,9 @@ export default function SauceExplorer() {
   // Reset elemental profile
   const resetElementalProfile = () => {
     setElementalProfile({
-      Fire: 0.25;
-      Water: 0.25;
-      Earth: 0.25;
+      Fire: 0.25,
+      Water: 0.25,
+      Earth: 0.25,
       Air: 0.25
     });
   };

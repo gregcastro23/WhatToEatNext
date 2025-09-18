@@ -16,10 +16,10 @@ import { LintingMetrics, LintingProgressTracker } from './LintingProgressTracker
  * Quality gate configuration
  */
 export interface QualityGateConfig {
-  name: string;
-  description: string;
+  name: string,
+  description: string,
   thresholds: {
-    maxErrors: number;
+    maxErrors: number,
     maxWarnings: number,
     maxExecutionTime: number, // milliseconds
     minCacheHitRate: number, // percentage
@@ -42,10 +42,10 @@ export interface QualityGateConfig {
  * Quality gate result
  */
 export interface QualityGateResult {
-  gateName: string;
-  passed: boolean;
-  timestamp: Date;
-  metrics: LintingMetrics;
+  gateName: string,
+  passed: boolean,
+  timestamp: Date,
+  metrics: LintingMetrics,
   violations: QualityViolation[],
   recommendations: string[],
   deploymentApproved: boolean,
@@ -56,8 +56,8 @@ export interface QualityGateResult {
  * Quality violation
  */
 export interface QualityViolation {
-  type: 'error' | 'warning' | 'performance' | 'blocker';
-  rule: string;
+  type: 'error' | 'warning' | 'performance' | 'blocker',
+  rule: string,
   message: string;
   file?: string,
   line?: number,
@@ -69,10 +69,10 @@ export interface QualityViolation {
  * Deployment readiness assessment
  */
 export interface DeploymentReadiness {
-  ready: boolean;
-  confidence: number; // 0-100
-  blockers: string[];
-  warnings: string[];
+  ready: boolean,
+  confidence: number, // 0-100
+  blockers: string[],
+  warnings: string[],
   qualityScore: number, // 0-100
   riskAssessment: {
     level: 'low' | 'medium' | 'high' | 'critical',
@@ -179,9 +179,9 @@ export class LintingQualityGates {
       };
 
       logger.info('Deployment readiness assessment:', {
-        ready: readiness.ready;
-        confidence: readiness.confidence;
-        qualityScore: readiness.qualityScore;
+        ready: readiness.ready,
+        confidence: readiness.confidence,
+        qualityScore: readiness.qualityScore,
         riskLevel: readiness.riskAssessment.level
       });
 
@@ -218,28 +218,28 @@ export class LintingQualityGates {
       const gateResult = await this.evaluateQualityGates();
 
       const report = {
-        timestamp: new Date().toISOString();
+        timestamp: new Date().toISOString(),
         deployment: {
-          approved: readiness.ready;
-          confidence: readiness.confidence;
+          approved: readiness.ready,
+          confidence: readiness.confidence,
           qualityScore: readiness.qualityScore
         },
         metrics: {
-          totalIssues: gateResult.metrics.totalIssues;
-          errors: gateResult.metrics.errors;
-          warnings: gateResult.metrics.warnings;
+          totalIssues: gateResult.metrics.totalIssues,
+          errors: gateResult.metrics.errors,
+          warnings: gateResult.metrics.warnings,
           fixableIssues: gateResult.metrics.fixableIssues
         },
         qualityGates: {
-          passed: gateResult.passed;
-          riskLevel: gateResult.riskLevel;
+          passed: gateResult.passed,
+          riskLevel: gateResult.riskLevel,
           violationCount: gateResult.violations.length
         },
-        blockers: readiness.blockers;
-        recommendations: gateResult.recommendations;
+        blockers: readiness.blockers,
+        recommendations: gateResult.recommendations,
         performance: {
-          executionTime: gateResult.metrics.performanceMetrics.executionTime;
-          memoryUsage: gateResult.metrics.performanceMetrics.memoryUsage;
+          executionTime: gateResult.metrics.performanceMetrics.executionTime,
+          memoryUsage: gateResult.metrics.performanceMetrics.memoryUsage,
           cacheHitRate: gateResult.metrics.performanceMetrics.cacheHitRate
         }
       };
@@ -289,7 +289,7 @@ export class LintingQualityGates {
       return {
         trends,
         overallTrend,
-        recommendations: this.generateTrendRecommendations(trends);
+        recommendations: this.generateTrendRecommendations(trends),
         alertLevel: this.calculateAlertLevel(trends)
       };
     } catch (error) {
@@ -348,9 +348,9 @@ export class LintingQualityGates {
           ...parserErrors.map(error => ({
             type: 'blocker' as const,
             rule: 'parser-error',
-            message: error.message;
-            file: error.file;
-            line: error.line;
+            message: error.message,
+            file: error.file,
+            line: error.line,
             severity: 'critical' as const,
             autoFixable: false
           })),

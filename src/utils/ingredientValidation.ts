@@ -15,7 +15,7 @@ import { logger } from './logger';
 
 // Validation result interfaces
 export interface IngredientValidationResult {
-  isValid: boolean;
+  isValid: boolean,
   errors: IngredientValidationError[],
   warnings: IngredientValidationWarning[],
   summary: string,
@@ -47,7 +47,7 @@ export interface IngredientValidationWarning {
 }
 
 export interface IngredientTestResult {
-  testName: string;
+  testName: string,
   passed: boolean,
   duration: number,
   error?: string,
@@ -56,9 +56,9 @@ export interface IngredientTestResult {
 
 // Validation tolerances
 const VALIDATION_TOLERANCES = {
-  ELEMENTAL_SUM_TOLERANCE: 0.01;
-  SELF_COMPATIBILITY_THRESHOLD: 0.9;
-  CROSS_COMPATIBILITY_THRESHOLD: 0.7;
+  ELEMENTAL_SUM_TOLERANCE: 0.01,
+  SELF_COMPATIBILITY_THRESHOLD: 0.9,
+  CROSS_COMPATIBILITY_THRESHOLD: 0.7,
   ALCHEMICAL_CONSISTENCY_THRESHOLD: 0.8
 };
 
@@ -238,7 +238,7 @@ function validateIngredientElementalProperties(
         severity: 'MEDIUM',
         ingredient: name,
         property: 'elementalProperties',
-        expectedValue: 1.0;
+        expectedValue: 1.0,
         actualValue: sum,
         message: `Elemental properties sum for ${name} is ${sum.toFixed(3)}, should be 1.0 (±${VALIDATION_TOLERANCES.ELEMENTAL_SUM_TOLERANCE})`,
         timestamp: new Date()
@@ -325,7 +325,7 @@ async function validateCompatibilityScores(): Promise<{
           errors.push({
             type: 'COMPATIBILITY_VIOLATION',
             severity: 'HIGH',
-            ingredient: ingredient.name;
+            ingredient: ingredient.name,
             property: 'self-compatibility',
             expectedValue: `≥${VALIDATION_TOLERANCES.SELF_COMPATIBILITY_THRESHOLD}`,
             actualValue: selfCompatibility,
@@ -336,7 +336,7 @@ async function validateCompatibilityScores(): Promise<{
       } catch (error) {
         warnings.push({
           type: 'PERFORMANCE_SLOW',
-          ingredient: ingredient.name;
+          ingredient: ingredient.name,
           message: `Could not calculate self-compatibility for ${ingredient.name}: ${error instanceof Error ? error.message : 'Unknown error'}`,
           timestamp: new Date()
         });
@@ -590,7 +590,7 @@ async function validateDataCompleteness(): Promise<{
           severity: 'MEDIUM',
           ingredient: name,
           property: 'category',
-          actualValue: ingredient.category;
+          actualValue: ingredient.category,
           expectedValue: validCategories,
           message: `Invalid category '${ingredient.category}' for ${name}`,
           timestamp: new Date()
@@ -659,7 +659,7 @@ async function testIngredientDataLoading(): Promise<IngredientTestResult> {
     return {
       testName: 'Ingredient Data Loading',
       passed: false,
-      duration: Date.now() - startTime;
+      duration: Date.now() - startTime,
       error: error instanceof Error ? error.message : 'Unknown error'
     };
   }
@@ -708,7 +708,7 @@ async function testElementalPropertiesValidation(): Promise<IngredientTestResult
     return {
       testName: 'Elemental Properties Validation',
       passed: false,
-      duration: Date.now() - startTime;
+      duration: Date.now() - startTime,
       error: error instanceof Error ? error.message : 'Unknown error'
     };
   }
@@ -761,7 +761,7 @@ async function testCompatibilityCalculations(): Promise<IngredientTestResult> {
     return {
       testName: 'Compatibility Calculations',
       passed: false,
-      duration: Date.now() - startTime;
+      duration: Date.now() - startTime,
       error: error instanceof Error ? error.message : 'Unknown error'
     };
   }
@@ -812,7 +812,7 @@ async function testAlchemicalMappings(): Promise<IngredientTestResult> {
     return {
       testName: 'Alchemical Mappings',
       passed: false,
-      duration: Date.now() - startTime;
+      duration: Date.now() - startTime,
       error: error instanceof Error ? error.message : 'Unknown error'
     };
   }
@@ -866,7 +866,7 @@ async function testCategoryConsistency(): Promise<IngredientTestResult> {
     return {
       testName: 'Category Consistency',
       passed: false,
-      duration: Date.now() - startTime;
+      duration: Date.now() - startTime,
       error: error instanceof Error ? error.message : 'Unknown error'
     };
   }

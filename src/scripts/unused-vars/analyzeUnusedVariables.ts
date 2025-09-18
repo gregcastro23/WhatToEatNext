@@ -14,20 +14,20 @@ import path from 'node:path';
 
 import { classifyFileKind, decidePreservation } from './domainPreservation';
 
-type CliOptions = {;
+type CliOptions = {
   outPath: string;
   maxFiles?: number;
 };
 
-type Finding = {;
-  filePath: string;
-  fileKind: ReturnType<typeof classifyFileKind>;
-  variableName: string;
-  line: number;
-  column: number;
-  preserve: boolean;
-  reason: string;
-  confidence: number;
+type Finding = {
+  filePath: string,
+  fileKind: ReturnType<typeof classifyFileKind>,
+  variableName: string,
+  line: number,
+  column: number,
+  preserve: boolean,
+  reason: string,
+  confidence: number,
 };
 
 function parseArgs(argv: string[]): CliOptions {

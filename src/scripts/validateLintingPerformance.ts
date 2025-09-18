@@ -14,8 +14,8 @@ import { existsSync, statSync, unlinkSync, writeFileSync } from 'fs';
 import { cpus } from 'os';
 
 interface PerformanceMetrics {
-  executionTime: number;
-  memoryUsage: number;
+  executionTime: number,
+  memoryUsage: number,
   cacheHitRate: number,
   filesProcessed: number,
   parallelProcesses: number,
@@ -23,8 +23,8 @@ interface PerformanceMetrics {
 }
 
 interface ValidationResult {
-  testName: string;
-  passed: boolean;
+  testName: string,
+  passed: boolean,
   metrics: PerformanceMetrics,
   expectedImprovement: number,
   actualImprovement: number,
@@ -84,9 +84,9 @@ class LintingPerformanceValidator {
 
       this.baselineMetrics = {
         executionTime: endTime - startTime,
-        memoryUsage: endMemory.heapUsed - startMemory.heapUsed;
+        memoryUsage: endMemory.heapUsed - startMemory.heapUsed,
         cacheHitRate: 0, // No cache for baseline
-        filesProcessed: this.extractFilesProcessed(output);
+        filesProcessed: this.extractFilesProcessed(output),
         parallelProcesses: 1, // Single process for baseline
       };
 
@@ -136,9 +136,9 @@ class LintingPerformanceValidator {
 
       const metrics: PerformanceMetrics = {
         executionTime: endTime - startTime,
-        memoryUsage: endMemory.heapUsed - startMemory.heapUsed;
-        cacheHitRate: this.calculateCacheHitRate();
-        filesProcessed: this.extractFilesProcessed(output);
+        memoryUsage: endMemory.heapUsed - startMemory.heapUsed,
+        cacheHitRate: this.calculateCacheHitRate(),
+        filesProcessed: this.extractFilesProcessed(output),
         parallelProcesses: this.extractParallelProcesses(output)
       };
 
@@ -198,9 +198,9 @@ class LintingPerformanceValidator {
 
       const metrics: PerformanceMetrics = {
         executionTime: endTime - startTime,
-        memoryUsage: endMemory.heapUsed - startMemory.heapUsed;
-        cacheHitRate: this.calculateCacheHitRate();
-        filesProcessed: this.extractFilesProcessed(output);
+        memoryUsage: endMemory.heapUsed - startMemory.heapUsed,
+        cacheHitRate: this.calculateCacheHitRate(),
+        filesProcessed: this.extractFilesProcessed(output),
         parallelProcesses: this.extractParallelProcesses(output)
       };
 
@@ -272,8 +272,8 @@ class LintingPerformanceValidator {
       const metrics: PerformanceMetrics = {
         executionTime: endTime - startTime,
         memoryUsage: peakMemoryUsage,
-        cacheHitRate: this.calculateCacheHitRate();
-        filesProcessed: this.extractFilesProcessed(output);
+        cacheHitRate: this.calculateCacheHitRate(),
+        filesProcessed: this.extractFilesProcessed(output),
         parallelProcesses: this.extractParallelProcesses(output)
       };
 
@@ -347,8 +347,8 @@ export const _testVariable = 'test';
         const metrics: PerformanceMetrics = {
           executionTime: incrementalTime,
           memoryUsage: 0, // Not measured for incremental
-          cacheHitRate: this.calculateCacheHitRate();
-          filesProcessed: this.extractFilesProcessed(output);
+          cacheHitRate: this.calculateCacheHitRate(),
+          filesProcessed: this.extractFilesProcessed(output),
           parallelProcesses: 1,
           incrementalTime
         };
@@ -503,7 +503,7 @@ export const _testVariable = 'test';
       overallPassed,
       passedTests,
       totalTests,
-      baselineMetrics: this.baselineMetrics;
+      baselineMetrics: this.baselineMetrics,
       results: this.results
     };
 

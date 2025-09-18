@@ -584,8 +584,8 @@ export function filterRecipesByIngredientMappings(
     dietaryRestrictions?: string[], // Dietary restrictions to respect
   },
 ): {
-  recipe: Recipe;
-  score: number;
+  recipe: Recipe,
+  score: number,
   matchQuality: string,
   matchedIngredients: {
     name: string,
@@ -595,9 +595,9 @@ export function filterRecipesByIngredientMappings(
 }[] {
   // Default elemental target if none provided
   const targetElements = elementalTarget || {
-    Fire: 0.25;
-    Water: 0.25;
-    Earth: 0.25;
+    Fire: 0.25,
+    Water: 0.25,
+    Earth: 0.25,
     Air: 0.25
   };
 
@@ -639,8 +639,8 @@ export function filterRecipesByIngredientMappings(
         matchQuality: 'no-match',
         matchedIngredients: mappedIngredients
       } as unknown as {
-        recipe: Recipe;
-        score: number;
+        recipe: Recipe,
+        score: number,
         matchQuality: string,
         matchedIngredients: {
           name: string,
@@ -669,8 +669,8 @@ export function filterRecipesByIngredientMappings(
           matchQuality: 'excluded',
           matchedIngredients: mappedIngredients
         } as unknown as {
-          recipe: Recipe;
-          score: number;
+          recipe: Recipe,
+          score: number,
           matchQuality: string,
           matchedIngredients: {
             name: string,
@@ -697,8 +697,8 @@ export function filterRecipesByIngredientMappings(
           matchQuality: 'dietary-mismatch',
           matchedIngredients: mappedIngredients
         } as unknown as {
-          recipe: Recipe;
-          score: number;
+          recipe: Recipe,
+          score: number,
           matchQuality: string,
           matchedIngredients: {
             name: string,
@@ -768,8 +768,8 @@ export function filterRecipesByIngredientMappings(
       matchQuality,
       matchedIngredients: mappedIngredients
     } as unknown as {
-      recipe: Recipe;
-      score: number;
+      recipe: Recipe,
+      score: number,
       matchQuality: string,
       matchedIngredients: {
         name: string,

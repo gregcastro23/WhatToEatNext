@@ -362,7 +362,7 @@ describe('DeploymentManager', () => {
       const result: any = await deploymentManager.executePhase(phase);
 
       expect(result.success).toBe(false);
-      expect(result.errors).toContain('Custom check failed: Failing Check');
+      expect(result.errors).toContain('Custom check failed: Failing Check')
     });
   });
 
@@ -574,7 +574,7 @@ describe('DeploymentManager', () => {
 
       expect(log.length).toBeGreaterThan(0);
       expect(log.some(entry => entry.includes('Executing phase: Logging Phase'))).toBe(true);
-      expect(log.some(entry => entry.includes('Task completed: Log Task'))).toBe(true);
+      expect(log.some(entry => entry.includes('Task completed: Log Task'))).toBe(true)
     });
 
     test('saves deployment log to file', async () => {

@@ -170,7 +170,7 @@ export class DomainContextAnalyzer {
           suggestions.push('React.ReactNode[]', 'ComponentProps[]');
           break;
         default:
-          suggestions.push('unknown[]');
+          suggestions.push('unknown[]')
       }
     }
 
@@ -209,7 +209,7 @@ export class DomainContextAnalyzer {
             suggestions.push('ComponentProps', 'React.SyntheticEvent');
             break;
           default:
-            suggestions.push('unknown');
+            suggestions.push('unknown')
         }
       }
     }
@@ -233,7 +233,7 @@ export class DomainContextAnalyzer {
           suggestions.push('JSX.Element', 'React.ReactNode');
           break;
         default:
-          suggestions.push('unknown');
+          suggestions.push('unknown')
       }
     }
 
@@ -250,7 +250,7 @@ export class DomainContextAnalyzer {
           suggestions.push('Promise<ApiResponse<T>>', 'Promise<ServiceData>');
           break;
         default:
-          suggestions.push('Promise<unknown>');
+          suggestions.push('Promise<unknown>')
       }
     }
 

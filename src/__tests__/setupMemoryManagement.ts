@@ -296,7 +296,7 @@ declare global {
   };
   let cleanupTestMemory: () => any;
   let __TEST_CACHE__: Map<string, any> | { clear: () => void } | undefined;
-  let __TEST_REFS__: any[] | undefined;
+  let __TEST_REFS__: any[] | undefined
 }
 
 export default {};

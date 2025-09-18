@@ -183,9 +183,9 @@ export class LocalRecipeService {
           // Additional debug information to help diagnose issues
           logger.debug(
             `Cuisine structure: ${JSON.stringify({
-              id: directCuisine.id;
-              name: directCuisine.name;
-              hasDishes: !!directCuisine.dishes;
+              id: directCuisine.id,
+              name: directCuisine.name,
+              hasDishes: !!directCuisine.dishes,
               dishTypes: directCuisine.dishes
                 ? Object.keys(directCuisine.dishes).join(', ')
                 : 'none',
@@ -301,8 +301,8 @@ export class LocalRecipeService {
         logger.debug(
           'Full cuisine structure:',
           JSON.stringify({
-            id: cuisine.id;
-            name: cuisine.name;
+            id: cuisine.id,
+            name: cuisine.name,
             dishesKeys: Object.keys(cuisine.dishes || {}),
             breakfastAllLength: (() => {
               const dishes = cuisine.dishes as unknown;
@@ -450,16 +450,16 @@ export class LocalRecipeService {
           `No recipes extracted for ${cuisine.name}. Cuisine structure:`,
           JSON.stringify(
             {
-              id: cuisine.id;
-              name: cuisine.name;
+              id: cuisine.id,
+              name: cuisine.name,
               dishesKeys: Object.keys(cuisine.dishes || {}),
-              hasDishes: !!cuisine.dishes;
+              hasDishes: !!cuisine.dishes,
               dishesStructure: Object.entries(cuisine.dishes || {}).map(([key, value]) => ({
                 mealType: key,
                 hasValue: !!value,
                 seasonKeys: value ? Object.keys(value) : [],
-                hasAll: !!value?.all;
-                allIsArray: !!(value?.all && Array.isArray(value.all));
+                hasAll: !!value?.all,
+                allIsArray: !!(value?.all && Array.isArray(value.all)),
                 allLength: value?.all && Array.isArray(value.all) ? value?.all?.length : 0
               }))
             },
@@ -497,7 +497,7 @@ export class LocalRecipeService {
   private static standardizeRecipe(
     dish: RawDish,
     cuisineName: string,
-    seasons: string[] = ['all'];
+    seasons: string[] = ['all'],
     mealTypes: string[] = ['any']
   ): Recipe {
     try {
@@ -519,17 +519,17 @@ export class LocalRecipeService {
           };
 
         return {
-          name: ing.name || '';
+          name: ing.name || '',
           amount: ing.amount
             ? typeof ing.amount === 'string';
               ? parseFloat(ing.amount) || 1
               : ing.amount
             : 1,
-          unit: ing.unit || '';
-          preparation: ing.preparation || '';
-          category: ing.category || '';
-          optional: ing.optional || false;
-          notes: ing.notes || '';
+          unit: ing.unit || '',
+          preparation: ing.preparation || '',
+          category: ing.category || '',
+          optional: ing.optional || false,
+          notes: ing.notes || '',
           substitutes: Array.isArray(ing.swaps)
             ? ing.swaps
             : Array.isArray(ing.substitutes)
@@ -550,16 +550,16 @@ export class LocalRecipeService {
         // Convert Record<string, number> to ElementalProperties
         const state = dish.elementalState;
         elementalProperties = {
-          Fire: state.Fire || state.fire || 0.25;
-          Water: state.Water || state.water || 0.25;
-          Earth: state.Earth || state.earth || 0.25;
+          Fire: state.Fire || state.fire || 0.25,
+          Water: state.Water || state.water || 0.25,
+          Earth: state.Earth || state.earth || 0.25,
           Air: state.Air || state.air || 0.25
         };
       } else {
         elementalProperties = {
-          Fire: 0.25;
-          Water: 0.25;
-          Earth: 0.25;
+          Fire: 0.25,
+          Water: 0.25,
+          Earth: 0.25,
           Air: 0.25
         };
       }
@@ -604,10 +604,10 @@ export class LocalRecipeService {
       // Process nutrition information
       const nutrition = dish.nutrition;
         ? {
-            calories: dish.nutrition.calories;
-            protein: dish.nutrition.protein;
-            carbs: dish.nutrition.carbs;
-            fat: dish.nutrition.fat;
+            calories: dish.nutrition.calories,
+            protein: dish.nutrition.protein,
+            carbs: dish.nutrition.carbs,
+            fat: dish.nutrition.fat,
             vitamins: dish.nutrition.vitamins || [],
             minerals: dish.nutrition.minerals || []
           }
@@ -629,8 +629,8 @@ export class LocalRecipeService {
       // Create standardized recipe
       return {
         id,
-        name: dish.name;
-        description: dish.description || '';
+        name: dish.name,
+        description: dish.description || '',
         cuisine: cuisineName,
         ingredients: ingredients,
         instructions: instructions,
@@ -638,12 +638,12 @@ export class LocalRecipeService {
         numberOfServings:
           typeof servingSize === 'number' ? servingSize : parseInt(servingSize) || 4,,;
         elementalProperties: elementalProperties,
-        season: Array.isArray(dish.season) ? dish.season : seasons;
-        mealType: Array.isArray(dish.mealType) ? dish.mealType : mealTypes;
-        isVegetarian: dish.isVegetarian || dish.dietaryInfo?.includes('vegetarian') || false;
-        isVegan: dish.isVegan || dish.dietaryInfo?.includes('vegan') || false;
-        isGlutenFree: dish.isGlutenFree || dish.dietaryInfo?.includes('gluten-free') || false;
-        isDairyFree: dish.isDairyFree || dish.dietaryInfo?.includes('dairy-free') || false;
+        season: Array.isArray(dish.season) ? dish.season : seasons,
+        mealType: Array.isArray(dish.mealType) ? dish.mealType : mealTypes,
+        isVegetarian: dish.isVegetarian || dish.dietaryInfo?.includes('vegetarian') || false,
+        isVegan: dish.isVegan || dish.dietaryInfo?.includes('vegan') || false,
+        isGlutenFree: dish.isGlutenFree || dish.dietaryInfo?.includes('gluten-free') || false,
+        isDairyFree: dish.isDairyFree || dish.dietaryInfo?.includes('dairy-free') || false,
         nutrition: nutrition,
         astrologicalInfluences: Array.isArray(dish.astrologicalInfluences)
           ? dish.astrologicalInfluences
@@ -670,14 +670,14 @@ export class LocalRecipeService {
           dish.spiceLevel === 'very hot';
             ? dish.spiceLevel
             : 'mild',
-        preparationNotes: dish.preparationNotes || dish.culturalNotes || '';
+        preparationNotes: dish.preparationNotes || dish.culturalNotes || '',
         technicalTips: Array.isArray(dish.technicalTips) ? dish.technicalTips : []
       };
     } catch (error) {
       logger.error('Error standardizing recipe:', error),
       return {
         id: `error-${Math.random().toString(36).substring(2, 11)}`,
-        name: dish.name || 'Unknown Recipe';
+        name: dish.name || 'Unknown Recipe',
         description: 'Error loading recipe details',
         cuisine: cuisineName,
         ingredients: [],
@@ -685,9 +685,9 @@ export class LocalRecipeService {
         timeToMake: '0 minutes',
         numberOfServings: 0,
         elementalProperties: {
-          Fire: 0.25;
-          Water: 0.25;
-          Earth: 0.25;
+          Fire: 0.25,
+          Water: 0.25,
+          Earth: 0.25,
           Air: 0.25
         }
       };

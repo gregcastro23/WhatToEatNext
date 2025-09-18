@@ -21,8 +21,8 @@ import { logger } from '@/utils/logger';
 logger.debug('cuisinesMap keys:', Object.keys(cuisinesMap));
 
 export interface Ingredient {
-  name: string;
-  amount: number;
+  name: string,
+  amount: number,
   unit: string,
   optional?: boolean,
   preparation?: string,
@@ -66,10 +66,10 @@ export interface Nutrition {
 }
 
 export interface RecipeData {
-  id: string;
-  name: string;
-  description: string;
-  ingredients: Ingredient[];
+  id: string,
+  name: string,
+  description: string,
+  ingredients: Ingredient[],
   instructions: string[];
   cuisine?: string;
   energyProfile: {
@@ -81,8 +81,8 @@ export interface RecipeData {
   tags?: string[];
   timeToMake?: number;
   flavorProfile?: {
-    spicy: number;
-    sweet: number;
+    spicy: number,
+    sweet: number,
     sour: number,
     bitter: number,
     salty: number,
@@ -238,7 +238,7 @@ const transformCuisineData = async (): Promise<RecipeData[]> => {
                             amount: ingredientAmount,
                             unit: ingredientUnit,
                             optional: ingredientOptional,
-                            preparation: String(ingredientData.preparation || '');
+                            preparation: String(ingredientData.preparation || ''),
                             category: String(ingredientData.category || '')
                           });
                         }
@@ -250,7 +250,7 @@ const transformCuisineData = async (): Promise<RecipeData[]> => {
                       id: `${cuisineName}-${mealType}-${dishData.name}`
                         .replace(/\s+/g, '-')
                         .toLowerCase();
-                      name: dishData.name || '';
+                      name: dishData.name || '',
                       description: dishData.description || `A traditional ${cuisineName} dish`,
                       ingredients: transformedIngredients,
                       instructions: Array.isArray(dishData.instructions)
@@ -275,40 +275,40 @@ const transformCuisineData = async (): Promise<RecipeData[]> => {
                             : (['spring', 'summer', 'autumn', 'winter'] as Season[])
                       },
                       tags: Array.isArray(dishData.tags) ? dishData.tags : [],
-                      timeToMake: dishData.timeToMake || dishData.cookTime || 30;
+                      timeToMake: dishData.timeToMake || dishData.cookTime || 30,
                       flavorProfile: flavorProfile
                         ? {
-                            spicy: Number((flavorProfile ).spicy) || 0;
-                            sweet: Number((flavorProfile ).sweet) || 0;
-                            sour: Number((flavorProfile ).sour) || 0;
-                            bitter: Number((flavorProfile ).bitter) || 0;
-                            salty: Number((flavorProfile ).salty) || 0;
+                            spicy: Number((flavorProfile ).spicy) || 0,
+                            sweet: Number((flavorProfile ).sweet) || 0,
+                            sour: Number((flavorProfile ).sour) || 0,
+                            bitter: Number((flavorProfile ).bitter) || 0,
+                            salty: Number((flavorProfile ).salty) || 0,
                             umami: Number((flavorProfile ).umami) || 0
                           }
                         : undefined,
                       planetaryInfluences: dishPlanetaryInfluences,
-                      regionalCuisine: dishData.regionalCuisine || cuisineName;
+                      regionalCuisine: dishData.regionalCuisine || cuisineName,
 
                       // Standardized fields
                       servingSize: dishData.servingSize || dishData.numberOfServings || 4;
                       substitutions,
                       tools: Array.isArray(dishData.tools) ? dishData.tools : [],
                       spiceLevel:
-                        typeof dishData.spiceLevel === 'string' &&;
+                        typeof dishData.spiceLevel === 'string' &&,
                         ['mild', 'medium', 'hot', 'very hot'].includes(dishData.spiceLevel)
                           ? (dishData.spiceLevel as 'mild' | 'medium' | 'hot' | 'very hot')
                           : typeof dishData.spiceLevel === 'number';
                             ? dishData.spiceLevel
                             : 1,
-                      nutrition: dishData.nutrition;
-                      preparationNotes: dishData.preparationNotes;
+                      nutrition: dishData.nutrition,
+                      preparationNotes: dishData.preparationNotes,
                       technicalTips: Array.isArray(dishData.technicalTips)
                         ? dishData.technicalTips
                         : [],
 
                       // Additional properties for compatibility
                       elementalProperties: undefined, // To be calculated later if needed
-                      season: season !== 'all' ? (season as Season) : undefined;
+                      season: season !== 'all' ? (season as Season) : undefined,
                       mealType: mealType,
                       cookingMethod: undefined, // Could be derived from instructions
                       cookingMethods: undefined,
@@ -589,11 +589,11 @@ export const getBestRecipeMatches = async (;
           const regionalCuisine = recipeData.regionalCuisine;
           const cookingMethod = recipeData.cookingMethod || recipeData.cookingMethods?.[0];
           const flavorProfile = recipeData.flavorProfile || {
-            spicy: 0.5;
-            sweet: 0.5;
-            sour: 0.5;
-            bitter: 0.5;
-            salty: 0.5;
+            spicy: 0.5,
+            sweet: 0.5,
+            sour: 0.5,
+            bitter: 0.5,
+            salty: 0.5,
             umami: 0.5
           };
 
@@ -602,12 +602,12 @@ export const getBestRecipeMatches = async (;
             name,
             description,
             ingredients: ingredients.map((ing: unknown) => ({
-              name: String((ing as any).name || '');
+              name: String((ing as any).name || ''),
               amount:
-                typeof (ing as any).amount === 'number';
+                typeof (ing as any).amount === 'number',
                   ? ((ing as any).amount)
                   : parseFloat(String((ing as any).amount)) || 1;
-              unit: String((ing as any).unit || '');
+              unit: String((ing as any).unit || ''),
               optional: Boolean((ing as any).optional || false)
             })),
             instructions,
@@ -615,7 +615,7 @@ export const getBestRecipeMatches = async (;
             regionalCuisine,
             cookingMethod,
             flavorProfile,
-            elementalProperties: recipeData.elementalProperties;
+            elementalProperties: recipeData.elementalProperties,
             energyProfile: {
               season: Array.isArray(recipeData.season)
                 ? (recipeData.season as Season[])
@@ -695,12 +695,12 @@ export const getBestRecipeMatches = async (;
               name,
               description,
               ingredients: ingredients.map((ing: unknown) => ({
-                name: String((ing as any).name || '');
+                name: String((ing as any).name || ''),
                 amount:
-                  typeof (ing as any).amount === 'number';
+                  typeof (ing as any).amount === 'number',
                     ? ((ing as any).amount)
                     : parseFloat(String((ing as any).amount)) || 1;
-                unit: String((ing as any).unit || '');
+                unit: String((ing as any).unit || ''),
                 optional: Boolean((ing as any).optional || false)
               })),
               instructions,
@@ -1016,7 +1016,7 @@ export const _getRecommendedCuisines = (profile: CuisineRecommendationProfile) =
 
       return {
         id: cuisineName,
-        name: (cuisineProfile as unknown ).name;
+        name: (cuisineProfile as unknown ).name,
         score: finalScore
       };
     })
@@ -1079,16 +1079,16 @@ export const getAllRecipes = async (): Promise<Recipe[]> => {
     return recipeData.map(
       recipe =>;
         ({
-          id: recipe.id;
-          name: recipe.name;
-          description: recipe.description;
+          id: recipe.id,
+          name: recipe.name,
+          description: recipe.description,
           ingredients: recipe.ingredients || [],
           instructions: recipe.instructions || [],
-          cuisine: recipe.cuisine || 'unknown';
+          cuisine: recipe.cuisine || 'unknown',
           elementalProperties: recipe.elementalProperties || {
-            Fire: 0.25;
-            Water: 0.25;
-            Earth: 0.25;
+            Fire: 0.25,
+            Water: 0.25,
+            Earth: 0.25,
             Air: 0.25
           },
           season: Array.isArray(recipe.season)
@@ -1097,11 +1097,11 @@ export const getAllRecipes = async (): Promise<Recipe[]> => {
           mealType: Array.isArray(recipe.mealType)
             ? recipe.mealType
             : [recipe.mealType] || ['dinner'],
-          matchPercentage: recipe.matchPercentage || 0;
-          timeToMake: recipe.timeToMake || 30;
-          nutrition: recipe.nutrition;
-          flavorProfile: recipe.flavorProfile;
-          currentSeason: recipe.season;
+          matchPercentage: recipe.matchPercentage || 0,
+          timeToMake: recipe.timeToMake || 30,
+          nutrition: recipe.nutrition,
+          flavorProfile: recipe.flavorProfile,
+          currentSeason: recipe.season,
           regionalCuisine: recipe.regionalCuisine
         }) as unknown as Recipe,
     );

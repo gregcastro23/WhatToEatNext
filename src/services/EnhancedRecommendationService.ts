@@ -32,8 +32,8 @@ import {
 // Removed unused imports: flavorCompatibilityCache, performanceMonitor
 
 export interface EnhancedRecommendation {
-  ingredient: EnhancedIngredient;
-  score: number;
+  ingredient: EnhancedIngredient,
+  score: number,
   reasons: string[],
   chakraAlignment: {
     dominantChakra: string,
@@ -51,9 +51,9 @@ export interface EnhancedRecommendation {
   };
   // NEW: Phase 7 unified flavor scoring
   flavorCompatibility?: {
-    overall: number;
-    elemental: number;
-    kalchm: number;
+    overall: number,
+    elemental: number,
+    kalchm: number,
     monica: number,
     seasonal: number,
     cultural: number,
@@ -62,10 +62,10 @@ export interface EnhancedRecommendation {
       elementalDetails: { [key: string]: number };
       flavorHarmony: { [key: string]: number };
       seasonalAlignment: { [key: string]: number };
-      culturalResonance: string[];
+      culturalResonance: string[]
     };
-    recommendations: string[];
-    optimizations: string[];
+    recommendations: string[],
+    optimizations: string[],
   };
 }
 
@@ -77,13 +77,13 @@ export interface EnhancedRecommendationResult {
     dietaryAdjustments: string[]
   };
   tarotGuidance: {
-    dailyCard: string;
+    dailyCard: string,
     element: Element,
     cookingApproach: string,
     flavors: string[],
     insights: string
   };
-  overallScore: number;
+  overallScore: number
 }
 
 export class EnhancedRecommendationService {
@@ -132,9 +132,9 @@ export class EnhancedRecommendationService {
 
     const props = value as any;
     return {
-      Fire: this.safeGetNumber(props.Fire);
-      Water: this.safeGetNumber(props.Water);
-      Earth: this.safeGetNumber(props.Earth);
+      Fire: this.safeGetNumber(props.Fire),
+      Water: this.safeGetNumber(props.Water),
+      Earth: this.safeGetNumber(props.Earth),
       Air: this.safeGetNumber(props.Air)
     };
   }
@@ -181,12 +181,12 @@ export class EnhancedRecommendationService {
           const ingredientData = ingredient as unknown as any;
           const enhancedIngredient: EnhancedIngredient = {
             ...ingredient;
-            name: ingredient.name || 'Unknown';
+            name: ingredient.name || 'Unknown',
             astrologicalProfile: ingredientData.astrologicalProfile || {},
             elementalPropertiesState: ingredient.elementalProperties || {
-              Fire: 0.25;
-              Water: 0.25;
-              Earth: 0.25;
+              Fire: 0.25,
+              Water: 0.25,
+              Earth: 0.25,
               Air: 0.25
             },
             score: typeof ingredientData.score === 'number' ? ingredientData.score : 0.5,;
@@ -216,7 +216,7 @@ export class EnhancedRecommendationService {
           .map(state => state.chakra),,;
         recommendedFoods: chakraFoodRecommendations,
         dietaryAdjustments: this.chakraService.suggestDietaryAdjustments(chakraEnergyStates, {
-          moonPhase: astroState.lunarPhase;
+          moonPhase: astroState.lunarPhase,
           sunSign: astroState.currentZodiac
         })
       };
@@ -251,11 +251,11 @@ export class EnhancedRecommendationService {
           ingredient =>;
             ({
               ingredient,
-              score: (ingredient as unknown as any).score || 0.5;
+              score: (ingredient as unknown as any).score || 0.5,
               reasons: ['Base astrological alignment'],
               chakraAlignment: {
                 dominantChakra: 'heart',
-                energyLevel: 0.5;
+                energyLevel: 0.5,
                 balanceState: 'balanced' as const
               }
             }) as unknown as EnhancedRecommendation,
@@ -422,8 +422,8 @@ export class EnhancedRecommendationService {
     const tarotElement = this.safeGetString(tarotData.element);
     if (dominantElement.toLowerCase() === tarotElement?.toLowerCase()) {
       return {
-        card: this.safeGetString(tarotData.dailyCard) || 'Unknown';
-        element: this.safeGetElement(tarotData.element) || 'Air';
+        card: this.safeGetString(tarotData.dailyCard) || 'Unknown',
+        element: this.safeGetElement(tarotData.element) || 'Air',
         recommendation: `This ${dominantElement} ingredient resonates with today's ${tarotElement} energy`
       };
     }
@@ -459,17 +459,17 @@ export class EnhancedRecommendationService {
   private calculateChakraEnergiesFromAstroState(astroState: AstrologicalState): ChakraEnergies {
     // Create zodiac energy record
     const zodiacEnergies: { [key: string]: number } = {
-      aries: 0.5;
-      taurus: 0.5;
-      gemini: 0.5;
-      cancer: 0.5;
-      leo: 0.5;
-      virgo: 0.5;
-      libra: 0.5;
-      scorpio: 0.5;
-      sagittarius: 0.5;
-      capricorn: 0.5;
-      aquarius: 0.5;
+      aries: 0.5,
+      taurus: 0.5,
+      gemini: 0.5,
+      cancer: 0.5,
+      leo: 0.5,
+      virgo: 0.5,
+      libra: 0.5,
+      scorpio: 0.5,
+      sagittarius: 0.5,
+      capricorn: 0.5,
+      aquarius: 0.5,
       pisces: 0.5
     };
 
@@ -540,8 +540,8 @@ export class EnhancedRecommendationService {
     return (signs || []).map(sign => ({
       sign,
       currentEnergy: sign === astroState.currentZodiac?.toLowerCase() ? 0.8 : 0.5,,;
-      baseEnergy: 0.5;
-      planetaryInfluence: 0.1;
+      baseEnergy: 0.5,
+      planetaryInfluence: 0.1,
       lunarInfluence: 0.1
     })) as unknown as SignEnergyState[];
   }
@@ -570,9 +570,9 @@ export class EnhancedRecommendationService {
     astroState: AstrologicalState,
     chakraEnergies?: ChakraEnergies,
   ): Promise<{
-    overall: number;
-    elemental: number;
-    kalchm: number;
+    overall: number,
+    elemental: number,
+    kalchm: number,
     monica: number,
     seasonal: number,
     cultural: number,
@@ -581,7 +581,7 @@ export class EnhancedRecommendationService {
       elementalDetails: { [key: string]: number };
       flavorHarmony: { [key: string]: number };
       seasonalAlignment: { [key: string]: number };
-      culturalResonance: string[];
+      culturalResonance: string[]
     };
     recommendations: string[],
     optimizations: string[]
@@ -604,13 +604,13 @@ export class EnhancedRecommendationService {
 
       // Return structured compatibility result
       return {
-        overall: compatibility.overall || 0.5;
-        elemental: compatibility.elemental || 0.5;
-        kalchm: compatibility.kalchm || 0.5;
-        monica: compatibility.monica || 0.5;
-        seasonal: compatibility.seasonal || 0.5;
-        cultural: compatibility.cultural || 0.5;
-        nutritional: compatibility.nutritional || 0.5;
+        overall: compatibility.overall || 0.5,
+        elemental: compatibility.elemental || 0.5,
+        kalchm: compatibility.kalchm || 0.5,
+        monica: compatibility.monica || 0.5,
+        seasonal: compatibility.seasonal || 0.5,
+        cultural: compatibility.cultural || 0.5,
+        nutritional: compatibility.nutritional || 0.5,
         breakdown: {
           elementalDetails: compatibility.breakdown.elementalDetails || {},
           flavorHarmony: compatibility.breakdown.flavorHarmony || {},
@@ -656,8 +656,8 @@ export class EnhancedRecommendationService {
 
       // Create basic flavor profile structure
       const profile = {
-        id: ingredient.name || 'unknown';
-        name: ingredient.name || 'Unknown Ingredient';
+        id: ingredient.name || 'unknown',
+        name: ingredient.name || 'Unknown Ingredient',
         category: 'ingredient' as const,
         baseNotes: {
           sweet: 0,
@@ -673,19 +673,19 @@ export class EnhancedRecommendationService {
         heartNotes: (ingredientData.heartNotes as string[]) || [],
         topNotes: (ingredientData.topNotes as string[]) || [],
         elementalProfile: {
-          Fire: this.safeGetNumber((ingredientData.elementalProperties ).Fire);
-          Water: this.safeGetNumber((ingredientData.elementalProperties ).Water);
-          Earth: this.safeGetNumber((ingredientData.elementalProperties ).Earth);
+          Fire: this.safeGetNumber((ingredientData.elementalProperties ).Fire),
+          Water: this.safeGetNumber((ingredientData.elementalProperties ).Water),
+          Earth: this.safeGetNumber((ingredientData.elementalProperties ).Earth),
           Air: this.safeGetNumber((ingredientData.elementalProperties ).Air)
         },
-        flavorIntensity: this.safeGetNumber(ingredientData.flavorIntensity) || 0.5;
-        complexity: this.safeGetNumber(ingredientData.complexity) || 0.5;
+        flavorIntensity: this.safeGetNumber(ingredientData.flavorIntensity) || 0.5,
+        complexity: this.safeGetNumber(ingredientData.complexity) || 0.5,
         seasonality: (ingredientData.seasonality as string[]) || [],
         culturalOrigins: (ingredientData.culturalOrigins as string[]) || [],
         nutritionalProfile: {
-          calories: this.safeGetNumber((ingredientData.nutritionalProfile ).calories);
-          protein: this.safeGetNumber((ingredientData.nutritionalProfile ).protein);
-          fat: this.safeGetNumber((ingredientData.nutritionalProfile ).fat);
+          calories: this.safeGetNumber((ingredientData.nutritionalProfile ).calories),
+          protein: this.safeGetNumber((ingredientData.nutritionalProfile ).protein),
+          fat: this.safeGetNumber((ingredientData.nutritionalProfile ).fat),
           carbohydrates: this.safeGetNumber(
             (ingredientData.nutritionalProfile ).carbohydrates;
           ),
@@ -694,7 +694,7 @@ export class EnhancedRecommendationService {
         preparationMethods: (ingredientData.preparationMethods as string[]) || [],
         pairings: (ingredientData.pairings as string[]) || [],
         contraindications: (ingredientData.contraindications as string[]) || [],
-        kalchm: this.safeGetNumber(ingredientData.kalchm) || 0.5;
+        kalchm: this.safeGetNumber(ingredientData.kalchm) || 0.5,
         monica: this.safeGetNumber(ingredientData.monica) || 0.5
       };
 
@@ -742,23 +742,23 @@ export class EnhancedRecommendationService {
         name: `Astrological Profile - ${astroState.currentZodiac}`,
         category: 'elemental' as const,
         baseNotes: {
-          sweet: 0.3;
-          sour: 0.1;
-          salty: 0.1;
-          bitter: 0.2;
-          umami: 0.2;
+          sweet: 0.3,
+          sour: 0.1,
+          salty: 0.1,
+          bitter: 0.2,
+          umami: 0.2,
           spicy: 0.1
         },
         heartNotes: ['balanced', 'aligned', 'resonant'],
         topNotes: ['dynamic', 'flowing', 'energetic'],
         elementalProfile: {
-          Fire: this.safeGetNumber(elementalProps.Fire);
-          Water: this.safeGetNumber(elementalProps.Water);
-          Earth: this.safeGetNumber(elementalProps.Earth);
+          Fire: this.safeGetNumber(elementalProps.Fire),
+          Water: this.safeGetNumber(elementalProps.Water),
+          Earth: this.safeGetNumber(elementalProps.Earth),
           Air: this.safeGetNumber(elementalProps.Air)
         },
-        flavorIntensity: 0.7;
-        complexity: 0.8;
+        flavorIntensity: 0.7,
+        complexity: 0.8,
         seasonality: [getCurrentSeason()],
         culturalOrigins: ['universal'],
         nutritionalProfile: {
@@ -771,7 +771,7 @@ export class EnhancedRecommendationService {
         preparationMethods: ['meditation', 'alignment', 'harmony'],
         pairings: ['all ingredients'],
         contraindications: [],
-        kalchm: 0.5;
+        kalchm: 0.5,
         monica: 0.5
       };
 
@@ -784,25 +784,25 @@ export class EnhancedRecommendationService {
         name: 'Default Astrological Profile',
         category: 'elemental' as const,
         baseNotes: {
-          sweet: 0.25;
-          sour: 0.25;
-          salty: 0.25;
-          bitter: 0.25;
+          sweet: 0.25,
+          sour: 0.25,
+          salty: 0.25,
+          bitter: 0.25,
           umami: 0,
           spicy: 0
         },
         heartNotes: ['balanced'],
         topNotes: ['harmonious'],
         elementalProfile: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
-        flavorIntensity: 0.5;
-        complexity: 0.5;
+        flavorIntensity: 0.5,
+        complexity: 0.5,
         seasonality: ['all'],
         culturalOrigins: ['universal'],
         nutritionalProfile: { calories: 0, protein: 0, fat: 0, carbohydrates: 0, fiber: 0 },
         preparationMethods: ['general'],
         pairings: ['all'],
         contraindications: [],
-        kalchm: 0.5;
+        kalchm: 0.5,
         monica: 0.5
       } as unknown as UnifiedFlavorProfile;
     }

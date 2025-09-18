@@ -23,8 +23,8 @@ vi.mock('@/services/TelemetryDev', () => ({
 
 vi.mock('@/utils/logger', () => ({
   createLogger: () => ({
-  info: vi.fn();
-    error: vi.fn();
+  info: vi.fn(),
+    error: vi.fn(),
     warn: vi.fn()
   })
 });

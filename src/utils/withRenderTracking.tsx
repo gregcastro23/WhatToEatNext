@@ -4,8 +4,8 @@ import React, { useState, useEffect, FunctionComponent, ComponentType } from 're
  * Information about a component property for debugging
  */
 interface PropInfo {
-  key: string;
-  type: string;
+  key: string,
+  type: string,
   size?: number;
   isEmpty?: boolean;
   value?: string;

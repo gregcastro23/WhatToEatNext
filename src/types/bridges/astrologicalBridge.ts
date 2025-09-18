@@ -4,7 +4,7 @@ export interface AstrologicalBridge {
   legacyToModern<T>(legacy: unknown): T | null;
   modernToLegacy<T>(modern: T): Record<string, unknown>;
   safeAccess<T>(obj: unknown, path: string): T | undefined;
-  validateElementalProperties(obj: unknown): obj is ElementalProperties;
+  validateElementalProperties(obj: unknown): obj is ElementalProperties
 }
 
 export const _createAstrologicalBridge = (): AstrologicalBridge => ({

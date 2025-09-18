@@ -12,9 +12,9 @@ import * as path from 'path';
 import { glob } from 'glob';
 
 export interface UnusedExport {
-  filePath: string;
-  exportName: string;
-  exportType: 'function' | 'class' | 'interface' | 'type' | 'const' | 'variable';
+  filePath: string,
+  exportName: string,
+  exportType: 'function' | 'class' | 'interface' | 'type' | 'const' | 'variable',
   lineNumber: number,
   isDefault: boolean,
   complexity: number,
@@ -22,8 +22,8 @@ export interface UnusedExport {
 }
 
 export interface FileAnalysis {
-  filePath: string;
-  priority: FilePriority;
+  filePath: string,
+  priority: FilePriority,
   unusedExports: UnusedExport[],
   safetyScore: number,
   transformationCandidates: TransformationCandidate[],
@@ -31,7 +31,7 @@ export interface FileAnalysis {
 }
 
 export interface TransformationCandidate {
-  export: UnusedExport;
+  export: UnusedExport,
   intelligenceSystemName: string,
   transformationComplexity: TransformationComplexity,
   safetyScore: number,
@@ -39,8 +39,8 @@ export interface TransformationCandidate {
 }
 
 export interface AnalysisResult {
-  totalFiles: number;
-  totalUnusedExports: number;
+  totalFiles: number,
+  totalUnusedExports: number,
   highPriorityFiles: FileAnalysis[],
   mediumPriorityFiles: FileAnalysis[],
   lowPriorityFiles: FileAnalysis[],
@@ -48,8 +48,8 @@ export interface AnalysisResult {
 }
 
 export interface AnalysisSummary {
-  recipeFiles: number;
-  coreFiles: number;
+  recipeFiles: number,
+  coreFiles: number,
   externalFiles: number,
   totalTransformationCandidates: number,
   averageSafetyScore: number,
@@ -152,7 +152,7 @@ export class UnusedExportAnalyzer {
     const files: string[] = [];
     for (const pattern of patterns) {
       const matches = await glob(pattern, {
-        ignore: this.excludePatterns;
+        ignore: this.excludePatterns,
         absolute: true
       });
       files.push(...matches);
@@ -219,7 +219,7 @@ export class UnusedExportAnalyzer {
         exports.push({
           filePath: '',
           exportName: namedExportMatch[1],
-          exportType: this.determineExportType(line);
+          exportType: this.determineExportType(line),
           lineNumber: index + 1,
           isDefault: false
         });
@@ -233,7 +233,7 @@ export class UnusedExportAnalyzer {
         exports.push({
           filePath: '',
           exportName: defaultExportMatch[1] || 'default',
-          exportType: this.determineExportType(line);
+          exportType: this.determineExportType(line),
           lineNumber: index + 1,
           isDefault: true
         });

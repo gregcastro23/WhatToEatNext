@@ -13,8 +13,8 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 interface PreCampaignAnalysis {
-  totalExplicitAny: number;
-  nonTestFiles: number;
+  totalExplicitAny: number,
+  nonTestFiles: number,
   testFiles: number,
   estimatedUnintentional: number,
   targetReduction: number,
@@ -22,7 +22,7 @@ interface PreCampaignAnalysis {
 }
 
 interface DomainAnalysis {
-  domain: string;
+  domain: string,
   fileCount: number,
   anyTypeCount: number,
   riskLevel: 'low' | 'medium' | 'high',
@@ -30,7 +30,7 @@ interface DomainAnalysis {
 }
 
 interface CampaignExecution {
-  phase: string;
+  phase: string,
   description: string,
   targetFiles: number,
   expectedReduction: number,
@@ -175,8 +175,8 @@ class FullCampaignExecutor {
         totalExplicitAny,
         nonTestFiles: 0,
         testFiles: 0,
-        estimatedUnintentional: Math.floor(totalExplicitAny * 0.5);
-        targetReduction: Math.floor(totalExplicitAny * 0.1);
+        estimatedUnintentional: Math.floor(totalExplicitAny * 0.5),
+        targetReduction: Math.floor(totalExplicitAny * 0.1),
         confidenceScore: 0.5
       };
     }
@@ -225,10 +225,10 @@ class FullCampaignExecutor {
     ];
 
     return domains.map(domain => ({
-      domain: domain.domain;
+      domain: domain.domain,
       fileCount: 0, // Would need file system analysis
       anyTypeCount: 0, // Would need detailed analysis
-      riskLevel: domain.riskLevel;
+      riskLevel: domain.riskLevel,
       recommendedStrategy: domain.recommendedStrategy
     }));
   }
@@ -490,7 +490,7 @@ function documentIntentionalAny() {
     // Pre-campaign analysis
     const analysis = this.analyzeCodebase();
     this.initialMetrics = {
-      initialCount: analysis.totalExplicitAny;
+      initialCount: analysis.totalExplicitAny,
       targetReduction: analysis.targetReduction
     };
 

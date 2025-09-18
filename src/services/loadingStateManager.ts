@@ -1,22 +1,22 @@
 import { logger } from '../utils/logger';
 
-type LoadingState = {;
-  isLoading: boolean;
-  message: string;
+type LoadingState = {
+  isLoading: boolean,
+  message: string,
   progress?: number;
   stage?: string;
 };
 
 class LoadingStateManager {
   private subscribers: Set<(state: LoadingState) => void> = new Set();
-  private currentState: LoadingState = {;
+  private currentState: LoadingState = {
     isLoading: true,
     message: 'Initializing...',
     progress: 0,
     stage: 'initial'
   };
 
-  private readonly STAGES = {;
+  private readonly STAGES = {
     initial: { progress: 0, message: 'Initializing...' },
     recipes: { progress: 25, message: 'Loading recipes...' },
     celestial: { progress: 50, message: 'Calculating celestial alignments...' },

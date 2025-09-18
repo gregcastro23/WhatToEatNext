@@ -18,13 +18,13 @@ const debugLog = (_message: string, ..._args: unknown[]): void => {
  * Interface for house data in astrological charts
  */
 export interface HouseData {
-  number: number;
-  name: string;
-  element: ElementalCharacter;
-  modality: 'Cardinal' | 'Fixed' | 'Mutable';
-  nature: 'Angular' | 'Succedent' | 'Cadent';
-  significance: number; // 1-10 rating of overall significance
-  ruling_planet: string;
+  number: number,
+  name: string,
+  element: ElementalCharacter,
+  modality: 'Cardinal' | 'Fixed' | 'Mutable',
+  nature: 'Angular' | 'Succedent' | 'Cadent',
+  significance: number, // 1-10 rating of overall significance
+  ruling_planet: string
 }
 
 /**

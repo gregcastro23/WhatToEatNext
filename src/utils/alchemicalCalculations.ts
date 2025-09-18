@@ -71,9 +71,9 @@ export function calculateElementalValues(positions: PlanetaryPositionsType) {
   const total = elements.Fire + elements.Earth + elements.Air + elements.Water;
 
   return {
-    Spirit: (elements.Fire + elements.Air) / (total * 2) + 0.1;
-    Essence: (elements.Fire + elements.Water) / (total * 2) + 0.1;
-    Matter: (elements.Earth + elements.Water) / (total * 2) + 0.1;
+    Spirit: (elements.Fire + elements.Air) / (total * 2) + 0.1,
+    Essence: (elements.Fire + elements.Water) / (total * 2) + 0.1,
+    Matter: (elements.Earth + elements.Water) / (total * 2) + 0.1,
     Substance: (elements.Earth + elements.Air) / (total * 2) + 0.1
   };
 }
@@ -81,9 +81,9 @@ export function calculateElementalValues(positions: PlanetaryPositionsType) {
 // Calculate planetary contributions to alchemical values
 export function calculatePlanetaryAlchemicalValues(positions: PlanetaryPositionsType) {
   const alchemicalValues = {
-    Spirit: 0.25;
-    Essence: 0.25;
-    Matter: 0.25;
+    Spirit: 0.25,
+    Essence: 0.25,
+    Matter: 0.25,
     Substance: 0.25
   };
 
@@ -146,9 +146,9 @@ export function calculatePlanetaryAlchemicalValues(positions: PlanetaryPositions
     const normalizer = (positions ? Object.keys(positions).length : 10) / 10;
 
     return {
-      Spirit: alchemicalValues.Spirit / normalizer;
-      Essence: alchemicalValues.Essence / normalizer;
-      Matter: alchemicalValues.Matter / normalizer;
+      Spirit: alchemicalValues.Spirit / normalizer,
+      Essence: alchemicalValues.Essence / normalizer,
+      Matter: alchemicalValues.Matter / normalizer,
       Substance: alchemicalValues.Substance / normalizer
     };
   }
@@ -160,9 +160,9 @@ export function calculatePlanetaryAlchemicalValues(positions: PlanetaryPositions
 export function calculateElementalBalance(positions: PlanetaryPositionsType) {
   // Initialize with balanced elements
   const elements = {
-    Fire: 0.25;
-    Earth: 0.25;
-    Air: 0.25;
+    Fire: 0.25,
+    Earth: 0.25,
+    Air: 0.25,
     Water: 0.25
   };
 
@@ -208,9 +208,9 @@ export function calculateElementalBalance(positions: PlanetaryPositionsType) {
     const total = elements.Fire + elements.Earth + elements.Air + elements.Water;
 
     return {
-      Fire: elements.Fire / total;
-      Earth: elements.Earth / total;
-      Air: elements.Air / total;
+      Fire: elements.Fire / total,
+      Earth: elements.Earth / total,
+      Air: elements.Air / total,
       Water: elements.Water / total
     };
   }
@@ -220,18 +220,18 @@ export function calculateElementalBalance(positions: PlanetaryPositionsType) {
 
 // Interface for alchemical result
 export interface AlchemicalResult {
-  spirit: number;
-  essence: number;
-  matter: number;
-  substance: number;
+  spirit: number,
+  essence: number,
+  matter: number,
+  substance: number,
   elementalBalance: {
     fire: number,
     earth: number,
     air: number,
     water: number
   };
-  dominantElement: string;
-  recommendation: string;
+  dominantElement: string,
+  recommendation: string,
   'Total Effect Value': {
     Fire: number,
     Earth: number,
@@ -435,9 +435,9 @@ export function alchemize(
 
   // Convert to upper case for ElementalProperties return
   const totalEffectValue = {
-    Fire: elementalBalance.fire;
-    Earth: elementalBalance.earth;
-    Air: elementalBalance.air;
+    Fire: elementalBalance.fire,
+    Earth: elementalBalance.earth,
+    Air: elementalBalance.air,
     Water: elementalBalance.water
   };
 
@@ -469,6 +469,6 @@ function generateRecommendation(dominantElement: string): string {
     case 'water':
       return 'Foods that warm and stimulate: spicy dishes, roasted vegetables, and herbs like cayenne and black pepper.',
     default:
-      return 'A balanced diet incorporating elements from all food groups for holistic nourishment.';
+      return 'A balanced diet incorporating elements from all food groups for holistic nourishment.'
   }
 }

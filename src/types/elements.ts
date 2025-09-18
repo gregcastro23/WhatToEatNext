@@ -5,16 +5,16 @@
 export type ElementType = 'Fire' | 'Water' | 'Air' | 'Earth' | 'Metal' | 'Wood' | 'Void';
 
 export interface ElementalEnergy {
-  type: ElementType;
-  strength: number;
+  type: ElementType,
+  strength: number,
   influence: string[];
   description?: string;
 }
 
 export interface ElementalBalance {
-  dominant: ElementType;
-  energies: ElementalEnergy[];
-  timestamp: number;
+  dominant: ElementType,
+  energies: ElementalEnergy[],
+  timestamp: number
 }
 
 // Mapping between zodiac signs and their elements

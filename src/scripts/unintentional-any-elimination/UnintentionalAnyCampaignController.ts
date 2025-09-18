@@ -14,8 +14,8 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 interface CampaignConfig {
-  targetReductionPercentage: number;
-  maxBatchSize: number;
+  targetReductionPercentage: number,
+  maxBatchSize: number,
   maxTotalFiles: number,
   safetyValidationFrequency: number,
   enableDocumentation: boolean,
@@ -23,11 +23,11 @@ interface CampaignConfig {
 }
 
 interface AnyTypeClassification {
-  filePath: string;
-  lineNumber: number;
-  codeSnippet: string;
-  isIntentional: boolean;
-  confidence: number;
+  filePath: string,
+  lineNumber: number,
+  codeSnippet: string,
+  isIntentional: boolean,
+  confidence: number,
   category: AnyTypeCategory,
   suggestedReplacement?: string,
   requiresDocumentation: boolean,
@@ -49,12 +49,12 @@ enum AnyTypeCategory {
 }
 
 interface CampaignMetrics {
-  totalAnyTypes: number;
-  classifiedIntentional: number;
-  classifiedUnintentional: number;
-  successfulReplacements: number;
-  documentedIntentional: number;
-  failedReplacements: number;
+  totalAnyTypes: number,
+  classifiedIntentional: number,
+  classifiedUnintentional: number,
+  successfulReplacements: number,
+  documentedIntentional: number,
+  failedReplacements: number,
   filesProcessed: number,
   batchesCompleted: number,
   reductionPercentage: number,
@@ -62,9 +62,9 @@ interface CampaignMetrics {
 }
 
 interface BatchResult {
-  filesProcessed: number;
-  replacementsAttempted: number;
-  replacementsSuccessful: number;
+  filesProcessed: number,
+  replacementsAttempted: number,
+  replacementsSuccessful: number,
   compilationErrors: number,
   rollbacksPerformed: number,
   executionTime: number,
@@ -201,8 +201,8 @@ class UnintentionalAnyCampaignController {
         lineNumber,
         codeSnippet,
         isIntentional: true,
-        confidence: 0.95;
-        category: AnyTypeCategory.DYNAMIC_CONFIG;
+        confidence: 0.95,
+        category: AnyTypeCategory.DYNAMIC_CONFIG,
         requiresDocumentation: false,
         reasoning: 'Explicitly marked as intentional with comment'
       };
@@ -215,8 +215,8 @@ class UnintentionalAnyCampaignController {
         lineNumber,
         codeSnippet,
         isIntentional: true,
-        confidence: 0.9;
-        category: AnyTypeCategory.ERROR_HANDLING;
+        confidence: 0.9,
+        category: AnyTypeCategory.ERROR_HANDLING,
         requiresDocumentation: true,
         reasoning: 'Error handling context - typically intentional'
       };
@@ -229,8 +229,8 @@ class UnintentionalAnyCampaignController {
         lineNumber,
         codeSnippet,
         isIntentional: true,
-        confidence: 0.85;
-        category: AnyTypeCategory.CAMPAIGN_SYSTEM;
+        confidence: 0.85,
+        category: AnyTypeCategory.CAMPAIGN_SYSTEM,
         requiresDocumentation: true,
         reasoning: 'Campaign system requires flexible typing for dynamic behavior'
       };
@@ -248,8 +248,8 @@ class UnintentionalAnyCampaignController {
           lineNumber,
           codeSnippet,
           isIntentional: true,
-          confidence: 0.8;
-          category: AnyTypeCategory.ASTROLOGICAL_DATA;
+          confidence: 0.8,
+          category: AnyTypeCategory.ASTROLOGICAL_DATA,
           requiresDocumentation: true,
           reasoning:
             'Astrological calculations may require flexible typing for external library compatibility'
@@ -264,8 +264,8 @@ class UnintentionalAnyCampaignController {
         lineNumber,
         codeSnippet,
         isIntentional: false,
-        confidence: 0.95;
-        category: AnyTypeCategory.ARRAY_TYPE;
+        confidence: 0.95,
+        category: AnyTypeCategory.ARRAY_TYPE,
         suggestedReplacement: codeSnippet.replace(/\bany\[\]/g, 'unknown[]'),
         requiresDocumentation: false,
         reasoning: 'Array type can be safely replaced with unknown[]'
@@ -279,8 +279,8 @@ class UnintentionalAnyCampaignController {
         lineNumber,
         codeSnippet,
         isIntentional: false,
-        confidence: 0.8;
-        category: AnyTypeCategory.RECORD_TYPE;
+        confidence: 0.8,
+        category: AnyTypeCategory.RECORD_TYPE,
         suggestedReplacement: codeSnippet.replace(/Record<([^,]+),\s*any>/g, 'Record<1, unknown>'),
         requiresDocumentation: false,
         reasoning: 'Record type can likely be replaced with unknown'
@@ -294,8 +294,8 @@ class UnintentionalAnyCampaignController {
         lineNumber,
         codeSnippet,
         isIntentional: false,
-        confidence: 0.75;
-        category: AnyTypeCategory.VARIABLE_DECLARATION;
+        confidence: 0.75,
+        category: AnyTypeCategory.VARIABLE_DECLARATION,
         suggestedReplacement: codeSnippet.replace(
           /(\b(?:const|let|var)\s+\w+\s*:\s*)any(\s*=)/g;
           '1unknown2',
@@ -315,8 +315,8 @@ class UnintentionalAnyCampaignController {
         lineNumber,
         codeSnippet,
         isIntentional: true, // Conservative - mark as intentional for now
-        confidence: 0.6;
-        category: AnyTypeCategory.FUNCTION_PARAMETER;
+        confidence: 0.6,
+        category: AnyTypeCategory.FUNCTION_PARAMETER,
         requiresDocumentation: true,
         reasoning:
           'Function parameter any types require careful analysis - marked as intentional for safety'
@@ -329,8 +329,8 @@ class UnintentionalAnyCampaignController {
       lineNumber,
       codeSnippet,
       isIntentional: true,
-      confidence: 0.5;
-      category: AnyTypeCategory.DYNAMIC_CONFIG;
+      confidence: 0.5,
+      category: AnyTypeCategory.DYNAMIC_CONFIG,
       requiresDocumentation: true,
       reasoning: 'Uncertain classification - marked as intentional for safety'
     };

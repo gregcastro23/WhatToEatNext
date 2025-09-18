@@ -1,13 +1,13 @@
 export interface CuisineProperties {
-  name: string;
+  name: string,
   elementalState: {
-    Fire: number;
-    Water: number;
-    Air: number;
-    Earth: number;
+    Fire: number,
+    Water: number,
+    Air: number,
+    Earth: number,
   };
-  description: string;
-  traditionalIngredients: string[];
+  description: string,
+  traditionalIngredients: string[],
 }
 
 export const CUISINES: Record<string, CuisineProperties> = {

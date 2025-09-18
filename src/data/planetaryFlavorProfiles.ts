@@ -1,20 +1,20 @@
 import type { ElementalProperties } from '@/types/alchemy';
 
 export interface PlanetaryFlavorProfile {
-  name: string;
-  description: string;
+  name: string,
+  description: string,
   flavorProfiles: {
-    spicy: number;
-    sweet: number;
+    spicy: number,
+    sweet: number,
     sour: number,
     bitter: number,
     salty: number,
     umami: number
   };
-  elementalInfluence: ElementalProperties;
-  complementaryIngredients: string[];
-  cookingTechniques: string[];
-  idealMealTypes: string[];
+  elementalInfluence: ElementalProperties,
+  complementaryIngredients: string[],
+  cookingTechniques: string[],
+  idealMealTypes: string[],
   culinaryAffinity: string[]; // Cuisines that resonate with this planetary energy
 }
 
@@ -25,17 +25,17 @@ export const planetaryFlavorProfiles: Record<string, PlanetaryFlavorProfile> = {
     description:
       'Bold, vibrant flavors that energize and invigorate. Solar cuisine is centered around bright, distinct tastes and golden colors.',
     flavorProfiles: {
-      spicy: 0.7;
-      sweet: 0.5;
-      sour: 0.3;
-      bitter: 0.4;
-      salty: 0.3;
+      spicy: 0.7,
+      sweet: 0.5,
+      sour: 0.3,
+      bitter: 0.4,
+      salty: 0.3,
       umami: 0.2
     },
     elementalInfluence: {
-      Fire: 0.8;
-      Air: 0.2;
-      Water: 0.0;
+      Fire: 0.8,
+      Air: 0.2,
+      Water: 0.0,
       Earth: 0.0
     },
     complementaryIngredients: [
@@ -56,17 +56,17 @@ export const planetaryFlavorProfiles: Record<string, PlanetaryFlavorProfile> = {
     description:
       'Comforting, nurturing flavors that soothe and calm. Lunar cuisine emphasizes creaminess and subtle, changing flavor profiles.',
     flavorProfiles: {
-      spicy: 0.1;
-      sweet: 0.6;
-      sour: 0.3;
-      bitter: 0.1;
-      salty: 0.2;
+      spicy: 0.1,
+      sweet: 0.6,
+      sour: 0.3,
+      bitter: 0.1,
+      salty: 0.2,
       umami: 0.7
     },
     elementalInfluence: {
-      Water: 0.8;
-      Earth: 0.2;
-      Fire: 0.0;
+      Water: 0.8,
+      Earth: 0.2,
+      Fire: 0.0,
       Air: 0.0
     },
     complementaryIngredients: ['milk', 'coconut', 'rice', 'white foods', 'silver', 'cucumber'],
@@ -81,17 +81,17 @@ export const planetaryFlavorProfiles: Record<string, PlanetaryFlavorProfile> = {
     description:
       'Diverse, complex flavor combinations that stimulate the intellect. Mercurial cuisine features contrasting tastes and textures.',
     flavorProfiles: {
-      spicy: 0.4;
-      sweet: 0.4;
-      sour: 0.7;
-      bitter: 0.5;
-      salty: 0.5;
+      spicy: 0.4,
+      sweet: 0.4,
+      sour: 0.7,
+      bitter: 0.5,
+      salty: 0.5,
       umami: 0.3
     },
     elementalInfluence: {
-      Air: 0.6;
-      Earth: 0.3;
-      Water: 0.1;
+      Air: 0.6,
+      Earth: 0.3,
+      Water: 0.1,
       Fire: 0.0
     },
     complementaryIngredients: [
@@ -112,17 +112,17 @@ export const planetaryFlavorProfiles: Record<string, PlanetaryFlavorProfile> = {
     description:
       'Harmonious, indulgent flavors that delight the senses. Venusian cuisine is luxurious, balanced, and aesthetically pleasing.',
     flavorProfiles: {
-      spicy: 0.2;
-      sweet: 0.8;
-      sour: 0.3;
-      bitter: 0.1;
-      salty: 0.2;
+      spicy: 0.2,
+      sweet: 0.8,
+      sour: 0.3,
+      bitter: 0.1,
+      salty: 0.2,
       umami: 0.5
     },
     elementalInfluence: {
-      Earth: 0.6;
-      Water: 0.3;
-      Air: 0.1;
+      Earth: 0.6,
+      Water: 0.3,
+      Air: 0.1,
       Fire: 0.0
     },
     complementaryIngredients: [
@@ -143,17 +143,17 @@ export const planetaryFlavorProfiles: Record<string, PlanetaryFlavorProfile> = {
     description:
       'Intense, fiery flavors that energize and excite. Martial cuisine is bold, spicy, and direct in its flavor profile.',
     flavorProfiles: {
-      spicy: 0.9;
-      sweet: 0.1;
-      sour: 0.2;
-      bitter: 0.3;
-      salty: 0.6;
+      spicy: 0.9,
+      sweet: 0.1,
+      sour: 0.2,
+      bitter: 0.3,
+      salty: 0.6,
       umami: 0.4
     },
     elementalInfluence: {
-      Fire: 0.8;
-      Earth: 0.2;
-      Water: 0.0;
+      Fire: 0.8,
+      Earth: 0.2,
+      Water: 0.0,
       Air: 0.0
     },
     complementaryIngredients: [
@@ -175,17 +175,17 @@ export const planetaryFlavorProfiles: Record<string, PlanetaryFlavorProfile> = {
     description:
       'Abundant, generous flavors that bring joy and expansion. Jovian cuisine is rich, plentiful, and celebratory.',
     flavorProfiles: {
-      spicy: 0.4;
-      sweet: 0.7;
-      sour: 0.3;
-      bitter: 0.2;
-      salty: 0.4;
+      spicy: 0.4,
+      sweet: 0.7,
+      sour: 0.3,
+      bitter: 0.2,
+      salty: 0.4,
       umami: 0.8
     },
     elementalInfluence: {
-      Fire: 0.4;
-      Air: 0.4;
-      Earth: 0.2;
+      Fire: 0.4,
+      Air: 0.4,
+      Earth: 0.2,
       Water: 0.0
     },
     complementaryIngredients: [
@@ -206,17 +206,17 @@ export const planetaryFlavorProfiles: Record<string, PlanetaryFlavorProfile> = {
     description:
       'Structured, traditional flavors that ground and stabilize. Saturnian cuisine is disciplined, time-tested, and often preserved.',
     flavorProfiles: {
-      spicy: 0.2;
-      sweet: 0.3;
-      sour: 0.5;
-      bitter: 0.7;
-      salty: 0.7;
+      spicy: 0.2,
+      sweet: 0.3,
+      sour: 0.5,
+      bitter: 0.7,
+      salty: 0.7,
       umami: 0.4
     },
     elementalInfluence: {
-      Earth: 0.8;
-      Water: 0.1;
-      Air: 0.1;
+      Earth: 0.8,
+      Water: 0.1,
+      Air: 0.1,
       Fire: 0.0
     },
     complementaryIngredients: [
@@ -238,17 +238,17 @@ export const planetaryFlavorProfiles: Record<string, PlanetaryFlavorProfile> = {
     description:
       'Innovative, unexpected flavor combinations that surprise and revolutionize. Uranian cuisine is experimental and avant-garde.',
     flavorProfiles: {
-      spicy: 0.5;
-      sweet: 0.5;
-      sour: 0.6;
-      bitter: 0.5;
-      salty: 0.3;
+      spicy: 0.5,
+      sweet: 0.5,
+      sour: 0.6,
+      bitter: 0.5,
+      salty: 0.3,
       umami: 0.6
     },
     elementalInfluence: {
-      Air: 0.7;
-      Fire: 0.2;
-      Earth: 0.1;
+      Air: 0.7,
+      Fire: 0.2,
+      Earth: 0.1,
       Water: 0.0
     },
     complementaryIngredients: [
@@ -273,17 +273,17 @@ export const planetaryFlavorProfiles: Record<string, PlanetaryFlavorProfile> = {
     description:
       'Ethereal, subtle flavors that transport and transcend. Neptunian cuisine is elusive, dreamy, and often features seafood.',
     flavorProfiles: {
-      spicy: 0.1;
-      sweet: 0.4;
-      sour: 0.3;
-      bitter: 0.2;
-      salty: 0.5;
+      spicy: 0.1,
+      sweet: 0.4,
+      sour: 0.3,
+      bitter: 0.2,
+      salty: 0.5,
       umami: 0.8
     },
     elementalInfluence: {
-      Water: 0.9;
-      Air: 0.1;
-      Earth: 0.0;
+      Water: 0.9,
+      Air: 0.1,
+      Earth: 0.0,
       Fire: 0.0
     },
     complementaryIngredients: [
@@ -304,17 +304,17 @@ export const planetaryFlavorProfiles: Record<string, PlanetaryFlavorProfile> = {
     description:
       'Intense, transformative flavors that challenge and regenerate. Plutonian cuisine is deeply complex and often fermented.',
     flavorProfiles: {
-      spicy: 0.6;
-      sweet: 0.2;
-      sour: 0.6;
-      bitter: 0.8;
-      salty: 0.5;
+      spicy: 0.6,
+      sweet: 0.2,
+      sour: 0.6,
+      bitter: 0.8,
+      salty: 0.5,
       umami: 0.9
     },
     elementalInfluence: {
-      Water: 0.5;
-      Earth: 0.5;
-      Fire: 0.0;
+      Water: 0.5,
+      Earth: 0.5,
+      Fire: 0.0,
       Air: 0.0
     },
     complementaryIngredients: [

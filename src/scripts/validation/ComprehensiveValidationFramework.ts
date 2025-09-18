@@ -17,11 +17,11 @@ import fs from 'fs';
 import path from 'path';
 
 export interface ValidationConfig {
-  enableTypeScriptValidation: boolean;
-  enableTestSuiteValidation: boolean;
-  enableComponentValidation: boolean;
-  enableServiceValidation: boolean;
-  enableBuildValidation: boolean;
+  enableTypeScriptValidation: boolean,
+  enableTestSuiteValidation: boolean,
+  enableComponentValidation: boolean,
+  enableServiceValidation: boolean,
+  enableBuildValidation: boolean,
   testTimeout: number,
   compilationTimeout: number,
   maxRetries: number,
@@ -29,10 +29,10 @@ export interface ValidationConfig {
 }
 
 export interface ValidationResult {
-  passed: boolean;
-  validationType: string;
-  errors: string[];
-  warnings: string[];
+  passed: boolean,
+  validationType: string,
+  errors: string[],
+  warnings: string[],
   recommendations: string[],
   executionTime: number,
   retryCount: number,
@@ -40,7 +40,7 @@ export interface ValidationResult {
 }
 
 export interface ComprehensiveValidationResult {
-  overallPassed: boolean;
+  overallPassed: boolean,
   validationResults: ValidationResult[],
   summary: ValidationSummary,
   requiresRollback: boolean,
@@ -48,9 +48,9 @@ export interface ComprehensiveValidationResult {
 }
 
 export interface ValidationSummary {
-  totalValidations: number;
-  passedValidations: number;
-  failedValidations: number;
+  totalValidations: number,
+  passedValidations: number,
+  failedValidations: number,
   warningsCount: number,
   totalExecutionTime: number,
   criticalIssues: string[],
@@ -58,9 +58,9 @@ export interface ValidationSummary {
 }
 
 export interface ComponentValidationInfo {
-  componentPath: string;
-  componentName: string;
-  hasTests: boolean;
+  componentPath: string,
+  componentName: string,
+  hasTests: boolean,
   exportedFunctions: string[],
   importedDependencies: string[],
   propsInterface?: string,
@@ -68,8 +68,8 @@ export interface ComponentValidationInfo {
 }
 
 export interface ServiceValidationInfo {
-  servicePath: string;
-  serviceName: string;
+  servicePath: string,
+  serviceName: string,
   apiEndpoints: string[],
   exportedMethods: string[],
   dependencies: string[],
@@ -195,7 +195,7 @@ export class ComprehensiveValidationFramework {
             errors: [`Validation framework error: ${error}`],
             warnings: [],
             recommendations: ['Review validation framework configuration'],
-            executionTime: Date.now() - startTime;
+            executionTime: Date.now() - startTime,
             retryCount: 0,
             details: { error: error.toString() }
           }
@@ -205,7 +205,7 @@ export class ComprehensiveValidationFramework {
           passedValidations: 0,
           failedValidations: 1,
           warningsCount: 0,
-          totalExecutionTime: Date.now() - startTime;
+          totalExecutionTime: Date.now() - startTime,
           criticalIssues: ['Validation framework failure'],
           recommendations: ['Review validation framework configuration']
         },
@@ -240,7 +240,7 @@ export class ComprehensiveValidationFramework {
         // Run TypeScript compilation with detailed error reporting
         const output = execSync('yarn tsc --noEmit --skipLibCheck --pretty', {
           encoding: 'utf8',
-          timeout: this.config.compilationTimeout;
+          timeout: this.config.compilationTimeout,
           stdio: 'pipe'
         });
 
@@ -316,7 +316,7 @@ export class ComprehensiveValidationFramework {
 
         const output = execSync(testCommand, {
           encoding: 'utf8',
-          timeout: this.config.testTimeout;
+          timeout: this.config.testTimeout,
           stdio: 'pipe'
         });
 

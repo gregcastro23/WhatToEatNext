@@ -7,19 +7,19 @@ import {
 import { createLogger } from '@/utils/logger';
 
 export interface AlchemicalEnergyState {
-  name: 'Spirit' | 'Substance' | 'Essence' | 'Matter';
-  level: 'Highest' | 'Middle' | 'Lowest';
-  description: string;
-  chakra: string;
+  name: 'Spirit' | 'Substance' | 'Essence' | 'Matter',
+  level: 'Highest' | 'Middle' | 'Lowest',
+  description: string,
+  chakra: string,
   planets: {
-    daytime: string[];
-    nighttime: string[];
+    daytime: string[],
+    nighttime: string[],
   };
-  elements: string[];
+  elements: string[],
   properties: {
-    heat: '+' | '-';
-    entropy: '+' | '-';
-    reactivity: '+' | '-';
+    heat: '+' | '-',
+    entropy: '+' | '-',
+    reactivity: '+' | '-'
   };
 }
 
@@ -28,7 +28,7 @@ export const _ALCHEMICAL_ENERGY_STATES: AlchemicalEnergyState[] = [
   {
     name: 'Spirit',
     level: 'Highest',
-    description: 'Energy that exists beyond Matter; Mind',
+    description: 'Energy that exists beyond Matter, Mind',
     chakra: 'Crown Chakra',
     planets: {
       daytime: ['Sun', 'Jupiter', 'Saturn', 'Mercury'],

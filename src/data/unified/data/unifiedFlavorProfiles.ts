@@ -1,12 +1,12 @@
 import { ElementalProperties } from '@/types/alchemy';
 
 export interface UnifiedFlavorProfile {
-  id: string;
-  name: string;
-  elementalProperties: ElementalProperties;
-  description: string;
-  commonIngredients: string[];
-  cuisineAssociations: string[];
+  id: string,
+  name: string,
+  elementalProperties: ElementalProperties,
+  description: string,
+  commonIngredients: string[],
+  cuisineAssociations: string[],
 }
 
 export const unifiedFlavorProfiles: UnifiedFlavorProfile[] = [

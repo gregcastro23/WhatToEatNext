@@ -5,9 +5,9 @@ import { ElementalProperties } from '@/types/alchemy';
 
 export interface CuisineRecommendation {
   cuisine: string; // Using string instead of missing string
-  score: number;
-  reasoning: string;
-  elementalMatch: number;
+  score: number,
+  reasoning: string,
+  elementalMatch: number
 }
 
 export interface CuisineRecommendationParams {

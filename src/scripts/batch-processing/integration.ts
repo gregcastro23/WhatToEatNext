@@ -33,7 +33,7 @@ export class BatchProcessingIntegration {
 
   constructor(config: IntegrationConfig = {}) {
     this.config = {
-      analysisReportPath: 'unused-variables-analysis-report.json';
+      analysisReportPath: 'unused-variables-analysis-report.json',
       outputDirectory: 'reports/batch-processing',
       dryRun: false,
       interactiveMode: false,
@@ -45,20 +45,20 @@ export class BatchProcessingIntegration {
     };
 
     this.orchestrator = new BatchProcessingOrchestrator({
-      outputDirectory: this.config.outputDirectory!;
+      outputDirectory: this.config.outputDirectory!,
       generateReports: true,
-      interactiveMode: this.config.interactiveMode!;
+      interactiveMode: this.config.interactiveMode!,
       batchProcessing: {
-        maxBatchSize: this.config.maxBatchSize!;
-        maxBatchSizeCritical: this.config.maxCriticalBatchSize!;
-        validateAfterEachBatch: !this.config.skipValidation;
+        maxBatchSize: this.config.maxBatchSize!,
+        maxBatchSizeCritical: this.config.maxCriticalBatchSize!,
+        validateAfterEachBatch: !this.config.skipValidation,
         autoRollbackOnError: true,
         createGitStash: true,
         logLevel: 'info'
       },
       safetyProtocols: {
         maxVariablesAutoProcess: 20,
-        requireManualReview: !this.config.skipManualReview;
+        requireManualReview: !this.config.skipManualReview,
         enhancedValidation: true,
         createDetailedBackups: true
       }
@@ -151,11 +151,11 @@ export class BatchProcessingIntegration {
 
       files.push({
         filePath,
-        relativePath: firstVar.relativePath;
-        isHighImpact: this.isHighImpactFile(filePath);
-        isCritical: this.isCriticalFile(filePath);
-        unusedVariableCount: variables.length;
-        riskLevel: this.mapRiskLevel(firstVar.riskLevel);
+        relativePath: firstVar.relativePath,
+        isHighImpact: this.isHighImpactFile(filePath),
+        isCritical: this.isCriticalFile(filePath),
+        unusedVariableCount: variables.length,
+        riskLevel: this.mapRiskLevel(firstVar.riskLevel),
         fileType: firstVar.fileType
       });
     }

@@ -6,21 +6,21 @@ import type { ElementalProperties } from '@/types/alchemy';
 import { Recipe } from '@/types/unified';
 
 export interface CuisineFlavorProfile {
-  id: string;
-  name: string;
+  id: string,
+  name: string,
   description?: string;
   flavorProfiles: {
-    spicy: number;
-    sweet: number;
+    spicy: number,
+    sweet: number,
     sour: number,
     bitter: number,
     salty: number,
     umami: number
   };
-  elementalAlignment: ElementalProperties;
-  signatureTechniques: string[];
-  signatureIngredients: string[];
-  traditionalMealPatterns: string[];
+  elementalAlignment: ElementalProperties,
+  signatureTechniques: string[],
+  signatureIngredients: string[],
+  traditionalMealPatterns: string[],
   planetaryResonance: string[]; // Planets that resonate with this cuisine
   seasonalPreference: string[]; // Seasons when this cuisine shines
   parentCuisine?: string; // Parent cuisine for regional variants
@@ -42,17 +42,17 @@ export const cuisineFlavorProfiles: Record<string, CuisineFlavorProfile> = {
     name: 'Greek',
     description: 'Fresh, herb-forward cuisine centered around olive oil, vegetables, and seafood.',
     flavorProfiles: {
-      spicy: 0.3;
-      sweet: 0.4;
-      sour: 0.5;
-      bitter: 0.4;
-      salty: 0.6;
+      spicy: 0.3,
+      sweet: 0.4,
+      sour: 0.5,
+      bitter: 0.4,
+      salty: 0.6,
       umami: 0.5
     },
     elementalAlignment: {
-      Fire: 0.3;
-      Earth: 0.3;
-      Water: 0.3;
+      Fire: 0.3,
+      Earth: 0.3,
+      Water: 0.3,
       Air: 0.1
     },
     signatureTechniques: ['grilling', 'braising', 'marinating'],
@@ -66,19 +66,19 @@ export const cuisineFlavorProfiles: Record<string, CuisineFlavorProfile> = {
   french: {
     id: 'french',
     name: 'French',
-    description: 'Sophisticated cuisine built on rich foundations and precise techniques.';
+    description: 'Sophisticated cuisine built on rich foundations and precise techniques.',
     flavorProfiles: {
-      spicy: 0.1;
-      sweet: 0.5;
-      sour: 0.4;
-      bitter: 0.3;
-      salty: 0.5;
+      spicy: 0.1,
+      sweet: 0.5,
+      sour: 0.4,
+      bitter: 0.3,
+      salty: 0.5,
       umami: 0.8
     },
     elementalAlignment: {
-      Earth: 0.55;
-      Water: 0.25;
-      Fire: 0.1;
+      Earth: 0.55,
+      Water: 0.25,
+      Fire: 0.1,
       Air: 0.1
     },
     signatureTechniques: ['sautéing', 'sous vide', 'flambéing', 'reduction'],
@@ -93,19 +93,19 @@ export const cuisineFlavorProfiles: Record<string, CuisineFlavorProfile> = {
   italian: {
     id: 'italian',
     name: 'Italian',
-    description: 'Ingredient-focused cuisine celebrating regional specialties and simplicity.';
+    description: 'Ingredient-focused cuisine celebrating regional specialties and simplicity.',
     flavorProfiles: {
-      spicy: 0.3;
-      sweet: 0.4;
-      sour: 0.5;
-      bitter: 0.3;
-      salty: 0.6;
+      spicy: 0.3,
+      sweet: 0.4,
+      sour: 0.5,
+      bitter: 0.3,
+      salty: 0.6,
       umami: 0.7
     },
     elementalAlignment: {
-      Earth: 0.5;
-      Fire: 0.3;
-      Water: 0.1;
+      Earth: 0.5,
+      Fire: 0.3,
+      Water: 0.1,
       Air: 0.1
     },
     signatureTechniques: ['al dente pasta cooking', 'slow simmering', 'grilling'],
@@ -123,17 +123,17 @@ export const cuisineFlavorProfiles: Record<string, CuisineFlavorProfile> = {
     name: 'Japanese',
     description: 'Delicate cuisine emphasizing pure flavors, seasonality, and presentation.',
     flavorProfiles: {
-      spicy: 0.2;
-      sweet: 0.3;
-      sour: 0.4;
-      bitter: 0.3;
-      salty: 0.6;
+      spicy: 0.2,
+      sweet: 0.3,
+      sour: 0.4,
+      bitter: 0.3,
+      salty: 0.6,
       umami: 0.9
     },
     elementalAlignment: {
-      Water: 0.65;
-      Earth: 0.2;
-      Air: 0.1;
+      Water: 0.65,
+      Earth: 0.2,
+      Air: 0.1,
       Fire: 0.05
     },
     signatureTechniques: ['raw preparation', 'steaming', 'quick grilling', 'fermentation'],
@@ -150,17 +150,17 @@ export const cuisineFlavorProfiles: Record<string, CuisineFlavorProfile> = {
     name: 'Korean',
     description: 'Bold, harmonious cuisine with balanced flavors and textural contrasts.',
     flavorProfiles: {
-      spicy: 0.8;
-      sweet: 0.4;
-      sour: 0.6;
-      bitter: 0.2;
-      salty: 0.6;
+      spicy: 0.8,
+      sweet: 0.4,
+      sour: 0.6,
+      bitter: 0.2,
+      salty: 0.6,
       umami: 0.7
     },
     elementalAlignment: {
-      Fire: 0.5;
-      Earth: 0.3;
-      Water: 0.1;
+      Fire: 0.5,
+      Earth: 0.3,
+      Water: 0.1,
       Air: 0.1
     },
     signatureTechniques: ['fermentation', 'grilling', 'stewing'],
@@ -176,17 +176,17 @@ export const cuisineFlavorProfiles: Record<string, CuisineFlavorProfile> = {
     name: 'Chinese',
     description: 'Diverse, ancient cuisine with emphasis on balance, texture, and technique.',
     flavorProfiles: {
-      spicy: 0.5;
-      sweet: 0.4;
-      sour: 0.4;
-      bitter: 0.3;
-      salty: 0.6;
+      spicy: 0.5,
+      sweet: 0.4,
+      sour: 0.4,
+      bitter: 0.3,
+      salty: 0.6,
       umami: 0.7
     },
     elementalAlignment: {
-      Fire: 0.3;
-      Earth: 0.4;
-      Water: 0.2;
+      Fire: 0.3,
+      Earth: 0.4,
+      Water: 0.2,
       Air: 0.1
     },
     signatureTechniques: ['stir-frying', 'steaming', 'braising', 'double-frying'],
@@ -203,17 +203,17 @@ export const cuisineFlavorProfiles: Record<string, CuisineFlavorProfile> = {
     name: 'Sichuanese',
     description: 'Complex, layered cuisine known for bold spices and numbing heat.',
     flavorProfiles: {
-      spicy: 0.9;
-      sweet: 0.3;
-      sour: 0.5;
-      bitter: 0.4;
-      salty: 0.5;
+      spicy: 0.9,
+      sweet: 0.3,
+      sour: 0.5,
+      bitter: 0.4,
+      salty: 0.5,
       umami: 0.6
     },
     elementalAlignment: {
-      Fire: 0.7;
-      Earth: 0.1;
-      Water: 0.1;
+      Fire: 0.7,
+      Earth: 0.1,
+      Water: 0.1,
       Air: 0.1
     },
     signatureTechniques: ['dry-frying', 'double-frying', 'stir-frying', 'steaming'],
@@ -236,17 +236,17 @@ export const cuisineFlavorProfiles: Record<string, CuisineFlavorProfile> = {
     name: 'Cantonese',
     description: 'Fresh, delicate cuisine that emphasizes the natural flavors of ingredients.',
     flavorProfiles: {
-      spicy: 0.2;
-      sweet: 0.6;
-      sour: 0.3;
-      bitter: 0.3;
-      salty: 0.5;
+      spicy: 0.2,
+      sweet: 0.6,
+      sour: 0.3,
+      bitter: 0.3,
+      salty: 0.5,
       umami: 0.7
     },
     elementalAlignment: {
-      Water: 0.4;
-      Earth: 0.3;
-      Fire: 0.2;
+      Water: 0.4,
+      Earth: 0.3,
+      Fire: 0.2,
       Air: 0.1
     },
     signatureTechniques: ['steaming', 'stir-frying', 'roasting', 'double-boiling'],
@@ -264,17 +264,17 @@ export const cuisineFlavorProfiles: Record<string, CuisineFlavorProfile> = {
     name: 'Mexican',
     description: 'Diverse cuisine with ancient roots, emphasizing corn, chilies, and herbs.',
     flavorProfiles: {
-      spicy: 0.7;
-      sweet: 0.3;
-      sour: 0.5;
-      bitter: 0.2;
-      salty: 0.5;
+      spicy: 0.7,
+      sweet: 0.3,
+      sour: 0.5,
+      bitter: 0.2,
+      salty: 0.5,
       umami: 0.4
     },
     elementalAlignment: {
-      Fire: 0.55;
-      Earth: 0.25;
-      Water: 0.1;
+      Fire: 0.55,
+      Earth: 0.25,
+      Water: 0.1,
       Air: 0.1
     },
     signatureTechniques: ['nixtamalization', 'grilling', 'slow cooking', 'frying'],
@@ -291,17 +291,17 @@ export const cuisineFlavorProfiles: Record<string, CuisineFlavorProfile> = {
     name: 'Thai',
     description: 'Vibrant cuisine balancing sweet, sour, salty, and spicy elements.',
     flavorProfiles: {
-      spicy: 0.8;
-      sweet: 0.7;
-      sour: 0.7;
-      bitter: 0.3;
-      salty: 0.6;
+      spicy: 0.8,
+      sweet: 0.7,
+      sour: 0.7,
+      bitter: 0.3,
+      salty: 0.6,
       umami: 0.5
     },
     elementalAlignment: {
-      Fire: 0.4;
-      Water: 0.3;
-      Earth: 0.2;
+      Fire: 0.4,
+      Water: 0.3,
+      Earth: 0.2,
       Air: 0.1
     },
     signatureTechniques: ['stir-frying', 'pounding', 'grilling', 'steaming'],
@@ -318,17 +318,17 @@ export const cuisineFlavorProfiles: Record<string, CuisineFlavorProfile> = {
     name: 'Indian',
     description: 'Rich, diverse cuisine with layered spices and regional distinctions.',
     flavorProfiles: {
-      spicy: 0.8;
-      sweet: 0.4;
-      sour: 0.5;
-      bitter: 0.3;
-      salty: 0.6;
+      spicy: 0.8,
+      sweet: 0.4,
+      sour: 0.5,
+      bitter: 0.3,
+      salty: 0.6,
       umami: 0.4
     },
     elementalAlignment: {
-      Fire: 0.5;
-      Earth: 0.3;
-      Water: 0.1;
+      Fire: 0.5,
+      Earth: 0.3,
+      Water: 0.1,
       Air: 0.1
     },
     signatureTechniques: ['tempering', 'slow cooking', 'tandoor', 'curry-making'],
@@ -343,19 +343,19 @@ export const cuisineFlavorProfiles: Record<string, CuisineFlavorProfile> = {
   american: {
     id: 'american',
     name: 'American',
-    description: 'Diverse cuisine with regional specialties and comfort food traditions.';
+    description: 'Diverse cuisine with regional specialties and comfort food traditions.',
     flavorProfiles: {
-      spicy: 0.4;
-      sweet: 0.6;
-      sour: 0.3;
-      bitter: 0.2;
-      salty: 0.7;
+      spicy: 0.4,
+      sweet: 0.6,
+      sour: 0.3,
+      bitter: 0.2,
+      salty: 0.7,
       umami: 0.5
     },
     elementalAlignment: {
-      Fire: 0.3;
-      Water: 0.2;
-      Earth: 0.4;
+      Fire: 0.3,
+      Water: 0.2,
+      Earth: 0.4,
       Air: 0.1
     },
     signatureTechniques: ['grilling', 'barbecuing', 'frying', 'baking'],
@@ -372,17 +372,17 @@ export const cuisineFlavorProfiles: Record<string, CuisineFlavorProfile> = {
     name: 'Middle Eastern',
     description: 'Rich cuisine with aromatic spices, grains, and ancient traditions.',
     flavorProfiles: {
-      spicy: 0.5;
-      sweet: 0.4;
-      sour: 0.4;
-      bitter: 0.3;
-      salty: 0.5;
+      spicy: 0.5,
+      sweet: 0.4,
+      sour: 0.4,
+      bitter: 0.3,
+      salty: 0.5,
       umami: 0.4
     },
     elementalAlignment: {
-      Fire: 0.4;
-      Water: 0.2;
-      Earth: 0.3;
+      Fire: 0.4,
+      Water: 0.2,
+      Earth: 0.3,
       Air: 0.1
     },
     signatureTechniques: ['roasting', 'grilling', 'stewing', 'stuffing'],
@@ -399,17 +399,17 @@ export const cuisineFlavorProfiles: Record<string, CuisineFlavorProfile> = {
     name: 'Vietnamese',
     description: 'Fresh, herb-forward cuisine with balanced flavors and healthy preparations.',
     flavorProfiles: {
-      spicy: 0.4;
-      sweet: 0.5;
-      sour: 0.7;
-      bitter: 0.2;
-      salty: 0.6;
+      spicy: 0.4,
+      sweet: 0.5,
+      sour: 0.7,
+      bitter: 0.2,
+      salty: 0.6,
       umami: 0.6
     },
     elementalAlignment: {
-      Fire: 0.2;
-      Water: 0.5;
-      Earth: 0.2;
+      Fire: 0.2,
+      Water: 0.5,
+      Earth: 0.2,
       Air: 0.1
     },
     signatureTechniques: ['steaming', 'stir-frying', 'grilling', 'fresh preparation'],
@@ -424,19 +424,19 @@ export const cuisineFlavorProfiles: Record<string, CuisineFlavorProfile> = {
   african: {
     id: 'african',
     name: 'African',
-    description: 'Diverse continental cuisine with bold spices and hearty preparations.';
+    description: 'Diverse continental cuisine with bold spices and hearty preparations.',
     flavorProfiles: {
-      spicy: 0.7;
-      sweet: 0.3;
-      sour: 0.4;
-      bitter: 0.3;
-      salty: 0.5;
+      spicy: 0.7,
+      sweet: 0.3,
+      sour: 0.4,
+      bitter: 0.3,
+      salty: 0.5,
       umami: 0.4
     },
     elementalAlignment: {
-      Fire: 0.5;
-      Water: 0.2;
-      Earth: 0.2;
+      Fire: 0.5,
+      Water: 0.2,
+      Earth: 0.2,
       Air: 0.1
     },
     signatureTechniques: ['stewing', 'grilling', 'steaming', 'fermentation'],
@@ -451,19 +451,19 @@ export const cuisineFlavorProfiles: Record<string, CuisineFlavorProfile> = {
   russian: {
     id: 'russian',
     name: 'Russian',
-    description: 'Hearty cuisine adapted to cold climates with preserved foods and warming dishes.';
+    description: 'Hearty cuisine adapted to cold climates with preserved foods and warming dishes.',
     flavorProfiles: {
-      spicy: 0.2;
-      sweet: 0.4;
-      sour: 0.6;
-      bitter: 0.3;
-      salty: 0.7;
+      spicy: 0.2,
+      sweet: 0.4,
+      sour: 0.6,
+      bitter: 0.3,
+      salty: 0.7,
       umami: 0.5
     },
     elementalAlignment: {
-      Fire: 0.2;
-      Water: 0.3;
-      Earth: 0.4;
+      Fire: 0.2,
+      Water: 0.3,
+      Earth: 0.4,
       Air: 0.1
     },
     signatureTechniques: ['braising', 'pickling', 'smoking', 'slow-cooking'],
@@ -836,7 +836,7 @@ export function getRecipesForCuisineMatch(
               const mealRecipes = cuisine.dishes[mealType].all.map((recipe: unknown) => ({
                 ...(recipe as object);
                 cuisine: cuisineName,
-                matchScore: 0.9;
+                matchScore: 0.9,
                 matchPercentage: 90,
                 mealType: [mealType]
               }));
@@ -858,7 +858,7 @@ export function getRecipesForCuisineMatch(
                 const seasonalRecipes = cuisine.dishes[mealType][season].map((recipe: unknown) => ({
                   ...(recipe as object);
                   cuisine: cuisineName,
-                  matchScore: 0.85;
+                  matchScore: 0.85,
                   matchPercentage: 85,
                   mealType: [mealType],
                   season: [season]
@@ -1050,7 +1050,7 @@ export function getRecipesForCuisineMatch(
             console.error(`Error scoring recipe match for ${cuisineName}:`, scoreError);
             return {
               ...(recipe );
-              matchScore: 0.5;
+              matchScore: 0.5,
               matchPercentage: 50
             };
           }

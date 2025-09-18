@@ -73,7 +73,7 @@ export class TestUtils {
           return {
             success: true,
             output,
-            executionTime: Date.now() - startTime;
+            executionTime: Date.now() - startTime,
             memoryUsed: peakMemoryUsage,
             retryCount
           }
@@ -89,7 +89,7 @@ export class TestUtils {
             return {
               success: true,
               error: lastError,
-              executionTime: Date.now() - startTime;
+              executionTime: Date.now() - startTime,
               memoryUsed: peakMemoryUsage,
               retryCount
             };
@@ -105,7 +105,7 @@ export class TestUtils {
       return {
         success: false,
         error: lastError,
-        executionTime: Date.now() - startTime;
+        executionTime: Date.now() - startTime,
         memoryUsed: peakMemoryUsage,
         retryCount
       }
@@ -167,7 +167,7 @@ export class TestUtils {
    * Create a timeout-safe test wrapper
    */
   static withTimeout<T>(
-    testFunction: () => Promise<T>;
+    testFunction: () => Promise<T>,
     timeoutMs: number,
     testName: string
   ): Promise<T> {
@@ -192,7 +192,7 @@ export class TestUtils {
    * Monitor real-time test execution with proper cleanup
    */
   static async monitorRealTimeTest(
-    testFunction: () => Promise<void>;
+    testFunction: () => Promise<void>,
     options: {
       maxDuration?: number,
       memoryThreshold?: number,
@@ -270,7 +270,7 @@ export class TestUtils {
    * Validate test consistency across multiple runs
    */
   static async validateConsistency(
-    testFunction: () => Promise<unknown>;
+    testFunction: () => Promise<unknown>,
     runs: number = 3,;
     tolerancePercent: number = 20,;
   ): Promise<{ isConsistent: boolean, results: unknown[], variance: number }> {

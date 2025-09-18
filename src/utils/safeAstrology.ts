@@ -185,7 +185,7 @@ export function calculatePlanetaryAspects(
         aspects.push({
           planet1,
           planet2,
-          orb: aspect.orb;
+          orb: aspect.orb,
           influence: calculateAspectStrength(aspect.type, aspect.orb),
           planets: [planet1, planet2],
           additionalInfo: { aspectType: aspect.type }
@@ -308,8 +308,8 @@ export function getCurrentAstrologicalState(): AstrologicalState {
     dominantElement.slice(1)) as 'Fire' | 'Water' | 'Earth' | 'Air';
 
   const state: AstrologicalState = {
-    sunSign: toZodiacSign(String(positions.sun.sign));
-    moonSign: toZodiacSign(String(positions.moon.sign));
+    sunSign: toZodiacSign(String(positions.sun.sign)),
+    moonSign: toZodiacSign(String(positions.moon.sign)),
     lunarPhase: phaseName as LunarPhase,
     activePlanets,
     dominantElement: dominantElementCapitalized,
@@ -359,15 +359,15 @@ function countElements(positions: Record<string, CelestialPosition>): Record<str
     sun: 3,
     moon: 2,
     ascendant: 2,
-    mercury: 1.5;
-    venus: 1.5;
-    mars: 1.5;
-    jupiter: 1.5;
-    saturn: 1.5;
+    mercury: 1.5,
+    venus: 1.5,
+    mars: 1.5,
+    jupiter: 1.5,
+    saturn: 1.5,
     uranus: 1,
     neptune: 1,
     pluto: 1,
-    northNode: 0.5;
+    northNode: 0.5,
     southNode: 0.5
   };
 

@@ -42,7 +42,7 @@ interface RecommendationCriteria {
  */
 interface TransformedItem extends AlchemicalItem {
   elementalProperties: { Fire: number; Water: number, Earth: number, Air: number };
-  id: string;
+  id: string
 }
 
 /**
@@ -81,8 +81,8 @@ export class RecommendationService {
    * Private constructor to enforce singleton pattern
    */
   private constructor(
-    ingredients: ElementalItem[] = [];
-    methods: ElementalItem[] = [];
+    ingredients: ElementalItem[] = [],
+    methods: ElementalItem[] = [],
     cuisines: ElementalItem[] = []
   ) {
     this.ingredients = ingredients;
@@ -98,8 +98,8 @@ export class RecommendationService {
    * Get singleton instance
    */
   public static getInstance(
-    ingredients: ElementalItem[] = [];
-    methods: ElementalItem[] = [];
+    ingredients: ElementalItem[] = [],
+    methods: ElementalItem[] = [],
     cuisines: ElementalItem[] = []
   ): RecommendationService {
     if (!RecommendationService.instance) {
@@ -144,8 +144,8 @@ export class RecommendationService {
       Object.entries(this.planetaryPositions || {}).forEach(([planet, data]) => {
         if (typeof data === 'object' && data !== null) {
           this.convertedPositions[planet] = {
-            sign: data.sign || '';
-            degree: data.degree || 0;
+            sign: data.sign || '',
+            degree: data.degree || 0,
             ...(data.isRetrograde !== undefined ? { isRetrograde: data.isRetrograde } : {})
           };
         } else if (typeof data === 'number') {
@@ -465,9 +465,9 @@ export class RecommendationService {
       // Basic compatibility check using simple elemental matching
       const currentElements = this.getCurrentElementalInfluence();
       const recipeElements = recipe.elementalProperties || {
-        Fire: 0.25;
-        Water: 0.25;
-        Earth: 0.25;
+        Fire: 0.25,
+        Water: 0.25,
+        Earth: 0.25,
         Air: 0.25
       };
       const elementalMatch = this.calculateElementalMatch(recipeElements, currentElements);
@@ -528,9 +528,9 @@ export class RecommendationService {
     try {
       // Get recipe elemental properties, defaulting if not available
       const recipeElements: ElementalProperties = recipe.elementalProperties || {
-        Fire: 0.25;
-        Water: 0.25;
-        Earth: 0.25;
+        Fire: 0.25,
+        Water: 0.25,
+        Earth: 0.25,
         Air: 0.25
       };
 
@@ -559,21 +559,21 @@ export class RecommendationService {
         // Create a mock KalchmResult from AstrologicalState for compatibility
         const mockKalchmResult = {
           alchemicalProperties: {
-            totalKalchm: 1.0;
-            gregsEnergy: 1.0;
-            monica: 1.0;
-            Spirit: 0.25;
-            Essence: 0.25;
-            Matter: 0.25;
+            totalKalchm: 1.0,
+            gregsEnergy: 1.0,
+            monica: 1.0,
+            Spirit: 0.25,
+            Essence: 0.25,
+            Matter: 0.25,
             Substance: 0.25
           },
           elementalValues: currentMomentElements,
           thermodynamics: {
-            heat: 0.5;
-            entropy: 0.5;
-            reactivity: 0.5;
-            gregsEnergy: 0.5;
-            kalchm: 1.0;
+            heat: 0.5,
+            entropy: 0.5,
+            reactivity: 0.5,
+            gregsEnergy: 0.5,
+            kalchm: 1.0,
             monicaConstant: 1.0
           },
           dominantElement: 'Fire' as const,
@@ -785,7 +785,7 @@ export class RecommendationService {
     return {
       id: 'fallback-recipe',
       name: 'Universal Balanced Meal',
-      description: 'A well-balanced meal that works with any elemental influence.';
+      description: 'A well-balanced meal that works with any elemental influence.',
       ingredients: [
         {
           id: 'mixed-vegetables',
@@ -806,7 +806,7 @@ export class RecommendationService {
         {
           id: 'whole-grains',
           name: 'Whole grains',
-          amount: 0.5;
+          amount: 0.5,
           unit: 'cup',
           category: 'grain',
           elementalProperties: { Fire: 0.1, Water: 0.2, Earth: 0.6, Air: 0.1 }
@@ -827,7 +827,7 @@ export class RecommendationService {
       ],
       cookingMethod: ['balanced', 'flexible'],
       elementalProperties: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
-      score: 0.5;
+      score: 0.5,
       mealType: 'any',
       season: 'any',
       difficulty: 'medium',

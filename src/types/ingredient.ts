@@ -26,8 +26,8 @@ export interface Ingredient {
         temperature?:
           | string
           | {
-              fahrenheit: number;
-              celsius: number;
+              fahrenheit: number,
+              celsius: number,
             };
         notes?: string;
       };
@@ -59,17 +59,17 @@ export interface Ingredient {
 
   // Pairing recommendations
   pairingRecommendations?: {
-    complementary: string[];
-    contrasting: string[];
-    toAvoid: string[];
+    complementary: string[],
+    contrasting: string[],
+    toAvoid: string[]
   };
 
   // Nutritional information
   nutrition?: {
-    calories: number;
-    protein: number;
-    carbs: number;
-    fat: number;
+    calories: number,
+    protein: number,
+    carbs: number,
+    fat: number,
     fiber?: number;
     vitamins?: { [key: string]: number };
     minerals?: { [key: string]: number };
@@ -82,7 +82,7 @@ export interface Ingredient {
   varieties?: Record<string, unknown>;
 
   // Allow additional properties for extensibility
-  [key: string]: unknown;
+  [key: string]: unknown
 }
 
 // ========== TYPE RE-EXPORTS FOR DOWNSTREAM COMPATIBILITY ==========;

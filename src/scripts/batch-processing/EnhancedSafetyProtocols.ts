@@ -16,8 +16,8 @@ import fs from 'fs';
 import path from 'path';
 
 export interface HighImpactFileConfig {
-  maxVariablesAutoProcess: number;
-  criticalFileBatchSize: number;
+  maxVariablesAutoProcess: number,
+  criticalFileBatchSize: number,
   serviceLayerBatchSize: number,
   requireManualReview: boolean,
   enhancedValidation: boolean,
@@ -25,12 +25,12 @@ export interface HighImpactFileConfig {
 }
 
 export interface FileRiskAssessment {
-  filePath: string;
-  relativePath: string;
-  riskLevel: 'low' | 'medium' | 'high' | 'critical';
-  fileType: 'service' | 'calculation' | 'component' | 'utility' | 'test' | 'other';
-  unusedVariableCount: number;
-  requiresManualReview: boolean;
+  filePath: string,
+  relativePath: string,
+  riskLevel: 'low' | 'medium' | 'high' | 'critical',
+  fileType: 'service' | 'calculation' | 'component' | 'utility' | 'test' | 'other',
+  unusedVariableCount: number,
+  requiresManualReview: boolean,
   requiresEnhancedValidation: boolean,
   recommendedBatchSize: number,
   riskFactors: string[],
@@ -38,7 +38,7 @@ export interface FileRiskAssessment {
 }
 
 export interface ManualReviewRequest {
-  filePath: string;
+  filePath: string,
   unusedVariableCount: number,
   riskFactors: string[],
   reviewInstructions: string[],
@@ -46,7 +46,7 @@ export interface ManualReviewRequest {
 }
 
 export interface ValidationResult {
-  passed: boolean;
+  passed: boolean,
   errors: string[],
   warnings: string[],
   recommendations: string[],
@@ -181,8 +181,8 @@ export class EnhancedSafetyProtocols {
     reviewInstructions.push('Check that no runtime errors are introduced');
 
     const request: ManualReviewRequest = {
-      filePath: assessment.filePath;
-      unusedVariableCount: assessment.unusedVariableCount;
+      filePath: assessment.filePath,
+      unusedVariableCount: assessment.unusedVariableCount,
       riskFactors: assessment.riskFactors;
       reviewInstructions,
       approvalRequired: assessment.riskLevel === 'critical' || assessment.unusedVariableCount > 30,,;

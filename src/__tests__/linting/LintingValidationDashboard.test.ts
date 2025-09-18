@@ -59,7 +59,7 @@ describe('LintingValidationDashboard', () => {
       // Mock successful ESLint output
       const mockLintResults = [
         {
-          filePath: '/src/components/TestComponent.tsx';
+          filePath: '/src/components/TestComponent.tsx',
           messages: [
             {
               ruleId: '@typescript-eslint/no-explicit-any',
@@ -78,7 +78,7 @@ describe('LintingValidationDashboard', () => {
           ]
         },
         {
-          filePath: '/src/calculations/astrology.ts';
+          filePath: '/src/calculations/astrology.ts',
           messages: [
             {
               ruleId: '@typescript-eslint/no-unused-vars',
@@ -120,7 +120,7 @@ describe('LintingValidationDashboard', () => {
     test('should categorize domain-specific issues correctly', async () => {
       const mockLintResults: any = [
         {
-          filePath: '/src/calculations/culinary/astrology.ts';
+          filePath: '/src/calculations/culinary/astrology.ts',
           messages: [
             {
               ruleId: '@typescript-eslint/no-explicit-any',
@@ -132,7 +132,7 @@ describe('LintingValidationDashboard', () => {
           ]
         },
         {
-          filePath: '/src/services/campaign/CampaignController.ts';
+          filePath: '/src/services/campaign/CampaignController.ts',
           messages: [
             {
               ruleId: 'no-console',
@@ -144,7 +144,7 @@ describe('LintingValidationDashboard', () => {
           ]
         },
         {
-          filePath: '/src/__tests__/validation/test.spec.ts';
+          filePath: '/src/__tests__/validation/test.spec.ts',
           messages: [
             {
               ruleId: '@typescript-eslint/no-unused-vars',
@@ -171,7 +171,7 @@ describe('LintingValidationDashboard', () => {
     test('should calculate quality score correctly for good metrics', async () => {
       const mockLintResults = [
         {
-          filePath: '/src/components/TestComponent.tsx';
+          filePath: '/src/components/TestComponent.tsx',
           messages: [
             {
               ruleId: 'import/order',
@@ -193,7 +193,7 @@ describe('LintingValidationDashboard', () => {
     test('should penalize quality score for parser errors', async () => {
       const mockLintResults: any = [
         {
-          filePath: '/src/utils/recommendationEngine.ts';
+          filePath: '/src/utils/recommendationEngine.ts',
           messages: [
             {
               ruleId: 'parseForESLint',
@@ -240,7 +240,7 @@ describe('LintingValidationDashboard', () => {
     test('should generate critical alert for parser errors', async () => {
       const mockLintResults: any = [
         {
-          filePath: '/src/utils/recommendationEngine.ts';
+          filePath: '/src/utils/recommendationEngine.ts',
           messages: [
             {
               ruleId: 'parseForESLint',
@@ -366,7 +366,7 @@ describe('LintingValidationDashboard', () => {
     test('should generate parser error recommendations', async () => {
       const mockLintResults: any = [
         {
-          filePath: '/src/utils/recommendationEngine.ts';
+          filePath: '/src/utils/recommendationEngine.ts',
           messages: [
             {
               ruleId: 'parseForESLint',
@@ -449,7 +449,7 @@ describe('LintingValidationDashboard', () => {
       expect(result.recommendations.some(rec => rec.includes('DOMAIN: Review astrological calculation files'))).toBe(;
         true
       );
-      expect(result.recommendations.some(rec => rec.includes('lint:domain-astro'))).toBe(true);
+      expect(result.recommendations.some(rec => rec.includes('lint:domain-astro'))).toBe(true)
     });
   });
 
@@ -554,7 +554,7 @@ describe('LintingValidationDashboard', () => {
     test('should process alerts through alerting system', async () => {
       const mockLintResults: any = [
         {
-          filePath: '/src/utils/recommendationEngine.ts';
+          filePath: '/src/utils/recommendationEngine.ts',
           messages: [
             {
               ruleId: 'parseForESLint',
@@ -636,7 +636,7 @@ describe('LintingAlertingSystem', () => {
           testFiles: 0
         },
         performanceMetrics: { lintingDuration: 5000,
-          cacheHitRate: 0.75;
+          cacheHitRate: 0.75,
           memoryUsage: 256,
           filesProcessed: 100
         },
@@ -690,7 +690,7 @@ describe('LintingAlertingSystem', () => {
           testFiles: 0
         },
         performanceMetrics: { lintingDuration: 5000,
-          cacheHitRate: 0.75;
+          cacheHitRate: 0.75,
           memoryUsage: 256,
           filesProcessed: 100
         },

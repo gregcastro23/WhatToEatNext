@@ -9,9 +9,9 @@ import { PlanetaryHourCalculator } from './PlanetaryHourCalculator';
  * Type for chakra-enhanced recipe recommendations
  */
 export interface ChakraRecipeRecommendation {
-  recipe: Recipe;
-  elementalAlignment: number;
-  chakraAlignment: number;
+  recipe: Recipe,
+  elementalAlignment: number,
+  chakraAlignment: number,
   planetaryAlignment: number,
   totalScore: number,
   dominantChakra: keyof ChakraEnergies,

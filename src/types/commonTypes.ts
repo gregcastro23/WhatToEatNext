@@ -22,16 +22,16 @@ export interface AstrologicalState {
   moonPhase?: string;
   lunarPhase?: string;
   activePlanets?: string[];
-  [key: string]: unknown;
+  [key: string]: unknown
 }
 
 // Define a simplified ElementalProperties type
 export interface ElementalProperties {
-  Fire: number;
-  Water: number;
-  Earth: number;
-  Air: number;
-  [key: string]: number;
+  Fire: number,
+  Water: number,
+  Earth: number,
+  Air: number,
+  [key: string]: number
 }
 
 // Define basic Recipe and RecipeIngredient types
@@ -39,26 +39,26 @@ export interface RecipeIngredient {
   name: string;
   amount?: number | string;
   unit?: string;
-  [key: string]: unknown;
+  [key: string]: unknown
 }
 
 export interface Recipe {
-  id: string;
-  name: string;
-  description: string;
-  ingredients: RecipeIngredient[];
+  id: string,
+  name: string,
+  description: string,
+  ingredients: RecipeIngredient[],
   instructions: string[];
-  [key: string]: unknown;
+  [key: string]: unknown
 }
 
 export interface ScoredRecipe extends Recipe {
-  score: number;
+  score: number
 }
 
 // Define a simplified Ingredient type
 export interface Ingredient {
   name: string;
-  [key: string]: unknown;
+  [key: string]: unknown
 }
 
 // Re-export all types

@@ -64,7 +64,7 @@ export type RecipeRecommendationResponse = ServiceResponseType<{
     ingredients: string[],
     reasoning: string[]
   }>;
-  totalMatches: number;
+  totalMatches: number,
   searchCriteria: Record<string, Record<string, number>>;
 }>;
 
@@ -73,8 +73,8 @@ export type RecipeRecommendationResponse = ServiceResponseType<{
  * Comprehensive culinary analysis response
  */
 export type CulinaryAnalysisResponse = ServiceResponseType<{
-  overallCompatibility: number;
-  elementalAnalysis: ElementalPropertiesType;
+  overallCompatibility: number,
+  elementalAnalysis: ElementalPropertiesType,
   thermodynamicProfile: ThermodynamicMetricsType,
   recommendations: {
     ingredients: string[],

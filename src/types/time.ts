@@ -12,24 +12,24 @@ export type Season = 'Spring' | 'Summer' | 'Fall' | 'Winter';
 export type TimeOfDay = 'Morning' | 'Afternoon' | 'Evening' | 'Night';
 
 export interface PlanetaryDay {
-  day: WeekDay;
-  planet: PlanetName;
+  day: WeekDay,
+  planet: PlanetName,
 }
 
 export interface PlanetaryHour {
-  planet: PlanetName;
-  hourOfDay: number;
+  planet: PlanetName,
+  hourOfDay: number,
 }
 
 export type MealType = 'Breakfast' | 'Lunch' | 'Dinner' | 'Snack' | 'Anytime';
 
 export interface TimeFactors {
-  currentDate: Date;
-  season: Season;
-  timeOfDay: TimeOfDay;
-  planetaryDay: PlanetaryDay;
-  planetaryHour: PlanetaryHour;
-  weekDay: WeekDay;
+  currentDate: Date,
+  season: Season,
+  timeOfDay: TimeOfDay,
+  planetaryDay: PlanetaryDay,
+  planetaryHour: PlanetaryHour,
+  weekDay: WeekDay,
   mealType?: MealType; // Added to support meal recommendations
 }
 

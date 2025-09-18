@@ -2,22 +2,22 @@ import { ZodiacSign, Element } from '@/types/alchemy';
 
 // Define the interface for zodiac season data
 interface ZodiacSeasonData {
-  name: any;
-  element: Element;
+  name: any,
+  element: Element,
   startMonth: number; // 1-based month (1 = January);
-  startDay: number;
-  endMonth: number;
-  endDay: number;
-  ruling_planet: string;
-  polarity: 'positive' | 'negative';
-  modality: 'cardinal' | 'fixed' | 'mutable';
+  startDay: number,
+  endMonth: number,
+  endDay: number,
+  ruling_planet: string,
+  polarity: 'positive' | 'negative',
+  modality: 'cardinal' | 'fixed' | 'mutable',
   // Culinary properties specific to this zodiac period
   culinaryProperties: {
-    flavorProfile: string[];
-    enhancedTechniques: string[];
-    foodGroups: string[];
-    herbs: string[];
-    spices: string[];
+    flavorProfile: string[],
+    enhancedTechniques: string[],
+    foodGroups: string[],
+    herbs: string[],
+    spices: string[]
   };
 }
 

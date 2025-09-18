@@ -10,16 +10,16 @@ import { logger } from '@/utils/logger';
 
 // Interface for hook return value
 export interface AstrologyHookData {
-  currentZodiac: any;
-  currentPlanetaryAlignment: PlanetaryAlignment;
-  lunarPhase: LunarPhase;
+  currentZodiac: any,
+  currentPlanetaryAlignment: PlanetaryAlignment,
+  lunarPhase: LunarPhase,
   activePlanets: string[],
   domElements: { Fire: number, Water: number, Earth: number, Air: number };
-  loading: boolean;
-  isReady: boolean;
-  isDaytime: boolean;
-  renderCount: number;
-  currentPlanetaryHour: string | null;
+  loading: boolean,
+  isReady: boolean,
+  isDaytime: boolean,
+  renderCount: number,
+  currentPlanetaryHour: string | null
 }
 
 // Helper function to create a celestial position with defaults
@@ -52,15 +52,15 @@ function _createCelestialPosition(
     if (!planetName) return 0.5, // Default
 
     const planetSpeeds: Record<string, number> = {
-      moon: 13.2;
-      sun: 1.0;
-      mercury: 1.4;
-      venus: 1.2;
-      mars: 0.5;
-      jupiter: 0.1;
-      saturn: 0.03;
-      uranus: 0.01;
-      neptune: 0.005;
+      moon: 13.2,
+      sun: 1.0,
+      mercury: 1.4,
+      venus: 1.2,
+      mars: 0.5,
+      jupiter: 0.1,
+      saturn: 0.03,
+      uranus: 0.01,
+      neptune: 0.005,
       pluto: 0.002
     };
 
@@ -69,10 +69,10 @@ function _createCelestialPosition(
 
   return {
     sign,
-    degree: Math.floor(longOffset);
+    degree: Math.floor(longOffset),
     exactLongitude: baseLongitude,
     isRetrograde: false,
-    minutes: Math.floor((longOffset % 1) * 60);
+    minutes: Math.floor((longOffset % 1) * 60),
     speed: getPlanetSpeed(options?.planetName)
   };
 }
@@ -95,10 +95,10 @@ export function useAstrologicalState(): AstrologyHookData {
   const [astroState, setAstroState] = useState<{
     currentZodiac: string,
     currentPlanetaryAlignment: Record<string, CelestialPosition>;
-    lunarPhase: LunarPhase;
+    lunarPhase: LunarPhase,
     activePlanets: string[],
     domElements: { Fire: number, Water: number, Earth: number, Air: number };
-    loading: boolean;
+    loading: boolean
   }>({
     currentZodiac: '',
     currentPlanetaryAlignment: {},
@@ -291,9 +291,9 @@ export function useAstrologicalState(): AstrologyHookData {
     isDaytime: isDaytime,
     renderCount,
     currentPlanetaryHour: currentPlanetaryHour || 'sun',
-    currentZodiac: (astroState.currentZodiac || 'aries') as any;
+    currentZodiac: (astroState.currentZodiac || 'aries') as any,
     currentPlanetaryAlignment:
-      astroState.currentPlanetaryAlignment as unknown as PlanetaryAlignment;
+      astroState.currentPlanetaryAlignment as unknown as PlanetaryAlignment,
     lunarPhase: astroState.lunarPhase
   } as AstrologyHookData;
 }

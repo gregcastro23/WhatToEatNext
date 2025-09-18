@@ -3,20 +3,20 @@
 interface ApiConfig {
   celestialUpdateInterval: number; // milliseconds
   timeout: number; // milliseconds
-  retryCount: number;
-  baseUrl: string;
+  retryCount: number,
+  baseUrl: string,
 }
 
 interface AstrologyConfig {
-  defaultTimezoneName: string;
-  retrogradeThreshold: number; // planet speed below this value is considered retrograde
+  defaultTimezoneName: string,
+  retrogradeThreshold: number, // planet speed below this value is considered retrograde
   aspectOrbs: Record<string, number>; // orbs for different aspects in degrees
 }
 
 interface AppConfig {
-  debug: boolean;
-  api: ApiConfig;
-  astrology: AstrologyConfig;
+  debug: boolean,
+  api: ApiConfig,
+  astrology: AstrologyConfig
 }
 
 // Get environment

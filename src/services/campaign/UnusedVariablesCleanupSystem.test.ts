@@ -39,7 +39,7 @@ describe('UnusedVariablesCleanupSystem', () => {
     });
 
     it('should accept custom configuration', () => {
-      const config: Partial<UnusedVariablesConfig> = { maxFiles: 30;
+      const config: Partial<UnusedVariablesConfig> = { maxFiles: 30,
         autoFix: true,
         dryRun: false
       };
@@ -176,7 +176,7 @@ describe('UnusedVariablesCleanupSystem', () => {
       expect(result.warnings).toHaveLength(1);
       expect(result.errors).toHaveLength(1);
       expect(result.warnings.[0]).toContain('Warning: Some variables may be used');
-      expect(result.errors.[0]).toContain('Error: Failed to process file');
+      expect(result.errors.[0]).toContain('Error: Failed to process file')
     });
   });
 

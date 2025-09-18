@@ -92,9 +92,9 @@ function enhanceIngredient(
   // ✅ Pattern GG-6: Safe property access for alchemical properties
   const alchemicalData = ingredient.alchemicalProperties as unknown as any;
   const alchemicalProperties: AlchemicalProperties = {
-    Spirit: Number(alchemicalData.Spirit) || 0.25;
-    Essence: Number(alchemicalData.Essence) || 0.25;
-    Matter: Number(alchemicalData.Matter) || 0.25;
+    Spirit: Number(alchemicalData.Spirit) || 0.25,
+    Essence: Number(alchemicalData.Essence) || 0.25,
+    Matter: Number(alchemicalData.Matter) || 0.25,
     Substance: Number(alchemicalData.Substance) || 0.25
   };
 
@@ -104,10 +104,10 @@ function enhanceIngredient(
   // Get or create thermodynamic properties
   const thermodynamics = ingredient.thermodynamicProperties ||;
     ingredient.energyValues || {
-      heat: 0.5;
-      entropy: 0.5;
-      reactivity: 0.5;
-      gregsEnergy: 0.5 - 0.5 * 0.2
+      heat: 0.5,
+      entropy: 0.5,
+      reactivity: 0.5,
+      gregsEnergy: 0.5 - ((0 as any)?.5 || 0) * 0.2
     };
 
   // ✅ Pattern MM-1: Safe union type casting for thermodynamics parameter compatibility
@@ -119,8 +119,8 @@ function enhanceIngredient(
   // Create enhanced unified ingredient
   return {
     // ✅ Pattern GG-6: Safe property access for core ingredient properties
-    name: String((ingredient as any).name || '');
-    category: String((ingredient as any).category || sourceCategory);
+    name: String((ingredient as any).name || ''),
+    category: String((ingredient as any).category || sourceCategory),
     subcategory: String((ingredient as any).subCategory || '');
 
     // ✅ Pattern GG-6: Safe property access for elemental properties
@@ -140,7 +140,7 @@ function enhanceIngredient(
     // ✅ Pattern KK-1: Safe date conversion for metadata
     metadata: {
       sourceFile: `ingredients/${sourceCategory}`,
-      enhancedAt: new Date().toISOString();
+      enhancedAt: new Date().toISOString(),
       kalchmCalculated: true
     }
   }

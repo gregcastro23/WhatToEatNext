@@ -13,7 +13,7 @@ import { ProgressTracker } from './ProgressTracker';
 import { SafetyProtocol } from './SafetyProtocol';
 
 export interface TypeScriptErrorMetrics {
-  totalErrors: number;
+  totalErrors: number,
   errorsByType: Record<string, number>;
   errorsByFile: Record<string, number>;
   errorsByCategory: Record<string, number>;
@@ -28,24 +28,24 @@ export interface ErrorResolutionPhase {
   name: string,
   priority: 'critical' | 'high' | 'medium' | 'low',
   estimatedImpact: { min: number, max: number };
-  dependencies: string[];
-  status: 'not_started' | 'in_progress' | 'completed' | 'failed';
+  dependencies: string[],
+  status: 'not_started' | 'in_progress' | 'completed' | 'failed',
   startTime?: Date;
   endTime?: Date;
-  errorsFixed: number;
-  errorsIntroduced: number;
-  validationRequired: boolean;
+  errorsFixed: number,
+  errorsIntroduced: number,
+  validationRequired: boolean
 }
 
 export interface UnusedVariableIntelligence {
-  variableName: string;
-  filePath: string;
-  lineNumber: number;
-  scope: 'function' | 'class' | 'module' | 'global';
+  variableName: string,
+  filePath: string,
+  lineNumber: number,
+  scope: 'function' | 'class' | 'module' | 'global',
   lastUsed?: Date;
   importedFrom?: string;
-  potentialImpact: 'safe' | 'risky' | 'dangerous';
-  removalRecommendation: 'remove' | 'keep' | 'investigate';
+  potentialImpact: 'safe' | 'risky' | 'dangerous',
+  removalRecommendation: 'remove' | 'keep' | 'investigate',
   relatedErrors: string[];
   enterpriseContext?: {
     businessLogicRelevance: number,
@@ -95,8 +95,8 @@ export class TypeScriptErrorResolutionCampaign {
         initialize: (config: Record<string, unknown>) => Promise<void>
       }
     ).initialize({
-      errorPatterns: await this.analyzeErrorPatterns();
-      historicalData: await this.loadHistoricalData();
+      errorPatterns: await this.analyzeErrorPatterns(),
+      historicalData: await this.loadHistoricalData(),
       enterpriseContext: await this.buildEnterpriseContext()
     });
 
@@ -295,7 +295,7 @@ export class TypeScriptErrorResolutionCampaign {
 
     const unusedVarAnalysis = await this.analyzeUnusedVariables();
     const unusedVariableStats = {
-      total: unusedVarAnalysis.length;
+      total: unusedVarAnalysis.length,
       safeToRemove: unusedVarAnalysis.filter(v => v.removalRecommendation === 'remove').length,,;
       requiresInvestigation: unusedVarAnalysis.filter(
         v => v.removalRecommendation === 'investigate'
@@ -310,11 +310,11 @@ export class TypeScriptErrorResolutionCampaign {
     return {
       overall: overallProgress,
       phases,
-      metrics: this.metrics;
+      metrics: this.metrics,
       intelligence: {
-        errorPatterns: await this.analyzeErrorPatterns();
-        fixSuccessRate: this.metrics.fixSuccessRate;
-        estimatedCompletion: this.calculateEstimatedCompletion();
+        errorPatterns: await this.analyzeErrorPatterns(),
+        fixSuccessRate: this.metrics.fixSuccessRate,
+        estimatedCompletion: this.calculateEstimatedCompletion(),
         recommendations: await this.generateIntelligentRecommendations()
       },
       unusedVariables: unusedVariableStats
@@ -347,16 +347,16 @@ export class TypeScriptErrorResolutionCampaign {
     // This would implement sophisticated analysis of variable usage context
     return {
       variableName,
-      filePath: 'mock/path.ts';
+      filePath: 'mock/path.ts',
       lineNumber: 1,
       scope: 'function',
       potentialImpact: 'safe',
       removalRecommendation: 'remove',
       relatedErrors: [],
       enterpriseContext: {
-        businessLogicRelevance: 0.1;
+        businessLogicRelevance: 0.1,
         crossModuleDependencies: [],
-        testCoverage: 0.8;
+        testCoverage: 0.8,
         documentationReferences: []
       }
     };

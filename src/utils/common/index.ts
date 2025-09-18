@@ -4,8 +4,8 @@ import { logger } from '../logger';
 // ===== THEME MANAGEMENT =====;
 
 export interface ThemeData {
-  mode: 'light' | 'dark' | 'system';
-  accent: string;
+  mode: 'light' | 'dark' | 'system',
+  accent: string,
 }
 
 export class ThemeManager {
@@ -75,8 +75,8 @@ export function validateAstrologyConfig() {
 // ===== FEEDBACK COLLECTION =====;
 
 export interface FeedbackData {
-  type: 'bug' | 'feature' | 'improvement' | 'other';
-  title: string;
+  type: 'bug' | 'feature' | 'improvement' | 'other',
+  title: string,
   description: string;
   userEmail?: string;
   priority?: 'low' | 'medium' | 'high';

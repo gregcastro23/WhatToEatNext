@@ -129,7 +129,7 @@ export function generatePersonalizedMealPlan(
   // Recipe generation functionality is deactivated
   // Return a simple placeholder instead
   return {
-    message: 'Recipe generation is deactivated. Using existing recipes instead.';
+    message: 'Recipe generation is deactivated. Using existing recipes instead.',
     dominant: dominant
   };
 
@@ -161,7 +161,7 @@ export function generatePersonalizedMealPlan(
     },
     overallHarmony: 0,
     astrological: {
-      dominant: alchemicalResult.dominant;
+      dominant: alchemicalResult.dominant,
       specialConsiderations: baseRecommendation.reasoning.planetary
     }
   };
@@ -207,7 +207,7 @@ export function generatePersonalizedMealPlan(
     Fire: dominantElement === 'Fire' ? 0.6 : balancingElement === 'Fire' ? 0.3 : 0.1,;
     Water: dominantElement === 'Water' ? 0.6 : balancingElement === 'Water' ? 0.3 : 0.1,;
     Earth: dominantElement === 'Earth' ? 0.6 : balancingElement === 'Earth' ? 0.3 : 0.1,;
-    Air: dominantElement === 'Air' ? 0.6 : balancingElement === 'Air' ? 0.3 : 0.1;
+    Air: dominantElement === 'Air' ? 0.6 : balancingElement === 'Air' ? 0.3 : 0.1
   };
 
   mealPlan.overallHarmony = calculateAlchemicalCompatibility(;

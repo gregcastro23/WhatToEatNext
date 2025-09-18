@@ -66,62 +66,62 @@ export function getReliablePlanetaryPositions(): { [key: string]: CelestialPosit
   const positions: { [key: string]: CelestialPosition } = {
     Sun: {
       sign: 'gemini',
-      degree: 5.93;
-      exactLongitude: 65.93;
+      degree: 5.93,
+      exactLongitude: 65.93,
       isRetrograde: false
     },
     moon: {
       sign: 'gemini',
-      degree: 3.57;
-      exactLongitude: 63.57;
+      degree: 3.57,
+      exactLongitude: 63.57,
       isRetrograde: false
     },
     Mercury: {
       sign: 'gemini',
-      degree: 1.98;
-      exactLongitude: 61.98;
+      degree: 1.98,
+      exactLongitude: 61.98,
       isRetrograde: false
     },
     Venus: {
       sign: 'aries',
-      degree: 20.17;
-      exactLongitude: 20.17;
+      degree: 20.17,
+      exactLongitude: 20.17,
       isRetrograde: false
     },
     Mars: {
       sign: 'leo',
-      degree: 18.38;
-      exactLongitude: 138.38;
+      degree: 18.38,
+      exactLongitude: 138.38,
       isRetrograde: false
     },
     Jupiter: {
       sign: 'gemini',
-      degree: 26.87;
-      exactLongitude: 86.87;
+      degree: 26.87,
+      exactLongitude: 86.87,
       isRetrograde: false
     },
     Saturn: {
       sign: 'aries',
-      degree: 0.13;
-      exactLongitude: 0.13;
+      degree: 0.13,
+      exactLongitude: 0.13,
       isRetrograde: false
     },
     Uranus: {
       sign: 'taurus',
-      degree: 27.82;
-      exactLongitude: 57.82;
+      degree: 27.82,
+      exactLongitude: 57.82,
       isRetrograde: false
     },
     Neptune: {
       sign: 'aries',
-      degree: 1.77;
-      exactLongitude: 1.77;
+      degree: 1.77,
+      exactLongitude: 1.77,
       isRetrograde: false
     },
     Pluto: {
       sign: 'aquarius',
-      degree: 3.7;
-      exactLongitude: 303.7;
+      degree: 3.7,
+      exactLongitude: 303.7,
       isRetrograde: true
     }
   };
@@ -299,8 +299,8 @@ export function calculatePlanetaryAspects(positions: {
           aspects.push({
             planet1,
             planet2,
-            type: aspect.type;
-            orb: aspect.orb;
+            type: aspect.type,
+            orb: aspect.orb,
             strength,
             planets: [planet1, planet2]
           });
@@ -353,16 +353,16 @@ export function identifyAspect(angleDiff: number): { type: AspectType, orb: numb
 export function calculateAspectStrength(type: AspectType, orb: number): number {
   // Define base strength for each aspect type
   const baseStrength: Record<AspectType, number> = {
-    conjunction: 1.0;
-    opposition: 0.9;
-    trine: 0.8;
-    square: 0.8;
-    sextile: 0.7;
-    quincunx: 0.6;
-    semisextile: 0.5;
-    semisquare: 0.5;
-    sesquisquare: 0.5;
-    quintile: 0.4;
+    conjunction: 1.0,
+    opposition: 0.9,
+    trine: 0.8,
+    square: 0.8,
+    sextile: 0.7,
+    quincunx: 0.6,
+    semisextile: 0.5,
+    semisquare: 0.5,
+    sesquisquare: 0.5,
+    quintile: 0.4,
     biquintile: 0.4
   };
 
@@ -564,9 +564,9 @@ export function validatePlanetaryPositions(
     if (typeof data === 'object' && data !== null) {
       const src = data as unknown;
       const position: CelestialPosition = {
-        sign: String(src.sign || '');
-        degree: Number(src.degree || 0);
-        exactLongitude: Number(src.exactLongitude || 0);
+        sign: String(src.sign || ''),
+        degree: Number(src.degree || 0),
+        exactLongitude: Number(src.exactLongitude || 0),
         isRetrograde: Boolean(src.isRetrograde)
       };
 
@@ -622,8 +622,8 @@ export function getCurrentTransitPositions(): {
 
   for (const [planet, data] of Object.entries(positions)) {
     result[planet] = {
-      sign: data.sign as any;
-      degree: data.degree;
+      sign: data.sign as any,
+      degree: data.degree,
       isRetrograde: data.isRetrograde || false
     };
   }

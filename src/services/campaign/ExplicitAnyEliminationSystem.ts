@@ -23,12 +23,12 @@ export interface ExplicitAnyOptions {
 }
 
 export interface ExplicitAnyResult {
-  success: boolean;
-  filesProcessed: number;
-  explicitAnyFixed: number;
-  explicitAnyRemaining: number;
-  reductionPercentage: number;
-  buildValidationPassed: boolean;
+  success: boolean,
+  filesProcessed: number,
+  explicitAnyFixed: number,
+  explicitAnyRemaining: number,
+  reductionPercentage: number,
+  buildValidationPassed: boolean,
   executionTime: number,
   safetyScore?: number,
   warnings: string[],
@@ -36,8 +36,8 @@ export interface ExplicitAnyResult {
 }
 
 export interface CampaignProgress {
-  totalExplicitAnyStart: number;
-  totalExplicitAnyRemaining: number;
+  totalExplicitAnyStart: number,
+  totalExplicitAnyRemaining: number,
   reductionAchieved: number,
   reductionPercentage: number,
   campaignTarget: number, // 75.5% reduction target
@@ -82,15 +82,15 @@ export class ExplicitAnyEliminationSystem {
       const executionTime = Date.now() - startTime;
 
       return {
-        success: result.success;
-        filesProcessed: result.filesProcessed;
+        success: result.success,
+        filesProcessed: result.filesProcessed,
         explicitAnyFixed,
         explicitAnyRemaining: finalCount,
         reductionPercentage,
         buildValidationPassed,
         executionTime,
-        safetyScore: result.safetyScore;
-        warnings: result.warnings;
+        safetyScore: result.safetyScore,
+        warnings: result.warnings,
         errors: result.errors
       };
     } catch (error) {
@@ -100,10 +100,10 @@ export class ExplicitAnyEliminationSystem {
         success: false,
         filesProcessed: 0,
         explicitAnyFixed: 0,
-        explicitAnyRemaining: await this.getCurrentExplicitAnyCount();
+        explicitAnyRemaining: await this.getCurrentExplicitAnyCount(),
         reductionPercentage: 0,
         buildValidationPassed: false,
-        executionTime: Date.now() - startTime;
+        executionTime: Date.now() - startTime,
         warnings: [],
         errors: [error instanceof Error ? error.message : String(error)]
       };
@@ -159,7 +159,7 @@ export class ExplicitAnyEliminationSystem {
 
       // Execute fixer for this batch
       const batchResult = await this.executeExplicitAnyFixer({
-        maxFiles: this.DEFAULT_BATCH_SIZE;
+        maxFiles: this.DEFAULT_BATCH_SIZE,
         autoFix: true,
         validateSafety: true
       });
@@ -315,7 +315,7 @@ export class ExplicitAnyEliminationSystem {
     output: string,
     success: boolean,
   ): {
-    success: boolean;
+    success: boolean,
     filesProcessed: number,
     safetyScore?: number,
     warnings: string[],
@@ -440,7 +440,7 @@ export class ExplicitAnyEliminationSystem {
       totalExplicitAnyRemaining: currentCount,
       reductionAchieved: 0,
       reductionPercentage: 0,
-      campaignTarget: this.CAMPAIGN_TARGET_PERCENTAGE;
+      campaignTarget: this.CAMPAIGN_TARGET_PERCENTAGE,
       isTargetMet: false
     };
   }

@@ -59,9 +59,9 @@ const _isEphemerisFileAvailable = (fileName: string): boolean => {
  * Standardized response for astrological calculations
  */
 export type AstrologicalCalculationResponse = ServiceResponseType<{
-  planetaryPositions: PlanetaryPositions;
-  zodiacSign: StandardZodiacSign;
-  lunarPhase: StandardLunarPhase;
+  planetaryPositions: PlanetaryPositions,
+  zodiacSign: StandardZodiacSign,
+  lunarPhase: StandardLunarPhase,
   elementalInfluence: ElementalPropertiesType,
   accuracy: number,
   calculationTimestamp: string
@@ -72,9 +72,9 @@ export type AstrologicalCalculationResponse = ServiceResponseType<{
  * Comprehensive astrological analysis response
  */
 export type AstrologicalAnalysisResponse = ServiceResponseType<{
-  astrologicalState: CompleteAstrologicalState;
-  compatibility: number;
-  recommendations: string[];
+  astrologicalState: CompleteAstrologicalState,
+  compatibility: number,
+  recommendations: string[],
   warnings: string[],
   detailedAnalysis: {
     planetaryInfluences: Record<string, number>;
@@ -131,12 +131,12 @@ export class AstrologicalService {
         zodiacSign: 'aries' as StandardZodiacSign,
         lunarPhase: 'new moon' as StandardLunarPhase,
         elementalInfluence: {
-          Fire: 0.3;
-          Water: 0.2;
-          Earth: 0.25;
+          Fire: 0.3,
+          Water: 0.2,
+          Earth: 0.25,
           Air: 0.25
         } as ElementalPropertiesType,
-        accuracy: 0.95;
+        accuracy: 0.95,
         calculationTimestamp: new Date().toISOString()
       };
 
@@ -259,15 +259,15 @@ export class AstrologicalService {
       const influences = {
         planetaryPositions,
         elementalBoost: {
-          Fire: 0.25;
-          Water: 0.25;
-          Earth: 0.25;
+          Fire: 0.25,
+          Water: 0.25,
+          Earth: 0.25,
           Air: 0.25
         } as ElementalPropertiesType,
         alchemicalModifier: {
-          Spirit: 0.25;
-          Essence: 0.25;
-          Matter: 0.25;
+          Spirit: 0.25,
+          Essence: 0.25,
+          Matter: 0.25,
           Substance: 0.25
         },
         compatibilityScore: 0.75
@@ -287,8 +287,8 @@ export type { Planet, ZodiacSign, LunarPhase, CelestialPosition, PlanetaryAlignm
 
 // Interface for legacy code support - use the centralized CelestialPosition type internally
 export interface PlanetPosition {
-  sign: string;
-  degree: number;
+  sign: string,
+  degree: number,
   minutes: number,
   isRetrograde: boolean
 }
@@ -316,12 +316,12 @@ export async function getLatestAstrologicalState(): Promise<AstrologicalCalculat
       zodiacSign: 'aries' as StandardZodiacSign,
       lunarPhase: 'new moon' as StandardLunarPhase,
       elementalInfluence: {
-        Fire: 0.25;
-        Water: 0.25;
-        Earth: 0.25;
+        Fire: 0.25,
+        Water: 0.25,
+        Earth: 0.25,
         Air: 0.25
       } as ElementalPropertiesType,
-      accuracy: 1.0;
+      accuracy: 1.0,
       calculationTimestamp: new Date().toISOString()
     };
 

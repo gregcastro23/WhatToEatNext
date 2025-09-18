@@ -12,9 +12,9 @@ const testValues = {
   Essence: 7,
   Matter: 6,
   Substance: 2,
-  Fire: 1.0;
-  Water: 0.6;
-  Air: 0.6;
+  Fire: 1.0,
+  Water: 0.6,
+  Air: 0.6,
   Earth: 0.7
 };
 

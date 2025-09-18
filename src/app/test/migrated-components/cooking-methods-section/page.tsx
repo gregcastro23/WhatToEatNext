@@ -13,7 +13,7 @@ const CookingMethodsSection = ({
   initiallyExpanded
 }: {
   methods: unknown[],
-  onSelectMethod: (m: unknown) => void;
+  onSelectMethod: (m: unknown) => void,
   selectedMethodId?: string | null,
   showToggle?: boolean,
   initiallyExpanded?: boolean
@@ -46,7 +46,7 @@ const sampleMethods = [
     id: 'grilling',
     name: 'Grilling',
     description: 'Cooking food over direct heat, usually on a grill with Fire or charcoal beneath.',
-    score: 0.85;
+    score: 0.85,
     culturalOrigin: 'Global',
     elementalEffect: { Fire: 0.85, Water: 0.15, Earth: 0.4, Air: 0.6 },
     duration: {
@@ -55,22 +55,22 @@ const sampleMethods = [
     },
     suitable_for: ['Meats', 'Vegetables', 'Seafood'],
     alchemicalProperties: {
-      Spirit: 0.7;
-      Essence: 0.3;
-      Matter: 0.2;
+      Spirit: 0.7,
+      Essence: 0.3,
+      Matter: 0.2,
       Substance: 0.5
     },
     variations: [
       {
         id: 'charcoal-grilling',
         name: 'Charcoal Grilling',
-        description: 'Grilling with charcoal for a smoky flavor.';
+        description: 'Grilling with charcoal for a smoky flavor.',
         elementalEffect: { Fire: 0.9, Water: 0.1, Earth: 0.5, Air: 0.5 }
       },
       {
         id: 'gas-grilling',
         name: 'Gas Grilling',
-        description: 'Grilling with gas for convenient temperature control.';
+        description: 'Grilling with gas for convenient temperature control.',
         elementalEffect: { Fire: 0.75, Water: 0.15, Earth: 0.3, Air: 0.7 }
       }
     ]
@@ -78,8 +78,8 @@ const sampleMethods = [
   {
     id: 'boiling',
     name: 'Boiling',
-    description: 'Cooking food in Water heated to its boiling point.';
-    score: 0.7;
+    description: 'Cooking food in Water heated to its boiling point.',
+    score: 0.7,
     culturalOrigin: 'Global',
     elementalEffect: { Fire: 0.4, Water: 0.9, Earth: 0.2, Air: 0.3 },
     duration: {
@@ -88,17 +88,17 @@ const sampleMethods = [
     },
     suitable_for: ['Pasta', 'Vegetables', 'Eggs'],
     alchemicalProperties: {
-      Spirit: 0.2;
-      Essence: 0.8;
-      Matter: 0.5;
+      Spirit: 0.2,
+      Essence: 0.8,
+      Matter: 0.5,
       Substance: 0.2
     }
   },
   {
     id: 'baking',
     name: 'Baking',
-    description: 'Cooking food using dry heat in an oven.';
-    score: 0.75;
+    description: 'Cooking food using dry heat in an oven.',
+    score: 0.75,
     culturalOrigin: 'Global',
     elementalEffect: { Fire: 0.7, Water: 0.3, Earth: 0.7, Air: 0.6 },
     duration: {
@@ -107,9 +107,9 @@ const sampleMethods = [
     },
     suitable_for: ['Breads', 'Pastries', 'Casseroles'],
     alchemicalProperties: {
-      Spirit: 0.4;
-      Essence: 0.3;
-      Matter: 0.6;
+      Spirit: 0.4,
+      Essence: 0.3,
+      Matter: 0.6,
       Substance: 0.7
     },
     variations: [
@@ -124,8 +124,8 @@ const sampleMethods = [
   {
     id: 'steaming',
     name: 'Steaming',
-    description: 'Cooking food with steam from boiling Water.';
-    score: 0.65;
+    description: 'Cooking food with steam from boiling Water.',
+    score: 0.65,
     culturalOrigin: 'Asian',
     elementalEffect: { Fire: 0.3, Water: 0.8, Earth: 0.2, Air: 0.7 },
     duration: {
@@ -134,9 +134,9 @@ const sampleMethods = [
     },
     suitable_for: ['Vegetables', 'Fish', 'Dumplings'],
     alchemicalProperties: {
-      Spirit: 0.3;
-      Essence: 0.8;
-      Matter: 0.2;
+      Spirit: 0.3,
+      Essence: 0.8,
+      Matter: 0.2,
       Substance: 0.1
     }
   }

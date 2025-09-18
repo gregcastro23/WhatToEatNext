@@ -11,9 +11,9 @@ import { execSync } from 'child_process';
 import * as fs from 'fs';
 
 interface AnyTypeOccurrence {
-  filePath: string;
-  lineNumber: number;
-  content: string;
+  filePath: string,
+  lineNumber: number,
+  content: string,
   context: string,
   isDocumented: boolean,
   suggestedDocumentation: string,
@@ -57,7 +57,7 @@ class AutomatedDocumentationGenerator {
       [
         AnyTypeCategory.EXTERNAL_API;
         {
-          category: AnyTypeCategory.EXTERNAL_API;
+          category: AnyTypeCategory.EXTERNAL_API,
           eslintComment:
             '// eslint-disable-next-line @typescript-eslint/no-explicit-any -- External API response structure',
           explanation: '// External API response with unknown structure',
@@ -67,7 +67,7 @@ class AutomatedDocumentationGenerator {
       [
         AnyTypeCategory.LEGACY_CODE;
         {
-          category: AnyTypeCategory.LEGACY_CODE;
+          category: AnyTypeCategory.LEGACY_CODE,
           eslintComment:
             '// eslint-disable-next-line @typescript-eslint/no-explicit-any -- Legacy code compatibility',
           explanation: '// Legacy system integration requires flexible typing',
@@ -77,7 +77,7 @@ class AutomatedDocumentationGenerator {
       [
         AnyTypeCategory.DYNAMIC_CONTENT;
         {
-          category: AnyTypeCategory.DYNAMIC_CONTENT;
+          category: AnyTypeCategory.DYNAMIC_CONTENT,
           eslintComment:
             '// eslint-disable-next-line @typescript-eslint/no-explicit-any -- Dynamic user content',
           explanation: '// User-generated content with unknown structure'
@@ -86,7 +86,7 @@ class AutomatedDocumentationGenerator {
       [
         AnyTypeCategory.TEST_UTILITY;
         {
-          category: AnyTypeCategory.TEST_UTILITY;
+          category: AnyTypeCategory.TEST_UTILITY,
           eslintComment:
             '// eslint-disable-next-line @typescript-eslint/no-explicit-any -- Test utility flexibility',
           explanation: '// Test utility requires flexible typing for mocking'
@@ -95,7 +95,7 @@ class AutomatedDocumentationGenerator {
       [
         AnyTypeCategory.CONFIGURATION;
         {
-          category: AnyTypeCategory.CONFIGURATION;
+          category: AnyTypeCategory.CONFIGURATION,
           eslintComment:
             '// eslint-disable-next-line @typescript-eslint/no-explicit-any -- Configuration flexibility',
           explanation: '// Configuration object with dynamic properties'
@@ -104,7 +104,7 @@ class AutomatedDocumentationGenerator {
       [
         AnyTypeCategory.LIBRARY_COMPATIBILITY;
         {
-          category: AnyTypeCategory.LIBRARY_COMPATIBILITY;
+          category: AnyTypeCategory.LIBRARY_COMPATIBILITY,
           eslintComment:
             '// eslint-disable-next-line @typescript-eslint/no-explicit-any -- Third-party library compatibility',
           explanation: '// Third-party library requires any type for compatibility'
@@ -113,7 +113,7 @@ class AutomatedDocumentationGenerator {
       [
         AnyTypeCategory.TEMPORARY_MIGRATION;
         {
-          category: AnyTypeCategory.TEMPORARY_MIGRATION;
+          category: AnyTypeCategory.TEMPORARY_MIGRATION,
           eslintComment:
             '// eslint-disable-next-line @typescript-eslint/no-explicit-any -- Temporary during migration',
           explanation: '// Temporary any type during code migration',
@@ -221,7 +221,7 @@ class AutomatedDocumentationGenerator {
             occurrences.push({
               filePath,
               lineNumber: i + 1,
-              content: line.trim();
+              content: line.trim(),
               context: `${previousLine}\n${line}\n${nextLine}`,
               isDocumented,
               suggestedDocumentation,

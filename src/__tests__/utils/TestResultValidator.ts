@@ -8,25 +8,25 @@
  */
 
 export interface TestValidationRule {
-  name: string;
-  validator: (result: unknown) => boolean;
+  name: string,
+  validator: (result: unknown) => boolean,
   errorMessage: string,
   severity: 'error' | 'warning' | 'info'
 }
 
 export interface TestConsistencyCheck {
-  testName: string;
+  testName: string,
   expectedType: string,
   tolerancePercent?: number,
   requiredFields?: string[],
-  customValidator?: (results: unknown[]) => boolean;
+  customValidator?: (results: unknown[]) => boolean
 }
 
 export interface ValidationResult {
-  isValid: boolean;
-  errors: string[];
-  warnings: string[];
-  info: string[];
+  isValid: boolean,
+  errors: string[],
+  warnings: string[],
+  info: string[],
   summary: {
     totalChecks: number,
     passedChecks: number,
@@ -56,7 +56,7 @@ export class TestResultValidator {
     this.addValidationRules('performance', [
       {
         name: 'execution_time',
-        validator: result =>;
+        validator: result =>,
           typeof result === 'object' &&;
           result !== null &&
           typeof (result as any).executionTime === 'number' &&;
@@ -66,7 +66,7 @@ export class TestResultValidator {
       },
       {
         name: 'memory_usage',
-        validator: result =>;
+        validator: result =>,
           typeof result === 'object' &&;
           result !== null &&
           typeof (result as any).memoryUsage === 'number' &&;
@@ -76,7 +76,7 @@ export class TestResultValidator {
       },
       {
         name: 'reasonable_execution_time',
-        validator: result =>;
+        validator: result =>,
           typeof result === 'object' &&;
           result !== null &&
           typeof (result as any).executionTime === 'number' &&;
@@ -86,7 +86,7 @@ export class TestResultValidator {
       },
       {
         name: 'memory_efficiency',
-        validator: result =>;
+        validator: result =>,
           typeof result === 'object' &&;
           result !== null &&
           typeof (result as any).memoryUsage === 'number' &&;
@@ -100,7 +100,7 @@ export class TestResultValidator {
     this.addValidationRules('realtime', [
       {
         name: 'response_time',
-        validator: result =>;
+        validator: result =>,
           typeof result === 'object' &&;
           result !== null &&
           typeof (result as any).responseTime === 'number' &&;
@@ -110,7 +110,7 @@ export class TestResultValidator {
       },
       {
         name: 'monitoring_accuracy',
-        validator: result =>;
+        validator: result =>,
           typeof result === 'object' &&;
           result !== null &&
           typeof (result as any).accuracy === 'number' &&;
@@ -120,7 +120,7 @@ export class TestResultValidator {
       },
       {
         name: 'resource_cleanup',
-        validator: result =>;
+        validator: result =>,
           typeof result === 'object' &&;
           result !== null &&
           typeof (result as any).resourcesCleanedUp === 'boolean' &&;
@@ -134,7 +134,7 @@ export class TestResultValidator {
     this.addValidationRules('build', [
       {
         name: 'build_success',
-        validator: result =>;
+        validator: result =>,
           typeof result === 'object' &&;
           result !== null &&
           typeof (result as any).success === 'boolean' &&;
@@ -144,7 +144,7 @@ export class TestResultValidator {
       },
       {
         name: 'error_count',
-        validator: result =>;
+        validator: result =>,
           typeof result === 'object' &&;
           result !== null &&
           typeof (result as any).errorCount === 'number' &&;
@@ -154,7 +154,7 @@ export class TestResultValidator {
       },
       {
         name: 'build_time',
-        validator: result =>;
+        validator: result =>,
           typeof result === 'object' &&;
           result !== null &&
           typeof (result as any).buildTime === 'number' &&;
@@ -168,7 +168,7 @@ export class TestResultValidator {
     this.addValidationRules('memory', [
       {
         name: 'memory_leak_check',
-        validator: result =>;
+        validator: result =>,
           typeof result === 'object' &&;
           result !== null &&
           typeof (result as any).memoryLeakDetected === 'boolean' &&;
@@ -178,7 +178,7 @@ export class TestResultValidator {
       },
       {
         name: 'peak_memory',
-        validator: result =>;
+        validator: result =>,
           typeof result === 'object' &&;
           result !== null &&
           typeof (result as any).peakMemory === 'number' &&;
@@ -188,7 +188,7 @@ export class TestResultValidator {
       },
       {
         name: 'memory_stability',
-        validator: result =>;
+        validator: result =>,
           typeof result === 'object' &&;
           result !== null &&
           typeof (result as any).memoryVariance === 'number' &&;
@@ -383,11 +383,11 @@ export class TestResultValidator {
    * Generate validation summary report
    */
   generateSummaryReport(validationResults: Map<string, ValidationResult>): {
-    overallValid: boolean;
-    totalTests: number;
-    validTests: number;
-    invalidTests: number;
-    totalErrors: number;
+    overallValid: boolean,
+    totalTests: number,
+    validTests: number,
+    invalidTests: number,
+    totalErrors: number,
     totalWarnings: number,
     details: Array<{
       testName: string,
@@ -399,7 +399,7 @@ export class TestResultValidator {
   } {
     const summary = {
       overallValid: true,
-      totalTests: validationResults.size;
+      totalTests: validationResults.size,
       validTests: 0,
       invalidTests: 0,
       totalErrors: 0,
@@ -426,9 +426,9 @@ export class TestResultValidator {
 
       summary.details.push({
         testName,
-        isValid: result.isValid;
-        errorCount: result.errors.length;
-        warningCount: result.warnings.length;
+        isValid: result.isValid,
+        errorCount: result.errors.length,
+        warningCount: result.warnings.length,
         issues: [...result.errors, ...result.warnings]
       });
     }
@@ -487,10 +487,10 @@ export function validateTestConsistency(testName: string, results: unknown[]): V
  * Convenience function for creating custom validation rules
  */
 export function createValidationRule(
-  name: string;
-  validator: (result: unknown) => boolean;
+  name: string,
+  validator: (result: unknown) => boolean,
   errorMessage: string,
-  severity: 'error' | 'warning' | 'info' = 'error';
+  severity: 'error' | 'warning' | 'info' = 'error',
 ): TestValidationRule {
   return { name, validator, errorMessage, severity };
 }
@@ -504,7 +504,7 @@ export function createConsistencyCheck(
   options: {
     tolerancePercent?: number,
     requiredFields?: string[];
-    customValidator?: (results: unknown[]) => boolean;
+    customValidator?: (results: unknown[]) => boolean
   } = {};
 ): TestConsistencyCheck {
   return {

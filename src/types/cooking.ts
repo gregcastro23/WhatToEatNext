@@ -1,13 +1,13 @@
 import { Element, ElementalProperties, ZodiacSign } from '@/types/alchemy';
 
 export interface CookingMethod {
-  id: string;
-  name: string;
+  id: string,
+  name: string,
   description: string;
   elementalEffect?: ElementalProperties;
   duration?: {
-    min: number;
-    max: number;
+    min: number,
+    max: number,
   };
   suitable_for?: string[];
   benefits?: string[];
@@ -28,14 +28,14 @@ export interface CookingMethod {
   time_range?:
     | string
     | {
-        min: number;
-        max: number;
+        min: number,
+        max: number,
       };
   temperature_range?:
     | string
     | {
-        min: number;
-        max: number;
+        min: number,
+        max: number,
         unit?: string;
       };
   alchemical_properties?: Record<string, unknown>;
@@ -60,10 +60,10 @@ export interface CookingMethodData extends CookingMethod {
 export interface EnhancedCookingMethod extends CookingMethod {
   // Enhanced alchemical properties
   alchemicalProperties?: {
-    transformationPotential: number;
-    elementalAmplification: ElementalProperties;
-    energeticSignature: string;
-    harmonyFactor: number;
+    transformationPotential: number,
+    elementalAmplification: ElementalProperties,
+    energeticSignature: string,
+    harmonyFactor: number,
   };
 
   // Monica-compatible enhancements

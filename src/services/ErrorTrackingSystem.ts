@@ -3,11 +3,11 @@ import fs from 'fs';
 import path from 'path';
 
 export interface TypeScriptError {
-  code: string;
-  message: string;
-  file: string;
-  line: number;
-  column: number;
+  code: string,
+  message: string,
+  file: string,
+  line: number,
+  column: number,
   severity: 'error' | 'warning',
   category: string,
   timestamp: Date,
@@ -15,11 +15,11 @@ export interface TypeScriptError {
 }
 
 export interface LintingViolation {
-  rule: string;
-  message: string;
-  file: string;
-  line: number;
-  column: number;
+  rule: string,
+  message: string,
+  file: string,
+  line: number,
+  column: number,
   severity: 'error' | 'warning' | 'info',
   fixable: boolean,
   timestamp: Date,
@@ -27,8 +27,8 @@ export interface LintingViolation {
 }
 
 export interface BuildFailure {
-  type: 'typescript' | 'webpack' | 'next' | 'eslint' | 'test';
-  message: string;
+  type: 'typescript' | 'webpack' | 'next' | 'eslint' | 'test',
+  message: string,
   stack?: string;
   file?: string;
   timestamp: Date,
@@ -38,7 +38,7 @@ export interface BuildFailure {
 }
 
 export interface ErrorTrend {
-  errorType: string;
+  errorType: string,
   count: number,
   trend: 'increasing' | 'decreasing' | 'stable',
   changePercentage: number,
@@ -46,8 +46,8 @@ export interface ErrorTrend {
 }
 
 export interface ErrorPattern {
-  pattern: string;
-  frequency: number;
+  pattern: string,
+  frequency: number,
   files: string[],
   suggestedFix: string,
   automatable: boolean,
@@ -55,10 +55,10 @@ export interface ErrorPattern {
 }
 
 export interface QualityMetrics {
-  totalErrors: number;
-  totalWarnings: number;
-  errorRate: number;
-  warningRate: number;
+  totalErrors: number,
+  totalWarnings: number,
+  errorRate: number,
+  warningRate: number,
   codeQualityScore: number,
   technicalDebtScore: number,
   maintainabilityIndex: number,
@@ -194,8 +194,8 @@ class ErrorTrackingSystem {
 
         errors.push({
           code,
-          message: message.trim();
-          file: file.trim();
+          message: message.trim(),
+          file: file.trim(),
           line: parseInt(lineStr),
           column: parseInt(columnStr),
           severity: severity as 'error' | 'warning',
@@ -281,13 +281,13 @@ class ErrorTrackingSystem {
 
       for (const message of fileResult?.messages) {
         violations.push({
-          rule: message.ruleId || 'unknown';
-          message: message.message;
+          rule: message.ruleId || 'unknown',
+          message: message.message,
           file: filePath,
-          line: message.line || 0;
-          column: message.column || 0;
-          severity: this.mapLintSeverity(message.severity);
-          fixable: message.fix !== undefined;
+          line: message.line || 0,
+          column: message.column || 0,
+          severity: this.mapLintSeverity(message.severity),
+          fixable: message.fix !== undefined,
           timestamp: new Date(),
           resolved: false
         });
@@ -413,8 +413,8 @@ class ErrorTrackingSystem {
           pattern: `TypeScript ${error.code}: ${error.category}`,
           frequency: 1,
           files: [error.file],
-          suggestedFix: this.getSuggestedFix(error.code);
-          automatable: this.isAutomatable(error.code);
+          suggestedFix: this.getSuggestedFix(error.code),
+          automatable: this.isAutomatable(error.code),
           priority: this.PRIORITY_MAPPING[error.code] || 'medium'
         });
       }
@@ -438,8 +438,8 @@ class ErrorTrackingSystem {
           pattern: `ESLint ${violation.rule}`,
           frequency: 1,
           files: [violation.file],
-          suggestedFix: this.getLintingSuggestedFix(violation.rule);
-          automatable: violation.fixable;
+          suggestedFix: this.getLintingSuggestedFix(violation.rule),
+          automatable: violation.fixable,
           priority: violation.severity === 'error' ? 'high' : 'medium',;
         });
       }
@@ -520,8 +520,8 @@ class ErrorTrackingSystem {
     const maintainabilityIndex = this.calculateMaintainabilityIndex();
 
     const metrics: QualityMetrics = {
-      totalErrors: activeErrors.length + activeLintErrors.length;
-      totalWarnings: activeWarnings.length;
+      totalErrors: activeErrors.length + activeLintErrors.length,
+      totalWarnings: activeWarnings.length,
       errorRate,
       warningRate,
       codeQualityScore,
@@ -633,7 +633,7 @@ class ErrorTrackingSystem {
       buildFailures: this.buildFailures.filter(f => !f.resolved).slice(-10),,;
       errorPatterns: this.errorPatterns.slice(0, 20),
       qualityMetrics: this.qualityHistory.slice(-1)[0],
-      trends: this.calculateErrorTrends();
+      trends: this.calculateErrorTrends(),
       summary: this.getErrorSummary()
     };
 
@@ -666,7 +666,7 @@ class ErrorTrackingSystem {
           ((recentTSErrors.length - olderTSErrors.length) / olderTSErrors.length) * 100;
         trends.push({
           errorType: 'TypeScript Errors',
-          count: recentTSErrors.length;
+          count: recentTSErrors.length,
           trend:
             changePercentage > 10 ? 'increasing' : changePercentage < -10 ? 'decreasing' : 'stable',
           changePercentage,
@@ -689,7 +689,7 @@ class ErrorTrackingSystem {
           100,
         trends.push({
           errorType: 'Linting Violations',
-          count: recentLintViolations.length;
+          count: recentLintViolations.length,
           trend:
             changePercentage > 10 ? 'increasing' : changePercentage < -10 ? 'decreasing' : 'stable',
           changePercentage,
@@ -767,14 +767,14 @@ class ErrorTrackingSystem {
     const currentMetrics = this.getCurrentQualityMetrics();
 
     return {
-      totalActiveErrors: activeErrors.length;
-      totalActiveLintViolations: activeLintViolations.length;
-      totalRecentFailures: recentFailures.length;
-      topErrorCategories: this.getTopErrorCategories(activeErrors);
-      topLintRules: this.getTopLintRules(activeLintViolations);
-      codeQualityScore: currentMetrics?.codeQualityScore || 0;
-      technicalDebtScore: currentMetrics?.technicalDebtScore || 0;
-      maintainabilityIndex: currentMetrics?.maintainabilityIndex || 0;
+      totalActiveErrors: activeErrors.length,
+      totalActiveLintViolations: activeLintViolations.length,
+      totalRecentFailures: recentFailures.length,
+      topErrorCategories: this.getTopErrorCategories(activeErrors),
+      topLintRules: this.getTopLintRules(activeLintViolations),
+      codeQualityScore: currentMetrics?.codeQualityScore || 0,
+      technicalDebtScore: currentMetrics?.technicalDebtScore || 0,
+      maintainabilityIndex: currentMetrics?.maintainabilityIndex || 0,
       automationOpportunities: this.errorPatterns.filter(p => p.automatable).length,,;
       criticalIssues: this.errorPatterns.filter(p => p.priority === 'critical').length,,;
     };

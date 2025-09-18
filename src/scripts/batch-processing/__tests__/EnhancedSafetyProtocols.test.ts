@@ -22,7 +22,7 @@ describe('EnhancedSafetyProtocols', () => {
   beforeEach(() => {
     jest.clearAllMocks();
 
-    const config: Partial<HighImpactFileConfig> = { maxVariablesAutoProcess: 20;
+    const config: Partial<HighImpactFileConfig> = { maxVariablesAutoProcess: 20,
       criticalFileBatchSize: 5,
       serviceLayerBatchSize: 8,
       requireManualReview: true,
@@ -115,7 +115,7 @@ describe('EnhancedSafetyProtocols', () => {
   describe('Manual Review Workflow', () => {
     test('should create manual review request for high-risk files', () => {
       const assessment: FileRiskAssessment = { filePath: '/project/src/calculations/planetary.ts',,;
-        relativePath: 'src/calculations/planetary.ts';
+        relativePath: 'src/calculations/planetary.ts',
         riskLevel: 'critical',
         fileType: 'calculation',
         unusedVariableCount: 25,
@@ -141,7 +141,7 @@ describe('EnhancedSafetyProtocols', () => {
 
     test('should generate specific review instructions for service layer files', () => {
       const assessment: FileRiskAssessment = { filePath: '/project/src/services/api.ts',,;
-        relativePath: 'src/services/api.ts';
+        relativePath: 'src/services/api.ts',
         riskLevel: 'high',
         fileType: 'service',
         unusedVariableCount: 15,
@@ -164,7 +164,7 @@ describe('EnhancedSafetyProtocols', () => {
 
     test('should track pending manual reviews', () => {
       const assessment: FileRiskAssessment = { filePath: '/project/src/test.ts',,;
-        relativePath: 'src/test.ts';
+        relativePath: 'src/test.ts',
         riskLevel: 'high',
         fileType: 'other',
         unusedVariableCount: 25,
@@ -184,7 +184,7 @@ describe('EnhancedSafetyProtocols', () => {
 
     test('should approve manual reviews', () => {
       const assessment: FileRiskAssessment = { filePath: '/project/src/test.ts',,;
-        relativePath: 'src/test.ts';
+        relativePath: 'src/test.ts',
         riskLevel: 'medium',
         fileType: 'other',
         unusedVariableCount: 15,
@@ -204,7 +204,7 @@ describe('EnhancedSafetyProtocols', () => {
 
     test('should reject manual reviews', () => {
       const assessment: FileRiskAssessment = { filePath: '/project/src/test.ts',,;
-        relativePath: 'src/test.ts';
+        relativePath: 'src/test.ts',
         riskLevel: 'medium',
         fileType: 'other',
         unusedVariableCount: 15,
@@ -252,7 +252,7 @@ describe('EnhancedSafetyProtocols', () => {
 
       expect(result.passed).toBe(false);
       expect(result.requiresRollback).toBe(true);
-      expect(result.errors).toContain('TypeScript compilation failed: Erro, r: Compilation failed');
+      expect(result.errors).toContain('TypeScript compilation failed: Erro, r: Compilation failed')
     });
 
     test('should perform service layer validation', async () => {
@@ -355,7 +355,7 @@ describe('EnhancedSafetyProtocols', () => {
     });
 
     test('should respect custom batch sizes', () => {
-      const configCustomBatch: Partial<HighImpactFileConfig> = { criticalFileBatchSize: 3;
+      const configCustomBatch: Partial<HighImpactFileConfig> = { criticalFileBatchSize: 3,
         serviceLayerBatchSize: 6
       };
 

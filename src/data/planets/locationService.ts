@@ -13,8 +13,8 @@ import { planetInfo } from './index';
  * Geographic coordinates interface
  */
 export interface GeographicCoordinates {
-  latitude: number;
-  longitude: number;
+  latitude: number,
+  longitude: number,
   timezone: string;
   elevation?: number, // meters above sea level
   locality?: string,
@@ -26,10 +26,10 @@ export interface GeographicCoordinates {
  * Location-specific planetary influence
  */
 export interface LocationPlanetaryInfluence {
-  planet: string;
-  baseInfluence: number;
-  locationModifier: number;
-  altitudeEffect: number;
+  planet: string,
+  baseInfluence: number,
+  locationModifier: number,
+  altitudeEffect: number,
   latitudeEffect: number,
   seasonalAdjustment: number,
   finalInfluence: number,
@@ -40,9 +40,9 @@ export interface LocationPlanetaryInfluence {
  * Regional culinary characteristics
  */
 export interface RegionalCulinaryProfile {
-  region: string;
+  region: string,
   dominantElements: Record<string, number>;
-  traditionalCookingMethods: string[];
+  traditionalCookingMethods: string[],
   seasonalIngredients: Record<string, string[]>;
   culturalInfluences: string[],
   planetaryAffinities: Record<string, number>;
@@ -57,9 +57,9 @@ export interface RegionalCulinaryProfile {
  * Location-specific culinary recommendations
  */
 export interface LocationCulinaryRecommendation {
-  location: GeographicCoordinates;
-  activeInfluences: LocationPlanetaryInfluence[];
-  regionalProfile: RegionalCulinaryProfile;
+  location: GeographicCoordinates,
+  activeInfluences: LocationPlanetaryInfluence[],
+  regionalProfile: RegionalCulinaryProfile,
   seasonalRecommendations: {
     ingredients: string[],
     cookingMethods: string[],
@@ -527,7 +527,7 @@ export class PlanetaryLocationService {
         // Saturn influence stronger at higher latitudes (structure, endurance)
         return 1.0 + absLatitude / 100;
       default:
-        return 1.0;
+        return 1.0
     }
   }
 
@@ -649,7 +649,7 @@ export class PlanetaryLocationService {
         ...regionalProfile.traditionalCookingMethods;
         ...this.getMethodsForClimate(regionalProfile.climateConsiderations, season)
       ].slice(0, 8),
-      flavorProfiles: this.getFlavorProfilesForInfluences(topInfluences);
+      flavorProfiles: this.getFlavorProfilesForInfluences(topInfluences),
       nutritionalFocus: this.getNutritionalFocusForSeason(
         season,
         regionalProfile.climateConsiderations

@@ -8,7 +8,7 @@ import { spices } from './ingredients/spices';
 import { vegetables } from './ingredients/vegetables';
 
 // Export all ingredient categories combined into a single object
-export const ingredientCategories = {;
+export const ingredientCategories = {
   vegetables,
   fruits,
   herbs,

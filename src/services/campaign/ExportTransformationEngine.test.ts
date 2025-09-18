@@ -38,7 +38,7 @@ describe('ExportTransformationEngine', () => {
       totalUnusedExports: 25,
       highPriorityFiles: [
         {
-          filePath: '/test/high1.ts';
+          filePath: '/test/high1.ts',
           priority: 'HIGH',
           unusedExports: [],
           safetyScore: 90,
@@ -56,7 +56,7 @@ describe('ExportTransformationEngine', () => {
       ],
       mediumPriorityFiles: [
         {
-          filePath: '/test/medium1.ts';
+          filePath: '/test/medium1.ts',
           priority: 'MEDIUM',
           unusedExports: [],
           safetyScore: 85,
@@ -77,7 +77,7 @@ describe('ExportTransformationEngine', () => {
         coreFiles: 8,
         externalFiles: 0,
         totalTransformationCandidates: 2,
-        averageSafetyScore: 87.5;
+        averageSafetyScore: 87.5,
         estimatedIntelligenceSystems: 2
       }
     });
@@ -86,7 +86,7 @@ describe('ExportTransformationEngine', () => {
     mockGenerator.prototype.generateIntelligenceSystems = jest.fn().mockResolvedValue([
       {
         systemName: 'TEST_SYSTEM_1',
-        filePath: '/output/TEST_SYSTEM_1.ts';
+        filePath: '/output/TEST_SYSTEM_1.ts',
         originalExport: { exportNam, e: 'testExport1', exportType: 'function' },
         generatedCode: 'generated code',
         capabilities: [],
@@ -100,17 +100,17 @@ describe('ExportTransformationEngine', () => {
       totalSystemsGenerated: 1,
       totalCapabilitiesAdded: 3,
       totalIntegrationPoints: 2,
-      averageComplexity: 2.5;
+      averageComplexity: 2.5,
       estimatedTotalValue: 75,
       generationsByCategory: { functio, n: 1 }
     });
 
     // Mock safety protocol
     const safetyProtocolMethods: any = mockSafetyProtocol as unknown as {
-      prototype: { createSafetyCheckpoint: jest.MockedFunction<() => Promise<string>>;
-        rollbackToCheckpoint: jest.MockedFunction<() => Promise<any>>;, emergencyRollback: jest.MockedFunction<() => Promise<any>>;
-        createStash: jest.MockedFunction<() => Promise<string>>;, createCheckpointStash: jest.MockedFunction<() => Promise<string>>;
-        getSafetyEvents: jest.MockedFunction<() => Promise<unknown[]>>;
+      prototype: { createSafetyCheckpoint: jest.MockedFunction<() => Promise<string>>,
+        rollbackToCheckpoint: jest.MockedFunction<() => Promise<any>>,, emergencyRollback: jest.MockedFunction<() => Promise<any>>,
+        createStash: jest.MockedFunction<() => Promise<string>>,, createCheckpointStash: jest.MockedFunction<() => Promise<string>>,
+        getSafetyEvents: jest.MockedFunction<() => Promise<unknown[]>>,
       };
     };
     safetyProtocolMethods.prototype.createSafetyCheckpoint = jest.fn().mockResolvedValue('checkpoint-123');
@@ -122,9 +122,9 @@ describe('ExportTransformationEngine', () => {
 
     // Mock progress tracker
     const progressTrackerMethods: any = mockProgressTracker as unknown as {
-      prototype: { updateProgress: jest.MockedFunction<() => Promise<any>>;
-        getTypeScriptErrorCount: jest.MockedFunction<() => Promise<number>>;, getTypeScriptErrorBreakdown: jest.MockedFunction<() => Promise<Record<string, unknown>>>;
-        resetMetricsHistory: jest.MockedFunction<() => Promise<any>>;
+      prototype: { updateProgress: jest.MockedFunction<() => Promise<any>>,
+        getTypeScriptErrorCount: jest.MockedFunction<() => Promise<number>>,, getTypeScriptErrorBreakdown: jest.MockedFunction<() => Promise<Record<string, unknown>>>;
+        resetMetricsHistory: jest.MockedFunction<() => Promise<any>>
       };
     };
     progressTrackerMethods.prototype.updateProgress = jest.fn().mockResolvedValue(undefined);

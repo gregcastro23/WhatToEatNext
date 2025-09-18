@@ -16,20 +16,20 @@ import { LintingProgressReport, LintingProgressTracker } from './LintingProgress
  * Linting campaign configuration
  */
 export interface LintingCampaignConfig {
-  campaignId: string;
-  name: string;
-  description: string;
-  phases: LintingCampaignPhase[];
+  campaignId: string,
+  name: string,
+  description: string,
+  phases: LintingCampaignPhase[],
   targets: {
-    maxErrors: number;
-    maxWarnings: number;
-    targetReduction: number;
+    maxErrors: number,
+    maxWarnings: number,
+    targetReduction: number
   };
-  safetyProtocols: string[];
+  safetyProtocols: string[],
   notifications: {
-    onProgress: boolean;
-    onCompletion: boolean;
-    onRegression: boolean;
+    onProgress: boolean,
+    onCompletion: boolean,
+    onRegression: boolean
   };
 }
 
@@ -37,14 +37,14 @@ export interface LintingCampaignConfig {
  * Linting campaign phase
  */
 export interface LintingCampaignPhase {
-  id: string;
-  name: string;
-  description: string;
-  tools: string[];
+  id: string,
+  name: string,
+  description: string,
+  tools: string[],
   successCriteria: {
-    errorReduction: number;
-    warningReduction: number;
-    performanceThreshold: number;
+    errorReduction: number,
+    warningReduction: number,
+    performanceThreshold: number
   };
   estimatedDuration: number; // minutes
 }
@@ -53,19 +53,19 @@ export interface LintingCampaignPhase {
  * Campaign execution result
  */
 export interface CampaignExecutionResult {
-  campaignId: string;
-  phase: string;
-  success: boolean;
+  campaignId: string,
+  phase: string,
+  success: boolean,
   metricsImprovement: {
-    errorsBefore: number;
-    errorsAfter: number;
-    warningsBefore: number;
-    warningsAfter: number;
-    improvementPercentage: number;
+    errorsBefore: number,
+    errorsAfter: number,
+    warningsBefore: number,
+    warningsAfter: number,
+    improvementPercentage: number
   };
-  executionTime: number;
-  issues: string[];
-  recommendations: string[];
+  executionTime: number,
+  issues: string[],
+  recommendations: string[]
 }
 
 /**
@@ -134,18 +134,18 @@ export class LintingCampaignIntegration {
       const success = this.evaluatePhaseSuccess(phase, prePhaseReport, postPhaseReport);
 
       const result: CampaignExecutionResult = {
-        campaignId: config.campaignId;
-        phase: phase.id;
+        campaignId: config.campaignId,
+        phase: phase.id,
         success,
         metricsImprovement: {
-          errorsBefore: prePhaseReport.currentMetrics.errors;
-          errorsAfter: postPhaseReport.currentMetrics.errors;
-          warningsBefore: prePhaseReport.currentMetrics.warnings;
-          warningsAfter: postPhaseReport.currentMetrics.warnings;
+          errorsBefore: prePhaseReport.currentMetrics.errors,
+          errorsAfter: postPhaseReport.currentMetrics.errors,
+          warningsBefore: prePhaseReport.currentMetrics.warnings,
+          warningsAfter: postPhaseReport.currentMetrics.warnings,
           improvementPercentage: postPhaseReport.improvement.percentageImprovement
         },
-        executionTime: Date.now() - startTime;
-        issues: toolResults.issues;
+        executionTime: Date.now() - startTime,
+        issues: toolResults.issues,
         recommendations: toolResults.recommendations
       };
 
@@ -327,21 +327,20 @@ export class LintingCampaignIntegration {
 
       const report = {
         campaignId,
-        name: config.name;
-        startTime: (activeCampaign as any)?.startTime;
+        name: config.name,
+        startTime: (activeCampaign as any)?.startTime,
         endTime: new Date(),
-        baselineMetrics: (activeCampaign as any)?.baselineMetrics;
-        finalMetrics: currentReport.currentMetrics;
+        baselineMetrics: (activeCampaign as any)?.baselineMetrics,
+        finalMetrics: currentReport.currentMetrics,
         totalImprovement: {
-          errorReduction:
-            (activeCampaign as any)?.baselineMetrics.errors - currentReport.currentMetrics.errors;
+          errorReduction: (activeCampaign as any)?.baselineMetrics.errors - currentReport.currentMetrics.errors,
           warningReduction:
             (activeCampaign as any)?.baselineMetrics.warnings -
             currentReport.currentMetrics.warnings;
           percentageImprovement: currentReport.improvement.percentageImprovement
         },
         phasesExecuted: (activeCampaign as any)?.phasesExecuted || [],
-        qualityGatesStatus: currentReport.qualityGates;
+        qualityGatesStatus: currentReport.qualityGates,
         recommendations:
           currentReport.improvement.percentageImprovement > 0
             ? ['Continue monitoring for regressions', 'Consider additional optimization phases']
@@ -480,7 +479,7 @@ export class LintingCampaignIntegration {
       const activeCampaign = {
         campaignId,
         startTime: new Date(),
-        baselineMetrics: baselineReport.currentMetrics;
+        baselineMetrics: baselineReport.currentMetrics,
         phasesExecuted: []
       };
       writeFileSync(this.activeConfigFile, JSON.stringify(activeCampaign, null, 2));
@@ -528,8 +527,8 @@ export class LintingCampaignIntegration {
   ): Promise<void> {
     // This would integrate with notification systems
     logger.info(`Campaign ${config.name} progress notification:`, {
-      phase: result.phase;
-      success: result.success;
+      phase: result.phase,
+      success: result.success,
       improvement: result.metricsImprovement.improvementPercentage
     });
   }

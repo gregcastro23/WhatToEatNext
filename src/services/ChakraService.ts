@@ -8,17 +8,17 @@ import {
 import { SignEnergyState, ZodiacSign } from '../constants/signEnergyStates';
 
 export interface ChakraEnergyState {
-  chakra: Chakra;
-  energyLevel: number;
+  chakra: Chakra,
+  energyLevel: number,
   properties: {
-    sanskritName: string;
-    color: string;
+    sanskritName: string,
+    color: string,
     element: string,
     planet: string
   };
-  balanceState: 'balanced' | 'underactive' | 'overactive';
-  relatedSigns: any[];
-  recommendedFoods: string[];
+  balanceState: 'balanced' | 'underactive' | 'overactive',
+  relatedSigns: any[],
+  recommendedFoods: string[]
 }
 
 export class ChakraService {
@@ -83,9 +83,9 @@ export class ChakraService {
         chakra,
         energyLevel,
         properties: {
-          sanskritName: properties.sanskritName;
-          color: properties.color;
-          element: properties.element;
+          sanskritName: properties.sanskritName,
+          color: properties.color,
+          element: properties.element,
           planet: properties.planet
         },
         balanceState,

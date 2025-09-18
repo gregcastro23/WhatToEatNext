@@ -71,8 +71,8 @@ export class RecipeFinder implements RecipeServiceInterface {
         success: true,
         data: recipes,
         metadata: {
-          timestamp: Date.now();
-          version: '1.0.0';
+          timestamp: Date.now(),
+          version: '1.0.0',
           count: recipes.length
         }
       };
@@ -101,8 +101,8 @@ export class RecipeFinder implements RecipeServiceInterface {
         success: true,
         data: recipes,
         metadata: {
-          timestamp: Date.now();
-          version: '1.0.0';
+          timestamp: Date.now(),
+          version: '1.0.0',
           count: recipes.length
         }
       };
@@ -131,8 +131,8 @@ export class RecipeFinder implements RecipeServiceInterface {
         success: true,
         data: recipes,
         metadata: {
-          timestamp: Date.now();
-          version: '1.0.0';
+          timestamp: Date.now(),
+          version: '1.0.0',
           count: recipes.length
         }
       };
@@ -161,8 +161,8 @@ export class RecipeFinder implements RecipeServiceInterface {
         success: true,
         data: recipes,
         metadata: {
-          timestamp: Date.now();
-          version: '1.0.0';
+          timestamp: Date.now(),
+          version: '1.0.0',
           count: recipes.length
         }
       };
@@ -195,8 +195,8 @@ export class RecipeFinder implements RecipeServiceInterface {
         success: true,
         data: recipes,
         metadata: {
-          timestamp: Date.now();
-          version: '1.0.0';
+          timestamp: Date.now(),
+          version: '1.0.0',
           count: recipes.length
         }
       };
@@ -227,8 +227,8 @@ export class RecipeFinder implements RecipeServiceInterface {
         success: true,
         data: recipes,
         metadata: {
-          timestamp: Date.now();
-          version: '1.0.0';
+          timestamp: Date.now(),
+          version: '1.0.0',
           count: recipes.length
         }
       };
@@ -261,8 +261,8 @@ export class RecipeFinder implements RecipeServiceInterface {
         success: true,
         data: recipes,
         metadata: {
-          timestamp: Date.now();
-          version: '1.0.0';
+          timestamp: Date.now(),
+          version: '1.0.0',
           count: recipes.length
         }
       };
@@ -296,8 +296,8 @@ export class RecipeFinder implements RecipeServiceInterface {
         success: true,
         data: recipes,
         metadata: {
-          timestamp: Date.now();
-          version: '1.0.0';
+          timestamp: Date.now(),
+          version: '1.0.0',
           count: recipes.length
         }
       };
@@ -307,7 +307,7 @@ export class RecipeFinder implements RecipeServiceInterface {
           service: 'RecipeFinder',
           action: 'getRecipesForPlanetaryAlignment',
           data: {
-            planetaryInfluences: params.planetaryInfluences;
+            planetaryInfluences: params.planetaryInfluences,
             minMatchScore: params.minMatchScore
           }
         }
@@ -338,8 +338,8 @@ export class RecipeFinder implements RecipeServiceInterface {
         success: true,
         data: recipes,
         metadata: {
-          timestamp: Date.now();
-          version: '1.0.0';
+          timestamp: Date.now(),
+          version: '1.0.0',
           count: recipes.length
         }
       };
@@ -380,8 +380,8 @@ export class RecipeFinder implements RecipeServiceInterface {
         success: true,
         data: scoredRecipes,
         metadata: {
-          timestamp: Date.now();
-          version: '1.0.0';
+          timestamp: Date.now(),
+          version: '1.0.0',
           count: scoredRecipes.length
         }
       };
@@ -428,7 +428,7 @@ export class RecipeFinder implements RecipeServiceInterface {
         success: true,
         data: recipe,
         metadata: {
-          timestamp: Date.now();
+          timestamp: Date.now(),
           version: '1.0.0'
         }
       };
@@ -457,7 +457,7 @@ export class RecipeFinder implements RecipeServiceInterface {
         success: true,
         data: recipe,
         metadata: {
-          timestamp: Date.now();
+          timestamp: Date.now(),
           version: '1.0.0'
         }
       };
@@ -497,7 +497,7 @@ export class RecipeFinder implements RecipeServiceInterface {
         success: true,
         data: recipe,
         metadata: {
-          timestamp: Date.now();
+          timestamp: Date.now(),
           version: '1.0.0'
         }
       };
@@ -516,7 +516,7 @@ export class RecipeFinder implements RecipeServiceInterface {
           name: 'Error generating fusion recipe',
           ingredients: [],
           instructions: [],
-          cuisine: params.cuisines.join('-');
+          cuisine: params.cuisines.join('-'),
           elementalProperties: { Fire: 0, Water: 0, Earth: 0, Air: 0 }
         },
         error: {
@@ -541,7 +541,7 @@ export class RecipeFinder implements RecipeServiceInterface {
         success: true,
         data: recipe,
         metadata: {
-          timestamp: Date.now();
+          timestamp: Date.now(),
           version: '1.0.0'
         }
       };

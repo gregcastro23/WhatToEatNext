@@ -55,7 +55,7 @@ export const ZODIAC_MODIFIERS: ZodiacElementModifiers = Object.entries(zodiacSea
 
 // Define a type with string index signature for SEASONAL_MODIFIERS
 export interface SeasonalModifiers {
-  spring: ElementalProperties;
+  spring: ElementalProperties,
   summer: ElementalProperties,
   autumn: ElementalProperties,
   winter: ElementalProperties,
@@ -78,9 +78,9 @@ export const SEASONAL_MODIFIERS: SeasonalModifiers = {
 export const _SEASONAL_INFLUENCE = {
   // Each season's influence strength (0-1)
   strength: {
-    spring: 0.7;
-    summer: 0.9;
-    autumn: 0.6;
+    spring: 0.7,
+    summer: 0.9,
+    autumn: 0.6,
     winter: 0.8
   },
   // How seasons affect mood and energy

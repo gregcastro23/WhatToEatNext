@@ -55,7 +55,7 @@ describe('ZeroErrorAchievementDashboard', () => {
         testFiles: 10
       },
       performanceMetrics: { lintingDuration: 25000,
-        cacheHitRate: 0.75;
+        cacheHitRate: 0.75,
         memoryUsage: 256,
         filesProcessed: 500
       },
@@ -497,7 +497,7 @@ describe('ZeroErrorAchievementDashboard', () => {
       expect(markdownCall).toBeDefined();
       expect(markdownCall[1]).toContain('# 🎯 Zero-Error Achievement Dashboard');
       expect(markdownCall[1]).toContain('Quality Score: 85/100');
-      expect(markdownCall[1]).toContain('Total Issues: 1500');
+      expect(markdownCall[1]).toContain('Total Issues: 1500')
     });
 
     test('should generate JSON report with structured data', async () => {

@@ -16,8 +16,8 @@ import {
 // Mock logger
 jest.mock('@/utils/logger', () => ({
   logger: { info: jest.fn(),
-    warn: jest.fn();
-    error: jest.fn();
+    warn: jest.fn(),
+    error: jest.fn(),
     debug: jest.fn()
   }
 }));
@@ -147,8 +147,8 @@ describe('ErrorHandler', () => {
 
   it('attempts recovery with registered strategies', async () => {
     const mockRecoveryStrategy = {
-      canRecover: jest.fn(() => true);
-      recover: jest.fn(() => Promise.resolve('recovered data'));
+      canRecover: jest.fn(() => true),
+      recover: jest.fn(() => Promise.resolve('recovered data')),
       fallback: jest.fn(() => 'fallback data')
     };
 
@@ -164,8 +164,8 @@ describe('ErrorHandler', () => {
 
   it('uses fallback when recovery fails', async () => {
     const mockRecoveryStrategy = {
-      canRecover: jest.fn(() => true);
-      recover: jest.fn(() => Promise.reject(new Error('Recovery failed')));
+      canRecover: jest.fn(() => true),
+      recover: jest.fn(() => Promise.reject(new Error('Recovery failed'))),
       fallback: jest.fn(() => 'fallback data')
     };
 
@@ -262,7 +262,7 @@ describe('Global Error Handler', () => {
 
     // Mock localStorage with no cached data
     const mockLocalStorage = {
-      getItem: jest.fn(() => null);
+      getItem: jest.fn(() => null),
       setItem: jest.fn()
     };
     Object.defineProperty(window, 'localStorage', { value: mockLocalStorage });

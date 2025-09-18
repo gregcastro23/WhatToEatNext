@@ -220,33 +220,33 @@ describe('signVectors', () => {
   describe('compareSignVectors', () => {
     it('should compare similar vectors correctly', () => {
       const vectorA = {
-        sign: 'aries' as const;
-        magnitude: 0.8;
-        direction: 'cardinal' as const;
+        sign: 'aries' as const,
+        magnitude: 0.8,
+        direction: 'cardinal' as const,
         components: {
-  cardinal: 0.8;
-          fixed: 0.1;
-          mutable: 0.1;
-          Fire: 0.9;
-          Water: 0.5;
-          Earth: 0.3;
-          Air: 0.2;
+  cardinal: 0.8,
+          fixed: 0.1,
+          mutable: 0.1,
+          Fire: 0.9,
+          Water: 0.5,
+          Earth: 0.3,
+          Air: 0.2,
           seasonal: 0.9
         }
       };
 
       const vectorB = {
-        sign: 'leo' as const;
-        magnitude: 0.7;
-        direction: 'fixed' as const;
+        sign: 'leo' as const,
+        magnitude: 0.7,
+        direction: 'fixed' as const,
         components: {
-  cardinal: 0.1;
-          fixed: 0.8;
-          mutable: 0.1;
-          Fire: 0.85;
-          Water: 0.08;
-          Earth: 0.4;
-          Air: 0.3;
+  cardinal: 0.1,
+          fixed: 0.8,
+          mutable: 0.1,
+          Fire: 0.85,
+          Water: 0.08,
+          Earth: 0.4,
+          Air: 0.3,
           seasonal: 0.8
         }
       };
@@ -260,33 +260,33 @@ describe('signVectors', () => {
 
     it('should identify dominant shared axis correctly', () => {
       const modalityDominant1 = {
-        sign: 'aries' as const;
-        magnitude: 0.8;
-        direction: 'cardinal' as const;
+        sign: 'aries' as const,
+        magnitude: 0.8,
+        direction: 'cardinal' as const,
         components: {
-  cardinal: 1;
+  cardinal: 1,
           fixed: 0,
           mutable: 0,
-          Fire: 0.25;
-          Water: 0.25;
-          Earth: 0.25;
-          Air: 0.25;
+          Fire: 0.25,
+          Water: 0.25,
+          Earth: 0.25,
+          Air: 0.25,
           seasonal: 0.5
         }
       };
 
       const modalityDominant2 = {
-        sign: 'cancer' as const;
-        magnitude: 0.7;
-        direction: 'cardinal' as const;
+        sign: 'cancer' as const,
+        magnitude: 0.7,
+        direction: 'cardinal' as const,
         components: {
-  cardinal: 1;
+  cardinal: 1,
           fixed: 0,
           mutable: 0,
-          Fire: 0.2;
-          Water: 0.3;
-          Earth: 0.2;
-          Air: 0.3;
+          Fire: 0.2,
+          Water: 0.3,
+          Earth: 0.2,
+          Air: 0.3,
           seasonal: 0.4
         }
       };
@@ -299,17 +299,17 @@ describe('signVectors', () => {
   describe('signVectorToESMS', () => {
     it('should convert sign vector to ESMS correctly', () => {
       const vector = {
-        sign: 'aries' as const;
-        magnitude: 0.8;
-        direction: 'cardinal' as const;
+        sign: 'aries' as const,
+        magnitude: 0.8,
+        direction: 'cardinal' as const,
         components: {
-  cardinal: 0.7;
-          fixed: 0.2;
-          mutable: 0.1;
-          Fire: 0.8;
-          Water: 0.1;
-          Earth: 0.5;
-          Air: 0.5;
+  cardinal: 0.7,
+          fixed: 0.2,
+          mutable: 0.1,
+          Fire: 0.8,
+          Water: 0.1,
+          Earth: 0.5,
+          Air: 0.5,
           seasonal: 0.9
         }
       };
@@ -328,15 +328,15 @@ describe('signVectors', () => {
 
     it('should apply modality boosts correctly', () => {
       const cardinalVector = {
-        sign: 'aries' as const;
-        magnitude: 1;
-        direction: 'cardinal' as const;
+        sign: 'aries' as const,
+        magnitude: 1,
+        direction: 'cardinal' as const,
         components: {
-  cardinal: 1;
+  cardinal: 1,
           fixed: 0,
           mutable: 0,
-          Fire: 0.5;
-          Water: 0.5;
+          Fire: 0.5,
+          Water: 0.5,
           Earth: 0,
           Air: 0,
           seasonal: 0.5
@@ -344,15 +344,15 @@ describe('signVectors', () => {
       };
 
       const fixedVector = {
-        sign: 'taurus' as const;
-        magnitude: 1;
-        direction: 'fixed' as const;
+        sign: 'taurus' as const,
+        magnitude: 1,
+        direction: 'fixed' as const,
         components: {
-  cardinal: 0;
+  cardinal: 0,
           fixed: 1,
           mutable: 0,
-          Fire: 0.5;
-          Water: 0.5;
+          Fire: 0.5,
+          Water: 0.5,
           Earth: 0,
           Air: 0,
           seasonal: 0.5
@@ -451,7 +451,7 @@ describe('signVectors', () => {
           ...mockPlanetaryPositions;
           Ascendant: { sign: 'libra', degree: 0, isRetrograde: false }
         },
-        governing: 'ensemble' as const;
+        governing: 'ensemble' as const
       };
 
       const result = getAlchemicalStateWithVectors(input);
@@ -515,7 +515,7 @@ describe('signVectors', () => {
             isApplying: 'maybe' as any
           }
         ];
-        season: null as any;
+        season: null as any,
         governing: 'invalid' as any
       };
 

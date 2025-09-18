@@ -33,7 +33,7 @@ describe('Memory Usage Performance Tests', () => {
           description: 'Phase for memory testing',
           tools: [
             {
-              scriptPath: 'scripts/memory/test-script.js';
+              scriptPath: 'scripts/memory/test-script.js',
               parameters: { maxFile, s: 100 },
               batchSize: 100,
               safetyLevel: SafetyLevel.MEDIUM
@@ -46,8 +46,8 @@ describe('Memory Usage Performance Tests', () => {
       safetySettings,
       progressTargets: { typeScriptError, s: 0, lintingWarnings: 0, buildTime: 10, enterpriseSystems: 200 },
       toolConfiguration: { enhancedErrorFixer: 'scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js',
-        explicitAnyFixer: 'scripts/typescript-fixes/fix-explicit-any-systematic.js';
-        unusedVariablesFixer: 'scripts/typescript-fixes/fix-unused-variables-enhanced.js';
+        explicitAnyFixer: 'scripts/typescript-fixes/fix-explicit-any-systematic.js',
+        unusedVariablesFixer: 'scripts/typescript-fixes/fix-unused-variables-enhanced.js',
         consoleStatementFixer: 'scripts/lint-fixes/fix-console-statements-only.js'
       }
     };
@@ -126,7 +126,7 @@ describe('Memory Usage Performance Tests', () => {
           heapUsed,
           heapTotal: heapUsed * 2,
           external: 5 * 1024 * 1024,
-          rss: heapUsed * 1.5;
+          rss: heapUsed * 1.5,
           arrayBuffers: 2 * 1024 * 1024
         };
       }) as any process.memoryUsage;
@@ -162,7 +162,7 @@ describe('Memory Usage Performance Tests', () => {
           heapUsed: simulatedMemoryLeak * 1024 * 1024,
           heapTotal: simulatedMemoryLeak * 2 * 1024 * 1024,
           external: 5 * 1024 * 1024,
-          rss: simulatedMemoryLeak * 1.5 * 1024 * 1024;
+          rss: simulatedMemoryLeak * 1.5 * 1024 * 1024,
           arrayBuffers: 2 * 1024 * 1024
         };
       }) as any process.memoryUsage;
@@ -194,7 +194,7 @@ describe('Memory Usage Performance Tests', () => {
           heapUsed: memoryUsage * 1024 * 1024,
           heapTotal: memoryUsage * 2 * 1024 * 1024,
           external: 5 * 1024 * 1024,
-          rss: memoryUsage * 1.5 * 1024 * 1024;
+          rss: memoryUsage * 1.5 * 1024 * 1024,
           arrayBuffers: 2 * 1024 * 1024
         };
       }) as any process.memoryUsage;
@@ -231,7 +231,7 @@ describe('Memory Usage Performance Tests', () => {
           heapUsed: memoryUsage * 1024 * 1024,
           heapTotal: memoryUsage * 2 * 1024 * 1024,
           external: 5 * 1024 * 1024,
-          rss: memoryUsage * 1.5 * 1024 * 1024;
+          rss: memoryUsage * 1.5 * 1024 * 1024,
           arrayBuffers: 2 * 1024 * 1024
         };
       }) as any process.memoryUsage;
@@ -276,7 +276,7 @@ describe('Memory Usage Performance Tests', () => {
           heapUsed: (baseMemory + memoryIncrease) * 1024 * 1024,
           heapTotal: (baseMemory + memoryIncrease) * 2 * 1024 * 1024,
           external: 5 * 1024 * 1024,
-          rss: (baseMemory + memoryIncrease) * 1.5 * 1024 * 1024;
+          rss: (baseMemory + memoryIncrease) * 1.5 * 1024 * 1024,
           arrayBuffers: 2 * 1024 * 1024
         };
       }) as any process.memoryUsage;
@@ -287,7 +287,7 @@ describe('Memory Usage Performance Tests', () => {
       // Mock campaign execution with large file processing
       jest.spyOn(campaignController as unknown, 'executeTool').mockResolvedValue({
         filesProcessed: largeFileList,
-        changesApplied: largeFileList.length;
+        changesApplied: largeFileList.length,
         success: true
       });
 
@@ -315,7 +315,7 @@ describe('Memory Usage Performance Tests', () => {
           heapUsed: (baseMemory + variation) * 1024 * 1024,
           heapTotal: (baseMemory + variation) * 2 * 1024 * 1024,
           external: 5 * 1024 * 1024,
-          rss: (baseMemory + variation) * 1.5 * 1024 * 1024;
+          rss: (baseMemory + variation) * 1.5 * 1024 * 1024,
           arrayBuffers: 2 * 1024 * 1024
         };
       }) as any process.memoryUsage;
@@ -352,7 +352,7 @@ describe('Memory Usage Performance Tests', () => {
           heapUsed: baseMemory * 1024 * 1024,
           heapTotal: baseMemory * 2 * 1024 * 1024,
           external: 5 * 1024 * 1024,
-          rss: baseMemory * 1.5 * 1024 * 1024;
+          rss: baseMemory * 1.5 * 1024 * 1024,
           arrayBuffers: 2 * 1024 * 1024
         };
       }) as any process.memoryUsage;
@@ -394,7 +394,7 @@ describe('Memory Usage Performance Tests', () => {
           heapUsed: totalMemory * 1024 * 1024,
           heapTotal: totalMemory * 2 * 1024 * 1024,
           external: 5 * 1024 * 1024,
-          rss: totalMemory * 1.5 * 1024 * 1024;
+          rss: totalMemory * 1.5 * 1024 * 1024,
           arrayBuffers: 2 * 1024 * 1024
         };
       }) as any process.memoryUsage;
@@ -463,7 +463,7 @@ describe('Memory Usage Performance Tests', () => {
           heapUsed: baseMemory * 1024 * 1024,
           heapTotal: baseMemory * 2 * 1024 * 1024,
           external: 5 * 1024 * 1024,
-          rss: baseMemory * 1.5 * 1024 * 1024;
+          rss: baseMemory * 1.5 * 1024 * 1024,
           arrayBuffers: 2 * 1024 * 1024
         };
       }) as any process.memoryUsage;

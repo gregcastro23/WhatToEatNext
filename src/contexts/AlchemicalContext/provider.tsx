@@ -104,7 +104,7 @@ export const AlchemicalProvider: React.FC<{ children: React.ReactNode }> = ({ ch
     if (!isInitialized) {
       logger.debug(`AlchemicalProvider initializing`);
       setIsInitialized(true);
-      void refreshPlanetaryPositions(), // Initial fetch of planetary positions
+      void refreshPlanetaryPositions(); // Initial fetch of planetary positions
     }
   }, [isInitialized]);
 

@@ -54,7 +54,7 @@ export default function ModernComponent(): any {
       const content: any = `;
 interface Props {
   title: string,,
-  children: React.ReactNode;
+  children: React.ReactNode
 }
 
 export function JSXComponent(: any) { title, children }: Props) {
@@ -170,7 +170,7 @@ export function generateMetadata(): any {
 export default function RootLayout(: any) {
   children
 }: {
-  children: React.ReactNode;
+  children: React.ReactNode
 }) {
   return (
     <html lang='en'>;
@@ -629,13 +629,13 @@ function runESLintOnFile(filePath: string): { exitCode: number, outpu, t: string
   try {
     const output = execSync(`npx eslint --config eslint.(config).cjs '${filePath}' --format=compact`, {
       encoding: 'utf8',
-      stdio: 'pipe';
+      stdio: 'pipe',
     });
     return { exitCode: 0, output };
   } catch (error: any) {
     const err = error;
     return {
-      exitCode: err.status || 1;
+      exitCode: err.status || 1,
       output: err.stdout || err.message || ''
     };
   };

@@ -10,8 +10,8 @@ declare module 'swisseph' {
     planet: number,
     flags: number,
   ): {
-    longitude: number;
-    latitude: number;
-    distance: number;
+    longitude: number,
+    latitude: number,
+    distance: number
   };
 }

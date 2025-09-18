@@ -31,23 +31,23 @@ export interface AutomatedLintingWorkflowOptions {
 }
 
 export interface AutomatedLintingWorkflowResult {
-  analysis: ComprehensiveAnalysisResult;
+  analysis: ComprehensiveAnalysisResult,
   fixResults: {
     automated: AutomatedFixResult,
     unusedVariables?: AutomatedFixResult,
     imports?: AutomatedFixResult,
     typeAnnotations?: AutomatedFixResult
   };
-  summary: WorkflowSummary;
-  recommendations: WorkflowRecommendation[];
-  metrics: WorkflowMetrics;
+  summary: WorkflowSummary,
+  recommendations: WorkflowRecommendation[],
+  metrics: WorkflowMetrics
 }
 
 export interface WorkflowSummary {
-  totalIssuesAnalyzed: number;
-  totalIssuesFixed: number;
-  totalIssuesFailed: number;
-  automationSuccessRate: number;
+  totalIssuesAnalyzed: number,
+  totalIssuesFixed: number,
+  totalIssuesFailed: number,
+  automationSuccessRate: number,
   timeToCompletion: number,
   safetyEventsTriggered: number,
   rollbacksPerformed: number,
@@ -55,9 +55,9 @@ export interface WorkflowSummary {
 }
 
 export interface WorkflowRecommendation {
-  type: 'immediate' | 'short-term' | 'long-term' | 'process-improvement';
-  priority: 'critical' | 'high' | 'medium' | 'low';
-  title: string;
+  type: 'immediate' | 'short-term' | 'long-term' | 'process-improvement',
+  priority: 'critical' | 'high' | 'medium' | 'low',
+  title: string,
   description: string,
   actionItems: string[],
   estimatedImpact: 'high' | 'medium' | 'low',
@@ -65,10 +65,10 @@ export interface WorkflowRecommendation {
 }
 
 export interface WorkflowMetrics {
-  analysisTime: number;
-  fixingTime: number;
-  validationTime: number;
-  totalWorkflowTime: number;
+  analysisTime: number,
+  fixingTime: number,
+  validationTime: number,
+  totalWorkflowTime: number,
   issuesPerMinute: number,
   automationEfficiency: number,
   safetyProtocolEffectiveness: number,
@@ -192,12 +192,12 @@ export class AutomatedLintingIntegration {
       // Focus only on quick wins (auto-fixable, low risk)
       const quickWinIssues = quickAnalysis.quickWins;
       const categorizedQuickWins: CategorizedErrors = {
-        total: quickWinIssues.length;
+        total: quickWinIssues.length,
         errors: quickWinIssues.filter(i => i.severity === 'error').length,,;
         warnings: quickWinIssues.filter(i => i.severity === 'warning').length,,;
-        byCategory: this.groupIssuesByCategory(quickWinIssues);
-        byPriority: this.groupIssuesByPriority(quickWinIssues);
-        byFile: this.groupIssuesByFile(quickWinIssues);
+        byCategory: this.groupIssuesByCategory(quickWinIssues),
+        byPriority: this.groupIssuesByPriority(quickWinIssues),
+        byFile: this.groupIssuesByFile(quickWinIssues),
         autoFixable: quickWinIssues,
         requiresManualReview: []
       };
@@ -283,10 +283,10 @@ export class AutomatedLintingIntegration {
       const fixer = new AutomatedLintingFixer(this.workspaceRoot, safetyProtocols);
 
       const result = await fixer.handleUnusedVariables(unusedVarIssues, {
-        prefixWithUnderscore: options.prefixWithUnderscore ?? true;
-        removeCompletely: options.removeCompletely ?? false;
-        skipDomainFiles: options.skipDomainFiles ?? true;
-        skipTestFiles: options.skipTestFiles ?? false;
+        prefixWithUnderscore: options.prefixWithUnderscore ?? true,
+        removeCompletely: options.removeCompletely ?? false,
+        skipDomainFiles: options.skipDomainFiles ?? true,
+        skipTestFiles: options.skipTestFiles ?? false,
         preservePatterns: ['**/calculations/**', '**/data/planets/**', '**/*astrological*']
       });
 
@@ -338,9 +338,9 @@ export class AutomatedLintingIntegration {
       const fixer = new AutomatedLintingFixer(this.workspaceRoot, safetyProtocols);
 
       const result = await fixer.optimizeImports(importIssues, {
-        removeDuplicates: options.removeDuplicates ?? true;
-        organizeImports: options.organizeImports ?? true;
-        removeUnused: options.removeUnused ?? true;
+        removeDuplicates: options.removeDuplicates ?? true,
+        organizeImports: options.organizeImports ?? true,
+        removeUnused: options.removeUnused ?? true,
         preserveComments: true,
         sortImports: options.sortImports ?? true
       });
@@ -415,7 +415,7 @@ export class AutomatedLintingIntegration {
       validateAfterEachBatch: true,
       continueOnError: false,
       createBackups: true,
-      dryRun: options.dryRun || false;
+      dryRun: options.dryRun || false,
       ...options.batchProcessingOptions
     };
 
@@ -509,7 +509,7 @@ export class AutomatedLintingIntegration {
       (fixResults.typeAnnotations?.metrics.rollbacksPerformed || 0);
 
     return {
-      totalIssuesAnalyzed: analysis.summary.totalIssues;
+      totalIssuesAnalyzed: analysis.summary.totalIssues,
       totalIssuesFixed: totalFixed,
       totalIssuesFailed: totalFailed,
       automationSuccessRate,

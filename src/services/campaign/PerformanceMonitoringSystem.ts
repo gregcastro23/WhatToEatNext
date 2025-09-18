@@ -42,9 +42,9 @@ export interface PerformanceMetrics {
 }
 
 export interface PerformanceAlert {
-  type: 'build_time' | 'cache_hit_rate' | 'memory_usage' | 'bundle_size';
-  severity: 'warning' | 'critical';
-  message: string;
+  type: 'build_time' | 'cache_hit_rate' | 'memory_usage' | 'bundle_size',
+  severity: 'warning' | 'critical',
+  message: string,
   currentValue: number,
   targetValue: number,
   timestamp: Date,
@@ -52,8 +52,8 @@ export interface PerformanceAlert {
 }
 
 export interface PerformanceReport {
-  timestamp: Date;
-  metrics: PerformanceMetrics;
+  timestamp: Date,
+  metrics: PerformanceMetrics,
   alerts: PerformanceAlert[],
   regressionDetected: boolean,
   overallScore: number,
@@ -233,7 +233,7 @@ export class PerformanceMonitoringSystem extends ProgressTracker {
           severity: 'warning',
           message: `Build time regression detected: ${increase.toFixed(1)}% increase over recent builds`,
           currentValue: buildTimes[2],
-          targetValue: this.PERFORMANCE_TARGETS.buildTime;
+          targetValue: this.PERFORMANCE_TARGETS.buildTime,
           timestamp: new Date(),
           recommendations: [
             'Check for new dependencies or code changes',
@@ -256,7 +256,7 @@ export class PerformanceMonitoringSystem extends ProgressTracker {
           severity: 'warning',
           message: `Cache hit rate regression detected: ${decrease.toFixed(1)}% decrease`,
           currentValue: cacheRates[2],
-          targetValue: this.PERFORMANCE_TARGETS.cacheHitRate;
+          targetValue: this.PERFORMANCE_TARGETS.cacheHitRate,
           timestamp: new Date(),
           recommendations: [
             'Check cache configuration and invalidation policies',
@@ -279,7 +279,7 @@ export class PerformanceMonitoringSystem extends ProgressTracker {
           severity: 'critical',
           message: `Memory usage regression detected: ${increase.toFixed(1)}% increase`,
           currentValue: memoryUsages[2],
-          targetValue: this.PERFORMANCE_TARGETS.memoryUsage;
+          targetValue: this.PERFORMANCE_TARGETS.memoryUsage,
           timestamp: new Date(),
           recommendations: [
             'Check for memory leaks in recent code changes',
@@ -360,25 +360,25 @@ export class PerformanceMonitoringSystem extends ProgressTracker {
     const metrics: PerformanceMetrics = {
       buildTime: {
         current: buildTime,
-        target: this.PERFORMANCE_TARGETS.buildTime;
+        target: this.PERFORMANCE_TARGETS.buildTime,
         average: buildTimeAvg,
         trend: buildTimeTrend
       },
       cacheHitRate: {
         current: cacheHitRate,
-        target: this.PERFORMANCE_TARGETS.cacheHitRate;
+        target: this.PERFORMANCE_TARGETS.cacheHitRate,
         average: cacheHitRateAvg,
         trend: cacheHitRateTrend
       },
       memoryUsage: {
-        current: memoryUsage.current;
-        target: this.PERFORMANCE_TARGETS.memoryUsage;
-        peak: memoryUsage.peak;
+        current: memoryUsage.current,
+        target: this.PERFORMANCE_TARGETS.memoryUsage,
+        peak: memoryUsage.peak,
         average: memoryUsageAvg
       },
       bundleSize: {
         current: bundleSize,
-        target: this.PERFORMANCE_TARGETS.bundleSize;
+        target: this.PERFORMANCE_TARGETS.bundleSize,
         compressed: Math.round(bundleSize * 0.7), // Estimate compressed size
         trend: bundleSizeTrend
       }
@@ -527,8 +527,8 @@ export class PerformanceMonitoringSystem extends ProgressTracker {
       const exportData = {
         timestamp: new Date().toISOString();
         report,
-        history: this.performanceHistory;
-        alerts: this.alerts;
+        history: this.performanceHistory,
+        alerts: this.alerts,
         targets: this.PERFORMANCE_TARGETS
       };
 

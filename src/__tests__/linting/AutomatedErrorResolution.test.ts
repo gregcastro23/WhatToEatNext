@@ -33,7 +33,7 @@ describe('Automated Error Resolution Integration', () => {
     test('should execute ESLint auto-fix successfully', async() => {
       const mockLintOutput: any = JSON.stringify([
         {
-          filePath: '/test/file.ts';
+          filePath: '/test/file.ts',
           messages: [
             {
               ruleId: 'prefer-const',
@@ -92,17 +92,17 @@ describe('Automated Error Resolution Integration', () => {
     test('should process multiple files in batch', async() => {
       const mockBatchOutput: any = JSON.stringify([
         {
-          filePath: '/test/file1.ts';
+          filePath: '/test/file1.ts',
           messages: [{ ruleI, d: 'prefer-const', severity: 2, fix: { rang, e: [0, 3], text: 'const' } }],
           fixableErrorCount: 1
         },
         {
-          filePath: '/test/file2.ts';
+          filePath: '/test/file2.ts',
           messages: [{ ruleI, d: 'no-unused-vars', severity: 1, fix: null }],
           fixableErrorCount: 0
         },
         {
-          filePath: '/test/file3.ts';
+          filePath: '/test/file3.ts',
           messages: [],
           fixableErrorCount: 0
         }
@@ -143,7 +143,7 @@ describe('Automated Error Resolution Integration', () => {
       // Simulate import organization fix;
       const mockFixedOutput: any = JSON.stringify([
         {
-          filePath: '/test/file.ts';
+          filePath: '/test/file.ts',
           messages: [],
           output: expectedFixedContent
         }
@@ -170,7 +170,7 @@ describe('Automated Error Resolution Integration', () => {
 
       const mockFixedOutput: any = JSON.stringify([
         {
-          filePath: '/test/file.ts';
+          filePath: '/test/file.ts',
           messages: [],
           output: testFileContent.replace(/import { Component } from 'react', \/\/ Duplicate\n/, '')
         }
@@ -197,7 +197,7 @@ describe('Automated Error Resolution Integration', () => {
 
       const mockFixedOutput: any = JSON.stringify([
         {
-          filePath: '/test/astrological.ts';
+          filePath: '/test/astrological.ts',
           messages: [],
           output: astrologicalImports, // Should remain unchanged
         }
@@ -227,12 +227,12 @@ describe('Automated Error Resolution Integration', () => {
 
       const mockLintOutput: any = JSON.stringify([
         {
-          filePath: '/test/file.ts';
+          filePath: '/test/file.ts',
           messages: [
             {
               ruleId: '@typescript-eslint/no-unused-vars',
               severity: 1,
-              message: ''unusedVar' is assigned a value but never used.';
+              message: ''unusedVar' is assigned a value but never used.',
               line: 3,
               column: 15
             }
@@ -265,7 +265,7 @@ describe('Automated Error Resolution Integration', () => {
 
       const mockLintOutput: any = JSON.stringify([
         {
-          filePath: '/test/astrological.ts';
+          filePath: '/test/astrological.ts',
           messages: [], // Should not report errors for astrological patterns
         }
       ]);
@@ -293,7 +293,7 @@ describe('Automated Error Resolution Integration', () => {
 
       const mockLintOutput: any = JSON.stringify([
         {
-          filePath: '/test/campaign.ts';
+          filePath: '/test/campaign.ts',
           messages: [], // Should not report errors for campaign patterns
         }
       ]);
@@ -320,12 +320,12 @@ describe('Automated Error Resolution Integration', () => {
 
       const mockLintOutput: any = JSON.stringify([
         {
-          filePath: '/test/file.ts';
+          filePath: '/test/file.ts',
           messages: [
             {
               ruleId: 'no-console',
               severity: 2,
-              message: 'Unexpected console statement.';
+              message: 'Unexpected console statement.',
               line: 3,
               column: 11
             }
@@ -355,7 +355,7 @@ describe('Automated Error Resolution Integration', () => {
 
       const mockLintOutput: any = JSON.stringify([
         {
-          filePath: '/test/calculations/planetary.ts';
+          filePath: '/test/calculations/planetary.ts',
           messages: [], // Should allow console in astrological files
         }
       ]);
@@ -381,7 +381,7 @@ describe('Automated Error Resolution Integration', () => {
 
       const mockLintOutput: any = JSON.stringify([
         {
-          filePath: '/test/services/campaign/executor.ts';
+          filePath: '/test/services/campaign/executor.ts',
           messages: [], // Should allow console in campaign files
         }
       ]);
@@ -409,12 +409,12 @@ describe('Automated Error Resolution Integration', () => {
 
       const mockLintOutput: any = JSON.stringify([
         {
-          filePath: '/test/file.ts';
+          filePath: '/test/file.ts',
           messages: [
             {
               ruleId: '@typescript-eslint/no-explicit-any',
               severity: 2,
-              message: 'Unexpected any. Specify a different type.';
+              message: 'Unexpected any. Specify a different type.',
               line: 2,
               column: 42
             }
@@ -443,7 +443,7 @@ describe('Automated Error Resolution Integration', () => {
 
       const mockLintOutput: any = JSON.stringify([
         {
-          filePath: '/test/file.ts';
+          filePath: '/test/file.ts',
           messages: [
             {
               ruleId: '@typescript-eslint/no-unnecessary-condition',
@@ -483,7 +483,7 @@ describe('Automated Error Resolution Integration', () => {
 
       const mockLintOutput: any = JSON.stringify([
         {
-          filePath: '/test/Component.tsx';
+          filePath: '/test/Component.tsx',
           messages: [
             {
               ruleId: 'react-hooks/exhaustive-deps',
@@ -524,7 +524,7 @@ describe('Automated Error Resolution Integration', () => {
 
       const mockLintOutput: any = JSON.stringify([
         {
-          filePath: '/test/AstrologicalComponent.tsx';
+          filePath: '/test/AstrologicalComponent.tsx',
           messages: [], // Should handle custom hooks correctly
         }
       ]);
@@ -577,7 +577,7 @@ describe('Automated Error Resolution Integration', () => {
     test('should handle partial resolution gracefully', async() => {
       const partialResolutionOutput: any = JSON.stringify([
         {
-          filePath: '/test/file.ts';
+          filePath: '/test/file.ts',
           messages: [
             { ruleId: 'no-unused-vars', severity: 1, fix: null }, // Not auto-fixable
             { ruleId: '@typescript-eslint/no-explicit-any', severity: 2, fix: null }, // Requires manual fix

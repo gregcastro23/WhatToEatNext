@@ -3,8 +3,8 @@ import { logger } from './logger';
 
 // Interface for feedback data structure
 export interface FeedbackData {
-  type: 'bug' | 'feature' | 'improvement' | 'other';
-  title: string;
+  type: 'bug' | 'feature' | 'improvement' | 'other',
+  title: string,
   description: string;
   userEmail?: string;
   priority?: 'low' | 'medium' | 'high';

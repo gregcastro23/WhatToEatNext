@@ -28,8 +28,8 @@ export enum ErrorSeverity {
 
 // Enhanced error interface
 export interface EnhancedError extends Error {
-  type: ErrorType;
-  severity: ErrorSeverity;
+  type: ErrorType,
+  severity: ErrorSeverity,
   context?: Record<string, unknown>;
   userMessage?: string;
   recoverable?: boolean,
@@ -40,8 +40,8 @@ export interface EnhancedError extends Error {
 
 // Error recovery strategies
 export interface ErrorRecoveryStrategy {
-  canRecover: (error: EnhancedError) => boolean;
-  recover: (error: EnhancedError) => Promise<unknown> | unknown;
+  canRecover: (error: EnhancedError) => boolean,
+  recover: (error: EnhancedError) => Promise<unknown> | unknown,
   fallback?: () => unknown;
 }
 
@@ -250,23 +250,23 @@ export class ErrorHandler {
 
       case ErrorType.VALIDATION:
       case ErrorType.NOT_FOUND:
-        return ErrorSeverity.LOW;
+        return ErrorSeverity.LOW,
 
       default:
-        return ErrorSeverity.MEDIUM;
+        return ErrorSeverity.MEDIUM
     }
   }
 
   // Log error with appropriate level
   private logError(error: EnhancedError) {
     const logData = {
-      errorId: error.errorId;
-      type: error.type;
-      severity: error.severity;
-      message: error.message;
-      userMessage: error.userMessage;
-      context: error.context;
-      timestamp: error.timestamp;
+      errorId: error.errorId,
+      type: error.type,
+      severity: error.severity,
+      message: error.message,
+      userMessage: error.userMessage,
+      context: error.context,
+      timestamp: error.timestamp,
       stack: error.stack
     };
 
@@ -442,7 +442,7 @@ export function createErrorBoundaryForType(errorType: ErrorType) {
                 'button',
                 {
                   key: 'button',
-                  onClick: () => window.location.reload();
+                  onClick: () => window.location.reload(),
                   className:
                     'bg-yellow-600 text-white px-3 py-1 rounded text-sm hover:bg-yellow-700 transition-colors'
                 },

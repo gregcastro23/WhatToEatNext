@@ -11,8 +11,8 @@ import { execSync } from 'child_process';
 import { existsSync, readFileSync, statSync } from 'fs';
 
 interface ValidationResult {
-  component: string;
-  status: 'pass' | 'fail' | 'warning';
+  component: string,
+  status: 'pass' | 'fail' | 'warning',
   message: string;
   details?: string;
 }

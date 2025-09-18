@@ -6,10 +6,10 @@ import { PlanetPosition } from '@/utils/astrologyUtils';
 
 interface PlanetaryPositionsState {
   positions: { [key: string]: PlanetPosition } | null;
-  loading: boolean;
-  error: string | null;
-  lastUpdated: Date | null;
-  source: string | null;
+  loading: boolean,
+  error: string | null,
+  lastUpdated: Date | null,
+  source: string | null,
 }
 
 interface UseRealtimePlanetaryPositionsOptions {
@@ -57,7 +57,7 @@ export function useRealtimePlanetaryPositions(options: UseRealtimePlanetaryPosit
         positions,
         loading: false,
         error: null,
-        lastUpdated: new Date();
+        lastUpdated: new Date(),
         source
       });
 
@@ -129,7 +129,7 @@ export function usePlanetaryPositionsForDate(
         positions,
         loading: false,
         error: null,
-        lastUpdated: new Date();
+        lastUpdated: new Date(),
         source
       });
     } catch (error) {

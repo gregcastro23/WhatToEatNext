@@ -26,8 +26,8 @@ import { calculateKalchm, _, _ } from './alchemicalCalculations';
 
 export interface AlchemicalNutritionalProfile extends NutritionalProfile {
   // Enhanced Alchemical Properties
-  alchemicalProperties: AlchemicalProperties;
-  kalchm: number; // Nutritional Kalchm value
+  alchemicalProperties: AlchemicalProperties,
+  kalchm: number, // Nutritional Kalchm value
 
   // Elemental Nutritional Mapping
   elementalNutrients: {
@@ -80,20 +80,20 @@ export interface NutritionalMonicaModifiers {
 }
 
 export interface SeasonalNutritionalProfile {
-  season: Season;
-  elementalNutritionalFocus: Element;
+  season: Season,
+  elementalNutritionalFocus: Element,
   priorityNutrients: string[],
   optimalFoods: string[],
   avoidanceFoods: string[],
   kalchmRange: { min: number, max: number };
-  monicaModifiers: NutritionalMonicaModifiers;
-  biorhythmAlignment: number;
+  monicaModifiers: NutritionalMonicaModifiers,
+  biorhythmAlignment: number,
 }
 
 export interface PlanetaryNutritionalProfile {
-  planet: PlanetName;
-  ruledNutrients: string[];
-  healthDomains: string[];
+  planet: PlanetName,
+  ruledNutrients: string[],
+  healthDomains: string[],
   beneficialFoods: string[],
   optimalTimings: string[],
   kalchmResonance: number,
@@ -101,9 +101,9 @@ export interface PlanetaryNutritionalProfile {
 }
 
 export interface ZodiacNutritionalProfile {
-  sign: any;
-  elementalNeeds: ElementalProperties;
-  nutritionalFocus: string[];
+  sign: any,
+  elementalNeeds: ElementalProperties,
+  nutritionalFocus: string[],
   beneficialFoods: string[],
   challengeFoods: string[],
   kalchmCompatibility: number,
@@ -119,10 +119,10 @@ export interface NutritionalCompatibilityAnalysis {
 }
 
 export interface NutritionalRecommendations {
-  ingredients: unknown[];
-  nutritionalProfiles: AlchemicalNutritionalProfile[];
-  cookingMethods: string[];
-  seasonalOptimization: number;
+  ingredients: unknown[],
+  nutritionalProfiles: AlchemicalNutritionalProfile[],
+  cookingMethods: string[],
+  seasonalOptimization: number,
   kalchmHarmony: number,
   monicaOptimization: number,
   healthBenefits: string[],
@@ -409,9 +409,9 @@ export class UnifiedNutritionalSystem {
       ingredients: [],
       nutritionalProfiles: [],
       cookingMethods: [],
-      seasonalOptimization: 0.7;
-      kalchmHarmony: 0.8;
-      monicaOptimization: 0.75;
+      seasonalOptimization: 0.7,
+      kalchmHarmony: 0.8,
+      monicaOptimization: 0.75,
       healthBenefits: ['Improved elemental balance', 'Enhanced seasonal alignment'],
       warnings: []
     }
@@ -476,9 +476,9 @@ export class UnifiedNutritionalSystem {
 
     // Calculate alchemical properties from nutritional data
     const alchemicalProperties: AlchemicalProperties = {
-      Spirit: Number(baseData.volatileCompounds || 0.2);
-      Essence: Number(baseData.activeCompounds || 0.3);
-      Matter: Number(baseData.structuralNutrients || 0.3);
+      Spirit: Number(baseData.volatileCompounds || 0.2),
+      Essence: Number(baseData.activeCompounds || 0.3),
+      Matter: Number(baseData.structuralNutrients || 0.3),
       Substance: Number(baseData.stableNutrients || 0.2)
     };
 
@@ -487,9 +487,9 @@ export class UnifiedNutritionalSystem {
 
     // Create elemental nutrient mapping
     const elementalNutrients = {
-      Fire: elementalNutrientMapping.Fire;
-      Water: elementalNutrientMapping.Water;
-      Earth: elementalNutrientMapping.Earth;
+      Fire: elementalNutrientMapping.Fire,
+      Water: elementalNutrientMapping.Water,
+      Earth: elementalNutrientMapping.Earth,
       Air: elementalNutrientMapping.Air
     };
 
@@ -499,10 +499,10 @@ export class UnifiedNutritionalSystem {
       kalchm,
       elementalNutrients,
       monicaOptimization: {
-        baselineScore: 0.7;
-        seasonalModifier: 1.0;
-        planetaryModifier: 1.0;
-        cookingMethodModifier: 1.0;
+        baselineScore: 0.7,
+        seasonalModifier: 1.0,
+        planetaryModifier: 1.0,
+        cookingMethodModifier: 1.0,
         finalOptimizedScore: 0.7
       },
       astrologicalProfile: {
@@ -510,9 +510,9 @@ export class UnifiedNutritionalSystem {
         favorableZodiac: ['Leo'] as unknown as any[],
         seasonalPeak: ['Summer'] as unknown as Season[],
         elementalAffinity: createElementalProperties({
-          Fire: 0.25;
-          Water: 0.25;
-          Earth: 0.25;
+          Fire: 0.25,
+          Water: 0.25,
+          Earth: 0.25,
           Air: 0.25
         })
       },
@@ -545,7 +545,7 @@ export const _calculateNutritionalBalance = (_ingredients: unknown[]): Nutrition
   const totals = _ingredients.reduce(;
     (
       acc: {
-        calories: number;
+        calories: number,
         protein: number,
         carbohydrates: number,
         fat: number,
@@ -561,11 +561,11 @@ export const _calculateNutritionalBalance = (_ingredients: unknown[]): Nutrition
         unknown
       >;
       return {
-        calories: acc.calories + Number(nutritionData.calories || 0);
-        protein: acc.protein + Number(nutritionData.protein || 0);
-        carbohydrates: acc.carbohydrates + Number(nutritionData.carbohydrates || 0);
-        fat: acc.fat + Number(nutritionData.fat || 0);
-        fiber: acc.fiber + Number(nutritionData.fiber || 0);
+        calories: acc.calories + Number(nutritionData.calories || 0),
+        protein: acc.protein + Number(nutritionData.protein || 0),
+        carbohydrates: acc.carbohydrates + Number(nutritionData.carbohydrates || 0),
+        fat: acc.fat + Number(nutritionData.fat || 0),
+        fiber: acc.fiber + Number(nutritionData.fiber || 0),
         vitamins: {
           ...acc.vitamins;
           ...((nutritionData.vitamins ) || {})
@@ -716,9 +716,9 @@ export const _evaluateNutritionalElementalBalance = (;
 
   // Calculate deviation from target
   const deviations = {
-    Fire: Math.abs(currentElements.Fire - targetElements.Fire);
-    Water: Math.abs(currentElements.Water - targetElements.Water);
-    Earth: Math.abs(currentElements.Earth - targetElements.Earth);
+    Fire: Math.abs(currentElements.Fire - targetElements.Fire),
+    Water: Math.abs(currentElements.Water - targetElements.Water),
+    Earth: Math.abs(currentElements.Earth - targetElements.Earth),
     Air: Math.abs(currentElements.Air - targetElements.Air)
   };
 

@@ -6,11 +6,11 @@ import { performance } from 'perf_hooks';
 import { PerformanceReport } from './PerformanceMetricsAnalytics';
 
 export interface BuildMetrics {
-  typeScriptCompilationTime: number;
-  totalBuildTime: number;
-  bundleSize: number;
-  cacheHitRate: number;
-  memoryUsage: number;
+  typeScriptCompilationTime: number,
+  totalBuildTime: number,
+  bundleSize: number,
+  cacheHitRate: number,
+  memoryUsage: number,
   errorCount: number,
   warningCount: number,
   timestamp: Date,
@@ -18,8 +18,8 @@ export interface BuildMetrics {
 }
 
 export interface CompilationBottleneck {
-  file: string;
-  compilationTime: number;
+  file: string,
+  compilationTime: number,
   errorCount: number,
   warningCount: number,
   complexity: number,
@@ -27,9 +27,9 @@ export interface CompilationBottleneck {
 }
 
 export interface PerformanceRegression {
-  metric: string;
-  previousValue: number;
-  currentValue: number;
+  metric: string,
+  previousValue: number,
+  currentValue: number,
   regressionPercentage: number,
   threshold: number,
   severity: 'low' | 'medium' | 'high' | 'critical',
@@ -37,9 +37,9 @@ export interface PerformanceRegression {
 }
 
 export interface AstrologicalCalculationMetrics {
-  calculationType: string;
-  executionTime: number;
-  memoryUsage: number;
+  calculationType: string,
+  executionTime: number,
+  memoryUsage: number,
   cacheHitRate: number,
   errorCount: number,
   accuracy: number,
@@ -139,8 +139,8 @@ class BuildPerformanceMonitor {
         typeScriptCompilationTime: compilationTime,
         totalBuildTime: compilationTime,
         bundleSize: 0, // Will be measured separately
-        cacheHitRate: this.estimateCacheHitRate();
-        memoryUsage: process.memoryUsage().heapUsed;
+        cacheHitRate: this.estimateCacheHitRate(),
+        memoryUsage: process.memoryUsage().heapUsed,
         errorCount,
         warningCount,
         timestamp: new Date(),
@@ -164,7 +164,7 @@ class BuildPerformanceMonitor {
         totalBuildTime: compilationTime,
         bundleSize: 0,
         cacheHitRate: 0,
-        memoryUsage: process.memoryUsage().heapUsed;
+        memoryUsage: process.memoryUsage().heapUsed,
         errorCount,
         warningCount,
         timestamp: new Date(),
@@ -209,7 +209,7 @@ class BuildPerformanceMonitor {
         typeScriptCompilationTime: tsCompilationTime,
         totalBuildTime,
         bundleSize,
-        cacheHitRate: this.estimateCacheHitRate();
+        cacheHitRate: this.estimateCacheHitRate(),
         memoryUsage: finalMemory - initialMemory,
         errorCount: 0,
         warningCount: 0,
@@ -274,7 +274,7 @@ class BuildPerformanceMonitor {
               compilationTime: 0, // Would need more detailed profiling
               errorCount: parseInt(errors),
               warningCount: parseInt(warnings),
-              complexity: this.estimateFileComplexity(file);
+              complexity: this.estimateFileComplexity(file),
               dependencies: this.getFileDependencies(file)
             });
           }
@@ -298,7 +298,7 @@ class BuildPerformanceMonitor {
 
   public measureAstrologicalCalculation<T>(
     calculationType: string,
-    calculation: () => Promise<T>;
+    calculation: () => Promise<T>,
   ): Promise<T> {
     const startTime = performance.now();
     const initialMemory = process.memoryUsage().heapUsed;
@@ -312,9 +312,9 @@ class BuildPerformanceMonitor {
           calculationType,
           executionTime,
           memoryUsage: finalMemory - initialMemory,
-          cacheHitRate: this.estimateCalculationCacheHitRate(calculationType);
+          cacheHitRate: this.estimateCalculationCacheHitRate(calculationType),
           errorCount: 0,
-          accuracy: this.estimateCalculationAccuracy(result);
+          accuracy: this.estimateCalculationAccuracy(result),
           timestamp: new Date()
         };
 
@@ -420,8 +420,8 @@ class BuildPerformanceMonitor {
             previousValue,
             currentValue,
             regressionPercentage,
-            threshold: this.THRESHOLDS.regressionThreshold;
-            severity: this.calculateRegressionSeverity(regressionPercentage);
+            threshold: this.THRESHOLDS.regressionThreshold,
+            severity: this.calculateRegressionSeverity(regressionPercentage),
             timestamp: new Date()
           };
 
@@ -544,10 +544,10 @@ class BuildPerformanceMonitor {
 
   private notifySubscribers() {
     const data = {
-      buildHistory: this.buildHistory.slice(-10);
+      buildHistory: this.buildHistory.slice(-10),
       bottlenecks: this.bottlenecks.slice(0, 10),
-      regressions: this.regressions.slice(-5);
-      astrologicalMetrics: this.astrologicalMetrics.slice(-20);
+      regressions: this.regressions.slice(-5),
+      astrologicalMetrics: this.astrologicalMetrics.slice(-20),
       summary: this.getPerformanceSummary()
     };
 
@@ -618,10 +618,10 @@ class BuildPerformanceMonitor {
     const recommendations = this.generateRecommendations(recentBuilds, recentCalculations);
 
     return {
-      averageBuildTime: Math.round(avgBuildTime);
-      averageCompilationTime: Math.round(avgCompilationTime);
-      averageBundleSize: Math.round(avgBundleSize);
-      averageMemoryUsage: Math.round(avgMemoryUsage);
+      averageBuildTime: Math.round(avgBuildTime),
+      averageCompilationTime: Math.round(avgCompilationTime),
+      averageBundleSize: Math.round(avgBundleSize),
+      averageMemoryUsage: Math.round(avgMemoryUsage),
       cacheEfficiency: Math.round(avgCacheHitRate * 100);
       errorTrend,
       performanceScore,

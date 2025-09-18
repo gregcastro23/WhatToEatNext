@@ -1,12 +1,12 @@
 import { Planet } from '../types/astrology';
 
 export interface TimeFactors {
-  season: 'spring' | 'summer' | 'fall' | 'winter';
-  dayOfWeek: number; // 0-6, where 0 is Sunday
+  season: 'spring' | 'summer' | 'fall' | 'winter',
+  dayOfWeek: number, // 0-6, where 0 is Sunday
   hour: number; // 0-23
   minute: number; // 0-59
-  dayPlanet: Planet;
-  hourPlanet: Planet;
+  dayPlanet: Planet,
+  hourPlanet: Planet,
 }
 
 /**

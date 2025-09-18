@@ -37,9 +37,9 @@ export const _EmptyAlchemicalProperties: AlchemicalPropertiesType = {
  * Equal distribution across all four alchemical properties (25% each)
  */
 export const _DefaultAlchemicalProperties: AlchemicalPropertiesType = {
-  Spirit: 0.25;
-  Essence: 0.25;
-  Matter: 0.25;
+  Spirit: 0.25,
+  Essence: 0.25,
+  Matter: 0.25,
   Substance: 0.25
 } as const;
 
@@ -48,9 +48,9 @@ export const _DefaultAlchemicalProperties: AlchemicalPropertiesType = {
  * Equal distribution across all four alchemical properties (25% each)
  */
 export const BalancedAlchemicalProperties: AlchemicalPropertiesType = {
-  Spirit: 0.25;
-  Essence: 0.25;
-  Matter: 0.25;
+  Spirit: 0.25,
+  Essence: 0.25,
+  Matter: 0.25,
   Substance: 0.25
 } as const;
 
@@ -70,9 +70,9 @@ export const _EmptyElementalProperties: ElementalPropertiesType = {
  * Equal distribution across all four elements (25% each)
  */
 export const _DefaultElementalProperties: ElementalPropertiesType = {
-  Fire: 0.25;
-  Water: 0.25;
-  Earth: 0.25;
+  Fire: 0.25,
+  Water: 0.25,
+  Earth: 0.25,
   Air: 0.25
 } as const;
 
@@ -81,9 +81,9 @@ export const _DefaultElementalProperties: ElementalPropertiesType = {
  * Equal distribution across all four elements (25% each)
  */
 export const BalancedElementalProperties: ElementalPropertiesType = {
-  Fire: 0.25;
-  Water: 0.25;
-  Earth: 0.25;
+  Fire: 0.25,
+  Water: 0.25,
+  Earth: 0.25,
   Air: 0.25
 } as const;
 
@@ -92,11 +92,11 @@ export const BalancedElementalProperties: ElementalPropertiesType = {
  * Safe default values for thermodynamic calculations
  */
 export const DefaultThermodynamicMetrics: ThermodynamicMetricsType = {
-  heat: 0.5;
-  entropy: 0.5;
-  reactivity: 0.5;
-  gregsEnergy: 0.5;
-  kalchm: 1.0;
+  heat: 0.5,
+  entropy: 0.5,
+  reactivity: 0.5,
+  gregsEnergy: 0.5,
+  kalchm: 1.0,
   monica: 1.0
 } as const;
 
@@ -180,7 +180,7 @@ export const _DefaultIngredientMapping: IngredientMappingType = {
   elementalProperties: BalancedElementalProperties,
   cookingMethods: ['raw'],
   affinities: [],
-  sustainabilityScore: 0.5;
+  sustainabilityScore: 0.5,
   qualities: [],
   culinaryApplications: {}
 };

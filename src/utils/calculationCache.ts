@@ -7,8 +7,8 @@ import { log } from '@/services/LoggingService';
  */
 
 interface CacheItem<T> {
-  value: T;
-  timestamp: number;
+  value: T,
+  timestamp: number,
   input: string; // JSON string of inputs for comparison
 }
 
@@ -98,10 +98,10 @@ export function clearCalculationCache(cacheKey?: string): void {
  * Get cache statistics for debugging
  */
 export function getCacheStats(): {
-  totalEntries: number;
-  keys: string[];
-  oldestEntry: number;
-  newestEntry: number;
+  totalEntries: number,
+  keys: string[],
+  oldestEntry: number,
+  newestEntry: number,
 } {
   const keys = Object.keys(calculationCache);
   const timestamps = keys.map(key => calculationCache[key].timestamp);

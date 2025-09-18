@@ -49,9 +49,9 @@ export interface EnhancedIngredient {
   flavorProfile?: Record<string, number>;
   season?: string[];
   nutritionalProfile?: {
-    calories: number;
+    calories: number,
     macros: {
-      protein: number;
+      protein: number,
       carbs: number,
       fat: number,
       fiber: number,
@@ -858,11 +858,11 @@ export const getRecommendedIngredients = (astroState: AstrologicalState): Enhanc
     const astroStateData = astroState as any;
     const userPreferences = astroStateData.userPreferences || {};
     const tastePreferences = (userPreferences ).taste || {
-      sweet: 0.5;
-      salty: 0.5;
-      sour: 0.5;
-      bitter: 0.5;
-      umami: 0.5;
+      sweet: 0.5,
+      salty: 0.5,
+      sour: 0.5,
+      bitter: 0.5,
+      umami: 0.5,
       spicy: 0.5
     };
 

@@ -25,12 +25,12 @@ export type AstrologicalState = BaseAstrologicalState;
 
 // AlchemicalContextType interface
 export interface AlchemicalContextType {
-  state: AlchemicalState;
-  dispatch: (action: unknown) => void;
+  state: AlchemicalState,
+  dispatch: (action: unknown) => void,
   planetaryPositions: Record<string, unknown>;
-  isDaytime: boolean;
+  isDaytime: boolean,
   updatePlanetaryPositions: (positions: Record<string, unknown>) => void;
   refreshPlanetaryPositions: () => Promise<Record<string, unknown>>;
-  setDaytime: (isDaytime: boolean) => void;
-  updateState: (state: Partial<AlchemicalState>) => void;
+  setDaytime: (isDaytime: boolean) => void,
+  updateState: (state: Partial<AlchemicalState>) => void,
 }

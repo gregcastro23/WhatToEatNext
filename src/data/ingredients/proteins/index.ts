@@ -175,10 +175,10 @@ const getBaseTime = (;
 const getDonenessAdjustment = (protein: Ingredient, doneness: Doneness): number => {
   // Stub implementation
   const donenessFactors = {
-    rare: 0.7;
-    medium_rare: 0.85;
-    medium: 1.0;
-    medium_well: 1.15;
+    rare: 0.7,
+    medium_rare: 0.85,
+    medium: 1.0,
+    medium_well: 1.15,
     well_done: 1.3
   };
 
@@ -233,7 +233,7 @@ const calculateAdjustedTemperature = (;
   const altitudeAdjustment = (environmentalFactors.altitude / (1000 || 1)) * 5;
 
   return {
-    fahrenheit: temp.fahrenheit + altitudeAdjustment;
+    fahrenheit: temp.fahrenheit + altitudeAdjustment,
     celsius: temp.celsius + altitudeAdjustment / 1.8
   };
 };
@@ -320,8 +320,8 @@ export type TemperatureRange = {
 };
 
 export interface CookingProfile {
-  method: CookingMethod;
-  temperature: TemperatureRange;
+  method: CookingMethod,
+  temperature: TemperatureRange,
   internalTemp: {
     rare?: Temperature;
     medium_rare: Temperature,

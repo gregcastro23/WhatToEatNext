@@ -110,8 +110,8 @@ export function getPlanetaryDignity(
 
 // Add type definition for PlanetPosition
 export interface PlanetPosition {
-  sign: any;
-  degree: number;
+  sign: any,
+  degree: number,
   minute: number,
   exactLongitude: number,
   isRetrograde?: boolean,
@@ -136,7 +136,7 @@ export interface PlanetaryAspect extends ImportedPlanetaryAspect {
 
 // Define AstrologicalEffects interface locally
 export interface AstrologicalEffects {
-  dignity: LowercaseElementalProperties;
+  dignity: LowercaseElementalProperties,
   aspect: LowercaseElementalProperties,
   stellium: LowercaseElementalProperties,
   house: Record<ElementalCharacter, number>,
@@ -273,8 +273,8 @@ export async function getMoonIllumination(date: Date = new Date()): Promise<numb
     }
 
     debugLog('Moon illumination calculated:', {
-      date: date.toISOString();
-      phase: moonIllumination.phase;
+      date: date.toISOString(),
+      phase: moonIllumination.phase,
       phaseName,
       originalFraction: moonIllumination.fraction;
       correctedFraction
@@ -380,9 +380,9 @@ export async function calculatePlanetaryPositions(
 
         formattedPositions[planet] = {
           sign: sign as unknown, // Cast string to ZodiacSign
-          degree: parseFloat(degree.toFixed(3));
+          degree: parseFloat(degree.toFixed(3)),
           minute: Math.round((degree % 1) * 60), // Add minute calculation
-          exactLongitude: data.exactLongitude;
+          exactLongitude: data.exactLongitude,
           isRetrograde: data.isRetrograde
         };
       });
@@ -489,8 +489,8 @@ function _calculatePlanetPosition(
   const position = longitudeToZodiacPosition(longitude);
 
   return {
-    sign: position.sign;
-    degree: position.degree;
+    sign: position.sign,
+    degree: position.degree,
     minute: Math.floor((position.degree % 1) * 60)
   };
 }
@@ -648,39 +648,39 @@ function calculateOuterPlanetLongitude(jd: number, planet: string): number {
     // Outer planets have different orbital characteristics
     const orbitalData = {
       mars: {
-        period: 686.98;
-        epochLongitude: 355.45332;
+        period: 686.98,
+        epochLongitude: 355.45332,
         epochDate: 2451545.0, // J2000
         dailyMotion: 0.5240207766
       },
       jupiter: {
-        period: 4332.59;
-        epochLongitude: 34.40438;
-        epochDate: 2451545.0;
+        period: 4332.59,
+        epochLongitude: 34.40438,
+        epochDate: 2451545.0,
         dailyMotion: 0.0830853001
       },
       saturn: {
-        period: 10759.22;
-        epochLongitude: 50.077471;
-        epochDate: 2451545.0;
+        period: 10759.22,
+        epochLongitude: 50.077471,
+        epochDate: 2451545.0,
         dailyMotion: 0.0334442282
       },
       uranus: {
-        period: 30688.5;
-        epochLongitude: 314.055005;
-        epochDate: 2451545.0;
+        period: 30688.5,
+        epochLongitude: 314.055005,
+        epochDate: 2451545.0,
         dailyMotion: 0.011725806
       },
       neptune: {
         period: 60182,
-        epochLongitude: 304.348665;
-        epochDate: 2451545.0;
+        epochLongitude: 304.348665,
+        epochDate: 2451545.0,
         dailyMotion: 0.0059802665
       },
       pluto: {
         period: 90560,
-        epochLongitude: 238.92881;
-        epochDate: 2451545.0;
+        epochLongitude: 238.92881,
+        epochDate: 2451545.0,
         dailyMotion: 0.0039793764
       }
     };
@@ -701,10 +701,10 @@ function calculateOuterPlanetLongitude(jd: number, planet: string): number {
     errorLog(`Error calculating ${planet} longitude:`, error);
     // Fallback to very simple calculation based on orbital period
     const periods = {
-      mars: 686.98;
-      jupiter: 4332.59;
-      saturn: 10759.22;
-      uranus: 30688.5;
+      mars: 686.98,
+      jupiter: 4332.59,
+      saturn: 10759.22,
+      uranus: 30688.5,
       neptune: 60182,
       pluto: 90560
     };
@@ -1479,7 +1479,7 @@ export function calculateAspects(
             type === 'square' &&;
             (planet1.toLowerCase() === 'ascendant' || planet2.toLowerCase() === 'ascendant')
           ) {
-            multiplier = 1, // From original algorithm: Square to Ascendant is +1 instead of -1;
+            multiplier = 1, // From original algorithm: Square to Ascendant is +1 instead of -1
           }
 
           // Add to aspects array
@@ -1491,7 +1491,7 @@ export function calculateAspects(
             strength: strength * Math.abs(multiplier), // Strength is always positive, direction in multiplier
             influence: multiplier, // Store the raw multiplier for reference
             exactAngle: orb,
-            applyingSeparating: orb <= 120 ? 'applying' : 'separating';
+            applyingSeparating: orb <= 120 ? 'applying' : 'separating',
             significance: orb / 180,
             description: `Aspect between ${planet1} and ${planet2}`,
             elementalInfluence: { fire: 0, earth: 0, air: 0, water: 0 }
@@ -1545,9 +1545,9 @@ export async function getCurrentAstrologicalState(
 
     Object.entries(planetaryPositions).forEach(([planet, position]) => {
       currentPlanetaryAlignment[planet.toLowerCase()] = {
-        sign: position.sign;
-        degree: position.degree;
-        minute: position.minute || 0;
+        sign: position.sign,
+        degree: position.degree,
+        minute: position.minute || 0,
         isRetrograde: position.isRetrograde || false
       };
     });
@@ -1750,15 +1750,15 @@ export function getZodiacSign(longitude: number): string {
 }
 
 const PLANETARY_ORBS: Record<string, number> = {
-  Sun: 1.5;
-  Moon: 1.5;
-  Mercury: 1.0;
-  Venus: 1.0;
-  Mars: 0.8;
-  Jupiter: 0.6;
-  Saturn: 0.5;
-  Uranus: 0.4;
-  Neptune: 0.3;
+  Sun: 1.5,
+  Moon: 1.5,
+  Mercury: 1.0,
+  Venus: 1.0,
+  Mars: 0.8,
+  Jupiter: 0.6,
+  Saturn: 0.5,
+  Uranus: 0.4,
+  Neptune: 0.3,
   Pluto: 0.2
 };
 
@@ -2152,9 +2152,9 @@ export const _parseAstroChartAspects = (;
         if (aspectData.aspectType && aspectData.planet1 && aspectData.planet2) {
           aspects.push({
             type: aspectTypeMapping[String(aspectData.aspectType)] || String(aspectData.aspectType),
-            planet1: String(aspectData.planet1);
-            planet2: String(aspectData.planet2);
-            orb: Number(aspectData.orb) || 0;
+            planet1: String(aspectData.planet1),
+            planet2: String(aspectData.planet2),
+            orb: Number(aspectData.orb) || 0,
             applying: aspectData.applying === true,,;
           });
         }
@@ -2233,27 +2233,27 @@ export function calculateElementalCompatibility(element1: Element, element2: Ele
   // Element cycle relationships
   const elementRelationships: Record<Element, Record<Element, number>> = {
     Fire: {
-      Fire: 1.0;
-      Earth: 0.5;
-      Air: 0.8;
+      Fire: 1.0,
+      Earth: 0.5,
+      Air: 0.8,
       Water: 0.2
     },
     Earth: {
-      Fire: 0.5;
-      Earth: 1.0;
-      Air: 0.3;
+      Fire: 0.5,
+      Earth: 1.0,
+      Air: 0.3,
       Water: 0.9
     },
     Air: {
-      Fire: 0.8;
-      Earth: 0.3;
-      Air: 1.0;
+      Fire: 0.8,
+      Earth: 0.3,
+      Air: 1.0,
       Water: 0.4
     },
     Water: {
-      Fire: 0.2;
-      Earth: 0.9;
-      Air: 0.4;
+      Fire: 0.2,
+      Earth: 0.9,
+      Air: 0.4,
       Water: 1.0
     }
   };
@@ -2424,10 +2424,10 @@ export function transformItemsWithPlanetaryPositions(
           ElementalCharacter,
           number
         >,
-        heat: thermodynamicProperties.heat;
-        entropy: thermodynamicProperties.entropy;
-        reactivity: thermodynamicProperties.reactivity;
-        gregsEnergy: thermodynamicProperties.gregsEnergy;
+        heat: thermodynamicProperties.heat,
+        entropy: thermodynamicProperties.entropy,
+        reactivity: thermodynamicProperties.reactivity,
+        gregsEnergy: thermodynamicProperties.gregsEnergy,
         dominantAlchemicalProperty: 'Essence' as AlchemicalProperty,
         planetaryBoost: 1.0 + compatibilityScore * 0.5, // Calculate based on compatibility
         dominantPlanets: [] as string[],
@@ -2457,30 +2457,30 @@ export function transformItemsWithPlanetaryPositions(
         ...item;
         // Required AlchemicalItem properties
         alchemicalProperties: {
-          Spirit: 0.25;
-          Essence: 0.25;
-          Matter: 0.25;
+          Spirit: 0.25,
+          Essence: 0.25,
+          Matter: 0.25,
           Substance: 0.25
         } as Record<AlchemicalProperty, number>,
         transformedElementalProperties: { ...item.elementalProperties } as Record<
           ElementalCharacter,
           number
         >,
-        heat: 0.5;
-        entropy: 0.5;
-        reactivity: 0.5;
-        gregsEnergy: 0.5;
+        heat: 0.5,
+        entropy: 0.5,
+        reactivity: 0.5,
+        gregsEnergy: 0.5,
         dominantElement,
         dominantAlchemicalProperty: 'Spirit' as AlchemicalProperty,
-        planetaryBoost: 1.0;
+        planetaryBoost: 1.0,
         dominantPlanets: [] as string[],
         planetaryDignities: {} as Record<string, unknown>,
 
         // Optional legacy properties for backward compatibility
         thermodynamicProperties: {
-          heat: 0.5;
-          entropy: 0.5;
-          reactivity: 0.5;
+          heat: 0.5,
+          entropy: 0.5,
+          reactivity: 0.5,
           gregsEnergy: 0.5
         },
         transformations: [],
@@ -2503,15 +2503,15 @@ function calculateCurrentElementalInfluence(
   try {
     // Weight planets by their influence
     const planetWeights: { [key: string]: number } = {
-      Sun: 1.0;
-      Moon: 0.8;
-      Mercury: 0.6;
-      Venus: 0.7;
-      Mars: 0.7;
-      Jupiter: 0.8;
-      Saturn: 0.6;
-      Uranus: 0.4;
-      Neptune: 0.4;
+      Sun: 1.0,
+      Moon: 0.8,
+      Mercury: 0.6,
+      Venus: 0.7,
+      Mars: 0.7,
+      Jupiter: 0.8,
+      Saturn: 0.6,
+      Uranus: 0.4,
+      Neptune: 0.4,
       Pluto: 0.3
     };
 
@@ -2801,15 +2801,15 @@ function calculatePlanetaryStrength(planetaryPositions: { [key: string]: unknown
 
         // Base strength varies by planet
         const basePlanetStrength: { [key: string]: number } = {
-          Sun: 1.0;
-          Moon: 0.9;
-          Mercury: 0.7;
-          Venus: 0.8;
-          Mars: 0.8;
-          Jupiter: 0.9;
-          Saturn: 0.6;
-          Uranus: 0.5;
-          Neptune: 0.5;
+          Sun: 1.0,
+          Moon: 0.9,
+          Mercury: 0.7,
+          Venus: 0.8,
+          Mars: 0.8,
+          Jupiter: 0.9,
+          Saturn: 0.6,
+          Uranus: 0.5,
+          Neptune: 0.5,
           Pluto: 0.4
         };
 

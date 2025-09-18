@@ -20,9 +20,9 @@ export interface DetailedMetrics extends ProgressMetrics {
 }
 
 export interface BuildMetrics {
-  buildTime: number;
-  bundleSize: number;
-  cacheHitRate: number;
+  buildTime: number,
+  bundleSize: number,
+  cacheHitRate: number,
   memoryUsage: number,
   cpuUsage: number,
   diskUsage: number,
@@ -30,7 +30,7 @@ export interface BuildMetrics {
 }
 
 export interface ResourceMetrics {
-  nodeMemoryUsage: NodeJS.MemoryUsage;
+  nodeMemoryUsage: NodeJS.MemoryUsage,
   systemMemory: {
     total: number,
     free: number,
@@ -53,8 +53,8 @@ export interface TrendData {
 }
 
 export interface MetricsSnapshot {
-  id: string;
-  timestamp: Date;
+  id: string,
+  timestamp: Date,
   metrics: DetailedMetrics,
   phase: string,
   milestone?: string,
@@ -165,7 +165,7 @@ export class MetricsCollectionSystem {
     const detailedMetrics: DetailedMetrics = {
       timestamp: new Date(),
       typeScriptErrors: {
-        current: typeScriptMetrics.count;
+        current: typeScriptMetrics.count,
         target: 0,
         reduction: Math.max(0, 86 - typeScriptMetrics.count),
         percentage:
@@ -174,16 +174,16 @@ export class MetricsCollectionSystem {
             : 0
       },
       lintingWarnings: {
-        current: lintingMetrics.count;
+        current: lintingMetrics.count,
         target: 0,
         reduction: Math.max(0, 4506 - lintingMetrics.count),
         percentage:
           lintingMetrics.count >= 0 ? Math.round(((4506 - lintingMetrics.count) / 4506) * 100) : 0
       },
       buildPerformance: {
-        currentTime: buildMetrics.buildTime;
+        currentTime: buildMetrics.buildTime,
         targetTime: 10,
-        cacheHitRate: buildMetrics.cacheHitRate;
+        cacheHitRate: buildMetrics.cacheHitRate,
         memoryUsage: buildMetrics.memoryUsage
       },
       enterpriseSystems: {
@@ -191,8 +191,8 @@ export class MetricsCollectionSystem {
         target: 200,
         transformedExports: Math.max(0, enterpriseSystemCount - 0)
       },
-      errorBreakdown: typeScriptMetrics.breakdown;
-      warningBreakdown: lintingMetrics.breakdown;
+      errorBreakdown: typeScriptMetrics.breakdown,
+      warningBreakdown: lintingMetrics.breakdown,
       buildMetrics,
       resourceMetrics,
       trendData
@@ -353,10 +353,10 @@ export class MetricsCollectionSystem {
     return {
       buildTime,
       bundleSize,
-      cacheHitRate: await this.estimateCacheHitRate();
-      memoryUsage: this.getMemoryUsage();
-      cpuUsage: await this.getCpuUsage();
-      diskUsage: await this.getDiskUsage();
+      cacheHitRate: await this.estimateCacheHitRate(),
+      memoryUsage: this.getMemoryUsage(),
+      cpuUsage: await this.getCpuUsage(),
+      diskUsage: await this.getDiskUsage(),
       compilationSpeed
     };
   }
@@ -369,7 +369,7 @@ export class MetricsCollectionSystem {
 
     return {
       nodeMemoryUsage,
-      systemMemory: await this.getSystemMemory();
+      systemMemory: await this.getSystemMemory(),
       diskSpace: await this.getDiskSpace()
     };
   }
@@ -596,9 +596,9 @@ export class MetricsCollectionSystem {
 
   async exportSnapshots(filePath: string): Promise<void> {
     const exportData = {
-      timestamp: new Date().toISOString();
-      totalSnapshots: this.snapshots.length;
-      snapshots: this.snapshots;
+      timestamp: new Date().toISOString(),
+      totalSnapshots: this.snapshots.length,
+      snapshots: this.snapshots,
       summary: {
         collectionPeriod:
           this.snapshots.length > 0

@@ -7,7 +7,7 @@
 import type { Ingredient, ElementalProperties, Recipe } from '@/types/alchemy';
 
 export interface ValidationResult {
-  isValid: boolean;
+  isValid: boolean,
   errors: ValidationError[],
   warnings: ValidationWarning[],
   suggestions: ValidationSuggestion[],
@@ -28,7 +28,7 @@ export interface ValidationWarning {
 }
 
 export interface ValidationSuggestion {
-  type: 'ingredient' | 'cooking_method' | 'seasoning' | 'elemental_balance';
+  type: 'ingredient' | 'cooking_method' | 'seasoning' | 'elemental_balance',
   message: string,
   action?: {
     type: 'add_ingredient' | 'remove_ingredient' | 'adjust_quantity' | 'change_method',
@@ -38,8 +38,8 @@ export interface ValidationSuggestion {
 }
 
 export interface RecipeComponents {
-  hasProtein: boolean;
-  hasVegetables: boolean;
+  hasProtein: boolean,
+  hasVegetables: boolean,
   hasGrains: boolean,
   hasSeasonings: boolean,
   hasLiquid: boolean,
@@ -88,15 +88,15 @@ export function useRecipeValidation() {
     const total = ingredients.reduce(;
       (acc, ingredient) => {
         const props = ingredient.elementalProperties || {
-          Fire: 0.25;
-          Water: 0.25;
-          Earth: 0.25;
+          Fire: 0.25,
+          Water: 0.25,
+          Earth: 0.25,
           Air: 0.25
         };
         return {
-          Fire: acc.Fire + (props.Fire || 0);
-          Water: acc.Water + (props.Water || 0);
-          Earth: acc.Earth + (props.Earth || 0);
+          Fire: acc.Fire + (props.Fire || 0),
+          Water: acc.Water + (props.Water || 0),
+          Earth: acc.Earth + (props.Earth || 0),
           Air: acc.Air + (props.Air || 0)
         };
       },
@@ -105,9 +105,9 @@ export function useRecipeValidation() {
 
     const count = ingredients.length;
     return {
-      Fire: total.Fire / count;
-      Water: total.Water / count;
-      Earth: total.Earth / count;
+      Fire: total.Fire / count,
+      Water: total.Water / count,
+      Earth: total.Earth / count,
       Air: total.Air / count
     };
   };
@@ -300,7 +300,7 @@ export function useRecipeValidation() {
     return {
       categories,
       elementalBalance,
-      diversity: Object.keys(categories).length;
+      diversity: Object.keys(categories).length,
       totalIngredients: ingredients.length
     };
   };

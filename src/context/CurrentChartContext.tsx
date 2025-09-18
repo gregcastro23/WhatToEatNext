@@ -9,11 +9,11 @@ import { log } from '@/services/LoggingService';
 import { calculateAspects } from '@/utils/astrologyUtils';
 
 interface PlanetaryAspect {
-  planet1: string;
-  planet2: string;
-  type: string;
-  orb: number;
-  strength: number;
+  planet1: string,
+  planet2: string,
+  type: string,
+  orb: number,
+  strength: number
 }
 
 export interface ChartData {
@@ -23,8 +23,8 @@ export interface ChartData {
   planets: Record<
     string,
     {
-      sign: string;
-      degree: number;
+      sign: string,
+      degree: number,
       isRetrograde?: boolean;
       exactLongitude?: number;
     }
@@ -32,31 +32,31 @@ export interface ChartData {
   houses?: Record<
     number,
     {
-      sign: string;
-      degree: number;
+      sign: string,
+      degree: number,
     }
   >;
 }
 
 interface CurrentChart {
   planetaryPositions: Record<string, unknown>;
-  aspects: PlanetaryAspect[];
-  currentSeason: string;
-  lastUpdated: Date;
+  aspects: PlanetaryAspect[],
+  currentSeason: string,
+  lastUpdated: Date,
   stelliums: Record<string, string[]>;
   houseEffects: Record<string, number>;
   elementalEffects?: Record<string, number>;
 }
 
 interface CurrentChartContextType {
-  chart: CurrentChart;
-  loading: boolean;
-  error: string | null;
-  refreshChart: () => Promise<void>;
+  chart: CurrentChart,
+  loading: boolean,
+  error: string | null,
+  refreshChart: () => Promise<void>,
   createChartSvg: () => {
     planetPositions: Record<string, unknown>;
-    ascendantSign: string;
-    svgContent: string;
+    ascendantSign: string,
+    svgContent: string,
   };
 }
 
@@ -209,7 +209,7 @@ export const CurrentChartProvider: React.FC<{ children: React.ReactNode }> = ({ 
         aspects,
         elementalEffects,
         currentSeason: season,
-        lastUpdated: new Date();
+        lastUpdated: new Date(),
         stelliums,
         houseEffects
       });
@@ -230,9 +230,9 @@ export const CurrentChartProvider: React.FC<{ children: React.ReactNode }> = ({ 
       const planetData = data  as { sign?: string; degree?: number };
       const planetName = key.charAt(0).toUpperCase() + key.slice(1);
       formattedPlanets[planetName] = {
-        sign: planetData?.sign || 'Unknown';
-        degree: planetData?.degree || 0;
-        isRetrograde: planetData?.isRetrograde || false;
+        sign: planetData?.sign || 'Unknown',
+        degree: planetData?.degree || 0,
+        isRetrograde: planetData?.isRetrograde || false,
         exactLongitude: planetData?.exactLongitude || 0
       };
     });
@@ -244,8 +244,8 @@ export const CurrentChartProvider: React.FC<{ children: React.ReactNode }> = ({ 
     };
     return {
       planetPositions: formattedPlanets,
-      ascendantSign: ascendantData?.sign || 'Libra';
-      svgContent: `<svg width='300' height='300' viewBox='0 0 300 300'>;
+      ascendantSign: ascendantData?.sign || 'Libra',
+      svgContent: `<svg width='300' height='300' viewBox='0 0 300 300'>,
         <circle cx='150' cy='150' r='140' fill='none' stroke='#333' stroke-width='1'/>;
         <text x='150' y='20' text-anchor='middle'>Current Chart</text>;
         ${Object.entries(formattedPlanets)
@@ -291,9 +291,9 @@ export const useCurrentChart = () => {
           const planetData = data  as { sign?: string; degree?: number };
           const planetName = key.charAt(0).toUpperCase() + key.slice(1);
           acc[planetName] = {
-            sign: planetData?.sign || 'Unknown';
-            degree: planetData?.degree || 0;
-            isRetrograde: planetData?.isRetrograde || false;
+            sign: planetData?.sign || 'Unknown',
+            degree: planetData?.degree || 0,
+            isRetrograde: planetData?.isRetrograde || false,
             exactLongitude: planetData?.exactLongitude || 0
           };
           return acc;
@@ -302,9 +302,9 @@ export const useCurrentChart = () => {
       ),
       ascendant: ascendantData?.sign
     },
-    createChartSvg: context.createChartSvg;
-    isLoading: context.loading;
-    error: context.error;
+    createChartSvg: context.createChartSvg,
+    isLoading: context.loading,
+    error: context.error,
     refreshChart: context.refreshChart
   };
 };

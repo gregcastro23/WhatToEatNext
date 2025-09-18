@@ -90,8 +90,8 @@ export const _calculateModifiedElementalEffect = (;
 
 // Export interface for backwards compatibility
 export interface CookingState {
-  method: CookingMethod;
-  duration: number;
+  method: CookingMethod,
+  duration: number,
   temperature?: number,
   astrologicalState: AstrologicalState,
   modifiers?: {

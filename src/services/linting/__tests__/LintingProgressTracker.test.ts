@@ -15,8 +15,8 @@ jest.mock('child_process');
 jest.mock('fs');
 jest.mock('@/utils/logger', () => ({
   logger: { info: jest.fn(),
-    warn: jest.fn();
-    error: jest.fn();
+    warn: jest.fn(),
+    error: jest.fn(),
     debug: jest.fn()
   }
 }));
@@ -38,14 +38,14 @@ describe('LintingProgressTracker', () => {
     test('should collect and parse linting metrics successfully', async () => {
       const mockLintOutput: any = JSON.stringify([
         {
-          filePath: '/test/file1.ts';
+          filePath: '/test/file1.ts',
           messages: [
             { ruleId: 'no-unused-vars', severity: 1, fix: null },
             { ruleId: 'no-console', severity: 2, fix: { rang, e: [0, 10], text: '' } }
           ]
         },
         {
-          filePath: '/test/file2.ts';
+          filePath: '/test/file2.ts',
           messages: [{ ruleI, d: 'prefer-const', severity: 1, fix: { rang, e: [0, 5], text: 'const' } }]
         }
       ]);
@@ -304,7 +304,7 @@ describe('LintingProgressTracker', () => {
     test('should parse linting output correctly', () => {
       const mockOutput: any = JSON.stringify([
         {
-          filePath: '/test/file.ts';
+          filePath: '/test/file.ts',
           messages: [
             { ruleId: 'no-unused-vars', severity: 1, fix: null },
             { ruleId: 'no-console', severity: 2, fix: { rang, e: [0, 10], text: '' } },

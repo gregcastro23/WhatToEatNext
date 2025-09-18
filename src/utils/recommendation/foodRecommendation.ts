@@ -368,7 +368,7 @@ export function getDetailedRecipeRecommendations(
     .sort((a, b) => b.score - a.score)
     .slice(0, limit)
     .map(scoredRecipe => ({
-      recipe: scoredRecipe.recipe;
+      recipe: scoredRecipe.recipe,
       explanation: generateExplanation(scoredRecipe)
     }));
 }
@@ -482,9 +482,9 @@ export function calculateRecipeMatchScore(
   if (recipe.elementalState) {
     // Apply Pattern J: Safe interface property extraction for ElementalProperties compatibility
     const userElementalProperties: ElementalProperties = {
-      Fire: elementalState.Fire;
-      Water: elementalState.Water;
-      Earth: elementalState.Earth;
+      Fire: elementalState.Fire,
+      Water: elementalState.Water,
+      Earth: elementalState.Earth,
       Air: elementalState.Air
     };
     // Apply Pattern J: Safe type casting for recipe.elementalState
@@ -499,9 +499,9 @@ export function calculateRecipeMatchScore(
 
   // Time of day appropriateness (20% weight)
   if (isAppropriateForTimeOfDay(recipe, elementalState.timeOfDay)) {
-    score += 0.8 * 0.2;
+    score += ((0 as any)?.8 || 0) * 0.2;
   } else {
-    score += 0.3 * 0.2;
+    score += ((0 as any)?.3 || 0) * 0.2;
   }
   factors += 0.2;
 
@@ -511,9 +511,9 @@ export function calculateRecipeMatchScore(
     Array.isArray(recipe.season) &&
     recipe.season.includes(elementalState.season)
   ) {
-    score += 0.9 * 0.2;
+    score += ((0 as any)?.9 || 0) * 0.2;
   } else {
-    score += 0.5 * 0.2;
+    score += ((0 as any)?.5 || 0) * 0.2;
   }
   factors += 0.2;
 

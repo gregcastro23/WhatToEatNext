@@ -27,10 +27,10 @@ export const _RECIPE_TYPES: DietaryType[] = [
 ];
 
 export interface Ingredient {
-  name: string;
-  amount: string;
-  unit: string;
-  category: string;
+  name: string,
+  amount: string,
+  unit: string,
+  category: string,
   subCategory?: string;
   preparation?: string;
   notes?: string;
@@ -39,16 +39,16 @@ export interface Ingredient {
 }
 
 export interface CookingStep {
-  order: number;
-  description: string;
+  order: number,
+  description: string,
   duration?: {
-    value: number;
-    unit: 'minutes' | 'hours';
+    value: number,
+    unit: 'minutes' | 'hours',
   };
   method?: string;
   temperature?: {
-    value: number;
-    unit: 'C' | 'F';
+    value: number,
+    unit: 'C' | 'F',
   };
   notes?: string;
 }
@@ -64,19 +64,19 @@ export interface NutritionalInfo {
 }
 
 export interface Dish {
-  id: string;
-  name: string;
+  id: string,
+  name: string,
   alternateName?: string;
-  cuisine: CuisineType;
-  description: string;
-  mealType: MealType;
-  dietaryType: DietaryType[];
-  season: Season[];
-  servings: number;
-  prepTime: number;
-  cookTime: number;
-  totalTime: number;
-  ingredients: Ingredient[];
+  cuisine: CuisineType,
+  description: string,
+  mealType: MealType,
+  dietaryType: DietaryType[],
+  season: Season[],
+  servings: number,
+  prepTime: number,
+  cookTime: number,
+  totalTime: number,
+  ingredients: Ingredient[],
   steps: CookingStep[];
   nutritionalInfo?: NutritionalInfo;
   elementalState?: ElementalProperties;

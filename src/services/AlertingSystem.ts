@@ -8,16 +8,16 @@ import { errorTrackingSystem } from './ErrorTrackingSystem';
 import { qualityMetricsService } from './QualityMetricsService';
 
 export interface Alert {
-  id: string;
-  type: 'performance' | 'error' | 'quality' | 'system';
-  severity: 'info' | 'warning' | 'error' | 'critical';
-  title: string;
-  description: string;
-  threshold: number;
-  currentValue: number;
-  timestamp: Date;
-  acknowledged: boolean;
-  resolved: boolean;
+  id: string,
+  type: 'performance' | 'error' | 'quality' | 'system',
+  severity: 'info' | 'warning' | 'error' | 'critical',
+  title: string,
+  description: string,
+  threshold: number,
+  currentValue: number,
+  timestamp: Date,
+  acknowledged: boolean,
+  resolved: boolean,
   resolvedAt?: Date;
   escalated: boolean,
   escalatedAt?: Date,
@@ -26,16 +26,16 @@ export interface Alert {
 }
 
 export interface AlertRule {
-  id: string;
-  name: string;
-  description: string;
-  type: 'performance' | 'error' | 'quality' | 'system';
-  metric: string;
-  condition: 'greater_than' | 'less_than' | 'equals' | 'not_equals' | 'percentage_change';
-  threshold: number;
-  severity: 'info' | 'warning' | 'error' | 'critical';
-  enabled: boolean;
-  cooldownMinutes: number;
+  id: string,
+  name: string,
+  description: string,
+  type: 'performance' | 'error' | 'quality' | 'system',
+  metric: string,
+  condition: 'greater_than' | 'less_than' | 'equals' | 'not_equals' | 'percentage_change',
+  threshold: number,
+  severity: 'info' | 'warning' | 'error' | 'critical',
+  enabled: boolean,
+  cooldownMinutes: number,
   escalationMinutes: number,
   autoResponse: boolean,
   responseActions: AlertAction[],
@@ -43,8 +43,8 @@ export interface AlertRule {
 }
 
 export interface AlertAction {
-  id: string;
-  name: string;
+  id: string,
+  name: string,
   type: 'script' | 'command' | 'api_call' | 'campaign' | 'notification',
   config: Record<string, string | number | boolean | string[]>;
   conditions: string[],
@@ -53,9 +53,9 @@ export interface AlertAction {
 }
 
 export interface EscalationRule {
-  id: string;
-  name: string;
-  alertTypes: string[];
+  id: string,
+  name: string,
+  alertTypes: string[],
   severityLevels: string[],
   escalationDelayMinutes: number,
   escalationActions: AlertAction[],
@@ -63,10 +63,10 @@ export interface EscalationRule {
 }
 
 export interface AlertResponse {
-  alertId: string;
-  actionId: string;
-  status: 'pending' | 'running' | 'completed' | 'failed';
-  startTime: Date;
+  alertId: string,
+  actionId: string,
+  status: 'pending' | 'running' | 'completed' | 'failed',
+  startTime: Date,
   endTime?: Date,
   // Alert action results vary significantly across different action types
   result?: unknown,
@@ -112,8 +112,8 @@ class AlertingSystem {
 
       const configPath = path.join(settingsDir, 'alerting-config.json');
       const config = {
-        alertRules: this.alertRules;
-        escalationRules: this.escalationRules;
+        alertRules: this.alertRules,
+        escalationRules: this.escalationRules,
         alerts: this.alerts.slice(-500), // Keep last 500 alerts
         alertResponses: this.alertResponses.slice(-200), // Keep last 200 responses
       };
@@ -497,9 +497,9 @@ class AlertingSystem {
   private createAlert(rule: AlertRule, currentValue: number) {
     const alert: Alert = {
       id: `alert-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
-      type: rule.type;
-      severity: rule.severity;
-      title: rule.name;
+      type: rule.type,
+      severity: rule.severity,
+      title: rule.name,
       description: `${rule.description}. Current value: ${currentValue}, Threshold: ${rule.threshold}`,
       threshold: rule.threshold;
       currentValue,
@@ -509,8 +509,8 @@ class AlertingSystem {
       escalated: false,
       responseActions: rule.responseActions.map(a => a.name),;
       metadata: {
-        ruleId: rule.id;
-        metric: rule.metric;
+        ruleId: rule.id,
+        metric: rule.metric,
         condition: rule.condition
       }
     };
@@ -541,8 +541,8 @@ class AlertingSystem {
       }
 
       const response: AlertResponse = {
-        alertId: alert.id;
-        actionId: action.id;
+        alertId: alert.id,
+        actionId: action.id,
         status: 'pending',
         startTime: new Date(),
         retryCount: 0
@@ -914,14 +914,14 @@ class AlertingSystem {
     const recentAlerts = this.alerts.filter(a => a.timestamp >= last24Hours);
 
     return {
-      totalAlerts: this.alerts.length;
-      recentAlerts: recentAlerts.length;
+      totalAlerts: this.alerts.length,
+      recentAlerts: recentAlerts.length,
       unresolvedAlerts: this.alerts.filter(a => !a.resolved).length,;
       criticalAlerts: this.alerts.filter(a => a.severity === 'critical' && !a.resolved).length,,;
       escalatedAlerts: this.alerts.filter(a => a.escalated && !a.resolved).length,,;
-      alertsByType: this.getAlertCountsByType();
-      alertsBySeverity: this.getAlertCountsBySeverity();
-      responseSuccessRate: this.calculateResponseSuccessRate();
+      alertsByType: this.getAlertCountsByType(),
+      alertsBySeverity: this.getAlertCountsBySeverity(),
+      responseSuccessRate: this.calculateResponseSuccessRate(),
       averageResolutionTime: this.calculateAverageResolutionTime()
     };
   }

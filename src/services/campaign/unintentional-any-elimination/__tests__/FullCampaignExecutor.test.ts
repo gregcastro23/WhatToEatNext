@@ -24,10 +24,10 @@ describe('FullCampaignExecutor', () => {
     jest.clearAllMocks();
 
     mockConfig = {
-      targetReductionPercentage: 17.5;
+      targetReductionPercentage: 17.5,
       targetFixCount: 300,
       maxBatchSize: 25,
-      safetyThreshold: 0.7;
+      safetyThreshold: 0.7,
       enableDocumentation: true,
       generateFinalReport: true
     };

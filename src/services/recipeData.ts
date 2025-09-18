@@ -74,15 +74,15 @@ function ensureRecipeProperties(recipe: Partial<Recipe>): Recipe {
   // Core required properties with enhanced validation
   const safeRecipe: Recipe = {
     id: safeGetString((recipe as any).id) || `recipe-${Date.now()}`,
-    name: safeGetString((recipe as any).name) || 'Unnamed Recipe';
-    description: safeGetString((recipe as any).description) || '';
-    cuisine: safeGetString((recipe as any).cuisine) || '';
+    name: safeGetString((recipe as any).name) || 'Unnamed Recipe',
+    description: safeGetString((recipe as any).description) || '',
+    cuisine: safeGetString((recipe as any).cuisine) || '',
     ingredients: validateAndNormalizeIngredients(
       Array.isArray(recipe.ingredients) ? (recipe.ingredients as Partial<RecipeIngredient>[]) : [],
     ),
     instructions: validateAndNormalizeInstructions(recipe.instructions || []),
-    timeToMake: validateAndNormalizeTime(recipe.timeToMake) || '30 minutes';
-    numberOfServings: validateServings(recipe.numberOfServings) || 2;
+    timeToMake: validateAndNormalizeTime(recipe.timeToMake) || '30 minutes',
+    numberOfServings: validateServings(recipe.numberOfServings) || 2,
     // Use the new recipe elemental service to ensure proper elemental properties
     elementalProperties: recipeElementalService.standardizeRecipe(recipe).elementalProperties
   };
@@ -133,12 +133,12 @@ function validateAndNormalizeIngredients(
   }
 
   return ingredients.map(ing => ({
-    name: safeGetString((ing as any).name) || 'Unknown Ingredient';
+    name: safeGetString((ing as any).name) || 'Unknown Ingredient',
     amount: typeof ing.amount === 'number' ? ing.amount : 1,,;
-    unit: ing.unit || 'piece';
-    category: ing.category || 'other';
-    optional: ing.optional || false;
-    preparation: ing.preparation || '';
+    unit: ing.unit || 'piece',
+    category: ing.category || 'other',
+    optional: ing.optional || false,
+    preparation: ing.preparation || '',
     notes: ing.notes || '';
     // Standardize ingredient elemental properties too
     elementalProperties: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
@@ -332,7 +332,7 @@ class RecipeData {
         if (!elementalProps) {
           const mappingData = mapping as any;
           elementalProps = recipeElementalService.deriveElementalProperties({
-            cuisine: String((mappingData.cuisine ).name || mappingData.cuisine || '');
+            cuisine: String((mappingData.cuisine ).name || mappingData.cuisine || ''),
             cookingMethod: [String(mappingData.cookingMethod || '')]
           });
         }
@@ -343,8 +343,7 @@ class RecipeData {
           id:
             safeGetString(mappingData.id) ||
             `recipe-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`,
-          name:
-            safeGetString(mappingData.name) || safeGetString(mappingData.id) || 'Unknown Recipe';
+          name: safeGetString(mappingData.name) || safeGetString(mappingData.id) || 'Unknown Recipe',
           cuisine:
             safeGetString((mappingData.cuisine ).name) ||
             safeGetString(mappingData.cuisine) ||
@@ -358,15 +357,15 @@ class RecipeData {
             ? (mappingData.ingredients as unknown[]).map((ing: unknown) => {
                 const ingData = ing as any;
                 return {
-                  name: String(ingData.name || 'Unknown Ingredient');
+                  name: String(ingData.name || 'Unknown Ingredient'),
                   amount: typeof ingData.amount === 'number' ? ingData.amount : 1,,;
-                  unit: String(ingData.unit || 'piece');
+                  unit: String(ingData.unit || 'piece'),
                   category: String(ingData.category || 'other')
                 };
               })
             : [],
           instructions: Array.isArray(mappingData.instructions) ? mappingData.instructions : [],
-          timeToMake: String(mappingData.timeToMake) || '30 minutes';
+          timeToMake: String(mappingData.timeToMake) || '30 minutes',
           energyProfile: mappingData.energyProfile || {},
           // Critical field: always ensure astrologicalInfluences is set
           astrologicalInfluences: mappingData.astrologicalInfluences
@@ -387,7 +386,7 @@ class RecipeData {
             ? (mappingData.mealType as string[])
             : ['dinner'],
           numberOfServings: typeof mappingData.servings === 'number' ? mappingData.servings : 2,;
-          createdAt: new Date().toISOString();
+          createdAt: new Date().toISOString(),
           updatedAt: new Date().toISOString()
         };
 
@@ -420,9 +419,9 @@ class RecipeData {
         ...recipe;
         elementalProperties: ((withElementalProps as any)
           .elementalProperties as ElementalProperties) || {
-          Fire: 0.25;
-          Water: 0.25;
-          Earth: 0.25;
+          Fire: 0.25,
+          Water: 0.25,
+          Earth: 0.25,
           Air: 0.25
         }
       });
@@ -486,9 +485,9 @@ class RecipeData {
       timeToMake: '15 minutes',
       numberOfServings: 2,
       elementalProperties: {
-        Fire: 0.25;
-        Earth: 0.25;
-        Air: 0.25;
+        Fire: 0.25,
+        Earth: 0.25,
+        Air: 0.25,
         Water: 0.25
       },
       season: ['all'],

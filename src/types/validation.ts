@@ -19,7 +19,7 @@ export function validateRecipe(recipe: Recipe): boolean {
   }
 
   // Validate ingredients
-  return recipe.ingredients.every((ing: RecipeIngredient) => validateIngredient(ing));
+  return recipe.ingredients.every((ing: RecipeIngredient) => validateIngredient(ing))
 }
 
 export function validateIngredient(ingredient: RecipeIngredient): boolean {

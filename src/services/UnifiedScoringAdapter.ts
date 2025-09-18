@@ -28,8 +28,8 @@ export interface ScoringAdapterOptions {
 }
 
 export interface ScoredItem<T> {
-  item: T;
-  score: number;
+  item: T,
+  score: number,
   confidence: number,
   breakdown: Record<string, number>;
   dominantEffects: string[],
@@ -61,22 +61,22 @@ export class UnifiedScoringAdapter {
     const context: ScoringContext = {
       dateTime: new Date(),
       location: options.location || {
-        latitude: 40.7128;
-        longitude: -74.006;
+        latitude: 40.7128,
+        longitude: -74.006,
         timezone: 'America/New_York',
         name: 'New York City'
       },
       item: {
-        name: ingredient.name;
+        name: ingredient.name,
         type: 'ingredient',
-        elementalProperties: ingredient.elementalProperties || ingredient.elementalPropertiesState;
+        elementalProperties: ingredient.elementalProperties || ingredient.elementalPropertiesState,
         seasonality: ingredient.seasonality || [],
         planetaryRulers: (ingredient.astrologicalProfile?.rulingPlanets || []) as Planet[],
         flavorProfile: (ingredient.flavorProfile as Record<string, number>) || {},
         culturalOrigins: (ingredient.culturalOrigins as string[]) || []
       },
       options: {
-        debugMode: options.debugMode;
+        debugMode: options.debugMode,
         weights: options.weights
       }
     };
@@ -85,11 +85,11 @@ export class UnifiedScoringAdapter {
 
     return {
       item: ingredient,
-      score: result.score;
-      confidence: result.confidence;
-      breakdown: result.breakdown;
-      dominantEffects: result.metadata.dominantEffects;
-      notes: result.notes;
+      score: result.score,
+      confidence: result.confidence,
+      breakdown: result.breakdown,
+      dominantEffects: result.metadata.dominantEffects,
+      notes: result.notes,
       warnings: result.metadata.warnings
     };
   }
@@ -119,19 +119,19 @@ export class UnifiedScoringAdapter {
     const context: ScoringContext = {
       dateTime: new Date(),
       location: options.location || {
-        latitude: 40.7128;
-        longitude: -74.006;
+        latitude: 40.7128,
+        longitude: -74.006,
         timezone: 'America/New_York',
         name: 'New York City'
       },
       item: {
-        name: recipe.name;
+        name: recipe.name,
         type: 'recipe',
         elementalProperties: (recipe.elementalState as ElementalProperties) ||
           recipe.elementalProperties || {
-            Fire: 0.25;
-            Water: 0.25;
-            Earth: 0.25;
+            Fire: 0.25,
+            Water: 0.25,
+            Earth: 0.25,
             Air: 0.25
           },
         seasonality: (recipe.seasonality as Season[]) || [],
@@ -142,7 +142,7 @@ export class UnifiedScoringAdapter {
           [String((recipe as unknown as any).cuisine || '')].filter(Boolean)
       },
       options: {
-        debugMode: options.debugMode;
+        debugMode: options.debugMode,
         weights: options.weights
       }
     };
@@ -151,11 +151,11 @@ export class UnifiedScoringAdapter {
 
     return {
       item: recipe,
-      score: result.score;
-      confidence: result.confidence;
-      breakdown: result.breakdown;
-      dominantEffects: result.metadata.dominantEffects;
-      notes: result.notes;
+      score: result.score,
+      confidence: result.confidence,
+      breakdown: result.breakdown,
+      dominantEffects: result.metadata.dominantEffects,
+      notes: result.notes,
       warnings: result.metadata.warnings
     };
   }
@@ -170,19 +170,19 @@ export class UnifiedScoringAdapter {
     const context: ScoringContext = {
       dateTime: new Date(),
       location: options.location || {
-        latitude: 40.7128;
-        longitude: -74.006;
+        latitude: 40.7128,
+        longitude: -74.006,
         timezone: 'America/New_York',
         name: 'New York City'
       },
       item: {
-        name: method.name;
+        name: method.name,
         type: 'cooking_method',
         elementalProperties: ((method as unknown as any)
           .elementalEffect as ElementalProperties) || {
-          Fire: 0.25;
-          Water: 0.25;
-          Earth: 0.25;
+          Fire: 0.25,
+          Water: 0.25,
+          Earth: 0.25,
           Air: 0.25
         },
         seasonality: ((method as unknown as any).seasonality as Season[]) || [],
@@ -191,7 +191,7 @@ export class UnifiedScoringAdapter {
         culturalOrigins: ((method as unknown as any).culturalOrigins as string[]) || []
       },
       options: {
-        debugMode: options.debugMode;
+        debugMode: options.debugMode,
         weights: options.weights
       }
     };
@@ -200,11 +200,11 @@ export class UnifiedScoringAdapter {
 
     return {
       item: method,
-      score: result.score;
-      confidence: result.confidence;
-      breakdown: result.breakdown;
-      dominantEffects: result.metadata.dominantEffects;
-      notes: result.notes;
+      score: result.score,
+      confidence: result.confidence,
+      breakdown: result.breakdown,
+      dominantEffects: result.metadata.dominantEffects,
+      notes: result.notes,
       warnings: result.metadata.warnings
     };
   }
@@ -220,8 +220,8 @@ export class UnifiedScoringAdapter {
     const context: ScoringContext = {
       dateTime: new Date(),
       location: options.location || {
-        latitude: 40.7128;
-        longitude: -74.006;
+        latitude: 40.7128,
+        longitude: -74.006,
         timezone: 'America/New_York',
         name: 'New York City'
       },
@@ -235,7 +235,7 @@ export class UnifiedScoringAdapter {
         culturalOrigins: [cuisineName]
       },
       options: {
-        debugMode: options.debugMode;
+        debugMode: options.debugMode,
         weights: options.weights
       }
     };
@@ -244,11 +244,11 @@ export class UnifiedScoringAdapter {
 
     return {
       item: cuisineName,
-      score: result.score;
-      confidence: result.confidence;
-      breakdown: result.breakdown;
-      dominantEffects: result.metadata.dominantEffects;
-      notes: result.notes;
+      score: result.score,
+      confidence: result.confidence,
+      breakdown: result.breakdown,
+      dominantEffects: result.metadata.dominantEffects,
+      notes: result.notes,
       warnings: result.metadata.warnings
     };
   }

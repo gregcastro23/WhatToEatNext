@@ -12,10 +12,10 @@ export * from './constants/seasons';
 
 // Type-safe threshold constants with explicit type declarations
 export const _THRESHOLD: {
-  LOW: number;
-  MEDIUM: number;
-  HIGH: number;
-  MAXIMUM: number;
+  LOW: number,
+  MEDIUM: number,
+  HIGH: number,
+  MAXIMUM: number,
 } = {
   LOW: 0.33,
   MEDIUM: 0.66,

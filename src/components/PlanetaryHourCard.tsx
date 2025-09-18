@@ -23,11 +23,11 @@ export function PlanetaryHourCard({ latitude, longitude, className }: Props) {
     const nextPlanet = schedule[(idx + 1) % schedule.length]?.planet ?? detailed.planet;
 
     return {
-      planet: detailed.planet;
-      isDaytime: detailed.isDaytime;
+      planet: detailed.planet,
+      isDaytime: detailed.isDaytime,
       timeRemainingMs: next ? Math.max(0, next.getTime() - now.getTime()) : 0,
       nextPlanet,
-      start: detailed.start;
+      start: detailed.start,
       end: detailed.end
     }
   }),
@@ -42,11 +42,11 @@ export function PlanetaryHourCard({ latitude, longitude, className }: Props) {
       const nextPlanet = schedule[(idx + 1) % schedule.length]?.planet ?? detailed.planet;
 
       setState({
-        planet: detailed.planet;
-        isDaytime: detailed.isDaytime;
+        planet: detailed.planet,
+        isDaytime: detailed.isDaytime,
         timeRemainingMs: next ? Math.max(0, next.getTime() - now.getTime()) : 0,
         nextPlanet,
-        start: detailed.start;
+        start: detailed.start,
         end: detailed.end
       });
     };

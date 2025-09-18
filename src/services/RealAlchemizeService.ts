@@ -25,15 +25,15 @@ export type ThermodynamicProperties = {
 };
 
 export type StandardizedAlchemicalResult = {
-  elementalProperties: ElementalProperties;
-  thermodynamicProperties: ThermodynamicProperties;
-  kalchm: number;
-  monica: number;
-  score: number;
-  normalized: boolean;
-  confidence: number;
+  elementalProperties: ElementalProperties,
+  thermodynamicProperties: ThermodynamicProperties,
+  kalchm: number,
+  monica: number,
+  score: number,
+  normalized: boolean,
+  confidence: number,
   metadata: {
-    source: string;
+    source: string,
     dominantElement: string,
     dominantModality: string,
     sunSign: string,
@@ -290,7 +290,7 @@ export function alchemize(
     monica,
     score,
     normalized: true,
-    confidence: 0.8;
+    confidence: 0.8,
     metadata: {
       source: 'alchemize',
       dominantElement,
@@ -323,9 +323,9 @@ export function loadPlanetaryPositions(): Record<string, PlanetaryPosition> {
       const data = planetData as any;
 
       convertedPositions[planetName] = {
-        sign: normalizeSign(String(data.sign || ''));
-        degree: Number(data.degree) || 0;
-        minute: Number(data.minute) || 0;
+        sign: normalizeSign(String(data.sign || '')),
+        degree: Number(data.degree) || 0,
+        minute: Number(data.minute) || 0,
         isRetrograde: Boolean(data.isRetrograde) || false
       };
     }

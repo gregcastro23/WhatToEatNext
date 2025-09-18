@@ -73,8 +73,8 @@ export const ErrorHandler = {
     const error = new Error(message);
     // Add custom properties to the error
     Object.assign(error, {
-      type: options.type || ErrorType.UNKNOWN;
-      severity: options.severity || ErrorSeverity.ERROR;
+      type: options.type || ErrorType.UNKNOWN,
+      severity: options.severity || ErrorSeverity.ERROR,
       context: options.context || {}
     });
     return error;

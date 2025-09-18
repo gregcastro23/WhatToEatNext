@@ -27,8 +27,8 @@ export type { CampaignPhase, ValidationResult } from '../types/campaign';
 // ========== KIRO INTEGRATION TYPES ==========;
 
 export interface KiroCampaignStatus {
-  campaignId: string;
-  status: 'idle' | 'running' | 'paused' | 'completed' | 'failed';
+  campaignId: string,
+  status: 'idle' | 'running' | 'paused' | 'completed' | 'failed',
   currentPhase?: string;
   progress: number; // 0-100%
   metrics: ProgressMetrics,
@@ -38,7 +38,7 @@ export interface KiroCampaignStatus {
 }
 
 export interface KiroCampaignControlPanel {
-  activeCampaigns: KiroCampaignStatus[];
+  activeCampaigns: KiroCampaignStatus[],
   availablePhases: CampaignPhase[],
   systemHealth: SystemHealthStatus,
   quickActions: QuickAction[],
@@ -46,8 +46,8 @@ export interface KiroCampaignControlPanel {
 }
 
 export interface SystemHealthStatus {
-  overallHealth: 'excellent' | 'good' | 'warning' | 'critical';
-  typeScriptErrors: number;
+  overallHealth: 'excellent' | 'good' | 'warning' | 'critical',
+  typeScriptErrors: number,
   lintingWarnings: number,
   buildTime: number,
   lastHealthCheck: Date,
@@ -55,9 +55,9 @@ export interface SystemHealthStatus {
 }
 
 export interface QuickAction {
-  id: string;
-  name: string;
-  description: string;
+  id: string,
+  name: string,
+  description: string,
   icon: string,
   enabled: boolean,
   estimatedDuration: number, // minutes
@@ -65,9 +65,9 @@ export interface QuickAction {
 }
 
 export interface CampaignResult {
-  campaignId: string;
-  phaseName: string;
-  completedAt: Date;
+  campaignId: string,
+  phaseName: string,
+  completedAt: Date,
   success: boolean,
   metricsImprovement: {
     errorsReduced: number,
@@ -85,7 +85,7 @@ export interface HealthTrend {
 }
 
 export interface CampaignExecutionRequest {
-  phaseIds: string[];
+  phaseIds: string[],
   safetyLevel: 'conservative' | 'standard' | 'aggressive',
   batchSize?: number,
   dryRun?: boolean,
@@ -93,10 +93,10 @@ export interface CampaignExecutionRequest {
 }
 
 export interface CampaignSchedule {
-  id: string;
-  name: string;
-  phases: string[];
-  scheduledTime: Date;
+  id: string,
+  name: string,
+  phases: string[],
+  scheduledTime: Date,
   recurrence?: 'daily' | 'weekly' | 'monthly',
   enabled: boolean,
   lastRun?: Date,
@@ -192,7 +192,7 @@ export class KiroCampaignIntegration {
             : improvement.typeScriptErrorsReduced < 0
               ? 'declining'
               : 'stable',
-        changePercentage: Math.abs(improvement.typeScriptErrorsReduced);
+        changePercentage: Math.abs(improvement.typeScriptErrorsReduced),
         timeframe: 'last 24 hours'
       },
       {
@@ -203,7 +203,7 @@ export class KiroCampaignIntegration {
             : improvement.lintingWarningsReduced < 0
               ? 'declining'
               : 'stable',
-        changePercentage: Math.abs(improvement.lintingWarningsReduced);
+        changePercentage: Math.abs(improvement.lintingWarningsReduced),
         timeframe: 'last 24 hours'
       },
       {
@@ -214,16 +214,16 @@ export class KiroCampaignIntegration {
             : improvement.buildTimeImproved < 0
               ? 'declining'
               : 'stable',
-        changePercentage: Math.abs(improvement.buildTimeImproved * 10);
+        changePercentage: Math.abs(improvement.buildTimeImproved * 10),
         timeframe: 'last 24 hours'
       }
     ];
 
     return {
       overallHealth,
-      typeScriptErrors: metrics.typeScriptErrors.current;
-      lintingWarnings: metrics.lintingWarnings.current;
-      buildTime: metrics.buildPerformance.currentTime;
+      typeScriptErrors: metrics.typeScriptErrors.current,
+      lintingWarnings: metrics.lintingWarnings.current,
+      buildTime: metrics.buildPerformance.currentTime,
       lastHealthCheck: new Date(),
       healthTrends
     }
@@ -243,7 +243,7 @@ export class KiroCampaignIntegration {
       status: 'running',
       currentPhase: request.phaseIds[0],
       progress: 0,
-      metrics: await this.progressTracker.getProgressMetrics();
+      metrics: await this.progressTracker.getProgressMetrics(),
       safetyEvents: [],
       lastUpdate: new Date()
     };
@@ -422,10 +422,10 @@ export class KiroCampaignIntegration {
       if (status) {
         return {
           campaignId,
-          overallProgress: status.progress;
+          overallProgress: status.progress,
           phases: [], // Would be populated with actual phase data
-          currentMetrics: status.metrics;
-          targetMetrics: await this.getTargetMetrics();
+          currentMetrics: status.metrics,
+          targetMetrics: await this.getTargetMetrics(),
           estimatedCompletion: status.estimatedCompletion || new Date()
         };
       }
@@ -603,9 +603,9 @@ export class KiroCampaignIntegration {
         enterpriseSystems: 200
       },
       toolConfiguration: {
-        enhancedErrorFixer: 'scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js';
-        explicitAnyFixer: 'scripts/typescript-fixes/fix-explicit-any-systematic.js';
-        unusedVariablesFixer: 'scripts/typescript-fixes/fix-unused-variables-enhanced.js';
+        enhancedErrorFixer: 'scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js',
+        explicitAnyFixer: 'scripts/typescript-fixes/fix-explicit-any-systematic.js',
+        unusedVariablesFixer: 'scripts/typescript-fixes/fix-unused-variables-enhanced.js',
         consoleStatementFixer: 'scripts/lint-fixes/fix-console-statements-only.js'
       }
     };

@@ -152,10 +152,10 @@ export function formatTimestamp(timestamp: string): string {
  * Get time-based recommendation context
  */
 export function getTimeBasedContext(): {
-  season: string;
-  isOptimalTime: boolean;
-  timeConfidence: number;
-  recommendation: string;
+  season: string,
+  isOptimalTime: boolean,
+  timeConfidence: number,
+  recommendation: string,
 } {
   const season = getCurrentSeason();
   const isOptimalTime = isOptimalCookingTime();

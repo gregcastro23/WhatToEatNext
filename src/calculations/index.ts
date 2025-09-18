@@ -101,7 +101,7 @@ export const COMPREHENSIVE_CALCULATION_INTELLIGENCE = {
 
     return {
       ...analysis;
-      timestamp: new Date().toISOString();
+      timestamp: new Date().toISOString(),
       context: context,
       recommendations: generateCalculationRecommendations(analysis)
     };
@@ -201,7 +201,7 @@ export const CALCULATION_INPUT_INTELLIGENCE = {
     return {
       originalInput: input,
       enhancedInput: enhancedInput,
-      timestamp: new Date().toISOString();
+      timestamp: new Date().toISOString(),
       recommendations: generateInputRecommendations(enhancedInput)
     };
   },
@@ -297,7 +297,7 @@ export const RECIPE_COMPATIBILITY_INTELLIGENCE = {
 
     return {
       ...compatibilityAnalysis;
-      timestamp: new Date().toISOString();
+      timestamp: new Date().toISOString(),
       recommendations: generateCompatibilityRecommendations(compatibilityAnalysis)
     };
   },
@@ -430,8 +430,8 @@ export interface ComprehensiveAlchemicalResult {
   };
 
   // Metadata
-  timestamp: string;
-  cacheKey: string;
+  timestamp: string,
+  cacheKey: string,
 }
 
 /**
@@ -500,7 +500,7 @@ export async function calculateComprehensiveAlchemicalResult(
     // 6. Generate cuisine recommendations
     const cuisineRecommendations = generateCuisineRecommendations(;
       planetaryInfluencesResult.dominantPlanets.map(p => ({
-        planet: p.planet;
+        planet: p.planet,
         influence: p.strength
       })),
       elementalProperties,
@@ -536,7 +536,7 @@ export function calculateRecipeCompatibility(
   recipeElementalProperties: ElementalProperties,
   currentMomentAlchemicalResult: ComprehensiveAlchemicalResult,
 ): {
-  compatibilityScore: number;
+  compatibilityScore: number,
   kalchmAlignment: number,
   elementalAlignment: number,
   planetaryAlignment: number,
@@ -574,18 +574,18 @@ export function calculateRecipeCompatibility(
 
     return {
       compatibilityScore,
-      kalchmAlignment: recipeResult.alchemicalAlignment;
-      elementalAlignment: recipeResult.elementalAlignment;
+      kalchmAlignment: recipeResult.alchemicalAlignment,
+      elementalAlignment: recipeResult.elementalAlignment,
       planetaryAlignment,
       recommendations
     };
   } catch (error) {
     console.error('Error calculating recipe compatibility:', error),
     return {
-      compatibilityScore: 0.7;
-      kalchmAlignment: 0.7;
-      elementalAlignment: 0.7;
-      planetaryAlignment: 0.7;
+      compatibilityScore: 0.7,
+      kalchmAlignment: 0.7,
+      elementalAlignment: 0.7,
+      planetaryAlignment: 0.7,
       recommendations: ['Recipe compatibility could not be fully calculated']
     };
   }
@@ -600,12 +600,10 @@ function _calculateKalchmAlignment(
 ): number {
   // Convert recipe properties to approximate alchemical properties
   const recipeAlchemical = {
-    Spirit:
-      ((recipeProperties as any)?.Fire || 0) * 0.2 + ((recipeProperties as any)?.Air || 0) * 0.2;
+    Spirit: ((recipeProperties as any)?.Fire || 0) * 0.2 + ((recipeProperties as any)?.Air || 0) * 0.2,
     Essence:
-      ((recipeProperties as any)?.Water || 0) * 0.2 + ((recipeProperties as any)?.Fire || 0) * 0.2;
-    Matter:
-      ((recipeProperties as any)?.Earth || 0) * 0.2 + ((recipeProperties as any)?.Water || 0) * 0.2;
+      ((recipeProperties as any)?.Water || 0) * 0.2 + ((recipeProperties as any)?.Fire || 0) * 0.2,
+    Matter: ((recipeProperties as any)?.Earth || 0) * 0.2 + ((recipeProperties as any)?.Water || 0) * 0.2,
     Substance:
       ((recipeProperties as any)?.Air || 0) * 0.2 + ((recipeProperties as any)?.Earth || 0) * 0.2
   };
@@ -733,27 +731,27 @@ async function getFallbackResult(
 
     // Only use static fallback as last resort
     const fallbackElemental: ElementalProperties = {
-      Fire: 0.25;
-      Water: 0.25;
-      Air: 0.25;
+      Fire: 0.25,
+      Water: 0.25,
+      Air: 0.25,
       Earth: 0.25
     };
 
     return {
       kalchm: {
         alchemicalProperties: {
-          Spirit: 0.25;
-          Essence: 0.25;
-          Matter: 0.25;
+          Spirit: 0.25,
+          Essence: 0.25,
+          Matter: 0.25,
           Substance: 0.25
         },
         elementalValues: fallbackElemental,
         thermodynamics: {
-          heat: 0.5;
-          entropy: 0.5;
-          reactivity: 0.5;
-          gregsEnergy: 0.5;
-          kalchm: 1.0;
+          heat: 0.5,
+          entropy: 0.5,
+          reactivity: 0.5,
+          gregsEnergy: 0.5,
+          kalchm: 1.0,
           monicaConstant: 0.5
         },
         dominantElement: 'Fire',
@@ -763,9 +761,9 @@ async function getFallbackResult(
       elementalProperties: fallbackElemental,
       planetaryInfluences: {
         alchemicalInfluences: {
-          Spirit: 0.25;
-          Essence: 0.25;
-          Matter: 0.25;
+          Spirit: 0.25,
+          Essence: 0.25,
+          Matter: 0.25,
           Substance: 0.25
         },
         elementalInfluences: fallbackElemental,
@@ -778,7 +776,7 @@ async function getFallbackResult(
       recommendations: {
         elemental: {
           dominant: 'Fire',
-          balance: 0.7;
+          balance: 0.7,
           recommendations: ['⚠️ Using emergency calculations - results may be limited']
         },
         culinary: {
@@ -872,8 +870,8 @@ function generateCuisineRecommendations(
 // Simplified recipe matching object for compatibility
 const recipeMatching = {
   calculateRecipeCompatibility: (_recipeProps: ElementalProperties, _kalchm: KalchmResult) => ({
-    elementalAlignment: 0.7;
-    alchemicalAlignment: 0.7;
+    elementalAlignment: 0.7,
+    alchemicalAlignment: 0.7,
     recommendations: ['Recipe compatibility calculated with simplified system']
   })
 };

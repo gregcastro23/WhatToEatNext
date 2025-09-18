@@ -226,18 +226,18 @@ export class BuildSystemRepair {
 
 // Type definitions
 export interface BuildRepairResult {
-  success: boolean;
-  steps: string[];
-  errors: string[];
-  recommendations: string[];
+  success: boolean,
+  steps: string[],
+  errors: string[],
+  recommendations: string[],
 }
 
 export interface BuildSystemReport {
-  timestamp: Date;
-  validation: BuildValidationResult;
-  health: BuildHealthReport;
+  timestamp: Date,
+  validation: BuildValidationResult,
+  health: BuildHealthReport,
   configValidation: Record<string, unknown>;
-  recommendations: string[];
+  recommendations: string[]
 }
 
 // Export default instance

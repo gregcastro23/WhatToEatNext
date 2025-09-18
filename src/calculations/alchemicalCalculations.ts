@@ -73,7 +73,7 @@ export type DignityType =
 export interface PlanetaryDignity {
   type: DignityType,
   value: number,
-  description: string;
+  description: string,
 }
 
 /**
@@ -96,9 +96,9 @@ export const dignityStrengthModifiers: Record<DignityType, number> = {
 export interface AlchemicalResults {
   elementalCounts: Record<ElementalCharacter, number>;
   alchemicalCounts: Record<keyof AlchemicalProperties, number>;
-  heat: number;
-  entropy: number;
-  reactivity: number;
+  heat: number,
+  entropy: number,
+  reactivity: number,
   gregsEnergy: number,
   planetaryDignities?: Record<string, PlanetaryDignity>;
   aspectEffects?: Record<string, number>;
@@ -214,10 +214,10 @@ export const _calculateAlchemicalProperties = (;
     return {
       elementalCounts,
       alchemicalCounts,
-      heat: 0.5;
-      entropy: 0.5;
-      reactivity: 0.5;
-      gregsEnergy: 0.5;
+      heat: 0.5,
+      entropy: 0.5,
+      reactivity: 0.5,
+      gregsEnergy: 0.5,
       planetaryDignities: {},
       aspectEffects: {}
     };
@@ -925,9 +925,9 @@ export function alchemize(
     let alchemyProps = planetData.Alchemy;
     if (isRetrograde && planetData.RetrogradeEffect) {
       alchemyProps = {
-        Spirit: alchemyProps.Spirit + (planetData.RetrogradeEffect.Spirit || 0);
-        Essence: alchemyProps.Essence + (planetData.RetrogradeEffect.Essence || 0);
-        Matter: alchemyProps.Matter + (planetData.RetrogradeEffect.Matter || 0);
+        Spirit: alchemyProps.Spirit + (planetData.RetrogradeEffect.Spirit || 0),
+        Essence: alchemyProps.Essence + (planetData.RetrogradeEffect.Essence || 0),
+        Matter: alchemyProps.Matter + (planetData.RetrogradeEffect.Matter || 0),
         Substance: alchemyProps.Substance + (planetData.RetrogradeEffect.Substance || 0)
       };
     }
@@ -1060,25 +1060,25 @@ export function alchemize(
 
   // Convert to upper case for ElementalProperties
   const totalEffectValue: ElementalProperties = {
-    Fire: _elementalBalance.fire;
-    Earth: _elementalBalance.earth;
-    Air: _elementalBalance.air;
+    Fire: _elementalBalance.fire,
+    Earth: _elementalBalance.earth,
+    Air: _elementalBalance.air,
     Water: _elementalBalance.water
   };
 
   return {
     elementalProperties: totalEffectValue,
     thermodynamicProperties: {
-      heat: spirit / (spirit + essence + matter + substance) || 0.25;
-      entropy: essence / (spirit + essence + matter + substance) || 0.25;
-      reactivity: matter / (spirit + essence + matter + substance) || 0.25;
+      heat: spirit / (spirit + essence + matter + substance) || 0.25,
+      entropy: essence / (spirit + essence + matter + substance) || 0.25,
+      reactivity: matter / (spirit + essence + matter + substance) || 0.25,
       gregsEnergy: substance / (spirit + essence + matter + substance) || 0.25
     },
-    kalchm: (spirit + essence) / (matter + substance) || 1.0;
-    monica: Math.sqrt(spirit * essence * matter * substance) || 0.5;
-    score: (spirit + essence + matter + substance) / 4 || 0.5;
+    kalchm: (spirit + essence) / (matter + substance) || 1.0,
+    monica: Math.sqrt(spirit * essence * matter * substance) || 0.5,
+    score: (spirit + essence + matter + substance) / 4 || 0.5,
     normalized: true,
-    confidence: 0.8;
+    confidence: 0.8,
     metadata: {
       spirit,
       essence,
@@ -1108,7 +1108,7 @@ function generateRecommendation(
     case 'water':
       return 'Foods that invigorate and enliven: spicy dishes, stimulating herbs, and bright flavors.',
     default:
-      return 'A balanced diet incorporating elements from all food groups.';
+      return 'A balanced diet incorporating elements from all food groups.'
   }
 }
 
@@ -1196,7 +1196,7 @@ function calculatePlanetaryDignity(planet: string, sign: string): PlanetaryDigni
   if (rulerships[signLower].includes(planetLower)) {
     return {
       type: 'rulership',
-      value: dignityStrengthModifiers.rulership;
+      value: dignityStrengthModifiers.rulership,
       description: `${planet} rules ${sign}`
     };
   }
@@ -1205,7 +1205,7 @@ function calculatePlanetaryDignity(planet: string, sign: string): PlanetaryDigni
   if (exaltations[signLower] === planetLower) {
     return {
       type: 'exaltation',
-      value: dignityStrengthModifiers.exaltation;
+      value: dignityStrengthModifiers.exaltation,
       description: `${planet} is exalted in ${sign}`
     };
   }
@@ -1214,7 +1214,7 @@ function calculatePlanetaryDignity(planet: string, sign: string): PlanetaryDigni
   if (detriments[signLower].includes(planetLower)) {
     return {
       type: 'detriment',
-      value: dignityStrengthModifiers.detriment;
+      value: dignityStrengthModifiers.detriment,
       description: `${planet} is in detriment in ${sign}`
     };
   }
@@ -1223,7 +1223,7 @@ function calculatePlanetaryDignity(planet: string, sign: string): PlanetaryDigni
   if (falls[signLower] === planetLower) {
     return {
       type: 'fall',
-      value: dignityStrengthModifiers.fall;
+      value: dignityStrengthModifiers.fall,
       description: `${planet} is in fall in ${sign}`
     };
   }
@@ -1231,7 +1231,7 @@ function calculatePlanetaryDignity(planet: string, sign: string): PlanetaryDigni
   // No specific dignity
   return {
     type: 'neutral',
-    value: dignityStrengthModifiers.neutral;
+    value: dignityStrengthModifiers.neutral,
     description: `${planet} has neutral dignity in ${sign}`
   };
 }

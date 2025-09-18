@@ -40,7 +40,7 @@ describe('ConsoleStatementRemovalSystem', () => {
     });
 
     it('should accept custom configuration', () => {
-      const config: Partial<ConsoleRemovalConfig> = { maxFiles: 15;
+      const config: Partial<ConsoleRemovalConfig> = { maxFiles: 15,
         dryRun: false,
         preserveDebugCritical: false,
         selectiveRemoval: false
@@ -236,11 +236,11 @@ const _another: any = 'value';
 
       const mockAnalysis: ConsoleStatement[] = [
         {
-          file: '/test/file.ts';
+          file: '/test/file.ts',
           line: 1,
           column: 1,
           type: 'log',
-          content: 'console.log('test')';
+          content: 'console.log('test')',
           context: 'console.log('test'),',
           isCritical: false,
           shouldPreserve: false
@@ -266,21 +266,21 @@ const _another: any = 'value';
     it('should calculate preserved statements correctly', async () => {
       const mockAnalysis: ConsoleStatement[] = [
         {
-          file: '/test/file.ts';
+          file: '/test/file.ts',
           line: 1,
           column: 1,
           type: 'error',
-          content: 'console.error('critical')';
+          content: 'console.error('critical')',
           context: 'console.error('critical'),',
           isCritical: true,
           shouldPreserve: true
         },
         {
-          file: '/test/file.ts';
+          file: '/test/file.ts',
           line: 2,
           column: 1,
           type: 'log',
-          content: 'console.log('normal')';
+          content: 'console.log('normal')',
           context: 'console.log('normal'),',
           isCritical: false,
           shouldPreserve: false
@@ -323,7 +323,7 @@ const _another: any = 'value';
       expect(result.warnings).toHaveLength(1);
       expect(result.errors).toHaveLength(1);
       expect(result.warnings[0]).toContain('Warning: Some statements preserved');
-      expect(result.errors[0]).toContain('Error: Failed to process file');
+      expect(result.errors[0]).toContain('Error: Failed to process file')
     });
   });
 

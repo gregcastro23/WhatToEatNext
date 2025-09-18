@@ -23,8 +23,8 @@ import { getCurrentSeason } from '@/utils/timeUtils';
 
 interface PredictiveIntelligenceResult {
   predictions?: Record<string, unknown>;
-  confidence: number;
-  timestamp: string;
+  confidence: number,
+  timestamp: string,
   metadata?: Record<string, unknown>;
   accuracy?: number;
   // Enhanced compatibility properties
@@ -42,7 +42,7 @@ interface PredictiveMetrics {
   f1Score?: number;
   temporalStability?: number;
   // Implementation compatibility properties
-  totalPredictions: number;
+  totalPredictions: number,
   averageConfidence: number,
   cacheHitRate: number,
   errorRate: number,
@@ -115,7 +115,7 @@ export class PredictiveIntelligenceService {
       logLevel: 'info',
       performanceThresholds: {
         maxExecutionTime: 5000,
-        minConfidenceScore: 0.7;
+        minConfidenceScore: 0.7,
         maxMemoryUsage: 100 * 1024 * 1024, // 100MB
       },
       ...config
@@ -239,7 +239,7 @@ export class PredictiveIntelligenceService {
         elementalAlignment,
         seasonalOptimization,
         astrologicalAlignment,
-        recipeComplexity: String(recipe.difficulty) || 'medium';
+        recipeComplexity: String(recipe.difficulty) || 'medium',
         userPreferences: 0.8, // Default assumption
       });
 
@@ -440,10 +440,10 @@ export class PredictiveIntelligenceService {
 
     // Weight factors based on importance
     const weights = {
-      elementalAlignment: 0.3;
-      seasonalOptimization: 0.25;
-      astrologicalAlignment: 0.25;
-      complexityMatch: 0.1;
+      elementalAlignment: 0.3,
+      seasonalOptimization: 0.25,
+      astrologicalAlignment: 0.25,
+      complexityMatch: 0.1,
       userPreferences: 0.1
     };
 
@@ -1074,13 +1074,13 @@ export class PredictiveIntelligenceService {
 
     // Lunar phase cultural expression
     const culturalPhases = {
-      new_moon: 0.1;
-      waxing_crescent: 0.15;
-      first_quarter: 0.1;
-      waxing_gibbous: 0.15;
-      full_moon: 0.2;
-      waning_gibbous: 0.1;
-      last_quarter: 0.05;
+      new_moon: 0.1,
+      waxing_crescent: 0.15,
+      first_quarter: 0.1,
+      waxing_gibbous: 0.15,
+      full_moon: 0.2,
+      waning_gibbous: 0.1,
+      last_quarter: 0.05,
       waning_crescent: 0.05
     };
 
@@ -1201,8 +1201,8 @@ export class PredictiveIntelligenceService {
     return `predictive_${JSON.stringify({
       recipeId: (recipeData as { id?: string })?.id,
       ingredientCount: (ingredientData as any[])?.length,
-      cuisineName: cuisineData.name;
-      zodiac: astrologicalContext.zodiacSign;
+      cuisineName: cuisineData.name,
+      zodiac: astrologicalContext.zodiacSign,
       lunar: astrologicalContext.lunarPhase
     })}`;
   }
@@ -1254,37 +1254,37 @@ export class PredictiveIntelligenceService {
 
   private getDefaultRecipePrediction(): PredictiveIntelligenceResult['recipePrediction'] {
     return {
-      successProbability: 0.7;
-      userSatisfactionPrediction: 0.7;
+      successProbability: 0.7,
+      userSatisfactionPrediction: 0.7,
       optimalTimingPrediction: 'Within 1-2 days - Good alignment window',
-      seasonalOptimizationPrediction: 0.7;
+      seasonalOptimizationPrediction: 0.7,
       difficultyAdjustmentPrediction: 'Maintain current difficulty - Good alignment'
     };
   }
 
   private getDefaultIngredientPrediction(): PredictiveIntelligenceResult['ingredientPrediction'] {
     return {
-      compatibilityPrediction: 0.7;
-      substitutionSuccessPrediction: 0.7;
-      flavorHarmonyPrediction: 0.7;
+      compatibilityPrediction: 0.7,
+      substitutionSuccessPrediction: 0.7,
+      flavorHarmonyPrediction: 0.7,
       nutritionalOptimizationPrediction: 0.7
     };
   }
 
   private getDefaultCuisinePrediction(): PredictiveIntelligenceResult['cuisinePrediction'] {
     return {
-      fusionSuccessPrediction: 0.7;
-      culturalAcceptancePrediction: 0.7;
-      seasonalRelevancePrediction: 0.7;
+      fusionSuccessPrediction: 0.7,
+      culturalAcceptancePrediction: 0.7,
+      seasonalRelevancePrediction: 0.7,
       innovationPotentialPrediction: 0.7
     };
   }
 
   private getDefaultAstrologicalPrediction(): PredictiveIntelligenceResult['astrologicalPrediction'] {
     return {
-      alignmentPrediction: 0.7;
+      alignmentPrediction: 0.7,
       timingOptimizationPrediction: 'Good timing - Strong astrological support',
-      planetaryInfluencePrediction: 0.7;
+      planetaryInfluencePrediction: 0.7,
       cosmicHarmonyPrediction: 0.7
     };
   }
@@ -1301,10 +1301,10 @@ export class PredictiveIntelligenceService {
     return {
       executionTime: avgExecutionTime,
       memoryUsage: 0, // Would need actual memory measurement
-      confidenceScore: this.metrics.averageConfidence;
-      accuracyScore: 1 - this.metrics.errorRate;
-      cacheHitRate: this.metrics.cacheHitRate;
-      errorRate: this.metrics.errorRate;
+      confidenceScore: this.metrics.averageConfidence,
+      accuracyScore: 1 - this.metrics.errorRate,
+      cacheHitRate: this.metrics.cacheHitRate,
+      errorRate: this.metrics.errorRate,
       timestamp: new Date().toISOString()
     };
   }

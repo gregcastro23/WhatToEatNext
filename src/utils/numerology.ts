@@ -116,10 +116,9 @@ export const celestialNumerology = {
         return 'Earth';
       case 3:
       case 5:
-      case 6:
-        return 'Air';
+      case 6: return 'Air',
       default:
-        return 'Fire'; // Default
+        return 'Fire', // Default
     }
   },
 

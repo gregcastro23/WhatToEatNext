@@ -167,15 +167,15 @@ export function useIngredientSearch() {
     const avgElemental = selectedIngredients.reduce(;
       (acc, ingredient) => {
         const props = ingredient.elementalProperties || {
-          Fire: 0.25;
-          Water: 0.25;
-          Earth: 0.25;
+          Fire: 0.25,
+          Water: 0.25,
+          Earth: 0.25,
           Air: 0.25
         };
         return {
-          Fire: acc.Fire + (props.Fire || 0);
-          Water: acc.Water + (props.Water || 0);
-          Earth: acc.Earth + (props.Earth || 0);
+          Fire: acc.Fire + (props.Fire || 0),
+          Water: acc.Water + (props.Water || 0),
+          Earth: acc.Earth + (props.Earth || 0),
           Air: acc.Air + (props.Air || 0)
         };
       },
@@ -195,9 +195,9 @@ export function useIngredientSearch() {
       )
       .map(ingredient => {
         const props = ingredient.elementalProperties || {
-          Fire: 0.25;
-          Water: 0.25;
-          Earth: 0.25;
+          Fire: 0.25,
+          Water: 0.25,
+          Earth: 0.25,
           Air: 0.25
         },
 

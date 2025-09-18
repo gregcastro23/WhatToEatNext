@@ -114,9 +114,9 @@ export const normalizeProperties = (;
 
   // Fill in any missing properties with defaults
   const completeProperties: ElementalProperties = {
-    Fire: properties.Fire ?? DEFAULT_ELEMENTAL_PROPERTIES.Fire;
-    Water: properties.Water ?? DEFAULT_ELEMENTAL_PROPERTIES.Water;
-    Earth: properties.Earth ?? DEFAULT_ELEMENTAL_PROPERTIES.Earth;
+    Fire: properties.Fire ?? DEFAULT_ELEMENTAL_PROPERTIES.Fire,
+    Water: properties.Water ?? DEFAULT_ELEMENTAL_PROPERTIES.Water,
+    Earth: properties.Earth ?? DEFAULT_ELEMENTAL_PROPERTIES.Earth,
     Air: properties.Air ?? DEFAULT_ELEMENTAL_PROPERTIES.Air
   };
 
@@ -284,15 +284,15 @@ export const elementalUtils = {
     const combinedProperties = recipe.ingredients.reduce(;
       (acc, ingredient) => {
         const props = ingredient.elementalProperties || {
-          Fire: 0.25;
-          Water: 0.25;
-          Earth: 0.25;
+          Fire: 0.25,
+          Water: 0.25,
+          Earth: 0.25,
           Air: 0.25
         };
         return {
-          Fire: acc.Fire + props.Fire;
-          Water: acc.Water + props.Water;
-          Earth: acc.Earth + props.Earth;
+          Fire: acc.Fire + props.Fire,
+          Water: acc.Water + props.Water,
+          Earth: acc.Earth + props.Earth,
           Air: acc.Air + props.Air
         };
       },
@@ -434,7 +434,7 @@ export const elementalUtils = {
    * Gets the current elemental state from the ElementalCalculator service
    * Pattern OO-3: Utility Import Alignment - Standalone export for TS2614 compatibility
    */
-  getCurrentElementalState(): ElementalProperties {
+  { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }: ElementalProperties {
     return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
   },
 
@@ -475,9 +475,9 @@ export { elementalFunctions, elementalInteractions, elements };
  * @returns Transformed alchemical items
  */
 const _ELEMENT_WEIGHTS = {
-  Fire: 1.8;
-  Water: 1.2;
-  Earth: 0.9;
+  Fire: 1.8,
+  Water: 1.2,
+  Earth: 0.9,
   Air: 1.5
 };
 
@@ -646,9 +646,9 @@ export function transformItemsWithPlanetaryPositions(
       safeValueForArithmetic(a) * safeValueForArithmetic(b);
 
     return {
-      id: item.id;
-      name: item.name;
-      elementalProperties: item.elementalProperties;
+      id: item.id,
+      name: item.name,
+      elementalProperties: item.elementalProperties,
       transformedElementalProperties: scaledElements,
       alchemicalProperties: {
         Spirit: boostedSpirit,
@@ -671,9 +671,9 @@ export function transformItemsWithPlanetaryPositions(
 
 // New differentiation functions
 const _applyNonLinearScaling = (props: ElementalProperties): ElementalProperties => ({
-  Fire: Math.tanh(props.Fire * 2);
-  Water: 1 - Math.exp(-props.Water * 3);
-  Earth: props.Earth ** 1.5;
+  Fire: Math.tanh(props.Fire * 2),
+  Water: 1 - Math.exp(-props.Water * 3),
+  Earth: props.Earth ** 1.5,
   Air: Math.sin((props.Air * Math.PI) / 2)
 });
 
@@ -694,18 +694,18 @@ export function normalizeElementalValues(
   // If total is zero or close to zero, return default distribution
   if (total < 0.01) {
     return {
-      Fire: 0.25;
-      Water: 0.25;
-      Earth: 0.25;
+      Fire: 0.25,
+      Water: 0.25,
+      Earth: 0.25,
       Air: 0.25
     };
   }
 
   // Normalize values to sum to 1.0
   return {
-    Fire: values.Fire / total;
-    Water: values.Water / total;
-    Earth: values.Earth / total;
+    Fire: values.Fire / total,
+    Water: values.Water / total,
+    Earth: values.Earth / total,
     Air: values.Air / total
   }
 }
@@ -732,9 +732,9 @@ export const ensureCompleteElementalProperties = (;
   properties: Partial<ElementalProperties>,
 ): ElementalProperties => {
   return {
-    Fire: properties.Fire ?? 0.25;
-    Water: properties.Water ?? 0.25;
-    Earth: properties.Earth ?? 0.25;
+    Fire: properties.Fire ?? 0.25,
+    Water: properties.Water ?? 0.25,
+    Earth: properties.Earth ?? 0.25,
     Air: properties.Air ?? 0.25
   };
 };
@@ -824,9 +824,9 @@ export function enhanceVegetableTransformations(
     if (!enhanced.elementalTransformation) {
       // Get the dominant element
       const elementalProps = enhanced.elementalProperties || {
-        Earth: 0.3;
-        Water: 0.3;
-        Air: 0.2;
+        Earth: 0.3,
+        Water: 0.3,
+        Air: 0.2,
         Fire: 0.2
       };
       let dominantElement = 'Earth';
@@ -852,28 +852,28 @@ export function enhanceVegetableTransformations(
     if (transformation && !transformation.thermodynamicChanges) {
       transformation.thermodynamicChanges = {
         cooked: {
-          heat: 0.1;
-          entropy: 0.05;
+          heat: 0.1,
+          entropy: 0.05,
           reactivity: 0.05
         },
         dried: {
-          heat: -0.05;
-          entropy: -0.1;
+          heat: -0.05,
+          entropy: -0.1,
           reactivity: -0.05
         },
         fermented: {
-          entropy: 0.2;
-          reactivity: 0.15;
+          entropy: 0.2,
+          reactivity: 0.15,
           stabilityIndex: -0.1
         },
         roasted: {
-          heat: 0.2;
-          entropy: 0.1;
+          heat: 0.2,
+          entropy: 0.1,
           energy: 0.15
         },
         steamed: {
-          heat: 0.05;
-          moisture: 0.2;
+          heat: 0.05,
+          moisture: 0.2,
           reactivity: 0.05
         }
       };
@@ -899,25 +899,25 @@ export function enhanceVegetableTransformations(
       const profiles = {
         'leafy green': {
           taste: {
-            bitter: 0.6;
-            sweet: 0.2;
-            umami: 0.1;
-            salty: 0.05;
-            sour: 0.05;
+            bitter: 0.6,
+            sweet: 0.2,
+            umami: 0.1,
+            salty: 0.05,
+            sour: 0.05,
             spicy: 0
           },
           aroma: {
-            herbal: 0.5;
-            earthy: 0.3;
-            floral: 0.1;
-            fruity: 0.05;
-            woody: 0.05;
+            herbal: 0.5,
+            earthy: 0.3,
+            floral: 0.1,
+            fruity: 0.05,
+            woody: 0.05,
             spicy: 0
           },
           texture: {
-            crisp: 0.7;
-            tender: 0.2;
-            silky: 0.1;
+            crisp: 0.7,
+            tender: 0.2,
+            silky: 0.1,
             chewy: 0,
             creamy: 0,
             crunchy: 0
@@ -925,25 +925,25 @@ export function enhanceVegetableTransformations(
         },
         root: {
           taste: {
-            sweet: 0.5;
-            earthy: 0.3;
-            bitter: 0.1;
-            umami: 0.1;
+            sweet: 0.5,
+            earthy: 0.3,
+            bitter: 0.1,
+            umami: 0.1,
             salty: 0,
             spicy: 0
           },
           aroma: {
-            earthy: 0.6;
-            woody: 0.2;
-            herbal: 0.1;
-            fruity: 0.1;
+            earthy: 0.6,
+            woody: 0.2,
+            herbal: 0.1,
+            fruity: 0.1,
             floral: 0,
             spicy: 0
           },
           texture: {
-            crunchy: 0.6;
-            chewy: 0.2;
-            tender: 0.2;
+            crunchy: 0.6,
+            chewy: 0.2,
+            tender: 0.2,
             crisp: 0,
             silky: 0,
             creamy: 0
@@ -951,25 +951,25 @@ export function enhanceVegetableTransformations(
         },
         allium: {
           taste: {
-            pungent: 0.6;
-            sweet: 0.2;
-            umami: 0.2;
+            pungent: 0.6,
+            sweet: 0.2,
+            umami: 0.2,
             bitter: 0,
             salty: 0,
             sour: 0
           },
           aroma: {
-            spicy: 0.7;
-            earthy: 0.2;
-            herbal: 0.1;
+            spicy: 0.7,
+            earthy: 0.2,
+            herbal: 0.1,
             floral: 0,
             fruity: 0,
             woody: 0
           },
           texture: {
-            crunchy: 0.5;
-            chewy: 0.3;
-            tender: 0.2;
+            crunchy: 0.5,
+            chewy: 0.3,
+            tender: 0.2,
             crisp: 0,
             silky: 0,
             creamy: 0
@@ -977,25 +977,25 @@ export function enhanceVegetableTransformations(
         },
         cruciferous: {
           taste: {
-            bitter: 0.5;
-            sweet: 0.2;
-            spicy: 0.2;
-            umami: 0.1;
+            bitter: 0.5,
+            sweet: 0.2,
+            spicy: 0.2,
+            umami: 0.1,
             salty: 0,
             sour: 0
           },
           aroma: {
-            earthy: 0.4;
-            sulfurous: 0.3;
-            woody: 0.2;
-            herbal: 0.1;
+            earthy: 0.4,
+            sulfurous: 0.3,
+            woody: 0.2,
+            herbal: 0.1,
             floral: 0,
             fruity: 0
           },
           texture: {
-            crunchy: 0.7;
-            crisp: 0.2;
-            tender: 0.1;
+            crunchy: 0.7,
+            crisp: 0.2,
+            tender: 0.1,
             chewy: 0,
             silky: 0,
             creamy: 0
@@ -1003,25 +1003,25 @@ export function enhanceVegetableTransformations(
         },
         nightshade: {
           taste: {
-            umami: 0.5;
-            sweet: 0.3;
-            sour: 0.1;
-            bitter: 0.1;
+            umami: 0.5,
+            sweet: 0.3,
+            sour: 0.1,
+            bitter: 0.1,
             salty: 0,
             spicy: 0
           },
           aroma: {
-            fruity: 0.5;
-            earthy: 0.3;
-            herbal: 0.2;
+            fruity: 0.5,
+            earthy: 0.3,
+            herbal: 0.2,
             floral: 0,
             woody: 0,
             spicy: 0
           },
           texture: {
-            tender: 0.5;
-            juicy: 0.3;
-            chewy: 0.2;
+            tender: 0.5,
+            juicy: 0.3,
+            chewy: 0.2,
             crisp: 0,
             crunchy: 0,
             silky: 0
@@ -1029,51 +1029,51 @@ export function enhanceVegetableTransformations(
         },
         squash: {
           taste: {
-            sweet: 0.6;
-            earthy: 0.2;
-            nutty: 0.2;
+            sweet: 0.6,
+            earthy: 0.2,
+            nutty: 0.2,
             bitter: 0,
             salty: 0,
             sour: 0
           },
           aroma: {
-            earthy: 0.4;
-            sweet: 0.4;
-            woody: 0.1;
-            herbal: 0.1;
+            earthy: 0.4,
+            sweet: 0.4,
+            woody: 0.1,
+            herbal: 0.1,
             floral: 0,
             spicy: 0
           },
           texture: {
-            tender: 0.4;
-            creamy: 0.3;
-            chewy: 0.2;
-            crisp: 0.1;
+            tender: 0.4,
+            creamy: 0.3,
+            chewy: 0.2,
+            crisp: 0.1,
             crunchy: 0,
             silky: 0
           }
         },
         legume: {
           taste: {
-            earthy: 0.5;
-            sweet: 0.3;
-            umami: 0.2;
+            earthy: 0.5,
+            sweet: 0.3,
+            umami: 0.2,
             bitter: 0,
             salty: 0,
             sour: 0
           },
           aroma: {
-            earthy: 0.6;
-            nutty: 0.3;
-            herbal: 0.1;
+            earthy: 0.6,
+            nutty: 0.3,
+            herbal: 0.1,
             floral: 0,
             fruity: 0,
             spicy: 0
           },
           texture: {
-            tender: 0.4;
-            creamy: 0.3;
-            chewy: 0.3;
+            tender: 0.4,
+            creamy: 0.3,
+            chewy: 0.3,
             crisp: 0,
             crunchy: 0,
             silky: 0
@@ -1081,25 +1081,25 @@ export function enhanceVegetableTransformations(
         },
         starchy: {
           taste: {
-            sweet: 0.5;
-            earthy: 0.3;
-            umami: 0.2;
+            sweet: 0.5,
+            earthy: 0.3,
+            umami: 0.2,
             bitter: 0,
             salty: 0,
             sour: 0
           },
           aroma: {
-            earthy: 0.7;
-            nutty: 0.2;
-            herbal: 0.1;
+            earthy: 0.7,
+            nutty: 0.2,
+            herbal: 0.1,
             floral: 0,
             fruity: 0,
             spicy: 0
           },
           texture: {
-            starchy: 0.6;
-            tender: 0.2;
-            creamy: 0.2;
+            starchy: 0.6,
+            tender: 0.2,
+            creamy: 0.2,
             crisp: 0,
             crunchy: 0,
             silky: 0
@@ -1110,27 +1110,27 @@ export function enhanceVegetableTransformations(
       // Select appropriate profile or use default
       const profile = profiles[String(subCategory)] || {
         taste: {
-          sweet: 0.25;
-          bitter: 0.25;
-          umami: 0.25;
-          salty: 0.15;
-          sour: 0.1;
+          sweet: 0.25,
+          bitter: 0.25,
+          umami: 0.25,
+          salty: 0.15,
+          sour: 0.1,
           spicy: 0
         },
         aroma: {
-          earthy: 0.3;
-          herbal: 0.3;
-          woody: 0.2;
-          fruity: 0.1;
-          floral: 0.1;
+          earthy: 0.3,
+          herbal: 0.3,
+          woody: 0.2,
+          fruity: 0.1,
+          floral: 0.1,
           spicy: 0
         },
         texture: {
-          tender: 0.3;
-          crunchy: 0.3;
-          crisp: 0.2;
-          chewy: 0.1;
-          creamy: 0.1;
+          tender: 0.3,
+          crunchy: 0.3,
+          crisp: 0.2,
+          chewy: 0.1,
+          creamy: 0.1,
           silky: 0
         }
       };
@@ -1160,9 +1160,9 @@ export function enhanceOilProperties(
     enhancedOil.elementalProperties = String(;
       JSON.stringify(
         enhancedOil.elementalProperties || {
-          Fire: 0.3;
-          Water: 0.2;
-          Earth: 0.3;
+          Fire: 0.3,
+          Water: 0.2,
+          Earth: 0.3,
           Air: 0.2
         },
       ),
@@ -1193,21 +1193,21 @@ export function enhanceOilProperties(
       enhancedOil.sensoryProfile = String(;
         JSON.stringify({
           taste: {
-            sweet: isFruity || isTropical ? 0.6 : 0.2;
-            bitter: isNutty ? 0.4 : 0.1;
-            umami: isNutty ? 0.5 : 0.2;
+            sweet: isFruity || isTropical ? 0.6 : 0.2,
+            bitter: isNutty ? 0.4 : 0.1,
+            umami: isNutty ? 0.5 : 0.2,
             rich: isNutty || isFruity ? 0.7 : 0.4
           },
           aroma: {
-            fruity: isFruity ? 0.8 : 0.1;
-            nutty: isNutty ? 0.8 : 0.1;
-            floral: isFloral ? 0.7 : 0.1;
-            neutral: isNeutral ? 0.9 : 0.2;
+            fruity: isFruity ? 0.8 : 0.1,
+            nutty: isNutty ? 0.8 : 0.1,
+            floral: isFloral ? 0.7 : 0.1,
+            neutral: isNeutral ? 0.9 : 0.2,
             tropical: isTropical ? 0.8 : 0.1
           },
           texture: {
-            viscosity: isTropical || oilType.includes('olive') ? 0.7 : 0.5;
-            mouthfeel: isFruity || isNutty ? 0.8 : 0.5;
+            viscosity: isTropical || oilType.includes('olive') ? 0.7 : 0.5,
+            mouthfeel: isFruity || isNutty ? 0.8 : 0.5,
             richness: isFruity || isNutty || isTropical ? 0.7 : 0.4
           }
         }),
@@ -1306,27 +1306,27 @@ export function enhanceOilProperties(
       enhancedOil.elementalTransformation = String(;
         JSON.stringify({
           whenHeated: {
-            Fire: 0.2;
-            Air: 0.1;
-            Water: -0.1;
+            Fire: 0.2,
+            Air: 0.1,
+            Water: -0.1,
             Earth: -0.05
           },
           whenCooled: {
-            Water: 0.1;
-            Earth: 0.2;
-            Fire: -0.1;
+            Water: 0.1,
+            Earth: 0.2,
+            Fire: -0.1,
             Air: -0.05
           },
           whenMixed: {
-            Air: 0.15;
-            Water: 0.1;
-            Fire: -0.05;
+            Air: 0.15,
+            Water: 0.1,
+            Fire: -0.05,
             Earth: -0.05
           },
           whenInfused: {
-            Air: 0.2;
-            Fire: 0.1;
-            Earth: -0.05;
+            Air: 0.2,
+            Fire: 0.1,
+            Earth: -0.05,
             Water: -0.05
           }
         }),
@@ -1344,8 +1344,8 @@ export function enhanceOilProperties(
       enhancedOil.thermodynamicProperties = String(;
         JSON.stringify({
           heat: Math.min(Math.max(heatValue, 0.3), 0.9),
-          entropy: 0.4;
-          reactivity: 0.6;
+          entropy: 0.4,
+          reactivity: 0.6,
           energy: 0.7
         }),
       )
@@ -1546,6 +1546,6 @@ export function calculateElementalAffinity(element1: Element, element2: Element)
     case 'controlling':
       return 0.0;
     default:
-      return 0.4;
+      return 0.4
   }
 }

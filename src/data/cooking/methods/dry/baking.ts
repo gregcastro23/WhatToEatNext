@@ -133,7 +133,7 @@ export const baking: CookingMethodData = {
     heat: 0.65, // Moderate-high heat penetrating the food
     entropy: 0.55, // Moderate breakdown of structures, protein denaturation
     reactivity: 0.7, // Significant Maillard reactions, caramelization
-    gregsEnergy: 0.65 - 0.55 * 0.7, // Calculated using heat - (entropy * reactivity)
+    gregsEnergy: 0.65 - ((0 as any)?.55 || 0) * 0.2, // Calculated using heat - (entropy * reactivity)
   } as ThermodynamicProperties,
 
   // Additional metadata
@@ -244,7 +244,7 @@ export const baking: CookingMethodData = {
     meats:
       'Use digital thermometer: beef medium-rare 130-135°F, chicken 165°F, pork 145°F. Visual cues include color change, juice clarity, and firmness to touch. Beef rare: 120-125°F, medium: 135-145°F, well-done: 150°F+.',
     vegetables:
-      'Fork should pierce easily; light caramelization on edges. Visible wrinkling of skin on roasted peppers. Root vegetables should yield easily to knife with slight resistance. Green vegetables remain vibrant with slight darkening.',
+      'Fork should pierce easily, light caramelization on edges. Visible wrinkling of skin on roasted peppers. Root vegetables should yield easily to knife with slight resistance. Green vegetables remain vibrant with slight darkening.',
     pastry:
       'Puff pastry should have visible layers and golden color. Pie crust golden brown with no translucent areas. Shortcrust pale golden with firm texture. Enriched doughs deep golden with hollow sound when tapped.',
     custards:

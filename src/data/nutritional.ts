@@ -24,24 +24,24 @@ export const baseNutritionalProfiles: Record<string, NutritionalProfile> = {
     macros: {
       protein: 2,
       carbs: 10,
-      fat: 0.5;
+      fat: 0.5,
       fiber: 3
     },
     vitamins: {
-      A: 0.2;
-      C: 0.3;
-      K: 0.25;
-      E: 0.1;
+      A: 0.2,
+      C: 0.3,
+      K: 0.25,
+      E: 0.1,
       B6: 0.1
     },
     minerals: {
-      potassium: 0.2;
-      magnesium: 0.15;
-      iron: 0.1;
+      potassium: 0.2,
+      magnesium: 0.15,
+      iron: 0.1,
       calcium: 0.1
     },
     phytonutrients: {
-      antioxidants: 0.3;
+      antioxidants: 0.3,
       flavonoids: 0.25
     }
   },
@@ -50,23 +50,23 @@ export const baseNutritionalProfiles: Record<string, NutritionalProfile> = {
     macros: {
       protein: 1,
       carbs: 20,
-      fat: 0.2;
+      fat: 0.2,
       fiber: 3
     },
     vitamins: {
-      A: 0.1;
-      C: 0.4;
-      E: 0.1;
+      A: 0.1,
+      C: 0.4,
+      E: 0.1,
       B6: 0.1
     },
     minerals: {
-      potassium: 0.2;
-      magnesium: 0.1;
-      iron: 0.05;
+      potassium: 0.2,
+      magnesium: 0.1,
+      iron: 0.05,
       calcium: 0.05
     },
     phytonutrients: {
-      antioxidants: 0.35;
+      antioxidants: 0.35,
       flavonoids: 0.3
     }
   },
@@ -79,15 +79,15 @@ export const baseNutritionalProfiles: Record<string, NutritionalProfile> = {
       fiber: 4
     },
     vitamins: {
-      B1: 0.2;
-      B3: 0.2;
-      B6: 0.1;
+      B1: 0.2,
+      B3: 0.2,
+      B6: 0.1,
       E: 0.1
     },
     minerals: {
-      iron: 0.15;
-      magnesium: 0.15;
-      zinc: 0.1;
+      iron: 0.15,
+      magnesium: 0.15,
+      zinc: 0.1,
       selenium: 0.1
     }
   },
@@ -100,15 +100,15 @@ export const baseNutritionalProfiles: Record<string, NutritionalProfile> = {
       fiber: 7
     },
     vitamins: {
-      B1: 0.1;
-      B6: 0.1;
-      K: 0.1;
+      B1: 0.1,
+      B6: 0.1,
+      K: 0.1,
       folate: 0.2
     },
     minerals: {
-      iron: 0.2;
-      magnesium: 0.15;
-      zinc: 0.1;
+      iron: 0.2,
+      magnesium: 0.15,
+      zinc: 0.1,
       potassium: 0.15
     },
     phytonutrients: {
@@ -124,13 +124,13 @@ export const baseNutritionalProfiles: Record<string, NutritionalProfile> = {
       fiber: 3
     },
     vitamins: {
-      E: 0.3;
+      E: 0.3,
       B6: 0.1
     },
     minerals: {
-      magnesium: 0.2;
-      zinc: 0.15;
-      selenium: 0.2;
+      magnesium: 0.2,
+      zinc: 0.15,
+      selenium: 0.2,
       copper: 0.2
     },
     phytonutrients: {
@@ -146,15 +146,15 @@ export const baseNutritionalProfiles: Record<string, NutritionalProfile> = {
       fiber: 0
     },
     vitamins: {
-      A: 0.1;
-      D: 0.15;
-      B12: 0.2;
+      A: 0.1,
+      D: 0.15,
+      B12: 0.2,
       riboflavin: 0.25
     },
     minerals: {
-      calcium: 0.3;
-      phosphorus: 0.2;
-      selenium: 0.1;
+      calcium: 0.3,
+      phosphorus: 0.2,
+      selenium: 0.1,
       zinc: 0.1
     }
   },
@@ -167,15 +167,15 @@ export const baseNutritionalProfiles: Record<string, NutritionalProfile> = {
       fiber: 0
     },
     vitamins: {
-      B12: 0.4;
-      B6: 0.2;
-      niacin: 0.25;
+      B12: 0.4,
+      B6: 0.2,
+      niacin: 0.25,
       riboflavin: 0.15
     },
     minerals: {
-      iron: 0.2;
-      zinc: 0.3;
-      phosphorus: 0.2;
+      iron: 0.2,
+      zinc: 0.3,
+      phosphorus: 0.2,
       selenium: 0.2
     }
   },
@@ -188,15 +188,15 @@ export const baseNutritionalProfiles: Record<string, NutritionalProfile> = {
       fiber: 0
     },
     vitamins: {
-      D: 0.3;
-      B12: 0.3;
-      niacin: 0.2;
+      D: 0.3,
+      B12: 0.3,
+      niacin: 0.2,
       B6: 0.15
     },
     minerals: {
-      selenium: 0.3;
-      phosphorus: 0.2;
-      iodine: 0.2;
+      selenium: 0.3,
+      phosphorus: 0.2,
+      iodine: 0.2,
       magnesium: 0.1
     }
   }
@@ -688,7 +688,7 @@ export function getZodiacNutritionalRecommendations(sign: string): {
     elementalBalance:
       (signData as { elementalNeeds?: Record<string, number> })?.elementalNeeds ?? {},
     focusNutrients: (signData as { nutritionalFocus?: string[] })?.nutritionalFocus ?? [],
-    recommendedFoods: signData.beneficialFoods;
+    recommendedFoods: signData.beneficialFoods,
     avoidFoods: signData.challengeFoods
   };
 }
@@ -875,9 +875,9 @@ export function evaluateNutritionalElementalBalance(
 
   // Calculate difference between current and target
   const differences = {
-    Fire: Math.abs(currentElements.Fire - targetElements.Fire);
-    Water: Math.abs(currentElements.Water - targetElements.Water);
-    Earth: Math.abs(currentElements.Earth - targetElements.Earth);
+    Fire: Math.abs(currentElements.Fire - targetElements.Fire),
+    Water: Math.abs(currentElements.Water - targetElements.Water),
+    Earth: Math.abs(currentElements.Earth - targetElements.Earth),
     Air: Math.abs(currentElements.Air - targetElements.Air)
   };
 

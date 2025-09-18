@@ -1,13 +1,13 @@
 export interface SignEnergyState {
-  sign: any;
-  baseEnergy: number;
+  sign: any,
+  baseEnergy: number,
   planetaryModifiers: Record<string, number>;
-  currentEnergy: number;
+  currentEnergy: number
 }
 
 export interface Aspect {
-  planet1: string;
-  planet2: string;
+  planet1: string,
+  planet2: string,
   type: string; // 'conjunction', 'sextile', 'square', 'trine', 'opposition'
 }
 
@@ -111,7 +111,7 @@ const ASPECT_STRENGTHS: Record<string, number> = {
 export interface PlanetaryPosition {
   sign?: string;
   degree?: number;
-  [key: string]: unknown;
+  [key: string]: unknown
 }
 
 /**

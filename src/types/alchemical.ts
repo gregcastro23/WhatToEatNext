@@ -34,8 +34,8 @@ export type AlchemicalAction =
   | { type: AlchemicalDispatchType.SET_DAYTIME; payload: boolean }
   | { type: AlchemicalDispatchType.SET_SEASONAL_STATE; payload: { season: string } }
   | {
-      type: AlchemicalDispatchType.SET_ELEMENTAL_PREFERENCE;
-      payload: { element: string; value: number };
+      type: AlchemicalDispatchType.SET_ELEMENTAL_PREFERENCE,
+      payload: { element: string, value: number };
     }
   | { type: AlchemicalDispatchType.SET_ELEMENTAL_STATE; payload: Record<string, number> }
   | { type: AlchemicalDispatchType.SET_ZODIAC_ENERGY; payload: string }
@@ -52,20 +52,20 @@ export interface AlchemicalState {
   planetaryPositions: Record<string, unknown>;
   normalizedPositions: Record<string, unknown>;
   elementalState: {
-    Fire: number;
-    Water: number;
-    Earth: number;
-    Air: number;
+    Fire: number,
+    Water: number,
+    Earth: number,
+    Air: number,
   };
-  lunarPhase: string;
-  dominantElement: string;
-  planetaryHour: string;
-  svgRepresentation: string | null;
+  lunarPhase: string,
+  dominantElement: string,
+  planetaryHour: string,
+  svgRepresentation: string | null,
   alchemicalValues: {
-    Spirit: number;
-    Essence: number;
-    Matter: number;
-    Substance: number;
+    Spirit: number,
+    Essence: number,
+    Matter: number,
+    Substance: number,
   };
   // Error handling properties
   error?: boolean;
@@ -76,15 +76,15 @@ export interface AlchemicalState {
   timeOfDay?: string;
   astrologicalState: AstrologicalState;
   currentEnergy?: {
-    zodiacEnergy: string;
-    lunarEnergy: string;
-    planetaryEnergy: string | string[];
+    zodiacEnergy: string,
+    lunarEnergy: string,
+    planetaryEnergy: string | string[]
   };
   elementalPreference?: {
-    Fire: number;
-    Water: number;
-    Earth: number;
-    Air: number;
+    Fire: number,
+    Water: number,
+    Earth: number,
+    Air: number,
   };
   celestialPositions?: {
     sun?: {
@@ -101,31 +101,31 @@ export interface AlchemicalState {
   zodiacEnergy?: string;
   lunarEnergy?: string;
   planetaryEnergy?: string[];
-  currentTime: Date;
-  lastUpdated: Date;
+  currentTime: Date,
+  lastUpdated: Date,
 }
 
 /**
  * Interface for astrological state
  */
 export interface AstrologicalState {
-  currentZodiac: string;
-  sunSign: string;
-  lunarPhase: string;
-  moonPhase: string;
+  currentZodiac: string,
+  sunSign: string,
+  lunarPhase: string,
+  moonPhase: string,
   activePlanets: string[];
   isDaytime?: boolean;
-  [key: string]: unknown;
+  [key: string]: unknown
 }
 
 /**
  * Interface for thermodynamic metrics used in alchemical calculations
  */
 export interface ThermodynamicMetrics {
-  heat: number;
-  entropy: number;
-  reactivity: number;
-  gregsEnergy: number;
-  kalchm: number;
-  monica: number;
+  heat: number,
+  entropy: number,
+  reactivity: number,
+  gregsEnergy: number,
+  kalchm: number,
+  monica: number,
 }

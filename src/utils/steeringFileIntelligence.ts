@@ -28,32 +28,32 @@ export const ELEMENTAL_COMPATIBILITY: ElementalCompatibilityMatrix = {
 export type Element = 'Fire' | 'Water' | 'Earth' | 'Air';
 
 export interface ElementalProperties {
-  Fire: number;
-  Water: number;
-  Earth: number;
-  Air: number;
+  Fire: number,
+  Water: number,
+  Earth: number,
+  Air: number,
 }
 
 export interface AstrologicalGuidance {
   planetaryPositions: Record<string, unknown>;
-  dominantElement: Element;
-  elementalBalance: ElementalProperties;
-  culturalSensitivity: CulturalGuidance;
-  performanceOptimizations: PerformanceGuidance;
+  dominantElement: Element,
+  elementalBalance: ElementalProperties,
+  culturalSensitivity: CulturalGuidance,
+  performanceOptimizations: PerformanceGuidance,
 }
 
 export interface CulturalGuidance {
-  inclusiveDesign: boolean;
-  respectfulRepresentation: boolean;
-  diverseCulinaryTraditions: boolean;
-  accessibilityCompliant: boolean;
+  inclusiveDesign: boolean,
+  respectfulRepresentation: boolean,
+  diverseCulinaryTraditions: boolean,
+  accessibilityCompliant: boolean,
 }
 
 export interface PerformanceGuidance {
-  lazyLoading: boolean;
-  memoization: boolean;
-  contextOptimization: boolean;
-  bundleSplitting: boolean;
+  lazyLoading: boolean,
+  memoization: boolean,
+  contextOptimization: boolean,
+  bundleSplitting: boolean,
 }
 
 /**
@@ -198,10 +198,10 @@ export class SteeringFileIntelligence {
    * Apply architectural patterns from steering files
    */
   public getArchitecturalGuidance(): {
-    componentPatterns: string[];
-    stateManagement: string[];
-    errorHandling: string[];
-    performance: string[];
+    componentPatterns: string[],
+    stateManagement: string[],
+    errorHandling: string[],
+    performance: string[],
   } {
     return {
       componentPatterns: [
@@ -235,10 +235,10 @@ export class SteeringFileIntelligence {
    * Apply technology stack guidance from steering files
    */
   public getTechnologyStackGuidance(): {
-    typescript: string[];
-    react: string[];
-    nextjs: string[];
-    testing: string[];
+    typescript: string[],
+    react: string[],
+    nextjs: string[],
+    testing: string[],
   } {
     return {
       typescript: [

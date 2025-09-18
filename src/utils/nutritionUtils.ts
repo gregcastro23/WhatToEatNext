@@ -98,9 +98,9 @@ export const _calculateNutritionalImpact = (;
 ): ElementalProperties => {
   const score = calculateNutritionalScore(nutrition);
   return {
-    Fire: elements.Fire * (1 + score * 0.2);
-    Water: elements.Water * (1 + score * 0.15);
-    Earth: elements.Earth * (1 + score * 0.25);
+    Fire: elements.Fire * (1 + score * 0.2),
+    Water: elements.Water * (1 + score * 0.15),
+    Earth: elements.Earth * (1 + score * 0.25),
     Air: elements.Air * (1 + score * 0.1)
   };
 };
@@ -198,14 +198,14 @@ export const _calculateEstimatedNutrition = (ingredients: unknown[]): unknown =>
 
   // Round values for readability
   return {
-    calories: Math.round(totals.calories);
-    protein: Math.round(totals.protein);
-    carbs: Math.round(totals.carbs);
-    fat: Math.round(totals.fat);
-    fiber: Math.round(totals.fiber);
-    sugar: Math.round(totals.sugar);
-    vitamins: Array.from(vitaminsPresent);
-    minerals: Array.from(mineralsPresent);
+    calories: Math.round(totals.calories),
+    protein: Math.round(totals.protein),
+    carbs: Math.round(totals.carbs),
+    fat: Math.round(totals.fat),
+    fiber: Math.round(totals.fiber),
+    sugar: Math.round(totals.sugar),
+    vitamins: Array.from(vitaminsPresent),
+    minerals: Array.from(mineralsPresent),
     source: 'Estimated from ingredients'
   };
 };

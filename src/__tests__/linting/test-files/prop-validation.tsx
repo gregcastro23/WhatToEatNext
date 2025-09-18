@@ -2,7 +2,7 @@
 interface Props {
   required: string;
   optional?: number;
-  callback: (value: string) => void;
+  callback: (value: string) => void
 }
 
 export function PropValidationComponent({ required, optional, callback }: Props) {

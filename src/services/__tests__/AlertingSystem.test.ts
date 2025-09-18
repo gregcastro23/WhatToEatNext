@@ -4,7 +4,7 @@ import AlertingSystem, { AlertRule } from '../AlertingSystem';
 // Mock the dependencies
 jest.mock('../BuildPerformanceMonitor', () => ({
   buildPerformanceMonitor: { subscribe: jest.fn(),
-    getPerformanceSummary: jest.fn(() => ({ averageBuildTime: 45000;
+    getPerformanceSummary: jest.fn(() => ({ averageBuildTime: 45000,
       averageCompilationTime: 30000,
       averageBundleSize: 3 * 1024 * 1024,
       averageMemoryUsage: 256 * 1024 * 1024,
@@ -16,16 +16,16 @@ jest.mock('../BuildPerformanceMonitor', () => ({
 
 jest.mock('../ErrorTrackingSystem', () => ({
   errorTrackingSystem: { subscribe: jest.fn(),
-    getErrorSummary: jest.fn(() => ({ totalActiveErrors: 150;
+    getErrorSummary: jest.fn(() => ({ totalActiveErrors: 150,
       totalActiveLintViolations: 300,
       totalRecentFailures: 2,
       criticalIssues: 5,
       automationOpportunities: 10
     })),
-    getCurrentQualityMetrics: jest.fn(() => ({ codeQualityScore: 75;
+    getCurrentQualityMetrics: jest.fn(() => ({ codeQualityScore: 75,
       technicalDebtScore: 45,
       maintainabilityIndex: 80,
-      errorRate: 0.05;
+      errorRate: 0.05,
       warningRate: 0.1
     }))
   }

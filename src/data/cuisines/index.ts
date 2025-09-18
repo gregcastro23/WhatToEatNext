@@ -282,12 +282,12 @@ export const CUISINES = {
 
 // Type for cuisine data
 export type CuisineData = {
-  name: string;
+  name: string,
   elementalProperties: {
-    Fire: number;
-    Water: number;
-    Earth: number;
-    Air: number;
+    Fire: number,
+    Water: number,
+    Earth: number,
+    Air: number,
   };
 };
 

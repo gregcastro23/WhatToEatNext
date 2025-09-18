@@ -25,7 +25,7 @@ import {
 } from './LintingFormattingSystem';
 
 export interface CodeQualityAutomationConfig {
-  importCleanup: ImportCleanupConfig;
+  importCleanup: ImportCleanupConfig,
   lintingFormatting: LintingFormattingConfig,
   dependencySecurity: DependencySecurityConfig,
   executionOrder: AutomationPhase[],
@@ -33,8 +33,8 @@ export interface CodeQualityAutomationConfig {
 }
 
 export interface GlobalAutomationSettings {
-  maxConcurrentOperations: number;
-  safetyValidationEnabled: boolean;
+  maxConcurrentOperations: number,
+  safetyValidationEnabled: boolean,
   buildValidationFrequency: number,
   rollbackOnFailure: boolean,
   continueOnError: boolean,
@@ -42,8 +42,8 @@ export interface GlobalAutomationSettings {
 }
 
 export interface AutomationPhase {
-  name: string;
-  description: string;
+  name: string,
+  description: string,
   system: 'importCleanup' | 'lintingFormatting' | 'dependencySecurity',
   enabled: boolean,
   dependencies: string[],
@@ -51,12 +51,12 @@ export interface AutomationPhase {
 }
 
 export interface CodeQualityAutomationResult {
-  overallSuccess: boolean;
-  phasesExecuted: number;
-  phasesSucceeded: number;
-  phasesFailed: number;
-  totalExecutionTime: number;
-  phaseResults: PhaseExecutionResult[];
+  overallSuccess: boolean,
+  phasesExecuted: number,
+  phasesSucceeded: number,
+  phasesFailed: number,
+  totalExecutionTime: number,
+  phaseResults: PhaseExecutionResult[],
   globalMetrics: GlobalQualityMetrics,
   errors: string[],
   warnings: string[],
@@ -64,9 +64,9 @@ export interface CodeQualityAutomationResult {
 }
 
 export interface PhaseExecutionResult {
-  phaseName: string;
-  system: string;
-  success: boolean;
+  phaseName: string,
+  system: string,
+  success: boolean,
   executionTime: number,
   result: unknown,
   errors: string[],
@@ -74,10 +74,10 @@ export interface PhaseExecutionResult {
 }
 
 export interface GlobalQualityMetrics {
-  filesProcessed: number;
-  importIssuesFixed: number;
-  lintingViolationsFixed: number;
-  formattingIssuesFixed: number;
+  filesProcessed: number,
+  importIssuesFixed: number,
+  lintingViolationsFixed: number,
+  formattingIssuesFixed: number,
   securityVulnerabilitiesFixed: number,
   dependencyUpdatesApplied: number,
   buildValidationsPassed: number,
@@ -188,9 +188,9 @@ export class CodeQualityAutomationSystem {
       result.overallSuccess = result.overallSuccess && result.phasesFailed === 0;
 
       logger.info(`Code quality automation completed in ${result.totalExecutionTime}ms`, {
-        phasesExecuted: result.phasesExecuted;
-        phasesSucceeded: result.phasesSucceeded;
-        phasesFailed: result.phasesFailed;
+        phasesExecuted: result.phasesExecuted,
+        phasesSucceeded: result.phasesSucceeded,
+        phasesFailed: result.phasesFailed,
         overallSuccess: result.overallSuccess
       });
 
@@ -214,8 +214,8 @@ export class CodeQualityAutomationSystem {
     const startTime = Date.now();
 
     const phaseResult: PhaseExecutionResult = {
-      phaseName: phase.name;
-      system: phase.system;
+      phaseName: phase.name,
+      system: phase.system,
       success: false,
       executionTime: 0,
       result: null,

@@ -45,12 +45,12 @@ import { logger } from '../utils/logger';
  * Interface for alchemical recommendations - Updated to use type aliases
  */
 export interface AlchemicalRecommendations {
-  topIngredients: AlchemicalItem[];
-  topMethods: AlchemicalItem[];
-  topCuisines: AlchemicalItem[];
-  dominantElement: ElementalCharacter;
-  dominantAlchemicalProperty: AlchemicalProperty;
-  elementalBalance: ElementalPropertiesType;
+  topIngredients: AlchemicalItem[],
+  topMethods: AlchemicalItem[],
+  topCuisines: AlchemicalItem[],
+  dominantElement: ElementalCharacter,
+  dominantAlchemicalProperty: AlchemicalProperty,
+  elementalBalance: ElementalPropertiesType,
   alchemicalState: AlchemicalPropertiesType,
   thermodynamicMetrics: ThermodynamicMetricsType,
   compatibility: number,
@@ -61,14 +61,14 @@ export interface AlchemicalRecommendations {
  * Interface for optimized recipe results - Updated to use type aliases
  */
 export interface OptimizedRecipeResult {
-  recipe: Recipe;
-  compatibility: number;
-  dominantElement: ElementalCharacter;
-  dominantAlchemicalProperty: AlchemicalProperty;
-  alchemicalScore: number;
-  seasonalScore: number;
-  ingredientMatchScore: number;
-  cookingMethodScore: number;
+  recipe: Recipe,
+  compatibility: number,
+  dominantElement: ElementalCharacter,
+  dominantAlchemicalProperty: AlchemicalProperty,
+  alchemicalScore: number,
+  seasonalScore: number,
+  ingredientMatchScore: number,
+  cookingMethodScore: number,
   lunarPhaseScore?: number,
   zodiacScore?: number,
   elementalProfile: ElementalPropertiesType,
@@ -79,13 +79,13 @@ export interface OptimizedRecipeResult {
  * Comprehensive elemental recommendation type - Updated to use type aliases
  */
 export interface ElementalRecommendation {
-  dominantElement: string;
-  elementalProfile: ElementalPropertiesType;
-  cookingTechniques: string[];
-  complementaryIngredients: string[];
-  flavorProfiles: string[];
-  healthBenefits: string[];
-  timeOfDay: string[];
+  dominantElement: string,
+  elementalProfile: ElementalPropertiesType,
+  cookingTechniques: string[],
+  complementaryIngredients: string[],
+  flavorProfiles: string[],
+  healthBenefits: string[],
+  timeOfDay: string[],
   seasonalBest: string[],
   moodEffects: string[],
   culinaryHerbs: string[],
@@ -96,11 +96,11 @@ export interface ElementalRecommendation {
  * Interface for food correspondence - Updated to use type aliases
  */
 export interface FoodCorrespondence {
-  name: string;
-  element: ElementalCharacter;
-  planetaryRuler: RulingPlanet;
-  timeOfDay: 'Day' | 'Night' | 'Both';
-  elementalProperties: ElementalPropertiesType;
+  name: string,
+  element: ElementalCharacter,
+  planetaryRuler: RulingPlanet,
+  timeOfDay: 'Day' | 'Night' | 'Both',
+  elementalProperties: ElementalPropertiesType,
   energyValues: ThermodynamicMetricsType,
   preparation: string[],
   combinations: string[],
@@ -111,10 +111,10 @@ export interface FoodCorrespondence {
  * Interface for compatibility score - Updated to use type aliases
  */
 export interface CompatibilityScore {
-  compatibility: number;
-  elementalMatch: ElementalPropertiesType;
-  recommendations: string[];
-  warnings: string[];
+  compatibility: number,
+  elementalMatch: ElementalPropertiesType,
+  recommendations: string[],
+  warnings: string[],
   scoreDetails?: {
     elementalMatch?: number;
     planetaryDayMatch?: number;
@@ -184,8 +184,8 @@ export class AlchemicalService {
    * Initialize the service with data
    */
   initialize(
-    ingredients: ElementalItem[] = [];
-    cookingMethods: ElementalItem[] = [];
+    ingredients: ElementalItem[] = [],
+    cookingMethods: ElementalItem[] = [],
     cuisines: ElementalItem[] = []
   ): AlchemicalService {
     this.ingredients = ingredients;
@@ -393,7 +393,7 @@ export class AlchemicalService {
       elementalBalance: DefaultElementalProperties,
       alchemicalState: DefaultAlchemicalProperties,
       thermodynamicMetrics: DefaultThermodynamicMetrics,
-      compatibility: 0.5;
+      compatibility: 0.5,
       reasoning: []
     };
   }
@@ -406,13 +406,13 @@ export class AlchemicalService {
     // Would go here - simplified for brevity
     return recipes.slice(0, count).map(recipe => ({
       recipe,
-      compatibility: 0.5;
+      compatibility: 0.5,
       dominantElement: 'Fire',
       dominantAlchemicalProperty: 'Spirit',
-      alchemicalScore: 0.5;
-      seasonalScore: 0.5;
-      ingredientMatchScore: 0.5;
-      cookingMethodScore: 0.5;
+      alchemicalScore: 0.5,
+      seasonalScore: 0.5,
+      ingredientMatchScore: 0.5,
+      cookingMethodScore: 0.5,
       elementalProfile: DefaultElementalProperties,
       thermodynamicProfile: DefaultThermodynamicMetrics
     }));
@@ -438,7 +438,7 @@ export class AlchemicalService {
       flavorProfiles: ((profileData.characteristics ).flavorProfiles as string[]) || [],
       healthBenefits: ((profileData.characteristics ).healthBenefits as string[]) || [],
       timeOfDay: ((profileData.characteristics ).timeOfDay as string[]) || [],
-      seasonalBest: this.getSeasonalRecommendations(dominantElement as unknown as Element);
+      seasonalBest: this.getSeasonalRecommendations(dominantElement as unknown as Element),
       moodEffects: ((profileData.characteristics ).moodEffects as string[]) || [],
       culinaryHerbs: ((profileData.characteristics ).culinaryHerbs as string[]) || [],
       compatibility: 0.5
@@ -492,7 +492,7 @@ export class AlchemicalService {
     // Implementation from FoodAlchemySystem
     // Would go here - simplified for brevity
     return {
-      compatibility: 0.5;
+      compatibility: 0.5,
       elementalMatch: DefaultElementalProperties,
       recommendations: [],
       warnings: []

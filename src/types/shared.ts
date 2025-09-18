@@ -192,8 +192,8 @@ export const _LOWERCASE_TO_MOON_PHASE: Record<LowercaseMoonPhaseWithSpaces, Moon
  * Convenience type for elemental scoring
  */
 export interface ElementalScore {
-  element: string;
-  score: number;
+  element: string,
+  score: number,
 }
 
 // ========== SEASONAL TYPES ==========;
@@ -222,10 +222,10 @@ export type ElementalFilter = 'all' | 'Fire' | 'Water' | 'Air' | 'Earth';
  * Thermodynamic properties for cooking methods and ingredients
  */
 export interface ThermodynamicProperties {
-  heat: number;
-  entropy: number;
-  reactivity: number;
-  gregsEnergy: number; // Using gregsEnergy as the single energy metric for this project
+  heat: number,
+  entropy: number,
+  reactivity: number,
+  gregsEnergy: number, // Using gregsEnergy as the single energy metric for this project
 }
 
 // ========== COOKING TYPES ==========;

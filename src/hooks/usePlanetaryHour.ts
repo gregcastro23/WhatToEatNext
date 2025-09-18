@@ -6,10 +6,10 @@ import { PlanetaryHourCalculator } from '../lib/PlanetaryHourCalculator';
 import useErrorHandler from './useErrorHandler';
 
 interface PlanetaryHourData {
-  currentPlanetaryHour: string;
-  planetaryHourChakras: string[];
-  isLoading: boolean;
-  error: string | null;
+  currentPlanetaryHour: string,
+  planetaryHourChakras: string[],
+  isLoading: boolean,
+  error: string | null,
 }
 
 /**

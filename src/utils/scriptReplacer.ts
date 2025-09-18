@@ -48,7 +48,7 @@ if (typeof window !== 'undefined') {
 
   // Ensure popup object exists
   if (!window.popup) {
-    window.popup = {;
+    window.popup = {
       create: function (_options?: unknown) {
         return {
           show: function () {
@@ -93,7 +93,7 @@ if (typeof window !== 'undefined') {
 
   // Safe chrome.tabs implementation
   if (!window.chrome.tabs) {
-    window.chrome.tabs = {;
+    window.chrome.tabs = {
       create: function () {
         log.info('[ScriptReplacer] Intercepted chrome.tabs.create call');
         return Promise.resolve({ id: 999 });

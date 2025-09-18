@@ -195,7 +195,7 @@ function validateSinglePlanetaryPosition(
           correctedData = {
             sign: String(sign),
             degree: Math.max(0, Math.min(TRANSIT_CONSTANTS.DEGREES_PER_SIGN - 0.01, degree)),
-            exactLongitude: Number(pos.exactLongitude);
+            exactLongitude: Number(pos.exactLongitude),
             isRetrograde: Boolean(pos.isRetrograde)
           };
         }
@@ -351,9 +351,9 @@ export function validateMathematicalConstants(constants: Record<string, number>)
       DEGREES_PER_SIGN: 30,
       SIGNS_PER_CIRCLE: 12,
       MAX_LONGITUDE: 360,
-      MIN_ELEMENT_VALUE: 0.05;
-      MAX_ELEMENT_VALUE: 1.0;
-      SELF_REINFORCEMENT_THRESHOLD: 0.3;
+      MIN_ELEMENT_VALUE: 0.05,
+      MAX_ELEMENT_VALUE: 1.0,
+      SELF_REINFORCEMENT_THRESHOLD: 0.3,
       HARMONY_THRESHOLD: 0.7
     };
 

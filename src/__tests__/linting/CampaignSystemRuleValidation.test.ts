@@ -254,10 +254,10 @@ describe('Campaign System Rule Validation', () => {
             // Flexible return structure
             return {
               patterns,
-              confidence: this.calculateConfidence(patterns);
-              recommendations: this.generateRecommendations(patterns);
+              confidence: this.calculateConfidence(patterns),
+              recommendations: this.generateRecommendations(patterns),
               metadata: { analysisTime: Date.now(),
-                dataSize: JSON.stringify(data).length;
+                dataSize: JSON.stringify(data).length,
                 complexity: this.calculateComplexity(data)
 };
             };
@@ -572,7 +572,7 @@ describe('Campaign System Rule Validation', () => {
             const _UNUSED_campaign: any = 'unused-campaign';
             const _UNUSED_progress: any = 0.0;
             const _UNUSED_metrics: any = {};
-            const _UNUSED_safety: any = false;
+            const _UNUSED_safety: any = false
           };
       `;
 
@@ -629,8 +629,8 @@ describe('Campaign System Rule Validation', () => {
             PERFORMANCE_OPTIMIZATION: 'performance-optimization'
 };
           private static readonly PROGRESS_THRESHOLDS = {
-            WARNING: 0.2;
-            CRITICAL: 0.5;
+            WARNING: 0.2,
+            CRITICAL: 0.5,
             SUCCESS: 0.9
 };
           private static readonly METRICS_CONFIG = {

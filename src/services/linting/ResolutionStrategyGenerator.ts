@@ -9,13 +9,13 @@ import { DomainContext, FileAnalysis } from './DomainContextDetector';
 import { ErrorClassification } from './ErrorClassificationSystem';
 
 export interface ResolutionStrategy {
-  id: string;
-  type: 'automated' | 'semi-automated' | 'manual' | 'configuration';
-  priority: 'critical' | 'high' | 'medium' | 'low';
-  confidence: number; // 0-1
+  id: string,
+  type: 'automated' | 'semi-automated' | 'manual' | 'configuration',
+  priority: 'critical' | 'high' | 'medium' | 'low',
+  confidence: number, // 0-1
   estimatedTime: number; // minutes
-  complexity: 'trivial' | 'simple' | 'moderate' | 'complex' | 'expert-required';
-  steps: ResolutionStep[];
+  complexity: 'trivial' | 'simple' | 'moderate' | 'complex' | 'expert-required',
+  steps: ResolutionStep[],
   prerequisites: Prerequisite[],
   validationRequirements: ValidationRequirement[],
   riskAssessment: StrategyRiskAssessment,
@@ -23,9 +23,9 @@ export interface ResolutionStrategy {
 }
 
 export interface ResolutionStep {
-  id: string;
-  description: string;
-  action: 'execute-command' | 'modify-file' | 'review-code' | 'run-test' | 'validate-build';
+  id: string,
+  description: string,
+  action: 'execute-command' | 'modify-file' | 'review-code' | 'run-test' | 'validate-build',
   details: StepDetails,
   automatable: boolean,
   estimatedTime: number,
@@ -56,8 +56,8 @@ export interface ValidationRequirement {
 }
 
 export interface StrategyRiskAssessment {
-  overall: 'low' | 'medium' | 'high' | 'critical';
-  breakingChangeProbability: number; // 0-1
+  overall: 'low' | 'medium' | 'high' | 'critical',
+  breakingChangeProbability: number, // 0-1
   dataLossProbability: number, // 0-1
   performanceImpactProbability: number, // 0-1
   mitigationStrategies: string[],
@@ -79,7 +79,7 @@ export interface StrategyGenerationContext {
 }
 
 export interface ProjectContext {
-  hasTests: boolean;
+  hasTests: boolean,
   hasCICD: boolean,
   teamSize: 'solo' | 'small' | 'medium' | 'large',
   riskTolerance: 'conservative' | 'moderate' | 'aggressive',
@@ -269,17 +269,16 @@ export class ResolutionStrategyGenerator {
 
     return {
       id,
-      type: strategy.type || 'manual';
-      priority: strategy.priority || this.determinePriority(errorClassification);
-      confidence: strategy.confidence || errorClassification.autoFixCapability.confidence;
+      type: strategy.type || 'manual',
+      priority: strategy.priority || this.determinePriority(errorClassification),
+      confidence: strategy.confidence || errorClassification.autoFixCapability.confidence,
       estimatedTime:
         strategy.estimatedTime || this.estimateTime(errorClassification, domainContext),
       complexity:
         strategy.complexity || this.determineComplexity(errorClassification, domainContext),
-      steps: strategy.steps || this.generateDefaultSteps(errorClassification);
+      steps: strategy.steps || this.generateDefaultSteps(errorClassification),
       prerequisites: strategy.prerequisites || [],
-      validationRequirements:
-        strategy.validationRequirements || this.generateDefaultValidation(errorClassification);
+      validationRequirements: strategy.validationRequirements || this.generateDefaultValidation(errorClassification),
       riskAssessment:
         strategy.riskAssessment || this.assessStrategyRisk(errorClassification, domainContext),
       alternatives: strategy.alternatives || this.generateAlternatives(errorClassification)
@@ -573,12 +572,12 @@ export class ResolutionStrategyGenerator {
     ),
 
     return {
-      totalStrategies: strategies.length;
+      totalStrategies: strategies.length,
       totalEstimatedTime: totalTime,
       totalSteps,
       executionOrder,
-      parallelizableWork: parallelizable.length;
-      riskDistribution: this.calculateRiskDistribution(strategies);
+      parallelizableWork: parallelizable.length,
+      riskDistribution: this.calculateRiskDistribution(strategies),
       recommendations: this.generatePlanRecommendations(strategies, grouped)
     };
   }
@@ -682,7 +681,7 @@ export class ResolutionStrategyGenerator {
     this.strategyTemplates.set('import/order', {
       type: 'automated',
       priority: 'low',
-      confidence: 0.95;
+      confidence: 0.95,
       complexity: 'trivial',
       estimatedTime: 1,
       steps: [
@@ -702,7 +701,7 @@ export class ResolutionStrategyGenerator {
     this.strategyTemplates.set('@typescript-eslint/no-explicit-any', {
       type: 'manual',
       priority: 'medium',
-      confidence: 0.3;
+      confidence: 0.3,
       complexity: 'complex',
       estimatedTime: 15,
       steps: [
@@ -737,7 +736,7 @@ export class ResolutionStrategyGenerator {
     this.strategyTemplates.set('default', {
       type: 'manual',
       priority: 'medium',
-      confidence: 0.5;
+      confidence: 0.5,
       complexity: 'moderate',
       estimatedTime: 10
     });
@@ -799,9 +798,9 @@ export class ResolutionStrategyGenerator {
 }
 
 export interface OptimizedResolutionPlan {
-  totalStrategies: number;
-  totalEstimatedTime: number;
-  totalSteps: number;
+  totalStrategies: number,
+  totalEstimatedTime: number,
+  totalSteps: number,
   executionOrder: string[],
   parallelizableWork: number,
   riskDistribution: Record<string, number>,

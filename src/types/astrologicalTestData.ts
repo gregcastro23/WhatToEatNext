@@ -9,15 +9,15 @@ export interface AstrologicalTestData {
   testZodiacSign?: string;
   testLunarPhase?: string;
   testElementalInfluence?: {
-    Fire: number;
-    Water: number;
-    Earth: number;
-    Air: number;
+    Fire: number,
+    Water: number,
+    Earth: number,
+    Air: number,
   };
   testDate?: Date;
   mockCoordinates?: {
-    latitude: number;
-    longitude: number;
+    latitude: number,
+    longitude: number,
   };
   testScenario?: string;
   expectedResults?: Record<string, unknown>;

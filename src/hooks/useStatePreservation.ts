@@ -293,7 +293,7 @@ export function useAstrologicalStatePreservation(componentId: string) {
       return {
         compatibility,
         isValid: true,
-        meetsMinimumThreshold: compatibility >= 0.7;
+        meetsMinimumThreshold: compatibility >= 0.7,
         isSelfReinforcing: compatibility >= 0.9
       };
     },
@@ -421,8 +421,8 @@ export function usePerformanceOptimizationGuidance() {
       const archGuidance = intelligence.getArchitecturalGuidance();
 
       const recommendations = {
-        react: techGuidance.react;
-        performance: archGuidance.performance;
+        react: techGuidance.react,
+        performance: archGuidance.performance,
         specific: [] as string[]
       };
 

@@ -15,8 +15,8 @@ import { getCurrentSeason } from '@/types/seasons';
  * AlchemicalRecommendation interface for providing structured recommendations
  */
 export interface AlchemicalRecommendation {
-  dominantElement: keyof ElementalProperties;
-  thermodynamics: ThermodynamicProperties;
+  dominantElement: keyof ElementalProperties,
+  thermodynamics: ThermodynamicProperties,
   recommendedIngredients: string[],
   recommendedCookingMethods: CookingMethod[],
   recommendations: string[],
@@ -116,9 +116,9 @@ export class AlchemicalRecommendationService {
           const context = {
             dateTime: new Date(),
   item: {
-              name: ingredient.name;
+              name: ingredient.name,
               type: 'ingredient' as const,
-  elementalProperties: ingredient.elementalProperties;
+  elementalProperties: ingredient.elementalProperties,
               seasonality: ingredient.season || [],
   planetaryRulers: (ingredient.astrologicalProfile?.rulingPlanets || []) as Planet[],
               flavorProfile: ingredient.culinaryProfile?.flavorProfile || {},
@@ -129,8 +129,8 @@ export class AlchemicalRecommendationService {
           const result = await scoreRecommendation(context);
           return {
             ingredient,
-            score: result.score;
-            confidence: result.confidence;
+            score: result.score,
+            confidence: result.confidence,
             dominantEffects: result.metadata.dominantEffects
           };
         } catch (error) {
@@ -141,7 +141,7 @@ export class AlchemicalRecommendationService {
               elementalProperties,
               ingredient.elementalProperties
             ),
-            confidence: 0.5;
+            confidence: 0.5,
             dominantEffects: ['fallback']
           };
         }
@@ -169,9 +169,9 @@ export class AlchemicalRecommendationService {
         score: this.engine.calculateElementalCompatibility(
           elementalProperties,
           ((method as unknown as any).elementalState as ElementalProperties) || {
-            Fire: 0.25;
-            Water: 0.25;
-            Earth: 0.25;
+            Fire: 0.25,
+            Water: 0.25,
+            Earth: 0.25,
             Air: 0.25
           },
         )
@@ -360,9 +360,9 @@ export class AlchemicalRecommendationService {
 
     // Get recipe's elemental properties (or use default if not present)
     const recipeElementalProperties = (recipe.elementalState as ElementalProperties) || {
-      Fire: 0.25;
-      Water: 0.25;
-      Earth: 0.25;
+      Fire: 0.25,
+      Water: 0.25,
+      Earth: 0.25,
       Air: 0.25
     };
 

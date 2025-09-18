@@ -163,9 +163,9 @@ export function validateUnintentionalAnyConfig(config: unknown): {
  * Business logic validation functions
  */
 export function validateBusinessRules(config: z.infer<typeof UnintentionalAnyConfigSchema>): {
-  isValid: boolean;
-  errors: string[];
-  warnings: string[];
+  isValid: boolean,
+  errors: string[],
+  warnings: string[]
 } {
   const errors: string[] = [];
   const warnings: string[] = [];

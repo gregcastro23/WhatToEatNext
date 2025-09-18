@@ -15,7 +15,7 @@ import { ResolutionStrategyGenerator } from './ResolutionStrategyGenerator';
 // Mock ESLint output for demonstration
 const _mockESLintOutput = [
   {
-    filePath: '/project/src/App.tsx';
+    filePath: '/project/src/App.tsx',
     messages: [
       {
         ruleId: 'import/order',
@@ -28,7 +28,7 @@ const _mockESLintOutput = [
       {
         ruleId: '@typescript-eslint/no-explicit-any',
         severity: 1,
-        message: 'Unexpected any. Specify a different type.';
+        message: 'Unexpected any. Specify a different type.',
         line: 15,
         column: 10
       },
@@ -42,7 +42,7 @@ const _mockESLintOutput = [
     ]
   },
   {
-    filePath: '/project/src/calculations/astrology.ts';
+    filePath: '/project/src/calculations/astrology.ts',
     messages: [
       {
         ruleId: '@typescript-eslint/no-unused-vars',
@@ -61,12 +61,12 @@ const _mockESLintOutput = [
     ]
   },
   {
-    filePath: '/project/src/services/campaign/CampaignController.ts';
+    filePath: '/project/src/services/campaign/CampaignController.ts',
     messages: [
       {
         ruleId: 'complexity',
         severity: 1,
-        message: 'Function has a complexity of 12. Maximum allowed is 10.';
+        message: 'Function has a complexity of 12. Maximum allowed is 10.',
         line: 50,
         column: 1
       },
@@ -95,25 +95,25 @@ function demonstrateErrorClassification() {
     {
       rule: 'import/order',
       message: 'Import order incorrect',
-      file: 'src/App.tsx';
+      file: 'src/App.tsx',
       hasAutoFix: true
     },
     {
       rule: '@typescript-eslint/no-explicit-any',
       message: 'Unexpected any',
-      file: 'src/utils.ts';
+      file: 'src/utils.ts',
       hasAutoFix: false
     },
     {
       rule: 'react-hooks/exhaustive-deps',
       message: 'Missing dependency',
-      file: 'src/components/Component.tsx';
+      file: 'src/components/Component.tsx',
       hasAutoFix: true
     },
     {
       rule: 'no-console',
       message: 'Console statement',
-      file: 'src/calculations/astrology.ts';
+      file: 'src/calculations/astrology.ts',
       hasAutoFix: false
     }
   ];
@@ -177,7 +177,7 @@ async function demonstrateDomainContextDetection() {
                   : file.includes('script')
                     ? 'script'
                     : 'component',
-          confidence: 0.8;
+          confidence: 0.8,
           indicators: [],
           specialRules: [],
           handlingRecommendations: []
@@ -249,7 +249,7 @@ function demonstrateResolutionStrategies() {
       ),
       domainContext: { type: 'astrological', confidence: 0.95 },
       fileAnalysis: {
-        filePath: 'src/calculations/astrology.ts';
+        filePath: 'src/calculations/astrology.ts',
         riskFactors: [],
         preservationRequirements: []
       },
@@ -291,8 +291,8 @@ function demonstrateCompleteWorkflow() {
     byCategory: {
       import: [
         {
-          id: 'src/App.tsx:1:1:import/order';
-          file: 'src/App.tsx';
+          id: 'src/App.tsx:1:1:import/order',
+          file: 'src/App.tsx',
           line: 1,
           column: 1,
           rule: 'import/order',
@@ -302,18 +302,18 @@ function demonstrateCompleteWorkflow() {
           autoFixable: true,
           resolutionStrategy: {
             type: 'auto-fix',
-            confidence: 0.9;
+            confidence: 0.9,
             riskLevel: 'low',
             requiredValidation: [],
-            estimatedEffort: 0.1;
+            estimatedEffort: 0.1,
             dependencies: []
           }
         } as LintingIssue
       ],
       typescript: [
         {
-          id: 'src/App.tsx:15:10:@typescript-eslint/no-explicit-any';
-          file: 'src/App.tsx';
+          id: 'src/App.tsx:15:10:@typescript-eslint/no-explicit-any',
+          file: 'src/App.tsx',
           line: 15,
           column: 10,
           rule: '@typescript-eslint/no-explicit-any',
@@ -323,7 +323,7 @@ function demonstrateCompleteWorkflow() {
           autoFixable: false,
           resolutionStrategy: {
             type: 'manual-review',
-            confidence: 0.3;
+            confidence: 0.3,
             riskLevel: 'medium',
             requiredValidation: [],
             estimatedEffort: 10,
@@ -333,8 +333,8 @@ function demonstrateCompleteWorkflow() {
       ],
       react: [
         {
-          id: 'src/App.tsx:25:5:react-hooks/exhaustive-deps';
-          file: 'src/App.tsx';
+          id: 'src/App.tsx:25:5:react-hooks/exhaustive-deps',
+          file: 'src/App.tsx',
           line: 25,
           column: 5,
           rule: 'react-hooks/exhaustive-deps',
@@ -344,7 +344,7 @@ function demonstrateCompleteWorkflow() {
           autoFixable: true,
           resolutionStrategy: {
             type: 'manual-review',
-            confidence: 0.5;
+            confidence: 0.5,
             riskLevel: 'high',
             requiredValidation: [],
             estimatedEffort: 5,

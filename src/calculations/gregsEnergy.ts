@@ -16,10 +16,10 @@ const debugLog = (_message: string, ..._args: unknown[]): void => {
  */
 export interface ElementalAlchemicalCounts {
   // Alchemical properties
-  Spirit: number;
-  Essence: number;
-  Matter: number;
-  Substance: number;
+  Spirit: number,
+  Essence: number,
+  Matter: number,
+  Substance: number,
 
   // Elemental characters
   Fire: number,
@@ -70,73 +70,73 @@ const _planetaryHours: Record<string, string[]> = {
  */
 const planetaryModifiers: Record<string, Record<string, number>> = {
   Sun: {
-    Fire: 0.3;
-    Water: -0.1;
-    Air: 0.1;
-    Earth: -0.1;
-    Spirit: 0.2;
+    Fire: 0.3,
+    Water: -0.1,
+    Air: 0.1,
+    Earth: -0.1,
+    Spirit: 0.2,
     Essence: 0,
-    Matter: -0.1;
+    Matter: -0.1,
     Substance: 0
   },
   Moon: {
-    Fire: -0.1;
-    Water: 0.3;
+    Fire: -0.1,
+    Water: 0.3,
     Air: 0,
-    Earth: 0.1;
+    Earth: 0.1,
     Spirit: 0,
-    Essence: 0.2;
-    Matter: 0.1;
+    Essence: 0.2,
+    Matter: 0.1,
     Substance: 0
   },
   Mars: {
-    Fire: 0.4;
-    Water: -0.2;
-    Air: -0.1;
+    Fire: 0.4,
+    Water: -0.2,
+    Air: -0.1,
     Earth: 0,
-    Spirit: 0.3;
-    Essence: -0.1;
-    Matter: 0.2;
+    Spirit: 0.3,
+    Essence: -0.1,
+    Matter: 0.2,
     Substance: -0.1
   },
   Mercury: {
-    Fire: 0.1;
-    Water: 0.1;
-    Air: 0.3;
-    Earth: -0.1;
-    Spirit: 0.1;
-    Essence: 0.2;
+    Fire: 0.1,
+    Water: 0.1,
+    Air: 0.3,
+    Earth: -0.1,
+    Spirit: 0.1,
+    Essence: 0.2,
     Matter: 0,
     Substance: 0.1
   },
   Jupiter: {
-    Fire: 0.2;
-    Water: 0.2;
-    Air: 0.1;
-    Earth: 0.3;
-    Spirit: 0.2;
-    Essence: 0.1;
-    Matter: 0.1;
+    Fire: 0.2,
+    Water: 0.2,
+    Air: 0.1,
+    Earth: 0.3,
+    Spirit: 0.2,
+    Essence: 0.1,
+    Matter: 0.1,
     Substance: 0.2
   },
   Venus: {
-    Fire: -0.1;
-    Water: 0.2;
-    Air: 0.2;
-    Earth: 0.1;
-    Spirit: 0.1;
-    Essence: 0.3;
-    Matter: -0.1;
+    Fire: -0.1,
+    Water: 0.2,
+    Air: 0.2,
+    Earth: 0.1,
+    Spirit: 0.1,
+    Essence: 0.3,
+    Matter: -0.1,
     Substance: 0.1
   },
   Saturn: {
-    Fire: -0.2;
-    Water: -0.1;
-    Air: -0.2;
-    Earth: 0.4;
-    Spirit: -0.1;
-    Essence: -0.1;
-    Matter: 0.3;
+    Fire: -0.2,
+    Water: -0.1,
+    Air: -0.2,
+    Earth: 0.4,
+    Spirit: -0.1,
+    Essence: -0.1,
+    Matter: 0.3,
     Substance: 0.2
   }
 };
@@ -167,13 +167,13 @@ class ThermodynamicCalculator {
     // Apply base modifiers without relying on potentially undefined positions
     // This ensures we always have some valid calculation
     const result = {
-      fire: state.fire * (1 + (modifiers.Fire || 0));
-      water: state.water * (1 + (modifiers.Water || 0));
-      air: state.air * (1 + (modifiers.Air || 0));
-      earth: state.earth * (1 + (modifiers.Earth || 0));
-      spirit: state.spirit * (1 + (modifiers.Spirit || 0));
-      essence: state.essence * (1 + (modifiers.Essence || 0));
-      matter: state.matter * (1 + (modifiers.Matter || 0));
+      fire: state.fire * (1 + (modifiers.Fire || 0)),
+      water: state.water * (1 + (modifiers.Water || 0)),
+      air: state.air * (1 + (modifiers.Air || 0)),
+      earth: state.earth * (1 + (modifiers.Earth || 0)),
+      spirit: state.spirit * (1 + (modifiers.Spirit || 0)),
+      essence: state.essence * (1 + (modifiers.Essence || 0)),
+      matter: state.matter * (1 + (modifiers.Matter || 0)),
       substance: state.substance * (1 + (modifiers.Substance || 0))
     };
 
@@ -387,13 +387,13 @@ class ThermodynamicCalculator {
  */
 export function convertToElementalState(counts: ElementalAlchemicalCounts): ElementalState {
   return {
-    spirit: counts.Spirit;
-    essence: counts.Essence;
-    matter: counts.Matter;
-    substance: counts.Substance;
-    fire: counts.Fire;
-    water: counts.Water;
-    air: counts.Air;
+    spirit: counts.Spirit,
+    essence: counts.Essence,
+    matter: counts.Matter,
+    substance: counts.Substance,
+    fire: counts.Fire,
+    water: counts.Water,
+    air: counts.Air,
     earth: counts.Earth
   };
 }

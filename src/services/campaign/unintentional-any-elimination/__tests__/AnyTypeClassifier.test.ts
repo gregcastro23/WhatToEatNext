@@ -15,7 +15,7 @@ describe('AnyTypeClassifier', () => {
   });
 
   const createContext: any = (codeSnippet: string, options: Partial<ClassificationContext> = {}): ClassificationContext => ({
-    filePath: 'test.ts';
+    filePath: 'test.ts',
     lineNumber: 1,
     codeSnippet,
     surroundingLines: [],
@@ -124,7 +124,7 @@ describe('AnyTypeClassifier', () => {
       const context: any = createContext(;
         'const _planetaryPositions: any = data,',;
         {
-          filePath: 'src/calculations/planetary/positions.ts';
+          filePath: 'src/calculations/planetary/positions.ts',
           domainContext: { domain: CodeDomain.ASTROLOGICAL,
             intentionalityHints: [],
             suggestedTypes: [],
@@ -144,7 +144,7 @@ describe('AnyTypeClassifier', () => {
       const context: any = createContext(;
         'const ingredient: any = data,',;
         {
-          filePath: 'src/data/ingredients/herbs.ts';
+          filePath: 'src/data/ingredients/herbs.ts',
           domainContext: { domain: CodeDomain.RECIPE,
             intentionalityHints: [],
             suggestedTypes: [],
@@ -217,7 +217,7 @@ describe('AnyTypeClassifier', () => {
       const context: any = createContext(;
         'const _mockData: any = {},',;
         {
-          filePath: 'src/components/__tests__/Component.test.tsx';
+          filePath: 'src/components/__tests__/Component.test.tsx',
           isInTestFile: true
         }
       );
@@ -251,7 +251,7 @@ describe('AnyTypeClassifier', () => {
       const context: any = createContext(;
         'const positions: any = planetaryData,',;
         {
-          filePath: 'src/calculations/planetary/positions.ts';
+          filePath: 'src/calculations/planetary/positions.ts',
           domainContext: { domain: CodeDomain.ASTROLOGICAL,
             intentionalityHints: [],
             suggestedTypes: [],
@@ -275,7 +275,7 @@ describe('AnyTypeClassifier', () => {
       const context: any = createContext(;
         'const ingredient: any = data,',;
         {
-          filePath: 'src/data/ingredients/herbs.ts';
+          filePath: 'src/data/ingredients/herbs.ts',
           domainContext: { domain: CodeDomain.RECIPE,
             intentionalityHints: [],
             suggestedTypes: [],
@@ -299,7 +299,7 @@ describe('AnyTypeClassifier', () => {
       const context: any = createContext(;
         'const config: any = campaignSettings,',;
         {
-          filePath: 'src/services/campaign/CampaignController.ts';
+          filePath: 'src/services/campaign/CampaignController.ts',
           domainContext: { domain: CodeDomain.CAMPAIGN,
             intentionalityHints: [],
             suggestedTypes: [],
@@ -323,7 +323,7 @@ describe('AnyTypeClassifier', () => {
       const context: any = createContext(;
         'const _serviceResponse: any = response,',;
         {
-          filePath: 'src/services/ExternalApiService.ts';
+          filePath: 'src/services/ExternalApiService.ts',
           domainContext: { domain: CodeDomain.SERVICE,
             intentionalityHints: [],
             suggestedTypes: [],
@@ -605,12 +605,12 @@ describe('AnyTypeClassifier', () => {
       const astroContext: any = createContext(;
         'const planetaryData: any = await getReliablePlanetaryPositions(),',;
         {
-          filePath: 'src/calculations/planetary/positions.ts';
+          filePath: 'src/calculations/planetary/positions.ts',
           domainContext: { domain: CodeDomain.ASTROLOGICAL,
             intentionalityHints: [
               {
                 reason: 'Planetary position data requires flexible typing',
-                confidence: 0.9;
+                confidence: 0.9,
                 suggestedAction: 'preserve'
               }
             ],

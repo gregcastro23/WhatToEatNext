@@ -13,11 +13,11 @@ import { existsSync, readFileSync, statSync, writeFileSync } from 'fs';
 import * as os from 'os';
 
 export interface PerformanceMetrics {
-  timestamp: Date;
-  executionTime: number;
-  memoryUsage: number;
-  cacheHitRate: number;
-  filesProcessed: number;
+  timestamp: Date,
+  executionTime: number,
+  memoryUsage: number,
+  cacheHitRate: number,
+  filesProcessed: number,
   parallelProcesses: number,
   incrementalTime?: number,
   errorCount: number,
@@ -33,8 +33,8 @@ export interface PerformanceThresholds {
 }
 
 export interface PerformanceAlert {
-  type: 'warning' | 'error' | 'critical';
-  metric: string;
+  type: 'warning' | 'error' | 'critical',
+  metric: string,
   threshold: number,
   actual: number,
   timestamp: Date,
@@ -115,10 +115,10 @@ export class PerformanceMonitoringService {
     const metrics: PerformanceMetrics = {
       timestamp: new Date(),
       executionTime,
-      memoryUsage: peakMemoryUsage - startMemory.heapUsed;
-      cacheHitRate: this.calculateCacheHitRate(options.cached);
-      filesProcessed: this.extractFilesProcessed(output);
-      parallelProcesses: options.parallel ? this.getParallelProcessCount() : 1;
+      memoryUsage: peakMemoryUsage - startMemory.heapUsed,
+      cacheHitRate: this.calculateCacheHitRate(options.cached),
+      filesProcessed: this.extractFilesProcessed(output),
+      parallelProcesses: options.parallel ? this.getParallelProcessCount() : 1,
       incrementalTime: options.incremental ? executionTime : undefined;
       errorCount,
       warningCount
@@ -271,15 +271,15 @@ export class PerformanceMonitoringService {
       averageCacheHitRate: number,
       totalAlerts: number
     },
-    performanceImprovement: ReturnType<typeof this.validatePerformanceImprovement>;
-    parallelProcessing: ReturnType<typeof this.validateParallelProcessing>;
-    memoryOptimization: ReturnType<typeof this.validateMemoryOptimization>;
-    incrementalPerformance: ReturnType<typeof this.validateIncrementalPerformance>;
-    recentAlerts: PerformanceAlert[];
-    recommendations: string[];
+    performanceImprovement: ReturnType<typeof this.validatePerformanceImprovement>,
+    parallelProcessing: ReturnType<typeof this.validateParallelProcessing>,
+    memoryOptimization: ReturnType<typeof this.validateMemoryOptimization>,
+    incrementalPerformance: ReturnType<typeof this.validateIncrementalPerformance>,
+    recentAlerts: PerformanceAlert[],
+    recommendations: string[],
   } {
     const summary = {
-      totalMeasurements: this.metrics.length;
+      totalMeasurements: this.metrics.length,
       averageExecutionTime:
         this.metrics.reduce((sum, m) => sum + m.executionTime, 0) / this.metrics.length || 0,
       averageMemoryUsage:
@@ -403,8 +403,8 @@ export class PerformanceMonitoringService {
       alerts.push({
         type: 'warning',
         metric: 'executionTime',
-        threshold: this.thresholds.maxExecutionTime;
-        actual: metrics.executionTime;
+        threshold: this.thresholds.maxExecutionTime,
+        actual: metrics.executionTime,
         timestamp: new Date(),
         message: `Linting execution time (${metrics.executionTime}ms) exceeded threshold (${this.thresholds.maxExecutionTime}ms)`
       });
@@ -415,8 +415,8 @@ export class PerformanceMonitoringService {
       alerts.push({
         type: 'error',
         metric: 'memoryUsage',
-        threshold: this.thresholds.maxMemoryUsage;
-        actual: metrics.memoryUsage;
+        threshold: this.thresholds.maxMemoryUsage,
+        actual: metrics.memoryUsage,
         timestamp: new Date(),
         message: `Memory usage (${Math.round(metrics.memoryUsage / 1024 / 1024)}MB) exceeded limit (${Math.round(this.thresholds.maxMemoryUsage / 1024 / 1024)}MB)`
       });
@@ -427,8 +427,8 @@ export class PerformanceMonitoringService {
       alerts.push({
         type: 'warning',
         metric: 'cacheHitRate',
-        threshold: this.thresholds.minCacheHitRate;
-        actual: metrics.cacheHitRate;
+        threshold: this.thresholds.minCacheHitRate,
+        actual: metrics.cacheHitRate,
         timestamp: new Date(),
         message: `Cache hit rate (${metrics.cacheHitRate}%) below optimal threshold (${this.thresholds.minCacheHitRate}%)`
       })
@@ -439,8 +439,8 @@ export class PerformanceMonitoringService {
       alerts.push({
         type: 'error',
         metric: 'incrementalTime',
-        threshold: this.thresholds.maxIncrementalTime;
-        actual: metrics.incrementalTime;
+        threshold: this.thresholds.maxIncrementalTime,
+        actual: metrics.incrementalTime,
         timestamp: new Date(),
         message: `Incremental linting time (${metrics.incrementalTime}ms) exceeded sub-10 second target (${this.thresholds.maxIncrementalTime}ms)`
       });
@@ -506,9 +506,9 @@ export class PerformanceMonitoringService {
   }
 
   private generateRecommendations(
-    performanceImprovement: ReturnType<typeof this.validatePerformanceImprovement>;
-    parallelProcessing: ReturnType<typeof this.validateParallelProcessing>;
-    memoryOptimization: ReturnType<typeof this.validateMemoryOptimization>;
+    performanceImprovement: ReturnType<typeof this.validatePerformanceImprovement>,
+    parallelProcessing: ReturnType<typeof this.validateParallelProcessing>,
+    memoryOptimization: ReturnType<typeof this.validateMemoryOptimization>,
     incrementalPerformance: ReturnType<typeof this.validateIncrementalPerformance>
   ): string[] {
     const recommendations: string[] = [];

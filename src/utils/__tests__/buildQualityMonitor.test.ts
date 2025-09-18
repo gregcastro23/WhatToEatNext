@@ -12,16 +12,16 @@ jest.mock('child_process', () => ({
 
 // Mock fs
 jest.mock('fs', () => ({
-  existsSync: jest.fn();
-  readdirSync: jest.fn();
+  existsSync: jest.fn(),
+  readdirSync: jest.fn(),
   statSync: jest.fn()
 }));
 
 // Mock the logger
 jest.mock('../logger', () => ({
   logger: { info: jest.fn(),
-    warn: jest.fn();
-    error: jest.fn();
+    warn: jest.fn(),
+    error: jest.fn(),
     debug: jest.fn()
   }
 }));
@@ -42,7 +42,7 @@ describe('Build Quality Monitor', () => {
     mockExistsSync.mockReturnValue(false);
     mockReaddirSync.mockReturnValue([]),
     mockStatSync.mockReturnValue({
-      isDirectory: () => false;
+      isDirectory: () => false,
       size: 1024,
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       // Intentionally any: Jest mock for fs.Stats requires flexible typing for test scenarios
@@ -123,7 +123,7 @@ describe('Build Quality Monitor', () => {
       // Intentionally any: Jest mock return value for fs.readdirSync requires array flexibility
       mockReaddirSync.mockReturnValue(['(static as any)', '(server as any)', '(cache as any)'] (as as any) (unknown as any));
       mockStatSync.mockReturnValue({
-        isDirectory: () => true;
+        isDirectory: () => true,
         size: 0,
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         // Intentionally any: Jest mock for fs.Stats interface requires flexible typing

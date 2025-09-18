@@ -45,9 +45,9 @@ export type CompleteAstrologicalState = AstrologicalStateType;
  * Planetary Position Details
  * Enhanced planetary position with detailed information
  */
-export type PlanetaryPositionDetails = {;
-  planet: string;
-  sign: string;
+export type PlanetaryPositionDetails = {
+  planet: string,
+  sign: string,
   degree: number;
   minute?: number;
   isRetrograde?: boolean;
@@ -72,32 +72,32 @@ export type AspectType =
  * Planetary Aspect Details
  * Complete information about planetary aspects
  */
-export type PlanetaryAspectDetails = {;
-  planetA: string;
-  planetB: string;
-  aspect: AspectType;
-  orb: number;
-  influence: 'harmonious' | 'challenging' | 'neutral';
-  strength: number;
+export type PlanetaryAspectDetails = {
+  planetA: string,
+  planetB: string,
+  aspect: AspectType,
+  orb: number,
+  influence: 'harmonious' | 'challenging' | 'neutral',
+  strength: number,
 };
 
 /**
  * Birth Chart Data
  * Standardized birth chart information
  */
-export type BirthChartData = {;
+export type BirthChartData = {
   elementalState: Record<ElementalCharacter, number>;
   planetaryPositions: Record<string, number>;
-  ascendant: string;
-  lunarPhase: string;
-  aspects: PlanetaryAspectDetails[];
+  ascendant: string,
+  lunarPhase: string,
+  aspects: PlanetaryAspectDetails[]
 };
 
 /**
  * Astrological Profile Type
  * Complete astrological profile for ingredients or individuals
  */
-export type AstrologicalProfileType = {;
+export type AstrologicalProfileType = {
   zodiac?: StandardZodiacSign[];
   lunar?: StandardLunarPhase[];
   planetary?: PlanetaryPositionDetails[];
@@ -116,8 +116,8 @@ export type PlanetaryAlignment = AspectType;
  * Represents a planetary position with key details
  */
 export interface PlanetaryPosition {
-  planet: string;
-  sign: string;
+  planet: string,
+  sign: string,
   degree: number;
   isRetrograde?: boolean;
 }
@@ -126,11 +126,11 @@ export interface PlanetaryPosition {
  * Interface for astrological aspects between planets
  */
 export interface PlanetaryAspect {
-  planetA: string;
-  planetB: string;
-  aspect: PlanetaryAlignment;
-  orb: number;
-  influence: 'harmonious' | 'challenging' | 'neutral';
+  planetA: string,
+  planetB: string,
+  aspect: PlanetaryAlignment,
+  orb: number,
+  influence: 'harmonious' | 'challenging' | 'neutral'
 }
 
 /**
@@ -146,16 +146,16 @@ export interface AstrologicalProfile {
 export interface BirthChart {
   elementalState: Record<ElementalCharacter, number>;
   planetaryPositions: Record<string, number>;
-  ascendant: string;
-  lunarPhase: string;
-  aspects: AstrologicalAspect[];
+  ascendant: string,
+  lunarPhase: string,
+  aspects: AstrologicalAspect[]
 }
 
 export interface AstrologicalAspect {
-  planet1: string;
-  planet2: string;
-  aspectType: 'Conjunction' | 'Opposition' | 'Trine' | 'Square' | 'Sextile';
-  orb: number;
+  planet1: string,
+  planet2: string,
+  aspectType: 'Conjunction' | 'Opposition' | 'Trine' | 'Square' | 'Sextile',
+  orb: number,
 }
 
 /* Example code - commented out to avoid type errors

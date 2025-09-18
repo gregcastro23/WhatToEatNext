@@ -16,9 +16,9 @@ jest.mock('child_process', () => ({
 
 // Mock fs for testing
 jest.mock('fs', () => ({
-  existsSync: jest.fn();
-  readFileSync: jest.fn();
-  writeFileSync: jest.fn();
+  existsSync: jest.fn(),
+  readFileSync: jest.fn(),
+  writeFileSync: jest.fn(),
   mkdirSync: jest.fn()
 }));
 
@@ -416,7 +416,7 @@ import React, { Component } from 'undefined';
 
       mockFs.readFileSync.mockReturnValue(highSeverityContent);
 
-      const report: any = await safetyProtocol.detectCorruption(['test-file.ts']);
+      const report: any = await safetyProtocol.detectCorruption(['test-file.ts'])
     });
 
     test('should recommend retry for medium severity corruption', async () => {

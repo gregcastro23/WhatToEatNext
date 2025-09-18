@@ -35,7 +35,7 @@ describe('CampaignController', () => {
           description: 'Eliminate all TypeScript compilation errors',
           tools: [
             {
-              scriptPath: 'scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js';
+              scriptPath: 'scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js',
               parameters: { maxFile, s: 15, autoFix: true, validateSafety: true },
               batchSize: 15,
               safetyLevel: SafetyLevel.MAXIMUM
@@ -51,7 +51,7 @@ describe('CampaignController', () => {
           description: 'Eliminate all linting warnings',
           tools: [
             {
-              scriptPath: 'scripts/typescript-fixes/fix-explicit-any-systematic.js';
+              scriptPath: 'scripts/typescript-fixes/fix-explicit-any-systematic.js',
               parameters: { maxFile, s: 25, autoFix: true },
               batchSize: 25,
               safetyLevel: SafetyLevel.HIGH
@@ -75,8 +75,8 @@ describe('CampaignController', () => {
         enterpriseSystems: 200
       },
       toolConfiguration: { enhancedErrorFixer: 'scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js',
-        explicitAnyFixer: 'scripts/typescript-fixes/fix-explicit-any-systematic.js';
-        unusedVariablesFixer: 'scripts/typescript-fixes/fix-unused-variables-enhanced.js';
+        explicitAnyFixer: 'scripts/typescript-fixes/fix-explicit-any-systematic.js',
+        unusedVariablesFixer: 'scripts/typescript-fixes/fix-unused-variables-enhanced.js',
         consoleStatementFixer: 'scripts/lint-fixes/fix-console-statements-only.js'
       }
     };
@@ -252,7 +252,7 @@ describe('CampaignController', () => {
       const result: any = await controller.validatePhaseCompletion(mockPhase);
 
       expect(result.success).toBe(false);
-      expect(result.errors).toContain('TypeScript errors: 5 > 0');
+      expect(result.errors).toContain('TypeScript errors: 5 > 0')
     });
 
     it('should detect linting warning validation failure', async () => {
@@ -264,7 +264,7 @@ describe('CampaignController', () => {
       const result: any = await controller.validatePhaseCompletion(phaseWithLintingCriteria);
 
       expect(result.success).toBe(false);
-      expect(result.errors).toContain('Linting warnings: 4506 > 0');
+      expect(result.errors).toContain('Linting warnings: 4506 > 0')
     });
 
     it('should detect build time validation warning', async () => {
@@ -276,7 +276,7 @@ describe('CampaignController', () => {
       const result: any = await controller.validatePhaseCompletion(phaseWithBuildTimeCriteria);
 
       expect(result.success).toBe(true);
-      expect(result.warnings).toContain('Build time: 8.5s > 5s');
+      expect(result.warnings).toContain('Build time: 8.5s > 5s')
     });
 
     it('should execute custom validation when provided', async () => {
@@ -298,7 +298,7 @@ describe('CampaignController', () => {
       const result: any = await controller.validatePhaseCompletion(mockPhase);
 
       expect(result.success).toBe(false);
-      expect(result.errors).toContain('Validation error: Metrics error');
+      expect(result.errors).toContain('Validation error: Metrics error')
     });
   });
 
@@ -389,7 +389,7 @@ describe('CampaignController', () => {
       const report: any = await controller.generatePhaseReport(mockPhase);
 
       expect(report.status).toBe(PhaseStatus.IN_PROGRESS);
-      expect(report.issues).toContain('TypeScript errors: 5 > 0');
+      expect(report.issues).toContain('TypeScript errors: 5 > 0')
     });
   });
 
@@ -527,7 +527,7 @@ describe('CampaignController', () => {
 
       const recommendations: any = (;
         controller as unknown as {
-          generateRecommendations: (phas, e: CampaignPhase, validation: ValidationResult) => string[];
+          generateRecommendations: (phas, e: CampaignPhase, validation: ValidationResult) => string[]
         }
       ).generateRecommendations(mockConfig.phases[0], validation);
 
@@ -543,7 +543,7 @@ describe('CampaignController', () => {
 
       const recommendations: any = (;
         controller as unknown as {
-          generateRecommendations: (phas, e: CampaignPhase, validation: ValidationResult) => string[];
+          generateRecommendations: (phas, e: CampaignPhase, validation: ValidationResult) => string[]
         }
       ).generateRecommendations(mockConfig.phases[0], validation);
 

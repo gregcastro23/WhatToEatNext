@@ -28,23 +28,23 @@ export type { ValidationResult, DryRunResult } from '../types/campaign';
 // ========== WORKFLOW TYPES ==========;
 
 export interface CampaignTemplate {
-  id: string;
-  name: string;
-  description: string;
-  category: 'typescript' | 'linting' | 'performance' | 'comprehensive';
-  difficulty: 'beginner' | 'intermediate' | 'advanced';
-  estimatedDuration: number; // minutes
-  phases: CampaignPhaseTemplate[];
-  safetySettings: SafetySettings;
-  prerequisites: string[];
-  expectedOutcomes: string[];
+  id: string,
+  name: string,
+  description: string,
+  category: 'typescript' | 'linting' | 'performance' | 'comprehensive',
+  difficulty: 'beginner' | 'intermediate' | 'advanced',
+  estimatedDuration: number, // minutes
+  phases: CampaignPhaseTemplate[],
+  safetySettings: SafetySettings,
+  prerequisites: string[],
+  expectedOutcomes: string[],
 }
 
 export interface CampaignPhaseTemplate {
-  id: string;
-  name: string;
-  description: string;
-  tools: ToolTemplate[];
+  id: string,
+  name: string,
+  description: string,
+  tools: ToolTemplate[],
   successCriteria: {
     typeScriptErrors?: number;
     lintingWarnings?: number;
@@ -52,44 +52,44 @@ export interface CampaignPhaseTemplate {
     customValidation?: string; // Function name or description
   };
   estimatedDuration: number; // minutes
-  riskLevel: 'low' | 'medium' | 'high';
+  riskLevel: 'low' | 'medium' | 'high'
 }
 
 export interface ToolTemplate {
-  name: string;
-  scriptPath: string;
-  description: string;
+  name: string,
+  scriptPath: string,
+  description: string,
   parameters: Record<string, ParameterTemplate>;
-  batchSize: number;
-  safetyLevel: 'LOW' | 'MEDIUM' | 'HIGH' | 'MAXIMUM';
+  batchSize: number,
+  safetyLevel: 'LOW' | 'MEDIUM' | 'HIGH' | 'MAXIMUM',
 }
 
 export interface ParameterTemplate {
-  type: 'string' | 'number' | 'boolean';
-  description: string;
-  defaultValue: unknown;
-  required: boolean;
+  type: 'string' | 'number' | 'boolean',
+  description: string,
+  defaultValue: unknown,
+  required: boolean,
   validation?: string; // Validation rule description
 }
 
 export interface CampaignWorkflow {
-  id: string;
-  name: string;
-  description: string;
-  steps: WorkflowStep[];
-  currentStep: number;
-  status: 'draft' | 'configured' | 'validated' | 'ready' | 'executing' | 'completed' | 'failed';
-  config: Partial<CampaignConfig>;
-  validationResults: ValidationResult[];
-  dryRunResults: DryRunResult[];
-  createdAt: Date;
-  updatedAt: Date;
+  id: string,
+  name: string,
+  description: string,
+  steps: WorkflowStep[],
+  currentStep: number,
+  status: 'draft' | 'configured' | 'validated' | 'ready' | 'executing' | 'completed' | 'failed',
+  config: Partial<CampaignConfig>,
+  validationResults: ValidationResult[],
+  dryRunResults: DryRunResult[],
+  createdAt: Date,
+  updatedAt: Date
 }
 
 export interface WorkflowStep {
-  id: string;
-  name: string;
-  description: string;
+  id: string,
+  name: string,
+  description: string,
   type:
     | 'template_selection'
     | 'configuration'
@@ -103,39 +103,39 @@ export interface WorkflowStep {
 }
 
 export interface ValidationRule {
-  field: string;
-  rule: string;
-  message: string;
-  severity: 'error' | 'warning' | 'info';
+  field: string,
+  rule: string,
+  message: string,
+  severity: 'error' | 'warning' | 'info',
 }
 
 export interface CampaignVersion {
-  id: string;
-  campaignId: string;
-  version: string;
-  config: CampaignConfig;
-  createdAt: Date;
-  createdBy: string;
-  description: string;
-  status: 'draft' | 'active' | 'archived';
+  id: string,
+  campaignId: string,
+  version: string,
+  config: CampaignConfig,
+  createdAt: Date,
+  createdBy: string,
+  description: string,
+  status: 'draft' | 'active' | 'archived',
   parentVersion?: string;
 }
 
 export interface RollbackPlan {
-  campaignId: string;
-  targetVersion: string;
-  rollbackSteps: RollbackStep[];
-  estimatedDuration: number;
-  riskAssessment: string;
-  approvalRequired: boolean;
+  campaignId: string,
+  targetVersion: string,
+  rollbackSteps: RollbackStep[],
+  estimatedDuration: number,
+  riskAssessment: string,
+  approvalRequired: boolean,
 }
 
 export interface RollbackStep {
-  id: string;
-  description: string;
-  action: 'restore_files' | 'revert_config' | 'rebuild' | 'validate';
+  id: string,
+  description: string,
+  action: 'restore_files' | 'revert_config' | 'rebuild' | 'validate',
   parameters: Record<string, unknown>;
-  estimatedDuration: number;
+  estimatedDuration: number
 }
 
 // ========== CAMPAIGN WORKFLOW MANAGER ==========;
@@ -171,10 +171,10 @@ export class CampaignWorkflowManager {
       id: workflowId,
       name: workflowName,
       description: `Campaign workflow based on ${template.name}`,
-      steps: this.createWorkflowSteps(template);
+      steps: this.createWorkflowSteps(template),
       currentStep: 0,
       status: 'draft',
-      config: this.templateToConfig(template);
+      config: this.templateToConfig(template),
       validationResults: [],
       dryRunResults: [],
       createdAt: new Date(),
@@ -194,7 +194,7 @@ export class CampaignWorkflowManager {
       id: workflowId,
       name: workflowName,
       description,
-      steps: this.createDefaultWorkflowSteps();
+      steps: this.createDefaultWorkflowSteps(),
       currentStep: 0,
       status: 'draft',
       config: {},
@@ -562,7 +562,7 @@ export class CampaignWorkflowManager {
           tools: [
             {
               name: 'Enhanced Error Fixer',
-              scriptPath: 'scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js';
+              scriptPath: 'scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js',
               description: 'Advanced TypeScript error fixing with safety protocols',
               parameters: {
                 maxFiles: {
@@ -627,7 +627,7 @@ export class CampaignWorkflowManager {
           tools: [
             {
               name: 'Explicit Any Eliminator',
-              scriptPath: 'scripts/typescript-fixes/fix-explicit-any-systematic.js';
+              scriptPath: 'scripts/typescript-fixes/fix-explicit-any-systematic.js',
               description: 'Remove explicit any types systematically',
               parameters: {
                 maxFiles: {
@@ -686,7 +686,7 @@ export class CampaignWorkflowManager {
           tools: [
             {
               name: 'Enhanced Error Fixer',
-              scriptPath: 'scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js';
+              scriptPath: 'scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js',
               description: 'Advanced TypeScript error fixing',
               parameters: {
                 maxFiles: {
@@ -711,7 +711,7 @@ export class CampaignWorkflowManager {
           tools: [
             {
               name: 'Explicit Any Eliminator',
-              scriptPath: 'scripts/typescript-fixes/fix-explicit-any-systematic.js';
+              scriptPath: 'scripts/typescript-fixes/fix-explicit-any-systematic.js',
               description: 'Remove explicit any types',
               parameters: {
                 maxFiles: {
@@ -736,7 +736,7 @@ export class CampaignWorkflowManager {
           tools: [
             {
               name: 'Build Optimizer',
-              scriptPath: 'scripts/performance/optimize-build.js';
+              scriptPath: 'scripts/performance/optimize-build.js',
               description: 'Optimize build configuration and performance',
               parameters: {
                 analyzeBundle: {
@@ -873,28 +873,28 @@ export class CampaignWorkflowManager {
     const phases: CampaignPhase[] = template.phases.map(
       phaseTemplate =>;
         ({
-          id: phaseTemplate.id;
-          name: phaseTemplate.name;
-          description: phaseTemplate.description;
+          id: phaseTemplate.id,
+          name: phaseTemplate.name,
+          description: phaseTemplate.description,
           tools: phaseTemplate.tools.map(toolTemplate => ({
-            scriptPath: toolTemplate.scriptPath;
+            scriptPath: toolTemplate.scriptPath,
             parameters: Object.fromEntries(
               Object.entries(toolTemplate.parameters).map(([key, param]) => [
                 key,
                 param.defaultValue
               ]),
             ),
-            batchSize: toolTemplate.batchSize;
+            batchSize: toolTemplate.batchSize,
             safetyLevel: toolTemplate.safetyLevel as string
           })),
-          successCriteria: phaseTemplate.successCriteria;
+          successCriteria: phaseTemplate.successCriteria,
           safetyCheckpoints: []
         }) as CampaignPhase,
     );
 
     return {
       phases,
-      safetySettings: template.safetySettings;
+      safetySettings: template.safetySettings,
       progressTargets: {
         typeScriptErrors: 0,
         lintingWarnings: 0,
@@ -902,19 +902,19 @@ export class CampaignWorkflowManager {
         enterpriseSystems: 200
       },
       toolConfiguration: {
-        enhancedErrorFixer: 'scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js';
-        explicitAnyFixer: 'scripts/typescript-fixes/fix-explicit-any-systematic.js';
-        unusedVariablesFixer: 'scripts/typescript-fixes/fix-unused-variables-enhanced.js';
+        enhancedErrorFixer: 'scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js',
+        explicitAnyFixer: 'scripts/typescript-fixes/fix-explicit-any-systematic.js',
+        unusedVariablesFixer: 'scripts/typescript-fixes/fix-unused-variables-enhanced.js',
         consoleStatementFixer: 'scripts/lint-fixes/fix-console-statements-only.js'
       }
     };
   }
 
   private async analyzeToolImpact(tool: Record<string, unknown>): Promise<{
-    files: string[];
-    changes: number;
-    issues: string[];
-    safetyScore: number;
+    files: string[],
+    changes: number,
+    issues: string[],
+    safetyScore: number,
   }> {
     // Mock analysis - in real implementation, this would analyze the actual tool impact
     return {
@@ -963,9 +963,9 @@ export class CampaignWorkflowManager {
         enterpriseSystems: 200
       },
       toolConfiguration: {
-        enhancedErrorFixer: 'scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js';
-        explicitAnyFixer: 'scripts/typescript-fixes/fix-explicit-any-systematic.js';
-        unusedVariablesFixer: 'scripts/typescript-fixes/fix-unused-variables-enhanced.js';
+        enhancedErrorFixer: 'scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js',
+        explicitAnyFixer: 'scripts/typescript-fixes/fix-explicit-any-systematic.js',
+        unusedVariablesFixer: 'scripts/typescript-fixes/fix-unused-variables-enhanced.js',
         consoleStatementFixer: 'scripts/lint-fixes/fix-console-statements-only.js'
       }
     };

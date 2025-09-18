@@ -44,7 +44,7 @@ describe('BuildValidator', () => {
         expect.arrayContaining([
           expect.objectContaining({
             type: 'create',
-            target: '.next';
+            target: '.next',
             description: 'Create build directory'
           })
         ])

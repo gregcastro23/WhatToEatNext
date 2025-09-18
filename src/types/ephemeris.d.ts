@@ -6,11 +6,11 @@ declare module 'ephemeris' {
       planet: string,
       julianDate: number,
     ): {
-      longitude: number;
-      latitude: number;
-      distance: number;
+      longitude: number,
+      latitude: number,
+      distance: number
     };
   }
 
-  export function toJulian(date: Date): number;
+  export function toJulian(date: Date): number
 }

@@ -9,7 +9,7 @@ export default function RouteError({
   reset
 }: {
   error: Error & { digest?: string };
-  reset: () => void;
+  reset: () => void
 }) {
   useEffect(() => {
     logger.error('Route error:', error);

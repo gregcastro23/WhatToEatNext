@@ -26,16 +26,16 @@ import { ErrorPattern } from './ErrorTrackingEnterpriseSystem';
 // ========== BATCH PROCESSING INTERFACES ==========;
 
 export interface BatchJob {
-  jobId: string;
-  batchId: string;
-  errors: TypeScriptError[];
-  pattern: ErrorPattern;
-  status: 'pending' | 'processing' | 'completed' | 'failed' | 'cancelled';
-  priority: number;
-  estimatedTime: number;
-  actualTime: number;
-  retryCount: number;
-  maxRetries: number;
+  jobId: string,
+  batchId: string,
+  errors: TypeScriptError[],
+  pattern: ErrorPattern,
+  status: 'pending' | 'processing' | 'completed' | 'failed' | 'cancelled',
+  priority: number,
+  estimatedTime: number,
+  actualTime: number,
+  retryCount: number,
+  maxRetries: number,
   createdAt: Date,
   startedAt?: Date,
   completedAt?: Date,
@@ -43,13 +43,13 @@ export interface BatchJob {
 }
 
 export interface BatchJobResult {
-  success: boolean;
-  errorsFixed: number;
-  errorsRemaining: number;
-  filesModified: string[];
-  buildValidationPassed: boolean;
-  testValidationPassed: boolean;
-  safetyScore: number;
+  success: boolean,
+  errorsFixed: number,
+  errorsRemaining: number,
+  filesModified: string[],
+  buildValidationPassed: boolean,
+  testValidationPassed: boolean,
+  safetyScore: number,
   warnings: string[],
   errors: string[],
   executionTime: number,
@@ -65,20 +65,20 @@ export interface RollbackData {
     modifiedContent: string
   }>;
   gitStashRef?: string;
-  timestamp: Date;
+  timestamp: Date
 }
 
 export interface BatchQueue {
-  queueId: string;
-  jobs: BatchJob[];
-  concurrency: number;
-  maxConcurrency: number;
-  processing: Set<string>;
-  completed: BatchJob[];
-  failed: BatchJob[];
-  totalJobs: number;
-  totalCompleted: number;
-  totalFailed: number;
+  queueId: string,
+  jobs: BatchJob[],
+  concurrency: number,
+  maxConcurrency: number,
+  processing: Set<string>,
+  completed: BatchJob[],
+  failed: BatchJob[],
+  totalJobs: number,
+  totalCompleted: number,
+  totalFailed: number,
   averageExecutionTime: number,
   successRate: number,
   createdAt: Date,
@@ -86,10 +86,10 @@ export interface BatchQueue {
 }
 
 export interface BatchOptimization {
-  optimizationId: string;
-  strategy: 'size' | 'pattern' | 'priority' | 'resource' | 'hybrid';
+  optimizationId: string,
+  strategy: 'size' | 'pattern' | 'priority' | 'resource' | 'hybrid',
   parameters: Record<string, number>;
-  effectiveness: number;
+  effectiveness: number,
   successRate: number,
   averageTime: number,
   lastUsed: Date,
@@ -97,12 +97,12 @@ export interface BatchOptimization {
 }
 
 export interface BatchSchedule {
-  scheduleId: string;
-  name: string;
-  enabled: boolean;
-  cronExpression: string;
-  batchSize: number;
-  concurrency: number;
+  scheduleId: string,
+  name: string,
+  enabled: boolean,
+  cronExpression: string,
+  batchSize: number,
+  concurrency: number,
   filters: {
     categories: ErrorCategory[],
     minPriority: number,
@@ -112,17 +112,17 @@ export interface BatchSchedule {
   optimization: BatchOptimization;
   lastRun?: Date;
   nextRun?: Date;
-  totalRuns: number;
-  successfulRuns: number;
+  totalRuns: number,
+  successfulRuns: number,
 }
 
 export interface BatchMetrics {
-  totalJobs: number;
-  completedJobs: number;
-  failedJobs: number;
-  activeJobs: number;
-  averageExecutionTime: number;
-  successRate: number;
+  totalJobs: number,
+  completedJobs: number,
+  failedJobs: number,
+  activeJobs: number,
+  averageExecutionTime: number,
+  successRate: number,
   throughput: number, // jobs per minute
   resourceUtilization: {
     cpu: number,
@@ -160,10 +160,10 @@ export class IntelligentBatchProcessor extends EventEmitter {
 
   // Adaptive parameters
   private adaptiveParameters = {
-    learningRate: 0.1;
-    explorationRate: 0.2;
-    decayRate: 0.95;
-    minSuccessRate: 0.6;
+    learningRate: 0.1,
+    explorationRate: 0.2,
+    decayRate: 0.95,
+    minSuccessRate: 0.6,
     maxRetries: 3,
     timeoutMultiplier: 1.5
   };
@@ -193,11 +193,11 @@ export class IntelligentBatchProcessor extends EventEmitter {
       parameters: {
         minBatchSize: 10,
         maxBatchSize: 30,
-        sizeGrowthRate: 0.1;
+        sizeGrowthRate: 0.1,
         sizeShrinkRate: 0.2
       },
-      effectiveness: 0.75;
-      successRate: 0.8;
+      effectiveness: 0.75,
+      successRate: 0.8,
       averageTime: 120,
       lastUsed: new Date(),
       adaptations: 0
@@ -208,12 +208,12 @@ export class IntelligentBatchProcessor extends EventEmitter {
       optimizationId: 'pattern_optimization',
       strategy: 'pattern',
       parameters: {
-        similarityThreshold: 0.8;
-        patternWeight: 0.7;
+        similarityThreshold: 0.8,
+        patternWeight: 0.7,
         diversityBonus: 0.3
       },
-      effectiveness: 0.85;
-      successRate: 0.85;
+      effectiveness: 0.85,
+      successRate: 0.85,
       averageTime: 150,
       lastUsed: new Date(),
       adaptations: 0
@@ -228,8 +228,8 @@ export class IntelligentBatchProcessor extends EventEmitter {
         mediumPriorityThreshold: 10,
         priorityWeight: 0.8
       },
-      effectiveness: 0.8;
-      successRate: 0.82;
+      effectiveness: 0.8,
+      successRate: 0.82,
       averageTime: 100,
       lastUsed: new Date(),
       adaptations: 0
@@ -245,8 +245,8 @@ export class IntelligentBatchProcessor extends EventEmitter {
         diskThreshold: 90,
         resourceWeight: 0.6
       },
-      effectiveness: 0.7;
-      successRate: 0.75;
+      effectiveness: 0.7,
+      successRate: 0.75,
       averageTime: 180,
       lastUsed: new Date(),
       adaptations: 0
@@ -257,13 +257,13 @@ export class IntelligentBatchProcessor extends EventEmitter {
       optimizationId: 'hybrid_optimization',
       strategy: 'hybrid',
       parameters: {
-        sizeWeight: 0.3;
-        patternWeight: 0.3;
-        priorityWeight: 0.2;
+        sizeWeight: 0.3,
+        patternWeight: 0.3,
+        priorityWeight: 0.2,
         resourceWeight: 0.2
       },
-      effectiveness: 0.9;
-      successRate: 0.88;
+      effectiveness: 0.9,
+      successRate: 0.88,
       averageTime: 130,
       lastUsed: new Date(),
       adaptations: 0
@@ -532,10 +532,10 @@ export class IntelligentBatchProcessor extends EventEmitter {
   private getPatternScore(error: TypeScriptError): number {
     // Simple pattern scoring based on error code
     const patternScores: Record<string, number> = {
-      TS2352: 0.9;
-      TS2304: 0.85;
-      TS2345: 0.8;
-      TS2362: 0.75;
+      TS2352: 0.9,
+      TS2304: 0.85,
+      TS2345: 0.8,
+      TS2362: 0.75,
       TS2322: 0.7
     };
 
@@ -615,7 +615,7 @@ export class IntelligentBatchProcessor extends EventEmitter {
       estimatedTime: this.estimateJobTime(errors, pattern, optimization),
       actualTime: 0,
       retryCount: 0,
-      maxRetries: this.adaptiveParameters.maxRetries;
+      maxRetries: this.adaptiveParameters.maxRetries,
       createdAt: new Date()
     };
   }
@@ -777,7 +777,7 @@ export class IntelligentBatchProcessor extends EventEmitter {
       const fixerCommand = this.buildFixerCommand(job);
       const output = execSync(fixerCommand, {
         encoding: 'utf8',
-        timeout: this.DEFAULT_TIMEOUT;
+        timeout: this.DEFAULT_TIMEOUT,
         stdio: 'pipe'
       });
 
@@ -949,7 +949,7 @@ export class IntelligentBatchProcessor extends EventEmitter {
 
       const rollbackData: RollbackData = {
         rollbackId,
-        jobId: job.jobId;
+        jobId: job.jobId,
         modifiedFiles: [],
         gitStashRef: stashRef,
         timestamp: new Date()
@@ -963,7 +963,7 @@ export class IntelligentBatchProcessor extends EventEmitter {
       // Fallback to file-based rollback
       const rollbackData: RollbackData = {
         rollbackId,
-        jobId: job.jobId;
+        jobId: job.jobId,
         modifiedFiles: [],
         timestamp: new Date()
       };
@@ -1179,7 +1179,7 @@ export class IntelligentBatchProcessor extends EventEmitter {
       processing: new Set(),
       completed: [],
       failed: [],
-      totalJobs: jobs.length;
+      totalJobs: jobs.length,
       totalCompleted: 0,
       totalFailed: 0,
       averageExecutionTime: 0,
@@ -1284,11 +1284,11 @@ export class IntelligentBatchProcessor extends EventEmitter {
     return {
       patternId: `generic_${errorCode}_${Date.now()}`,
       errorCode,
-      frequency: errors.length;
-      successRate: 0.7;
-      averageFixTime: 3.0;
+      frequency: errors.length,
+      successRate: 0.7,
+      averageFixTime: 3.0,
       complexity: 'medium',
-      automationPotential: 0.6;
+      automationPotential: 0.6,
       lastSeen: new Date()
     };
   }
@@ -1326,9 +1326,9 @@ export class IntelligentBatchProcessor extends EventEmitter {
   private async persistData(): Promise<void> {
     try {
       const data = {
-        queues: Array.from(this.queues.entries());
-        optimizations: Array.from(this.optimizations.entries());
-        schedules: Array.from(this.schedules.entries());
+        queues: Array.from(this.queues.entries()),
+        optimizations: Array.from(this.optimizations.entries()),
+        schedules: Array.from(this.schedules.entries()),
         rollbackData: Array.from(this.rollbackData.entries())
       };
 
@@ -1390,8 +1390,8 @@ export class IntelligentBatchProcessor extends EventEmitter {
         reductionRate: 0
       },
       qualityMetrics: {
-        buildStability: 0.85;
-        testStability: 0.9;
+        buildStability: 0.85,
+        testStability: 0.9,
         safetyScore: 0.8
       }
     } as ProcessingResult;
@@ -1427,8 +1427,8 @@ export class IntelligentBatchProcessor extends EventEmitter {
     ),
 
     return {
-      isProcessing: this.isProcessing;
-      queuesCount: this.queues.size;
+      isProcessing: this.isProcessing,
+      queuesCount: this.queues.size,
       optimizationsCount: this.optimizations.size;
       activeJobs
     };

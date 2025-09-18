@@ -7,18 +7,18 @@ import { AspectType } from '@/types/alchemy';
 
 // Interface for position data
 export interface PlanetaryPositionData {
-  sign: string;
-  degree: number;
+  sign: string,
+  degree: number,
   exactLongitude?: number;
   isRetrograde?: boolean;
 }
 
 // Interface for aspect data
 export interface AspectData {
-  planet1: string;
-  planet2: string;
-  type: AspectType;
-  orb: number;
+  planet1: string,
+  planet2: string,
+  type: AspectType,
+  orb: number,
   strength: number;
   influence?: number;
 }
@@ -123,7 +123,7 @@ export function calculateComprehensiveAspects(
 
           // Check if this is the best aspect so far
           if (!bestAspect || strength > bestAspect.strength) {
-            bestAspect = {;
+            bestAspect = {
               type,
               orb,
               strength

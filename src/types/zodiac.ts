@@ -14,11 +14,11 @@ export type ZodiacSign =
   | 'pisces';
 
 // Elemental Properties
-export type ElementalProperties = {;
-  Fire: number;
-  Earth: number;
-  Air: number;
-  Water: number;
+export type ElementalProperties = {
+  Fire: number,
+  Earth: number,
+  Air: number,
+  Water: number,
 };
 
 // Zodiac Date Ranges
@@ -81,8 +81,8 @@ export const _getElementalAffinity = (sign: any): keyof ElementalProperties => {
 export const _elementalCompatibility: Record<
   keyof ElementalProperties,
   {
-    compatible: Array<keyof ElementalProperties>;
-    incompatible: Array<keyof ElementalProperties>;
+    compatible: Array<keyof ElementalProperties>,
+    incompatible: Array<keyof ElementalProperties>,
   }
 > = {
   Fire: {
@@ -107,17 +107,17 @@ export const _elementalCompatibility: Record<
 export const _elementalCharacteristics: Record<
   keyof ElementalProperties,
   {
-    qualities: string[];
-    keywords: string[];
-    foods: string[];
-    cookingTechniques: string[];
-    flavorProfiles: string[];
-    seasonalAssociations: string[];
-    healthBenefits: string[];
-    complementaryIngredients: string[];
-    moodEffects: string[];
-    culinaryHerbs: string[];
-    timeOfDay: string[];
+    qualities: string[],
+    keywords: string[],
+    foods: string[],
+    cookingTechniques: string[],
+    flavorProfiles: string[],
+    seasonalAssociations: string[],
+    healthBenefits: string[],
+    complementaryIngredients: string[],
+    moodEffects: string[],
+    culinaryHerbs: string[],
+    timeOfDay: string[]
   }
 > = {
   Fire: {
@@ -183,20 +183,20 @@ export const _elementalCharacteristics: Record<
 export type ElementalType = 'Fire' | 'Earth' | 'Air' | 'Water';
 
 export interface ElementalAffinity {
-  Fire: number;
-  Earth: number;
-  Air: number;
-  Water: number;
+  Fire: number,
+  Earth: number,
+  Air: number,
+  Water: number,
 }
 
 export interface CelestialPosition {
-  sign: any;
-  degree: number;
-  minutes: number;
+  sign: any,
+  degree: number,
+  minutes: number
 }
 
 export interface CelestialData {
-  sun: CelestialPosition;
-  moon: CelestialPosition;
-  timestamp: number;
+  sun: CelestialPosition,
+  moon: CelestialPosition,
+  timestamp: number
 }

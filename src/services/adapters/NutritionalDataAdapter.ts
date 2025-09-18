@@ -38,15 +38,15 @@ export interface NutritionalDataAdapterInterface {
 
   // Astrological nutrition recommendations
   getZodiacNutritionalRecommendations(sign: any | string): {
-    focusNutrients: string[];
-    recommendedFoods: string[];
-    avoidFoods: string[];
+    focusNutrients: string[],
+    recommendedFoods: string[],
+    avoidFoods: string[]
   };
 
   getPlanetaryNutritionalRecommendations(planets: PlanetName[] | string[]): {
-    focusNutrients: string[];
-    healthAreas: string[];
-    recommendedFoods: string[];
+    focusNutrients: string[],
+    healthAreas: string[],
+    recommendedFoods: string[]
   };
 
   getEnhancedPlanetaryNutritionalRecommendations(
@@ -54,17 +54,17 @@ export interface NutritionalDataAdapterInterface {
     planetaryHour: PlanetName | string,
     currentTime?: Date,
   ): {
-    elements: ElementalProperties;
-    focusNutrients: string[];
-    healthAreas: string[];
-    recommendedFoods: string[];
+    elements: ElementalProperties,
+    focusNutrients: string[],
+    healthAreas: string[],
+    recommendedFoods: string[],
   };
 
   // Seasonal nutrition recommendations
   getSeasonalNutritionalRecommendations(season: Season | string): {
-    element: Element;
-    focusNutrients: string[];
-    seasonalFoods: string[];
+    element: Element,
+    focusNutrients: string[],
+    seasonalFoods: string[]
   };
 
   // Evaluation
@@ -72,9 +72,9 @@ export interface NutritionalDataAdapterInterface {
     profile: NutritionalProfile,
     targetElements: ElementalProperties,
   ): {
-    score: number;
-    imbalances: string[];
-    recommendations: string[];
+    score: number,
+    imbalances: string[],
+    recommendations: string[]
   };
 }
 
@@ -169,9 +169,9 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
    * Get nutritional recommendations based on zodiac sign
    */
   getZodiacNutritionalRecommendations(sign: any | string): {
-    focusNutrients: string[];
-    recommendedFoods: string[];
-    avoidFoods: string[];
+    focusNutrients: string[],
+    recommendedFoods: string[],
+    avoidFoods: string[]
   } {
     try {
       // Convert sign to string for the original function with safe type casting
@@ -209,9 +209,9 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
    * Get nutritional recommendations based on planetary influences
    */
   getPlanetaryNutritionalRecommendations(planets: PlanetName[] | string[]): {
-    focusNutrients: string[];
-    healthAreas: string[];
-    recommendedFoods: string[];
+    focusNutrients: string[],
+    healthAreas: string[],
+    recommendedFoods: string[]
   } {
     try {
       // Convert planets to strings for the original function
@@ -244,10 +244,10 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
     planetaryHour: PlanetName | string,
     currentTime: Date = new Date(),;
   ): {
-    elements: ElementalProperties;
-    focusNutrients: string[];
-    healthAreas: string[];
-    recommendedFoods: string[];
+    elements: ElementalProperties,
+    focusNutrients: string[],
+    healthAreas: string[],
+    recommendedFoods: string[],
   } {
     try {
       // Convert planet names to strings for the original function
@@ -296,9 +296,9 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
    * Get seasonal nutritional recommendations
    */
   getSeasonalNutritionalRecommendations(season: Season | string): {
-    element: Element;
-    focusNutrients: string[];
-    seasonalFoods: string[];
+    element: Element,
+    focusNutrients: string[],
+    seasonalFoods: string[]
   } {
     try {
       // Convert season to string for the original function
@@ -312,7 +312,7 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
     } catch (error) {
       // Use safe type casting for errorHandler service access
       type ErrorHandlerWithLogError = typeof errorHandler & {
-        logError?: (error: unknown, context: unknown) => void;
+        logError?: (error: unknown, context: unknown) => void
       };
       const errorHandlerService = errorHandler as ErrorHandlerWithLogError;
       errorHandlerService.logError?.(error, {
@@ -335,9 +335,9 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
     profile: NutritionalProfile,
     targetElements: ElementalProperties,
   ): {
-    score: number;
-    imbalances: string[];
-    recommendations: string[];
+    score: number,
+    imbalances: string[],
+    recommendations: string[]
   } {
     try {
       // Convert targetElements to the format expected by the original function

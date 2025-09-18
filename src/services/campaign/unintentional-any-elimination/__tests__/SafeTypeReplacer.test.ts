@@ -33,7 +33,7 @@ const mockFs: any = fs as jest.Mocked<typeof fs>;
 jest.mock('../SafetyValidator', () => ({
   SafetyValidator: jest.fn().mockImplementation(() => ({ calculateSafetyScore: jest.fn().mockReturnValue({
       isValid: true,
-      safetyScore: 0.9;
+      safetyScore: 0.9,
       validationErrors: [],
       warnings: [],
       recommendations: []
@@ -104,9 +104,9 @@ describe('SafeTypeReplacer', () => {
     test('successfully replaces array types', async () => {
       const replacement: TypeReplacement = { original: 'unknown[]',,;
         replacement: 'unknown[]',
-        filePath: 'test.ts';
+        filePath: 'test.ts',
         lineNumber: 1,
-        confidence: 0.9;
+        confidence: 0.9,
         validationRequired: true
       };
 
@@ -123,7 +123,7 @@ describe('SafeTypeReplacer', () => {
     test('handles low safety score rejection', async () => {
       const replacement: TypeReplacement = { original: 'any',,;
         replacement: 'string',
-        filePath: 'test.ts';
+        filePath: 'test.ts',
         lineNumber: 1,
         confidence: 0.3, // Low confidence,
         validationRequired: true
@@ -139,9 +139,9 @@ describe('SafeTypeReplacer', () => {
     test('rolls back on TypeScript compilation failure', async () => {
       const replacement: TypeReplacement = { original: 'unknown[]',,;
         replacement: 'unknown[]',
-        filePath: 'test.ts';
+        filePath: 'test.ts',
         lineNumber: 1,
-        confidence: 0.9;
+        confidence: 0.9,
         validationRequired: true
       };
 
@@ -156,15 +156,15 @@ describe('SafeTypeReplacer', () => {
 
       expect(result.success).toBe(false);
       expect(result.rollbackPerformed).toBe(true);
-      expect(result.compilationErrors).toContain('error TS2322: Type mismatch');
+      expect(result.compilationErrors).toContain('error TS2322: Type mismatch')
     });
 
     test('handles invalid line numbers', async () => {
       const replacement: TypeReplacement = { original: 'unknown[]',,;
         replacement: 'unknown[]',
-        filePath: 'test.ts';
+        filePath: 'test.ts',
         lineNumber: 999, // Invalid line number
-        confidence: 0.9;
+        confidence: 0.9,
         validationRequired: true
       };
 
@@ -179,9 +179,9 @@ describe('SafeTypeReplacer', () => {
     test('handles pattern not found in line', async () => {
       const replacement: TypeReplacement = { original: 'string[]',,;
         replacement: 'unknown[]',
-        filePath: 'test.ts';
+        filePath: 'test.ts',
         lineNumber: 1,
-        confidence: 0.9;
+        confidence: 0.9,
         validationRequired: true
       };
 
@@ -200,17 +200,17 @@ describe('SafeTypeReplacer', () => {
         {
           original: 'unknown[]',
           replacement: 'unknown[]',
-          filePath: 'test1.ts';
+          filePath: 'test1.ts',
           lineNumber: 1,
-          confidence: 0.9;
+          confidence: 0.9,
           validationRequired: true
         },
         {
           original: 'Record<string, unknown>',
           replacement: 'Record<string, unknown>',
-          filePath: 'test2.ts';
+          filePath: 'test2.ts',
           lineNumber: 1,
-          confidence: 0.8;
+          confidence: 0.8,
           validationRequired: true
         }
       ];
@@ -234,9 +234,9 @@ describe('SafeTypeReplacer', () => {
         {
           original: 'unknown[]',
           replacement: 'unknown[]',
-          filePath: 'test1.ts';
+          filePath: 'test1.ts',
           lineNumber: 1,
-          confidence: 0.9;
+          confidence: 0.9,
           validationRequired: true
         }
       ];
@@ -252,7 +252,7 @@ describe('SafeTypeReplacer', () => {
 
       expect(result.success).toBe(false);
       expect(result.rollbackPerformed).toBe(true);
-      expect(result.compilationErrors).toContain('error TS2322: Overall type error');
+      expect(result.compilationErrors).toContain('error TS2322: Overall type error')
     });
 
     test('groups replacements by file correctly', async () => {
@@ -260,17 +260,17 @@ describe('SafeTypeReplacer', () => {
         {
           original: 'unknown[]',
           replacement: 'unknown[]',
-          filePath: 'test.ts';
+          filePath: 'test.ts',
           lineNumber: 2,
-          confidence: 0.9;
+          confidence: 0.9,
           validationRequired: true
         },
         {
           original: 'any',
           replacement: 'unknown',
-          filePath: 'test.ts';
+          filePath: 'test.ts',
           lineNumber: 1,
-          confidence: 0.8;
+          confidence: 0.8,
           validationRequired: true
         }
       ];
@@ -288,9 +288,9 @@ describe('SafeTypeReplacer', () => {
     test('calculates higher scores for array replacements', () => {
       const replacement: TypeReplacement = { original: 'unknown[]',,;
         replacement: 'unknown[]',
-        filePath: 'test.ts';
+        filePath: 'test.ts',
         lineNumber: 1,
-        confidence: 0.7;
+        confidence: 0.7,
         validationRequired: true
       };
 
@@ -302,9 +302,9 @@ describe('SafeTypeReplacer', () => {
     test('calculates lower scores for error handling contexts', () => {
       const replacement: TypeReplacement = { original: 'catch (error: any)',,;
         replacement: 'catch (erro, r: any)',
-        filePath: 'test.ts';
+        filePath: 'test.ts',
         lineNumber: 1,
-        confidence: 0.8;
+        confidence: 0.8,
         validationRequired: true
       };
 
@@ -315,9 +315,9 @@ describe('SafeTypeReplacer', () => {
     test('boosts scores for test files', () => {
       const replacement: TypeReplacement = { original: 'any',,;
         replacement: 'unknown',
-        filePath: 'test.test.ts';
+        filePath: 'test.test.ts',
         lineNumber: 1,
-        confidence: 0.7;
+        confidence: 0.7,
         validationRequired: true
       };
 
@@ -360,8 +360,8 @@ describe('SafeTypeReplacer', () => {
     test('allows adding custom strategies', () => {
       const customStrategy: any = {
         pattern: /custom_pattern/g,
-        replacement: () => 'custom_replacement';
-        validator: () => true;
+        replacement: () => 'custom_replacement',
+        validator: () => true,
         priority: 0
       };
 
@@ -425,9 +425,9 @@ describe('SafeTypeReplacer', () => {
     test('handles file system errors gracefully', async () => {
       const replacement: TypeReplacement = { original: 'unknown[]',,;
         replacement: 'unknown[]',
-        filePath: 'test.ts';
+        filePath: 'test.ts',
         lineNumber: 1,
-        confidence: 0.9;
+        confidence: 0.9,
         validationRequired: true
       };
 
@@ -445,9 +445,9 @@ describe('SafeTypeReplacer', () => {
     test('handles compilation errors with rollback', async () => {
       const replacement: TypeReplacement = { original: 'unknown[]',,;
         replacement: 'unknown[]',
-        filePath: 'test.ts';
+        filePath: 'test.ts',
         lineNumber: 1,
-        confidence: 0.9;
+        confidence: 0.9,
         validationRequired: true
       };
 
@@ -462,7 +462,7 @@ describe('SafeTypeReplacer', () => {
 
       expect(result.success).toBe(false);
       expect(result.rollbackPerformed).toBe(true);
-      expect(result.compilationErrors).toContain('error TS2322: Type error');
+      expect(result.compilationErrors).toContain('error TS2322: Type error')
     });
   });
 
@@ -737,17 +737,17 @@ describe('SafeTypeReplacer', () => {
         {
           original: 'unknown[]',
           replacement: 'string[]',
-          filePath: 'test1.ts';
+          filePath: 'test1.ts',
           lineNumber: 1,
-          confidence: 0.9;
+          confidence: 0.9,
           validationRequired: true
         },
         {
           original: 'any',
           replacement: 'InvalidType', // This should cause compilation error
-          filePath: 'test2.ts';
+          filePath: 'test2.ts',
           lineNumber: 1,
-          confidence: 0.8;
+          confidence: 0.8,
           validationRequired: true
         }
       ];
@@ -774,15 +774,15 @@ describe('SafeTypeReplacer', () => {
 
       expect(result.success).toBe(false);
       expect(result.rollbackPerformed).toBe(true);
-      expect(result.compilationErrors).toContain('error TS2304: Cannot find name 'InvalidType'');
+      expect(result.compilationErrors).toContain('error TS2304: Cannot find name 'InvalidType'')
     });
 
     test('handles file system permission errors', async () => {
       const replacement: TypeReplacement = { original: 'unknown[]',,;
         replacement: 'unknown[]',
-        filePath: 'readonly.ts';
+        filePath: 'readonly.ts',
         lineNumber: 1,
-        confidence: 0.9;
+        confidence: 0.9,
         validationRequired: true
       };
 
@@ -791,15 +791,15 @@ describe('SafeTypeReplacer', () => {
         throw new Error('EACCES: permission denied')
       });
 
-      await expect(replacer.applyReplacement(replacement)).rejects.toThrow('EACCES: permission denied');
+      await expect(replacer.applyReplacement(replacement)).rejects.toThrow('EACCES: permission denied')
     });
 
     test('handles corrupted backup files', async () => {
       const replacement: TypeReplacement = { original: 'unknown[]',,;
         replacement: 'unknown[]',
-        filePath: 'test.ts';
+        filePath: 'test.ts',
         lineNumber: 1,
-        confidence: 0.9;
+        confidence: 0.9,
         validationRequired: true
       };
 
@@ -817,9 +817,9 @@ describe('SafeTypeReplacer', () => {
     test('handles network timeouts during validation', async () => {
       const replacement: TypeReplacement = { original: 'unknown[]',,;
         replacement: 'unknown[]',
-        filePath: 'test.ts';
+        filePath: 'test.ts',
         lineNumber: 1,
-        confidence: 0.9;
+        confidence: 0.9,
         validationRequired: true
       };
 
@@ -843,9 +843,9 @@ describe('SafeTypeReplacer', () => {
       const largeContent: any = 'const items: any[] = [],\n'.repeat(10000),;
       const replacement: TypeReplacement = { original: 'unknown[]',,;
         replacement: 'unknown[]',
-        filePath: 'large.ts';
+        filePath: 'large.ts',
         lineNumber: 5000,
-        confidence: 0.9;
+        confidence: 0.9,
         validationRequired: true
       };
 
@@ -865,7 +865,7 @@ describe('SafeTypeReplacer', () => {
         replacement: 'unknown[]',
         filePath: `test${i}.ts`,
         lineNumber: 1,
-        confidence: 0.9;
+        confidence: 0.9,
         validationRequired: true
       }));
 
@@ -883,9 +883,9 @@ describe('SafeTypeReplacer', () => {
     test('cleans up resources after processing', async () => {
       const replacement: TypeReplacement = { original: 'unknown[]',,;
         replacement: 'unknown[]',
-        filePath: 'test.ts';
+        filePath: 'test.ts',
         lineNumber: 1,
-        confidence: 0.9;
+        confidence: 0.9,
         validationRequired: true
       };
 
@@ -906,9 +906,9 @@ describe('SafeTypeReplacer', () => {
     test('integrates with safety validator for comprehensive validation', async () => {
       const replacement: TypeReplacement = { original: 'unknown[]',,;
         replacement: 'unknown[]',
-        filePath: 'test.ts';
+        filePath: 'test.ts',
         lineNumber: 1,
-        confidence: 0.9;
+        confidence: 0.9,
         validationRequired: true
       };
 
@@ -934,7 +934,7 @@ describe('SafeTypeReplacer', () => {
     test('respects safety validator recommendations', async () => {
       const lowConfidenceReplacement: TypeReplacement = { original: 'any',,;
         replacement: 'string',
-        filePath: 'test.ts';
+        filePath: 'test.ts',
         lineNumber: 1,
         confidence: 0.3, // Very low confidence,
         validationRequired: true

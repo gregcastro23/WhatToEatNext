@@ -7,10 +7,10 @@ import { planetaryModifiers } from '@/utils/planetaryCycles';
  * Interface for planetary information
  */
 export interface PlanetInfo {
-  name: string;
-  sign: string;
-  degree: number;
-  isRetrograde: boolean;
+  name: string,
+  sign: string,
+  degree: number,
+  isRetrograde: boolean,
   dignity: {
     type: string,
     strength: number
@@ -20,19 +20,19 @@ export interface PlanetInfo {
     element: string
   };
   aspects: {
-    planet: string;
+    planet: string,
     type: string,
     orb: number
   }[];
   elementalInfluence: {
-    fire: number;
-    water: number;
+    fire: number,
+    water: number,
     air: number,
     earth: number
   };
   tokenInfluence: {
-    spirit: number;
-    essence: number;
+    spirit: number,
+    essence: number,
     matter: number,
     substance: number
   };
@@ -141,7 +141,7 @@ export function getPlanetInfo(
         .filter(aspect => aspect.planet1 === planetKey || aspect.planet2 === planetKey);
         .map(aspect => ({
           planet: aspect.planet1 === planetKey ? aspect.planet2 : aspect.planet1,,;
-          type: aspect.type;
+          type: aspect.type,
           orb: aspect.orb || 0
         }));
     } catch (error) {
@@ -268,9 +268,9 @@ export function getPlanetInfo(
       const planetary = planetaryModifiers[normalizedPlanetName];
       if (planetary) {
         tokenInfluence = {
-          spirit: planetary.Spirit || 0;
-          essence: planetary.Essence || 0;
-          matter: planetary.Matter || 0;
+          spirit: planetary.Spirit || 0,
+          essence: planetary.Essence || 0,
+          matter: planetary.Matter || 0,
           substance: planetary.Substance || 0
         };
       } else {
@@ -336,6 +336,6 @@ export function getAspectDescription(aspectType: string): string {
     case 'semisextile':
       return 'The planets are 30° apart, creating a subtle connection that stimulates growth.';
     default:
-      return 'This aspect creates a specific relationship between the planetary energies.';
+      return 'This aspect creates a specific relationship between the planetary energies.'
   }
 }

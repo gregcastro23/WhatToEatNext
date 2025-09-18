@@ -60,14 +60,14 @@ export interface TarotAstrologyData {
       exactLongitude?: number
     }
   >;
-  currentZodiac: string | null;
-  activePlanets: string[];
-  isDaytime: boolean;
-  lunarPhase: LunarPhaseWithSpaces | null;
+  currentZodiac: string | null,
+  activePlanets: string[],
+  isDaytime: boolean,
+  lunarPhase: LunarPhaseWithSpaces | null,
 
   // Tarot data
-  minorCard: TarotCard | null;
-  majorCard: TarotCard | null;
+  minorCard: TarotCard | null,
+  majorCard: TarotCard | null,
   planetaryCards: Record<string, TarotCard>;
 
   // Alchemical values from tarot
@@ -81,7 +81,7 @@ export interface TarotAstrologyData {
   // Derived data
   tarotElementBoosts: Record<ElementalCharacter, number>;
   tarotPlanetaryBoosts: Record<string, number>;
-  currentLunarPhase: LunarPhaseWithSpaces | null;
+  currentLunarPhase: LunarPhaseWithSpaces | null
 }
 
 export interface TarotAstrologyResult extends TarotAstrologyData {
@@ -194,7 +194,7 @@ export const _useTarotAstrologyData = (): TarotAstrologyResult => {
       // Get sun position from planetary alignment if available
       const sunPosition = currentPlanetaryAlignment.sun;
         ? {
-            sign: currentPlanetaryAlignment.sun.sign;
+            sign: currentPlanetaryAlignment.sun.sign,
             degree: currentPlanetaryAlignment.sun.degree || 0
           }
         : undefined;
@@ -205,13 +205,13 @@ export const _useTarotAstrologyData = (): TarotAstrologyResult => {
       // Calculate cards with sun position - don't use cache to ensure fresh calculation
       const cards = getTarotCardsForDate(currentDate, sunPosition);
       setTarotCards({
-        minorCard: cards.minorCard || null;
+        minorCard: cards.minorCard || null,
         majorCard: cards.majorCard
           ? ({
-              name: cards.majorCard.name;
-              planet: cards.majorCard.planet;
-              element: cards.majorCard.element;
-              keywords: cards.majorCard.keywords;
+              name: cards.majorCard.name,
+              planet: cards.majorCard.planet,
+              element: cards.majorCard.element,
+              keywords: cards.majorCard.keywords,
               suit: 'Major Arcana', // Major arcana cards don't have suits, so use a placeholder
               number: 0, // Major arcana cards don't have numbers, so use 0
             } as TarotCard)
@@ -422,9 +422,9 @@ export const _useTarotAstrologyData = (): TarotAstrologyResult => {
       } catch (error) {
         logger.error('Error calculating tarot energy boosts', error),
         return {
-          Spirit: 0.25;
-          Essence: 0.25;
-          Matter: 0.25;
+          Spirit: 0.25,
+          Essence: 0.25,
+          Matter: 0.25,
           Substance: 0.25
         };
       }
@@ -447,8 +447,8 @@ export const _useTarotAstrologyData = (): TarotAstrologyResult => {
     activePlanets,
     isDaytime,
     lunarPhase,
-    minorCard: tarotCards.minorCard;
-    majorCard: tarotCards.majorCard;
+    minorCard: tarotCards.minorCard,
+    majorCard: tarotCards.majorCard,
     planetaryCards,
     alchemicalValues,
     tarotElementBoosts,

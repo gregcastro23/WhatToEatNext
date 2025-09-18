@@ -7,14 +7,14 @@ interface AstrologicalChart {
   houses: Record<string, { sign: string; degree: number }>;
   aspects: Array<{ planet1: string; planet2: string; type: string; degree: number }>;
   timestamp: Date;
-  [key: string]: unknown;
+  [key: string]: unknown
 }
 
 interface ChartContextType {
-  currentChart: AstrologicalChart | null;
-  isLoading: boolean;
-  error: string | null;
-  updateChart: (data: AstrologicalChart | null) => void;
+  currentChart: AstrologicalChart | null,
+  isLoading: boolean,
+  error: string | null,
+  updateChart: (data: AstrologicalChart | null) => void,
 }
 
 const defaultContextValue: ChartContextType = {

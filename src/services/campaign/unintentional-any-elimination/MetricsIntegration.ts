@@ -120,9 +120,9 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
   async setBaselineMetrics(): Promise<void> {
     this.baselineMetrics = await this.getUnintentionalAnyMetrics();
     // // console.log(`📊 Baseline metrics set:`, {
-      totalAnyTypes: this.baselineMetrics.totalAnyTypes;
-      intentionalAnyTypes: this.baselineMetrics.intentionalAnyTypes;
-      unintentionalAnyTypes: this.baselineMetrics.unintentionalAnyTypes;
+      totalAnyTypes: this.baselineMetrics.totalAnyTypes,
+      intentionalAnyTypes: this.baselineMetrics.intentionalAnyTypes,
+      unintentionalAnyTypes: this.baselineMetrics.unintentionalAnyTypes,
       documentationCoverage: `${this.baselineMetrics.documentationCoverage.toFixed(1)}%`
     });
   }
@@ -205,8 +205,8 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
         phaseId: 'unintentional-any-analysis',
         phaseName: 'Unintentional Any Type Analysis',
         startTime: new Date(),
-        status: PhaseStatus.COMPLETED;
-        metrics: await this.getProgressMetrics();
+        status: PhaseStatus.COMPLETED,
+        metrics: await this.getProgressMetrics(),
         achievements: [
           `Analyzed ${unintentionalAnyMetrics.totalAnyTypes} any types`,
           `Identified ${unintentionalAnyMetrics.intentionalAnyTypes} intentional any types`,
@@ -228,7 +228,7 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
           unintentionalAnyMetrics.reductionFromBaseline > 0
             ? PhaseStatus.COMPLETED
             : PhaseStatus.NOT_STARTED;
-        metrics: await this.getProgressMetrics();
+        metrics: await this.getProgressMetrics(),
         achievements:
           unintentionalAnyMetrics.reductionFromBaseline > 0
             ? [`Achieved ${unintentionalAnyMetrics.reductionFromBaseline.toFixed(1)}% reduction`]
@@ -249,7 +249,7 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
           unintentionalAnyMetrics.documentationCoverage >= 80
             ? PhaseStatus.COMPLETED
             : PhaseStatus.IN_PROGRESS;
-        metrics: await this.getProgressMetrics();
+        metrics: await this.getProgressMetrics(),
         achievements:
           unintentionalAnyMetrics.documentationCoverage >= 80
             ? [
@@ -271,7 +271,7 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
       unintentionalAnyMetrics,
       unintentionalAnyPhases,
       fileBreakdown,
-      metricsHistory: this.getUnintentionalAnyMetricsHistory();
+      metricsHistory: this.getUnintentionalAnyMetricsHistory(),
       improvement: this.calculateUnintentionalAnyImprovement()
     }
   }
@@ -285,8 +285,8 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
       const exportData = {
         timestamp: new Date().toISOString();
         report,
-        history: this.metricsHistory;
-        baseline: this.baselineMetrics;
+        history: this.metricsHistory,
+        baseline: this.baselineMetrics,
         fileBreakdown: await this.getExplicitAnyBreakdownByFile()
       };
 
@@ -319,8 +319,8 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
       current: metrics,
       trend,
       topFiles,
-      alerts: this.generateAlerts(metrics);
-      recommendations: this.generateUnintentionalAnyRecommendations(metrics);
+      alerts: this.generateAlerts(metrics),
+      recommendations: this.generateUnintentionalAnyRecommendations(metrics),
       lastUpdated: new Date()
     };
   }
@@ -380,9 +380,9 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
     const latest = this.metricsHistory[this.metricsHistory.length - 1];
 
     return {
-      totalAnyTypesReduced: first.totalAnyTypes - latest.totalAnyTypes;
-      unintentionalAnyTypesReduced: first.unintentionalAnyTypes - latest.unintentionalAnyTypes;
-      documentationImproved: latest.documentationCoverage - first.documentationCoverage;
+      totalAnyTypesReduced: first.totalAnyTypes - latest.totalAnyTypes,
+      unintentionalAnyTypesReduced: first.unintentionalAnyTypes - latest.unintentionalAnyTypes,
+      documentationImproved: latest.documentationCoverage - first.documentationCoverage,
       reductionRate: latest.reductionFromBaseline
     };
   }
@@ -505,7 +505,7 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
     const recommendations: string[] = [];
 
     if (metrics.documentationCoverage < 50) {
-      recommendations.push('Critical: Add documentation to intentional any types');
+      recommendations.push('Critical: Add documentation to intentional any types')
     } else if (metrics.documentationCoverage < 80) {
       recommendations.push('Improve documentation coverage to reach 80% target');
     }
@@ -529,7 +529,7 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
 
 // Additional types for metrics integration
 export interface UnintentionalAnyProgressReport extends ProgressReport {
-  unintentionalAnyMetrics: UnintentionalAnyMetrics;
+  unintentionalAnyMetrics: UnintentionalAnyMetrics,
   unintentionalAnyPhases: PhaseReport[],
   fileBreakdown: Record<string, number>,
   metricsHistory: UnintentionalAnyMetrics[],
@@ -547,9 +547,9 @@ export interface UnintentionalAnyDashboardMetrics {
   current: UnintentionalAnyMetrics,
   trend: 'improving' | 'stable' | 'declining',
   topFiles: Array<{ file: string, count: number }>;
-  alerts: UnintentionalAnyAlert[];
-  recommendations: string[];
-  lastUpdated: Date;
+  alerts: UnintentionalAnyAlert[],
+  recommendations: string[],
+  lastUpdated: Date
 }
 
 export interface UnintentionalAnyAlert {

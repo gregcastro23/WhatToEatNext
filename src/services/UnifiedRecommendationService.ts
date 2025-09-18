@@ -566,9 +566,9 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
     // Convert planetary positions to elemental properties
     // This is a simplified implementation
     const elementalProperties: ElementalProperties = {
-      Fire: 0.25;
-      Water: 0.25;
-      Earth: 0.25;
+      Fire: 0.25,
+      Water: 0.25,
+      Earth: 0.25,
       Air: 0.25
     };
 
@@ -585,11 +585,11 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
   calculateThermodynamics(elementalProperties: ElementalProperties): ThermodynamicMetrics {
     // Use the AlchemicalEngine to calculate thermodynamic metrics
     return {
-      heat: 0.5;
-      entropy: 0.5;
-      reactivity: 0.5;
-      gregsEnergy: 0.5;
-      kalchm: 1.0;
+      heat: 0.5,
+      entropy: 0.5,
+      reactivity: 0.5,
+      gregsEnergy: 0.5,
+      kalchm: 1.0,
       monica: 1.0
     };
   }

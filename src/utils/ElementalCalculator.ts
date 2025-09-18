@@ -12,9 +12,9 @@ export function calculateMatchScore(
   if (!elementalProperties || typeof elementalProperties !== 'object') {
     // console.warn('Invalid elementalProperties provided to calculateMatchScore');
     elementalProperties = {
-      Fire: 0.25;
-      Water: 0.25;
-      Earth: 0.25;
+      Fire: 0.25,
+      Water: 0.25,
+      Earth: 0.25,
       Air: 0.25
     };
   }
@@ -42,9 +42,9 @@ export function calculateMatchScore(
   if (!elementalState || Object.keys(elementalState).length === 0) {
     // If no elemental state is provided, use a standard distribution
     elementalState = {
-      Fire: 0.25;
-      Water: 0.25;
-      Earth: 0.25;
+      Fire: 0.25,
+      Water: 0.25,
+      Earth: 0.25,
       Air: 0.25
     };
   }

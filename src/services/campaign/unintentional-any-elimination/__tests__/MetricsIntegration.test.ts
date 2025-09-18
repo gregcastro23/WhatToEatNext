@@ -16,8 +16,8 @@ jest.mock('child_process', () => ({
 
 // Mock fs to avoid file system operations in tests
 jest.mock('fs', () => ({
-  writeFileSync: jest.fn();
-  existsSync: jest.fn(() => true);
+  writeFileSync: jest.fn(),
+  existsSync: jest.fn(() => true),
   readFileSync: jest.fn(() => '{}')
 }));
 

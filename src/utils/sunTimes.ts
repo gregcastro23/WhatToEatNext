@@ -1,19 +1,19 @@
 import SunCalc from 'suncalc';
 
 interface SunTimes {
-  sunrise: Date | null;
-  sunset: Date | null;
-  solarNoon: Date | null;
-  goldenHour: Date | null;
+  sunrise: Date | null,
+  sunset: Date | null,
+  solarNoon: Date | null,
+  goldenHour: Date | null,
   goldenHourEnd: Date | null;
   // Additional times available in SunCalc
-  dawn: Date | null;
-  dusk: Date | null;
-  nauticalDawn: Date | null;
-  nauticalDusk: Date | null;
-  nightEnd: Date | null;
-  night: Date | null;
-  nadir: Date | null;
+  dawn: Date | null,
+  dusk: Date | null,
+  nauticalDawn: Date | null,
+  nauticalDusk: Date | null,
+  nightEnd: Date | null,
+  night: Date | null,
+  nadir: Date | null
 }
 
 /**

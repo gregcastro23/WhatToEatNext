@@ -168,8 +168,8 @@ export function createTestDataset<T>(
   size: number,
   cleanup?: (data: T[]) => void,
 ): {
-  data: T[];
-  cleanup: () => void;
+  data: T[],
+  cleanup: () => void,
 } {
   const data: T[] = [];
 

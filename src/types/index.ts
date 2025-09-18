@@ -24,10 +24,10 @@ export const _ZODIAC_SEASONS: any[] = [
 
 // Recipe and ingredient types
 export interface Ingredient {
-  name: string;
-  category: string;
-  amount: string;
-  elementalProperties: ElementalProperties;
+  name: string,
+  category: string,
+  amount: string,
+  elementalProperties: ElementalProperties,
   astrologicalProfile: {
     elementalAffinity: {
       base: string;
@@ -37,65 +37,65 @@ export interface Ingredient {
     zodiacAffinity?: string[];
   };
   flavorProfile?: {
-    spicy: number;
-    sweet: number;
-    sour: number;
-    bitter: number;
-    salty: number;
-    umami: number;
+    spicy: number,
+    sweet: number,
+    sour: number,
+    bitter: number,
+    salty: number,
+    umami: number,
   };
 }
 
 export interface Nutrition {
-  calories: number;
-  protein: number;
-  carbs: number;
+  calories: number,
+  protein: number,
+  carbs: number
 }
 
 export interface Dish {
-  name: string;
-  ingredients: Ingredient[];
-  instructions: string[];
-  timeToMake: string;
-  nutrition: Nutrition;
+  name: string,
+  ingredients: Ingredient[],
+  instructions: string[],
+  timeToMake: string,
+  nutrition: Nutrition
 }
 
 export interface FilterOptions {
   dietary: {
-    vegetarian: boolean;
-    vegan: boolean;
-    glutenFree: boolean;
-    dairyFree: boolean;
+    vegetarian: boolean,
+    vegan: boolean,
+    glutenFree: boolean,
+    dairyFree: boolean,
   };
   time: {
-    quick: boolean;
-    medium: boolean;
-    long: boolean;
+    quick: boolean,
+    medium: boolean,
+    long: boolean
   };
   spice: {
-    mild: boolean;
-    medium: boolean;
-    spicy: boolean;
+    mild: boolean,
+    medium: boolean,
+    spicy: boolean
   };
   temperature: {
-    hot: boolean;
-    cold: boolean;
+    hot: boolean,
+    cold: boolean,
   };
 }
 
 export interface NutritionPreferences {
-  lowCalorie: boolean;
-  highProtein: boolean;
-  lowCarb: boolean;
+  lowCalorie: boolean,
+  highProtein: boolean,
+  lowCarb: boolean
 }
 
-export type TimeData = {;
+export type TimeData = {
   [season in Season]?: Dish[];
 };
 
-export type CuisineData = {;
-  name: string;
-  recipes: Recipe[];
+export type CuisineData = {
+  name: string,
+  recipes: Recipe[],
   score?: number;
   matchPercentage?: number;
   monicaCompatibility?: number;
@@ -117,16 +117,16 @@ export type CuisineData = {;
   astrologicalAffinities?: string[];
 };
 
-export type Cuisines = {;
-  [id: string]: CuisineData;
+export type Cuisines = {
+  [id: string]: CuisineData
 };
 
 // Helper type for time-based context
-export type TimeOfDay = {;
-  hour: number;
-  minute: number;
-  period: MealTime;
-  season: Season;
+export type TimeOfDay = {
+  hour: number,
+  minute: number,
+  period: MealTime,
+  season: Season,
 };
 
 // Use as type instead of enum to avoid merging issues
@@ -173,12 +173,12 @@ export * from './utils';
 
 // Define core app state types
 export interface AppState {
-  currentIngredients: Ingredient[];
-  savedRecipes: unknown[];
+  currentIngredients: Ingredient[],
+  savedRecipes: unknown[],
   userPreferences: {
-    theme: 'light' | 'dark';
-    dietaryRestrictions: string[];
-    favoriteIngredients: string[];
+    theme: 'light' | 'dark',
+    dietaryRestrictions: string[],
+    favoriteIngredients: string[]
   };
 }
 

@@ -33,8 +33,8 @@ export class ElementalRecommendationService {
         utilsService.getHealthBenefits && typeof utilsService.getHealthBenefits === 'function';
           ? utilsService.getHealthBenefits(properties)
           : [],
-      timeOfDay: elementalUtils.getRecommendedTimeOfDay(properties);
-      seasonalBest: this.getSeasonalRecommendations(dominantElement);
+      timeOfDay: elementalUtils.getRecommendedTimeOfDay(properties),
+      seasonalBest: this.getSeasonalRecommendations(dominantElement),
       // Fix TS2339: Property access on array type using safe type casting
       moodEffects: (() => {
         const characteristics = profile.characteristics as unknown as any;
@@ -139,12 +139,12 @@ export class ElementalRecommendationService {
  * Comprehensive elemental recommendation type
  */
 export interface ElementalRecommendation {
-  elementalBalance: ElementalProperties;
-  dominantElement: string;
-  cookingTechniques: string[];
-  complementaryIngredients: string[];
-  flavorProfiles: string[];
-  healthBenefits: string[];
+  elementalBalance: ElementalProperties,
+  dominantElement: string,
+  cookingTechniques: string[],
+  complementaryIngredients: string[],
+  flavorProfiles: string[],
+  healthBenefits: string[],
   timeOfDay: string[],
   seasonalBest: string[],
   moodEffects: string[],

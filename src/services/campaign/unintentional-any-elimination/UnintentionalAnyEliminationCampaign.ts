@@ -31,7 +31,7 @@ export class UnintentionalAnyEliminationCampaign {
     this.config = {
       maxFilesPerBatch: 15,
       targetReductionPercentage: 15,
-      confidenceThreshold: 0.8;
+      confidenceThreshold: 0.8,
       enableDomainAnalysis: true,
       enableDocumentation: true,
       safetyLevel: 'CONSERVATIVE',
@@ -42,8 +42,8 @@ export class UnintentionalAnyEliminationCampaign {
     this.engine = new ProgressiveImprovementEngine();
     this.progressTracker = new ProgressTracker();
     this.safetyProtocol = new SafetyProtocol({
-      maxFilesPerBatch: this.config.maxFilesPerBatch;
-      buildValidationFrequency: this.config.validationFrequency;
+      maxFilesPerBatch: this.config.maxFilesPerBatch,
+      buildValidationFrequency: this.config.validationFrequency,
       testValidationFrequency: 10,
       corruptionDetectionEnabled: true,
       automaticRollbackEnabled: true,
@@ -75,10 +75,9 @@ export class UnintentionalAnyEliminationCampaign {
         description: 'Analyze and classify all any types in the codebase',
         tools: [
           {
-            scriptPath:
-              'src/services/campaign/unintentional-any-elimination/ProgressiveImprovementEngine.ts';
+            scriptPath: 'src/services/campaign/unintentional-any-elimination/ProgressiveImprovementEngine.ts',
             parameters: {
-              maxFiles: this.config.maxFilesPerBatch;
+              maxFiles: this.config.maxFilesPerBatch,
               analysisOnly: true,
               confidenceThreshold: this.config.confidenceThreshold
             },
@@ -109,12 +108,11 @@ export class UnintentionalAnyEliminationCampaign {
         description: 'Replace unintentional any types with more specific types',
         tools: [
           {
-            scriptPath:
-              'src/services/campaign/unintentional-any-elimination/ProgressiveImprovementEngine.ts';
+            scriptPath: 'src/services/campaign/unintentional-any-elimination/ProgressiveImprovementEngine.ts',
             parameters: {
-              maxFiles: this.config.maxFilesPerBatch;
+              maxFiles: this.config.maxFilesPerBatch,
               enableReplacement: true,
-              confidenceThreshold: this.config.confidenceThreshold;
+              confidenceThreshold: this.config.confidenceThreshold,
               targetReduction: this.config.targetReductionPercentage
             },
             batchSize: this.config.maxFilesPerBatch;
@@ -152,10 +150,9 @@ export class UnintentionalAnyEliminationCampaign {
         description: 'Add documentation for intentional any types',
         tools: [
           {
-            scriptPath:
-              'src/services/campaign/unintentional-any-elimination/AutoDocumentationGenerator.ts';
+            scriptPath: 'src/services/campaign/unintentional-any-elimination/AutoDocumentationGenerator.ts',
             parameters: {
-              enableDocumentation: this.config.enableDocumentation;
+              enableDocumentation: this.config.enableDocumentation,
               documentationStyle: 'comprehensive',
               qualityAssurance: true
             },
@@ -189,9 +186,9 @@ export class UnintentionalAnyEliminationCampaign {
   async executeCampaign(): Promise<UnintentionalAnyCampaignResult> {
     // // console.log('Starting Unintentional Any Elimination Campaign');
     // // console.log(`Configuration:`, {
-      maxFilesPerBatch: this.config.maxFilesPerBatch;
+      maxFilesPerBatch: this.config.maxFilesPerBatch,
       targetReduction: `${this.config.targetReductionPercentage}%`,
-      confidenceThreshold: this.config.confidenceThreshold;
+      confidenceThreshold: this.config.confidenceThreshold,
       safetyLevel: this.config.safetyLevel
     });
 
@@ -208,8 +205,8 @@ export class UnintentionalAnyEliminationCampaign {
       // // console.log('Campaign completed successfully');
       // // console.log(`Results:`, {
         reductionAchieved: `${result.reductionAchieved.toFixed(1)}%`,
-        typesReplaced: result.unintentionalTypesReplaced;
-        intentionalTypesIdentified: result.intentionalTypesIdentified;
+        typesReplaced: result.unintentionalTypesReplaced,
+        intentionalTypesIdentified: result.intentionalTypesIdentified,
         totalAnalyzed: result.totalAnyTypesAnalyzed
       });
 
@@ -229,10 +226,10 @@ export class UnintentionalAnyEliminationCampaign {
         reductionAchieved: 0,
         safetyEvents: [
           {
-            type: SafetyEventType.ROLLBACK_TRIGGERED;
+            type: SafetyEventType.ROLLBACK_TRIGGERED,
             timestamp: new Date(),
             description: 'Campaign failed and was rolled back',
-            severity: SafetyEventSeverity.ERROR;
+            severity: SafetyEventSeverity.ERROR,
             action: 'ROLLBACK_TO_CHECKPOINT'
           }
         ],
@@ -275,16 +272,16 @@ export class UnintentionalAnyEliminationCampaign {
       const executionTime = Date.now() - startTime;
 
       return {
-        phaseId: phase.id;
+        phaseId: phase.id,
         success: true,
         metricsImprovement: {
           typeScriptErrorsReduced: 0, // Would be calculated based on before/after
-          lintingWarningsReduced: result.unintentionalTypesReplaced;
+          lintingWarningsReduced: result.unintentionalTypesReplaced,
           buildTimeImproved: 0,
           enterpriseSystemsAdded: 0
         },
-        filesProcessed: result.totalAnyTypesAnalyzed;
-        errorsFixed: result.unintentionalTypesReplaced;
+        filesProcessed: result.totalAnyTypesAnalyzed,
+        errorsFixed: result.unintentionalTypesReplaced,
         warningsFixed: result.unintentionalTypesReplaced;
         executionTime,
         safetyEvents: result.safetyEvents
@@ -293,7 +290,7 @@ export class UnintentionalAnyEliminationCampaign {
       const executionTime = Date.now() - startTime;
 
       return {
-        phaseId: phase.id;
+        phaseId: phase.id,
         success: false,
         metricsImprovement: {
           typeScriptErrorsReduced: 0,
@@ -307,10 +304,10 @@ export class UnintentionalAnyEliminationCampaign {
         executionTime,
         safetyEvents: [
           {
-            type: SafetyEventType.EMERGENCY_RECOVERY;
+            type: SafetyEventType.EMERGENCY_RECOVERY,
             timestamp: new Date(),
             description: `Phase ${phase.name} failed: ${error instanceof Error ? error.message : String(error)}`,
-            severity: SafetyEventSeverity.ERROR;
+            severity: SafetyEventSeverity.ERROR,
             action: 'PHASE_FAILURE'
           }
         ]
@@ -332,7 +329,7 @@ export class UnintentionalAnyEliminationCampaign {
     const batchMetrics = await this.engine.executeBatch(analysisConfig);
 
     return {
-      totalAnyTypesAnalyzed: batchMetrics.anyTypesAnalyzed;
+      totalAnyTypesAnalyzed: batchMetrics.anyTypesAnalyzed,
       intentionalTypesIdentified: 0, // Would be calculated from classifications
       unintentionalTypesReplaced: 0, // No replacements in analysis phase
       documentationAdded: 0,
@@ -340,7 +337,7 @@ export class UnintentionalAnyEliminationCampaign {
       safetyEvents: [],
       validationResults: [
         {
-          success: batchMetrics.safetyScore > 0.8;
+          success: batchMetrics.safetyScore > 0.8,
           errors:
             batchMetrics.compilationErrors > 0
               ? [`${batchMetrics.compilationErrors} compilation errors`]
@@ -365,7 +362,7 @@ export class UnintentionalAnyEliminationCampaign {
       const qaReport = await this.qualityAssurance.performQualityAssurance();
 
       // // console.log(`Documentation Quality Report:`, {
-        totalIntentionalAnyTypes: qaReport.totalIntentionalAnyTypes;
+        totalIntentionalAnyTypes: qaReport.totalIntentionalAnyTypes,
         documentationCoverage: `${qaReport.documentationCoverage.toFixed(1)}%`,
         undocumentedTypes: qaReport.undocumentedTypes
       });
@@ -385,8 +382,8 @@ export class UnintentionalAnyEliminationCampaign {
       }
 
       return {
-        totalAnyTypesAnalyzed: qaReport.totalIntentionalAnyTypes;
-        intentionalTypesIdentified: qaReport.totalIntentionalAnyTypes;
+        totalAnyTypesAnalyzed: qaReport.totalIntentionalAnyTypes,
+        intentionalTypesIdentified: qaReport.totalIntentionalAnyTypes,
         unintentionalTypesReplaced: 0,
         documentationAdded,
         reductionAchieved: 0,
@@ -413,10 +410,10 @@ export class UnintentionalAnyEliminationCampaign {
         reductionAchieved: 0,
         safetyEvents: [
           {
-            type: SafetyEventType.EMERGENCY_RECOVERY;
+            type: SafetyEventType.EMERGENCY_RECOVERY,
             timestamp: new Date(),
             description: `Documentation phase failed: ${error instanceof Error ? error.message : String(error)}`,
-            severity: SafetyEventSeverity.ERROR;
+            severity: SafetyEventSeverity.ERROR,
             action: 'DOCUMENTATION_FAILURE'
           }
         ],

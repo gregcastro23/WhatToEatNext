@@ -7,22 +7,22 @@
  */
 
 interface MemoryLeakPattern {
-  name: string;
-  detector: () => boolean;
+  name: string,
+  detector: () => boolean,
   description: string,
   fix: string,
   severity: 'low' | 'medium' | 'high' | 'critical'
 }
 
 interface MemoryLeakReport {
-  leaksDetected: MemoryLeakPattern[];
+  leaksDetected: MemoryLeakPattern[],
   recommendations: string[],
   memoryUsage: {
     current: number,
     baseline: number,
     increase: number
   };
-  timestamp: string;
+  timestamp: string
 }
 
 export class MemoryLeakDetector {
@@ -98,7 +98,7 @@ export class MemoryLeakDetector {
           return false;
         },
         description: 'Jest module cache has grown excessively large',
-        fix: 'Use jest.resetModules() in test cleanup';
+        fix: 'Use jest.resetModules() in test cleanup',
         severity: 'medium'
       },
       {
@@ -111,7 +111,7 @@ export class MemoryLeakDetector {
           return false;
         },
         description: 'Too many DOM nodes accumulated during testing',
-        fix: 'Clear document.body.innerHTML in afterEach hooks';
+        fix: 'Clear document.body.innerHTML in afterEach hooks',
         severity: 'high'
       },
       {
@@ -123,7 +123,7 @@ export class MemoryLeakDetector {
           return false;
         },
         description: 'Too many global test references accumulated',
-        fix: 'Clear global.__TEST_REFS__ in test cleanup';
+        fix: 'Clear global.__TEST_REFS__ in test cleanup',
         severity: 'medium'
       }
     ];

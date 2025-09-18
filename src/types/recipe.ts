@@ -7,18 +7,18 @@ import {
 
 // Primary elemental properties interface - used throughout the application
 export interface ElementalProperties {
-  Fire: number;
-  Water: number;
-  Earth: number;
-  Air: number;
+  Fire: number,
+  Water: number,
+  Earth: number,
+  Air: number,
   [key: string]: number; // Allow indexing with string
 }
 
 // Basic recipe ingredient interface
 export interface RecipeIngredient {
   id?: string;
-  name: string;
-  amount: number; // Keep as number for calculations
+  name: string,
+  amount: number, // Keep as number for calculations
   unit: string;
   category?: string;
   optional?: boolean;
@@ -39,14 +39,14 @@ export interface RecipeIngredient {
 // Unified Recipe interface - consolidates all previous recipe types
 export interface Recipe {
   // Core identification
-  id: string;
-  name: string;
+  id: string,
+  name: string,
   description?: string;
   cuisine?: string;
 
   // Ingredients and instructions
-  ingredients: RecipeIngredient[];
-  instructions: string[];
+  ingredients: RecipeIngredient[],
+  instructions: string[],
 
   // Time and serving information
   timeToMake?: string;
@@ -91,11 +91,11 @@ export interface Recipe {
     accent?: string[];
     base?: string[];
     tasteBalance?: {
-      sweet: number;
-      salty: number;
-      sour: number;
-      bitter: number;
-      umami: number;
+      sweet: number,
+      salty: number,
+      sour: number,
+      bitter: number,
+      umami: number
     };
   };
   texturalElements?: string[];
@@ -118,14 +118,14 @@ export interface Recipe {
 
   // Technical details
   cookingTemperature?: {
-    value: number;
-    unit: 'C' | 'F';
-    technique: string;
+    value: number,
+    unit: 'C' | 'F',
+    technique: string
   }[];
   internalTemperature?: {
-    value: number;
-    unit: 'C' | 'F';
-    doneness: string;
+    value: number,
+    unit: 'C' | 'F',
+    doneness: string
   };
 
   // Enhanced astrological properties
@@ -133,8 +133,8 @@ export interface Recipe {
   zodiacInfluences?: any[];
   lunarPhaseInfluences?: LunarPhase[];
   planetaryInfluences?: {
-    favorable: string[];
-    unfavorable: string[];
+    favorable: string[],
+    unfavorable: string[],
     neutral?: string[];
   };
 
@@ -147,10 +147,10 @@ export interface Recipe {
     fat?: number;
     fiber?: number;
     macronutrients?: {
-      protein: number;
-      carbs: number;
-      fat: number;
-      fiber: number;
+      protein: number,
+      carbs: number,
+      fat: number,
+      fiber: number,
     };
     micronutrients?: {
       vitamins: Record<string, number>;
@@ -171,10 +171,10 @@ export interface Recipe {
 
   // Sensory indicators
   sensoryIndicators?: {
-    visual: string[];
-    aroma: string[];
-    texture: string[];
-    sound: string[];
+    visual: string[],
+    aroma: string[],
+    texture: string[],
+    sound: string[],
   };
 
   // Recipe metadata
@@ -187,9 +187,9 @@ export interface Recipe {
 
   // Multi-component recipes
   componentParts?: {
-    name: string;
-    ingredients: RecipeIngredient[];
-    instructions: string[];
+    name: string,
+    ingredients: RecipeIngredient[],
+    instructions: string[]
   }[];
 
   // Substitutions and alternatives
@@ -206,15 +206,15 @@ export interface Recipe {
   // Scoring (for recommendations)
   score?: number;
   alchemicalScores?: {
-    elementalScore: number;
-    zodiacalScore: number;
-    lunarScore: number;
-    planetaryScore: number;
-    seasonalScore: number;
+    elementalScore: number,
+    zodiacalScore: number,
+    lunarScore: number,
+    planetaryScore: number,
+    seasonalScore: number
   };
 
   // Allow additional dynamic properties for extensibility
-  [key: string]: unknown;
+  [key: string]: unknown
 }
 
 // Legacy interface for backward compatibility - now extends unified Recipe
@@ -287,10 +287,10 @@ export type TimeOfDay = 'morning' | 'noon' | 'evening' | 'night';
 // Enhanced Recipe interface with culinary details
 export interface RecipeDetail {
   // Basic Information
-  id: string;
-  name: string;
-  description: string;
-  cuisine: string;
+  id: string,
+  name: string,
+  description: string,
+  cuisine: string,
 
   // Time & Serving
   prepTime: string; // e.g., '20 minutes'
@@ -313,10 +313,10 @@ export interface RecipeDetail {
 
   // Ingredients (enhanced)
   ingredients: {
-    name: string;
-    amount: string;
-    unit: string;
-    preparation: string; // e.g., 'finely diced', 'julienned'
+    name: string,
+    amount: string,
+    unit: string,
+    preparation: string, // e.g., 'finely diced', 'julienned'
     optional: boolean;
     substitutes?: string[]; // Possible substitutions
     notes?: string; // Special notes about the ingredient
@@ -336,8 +336,8 @@ export interface RecipeDetail {
   instructions: string[]; // Main instructions
   instructionSections?: {
     // For recipes with distinct preparation phases
-    title: string;
-    steps: string[];
+    title: string,
+    steps: string[],
   }[];
 
   // Flavor Profile & Culinary Theory
@@ -348,10 +348,10 @@ export interface RecipeDetail {
     tasteBalance: {
       // Assessed proportions of five basic tastes
       sweet: number; // 0-10 scale
-      salty: number;
-      sour: number;
-      bitter: number;
-      umami: number;
+      salty: number,
+      sour: number,
+      bitter: number,
+      umami: number,
     };
   };
 
@@ -375,27 +375,27 @@ export interface RecipeDetail {
 
   // Technical Culinary Details
   cookingTemperature?: {
-    value: number;
-    unit: 'C' | 'F';
+    value: number,
+    unit: 'C' | 'F',
     technique: string; // e.g., 'roast', 'simmer'
   }[];
 
   internalTemperature?: {
     // For proteins
-    value: number;
-    unit: 'C' | 'F';
+    value: number,
+    unit: 'C' | 'F',
     doneness: string; // e.g., 'rare', 'medium', 'well-done'
   };
 
   // Nutrition (expanded)
   nutrition: {
-    calories: number;
-    servingSize: string; // Defined serving
+    calories: number,
+    servingSize: string, // Defined serving
     macronutrients: {
-      protein: number;
-      carbs: number;
-      fat: number;
-      fiber: number;
+      protein: number,
+      carbs: number,
+      fat: number,
+      fiber: number,
     };
     micronutrients?: {
       vitamins: Record<string, number>;
@@ -405,16 +405,16 @@ export interface RecipeDetail {
 
   // Dietary Considerations
   dietaryClassifications: {
-    isVegetarian: boolean;
-    isVegan: boolean;
-    isGlutenFree: boolean;
-    isDairyFree: boolean;
-    isNutFree: boolean;
-    isLowCarb: boolean;
-    isKeto: boolean;
-    isPaleo: boolean;
-    containsAlcohol: boolean;
-    allergens: string[];
+    isVegetarian: boolean,
+    isVegan: boolean,
+    isGlutenFree: boolean,
+    isDairyFree: boolean,
+    isNutFree: boolean,
+    isLowCarb: boolean,
+    isKeto: boolean,
+    isPaleo: boolean,
+    containsAlcohol: boolean,
+    allergens: string[],
   };
 
   // Seasonal & Astrological Information
@@ -423,15 +423,15 @@ export interface RecipeDetail {
 
   // Enhanced astrological properties
   elementalProperties: {
-    Fire: number;
-    Water: number;
-    Earth: number;
-    Air: number;
+    Fire: number,
+    Water: number,
+    Earth: number,
+    Air: number,
   };
 
-  astrologicalInfluences: string[];
-  zodiacInfluences: any[];
-  lunarPhaseInfluences: LunarPhase[];
+  astrologicalInfluences: string[],
+  zodiacInfluences: any[],
+  lunarPhaseInfluences: LunarPhase[],
   planetaryInfluences: {
     favorable: string[]; // Planet names that enhance this recipe
     unfavorable: string[]; // Planet names that diminish this recipe
@@ -448,10 +448,10 @@ export interface RecipeDetail {
   presentationTips?: string[]; // How to plate or present
   sensoryIndicators?: {
     // How to know when done
-    visual: string[];
-    aroma: string[];
-    texture: string[];
-    sound: string[];
+    visual: string[],
+    aroma: string[],
+    texture: string[],
+    sound: string[],
   };
 
   // Tags & Metadata
@@ -497,8 +497,8 @@ export interface RecipeSearchCriteria {
 
 // ingredient (lowercase - likely a simple ingredient type)
 export interface ingredient {
-  id: string;
-  name: string;
+  id: string,
+  name: string,
   category: string;
   nutritionalProfile?: unknown;
   elementalProperties?: ElementalProperties;
@@ -506,7 +506,7 @@ export interface ingredient {
 
 // IngredientMapping (re-export from alchemy, likely needed here too)
 export interface IngredientMapping {
-  [key: string]: ingredient;
+  [key: string]: ingredient
 }
 
 // nutritionInfo (causing error in recipeMatching.ts)

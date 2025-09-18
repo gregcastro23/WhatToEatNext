@@ -270,7 +270,7 @@ export const steaming: CookingMethodData = {
       'Arrange with 1/2 inch space between; line steamer with parchment, cabbage leaves or cloth to prevent sticking; avoid overcrowding',
     rice: 'Rinse until water runs clear to remove excess starch; soak glutinous rice for 1-4 hours before steaming; use 1:1 ratio of rice to water',
     custards:
-      'Strain mixture to remove lumps; cover with foil to prevent condensation dripping; place in water bath for gentle heating',
+      'Strain mixture to remove lumps, cover with foil to prevent condensation dripping; place in water bath for gentle heating',
     chicken:
       'Cut joints and score thick portions for even cooking; marinate prior to steaming for flavor penetration; arrange in single layer',
     eggs: 'For whole eggs, prick wider end with pin to prevent cracking; for custards, filter mixture through fine mesh',
@@ -286,7 +286,7 @@ export const steaming: CookingMethodData = {
     preheating:
       'Always preheat the steamer with lid on until vigorous steam appears before adding food (usually 5-8 minutes)',
     leafy_greens:
-      'Steam for 1-3 minutes until bright green and just wilted; immediately remove to prevent overcooking',
+      'Steam for 1-3 minutes until bright green and just wilted, immediately remove to prevent overcooking',
     root_vegetables:
       'Small pieces (1-inch): 10-15 minutes; medium pieces (2-inch): 15-20 minutes; test with knife for tenderness',
     fish_fillets:
@@ -299,8 +299,8 @@ export const steaming: CookingMethodData = {
       'Small (1 inch): 6-8 minutes; medium (1.5-2 inch): 8-10 minutes; large (2.5+ inch): 12-15 minutes',
     shellfish:
       'Shrimp: 3-5 minutes; clams/mussels: 5-7 minutes (until shells open); crab: 12-15 minutes (per pound)',
-    eggs: 'Soft-cooked: 6-7 minutes; medium: 8-9 minutes; hard-cooked: 10-12 minutes; custards: 30-35 minutes',
-    rice: 'White rice: 30-35 minutes; glutinous/sticky rice: 25-30 minutes, brown rice: 45-50 minutes',
+    eggs: 'Soft-cooked: 6-7 minutes, medium: 8-9 minutes; hard-cooked: 10-12 minutes; custards: 30-35 minutes',
+    rice: 'White rice: 30-35 minutes, glutinous/sticky rice: 25-30 minutes, brown rice: 45-50 minutes',
     rest_after:
       'Fish: 2-3 minutes, chicken: 5-10 minutes, vegetables: serve immediately, rice: 5-10 minutes'
   },

@@ -242,7 +242,7 @@ Generated: ${new Date().toISOString()}
 `;
 
     fs.writeFileSync('console-replacement-report.md', report);
-    // // console.log('📊 Report generated: console-replacement-report.md');
+    // // console.log('📊 Report generated: console-replacement-report.md')
   }
 
   public async run(): Promise<void> {

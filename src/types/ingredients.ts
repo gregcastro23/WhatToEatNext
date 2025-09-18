@@ -38,10 +38,10 @@ export type IngredientCollection = Record<string, IngredientMapping>;
  * Enhanced ingredient category with elemental affinity
  */
 export interface IngredientCategory {
-  id: string;
-  name: string;
-  description: string;
-  elementalAffinity: ElementalProperties;
+  id: string,
+  name: string,
+  description: string,
+  elementalAffinity: ElementalProperties,
 }
 
 /**
@@ -50,18 +50,18 @@ export interface IngredientCategory {
  */
 export interface IngredientRecommendation {
   ingredient: {
-    id: string;
-    name: string;
-    category: string;
-    elementalProperties: ElementalProperties;
+    id: string,
+    name: string,
+    category: string,
+    elementalProperties: ElementalProperties,
     nutritionalContent?: NutritionalContent;
   };
-  matchScore: number;
-  elementalCompatibility: number;
-  nutritionalScore: number;
-  seasonalScore: number;
-  reason: string;
-  category: string;
+  matchScore: number,
+  elementalCompatibility: number,
+  nutritionalScore: number,
+  seasonalScore: number,
+  reason: string,
+  category: string,
   alternatives?: string[];
 }
 
@@ -69,7 +69,7 @@ export interface IngredientRecommendation {
  * Ingredient Search Criteria Type
  * Comprehensive search parameters for ingredient filtering
  */
-export type IngredientSearchCriteria = {;
+export type IngredientSearchCriteria = {
   elements?: ('Fire' | 'Water' | 'Earth' | 'Air')[];
   seasons?: Season[];
   categories?: string[];
@@ -88,11 +88,11 @@ export type IngredientSearchCriteria = {;
  * Ingredient Compatibility Result
  * Result of ingredient compatibility analysis
  */
-export type IngredientCompatibilityResult = {;
-  primaryIngredient: string;
-  compatibleIngredients: string[];
-  incompatibleIngredients: string[];
-  neutralIngredients: string[];
+export type IngredientCompatibilityResult = {
+  primaryIngredient: string,
+  compatibleIngredients: string[],
+  incompatibleIngredients: string[],
+  neutralIngredients: string[],
   compatibilityScores: Record<string, number>;
   reasoning: Record<string, string>;
 };
@@ -101,13 +101,13 @@ export type IngredientCompatibilityResult = {;
  * Ingredient Substitution Recommendation
  * Suggested ingredient substitutions with ratios and notes
  */
-export type IngredientSubstitution = {;
-  originalIngredient: string;
-  substitute: string;
+export type IngredientSubstitution = {
+  originalIngredient: string,
+  substitute: string,
   substitutionRatio: number; // e.g., 1.5 means use 1.5x the amount
   confidenceScore: number; // 0-1 scale
-  nutritionalDifference: Partial<NutritionalContent>;
-  flavorNotes: string[];
+  nutritionalDifference: Partial<NutritionalContent>,
+  flavorNotes: string[],
   cookingAdjustments?: string[];
 };
 
@@ -115,25 +115,25 @@ export type IngredientSubstitution = {;
  * Ingredient Recommendation Response
  * Standardized service response for ingredient recommendations
  */
-export type IngredientRecommendationResponse = ServiceResponseType<{;
-  recommendations: IngredientRecommendation[];
-  total: number;
-  criteria: IngredientSearchCriteria;
-  elementalBalance: ElementalProperties;
-  nutritionalSummary: NutritionalContent;
+export type IngredientRecommendationResponse = ServiceResponseType<{
+  recommendations: IngredientRecommendation[],
+  total: number,
+  criteria: IngredientSearchCriteria,
+  elementalBalance: ElementalProperties,
+  nutritionalSummary: NutritionalContent
 }>;
 
 /**
  * Ingredient Analysis Response
  * Standardized service response for ingredient analysis
  */
-export type IngredientAnalysisResponse = ServiceResponseType<{;
-  ingredient: IngredientMapping;
-  elementalProfile: ElementalProperties;
-  nutritionalAnalysis: NutritionalContent;
-  seasonalAvailability: Season[];
+export type IngredientAnalysisResponse = ServiceResponseType<{
+  ingredient: IngredientMapping,
+  elementalProfile: ElementalProperties,
+  nutritionalAnalysis: NutritionalContent,
+  seasonalAvailability: Season[],
   compatibilityMatrix: Record<string, number>;
-  substitutions: IngredientSubstitution[];
+  substitutions: IngredientSubstitution[]
 }>;
 
 // Re-export Season type for convenience

@@ -86,11 +86,11 @@ const LUNAR_FOOD_ASSOCIATIONS: Record<LunarPhaseWithSpaces, string[]> = {
 };
 
 export interface SeasonalEffectiveness {
-  rating: 'excellent' | 'good' | 'neutral' | 'poor';
-  score: number;
-  elementalBreakdown: ElementalProperties;
+  rating: 'excellent' | 'good' | 'neutral' | 'poor',
+  score: number,
+  elementalBreakdown: ElementalProperties,
   breakdown: {
-    elementalAlignment: number;
+    elementalAlignment: number,
     ingredientSuitability: number,
     seasonalBonus: number,
     zodiacAlignment?: number,
@@ -104,27 +104,27 @@ const SEASONS: Season[] = ['spring', 'summer', 'autumn', 'winter'];
 
 export const _SEASONAL_MODIFIERS = {
   spring: {
-    Air: 0.4;
-    Water: 0.3;
-    Earth: 0.2;
+    Air: 0.4,
+    Water: 0.3,
+    Earth: 0.2,
     Fire: 0.1
   },
   summer: {
-    Fire: 0.4;
-    Air: 0.3;
-    Earth: 0.2;
+    Fire: 0.4,
+    Air: 0.3,
+    Earth: 0.2,
     Water: 0.1
   },
   autumn: {
-    Earth: 0.4;
-    Fire: 0.3;
-    Air: 0.2;
+    Earth: 0.4,
+    Fire: 0.3,
+    Air: 0.2,
     Water: 0.1
   },
   winter: {
-    Water: 0.4;
-    Earth: 0.3;
-    Fire: 0.2;
+    Water: 0.4,
+    Earth: 0.3,
+    Fire: 0.2,
     Air: 0.1
   }
 };
@@ -317,9 +317,9 @@ const _getRating = (score: number): SeasonalEffectiveness['rating'] => {
 };
 
 const getDefaultElementalProps = (): ElementalProperties => ({
-  Fire: 0.25;
-  Water: 0.25;
-  Earth: 0.25;
+  Fire: 0.25,
+  Water: 0.25,
+  Earth: 0.25,
   Air: 0.25
 });
 

@@ -216,11 +216,11 @@ export interface IngredientServiceInterface {
     ingredient1: string | UnifiedIngredient,
     ingredient2: string | UnifiedIngredient,
   ): {
-    score: number;
-    elementalCompatibility: number;
-    flavorCompatibility: number;
-    seasonalCompatibility: number;
-    energeticCompatibility: number;
+    score: number,
+    elementalCompatibility: number,
+    flavorCompatibility: number,
+    seasonalCompatibility: number,
+    energeticCompatibility: number
   };
 
   /**
@@ -244,7 +244,7 @@ export interface IngredientServiceInterface {
    * @returns Analysis of ingredient combinations
    */
   analyzeRecipeIngredients(recipe: Recipe): {
-    overallHarmony: number;
+    overallHarmony: number,
     flavorProfile: { [key: string]: number };
     strongPairings: Array<{ ingredients: string[]; score: number }>;
     weakPairings: Array<{ ingredients: string[]; score: number }>;

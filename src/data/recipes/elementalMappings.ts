@@ -12,7 +12,7 @@ const defaultAstrologicalInfluence: AstrologicalInfluence = {
   planet: 'Universal',
   sign: 'aries',
   element: 'Fire',
-  strength: 1.0;
+  strength: 1.0,
   aspects: []
 };
 
@@ -42,7 +42,7 @@ export const recipeElementalMappings: Record<string, RecipeElementalMapping> = {
       optimalAspects: ['Venus trine Mars'],
       techniqueEnhancers: safeGetAstrologicalInfluences(cookingMethods.braising)
     },
-    cuisine: culinaryTraditions.french;
+    cuisine: culinaryTraditions.french,
     ingredientBalance: {
       base: ['chicken', 'red_wine'],
       earth: ['mushroom', 'bacon'],
@@ -67,7 +67,7 @@ export const recipeElementalMappings: Record<string, RecipeElementalMapping> = {
       optimalAspects: ['Moon conjunct Mercury'],
       techniqueEnhancers: safeGetAstrologicalInfluences(cookingMethods.steaming)
     },
-    cuisine: culinaryTraditions.japanese;
+    cuisine: culinaryTraditions.japanese,
     ingredientBalance: {
       base: ['dashi', 'seasonal_fish'],
       water: ['seaweed', 'tofu'],
@@ -92,7 +92,7 @@ export const recipeElementalMappings: Record<string, RecipeElementalMapping> = {
       optimalAspects: ['Sun trine Jupiter'],
       techniqueEnhancers: safeGetAstrologicalInfluences(cookingMethods.simmering)
     },
-    cuisine: culinaryTraditions.mexican;
+    cuisine: culinaryTraditions.mexican,
     ingredientBalance: {
       base: ['chocolate', 'chiles'],
       fire: ['cinnamon', 'cloves'],
@@ -126,11 +126,11 @@ export function getRecipeEnhancedRecommendations(recipeId: string) {
   // Merge with any recipe-specific overrides
   return {
     ...baseRecommendation;
-    cookingTechniques: recipe.cookingTechniques || baseRecommendation.cookingTechniques;
-    flavorProfiles: recipe.flavorProfiles || baseRecommendation.flavorProfiles;
-    healthBenefits: recipe.healthBenefits || baseRecommendation.healthBenefits;
-    culinaryHerbs: recipe.complementaryHerbs || baseRecommendation.culinaryHerbs;
-    timeOfDay: recipe.idealTimeOfDay || baseRecommendation.timeOfDay;
+    cookingTechniques: recipe.cookingTechniques || baseRecommendation.cookingTechniques,
+    flavorProfiles: recipe.flavorProfiles || baseRecommendation.flavorProfiles,
+    healthBenefits: recipe.healthBenefits || baseRecommendation.healthBenefits,
+    culinaryHerbs: recipe.complementaryHerbs || baseRecommendation.culinaryHerbs,
+    timeOfDay: recipe.idealTimeOfDay || baseRecommendation.timeOfDay,
     seasonalBest: recipe.seasonalRecommendation || baseRecommendation.seasonalBest
   };
 }

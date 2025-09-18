@@ -28,8 +28,8 @@ import type { PlanetaryAspect } from '@/types/celestial';
  * Enhanced planetary position with dignity and location modifiers
  */
 export interface EnhancedPlanetaryPosition {
-  planet: string;
-  sign: string;
+  planet: string,
+  sign: string,
   degree: number;
   exactLongitude?: number,
   isRetrograde: boolean,
@@ -37,17 +37,17 @@ export interface EnhancedPlanetaryPosition {
     type: 'rulership' | 'exaltation' | 'detriment' | 'fall' | 'neutral',
     modifier: number
   };
-  strength: number;
-  locationInfluence: number;
-  culinaryRecommendations: string[];
+  strength: number,
+  locationInfluence: number,
+  culinaryRecommendations: string[]
 }
 
 /**
  * Enhanced transit influence calculation
  */
 export interface EnhancedTransitInfluence {
-  season: TransitSeason;
-  location: GeographicCoordinates;
+  season: TransitSeason,
+  location: GeographicCoordinates,
   enhancedPlanetaryPositions: EnhancedPlanetaryPosition[],
   aspectInfluences: {
     aspect: PlanetaryAspect,
@@ -174,10 +174,10 @@ export class EnhancedTransitAnalysisService {
 
       return {
         planet,
-        sign: position.sign;
-        degree: Number(position.degree) || 0;
-        exactLongitude: Number(position.exactLongitude) || 0;
-        isRetrograde: Boolean(position.isRetrograde) || false;
+        sign: position.sign,
+        degree: Number(position.degree) || 0,
+        exactLongitude: Number(position.exactLongitude) || 0,
+        isRetrograde: Boolean(position.isRetrograde) || false,
         dignity,
         strength,
         locationInfluence: locationInfluence?.finalInfluence || 1.0;

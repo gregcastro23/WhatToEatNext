@@ -48,7 +48,7 @@ describe('DependencySecurityMonitor', () => {
                 range: '>=1.0.0 <4.17.21'
               }
             ],
-            range: '>=1.0.0 <4.17.21';
+            range: '>=1.0.0 <4.17.21',
             fixAvailable: { version: '4.17.21'
             }
           },
@@ -60,7 +60,7 @@ describe('DependencySecurityMonitor', () => {
                 range: '>=0.8.1 <0.21.2'
               }
             ],
-            range: '>=0.8.1 <0.21.2';
+            range: '>=0.8.1 <0.21.2',
             fixAvailable: { version: '0.21.2'
             }
           }
@@ -125,13 +125,13 @@ describe('DependencySecurityMonitor', () => {
     test('detects available dependency updates', async () => {
       const outdatedOutput: any = JSON.stringify({
         lodash: { current: '4.17.20',
-          wanted: '4.17.21';
-          latest: '4.17.21';
+          wanted: '4.17.21',
+          latest: '4.17.21',
           location: 'node_modules/lodash'
         },
         react: { current: '17.0.0',
-          wanted: '17.0.2';
-          latest: '18.0.0';
+          wanted: '17.0.2',
+          latest: '18.0.0',
           location: 'node_modules/react'
         }
       });
@@ -183,12 +183,12 @@ describe('DependencySecurityMonitor', () => {
       const vulnerabilities: any = [
         {
           packageName: 'lodash',
-          currentVersion: '4.17.20';
-          vulnerableVersions: '>=1.0.0 <4.17.21';
+          currentVersion: '4.17.20',
+          vulnerableVersions: '>=1.0.0 <4.17.21',
           severity: 'critical' as const,
           cve: 'CVE-2021-23337',
           description: 'Command Injection',
-          fixedVersion: '4.17.21';
+          fixedVersion: '4.17.21',
           patchAvailable: true
         }
       ];
@@ -218,12 +218,12 @@ describe('DependencySecurityMonitor', () => {
       const vulnerabilities: any = [
         {
           packageName: 'lodash',
-          currentVersion: '4.17.20';
-          vulnerableVersions: '>=1.0.0 <4.17.21';
+          currentVersion: '4.17.20',
+          vulnerableVersions: '>=1.0.0 <4.17.21',
           severity: 'critical' as const,
           cve: 'CVE-2021-23337',
           description: 'Command Injection',
-          fixedVersion: '4.17.21';
+          fixedVersion: '4.17.21',
           patchAvailable: true
         }
       ];
@@ -249,12 +249,12 @@ describe('DependencySecurityMonitor', () => {
       const vulnerabilities: any = [
         {
           packageName: 'lodash',
-          currentVersion: '4.17.20';
-          vulnerableVersions: '>=1.0.0 <4.17.21';
+          currentVersion: '4.17.20',
+          vulnerableVersions: '>=1.0.0 <4.17.21',
           severity: 'high' as const,
           cve: 'CVE-2021-23337',
           description: 'Command Injection',
-          fixedVersion: '4.17.21';
+          fixedVersion: '4.17.21',
           patchAvailable: true
         }
       ];
@@ -276,8 +276,8 @@ describe('DependencySecurityMonitor', () => {
       const availableUpdates: any = [
         {
           packageName: 'lodash',
-          currentVersion: '4.17.20';
-          latestVersion: '4.17.21';
+          currentVersion: '4.17.20',
+          latestVersion: '4.17.21',
           updateType: 'patch' as const,
           breakingChanges: false,
           securityFix: false,
@@ -301,7 +301,7 @@ describe('DependencySecurityMonitor', () => {
           {
             name: 'Default',
             description: 'Default strategy',
-            pattern: /.*/;
+            pattern: /.*/,
             updateType: 'minor' as const,
             requiresManualApproval: true,
             testingRequired: false
@@ -313,8 +313,8 @@ describe('DependencySecurityMonitor', () => {
       const availableUpdates: any = [
         {
           packageName: 'react',
-          currentVersion: '17.0.0';
-          latestVersion: '18.0.0';
+          currentVersion: '17.0.0',
+          latestVersion: '18.0.0',
           updateType: 'major' as const,
           breakingChanges: true,
           securityFix: false,

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any, no-console, @typescript-eslint/no-unused-vars, max-lines-per-function -- Campaign/test file with intentional patterns */
 declare global {
-  var __DEV__: boolean;
+  var __DEV__: boolean
 }
 
 /**
@@ -176,9 +176,9 @@ describe('Domain-Specific Rule Validation', () => {
     test('should validate elemental properties structure', async () => {
       const validElementalContent: any = `;
         const _UNUSED_elementalProps = {
-          Fire: 0.8;
-          Water: 0.2;
-          Earth: 0.1;
+          Fire: 0.8,
+          Water: 0.2,
+          Earth: 0.1,
           Air: 0.3
         };
       `;
@@ -208,8 +208,8 @@ describe('Domain-Specific Rule Validation', () => {
     test('should detect invalid elemental properties', async () => {
       const invalidElementalContent: any = `;
         const _badElementalProps = {
-          Fire: 0.8;
-          Water: 0.2;
+          Fire: 0.8,
+          Water: 0.2,
           // Missing Earth and Air - should be flagged
         };
       `;

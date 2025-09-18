@@ -3,9 +3,9 @@ const { celestialCalculator } = require('../services/celestialCalculations');
 
 // Local interface for testing purposes
 interface PlanetaryPosition {
-  planet: string;
-  sign: string;
-  degrees: number;
+  planet: string,
+  sign: string,
+  degrees: number
 }
 
 // Create a test function to verify gas giant calculations

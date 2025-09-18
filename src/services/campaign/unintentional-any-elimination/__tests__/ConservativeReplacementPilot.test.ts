@@ -31,11 +31,11 @@ describe('ConservativeReplacementPilot', () => {
     mockConfig = {
       maxFilesPerBatch: 10,
       minFilesPerBatch: 5,
-      targetSuccessRate: 0.8;
+      targetSuccessRate: 0.8,
       maxBatches: 5,
       realTimeValidation: true,
       rollbackOnFailure: true,
-      safetyThreshold: 0.7;
+      safetyThreshold: 0.7,
       focusCategories: [AnyTypeCategory.ARRAY_TYPE, AnyTypeCategory.RECORD_TYPE],
       buildValidationFrequency: 1
     };
@@ -61,7 +61,7 @@ describe('ConservativeReplacementPilot', () => {
     });
 
     test('should accept custom configuration', () => {
-      const customConfig: Partial<ConservativePilotConfig> = { maxFilesPerBatch: 20;
+      const customConfig: Partial<ConservativePilotConfig> = { maxFilesPerBatch: 20,
         targetSuccessRate: 0.9
       };
 
@@ -524,7 +524,7 @@ describe('ConservativeReplacementPilot Integration Tests', () => {
     pilot = new ConservativeReplacementPilot({
       maxFilesPerBatch: 5,
       maxBatches: 2,
-      targetSuccessRate: 0.8;
+      targetSuccessRate: 0.8,
       realTimeValidation: true
     });
   });

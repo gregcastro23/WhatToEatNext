@@ -23,7 +23,7 @@ const Loading = ({
 );
 
 interface TemplateProps {
-  children: React.ReactNode;
+  children: React.ReactNode
 }
 
 export default function Template({ children }: TemplateProps) {
@@ -50,8 +50,8 @@ export default function Template({ children }: TemplateProps) {
         style.id = 'base-styles';
         style.textContent = `;
           body {
-            margin: 0;
-            padding: 0;
+            margin: 0,
+            padding: 0,
             min-height: 100vh,
             background: #ffffff,
             color: #000000,

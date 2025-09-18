@@ -2,16 +2,16 @@
 import { AlchemicalProperties, ElementalProperties } from './alchemy';
 
 export interface BaseItem {
-  id: string;
-  name: string;
+  id: string,
+  name: string,
   description?: string;
   elementalProperties: ElementalProperties;
   alchemicalProperties?: AlchemicalProperties;
 }
 
 export interface IngredientItem extends BaseItem {
-  type: 'ingredient';
-  category: string;
+  type: 'ingredient',
+  category: string,
   subcategory?: string;
   nutritionalInfo?: Record<string, string | number>;
   flavorProfile?: string[];
@@ -20,8 +20,8 @@ export interface IngredientItem extends BaseItem {
 }
 
 export interface RecipeItem extends BaseItem {
-  type: 'recipe';
-  ingredients: IngredientItem[];
+  type: 'recipe',
+  ingredients: IngredientItem[],
   cookingMethod: string;
   cookingTime?: number;
   servings?: number;
@@ -30,8 +30,8 @@ export interface RecipeItem extends BaseItem {
 }
 
 export interface FoodItem extends BaseItem {
-  type: 'food';
-  category: 'ingredient' | 'recipe' | 'dish';
+  type: 'food',
+  category: 'ingredient' | 'recipe' | 'dish',
   source?: 'database' | 'api' | 'user';
   tags?: string[];
 }
@@ -57,9 +57,9 @@ export type ItemCategory = IngredientItem['category'] | RecipeItem['type'] | Foo
 
 // Item collections
 export interface ItemCollection<T extends Item = Item> {;
-  items: T[];
-  count: number;
-  categories: string[];
+  items: T[],
+  count: number,
+  categories: string[]
 }
 
 export interface IngredientCollection extends ItemCollection<IngredientItem> {

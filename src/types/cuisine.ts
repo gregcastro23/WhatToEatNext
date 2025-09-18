@@ -18,13 +18,13 @@ export interface CuisineDishes {
 }
 
 export interface Cuisine {
-  id: string;
-  name: string;
+  id: string,
+  name: string,
   description?: string;
   alchemicalProperties?: Record<string, number>;
   astrologicalInfluences?: string[];
-  dishes: CuisineDishes;
-  elementalProperties: ElementalProperties;
+  dishes: CuisineDishes,
+  elementalProperties: ElementalProperties,
   motherSauces?: Record<string, Sauce>;
   traditionalSauces?: Record<string, unknown>;
   sauceRecommender?: SauceRecommendations;
@@ -36,28 +36,28 @@ export interface Cuisine {
 export type CuisineType = string;
 
 interface Sauce {
-  name: string;
-  description: string;
-  base: string;
-  thickener: string;
-  keyIngredients: string[];
-  culinaryUses: string[];
-  derivatives: string[];
-  elementalProperties: ElementalProperties;
-  astrologicalInfluences: string[];
-  seasonality: string;
-  preparationNotes: string;
-  technicalTips: string;
-  difficulty: string;
-  storageInstructions: string;
-  yield: string;
+  name: string,
+  description: string,
+  base: string,
+  thickener: string,
+  keyIngredients: string[],
+  culinaryUses: string[],
+  derivatives: string[],
+  elementalProperties: ElementalProperties,
+  astrologicalInfluences: string[],
+  seasonality: string,
+  preparationNotes: string,
+  technicalTips: string,
+  difficulty: string,
+  storageInstructions: string,
+  yield: string
 }
 
 interface ElementalProperties {
-  Earth: number;
-  Water: number;
-  Fire: number;
-  Air: number;
+  Earth: number,
+  Water: number,
+  Fire: number,
+  Air: number,
 }
 
 interface SauceRecommendations {
@@ -70,17 +70,17 @@ interface SauceRecommendations {
 }
 
 interface CookingTechnique {
-  name: string;
-  description: string;
-  elementalProperties: ElementalProperties;
-  toolsRequired: string[];
-  bestFor: string[];
-  difficulty: string;
+  name: string,
+  description: string,
+  elementalProperties: ElementalProperties,
+  toolsRequired: string[],
+  bestFor: string[],
+  difficulty: string,
 }
 
 interface RegionalCuisine {
-  name: string;
-  description: string;
+  name: string,
+  description: string,
   signature?: string[];
   signatureDishes?: string[];
   keyIngredients?: string[];

@@ -10,9 +10,9 @@ import type { Recipe } from '@/types/recipe';
 
 // Interface for cuisine recipe with builder compatibility
 export interface CuisineRecipe {
-  id: string;
-  name: string;
-  description: string;
+  id: string,
+  name: string,
+  description: string,
   cuisine: string,
   ingredients: Array<{
     name: string,
@@ -26,8 +26,8 @@ export interface CuisineRecipe {
   cookingMethods?: string[];
   tools?: string[];
   nutrition?: {
-    calories: number;
-    protein: number;
+    calories: number,
+    protein: number,
     carbs: number,
     fat: number,
     vitamins?: string[],
@@ -97,7 +97,7 @@ export class RecipeCuisineConnector {
         this.recipeCache.set(recipeId, {
           ...recipe;
           id: recipeId,
-          cuisine: cuisine.name;
+          cuisine: cuisine.name,
           elementalProperties: cuisine.elementalProperties as unknown
         });
       });
@@ -133,27 +133,27 @@ export class RecipeCuisineConnector {
           if (dish && typeof dish === 'object') {
             const recipe: CuisineRecipe = {
               id: '',
-              name: (dish as any)?.name || 'Unnamed Recipe';
-              description: (dish as any)?.description || '';
-              cuisine: (dish as any)?.cuisine || '';
+              name: (dish as any)?.name || 'Unnamed Recipe',
+              description: (dish as any)?.description || '',
+              cuisine: (dish as any)?.cuisine || '',
               ingredients: (this as any)?.normalizeIngredients((dish as any)?.ingredients || []),
               instructions: (dish as any)?.instructions || (dish as any)?.preparationSteps || [],
               preparationSteps: (dish as any)?.preparationSteps || [],
               cookingMethods: (dish as any)?.cookingMethods || [],
               tools: (dish as any)?.tools || [],
-              nutrition: (dish as any)?.nutrition;
-              servingSize: (dish as any)?.servingSize || 1;
-              prepTime: (dish as any)?.prepTime;
-              cookTime: (dish as any)?.cookTime;
+              nutrition: (dish as any)?.nutrition,
+              servingSize: (dish as any)?.servingSize || 1,
+              prepTime: (dish as any)?.prepTime,
+              cookTime: (dish as any)?.cookTime,
               allergens: (dish as any)?.allergens || [],
               dietaryInfo: (dish as any)?.dietaryInfo || [],
               season: (dish as any)?.season || [season],
               mealType: (dish as any)?.mealType || [mealType],
               substitutions: (dish as any)?.substitutions || {},
-              culturalNotes: (dish as any)?.culturalNotes;
+              culturalNotes: (dish as any)?.culturalNotes,
               pairingSuggestions: (dish as any)?.pairingSuggestions || [],
-              spiceLevel: (dish as any)?.spiceLevel;
-              astrologicalAffinities: (dish as any)?.astrologicalAffinities;
+              spiceLevel: (dish as any)?.spiceLevel,
+              astrologicalAffinities: (dish as any)?.astrologicalAffinities,
               elementalProperties: (dish as any)?.elementalProperties
             };
             recipes.push(recipe);
@@ -168,10 +168,10 @@ export class RecipeCuisineConnector {
    */
   private normalizeIngredients(ingredients: unknown[]): CuisineRecipe['ingredients'] {
     return ingredients.map(ingredient => ({
-      name: ingredient.name || '';
-      amount: ingredient.amount || 1;
-      unit: ingredient.unit || '';
-      category: ingredient.category;
+      name: ingredient.name || '',
+      amount: ingredient.amount || 1,
+      unit: ingredient.unit || '',
+      category: ingredient.category,
       swaps: ingredient.swaps || []
     }));
   }
@@ -322,19 +322,19 @@ export class RecipeCuisineConnector {
       id: `cuisine-${cuisineRecipe.cuisine}-${cuisineRecipe.name}`
         .toLowerCase()
         .replace(/\s+/g, '-'),
-      name: cuisineRecipe.name;
-      description: cuisineRecipe.description;
-      cuisine: cuisineRecipe.cuisine;
+      name: cuisineRecipe.name,
+      description: cuisineRecipe.description,
+      cuisine: cuisineRecipe.cuisine,
       elementalProperties: {
-        Fire: 0.25;
-        Water: 0.25;
-        Earth: 0.25;
+        Fire: 0.25,
+        Water: 0.25,
+        Earth: 0.25,
         Air: 0.25
       },
       ingredients: cuisineRecipe.ingredients.map(ingredient => ({
-        name: ingredient.name;
-        amount: Number(ingredient.amount) || 1;
-        unit: ingredient.unit;
+        name: ingredient.name,
+        amount: Number(ingredient.amount) || 1,
+        unit: ingredient.unit,
         swaps: ingredient.swaps || []
       })),
       instructions: cuisineRecipe.instructions || cuisineRecipe.preparationSteps || [],
@@ -350,9 +350,9 @@ export class RecipeCuisineConnector {
       season: cuisineRecipe.season || ['all'],
       mealType: cuisineRecipe.mealType || ['lunch'],
       elementalBalance: cuisineRecipe.elementalProperties || {
-        Fire: 0.25;
-        Water: 0.25;
-        Earth: 0.25;
+        Fire: 0.25,
+        Water: 0.25,
+        Earth: 0.25,
         Air: 0.25
       }
     };
@@ -398,7 +398,7 @@ export class RecipeCuisineConnector {
       return {
         success: true,
         recipe: builderRecipe,
-        warnings: warnings.length > 0 ? warnings : undefined;
+        warnings: warnings.length > 0 ? warnings : undefined,
         suggestions: suggestions.length > 0 ? suggestions : undefined
       };
     } catch (error) {
@@ -454,8 +454,8 @@ export class RecipeCuisineConnector {
    */
   getRecipeStatistics() {
     const stats = {
-      totalRecipes: this.getTotalRecipeCount();
-      byCuisine: this.getRecipeCountByCuisine();
+      totalRecipes: this.getTotalRecipeCount(),
+      byCuisine: this.getRecipeCountByCuisine(),
       byMealType: {} as Record<string, number>,
       bySeason: {} as Record<string, number>,
       byDietaryInfo: {} as Record<string, number>

@@ -23,18 +23,18 @@ const userService = {
 };
 
 interface UserContextType {
-  currentUser: UserProfile | null;
-  isLoading: boolean;
-  error: string | null;
-  loadProfile: () => void;
-  updateProfile: (data: Partial<UserProfile>) => Promise<UserProfile | null>;
-  logout: () => void;
+  currentUser: UserProfile | null,
+  isLoading: boolean,
+  error: string | null,
+  loadProfile: () => void,
+  updateProfile: (data: Partial<UserProfile>) => Promise<UserProfile | null>,
+  logout: () => void,
 }
 
 const UserContext = createContext<UserContextType | null>(null);
 
 interface UserProviderProps {
-  children: ReactNode;
+  children: ReactNode
 }
 
 export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {

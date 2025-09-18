@@ -15,8 +15,8 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 interface ImportIssue {
-  file: string;
-  line: number;
+  file: string,
+  line: number,
   column: number,
   rule: string,
   message: string,
@@ -24,7 +24,7 @@ interface ImportIssue {
 }
 
 interface ImportAnalysis {
-  duplicateImports: ImportIssue[];
+  duplicateImports: ImportIssue[],
   importOrderIssues: ImportIssue[],
   circularDependencies: ImportIssue[],
   namedImportIssues: ImportIssue[],
@@ -85,11 +85,11 @@ class ImportOrganizationFixer {
       for (const result of results) {
         for (const message of result.messages) {
           const issue: ImportIssue = {
-            file: result.filePath;
-            line: message.line;
-            column: message.column;
-            rule: message.ruleId;
-            message: message.message;
+            file: result.filePath,
+            line: message.line,
+            column: message.column,
+            rule: message.ruleId,
+            message: message.message,
             severity: message.severity === 2 ? 'error' : 'warning',,;
           };
 
@@ -559,7 +559,7 @@ Generated: ${new Date().toISOString()}
 `;
 
     fs.writeFileSync('import-organization-report.md', report);
-    // // console.log('📊 Report generated: import-organization-report.md');
+    // // console.log('📊 Report generated: import-organization-report.md')
   }
 
   public async run(): Promise<void> {

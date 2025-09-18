@@ -17,8 +17,8 @@ import type {
 } from '../services/KiroCampaignIntegration';
 
 export interface CampaignMonitoringState {
-  controlPanel: KiroCampaignControlPanel | null;
-  activeCampaigns: KiroCampaignStatus[];
+  controlPanel: KiroCampaignControlPanel | null,
+  activeCampaigns: KiroCampaignStatus[],
   systemHealth: SystemHealthStatus | null,
   loading: boolean,
   error: string | null,
@@ -26,14 +26,14 @@ export interface CampaignMonitoringState {
 }
 
 export interface CampaignMonitoringActions {
-  refreshData: () => Promise<void>;
-  startCampaign: (request: CampaignExecutionRequest) => Promise<string>;
-  pauseCampaign: (campaignId: string) => Promise<boolean>;
-  resumeCampaign: (campaignId: string) => Promise<boolean>;
-  stopCampaign: (campaignId: string) => Promise<boolean>;
-  getCampaignStatus: (campaignId: string) => Promise<KiroCampaignStatus | null>;
+  refreshData: () => Promise<void>,
+  startCampaign: (request: CampaignExecutionRequest) => Promise<string>,
+  pauseCampaign: (campaignId: string) => Promise<boolean>,
+  resumeCampaign: (campaignId: string) => Promise<boolean>,
+  stopCampaign: (campaignId: string) => Promise<boolean>,
+  getCampaignStatus: (campaignId: string) => Promise<KiroCampaignStatus | null>,
   scheduleCampaign: (schedule: Omit<CampaignSchedule, 'id'>) => Promise<string>,
-  getScheduledCampaigns: () => CampaignSchedule[];
+  getScheduledCampaigns: () => CampaignSchedule[]
 }
 
 export interface UseCampaignMonitoringOptions {
@@ -42,7 +42,7 @@ export interface UseCampaignMonitoringOptions {
   onCampaignStart?: (campaignId: string) => void;
   onCampaignComplete?: (campaignId: string) => void;
   onCampaignFailed?: (campaignId: string, error: string) => void,
-  onSystemHealthChange?: (health: SystemHealthStatus) => void;
+  onSystemHealthChange?: (health: SystemHealthStatus) => void
 }
 
 export interface UseCampaignMonitoringReturn {
@@ -90,8 +90,8 @@ export const useCampaignMonitoring = (;
       setState(prev => ({
         ...prev;
         controlPanel,
-        activeCampaigns: controlPanel.activeCampaigns;
-        systemHealth: controlPanel.systemHealth;
+        activeCampaigns: controlPanel.activeCampaigns,
+        systemHealth: controlPanel.systemHealth,
         loading: false,
         lastUpdate: new Date()
       }));

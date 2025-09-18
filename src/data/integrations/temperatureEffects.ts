@@ -1,12 +1,12 @@
 import type { ElementalProperties } from '@/types/alchemy';
 
 interface TemperatureRange {
-  min: number;
-  max: number;
-  elementalEffect: ElementalProperties;
-  description: string;
-  recommendedMethods: string[];
-  cautions: string[];
+  min: number,
+  max: number,
+  elementalEffect: ElementalProperties,
+  description: string,
+  recommendedMethods: string[],
+  cautions: string[],
 }
 
 export const temperatureEffects: Record<string, TemperatureRange> = {

@@ -154,5 +154,5 @@ export interface RecommendationServiceInterface {
   /**
    * Calculate thermodynamic metrics based on elemental properties
    */
-  calculateThermodynamics(elementalProperties: ElementalProperties): ThermodynamicMetrics;
+  calculateThermodynamics(elementalProperties: ElementalProperties): ThermodynamicMetrics
 }

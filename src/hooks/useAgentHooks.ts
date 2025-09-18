@@ -19,7 +19,7 @@ import { logger } from '@/utils/logger';
 import { ElementalProperties } from '@/utils/steeringFileIntelligence';
 
 export interface AgentHookConfig {
-  enablePlanetaryValidation: boolean;
+  enablePlanetaryValidation: boolean,
   enableIngredientValidation: boolean,
   enableCampaignTriggers: boolean,
   enablePerformanceMonitoring: boolean,
@@ -27,7 +27,7 @@ export interface AgentHookConfig {
 }
 
 export interface AgentHookState {
-  isActive: boolean;
+  isActive: boolean,
   lastValidation: number,
   validationResults: Record<string, ValidationResult>,
   campaignTriggers: CampaignTrigger[],
@@ -93,9 +93,9 @@ export function useAgentHooks(config: Partial<AgentHookConfig> = {}) {
             // Update state
             setHookState(prev => ({
               ...prev;
-              lastValidation: Date.now();
+              lastValidation: Date.now(),
               validationResults: { ...prev.validationResults, ...results },
-              campaignTriggers: qa.getActiveCampaignTriggers();
+              campaignTriggers: qa.getActiveCampaignTriggers(),
               qualityMetrics: qa.getQualityMetrics()
             }));
 
@@ -144,7 +144,7 @@ export function useAgentHooks(config: Partial<AgentHookConfig> = {}) {
 
         setHookState(prev => ({
           ...prev;
-          lastValidation: Date.now();
+          lastValidation: Date.now(),
           validationResults: { ...prev.validationResults, ...results },
           qualityMetrics: qa.getQualityMetrics()
         }));

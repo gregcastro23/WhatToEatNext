@@ -115,7 +115,7 @@ export const _unifiedSeasonalSystem = {
         .sort(([, a], [, b]) => (b as number) - (a as number))
         .slice(0, 10)
         .map(([name, score]) => ({ name, score: score as number })),
-      traditionalUses: Object.keys(usage);
+      traditionalUses: Object.keys(usage),
       seasonalTips: `Best practices for ${season} cooking and ingredient selection.`
     };
   }

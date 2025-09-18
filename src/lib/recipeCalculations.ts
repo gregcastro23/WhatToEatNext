@@ -3,9 +3,9 @@ import { SUIT_TO_ELEMENT } from '@/utils/tarotMappings';
 
 // Local interface for a tarot card used in recipes
 interface RecipeTarotCard {
-  name: string;
-  suit: string;
-  number: number;
+  name: string,
+  suit: string,
+  number: number,
   keywords: string[],
   quantum: number,
   element?: string,
@@ -31,7 +31,7 @@ export interface TarotCardResult {
  * Interface for a recipe
  */
 interface Recipe {
-  id: string;
+  id: string,
   name: string,
   ingredients: string[],
   preparation: string,
@@ -48,21 +48,21 @@ export async function getRecipesForTarotCard(cards: TarotCardResult): Promise<Re
       id: 'recipe-1',
       name: 'Elemental Alignment Soup',
       ingredients: ['Water', 'Fire herbs', 'Earth vegetables', 'Air-infused oils'],
-      preparation: 'Combine all elements with intention and simmer under the moon's glow.';
+      preparation: 'Combine all elements with intention and simmer under the moon's glow.',
       astrologicalInfluences: ['Moon', 'Venus', 'Jupiter']
     },
     {
       id: 'recipe-2',
       name: 'Tarot-Inspired Salad',
       ingredients: ['Fresh greens', 'Root vegetables', 'Citrus dressing', 'Edible flowers'],
-      preparation: 'Arrange in the pattern of the card's symbolism.';
+      preparation: 'Arrange in the pattern of the card's symbolism.',
       astrologicalInfluences: ['Sun', 'Mercury']
     },
     {
       id: 'recipe-3',
       name: 'Mystical Elixir',
       ingredients: ['Purified water', 'Honey', 'Lemon', 'Ginger', 'Mint'],
-      preparation: 'Brew under the light of the full moon.';
+      preparation: 'Brew under the light of the full moon.',
       astrologicalInfluences: ['Moon', 'Neptune']
     }
   ];

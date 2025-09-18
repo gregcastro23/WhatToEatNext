@@ -12,13 +12,13 @@ import { KalchmResult, ThermodynamicResults, toElementalProperties } from '../co
  * Recipe compatibility result
  */
 export interface RecipeCompatibilityResult {
-  compatibilityScore: number;
-  elementalAlignment: number;
-  alchemicalAlignment: number;
-  thermodynamicAlignment: number;
-  kalchmAlignment: number;
-  monicaAlignment: number;
-  recommendations: string[];
+  compatibilityScore: number,
+  elementalAlignment: number,
+  alchemicalAlignment: number,
+  thermodynamicAlignment: number,
+  kalchmAlignment: number,
+  monicaAlignment: number,
+  recommendations: string[],
   absoluteElementalMatch: number,
   relativeElementalMatch: number,
   dominantElementMatch: number,
@@ -306,7 +306,7 @@ function calculateEnergeticResonance(
  * Calculate weighted compatibility score using all factors
  */
 function calculateWeightedCompatibilityScore(scores: {
-  absoluteElementalMatch: number;
+  absoluteElementalMatch: number,
   relativeElementalMatch: number,
   dominantElementMatch: number,
   kalchmAlignment: number,

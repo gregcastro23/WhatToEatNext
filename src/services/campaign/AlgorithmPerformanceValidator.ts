@@ -12,8 +12,8 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 export interface PerformanceBenchmark {
-  name: string;
-  category: 'algorithm' | 'cache' | 'database' | 'api' | 'ui';
+  name: string,
+  category: 'algorithm' | 'cache' | 'database' | 'api' | 'ui',
   baseline: number; // milliseconds
   current: number; // milliseconds
   improvement: number; // percentage
@@ -25,21 +25,21 @@ export interface PerformanceBenchmark {
 
 export interface CachePerformanceMetrics {
   tier1: {
-    name: 'memory';
+    name: 'memory',
     hitRate: number,
     avgResponseTime: number,
     size: number,
     maxSize: number
   };
   tier2: {
-    name: 'redis';
+    name: 'redis',
     hitRate: number,
     avgResponseTime: number,
     size: number,
     maxSize: number
   };
   tier3: {
-    name: 'database';
+    name: 'database',
     hitRate: number,
     avgResponseTime: number,
     queryCount: number,
@@ -53,10 +53,10 @@ export interface CachePerformanceMetrics {
 }
 
 export interface RegressionTestResult {
-  testName: string;
-  category: string;
-  previousPerformance: number;
-  currentPerformance: number;
+  testName: string,
+  category: string,
+  previousPerformance: number,
+  currentPerformance: number,
   regressionDetected: boolean,
   regressionPercentage: number,
   threshold: number,
@@ -64,10 +64,10 @@ export interface RegressionTestResult {
 }
 
 export interface AlgorithmPerformanceReport {
-  timestamp: Date;
-  benchmarks: PerformanceBenchmark[];
-  cacheMetrics: CachePerformanceMetrics;
-  regressionTests: RegressionTestResult[];
+  timestamp: Date,
+  benchmarks: PerformanceBenchmark[],
+  cacheMetrics: CachePerformanceMetrics,
+  regressionTests: RegressionTestResult[],
   overallScore: number,
   improvementMaintained: boolean,
   recommendations: string[],
@@ -75,10 +75,10 @@ export interface AlgorithmPerformanceReport {
 }
 
 export interface PerformanceAlert {
-  type: 'regression' | 'cache_miss' | 'slow_algorithm' | 'memory_leak';
-  severity: 'warning' | 'critical';
-  message: string;
-  metric: string;
+  type: 'regression' | 'cache_miss' | 'slow_algorithm' | 'memory_leak',
+  severity: 'warning' | 'critical',
+  message: string,
+  metric: string,
   currentValue: number,
   expectedValue: number,
   timestamp: Date,
@@ -190,7 +190,7 @@ export class AlgorithmPerformanceValidator {
         tier2: { name: 'redis', hitRate: 0.7, avgResponseTime: 5, size: 0, maxSize: 1000 },
         tier3: {
           name: 'database',
-          hitRate: 0.6;
+          hitRate: 0.6,
           avgResponseTime: 50,
           queryCount: 0,
           avgQueryTime: 50
@@ -240,8 +240,8 @@ export class AlgorithmPerformanceValidator {
 
         regressionTests.push({
           testName,
-          category: current.category;
-          previousPerformance: previous.current;
+          category: current.category,
+          previousPerformance: previous.current,
           currentPerformance: current.current;
           regressionDetected,
           regressionPercentage,
@@ -256,8 +256,8 @@ export class AlgorithmPerformanceValidator {
             severity: regressionPercentage > 25 ? 'critical' : 'warning',
             message: `Performance regression detected in ${testName}: ${regressionPercentage.toFixed(1)}% slower`,
             metric: testName,
-            currentValue: current.current;
-            expectedValue: previous.current;
+            currentValue: current.current,
+            expectedValue: previous.current,
             timestamp: new Date(),
             recommendations
           });
@@ -318,7 +318,7 @@ export class AlgorithmPerformanceValidator {
           message: `Performance improvement below target: ${(overallImprovement * 100).toFixed(1)}% < ${this.IMPROVEMENT_TARGET * 100}%`,
           metric: 'overall_improvement',
           currentValue: overallImprovement * 100,
-          expectedValue: this.IMPROVEMENT_TARGET * 100;
+          expectedValue: this.IMPROVEMENT_TARGET * 100,
           timestamp: new Date(),
           recommendations: [
             'Review algorithm optimizations implemented',
@@ -408,14 +408,14 @@ export class AlgorithmPerformanceValidator {
       const improvement = Math.max(0, (algo.baseline - current) / algo.baseline),;
 
       benchmarks.push({
-        name: algo.name;
+        name: algo.name,
         category: 'algorithm',
-        baseline: algo.baseline;
+        baseline: algo.baseline,
         current,
         improvement,
-        target: algo.target;
+        target: algo.target,
         status:
-          current <= algo.target ? 'passing' : current <= algo.baseline ? 'degraded' : 'failing';
+          current <= algo.target ? 'passing' : current <= algo.baseline ? 'degraded' : 'failing',
         samples,
         timestamp: new Date()
       })
@@ -440,13 +440,13 @@ export class AlgorithmPerformanceValidator {
       const improvement = Math.max(0, (op.baseline - current) / op.baseline),;
 
       benchmarks.push({
-        name: op.name;
+        name: op.name,
         category: 'cache',
-        baseline: op.baseline;
+        baseline: op.baseline,
         current,
         improvement,
-        target: op.target;
-        status: current <= op.target ? 'passing' : current <= op.baseline ? 'degraded' : 'failing';
+        target: op.target,
+        status: current <= op.target ? 'passing' : current <= op.baseline ? 'degraded' : 'failing',
         samples,
         timestamp: new Date()
       })
@@ -470,13 +470,13 @@ export class AlgorithmPerformanceValidator {
       const improvement = Math.max(0, (op.baseline - current) / op.baseline),;
 
       benchmarks.push({
-        name: op.name;
+        name: op.name,
         category: 'database',
-        baseline: op.baseline;
+        baseline: op.baseline,
         current,
         improvement,
-        target: op.target;
-        status: current <= op.target ? 'passing' : current <= op.baseline ? 'degraded' : 'failing';
+        target: op.target,
+        status: current <= op.target ? 'passing' : current <= op.baseline ? 'degraded' : 'failing',
         samples,
         timestamp: new Date()
       })
@@ -500,13 +500,13 @@ export class AlgorithmPerformanceValidator {
       const improvement = Math.max(0, (op.baseline - current) / op.baseline),;
 
       benchmarks.push({
-        name: op.name;
+        name: op.name,
         category: 'api',
-        baseline: op.baseline;
+        baseline: op.baseline,
         current,
         improvement,
-        target: op.target;
-        status: current <= op.target ? 'passing' : current <= op.baseline ? 'degraded' : 'failing';
+        target: op.target,
+        status: current <= op.target ? 'passing' : current <= op.baseline ? 'degraded' : 'failing',
         samples,
         timestamp: new Date()
       })
@@ -530,13 +530,13 @@ export class AlgorithmPerformanceValidator {
       const improvement = Math.max(0, (op.baseline - current) / op.baseline),;
 
       benchmarks.push({
-        name: op.name;
+        name: op.name,
         category: 'ui',
-        baseline: op.baseline;
+        baseline: op.baseline,
         current,
         improvement,
-        target: op.target;
-        status: current <= op.target ? 'passing' : current <= op.baseline ? 'degraded' : 'failing';
+        target: op.target,
+        status: current <= op.target ? 'passing' : current <= op.baseline ? 'degraded' : 'failing',
         samples,
         timestamp: new Date()
       })
@@ -665,11 +665,11 @@ export class AlgorithmPerformanceValidator {
     if (metrics.overall.hitRate < this.CACHE_HIT_RATE_TARGET) {
       this.addAlert({
         type: 'cache_miss',
-        severity: metrics.overall.hitRate < 0.6 ? 'critical' : 'warning';
+        severity: metrics.overall.hitRate < 0.6 ? 'critical' : 'warning',
         message: `Cache hit rate below target: ${(metrics.overall.hitRate * 100).toFixed(1)}% < ${this.CACHE_HIT_RATE_TARGET * 100}%`,
         metric: 'cache_hit_rate',
-        currentValue: metrics.overall.hitRate * 100;
-        expectedValue: this.CACHE_HIT_RATE_TARGET * 100;
+        currentValue: metrics.overall.hitRate * 100,
+        expectedValue: this.CACHE_HIT_RATE_TARGET * 100,
         timestamp: new Date(),
         recommendations: [
           'Review cache invalidation policies',
@@ -687,7 +687,7 @@ export class AlgorithmPerformanceValidator {
         severity: 'warning',
         message: `Memory cache hit rate low: ${(metrics.tier1.hitRate * 100).toFixed(1)}%`,
         metric: 'memory_cache_hit_rate',
-        currentValue: metrics.tier1.hitRate * 100;
+        currentValue: metrics.tier1.hitRate * 100,
         expectedValue: 80,
         timestamp: new Date(),
         recommendations: [
@@ -764,7 +764,7 @@ export class AlgorithmPerformanceValidator {
       const exportData = {
         timestamp: new Date().toISOString();
         report,
-        benchmarkHistory: this.benchmarkHistory;
+        benchmarkHistory: this.benchmarkHistory,
         alerts: this.alerts
       };
 

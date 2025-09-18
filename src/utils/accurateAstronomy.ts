@@ -196,18 +196,18 @@ const RETROGRADE_STATUS = {
  */
 interface PositionsCache {
   positions: Record<string, PlanetPositionData>;
-  timestamp: number;
-  date: Date;
+  timestamp: number,
+  date: Date,
 }
 
 /**
  * Type for planetary position object
  */
 interface PlanetPositionData {
-  sign: any;
-  degree: number;
-  exactLongitude: number;
-  isRetrograde: boolean;
+  sign: any,
+  degree: number,
+  exactLongitude: number,
+  isRetrograde: boolean,
 }
 
 // Map our planet names to astronomy-engine bodies

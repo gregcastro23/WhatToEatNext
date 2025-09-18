@@ -68,7 +68,7 @@ describe('Campaign Intelligence System', () => {
       expect(report).toContain('Dominant error pattern: TS2352_TYPE_CONVERSION (10 occurrences)');
       expect(report).toContain('High-success fix patterns identified: TS2352_TYPE_CONVERSION');
       expect(report).toContain('Projected error reduction potential: 85.0%');
-      expect(report).toContain('Estimated campaign duration: 30.0 days');
+      expect(report).toContain('Estimated campaign duration: 30.0 days')
     });
   });
 
@@ -82,7 +82,7 @@ describe('Campaign Intelligence System', () => {
           errorsRemaining: 2450,
           buildValidationPassed: true,
           executionTime: 60000, // 1 minute
-          safetyScore: 0.85;
+          safetyScore: 0.85,
           warnings: [],
           errors: []
         },
@@ -93,7 +93,7 @@ describe('Campaign Intelligence System', () => {
           errorsRemaining: 2420,
           buildValidationPassed: true,
           executionTime: 45000, // 45 seconds
-          safetyScore: 0.9;
+          safetyScore: 0.9,
           warnings: [],
           errors: []
         }
@@ -103,7 +103,7 @@ describe('Campaign Intelligence System', () => {
         totalExplicitAnyRemaining: 200,
         reductionAchieved: 800,
         reductionPercentage: 80,
-        campaignTarget: 75.5;
+        campaignTarget: 75.5,
         isTargetMet: true
       };
 
@@ -131,14 +131,14 @@ describe('Campaign Intelligence System', () => {
 
     it('should generate progress intelligence report', () => {
       const progress: CampaignProgressIntelligence = { velocityAnalysis: {
-          currentVelocity: 1.5;
+          currentVelocity: 1.5,
           projectedCompletion: new Date('2025-02-01'),
           efficiencyTrends: [1.2, 1.5, 1.8],
           bottleneckIdentification: ['Low error fixing velocity']
         },
         qualityMetrics: { codeHealthScore: 0.85,
-          maintainabilityIndex: 0.8;
-          technicalDebtRatio: 0.15;
+          maintainabilityIndex: 0.8,
+          technicalDebtRatio: 0.15,
           buildReliability: 0.95
         },
         strategicInsights: { recommendedActions: ['Increase batch size for higher throughput'],
@@ -155,7 +155,7 @@ describe('Campaign Intelligence System', () => {
       expect(report).toContain('Code health score: 85.0%');
       expect(report).toContain('Build reliability: 95.0%');
       expect(report).toContain('Bottlenecks identified: Low error fixing velocity');
-      expect(report).toContain('Top recommendation: Increase batch size for higher throughput');
+      expect(report).toContain('Top recommendation: Increase batch size for higher throughput')
     });
   });
 
@@ -178,7 +178,7 @@ describe('Campaign Intelligence System', () => {
           totalExplicitAnyRemaining: 250,
           reductionAchieved: 750,
           reductionPercentage: 75,
-          campaignTarget: 75.5;
+          campaignTarget: 75.5,
           isTargetMet: false
         })
       };
@@ -214,11 +214,11 @@ describe('Campaign Intelligence System', () => {
     it('should display enterprise intelligence correctly', () => {
       const mockIntelligence: any = {
         campaignMetrics: { errorReductionVelocity: 1.5,
-          codeQualityImprovement: 0.85;
-          buildStabilityScore: 0.95;
-          technicalDebtReduction: 0.75;
-          enterpriseReadiness: 0.88;
-          systemComplexity: 0.6;
+          codeQualityImprovement: 0.85,
+          buildStabilityScore: 0.95,
+          technicalDebtReduction: 0.75,
+          enterpriseReadiness: 0.88,
+          systemComplexity: 0.6,
           intelligenceDepth: 'advanced' as const,
           campaignEffectiveness: 0.82
         },
@@ -229,14 +229,14 @@ describe('Campaign Intelligence System', () => {
           predictiveAnalytics: {}
         },
         progressAnalysis: { velocityAnalysis: {
-            currentVelocity: 1.5;
+            currentVelocity: 1.5,
             projectedCompletion: new Date('2025-02-01'),
             efficiencyTrends: [],
             bottleneckIdentification: []
           },
           qualityMetrics: { codeHealthScore: 0.85,
-            maintainabilityIndex: 0.8;
-            technicalDebtRatio: 0.15;
+            maintainabilityIndex: 0.8,
+            technicalDebtRatio: 0.15,
             buildReliability: 0.95
           },
           strategicInsights: { recommendedActions: [],

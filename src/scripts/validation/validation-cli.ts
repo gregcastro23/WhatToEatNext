@@ -247,7 +247,7 @@ class ValidationCLI {
         // // console.log('   Test Suite Validation: Enabled');
         // // console.log('   Component Validation: Enabled');
         // // console.log('   Service Validation: Enabled');
-        // // console.log('   Build Validation: Enabled');
+        // // console.log('   Build Validation: Enabled')
       }
     } catch (error) {
       console.error(`❌ Status check failed: ${error}`);
@@ -348,7 +348,7 @@ class ValidationCLI {
 
     // // console.log('\n💡 Configuration Options:');
     // // console.log('   --config <path>: Load configuration from file');
-    // // console.log('   Environment variables: VALIDATION_* prefix supported');
+    // // console.log('   Environment variables: VALIDATION_* prefix supported')
   }
 
   private showHelp(): void {

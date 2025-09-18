@@ -4,9 +4,9 @@
  */
 
 interface CircuitBreakerOptions {
-  failureThreshold: number;
-  resetTimeout: number;
-  monitoringWindow: number;
+  failureThreshold: number,
+  resetTimeout: number,
+  monitoringWindow: number
 }
 
 enum CircuitState {

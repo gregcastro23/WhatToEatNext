@@ -19,58 +19,58 @@ export type IngredientCategory =
 export interface SensoryProfile {
   taste:
     | {
-        sweet: number;
-        salty: number;
-        sour: number;
-        bitter: number;
-        umami: number;
-        spicy: number;
+        sweet: number,
+        salty: number,
+        sour: number,
+        bitter: number,
+        umami: number,
+        spicy: number,
       }
     | Record<string, number>;
   aroma:
     | {
-        floral: number;
-        fruity: number;
-        herbal: number;
-        spicy: number;
-        earthy: number;
-        woody: number;
+        floral: number,
+        fruity: number,
+        herbal: number,
+        spicy: number,
+        earthy: number,
+        woody: number,
       }
     | Record<string, number>;
   texture:
     | {
-        crisp: number;
-        tender: number;
-        creamy: number;
-        chewy: number;
-        crunchy: number;
-        silky: number;
+        crisp: number,
+        tender: number,
+        creamy: number,
+        chewy: number,
+        crunchy: number,
+        silky: number,
       }
     | Record<string, number>;
 }
 
 // New interface for cooking methods
 export interface CookingMethod {
-  name: string;
-  elementalEffect: Partial<ElementalProperties>;
+  name: string,
+  elementalEffect: Partial<ElementalProperties>,
   cookingTime: {
-    min: number;
-    max: number;
-    unit: 'seconds' | 'minutes' | 'hours' | string;
+    min: number,
+    max: number,
+    unit: 'seconds' | 'minutes' | 'hours' | string
   };
   temperatures?: {
-    min: number;
-    max: number;
-    unit: 'celsius' | 'fahrenheit';
+    min: number,
+    max: number,
+    unit: 'celsius' | 'fahrenheit'
   };
-  description: string;
+  description: string
 }
 
 export interface BaseIngredient {
-  name: string;
-  category: IngredientCategory;
-  elementalProperties: ElementalProperties;
-  qualities: string[];
+  name: string,
+  category: IngredientCategory,
+  elementalProperties: ElementalProperties,
+  qualities: string[],
   seasonality?: string[];
   lunarPhaseModifiers?: Record<string, LunarPhaseModifier>;
   sensoryProfile?: SensoryProfile;
@@ -102,21 +102,21 @@ export interface Ingredient extends BaseIngredient {
     }
   >;
   smokePoint?: {
-    celsius: number;
-    fahrenheit: number;
+    celsius: number,
+    fahrenheit: number,
   };
   potency?: number;
   heatLevel?: number;
   preparation?: {
     fresh?: {
-      duration: string;
-      storage: string;
-      tips: string[];
+      duration: string,
+      storage: string,
+      tips: string[]
     };
     dried?: {
-      duration: string;
-      storage: string;
-      tips: string[];
+      duration: string,
+      storage: string,
+      tips: string[]
     };
     methods?: string[];
   };
@@ -126,8 +126,8 @@ export interface Ingredient extends BaseIngredient {
     temperature?:
       | string
       | {
-          fahrenheit: number;
-          celsius: number;
+          fahrenheit: number,
+          celsius: number,
         };
     notes?: string;
   };
@@ -138,8 +138,8 @@ export interface Ingredient extends BaseIngredient {
   };
   // New property for ingredient pairing recommendations
   pairingRecommendations?: {
-    complementary: string[];
-    contrasting: string[];
+    complementary: string[],
+    contrasting: string[],
     toAvoid?: string[];
   };
   // New property for elemental transformation
@@ -183,18 +183,18 @@ export type VinegarSubcategory = 'wine' | 'fruit' | 'grain' | 'specialty';
 
 // Updated AlchemicalProperties interface with more accurate values
 export interface AlchemicalProperties {
-  spirit: number;
-  essence: number;
-  matter: number;
-  substance: number;
+  spirit: number,
+  essence: number,
+  matter: number,
+  substance: number,
 }
 
 // Updated ThermodynamicProperties interface based on the FoodAlchemySystem
 export interface ThermodynamicProperties {
-  heat: number;
-  entropy: number;
-  reactivity: number;
-  energy: number;
+  heat: number,
+  entropy: number,
+  reactivity: number,
+  energy: number,
 }
 
 // Add Modality type to the types file
@@ -202,17 +202,17 @@ export type Modality = 'Cardinal' | 'Fixed' | 'Mutable';
 
 // Update the IngredientProfile interface to include modality
 export interface IngredientProfile {
-  name: string;
-  description: string;
+  name: string,
+  description: string,
   flavorProfile?: unknown;
-  alchemicalProperties: AlchemicalProperties;
-  thermodynamicProperties: ThermodynamicProperties;
-  modality: Modality;
+  alchemicalProperties: AlchemicalProperties,
+  thermodynamicProperties: ThermodynamicProperties,
+  modality: Modality
 }
 
 export interface IngredientMapping {
-  name: string;
-  elementalProperties: ElementalProperties;
+  name: string,
+  elementalProperties: ElementalProperties,
   astrologicalProfile?: {
     rulingPlanets?: string[];
     favorableZodiac?: any[];
@@ -241,5 +241,5 @@ export interface IngredientMapping {
   preparation?: Record<string, unknown>;
   storage?: Record<string, unknown>;
   // Allow additional properties
-  [key: string]: unknown;
+  [key: string]: unknown
 }

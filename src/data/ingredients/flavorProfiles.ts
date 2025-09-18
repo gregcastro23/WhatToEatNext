@@ -2,12 +2,12 @@ import type { Ingredient } from '@/types/alchemy';
 
 
 export interface IngredientFlavorProfile {
-  spicy: number;
-  sweet: number;
-  sour: number;
-  bitter: number;
-  salty: number;
-  umami: number;
+  spicy: number,
+  sweet: number,
+  sour: number,
+  bitter: number,
+  salty: number,
+  umami: number,
 }
 
 // Helper function to add flavor profiles to ingredients

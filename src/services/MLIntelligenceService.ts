@@ -84,7 +84,7 @@ export class MLIntelligenceService {
       logLevel: 'info',
       performanceThresholds: {
         maxExecutionTime: 8000,
-        minConfidenceScore: 0.75;
+        minConfidenceScore: 0.75,
         maxMemoryUsage: 150 * 1024 * 1024, // 150MB
       },
       ...config
@@ -1308,10 +1308,10 @@ export class MLIntelligenceService {
     _astrologicalContext: MLContext,
   ): string {
     return `ml_${JSON.stringify({
-      recipeId: recipeData.id;
-      ingredientCount: ingredientData.length;
-      cuisineName: cuisineData.name;
-      zodiac: _astrologicalContext.zodiacSign;
+      recipeId: recipeData.id,
+      ingredientCount: ingredientData.length,
+      cuisineName: cuisineData.name,
+      zodiac: _astrologicalContext.zodiacSign,
       lunar: _astrologicalContext.lunarPhase
     })}`;
   }
@@ -1363,7 +1363,7 @@ export class MLIntelligenceService {
 
   private getDefaultRecipeOptimization(): MLIntelligenceResult['recipeOptimization'] {
     return {
-      mlOptimizedScore: 0.75;
+      mlOptimizedScore: 0.75,
       ingredientSubstitutionRecommendations: [
         'Consider seasonal substitutions for optimal alignment'
       ],
@@ -1375,7 +1375,7 @@ export class MLIntelligenceService {
 
   private getDefaultIngredientPairing(): IngredientCompatibilityResult {
     return {
-      mlCompatibilityScore: 0.75;
+      mlCompatibilityScore: 0.75,
       pairwiseCompatibilityMatrix: {},
       substitutionRecommendations: {},
       flavorSynergyPredictions: ['Good flavor synergy detected']
@@ -1384,19 +1384,19 @@ export class MLIntelligenceService {
 
   private getDefaultCuisineFusion(): MLIntelligenceResult['cuisineFusion'] {
     return {
-      mlFusionScore: 0.75;
-      fusionSuccessPrediction: 0.75;
-      culturalHarmonyPrediction: 0.75;
-      innovationPotential: 0.7;
+      mlFusionScore: 0.75,
+      fusionSuccessPrediction: 0.75,
+      culturalHarmonyPrediction: 0.75,
+      innovationPotential: 0.7,
       recommendedFusionTechniques: ['Blend complementary cooking methods']
     };
   }
 
   private getDefaultAstrologicalPrediction(): MLIntelligenceResult['astrologicalPrediction'] {
     return {
-      mlAlignmentScore: 0.75;
+      mlAlignmentScore: 0.75,
       optimalTimingPrediction: 'Good timing - ML-optimized astrological conditions',
-      planetaryInfluenceOptimization: 0.75;
+      planetaryInfluenceOptimization: 0.75,
       cosmicHarmonyEnhancement: ['Enhance with cosmic alignment techniques']
     };
   }
@@ -1413,10 +1413,10 @@ export class MLIntelligenceService {
     return {
       executionTime: avgExecutionTime,
       memoryUsage: 0, // Would need actual memory measurement
-      confidenceScore: this.metrics.averageConfidence;
-      accuracyScore: 1 - this.metrics.errorRate;
-      cacheHitRate: this.metrics.cacheHitRate;
-      errorRate: this.metrics.errorRate;
+      confidenceScore: this.metrics.averageConfidence,
+      accuracyScore: 1 - this.metrics.errorRate,
+      cacheHitRate: this.metrics.cacheHitRate,
+      errorRate: this.metrics.errorRate,
       timestamp: new Date().toISOString()
     };
   }

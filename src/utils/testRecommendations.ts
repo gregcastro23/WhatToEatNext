@@ -15,30 +15,30 @@ export async function testCookingMethodRecommendations() {
     id: 'tomato',
     name: 'Tomato',
     elementalProperties: {
-      Fire: 0.3;
-      Water: 0.7;
-      Earth: 0.4;
+      Fire: 0.3,
+      Water: 0.7,
+      Earth: 0.4,
       Air: 0.2
     },
     alchemicalProperties: {
-      Spirit: 0.4;
-      Essence: 0.3;
-      Matter: 0.6;
+      Spirit: 0.4,
+      Essence: 0.3,
+      Matter: 0.6,
       Substance: 0.7
     },
     transformedElementalProperties: {
-      Fire: 0.3;
-      Water: 0.7;
-      Earth: 0.4;
+      Fire: 0.3,
+      Water: 0.7,
+      Earth: 0.4,
       Air: 0.2
     },
-    heat: 0.3;
-    entropy: 0.4;
-    reactivity: 0.3;
-    gregsEnergy: 0.4;
+    heat: 0.3,
+    entropy: 0.4,
+    reactivity: 0.3,
+    gregsEnergy: 0.4,
     dominantElement: 'Water',
     dominantAlchemicalProperty: 'Substance',
-    planetaryBoost: 1.0;
+    planetaryBoost: 1.0,
     dominantPlanets: ['Venus'],
     planetaryDignities: {}
   };

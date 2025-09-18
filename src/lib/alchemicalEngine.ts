@@ -270,9 +270,9 @@ export class AlchemicalEngineBase {
     const lunarModifiers = this.lunarPhaseModifiers[astrologicalState.lunarPhase || 'new_moon'];
 
     const baseModifiers: ElementalProperties = {
-      Fire: 0.25;
-      Water: 0.25;
-      Air: 0.25;
+      Fire: 0.25,
+      Water: 0.25,
+      Air: 0.25,
       Earth: 0.25
     };
 
@@ -306,9 +306,9 @@ export class AlchemicalEngineBase {
 
   getSeasonalInfluence(season: string, element: keyof ElementalProperties): number {
     const seasonalModifiersData = this.calculator.calculateElementalState({
-      Fire: 0.25;
-      Water: 0.25;
-      Earth: 0.25;
+      Fire: 0.25,
+      Water: 0.25,
+      Earth: 0.25,
       Air: 0.25
     }) as unknown;
     const seasonalInfluence = seasonalModifiersData?.seasonalInfluence || {};
@@ -339,9 +339,9 @@ export class AlchemicalEngineBase {
 
   getDominantElements(recipe: Recipe): Array<{ element: string, strength: number }> {
     const elements = recipe.elementalProperties || {
-      Fire: 0.25;
-      Water: 0.25;
-      Earth: 0.25;
+      Fire: 0.25,
+      Water: 0.25,
+      Earth: 0.25,
       Air: 0.25
     }; // Fallback elemental balance
 
@@ -513,9 +513,9 @@ export class AlchemicalEngineBase {
       recipe: _recipe,
       score: 80, // Default score
       elements: {
-        Fire: 0.25;
-        Water: 0.25;
-        Air: 0.25;
+        Fire: 0.25,
+        Water: 0.25,
+        Air: 0.25,
         Earth: 0.25
       }
     }));

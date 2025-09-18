@@ -16,16 +16,16 @@ export type ZodiacSign =
   | 'pisces';
 
 export interface PlanetaryAlignment {
-  Sun: string;
-  Moon: string;
-  Mercury: string;
-  Venus: string;
-  Mars: string;
-  Jupiter: string;
-  Saturn: string;
-  Uranus: string;
-  Neptune: string;
-  Pluto: string;
+  Sun: string,
+  Moon: string,
+  Mercury: string,
+  Venus: string,
+  Mars: string,
+  Jupiter: string,
+  Saturn: string,
+  Uranus: string,
+  Neptune: string,
+  Pluto: string,
   Ascendant?: string;
 }
 

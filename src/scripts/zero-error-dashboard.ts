@@ -12,7 +12,7 @@ import { existsSync, readFileSync } from 'fs';
 import { ZeroErrorAchievementDashboard } from '../services/linting/ZeroErrorAchievementDashboard';
 
 interface CLIOptions {
-  command: string;
+  command: string,
   monitor: boolean,
   interval: number,
   verbose: boolean,
@@ -150,7 +150,7 @@ class ZeroErrorDashboardCLI {
         // // console.log(`   Last Update: ${new Date(status.timestamp).toLocaleString()}`);
       } else {
         // // console.log('ℹ️  No status data available. Run dashboard generation first.');
-        // // console.log('   Command: node src/scripts/zero-error-dashboard.ts generate');
+        // // console.log('   Command: node src/scripts/zero-error-dashboard.ts generate')
       }
 
       // Show targets if available

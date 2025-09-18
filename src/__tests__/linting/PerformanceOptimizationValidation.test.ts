@@ -49,8 +49,8 @@ describe('Performance Optimization Validation', () => {
         // Test the validation system
         const validation: any = validateTestResult(;
           {
-            executionTime: result.executionTime;
-            memoryUsage: result.memoryUsed;
+            executionTime: result.executionTime,
+            memoryUsage: result.memoryUsed,
             success: result.success
           },
           'performance'
@@ -74,8 +74,8 @@ describe('Performance Optimization Validation', () => {
         // Validate the result
         const validation: any = validateTestResult(;
           {
-            executionTime: result.executionTime;
-            memoryUsage: result.memoryUsed;
+            executionTime: result.executionTime,
+            memoryUsage: result.memoryUsed,
             success: result.success
           },
           'performance'
@@ -121,7 +121,7 @@ describe('Performance Optimization Validation', () => {
     test('validates parallel processing configuration', () => {
       // Check if parallel processing is configured in package.json
       const packageJson = require('../../../package.json');
-      expect(packageJson.scripts).toHaveProperty('lint:parallel');
+      expect(packageJson.scripts).toHaveProperty('lint:parallel')
     });
 
     test('measures parallel processing performance', async () => {
@@ -245,7 +245,7 @@ describe('Performance Optimization Validation', () => {
     test('validates incremental linting setup', () => {
       // Check if incremental linting is configured
       const packageJson = require('../../../package.json');
-      expect(packageJson.scripts).toHaveProperty('lint:changed');
+      expect(packageJson.scripts).toHaveProperty('lint:changed')
     });
 
     test('measures incremental linting performance (sub-10 second)', (async () =>  {
@@ -442,18 +442,18 @@ export function testFunction(): string {
     test('validates comprehensive performance metrics', () => {
       // Test that all performance metrics are measurable
       const metrics: any = {
-        executionTime: expect.any(Number);
-        memoryUsage: expect.any(Number);
-        cacheHitRate: expect.any(Number);
-        filesProcessed: expect.any(Number);
+        executionTime: expect.any(Number),
+        memoryUsage: expect.any(Number),
+        cacheHitRate: expect.any(Number),
+        filesProcessed: expect.any(Number),
         parallelProcesses: expect.any(Number)
       };
 
       expect(metrics).toMatchObject({
-        executionTime: expect.any(Number);
-        memoryUsage: expect.any(Number);
-        cacheHitRate: expect.any(Number);
-        filesProcessed: expect.any(Number);
+        executionTime: expect.any(Number),
+        memoryUsage: expect.any(Number),
+        cacheHitRate: expect.any(Number),
+        filesProcessed: expect.any(Number),
         parallelProcesses: expect.any(Number)
       });
     });

@@ -21,7 +21,7 @@ const logger = createLogger('CurrentMomentManager');
 
 // Current moment data structure
 export interface CurrentMomentData {
-  timestamp: string;
+  timestamp: string,
   date: string,
   location: {
     latitude: number,
@@ -38,14 +38,14 @@ export interface CurrentMomentData {
 
 // Default location (New York Area)
 const DEFAULT_LOCATION = {
-  latitude: 40.7498;
-  longitude: -73.7976;
+  latitude: 40.7498,
+  longitude: -73.7976,
   timezone: 'EDT'
 };
 
 // Performance monitoring metrics
 interface PerformanceMetrics {
-  totalUpdates: number;
+  totalUpdates: number,
   successfulUpdates: number,
   failedUpdates: number,
   averageResponseTime: number,
@@ -127,7 +127,7 @@ class CurrentMomentManager {
 
       // Step 2: Create current moment data structure
       this.currentMoment = {
-        timestamp: targetDate.toISOString();
+        timestamp: targetDate.toISOString(),
         date: targetDate.toLocaleDateString('en-US', {
           year: 'numeric',
           month: 'long',
@@ -143,7 +143,7 @@ class CurrentMomentManager {
         planetaryPositions,
         metadata: {
           source,
-          apiCallTimestamp: new Date().toISOString();
+          apiCallTimestamp: new Date().toISOString(),
           lastUpdated: new Date().toISOString()
         }
       };
@@ -510,14 +510,14 @@ class CurrentMomentManager {
         sign: 'gemini',
         degree: 12,
         minute: 44,
-        exactLongitude: 72.73;
+        exactLongitude: 72.73,
         isRetrograde: false
       },
       Saturn: {
         sign: 'pisces',
         degree: 19,
         minute: 17,
-        exactLongitude: 349.28;
+        exactLongitude: 349.28,
         isRetrograde: false
       },
       Uranus: { sign: 'taurus', degree: 26, minute: 9, exactLongitude: 56.15, isRetrograde: false },
@@ -525,21 +525,21 @@ class CurrentMomentManager {
         sign: 'aries',
         degree: 29,
         minute: 55,
-        exactLongitude: 29.92;
+        exactLongitude: 29.92,
         isRetrograde: false
       },
       Pluto: {
         sign: 'aquarius',
         degree: 1,
         minute: 53,
-        exactLongitude: 301.88;
+        exactLongitude: 301.88,
         isRetrograde: true
       },
       Ascendant: {
         sign: 'capricorn',
         degree: 20,
         minute: 45,
-        exactLongitude: 290.75;
+        exactLongitude: 290.75,
         isRetrograde: false
       }
     };
@@ -552,7 +552,7 @@ class CurrentMomentManager {
     if (planetaryPositions) {
       // Use provided positions to update current moment
       this.currentMoment = {
-        timestamp: new Date().toISOString();
+        timestamp: new Date().toISOString(),
         date: new Date().toLocaleDateString('en-US', {
           year: 'numeric',
           month: 'long',
@@ -565,7 +565,7 @@ class CurrentMomentManager {
         planetaryPositions,
         metadata: {
           source: 'api',
-          apiCallTimestamp: new Date().toISOString();
+          apiCallTimestamp: new Date().toISOString(),
           lastUpdated: new Date().toISOString()
         }
       };

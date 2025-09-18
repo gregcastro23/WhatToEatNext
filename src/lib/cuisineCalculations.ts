@@ -1,21 +1,21 @@
 import { culinaryTraditions } from '@/data/cuisines/culinaryTraditions';
 
 export interface CuisineRecommendation {
-  id: string;
-  name: string;
+  id: string,
+  name: string,
   description?: string;
   alchemicalProperties?: Record<string, number>;
   astrologicalInfluences?: string[];
-  elementalProperties: ElementalProperties;
-  compatibilityScore: number;
+  elementalProperties: ElementalProperties,
+  compatibilityScore: number,
   elementalAlignment: Record<string, number>;
 }
 
 interface ElementalProperties {
-  Fire: number;
-  Water: number;
-  Earth: number;
-  Air: number;
+  Fire: number,
+  Water: number,
+  Earth: number,
+  Air: number,
 }
 
 export async function getCuisineRecommendations(): Promise<CuisineRecommendation[]> {
@@ -29,7 +29,7 @@ export async function getCuisineRecommendations(): Promise<CuisineRecommendation
           authenticity?: number;
           regions?: unknown[];
           seasonality?: unknown;
-          [key: string]: unknown;
+          [key: string]: unknown
         };
 
         return {
@@ -73,7 +73,7 @@ function deriveAstrologicalInfluences(tradition: unknown): string[] {
     description?: string;
     elementalAlignment?: { Fire: number; Water: number; Earth: number; Air: number };
     regions?: unknown[];
-    [key: string]: unknown;
+    [key: string]: unknown
   };
 
   // If the tradition explicitly has astrological influences, use those
@@ -101,7 +101,7 @@ function deriveAstrologicalInfluences(tradition: unknown): string[] {
         name?: string;
         characteristics?: string[];
         seasonality?: unknown;
-        [key: string]: unknown;
+        [key: string]: unknown
       };
       const regionInfluences = regionData?.astrologicalInfluences;
 

@@ -25,43 +25,43 @@ export interface ScriptExecutionOptions {
 }
 
 export interface ScriptExecutionResult {
-  success: boolean;
-  exitCode: number;
-  stdout: string;
-  stderr: string;
-  filesProcessed: number;
-  errorsFixed: number;
-  warningsFixed: number;
-  executionTime: number;
+  success: boolean,
+  exitCode: number,
+  stdout: string,
+  stderr: string,
+  filesProcessed: number,
+  errorsFixed: number,
+  warningsFixed: number,
+  executionTime: number,
   safetyEvents: SafetyEvent[];
   metrics?: ScriptMetrics;
 }
 
 export interface SafetyEvent {
-  type: 'corruption' | 'build_failure' | 'test_failure' | 'rollback' | 'stash_created';
-  timestamp: Date;
-  description: string;
-  severity: 'low' | 'medium' | 'high' | 'critical';
+  type: 'corruption' | 'build_failure' | 'test_failure' | 'rollback' | 'stash_created',
+  timestamp: Date,
+  description: string,
+  severity: 'low' | 'medium' | 'high' | 'critical',
   recoveryAction?: string;
 }
 
 export interface ScriptMetrics {
-  totalRuns: number;
-  successfulRuns: number;
-  filesProcessed: number;
-  errorsFixed: number;
-  safetyScore: number;
-  recommendedBatchSize: number;
-  lastRunTime: string;
+  totalRuns: number,
+  successfulRuns: number,
+  filesProcessed: number,
+  errorsFixed: number,
+  safetyScore: number,
+  recommendedBatchSize: number,
+  lastRunTime: string
 }
 
 export interface ScriptConfig {
-  scriptPath: string;
-  defaultOptions: ScriptExecutionOptions;
-  safetyLevel: 'low' | 'medium' | 'high' | 'maximum';
-  maxBatchSize: number;
-  requiresGitClean: boolean;
-  supportsJsonOutput: boolean;
+  scriptPath: string,
+  defaultOptions: ScriptExecutionOptions,
+  safetyLevel: 'low' | 'medium' | 'high' | 'maximum',
+  maxBatchSize: number,
+  requiresGitClean: boolean,
+  supportsJsonOutput: boolean,
 }
 
 /**
@@ -248,9 +248,9 @@ export class ScriptIntegrationSystem {
    * Validate safety before script execution
    */
   async validateScriptSafety(scriptId: string): Promise<{
-    safe: boolean;
-    issues: string[];
-    recommendedBatchSize: number;
+    safe: boolean,
+    issues: string[],
+    recommendedBatchSize: number
   }> {
     const config = this.scriptConfigs.get(scriptId);
     if (!config) {

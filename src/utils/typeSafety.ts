@@ -102,7 +102,7 @@ export const toSafeBoolean = (value: unknown): boolean => {
 export const safeMap = <T, R>(,;
   array: unknown,
   mapper: (item: T, index: number) => R,
-  defaultValue: R[] = [];
+  defaultValue: R[] = [],
 ): R[] => {
   if (!isArray(array)) {
     return defaultValue
@@ -118,7 +118,7 @@ export const safeMap = <T, R>(,;
 export const safeFilter = <T>(;
   array: unknown,
   predicate: (item: T, index: number) => boolean,
-  defaultValue: T[] = [];
+  defaultValue: T[] = [],
 ): T[] => {
   if (!isArray(array)) {
     return defaultValue
@@ -153,7 +153,7 @@ export const validateRequired = <T>(value: T | null | undefined, fieldName: stri
 
 export const validateType = <T>(;
   value: unknown,
-  validator: (val: unknown) => val is T;
+  validator: (val: unknown) => val is T,
   fieldName: string,
 ): T => {
   if (!validator(value)) {
@@ -207,7 +207,7 @@ export const isCookingMethod = (;
 // Safe casting utilities with validation
 export const safeCast = <T>(;
   value: unknown,
-  validator: (val: unknown) => val is T;
+  validator: (val: unknown) => val is T,
   defaultValue: T,
 ): T => {
   return validator(value) ? value : defaultValue
@@ -215,7 +215,7 @@ export const safeCast = <T>(;
 
 export const safeCastWithWarning = <T>(;
   value: unknown,
-  validator: (val: unknown) => val is T;
+  validator: (val: unknown) => val is T,
   defaultValue: T,
   context: string,
 ): T => {
@@ -228,7 +228,7 @@ export const safeCastWithWarning = <T>(;
 
 // Error boundary utilities
 export const withErrorBoundary = <T, R>(,;
-  operation: () => T;
+  operation: () => T,
   fallback: R,
   context?: string,
 ): T | R => {
@@ -244,7 +244,7 @@ export const withErrorBoundary = <T, R>(,;
 
 // Async error boundary utilities
 export const withAsyncErrorBoundary = async <T, R>(,;
-  operation: () => Promise<T>;
+  operation: () => Promise<T>,
   fallback: R,
   context?: string,
 ): Promise<T | R> => {

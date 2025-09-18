@@ -11,7 +11,7 @@ import * as path from 'path';
 import { logger } from '../../utils/logger';
 
 export interface ImportCleanupConfig {
-  maxFilesPerBatch: number;
+  maxFilesPerBatch: number,
   safetyValidationEnabled: boolean,
   buildValidationFrequency: number,
   importStyleEnforcement: boolean,
@@ -19,8 +19,8 @@ export interface ImportCleanupConfig {
 }
 
 export interface ImportOrganizationRules {
-  groupExternalImports: boolean;
-  groupInternalImports: boolean;
+  groupExternalImports: boolean,
+  groupInternalImports: boolean,
   sortAlphabetically: boolean,
   separateTypeImports: boolean,
   enforceTrailingCommas: boolean,
@@ -28,9 +28,9 @@ export interface ImportOrganizationRules {
 }
 
 export interface ImportCleanupResult {
-  filesProcessed: string[];
-  unusedImportsRemoved: number;
-  importsOrganized: number;
+  filesProcessed: string[],
+  unusedImportsRemoved: number,
+  importsOrganized: number,
   styleViolationsFixed: number,
   buildValidationPassed: boolean,
   errors: string[],
@@ -38,7 +38,7 @@ export interface ImportCleanupResult {
 }
 
 export interface UnusedImport {
-  filePath: string;
+  filePath: string,
   importName: string,
   importLine: number,
   importStatement: string,
@@ -99,8 +99,8 @@ export class ImportCleanupSystem {
 
       const executionTime = Date.now() - startTime;
       logger.info(`Import cleanup completed in ${executionTime}ms`, {
-        filesProcessed: totalResult.filesProcessed.length;
-        unusedImportsRemoved: totalResult.unusedImportsRemoved;
+        filesProcessed: totalResult.filesProcessed.length,
+        unusedImportsRemoved: totalResult.unusedImportsRemoved,
         importsOrganized: totalResult.importsOrganized
       });
 
@@ -427,7 +427,7 @@ export class ImportCleanupSystem {
         importLines.push({
           line: lines[i],
           index: i,
-          isExternal: externalImportRegex.test(line);
+          isExternal: externalImportRegex.test(line),
           isType: typeImportRegex.test(line)
         })
       } else if (line && !line.startsWith('//') && !line.startsWith('/*')) {
@@ -627,10 +627,10 @@ export class ImportCleanupSystem {
   ): ImportCleanupResult {
     return {
       filesProcessed: [...total.filesProcessed, ...batch.filesProcessed],
-      unusedImportsRemoved: total.unusedImportsRemoved + batch.unusedImportsRemoved;
-      importsOrganized: total.importsOrganized + batch.importsOrganized;
-      styleViolationsFixed: total.styleViolationsFixed + batch.styleViolationsFixed;
-      buildValidationPassed: total.buildValidationPassed && batch.buildValidationPassed;
+      unusedImportsRemoved: total.unusedImportsRemoved + batch.unusedImportsRemoved,
+      importsOrganized: total.importsOrganized + batch.importsOrganized,
+      styleViolationsFixed: total.styleViolationsFixed + batch.styleViolationsFixed,
+      buildValidationPassed: total.buildValidationPassed && batch.buildValidationPassed,
       errors: [...total.errors, ...batch.errors],
       warnings: [...total.warnings, ...batch.warnings]
     };

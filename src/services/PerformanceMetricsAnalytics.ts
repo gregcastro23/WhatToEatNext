@@ -47,14 +47,14 @@ export interface SystemMetrics {
     packetsIn: number,
     packetsOut: number
   };
-  timestamp: Date;
+  timestamp: Date
 }
 
 export interface ProcessMetrics {
-  pid: number;
-  name: string;
-  cpu: number;
-  memory: number;
+  pid: number,
+  name: string,
+  cpu: number,
+  memory: number,
   uptime: number,
   threads: number,
   fileDescriptors: number,
@@ -62,11 +62,11 @@ export interface ProcessMetrics {
 }
 
 export interface BuildMetrics {
-  buildTime: number;
-  buildSize: number;
-  bundleSize: number;
-  chunks: number;
-  assets: number;
+  buildTime: number,
+  buildSize: number,
+  bundleSize: number,
+  chunks: number,
+  assets: number,
   errors: number,
   warnings: number,
   success: boolean,
@@ -74,11 +74,11 @@ export interface BuildMetrics {
 }
 
 export interface TypeScriptMetrics {
-  errorCount: number;
-  warningCount: number;
-  compilationTime: number;
-  fileCount: number;
-  linesOfCode: number;
+  errorCount: number,
+  warningCount: number,
+  compilationTime: number,
+  fileCount: number,
+  linesOfCode: number,
   complexity: number,
   maintainabilityIndex: number,
   technicalDebt: number,
@@ -86,26 +86,26 @@ export interface TypeScriptMetrics {
 }
 
 export interface TestMetrics {
-  totalTests: number;
-  passedTests: number;
-  failedTests: number;
-  skippedTests: number;
+  totalTests: number,
+  passedTests: number,
+  failedTests: number,
+  skippedTests: number,
   coverage: {
     lines: number,
     branches: number,
     functions: number,
     statements: number
   };
-  duration: number;
-  timestamp: Date;
+  duration: number,
+  timestamp: Date,
 }
 
 export interface PerformanceSnapshot {
-  snapshotId: string;
-  systemMetrics: SystemMetrics;
-  processMetrics: ProcessMetrics;
-  buildMetrics: BuildMetrics;
-  typeScriptMetrics: TypeScriptMetrics;
+  snapshotId: string,
+  systemMetrics: SystemMetrics,
+  processMetrics: ProcessMetrics,
+  buildMetrics: BuildMetrics,
+  typeScriptMetrics: TypeScriptMetrics,
   testMetrics: TestMetrics,
   timestamp: Date,
   healthScore: number,
@@ -113,10 +113,10 @@ export interface PerformanceSnapshot {
 }
 
 export interface PerformanceAlert {
-  alertId: string;
-  type: 'warning' | 'error' | 'critical';
-  category: 'cpu' | 'memory' | 'disk' | 'build' | 'typescript' | 'test';
-  message: string;
+  alertId: string,
+  type: 'warning' | 'error' | 'critical',
+  category: 'cpu' | 'memory' | 'disk' | 'build' | 'typescript' | 'test',
+  message: string,
   threshold: number,
   currentValue: number,
   timestamp: Date,
@@ -124,13 +124,13 @@ export interface PerformanceAlert {
 }
 
 export interface PerformanceTrend {
-  trendId: string;
-  metric: string;
-  direction: 'improving' | 'degrading' | 'stable';
-  changeRate: number;
-  significance: number;
-  dataPoints: number;
-  startDate: Date;
+  trendId: string,
+  metric: string,
+  direction: 'improving' | 'degrading' | 'stable',
+  changeRate: number,
+  significance: number,
+  dataPoints: number,
+  startDate: Date,
   endDate: Date,
   prediction: {
     nextValue: number,
@@ -140,35 +140,35 @@ export interface PerformanceTrend {
 }
 
 export interface PerformanceReport {
-  reportId: string;
-  timeframe: '1h' | '6h' | '24h' | '7d' | '30d';
+  reportId: string,
+  timeframe: '1h' | '6h' | '24h' | '7d' | '30d',
   summary: {
-    avgHealthScore: number;
-    totalAlerts: number;
+    avgHealthScore: number,
+    totalAlerts: number,
     criticalAlerts: number,
     performanceGrade: 'A' | 'B' | 'C' | 'D' | 'F',
     topIssues: string[],
     improvements: string[]
   };
-  trends: PerformanceTrend[];
-  recommendations: PerformanceRecommendation[];
+  trends: PerformanceTrend[],
+  recommendations: PerformanceRecommendation[],
   metrics: {
     system: SystemMetrics,
     build: BuildMetrics,
     typescript: TypeScriptMetrics,
     test: TestMetrics
   };
-  timestamp: Date;
+  timestamp: Date
 }
 
 export interface PerformanceRecommendation {
-  recommendationId: string;
-  priority: 'low' | 'medium' | 'high' | 'critical';
-  category: 'optimization' | 'maintenance' | 'scaling' | 'security';
-  title: string;
-  description: string;
-  impact: 'low' | 'medium' | 'high';
-  effort: 'low' | 'medium' | 'high';
+  recommendationId: string,
+  priority: 'low' | 'medium' | 'high' | 'critical',
+  category: 'optimization' | 'maintenance' | 'scaling' | 'security',
+  title: string,
+  description: string,
+  impact: 'low' | 'medium' | 'high',
+  effort: 'low' | 'medium' | 'high',
   estimatedImprovement: number,
   implementation: string[],
   dependencies: string[],
@@ -360,7 +360,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
       return {
         usage: cpuUsage,
         loadAverage,
-        cores: (await import('os')).cpus().length;
+        cores: (await import('os')).cpus().length,
         model: (await import('os')).cpus()[0]?.model || 'Unknown'
       };
     } catch (error) {
@@ -490,18 +490,18 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
       const cpuUsage = process.cpuUsage();
 
       return {
-        pid: process.pid;
+        pid: process.pid,
         name: 'node',
-        cpu: ((cpuUsage.user + cpuUsage.system) / 1000000) * 100;
-        memory: memoryUsage.heapUsed;
-        uptime: process.uptime();
+        cpu: ((cpuUsage.user + cpuUsage.system) / 1000000) * 100,
+        memory: memoryUsage.heapUsed,
+        uptime: process.uptime(),
         threads: 1, // Node.js is single-threaded
         fileDescriptors: 0, // Would need platform-specific code
         timestamp: new Date()
       };
     } catch (error) {
       return {
-        pid: process.pid;
+        pid: process.pid,
         name: 'node',
         cpu: 0,
         memory: 0,
@@ -532,12 +532,12 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
 
       return {
         buildTime,
-        buildSize: buildStats.buildSize;
-        bundleSize: buildStats.bundleSize;
-        chunks: buildStats.chunks;
-        assets: buildStats.assets;
-        errors: buildStats.errors;
-        warnings: buildStats.warnings;
+        buildSize: buildStats.buildSize,
+        bundleSize: buildStats.bundleSize,
+        chunks: buildStats.chunks,
+        assets: buildStats.assets,
+        errors: buildStats.errors,
+        warnings: buildStats.warnings,
         success: true,
         timestamp: new Date()
       };
@@ -560,8 +560,8 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
    * Parse build output for metrics
    */
   private parseBuildOutput(output: string): {
-    buildSize: number;
-    bundleSize: number;
+    buildSize: number,
+    bundleSize: number,
     chunks: number,
     assets: number,
     errors: number,
@@ -618,28 +618,28 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
       const tsStats = this.parseTypeScriptOutput(tsOutput);
 
       return {
-        errorCount: tsStats.errorCount;
-        warningCount: tsStats.warningCount;
+        errorCount: tsStats.errorCount,
+        warningCount: tsStats.warningCount,
         compilationTime,
-        fileCount: tsStats.fileCount;
-        linesOfCode: tsStats.linesOfCode;
-        complexity: tsStats.complexity;
-        maintainabilityIndex: tsStats.maintainabilityIndex;
-        technicalDebt: tsStats.technicalDebt;
+        fileCount: tsStats.fileCount,
+        linesOfCode: tsStats.linesOfCode,
+        complexity: tsStats.complexity,
+        maintainabilityIndex: tsStats.maintainabilityIndex,
+        technicalDebt: tsStats.technicalDebt,
         timestamp: new Date()
       };
     } catch (error: unknown) {
       const tsStats = this.parseTypeScriptOutput(error.stdout || error.stderr || '');
 
       return {
-        errorCount: tsStats.errorCount;
-        warningCount: tsStats.warningCount;
+        errorCount: tsStats.errorCount,
+        warningCount: tsStats.warningCount,
         compilationTime: 0,
-        fileCount: tsStats.fileCount;
-        linesOfCode: tsStats.linesOfCode;
-        complexity: tsStats.complexity;
-        maintainabilityIndex: tsStats.maintainabilityIndex;
-        technicalDebt: tsStats.technicalDebt;
+        fileCount: tsStats.fileCount,
+        linesOfCode: tsStats.linesOfCode,
+        complexity: tsStats.complexity,
+        maintainabilityIndex: tsStats.maintainabilityIndex,
+        technicalDebt: tsStats.technicalDebt,
         timestamp: new Date()
       };
     }
@@ -649,9 +649,9 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
    * Parse TypeScript output for metrics
    */
   private parseTypeScriptOutput(output: string): {
-    errorCount: number;
-    warningCount: number;
-    fileCount: number;
+    errorCount: number,
+    warningCount: number,
+    fileCount: number,
     linesOfCode: number,
     complexity: number,
     maintainabilityIndex: number,
@@ -761,10 +761,10 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
       const testStats = this.parseTestOutput(testOutput);
 
       return {
-        totalTests: testStats.totalTests;
-        passedTests: testStats.passedTests;
-        failedTests: testStats.failedTests;
-        skippedTests: testStats.skippedTests;
+        totalTests: testStats.totalTests,
+        passedTests: testStats.passedTests,
+        failedTests: testStats.failedTests,
+        skippedTests: testStats.skippedTests,
         coverage: testStats.coverage;
         duration,
         timestamp: new Date()
@@ -773,11 +773,11 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
       const testStats = this.parseTestOutput(error.stdout || error.stderr || '');
 
       return {
-        totalTests: testStats.totalTests;
-        passedTests: testStats.passedTests;
-        failedTests: testStats.failedTests;
-        skippedTests: testStats.skippedTests;
-        coverage: testStats.coverage;
+        totalTests: testStats.totalTests,
+        passedTests: testStats.passedTests,
+        failedTests: testStats.failedTests,
+        skippedTests: testStats.skippedTests,
+        coverage: testStats.coverage,
         duration: 0,
         timestamp: new Date()
       };
@@ -788,9 +788,9 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
    * Parse test output for metrics
    */
   private parseTestOutput(output: string): {
-    totalTests: number;
-    passedTests: number;
-    failedTests: number;
+    totalTests: number,
+    passedTests: number,
+    failedTests: number,
     skippedTests: number,
     coverage: { lines: number, branches: number, functions: number, statements: number };
   } {
@@ -843,9 +843,9 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
     test: TestMetrics,
   ): number {
     const weights = {
-      system: 0.2;
-      build: 0.3;
-      typescript: 0.3;
+      system: 0.2,
+      build: 0.3,
+      typescript: 0.3,
       test: 0.2
     };
 
@@ -1116,11 +1116,11 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
    */
   private updateTrends(snapshot: PerformanceSnapshot): void {
     const metrics = {
-      cpu_usage: snapshot.systemMetrics.cpu.usage;
-      memory_usage: snapshot.systemMetrics.memory.usage;
-      disk_usage: snapshot.systemMetrics.disk.usage;
-      build_time: snapshot.buildMetrics.buildTime;
-      error_count: snapshot.typeScriptMetrics.errorCount;
+      cpu_usage: snapshot.systemMetrics.cpu.usage,
+      memory_usage: snapshot.systemMetrics.memory.usage,
+      disk_usage: snapshot.systemMetrics.disk.usage,
+      build_time: snapshot.buildMetrics.buildTime,
+      error_count: snapshot.typeScriptMetrics.errorCount,
       health_score: snapshot.healthScore
     },
 
@@ -1159,7 +1159,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
         metric: metricName,
         direction: 'stable',
         changeRate: 0,
-        significance: 0.5;
+        significance: 0.5,
         dataPoints: 1,
         startDate: new Date(),
         endDate: new Date(),
@@ -1245,9 +1245,9 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
       trends,
       recommendations,
       metrics: {
-        system: latestSnapshot.systemMetrics;
-        build: latestSnapshot.buildMetrics;
-        typescript: latestSnapshot.typeScriptMetrics;
+        system: latestSnapshot.systemMetrics,
+        build: latestSnapshot.buildMetrics,
+        typescript: latestSnapshot.typeScriptMetrics,
         test: latestSnapshot.testMetrics
       },
       timestamp: new Date()
@@ -1419,9 +1419,9 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
       trends: [],
       recommendations: [],
       metrics: {
-        system: this.getDefaultSystemMetrics();
-        build: this.getDefaultBuildMetrics();
-        typescript: this.getDefaultTypeScriptMetrics();
+        system: this.getDefaultSystemMetrics(),
+        build: this.getDefaultBuildMetrics(),
+        typescript: this.getDefaultTypeScriptMetrics(),
         test: this.getDefaultTestMetrics()
       },
       timestamp: new Date()
@@ -1539,7 +1539,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
   // ========== PUBLIC API ==========;
 
   getStatus(): {
-    isMonitoring: boolean;
+    isMonitoring: boolean,
     snapshotCount: number,
     alertCount: number,
     trendCount: number,
@@ -1548,10 +1548,10 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
     const latestSnapshot = this.snapshots[this.snapshots.length - 1];
 
     return {
-      isMonitoring: this.isMonitoring;
-      snapshotCount: this.snapshots.length;
-      alertCount: this.alerts.length;
-      trendCount: this.trends.size;
+      isMonitoring: this.isMonitoring,
+      snapshotCount: this.snapshots.length,
+      alertCount: this.alerts.length,
+      trendCount: this.trends.size,
       latestHealthScore: latestSnapshot.healthScore || 0
     };
   }

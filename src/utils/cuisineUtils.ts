@@ -74,7 +74,7 @@ export function getModalityDescription(modality: Modality): string {
     case 'Mutable':
       return 'Versatile, adaptive, and harmonizing. Balanced cuisine that can be customized and pairs well with many other foods.';
     default:
-      return '';
+      return ''
   }
 }
 
@@ -90,6 +90,6 @@ export function getModalityCookingMethods(modality: Modality): string[] {
     case 'Mutable':
       return ['Steaming', 'Poaching', 'Blanching', 'Multiple techniques', 'Variable methods'];
     default:
-      return [];
+      return []
   }
 }

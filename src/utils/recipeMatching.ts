@@ -4,8 +4,8 @@ import type { AstrologicalState, ElementalProperties, Recipe, Season } from '@/t
 
 // Define IngredientMapping locally since it's not exported from alchemy
 interface IngredientMapping {
-  name: string;
-  elementalProperties: ElementalProperties;
+  name: string,
+  elementalProperties: ElementalProperties,
   astrologicalProfile?: Record<string, unknown>;
   qualities?: string[];
   // Add commonly missing properties
@@ -24,8 +24,8 @@ interface IngredientMapping {
 // Import from correct location
 
 interface MatchResult {
-  recipe: Recipe;
-  score: number;
+  recipe: Recipe,
+  score: number,
   elements: ElementalProperties,
   dominantElements: [string, number][];
   matchedIngredients?: {
@@ -209,7 +209,7 @@ export async function findBestMatches(
       if (!aUsesMethod && bUsesMethod) return 1,
       return 0
     });
-    // log.info(`After cookingMethods sorting: prioritized recipes with preferred methods`);
+    // log.info(`After cookingMethods sorting: prioritized recipes with preferred methods`)
   }
 
   // If no recipes passed the filtering, return empty array
@@ -223,9 +223,9 @@ export async function findBestMatches(
     filteredRecipes.map(async recipe => {
       // Calculate base elemental properties
       const elements = recipe.elementalProperties || {
-        Fire: 0.25;
-        Water: 0.25;
-        Earth: 0.25;
+        Fire: 0.25,
+        Water: 0.25,
+        Earth: 0.25,
         Air: 0.25
       },
 
@@ -438,9 +438,9 @@ async function _calculateRecipeEnergyMatch(
 
   // Get dominant elements for the recipe
   const recipeElements = recipe.elementalProperties || {
-    Fire: 0.25;
-    Water: 0.25;
-    Earth: 0.25;
+    Fire: 0.25,
+    Water: 0.25,
+    Earth: 0.25,
     Air: 0.25
   };
   const recipeDominantElements = Object.entries(recipeElements);
@@ -519,9 +519,9 @@ function calculateElementalAlignment(recipe: Recipe, currentEnergy: Astrological
 
   // Calculate recipe elements (simplified for now)
   const recipeElements: ElementalProperties = {
-    Fire: 0.25;
-    Water: 0.25;
-    Earth: 0.25;
+    Fire: 0.25,
+    Water: 0.25,
+    Earth: 0.25,
     Air: 0.25
   };
 
@@ -1039,7 +1039,7 @@ export const connectIngredientsToMappings = (;
         cacheKey,
         JSON.stringify({
           matches,
-          timestamp: Date.now();
+          timestamp: Date.now(),
           ingredientCount: recipe.ingredients.length
         }),
       );
@@ -1172,174 +1172,174 @@ function _calculateAstrologicalMatch(
   const signCompatibility: Record<string, Record<string, number>> = {
     // Fire signs
     aries: {
-      aries: 0.8;
-      leo: 0.9;
+      aries: 0.8,
+      leo: 0.9,
       sagittarius: 0.9, // Fire signs (good)
-      gemini: 0.8;
-      libra: 0.7;
+      gemini: 0.8,
+      libra: 0.7,
       aquarius: 0.8, // Air signs (good)
-      taurus: 0.4;
-      virgo: 0.5;
+      taurus: 0.4,
+      virgo: 0.5,
       capricorn: 0.5, // Earth signs (challenging)
-      cancer: 0.5;
-      scorpio: 0.6;
+      cancer: 0.5,
+      scorpio: 0.6,
       pisces: 0.4, // Water signs (challenging)
     },
     leo: {
-      aries: 0.9;
-      leo: 0.8;
-      sagittarius: 0.9;
-      gemini: 0.8;
-      libra: 0.9;
-      aquarius: 0.7;
-      taurus: 0.6;
-      virgo: 0.5;
-      capricorn: 0.4;
-      cancer: 0.5;
-      scorpio: 0.5;
+      aries: 0.9,
+      leo: 0.8,
+      sagittarius: 0.9,
+      gemini: 0.8,
+      libra: 0.9,
+      aquarius: 0.7,
+      taurus: 0.6,
+      virgo: 0.5,
+      capricorn: 0.4,
+      cancer: 0.5,
+      scorpio: 0.5,
       pisces: 0.4
     },
     sagittarius: {
-      aries: 0.9;
-      leo: 0.9;
-      sagittarius: 0.8;
-      gemini: 0.8;
-      libra: 0.8;
-      aquarius: 0.9;
-      taurus: 0.4;
-      virgo: 0.5;
-      capricorn: 0.6;
-      cancer: 0.4;
-      scorpio: 0.5;
+      aries: 0.9,
+      leo: 0.9,
+      sagittarius: 0.8,
+      gemini: 0.8,
+      libra: 0.8,
+      aquarius: 0.9,
+      taurus: 0.4,
+      virgo: 0.5,
+      capricorn: 0.6,
+      cancer: 0.4,
+      scorpio: 0.5,
       pisces: 0.6
     },
     // Earth signs
     taurus: {
-      taurus: 0.8;
-      virgo: 0.9;
-      capricorn: 0.9;
-      cancer: 0.8;
-      scorpio: 0.9;
-      pisces: 0.7;
-      aries: 0.4;
-      leo: 0.6;
-      sagittarius: 0.4;
-      gemini: 0.4;
-      libra: 0.6;
+      taurus: 0.8,
+      virgo: 0.9,
+      capricorn: 0.9,
+      cancer: 0.8,
+      scorpio: 0.9,
+      pisces: 0.7,
+      aries: 0.4,
+      leo: 0.6,
+      sagittarius: 0.4,
+      gemini: 0.4,
+      libra: 0.6,
       aquarius: 0.3
     },
     virgo: {
-      taurus: 0.9;
-      virgo: 0.8;
-      capricorn: 0.9;
-      cancer: 0.7;
-      scorpio: 0.8;
-      pisces: 0.6;
-      aries: 0.5;
-      leo: 0.5;
-      sagittarius: 0.5;
-      gemini: 0.6;
-      libra: 0.5;
+      taurus: 0.9,
+      virgo: 0.8,
+      capricorn: 0.9,
+      cancer: 0.7,
+      scorpio: 0.8,
+      pisces: 0.6,
+      aries: 0.5,
+      leo: 0.5,
+      sagittarius: 0.5,
+      gemini: 0.6,
+      libra: 0.5,
       aquarius: 0.5
     },
     capricorn: {
-      taurus: 0.9;
-      virgo: 0.9;
-      capricorn: 0.8;
-      cancer: 0.7;
-      scorpio: 0.8;
-      pisces: 0.7;
-      aries: 0.5;
-      leo: 0.4;
-      sagittarius: 0.6;
-      gemini: 0.4;
-      libra: 0.5;
+      taurus: 0.9,
+      virgo: 0.9,
+      capricorn: 0.8,
+      cancer: 0.7,
+      scorpio: 0.8,
+      pisces: 0.7,
+      aries: 0.5,
+      leo: 0.4,
+      sagittarius: 0.6,
+      gemini: 0.4,
+      libra: 0.5,
       aquarius: 0.6
     },
     // Air signs
     gemini: {
-      gemini: 0.8;
-      libra: 0.9;
-      aquarius: 0.9;
-      aries: 0.8;
-      leo: 0.8;
-      sagittarius: 0.8;
-      cancer: 0.4;
-      scorpio: 0.3;
-      pisces: 0.5;
-      taurus: 0.4;
-      virgo: 0.6;
+      gemini: 0.8,
+      libra: 0.9,
+      aquarius: 0.9,
+      aries: 0.8,
+      leo: 0.8,
+      sagittarius: 0.8,
+      cancer: 0.4,
+      scorpio: 0.3,
+      pisces: 0.5,
+      taurus: 0.4,
+      virgo: 0.6,
       capricorn: 0.4
     },
     libra: {
-      gemini: 0.9;
-      libra: 0.8;
-      aquarius: 0.9;
-      aries: 0.7;
-      leo: 0.9;
-      sagittarius: 0.8;
-      cancer: 0.5;
-      scorpio: 0.6;
-      pisces: 0.5;
-      taurus: 0.6;
-      virgo: 0.5;
+      gemini: 0.9,
+      libra: 0.8,
+      aquarius: 0.9,
+      aries: 0.7,
+      leo: 0.9,
+      sagittarius: 0.8,
+      cancer: 0.5,
+      scorpio: 0.6,
+      pisces: 0.5,
+      taurus: 0.6,
+      virgo: 0.5,
       capricorn: 0.5
     },
     aquarius: {
-      gemini: 0.9;
-      libra: 0.9;
-      aquarius: 0.8;
-      aries: 0.8;
-      leo: 0.7;
-      sagittarius: 0.9;
-      cancer: 0.4;
-      scorpio: 0.4;
-      pisces: 0.5;
-      taurus: 0.3;
-      virgo: 0.5;
+      gemini: 0.9,
+      libra: 0.9,
+      aquarius: 0.8,
+      aries: 0.8,
+      leo: 0.7,
+      sagittarius: 0.9,
+      cancer: 0.4,
+      scorpio: 0.4,
+      pisces: 0.5,
+      taurus: 0.3,
+      virgo: 0.5,
       capricorn: 0.6
     },
     // Water signs
     cancer: {
-      cancer: 0.8;
-      scorpio: 0.9;
-      pisces: 0.9;
-      taurus: 0.8;
-      virgo: 0.7;
-      capricorn: 0.7;
-      aries: 0.5;
-      leo: 0.5;
-      sagittarius: 0.4;
-      gemini: 0.4;
-      libra: 0.5;
+      cancer: 0.8,
+      scorpio: 0.9,
+      pisces: 0.9,
+      taurus: 0.8,
+      virgo: 0.7,
+      capricorn: 0.7,
+      aries: 0.5,
+      leo: 0.5,
+      sagittarius: 0.4,
+      gemini: 0.4,
+      libra: 0.5,
       aquarius: 0.4
     },
     scorpio: {
-      cancer: 0.9;
-      scorpio: 0.8;
-      pisces: 0.9;
-      taurus: 0.9;
-      virgo: 0.8;
-      capricorn: 0.8;
-      aries: 0.6;
-      leo: 0.5;
-      sagittarius: 0.5;
-      gemini: 0.3;
-      libra: 0.6;
+      cancer: 0.9,
+      scorpio: 0.8,
+      pisces: 0.9,
+      taurus: 0.9,
+      virgo: 0.8,
+      capricorn: 0.8,
+      aries: 0.6,
+      leo: 0.5,
+      sagittarius: 0.5,
+      gemini: 0.3,
+      libra: 0.6,
       aquarius: 0.4
     },
     pisces: {
-      cancer: 0.9;
-      scorpio: 0.9;
-      pisces: 0.8;
-      taurus: 0.7;
-      virgo: 0.6;
-      capricorn: 0.7;
-      aries: 0.4;
-      leo: 0.4;
-      sagittarius: 0.6;
-      gemini: 0.5;
-      libra: 0.5;
+      cancer: 0.9,
+      scorpio: 0.9,
+      pisces: 0.8,
+      taurus: 0.7,
+      virgo: 0.6,
+      capricorn: 0.7,
+      aries: 0.4,
+      leo: 0.4,
+      sagittarius: 0.6,
+      gemini: 0.5,
+      libra: 0.5,
       aquarius: 0.5
     }
   };

@@ -39,9 +39,9 @@ export const timingUtils = {
     return {
       duration: base.duration * modifiers[element as keyof typeof modifiers].duration,
       phases: base.phases.map(p => ({
-        name: p.name;
+        name: p.name,
         time:
-          p.name === 'main_cooking';
+          p.name === 'main_cooking',
             ? p.time * modifiers[element as keyof typeof modifiers].mainPhase
             : p.time
       }))
@@ -69,10 +69,10 @@ export const timingUtils = {
 
     // Cooking method modifiers
     const methodModifiers: Record<string, number> = {
-      boiling: 1.0;
-      steaming: 1.2;
-      baking: 1.5;
-      slow_cooking: 2.5;
+      boiling: 1.0,
+      steaming: 1.2,
+      baking: 1.5,
+      slow_cooking: 2.5,
       raw: 0
     };
 

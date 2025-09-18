@@ -76,18 +76,18 @@ const RETROGRADE_STATUS = {
  */
 interface PositionsCache {
   positions: { [key: string]: PlanetPositionData };
-  timestamp: number;
-  date: Date;
+  timestamp: number,
+  date: Date,
 }
 
 /**
  * Type for planetary position object
  */
 interface PlanetPositionData {
-  sign: any;
-  degree: number;
-  exactLongitude: number;
-  isRetrograde: boolean;
+  sign: any,
+  degree: number,
+  exactLongitude: number,
+  isRetrograde: boolean,
 }
 
 // Map our planet names to astronomy-engine bodies
@@ -367,8 +367,8 @@ export function getAccuratePlanetaryPositions(date: Date): { [key: string]: Plan
  * @returns Object with north node position and retrograde status
  */
 export function calculateLunarNodes(date: Date = new Date()): {
-  NorthNode: number;
-  isRetrograde: boolean;
+  NorthNode: number,
+  isRetrograde: boolean,
 } {
   return calculateLunarNodesInternal(date);
 }

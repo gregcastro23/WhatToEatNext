@@ -22,11 +22,11 @@ import {
  * Interface for alchemical recommendations
  */
 export interface AlchemicalRecommendations {
-  topIngredients: AlchemicalItem[];
-  topMethods: AlchemicalItem[];
-  topCuisines: AlchemicalItem[];
-  dominantElement: ElementalCharacter;
-  dominantAlchemicalProperty: AlchemicalProperty;
+  topIngredients: AlchemicalItem[],
+  topMethods: AlchemicalItem[],
+  topCuisines: AlchemicalItem[],
+  dominantElement: ElementalCharacter,
+  dominantAlchemicalProperty: AlchemicalProperty,
   heat: number,
   entropy: number,
   reactivity: number,
@@ -37,12 +37,12 @@ export interface AlchemicalRecommendations {
  * Interface for optimized recipe results
  */
 export interface OptimizedRecipeResult {
-  recipe: Recipe;
-  compatibility: number;
-  dominantElement: ElementalCharacter;
-  dominantAlchemicalProperty: AlchemicalProperty;
-  alchemicalScore: number;
-  seasonalScore: number;
+  recipe: Recipe,
+  compatibility: number,
+  dominantElement: ElementalCharacter,
+  dominantAlchemicalProperty: AlchemicalProperty,
+  alchemicalScore: number,
+  seasonalScore: number,
   ingredientMatchScore: number,
   cookingMethodScore: number,
   lunarPhaseScore?: number,
@@ -79,8 +79,8 @@ export class AlchemicalTransformationService {
    * Initialize the service with data
    */
   constructor(
-    ingredients: ElementalItem[] = [];
-    cookingMethods: ElementalItem[] = [];
+    ingredients: ElementalItem[] = [],
+    cookingMethods: ElementalItem[] = [],
     cuisines: ElementalItem[] = []
   ) {
     this.ingredients = ingredients;
@@ -342,11 +342,11 @@ export class AlchemicalTransformationService {
         compatibility: parseFloat(compatibility.toFixed(2));
         dominantElement,
         dominantAlchemicalProperty,
-        alchemicalScore: parseFloat(alchemicalScore.toFixed(2));
-        seasonalScore: parseFloat(seasonalScore.toFixed(2));
-        ingredientMatchScore: parseFloat(ingredientMatchScore.toFixed(2));
-        cookingMethodScore: parseFloat(cookingMethodScore.toFixed(2));
-        lunarPhaseScore: parseFloat(lunarPhaseScore.toFixed(2));
+        alchemicalScore: parseFloat(alchemicalScore.toFixed(2)),
+        seasonalScore: parseFloat(seasonalScore.toFixed(2)),
+        ingredientMatchScore: parseFloat(ingredientMatchScore.toFixed(2)),
+        cookingMethodScore: parseFloat(cookingMethodScore.toFixed(2)),
+        lunarPhaseScore: parseFloat(lunarPhaseScore.toFixed(2)),
         zodiacScore: parseFloat(zodiacScore.toFixed(2))
       };
     });

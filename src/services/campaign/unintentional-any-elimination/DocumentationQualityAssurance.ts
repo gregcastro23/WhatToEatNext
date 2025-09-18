@@ -17,9 +17,9 @@ import {
 } from './types';
 
 export interface QualityAssuranceConfig {
-  sourceDirectories: string[];
-  excludePatterns: string[];
-  minimumCommentLength: number;
+  sourceDirectories: string[],
+  excludePatterns: string[],
+  minimumCommentLength: number,
   requiredKeywords: string[],
   qualityThresholds: {
     excellent: number,
@@ -29,8 +29,8 @@ export interface QualityAssuranceConfig {
 }
 
 export interface UndocumentedAnyType {
-  filePath: string;
-  lineNumber: number;
+  filePath: string,
+  lineNumber: number,
   codeSnippet: string,
   category: AnyTypeCategory,
   domain: CodeDomain,
@@ -38,10 +38,10 @@ export interface UndocumentedAnyType {
 }
 
 export interface QualityMetrics {
-  totalFiles: number;
-  filesWithAnyTypes: number;
-  totalAnyTypes: number;
-  documentedAnyTypes: number;
+  totalFiles: number,
+  filesWithAnyTypes: number,
+  totalAnyTypes: number,
+  documentedAnyTypes: number,
   undocumentedAnyTypes: number,
   qualityDistribution: Record<string, number>,
   averageQualityScore: number,
@@ -106,11 +106,11 @@ export class DocumentationQualityAssurance {
             totalQualityScore += this.getQualityScore(validation.commentQuality);
           } else {
             undocumentedTypes.push({
-              filePath: anyType.filePath;
-              lineNumber: anyType.lineNumber;
-              codeSnippet: anyType.codeSnippet;
-              category: this.categorizeAnyType(anyType.codeSnippet);
-              domain: this.determineDomain(anyType.filePath);
+              filePath: anyType.filePath,
+              lineNumber: anyType.lineNumber,
+              codeSnippet: anyType.codeSnippet,
+              category: this.categorizeAnyType(anyType.codeSnippet),
+              domain: this.determineDomain(anyType.filePath),
               severity: this.assessSeverity(anyType)
             });
           }
@@ -326,13 +326,13 @@ export class DocumentationQualityAssurance {
             const context: ClassificationContext = {
               filePath,
               lineNumber: index + 1,
-              codeSnippet: line.trim();
+              codeSnippet: line.trim(),
               surroundingLines: this.getSurroundingLines(lines, index),
               hasExistingComment: this.hasCommentNearLine(lines, index),
               existingComment: this.extractComment(lines, index).comment,
-              isInTestFile: this.isTestFile(filePath);
+              isInTestFile: this.isTestFile(filePath),
               domainContext: {
-                domain: this.determineDomain(filePath);
+                domain: this.determineDomain(filePath),
                 intentionalityHints: [],
                 suggestedTypes: [],
                 preservationReasons: []
@@ -375,7 +375,7 @@ export class DocumentationQualityAssurance {
         }
         comment = comment.replace(/\*\/.*$/, '');
         return {
-          comment: comment.trim();
+          comment: comment.trim(),
           hasComment: true
         };
       }

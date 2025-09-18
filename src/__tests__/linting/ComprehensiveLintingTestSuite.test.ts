@@ -79,12 +79,12 @@ describe('Comprehensive Linting Test Suite', () => {
       const hasAstrologicalConfig: any = config.some((c: any) => {
         const conf: any = c as any;
         const files: any = conf.files[] | undefined;
-        return files && files.some((f: string) => f.includes('**/calculations/**'));
+        return files && files.some((f: string) => f.includes('**/calculations/**'))
       });
       const hasTestConfig: any = config.some((c: any) => {
         const conf: any = c as any;
         const files: any = conf.files[] | undefined;
-        return files && files.some((f: string) => f.includes('**/*.test.ts'));
+        return files && files.some((f: string) => f.includes('**/*.test.ts'))
       });
       const hasIgnoreConfig: any = config.some((c: any) => {
         const conf: any = c as any;
@@ -140,7 +140,7 @@ describe('Comprehensive Linting Test Suite', () => {
       const astroConfig: any = config.find((c: any) => {
         const conf: any = c as any;
         const files: any = conf.files[] | undefined;
-        return files && files.some((f: string) => f.includes('**/calculations/**'));
+        return files && files.some((f: string) => f.includes('**/calculations/**'))
       });
       expect(astroConfig.rules).toHaveProperty('astrological/preserve-planetary-constants');
       expect(astroConfig.rules['no-magic-numbers']).toBe('off');
@@ -150,7 +150,7 @@ describe('Comprehensive Linting Test Suite', () => {
       const campaignConfig: any = config.find((c: any) => {
         const conf: any = c as any;
         const files: any = conf.files[] | undefined;
-        return files && files.some((f: string) => f.includes('**/services/campaign/**'));
+        return files && files.some((f: string) => f.includes('**/services/campaign/**'))
       });
       expect(campaignConfig.rules['no-console']).toBe('off');
       expect(campaignConfig.rules.complexity).toEqual(['warn', 15]);
@@ -159,7 +159,7 @@ describe('Comprehensive Linting Test Suite', () => {
       const testConfig: any = config.find((c: any) => {
         const conf: any = c as any;
         const files: any = conf.files[] | undefined;
-        return files && files.some((f: string) => f.includes('**/*.test.ts'));
+        return files && files.some((f: string) => f.includes('**/*.test.ts'))
       });
       expect(testConfig.rules['no-console']).toBe('off');
       expect(testConfig.rules['@typescript-eslint/no-explicit-any']).toBe('off');

@@ -14,10 +14,10 @@ import { existsSync, writeFileSync } from 'fs';
 import { ConfigurationManager, UnintentionalAnyConfig, environmentConfigManager } from '../config';
 
 export interface DeploymentPhase {
-  id: string;
-  name: string;
-  description: string;
-  prerequisites: string[];
+  id: string,
+  name: string,
+  description: string,
+  prerequisites: string[],
   tasks: DeploymentTask[],
   rollbackTasks: DeploymentTask[],
   validationChecks: ValidationCheck[],
@@ -25,10 +25,10 @@ export interface DeploymentPhase {
 }
 
 export interface DeploymentTask {
-  id: string;
-  name: string;
-  command: string;
-  args: string[];
+  id: string,
+  name: string,
+  command: string,
+  args: string[],
   timeout: number,
   retries: number,
   critical: boolean,
@@ -36,36 +36,36 @@ export interface DeploymentTask {
 }
 
 export interface ValidationCheck {
-  id: string;
-  name: string;
-  type: 'build' | 'test' | 'lint' | 'custom';
-  command: string;
+  id: string,
+  name: string,
+  type: 'build' | 'test' | 'lint' | 'custom',
+  command: string,
   args: string[],
   timeout: number,
   expectedExitCode: number,
-  outputValidation?: (output: string) => boolean;
+  outputValidation?: (output: string) => boolean
 }
 
 export interface SuccessCriteria {
-  buildSuccess: boolean;
+  buildSuccess: boolean,
   testsPass: boolean,
   lintingPass: boolean,
   configurationValid: boolean,
   customChecks: Array<{
     name: string,
-    validator: () => Promise<boolean>;
+    validator: () => Promise<boolean>,
   }>;
 }
 
 export interface DeploymentResult {
-  success: boolean;
-  phase: string;
-  startTime: Date;
-  endTime: Date;
-  duration: number;
-  tasksExecuted: number;
-  tasksSucceeded: number;
-  tasksFailed: number;
+  success: boolean,
+  phase: string,
+  startTime: Date,
+  endTime: Date,
+  duration: number,
+  tasksExecuted: number,
+  tasksSucceeded: number,
+  tasksFailed: number,
   validationResults: ValidationResult[],
   errors: string[],
   warnings: string[],
@@ -73,8 +73,8 @@ export interface DeploymentResult {
 }
 
 export interface ValidationResult {
-  checkId: string;
-  checkName: string;
+  checkId: string,
+  checkName: string,
   success: boolean,
   output: string,
   duration: number,
@@ -119,7 +119,7 @@ export class DeploymentManager {
         this.log(`Phase ${phase.id} threw error: ${error}`);
         results.push({
           success: false,
-          phase: phase.id;
+          phase: phase.id,
           startTime: new Date(),
           endTime: new Date(),
           duration: 0,
@@ -146,7 +146,7 @@ export class DeploymentManager {
     const startTime = new Date();
     const result: DeploymentResult = {
       success: false,
-      phase: phase.id;
+      phase: phase.id,
       startTime,
       endTime: new Date(),
       duration: 0,
@@ -275,8 +275,8 @@ export class DeploymentManager {
     for (const check of checks) {
       const startTime = Date.now();
       const result: ValidationResult = {
-        checkId: check.id;
-        checkName: check.name;
+        checkId: check.id,
+        checkName: check.name,
         success: false,
         output: '',
         duration: 0

@@ -47,7 +47,7 @@ export const ELEMENTAL_ANALYSIS_INTELLIGENCE = {
    */
   performElementalAnalysis: (
     planetaryPositions: { [key: string]: PlanetaryPosition },
-    context: string = 'general',,;
+    context: string = 'general',
     preferences: Record<string, unknown> = {},
   ) => {
     // Calculate base elemental properties
@@ -56,39 +56,39 @@ export const ELEMENTAL_ANALYSIS_INTELLIGENCE = {
     // Context-specific elemental adjustments
     const contextElementalMultipliers = {
       ingredient: {
-        Fire: 1.1;
-        Water: 1.05;
-        Earth: 1.0;
+        Fire: 1.1,
+        Water: 1.05,
+        Earth: 1.0,
         Air: 1.1
       },
       recipe: {
-        Fire: 1.15;
-        Water: 1.1;
-        Earth: 1.05;
+        Fire: 1.15,
+        Water: 1.1,
+        Earth: 1.05,
         Air: 1.15
       },
       cuisine: {
-        Fire: 1.2;
-        Water: 1.15;
-        Earth: 1.1;
+        Fire: 1.2,
+        Water: 1.15,
+        Earth: 1.1,
         Air: 1.2
       },
       cooking: {
-        Fire: 1.05;
-        Water: 1.0;
-        Earth: 1.0;
+        Fire: 1.05,
+        Water: 1.0,
+        Earth: 1.0,
         Air: 1.05
       },
       preparation: {
-        Fire: 1.0;
-        Water: 1.0;
-        Earth: 1.0;
+        Fire: 1.0,
+        Water: 1.0,
+        Earth: 1.0,
         Air: 1.0
       },
       general: {
-        Fire: 1.0;
-        Water: 1.0;
-        Earth: 1.0;
+        Fire: 1.0,
+        Water: 1.0,
+        Earth: 1.0,
         Air: 1.0
       }
     };
@@ -158,8 +158,7 @@ export const ELEMENTAL_ANALYSIS_INTELLIGENCE = {
         balance,
         dominantElement,
         harmony,
-        stability:
-          ELEMENTAL_ANALYSIS_INTELLIGENCE.calculateElementalStability(normalizedProperties);
+        stability: ELEMENTAL_ANALYSIS_INTELLIGENCE.calculateElementalStability(normalizedProperties),
         efficiency: ELEMENTAL_ANALYSIS_INTELLIGENCE.calculateElementalEfficiency(
           normalizedProperties,
           balance,
@@ -173,8 +172,8 @@ export const ELEMENTAL_ANALYSIS_INTELLIGENCE = {
       optimizations,
       recommendations,
       metadata: {
-        analysisTimestamp: new Date().toISOString();
-        analysisVersion: '2.0';
+        analysisTimestamp: new Date().toISOString(),
+        analysisVersion: '2.0',
         analysisMethodology: 'intelligent-elemental-analysis'
       }
     };
@@ -191,21 +190,21 @@ export const ELEMENTAL_ANALYSIS_INTELLIGENCE = {
   ) => {
     const predictions = {
       shortTerm: {
-        Fire: properties.Fire * (1 + (Math.random() * 0.1 - 0.05));
-        Water: properties.Water * (1 + (Math.random() * 0.08 - 0.04));
-        Earth: properties.Earth * (1 + (Math.random() * 0.12 - 0.06));
+        Fire: properties.Fire * (1 + (Math.random() * 0.1 - 0.05)),
+        Water: properties.Water * (1 + (Math.random() * 0.08 - 0.04)),
+        Earth: properties.Earth * (1 + (Math.random() * 0.12 - 0.06)),
         Air: properties.Air * (1 + (Math.random() * 0.09 - 0.045))
       },
       mediumTerm: {
-        Fire: properties.Fire * (1 + (Math.random() * 0.15 - 0.075));
-        Water: properties.Water * (1 + (Math.random() * 0.12 - 0.06));
-        Earth: properties.Earth * (1 + (Math.random() * 0.18 - 0.09));
+        Fire: properties.Fire * (1 + (Math.random() * 0.15 - 0.075)),
+        Water: properties.Water * (1 + (Math.random() * 0.12 - 0.06)),
+        Earth: properties.Earth * (1 + (Math.random() * 0.18 - 0.09)),
         Air: properties.Air * (1 + (Math.random() * 0.14 - 0.07))
       },
       longTerm: {
-        Fire: properties.Fire * (1 + (Math.random() * 0.2 - 0.1));
-        Water: properties.Water * (1 + (Math.random() * 0.16 - 0.08));
-        Earth: properties.Earth * (1 + (Math.random() * 0.24 - 0.12));
+        Fire: properties.Fire * (1 + (Math.random() * 0.2 - 0.1)),
+        Water: properties.Water * (1 + (Math.random() * 0.16 - 0.08)),
+        Earth: properties.Earth * (1 + (Math.random() * 0.24 - 0.12)),
         Air: properties.Air * (1 + (Math.random() * 0.18 - 0.09))
       }
     };
@@ -213,13 +212,13 @@ export const ELEMENTAL_ANALYSIS_INTELLIGENCE = {
     return {
       predictions,
       confidence: {
-        shortTerm: 0.85 + Math.random() * 0.1;
-        mediumTerm: 0.7 + Math.random() * 0.15;
+        shortTerm: 0.85 + Math.random() * 0.1,
+        mediumTerm: 0.7 + Math.random() * 0.15,
         longTerm: 0.5 + Math.random() * 0.2
       },
       factors: {
-        seasonal: ELEMENTAL_ANALYSIS_INTELLIGENCE.calculateSeasonalInfluence(context);
-        contextual: ELEMENTAL_ANALYSIS_INTELLIGENCE.calculateContextualInfluence(context);
+        seasonal: ELEMENTAL_ANALYSIS_INTELLIGENCE.calculateSeasonalInfluence(context),
+        contextual: ELEMENTAL_ANALYSIS_INTELLIGENCE.calculateContextualInfluence(context),
         elemental: ELEMENTAL_ANALYSIS_INTELLIGENCE.calculateElementalInfluence(properties, balance)
       }
     };
@@ -257,8 +256,8 @@ export const ELEMENTAL_ANALYSIS_INTELLIGENCE = {
 
     const optimizations = {
       Fire: {
-        current: properties.Fire;
-        optimal: properties.Fire * fireOptimization;
+        current: properties.Fire,
+        optimal: properties.Fire * fireOptimization,
         adjustment: fireOptimization - 1,
         recommendations: ELEMENTAL_ANALYSIS_INTELLIGENCE.generateFireOptimizations(
           properties.Fire;
@@ -266,8 +265,8 @@ export const ELEMENTAL_ANALYSIS_INTELLIGENCE = {
         )
       },
       Water: {
-        current: properties.Water;
-        optimal: properties.Water * waterOptimization;
+        current: properties.Water,
+        optimal: properties.Water * waterOptimization,
         adjustment: waterOptimization - 1,
         recommendations: ELEMENTAL_ANALYSIS_INTELLIGENCE.generateWaterOptimizations(
           properties.Water;
@@ -275,8 +274,8 @@ export const ELEMENTAL_ANALYSIS_INTELLIGENCE = {
         )
       },
       Earth: {
-        current: properties.Earth;
-        optimal: properties.Earth * earthOptimization;
+        current: properties.Earth,
+        optimal: properties.Earth * earthOptimization,
         adjustment: earthOptimization - 1,
         recommendations: ELEMENTAL_ANALYSIS_INTELLIGENCE.generateEarthOptimizations(
           properties.Earth;
@@ -284,8 +283,8 @@ export const ELEMENTAL_ANALYSIS_INTELLIGENCE = {
         )
       },
       Air: {
-        current: properties.Air;
-        optimal: properties.Air * airOptimization;
+        current: properties.Air,
+        optimal: properties.Air * airOptimization,
         adjustment: airOptimization - 1,
         recommendations: ELEMENTAL_ANALYSIS_INTELLIGENCE.generateAirOptimizations(
           properties.Air;
@@ -296,8 +295,7 @@ export const ELEMENTAL_ANALYSIS_INTELLIGENCE = {
 
     return {
       optimizations,
-      overallOptimization:
-        ELEMENTAL_ANALYSIS_INTELLIGENCE.calculateOverallOptimization(optimizations);
+      overallOptimization: ELEMENTAL_ANALYSIS_INTELLIGENCE.calculateOverallOptimization(optimizations),
       implementation: ELEMENTAL_ANALYSIS_INTELLIGENCE.generateOptimizationImplementation(
         optimizations,
         context,
@@ -466,23 +464,23 @@ export const SEASONAL_ELEMENTAL_INTELLIGENCE = {
     // Context-specific seasonal adjustments
     const contextSeasonalMultipliers = {
       food: {
-        enhancementFactor: 1.2;
-        categoryBoost: 0.15;
+        enhancementFactor: 1.2,
+        categoryBoost: 0.15,
         qualityEmphasis: ['fresh', 'seasonal', 'local']
       },
       cooking: {
-        enhancementFactor: 1.1;
-        categoryBoost: 0.1;
+        enhancementFactor: 1.1,
+        categoryBoost: 0.1,
         qualityEmphasis: ['method', 'temperature', 'timing']
       },
       recipe: {
-        enhancementFactor: 1.15;
-        categoryBoost: 0.12;
+        enhancementFactor: 1.15,
+        categoryBoost: 0.12,
         qualityEmphasis: ['ingredients', 'preparation', 'presentation']
       },
       nutrition: {
-        enhancementFactor: 1.25;
-        categoryBoost: 0.2;
+        enhancementFactor: 1.25,
+        categoryBoost: 0.2,
         qualityEmphasis: ['nutrients', 'digestion', 'energy']
       }
     };
@@ -513,9 +511,9 @@ export const SEASONAL_ELEMENTAL_INTELLIGENCE = {
 
     // Enhanced seasonal modifiers with contextual adjustments
     const enhancedSeasonalModifier = {
-      Fire: baseModifier.Fire * contextMod.enhancementFactor * preferenceAdjustments.intensity;
-      Water: baseModifier.Water * contextMod.enhancementFactor * preferenceAdjustments.intensity;
-      Earth: baseModifier.Earth * contextMod.enhancementFactor * preferenceAdjustments.intensity;
+      Fire: baseModifier.Fire * contextMod.enhancementFactor * preferenceAdjustments.intensity,
+      Water: baseModifier.Water * contextMod.enhancementFactor * preferenceAdjustments.intensity,
+      Earth: baseModifier.Earth * contextMod.enhancementFactor * preferenceAdjustments.intensity,
       Air: baseModifier.Air * contextMod.enhancementFactor * preferenceAdjustments.intensity
     };
 
@@ -548,7 +546,7 @@ export const SEASONAL_ELEMENTAL_INTELLIGENCE = {
           normalizedSeasonalModifier,
           season,
         ),
-        optimalTiming: SEASONAL_ELEMENTAL_INTELLIGENCE.calculateOptimalTiming(season);
+        optimalTiming: SEASONAL_ELEMENTAL_INTELLIGENCE.calculateOptimalTiming(season),
         recommendations: SEASONAL_ELEMENTAL_INTELLIGENCE.generateSeasonalRecommendations(
           normalizedSeasonalModifier,
           season,
@@ -566,10 +564,10 @@ export const SEASONAL_ELEMENTAL_INTELLIGENCE = {
   calculateSeasonalStrength: (modifiers: Record<string, number>, season: string): number => {
     const dominantValue = Math.max(...Object.values(modifiers));
     const seasonalFactors = {
-      spring: 1.1;
-      summer: 1.2;
-      autumn: 1.0;
-      fall: 1.0;
+      spring: 1.1,
+      summer: 1.2,
+      autumn: 1.0,
+      fall: 1.0,
       winter: 0.9
     };
     return dominantValue * (seasonalFactors[season as keyof typeof seasonalFactors] || 1.0);
@@ -701,9 +699,9 @@ export function applySeasonalAdjustments(
   const seasonalMod = SEASONAL_MODIFIERS[season.toLowerCase()] || SEASONAL_MODIFIERS.spring;
 
   return {
-    Fire: baseProperties.Fire * (1 + ((seasonalMod as any)?.Fire || 0) * 0.2);
-    Water: baseProperties.Water * (1 + ((seasonalMod as any)?.Water || 0) * 0.2);
-    Air: baseProperties.Air * (1 + ((seasonalMod as any)?.Air || 0) * 0.2);
+    Fire: baseProperties.Fire * (1 + ((seasonalMod as any)?.Fire || 0) * 0.2),
+    Water: baseProperties.Water * (1 + ((seasonalMod as any)?.Water || 0) * 0.2),
+    Air: baseProperties.Air * (1 + ((seasonalMod as any)?.Air || 0) * 0.2),
     Earth: baseProperties.Earth * (1 + ((seasonalMod as any)?.Earth || 0) * 0.2)
   };
 }
@@ -719,9 +717,9 @@ export function applyLunarPhaseAdjustments(
     LUNAR_PHASE_MODIFIERS[lunarPhase.toLowerCase()] || LUNAR_PHASE_MODIFIERS['full moon'];
 
   return {
-    Fire: baseProperties.Fire * (1 + ((lunarMod as any)?.Fire || 0) * 0.2);
-    Water: baseProperties.Water * (1 + ((lunarMod as any)?.Water || 0) * 0.2);
-    Air: baseProperties.Air * (1 + ((lunarMod as any)?.Air || 0) * 0.2);
+    Fire: baseProperties.Fire * (1 + ((lunarMod as any)?.Fire || 0) * 0.2),
+    Water: baseProperties.Water * (1 + ((lunarMod as any)?.Water || 0) * 0.2),
+    Air: baseProperties.Air * (1 + ((lunarMod as any)?.Air || 0) * 0.2),
     Earth: baseProperties.Earth * (1 + ((lunarMod as any)?.Earth || 0) * 0.2)
   };
 }
@@ -784,9 +782,9 @@ export function combineElementalProperties(
   weight2: number = 0.5
 ): ElementalProperties {
   const combined: ElementalProperties = {
-    Fire: properties1.Fire * weight1 + properties2.Fire * weight2;
-    Water: properties1.Water * weight1 + properties2.Water * weight2;
-    Air: properties1.Air * weight1 + properties2.Air * weight2;
+    Fire: properties1.Fire * weight1 + properties2.Fire * weight2,
+    Water: properties1.Water * weight1 + properties2.Water * weight2,
+    Air: properties1.Air * weight1 + properties2.Air * weight2,
     Earth: properties1.Earth * weight1 + properties2.Earth * weight2
   };
 
@@ -804,9 +802,9 @@ export function normalizeElementalProperties(properties: ElementalProperties): E
   }
 
   return {
-    Fire: properties.Fire / total;
-    Water: properties.Water / total;
-    Air: properties.Air / total;
+    Fire: properties.Fire / total,
+    Water: properties.Water / total,
+    Air: properties.Air / total,
     Earth: properties.Earth / total
   };
 }

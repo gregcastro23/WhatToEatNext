@@ -17,7 +17,7 @@ import {
 import { TestMemoryMonitor } from './TestMemoryMonitor';
 
 interface TestProgressConfig {
-  maxHistorySize: number;
+  maxHistorySize: number,
   memoryCheckFrequency: number,
   enableMemoryMonitoring: boolean,
   simulateRealProgress: boolean,
@@ -187,11 +187,11 @@ export class TestSafeProgressTracker {
       {
         phaseId: 'test-phase-1',
         phaseName: 'Test Phase 1',
-        startTime: new Date(this.trackingStartTime);
-        status: PhaseStatus.COMPLETED;
+        startTime: new Date(this.trackingStartTime),
+        status: PhaseStatus.COMPLETED,
         metrics: currentMetrics,
-        achievements: this.generateMockAchievements(currentMetrics);
-        issues: this.generateMockIssues(currentMetrics);
+        achievements: this.generateMockAchievements(currentMetrics),
+        issues: this.generateMockIssues(currentMetrics),
         recommendations: this.generateMockRecommendations(currentMetrics)
       }
     ];
@@ -336,7 +336,7 @@ export class TestSafeProgressTracker {
 
   private takeProgressSnapshot(testName: string): void {
     const snapshot: ProgressSnapshot = {
-      timestamp: Date.now();
+      timestamp: Date.now(),
       metrics: { ...this.currentMetrics },
       testName,
       memoryUsage: this.memoryMonitor ? process.memoryUsage().heapUsed : undefined
@@ -425,9 +425,9 @@ export class TestSafeProgressTracker {
         percentage: 0
       },
       buildPerformance: {
-        currentTime: 12.5;
+        currentTime: 12.5,
         targetTime: 10,
-        cacheHitRate: 0.6;
+        cacheHitRate: 0.6,
         memoryUsage: 60
       },
       enterpriseSystems: {
@@ -455,7 +455,7 @@ export class TestSafeProgressTracker {
       buildPerformance: {
         currentTime: 8,
         targetTime: 10,
-        cacheHitRate: 0.8;
+        cacheHitRate: 0.8,
         memoryUsage: 45
       },
       enterpriseSystems: {

@@ -13,42 +13,42 @@ export type LowercaseElement = 'fire' | 'water' | 'air' | 'earth';
 
 // Interface for elemental properties with standard case (uppercase first letter)
 export interface ElementalProperties {
-  Fire: number;
-  Water: number;
-  Earth: number;
-  Air: number;
+  Fire: number,
+  Water: number,
+  Earth: number,
+  Air: number,
   [key: string]: number; // Allow indexing with string
 }
 
 // Interface for elemental properties with lowercase
 export interface LowercaseElementalProperties {
-  fire: number;
-  water: number;
-  earth: number;
-  air: number;
+  fire: number,
+  water: number,
+  earth: number,
+  air: number,
   [key: string]: number; // Allow indexing with string
 }
 
 // Interface for elemental state (used in some components)
 export interface ElementalState {
-  Fire: number;
-  Water: number;
-  Air: number;
-  Earth: number;
+  Fire: number,
+  Water: number,
+  Air: number,
+  Earth: number,
 }
 
 // Interface for elemental scoring
 export interface ElementalScore {
-  element: Element;
-  score: number;
+  element: Element,
+  score: number,
 }
 
 // Interface for elemental balance
 export interface ElementalBalance {
-  fire: number;
-  water: number;
-  earth: number;
-  air: number;
+  fire: number,
+  water: number,
+  earth: number,
+  air: number,
 }
 
 // Interface for elemental filter
@@ -77,10 +77,10 @@ export interface ElementalTransformation {
 }
 
 // Default ElementalProperties
-export const _DEFAULT_ELEMENTAL_PROPERTIES: ElementalProperties = {;
-  Fire: 0.25;
-  Water: 0.25;
-  Earth: 0.25;
+export const _DEFAULT_ELEMENTAL_PROPERTIES: ElementalProperties = {
+  Fire: 0.25,
+  Water: 0.25,
+  Earth: 0.25,
   Air: 0.25
 };
 

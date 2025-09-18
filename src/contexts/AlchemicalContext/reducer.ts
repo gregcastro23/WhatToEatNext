@@ -35,7 +35,7 @@ export const _alchemicalReducer = (;
     case 'SET_SEASONAL_STATE':
       return {
         ...state;
-        currentSeason: action.payload.season;
+        currentSeason: action.payload.season,
         lastUpdated: new Date()
       };
 
@@ -56,17 +56,17 @@ export const _alchemicalReducer = (;
     case 'SET_ELEMENTAL_STATE':
       return {
         ...state;
-        elementalState: action.payload;
+        elementalState: action.payload,
         lastUpdated: new Date()
       };
 
     case 'SET_ZODIAC_ENERGY':
       return {
         ...state;
-        zodiacEnergy: action.payload;
+        zodiacEnergy: action.payload,
         currentEnergy: {
-          zodiacEnergy: action.payload;
-          lunarEnergy: state.currentEnergy?.lunarEnergy || '';
+          zodiacEnergy: action.payload,
+          lunarEnergy: state.currentEnergy?.lunarEnergy || '',
           planetaryEnergy: state.currentEnergy?.planetaryEnergy || []
         },
         lastUpdated: new Date()
@@ -75,10 +75,10 @@ export const _alchemicalReducer = (;
     case 'SET_LUNAR_ENERGY':
       return {
         ...state;
-        lunarEnergy: action.payload;
+        lunarEnergy: action.payload,
         currentEnergy: {
-          zodiacEnergy: state.currentEnergy?.zodiacEnergy || '';
-          lunarEnergy: action.payload;
+          zodiacEnergy: state.currentEnergy?.zodiacEnergy || '',
+          lunarEnergy: action.payload,
           planetaryEnergy: state.currentEnergy?.planetaryEnergy || []
         },
         lastUpdated: new Date()
@@ -87,10 +87,10 @@ export const _alchemicalReducer = (;
     case 'SET_PLANETARY_ENERGY':
       return {
         ...state;
-        planetaryEnergy: action.payload;
+        planetaryEnergy: action.payload,
         currentEnergy: {
-          zodiacEnergy: state.currentEnergy?.zodiacEnergy || '';
-          lunarEnergy: state.currentEnergy?.lunarEnergy || '';
+          zodiacEnergy: state.currentEnergy?.zodiacEnergy || '',
+          lunarEnergy: state.currentEnergy?.lunarEnergy || '',
           planetaryEnergy: action.payload
         },
         lastUpdated: new Date()
@@ -114,7 +114,7 @@ export const _alchemicalReducer = (;
       return {
         ...state;
         error: true,
-        errorMessage: action.payload.message;
+        errorMessage: action.payload.message,
         errors: [...state.errors, action.payload.message],
         lastUpdated: new Date()
       };
@@ -144,18 +144,18 @@ export const _alchemicalReducer = (;
     case 'SET_ALCHEMICAL_VALUES':
       return {
         ...state;
-        alchemicalValues: action.payload;
+        alchemicalValues: action.payload,
         lastUpdated: new Date()
       };
 
     case 'SET_LUNAR_PHASE':
       return {
         ...state;
-        lunarPhase: action.payload;
+        lunarPhase: action.payload,
         lastUpdated: new Date()
       };
 
     default:
-      return state;
+      return state
   }
 };

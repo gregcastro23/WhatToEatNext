@@ -29,7 +29,7 @@ describe('Cache Hit Rate Performance Tests', () => {
           description: 'Phase for cache testing',
           tools: [
             {
-              scriptPath: 'scripts/cache/test-script.js';
+              scriptPath: 'scripts/cache/test-script.js',
               parameters: { enableCach, e: true },
               batchSize: 50,
               safetyLevel: SafetyLevel.MEDIUM
@@ -42,8 +42,8 @@ describe('Cache Hit Rate Performance Tests', () => {
       safetySettings,
       progressTargets: { typeScriptError, s: 0, lintingWarnings: 0, buildTime: 10, enterpriseSystems: 200 },
       toolConfiguration: { enhancedErrorFixer: 'scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js',
-        explicitAnyFixer: 'scripts/typescript-fixes/fix-explicit-any-systematic.js';
-        unusedVariablesFixer: 'scripts/typescript-fixes/fix-unused-variables-enhanced.js';
+        explicitAnyFixer: 'scripts/typescript-fixes/fix-explicit-any-systematic.js',
+        unusedVariablesFixer: 'scripts/typescript-fixes/fix-unused-variables-enhanced.js',
         consoleStatementFixer: 'scripts/lint-fixes/fix-console-statements-only.js'
       }
     };
@@ -469,7 +469,7 @@ describe('Cache Hit Rate Performance Tests', () => {
           case 'high-performance':
             return 0.9;
           default:
-            return 0.7;
+            return 0.7
         }
       });
 

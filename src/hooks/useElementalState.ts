@@ -16,10 +16,10 @@ export function useElementalState() {
   const elementalState = useMemo((): ElementalProperties => {
     if (!planetaryPositions || Object.keys(planetaryPositions || {}).length === 0) {
       return {
-        Fire: 0.25;
-        Water: 0.25;
-        Earth: 0.25;
-        Air: 0.25;
+        Fire: 0.25,
+        Water: 0.25,
+        Earth: 0.25,
+        Air: 0.25,
         dominant: 'Fire',
         balance: 1.0
       } as unknown as ElementalProperties;
@@ -53,9 +53,9 @@ export function useElementalState() {
 
     // Normalize to percentages
     const normalized = {
-      Fire: total > 0 ? elementCounts.Fire / total : 0.25;
-      Water: total > 0 ? elementCounts.Water / total : 0.25;
-      Earth: total > 0 ? elementCounts.Earth / total : 0.25;
+      Fire: total > 0 ? elementCounts.Fire / total : 0.25,
+      Water: total > 0 ? elementCounts.Water / total : 0.25,
+      Earth: total > 0 ? elementCounts.Earth / total : 0.25,
       Air: total > 0 ? elementCounts.Air / total : 0.25
     };
 

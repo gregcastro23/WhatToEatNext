@@ -17,9 +17,9 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 export interface UnusedVariablesConfig {
-  maxFiles: number;
-  autoFix: boolean;
-  dryRun: boolean;
+  maxFiles: number,
+  autoFix: boolean,
+  dryRun: boolean,
   validateSafety: boolean,
   enableGitStash: boolean,
   buildValidation: boolean,
@@ -27,10 +27,10 @@ export interface UnusedVariablesConfig {
 }
 
 export interface UnusedVariablesResult {
-  success: boolean;
-  filesProcessed: number;
-  variablesRemoved: number;
-  variablesPrefixed: number;
+  success: boolean,
+  filesProcessed: number,
+  variablesRemoved: number,
+  variablesPrefixed: number,
   buildTime: number,
   errors: string[],
   warnings: string[],
@@ -38,10 +38,10 @@ export interface UnusedVariablesResult {
 }
 
 export interface BatchProcessingResult {
-  totalBatches: number;
-  successfulBatches: number;
-  failedBatches: number;
-  totalFilesProcessed: number;
+  totalBatches: number,
+  successfulBatches: number,
+  failedBatches: number,
+  totalFilesProcessed: number,
   totalVariablesProcessed: number,
   averageBuildTime: number,
   overallSafetyScore: number,
@@ -401,14 +401,14 @@ export class UnusedVariablesCleanupSystem {
   private async saveMetrics(result: UnusedVariablesResult): Promise<void> {
     try {
       const metrics = {
-        timestamp: new Date().toISOString();
-        config: this.config;
+        timestamp: new Date().toISOString(),
+        config: this.config,
         result,
         summary: {
-          success: result.success;
-          filesProcessed: result.filesProcessed;
-          totalVariablesProcessed: result.variablesRemoved + result.variablesPrefixed;
-          buildTime: result.buildTime;
+          success: result.success,
+          filesProcessed: result.filesProcessed,
+          totalVariablesProcessed: result.variablesRemoved + result.variablesPrefixed,
+          buildTime: result.buildTime,
           safetyScore: result.safetyScore
         }
       };

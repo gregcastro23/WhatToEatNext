@@ -37,28 +37,28 @@ export type LunarPhaseWithUnderscores =
 // Interface for lunar phase modifier
 export interface LunarPhaseModifier {
   elementalModifiers: {
-    Fire: number;
-    Water: number;
-    Earth: number;
-    Air: number;
+    Fire: number,
+    Water: number,
+    Earth: number,
+    Air: number,
   };
   elementalBoost?: Record<string, number>;
-  description: string;
-  keywords: string[];
+  description: string,
+  keywords: string[],
   preparationTips?: string[];
 }
 
 // Interface for lunar influence
 export interface LunarInfluence {
-  phase: LunarPhase;
-  strength: number;
+  phase: LunarPhase,
+  strength: number,
   elements: {
-    Fire: number;
-    Water: number;
-    Earth: number;
-    Air: number;
+    Fire: number,
+    Water: number,
+    Earth: number,
+    Air: number,
   };
-  description: string;
+  description: string
 }
 
 // Type for mapping lunar phases to modifiers

@@ -95,9 +95,9 @@ describe('Astrological Validation Utilities', () => {
   describe('Elemental Properties Validation', () => {
     test('should validate complete elemental properties', () => {
       const validProperties: any = {
-        Fire: 0.7;
-        Water: 0.1;
-        Earth: 0.1;
+        Fire: 0.7,
+        Water: 0.1,
+        Earth: 0.1,
         Air: 0.1
       };
 
@@ -106,8 +106,8 @@ describe('Astrological Validation Utilities', () => {
 
     test('should reject missing elements', () => {
       const incompleteProperties: any = {
-        Fire: 0.8;
-        Water: 0.2;
+        Fire: 0.8,
+        Water: 0.2,
         // Missing Earth and Air
       };
 
@@ -118,7 +118,7 @@ describe('Astrological Validation Utilities', () => {
       const invalidProperties: any = {
         Fire: 1.5, // Too high
         Water: -0.1, // Too low
-        Earth: 0.3;
+        Earth: 0.3,
         Air: 0.2
       };
 
@@ -127,7 +127,7 @@ describe('Astrological Validation Utilities', () => {
 
     test('should normalize elemental properties', () => {
       const partialProperties: any = {
-        Fire: 0.8;
+        Fire: 0.8,
         Water: 0.2
       };
 
@@ -303,8 +303,8 @@ describe('Astrological Validation Utilities', () => {
           moon: { sig, n: 'aries', degree: 1.57, exactLongitude: 1.57, isRetrograde: false }
         },
         elementalProperties: { Fire: 0.7,
-          Water: 0.1;
-          Earth: 0.1;
+          Water: 0.1,
+          Earth: 0.1,
           Air: 0.1
         },
         constants: { DEGREES_PER_SIGN: 30,

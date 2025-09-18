@@ -11,10 +11,10 @@ const RecipesPage: NextPage = () => {
   const [selectedCuisine, setSelectedCuisine] = React.useState(''),
   const [selectedDiet, setSelectedDiet] = React.useState(''),
   const [elementalState, setElementalState] = React.useState({
-    Fire: 0.25;
-    Water: 0.25;
-    Earth: 0.25;
-    Air: 0.25;
+    Fire: 0.25,
+    Water: 0.25,
+    Earth: 0.25,
+    Air: 0.25,
     season: 'spring',
     timeOfDay: 'lunch'
   });

@@ -49,7 +49,7 @@ describe('ProgressReportingSystem', () => {
         warningBreakdown: {},
         buildMetrics: { buildTime: 8,
           bundleSize: 420,
-          cacheHitRate: 0.85;
+          cacheHitRate: 0.85,
           memoryUsage: 45,
           cpuUsage: 15,
           diskUsage: 1024,
@@ -169,7 +169,7 @@ describe('ProgressReportingSystem', () => {
         warningBreakdown: { '@typescript-eslint/no-explicit-any': 200, 'no-unused-vars': 300 },
         buildMetrics: { buildTime: 12,
           bundleSize: 480,
-          cacheHitRate: 0.75;
+          cacheHitRate: 0.75,
           memoryUsage: 55,
           cpuUsage: 25,
           diskUsage: 1200,
@@ -255,7 +255,7 @@ describe('ProgressReportingSystem', () => {
         warningBreakdown: {},
         buildMetrics: { buildTime: 8,
           bundleSize: 420,
-          cacheHitRate: 0.85;
+          cacheHitRate: 0.85,
           memoryUsage: 45,
           cpuUsage: 15,
           diskUsage: 1024,
@@ -321,7 +321,7 @@ describe('ProgressReportingSystem', () => {
             warningBreakdown: { '@typescript-eslint/no-explicit-any': 800 },
             buildMetrics: { buildTime: 15,
               bundleSize: 500,
-              cacheHitRate: 0.7;
+              cacheHitRate: 0.7,
               memoryUsage: 60,
               cpuUsage: 30,
               diskUsage: 1500,
@@ -333,7 +333,7 @@ describe('ProgressReportingSystem', () => {
             },
             trendData: { errorReductionRate: 8,
               warningReductionRate: 40,
-              buildTimeImprovement: 1.5;
+              buildTimeImprovement: 1.5,
               systemGrowthRate: 4
             }
           },
@@ -363,7 +363,7 @@ describe('ProgressReportingSystem', () => {
         warningBreakdown: { '@typescript-eslint/no-explicit-any': 200, 'no-unused-vars': 300 },
         buildMetrics: { buildTime: 12,
           bundleSize: 480,
-          cacheHitRate: 0.75;
+          cacheHitRate: 0.75,
           memoryUsage: 55,
           cpuUsage: 25,
           diskUsage: 1200,
@@ -397,7 +397,7 @@ describe('ProgressReportingSystem', () => {
     test('should export report in JSON format', async () => {
       const mockReport: CampaignSummaryReport = { campaignId: 'perfect-codebase-campaign',,;
         generatedAt: new Date(),
-        overallStatus: CampaignStatus.IN_PROGRESS;
+        overallStatus: CampaignStatus.IN_PROGRESS,
         overallProgress: 75,
         phases: [],
         keyAchievements: [],
@@ -427,13 +427,13 @@ describe('ProgressReportingSystem', () => {
     test('should export report in multiple formats', async () => {
       const mockReport: CampaignSummaryReport = { campaignId: 'perfect-codebase-campaign',,;
         generatedAt: new Date(),
-        overallStatus: CampaignStatus.COMPLETED;
+        overallStatus: CampaignStatus.COMPLETED,
         overallProgress: 100,
         phases: [
           {
             phaseId: 'phase1',
             phaseName: 'TypeScript Error Elimination',
-            status: PhaseStatus.COMPLETED;
+            status: PhaseStatus.COMPLETED,
             progress: 100,
             keyMetrics: {},
             milestones: [],
@@ -487,7 +487,7 @@ describe('ProgressReportingSystem', () => {
         warningBreakdown: {},
         buildMetrics: { buildTime: 8,
           bundleSize: 420,
-          cacheHitRate: 0.85;
+          cacheHitRate: 0.85,
           memoryUsage: 45,
           cpuUsage: 15,
           diskUsage: 1024,
@@ -535,7 +535,7 @@ describe('ProgressReportingSystem', () => {
         warningBreakdown: {},
         buildMetrics: { buildTime: 8,
           bundleSize: 420,
-          cacheHitRate: 0.85;
+          cacheHitRate: 0.85,
           memoryUsage: 45,
           cpuUsage: 15,
           diskUsage: 1024,

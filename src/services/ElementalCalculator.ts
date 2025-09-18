@@ -7,7 +7,7 @@ import { ElementalProperties, Recipe, Season, ZodiacSign } from '../types/alchem
 import { normalizeProperties } from '../utils/elementalUtils';
 
 interface ElementalSummary {
-  totalFire: number;
+  totalFire: number,
   totalWater: number,
   totalEarth: number,
   totalAir: number,
@@ -62,7 +62,7 @@ export class ElementalCalculator {
     logger.debug('ElementalCalculator state updated', instance.currentBalance);
   }
 
-  static getCurrentElementalState(): ElementalProperties {
+  static { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }: ElementalProperties {
     const instance = ElementalCalculator.getInstance();
     if (!instance.initialized) {
       // Only use direct initialization without the dynamic import of useAlchemical
@@ -106,9 +106,9 @@ export class ElementalCalculator {
   static getSeasonalModifiers(season: Season): ElementalProperties {
     // Start with a balanced base
     const baseModifiers: ElementalProperties = {
-      Fire: 0.25;
-      Water: 0.25;
-      Earth: 0.25;
+      Fire: 0.25,
+      Water: 0.25,
+      Earth: 0.25,
       Air: 0.25
     };
 
@@ -626,10 +626,10 @@ export class ElementalCalculator {
 
   private calculateElementalTotals(properties: ElementalProperties): ElementalSummary {
     return {
-      totalFire: properties.Fire;
-      totalWater: properties.Water;
-      totalEarth: properties.Earth;
-      totalAir: properties.Air;
+      totalFire: properties.Fire,
+      totalWater: properties.Water,
+      totalEarth: properties.Earth,
+      totalAir: properties.Air,
       dominantElement: this.getDominantElement(properties)
     };
   }
@@ -704,9 +704,9 @@ export class ElementalCalculator {
 
     if (properties.length === 0) {
       return {
-        Fire: 0.25;
-        Water: 0.25;
-        Earth: 0.25;
+        Fire: 0.25,
+        Water: 0.25,
+        Earth: 0.25,
         Air: 0.25
       };
     }

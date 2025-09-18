@@ -12,7 +12,7 @@ import * as path from 'path';
 import { UnusedExport, TransformationCandidate, FileAnalysis } from './UnusedExportAnalyzer';
 
 export interface IntelligenceSystemTemplate {
-  name: string;
+  name: string,
   description: string,
   template: string,
   capabilities: IntelligenceCapability[],
@@ -34,10 +34,10 @@ export interface IntegrationPoint {
 }
 
 export interface GenerationResult {
-  systemName: string;
-  filePath: string;
-  originalExport: UnusedExport;
-  generatedCode: string;
+  systemName: string,
+  filePath: string,
+  originalExport: UnusedExport,
+  generatedCode: string,
   capabilities: IntelligenceCapability[],
   integrationPoints: IntegrationPoint[],
   estimatedValue: number,
@@ -45,8 +45,8 @@ export interface GenerationResult {
 }
 
 export interface GenerationSummary {
-  totalSystemsGenerated: number;
-  totalCapabilitiesAdded: number;
+  totalSystemsGenerated: number,
+  totalCapabilitiesAdded: number,
   totalIntegrationPoints: number,
   averageComplexity: number,
   estimatedTotalValue: number,
@@ -143,7 +143,7 @@ export class EnterpriseIntelligenceGenerator {
     return {
       systemName,
       filePath: outputPath,
-      originalExport: candidate.export;
+      originalExport: candidate.export,
       generatedCode,
       capabilities,
       integrationPoints,
@@ -170,7 +170,7 @@ export class EnterpriseIntelligenceGenerator {
       case 'variable':
         return (this.templates.get('DATA_INTELLIGENCE') || this.templates.get('DEFAULT'))!;
       default:
-        return this.templates.get('DEFAULT')!;
+        return this.templates.get('DEFAULT')!
     }
   }
 
@@ -191,7 +191,7 @@ export class EnterpriseIntelligenceGenerator {
         baseCapabilities.push({
           name: 'analyzeFunction',
           description: `Analyze the behavior and patterns of ${candidate.export.exportName}`,
-          implementation: this.generateFunctionAnalysisCode(candidate);
+          implementation: this.generateFunctionAnalysisCode(candidate),
           complexity: CapabilityComplexity.INTERMEDIATE
         });
         break;
@@ -200,7 +200,7 @@ export class EnterpriseIntelligenceGenerator {
         baseCapabilities.push({
           name: 'analyzeClassStructure',
           description: `Analyze the structure and methods of ${candidate.export.exportName}`,
-          implementation: this.generateClassAnalysisCode(candidate);
+          implementation: this.generateClassAnalysisCode(candidate),
           complexity: CapabilityComplexity.ADVANCED
         });
         break;
@@ -210,7 +210,7 @@ export class EnterpriseIntelligenceGenerator {
         baseCapabilities.push({
           name: 'analyzeTypeStructure',
           description: `Analyze the type structure and relationships of ${candidate.export.exportName}`,
-          implementation: this.generateTypeAnalysisCode(candidate);
+          implementation: this.generateTypeAnalysisCode(candidate),
           complexity: CapabilityComplexity.BASIC
         });
         break;
@@ -220,7 +220,7 @@ export class EnterpriseIntelligenceGenerator {
         baseCapabilities.push({
           name: 'analyzeDataPatterns',
           description: `Analyze data patterns and usage of ${candidate.export.exportName}`,
-          implementation: this.generateDataAnalysisCode(candidate);
+          implementation: this.generateDataAnalysisCode(candidate),
           complexity: CapabilityComplexity.INTERMEDIATE
         });
         break;
@@ -231,7 +231,7 @@ export class EnterpriseIntelligenceGenerator {
       baseCapabilities.push({
         name: 'generateAdvancedInsights',
         description: 'Generate advanced insights and recommendations',
-        implementation: this.generateAdvancedInsightsCode(candidate);
+        implementation: this.generateAdvancedInsightsCode(candidate),
         complexity: CapabilityComplexity.EXPERT
       });
     }
@@ -251,25 +251,25 @@ export class EnterpriseIntelligenceGenerator {
 
     // Main application integration
     integrationPoints.push({
-      target: 'src/app/intelligence/index.ts';
-      method: IntegrationMethod.DIRECT_IMPORT;
+      target: 'src/app/intelligence/index.ts',
+      method: IntegrationMethod.DIRECT_IMPORT,
       code: `import { ${systemName} } from '../intelligence/${systemName}',`,
       priority: IntegrationPriority.HIGH
     });
 
     // Dashboard integration
     integrationPoints.push({
-      target: 'src/components/dashboard/IntelligenceDashboard.tsx';
-      method: IntegrationMethod.DEPENDENCY_INJECTION;
-      code: this.generateDashboardIntegrationCode(systemName);
+      target: 'src/components/dashboard/IntelligenceDashboard.tsx',
+      method: IntegrationMethod.DEPENDENCY_INJECTION,
+      code: this.generateDashboardIntegrationCode(systemName),
       priority: IntegrationPriority.MEDIUM
     });
 
     // API integration
     integrationPoints.push({
-      target: 'src/api/intelligence/route.ts';
-      method: IntegrationMethod.API_ENDPOINT;
-      code: this.generateAPIIntegrationCode(systemName);
+      target: 'src/api/intelligence/route.ts',
+      method: IntegrationMethod.API_ENDPOINT,
+      code: this.generateAPIIntegrationCode(systemName),
       priority: IntegrationPriority.LOW
     });
 
@@ -277,7 +277,7 @@ export class EnterpriseIntelligenceGenerator {
     if (candidate.safetyScore > 80) {
       integrationPoints.push({
         target: originalFilePath,
-        method: IntegrationMethod.DIRECT_IMPORT;
+        method: IntegrationMethod.DIRECT_IMPORT,
         code: `// Intelligence system available: ${systemName}`,
         priority: IntegrationPriority.LOW
       });
@@ -308,7 +308,7 @@ export class EnterpriseIntelligenceGenerator {
  */
 
 export interface ${systemName}Config {
-  enableAnalytics: boolean;
+  enableAnalytics: boolean,
   enableRecommendations: boolean,
   enableDemonstrations: boolean,
   cacheResults: boolean,
@@ -337,8 +337,8 @@ export interface PatternAnalysis {
 }
 
 export interface Recommendation {
-  id: string;
-  type: 'optimization' | 'enhancement' | 'integration' | 'maintenance';
+  id: string,
+  type: 'optimization' | 'enhancement' | 'integration' | 'maintenance',
   priority: 'low' | 'medium' | 'high' | 'critical',
   description: string,
   implementation: string,
@@ -399,9 +399,9 @@ export class ${systemName} {
       this.analytics.usageCount++;
       
       const analysis: PatternAnalysis = {
-        commonPatterns: this.identifyCommonPatterns(data);
-        anomalies: this.detectAnomalies(data);
-        trends: this.analyzeTrends(data);
+        commonPatterns: this.identifyCommonPatterns(data),
+        anomalies: this.detectAnomalies(data),
+        trends: this.analyzeTrends(data),
         insights: this.generateInsights(data)
       };
 
@@ -484,7 +484,7 @@ ${capabilities.map(cap => `          '${cap.name}': '${cap.description}'`).join(
         ],
         sampleAnalysis: await this.analyzePatterns({ sample: true }),
         sampleRecommendations: await this.generateRecommendations({ sample: true }),
-        performanceMetrics: this.analytics.performanceMetrics;
+        performanceMetrics: this.analytics.performanceMetrics,
         configuration: this.config
       };
 
@@ -744,8 +744,8 @@ export const create${systemName} = (config?: Partial<${systemName}Config>) =>
     const analysis = {
       functionName: '${candidate.export.exportName}',
       complexity: ${candidate.export.complexity},
-      callPatterns: this.trackCallPatterns(data);
-      performance: this.measurePerformance(data);
+      callPatterns: this.trackCallPatterns(data),
+      performance: this.measurePerformance(data),
       recommendations: this.generateFunctionRecommendations(data)
     };
     return analysis;
@@ -760,9 +760,9 @@ export const create${systemName} = (config?: Partial<${systemName}Config>) =>
     // Analyze class structure and usage
     const analysis = {
       className: '${candidate.export.exportName}',
-      methods: this.analyzeClassMethods(data);
-      properties: this.analyzeClassProperties(data);
-      inheritance: this.analyzeInheritance(data);
+      methods: this.analyzeClassMethods(data),
+      properties: this.analyzeClassProperties(data),
+      inheritance: this.analyzeInheritance(data),
       instantiation: this.trackInstantiation(data)
     };
     return analysis;
@@ -777,9 +777,9 @@ export const create${systemName} = (config?: Partial<${systemName}Config>) =>
     // Analyze type structure and relationships
     const analysis = {
       typeName: '${candidate.export.exportName}',
-      structure: this.analyzeTypeStructure(data);
-      relationships: this.findTypeRelationships(data);
-      usage: this.trackTypeUsage(data);
+      structure: this.analyzeTypeStructure(data),
+      relationships: this.findTypeRelationships(data),
+      usage: this.trackTypeUsage(data),
       compatibility: this.checkTypeCompatibility(data)
     };
     return analysis;
@@ -794,9 +794,9 @@ export const create${systemName} = (config?: Partial<${systemName}Config>) =>
     // Analyze data patterns and usage
     const analysis = {
       dataName: '${candidate.export.exportName}',
-      patterns: this.identifyDataPatterns(data);
-      usage: this.trackDataUsage(data);
-      validation: this.validateDataStructure(data);
+      patterns: this.identifyDataPatterns(data),
+      usage: this.trackDataUsage(data),
+      validation: this.validateDataStructure(data),
       optimization: this.suggestDataOptimizations(data)
     };
     return analysis;
@@ -810,9 +810,9 @@ export const create${systemName} = (config?: Partial<${systemName}Config>) =>
     return `
     // Generate advanced insights and recommendations
     const insights = {
-      predictiveAnalysis: this.performPredictiveAnalysis(data);
-      optimizationOpportunities: this.identifyOptimizations(data);
-      riskAssessment: this.assessRisks(data);
+      predictiveAnalysis: this.performPredictiveAnalysis(data),
+      optimizationOpportunities: this.identifyOptimizations(data),
+      riskAssessment: this.assessRisks(data),
       strategicRecommendations: this.generateStrategicRecommendations(data)
     };
     return insights;

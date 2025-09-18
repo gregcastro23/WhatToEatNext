@@ -271,7 +271,7 @@ class IngredientMappingService {
           if (result.success) {
             combinations.push({
               ingredients: [ing1.name, ing2.name],
-              compatibility: result.compatibility;
+              compatibility: result.compatibility,
               type: result.type || 'unknown'
             })
           }
@@ -292,7 +292,7 @@ class IngredientMappingService {
       success: true,
       averageCompatibility,
       bestCombinations: sortedCombinations.slice(0, 3),
-      weakestCombinations: sortedCombinations.slice(-3).reverse();
+      weakestCombinations: sortedCombinations.slice(-3).reverse(),
       allCombinations: combinations,
       mappingQuality: validMappings.length / Math.max(1, recipe.ingredients.length)
     };

@@ -127,9 +127,9 @@ export default function CuisineSectionTestPage() {
         <div className='mt-4'>;
           <h3 className='mb-2 text-sm font-medium'>Current Elemental State:</h3>;
           {renderElementalState({
-            Fire: state.elementalState.Fire ?? 0.25;
-            Water: state.elementalState.Water ?? 0.25;
-            Earth: state.elementalState.Earth ?? 0.25;
+            Fire: state.elementalState.Fire ?? 0.25,
+            Water: state.elementalState.Water ?? 0.25,
+            Earth: state.elementalState.Earth ?? 0.25,
             Air: state.elementalState.Air ?? 0.25
           })}
           <div className='mt-2 text-sm text-gray-600'>;
@@ -148,11 +148,11 @@ export default function CuisineSectionTestPage() {
               cuisine={selectedCuisine},;
               recipes={recipes},;
               elementalState={{
-                Fire: state.elementalState.Fire ?? 0.25;
-                Water: state.elementalState.Water ?? 0.25;
-                Earth: state.elementalState.Earth ?? 0.25;
-                Air: state.elementalState.Air ?? 0.25;
-                season: state.currentSeason || 'spring';
+                Fire: state.elementalState.Fire ?? 0.25,
+                Water: state.elementalState.Water ?? 0.25,
+                Earth: state.elementalState.Earth ?? 0.25,
+                Air: state.elementalState.Air ?? 0.25,
+                season: state.currentSeason || 'spring',
                 timeOfDay: (state.timeOfDay || 'morning') ?? 'morning'
               }}
             />
@@ -167,11 +167,11 @@ export default function CuisineSectionTestPage() {
               cuisine={selectedCuisine},;
               recipes={recipes},;
               elementalState={{
-                Fire: state.elementalState.Fire ?? 0.25;
-                Water: state.elementalState.Water ?? 0.25;
-                Earth: state.elementalState.Earth ?? 0.25;
-                Air: state.elementalState.Air ?? 0.25;
-                season: state.currentSeason || 'spring';
+                Fire: state.elementalState.Fire ?? 0.25,
+                Water: state.elementalState.Water ?? 0.25,
+                Earth: state.elementalState.Earth ?? 0.25,
+                Air: state.elementalState.Air ?? 0.25,
+                season: state.currentSeason || 'spring',
                 timeOfDay: (state.timeOfDay || 'morning') ?? 'morning'
               }}
             />

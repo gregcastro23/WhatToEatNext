@@ -6,8 +6,8 @@ import { getCurrentAstrologicalState } from '@/utils/astrologyUtils';
 import { useAlchemical } from './useAlchemical';
 
 export interface AstrologicalInfluence {
-  planetaryDay: string;
-  planetaryHour: string;
+  planetaryDay: string,
+  planetaryHour: string,
   lunarPhase: string,
   dominantElement: string,
   aspectStrength: number,
@@ -39,7 +39,7 @@ export function useAstrologicalInfluence() {
         planetaryHour: 'Sun',
         lunarPhase: 'new moon',
         dominantElement: 'Fire',
-        aspectStrength: 0.5;
+        aspectStrength: 0.5,
         overallInfluence: 0.5
       };
     }
@@ -91,8 +91,8 @@ export function useAstrologicalInfluence() {
     const overallInfluence = aspectStrength * 0.4 + lunarPhaseStrength * 0.6;
 
     return {
-      planetaryDay: astrologicalState.planetaryDay || 'Sun';
-      planetaryHour: astrologicalState.planetaryHour || 'Sun';
+      planetaryDay: astrologicalState.planetaryDay || 'Sun',
+      planetaryHour: astrologicalState.planetaryHour || 'Sun',
       lunarPhase: astrologicalState.lunarPhase || 'new moon';
       dominantElement,
       aspectStrength,

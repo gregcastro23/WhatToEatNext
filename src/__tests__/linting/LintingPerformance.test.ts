@@ -188,7 +188,7 @@ describe('Linting Performance and Memory Usage', () => {
     test('should handle memory-intensive astrological calculations', async () => {
       const astrologicalLintOutput: any = JSON.stringify([
         {
-          filePath: '/src/calculations/planetary.ts';
+          filePath: '/src/calculations/planetary.ts',
           messages: [{ ruleI, d: 'astrological/validate-planetary-position-structure', severity: 1 }]
         }
       ]);
@@ -208,7 +208,7 @@ describe('Linting Performance and Memory Usage', () => {
     test('should optimize TypeScript parser memory usage', async () => {
       const typescriptLintOutput: any = JSON.stringify([
         {
-          filePath: '/src/complex.ts';
+          filePath: '/src/complex.ts',
           messages: [{ ruleI, d: '@typescript-eslint/no-explicit-any', severity: 2 }]
         }
       ]);
@@ -224,7 +224,7 @@ describe('Linting Performance and Memory Usage', () => {
     test('should manage cache memory efficiently', async () => {
       const cacheDir: any = '.eslint-ts-cache';
       const mockCacheData: any = JSON.stringify({
-        version: '1.0.0';
+        version: '1.0.0',
         files: {
           '/test/file.ts': { hash: 'abc123', results: [] };
       });
@@ -281,8 +281,8 @@ describe('Linting Performance and Memory Usage', () => {
 
     test('should optimize cache storage size', async () => {
       const largeCacheData: any = {
-        version: '1.0.0';
-        files: Object.fromEntries(;
+        version: '1.0.0',
+        files: Object.fromEntries(,
           Array.from({ length: 1000 }, (_, i) => [`/test/file${i}.ts`, { hash: `hash${i}`, results: [] }])
         )
       };
@@ -361,7 +361,7 @@ describe('Linting Performance and Memory Usage', () => {
     test('should optimize import resolution performance', async () => {
       const importResolutionOutput = JSON.stringify([
         {
-          filePath: '/test/imports.ts';
+          filePath: '/test/imports.ts',
           messages: [{ ruleI, d: 'import/no-unresolved', severity: 1, message: 'Unable to resolve path' }]
         }
       ]);
@@ -492,7 +492,7 @@ describe('Linting Performance and Memory Usage', () => {
       const baselineMetrics: any = {
         executionTime: 5000,
         memoryUsage: 128 * 1024 * 1024, // 128MB,
-        cacheHitRate: 0.85;
+        cacheHitRate: 0.85,
         filesProcessed: 100
       };
 

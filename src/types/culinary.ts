@@ -9,68 +9,68 @@ import type { PrimaryCuisineType } from './cuisineAliases';
 export interface CulinaryProfile {
   /** Primary flavor characteristics */
   flavorProfile: {
-    primary: string;
-    secondary: string[];
-    intensity: 'mild' | 'moderate' | 'strong';
-    umami: number; // 0-1 scale
+    primary: string,
+    secondary: string[],
+    intensity: 'mild' | 'moderate' | 'strong',
+    umami: number, // 0-1 scale
   };
 
   /** Texture characteristics */
   texture: {
-    raw: string;
-    cooked: string;
-    mouthfeel: string;
+    raw: string,
+    cooked: string,
+    mouthfeel: string
   };
 
   /** Best cooking methods for this ingredient */
   cookingMethods: {
-    primary: string[];
-    secondary: string[];
-    bestResults: string;
+    primary: string[],
+    secondary: string[],
+    bestResults: string
   };
 
   /** Cuisine affinities where this ingredient is commonly used */
   cuisineAffinities: {
-    primary: CuisineType[];
-    secondary: CuisineType[];
+    primary: CuisineType[],
+    secondary: CuisineType[],
     regionalUses: Record<string, string>;
   };
 
   /** Classic ingredient pairings */
   pairings: {
-    proteins: string[];
-    vegetables: string[];
-    herbs: string[];
-    dairy: string[];
-    acids: string[];
+    proteins: string[],
+    vegetables: string[],
+    herbs: string[],
+    dairy: string[],
+    acids: string[]
   };
 
   /** Common culinary uses */
   culinaryUses: {
-    primary: string[];
-    secondary: string[];
-    presentation: string;
+    primary: string[],
+    secondary: string[],
+    presentation: string
   };
 
   /** Seasonal availability */
   seasonality: {
-    peak: string[];
-    available: string[];
-    storage: string;
+    peak: string[],
+    available: string[],
+    storage: string
   };
 
   /** Storage and shelf life information */
   shelfLife: {
-    fresh: string;
-    frozen: string;
-    preserved: string;
+    fresh: string,
+    frozen: string,
+    preserved: string
   };
 
   /** Possible substitutions */
   substitutions: {
-    similar: string[];
-    texture: string[];
-    flavor: string[];
+    similar: string[],
+    texture: string[],
+    flavor: string[]
   };
 
   /** Additional culinary notes */
@@ -89,7 +89,7 @@ export interface CulinaryProfile {
   preparationTips: string[];
 
   /** Umami score (0-1) */
-  umamiScore: number;
+  umamiScore: number
 }
 
 /**
@@ -568,8 +568,8 @@ export type IngredientSubCategory =
  * Enhanced ingredient interface with new culinary profile
  */
 export interface EnhancedIngredient {
-  name: string;
-  category: IngredientCategory;
+  name: string,
+  category: IngredientCategory,
   subCategory?: IngredientSubCategory;
   culinaryProfile: CulinaryProfile;
   // ... other existing properties
@@ -579,23 +579,23 @@ export interface EnhancedIngredient {
  * Cuisine compatibility scoring interface
  */
 export interface CuisineCompatibility {
-  cuisine: CompleteCuisineType;
-  score: number; // 0-1 scale
-  factors: string[];
-  ingredientMatches: string[];
-  regionalVariations: string[];
+  cuisine: CompleteCuisineType,
+  score: number, // 0-1 scale
+  factors: string[],
+  ingredientMatches: string[],
+  regionalVariations: string[]
 }
 
 /**
  * Cuisine pairing recommendations
  */
 export interface CuisinePairing {
-  primary: CompleteCuisineType;
-  secondary: CompleteCuisineType;
+  primary: CompleteCuisineType,
+  secondary: CompleteCuisineType,
   compatibility: number; // 0-1 scale
-  commonIngredients: string[];
-  fusionOpportunities: string[];
-  culturalNotes: string;
+  commonIngredients: string[],
+  fusionOpportunities: string[],
+  culturalNotes: string
 }
 
 // ========== MISSING TYPE EXPORTS ==========;

@@ -10,15 +10,15 @@ import { writeFileSync, readFileSync, existsSync } from 'fs';
 import { join } from 'path';
 
 export interface LintingMetrics {
-  timestamp: Date;
-  totalIssues: number;
-  errors: number;
-  warnings: number;
-  parserErrors: number;
-  explicitAnyErrors: number;
-  importOrderIssues: number;
-  unusedVariables: number;
-  reactHooksIssues: number;
+  timestamp: Date,
+  totalIssues: number,
+  errors: number,
+  warnings: number,
+  parserErrors: number,
+  explicitAnyErrors: number,
+  importOrderIssues: number,
+  unusedVariables: number,
+  reactHooksIssues: number,
   consoleStatements: number,
   domainSpecificIssues: {
     astrologicalCalculations: number,
@@ -32,7 +32,7 @@ export interface LintingMetrics {
     filesProcessed: number
   };
   qualityScore: number; // 0-100
-  regressionDetected: boolean;
+  regressionDetected: boolean
 }
 
 export interface AlertThreshold {
@@ -43,7 +43,7 @@ export interface AlertThreshold {
 }
 
 export interface ValidationResult {
-  passed: boolean;
+  passed: boolean,
   metrics: LintingMetrics,
   alerts: Alert[],
   recommendations: string[],
@@ -51,10 +51,10 @@ export interface ValidationResult {
 }
 
 export interface Alert {
-  id: string;
-  timestamp: Date;
-  severity: 'info' | 'warning' | 'error' | 'critical';
-  metric: string;
+  id: string,
+  timestamp: Date,
+  severity: 'info' | 'warning' | 'error' | 'critical',
+  metric: string,
   currentValue: number,
   threshold: number,
   message: string,
@@ -62,10 +62,10 @@ export interface Alert {
 }
 
 export interface RegressionAnalysis {
-  detected: boolean;
-  affectedMetrics: string[];
-  severity: 'minor' | 'moderate' | 'major' | 'critical';
-  recommendations: string[];
+  detected: boolean,
+  affectedMetrics: string[],
+  severity: 'minor' | 'moderate' | 'major' | 'critical',
+  recommendations: string[],
   historicalComparison: {
     current: number,
     previous: number,
@@ -105,7 +105,7 @@ export class LintingValidationDashboard {
       message: 'Code quality score below target'
     },
     {
-      metric: 'performanceMetrics.lintingDuration';
+      metric: 'performanceMetrics.lintingDuration',
       threshold: 30000,
       severity: 'warning',
       message: 'Linting performance degraded - exceeds 30 seconds'
@@ -167,8 +167,8 @@ export class LintingValidationDashboard {
 
       // Add performance metrics
       metrics.performanceMetrics = {
-        lintingDuration: Date.now() - startTime;
-        cacheHitRate: await this.calculateCacheHitRate();
+        lintingDuration: Date.now() - startTime,
+        cacheHitRate: await this.calculateCacheHitRate(),
         memoryUsage: process.memoryUsage().heapUsed / 1024 / 1024, // MB
         filesProcessed: lintResults.length
       };
@@ -198,9 +198,9 @@ export class LintingValidationDashboard {
           testFiles: -1
         },
         performanceMetrics: {
-          lintingDuration: Date.now() - startTime;
+          lintingDuration: Date.now() - startTime,
           cacheHitRate: 0,
-          memoryUsage: process.memoryUsage().heapUsed / 1024 / 1024;
+          memoryUsage: process.memoryUsage().heapUsed / 1024 / 1024,
           filesProcessed: 0
         },
         qualityScore: 0,
@@ -334,11 +334,11 @@ export class LintingValidationDashboard {
         alerts.push({
           id: `${threshold.metric}-${Date.now()}`,
           timestamp: new Date(),
-          severity: threshold.severity;
-          metric: threshold.metric;
+          severity: threshold.severity,
+          metric: threshold.metric,
           currentValue,
-          threshold: threshold.threshold;
-          message: threshold.message;
+          threshold: threshold.threshold,
+          message: threshold.message,
           resolved: false
         })
       }
@@ -360,7 +360,7 @@ export class LintingValidationDashboard {
         severity: 'minor',
         recommendations: ['Insufficient historical data for regression analysis'],
         historicalComparison: {
-          current: currentMetrics.totalIssues;
+          current: currentMetrics.totalIssues,
           previous: 0,
           change: 0,
           changePercentage: 0
@@ -405,11 +405,11 @@ export class LintingValidationDashboard {
       detected: affectedMetrics.length > 0;
       affectedMetrics,
       severity,
-      recommendations: this.generateRegressionRecommendations(affectedMetrics);
+      recommendations: this.generateRegressionRecommendations(affectedMetrics),
       historicalComparison: {
-        current: currentMetrics.totalIssues;
-        previous: previousMetrics.totalIssues;
-        change: currentMetrics.totalIssues - previousMetrics.totalIssues;
+        current: currentMetrics.totalIssues,
+        previous: previousMetrics.totalIssues,
+        change: currentMetrics.totalIssues - previousMetrics.totalIssues,
         changePercentage:
           previousMetrics.totalIssues > 0
             ? ((currentMetrics.totalIssues - previousMetrics.totalIssues) /
@@ -595,7 +595,7 @@ ${result.recommendations.map(rec => `- ${rec}`).join('\n')};
   private initializeConfiguration(): void {
     if (!existsSync(this.configFile)) {
       const config = {
-        thresholds: this.defaultThresholds;
+        thresholds: this.defaultThresholds,
         alertingEnabled: true,
         regressionDetectionEnabled: true,
         performanceMonitoringEnabled: true,

@@ -41,9 +41,9 @@ interface QualityGateConfig {
 }
 
 interface QualityMetrics {
-  explicitAnyCount: number;
-  typescriptErrors: number;
-  lintingWarnings: number;
+  explicitAnyCount: number,
+  typescriptErrors: number,
+  lintingWarnings: number,
   buildTime: number,
   bundleSize: number,
   documentationCoverage: number,
@@ -51,8 +51,8 @@ interface QualityMetrics {
 }
 
 interface QualityGateResult {
-  passed: boolean;
-  gate: string;
+  passed: boolean,
+  gate: string,
   message: string,
   severity: 'info' | 'warning' | 'error' | 'critical',
   metrics?: Partial<QualityMetrics>,
@@ -112,12 +112,12 @@ class QualityGatesSystem {
     this.log('📊 Collecting current quality metrics...', 'info'),
 
     const metrics: QualityMetrics = {
-      explicitAnyCount: await this.getExplicitAnyCount();
-      typescriptErrors: await this.getTypeScriptErrorCount();
-      lintingWarnings: await this.getLintingWarningCount();
-      buildTime: await this.measureBuildTime();
-      bundleSize: await this.getBundleSize();
-      documentationCoverage: await this.getDocumentationCoverage();
+      explicitAnyCount: await this.getExplicitAnyCount(),
+      typescriptErrors: await this.getTypeScriptErrorCount(),
+      lintingWarnings: await this.getLintingWarningCount(),
+      buildTime: await this.measureBuildTime(),
+      bundleSize: await this.getBundleSize(),
+      documentationCoverage: await this.getDocumentationCoverage(),
       lastAuditDate: new Date()
     };
 
@@ -596,7 +596,7 @@ Last Audit: ${metrics.lastAuditDate.toISOString()}
       fs.mkdirSync(workflowDir, { recursive: true });
     }
 
-    const workflow = `name: Quality Gates;
+    const workflow = `name: Quality Gates,
 
 on:
   push:
@@ -631,7 +631,7 @@ jobs:
         path: .kiro/specs/unintentional-any-elimination/quality-metrics.json
 
     - name: Comment PR with Quality Status
-      if: github.event_name == 'pull_request';
+      if: github.event_name == 'pull_request',
       uses: actions/github-script@v7
       with:
         script: |
@@ -654,9 +654,9 @@ jobs:
             \`;
 
             github.rest.issues.createComment({
-              issue_number: context.issue.number;
-              owner: context.repo.owner;
-              repo: context.repo.repo;
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
               body: comment
             });
           }
@@ -734,11 +734,11 @@ echo '📊 Audit completed at $(date)'
         monthly: '0 9 1 * *', // 9 AM 1st of month
       },
       notifications: {
-        email: process.env.AUDIT_EMAIL || 'dev-team@example.com';
-        slack: process.env.AUDIT_SLACK_WEBHOOK || '';
+        email: process.env.AUDIT_EMAIL || 'dev-team@example.com',
+        slack: process.env.AUDIT_SLACK_WEBHOOK || '',
         teams: process.env.AUDIT_TEAMS_WEBHOOK || ''
       },
-      thresholds: this.config;
+      thresholds: this.config,
       actions: {
         onCritical: 'trigger-emergency-campaign',
         onWarning: 'send-notification',

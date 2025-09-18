@@ -40,22 +40,22 @@ export type FoodProperty =
 
 // Track daily food intake
 export interface FoodEntry {
-  id: string;
-  name: string;
-  timeAdded: Date;
-  mealType: 'breakfast' | 'lunch' | 'dinner' | 'snack';
+  id: string,
+  name: string,
+  timeAdded: Date,
+  mealType: 'breakfast' | 'lunch' | 'dinner' | 'snack',
   nutrition: {
-    calories: number;
-    protein: number;
+    calories: number,
+    protein: number,
     carbs: number,
     fat: number,
     fiber?: number,
     [key: string]: number | undefined
   };
-  elementalProperties: ElementalProperties;
-  category: string;
-  properties: FoodProperty[];
-  portion: number;
+  elementalProperties: ElementalProperties,
+  category: string,
+  properties: FoodProperty[],
+  portion: number,
 }
 
 // Daily nutrition targets
@@ -171,7 +171,7 @@ export function findComplementaryDishes(
 }
 
 export interface MealRecommendation {
-  dish: Dish;
+  dish: Dish,
   reasons: string[],
   nutritionalBenefits: string[],
   propertyBalance: string[],

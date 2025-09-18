@@ -36,8 +36,8 @@ function displayConfig(config: unknown, title: string = 'Configuration'): void {
  * Display validation results
  */
 function displayValidation(validation: {
-  isValid: boolean;
-  errors: string[];
+  isValid: boolean,
+  errors: string[],
   warnings?: string[];
 }): void {
   if (validation.isValid) {

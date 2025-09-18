@@ -16,7 +16,7 @@ jest.mock('@/utils/ingredientRecommender', () => {
       { name: 'Thyme', category: 'culinary_herb',
         qualities: ['aromatic', 'warming'],
         elementalProperties: { Fir, e: 0.4, Air: 0.4, Earth: 0.2, Water: 0  },
-        astrologicalProfile: { rulingPlanets: ['Mercury'],   }
+        astrologicalProfile: { rulingPlanets: ['Mercury']}
       } as Ingredient
     ]
   };

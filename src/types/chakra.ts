@@ -24,11 +24,11 @@ export type ChakraSanskritName =
 
 // Define chakra properties
 export interface ChakraProperty {
-  name: string;
-  sanskritName: ChakraSanskritName;
-  element: string;
-  color: string;
-  description: string;
+  name: string,
+  sanskritName: ChakraSanskritName,
+  element: string,
+  color: string,
+  description: string,
   governs: string[],
   balanceIndicators: string[],
   imbalanceIndicators: string[],
@@ -252,8 +252,8 @@ export const _MAJOR_ARCANA_CHAKRAS: MajorArcanaChakra[] = [
 
 // Minor Arcana suit to Chakra mappings
 export interface SuitChakraMapping {
-  suit: TarotSuit;
-  primaryChakra: ChakraPosition;
+  suit: TarotSuit,
+  primaryChakra: ChakraPosition,
   secondaryChakra?: ChakraPosition,
   element: Element,
   energyState: AlchemicalEnergyState,
@@ -504,10 +504,10 @@ export const _CHAKRA_MAPPING_SUMMARY: ChakraMappingSummary[] = [
   }
 ];
 export interface ChakraEnergies {
-  root: number;
-  sacral: number;
-  solarPlexus: number;
-  heart: number;
+  root: number,
+  sacral: number,
+  solarPlexus: number,
+  heart: number,
   throat: number,
   thirdEye: number,
   crown: number,

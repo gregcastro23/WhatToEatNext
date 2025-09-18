@@ -58,9 +58,9 @@ const calculateElementalProperties = (;
 
     if (sum > 0) {
       return {
-        Fire: (Number(props.Fire) || 0) / sum;
-        Water: (Number(props.Water) || 0) / sum;
-        Earth: (Number(props.Earth) || 0) / sum;
+        Fire: (Number(props.Fire) || 0) / sum,
+        Water: (Number(props.Water) || 0) / sum,
+        Earth: (Number(props.Earth) || 0) / sum,
         Air: (Number(props.Air) || 0) / sum
       };
     }
@@ -95,9 +95,9 @@ const calculateElementalProperties = (;
     const sum = Object.values(elementalProps).reduce((acc, val) => acc + val, 0);
     if (sum > 0) {
       return {
-        Fire: elementalProps.Fire / sum;
-        Water: elementalProps.Water / sum;
-        Earth: elementalProps.Earth / sum;
+        Fire: elementalProps.Fire / sum,
+        Water: elementalProps.Water / sum,
+        Earth: elementalProps.Earth / sum,
         Air: elementalProps.Air / sum
       };
     }
@@ -184,12 +184,12 @@ const processIngredient = (ingredient: unknown, name: string): Ingredient => {
   const ingredientData = ingredient as unknown as any;
   const standardized = standardizeIngredient({
     name: name,
-    category: ingredientData.category || 'culinary_herb';
+    category: ingredientData.category || 'culinary_herb',
     elementalProperties: calculateElementalProperties(
       ingredientData as unknown as Ingredient | UnifiedIngredient,
     ),
     qualities: Array.isArray(ingredientData.qualities) ? ingredientData.qualities : [],
-    lunarPhaseModifiers: ingredientData.lunarPhaseModifiers || defaultLunarPhaseModifiers;
+    lunarPhaseModifiers: ingredientData.lunarPhaseModifiers || defaultLunarPhaseModifiers,
     storage: ingredientData.storage || { duration: 'unknown' },
     elementalTransformation: ingredientData.elementalTransformation || {
       whenCooked: { Fire: 0.1, Air: 0.05 }
@@ -216,9 +216,9 @@ const processIngredientCollection = (;
         const thermodynamicProps = calculateThermodynamicProperties(;
           alchemicalProps,
           ((processedIngredient as unknown as any).elementalProperties as ElementalProperties) || {
-            Fire: 0.25;
-            Water: 0.25;
-            Earth: 0.25;
+            Fire: 0.25,
+            Water: 0.25,
+            Earth: 0.25,
             Air: 0.25
           },
         );
@@ -227,9 +227,9 @@ const processIngredientCollection = (;
         const modality = determineIngredientModality(;
           ((processedIngredient as unknown as any).qualities as string[]) || [],
           ((processedIngredient as unknown as any).elementalProperties as ElementalProperties) || {
-            Fire: 0.25;
-            Water: 0.25;
-            Earth: 0.25;
+            Fire: 0.25,
+            Water: 0.25,
+            Earth: 0.25,
             Air: 0.25
           },
         );
@@ -237,9 +237,9 @@ const processIngredientCollection = (;
         // Create elementalSignature (dominant elements in order)
         const elementalSignature = Object.entries(;
           (processedIngredient as unknown as any).elementalProperties || {
-            Fire: 0.25;
-            Water: 0.25;
-            Earth: 0.25;
+            Fire: 0.25,
+            Water: 0.25,
+            Earth: 0.25,
             Air: 0.25
           },
         )
@@ -258,11 +258,10 @@ const processIngredientCollection = (;
           modality,
           elementalSignature: elementalSignature.length > 0 ? elementalSignature : undefined;
           // Process other enhanced properties if they exist
-          astrologicalCorrespondence:
-            (processedIngredient as unknown as any).astrologicalCorrespondence || undefined;
+          astrologicalCorrespondence: (processedIngredient as unknown as any).astrologicalCorrespondence || undefined,
           pairingRecommendations:
-            (processedIngredient as unknown as any).pairingRecommendations || undefined;
-          celestialBoost: (processedIngredient as unknown as any).celestialBoost || undefined;
+            (processedIngredient as unknown as any).pairingRecommendations || undefined,
+          celestialBoost: (processedIngredient as unknown as any).celestialBoost || undefined,
           planetaryInfluence:
             (processedIngredient as unknown as any).planetaryInfluence || undefined
         } as unknown as Ingredient;

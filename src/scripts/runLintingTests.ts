@@ -12,7 +12,7 @@ import { writeFileSync, existsSync, mkdirSync } from 'fs';
 import path from 'path';
 
 interface TestResult {
-  testFile: string;
+  testFile: string,
   passed: boolean,
   duration: number,
   errors: string[],
@@ -20,14 +20,14 @@ interface TestResult {
 }
 
 interface TestSuiteReport {
-  totalTests: number;
-  passedTests: number;
-  failedTests: number;
-  totalDuration: number;
-  results: TestResult[];
+  totalTests: number,
+  passedTests: number,
+  failedTests: number,
+  totalDuration: number,
+  results: TestResult[],
   summary: {
-    configurationValidation: boolean;
-    astrologicalRules: boolean;
+    configurationValidation: boolean,
+    astrologicalRules: boolean,
     domainSpecificBehavior: boolean,
     performanceTests: boolean,
     integrationTests: boolean,
@@ -80,7 +80,7 @@ class LintingTestRunner {
     }
 
     const report: TestSuiteReport = {
-      totalTests: results.length;
+      totalTests: results.length,
       passedTests: results.filter(r => r.passed).length,,;
       failedTests: results.filter(r => !r.passed).length,,;
       totalDuration,
@@ -121,7 +121,7 @@ class LintingTestRunner {
         testFile,
         passed: false,
         duration,
-        errors: this.extractErrors(error.stdout || error.message);
+        errors: this.extractErrors(error.stdout || error.message),
         warnings: this.extractWarnings(error.stdout || '')
       };
     }

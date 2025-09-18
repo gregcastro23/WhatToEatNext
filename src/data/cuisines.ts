@@ -64,9 +64,9 @@ function adaptElementalProperties(props: unknown): ElementalProperties {
 
   // Convert to the format expected by alchemy.ts
   return {
-    Fire: propsData?.Fire || 0;
-    Water: propsData?.Water || 0;
-    Earth: propsData?.Earth || 0;
+    Fire: propsData?.Fire || 0,
+    Water: propsData?.Water || 0,
+    Earth: propsData?.Earth || 0,
     Air: propsData?.Air || 0
   };
 }

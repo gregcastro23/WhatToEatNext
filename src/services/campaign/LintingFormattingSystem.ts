@@ -11,10 +11,10 @@ import * as path from 'path';
 import { logger } from '../../utils/logger';
 
 export interface LintingFormattingConfig {
-  maxFilesPerBatch: number;
-  safetyValidationEnabled: boolean;
-  buildValidationFrequency: number;
-  autoFixEnabled: boolean;
+  maxFilesPerBatch: number,
+  safetyValidationEnabled: boolean,
+  buildValidationFrequency: number,
+  autoFixEnabled: boolean,
   formattingEnabled: boolean,
   lintingRules: LintingRuleConfig,
   formattingRules: FormattingRuleConfig,
@@ -22,7 +22,7 @@ export interface LintingFormattingConfig {
 }
 
 export interface LintingRuleConfig {
-  enforceTypeScriptRules: boolean;
+  enforceTypeScriptRules: boolean,
   enforceReactRules: boolean,
   enforceImportRules: boolean,
   maxWarningsThreshold: number,
@@ -30,8 +30,8 @@ export interface LintingRuleConfig {
 }
 
 export interface FormattingRuleConfig {
-  enforceConsistentIndentation: boolean;
-  enforceTrailingCommas: boolean;
+  enforceConsistentIndentation: boolean,
+  enforceTrailingCommas: boolean,
   enforceSemicolons: boolean,
   enforceQuoteStyle: 'single' | 'double' | 'consistent',
   enforceLineLength: number,
@@ -39,8 +39,8 @@ export interface FormattingRuleConfig {
 }
 
 export interface PatternBasedFixConfig {
-  name: string;
-  description: string;
+  name: string,
+  description: string,
   pattern: RegExp,
   replacement: string,
   fileExtensions: string[],
@@ -48,10 +48,10 @@ export interface PatternBasedFixConfig {
 }
 
 export interface LintingFormattingResult {
-  filesProcessed: string[];
-  lintingViolationsFixed: number;
-  formattingIssuesFixed: number;
-  patternBasedFixesApplied: number;
+  filesProcessed: string[],
+  lintingViolationsFixed: number,
+  formattingIssuesFixed: number,
+  patternBasedFixesApplied: number,
   buildValidationPassed: boolean,
   errors: string[],
   warnings: string[],
@@ -59,7 +59,7 @@ export interface LintingFormattingResult {
 }
 
 export interface ViolationBreakdown {
-  typeScriptErrors: number;
+  typeScriptErrors: number,
   reactViolations: number,
   importViolations: number,
   formattingIssues: number,
@@ -67,9 +67,9 @@ export interface ViolationBreakdown {
 }
 
 export interface LintingViolation {
-  filePath: string;
-  line: number;
-  column: number;
+  filePath: string,
+  line: number,
+  column: number,
   ruleId: string,
   message: string,
   severity: 'error' | 'warning',
@@ -137,8 +137,8 @@ export class LintingFormattingSystem {
 
       const executionTime = Date.now() - startTime;
       logger.info(`Linting and formatting completed in ${executionTime}ms`, {
-        filesProcessed: totalResult.filesProcessed.length;
-        violationsFixed: totalResult.lintingViolationsFixed;
+        filesProcessed: totalResult.filesProcessed.length,
+        violationsFixed: totalResult.lintingViolationsFixed,
         formattingFixed: totalResult.formattingIssuesFixed
       });
 
@@ -361,11 +361,11 @@ export class LintingFormattingSystem {
       for (const result of results) {
         for (const message of result.messages) {
           violations.push({
-            filePath: result.filePath;
-            line: message.line;
-            column: message.column;
-            ruleId: message.ruleId;
-            message: message.message;
+            filePath: result.filePath,
+            line: message.line,
+            column: message.column,
+            ruleId: message.ruleId,
+            message: message.message,
             severity: message.severity === 2 ? 'error' : 'warning',,;
             fixable: message.fix !== undefined
           });
@@ -596,21 +596,19 @@ export class LintingFormattingSystem {
   ): LintingFormattingResult {
     return {
       filesProcessed: [...total.filesProcessed, ...batch.filesProcessed],
-      lintingViolationsFixed: total.lintingViolationsFixed + batch.lintingViolationsFixed;
-      formattingIssuesFixed: total.formattingIssuesFixed + batch.formattingIssuesFixed;
-      patternBasedFixesApplied: total.patternBasedFixesApplied + batch.patternBasedFixesApplied;
-      buildValidationPassed: total.buildValidationPassed && batch.buildValidationPassed;
+      lintingViolationsFixed: total.lintingViolationsFixed + batch.lintingViolationsFixed,
+      formattingIssuesFixed: total.formattingIssuesFixed + batch.formattingIssuesFixed,
+      patternBasedFixesApplied: total.patternBasedFixesApplied + batch.patternBasedFixesApplied,
+      buildValidationPassed: total.buildValidationPassed && batch.buildValidationPassed,
       errors: [...total.errors, ...batch.errors],
       warnings: [...total.warnings, ...batch.warnings],
       violationBreakdown: {
-        typeScriptErrors:
-          total.violationBreakdown.typeScriptErrors + batch.violationBreakdown.typeScriptErrors;
+        typeScriptErrors: total.violationBreakdown.typeScriptErrors + batch.violationBreakdown.typeScriptErrors,
         reactViolations:
-          total.violationBreakdown.reactViolations + batch.violationBreakdown.reactViolations;
-        importViolations:
-          total.violationBreakdown.importViolations + batch.violationBreakdown.importViolations;
+          total.violationBreakdown.reactViolations + batch.violationBreakdown.reactViolations,
+        importViolations: total.violationBreakdown.importViolations + batch.violationBreakdown.importViolations,
         formattingIssues:
-          total.violationBreakdown.formattingIssues + batch.violationBreakdown.formattingIssues;
+          total.violationBreakdown.formattingIssues + batch.violationBreakdown.formattingIssues,
         customPatternFixes:
           total.violationBreakdown.customPatternFixes + batch.violationBreakdown.customPatternFixes
       }
@@ -644,8 +642,8 @@ export const _DEFAULT_LINTING_FORMATTING_CONFIG: LintingFormattingConfig = {
   },
   patternBasedFixes: [
     {
-      name: 'Remove console.log statements';
-      description: 'Remove console.log statements from production code';
+      name: 'Remove console.log statements',
+      description: 'Remove console.log statements from production code',
       pattern: /console\.log\([^)]*\),?\s*\n?/g,
       replacement: '',
       fileExtensions: ['.ts', '.tsx', '.js', '.jsx'],

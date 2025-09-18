@@ -45,12 +45,12 @@ export default function CookingMethodsDemoPage() {
       return {
         id: `${prefix}_${key}`,
         name,
-        description: (method as any).description || '';
+        description: (method as any).description || '',
         elementalEffect: (method as any).elementalEffect ||
           (method as any).elementalProperties || {
-            Fire: Math.random();
-            Water: Math.random();
-            Earth: Math.random();
+            Fire: Math.random(),
+            Water: Math.random(),
+            Earth: Math.random(),
             Air: Math.random()
           },
         score,
@@ -65,9 +65,9 @@ export default function CookingMethodsDemoPage() {
                 name: v,
                 description: `A variation of ${name} with different characteristics.`,
                 elementalEffect: {
-                  Fire: Math.random();
-                  Water: Math.random();
-                  Earth: Math.random();
+                  Fire: Math.random(),
+                  Water: Math.random(),
+                  Earth: Math.random(),
                   Air: Math.random()
                 },
                 score: score - 0.1 + Math.random() * 0.2, // Slightly vary from parent score

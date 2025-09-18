@@ -22,7 +22,7 @@ interface AstrologicalCulinaryGuidance {
     examples: string[],
     pairingTip: string
   };
-  cuisineRecommendation: CuisineRecommendation;
+  cuisineRecommendation: CuisineRecommendation
 }
 
 interface CuisineRecommendation {
@@ -64,9 +64,9 @@ interface RecipeRecommendation {
 
 export class CulinaryAstrologer {
   private readonly ELEMENTAL_HARMONY_FACTORS = {
-    zodiac: 0.4;
-    lunar: 0.3;
-    planetary: 0.2;
+    zodiac: 0.4,
+    lunar: 0.3,
+    planetary: 0.2,
     seasonal: 0.1
   };
 
@@ -76,9 +76,9 @@ export class CulinaryAstrologer {
   getGuidance(astroState: AstrologicalState, season: Season): AstrologicalCulinaryGuidance {
     // Base recommendations directly on astrological state without elemental balance
     return {
-      dominantElement: this.getDominantElementFromAstro(astroState);
-      technique: this.getOptimalTechnique(astroState);
-      ingredientFocus: this.getIngredientFocus(astroState);
+      dominantElement: this.getDominantElementFromAstro(astroState),
+      technique: this.getOptimalTechnique(astroState),
+      ingredientFocus: this.getIngredientFocus(astroState),
       cuisineRecommendation: this.getCuisineRecommendation(astroState, season)
     };
   }
@@ -115,7 +115,7 @@ export class CulinaryAstrologer {
     )[0];
 
     return {
-      name: bestMethod.name;
+      name: bestMethod.name,
       rationale: `Aligns with ${this.getDominantElementFromAstro(astroState)} dominance through ${bestMethod.benefits.join(' and ')}`,
       optimalTiming: this.calculateOptimalTiming(bestMethod, astroState)
     };

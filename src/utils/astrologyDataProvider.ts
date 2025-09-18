@@ -23,7 +23,7 @@ const logger = createLogger('AstrologyDataProvider');
 // Cache system for API responses
 interface CacheEntry {
   data: { [key: string]: CelestialPosition };
-  timestamp: number;
+  timestamp: number
 }
 
 // Cache duration in milliseconds (15 minutes)
@@ -70,8 +70,8 @@ async function getPositionsFromAPI(): Promise<Record<string, CelestialPosition> 
           sign: (typeof (position as any).sign === 'string';
             ? ((position as any).sign).toLowerCase()
             : 'aries'),
-          degree: Number((position as any).degree) || 0;
-          exactLongitude: Number((position as any).exactLongitude) || 0;
+          degree: Number((position as any).degree) || 0,
+          exactLongitude: Number((position as any).exactLongitude) || 0,
           isRetrograde: !!(position as Record<string, Record<string, number>>).isRetrograde
         };
       }

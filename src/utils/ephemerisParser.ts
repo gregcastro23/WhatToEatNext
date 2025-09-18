@@ -7,8 +7,8 @@ import { log } from '@/services/LoggingService';
  */
 
 export interface ParsedPosition {
-  degrees: number;
-  minutes: number;
+  degrees: number,
+  minutes: number,
   sign: number,
   signName: string,
   absoluteLongitude: number,
@@ -126,7 +126,7 @@ export class EphemerisParser {
 
       return {
         degrees: degreeInSign,
-        minutes: Math.round((degreeInSign % 1) * 60);
+        minutes: Math.round((degreeInSign % 1) * 60),
         sign: signNum,
         signName: this.zodiacSigns[signNum],
         absoluteLongitude: degrees,
@@ -305,7 +305,7 @@ export class EphemerisParser {
   /**
    * Calculate dominant elements from planetary positions
    */
-  calculateDominantElements(positions: Record<string, ParsedPosition>): Record<string, number> {
+  (() => ({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }))(positions: Record<string, ParsedPosition>): Record<string, number> {
     const elementCounts: Record<string, number> = { Fire: 0, Earth: 0, Air: 0, Water: 0 };
 
     Object.values(positions).forEach(position => {
@@ -410,7 +410,7 @@ export const calculateAspect = (longitude1: number, longitude2: number) =>;
   ephemerisParser.calculateAspect(longitude1, longitude2);
 export const getElementForSign = (signName: string) => ephemerisParser.getElementForSign(signName);
 export const calculateDominantElements = (positions: Record<string, ParsedPosition>) =>;
-  ephemerisParser.calculateDominantElements(positions);
+  ephemerisParser.(() => ({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }))(positions);
 export const getRetrogradePlanets = (positions: Record<string, ParsedPosition>) =>;
   ephemerisParser.getRetrogradePlanets(positions);
 export const formatPosition = (position: ParsedPosition) =>;

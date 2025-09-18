@@ -17,12 +17,12 @@ import path from 'path';
 import { log } from '@/services/LoggingService';
 
 interface UnusedImport {
-  file: string;
-  line: number;
-  column: number;
-  importName: string;
-  message: string;
-  isTypeImport: boolean;
+  file: string,
+  line: number,
+  column: number,
+  importName: string,
+  message: string,
+  isTypeImport: boolean,
   isDefaultImport: boolean,
   isNamespaceImport: boolean,
   severity: 'safe' | 'review' | 'preserve',
@@ -30,10 +30,10 @@ interface UnusedImport {
 }
 
 interface ImportRemovalResult {
-  totalAnalyzed: number;
-  safeToRemove: number;
-  requiresReview: number;
-  preserved: number;
+  totalAnalyzed: number,
+  safeToRemove: number,
+  requiresReview: number,
+  preserved: number,
   actuallyRemoved: number,
   errors: string[],
   warnings: string[],
@@ -172,9 +172,9 @@ export class SafeUnusedImportRemover {
               column: parseInt(colNum),
               importName,
               message,
-              isTypeImport: message.includes('type');
+              isTypeImport: message.includes('type'),
               isDefaultImport: !message.includes('{'),
-              isNamespaceImport: message.includes('* as');
+              isNamespaceImport: message.includes('* as'),
               severity: 'review',
               reason: ''
             });

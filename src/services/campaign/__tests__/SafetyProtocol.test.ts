@@ -173,7 +173,7 @@ describe('SafetyProtocol', () => {
       const events: any = (safetyProtocol as any).safetyEvents;
       expect(events.length).toBe(1);
       expect(events[0].type).toBe(SafetyEventType.ROLLBACK_TRIGGERED);
-      expect(events[0].description).toContain('Git stash applied: test-stash-1');
+      expect(events[0].description).toContain('Git stash applied: test-stash-1')
     });
 
     it('should validate git state after application when requested', async () => {
@@ -183,7 +183,7 @@ describe('SafetyProtocol', () => {
     });
 
     it('should handle non-existent stash', async () => {
-      await expect(safetyProtocol.applyStash('non-existent')).rejects.toThrow('Stash not found: non-existent');
+      await expect(safetyProtocol.applyStash('non-existent')).rejects.toThrow('Stash not found: non-existent')
     });
 
     it('should handle git stash apply failure', async () => {
@@ -526,7 +526,7 @@ import something, { a, b } from './module',
       const result: any = await safetyProtocol.validateGitState();
 
       expect(result.success).toBe(false);
-      expect(result.errors).toContain('Git validation failed: Git command failed');
+      expect(result.errors).toContain('Git validation failed: Git command failed')
     });
   });
 
@@ -654,7 +654,7 @@ import something, { a, b } from './module',
       jest.spyOn(safetyProtocol, 'detectCorruption').mockResolvedValue({
         detectedFiles: [],
         corruptionPatterns: [],
-        severity: CorruptionSeverity.LOW;
+        severity: CorruptionSeverity.LOW,
         recommendedAction: RecoveryAction.CONTINUE
       });
     });
@@ -686,7 +686,7 @@ import something, { a, b } from './module',
       jest.spyOn(safetyProtocol, 'detectCorruption').mockResolvedValue({
         detectedFiles: ['file1.ts'],
         corruptionPatterns: [],
-        severity: CorruptionSeverity.CRITICAL;
+        severity: CorruptionSeverity.CRITICAL,
         recommendedAction: RecoveryAction.EMERGENCY_RESTORE
       });
       jest.spyOn(safetyProtocol, 'emergencyRollback').mockResolvedValue();
@@ -735,10 +735,10 @@ import something, { a, b } from './module',
       // Add many safety events
       for (let i: any = 0, i < 1100, i++) {
         (safetyProtocol as unknown as { addSafetyEvent: (even, t: Record<string, unknown>) => void }).addSafetyEvent({
-          type: SafetyEventType.CHECKPOINT_CREATED;
+          type: SafetyEventType.CHECKPOINT_CREATED,
           timestamp: new Date(),
           description: `Event ${i}`,
-          severity: SafetyEventSeverity.INFO;
+          severity: SafetyEventSeverity.INFO,
           action: 'TEST'
         });
       }
@@ -751,10 +751,10 @@ import something, { a, b } from './module',
       // Add many safety events
       for (let i: any = 0, i < 1100, i++) {
         (safetyProtocol as unknown as { addSafetyEvent: (even, t: Record<string, unknown>) => void }).addSafetyEvent({
-          type: SafetyEventType.CHECKPOINT_CREATED;
+          type: SafetyEventType.CHECKPOINT_CREATED,
           timestamp: new Date(),
           description: `Event ${i}`,
-          severity: SafetyEventSeverity.INFO;
+          severity: SafetyEventSeverity.INFO,
           action: 'TEST'
         });
       }

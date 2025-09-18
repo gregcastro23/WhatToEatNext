@@ -31,8 +31,8 @@ interface _ {
 
 // Define the context type
 interface AstrologicalContextType {
-  currentZodiac: string;
-  astrologicalState: AstrologicalState | null;
+  currentZodiac: string,
+  astrologicalState: AstrologicalState | null,
   chakraEnergies: ChakraEnergies | null,
   loading: boolean,
   error: string | null,

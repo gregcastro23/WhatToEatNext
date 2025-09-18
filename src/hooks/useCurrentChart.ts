@@ -11,7 +11,7 @@ export interface ChartData {
   planets: Record<
     string,
     {
-      sign: string;
+      sign: string,
       degree: number,
       isRetrograde?: boolean,
       exactLongitude?: number
@@ -60,9 +60,9 @@ export function useCurrentChart() {
           }
 
           planets[planetName] = {
-            sign: (data )?.sign || 'Aries';
-            degree: (data )?.degree || 0;
-            isRetrograde: (data )?.isRetrograde || false;
+            sign: (data )?.sign || 'Aries',
+            degree: (data )?.degree || 0,
+            isRetrograde: (data )?.isRetrograde || false,
             exactLongitude: (data )?.exactLongitude || 0
           };
         });
@@ -161,10 +161,10 @@ export function useCurrentChart() {
       return {
         planet,
         symbol: planetSymbols[planet] || planet,
-        sign: data.sign;
+        sign: data.sign,
         signSymbol: zodiacSymbols[data.sign] || data.sign,
-        degree: data.degree;
-        isRetrograde: data.isRetrograde;
+        degree: data.degree,
+        isRetrograde: data.isRetrograde,
         angle,
         x: 150 + 100 * Math.sin(angle), // Use sine for x
         y: 150 - 100 * Math.cos(angle), // Use negative cosine for y
@@ -174,8 +174,8 @@ export function useCurrentChart() {
 
     // Create a more attractive circular chart with signs in the outer ring
     return {
-      planetPositions: chartData.planets;
-      ascendantSign: chartData.ascendant || 'Libra';
+      planetPositions: chartData.planets,
+      ascendantSign: chartData.ascendant || 'Libra',
       svgContent: `
       <svg width='320' height='320' viewBox='0 0 320 320'>;
         <defs>

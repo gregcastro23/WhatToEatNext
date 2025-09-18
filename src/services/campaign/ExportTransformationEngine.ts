@@ -20,11 +20,11 @@ import { SafetyProtocol } from './SafetyProtocol';
 import { UnusedExportAnalyzer, FileAnalysis, AnalysisResult } from './UnusedExportAnalyzer';
 
 export interface TransformationConfig {
-  batchSize: number;
-  safetyThreshold: number;
-  buildValidationEnabled: boolean;
-  testValidationEnabled: boolean;
-  rollbackOnFailure: boolean;
+  batchSize: number,
+  safetyThreshold: number,
+  buildValidationEnabled: boolean,
+  testValidationEnabled: boolean,
+  rollbackOnFailure: boolean,
   outputDirectory: string,
   backupDirectory: string,
   maxRetries: number,
@@ -32,8 +32,8 @@ export interface TransformationConfig {
 }
 
 export interface TransformationBatch {
-  id: string;
-  files: FileAnalysis[];
+  id: string,
+  files: FileAnalysis[],
   priority: BatchPriority,
   estimatedDuration: number,
   safetyScore: number,
@@ -41,11 +41,11 @@ export interface TransformationBatch {
 }
 
 export interface TransformationResult {
-  batchId: string;
-  success: boolean;
-  filesProcessed: number;
-  systemsGenerated: number;
-  errors: TransformationError[];
+  batchId: string,
+  success: boolean,
+  filesProcessed: number,
+  systemsGenerated: number,
+  errors: TransformationError[],
   warnings: string[],
   duration: number,
   rollbackPerformed: boolean,
@@ -53,13 +53,13 @@ export interface TransformationResult {
 }
 
 export interface TransformationSummary {
-  totalBatches: number;
-  successfulBatches: number;
-  failedBatches: number;
-  totalFilesProcessed: number;
-  totalSystemsGenerated: number;
-  totalErrors: number;
-  totalWarnings: number;
+  totalBatches: number,
+  successfulBatches: number,
+  failedBatches: number,
+  totalFilesProcessed: number,
+  totalSystemsGenerated: number,
+  totalErrors: number,
+  totalWarnings: number,
   totalDuration: number,
   averageBatchDuration: number,
   successRate: number,
@@ -67,8 +67,8 @@ export interface TransformationSummary {
 }
 
 export interface TransformationError {
-  type: TransformationErrorType;
-  message: string;
+  type: TransformationErrorType,
+  message: string,
   filePath?: string;
   exportName?: string,
   severity: ErrorSeverity,
@@ -77,8 +77,8 @@ export interface TransformationError {
 }
 
 export interface ValidationResult {
-  buildSuccess: boolean;
-  testSuccess: boolean;
+  buildSuccess: boolean,
+  testSuccess: boolean,
   lintSuccess: boolean,
   errors: string[],
   warnings: string[],
@@ -124,7 +124,7 @@ export class ExportTransformationEngine {
       testValidationEnabled: true,
       rollbackOnFailure: true,
       outputDirectory: 'src/intelligence',
-      backupDirectory: '.transformation-backups';
+      backupDirectory: '.transformation-backups',
       maxRetries: 3,
       dryRun: false,
       ...config
@@ -208,9 +208,9 @@ export class ExportTransformationEngine {
     } catch (error) {
       // ✅ Pattern MM-1: Safe type assertion for error handling
       this.logError({
-        type: TransformationErrorType.ANALYSIS_FAILED;
+        type: TransformationErrorType.ANALYSIS_FAILED,
         message: `Analysis failed: ${String((error as Error).message || 'Unknown error')}`,
-        severity: ErrorSeverity.CRITICAL;
+        severity: ErrorSeverity.CRITICAL,
         recoverable: false,
         timestamp: new Date()
       });
@@ -277,8 +277,8 @@ export class ExportTransformationEngine {
         id: `${priorityLabel}-batch-${batchNumber}`,
         files: batchFiles,
         priority,
-        estimatedDuration: this.estimateBatchDuration(batchFiles);
-        safetyScore: this.calculateBatchSafetyScore(batchFiles);
+        estimatedDuration: this.estimateBatchDuration(batchFiles),
+        safetyScore: this.calculateBatchSafetyScore(batchFiles),
         transformationCandidates: batchFiles.reduce(
           (sum, f) => sum + f.transformationCandidates.length,
           0,
@@ -305,7 +305,7 @@ export class ExportTransformationEngine {
           const complexityMultiplier =
             {
               SIMPLE: 1,
-              MODERATE: 1.5;
+              MODERATE: 1.5,
               COMPLEX: 2,
               VERY_COMPLEX: 3
             }[c.transformationComplexity] || 1;
@@ -367,9 +367,9 @@ export class ExportTransformationEngine {
       }
     } catch (error) {
       this.logError({
-        type: TransformationErrorType.VALIDATION_FAILED;
+        type: TransformationErrorType.VALIDATION_FAILED,
         message: `Safety preparation failed: ${String((error as Error).message || 'Unknown error')}`,
-        severity: ErrorSeverity.CRITICAL;
+        severity: ErrorSeverity.CRITICAL,
         recoverable: false,
         timestamp: new Date()
       });
@@ -415,7 +415,7 @@ export class ExportTransformationEngine {
   private async executeBatch(batch: TransformationBatch): Promise<TransformationResult> {
     const startTime = Date.now();
     const result: TransformationResult = {
-      batchId: batch.id;
+      batchId: batch.id,
       success: false,
       filesProcessed: 0,
       systemsGenerated: 0,
@@ -479,9 +479,9 @@ export class ExportTransformationEngine {
       );
 
       const transformationError: TransformationError = {
-        type: TransformationErrorType.GENERATION_FAILED;
-        message: String((error as Error).message || 'Unknown error');
-        severity: ErrorSeverity.HIGH;
+        type: TransformationErrorType.GENERATION_FAILED,
+        message: String((error as Error).message || 'Unknown error'),
+        severity: ErrorSeverity.HIGH,
         recoverable: true,
         timestamp: new Date()
       };
@@ -504,9 +504,9 @@ export class ExportTransformationEngine {
             String((rollbackError as Error).message || 'Unknown rollback error');
           ),
           result.errors.push({
-            type: TransformationErrorType.ROLLBACK_FAILED;
-            message: String((rollbackError as Error).message || 'Unknown rollback error');
-            severity: ErrorSeverity.CRITICAL;
+            type: TransformationErrorType.ROLLBACK_FAILED,
+            message: String((rollbackError as Error).message || 'Unknown rollback error'),
+            severity: ErrorSeverity.CRITICAL,
             recoverable: false,
             timestamp: new Date()
           });
@@ -549,9 +549,9 @@ export class ExportTransformationEngine {
       // // console.log('✅ Final validation completed');
     } catch (error) {
       this.logError({
-        type: TransformationErrorType.VALIDATION_FAILED;
+        type: TransformationErrorType.VALIDATION_FAILED,
         message: `Final validation failed: ${String((error as Error).message || 'Unknown error')}`,
-        severity: ErrorSeverity.HIGH;
+        severity: ErrorSeverity.HIGH,
         recoverable: true,
         timestamp: new Date()
       });
@@ -659,8 +659,8 @@ export class ExportTransformationEngine {
         {
           timestamp: new Date().toISOString();
           // ✅ Pattern MM-1: Safe type assertion for error logging
-          error: String((error as Error).message || 'Unknown critical failure');
-          stack: String((error as Error).stack || '');
+          error: String((error as Error).message || 'Unknown critical failure'),
+          stack: String((error as Error).stack || ''),
           transformationLog: this.transformationLog
         },
         null,

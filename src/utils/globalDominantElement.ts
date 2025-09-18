@@ -30,7 +30,7 @@ const ensureGlobalFn = (name: string, fn: (...args: unknown[]) => unknown) => {
 
 // Provide lightweight fallbacks
 ensureGlobalFn('getElementalProfile', (props: Record<string, number>) => ({
-  dominant: globalThis.getDominantElement(props);
+  dominant: globalThis.getDominantElement(props),
   balance: props
 }));
 

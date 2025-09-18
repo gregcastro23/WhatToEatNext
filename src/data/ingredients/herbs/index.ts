@@ -72,9 +72,9 @@ function createIngredientMapping(
 ): IngredientMapping {
   // Default elemental properties if none provided
   const elementalProps = properties.elementalProperties || {
-    Earth: 0.25;
-    Water: 0.25;
-    Fire: 0.25;
+    Earth: 0.25,
+    Water: 0.25,
+    Fire: 0.25,
     Air: 0.25
   };
 
@@ -84,7 +84,7 @@ function createIngredientMapping(
   return {
     name: id,
     elementalProperties: elementalProps,
-    category: properties.category || '';
+    category: properties.category || '',
     ...herbValues;
     ...properties
   } as IngredientMapping;
@@ -193,11 +193,11 @@ export const herbs: Record<string, IngredientMapping> = fixIngredientMappings({
     extraction_efficiency: 6, // How easily flavors infuse into oils / (liquids || 1)
     varieties: {
       upright: {
-        oil_content: 1.5;
+        oil_content: 1.5,
         growth_habit: 'tall, straight stems'
       },
       creeping: {
-        oil_content: 1.3;
+        oil_content: 1.3,
         growth_habit: 'low, spreading'
       }
     }

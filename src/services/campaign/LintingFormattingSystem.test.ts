@@ -41,7 +41,7 @@ describe('LintingFormattingSystem', () => {
     test('detects TypeScript linting violations', async () => {
       const eslintOutput: any = JSON.stringify([
         {
-          filePath: '/test/file.ts';
+          filePath: '/test/file.ts',
           messages: [
             {
               line: 1,
@@ -55,7 +55,7 @@ describe('LintingFormattingSystem', () => {
               line: 5,
               column: 15,
               ruleId: '@typescript-eslint/no-explicit-any',
-              message: 'Unexpected any. Specify a different type.';
+              message: 'Unexpected any. Specify a different type.',
               severity: 1
             }
           ]
@@ -76,7 +76,7 @@ describe('LintingFormattingSystem', () => {
     test('detects React linting violations', async () => {
       const eslintOutput: any = JSON.stringify([
         {
-          filePath: '/test/component.tsx';
+          filePath: '/test/component.tsx',
           messages: [
             {
               line: 10,
@@ -120,7 +120,7 @@ describe('LintingFormattingSystem', () => {
     test('fixes auto-fixable linting violations', async () => {
       const beforeOutput: any = JSON.stringify([
         {
-          filePath: '/test/file.ts';
+          filePath: '/test/file.ts',
           messages: [
             { line: 1, column: 10, ruleId: '@typescript-eslint/no-unused-vars', severity: 1, fix: {} },
             { line: 5, column: 15, ruleId: '@typescript-eslint/no-explicit-any', severity: 1 }
@@ -130,7 +130,7 @@ describe('LintingFormattingSystem', () => {
 
       const afterOutput: any = JSON.stringify([
         {
-          filePath: '/test/file.ts';
+          filePath: '/test/file.ts',
           messages: [{ lin, e: 5, column: 15, ruleId: '@typescript-eslint/no-explicit-any', severity: 1 }]
         }
       ]);
@@ -380,7 +380,7 @@ const _greeting: any = 'Hi there';
       // Mock ESLint output
       const eslintOutput: any = JSON.stringify([
         {
-          filePath: '/test/file1.ts';
+          filePath: '/test/file1.ts',
           messages: [{ lin, e: 1, column: 10, ruleId: '@typescript-eslint/no-unused-vars', severity: 1, fix: {} }]
         }
       ]);
@@ -451,7 +451,7 @@ const _greeting: any = 'Hi there';
     test('categorizes violations correctly', async () => {
       const eslintOutput: any = JSON.stringify([
         {
-          filePath: '/test/file.ts';
+          filePath: '/test/file.ts',
           messages: [
             { line: 1, column: 10, ruleId: '@typescript-eslint/no-unused-vars', severity: 1 },
             { line: 2, column: 5, ruleId: 'react-hooks/exhaustive-deps', severity: 1 },

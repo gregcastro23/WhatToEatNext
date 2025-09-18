@@ -12,8 +12,8 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 interface ValidationResult {
-  category: string;
-  passed: boolean;
+  category: string,
+  passed: boolean,
   current: number,
   target: number,
   details: string[],
@@ -21,8 +21,8 @@ interface ValidationResult {
 }
 
 interface CampaignCompletionReport {
-  timestamp: string;
-  overallSuccess: boolean;
+  timestamp: string,
+  overallSuccess: boolean,
   validationResults: ValidationResult[],
   performanceMetrics: PerformanceMetrics,
   campaignSummary: CampaignSummary,
@@ -30,7 +30,7 @@ interface CampaignCompletionReport {
 }
 
 interface PerformanceMetrics {
-  buildTime: number;
+  buildTime: number,
   memoryUsage: number,
   bundleSize: string,
   cacheHitRate: number,
@@ -56,7 +56,7 @@ interface CampaignSummary {
 }
 
 interface CertificationStatus {
-  perfectCodebaseAchieved: boolean;
+  perfectCodebaseAchieved: boolean,
   enterpriseReady: boolean,
   productionDeploymentReady: boolean,
   certificationLevel: 'BASIC' | 'INTERMEDIATE' | 'ADVANCED' | 'ENTERPRISE',
@@ -182,7 +182,7 @@ export class FinalValidationSystem {
         category: 'TypeScript Compilation',
         passed: errorCount === this.TYPESCRIPT_ERROR_TARGET,,;
         current: errorCount,
-        target: this.TYPESCRIPT_ERROR_TARGET;
+        target: this.TYPESCRIPT_ERROR_TARGET,
         details,
         criticalIssues
       };
@@ -199,7 +199,7 @@ export class FinalValidationSystem {
         category: 'TypeScript Compilation',
         passed: false,
         current: errorCount,
-        target: this.TYPESCRIPT_ERROR_TARGET;
+        target: this.TYPESCRIPT_ERROR_TARGET,
         details: [
           `Found ${errorCount} TypeScript compilation errors`,
           ...errorLines.slice(0, 10).map((line: string) => `  ${line.trim()}`),
@@ -261,7 +261,7 @@ export class FinalValidationSystem {
         category: 'Linting Quality',
         passed: warningCount === this.LINTING_WARNING_TARGET,,;
         current: warningCount,
-        target: this.LINTING_WARNING_TARGET;
+        target: this.LINTING_WARNING_TARGET,
         details,
         criticalIssues
       };
@@ -277,7 +277,7 @@ export class FinalValidationSystem {
         category: 'Linting Quality',
         passed: warningCount === this.LINTING_WARNING_TARGET,,;
         current: warningCount,
-        target: this.LINTING_WARNING_TARGET;
+        target: this.LINTING_WARNING_TARGET,
         details: [
           `Found ${warningCount} linting warnings`,
           ...warningLines.slice(0, 10).map((line: string) => `  ${line.trim()}`)
@@ -334,9 +334,9 @@ export class FinalValidationSystem {
 
       return {
         category: 'Enterprise Intelligence',
-        passed: intelligenceCount >= this.INTELLIGENCE_SYSTEM_TARGET;
+        passed: intelligenceCount >= this.INTELLIGENCE_SYSTEM_TARGET,
         current: intelligenceCount,
-        target: this.INTELLIGENCE_SYSTEM_TARGET;
+        target: this.INTELLIGENCE_SYSTEM_TARGET,
         details,
         criticalIssues
       };
@@ -345,7 +345,7 @@ export class FinalValidationSystem {
         category: 'Enterprise Intelligence',
         passed: false,
         current: 0,
-        target: this.INTELLIGENCE_SYSTEM_TARGET;
+        target: this.INTELLIGENCE_SYSTEM_TARGET,
         details: ['No intelligence systems found'],
         criticalIssues: [
           'No enterprise intelligence systems detected',
@@ -425,8 +425,8 @@ export class FinalValidationSystem {
       return {
         category: 'Performance Optimization',
         passed: performanceOk,
-        current: Math.round(buildTime);
-        target: this.BUILD_TIME_TARGET;
+        current: Math.round(buildTime),
+        target: this.BUILD_TIME_TARGET,
         details,
         criticalIssues
       };
@@ -435,7 +435,7 @@ export class FinalValidationSystem {
         category: 'Performance Optimization',
         passed: false,
         current: 999,
-        target: this.BUILD_TIME_TARGET;
+        target: this.BUILD_TIME_TARGET,
         details: ['Performance measurement failed'],
         criticalIssues: [
           'Unable to measure performance metrics',
@@ -460,7 +460,7 @@ export class FinalValidationSystem {
     try {
       execSync('yarn build', { stdio: 'pipe' });
       buildSuccess = true;
-      details.push('✅ Build: SUCCESS');
+      details.push('✅ Build: SUCCESS')
     } catch (error) {
       details.push('❌ Build: FAILED');
       criticalIssues.push('Build failure prevents deployment');
@@ -470,7 +470,7 @@ export class FinalValidationSystem {
     try {
       execSync('yarn test --run --silent', { stdio: 'pipe' });
       testSuccess = true;
-      details.push('✅ Tests: PASSING');
+      details.push('✅ Tests: PASSING')
     } catch (error) {
       details.push('❌ Tests: FAILING');
       criticalIssues.push('Test failures indicate code quality issues');
@@ -528,8 +528,8 @@ export class FinalValidationSystem {
       if (fs.existsSync('.campaign-baseline.json')) {
         const baseline = JSON.parse(fs.readFileSync('.campaign-baseline.json', 'utf8')),;
         initialState = {
-          errors: baseline.errors || 0;
-          warnings: baseline.warnings || 0;
+          errors: baseline.errors || 0,
+          warnings: baseline.warnings || 0,
           intelligence: baseline.intelligence || 0
         };
       }
@@ -553,7 +553,7 @@ export class FinalValidationSystem {
       const errorOutput = err.stdout || '';
       finalErrors = errorOutput;
         .split('\n')
-        .filter((line: string) => line.includes('error TS')).length;
+        .filter((line: string) => line.includes('error TS')).length
     }
 
     try {
@@ -564,7 +564,7 @@ export class FinalValidationSystem {
       const errorOutput = err.stdout || '';
       finalWarnings = errorOutput;
         .split('\n')
-        .filter((line: string) => line.includes('warning')).length;
+        .filter((line: string) => line.includes('warning')).length
     }
 
     try {

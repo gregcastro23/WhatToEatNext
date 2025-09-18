@@ -44,14 +44,14 @@ export class FullCampaignExecutor {
       targetFixCount: 300, // Target 250-350 fixes
       maxBatchSize: 25,
       minBatchSize: 10,
-      safetyThreshold: 0.7;
+      safetyThreshold: 0.7,
       buildValidationFrequency: 5,
       enableDocumentation: true,
       enableProgressiveStrategy: true,
       processAllDomains: true,
       generateFinalReport: true,
       validatePerformanceImprovements: true,
-      emergencyStopThreshold: 0.5;
+      emergencyStopThreshold: 0.5,
       maxCampaignDuration: 4 * 60 * 60 * 1000, // 4 hours max
       ...config
     };
@@ -97,9 +97,9 @@ export class FullCampaignExecutor {
 
       const campaignResult: FullCampaignResult = {
         success: true,
-        totalFixesApplied: this.metrics.totalFixesApplied;
-        reductionPercentage: this.calculateReductionPercentage();
-        targetAchieved: this.isTargetAchieved();
+        totalFixesApplied: this.metrics.totalFixesApplied,
+        reductionPercentage: this.calculateReductionPercentage(),
+        targetAchieved: this.isTargetAchieved(),
         phases: [
           baselineResult,
           highConfidenceResult,
@@ -108,10 +108,10 @@ export class FullCampaignExecutor {
           documentationResult,
           finalResult
         ],
-        metrics: this.metrics;
-        finalReport: await this.generateFinalReport();
-        duration: Date.now() - this.startTime.getTime();
-        buildStable: await this.validateBuildStability();
+        metrics: this.metrics,
+        finalReport: await this.generateFinalReport(),
+        duration: Date.now() - this.startTime.getTime(),
+        buildStable: await this.validateBuildStability(),
         performanceImproved: await this.validatePerformanceImprovements()
       };
 
@@ -124,14 +124,14 @@ export class FullCampaignExecutor {
       console.error('❌ Campaign execution failed:', error),
       return {
         success: false,
-        error: error instanceof Error ? error.message : 'Unknown error';
-        totalFixesApplied: this.metrics.totalFixesApplied;
-        reductionPercentage: this.calculateReductionPercentage();
+        error: error instanceof Error ? error.message : 'Unknown error',
+        totalFixesApplied: this.metrics.totalFixesApplied,
+        reductionPercentage: this.calculateReductionPercentage(),
         targetAchieved: false,
         phases: [],
-        metrics: this.metrics;
-        duration: Date.now() - this.startTime.getTime();
-        buildStable: await this.validateBuildStability();
+        metrics: this.metrics,
+        duration: Date.now() - this.startTime.getTime(),
+        buildStable: await this.validateBuildStability(),
         performanceImproved: false
       };
     }
@@ -164,7 +164,7 @@ export class FullCampaignExecutor {
       return {
         name: 'Initial Analysis and Baseline',
         success: true,
-        duration: Date.now() - phaseStart;
+        duration: Date.now() - phaseStart,
         fixesApplied: 0,
         errorsBefore: initialErrorCount,
         errorsAfter: initialErrorCount,
@@ -236,7 +236,7 @@ export class FullCampaignExecutor {
       return {
         name: 'High-Confidence Replacements',
         success: true,
-        duration: Date.now() - phaseStart;
+        duration: Date.now() - phaseStart,
         fixesApplied: totalFixes,
         errorsBefore,
         errorsAfter,
@@ -289,7 +289,7 @@ export class FullCampaignExecutor {
       return {
         name: 'Medium-Risk Category Processing',
         success: true,
-        duration: Date.now() - phaseStart;
+        duration: Date.now() - phaseStart,
         fixesApplied: totalFixes,
         errorsBefore,
         errorsAfter,
@@ -341,7 +341,7 @@ export class FullCampaignExecutor {
       return {
         name: 'Domain-Specific Processing',
         success: true,
-        duration: Date.now() - phaseStart;
+        duration: Date.now() - phaseStart,
         fixesApplied: totalFixes,
         errorsBefore,
         errorsAfter,
@@ -387,7 +387,7 @@ export class FullCampaignExecutor {
       return {
         name: 'Documentation and Validation',
         success: true,
-        duration: Date.now() - phaseStart;
+        duration: Date.now() - phaseStart,
         fixesApplied: 0, // Documentation doesn't count as fixes
         errorsBefore,
         errorsAfter,
@@ -439,7 +439,7 @@ export class FullCampaignExecutor {
       return {
         name: 'Final Validation and Reporting',
         success: true,
-        duration: Date.now() - phaseStart;
+        duration: Date.now() - phaseStart,
         fixesApplied: 0,
         errorsBefore,
         errorsAfter: finalErrorCount,
@@ -510,10 +510,10 @@ export class FullCampaignExecutor {
           appliedReplacements: [],
           failedReplacements: cases.map(c => ({
             original: 'any',
-            replacement: c.suggestedReplacement || 'unknown';
-            filePath: c.filePath;
-            lineNumber: c.lineNumber;
-            confidence: c.confidence;
+            replacement: c.suggestedReplacement || 'unknown',
+            filePath: c.filePath,
+            lineNumber: c.lineNumber,
+            confidence: c.confidence,
             validationRequired: true
           })),
           compilationErrors: ['Build instability after replacement'],
@@ -688,7 +688,7 @@ export class FullCampaignExecutor {
       case AnyTypeCategory.TEST_MOCK:
         return 'Test mock requires flexible typing',
       default:
-        return case_.reasoning || 'Intentional any type for flexibility';
+        return case_.reasoning || 'Intentional any type for flexibility',
     }
   }
 
@@ -755,26 +755,26 @@ export class FullCampaignExecutor {
 
     return {
       campaignId: `full-campaign-${this.startTime.getTime()}`,
-      startTime: this.startTime;
+      startTime: this.startTime,
       endTime: currentTime,
       duration,
-      targetReductionPercentage: this.config.targetReductionPercentage;
-      actualReductionPercentage: this.calculateReductionPercentage();
-      targetFixCount: this.config.targetFixCount;
-      actualFixCount: this.metrics.totalFixesApplied;
-      targetAchieved: this.isTargetAchieved();
+      targetReductionPercentage: this.config.targetReductionPercentage,
+      actualReductionPercentage: this.calculateReductionPercentage(),
+      targetFixCount: this.config.targetFixCount,
+      actualFixCount: this.metrics.totalFixesApplied,
+      targetAchieved: this.isTargetAchieved(),
       initialMetrics: {
-        errorCount: this.metrics.initialErrorCount;
+        errorCount: this.metrics.initialErrorCount,
         anyCount: this.metrics.initialAnyCount
       },
       finalMetrics: {
-        errorCount: this.metrics.finalErrorCount;
+        errorCount: this.metrics.finalErrorCount,
         anyCount: this.metrics.finalAnyCount
       },
-      buildStable: await this.validateBuildStability();
-      performanceImproved: await this.validatePerformanceImprovements();
-      recommendations: this.generateRecommendations();
-      achievements: this.generateAchievements();
+      buildStable: await this.validateBuildStability(),
+      performanceImproved: await this.validatePerformanceImprovements(),
+      recommendations: this.generateRecommendations(),
+      achievements: this.generateAchievements(),
       nextSteps: this.generateNextSteps()
     };
   }

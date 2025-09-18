@@ -40,7 +40,7 @@ describe('Build Performance Tests', () => {
           description: 'Phase for performance testing',
           tools: [
             {
-              scriptPath: 'scripts/performance/test-script.js';
+              scriptPath: 'scripts/performance/test-script.js',
               parameters: { maxFile, s: 50 },
               batchSize: 50,
               safetyLevel: SafetyLevel.MEDIUM
@@ -53,8 +53,8 @@ describe('Build Performance Tests', () => {
       safetySettings,
       progressTargets: { typeScriptError, s: 0, lintingWarnings: 0, buildTime: 10, enterpriseSystems: 200 },
       toolConfiguration: { enhancedErrorFixer: 'scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js',
-        explicitAnyFixer: 'scripts/typescript-fixes/fix-explicit-any-systematic.js';
-        unusedVariablesFixer: 'scripts/typescript-fixes/fix-unused-variables-enhanced.js';
+        explicitAnyFixer: 'scripts/typescript-fixes/fix-explicit-any-systematic.js',
+        unusedVariablesFixer: 'scripts/typescript-fixes/fix-unused-variables-enhanced.js',
         consoleStatementFixer: 'scripts/lint-fixes/fix-console-statements-only.js'
       }
     };

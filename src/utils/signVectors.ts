@@ -12,7 +12,7 @@ import type {
 } from '@/types/signVectors';
 import { getModalityForZodiac } from '@/utils/zodiacUtils';
 
-const ZODIAC_SIGNS: ZodiacSign[] = [
+const ZODIAC_SIGNS: any[] = [
   'aries',
   'taurus',
   'gemini',
@@ -52,28 +52,28 @@ function createEmptyComponents(): SignVectorComponents {
   };
 }
 
-function getSeasonalAlignment(sign: ZodiacSign, season?: Season): number {
+function getSeasonalAlignment(sign: any, season?: Season): number {
   if (!season) return 0.5; // neutral when unknown
   const signs = ZODIAC_SEASONS[season];
   if (!Array.isArray(signs)) return 0.5;
   return signs.includes(sign) ? 1.0 : 0.25;
 }
 
-function addModalityComponent(components: SignVectorComponents, sign: ZodiacSign, weight: number): void {
+function addModalityComponent(components: SignVectorComponents, sign: any, weight: number): void {
   const modality = getModalityForZodiac(sign as any);
   if (modality === 'cardinal') components.cardinal += weight;
   else if (modality === 'fixed') components.fixed += weight;
   else components.mutable += weight;
 }
 
-function addElementalComponent(components: SignVectorComponents, sign: ZodiacSign, weight: number): void {
+function addElementalComponent(components: SignVectorComponents, sign: any, weight: number): void {
   const element = ZODIAC_ELEMENTS[sign as any];
   if (!element) return;
   components[element] += weight;
 }
 
 function computePlanetaryWeightForSign(
-  targetSign: ZodiacSign,
+  targetSign: any,
   planetaryPositions: Record<string, PlanetaryPosition>,
   aspects?: PlanetaryAspect[],
 ): number {
@@ -289,12 +289,12 @@ export function getAlchemicalStateWithVectors(input: {
   season?: Season;
   governing?: 'sun' | 'moon' | 'dominant' | 'ensemble';
 }): {
-  signVectors: SignVectorMap;
-  selected: SignVector;
+  signVectors: SignVectorMap,
+  selected: SignVector,
   base: { alchemical: AlchemicalProperties; elemental: ElementalProperties };
-  blendedAlchemical: AlchemicalProperties;
-  thermodynamics: { heat: number; entropy: number; reactivity: number; gregsEnergy: number; kalchm: number; monica: number };
-  config: typeof VECTOR_CONFIG;
+  blendedAlchemical: AlchemicalProperties,
+  thermodynamics: { heat: number, entropy: number; reactivity: number; gregsEnergy: number; kalchm: number; monica: number };
+  config: typeof VECTOR_CONFIG
 } {
   const { planetaryPositions, aspects, season, governing = 'dominant' } = input;
 
@@ -305,16 +305,16 @@ export function getAlchemicalStateWithVectors(input: {
 
   let selected: SignVector | null = null;
   if (governing === 'sun') {
-    const sunSign = String(planetaryPositions?.Sun?.sign || '').toLowerCase() as ZodiacSign;
+    const sunSign = String(planetaryPositions?.Sun?.sign || '').toLowerCase() as any;
     selected = sunSign ? signVectors[sunSign] : null;
   } else if (governing === 'moon') {
-    const moonSign = String(planetaryPositions?.Moon?.sign || '').toLowerCase() as ZodiacSign;
+    const moonSign = String(planetaryPositions?.Moon?.sign || '').toLowerCase() as any;
     selected = moonSign ? signVectors[moonSign] : null;
   } else if (governing === 'ensemble') {
     // Sun/Moon/Ascendant ensemble (if available) with heuristic weights
-    const sunSign = String(planetaryPositions?.Sun?.sign || '').toLowerCase() as ZodiacSign;
-    const moonSign = String(planetaryPositions?.Moon?.sign || '').toLowerCase() as ZodiacSign;
-    const ascSign = String(planetaryPositions?.Ascendant?.sign || '').toLowerCase() as ZodiacSign;
+    const sunSign = String(planetaryPositions?.Sun?.sign || '').toLowerCase() as any;
+    const moonSign = String(planetaryPositions?.Moon?.sign || '').toLowerCase() as any;
+    const ascSign = String(planetaryPositions?.Ascendant?.sign || '').toLowerCase() as any;
     const parts: SignVector[] = [sunSign && signVectors[sunSign], moonSign && signVectors[moonSign], ascSign && signVectors[ascSign]].filter(Boolean) ;
     const weights = [0.5, 0.3, 0.2].slice(0, parts.length);
     if (parts.length > 0) {

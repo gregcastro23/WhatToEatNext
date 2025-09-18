@@ -11,8 +11,8 @@ import { execSync } from 'child_process';
 import * as fs from 'fs';
 
 interface ValidationResult {
-  component: string;
-  passed: boolean;
+  component: string,
+  passed: boolean,
   score: number; // 0-100
   message: string,
   details?: any,
@@ -21,7 +21,7 @@ interface ValidationResult {
 }
 
 interface SystemHealth {
-  overallScore: number;
+  overallScore: number,
   componentScores: Record<string, number>;
   criticalIssues: string[],
   warnings: string[],
@@ -197,7 +197,7 @@ class SystemValidationSuite {
           testResults.push({ name: safetyTest.name, ...result });
         } catch (error) {
           testResults.push({
-            name: safetyTest.name;
+            name: safetyTest.name,
             passed: false,
             error: error.message
           });
@@ -330,7 +330,7 @@ class SystemValidationSuite {
           monitoringResults.push({ name: test.name, ...result });
         } catch (error) {
           monitoringResults.push({
-            name: test.name;
+            name: test.name,
             functional: false,
             error: error.message
           });
@@ -469,7 +469,7 @@ class SystemValidationSuite {
           workflowResults.push({ name: test.name, ...result });
         } catch (error) {
           workflowResults.push({
-            name: test.name;
+            name: test.name,
             functional: false,
             error: error.message
           });
@@ -534,7 +534,7 @@ class SystemValidationSuite {
           integrityResults.push({ name: test.name, ...result });
         } catch (error) {
           integrityResults.push({
-            name: test.name;
+            name: test.name,
             valid: false,
             error: error.message
           });
@@ -635,7 +635,7 @@ class SystemValidationSuite {
           docResults.push({ name: test.name, ...result });
         } catch (error) {
           docResults.push({
-            name: test.name;
+            name: test.name,
             complete: false,
             error: error.message
           });
@@ -1143,11 +1143,11 @@ class SystemValidationSuite {
     const reportPath = '.kiro/specs/unintentional-any-elimination/system-validation-report.json';
     const detailedReport = {
       health,
-      results: this.results;
+      results: this.results,
       validationDuration: duration,
       systemInfo: {
-        nodeVersion: process.version;
-        platform: process.platform;
+        nodeVersion: process.version,
+        platform: process.platform,
         timestamp: new Date().toISOString()
       }
     };

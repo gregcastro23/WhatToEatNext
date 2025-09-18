@@ -20,9 +20,9 @@ import {
 } from './ComprehensiveValidationFramework';
 
 export interface ValidationIntegrationConfig {
-  validationConfig: Partial<ValidationConfig>;
-  enableAutomaticValidation: boolean;
-  enableAutomaticRollback: boolean;
+  validationConfig: Partial<ValidationConfig>,
+  enableAutomaticValidation: boolean,
+  enableAutomaticRollback: boolean,
   qualityThreshold: number,
   criticalValidationTypes: string[],
   reportingEnabled: boolean,
@@ -37,11 +37,11 @@ export interface IntegratedBatchResult extends BatchResult {
 }
 
 export interface QualityAssuranceReport {
-  batchId: string;
-  timestamp: Date;
-  processedFiles: string[];
-  batchResult: BatchResult;
-  validationResult: ComprehensiveValidationResult;
+  batchId: string,
+  timestamp: Date,
+  processedFiles: string[],
+  batchResult: BatchResult,
+  validationResult: ComprehensiveValidationResult,
   overallQuality: 'excellent' | 'good' | 'acceptable' | 'poor' | 'critical',
   recommendations: string[],
   actionRequired: boolean,
@@ -61,7 +61,7 @@ export class ValidationIntegration {
       qualityThreshold: 80,
       criticalValidationTypes: ['typescript-compilation', 'test-suite', 'react-component'],
       reportingEnabled: true,
-      reportingPath: './validation-reports';
+      reportingPath: './validation-reports',
       ...config
     };
 
@@ -225,7 +225,7 @@ export class ValidationIntegration {
     }
 
     return {
-      batchId: batchResult.batchId;
+      batchId: batchResult.batchId,
       timestamp: new Date(),
       processedFiles,
       batchResult,
@@ -320,11 +320,11 @@ export class ValidationIntegration {
       );
 
       if (report.actionRequired) {
-        summary.push('**Action Required:** Yes');
+        summary.push('**Action Required:** Yes')
       }
 
       if (report.rollbackRecommended) {
-        summary.push('**Rollback Recommended:** Yes');
+        summary.push('**Rollback Recommended:** Yes')
       }
 
       if (report.recommendations.length > 0) {
@@ -429,8 +429,8 @@ export class ValidationIntegration {
    * Get validation statistics
    */
   getValidationStatistics(): {
-    totalBatches: number;
-    successfulBatches: number;
+    totalBatches: number,
+    successfulBatches: number,
     failedBatches: number,
     averageQualityScore: number,
     criticalFailures: number,

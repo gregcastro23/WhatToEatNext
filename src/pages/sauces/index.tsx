@@ -6,8 +6,8 @@ import cuisinesMap from '@/data/cuisines';
 import { getCurrentElementalState } from '@/utils/elementalUtils';
 
 interface SauceItem {
-  id: string;
-  name: string;
+  id: string,
+  name: string,
   description?: string;
   base?: string;
   cuisine: string,
@@ -21,10 +21,10 @@ const SaucesPage: NextPage = () => {
   const [selectedCuisine, setSelectedCuisine] = React.useState(''),
   const [selectedBase, setSelectedBase] = React.useState(''),
   const [elementalState, setElementalState] = React.useState({
-    Fire: 0.25;
-    Water: 0.25;
-    Earth: 0.25;
-    Air: 0.25;
+    Fire: 0.25,
+    Water: 0.25,
+    Earth: 0.25,
+    Air: 0.25,
     season: 'spring',
     timeOfDay: 'lunch'
   });
@@ -51,12 +51,12 @@ const SaucesPage: NextPage = () => {
           const sauceInfo = sauceData;
           sauces.push({
             id: sauceId,
-            name: sauceInfo?.name || sauceId;
-            description: sauceInfo?.description;
-            base: sauceInfo?.base;
-            cuisine: cuisineData.name;
+            name: sauceInfo?.name || sauceId,
+            description: sauceInfo?.description,
+            base: sauceInfo?.base,
+            cuisine: cuisineData.name,
             cuisineId: cuisineId,
-            seasonality: sauceInfo?.seasonality;
+            seasonality: sauceInfo?.seasonality,
             elementalProperties: sauceInfo?.elementalProperties
           });
         });

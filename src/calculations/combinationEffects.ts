@@ -13,8 +13,8 @@ type Season = 'spring' | 'summer' | 'fall' | 'winter' | 'all';
 type Temperature = 'hot' | 'cold' | 'neutral';
 
 interface CombinationRule {
-  ingredients: string[];
-  effect: EffectType;
+  ingredients: string[],
+  effect: EffectType,
   modifier: number;
   elements?: Partial<ElementalProperties>,
   conditions?: {
@@ -26,8 +26,8 @@ interface CombinationRule {
 }
 
 interface CalculateEffectsParams {
-  ingredients: string[];
-  elementalProperties: ElementalProperties;
+  ingredients: string[],
+  elementalProperties: ElementalProperties,
   cookingMethod?: CookingMethod,
   season?: Season,
   temperature?: Temperature,
@@ -39,14 +39,14 @@ const COMBINATION_RULES: CombinationRule[] = [
   {
     ingredients: ['ginger', 'garlic'],
     effect: 'amplify' as EffectType,
-    modifier: 1.3;
+    modifier: 1.3,
     elements: { Fire: 0.2 },
     notes: 'Classic warming combination'
   },
   {
     ingredients: ['cinnamon', 'cardamom', 'clove'],
     effect: 'amplify' as EffectType,
-    modifier: 1.4;
+    modifier: 1.4,
     elements: { Fire: 0.3, Air: 0.1 },
     notes: 'Warming spice blend'
   },
@@ -96,9 +96,9 @@ export function calculateCombinationEffects({
         }
 
         const effect: CombinationEffect = {
-          type: rule.effect;
-          strength: rule.modifier;
-          description: rule.notes || '';
+          type: rule.effect,
+          strength: rule.modifier,
+          description: rule.notes || '',
           elements: rule.elements ? (Object.keys(rule.elements) as Element[]) : []
         };
 
@@ -149,7 +149,7 @@ const calculateElementalInteractions = (ingredients: string[]): CombinationEffec
       effects.push({
         ingredients: [ing1, ing2],
         type: 'synergy' as EffectType,
-        strength: 1.2;
+        strength: 1.2,
         elements: ['Fire'] as Element[],
         description: 'Harmonious elemental combination'
       } as CombinationEffect);
@@ -159,7 +159,7 @@ const calculateElementalInteractions = (ingredients: string[]): CombinationEffec
       effects.push({
         ingredients: [ing1, ing2],
         type: 'conflict' as EffectType,
-        strength: 0.8;
+        strength: 0.8,
         elements: ['Water'] as Element[],
         description: 'Conflicting elemental combination'
       } as CombinationEffect);
@@ -291,7 +291,7 @@ const calculateLunarEffect = (;
 
   return {
     type: 'amplify' as EffectType,
-    strength: modifier.modifier;
+    strength: modifier.modifier,
     description: `Lunar phase (${lunarPhase}) influence`,
     elements: ['Water'] as Element[]
   };

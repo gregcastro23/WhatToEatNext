@@ -77,12 +77,12 @@ export default function CookingMethodsPage() {
         return {
           id: key,
           name: capitalizeFirstLetter(key.replace(/_/g, ' ')),
-          description: (method as any).description || '';
+          description: (method as any).description || '',
           elementalEffect: (method as any).elementalEffect ||
             (method as any).elementalProperties || {
-              Fire: 0.5;
-              Water: 0.5;
-              Earth: 0.5;
+              Fire: 0.5,
+              Water: 0.5,
+              Earth: 0.5,
               Air: 0.5
             },
           score: Math.random() * 0.5 + 0.5, // Mock score between 0.5-1.0
@@ -96,8 +96,7 @@ export default function CookingMethodsPage() {
                   id: `${key}_var_${i}`,
                   name: v,
                   description: `Variation of ${capitalizeFirstLetter(key.replace(/_/g, ' '))}`,
-                  elementalEffect:
-                    (method as any).elementalEffect || (method as any).elementalProperties;
+                  elementalEffect: (method as any).elementalEffect || (method as any).elementalProperties,
                   score: Math.random() * 0.3 + 0.6
                 }))
               : []

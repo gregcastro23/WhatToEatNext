@@ -413,7 +413,7 @@ function getElementModalityAffinity(element: string, modality: string): number {
       case 'Earth':
         return 0.5;
       default:
-        return 0.5;
+        return 0.5
     }
   }
 
@@ -429,7 +429,7 @@ function getElementModalityAffinity(element: string, modality: string): number {
       case 'Air':
         return 0.5;
       default:
-        return 0.5;
+        return 0.5
     }
   }
 
@@ -552,12 +552,12 @@ export function generateEnhancedRecommendation(
   userPreferences?: string[],
   season?: string,
 ): {
-  mainIngredient: string;
-  secondaryIngredient: string;
-  flavor: string;
-  cookingMethod: string;
+  mainIngredient: string,
+  secondaryIngredient: string,
+  flavor: string,
+  cookingMethod: string,
   reasoning: {
-    elementalInfluence: string;
+    elementalInfluence: string,
     decanic: string,
     planetary: string,
     seasonal: string,
@@ -934,8 +934,8 @@ export function validateAlgorithms(): {
     const mockResult: AlchemicalResult = {
       elementalProperties: { Fire: 0.4, Water: 0.2, Earth: 0.2, Air: 0.2 },
       thermodynamicProperties: { heat: 0.6, entropy: 0.4, reactivity: 0.5, gregsEnergy: 0.5 },
-      kalchm: 1.2;
-      monica: 0.8;
+      kalchm: 1.2,
+      monica: 0.8,
       score: 0.7
     };
 

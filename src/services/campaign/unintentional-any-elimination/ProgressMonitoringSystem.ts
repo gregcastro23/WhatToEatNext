@@ -112,30 +112,28 @@ export class ProgressMonitoringSystem extends EventEmitter {
       const buildStability = await this.getCurrentBuildStability();
 
       const progress: UnintentionalAnyProgress = {
-        totalAnyTypes: currentReport.domainDistribution?.totalAnyTypes || 0;
+        totalAnyTypes: currentReport.domainDistribution?.totalAnyTypes || 0,
         classifiedIntentional:
-          currentReport.domainDistribution?.intentionalVsUnintentional?.intentional?.count || 0;
-        classifiedUnintentional:
-          currentReport.domainDistribution?.intentionalVsUnintentional?.unintentional?.count || 0;
+          currentReport.domainDistribution?.intentionalVsUnintentional?.intentional?.count || 0,
+        classifiedUnintentional: currentReport.domainDistribution?.intentionalVsUnintentional?.unintentional?.count || 0,
         successfulReplacements: Math.floor(
           ((currentReport.summary?.currentSuccessRate || 0) *
             (currentReport.summary?.totalAnyTypes || 0)) /
             100,
         ),
-        documentedIntentional:
-          currentReport.domainDistribution?.intentionalVsUnintentional?.intentional?.count || 0;
+        documentedIntentional: currentReport.domainDistribution?.intentionalVsUnintentional?.intentional?.count || 0,
         remainingUnintentional:
-          currentReport.domainDistribution?.intentionalVsUnintentional?.unintentional?.count || 0;
-        reductionPercentage: this.calculateReductionPercentage(currentReport);
+          currentReport.domainDistribution?.intentionalVsUnintentional?.unintentional?.count || 0,
+        reductionPercentage: this.calculateReductionPercentage(currentReport),
         targetReductionPercentage: 20, // Target 20% reduction
-        batchesCompleted: this.getBatchesCompleted();
-        averageSuccessRate: currentReport.summary?.currentSuccessRate || 0;
+        batchesCompleted: this.getBatchesCompleted(),
+        averageSuccessRate: currentReport.summary?.currentSuccessRate || 0,
 
         // Base ProgressMetrics properties
         errorsFixed: 0,
         warningsFixed: 0,
         filesProcessed: 0,
-        buildStable: buildStability.isStable;
+        buildStable: buildStability.isStable,
         lastUpdate: new Date()
       };
 
@@ -158,7 +156,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
         errorsFixed: 0,
         warningsFixed: 0,
         filesProcessed: 0,
-        buildStable: buildStability.isStable;
+        buildStable: buildStability.isStable,
         lastUpdate: new Date()
       };
     }
@@ -186,8 +184,8 @@ export class ProgressMonitoringSystem extends EventEmitter {
         message: `Build failure detected: ${stability.errorMessage}`,
         timestamp: new Date(),
         data: {
-          buildTime: stability.buildTime;
-          errorCount: stability.errorCount;
+          buildTime: stability.buildTime,
+          errorCount: stability.errorCount,
           errorMessage: stability.errorMessage
         }
       });
@@ -205,7 +203,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
         message: `${recentFailures.length} consecutive build failures detected`,
         timestamp: new Date(),
         data: {
-          failureCount: recentFailures.length;
+          failureCount: recentFailures.length,
           threshold: this.alertThresholds.buildFailureThreshold
         }
       });
@@ -229,7 +227,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
         message: `Success rate (${progress.averageSuccessRate.toFixed(1)}%) below threshold (${this.alertThresholds.successRateThreshold}%)`,
         timestamp: currentTime,
         data: {
-          currentRate: progress.averageSuccessRate;
+          currentRate: progress.averageSuccessRate,
           threshold: this.alertThresholds.successRateThreshold
         }
       });
@@ -246,7 +244,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
         message: `Classification accuracy (${this.dashboardData.accuracyReport.overallAccuracy.toFixed(1)}%) below threshold (${this.alertThresholds.classificationAccuracyThreshold}%)`,
         timestamp: currentTime,
         data: {
-          currentAccuracy: this.dashboardData.accuracyReport.overallAccuracy;
+          currentAccuracy: this.dashboardData.accuracyReport.overallAccuracy,
           threshold: this.alertThresholds.classificationAccuracyThreshold
         }
       })
@@ -265,7 +263,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
           timestamp: currentTime,
           data: {
             hoursSinceUpdate,
-            threshold: this.alertThresholds.progressStallThreshold;
+            threshold: this.alertThresholds.progressStallThreshold,
             lastUpdate: lastProgressUpdate
           }
         });
@@ -281,8 +279,8 @@ export class ProgressMonitoringSystem extends EventEmitter {
         message: `${recentSafetyEvents.length} safety events in the last hour`,
         timestamp: currentTime,
         data: {
-          eventCount: recentSafetyEvents.length;
-          threshold: this.alertThresholds.safetyEventThreshold;
+          eventCount: recentSafetyEvents.length,
+          threshold: this.alertThresholds.safetyEventThreshold,
           events: recentSafetyEvents
         }
       });
@@ -302,7 +300,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
       timestamp: new Date(),
       data: {
         safetyEvent: event,
-        action: event.action;
+        action: event.action,
         affectedFiles: event.affectedFiles || []
       }
     });
@@ -371,14 +369,14 @@ export class ProgressMonitoringSystem extends EventEmitter {
         progressMetrics,
         buildStability,
         alertSummary: {
-          totalAlerts: this.alertHistory.length;
+          totalAlerts: this.alertHistory.length,
           criticalAlerts: this.alertHistory.filter(a => a.severity === 'critical').length,;
           highAlerts: this.alertHistory.filter(a => a.severity === 'high').length,;
           mediumAlerts: this.alertHistory.filter(a => a.severity === 'medium').length,,;
           lowAlerts: this.alertHistory.filter(a => a.severity === 'low').length,,;
           recentAlerts: this.getRecentAlerts(24), // Last 24 hours
         },
-        trendingData: this.calculateTrendingData();
+        trendingData: this.calculateTrendingData(),
         systemHealth: this.calculateSystemHealth()
       };
 
@@ -501,8 +499,8 @@ export class ProgressMonitoringSystem extends EventEmitter {
       trends.push({
         date,
         successRate: 75 + Math.random() * 15, // 75-90%
-        totalAnyTypes: 1800 - i * 20 + Math.random() * 10;
-        unintentionalCount: 1200 - i * 15 + Math.random() * 8;
+        totalAnyTypes: 1800 - i * 20 + Math.random() * 10,
+        unintentionalCount: 1200 - i * 15 + Math.random() * 8,
         classificationAccuracy: 80 + Math.random() * 15, // 80-95%
       });
     }
@@ -611,9 +609,9 @@ export class ProgressMonitoringSystem extends EventEmitter {
 // Supporting interfaces
 
 export interface DashboardData {
-  lastUpdate: Date;
-  analysisReport: AnalysisReport;
-  progressMetrics: UnintentionalAnyProgress;
+  lastUpdate: Date,
+  analysisReport: AnalysisReport,
+  progressMetrics: UnintentionalAnyProgress,
   buildStability: BuildStabilityRecord,
   alertSummary: AlertSummary,
   trendingData: TrendingData[],
@@ -621,7 +619,7 @@ export interface DashboardData {
 }
 
 export interface AlertThresholds {
-  successRateThreshold: number;
+  successRateThreshold: number,
   buildFailureThreshold: number,
   classificationAccuracyThreshold: number,
   safetyEventThreshold: number,
@@ -629,7 +627,7 @@ export interface AlertThresholds {
 }
 
 export interface Alert {
-  type: AlertType;
+  type: AlertType,
   severity: 'low' | 'medium' | 'high' | 'critical',
   message: string,
   timestamp: Date,
@@ -647,8 +645,8 @@ export type AlertType =
   | 'system_error';
 
 export interface SafetyEvent {
-  type: string;
-  severity: 'low' | 'medium' | 'high' | 'critical';
+  type: string,
+  severity: 'low' | 'medium' | 'high' | 'critical',
   description: string,
   action: string,
   timestamp: Date,
@@ -656,7 +654,7 @@ export interface SafetyEvent {
 }
 
 export interface BuildStabilityRecord {
-  timestamp: Date;
+  timestamp: Date,
   isStable: boolean,
   buildTime: number,
   errorCount: number,
@@ -664,8 +662,8 @@ export interface BuildStabilityRecord {
 }
 
 export interface AlertSummary {
-  totalAlerts: number;
-  criticalAlerts: number;
+  totalAlerts: number,
+  criticalAlerts: number,
   highAlerts: number,
   mediumAlerts: number,
   lowAlerts: number,

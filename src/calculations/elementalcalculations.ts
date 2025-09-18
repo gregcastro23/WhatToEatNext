@@ -4,10 +4,10 @@ import { ElementalEnergy, ElementType, signElementMap } from '@/types/elements';
 
 // Define the types needed for ElementalCalculator
 interface ElementalProperties {
-  Fire: number;
-  Water: number;
-  Earth: number;
-  Air: number;
+  Fire: number,
+  Water: number,
+  Earth: number,
+  Air: number,
   [key: string]: number; // Allow indexing with string
 }
 
@@ -34,7 +34,7 @@ export class ElementalCalculator {
     instance.initialized = true;
   }
 
-  static getCurrentElementalState(): ElementalProperties {
+  static { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }: ElementalProperties {
     const instance = ElementalCalculator.getInstance();
     if (!instance.initialized) {
       ElementalCalculator.initialize();
@@ -159,8 +159,8 @@ export class ElementalCalculator {
     _phase = 'default',;
     time = 'neutral',
   ): {
-    properties: ElementalProperties;
-    seasonalInfluence: ElementalProperties;
+    properties: ElementalProperties,
+    seasonalInfluence: ElementalProperties,
   } {
     // Start with the base properties
     const properties = { ...baseProperties };

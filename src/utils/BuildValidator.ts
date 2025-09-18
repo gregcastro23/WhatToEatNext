@@ -396,31 +396,31 @@ export class BuildValidator {
 
 // Type definitions
 export interface BuildValidationResult {
-  isValid: boolean;
-  missingFiles: string[];
-  corruptedFiles: string[];
-  repairActions: RepairAction[];
+  isValid: boolean,
+  missingFiles: string[],
+  corruptedFiles: string[],
+  repairActions: RepairAction[],
 }
 
 export interface RepairAction {
-  type: 'create' | 'fix' | 'remove';
-  target: string;
-  description: string;
+  type: 'create' | 'fix' | 'remove',
+  target: string,
+  description: string
 }
 
 export interface NextConfigValidationResult {
-  isValid: boolean;
-  issues: string[];
-  recommendations: string[];
+  isValid: boolean,
+  issues: string[],
+  recommendations: string[]
 }
 
 export interface BuildHealthReport {
-  timestamp: Date;
-  buildExists: boolean;
-  manifestsValid: boolean;
-  buildSize: number;
-  lastBuildTime: Date | null;
-  issues: string[];
+  timestamp: Date,
+  buildExists: boolean,
+  manifestsValid: boolean,
+  buildSize: number,
+  lastBuildTime: Date | null,
+  issues: string[],
 }
 
 // Export default instance

@@ -19,9 +19,9 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 interface ValidationResult {
-  category: string;
-  test: string;
-  passed: boolean;
+  category: string,
+  test: string,
+  passed: boolean,
   details: string,
   errors?: string[]
 }

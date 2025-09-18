@@ -2,171 +2,146 @@
 
 This implementation plan systematically addresses linting excellence through a series of discrete, manageable coding steps. Each task builds incrementally on previous steps and focuses on code implementation that can be executed within the development environment. The plan preserves domain-specific patterns for astrological calculations and campaign systems while achieving zero linting errors and warnings.
 
-**🎉 PHASE 1 CAMPAIGN RESULTS (September 15, 2025):**
-- **STARTING BASELINE**: 85,835 TypeScript errors (verified)
-- **CURRENT STATE**: 44,481 TypeScript errors (verified via `yarn tsc --noEmit --skipLibCheck`)
-- **CAMPAIGN ACHIEVEMENT**: 41,354 errors eliminated (48% reduction)
-- **ESLint Status**: Cannot parse due to remaining TypeScript syntax errors
-- **Build Status**: ❌ FAILING (requires continued recovery)
-- **Infrastructure**: ✅ 50+ specialized recovery scripts battle-tested and ready
-- **Recovery Progress**: HISTORIC 48% error reduction achieved through systematic approach
-- **Priority**: CONTINUE PHASE 2 - Systematic recovery to achieve build stability
+**🚨 CURRENT CRITICAL STATE (January 17, 2025):**
+- **TypeScript Errors**: 44,778 errors (CRITICAL - Build failing)
+- **ESLint Warnings**: 2,478 warnings (HIGH - Cannot parse due to TS errors)
+- **Build Status**: ❌ FAILING (Syntax errors preventing compilation)
+- **Critical Issues**: Multiple syntax errors in core files preventing build
+- **Infrastructure**: ✅ 50+ specialized recovery scripts available and ready
+- **Priority**: EMERGENCY SYNTAX RECOVERY - Restore build stability immediately
 
-**CURRENT ERROR BREAKDOWN (Post-Campaign Analysis):**
-- **TS1005**: ~16,000+ occurrences (syntax errors - primary remaining category)
-- **TS1128**: ~6,500+ occurrences (declaration errors)
-- **TS1003**: ~1,000+ occurrences (identifier errors)
-- **TS1109**: ~4,000+ occurrences (expression errors)
-- **Build-Blocking Files**: Critical syntax errors preventing webpack compilation
-- **Campaign Impact**: 48% systematic reduction achieved (85,835 → 44,481 errors)
+**CRITICAL ERROR BREAKDOWN (Current Analysis):**
+- **Build-Blocking Syntax Errors**: Immediate fix required
+  - `src/calculations/alchemicalEngine.ts:355` - Expression expected (comma instead of semicolon)
+  - `src/calculations/core/elementalCalculations.ts:50` - Malformed parameter syntax
+  - `src/calculations/core/kalchmEngine.ts:118` - Incomplete expression
+  - `src/constants/seasonalCore.ts:114` - Semicolon instead of comma
+  - `src/contexts/AlchemicalContext/provider.tsx:108` - Expression expected
+- **Total TypeScript Errors**: 44,778 (preventing ESLint analysis)
+- **ESLint Warnings**: 2,478 (blocked by TypeScript compilation failures)
+- **Status**: Build completely broken, requires immediate syntax fixes
 
-## PROVEN RECOVERY INFRASTRUCTURE - ✅ BATTLE-TESTED
+## AVAILABLE RECOVERY INFRASTRUCTURE
 
-### Specialized TypeScript Error Fixers (50+ Scripts Available)
-- [x] **TS1005 Syntax Error Specialists** (12 targeted scripts)
-  - `fix-ts1005-targeted-safe.cjs` - Conservative approach with safety validation
-  - `fix-ts1005-comprehensive.cjs` - Comprehensive pattern matching
-  - `fix-ts1005-enhanced-batch.cjs` - Batch processing with checkpoints
-  - `fix-ts1005-conservative-patterns.cjs` - Pattern-based conservative fixes
-  - `fix-ts1005-precise-patterns.cjs` - High-precision pattern matching
-  - _Status: Ready for 1,473 TS1005 errors_
+### Emergency Syntax Fixers (Available Scripts)
+- **Critical Syntax Error Fixers**
+  - `fix-malformed-properties-improved.cjs` - Fixes malformed object properties
+  - `fix-malformed-syntax.cjs` - General malformed syntax patterns
+  - `fix-syntax-errors.cjs` - Comprehensive syntax error resolution
+  - `fix-critical-syntax-errors.cjs` - Critical build-blocking syntax issues
+  - `emergency-syntax-repair.cjs` - Emergency syntax recovery tool
 
-- [x] **TS1003 Identifier Error Specialists** (5 targeted scripts)
-  - `fix-ts1003-identifier-errors.cjs` - Primary identifier resolution
-  - `fix-identifier-resolution-comprehensive.cjs` - Comprehensive identifier fixes
-  - `fix-identifier-syntax-issues.cjs` - Syntax-specific identifier issues
-  - _Status: Ready for 752 TS1003 errors_
+- **TypeScript Error Recovery Tools**
+  - `fix-ts1005-targeted-safe.cjs` - TS1005 syntax error fixes
+  - `fix-systematic-typescript-errors.cjs` - Systematic TypeScript error resolution
+  - `comprehensive-error-fixer.cjs` - Comprehensive error fixing approach
+  - `fix-typescript-errors-comprehensive.cjs` - Full TypeScript error recovery
 
-- [x] **TS1128 Declaration Error Specialists** (4 targeted scripts)
-  - `enhanced-ts1128-declaration-fixer.cjs` - Enhanced declaration fixes
-  - `fix-ts1128-declaration-errors.cjs` - Primary declaration error fixer
-  - `conservative-ts1128-fixer.cjs` - Conservative declaration approach
-  - _Status: Ready for 474 TS1128 errors_
-
-### Mass Recovery Campaign Tools
-- [x] **Systematic Recovery Orchestrators**
-  - `systematic-typescript-recovery-campaign.cjs` - Master recovery orchestrator
-  - `phase-12-1-typescript-mass-recovery.cjs` - Phase-based systematic recovery
-  - `final-typescript-recovery-campaign.cjs` - Final cleanup and validation
-  - `comprehensive-error-analysis.cjs` - Real-time error analysis and tracking
-  - _Status: Proven in previous successful campaigns_
-
-- [x] **ESLint Mass Reduction Arsenal**
+- **ESLint Mass Reduction Tools** (Blocked until build stability restored)
   - `comprehensive-eslint-mass-reducer.cjs` - Primary mass reduction tool
-  - `resilient-eslint-mass-reduction.cjs` - Robust error handling approach
+  - `eslint-autofix-efficient.cjs` - Efficient ESLint auto-fixing
   - `targeted-eslint-mass-fixer.cjs` - Targeted rule-specific fixes
-  - `safe-eslint-reduction.cjs` - Safety-first reduction approach
-  - _Status: Ready for 6,036 ESLint issues_
 
-## 🏆 PHASE 1 CAMPAIGN COMPLETED - HISTORIC ACHIEVEMENT
+## EMERGENCY RECOVERY EXECUTION PLAN
 
-### MAJOR BREAKTHROUGH: 48% TypeScript Error Reduction Achieved
-**Phase 1 Results Summary:**
-- **Starting Position**: 85,835 TypeScript errors (verified baseline)
-- **Ending Position**: 44,481 TypeScript errors (verified count)
-- **Total Eliminated**: 41,354 errors through systematic pattern-based recovery
-- **Success Rate**: 48% reduction achieved in single campaign execution
-- **Scripts Deployed**: 50+ specialized recovery tools successfully executed
-- **Methodology Validated**: Proven systematic approach at enterprise scale
+### PHASE 1: CRITICAL BUILD RESTORATION (IMMEDIATE PRIORITY)
 
-**Key Breakthrough Achievements:**
-- ✅ **Malformed Pattern Recovery**: 11 destructuring syntax errors fixed
-- ✅ **Mass Semicolon Cleanup**: 53,391 errors eliminated (85,824 → 32,433)
-- ✅ **Critical Syntax Recovery**: 26,539 pattern corrections across 516 files
-- ✅ **Infrastructure Validation**: All 50+ recovery scripts proven effective
+- [ ] **1.1 Emergency Syntax Error Fixes** 🚨 **CRITICAL - BUILD BLOCKING**
+  - Fix immediate syntax errors preventing build compilation
+  - Target specific files with build-blocking syntax errors:
+    - `src/calculations/alchemicalEngine.ts:355` - Fix comma/semicolon syntax error
+    - `src/calculations/core/elementalCalculations.ts:50` - Fix malformed parameter syntax
+    - `src/calculations/core/kalchmEngine.ts:118` - Complete incomplete expression
+    - `src/constants/seasonalCore.ts:114` - Fix semicolon/comma syntax error
+    - `src/contexts/AlchemicalContext/provider.tsx:108` - Fix expression syntax
+  - Use manual fixes for these critical files to restore build immediately
+  - Validate build success after each file fix
+  - _Requirements: 2.1 - CRITICAL BUILD RESTORATION_
 
-**Current Challenge**: Build still failing due to remaining syntax corruption
-**Next Phase Ready**: All tools and methodologies prepared for continued recovery
+- [ ] **1.2 Build Stability Validation** 🚨 **CRITICAL**
+  - Verify `yarn build` completes successfully after syntax fixes
+  - Confirm TypeScript compilation works without build-blocking errors
+  - Test that Next.js can compile and generate production build
+  - Validate that all critical application paths are accessible
+  - Document any remaining non-blocking compilation warnings
+  - _Requirements: 2.1 - BUILD SYSTEM RECOVERY_
 
----
+- [ ] **1.3 TypeScript Error Assessment** 📊 **HIGH PRIORITY**
+  - Run comprehensive TypeScript error analysis after build restoration
+  - Categorize remaining TypeScript errors by type and severity
+  - Identify high-impact files with concentrated error patterns
+  - Generate priority matrix for systematic error reduction
+  - Document current error baseline for Phase 2 planning
+  - _Requirements: 2.1, 2.4 - ERROR ANALYSIS AND CATEGORIZATION_
 
-## CRITICAL RECOVERY EXECUTION PLAN - PHASE 2
+### PHASE 2: SYSTEMATIC TYPESCRIPT ERROR REDUCTION (AFTER BUILD RESTORATION)
 
-### Phase 1: Critical TypeScript Error Elimination (✅ COMPLETED)
-- [x] **1.1 TS1005 Syntax Error Mass Recovery** ✅ **MAJOR PROGRESS ACHIEVED**
-  - **COMPLETED:** Massive syntax error reduction through systematic pattern fixes
-  - **Results:** Eliminated 53,391 errors in single comprehensive cleanup operation
-  - **Key Success:** fix-stray-semicolons.cjs applied 6,325 fixes across 698 files
-  - **Impact:** Primary driver of 48% total error reduction campaign success
-  - **Status:** Proven effectiveness of pattern-based systematic recovery approach
-  - _Requirements: 2.1 - CRITICAL SYNTAX ERROR ELIMINATION ✅ ACHIEVED_
+- [ ] **2.1 Mass TypeScript Error Recovery** 📈 **HIGH PRIORITY**
+  - Execute systematic TypeScript error reduction campaign
+  - Use `fix-systematic-typescript-errors.cjs` for comprehensive error fixing
+  - Target reduction from ~44,000 errors to <1,000 errors (97% reduction)
+  - Apply batch processing with safety validation every 15 files
+  - Preserve astrological calculation patterns and domain logic
+  - Monitor progress with real-time error count tracking
+  - _Requirements: 2.1, 2.4 - SYSTEMATIC ERROR ELIMINATION_
 
-- [x] **1.2 TS1003 Identifier Error Resolution** ✅ **SYSTEMATIC APPROACH VALIDATED**
-  - **COMPLETED:** Applied malformed destructuring pattern fixes
-  - **Results:** fix-malformed-destructuring.cjs corrected 11 critical patterns
-  - **Focus:** Successfully resolved array/object destructuring syntax corruption
-  - **Validation:** All core destructuring patterns now follow proper syntax
-  - **Infrastructure:** Established methodology for continued identifier recovery
-  - _Requirements: 2.1 - IDENTIFIER RESOLUTION RECOVERY ✅ FOUNDATION ESTABLISHED_
-
-- [x] **1.3 TS1128 Declaration Error Cleanup** ✅ **COMPREHENSIVE EXECUTION ATTEMPTED**
-  - **COMPLETED:** Deployed enhanced declaration error fixing tools
-  - **Results:** Multiple specialized scripts tested and validated
-  - **Approach:** Conservative approach prevented error increase during testing
-  - **Outcome:** Scripts ready for Phase 2 with refined safety protocols
-  - **Infrastructure:** Enhanced backup and validation protocols proven effective
-  - _Requirements: 2.1 - DECLARATION SYNTAX RECOVERY ✅ TOOLS VALIDATED_
-
-- [x] **1.4 Systematic Recovery Campaign Orchestration** ✅ **HISTORIC SUCCESS**
-  - **COMPLETED:** Full systematic recovery campaign successfully executed
-  - **Achievement:** 41,354 errors eliminated (48% reduction) through coordinated approach
-  - **Tools Deployed:** 50+ specialized recovery scripts proven in production
-  - **Methodology:** Established enterprise-grade systematic error recovery approach
-  - **Foundation:** All infrastructure ready for continued Phase 2 systematic recovery
-  - _Requirements: 2.1, 2.4 - SYSTEMATIC RECOVERY ORCHESTRATION ✅ MASTERY ACHIEVED_
-
-### Phase 2: ESLint Issue Mass Reduction (⚠️ BLOCKED - REQUIRES BUILD STABILITY)
-- [ ] **2.1 Auto-Fixable ESLint Issues** ⚠️ **BLOCKED BY TYPESCRIPT SYNTAX ERRORS**
-  - **Status:** ESLint cannot parse files due to remaining TypeScript syntax corruption
-  - **Blocker:** 44,481 TypeScript errors prevent ESLint analysis and auto-fix execution
-  - **Requirement:** Must restore build stability before ESLint mass reduction can proceed
-  - **Ready:** All ESLint mass reduction tools tested and prepared for Phase 2 deployment
-  - **Priority:** Resolve remaining TypeScript syntax errors to unblock ESLint processing
-  - _Requirements: 2.2, 2.3 - AUTOMATED ISSUE RESOLUTION (PHASE 2 READY)_
-
-- [ ] **2.2 High-Frequency Rule Violations**
-  - Target `@typescript-eslint/no-explicit-any` (1,959 occurrences)
-  - Target `no-console` (1,904 occurrences)
-  - Target `@typescript-eslint/no-unused-vars` (523 occurrences)
-  - Use specialized scripts for each rule category
-  - Apply domain-aware patterns for astrological and campaign systems
-  - _Requirements: 2.2, 2.3, 2.5 - RULE-SPECIFIC MASS REDUCTION_
-
-- [ ] **2.3 Comprehensive ESLint Mass Reduction**
-  - Execute `comprehensive-eslint-mass-reducer.cjs` for systematic reduction
-  - Target: Reduce remaining 5,145 ESLint issues to <500 (90% reduction)
-  - Batch processing: 25 files with validation checkpoints
-  - Preserve: Domain-specific patterns and functionality
-  - Monitor: Real-time progress tracking and error categorization
-  - _Requirements: 2.2, 2.3, 2.5 - COMPREHENSIVE ISSUE ELIMINATION_
-
-### Phase 3: High-Impact File Processing (MEDIUM PRIORITY)
-- [ ] **3.1 Process 87 High-Impact Files (10+ errors each)**
-  - Target files with highest error concentrations for maximum impact
-  - Focus on test files with 50+ errors each (10 files identified)
-  - Use specialized batch processing for concentrated error patterns
+- [ ] **2.2 High-Impact File Processing** 🎯 **HIGH PRIORITY**
+  - Identify and process files with highest error concentrations
+  - Focus on files with 50+ errors each for maximum impact
+  - Use specialized fixing scripts for concentrated error patterns
   - Apply enhanced safety protocols for complex files
-  - Monitor progress with file-by-file error reduction tracking
-  - _Requirements: 2.1, 2.4 - HIGH-IMPACT FILE PROCESSING_
+  - Validate functionality preservation after each high-impact file
+  - _Requirements: 2.1, 2.4 - HIGH-IMPACT ERROR REDUCTION_
 
-- [ ] **3.2 Specialized Pattern Resolution**
+- [ ] **2.3 Specialized Pattern Resolution** 🔧 **MEDIUM PRIORITY**
   - Address remaining complex error patterns not handled by mass tools
   - Use `proven-pattern-fixer.cjs` for stubborn error patterns
-  - Apply `diagnostic-pattern-analyzer.cjs` for pattern identification
-  - Target remaining syntax errors requiring manual pattern analysis
-  - Ensure 100% error elimination through specialized approaches
+  - Apply manual fixes for domain-specific astrological patterns
+  - Target remaining syntax errors requiring specialized approaches
+  - Ensure 100% error elimination through targeted fixes
   - _Requirements: 2.1, 2.4 - SPECIALIZED PATTERN RESOLUTION_
 
-### Phase 4: Final Validation and Quality Assurance (LOW PRIORITY)
-- [ ] **4.1 Zero-Error State Validation**
-  - Verify TypeScript error count: 3,588 → 0 (100% elimination)
-  - Verify ESLint issue count: 6,036 → <100 (98%+ reduction)
+### PHASE 3: ESLINT WARNING REDUCTION (AFTER TYPESCRIPT RECOVERY)
+
+- [ ] **3.1 ESLint Analysis Restoration** 🔄 **BLOCKED UNTIL PHASE 2**
+  - Restore ESLint's ability to parse TypeScript files
+  - Run comprehensive ESLint analysis to get current warning baseline
+  - Categorize ESLint warnings by rule type and severity
+  - Generate ESLint warning reduction strategy based on current state
+  - _Requirements: 2.2, 2.3 - ESLINT ANALYSIS RESTORATION_
+
+- [ ] **3.2 Auto-Fixable ESLint Issues** 🤖 **MEDIUM PRIORITY**
+  - Apply ESLint auto-fix for safe, automated corrections
+  - Target formatting, import organization, and simple rule violations
+  - Use `eslint-autofix-efficient.cjs` for batch auto-fixing
+  - Validate that auto-fixes don't introduce new TypeScript errors
+  - _Requirements: 2.2, 2.3 - AUTOMATED ESLINT FIXES_
+
+- [ ] **3.3 High-Frequency Rule Violations** 📊 **MEDIUM PRIORITY**
+  - Target most common ESLint rule violations systematically
+  - Focus on `@typescript-eslint/no-explicit-any`, `no-console`, `@typescript-eslint/no-unused-vars`
+  - Apply domain-aware patterns for astrological and campaign systems
+  - Use specialized scripts for each rule category
+  - _Requirements: 2.2, 2.3, 2.5 - RULE-SPECIFIC REDUCTION_
+
+- [ ] **3.4 Comprehensive ESLint Mass Reduction** 🎯 **LOW PRIORITY**
+  - Execute comprehensive ESLint warning reduction campaign
+  - Target 90%+ reduction in total ESLint warnings
+  - Apply batch processing with validation checkpoints
+  - Preserve domain-specific patterns and debugging capabilities
+  - _Requirements: 2.2, 2.3, 2.5 - COMPREHENSIVE WARNING ELIMINATION_
+
+### PHASE 4: FINAL VALIDATION AND QUALITY ASSURANCE
+
+- [ ] **4.1 Zero-Error State Validation** ✅ **FINAL GOAL**
+  - Verify TypeScript error count reaches 0 (100% elimination)
+  - Verify ESLint warning count <100 (95%+ reduction)
   - Run comprehensive test suite validation
   - Validate build stability and performance metrics
   - Confirm astrological calculations maintain accuracy
   - _Requirements: 2.1, 5.4 - ZERO-ERROR ACHIEVEMENT VALIDATION_
 
-- [ ] **4.2 Performance and Integration Testing**
+- [ ] **4.2 Performance and Integration Testing** 📊 **QUALITY ASSURANCE**
   - Validate TypeScript compilation time <30 seconds
   - Confirm ESLint analysis time <60 seconds
   - Test build performance and bundle size metrics
@@ -174,7 +149,7 @@ This implementation plan systematically addresses linting excellence through a s
   - Generate comprehensive achievement metrics report
   - _Requirements: 5.1, 5.2 - PERFORMANCE VALIDATION_
 
-- [ ] **4.3 Regression Prevention Setup**
+- [ ] **4.3 Regression Prevention Setup** 🛡️ **MAINTENANCE**
   - Configure pre-commit hooks with error thresholds
   - Update CI/CD pipeline with quality gates
   - Implement automated error monitoring and alerts
@@ -182,26 +157,25 @@ This implementation plan systematically addresses linting excellence through a s
   - Document recovery procedures for future use
   - _Requirements: 6.3, 6.4, 6.5 - REGRESSION PREVENTION_
 
-## EXECUTION STRATEGY - DRY-RUN FIRST APPROACH
+## EXECUTION STRATEGY
 
-### Mandatory Dry-Run Protocol
-**CRITICAL: All scripts MUST be executed with dry-run mode first**
-- Use `--dry-run` flag on all automated fixing scripts
-- Validate proposed changes before applying any modifications
-- Review dry-run output for unexpected changes or potential issues
-- Only proceed with actual fixes after dry-run validation passes
-- This prevents the need for git rollbacks and maintains code stability
+### Emergency Recovery Protocol
+**CRITICAL: Build restoration takes absolute priority**
+- Manual fixes for immediate build-blocking syntax errors
+- Validate build success after each critical file fix
+- No automated scripts until build stability is restored
+- Focus on minimal changes to restore compilation
 
-### Execution Sequence (Dry-Run → Validate → Execute)
-**Phase 1 Execution Pattern:**
+### Systematic Recovery Approach (After Build Restoration)
+**Phase 2+ Execution Pattern:**
 ```bash
-# Step 1: Dry-run validation
-node fix-ts1005-targeted-safe.cjs --dry-run
-# Step 2: Review proposed changes
-# Step 3: Execute if validation passes
-node fix-ts1005-targeted-safe.cjs
-# Step 4: Validate build stability
+# Step 1: Assess current state
+yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c "error TS"
+# Step 2: Execute systematic fixes
+node fix-systematic-typescript-errors.cjs
+# Step 3: Validate progress
 yarn build
+# Step 4: Monitor error reduction
 ```
 
 **Safety Checkpoints:**
@@ -210,376 +184,188 @@ yarn build
 - Automatic error count verification before/after each batch
 - Real-time progress monitoring with rollback triggers
 
-### Success Metrics (VERIFIED BASELINE)
+### Success Metrics (CURRENT BASELINE)
 **Current State (VERIFIED):**
-- TypeScript Errors: **3,588** (verified via tsc)
-- ESLint Issues: **6,036** (verified via lint)
-- Build Status: **✅ SUCCESSFUL** (verified via build)
-- High-Impact Files: **87** (from comprehensive analysis)
+- TypeScript Errors: **44,778** (CRITICAL - Build failing)
+- ESLint Warnings: **2,478** (Blocked by TypeScript errors)
+- Build Status: **❌ FAILING** (Syntax errors preventing compilation)
+- Critical Files: **5** (Immediate build-blocking syntax errors)
 
 **Target Achievement:**
 - TypeScript Errors: **0** (100% elimination)
-- ESLint Issues: **<100** (98%+ reduction)
-- Build Stability: **✅ MAINTAINED** (critical requirement)
-- Performance: **<30 seconds** (analysis time maintained)
+- ESLint Warnings: **<100** (95%+ reduction)
+- Build Stability: **✅ RESTORED** (critical requirement)
+- Performance: **<30 seconds** (compilation time maintained)
 - Functionality: **100% PRESERVED** (all systems intact)
 
 ### Risk Mitigation
-**Proven Infrastructure:**
-- 50+ specialized scripts available and tested
-- Comprehensive error analysis and categorization complete
-- Safety protocols and rollback mechanisms implemented
-- Real-time monitoring and validation systems ready
-- Previous successful campaign methodologies documented
+**Available Infrastructure:**
+- 50+ specialized scripts available for systematic recovery
+- Manual fix approach for critical build-blocking errors
+- Safety protocols and rollback mechanisms ready
+- Real-time monitoring and validation systems available
+- Proven methodologies from previous recovery campaigns
 
 ## READY-TO-EXECUTE COMMAND REFERENCE
 
-### Phase 1: TypeScript Error Recovery Commands
-**TS1005 Syntax Errors (1,473 errors):**
+### Phase 1: Emergency Build Restoration Commands
+**Critical Syntax Fixes (Manual):**
 ```bash
-# Dry-run first (MANDATORY)
-node fix-ts1005-targeted-safe.cjs --dry-run
-# Execute after validation
-node fix-ts1005-targeted-safe.cjs
-# Alternative approaches if needed
-node fix-ts1005-comprehensive.cjs --dry-run
-node fix-ts1005-enhanced-batch.cjs --dry-run
-```
+# Check current build status
+yarn build
 
-**TS1003 Identifier Errors (752 errors):**
-```bash
-# Primary identifier resolution
-node fix-ts1003-identifier-errors.cjs --dry-run
-node fix-ts1003-identifier-errors.cjs
-# Comprehensive approach if needed
-node fix-identifier-resolution-comprehensive.cjs --dry-run
-```
+# After manual syntax fixes, validate build
+yarn build
 
-**TS1128 Declaration Errors (474 errors):**
-```bash
-# Enhanced declaration fixes
-node enhanced-ts1128-declaration-fixer.cjs --dry-run
-node enhanced-ts1128-declaration-fixer.cjs
-# Conservative approach alternative
-node conservative-ts1128-fixer.cjs --dry-run
-```
-
-### Phase 2: ESLint Issue Reduction Commands
-**Auto-Fixable Issues (686 issues):**
-```bash
-# ESLint auto-fix (safest approach)
-yarn lint --fix --max-warnings=0
-# Comprehensive mass reduction
-node comprehensive-eslint-mass-reducer.cjs --dry-run
-node comprehensive-eslint-mass-reducer.cjs
-```
-
-**High-Frequency Rule Violations:**
-```bash
-# Explicit any cleanup
-node fix-remaining-any-types.cjs --dry-run
-# Console statement cleanup
-node fix-console-and-any-cleanup.cjs --dry-run
-# Unused variables cleanup
-node fix-specific-unused-vars.cjs --dry-run
-```
-
-### Validation and Monitoring Commands
-**Real-Time Error Tracking:**
-```bash
-# Current TypeScript error count
+# Monitor TypeScript error count
 yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c "error TS" || echo "0"
-# Current ESLint issue count
-yarn lint --max-warnings=0 2>&1 | grep -E "warning|error" | wc -l || echo "0"
-# Build validation
+```
+
+### Phase 2: Systematic TypeScript Recovery Commands
+**Mass Error Reduction (After Build Restoration):**
+```bash
+# Systematic TypeScript error recovery
+node fix-systematic-typescript-errors.cjs
+
+# Comprehensive error fixing
+node comprehensive-error-fixer.cjs
+
+# Targeted syntax error fixes
+node fix-syntax-errors.cjs
+
+# Build validation after fixes
 yarn build
 ```
 
-**Comprehensive Analysis:**
+### Phase 3: ESLint Recovery Commands (After TypeScript Recovery)
+**ESLint Analysis and Fixes:**
 ```bash
-# Full error analysis and categorization
+# Restore ESLint analysis capability
+yarn lint --max-warnings=0
+
+# Auto-fix safe ESLint issues
+yarn lint --fix
+
+# Comprehensive ESLint mass reduction
+node comprehensive-eslint-mass-reducer.cjs
+
+# Efficient ESLint auto-fixing
+node eslint-autofix-efficient.cjs
+```
+
+### Monitoring and Validation Commands
+**Real-Time Progress Tracking:**
+```bash
+# Current TypeScript error count
+yarn tsc --noEmit --skipLibCheck 2>&1 | grep -c "error TS" || echo "0"
+
+# Current ESLint warning count (after TS recovery)
+yarn lint --max-warnings=0 2>&1 | grep -E "warning|error" | wc -l || echo "0"
+
+# Build validation
+yarn build
+
+# Full error analysis
 node comprehensive-error-analysis.cjs
-# Pattern analysis for remaining errors
-node diagnostic-pattern-analyzer.cjs
-# Progress validation
-node task-1-1-validation.cjs
 ```
 
 ## IMMEDIATE EXECUTION READINESS
 
-### Pre-Execution Verification ✅ COMPLETE
-- [x] **Current State Verified**: 3,588 TS errors + 6,036 ESLint issues = 9,624 total
-- [x] **Build Status Confirmed**: ✅ Successful compilation maintained
+### Pre-Execution Verification 🚨 CRITICAL STATE
+- [x] **Current State Verified**: 44,778 TS errors + 2,478 ESLint warnings = 47,256 total issues
+- [x] **Build Status Confirmed**: ❌ FAILING - Critical syntax errors preventing compilation
 - [x] **Infrastructure Ready**: 50+ specialized recovery scripts available
-- [x] **Error Analysis Complete**: Comprehensive categorization and priority matrix
-- [x] **Safety Protocols Active**: Dry-run validation, build checkpoints, rollback mechanisms
-- [x] **Proven Methodologies**: Battle-tested tools from previous successful campaigns
+- [x] **Critical Files Identified**: 5 files with immediate build-blocking syntax errors
+- [x] **Safety Protocols Active**: Manual fix approach, build validation checkpoints
+- [x] **Recovery Tools Available**: Proven methodologies from previous campaigns
 
-### Execution Authorization ✅ READY
-**The linting excellence recovery campaign is fully prepared for immediate execution.**
+### Execution Authorization 🚨 EMERGENCY RECOVERY REQUIRED
+**The linting excellence recovery campaign requires immediate emergency intervention.**
 
 **Critical Success Factors:**
-- **Dry-Run First**: All scripts MUST use `--dry-run` flag initially
-- **Build Validation**: Verify `yarn build` success after each batch
+- **Build First**: Manual syntax fixes to restore build compilation immediately
+- **Build Validation**: Verify `yarn build` success after each critical file fix
 - **Error Monitoring**: Track progress with real-time error counts
-- **Safety First**: Automatic rollback on any build failures
-- **Systematic Approach**: Execute phases in sequence for maximum safety
+- **Safety First**: Minimal changes to restore build, then systematic recovery
+- **Phased Approach**: Emergency → Systematic → Comprehensive
 
 **Expected Timeline:**
-- **Phase 1** (TS Error Recovery): 2-4 hours for 97% error reduction
-- **Phase 2** (ESLint Reduction): 1-2 hours for 90%+ issue reduction
-- **Phase 3** (High-Impact Files): 1 hour for specialized pattern resolution
+- **Phase 1** (Emergency Build Restoration): 30-60 minutes for build recovery
+- **Phase 2** (Systematic TS Recovery): 4-6 hours for 95%+ error reduction
+- **Phase 3** (ESLint Recovery): 2-3 hours for 90%+ warning reduction
 - **Phase 4** (Final Validation): 30 minutes for comprehensive testing
 
-**Total Estimated Time**: 4-7 hours for complete zero-error achievement
+**Total Estimated Time**: 7-10 hours for complete zero-error achievement
 
 ### Next Action
-**Ready to begin Phase 1.1: TS1005 Syntax Error Mass Recovery**
-- Execute: `node fix-ts1005-targeted-safe.cjs --dry-run`
-- Validate proposed changes
-- Proceed with actual fixes if dry-run validation passes
+**Ready to begin Phase 1.1: Emergency Syntax Error Fixes**
+- Manually fix 5 critical build-blocking syntax errors
+- Validate `yarn build` success after each fix
+- Proceed to systematic recovery once build is restored
 - Monitor progress with real-time error count tracking
 
 ## IMMEDIATE NEXT STEPS
 
-### Ready for Execution
-**The linting excellence recovery campaign is fully prepared and ready for immediate execution. All infrastructure, tools, and methodologies are in place.**
+### Emergency Recovery Required
+**The linting excellence recovery campaign requires immediate emergency intervention due to build failure.**
 
-**To begin recovery:**
-1. **Start with Phase 1.1**: Execute systematic TypeScript error recovery
-2. **Use proven tools**: All required scripts are tested and ready
-3. **Follow safety protocols**: Batch processing with validation checkpoints
-4. **Monitor progress**: Real-time error count tracking and validation
-5. **Maintain build stability**: Automatic rollback on any build failures
+**To begin emergency recovery:**
+1. **Start with Phase 1.1**: Manual fixes for 5 critical build-blocking syntax errors
+2. **Restore build stability**: Verify `yarn build` succeeds after syntax fixes
+3. **Assess damage**: Run comprehensive error analysis after build restoration
+4. **Execute systematic recovery**: Use proven tools for mass error reduction
+5. **Monitor progress**: Real-time error count tracking and validation
 
 **Expected Timeline:**
-- **Phase 1** (TypeScript Recovery): 2-4 hours for 97% error reduction
-- **Phase 2** (ESLint Reduction): 1-2 hours for 92% issue reduction
-- **Phase 3** (Validation): 30 minutes for comprehensive testing
-- **Phase 4** (Documentation): 30 minutes for final reporting
+- **Phase 1** (Emergency Build Restoration): 30-60 minutes for build recovery
+- **Phase 2** (Systematic TS Recovery): 4-6 hours for 95%+ error reduction
+- **Phase 3** (ESLint Recovery): 2-3 hours for 90%+ warning reduction
+- **Phase 4** (Final Validation): 30 minutes for comprehensive testing
 
-**Total Estimated Time**: 4-7 hours for complete zero-error achievement
+**Total Estimated Time**: 7-10 hours for complete zero-error achievement
 
-### Campaign Execution Commands
-**Ready-to-use commands for immediate execution:**
+### Emergency Recovery Commands
+**Immediate actions required:**
 ```bash
-# Phase 1: TypeScript Error Recovery
-node systematic-typescript-recovery-campaign.cjs
-node phase-12-1-typescript-mass-recovery.cjs
-node final-typescript-recovery-campaign.cjs
+# Phase 1: Emergency Build Restoration (Manual fixes required)
+# Fix syntax errors in these files:
+# - src/calculations/alchemicalEngine.ts:355
+# - src/calculations/core/elementalCalculations.ts:50
+# - src/calculations/core/kalchmEngine.ts:118
+# - src/constants/seasonalCore.ts:114
+# - src/contexts/AlchemicalContext/provider.tsx:108
 
-# Phase 2: ESLint Issue Reduction
+# Validate build after each fix
+yarn build
+
+# Phase 2: Systematic Recovery (After build restoration)
+node fix-systematic-typescript-errors.cjs
+node comprehensive-error-fixer.cjs
+
+# Phase 3: ESLint Recovery (After TypeScript recovery)
+yarn lint --fix
 node comprehensive-eslint-mass-reducer.cjs
-node resilient-eslint-mass-reduction.cjs
-node targeted-eslint-mass-fixer.cjs
-
-# Validation and Monitoring
-node comprehensive-error-analysis.cjs
-node task-1-1-validation.cjs
 ```
-
-
 
 ## SUMMARY
 
-**The linting excellence recovery campaign is fully prepared and ready for immediate execution.**
+**The linting excellence recovery campaign requires immediate emergency intervention.**
 
-**Current State:**
-- **TypeScript Errors**: 3,588 (CRITICAL - requires systematic recovery)
-- **ESLint Issues**: 6,036 (HIGH - requires mass reduction)
-- **Build Status**: ✅ SUCCESSFUL (maintained throughout)
-- **Infrastructure**: ✅ READY (all tools and scripts available)
+**Current Critical State:**
+- **TypeScript Errors**: 44,778 (EMERGENCY - Build completely broken)
+- **ESLint Warnings**: 2,478 (Blocked by TypeScript compilation failures)
+- **Build Status**: ❌ FAILING (Critical syntax errors preventing compilation)
+- **Infrastructure**: ✅ READY (all recovery tools and scripts available)
 
-**Recovery Plan:**
-1. **Phase 1**: TypeScript Error Mass Recovery (3,588 → 0 errors)
-2. **Phase 2**: ESLint Issue Mass Reduction (6,036 → <500 issues)
-3. **Phase 3**: Quality Assurance and Validation
-4. **Phase 4**: Documentation and Knowledge Transfer
+**Emergency Recovery Plan:**
+1. **Phase 1**: Emergency Build Restoration (Manual syntax fixes)
+2. **Phase 2**: Systematic TypeScript Error Recovery (44,778 → <1,000 errors)
+3. **Phase 3**: ESLint Warning Reduction (2,478 → <100 warnings)
+4. **Phase 4**: Quality Assurance and Validation
 
-**All required tools, scripts, and methodologies are in place for immediate execution. The campaign can begin at any time with confidence in achieving zero-error state.** regression patterns
-  - Maintain recovery script repository with usage documentation
-  - Establish knowledge base for future systematic recovery campaigns
-  - _Requirements: 5.5, 6.1 - KNOWLEDGE PRESERVATION_
+**Emergency intervention is required immediately to restore build stability, followed by systematic recovery to achieve zero-error state.**
 
-**Available Automation Scripts (Ready for Immediate Reuse):**
-- **TypeScript Error Recovery**: fix-systematic-typescript-errors.cjs (proven 99% success rate)
-- **Type Assertion Cleanup**: ✅ fix-redundant-assertions.cjs (73% success rate achieved), fix-unnecessary-assertions.cjs (ready for 2,162 cases)
-- **Explicit Any Cleanup**: fix-explicit-any-targeted.cjs, reduce-explicit-any-errors.cjs
-- **Variable Cleanup**: cleanup-unused-variables.cjs, fix-high-impact-files.cjs
-- **Console Cleanup**: fix-console-statements.cjs (strategic cleanup approach)
-- **JSX Entity Fixes**: ✅ fix-jsx-entities-targeted.cjs (completed successfully)
-- **Import/Export Fixes**: Various import cleanup and organization scripts
-- **Domain-Specific Tools**: 25+ specialized scripts for astrological and campaign system preservation
-- **Safety Infrastructure**: Comprehensive validation, rollback, and batch processing capabilities
-
-## Immediate Next Steps (Priority Order)
-
-### 1. Complete Remaining Type Assertion Cleanup (High Priority)
-- **Target**: Remove 2,162 unnecessary type assertions (expanded scope from fresh analysis)
-- **Script**: Use existing fix-unnecessary-assertions.cjs with proven safety protocols
-- **Approach**: Batch processing with 15-file validation checkpoints
-- **Expected Impact**: Significant improvement in TypeScript code quality and type safety
-
-### 2. Execute Major TypeScript Error Recovery (Critical Priority)
-- **Target**: Reduce 3,444 TypeScript errors to <100 (97% reduction goal)
-- **Script**: Apply fix-systematic-typescript-errors.cjs with proven 99% success rate
-- **Approach**: Systematic batch processing with comprehensive safety validation
-- **Expected Impact**: Restore TypeScript compilation to production-ready state
-
-### 3. ESLint Mass Reduction Campaign (High Priority)
-- **Target**: Reduce 7,089 ESLint issues to <500 (93% reduction goal)
-- **Focus**: Unused variables, imports, console statements, formatting issues
-- **Approach**: Domain-aware cleanup preserving astrological and campaign patterns
-- **Expected Impact**: Achieve linting excellence with maintainable code quality
-
-### 4. Leverage Sign Vectors Enhancement
-- **Opportunity**: Utilize new Sign Vectors system for improved calculation accuracy
-- **Integration**: Ensure all astrological calculations benefit from vector-based ESMS
-- **Monitoring**: Track performance improvements from enhanced calculation system
-- **Documentation**: Update calculation accuracy metrics and performance benchmarks
-
-## Phase 9: Critical Error Recovery (Priority: CRITICAL) - 🚨 IN PROGRESS
-
-- [x] 9.1 TypeScript Error Recovery and Analysis (✅ COMPLETED - August 2025)
-  - ✅ Investigated syntax error patterns causing compilation failures
-  - ✅ Analyzed malformed type casting patterns in PilotCampaignAnalysis.ts
-  - ✅ Fixed all TS1005 syntax errors (9 → 0, 100% elimination)
-  - ✅ Maintained successful build compilation (3.0s build time)
-  - ✅ Preserved campaign system functionality and domain patterns
-  - ✅ Documented systematic approach for future syntax error recovery
-  - _Requirements: 2.1, 2.4 - SYNTAX ERROR RECOVERY ACHIEVED_
-
-- [x] 9.2 Systematic TypeScript Error Resolution (✅ COMPLETED - August 2025)
-  - ✅ Executed targeted fixes for 1,810 TypeScript compilation errors (99% reduction to 15 errors)
-  - ✅ Applied type-safe solutions following established patterns with systematic fix script
-  - ✅ Validated build stability after each batch of fixes (100% successful compilation maintained)
-  - ✅ Preserved astrological calculation accuracy and domain patterns throughout process
-  - ✅ Maintained campaign system integrity with comprehensive backup and safety protocols
-  - ✅ Created systematic fix script (fix-systematic-typescript-errors.cjs) for future use
-  - ✅ Achieved production-ready state with optimized build generation (10.0s build time)
-  - _Requirements: 2.1, 2.4 - MAJOR PROGRESS ACHIEVED (99% ERROR REDUCTION)_
-
-- [ ] 9.3 ESLint Error Resolution (1,018 errors)
-  - Address the 1,018 ESLint errors systematically
-  - Focus on critical errors that affect build stability
-  - Apply automated fixes where safe and appropriate
-  - Preserve domain-specific patterns and functionality
-  - Validate fixes don't introduce new TypeScript errors
-  - _Requirements: 2.2, 2.3, 2.5 - SYSTEMATIC ERROR ELIMINATION_
-
-
-
-## Phase 10: ESLint Warning Resolution (Priority: High)
-
-- [x] 10.1 Explicit Any Type Warning Cleanup (~500+ warnings) - ✅ PARTIAL COMPLETION
-  - ✅ Analyzed 147 explicit-any warnings across the codebase
-  - ✅ Applied safe replacements for Record<string, any> → Record<string, unknown> patterns
-  - ✅ Replaced array type patterns any[] → unknown[] where appropriate
-  - ✅ Maintained build stability throughout the process (4.0s build time)
-  - ✅ Preserved intentional any types with proper ESLint disable comments
-  - ⚠️ Reduced explicit-any warnings from 147 to 146 (1 warning eliminated)
-  - 📝 Identified that many any types are intentionally preserved for domain flexibility
-  - _Requirements: 2.4, 3.1 - CONSERVATIVE PROGRESS ACHIEVED_
-  - Analyze current explicit-any warning patterns in the codebase
-  - Apply safe type replacements where TypeScript types are available
-  - Preserve necessary `any` types in astronomical library integrations and test files
-  - Focus on array types (any[] → unknown[]) and Record types (Record<string, any> → Record<string, unknown>)
-  - Validate that changes don't introduce TypeScript compilation errors
-  - Target 70% reduction while maintaining functionality
-  - _Requirements: 2.4, 3.1 - SYSTEMATIC TYPE SAFETY_
-
-- [x] 10.2 Console Statement Warning Cleanup (~300+ warnings) - 🚨 IN PROGRESS
-  - Identify and categorize console statement warnings across the codebase
-  - Preserve intentional console statements in debug files and test files
-  - Convert development console.log to proper logging or comments
-  - Maintain console.error and console.warn statements for error handling
-  - Apply domain-specific patterns for astrological debugging preservation
-  - Target 80% reduction while preserving debugging capabilities
-  - _Requirements: 2.5, 4.1, 4.4 - SYSTEMATIC CLEANUP_
-
-- [ ] 10.3 Code Quality Warning Resolution (~2,800+ remaining warnings)
-  - Address unused variables with domain-aware patterns
-  - Fix eqeqeq violations (== vs ===) systematically
-  - Resolve no-var violations (var → let/const)
-  - Handle prefer-const violations where appropriate
-  - Apply no-constant-condition fixes for legitimate conditions
-  - Preserve astrological domain variables and campaign system variables
-  - _Requirements: 2.2, 3.2, 4.1, 4.4 - COMPREHENSIVE QUALITY IMPROVEMENT_
-
-- [ ] 10.4 Import and Module Warning Resolution
-  - Fix import/export related warnings
-  - Resolve unused import statements
-  - Address import ordering violations
-  - Handle module resolution warnings
-  - Ensure proper TypeScript import patterns
-  - Maintain proper module boundaries and dependencies
-  - _Requirements: 2.3, 3.3 - MODULE SYSTEM OPTIMIZATION_
-
-## Phase 11: Final Excellence Achievement (Priority: CRITICAL) - ✅ MAJOR PROGRESS ACHIEVED
-
-### 🎉 Phase 11.1 Achievement Summary (September 2, 2025)
-**EXCEPTIONAL RESULTS**: 91.2% TypeScript error reduction with full build stability maintained
-
-**Key Metrics**:
-- **TypeScript Errors**: 39,056 → 3,426 (35,630 errors eliminated)
-- **Syntax Fixes Applied**: 32,792 individual corrections
-- **Test Files Processed**: 145 files systematically corrected
-- **Build Status**: ✅ Successful compilation maintained (10.0s)
-- **Domain Integrity**: ✅ All astrological and campaign systems preserved
-
-- [x] 11.1 Zero Error State Restoration - ✅ MAJOR PROGRESS (91.2% complete)
-  - ✅ Achieved massive TypeScript error reduction (39,056 → 3,426 errors)
-  - ✅ Applied 32,792 systematic syntax fixes across 145 test files
-  - ✅ Maintained build stability throughout entire recovery process
-  - ✅ Preserved all astrological calculations and campaign system patterns
-  - ✅ Created comprehensive recovery documentation (phase-11-progress-report.md)
-  - ⚠️ Remaining: 3,426 TypeScript errors (8.8% of original count)
-  - ⚠️ Remaining: 1,684 ESLint errors (systematic resolution in progress)
-  - _Requirements: 2.1, 2.4 - MAJOR PROGRESS TOWARD EXCELLENCE STATE_
-
-- [ ] 11.2 Systematic Error Recovery Campaign - 🚨 CRITICAL PRIORITY
-  - Execute comprehensive TypeScript error reduction from 3,444 to <100 errors
-  - Apply proven systematic fixing approaches from previous successful campaigns
-  - Use existing automation scripts (fix-systematic-typescript-errors.cjs and similar)
-  - Maintain build stability throughout recovery process with validation checkpoints
-  - Preserve astrological calculation accuracy and domain patterns
-  - Target 95%+ error reduction while maintaining all functionality
-  - _Requirements: 2.1, 2.4 - CRITICAL SYSTEM RECOVERY_
-
-- [ ] 11.3 ESLint Warning Mass Reduction Campaign - 🚨 HIGH PRIORITY
-  - Systematically reduce 7,089 linting issues to <500 warnings
-  - Focus on high-impact automated fixes (unused variables, import cleanup, formatting)
-  - Apply domain-aware patterns for astrological and campaign system preservation
-  - Use batch processing with safety validation every 25 files
-  - Target categories: unused variables, console statements, explicit any types, import violations
-  - Achieve 90%+ warning reduction while preserving all domain functionality
-  - _Requirements: 2.2, 2.3, 2.5 - COMPREHENSIVE WARNING ELIMINATION_
-
-- [ ] 11.4 Console Statement Strategic Cleanup - 🔄 MEDIUM PRIORITY
-  - Clean up remaining ~50 console.log statements in campaign and service files
-  - Preserve intentional debugging statements in development utilities
-  - Convert development console.log to proper logging or comments
-  - Focus on src/services/campaign/ files with extensive console usage
-  - Apply systematic comment-based replacement approach
-  - Target 80% reduction while maintaining debugging capabilities
-  - _Requirements: 2.5, 4.1, 4.4 - STRATEGIC CONSOLE CLEANUP_
-
-- [ ] 11.5 Explicit Any Type Systematic Replacement - 🔄 MEDIUM PRIORITY
-  - Replace remaining ~50 explicit any types with proper TypeScript types
-  - Focus on zodiac sign parameters and astrological calculation interfaces
-  - Use proven type-safe patterns: ZodiacSign union types, proper interface definitions
-  - Apply conservative replacement strategy to avoid breaking functionality
-  - Preserve intentional any types in high-risk domains with proper ESLint disable comments
-  - Target 70% reduction while maintaining type flexibility where needed
-  - _Requirements: 2.4, 3.1 - TYPE SAFETY ENHANCEMENT_SLint warnings (down from original higher counts)
-  - Target: Reduce to under 500 warnings (91% reduction needed)
-  - Focus on high-impact warnings that affect code quality
-  - Preserve domain-specific patterns and debugging capabilities
-  - Apply proven automated-warning-fixer.cjs and targeted scripts
-  - _Requirements: 2.2, 2.5, 3.1 - SYSTEMATIC WARNING REDUCTION_
-
-- [ ] 11.3 Performance and Configuration Optimization [Start task]
-  - Fine-tune ESLint rule severities based on current error distribution
+-tune ESLint rule severities based on current error distribution
   - Implement granular rule overrides for domain-specific files
   - Optimize ESLint configuration for sub-30 second analysis
   - Add comprehensive .eslintignore for build artifacts

@@ -15,10 +15,10 @@ import * as path from 'path';
 import { log } from '@/services/LoggingService';
 
 interface UnusedVariableIssue {
-  file: string;
-  line: number;
-  column: number;
-  variableName: string;
+  file: string,
+  line: number,
+  column: number,
+  variableName: string,
   type: 'variable' | 'parameter' | 'import' | 'type',
   context: string,
   isCritical: boolean,
@@ -26,7 +26,7 @@ interface UnusedVariableIssue {
 }
 
 interface ProcessingResult {
-  totalIssues: number;
+  totalIssues: number,
   processed: number,
   skipped: number,
   errors: string[],
@@ -65,7 +65,7 @@ export class UnusedVariableProcessor {
 
     const issues = await this.detectUnusedVariables();
     const result: ProcessingResult = {
-      totalIssues: issues.length;
+      totalIssues: issues.length,
       processed: 0,
       skipped: 0,
       errors: [],
@@ -160,11 +160,11 @@ export class UnusedVariableProcessor {
 
     return {
       file: filePath,
-      line: message.line;
-      column: message.column;
+      line: message.line,
+      column: message.column,
       variableName,
-      type: this.determineVariableType(message.message);
-      context: message.message;
+      type: this.determineVariableType(message.message),
+      context: message.message,
       isCritical,
       canAutoFix: !isCritical && (isTest || this.canSafelyPrefix(variableName))
     };

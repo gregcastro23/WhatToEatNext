@@ -24,9 +24,9 @@ export function adaptRecipeData(recipeData: RecipeData): Recipe {
     ingredients,
     instructions: recipeData.instructions || ['Combine ingredients and cook as desired.'],
     elementalProperties: ((recipeData as unknown as any).elementalState as ElementalProperties) || {
-      Fire: 0.25;
-      Water: 0.25;
-      Earth: 0.25;
+      Fire: 0.25,
+      Water: 0.25,
+      Earth: 0.25,
       Air: 0.25
     }
   };
@@ -61,9 +61,9 @@ export function adaptRecipeData(recipeData: RecipeData): Recipe {
   } else {
     // Create default elemental properties
     recipe.elementalState = createElementalProperties({
-      Fire: 0.25;
-      Water: 0.25;
-      Earth: 0.25;
+      Fire: 0.25,
+      Water: 0.25,
+      Earth: 0.25,
       Air: 0.25
     });
   }
@@ -158,10 +158,10 @@ export function adaptRecipeData(recipeData: RecipeData): Recipe {
     const macronutrients = (nutritionData.macronutrients as unknown) || {};
     const micronutrients = (nutritionData.micronutrients ) || {};
     recipe.nutrition = {
-      calories: Number(nutritionData.calories) || 0;
-      protein: Number(nutritionData.protein) || Number(macronutrients.protein) || 0;
-      carbs: Number(nutritionData.carbs) || Number(macronutrients.carbs) || 0;
-      fat: Number(nutritionData.fat) || Number(macronutrients.fat) || 0;
+      calories: Number(nutritionData.calories) || 0,
+      protein: Number(nutritionData.protein) || Number(macronutrients.protein) || 0,
+      carbs: Number(nutritionData.carbs) || Number(macronutrients.carbs) || 0,
+      fat: Number(nutritionData.fat) || Number(macronutrients.fat) || 0,
       vitamins: (nutritionData.vitamins as string[]) || (micronutrients.vitamins as string[]) || [],
       minerals: (nutritionData.minerals as string[]) || (micronutrients.minerals as string[]) || []
     };
@@ -209,8 +209,8 @@ export function adaptRecipeData(recipeData: RecipeData): Recipe {
 function adaptIngredients(ingredients: Recipe[]): RecipeIngredient[] {
   return (ingredients || []).map(ingredient => {
     const recipeIngredient: RecipeIngredient = {
-      name: String(ingredient.name) || 'Unknown Ingredient';
-      amount: Number(ingredient.amount);
+      name: String(ingredient.name) || 'Unknown Ingredient',
+      amount: Number(ingredient.amount),
       unit: String(ingredient.unit) || ''
     };
 
@@ -355,9 +355,9 @@ export function createMinimalRecipe(name: string): Recipe {
     name,
     ingredients: [],
     elementalProperties: createElementalProperties({
-      Fire: 0.25;
-      Water: 0.25;
-      Earth: 0.25;
+      Fire: 0.25,
+      Water: 0.25,
+      Earth: 0.25,
       Air: 0.25
     }),
     instructions: [], // ← Pattern GG-4: Added missing instructions property

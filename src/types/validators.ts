@@ -19,9 +19,9 @@ export const _normalizeElementalProperties = (;
   if (sum === 0) {
     // If sum is 0, distribute equally
     return {
-      Fire: 0.25;
-      Water: 0.25;
-      Earth: 0.25;
+      Fire: 0.25,
+      Water: 0.25,
+      Earth: 0.25,
       Air: 0.25
     };
   }

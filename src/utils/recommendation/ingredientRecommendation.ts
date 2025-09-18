@@ -22,7 +22,7 @@ interface ScoredItem {
 }
 
 interface ElementalData {
-  Fire: number;
+  Fire: number,
   Water: number,
   Earth: number,
   Air: number,
@@ -30,8 +30,8 @@ interface ElementalData {
 }
 
 interface _CuisineData {
-  id: string;
-  name: string;
+  id: string,
+  name: string,
   zodiacInfluences?: string[];
   planetaryDignities?: Record<string, unknown>;
   elementalState?: ElementalData;
@@ -47,7 +47,7 @@ interface _NutrientData {
   name?: string;
   vitaminCount?: number;
   data?: unknown;
-  [key: string]: unknown;
+  [key: string]: unknown
 }
 
 interface _MatchingResult {
@@ -213,8 +213,8 @@ function _getFlavorProperty(obj: unknown, property: keyof FlavorProperties): num
 // ===== TYPES AND INTERFACES =====;
 
 export interface IngredientRecommendation {
-  name: string;
-  matchScore: number;
+  name: string,
+  matchScore: number,
   category?: string;
   elementalProperties?: ElementalProperties;
   modality?: Modality;
@@ -246,7 +246,7 @@ export interface IngredientRecommendation {
   flavorProfile?: { [key: string]: number };
   season?: string[];
   subCategory?: string;
-  [key: string]: unknown;
+  [key: string]: unknown
 }
 
 export interface GroupedIngredientRecommendations {
@@ -274,9 +274,9 @@ export interface RecommendationOptions {
 }
 
 export interface EnhancedIngredient {
-  name: string;
-  amount: number;
-  unit: string;
+  name: string,
+  amount: number,
+  unit: string,
   element: Element,
   category?: string,
   elementalProperties: ElementalProperties,
@@ -310,7 +310,7 @@ export interface EnhancedIngredient {
   sensoryProfile?: SensoryProfile;
   recommendedCookingMethods?: CookingMethod[];
   culturalOrigins?: string[];
-  [key: string]: unknown;
+  [key: string]: unknown
 }
 
 export interface EnhancedIngredientRecommendation extends IngredientRecommendation {
@@ -330,9 +330,9 @@ export interface EnhancedIngredientRecommendation extends IngredientRecommendati
       planetaryRulers: string[]
     };
     flavorCompatibility?: {
-      overall: number;
-      elemental: number;
-      kalchm: number;
+      overall: number,
+      elemental: number,
+      kalchm: number,
       monica: number,
       seasonal: number,
       cultural: number,
@@ -341,10 +341,10 @@ export interface EnhancedIngredientRecommendation extends IngredientRecommendati
         elementalDetails: { [key: string]: number };
         flavorHarmony: { [key: string]: number };
         seasonalAlignment: { [key: string]: number };
-        culturalResonance: string[];
+        culturalResonance: string[]
       };
-      recommendations: string[];
-      optimizations: string[];
+      recommendations: string[],
+      optimizations: string[],
     };
   };
   expanded?: boolean;
@@ -574,11 +574,11 @@ export const getAllIngredients = async (): Promise<EnhancedIngredient[]> => {
 
 function standardizeIngredient(ingredient: EnhancedIngredient): EnhancedIngredient {
   const standardized: EnhancedIngredient = {
-    name: ingredient.name;
-    amount: ingredient.amount || 0;
-    unit: ingredient.unit || '';
-    element: ingredient.element || 'Fire';
-    category: ingredient.category || '';
+    name: ingredient.name,
+    amount: ingredient.amount || 0,
+    unit: ingredient.unit || '',
+    element: ingredient.element || 'Fire',
+    category: ingredient.category || '',
     elementalProperties:
       ingredient.elementalProperties ||
       createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 });
@@ -660,8 +660,8 @@ export async function getIngredientRecommendations(
     timestamp: Date,
     currentStability: number,
     planetaryAlignment: Record<string, { sign: string, degree: number }>;
-    currentZodiac: string;
-    activePlanets: string[];
+    currentZodiac: string,
+    activePlanets: string[],
     lunarPhase: string,
     aspects: Array<{ aspectType: string, planet1: string, planet2: string }>
   },
@@ -749,14 +749,14 @@ export async function getIngredientRecommendations(
         // Return ingredient with default scores in case of error
         return {
           ...ingredient;
-          matchScore: 0.5;
-          elementalScore: 0.5;
-          seasonalScore: 0.5;
-          modalityScore: 0.5;
-          flavorScore: 0.5;
-          kalchmScore: 0.5;
-          monicaScore: 0.5;
-          culturalScore: 0.5;
+          matchScore: 0.5,
+          elementalScore: 0.5,
+          seasonalScore: 0.5,
+          modalityScore: 0.5,
+          flavorScore: 0.5,
+          kalchmScore: 0.5,
+          monicaScore: 0.5,
+          culturalScore: 0.5,
           totalScore: 0.5
         } as IngredientRecommendation;
       }
@@ -1004,9 +1004,9 @@ function _isElementalProperties(obj: unknown): obj is ElementalProperties {
 
 function createElementalProperties(values: Partial<ElementalProperties>): ElementalProperties {
   return {
-    Fire: values.Fire || 0;
-    Water: values.Water || 0;
-    Earth: values.Earth || 0;
+    Fire: values.Fire || 0,
+    Water: values.Water || 0,
+    Earth: values.Earth || 0,
     Air: values.Air || 0
   };
 }
@@ -1020,16 +1020,16 @@ export async function recommendIngredients(
   options: RecommendationOptions = {}
 ): Promise<IngredientRecommendation[]> {
   const elementalProps = {
-    Fire: 0.25;
-    Water: 0.25;
-    Earth: 0.25;
-    Air: 0.25;
+    Fire: 0.25,
+    Water: 0.25,
+    Earth: 0.25,
+    Air: 0.25,
     timestamp: new Date(),
-    currentStability: 0.5;
+    currentStability: 0.5,
     planetaryAlignment: {},
-    currentZodiac: astroState.currentZodiac || 'aries';
+    currentZodiac: astroState.currentZodiac || 'aries',
     activePlanets: astroState.activePlanets || [],
-    lunarPhase: astroState.lunarPhase || 'new';
+    lunarPhase: astroState.lunarPhase || 'new',
     aspects: []
   };
 
@@ -1038,8 +1038,8 @@ export async function recommendIngredients(
       timestamp: Date,
       currentStability: number,
       planetaryAlignment: Record<string, { sign: string, degree: number }>;
-      currentZodiac: string;
-      activePlanets: string[];
+      currentZodiac: string,
+      activePlanets: string[],
       lunarPhase: string,
       aspects: Array<{ aspectType: string, planet1: string, planet2: string }>
     },
@@ -1086,12 +1086,12 @@ export function calculateElementalInfluences(
 
 function getPlanetaryWeight(planet: string): number {
   const weights: Record<string, number> = {
-    Sun: 0.25;
-    moon: 0.2;
-    Mercury: 0.15;
-    Venus: 0.15;
-    Mars: 0.15;
-    Jupiter: 0.05;
+    Sun: 0.25,
+    moon: 0.2,
+    Mercury: 0.15,
+    Venus: 0.15,
+    Mars: 0.15,
+    Jupiter: 0.05,
     Saturn: 0.05
   };
   return weights[planet] || 0.05;

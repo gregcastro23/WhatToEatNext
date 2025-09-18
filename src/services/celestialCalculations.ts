@@ -120,8 +120,8 @@ interface CelestialPosition {
 
 // Define the PlanetaryPosition interface to replace any types
 interface PlanetaryPosition {
-  sign: string;
-  degree: number;
+  sign: string,
+  degree: number,
   retrograde?: boolean,
   house?: number,
   minute?: number,
@@ -132,7 +132,7 @@ interface PlanetaryPosition {
 type PlanetaryPositionRecord = Record<string, PlanetaryPosition>;
 
 interface CelestialData {
-  sun: CelestialPosition;
+  sun: CelestialPosition,
   moon: CelestialPosition,
   elementalState: ElementalProperties,
   season: string,
@@ -246,8 +246,8 @@ class CelestialCalculator {
             ({
               planet1: aspect.planets[0],
               planet2: aspect.planets[1],
-              type: aspect.type;
-              orb: aspect.orb || 0;
+              type: aspect.type,
+              orb: aspect.orb || 0,
               strength: aspect.influence
             }) as PlanetaryAspect,
         ),
@@ -390,7 +390,7 @@ class CelestialCalculator {
 
     // Start with complete defaults (using type assertion due to interface mismatch)
     const safeAlignment = {
-      date: new Date().toISOString();
+      date: new Date().toISOString(),
       zodiacSign: 'libra' as any,
       dominantPlanets: [
         { name: 'Sun', influence: 0.5 },
@@ -398,9 +398,9 @@ class CelestialCalculator {
       ],
       lunarPhase: 'full moon' as LunarPhase,
       elementalBalance: {
-        Fire: 0.25;
-        Water: 0.25;
-        Earth: 0.25;
+        Fire: 0.25,
+        Water: 0.25,
+        Earth: 0.25,
         Air: 0.25
       },
       aspectInfluences: [],
@@ -465,7 +465,7 @@ class CelestialCalculator {
    */
   private getFallbackAlignment(): CelestialAlignment {
     return {
-      date: new Date().toISOString();
+      date: new Date().toISOString(),
       zodiacSign: 'libra' as any, // Balance
       dominantPlanets: [
         { name: 'Sun', influence: 0.5 },
@@ -473,9 +473,9 @@ class CelestialCalculator {
       ],
       lunarPhase: 'full moon' as LunarPhase,
       elementalBalance: {
-        Fire: 0.25;
-        Earth: 0.25;
-        Air: 0.25;
+        Fire: 0.25,
+        Earth: 0.25,
+        Air: 0.25,
         Water: 0.25
       },
       aspectInfluences: [],
@@ -722,7 +722,7 @@ class CelestialCalculator {
       if (!dominantPlanets.some(p => p.name === 'Sun')) {
         dominantPlanets.push({
           name: 'Sun',
-          influence: 0.65;
+          influence: 0.65,
           effect: `in ${sunPos.sign}`
         });
       } else {
@@ -868,9 +868,9 @@ class CelestialCalculator {
   ): ElementalProperties {
     // Initialize elemental balance
     const balance: ElementalProperties = {
-      Fire: 0.25;
-      Water: 0.25;
-      Earth: 0.25;
+      Fire: 0.25,
+      Water: 0.25,
+      Earth: 0.25,
       Air: 0.25
     },
 
@@ -952,49 +952,49 @@ class CelestialCalculator {
       aspects.push({
         type: 'conjunction' as AspectType,
         planets: ['Sun', 'Mercury'],
-        influence: 0.7;
+        influence: 0.7,
         orb: 2.1
       });
     } else if (weekday === 1) {
       aspects.push({
         type: 'trine' as AspectType,
         planets: ['Moon', 'Venus'],
-        influence: 0.6;
+        influence: 0.6,
         orb: 3.2
       });
     } else if (weekday === 2) {
       aspects.push({
         type: 'square' as AspectType,
         planets: ['Mars', 'Saturn'],
-        influence: 0.5;
+        influence: 0.5,
         orb: 2.5
       });
     } else if (weekday === 3) {
       aspects.push({
         type: 'sextile' as AspectType,
         planets: ['Mercury', 'Jupiter'],
-        influence: 0.6;
+        influence: 0.6,
         orb: 1.8
       });
     } else if (weekday === 4) {
       aspects.push({
         type: 'opposition' as AspectType,
         planets: ['Jupiter', 'Saturn'],
-        influence: 0.5;
+        influence: 0.5,
         orb: 4.0
       });
     } else if (weekday === 5) {
       aspects.push({
         type: 'trine' as AspectType,
         planets: ['Venus', 'Neptune'],
-        influence: 0.6;
+        influence: 0.6,
         orb: 2.7
       });
     } else {
       aspects.push({
         type: 'square' as AspectType,
         planets: ['Saturn', 'Uranus'],
-        influence: 0.5;
+        influence: 0.5,
         orb: 3.3
       });
     }
@@ -1005,7 +1005,7 @@ class CelestialCalculator {
     aspects.push({
       type: 'sextile' as AspectType,
       planets: ['Sun', 'Jupiter'],
-      influence: 0.55;
+      influence: 0.55,
       orb: 2.4
     });
 
@@ -1013,7 +1013,7 @@ class CelestialCalculator {
     aspects.push({
       type: 'trine' as AspectType,
       planets: ['Moon', 'Neptune'],
-      influence: 0.5;
+      influence: 0.5,
       orb: 3.1
     });
 
@@ -1021,7 +1021,7 @@ class CelestialCalculator {
     aspects.push({
       type: 'square' as AspectType,
       planets: ['Mars', 'Pluto'],
-      influence: 0.6;
+      influence: 0.6,
       orb: 2.2
     });
 
@@ -1029,7 +1029,7 @@ class CelestialCalculator {
     aspects.push({
       type: 'trine' as AspectType,
       planets: ['Mercury', 'Uranus'],
-      influence: 0.45;
+      influence: 0.45,
       orb: 2.9
     });
 
@@ -1037,7 +1037,7 @@ class CelestialCalculator {
     aspects.push({
       type: 'sextile' as AspectType,
       planets: ['Venus', 'Saturn'],
-      influence: 0.4;
+      influence: 0.4,
       orb: 1.5
     });
 
@@ -1181,9 +1181,9 @@ class CelestialCalculator {
 
       // Return balanced default
       return {
-        Fire: 0.25;
-        Earth: 0.25;
-        Air: 0.25;
+        Fire: 0.25,
+        Earth: 0.25,
+        Air: 0.25,
         Water: 0.25
       };
     }
@@ -1195,9 +1195,9 @@ class CelestialCalculator {
   private calculateEnergyStateBalance(alignment: CelestialAlignment): EnergyStateProperties {
     // Initialize energy states with equal distribution
     const energyStateBalance: EnergyStateProperties = {
-      Spirit: 0.25;
-      Essence: 0.25;
-      Matter: 0.25;
+      Spirit: 0.25,
+      Essence: 0.25,
+      Matter: 0.25,
       Substance: 0.25
     };
 
@@ -1345,9 +1345,9 @@ class CelestialCalculator {
 
     // Map elements to chakras
     const elementalBalance = alignment.elementalBalance || {
-      Fire: 0.25;
-      Water: 0.25;
-      Earth: 0.25;
+      Fire: 0.25,
+      Water: 0.25,
+      Earth: 0.25,
       Air: 0.25
     };
     chakraEnergies.root += ((elementalBalance as any)?.Earth || 0) * 0.2;

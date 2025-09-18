@@ -14,16 +14,16 @@ import { logger } from '@/utils/logger';
  * Linting metrics structure
  */
 export interface LintingMetrics {
-  timestamp: Date;
-  totalIssues: number;
-  errors: number;
-  warnings: number;
+  timestamp: Date,
+  totalIssues: number,
+  errors: number,
+  warnings: number,
   errorsByCategory: Record<string, number>;
   warningsByCategory: Record<string, number>;
-  filesCovered: number;
-  fixableIssues: number;
+  filesCovered: number,
+  fixableIssues: number,
   performanceMetrics: {
-    executionTime: number;
+    executionTime: number,
     memoryUsage: number,
     cacheHitRate: number
   };
@@ -36,18 +36,18 @@ export interface LintingProgressReport {
   currentMetrics: LintingMetrics;
   previousMetrics?: LintingMetrics;
   improvement: {
-    totalIssuesReduced: number;
-    errorsReduced: number;
+    totalIssuesReduced: number,
+    errorsReduced: number,
     warningsReduced: number,
     percentageImprovement: number
   };
   trends: {
-    last24Hours: number;
+    last24Hours: number,
     last7Days: number,
     last30Days: number
   };
   qualityGates: {
-    zeroErrors: boolean;
+    zeroErrors: boolean,
     warningsUnderThreshold: boolean,
     performanceAcceptable: boolean
   };
@@ -58,9 +58,9 @@ export interface LintingProgressReport {
  */
 export interface CampaignIntegrationData {
   campaignId?: string;
-  phase: string;
-  targetReduction: number;
-  currentProgress: number;
+  phase: string,
+  targetReduction: number,
+  currentProgress: number,
   estimatedCompletion: Date,
   safetyProtocols: string[]
 }
@@ -97,7 +97,7 @@ export class LintingProgressTracker {
         timestamp: new Date(),
         performanceMetrics: {
           executionTime,
-          memoryUsage: this.getMemoryUsage();
+          memoryUsage: this.getMemoryUsage(),
           cacheHitRate: this.calculateCacheHitRate()
         }
       };
@@ -151,11 +151,11 @@ export class LintingProgressTracker {
 
       // Calculate campaign-specific metrics
       const campaignProgress = {
-        campaignId: campaignData.campaignId;
-        phase: campaignData.phase;
+        campaignId: campaignData.campaignId,
+        phase: campaignData.phase,
         currentProgress: this.calculateCampaignProgress(report, campaignData),
-        qualityScore: this.calculateQualityScore(report.currentMetrics);
-        riskAssessment: this.assessRisk(report);
+        qualityScore: this.calculateQualityScore(report.currentMetrics),
+        riskAssessment: this.assessRisk(report),
         recommendations: this.generateRecommendations(report)
       };
 
@@ -190,8 +190,8 @@ export class LintingProgressTracker {
       }
 
       const gates = {
-        errorGate: metrics.errors <= thresholds.maxErrors;
-        warningGate: metrics.warnings <= thresholds.maxWarnings;
+        errorGate: metrics.errors <= thresholds.maxErrors,
+        warningGate: metrics.warnings <= thresholds.maxWarnings,
         performanceGate: metrics.performanceMetrics.executionTime <= thresholds.maxExecutionTime
       },
 
@@ -201,8 +201,8 @@ export class LintingProgressTracker {
         gates,
         passed: allGatesPassed,
         metrics: {
-          errors: metrics.errors;
-          warnings: metrics.warnings;
+          errors: metrics.errors,
+          warnings: metrics.warnings,
           executionTime: metrics.performanceMetrics.executionTime
         }
       });

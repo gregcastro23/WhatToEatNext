@@ -12,10 +12,10 @@ import { ProgressMetrics, ValidationResult, PhaseStatus, Milestone } from '../..
 import { MetricsCollectionSystem } from './MetricsCollectionSystem';
 
 export interface MilestoneValidation {
-  milestone: string;
-  phase: string;
-  success: boolean;
-  timestamp: Date;
+  milestone: string,
+  phase: string,
+  success: boolean,
+  timestamp: Date,
   metrics: ProgressMetrics,
   criteria: ValidationCriteria[],
   failureReasons: string[],
@@ -23,8 +23,8 @@ export interface MilestoneValidation {
 }
 
 export interface ValidationCriteria {
-  name: string;
-  description: string;
+  name: string,
+  description: string,
   target: number | string | boolean,
   actual: number | string | boolean,
   passed: boolean,
@@ -32,9 +32,9 @@ export interface ValidationCriteria {
 }
 
 export interface PhaseValidationResult {
-  phaseId: string;
-  phaseName: string;
-  overallSuccess: boolean;
+  phaseId: string,
+  phaseName: string,
+  overallSuccess: boolean,
   completionPercentage: number,
   milestones: MilestoneValidation[],
   criticalFailures: string[],
@@ -253,7 +253,7 @@ export class MilestoneValidationSystem {
         name: 'TypeScript Error Count',
         description: 'Total TypeScript compilation errors must be zero',
         target: 0,
-        actual: metrics.typeScriptErrors.current;
+        actual: metrics.typeScriptErrors.current,
         passed: metrics.typeScriptErrors.current === 0,,;
         weight: 10
       },
@@ -261,7 +261,7 @@ export class MilestoneValidationSystem {
         name: 'Error Reduction Achievement',
         description: 'Must achieve 100% error reduction from initial 86 errors',
         target: 100,
-        actual: metrics.typeScriptErrors.percentage;
+        actual: metrics.typeScriptErrors.percentage,
         passed: metrics.typeScriptErrors.percentage === 100,,;
         weight: 8
       }
@@ -303,7 +303,7 @@ export class MilestoneValidationSystem {
       description: `All ${errorType} errors must be eliminated`,
       target: 0,
       actual: errorBreakdown[errorType] || 0,
-      passed: (errorBreakdown[errorType] || 0) === 0;
+      passed: (errorBreakdown[errorType] || 0) === 0,
       weight: 7
     }));
 
@@ -383,7 +383,7 @@ export class MilestoneValidationSystem {
         name: 'Linting Warning Count',
         description: 'Total linting warnings must be zero',
         target: 0,
-        actual: metrics.lintingWarnings.current;
+        actual: metrics.lintingWarnings.current,
         passed: metrics.lintingWarnings.current === 0,,;
         weight: 10
       },
@@ -391,7 +391,7 @@ export class MilestoneValidationSystem {
         name: 'Warning Reduction Achievement',
         description: 'Must achieve 100% warning reduction from initial 4506 warnings',
         target: 100,
-        actual: metrics.lintingWarnings.percentage;
+        actual: metrics.lintingWarnings.percentage,
         passed: metrics.lintingWarnings.percentage === 100,,;
         weight: 8
       }
@@ -431,7 +431,7 @@ export class MilestoneValidationSystem {
       description: `All ${warningType} warnings must be eliminated`,
       target: 0,
       actual: warningBreakdown[warningType] || 0,
-      passed: (warningBreakdown[warningType] || 0) === 0;
+      passed: (warningBreakdown[warningType] || 0) === 0,
       weight: 8
     }));
 
@@ -531,8 +531,8 @@ export class MilestoneValidationSystem {
         name: 'Enterprise System Count',
         description: 'Must achieve target of 200+ enterprise intelligence systems',
         target: 200,
-        actual: metrics.enterpriseSystems.current;
-        passed: metrics.enterpriseSystems.current >= 200;
+        actual: metrics.enterpriseSystems.current,
+        passed: metrics.enterpriseSystems.current >= 200,
         weight: 9
       }
     ];
@@ -587,7 +587,7 @@ export class MilestoneValidationSystem {
           'Intelligence systems must have analytics, recommendations, and demonstrations',
         target: 50, // Minimum quality threshold
         actual: qualityScore,
-        passed: qualityScore >= 50;
+        passed: qualityScore >= 50,
         weight: 8
       }
     ];
@@ -617,8 +617,8 @@ export class MilestoneValidationSystem {
         name: 'Build Time',
         description: 'Build time must be under 10 seconds',
         target: 10,
-        actual: metrics.buildPerformance.currentTime;
-        passed: metrics.buildPerformance.currentTime <= 10;
+        actual: metrics.buildPerformance.currentTime,
+        passed: metrics.buildPerformance.currentTime <= 10,
         weight: 9
       }
     ],
@@ -647,9 +647,9 @@ export class MilestoneValidationSystem {
       {
         name: 'Cache Hit Rate',
         description: 'Cache hit rate must be 80% or higher',
-        target: 0.8;
-        actual: metrics.buildPerformance.cacheHitRate;
-        passed: metrics.buildPerformance.cacheHitRate >= 0.8;
+        target: 0.8,
+        actual: metrics.buildPerformance.cacheHitRate,
+        passed: metrics.buildPerformance.cacheHitRate >= 0.8,
         weight: 7
       }
     ];
@@ -681,8 +681,8 @@ export class MilestoneValidationSystem {
         name: 'Memory Usage',
         description: 'Memory usage must be under 50MB',
         target: 50,
-        actual: metrics.buildPerformance.memoryUsage;
-        passed: metrics.buildPerformance.memoryUsage <= 50;
+        actual: metrics.buildPerformance.memoryUsage,
+        passed: metrics.buildPerformance.memoryUsage <= 50,
         weight: 6
       }
     ],
@@ -852,7 +852,7 @@ export class MilestoneValidationSystem {
     const allPhaseResults = await this.validateAllPhases();
 
     const exportData = {
-      timestamp: new Date().toISOString();
+      timestamp: new Date().toISOString(),
       campaignId: 'perfect-codebase-campaign',
       phases: allPhaseResults,
       summary: {

@@ -218,7 +218,7 @@ export class EmergencyTypeScriptCampaign {
       description: 'Reduce TypeScript errors from 1,112 to <100 with maximum safety',
       tools: [
         {
-          scriptPath: 'src/services/campaign/EnhancedErrorFixerIntegration.ts';
+          scriptPath: 'src/services/campaign/EnhancedErrorFixerIntegration.ts',
           parameters: {
             maxFiles: 10,
             autoFix: true,
@@ -251,7 +251,7 @@ export class EmergencyTypeScriptCampaign {
         enterpriseSystems: 0
       },
       toolConfiguration: {
-        enhancedErrorFixer: 'src/services/campaign/EnhancedErrorFixerIntegration.ts';
+        enhancedErrorFixer: 'src/services/campaign/EnhancedErrorFixerIntegration.ts',
         explicitAnyFixer: '',
         unusedVariablesFixer: '',
         consoleStatementFixer: ''

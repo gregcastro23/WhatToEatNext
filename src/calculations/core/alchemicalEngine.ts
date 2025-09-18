@@ -7,11 +7,11 @@ import { AlchemicalEngineAdvanced } from '../alchemicalEngine';
 
 // Define NaturalInfluenceParams interface locally (matching alchemicalEngine.ts)
 interface NaturalInfluenceParams {
-  season: string;
-  moonPhase: LunarPhaseWithSpaces;
-  timeOfDay: string;
-  sunSign: any;
-  degreesInSign: number;
+  season: string,
+  moonPhase: LunarPhaseWithSpaces,
+  timeOfDay: string,
+  sunSign: any,
+  degreesInSign: number
 }
 
 // --- Core Alchemizer Engine with Kalchm and Monica Constant ---
@@ -35,8 +35,8 @@ const signs = {
 // Planetary alchemy and element info
 interface PlanetInfo {
   'Dignity Effect': Record<string, number>;
-  Elements: Element[];
-  Alchemy: { Spirit: number; Essence: number; Matter: number; Substance: number };
+  Elements: Element[],
+  Alchemy: { Spirit: number, Essence: number; Matter: number; Substance: number };
   'Diurnal Element': Element;
   'Nocturnal Element': Element;
 }
@@ -130,7 +130,7 @@ const planetInfo: Record<string, PlanetInfo> = {
 
 // Zodiac sign info (abbreviated for brevity, expand as needed)
 interface SignInfo {
-  Element: Element;
+  Element: Element
 }
 
 const signInfo: Record<string, SignInfo> = {
@@ -150,23 +150,23 @@ const signInfo: Record<string, SignInfo> = {
 
 // --- Types ---
 type AlchemyTotals = {
-  Spirit: number;
-  Essence: number;
-  Matter: number;
-  Substance: number;
-  Fire: number;
-  Water: number;
-  Air: number;
-  Earth: number;
+  Spirit: number,
+  Essence: number,
+  Matter: number,
+  Substance: number,
+  Fire: number,
+  Water: number,
+  Air: number,
+  Earth: number,
 };
 
 type ThermodynamicMetrics = {
-  heat: number;
-  entropy: number;
-  reactivity: number;
-  gregsEnergy: number;
-  kalchm: number;
-  monica: number;
+  heat: number,
+  entropy: number,
+  reactivity: number,
+  gregsEnergy: number,
+  kalchm: number,
+  monica: number,
 };
 
 // --- Core Calculation Function ---
@@ -332,9 +332,9 @@ export class AlchemicalEngine {
     // If weights are provided, combine with weights; else, sum
     if (typeof weight1 === 'number' && typeof weight2 === 'number') {
       return {
-        Fire: elementObject1.Fire * weight1 + elementObject2.Fire * weight2;
-        Water: elementObject1.Water * weight1 + elementObject2.Water * weight2;
-        Air: elementObject1.Air * weight1 + elementObject2.Air * weight2;
+        Fire: elementObject1.Fire * weight1 + elementObject2.Fire * weight2,
+        Water: elementObject1.Water * weight1 + elementObject2.Water * weight2,
+        Air: elementObject1.Air * weight1 + elementObject2.Air * weight2,
         Earth: elementObject1.Earth * weight1 + elementObject2.Earth * weight2
       };
     }

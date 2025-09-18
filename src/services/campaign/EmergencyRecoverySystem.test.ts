@@ -16,12 +16,12 @@ jest.mock('child_process', () => ({
 
 // Mock fs for testing
 jest.mock('fs', () => ({
-  existsSync: jest.fn();
-  readFileSync: jest.fn();
-  writeFileSync: jest.fn();
-  mkdirSync: jest.fn();
-  unlinkSync: jest.fn();
-  rmSync: jest.fn();
+  existsSync: jest.fn(),
+  readFileSync: jest.fn(),
+  writeFileSync: jest.fn(),
+  mkdirSync: jest.fn(),
+  unlinkSync: jest.fn(),
+  rmSync: jest.fn(),
   statSync: jest.fn()
 }));
 
@@ -251,7 +251,7 @@ describe('Emergency Recovery System - Task 6.3', () => {
       const result: any = await emergencyRecovery.nuclearReset();
 
       expect(result.success).toBe(false);
-      expect(result.errors).toContain('Nuclear reset failed: Nuclear reset failed');
+      expect(result.errors).toContain('Nuclear reset failed: Nuclear reset failed')
     });
 
     test('should clear all metrics files during nuclear reset', async () => {
@@ -369,7 +369,7 @@ describe('Emergency Recovery System - Task 6.3', () => {
 
       expect(result.success).toBe(false);
       expect(result.buildValidation).toBe(false);
-      expect(result.errors).toContain('Build validation failed: Build failed');
+      expect(result.errors).toContain('Build validation failed: Build failed')
     });
 
     test('should handle test failures as warnings', async () => {
@@ -383,7 +383,7 @@ describe('Emergency Recovery System - Task 6.3', () => {
       const result: any = await emergencyRecovery.validateRecoverySuccess('test-recovery');
 
       expect(result.testValidation).toBe(false);
-      expect(result.warnings).toContain('Test validation warning: Tests failed');
+      expect(result.warnings).toContain('Test validation warning: Tests failed')
     });
 
     test('should detect corruption after recovery', async () => {
@@ -398,7 +398,7 @@ describe('Emergency Recovery System - Task 6.3', () => {
       const result: any = await emergencyRecovery.validateRecoverySuccess('test-recovery');
 
       expect(result.success).toBe(false);
-      expect(result.errors).toContain('Corruption detected after recovery: 1 files');
+      expect(result.errors).toContain('Corruption detected after recovery: 1 files')
     });
 
     test('should validate git state during recovery validation', async () => {
@@ -428,7 +428,7 @@ describe('Emergency Recovery System - Task 6.3', () => {
       const result: any = await emergencyRecovery.validateRecoverySuccess('test-recovery');
 
       expect(result.success).toBe(false);
-      expect(result.errors).toContain('Recovery validation error: Git command failed');
+      expect(result.errors).toContain('Recovery validation error: Git command failed')
     });
   });
 

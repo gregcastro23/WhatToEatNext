@@ -319,8 +319,8 @@ minorArcana.forEach(card => {
 
 // Create a base interface for all tarot card types
 interface TarotCardBase {
-  name: string;
-  element: string;
+  name: string,
+  element: string,
   keywords?: string[];
   associatedRecipes?: string[];
   id?: string;
@@ -401,7 +401,7 @@ export const getTarotCardsForDate = (;
     number,
     keywords: 'keywords' in tarotCard ? tarotCard.keywords : [],
     quantum: number, // Using the card number as quantum value
-    element: tarotCard.element || '';
+    element: tarotCard.element || '',
     associatedRecipes: 'associatedRecipes' in tarotCard ? tarotCard.associatedRecipes : []
   };
 
@@ -516,8 +516,8 @@ export const _getTarotFoodRecommendations = (;
   date: Date,
 ): {
   dailyCard: string; // ← Pattern GG-6: Added missing dailyCard property
-  element: string;
-  foodElement: string;
+  element: string,
+  foodElement: string,
   recommendedRecipes: string[],
   cookingApproach: string,
   flavors: string[],
@@ -554,8 +554,8 @@ export const _getTarotFoodRecommendations = (;
     ? TAROT_CARDS[cardNameAsKey]
     : {
         id: '',
-        name: tarotCards.minorCard.name;
-        element: tarotCards.minorCard.element;
+        name: tarotCards.minorCard.name,
+        element: tarotCards.minorCard.element,
         energyState: 'balanced',
         quantum: 1,
         description: '',

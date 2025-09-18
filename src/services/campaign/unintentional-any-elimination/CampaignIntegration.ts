@@ -35,7 +35,7 @@ export class UnintentionalAnyCampaignController extends CampaignController {
     this.unintentionalAnyConfig = {
       maxFilesPerBatch: 15,
       targetReductionPercentage: 15,
-      confidenceThreshold: 0.8;
+      confidenceThreshold: 0.8,
       enableDomainAnalysis: true,
       enableDocumentation: true,
       safetyLevel: 'CONSERVATIVE',
@@ -91,16 +91,16 @@ export class UnintentionalAnyCampaignController extends CampaignController {
       const executionTime = Date.now() - startTime;
 
       const result: PhaseResult = {
-        phaseId: phase.id;
-        success: campaignResult.success;
+        phaseId: phase.id,
+        success: campaignResult.success,
         metricsImprovement: {
-          typeScriptErrorsReduced: metricsImprovement.explicitAnyWarningsReduced;
-          lintingWarningsReduced: metricsImprovement.explicitAnyWarningsReduced;
+          typeScriptErrorsReduced: metricsImprovement.explicitAnyWarningsReduced,
+          lintingWarningsReduced: metricsImprovement.explicitAnyWarningsReduced,
           buildTimeImproved: 0, // Not directly impacted by any elimination
           enterpriseSystemsAdded: 0
         },
-        filesProcessed: campaignResult.filesProcessed;
-        errorsFixed: campaignResult.errorsFixed;
+        filesProcessed: campaignResult.filesProcessed,
+        errorsFixed: campaignResult.errorsFixed,
         warningsFixed: campaignResult.warningsFixed;
         executionTime,
         safetyEvents: campaignResult.safetyEvents
@@ -118,7 +118,7 @@ export class UnintentionalAnyCampaignController extends CampaignController {
       const executionTime = Date.now() - startTime;
 
       return {
-        phaseId: phase.id;
+        phaseId: phase.id,
         success: false,
         metricsImprovement: {
           typeScriptErrorsReduced: 0,
@@ -132,10 +132,10 @@ export class UnintentionalAnyCampaignController extends CampaignController {
         executionTime,
         safetyEvents: [
           {
-            type: SafetyEventType.EMERGENCY_RECOVERY;
+            type: SafetyEventType.EMERGENCY_RECOVERY,
             timestamp: new Date(),
             description: `Unintentional Any Elimination Phase failed: ${error instanceof Error ? error.message : String(error)}`,
-            severity: SafetyEventSeverity.ERROR;
+            severity: SafetyEventSeverity.ERROR,
             action: 'PHASE_FAILURE'
           }
         ]
@@ -163,8 +163,8 @@ export class UnintentionalAnyCampaignController extends CampaignController {
         ...unintentionalAnyPhases
       ],
       safetySettings: {
-        maxFilesPerBatch: unintentionalAnyConfig?.maxFilesPerBatch || 15;
-        buildValidationFrequency: unintentionalAnyConfig?.validationFrequency || 5;
+        maxFilesPerBatch: unintentionalAnyConfig?.maxFilesPerBatch || 15,
+        buildValidationFrequency: unintentionalAnyConfig?.validationFrequency || 5,
         testValidationFrequency: 10,
         corruptionDetectionEnabled: true,
         automaticRollbackEnabled: true,
@@ -179,11 +179,11 @@ export class UnintentionalAnyCampaignController extends CampaignController {
         ...baseConfig?.progressTargets
       },
       toolConfiguration: {
-        enhancedErrorFixer: 'scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js';
+        enhancedErrorFixer: 'scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js',
         explicitAnyFixer:
-          'src/services/campaign/unintentional-any-elimination/ProgressiveImprovementEngine.ts';
-        unusedVariablesFixer: 'scripts/typescript-fixes/fix-unused-variables-enhanced.js';
-        consoleStatementFixer: 'scripts/lint-fixes/fix-console-statements-only.js';
+          'src/services/campaign/unintentional-any-elimination/ProgressiveImprovementEngine.ts',
+        unusedVariablesFixer: 'scripts/typescript-fixes/fix-unused-variables-enhanced.js',
+        consoleStatementFixer: 'scripts/lint-fixes/fix-console-statements-only.js',
         ...baseConfig?.toolConfiguration
       }
     };
@@ -205,14 +205,14 @@ export class UnintentionalAnyCampaignController extends CampaignController {
 
       return {
         totalAnyTypes: explicitAnyWarnings,
-        intentionalAnyTypes: documentationReport.totalIntentionalAnyTypes;
-        unintentionalAnyTypes: explicitAnyWarnings - documentationReport.totalIntentionalAnyTypes;
+        intentionalAnyTypes: documentationReport.totalIntentionalAnyTypes,
+        unintentionalAnyTypes: explicitAnyWarnings - documentationReport.totalIntentionalAnyTypes,
         documentedAnyTypes: Math.round(
           (documentationReport.totalIntentionalAnyTypes *
             documentationReport.documentationCoverage) /
             100,
         ),
-        documentationCoverage: documentationReport.documentationCoverage;
+        documentationCoverage: documentationReport.documentationCoverage,
         reductionFromBaseline: 0, // Would be calculated from initial baseline
         targetReduction: this.unintentionalAnyConfig.targetReductionPercentage
       };
@@ -316,7 +316,7 @@ export class UnintentionalAnyCampaignController extends CampaignController {
     final: UnintentionalAnyMetrics,
   ): { explicitAnyWarningsReduced: number, documentationImproved: number } {
     return {
-      explicitAnyWarningsReduced: initial.unintentionalAnyTypes - final.unintentionalAnyTypes;
+      explicitAnyWarningsReduced: initial.unintentionalAnyTypes - final.unintentionalAnyTypes,
       documentationImproved: final.documentationCoverage - initial.documentationCoverage
     }
   }
@@ -428,10 +428,9 @@ export class UnintentionalAnyIntegrationHelper {
     documentationGenerator: string
   } {
     return {
-      explicitAnyFixer:
-        'src/services/campaign/unintentional-any-elimination/ProgressiveImprovementEngine.ts';
+      explicitAnyFixer: 'src/services/campaign/unintentional-any-elimination/ProgressiveImprovementEngine.ts',
       unintentionalAnyAnalyzer:
-        'src/services/campaign/unintentional-any-elimination/AnyTypeClassifier.ts';
+        'src/services/campaign/unintentional-any-elimination/AnyTypeClassifier.ts',
       documentationGenerator:
         'src/services/campaign/unintentional-any-elimination/AutoDocumentationGenerator.ts'
     };

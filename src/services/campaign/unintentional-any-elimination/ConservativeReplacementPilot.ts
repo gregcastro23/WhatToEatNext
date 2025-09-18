@@ -44,11 +44,11 @@ export class ConservativeReplacementPilot {
     this.config = {
       maxFilesPerBatch: 15,
       minFilesPerBatch: 10,
-      targetSuccessRate: 0.8;
+      targetSuccessRate: 0.8,
       maxBatches: 10,
       realTimeValidation: true,
       rollbackOnFailure: true,
-      safetyThreshold: 0.7;
+      safetyThreshold: 0.7,
       focusCategories: [AnyTypeCategory.ARRAY_TYPE, AnyTypeCategory.RECORD_TYPE],
       buildValidationFrequency: 1, // Validate after every batch
       ...config
@@ -262,7 +262,7 @@ export class ConservativeReplacementPilot {
       console.error('❌ Batch processing failed:', error),
       return {
         success: false,
-        error: error instanceof Error ? error.message : String(error);
+        error: error instanceof Error ? error.message : String(error),
         totalProcessed,
         totalSuccessful,
         totalFailed,
@@ -293,7 +293,7 @@ export class ConservativeReplacementPilot {
           endTime: new Date(),
           casesProcessed: 0,
           successfulReplacements: 0,
-          failedReplacements: cases.length;
+          failedReplacements: cases.length,
           buildStable: false,
           rollbackPerformed: false,
           error: 'Pre-batch build validation failed'
@@ -321,11 +321,11 @@ export class ConservativeReplacementPilot {
         batchNumber,
         startTime: batchStartTime,
         endTime: new Date(),
-        casesProcessed: cases.length;
-        successfulReplacements: replacementResult.appliedReplacements.length;
+        casesProcessed: cases.length,
+        successfulReplacements: replacementResult.appliedReplacements.length,
         failedReplacements: replacementResult.failedReplacements.length;
         buildStable,
-        rollbackPerformed: replacementResult.rollbackPerformed;
+        rollbackPerformed: replacementResult.rollbackPerformed,
         compilationErrors: replacementResult.compilationErrors
       };
 
@@ -342,9 +342,9 @@ export class ConservativeReplacementPilot {
         batchNumber,
         startTime: batchStartTime,
         endTime: new Date(),
-        casesProcessed: cases.length;
+        casesProcessed: cases.length,
         successfulReplacements: 0,
-        failedReplacements: cases.length;
+        failedReplacements: cases.length,
         buildStable: false,
         rollbackPerformed: false,
         error: error instanceof Error ? error.message : String(error)
@@ -371,11 +371,11 @@ export class ConservativeReplacementPilot {
       const safetyScore = this.calculateSafetyScore();
 
       const validationResult: RealTimeValidationResult = {
-        buildStable: buildValidation.buildSuccessful;
+        buildStable: buildValidation.buildSuccessful,
         typeScriptErrorCount: currentErrorCount,
         safetyScore,
         validationTime: new Date(),
-        batchNumber: batchResult.batchNumber;
+        batchNumber: batchResult.batchNumber,
         warnings: []
       };
 
@@ -408,7 +408,7 @@ export class ConservativeReplacementPilot {
         typeScriptErrorCount: -1,
         safetyScore: 0,
         validationTime: new Date(),
-        batchNumber: batchResult.batchNumber;
+        batchNumber: batchResult.batchNumber,
         warnings: ['Validation process failed'],
         error: error instanceof Error ? error.message : String(error)
       };
@@ -471,12 +471,12 @@ export class ConservativeReplacementPilot {
     // Generate detailed report
     const report = {
       pilotId: `conservative-pilot-${Date.now()}`,
-      timestamp: new Date().toISOString();
-      configuration: this.config;
+      timestamp: new Date().toISOString(),
+      configuration: this.config,
       results: result,
-      batchResults: this.batchResults;
-      safetyMetrics: this.safetyMetrics;
-      executionTime: new Date().getTime() - this.pilotStartTime.getTime();
+      batchResults: this.batchResults,
+      safetyMetrics: this.safetyMetrics,
+      executionTime: new Date().getTime() - this.pilotStartTime.getTime(),
       recommendations: this.generateRecommendations(result)
     };
 
@@ -562,10 +562,10 @@ export class ConservativeReplacementPilot {
           context: {
             filePath,
             lineNumber: i + 1,
-            codeSnippet: line.trim();
+            codeSnippet: line.trim(),
             surroundingLines: this.getSurroundingLines(lines, i),
             hasExistingComment: this.hasCommentAbove(lines, i),
-            isInTestFile: filePath.includes('.test.') || filePath.includes('__tests__');
+            isInTestFile: filePath.includes('.test.') || filePath.includes('__tests__'),
             domainContext: { domain: this.inferDomain(filePath) }
           },
           lineNumber: i + 1
@@ -582,10 +582,10 @@ export class ConservativeReplacementPilot {
           context: {
             filePath,
             lineNumber: i + 1,
-            codeSnippet: line.trim();
+            codeSnippet: line.trim(),
             surroundingLines: this.getSurroundingLines(lines, i),
             hasExistingComment: this.hasCommentAbove(lines, i),
-            isInTestFile: filePath.includes('.test.') || filePath.includes('__tests__');
+            isInTestFile: filePath.includes('.test.') || filePath.includes('__tests__'),
             domainContext: { domain: this.inferDomain(filePath) }
           },
           lineNumber: i + 1
@@ -692,9 +692,9 @@ export class ConservativeReplacementPilot {
     return {
       original,
       replacement,
-      filePath: occurrence.context.filePath;
-      lineNumber: occurrence.lineNumber;
-      confidence: classification.confidence;
+      filePath: occurrence.context.filePath,
+      lineNumber: occurrence.lineNumber,
+      confidence: classification.confidence,
       validationRequired: true
     };
   }
@@ -833,18 +833,18 @@ export class ConservativeReplacementPilot {
     return {
       success,
       message,
-      pilotStartTime: this.pilotStartTime;
+      pilotStartTime: this.pilotStartTime,
       pilotEndTime: new Date(),
       totalCasesProcessed: totalProcessed,
       totalSuccessfulReplacements: totalSuccessful,
       successRate,
-      batchesExecuted: this.batchResults.length;
-      buildFailures: this.safetyMetrics.buildFailures;
-      rollbacksPerformed: this.safetyMetrics.rollbacksPerformed;
-      safetyScore: this.calculateSafetyScore();
+      batchesExecuted: this.batchResults.length,
+      buildFailures: this.safetyMetrics.buildFailures,
+      rollbacksPerformed: this.safetyMetrics.rollbacksPerformed,
+      safetyScore: this.calculateSafetyScore(),
       targetAchieved:
         successRate >= this.config.targetSuccessRate && this.safetyMetrics.buildFailures === 0,,;
-      batchResults: this.batchResults;
+      batchResults: this.batchResults,
       safetyMetrics: this.safetyMetrics
     };
   }

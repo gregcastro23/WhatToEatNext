@@ -1,7 +1,7 @@
 import { ElementalProperties } from '@/types/alchemy';
 
 export type ElementalColor = {
-  primary: string;
+  primary: string,
   secondary: string,
   text: string,
   border: string,

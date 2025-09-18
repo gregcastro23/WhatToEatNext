@@ -13,8 +13,8 @@ import { environmentConfigManager } from '../config/loader';
 
 interface MonitoringConfig {
   metrics: {
-    enabled: boolean;
-    interval: number; // minutes
+    enabled: boolean,
+    interval: number, // minutes
     retention: number, // days
     thresholds: {
       errorIncrease: number,
@@ -47,7 +47,7 @@ interface AlertChannel {
 }
 
 interface AlertCondition {
-  name: string;
+  name: string,
   description: string,
   condition: string,
   severity: 'info' | 'warning' | 'error' | 'critical',
@@ -55,8 +55,8 @@ interface AlertCondition {
 }
 
 interface HealthCheckEndpoint {
-  name: string;
-  type: 'build' | 'config' | 'integration' | 'custom';
+  name: string,
+  type: 'build' | 'config' | 'integration' | 'custom',
   command: string,
   args: string[],
   timeout: number,
@@ -72,11 +72,11 @@ function createMonitoringConfig(): MonitoringConfig {
   return {
     metrics: {
       enabled: true,
-      interval: campaignConfig.targets.trackingIntervals.metrics;
+      interval: campaignConfig.targets.trackingIntervals.metrics,
       retention: 30,
       thresholds: {
-        errorIncrease: campaignConfig.targets.maxErrorIncrease;
-        successRateDecrease: 1 - campaignConfig.targets.minSuccessRate;
+        errorIncrease: campaignConfig.targets.maxErrorIncrease,
+        successRateDecrease: 1 - campaignConfig.targets.minSuccessRate,
         buildFailureRate: 0.1
       }
     },
@@ -96,7 +96,7 @@ function createMonitoringConfig(): MonitoringConfig {
           type: 'file',
           name: 'file-alerts',
           config: {
-            path: '.kiro/logs/unintentional-any-alerts.log';
+            path: '.kiro/logs/unintentional-any-alerts.log',
             maxSize: '10MB',
             rotate: true
           },
@@ -216,9 +216,9 @@ import { join } from 'path';
 import { execSync } from 'child_process';
 
 export interface MetricsData {
-  timestamp: Date;
-  typescriptErrors: number;
-  successRate: number;
+  timestamp: Date,
+  typescriptErrors: number,
+  successRate: number,
   buildStatus: 'success' | 'failed' | 'unknown',
   configValid: boolean,
   rollbackTriggered: boolean,
@@ -243,10 +243,10 @@ export class UnintentionalAnyMonitoringService extends EventEmitter {
   async collectMetrics(): Promise<MetricsData> {
     const metrics: MetricsData = {
       timestamp: new Date(),
-      typescriptErrors: await this.getTypeScriptErrorCount();
-      successRate: await this.getSuccessRate();
-      buildStatus: await this.getBuildStatus();
-      configValid: await this.getConfigValidation();
+      typescriptErrors: await this.getTypeScriptErrorCount(),
+      successRate: await this.getSuccessRate(),
+      buildStatus: await this.getBuildStatus(),
+      configValid: await this.getConfigValidation(),
       rollbackTriggered: false, // Will be set by campaign system
       campaignActive: await this.getCampaignStatus()
     };
@@ -371,8 +371,8 @@ export class UnintentionalAnyMonitoringService extends EventEmitter {
   private sendAlert(condition: unknown, metrics: MetricsData): void {
     const alert = {
       timestamp: new Date(),
-      condition: condition.name;
-      severity: condition.severity;
+      condition: condition.name,
+      severity: condition.severity,
       description: condition.description;
       metrics
     };
@@ -416,7 +416,7 @@ export class UnintentionalAnyMonitoringService extends EventEmitter {
   private persistMetrics(metrics: MetricsData): void {
     const metricsPath = '.kiro/metrics/unintentional-any-metrics.json';
     const metricsData = {
-      timestamp: metrics.timestamp.toISOString();
+      timestamp: metrics.timestamp.toISOString(),
       data: metrics
     };
 
@@ -444,13 +444,13 @@ export class UnintentionalAnyMonitoringService extends EventEmitter {
           });
 
           this.emit('healthCheck', {
-            endpoint: endpoint.name;
+            endpoint: endpoint.name,
             status: 'healthy',
             timestamp: new Date()
           });
         } catch (error) {
           this.emit('healthCheck', {
-            endpoint: endpoint.name;
+            endpoint: endpoint.name,
             status: 'unhealthy',
             error: String(error),
             timestamp: new Date()

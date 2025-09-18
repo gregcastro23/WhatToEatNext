@@ -13,12 +13,12 @@ import {
 } from '../../../../types/campaign';
 
 export interface MockScriptResult {
-  success: boolean;
-  filesProcessed: string[];
-  changesApplied: number;
-  errors: string[];
-  warnings: string[];
-  executionTime: number;
+  success: boolean,
+  filesProcessed: string[],
+  changesApplied: number,
+  errors: string[],
+  warnings: string[],
+  executionTime: number,
 }
 
 export class ScriptExecutionMock {
@@ -27,9 +27,9 @@ export class ScriptExecutionMock {
   private mockTestSuccess: boolean = true;
   private shouldFailExecution: boolean = false;
   private executionHistory: Array<{
-    scriptPath: string;
-    parameters: ScriptParameters;
-    timestamp: Date;
+    scriptPath: string,
+    parameters: ScriptParameters,
+    timestamp: Date
   }> = [];
 
   /**
@@ -190,9 +190,9 @@ export class ScriptExecutionMock {
    * Get execution history
    */
   getExecutionHistory(): Array<{
-    scriptPath: string;
-    parameters: ScriptParameters;
-    timestamp: Date;
+    scriptPath: string,
+    parameters: ScriptParameters,
+    timestamp: Date
   }> {
     return [...this.executionHistory];
   }

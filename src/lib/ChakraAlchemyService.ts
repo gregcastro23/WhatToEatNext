@@ -161,11 +161,11 @@ export class ChakraAlchemyService {
   ): ChakraEnergies {
     const energies: ChakraEnergies = {
       root: 0.2, // Base value to ensure all chakras have some energy
-      sacral: 0.2;
-      solarPlexus: 0.2;
-      heart: 0.2;
-      throat: 0.2;
-      thirdEye: 0.2;
+      sacral: 0.2,
+      solarPlexus: 0.2,
+      heart: 0.2,
+      throat: 0.2,
+      thirdEye: 0.2,
       crown: 0.2
     };
 

@@ -10,7 +10,7 @@ import { pickling } from './pickling';
  * Traditional cooking methods have been used historically across
  * cultures, often for preservation or developing specific flavors
  */
-export const _traditionalCookingMethods = {;
+export const _traditionalCookingMethods = {
   fermentation,
   pickling,
   // Add other cooking methods as they are implemented

@@ -12,10 +12,10 @@ export interface EnterpriseRecipeData {
   instructions?: string[];
   cuisine?: string;
   elementalProperties?: {
-    Fire: number;
-    Water: number;
-    Earth: number;
-    Air: number;
+    Fire: number,
+    Water: number,
+    Earth: number,
+    Air: number,
   };
   nutritionalProfile?: Record<string, number>;
   metadata?: Record<string, unknown>;
@@ -27,10 +27,10 @@ export interface EnterpriseIngredientData {
   subcategory?: string;
   nutritionalData?: Record<string, number>;
   elementalProperties?: {
-    Fire: number;
-    Water: number;
-    Earth: number;
-    Air: number;
+    Fire: number,
+    Water: number,
+    Earth: number,
+    Air: number,
   };
   seasonalAvailability?: Record<string, number>;
   astrologicalAffinity?: Record<string, number>;
@@ -50,10 +50,10 @@ export interface EnterpriseAstrologicalContext {
   zodiacSign?: string;
   lunarPhase?: string;
   elementalInfluence?: {
-    Fire: number;
-    Water: number;
-    Earth: number;
-    Air: number;
+    Fire: number,
+    Water: number,
+    Earth: number,
+    Air: number,
   };
   transitData?: Record<string, unknown>;
   timestamp?: Date;
@@ -70,54 +70,54 @@ export interface EnterpriseIntelligenceOptions {
 }
 
 export interface EnterpriseIntelligenceRecommendations {
-  recipe: string[];
-  ingredient: string[];
-  validation: string[];
-  optimization: string[];
-  safety: string[];
+  recipe: string[],
+  ingredient: string[],
+  validation: string[],
+  optimization: string[],
+  safety: string[]
 }
 
 export interface EnterpriseIntelligenceAnalysisState {
   recipeIntelligence?: {
-    recommendations: string[];
-    compatibilityScore: number;
-    optimizationSuggestions: string[];
-    confidence: number;
+    recommendations: string[],
+    compatibilityScore: number,
+    optimizationSuggestions: string[],
+    confidence: number,
   };
   ingredientIntelligence?: {
-    recommendations: string[];
-    seasonalScore: number;
-    nutritionalScore: number;
-    confidence: number;
+    recommendations: string[],
+    seasonalScore: number,
+    nutritionalScore: number,
+    confidence: number,
   };
   validationIntelligence?: {
     dataIntegrity: {
-      issues: string[];
-      score: number;
+      issues: string[],
+      score: number,
     };
     astrologicalConsistency: {
-      issues: string[];
-      score: number;
+      issues: string[],
+      score: number,
     };
-    overallValid: boolean;
+    overallValid: boolean
   };
   safetyIntelligence?: {
-    allergenWarnings: string[];
-    nutritionalConcerns: string[];
-    interactionWarnings: string[];
-    safetyScore: number;
+    allergenWarnings: string[],
+    nutritionalConcerns: string[],
+    interactionWarnings: string[],
+    safetyScore: number,
   };
-  timestamp: Date;
-  processingTime: number;
+  timestamp: Date,
+  processingTime: number,
 }
 
 export interface EnterpriseIntelligenceHookState {
-  loading: boolean;
-  error: string | null;
-  analysis: EnterpriseIntelligenceAnalysisState | null;
-  recommendations: EnterpriseIntelligenceRecommendations;
-  isAnalyzing: boolean;
-  lastUpdate: Date | null;
+  loading: boolean,
+  error: string | null,
+  analysis: EnterpriseIntelligenceAnalysisState | null,
+  recommendations: EnterpriseIntelligenceRecommendations,
+  isAnalyzing: boolean,
+  lastUpdate: Date | null,
 }
 
 export interface EnterpriseIntelligenceHookMethods {
@@ -128,10 +128,10 @@ export interface EnterpriseIntelligenceHookMethods {
     options?: EnterpriseIntelligenceOptions,
   ) => Promise<void>;
 
-  clearAnalysis: () => void;
-  refreshAnalysis: () => Promise<void>;
-  getRecommendations: () => EnterpriseIntelligenceRecommendations;
-  getAnalysisState: () => EnterpriseIntelligenceAnalysisState | null;
+  clearAnalysis: () => void,
+  refreshAnalysis: () => Promise<void>,
+  getRecommendations: () => EnterpriseIntelligenceRecommendations,
+  getAnalysisState: () => EnterpriseIntelligenceAnalysisState | null,
 }
 
 export type EnterpriseIntelligenceHook = EnterpriseIntelligenceHookState &;
@@ -139,21 +139,21 @@ export type EnterpriseIntelligenceHook = EnterpriseIntelligenceHookState &;
 
 // Chakra analysis types
 export interface ChakraAnalysisContext {
-  chakraType: 'root' | 'sacral' | 'solarPlexus' | 'heart' | 'throat' | 'brow' | 'crown';
-  analysisMode: 'mantra' | 'visual' | 'nutritional' | 'functional' | 'platform';
+  chakraType: 'root' | 'sacral' | 'solarPlexus' | 'heart' | 'throat' | 'brow' | 'crown',
+  analysisMode: 'mantra' | 'visual' | 'nutritional' | 'functional' | 'platform',
   analysisData: Record<string, unknown>;
   chakraProperties: {
-    color: string;
-    element: string;
-    frequency: number;
-    symbol: string;
+    color: string,
+    element: string,
+    frequency: number,
+    symbol: string,
   };
 }
 
 export interface ChakraAnalysisResult {
-  effectiveness: number;
-  recommendations: string[];
+  effectiveness: number,
+  recommendations: string[],
   analysisDetails: Record<string, unknown>;
-  confidenceScore: number;
-  improvementSuggestions: string[];
+  confidenceScore: number,
+  improvementSuggestions: string[],
 }

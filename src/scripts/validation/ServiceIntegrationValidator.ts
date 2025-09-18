@@ -17,11 +17,11 @@ import fs from 'fs';
 import path from 'path';
 
 export interface ServiceIntegrationConfig {
-  enableApiEndpointValidation: boolean;
-  enableServiceMethodValidation: boolean;
-  enableConfigurationValidation: boolean;
-  enableIntegrationTests: boolean;
-  apiTimeout: number;
+  enableApiEndpointValidation: boolean,
+  enableServiceMethodValidation: boolean,
+  enableConfigurationValidation: boolean,
+  enableIntegrationTests: boolean,
+  apiTimeout: number,
   testTimeout: number,
   qualityTarget: number, // 90% unused variable reduction target
   buildStabilityTarget: number, // 100% build stability target
@@ -29,8 +29,8 @@ export interface ServiceIntegrationConfig {
 }
 
 export interface ApiEndpointInfo {
-  endpoint: string;
-  method: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
+  endpoint: string,
+  method: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH',
   filePath: string,
   lineNumber: number,
   isActive: boolean,
@@ -40,8 +40,8 @@ export interface ApiEndpointInfo {
 export interface ServiceMethodInfo {
   methodName: string;
   className?: string;
-  filePath: string;
-  lineNumber: number;
+  filePath: string,
+  lineNumber: number,
   isExported: boolean,
   parameters: string[],
   returnType?: string,
@@ -49,8 +49,8 @@ export interface ServiceMethodInfo {
 }
 
 export interface ConfigurationDependency {
-  key: string;
-  filePath: string;
+  key: string,
+  filePath: string,
   lineNumber: number,
   isRequired: boolean,
   defaultValue?: string,
@@ -58,13 +58,13 @@ export interface ConfigurationDependency {
 }
 
 export interface ServiceIntegrationResult {
-  passed: boolean;
-  servicePath: string;
-  validationType: 'api-endpoint' | 'service-method' | 'configuration' | 'integration-test';
-  errors: string[];
-  warnings: string[];
-  recommendations: string[];
-  executionTime: number;
+  passed: boolean,
+  servicePath: string,
+  validationType: 'api-endpoint' | 'service-method' | 'configuration' | 'integration-test',
+  errors: string[],
+  warnings: string[],
+  recommendations: string[],
+  executionTime: number,
   details: {
     apiEndpoints?: ApiEndpointInfo[];
     serviceMethods?: ServiceMethodInfo[],
@@ -89,13 +89,13 @@ export interface QualityMetrics {
 }
 
 export interface ComprehensiveQualityReport {
-  timestamp: Date;
-  batchId: string;
-  processedServices: string[];
-  qualityMetrics: QualityMetrics;
-  serviceResults: ServiceIntegrationResult[];
-  overallAssessment: 'excellent' | 'good' | 'acceptable' | 'needs-improvement' | 'critical';
-  actionItems: string[];
+  timestamp: Date,
+  batchId: string,
+  processedServices: string[],
+  qualityMetrics: QualityMetrics,
+  serviceResults: ServiceIntegrationResult[],
+  overallAssessment: 'excellent' | 'good' | 'acceptable' | 'needs-improvement' | 'critical',
+  actionItems: string[],
   recommendations: string[],
   targetStatus: {
     reductionTargetMet: boolean,
@@ -517,8 +517,8 @@ export class ServiceIntegrationValidator {
       serviceIntegrityScore,
       overallQualityScore,
       targetAchievement: {
-        reductionTarget: this.config.qualityTarget;
-        stabilityTarget: this.config.buildStabilityTarget;
+        reductionTarget: this.config.qualityTarget,
+        stabilityTarget: this.config.buildStabilityTarget,
         reductionAchieved,
         stabilityAchieved
       }
@@ -539,8 +539,8 @@ export class ServiceIntegrationValidator {
     const recommendations = this.generateRecommendations(serviceResults, qualityMetrics),;
 
     const targetStatus = {
-      reductionTargetMet: qualityMetrics.targetAchievement.reductionAchieved;
-      stabilityTargetMet: qualityMetrics.targetAchievement.stabilityAchieved;
+      reductionTargetMet: qualityMetrics.targetAchievement.reductionAchieved,
+      stabilityTargetMet: qualityMetrics.targetAchievement.stabilityAchieved,
       readyForProduction:
         qualityMetrics.targetAchievement.reductionAchieved &&
         qualityMetrics.targetAchievement.stabilityAchieved &&
@@ -594,7 +594,7 @@ export class ServiceIntegrationValidator {
           if (endpoint.startsWith('/api/') || endpoint.startsWith('http')) {
             endpoints.push({
               endpoint,
-              method: this.extractHttpMethod(line) || 'GET';
+              method: this.extractHttpMethod(line) || 'GET',
               filePath: servicePath,
               lineNumber,
               isActive: true,
@@ -632,8 +632,8 @@ export class ServiceIntegrationValidator {
             methodName,
             filePath: servicePath,
             lineNumber,
-            isExported: line.includes('export');
-            parameters: this.extractParameters(line);
+            isExported: line.includes('export'),
+            parameters: this.extractParameters(line),
             dependencies: this.extractDependencies(line)
           });
         }
@@ -669,7 +669,7 @@ export class ServiceIntegrationValidator {
             key,
             filePath: servicePath,
             lineNumber,
-            isRequired: !line.includes('||') && !line.includes('??');
+            isRequired: !line.includes('||') && !line.includes('??'),
             usageContext: line.trim()
           });
         }
@@ -760,7 +760,7 @@ export class ServiceIntegrationValidator {
 
       const output = execSync(testCommand, {
         encoding: 'utf8',
-        timeout: this.config.testTimeout;
+        timeout: this.config.testTimeout,
         stdio: 'pipe'
       });
 

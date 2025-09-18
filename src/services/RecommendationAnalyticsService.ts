@@ -15,9 +15,9 @@ import { PerformanceCache, PerformanceMonitor } from './PerformanceCache';
 // ========== INTERFACES ==========;
 
 export interface RecommendationMetrics {
-  loadTime: number;
-  apiResponseTime: number;
-  cacheHitRate: number;
+  loadTime: number,
+  apiResponseTime: number,
+  cacheHitRate: number,
   recommendationCount: number,
   averageConfidenceScore: number,
   userInteractionRate: number,
@@ -25,8 +25,8 @@ export interface RecommendationMetrics {
 }
 
 export interface ConfidenceFactors {
-  astrologicalAlignment: number;
-  elementalHarmony: number;
+  astrologicalAlignment: number,
+  elementalHarmony: number,
   culturalRelevance: number,
   seasonalOptimization: number,
   userPreferenceMatch: number,
@@ -48,9 +48,9 @@ export interface UserInteraction {
 }
 
 export interface AnalyticsSnapshot {
-  sessionId: string;
-  timestamp: number;
-  metrics: RecommendationMetrics;
+  sessionId: string,
+  timestamp: number,
+  metrics: RecommendationMetrics,
   interactions: UserInteraction[],
   cacheStats: {
     hitRate: number,
@@ -168,21 +168,21 @@ class RecommendationAnalyticsService {
 
     // Default factor values
     const completedFactors: ConfidenceFactors = {
-      astrologicalAlignment: factors.astrologicalAlignment ?? 0.8;
-      elementalHarmony: factors.elementalHarmony ?? 0.8;
-      culturalRelevance: factors.culturalRelevance ?? 0.7;
-      seasonalOptimization: factors.seasonalOptimization ?? 0.8;
-      userPreferenceMatch: factors.userPreferenceMatch ?? 0.7;
+      astrologicalAlignment: factors.astrologicalAlignment ?? 0.8,
+      elementalHarmony: factors.elementalHarmony ?? 0.8,
+      culturalRelevance: factors.culturalRelevance ?? 0.7,
+      seasonalOptimization: factors.seasonalOptimization ?? 0.8,
+      userPreferenceMatch: factors.userPreferenceMatch ?? 0.7,
       dataQuality: factors.dataQuality ?? 0.9
     };
 
     // Weighted confidence calculation
     const weights = {
-      astrologicalAlignment: 0.25;
-      elementalHarmony: 0.2;
-      culturalRelevance: 0.15;
-      seasonalOptimization: 0.15;
-      userPreferenceMatch: 0.15;
+      astrologicalAlignment: 0.25,
+      elementalHarmony: 0.2,
+      culturalRelevance: 0.15,
+      seasonalOptimization: 0.15,
+      userPreferenceMatch: 0.15,
       dataQuality: 0.1
     };
 
@@ -266,7 +266,7 @@ class RecommendationAnalyticsService {
     interactionsByType: Record<string, number>,
     interactionRate: number,
     mostInteractedTargets: Array<{ target: string, count: number }>;
-    averageSessionDuration: number;
+    averageSessionDuration: number
   } {
     const now = Date.now();
     const windowStart = timeWindow ? now - timeWindow : 0;
@@ -318,12 +318,12 @@ class RecommendationAnalyticsService {
     const interactionAnalytics = this.getInteractionAnalytics(300000), // Last 5 minutes;
 
     const metrics: RecommendationMetrics = {
-      loadTime: performanceStats.current.calculationTime;
-      apiResponseTime: performanceStats.current.averageResponseTime;
-      cacheHitRate: cacheStats.hitRate;
-      recommendationCount: performanceStats.current.recommendationCount;
+      loadTime: performanceStats.current.calculationTime,
+      apiResponseTime: performanceStats.current.averageResponseTime,
+      cacheHitRate: cacheStats.hitRate,
+      recommendationCount: performanceStats.current.recommendationCount,
       averageConfidenceScore: 0.8, // This would be calculated from actual confidence scores
-      userInteractionRate: interactionAnalytics.interactionRate;
+      userInteractionRate: interactionAnalytics.interactionRate,
       timestamp: Date.now()
     };
 
@@ -346,13 +346,13 @@ class RecommendationAnalyticsService {
     const recentInteractions = this.userInteractions.slice(-20), // Last 20 interactions;
 
     return {
-      sessionId: this.sessionId;
-      timestamp: Date.now();
+      sessionId: this.sessionId,
+      timestamp: Date.now(),
       metrics,
       interactions: recentInteractions,
       cacheStats: {
-        hitRate: cacheStats.hitRate;
-        totalEntries: cacheStats.totalEntries;
+        hitRate: cacheStats.hitRate,
+        totalEntries: cacheStats.totalEntries,
         memoryUsage: cacheStats.memoryUsage
       }
     };
@@ -362,8 +362,8 @@ class RecommendationAnalyticsService {
    * Get performance trends
    */
   getPerformanceTrends(timeWindow?: number): {
-    loadTimeTrend: number[];
-    cacheHitRateTrend: number[];
+    loadTimeTrend: number[],
+    cacheHitRateTrend: number[],
     interactionRateTrend: number[],
     averageLoadTime: number,
     averageCacheHitRate: number,
@@ -436,7 +436,7 @@ class RecommendationAnalyticsService {
    */
   getCacheStats() {
     return {
-      recommendation: this.recommendationCache.getStats();
+      recommendation: this.recommendationCache.getStats(),
       confidence: this.confidenceCache.getStats()
     };
   }

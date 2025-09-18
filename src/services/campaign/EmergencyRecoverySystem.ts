@@ -33,8 +33,8 @@ export interface EmergencyRecoveryOptions {
 }
 
 export interface RecoveryValidationResult extends ValidationResult {
-  recoveryMethod: string;
-  filesRestored: number;
+  recoveryMethod: string,
+  filesRestored: number,
   metricsCleared: boolean,
   stashesPreserved: boolean,
   buildValidation: boolean,
@@ -44,7 +44,7 @@ export interface RecoveryValidationResult extends ValidationResult {
 export interface NuclearResetResult {
   success: boolean;
   backupCreated?: string;
-  filesReset: number;
+  filesReset: number,
   metricsCleared: boolean,
   stashesCleared: number,
   validationResult: RecoveryValidationResult,
@@ -86,10 +86,10 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
         : this.createBasicValidationResult('emergency-rollback');
 
       this.addRecoveryEvent({
-        type: SafetyEventType.EMERGENCY_RECOVERY;
+        type: SafetyEventType.EMERGENCY_RECOVERY,
         timestamp: new Date(),
         description: `Emergency rollback completed with options: ${JSON.stringify(options)}`,
-        severity: SafetyEventSeverity.WARNING;
+        severity: SafetyEventSeverity.WARNING,
         action: 'EMERGENCY_ROLLBACK_WITH_OPTIONS'
       });
 
@@ -100,10 +100,10 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
       console.error(`❌ ${errorMessage}`);
 
       this.addRecoveryEvent({
-        type: SafetyEventType.EMERGENCY_RECOVERY;
+        type: SafetyEventType.EMERGENCY_RECOVERY,
         timestamp: new Date(),
         description: errorMessage,
-        severity: SafetyEventSeverity.CRITICAL;
+        severity: SafetyEventSeverity.CRITICAL,
         action: 'EMERGENCY_ROLLBACK_FAILED'
       });
 
@@ -148,10 +148,10 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
       const validationResult = await this.validateRecoverySuccess('commit-rollback');
 
       this.addRecoveryEvent({
-        type: SafetyEventType.EMERGENCY_RECOVERY;
+        type: SafetyEventType.EMERGENCY_RECOVERY,
         timestamp: new Date(),
         description: `Rollback to commit ${commitHash} completed`,
-        severity: SafetyEventSeverity.WARNING;
+        severity: SafetyEventSeverity.WARNING,
         action: 'COMMIT_ROLLBACK'
       });
 
@@ -162,10 +162,10 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
       console.error(`❌ ${errorMessage}`);
 
       this.addRecoveryEvent({
-        type: SafetyEventType.EMERGENCY_RECOVERY;
+        type: SafetyEventType.EMERGENCY_RECOVERY,
         timestamp: new Date(),
         description: errorMessage,
-        severity: SafetyEventSeverity.CRITICAL;
+        severity: SafetyEventSeverity.CRITICAL,
         action: 'COMMIT_ROLLBACK_FAILED'
       });
 
@@ -191,7 +191,7 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
         filesReset: 0,
         metricsCleared: false,
         stashesCleared: 0,
-        validationResult: this.createBasicValidationResult('nuclear-reset');
+        validationResult: this.createBasicValidationResult('nuclear-reset'),
         errors: []
       };
 
@@ -245,10 +245,10 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
       result.success = true;
 
       this.addRecoveryEvent({
-        type: SafetyEventType.EMERGENCY_RECOVERY;
+        type: SafetyEventType.EMERGENCY_RECOVERY,
         timestamp: new Date(),
         description: `Nuclear reset completed successfully`,
-        severity: SafetyEventSeverity.CRITICAL;
+        severity: SafetyEventSeverity.CRITICAL,
         action: 'NUCLEAR_RESET_SUCCESS'
       });
 
@@ -263,10 +263,10 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
       console.error(`❌ ${errorMessage}`);
 
       this.addRecoveryEvent({
-        type: SafetyEventType.EMERGENCY_RECOVERY;
+        type: SafetyEventType.EMERGENCY_RECOVERY,
         timestamp: new Date(),
         description: errorMessage,
-        severity: SafetyEventSeverity.CRITICAL;
+        severity: SafetyEventSeverity.CRITICAL,
         action: 'NUCLEAR_RESET_FAILED'
       });
 
@@ -275,7 +275,7 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
         filesReset: 0,
         metricsCleared: false,
         stashesCleared: 0,
-        validationResult: this.createBasicValidationResult('nuclear-reset');
+        validationResult: this.createBasicValidationResult('nuclear-reset'),
         errors: [errorMessage]
       };
     }
@@ -351,10 +351,10 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
       const validationResult = await this.validateRecoverySuccess('selective-recovery');
 
       this.addRecoveryEvent({
-        type: SafetyEventType.EMERGENCY_RECOVERY;
+        type: SafetyEventType.EMERGENCY_RECOVERY,
         timestamp: new Date(),
         description: `Selective recovery completed for ${targets.length} targets`,
-        severity: SafetyEventSeverity.INFO;
+        severity: SafetyEventSeverity.INFO,
         action: 'SELECTIVE_RECOVERY'
       });
 
@@ -365,10 +365,10 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
       console.error(`❌ ${errorMessage}`);
 
       this.addRecoveryEvent({
-        type: SafetyEventType.EMERGENCY_RECOVERY;
+        type: SafetyEventType.EMERGENCY_RECOVERY,
         timestamp: new Date(),
         description: errorMessage,
-        severity: SafetyEventSeverity.ERROR;
+        severity: SafetyEventSeverity.ERROR,
         action: 'SELECTIVE_RECOVERY_FAILED'
       });
 
@@ -462,10 +462,10 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
       result.success = result.errors.length === 0 && result.buildValidation;
 
       this.addRecoveryEvent({
-        type: SafetyEventType.EMERGENCY_RECOVERY;
+        type: SafetyEventType.EMERGENCY_RECOVERY,
         timestamp: new Date(),
         description: `Recovery validation completed: ${result.success ? 'SUCCESS' : 'FAILED'}`,
-        severity: result.success ? SafetyEventSeverity.INFO : SafetyEventSeverity.ERROR;
+        severity: result.success ? SafetyEventSeverity.INFO : SafetyEventSeverity.ERROR,
         action: 'RECOVERY_VALIDATION'
       });
 
@@ -486,8 +486,8 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
    * Get recovery statistics and history
    */
   getRecoveryStatistics(): {
-    totalRecoveries: number;
-    successfulRecoveries: number;
+    totalRecoveries: number,
+    successfulRecoveries: number,
     failedRecoveries: number,
     nuclearResets: number,
     lastRecovery?: Date,

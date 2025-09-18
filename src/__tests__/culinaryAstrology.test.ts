@@ -6,16 +6,16 @@ import { AstrologicalState } from '@/types/alchemy';
 jest.mock('@/calculations/culinaryAstrology', () => {
   const original = jest.requireActual('@/calculations/culinaryAstrology');
   return {
-    ...original;
+    ...original,
     CulinaryAstrologer: class MockCulinaryAstrologer {
       getRecipeRecommendations(): any {
         return [
-          { name: 'Grilled Salmon', alignmentScore: 0.85;
-            elementDistribution: { Fir, e: 0.5, Water: 0.3, Earth: 0.1, Air: 0.1  },
+          { name: 'Grilled Salmon', alignmentScore: 0.85,
+            elementDistribution: { Fire: 0.5, Water: 0.3, Earth: 0.1, Air: 0.1  },
             planetaryActivators: ['Sun', 'Mars']
           },
-          { name: 'Roasted Vegetables', alignmentScore: 0.78;
-            elementDistribution: { Fir, e: 0.6, Earth: 0.3, Air: 0.1, Water: 0  },
+          { name: 'Roasted Vegetables', alignmentScore: 0.78,
+            elementDistribution: { Fire: 0.6, Earth: 0.3, Air: 0.1, Water: 0  },
             planetaryActivators: ['Sun', 'Saturn']
           }
         ];
@@ -45,8 +45,8 @@ describe('CulinaryAstrologer', () => {
   });
 
   it('should return recipe recommendations based on astrological state', () => {
-    const astroState: AstrologicalState = { currentZodiac: 'leo', moonPhase: 'full moon',;
-      currentPlanetaryAlignment: { Sun: { sign: 'leo', degree: 15  },
+    const astroState: AstrologicalState = { currentZodiac: 'leo', moonPhase: 'full moon',
+      currentPlanetaryAlignment: { Sun: { sign: 'leo', degree: 15 },
         Moon: { sign: 'cancer', degree: 5 }
       },
       activePlanets: ['sun', 'moon'],

@@ -17,9 +17,9 @@ function createElementalProperties(
   },
 ): ElementalProperties {
   return {
-    Fire: props.Fire || 0;
-    Water: props.Water || 0;
-    Earth: props.Earth || 0;
+    Fire: props.Fire || 0,
+    Water: props.Water || 0,
+    Earth: props.Earth || 0,
     Air: props.Air || 0
   };
 }
@@ -77,17 +77,17 @@ function _getElementalProperty(obj: unknown, property: keyof ElementalProperties
 // ===== TYPES AND INTERFACES =====;
 
 interface CookingMethodData {
-  id: string;
-  name: string;
-  description: string;
+  id: string,
+  name: string,
+  description: string,
   elementalEffect: ElementalProperties,
   elementalProperties?: ElementalProperties,
   duration: {
     min: number,
     max: number
   };
-  suitable_for: string[];
-  benefits: string[];
+  suitable_for: string[],
+  benefits: string[],
   astrologicalInfluences?: {
     favorableZodiac?: any[],
     unfavorableZodiac?: any[],
@@ -141,16 +141,16 @@ const allCookingMethodsCombined: CookingMethodDictionary = {
           methods[mainId].variations = [
             ...existingVariationsArray;
             {
-              id: methodData.id;
-              name: (methodData.variationName) || (methodData.name);
-              description: methodData.description;
+              id: methodData.id,
+              name: (methodData.variationName) || (methodData.name),
+              description: methodData.description,
               elementalEffect:
                 (methodData.elementalState as ElementalProperties) ||
                 createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 });
               toolsRequired: (methodData.toolsRequired as Element[]) || [],
               bestFor: (methodData.bestFor as Element[]) || [],
-              culturalOrigin: methodData.culturalOrigin;
-              astrologicalInfluences: methodData.astrologicalInfluences as unknown;
+              culturalOrigin: methodData.culturalOrigin,
+              astrologicalInfluences: methodData.astrologicalInfluences as unknown,
               duration: {
                 min: (methodData.duration as { min?: number }).min || 0,
                 max: (methodData.duration as { max?: number }).max || 0
@@ -168,15 +168,15 @@ const allCookingMethodsCombined: CookingMethodDictionary = {
     // Only add as standalone if it doesn't already exist and isn't a variation
     if (!methods[methodData.id as string] && !methodData.relatedToMainMethod) {
       methods[methodData.id as string] = {
-        id: methodData.id;
-        name: methodData.name;
-        description: methodData.description;
+        id: methodData.id,
+        name: methodData.name,
+        description: methodData.description,
         elementalEffect:
           (methodData.elementalState as ElementalProperties) ||
           createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 });
         toolsRequired: (methodData.toolsRequired as Element[]) || [],
         bestFor: (methodData.bestFor as Element[]) || [],
-        culturalOrigin: methodData.culturalOrigin;
+        culturalOrigin: methodData.culturalOrigin,
         astrologicalInfluences: {
           favorableZodiac:
             ((methodData.astrologicalInfluences as unknown).favorableZodiac as any[]) || [],
@@ -213,9 +213,9 @@ export function getMethodThermodynamics(
     detailedCookingMethods[methodNameLower as keyof typeof detailedCookingMethods];
   if (detailedMethodData?.thermodynamicProperties) {
     return {
-      heat: detailedMethodData.thermodynamicProperties.heat ?? 0.5;
-      entropy: detailedMethodData.thermodynamicProperties.entropy ?? 0.5;
-      reactivity: detailedMethodData.thermodynamicProperties.reactivity ?? 0.5;
+      heat: detailedMethodData.thermodynamicProperties.heat ?? 0.5,
+      entropy: detailedMethodData.thermodynamicProperties.entropy ?? 0.5,
+      reactivity: detailedMethodData.thermodynamicProperties.reactivity ?? 0.5,
       gregsEnergy: detailedMethodData.thermodynamicProperties.gregsEnergy ?? 0.5
     };
   }
@@ -225,9 +225,9 @@ export function getMethodThermodynamics(
   const thermodynamicProperties = methodData.thermodynamicProperties ;
   if (thermodynamicProperties) {
     return {
-      heat: Number(thermodynamicProperties.heat) || 0.5;
-      entropy: Number(thermodynamicProperties.entropy) || 0.5;
-      reactivity: Number(thermodynamicProperties.reactivity) || 0.5;
+      heat: Number(thermodynamicProperties.heat) || 0.5,
+      entropy: Number(thermodynamicProperties.entropy) || 0.5,
+      reactivity: Number(thermodynamicProperties.reactivity) || 0.5,
       gregsEnergy: Number(thermodynamicProperties.gregsEnergy) || 0.5
     };
   }
@@ -527,13 +527,13 @@ export function getRecommendedCookingMethods(
     .sort((a, b) => (Number(b.score) || 0) - (Number(a.score) || 0))
     .slice(0, 10)
     .map(rec => ({
-      name: rec.method.name;
-      score: rec.score;
-      description: rec.method.description;
-      reasons: rec.reasons;
-      elementalEffect: rec.method.elementalEffect;
-      duration: rec.method.duration;
-      thermodynamics: rec.thermodynamics;
+      name: rec.method.name,
+      score: rec.score,
+      description: rec.method.description,
+      reasons: rec.reasons,
+      elementalEffect: rec.method.elementalEffect,
+      duration: rec.method.duration,
+      thermodynamics: rec.thermodynamics,
       variations: rec.method.variations || []
     }));
 }
@@ -779,9 +779,9 @@ export function getHolisticCookingRecommendations(
   try {
     // Default to empty elementalProperties if not provided
     const elementalProperties = ingredient.transformedElementalProperties || {
-      Fire: ingredient.Fire || 0.25;
-      Water: ingredient.Water || 0.25;
-      Earth: ingredient.Earth || 0.25;
+      Fire: ingredient.Fire || 0.25,
+      Water: ingredient.Water || 0.25,
+      Earth: ingredient.Earth || 0.25,
       Air: ingredient.Air || 0.25
     };
 
@@ -815,7 +815,7 @@ export function getHolisticCookingRecommendations(
           (rec as any).id ||
           'unknown',
       ),
-      compatibility: (Number((rec as any).score) || 0) * 100;
+      compatibility: (Number((rec as any).score) || 0) * 100,
       reason: includeReasons
         ? String(((rec as any).reasons as string[])[0]) || `Good match for ${ingredient.name}`
         : undefined
@@ -839,9 +839,9 @@ export function getRecommendedCookingMethodsForIngredient(
   try {
     // Extract elemental properties from ingredient
     const elementalProps = {
-      Fire: ingredient.Fire || 0.25;
-      Water: ingredient.Water || 0.25;
-      Earth: ingredient.Earth || 0.25;
+      Fire: ingredient.Fire || 0.25,
+      Water: ingredient.Water || 0.25,
+      Earth: ingredient.Earth || 0.25,
       Air: ingredient.Air || 0.25
     };
 
@@ -865,7 +865,7 @@ export function getRecommendedCookingMethodsForIngredient(
       if (methodElement === 'Air') compatibility += ((elementalProps as any)?.Air || 0) * 0.2;
 
       return {
-        method: String(methodData.name || 'Unknown Method');
+        method: String(methodData.name || 'Unknown Method'),
         compatibility: Math.min(compatibility * 100, 100), // Cap at 100%
       };
     });

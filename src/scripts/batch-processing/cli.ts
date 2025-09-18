@@ -23,31 +23,31 @@ import { FileProcessingInfo } from './SafeBatchProcessor';
 
 interface AnalysisReport {
   metadata: {
-    analysisDate: string;
+    analysisDate: string,
     totalVariables: number,
     analyzer: string
   };
   summary: {
-    total: number;
+    total: number,
     preserved: number,
     forElimination: number
   };
   detailedResults: Array<{
-    id: string;
-    filePath: string;
-    relativePath: string;
-    line: number;
-    variableName: string;
-    fileType: string;
-    riskLevel: string;
+    id: string,
+    filePath: string,
+    relativePath: string,
+    line: number,
+    variableName: string,
+    fileType: string,
+    riskLevel: string,
     preservation: {
-      shouldPreserve: boolean;
-      domain: string;
+      shouldPreserve: boolean,
+      domain: string,
       reason: string,
       confidence: number
     };
     eliminationStrategy: {
-      method: string;
+      method: string,
       confidence: number,
       priority: number
     }
@@ -98,11 +98,11 @@ class BatchProcessingCLI {
 
       files.push({
         filePath,
-        relativePath: firstVar.relativePath;
+        relativePath: firstVar.relativePath,
         isHighImpact: firstVar.riskLevel === 'high',,;
         isCritical: firstVar.fileType === 'calculations' || firstVar.fileType === 'services',,;
-        unusedVariableCount: variables.length;
-        riskLevel: this.mapRiskLevel(firstVar.riskLevel);
+        unusedVariableCount: variables.length,
+        riskLevel: this.mapRiskLevel(firstVar.riskLevel),
         fileType: firstVar.fileType
       });
     }
@@ -156,18 +156,18 @@ class BatchProcessingCLI {
 
       // Configure orchestrator based on options
       const config: Partial<OrchestratorConfig> = {
-        interactiveMode: options.interactive || false;
+        interactiveMode: options.interactive || false,
         batchProcessing: {
-          maxBatchSize: parseInt(options.maxBatch) || 15;
-          maxBatchSizeCritical: parseInt(options.maxCritical) || 5;
-          validateAfterEachBatch: !options.skipValidation;
-          autoRollbackOnError: !options.noRollback;
-          createGitStash: !options.noStash;
+          maxBatchSize: parseInt(options.maxBatch) || 15,
+          maxBatchSizeCritical: parseInt(options.maxCritical) || 5,
+          validateAfterEachBatch: !options.skipValidation,
+          autoRollbackOnError: !options.noRollback,
+          createGitStash: !options.noStash,
           logLevel: options.verbose ? 'debug' : 'info'
         },
         safetyProtocols: {
-          maxVariablesAutoProcess: parseInt(options.maxVars) || 20;
-          requireManualReview: !options.skipReview;
+          maxVariablesAutoProcess: parseInt(options.maxVars) || 20,
+          requireManualReview: !options.skipReview,
           enhancedValidation: !options.skipEnhanced
         }
       };

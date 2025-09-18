@@ -136,7 +136,7 @@ export class DomainContextDetector {
   getDomainLintingRecommendations(domainContext: DomainContext): {
     rulesToDisable: string[],
     rulesToModify: Array<{ rule: string, modification: string }>;
-    additionalValidation: string[];
+    additionalValidation: string[]
   } {
     const rulesToDisable: string[] = [];
     const rulesToModify: Array<{ rule: string, modification: string }> = [];
@@ -149,7 +149,7 @@ export class DomainContextDetector {
           break,
         case 'modify':
           rulesToModify.push({
-            rule: specialRule.rule;
+            rule: specialRule.rule,
             modification: specialRule.reason
           });
           break;
@@ -272,7 +272,7 @@ export class DomainContextDetector {
       if (pattern.test(content)) {
         indicators.push({
           type: 'content',
-          pattern: pattern.source;
+          pattern: pattern.source,
           weight,
           description: 'Astrological content detected'
         });
@@ -297,7 +297,7 @@ export class DomainContextDetector {
         // Multiple occurrences
         indicators.push({
           type: 'content',
-          pattern: pattern.source;
+          pattern: pattern.source,
           weight,
           description: 'Campaign system content detected'
         });
@@ -313,7 +313,7 @@ export class DomainContextDetector {
       indicators.push({
         type: 'content',
         pattern: 'test-framework',
-        weight: 0.8;
+        weight: 0.8,
         description: 'Test framework usage detected'
       });
       confidenceBoost += 0.8;
@@ -325,7 +325,7 @@ export class DomainContextDetector {
       indicators.push({
         type: 'content',
         pattern: 'react-component',
-        weight: 0.6;
+        weight: 0.6,
         description: 'React component detected'
       });
       if (!detectedType || detectedType === 'utility') {
@@ -338,7 +338,7 @@ export class DomainContextDetector {
       indicators.push({
         type: 'content',
         pattern: 'service-layer',
-        weight: 0.4;
+        weight: 0.4,
         description: 'Service layer detected'
       });
       if (!detectedType || detectedType === 'utility') {
@@ -404,7 +404,7 @@ export class DomainContextDetector {
           {
             rule: 'no-console',
             action: 'modify',
-            reason: 'Allow console.info for astronomical debugging';
+            reason: 'Allow console.info for astronomical debugging',
             conditions: ['allow: ['warn', 'error', 'info']']
           },
         );
@@ -704,25 +704,25 @@ export class DomainContextDetector {
       {
         type: 'path',
         pattern: '/calculations/',
-        weight: 0.8;
+        weight: 0.8,
         description: 'Astrological calculations directory'
       },
       {
         type: 'path',
         pattern: '/data/planets/',
-        weight: 0.9;
+        weight: 0.9,
         description: 'Planetary data directory'
       },
       {
         type: 'filename',
         pattern: 'reliableAstronomy|planetaryConsistencyCheck|Astrological|Alchemical',
-        weight: 0.9;
+        weight: 0.9,
         description: 'Astrological utility files'
       },
       {
         type: 'path',
-        pattern: '/services/.*Astrological|/services/.*Alchemical';
-        weight: 0.8;
+        pattern: '/services/.*Astrological|/services/.*Alchemical',
+        weight: 0.8,
         description: 'Astrological service files'
       }
     ]);
@@ -732,19 +732,19 @@ export class DomainContextDetector {
       {
         type: 'path',
         pattern: '/services/campaign/',
-        weight: 0.9;
+        weight: 0.9,
         description: 'Campaign system directory'
       },
       {
         type: 'filename',
         pattern: 'Campaign|Progress|Safety|Intelligence',
-        weight: 0.8;
+        weight: 0.8,
         description: 'Campaign system files'
       },
       {
         type: 'path',
         pattern: '/types/campaign',
-        weight: 0.9;
+        weight: 0.9,
         description: 'Campaign type definitions'
       }
     ]);
@@ -753,14 +753,14 @@ export class DomainContextDetector {
     this.domainPatterns.set('test', [
       {
         type: 'filename',
-        pattern: '\\.test\\.|\\.spec\\.';
-        weight: 0.9;
+        pattern: '\\.test\\.|\\.spec\\.',
+        weight: 0.9,
         description: 'Test files'
       },
       {
         type: 'path',
         pattern: '/__tests__/',
-        weight: 0.9;
+        weight: 0.9,
         description: 'Test directory'
       }
     ]);
@@ -770,13 +770,13 @@ export class DomainContextDetector {
       {
         type: 'path',
         pattern: '/scripts/',
-        weight: 0.9;
+        weight: 0.9,
         description: 'Scripts directory'
       },
       {
         type: 'filename',
-        pattern: '\\.config\\.|setup\\.|install\\.';
-        weight: 0.8;
+        pattern: '\\.config\\.|setup\\.|install\\.',
+        weight: 0.8,
         description: 'Configuration and setup files'
       }
     ]);

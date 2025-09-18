@@ -615,7 +615,7 @@ export function getTechnicalTips(methodName: string): string[] {
         const methodObj = methodData as { expertTips?: string[] };
         if (methodObj?.expertTips && Array.isArray(methodObj.expertTips)) {
           // Use the method's actual expert tips
-          methodObj.expertTips.forEach((tip: string) => tips.push(tip));
+          methodObj.expertTips.forEach((tip: string) => tips.push(tip))
         } else {
           // Fallback to a more specific default message if no method-specific tips found
           tips.push(`Maintain appropriate temperature control for ${methodName}`);
@@ -1043,7 +1043,7 @@ export function getIdealIngredients(methodName: string): string[] {
         const methodObj = methodData as { expertTips?: string[], category?: string };
         if (methodObj?.suitable_for && Array.isArray(methodObj.suitable_for)) {
           // Use the actual suitable ingredients from the method data
-          methodObj.suitable_for.forEach((ingredient: string) => ingredients.push(ingredient));
+          methodObj.suitable_for.forEach((ingredient: string) => ingredients.push(ingredient))
         } else {
           // Generic fallback
           ingredients.push('Ingredients traditionally used with this method');

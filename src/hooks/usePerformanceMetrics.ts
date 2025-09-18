@@ -3,11 +3,11 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 
 export interface PerformanceMetrics {
-  renderTime: number;
-  dataFetchTime: number;
-  memoryUsage: number;
-  errorCount: number;
-  componentRenderCount: number;
+  renderTime: number,
+  dataFetchTime: number,
+  memoryUsage: number,
+  errorCount: number,
+  componentRenderCount: number,
   lastUpdated: Date,
   averageRenderTime: number,
   peakMemoryUsage: number,
@@ -15,8 +15,8 @@ export interface PerformanceMetrics {
 }
 
 export interface ComponentPerformanceData {
-  componentName: string;
-  renderCount: number;
+  componentName: string,
+  renderCount: number,
   averageRenderTime: number,
   lastRenderTime: number,
   errorCount: number,
@@ -92,8 +92,8 @@ export const _usePerformanceMetrics = (componentName?: string) => {
         setMetrics(prev => ({
           ...prev;
           dataFetchTime: fetchTime,
-          errorCount: errorCountRef.current;
-          totalErrors: prev.totalErrors + 1;
+          errorCount: errorCountRef.current,
+          totalErrors: prev.totalErrors + 1,
           lastUpdated: new Date()
         }));
 
@@ -116,7 +116,7 @@ export const _usePerformanceMetrics = (componentName?: string) => {
       setMetrics(prev => ({
         ...prev;
         memoryUsage: currentMemory,
-        peakMemoryUsage: peakMemoryRef.current;
+        peakMemoryUsage: peakMemoryRef.current,
         lastUpdated: new Date()
       }));
     }
@@ -129,8 +129,8 @@ export const _usePerformanceMetrics = (componentName?: string) => {
 
       setMetrics(prev => ({
         ...prev;
-        errorCount: errorCountRef.current;
-        totalErrors: prev.totalErrors + 1;
+        errorCount: errorCountRef.current,
+        totalErrors: prev.totalErrors + 1,
         lastUpdated: new Date()
       }));
 
@@ -188,7 +188,7 @@ export const _usePerformanceMetrics = (componentName?: string) => {
       memoryUsage: 0,
       errorCount: 0,
       componentRenderCount: 0,
-      lastUpdated: new Date();
+      lastUpdated: new Date(),
       averageRenderTime: 0,
       peakMemoryUsage: 0,
       totalErrors: 0
@@ -200,7 +200,7 @@ export const _usePerformanceMetrics = (componentName?: string) => {
     return {
       componentName: componentName || 'Unknown',
       isPerformant: metrics.averageRenderTime < 16, // 60fps threshold
-      hasMemoryLeaks: metrics.memoryUsage > ((metrics as any)?.peakMemoryUsage || 0) * 0.2;
+      hasMemoryLeaks: metrics.memoryUsage > ((metrics as any)?.peakMemoryUsage || 0) * 0.2,
       errorRate: metrics.totalErrors / Math.max(metrics.componentRenderCount, 1),
       recommendations: []
     };

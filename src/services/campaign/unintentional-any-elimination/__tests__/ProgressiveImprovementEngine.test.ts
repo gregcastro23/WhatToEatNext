@@ -24,7 +24,7 @@ describe('ProgressiveImprovementEngine', () => {
     mockConfig = {
       maxFilesPerBatch: 10,
       targetReductionPercentage: 15,
-      confidenceThreshold: 0.8;
+      confidenceThreshold: 0.8,
       enableDomainAnalysis: true,
       enableDocumentation: true,
       safetyLevel: 'MODERATE',

@@ -6,8 +6,8 @@ import * as flavorProfileMigration from './flavorProfileMigration';
 // ===== UNIFIED INTERFACES =====;
 
 export interface BaseFlavorNotes {
-  sweet: number;
-  sour: number;
+  sweet: number,
+  sour: number,
   salty: number,
   bitter: number,
   umami: number,
@@ -16,30 +16,30 @@ export interface BaseFlavorNotes {
 
 export interface UnifiedFlavorProfile {
   // Core identification
-  id: string;
-  name: string;
+  id: string,
+  name: string,
   category: 'ingredient' | 'cuisine' | 'planetary' | 'elemental' | 'cooking-method';
 
   // Flavor characteristics
-  baseNotes: BaseFlavorNotes;
-  elementalFlavors: ElementalProperties;
+  baseNotes: BaseFlavorNotes,
+  elementalFlavors: ElementalProperties,
   intensity: number; // 0-1 scale
   complexity: number; // 0-1 scale
 
   // Alchemical integration
-  kalchm: number;
-  monicaOptimization: number;
+  kalchm: number,
+  monicaOptimization: number,
   alchemicalProperties: AlchemicalProperties;
 
   // Contextual data
-  seasonalPeak: Season[];
+  seasonalPeak: Season[],
   seasonalModifiers: Record<Season, number>;
-  culturalOrigins: string[];
-  pairingRecommendations: string[];
+  culturalOrigins: string[],
+  pairingRecommendations: string[],
 
   // Advanced properties
-  preparationMethods: string[];
-  nutritionalSynergy: number;
+  preparationMethods: string[],
+  nutritionalSynergy: number,
   temperatureOptimal: number, // Celsius
 
   // Metadata
@@ -67,9 +67,9 @@ export interface UnifiedFlavorCompatibility {
   };
 
   // Recommendations
-  recommendations: string[];
-  warnings: string[];
-  optimizations: string[];
+  recommendations: string[],
+  warnings: string[],
+  optimizations: string[]
 }
 
 export interface FlavorSearchCriteria {
@@ -86,9 +86,9 @@ export interface FlavorSearchCriteria {
 }
 
 export interface FlavorRecommendations {
-  primary: UnifiedFlavorProfile[];
-  complementary: UnifiedFlavorProfile[];
-  seasonal: UnifiedFlavorProfile[];
+  primary: UnifiedFlavorProfile[],
+  complementary: UnifiedFlavorProfile[],
+  seasonal: UnifiedFlavorProfile[],
   cultural: UnifiedFlavorProfile[],
   fusion: UnifiedFlavorProfile[],
   monicaOptimized: UnifiedFlavorProfile[],
@@ -846,9 +846,9 @@ export class UnifiedFlavorEngine {
   }
 
   public getCacheStats(): {
-    compatibility: number;
+    compatibility: number,
     search: number,
-    performance: typeof this.performanceMetrics;
+    performance: typeof this.performanceMetrics,
     hitRate: number,
     memoryEstimate: number
   } {
@@ -864,8 +864,8 @@ export class UnifiedFlavorEngine {
       this.profiles.size * 2048, // ~2KB per profile
 
     return {
-      compatibility: this.compatibilityCache.size;
-      search: this.searchCache.size;
+      compatibility: this.compatibilityCache.size,
+      search: this.searchCache.size,
       performance: this.performanceMetrics;
       hitRate,
       memoryEstimate

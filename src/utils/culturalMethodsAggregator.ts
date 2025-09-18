@@ -15,9 +15,9 @@ import { vietnamese } from '@/data/cuisines/vietnamese';
 
 // Define a standardized cooking method interface to use across the app
 export interface CulturalCookingMethod {
-  id: string;
-  name: string;
-  description: string;
+  id: string,
+  name: string,
+  description: string,
   elementalProperties: {
     Fire: number,
     Water: number,
@@ -205,12 +205,12 @@ export function extractCulturalCookingMethods(): CulturalCookingMethod[] {
 
       const culturalMethod: CulturalCookingMethod = {
         id: methodId,
-        name: technique.name;
-        description: technique.description;
-        elementalProperties: technique.elementalProperties;
-        culturalOrigin: cuisine.name;
-        toolsRequired: technique.toolsRequired;
-        bestFor: technique.bestFor;
+        name: technique.name,
+        description: technique.description,
+        elementalProperties: technique.elementalProperties,
+        culturalOrigin: cuisine.name,
+        toolsRequired: technique.toolsRequired,
+        bestFor: technique.bestFor,
         // Add relationship to main method if applicable
         relatedToMainMethod: relatedMainMethod,
         variationName: relatedMainMethod ? `${cuisine.name} ${technique.name}` : undefined,
@@ -240,8 +240,8 @@ export function extractCulturalCookingMethods(): CulturalCookingMethod[] {
       if (mainMethod.astrologicalInfluences) {
         method.astrologicalInfluences = {
           ...method.astrologicalInfluences;
-          favorableZodiac: mainMethod.astrologicalInfluences.favorableZodiac;
-          unfavorableZodiac: mainMethod.astrologicalInfluences.unfavorableZodiac;
+          favorableZodiac: mainMethod.astrologicalInfluences.favorableZodiac,
+          unfavorableZodiac: mainMethod.astrologicalInfluences.unfavorableZodiac,
           dominantPlanets: mainMethod.astrologicalInfluences.dominantPlanets || []
         };
       }

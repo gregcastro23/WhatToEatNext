@@ -12,7 +12,7 @@ import fs from 'fs';
 import path from 'path';
 
 export interface MakeTarget {
-  name: string;
+  name: string,
   description: string,
   dependencies?: string[],
   commands: string[],
@@ -20,7 +20,7 @@ export interface MakeTarget {
 }
 
 export interface MakeExecutionResult {
-  success: boolean;
+  success: boolean,
   exitCode: number,
   output: string,
   executionTime: number,
@@ -28,9 +28,9 @@ export interface MakeExecutionResult {
 }
 
 export interface CampaignProgress {
-  currentPhase: number;
-  totalPhases: number;
-  typeScriptErrors: number;
+  currentPhase: number,
+  totalPhases: number,
+  typeScriptErrors: number,
   lintingWarnings: number,
   buildTime: number,
   enterpriseSystems: number,
@@ -363,8 +363,8 @@ export class MakefileIntegration {
 
       return {
         success: false,
-        exitCode: error.status || 1;
-        output: error.stdout || error.message || '';
+        exitCode: error.status || 1,
+        output: error.stdout || error.message || '',
         executionTime,
         target
       };

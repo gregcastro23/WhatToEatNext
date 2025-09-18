@@ -25,17 +25,17 @@ describe('AutomatedLintingIntegration', () => {
 
     // Setup mock analysis service
     mockAnalysisService = {
-      performComprehensiveAnalysis: jest.fn();
+      performComprehensiveAnalysis: jest.fn(),
       performQuickAnalysis: jest.fn()
     } as any.Mocked<LintingAnalysisService>;
 
     // Setup mock fixer
     mockFixer = {
-      applyAutomatedFixes: jest.fn();
-      handleUnusedVariables: jest.fn();
-      optimizeImports: jest.fn();
-      improveTypeAnnotations: jest.fn();
-      validateFixes: jest.fn();
+      applyAutomatedFixes: jest.fn(),
+      handleUnusedVariables: jest.fn(),
+      optimizeImports: jest.fn(),
+      improveTypeAnnotations: jest.fn(),
+      validateFixes: jest.fn(),
       performRollback: jest.fn()
     } as any.Mocked<AutomatedLintingFixer>;
 
@@ -67,7 +67,7 @@ describe('AutomatedLintingIntegration', () => {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             // Intentionally any: Test mock rule structures need flexible typing, import: [{ rule: 'import/order' } as any<Record<string, unknown>>]
           },
-          byPriority: { , 1: [], 2: [], 3: [], 4: [] },
+          byPriority: {  1: [], 2: [], 3: [], 4: [] },
           byFile: {},
           autoFixable: [
             { rule: '@typescript-eslint/no-unused-vars', autoFixable: true },
@@ -160,7 +160,7 @@ describe('AutomatedLintingIntegration', () => {
           errors: 1,
           warnings: 4,
           byCategory: { typescrip, t: [] as unknown[], import: [] as unknown[] },
-          byPriority: { , 1: [], 2: [], 3: [], 4: [] },
+          byPriority: {  1: [], 2: [], 3: [], 4: [] },
           byFile: {},
           autoFixable: [],
           requiresManualReview: []
@@ -237,7 +237,7 @@ describe('AutomatedLintingIntegration', () => {
           errors: 0,
           warnings: 20,
           byCategory: { typescrip, t: [] as unknown[], import: [] as unknown[] },
-          byPriority: { , 1: [], 2: [], 3: [], 4: [] },
+          byPriority: {  1: [], 2: [], 3: [], 4: [] },
           byFile: {},
           autoFixable: [],
           requiresManualReview: []
@@ -314,7 +314,7 @@ describe('AutomatedLintingIntegration', () => {
           errors: 10,
           warnings: 140,
           byCategory: { typescrip, t: [], import: [] },
-          byPriority: { , 1: [], 2: [], 3: [], 4: [] },
+          byPriority: {  1: [], 2: [], 3: [], 4: [] },
           byFile: {},
           autoFixable: [],
           requiresManualReview: []
@@ -505,7 +505,7 @@ describe('AutomatedLintingIntegration', () => {
               { rule: '@typescript-eslint/no-unused-vars', message: ''anotherVar' is defined but never used' }
             ]
           },
-          byPriority: { , 1: [], 2: [], 3: [], 4: [] },
+          byPriority: {  1: [], 2: [], 3: [], 4: [] },
           byFile: {},
           autoFixable: [],
           requiresManualReview: []
@@ -584,7 +584,7 @@ describe('AutomatedLintingIntegration', () => {
           errors: 0,
           warnings: 0,
           byCategory: { typescrip, t: [] },
-          byPriority: { , 1: [], 2: [], 3: [], 4: [] },
+          byPriority: {  1: [], 2: [], 3: [], 4: [] },
           byFile: {},
           autoFixable: [],
           requiresManualReview: []
@@ -642,7 +642,7 @@ describe('AutomatedLintingIntegration', () => {
               { rule: 'import/newline-after-import', message: 'Missing newline after import' }
             ]
           },
-          byPriority: { , 1: [], 2: [], 3: [], 4: [] },
+          byPriority: {  1: [], 2: [], 3: [], 4: [] },
           byFile: {},
           autoFixable: [],
           requiresManualReview: []
@@ -721,7 +721,7 @@ describe('AutomatedLintingIntegration', () => {
           errors: 0,
           warnings: 0,
           byCategory: { impor, t: [] },
-          byPriority: { , 1: [], 2: [], 3: [], 4: [] },
+          byPriority: {  1: [], 2: [], 3: [], 4: [] },
           byFile: {},
           autoFixable: [],
           requiresManualReview: []
@@ -781,7 +781,7 @@ describe('AutomatedLintingIntegration', () => {
           errors: 0,
           warnings: 5,
           byCategory: { typescrip, t: [], import: [] },
-          byPriority: { , 1: [], 2: [], 3: [], 4: [] },
+          byPriority: {  1: [], 2: [], 3: [], 4: [] },
           byFile: {},
           autoFixable: [],
           requiresManualReview: []
@@ -817,7 +817,7 @@ describe('AutomatedLintingIntegration', () => {
         processedFiles: [],
         errors: [
           {
-            file: 'test.ts';
+            file: 'test.ts',
             rule: 'test-rule',
             message: 'Fix failed',
             error: 'Command failed',
@@ -861,7 +861,7 @@ describe('AutomatedLintingIntegration', () => {
           errors: 2,
           warnings: 8,
           byCategory: { typescrip, t: [], import: [] },
-          byPriority: { , 1: [], 2: [], 3: [], 4: [] },
+          byPriority: {  1: [], 2: [], 3: [], 4: [] },
           byFile: {},
           autoFixable: [],
           requiresManualReview: []

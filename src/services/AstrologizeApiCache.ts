@@ -11,21 +11,21 @@ import {
  */
 
 interface CachedAstrologicalData {
-  timestamp: number;
-  date: Date;
+  timestamp: number,
+  date: Date,
   coordinates: {
-    lat: number;
-    lng: number;
+    lat: number,
+    lng: number,
   };
-  astrologicalState: AstrologicalState;
-  alchemicalResult: StandardizedAlchemicalResult;
+  astrologicalState: AstrologicalState,
+  alchemicalResult: StandardizedAlchemicalResult,
   planetaryPositions: Record<string, PlanetaryPosition>;
   // Additional computed values
   elementalAbsolutes: {
-    fire: number;
-    water: number;
-    earth: number;
-    air: number;
+    fire: number,
+    water: number,
+    earth: number,
+    air: number,
   };
   elementalRelatives: {
     fire: number; // fire/(water+earth+air)
@@ -34,18 +34,18 @@ interface CachedAstrologicalData {
     air: number; // air/(fire+water+earth)
   };
   thermodynamics: {
-    heat: number;
-    entropy: number;
-    reactivity: number;
-    gregsEnergy: number;
-    kalchm: number;
-    monica: number;
+    heat: number,
+    entropy: number,
+    reactivity: number,
+    gregsEnergy: number,
+    kalchm: number,
+    monica: number,
   };
   quality: 'high' | 'medium' | 'low'; // Data quality indicator
 }
 
 interface TransitPrediction {
-  date: Date;
+  date: Date,
   predictedPositions: Record<string, PlanetaryPosition>;
   confidence: number; // 0-1 based on how much cached data we have
   sources: string[]; // Which cached entries contributed to this prediction
@@ -129,11 +129,11 @@ class AstrologizeApiCache {
       elementalAbsolutes,
       elementalRelatives,
       thermodynamics: {
-        heat: Number(resultData.heat) || 0;
-        entropy: Number(resultData.entropy) || 0;
-        reactivity: Number(resultData.reactivity) || 0;
-        gregsEnergy: Number(resultData.energy) || 0;
-        kalchm: Number(resultData.kalchm) || 1;
+        heat: Number(resultData.heat) || 0,
+        entropy: Number(resultData.entropy) || 0,
+        reactivity: Number(resultData.reactivity) || 0,
+        gregsEnergy: Number(resultData.energy) || 0,
+        kalchm: Number(resultData.kalchm) || 1,
         monica: Number(resultData.monica) || 1
       },
       quality: this.assessDataQuality(alchemicalResult)
@@ -217,8 +217,8 @@ class AstrologizeApiCache {
     for (const [planet, position] of Object.entries(baseData.planetaryPositions)) {
       const planetData = position as unknown as any;
       predictedPositions[planet] = {
-        sign: (String(planetData.sign) || 'aries') as unknown;
-        degree: Number(planetData.degree) || 0;
+        sign: (String(planetData.sign) || 'aries') as unknown,
+        degree: Number(planetData.degree) || 0,
         isRetrograde: Boolean(planetData.isRetrograde) || false
       };
       sources.push(`${planet}:${baseData.date.toISOString()}`);
@@ -251,21 +251,21 @@ class AstrologizeApiCache {
     elementalAbsolutes: { fire: number; water: number; earth: number; air: number };
     elementalRelatives: { fire: number; water: number; earth: number; air: number };
     thermodynamics: {
-      heat: number;
-      entropy: number;
-      reactivity: number;
-      gregsEnergy: number;
-      kalchm: number;
-      monica: number;
+      heat: number,
+      entropy: number,
+      reactivity: number,
+      gregsEnergy: number,
+      kalchm: number,
+      monica: number,
     };
-    quality: 'high' | 'medium' | 'low';
+    quality: 'high' | 'medium' | 'low'
   } | null {
     const cached = this.get(lat, lng, date);
     if (cached) {
       return {
-        elementalAbsolutes: cached.elementalAbsolutes;
-        elementalRelatives: cached.elementalRelatives;
-        thermodynamics: cached.thermodynamics;
+        elementalAbsolutes: cached.elementalAbsolutes,
+        elementalRelatives: cached.elementalRelatives,
+        thermodynamics: cached.thermodynamics,
         quality: cached.quality
       };
     }
@@ -275,9 +275,9 @@ class AstrologizeApiCache {
     if (nearby.length > 0) {
       const best = nearby[0];
       return {
-        elementalAbsolutes: best.elementalAbsolutes;
-        elementalRelatives: best.elementalRelatives;
-        thermodynamics: best.thermodynamics;
+        elementalAbsolutes: best.elementalAbsolutes,
+        elementalRelatives: best.elementalRelatives,
+        thermodynamics: best.thermodynamics,
         quality: 'medium', // Downgrade quality since it's not exact
       };
     }
@@ -391,8 +391,8 @@ class AstrologizeApiCache {
    */
   public getCacheStats() {
     return {
-      size: this.cache.size;
-      maxSize: this.maxCacheSize;
+      size: this.cache.size,
+      maxSize: this.maxCacheSize,
       oldestEntry: Math.min(...Array.from(this.cache.values()).map(v => v.timestamp)),;
       newestEntry: Math.max(...Array.from(this.cache.values()).map(v => v.timestamp)),;
       qualityDistribution: {

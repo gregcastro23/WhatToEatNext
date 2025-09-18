@@ -90,8 +90,8 @@ export interface AstrologicalInfluences {
 
 // Enhanced Ingredient interface for Phase 11
 interface EnhancedIngredient {
-  name: string;
-  type: string;
+  name: string,
+  type: string,
   elementalProperties?: ElementalProperties;
   astrologicalInfluences?: AstrologicalInfluences;
   elementalState?: ElementalState;
@@ -130,8 +130,8 @@ import { getAllIngredients as getIngredientsUtil } from '@/utils/foodRecommender
 
 // Export the necessary types needed by IngredientRecommendations.ts
 export interface IngredientRecommendation {
-  name: string;
-  type: string;
+  name: string,
+  type: string,
   category?: string;
   elementalProperties?: ElementalProperties;
   qualities?: string[];
@@ -259,8 +259,8 @@ function getAllIngredients(): Ingredient[] {
         name,
         type: category.endsWith('s') ? category.slice(0, -1) : category,
         category,
-        elementalProperties: ingredientData.elementalProperties;
-        astrologicalProfile: ingredientData.astrologicalProfile;
+        elementalProperties: ingredientData.elementalProperties,
+        astrologicalProfile: ingredientData.astrologicalProfile,
         ...ingredientData
       } as unknown as Ingredient);
     });
@@ -411,8 +411,8 @@ export async function getIngredientRecommendations(
     timestamp: Date,
     currentStability: number,
     planetaryAlignment: Record<string, { sign: string, degree: number }>;
-    zodiacSign: string;
-    activePlanets: string[];
+    zodiacSign: string,
+    activePlanets: string[],
     lunarPhase: string,
     aspects: Array<{ aspectType: string, planet1: string, planet2: string }>
   },
@@ -584,8 +584,8 @@ export async function getIngredientRecommendations(
     ingredients: scoredIngredients,
     elementalProperties: elementalProps,
     astrologicalContext: {
-      zodiacSign: elementalProps.zodiacSign as unknown;
-      lunarPhase: elementalProps.lunarPhase as LunarPhase;
+      zodiacSign: elementalProps.zodiacSign as unknown,
+      lunarPhase: elementalProps.lunarPhase as LunarPhase,
       elementalProperties: elementalProps,
       planetaryPositions: elementalProps.planetaryAlignment
     }
@@ -595,7 +595,7 @@ export async function getIngredientRecommendations(
   const astroContext =
     (ingredientData as { astrologicalContext?: Record<string, unknown> }).astrologicalContext || {};
   const safeAstroContext = {
-    zodiacSign: astroContext.zodiacSign ?? 'aries';
+    zodiacSign: astroContext.zodiacSign ?? 'aries',
     lunarPhase: typeof astroContext.lunarPhase === 'string' ? astroContext.lunarPhase : 'new',;
     season: typeof astroContext.season === 'string' ? astroContext.season : 'spring',;
     userPreferences:
@@ -640,16 +640,16 @@ export async function getIngredientRecommendations(
       const validationIntelligence = enterpriseAnalysis.validationIntelligence;
 
       const ingredientRecommendation: IngredientRecommendation = {
-        name: ingredient.name || '';
+        name: ingredient.name || '',
         type:
           safeGetString(ingredientData.type) ||
           safeGetString(ingredientData.category) ||
           'ingredient',
-        category: ingredient.category;
-        elementalProperties: ingredientData.elementalProperties as ElementalProperties;
-        qualities: safeGetStringArray(ingredient.qualities);
-        matchScore: safeGetNumber(ingredient.score);
-        modality: ingredient.modality;
+        category: ingredient.category,
+        elementalProperties: ingredientData.elementalProperties as ElementalProperties,
+        qualities: safeGetStringArray(ingredient.qualities),
+        matchScore: safeGetNumber(ingredient.score),
+        modality: ingredient.modality,
         recommendations: [
           ...safeGetStringArray(ingredientData.recommendations);
           ...(ingredientIntelligence?.recommendations ?? []).slice(0, 3), // Top 3 enterprise recommendations
@@ -660,10 +660,10 @@ export async function getIngredientRecommendations(
             : [])
         ],
         description: safeGetString(ingredientData.description) || `Recommended ${ingredient.name}`,
-        totalScore: safeGetNumber(ingredientData.totalScore) || safeGetNumber(ingredient.score);
-        elementalScore: safeGetNumber(ingredient.elementalScore);
-        astrologicalScore: safeGetNumber(ingredientData.astrologicalScore);
-        seasonalScore: safeGetNumber(ingredient.seasonalScore);
+        totalScore: safeGetNumber(ingredientData.totalScore) || safeGetNumber(ingredient.score),
+        elementalScore: safeGetNumber(ingredient.elementalScore),
+        astrologicalScore: safeGetNumber(ingredientData.astrologicalScore),
+        seasonalScore: safeGetNumber(ingredient.seasonalScore),
         dietary: safeGetStringArray(ingredientData.dietary);
         // Enterprise Intelligence Enhanced Properties
         flavorProfile: (() => {
@@ -1009,11 +1009,11 @@ export function getChakraBasedRecommendations(
       const recommendation: IngredientRecommendation = {
         name: ingredientName,
         type: ingredientType,
-        category: safeGetString(ingredientData.category);
-        elementalProperties: ingredientData.elementalProperties as ElementalProperties;
-        qualities: safeGetStringArray(ingredientData.qualities);
+        category: safeGetString(ingredientData.category),
+        elementalProperties: ingredientData.elementalProperties as ElementalProperties,
+        qualities: safeGetStringArray(ingredientData.qualities),
         matchScore: energy / 10, // Normalize to 0-1 range
-        modality: ingredientData.modality as Modality;
+        modality: ingredientData.modality as Modality,
         recommendations: [
           `Supports ${chakra} chakra energy`,
           ...(nutritionalCorrelations.filter(
@@ -2216,12 +2216,12 @@ function calculateMercuryInfluence(
   // Mercury emphasizes ingredients that involve mental stimulation and clarity
   if (ingredient.qualities) {
     const mercuryQualityBoosts = {
-      aromatic: 1.3;
-      complex: 1.4;
-      stimulating: 1.5;
-      adaptable: 1.3;
-      versatile: 1.4;
-      detailed: 1.2;
+      aromatic: 1.3,
+      complex: 1.4,
+      stimulating: 1.5,
+      adaptable: 1.3,
+      versatile: 1.4,
+      detailed: 1.2,
       precise: 1.2
     };
 
@@ -2814,7 +2814,7 @@ function calculatePlanetaryHourInfluence(
           aspectModifier = -0.15;
           break,
         default:
-          aspectModifier = 0;
+          aspectModifier = 0
       }
 
       // Apply the aspect modifier if the ingredient is ruled by the other planet in the aspect
@@ -3049,19 +3049,19 @@ export async function recommendIngredients(
     // Apply Pattern L: Interface property mapping for IngredientRecommendation compatibility
     const recommendationData = ingredient as unknown as any;
     const ingredientRecommendation: IngredientRecommendation = {
-      name: String(recommendationData.name || '');
-      type: String(recommendationData.type || '');
-      category: recommendationData.category;
-      elementalProperties: recommendationData.elementalProperties as ElementalProperties;
+      name: String(recommendationData.name || ''),
+      type: String(recommendationData.type || ''),
+      category: recommendationData.category,
+      elementalProperties: recommendationData.elementalProperties as ElementalProperties,
       qualities: recommendationData.qualities as string[],
       matchScore: totalScore,
-      modality: recommendationData.modality as Modality;
+      modality: recommendationData.modality as Modality,
       recommendations: ingredientRecommendations,
-      description: recommendationData.description;
+      description: recommendationData.description,
       totalScore,
-      elementalScore: elementalScore * 0.45;
-      astrologicalScore: planetaryDayScore * 0.35 + planetaryHourScore * 0.2;
-      seasonalScore: recommendationData.seasonalScore;
+      elementalScore: elementalScore * 0.45,
+      astrologicalScore: planetaryDayScore * 0.35 + planetaryHourScore * 0.2,
+      seasonalScore: recommendationData.seasonalScore,
       dietary: recommendationData.dietary as string[]
     };
 

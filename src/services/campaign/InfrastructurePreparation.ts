@@ -13,72 +13,72 @@ import { join } from 'path';
 // Types for infrastructure components
 interface ESLintConfigValidation {
   fastConfig: {
-    exists: boolean;
-    functional: boolean;
-    performanceOptimized: boolean;
-    estimatedTime: number;
+    exists: boolean,
+    functional: boolean,
+    performanceOptimized: boolean,
+    estimatedTime: number,
   };
   typeAwareConfig: {
-    exists: boolean;
-    functional: boolean;
-    typeCheckingEnabled: boolean;
-    estimatedTime: number;
+    exists: boolean,
+    functional: boolean,
+    typeCheckingEnabled: boolean,
+    estimatedTime: number,
   };
   packageScripts: {
-    quickLint: boolean;
-    typeAwareLint: boolean;
-    incrementalLint: boolean;
-    ciLint: boolean;
+    quickLint: boolean,
+    typeAwareLint: boolean,
+    incrementalLint: boolean,
+    ciLint: boolean,
   };
 }
 
 interface BackupSystem {
-  gitStashAvailable: boolean;
-  backupDirectoryExists: boolean;
-  rollbackMechanismTested: boolean;
-  automaticBackupEnabled: boolean;
+  gitStashAvailable: boolean,
+  backupDirectoryExists: boolean,
+  rollbackMechanismTested: boolean,
+  automaticBackupEnabled: boolean,
   retentionPolicy: {
-    maxBackups: number;
-    retentionDays: number;
+    maxBackups: number,
+    retentionDays: number,
   };
 }
 
 interface BuildMonitoring {
-  buildStabilityChecks: boolean;
-  checkpointSystemReady: boolean;
-  performanceMonitoring: boolean;
-  errorThresholdMonitoring: boolean;
-  buildTimeTracking: boolean;
+  buildStabilityChecks: boolean,
+  checkpointSystemReady: boolean,
+  performanceMonitoring: boolean,
+  errorThresholdMonitoring: boolean,
+  buildTimeTracking: boolean
 }
 
 interface BatchProcessingInfrastructure {
-  safetyValidationEnabled: boolean;
+  safetyValidationEnabled: boolean,
   batchSizeConfiguration: {
-    defaultBatchSize: number;
-    maxBatchSize: number;
-    criticalFilesBatchSize: number;
+    defaultBatchSize: number,
+    maxBatchSize: number,
+    criticalFilesBatchSize: number
   };
-  validationFrequency: number;
-  rollbackOnFailure: boolean;
+  validationFrequency: number,
+  rollbackOnFailure: boolean,
 }
 
 interface ProgressTracking {
-  metricsCollectionEnabled: boolean;
-  realTimeTracking: boolean;
-  reportGeneration: boolean;
-  dashboardIntegration: boolean;
-  alertingSystem: boolean;
+  metricsCollectionEnabled: boolean,
+  realTimeTracking: boolean,
+  reportGeneration: boolean,
+  dashboardIntegration: boolean,
+  alertingSystem: boolean
 }
 
 interface InfrastructureStatus {
-  eslintConfig: ESLintConfigValidation;
-  backupSystem: BackupSystem;
-  buildMonitoring: BuildMonitoring;
-  batchProcessing: BatchProcessingInfrastructure;
-  progressTracking: ProgressTracking;
-  overallReadiness: boolean;
-  readinessScore: number;
-  recommendations: string[];
+  eslintConfig: ESLintConfigValidation,
+  backupSystem: BackupSystem,
+  buildMonitoring: BuildMonitoring,
+  batchProcessing: BatchProcessingInfrastructure,
+  progressTracking: ProgressTracking,
+  overallReadiness: boolean,
+  readinessScore: number,
+  recommendations: string[],
 }
 
 export class InfrastructurePreparation {

@@ -3,10 +3,10 @@ import type { ElementalProperties } from '@/types/alchemy';
 export const textureProfiles: Record<
   string,
   {
-    elementalProperties: ElementalProperties;
-    characteristics: string[];
-    methods: string[];
-    pairings: string[];
+    elementalProperties: ElementalProperties,
+    characteristics: string[],
+    methods: string[],
+    pairings: string[],
   }
 > = {
   crispy: {

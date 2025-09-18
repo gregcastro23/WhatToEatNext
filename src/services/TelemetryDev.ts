@@ -1,10 +1,10 @@
 import { createLogger } from '@/utils/logger';
 
 type MetricDelta = {
-  Spirit: number;
-  Essence: number;
-  Matter: number;
-  Substance: number;
+  Spirit: number,
+  Essence: number,
+  Matter: number,
+  Substance: number,
 };
 
 const logger = createLogger('TelemetryDev');

@@ -11,8 +11,8 @@ import { logger } from '@/utils/logger';
  * Transit date structure
  */
 export interface TransitDate {
-  Start: string;
-  End: string;
+  Start: string,
+  End: string,
   Peak?: string;
 }
 
@@ -138,9 +138,9 @@ export function validateRetrogradePhase(
  * Validate all transit dates for consistency
  */
 export function validateAllTransitDates(transitDates: PlanetTransitDates): {
-  isValid: boolean;
-  errors: string[];
-  warnings: string[];
+  isValid: boolean,
+  errors: string[],
+  warnings: string[]
 } {
   const errors: string[] = [];
   const warnings: string[] = [];
@@ -295,7 +295,7 @@ export async function loadPlanetTransitDates(
  */
 export async function validatePlanetaryPosition(
   planetName: string,
-  position: { sign: string; degree: number; exactLongitude: number },
+  position: { sign: string, degree: number; exactLongitude: number },
   date: Date = new Date(),;
 ): Promise<boolean> {
   try {

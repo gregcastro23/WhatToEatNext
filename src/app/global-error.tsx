@@ -9,7 +9,7 @@ export default function GlobalError({
   reset
 }: {
   error: Error & { digest?: string };
-  reset: () => void;
+  reset: () => void
 }) {
   useEffect(() => {
     logger.error('Global error:', error)

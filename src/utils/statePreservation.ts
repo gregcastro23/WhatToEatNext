@@ -4,21 +4,21 @@
  */
 
 export interface ComponentState {
-  timestamp: number;
-  data: unknown;
+  timestamp: number,
+  data: unknown,
 }
 
 export interface NavigationState {
-  activeSection: string | null;
-  navigationHistory: string[];
-  selectedIngredients: string[];
-  selectedCuisine: string | null;
-  selectedCookingMethods: string[];
-  currentRecipe: unknown | null;
-  selectedIngredientCategory: string | null;
-  selectedIngredient: string | null;
-  selectedCookingMethod: unknown | null;
-  scrollPosition: number;
+  activeSection: string | null,
+  navigationHistory: string[],
+  selectedIngredients: string[],
+  selectedCuisine: string | null,
+  selectedCookingMethods: string[],
+  currentRecipe: unknown | null,
+  selectedIngredientCategory: string | null,
+  selectedIngredient: string | null,
+  selectedCookingMethod: unknown | null,
+  scrollPosition: number,
 }
 
 const STATE_KEYS = {

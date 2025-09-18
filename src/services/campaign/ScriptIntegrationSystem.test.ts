@@ -91,13 +91,13 @@ describe('ScriptIntegrationSystem', () => {
     });
 
     it('should throw error for unknown script ID', async () => {
-      await expect(scriptSystem.executeScript('unknown-script')).rejects.toThrow('Unknown script ID: any-script');
+      await expect(scriptSystem.executeScript('unknown-script')).rejects.toThrow('Unknown script ID: any-script')
     });
 
     it('should throw error if script file does not exist', async () => {
       mockFs.existsSync.mockReturnValue(false);
 
-      await expect(scriptSystem.executeScript('typescript-enhanced-v3')).rejects.toThrow('Script not found:');
+      await expect(scriptSystem.executeScript('typescript-enhanced-v3')).rejects.toThrow('Script not found:')
     });
 
     it('should handle script execution failure', async () => {
@@ -122,7 +122,7 @@ describe('ScriptIntegrationSystem', () => {
           successfulRuns: 8,
           filesProcessed: 50,
           errorsFixed: 25,
-          safetyScore: 0.85;
+          safetyScore: 0.85,
           recommendedBatchSize: 15,
           lastRunTime: '2025-01-01T00:0, 0:00Z'
         }

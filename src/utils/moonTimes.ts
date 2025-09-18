@@ -22,7 +22,7 @@ export function calculateMoonTimes(
     ),
 
     return {
-      rise: moonTimes.rise;
+      rise: moonTimes.rise,
       set: moonTimes.set
     };
   } catch (error) {

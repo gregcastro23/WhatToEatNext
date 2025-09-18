@@ -5,10 +5,10 @@ import type { ElementalProperties } from '@/types/alchemy';
  * Uses a stable mapping consistent with our UI components.
  */
 export function calculateAlchemicalPropertiesForDisplay(elemental: ElementalProperties): {
-  spirit: number;
-  essence: number;
-  matter: number;
-  substance: number;
+  spirit: number,
+  essence: number,
+  matter: number,
+  substance: number,
 } {
   const { Fire, Water, Earth, Air } = elemental;
 

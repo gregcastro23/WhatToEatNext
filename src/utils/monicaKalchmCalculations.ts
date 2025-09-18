@@ -19,8 +19,8 @@ export interface AlchemicalProperties {
 }
 
 export interface ThermodynamicMetrics {
-  heat: number;
-  entropy: number;
+  heat: number,
+  entropy: number,
   reactivity: number,
   gregsEnergy: number,
   kalchm: number,
@@ -28,7 +28,7 @@ export interface ThermodynamicMetrics {
 }
 
 export interface EnhancedAlchemicalResult {
-  alchemicalProperties: AlchemicalProperties;
+  alchemicalProperties: AlchemicalProperties,
   elementalProperties: ElementalProperties,
   thermodynamicMetrics: ThermodynamicMetrics,
   compatibilityScore: number,
@@ -290,7 +290,7 @@ export function performEnhancedAnalysis(
 
   return {
     alchemicalProperties: alchemical,
-    elementalProperties: item.elemental;
+    elementalProperties: item.elemental,
     thermodynamicMetrics,
     compatibilityScore,
     confidence

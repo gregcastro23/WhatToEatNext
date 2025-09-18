@@ -37,17 +37,17 @@ interface RecipeData {
 }
 
 interface EnhancedRecipeMatch {
-  cuisine: string;
-  recipeName: string;
-  recipeId: string;
-  matchPercentage: number;
-  seasonalScore: number;
-  planetaryDayScore: number;
-  planetaryHourScore: number;
-  elementalScore: number;
-  astrologicalScore: number;
-  timeOfDayScore: number;
-  tags: string[];
+  cuisine: string,
+  recipeName: string,
+  recipeId: string,
+  matchPercentage: number,
+  seasonalScore: number,
+  planetaryDayScore: number,
+  planetaryHourScore: number,
+  elementalScore: number,
+  astrologicalScore: number,
+  timeOfDayScore: number,
+  tags: string[],
   description: string,
   ingredients: unknown[],
   season: string[],
@@ -55,7 +55,7 @@ interface EnhancedRecipeMatch {
 }
 
 interface TimeFactors {
-  planetaryDay: PlanetaryDay;
+  planetaryDay: PlanetaryDay,
   planetaryHour: PlanetaryHour,
   timeOfDay: TimeOfDay,
   currentSeason: Season,
@@ -154,7 +154,7 @@ export class EnhancedCuisineRecommender {
 
       return {
         cuisine: cuisineName,
-        recipeName: recipe.name || 'Unknown Recipe';
+        recipeName: recipe.name || 'Unknown Recipe',
         recipeId: recipe.id || recipe.name?.toLowerCase().replace(/\s+/g, '-') || 'unknown',
         matchPercentage,
         seasonalScore,
@@ -164,7 +164,7 @@ export class EnhancedCuisineRecommender {
         astrologicalScore,
         timeOfDayScore,
         tags: recipe.tags || [],
-        description: recipe.description || '';
+        description: recipe.description || '',
         ingredients: recipe.ingredients || [],
         season: recipe.season || [],
         mealType: recipe.mealType || []

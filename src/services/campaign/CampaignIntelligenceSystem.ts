@@ -14,10 +14,10 @@ import { TypeScriptErrorAnalyzer, ErrorCategory, ErrorSeverity } from './TypeScr
 // ========== ENTERPRISE INTELLIGENCE TYPE DEFINITIONS ==========;
 
 export interface CampaignIntelligenceMetrics {
-  errorReductionVelocity: number;
-  codeQualityImprovement: number;
-  buildStabilityScore: number;
-  technicalDebtReduction: number;
+  errorReductionVelocity: number,
+  codeQualityImprovement: number,
+  buildStabilityScore: number,
+  technicalDebtReduction: number,
   enterpriseReadiness: number,
   systemComplexity: number,
   intelligenceDepth: 'basic' | 'intermediate' | 'advanced' | 'enterprise_level',
@@ -54,8 +54,8 @@ export interface CampaignProgressIntelligence {
 }
 
 export interface EnterpriseIntelligenceResult {
-  campaignMetrics: CampaignIntelligenceMetrics;
-  errorPatterns: ErrorPatternIntelligence;
+  campaignMetrics: CampaignIntelligenceMetrics,
+  errorPatterns: ErrorPatternIntelligence,
   progressAnalysis: CampaignProgressIntelligence,
   systemIntegration: Record<string, number>,
   intelligenceRecommendations: string[],
@@ -312,15 +312,15 @@ export const CAMPAIGN_ENTERPRISE_INTELLIGENCE = {
     // Calculate campaign metrics
     const errorReductionRate = campaignProgress.reductionPercentage / 100;
     const campaignMetrics: CampaignIntelligenceMetrics = {
-      errorReductionVelocity: progressAnalysis.velocityAnalysis.currentVelocity;
-      codeQualityImprovement: progressAnalysis.qualityMetrics.codeHealthScore;
-      buildStabilityScore: progressAnalysis.qualityMetrics.buildReliability;
-      technicalDebtReduction: 1 - progressAnalysis.qualityMetrics.technicalDebtRatio;
+      errorReductionVelocity: progressAnalysis.velocityAnalysis.currentVelocity,
+      codeQualityImprovement: progressAnalysis.qualityMetrics.codeHealthScore,
+      buildStabilityScore: progressAnalysis.qualityMetrics.buildReliability,
+      technicalDebtReduction: 1 - progressAnalysis.qualityMetrics.technicalDebtRatio,
       enterpriseReadiness: Math.min(
         0.95;
         (errorReductionRate + progressAnalysis.qualityMetrics.codeHealthScore) / 2;
       ),
-      systemComplexity: Object.keys(errorPatterns.patternRecognition).length / 10;
+      systemComplexity: Object.keys(errorPatterns.patternRecognition).length / 10,
       intelligenceDepth:
         errorReductionRate > 0.75
           ? 'enterprise_level'
@@ -334,11 +334,11 @@ export const CAMPAIGN_ENTERPRISE_INTELLIGENCE = {
 
     // System integration metrics
     const systemIntegration = {
-      errorAnalysisIntegration: 0.95;
-      fixerIntegration: 0.92;
-      anyEliminationIntegration: 0.88;
-      progressTrackingIntegration: 0.9;
-      intelligenceSystemIntegration: 0.93;
+      errorAnalysisIntegration: 0.95,
+      fixerIntegration: 0.92,
+      anyEliminationIntegration: 0.88,
+      progressTrackingIntegration: 0.9,
+      intelligenceSystemIntegration: 0.93,
       overallSystemIntegration: 0.916
     };
 
@@ -451,7 +451,7 @@ export const _CAMPAIGN_INTELLIGENCE_DEMO = {
         errorsRemaining: 2500,
         buildValidationPassed: true,
         executionTime: 30000,
-        safetyScore: 0.85;
+        safetyScore: 0.85,
         warnings: [],
         errors: []
       }
@@ -462,7 +462,7 @@ export const _CAMPAIGN_INTELLIGENCE_DEMO = {
       totalExplicitAnyRemaining: 250,
       reductionAchieved: 750,
       reductionPercentage: 75,
-      campaignTarget: 75.5;
+      campaignTarget: 75.5,
       isTargetMet: false
     };
 
@@ -489,11 +489,11 @@ export const _CAMPAIGN_INTELLIGENCE_DEMO = {
 
     // Integration metrics
     const integrationMetrics = {
-      errorPatternIntegration: 0.95;
-      progressAnalysisIntegration: 0.92;
-      enterpriseIntelligenceIntegration: 0.94;
-      systemComplexity: 0.88;
-      intelligenceDepth: 0.91;
+      errorPatternIntegration: 0.95,
+      progressAnalysisIntegration: 0.92,
+      enterpriseIntelligenceIntegration: 0.94,
+      systemComplexity: 0.88,
+      intelligenceDepth: 0.91,
       overallIntelligenceIntegration: 0.92
     };
 
@@ -505,9 +505,9 @@ export const _CAMPAIGN_INTELLIGENCE_DEMO = {
         Object.keys(integrationMetrics).length +
         Object.keys(errorPatternDemo.patternRecognition).length +
         Object.keys(progressAnalysisDemo.qualityMetrics).length;
-      enterpriseReadinessLevel: enterpriseIntelligenceDemo.campaignMetrics.intelligenceDepth;
-      systemIntegrationScore: integrationMetrics.overallIntelligenceIntegration;
-      demonstrationCompleteness: 1.0;
+      enterpriseReadinessLevel: enterpriseIntelligenceDemo.campaignMetrics.intelligenceDepth,
+      systemIntegrationScore: integrationMetrics.overallIntelligenceIntegration,
+      demonstrationCompleteness: 1.0,
       intelligenceCapabilities: [
         'Error Pattern Recognition',
         'Predictive Analytics',

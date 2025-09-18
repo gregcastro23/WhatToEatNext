@@ -1,13 +1,13 @@
 import { ElementalProperties } from '@/types/alchemy';
 
-export const _getElementalAlignmentFromTarot = (tarot: {;
-  majorArcana: string[];
-  minorArcana: string[];
+export const _getElementalAlignmentFromTarot = (tarot: {
+  majorArcana: string[],
+  minorArcana: string[],
 }): {
-  Fire: number;
-  Water: number;
-  Earth: number;
-  Air: number;
+  Fire: number,
+  Water: number,
+  Earth: number,
+  Air: number,
 } => {
   const alignment = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
 

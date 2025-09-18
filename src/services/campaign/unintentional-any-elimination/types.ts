@@ -7,12 +7,12 @@ import { ProgressMetrics, SafetyEvent, ValidationResult } from '../../../types/c
 
 // Core Classification Types
 export interface AnyTypeClassification {
-  isIntentional: boolean;
-  confidence: number; // 0-1 scale
+  isIntentional: boolean,
+  confidence: number, // 0-1 scale
   reasoning: string;
   suggestedReplacement?: string;
-  requiresDocumentation: boolean;
-  category: AnyTypeCategory;
+  requiresDocumentation: boolean,
+  category: AnyTypeCategory,
 }
 
 export enum AnyTypeCategory {
@@ -29,49 +29,49 @@ export enum AnyTypeCategory {
 }
 
 export interface ClassificationContext {
-  filePath: string;
-  lineNumber: number;
-  codeSnippet: string;
-  surroundingLines: string[];
+  filePath: string,
+  lineNumber: number,
+  codeSnippet: string,
+  surroundingLines: string[],
   hasExistingComment: boolean;
   existingComment?: string;
-  isInTestFile: boolean;
-  domainContext: DomainContext;
+  isInTestFile: boolean,
+  domainContext: DomainContext,
 }
 
 // Type Replacement Types
 export interface TypeReplacement {
-  original: string;
-  replacement: string;
-  filePath: string;
-  lineNumber: number;
-  confidence: number;
-  validationRequired: boolean;
+  original: string,
+  replacement: string,
+  filePath: string,
+  lineNumber: number,
+  confidence: number,
+  validationRequired: boolean,
 }
 
 export interface ReplacementResult {
-  success: boolean;
-  appliedReplacements: TypeReplacement[];
-  failedReplacements: TypeReplacement[];
-  compilationErrors: string[];
+  success: boolean,
+  appliedReplacements: TypeReplacement[],
+  failedReplacements: TypeReplacement[],
+  compilationErrors: string[],
   rollbackPerformed: boolean;
   backupPath?: string;
 }
 
 export interface ReplacementStrategy {
-  pattern: RegExp;
-  replacement: (match: string, context: ClassificationContext) => string;
-  validator: (context: ClassificationContext) => boolean;
-  priority: number;
+  pattern: RegExp,
+  replacement: (match: string, context: ClassificationContext) => string,
+  validator: (context: ClassificationContext) => boolean,
+  priority: number
 }
 
 // Domain Context Types
 export interface DomainContext {
   domain: CodeDomain;
   subDomain?: string;
-  intentionalityHints: IntentionalityHint[];
-  suggestedTypes: string[];
-  preservationReasons: string[];
+  intentionalityHints: IntentionalityHint[],
+  suggestedTypes: string[],
+  preservationReasons: string[]
 }
 
 export enum CodeDomain {
@@ -86,115 +86,115 @@ export enum CodeDomain {
 }
 
 export interface IntentionalityHint {
-  reason: string;
-  confidence: number;
-  suggestedAction: 'preserve' | 'replace' | 'document' | 'review';
+  reason: string,
+  confidence: number,
+  suggestedAction: 'preserve' | 'replace' | 'document' | 'review'
 }
 
 // Data Models
 export interface AnyTypeRecord {
-  id: string;
-  filePath: string;
-  lineNumber: number;
-  codeSnippet: string;
-  classification: AnyTypeClassification;
-  domainContext: DomainContext;
-  lastAnalyzed: Date;
-  replacementHistory: ReplacementAttempt[];
-  currentStatus: 'pending' | 'replaced' | 'documented' | 'preserved';
+  id: string,
+  filePath: string,
+  lineNumber: number,
+  codeSnippet: string,
+  classification: AnyTypeClassification,
+  domainContext: DomainContext,
+  lastAnalyzed: Date,
+  replacementHistory: ReplacementAttempt[],
+  currentStatus: 'pending' | 'replaced' | 'documented' | 'preserved'
 }
 
 export interface ReplacementAttempt {
-  timestamp: Date;
-  originalType: string;
-  attemptedReplacement: string;
-  success: boolean;
+  timestamp: Date,
+  originalType: string,
+  attemptedReplacement: string,
+  success: boolean,
   errorMessage?: string;
   rollbackReason?: string;
 }
 
 // Progress Tracking Types
 export interface UnintentionalAnyProgress extends ProgressMetrics {
-  totalAnyTypes: number;
-  classifiedIntentional: number;
-  classifiedUnintentional: number;
-  successfulReplacements: number;
-  documentedIntentional: number;
-  remainingUnintentional: number;
-  reductionPercentage: number;
-  targetReductionPercentage: number;
-  batchesCompleted: number;
-  averageSuccessRate: number;
+  totalAnyTypes: number,
+  classifiedIntentional: number,
+  classifiedUnintentional: number,
+  successfulReplacements: number,
+  documentedIntentional: number,
+  remainingUnintentional: number,
+  reductionPercentage: number,
+  targetReductionPercentage: number,
+  batchesCompleted: number,
+  averageSuccessRate: number,
 }
 
 export interface BatchMetrics {
-  batchNumber: number;
-  filesProcessed: number;
-  anyTypesAnalyzed: number;
-  replacementsAttempted: number;
-  replacementsSuccessful: number;
-  compilationErrors: number;
-  rollbacksPerformed: number;
-  executionTime: number;
-  safetyScore: number;
+  batchNumber: number,
+  filesProcessed: number,
+  anyTypesAnalyzed: number,
+  replacementsAttempted: number,
+  replacementsSuccessful: number,
+  compilationErrors: number,
+  rollbacksPerformed: number,
+  executionTime: number,
+  safetyScore: number
 }
 
 // Configuration Types
 export interface UnintentionalAnyConfig {
-  maxFilesPerBatch: number;
-  targetReductionPercentage: number;
-  confidenceThreshold: number;
-  enableDomainAnalysis: boolean;
-  enableDocumentation: boolean;
-  safetyLevel: 'CONSERVATIVE' | 'MODERATE' | 'AGGRESSIVE';
-  validationFrequency: number;
+  maxFilesPerBatch: number,
+  targetReductionPercentage: number,
+  confidenceThreshold: number,
+  enableDomainAnalysis: boolean,
+  enableDocumentation: boolean,
+  safetyLevel: 'CONSERVATIVE' | 'MODERATE' | 'AGGRESSIVE',
+  validationFrequency: number
 }
 
 export interface ClassificationRules {
-  errorHandlingPatterns: RegExp[];
-  externalApiPatterns: RegExp[];
-  testMockPatterns: RegExp[];
-  dynamicConfigPatterns: RegExp[];
-  legacyCompatibilityPatterns: RegExp[];
+  errorHandlingPatterns: RegExp[],
+  externalApiPatterns: RegExp[],
+  testMockPatterns: RegExp[],
+  dynamicConfigPatterns: RegExp[],
+  legacyCompatibilityPatterns: RegExp[]
 }
 
 // Campaign Integration Types
 export interface UnintentionalAnyCampaignPhase {
-  id: string;
-  name: string;
-  description: string;
-  classifier: AnyTypeClassifier;
-  replacer: SafeTypeReplacer;
-  analyzer: DomainContextAnalyzer;
-  config: UnintentionalAnyConfig;
+  id: string,
+  name: string,
+  description: string,
+  classifier: AnyTypeClassifier,
+  replacer: SafeTypeReplacer,
+  analyzer: DomainContextAnalyzer,
+  config: UnintentionalAnyConfig
 }
 
 export interface UnintentionalAnyCampaignResult {
-  totalAnyTypesAnalyzed: number;
-  intentionalTypesIdentified: number;
-  unintentionalTypesReplaced: number;
-  documentationAdded: number;
-  reductionAchieved: number;
-  safetyEvents: SafetyEvent[];
-  validationResults: ValidationResult[];
-  success: boolean;
-  filesProcessed: number;
-  errorsFixed: number;
-  warningsFixed: number;
+  totalAnyTypesAnalyzed: number,
+  intentionalTypesIdentified: number,
+  unintentionalTypesReplaced: number,
+  documentationAdded: number,
+  reductionAchieved: number,
+  safetyEvents: SafetyEvent[],
+  validationResults: ValidationResult[],
+  success: boolean,
+  filesProcessed: number,
+  errorsFixed: number,
+  warningsFixed: number
 }
 
 export interface UnintentionalAnyMetrics {
-  totalAnyTypes: number;
-  intentionalAnyTypes: number;
-  unintentionalAnyTypes: number;
-  documentedAnyTypes: number;
-  documentationCoverage: number;
-  reductionFromBaseline: number;
-  targetReduction: number;
+  totalAnyTypes: number,
+  intentionalAnyTypes: number,
+  unintentionalAnyTypes: number,
+  documentedAnyTypes: number,
+  documentationCoverage: number,
+  reductionFromBaseline: number,
+  targetReduction: number
 }
 
 export interface UnintentionalAnyProgressMetrics extends ProgressMetrics {
-  unintentionalAnyMetrics: UnintentionalAnyMetrics;
+  unintentionalAnyMetrics: UnintentionalAnyMetrics
 }
 
 // Error Handling Types
@@ -223,38 +223,38 @@ export class SafetyProtocolError extends Error {
 // Forward declarations for classes (to be implemented in separate files)
 export interface AnyTypeClassifier {
   classify(context: ClassificationContext): Promise<AnyTypeClassification>;
-  classifyBatch(contexts: ClassificationContext[]): Promise<AnyTypeClassification[]>;
+  classifyBatch(contexts: ClassificationContext[]): Promise<AnyTypeClassification[]>
 }
 
 export interface SafeTypeReplacer {
   applyReplacement(replacement: TypeReplacement): Promise<ReplacementResult>;
-  processBatch(replacements: TypeReplacement[]): Promise<ReplacementResult>;
+  processBatch(replacements: TypeReplacement[]): Promise<ReplacementResult>
 }
 
 export interface DomainContextAnalyzer {
   analyzeDomain(context: ClassificationContext): Promise<DomainContext>;
-  getDomainSpecificSuggestions(domain: CodeDomain, context: ClassificationContext): string[];
+  getDomainSpecificSuggestions(domain: CodeDomain, context: ClassificationContext): string[]
 }
 
 export interface ProgressiveImprovementEngine {
   executeBatch(config: UnintentionalAnyConfig): Promise<BatchMetrics>;
-  executeFullCampaign(config: UnintentionalAnyConfig): Promise<UnintentionalAnyCampaignResult>;
+  executeFullCampaign(config: UnintentionalAnyConfig): Promise<UnintentionalAnyCampaignResult>
 }
 
 // Documentation System Types
 export interface DocumentationTemplate {
-  category: AnyTypeCategory;
-  domain: CodeDomain;
+  category: AnyTypeCategory,
+  domain: CodeDomain,
   template: string;
   eslintDisableComment?: string;
-  explanation: string;
+  explanation: string
 }
 
 export interface DocumentationResult {
-  filePath: string;
-  lineNumber: number;
-  originalCode: string;
-  documentedCode: string;
+  filePath: string,
+  lineNumber: number,
+  originalCode: string,
+  documentedCode: string,
   commentAdded: string;
   eslintDisableAdded?: string;
   success: boolean;
@@ -262,22 +262,22 @@ export interface DocumentationResult {
 }
 
 export interface DocumentationValidation {
-  hasComment: boolean;
-  commentQuality: 'poor' | 'fair' | 'good' | 'excellent';
-  hasEslintDisable: boolean;
-  eslintDisableHasExplanation: boolean;
-  isComplete: boolean;
-  suggestions: string[];
+  hasComment: boolean,
+  commentQuality: 'poor' | 'fair' | 'good' | 'excellent',
+  hasEslintDisable: boolean,
+  eslintDisableHasExplanation: boolean,
+  isComplete: boolean,
+  suggestions: string[],
 }
 
 export interface DocumentationReport {
-  totalIntentionalAnyTypes: number;
-  documentedTypes: number;
-  undocumentedTypes: number;
-  documentationCoverage: number; // percentage
+  totalIntentionalAnyTypes: number,
+  documentedTypes: number,
+  undocumentedTypes: number,
+  documentationCoverage: number, // percentage
   qualityBreakdown: Record<string, number>;
-  undocumentedFiles: string[];
-  recommendations: string[];
+  undocumentedFiles: string[],
+  recommendations: string[],
 }
 
 export interface AutoDocumentationGenerator {
@@ -294,158 +294,158 @@ export interface AutoDocumentationGenerator {
 // Analysis and Reporting Types
 
 export interface DomainDistribution {
-  totalAnyTypes: number;
+  totalAnyTypes: number,
   byDomain: Array<{
-    domain: CodeDomain;
-    count: number;
-    percentage: number;
+    domain: CodeDomain,
+    count: number,
+    percentage: number
   }>;
   byCategory: Array<{
-    category: AnyTypeCategory;
-    count: number;
-    percentage: number;
+    category: AnyTypeCategory,
+    count: number,
+    percentage: number
   }>;
   intentionalVsUnintentional: {
     intentional: {
-      count: number;
-      percentage: number;
+      count: number,
+      percentage: number,
     };
     unintentional: {
-      count: number;
-      percentage: number;
+      count: number,
+      percentage: number,
     };
   };
-  analysisDate: Date;
+  analysisDate: Date
 }
 
 export interface ClassificationAccuracyReport {
-  overallAccuracy: number;
-  averageConfidence: number;
-  sampleSize: number;
+  overallAccuracy: number,
+  averageConfidence: number,
+  sampleSize: number,
   categoryAccuracy: Array<{
-    category: AnyTypeCategory;
-    accuracy: number;
-    sampleCount: number;
+    category: AnyTypeCategory,
+    accuracy: number,
+    sampleCount: number
   }>;
   confidenceDistribution: Array<{
-    range: string;
-    count: number;
-    percentage: number;
+    range: string,
+    count: number,
+    percentage: number
   }>;
   reportDate: Date;
   pilotEnhancements?: {
-    manualReviewSimulation: any;
-    crossValidation: any;
-    edgeCaseAnalysis: any;
-    domainSpecificAccuracy: any;
+    manualReviewSimulation: any,
+    crossValidation: any,
+    edgeCaseAnalysis: any,
+    domainSpecificAccuracy: any,
   };
 }
 
 export interface SuccessRateAnalysis {
-  currentSuccessRate: number;
-  targetSuccessRate: number;
-  improvementNeeded: number;
+  currentSuccessRate: number,
+  targetSuccessRate: number,
+  improvementNeeded: number,
   categorySuccessRates: Array<{
-    category: AnyTypeCategory;
-    successRate: number;
-    sampleSize: number;
+    category: AnyTypeCategory,
+    successRate: number,
+    sampleSize: number
   }>;
-  trendingData: TrendingData;
-  projectedCompletion: Date;
-  recommendations: string[];
-  analysisDate: Date;
+  trendingData: TrendingData,
+  projectedCompletion: Date,
+  recommendations: string[],
+  analysisDate: Date,
 }
 
 export interface TrendingData {
-  date: Date;
-  successRate: number;
-  totalAnyTypes: number;
-  unintentionalCount: number;
+  date: Date,
+  successRate: number,
+  totalAnyTypes: number,
+  unintentionalCount: number,
   classificationAccuracy: number;
   trends?: {
-    successRateChange: number;
-    totalAnyTypesChange: number;
-    unintentionalCountChange: number;
-    classificationAccuracyChange: number;
+    successRateChange: number,
+    totalAnyTypesChange: number,
+    unintentionalCountChange: number,
+    classificationAccuracyChange: number,
   };
 }
 
 export interface ManualReviewRecommendation {
-  filePath: string;
-  lineNumber: number;
-  codeSnippet: string;
-  classification: AnyTypeClassification;
-  reviewReason: string;
-  priority: 'high' | 'medium' | 'low';
-  suggestedActions: string[];
-  estimatedEffort: 'low' | 'medium' | 'high';
+  filePath: string,
+  lineNumber: number,
+  codeSnippet: string,
+  classification: AnyTypeClassification,
+  reviewReason: string,
+  priority: 'high' | 'medium' | 'low',
+  suggestedActions: string[],
+  estimatedEffort: 'low' | 'medium' | 'high',
   relatedOccurrences: Array<{
-    filePath: string;
-    lineNumber: number;
+    filePath: string,
+    lineNumber: number,
   }>;
 }
 
 export interface AnalysisReport {
-  id: string;
-  timestamp: Date;
-  domainDistribution: DomainDistribution;
-  accuracyReport: ClassificationAccuracyReport;
-  successRateAnalysis: SuccessRateAnalysis;
-  manualReviewRecommendations: ManualReviewRecommendation[];
+  id: string,
+  timestamp: Date,
+  domainDistribution: DomainDistribution,
+  accuracyReport: ClassificationAccuracyReport,
+  successRateAnalysis: SuccessRateAnalysis,
+  manualReviewRecommendations: ManualReviewRecommendation[],
   pilotPhase?: {
-    executionDate: Date;
-    configuration: PilotAnalysisConfig;
+    executionDate: Date,
+    configuration: PilotAnalysisConfig,
     accuracyValidation: ClassificationAccuracyReport;
     tuningResults?: ClassificationTuningResults;
-    domainDistribution: DomainDistribution[];
-    baselineMetrics: BaselineMetrics;
-    successPrediction: SuccessRatePrediction;
-    recommendations: string[];
+    domainDistribution: DomainDistribution[],
+    baselineMetrics: BaselineMetrics,
+    successPrediction: SuccessRatePrediction,
+    recommendations: string[],
   };
   summary: {
-    totalAnyTypes: number;
-    unintentionalCount: number;
-    classificationAccuracy: number;
-    currentSuccessRate: number;
-    manualReviewCases: number;
-    topDomain: CodeDomain;
-    topCategory: AnyTypeCategory;
+    totalAnyTypes: number,
+    unintentionalCount: number,
+    classificationAccuracy: number,
+    currentSuccessRate: number,
+    manualReviewCases: number,
+    topDomain: CodeDomain,
+    topCategory: AnyTypeCategory
   };
 }
 
 export interface AnalysisMetrics {
-  overallSuccessRate: number;
-  totalProcessed: number;
-  successfulReplacements: number;
-  failedReplacements: number;
-  averageConfidence: number;
+  overallSuccessRate: number,
+  totalProcessed: number,
+  successfulReplacements: number,
+  failedReplacements: number,
+  averageConfidence: number
 }
 
 // Progress Monitoring and Alerting Types
 
 export interface DashboardData {
-  lastUpdate: Date;
-  analysisReport: AnalysisReport;
-  progressMetrics: UnintentionalAnyProgress;
-  buildStability: BuildStabilityRecord;
-  alertSummary: AlertSummary;
-  trendingData: TrendingData[];
-  systemHealth: SystemHealth;
+  lastUpdate: Date,
+  analysisReport: AnalysisReport,
+  progressMetrics: UnintentionalAnyProgress,
+  buildStability: BuildStabilityRecord,
+  alertSummary: AlertSummary,
+  trendingData: TrendingData[],
+  systemHealth: SystemHealth
 }
 
 export interface AlertThresholds {
-  successRateThreshold: number;
-  buildFailureThreshold: number;
-  classificationAccuracyThreshold: number;
-  safetyEventThreshold: number;
+  successRateThreshold: number,
+  buildFailureThreshold: number,
+  classificationAccuracyThreshold: number,
+  safetyEventThreshold: number,
   progressStallThreshold: number; // hours
 }
 
 export interface Alert {
-  type: AlertType;
-  severity: 'low' | 'medium' | 'high' | 'critical';
-  message: string;
-  timestamp: Date;
+  type: AlertType,
+  severity: 'low' | 'medium' | 'high' | 'critical',
+  message: string,
+  timestamp: Date,
   data?: unknown;
 }
 
@@ -460,63 +460,63 @@ export type AlertType =
   | 'system_error';
 
 export interface SafetyEvent {
-  type: string;
-  severity: 'low' | 'medium' | 'high' | 'critical';
-  description: string;
-  action: string;
+  type: string,
+  severity: 'low' | 'medium' | 'high' | 'critical',
+  description: string,
+  action: string,
   timestamp: Date;
   affectedFiles?: string[];
 }
 
 export interface BuildStabilityRecord {
-  timestamp: Date;
-  isStable: boolean;
-  buildTime: number;
-  errorCount: number;
-  errorMessage: string | null;
+  timestamp: Date,
+  isStable: boolean,
+  buildTime: number,
+  errorCount: number,
+  errorMessage: string | null
 }
 
 export interface AlertSummary {
-  totalAlerts: number;
-  criticalAlerts: number;
-  highAlerts: number;
-  mediumAlerts: number;
-  lowAlerts: number;
-  recentAlerts: Alert[];
+  totalAlerts: number,
+  criticalAlerts: number,
+  highAlerts: number,
+  mediumAlerts: number,
+  lowAlerts: number,
+  recentAlerts: Alert[],
 }
 
 export interface SystemHealth {
   score: number; // 0-100
-  status: 'healthy' | 'warning' | 'critical';
-  lastCheck: Date;
-  issues: string[];
+  status: 'healthy' | 'warning' | 'critical',
+  lastCheck: Date,
+  issues: string[]
 }
 
 // Conservative Pilot Configuration Types
 export interface ConservativePilotConfig {
-  maxFilesPerBatch: number;
-  minFilesPerBatch: number;
-  targetSuccessRate: number;
-  maxBatches: number;
-  realTimeValidation: boolean;
-  rollbackOnFailure: boolean;
-  safetyThreshold: number;
-  focusCategories: AnyTypeCategory[];
-  buildValidationFrequency: number;
+  maxFilesPerBatch: number,
+  minFilesPerBatch: number,
+  targetSuccessRate: number,
+  maxBatches: number,
+  realTimeValidation: boolean,
+  rollbackOnFailure: boolean,
+  safetyThreshold: number,
+  focusCategories: AnyTypeCategory[],
+  buildValidationFrequency: number
 }
 
 export interface PilotAnalysisConfig {
-  maxFilesToAnalyze: number;
-  sampleSizeForAccuracy: number;
-  confidenceThreshold: number;
-  enableTuning: boolean;
-  generateDetailedReports: boolean;
-  outputDirectory: string;
+  maxFilesToAnalyze: number,
+  sampleSizeForAccuracy: number,
+  confidenceThreshold: number,
+  enableTuning: boolean,
+  generateDetailedReports: boolean,
+  outputDirectory: string,
 }
 
 export interface PilotAnalysisResults {
-  success: boolean;
-  executionTime: number;
+  success: boolean,
+  executionTime: number,
   executionDate?: Date;
   configuration?: PilotAnalysisConfig;
   codebaseAnalysis?: AnalysisReport;
@@ -526,17 +526,17 @@ export interface PilotAnalysisResults {
   baselineMetrics?: BaselineMetrics | SuccessRatePrediction;
   successPrediction?: SuccessRatePrediction;
   pilotReport?: AnalysisReport;
-  recommendations: string[];
-  nextSteps: string[];
+  recommendations: string[],
+  nextSteps: string[],
   error?: string;
 }
 
 export interface ClassificationTuningResults {
-  originalAccuracy: number;
-  tunedAccuracy: number;
+  originalAccuracy: number,
+  tunedAccuracy: number,
   adjustedThresholds: Record<AnyTypeCategory, number>;
-  improvementPercentage: number;
-  tuningIterations: number;
+  improvementPercentage: number,
+  tuningIterations: number,
 }
 
 export interface SuccessRatePrediction {
@@ -544,8 +544,8 @@ export interface SuccessRatePrediction {
   estimatedSuccessRate: number;
   projectedSuccessRate?: any;
   confidenceInterval: { lower: number; upper: number };
-  riskFactors: string[];
-  estimatedTimeToComplete: number; // in minutes
+  riskFactors: string[],
+  estimatedTimeToComplete: number, // in minutes
   timeToTarget?: any;
   categoryPredictions?: any;
   recommendedBatchSize: number;
@@ -555,59 +555,59 @@ export interface SuccessRatePrediction {
 }
 
 export interface CampaignMetrics {
-  totalAnyTypesAnalyzed: number;
-  totalReplacementsAttempted: number;
-  totalReplacementsSuccessful: number;
-  totalCompilationErrors: number;
-  totalRollbacks: number;
-  totalExecutionTime: number;
-  overallSuccessRate: number;
-  averageSafetyScore: number;
+  totalAnyTypesAnalyzed: number,
+  totalReplacementsAttempted: number,
+  totalReplacementsSuccessful: number,
+  totalCompilationErrors: number,
+  totalRollbacks: number,
+  totalExecutionTime: number,
+  overallSuccessRate: number,
+  averageSafetyScore: number,
 }
 
 export interface CampaignPhase {
-  phase: string;
-  startTime: Date;
+  phase: string,
+  startTime: Date,
   endTime?: Date;
-  status: 'pending' | 'in_progress' | 'completed' | 'failed';
-  metrics: CampaignMetrics;
-  issues: string[];
+  status: 'pending' | 'in_progress' | 'completed' | 'failed',
+  metrics: CampaignMetrics,
+  issues: string[]
 }
 
 export interface DomainProcessingResult {
-  domain: CodeDomain;
-  filesProcessed: number;
-  anyTypesFound: number;
-  replacementsAttempted: number;
-  replacementsSuccessful: number;
-  compilationErrors: number;
-  rollbacksPerformed: number;
-  successRate: number;
-  processingTime: number;
+  domain: CodeDomain,
+  filesProcessed: number,
+  anyTypesFound: number,
+  replacementsAttempted: number,
+  replacementsSuccessful: number,
+  compilationErrors: number,
+  rollbacksPerformed: number,
+  successRate: number,
+  processingTime: number
 }
 
 export interface FinalReport {
-  campaignId: string;
-  executionDate: Date;
-  totalExecutionTime: number;
-  overallMetrics: CampaignMetrics;
-  phaseResults: CampaignPhase[];
-  domainResults: DomainProcessingResult[];
-  successfulReplacements: TypeReplacement[];
-  failedReplacements: Array<{ replacement: TypeReplacement; error: string }>;
-  recommendations: string[];
-  nextSteps: string[];
+  campaignId: string,
+  executionDate: Date,
+  totalExecutionTime: number,
+  overallMetrics: CampaignMetrics,
+  phaseResults: CampaignPhase[],
+  domainResults: DomainProcessingResult[],
+  successfulReplacements: TypeReplacement[],
+  failedReplacements: Array<{ replacement: TypeReplacement, error: string }>;
+  recommendations: string[],
+  nextSteps: string[],
 }
 
 export interface FullCampaignConfig {
-  maxFilesPerBatch: number;
-  maxBatchesPerPhase: number;
-  confidenceThreshold: number;
-  safetyThreshold: number;
-  enableProgressiveImprovement: boolean;
-  enableRealTimeMonitoring: boolean;
-  rollbackOnFailure: boolean;
-  validateBuildAfterEachBatch: boolean;
-  generateIntermediateReports: boolean;
-  outputDirectory: string;
+  maxFilesPerBatch: number,
+  maxBatchesPerPhase: number,
+  confidenceThreshold: number,
+  safetyThreshold: number,
+  enableProgressiveImprovement: boolean,
+  enableRealTimeMonitoring: boolean,
+  rollbackOnFailure: boolean,
+  validateBuildAfterEachBatch: boolean,
+  generateIntermediateReports: boolean,
+  outputDirectory: string,
 }

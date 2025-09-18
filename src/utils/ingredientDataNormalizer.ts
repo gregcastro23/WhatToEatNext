@@ -232,10 +232,10 @@ function formatVarietyName(name: string): string {
  * Normalize variety data
  */
 function normalizeVarietyData(data: Record<string, unknown>): {
-  appearance: unknown;
-  texture: unknown;
-  flavor: unknown;
-  bestUses: unknown[];
+  appearance: unknown,
+  texture: unknown,
+  flavor: unknown,
+  bestUses: unknown[],
   notes: unknown,
   origin: unknown,
   storage: unknown,
@@ -244,9 +244,9 @@ function normalizeVarietyData(data: Record<string, unknown>): {
   if (!data || typeof data !== 'object') return {};
 
   return {
-    appearance: data.appearance || '';
-    texture: data.texture || '';
-    flavor: data.flavor || data.flavour || '';
+    appearance: data.appearance || '',
+    texture: data.texture || '',
+    flavor: data.flavor || data.flavour || '',
     bestUses: Array.isArray(data.best_uses)
       ? data.best_uses
       : Array.isArray(data.bestUses)
@@ -254,9 +254,9 @@ function normalizeVarietyData(data: Record<string, unknown>): {
         : data.best_uses || data.bestUses
           ? [data.best_uses || data.bestUses]
           : [],
-    notes: data.notes || '';
-    origin: data.origin || '';
-    storage: data.storage || '';
+    notes: data.notes || '',
+    origin: data.origin || '',
+    storage: data.storage || '',
     ripening: data.ripening || ''
   };
 }
@@ -272,11 +272,11 @@ export function normalizeStorage(storage: Record<string, unknown>): Record<strin
   }
 
   return {
-    temperature: storage.temperature || '';
-    duration: storage.duration || '';
-    humidity: storage.humidity || '';
-    container: storage.container || '';
-    notes: storage.notes || '';
+    temperature: storage.temperature || '',
+    duration: storage.duration || '',
+    humidity: storage.humidity || '',
+    container: storage.container || '',
+    notes: storage.notes || '',
     fresh: storage.fresh || {},
     frozen: storage.frozen || {},
     dried: storage.dried || {}
@@ -296,10 +296,10 @@ export function normalizePreparation(
   }
 
   return {
-    washing: preparation.washing || '';
-    peeling: preparation.peeling || '';
-    cutting: preparation.cutting || '';
-    cooking: preparation.cooking || '';
+    washing: preparation.washing || '',
+    peeling: preparation.peeling || '',
+    cutting: preparation.cutting || '',
+    cooking: preparation.cooking || '',
     tips: Array.isArray(preparation.tips)
       ? preparation.tips
       : preparation.tips

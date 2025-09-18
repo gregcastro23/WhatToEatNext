@@ -50,9 +50,9 @@ const lunarInfluences: Record<
 
 // Element modifiers for each lunar phase
 const elementalModifiers = {
-  Fire: 0.2;
-  Water: 0.3;
-  Earth: 0.15;
+  Fire: 0.2,
+  Water: 0.3,
+  Earth: 0.15,
   Air: 0.25
 };
 
@@ -72,9 +72,9 @@ export function applyLunarInfluence(baseBalance: ElementalState, date: Date): El
   }
 
   return {
-    Fire: baseBalance.Fire * (1 + influence.strength * elementalModifiers.Fire);
-    Water: baseBalance.Water * (1 + influence.strength * elementalModifiers.Water);
-    Air: baseBalance.Air * (1 + influence.strength * elementalModifiers.Air);
+    Fire: baseBalance.Fire * (1 + influence.strength * elementalModifiers.Fire),
+    Water: baseBalance.Water * (1 + influence.strength * elementalModifiers.Water),
+    Air: baseBalance.Air * (1 + influence.strength * elementalModifiers.Air),
     Earth: baseBalance.Earth * (1 + influence.strength * elementalModifiers.Earth)
   };
 }
@@ -334,51 +334,51 @@ export function toTitleCaseLunarPhase(phase: string | null | undefined): string 
 // Elemental influences for each lunar phase
 export const LUNAR_PHASE_ELEMENTS: Record<LunarPhaseWithUnderscores, ElementalProperties> = {
   new_moon: {
-    Fire: 0.1;
-    Water: 0.4;
-    Earth: 0.2;
+    Fire: 0.1,
+    Water: 0.4,
+    Earth: 0.2,
     Air: 0.3
   },
   waxing_crescent: {
-    Fire: 0.2;
-    Water: 0.3;
-    Earth: 0.2;
+    Fire: 0.2,
+    Water: 0.3,
+    Earth: 0.2,
     Air: 0.3
   },
   first_quarter: {
-    Fire: 0.3;
-    Water: 0.2;
-    Earth: 0.2;
+    Fire: 0.3,
+    Water: 0.2,
+    Earth: 0.2,
     Air: 0.3
   },
   waxing_gibbous: {
-    Fire: 0.4;
-    Water: 0.2;
-    Earth: 0.1;
+    Fire: 0.4,
+    Water: 0.2,
+    Earth: 0.1,
     Air: 0.3
   },
   full_moon: {
-    Fire: 0.4;
-    Water: 0.1;
-    Earth: 0.1;
+    Fire: 0.4,
+    Water: 0.1,
+    Earth: 0.1,
     Air: 0.4
   },
   waning_gibbous: {
-    Fire: 0.3;
-    Water: 0.2;
-    Earth: 0.2;
+    Fire: 0.3,
+    Water: 0.2,
+    Earth: 0.2,
     Air: 0.3
   },
   last_quarter: {
-    Fire: 0.2;
-    Water: 0.3;
-    Earth: 0.3;
+    Fire: 0.2,
+    Water: 0.3,
+    Earth: 0.3,
     Air: 0.2
   },
   waning_crescent: {
-    Fire: 0.1;
-    Water: 0.4;
-    Earth: 0.3;
+    Fire: 0.1,
+    Water: 0.4,
+    Earth: 0.3,
     Air: 0.2
   }
 };

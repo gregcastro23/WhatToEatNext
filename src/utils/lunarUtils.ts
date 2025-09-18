@@ -28,6 +28,6 @@ export function convertToLunarPhase(
     case 'waning crescent':
       return 'waning crescent' as LunarPhase;
     default:
-      return undefined;
+      return undefined
   }
 }

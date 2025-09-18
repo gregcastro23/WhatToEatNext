@@ -47,7 +47,7 @@ export function createSuccessResponse<T>(
 export function createCollectionResponse<T>(
   data: T[],
   total: number,
-  params: { limit?: number; offset?: number; page?: number } = {},
+  params: { limit?: number, offset?: number; page?: number } = {},
 ): ApiResponse<T[]> {
   const { limit = 20, offset = 0, page = Math.floor(offset / limit) + 1 } = params;
   const totalPages = Math.ceil(total / limit);

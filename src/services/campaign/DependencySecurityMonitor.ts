@@ -11,10 +11,10 @@ import * as path from 'path';
 import { logger } from '../../utils/logger';
 
 export interface DependencySecurityConfig {
-  maxDependenciesPerBatch: number;
-  safetyValidationEnabled: boolean;
-  autoUpdateEnabled: boolean;
-  securityScanEnabled: boolean;
+  maxDependenciesPerBatch: number,
+  safetyValidationEnabled: boolean,
+  autoUpdateEnabled: boolean,
+  securityScanEnabled: boolean,
   compatibilityTestingEnabled: boolean,
   updateStrategies: UpdateStrategy[],
   securityThresholds: SecurityThresholds,
@@ -22,8 +22,8 @@ export interface DependencySecurityConfig {
 }
 
 export interface UpdateStrategy {
-  name: string;
-  description: string;
+  name: string,
+  description: string,
   pattern: RegExp,
   updateType: 'major' | 'minor' | 'patch' | 'none',
   requiresManualApproval: boolean,
@@ -31,8 +31,8 @@ export interface UpdateStrategy {
 }
 
 export interface SecurityThresholds {
-  critical: number;
-  high: number;
+  critical: number,
+  high: number,
   moderate: number,
   low: number,
   autoFixCritical: boolean,
@@ -40,12 +40,12 @@ export interface SecurityThresholds {
 }
 
 export interface DependencySecurityResult {
-  dependenciesScanned: number;
-  vulnerabilitiesFound: number;
-  updatesAvailable: number;
-  updatesApplied: number;
-  securityPatchesApplied: number;
-  compatibilityTestsPassed: boolean;
+  dependenciesScanned: number,
+  vulnerabilitiesFound: number,
+  updatesAvailable: number,
+  updatesApplied: number,
+  securityPatchesApplied: number,
+  compatibilityTestsPassed: boolean,
   errors: string[],
   warnings: string[],
   securityReport: SecurityReport,
@@ -59,10 +59,10 @@ export interface SecurityReport {
 }
 
 export interface SecurityVulnerability {
-  packageName: string;
-  currentVersion: string;
-  vulnerableVersions: string;
-  severity: 'critical' | 'high' | 'moderate' | 'low';
+  packageName: string,
+  currentVersion: string,
+  vulnerableVersions: string,
+  severity: 'critical' | 'high' | 'moderate' | 'low',
   cve: string,
   description: string,
   fixedVersion?: string,
@@ -70,7 +70,7 @@ export interface SecurityVulnerability {
 }
 
 export interface SecuritySummary {
-  critical: number;
+  critical: number,
   high: number,
   moderate: number,
   low: number,
@@ -85,10 +85,10 @@ export interface UpdateReport {
 }
 
 export interface DependencyUpdate {
-  packageName: string;
-  currentVersion: string;
-  latestVersion: string;
-  updateType: 'major' | 'minor' | 'patch';
+  packageName: string,
+  currentVersion: string,
+  latestVersion: string,
+  updateType: 'major' | 'minor' | 'patch',
   changelogUrl?: string,
   breakingChanges: boolean,
   securityFix: boolean,
@@ -96,7 +96,7 @@ export interface DependencyUpdate {
 }
 
 export interface UpdateSummary {
-  major: number;
+  major: number,
   minor: number,
   patch: number,
   security: number,
@@ -104,9 +104,9 @@ export interface UpdateSummary {
 }
 
 export interface PackageInfo {
-  name: string;
-  currentVersion: string;
-  latestVersion: string;
+  name: string,
+  currentVersion: string,
+  latestVersion: string,
   wantedVersion: string,
   type: 'dependencies' | 'devDependencies',
   homepage?: string,
@@ -215,8 +215,8 @@ export class DependencySecurityMonitor {
 
       const executionTime = Date.now() - startTime;
       logger.info(`Dependency and security monitoring completed in ${executionTime}ms`, {
-        dependenciesScanned: result.dependenciesScanned;
-        vulnerabilitiesFound: result.vulnerabilitiesFound;
+        dependenciesScanned: result.dependenciesScanned,
+        vulnerabilitiesFound: result.vulnerabilitiesFound,
         updatesApplied: result.updatesApplied
       });
 
@@ -270,17 +270,17 @@ export class DependencySecurityMonitor {
             range?: string;
             severity?: string;
             name?: string;
-            [key: string]: unknown;
+            [key: string]: unknown
           };
 
           const vulnerability: SecurityVulnerability = {
             packageName,
             currentVersion: vuln.via?.[0]?.range || 'unknown',
-            vulnerableVersions: vuln.range || 'unknown';
-            severity: vuln.severity;
+            vulnerableVersions: vuln.range || 'unknown',
+            severity: vuln.severity,
             cve: vuln.via?.[0]?.source || 'N/A',
             description: vuln.via?.[0]?.title || 'No description available',
-            fixedVersion: vuln.fixAvailable?.version;
+            fixedVersion: vuln.fixAvailable?.version,
             patchAvailable: !!vuln.fixAvailable
           };
 
@@ -337,8 +337,8 @@ export class DependencySecurityMonitor {
 
         const update: DependencyUpdate = {
           packageName,
-          currentVersion: info.current;
-          latestVersion: info.latest;
+          currentVersion: info.current,
+          latestVersion: info.latest,
           updateType,
           changelogUrl: await this.getChangelogUrl(packageName);
           breakingChanges,
@@ -410,9 +410,9 @@ export class DependencySecurityMonitor {
         });
 
         const update: DependencyUpdate = {
-          packageName: vuln.packageName;
-          currentVersion: vuln.currentVersion;
-          latestVersion: vuln.fixedVersion || 'patched';
+          packageName: vuln.packageName,
+          currentVersion: vuln.currentVersion,
+          latestVersion: vuln.fixedVersion || 'patched',
           updateType: 'patch',
           breakingChanges: false,
           securityFix: true,
@@ -518,8 +518,8 @@ export class DependencySecurityMonitor {
 
       const update: DependencyUpdate = {
         packageName,
-        currentVersion: info.current;
-        latestVersion: info.latest;
+        currentVersion: info.current,
+        latestVersion: info.latest,
         updateType,
         breakingChanges: updateType === 'major',,;
         securityFix: false,
@@ -679,7 +679,7 @@ export const _DEFAULT_DEPENDENCY_SECURITY_CONFIG: DependencySecurityConfig = {
     {
       name: 'Security patches',
       description: 'Automatically apply security patches',
-      pattern: /.*/;
+      pattern: /.*/,
       updateType: 'patch',
       requiresManualApproval: false,
       testingRequired: false

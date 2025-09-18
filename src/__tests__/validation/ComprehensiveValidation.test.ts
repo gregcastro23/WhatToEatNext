@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any, no-console, @typescript-eslint/no-unused-vars, max-lines-per-function -- Campaign/test file with intentional patterns */
 declare global {
-  var __DEV__: boolean;
+  var __DEV__: boolean
 }
 
 /**
@@ -29,8 +29,8 @@ import { TestMemoryMonitor } from '../utils/TestMemoryMonitor';
 
 // Mock external dependencies that might cause issues in tests
 jest.mock('child_process', () => ({
-  execSync: jest.fn();
-  exec: jest.fn();
+  execSync: jest.fn(),
+  exec: jest.fn(),
   spawn: jest.fn()
 }));
 
@@ -112,7 +112,7 @@ describe('Comprehensive Validation Test Suite - Task 12', () => {
     });
 
     describe('1.2 Automated Error Resolution Integration', () => {
-      test('SafeUnusedImportRemover integration': any, async () => {
+      test('SafeUnusedImportRemover integration', async () => {
         // Test that the SafeUnusedImportRemover can be imported and initialized
         const { SafeUnusedImportRemover } = await import('../../services/linting/SafeUnusedImportRemover');
 
@@ -125,7 +125,7 @@ describe('Comprehensive Validation Test Suite - Task 12', () => {
         expect(typeof remover.getImportStats).toBe('function');
       });
 
-      test('Campaign system integration': any, async () => {
+      test('Campaign system integration', async () => {
         // Test campaign system components can be loaded
         try {
           const { CampaignController } = await import('../../services/campaign/CampaignController');
@@ -187,7 +187,7 @@ describe('Comprehensive Validation Test Suite - Task 12', () => {
 
   describe('2. Performance Tests - Linting Speed and Memory Usage', () => {
     describe('2.1 Linting Performance Tests', () => {
-      test('ESLint execution completes within performance targets': any, async () => {
+      test('ESLint execution completes within performance targets', async () => {
         const startTime: any = performance.now();
 
         // Mock fast ESLint execution

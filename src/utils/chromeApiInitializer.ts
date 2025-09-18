@@ -37,9 +37,9 @@ export function initializeChromeApis(): void {
 
     // Initialize tabs API with safe methods
     // Apply Pattern GG-6: Enhanced property access with type guards
-    const chromeObj = (window as unknown as any).chrome as Record<string, unknown>;
+    const chromeObj = (window as unknown as any).chrome as any;
     if (!chromeObj.tabs) {
-      chromeObj.tabs = {;
+      chromeObj.tabs = {
         create: function (options: { url?: string }) {
           log.info('[ChromeAPI] Mocked chrome.tabs.create called with:', options);
 
@@ -72,7 +72,7 @@ export function initializeChromeApis(): void {
     // Initialize runtime API
     // Apply Pattern GG-6: Enhanced property access with type guards
     if (!chromeObj.runtime) {
-      chromeObj.runtime = {;
+      chromeObj.runtime = {
         lastError: null,
         getURL: function (path: string) {
           return window.location.origin + '/' + path;
@@ -91,7 +91,7 @@ export function initializeChromeApis(): void {
     // Initialize extension API
     // Apply Pattern GG-6: Enhanced property access with type guards
     if (!chromeObj.extension) {
-      chromeObj.extension = {;
+      chromeObj.extension = {
         getURL: function (path: string) {
           return window.location.origin + '/' + path;
         },
@@ -106,7 +106,7 @@ export function initializeChromeApis(): void {
     if (!chromeObj.storage) {
       const mockStorage: Record<string, Record<string, string>> = {};
 
-      chromeObj.storage = {;
+      chromeObj.storage = {
         local: {
           get: function (
             keys: string | string[] | null,

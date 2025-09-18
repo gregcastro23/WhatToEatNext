@@ -6,14 +6,14 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 export interface ProgressMetrics {
-  baselineUnusedVars: number;
-  analyzedFindings: number;
-  preserved: number;
-  eliminated: number;
-  transformed: number;
-  batchesCompleted: number;
-  batchesTotal: number;
-  lastUpdated: string;
+  baselineUnusedVars: number,
+  analyzedFindings: number,
+  preserved: number,
+  eliminated: number,
+  transformed: number,
+  batchesCompleted: number,
+  batchesTotal: number,
+  lastUpdated: string,
 }
 
 export function createBaselineReport(

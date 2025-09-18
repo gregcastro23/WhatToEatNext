@@ -4,9 +4,9 @@ import { PlanetPosition } from '@/utils/astrologyUtils';
 
 export interface AlchemicalState {
   planetaryPositions: { [key: string]: PlanetPosition };
-  isDaytime: boolean;
-  isLoading: boolean;
-  error: string | null;
+  isDaytime: boolean,
+  isLoading: boolean,
+  error: string | null
 }
 
 export function useAlchemical() {

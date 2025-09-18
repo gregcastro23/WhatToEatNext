@@ -1,8 +1,8 @@
 import { logger } from './logger';
 
 export interface ThemeData {
-  mode: 'light' | 'dark' | 'system';
-  accent: string;
+  mode: 'light' | 'dark' | 'system',
+  accent: string,
 }
 
 export class ThemeManager {

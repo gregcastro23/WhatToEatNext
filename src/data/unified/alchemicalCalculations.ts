@@ -8,18 +8,18 @@ import type { AlchemicalProperties } from '@/types/celestial';
 // Alchemical properties interface
 // Thermodynamic metrics interface
 export interface ThermodynamicMetrics {
-  heat: number;
-  entropy: number;
-  reactivity: number;
-  gregsEnergy: number;
+  heat: number,
+  entropy: number,
+  reactivity: number,
+  gregsEnergy: number,
   kalchm: number; // K_alchm - Baseline alchemical equilibrium
   monica: number; // Monica constant - Dynamic scaling factor
 }
 
 // Enhanced ingredient interface with alchemical properties
 export interface AlchemicalIngredient {
-  name: string;
-  category: string;
+  name: string,
+  category: string,
   subcategory?: string;
 
   // Elemental Properties (Self-Reinforcement Compliant)
@@ -151,9 +151,9 @@ export function deriveAlchemicalFromElemental(
   // Substance: Stable components (Earth + Water)
 
   return {
-    Spirit: Fire * 0.6 + Air * 0.4;
-    Essence: Water * 0.5 + Fire * 0.3 + Air * 0.2;
-    Matter: Earth * 0.7 + Water * 0.3;
+    Spirit: Fire * 0.6 + Air * 0.4,
+    Essence: Water * 0.5 + Fire * 0.3 + Air * 0.2,
+    Matter: Earth * 0.7 + Water * 0.3,
     Substance: Earth * 0.5 + Water * 0.4 + Fire * 0.1
   };
 }
@@ -162,11 +162,11 @@ export function deriveAlchemicalFromElemental(
  * Enhance an ingredient with alchemical properties and Kalchm calculation
  */
 export function enhanceIngredientWithAlchemy(ingredient: {
-  name: string;
-  category: string;
+  name: string,
+  category: string,
   subcategory?: string;
   elementalProperties: ElementalProperties;
-  [key: string]: unknown;
+  [key: string]: unknown
 }): AlchemicalIngredient {
   // Derive alchemical properties from elemental properties
   const alchemicalProperties = deriveAlchemicalFromElemental(ingredient.elementalPropertiesState);
@@ -278,9 +278,9 @@ export function normalizeAlchemicalProperties(props: AlchemicalProperties): Alch
  */
 export function getDefaultAlchemicalProperties(): AlchemicalProperties {
   return {
-    Spirit: 0.25;
-    Essence: 0.25;
-    Matter: 0.25;
+    Spirit: 0.25,
+    Essence: 0.25,
+    Matter: 0.25,
     Substance: 0.25
   };
 }

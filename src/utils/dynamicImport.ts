@@ -23,15 +23,15 @@ const errorLog = (_message: string, ..._args: unknown[]): void => {
 
 // Define interfaces for known modules
 interface AstrologyUtilsModule {
-  calculateLunarPhase: (date?: Date) => Promise<number>;
-  getLunarPhaseName: (phase: number) => string;
-  getMoonIllumination: (date?: Date) => Promise<number>;
-  calculateSunSign: (date?: Date) => string;
+  calculateLunarPhase: (date?: Date) => Promise<number>,
+  getLunarPhaseName: (phase: number) => string,
+  getMoonIllumination: (date?: Date) => Promise<number>,
+  calculateSunSign: (date?: Date) => string,
   calculateLunarNodes: (date?: Date) => { northNode: number; isRetrograde: boolean };
   getNodeInfo: (nodeLongitude: number) => { sign: string; degree: number; isRetrograde: boolean };
   getCurrentAstrologicalState: (date?: Date) => {
-    zodiacSign: string;
-    lunarPhase: string;
+    zodiacSign: string,
+    lunarPhase: string,
     planetaryPositions: Record<string, unknown>;
   };
 }
@@ -42,13 +42,13 @@ interface AccurateAstronomyModule {
 
 interface SafeAstrologyModule {
   getReliablePlanetaryPositions: () => Record<string, unknown>;
-  calculateLunarPhase: () => Promise<number>;
-  getLunarPhaseName: (phase: number) => string;
-  getMoonIllumination: () => Promise<number>;
-  calculateSunSign: (date?: Date) => string;
+  calculateLunarPhase: () => Promise<number>,
+  getLunarPhaseName: (phase: number) => string,
+  getMoonIllumination: () => Promise<number>,
+  calculateSunSign: (date?: Date) => string,
   getCurrentAstrologicalState: () => {
-    zodiacSign: string;
-    lunarPhase: string;
+    zodiacSign: string,
+    lunarPhase: string,
     planetaryPositions: Record<string, unknown>;
   };
 }
@@ -75,10 +75,10 @@ interface SunTimesModule {
     latitude: number,
     longitude: number,
   ) => {
-    sunrise: Date;
-    sunset: Date;
-    solarNoon: Date;
-    goldenHour: Date;
+    sunrise: Date,
+    sunset: Date,
+    solarNoon: Date,
+    goldenHour: Date,
   };
 }
 
@@ -88,8 +88,8 @@ interface SolarPositionsModule {
     latitude: number,
     longitude: number,
   ) => {
-    azimuth: number;
-    altitude: number;
+    azimuth: number,
+    altitude: number,
   };
 }
 
@@ -248,18 +248,18 @@ export async function safeImportAndExecute<R, A extends unknown[] = unknown[]>(
       // Add fallbacks for missing calculations
       if (!resultData.elementalCounts) {
         resultData.elementalCounts = {
-          Fire: 0.32;
-          Water: 0.28;
-          Earth: 0.18;
+          Fire: 0.32,
+          Water: 0.28,
+          Earth: 0.18,
           Air: 0.22
         };
       }
 
       if (!resultData.alchemicalCounts) {
         resultData.alchemicalCounts = {
-          Spirit: 0.29;
-          Essence: 0.28;
-          Matter: 0.21;
+          Spirit: 0.29,
+          Essence: 0.28,
+          Matter: 0.21,
           Substance: 0.22
         };
       }
@@ -304,7 +304,7 @@ export async function safeImportFunction<T extends (...args: unknown[]) => unkno
  */
 
 export async function dynamicImport<T, F = null>(;
-  importFn: () => Promise<T>;
+  importFn: () => Promise<T>,
   fallbackFn: (() => F) | null = null,;
 ): Promise<T | F | null> {
   debugLog('dynamicImport is deprecated, use safeImportFunction instead');

@@ -66,7 +66,7 @@ export interface ExtendedRecipe extends Recipe {
     accent?: string[];
     base?: string[];
     tasteBalance?: {
-      sweet: number;
+      sweet: number,
       salty: number,
       sour: number,
       bitter: number,
@@ -117,7 +117,7 @@ export interface ExtendedRecipe extends Recipe {
   keywords?: string[];
 
   // Allow additional dynamic properties - this ensures compatibility
-  [key: string]: unknown;
+  [key: string]: unknown
 }
 
 /**
@@ -126,7 +126,7 @@ export interface ExtendedRecipe extends Recipe {
 export interface ExtendedScoredRecipe extends ExtendedRecipe {
   score: number;
   alchemicalScores?: {
-    elementalScore: number;
+    elementalScore: number,
     zodiacalScore: number,
     lunarScore: number,
     planetaryScore: number,
@@ -152,11 +152,11 @@ export function isExtendedRecipe(recipe: unknown): recipe is ExtendedRecipe {
 export function toExtendedRecipe(recipe: Recipe): ExtendedRecipe {
   return {
     ...recipe;
-    id: recipe.id || 'recipe-' + Date.now();
+    id: recipe.id || 'recipe-' + Date.now(),
     tags: recipe.tags || [],
-    notes: recipe.notes || '';
-    preparation: recipe.preparation || '';
-    preparationNotes: recipe.preparationNotes || '';
+    notes: recipe.notes || '',
+    preparation: recipe.preparation || '',
+    preparationNotes: recipe.preparationNotes || '',
     ingredients: (recipe.ingredients || []).map(ingredient => {
       const extendedIngredient = ingredient as unknown as any;
       return {

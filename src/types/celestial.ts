@@ -81,8 +81,8 @@ export interface CelestialPosition {
 
 // Planetary position interface for compatibility
 export interface PlanetaryPosition {
-  sign: any;
-  degree: number;
+  sign: any,
+  degree: number,
   minute?: number;
   minutes?: number; // Alternative name used in astrologizeApi
   element?: string;
@@ -94,8 +94,8 @@ export interface PlanetaryPosition {
 
 // Aspect between two celestial bodies
 export interface PlanetaryAspect {
-  planet1: string;
-  planet2: string;
+  planet1: string,
+  planet2: string,
   aspectType?: AspectType; // Optional for compatibility
   type?: AspectType; // Alternative name used in many places
   orb: number;
@@ -129,26 +129,26 @@ export interface PlanetaryAlignment {
 
 // Elemental properties
 export interface ElementalProperties {
-  Fire: number;
-  Water: number;
-  Earth: number;
-  Air: number;
+  Fire: number,
+  Water: number,
+  Earth: number,
+  Air: number,
 }
 
 // Alchemical properties
 export interface AlchemicalProperties {
-  Spirit: number;
-  Essence: number;
-  Matter: number;
-  Substance: number;
+  Spirit: number,
+  Essence: number,
+  Matter: number,
+  Substance: number,
 }
 
 // Thermodynamic properties
 export interface ThermodynamicProperties {
-  heat: number;
-  entropy: number;
-  reactivity: number;
-  gregsEnergy: number; // Using gregsEnergy as the single energy metric for this project
+  heat: number,
+  entropy: number,
+  reactivity: number,
+  gregsEnergy: number, // Using gregsEnergy as the single energy metric for this project
 }
 
 // =============== COMPLEX TYPES ===============;

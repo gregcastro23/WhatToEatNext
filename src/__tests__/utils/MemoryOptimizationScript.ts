@@ -12,7 +12,7 @@ import MemoryLeakDetector from './MemoryLeakDetector';
 import { TestMemoryMonitor } from './TestMemoryMonitor';
 
 interface OptimizationResult {
-  success: boolean;
+  success: boolean,
   memoryFreed: number,
   optimizationsApplied: string[],
   warnings: string[],

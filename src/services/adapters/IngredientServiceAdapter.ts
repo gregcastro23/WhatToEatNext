@@ -68,7 +68,7 @@ export class EnhancedIngredientSystem {
       // Get recommended ingredients
       const recommended = consolidatedIngredientService.getRecommendedIngredients(elementalState, {
         optimizeForSeason: true,
-        maxResults: options.maxResults || 10;
+        maxResults: options.maxResults || 10,
         // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
       } as any);
 

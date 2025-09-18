@@ -10,7 +10,7 @@ import { elementalUtils, getCurrentElementalState } from '../utils/elementalUtil
 import { AstrologicalService, getLatestAstrologicalState } from './AstrologicalService';
 
 type CelestialPosition = {
-  sunSign: string;
+  sunSign: string,
   moonPhase: string,
   planetaryPositions: {
     sun: { sign: string, degree: number, minutes: number, isRetrograde?: boolean };
@@ -28,7 +28,7 @@ type CelestialPosition = {
     hours: number,
     minutes: number
   };
-  timestamp: number;
+  timestamp: number
 };
 
 let cachedPositions: CelestialPosition | null = null;
@@ -62,7 +62,7 @@ export const _getCelestialPositionsForDate = async (date: Date): Promise<Celesti
 
       const sign = getSignFromDegree(degreeValue);
       planetaryPositions[planet.toLowerCase()] = {
-        sign: sign.toLowerCase();
+        sign: sign.toLowerCase(),
         degree: degreeValue % 30,
         element: getZodiacElement(sign)
       };
@@ -70,10 +70,10 @@ export const _getCelestialPositionsForDate = async (date: Date): Promise<Celesti
 
     return {
       sunSign: sunSign,
-      moonPhase: lunarPhase.toString();
+      moonPhase: lunarPhase.toString(),
       planetaryPositions: planetaryPositions as CelestialPosition['planetaryPositions'],
       time: {
-        hours: date.getHours();
+        hours: date.getHours(),
         minutes: date.getMinutes()
       },
       timestamp: date.getTime()
@@ -97,7 +97,7 @@ const getCachedCelestialPositions = async (): Promise<CelestialPosition> => {
     const currentDate = new Date();
     // Apply safe type casting for service method access
     const astroService = AstrologicalService as unknown as {
-      getStateForDate?: (date: Date) => Promise<unknown>;
+      getStateForDate?: (date: Date) => Promise<unknown>
     };
     const astroState = await (astroService?.getStateForDate;
       ? astroService.getStateForDate(currentDate)
@@ -105,11 +105,11 @@ const getCachedCelestialPositions = async (): Promise<CelestialPosition> => {
 
     // Map the data to our format
     cachedPositions = {
-      sunSign: astroState.currentZodiac;
-      moonPhase: astroState.moonPhase;
-      planetaryPositions: astroState.currentPlanetaryAlignment;
+      sunSign: astroState.currentZodiac,
+      moonPhase: astroState.moonPhase,
+      planetaryPositions: astroState.currentPlanetaryAlignment,
       time: {
-        hours: currentDate.getHours();
+        hours: currentDate.getHours(),
         minutes: currentDate.getMinutes()
       },
       timestamp: now
@@ -129,7 +129,7 @@ const getFallbackPositions = (date: Date = new Date()): CelestialPosition => {
   try {
     // Apply safe type casting for service method access
     const astroService = AstrologicalService as unknown as {
-      getStateForDate?: (date: Date) => Promise<unknown>;
+      getStateForDate?: (date: Date) => Promise<unknown>
     };
     const _fallbackStatePromise = astroService?.getStateForDate;
       ? astroService.getStateForDate(date)
@@ -141,7 +141,7 @@ const getFallbackPositions = (date: Date = new Date()): CelestialPosition => {
       moonPhase: 'full', // Default fallback
       planetaryPositions: getStaticPlanetaryPositions(),
       time: {
-        hours: date.getHours();
+        hours: date.getHours(),
         minutes: date.getMinutes()
       },
       timestamp: timestamp
@@ -155,7 +155,7 @@ const getFallbackPositions = (date: Date = new Date()): CelestialPosition => {
       moonPhase: 'full', // Default fallback
       planetaryPositions: getStaticPlanetaryPositions(),
       time: {
-        hours: date.getHours();
+        hours: date.getHours(),
         minutes: date.getMinutes()
       },
       timestamp: timestamp
@@ -330,14 +330,14 @@ export function calculateElementalBalanceFromPositions(
   // Define planetary weights - some planets have more influence than others
   const planetaryWeights = {
     sun: 0.25, // Sun and Moon are most important
-    moon: 0.25;
+    moon: 0.25,
     mercury: 0.1, // Inner planets
-    venus: 0.1;
-    mars: 0.1;
+    venus: 0.1,
+    mars: 0.1,
     jupiter: 0.07, // Outer planets
-    saturn: 0.07;
+    saturn: 0.07,
     uranus: 0.02, // Distant planets have less immediate influence
-    neptune: 0.02;
+    neptune: 0.02,
     pluto: 0.02
   };
 

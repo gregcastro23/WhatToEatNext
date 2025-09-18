@@ -17,10 +17,10 @@ interface AstrologizeOptions {
 }
 
 interface AstrologizeResult {
-  loading: boolean;
-  error: Error | null;
-  data: unknown;
-  refetch: () => Promise<void>;
+  loading: boolean,
+  error: Error | null,
+  data: unknown,
+  refetch: () => Promise<void>,
 }
 
 /**
@@ -57,7 +57,7 @@ export function useAstrologize(options: AstrologizeOptions = {}): AstrologizeRes
           const coords = await (AstrologicalService as unknown)?.requestLocation?.();
           if (coords) {
             setLocation({
-              latitude: coords.latitude;
+              latitude: coords.latitude,
               longitude: coords.longitude
             });
           }

@@ -57,7 +57,7 @@ export async function getReliablePlanetaryPositions(
         // Cache the successful result
         positionsCache = {
           positions,
-          timestamp: Date.now();
+          timestamp: Date.now(),
           date: dateString
         };
 
@@ -77,7 +77,7 @@ export async function getReliablePlanetaryPositions(
         // Cache the successful result
         positionsCache = {
           positions,
-          timestamp: Date.now();
+          timestamp: Date.now(),
           date: dateString
         };
 
@@ -98,7 +98,7 @@ export async function getReliablePlanetaryPositions(
           // Cache the successful result
           positionsCache = {
             positions,
-            timestamp: Date.now();
+            timestamp: Date.now(),
             date: dateString
           };
 
@@ -556,7 +556,7 @@ async function fetchTimeAndDateData(date: Date): Promise<Record<string, unknown>
             positions[planetName] = {
               sign,
               degree,
-              exactLongitude: objData.position.eclipticLongitude;
+              exactLongitude: objData.position.eclipticLongitude,
               isRetrograde: objData.position?.isRetrograde === true,,;
             };
           }

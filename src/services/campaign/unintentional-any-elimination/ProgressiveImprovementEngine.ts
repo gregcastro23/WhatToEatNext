@@ -37,12 +37,12 @@ export class ProgressiveImprovementEngine {
 
     // Initialize adaptive configuration with defaults
     this.adaptiveConfig = {
-      maxFilesPerBatch: initialConfig?.maxFilesPerBatch || 15;
-      targetReductionPercentage: initialConfig?.targetReductionPercentage || 15;
-      confidenceThreshold: initialConfig?.confidenceThreshold || 0.8;
-      enableDomainAnalysis: initialConfig?.enableDomainAnalysis ?? true;
-      enableDocumentation: initialConfig?.enableDocumentation ?? true;
-      safetyLevel: initialConfig?.safetyLevel || 'MODERATE';
+      maxFilesPerBatch: initialConfig?.maxFilesPerBatch || 15,
+      targetReductionPercentage: initialConfig?.targetReductionPercentage || 15,
+      confidenceThreshold: initialConfig?.confidenceThreshold || 0.8,
+      enableDomainAnalysis: initialConfig?.enableDomainAnalysis ?? true,
+      enableDocumentation: initialConfig?.enableDocumentation ?? true,
+      safetyLevel: initialConfig?.safetyLevel || 'MODERATE',
       validationFrequency: initialConfig?.validationFrequency || 5
     };
   }
@@ -228,21 +228,21 @@ export class ProgressiveImprovementEngine {
     // Create realistic milestones
     const milestones = [
       {
-        percentage: Math.floor(recommendedTarget * 0.25);
+        percentage: Math.floor(recommendedTarget * 0.25),
         description: 'Initial progress - focus on high-confidence array types',
         estimatedBatches: Math.ceil(
           (((candidateFiles as any)?.length || 0) * 0.2) / this.adaptiveConfig.maxFilesPerBatch;
         )
       },
       {
-        percentage: Math.floor(recommendedTarget * 0.5);
+        percentage: Math.floor(recommendedTarget * 0.5),
         description: 'Mid-point - expand to Record types and simple patterns',
         estimatedBatches: Math.ceil(
           (((candidateFiles as any)?.length || 0) * 0.2) / this.adaptiveConfig.maxFilesPerBatch;
         )
       },
       {
-        percentage: Math.floor(recommendedTarget * 0.75);
+        percentage: Math.floor(recommendedTarget * 0.75),
         description: 'Advanced progress - tackle more complex patterns',
         estimatedBatches: Math.ceil(
           (((candidateFiles as any)?.length || 0) * 0.2) / this.adaptiveConfig.maxFilesPerBatch;
@@ -278,16 +278,16 @@ export class ProgressiveImprovementEngine {
   async monitorProgress(): Promise<{
     currentProgress: UnintentionalAnyProgress,
     milestoneStatus: Array<{ milestone: number, achieved: boolean, description: string }>;
-    recommendations: string[];
-    needsManualIntervention: boolean;
+    recommendations: string[],
+    needsManualIntervention: boolean,
   }> {
     const currentProgress = await this.getCurrentProgress();
     const targetInfo = await this.setRealisticTargets();
 
     // Check milestone achievements
     const milestoneStatus = targetInfo.milestones.map(milestone => ({
-      milestone: milestone.percentage;
-      achieved: currentProgress.reductionPercentage >= milestone.percentage;
+      milestone: milestone.percentage,
+      achieved: currentProgress.reductionPercentage >= milestone.percentage,
       description: milestone.description
     }));
 
@@ -464,7 +464,7 @@ export class ProgressiveImprovementEngine {
     const effectiveConfig = config ? { ...this.adaptiveConfig, ...config } : this.adaptiveConfig;
 
     const batchMetrics: BatchMetrics = {
-      batchNumber: this.batchCounter;
+      batchNumber: this.batchCounter,
       filesProcessed: 0,
       anyTypesAnalyzed: 0,
       replacementsAttempted: 0,
@@ -558,10 +558,10 @@ export class ProgressiveImprovementEngine {
           : 0;
 
       // // console.log(`Batch ${this.batchCounter} completed:`, {
-        filesProcessed: batchMetrics.filesProcessed;
-        replacementsSuccessful: batchMetrics.replacementsSuccessful;
+        filesProcessed: batchMetrics.filesProcessed,
+        replacementsSuccessful: batchMetrics.replacementsSuccessful,
         successRate: `${(successRate * 100).toFixed(1)}%`,
-        safetyScore: batchMetrics.safetyScore.toFixed(2);
+        safetyScore: batchMetrics.safetyScore.toFixed(2),
         executionTime: `${(batchMetrics.executionTime / 1000).toFixed(1)}s`
       });
 
@@ -753,14 +753,14 @@ export class ProgressiveImprovementEngine {
           surroundingLines: this.getSurroundingLines(lines, i, 2),
           hasExistingComment: this.hasCommentAbove(lines, i),
           existingComment: this.getCommentAbove(lines, i),
-          isInTestFile: this.isTestFile(filePath);
+          isInTestFile: this.isTestFile(filePath),
           domainContext: await this.analyzer.analyzeDomain({
             filePath,
             lineNumber: i + 1,
             codeSnippet: line,
             surroundingLines: this.getSurroundingLines(lines, i, 2),
             hasExistingComment: false,
-            isInTestFile: this.isTestFile(filePath);
+            isInTestFile: this.isTestFile(filePath),
             domainContext: {
               domain: 'utility' as any,
               intentionalityHints: [],
@@ -800,10 +800,10 @@ export class ProgressiveImprovementEngine {
       ) {
         replacements.push({
           original: 'any',
-          replacement: classification.suggestedReplacement;
-          filePath: context.filePath;
-          lineNumber: context.lineNumber;
-          confidence: classification.confidence;
+          replacement: classification.suggestedReplacement,
+          filePath: context.filePath,
+          lineNumber: context.lineNumber,
+          confidence: classification.confidence,
           validationRequired: true
         });
       }
@@ -820,8 +820,8 @@ export class ProgressiveImprovementEngine {
     }
 
     return {
-      anyTypesAnalyzed: anyTypeContexts.length;
-      replacementsAttempted: replacements.length;
+      anyTypesAnalyzed: anyTypeContexts.length,
+      replacementsAttempted: replacements.length,
       replacementsSuccessful,
       rollbackPerformed
     };
@@ -1086,12 +1086,12 @@ export class ProgressiveImprovementEngine {
       documentedIntentional: 0, // Would be tracked with documentation system
       remainingUnintentional: Math.max(0, estimatedTotal - totalReplacements),
       reductionPercentage,
-      targetReductionPercentage: this.adaptiveConfig.targetReductionPercentage;
-      batchesCompleted: this.batchCounter;
+      targetReductionPercentage: this.adaptiveConfig.targetReductionPercentage,
+      batchesCompleted: this.batchCounter,
       averageSuccessRate,
       // Base ProgressMetrics properties
       typeScriptErrors: {
-        current: currentTSErrors >= 0 ? currentTSErrors : 0;
+        current: currentTSErrors >= 0 ? currentTSErrors : 0,
         target: 0,
         reduction: 0,
         percentage: 0

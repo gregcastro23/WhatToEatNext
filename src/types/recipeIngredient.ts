@@ -10,8 +10,8 @@ export interface RecipeIngredient {
   name: string;
 
   // Recipe-specific properties
-  amount: number;
-  unit: string;
+  amount: number,
+  unit: string,
   optional?: boolean;
   preparation?: string;
   notes?: string;
@@ -63,7 +63,7 @@ export interface RecipeIngredient {
   avoidWith?: string[];
 
   // Allow additional properties for extensibility
-  [key: string]: unknown;
+  [key: string]: unknown
 }
 
 /**
@@ -71,9 +71,9 @@ export interface RecipeIngredient {
  */
 export interface SimpleIngredient {
   id?: string;
-  name: string;
-  amount: number;
-  unit: string;
+  name: string,
+  amount: number,
+  unit: string
 }
 
 /**

@@ -24,7 +24,7 @@ describe('AutoDocumentationGenerator', () => {
     generator = new AutoDocumentationGeneratorImpl();
 
     mockContext = {
-      filePath: '/test/file.ts';
+      filePath: '/test/file.ts',
       lineNumber: 10,
       codeSnippet: 'const dat, a: any = response,',;
       surroundingLines: [
@@ -45,7 +45,7 @@ describe('AutoDocumentationGenerator', () => {
 
     mockClassification = {
       isIntentional: true,
-      confidence: 0.9;
+      confidence: 0.9,
       reasoning: 'External API response with unknown structure',
       requiresDocumentation: true,
       category: AnyTypeCategory.EXTERNAL_API
@@ -371,7 +371,7 @@ describe('AutoDocumentationGenerator', () => {
 
         const contextWithComment: any = {
           ...mockContext;
-          hasExistingComment: comment.length > 0;
+          hasExistingComment: comment.length > 0,
           existingComment: comment
         };
 

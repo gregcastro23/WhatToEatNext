@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any, no-console, @typescript-eslint/no-unused-vars, max-lines-per-function -- Campaign/test file with intentional patterns */
 declare global {
-  var __DEV__: boolean;
+  var __DEV__: boolean
 }
 
 /**
@@ -107,8 +107,8 @@ describe('Configuration File Rule Validation', () => {
         
         // Object property requires
         const moduleMap: any = {
-  development: './dev.config';
-          production: './prod.config';
+  development: './dev.config',
+          production: './prod.config',
           test: './test.config'
         };
         
@@ -166,7 +166,7 @@ describe('Configuration File Rule Validation', () => {
         
         // Module.exports patterns
         module.exports = {
-  entry: './src/index.js';
+  entry: './src/index.js',
           output: { path: resolve(__dirname, 'dist'),
             filename: 'bundle.js'
           };
@@ -238,21 +238,21 @@ describe('Configuration File Rule Validation', () => {
         
         module.exports = {
   mode: isDevelopment ? 'development' : 'production',
-          entry: './src/index.js';
+          entry: './src/index.js',
           output: { path: path.resolve(__dirname, 'dist'),
             filename: isDevelopment ? '[name].js' : '[name].[contenthash].js',
             clean: true
           },
           module: { rules: [
               {
-  test: /\\.(js|jsx|ts|tsx)$/;
+  test: /\\.(js|jsx|ts|tsx)$/,
                 exclude: /node_modules/,
                 use: { loader: 'babel-loader',
                   options: { presets: ['@babel/preset-env', '@babel/preset-react', '@babel/preset-typescript']
                   };
               },
               {
-  test: /\\.css$/;
+  test: /\\.css$/,
                 use: [
                   isDevelopment ? 'style-loader' : MiniCssExtractPlugin.loader;
                   'css-loader',
@@ -330,12 +330,12 @@ describe('Configuration File Rule Validation', () => {
             config.resolve.fallback = {
   fs: false,
               path: false,
-              crypto: false;
+              crypto: false,
             };
             
             // Add custom loaders
             config.module.rules.push({
-  test: /\\.svg$/;
+  test: /\\.svg$/,
               use: ['@svgr/webpack']
             });
             
@@ -354,7 +354,7 @@ describe('Configuration File Rule Validation', () => {
             return config;
           },
           env: { CUSTOM_KEY: process.env.CUSTOM_KEY,
-            API_URL: process.env.NODE_ENV === 'development' ;
+            API_URL: process.env.NODE_ENV === 'development' ,
               ? 'http: //localhos, t:3001' 
               : 'https://api.example.com'
           },
@@ -726,7 +726,7 @@ describe('Configuration File Rule Validation', () => {
         console.log('Configuration build completed at:', new Date().toISOString());
         
         module.exports = {
-  environment: process.env.NODE_ENV;
+  environment: process.env.NODE_ENV,
           timestamp: Date.now()
         };
       `;

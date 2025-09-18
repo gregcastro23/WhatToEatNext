@@ -177,10 +177,10 @@ export class DirectRecipeService {
    * Calculate alchemical compatibility score between recipe and current celestial state
    */
   private async calculateAlchemicalScore(recipe: Recipe): Promise<{
-    score: number;
-    kalchm: number;
-    monica: number;
-    thermodynamics: ThermodynamicMetrics;
+    score: number,
+    kalchm: number,
+    monica: number,
+    thermodynamics: ThermodynamicMetrics,
     breakdown: {
       elementalScore: number,
       zodiacalScore: number,
@@ -228,7 +228,7 @@ export class DirectRecipeService {
       score: Math.max(0, Math.min(1, totalScore)),
       kalchm: recipeKalchm,
       monica: monica,
-      thermodynamics: alchemicalAnalysis.thermodynamics;
+      thermodynamics: alchemicalAnalysis.thermodynamics,
       breakdown
     };
   }
@@ -396,7 +396,7 @@ export class DirectRecipeService {
       const alchemicalScore = await this.calculateAlchemicalScore(recipe);
       scoredRecipes.push({
         ...recipe;
-        score: alchemicalScore.score;
+        score: alchemicalScore.score,
         alchemicalScores: alchemicalScore.breakdown
       });
     }
@@ -426,7 +426,7 @@ export class DirectRecipeService {
       const alchemicalScore = await this.calculateAlchemicalScore(recipe);
       scoredRecipes.push({
         ...recipe;
-        score: alchemicalScore.score;
+        score: alchemicalScore.score,
         alchemicalScores: alchemicalScore.breakdown
       });
     }
@@ -459,7 +459,7 @@ export class DirectRecipeService {
       const alchemicalScore = await this.calculateAlchemicalScore(recipe);
       scoredRecipes.push({
         ...recipe;
-        score: alchemicalScore.score;
+        score: alchemicalScore.score,
         alchemicalScores: alchemicalScore.breakdown
       });
     }
@@ -489,7 +489,7 @@ export class DirectRecipeService {
       const alchemicalScore = await this.calculateAlchemicalScore(recipe);
       scoredRecipes.push({
         ...recipe;
-        score: alchemicalScore.score;
+        score: alchemicalScore.score,
         alchemicalScores: alchemicalScore.breakdown
       });
     }

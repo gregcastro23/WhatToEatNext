@@ -34,12 +34,12 @@ export class PilotCampaignAnalysis {
 
   constructor(config: Partial<PilotAnalysisConfig> = {}) {
     this.config = {
-      maxFilesToAnalyze: config.maxFilesToAnalyze || 500;
-      sampleSizeForAccuracy: config.sampleSizeForAccuracy || 100;
-      confidenceThreshold: config.confidenceThreshold || 0.7;
-      enableTuning: config.enableTuning !== false;
-      generateDetailedReports: config.generateDetailedReports !== false;
-      outputDirectory: config.outputDirectory || '.kiro/campaign-reports/pilot-analysis';
+      maxFilesToAnalyze: config.maxFilesToAnalyze || 500,
+      sampleSizeForAccuracy: config.sampleSizeForAccuracy || 100,
+      confidenceThreshold: config.confidenceThreshold || 0.7,
+      enableTuning: config.enableTuning !== false,
+      generateDetailedReports: config.generateDetailedReports !== false,
+      outputDirectory: config.outputDirectory || '.kiro/campaign-reports/pilot-analysis',
       ...config
     };
 
@@ -94,7 +94,7 @@ export class PilotCampaignAnalysis {
         baselineMetrics,
         tuningResults,
         pilotReport,
-        recommendations: await this.generatePilotRecommendations(pilotReport);
+        recommendations: await this.generatePilotRecommendations(pilotReport),
         nextSteps: this.generateNextSteps(pilotReport)
       };
 
@@ -118,7 +118,7 @@ export class PilotCampaignAnalysis {
       return {
         success: false,
         executionTime,
-        error: error instanceof Error ? error.message : String(error);
+        error: error instanceof Error ? error.message : String(error),
         recommendations: ['Review error logs and retry with adjusted configuration'],
         nextSteps: [
           'Fix configuration issues',
@@ -148,8 +148,8 @@ export class PilotCampaignAnalysis {
       pilotSpecific: {
         currentTypeScriptErrors: currentErrors,
         analysisScope: {
-          maxFilesAnalyzed: this.config.maxFilesToAnalyze;
-          actualFilesAnalyzed: await this.getActualFilesAnalyzed();
+          maxFilesAnalyzed: this.config.maxFilesToAnalyze,
+          actualFilesAnalyzed: await this.getActualFilesAnalyzed(),
           coveragePercentage: await this.calculateAnalysisCoverage()
         },
         domainBreakdown: await this.generateDetailedDomainBreakdown(
@@ -180,9 +180,9 @@ export class PilotCampaignAnalysis {
     const enhancedReport: ClassificationAccuracyReport = {
       ...baseAccuracyReport;
       pilotEnhancements: {
-        manualReviewSimulation: enhancedValidation.manualReviewResults;
-        crossValidation: enhancedValidation.crossValidationResults;
-        edgeCaseAnalysis: enhancedValidation.edgeCaseResults;
+        manualReviewSimulation: enhancedValidation.manualReviewResults,
+        crossValidation: enhancedValidation.crossValidationResults,
+        edgeCaseAnalysis: enhancedValidation.edgeCaseResults,
         domainSpecificAccuracy: enhancedValidation.domainAccuracy
       }
     };
@@ -205,15 +205,15 @@ export class PilotCampaignAnalysis {
     const predictions = await this.calculateSuccessRatePredictions(successRateAnalysis);
 
     const baselineMetrics: SuccessRatePrediction = {
-      currentSuccessRate: successRateAnalysis.currentSuccessRate;
-      projectedSuccessRate: predictions.projectedSuccessRate;
-      confidenceInterval: predictions.confidenceInterval;
-      timeToTarget: predictions.timeToTarget;
-      riskFactors: predictions.riskFactors;
-      categoryPredictions: predictions.categoryPredictions;
-      recommendedBatchSize: predictions.recommendedBatchSize;
-      estimatedTotalReductions: predictions.estimatedTotalReductions;
-      predictionAccuracy: predictions.predictionAccuracy;
+      currentSuccessRate: successRateAnalysis.currentSuccessRate,
+      projectedSuccessRate: predictions.projectedSuccessRate,
+      confidenceInterval: predictions.confidenceInterval,
+      timeToTarget: predictions.timeToTarget,
+      riskFactors: predictions.riskFactors,
+      categoryPredictions: predictions.categoryPredictions,
+      recommendedBatchSize: predictions.recommendedBatchSize,
+      estimatedTotalReductions: predictions.estimatedTotalReductions,
+      predictionAccuracy: predictions.predictionAccuracy,
       lastUpdated: new Date()
     };
 
@@ -241,7 +241,7 @@ export class PilotCampaignAnalysis {
 
     const tuningResults: ClassificationTuningResults = {
       tuningPerformed: true,
-      originalAccuracy: accuracyReport.overallAccuracy;
+      originalAccuracy: accuracyReport.overallAccuracy,
       tunedAccuracy: 0,
       improvementPercentage: 0,
       adjustmentsMade: [],
@@ -314,12 +314,12 @@ export class PilotCampaignAnalysis {
       ...data.codebaseAnalysis;
       pilotPhase: {
         executionDate: new Date(),
-        configuration: this.config;
-        accuracyValidation: data.accuracyValidation;
-        baselineMetrics: data.baselineMetrics;
-        tuningResults: data.tuningResults;
-        readinessAssessment: await this.assessCampaignReadiness(data);
-        riskAnalysis: await this.performRiskAnalysis(data);
+        configuration: this.config,
+        accuracyValidation: data.accuracyValidation,
+        baselineMetrics: data.baselineMetrics,
+        tuningResults: data.tuningResults,
+        readinessAssessment: await this.assessCampaignReadiness(data),
+        riskAnalysis: await this.performRiskAnalysis(data),
         recommendations: await this.generateDetailedRecommendations(data)
       }
     };
@@ -408,8 +408,7 @@ export class PilotCampaignAnalysis {
 
     return {
       highRiskCount,
-      highRiskPercentage:
-        distribution.totalAnyTypes > 0 ? (highRiskCount / distribution.totalAnyTypes) * 100 : 0;
+      highRiskPercentage: distribution.totalAnyTypes > 0 ? (highRiskCount / distribution.totalAnyTypes) * 100 : 0,
       riskLevel: highRiskCount > 100 ? 'HIGH' : highRiskCount > 50 ? 'MEDIUM' : 'LOW',
       mitigationStrategies: this.generateRiskMitigationStrategies(highRiskCount)
     };
@@ -438,8 +437,8 @@ export class PilotCampaignAnalysis {
     // Simulate enhanced validation results
     return {
       manualReviewResults: {
-        sampleSize: this.config.sampleSizeForAccuracy;
-        agreementRate: 87.3;
+        sampleSize: this.config.sampleSizeForAccuracy,
+        agreementRate: 87.3,
         disagreementReasons: [
           'Complex domain context interpretation',
           'Edge cases in error handling',
@@ -448,13 +447,13 @@ export class PilotCampaignAnalysis {
       },
       crossValidationResults: {
         foldCount: 5,
-        averageAccuracy: 84.7;
-        standardDeviation: 3.2;
+        averageAccuracy: 84.7,
+        standardDeviation: 3.2,
         consistencyScore: 91.5
       },
       edgeCaseResults: {
         edgeCasesIdentified: 23,
-        edgeCaseAccuracy: 72.1;
+        edgeCaseAccuracy: 72.1,
         commonEdgeCases: [
           'Nested any types in complex generics',
           'Any types in dynamic import statements',
@@ -493,13 +492,13 @@ export class PilotCampaignAnalysis {
         'External API integrations need careful handling'
       ],
       categoryPredictions: analysis.categorySuccessRates.map(cat => ({
-        category: cat.category;
-        currentRate: cat.successRate;
+        category: cat.category,
+        currentRate: cat.successRate,
         projectedRate: Math.min(cat.successRate + this.getCategoryImprovement(cat.category), 95),
         confidence: this.getCategoryConfidence(cat.category)
       })),
-      recommendedBatchSize: this.calculateRecommendedBatchSize(weightedSuccessRate);
-      estimatedTotalReductions: this.estimateTotalReductions(analysis);
+      recommendedBatchSize: this.calculateRecommendedBatchSize(weightedSuccessRate),
+      estimatedTotalReductions: this.estimateTotalReductions(analysis),
       predictionAccuracy: 78.5, // Based on historical prediction accuracy
     };
   }
@@ -609,16 +608,16 @@ export class PilotCampaignAnalysis {
       const afterCat = after.find(a => (a as any)?.category === (beforeCat as any)?.category);
       if (afterCat) {
         return {
-          category: (beforeCat as any)?.category;
-          beforeAccuracy: (beforeCat as any).accuracy;
-          afterAccuracy: (afterCat as any)?.accuracy;
+          category: (beforeCat as any)?.category,
+          beforeAccuracy: (beforeCat as any).accuracy,
+          afterAccuracy: (afterCat as any)?.accuracy,
           improvement: (afterCat as any)?.accuracy - (beforeCat as any)?.accuracy
         };
       }
       return {
-        category: (beforeCat as any)?.category;
-        beforeAccuracy: (beforeCat as any)?.accuracy;
-        afterAccuracy: (beforeCat as any)?.accuracy;
+        category: (beforeCat as any)?.category,
+        beforeAccuracy: (beforeCat as any)?.accuracy,
+        afterAccuracy: (beforeCat as any)?.accuracy,
         improvement: 0
       };
     });
@@ -685,17 +684,17 @@ export class PilotCampaignAnalysis {
       riskFactors: [
         {
           factor: 'Classification Accuracy',
-          risk: (data as any)?.accuracyValidation?.overallAccuracy < 80 ? 'HIGH' : 'MEDIUM';
+          risk: (data as any)?.accuracyValidation?.overallAccuracy < 80 ? 'HIGH' : 'MEDIUM',
           mitigation: 'Implement manual review for low-confidence cases'
         },
         {
           factor: 'Success Rate Prediction',
-          risk: (data as any)?.baselineMetrics?.projectedSuccessRate < 75 ? 'HIGH' : 'LOW';
+          risk: (data as any)?.baselineMetrics?.projectedSuccessRate < 75 ? 'HIGH' : 'LOW',
           mitigation: 'Use conservative batch processing'
         },
         {
           factor: 'Algorithm Tuning',
-          risk: (data as any)?.tuningResults?.tuningPerformed ? 'LOW' : 'MEDIUM';
+          risk: (data as any)?.tuningResults?.tuningPerformed ? 'LOW' : 'MEDIUM',
           mitigation: 'Continue monitoring and tuning as needed'
         }
       ],

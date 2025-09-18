@@ -19,8 +19,8 @@ jest.mock('child_process', () => ({
 // Mock the logger
 jest.mock('../logger', () => ({
   logger: { info: jest.fn(),
-    warn: jest.fn();
-    error: jest.fn();
+    warn: jest.fn(),
+    error: jest.fn(),
     debug: jest.fn()
   }
 }));

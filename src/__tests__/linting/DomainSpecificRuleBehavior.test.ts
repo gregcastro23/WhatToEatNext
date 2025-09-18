@@ -68,8 +68,8 @@ describe('Domain-Specific Rule Behavior', () => {
     test('should validate complete planetary position objects', () => {
       const validPosition: any = {
         sign: 'aries',
-        degree: 15.5;
-        exactLongitude: 15.5;
+        degree: 15.5,
+        exactLongitude: 15.5,
         isRetrograde: false
       };
 
@@ -91,7 +91,7 @@ describe('Domain-Specific Rule Behavior', () => {
     test('should detect missing required properties', () => {
       const incompletePosition: any = {
         sign: 'aries',
-        degree: 15.5;
+        degree: 15.5,
         // Missing exactLongitude and isRetrograde
       };
 
@@ -136,9 +136,9 @@ describe('Domain-Specific Rule Behavior', () => {
   describe('Elemental Properties Validation', () => {
     test('should validate four-element system structure', () => {
       const validProperties: any = {
-        Fire: 0.7;
-        Water: 0.1;
-        Earth: 0.1;
+        Fire: 0.7,
+        Water: 0.1,
+        Earth: 0.1,
         Air: 0.1
       };
 
@@ -147,8 +147,8 @@ describe('Domain-Specific Rule Behavior', () => {
 
     test('should reject missing elements', () => {
       const incompleteProperties: any = {
-        Fire: 0.8;
-        Water: 0.2;
+        Fire: 0.8,
+        Water: 0.2,
         // Missing Earth and Air
       };
 
@@ -159,7 +159,7 @@ describe('Domain-Specific Rule Behavior', () => {
       const invalidProperties: any = {
         Fire: 1.5, // Too high
         Water: -0.1, // Too low
-        Earth: 0.3;
+        Earth: 0.3,
         Air: 0.2
       };
 
@@ -168,7 +168,7 @@ describe('Domain-Specific Rule Behavior', () => {
 
     test('should normalize elemental properties when needed', () => {
       const partialProperties: any = {
-        Fire: 0.8;
+        Fire: 0.8,
         Water: 0.2
       };
 
@@ -184,8 +184,8 @@ describe('Domain-Specific Rule Behavior', () => {
     test('should preserve self-reinforcement patterns', () => {
       const fireProperties: any = {
         Fire: 0.8, // Dominant element
-        Water: 0.1;
-        Earth: 0.05;
+        Water: 0.1,
+        Earth: 0.05,
         Air: 0.05
       };
 
@@ -267,7 +267,7 @@ describe('Domain-Specific Rule Behavior', () => {
     test('should maintain fallback value types', () => {
       const RELIABLE_CONSTANTS: any = {
         DEGREES_PER_SIGN: 30,
-        SELF_REINFORCEMENT_THRESHOLD: 0.3;
+        SELF_REINFORCEMENT_THRESHOLD: 0.3,
         HARMONY_THRESHOLD: 0.7
       };
 
@@ -356,8 +356,8 @@ describe('Domain-Specific Rule Behavior', () => {
       }
 
       const position: PlanetaryPosition = { sign: 'aries',,;
-        degree: 15.5;
-        exactLongitude: 15.5;
+        degree: 15.5,
+        exactLongitude: 15.5,
         isRetrograde: false
       };
 
@@ -461,8 +461,8 @@ describe('Domain-Specific Rule Behavior', () => {
       edgeCases.forEach(edgeCase => {
         const position: any = {
           sign: 'aries',
-          degree: edgeCase.degree;
-          exactLongitude: edgeCase.exactLongitude;
+          degree: edgeCase.degree,
+          exactLongitude: edgeCase.exactLongitude,
           isRetrograde: false
         },
 

@@ -1182,7 +1182,7 @@ export const indian: Cuisine = {
       astrologicalInfluences: ['Moon', 'Neptune', 'Pisces'],
       seasonality: 'all',
       preparationNotes: 'Temper spices properly to release their flavors into the coconut milk',
-      technicalTips: 'Use full-fat coconut milk for richness; light coconut milk may separate'
+      technicalTips: 'Use full-fat coconut milk for richness, light coconut milk may separate'
     },
     onion_tomato_masala: {
       name: 'Onion-Tomato Masala',

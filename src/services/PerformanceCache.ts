@@ -2,7 +2,7 @@ import { log } from '@/services/LoggingService';
 // ===== PHASE 8: INTELLIGENT CACHING SYSTEM =====;
 
 export interface CacheEntry<T> {
-  data: T;
+  data: T,
   timestamp: number,
   ttl: number, // Time to live in milliseconds
   accessCount: number,
@@ -10,9 +10,9 @@ export interface CacheEntry<T> {
 }
 
 export interface CacheStats {
-  totalEntries: number;
-  hitCount: number;
-  missCount: number;
+  totalEntries: number,
+  hitCount: number,
+  missCount: number,
   hitRate: number,
   memoryUsage: number, // Estimated in bytes
   oldestEntry: number,
@@ -20,8 +20,8 @@ export interface CacheStats {
 }
 
 export interface PerformanceMetrics {
-  calculationTime: number;
-  cacheHitRate: number;
+  calculationTime: number,
+  cacheHitRate: number,
   memoryUsage: number,
   recommendationCount: number,
   averageResponseTime: number,
@@ -154,8 +154,8 @@ export class PerformanceCache<T> {
     const hitRate = totalRequests > 0 ? this.hitCount / totalRequests : 0;
 
     return {
-      totalEntries: this.cache.size;
-      hitCount: this.hitCount;
+      totalEntries: this.cache.size,
+      hitCount: this.hitCount,
       missCount: this.missCount;
       hitRate,
       memoryUsage,
@@ -275,11 +275,11 @@ export class PerformanceMonitor {
    */
   snapshot(): PerformanceMetrics {
     const snapshot: PerformanceMetrics = {
-      calculationTime: this.currentMetrics.calculationTime || 0;
-      cacheHitRate: this.currentMetrics.cacheHitRate || 0;
-      memoryUsage: this.currentMetrics.memoryUsage || 0;
-      recommendationCount: this.currentMetrics.recommendationCount || 0;
-      averageResponseTime: this.currentMetrics.averageResponseTime || 0;
+      calculationTime: this.currentMetrics.calculationTime || 0,
+      cacheHitRate: this.currentMetrics.cacheHitRate || 0,
+      memoryUsage: this.currentMetrics.memoryUsage || 0,
+      recommendationCount: this.currentMetrics.recommendationCount || 0,
+      averageResponseTime: this.currentMetrics.averageResponseTime || 0,
       peakMemoryUsage: this.currentMetrics.peakMemoryUsage || 0
     };
 
@@ -419,9 +419,9 @@ export function getAllCacheStats(): {
   performance: ReturnType<PerformanceMonitor['getStats']>
 } {
   return {
-    flavorCompatibility: flavorCompatibilityCache.getStats();
-    astrologicalProfile: astrologicalProfileCache.getStats();
-    ingredientProfile: ingredientProfileCache.getStats();
+    flavorCompatibility: flavorCompatibilityCache.getStats(),
+    astrologicalProfile: astrologicalProfileCache.getStats(),
+    ingredientProfile: ingredientProfileCache.getStats(),
     performance: performanceMonitor.getStats()
   };
 }

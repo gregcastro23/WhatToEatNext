@@ -1,8 +1,8 @@
 // Simple cache utility for data operations
 export interface CacheEntry<T> {
-  data: T;
-  timestamp: number;
-  ttl: number;
+  data: T,
+  timestamp: number,
+  ttl: number
 }
 
 export class SimpleCache<T> {

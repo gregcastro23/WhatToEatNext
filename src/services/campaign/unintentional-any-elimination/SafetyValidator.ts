@@ -16,38 +16,38 @@ import * as path from 'path';
 import { ClassificationContext, TypeReplacement } from './types';
 
 export interface SafetyValidationResult {
-  isValid: boolean;
-  safetyScore: number;
-  validationErrors: string[];
-  warnings: string[];
-  recommendations: string[];
+  isValid: boolean,
+  safetyScore: number,
+  validationErrors: string[],
+  warnings: string[],
+  recommendations: string[]
 }
 
 export interface BuildValidationResult {
-  buildSuccessful: boolean;
-  compilationErrors: string[];
+  buildSuccessful: boolean,
+  compilationErrors: string[],
   lintingWarnings: string[];
   testResults?: TestValidationResult;
   performanceMetrics?: PerformanceMetrics;
 }
 
 export interface TestValidationResult {
-  testsPass: boolean;
-  failedTests: string[];
+  testsPass: boolean,
+  failedTests: string[],
   testCoverage?: number;
 }
 
 export interface PerformanceMetrics {
-  buildTime: number;
-  memoryUsage: number;
+  buildTime: number,
+  memoryUsage: number,
   bundleSize?: number;
 }
 
 export interface RollbackValidationResult {
-  canRollback: boolean;
-  backupIntegrity: boolean;
-  rollbackErrors: string[];
-  restorationVerified: boolean;
+  canRollback: boolean,
+  backupIntegrity: boolean,
+  rollbackErrors: string[],
+  restorationVerified: boolean,
 }
 
 export class SafetyValidator {
@@ -381,9 +381,9 @@ export class SafetyValidator {
    * Evaluate context safety factors
    */
   private evaluateContextSafety(context: ClassificationContext): {
-    score: number;
-    warnings: string[];
-    recommendations: string[];
+    score: number,
+    warnings: string[],
+    recommendations: string[]
   } {
     let score = 0.8; // Base context score
     const warnings: string[] = [];
@@ -433,8 +433,8 @@ export class SafetyValidator {
    * Evaluate replacement pattern safety
    */
   private evaluateReplacementPatternSafety(replacement: TypeReplacement): {
-    score: number;
-    warnings: string[];
+    score: number,
+    warnings: string[],
   } {
     let score = 0.8; // Base pattern score
     const warnings: string[] = [];
@@ -477,8 +477,8 @@ export class SafetyValidator {
    * Evaluate file type safety
    */
   private evaluateFileTypeSafety(filePath: string): {
-    score: number;
-    warnings: string[];
+    score: number,
+    warnings: string[],
   } {
     let score = 0.8; // Base file score
     const warnings: string[] = [];
@@ -561,10 +561,10 @@ export class SafetyValidator {
 }
 
 export interface SafetyThresholds {
-  minimumSafetyScore: number;
-  maximumErrorCount: number;
-  maximumBuildTime: number;
-  minimumTestCoverage: number;
+  minimumSafetyScore: number,
+  maximumErrorCount: number,
+  maximumBuildTime: number,
+  minimumTestCoverage: number,
 }
 
 export default SafetyValidator;

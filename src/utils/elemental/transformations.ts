@@ -37,8 +37,8 @@ export interface PlanetaryInfluence {
 }
 
 export interface AlchemicalTransformation {
-  Spirit: number;
-  Essence: number;
+  Spirit: number,
+  Essence: number,
   Matter: number,
   Substance: number,
   elementalShift: ElementalProperties,
@@ -183,12 +183,12 @@ export function transformSingleItem(
     ...item;
     elementalProperties: transformedElemental,
     alchemicalProperties,
-    uniqueness: ((item as unknown as any).uniqueness) || uniqueness;
+    uniqueness: ((item as unknown as any).uniqueness) || uniqueness,
     planetaryInfluences:
       ((item as unknown as any).planetaryInfluences as string[]) ||
       Object.keys(planetaryInfluences);
-    lunarPhaseEffect: context.lunarPhase || 'new Moon';
-    zodiacInfluence: context.currentZodiac || 'aries';
+    lunarPhaseEffect: context.lunarPhase || 'new Moon',
+    zodiacInfluence: context.currentZodiac || 'aries',
     transformationScore: calculateTransformationScore(alchemicalProperties, uniqueness)
   } as unknown as AlchemicalItem;
 }
@@ -228,9 +228,9 @@ export function applyPlanetaryInfluence(
 
   // ✅ Pattern KK-9: Safe arithmetic operations for elemental transformation
   const transformedElemental = normalizeProperties({
-    Fire: Number(item.elementalProperties.Fire || 0) + Number(elementalBoost.Fire || 0);
-    Water: Number(item.elementalProperties.Water || 0) + Number(elementalBoost.Water || 0);
-    Earth: Number(item.elementalProperties.Earth || 0) + Number(elementalBoost.Earth || 0);
+    Fire: Number(item.elementalProperties.Fire || 0) + Number(elementalBoost.Fire || 0),
+    Water: Number(item.elementalProperties.Water || 0) + Number(elementalBoost.Water || 0),
+    Earth: Number(item.elementalProperties.Earth || 0) + Number(elementalBoost.Earth || 0),
     Air: Number(item.elementalProperties.Air || 0) + Number(elementalBoost.Air || 0)
   });
 

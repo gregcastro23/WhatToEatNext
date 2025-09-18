@@ -28,12 +28,12 @@ import { getCurrentAlchemicalState } from './RealAlchemizeService';
 
 // Add missing ScoringWeights type
 interface ScoringWeights {
-  elemental: number;
-  seasonal: number;
-  astrological: number;
-  cultural: number;
-  nutritional: number;
-  ingredient: number;
+  elemental: number,
+  seasonal: number,
+  astrological: number,
+  cultural: number,
+  nutritional: number,
+  ingredient: number,
   recipe: number,
   cuisine: number,
   cooking_method: number,
@@ -46,16 +46,16 @@ interface ScoringWeights {
  * Breakdown of all scoring factors
  */
 export interface ScoringBreakdown {
-  base: number;
-  transitEffect: number;
-  dignityEffect: number;
-  tarotEffect: number;
-  seasonalEffect: number;
-  locationEffect: number;
-  lunarPhaseEffect: number;
-  aspectEffect: number;
-  elementalCompatibility: number;
-  thermalDynamicEffect: number;
+  base: number,
+  transitEffect: number,
+  dignityEffect: number,
+  tarotEffect: number,
+  seasonalEffect: number,
+  locationEffect: number,
+  lunarPhaseEffect: number,
+  aspectEffect: number,
+  elementalCompatibility: number,
+  thermalDynamicEffect: number,
   kalchmResonance: number,
   monicaOptimization: number,
   retrogradeEffect: number,
@@ -68,9 +68,9 @@ export interface ScoringBreakdown {
 export interface ScoringResult {
   score: number; // Final normalized score (0-1)
   confidence: number; // Confidence in the result (0-1)
-  breakdown: ScoringBreakdown;
-  sources: string[];
-  notes: string[];
+  breakdown: ScoringBreakdown,
+  sources: string[],
+  notes: string[],
   metadata: {
     timestamp: Date,
     location?: GeographicCoordinates,
@@ -98,8 +98,8 @@ export interface ScoringContext {
 
   // Target item data
   item: {
-    name: string;
-    type: 'ingredient' | 'recipe' | 'cuisine' | 'cooking_method';
+    name: string,
+    type: 'ingredient' | 'recipe' | 'cuisine' | 'cooking_method',
     elementalProperties?: ElementalProperties;
     seasonality?: Season[];
     planetaryRulers?: Planet[],
@@ -158,8 +158,8 @@ export interface AstrologicalData {
   };
   dignity: Record<Planet, number>;
   houses?: Record<string, number>;
-  source: 'astrologize' | 'swiss_ephemeris' | 'fallback';
-  confidence: number;
+  source: 'astrologize' | 'swiss_ephemeris' | 'fallback',
+  confidence: number,
 }
 
 // ==================== SCORING MODULES ====================;
@@ -225,9 +225,9 @@ export function calculateTarotEffect(
 
   // Different item types have different tarot affinities
   const tarotAffinities = {
-    ingredient: 0.05;
-    recipe: 0.1;
-    cuisine: 0.15;
+    ingredient: 0.05,
+    recipe: 0.1,
+    cuisine: 0.15,
     cooking_method: 0.08
   };
 
@@ -307,69 +307,69 @@ export function calculateLunarPhaseEffect(
   // Lunar phase modifiers (using standard lowercase format)
   const LUNAR_PHASE_MODIFIERS: Record<LunarPhase, ScoringWeights> = {
     'new moon': {
-      elemental: 0.1;
-      seasonal: 0.1;
-      astrological: 0.1;
-      cultural: 0.1;
-      nutritional: 0.1;
-      ingredient: 0.1;
-      recipe: 0.05;
-      cuisine: 0.1;
+      elemental: 0.1,
+      seasonal: 0.1,
+      astrological: 0.1,
+      cultural: 0.1,
+      nutritional: 0.1,
+      ingredient: 0.1,
+      recipe: 0.05,
+      cuisine: 0.1,
       cooking_method: 0.15
     },
     'waxing crescent': {
-      elemental: 0.15;
-      seasonal: 0.15;
-      astrological: 0.15;
-      cultural: 0.15;
-      nutritional: 0.15;
-      ingredient: 0.15;
-      recipe: 0.1;
-      cuisine: 0.05;
+      elemental: 0.15,
+      seasonal: 0.15,
+      astrological: 0.15,
+      cultural: 0.15,
+      nutritional: 0.15,
+      ingredient: 0.15,
+      recipe: 0.1,
+      cuisine: 0.05,
       cooking_method: 0.1
     },
     'first quarter': {
-      elemental: 0.1;
-      seasonal: 0.1;
-      astrological: 0.1;
-      cultural: 0.1;
-      nutritional: 0.1;
-      ingredient: 0.1;
-      recipe: 0.15;
-      cuisine: 0.1;
+      elemental: 0.1,
+      seasonal: 0.1,
+      astrological: 0.1,
+      cultural: 0.1,
+      nutritional: 0.1,
+      ingredient: 0.1,
+      recipe: 0.15,
+      cuisine: 0.1,
       cooking_method: 0.15
     },
     'waxing gibbous': {
-      elemental: 0.05;
-      seasonal: 0.05;
-      astrological: 0.05;
-      cultural: 0.05;
-      nutritional: 0.05;
-      ingredient: 0.05;
-      recipe: 0.2;
-      cuisine: 0.15;
+      elemental: 0.05,
+      seasonal: 0.05,
+      astrological: 0.05,
+      cultural: 0.05,
+      nutritional: 0.05,
+      ingredient: 0.05,
+      recipe: 0.2,
+      cuisine: 0.15,
       cooking_method: 0.1
     },
     'full moon': {
-      elemental: 0.2;
-      seasonal: 0.2;
-      astrological: 0.2;
-      cultural: 0.2;
-      nutritional: 0.2;
-      ingredient: 0.2;
-      recipe: 0.25;
-      cuisine: 0.2;
+      elemental: 0.2,
+      seasonal: 0.2,
+      astrological: 0.2,
+      cultural: 0.2,
+      nutritional: 0.2,
+      ingredient: 0.2,
+      recipe: 0.25,
+      cuisine: 0.2,
       cooking_method: 0.05
     },
     'waning gibbous': {
-      elemental: 0.1;
-      seasonal: 0.1;
-      astrological: 0.1;
-      cultural: 0.1;
-      nutritional: 0.1;
-      ingredient: 0.1;
-      recipe: 0.15;
-      cuisine: 0.25;
+      elemental: 0.1,
+      seasonal: 0.1,
+      astrological: 0.1,
+      cultural: 0.1,
+      nutritional: 0.1,
+      ingredient: 0.1,
+      recipe: 0.15,
+      cuisine: 0.25,
       cooking_method: 0
     },
     'last quarter': {
@@ -379,19 +379,19 @@ export function calculateLunarPhaseEffect(
       cultural: 0,
       nutritional: 0,
       ingredient: 0,
-      recipe: 0.05;
-      cuisine: 0.1;
+      recipe: 0.05,
+      cuisine: 0.1,
       cooking_method: -0.05
     },
     'waning crescent': {
-      elemental: -0.05;
-      seasonal: -0.05;
-      astrological: -0.05;
-      cultural: -0.05;
-      nutritional: -0.05;
-      ingredient: -0.05;
+      elemental: -0.05,
+      seasonal: -0.05,
+      astrological: -0.05,
+      cultural: -0.05,
+      nutritional: -0.05,
+      ingredient: -0.05,
       recipe: 0,
-      cuisine: 0.05;
+      cuisine: 0.05,
       cooking_method: 0.1
     }
   };
@@ -640,7 +640,7 @@ export class UnifiedScoringService {
         notes,
         metadata: {
           timestamp: new Date(),
-          location: context.location;
+          location: context.location,
           dominantEffects,
           warnings
         }
@@ -658,8 +658,8 @@ export class UnifiedScoringService {
 
       // Return fallback result
       return {
-        score: 0.5;
-        confidence: 0.1;
+        score: 0.5,
+        confidence: 0.1,
         breakdown: { base: 0.5 } as ScoringBreakdown,
         sources: ['fallback'],
         notes: [`Error in calculation: ${(error as Error).message}`],
@@ -717,12 +717,12 @@ export class UnifiedScoringService {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          year: context.dateTime.getFullYear();
-          month: context.dateTime.getMonth() + 1;
-          date: context.dateTime.getDate();
-          hour: context.dateTime.getHours();
-          minute: context.dateTime.getMinutes();
-          latitude: context.location?.latitude || 40.7498;
+          year: context.dateTime.getFullYear(),
+          month: context.dateTime.getMonth() + 1,
+          date: context.dateTime.getDate(),
+          hour: context.dateTime.getHours(),
+          minute: context.dateTime.getMinutes(),
+          latitude: context.location?.latitude || 40.7498,
           longitude: context.location?.longitude || -73.7976
         })
       });
@@ -791,18 +791,18 @@ export class UnifiedScoringService {
   private aggregateScore(breakdown: ScoringBreakdown): number {
     // Default weights for each effect
     const weights = {
-      base: 1.0;
-      transitEffect: 0.8;
-      dignityEffect: 0.7;
-      tarotEffect: 0.3;
-      seasonalEffect: 0.6;
-      locationEffect: 0.5;
-      lunarPhaseEffect: 0.4;
-      aspectEffect: 0.7;
-      elementalCompatibility: 0.9;
-      thermalDynamicEffect: 0.6;
-      kalchmResonance: 0.5;
-      monicaOptimization: 0.4;
+      base: 1.0,
+      transitEffect: 0.8,
+      dignityEffect: 0.7,
+      tarotEffect: 0.3,
+      seasonalEffect: 0.6,
+      locationEffect: 0.5,
+      lunarPhaseEffect: 0.4,
+      aspectEffect: 0.7,
+      elementalCompatibility: 0.9,
+      thermalDynamicEffect: 0.6,
+      kalchmResonance: 0.5,
+      monicaOptimization: 0.4,
       retrogradeEffect: 0.6
     };
 

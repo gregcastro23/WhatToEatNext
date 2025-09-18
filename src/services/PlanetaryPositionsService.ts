@@ -8,9 +8,9 @@ const logger = createLogger('PlanetaryPositionsService');
 type PositionRecord = Record<string, PlanetPosition>;
 
 interface CacheEntry {
-  key: string;
-  positions: PositionRecord;
-  timestamp: number;
+  key: string,
+  positions: PositionRecord,
+  timestamp: number
 }
 
 const CACHE_TTL_MS = 60 * 1000; // 1 minute
@@ -18,7 +18,7 @@ let cache: CacheEntry | null = null;
 
 function makeKey(date?: Date, lat?: number, lon?: number, system?: 'tropical' | 'sidereal') {
   return JSON.stringify({
-    t: date ? date.toISOString() : 'now';
+    t: date ? date.toISOString() : 'now',
     lat: typeof lat === 'number' ? Number(lat.toFixed(3)) : undefined,;
     lon: typeof lon === 'number' ? Number(lon.toFixed(3)) : undefined,;
     sys: system || 'tropical'
@@ -33,10 +33,10 @@ function normalizeFromEngine(raw: Record<string, { sign: any; degree: number; ex
   const out: PositionRecord = {};
   Object.entries(raw || {}).forEach(([planet, p]) => {
     out[planet] = {
-      sign: (String(p?.sign || 'aries').toLowerCase() as any);
-      degree: Number(p?.degree || 0);
+      sign: (String(p?.sign || 'aries').toLowerCase() as any),
+      degree: Number(p?.degree || 0),
       minute: 0,
-      exactLongitude: Number(p?.exactLongitude || 0);
+      exactLongitude: Number(p?.exactLongitude || 0),
       isRetrograde: !!p?.isRetrograde
     };
   });

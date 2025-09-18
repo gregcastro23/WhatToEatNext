@@ -19,9 +19,9 @@ interface FlavorEngineContextType {
   error: Error | null,
   profileCount: number,
   categories: { [key: string]: number };
-  getProfile: (id: string) => UnifiedFlavorProfile | undefined;
+  getProfile: (id: string) => UnifiedFlavorProfile | undefined,
   searchProfiles: (criteria: {}) => UnifiedFlavorProfile[];
-  calculateCompatibility: (profile1: UnifiedFlavorProfile, profile2: UnifiedFlavorProfile) => any;
+  calculateCompatibility: (profile1: UnifiedFlavorProfile, profile2: UnifiedFlavorProfile) => any
 }
 
 // Create the context with default values
@@ -31,8 +31,8 @@ const FlavorEngineContext = createContext<FlavorEngineContextType>({
   error: null,
   profileCount: 0,
   categories: {},
-  getProfile: () => undefined;
-  searchProfiles: () => [];
+  getProfile: () => undefined,
+  searchProfiles: () => [],
   calculateCompatibility: () => ({})
 });
 
@@ -60,10 +60,10 @@ export function FlavorEngineProvider({ children }: { children: ReactNode }) {
 
   // Create state that won't change during re-renders unless explicitly set
   const [state, setState] = useState({
-    isInitialized: globalInitState.isInitialized;
-    isLoading: globalInitState.isLoading;
-    error: globalInitState.error;
-    profileCount: globalInitState.profileCount;
+    isInitialized: globalInitState.isInitialized,
+    isLoading: globalInitState.isLoading,
+    error: globalInitState.error,
+    profileCount: globalInitState.profileCount,
     categories: globalInitState.categories
   });
 
@@ -75,10 +75,10 @@ export function FlavorEngineProvider({ children }: { children: ReactNode }) {
     if (globalInitState.isInitialized) {
       if (isMountedRef.current) {
         setState({
-          isInitialized: globalInitState.isInitialized;
-          isLoading: globalInitState.isLoading;
-          error: globalInitState.error;
-          profileCount: globalInitState.profileCount;
+          isInitialized: globalInitState.isInitialized,
+          isLoading: globalInitState.isLoading,
+          error: globalInitState.error,
+          profileCount: globalInitState.profileCount,
           categories: globalInitState.categories
         });
       }
@@ -172,10 +172,10 @@ export function FlavorEngineProvider({ children }: { children: ReactNode }) {
   // Create the context value - memoize to prevent unnecessary rerenders
   const contextValue = useMemo(;
     () => ({
-      isInitialized: state.isInitialized;
-      isLoading: state.isLoading;
-      error: state.error;
-      profileCount: state.profileCount;
+      isInitialized: state.isInitialized,
+      isLoading: state.isLoading,
+      error: state.error,
+      profileCount: state.profileCount,
       categories: state.categories;
       getProfile,
       searchProfiles,

@@ -72,16 +72,16 @@ const testAstrologicalState: AstrologicalState = {
 };
 
 const testRecipeElements: ElementalProperties = {
-  Fire: 0.35;
-  Water: 0.25;
-  Air: 0.25;
+  Fire: 0.35,
+  Water: 0.25,
+  Air: 0.25,
   Earth: 0.15
 };
 
 const testUserElements: ElementalProperties = {
-  Fire: 0.3;
-  Water: 0.3;
-  Air: 0.25;
+  Fire: 0.3,
+  Water: 0.3,
+  Air: 0.25,
   Earth: 0.15
 };
 
@@ -91,7 +91,7 @@ const testBirthInfo = {
   day: 15,
   month: 5,
   year: 1990,
-  latitude: 40.7128;
+  latitude: 40.7128,
   longitude: -74.006
 };
 
@@ -137,12 +137,12 @@ async function runComprehensiveTests() {
       'italian',
     ),
     log.info('Basic Match Results:', {
-      score: basicMatch.result.score.toFixed(4);
-      elementalProperties: basicMatch.result.elementalProperties;
-      thermodynamicProperties: basicMatch.result.thermodynamicProperties;
-      kalchm: basicMatch.result.kalchm;
-      monica: basicMatch.result.monica;
-      confidence: basicMatch.confidence;
+      score: basicMatch.result.score.toFixed(4),
+      elementalProperties: basicMatch.result.elementalProperties,
+      thermodynamicProperties: basicMatch.result.thermodynamicProperties,
+      kalchm: basicMatch.result.kalchm,
+      monica: basicMatch.result.monica,
+      confidence: basicMatch.confidence,
       factors: basicMatch.factors
     });
     log.info('✅ Basic match test completed\n');
@@ -156,10 +156,10 @@ async function runComprehensiveTests() {
       testBirthInfo,
     );
     log.info('Advanced Harmony Results:', {
-      overall: advancedHarmony.overall.toFixed(4);
-      elemental: advancedHarmony.elemental.toFixed(4);
-      astrological: advancedHarmony.astrological.toFixed(4);
-      seasonal: advancedHarmony.seasonal.toFixed(4);
+      overall: advancedHarmony.overall.toFixed(4),
+      elemental: advancedHarmony.elemental.toFixed(4),
+      astrological: advancedHarmony.astrological.toFixed(4),
+      seasonal: advancedHarmony.seasonal.toFixed(4),
       factors: advancedHarmony.factors
     });
     log.info('✅ Advanced harmony test completed\n');
@@ -180,20 +180,20 @@ async function runComprehensiveTests() {
     const AirearthAffinity = alchemicalEngine.getElementalAffinity('Air', 'Earth');
     log.info('fire-water Affinity:', {
       compatibility: firewaterAffinity.compatibility['Water'],
-      primary: firewaterAffinity.primary;
-      secondary: firewaterAffinity.secondary;
+      primary: firewaterAffinity.primary,
+      secondary: firewaterAffinity.secondary,
       strength: firewaterAffinity.strength
     });
     log.info('fire-fire Affinity:', {
       compatibility: firefireAffinity.compatibility['Fire'],
-      primary: firefireAffinity.primary;
-      secondary: firefireAffinity.secondary;
+      primary: firefireAffinity.primary,
+      secondary: firefireAffinity.secondary,
       strength: firefireAffinity.strength
     });
     log.info('Air-earth Affinity:', {
       compatibility: AirearthAffinity.compatibility['Earth'],
-      primary: AirearthAffinity.primary;
-      secondary: AirearthAffinity.secondary;
+      primary: AirearthAffinity.primary,
+      secondary: AirearthAffinity.secondary,
       strength: AirearthAffinity.strength
     });
     log.info('✅ Elemental affinity test completed\n');
@@ -205,8 +205,8 @@ async function runComprehensiveTests() {
       moonPhase: 'waxing gibbous',
       timeOfDay: 'day',
       sunSign: 'gemini',
-      degreesInSign: 4.133;
-      lunarDegree: 5.333;
+      degreesInSign: 4.133,
+      lunarDegree: 5.333,
       planetaryHour: 'Mercury'
     });
     log.info('Natural Influences:', naturalInfluences);
@@ -223,21 +223,21 @@ async function runComprehensiveTests() {
     const legacyResult = await alchemize(testBirthInfo, testHoroscopeData);
     const legacyResultData = legacyResult as any;
     log.info('Legacy Alchemize Results:', {
-      Spirit: ((legacyResultData?.Spirit) || 0).toFixed(4);
-      Essence: ((legacyResultData?.Essence) || 0).toFixed(4);
-      Matter: ((legacyResultData?.Matter) || 0).toFixed(4);
-      Substance: ((legacyResultData?.Substance) || 0).toFixed(4);
-      dominantElement: (legacyResultData?.dominantElement) || 'Fire';
+      Spirit: ((legacyResultData?.Spirit) || 0).toFixed(4),
+      Essence: ((legacyResultData?.Essence) || 0).toFixed(4),
+      Matter: ((legacyResultData?.Matter) || 0).toFixed(4),
+      Substance: ((legacyResultData?.Substance) || 0).toFixed(4),
+      dominantElement: (legacyResultData?.dominantElement) || 'Fire',
       recommendation: (legacyResultData?.recommendation) || 'No recommendation available'
     });
     // Check for enhanced properties
     if ('kalchm' in legacyResult) {
       log.info('Enhanced Thermodynamic Properties:', {
-        kalchm: (legacyResult ).kalchm?.toFixed(4);
-        monicaConstant: (legacyResult ).monicaConstant?.toFixed(6);
-        gregsEnergy: (legacyResult ).gregsEnergy?.toFixed(6);
-        heat: (legacyResult ).heat?.toFixed(6);
-        entropy: (legacyResult ).entropy?.toFixed(6);
+        kalchm: (legacyResult ).kalchm?.toFixed(4),
+        monicaConstant: (legacyResult ).monicaConstant?.toFixed(6),
+        gregsEnergy: (legacyResult ).gregsEnergy?.toFixed(6),
+        heat: (legacyResult ).heat?.toFixed(6),
+        entropy: (legacyResult ).entropy?.toFixed(6),
         reactivity: (legacyResult ).reactivity?.toFixed(6)
       });
     }
@@ -275,7 +275,7 @@ async function runComprehensiveTests() {
       ),
       cuisineResults.push({
         cuisine,
-        score: result.result.score.toFixed(4);
+        score: result.result.score.toFixed(4),
         confidence: result.confidence
       });
     }

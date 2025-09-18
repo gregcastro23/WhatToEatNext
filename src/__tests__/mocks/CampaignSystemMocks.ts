@@ -94,7 +94,7 @@ export class MockCampaignController {
     // Simulate validation logic without actual checks
     if (phase.successCriteria.typeScriptErrors !== undefined) {
       if (this.mockMetrics.typeScriptErrors.current > phase.successCriteria.typeScriptErrors) {
-        mockErrors.push(`Mock: TypeScript errors not met`);
+        mockErrors.push(`Mock: TypeScript errors not met`)
       }
     }
 
@@ -259,11 +259,11 @@ export class MockCampaignController {
   // Private helper methods
 
   private async simulatePhaseExecution(_phase: CampaignPhase): Promise<{
-    success: boolean;
-    metricsImprovement: MetricsImprovement;
-    filesProcessed: number;
-    errorsFixed: number;
-    warningsFixed: number;
+    success: boolean,
+    metricsImprovement: MetricsImprovement,
+    filesProcessed: number,
+    errorsFixed: number,
+    warningsFixed: number
   }> {
     // Simulate processing without running actual scripts
     await new Promise(resolve => setTimeout(resolve, 100)); // Small delay for realism
@@ -746,9 +746,9 @@ export class CampaignTestIsolationManager {
    * Initialize mock campaign system for tests
    */
   initializeMockCampaignSystem(config?: Partial<CampaignConfig>): {
-    controller: MockCampaignController;
-    tracker: MockProgressTracker;
-    safety: MockSafetyProtocol;
+    controller: MockCampaignController,
+    tracker: MockProgressTracker,
+    safety: MockSafetyProtocol
   } {
     const defaultConfig: CampaignConfig = {
       phases: [
@@ -839,9 +839,9 @@ export class CampaignTestIsolationManager {
    * Get current mock instances
    */
   getMockInstances(): {
-    controller: MockCampaignController | null;
-    tracker: MockProgressTracker | null;
-    safety: MockSafetyProtocol | null;
+    controller: MockCampaignController | null,
+    tracker: MockProgressTracker | null,
+    safety: MockSafetyProtocol | null
   } {
     return {
       controller: this.mockController,

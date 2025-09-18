@@ -50,7 +50,7 @@ describe('MilestoneValidationSystem', () => {
         },
         buildPerformance: { currentTime: 8,
           targetTime: 10,
-          cacheHitRate: 0.85;
+          cacheHitRate: 0.85,
           memoryUsage: 45
         },
         enterpriseSystems: { current: 200,
@@ -61,7 +61,7 @@ describe('MilestoneValidationSystem', () => {
         warningBreakdown: {},
         buildMetrics: { buildTime: 8,
           bundleSize: 420,
-          cacheHitRate: 0.85;
+          cacheHitRate: 0.85,
           memoryUsage: 45,
           cpuUsage: 15,
           diskUsage: 1024,
@@ -88,7 +88,7 @@ describe('MilestoneValidationSystem', () => {
       expect(result.overallSuccess).toBe(true);
       expect(result.completionPercentage).toBe(100);
       expect(result.criticalFailures).toHaveLength(0);
-      expect(result.nextSteps).toContain('Phase 1 complete - proceed to Phase 2: Linting Excellence');
+      expect(result.nextSteps).toContain('Phase 1 complete - proceed to Phase 2: Linting Excellence')
     });
 
     test('should validate failed Phase 1 with remaining errors', async () => {
@@ -107,7 +107,7 @@ describe('MilestoneValidationSystem', () => {
         },
         buildPerformance: { currentTime: 8,
           targetTime: 10,
-          cacheHitRate: 0.85;
+          cacheHitRate: 0.85,
           memoryUsage: 45
         },
         enterpriseSystems: { current: 200,
@@ -120,7 +120,7 @@ describe('MilestoneValidationSystem', () => {
         warningBreakdown: {},
         buildMetrics: { buildTime: 8,
           bundleSize: 420,
-          cacheHitRate: 0.85;
+          cacheHitRate: 0.85,
           memoryUsage: 45,
           cpuUsage: 15,
           diskUsage: 1024,
@@ -159,7 +159,7 @@ describe('MilestoneValidationSystem', () => {
         warningBreakdown: {},
         buildMetrics: { buildTime: 8,
           bundleSize: 420,
-          cacheHitRate: 0.85;
+          cacheHitRate: 0.85,
           memoryUsage: 45,
           cpuUsage: 15,
           diskUsage: 1024,
@@ -196,7 +196,7 @@ describe('MilestoneValidationSystem', () => {
         warningBreakdown: {},
         buildMetrics: { buildTime: 8,
           bundleSize: 420,
-          cacheHitRate: 0.85;
+          cacheHitRate: 0.85,
           memoryUsage: 45,
           cpuUsage: 15,
           diskUsage: 1024,
@@ -234,7 +234,7 @@ describe('MilestoneValidationSystem', () => {
         },
         buildMetrics: { buildTime: 8,
           bundleSize: 420,
-          cacheHitRate: 0.85;
+          cacheHitRate: 0.85,
           memoryUsage: 45,
           cpuUsage: 15,
           diskUsage: 1024,
@@ -267,7 +267,7 @@ describe('MilestoneValidationSystem', () => {
         warningBreakdown: {},
         buildMetrics: { buildTime: 8,
           bundleSize: 420,
-          cacheHitRate: 0.85;
+          cacheHitRate: 0.85,
           memoryUsage: 45,
           cpuUsage: 15,
           diskUsage: 1024,
@@ -291,7 +291,7 @@ describe('MilestoneValidationSystem', () => {
 
       expect(result.phaseId).toBe('phase3');
       expect(result.overallSuccess).toBe(true);
-      expect(result.nextSteps).toContain('Phase 3 complete - proceed to Phase 4: Performance Optimization');
+      expect(result.nextSteps).toContain('Phase 3 complete - proceed to Phase 4: Performance Optimization')
     });
 
     test('should validate failed Phase 3 with insufficient enterprise systems', async () => {
@@ -305,7 +305,7 @@ describe('MilestoneValidationSystem', () => {
         warningBreakdown: {},
         buildMetrics: { buildTime: 8,
           bundleSize: 420,
-          cacheHitRate: 0.85;
+          cacheHitRate: 0.85,
           memoryUsage: 45,
           cpuUsage: 15,
           diskUsage: 1024,
@@ -339,7 +339,7 @@ describe('MilestoneValidationSystem', () => {
         warningBreakdown: {},
         buildMetrics: { buildTime: 8,
           bundleSize: 420,
-          cacheHitRate: 0.85;
+          cacheHitRate: 0.85,
           memoryUsage: 45,
           cpuUsage: 15,
           diskUsage: 1024,
@@ -370,7 +370,7 @@ describe('MilestoneValidationSystem', () => {
         warningBreakdown: {},
         buildMetrics: { buildTime: 15,
           bundleSize: 600,
-          cacheHitRate: 0.6;
+          cacheHitRate: 0.6,
           memoryUsage: 75,
           cpuUsage: 85,
           diskUsage: 2048,
@@ -404,7 +404,7 @@ describe('MilestoneValidationSystem', () => {
         warningBreakdown: {},
         buildMetrics: { buildTime: 8,
           bundleSize: 420,
-          cacheHitRate: 0.85;
+          cacheHitRate: 0.85,
           memoryUsage: 45,
           cpuUsage: 15,
           diskUsage: 1024,
@@ -437,7 +437,7 @@ describe('MilestoneValidationSystem', () => {
         warningBreakdown: { 'no-console': 50 },
         buildMetrics: { buildTime: 8,
           bundleSize: 420,
-          cacheHitRate: 0.85;
+          cacheHitRate: 0.85,
           memoryUsage: 45,
           cpuUsage: 15,
           diskUsage: 1024,
@@ -472,7 +472,7 @@ describe('MilestoneValidationSystem', () => {
         warningBreakdown: {},
         buildMetrics: { buildTime: 8,
           bundleSize: 420,
-          cacheHitRate: 0.85;
+          cacheHitRate: 0.85,
           memoryUsage: 45,
           cpuUsage: 15,
           diskUsage: 1024,
@@ -509,7 +509,7 @@ describe('MilestoneValidationSystem', () => {
         warningBreakdown: {},
         buildMetrics: { buildTime: 8,
           bundleSize: 420,
-          cacheHitRate: 0.85;
+          cacheHitRate: 0.85,
           memoryUsage: 45,
           cpuUsage: 15,
           diskUsage: 1024,
@@ -541,7 +541,7 @@ describe('MilestoneValidationSystem', () => {
         warningBreakdown: {},
         buildMetrics: { buildTime: 8,
           bundleSize: 420,
-          cacheHitRate: 0.85;
+          cacheHitRate: 0.85,
           memoryUsage: 45,
           cpuUsage: 15,
           diskUsage: 1024,

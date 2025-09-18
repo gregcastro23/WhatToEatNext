@@ -355,7 +355,7 @@ export class RecipeFilter {
           comparison = this.getSeasonalScore(b) - this.getSeasonalScore(a);
           break,
         default:
-          comparison = b.score - a.score;
+          comparison = b.score - a.score
       }
 
       return options.direction === 'desc' ? comparison : -comparison;

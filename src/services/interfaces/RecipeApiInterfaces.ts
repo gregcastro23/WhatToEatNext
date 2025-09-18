@@ -23,13 +23,13 @@ export interface ApiResponse<T> {
   success: boolean;
   data?: T;
   error?: {
-    code: string;
-    message: string;
+    code: string,
+    message: string,
     details?: unknown;
   };
   metadata?: {
-    timestamp: number;
-    version: string;
+    timestamp: number,
+    version: string,
     count?: number;
     total?: number;
     page?: number;
@@ -65,42 +65,42 @@ export interface PaginationParams {
  * GetRecipeById parameters
  */
 export interface GetRecipeByIdParams {
-  id: string;
+  id: string
 }
 
 /**
  * GetRecipesByCuisine parameters
  */
 export interface GetRecipesByCuisineParams {
-  cuisine: string;
+  cuisine: string
 }
 
 /**
  * GetRecipesByZodiac parameters
  */
 export interface GetRecipesByZodiacParams {
-  currentZodiacSign: any;
+  currentZodiacSign: any
 }
 
 /**
  * GetRecipesBySeason parameters
  */
 export interface GetRecipesBySeasonParams {
-  season: Season;
+  season: Season
 }
 
 /**
  * GetRecipesByLunarPhase parameters
  */
 export interface GetRecipesByLunarPhaseParams {
-  lunarPhase: LunarPhase;
+  lunarPhase: LunarPhase
 }
 
 /**
  * GetRecipesByMealType parameters
  */
 export interface GetRecipesByMealTypeParams {
-  mealType: string;
+  mealType: string
 }
 
 /**
@@ -193,8 +193,8 @@ export interface GenerateRecipeParams {
  * GenerateFusionRecipe parameters
  */
 export interface GenerateFusionRecipeParams {
-  cuisines: string[];
-  criteria: GenerateRecipeParams['criteria'];
+  cuisines: string[],
+  criteria: GenerateRecipeParams['criteria'],
 }
 
 /**

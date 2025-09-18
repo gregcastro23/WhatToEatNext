@@ -12,13 +12,13 @@ import { log } from '@/services/LoggingService';
 
 // Core interfaces for error analysis
 export interface LintingIssue {
-  id: string;
-  file: string;
-  line: number;
-  column: number;
-  rule: string;
-  message: string;
-  severity: 'error' | 'warning';
+  id: string,
+  file: string,
+  line: number,
+  column: number,
+  rule: string,
+  message: string,
+  severity: 'error' | 'warning',
   category: IssueCategory,
   autoFixable: boolean,
   domainContext?: DomainContext,
@@ -32,7 +32,7 @@ export interface IssueCategory {
 }
 
 export interface DomainContext {
-  isAstrologicalCalculation: boolean;
+  isAstrologicalCalculation: boolean,
   isCampaignSystem: boolean,
   isTestFile: boolean,
   isScriptFile: boolean,
@@ -40,8 +40,8 @@ export interface DomainContext {
 }
 
 export interface ResolutionStrategy {
-  type: 'auto-fix' | 'manual-review' | 'rule-adjustment' | 'ignore';
-  confidence: number; // 0-1
+  type: 'auto-fix' | 'manual-review' | 'rule-adjustment' | 'ignore',
+  confidence: number, // 0-1
   riskLevel: 'low' | 'medium' | 'high',
   requiredValidation: ValidationRequirement[],
   estimatedEffort: number, // minutes
@@ -55,8 +55,8 @@ export interface ValidationRequirement {
 }
 
 export interface CategorizedErrors {
-  total: number;
-  errors: number;
+  total: number,
+  errors: number,
   warnings: number,
   byCategory: Record<string, LintingIssue[]>;
   byPriority: Record<number, LintingIssue[]>;
@@ -73,8 +73,8 @@ export interface ResolutionPlan {
 }
 
 export interface ResolutionPhase {
-  id: string;
-  name: string;
+  id: string,
+  name: string,
   issues: LintingIssue[],
   estimatedTime: number,
   riskLevel: 'low' | 'medium' | 'high',
@@ -158,7 +158,7 @@ export class LintingErrorAnalyzer {
       const autoFixPhase: ResolutionPhase = {
         id: 'auto-fix',
         name: 'Automated Fixes',
-        issues: categorizedErrors.autoFixable;
+        issues: categorizedErrors.autoFixable,
         estimatedTime: Math.ceil(((categorizedErrors.autoFixable as any)?.length || 0) * 0.2), // 0.1 min per issue
         riskLevel: 'low',
         dependencies: []
@@ -259,7 +259,7 @@ export class LintingErrorAnalyzer {
       const command = `npx eslint --config ${this.eslintConfigPath} src --format json --max-warnings=10000`;
       const output = execSync(command, {
         encoding: 'utf8',
-        cwd: this.workspaceRoot;
+        cwd: this.workspaceRoot,
         maxBuffer: 10 * 1024 * 1024, // 10MB buffer
       });
       return output;
@@ -314,10 +314,10 @@ export class LintingErrorAnalyzer {
     const issue: LintingIssue = {
       id: `${file}:${String(rawIssue.line)}:${String(rawIssue.column)}:${String(rawIssue.ruleId)}`,
       file,
-      line: Number(rawIssue.line || 0);
-      column: Number(rawIssue.column || 0);
-      rule: String(rawIssue.ruleId || 'unknown');
-      message: String(rawIssue.message || '');
+      line: Number(rawIssue.line || 0),
+      column: Number(rawIssue.column || 0),
+      rule: String(rawIssue.ruleId || 'unknown'),
+      message: String(rawIssue.message || ''),
       severity: Number(rawIssue.severity) === 2 ? 'error' : 'warning';
       category,
       autoFixable: Boolean((rawIssue as any).fix);
@@ -438,12 +438,12 @@ export class LintingErrorAnalyzer {
     if (hasAutoFix && this.isLowRiskAutoFix(rule)) {
       return {
         type: 'auto-fix',
-        confidence: 0.9;
+        confidence: 0.9,
         riskLevel: 'low',
         requiredValidation: [
           { type: 'build', description: 'Verify build still passes', automated: true }
         ],
-        estimatedEffort: 0.1;
+        estimatedEffort: 0.1,
         dependencies: []
       };
     }
@@ -452,13 +452,13 @@ export class LintingErrorAnalyzer {
     if (category.primary === 'import') {
       return {
         type: hasAutoFix ? 'auto-fix' : 'manual-review',
-        confidence: hasAutoFix ? 0.8 : 0.6;
+        confidence: hasAutoFix ? 0.8 : 0.6,
         riskLevel: 'medium',
         requiredValidation: [
           { type: 'build', description: 'Verify imports resolve correctly', automated: true },
           { type: 'type-check', description: 'Verify TypeScript compilation', automated: true }
         ],
-        estimatedEffort: hasAutoFix ? 0.2 : 1.0;
+        estimatedEffort: hasAutoFix ? 0.2 : 1.0,
         dependencies: []
       };
     }
@@ -468,13 +468,13 @@ export class LintingErrorAnalyzer {
       const isExplicitAny = rule.includes('no-explicit-any');
       return {
         type: isExplicitAny ? 'manual-review' : 'auto-fix',
-        confidence: isExplicitAny ? 0.4 : 0.7;
+        confidence: isExplicitAny ? 0.4 : 0.7,
         riskLevel: isExplicitAny ? 'high' : 'medium',
         requiredValidation: [
           { type: 'type-check', description: 'Verify TypeScript compilation', automated: true },
           { type: 'test', description: 'Run relevant tests', automated: true }
         ],
-        estimatedEffort: isExplicitAny ? 5.0 : 1.0;
+        estimatedEffort: isExplicitAny ? 5.0 : 1.0,
         dependencies: []
       };
     }
@@ -484,13 +484,13 @@ export class LintingErrorAnalyzer {
       const isExhaustiveDeps = rule.includes('exhaustive-deps');
       return {
         type: isExhaustiveDeps ? 'manual-review' : 'auto-fix',
-        confidence: isExhaustiveDeps ? 0.5 : 0.8;
+        confidence: isExhaustiveDeps ? 0.5 : 0.8,
         riskLevel: isExhaustiveDeps ? 'high' : 'medium',
         requiredValidation: [
           { type: 'build', description: 'Verify React components render', automated: true },
           { type: 'test', description: 'Run component tests', automated: true }
         ],
-        estimatedEffort: isExhaustiveDeps ? 3.0 : 0.5;
+        estimatedEffort: isExhaustiveDeps ? 3.0 : 0.5,
         dependencies: []
       };
     }
@@ -499,13 +499,13 @@ export class LintingErrorAnalyzer {
     if (domainContext.requiresSpecialHandling) {
       return {
         type: 'manual-review',
-        confidence: 0.3;
+        confidence: 0.3,
         riskLevel: 'high',
         requiredValidation: [
           { type: 'manual-review', description: 'Domain expert review required', automated: false },
           { type: 'test', description: 'Run domain-specific tests', automated: true }
         ],
-        estimatedEffort: 10.0;
+        estimatedEffort: 10.0,
         dependencies: []
       };
     }
@@ -513,10 +513,10 @@ export class LintingErrorAnalyzer {
     // Default strategy for other issues
     return {
       type: hasAutoFix ? 'auto-fix' : 'rule-adjustment',
-      confidence: 0.6;
+      confidence: 0.6,
       riskLevel: 'low',
       requiredValidation: [{ type: 'build', description: 'Verify build passes', automated: true }],
-      estimatedEffort: hasAutoFix ? 0.5 : 2.0;
+      estimatedEffort: hasAutoFix ? 0.5 : 2.0,
       dependencies: []
     };
   }
@@ -545,7 +545,7 @@ export class LintingErrorAnalyzer {
    */
   private categorizeIssues(issues: LintingIssue[]): CategorizedErrors {
     const categorized: CategorizedErrors = {
-      total: issues.length;
+      total: issues.length,
       errors: issues.filter(i => i.severity === 'error').length,,;
       warnings: issues.filter(i => i.severity === 'warning').length,,;
       byCategory: {},

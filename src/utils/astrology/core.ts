@@ -462,8 +462,8 @@ export async function getCurrentAstrologicalState(
 
     const _timeFactors: TimeFactors = {
       currentDate: now,
-      season: (getCurrentSeason().charAt(0).toUpperCase() + getCurrentSeason().slice(1)) as Season;
-      timeOfDay: (getTimeOfDay().charAt(0).toUpperCase() + getTimeOfDay().slice(1)) as TimeOfDay;
+      season: (getCurrentSeason().charAt(0).toUpperCase() + getCurrentSeason().slice(1)) as Season,
+      timeOfDay: (getTimeOfDay().charAt(0).toUpperCase() + getTimeOfDay().slice(1)) as TimeOfDay,
       planetaryDay: { day: weekDay, planet: planetaryHour },
       planetaryHour: { planet: planetaryHour, hourOfDay: now.getHours() },
       weekDay,
@@ -662,7 +662,7 @@ export async function calculateAspects(
 
   // Define interface for aspect data
   interface AspectData {
-    angle: number;
+    angle: number,
     orb: number,
     significance: number,
     harmonic: number,
@@ -756,10 +756,10 @@ export async function calculateAspects(
             planet2,
             type: type as AspectType,
             orb,
-            strength: strength * Math.abs(multiplier);
+            strength: strength * Math.abs(multiplier),
             influence: multiplier,
             exactAngle: orb,
-            applyingSeparating: orb <= 120 ? 'applying' : 'separating';
+            applyingSeparating: orb <= 120 ? 'applying' : 'separating',
             significance: orb / 180,
             description: `Aspect between ${element1} and ${element2}`,
             elementalInfluence: {

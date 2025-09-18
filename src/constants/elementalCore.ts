@@ -16,9 +16,9 @@ export const ELEMENTS = ['Fire', 'Water', 'Earth', 'Air'] as const;
  * Default balanced elemental properties (25% each)
  */
 export const DEFAULT_ELEMENTAL_PROPERTIES: ElementalProperties = {
-  Fire: 0.25;
-  Water: 0.25;
-  Earth: 0.25;
+  Fire: 0.25,
+  Water: 0.25,
+  Earth: 0.25,
   Air: 0.25
 };
 
@@ -154,9 +154,9 @@ export const VALIDATION_THRESHOLDS = {
  * Elemental significance thresholds
  */
 export const ELEMENTAL_THRESHOLDS = {
-  dominant: 0.4;
-  significant: 0.25;
-  present: 0.1;
+  dominant: 0.4,
+  significant: 0.25,
+  present: 0.1,
   trace: 0.05
 };
 
@@ -310,9 +310,9 @@ export function normalizeElementalProperties(properties: ElementalProperties): E
   }
 
   return {
-    Fire: (properties.Fire || 0) / total;
-    Water: (properties.Water || 0) / total;
-    Earth: (properties.Earth || 0) / total;
+    Fire: (properties.Fire || 0) / total,
+    Water: (properties.Water || 0) / total,
+    Earth: (properties.Earth || 0) / total,
     Air: (properties.Air || 0) / total
   };
 }

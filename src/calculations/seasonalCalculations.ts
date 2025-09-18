@@ -3,10 +3,10 @@ import { getZodiacSignForDate } from '@/data/zodiacSeasons';
 import type { ElementalProperties, Recipe, Season, ZodiacSign } from '@/types/alchemy';
 
 export interface SeasonalEffectiveness {
-  score: number;
-  rating: string;
+  score: number,
+  rating: string,
   breakdown: {
-    elementalAlignment: number;
+    elementalAlignment: number,
     ingredientSuitability: number,
     seasonalBonus: number
   };

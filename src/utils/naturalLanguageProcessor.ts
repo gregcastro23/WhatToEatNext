@@ -411,7 +411,7 @@ export function processNaturalLanguageQuery(query: string): SearchIntent {
           // cookingTime is a structured object in SearchFilters
           // Assign strongly typed cookingTime
           (extractedFilters ).cookingTime = {
-            min: timeRange.min;
+            min: timeRange.min,
             max: timeRange.max
           };
         } else if (Array.isArray(extractedFilters[pattern.category as string])) {
@@ -517,7 +517,7 @@ export function enhancedSearch(
 
     const averageScore = matchCount > 0 ? totalScore / matchCount : 0;
     if (averageScore > 0.3) {
-      results.push({ ...item, searchScore: averageScore });
+      results.push({ ...((item as any) || {}), searchScore: averageScore });
     }
   }
 

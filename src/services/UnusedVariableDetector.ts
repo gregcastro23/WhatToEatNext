@@ -24,13 +24,13 @@ import { log } from '@/services/LoggingService';
 // ========== UNUSED VARIABLE INTERFACES ==========;
 
 export interface UnusedVariable {
-  variableId: string;
-  name: string;
-  type: 'variable' | 'function' | 'class' | 'interface' | 'import' | 'export';
-  filePath: string;
-  line: number;
-  column: number;
-  scope: 'local' | 'module' | 'global';
+  variableId: string,
+  name: string,
+  type: 'variable' | 'function' | 'class' | 'interface' | 'import' | 'export',
+  filePath: string,
+  line: number,
+  column: number,
+  scope: 'local' | 'module' | 'global',
   declarationType:
     | 'const'
     | 'let'
@@ -42,8 +42,8 @@ export interface UnusedVariable {
     | 'import'
     | 'export';
   usage: {
-    declared: boolean;
-    assigned: boolean;
+    declared: boolean,
+    assigned: boolean,
     read: boolean,
     called: boolean,
     exported: boolean,
@@ -55,22 +55,22 @@ export interface UnusedVariable {
     containingClass?: string,
     containingModule: string
   };
-  riskLevel: 'low' | 'medium' | 'high';
-  confidence: number;
-  estimatedImpact: 'none' | 'low' | 'medium' | 'high';
-  lastModified: Date;
+  riskLevel: 'low' | 'medium' | 'high',
+  confidence: number,
+  estimatedImpact: 'none' | 'low' | 'medium' | 'high',
+  lastModified: Date,
 }
 
 export interface UnusedImport {
-  importId: string;
-  importName: string;
-  importPath: string;
-  importType: 'default' | 'named' | 'namespace' | 'side-effect';
-  filePath: string;
-  line: number;
-  usageCount: number;
-  isTypeOnly: boolean;
-  isDevelopmentOnly: boolean;
+  importId: string,
+  importName: string,
+  importPath: string,
+  importType: 'default' | 'named' | 'namespace' | 'side-effect',
+  filePath: string,
+  line: number,
+  usageCount: number,
+  isTypeOnly: boolean,
+  isDevelopmentOnly: boolean,
   relatedExports: string[],
   estimatedSavings: {
     bundleSize: number,
@@ -80,11 +80,11 @@ export interface UnusedImport {
 }
 
 export interface UnusedExport {
-  exportId: string;
-  exportName: string;
-  exportType: 'default' | 'named' | 'namespace';
-  filePath: string;
-  line: number;
+  exportId: string,
+  exportName: string,
+  exportType: 'default' | 'named' | 'namespace',
+  filePath: string,
+  line: number,
   isPublicAPI: boolean,
   usageCount: number,
   potentialUsers: string[],
@@ -92,13 +92,13 @@ export interface UnusedExport {
 }
 
 export interface DeadCodeBlock {
-  blockId: string;
-  type: 'function' | 'class' | 'method' | 'property' | 'condition' | 'loop';
-  filePath: string;
-  startLine: number;
-  endLine: number;
-  reason: string;
-  codePreview: string;
+  blockId: string,
+  type: 'function' | 'class' | 'method' | 'property' | 'condition' | 'loop',
+  filePath: string,
+  startLine: number,
+  endLine: number,
+  reason: string,
+  codePreview: string,
   complexity: number,
   dependencies: string[],
   isReachable: boolean,
@@ -106,49 +106,49 @@ export interface DeadCodeBlock {
 }
 
 export interface CleanupRecommendation {
-  recommendationId: string;
-  type: 'variable' | 'import' | 'export' | 'function' | 'class' | 'block';
-  priority: 'low' | 'medium' | 'high' | 'critical';
-  action: 'remove' | 'optimize' | 'refactor' | 'investigate';
-  target: string;
-  filePath: string;
+  recommendationId: string,
+  type: 'variable' | 'import' | 'export' | 'function' | 'class' | 'block',
+  priority: 'low' | 'medium' | 'high' | 'critical',
+  action: 'remove' | 'optimize' | 'refactor' | 'investigate',
+  target: string,
+  filePath: string,
   description: string,
   estimatedBenefit: {
     bundleSize: number,
     performance: number,
     maintainability: number
   };
-  risks: string[];
-  automationPossible: boolean;
-  dependencies: string[];
-  implementation: string[];
+  risks: string[],
+  automationPossible: boolean,
+  dependencies: string[],
+  implementation: string[],
 }
 
 export interface DetectionResult {
-  resultId: string;
-  filePath: string;
-  unusedVariables: UnusedVariable[];
-  unusedImports: UnusedImport[];
-  unusedExports: UnusedExport[];
-  deadCodeBlocks: DeadCodeBlock[];
-  recommendations: CleanupRecommendation[];
+  resultId: string,
+  filePath: string,
+  unusedVariables: UnusedVariable[],
+  unusedImports: UnusedImport[],
+  unusedExports: UnusedExport[],
+  deadCodeBlocks: DeadCodeBlock[],
+  recommendations: CleanupRecommendation[],
   summary: {
     totalUnused: number,
     totalSavings: number,
     riskLevel: 'low' | 'medium' | 'high',
     automationPotential: number
   };
-  timestamp: Date;
+  timestamp: Date
 }
 
 export interface DetectionOptions {
-  includeVariables: boolean;
-  includeImports: boolean;
-  includeExports: boolean;
-  includeDeadCode: boolean;
-  includeTypeOnly: boolean;
-  excludePatterns: string[];
-  excludeDirectories: string[];
+  includeVariables: boolean,
+  includeImports: boolean,
+  includeExports: boolean,
+  includeDeadCode: boolean,
+  includeTypeOnly: boolean,
+  excludePatterns: string[],
+  excludeDirectories: string[],
   riskThreshold: 'low' | 'medium' | 'high',
   confidenceThreshold: number,
   enableAutomation: boolean,
@@ -183,10 +183,10 @@ export class UnusedVariableDetector extends EventEmitter {
     includeExports: true,
     includeDeadCode: true,
     includeTypeOnly: true,
-    excludePatterns: this.EXCLUSION_PATTERNS;
+    excludePatterns: this.EXCLUSION_PATTERNS,
     excludeDirectories: ['node_modules', '.git', 'dist', 'build'],
     riskThreshold: 'medium',
-    confidenceThreshold: 0.7;
+    confidenceThreshold: 0.7,
     enableAutomation: false,
     safetyChecks: true
   };
@@ -460,11 +460,11 @@ export class UnusedVariableDetector extends EventEmitter {
       if (!usage.read && !usage.called && !usage.exported) {
         const unusedVar: UnusedVariable = {
           variableId: `var_${declaration.name}_${declaration.line}`,
-          name: declaration.name;
-          type: declaration.type;
+          name: declaration.name,
+          type: declaration.type,
           filePath,
-          line: declaration.line;
-          column: declaration.column;
+          line: declaration.line,
+          column: declaration.column,
           scope: this.determineScope(declaration, content),
           declarationType: declaration.declarationType;
           usage,
@@ -786,7 +786,7 @@ export class UnusedVariableDetector extends EventEmitter {
       line,
       usageCount,
       isTypeOnly: this.isTypeOnlyImport(importName, importPath),
-      isDevelopmentOnly: this.isDevelopmentOnlyImport(importPath);
+      isDevelopmentOnly: this.isDevelopmentOnlyImport(importPath),
       relatedExports: [],
       estimatedSavings: this.calculateImportSavings(importPath)
     };
@@ -1186,16 +1186,15 @@ export class UnusedVariableDetector extends EventEmitter {
           type: 'variable',
           priority: 'medium',
           action: 'remove',
-          target: variable.name;
-          filePath: variable.filePath;
+          target: variable.name,
+          filePath: variable.filePath,
           description: `Remove unused ${variable.type} '${variable.name}'`,
           estimatedBenefit: {
             bundleSize: 50,
-            performance: 0.1;
+            performance: 0.1,
             maintainability: 0.3
           },
-          risks:
-            (variable.riskLevel as string) === 'high' ? ['May break external dependencies'] : [];
+          risks: (variable.riskLevel as string) === 'high' ? ['May break external dependencies'] : [],
           automationPossible: variable.riskLevel === 'low' && variable.confidence > 0.9,;
           dependencies: [],
           implementation: [`Remove line ${variable.line} in ${variable.filePath}`]
@@ -1210,12 +1209,12 @@ export class UnusedVariableDetector extends EventEmitter {
         type: 'import',
         priority: 'high',
         action: 'remove',
-        target: importItem.importName;
-        filePath: importItem.filePath;
+        target: importItem.importName,
+        filePath: importItem.filePath,
         description: `Remove unused import '${importItem.importName}' from '${importItem.importPath}'`,
         estimatedBenefit: {
-          bundleSize: importItem.estimatedSavings.bundleSize;
-          performance: importItem.estimatedSavings.loadTime / 1000;
+          bundleSize: importItem.estimatedSavings.bundleSize,
+          performance: importItem.estimatedSavings.loadTime / 1000,
           maintainability: 0.2
         },
         risks: importItem.isDevelopmentOnly ? [] : ['May be used for side effects'],
@@ -1233,12 +1232,12 @@ export class UnusedVariableDetector extends EventEmitter {
           type: 'export',
           priority: exportItem.removalSafety === 'safe' ? 'medium' : 'low',;
           action: 'remove',
-          target: exportItem.exportName;
-          filePath: exportItem.filePath;
+          target: exportItem.exportName,
+          filePath: exportItem.filePath,
           description: `Remove unused export '${exportItem.exportName}'`,
           estimatedBenefit: {
             bundleSize: 30,
-            performance: 0.05;
+            performance: 0.05,
             maintainability: 0.2
           },
           risks:
@@ -1257,17 +1256,17 @@ export class UnusedVariableDetector extends EventEmitter {
         type: 'block',
         priority: 'high',
         action: 'remove',
-        target: block.type;
-        filePath: block.filePath;
+        target: block.type,
+        filePath: block.filePath,
         description: `Remove dead code block: ${block.reason}`,
         estimatedBenefit: {
-          bundleSize: (block.endLine - block.startLine) * 20;
-          performance: block.estimatedRemovalBenefit;
+          bundleSize: (block.endLine - block.startLine) * 20,
+          performance: block.estimatedRemovalBenefit,
           maintainability: 0.5
         },
         risks: block.isReachable ? ['Code might be reachable in some scenarios'] : [],
-        automationPossible: !block.isReachable;
-        dependencies: block.dependencies;
+        automationPossible: !block.isReachable,
+        dependencies: block.dependencies,
         implementation: [`Remove lines ${block.startLine}-${block.endLine} in ${block.filePath}`]
       });
     }
@@ -1403,9 +1402,9 @@ export class UnusedVariableDetector extends EventEmitter {
   private async persistResults(): Promise<void> {
     try {
       const data = {
-        results: Array.from(this.detectionResults.entries());
-        globalSymbolTable: Array.from(this.globalSymbolTable.entries());
-        crossFileReferences: Array.from(this.crossFileReferences.entries());
+        results: Array.from(this.detectionResults.entries()),
+        globalSymbolTable: Array.from(this.globalSymbolTable.entries()),
+        crossFileReferences: Array.from(this.crossFileReferences.entries()),
         timestamp: new Date().toISOString()
       };
 
@@ -1440,9 +1439,9 @@ export class UnusedVariableDetector extends EventEmitter {
   }
 
   getSummary(): {
-    totalFiles: number;
-    totalUnusedVariables: number;
-    totalUnusedImports: number;
+    totalFiles: number,
+    totalUnusedVariables: number,
+    totalUnusedImports: number,
     totalUnusedExports: number,
     totalDeadCodeBlocks: number,
     estimatedSavings: number,
@@ -1451,7 +1450,7 @@ export class UnusedVariableDetector extends EventEmitter {
     const results = this.getDetectionResults();
 
     return {
-      totalFiles: results.length;
+      totalFiles: results.length,
       totalUnusedVariables: results.reduce((sum, r) => sum + r.unusedVariables.length, 0),
       totalUnusedImports: results.reduce((sum, r) => sum + r.unusedImports.length, 0),
       totalUnusedExports: results.reduce((sum, r) => sum + r.unusedExports.length, 0),
@@ -1484,8 +1483,8 @@ export class UnusedVariableDetector extends EventEmitter {
         : undefined,
 
     return {
-      isAnalyzing: this.isAnalyzing;
-      resultsCount: results.length;
+      isAnalyzing: this.isAnalyzing,
+      resultsCount: results.length,
       lastAnalysis
     };
   }

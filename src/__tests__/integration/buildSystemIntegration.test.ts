@@ -38,7 +38,7 @@ describe('Build System Integration', () => {
       expect(output).toContain('Health Report');
       expect(output).toContain('Build exists:');
       expect(output).toContain('Manifests valid:');
-      expect(output).toContain('Build size:');
+      expect(output).toContain('Build size:')
     });
 
     it('should show help information', () => {
@@ -145,7 +145,7 @@ describe('Build System Integration', () => {
       expect(scripts['build:comprehensive']).toBeDefined();
       expect(scripts['build:quick']).toBeDefined();
       expect(scripts['build:health']).toBeDefined();
-      expect(scripts['build:emergency']).toBeDefined();
+      expect(scripts['build:emergency']).toBeDefined()
     });
 
     it('should be able to run build validation via yarn script', () => {

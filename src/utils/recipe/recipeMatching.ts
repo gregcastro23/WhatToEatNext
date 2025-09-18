@@ -52,8 +52,8 @@ import {
 // ===== INTERFACES =====;
 
 interface MatchResult {
-  recipe: Recipe;
-  score: number;
+  recipe: Recipe,
+  score: number,
   elements: ElementalProperties,
   dominantElements: [string, number][];
   matchedIngredients?: {
@@ -176,15 +176,15 @@ const calculateEnergyMatch = async (;
   try {
     // Convert elemental properties to alchemical properties for kalchm calculation
     const recipeAlchemical = {
-      Spirit: recipeEnergy.Fire || 0.25;
-      Essence: recipeEnergy.Air || 0.25;
-      Matter: recipeEnergy.Earth || 0.25;
+      Spirit: recipeEnergy.Fire || 0.25,
+      Essence: recipeEnergy.Air || 0.25,
+      Matter: recipeEnergy.Earth || 0.25,
       Substance: recipeEnergy.Water || 0.25
     };
     const currentAlchemical = {
-      Spirit: currentEnergy.Fire || 0.25;
-      Essence: currentEnergy.Air || 0.25;
-      Matter: currentEnergy.Earth || 0.25;
+      Spirit: currentEnergy.Fire || 0.25,
+      Essence: currentEnergy.Air || 0.25,
+      Matter: currentEnergy.Earth || 0.25,
       Substance: currentEnergy.Water || 0.25
     };
 
@@ -256,20 +256,18 @@ export async function findBestMatches(
   let relativeElementalValues: ElementalProperties | null = null;
   if (enhancedCurrentEnergy) {
     const totalOther = {
-      Fire:
-        enhancedCurrentEnergy.Water + enhancedCurrentEnergy.Earth + enhancedCurrentEnergy.Air || 1;
+      Fire: enhancedCurrentEnergy.Water + enhancedCurrentEnergy.Earth + enhancedCurrentEnergy.Air || 1,
       Water:
-        enhancedCurrentEnergy.Fire + enhancedCurrentEnergy.Earth + enhancedCurrentEnergy.Air || 1;
-      Earth:
-        enhancedCurrentEnergy.Fire + enhancedCurrentEnergy.Water + enhancedCurrentEnergy.Air || 1;
+        enhancedCurrentEnergy.Fire + enhancedCurrentEnergy.Earth + enhancedCurrentEnergy.Air || 1,
+      Earth: enhancedCurrentEnergy.Fire + enhancedCurrentEnergy.Water + enhancedCurrentEnergy.Air || 1,
       Air:
         enhancedCurrentEnergy.Fire + enhancedCurrentEnergy.Water + enhancedCurrentEnergy.Earth || 1
     };
 
     relativeElementalValues = {
-      Fire: enhancedCurrentEnergy.Fire / totalOther.Fire;
-      Water: enhancedCurrentEnergy.Water / totalOther.Water;
-      Earth: enhancedCurrentEnergy.Earth / totalOther.Earth;
+      Fire: enhancedCurrentEnergy.Fire / totalOther.Fire,
+      Water: enhancedCurrentEnergy.Water / totalOther.Water,
+      Earth: enhancedCurrentEnergy.Earth / totalOther.Earth,
       Air: enhancedCurrentEnergy.Air / totalOther.Air
     };
   }
@@ -307,7 +305,7 @@ export async function findBestMatches(
   const scoredRecipes = (filteredRecipes || []).map(async recipe => {
     let score = 0;
     const elements = await getRecipeElementalProperties(recipe);
-    const dominantElements = await _calculateDominantElements(elements);
+    const dominantElements = await _(() => ({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }))(elements);
 
     // Enhanced base score from elemental properties using both absolute and relative
     if (enhancedCurrentEnergy) {
@@ -949,15 +947,15 @@ function calculateModalityScore(recipeModality: string, userModality: string): n
   // Different modalities have different compatibility levels
   const compatibilityMatrix: { [key: string]: { [key: string]: number } } = {
     Cardinal: {
-      Fixed: 0.4;
+      Fixed: 0.4,
       Mutable: 0.6
     },
     Fixed: {
-      Cardinal: 0.4;
+      Cardinal: 0.4,
       Mutable: 0.5
     },
     Mutable: {
-      Cardinal: 0.6;
+      Cardinal: 0.6,
       Fixed: 0.5
     }
   };

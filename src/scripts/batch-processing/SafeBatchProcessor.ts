@@ -15,8 +15,8 @@
 import { execSync } from 'child_process';
 
 export interface BatchProcessingConfig {
-  maxBatchSize: number;
-  maxBatchSizeCritical: number;
+  maxBatchSize: number,
+  maxBatchSizeCritical: number,
   validateAfterEachBatch: boolean,
   autoRollbackOnError: boolean,
   createGitStash: boolean,
@@ -24,9 +24,9 @@ export interface BatchProcessingConfig {
 }
 
 export interface FileProcessingInfo {
-  filePath: string;
-  relativePath: string;
-  isHighImpact: boolean;
+  filePath: string,
+  relativePath: string,
+  isHighImpact: boolean,
   isCritical: boolean,
   unusedVariableCount: number,
   riskLevel: 'low' | 'medium' | 'high',
@@ -34,14 +34,14 @@ export interface FileProcessingInfo {
 }
 
 export interface BatchResult {
-  batchId: string;
-  files: string[];
-  success: boolean;
-  processedCount: number;
-  eliminatedCount: number;
-  preservedCount: number;
-  compilationPassed: boolean;
-  rollbackPerformed: boolean;
+  batchId: string,
+  files: string[],
+  success: boolean,
+  processedCount: number,
+  eliminatedCount: number,
+  preservedCount: number,
+  compilationPassed: boolean,
+  rollbackPerformed: boolean,
   errors: string[],
   warnings: string[],
   processingTime: number,
@@ -49,8 +49,8 @@ export interface BatchResult {
 }
 
 export interface SafetyCheckpoint {
-  id: string;
-  timestamp: Date;
+  id: string,
+  timestamp: Date,
   batchId: string,
   compilationStatus: boolean,
   errorCount: number,
@@ -413,10 +413,10 @@ export class SafeBatchProcessor {
    */
   getProcessingStats() {
     return {
-      totalProcessed: this.totalProcessed;
-      totalEliminated: this.totalEliminated;
-      totalPreserved: this.totalPreserved;
-      checkpointsCreated: this.checkpoints.length;
+      totalProcessed: this.totalProcessed,
+      totalEliminated: this.totalEliminated,
+      totalPreserved: this.totalPreserved,
+      checkpointsCreated: this.checkpoints.length,
       lastCheckpoint: this.checkpoints[this.checkpoints.length - 1]
     };
   }

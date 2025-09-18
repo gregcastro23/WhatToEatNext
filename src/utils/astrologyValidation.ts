@@ -4,8 +4,8 @@ import { getLatestAstrologicalState } from '@/services/AstrologicalService';
 
 // Add a more specific interface for the reference positions
 interface PlanetaryPosition {
-  sign: string;
-  degree: number;
+  sign: string,
+  degree: number,
   minute: number;
   isRetrograde?: boolean;
 }
@@ -96,9 +96,9 @@ export async function validatePlanetaryPositions(
 
       // Convert our formatting to match reference format
       const formattedCalculated: PlanetaryPosition = {
-        sign: String(calculatedData.sign || '').toLowerCase();
-        degree: Math.floor(Number(calculatedData.degree || 0));
-        minute: Math.floor((Number(calculatedData.degree || 0) % 1) * 60);
+        sign: String(calculatedData.sign || '').toLowerCase(),
+        degree: Math.floor(Number(calculatedData.degree || 0)),
+        minute: Math.floor((Number(calculatedData.degree || 0) % 1) * 60),
         isRetrograde: Boolean(calculatedData.isRetrograde)
       };
 
@@ -160,7 +160,7 @@ export async function getValidationSummary(): Promise<string> {
 
   // Now we know result is an object with accurate and differences
   const { accurate, differences } = result as {
-    accurate: boolean;
+    accurate: boolean,
     differences: Record<string, unknown>;
   };
 
@@ -218,7 +218,7 @@ export async function fetchLatestPositions(): Promise<Record<string, unknown>> {
 
 // Create a function that checks against the API directly
 export async function validateAgainstAPI(): Promise<{
-  accurate: boolean;
+  accurate: boolean,
   differences: Record<string, unknown>;
 }> {
   const calculatedPositions = await fetchLatestPositions();
@@ -247,9 +247,9 @@ export async function validateAgainstAPI(): Promise<{
     const positionData = calculatedPosition as any;
 
     const formattedCalculated: PlanetaryPosition = {
-      sign: String(positionData.sign || '').toLowerCase();
-      degree: Math.floor(Number(positionData.degree || 0));
-      minute: Math.floor((Number(positionData.degree || 0) % 1) * 60);
+      sign: String(positionData.sign || '').toLowerCase(),
+      degree: Math.floor(Number(positionData.degree || 0)),
+      minute: Math.floor((Number(positionData.degree || 0) % 1) * 60),
       isRetrograde: Boolean(positionData.isRetrograde)
     };
 

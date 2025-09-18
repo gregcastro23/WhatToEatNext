@@ -64,9 +64,9 @@ export interface RecipeBuildingCriteria {
 
 export interface MonicaOptimizedRecipe extends EnhancedRecipe {
   monicaOptimization: {
-    originalMonica: number | null;
-    optimizedMonica: number;
-    optimizationScore: number;
+    originalMonica: number | null,
+    optimizedMonica: number,
+    optimizationScore: number,
     temperatureAdjustments: number[],
     timingAdjustments: number[],
     intensityModifications: string[],
@@ -74,7 +74,7 @@ export interface MonicaOptimizedRecipe extends EnhancedRecipe {
   };
 
   seasonalAdaptation: {
-    currentSeason: Season;
+    currentSeason: Season,
     seasonalScore: number,
     seasonalIngredientSubstitutions: Array<{
       original: string,
@@ -90,7 +90,7 @@ export interface MonicaOptimizedRecipe extends EnhancedRecipe {
   };
 
   cuisineIntegration: {
-    authenticity: number;
+    authenticity: number,
     fusionPotential: number,
     culturalNotes: string[],
     traditionalVariations: string[],
@@ -104,21 +104,21 @@ export interface MonicaOptimizedRecipe extends EnhancedRecipe {
       matterNutrients: string[],
       substanceNutrients: string[]
     };
-    elementalNutrition: ElementalProperties;
-    kalchmNutritionalBalance: number;
-    monicaNutritionalHarmony: number;
+    elementalNutrition: ElementalProperties,
+    kalchmNutritionalBalance: number,
+    monicaNutritionalHarmony: number
   };
 }
 
 export interface RecipeGenerationResult {
-  recipe: MonicaOptimizedRecipe;
-  confidence: number;
-  alternatives: MonicaOptimizedRecipe[];
+  recipe: MonicaOptimizedRecipe,
+  confidence: number,
+  alternatives: MonicaOptimizedRecipe[],
   generationMetadata: {
-    criteriaMatched: number;
-    totalCriteria: number;
-    kalchmAccuracy: number;
-    monicaOptimization: number;
+    criteriaMatched: number,
+    totalCriteria: number,
+    kalchmAccuracy: number,
+    monicaOptimization: number,
     seasonalAlignment: number,
     cuisineAuthenticity: number,
     generatedAt: string,
@@ -127,7 +127,7 @@ export interface RecipeGenerationResult {
 }
 
 export interface SeasonalRecipeAdaptation {
-  originalRecipe: EnhancedRecipe;
+  originalRecipe: EnhancedRecipe,
   adaptedRecipe: MonicaOptimizedRecipe,
   adaptationChanges: {
     ingredientSubstitutions: Array<{
@@ -154,9 +154,9 @@ export interface SeasonalRecipeAdaptation {
       seasonalBenefit: string
     };
   };
-  seasonalScore: number;
-  kalchmImprovement: number;
-  monicaImprovement: number;
+  seasonalScore: number,
+  kalchmImprovement: number,
+  monicaImprovement: number
 }
 
 export interface FusionRecipeProfile {
@@ -173,16 +173,16 @@ export interface FusionRecipeProfile {
     sourceCuisine: string,
     fusionApplication: string
   }>;
-  culturalHarmony: number;
-  kalchmFusionBalance: number;
-  monicaFusionOptimization: number;
-  innovationScore: number;
+  culturalHarmony: number,
+  kalchmFusionBalance: number,
+  monicaFusionOptimization: number,
+  innovationScore: number,
 }
 
 export interface PlanetaryRecipeRecommendation {
-  recipe: MonicaOptimizedRecipe;
+  recipe: MonicaOptimizedRecipe,
   planetaryAlignment: {
-    currentPlanetaryHour: PlanetName;
+    currentPlanetaryHour: PlanetName,
     planetaryCompatibility: number,
     lunarPhaseAlignment: number,
     zodiacHarmony: number,
@@ -361,8 +361,8 @@ export class UnifiedRecipeBuildingSystem {
   ): MonicaOptimizedRecipe['cuisineIntegration'] {
     if (!cuisine) {
       return {
-        authenticity: 0.5;
-        fusionPotential: 0.8;
+        authenticity: 0.5,
+        fusionPotential: 0.8,
         culturalNotes: ['Universal recipe with broad appeal'],
         traditionalVariations: [],
         modernAdaptations: []
@@ -478,22 +478,21 @@ export class UnifiedRecipeBuildingSystem {
           seasonalImprovement: 0.1
         })),
         cookingMethodAdjustments: cookingMethodAdjustments.map(adj => ({
-          original: (adj as unknown as MethodAdjustment)?.method || '';
-          adjusted: (adj as unknown as MethodAdjustment)?.adjustment || '';
-          reason: (adj as unknown as MethodAdjustment)?.reason || '';
+          original: (adj as unknown as MethodAdjustment)?.method || '',
+          adjusted: (adj as unknown as MethodAdjustment)?.adjustment || '',
+          reason: (adj as unknown as MethodAdjustment)?.reason || '',
           seasonalBenefit: 'Seasonal optimization'
         })),
         timingAdjustments: {
-          prepTimeChange: (timingAdjustments as unknown as TimingAdjustment)?.cookingTime || 0;
-          cookTimeChange: (timingAdjustments as unknown as TimingAdjustment)?.cookingTime || 0;
-          restTimeChange: (timingAdjustments as unknown as TimingAdjustment)?.restTime || 0;
+          prepTimeChange: (timingAdjustments as unknown as TimingAdjustment)?.cookingTime || 0,
+          cookTimeChange: (timingAdjustments as unknown as TimingAdjustment)?.cookingTime || 0,
+          restTimeChange: (timingAdjustments as unknown as TimingAdjustment)?.restTime || 0,
           reason:
             (timingAdjustments as unknown as TimingAdjustment)?.reason ||
             'Seasonal timing optimization'
         },
         temperatureAdjustments: {
-          temperatureChange:
-            (temperatureAdjustments as unknown as TemperatureAdjustment)?.temperature || 0;
+          temperatureChange: (temperatureAdjustments as unknown as TemperatureAdjustment)?.temperature || 0,
           reason:
             (temperatureAdjustments as unknown as TemperatureAdjustment)?.reason ||
             'Seasonal temperature optimization',
@@ -624,9 +623,9 @@ export class UnifiedRecipeBuildingSystem {
     const baseInstructions = this.generateBaseInstructions(baseIngredients, baseCookingMethods),;
 
     return {
-      name: this.generateRecipeName(criteria);
-      description: this.generateRecipeDescription(criteria);
-      cuisine: criteria.cuisine || 'fusion';
+      name: this.generateRecipeName(criteria),
+      description: this.generateRecipeDescription(criteria),
+      cuisine: criteria.cuisine || 'fusion',
       ingredients: baseIngredients,
       instructions: baseInstructions,
       cookingMethods: baseCookingMethods,
@@ -635,9 +634,9 @@ export class UnifiedRecipeBuildingSystem {
           ? [criteria.currentSeason || criteria.season]
           : ['all'],
       mealType: criteria.mealType || ['dinner'],
-      numberOfServings: criteria.servings || 4;
+      numberOfServings: criteria.servings || 4,
       prepTime: this.estimatePrepTime(baseIngredients, baseCookingMethods),
-      cookTime: this.estimateCookTime(baseCookingMethods);
+      cookTime: this.estimateCookTime(baseCookingMethods),
       elementalProperties: this.calculateBaseElementalProperties(baseIngredients)
     } as Partial<EnhancedRecipe>;
   }
@@ -935,59 +934,59 @@ export class UnifiedRecipeBuildingSystem {
   private getCookingMethodSeasonalScore(method: string, season: Season): number {
     const seasonalMethodScores: Record<Season, Record<string, number>> = {
       summer: {
-        grill: 1.0;
-        raw: 0.95;
-        chill: 0.9;
-        saute: 0.7;
-        roast: 0.5;
-        braise: 0.3;
+        grill: 1.0,
+        raw: 0.95,
+        chill: 0.9,
+        saute: 0.7,
+        roast: 0.5,
+        braise: 0.3,
         stew: 0.2
       },
       winter: {
-        braise: 1.0;
-        stew: 0.95;
-        roast: 0.9;
-        bake: 0.85;
-        simmer: 0.8;
-        saute: 0.6;
-        grill: 0.4;
+        braise: 1.0,
+        stew: 0.95,
+        roast: 0.9,
+        bake: 0.85,
+        simmer: 0.8,
+        saute: 0.6,
+        grill: 0.4,
         raw: 0.2
       },
       spring: {
-        steam: 0.95;
-        saute: 0.9;
-        blanch: 0.85;
-        raw: 0.8;
-        grill: 0.7;
-        roast: 0.6;
+        steam: 0.95,
+        saute: 0.9,
+        blanch: 0.85,
+        raw: 0.8,
+        grill: 0.7,
+        roast: 0.6,
         stew: 0.4
       },
       autumn: {
-        roast: 0.95;
-        bake: 0.9;
-        braise: 0.85;
-        saute: 0.8;
-        stew: 0.75;
-        grill: 0.6;
+        roast: 0.95,
+        bake: 0.9,
+        braise: 0.85,
+        saute: 0.8,
+        stew: 0.75,
+        grill: 0.6,
         raw: 0.4
       },
       fall: {
-        roast: 0.95;
-        bake: 0.9;
-        braise: 0.85;
-        saute: 0.8;
-        stew: 0.75;
-        grill: 0.6;
+        roast: 0.95,
+        bake: 0.9,
+        braise: 0.85,
+        saute: 0.8,
+        stew: 0.75,
+        grill: 0.6,
         raw: 0.4
       },
       all: {
-        saute: 0.8;
-        roast: 0.75;
-        bake: 0.75;
-        steam: 0.7;
-        grill: 0.7;
-        braise: 0.7;
-        raw: 0.65;
+        saute: 0.8,
+        roast: 0.75,
+        bake: 0.75,
+        steam: 0.7,
+        grill: 0.7,
+        braise: 0.7,
+        raw: 0.65,
         stew: 0.7
       }
     };
@@ -1022,7 +1021,7 @@ export class UnifiedRecipeBuildingSystem {
       )?.getSeasonalEquivalent?.(ingredient.name, season);
       if (seasonalIngredient && seasonalIngredient !== ingredient.name) {
         (substitutions as unknown as Array<unknown>).push({
-          original: ingredient.name;
+          original: ingredient.name,
           seasonal: seasonalIngredient,
           reason: `Better availability in ${season}`,
           seasonalScore: 0.8
@@ -1108,11 +1107,11 @@ export class UnifiedRecipeBuildingSystem {
   private getCuisineVersatility(cuisine: string): number {
     // Define versatility scores for different cuisines
     const versatilityMap: { [key: string]: number } = {
-      fusion: 1.0;
-      international: 0.9;
-      american: 0.8;
-      mediterranean: 0.8;
-      asian: 0.7;
+      fusion: 1.0,
+      international: 0.9,
+      american: 0.8,
+      mediterranean: 0.8,
+      asian: 0.7,
       traditional: 0.5
     };
     return versatilityMap[cuisine.toLowerCase()] || 0.6;
@@ -1546,10 +1545,10 @@ export class UnifiedRecipeBuildingSystem {
       criteriaMatched,
       totalCriteria,
       kalchmAccuracy: (recipe.alchemicalProperties as { totalKalchm?: number })?.totalKalchm || 0,
-      monicaOptimization: ((recipe.monicaOptimization as any)?.overallScore) || 0;
-      seasonalAlignment: ((recipe.seasonalAdaptation as any)?.seasonalScore) || 0;
-      cuisineAuthenticity: ((recipe as unknown )?.culturalIntegration) || 0;
-      generatedAt: new Date().toISOString();
+      monicaOptimization: ((recipe.monicaOptimization as any)?.overallScore) || 0,
+      seasonalAlignment: ((recipe.seasonalAdaptation as any)?.seasonalScore) || 0,
+      cuisineAuthenticity: ((recipe as unknown )?.culturalIntegration) || 0,
+      generatedAt: new Date().toISOString(),
       generationMethod: 'unified-recipe-builder'
     };
   }
@@ -1678,7 +1677,7 @@ export class UnifiedRecipeBuildingSystem {
     return {
       fusionType: 'modern fusion',
       primaryCuisine: cuisines[0] || 'international',
-      influences: cuisines.slice(1);
+      influences: cuisines.slice(1),
       complexity: 0.7
     };
   }
@@ -1837,7 +1836,7 @@ export class UnifiedRecipeBuildingSystem {
     phase?: LunarPhase,
     sign?: any,
   ): {
-    currentPlanetaryHour: PlanetName;
+    currentPlanetaryHour: PlanetName,
     planetaryCompatibility: number,
     lunarPhaseAlignment: number,
     zodiacHarmony: number,

@@ -364,8 +364,8 @@ describe('Astrological ESLint Rules', () => {
     test('should work with TypeScript files', async () => {
       const code: any = `;
         interface PlanetaryPosition {
-          sign: string;, degree: number;
-          exactLongitude: number;, isRetrograde: boolean;
+          sign: string; degree: number,
+          exactLongitude: number,, isRetrograde: boolean
         }
 
         const position: PlanetaryPosition = { sign: 'aries',;
@@ -386,9 +386,9 @@ describe('Astrological ESLint Rules', () => {
         import React from 'react';
 
         interface Props {
-          elementalProperties: { Fire: number;
-            Water: number;, Earth: number;
-            Air: number;
+          elementalProperties: { Fire: number,
+            Water: number,, Earth: number,
+            Air: number,
           };
         }
 

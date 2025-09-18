@@ -1,8 +1,8 @@
 /**
  * A type that allows any string-keyed object
  */
-export type StringIndexed<T = unknown> = {;
-  [key: string]: T;
+export type StringIndexed<T = unknown> = {
+  [key: string]: T
 };
 
 /**
@@ -21,22 +21,22 @@ export type DeepStringIndexed<T> = {
  * A utility type for objects that have element properties (Fire, Water, Earth, Air)
  * but may also have other string keys
  */
-export type ElementalRecord = {;
-  Fire: number;
-  Water: number;
-  Earth: number;
-  Air: number;
-  [key: string]: number;
+export type ElementalRecord = {
+  Fire: number,
+  Water: number,
+  Earth: number,
+  Air: number,
+  [key: string]: number
 };
 
 /**
  * A type for objects that have case-insensitive season values
  */
 export type SeasonalRecord<T> = {
-  spring: T;
-  summer: T;
-  autumn: T;
-  winter: T;
+  spring: T,
+  summer: T,
+  autumn: T,
+  winter: T,
   [key: string]: T; // For case-insensitive lookup
 };
 
@@ -44,16 +44,16 @@ export type SeasonalRecord<T> = {
  * A type for objects with planet names as keys
  */
 export type PlanetaryRecord<T> = {
-  sun: T;
-  moon: T;
-  mercury: T;
-  venus: T;
-  mars: T;
-  jupiter: T;
-  saturn: T;
-  uranus: T;
-  neptune: T;
-  pluto: T;
+  sun: T,
+  moon: T,
+  mercury: T,
+  venus: T,
+  mars: T,
+  jupiter: T,
+  saturn: T,
+  uranus: T,
+  neptune: T,
+  pluto: T,
   [key: string]: T; // For case-insensitive or additional planets
 };
 
@@ -61,9 +61,9 @@ export type PlanetaryRecord<T> = {
  * A type for time-of-day records
  */
 export type TimeOfDayRecord<T> = {
-  morning: T;
-  noon: T;
-  evening: T;
-  night: T;
+  morning: T,
+  noon: T,
+  evening: T,
+  night: T,
   [key: string]: T; // For additional time periods
 };

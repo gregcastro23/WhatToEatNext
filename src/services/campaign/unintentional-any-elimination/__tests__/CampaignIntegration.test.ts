@@ -42,8 +42,8 @@ describe('UnintentionalAnyCampaignController', () => {
         enterpriseSystems: 200
       },
       toolConfiguration: { enhancedErrorFixer: 'test-script.js',
-        explicitAnyFixer: 'test-script.js';
-        unusedVariablesFixer: 'test-script.js';
+        explicitAnyFixer: 'test-script.js',
+        unusedVariablesFixer: 'test-script.js',
         consoleStatementFixer: 'test-script.js'
       }
     };
@@ -51,7 +51,7 @@ describe('UnintentionalAnyCampaignController', () => {
     mockUnintentionalAnyConfig = {
       maxFilesPerBatch: 15,
       targetReductionPercentage: 15,
-      confidenceThreshold: 0.8;
+      confidenceThreshold: 0.8,
       enableDomainAnalysis: true,
       enableDocumentation: true,
       safetyLevel: 'CONSERVATIVE',
@@ -223,8 +223,8 @@ describe('UnintentionalAnyIntegrationHelper', () => {
           enterpriseSystems: 200
         },
         toolConfiguration: { enhancedErrorFixer: 'test-script.js',
-          explicitAnyFixer: 'test-script.js';
-          unusedVariablesFixer: 'test-script.js';
+          explicitAnyFixer: 'test-script.js',
+          unusedVariablesFixer: 'test-script.js',
           consoleStatementFixer: 'test-script.js'
         }
       };
@@ -272,8 +272,8 @@ describe('UnintentionalAnyIntegrationHelper', () => {
           enterpriseSystems: 200
         },
         toolConfiguration: { enhancedErrorFixer: 'test-script.js',
-          explicitAnyFixer: 'test-script.js';
-          unusedVariablesFixer: 'test-script.js';
+          explicitAnyFixer: 'test-script.js',
+          unusedVariablesFixer: 'test-script.js',
           consoleStatementFixer: 'test-script.js'
         }
       };
@@ -299,8 +299,8 @@ describe('UnintentionalAnyIntegrationHelper', () => {
           enterpriseSystems: 200
         },
         toolConfiguration: { enhancedErrorFixer: 'test-script.js',
-          explicitAnyFixer: 'test-script.js';
-          unusedVariablesFixer: 'test-script.js';
+          explicitAnyFixer: 'test-script.js',
+          unusedVariablesFixer: 'test-script.js',
           consoleStatementFixer: 'test-script.js'
         }
       };

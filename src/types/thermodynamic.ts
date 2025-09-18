@@ -19,9 +19,9 @@ export interface ThermodynamicProperties {
  * Basic thermodynamic properties used in simple calculations
  */
 export interface BasicThermodynamicProperties {
-  heat: number;
-  entropy: number;
-  reactivity: number;
+  heat: number,
+  entropy: number,
+  reactivity: number
 }
 
 /**
@@ -38,8 +38,8 @@ export interface ExtendedThermodynamicProperties extends ThermodynamicProperties
  * Time-based thermodynamic transitions
  */
 export interface ThermodynamicTransition {
-  initialState: ThermodynamicProperties;
-  finalState: ThermodynamicProperties;
+  initialState: ThermodynamicProperties,
+  finalState: ThermodynamicProperties,
   transitionTime: number; // in minutes
   catalysts?: string[]; // Elements that speed up the transition
   inhibitors?: string[]; // Elements that slow down the transition
@@ -51,7 +51,7 @@ export interface ThermodynamicTransition {
 export interface TemperatureEffect {
   range: {
     min: number; // temperature in Celsius
-    max: number;
+    max: number
   };
   thermodynamicEffect: ThermodynamicProperties;
   notes?: string;

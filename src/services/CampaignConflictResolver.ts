@@ -23,13 +23,13 @@ import type { KiroCampaignStatus, CampaignExecutionRequest } from './KiroCampaig
 // ========== CONFLICT RESOLUTION TYPES ==========;
 
 export interface CampaignConflict {
-  id: string;
-  type: ConflictType;
-  severity: ConflictSeverity;
-  description: string;
-  involvedCampaigns: string[];
-  conflictingResources: ConflictingResource[];
-  detectedAt: Date;
+  id: string,
+  type: ConflictType,
+  severity: ConflictSeverity,
+  description: string,
+  involvedCampaigns: string[],
+  conflictingResources: ConflictingResource[],
+  detectedAt: Date,
   status: ConflictStatus,
   resolutionStrategy?: ConflictResolutionStrategy,
   resolvedAt?: Date,
@@ -44,11 +44,11 @@ export interface ConflictingResource {
 }
 
 export interface ConflictResolutionStrategy {
-  id: string;
-  name: string;
-  description: string;
-  type: ResolutionType;
-  priority: number;
+  id: string,
+  name: string,
+  description: string,
+  type: ResolutionType,
+  priority: number,
   estimatedDuration: number, // minutes
   riskLevel: 'low' | 'medium' | 'high',
   requiresApproval: boolean,
@@ -56,8 +56,8 @@ export interface ConflictResolutionStrategy {
 }
 
 export interface ResolutionStep {
-  id: string;
-  description: string;
+  id: string,
+  description: string,
   action: ResolutionAction,
   parameters: Record<string, unknown>,
   estimatedDuration: number,
@@ -65,8 +65,8 @@ export interface ResolutionStep {
 }
 
 export interface CampaignPriority {
-  campaignId: string;
-  priority: number; // 1-10, higher is more important
+  campaignId: string,
+  priority: number, // 1-10, higher is more important
   reason: string,
   setBy: string,
   setAt: Date,
@@ -74,9 +74,9 @@ export interface CampaignPriority {
 }
 
 export interface CampaignDependency {
-  id: string;
-  dependentCampaign: string;
-  requiredCampaign: string;
+  id: string,
+  dependentCampaign: string,
+  requiredCampaign: string,
   dependencyType: DependencyType,
   description: string,
   status: DependencyStatus,
@@ -84,9 +84,9 @@ export interface CampaignDependency {
 }
 
 export interface ConflictResolutionResult {
-  conflictId: string;
-  success: boolean;
-  resolutionStrategy: ConflictResolutionStrategy;
+  conflictId: string,
+  success: boolean,
+  resolutionStrategy: ConflictResolutionStrategy,
   executionTime: number,
   affectedCampaigns: string[],
   sideEffects: string[],
@@ -94,7 +94,7 @@ export interface ConflictResolutionResult {
 }
 
 export interface RollbackPlan {
-  id: string;
+  id: string,
   conflictId: string,
   steps: RollbackStep[],
   estimatedDuration: number,
@@ -102,7 +102,7 @@ export interface RollbackPlan {
 }
 
 export interface RollbackStep {
-  id: string;
+  id: string,
   description: string,
   action: string,
   parameters: Record<string, unknown>,
@@ -110,7 +110,7 @@ export interface RollbackStep {
 }
 
 export interface SchedulingConstraint {
-  type: ConstraintType;
+  type: ConstraintType,
   description: string,
   campaigns: string[],
   timeWindow?: {
@@ -273,13 +273,13 @@ export class CampaignConflictResolver {
 
         conflicts.push({
           id: conflictId,
-          type: ConflictType.RESOURCE_CONTENTION;
+          type: ConflictType.RESOURCE_CONTENTION,
           severity: this.assessResourceConflictSeverity(resource, users),
           description: `Multiple campaigns competing for resource: ${resource}`,
           involvedCampaigns: users,
           conflictingResources: [
             {
-              type: this.getResourceType(resource);
+              type: this.getResourceType(resource),
               identifier: resource,
               conflictReason: 'Multiple campaigns attempting to use the same resource',
               campaigns: users
@@ -318,8 +318,8 @@ export class CampaignConflictResolver {
 
           conflicts.push({
             id: conflictId,
-            type: ConflictType.DEPENDENCY_VIOLATION;
-            severity: ConflictSeverity.HIGH;
+            type: ConflictType.DEPENDENCY_VIOLATION,
+            severity: ConflictSeverity.HIGH,
             description: `Campaign ${dependency.dependentCampaign} requires ${dependency.requiredCampaign} to complete first`,
             involvedCampaigns: [dependency.dependentCampaign, dependency.requiredCampaign],
             conflictingResources: [],
@@ -338,8 +338,8 @@ export class CampaignConflictResolver {
 
           conflicts.push({
             id: conflictId,
-            type: ConflictType.DEPENDENCY_VIOLATION;
-            severity: ConflictSeverity.MEDIUM;
+            type: ConflictType.DEPENDENCY_VIOLATION,
+            severity: ConflictSeverity.MEDIUM,
             description: `Campaigns ${dependency.dependentCampaign} and ${dependency.requiredCampaign} cannot run simultaneously`,
             involvedCampaigns: [dependency.dependentCampaign, dependency.requiredCampaign],
             conflictingResources: [],
@@ -376,8 +376,8 @@ export class CampaignConflictResolver {
 
           conflicts.push({
             id: conflictId,
-            type: ConflictType.PRIORITY_CONFLICT;
-            severity: ConflictSeverity.MEDIUM;
+            type: ConflictType.PRIORITY_CONFLICT,
+            severity: ConflictSeverity.MEDIUM,
             description: `High-priority campaign ${highPriority.campaign.campaignId} blocked by lower-priority campaign ${lowerPriority.campaign.campaignId}`,
             involvedCampaigns: [
               highPriority.campaign.campaignId;
@@ -409,8 +409,8 @@ export class CampaignConflictResolver {
 
       conflicts.push({
         id: conflictId,
-        type: ConflictType.SAFETY_VIOLATION;
-        severity: ConflictSeverity.HIGH;
+        type: ConflictType.SAFETY_VIOLATION,
+        severity: ConflictSeverity.HIGH,
         description: `Too many high-risk campaigns running concurrently (${highRiskCampaigns.length})`,
         involvedCampaigns: highRiskCampaigns.map(c => c.campaignId),;
         conflictingResources: [],
@@ -491,7 +491,7 @@ export class CampaignConflictResolver {
       return {
         conflictId,
         success: false,
-        resolutionStrategy: conflict.resolutionStrategy || 'unknown';
+        resolutionStrategy: conflict.resolutionStrategy || 'unknown',
         executionTime: 0,
         affectedCampaigns: [],
         sideEffects: [`Resolution failed: ${(error as Error).message}`]
@@ -586,7 +586,7 @@ export class CampaignConflictResolver {
       requiredCampaign,
       dependencyType: type,
       description,
-      status: DependencyStatus.ACTIVE;
+      status: DependencyStatus.ACTIVE,
       createdAt: new Date()
     };
 
@@ -617,8 +617,8 @@ export class CampaignConflictResolver {
    */
   async scheduleCampaigns(requests: CampaignExecutionRequest[]): Promise<{
     scheduled: Array<{ request: CampaignExecutionRequest, scheduledTime: Date }>;
-    conflicts: CampaignConflict[];
-    deferred: CampaignExecutionRequest[];
+    conflicts: CampaignConflict[],
+    deferred: CampaignExecutionRequest[],
   }> {
     const scheduled: Array<{ request: CampaignExecutionRequest, scheduledTime: Date }> = [];
     const conflicts: CampaignConflict[] = [];
@@ -802,14 +802,14 @@ export class CampaignConflictResolver {
       .map(step => ({
         id: `rollback_${step.id}`,
         description: `Rollback: ${step.description}`,
-        action: this.getRollbackAction(step.action);
-        parameters: step.parameters;
+        action: this.getRollbackAction(step.action),
+        parameters: step.parameters,
         estimatedDuration: step.estimatedDuration
       }));
 
     return {
       id: `rollback_${conflict.id}`,
-      conflictId: conflict.id;
+      conflictId: conflict.id,
       steps: rollbackSteps,
       estimatedDuration: rollbackSteps.reduce((sum, step) => sum + step.estimatedDuration, 0),
       riskAssessment: 'Low risk - reverting conflict resolution changes'
@@ -872,8 +872,8 @@ export class CampaignConflictResolver {
 
         conflicts.push({
           id: conflictId,
-          type: ConflictType.SCHEDULING_CONFLICT;
-          severity: ConflictSeverity.MEDIUM;
+          type: ConflictType.SCHEDULING_CONFLICT,
+          severity: ConflictSeverity.MEDIUM,
           description: 'Campaign scheduling conflict detected',
           involvedCampaigns: [], // Would be populated with actual campaign IDs
           conflictingResources: [],
@@ -893,7 +893,7 @@ export class CampaignConflictResolver {
         id: 'queue_campaigns',
         name: 'Queue Campaigns',
         description: 'Queue conflicting campaigns to run sequentially',
-        type: ResolutionType.QUEUE_CAMPAIGNS;
+        type: ResolutionType.QUEUE_CAMPAIGNS,
         priority: 1,
         estimatedDuration: 5,
         riskLevel: 'low',
@@ -902,7 +902,7 @@ export class CampaignConflictResolver {
           {
             id: 'pause_lower_priority',
             description: 'Pause lower priority campaigns',
-            action: ResolutionAction.PAUSE_CAMPAIGN;
+            action: ResolutionAction.PAUSE_CAMPAIGN,
             parameters: {},
             estimatedDuration: 1,
             rollbackable: true
@@ -910,7 +910,7 @@ export class CampaignConflictResolver {
           {
             id: 'schedule_sequential',
             description: 'Schedule campaigns to run sequentially',
-            action: ResolutionAction.RESCHEDULE_CAMPAIGN;
+            action: ResolutionAction.RESCHEDULE_CAMPAIGN,
             parameters: {},
             estimatedDuration: 2,
             rollbackable: true
@@ -925,7 +925,7 @@ export class CampaignConflictResolver {
         id: 'prioritize_high',
         name: 'Prioritize High Priority Campaign',
         description: 'Pause lower priority campaigns to allow high priority campaign to proceed',
-        type: ResolutionType.PRIORITIZE_CAMPAIGN;
+        type: ResolutionType.PRIORITIZE_CAMPAIGN,
         priority: 1,
         estimatedDuration: 3,
         riskLevel: 'low',
@@ -934,7 +934,7 @@ export class CampaignConflictResolver {
           {
             id: 'pause_low_priority',
             description: 'Pause low priority campaigns',
-            action: ResolutionAction.PAUSE_CAMPAIGN;
+            action: ResolutionAction.PAUSE_CAMPAIGN,
             parameters: {},
             estimatedDuration: 1,
             rollbackable: true
@@ -942,7 +942,7 @@ export class CampaignConflictResolver {
           {
             id: 'notify_users',
             description: 'Notify users of priority override',
-            action: ResolutionAction.NOTIFY_USER;
+            action: ResolutionAction.NOTIFY_USER,
             parameters: { message: 'Campaign paused due to higher priority campaign' },
             estimatedDuration: 0,
             rollbackable: false
@@ -957,7 +957,7 @@ export class CampaignConflictResolver {
         id: 'reduce_concurrency',
         name: 'Reduce Concurrency',
         description: 'Pause some campaigns to reduce concurrent high-risk operations',
-        type: ResolutionType.DEFER_CAMPAIGN;
+        type: ResolutionType.DEFER_CAMPAIGN,
         priority: 1,
         estimatedDuration: 2,
         riskLevel: 'low',
@@ -966,7 +966,7 @@ export class CampaignConflictResolver {
           {
             id: 'pause_excess_campaigns',
             description: 'Pause excess high-risk campaigns',
-            action: ResolutionAction.PAUSE_CAMPAIGN;
+            action: ResolutionAction.PAUSE_CAMPAIGN,
             parameters: {},
             estimatedDuration: 1,
             rollbackable: true

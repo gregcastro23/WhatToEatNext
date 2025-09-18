@@ -28,11 +28,11 @@ export interface ElementalItem {
 export interface AlchemicalItem extends ElementalItem {
   alchemicalProperties: Record<AlchemicalProperty, number>;
   transformedElementalProperties: Record<ElementalCharacter, number>;
-  heat: number;
-  entropy: number;
-  reactivity: number;
-  gregsEnergy: number;
-  dominantElement: ElementalCharacter;
+  heat: number,
+  entropy: number,
+  reactivity: number,
+  gregsEnergy: number,
+  dominantElement: ElementalCharacter,
   dominantAlchemicalProperty: AlchemicalProperty,
   // New planetary influence properties
   planetaryBoost: number,
@@ -46,7 +46,7 @@ export interface AlchemicalItem extends ElementalItem {
  * @param item The original item with elemental data
  * @param planetPositions Current planetary positions/strengths
  * @param isDaytime Whether it's day or night
- * @param currentZodiac Current zodiac sign (optional, defaults to 'aries')
+ * @param (currentZodiac || "aries") Current zodiac sign (optional, defaults to 'aries')
  * @param lunarPhase Current lunar phase (optional)
  * @returns Item transformed with alchemical properties
  */
@@ -54,7 +54,7 @@ export const transformItemWithPlanetaryPositions = (;
   item: ElementalItem,
   planetPositions: Record<string, CelestialPosition>,
   isDaytime: boolean,
-  currentZodiac?: string | null,
+  (currentZodiac || "aries")?: string | null,
   lunarPhase?: LunarPhaseWithSpaces | null,
 ): AlchemicalItem => {
   try {
@@ -80,7 +80,7 @@ export const transformItemWithPlanetaryPositions = (;
     } = calculatePlanetaryBoost(
       sanitizedItem,
       planetPositions,
-      currentZodiac || 'aries',
+      (currentZodiac || "aries") || 'aries',
       lunarPhase || null,
     );
 
@@ -90,7 +90,7 @@ export const transformItemWithPlanetaryPositions = (;
       sanitizedItem.elementalProperties;
       alchemicalResults,
       planetaryBoost,
-      (currentZodiac || 'aries').toLowerCase() as any;
+      ((currentZodiac || "aries") || 'aries').toLowerCase() as any;
     );
 
     // Calculate dominant element and alchemical property
@@ -146,7 +146,7 @@ export const transformItemWithPlanetaryPositions = (;
 
     // Apply zodiac influence if available with stronger effect
     let zodiacModifier = 0;
-    const zodiacSign = (currentZodiac || 'aries').toLowerCase() as any;
+    const zodiacSign = ((currentZodiac || "aries") || 'aries').toLowerCase() as any;
     const zodiacElementMap: Record<ZodiacSign, ElementalCharacter> = {
       aries: 'Fire',
   leo: 'Fire',
@@ -235,19 +235,19 @@ export const transformItemWithPlanetaryPositions = (;
     return {
       ...item;
       alchemicalProperties: {
-        Spirit: 0.25;
-        Essence: 0.25;
-        Matter: 0.25;
+        Spirit: 0.25,
+        Essence: 0.25,
+        Matter: 0.25,
         Substance: 0.25
       },
       transformedElementalProperties: { ...item.elementalProperties },
-      heat: 0.5;
-      entropy: 0.5;
-      reactivity: 0.5;
-      gregsEnergy: 0.5;
-      dominantElement: getDominantElement(item.elementalProperties);
+      heat: 0.5,
+      entropy: 0.5,
+      reactivity: 0.5,
+      gregsEnergy: 0.5,
+      dominantElement: getDominantElement(item.elementalProperties),
       dominantAlchemicalProperty: 'Essence',
-  planetaryBoost: 1.0;
+  planetaryBoost: 1.0,
       dominantPlanets: [],
   planetaryDignities: {}
     };
@@ -261,7 +261,7 @@ export const _transformItemsWithPlanetaryPositions = (;
   items: ElementalItem[],
   planetPositions: Record<string, CelestialPosition>,
   isDaytime: boolean,
-  currentZodiac?: string | null,
+  (currentZodiac || "aries")?: string | null,
   lunarPhase?: LunarPhaseWithSpaces | null,
 ): AlchemicalItem[] => {
   try {
@@ -270,7 +270,7 @@ export const _transformItemsWithPlanetaryPositions = (;
         item,
         planetPositions,
         isDaytime,
-        currentZodiac || 'aries',
+        (currentZodiac || "aries") || 'aries',
         lunarPhase,
       );
     )
@@ -280,19 +280,19 @@ export const _transformItemsWithPlanetaryPositions = (;
     return items.map(item => ({
       ...item;
       alchemicalProperties: {
-        Spirit: 0.25;
-        Essence: 0.25;
-        Matter: 0.25;
+        Spirit: 0.25,
+        Essence: 0.25,
+        Matter: 0.25,
         Substance: 0.25
       },
       transformedElementalProperties: { ...item.elementalProperties },
-      heat: 0.5;
-      entropy: 0.5;
-      reactivity: 0.5;
-      gregsEnergy: 0.5;
-      dominantElement: getDominantElement(item.elementalProperties);
+      heat: 0.5,
+      entropy: 0.5,
+      reactivity: 0.5,
+      gregsEnergy: 0.5,
+      dominantElement: getDominantElement(item.elementalProperties),
       dominantAlchemicalProperty: 'Essence' as AlchemicalProperty,
-  planetaryBoost: 1.0;
+  planetaryBoost: 1.0,
       dominantPlanets: [],
   planetaryDignities: {}
     }));
@@ -306,7 +306,7 @@ export const _transformItemsWithPlanetaryPositions = (;
 const transformElementalProperties = (;
   originalProperties: Record<ElementalCharacter, number>,
   alchemicalResults: AlchemicalResults,
-  planetaryBoost: number = 1.0,,;
+  planetaryBoost: number = 1.0,;
   zodiacSign?: any,
 ): Record<ElementalCharacter, number> => {
   try {

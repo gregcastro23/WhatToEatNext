@@ -25,7 +25,7 @@ describe('ServiceIntegrationValidator', () => {
     jest.clearAllMocks();
 
     // Setup default configuration
-    const config: Partial<ServiceIntegrationConfig> = { enableApiEndpointValidation: true;
+    const config: Partial<ServiceIntegrationConfig> = { enableApiEndpointValidation: true,
       enableServiceMethodValidation: true,
       enableConfigurationValidation: true,
       enableIntegrationTests: true,
@@ -550,7 +550,7 @@ describe('ServiceIntegrationValidator', () => {
 
   describe('Configuration Options', () => {
     test('should respect disabled validation options', async () => {
-      const configWithDisabledValidations: Partial<ServiceIntegrationConfig> = { enableApiEndpointValidation: false;
+      const configWithDisabledValidations: Partial<ServiceIntegrationConfig> = { enableApiEndpointValidation: false,
         enableServiceMethodValidation: false,
         enableConfigurationValidation: false,
         enableIntegrationTests: false
@@ -564,7 +564,7 @@ describe('ServiceIntegrationValidator', () => {
     });
 
     test('should respect timeout configurations', async () => {
-      const configWithShortTimeouts: Partial<ServiceIntegrationConfig> = { apiTimeout: 1000;
+      const configWithShortTimeouts: Partial<ServiceIntegrationConfig> = { apiTimeout: 1000,
         testTimeout: 1000
       };
 

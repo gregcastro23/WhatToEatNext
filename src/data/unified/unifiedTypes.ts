@@ -23,8 +23,8 @@ import type {
  */
 export interface UnifiedIngredient {
   // Core Properties required by multiple interfaces
-  name: string;
-  category: string;
+  name: string,
+  category: string,
   subcategory?: string;
   amount?: number;
   unit?: string;
@@ -84,13 +84,13 @@ export interface UnifiedIngredient {
 
   // Metadata
   metadata?: {
-    sourceFile: string;
-    enhancedAt: string;
-    kalchmCalculated: boolean;
+    sourceFile: string,
+    enhancedAt: string,
+    kalchmCalculated: boolean
   };
 
   // Allow additional properties
-  [key: string]: unknown;
+  [key: string]: unknown
 }
 
 /**

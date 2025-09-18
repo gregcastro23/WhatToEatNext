@@ -37,9 +37,9 @@ export interface IngredientFilter {
 
 // Structure for recipe recommendations
 export interface RecipeRecommendation {
-  id: string;
-  title: string;
-  image: string;
+  id: string,
+  title: string,
+  image: string,
   readyInMinutes: number,
   healthScore: number,
   nutrition: {
@@ -49,7 +49,7 @@ export interface RecipeRecommendation {
       unit: string
     }>;
   };
-  usedIngredients: string[];
+  usedIngredients: string[]
 }
 
 // Groupings for ingredient types
@@ -553,7 +553,7 @@ export class IngredientFilterService {
       if (ingredient && ingredient.nutritionalProfile) {
         return {
           name: ingredientName,
-          nutrition: ingredient.nutritionalProfile;
+          nutrition: ingredient.nutritionalProfile,
           source: 'local'
         };
       }
@@ -582,7 +582,7 @@ export class IngredientFilterService {
         const recipe: RecipeRecommendation = {
           id: `local_${i + 1}`,
           title: `${mainIngredient} Recipe with ${otherIngredients.join(' and ')}`,
-          image: '/placeholder-recipe.jpg';
+          image: '/placeholder-recipe.jpg',
           readyInMinutes: 30 + i * 10,
           healthScore: 70 + i * 5,
           nutrition: {

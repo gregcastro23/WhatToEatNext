@@ -6,27 +6,27 @@ export interface ElementalProperties {
 
 export const elements: Record<Element, ElementalProperties> = {
   Fire: {
-    heat: 1.0;
-    dryness: 0.8;
-    transformation: 0.7;
+    heat: 1.0,
+    dryness: 0.8,
+    transformation: 0.7,
     expansion: 0.6
   },
   Water: {
-    cold: 0.9;
-    moisture: 1.0;
-    fluidity: 0.8;
+    cold: 0.9,
+    moisture: 1.0,
+    fluidity: 0.8,
     dissolution: 0.7
   },
   Air: {
-    movement: 0.9;
-    lightness: 1.0;
-    dispersion: 0.8;
+    movement: 0.9,
+    lightness: 1.0,
+    dispersion: 0.8,
     communication: 0.7
   },
   Earth: {
-    stability: 1.0;
-    density: 0.9;
-    nourishment: 0.8;
+    stability: 1.0,
+    density: 0.9,
+    nourishment: 0.8,
     structure: 0.7
   }
 };

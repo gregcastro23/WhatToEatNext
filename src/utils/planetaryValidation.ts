@@ -10,7 +10,7 @@ import { getReliablePlanetaryPositions } from './reliableAstronomy';
 
 // Validation result interfaces
 export interface ValidationResult {
-  isValid: boolean;
+  isValid: boolean,
   errors: ValidationError[],
   warnings: ValidationWarning[],
   summary: string,
@@ -18,8 +18,8 @@ export interface ValidationResult {
 }
 
 export interface ValidationError {
-  type: 'POSITION_DRIFT' | 'TRANSIT_MISMATCH' | 'TEST_FAILURE' | 'API_TIMEOUT' | 'DATA_CORRUPTION';
-  severity: 'LOW' | 'MEDIUM' | 'HIGH' | 'CRITICAL';
+  type: 'POSITION_DRIFT' | 'TRANSIT_MISMATCH' | 'TEST_FAILURE' | 'API_TIMEOUT' | 'DATA_CORRUPTION',
+  severity: 'LOW' | 'MEDIUM' | 'HIGH' | 'CRITICAL',
   planet?: string;
   expectedValue?: unknown,
   actualValue?: unknown,
@@ -35,7 +35,7 @@ export interface ValidationWarning {
 }
 
 export interface TestResult {
-  testName: string;
+  testName: string,
   passed: boolean,
   duration: number,
   error?: string,
@@ -44,7 +44,7 @@ export interface TestResult {
 
 // Validation tolerances
 const VALIDATION_TOLERANCES = {
-  POSITION_DEGREES: 0.1;
+  POSITION_DEGREES: 0.1,
   TRANSIT_DAYS: 1,
   TEST_PASS_THRESHOLD: 95,
   API_TIMEOUT_MS: 5000
@@ -299,7 +299,7 @@ async function validatePositionConsistency(): Promise<{
               type: 'POSITION_DRIFT',
               severity: 'HIGH',
               planet: planetName,
-              actualValue: pos.degree;
+              actualValue: pos.degree,
               message: `Invalid degree value for ${planetName}: ${pos.degree} (should be 0-30)`,
               timestamp: new Date()
             });
@@ -311,7 +311,7 @@ async function validatePositionConsistency(): Promise<{
               type: 'POSITION_DRIFT',
               severity: 'HIGH',
               planet: planetName,
-              actualValue: pos.exactLongitude;
+              actualValue: pos.exactLongitude,
               message: `Invalid longitude value for ${planetName}: ${pos.exactLongitude} (should be 0-360)`,
               timestamp: new Date()
             });
@@ -381,15 +381,15 @@ async function validatePositionChange(
  */
 function getPlanetaryDailyMotion(planetName: string): number {
   const dailyMotions: Record<string, number> = {
-    sun: 1.0;
-    moon: 13.2;
-    mercury: 1.4;
-    venus: 1.2;
-    mars: 0.5;
-    jupiter: 0.08;
-    saturn: 0.03;
-    uranus: 0.01;
-    neptune: 0.006;
+    sun: 1.0,
+    moon: 13.2,
+    mercury: 1.4,
+    venus: 1.2,
+    mars: 0.5,
+    jupiter: 0.08,
+    saturn: 0.03,
+    uranus: 0.01,
+    neptune: 0.006,
     pluto: 0.004
   };
 
@@ -503,7 +503,7 @@ async function testPlanetaryPositionAccuracy(): Promise<TestResult> {
     return {
       testName: 'Planetary Position Accuracy',
       passed: false,
-      duration: Date.now() - startTime;
+      duration: Date.now() - startTime,
       error: error instanceof Error ? error.message : 'Unknown error'
     };
   }
@@ -553,7 +553,7 @@ async function testTransitDateValidation(): Promise<TestResult> {
     return {
       testName: 'Transit Date Validation',
       passed: false,
-      duration: Date.now() - startTime;
+      duration: Date.now() - startTime,
       error: error instanceof Error ? error.message : 'Unknown error'
     };
   }
@@ -607,7 +607,7 @@ async function testRetrogradeDetection(): Promise<TestResult> {
     return {
       testName: 'Retrograde Detection',
       passed: false,
-      duration: Date.now() - startTime;
+      duration: Date.now() - startTime,
       error: error instanceof Error ? error.message : 'Unknown error'
     };
   }
@@ -672,7 +672,7 @@ async function testLunarNodeCalculation(): Promise<TestResult> {
     return {
       testName: 'Lunar Node Calculation',
       passed: false,
-      duration: Date.now() - startTime;
+      duration: Date.now() - startTime,
       error: error instanceof Error ? error.message : 'Unknown error'
     }
   }
@@ -710,7 +710,7 @@ async function testApiFallbackMechanism(): Promise<TestResult> {
       duration,
       details: {
         validPositions,
-        totalRequired: requiredPlanets.length;
+        totalRequired: requiredPlanets.length,
         successRate: (validPositions / requiredPlanets.length) * 100
       }
     };
@@ -718,7 +718,7 @@ async function testApiFallbackMechanism(): Promise<TestResult> {
     return {
       testName: 'API Fallback Mechanism',
       passed: false,
-      duration: Date.now() - startTime;
+      duration: Date.now() - startTime,
       error: error instanceof Error ? error.message : 'Unknown error'
     };
   }

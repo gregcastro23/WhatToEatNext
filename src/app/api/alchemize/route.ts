@@ -26,7 +26,7 @@ interface AlchemizeRequest {
 
 // Default location (New York City)
 const DEFAULT_LOCATION = {
-  latitude: 40.7498;
+  latitude: 40.7498,
   longitude: -73.7976
 };
 
@@ -111,9 +111,9 @@ export async function POST(request: Request) {
 
     for (const [planet, position] of Object.entries(planetaryPositions)) {
       convertedPositions[planet] = {
-        sign: position.sign;
-        degree: position.degree;
-        minute: position.minute || 0;
+        sign: position.sign,
+        degree: position.degree,
+        minute: position.minute || 0,
         isRetrograde: position.isRetrograde || false
       };
     }
@@ -126,7 +126,7 @@ export async function POST(request: Request) {
     // Step 4: Return comprehensive result
     const response = {
       success: true,
-      timestamp: new Date().toISOString();
+      timestamp: new Date().toISOString(),
       request: {
         useCustomDate,
         customDateTime: useCustomDate
@@ -152,7 +152,7 @@ export async function POST(request: Request) {
       {
         success: false,
         error: 'Failed to calculate alchemical properties',
-        details: error instanceof Error ? error.message : 'Unknown error';
+        details: error instanceof Error ? error.message : 'Unknown error',
         timestamp: new Date().toISOString()
       },
       { status: 500 }

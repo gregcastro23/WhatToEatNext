@@ -24,7 +24,7 @@ export interface ConfigurationState {
     retrogradeThreshold: number,
     aspectOrbs: Record<string, number>
   };
-  debug: boolean;
+  debug: boolean
 }
 
 export interface ConfigurationValidation {
@@ -39,7 +39,7 @@ export interface ConfigurationValidation {
 
 export interface ConfigurationListener {
   id: string,
-  callback: (update: ConfigurationUpdate) => void;
+  callback: (update: ConfigurationUpdate) => void,
   sections?: Array<'api' | 'astrology' | 'debug'>
 }
 
@@ -410,8 +410,8 @@ class ConfigurationServiceImpl {
   public exportConfiguration(): string {
     return JSON.stringify(
       {
-        configuration: this.currentConfig;
-        timestamp: Date.now();
+        configuration: this.currentConfig,
+        timestamp: Date.now(),
         version: '1.0.0'
       },
       null,

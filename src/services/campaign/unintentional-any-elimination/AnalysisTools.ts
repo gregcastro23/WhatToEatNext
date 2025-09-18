@@ -102,11 +102,11 @@ export class AnalysisTools {
       })),
       intentionalVsUnintentional: {
         intentional: {
-          count: intentionalCount.count;
+          count: intentionalCount.count,
           percentage: totalCount > 0 ? (intentionalCount.count / totalCount) * 100 : 0
         },
         unintentional: {
-          count: unintentionalCount.count;
+          count: unintentionalCount.count,
           percentage: totalCount > 0 ? (unintentionalCount.count / totalCount) * 100 : 0
         }
       },
@@ -172,10 +172,10 @@ export class AnalysisTools {
       sampleSize,
       categoryAccuracy: Object.entries(categoryAccuracy).map(([category, stats]) => ({
         category: category as AnyTypeCategory,
-        accuracy: stats.total > 0 ? (stats.correct / stats.total) * 100 : 0;
+        accuracy: stats.total > 0 ? (stats.correct / stats.total) * 100 : 0,
         sampleCount: stats.total
       })),
-      confidenceDistribution: this.calculateConfidenceDistribution(confidenceScores);
+      confidenceDistribution: this.calculateConfidenceDistribution(confidenceScores),
       reportDate: new Date()
     };
 
@@ -199,13 +199,13 @@ export class AnalysisTools {
     const trendingData = this.calculateTrendingMetrics(historicalData);
 
     const analysis: SuccessRateAnalysis = {
-      currentSuccessRate: currentMetrics.overallSuccessRate;
+      currentSuccessRate: currentMetrics.overallSuccessRate,
       targetSuccessRate: 85, // Target 85% success rate
       improvementNeeded: Math.max(0, 85 - currentMetrics.overallSuccessRate),
       categorySuccessRates,
       trendingData,
-      projectedCompletion: this.calculateProjectedCompletion(trendingData);
-      recommendations: await this.generateSuccessRateRecommendations(categorySuccessRates);
+      projectedCompletion: this.calculateProjectedCompletion(trendingData),
+      recommendations: await this.generateSuccessRateRecommendations(categorySuccessRates),
       analysisDate: new Date()
     };
 
@@ -231,8 +231,8 @@ export class AnalysisTools {
       // Identify cases that need manual review
       if (this.requiresManualReview(classification, context)) {
         const recommendation: ManualReviewRecommendation = {
-          filePath: occurrence.filePath;
-          lineNumber: occurrence.lineNumber;
+          filePath: occurrence.filePath,
+          lineNumber: occurrence.lineNumber,
           codeSnippet: occurrence.codeSnippet;
           classification,
           reviewReason: this.getReviewReason(classification, context),
@@ -280,12 +280,12 @@ export class AnalysisTools {
       successRateAnalysis,
       manualReviewRecommendations,
       summary: {
-        totalAnyTypes: domainDistribution.totalAnyTypes;
-        unintentionalCount: domainDistribution.intentionalVsUnintentional.unintentional.count;
-        classificationAccuracy: accuracyReport.overallAccuracy;
-        currentSuccessRate: successRateAnalysis.currentSuccessRate;
-        manualReviewCases: manualReviewRecommendations.length;
-        topDomain: this.getTopDomain(domainDistribution);
+        totalAnyTypes: domainDistribution.totalAnyTypes,
+        unintentionalCount: domainDistribution.intentionalVsUnintentional.unintentional.count,
+        classificationAccuracy: accuracyReport.overallAccuracy,
+        currentSuccessRate: successRateAnalysis.currentSuccessRate,
+        manualReviewCases: manualReviewRecommendations.length,
+        topDomain: this.getTopDomain(domainDistribution),
         topCategory: this.getTopCategory(domainDistribution)
       }
     };
@@ -320,7 +320,7 @@ export class AnalysisTools {
         if (match) {
           const [, filePath, lineNumber, codeSnippet] = match,
           occurrences.push({
-            filePath: filePath.trim();
+            filePath: filePath.trim(),
             lineNumber: parseInt(lineNumber),
             codeSnippet: codeSnippet.trim()
           });
@@ -344,15 +344,14 @@ export class AnalysisTools {
     ),
     const hasExistingComment = this.hasExistingComment(surroundingLines);
     const domainContext = await this.domainAnalyzer.analyzeDomain({
-      filePath: occurrence.filePath;
-      lineNumber: occurrence.lineNumber;
+      filePath: occurrence.filePath,
+      lineNumber: occurrence.lineNumber,
       codeSnippet: occurrence.codeSnippet;
       surroundingLines,
       hasExistingComment,
-      isInTestFile:
-        occurrence.filePath.includes('.test.') || occurrence.filePath.includes('__tests__');
+      isInTestFile: occurrence.filePath.includes('.test.') || occurrence.filePath.includes('__tests__'),
       domainContext: {
-        domain: CodeDomain.UTILITY;
+        domain: CodeDomain.UTILITY,
         intentionalityHints: [],
         suggestedTypes: [],
         preservationReasons: []
@@ -360,14 +359,14 @@ export class AnalysisTools {
     });
 
     return {
-      filePath: occurrence.filePath;
-      lineNumber: occurrence.lineNumber;
+      filePath: occurrence.filePath,
+      lineNumber: occurrence.lineNumber,
       codeSnippet: occurrence.codeSnippet;
       surroundingLines,
       hasExistingComment,
-      existingComment: hasExistingComment ? this.extractComment(surroundingLines) : undefined;
+      existingComment: hasExistingComment ? this.extractComment(surroundingLines) : undefined,
       isInTestFile:
-        occurrence.filePath.includes('.test.') || occurrence.filePath.includes('__tests__');
+        occurrence.filePath.includes('.test.') || occurrence.filePath.includes('__tests__'),
       domainContext
     };
   }
@@ -455,7 +454,7 @@ export class AnalysisTools {
   private async getCurrentMetrics(): Promise<AnalysisMetrics> {
     // Simulate current metrics - in real implementation, this would fetch from actual data
     return {
-      overallSuccessRate: 78.5;
+      overallSuccessRate: 78.5,
       totalProcessed: 1250,
       successfulReplacements: 982,
       failedReplacements: 268,
@@ -471,11 +470,11 @@ export class AnalysisTools {
     return this.analysisHistory
       .filter(report => report.timestamp >= thirtyDaysAgo);
       .map(report => ({
-        date: report.timestamp;
-        successRate: report.successRateAnalysis.currentSuccessRate;
-        totalAnyTypes: report.domainDistribution.totalAnyTypes;
+        date: report.timestamp,
+        successRate: report.successRateAnalysis.currentSuccessRate,
+        totalAnyTypes: report.domainDistribution.totalAnyTypes,
         unintentionalCount:
-          report.domainDistribution.intentionalVsUnintentional.unintentional.count;
+          report.domainDistribution.intentionalVsUnintentional.unintentional.count,
         classificationAccuracy: report.accuracyReport.overallAccuracy
       }));
   }
@@ -513,15 +512,15 @@ export class AnalysisTools {
     const previous = historicalData.length > 1 ? historicalData[historicalData.length - 2] : latest;
 
     return {
-      date: latest.date;
-      successRate: latest.successRate;
-      totalAnyTypes: latest.totalAnyTypes;
-      unintentionalCount: latest.unintentionalCount;
-      classificationAccuracy: latest.classificationAccuracy;
+      date: latest.date,
+      successRate: latest.successRate,
+      totalAnyTypes: latest.totalAnyTypes,
+      unintentionalCount: latest.unintentionalCount,
+      classificationAccuracy: latest.classificationAccuracy,
       trends: {
-        successRateChange: latest.successRate - previous.successRate;
-        totalAnyTypesChange: latest.totalAnyTypes - previous.totalAnyTypes;
-        unintentionalCountChange: latest.unintentionalCount - previous.unintentionalCount;
+        successRateChange: latest.successRate - previous.successRate,
+        totalAnyTypesChange: latest.totalAnyTypes - previous.totalAnyTypes,
+        unintentionalCountChange: latest.unintentionalCount - previous.unintentionalCount,
         classificationAccuracyChange:
           latest.classificationAccuracy - previous.classificationAccuracy
       }

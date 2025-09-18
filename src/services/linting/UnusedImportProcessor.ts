@@ -13,7 +13,7 @@ import fs from 'fs';
 import { log } from '@/services/LoggingService';
 
 interface ImportCleanupResult {
-  filesProcessed: number;
+  filesProcessed: number,
   importsRemoved: number,
   importsOrganized: number,
   errors: string[],

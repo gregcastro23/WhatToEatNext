@@ -14,8 +14,8 @@ import { LintingAlertingSystem } from '../services/linting/LintingAlertingSystem
 import { LintingValidationDashboard } from '../services/linting/LintingValidationDashboard';
 
 interface CLIOptions {
-  command: string;
-  verbose: boolean;
+  command: string,
+  verbose: boolean,
   format: 'text' | 'json' | 'markdown',
   output?: string,
   watch: boolean,
@@ -202,16 +202,16 @@ class LintingExcellenceDashboardCLI {
     // // console.log('-'.repeat(30));
     if (result.metrics.parserErrors > 0) {
       // // console.log('1. 🚨 URGENT: Fix parser errors immediately');
-      // // console.log('   Run: yarn tsc --noEmit');
+      // // console.log('   Run: yarn tsc --noEmit')
     } else if (result.metrics.explicitAnyErrors > 100) {
       // // console.log('1. ⚡ HIGH PRIORITY: Reduce explicit any errors');
-      // // console.log('   Run: yarn lint:fix --rule '@typescript-eslint/no-explicit-any'');
+      // // console.log('   Run: yarn lint:fix --rule '@typescript-eslint/no-explicit-any'')
     } else if (result.metrics.importOrderIssues > 50) {
       // // console.log('1. 🚀 READY: Deploy import organization');
-      // // console.log('   Run: yarn lint:fix --rule 'import/order'');
+      // // console.log('   Run: yarn lint:fix --rule 'import/order'')
     } else {
       // // console.log('1. ✅ Continue systematic improvement');
-      // // console.log('   Run: yarn lint:workflow-auto');
+      // // console.log('   Run: yarn lint:workflow-auto')
     }
 
     // Process alerts
@@ -359,22 +359,22 @@ class LintingExcellenceDashboardCLI {
     const checks = [
       {
         name: 'ESLint Configuration',
-        check: () => existsSync('eslint.config.cjs');
+        check: () => existsSync('eslint.config.cjs'),
         fix: 'Ensure eslint.config.cjs exists in project root'
       },
       {
         name: 'TypeScript Configuration',
-        check: () => existsSync('tsconfig.json');
+        check: () => existsSync('tsconfig.json'),
         fix: 'Ensure tsconfig.json exists in project root'
       },
       {
         name: 'ESLint Cache',
-        check: () => existsSync('.eslintcache');
+        check: () => existsSync('.eslintcache'),
         fix: 'Run yarn lint to generate cache'
       },
       {
         name: 'Metrics Directory',
-        check: () => existsSync('.kiro/metrics');
+        check: () => existsSync('.kiro/metrics'),
         fix: 'Directory will be created automatically'
       },
       {

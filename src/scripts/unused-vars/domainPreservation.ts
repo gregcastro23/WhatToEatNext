@@ -18,8 +18,8 @@ export type PreservationReason =
   | 'none';
 
 export interface PreservationDecision {
-  preserve: boolean;
-  reason: PreservationReason;
+  preserve: boolean,
+  reason: PreservationReason,
   confidence: number; // 0..1
 }
 

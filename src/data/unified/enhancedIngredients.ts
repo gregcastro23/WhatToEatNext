@@ -41,11 +41,11 @@ import type { UnifiedIngredient } from './unifiedTypes';
 // Enhanced ingredient interface with flavor profile integration
 export interface EnhancedIngredient {
   // Core properties from UnifiedIngredient
-  name: string;
-  category: string;
+  name: string,
+  category: string,
   subcategory?: string;
-  elementalProperties: ElementalProperties;
-  alchemicalProperties: AlchemicalProperties;
+  elementalProperties: ElementalProperties,
+  alchemicalProperties: AlchemicalProperties,
   kalchm?: number;
   monica?: number;
 
@@ -54,9 +54,9 @@ export interface EnhancedIngredient {
 
   // Enhanced Culinary Properties
   culinaryProperties: {
-    cookingMethods: CookingMethod[];
-    pairings: string[];
-    substitutions: string[];
+    cookingMethods: CookingMethod[],
+    pairings: string[],
+    substitutions: string[],
     storage: {
       temperature: string,
       humidity: string,
@@ -74,23 +74,23 @@ export interface EnhancedIngredient {
 
   // Enhanced Astrological Properties
   astrologicalProfile: {
-    planetaryRuler: PlanetName;
-    zodiacRuler: any;
+    planetaryRuler: PlanetName,
+    zodiacRuler: any,
     element: Element,
     energyType: string,
     seasonalPeak: {
       northern: number[],
       southern: number[]
     };
-    lunarAffinity: LunarPhase[];
-    planetaryHours: string[];
+    lunarAffinity: LunarPhase[],
+    planetaryHours: string[],
     thermodynamicProperties?: ThermodynamicProperties;
   };
 
   // Enhanced Nutritional Profile
   nutritionalProfile: {
-    serving_size: string;
-    calories: number;
+    serving_size: string,
+    calories: number,
     macros: {
       protein: number,
       carbs: number,
@@ -100,14 +100,14 @@ export interface EnhancedIngredient {
     vitamins: { [key: string]: number };
     minerals: { [key: string]: number };
     antioxidants?: { [key: string]: number };
-    benefits: string[];
-    source: string;
+    benefits: string[],
+    source: string,
   };
 
   // Enhanced Metadata
   metadata: {
-    sourceFile: string;
-    enhancedAt: string;
+    sourceFile: string,
+    enhancedAt: string,
     kalchmCalculated: boolean,
     flavorProfileLinked: boolean,
     dataQuality: 'high' | 'medium' | 'low',
@@ -115,7 +115,7 @@ export interface EnhancedIngredient {
   };
 
   // Allow additional properties from UnifiedIngredient
-  [key: string]: unknown;
+  [key: string]: unknown
 }
 
 // Storage recommendation interface
@@ -143,8 +143,8 @@ export interface IngredientSearchCriteria {
 
 // Ingredient recommendations
 export interface IngredientRecommendations {
-  primary: EnhancedIngredient[];
-  complementary: EnhancedIngredient[];
+  primary: EnhancedIngredient[],
+  complementary: EnhancedIngredient[],
   seasonal: EnhancedIngredient[],
   substitutions: EnhancedIngredient[],
   kalchmBalanced: EnhancedIngredient[],
@@ -153,10 +153,10 @@ export interface IngredientRecommendations {
 
 // System conditions for dynamic recommendations
 export interface IngredientSystemConditions {
-  season: string;
-  planetaryHour: string;
-  temperature: number;
-  lunarPhase: string;
+  season: string,
+  planetaryHour: string,
+  temperature: number,
+  lunarPhase: string,
   cookingMethod?: string,
   cuisineStyle?: string,
   nutritionalGoals?: string[],
@@ -685,9 +685,9 @@ export class EnhancedIngredientsSystem {
     kalchmHarmonious: EnhancedIngredient[]
   } {
     return {
-      traditional: this.findTraditionalPairings(targetIngredient);
-      innovative: this.findInnovativePairings(targetIngredient);
-      seasonal: this.findSeasonalPairings(targetIngredient);
+      traditional: this.findTraditionalPairings(targetIngredient),
+      innovative: this.findInnovativePairings(targetIngredient),
+      seasonal: this.findSeasonalPairings(targetIngredient),
       kalchmHarmonious: this.findKalchmCompatibleIngredients(targetIngredient.kalchm || 1.0, 0.15)
         .filter(i => i.name !== targetIngredient.name);
         .slice(0, 5)
@@ -734,9 +734,9 @@ export class EnhancedIngredientsSystem {
       nutritionalProfile,
       unifiedFlavorProfile: flavorProfile,
       metadata: {
-        sourceFile: ingredient.metadata?.sourceFile || 'unknown';
-        enhancedAt: new Date().toISOString();
-        kalchmCalculated: !!ingredient.kalchm;
+        sourceFile: ingredient.metadata?.sourceFile || 'unknown',
+        enhancedAt: new Date().toISOString(),
+        kalchmCalculated: !!ingredient.kalchm,
         flavorProfileLinked: !!flavorProfile,
         dataQuality,
         lastUpdated: new Date().toISOString()
@@ -760,8 +760,8 @@ export class EnhancedIngredientsSystem {
       ) as unknown as CookingMethod[],
       pairings: ingredient.pairingRecommendations || [],
       substitutions: ingredient.swaps || [],
-      storage: this.getStorageForCategory(category);
-      seasonality: this.getSeasonalityForIngredient(ingredient);
+      storage: this.getStorageForCategory(category),
+      seasonality: this.getSeasonalityForIngredient(ingredient),
       preparationMethods: this.getPreparationMethodsForCategory(category)
     };
   }
@@ -784,10 +784,10 @@ export class EnhancedIngredientsSystem {
         this.getPlanetaryRulerForElement(
           dominantElement,
         )) as unknown as import('@/types/celestial').Planet;
-      zodiacRuler: this.getZodiacRulerForElement(dominantElement) as any;
+      zodiacRuler: this.getZodiacRulerForElement(dominantElement) as any,
       element: dominantElement,
-      energyType: this.getEnergyTypeForElement(dominantElement);
-      seasonalPeak: this.getSeasonalPeakForElement(dominantElement);
+      energyType: this.getEnergyTypeForElement(dominantElement),
+      seasonalPeak: this.getSeasonalPeakForElement(dominantElement),
       lunarAffinity: this.getLunarAffinityForElement(dominantElement) as LunarPhase[],
       planetaryHours: this.getPlanetaryHoursForElement(dominantElement)
     };
@@ -803,12 +803,12 @@ export class EnhancedIngredientsSystem {
     if (ingredient.nutritionalProfile) {
       const existingProfile = ingredient.nutritionalProfile as unknown ;
       return {
-        serving_size: String(existingProfile.servingSize || '100g');
-        calories: Number(existingProfile.calories || 0);
+        serving_size: String(existingProfile.servingSize || '100g'),
+        calories: Number(existingProfile.calories || 0),
         macros: {
-          protein: Number((existingProfile.macros as any).protein || 0);
-          carbs: Number((existingProfile.macros as any).carbs || 0);
-          fat: Number((existingProfile.macros as any).fat || 0);
+          protein: Number((existingProfile.macros as any).protein || 0),
+          carbs: Number((existingProfile.macros as any).carbs || 0),
+          fat: Number((existingProfile.macros as any).fat || 0),
           fiber: Number((existingProfile.macros as any).fiber || 0)
         },
         vitamins: (existingProfile.vitamins as Record<string, number>) || {},
@@ -1193,8 +1193,8 @@ export class EnhancedIngredientsSystem {
     // Use existing seasonality if available
     if ((ingredient.seasonality || []).length) {
       return {
-        peak: ingredient.seasonality;
-        optimal: ingredient.seasonality;
+        peak: ingredient.seasonality,
+        optimal: ingredient.seasonality,
         available: ['spring', 'summer', 'fall', 'winter']
       };
     }

@@ -107,7 +107,7 @@ export class AnyTypeClassifier {
       if (context.hasExistingComment && this.hasIntentionalDocumentation(context.existingComment)) {
         return {
           isIntentional: true,
-          confidence: 0.95;
+          confidence: 0.95,
           reasoning: `Explicitly documented as intentional${surroundingContext.contextualClues.length > 0 ? ` (${surroundingContext.contextualClues.join(', ')})` : ''}`,
           requiresDocumentation: false,
           category: this.categorizeFromComment(context.existingComment)
@@ -198,9 +198,8 @@ export class AnyTypeClassifier {
         isIntentional: defaultConfidence > 0.6, // Higher threshold with contextual analysis
         confidence: defaultConfidence,
         reasoning: contextualReasoning,
-        suggestedReplacement:
-          defaultConfidence <= 0.6 ? this.getDefaultSuggestedReplacement(context) : undefined;
-        requiresDocumentation: defaultConfidence > 0.6;
+        suggestedReplacement: defaultConfidence <= 0.6 ? this.getDefaultSuggestedReplacement(context) : undefined,
+        requiresDocumentation: defaultConfidence > 0.6,
         category: AnyTypeCategory.TYPE_ASSERTION
       };
     } catch (error) {
@@ -229,7 +228,7 @@ export class AnyTypeClassifier {
         // Provide safe fallback classification
         results.push({
           isIntentional: true, // Conservative fallback to prevent unwanted changes
-          confidence: 0.1;
+          confidence: 0.1,
           reasoning: 'Classification failed, marked as intentional for safety',
           requiresDocumentation: true,
           category: AnyTypeCategory.LEGACY_COMPATIBILITY
@@ -294,10 +293,10 @@ export class AnyTypeClassifier {
    * Analyze surrounding code context for better understanding
    */
   private analyzeSurroundingCodeContext(context: ClassificationContext): {
-    hasErrorHandling: boolean;
-    hasApiCalls: boolean;
-    hasTestingCode: boolean;
-    hasTypeAssertions: boolean;
+    hasErrorHandling: boolean,
+    hasApiCalls: boolean,
+    hasTestingCode: boolean,
+    hasTypeAssertions: boolean,
     hasComplexLogic: boolean,
     contextualClues: string[]
   } {
@@ -350,11 +349,11 @@ export class AnyTypeClassifier {
    * Enhanced file type detection
    */
   private analyzeFileType(filePath: string): {
-    isTestFile: boolean;
-    isConfigFile: boolean;
-    isTypeDefinitionFile: boolean;
-    isServiceFile: boolean;
-    isComponentFile: boolean;
+    isTestFile: boolean,
+    isConfigFile: boolean,
+    isTypeDefinitionFile: boolean,
+    isServiceFile: boolean,
+    isComponentFile: boolean,
     isUtilityFile: boolean,
     fileCategory: string
   } {
@@ -510,7 +509,7 @@ export class AnyTypeClassifier {
       case CodeDomain.SERVICE:
         return this.analyzeServiceLayerDomain(context);
       case CodeDomain.INTELLIGENCE:
-        return this.analyzeIntelligenceDomain(context);
+        return this.analyzeIntelligenceDomain(context),
       default:
         return null
     }
@@ -1204,7 +1203,7 @@ export class AnyTypeClassifier {
       case AnyTypeCategory.FUNCTION_PARAM:
         return this.suggestFunctionParamReplacement(context);
       case AnyTypeCategory.RETURN_TYPE:
-        return this.suggestReturnTypeReplacement(context);
+        return this.suggestReturnTypeReplacement(context),
       default:
         return 'unknown'
     }
@@ -1220,9 +1219,9 @@ export class AnyTypeClassifier {
     ) {
       return {
         isIntentional: false,
-        confidence: 0.6;
+        confidence: 0.6,
         reasoning: 'Function parameter can likely be typed more specifically',
-        suggestedReplacement: this.suggestFunctionParamReplacement(context);
+        suggestedReplacement: this.suggestFunctionParamReplacement(context),
         requiresDocumentation: false,
         category: AnyTypeCategory.FUNCTION_PARAM
       };
@@ -1232,9 +1231,9 @@ export class AnyTypeClassifier {
     if (/:\s*any\s*\{/.test(context.codeSnippet) || /=>\s*any/.test(context.codeSnippet)) {
       return {
         isIntentional: false,
-        confidence: 0.65;
+        confidence: 0.65,
         reasoning: 'Function return type can likely be inferred or typed more specifically',
-        suggestedReplacement: this.suggestReturnTypeReplacement(context);
+        suggestedReplacement: this.suggestReturnTypeReplacement(context),
         requiresDocumentation: false,
         category: AnyTypeCategory.RETURN_TYPE
       };
@@ -1333,7 +1332,7 @@ export class AnyTypeClassifier {
   private applyContextualAdjustments(
     baseScore: number,
     category: AnyTypeCategory,
-    surroundingContext: ReturnType<typeof this.analyzeSurroundingCodeContext>;
+    surroundingContext: ReturnType<typeof this.analyzeSurroundingCodeContext>,
     fileTypeInfo: ReturnType<typeof this.analyzeFileType>
   ): number {
     let adjustedScore = baseScore;
@@ -1374,7 +1373,7 @@ export class AnyTypeClassifier {
 
   private buildContextualReasoning(
     category: AnyTypeCategory,
-    surroundingContext: ReturnType<typeof this.analyzeSurroundingCodeContext>;
+    surroundingContext: ReturnType<typeof this.analyzeSurroundingCodeContext>,
     fileTypeInfo: ReturnType<typeof this.analyzeFileType>
   ): string {
     const baseReasoning = this.getReasoningForCategory(category, {} as ClassificationContext);
@@ -1396,7 +1395,7 @@ export class AnyTypeClassifier {
   }
 
   private getContextualEnhancement(
-    surroundingContext: ReturnType<typeof this.analyzeSurroundingCodeContext>;
+    surroundingContext: ReturnType<typeof this.analyzeSurroundingCodeContext>,
     fileTypeInfo: ReturnType<typeof this.analyzeFileType>
   ): string {
     const enhancements: string[] = [];
@@ -1414,7 +1413,7 @@ export class AnyTypeClassifier {
 
   private calculateContextualConfidence(
     context: ClassificationContext,
-    surroundingContext: ReturnType<typeof this.analyzeSurroundingCodeContext>;
+    surroundingContext: ReturnType<typeof this.analyzeSurroundingCodeContext>,
     fileTypeInfo: ReturnType<typeof this.analyzeFileType>
   ): number {
     let confidence = 0.5; // Base confidence
@@ -1479,7 +1478,7 @@ export class AnyTypeClassifier {
 
   private buildDefaultContextualReasoning(
     confidence: number,
-    surroundingContext: ReturnType<typeof this.analyzeSurroundingCodeContext>;
+    surroundingContext: ReturnType<typeof this.analyzeSurroundingCodeContext>,
     fileTypeInfo: ReturnType<typeof this.analyzeFileType>
   ): string {
     const contextualInfo: string[] = [];

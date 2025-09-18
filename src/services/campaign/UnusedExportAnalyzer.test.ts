@@ -411,7 +411,7 @@ export { testA, testB, testC as aliasC };
           coreFiles: 5,
           externalFiles: 2,
           totalTransformationCandidates: 20,
-          averageSafetyScore: 85.5;
+          averageSafetyScore: 85.5,
           estimatedIntelligenceSystems: 20
         }
       };
@@ -424,7 +424,7 @@ export { testA, testB, testC as aliasC };
       expect(report).toContain('Recipe files: 3');
       expect(report).toContain('Core files: 5');
       expect(report).toContain('External files: 2');
-      expect(report).toContain('Average safety score: 85.5');
+      expect(report).toContain('Average safety score: 85.5')
     });
   });
 });

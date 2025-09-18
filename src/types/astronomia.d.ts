@@ -3,19 +3,19 @@ declare module 'astronomia' {
   export const _solar: {
     apparentLongitude(jd: number): number;
     apparentVSOP87(jd: number): {
-      lon: number;
-      lat: number;
-      range: number;
+      lon: number,
+      lat: number,
+      range: number
     };
   };
 
   export const _moon: {
     position(jd: number): {
-      lon: number;
-      lat: number;
-      range: number;
+      lon: number,
+      lat: number,
+      range: number
     };
-    phase(jd: number): number;
+    phase(jd: number): number
   };
 
   export const _julian: {
@@ -26,11 +26,11 @@ declare module 'astronomia' {
   export const _planetposition: {
     Planet: new (name: string) => {
       position(jd: number): {
-        lon: number;
-        lat: number;
-        range: number;
+        lon: number,
+        lat: number,
+        range: number
       };
-      name: string;
+      name: string
     };
   };
 

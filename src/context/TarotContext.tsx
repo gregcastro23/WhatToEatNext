@@ -3,10 +3,10 @@
 import React, { createContext, useContext, useState, ReactNode } from 'react';
 
 export interface TarotElementalInfluences {
-  Fire: number;
-  Water: number;
-  Earth: number;
-  Air: number;
+  Fire: number,
+  Water: number,
+  Earth: number,
+  Air: number,
 }
 
 export interface TarotCard {
@@ -18,10 +18,10 @@ export interface TarotCard {
 }
 
 interface TarotContextType {
-  tarotCard: TarotCard | null;
-  tarotElementalInfluences: TarotElementalInfluences;
-  setTarotCard: (card: TarotCard | null) => void;
-  setTarotElementalInfluences: (influences: TarotElementalInfluences) => void;
+  tarotCard: TarotCard | null,
+  tarotElementalInfluences: TarotElementalInfluences,
+  setTarotCard: (card: TarotCard | null) => void,
+  setTarotElementalInfluences: (influences: TarotElementalInfluences) => void,
 }
 
 const defaultContext: TarotContextType = {

@@ -134,9 +134,9 @@ export function getZodiacElementalInfluence(sign: any): ElementalProperties {
 
   // Base values
   const result: ElementalProperties = {
-    Fire: 0.2;
-    Earth: 0.2;
-    Air: 0.2;
+    Fire: 0.2,
+    Earth: 0.2,
+    Air: 0.2,
     Water: 0.2
   };
 

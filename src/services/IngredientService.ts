@@ -21,7 +21,7 @@ interface ScoredItem {
 }
 
 interface ElementalData {
-  Fire: number;
+  Fire: number,
   Water: number,
   Earth: number,
   Air: number,
@@ -50,9 +50,9 @@ import {
 
 // Structure for recipe recommendations
 export interface RecipeRecommendation {
-  id: string;
-  title: string;
-  image: string;
+  id: string,
+  title: string,
+  image: string,
   readyInMinutes: number,
   healthScore: number,
   nutrition: {
@@ -1206,7 +1206,7 @@ export class IngredientService implements IngredientServiceInterface {
     ingredient1: string | UnifiedIngredient,
     ingredient2: string | UnifiedIngredient,
   ): {
-    score: number;
+    score: number,
     elementalCompatibility: number,
     flavorCompatibility: number,
     seasonalCompatibility: number,
@@ -1372,9 +1372,9 @@ export class IngredientService implements IngredientServiceInterface {
         // Apply safe type casting for result property access
         const resultData = result as any;
         resultData.elementalState = {
-          Fire: summedProperties.Fire / count;
-          Water: summedProperties.Water / count;
-          Earth: summedProperties.Earth / count;
+          Fire: summedProperties.Fire / count,
+          Water: summedProperties.Water / count,
+          Earth: summedProperties.Earth / count,
           Air: summedProperties.Air / count
         };
       }
@@ -1460,8 +1460,8 @@ export class IngredientService implements IngredientServiceInterface {
 
       // Create default base ingredient
       const baseIngredient: UnifiedIngredient = {
-        name: ingredient.name;
-        category: ingredient.category || 'unknown';
+        name: ingredient.name,
+        category: ingredient.category || 'unknown',
         elementalProperties: createElementalProperties({
           Fire: 0,
           Water: 0,
@@ -1531,8 +1531,8 @@ export class IngredientService implements IngredientServiceInterface {
 
       // Return a minimal valid UnifiedIngredient
       return {
-        name: ingredient.name || 'unknown';
-        category: ingredient.category || 'unknown';
+        name: ingredient.name || 'unknown',
+        category: ingredient.category || 'unknown',
         elementalProperties: createElementalProperties({
           Fire: 0,
           Water: 0,
@@ -1625,9 +1625,9 @@ export class IngredientService implements IngredientServiceInterface {
 
         // Create elemental properties based on base element
         const elementalProps = createElementalProperties({
-          Fire: 0.25;
-          Water: 0.25;
-          Earth: 0.25;
+          Fire: 0.25,
+          Water: 0.25,
+          Earth: 0.25,
           Air: 0.25
         });
 
@@ -1700,9 +1700,9 @@ export class IngredientService implements IngredientServiceInterface {
       if (ingredient.category) {
         const category = ingredient.category.toLowerCase();
         const elementalProps = createElementalProperties({
-          Fire: 0.25;
-          Water: 0.25;
-          Earth: 0.25;
+          Fire: 0.25,
+          Water: 0.25,
+          Earth: 0.25,
           Air: 0.25
         });
 
@@ -1797,11 +1797,11 @@ export class IngredientService implements IngredientServiceInterface {
       logger.error('Error calculating thermodynamic metrics:', error),
       // Pattern P: Return default metrics with all required properties
       return {
-        heat: 0.5;
-        entropy: 0.5;
-        reactivity: 0.5;
-        gregsEnergy: 0.0;
-        kalchm: 1.0;
+        heat: 0.5,
+        entropy: 0.5,
+        reactivity: 0.5,
+        gregsEnergy: 0.0,
+        kalchm: 1.0,
         monica: NaN
       };
     }
@@ -1951,9 +1951,9 @@ export class IngredientService implements IngredientServiceInterface {
       // Validate elemental state
       if (!elementalState || !isElementalProperties(elementalState)) {
         elementalState = createElementalProperties({
-          Fire: 0.25;
-          Water: 0.25;
-          Earth: 0.25;
+          Fire: 0.25,
+          Water: 0.25,
+          Earth: 0.25,
           Air: 0.25
         });
       }

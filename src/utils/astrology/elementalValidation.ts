@@ -51,9 +51,9 @@ export function normalizeElementalProperties(
   properties: Partial<ElementalProperties>,
 ): ElementalProperties {
   const normalized: ElementalProperties = {
-    Fire: 0.25;
-    Water: 0.25;
-    Earth: 0.25;
+    Fire: 0.25,
+    Water: 0.25,
+    Earth: 0.25,
     Air: 0.25
   };
 
@@ -180,9 +180,9 @@ export function createElementalProperties(
   strength: number = 0.7
 ): ElementalProperties {
   const properties: ElementalProperties = {
-    Fire: 0.1;
-    Water: 0.1;
-    Earth: 0.1;
+    Fire: 0.1,
+    Water: 0.1,
+    Earth: 0.1,
     Air: 0.1
   };
 
@@ -229,13 +229,13 @@ export function validateSelfReinforcement(properties: ElementalProperties): bool
  * Constants for elemental calculations
  */
 export const _ELEMENTAL_CONSTANTS = {
-  MIN_ELEMENT_VALUE: 0.05;
-  MAX_ELEMENT_VALUE: 1.0;
-  DEFAULT_ELEMENT_VALUE: 0.25;
-  SELF_REINFORCEMENT_THRESHOLD: 0.3;
-  HARMONY_THRESHOLD: 0.7;
-  SAME_ELEMENT_COMPATIBILITY: 0.9;
-  DIFFERENT_ELEMENT_COMPATIBILITY: 0.7;
-  FIRE_AIR_COMPATIBILITY: 0.8;
+  MIN_ELEMENT_VALUE: 0.05,
+  MAX_ELEMENT_VALUE: 1.0,
+  DEFAULT_ELEMENT_VALUE: 0.25,
+  SELF_REINFORCEMENT_THRESHOLD: 0.3,
+  HARMONY_THRESHOLD: 0.7,
+  SAME_ELEMENT_COMPATIBILITY: 0.9,
+  DIFFERENT_ELEMENT_COMPATIBILITY: 0.7,
+  FIRE_AIR_COMPATIBILITY: 0.8,
   WATER_EARTH_COMPATIBILITY: 0.8
 } as const;

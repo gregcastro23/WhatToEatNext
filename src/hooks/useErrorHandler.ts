@@ -53,16 +53,16 @@ export default function useErrorHandler({
 
       // Log the error
       logger.error(`Error in ${componentName}:`, {
-        error: errorObj.message;
-        stack: errorObj.stack;
+        error: errorObj.message,
+        stack: errorObj.stack,
         context
       });
 
       // Handle the error through the error system
       handleError.log(errorObj, {
         component: componentName,
-        severity: ErrorSeverity.WARNING;
-        type: ErrorType.DATA;
+        severity: ErrorSeverity.WARNING,
+        type: ErrorType.DATA,
         context: { details: context }
       });
 

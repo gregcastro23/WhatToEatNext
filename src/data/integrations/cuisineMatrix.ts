@@ -16,7 +16,7 @@ export function getCuisinePairings(ingredientName: string, category: IngredientC
       return herbCuisineMatrix[ingredientName] || [];
     // Additional categories can be added as their matrix files are created
     default:
-      return [];
+      return []
   }
 }
 

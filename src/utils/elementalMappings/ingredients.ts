@@ -10,9 +10,9 @@ function createIngredientMapping(
   return {
     name: id, // Add the required name property
     elementalProperties: properties.elementalProperties || {
-      Earth: 0.25;
-      Water: 0.25;
-      Fire: 0.25;
+      Earth: 0.25,
+      Water: 0.25,
+      Fire: 0.25,
       Air: 0.25
     },
     ...properties
@@ -23,9 +23,9 @@ export const ingredientMappings = {
   // Aromatics
   ginger: createIngredientMapping('ginger', {
     elementalProperties: {
-      Fire: 0.7;
-      Earth: 0.2;
-      Air: 0.1;
+      Fire: 0.7,
+      Earth: 0.2,
+      Air: 0.1,
       Water: 0
     },
     astrologicalProfile: {
@@ -45,9 +45,9 @@ export const ingredientMappings = {
 
   garlic: createIngredientMapping('garlic', {
     elementalProperties: {
-      Fire: 0.6;
-      Earth: 0.3;
-      Air: 0.1;
+      Fire: 0.6,
+      Earth: 0.3,
+      Air: 0.1,
       Water: 0
     },
     astrologicalProfile: {
@@ -68,8 +68,8 @@ export const ingredientMappings = {
   // Spices
   cinnamon: createIngredientMapping('cinnamon', {
     elementalProperties: {
-      Fire: 0.8;
-      Air: 0.2;
+      Fire: 0.8,
+      Air: 0.2,
       Earth: 0,
       Water: 0
     },
@@ -83,9 +83,9 @@ export const ingredientMappings = {
 
   cardamom: createIngredientMapping('cardamom', {
     elementalProperties: {
-      Air: 0.6;
-      Fire: 0.3;
-      Earth: 0.1;
+      Air: 0.6,
+      Fire: 0.3,
+      Earth: 0.1,
       Water: 0
     },
     astrologicalProfile: {
@@ -99,9 +99,9 @@ export const ingredientMappings = {
   clove: createIngredientMapping('clove', {
     // Add name
     elementalProperties: {
-      Fire: 0.7;
-      Air: 0.2;
-      Earth: 0.1;
+      Fire: 0.7,
+      Air: 0.2,
+      Earth: 0.1,
       Water: 0
     },
     season: ['fall', 'winter']
@@ -110,8 +110,8 @@ export const ingredientMappings = {
   // Cooling Ingredients
   mint: createIngredientMapping('mint', {
     elementalProperties: {
-      Water: 0.6;
-      Air: 0.4;
+      Water: 0.6,
+      Air: 0.4,
       Fire: 0,
       Earth: 0
     },
@@ -126,8 +126,8 @@ export const ingredientMappings = {
   cucumber: createIngredientMapping('cucumber', {
     // Add name
     elementalProperties: {
-      Water: 0.8;
-      Air: 0.2;
+      Water: 0.8,
+      Air: 0.2,
       Fire: 0,
       Earth: 0
     },
@@ -137,8 +137,8 @@ export const ingredientMappings = {
   // Earthy Ingredients
   mushroom: createIngredientMapping('mushroom', {
     elementalProperties: {
-      Earth: 0.7;
-      Water: 0.3;
+      Earth: 0.7,
+      Water: 0.3,
       Fire: 0,
       Air: 0
     },
@@ -153,8 +153,8 @@ export const ingredientMappings = {
   seaweed: createIngredientMapping('seaweed', {
     // Add name
     elementalProperties: {
-      Water: 0.6;
-      Earth: 0.4;
+      Water: 0.6,
+      Earth: 0.4,
       Fire: 0,
       Air: 0
     },
@@ -165,9 +165,9 @@ export const ingredientMappings = {
   fish: createIngredientMapping('fish', {
     // Add name
     elementalProperties: {
-      Water: 0.7;
-      Air: 0.2;
-      Earth: 0.1;
+      Water: 0.7,
+      Air: 0.2,
+      Earth: 0.1,
       Fire: 0
     },
     season: ['all']
@@ -175,8 +175,8 @@ export const ingredientMappings = {
 
   beef: createIngredientMapping('beef', {
     elementalProperties: {
-      Earth: 0.5;
-      Fire: 0.5;
+      Earth: 0.5,
+      Fire: 0.5,
       Water: 0,
       Air: 0
     },
@@ -190,9 +190,9 @@ export const ingredientMappings = {
 
   chicken: createIngredientMapping('chicken', {
     elementalProperties: {
-      Air: 0.4;
-      Fire: 0.3;
-      Earth: 0.3;
+      Air: 0.4,
+      Fire: 0.3,
+      Earth: 0.3,
       Water: 0
     },
     astrologicalProfile: {
@@ -206,8 +206,8 @@ export const ingredientMappings = {
   // Dairy
   dairy: createIngredientMapping('dairy', {
     elementalProperties: {
-      Water: 0.5;
-      Earth: 0.5;
+      Water: 0.5,
+      Earth: 0.5,
       Fire: 0,
       Air: 0
     },
@@ -217,9 +217,9 @@ export const ingredientMappings = {
   // Vegetables
   'bitter greens': createIngredientMapping('bitter greens', {
     elementalProperties: {
-      Earth: 0.4;
-      Air: 0.4;
-      Water: 0.2;
+      Earth: 0.4,
+      Air: 0.4,
+      Water: 0.2,
       Fire: 0
     },
     season: ['spring', 'fall']
@@ -227,8 +227,8 @@ export const ingredientMappings = {
 
   turmeric: createIngredientMapping('turmeric', {
     elementalProperties: {
-      Fire: 0.6;
-      Earth: 0.4;
+      Fire: 0.6,
+      Earth: 0.4,
       Water: 0,
       Air: 0
     },
@@ -237,8 +237,8 @@ export const ingredientMappings = {
 
   chili: createIngredientMapping('chili', {
     elementalProperties: {
-      Fire: 0.9;
-      Air: 0.1;
+      Fire: 0.9,
+      Air: 0.1,
       Water: 0,
       Earth: 0
     },
@@ -247,9 +247,9 @@ export const ingredientMappings = {
 
   basil: createIngredientMapping('basil', {
     elementalProperties: {
-      Air: 0.5;
-      Fire: 0.3;
-      Earth: 0.2;
+      Air: 0.5,
+      Fire: 0.3,
+      Earth: 0.2,
       Water: 0
     },
     season: ['summer']
@@ -257,9 +257,9 @@ export const ingredientMappings = {
 
   sage: createIngredientMapping('sage', {
     elementalProperties: {
-      Air: 0.4;
-      Earth: 0.4;
-      Fire: 0.2;
+      Air: 0.4,
+      Earth: 0.4,
+      Fire: 0.2,
       Water: 0
     },
     season: ['autumn', 'winter']
@@ -267,9 +267,9 @@ export const ingredientMappings = {
 
   rosemary: createIngredientMapping('rosemary', {
     elementalProperties: {
-      Fire: 0.4;
-      Air: 0.3;
-      Earth: 0.3;
+      Fire: 0.4,
+      Air: 0.3,
+      Earth: 0.3,
       Water: 0
     },
     season: ['all']
@@ -277,9 +277,9 @@ export const ingredientMappings = {
 
   thyme: createIngredientMapping('thyme', {
     elementalProperties: {
-      Air: 0.5;
-      Earth: 0.3;
-      Fire: 0.2;
+      Air: 0.5,
+      Earth: 0.3,
+      Fire: 0.2,
       Water: 0
     },
     season: ['all']
@@ -288,9 +288,9 @@ export const ingredientMappings = {
   // Grains
   rice: createIngredientMapping('rice', {
     elementalProperties: {
-      Earth: 0.6;
-      Water: 0.3;
-      Air: 0.1;
+      Earth: 0.6,
+      Water: 0.3,
+      Air: 0.1,
       Fire: 0
     },
     astrologicalProfile: {
@@ -304,9 +304,9 @@ export const ingredientMappings = {
   // Fruits
   apple: createIngredientMapping('apple', {
     elementalProperties: {
-      Earth: 0.5;
-      Water: 0.3;
-      Air: 0.2;
+      Earth: 0.5,
+      Water: 0.3,
+      Air: 0.2,
       Fire: 0
     },
     astrologicalProfile: {
@@ -326,9 +326,9 @@ export const ingredientMappings = {
 
   banana: createIngredientMapping('banana', {
     elementalProperties: {
-      Earth: 0.4;
-      Water: 0.3;
-      Fire: 0.2;
+      Earth: 0.4,
+      Water: 0.3,
+      Fire: 0.2,
       Air: 0.1
     },
     astrologicalProfile: {
@@ -349,9 +349,9 @@ export const ingredientMappings = {
   // Example ingredient with lunar phase modifiers
   brown_rice: createIngredientMapping('brown_rice', {
     elementalProperties: {
-      Earth: 0.5;
-      Water: 0.3;
-      Air: 0.2;
+      Earth: 0.5,
+      Water: 0.3,
+      Air: 0.2,
       Fire: 0, // Add missing required property
     },
     astrologicalProfile: {

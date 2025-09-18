@@ -13,8 +13,8 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 export interface BundleAnalysis {
-  totalSize: number;
-  compressedSize: number;
+  totalSize: number,
+  compressedSize: number,
   chunks: BundleChunk[],
   assets: BundleAsset[],
   dependencies: DependencyAnalysis[],
@@ -22,7 +22,7 @@ export interface BundleAnalysis {
 }
 
 export interface BundleChunk {
-  name: string;
+  name: string,
   size: number,
   compressedSize: number,
   modules: string[],
@@ -37,7 +37,7 @@ export interface BundleAsset {
 }
 
 export interface DependencyAnalysis {
-  name: string;
+  name: string,
   size: number,
   version: string,
   usage: 'critical' | 'important' | 'optional',
@@ -45,7 +45,7 @@ export interface DependencyAnalysis {
 }
 
 export interface LazyLoadingValidation {
-  componentsAnalyzed: number;
+  componentsAnalyzed: number,
   lazyLoadedComponents: number,
   potentialLazyComponents: string[],
   dataFetchingOptimizations: string[],
@@ -53,9 +53,9 @@ export interface LazyLoadingValidation {
 }
 
 export interface BundleOptimizationAlert {
-  type: 'size_exceeded' | 'chunk_too_large' | 'unused_dependency' | 'lazy_loading_opportunity';
-  severity: 'warning' | 'critical';
-  message: string;
+  type: 'size_exceeded' | 'chunk_too_large' | 'unused_dependency' | 'lazy_loading_opportunity',
+  severity: 'warning' | 'critical',
+  message: string,
   currentValue: number,
   targetValue: number,
   recommendations: string[],
@@ -63,9 +63,9 @@ export interface BundleOptimizationAlert {
 }
 
 export interface BundleOptimizationReport {
-  timestamp: Date;
-  analysis: BundleAnalysis;
-  lazyLoadingValidation: LazyLoadingValidation;
+  timestamp: Date,
+  analysis: BundleAnalysis,
+  lazyLoadingValidation: LazyLoadingValidation,
   alerts: BundleOptimizationAlert[],
   overallScore: number,
   targetCompliance: boolean,
@@ -275,7 +275,7 @@ export class BundleSizeOptimizer {
             chunks.push({
               name: file,
               size: sizeKB,
-              compressedSize: Math.round(sizeKB * this.COMPRESSION_RATIO);
+              compressedSize: Math.round(sizeKB * this.COMPRESSION_RATIO),
               modules: [], // Would need webpack stats for detailed module info
               isLazyLoaded: file.includes('lazy') || file.includes('dynamic')
             });
@@ -432,10 +432,10 @@ export class BundleSizeOptimizer {
     if (analysis.totalSize > this.TARGET_BUNDLE_SIZE) {
       this.addAlert({
         type: 'size_exceeded',
-        severity: analysis.totalSize > this.TARGET_BUNDLE_SIZE * 1.2 ? 'critical' : 'warning';
+        severity: analysis.totalSize > this.TARGET_BUNDLE_SIZE * 1.2 ? 'critical' : 'warning',
         message: `Bundle size (${analysis.totalSize}kB) exceeds target (${this.TARGET_BUNDLE_SIZE}kB)`,
-        currentValue: analysis.totalSize;
-        targetValue: this.TARGET_BUNDLE_SIZE;
+        currentValue: analysis.totalSize,
+        targetValue: this.TARGET_BUNDLE_SIZE,
         recommendations: [
           'Enable code splitting for large components',
           'Implement lazy loading for non-critical features',
@@ -453,8 +453,8 @@ export class BundleSizeOptimizer {
           type: 'chunk_too_large',
           severity: 'warning',
           message: `Chunk ${chunk.name} (${chunk.size}kB) exceeds recommended size (${this.TARGET_CHUNK_SIZE}kB)`,
-          currentValue: chunk.size;
-          targetValue: this.TARGET_CHUNK_SIZE;
+          currentValue: chunk.size,
+          targetValue: this.TARGET_CHUNK_SIZE,
           recommendations: [
             'Split large chunk into smaller modules',
             'Implement dynamic imports for heavy components',
@@ -472,7 +472,7 @@ export class BundleSizeOptimizer {
           type: 'unused_dependency',
           severity: 'warning',
           message: `Large optional dependency ${dep.name} (${dep.size}kB) may be removable`,
-          currentValue: dep.size;
+          currentValue: dep.size,
           targetValue: 0,
           recommendations: [
             `Consider removing ${dep.name} if not essential`,
@@ -776,7 +776,7 @@ export class BundleSizeOptimizer {
       const exportData = {
         timestamp: new Date().toISOString();
         report,
-        history: this.analysisHistory;
+        history: this.analysisHistory,
         alerts: this.alerts
       };
 

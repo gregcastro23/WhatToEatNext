@@ -202,7 +202,7 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
     } = {}
   ): Record<string, UnifiedIngredient[]> {
     return enhancedIngredientSystem.getSeasonalIngredients(season, {
-      categories: filter.categories;
+      categories: filter.categories,
       dietary: filter.dietary
     });
   }
@@ -236,8 +236,8 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
    */
   private convertSystemStateToRecord(state: SystemState): Record<string, unknown> {
     return {
-      elements: state.elements;
-      metrics: state.metrics;
+      elements: state.elements,
+      metrics: state.metrics,
       planetaryPositions: state.planetaryPositions;
       // Add other relevant state properties
       ...(state as unknown)

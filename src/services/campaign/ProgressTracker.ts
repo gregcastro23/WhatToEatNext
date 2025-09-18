@@ -384,7 +384,7 @@ export class ProgressTracker {
       buildPerformance: {
         currentTime: 8,
         targetTime: 10,
-        cacheHitRate: 0.8;
+        cacheHitRate: 0.8,
         memoryUsage: 45
       },
       enterpriseSystems: {
@@ -431,7 +431,7 @@ export class ProgressTracker {
         phaseName: 'Linting Excellence Achievement',
         startTime: new Date(),
         status:
-          currentMetrics.lintingWarnings.current === 0;
+          currentMetrics.lintingWarnings.current === 0,
             ? PhaseStatus.COMPLETED
             : PhaseStatus.IN_PROGRESS;
         metrics: currentMetrics,
@@ -493,9 +493,9 @@ export class ProgressTracker {
     const latest = this.metricsHistory[this.metricsHistory.length - 1];
 
     return {
-      typeScriptErrorsReduced: first.typeScriptErrors.current - latest.typeScriptErrors.current;
-      lintingWarningsReduced: first.lintingWarnings.current - latest.lintingWarnings.current;
-      buildTimeImproved: first.buildPerformance.currentTime - latest.buildPerformance.currentTime;
+      typeScriptErrorsReduced: first.typeScriptErrors.current - latest.typeScriptErrors.current,
+      lintingWarningsReduced: first.lintingWarnings.current - latest.lintingWarnings.current,
+      buildTimeImproved: first.buildPerformance.currentTime - latest.buildPerformance.currentTime,
       enterpriseSystemsAdded: latest.enterpriseSystems.current - first.enterpriseSystems.current
     }
   }
@@ -509,7 +509,7 @@ export class ProgressTracker {
       const exportData = {
         timestamp: new Date().toISOString();
         report,
-        history: this.metricsHistory;
+        history: this.metricsHistory,
         improvement: this.getMetricsImprovement()
       };
 

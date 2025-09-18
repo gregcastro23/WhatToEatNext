@@ -48,7 +48,7 @@ describe('AutomatedLintingFixer', () => {
     mockLintingIssues = [
       {
         id: 'test-1',
-        file: 'src/test.ts';
+        file: 'src/test.ts',
         line: 1,
         column: 7,
         rule: '@typescript-eslint/no-unused-vars',
@@ -57,7 +57,7 @@ describe('AutomatedLintingFixer', () => {
         category: { primar, y: 'typescript', secondary: 'no-unused-vars', priority: 2 },
         autoFixable: true,
         resolutionStrategy: { type: 'auto-fix',
-          confidence: 0.8;
+          confidence: 0.8,
           riskLevel: 'low',
           requiredValidation: [],
           estimatedEffort: 1,
@@ -66,7 +66,7 @@ describe('AutomatedLintingFixer', () => {
       },
       {
         id: 'test-2',
-        file: 'src/imports.ts';
+        file: 'src/imports.ts',
         line: 1,
         column: 1,
         rule: 'import/order',
@@ -75,23 +75,23 @@ describe('AutomatedLintingFixer', () => {
         category: { primar, y: 'import', secondary: 'order', priority: 3 },
         autoFixable: true,
         resolutionStrategy: { type: 'auto-fix',
-          confidence: 0.9;
+          confidence: 0.9,
           riskLevel: 'low',
           requiredValidation: [],
-          estimatedEffort: 0.5;
+          estimatedEffort: 0.5,
           dependencies: []
         }
       }
     ];
 
     mockCategorizedErrors = {
-      total: mockLintingIssues.length;
+      total: mockLintingIssues.length,
       errors: 0,
-      warnings: mockLintingIssues.length;
+      warnings: mockLintingIssues.length,
       byCategory: { typescript: [mockLintingIssues.[0]],
         import: [mockLintingIssues.[1]]
       },
-      byPriority: {, 2: [mockLintingIssues.[0]],
+      byPriority: { 2: [mockLintingIssues.[0]],
         3: [mockLintingIssues.[1]]
       },
       byFile: {
@@ -127,7 +127,7 @@ describe('AutomatedLintingFixer', () => {
     });
 
     it('should handle batch processing with custom batch size', async () => {
-      const batchOptions: Partial<BatchProcessingOptions> = { batchSize: 1;
+      const batchOptions: Partial<BatchProcessingOptions> = { batchSize: 1,
         validateAfterEachBatch: true
       };
 
@@ -250,7 +250,7 @@ describe('AutomatedLintingFixer', () => {
     it('should skip domain files when configured', async () => {
       const domainIssue: LintingIssue = {
         ...mockLintingIssues.[0],
-        file: 'src/calculations/planetary.ts';
+        file: 'src/calculations/planetary.ts',
         domainContext: { isAstrologicalCalculation: true,
           isCampaignSystem: false,
           isTestFile: false,
@@ -270,7 +270,7 @@ describe('AutomatedLintingFixer', () => {
     it('should skip test files when configured', async () => {
       const testIssue: LintingIssue = {
         ...mockLintingIssues.[0],
-        file: 'src/test.spec.ts';
+        file: 'src/test.spec.ts',
         domainContext: { isAstrologicalCalculation: false,
           isCampaignSystem: false,
           isTestFile: true,
@@ -387,7 +387,7 @@ describe('AutomatedLintingFixer', () => {
     it('should preserve explicit any in specified patterns', async () => {
       const astroTypeIssue: LintingIssue = {
         ...mockLintingIssues.[0],
-        file: 'src/calculations/planetary.ts';
+        file: 'src/calculations/planetary.ts',
         rule: '@typescript-eslint/no-explicit-any'
       };
 

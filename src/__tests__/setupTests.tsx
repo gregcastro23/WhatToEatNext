@@ -4,8 +4,8 @@ import React from 'react';
 
 // Mock IntersectionObserver
 global.IntersectionObserver = class IntersectionObserver {;
-  root: Element | null = null;
-  rootMargin: string = '0px';
+  root: Element | null = null,
+  rootMargin: string = '0px',
   thresholds: ReadonlyArray<number> = [0];
   private callback: IntersectionObserverCallback;
 
@@ -39,7 +39,7 @@ global.ResizeObserver = class ResizeObserver {;
 // Mock matchMedia
 Object.defineProperty(window, 'matchMedia', {
   writable: true,
-  value: jest.fn().mockImplementation(query => ({;
+  value: jest.fn().mockImplementation(query => ({,
     matches: false,
     media: query,
     onchange: null,
@@ -58,7 +58,7 @@ Object.defineProperty(window, 'scrollTo', {
 });
 
 // Mock localStorage
-const localStorageMock = {;
+const localStorageMock = {
   getItem: jest.fn(),
   setItem: jest.fn(),
   removeItem: jest.fn(),
@@ -69,7 +69,7 @@ Object.defineProperty(window, 'localStorage', {
 });
 
 // Mock sessionStorage
-const sessionStorageMock = {;
+const sessionStorageMock = {
   getItem: jest.fn(),
   setItem: jest.fn(),
   removeItem: jest.fn(),
@@ -136,7 +136,7 @@ console.error = (...args: any[]) => {;
 };
 
 // Mock implementations for git operations - comprehensive implementation
-const gitMock = {;
+const gitMock = {
   stash: jest.fn().mockResolvedValue('stash-id'),
   stashPop: jest.fn().mockResolvedValue(true),
   getCurrentBranch: jest.fn().mockResolvedValue('main'),
@@ -184,7 +184,7 @@ const gitMock = {;
 };
 
 // Mock implementations for script execution - comprehensive implementation
-const scriptMock = {;
+const scriptMock = {
   executeScript: jest.fn().mockResolvedValue({ success: true, output: '' }),
   executeCommand: jest.fn().mockResolvedValue({ stdout: '', stderr: '', exitCode: 0 }),
   getScriptOutput: jest.fn().mockReturnValue(''),
@@ -245,7 +245,7 @@ const scriptMock = {;
 const campaignMock: any = {};
 
 // Initialize controller
-campaignMock.controller = {;
+campaignMock.controller = {
   executePhase: jest.fn().mockResolvedValue({
     phaseId: 'mock-phase',
     success: true,
@@ -280,7 +280,7 @@ campaignMock.controller = {;
 };
 
 // Initialize tracker
-campaignMock.tracker = {;
+campaignMock.tracker = {
   getTypeScriptErrorCount: jest.fn().mockResolvedValue(50),
   getTypeScriptErrorBreakdown: jest
     .fn()
@@ -318,7 +318,7 @@ campaignMock.tracker = {;
 };
 
 // Initialize safety
-campaignMock.safety = {;
+campaignMock.safety = {
   createStash: jest.fn().mockResolvedValue('mock-stash-id'),
   applyStash: jest.fn().mockResolvedValue(undefined),
   detectCorruption: jest.fn().mockResolvedValue({
@@ -335,7 +335,7 @@ campaignMock.safety = {;
 };
 
 // Initialize testController
-campaignMock.testController = {;
+campaignMock.testController = {
   initializeForTest: jest.fn().mockResolvedValue(undefined),
   pauseCampaignForTest: jest.fn().mockResolvedValue(undefined),
   resumeCampaignAfterTest: jest.fn().mockResolvedValue(undefined),
@@ -358,7 +358,7 @@ campaignMock.testController = {;
 };
 
 // Initialize isolation (now that other components are defined)
-campaignMock.isolation = {;
+campaignMock.isolation = {
   initializeMockCampaignSystem: jest.fn().mockReturnValue({
     controller: campaignMock.controller,
     tracker: campaignMock.tracker,
@@ -390,7 +390,7 @@ campaignMock.resetAllMocks = jest.fn(() => {;
 });
 
 // Global test utilities with extended interface
-(global as unknown).testUtils = {;
+(global as unknown).testUtils = {
   // Git operations mock
   gitMock,
 
@@ -515,7 +515,7 @@ expect.extend({
 declare global {
   namespace jest {
     interface Matchers<R> {
-      toBeWithinRange(floor: number, ceiling: number): R;
+      toBeWithinRange(floor: number, ceiling: number): R
     }
   }
 }

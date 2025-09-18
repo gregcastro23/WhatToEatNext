@@ -90,8 +90,8 @@ export class AdvancedAnalyticsIntelligenceService {
   private config: AdvancedIntelligenceConfig;
   private cache: Map<string, AdvancedAnalyticsIntelligenceResult>;
   private metrics: {
-    totalAnalyses: number;
-    averageConfidence: number;
+    totalAnalyses: number,
+    averageConfidence: number,
     cacheHitRate: number,
     errorRate: number,
     executionTimes: number[],
@@ -113,7 +113,7 @@ export class AdvancedAnalyticsIntelligenceService {
       logLevel: 'info',
       performanceThresholds: {
         maxExecutionTime: 10000,
-        minConfidenceScore: 0.8;
+        minConfidenceScore: 0.8,
         maxMemoryUsage: 200 * 1024 * 1024, // 200MB
       },
       ...config
@@ -265,7 +265,7 @@ export class AdvancedAnalyticsIntelligenceService {
     recipe: Recipe,
     astrologicalContext: AstrologicalContext,
   ): Promise<{
-    multiDimensionalScore: number;
+    multiDimensionalScore: number,
     complexityAnalysis: {
       ingredientComplexity: number,
       techniqueComplexity: number,
@@ -333,7 +333,7 @@ export class AdvancedAnalyticsIntelligenceService {
       seasonalSynergy: number
     };
     substitutionNetwork: Record<string, string[]>;
-    optimizationPotential: number;
+    optimizationPotential: number
   }> {
     try {
       // Generate interaction matrix
@@ -1443,10 +1443,10 @@ export class AdvancedAnalyticsIntelligenceService {
     astrologicalContext: AstrologicalContext,
   ): string {
     return `advanced_analytics_${JSON.stringify({
-      recipeId: recipeData.id;
-      ingredientCount: ingredientData.length;
-      cuisineName: cuisineData.name;
-      zodiac: astrologicalContext.zodiacSign;
+      recipeId: recipeData.id,
+      ingredientCount: ingredientData.length,
+      cuisineName: cuisineData.name,
+      zodiac: astrologicalContext.zodiacSign,
       lunar: astrologicalContext.lunarPhase
     })}`;
   }
@@ -1497,7 +1497,7 @@ export class AdvancedAnalyticsIntelligenceService {
   // ========== DEFAULT RESULTS ==========;
 
   private getDefaultRecipeAnalytics(): {
-    multiDimensionalScore: number;
+    multiDimensionalScore: number,
     complexityAnalysis: {
       ingredientComplexity: number,
       techniqueComplexity: number,
@@ -1517,22 +1517,22 @@ export class AdvancedAnalyticsIntelligenceService {
     };
   } {
     return {
-      multiDimensionalScore: 0.75;
+      multiDimensionalScore: 0.75,
       complexityAnalysis: {
-        ingredientComplexity: 0.6;
-        techniqueComplexity: 0.5;
-        timeComplexity: 0.5;
+        ingredientComplexity: 0.6,
+        techniqueComplexity: 0.5,
+        timeComplexity: 0.5,
         skillComplexity: 0.5
       },
       optimizationMetrics: {
-        flavorOptimization: 0.75;
-        nutritionalOptimization: 0.7;
-        culturalOptimization: 0.8;
+        flavorOptimization: 0.75,
+        nutritionalOptimization: 0.7,
+        culturalOptimization: 0.8,
         seasonalOptimization: 0.75
       },
       predictiveInsights: {
-        successProbability: 0.8;
-        userSatisfactionPrediction: 0.75;
+        successProbability: 0.8,
+        userSatisfactionPrediction: 0.75,
         adaptationPotential: 0.7
       }
     };
@@ -1547,14 +1547,14 @@ export class AdvancedAnalyticsIntelligenceService {
       seasonalSynergy: number
     };
     substitutionNetwork: Record<string, string[]>;
-    optimizationPotential: number;
+    optimizationPotential: number
   } {
     return {
       interactionMatrix: {},
       synergyAnalysis: {
-        flavorSynergy: 0.8;
-        nutritionalSynergy: 0.75;
-        culturalSynergy: 0.7;
+        flavorSynergy: 0.8,
+        nutritionalSynergy: 0.75,
+        culturalSynergy: 0.7,
         seasonalSynergy: 0.8
       },
       substitutionNetwork: {},
@@ -1584,21 +1584,21 @@ export class AdvancedAnalyticsIntelligenceService {
   } {
     return {
       culturalCorrelations: {
-        historicalCorrelation: 0.8;
-        regionalCorrelation: 0.75;
-        seasonalCorrelation: 0.8;
+        historicalCorrelation: 0.8,
+        regionalCorrelation: 0.75,
+        seasonalCorrelation: 0.8,
         astrologicalCorrelation: 0.75
       },
       fusionAnalytics: {
         compatibilityMatrix: {},
-        innovationPotential: 0.7;
-        culturalAcceptance: 0.8;
+        innovationPotential: 0.7,
+        culturalAcceptance: 0.8,
         seasonalRelevance: 0.75
       },
       optimizationMetrics: {
-        culturalOptimization: 0.8;
-        seasonalOptimization: 0.75;
-        astrologicalOptimization: 0.7;
+        culturalOptimization: 0.8,
+        seasonalOptimization: 0.75,
+        astrologicalOptimization: 0.7,
         innovationOptimization: 0.6
       }
     };
@@ -1632,15 +1632,15 @@ export class AdvancedAnalyticsIntelligenceService {
         seasonalPatterns: { spring: 0.8, summer: 0.75 }
       },
       correlations: {
-        culinaryCorrelation: 0.8;
-        culturalCorrelation: 0.75;
-        seasonalCorrelation: 0.8;
+        culinaryCorrelation: 0.8,
+        culturalCorrelation: 0.75,
+        seasonalCorrelation: 0.8,
         temporalCorrelation: 0.7
       },
       predictiveModeling: {
-        alignmentPrediction: 0.8;
-        timingOptimization: 0.75;
-        influencePrediction: 0.7;
+        alignmentPrediction: 0.8,
+        timingOptimization: 0.75,
+        influencePrediction: 0.7,
         harmonyPrediction: 0.8
       }
     };
@@ -1658,10 +1658,10 @@ export class AdvancedAnalyticsIntelligenceService {
     return {
       executionTime: avgExecutionTime,
       memoryUsage: 0, // Would need actual memory measurement
-      confidenceScore: this.metrics.averageConfidence;
-      accuracyScore: 1 - this.metrics.errorRate;
-      cacheHitRate: this.metrics.cacheHitRate;
-      errorRate: this.metrics.errorRate;
+      confidenceScore: this.metrics.averageConfidence,
+      accuracyScore: 1 - this.metrics.errorRate,
+      cacheHitRate: this.metrics.cacheHitRate,
+      errorRate: this.metrics.errorRate,
       timestamp: new Date().toISOString()
     };
   }

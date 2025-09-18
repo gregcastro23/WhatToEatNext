@@ -7,11 +7,11 @@ export interface DebugSettings {
   isCollapsed: boolean,
   position: 'bottom-right' | 'bottom-left' | 'top-right' | 'top-left',
   customPosition?: { x: number, y: number };
-  showPerformanceMetrics: boolean;
-  showAstrologicalData: boolean;
-  showComponentStates: boolean;
-  opacity: number;
-  size: 'small' | 'medium' | 'large';
+  showPerformanceMetrics: boolean,
+  showAstrologicalData: boolean,
+  showComponentStates: boolean,
+  opacity: number,
+  size: 'small' | 'medium' | 'large'
 }
 
 const DEFAULT_SETTINGS: DebugSettings = {
@@ -21,7 +21,7 @@ const DEFAULT_SETTINGS: DebugSettings = {
   showPerformanceMetrics: true,
   showAstrologicalData: true,
   showComponentStates: true,
-  opacity: 0.9;
+  opacity: 0.9,
   size: 'medium'
 };
 

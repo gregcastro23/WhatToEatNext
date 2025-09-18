@@ -136,10 +136,10 @@ describe('Integration Workflows', () => {
         .filter(c => !c.isIntentional && c.suggestedReplacement);
         .map((c: any, i: any) => ({
           original: 'any',
-          replacement: c.suggestedReplacement!;
+          replacement: c.suggestedReplacement!,
           filePath: contexts[i].filePath,
           lineNumber: contexts[i].lineNumber,
-          confidence: c.confidence;
+          confidence: c.confidence,
           validationRequired: true
         }));
 
@@ -197,7 +197,7 @@ describe('Integration Workflows', () => {
 
       const config: UnintentionalAnyConfig = { maxFilesPerBatch: 3,,;
         targetReductionPercentage: 15,
-        confidenceThreshold: 0.8;
+        confidenceThreshold: 0.8,
         enableDomainAnalysis: true,
         enableDocumentation: true,
         safetyLevel: 'MODERATE',
@@ -299,7 +299,7 @@ describe('Integration Workflows', () => {
     test('should integrate with existing campaign infrastructure', async () => {
       const campaignConfig: UnintentionalAnyConfig = { maxFilesPerBatch: 5,,;
         targetReductionPercentage: 20,
-        confidenceThreshold: 0.85;
+        confidenceThreshold: 0.85,
         enableDomainAnalysis: true,
         enableDocumentation: true,
         safetyLevel: 'HIGH',
@@ -346,7 +346,7 @@ describe('Integration Workflows', () => {
 
       const campaignConfig: UnintentionalAnyConfig = { maxFilesPerBatch: 1,,;
         targetReductionPercentage: 10,
-        confidenceThreshold: 0.7;
+        confidenceThreshold: 0.7,
         enableDomainAnalysis: true,
         enableDocumentation: true,
         safetyLevel: 'MAXIMUM',
@@ -376,7 +376,7 @@ describe('Integration Workflows', () => {
       const batchResult: any = await engine.executeBatch({
         maxFilesPerBatch: 2,
         targetReductionPercentage: 15,
-        confidenceThreshold: 0.8;
+        confidenceThreshold: 0.8,
         enableDomainAnalysis: true,
         enableDocumentation: true,
         safetyLevel: 'MODERATE',
@@ -409,9 +409,9 @@ describe('Integration Workflows', () => {
       const replacement: any = {
         original: 'any',
         replacement: 'unknown',
-        filePath: 'src/test.ts';
+        filePath: 'src/test.ts',
         lineNumber: 1,
-        confidence: 0.9;
+        confidence: 0.9,
         validationRequired: true
       };
 
@@ -427,17 +427,17 @@ describe('Integration Workflows', () => {
         {
           original: 'unknown[]',
           replacement: 'unknown[]',
-          filePath: 'src/test1.ts';
+          filePath: 'src/test1.ts',
           lineNumber: 1,
-          confidence: 0.9;
+          confidence: 0.9,
           validationRequired: true
         },
         {
           original: 'any',
           replacement: 'string',
-          filePath: 'src/test2.ts';
+          filePath: 'src/test2.ts',
           lineNumber: 1,
-          confidence: 0.8;
+          confidence: 0.8,
           validationRequired: true
         }
       ];
@@ -473,9 +473,9 @@ describe('Integration Workflows', () => {
       const replacement: any = {
         original: 'unknown[]',
         replacement: 'unknown[]',
-        filePath: 'src/test.ts';
+        filePath: 'src/test.ts',
         lineNumber: 1,
-        confidence: 0.9;
+        confidence: 0.9,
         validationRequired: true
       };
 
@@ -553,7 +553,7 @@ describe('Integration Workflows', () => {
 
           export const _createConfig: any = (): Record<string, unknown> => {
             return {
-              apiUrl: process.env.API_URL;
+              apiUrl: process.env.API_URL,
               timeout: 5000,
               retries: 3
             };
@@ -602,7 +602,7 @@ describe('Integration Workflows', () => {
 
       const config: UnintentionalAnyConfig = { maxFilesPerBatch: 4,,;
         targetReductionPercentage: 15,
-        confidenceThreshold: 0.8;
+        confidenceThreshold: 0.8,
         enableDomainAnalysis: true,
         enableDocumentation: true,
         safetyLevel: 'MODERATE',
@@ -658,7 +658,7 @@ describe('Integration Workflows', () => {
 
       const config: UnintentionalAnyConfig = { maxFilesPerBatch: 10,,;
         targetReductionPercentage: 20,
-        confidenceThreshold: 0.8;
+        confidenceThreshold: 0.8,
         enableDomainAnalysis: true,
         enableDocumentation: true,
         safetyLevel: 'MODERATE',
@@ -728,7 +728,7 @@ describe('Integration Workflows', () => {
 
         const config: UnintentionalAnyConfig = { maxFilesPerBatch: Object.keys(files).length,,;
           targetReductionPercentage: 15,
-          confidenceThreshold: 0.8;
+          confidenceThreshold: 0.8,
           enableDomainAnalysis: true,
           enableDocumentation: true,
           safetyLevel: 'MODERATE',
@@ -778,9 +778,9 @@ describe('Integration Workflows', () => {
       const replacement: any = {
         original: 'unknown[]',
         replacement: 'unknown[]',
-        filePath: 'src/test.ts';
+        filePath: 'src/test.ts',
         lineNumber: 1,
-        confidence: 0.9;
+        confidence: 0.9,
         validationRequired: true
       };
 
@@ -819,17 +819,17 @@ describe('Integration Workflows', () => {
         {
           original: 'unknown[]',
           replacement: 'unknown[]',
-          filePath: 'src/test.ts';
+          filePath: 'src/test.ts',
           lineNumber: 1,
-          confidence: 0.9;
+          confidence: 0.9,
           validationRequired: true
         },
         {
           original: 'Record<string, unknown>',
           replacement: 'Record<string, unknown>',
-          filePath: 'src/test.ts';
+          filePath: 'src/test.ts',
           lineNumber: 1,
-          confidence: 0.8;
+          confidence: 0.8,
           validationRequired: true
         }
       ];

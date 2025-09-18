@@ -8,18 +8,18 @@ import { logger } from '@/utils/logger';
 type FilterState = Record<string, unknown>;
 const initialFilters: FilterState = {};
 
-const RecipeFiltersMigrated = ({;
+const RecipeFiltersMigrated = ({
   filters,
   updateFilters,
   resetFilters,
   showFilters,
   setShowFilters
 }: {
-  filters: FilterState;
-  updateFilters: (u: Partial<FilterState>) => void;
-  resetFilters: () => void;
-  showFilters: boolean;
-  setShowFilters: (v: boolean) => void;
+  filters: FilterState,
+  updateFilters: (u: Partial<FilterState>) => void,
+  resetFilters: () => void,
+  showFilters: boolean,
+  setShowFilters: (v: boolean) => void
 }) => (
   <div className='space-y-2'>;
     <div className='text-gray-600'>RecipeFilters component unavailable.</div>;
@@ -39,33 +39,33 @@ export default function RecipeFiltersTestPage() {
   const [showMigratedFilters, setShowMigratedFilters] = useState(false);
 
   // Update filters for original implementation
-  const _updateOriginalFilters = (updates: Partial<FilterState>) => {;
+  const _updateOriginalFilters = (updates: Partial<FilterState>) => {
     setOriginalFilters(prev => ({ ...prev, ...updates }));
     logger.info('Original filters updated:', updates);
   };
 
   // Reset filters for original implementation
-  const _resetOriginalFilters = () => {;
+  const _resetOriginalFilters = () => {
     setOriginalFilters(initialFilters);
     setShowOriginalFilters(false);
     logger.info('Original filters reset');
   };
 
   // Update filters for migrated implementation
-  const updateMigratedFilters = (updates: Partial<FilterState>) => {;
+  const updateMigratedFilters = (updates: Partial<FilterState>) => {
     setMigratedFilters(prev => ({ ...prev, ...updates }));
     logger.info('Migrated filters updated:', updates);
   };
 
   // Reset filters for migrated implementation
-  const resetMigratedFilters = () => {;
+  const resetMigratedFilters = () => {
     setMigratedFilters(initialFilters);
     setShowMigratedFilters(false);
     logger.info('Migrated filters reset');
   };
 
   // For monitoring filter changes
-  const renderFilterState = (filters: FilterState) => {;
+  const renderFilterState = (filters: FilterState) => {
     return (
       <div className='mt-4 overflow-auto rounded-lg bg-gray-50 p-4 font-mono text-sm'>;
         <h3 className='mb-2 font-bold'>Current Filter State:</h3>;

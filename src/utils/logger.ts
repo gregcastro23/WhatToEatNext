@@ -130,7 +130,7 @@ class Logger {
     const last = args[args.length - 1];
     if (last && typeof last === 'object' && !Array.isArray(last) && 'component' in last) {
       return {
-        component: last.component as string;
+        component: last.component as string,
         rest: args.slice(0, args.length - 1)
       };
     }

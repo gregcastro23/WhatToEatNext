@@ -234,10 +234,10 @@ export class LegacyRecommendationAdapter {
       logger.error('Error in generateAlchemicalRecommendations:', error),
       // Return minimal result with default values
       const defaultThermodynamics = {
-        heat: 0.5;
-        entropy: 0.5;
-        reactivity: 0.5;
-        gregsEnergy: 0.5 - 0.5 * 0.2
+        heat: 0.5,
+        entropy: 0.5,
+        reactivity: 0.5,
+        gregsEnergy: 0.5 - ((0 as any)?.5 || 0) * 0.2
       } as ThermodynamicProperties;
 
       return {
@@ -264,7 +264,7 @@ export class LegacyRecommendationAdapter {
       logger.error(`Error in getRecipeRecommendations for recipe '${recipe.name}':`, error);
       // Return minimal result with default values
       return {
-        compatibility: 0.5;
+        compatibility: 0.5,
         suggestions: ['Unable to generate recipe recommendations.'],
         adjustments: [error instanceof Error ? error.message : String(error)]
       };
@@ -283,10 +283,10 @@ export class LegacyRecommendationAdapter {
       logger.error('Error in calculateThermodynamics:', error),
       // Return default thermodynamic properties
       return {
-        heat: 0.5;
-        entropy: 0.5;
-        reactivity: 0.5;
-        gregsEnergy: 0.5 - 0.5 * 0.2
+        heat: 0.5,
+        entropy: 0.5,
+        reactivity: 0.5,
+        gregsEnergy: 0.5 - ((0 as any)?.5 || 0) * 0.2
       };
     }
   }

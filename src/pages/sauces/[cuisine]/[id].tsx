@@ -8,8 +8,8 @@ import { getCurrentElementalState } from '@/utils/elementalUtils';
 
 // Define interface for sauce properties
 interface Sauce {
-  id: string;
-  name: string;
+  id: string,
+  name: string,
   description?: string;
   base?: string;
   seasonality?: string;
@@ -28,10 +28,10 @@ const SauceDetailsPage: NextPage = () => {
   const [sauce, setSauce] = React.useState<Sauce | null>(null);
   const [loading, setLoading] = React.useState(true);
   const [elementalState, setElementalState] = React.useState({
-    Fire: 0.25;
-    Water: 0.25;
-    Earth: 0.25;
-    Air: 0.25;
+    Fire: 0.25,
+    Water: 0.25,
+    Earth: 0.25,
+    Air: 0.25,
     season: 'spring',
     timeOfDay: 'lunch'
   });

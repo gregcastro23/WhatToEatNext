@@ -1,9 +1,9 @@
 import SunCalc from 'suncalc';
 
 interface AstroEvent {
-  type: string;
-  date: Date;
-  description: string;
+  type: string,
+  date: Date,
+  description: string
 }
 
 /**

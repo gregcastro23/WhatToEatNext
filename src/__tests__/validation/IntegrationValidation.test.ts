@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any, no-console, @typescript-eslint/no-unused-vars, max-lines-per-function -- Campaign/test file with intentional patterns */
 declare global {
-  var __DEV__: boolean;
+  var __DEV__: boolean
 }
 
 /**
@@ -343,7 +343,7 @@ describe('Integration Validation Tests - Task 12', () => {
         expect(output).toContain('0 errors');
         expect(output).toContain('Type checking: PASSED');
         expect(output).toContain('Path resolution: WORKING');
-        expect(output).toContain('Module imports: RESOLVED');
+        expect(output).toContain('Module imports: RESOLVED')
       });
 
       test('Build process includes linting validation', () => {

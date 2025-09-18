@@ -1,8 +1,8 @@
 // Custom error types for the application
 
 export interface ApiError extends Error {
-  statusCode: number;
-  message: string;
+  statusCode: number,
+  message: string,
   details?: unknown;
 }
 

@@ -214,9 +214,9 @@ export class RecipeRecommender {
   private aggregateIngredients(ingredients: { elementalProperties?: ElementalProperties }[]) {
     return ingredients.reduce(
       (acc, ingredient) => ({
-        Fire: acc.Fire + (ingredient.elementalProperties?.Fire || 0);
-        Water: acc.Water + (ingredient.elementalProperties?.Water || 0);
-        Earth: acc.Earth + (ingredient.elementalProperties?.Earth || 0);
+        Fire: acc.Fire + (ingredient.elementalProperties?.Fire || 0),
+        Water: acc.Water + (ingredient.elementalProperties?.Water || 0),
+        Earth: acc.Earth + (ingredient.elementalProperties?.Earth || 0),
         Air: acc.Air + (ingredient.elementalProperties?.Air || 0)
       }),
       { Fire: 0, Water: 0, Earth: 0, Air: 0 },
@@ -269,9 +269,9 @@ export class RecipeRecommender {
       ],
       instructions: ['Mix all ingredients in a bowl', 'Enjoy mindfully'],
       elementalProperties: {
-        Fire: 0.25;
-        Earth: 0.25;
-        Air: 0.25;
+        Fire: 0.25,
+        Earth: 0.25,
+        Air: 0.25,
         Water: 0.25
       },
       season: ['all'],

@@ -15,16 +15,16 @@ export { createZodiacAffinity };
 export const _zodiacCulinaryPreferences: Record<
   ZodiacSign,
   {
-    favoredCuisines: string[];
-    favoredIngredients: string[];
-    favoredFlavors: string[];
-    favoredCookingMethods: string[];
-    seasonalPreferences: string[];
-    nutritionalFocus: string[];
-    cookingStyle: string;
-    diningStyle: string;
-    weakness: string;
-    mealStructure: string;
+    favoredCuisines: string[],
+    favoredIngredients: string[],
+    favoredFlavors: string[],
+    favoredCookingMethods: string[],
+    seasonalPreferences: string[],
+    nutritionalFocus: string[],
+    cookingStyle: string,
+    diningStyle: string,
+    weakness: string,
+    mealStructure: string,
   }
 > = {
   aries: {
@@ -529,12 +529,12 @@ export const _zodiacCulinaryPreferences: Record<
 export const _modalityIngredientPreferences: Record<
   Modality,
   {
-    proteins: string[];
-    vegetables: string[];
-    fruits: string[];
-    herbs: string[];
-    textures: string[];
-    preparations: string[];
+    proteins: string[],
+    vegetables: string[],
+    fruits: string[],
+    herbs: string[],
+    textures: string[],
+    preparations: string[],
   }
 > = {
   cardinal: {
@@ -574,18 +574,18 @@ export const _modalityIngredientPreferences: Record<
 export const _zodiacSeasonalAffinities: Record<
   ZodiacSign,
   {
-    spring: number;
-    summer: number;
-    autumn: number;
-    winter: number;
-    bestSeasonalIngredients: string[];
+    spring: number,
+    summer: number,
+    autumn: number,
+    winter: number,
+    bestSeasonalIngredients: string[]
   }
 > = {
   aries: {
-    spring: 0.9;
-    summer: 0.7;
-    autumn: 0.4;
-    winter: 0.3;
+    spring: 0.9,
+    summer: 0.7,
+    autumn: 0.4,
+    winter: 0.3,
     bestSeasonalIngredients: [
       'spring lambs',
       'asparagus',
@@ -595,10 +595,10 @@ export const _zodiacSeasonalAffinities: Record<
     ]
   },
   taurus: {
-    spring: 0.7;
-    summer: 0.6;
-    autumn: 0.9;
-    winter: 0.5;
+    spring: 0.7,
+    summer: 0.6,
+    autumn: 0.9,
+    winter: 0.5,
     bestSeasonalIngredients: [
       'spring vegetables',
       'strawberries',
@@ -607,24 +607,24 @@ export const _zodiacSeasonalAffinities: Record<
     ]
   },
   gemini: {
-    spring: 0.8;
-    summer: 0.7;
-    autumn: 0.5;
-    winter: 0.4;
+    spring: 0.8,
+    summer: 0.7,
+    autumn: 0.5,
+    winter: 0.4,
     bestSeasonalIngredients: ['spring peas', 'leafy greens', 'berries', 'versatile produce']
   },
   cancer: {
-    spring: 0.5;
-    summer: 0.9;
-    autumn: 0.6;
-    winter: 0.4;
+    spring: 0.5,
+    summer: 0.9,
+    autumn: 0.6,
+    winter: 0.4,
     bestSeasonalIngredients: ['summer fruits', 'fresh seafood', 'zucchini', 'tomatoes', 'corn']
   },
   leo: {
-    spring: 0.4;
-    summer: 0.9;
-    autumn: 0.6;
-    winter: 0.3;
+    spring: 0.4,
+    summer: 0.9,
+    autumn: 0.6,
+    winter: 0.3,
     bestSeasonalIngredients: [
       'summer berries',
       'stone fruits',
@@ -633,10 +633,10 @@ export const _zodiacSeasonalAffinities: Record<
     ]
   },
   virgo: {
-    spring: 0.5;
-    summer: 0.7;
-    autumn: 0.9;
-    winter: 0.4;
+    spring: 0.5,
+    summer: 0.7,
+    autumn: 0.9,
+    winter: 0.4,
     bestSeasonalIngredients: [
       'harvest grains',
       'late summer vegetables',
@@ -645,24 +645,24 @@ export const _zodiacSeasonalAffinities: Record<
     ]
   },
   libra: {
-    spring: 0.5;
-    summer: 0.6;
-    autumn: 0.9;
-    winter: 0.4;
+    spring: 0.5,
+    summer: 0.6,
+    autumn: 0.9,
+    winter: 0.4,
     bestSeasonalIngredients: ['apples', 'pears', 'nuts', 'squash', 'late harvest produce']
   },
   scorpio: {
-    spring: 0.3;
-    summer: 0.5;
-    autumn: 0.8;
-    winter: 0.7;
+    spring: 0.3,
+    summer: 0.5,
+    autumn: 0.8,
+    winter: 0.7,
     bestSeasonalIngredients: ['root vegetables', 'game meats', 'mushrooms', 'preserved foods']
   },
   sagittarius: {
-    spring: 0.4;
-    summer: 0.6;
-    autumn: 0.7;
-    winter: 0.9;
+    spring: 0.4,
+    summer: 0.6,
+    autumn: 0.7,
+    winter: 0.9,
     bestSeasonalIngredients: [
       'winter spices',
       'exotic imports',
@@ -671,10 +671,10 @@ export const _zodiacSeasonalAffinities: Record<
     ]
   },
   capricorn: {
-    spring: 0.3;
-    summer: 0.4;
-    autumn: 0.7;
-    winter: 0.9;
+    spring: 0.3,
+    summer: 0.4,
+    autumn: 0.7,
+    winter: 0.9,
     bestSeasonalIngredients: [
       'winter roots',
       'preserved items',
@@ -683,10 +683,10 @@ export const _zodiacSeasonalAffinities: Record<
     ]
   },
   aquarius: {
-    spring: 0.5;
-    summer: 0.3;
-    autumn: 0.6;
-    winter: 0.9;
+    spring: 0.5,
+    summer: 0.3,
+    autumn: 0.6,
+    winter: 0.9,
     bestSeasonalIngredients: [
       'winter citrus',
       'greenhouse innovations',
@@ -695,10 +695,10 @@ export const _zodiacSeasonalAffinities: Record<
     ]
   },
   pisces: {
-    spring: 0.8;
-    summer: 0.5;
-    autumn: 0.4;
-    winter: 0.7;
+    spring: 0.8,
+    summer: 0.5,
+    autumn: 0.4,
+    winter: 0.7,
     bestSeasonalIngredients: [
       'early spring seafood',
       'snow peas',
@@ -759,95 +759,95 @@ export function getCookingTechniquesForSign(sign: any): string[] {
 export const _zodiacMealTimingPreferences: Record<
   ZodiacSign,
   {
-    breakfast: number;
-    lunch: number;
-    dinner: number;
-    snacking: number;
-    idealEatingHours: string;
+    breakfast: number,
+    lunch: number,
+    dinner: number,
+    snacking: number,
+    idealEatingHours: string
   }
 > = {
   aries: {
-    breakfast: 0.8;
-    lunch: 0.6;
-    dinner: 0.7;
-    snacking: 0.4;
+    breakfast: 0.8,
+    lunch: 0.6,
+    dinner: 0.7,
+    snacking: 0.4,
     idealEatingHours: 'Early morning and midday when energy is highest'
   },
   taurus: {
-    breakfast: 0.6;
-    lunch: 0.7;
-    dinner: 0.9;
-    snacking: 0.8;
+    breakfast: 0.6,
+    lunch: 0.7,
+    dinner: 0.9,
+    snacking: 0.8,
     idealEatingHours: 'Leisurely evening meals, appreciating dinner fully'
   },
   gemini: {
-    breakfast: 0.5;
-    lunch: 0.7;
-    dinner: 0.6;
-    snacking: 0.9;
+    breakfast: 0.5,
+    lunch: 0.7,
+    dinner: 0.6,
+    snacking: 0.9,
     idealEatingHours: 'Multiple small meals throughout the day'
   },
   cancer: {
-    breakfast: 0.7;
-    lunch: 0.6;
-    dinner: 0.9;
-    snacking: 0.7;
+    breakfast: 0.7,
+    lunch: 0.6,
+    dinner: 0.9,
+    snacking: 0.7,
     idealEatingHours: 'Evening family meals, breakfast comfort foods'
   },
   leo: {
-    breakfast: 0.5;
-    lunch: 0.7;
-    dinner: 0.9;
-    snacking: 0.6;
+    breakfast: 0.5,
+    lunch: 0.7,
+    dinner: 0.9,
+    snacking: 0.6,
     idealEatingHours: 'Prime dinner time when attention can be focused'
   },
   virgo: {
-    breakfast: 0.8;
-    lunch: 0.7;
-    dinner: 0.6;
-    snacking: 0.5;
+    breakfast: 0.8,
+    lunch: 0.7,
+    dinner: 0.6,
+    snacking: 0.5,
     idealEatingHours: 'Regular, precisely timed meals throughout day'
   },
   libra: {
-    breakfast: 0.6;
-    lunch: 0.8;
-    dinner: 0.9;
-    snacking: 0.5;
+    breakfast: 0.6,
+    lunch: 0.8,
+    dinner: 0.9,
+    snacking: 0.5,
     idealEatingHours: 'Social lunch and dinner times with company'
   },
   scorpio: {
-    breakfast: 0.4;
-    lunch: 0.6;
-    dinner: 0.9;
-    snacking: 0.7;
+    breakfast: 0.4,
+    lunch: 0.6,
+    dinner: 0.9,
+    snacking: 0.7,
     idealEatingHours: 'Evening and late night when atmosphere is intense'
   },
   sagittarius: {
-    breakfast: 0.7;
-    lunch: 0.8;
-    dinner: 0.7;
-    snacking: 0.8;
+    breakfast: 0.7,
+    lunch: 0.8,
+    dinner: 0.7,
+    snacking: 0.8,
     idealEatingHours: 'Varied meal times, adaptable to adventure'
   },
   capricorn: {
-    breakfast: 0.8;
-    lunch: 0.7;
-    dinner: 0.8;
-    snacking: 0.3;
+    breakfast: 0.8,
+    lunch: 0.7,
+    dinner: 0.8,
+    snacking: 0.3,
     idealEatingHours: 'Traditional meal times adhered to strictly'
   },
   aquarius: {
-    breakfast: 0.6;
-    lunch: 0.5;
-    dinner: 0.7;
-    snacking: 0.8;
+    breakfast: 0.6,
+    lunch: 0.5,
+    dinner: 0.7,
+    snacking: 0.8,
     idealEatingHours: 'Unconventional eating schedule, meal timing experiments'
   },
   pisces: {
-    breakfast: 0.5;
-    lunch: 0.6;
-    dinner: 0.8;
-    snacking: 0.7;
+    breakfast: 0.5,
+    lunch: 0.6,
+    dinner: 0.8,
+    snacking: 0.7,
     idealEatingHours: 'Flowing meal times that follow intuition rather than clock'
   }
 };

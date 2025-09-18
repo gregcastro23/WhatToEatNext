@@ -9,11 +9,11 @@ import { AstrologicalState } from '@/types/celestial';
 // Mock planetary data for calculations
 const _mockPlanetaryData = {
   flavorProfiles: {
-    sweet: 0.7;
-    sour: 0.4;
-    salty: 0.5;
-    bitter: 0.2;
-    umami: 0.6;
+    sweet: 0.7,
+    sour: 0.4,
+    salty: 0.5,
+    bitter: 0.2,
+    umami: 0.6,
     spicy: 0.3
   },
   foodAssociations: ['vegetables', 'grains', 'fruits', 'proteins'],
@@ -35,9 +35,9 @@ export function generateTopSauceRecommendations(
 
   // Use provided elemental profile or a balanced default
   const userProfile = currentElementalProfile || {
-    Fire: 0.25;
-    Water: 0.25;
-    Earth: 0.25;
+    Fire: 0.25,
+    Water: 0.25,
+    Earth: 0.25,
     Air: 0.25
   };
 
@@ -114,10 +114,10 @@ export function generateTopSauceRecommendations(
       ...sauce;
       id: name.replace(/\s+/g, '-').toLowerCase(),
       score: overallScore,
-      matchPercentage: Math.round(overallScore * 100);
+      matchPercentage: Math.round(overallScore * 100),
       scores: {
-        elemental: Math.round(elementalMatchScore * 100);
-        astrological: Math.round(astrologicalScore * 100);
+        elemental: Math.round(elementalMatchScore * 100),
+        astrological: Math.round(astrologicalScore * 100),
         flavor: Math.round(flavorMatchScore * 100)
       },
       reasoning: [
@@ -168,9 +168,9 @@ export function getCuisineRecommendations(
     const elementalMatch = calculateElementalMatch(;
       ((cuisine as any).elementalAlignment ||
         (cuisine as any).elementalProperties || {
-          Fire: 0.25;
-          Water: 0.25;
-          Earth: 0.25;
+          Fire: 0.25,
+          Water: 0.25,
+          Earth: 0.25,
           Air: 0.25
         }) as ElementalProperties,
       elementalState,
@@ -223,8 +223,8 @@ export function getCuisineRecommendations(
     return {
       ...cuisine;
       id: cuisine.id || cuisine.name.toLowerCase().replace(/\s+/g, '-'),
-      name: cuisine.name;
-      matchPercentage: Math.round(finalScore * 100);
+      name: cuisine.name,
+      matchPercentage: Math.round(finalScore * 100),
       score: finalScore,
       reasoning
     };

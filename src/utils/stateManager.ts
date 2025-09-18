@@ -8,9 +8,9 @@ import { themeManager } from './theme';
 
 // Add the missing type definitions
 interface ScoredRecipe extends Recipe {
-  score: number;
+  score: number,
   matches: {
-    elemental: number;
+    elemental: number,
     seasonal: number,
     astrological: number
   };
@@ -40,20 +40,20 @@ export type CuisineType =
 
 interface UserPreferences {
   theme: {
-    mode: 'light' | 'dark' | 'system';
-    colorScheme: string;
+    mode: 'light' | 'dark' | 'system',
+    colorScheme: string,
     fontSize: number,
     animations: boolean
   };
   dietary: {
-    restrictions: DietaryRestriction[];
-    favorites: string[];
+    restrictions: DietaryRestriction[],
+    favorites: string[],
     excluded: string[],
     spiciness: 'mild' | 'medium' | 'hot'
   };
   cooking: {
-    preferredMethods: string[];
-    maxPrepTime: number;
+    preferredMethods: string[],
+    maxPrepTime: number,
     servingSize: number,
     complexity: 'simple' | 'moderate' | 'complex'
   };
@@ -65,35 +65,35 @@ interface UserPreferences {
 
 interface AppState {
   recipes: {
-    all: Recipe[];
-    filtered: ScoredRecipe[];
-    favorites: string[];
-    recent: string[];
+    all: Recipe[],
+    filtered: ScoredRecipe[],
+    favorites: string[],
+    recent: string[],
     loading: boolean,
     error: string | null
   };
   celestial: {
-    elementalState: ElementalProperties;
-    season: string;
+    elementalState: ElementalProperties,
+    season: string,
     moonPhase: string,
     lastUpdated: number
   };
   user: {
-    preferences: UserPreferences;
+    preferences: UserPreferences,
     history: {
-      viewed: string[];
+      viewed: string[],
       cooked: string[],
       rated: Record<string, number>
     };
   };
   ui: {
-    activeFilters: Set<string>;
-    searchQuery: string;
-    selectedRecipe: string | null;
-    modalOpen: boolean;
-    sidebarOpen: boolean;
+    activeFilters: Set<string>,
+    searchQuery: string,
+    selectedRecipe: string | null,
+    modalOpen: boolean,
+    sidebarOpen: boolean,
     notifications: Array<{
-      id: string;
+      id: string,
       type: 'success' | 'error' | 'info',
       message: string,
       timestamp: number
@@ -181,9 +181,9 @@ class StateManager {
       },
       celestial: {
         elementalState: {
-          Fire: 0.25;
-          Earth: 0.25;
-          Air: 0.25;
+          Fire: 0.25,
+          Earth: 0.25,
+          Air: 0.25,
           Water: 0.25
         },
         season: 'spring',
@@ -262,9 +262,9 @@ class StateManager {
       const influences = celestialCalculator.calculateCurrentInfluences();
       // Convert influences to proper ElementalProperties
       const elementalState: ElementalProperties = {
-        Fire: influences.elementalBalance?.Fire || 0;
-        Water: influences.elementalBalance?.Water || 0;
-        Earth: influences.elementalBalance?.Earth || 0;
+        Fire: influences.elementalBalance?.Fire || 0,
+        Water: influences.elementalBalance?.Water || 0,
+        Earth: influences.elementalBalance?.Earth || 0,
         Air: influences.elementalBalance?.Air || 0
       };
 

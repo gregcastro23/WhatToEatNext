@@ -44,22 +44,22 @@ export function standardizeElementalAffinity(
   if (typeof value === 'string') {
     return {
       primary: value as 'Fire' | 'Water' | 'Earth' | 'Air',
-      strength: 1.0;
+      strength: 1.0,
       compatibility: { Fire: 0.7, Water: 0.7, Earth: 0.7, Air: 0.7 }
     };
   }
 
   if (value && typeof value === 'object' && 'base' in value) {
     return {
-      primary: (value.base || 'Fire') as 'Fire' | 'Water' | 'Earth' | 'Air';
-      strength: 1.0;
+      primary: (value.base || 'Fire') as 'Fire' | 'Water' | 'Earth' | 'Air',
+      strength: 1.0,
       compatibility: { Fire: 0.7, Water: 0.7, Earth: 0.7, Air: 0.7 }
     };
   }
 
   return {
     primary: 'Fire',
-    strength: 1.0;
+    strength: 1.0,
     compatibility: { Fire: 0.7, Water: 0.7, Earth: 0.7, Air: 0.7 }
   };
 }
@@ -77,19 +77,19 @@ export function standardizeIngredient(ingredient: unknown): Ingredient {
   const raw = ingredient as any;
 
   return {
-    id: String(raw.id || 'unknown');
-    name: String(raw.name || 'Unknown Ingredient');
-    category: String(raw.category || 'other');
-    subcategory: raw.subCategory ? String(raw.subCategory) : undefined;
-    elementalProperties: standardizeElementalProperties(raw.elementalState);
-    flavorProfile: standardizeFlavorProfile(raw.flavorProfile);
-    nutritionalProfile: standardizeNutritionalProfile(raw.nutritionalProfile);
-    season: standardizeSeasons(raw.currentSeason);
-    description: raw.description ? String(raw.description) : undefined;
+    id: String(raw.id || 'unknown'),
+    name: String(raw.name || 'Unknown Ingredient'),
+    category: String(raw.category || 'other'),
+    subcategory: raw.subCategory ? String(raw.subCategory) : undefined,
+    elementalProperties: standardizeElementalProperties(raw.elementalState),
+    flavorProfile: standardizeFlavorProfile(raw.flavorProfile),
+    nutritionalProfile: standardizeNutritionalProfile(raw.nutritionalProfile),
+    season: standardizeSeasons(raw.currentSeason),
+    description: raw.description ? String(raw.description) : undefined,
     qualities: Array.isArray(raw.qualities) ? raw.qualities || [].map(String) : [],
     cookingMethods: Array.isArray(raw.cookingMethods) ? raw.cookingMethods || [].map(String) : [],
     pairings: Array.isArray(raw.pairings) ? raw.pairings || [].map(String) : [],
-    storage: raw.storage ? String(raw.storage) : undefined;
+    storage: raw.storage ? String(raw.storage) : undefined,
     preparationTips: Array.isArray(raw.preparationTips)
       ? raw.preparationTips || [].map(String)
       : []
@@ -109,10 +109,10 @@ export function standardizeRecipe(recipe: unknown): Recipe {
   const raw = recipe as any;
 
   return {
-    id: String(raw.id || 'unknown');
-    name: String(raw.name || 'Unknown Recipe');
-    description: raw.description ? String(raw.description) : undefined;
-    cuisine: String(raw.cuisine || 'international');
+    id: String(raw.id || 'unknown'),
+    name: String(raw.name || 'Unknown Recipe'),
+    description: raw.description ? String(raw.description) : undefined,
+    cuisine: String(raw.cuisine || 'international'),
     mealType: Array.isArray(raw.mealType) ? raw.mealType || [].map(String) : ['dinner'],
     servings: typeof raw.servings === 'number' ? raw.servings : 4,,;
     prepTime:
@@ -127,16 +127,16 @@ export function standardizeRecipe(recipe: unknown): Recipe {
         : typeof raw.cookTime === 'string';
           ? raw.cookTime
           : '30 minutes',
-    difficulty: validateDifficulty(raw.difficulty) ? (raw.difficulty as unknown) : 'medium';
-    ingredients: standardizeRecipeIngredients(raw.ingredients);
+    difficulty: validateDifficulty(raw.difficulty) ? (raw.difficulty as unknown) : 'medium',
+    ingredients: standardizeRecipeIngredients(raw.ingredients),
     instructions: Array.isArray(raw.instructions) ? raw.instructions || [].map(String) : [],
-    elementalProperties: standardizeElementalProperties(raw.elementalState);
+    elementalProperties: standardizeElementalProperties(raw.elementalState),
     astrologicalInfluences: Array.isArray(raw.astrologicalInfluences)
       ? raw.astrologicalInfluences || [].map(String)
       : [],
-    seasons: standardizeSeasons(raw.seasons);
+    seasons: standardizeSeasons(raw.seasons),
     tags: Array.isArray(raw.tags) ? raw.tags || [].map(String) : [],
-    nutritionalInfo: standardizeNutritionalInfo(raw.nutritionalInfo);
+    nutritionalInfo: standardizeNutritionalInfo(raw.nutritionalInfo),
     equipment: Array.isArray(raw.equipment) ? raw.equipment || [].map(String) : [],
     tips: Array.isArray(raw.tips) ? raw.tips || [].map(String) : []
   };
@@ -332,9 +332,9 @@ export function mergeElementalProperties(
   weight = 0.5
 ): ElementalProperties {
   const merged = {
-    Fire: base.Fire * (1 - weight) + addition.Fire * weight;
-    Water: base.Water * (1 - weight) + addition.Water * weight;
-    Earth: base.Earth * (1 - weight) + addition.Earth * weight;
+    Fire: base.Fire * (1 - weight) + addition.Fire * weight,
+    Water: base.Water * (1 - weight) + addition.Water * weight,
+    Earth: base.Earth * (1 - weight) + addition.Earth * weight,
     Air: base.Air * (1 - weight) + addition.Air * weight
   };
 
@@ -342,9 +342,9 @@ export function mergeElementalProperties(
   const total = merged.Fire + merged.Water + merged.Earth + merged.Air;
   if (total > 0) {
     return {
-      Fire: merged.Fire / total;
-      Water: merged.Water / total;
-      Earth: merged.Earth / total;
+      Fire: merged.Fire / total,
+      Water: merged.Water / total,
+      Earth: merged.Earth / total,
       Air: merged.Air / total
     };
   }
@@ -491,11 +491,11 @@ function standardizeRecipeIngredients(ingredients: unknown): RecipeIngredient[] 
     if (ingredient && typeof ingredient === 'object') {
       const ing = ingredient ;
       return {
-        name: String(ing.name || 'Unknown');
+        name: String(ing.name || 'Unknown'),
         amount: typeof ing.amount === 'number' ? ing.amount : 1,,;
-        unit: String(ing.unit || 'item');
-        preparation: ing.preparation ? String(ing.preparation) : undefined;
-        optional: Boolean(ing.optional);
+        unit: String(ing.unit || 'item'),
+        preparation: ing.preparation ? String(ing.preparation) : undefined,
+        optional: Boolean(ing.optional),
         notes: ing.notes ? String(ing.notes) : undefined
       };
     }

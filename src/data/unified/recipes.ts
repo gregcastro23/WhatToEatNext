@@ -32,15 +32,15 @@ function isIngredientLike(value: unknown): value is IngredientLike {
 // Enhanced recipe interface that extends existing recipe structure
 export interface EnhancedRecipe {
   // ===== EXISTING RECIPE PROPERTIES (PRESERVED) =====
-  name: string;
-  description: string;
+  name: string,
+  description: string,
   cuisine: string;
   cookingMethods?: string[];
   tools?: string[];
   preparationSteps?: string[];
   ingredients: Array<{
-    name: string;
-    amount: string | number;
+    name: string,
+    amount: string | number,
     unit: string,
     category?: string,
     element?: string,
@@ -79,8 +79,8 @@ export interface EnhancedRecipe {
 
   // ===== NEW ALCHEMICAL ENHANCEMENTS (ADDITIVE) =====
   alchemicalProperties?: {
-    totalKalchm: number;
-    monicaConstant: number | null;
+    totalKalchm: number,
+    monicaConstant: number | null,
     thermodynamicProfile: {
       heat: number,
       entropy: number,
@@ -93,27 +93,27 @@ export interface EnhancedRecipe {
       contribution: number,
       elementalContribution: ElementalProperties
     }>;
-    alchemicalClassification: string;
+    alchemicalClassification: string
   };
 
   // ===== NEW COOKING OPTIMIZATION (ADDITIVE) =====
   cookingOptimization?: {
-    optimalTemperature: number;
+    optimalTemperature: number,
     planetaryTiming: string | null,
     monicaAdjustments: {
       temperatureAdjustment?: number,
       timingAdjustment?: number,
       intensityModifier?: string
     };
-    elementalCookingMethod: string;
-    thermodynamicRecommendations: string[];
+    elementalCookingMethod: string,
+    thermodynamicRecommendations: string[],
   };
 
   // ===== NEW ENHANCEMENT METADATA (ADDITIVE) =====
   enhancementMetadata?: {
-    phase3Enhanced: boolean;
-    kalchmCalculated: boolean;
-    monicaCalculated: boolean;
+    phase3Enhanced: boolean,
+    kalchmCalculated: boolean,
+    monicaCalculated: boolean,
     enhancedAt: string,
     sourceFile: string,
     ingredientsMatched: number,
@@ -134,11 +134,11 @@ export class RecipeEnhancer {
       contribution: number,
       elementalContribution: ElementalProperties
     }>;
-    matchedIngredients: number;
+    matchedIngredients: number
   } {
     if (!ingredients || !Array.isArray(ingredients)) {
       return {
-        totalKalchm: 1.0;
+        totalKalchm: 1.0,
         breakdown: [],
         matchedIngredients: 0
       };
@@ -162,9 +162,9 @@ export class RecipeEnhancer {
           : undefined,
       let kalchm = 1.0, // Default Kalchm;
       let elementalContribution: ElementalProperties = {
-        Fire: 0.25;
-        Water: 0.25;
-        Earth: 0.25;
+        Fire: 0.25,
+        Water: 0.25,
+        Earth: 0.25,
         Air: 0.25
       };
 
@@ -250,9 +250,9 @@ export class RecipeEnhancer {
    */
   static estimateKalchmFromElement(element: Element): number {
     const elementKalchm: { [key: string]: number } = {
-      Fire: 1.15;
-      Water: 0.95;
-      Earth: 0.85;
+      Fire: 1.15,
+      Water: 0.95,
+      Earth: 0.85,
       Air: 1.05
     };
 
@@ -468,8 +468,8 @@ export class RecipeEnhancer {
     }
 
     return {
-      temperatureAdjustment: Math.round(monica * 10);
-      timingAdjustment: Math.round(monica * 5);
+      temperatureAdjustment: Math.round(monica * 10),
+      timingAdjustment: Math.round(monica * 5),
       intensityModifier: monica > 0 ? 'increase' : 'decrease'
     };
   }
@@ -556,7 +556,7 @@ export class RecipeEnhancer {
         totalKalchm: kalchmResult.totalKalchm;
         monicaConstant,
         thermodynamicProfile: thermodynamics,
-        ingredientKalchmBreakdown: kalchmResult.breakdown;
+        ingredientKalchmBreakdown: kalchmResult.breakdown,
         elementalBalance,
         alchemicalClassification
       },
@@ -574,10 +574,10 @@ export class RecipeEnhancer {
       enhancementMetadata: {
         phase3Enhanced: true,
         kalchmCalculated: true,
-        monicaCalculated: monicaConstant !== null;
-        enhancedAt: new Date().toISOString();
+        monicaCalculated: monicaConstant !== null,
+        enhancedAt: new Date().toISOString(),
         sourceFile,
-        ingredientsMatched: kalchmResult.matchedIngredients;
+        ingredientsMatched: kalchmResult.matchedIngredients,
         ingredientsTotal: (recipe.ingredients || []).length
       }
     };
@@ -640,7 +640,7 @@ export class RecipeAnalyzer {
     totalRecipes: number,
     enhancedRecipes: number,
     kalchmRange: { min: number, max: number, average: number };
-    monicaCalculated: number;
+    monicaCalculated: number,
     elementalDistribution: { [key: string]: number };
     alchemicalClassifications: { [key: string]: number };
   } {
@@ -677,11 +677,11 @@ export class RecipeAnalyzer {
     });
 
     return {
-      totalRecipes: recipes.length;
-      enhancedRecipes: enhanced.length;
+      totalRecipes: recipes.length,
+      enhancedRecipes: enhanced.length,
       kalchmRange: {
-        min: Math.min(...kalchmValues);
-        max: Math.max(...kalchmValues);
+        min: Math.min(...kalchmValues),
+        max: Math.max(...kalchmValues),
         average: kalchmValues.reduce((a, b) => a + b, 0) / kalchmValues.length
       },
       monicaCalculated,

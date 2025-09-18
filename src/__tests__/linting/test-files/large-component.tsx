@@ -2,9 +2,9 @@
 import { memo, useCallback, useMemo } from 'react';
 
 interface ItemProps {
-  id: number;
+  id: number,
   name: string,
-  onClick: (id: number) => void;
+  onClick: (id: number) => void,
 }
 
 const MemoizedItem = memo(({ id, name, onClick }: ItemProps) => {

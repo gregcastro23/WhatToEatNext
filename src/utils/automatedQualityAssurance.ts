@@ -39,8 +39,8 @@ export const QA_THRESHOLDS = {
 } as const;
 
 export interface QualityMetrics {
-  typeScriptErrors: number;
-  lintingWarnings: number;
+  typeScriptErrors: number,
+  lintingWarnings: number,
   performanceMetrics: {
     renderTime: number,
     memoryUsage: number,
@@ -60,8 +60,8 @@ export interface QualityMetrics {
 }
 
 export interface QualityAssuranceConfig {
-  enableAutomaticValidation: boolean;
-  enableCampaignTriggers: boolean;
+  enableAutomaticValidation: boolean,
+  enableCampaignTriggers: boolean,
   enablePerformanceMonitoring: boolean,
   enablePlanetaryDataValidation: boolean,
   enableIngredientConsistencyChecking: boolean,
@@ -69,7 +69,7 @@ export interface QualityAssuranceConfig {
 }
 
 export interface ValidationResult {
-  isValid: boolean;
+  isValid: boolean,
   score: number,
   issues: string[],
   recommendations: string[],
@@ -77,8 +77,8 @@ export interface ValidationResult {
 }
 
 export interface CampaignTrigger {
-  type: 'typescript' | 'linting' | 'performance' | 'planetary' | 'ingredient';
-  threshold: number;
+  type: 'typescript' | 'linting' | 'performance' | 'planetary' | 'ingredient',
+  threshold: number,
   currentValue: number,
   action: 'monitor' | 'warn' | 'campaign' | 'emergency',
   triggered: boolean,
@@ -166,7 +166,7 @@ export class AutomatedQualityAssurance {
       // Update metrics
       this.metrics.planetaryDataQuality = {
         accuracy: Math.max(0, score),
-        freshness: this.calculateDataFreshness(positions);
+        freshness: this.calculateDataFreshness(positions),
         reliability:
           issues.length === 0 ? 1.0 : Math.max(0, 1.0 - ((issues as any)?.length || 0) * 0.2),,;
       };
@@ -270,7 +270,7 @@ export class AutomatedQualityAssurance {
 
     logger.debug('Ingredient consistency validation completed', {
       score: averageScore,
-      issues: issues.length;
+      issues: issues.length,
       validatedCount
     });
 
@@ -293,10 +293,10 @@ export class AutomatedQualityAssurance {
 
       const trigger: CampaignTrigger = {
         type: 'typescript',
-        threshold: this.config.thresholds.typescript.criticalThreshold;
+        threshold: this.config.thresholds.typescript.criticalThreshold,
         currentValue: errorCount,
         action: this.determineAction('typescript', errorCount),
-        triggered: errorCount > this.config.thresholds.typescript.criticalThreshold;
+        triggered: errorCount > this.config.thresholds.typescript.criticalThreshold,
         timestamp: Date.now()
       };
 
@@ -307,7 +307,7 @@ export class AutomatedQualityAssurance {
         // In a real implementation, this would trigger the campaign system
         this.triggerCampaign('typescript-error-elimination', {
           errorCount,
-          threshold: trigger.threshold;
+          threshold: trigger.threshold,
           action: trigger.action
         });
       }
@@ -376,8 +376,8 @@ export class AutomatedQualityAssurance {
     // Update performance metrics
     this.metrics.performanceMetrics = {
       renderTime: 0, // Will be updated by component monitoring
-      memoryUsage: buildMetrics.memoryUsage || 0;
-      bundleSize: buildMetrics.bundleSize || 0;
+      memoryUsage: buildMetrics.memoryUsage || 0,
+      bundleSize: buildMetrics.bundleSize || 0,
       apiResponseTime: 0, // Will be updated by API monitoring
     };
 
@@ -435,13 +435,13 @@ export class AutomatedQualityAssurance {
         apiResponseTime: 0
       },
       planetaryDataQuality: {
-        accuracy: 1.0;
-        freshness: 1.0;
+        accuracy: 1.0,
+        freshness: 1.0,
         reliability: 1.0
       },
       ingredientConsistency: {
-        elementalValidation: 1.0;
-        compatibilityScores: 1.0;
+        elementalValidation: 1.0,
+        compatibilityScores: 1.0,
         culturalSensitivity: 1.0
       }
     };
@@ -512,10 +512,10 @@ export class AutomatedQualityAssurance {
 
     const trigger: CampaignTrigger = {
       type,
-      threshold: thresholds.critical;
+      threshold: thresholds.critical,
       currentValue: value,
       action: this.determineAction(type, value),
-      triggered: value < thresholds.critical;
+      triggered: value < thresholds.critical,
       timestamp: Date.now()
     };
 
@@ -531,12 +531,12 @@ export class AutomatedQualityAssurance {
     switch (type) {
       case 'typescript':
         return {
-          critical: this.config.thresholds.typescript.criticalThreshold;
+          critical: this.config.thresholds.typescript.criticalThreshold,
           warning: this.config.thresholds.typescript.warningThreshold
         };
       case 'linting':
         return {
-          critical: this.config.thresholds.linting.criticalThreshold;
+          critical: this.config.thresholds.linting.criticalThreshold,
           warning: this.config.thresholds.linting.warningThreshold
         };
       case 'performance':
@@ -544,7 +544,7 @@ export class AutomatedQualityAssurance {
       case 'ingredient':
         return { critical: 0.8, warning: 0.9 }; // Score-based thresholds
       default:
-        return null;
+        return null
     }
   }
 
@@ -604,7 +604,7 @@ export function useAutomatedQualityAssurance() {
   const qa = getAutomatedQualityAssurance();
 
   return {
-    validatePlanetaryData: (date?: Date) => qa.validatePlanetaryData(date);
+    validatePlanetaryData: (date?: Date) => qa.validatePlanetaryData(date),
     validateIngredientConsistency: (
       ingredients: Array<{
         name: string,
@@ -612,10 +612,10 @@ export function useAutomatedQualityAssurance() {
         category?: string
       }>,
     ) => qa.validateIngredientConsistency(ingredients);
-    checkTypeScriptErrorThreshold: () => qa.checkTypeScriptErrorThreshold();
-    monitorBuildQuality: (metrics: unknown) => qa.monitorBuildQuality(metrics);
-    getQualityMetrics: () => qa.getQualityMetrics();
-    getActiveCampaignTriggers: () => qa.getActiveCampaignTriggers();
+    checkTypeScriptErrorThreshold: () => qa.checkTypeScriptErrorThreshold(),
+    monitorBuildQuality: (metrics: unknown) => qa.monitorBuildQuality(metrics),
+    getQualityMetrics: () => qa.getQualityMetrics(),
+    getActiveCampaignTriggers: () => qa.getActiveCampaignTriggers(),
     updateConfig: (config: Partial<QualityAssuranceConfig>) => qa.updateConfig(config)
   };
 }

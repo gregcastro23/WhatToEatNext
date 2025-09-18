@@ -18,15 +18,15 @@ import { AutomatedDocumentationGenerator } from './AutomatedDocumentationGenerat
 
 interface PreCommitConfig {
   checks: {
-    explicitAny: boolean;
-    typescript: boolean;
+    explicitAny: boolean,
+    typescript: boolean,
     linting: boolean,
     documentation: boolean,
     performance: boolean,
     formatting: boolean
   };
   thresholds: {
-    maxNewAnyTypes: number;
+    maxNewAnyTypes: number,
     maxTypeScriptErrors: number,
     maxLintingWarnings: number,
     minDocumentationCoverage: number,
@@ -45,8 +45,8 @@ interface PreCommitConfig {
 }
 
 interface PreCommitResult {
-  check: string;
-  passed: boolean;
+  check: string,
+  passed: boolean,
   message: string,
   severity: 'info' | 'warning' | 'error' | 'critical',
   autoFixed: boolean,
@@ -290,7 +290,7 @@ class EnhancedPreCommitHook {
       return {
         check: 'Code Formatting',
         passed: false,
-        message: 'Formatting issues detected. Run `yarn format` to fix.';
+        message: 'Formatting issues detected. Run `yarn format` to fix.',
         severity: 'warning',
         autoFixed: false
       };

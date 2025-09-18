@@ -1365,7 +1365,7 @@ export const russian: Cuisine = {
       seasonality: 'summer preparation, preserved for winter use',
       preparationNotes:
         'Traditional preparation involves roasting eggplants over open flame for smoky flavor',
-      technicalTips: 'Let flavors marry overnight for best taste; serve at room temperature'
+      technicalTips: 'Let flavors marry overnight for best taste, serve at room temperature'
     }
   },
   sauceRecommender: {

@@ -88,7 +88,7 @@ export function calculateElementalMatch(
 export function calculateRecipeMatchScore(
   recipe: Recipe,
   elementalState: {
-    Fire: number;
+    Fire: number,
     Water: number,
     Earth: number,
     Air: number,
@@ -296,7 +296,7 @@ export function getRecommendedRecipes(
 
   // Generate human-readable explanations
   return (topRecipes || []).map(scoredRecipe => ({
-    recipe: scoredRecipe.recipe;
+    recipe: scoredRecipe.recipe,
     explanation: generateExplanation(scoredRecipe)
   }));
 }

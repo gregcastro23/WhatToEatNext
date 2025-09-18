@@ -51,8 +51,8 @@ export interface StandardizedNutritionalProfile {
   vitaminDetails?: Record<
     string,
     {
-      amount: number;
-      unit: string;
+      amount: number,
+      unit: string,
       dailyValue?: number;
     }
   >;
@@ -60,8 +60,8 @@ export interface StandardizedNutritionalProfile {
   mineralsDetails?: Record<
     string,
     {
-      amount: number;
-      unit: string;
+      amount: number,
+      unit: string,
       dailyValue?: number;
     }
   >;
@@ -182,8 +182,8 @@ export interface StandardizedCulinaryApplications {
   regional?: Record<
     string,
     {
-      name: string;
-      usage: string[];
+      name: string,
+      usage: string[],
       preparation: string;
       pairings?: string[];
       cultural_notes?: string;
@@ -198,17 +198,17 @@ export interface StandardizedCulinaryApplications {
         notes: string[];
         techniques?: string[];
         dishes?: string[];
-        [key: string]: unknown;
+        [key: string]: unknown
       }
     | undefined;
 }
 
 // Standardized variety information
 export interface StandardizedVariety {
-  appearance: string;
-  texture: string;
-  flavor: string;
-  best_uses: string[];
+  appearance: string,
+  texture: string,
+  flavor: string,
+  best_uses: string[],
   notes?: string;
   ripening?: string;
   storage?: string;
@@ -297,23 +297,23 @@ export interface StandardizedHealthProperties {
 // Category-specific extensions
 export interface OilSpecificProperties {
   smokePoint?: {
-    celsius: number;
-    fahrenheit: number;
+    celsius: number,
+    fahrenheit: number,
   };
   extractionMethod?: string;
   refinementLevel?: 'crude' | 'refined' | 'extra-virgin' | 'cold-pressed';
   fatProfile?: {
-    saturated: number;
-    monounsaturated: number;
-    polyunsaturated: number;
-    omega3: number;
-    omega6: number;
-    omega9: number;
+    saturated: number,
+    monounsaturated: number,
+    polyunsaturated: number,
+    omega3: number,
+    omega6: number,
+    omega9: number,
   };
   stability?: {
-    heat: 'low' | 'medium' | 'high';
-    light: 'sensitive' | 'stable';
-    oxidation: 'prone' | 'resistant';
+    heat: 'low' | 'medium' | 'high',
+    light: 'sensitive' | 'stable',
+    oxidation: 'prone' | 'resistant'
   };
 }
 
@@ -326,28 +326,28 @@ export interface SpiceSpecificProperties {
   harvestSeason?: Season[];
   activeCompounds?: string[];
   traditional_uses?: {
-    culinary: string[];
-    medicinal: string[];
+    culinary: string[],
+    medicinal: string[],
     ceremonial?: string[];
   };
 }
 
 export interface FruitSpecificProperties {
   ripeness_indicators?: {
-    visual: string[];
-    tactile: string[];
-    aromatic: string[];
+    visual: string[],
+    tactile: string[],
+    aromatic: string[]
   };
   ripening_process?: {
-    climacteric: boolean;
-    ethylene_producer: boolean;
+    climacteric: boolean,
+    ethylene_producer: boolean,
     ethylene_sensitive: boolean;
     optimal_temperature?: string;
     duration?: string;
   };
   peak_season?: {
-    start: string;
-    end: string;
+    start: string,
+    end: string,
     regions?: string[];
   };
 }
@@ -422,7 +422,7 @@ export interface StandardizedIngredient {
   };
 
   // Flexible extension for future properties
-  [key: string]: unknown;
+  [key: string]: unknown
 }
 
 // Type guards for safe data access
@@ -520,14 +520,14 @@ export function safeGetMineralValues(
 // Data completeness assessment
 export interface DataCompletenessScore {
   overall: number; // 0-100
-  nutrition: number;
-  culinary: number;
-  astrology: number;
-  varieties: number;
-  storage: number;
-  missingFields: string[];
-  strengths: string[];
-  recommendations: string[];
+  nutrition: number,
+  culinary: number,
+  astrology: number,
+  varieties: number,
+  storage: number,
+  missingFields: string[],
+  strengths: string[],
+  recommendations: string[],
 }
 
 export function assessDataCompleteness(ingredient: StandardizedIngredient): DataCompletenessScore {

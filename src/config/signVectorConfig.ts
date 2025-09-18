@@ -38,42 +38,42 @@ export const DEFAULT_SIGN_VECTOR_CONFIG: SignVectorConfig = {
   
   // Planetary weight configuration
   planetaryWeights: {
-  Sun: 1.5;
-    Moon: 1.3;
-    Mercury: 1.1;
-    Venus: 1.1;
-    Mars: 1.2;
-    Jupiter: 1.0;
-    Saturn: 0.95;
-    Uranus: 0.9;
-    Neptune: 0.9;
-    Pluto: 0.9;
+  Sun: 1.5,
+    Moon: 1.3,
+    Mercury: 1.1,
+    Venus: 1.1,
+    Mars: 1.2,
+    Jupiter: 1.0,
+    Saturn: 0.95,
+    Uranus: 0.9,
+    Neptune: 0.9,
+    Pluto: 0.9,
     // Additional bodies can be added here
-    NorthNode: 0.8;
-    SouthNode: 0.8;
-    Chiron: 0.85;
-    Lilith: 0.85;
-    Ascendant: 1.2;
+    NorthNode: 0.8,
+    SouthNode: 0.8,
+    Chiron: 0.85,
+    Lilith: 0.85,
+    Ascendant: 1.2,
     Midheaven: 1.1
   };
   
   // Aspect modifiers
   aspectModifiers: {
-  conjunction: 1.2;
-    trine: 1.1;
-    sextile: 1.5;
-    square: 0.93;
-    opposition: 0.9;
-    quincunx: 0.95;
-    semisextile: 1.2;
-    semisquare: 0.96;
+  conjunction: 1.2,
+    trine: 1.1,
+    sextile: 1.5,
+    square: 0.93,
+    opposition: 0.9,
+    quincunx: 0.95,
+    semisextile: 1.2,
+    semisquare: 0.96,
     sesquiquadrate: 0.94
   };
   
   // Seasonal alignment values
   seasonalAlignment: {
-  inSeason: 1.0;
-    outOfSeason: 0.25;
+  inSeason: 1.0,
+    outOfSeason: 0.25,
     neutral: 0.5
   };
   

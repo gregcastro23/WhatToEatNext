@@ -33,12 +33,12 @@ export interface QualityDashboardConfig {
 export interface QualityMetrics {
   timestamp: Date;
   batchId?: string;
-  unusedVariableReduction: number;
-  buildStabilityScore: number;
-  overallQualityScore: number;
-  validationSuccessRate: number;
-  serviceIntegrityScore: number;
-  testCoverageScore: number;
+  unusedVariableReduction: number,
+  buildStabilityScore: number,
+  overallQualityScore: number,
+  validationSuccessRate: number,
+  serviceIntegrityScore: number,
+  testCoverageScore: number,
   targetAchievement: {
     reductionTargetMet: boolean,
     stabilityTargetMet: boolean,
@@ -50,15 +50,15 @@ export interface QualityMetrics {
 export interface QualityTrend {
   metric: string,
   values: { timestamp: Date, value: number }[];
-  trend: 'improving' | 'stable' | 'declining';
-  changeRate: number; // Percentage change over time
+  trend: 'improving' | 'stable' | 'declining',
+  changeRate: number, // Percentage change over time
 }
 
 export interface ProductionReadinessAssessment {
-  isReady: boolean;
-  readinessScore: number; // 0-100
-  blockers: string[];
-  warnings: string[];
+  isReady: boolean,
+  readinessScore: number, // 0-100
+  blockers: string[],
+  warnings: string[],
   recommendations: string[];
   estimatedReadinessDate?: Date,
   requiredActions: {
@@ -69,19 +69,19 @@ export interface ProductionReadinessAssessment {
 }
 
 export interface ComprehensiveDashboardReport {
-  timestamp: Date;
-  reportId: string;
+  timestamp: Date,
+  reportId: string,
   executiveSummary: {
     overallStatus: 'excellent' | 'good' | 'needs-attention' | 'critical',
     keyAchievements: string[],
     criticalIssues: string[],
     nextSteps: string[]
   };
-  qualityMetrics: QualityMetrics;
-  qualityTrends: QualityTrend[];
-  productionReadiness: ProductionReadinessAssessment;
+  qualityMetrics: QualityMetrics,
+  qualityTrends: QualityTrend[],
+  productionReadiness: ProductionReadinessAssessment,
   batchSummary: {
-    totalBatches: number;
+    totalBatches: number,
     successfulBatches: number,
     averageQualityScore: number,
     totalFilesProcessed: number,
@@ -108,7 +108,7 @@ export class QualityAssuranceDashboard {
       stabilityTarget: 100,
       qualityThreshold: 85,
       monitoringInterval: 5, // 5 minutes
-      reportingPath: './quality-reports';
+      reportingPath: './quality-reports',
       enableRealTimeMonitoring: true,
       enableAutomaticReporting: true,
       logLevel: 'info',
@@ -196,9 +196,9 @@ export class QualityAssuranceDashboard {
       const testCoverageScore = this.calculateTestCoverageScore();
 
       const targetAchievement = {
-        reductionTargetMet: unusedVariableReduction >= this.config.reductionTarget;
-        stabilityTargetMet: buildStabilityScore >= this.config.stabilityTarget;
-        qualityThresholdMet: overallQualityScore >= this.config.qualityThreshold;
+        reductionTargetMet: unusedVariableReduction >= this.config.reductionTarget,
+        stabilityTargetMet: buildStabilityScore >= this.config.stabilityTarget,
+        qualityThresholdMet: overallQualityScore >= this.config.qualityThreshold,
         productionReady:
           unusedVariableReduction >= this.config.reductionTarget &&
           buildStabilityScore >= this.config.stabilityTarget &&
@@ -401,7 +401,7 @@ export class QualityAssuranceDashboard {
 
     for (const metric of metrics) {
       const values = this.qualityHistory.map(h => ({
-        timestamp: h.timestamp;
+        timestamp: h.timestamp,
         value: h[metric as keyof QualityMetrics] as number
       }));
 
@@ -409,7 +409,7 @@ export class QualityAssuranceDashboard {
       trends.push({
         metric,
         values,
-        trend: trend.direction;
+        trend: trend.direction,
         changeRate: trend.changeRate
       });
     }
@@ -462,8 +462,8 @@ export class QualityAssuranceDashboard {
     const totalVariablesEliminated = Math.round(totalFilesProcessed * 5.2), // Average estimate;
 
     return {
-      totalBatches: validationStats.totalBatches;
-      successfulBatches: validationStats.successfulBatches;
+      totalBatches: validationStats.totalBatches,
+      successfulBatches: validationStats.successfulBatches,
       averageQualityScore: validationStats.averageQualityScore;
       totalFilesProcessed,
       totalVariablesEliminated

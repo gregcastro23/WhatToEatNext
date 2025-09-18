@@ -11,15 +11,15 @@
 import { ZodiacSign, CelestialPosition, PlanetaryAspect, AspectType } from '@/types/celestial';
 
 export interface TransitSeason {
-  id: string;
-  name: string;
-  startDate: Date;
-  endDate: Date;
-  sunSign: any;
+  id: string,
+  name: string,
+  startDate: Date,
+  endDate: Date,
+  sunSign: any,
   dominantElements: Record<string, number>;
-  keyAspects: PlanetaryAspect[];
+  keyAspects: PlanetaryAspect[],
   planetaryPlacements: Record<string, CelestialPosition>;
-  seasonalThemes: string[];
+  seasonalThemes: string[],
   culinaryInfluences: string[],
   alchemicalProperties: Record<string, number>;
   dominantPlanets: string[],
@@ -28,7 +28,7 @@ export interface TransitSeason {
 }
 
 export interface YearlyTransits {
-  year: string;
+  year: string,
   seasons: TransitSeason[],
   majorTransits: PlanetaryAspect[],
   eclipseSeasons: Date[],
@@ -54,16 +54,16 @@ export const COMPREHENSIVE_TRANSIT_DATABASE: Record<string, YearlyTransits> = {
             planet1: 'Sun',
             planet2: 'Mars',
             aspectType: 'conjunction' as AspectType,
-            orb: 2.5;
-            influence: 0.9;
+            orb: 2.5,
+            influence: 0.9,
             description: 'Dynamic fire energy, perfect for bold culinary experiments'
           } as PlanetaryAspect,
           {
             planet1: 'Mercury',
             planet2: 'Venus',
             aspectType: 'conjunction' as AspectType,
-            orb: 1.8;
-            influence: 0.8;
+            orb: 1.8,
+            influence: 0.8,
             description: 'Harmonious communication between air and earth elements'
           } as PlanetaryAspect
         ],
@@ -110,16 +110,16 @@ export const COMPREHENSIVE_TRANSIT_DATABASE: Record<string, YearlyTransits> = {
             planet1: 'Venus',
             planet2: 'Jupiter',
             aspectType: 'trine' as AspectType,
-            orb: 1.2;
-            influence: 0.8;
+            orb: 1.2,
+            influence: 0.8,
             description: 'Harmonious earth energy, ideal for grounding comfort foods'
           } as PlanetaryAspect,
           {
             planet1: 'Sun',
             planet2: 'Uranus',
             aspectType: 'conjunction' as AspectType,
-            orb: 3.1;
-            influence: 0.7;
+            orb: 3.1,
+            influence: 0.7,
             description: 'Innovative earth energy, perfect for experimental comfort cooking'
           } as PlanetaryAspect
         ],
@@ -166,16 +166,16 @@ export const COMPREHENSIVE_TRANSIT_DATABASE: Record<string, YearlyTransits> = {
             planet1: 'Mercury',
             planet2: 'Jupiter',
             aspectType: 'conjunction' as AspectType,
-            orb: 2.8;
-            influence: 0.85;
+            orb: 2.8,
+            influence: 0.85,
             description: 'Intellectual air energy, perfect for experimental and varied cuisine'
           } as PlanetaryAspect,
           {
             planet1: 'Sun',
             planet2: 'Venus',
             aspectType: 'trine' as AspectType,
-            orb: 1.5;
-            influence: 0.75;
+            orb: 1.5,
+            influence: 0.75,
             description: 'Harmonious communication between fire and earth elements'
           } as PlanetaryAspect
         ],
@@ -216,8 +216,8 @@ export const COMPREHENSIVE_TRANSIT_DATABASE: Record<string, YearlyTransits> = {
         planet1: 'Saturn',
         planet2: 'Neptune',
         aspectType: 'square' as AspectType,
-        orb: 1.8;
-        influence: 0.9;
+        orb: 1.8,
+        influence: 0.9,
         description: 'Major structural changes in spiritual and material realms'
       } as PlanetaryAspect
     ],
@@ -254,24 +254,24 @@ export const COMPREHENSIVE_TRANSIT_DATABASE: Record<string, YearlyTransits> = {
             planet1: 'Mercury',
             planet2: 'Jupiter',
             aspectType: 'conjunction' as AspectType,
-            orb: 3.1;
-            influence: 0.85;
+            orb: 3.1,
+            influence: 0.85,
             description: 'Intellectual air energy, perfect for experimental and varied cuisine'
           } as PlanetaryAspect,
           {
             planet1: 'Sun',
             planet2: 'Venus',
             aspectType: 'trine' as AspectType,
-            orb: 2.8;
-            influence: 0.75;
+            orb: 2.8,
+            influence: 0.75,
             description: 'Harmonious communication between fire and earth elements'
           } as PlanetaryAspect,
           {
             planet1: 'Mars',
             planet2: 'Jupiter',
             aspectType: 'conjunction' as AspectType,
-            orb: 1.2;
-            influence: 0.9;
+            orb: 1.2,
+            influence: 0.9,
             description: 'Dynamic fire expansion, ideal for bold culinary experiments'
           } as PlanetaryAspect
         ],
@@ -318,16 +318,16 @@ export const COMPREHENSIVE_TRANSIT_DATABASE: Record<string, YearlyTransits> = {
             planet1: 'Moon',
             planet2: 'Neptune',
             aspectType: 'trine' as AspectType,
-            orb: 2.1;
-            influence: 0.8;
+            orb: 2.1,
+            influence: 0.8,
             description: 'Intuitive water energy, perfect for nurturing comfort foods'
           } as PlanetaryAspect,
           {
             planet1: 'Sun',
             planet2: 'Saturn',
             aspectType: 'opposition' as AspectType,
-            orb: 1.8;
-            influence: 0.7;
+            orb: 1.8,
+            influence: 0.7,
             description: 'Balancing structure with emotional nourishment'
           } as PlanetaryAspect
         ],
@@ -368,8 +368,8 @@ export const COMPREHENSIVE_TRANSIT_DATABASE: Record<string, YearlyTransits> = {
         planet1: 'Jupiter',
         planet2: 'Saturn',
         aspectType: 'square',
-        orb: 2.1;
-        influence: 0.8;
+        orb: 2.1,
+        influence: 0.8,
         description: 'Expansion meets structure in food and culture'
       } as PlanetaryAspect
     ],

@@ -24,12 +24,12 @@ export interface LogContext {
    
   // Intentionally any: Logging context needs flexibility for various metadata
   // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
-  [key: string]: any;
+  [key: string]: any
 }
 
 export interface LogEntry {
-  timestamp: Date;
-  level: LogLevel;
+  timestamp: Date,
+  level: LogLevel,
   message: string;
   context?: LogContext;
   error?: Error;

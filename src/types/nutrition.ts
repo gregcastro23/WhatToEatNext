@@ -17,7 +17,7 @@ export interface NutritionalProfile {
     fat?: number;
     fiber?: number;
     sugar?: number;
-    [key: string]: number | undefined;
+    [key: string]: number | undefined
   };
   protein?: number;
   carbs?: number;
@@ -35,7 +35,7 @@ export interface NutritionalProfile {
   phytonutrients?: Record<string, number>;
 
   // Allow for additional nutrition categories
-  [key: string]: unknown;
+  [key: string]: unknown
 }
 
 /**
@@ -63,7 +63,7 @@ export interface FoodDataCentralFood {
     nutrientName?: string;
     value?: number;
   }>;
-  [key: string]: string | number | boolean | object | null | undefined;
+  [key: string]: string | number | boolean | object | null | undefined
 }
 
 /**

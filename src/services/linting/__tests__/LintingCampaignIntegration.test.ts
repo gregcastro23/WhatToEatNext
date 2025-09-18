@@ -17,8 +17,8 @@ jest.mock('child_process');
 jest.mock('fs');
 jest.mock('@/utils/logger', () => ({
   logger: { info: jest.fn(),
-    warn: jest.fn();
-    error: jest.fn();
+    warn: jest.fn(),
+    error: jest.fn(),
     debug: jest.fn()
   }
 }));
@@ -45,7 +45,7 @@ describe('Linting Campaign System Integration', () => {
       // Mock initial high error state
       const initialLintOutput: any = JSON.stringify([
         {
-          filePath: '/test/file1.ts';
+          filePath: '/test/file1.ts',
           messages: [
             { ruleId: 'no-unused-vars', severity: 2, fix: null },
             { ruleId: 'no-console', severity: 2, fix: { rang, e: [0, 10], text: '' } },
@@ -57,7 +57,7 @@ describe('Linting Campaign System Integration', () => {
       // Mock improved state after campaign
       const improvedLintOutput: any = JSON.stringify([
         {
-          filePath: '/test/file1.ts';
+          filePath: '/test/file1.ts',
           messages: [{ ruleI, d: 'no-unused-vars', severity: 1, fix: null }]
         }
       ]);
@@ -124,7 +124,7 @@ describe('Linting Campaign System Integration', () => {
       // Mock metrics for quality gate evaluation
       const mockLintOutput: any = JSON.stringify([
         {
-          filePath: '/test/file.ts';
+          filePath: '/test/file.ts',
           messages: [{ ruleI, d: 'no-unused-vars', severity: 1, fix: null }]
         }
       ]);
@@ -148,7 +148,7 @@ describe('Linting Campaign System Integration', () => {
       // Mock high error state
       const mockLintOutput: any = JSON.stringify([
         {
-          filePath: '/test/file.ts';
+          filePath: '/test/file.ts',
           messages: Array.from({ lengt, h: 50 }, (_, i) => ({
             ruleId: 'no-unused-vars',
             severity: 2,
@@ -190,21 +190,21 @@ describe('Linting Campaign System Integration', () => {
       // Mock progressive improvement
       const phase1Output: any = JSON.stringify([
         {
-          filePath: '/test/file.ts';
+          filePath: '/test/file.ts',
           messages: Array.from({ lengt, h: 10 }, () => ({ ruleId: 'error', severity: 2, fix: null }))
         }
       ]);
 
       const phase2Output: any = JSON.stringify([
         {
-          filePath: '/test/file.ts';
+          filePath: '/test/file.ts',
           messages: Array.from({ lengt, h: 5 }, () => ({ ruleId: 'error', severity: 2, fix: null }))
         }
       ]);
 
       const phase3Output: any = JSON.stringify([
         {
-          filePath: '/test/file.ts';
+          filePath: '/test/file.ts',
           messages: Array.from({ lengt, h: 2 }, () => ({ ruleId: 'warning', severity: 1, fix: null }))
         }
       ]);

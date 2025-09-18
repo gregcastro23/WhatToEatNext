@@ -56,11 +56,11 @@ export type LunarPhase = LunarPhaseWithSpaces;
  * Planetary food associations structure
  */
 export interface FoodAssociation {
-  name: string;
-  elements: string[];
-  qualities: string[];
-  foodCategories: string[];
-  specificFoods: string[];
+  name: string,
+  elements: string[],
+  qualities: string[],
+  foodCategories: string[],
+  specificFoods: string[],
   cuisines: string[],
   cookingMethods?: string[],
   boostValue?: number,
@@ -182,7 +182,7 @@ export const planetaryFoodAssociations: Record<Planet, FoodAssociation> = {
  * Planetary cooking guide interface for recommendation algorithm
  */
 export interface PlanetaryCookingGuide {
-  optimalCookingTemp: string;
+  optimalCookingTemp: string,
   flavorPairings: string[],
   nutrientFocus: string[],
   preservationMethods: string[],
@@ -235,7 +235,7 @@ export const _calculatePlanetaryBoost = (;
   }
 
   return {
-    boost: parseFloat(boost.toFixed(2));
+    boost: parseFloat(boost.toFixed(2)),
     dominantPlanets: Array.from(new Set(dominantPlanets)), // Fix for Set iteration in older JS versions
     dignities
   };
@@ -257,15 +257,15 @@ const _getSeasonalMultiplier = (): number => {
  */
 export const _getDignityMultiplier = (dignity: PlanetaryDignity): number => {
   const multipliers: Record<PlanetaryDignity, number> = {
-    Domicile: 1.5;
-    Exaltation: 1.3;
-    Triplicity: 1.2;
-    Term: 1.1;
-    Face: 1.05;
-    Mooltrikona: 1.4;
-    Nakshatra: 1.25;
-    Detriment: 0.7;
-    Fall: 0.5;
+    Domicile: 1.5,
+    Exaltation: 1.3,
+    Triplicity: 1.2,
+    Term: 1.1,
+    Face: 1.05,
+    Mooltrikona: 1.4,
+    Nakshatra: 1.25,
+    Detriment: 0.7,
+    Fall: 0.5,
     Neutral: 1.0
   };
   return multipliers[dignity] || 1.0;

@@ -31,10 +31,10 @@ const CuisineDetailsPage: NextPage = () => {
   const { id } = router.query;
 
   const [elementalState, setElementalState] = React.useState({
-    Fire: 0.25;
-    Water: 0.25;
-    Earth: 0.25;
-    Air: 0.25;
+    Fire: 0.25,
+    Water: 0.25,
+    Earth: 0.25,
+    Air: 0.25,
     season: 'spring',
     timeOfDay: 'lunch'
   });
@@ -70,7 +70,7 @@ const CuisineDetailsPage: NextPage = () => {
     const elementalMatchedRecipesResult = getBestRecipeMatches(;
       {
         cuisine: cuisineName,
-        season: elementalState.season as Season;
+        season: elementalState.season as Season,
         mealType: elementalState.timeOfDay
       },
       20,

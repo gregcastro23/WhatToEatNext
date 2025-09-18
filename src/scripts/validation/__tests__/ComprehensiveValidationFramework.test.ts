@@ -246,7 +246,7 @@ describe('ComprehensiveValidationFramework', () => {
             import React from 'react';
 
             interface TestComponentProps {
-              title: string;
+              title: string
             }
 
             export const TestComponent: React.FC<TestComponentProps> = ({ title }: any) => {
@@ -287,7 +287,7 @@ describe('ComprehensiveValidationFramework', () => {
       const componentResults: any = result.validationResults.filter(r => r.validationType === 'react-component');
       const componentResult: any = componentResults[0];
       expect(componentResult.passed).toBe(false);
-      expect(componentResult.errors).toContain('Component import failed: No exports found in component');
+      expect(componentResult.errors).toContain('Component import failed: No exports found in component')
     });
 
     test('should validate component props interface preservation', async () => {
@@ -402,7 +402,7 @@ describe('ComprehensiveValidationFramework', () => {
 
       const buildResult: any = result.validationResults.find(r => r.validationType === 'build-system');
       expect(buildResult.passed).toBe(false);
-      expect(buildResult.errors).toContain('Build system validation failed: Module not found');
+      expect(buildResult.errors).toContain('Build system validation failed: Module not found')
     });
   });
 

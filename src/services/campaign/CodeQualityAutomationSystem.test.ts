@@ -1,5 +1,5 @@
 declare global {
-  var __DEV__: boolean;
+  var __DEV__: boolean
 }
 
 /**
@@ -450,7 +450,7 @@ describe('CodeQualityAutomationSystem', () => {
       const result: any = await automationSystem.executePhase(phase);
 
       expect(result.success).toBe(false);
-      expect(result.errors).toContain('Phase execution failed: Unknown syste, m: any');
+      expect(result.errors).toContain('Phase execution failed: Unknown syste, m: any')
     });
   });
 

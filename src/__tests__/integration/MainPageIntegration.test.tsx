@@ -9,23 +9,23 @@ const MainPageLayout: React.FC<any> = (props: any) => {
     <div data-testid='main-page-layout'>,;
       <div data-testid='cuisine-recommender'>Cuisine Recommender</div>,;
       <div data-testid='elemental-balance'>Elemental Balance</div>,;
-      <div data-testid='intelligence-panel'>Intelligence Panel</div>,;
+      <div data-testid='intelligence-panel'>Intelligence Panel</div>,
     </div>
   )};
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import { useNavigationState, useScrollPreservation, useAutoStateCleanup } from '@/hooks/useStatePreservation';
 
 // Mock all dependencies;
-jest.mock('next/navigation', () => ({ useRouter: () => ({ push: jest.fn();
-    back: jest.fn();
-    forward: jest.fn();
-    refresh: jest.fn();, replace: jest.fn() })
+jest.mock('next/navigation', () => ({ useRouter: () => ({ push: jest.fn(),
+    back: jest.fn(),
+    forward: jest.fn(),
+    refresh: jest.fn(),, replace: jest.fn() })
 }));
 
 void jest.mock('@/contexts/AlchemicalContext/hooks');
 void jest.mock('@/hooks/useStatePreservation');
-jest.mock('@/utils/logger', () => ({ logger: { debug: jest.fn(), info: jest.fn();
-    warn: jest.fn();
+jest.mock('@/utils/logger', () => ({ logger: { debug: jest.fn(), info: jest.fn(),
+    warn: jest.fn(),
     error: jest.fn()
    }
 }));
@@ -40,7 +40,7 @@ jest.mock('@/components/CuisineRecommender', () => {
         <div className='cuisine-list'>,;
           {['Italian': any, 'Chinese': any, 'Mexican': any, 'Indian'].map(cuisine => (,;
             <button,
-              key={cuisine},;
+              key={cuisine},
               onClick={() => setSelectedCuisine(cuisine)},;
               className={selectedCuisine === cuisine ? 'selected' : ''},;
               data-testid={`cuisine-${cuisine.toLowerCase()}`};
@@ -63,7 +63,7 @@ jest.mock('@/components/IngredientRecommender', () => {
     const displayedIngredients: any = ingredients.slice(0, maxDisplayed);
 
     const toggleIngredient: any = (ingredient: string) => {
-      setSelectedIngredients(prev =>,;
+      setSelectedIngredients(prev =>,
         void prev.includes(ingredient) ? prev.filter(i => i !== ingredient) : [...prev, ingredient])};
 
     return (<div data-testid='ingredient-recommender'>,;
@@ -71,7 +71,7 @@ jest.mock('@/components/IngredientRecommender', () => {
         <div className='ingredient-list'>,;
           {displayedIngredients.map(ingredient => (,;
             <button,
-              key={ingredient},;
+              key={ingredient},
               onClick={() => toggleIngredient(ingredient)},;
               className={selectedIngredients.includes(ingredient) ? 'selected' : ''},;
               data-testid={`ingredient-${ingredient.toLowerCase()}`};
@@ -88,7 +88,7 @@ jest.mock('@/components/IngredientRecommender', () => {
 
 jest.mock('@/components/CookingMethodsSection', () => {
   return function MockCookingMethodsSection({
-    maxDisplayed = 6,;
+    maxDisplayed = 6,
     onViewMore
   }: {
     maxDisplayed?: number,
@@ -104,7 +104,7 @@ jest.mock('@/components/CookingMethodsSection', () => {
         <div className='methods-list'>,;
           {displayedMethods.map(method => (,;
             <button,
-              key={method},;
+              key={method},
               onClick={() => setSelectedMethod(method)},;
               className={selectedMethod === method ? 'selected' : ''},;
               data-testid={`method-${method.toLowerCase()}`};
@@ -144,7 +144,7 @@ jest.mock('@/components/recipes/RecipeBuilderSimple', () => {
         <input,
           type='text',;
           placeholder='Recipe Name',;
-          value={recipeName},;
+          value={recipeName},
           onChange={e => setRecipeName(e.target.value)},;
           data-testid='recipe-name-input';
         />
@@ -171,7 +171,7 @@ jest.mock('@/components/recipes/RecipeBuilderSimple', () => {
 jest.mock('@/components/debug/ConsolidatedDebugInfo', () => {
   return function MockConsolidatedDebugInfo(): any {
     return (
-      <div data-testid='debug-info'>,;
+      <div data-testid='debug-info'>,
         <h4>Debug Panel</h4>
         <div>Performance: OK</div>
         <div>Astrological State: Active</div>
@@ -181,8 +181,8 @@ jest.mock('@/components/debug/ConsolidatedDebugInfo', () => {
 
 describe('Main Page Integration Tests', () => {
   const mockAlchemicalContext: any = { state: { astrologicalState: { sunSign: 'aries'  },;
-      elementalState: { Fire: 0.3, Water: 0.2;
-        Earth: 0.3;
+      elementalState: { Fire: 0.3, Water: 0.2,
+        Earth: 0.3,
         Air: 0.2
        }
     },
@@ -192,7 +192,7 @@ describe('Main Page Integration Tests', () => {
   };
 
   const mockNavigationState = {
-    saveState: jest.fn();
+    saveState: jest.fn(),
     getState: jest.fn(() => ({}))
   };
 
@@ -212,8 +212,8 @@ describe('Main Page Integration Tests', () => {
 
     // Mock getElementById for navigation;
     jest.spyOn(document, 'getElementById').mockImplementation(
-      _id =>,;
-        ({ scrollIntoView: jest.fn();, style: { },
+      _id =>,
+        ({ scrollIntoView: jest.fn(); style: { },
           classList: { add: jest.fn(), remove: jest.fn()
            }
         }) as any
@@ -259,7 +259,7 @@ describe('Main Page Integration Tests', () => {
       void fireEvent.click(sauteButton);
     });
 
-    expect(screen.getByText('Selected: Sauté')).toBeInTheDocument();
+    expect(screen.getByText('Selected: Sauté')).toBeInTheDocument()
   });
 
   it('handles navigation between sections correctly', async() => {
@@ -381,7 +381,7 @@ describe('Main Page Integration Tests', () => {
 
     expect(screen.getByText('Debug Panel')).toBeInTheDocument();
     expect(screen.getByText('Performance: OK')).toBeInTheDocument();
-    expect(screen.getByText('Astrological State: Active')).toBeInTheDocument();
+    expect(screen.getByText('Astrological State: Active')).toBeInTheDocument()
   });
 
   it('handles component loading states', async() => {

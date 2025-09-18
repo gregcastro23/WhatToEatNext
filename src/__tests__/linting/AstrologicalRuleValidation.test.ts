@@ -153,7 +153,7 @@ describe('Astrological Rule Validation', () => {
       writeFileSync(testFile, testContent);
 
       try {
-        const output: any = execSync(`npx eslint '${testFile}' --config eslint.config.cjs --format json`, { encoding: 'utf8', cwd: projectRoot;
+        const output: any = execSync(`npx eslint '${testFile}' --config eslint.config.cjs --format json`, { encoding: 'utf8', cwd: projectRoot
          });
         const result: any = JSON.parse(output);
 
@@ -208,7 +208,7 @@ describe('Astrological Rule Validation', () => {
       writeFileSync(testFile, testContent);
 
       try {
-        const output: any = execSync(`npx eslint '${testFile}' --config eslint.config.cjs --format json`, { encoding: 'utf8', cwd: projectRoot;
+        const output: any = execSync(`npx eslint '${testFile}' --config eslint.config.cjs --format json`, { encoding: 'utf8', cwd: projectRoot
          });
         const result: any = JSON.parse(output);
 
@@ -255,7 +255,7 @@ describe('Astrological Rule Validation', () => {
       writeFileSync(testFile, testContent);
 
       try {
-        const output: any = execSync(`npx eslint '${testFile}' --config eslint.config.cjs --format json`, { encoding: 'utf8', cwd: projectRoot;
+        const output: any = execSync(`npx eslint '${testFile}' --config eslint.config.cjs --format json`, { encoding: 'utf8', cwd: projectRoot
          });
 
         const result: any = JSON.parse(output);
@@ -294,9 +294,9 @@ describe('Astrological Rule Validation', () => {
     test('should validate complete elemental properties', async() => {
       const testContent: any = `;
         const elementalProps = {
-          Fire: 0.8;
-          Water: 0.2;
-          Earth: 0.1;
+          Fire: 0.8,
+          Water: 0.2,
+          Earth: 0.1,
           Air: 0.3
 };
         };
@@ -326,7 +326,7 @@ describe('Astrological Rule Validation', () => {
     test('should detect incomplete elemental properties', async() => {
       const testContent: any = `;
         const _incompleteElemental = {
-          Fire: 0.8;
+          Fire: 0.8,
           Water: 0.2
           // Missing Earth and Air
         };
@@ -353,9 +353,9 @@ describe('Astrological Rule Validation', () => {
     test('should validate elemental property values', async() => {
       const testContent: any = `;
         const _validElemental = {
-          Fire: 0.8;
-          Water: 0.2;
-          Earth: 0.0;
+          Fire: 0.8,
+          Water: 0.2,
+          Earth: 0.0,
           Air: 1.0
 };
         };
@@ -387,9 +387,9 @@ describe('Astrological Rule Validation', () => {
     test('should detect invalid element names', async() => {
       const testContent: any = `;
         const _invalidElements = {
-          Fire: 0.8;
-          Water: 0.2;
-          Earth: 0.1;
+          Fire: 0.8,
+          Water: 0.2,
+          Earth: 0.1,
           Wind: 0.3 // Invali, d: should be Air
 };
       `;
@@ -418,8 +418,8 @@ describe('Astrological Rule Validation', () => {
       const testContent: any = `;
         const planetPosition = {
   sign: 'cancer',;
-          degree: 22.63;
-          exactLongitude: 112.63;
+          degree: 22.63,
+          exactLongitude: 112.63,
           isRetrograde: false
 };
         };
@@ -592,7 +592,7 @@ describe('Astrological Rule Validation', () => {
       writeFileSync(testFile, testContent);
 
       try {
-        const output: any = execSync(`npx eslint '${testFile}' --config eslint.config.cjs --format json`, { encoding: 'utf8', cwd: projectRoot;
+        const output: any = execSync(`npx eslint '${testFile}' --config eslint.config.cjs --format json`, { encoding: 'utf8', cwd: projectRoot
          });
 
         const result: any = JSON.parse(output);
@@ -644,7 +644,7 @@ describe('Astrological Rule Validation', () => {
       writeFileSync(testFile, testContent);
 
       try {
-        const output: any = execSync(`npx eslint '${testFile}' --config eslint.config.cjs --format json`, { encoding: 'utf8', cwd: projectRoot;
+        const output: any = execSync(`npx eslint '${testFile}' --config eslint.config.cjs --format json`, { encoding: 'utf8', cwd: projectRoot
          });
 
         const result: any = JSON.parse(output);
@@ -716,7 +716,7 @@ describe('Astrological Rule Validation', () => {
       writeFileSync(testFile, testContent);
 
       try {
-        const output: any = execSync(`npx eslint '${testFile}' --config eslint.config.cjs --format json`, { encoding: 'utf8', cwd: projectRoot;
+        const output: any = execSync(`npx eslint '${testFile}' --config eslint.config.cjs --format json`, { encoding: 'utf8', cwd: projectRoot
          }),
 
         const result: any = JSON.parse(output);

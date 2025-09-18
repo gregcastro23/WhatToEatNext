@@ -6,58 +6,58 @@
  */
 
 export interface ErrorClassification {
-  ruleId: string;
-  category: ErrorCategory;
-  severity: ErrorSeverity;
-  autoFixCapability: AutoFixCapability;
+  ruleId: string,
+  category: ErrorCategory,
+  severity: ErrorSeverity,
+  autoFixCapability: AutoFixCapability,
   domainImpact: DomainImpact,
   riskProfile: RiskProfile
 }
 
 export interface ErrorCategory {
-  primary: 'syntax' | 'style' | 'logic' | 'performance' | 'security' | 'maintainability';
+  primary: 'syntax' | 'style' | 'logic' | 'performance' | 'security' | 'maintainability',
   secondary: string,
   description: string
 }
 
 export interface ErrorSeverity {
-  level: 'critical' | 'high' | 'medium' | 'low' | 'info';
-  score: number; // 0-100
+  level: 'critical' | 'high' | 'medium' | 'low' | 'info',
+  score: number, // 0-100
   factors: SeverityFactor[],
   businessImpact: 'blocking' | 'degrading' | 'cosmetic' | 'none'
 }
 
 export interface SeverityFactor {
-  factor: string;
+  factor: string,
   weight: number,
   description: string
 }
 
 export interface AutoFixCapability {
-  canAutoFix: boolean;
-  confidence: number; // 0-1
-  complexity: 'trivial' | 'simple' | 'moderate' | 'complex' | 'manual-only';
+  canAutoFix: boolean,
+  confidence: number, // 0-1
+  complexity: 'trivial' | 'simple' | 'moderate' | 'complex' | 'manual-only',
   prerequisites: string[],
   risks: AutoFixRisk[]
 }
 
 export interface AutoFixRisk {
-  type: 'breaking-change' | 'logic-change' | 'performance-impact' | 'side-effects';
-  probability: number; // 0-1
+  type: 'breaking-change' | 'logic-change' | 'performance-impact' | 'side-effects',
+  probability: number, // 0-1
   impact: 'low' | 'medium' | 'high',
   mitigation: string
 }
 
 export interface DomainImpact {
-  affectsAstrology: boolean;
-  affectsCampaign: boolean;
-  affectsCore: boolean;
+  affectsAstrology: boolean,
+  affectsCampaign: boolean,
+  affectsCore: boolean,
   specialHandlingRequired: boolean,
   expertiseRequired: string[]
 }
 
 export interface RiskProfile {
-  overall: 'low' | 'medium' | 'high' | 'critical';
+  overall: 'low' | 'medium' | 'high' | 'critical',
   factors: string[],
   mitigationStrategies: string[]
 }
@@ -109,8 +109,8 @@ export class ErrorClassificationSystem {
    * Get severity assessment for multiple errors
    */
   assessOverallSeverity(classifications: ErrorClassification[]): {
-    overallSeverity: ErrorSeverity;
-    criticalCount: number;
+    overallSeverity: ErrorSeverity,
+    criticalCount: number,
     highCount: number,
     recommendations: string[]
   } {
@@ -131,7 +131,7 @@ export class ErrorClassificationSystem {
 
     const overallSeverity: ErrorSeverity = {
       level: overallLevel,
-      score: Math.round(averageScore);
+      score: Math.round(averageScore),
       factors: [
         {
           factor: 'Critical Issues',
@@ -178,9 +178,9 @@ export class ErrorClassificationSystem {
    * Analyze auto-fix capabilities across multiple errors
    */
   analyzeAutoFixCapabilities(classifications: ErrorClassification[]): {
-    totalAutoFixable: number;
-    safeAutoFixes: ErrorClassification[];
-    riskyAutoFixes: ErrorClassification[];
+    totalAutoFixable: number,
+    safeAutoFixes: ErrorClassification[],
+    riskyAutoFixes: ErrorClassification[],
     manualOnlyFixes: ErrorClassification[],
     recommendations: string[]
   } {
@@ -236,7 +236,7 @@ export class ErrorClassificationSystem {
       },
       autoFixCapability: {
         canAutoFix: true,
-        confidence: 0.95;
+        confidence: 0.95,
         complexity: 'trivial',
         prerequisites: [],
         risks: []
@@ -273,13 +273,13 @@ export class ErrorClassificationSystem {
       },
       autoFixCapability: {
         canAutoFix: false,
-        confidence: 0.3;
+        confidence: 0.3,
         complexity: 'complex',
         prerequisites: ['Path mapping configuration', 'Module availability check'],
         risks: [
           {
             type: 'breaking-change',
-            probability: 0.7;
+            probability: 0.7,
             impact: 'high',
             mitigation: 'Verify all import paths before applying fixes'
           }
@@ -318,13 +318,13 @@ export class ErrorClassificationSystem {
       },
       autoFixCapability: {
         canAutoFix: false,
-        confidence: 0.2;
+        confidence: 0.2,
         complexity: 'manual-only',
         prerequisites: ['Type analysis', 'Domain knowledge'],
         risks: [
           {
             type: 'logic-change',
-            probability: 0.8;
+            probability: 0.8,
             impact: 'medium',
             mitigation: 'Careful type analysis and testing required'
           }
@@ -362,13 +362,13 @@ export class ErrorClassificationSystem {
       },
       autoFixCapability: {
         canAutoFix: true,
-        confidence: 0.7;
+        confidence: 0.7,
         complexity: 'simple',
         prerequisites: ['Variable usage analysis'],
         risks: [
           {
             type: 'logic-change',
-            probability: 0.3;
+            probability: 0.3,
             impact: 'low',
             mitigation: 'Verify variable is truly unused before removal'
           }
@@ -405,7 +405,7 @@ export class ErrorClassificationSystem {
         factors: [
           {
             factor: 'Runtime Bugs',
-            weight: 0.9;
+            weight: 0.9,
             description: 'Can cause infinite loops or stale closures'
           },
           { factor: 'Performance', weight: 0.7, description: 'May cause unnecessary re-renders' }
@@ -414,19 +414,19 @@ export class ErrorClassificationSystem {
       },
       autoFixCapability: {
         canAutoFix: true,
-        confidence: 0.4;
+        confidence: 0.4,
         complexity: 'complex',
         prerequisites: ['Dependency analysis', 'Effect logic understanding'],
         risks: [
           {
             type: 'logic-change',
-            probability: 0.6;
+            probability: 0.6,
             impact: 'high',
             mitigation: 'Careful analysis of effect dependencies and potential infinite loops'
           },
           {
             type: 'performance-impact',
-            probability: 0.4;
+            probability: 0.4,
             impact: 'medium',
             mitigation: 'Performance testing after dependency changes'
           }
@@ -464,7 +464,7 @@ export class ErrorClassificationSystem {
         factors: [
           {
             factor: 'Production Cleanliness',
-            weight: 0.6;
+            weight: 0.6,
             description: 'Console logs in production'
           }
         ],
@@ -472,13 +472,13 @@ export class ErrorClassificationSystem {
       },
       autoFixCapability: {
         canAutoFix: true,
-        confidence: 0.8;
+        confidence: 0.8,
         complexity: 'simple',
         prerequisites: ['Context analysis for debugging vs logging'],
         risks: [
           {
             type: 'logic-change',
-            probability: 0.2;
+            probability: 0.2,
             impact: 'low',
             mitigation: 'Preserve console.warn and console.error for important logging'
           }
@@ -528,13 +528,13 @@ export class ErrorClassificationSystem {
       },
       autoFixCapability: {
         canAutoFix: false,
-        confidence: 0.1;
+        confidence: 0.1,
         complexity: 'manual-only',
         prerequisites: ['Rule analysis'],
         risks: [
           {
             type: 'side-effects',
-            probability: 0.5;
+            probability: 0.5,
             impact: 'medium',
             mitigation: 'Manual analysis required for unknown rule'
           }

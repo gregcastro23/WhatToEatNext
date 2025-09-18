@@ -14,10 +14,10 @@ import { log } from '@/services/LoggingService';
 import { CategorizedErrors, LintingIssue } from './LintingErrorAnalyzer';
 
 export interface AutomatedFixResult {
-  success: boolean;
-  fixedIssues: number;
-  failedIssues: number;
-  processedFiles: string[];
+  success: boolean,
+  fixedIssues: number,
+  failedIssues: number,
+  processedFiles: string[],
   errors: FixError[],
   validationResults: ValidationResult[],
   rollbackInfo?: RollbackInfo,
@@ -25,7 +25,7 @@ export interface AutomatedFixResult {
 }
 
 export interface FixError {
-  file: string;
+  file: string,
   rule: string,
   message: string,
   error: string,
@@ -47,11 +47,11 @@ export interface RollbackInfo {
 }
 
 export interface FixMetrics {
-  startTime: Date;
-  endTime: Date;
+  startTime: Date,
+  endTime: Date,
   totalTime: number; // milliseconds
-  filesProcessed: number;
-  issuesAttempted: number;
+  filesProcessed: number,
+  issuesAttempted: number,
   issuesFixed: number,
   issuesFailed: number,
   validationTime: number,
@@ -59,8 +59,8 @@ export interface FixMetrics {
 }
 
 export interface BatchProcessingOptions {
-  batchSize: number;
-  maxConcurrentBatches: number;
+  batchSize: number,
+  maxConcurrentBatches: number,
   validateAfterEachBatch: boolean,
   continueOnError: boolean,
   createBackups: boolean,
@@ -68,8 +68,8 @@ export interface BatchProcessingOptions {
 }
 
 export interface SafetyProtocols {
-  enableRollback: boolean;
-  validateBeforeFix: boolean;
+  enableRollback: boolean,
+  validateBeforeFix: boolean,
   validateAfterFix: boolean,
   maxFailuresBeforeStop: number,
   requireManualApproval: boolean,
@@ -77,7 +77,7 @@ export interface SafetyProtocols {
 }
 
 export interface UnusedVariableFixOptions {
-  prefixWithUnderscore: boolean;
+  prefixWithUnderscore: boolean,
   removeCompletely: boolean,
   preservePatterns: string[],
   skipTestFiles: boolean,
@@ -85,7 +85,7 @@ export interface UnusedVariableFixOptions {
 }
 
 export interface ImportOptimizationOptions {
-  removeDuplicates: boolean;
+  removeDuplicates: boolean,
   organizeImports: boolean,
   removeUnused: boolean,
   preserveComments: boolean,
@@ -237,7 +237,7 @@ export class AutomatedLintingFixer {
             file: 'batch-processing',
             rule: 'batch-error',
             message: `Batch ${i + 1} processing failed`,
-            error: error instanceof Error ? error.message : String(error);
+            error: error instanceof Error ? error.message : String(error),
             severity: 'error'
           });
 
@@ -292,7 +292,7 @@ export class AutomatedLintingFixer {
         file: 'system',
         rule: 'critical-error',
         message: 'Critical failure during automated fixing',
-        error: error instanceof Error ? error.message : String(error);
+        error: error instanceof Error ? error.message : String(error),
         severity: 'critical'
       });
 
@@ -334,7 +334,7 @@ export class AutomatedLintingFixer {
         endTime: new Date(),
         totalTime: 0,
         filesProcessed: 0,
-        issuesAttempted: unusedVarIssues.length;
+        issuesAttempted: unusedVarIssues.length,
         issuesFixed: 0,
         issuesFailed: 0,
         validationTime: 0,
@@ -374,10 +374,10 @@ export class AutomatedLintingFixer {
       } catch (error) {
         result.failedIssues++;
         result.errors.push({
-          file: issue.file;
-          rule: issue.rule;
+          file: issue.file,
+          rule: issue.rule,
           message: `Failed to fix unused variable: ${issue.message}`,
-          error: error instanceof Error ? error.message : String(error);
+          error: error instanceof Error ? error.message : String(error),
           severity: 'error'
         });
       }
@@ -431,7 +431,7 @@ export class AutomatedLintingFixer {
         endTime: new Date(),
         totalTime: 0,
         filesProcessed: 0,
-        issuesAttempted: importIssues.length;
+        issuesAttempted: importIssues.length,
         issuesFixed: 0,
         issuesFailed: 0,
         validationTime: 0,
@@ -469,7 +469,7 @@ export class AutomatedLintingFixer {
           file: filePath,
           rule: 'import-optimization',
           message: `Failed to optimize imports`,
-          error: error instanceof Error ? error.message : String(error);
+          error: error instanceof Error ? error.message : String(error),
           severity: 'error'
         });
       }
@@ -525,7 +525,7 @@ export class AutomatedLintingFixer {
         endTime: new Date(),
         totalTime: 0,
         filesProcessed: 0,
-        issuesAttempted: typeIssues.length;
+        issuesAttempted: typeIssues.length,
         issuesFixed: 0,
         issuesFailed: 0,
         validationTime: 0,
@@ -559,10 +559,10 @@ export class AutomatedLintingFixer {
       } catch (error) {
         result.failedIssues++;
         result.errors.push({
-          file: issue.file;
-          rule: issue.rule;
+          file: issue.file,
+          rule: issue.rule,
           message: `Failed to improve type annotation: ${issue.message}`,
-          error: error instanceof Error ? error.message : String(error);
+          error: error instanceof Error ? error.message : String(error),
           severity: 'error'
         });
       }
@@ -602,7 +602,7 @@ export class AutomatedLintingFixer {
     try {
       log.info(`🔄 Rolling back to stash: ${this.currentRollbackInfo.stashId}`);
       execSync(this.currentRollbackInfo.rollbackCommand, {
-        cwd: this.workspaceRoot;
+        cwd: this.workspaceRoot,
         stdio: 'pipe'
       });
 
@@ -622,12 +622,12 @@ export class AutomatedLintingFixer {
 
     try {
       execSync(`git add -A && git stash push -m '${stashMessage}'`, {
-        cwd: this.workspaceRoot;
+        cwd: this.workspaceRoot,
         stdio: 'pipe'
       });
 
       const stashList = execSync('git stash list', {
-        cwd: this.workspaceRoot;
+        cwd: this.workspaceRoot,
         encoding: 'utf8'
       });
 
@@ -651,7 +651,7 @@ export class AutomatedLintingFixer {
     // Build validation
     try {
       execSync('yarn build', {
-        cwd: this.workspaceRoot;
+        cwd: this.workspaceRoot,
         stdio: 'pipe',
         timeout: 60000, // 1 minute timeout
       });
@@ -672,7 +672,7 @@ export class AutomatedLintingFixer {
     // Type check validation
     try {
       execSync('npx tsc --noEmit', {
-        cwd: this.workspaceRoot;
+        cwd: this.workspaceRoot,
         stdio: 'pipe',
         timeout: 30000, // 30 second timeout
       });
@@ -693,7 +693,7 @@ export class AutomatedLintingFixer {
     // Lint validation
     try {
       execSync(`npx eslint --config ${this.eslintConfigPath} src`, {
-        cwd: this.workspaceRoot;
+        cwd: this.workspaceRoot,
         stdio: 'pipe',
         timeout: 30000, // 30 second timeout
       });
@@ -715,7 +715,7 @@ export class AutomatedLintingFixer {
     if (fs.existsSync(path.join(this.workspaceRoot, 'jest.config.js'))) {
       try {
         execSync('npm test -- --passWithNoTests', {
-          cwd: this.workspaceRoot;
+          cwd: this.workspaceRoot,
           stdio: 'pipe',
           timeout: 120000, // 2 minute timeout
         });
@@ -795,7 +795,7 @@ export class AutomatedLintingFixer {
         endTime: new Date(),
         totalTime: 0,
         filesProcessed: 0,
-        issuesAttempted: batch.length;
+        issuesAttempted: batch.length,
         issuesFixed: 0,
         issuesFailed: 0,
         validationTime: 0,
@@ -833,7 +833,7 @@ export class AutomatedLintingFixer {
           file: filePath,
           rule: 'batch-processing',
           message: `Failed to process file in batch`,
-          error: error instanceof Error ? error.message : String(error);
+          error: error instanceof Error ? error.message : String(error),
           severity: 'error'
         });
       }
@@ -855,7 +855,7 @@ export class AutomatedLintingFixer {
       // Use ESLint's auto-fix capability for the specific file
       const command = `npx eslint --config ${this.eslintConfigPath} --fix '${filePath}'`;
       execSync(command, {
-        cwd: this.workspaceRoot;
+        cwd: this.workspaceRoot,
         stdio: 'pipe'
       });
 
@@ -916,7 +916,7 @@ export class AutomatedLintingFixer {
       if (importRules.length > 0) {
         const command = `npx eslint --config ${this.eslintConfigPath} --fix '${filePath}'`;
         execSync(command, {
-          cwd: this.workspaceRoot;
+          cwd: this.workspaceRoot,
           stdio: 'pipe'
         });
         return true;
@@ -953,7 +953,7 @@ export class AutomatedLintingFixer {
         if (issue.autoFixable) {
           const command = `npx eslint --config ${this.eslintConfigPath} --fix '${issue.file}'`;
           execSync(command, {
-            cwd: this.workspaceRoot;
+            cwd: this.workspaceRoot,
             stdio: 'pipe'
           });
           return true;

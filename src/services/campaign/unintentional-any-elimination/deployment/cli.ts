@@ -323,8 +323,8 @@ program
     try {
       const phases = createStandardDeploymentPhases();
       const config = {
-        version: '1.0.0';
-        timestamp: new Date().toISOString();
+        version: '1.0.0',
+        timestamp: new Date().toISOString(),
         phases: phases
       };
 

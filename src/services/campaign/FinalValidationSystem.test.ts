@@ -31,7 +31,7 @@ describe('FinalValidationSystem', () => {
 
       const result: any = await (;
         validationSystem as unknown as {
-          validateTypeScriptErrors: () => Promise<{ category: string;
+          validateTypeScriptErrors: () => Promise<{ category: string,
             passed: boolean,, current: number,
             target: number,, criticalIssues: any[]
           }>;
@@ -58,7 +58,7 @@ src/test.ts(15,10): error TS2345: Argument of type 'string' is not assignable to
 
       const result: any = await (;
         validationSystem as unknown as {
-          validateTypeScriptErrors: () => Promise<{ category: string;
+          validateTypeScriptErrors: () => Promise<{ category: string,
             passed: boolean,, current: number,
             target: number,, criticalIssues: any[]
           }>;

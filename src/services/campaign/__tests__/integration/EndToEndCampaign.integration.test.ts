@@ -50,13 +50,13 @@ describe('End-to-End Campaign Integration Tests', () => {
           description: 'Eliminate all TypeScript compilation errors',
           tools: [
             {
-              scriptPath: 'scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js';
+              scriptPath: 'scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js',
               parameters: { maxFile, s: 15, autoFix: true, validateSafety: true },
               batchSize: 15,
               safetyLevel: SafetyLevel.MAXIMUM
             },
             {
-              scriptPath: 'scripts/typescript-fixes/fix-explicit-any-systematic.js';
+              scriptPath: 'scripts/typescript-fixes/fix-explicit-any-systematic.js',
               parameters: { maxFile, s: 25, autoFix: true },
               batchSize: 25,
               safetyLevel: SafetyLevel.HIGH
@@ -72,13 +72,13 @@ describe('End-to-End Campaign Integration Tests', () => {
           description: 'Eliminate all linting warnings',
           tools: [
             {
-              scriptPath: 'scripts/typescript-fixes/fix-unused-variables-enhanced.js';
+              scriptPath: 'scripts/typescript-fixes/fix-unused-variables-enhanced.js',
               parameters: { maxFile, s: 20, autoFix: true },
               batchSize: 20,
               safetyLevel: SafetyLevel.HIGH
             },
             {
-              scriptPath: 'scripts/lint-fixes/fix-console-statements-only.js';
+              scriptPath: 'scripts/lint-fixes/fix-console-statements-only.js',
               parameters: { dryRu, n: false },
               batchSize: 15,
               safetyLevel: SafetyLevel.MEDIUM
@@ -94,7 +94,7 @@ describe('End-to-End Campaign Integration Tests', () => {
           description: 'Transform unused exports to enterprise systems',
           tools: [
             {
-              scriptPath: 'scripts/enterprise/transform-unused-exports.js';
+              scriptPath: 'scripts/enterprise/transform-unused-exports.js',
               parameters: { maxFile, s: 30, generateIntelligence: true },
               batchSize: 30,
               safetyLevel: SafetyLevel.HIGH
@@ -110,7 +110,7 @@ describe('End-to-End Campaign Integration Tests', () => {
           description: 'Optimize build performance and maintain targets',
           tools: [
             {
-              scriptPath: 'scripts/performance/optimize-build.js';
+              scriptPath: 'scripts/performance/optimize-build.js',
               parameters: { targetTim, e: 10, optimizeCache: true },
               batchSize: 50,
               safetyLevel: SafetyLevel.MEDIUM
@@ -128,8 +128,8 @@ describe('End-to-End Campaign Integration Tests', () => {
         enterpriseSystems: 200
       },
       toolConfiguration: { enhancedErrorFixer: 'scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js',
-        explicitAnyFixer: 'scripts/typescript-fixes/fix-explicit-any-systematic.js';
-        unusedVariablesFixer: 'scripts/typescript-fixes/fix-unused-variables-enhanced.js';
+        explicitAnyFixer: 'scripts/typescript-fixes/fix-explicit-any-systematic.js',
+        unusedVariablesFixer: 'scripts/typescript-fixes/fix-unused-variables-enhanced.js',
         consoleStatementFixer: 'scripts/lint-fixes/fix-console-statements-only.js'
       }
     };
@@ -247,17 +247,17 @@ describe('End-to-End Campaign Integration Tests', () => {
         const metrics: any = {
           typeScriptErrors: { current: Math.max(0, 86 - metricsHistory.length * 20),
             target: 0,
-            reduction: metricsHistory.length * 20;
+            reduction: metricsHistory.length * 20,
             percentage: Math.min(100, ((metricsHistory.length * 20) / 86) * 100)
           },
           lintingWarnings: { current: Math.max(0, 4506 - metricsHistory.length * 1000),
             target: 0,
-            reduction: metricsHistory.length * 1000;
+            reduction: metricsHistory.length * 1000,
             percentage: Math.min(100, ((metricsHistory.length * 1000) / 4506) * 100)
           },
           buildPerformance: { currentTime: Math.max(8, 12 - metricsHistory.length),
             targetTime: 10,
-            cacheHitRate: 0.8;
+            cacheHitRate: 0.8,
             memoryUsage: 45
           },
           enterpriseSystems: { current: metricsHistory.length * 50,
@@ -436,7 +436,7 @@ describe('End-to-End Campaign Integration Tests', () => {
 
       jest.spyOn(campaignController as unknown as { executeTool: jest.Mock }, 'executeTool').mockResolvedValue({
         filesProcessed: largeFileList,
-        changesApplied: largeFileList.length * 2;
+        changesApplied: largeFileList.length * 2,
         success: true
       });
 
@@ -483,7 +483,7 @@ describe('End-to-End Campaign Integration Tests', () => {
         description: 'Custom phase for testing',
         tools: [
           {
-            scriptPath: 'scripts/custom/custom-script.js';
+            scriptPath: 'scripts/custom/custom-script.js',
             parameters: { customPara, m: true },
             batchSize: 5,
             safetyLevel: SafetyLevel.LOW
@@ -549,12 +549,12 @@ describe('End-to-End Campaign Integration Tests', () => {
         const endTime: any = Date.now();
 
         executionMetrics.push({
-          phaseId: phase.id;
-          phaseName: phase.name;
+          phaseId: phase.id,
+          phaseName: phase.name,
           executionTime: endTime - startTime,
-          success: result.success;
-          filesProcessed: result.filesProcessed;
-          errorsFixed: result.errorsFixed;
+          success: result.success,
+          filesProcessed: result.filesProcessed,
+          errorsFixed: result.errorsFixed,
           safetyEventsCount: result.safetyEvents.length
         });
       }
@@ -599,7 +599,7 @@ describe('End-to-End Campaign Integration Tests', () => {
           },
           buildPerformance: { currentTime: Math.max(8, 12 - improvementStep),
             targetTime: 10,
-            cacheHitRate: 0.8;
+            cacheHitRate: 0.8,
             memoryUsage: 45
           },
           enterpriseSystems: { curren, t: improvementStep * 50, target: 200, transformedExports: improvementStep * 50 }

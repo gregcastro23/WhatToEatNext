@@ -206,7 +206,7 @@ describe('MakefileIntegration', () => {
   describe('addCampaignTargetsToMakefile', () => {
     beforeEach(() => {
       mockFs.existsSync.mockReturnValue(true);
-      mockFs.readFileSync.mockReturnValue('# Existing Makefile content\nhelp:\n\t@echo 'Help'');
+      mockFs.readFileSync.mockReturnValue('# Existing Makefile content\nhelp:\n\t@echo 'Help'')
     });
 
     it('should add campaign targets to existing Makefile', async () => {
@@ -332,7 +332,7 @@ describe('MakefileIntegration', () => {
       const writtenContent: any = mockFs.writeFileSync.mock.calls[0][1] as string;
 
       // Phase 2 should depend on phase 1 validation
-      expect(writtenContent).toContain('campaign-phase2: campaign-validate-phase1');
+      expect(writtenContent).toContain('campaign-phase2: campaign-validate-phase1')
     });
   });
 });

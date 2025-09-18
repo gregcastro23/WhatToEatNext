@@ -11,10 +11,10 @@ const logger = createLogger('AstrologizeAPI');
 
 // Interface for the API request
 interface AstrologizeRequest {
-  year: number;
-  month: number; // 0-indexed (January = 0, February = 1, etc.);
-  date: number;
-  hour: number;
+  year: number,
+  month: number, // 0-indexed (January = 0, February = 1, etc.);
+  date: number,
+  hour: number,
   minute: number,
   latitude: number,
   longitude: number,
@@ -23,7 +23,7 @@ interface AstrologizeRequest {
 
 // Default location (New York City)
 const DEFAULT_LOCATION = {
-  latitude: 40.7498;
+  latitude: 40.7498,
   longitude: -73.7976
 };
 
@@ -116,10 +116,10 @@ export async function GET(request: Request) {
   const now = new Date();
 
   const payload = {
-    year: now.getFullYear();
+    year: now.getFullYear(),
     month: now.getMonth(), // Send 0-indexed month directly since POST handler expects this format
-    date: now.getDate();
-    hour: now.getHours();
+    date: now.getDate(),
+    hour: now.getHours(),
     minute: now.getMinutes();
     latitude,
     longitude,
@@ -171,8 +171,8 @@ function extractPlanetaryPositions(
           if (sign && arcDegrees && decimalDegrees !== undefined) {
             positions[planetName] = {
               sign,
-              degree: arcDegrees.degrees || 0;
-              minute: arcDegrees.minutes || 0;
+              degree: arcDegrees.degrees || 0,
+              minute: arcDegrees.minutes || 0,
               exactLongitude: ((decimalDegrees % 360) + 360) % 360,
               isRetrograde: planetData.isRetrograde || false
             };
@@ -202,7 +202,7 @@ function extractPlanetaryPositions(
           const minutes = Math.floor((totalDegrees - degrees) * 60);
 
           positions[planetName] = {
-            sign: typedPlanetData.sign.toLowerCase() as any;
+            sign: typedPlanetData.sign.toLowerCase() as any,
             degree: degrees,
             minute: minutes,
             exactLongitude: ((totalDegrees % 360) + 360) % 360,

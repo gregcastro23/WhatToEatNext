@@ -103,9 +103,9 @@ function deepMerge(target: unknown, source: unknown): unknown {
  * Validate environment configuration
  */
 export function validateEnvironmentConfig(environment: Environment): {
-  isValid: boolean;
-  errors: string[];
-  warnings: string[];
+  isValid: boolean,
+  errors: string[],
+  warnings: string[]
 } {
   const config = getEnvironmentConfig(environment);
   const errors: string[] = [];

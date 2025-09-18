@@ -1,14 +1,14 @@
 import type { ElementalProperties } from '@/types/alchemy';
 
 export interface Sauce {
-  name: string;
-  description: string;
-  base: string;
-  keyIngredients: string[];
+  name: string,
+  description: string,
+  base: string,
+  keyIngredients: string[],
   culinaryUses: string[];
   variants?: string[];
-  elementalProperties: ElementalProperties;
-  astrologicalInfluences: string[];
+  elementalProperties: ElementalProperties,
+  astrologicalInfluences: string[],
   seasonality: string;
   preparationNotes?: string;
   technicalTips?: string;
@@ -43,9 +43,9 @@ export const italianSauces: Record<string, Sauce> = {
     culinaryUses: ['pasta sauce', 'pizza base', 'dipping sauce', 'casserole base'],
     variants: ['Arrabbiata', 'Puttanesca', 'Alla Norma'],
     elementalProperties: {
-      Fire: 0.4;
-      Earth: 0.3;
-      Water: 0.2;
+      Fire: 0.4,
+      Earth: 0.3,
+      Water: 0.2,
       Air: 0.1
     },
     astrologicalInfluences: ['Mars', 'Sun', 'leo'],
@@ -75,8 +75,7 @@ export const italianSauces: Record<string, Sauce> = {
       'Remove from heat and stir in fresh basil.';
       'Taste and adjust seasoning if necessary.'
     ],
-    storageInstructions:
-      'Refrigerate for up to 5 days in an airtight container. Can be frozen for up to 3 months.';
+    storageInstructions: 'Refrigerate for up to 5 days in an airtight container. Can be frozen for up to 3 months.',
     prepTime: '10 minutes',
     cookTime: '30 minutes',
     difficulty: 'Easy',
@@ -98,9 +97,9 @@ export const italianSauces: Record<string, Sauce> = {
     culinaryUses: ['pasta sauce', 'sandwich spread', 'marinade', 'flavor enhancer'],
     variants: ['Red pesto', 'Pesto alla Siciliana', 'Pesto alla Trapanese'],
     elementalProperties: {
-      Air: 0.4;
-      Earth: 0.3;
-      Fire: 0.2;
+      Air: 0.4,
+      Earth: 0.3,
+      Fire: 0.2,
       Water: 0.1
     },
     astrologicalInfluences: ['Mercury', 'Venus', 'gemini'],
@@ -124,8 +123,7 @@ export const italianSauces: Record<string, Sauce> = {
       'Season with salt and pepper to taste.';
       'If not using immediately, cover the surface directly with plastic wrap or a thin layer of olive oil to prevent oxidation.'
     ],
-    storageInstructions:
-      'Refrigerate for up to 3 days with a thin layer of olive oil on top to prevent browning. Can be frozen in ice cube trays for up to 3 months.';
+    storageInstructions: 'Refrigerate for up to 3 days with a thin layer of olive oil on top to prevent browning. Can be frozen in ice cube trays for up to 3 months.',
     prepTime: '15 minutes',
     cookTime: '0 minutes',
     difficulty: 'Easy',
@@ -144,16 +142,16 @@ export const italianSauces: Record<string, Sauce> = {
       'Vegetarian carbonara'
     ],
     elementalProperties: {
-      Earth: 0.4;
-      Air: 0.3;
-      Fire: 0.2;
+      Earth: 0.4,
+      Air: 0.3,
+      Fire: 0.2,
       Water: 0.1
     },
     astrologicalInfluences: ['Jupiter', 'Mars', 'aries'],
     seasonality: 'all',
     preparationNotes: 'Never add cream - authentic carbonara is creamy from eggs alone',
     technicalTips:
-      'Temper eggs carefully to prevent scrambling; use pasta water to adjust consistency',
+      'Temper eggs carefully to prevent scrambling, use pasta water to adjust consistency',
     cuisine: 'Italian',
     ingredients: [
       '4 large egg yolks, at room temperature',
@@ -176,8 +174,7 @@ export const italianSauces: Record<string, Sauce> = {
       'Pour the egg mixture over the pasta and toss vigorously with tongs until a creamy sauce forms. If too thick, add more pasta water 1 tablespoon at a time.',
       'Serve immediately with additional grated cheese and black pepper on top.'
     ],
-    storageInstructions:
-      'Carbonara is best eaten immediately after preparation. Not recommended for storage as the sauce will solidify when cold and may separate when reheated.';
+    storageInstructions: 'Carbonara is best eaten immediately after preparation. Not recommended for storage as the sauce will solidify when cold and may separate when reheated.',
     prepTime: '15 minutes',
     cookTime: '15 minutes',
     difficulty: 'Medium',
@@ -192,9 +189,9 @@ export const italianSauces: Record<string, Sauce> = {
     culinaryUses: ['pasta sauce', 'lasagna filling', 'polenta topping', 'stuffed pasta filling'],
     variants: ['Ragù Napoletano', 'White ragù', 'Wild boar ragù', 'Vegetarian mushroom ragù'],
     elementalProperties: {
-      Earth: 0.5;
-      Fire: 0.3;
-      Water: 0.1;
+      Earth: 0.5,
+      Fire: 0.3,
+      Water: 0.1,
       Air: 0.1
     },
     astrologicalInfluences: ['Saturn', 'Mars', 'taurus'],
@@ -233,8 +230,7 @@ export const italianSauces: Record<string, Sauce> = {
       'Continue to simmer uncovered until the sauce reaches your desired consistency.';
       'Taste and adjust seasoning with salt and pepper before serving.'
     ],
-    storageInstructions:
-      'Refrigerate for up to 5 days. Freezes extremely well for up to 3 months. The flavor often improves after a day in the refrigerator.';
+    storageInstructions: 'Refrigerate for up to 5 days. Freezes extremely well for up to 3 months. The flavor often improves after a day in the refrigerator.',
     prepTime: '30 minutes',
     cookTime: '3-4 hours',
     difficulty: 'Medium',
@@ -254,9 +250,9 @@ export const italianSauces: Record<string, Sauce> = {
     ],
     variants: ['Mornay sauce', 'Soubise', 'Infused besciamella'],
     elementalProperties: {
-      Water: 0.4;
-      Earth: 0.4;
-      Air: 0.1;
+      Water: 0.4,
+      Earth: 0.4,
+      Air: 0.1,
       Fire: 0.1
     },
     astrologicalInfluences: ['Moon', 'Venus', 'cancer'],
@@ -301,9 +297,9 @@ export const italianSauces: Record<string, Sauce> = {
     keyIngredients: ['tomatoes', 'garlic', 'chili peppers', 'olive oil', 'parsley'],
     culinaryUses: ['pasta sauce', 'pizza topping', 'protein topping', 'dipping sauce'],
     elementalProperties: {
-      Fire: 0.7;
-      Earth: 0.2;
-      Water: 0.1;
+      Fire: 0.7,
+      Earth: 0.2,
+      Water: 0.1,
       Air: 0.0
     },
     astrologicalInfluences: ['Mars', 'Sun', 'Aries'],
@@ -332,8 +328,7 @@ export const italianSauces: Record<string, Sauce> = {
       'Stir in fresh parsley just before serving.';
       'Taste and adjust seasoning if necessary.'
     ],
-    storageInstructions:
-      'Refrigerate for up to 5 days in an airtight container. Can be frozen for up to 3 months.';
+    storageInstructions: 'Refrigerate for up to 5 days in an airtight container. Can be frozen for up to 3 months.',
     prepTime: '10 minutes',
     cookTime: '25 minutes',
     difficulty: 'Easy',
@@ -352,9 +347,9 @@ export const mexicanSauces: Record<string, Sauce> = {
     culinaryUses: ['protein topping', 'enchilada sauce', 'tamale filling'],
     variants: ['Mole Negro', 'Mole Verde', 'Mole Amarillo', 'Mole Colorado'],
     elementalProperties: {
-      Earth: 0.4;
-      Fire: 0.4;
-      Water: 0.1;
+      Earth: 0.4,
+      Fire: 0.4,
+      Water: 0.1,
       Air: 0.1
     },
     astrologicalInfluences: ['Mars', 'Pluto', 'Scorpio'],
@@ -395,8 +390,7 @@ export const mexicanSauces: Record<string, Sauce> = {
       'Reduce heat to low and simmer, partially covered, for 30-45 minutes, stirring occasionally, until thickened.',
       'Season with salt to taste. For a smoother sauce, blend again or strain through a fine-mesh sieve.'
     ],
-    storageInstructions:
-      'Refrigerate for up to 5 days or freeze for up to 3 months. The flavor actually improves after a day in the refrigerator as the complex flavors meld together.';
+    storageInstructions: 'Refrigerate for up to 5 days or freeze for up to 3 months. The flavor actually improves after a day in the refrigerator as the complex flavors meld together.',
     prepTime: '45 minutes',
     cookTime: '1 hour',
     difficulty: 'Complex',
@@ -411,9 +405,9 @@ export const mexicanSauces: Record<string, Sauce> = {
     culinaryUses: ['dip', 'topping', 'marinade', 'cooking sauce'],
     variants: ['Salsa Verde', 'Pico de Gallo', 'Salsa Taquera'],
     elementalProperties: {
-      Fire: 0.5;
-      Water: 0.3;
-      Earth: 0.1;
+      Fire: 0.5,
+      Water: 0.3,
+      Earth: 0.1,
       Air: 0.1
     },
     astrologicalInfluences: ['Mars', 'Sun', 'Aries'],
@@ -448,8 +442,7 @@ export const mexicanSauces: Record<string, Sauce> = {
       'Pulse to desired consistency.';
       'Adjust seasoning to taste.'
     ],
-    storageInstructions:
-      'Refrigerate in an airtight container for up to 1 week. Fresh salsa is best consumed within 3-4 days for optimal flavor. Not recommended for freezing as texture will change.';
+    storageInstructions: 'Refrigerate in an airtight container for up to 1 week. Fresh salsa is best consumed within 3-4 days for optimal flavor. Not recommended for freezing as texture will change.',
     prepTime: '15 minutes',
     cookTime: '0 minutes (fresh) or 20 minutes (roasted)',
     difficulty: 'Easy',
@@ -468,9 +461,9 @@ export const asianSauces: Record<string, Sauce> = {
     culinaryUses: ['curry base', 'marinade', 'stir-fry seasoning', 'soup flavoring'],
     variants: ['Red Curry Paste', 'Yellow Curry Paste', 'Panang Curry Paste'],
     elementalProperties: {
-      Fire: 0.5;
-      Water: 0.2;
-      Air: 0.2;
+      Fire: 0.5,
+      Water: 0.2,
+      Air: 0.2,
       Earth: 0.1
     },
     astrologicalInfluences: ['Mars', 'Mercury', 'Leo'],
@@ -498,8 +491,7 @@ export const asianSauces: Record<string, Sauce> = {
       'Food processor method: Combine all ingredients except oil in a food processor. Pulse several times, then process continuously, scraping down the sides occasionally. Add oil slowly while machine is running to help form a smooth paste. Add water 1 teaspoon at a time if needed to help blending.',
       'To use: For a basic curry, fry 2-3 tablespoons of paste in coconut milk until fragrant before adding proteins and vegetables.'
     ],
-    storageInstructions:
-      'Store in an airtight container in the refrigerator for up to 2 weeks or freeze in ice cube trays for up to 3 months. Freeze small portions for easy use. Add a thin layer of oil on top of refrigerated paste to preserve freshness.';
+    storageInstructions: 'Store in an airtight container in the refrigerator for up to 2 weeks or freeze in ice cube trays for up to 3 months. Freeze small portions for easy use. Add a thin layer of oil on top of refrigerated paste to preserve freshness.',
     prepTime: '30 minutes',
     cookTime: '0 minutes',
     difficulty: 'Medium',

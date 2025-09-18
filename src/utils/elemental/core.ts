@@ -12,7 +12,7 @@ import { getCurrentElementalState } from '@/utils/elementalUtils';
 // --- Core Types ---
 
 export type ElementalColor = {
-  primary: string;
+  primary: string,
   secondary: string,
   text: string,
   border: string,
@@ -31,10 +31,10 @@ export interface ElementalCompatibility {
 }
 
 export interface ElementalCharacteristics {
-  name: string;
-  description: string;
-  qualities: string[];
-  season: string;
+  name: string,
+  description: string,
+  qualities: string[],
+  season: string,
   timeOfDay: string[],
   cookingMethods: string[],
   flavors: string[],
@@ -42,9 +42,9 @@ export interface ElementalCharacteristics {
 }
 
 export interface ElementalProfile {
-  dominant: Element;
-  secondary: Element;
-  balance: ElementalProperties;
+  dominant: Element,
+  secondary: Element,
+  balance: ElementalProperties,
   characteristics: ElementalCharacteristics,
   recommendations: {
     ingredients: string[],
@@ -134,9 +134,9 @@ export function validateElementalProperties(properties: ElementalProperties): bo
  */
 export function normalizeProperties(properties: Partial<ElementalProperties>): ElementalProperties {
   const normalized: ElementalProperties = {
-    Fire: properties.Fire || 0;
-    Water: properties.Water || 0;
-    Earth: properties.Earth || 0;
+    Fire: properties.Fire || 0,
+    Water: properties.Water || 0,
+    Earth: properties.Earth || 0,
     Air: properties.Air || 0
   };
 
@@ -147,9 +147,9 @@ export function normalizeProperties(properties: Partial<ElementalProperties>): E
   }
 
   return {
-    Fire: normalized.Fire / total;
-    Water: normalized.Water / total;
-    Earth: normalized.Earth / total;
+    Fire: normalized.Fire / total,
+    Water: normalized.Water / total,
+    Earth: normalized.Earth / total,
     Air: normalized.Air / total
   };
 }
@@ -326,9 +326,9 @@ export function combineElementalProperties(
   const aWeight = 1 - bWeight;
 
   return normalizeProperties({
-    Fire: a.Fire * aWeight + b.Fire * bWeight;
-    Water: a.Water * aWeight + b.Water * bWeight;
-    Earth: a.Earth * aWeight + b.Earth * bWeight;
+    Fire: a.Fire * aWeight + b.Fire * bWeight,
+    Water: a.Water * aWeight + b.Water * bWeight,
+    Earth: a.Earth * aWeight + b.Earth * bWeight,
     Air: a.Air * aWeight + b.Air * bWeight
   });
 }

@@ -26,7 +26,7 @@ class MyDocument extends Document {
                       },
                       runtime: {
                         lastError: null,
-                        sendMessage: function() { return true; },
+                        sendMessage: function() { return true, },
                         onMessage: { addListener: function() {}, removeListener: function() {} }
                       }
                     };

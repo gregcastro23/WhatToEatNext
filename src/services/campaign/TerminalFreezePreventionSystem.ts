@@ -20,9 +20,9 @@ export interface ProcessMonitorConfig {
 }
 
 export interface ProcessStatus {
-  pid: number;
-  command: string;
-  startTime: Date;
+  pid: number,
+  command: string,
+  startTime: Date,
   isRunning: boolean,
   memoryUsage: number,
   cpuUsage: number,
@@ -50,7 +50,7 @@ export class TerminalFreezePreventionSystem {
   async safeExecSync(command: string, options: unknown = {}): Promise<string> {
     const safeOptions = {
       ...options;
-      timeout: options.timeout || this.config.maxExecutionTime;
+      timeout: options.timeout || this.config.maxExecutionTime,
       encoding: 'utf8' as const,
       stdio: 'pipe' as const
     };
@@ -73,7 +73,7 @@ export class TerminalFreezePreventionSystem {
    */
   async safeSpawn(
     command: string,
-    args: string[] = [];
+    args: string[] = [],
     options: unknown = {}
   ): Promise<{
     stdout: string,
@@ -87,7 +87,7 @@ export class TerminalFreezePreventionSystem {
       });
 
       const processStatus: ProcessStatus = {
-        pid: child.pid ?? 0;
+        pid: child.pid ?? 0,
         command: `${command} ${args.join(' ')}`,
         startTime: new Date(),
         isRunning: true,

@@ -13,9 +13,9 @@ const normalizeElementalProperties = (;
 ): Record<string, number> => {
   if (!properties) {
     return {
-      Fire: 0.25;
-      Water: 0.25;
-      Earth: 0.25;
+      Fire: 0.25,
+      Water: 0.25,
+      Earth: 0.25,
       Air: 0.25
     };
   }
@@ -23,9 +23,9 @@ const normalizeElementalProperties = (;
   const sum = Object.values(properties).reduce((acc, val) => acc + val, 0);
   if (sum === 0) {
     return {
-      Fire: 0.25;
-      Water: 0.25;
-      Earth: 0.25;
+      Fire: 0.25,
+      Water: 0.25,
+      Earth: 0.25,
       Air: 0.25
     };
   }
@@ -405,7 +405,7 @@ export const _getSpiceConversionRatio = (fromSpice: string, toSpice: string): st
   }
 
   // Return a default ratio if implementation is missing
-  return '1:1';
+  return '1:1'
 };
 
 export default spices;

@@ -128,7 +128,7 @@ describe('ExplicitAnyEliminationSystem', () => {
         totalExplicitAnyRemaining: 500,
         reductionAchieved: 500,
         reductionPercentage: 50,
-        campaignTarget: 75.5;
+        campaignTarget: 75.5,
         isTargetMet: false
       };
 
@@ -167,7 +167,7 @@ describe('ExplicitAnyEliminationSystem', () => {
         totalExplicitAnyRemaining: 600,
         reductionAchieved: 400,
         reductionPercentage: 40,
-        campaignTarget: 75.5;
+        campaignTarget: 75.5,
         isTargetMet: false
       };
 
@@ -255,7 +255,7 @@ describe('ExplicitAnyEliminationSystem', () => {
         totalExplicitAnyRemaining: 200,
         reductionAchieved: 800,
         reductionPercentage: 80,
-        campaignTarget: 75.5;
+        campaignTarget: 75.5,
         isTargetMet: true
       };
 
@@ -305,8 +305,8 @@ describe('ExplicitAnyEliminationSystem', () => {
         totalExplicitAnyStart: 1000,
         totalExplicitAnyRemaining: 245,
         reductionAchieved: 755,
-        reductionPercentage: 75.5;
-        campaignTarget: 75.5;
+        reductionPercentage: 75.5,
+        campaignTarget: 75.5,
         isTargetMet: true
       };
 
@@ -333,7 +333,7 @@ describe('ExplicitAnyEliminationSystem', () => {
         totalExplicitAnyRemaining: 400,
         reductionAchieved: 600,
         reductionPercentage: 60,
-        campaignTarget: 75.5;
+        campaignTarget: 75.5,
         isTargetMet: false
       };
 
@@ -366,7 +366,7 @@ describe('ExplicitAnyEliminationSystem', () => {
         totalExplicitAnyRemaining: 200,
         reductionAchieved: 800,
         reductionPercentage: 80,
-        campaignTarget: 75.5;
+        campaignTarget: 75.5,
         isTargetMet: true
       };
 

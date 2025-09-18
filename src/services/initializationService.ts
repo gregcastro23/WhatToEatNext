@@ -32,9 +32,9 @@ export interface CelestialData {
 interface InitializationResult {
   success: boolean;
   data?: {
-    recipes: ScoredRecipe[];
-    favorites: string[];
-    celestialData: CelestialData;
+    recipes: ScoredRecipe[],
+    favorites: string[],
+    celestialData: CelestialData
   };
   error?: string;
 }

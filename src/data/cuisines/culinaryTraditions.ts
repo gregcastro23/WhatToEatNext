@@ -3,7 +3,7 @@ export interface CuisineProfile {
   elementalAlignment: Record<string, number>;
   description?: string; // Add optional description field
   astrologicalProfile: {
-    rulingPlanets: string[];
+    rulingPlanets: string[],
     favorableZodiac: string[],
     techniques: string[],
     aspectEnhancers: string[],

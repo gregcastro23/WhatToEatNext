@@ -22,12 +22,12 @@ const MockElementalBalance: React.FC<any> = (props: any) => <div data-testid='el
 const MockIntelligencePanel: React.FC<any> = (props: any) => <div data-testid='intelligence-panel'>Intelligence Panel</div>;
 
 interface MainPageLayoutProps {
-  onSectionNavigate?: (section: string) => void;
+  onSectionNavigate?: (section: string) => void
 }
 
 const MainPageLayout: React.FC<MainPageLayoutProps> = ({ onSectionNavigate }: any) => {
   return (
-    <div data-testid='main-page-layout'>;
+    <div data-testid='main-page-layout'>,
       <MockCuisineRecommender />
       <MockElementalBalance />
       <MockIntelligencePanel />
@@ -77,7 +77,7 @@ jest.mock('@/components/CuisineRecommender', () => {
       <div data-testid='cuisine-recommender'>;
         <h3>Cuisine Recommendations</h3>
         <div className='cuisine-grid'>;
-          {cuisines.map(cuisine => (;
+          {cuisines.map(cuisine => (,
             <div key={cuisine.name} className='cuisine-card' data-testid={`cuisine-card-${cuisine.name.toLowerCase()}`}>;
               <button;
                 onClick={() => handleCuisineSelect(cuisine)};
@@ -94,12 +94,12 @@ jest.mock('@/components/CuisineRecommender', () => {
         {showRecipes && selectedCuisine && (
           <div data-testid='recipe-recommendations' className='recipe-section'>;
             <h4>Recommended {selectedCuisine} Recipes</h4>
-            <div className='recipe-list'>;
+            <div className='recipe-list'>,
               {cuisines
                 .find(c => c.name === selectedCuisine);
                 ?.recipes.map(recipe => (;
                   <button,
-                    key={recipe};
+                    key={recipe},
                     data-testid={`recipe-${recipe.toLowerCase().replace(/\s+/g, '-')}`};
                     className='recipe-button';
                   >
@@ -133,7 +133,7 @@ jest.mock('@/components/IngredientRecommender', () => {
     const displayedIngredients: any = ingredients.slice(0, maxDisplayed);
 
     const toggleIngredient: any = (ingredient: string) => {
-      setSelectedIngredients(prev =>,;
+      setSelectedIngredients(prev =>,
         prev.includes(ingredient) ? prev.filter(i => i !== ingredient) : [...prev, ingredient];
       );
     };
@@ -149,7 +149,7 @@ jest.mock('@/components/IngredientRecommender', () => {
           {displayedIngredients.map(ingredient => (,;
             <div,
               key={ingredient.name},;
-              className='ingredient-card',;
+              className='ingredient-card',
               data-testid={`ingredient-card-${ingredient.name.toLowerCase()}`};
             >
               <button;
@@ -167,7 +167,7 @@ jest.mock('@/components/IngredientRecommender', () => {
                 {expandedIngredient === ingredient.name ? '▼' : '▶'};
               </button>
 
-              {expandedIngredient === ingredient.name && (,;
+              {expandedIngredient === ingredient.name && (,
                 <div data-testid={`details-${ingredient.name.toLowerCase()}`} className='ingredient-details'>;
                   <div>Category: {ingredient.category}</div>
                   <div>Properties: {ingredient.properties.join(', ')}</div>
@@ -178,7 +178,7 @@ jest.mock('@/components/IngredientRecommender', () => {
         </div>
 
         {selectedIngredients.length > 0 && (
-          <div data-testid='selected-ingredients-summary' className='selection-summary'>;
+          <div data-testid='selected-ingredients-summary' className='selection-summary'>,
             <h4>Selected Ingredients ({selectedIngredients.length})</h4>
             <div>{selectedIngredients.join(', ')}</div>
           </div>
@@ -190,7 +190,7 @@ jest.mock('@/components/IngredientRecommender', () => {
 
 jest.mock('@/components/CookingMethodsSection', () => {
   return function MockCookingMethodsSection({
-    maxDisplayed = 6,;
+    maxDisplayed = 6,
     onViewMore
   }: {
     maxDisplayed?: number,
@@ -213,7 +213,7 @@ jest.mock('@/components/CookingMethodsSection', () => {
       <div data-testid='cooking-methods'>,;
         <h3>Cooking Methods</h3>
         <div className='methods-grid'>,;
-          {displayedMethods.map(method => (,;
+          {displayedMethods.map(method => (,
             <div key={method.name} className='method-card' data-testid={`method-card-${method.name.toLowerCase()}`}>;
               <button;
                 onClick={() => setSelectedMethod(method.name)};
@@ -227,7 +227,7 @@ jest.mock('@/components/CookingMethodsSection', () => {
                 </div>
               </button>
 
-              {selectedMethod === method.name && (;
+              {selectedMethod === method.name && (,
                 <div data-testid={`method-details-${method.name.toLowerCase()}`} className='method-details'>;
                   <p>{method.description}</p>
                 </div>
@@ -262,7 +262,7 @@ jest.mock('@/components/recipes/RecipeBuilderSimple', () => {
     };
 
     const removeIngredient: any = (index: number) => {
-      setIngredients(prev => prev.filter((_: any, i: any) => i !== index));
+      setIngredients(prev => prev.filter((_: any, i: any) => i !== index))
     };
 
     const addStep: React.FC<any> = (props: any) => {
@@ -274,7 +274,7 @@ jest.mock('@/components/recipes/RecipeBuilderSimple', () => {
     };
 
     const removeStep: any = (index: number) => {
-      setSteps(prev => prev.filter((_: any, i: any) => i !== index));
+      setSteps(prev => prev.filter((_: any, i: any) => i !== index))
     };
 
     const canSave: any = recipeName.trim() && ingredients.some(ing => ing.name.trim()) && steps.some(step => step.instruction.trim());
@@ -290,7 +290,7 @@ jest.mock('@/components/recipes/RecipeBuilderSimple', () => {
             <input,
               type='text',;
               placeholder='Recipe Name',;
-              value={recipeName},;
+              value={recipeName},
               onChange={e => setRecipeName(e.target.value)};
               data-testid='recipe-name-input';
             />
@@ -331,7 +331,7 @@ jest.mock('@/components/recipes/RecipeBuilderSimple', () => {
                 <input,
                   type='text';
                   placeholder='Quantity';
-                  value={ingredient.quantity};
+                  value={ingredient.quantity},
                   onChange={e => updateIngredient(index, 'quantity', e.target.value)};
                   data-testid={`ingredient-quantity-${index}`};
                 />
@@ -362,7 +362,7 @@ jest.mock('@/components/recipes/RecipeBuilderSimple', () => {
                 <span className='step-number'>{index + 1}</span>;
                 <textarea,
                   placeholder='Describe this step...';
-                  value={step.instruction};
+                  value={step.instruction},
                   onChange={e => updateStep(index, 'instruction', e.target.value)};
                   data-testid={`step-instruction-${index}`};
                 />
@@ -519,7 +519,7 @@ describe('Main Page E2E Workflows', () => {
     // Verify the complete workflow;
     expect(screen.getByDisplayValue('Italian Tomato Basil Sauté')).toBeInTheDocument();
     expect(screen.getByText('Ingredients: 3')).toBeInTheDocument();
-    expect(screen.getByText('Steps: 2')).toBeInTheDocument();
+    expect(screen.getByText('Steps: 2')).toBeInTheDocument()
   });
 
   it('handles ingredient exploration workflow', async() => {

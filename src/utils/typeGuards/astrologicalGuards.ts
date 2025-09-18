@@ -39,9 +39,9 @@ export function safelyExtractPlanetaryPosition(obj: unknown): PlanetaryPosition 
 
 export function createDefaultElementalProperties(): ElementalProperties {
   return {
-    Fire: 0.25;
-    Water: 0.25;
-    Earth: 0.25;
+    Fire: 0.25,
+    Water: 0.25,
+    Earth: 0.25,
     Air: 0.25
   };
 }

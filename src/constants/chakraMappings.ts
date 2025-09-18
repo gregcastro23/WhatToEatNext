@@ -14,12 +14,12 @@ export type Chakra = (typeof CHAKRAS)[number];
 
 // Base chakra properties
 export interface ChakraProperties {
-  name: Chakra;
-  sanskritName: string;
-  color: string;
-  element: string;
-  planet: string;
-  governs: string[];
+  name: Chakra,
+  sanskritName: string,
+  color: string,
+  element: string,
+  planet: string,
+  governs: string[],
   balanceIndicators: string[],
   imbalanceIndicators: string[]
 }

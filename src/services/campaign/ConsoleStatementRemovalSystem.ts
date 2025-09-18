@@ -17,10 +17,10 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 export interface ConsoleRemovalConfig {
-  maxFiles: number;
-  dryRun: boolean;
-  autoFix: boolean;
-  preserveDebugCritical: boolean;
+  maxFiles: number,
+  dryRun: boolean,
+  autoFix: boolean,
+  preserveDebugCritical: boolean,
   enableGitStash: boolean,
   buildValidation: boolean,
   batchSize: number,
@@ -28,10 +28,10 @@ export interface ConsoleRemovalConfig {
 }
 
 export interface ConsoleRemovalResult {
-  success: boolean;
-  filesProcessed: number;
-  consoleStatementsRemoved: number;
-  consoleStatementsPreserved: number;
+  success: boolean,
+  filesProcessed: number,
+  consoleStatementsRemoved: number,
+  consoleStatementsPreserved: number,
   buildTime: number,
   errors: string[],
   warnings: string[],
@@ -39,10 +39,10 @@ export interface ConsoleRemovalResult {
 }
 
 export interface BatchRemovalResult {
-  totalBatches: number;
-  successfulBatches: number;
-  failedBatches: number;
-  totalFilesProcessed: number;
+  totalBatches: number,
+  successfulBatches: number,
+  failedBatches: number,
+  totalFilesProcessed: number,
   totalConsoleStatementsProcessed: number,
   averageBuildTime: number,
   errors: string[],
@@ -50,10 +50,10 @@ export interface BatchRemovalResult {
 }
 
 export interface ConsoleStatement {
-  file: string;
-  line: number;
-  column: number;
-  type: 'log' | 'warn' | 'error' | 'info' | 'debug';
+  file: string,
+  line: number,
+  column: number,
+  type: 'log' | 'warn' | 'error' | 'info' | 'debug',
   content: string,
   context: string,
   isCritical: boolean,
@@ -547,15 +547,15 @@ export class ConsoleStatementRemovalSystem {
   private async saveMetrics(result: ConsoleRemovalResult): Promise<void> {
     try {
       const metrics = {
-        timestamp: new Date().toISOString();
-        config: this.config;
+        timestamp: new Date().toISOString(),
+        config: this.config,
         result,
         summary: {
-          success: result.success;
-          filesProcessed: result.filesProcessed;
-          consoleStatementsRemoved: result.consoleStatementsRemoved;
-          consoleStatementsPreserved: result.consoleStatementsPreserved;
-          buildTime: result.buildTime;
+          success: result.success,
+          filesProcessed: result.filesProcessed,
+          consoleStatementsRemoved: result.consoleStatementsRemoved,
+          consoleStatementsPreserved: result.consoleStatementsPreserved,
+          buildTime: result.buildTime,
           preservedFiles: result.preservedFiles.length
         }
       };

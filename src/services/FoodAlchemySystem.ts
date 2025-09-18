@@ -12,8 +12,8 @@ import type { BirthChart } from '../types/astrology';
 const planetaryElements: Record<
   string,
   {
-    diurnal: ElementalCharacter;
-    nocturnal: ElementalCharacter;
+    diurnal: ElementalCharacter,
+    nocturnal: ElementalCharacter,
     dignityEffect?: Record<string, number>;
   }
 > = {
@@ -75,7 +75,7 @@ const planetaryElements: Record<
 const signInfo: Record<
   string,
   {
-    element: ElementalCharacter;
+    element: ElementalCharacter,
     decanEffects: Record<string, string[]>;
     degreeEffects: Record<string, number[]>;
   }
@@ -239,19 +239,19 @@ const signInfo: Record<
 };
 
 export interface FoodCorrespondence {
-  name: string;
-  element: ElementalCharacter;
-  planetaryRuler: RulingPlanet;
-  timeOfDay: 'Day' | 'Night' | 'Both';
-  energyValues: ThermodynamicMetrics;
-  preparation: string[];
-  combinations: string[];
-  restrictions: string[];
+  name: string,
+  element: ElementalCharacter,
+  planetaryRuler: RulingPlanet,
+  timeOfDay: 'Day' | 'Night' | 'Both',
+  energyValues: ThermodynamicMetrics,
+  preparation: string[],
+  combinations: string[],
+  restrictions: string[],
 }
 
 export interface CompatibilityScore {
-  compatibility: number;
-  recommendations: string[];
+  compatibility: number,
+  recommendations: string[],
   warnings: string[];
   scoreDetails?: {
     elementalMatch?: number;
@@ -268,38 +268,38 @@ export interface CompatibilityScore {
  * System state interface for tracking alchemical system status
  */
 export interface SystemState {
-  isInitialized: boolean;
-  lastUpdated: Date;
+  isInitialized: boolean,
+  lastUpdated: Date,
   activeChart?: BirthChart;
   currentPlanetaryPositions?: Record<string, { sign: string; degree: number }>;
   currentAspects?: Array<{ type: string; planets: [string, string] }>;
-  systemHealth: 'optimal' | 'degraded' | 'offline';
-  errorMessages: string[];
+  systemHealth: 'optimal' | 'degraded' | 'offline',
+  errorMessages: string[],
   cacheStatus: {
-    size: number;
-    lastCleared: Date;
-    hitRate: number;
+    size: number,
+    lastCleared: Date,
+    hitRate: number
   };
   processingQueue: {
-    pending: number;
-    processing: number;
-    completed: number;
-    failed: number;
+    pending: number,
+    processing: number,
+    completed: number,
+    failed: number,
   };
 }
 
 export class FoodAlchemySystem {
   private readonly TOKEN_WEIGHTS = {
-    Spirit: 1.0;
-    Essence: 0.8;
-    Matter: 0.6;
+    Spirit: 1.0,
+    Essence: 0.8,
+    Matter: 0.6,
     Substance: 0.4
   };
 
   private readonly ELEMENT_WEIGHTS = {
-    Fire: 1.0;
-    Water: 0.9;
-    Air: 0.8;
+    Fire: 1.0,
+    Water: 0.9,
+    Air: 0.8,
     Earth: 0.7
   };
 
@@ -375,8 +375,8 @@ export class FoodAlchemySystem {
       ),
       warnings: this.identifyConflicts(food, chart, normalizedPositions),
       scoreDetails: {
-        elementalMatch: elementalMatch * 0.45;
-        planetaryDayMatch: planetaryDayMatch * 0.35;
+        elementalMatch: elementalMatch * 0.45,
+        planetaryDayMatch: planetaryDayMatch * 0.35,
         planetaryHourMatch: planetaryHourMatch * 0.2;
         affinityBonus,
         dignityBonus: (dayDignityBonus || 0) + (hourDignityBonus || 0),
@@ -544,7 +544,7 @@ export class FoodAlchemySystem {
             aspectModifier = -0.15;
             break;
           default:
-            aspectModifier = 0;
+            aspectModifier = 0
         }
 
         // Apply the aspect modifier if the food is ruled by the other planet in the aspect
@@ -800,7 +800,7 @@ export class FoodAlchemySystem {
       case 'Earth':
         return 'root vegetables, nuts, grains';
       default:
-        return 'fresh seasonal foods';
+        return 'fresh seasonal foods'
     }
   }
 }

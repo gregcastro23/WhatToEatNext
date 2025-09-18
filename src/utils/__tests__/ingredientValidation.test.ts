@@ -10,8 +10,8 @@ jest.mock('../../data/ingredients', () => ({
       name: 'Basil',
       category: 'culinary_herb',
       elementalProperties: { Fire: 0.2,
-        Water: 0.1;
-        Earth: 0.1;
+        Water: 0.1,
+        Earth: 0.1,
         Air: 0.6
       },
       qualities: ['aromatic', 'warming'],
@@ -20,8 +20,8 @@ jest.mock('../../data/ingredients', () => ({
     tomato: { name: 'Tomato',
       category: 'vegetable',
       elementalProperties: { Fire: 0.4,
-        Water: 0.4;
-        Earth: 0.1;
+        Water: 0.4,
+        Earth: 0.1,
         Air: 0.1
       },
       qualities: ['juicy', 'acidic'],
@@ -30,7 +30,7 @@ jest.mock('../../data/ingredients', () => ({
     invalidIngredient: { name: 'Invalid',
       category: 'invalid_category',
       elementalProperties: { Fire: 0.5,
-        Water: 0.3;
+        Water: 0.3,
         Earth: 0.3, // Sum > 1.0
         Air: 0.2
       }
@@ -46,8 +46,8 @@ jest.mock('../elementalUtils', () => ({
 // Mock the logger
 jest.mock('../logger', () => ({
   logger: { info: jest.fn(),
-    warn: jest.fn();
-    error: jest.fn();
+    warn: jest.fn(),
+    error: jest.fn(),
     debug: jest.fn()
   }
 }));

@@ -73,7 +73,7 @@ export default function IngredientsPage() {
       fromPage: 'ingredients',
       selectedItems: selectedIngredient ? [selectedIngredient] : [],
       activeSection: 'ingredients',
-      scrollPosition: window.scrollY;
+      scrollPosition: window.scrollY,
       timestamp: Date.now()
     });
 

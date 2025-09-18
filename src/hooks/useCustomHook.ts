@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 
 export interface CustomHookResult {
-  data: unknown;
-  loading: boolean;
-  error: string | null;
+  data: unknown,
+  loading: boolean,
+  error: string | null
 }
 
 export function useCustomHook(initialValue: unknown = null): CustomHookResult {

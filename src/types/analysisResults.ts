@@ -8,23 +8,23 @@
 // Analysis result interfaces for compatibility analysis
 export interface CompatibilityAnalysisResult {
   coreMetrics: {
-    elementalAlignment: number;
-    kalchmAlignment: number;
-    planetaryAlignment: number;
-    overallCompatibility: number;
+    elementalAlignment: number,
+    kalchmAlignment: number,
+    planetaryAlignment: number,
+    overallCompatibility: number,
   };
   detailMetrics?: {
-    seasonalFit: number;
-    astrologicalResonance: number;
-    nutritionalHarmony: number;
+    seasonalFit: number,
+    astrologicalResonance: number,
+    nutritionalHarmony: number
   };
 }
 
 // Analysis result interfaces for ingredient analysis
 export interface IngredientCategorizationAnalysis {
-  category: string;
-  subcategory: string;
-  confidence: number;
+  category: string,
+  subcategory: string,
+  confidence: number,
   properties: {
     nutritional: Record<string, number>;
     elemental: Record<string, number>;
@@ -32,7 +32,7 @@ export interface IngredientCategorizationAnalysis {
 }
 
 export interface IngredientSeasonalityAnalysis {
-  primarySeason: string;
+  primarySeason: string,
   seasonalScores: Record<string, number>;
   astrologicalAlignment: {
     planetaryInfluence: Record<string, number>;
@@ -43,19 +43,19 @@ export interface IngredientSeasonalityAnalysis {
 // Analysis result interfaces for chakra symbols analysis
 export interface ChakraAnalysisResult {
   effectiveness?: {
-    pronunciationAccuracy: number;
-    vibrationalResonance: number;
+    pronunciationAccuracy: number,
+    vibrationalResonance: number,
   };
   advancedVibrations?: {
     harmonicResonance?: {
-      fundamental: number;
+      fundamental: number
     };
   };
   symbolicEffectiveness?: {
-    visualClarity: number;
+    visualClarity: number
   };
   colorAnalysis?: {
-    colorHarmony: number;
+    colorHarmony: number
   };
   advancedVisual?: Record<string, unknown>;
   nutritionalEffectiveness?: Record<string, unknown>;
@@ -71,20 +71,20 @@ export interface ChakraAnalysisResult {
 
 // Analysis result interfaces for predictive intelligence
 export interface PredictiveAnalysisConfig {
-  modelType: string;
+  modelType: string,
   parameters: Record<string, unknown>;
-  version: string;
-  timestamp: Date;
+  version: string,
+  timestamp: Date,
 }
 
 // General analysis result wrapper
 export interface AnalysisResultWrapper<T = unknown> {;
-  success: boolean;
-  data: T;
+  success: boolean,
+  data: T,
   metadata: {
-    timestamp: Date;
-    version: string;
-    source: string;
+    timestamp: Date,
+    version: string,
+    source: string
   };
   errors?: string[];
 }
@@ -100,23 +100,23 @@ export interface EnterpriseAnalysisContext {
 // Recipe data with elemental properties interface
 export interface RecipeAnalysisData {
   elementalProperties?: {
-    Fire: number;
-    Water: number;
-    Earth: number;
-    Air: number;
+    Fire: number,
+    Water: number,
+    Earth: number,
+    Air: number,
   };
-  [key: string]: unknown;
+  [key: string]: unknown
 }
 
 // Astrological context interface
 export interface AstrologicalAnalysisContext {
   elementalProperties?: {
-    Fire: number;
-    Water: number;
-    Earth: number;
-    Air: number;
+    Fire: number,
+    Water: number,
+    Earth: number,
+    Air: number,
   };
   planetaryInfluences?: Record<string, number>;
   zodiacAlignment?: string;
-  [key: string]: unknown;
+  [key: string]: unknown
 }

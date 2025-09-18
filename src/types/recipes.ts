@@ -5,14 +5,14 @@ import { ElementalProperties, ZodiacSign, AstrologicalInfluence } from '@/types/
 export type { Recipe } from './recipe';
 
 export interface RecipeElementalMapping {
-  elementalProperties: ElementalProperties;
+  elementalProperties: ElementalProperties,
   astrologicalProfile: {
-    rulingPlanets: string[];
-    favorableZodiac: any[];
-    optimalAspects: string[];
-    techniqueEnhancers: AstrologicalInfluence[];
+    rulingPlanets: string[],
+    favorableZodiac: any[],
+    optimalAspects: string[],
+    techniqueEnhancers: AstrologicalInfluence[],
   };
-  cuisine: CuisineProfile;
+  cuisine: CuisineProfile,
   ingredientBalance: {
     base: string[];
     earth?: string[];

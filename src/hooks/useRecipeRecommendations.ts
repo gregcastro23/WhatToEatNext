@@ -7,20 +7,20 @@ const useAlchemical = () => ({
 });
 
 export interface Recipe {
-  id: string;
-  name: string;
-  description: string;
-  ingredients: string[];
-  cookingMethod: string;
-  cuisine: string;
+  id: string,
+  name: string,
+  description: string,
+  ingredients: string[],
+  cookingMethod: string,
+  cuisine: string,
   elementalProfile: { Fire: number; Water: number, Earth: number, Air: number };
   score?: number;
 }
 
 export interface RecipeRecommendationsData {
-  recipes: Recipe[];
-  isLoading: boolean;
-  error: string | null;
+  recipes: Recipe[],
+  isLoading: boolean,
+  error: string | null,
   filters: {
     cuisine?: string;
     cookingMethod?: string,
@@ -78,9 +78,9 @@ export function useRecipeRecommendations(
     const total = Object.values(elementCounts).reduce((sum, count) => sum + count, 0);
 
     return {
-      Fire: total > 0 ? elementCounts.Fire / total : 0.25;
-      Water: total > 0 ? elementCounts.Water / total : 0.25;
-      Earth: total > 0 ? elementCounts.Earth / total : 0.25;
+      Fire: total > 0 ? elementCounts.Fire / total : 0.25,
+      Water: total > 0 ? elementCounts.Water / total : 0.25,
+      Earth: total > 0 ? elementCounts.Earth / total : 0.25,
       Air: total > 0 ? elementCounts.Air / total : 0.25
     };
   }, [planetaryPositions]);

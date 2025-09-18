@@ -28,10 +28,10 @@ const RecipeDetailsPage: NextPage = () => {
   const [servingsMultiplier, setServingsMultiplier] = React.useState(1);
   const [loading, setLoading] = React.useState(true);
   const [elementalState, setElementalState] = React.useState({
-    Fire: 0.25;
-    Water: 0.25;
-    Earth: 0.25;
-    Air: 0.25;
+    Fire: 0.25,
+    Water: 0.25,
+    Earth: 0.25,
+    Air: 0.25,
     season: 'spring',
     timeOfDay: 'lunch'
   });

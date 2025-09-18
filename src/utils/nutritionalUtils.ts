@@ -73,8 +73,8 @@ export async function compareNutritionalValues(
   ingredient1: string,
   ingredient2: string,
 ): Promise<{
-  ingredient1: NutritionalProfile | null;
-  ingredient2: NutritionalProfile | null;
+  ingredient1: NutritionalProfile | null,
+  ingredient2: NutritionalProfile | null,
   differences: Record<string, number>;
 }> {
   const profile1 = await getNutritionalData(ingredient1);
@@ -96,8 +96,7 @@ export async function compareNutritionalValues(
   const profile2Macros = profile2Data?.macros || {};
 
   const differences: Record<string, number> = {
-    calories:
-      (((profile2.calories || 0) - (profile1.calories || 0)) / (profile1.calories || 1)) * 100;
+    calories: (((profile2.calories || 0) - (profile1.calories || 0)) / (profile1.calories || 1)) * 100,
     protein: profile1Macros.protein
       ? ((profile2Macros.protein - profile1Macros.protein) / profile1Macros.protein) * 100
       : 0,

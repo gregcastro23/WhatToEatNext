@@ -251,7 +251,7 @@ export const _getRecommendedCookingMethodsForIngredient = async (;
 
   // Convert to the expected return format
   const results = holisticRecommendations.map(rec => ({
-    method: rec.method;
+    method: rec.method,
     compatibility: rec.compatibility
   }));
 

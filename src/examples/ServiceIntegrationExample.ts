@@ -96,15 +96,15 @@ export async function runServiceIntegrationExample() {
     log.info('\n9. Calculating elemental compatibility between recipes...');
     // For this example, we'll create mock recipes
     const recipe1ElementalProps: ElementalProperties = {
-      Fire: 0.7;
-      Water: 0.1;
-      Earth: 0.1;
+      Fire: 0.7,
+      Water: 0.1,
+      Earth: 0.1,
       Air: 0.1
     };
     const recipe2ElementalProps: ElementalProperties = {
-      Fire: 0.1;
-      Water: 0.1;
-      Earth: 0.7;
+      Fire: 0.1,
+      Water: 0.1,
+      Earth: 0.7,
       Air: 0.1
     };
 

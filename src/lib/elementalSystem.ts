@@ -93,9 +93,9 @@ class ElementalSystem {
     const moonElement = moonSign ? ZODIAC_ELEMENTS[moonSign] : 'Water';
 
     const baseProperties: ElementalProperties = {
-      Fire: 0.25;
-      Water: 0.25;
-      Air: 0.25;
+      Fire: 0.25,
+      Water: 0.25,
+      Air: 0.25,
       Earth: 0.25
     };
 

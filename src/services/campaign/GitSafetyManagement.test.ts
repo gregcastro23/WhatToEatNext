@@ -17,9 +17,9 @@ jest.mock('child_process', () => ({
 
 // Mock fs for testing
 jest.mock('fs', () => ({
-  existsSync: jest.fn();
-  readFileSync: jest.fn();
-  writeFileSync: jest.fn();
+  existsSync: jest.fn(),
+  readFileSync: jest.fn(),
+  writeFileSync: jest.fn(),
   mkdirSync: jest.fn()
 }));
 
@@ -111,7 +111,7 @@ describe('Git Safety Management - Task 6.1', () => {
         return '';
       });
 
-      await expect(safetyProtocol.createStash('test')).rejects.toThrow('Failed to create git stash: Git stash failed');
+      await expect(safetyProtocol.createStash('test')).rejects.toThrow('Failed to create git stash: Git stash failed')
     });
   });
 
@@ -178,7 +178,7 @@ describe('Git Safety Management - Task 6.1', () => {
             'old-stash-1': {
               id: 'old-stash-1',
               description: 'Old stash',
-              timestamp: oldDate.toISOString();
+              timestamp: oldDate.toISOString(),
               branch: 'main',
               ref: 'stash@{1}'
             }
@@ -240,7 +240,7 @@ describe('Git Safety Management - Task 6.1', () => {
           'test-stash': {
             id: 'test-stash',
             description: 'Test stash',
-            timestamp: new Date().toISOString();
+            timestamp: new Date().toISOString(),
             branch: 'main',
             ref: 'stash@{0}'
           }

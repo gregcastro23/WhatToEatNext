@@ -63,7 +63,7 @@ export class SafetyProtocol {
         id: stashName,
         description: fullDescription,
         timestamp: new Date(),
-        branch: this.getCurrentBranch();
+        branch: this.getCurrentBranch(),
         ref: stashRef
       };
 
@@ -71,10 +71,10 @@ export class SafetyProtocol {
       this.saveStashTracking();
 
       this.addSafetyEvent({
-        type: SafetyEventType.CHECKPOINT_CREATED;
+        type: SafetyEventType.CHECKPOINT_CREATED,
         timestamp: new Date(),
         description: `Git stash created: ${stashName} (${stashRef})`,
-        severity: SafetyEventSeverity.INFO;
+        severity: SafetyEventSeverity.INFO,
         action: 'STASH_CREATE'
       });
 
@@ -85,10 +85,10 @@ export class SafetyProtocol {
       return stashName;
     } catch (error) {
       this.addSafetyEvent({
-        type: SafetyEventType.EMERGENCY_RECOVERY;
+        type: SafetyEventType.EMERGENCY_RECOVERY,
         timestamp: new Date(),
         description: `Failed to create git stash: ${(error as any).message || 'Unknown error'}`,
-        severity: SafetyEventSeverity.ERROR;
+        severity: SafetyEventSeverity.ERROR,
         action: 'STASH_FAILED'
       });
 
@@ -137,10 +137,10 @@ export class SafetyProtocol {
       }
 
       this.addSafetyEvent({
-        type: SafetyEventType.ROLLBACK_TRIGGERED;
+        type: SafetyEventType.ROLLBACK_TRIGGERED,
         timestamp: new Date(),
         description: `Git stash applied: ${stashId} (${stashRef})`,
-        severity: SafetyEventSeverity.WARNING;
+        severity: SafetyEventSeverity.WARNING,
         action: 'STASH_APPLY'
       });
 
@@ -148,10 +148,10 @@ export class SafetyProtocol {
       // // console.log(`   Reference: ${stashRef}`);
     } catch (error) {
       this.addSafetyEvent({
-        type: SafetyEventType.EMERGENCY_RECOVERY;
+        type: SafetyEventType.EMERGENCY_RECOVERY,
         timestamp: new Date(),
         description: `Failed to apply git stash ${stashId}: ${(error as any).message || 'Unknown error'}`,
-        severity: SafetyEventSeverity.ERROR;
+        severity: SafetyEventSeverity.ERROR,
         action: 'STASH_APPLY_FAILED'
       });
 
@@ -271,10 +271,10 @@ export class SafetyProtocol {
 
     if (detectedFiles.length > 0) {
       this.addSafetyEvent({
-        type: SafetyEventType.CORRUPTION_DETECTED;
+        type: SafetyEventType.CORRUPTION_DETECTED,
         timestamp: new Date(),
         description: `Corruption detected in ${detectedFiles.length} files (${maxSeverity} severity)`,
-        severity: this.mapCorruptionToEventSeverity(maxSeverity);
+        severity: this.mapCorruptionToEventSeverity(maxSeverity),
         action: 'CORRUPTION_DETECTED'
       });
 
@@ -359,10 +359,10 @@ export class SafetyProtocol {
             );
 
             this.addSafetyEvent({
-              type: SafetyEventType.CORRUPTION_DETECTED;
+              type: SafetyEventType.CORRUPTION_DETECTED,
               timestamp: new Date(),
               description: `Real-time monitoring detected corruption: ${report.severity}`,
-              severity: this.mapCorruptionToEventSeverity(report.severity);
+              severity: this.mapCorruptionToEventSeverity(report.severity),
               action: 'REALTIME_CORRUPTION_DETECTED'
             });
 
@@ -441,7 +441,7 @@ export class SafetyProtocol {
               detectedFiles.push(filePath);
               corruptionPatterns.push({
                 pattern: 'TYPESCRIPT_SYNTAX_ERROR',
-                description: line.trim();
+                description: line.trim(),
                 files: [filePath]
               });
               maxSeverity = CorruptionSeverity.HIGH;
@@ -490,20 +490,20 @@ export class SafetyProtocol {
       await this.applyStash(latestStash.id);
 
       this.addSafetyEvent({
-        type: SafetyEventType.EMERGENCY_RECOVERY;
+        type: SafetyEventType.EMERGENCY_RECOVERY,
         timestamp: new Date(),
         description: `Emergency rollback completed using stash: ${latestStash.id}`,
-        severity: SafetyEventSeverity.WARNING;
+        severity: SafetyEventSeverity.WARNING,
         action: 'EMERGENCY_ROLLBACK'
       });
 
       // // console.log(`🚨 Emergency rollback completed using stash: ${latestStash.id}`);
     } catch (error) {
       this.addSafetyEvent({
-        type: SafetyEventType.EMERGENCY_RECOVERY;
+        type: SafetyEventType.EMERGENCY_RECOVERY,
         timestamp: new Date(),
         description: `Emergency rollback failed: ${(error as any).message || 'Unknown error'}`,
-        severity: SafetyEventSeverity.CRITICAL;
+        severity: SafetyEventSeverity.CRITICAL,
         action: 'EMERGENCY_ROLLBACK_FAILED'
       });
 
@@ -597,10 +597,10 @@ export class SafetyProtocol {
     if (cleanedCount > 0) {
       this.saveStashTracking();
       this.addSafetyEvent({
-        type: SafetyEventType.CHECKPOINT_CREATED;
+        type: SafetyEventType.CHECKPOINT_CREATED,
         timestamp: new Date(),
         description: `Cleaned up ${cleanedCount} old stashes`,
-        severity: SafetyEventSeverity.INFO;
+        severity: SafetyEventSeverity.INFO,
         action: 'STASH_CLEANUP'
       });
     }
@@ -682,7 +682,7 @@ export class SafetyProtocol {
         severity: CorruptionSeverity.HIGH
       },
       {
-        regex: /<<<<<<|>>>>>>|======/g;
+        regex: /<<<<<<|>>>>>>|======/g,
         description: 'Git merge conflict markers',
         severity: CorruptionSeverity.CRITICAL
       },
@@ -702,8 +702,8 @@ export class SafetyProtocol {
       const matches = content.match(corruptionPattern.regex);
       if (matches) {
         patterns.push({
-          pattern: corruptionPattern.regex.source;
-          description: corruptionPattern.description;
+          pattern: corruptionPattern.regex.source,
+          description: corruptionPattern.description,
           files: [filePath]
         });
 
@@ -823,7 +823,7 @@ export class SafetyProtocol {
       },
       {
         regex: /import\s+[^{]*\s+from\s+[''][^'']*\.\.[^'']*\.\.[^'']*[''],?/g,
-        description: 'Corrupted relative path with multiple ..';
+        description: 'Corrupted relative path with multiple ..',
         severity: CorruptionSeverity.MEDIUM
       },
       {
@@ -852,7 +852,7 @@ export class SafetyProtocol {
       const matches = content.match(corruptionPattern.regex);
       if (matches) {
         patterns.push({
-          pattern: corruptionPattern.regex.source;
+          pattern: corruptionPattern.regex.source,
           description: `${corruptionPattern.description} (${matches.length} occurrences)`,
           files: [filePath]
         });
@@ -886,7 +886,7 @@ export class SafetyProtocol {
       const matches = content.match(pattern);
       if (matches) {
         patterns.push({
-          pattern: pattern.source;
+          pattern: pattern.source,
           description: 'Malformed import/export statement syntax',
           files: [filePath]
         });
@@ -923,7 +923,7 @@ export class SafetyProtocol {
         return SafetyEventSeverity.WARNING;
       case CorruptionSeverity.LOW:
       default:
-        return SafetyEventSeverity.INFO;
+        return SafetyEventSeverity.INFO
     }
   }
 
@@ -957,7 +957,7 @@ export class SafetyProtocol {
         // Restore stashes with proper Date objects
         for (const [id, stashData] of Object.entries(parsed.stashes || {})) {
           const stash = stashData as {
-            id: string;
+            id: string,
             description: string,
             timestamp: string,
             branch: string,
@@ -993,8 +993,8 @@ export class SafetyProtocol {
       }
 
       const data = {
-        counter: this.stashCounter;
-        stashes: Object.fromEntries(this.stashes.entries());
+        counter: this.stashCounter,
+        stashes: Object.fromEntries(this.stashes.entries()),
         lastUpdated: new Date().toISOString()
       };
 

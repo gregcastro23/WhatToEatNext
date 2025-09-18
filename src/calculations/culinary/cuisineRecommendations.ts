@@ -10,7 +10,7 @@ import { Element, ElementalProperties } from '@/types/alchemy';
  * Cuisine recommendation result
  */
 export interface CuisineRecommendation {
-  cuisine: string;
+  cuisine: string,
   compatibility: number,
   reasons: string[],
   elementalAlignment: ElementalProperties,

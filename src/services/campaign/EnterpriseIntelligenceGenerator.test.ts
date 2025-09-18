@@ -28,8 +28,8 @@ describe('EnterpriseIntelligenceGenerator', () => {
 
     // Mock fs operations
     mockFs.promises = {
-      access: jest.fn().mockRejectedValue(new Error('Directory does not exist'));
-      mkdir: jest.fn().mockResolvedValue(undefined);
+      access: jest.fn().mockRejectedValue(new Error('Directory does not exist')),
+      mkdir: jest.fn().mockResolvedValue(undefined),
       writeFile: jest.fn().mockResolvedValue(undefined)
     } as any fs.promises;
   });
@@ -48,10 +48,10 @@ describe('EnterpriseIntelligenceGenerator', () => {
 
   describe('generateIntelligenceSystems', () => {
     const mockFileAnalysis: FileAnalysis = { filePath: '/test/TestFile.ts',,;
-      priority: FilePriority.HIGH;
+      priority: FilePriority.HIGH,
       unusedExports: [
         {
-          filePath: '/test/TestFile.ts';
+          filePath: '/test/TestFile.ts',
           exportName: 'testFunction',
           exportType: 'function',
           lineNumber: 1,
@@ -72,7 +72,7 @@ describe('EnterpriseIntelligenceGenerator', () => {
             usageCount: 0
           },
           intelligenceSystemName: 'TEST_FUNCTION_INTELLIGENCE_SYSTEM',
-          transformationComplexity: TransformationComplexity.MODERATE;
+          transformationComplexity: TransformationComplexity.MODERATE,
           safetyScore: 85,
           estimatedBenefit: 75
         }
@@ -139,7 +139,7 @@ describe('EnterpriseIntelligenceGenerator', () => {
           usageCount: 0
         },
         intelligenceSystemName: 'TEST_FUNCTION_INTELLIGENCE_SYSTEM',
-        transformationComplexity: TransformationComplexity.MODERATE;
+        transformationComplexity: TransformationComplexity.MODERATE,
         safetyScore: 85,
         estimatedBenefit: 75
       };
@@ -161,7 +161,7 @@ describe('EnterpriseIntelligenceGenerator', () => {
           usageCount: 0
         },
         intelligenceSystemName: 'TEST_CLASS_INTELLIGENCE_SYSTEM',
-        transformationComplexity: TransformationComplexity.COMPLEX;
+        transformationComplexity: TransformationComplexity.COMPLEX,
         safetyScore: 80,
         estimatedBenefit: 85
       };
@@ -183,7 +183,7 @@ describe('EnterpriseIntelligenceGenerator', () => {
           usageCount: 0
         },
         intelligenceSystemName: 'TEST_INTERFACE_INTELLIGENCE_SYSTEM',
-        transformationComplexity: TransformationComplexity.SIMPLE;
+        transformationComplexity: TransformationComplexity.SIMPLE,
         safetyScore: 95,
         estimatedBenefit: 60
       };
@@ -205,7 +205,7 @@ describe('EnterpriseIntelligenceGenerator', () => {
           usageCount: 0
         },
         intelligenceSystemName: 'TEST_CONSTANT_INTELLIGENCE_SYSTEM',
-        transformationComplexity: TransformationComplexity.SIMPLE;
+        transformationComplexity: TransformationComplexity.SIMPLE,
         safetyScore: 90,
         estimatedBenefit: 50
       };
@@ -229,7 +229,7 @@ describe('EnterpriseIntelligenceGenerator', () => {
           usageCount: 0
         },
         intelligenceSystemName: 'TEST_FUNCTION_INTELLIGENCE_SYSTEM',
-        transformationComplexity: TransformationComplexity.MODERATE;
+        transformationComplexity: TransformationComplexity.MODERATE,
         safetyScore: 85,
         estimatedBenefit: 75
       };
@@ -260,7 +260,7 @@ describe('EnterpriseIntelligenceGenerator', () => {
           usageCount: 0
         },
         intelligenceSystemName: 'TEST_CLASS_INTELLIGENCE_SYSTEM',
-        transformationComplexity: TransformationComplexity.COMPLEX;
+        transformationComplexity: TransformationComplexity.COMPLEX,
         safetyScore: 80,
         estimatedBenefit: 85
       };
@@ -292,7 +292,7 @@ describe('EnterpriseIntelligenceGenerator', () => {
           usageCount: 0
         },
         intelligenceSystemName: 'COMPLEX_FUNCTION_INTELLIGENCE_SYSTEM',
-        transformationComplexity: TransformationComplexity.VERY_COMPLEX;
+        transformationComplexity: TransformationComplexity.VERY_COMPLEX,
         safetyScore: 70,
         estimatedBenefit: 90
       };
@@ -326,7 +326,7 @@ describe('EnterpriseIntelligenceGenerator', () => {
           usageCount: 0
         },
         intelligenceSystemName: 'TEST_FUNCTION_INTELLIGENCE_SYSTEM',
-        transformationComplexity: TransformationComplexity.MODERATE;
+        transformationComplexity: TransformationComplexity.MODERATE,
         safetyScore: 85,
         estimatedBenefit: 75
       };
@@ -357,7 +357,7 @@ describe('EnterpriseIntelligenceGenerator', () => {
           usageCount: 0
         },
         intelligenceSystemName: 'SAFE_FUNCTION_INTELLIGENCE_SYSTEM',
-        transformationComplexity: TransformationComplexity.SIMPLE;
+        transformationComplexity: TransformationComplexity.SIMPLE,
         safetyScore: 95,
         estimatedBenefit: 70
       };
@@ -386,7 +386,7 @@ describe('EnterpriseIntelligenceGenerator', () => {
           usageCount: 0
         },
         intelligenceSystemName: 'TEST_FUNCTION_INTELLIGENCE_SYSTEM',
-        transformationComplexity: TransformationComplexity.MODERATE;
+        transformationComplexity: TransformationComplexity.MODERATE,
         safetyScore: 85,
         estimatedBenefit: 75
       };
@@ -429,7 +429,7 @@ describe('EnterpriseIntelligenceGenerator', () => {
           usageCount: 0
         },
         intelligenceSystemName: 'ORIGINAL_FUNCTION_INTELLIGENCE_SYSTEM',
-        transformationComplexity: TransformationComplexity.MODERATE;
+        transformationComplexity: TransformationComplexity.MODERATE,
         safetyScore: 80,
         estimatedBenefit: 70
       };
@@ -454,7 +454,7 @@ describe('EnterpriseIntelligenceGenerator', () => {
       ).generateCode(candidate, template, capabilities);
 
       expect(code).toContain('Original Export: originalFunction (function)');
-      expect(code).toContain('Estimated Value: 70/100');
+      expect(code).toContain('Estimated Value: 70/100')
     });
   });
 
@@ -470,7 +470,7 @@ describe('EnterpriseIntelligenceGenerator', () => {
           usageCount: 0
         },
         intelligenceSystemName: 'TEST_FUNCTION_INTELLIGENCE_SYSTEM',
-        transformationComplexity: TransformationComplexity.MODERATE;
+        transformationComplexity: TransformationComplexity.MODERATE,
         safetyScore: 85,
         estimatedBenefit: 50
       };
@@ -514,7 +514,7 @@ describe('EnterpriseIntelligenceGenerator', () => {
           usageCount: 0
         },
         intelligenceSystemName: 'SIMPLE_FUNCTION_INTELLIGENCE_SYSTEM',
-        transformationComplexity: TransformationComplexity.SIMPLE;
+        transformationComplexity: TransformationComplexity.SIMPLE,
         safetyScore: 95,
         estimatedBenefit: 40
       };
@@ -549,7 +549,7 @@ describe('EnterpriseIntelligenceGenerator', () => {
           usageCount: 0
         },
         intelligenceSystemName: 'COMPLEX_FUNCTION_INTELLIGENCE_SYSTEM',
-        transformationComplexity: TransformationComplexity.VERY_COMPLEX;
+        transformationComplexity: TransformationComplexity.VERY_COMPLEX,
         safetyScore: 60,
         estimatedBenefit: 95
       };
@@ -579,7 +579,7 @@ describe('EnterpriseIntelligenceGenerator', () => {
       const mockResults: any = [
         {
           systemName: 'SYSTEM_1',
-          filePath: '/output/SYSTEM_1.ts';
+          filePath: '/output/SYSTEM_1.ts',
           originalExport: { filePath: '/test/test1.ts',
             exportName: 'function1',
             exportType: 'function' as const,
@@ -601,7 +601,7 @@ describe('EnterpriseIntelligenceGenerator', () => {
           integrationPoints: [
             {
               target: 'target1',
-              method: IntegrationMethod.DIRECT_IMPORT;
+              method: IntegrationMethod.DIRECT_IMPORT,
               code: 'code1',
               priority: IntegrationPriority.HIGH
             }
@@ -611,7 +611,7 @@ describe('EnterpriseIntelligenceGenerator', () => {
         },
         {
           systemName: 'SYSTEM_2',
-          filePath: '/output/SYSTEM_2.ts';
+          filePath: '/output/SYSTEM_2.ts',
           originalExport: { filePath: '/test/test2.ts',
             exportName: 'class2',
             exportType: 'class' as const,
@@ -627,7 +627,7 @@ describe('EnterpriseIntelligenceGenerator', () => {
           integrationPoints: [
             {
               target: 'target2',
-              method: IntegrationMethod.API_ENDPOINT;
+              method: IntegrationMethod.API_ENDPOINT,
               code: 'code2',
               priority: IntegrationPriority.MEDIUM
             }
@@ -653,7 +653,7 @@ describe('EnterpriseIntelligenceGenerator', () => {
       const mockResults: any = [
         {
           systemName: 'TEST_SYSTEM_INTELLIGENCE_SYSTEM',
-          filePath: '/output/TEST_SYSTEM_INTELLIGENCE_SYSTEM.ts';
+          filePath: '/output/TEST_SYSTEM_INTELLIGENCE_SYSTEM.ts',
           originalExport: { filePath: '/test/test.ts',
             exportName: 'testFunction',
             exportType: 'function' as const,
@@ -666,8 +666,8 @@ describe('EnterpriseIntelligenceGenerator', () => {
           capabilities: [],
           integrationPoints: [
             {
-              target: 'src/components/dashboard/IntelligenceDashboard.tsx';
-              method: IntegrationMethod.DEPENDENCY_INJECTION;
+              target: 'src/components/dashboard/IntelligenceDashboard.tsx',
+              method: IntegrationMethod.DEPENDENCY_INJECTION,
               code: 'dashboard integration code',
               priority: IntegrationPriority.MEDIUM
             }

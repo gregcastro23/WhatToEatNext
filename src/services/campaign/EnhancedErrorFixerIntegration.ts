@@ -23,11 +23,11 @@ export interface FixerOptions {
 }
 
 export interface FixerResult {
-  success: boolean;
-  filesProcessed: number;
-  errorsFixed: number;
-  errorsRemaining: number;
-  buildValidationPassed: boolean;
+  success: boolean,
+  filesProcessed: number,
+  errorsFixed: number,
+  errorsRemaining: number,
+  buildValidationPassed: boolean,
   executionTime: number,
   safetyScore?: number,
   warnings: string[],
@@ -68,14 +68,14 @@ export class EnhancedErrorFixerIntegration {
       const executionTime = Date.now() - startTime;
 
       return {
-        success: result.success;
-        filesProcessed: result.filesProcessed;
-        errorsFixed: result.errorsFixed;
-        errorsRemaining: result.errorsRemaining;
+        success: result.success,
+        filesProcessed: result.filesProcessed,
+        errorsFixed: result.errorsFixed,
+        errorsRemaining: result.errorsRemaining,
         buildValidationPassed,
         executionTime,
-        safetyScore: result.safetyScore;
-        warnings: result.warnings;
+        safetyScore: result.safetyScore,
+        warnings: result.warnings,
         errors: result.errors
       };
     } catch (error) {
@@ -85,9 +85,9 @@ export class EnhancedErrorFixerIntegration {
         success: false,
         filesProcessed: 0,
         errorsFixed: 0,
-        errorsRemaining: await this.getCurrentErrorCount();
+        errorsRemaining: await this.getCurrentErrorCount(),
         buildValidationPassed: false,
-        executionTime: Date.now() - startTime;
+        executionTime: Date.now() - startTime,
         warnings: [],
         errors: [error instanceof Error ? error.message : String(error)]
       };
@@ -140,7 +140,7 @@ export class EnhancedErrorFixerIntegration {
 
       // Execute fixer for this batch
       const batchResult = await this.executeEnhancedFixer({
-        maxFiles: options.batchSize;
+        maxFiles: options.batchSize,
         autoFix: true,
         validateSafety: true
       });
@@ -225,7 +225,7 @@ export class EnhancedErrorFixerIntegration {
    * Execute the Enhanced Error Fixer command
    */
   private async runFixerCommand(args: string[]): Promise<{
-    success: boolean;
+    success: boolean,
     filesProcessed: number,
     errorsFixed: number,
     errorsRemaining: number,
@@ -293,9 +293,9 @@ export class EnhancedErrorFixerIntegration {
     output: string,
     success: boolean,
   ): {
-    success: boolean;
-    filesProcessed: number;
-    errorsFixed: number;
+    success: boolean,
+    filesProcessed: number,
+    errorsFixed: number,
     errorsRemaining: number,
     safetyScore?: number,
     warnings: string[],
@@ -432,9 +432,9 @@ export class EnhancedErrorFixerIntegration {
       // For now, return a basic safety check
 
       return {
-        safe: result.success;
-        safetyScore: result.safetyScore || 0.5;
-        issues: result.errors;
+        safe: result.success,
+        safetyScore: result.safetyScore || 0.5,
+        issues: result.errors,
         recommendedBatchSize: this.DEFAULT_BATCH_SIZE
       };
     } catch (error) {

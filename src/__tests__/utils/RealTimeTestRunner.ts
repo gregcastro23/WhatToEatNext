@@ -18,13 +18,13 @@ export interface RealTimeTestConfig {
 }
 
 export interface RealTimeTestResult {
-  success: boolean;
-  duration: number;
-  memoryUsage: number;
-  errors: string[];
-  warnings: string[];
+  success: boolean,
+  duration: number,
+  memoryUsage: number,
+  errors: string[],
+  warnings: string[],
   metrics: {
-    peakMemory: number;
+    peakMemory: number,
     averageMemory: number,
     memoryReadings: number[],
     timeouts: number,
@@ -48,7 +48,7 @@ export class RealTimeTestRunner {
    * Run a real-time monitoring test with enhanced error handling
    */
   async runRealTimeTest(
-    testFunction: () => Promise<void>;
+    testFunction: () => Promise<void>,
     config: RealTimeTestConfig
   ): Promise<RealTimeTestResult> {
     const {
@@ -162,7 +162,7 @@ export class RealTimeTestRunner {
   async runTestSuite(
     tests: Array<{
       name: string,
-      testFunction: () => Promise<void>;
+      testFunction: () => Promise<void>,
       config?: Partial<RealTimeTestConfig>
     }>
   ): Promise<Map<string, RealTimeTestResult>> {
@@ -218,7 +218,7 @@ export class RealTimeTestRunner {
   ): { isValid: boolean, issues: string[], summary: unknown } {
     const issues: string[] = [];
     const summary = {
-      totalTests: results.size;
+      totalTests: results.size,
       successfulTests: 0,
       failedTests: 0,
       averageDuration: 0,
@@ -364,7 +364,7 @@ export class RealTimeTestRunner {
  * Convenience function for running a single real-time test
  */
 export async function runRealTimeTest(
-  testFunction: () => Promise<void>;
+  testFunction: () => Promise<void>,
   config: RealTimeTestConfig
 ): Promise<RealTimeTestResult> {
   const runner = RealTimeTestRunner.getInstance();
@@ -376,8 +376,8 @@ export async function runRealTimeTest(
  */
 export async function runRealTimeTestSuite(
   tests: Array<{
-    name: string;
-    testFunction: () => Promise<void>;
+    name: string,
+    testFunction: () => Promise<void>,
     config?: Partial<RealTimeTestConfig>
   }>
 ): Promise<Map<string, RealTimeTestResult>> {

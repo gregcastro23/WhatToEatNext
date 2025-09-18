@@ -34,10 +34,10 @@ export interface UseEnterpriseIntelligenceConfig extends Partial<EnterpriseIntel
 }
 
 export interface EnterpriseIntelligenceState {
-  analysis: EnterpriseIntelligenceResult | null;
-  isAnalyzing: boolean;
-  error: string | null;
-  lastAnalyzed: Date | null;
+  analysis: EnterpriseIntelligenceResult | null,
+  isAnalyzing: boolean,
+  error: string | null,
+  lastAnalyzed: Date | null,
   performanceMetrics: {
     analysisCount: number,
     averageExecutionTime: number,
@@ -57,18 +57,18 @@ export interface EnterpriseIntelligenceActions {
       planetaryPositions?: EnterpriseAstrologicalContext['planetaryPositions']
     },
   ) => Promise<EnterpriseIntelligenceResult | null>;
-  clearAnalysis: () => void;
-  updateConfig: (config: Partial<EnterpriseIntelligenceConfig>) => void;
-  clearCache: () => void;
-  resetMetrics: () => void;
-  retryAnalysis: () => Promise<void>;
+  clearAnalysis: () => void,
+  updateConfig: (config: Partial<EnterpriseIntelligenceConfig>) => void,
+  clearCache: () => void,
+  resetMetrics: () => void,
+  retryAnalysis: () => Promise<void>
 }
 
 export interface UseEnterpriseIntelligenceReturn {
-  state: EnterpriseIntelligenceState;
-  actions: EnterpriseIntelligenceActions;
+  state: EnterpriseIntelligenceState,
+  actions: EnterpriseIntelligenceActions,
   recommendations: {
-    recipe: string[];
+    recipe: string[],
     ingredient: string[],
     validation: string[],
     safety: string[],
@@ -80,8 +80,8 @@ export interface UseEnterpriseIntelligenceReturn {
     issues: string[],
     warnings: string[]
   };
-  isHealthy: boolean;
-  needsAttention: boolean;
+  isHealthy: boolean,
+  needsAttention: boolean,
 }
 
 // ========== HOOK IMPLEMENTATION ==========;
@@ -193,7 +193,7 @@ export function useEnterpriseIntelligence(
     if (!state.analysis) {
       return {
         overall: 'fair' as const,
-        score: 0.7;
+        score: 0.7,
         issues: ['No analysis available'],
         warnings: []
       };
@@ -300,7 +300,7 @@ export function useEnterpriseIntelligence(
           analysis,
           isAnalyzing: false,
           error: null,
-          lastAnalyzed: new Date();
+          lastAnalyzed: new Date(),
           performanceMetrics: metrics
         }));
 
@@ -461,13 +461,13 @@ export function useEnterpriseIntelligenceHealth() {
 
   const healthStatus = useMemo(;
     () => ({
-      status: systemHealth.overall;
-      score: systemHealth.score;
+      status: systemHealth.overall,
+      score: systemHealth.score,
       isHealthy,
       needsAttention,
       criticalIssues: systemHealth.issues.filter(issue => issue.includes('critical')),,;
-      warnings: systemHealth.warnings;
-      lastChecked: state.lastAnalyzed;
+      warnings: systemHealth.warnings,
+      lastChecked: state.lastAnalyzed,
       performanceIssues:
         state.performanceMetrics.errorRate > 0.1 ||
         state.performanceMetrics.averageExecutionTime > 5000
@@ -511,7 +511,7 @@ export function useEnterpriseIntelligenceRecommendations() {
 
   return {
     recommendations: prioritizedRecommendations,
-    hasRecommendations: prioritizedRecommendations.length > 0;
+    hasRecommendations: prioritizedRecommendations.length > 0,
     highPriorityCount: prioritizedRecommendations.filter(r => r.priority === 'high').length,,;
     lastUpdated: state.lastAnalyzed
   };
@@ -527,13 +527,13 @@ export function useEnterpriseIntelligencePerformance() {
 
   const performanceStatus = useMemo(;
     () => ({
-      metrics: state.performanceMetrics;
+      metrics: state.performanceMetrics,
       isPerformant:
         state.performanceMetrics.averageExecutionTime < 2000 &&
         state.performanceMetrics.errorRate < 0.05;
-      cacheEfficiency: state.performanceMetrics.cacheHitRate;
-      reliability: 1 - state.performanceMetrics.errorRate;
-      averageResponseTime: state.performanceMetrics.averageExecutionTime;
+      cacheEfficiency: state.performanceMetrics.cacheHitRate,
+      reliability: 1 - state.performanceMetrics.errorRate,
+      averageResponseTime: state.performanceMetrics.averageExecutionTime,
       totalAnalyses: state.performanceMetrics.analysisCount
     }),
     [state.performanceMetrics],

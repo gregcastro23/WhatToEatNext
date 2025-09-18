@@ -187,23 +187,23 @@ export class UnifiedNutritionalService {
       const alchemicalProfile: AlchemicalNutritionalProfile = {
         ...enhanced;
         // Ensure all required AlchemicalNutritionalProfile properties
-        calories: enhanced.calories || 0;
+        calories: enhanced.calories || 0,
         macros: enhanced.macros || { protein: 0, carbs: 0, fat: 0, fiber: 0 },
         vitamins: enhanced.vitamins || {},
         minerals: enhanced.minerals || {},
         alchemicalProperties: enhanced.alchemicalProperties || {
-          Spirit: 0.25;
-          Essence: 0.25;
-          Matter: 0.25;
+          Spirit: 0.25,
+          Essence: 0.25,
+          Matter: 0.25,
           Substance: 0.25
         },
         elementalProperties: enhanced.elementalProperties || {
-          Fire: 0.25;
-          Water: 0.25;
-          Earth: 0.25;
+          Fire: 0.25,
+          Water: 0.25,
+          Earth: 0.25,
           Air: 0.25
         },
-        kalchm: enhanced.kalchm || 0;
+        kalchm: enhanced.kalchm || 0,
         monica: enhanced.monica || 0
       };
 
@@ -252,8 +252,8 @@ export class UnifiedNutritionalService {
       // Safe type conversion for context
       const safeContext = context;
         ? {
-            season: context.season;
-            planetaryHour: context.planetaryHour;
+            season: context.season,
+            planetaryHour: context.planetaryHour,
             targetElements: undefined as ElementalProperties | undefined
           }
         : undefined;
@@ -551,9 +551,9 @@ export class UnifiedNutritionalService {
 
       // Calculate elemental breakdown
       const elementalBreakdown: ElementalProperties = {
-        Fire: enhanced.elementalNutrients.Fire.totalElementalValue || 0;
-        Water: enhanced.elementalNutrients.Water.totalElementalValue || 0;
-        Earth: enhanced.elementalNutrients.Earth.totalElementalValue || 0;
+        Fire: enhanced.elementalNutrients.Fire.totalElementalValue || 0,
+        Water: enhanced.elementalNutrients.Water.totalElementalValue || 0,
+        Earth: enhanced.elementalNutrients.Earth.totalElementalValue || 0,
         Air: enhanced.elementalNutrients.Air.totalElementalValue || 0
       };
 
@@ -705,7 +705,7 @@ export class UnifiedNutritionalService {
    */
   getCacheStats(): { size: number, keys: string[] } {
     return {
-      size: this.cache.size;
+      size: this.cache.size,
       keys: Array.from(this.cache.keys())
     };
   }

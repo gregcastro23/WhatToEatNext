@@ -23,7 +23,7 @@ export class ThermodynamicCalculator {
         proteinContent?: number;
         moistureContent?: number;
         name?: string;
-        [key: string]: unknown;
+        [key: string]: unknown
       };
       const spiciness = ingredientData?.spiciness;
       const elementalProperties = ingredientData?.elementalProperties;
@@ -78,7 +78,7 @@ export class ThermodynamicCalculator {
         elementalProperties?: { Fire?: number; Water?: number; Earth?: number; Air?: number };
         moistureContent?: number;
         proteinContent?: number;
-        [key: string]: unknown;
+        [key: string]: unknown
       };
       const category = ingredientData?.category;
       const fermented = ingredientData?.fermented;
@@ -136,7 +136,7 @@ export class ThermodynamicCalculator {
         elementalProperties?: { Fire?: number; Water?: number; Earth?: number; Air?: number };
         moistureContent?: number;
         proteinContent?: number;
-        [key: string]: unknown;
+        [key: string]: unknown
       };
       const pH = ingredientData?.pH;
       const alcoholContent = ingredientData?.alcoholContent;

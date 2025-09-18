@@ -291,7 +291,7 @@ describe('DocumentationQualityAssurance', () => {
       expect(anyTypes.some((t: any) => t.codeSnippet.includes(': unknown'))).toBe(true);
       expect(anyTypes.some((t: any) => t.codeSnippet.includes(': unknown[]'))).toBe(true);
       expect(anyTypes.some((t: any) => t.codeSnippet.includes('Record<string, unknown>'))).toBe(true);
-      expect(anyTypes.some((t: any) => t.codeSnippet.includes('as unknown'))).toBe(true);
+      expect(anyTypes.some((t: any) => t.codeSnippet.includes('as unknown'))).toBe(true)
     });
 
     it('should categorize any types correctly', async () => {
@@ -454,7 +454,7 @@ describe('DocumentationQualityAssurance', () => {
       );
 
       expect(recommendations.some((r: string) => r.includes('CRITICAL'))).toBe(true);
-      expect(recommendations.some((r: string) => r.includes('poor quality'))).toBe(true);
+      expect(recommendations.some((r: string) => r.includes('poor quality'))).toBe(true)
     });
 
     it('should generate appropriate recommendations for good coverage', () => {
@@ -465,7 +465,7 @@ describe('DocumentationQualityAssurance', () => {
       );
 
       expect(recommendations.some((r: string) => r.includes('GOOD'))).toBe(true);
-      expect(recommendations.some((r: string) => r.includes('remaining'))).toBe(true);
+      expect(recommendations.some((r: string) => r.includes('remaining'))).toBe(true)
     });
 
     it('should generate appropriate recommendations for excellent coverage', () => {
@@ -476,7 +476,7 @@ describe('DocumentationQualityAssurance', () => {
       );
 
       expect(recommendations.some((r: string) => r.includes('EXCELLENT'))).toBe(true);
-      expect(recommendations.some((r: string) => r.includes('Maintain'))).toBe(true);
+      expect(recommendations.some((r: string) => r.includes('Maintain'))).toBe(true)
     });
   });
 });

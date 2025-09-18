@@ -9,16 +9,16 @@ import type {
  * Interface defining the structure of cooking method data
  */
 export interface CookingMethodData {
-  name: CookingMethod;
-  description: string;
+  name: CookingMethod,
+  description: string,
   elementalEffect: ElementalProperties;
   elementalProperties?: ElementalProperties; // Some methods use this property name instead
   duration: {
-    min: number;
-    max: number;
+    min: number,
+    max: number,
   };
-  suitable_for: string[];
-  benefits: string[];
+  suitable_for: string[],
+  benefits: string[],
 
   // Optional properties
   astrologicalInfluences?: {

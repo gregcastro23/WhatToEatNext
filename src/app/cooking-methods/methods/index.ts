@@ -1,17 +1,17 @@
 // Cooking methods module
 export interface CookingMethodInfo {
-  id: string;
-  name: string;
+  id: string,
+  name: string,
   description: string;
   elementalEffect?: {
-    Fire: number;
-    Water: number;
-    Earth: number;
-    Air: number;
+    Fire: number,
+    Water: number,
+    Earth: number,
+    Air: number,
   };
   duration?: {
-    min: number;
-    max: number;
+    min: number,
+    max: number,
   };
   suitable_for?: string[];
   benefits?: string[];
@@ -32,14 +32,14 @@ export interface CookingMethodInfo {
   time_range?:
     | string
     | {
-        min: number;
-        max: number;
+        min: number,
+        max: number,
       };
   temperature_range?:
     | string
     | {
-        min: number;
-        max: number;
+        min: number,
+        max: number,
         unit?: string;
       };
   alchemical_properties?: Record<string, unknown>;

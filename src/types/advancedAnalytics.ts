@@ -5,8 +5,8 @@
 import { Recipe, Ingredient, ZodiacSign, ElementalProperties } from './unified';
 
 export interface AstrologicalContext {
-  zodiacSign: any;
-  lunarPhase: LunarPhase;
+  zodiacSign: any,
+  lunarPhase: LunarPhase,
   elementalProperties: ElementalProperties;
   planetaryPositions?: Record<string, PlanetaryPosition>;
   date?: Date;
@@ -16,14 +16,14 @@ export interface AstrologicalContext {
 }
 
 export interface PlanetaryPosition {
-  sign: string;
-  degree: number;
+  sign: string,
+  degree: number,
   isRetrograde?: boolean;
 }
 
 export interface LunarPhase {
-  phase: string;
-  illumination: number;
+  phase: string,
+  illumination: number,
 }
 
 export interface CuisineData {
@@ -43,71 +43,71 @@ export interface CulinaryContext {
 }
 
 export interface ComplexityAnalysis {
-  ingredientComplexity: number;
-  techniqueComplexity: number;
-  timeComplexity: number;
-  skillComplexity: number;
+  ingredientComplexity: number,
+  techniqueComplexity: number,
+  timeComplexity: number,
+  skillComplexity: number,
 }
 
 export interface OptimizationMetrics {
-  flavorOptimization: number;
-  nutritionalOptimization: number;
-  culturalOptimization: number;
-  seasonalOptimization: number;
+  flavorOptimization: number,
+  nutritionalOptimization: number,
+  culturalOptimization: number,
+  seasonalOptimization: number,
 }
 
 export interface PredictiveInsights {
-  successProbability: number;
-  userSatisfactionPrediction: number;
-  adaptationPotential: number;
+  successProbability: number,
+  userSatisfactionPrediction: number,
+  adaptationPotential: number
 }
 
 export interface RecipeAnalytics {
-  multiDimensionalScore: number;
-  complexityAnalysis: ComplexityAnalysis;
-  optimizationMetrics: OptimizationMetrics;
-  predictiveInsights: PredictiveInsights;
+  multiDimensionalScore: number,
+  complexityAnalysis: ComplexityAnalysis,
+  optimizationMetrics: OptimizationMetrics,
+  predictiveInsights: PredictiveInsights,
 }
 
 export interface SynergyAnalysis {
-  flavorSynergy: number;
-  nutritionalSynergy: number;
-  culturalSynergy: number;
-  seasonalSynergy: number;
+  flavorSynergy: number,
+  nutritionalSynergy: number,
+  culturalSynergy: number,
+  seasonalSynergy: number,
 }
 
 export interface IngredientAnalytics {
   interactionMatrix: Record<string, Record<string, number>>;
-  synergyAnalysis: SynergyAnalysis;
+  synergyAnalysis: SynergyAnalysis,
   substitutionNetwork: Record<string, string[]>;
-  optimizationPotential: number;
+  optimizationPotential: number
 }
 
 export interface CulturalCorrelations {
-  historicalCorrelation: number;
-  regionalCorrelation: number;
-  seasonalCorrelation: number;
-  astrologicalCorrelation: number;
+  historicalCorrelation: number,
+  regionalCorrelation: number,
+  seasonalCorrelation: number,
+  astrologicalCorrelation: number,
 }
 
 export interface FusionAnalytics {
   compatibilityMatrix: Record<string, Record<string, number>>;
-  innovationPotential: number;
-  culturalAcceptance: number;
-  seasonalRelevance: number;
+  innovationPotential: number,
+  culturalAcceptance: number,
+  seasonalRelevance: number
 }
 
 export interface CuisineOptimizationMetrics {
-  culturalOptimization: number;
-  seasonalOptimization: number;
-  astrologicalOptimization: number;
-  innovationOptimization: number;
+  culturalOptimization: number,
+  seasonalOptimization: number,
+  astrologicalOptimization: number,
+  innovationOptimization: number,
 }
 
 export interface CuisineAnalytics {
-  culturalCorrelations: CulturalCorrelations;
-  fusionAnalytics: FusionAnalytics;
-  optimizationMetrics: CuisineOptimizationMetrics;
+  culturalCorrelations: CulturalCorrelations,
+  fusionAnalytics: FusionAnalytics,
+  optimizationMetrics: CuisineOptimizationMetrics
 }
 
 export interface PatternSet {
@@ -118,30 +118,30 @@ export interface PatternSet {
 }
 
 export interface CorrelationSet {
-  culinaryCorrelation: number;
-  culturalCorrelation: number;
-  seasonalCorrelation: number;
-  temporalCorrelation: number;
+  culinaryCorrelation: number,
+  culturalCorrelation: number,
+  seasonalCorrelation: number,
+  temporalCorrelation: number,
 }
 
 export interface PredictiveModeling {
-  alignmentPrediction: number;
-  timingOptimization: number;
-  influencePrediction: number;
-  harmonyPrediction: number;
+  alignmentPrediction: number,
+  timingOptimization: number,
+  influencePrediction: number,
+  harmonyPrediction: number,
 }
 
 export interface AstrologicalAnalytics {
-  patterns: PatternSet;
-  correlations: CorrelationSet;
-  predictiveModeling: PredictiveModeling;
+  patterns: PatternSet,
+  correlations: CorrelationSet,
+  predictiveModeling: PredictiveModeling
 }
 
 export interface AdvancedAnalyticsIntelligenceResult {
-  recipeAnalytics: RecipeAnalytics;
-  ingredientAnalytics: IngredientAnalytics;
-  cuisineAnalytics: CuisineAnalytics;
-  astrologicalAnalytics: AstrologicalAnalytics;
-  confidence: number;
-  timestamp: string;
+  recipeAnalytics: RecipeAnalytics,
+  ingredientAnalytics: IngredientAnalytics,
+  cuisineAnalytics: CuisineAnalytics,
+  astrologicalAnalytics: AstrologicalAnalytics,
+  confidence: number,
+  timestamp: string,
 }

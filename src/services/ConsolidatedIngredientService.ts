@@ -140,8 +140,8 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
       return result;
     } catch (error) {
       errorHandler.logError(error as ErrorWithMessage, {
-        type: ErrorType.DATA;
-        severity: ErrorSeverity.ERROR;
+        type: ErrorType.DATA,
+        severity: ErrorSeverity.ERROR,
         context: 'ConsolidatedIngredientService',
         data: { action: 'getAllIngredients' }
       });
@@ -157,8 +157,8 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
       return Object.values(unifiedIngredients);
     } catch (error) {
       errorHandler.logError(error as ErrorWithMessage, {
-        type: ErrorType.DATA;
-        severity: ErrorSeverity.ERROR;
+        type: ErrorType.DATA,
+        severity: ErrorSeverity.ERROR,
         context: 'ConsolidatedIngredientService',
         data: { action: 'getAllIngredientsFlat' }
       });
@@ -183,8 +183,8 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
       );
     } catch (error) {
       errorHandler.logError(error as ErrorWithMessage, {
-        type: ErrorType.DATA;
-        severity: ErrorSeverity.ERROR;
+        type: ErrorType.DATA,
+        severity: ErrorSeverity.ERROR,
         context: 'ConsolidatedIngredientService',
         data: { action: 'getIngredientByName', name }
       });
@@ -202,8 +202,8 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
       );
     } catch (error) {
       errorHandler.logError(error as ErrorWithMessage, {
-        type: ErrorType.DATA;
-        severity: ErrorSeverity.ERROR;
+        type: ErrorType.DATA,
+        severity: ErrorSeverity.ERROR,
         context: 'ConsolidatedIngredientService',
         data: { action: 'getIngredientsByCategory', category }
       });
@@ -221,8 +221,8 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
       );
     } catch (error) {
       errorHandler.logError(error as ErrorWithMessage, {
-        type: ErrorType.DATA;
-        severity: ErrorSeverity.ERROR;
+        type: ErrorType.DATA,
+        severity: ErrorSeverity.ERROR,
         context: 'ConsolidatedIngredientService',
         data: { action: 'getIngredientsBySubcategory', subcategory }
       });
@@ -303,8 +303,8 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
       return filteredResults;
     } catch (error) {
       errorHandler.logError(error as ErrorWithMessage, {
-        type: ErrorType.DATA;
-        severity: ErrorSeverity.ERROR;
+        type: ErrorType.DATA,
+        severity: ErrorSeverity.ERROR,
         context: 'ConsolidatedIngredientService',
         data: { action: 'filterIngredients', filter }
       });
@@ -320,8 +320,8 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
       return this.applyElementalFilter(this.getAllIngredientsFlat(), elementalFilter)
     } catch (error) {
       errorHandler.logError(error as ErrorWithMessage, {
-        type: ErrorType.DATA;
-        severity: ErrorSeverity.ERROR;
+        type: ErrorType.DATA,
+        severity: ErrorSeverity.ERROR,
         context: 'ConsolidatedIngredientService',
         data: { action: 'getIngredientsByElement', elementalFilter }
       });
@@ -339,8 +339,8 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
         .sort((a, b) => (b.kalchm ?? 0) - (a.kalchm ?? 0))
     } catch (error) {
       errorHandler.logError(error as ErrorWithMessage, {
-        type: ErrorType.DATA;
-        severity: ErrorSeverity.ERROR;
+        type: ErrorType.DATA,
+        severity: ErrorSeverity.ERROR,
         context: 'ConsolidatedIngredientService',
         data: { action: 'getHighKalchmIngredients', threshold }
       });
@@ -382,8 +382,8 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
         .map(result => result.ingredient);
     } catch (error) {
       errorHandler.logError(error as ErrorWithMessage, {
-        type: ErrorType.DATA;
-        severity: ErrorSeverity.ERROR;
+        type: ErrorType.DATA,
+        severity: ErrorSeverity.ERROR,
         context: 'ConsolidatedIngredientService',
         data: { action: 'findComplementaryIngredients', ingredient, maxResults }
       });
@@ -404,9 +404,9 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
       // Create basic elemental properties from the ingredient's element if available
       if (ingredient.element) {
         const basicProps = createElementalProperties({
-          Fire: 0.25;
-          Water: 0.25;
-          Earth: 0.25;
+          Fire: 0.25,
+          Water: 0.25,
+          Earth: 0.25,
           Air: 0.25
         });
         const elementKey = ingredient.element.toLowerCase() as keyof ElementalProperties;
@@ -422,8 +422,8 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
       return createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 });
     } catch (error) {
       errorHandler.logError(error as ErrorWithMessage, {
-        type: ErrorType.DATA;
-        severity: ErrorSeverity.ERROR;
+        type: ErrorType.DATA,
+        severity: ErrorSeverity.ERROR,
         context: 'ConsolidatedIngredientService',
         data: {
           action: 'calculateElementalProperties',
@@ -472,8 +472,8 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
       return (results || []).map(result => result.ingredient);
     } catch (error) {
       errorHandler.logError(error as ErrorWithMessage, {
-        type: ErrorType.DATA;
-        severity: ErrorSeverity.ERROR;
+        type: ErrorType.DATA,
+        severity: ErrorSeverity.ERROR,
         context: 'ConsolidatedIngredientService',
         data: { action: 'getIngredientsByFlavor', flavorProfile }
       });
@@ -581,8 +581,8 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
       return results;
     } catch (error) {
       errorHandler.logError(error as ErrorWithMessage, {
-        type: ErrorType.DATA;
-        severity: ErrorSeverity.ERROR;
+        type: ErrorType.DATA,
+        severity: ErrorSeverity.ERROR,
         context: 'ConsolidatedIngredientService',
         data: { action: 'getRecommendedIngredients' }
       });
@@ -629,26 +629,26 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
 
       // Default values if no energyValues available
       return {
-        heat: 0.5;
-        entropy: 0.5;
-        reactivity: 0.5;
-        gregsEnergy: 0.5;
-        kalchm: 1.0;
+        heat: 0.5,
+        entropy: 0.5,
+        reactivity: 0.5,
+        gregsEnergy: 0.5,
+        kalchm: 1.0,
         monica: 0.5
       };
     } catch (error) {
       errorHandler.logError(error as ErrorWithMessage, {
-        type: ErrorType.DATA;
-        severity: ErrorSeverity.ERROR;
+        type: ErrorType.DATA,
+        severity: ErrorSeverity.ERROR,
         context: 'ConsolidatedIngredientService',
         data: { action: 'calculateThermodynamicMetrics', ingredient: ingredient.name }
       });
       return {
-        heat: 0.5;
-        entropy: 0.5;
-        reactivity: 0.5;
-        gregsEnergy: 0.5;
-        kalchm: 1.0;
+        heat: 0.5,
+        entropy: 0.5,
+        reactivity: 0.5,
+        gregsEnergy: 0.5,
+        kalchm: 1.0,
         monica: 0.5
       }
     }
@@ -1153,8 +1153,8 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
       });
     } catch (error) {
       errorHandler.logError(error as ErrorWithMessage, {
-        type: ErrorType.DATA;
-        severity: ErrorSeverity.ERROR;
+        type: ErrorType.DATA,
+        severity: ErrorSeverity.ERROR,
         context: 'ConsolidatedIngredientService',
         data: { action: 'getIngredientsBySeason', season }
       });
@@ -1194,8 +1194,8 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
       });
     } catch (error) {
       errorHandler.logError(error as ErrorWithMessage, {
-        type: ErrorType.DATA;
-        severity: ErrorSeverity.ERROR;
+        type: ErrorType.DATA,
+        severity: ErrorSeverity.ERROR,
         context: 'ConsolidatedIngredientService',
         data: { action: 'getIngredientsByPlanet', planet }
       });
@@ -1236,8 +1236,8 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
       });
     } catch (error) {
       errorHandler.logError(error as ErrorWithMessage, {
-        type: ErrorType.DATA;
-        severity: ErrorSeverity.ERROR;
+        type: ErrorType.DATA,
+        severity: ErrorSeverity.ERROR,
         context: 'ConsolidatedIngredientService',
         data: { action: 'getIngredientsByZodiacSign', sign }
       });
@@ -1252,7 +1252,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
     ingredient1: string | UnifiedIngredient,
     ingredient2: string | UnifiedIngredient,
   ): {
-    score: number;
+    score: number,
     elementalCompatibility: number,
     flavorCompatibility: number,
     seasonalCompatibility: number,
@@ -1269,10 +1269,10 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
       // Return default low compatibility if either ingredient is not found
       if (!ing1 || !ing2) {
         return {
-          score: 0.1;
-          elementalCompatibility: 0.1;
-          flavorCompatibility: 0.1;
-          seasonalCompatibility: 0.1;
+          score: 0.1,
+          elementalCompatibility: 0.1,
+          flavorCompatibility: 0.1,
+          seasonalCompatibility: 0.1,
           energeticCompatibility: 0.1
         };
       }
@@ -1311,8 +1311,8 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
       };
     } catch (error) {
       errorHandler.logError(error as ErrorWithMessage, {
-        type: ErrorType.DATA;
-        severity: ErrorSeverity.ERROR;
+        type: ErrorType.DATA,
+        severity: ErrorSeverity.ERROR,
         context: 'ConsolidatedIngredientService',
         data: {
           action: 'calculateIngredientCompatibility',
@@ -1323,10 +1323,10 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
 
       // Return default low compatibility on error
       return {
-        score: 0.1;
-        elementalCompatibility: 0.1;
-        flavorCompatibility: 0.1;
-        seasonalCompatibility: 0.1;
+        score: 0.1,
+        elementalCompatibility: 0.1,
+        flavorCompatibility: 0.1,
+        seasonalCompatibility: 0.1,
         energeticCompatibility: 0.1
       };
     }
@@ -1439,9 +1439,9 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
       // Ensure alchemical properties exist
       if (!baseIngredient.alchemicalProperties) {
         baseIngredient.alchemicalProperties = {
-          Spirit: 0.25;
-          Essence: 0.25;
-          Matter: 0.25;
+          Spirit: 0.25,
+          Essence: 0.25,
+          Matter: 0.25,
           Substance: 0.25
         };
       }
@@ -1469,8 +1469,8 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
       return baseIngredient;
     } catch (error) {
       errorHandler.logError(error as ErrorWithMessage, {
-        type: ErrorType.DATA;
-        severity: ErrorSeverity.ERROR;
+        type: ErrorType.DATA,
+        severity: ErrorSeverity.ERROR,
         context: 'ConsolidatedIngredientService',
         data: {
           action: 'enhanceIngredientWithElementalProperties',
@@ -1480,18 +1480,18 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
 
       // Return a minimal valid ingredient on error
       return {
-        name: ingredient.name || 'unknown';
-        category: ingredient.category || 'unknown';
+        name: ingredient.name || 'unknown',
+        category: ingredient.category || 'unknown',
         elementalProperties: createElementalProperties({
-          Fire: 0.25;
-          Water: 0.25;
-          Earth: 0.25;
+          Fire: 0.25,
+          Water: 0.25,
+          Earth: 0.25,
           Air: 0.25
         }),
         alchemicalProperties: {
-          Spirit: 0.25;
-          Essence: 0.25;
-          Matter: 0.25;
+          Spirit: 0.25,
+          Essence: 0.25,
+          Matter: 0.25,
           Substance: 0.25
         }
       };
@@ -1570,8 +1570,8 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
       };
     } catch (error) {
       errorHandler.logError(error as ErrorWithMessage, {
-        type: ErrorType.DATA;
-        severity: ErrorSeverity.ERROR;
+        type: ErrorType.DATA,
+        severity: ErrorSeverity.ERROR,
         context: 'ConsolidatedIngredientService',
         data: {
           action: 'analyzeRecipeIngredients',
@@ -1581,7 +1581,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
 
       // Return default analysis on error
       return {
-        overallHarmony: 0.5;
+        overallHarmony: 0.5,
         flavorProfile: { sweet: 0.5, savory: 0.5 },
         strongPairings: [],
         weakPairings: []
@@ -1648,11 +1648,11 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
     // If no flavor dimensions found, return default profile
     if (allDimensions.size === 0) {
       return {
-        sweet: 0.5;
-        savory: 0.5;
-        spicy: 0.2;
-        bitter: 0.2;
-        sour: 0.2;
+        sweet: 0.5,
+        savory: 0.5,
+        spicy: 0.2,
+        bitter: 0.2,
+        sour: 0.2,
         salty: 0.3
       };
     }
@@ -1779,8 +1779,8 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
         .slice(0, maxResults);
     } catch (error) {
       errorHandler.logError(error as ErrorWithMessage, {
-        type: ErrorType.DATA;
-        severity: ErrorSeverity.ERROR;
+        type: ErrorType.DATA,
+        severity: ErrorSeverity.ERROR,
         context: 'ConsolidatedIngredientService',
         data: { action: 'suggestAlternativeIngredients', ingredientName }
       });

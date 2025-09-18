@@ -30,7 +30,7 @@ import {
 } from './SafeBatchProcessor';
 
 export interface OrchestratorConfig {
-  batchProcessing: Partial<BatchProcessingConfig>;
+  batchProcessing: Partial<BatchProcessingConfig>,
   safetyProtocols: Partial<HighImpactFileConfig>,
   outputDirectory: string,
   generateReports: boolean,
@@ -38,11 +38,11 @@ export interface OrchestratorConfig {
 }
 
 export interface ProcessingPlan {
-  totalFiles: number;
-  automaticProcessing: FileRiskAssessment[];
-  manualReviewRequired: FileRiskAssessment[];
-  estimatedBatches: number;
-  estimatedDuration: string;
+  totalFiles: number,
+  automaticProcessing: FileRiskAssessment[],
+  manualReviewRequired: FileRiskAssessment[],
+  estimatedBatches: number,
+  estimatedDuration: string,
   riskSummary: {
     low: number,
     medium: number,
@@ -52,21 +52,21 @@ export interface ProcessingPlan {
 }
 
 export interface CampaignReport {
-  campaignId: string;
-  startTime: Date;
+  campaignId: string,
+  startTime: Date,
   endTime?: Date;
-  status: 'planning' | 'executing' | 'paused' | 'completed' | 'failed';
-  processingPlan: ProcessingPlan;
-  batchResults: BatchResult[];
-  manualReviews: ManualReviewRequest[];
+  status: 'planning' | 'executing' | 'paused' | 'completed' | 'failed',
+  processingPlan: ProcessingPlan,
+  batchResults: BatchResult[],
+  manualReviews: ManualReviewRequest[],
   finalStats: {
-    totalProcessed: number;
+    totalProcessed: number,
     totalEliminated: number,
     totalPreserved: number,
     successRate: number,
     timeElapsed: number
   };
-  recommendations: string[];
+  recommendations: string[]
 }
 
 export class BatchProcessingOrchestrator {
@@ -250,12 +250,12 @@ export class BatchProcessingOrchestrator {
    */
   private convertAssessmentsToFileInfo(assessments: FileRiskAssessment[]): FileProcessingInfo[] {
     return assessments.map(assessment => ({
-      filePath: assessment.filePath;
-      relativePath: assessment.relativePath;
+      filePath: assessment.filePath,
+      relativePath: assessment.relativePath,
       isHighImpact: assessment.riskLevel === 'high' || assessment.riskLevel === 'critical',,;
       isCritical: assessment.riskLevel === 'critical',,;
-      unusedVariableCount: assessment.unusedVariableCount;
-      riskLevel: assessment.riskLevel;
+      unusedVariableCount: assessment.unusedVariableCount,
+      riskLevel: assessment.riskLevel,
       fileType: assessment.fileType
     }));
   }
@@ -314,9 +314,9 @@ export class BatchProcessingOrchestrator {
     const totalBatches = this.currentCampaign.batchResults.length;
 
     this.currentCampaign.finalStats = {
-      totalProcessed: stats.totalProcessed;
-      totalEliminated: stats.totalEliminated;
-      totalPreserved: stats.totalPreserved;
+      totalProcessed: stats.totalProcessed,
+      totalEliminated: stats.totalEliminated,
+      totalPreserved: stats.totalPreserved,
       successRate: totalBatches > 0 ? (successfulBatches / totalBatches) * 100 : 0,
       timeElapsed: this.currentCampaign.endTime
         ? this.currentCampaign.endTime.getTime() - this.currentCampaign.startTime.getTime()

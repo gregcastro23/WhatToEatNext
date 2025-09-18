@@ -14,8 +14,8 @@ import { ZodiacSign } from '@/types';
 import { PlanetPosition } from './astrologyUtils';
 
 interface TransitDate {
-  Start: string;
-  End: string;
+  Start: string,
+  End: string,
 }
 
 interface PlanetDataWithTransits {

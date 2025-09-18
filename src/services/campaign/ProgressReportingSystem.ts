@@ -17,13 +17,13 @@ import {
 import { MilestoneValidationSystem, PhaseValidationResult } from './MilestoneValidationSystem';
 
 export interface CampaignSummaryReport {
-  campaignId: string;
-  generatedAt: Date;
-  overallStatus: CampaignStatus;
-  overallProgress: number;
-  phases: PhaseProgressSummary[];
-  keyAchievements: Achievement[];
-  criticalIssues: Issue[];
+  campaignId: string,
+  generatedAt: Date,
+  overallStatus: CampaignStatus,
+  overallProgress: number,
+  phases: PhaseProgressSummary[],
+  keyAchievements: Achievement[],
+  criticalIssues: Issue[],
   performanceMetrics: PerformanceSnapshot,
   recommendations: Recommendation[],
   estimatedCompletion: Date,
@@ -31,10 +31,10 @@ export interface CampaignSummaryReport {
 }
 
 export interface PhaseProgressSummary {
-  phaseId: string;
-  phaseName: string;
-  status: PhaseStatus;
-  progress: number;
+  phaseId: string,
+  phaseName: string,
+  status: PhaseStatus,
+  progress: number,
   startDate?: Date;
   completionDate?: Date;
   duration?: number, // in hours
@@ -51,8 +51,8 @@ export interface MilestoneSummary {
 }
 
 export interface Achievement {
-  title: string;
-  description: string;
+  title: string,
+  description: string,
   phase: string,
   achievedAt: Date,
   impact: AchievementImpact,
@@ -60,9 +60,9 @@ export interface Achievement {
 }
 
 export interface Issue {
-  title: string;
-  description: string;
-  phase: string;
+  title: string,
+  description: string,
+  phase: string,
   severity: IssueSeverity,
   detectedAt: Date,
   resolution?: string,
@@ -97,8 +97,8 @@ export interface PerformanceSnapshot {
 }
 
 export interface Recommendation {
-  title: string;
-  description: string;
+  title: string,
+  description: string,
   priority: RecommendationPriority,
   phase: string,
   estimatedImpact: string,
@@ -113,7 +113,7 @@ export interface VisualizationData {
 }
 
 export interface TimeSeriesPoint {
-  timestamp: Date;
+  timestamp: Date,
   typeScriptErrors: number,
   lintingWarnings: number,
   buildTime: number,
@@ -257,11 +257,11 @@ export class ProgressReportingSystem {
     const recommendations = this.generatePhaseRecommendations(phaseValidation);
 
     const report: PhaseReport = {
-      phaseId: phaseValidation.phaseId;
-      phaseName: phaseValidation.phaseName;
+      phaseId: phaseValidation.phaseId,
+      phaseName: phaseValidation.phaseName,
       startTime: new Date(), // This should be tracked properly in a real implementation
-      endTime: phaseValidation.overallSuccess ? new Date() : undefined;
-      status: phaseValidation.overallSuccess ? PhaseStatus.COMPLETED : PhaseStatus.IN_PROGRESS;
+      endTime: phaseValidation.overallSuccess ? new Date() : undefined,
+      status: phaseValidation.overallSuccess ? PhaseStatus.COMPLETED : PhaseStatus.IN_PROGRESS,
       metrics: currentMetrics,
       achievements,
       issues,
@@ -302,7 +302,7 @@ export class ProgressReportingSystem {
    */
   async exportReport(
     report: CampaignSummaryReport,
-    formats: ('json' | 'html' | 'markdown' | 'csv')[] = ['json'];
+    formats: ('json' | 'html' | 'markdown' | 'csv')[] = ['json'],
   ): Promise<string[]> {
     const exportedFiles: string[] = [];
     const timestamp = new Date().toISOString().replace(/[:.]/g, '-'),;
@@ -334,7 +334,7 @@ export class ProgressReportingSystem {
           break;
 
         default:
-          continue;
+          continue
       }
 
       fs.writeFileSync(filePath, content);
@@ -400,15 +400,15 @@ export class ProgressReportingSystem {
     phaseValidations: PhaseValidationResult[],
   ): PhaseProgressSummary[] {
     return phaseValidations.map(validation => ({
-      phaseId: validation.phaseId;
-      phaseName: validation.phaseName;
-      status: validation.overallSuccess ? PhaseStatus.COMPLETED : PhaseStatus.IN_PROGRESS;
-      progress: validation.completionPercentage;
-      keyMetrics: this.extractKeyMetrics(validation);
+      phaseId: validation.phaseId,
+      phaseName: validation.phaseName,
+      status: validation.overallSuccess ? PhaseStatus.COMPLETED : PhaseStatus.IN_PROGRESS,
+      progress: validation.completionPercentage,
+      keyMetrics: this.extractKeyMetrics(validation),
       milestones: validation.milestones.map(m => ({
-        name: m.milestone;
-        completed: m.success;
-        completionDate: m.success ? m.timestamp : undefined;
+        name: m.milestone,
+        completed: m.success,
+        completionDate: m.success ? m.timestamp : undefined,
         criticalPath: true, // All milestones are critical in this campaign
       })),
       blockers: validation.criticalFailures
@@ -428,7 +428,7 @@ export class ProgressReportingSystem {
         description: 'Successfully eliminated all 86 TypeScript compilation errors',
         phase: 'phase1',
         achievedAt: new Date(),
-        impact: AchievementImpact.CRITICAL;
+        impact: AchievementImpact.CRITICAL,
         metrics: {
           errorsEliminated: 86,
           reductionPercentage: 100
@@ -443,7 +443,7 @@ export class ProgressReportingSystem {
         description: 'Successfully eliminated all 4,506 linting warnings',
         phase: 'phase2',
         achievedAt: new Date(),
-        impact: AchievementImpact.CRITICAL;
+        impact: AchievementImpact.CRITICAL,
         metrics: {
           warningsEliminated: 4506,
           reductionPercentage: 100
@@ -458,9 +458,9 @@ export class ProgressReportingSystem {
         description: `Successfully created ${metrics.enterpriseSystems.current} enterprise intelligence systems`,
         phase: 'phase3',
         achievedAt: new Date(),
-        impact: AchievementImpact.HIGH;
+        impact: AchievementImpact.HIGH,
         metrics: {
-          systemsCreated: metrics.enterpriseSystems.current;
+          systemsCreated: metrics.enterpriseSystems.current,
           targetAchievement: (metrics.enterpriseSystems.current / 200) * 100
         }
       });
@@ -473,9 +473,9 @@ export class ProgressReportingSystem {
         description: `Build time optimized to ${metrics.buildPerformance.currentTime}s (target: 10s)`,
         phase: 'phase4',
         achievedAt: new Date(),
-        impact: AchievementImpact.HIGH;
+        impact: AchievementImpact.HIGH,
         metrics: {
-          buildTime: metrics.buildPerformance.currentTime;
+          buildTime: metrics.buildPerformance.currentTime,
           targetTime: 10,
           improvement: 10 - metrics.buildPerformance.currentTime
         }
@@ -493,8 +493,8 @@ export class ProgressReportingSystem {
         issues.push({
           title: `${phase.phaseName} Critical Failure`,
           description: failure,
-          phase: phase.phaseId;
-          severity: IssueSeverity.CRITICAL;
+          phase: phase.phaseId,
+          severity: IssueSeverity.CRITICAL,
           detectedAt: new Date(),
           estimatedResolutionTime: this.estimateResolutionTime(failure)
         });
@@ -508,25 +508,25 @@ export class ProgressReportingSystem {
     return {
       typeScriptErrors: {
         initial: 86,
-        current: metrics.typeScriptErrors.current;
-        reduction: metrics.typeScriptErrors.reduction;
+        current: metrics.typeScriptErrors.current,
+        reduction: metrics.typeScriptErrors.reduction,
         reductionRate: metrics.trendData.errorReductionRate
       },
       lintingWarnings: {
         initial: 4506,
-        current: metrics.lintingWarnings.current;
-        reduction: metrics.lintingWarnings.reduction;
+        current: metrics.lintingWarnings.current,
+        reduction: metrics.lintingWarnings.reduction,
         reductionRate: metrics.trendData.warningReductionRate
       },
       buildPerformance: {
-        currentTime: metrics.buildPerformance.currentTime;
+        currentTime: metrics.buildPerformance.currentTime,
         targetTime: 10,
-        improvement: metrics.trendData.buildTimeImprovement;
+        improvement: metrics.trendData.buildTimeImprovement,
         cacheEfficiency: metrics.buildPerformance.cacheHitRate
       },
       enterpriseSystems: {
         initial: 0,
-        current: metrics.enterpriseSystems.current;
+        current: metrics.enterpriseSystems.current,
         target: 200,
         growthRate: metrics.trendData.systemGrowthRate
       }
@@ -545,9 +545,9 @@ export class ProgressReportingSystem {
           recommendations.push({
             title: `${phase.phaseName} Improvement`,
             description: step,
-            priority: this.determinePriority(step);
-            phase: phase.phaseId;
-            estimatedImpact: this.estimateImpact(step);
+            priority: this.determinePriority(step),
+            phase: phase.phaseId,
+            estimatedImpact: this.estimateImpact(step),
             actionItems: this.generateActionItems(step)
           });
         });
@@ -608,10 +608,10 @@ export class ProgressReportingSystem {
 
   private generateTimeSeriesData(snapshots: MetricsSnapshot[]): TimeSeriesPoint[] {
     return snapshots.map(snapshot => ({
-      timestamp: snapshot.timestamp;
-      typeScriptErrors: snapshot.metrics.typeScriptErrors.current;
-      lintingWarnings: snapshot.metrics.lintingWarnings.current;
-      buildTime: snapshot.metrics.buildPerformance.currentTime;
+      timestamp: snapshot.timestamp,
+      typeScriptErrors: snapshot.metrics.typeScriptErrors.current,
+      lintingWarnings: snapshot.metrics.lintingWarnings.current,
+      buildTime: snapshot.metrics.buildPerformance.currentTime,
       enterpriseSystems: snapshot.metrics.enterpriseSystems.current
     }));
   }
@@ -620,8 +620,8 @@ export class ProgressReportingSystem {
     phaseValidations: PhaseValidationResult[],
   ): PhaseProgressPoint[] {
     return phaseValidations.map(phase => ({
-      phase: phase.phaseName;
-      progress: phase.completionPercentage;
+      phase: phase.phaseName,
+      progress: phase.completionPercentage,
       target: 100,
       status: phase.overallSuccess ? PhaseStatus.COMPLETED : PhaseStatus.IN_PROGRESS
     }));
@@ -640,9 +640,9 @@ export class ProgressReportingSystem {
 
   private generatePerformanceTrendChart(snapshots: MetricsSnapshot[]): PerformanceTrendPoint[] {
     return snapshots.map(snapshot => ({
-      timestamp: snapshot.timestamp;
-      buildTime: snapshot.metrics.buildPerformance.currentTime;
-      memoryUsage: snapshot.metrics.buildPerformance.memoryUsage;
+      timestamp: snapshot.timestamp,
+      buildTime: snapshot.metrics.buildPerformance.currentTime,
+      memoryUsage: snapshot.metrics.buildPerformance.memoryUsage,
       cacheHitRate: snapshot.metrics.buildPerformance.cacheHitRate
     }));
   }
@@ -807,9 +807,9 @@ ${issue.description}
   // Helper methods
   private extractKeyMetrics(validation: PhaseValidationResult): Record<string, number> {
     return {
-      completionPercentage: validation.completionPercentage;
+      completionPercentage: validation.completionPercentage,
       milestonesCompleted: validation.milestones.filter(m => m.success).length,,;
-      totalMilestones: validation.milestones.length;
+      totalMilestones: validation.milestones.length,
       criticalFailures: validation.criticalFailures.length
     };
   }

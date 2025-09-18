@@ -9,7 +9,7 @@ export default function NotFoundError({
   reset: _reset
 }: {
   error: Error & { digest?: string };
-  reset: () => void;
+  reset: () => void
 }) {
   useEffect(() => {
     logger.error('Not found error:', error)

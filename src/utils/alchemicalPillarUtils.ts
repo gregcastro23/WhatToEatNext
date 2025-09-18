@@ -576,9 +576,9 @@ const getMethodCompatibility = (;
   // Check for alchemical property alignment
   // If method enhances the ingredient's strongest property
   const itemProperties = {
-    Spirit: transformedItem.spirit || 0;
-    Essence: transformedItem.essence || 0;
-    Matter: transformedItem.matter || 0;
+    Spirit: transformedItem.spirit || 0,
+    Essence: transformedItem.essence || 0,
+    Matter: transformedItem.matter || 0,
     Substance: transformedItem.substance || 0
   };
 
@@ -648,18 +648,18 @@ export const _getHolisticCookingRecommendations = async (;
 
   if (planet || tarotCard) {
     logger.debug('Original item:', {
-      element: (item as any).element;
-      spirit: item.spirit || 0;
-      essence: item.essence || 0;
-      matter: item.matter || 0;
+      element: (item as any).element,
+      spirit: item.spirit || 0,
+      essence: item.essence || 0,
+      matter: item.matter || 0,
       substance: item.substance || 0
     });
 
     logger.debug('Transformed item:', {
-      element: (transformedItem as any).element;
-      spirit: transformedItem.spirit || 0;
-      essence: transformedItem.essence || 0;
-      matter: transformedItem.matter || 0;
+      element: (transformedItem as any).element,
+      spirit: transformedItem.spirit || 0,
+      essence: transformedItem.essence || 0,
+      matter: transformedItem.matter || 0,
       substance: transformedItem.substance || 0
     });
   } else {
@@ -727,7 +727,7 @@ export const _getHolisticCookingRecommendations = async (;
     }
 
     (compatibility as unknown[]).push({
-      method: method.toString();
+      method: method.toString(),
       compatibility: compatibilityScore,
       reason
     });
@@ -882,7 +882,7 @@ export function getEnhancedCookingRecommendations(
   compatibility: number,
   reason: string,
   cookingTime: { min: number, max: number };
-  sustainabilityRating: number;
+  sustainabilityRating: number,
   equipmentComplexity: number,
   healthBenefits: string[]
 }> {
@@ -942,7 +942,7 @@ export function getEnhancedCookingRecommendations(
 
       // Generate cooking time range
       const cookingTime = {
-        min: Number(duration.min || 10);
+        min: Number(duration.min || 10),
         max: Number(duration.max || 60)
       };
 

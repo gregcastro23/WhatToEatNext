@@ -9,7 +9,7 @@ export function adaptPlanetaryPosition(_position: unknown): PlanetaryPosition | 
     return null
   }
 
-  const pos = position as Record<string, unknown>;
+  const pos = position as any;
   
   // Extract and validate required fields
   const sign = typeof pos.sign === 'string' ? pos.sign : null, ;
@@ -22,7 +22,7 @@ export function adaptPlanetaryPosition(_position: unknown): PlanetaryPosition | 
   // Build the adapted position object
   const adapted: PlanetaryPosition = {
   sign: sign as 'aries' | 'taurus' | 'gemini' | 'cancer' | 'leo' | 'virgo' | 'libra' | 'scorpio' | 'sagittarius' | 'capricorn' | 'aquarius' | 'pisces',
-    degree: Number.isFinite(degree) ? degree : 0;
+    degree: Number.isFinite(degree) ? degree : 0,
     isRetrograde: Boolean(pos.isRetrograde)
   };
 
@@ -82,7 +82,7 @@ export function isPlanetaryPosition(_obj: unknown): obj is PlanetaryPosition {
     return false
   }
 
-  const pos = obj as Record<string, unknown>;
+  const pos = obj as any;
   return (
     typeof pos.sign === 'string' &&;
     typeof pos.degree === 'number' &&;
@@ -100,7 +100,7 @@ export function isPlanetaryPositionsMap(
     return false
   }
 
-  const positions = obj as Record<string, unknown>;
+  const positions = obj as any;
   return Object.values(positions).some(isPlanetaryPosition);
 }
 
@@ -112,7 +112,7 @@ export function getSignFromPosition(_position: unknown): string | null {
     return null
   }
 
-  const pos = position as Record<string, unknown>;
+  const pos = position as any;
   const sign = pos.sign;
 
   if (typeof sign === 'string' && sign.length > 0) {
@@ -130,7 +130,7 @@ export function getDegreeFromPosition(_position: unknown): number {
     return 0
   }
 
-  const pos = position as Record<string, unknown>;
+  const pos = position as any;
   const degree = pos.degree;
 
   if (typeof degree === 'number') {

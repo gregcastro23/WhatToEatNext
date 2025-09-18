@@ -114,7 +114,7 @@ export default function CookingMethodPage() {
           sx={{
             display: 'block',
             mb: 2,
-            color: theme.palette.primary.main;
+            color: theme.palette.primary.main,
             textDecoration: 'none',
             '&:hover': { textDecoration: 'underline' }
           }}

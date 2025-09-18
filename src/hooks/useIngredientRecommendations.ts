@@ -5,19 +5,19 @@ import { type ElementalProperties } from '@/types/alchemy';
 import { useAlchemical } from './useAlchemical';
 
 export interface Ingredient {
-  id: string;
-  name: string;
-  category: string;
-  elementalProfile: { Fire: number; Water: number, Earth: number, Air: number };
+  id: string,
+  name: string,
+  category: string,
+  elementalProfile: { Fire: number, Water: number, Earth: number, Air: number };
   nutritionalBenefits?: string[];
   cookingMethods?: string[];
   score?: number;
 }
 
 export interface IngredientRecommendationsData {
-  ingredients: Ingredient[];
-  isLoading: boolean;
-  error: string | null;
+  ingredients: Ingredient[],
+  isLoading: boolean,
+  error: string | null,
   filters: {
     category?: string,
     maxResults?: number
@@ -79,9 +79,9 @@ export function useIngredientRecommendations(_criteria?: RecommendationCriteria)
     const total = Object.values(elementCounts).reduce((sum, count) => sum + count, 0);
 
     return {
-      Fire: total > 0 ? elementCounts.Fire / total : 0.25;
-      Water: total > 0 ? elementCounts.Water / total : 0.25;
-      Earth: total > 0 ? elementCounts.Earth / total : 0.25;
+      Fire: total > 0 ? elementCounts.Fire / total : 0.25,
+      Water: total > 0 ? elementCounts.Water / total : 0.25,
+      Earth: total > 0 ? elementCounts.Earth / total : 0.25,
       Air: total > 0 ? elementCounts.Air / total : 0.25
     };
   }, [planetaryPositions]);
@@ -171,13 +171,13 @@ export function useIngredientRecommendations(_criteria?: RecommendationCriteria)
         // Generate enhanced recommendations based on filtered ingredients
         const enhancedRecommendations = filteredIngredients.map(ingredient => ({
           ingredient: {
-            id: ingredient.id;
-            name: ingredient.name;
-            category: ingredient.category;
-            elementalProperties: ingredient.elementalProfile;
+            id: ingredient.id,
+            name: ingredient.name,
+            category: ingredient.category,
+            elementalProperties: ingredient.elementalProfile,
             nutritionalContent: undefined
           },
-          matchScore: ingredient.score || 0;
+          matchScore: ingredient.score || 0,
           elementalCompatibility: calculateElementalCompatibility(
             ingredient.elementalProfile;
             currentElementalProfile,
@@ -185,7 +185,7 @@ export function useIngredientRecommendations(_criteria?: RecommendationCriteria)
           nutritionalScore: 0.5, // Default score
           seasonalScore: 0.5, // Default score
           reason: generateRecommendationReason(ingredient, currentElementalProfile, isDaytime),
-          category: ingredient.category;
+          category: ingredient.category,
           alternatives: []
         }));
 

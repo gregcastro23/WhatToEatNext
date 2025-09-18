@@ -26,7 +26,7 @@ afterEach(() => {
 });
 
 // Global test utilities
-(global as unknown).testUtils = {;
+(global as unknown).testUtils = {
   gitMock: gitOperationsMock as unknown,
   scriptMock: scriptExecutionMock as unknown,
 
@@ -39,7 +39,7 @@ afterEach(() => {
   createMockTypeScriptErrors: (count: number) => {
     const errors: Array<string> = [];
     for (let i = 0; i < count; i++) {
-      errors.push(`file${i}.ts(10,5): error TS2352: Type conversion error`);
+      errors.push(`file${i}.ts(10,5): error TS2352: Type conversion error`)
     }
     return errors.join('\n');
   },
@@ -48,7 +48,7 @@ afterEach(() => {
   createMockLintingWarnings: (count: number) => {
     const warnings: Array<string> = [];
     for (let i = 0; i < count; i++) {
-      warnings.push(`file${i}.ts:10:5 - warning: Explicit any @typescript-eslint/no-explicit-any`);
+      warnings.push(`file${i}.ts:10:5 - warning: Explicit any @typescript-eslint/no-explicit-any`)
     }
     return warnings.join('\n');
   },
@@ -126,14 +126,14 @@ declare global {
   namespace jest {
     interface Matchers<R> {
       toBeWithinRange(floor: number, ceiling: number): R;
-      toHaveBeenCalledWithScript(scriptPath: string): R;
+      toHaveBeenCalledWithScript(scriptPath: string): R
     }
   }
 }
 
 // Console override for cleaner test output
 const originalConsole = console;
-global.console = {;
+global.console = {
   ...originalConsole,
   log: jest.fn() as unknown,
   warn: jest.fn() as unknown,

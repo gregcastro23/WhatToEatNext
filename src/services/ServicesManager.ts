@@ -21,7 +21,7 @@ export enum InitializationStatus {
 
 // Define service initialization result
 export interface ServiceInitializationResult {
-  success: boolean;
+  success: boolean,
   serviceName: string,
   message?: string,
   error?: Error,

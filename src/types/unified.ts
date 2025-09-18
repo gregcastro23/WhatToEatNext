@@ -36,8 +36,8 @@ export type {
 // Ingredient types - Unified interface consolidating all ingredient definitions
 export interface Ingredient {
   id?: string;
-  name: string;
-  category: string;
+  name: string,
+  category: string,
   subCategory?: string;
 
   // Core properties
@@ -96,18 +96,18 @@ export interface Ingredient {
 }
 
 export interface UnifiedIngredient extends Ingredient {
-  unifiedId: string;
-  mappings: IngredientMapping[];
-  validationStatus: 'validated' | 'pending' | 'error';
-  sources: string[];
-  lastUpdated: Date;
+  unifiedId: string,
+  mappings: IngredientMapping[],
+  validationStatus: 'validated' | 'pending' | 'error',
+  sources: string[],
+  lastUpdated: Date
 }
 
 export interface IngredientMapping {
-  sourceId: string;
-  sourceName: string;
-  confidence: number;
-  mappingType: 'exact' | 'similar' | 'category';
+  sourceId: string,
+  sourceName: string,
+  confidence: number,
+  mappingType: 'exact' | 'similar' | 'category',
 }
 
 // Astrological profile types
@@ -120,10 +120,10 @@ export interface AstrologicalProfile {
 }
 
 export interface SeasonalPreferences {
-  spring: number;
-  summer: number;
-  autumn: number;
-  winter: number;
+  spring: number,
+  summer: number,
+  autumn: number,
+  winter: number,
 }
 
 // Nutritional data types
@@ -141,8 +141,8 @@ export interface NutritionalData {
 
 // Planet position types (unified)
 export interface PlanetPosition {
-  sign: any;
-  degree: number;
+  sign: any,
+  degree: number,
   minute?: number;
   exactLongitude: number;
   isRetrograde?: boolean;
@@ -150,41 +150,41 @@ export interface PlanetPosition {
 }
 
 export interface PlanetaryPosition {
-  sign: any;
-  degree: number;
-  minute: number;
-  isRetrograde: boolean;
+  sign: any,
+  degree: number,
+  minute: number,
+  isRetrograde: boolean,
 }
 
 // Search filter types (for advanced search functionality)
 export interface SearchFilters {
-  query: string;
-  dietaryRestrictions: string[];
-  difficultyLevel: string[];
+  query: string,
+  dietaryRestrictions: string[],
+  difficultyLevel: string[],
   cookingTime: {
-    min: number;
-    max: number;
+    min: number,
+    max: number,
   };
-  cuisineTypes: string[];
-  mealTypes: string[];
-  spiciness: string[];
-  ingredients: string[];
+  cuisineTypes: string[],
+  mealTypes: string[],
+  spiciness: string[],
+  ingredients: string[],
 }
 
 export interface FilterChip {
-  id: string;
-  label: string;
-  category: string;
-  value: string | number;
-  removable: boolean;
+  id: string,
+  label: string,
+  category: string,
+  value: string | number,
+  removable: boolean
 }
 
 // Cooking method types (extended)
 export interface CookingMethodExtended {
-  id: string;
-  name: string;
-  description: string;
-  elementalEffect: ElementalProperties;
+  id: string,
+  name: string,
+  description: string,
+  elementalEffect: ElementalProperties,
   thermodynamicProperties?: ThermodynamicProperties;
   astrologicalInfluences?: AstrologicalInfluences;
   duration?: TimeRange;
@@ -197,22 +197,22 @@ export interface CookingMethodExtended {
 }
 
 export interface TimeRange {
-  min: number;
-  max: number;
-  unit: 'minutes' | 'hours';
+  min: number,
+  max: number,
+  unit: 'minutes' | 'hours'
 }
 
 export interface TemperatureRange {
-  min: number;
-  max: number;
-  unit: 'celsius' | 'fahrenheit';
+  min: number,
+  max: number,
+  unit: 'celsius' | 'fahrenheit'
 }
 
 export interface ThermodynamicProperties {
-  heat: number;
-  entropy: number;
-  reactivity: number;
-  gregsEnergy: number;
+  heat: number,
+  entropy: number,
+  reactivity: number,
+  gregsEnergy: number,
 }
 
 export interface AstrologicalInfluences {
@@ -224,13 +224,13 @@ export interface AstrologicalInfluences {
 
 // Recipe types - Unified interface consolidating all recipe definitions
 export interface Recipe {
-  id: string;
-  name: string;
+  id: string,
+  name: string,
   description?: string;
-  ingredients: RecipeIngredient[];
-  instructions: string[];
-  cookingMethod: string;
-  servings: number;
+  ingredients: RecipeIngredient[],
+  instructions: string[],
+  cookingMethod: string,
+  servings: number,
   prepTime?: number;
   cookTime?: number;
   totalTime?: number;
@@ -268,8 +268,8 @@ export interface Recipe {
 export interface RecipeIngredient {
   id?: string;
   ingredientId?: string;
-  name: string;
-  amount: number; // Standardized to 'amount' not 'quantity'
+  name: string,
+  amount: number, // Standardized to 'amount' not 'quantity'
   unit: string;
   preparation?: string;
   optional?: boolean;
@@ -333,34 +333,34 @@ export interface NutritionalGoals {
 }
 
 export interface RecommendationResult {
-  recipes: Recipe[];
-  ingredients: Ingredient[];
-  cookingMethods: CookingMethodExtended[];
-  score: number;
-  reasoning: string[];
-  astrologicalAlignment: number;
-  elementalHarmony: number;
-  nutritionalFit: number;
-  culturalRelevance: number;
+  recipes: Recipe[],
+  ingredients: Ingredient[],
+  cookingMethods: CookingMethodExtended[],
+  score: number,
+  reasoning: string[],
+  astrologicalAlignment: number,
+  elementalHarmony: number,
+  nutritionalFit: number,
+  culturalRelevance: number
 }
 
 // Validation types
 export interface ValidationResult {
-  isValid: boolean;
-  errors: ValidationError[];
-  warnings: ValidationWarning[];
+  isValid: boolean,
+  errors: ValidationError[],
+  warnings: ValidationWarning[]
 }
 
 export interface ValidationError {
-  field: string;
-  message: string;
-  code: string;
-  severity: 'error' | 'warning' | 'info';
+  field: string,
+  message: string,
+  code: string,
+  severity: 'error' | 'warning' | 'info',
 }
 
 export interface ValidationWarning {
-  field: string;
-  message: string;
+  field: string,
+  message: string,
   suggestion?: string;
 }
 
@@ -374,8 +374,8 @@ export interface ApiResponse<T> {
 }
 
 export interface ApiError {
-  code: string;
-  message: string;
+  code: string,
+  message: string,
   details?: Record<string, unknown>;
   stack?: string;
 }
@@ -398,39 +398,39 @@ export interface NutritionalRange {
 }
 
 export interface SortingOptions {
-  field: string;
-  direction: 'asc' | 'desc';
+  field: string,
+  direction: 'asc' | 'desc',
   secondary?: {
-    field: string;
-    direction: 'asc' | 'desc';
+    field: string,
+    direction: 'asc' | 'desc',
   };
 }
 
 export interface PaginationOptions {
-  page: number;
-  limit: number;
+  page: number,
+  limit: number,
   offset?: number;
 }
 
 export interface SearchResult<T> {
-  items: T[];
-  total: number;
-  page: number;
-  limit: number;
+  items: T[],
+  total: number,
+  page: number,
+  limit: number,
   hasMore: boolean;
   facets?: SearchFacets;
 }
 
 export interface SearchFacets {
-  categories: FacetCount[];
-  elements: FacetCount[];
-  cuisines: FacetCount[];
-  difficulty: FacetCount[];
+  categories: FacetCount[],
+  elements: FacetCount[],
+  cuisines: FacetCount[],
+  difficulty: FacetCount[],
 }
 
 export interface FacetCount {
-  value: string;
-  count: number;
+  value: string,
+  count: number,
   selected?: boolean;
 }
 
@@ -457,9 +457,9 @@ export type NumberKeys<T> = {
 
 // Default values and constants
 export const DEFAULT_ELEMENTAL_PROPERTIES: ElementalProperties = {
-  Fire: 0.25;
-  Water: 0.25;
-  Earth: 0.25;
+  Fire: 0.25,
+  Water: 0.25,
+  Earth: 0.25,
   Air: 0.25
 };
 

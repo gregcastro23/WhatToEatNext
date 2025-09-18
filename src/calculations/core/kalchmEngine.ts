@@ -33,8 +33,8 @@ export interface ElementalValues {
  * Complete thermodynamic calculation results
  */
 export interface ThermodynamicResults {
-  heat: number;
-  entropy: number;
+  heat: number,
+  entropy: number,
   reactivity: number,
   gregsEnergy: number,
   kalchm: number,
@@ -45,8 +45,8 @@ export interface ThermodynamicResults {
  * Complete alchemical calculation result
  */
 export interface KalchmResult {
-  alchemicalProperties: AlchemicalProperties;
-  elementalValues: ElementalValues;
+  alchemicalProperties: AlchemicalProperties,
+  elementalValues: ElementalValues,
   thermodynamics: ThermodynamicResults,
   dominantElement: keyof ElementalValues,
   dominantProperty: keyof AlchemicalProperties,
@@ -115,7 +115,7 @@ export function calculateReactivity(
   Earth: number,
 ): number {
   const numerator =
-    Math.pow(Spirit, 2) +;
+    Math.pow(Spirit, 2) +
     Math.pow(Substance, 2) +
     Math.pow(Essence, 2) +
     Math.pow(Fire, 2) +
@@ -425,9 +425,9 @@ export function calculateKalchmResults(planetaryPositions: {
  */
 export function toElementalProperties(result: KalchmResult): ElementalProperties {
   return {
-    Fire: result.elementalValues.Fire;
-    Water: result.elementalValues.Water;
-    Air: result.elementalValues.Air;
+    Fire: result.elementalValues.Fire,
+    Water: result.elementalValues.Water,
+    Air: result.elementalValues.Air,
     Earth: result.elementalValues.Earth
   };
 }

@@ -53,7 +53,7 @@ describe('Phase Execution Integration Tests', () => {
           description: 'Eliminate all TypeScript compilation errors',
           tools: [
             {
-              scriptPath: 'scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js';
+              scriptPath: 'scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js',
               parameters: { maxFile, s: 15, autoFix: true, validateSafety: true },
               batchSize: 15,
               safetyLevel: SafetyLevel.MAXIMUM
@@ -69,7 +69,7 @@ describe('Phase Execution Integration Tests', () => {
           description: 'Eliminate all linting warnings',
           tools: [
             {
-              scriptPath: 'scripts/typescript-fixes/fix-explicit-any-systematic.js';
+              scriptPath: 'scripts/typescript-fixes/fix-explicit-any-systematic.js',
               parameters: { maxFile, s: 25, autoFix: true },
               batchSize: 25,
               safetyLevel: SafetyLevel.HIGH
@@ -87,8 +87,8 @@ describe('Phase Execution Integration Tests', () => {
         enterpriseSystems: 200
       },
       toolConfiguration: { enhancedErrorFixer: 'scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js',
-        explicitAnyFixer: 'scripts/typescript-fixes/fix-explicit-any-systematic.js';
-        unusedVariablesFixer: 'scripts/typescript-fixes/fix-unused-variables-enhanced.js';
+        explicitAnyFixer: 'scripts/typescript-fixes/fix-explicit-any-systematic.js',
+        unusedVariablesFixer: 'scripts/typescript-fixes/fix-unused-variables-enhanced.js',
         consoleStatementFixer: 'scripts/lint-fixes/fix-console-statements-only.js'
       }
     };
@@ -124,7 +124,7 @@ describe('Phase Execution Integration Tests', () => {
           return '', // Successful stash creation
         }
         if (cmd.includes('git stash list')) {
-          return 'stash@{0}: campaign-phase1-1-timestamp: Pre-phase checkpoint';
+          return 'stash@{0}: campaign-phase1-1-timestamp: Pre-phase checkpoint'
         }
         if (cmd.includes('git branch --show-current')) {
           return 'main'
@@ -217,7 +217,7 @@ describe('Phase Execution Integration Tests', () => {
           return '', // Successful stash creation
         }
         if (cmd.includes('git stash list')) {
-          return 'stash@{0}: campaign-phase2-1-timestamp: Pre-phase checkpoint';
+          return 'stash@{0}: campaign-phase2-1-timestamp: Pre-phase checkpoint'
         }
         if (cmd.includes('git branch --show-current')) {
           return 'main'
@@ -427,7 +427,7 @@ describe('Phase Execution Integration Tests', () => {
       jest.spyOn(safetyProtocol, 'detectCorruption').mockResolvedValue({
         detectedFiles: [],
         corruptionPatterns: [],
-        severity: CorruptionSeverity.LOW;
+        severity: CorruptionSeverity.LOW,
         recommendedAction: RecoveryAction.CONTINUE
       });
 
@@ -451,7 +451,7 @@ describe('Phase Execution Integration Tests', () => {
             files: ['corrupted-file.ts']
           }
         ],
-        severity: CorruptionSeverity.HIGH;
+        severity: CorruptionSeverity.HIGH,
         recommendedAction: RecoveryAction.ROLLBACK
       });
 

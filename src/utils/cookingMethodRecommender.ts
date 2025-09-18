@@ -10,7 +10,7 @@ interface MethodWithElementalProperties {
     dominantPlanets?: string[],
     [key: string]: unknown
   };
-  [key: string]: unknown;
+  [key: string]: unknown
 }
 
 interface PlanetaryTemperamentData {
@@ -93,22 +93,22 @@ interface CulturalMethod {
     unfavorableZodiac?: unknown[],
     dominantPlanets?: string[]
   };
-  [key: string]: unknown;
+  [key: string]: unknown
 }
 
 // Define a proper interface for our cooking method objects
 interface CookingMethodData {
-  id: string;
-  name: string;
-  description: string;
+  id: string,
+  name: string,
+  description: string,
   elementalEffect: ElementalProperties,
   elementalProperties?: ElementalProperties, // Some methods use this instead
   duration: {
     min: number,
     max: number
   };
-  suitable_for: string[];
-  benefits: string[];
+  suitable_for: string[],
+  benefits: string[],
   astrologicalInfluences?: {
     favorableZodiac?: any[],
     unfavorableZodiac?: any[],
@@ -135,8 +135,8 @@ const allCookingMethodsCombined: CookingMethodDictionary = {
       const baseMethod = method as unknown as BaseCookingMethod;
       acc[id] = {
         id,
-        name: baseMethod.name || id;
-        description: baseMethod.description || '';
+        name: baseMethod.name || id,
+        description: baseMethod.description || '',
         elementalEffect: baseMethod.elementalEffect || {
           Fire: 0,
           Water: 0,
@@ -169,9 +169,9 @@ const allCookingMethodsCombined: CookingMethodDictionary = {
           methods[culturalMethod.relatedToMainMethod].variations = [
             ...existingVariations;
             {
-              id: culturalMethod.id || '';
-              name: culturalMethod.variationName || culturalMethod.name || '';
-              description: culturalMethod.description || '';
+              id: culturalMethod.id || '',
+              name: culturalMethod.variationName || culturalMethod.name || '',
+              description: culturalMethod.description || '',
               elementalEffect: culturalMethod.elementalProperties || {
                 Fire: 0,
                 Water: 0,
@@ -180,7 +180,7 @@ const allCookingMethodsCombined: CookingMethodDictionary = {
               },
               toolsRequired: culturalMethod.toolsRequired || [],
               bestFor: culturalMethod.bestFor || [],
-              culturalOrigin: culturalMethod.culturalOrigin;
+              culturalOrigin: culturalMethod.culturalOrigin,
               astrologicalInfluences: {
                 favorableZodiac:
                   (culturalMethod.astrologicalInfluences?.favorableZodiac as any[]) || [],
@@ -203,9 +203,9 @@ const allCookingMethodsCombined: CookingMethodDictionary = {
     // Only add as standalone if it doesn't already exist and isn't a variation
     if (!methods[culturalMethod.id || ''] && !culturalMethod.relatedToMainMethod) {
       methods[culturalMethod.id || ''] = {
-        id: culturalMethod.id || '';
-        name: culturalMethod.name || '';
-        description: culturalMethod.description || '';
+        id: culturalMethod.id || '',
+        name: culturalMethod.name || '',
+        description: culturalMethod.description || '',
         elementalEffect: culturalMethod.elementalProperties || {
           Fire: 0,
           Water: 0,
@@ -214,7 +214,7 @@ const allCookingMethodsCombined: CookingMethodDictionary = {
         },
         toolsRequired: culturalMethod.toolsRequired || [],
         bestFor: culturalMethod.bestFor || [],
-        culturalOrigin: culturalMethod.culturalOrigin;
+        culturalOrigin: culturalMethod.culturalOrigin,
         astrologicalInfluences: {
           favorableZodiac: (culturalMethod.astrologicalInfluences?.favorableZodiac as any[]) || [],
           unfavorableZodiac:
@@ -245,7 +245,7 @@ interface MethodWithThermodynamics {
     reactivity?: number,
     gregsEnergy?: number
   };
-  [key: string]: unknown;
+  [key: string]: unknown
 }
 
 export function getMethodThermodynamics(
@@ -264,9 +264,9 @@ export function getMethodThermodynamics(
   if (detailedMethodData?.thermodynamicProperties) {
     const thermoProps = detailedMethodData.thermodynamicProperties;
     return {
-      heat: Number(thermoProps.heat) || 0.5;
-      entropy: Number(thermoProps.entropy) || 0.5;
-      reactivity: Number(thermoProps.reactivity) || 0.5;
+      heat: Number(thermoProps.heat) || 0.5,
+      entropy: Number(thermoProps.entropy) || 0.5,
+      reactivity: Number(thermoProps.reactivity) || 0.5,
       gregsEnergy: Number((thermoProps as { gregsEnergy?: number }).gregsEnergy) || 0.5
     };
   }
@@ -275,9 +275,9 @@ export function getMethodThermodynamics(
   if (methodData.thermodynamicProperties) {
     const thermoProps = methodData.thermodynamicProperties;
     return {
-      heat: thermoProps.heat ?? 0.5;
-      entropy: thermoProps.entropy ?? 0.5;
-      reactivity: thermoProps.reactivity ?? 0.5;
+      heat: thermoProps.heat ?? 0.5,
+      entropy: thermoProps.entropy ?? 0.5,
+      reactivity: thermoProps.reactivity ?? 0.5,
       gregsEnergy: thermoProps.gregsEnergy ?? 0.5
     };
   }
@@ -1328,14 +1328,14 @@ export async function getRecommendedCookingMethods(
     // Extract method data with safe property access
     const methodData = method as unknown;
     const scoreDetails = {
-      elemental: elementalScore * 0.4;
-      astrological: astrologicalScore * 0.25;
-      seasonal: seasonalScore * 0.15;
-      tools: toolScore * 0.1;
-      dietary: dietaryScore * 0.1;
+      elemental: elementalScore * 0.4,
+      astrological: astrologicalScore * 0.25,
+      seasonal: seasonalScore * 0.15,
+      tools: toolScore * 0.1,
+      dietary: dietaryScore * 0.1,
       cultural: culturalScore,
       lunar: lunarScore,
-      venus: venusScore * 0.15;
+      venus: venusScore * 0.15,
       total: Math.max(0, score), // Ensure score isn't negative
     };
 
@@ -1435,7 +1435,7 @@ function _calculateAspectMethodAffinity(aspects: PlanetaryAspect[], method: Cook
         baseAffinity = 0.3;
         break,
       default:
-        baseAffinity = 0.5;
+        baseAffinity = 0.5
     }
 
     // Adjust for aspect strength
@@ -1531,12 +1531,10 @@ function getAstrologicalElementalProfile(
     // ✅ Pattern KK-1: Safe string conversion for zodiac sign
     const sign = String(astroState.zodiacSign || '').toLowerCase();
     return {
-      Fire:
-        sign.includes('aries') || sign.includes('leo') || sign.includes('sagittarius') ? 0.8 : 0.2;
+      Fire: sign.includes('aries') || sign.includes('leo') || sign.includes('sagittarius') ? 0.8 : 0.2,
       Water:
-        sign.includes('cancer') || sign.includes('scorpio') || sign.includes('pisces') ? 0.8 : 0.2;
-      Earth:
-        sign.includes('taurus') || sign.includes('virgo') || sign.includes('capricorn') ? 0.8 : 0.2;
+        sign.includes('cancer') || sign.includes('scorpio') || sign.includes('pisces') ? 0.8 : 0.2,
+      Earth: sign.includes('taurus') || sign.includes('virgo') || sign.includes('capricorn') ? 0.8 : 0.2,
       Air:
         sign.includes('gemini') || sign.includes('libra') || sign.includes('aquarius') ? 0.8 : 0.2
     };

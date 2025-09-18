@@ -3,13 +3,13 @@ import { useState, useEffect } from 'react';
 import { PlanetaryHourCalculator } from '@/lib/PlanetaryHourCalculator';
 
 export interface PlanetaryHoursData {
-  currentHour: string;
-  currentDay: string;
-  currentMinute: string;
-  timeUntilNext: number;
-  nextHour: string;
-  isLoading: boolean;
-  error: string | null;
+  currentHour: string,
+  currentDay: string,
+  currentMinute: string,
+  timeUntilNext: number,
+  nextHour: string,
+  isLoading: boolean,
+  error: string | null
 }
 
 export function usePlanetaryHours() {

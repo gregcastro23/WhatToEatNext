@@ -6,7 +6,7 @@ import './globals.css';
 const inter = Inter({ subsets: ['latin'] });
 
 export const _metadata: Metadata = {
-  title: 'What to Eat Next';
+  title: 'What to Eat Next',
   description: 'Personalized food recommendations based on your chakra energies'
 };
 
@@ -37,16 +37,16 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                     style={{
                       textAlign: 'center',
                       border: 'none',
-                      borderRadius: '0.25rem';
-                      minWidth: '11.625rem';
+                      borderRadius: '0.25rem',
+                      minWidth: '11.625rem',
                       padding: '0 2rem',
-                      height: '2.625rem';
+                      height: '2.625rem',
                       fontWeight: 'bold',
                       backgroundColor: '#FFD140',
                       color: '#000000',
                       fontFamily: ''Helvetica Neue', Arial, sans-serif',
                       fontSize: '1rem',
-                      lineHeight: '1.25rem';
+                      lineHeight: '1.25rem',
                       cursor: 'pointer'
                     }}
                   />

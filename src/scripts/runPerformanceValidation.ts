@@ -50,7 +50,7 @@ class PerformanceValidationCLI {
         await this.runTests(options);
         break,
       default:
-        this.showHelp();
+        this.showHelp()
     }
   }
 

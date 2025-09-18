@@ -24,8 +24,8 @@ import { unifiedSeasonalSystem } from './seasonal';
  * Core flavor components on a 0-1 scale
  */
 export interface BaseFlavorNotes {
-  sweet: number;
-  sour: number;
+  sweet: number,
+  sour: number,
   salty: number,
   bitter: number,
   umami: number,
@@ -46,8 +46,8 @@ export interface FlavorModification {
  * Planetary influence on flavor profiles
  */
 export interface PlanetaryFlavorInfluence {
-  influence: number;
-  flavorModification: FlavorModification;
+  influence: number,
+  flavorModification: FlavorModification,
   seasonalVariation: Record<Season, number>;
   monicaOptimization: number,
   optimalTiming: {
@@ -61,8 +61,8 @@ export interface PlanetaryFlavorInfluence {
  * Compatibility of a flavor with a specific cuisine
  */
 export interface CuisineFlavorCompatibility {
-  compatibility: number;
-  traditionalUse: boolean;
+  compatibility: number,
+  traditionalUse: boolean,
   modernAdaptations: string[],
   kalchmHarmony: number,
   culturalSignificance: string,
@@ -74,9 +74,9 @@ export interface CuisineFlavorCompatibility {
  */
 export interface UnifiedFlavorProfile {
   // Core identity
-  id: string;
-  name: string;
-  description: string;
+  id: string,
+  name: string,
+  description: string,
   category: 'cuisine' | 'planetary' | 'ingredient' | 'elemental' | 'fusion',
 
   // Base flavor components
@@ -98,20 +98,20 @@ export interface UnifiedFlavorProfile {
   kalchm: number;
 
   // Enhanced metadata
-  intensity: number;
-  complexity: number;
-  seasonalPeak: Season[];
-  culturalOrigins: string[];
+  intensity: number,
+  complexity: number,
+  seasonalPeak: Season[],
+  culturalOrigins: string[],
   nutritionalSynergy: number;
 
   // Integration properties
   cookingMethodAffinity: Record<string, number>;
   temperatureRange: { min: number, max: number };
-  pairingRecommendations: string[];
-  avoidCombinations: string[];
+  pairingRecommendations: string[],
+  avoidCombinations: string[],
 
   // Dynamic properties
-  monicaOptimization: number;
+  monicaOptimization: number,
   seasonalModifiers: Record<Season, number>;
 }
 
@@ -119,9 +119,9 @@ export interface UnifiedFlavorProfile {
  * Result of calculating compatibility between flavor profiles
  */
 export interface FlavorCompatibilityResult {
-  compatibility: number;
-  elementalHarmony: number;
-  kalchmResonance: number;
+  compatibility: number,
+  elementalHarmony: number,
+  kalchmResonance: number,
   monicaOptimization: number,
   seasonalAlignment: number,
   recommendations: string[],
@@ -147,8 +147,8 @@ export interface FlavorCriteria {
  * Group of flavor profile recommendations
  */
 export interface FlavorRecommendations {
-  primary: UnifiedFlavorProfile[];
-  complementary: UnifiedFlavorProfile[];
+  primary: UnifiedFlavorProfile[],
+  complementary: UnifiedFlavorProfile[],
   seasonal: UnifiedFlavorProfile[],
   fusion: UnifiedFlavorProfile[],
   monicaOptimized: UnifiedFlavorProfile[],
@@ -159,9 +159,9 @@ export interface FlavorRecommendations {
  * Environmental conditions that affect flavor optimization
  */
 export interface SystemConditions {
-  season: Season;
-  planetaryHour: PlanetName;
-  temperature: number;
+  season: Season,
+  planetaryHour: PlanetName,
+  temperature: number,
   lunarPhase: string,
   gregsEnergy: number,
   reactivity: number,
@@ -190,11 +190,11 @@ export function isUnifiedFlavorProfile(obj: unknown): obj is UnifiedFlavorProfil
  */
 export function createBaseFlavorNotes(props?: Partial<BaseFlavorNotes>): BaseFlavorNotes {
   return {
-    sweet: props?.sweet ?? 0;
-    sour: props?.sour ?? 0;
-    salty: props?.salty ?? 0;
-    bitter: props?.bitter ?? 0;
-    umami: props?.umami ?? 0;
+    sweet: props?.sweet ?? 0,
+    sour: props?.sour ?? 0,
+    salty: props?.salty ?? 0,
+    bitter: props?.bitter ?? 0,
+    umami: props?.umami ?? 0,
     spicy: props?.spicy ?? 0
   };
 }

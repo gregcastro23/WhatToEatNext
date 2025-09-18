@@ -66,7 +66,7 @@ export class SafeTypeReplacer {
       // Fallback to basic safety score calculation
       const basicSafetyScore = this.calculateSafetyScore(replacement);
       safetyValidation = {
-        isValid: basicSafetyScore >= this.safetyThreshold;
+        isValid: basicSafetyScore >= this.safetyThreshold,
         safetyScore: basicSafetyScore,
         validationErrors:
           basicSafetyScore < this.safetyThreshold
@@ -82,7 +82,7 @@ export class SafeTypeReplacer {
         success: false,
         appliedReplacements: [],
         failedReplacements: [replacement],
-        compilationErrors: safetyValidation.validationErrors;
+        compilationErrors: safetyValidation.validationErrors,
         rollbackPerformed: false
       };
     }
@@ -202,7 +202,7 @@ export class SafeTypeReplacer {
           success: false,
           appliedReplacements: [],
           failedReplacements: replacements,
-          compilationErrors: buildValidation.compilationErrors;
+          compilationErrors: buildValidation.compilationErrors,
           rollbackPerformed: true
         };
       }
@@ -215,7 +215,7 @@ export class SafeTypeReplacer {
 
       if (!rollbackValidation.canRollback) {
         compilationErrors.push(...rollbackValidation.rollbackErrors);
-        compilationErrors.push('Warning: Rollback capability compromised');
+        compilationErrors.push('Warning: Rollback capability compromised')
       }
 
       const success = failedReplacements.length === 0;
@@ -320,7 +320,7 @@ export class SafeTypeReplacer {
 
       // Function parameter in arrow functions
       {
-        pattern: /\(\s*([^:)]+):\s*any\s*\)\s*=>/g;
+        pattern: /\(\s*([^:)]+):\s*any\s*\)\s*=>/g,
         replacement: (match: string, context: ClassificationContext) => {
           const paramName = match.match(/\(\s*([^:)]+):/)?.[1]?.trim();
           if (paramName) {
@@ -336,7 +336,7 @@ export class SafeTypeReplacer {
 
       // Return type inference and replacement
       {
-        pattern: /\):\s*any(?=\s*[{])/g;
+        pattern: /\):\s*any(?=\s*[{])/g,
         replacement: (match: string, context: ClassificationContext) => {
           const inferredReturnType = this.inferReturnType(context);
           return match.replace('any', inferredReturnType)
@@ -491,7 +491,7 @@ export class SafeTypeReplacer {
   private async validateTypeScriptCompilation(): Promise<{ success: boolean, errors: string[] }> {
     const buildResult = await this.safetyValidator.validateTypeScriptCompilation();
     return {
-      success: buildResult.buildSuccessful;
+      success: buildResult.buildSuccessful,
       errors: buildResult.compilationErrors
     };
   }
@@ -561,7 +561,7 @@ export class SafeTypeReplacer {
           success: false,
           appliedReplacements: [],
           failedReplacements: [replacement],
-          compilationErrors: compilationResult.errors;
+          compilationErrors: compilationResult.errors,
           rollbackPerformed: true,
           backupPath
         };

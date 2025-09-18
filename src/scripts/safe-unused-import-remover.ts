@@ -16,10 +16,10 @@ import fs from 'fs';
 import path from 'path';
 
 interface UnusedImport {
-  file: string;
-  line: number;
-  column: number;
-  importName: string;
+  file: string,
+  line: number,
+  column: number,
+  importName: string,
   message: string,
   isTypeImport: boolean,
   isDefaultImport: boolean,
@@ -78,7 +78,7 @@ class SafeUnusedImportRemover {
     const unusedImports = this.extractUnusedImports(lintOutput);
 
     const analysis: ImportAnalysis = {
-      totalUnusedImports: unusedImports.length;
+      totalUnusedImports: unusedImports.length,
       safeToRemove: [],
       requiresManualReview: [],
       preserved: []
@@ -173,7 +173,7 @@ class SafeUnusedImportRemover {
             column: parseInt(colNum),
             importName,
             message,
-            isTypeImport: message.includes('type');
+            isTypeImport: message.includes('type'),
             isDefaultImport: !message.includes('{'),
             isNamespaceImport: message.includes('* as')
           });

@@ -21,50 +21,50 @@ interface LocalAstrologizeRequest {
 
 // Interface for planetary data from the API
 interface AstrologizePlanetData {
-  key: string;
-  label: string;
+  key: string,
+  label: string,
   Sign: {
-    key: string;
-    zodiac: string;
-    label: string;
+    key: string,
+    zodiac: string,
+    label: string
   };
   ChartPosition: {
     Ecliptic: {
-      DecimalDegrees: number;
+      DecimalDegrees: number,
       ArcDegrees: {
-        degrees: number;
-        minutes: number;
-        seconds: number;
+        degrees: number,
+        minutes: number,
+        seconds: number
       };
     };
   };
-  isRetrograde: boolean;
+  isRetrograde: boolean
 }
 
 // Interface for the API response (updated to match actual astrologize API structure)
 interface AstrologizeResponse {
   _celestialBodies: {
-    all: AstrologizePlanetData[];
-    sun: AstrologizePlanetData;
-    moon: AstrologizePlanetData;
-    mercury: AstrologizePlanetData;
-    venus: AstrologizePlanetData;
-    mars: AstrologizePlanetData;
-    jupiter: AstrologizePlanetData;
-    saturn: AstrologizePlanetData;
-    uranus: AstrologizePlanetData;
-    neptune: AstrologizePlanetData;
-    pluto: AstrologizePlanetData;
+    all: AstrologizePlanetData[],
+    sun: AstrologizePlanetData,
+    moon: AstrologizePlanetData,
+    mercury: AstrologizePlanetData,
+    venus: AstrologizePlanetData,
+    mars: AstrologizePlanetData,
+    jupiter: AstrologizePlanetData,
+    saturn: AstrologizePlanetData,
+    uranus: AstrologizePlanetData,
+    neptune: AstrologizePlanetData,
+    pluto: AstrologizePlanetData
   };
   birth_info: {
-    year: number;
-    month: number;
-    date: number;
-    hour: number;
-    minute: number;
-    latitude: number;
-    longitude: number;
-    ayanamsa: string;
+    year: number,
+    month: number,
+    date: number,
+    hour: number,
+    minute: number,
+    latitude: number,
+    longitude: number,
+    ayanamsa: string,
   };
 }
 

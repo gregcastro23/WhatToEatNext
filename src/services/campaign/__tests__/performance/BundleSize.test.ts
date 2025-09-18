@@ -39,7 +39,7 @@ describe('Bundle Size Performance Tests', () => {
           description: 'Phase for bundle size testing',
           tools: [
             {
-              scriptPath: 'scripts/bundle/optimize-script.js';
+              scriptPath: 'scripts/bundle/optimize-script.js',
               parameters: { optimizeBundl, e: true },
               batchSize: 50,
               safetyLevel: SafetyLevel.MEDIUM
@@ -52,8 +52,8 @@ describe('Bundle Size Performance Tests', () => {
       safetySettings,
       progressTargets: { typeScriptError, s: 0, lintingWarnings: 0, buildTime: 10, enterpriseSystems: 200 },
       toolConfiguration: { enhancedErrorFixer: 'scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js',
-        explicitAnyFixer: 'scripts/typescript-fixes/fix-explicit-any-systematic.js';
-        unusedVariablesFixer: 'scripts/typescript-fixes/fix-unused-variables-enhanced.js';
+        explicitAnyFixer: 'scripts/typescript-fixes/fix-explicit-any-systematic.js',
+        unusedVariablesFixer: 'scripts/typescript-fixes/fix-unused-variables-enhanced.js',
         consoleStatementFixer: 'scripts/lint-fixes/fix-console-statements-only.js'
       }
     };
@@ -420,7 +420,7 @@ describe('Bundle Size Performance Tests', () => {
 
         const bundleSize: any = await progressTracker.getBundleSize();
         results.push({
-          strategy: strategy.name;
+          strategy: strategy.name,
           size: bundleSize,
           underTarget: bundleSize < 420
         });

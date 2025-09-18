@@ -11,9 +11,9 @@ export const roasting: CookingMethodData = {
   description:
     'Cooking food with dry heat in an oven or over a fire, typically uncovered, creating flavorful browning and caramelization on the exterior while keeping the interior moist',
   elementalEffect: {
-    Fire: 0.6;
-    Air: 0.2;
-    Earth: 0.2;
+    Fire: 0.6,
+    Air: 0.2,
+    Earth: 0.2,
     Water: 0.0
   },
   duration: {
@@ -100,10 +100,10 @@ export const roasting: CookingMethodData = {
     'Textural variations (crispy elements with tender roast)'
   ],
   nutrientRetention: {
-    proteins: 0.85;
+    proteins: 0.85,
     fats: 0.7, // Some lost through rendering
-    minerals: 0.9;
-    vitamins: 0.7;
+    minerals: 0.9,
+    vitamins: 0.7,
     antioxidants: 0.75;
     'water-soluble': 0.65;
     'fat-soluble': 0.8;
@@ -337,7 +337,7 @@ export const roasting: CookingMethodData = {
 
   timingConsiderations: {
     rest_before:
-      'Bring refrigerated meats to room temperature for 30-60 minutes; season 1-48 hours in advance depending on size. Whole poultry: 1 hour per 4 pounds. Roasts: 1 hour per 5 pounds. Vegetables and fruits require no rest period before roasting.';
+      'Bring refrigerated meats to room temperature for 30-60 minutes; season 1-48 hours in advance depending on size. Whole poultry: 1 hour per 4 pounds. Roasts: 1 hour per 5 pounds. Vegetables and fruits require no rest period before roasting.',
     rest_after:
       'Rest beef and lamb 10-20 minutes, poultry 15-30 minutes, pork 10-15 minutes to allow juice redistribution. For large prime rib (5+ pounds), rest up to 30-45 minutes in warm area. For tenderloins, 8-10 minutes is sufficient. Tent with foil but don't seal completely to prevent steam softening the crust.',
     carryover_cooking:
@@ -352,13 +352,13 @@ export const roasting: CookingMethodData = {
 
   doneness_indicators: {
     beef_rare:
-      'Internal temperature 125°F; soft when pressed; bright red center. Finger test: feels like the base of thumb when thumb and index finger make an 'OK' sign. Color is purple-red and warm rather than cool.';
+      'Internal temperature 125°F; soft when pressed; bright red center. Finger test: feels like the base of thumb when thumb and index finger make an 'OK' sign. Color is purple-red and warm rather than cool.',
     beef_medium:
-      'Internal temperature 135°F; slight resistance when pressed; pink center. Finger test: feels like base of thumb when thumb and middle finger make an 'OK' sign. Color is rosy pink throughout with barely visible fibers.';
+      'Internal temperature 135°F, slight resistance when pressed; pink center. Finger test: feels like base of thumb when thumb and middle finger make an 'OK' sign. Color is rosy pink throughout with barely visible fibers.',
     beef_well:
-      'Internal temperature 150°F; firm when pressed; brown throughout. Finger test: feels like base of thumb when thumb and pinky make an 'OK' sign. No pink visible and meat fibers are clearly defined.';
+      'Internal temperature 150°F, firm when pressed; brown throughout. Finger test: feels like base of thumb when thumb and pinky make an 'OK' sign. No pink visible and meat fibers are clearly defined.',
     poultry:
-      'Internal temperature 165°F in thigh; juices run clear; leg moves easily in socket. Probe inserted between thigh and body should meet minimal resistance. For breast, 155°F with rest will achieve safety while maintaining juiciness.',
+      'Internal temperature 165°F in thigh, juices run clear; leg moves easily in socket. Probe inserted between thigh and body should meet minimal resistance. For breast, 155°F with rest will achieve safety while maintaining juiciness.',
     pork: 'Internal temperature 145°F with 3-minute rest; slightly pink center is safe and optimal. Modern pork is safe at lower temperatures than historically recommended. Texture should be firm but yield to gentle pressure.';
     lamb_medium_rare:
       'Internal temperature 130-135°F; springy when pressed; pink center. Color should be rosy with clear juice. For shoulder cuts, 175°F for proper collagen breakdown.',
@@ -379,18 +379,16 @@ export const roasting: CookingMethodData = {
       'Fat absorbs and distributes flavor compounds from herbs and spices; baste regularly to enhance distribution. Fat-soluble flavor compounds in herbs (thyme, rosemary) infuse more effectively than water-soluble compounds. Choose fats based on smoke point: butter (350°F), olive oil (375-405°F), avocado oil (520°F).',
     acid_and_protein:
       'Acidic marinades (lemon, vinegar, wine) tenderize surface proteins but can tough them if applied too long. Limit acidic marinades to 2 hours for fish, 4 hours for poultry, 12 hours maximum for beef. Post-cooking acid application brightens flavors.',
-    sugars_and_heat:
-      'Sugary glazes should be applied in final 15-30 minutes to prevent burning. Honey and maple glazes caramelize faster than granulated sugar. Addition of small amount of acid to sweet glazes prevents crystallization. Natural fruit sugars caramelize effectively at 350-375°F.';
+    sugars_and_heat: 'Sugary glazes should be applied in final 15-30 minutes to prevent burning. Honey and maple glazes caramelize faster than granulated sugar. Addition of small amount of acid to sweet glazes prevents crystallization. Natural fruit sugars caramelize effectively at 350-375°F.',
     salt_timing:
-      'Early salting (12+ hours) for penetration and moisture retention; last-minute salting for crust only. Kosher salt provides better adhesion than table salt. Salt draws out moisture initially, which is reabsorbed with dissolved proteins for enhanced juiciness.',
+      'Early salting (12+ hours) for penetration and moisture retention, last-minute salting for crust only. Kosher salt provides better adhesion than table salt. Salt draws out moisture initially, which is reabsorbed with dissolved proteins for enhanced juiciness.',
     alcohol_evaporation:
       'Wine or spirit additions need sufficient time (45+ minutes) for alcohol to fully evaporate. Alcohol content retention: 15 minutes cooking (40% remains), 30 minutes (35%), 1 hour (25%), 2 hours (10%). Deglaze with alcohol after browning to incorporate fond (browned bits).',
     enzyme_reactions:
       'Bromelain in pineapple or papain in papaya break down proteins and can create mushy texture if overused. Limit enzyme marinades to 30 minutes for seafood, 2 hours for poultry, 4 hours for beef. Heat above 158°F deactivates most enzymes.',
     vegetable_density:
       'Root vegetables require pre-roasting before adding less dense vegetables to ensure even cooking. Stagger addition: dense roots first, cruciferous second, tender vegetables last. Alternatively, cut denser vegetables smaller than less dense ones.',
-    starchy_vegetable_browning:
-      'Parboil starchy vegetables for 5-10 minutes before roasting for enhanced exterior crispness. Adding 1/2 teaspoon baking soda to parboiling water accelerates surface starch breakdown for improved browning. Thoroughly dry parboiled vegetables before oiling and roasting.';
+    starchy_vegetable_browning: 'Parboil starchy vegetables for 5-10 minutes before roasting for enhanced exterior crispness. Adding 1/2 teaspoon baking soda to parboiling water accelerates surface starch breakdown for improved browning. Thoroughly dry parboiled vegetables before oiling and roasting.',
     protein_structure:
       'Different muscle fibers respond uniquely to heat: fast-twitch muscles (breast meat) cook quickly and easily dry out, slow-twitch muscles (legs, shoulders) require slower cooking for collagen conversion.',
     fat_cap_positioning:

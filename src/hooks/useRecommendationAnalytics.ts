@@ -25,31 +25,31 @@ export interface UseRecommendationAnalyticsOptions {
 }
 
 export interface RecommendationAnalyticsState {
-  metrics: RecommendationMetrics | null;
+  metrics: RecommendationMetrics | null,
   cacheStats: {
-    hitRate: number;
+    hitRate: number,
     totalEntries: number,
     memoryUsage: number
   };
   performanceTrends: {
-    averageLoadTime: number;
+    averageLoadTime: number,
     averageCacheHitRate: number,
     performanceScore: number
   };
-  isLoading: boolean;
-  error: string | null;
+  isLoading: boolean,
+  error: string | null,
 }
 
 export interface RecommendationAnalyticsActions {
-  startTiming: (operation: string) => () => number;
-  recordApiResponse: (duration: number) => void;
-  recordLoadTime: (duration: number) => void;
-  getCachedRecommendation: <T>(key: string) => T | null;
+  startTiming: (operation: string) => () => number,
+  recordApiResponse: (duration: number) => void,
+  recordLoadTime: (duration: number) => void,
+  getCachedRecommendation: <T>(key: string) => T | null,
   cacheRecommendation: <T>(key: string, data: T, confidenceScore?: number) => void;
-  calculateConfidence: (factors: unknown) => RecommendationConfidence;
+  calculateConfidence: (factors: unknown) => RecommendationConfidence,
   trackInteraction: (type: string, target: string, metadata?: Record<string, unknown>) => void;
-  getAnalyticsSnapshot: () => AnalyticsSnapshot;
-  clearAnalytics: () => void;
+  getAnalyticsSnapshot: () => AnalyticsSnapshot,
+  clearAnalytics: () => void,
 }
 
 // ========== HOOK IMPLEMENTATION ==========;
@@ -123,13 +123,13 @@ export function useRecommendationAnalytics(
           ...prev;
           metrics,
           cacheStats: {
-            hitRate: cacheStats.recommendation.hitRate;
-            totalEntries: cacheStats.recommendation.totalEntries;
+            hitRate: cacheStats.recommendation.hitRate,
+            totalEntries: cacheStats.recommendation.totalEntries,
             memoryUsage: cacheStats.recommendation.memoryUsage
           },
           performanceTrends: {
-            averageLoadTime: performanceTrends.averageLoadTime;
-            averageCacheHitRate: performanceTrends.averageCacheHitRate;
+            averageLoadTime: performanceTrends.averageLoadTime,
+            averageCacheHitRate: performanceTrends.averageCacheHitRate,
             performanceScore: performanceTrends.performanceScore
           },
           isLoading: false
@@ -140,7 +140,7 @@ export function useRecommendationAnalytics(
       if (mountedRef.current) {
         setState(prev => ({
           ...prev;
-          error: error instanceof Error ? error.message : 'Unknown error';
+          error: error instanceof Error ? error.message : 'Unknown error',
           isLoading: false
         }));
       }

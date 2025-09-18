@@ -95,10 +95,10 @@ export function applyTimeOfDayAdjustments(
  * Get seasonal cooking recommendations
  */
 export function getSeasonalCookingRecommendations(season: string): {
-  cookingMethods: string[];
-  ingredients: string[];
-  flavors: string[];
-  timing: string[];
+  cookingMethods: string[],
+  ingredients: string[],
+  flavors: string[],
+  timing: string[],
 } {
   const seasonKey = season.toLowerCase();
 
@@ -140,13 +140,13 @@ export function calculateSeasonalEffectiveness(
   season: string,
   lunarPhase?: string,
 ): {
-  score: number;
+  score: number,
   breakdown: {
-    seasonalAlignment: number;
-    lunarAlignment: number;
-    overallHarmony: number;
+    seasonalAlignment: number,
+    lunarAlignment: number,
+    overallHarmony: number
   };
-  recommendations: string[];
+  recommendations: string[]
 } {
   const seasonKey = season.toLowerCase();
   const seasonalModifier = SEASONAL_MODIFIERS[seasonKey] || SEASONAL_MODIFIERS.spring;
