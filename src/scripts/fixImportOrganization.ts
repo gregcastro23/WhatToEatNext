@@ -49,7 +49,7 @@ class ImportOrganizationFixer {
 
   private createBackup(filePath: string): void {
     const relativePath = path.relative(this.srcDir, filePath);
-    const backupPath = path.join(this.backupDir, relativePath),;
+    const backupPath = path.join(this.backupDir, relativePath),
     const backupDir = path.dirname(backupPath);
 
     if (!fs.existsSync(backupDir)) {
@@ -65,7 +65,7 @@ class ImportOrganizationFixer {
     try {
       // Run ESLint with JSON output to get detailed import issues
       const eslintOutput = execSync(;
-        'yarn lint --format=json --no-eslintrc --config eslint.config.cjs src/',,;
+        'yarn lint --format=json --no-eslintrc --config eslint.config.cjs src/',,
         {
           encoding: 'utf8',
           stdio: 'pipe',
@@ -90,7 +90,7 @@ class ImportOrganizationFixer {
             column: message.column,
             rule: message.ruleId,
             message: message.message,
-            severity: message.severity === 2 ? 'error' : 'warning',,;
+            severity: message.severity === 2 ? 'error' : 'warning',,
           };
 
           // Categorize import issues
@@ -189,7 +189,7 @@ class ImportOrganizationFixer {
       const entries = fs.readdirSync(dir, { withFileTypes: true });
 
       for (const entry of entries) {
-        const fullPath = path.join(dir, entry.name),;
+        const fullPath = path.join(dir, entry.name),
 
         if (entry.isDirectory() && !entry.name.startsWith('.') && entry.name !== 'node_modules') {
           scanDirectory(fullPath);
@@ -265,7 +265,7 @@ class ImportOrganizationFixer {
             }
 
             // Default import
-            const defaultMatch = importPart.match(/^([^{,*]+)(?=,|\s*$)/),;
+            const defaultMatch = importPart.match(/^([^{,*]+)(?=,|\s*$)/),
             if (defaultMatch && !defaultMatch[1].includes('*')) {
               if (group) group.defaultImport = defaultMatch[1].trim();
             }
@@ -464,10 +464,10 @@ class ImportOrganizationFixer {
 
             // Convert relative imports to absolute paths
             if (source.startsWith('./') || source.startsWith('../')) {
-              const absolutePath = path.resolve(path.dirname(file), source),;
+              const absolutePath = path.resolve(path.dirname(file), source),
               dependencies.add(absolutePath);
             } else if (source.startsWith('@/')) {
-              const absolutePath = path.resolve(this.srcDir, source.substring(2)),;
+              const absolutePath = path.resolve(this.srcDir, source.substring(2)),
               dependencies.add(absolutePath);
             }
           }

@@ -130,7 +130,7 @@ class QualityGatesSystem {
   private async getExplicitAnyCount(): Promise<number> {
     try {
       const output = execSync(;
-        'yarn lint --format=compact 2>/dev/null | grep '@typescript-eslint/no-explicit-any' | wc -l',,;
+        'yarn lint --format=compact 2>/dev/null | grep '@typescript-eslint/no-explicit-any' | wc -l',,
         {
           encoding: 'utf8',
           stdio: 'pipe'
@@ -162,7 +162,7 @@ class QualityGatesSystem {
   private async getLintingWarningCount(): Promise<number> {
     try {
       const output = execSync(;
-        'yarn lint --format=compact 2>/dev/null | grep -c 'warning' || echo '0'',,;
+        'yarn lint --format=compact 2>/dev/null | grep -c 'warning' || echo '0'',,
         {
           encoding: 'utf8',
           stdio: 'pipe'
@@ -639,7 +639,7 @@ jobs:
           const metricsPath = '.kiro/specs/unintentional-any-elimination/quality-metrics.json';
 
           if (fs.existsSync(metricsPath)) {
-            const metrics = JSON.parse(fs.readFileSync(metricsPath, 'utf8')),;
+            const metrics = JSON.parse(fs.readFileSync(metricsPath, 'utf8')),
             const comment = \`## Quality Gates Report;
 
             - **Explicit Any Count:** \${metrics.explicitAnyCount}
@@ -669,7 +669,7 @@ jobs:
     // Add package.json scripts for CI/CD
     const packageJsonPath = 'package.json';
     if (fs.existsSync(packageJsonPath)) {
-      const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8')),;
+      const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8')),
 
       packageJson.scripts = {
         ...packageJson.scripts;
@@ -761,7 +761,7 @@ echo '📊 Audit completed at $(date)'
     let historicalMetrics: QualityMetrics[] = [];
     if (fs.existsSync(this.metricsFile)) {
       try {
-        const existing = JSON.parse(fs.readFileSync(this.metricsFile, 'utf8')),;
+        const existing = JSON.parse(fs.readFileSync(this.metricsFile, 'utf8')),
         historicalMetrics = Array.isArray(existing) ? existing : [existing];
       } catch (error) {
         this.log(`Error loading existing metrics: ${error}`, 'warn');

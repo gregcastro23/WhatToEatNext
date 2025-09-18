@@ -52,5 +52,5 @@ export {
   getIngredientsBySubcategory,
   getIngredientsByKalchmRange,
   getIngredientsByElement,
-  unifiedIngredients
+  unifiedIngredients,
 } from './ingredients';

@@ -112,7 +112,7 @@ describe('Domain-Specific Rule Behavior', () => {
       };
 
       const positions: any = { sun: invalidPosition };
-      const result: any = validatePlanetaryPositions(positions, { strictMode: true }),;
+      const result: any = validatePlanetaryPositions(positions, { strictMode: true }),
 
       expect(result.isValid).toBe(false);
       expect(result.errors.some(error => error.includes('35'))).toBe(true);
@@ -324,14 +324,14 @@ describe('Domain-Specific Rule Behavior', () => {
 
       accuracyVariables.forEach(variable => {
         // Should indicate precision or validation,
-        const precisionTerms: any = ['exact', 'precise', 'calculated', 'validated'],;
+        const precisionTerms: any = ['exact', 'precise', 'calculated', 'validated'],
         const indicatesPrecision: any = precisionTerms.some(term => variable.toLowerCase().includes(term.toLowerCase()));
         expect(indicatesPrecision).toBe(true);
       });
     });
 
     test('should handle mathematical calculation variables', () => {
-      const mathVariables: any = ['DEGREES_PER_SIGN', 'SIGNS_PER_CIRCLE', 'MAX_LONGITUDE', 'PI', 'RADIANS_TO_DEGREES'],;
+      const mathVariables: any = ['DEGREES_PER_SIGN', 'SIGNS_PER_CIRCLE', 'MAX_LONGITUDE', 'PI', 'RADIANS_TO_DEGREES'],
 
       mathVariables.forEach(variable => {
         // Mathematical constants should be uppercase
@@ -355,7 +355,7 @@ describe('Domain-Specific Rule Behavior', () => {
         exactLongitude: number,, isRetrograde: boolean
       }
 
-      const position: PlanetaryPosition = { sign: 'aries',,;
+      const position: PlanetaryPosition = { sign: 'aries',,
         degree: 15.5,
         exactLongitude: 15.5,
         isRetrograde: false
@@ -438,7 +438,7 @@ describe('Domain-Specific Rule Behavior', () => {
           sign: 'aries',
           degree: i % 30,
           exactLongitude: i % 360,
-          isRetrograde: i % 2 === 0,,;
+          isRetrograde: i % 2 === 0,,
         };
       }
 

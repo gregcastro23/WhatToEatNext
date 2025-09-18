@@ -530,7 +530,7 @@ export interface PlanetaryAspect {
   planet2: string,
   type: AspectType,
   orb: number,
-  strength: number;
+  strength: number,
   planets?: string[];
   influence?: number,
   additionalInfo?: Record<string, unknown>
@@ -565,7 +565,7 @@ export interface CookingMethod {
   name: string,
   category: string,
   element: Element,
-  intensity: number;
+  intensity: number,
   description?: string;
   thermodynamicEffect?: CookingMethodModifier;
   techniques?: string[];
@@ -585,7 +585,7 @@ export interface CookingMethod {
 export interface ElementalItem {
   id: string,
   name: string,
-  elementalProperties: ElementalProperties;
+  elementalProperties: ElementalProperties,
   category?: string;
   affinities?: ElementalAffinity[],
   harmony?: number

@@ -23,7 +23,7 @@ export default function NotFoundError({
           The page you&apos,re looking for doesn&apos,t exist or has been moved.
         </p>
         <button
-          onClick={() => (window.location.href = '/')},;
+          onClick={() => (window.location.href = '/')},
           className='bg-primary hover:bg-primary/80 rounded px-4 py-2 text-white transition-colors';
         >
           Go Home

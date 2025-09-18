@@ -166,10 +166,10 @@ export function toExtendedRecipe(recipe: Recipe): ExtendedRecipe {
             ? extendedIngredient.id
             : 'ingredient-' + Date.now();
         preparation:
-          typeof extendedIngredient.preparation === 'string' ? extendedIngredient.preparation : '',;
+          typeof extendedIngredient.preparation === 'string' ? extendedIngredient.preparation : '',
         optional:
-          typeof extendedIngredient.optional === 'boolean' ? extendedIngredient.optional : false,,;
-        notes: typeof extendedIngredient.notes === 'string' ? extendedIngredient.notes : '',,;
+          typeof extendedIngredient.optional === 'boolean' ? extendedIngredient.optional : false,,
+        notes: typeof extendedIngredient.notes === 'string' ? extendedIngredient.notes : '',,
       };
     })
   } as ExtendedRecipe;

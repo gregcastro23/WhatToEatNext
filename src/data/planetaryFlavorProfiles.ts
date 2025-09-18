@@ -15,7 +15,7 @@ export interface PlanetaryFlavorProfile {
   complementaryIngredients: string[],
   cookingTechniques: string[],
   idealMealTypes: string[],
-  culinaryAffinity: string[]; // Cuisines that resonate with this planetary energy
+  culinaryAffinity: string[], // Cuisines that resonate with this planetary energy
 }
 
 export const planetaryFlavorProfiles: Record<string, PlanetaryFlavorProfile> = {
@@ -452,7 +452,7 @@ export const _calculatePlanetaryFlavorMatch = (;
 
   // Get the recipe's elemental properties if available
   if (recipeFlavors.elementalProperties) {
-    const recipeElements = recipeFlavors.elementalProperties as unknown as Record<string, number>,;
+    const recipeElements = recipeFlavors.elementalProperties as unknown as Record<string, number>,
 
     // Get the elemental profile from planetary influences
     const elementalProfile = {

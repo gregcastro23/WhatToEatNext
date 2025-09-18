@@ -64,7 +64,7 @@ const CuisineDetailsPage: NextPage = () => {
     const cuisineName = cuisine.name || (id);
 
     // 1. Get recipe matches based on cuisine flavor profiles
-    const cuisineMatchedRecipes = getRecipesForCuisineMatch(cuisineName, allRecipes, 20),;
+    const cuisineMatchedRecipes = getRecipesForCuisineMatch(cuisineName, allRecipes, 20),
 
     // 2. Get recipe matches based on current elemental state - Safe array access
     const elementalMatchedRecipesResult = getBestRecipeMatches(;
@@ -89,7 +89,7 @@ const CuisineDetailsPage: NextPage = () => {
     for (const recipe1 of cuisineMatchedRecipes) {
       const recipe1Data = recipe1 ;
       const matchingRecipe = elementalMatchedRecipes.find(;
-        (r: unknown) => r?.name === recipe1Data?.name,;
+        (r: unknown) => r?.name === recipe1Data?.name,
       );
       if (matchingRecipe) {
         const matchingRecipeData = matchingRecipe;
@@ -122,7 +122,7 @@ const CuisineDetailsPage: NextPage = () => {
       if (!recipeIds.has(recipeData?.name)) {
         const baseScore = Math.pow(Number(recipeData?.matchScore) || 0, 0.8);
         const randomFactor = 0.9 + Math.random() * 0.2;
-        const finalScore = Math.max(baseScore * randomFactor, 0.35),;
+        const finalScore = Math.max(baseScore * randomFactor, 0.35),
 
         combined.push({
           ...recipeData;
@@ -140,7 +140,7 @@ const CuisineDetailsPage: NextPage = () => {
         const baseScore = Number(recipeData?.matchScore) || 0;
         const sigmoidScore = baseScore < 0.5 ? baseScore * 1.4 : 0.7 + (baseScore - 0.5) * 0.6;
         const randomFactor = 0.9 + Math.random() * 0.2;
-        const finalScore = Math.min(Math.max(sigmoidScore * randomFactor, 0.3), 0.85),;
+        const finalScore = Math.min(Math.max(sigmoidScore * randomFactor, 0.3), 0.85),
 
         combined.push({
           ...recipeData;
@@ -196,9 +196,9 @@ const CuisineDetailsPage: NextPage = () => {
       </div>
 
       <CuisineSection
-        cuisine={cuisine.name || (id)},;
+        cuisine={cuisine.name || (id)},
         recipes={combinedRecipes} // Pass the memoized recipes;
-        elementalState={elementalState},;
+        elementalState={elementalState},
       />
     </div>
   );

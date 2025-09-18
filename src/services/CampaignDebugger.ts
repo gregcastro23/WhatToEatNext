@@ -19,7 +19,7 @@ import type { KiroCampaignStatus } from './KiroCampaignIntegration';
 export interface CampaignDebugSession {
   id: string,
   campaignId: string,
-  startTime: Date;
+  startTime: Date,
   endTime?: Date;
   status: DebugSessionStatus,
   debugSteps: DebugStep[],
@@ -122,7 +122,7 @@ export interface ValidationCriteria {
 export interface CampaignHealthReport {
   campaignId: string,
   overallHealth: HealthStatus,
-  healthScore: number; // 0-100
+  healthScore: number, // 0-100
   lastCheckTime: Date,
   healthMetrics: HealthMetric[],
   issues: HealthIssue[],

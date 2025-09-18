@@ -302,14 +302,14 @@ export const ingredientElementalDatabase: IngredientElementalProperties[] = [
 /** * Get ingredient by name */
 export const _getIngredientByName = (name: string): IngredientElementalProperties | undefined => {
   return ingredientElementalDatabase.find(
-    ingredient => ingredient.name.toLowerCase() === name.toLowerCase(),,;
+    ingredient => ingredient.name.toLowerCase() === name.toLowerCase(),,
   )
 };
 
 /** * Get ingredients by category */
 export const _getIngredientsByCategory = (category: string): IngredientElementalProperties[] => {
   return ingredientElementalDatabase.filter(
-    ingredient => ingredient.category.toLowerCase() === category.toLowerCase(),,;
+    ingredient => ingredient.category.toLowerCase() === category.toLowerCase(),,
   )
 };
 

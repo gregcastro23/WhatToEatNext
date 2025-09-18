@@ -43,7 +43,7 @@ export const dishProperties: Record<string, FoodProperty[]> = {
   'Butter Chicken': ['hot', 'creamy', 'rich', 'mild-spicy'],
   'Palak Paneer': ['hot', 'creamy', 'earthy', 'mild'],
   'Hyderabadi Biryani': ['hot', 'aromatic', 'spicy', 'layered'],
-  'Chole Bhature': ['hot', 'spicy', 'rich', 'complex']
+  'Chole Bhature': ['hot', 'spicy', 'rich', 'complex'],
 };
 
 // Helper function to get properties for a dish
@@ -54,8 +54,8 @@ export function getDishProperties(dishName: string): FoodProperty[] {
 // Helper function to enhance a dish with properties
 export function enhanceDishWithProperties(dishName: string, originalDish: unknown) {
   return {
-    ...(originalDish ),
-    properties: getDishProperties(dishName)
+    ...originalDish,
+    properties: getDishProperties(dishName),
   };
 }
 

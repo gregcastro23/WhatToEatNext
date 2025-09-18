@@ -22,7 +22,7 @@ export interface IngredientItem extends BaseItem {
 export interface RecipeItem extends BaseItem {
   type: 'recipe',
   ingredients: IngredientItem[],
-  cookingMethod: string;
+  cookingMethod: string,
   cookingTime?: number;
   servings?: number;
   difficulty?: 'easy' | 'medium' | 'hard';

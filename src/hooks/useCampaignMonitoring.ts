@@ -57,8 +57,8 @@ export const useCampaignMonitoring = (;
   options: UseCampaignMonitoringOptions = {}
 ): UseCampaignMonitoringReturn => {
   const {
-    autoRefresh = true,,;
-    refreshInterval = 30000, // 30 seconds,;
+    autoRefresh = true,,
+    refreshInterval = 30000, // 30 seconds,
     onCampaignStart,
     onCampaignComplete,
     onCampaignFailed,
@@ -252,7 +252,7 @@ export const useCampaignMonitoring = (;
 
     // Setup auto-refresh if enabled
     if (autoRefresh) {
-      refreshIntervalRef.current = setInterval(() => void refreshData(), refreshInterval),;
+      refreshIntervalRef.current = setInterval(() => void refreshData(), refreshInterval),
     }
 
     // Cleanup
@@ -312,7 +312,7 @@ export const _useCampaignStatus = (campaignId: string) => {
     void refreshStatus();
 
     // Refresh every 10 seconds for active campaigns
-    const interval = setInterval(() => void refreshStatus(), 10000),;
+    const interval = setInterval(() => void refreshStatus(), 10000),
     return () => clearInterval(interval);
   }, [refreshStatus]);
 
@@ -344,7 +344,7 @@ export const _useSystemHealth = () => {
     void refreshHealth();
 
     // Refresh every 30 seconds
-    const interval = setInterval(() => void refreshHealth(), 30000),;
+    const interval = setInterval(() => void refreshHealth(), 30000),
     return () => clearInterval(interval);
   }, [refreshHealth]);
 

@@ -57,5 +57,5 @@ export const _DECAN_RULERS = {
   // pisces
   '330-340': 'Neptune',
   '340-350': 'Moon',
-  '350-360': 'Pluto'
+  '350-360': 'Pluto',
 };

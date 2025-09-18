@@ -15,7 +15,7 @@ type Temperature = 'hot' | 'cold' | 'neutral';
 interface CombinationRule {
   ingredients: string[],
   effect: EffectType,
-  modifier: number;
+  modifier: number,
   elements?: Partial<ElementalProperties>,
   conditions?: {
     cookingMethod?: CookingMethod[],
@@ -72,7 +72,7 @@ export function calculateCombinationEffects({
   try {
     // Apply lunar phase influences
     if (lunarPhase) {
-      const lunarEffect = calculateLunarEffect(ingredients, lunarPhase),;
+      const lunarEffect = calculateLunarEffect(ingredients, lunarPhase),
       if (lunarEffect) {
         effects.push(lunarEffect);
       }
@@ -131,7 +131,7 @@ const hasIngredientCombination = (;
   combinationIngredients: string[],
 ): boolean => {
   return combinationIngredients.every(ingredient =>;
-    recipeIngredients.some(recipeIng => recipeIng.toLowerCase().includes(ingredient.toLowerCase())),,;
+    recipeIngredients.some(recipeIng => recipeIng.toLowerCase().includes(ingredient.toLowerCase())),,
   )
 };
 
@@ -264,7 +264,7 @@ const calculateCombinedElements = (ingredients: string[]): ElementalProperties =
 
 const isHarmoniousWith = (element1: Element, element2: Element): boolean => {
   return ELEMENT_COMBINATIONS.harmonious.some(
-    ([e1, e2]) => (element1 === e1 && element2 === e2) || (element1 === e2 && element2 === e1),,;
+    ([e1, e2]) => (element1 === e1 && element2 === e2) || (element1 === e2 && element2 === e1),,
   )
 };
 

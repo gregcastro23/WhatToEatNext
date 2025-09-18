@@ -119,7 +119,7 @@ export class PerformanceMonitoringService {
       cacheHitRate: this.calculateCacheHitRate(options.cached),
       filesProcessed: this.extractFilesProcessed(output),
       parallelProcesses: options.parallel ? this.getParallelProcessCount() : 1,
-      incrementalTime: options.incremental ? executionTime : undefined;
+      incrementalTime: options.incremental ? executionTime : undefined,
       errorCount,
       warningCount
     };

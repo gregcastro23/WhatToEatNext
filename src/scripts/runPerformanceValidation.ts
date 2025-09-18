@@ -71,20 +71,20 @@ class PerformanceValidationCLI {
 
     const interval = options.interval || 300000, // 5 minutes default;
     const commands = [
-      { name: 'Standard Lint', cmd: 'yarn lint --max-warnings=10000', opts: {} },,;
+      { name: 'Standard Lint', cmd: 'yarn lint --max-warnings=10000', opts: {} },,
       {
         name: 'Fast Lint (Cached)',
-        cmd: 'yarn lint:fast --max-warnings=10000',,;
+        cmd: 'yarn lint:fast --max-warnings=10000',,
         opts: { cached: true }
       },
       {
         name: 'Parallel Lint',
-        cmd: 'yarn lint:parallel --max-warnings=10000',,;
+        cmd: 'yarn lint:parallel --max-warnings=10000',,
         opts: { parallel: true }
       },
       {
         name: 'Changed Files',
-        cmd: 'yarn lint:changed --max-warnings=10000',,;
+        cmd: 'yarn lint:changed --max-warnings=10000',,
         opts: { incremental: true }
       }
     ];

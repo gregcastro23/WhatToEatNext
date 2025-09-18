@@ -285,7 +285,7 @@ describe('Comprehensive Validation Test Suite - Task 12', () => {
     describe('2.3 Scalability Tests', () => {
       test('Performance scales with codebase size', () => {
         // Mock performance scaling
-        const fileCounts: any = [10, 50, 100, 500],;
+        const fileCounts: any = [10, 50, 100, 500],
         const expectedTimes: any = [0.5, 2.0, 4.0, 15.0], // seconds;
 
         fileCounts.forEach((fileCount: any, index: any) => {
@@ -388,7 +388,7 @@ describe('Comprehensive Validation Test Suite - Task 12', () => {
 
       test('Retrograde status handling', () => {
         // Mock retrograde validation
-        const planets: any = ['mercury', 'venus', 'mars', 'jupiter', 'saturn'],;
+        const planets: any = ['mercury', 'venus', 'mars', 'jupiter', 'saturn'],
 
         planets.forEach(planet => {
           mockExecSync.mockReturnValue(Buffer.from(`✓ ${planet} retrograde status handling validated`));
@@ -488,7 +488,7 @@ describe('Comprehensive Validation Test Suite - Task 12', () => {
 
       test('Progress tracking works correctly', () => {
         // Mock progress tracking
-        const progressSteps: any = [25, 50, 75, 100],;
+        const progressSteps: any = [25, 50, 75, 100],
 
         progressSteps.forEach(progress => {
           mockExecSync.mockReturnValueOnce(Buffer.from(`Progress: ${progress}%`));

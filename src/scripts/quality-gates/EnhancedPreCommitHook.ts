@@ -132,7 +132,7 @@ class EnhancedPreCommitHook {
 
     // Check pattern matches
     return this.config.exemptions.patterns.some(pattern => {
-      const regex = new RegExp(pattern.replace(/\*\*/g, '.*').replace(/\*/g, '[^/]*')),;
+      const regex = new RegExp(pattern.replace(/\*\*/g, '.*').replace(/\*/g, '[^/]*')),
       return regex.test(filePath);
     });
   }
@@ -300,7 +300,7 @@ class EnhancedPreCommitHook {
   private async checkLinting(): Promise<PreCommitResult> {
     try {
       const tsFiles = this.stagedFiles.filter(;
-        file => file.endsWith('.ts') || file.endsWith('.tsx'),,;
+        file => file.endsWith('.ts') || file.endsWith('.tsx'),,
       ),
 
       if (tsFiles.length === 0) {

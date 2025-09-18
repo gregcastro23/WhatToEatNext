@@ -5,7 +5,7 @@ import type {
   ThermodynamicMetrics,
   Season,
   PlanetName,
-  ZodiacSign
+  ZodiacSign,
 } from '@/types/alchemy';
 import { Recipe, RecipeIngredient } from '@/types/unified';
 

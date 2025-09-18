@@ -20,7 +20,7 @@ export const _THRESHOLD: {
   LOW: 0.33,
   MEDIUM: 0.66,
   HIGH: 0.9,
-  MAXIMUM: 1.0
+  MAXIMUM: 1.0,
 };
 
 // Export common constants that might be needed across multiple files

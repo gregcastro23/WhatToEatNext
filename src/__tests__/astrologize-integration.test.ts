@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any, no-console, @typescript-eslint/no-unused-vars, max-lines-per-function -- Campaign/test file with intentional patterns */
 import {
-    fetchPlanetaryPositions,
-    getCurrentPlanetaryPositions,
-    getPlanetaryPositionsForDateTime,
-    testAstrologizeApi
+  fetchPlanetaryPositions,
+  getCurrentPlanetaryPositions,
+  getPlanetaryPositionsForDateTime,
+  testAstrologizeApi,
 } from '@/services/astrologizeApi';
 import error from 'next/error';
 import { any } from 'zod';
@@ -64,7 +64,7 @@ describe('Astrologize API Integration', () => {
               'sagittarius',
               'capricorn',
               'aquarius',
-              'pisces'
+              'pisces',
             ];
             expect(validSigns).toContain(positions[planet].sign);
 
@@ -175,7 +175,7 @@ describe('Astrologize API Integration', () => {
           hour: 25,
           minute: 61,
           latitude: 91,
-          longitude: 181
+          longitude: 181,
         });
       } catch (error) {
         expect(error).toBeInstanceOf(Error);
@@ -211,7 +211,7 @@ describe('Astrologize API Integration', () => {
       // Simulate getting location from browser
       const _mockGeolocation: any = {
         latitude: 37.7749,
-        longitude: -122.4194 // San Francisco
+        longitude: -122.4194, // San Francisco
       };
 
       try {
@@ -267,7 +267,7 @@ describe('Real-time Astrologize Output Demo', () => {
           'Saturn',
           'Uranus',
           'Neptune',
-          'Pluto'
+          'Pluto',
         ];
 
         (planetOrder || []).forEach(planet => {
@@ -340,7 +340,7 @@ function getSeason(sign: string): string {
     sagittarius: 'Autumn',
     capricorn: 'Winter',
     aquarius: 'Winter',
-    pisces: 'Winter'
+    pisces: 'Winter',
   };
   return seasons[sign as keyof typeof seasons] || 'Unknown';
 }
@@ -358,7 +358,7 @@ function getSignElement(sign: string): string | null {
     aquarius: 'Air',
     cancer: 'Water',
     scorpio: 'Water',
-    pisces: 'Water'
+    pisces: 'Water',
   };
   return elements[sign as keyof typeof elements] || null;
 }
@@ -368,7 +368,7 @@ function getElementDescription(element: string | null): string {
     Fire: 'action and inspiration',
     Earth: 'stability and practicality',
     Air: 'communication and ideas',
-    Water: 'emotions and intuition'
+    Water: 'emotions and intuition',
   };
   return descriptions[element as keyof typeof descriptions] || 'balance';
 }

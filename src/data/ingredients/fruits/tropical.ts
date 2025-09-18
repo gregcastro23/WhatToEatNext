@@ -14,9 +14,9 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
         decanModifiers: {
           first: { element: 'Fire', planet: 'Sun' },
           second: { element: 'Earth', planet: 'Venus' },
-          third: { element: 'Air', planet: 'Mercury' }
-        }
-      }
+          third: { element: 'Air', planet: 'Mercury' },
+        },
+      },
     },
 
     qualities: ['sweet', 'cooling', 'nourishing'],
@@ -33,7 +33,7 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       calories: 60,
       carbs_g: 15,
       fiber_g: 1.6,
-      antioxidants: ['beta-carotene', 'zeaxanthin']
+      antioxidants: ['beta-carotene', 'zeaxanthin'],
     },
 
     preparation: {
@@ -41,34 +41,34 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       peeling: 'required',
       cutting: 'slice along pit',
       ripeness: 'slight give when pressed',
-      notes: 'Can be ripened in paper bag'
+      notes: 'Can be ripened in paper bag',
     },
 
     storage: {
       temperature: 'room temp until ripe',
       duration: '5-7 days',
       ripening: 'room temperature',
-      notes: 'Refrigerate when ripe'
+      notes: 'Refrigerate when ripe',
     },
 
     sensoryProfile: {
       taste: ['Mild'],
       aroma: ['Fresh'],
       texture: ['Standard'],
-      notes: 'Characteristic mango profile'
+      notes: 'Characteristic mango profile',
     },
 
     culinaryProfile: {
       flavorProfile: {
-        primary: ['balanced']
+        primary: ['balanced'],
       },
 
       cookingMethods: ['versatile'],
-      cuisineAffinity: ['Global']
+      cuisineAffinity: ['Global'],
     },
 
     origin: ['Unknown'],
-    varieties: {}
+    varieties: {},
   },
 
   pineapple: {
@@ -83,9 +83,9 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
         decanModifiers: {
           first: { element: 'Fire', planet: 'Sun' },
           second: { element: 'Earth', planet: 'Mars' },
-          third: { element: 'Air', planet: 'Jupiter' }
-        }
-      }
+          third: { element: 'Air', planet: 'Jupiter' },
+        },
+      },
     },
 
     qualities: ['sweet-tart', 'warming', 'cleansing'],
@@ -102,40 +102,40 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       calories: 50,
       carbs_g: 13,
       fiber_g: 1.4,
-      enzymes: ['bromelain']
+      enzymes: ['bromelain'],
     },
 
     preparation: {
       washing: true,
       cutting: 'remove crown and base',
       peeling: 'remove eyes',
-      notes: 'Cut into spears or rings'
+      notes: 'Cut into spears or rings',
     },
 
     storage: {
       temperature: 'refrigerated',
       duration: '5-7 days',
-      notes: 'Store upside down for even sweetness'
+      notes: 'Store upside down for even sweetness',
     },
 
     sensoryProfile: {
       taste: ['Mild'],
       aroma: ['Fresh'],
       texture: ['Standard'],
-      notes: 'Characteristic pineapple profile'
+      notes: 'Characteristic pineapple profile',
     },
 
     culinaryProfile: {
       flavorProfile: {
-        primary: ['balanced']
+        primary: ['balanced'],
       },
 
       cookingMethods: ['versatile'],
-      cuisineAffinity: ['Global']
+      cuisineAffinity: ['Global'],
     },
 
     origin: ['Unknown'],
-    varieties: {}
+    varieties: {},
   },
 
   papaya: {
@@ -155,7 +155,7 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       calories: 43,
       carbs_g: 11,
       fiber_g: 1.7,
-      enzymes: ['papain']
+      enzymes: ['papain'],
     },
 
     preparation: {
@@ -163,30 +163,30 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       peeling: 'when ripe',
       seeding: 'scoop out seeds',
       ripeness: 'yields to gentle pressure',
-      notes: 'Seeds are edible but peppery'
+      notes: 'Seeds are edible but peppery',
     },
 
     storage: {
       temperature: 'room temp until ripe',
       duration: '5-7 days',
       ripening: 'room temperature',
-      notes: 'Refrigerate when ripe'
+      notes: 'Refrigerate when ripe',
     },
 
     sensoryProfile: {
       taste: ['Mild'],
       aroma: ['Fresh'],
       texture: ['Standard'],
-      notes: 'Characteristic papaya profile'
+      notes: 'Characteristic papaya profile',
     },
 
     culinaryProfile: {
       flavorProfile: {
-        primary: ['balanced']
+        primary: ['balanced'],
       },
 
       cookingMethods: ['versatile'],
-      cuisineAffinity: ['Global']
+      cuisineAffinity: ['Global'],
     },
 
     origin: ['Unknown'],
@@ -194,8 +194,8 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
 
     astrologicalProfile: {
       rulingPlanets: [],
-      favorableZodiac: []
-    }
+      favorableZodiac: [],
+    },
   },
 
   'passion fruit': {
@@ -215,37 +215,37 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       calories: 68,
       carbs_g: 16,
       fiber_g: 10.4,
-      antioxidants: ['beta-carotene', 'polyphenols']
+      antioxidants: ['beta-carotene', 'polyphenols'],
     },
 
     preparation: {
       washing: true,
       ripeness: 'wrinkled skin indicates ripeness',
       cutting: 'halve and scoop',
-      notes: 'Seeds are edible and nutritious'
+      notes: 'Seeds are edible and nutritious',
     },
 
     storage: {
       temperature: 'room temp until ripe',
       duration: '7-10 days',
       ripening: 'room temperature',
-      notes: 'Refrigerate when ripe'
+      notes: 'Refrigerate when ripe',
     },
 
     sensoryProfile: {
       taste: ['Mild'],
       aroma: ['Fresh'],
       texture: ['Standard'],
-      notes: 'Characteristic passion fruit profile'
+      notes: 'Characteristic passion fruit profile',
     },
 
     culinaryProfile: {
       flavorProfile: {
-        primary: ['balanced']
+        primary: ['balanced'],
       },
 
       cookingMethods: ['versatile'],
-      cuisineAffinity: ['Global']
+      cuisineAffinity: ['Global'],
     },
 
     origin: ['Unknown'],
@@ -253,8 +253,8 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
 
     astrologicalProfile: {
       rulingPlanets: [],
-      favorableZodiac: []
-    }
+      favorableZodiac: [],
+    },
   },
 
   'dragon fruit': {
@@ -274,37 +274,37 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       calories: 60,
       carbs_g: 13,
       fiber_g: 3,
-      antioxidants: ['betalains', 'hydroxycinnamates']
+      antioxidants: ['betalains', 'hydroxycinnamates'],
     },
 
     preparation: {
       washing: true,
       cutting: 'halve lengthwise',
       scooping: 'flesh easily separates from skin',
-      notes: 'Can be eaten with spoon directly from skin'
+      notes: 'Can be eaten with spoon directly from skin',
     },
 
     storage: {
       temperature: 'refrigerated',
       duration: '5-7 days',
       humidity: 'moderate',
-      notes: 'Best eaten when slightly firm'
+      notes: 'Best eaten when slightly firm',
     },
 
     sensoryProfile: {
       taste: ['Mild'],
       aroma: ['Fresh'],
       texture: ['Standard'],
-      notes: 'Characteristic dragon fruit profile'
+      notes: 'Characteristic dragon fruit profile',
     },
 
     culinaryProfile: {
       flavorProfile: {
-        primary: ['balanced']
+        primary: ['balanced'],
       },
 
       cookingMethods: ['versatile'],
-      cuisineAffinity: ['Global']
+      cuisineAffinity: ['Global'],
     },
 
     origin: ['Unknown'],
@@ -312,8 +312,8 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
 
     astrologicalProfile: {
       rulingPlanets: [],
-      favorableZodiac: []
-    }
+      favorableZodiac: [],
+    },
   },
 
   lychee: {
@@ -333,37 +333,37 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       calories: 66,
       carbs_g: 17,
       fiber_g: 1.3,
-      antioxidants: ['flavonoids', 'proanthocyanidins']
+      antioxidants: ['flavonoids', 'proanthocyanidins'],
     },
 
     preparation: {
       washing: true,
       peeling: 'remove rough skin',
       pitting: 'remove brown seed',
-      notes: 'Eat fresh or use in desserts'
+      notes: 'Eat fresh or use in desserts',
     },
 
     storage: {
       temperature: 'refrigerated',
       duration: '5-7 days',
       humidity: 'high',
-      notes: 'Best eaten fresh, skin will brown over time'
+      notes: 'Best eaten fresh, skin will brown over time',
     },
 
     sensoryProfile: {
       taste: ['Mild'],
       aroma: ['Fresh'],
       texture: ['Standard'],
-      notes: 'Characteristic lychee profile'
+      notes: 'Characteristic lychee profile',
     },
 
     culinaryProfile: {
       flavorProfile: {
-        primary: ['balanced']
+        primary: ['balanced'],
       },
 
       cookingMethods: ['versatile'],
-      cuisineAffinity: ['Global']
+      cuisineAffinity: ['Global'],
     },
 
     origin: ['Unknown'],
@@ -371,8 +371,8 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
 
     astrologicalProfile: {
       rulingPlanets: [],
-      favorableZodiac: []
-    }
+      favorableZodiac: [],
+    },
   },
 
   guava: {
@@ -392,37 +392,37 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       calories: 68,
       carbs_g: 14,
       fiber_g: 5.4,
-      antioxidants: ['lycopene', 'beta-carotene']
+      antioxidants: ['lycopene', 'beta-carotene'],
     },
 
     preparation: {
       washing: true,
       ripeness: 'yields slightly to pressure',
       cutting: 'quarter or slice',
-      notes: 'Seeds are edible but often removed'
+      notes: 'Seeds are edible but often removed',
     },
 
     storage: {
       temperature: 'room temp until ripe',
       duration: '3-4 days',
       ripening: 'room temperature',
-      notes: 'Refrigerate when ripe'
+      notes: 'Refrigerate when ripe',
     },
 
     sensoryProfile: {
       taste: ['Mild'],
       aroma: ['Fresh'],
       texture: ['Standard'],
-      notes: 'Characteristic guava profile'
+      notes: 'Characteristic guava profile',
     },
 
     culinaryProfile: {
       flavorProfile: {
-        primary: ['balanced']
+        primary: ['balanced'],
       },
 
       cookingMethods: ['versatile'],
-      cuisineAffinity: ['Global']
+      cuisineAffinity: ['Global'],
     },
 
     origin: ['Unknown'],
@@ -430,8 +430,8 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
 
     astrologicalProfile: {
       rulingPlanets: [],
-      favorableZodiac: []
-    }
+      favorableZodiac: [],
+    },
   },
 
   rambutan: {
@@ -451,37 +451,37 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       calories: 75,
       carbs_g: 18.7,
       fiber_g: 0.9,
-      antioxidants: ['flavonoids', 'tannins']
+      antioxidants: ['flavonoids', 'tannins'],
     },
 
     preparation: {
       washing: true,
       peeling: 'cut through hairy skin',
       pitting: 'remove seed',
-      notes: 'Similar preparation to lychee'
+      notes: 'Similar preparation to lychee',
     },
 
     storage: {
       temperature: 'refrigerated',
       duration: '3-5 days',
       humidity: 'high',
-      notes: 'Best eaten fresh'
+      notes: 'Best eaten fresh',
     },
 
     sensoryProfile: {
       taste: ['Mild'],
       aroma: ['Fresh'],
       texture: ['Standard'],
-      notes: 'Characteristic rambutan profile'
+      notes: 'Characteristic rambutan profile',
     },
 
     culinaryProfile: {
       flavorProfile: {
-        primary: ['balanced']
+        primary: ['balanced'],
       },
 
       cookingMethods: ['versatile'],
-      cuisineAffinity: ['Global']
+      cuisineAffinity: ['Global'],
     },
 
     origin: ['Unknown'],
@@ -489,8 +489,8 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
 
     astrologicalProfile: {
       rulingPlanets: [],
-      favorableZodiac: []
-    }
+      favorableZodiac: [],
+    },
   },
 
   mangosteen: {
@@ -510,37 +510,37 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       calories: 63,
       carbs_g: 15.6,
       fiber_g: 1.8,
-      antioxidants: ['xanthones', 'anthocyanins']
+      antioxidants: ['xanthones', 'anthocyanins'],
     },
 
     preparation: {
       washing: true,
       cutting: 'score around middle',
       opening: 'twist to separate',
-      notes: 'Purple stains easily - handle with care'
+      notes: 'Purple stains easily - handle with care',
     },
 
     storage: {
       temperature: 'refrigerated',
       duration: '5-7 days',
       humidity: 'moderate',
-      notes: 'Store in breathable container'
+      notes: 'Store in breathable container',
     },
 
     sensoryProfile: {
       taste: ['Mild'],
       aroma: ['Fresh'],
       texture: ['Standard'],
-      notes: 'Characteristic mangosteen profile'
+      notes: 'Characteristic mangosteen profile',
     },
 
     culinaryProfile: {
       flavorProfile: {
-        primary: ['balanced']
+        primary: ['balanced'],
       },
 
       cookingMethods: ['versatile'],
-      cuisineAffinity: ['Global']
+      cuisineAffinity: ['Global'],
     },
 
     origin: ['Unknown'],
@@ -548,8 +548,8 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
 
     astrologicalProfile: {
       rulingPlanets: [],
-      favorableZodiac: []
-    }
+      favorableZodiac: [],
+    },
   },
 
   soursop: {
@@ -569,37 +569,37 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       calories: 66,
       carbs_g: 16.8,
       fiber_g: 3.3,
-      antioxidants: ['acetogenins', 'quercetin']
+      antioxidants: ['acetogenins', 'quercetin'],
     },
 
     preparation: {
       washing: true,
       ripeness: 'yields to gentle pressure',
       cutting: 'halve and scoop',
-      notes: 'Remove seeds before consuming'
+      notes: 'Remove seeds before consuming',
     },
 
     storage: {
       temperature: 'room temp until ripe',
       duration: '4-5 days',
       ripening: 'room temperature',
-      notes: 'Refrigerate when ripe'
+      notes: 'Refrigerate when ripe',
     },
 
     sensoryProfile: {
       taste: ['Mild'],
       aroma: ['Fresh'],
       texture: ['Standard'],
-      notes: 'Characteristic soursop profile'
+      notes: 'Characteristic soursop profile',
     },
 
     culinaryProfile: {
       flavorProfile: {
-        primary: ['balanced']
+        primary: ['balanced'],
       },
 
       cookingMethods: ['versatile'],
-      cuisineAffinity: ['Global']
+      cuisineAffinity: ['Global'],
     },
 
     origin: ['Unknown'],
@@ -607,8 +607,8 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
 
     astrologicalProfile: {
       rulingPlanets: [],
-      favorableZodiac: []
-    }
+      favorableZodiac: [],
+    },
   },
 
   jackfruit: {
@@ -628,37 +628,37 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       calories: 95,
       carbs_g: 23.2,
       fiber_g: 1.5,
-      antioxidants: ['carotenoids', 'flavonoids']
+      antioxidants: ['carotenoids', 'flavonoids'],
     },
 
     preparation: {
       washing: true,
       cutting: 'requires skill and oil on hands',
       seeding: 'remove seeds and pods',
-      notes: 'Can be used as meat substitute when young'
+      notes: 'Can be used as meat substitute when young',
     },
 
     storage: {
       temperature: 'refrigerated',
       duration: '5-7 days',
       humidity: 'moderate',
-      notes: 'Cut pieces must be used quickly'
+      notes: 'Cut pieces must be used quickly',
     },
 
     sensoryProfile: {
       taste: ['Mild'],
       aroma: ['Fresh'],
       texture: ['Standard'],
-      notes: 'Characteristic jackfruit profile'
+      notes: 'Characteristic jackfruit profile',
     },
 
     culinaryProfile: {
       flavorProfile: {
-        primary: ['balanced']
+        primary: ['balanced'],
       },
 
       cookingMethods: ['versatile'],
-      cuisineAffinity: ['Global']
+      cuisineAffinity: ['Global'],
     },
 
     origin: ['Unknown'],
@@ -666,8 +666,8 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
 
     astrologicalProfile: {
       rulingPlanets: [],
-      favorableZodiac: []
-    }
+      favorableZodiac: [],
+    },
   },
 
   durian: {
@@ -687,37 +687,37 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       calories: 147,
       carbs_g: 27.1,
       fiber_g: 3.8,
-      antioxidants: ['flavonoids', 'polyphenols']
+      antioxidants: ['flavonoids', 'polyphenols'],
     },
 
     preparation: {
       cutting: 'careful handling required',
       opening: 'cut along seams',
       scooping: 'remove flesh from pods',
-      notes: 'Strong aroma - often restricted in public places'
+      notes: 'Strong aroma - often restricted in public places',
     },
 
     storage: {
       temperature: 'refrigerated',
       duration: '3-5 days',
       humidity: 'moderate',
-      notes: 'Freeze for longer storage'
+      notes: 'Freeze for longer storage',
     },
 
     sensoryProfile: {
       taste: ['Mild'],
       aroma: ['Fresh'],
       texture: ['Standard'],
-      notes: 'Characteristic durian profile'
+      notes: 'Characteristic durian profile',
     },
 
     culinaryProfile: {
       flavorProfile: {
-        primary: ['balanced']
+        primary: ['balanced'],
       },
 
       cookingMethods: ['versatile'],
-      cuisineAffinity: ['Global']
+      cuisineAffinity: ['Global'],
     },
 
     origin: ['Unknown'],
@@ -725,8 +725,8 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
 
     astrologicalProfile: {
       rulingPlanets: [],
-      favorableZodiac: []
-    }
+      favorableZodiac: [],
+    },
   },
 
   carambola: {
@@ -746,36 +746,36 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       calories: 31,
       carbs_g: 6.7,
       fiber_g: 2.8,
-      antioxidants: ['epicatechin', 'gallic acid']
+      antioxidants: ['epicatechin', 'gallic acid'],
     },
 
     preparation: {
       washing: true,
       cutting: 'slice crosswise for star shape',
-      notes: 'Remove brown edges before serving'
+      notes: 'Remove brown edges before serving',
     },
 
     storage: {
       temperature: 'refrigerated',
       duration: '5-7 days',
       humidity: 'moderate',
-      notes: 'Best eaten when slightly firm'
+      notes: 'Best eaten when slightly firm',
     },
 
     sensoryProfile: {
       taste: ['Mild'],
       aroma: ['Fresh'],
       texture: ['Standard'],
-      notes: 'Characteristic carambola profile'
+      notes: 'Characteristic carambola profile',
     },
 
     culinaryProfile: {
       flavorProfile: {
-        primary: ['balanced']
+        primary: ['balanced'],
       },
 
       cookingMethods: ['versatile'],
-      cuisineAffinity: ['Global']
+      cuisineAffinity: ['Global'],
     },
 
     origin: ['Unknown'],
@@ -783,8 +783,8 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
 
     astrologicalProfile: {
       rulingPlanets: [],
-      favorableZodiac: []
-    }
+      favorableZodiac: [],
+    },
   },
 
   kiwi: {
@@ -804,37 +804,37 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       calories: 61,
       carbs_g: 14.7,
       fiber_g: 3,
-      antioxidants: ['polyphenols', 'carotenoids']
+      antioxidants: ['polyphenols', 'carotenoids'],
     },
 
     preparation: {
       washing: true,
       peeling: 'optional - skin is edible',
       cutting: 'halve and scoop or slice with skin',
-      notes: 'Can be eaten whole like an apple'
+      notes: 'Can be eaten whole like an apple',
     },
 
     storage: {
       temperature: 'refrigerated',
       duration: '1-2 weeks',
       humidity: 'moderate',
-      notes: 'Will ripen other fruits if stored together'
+      notes: 'Will ripen other fruits if stored together',
     },
 
     sensoryProfile: {
       taste: ['Mild'],
       aroma: ['Fresh'],
       texture: ['Standard'],
-      notes: 'Characteristic kiwi profile'
+      notes: 'Characteristic kiwi profile',
     },
 
     culinaryProfile: {
       flavorProfile: {
-        primary: ['balanced']
+        primary: ['balanced'],
       },
 
       cookingMethods: ['versatile'],
-      cuisineAffinity: ['Global']
+      cuisineAffinity: ['Global'],
     },
 
     origin: ['Unknown'],
@@ -842,8 +842,8 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
 
     astrologicalProfile: {
       rulingPlanets: [],
-      favorableZodiac: []
-    }
+      favorableZodiac: [],
+    },
   },
 
   coconut: {
@@ -863,37 +863,37 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       calories: 354,
       carbs_g: 15.2,
       fiber_g: 9,
-      fats: ['medium chain triglycerides']
+      fats: ['medium chain triglycerides'],
     },
 
     preparation: {
       opening: 'pierce eyes and drain water',
       cracking: 'careful splitting required',
       extraction: 'separate flesh from shell',
-      notes: 'Young coconuts are best for water'
+      notes: 'Young coconuts are best for water',
     },
 
     storage: {
       temperature: 'room temperature whole',
       duration: '2-3 months whole',
       processed: 'refrigerate once opened',
-      notes: 'Freezes well when shredded'
+      notes: 'Freezes well when shredded',
     },
 
     sensoryProfile: {
       taste: ['Mild'],
       aroma: ['Fresh'],
       texture: ['Standard'],
-      notes: 'Characteristic coconut profile'
+      notes: 'Characteristic coconut profile',
     },
 
     culinaryProfile: {
       flavorProfile: {
-        primary: ['balanced']
+        primary: ['balanced'],
       },
 
       cookingMethods: ['versatile'],
-      cuisineAffinity: ['Global']
+      cuisineAffinity: ['Global'],
     },
 
     origin: ['Unknown'],
@@ -901,8 +901,8 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
 
     astrologicalProfile: {
       rulingPlanets: [],
-      favorableZodiac: []
-    }
+      favorableZodiac: [],
+    },
   },
 
   pomelo: {
@@ -922,37 +922,37 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       calories: 38,
       carbs_g: 9.6,
       fiber_g: 1.9,
-      antioxidants: ['naringin', 'limonoids']
+      antioxidants: ['naringin', 'limonoids'],
     },
 
     preparation: {
       washing: true,
       peeling: 'remove thick rind and pith',
       segmenting: 'separate membrane carefully',
-      notes: 'Less bitter than grapefruit'
+      notes: 'Less bitter than grapefruit',
     },
 
     storage: {
       temperature: 'refrigerated',
       duration: '1-2 weeks',
       humidity: 'moderate',
-      notes: 'Keeps well in cool conditions'
+      notes: 'Keeps well in cool conditions',
     },
 
     sensoryProfile: {
       taste: ['Mild'],
       aroma: ['Fresh'],
       texture: ['Standard'],
-      notes: 'Characteristic pomelo profile'
+      notes: 'Characteristic pomelo profile',
     },
 
     culinaryProfile: {
       flavorProfile: {
-        primary: ['balanced']
+        primary: ['balanced'],
       },
 
       cookingMethods: ['versatile'],
-      cuisineAffinity: ['Global']
+      cuisineAffinity: ['Global'],
     },
 
     origin: ['Unknown'],
@@ -960,8 +960,8 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
 
     astrologicalProfile: {
       rulingPlanets: [],
-      favorableZodiac: []
-    }
+      favorableZodiac: [],
+    },
   },
 
   longan: {
@@ -981,37 +981,37 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       calories: 60,
       carbs_g: 15.1,
       fiber_g: 1.1,
-      antioxidants: ['gallic acid', 'ellagic acid']
+      antioxidants: ['gallic acid', 'ellagic acid'],
     },
 
     preparation: {
       washing: true,
       peeling: 'crack and remove thin shell',
       pitting: 'remove black seed',
-      notes: 'Similar to lychee but milder'
+      notes: 'Similar to lychee but milder',
     },
 
     storage: {
       temperature: 'refrigerated',
       duration: '3-5 days',
       humidity: 'high',
-      notes: 'Best eaten fresh'
+      notes: 'Best eaten fresh',
     },
 
     sensoryProfile: {
       taste: ['Mild'],
       aroma: ['Fresh'],
       texture: ['Standard'],
-      notes: 'Characteristic longan profile'
+      notes: 'Characteristic longan profile',
     },
 
     culinaryProfile: {
       flavorProfile: {
-        primary: ['balanced']
+        primary: ['balanced'],
       },
 
       cookingMethods: ['versatile'],
-      cuisineAffinity: ['Global']
+      cuisineAffinity: ['Global'],
     },
 
     origin: ['Unknown'],
@@ -1019,8 +1019,8 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
 
     astrologicalProfile: {
       rulingPlanets: [],
-      favorableZodiac: []
-    }
+      favorableZodiac: [],
+    },
   },
 
   'custard apple': {
@@ -1040,37 +1040,37 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
       calories: 94,
       carbs_g: 23.6,
       fiber_g: 4.4,
-      antioxidants: ['catechins', 'kaempferol']
+      antioxidants: ['catechins', 'kaempferol'],
     },
 
     preparation: {
       washing: true,
       ripeness: 'yields to gentle pressure',
       eating: 'split and spoon out flesh',
-      notes: 'Avoid black seeds'
+      notes: 'Avoid black seeds',
     },
 
     storage: {
       temperature: 'room temp until ripe',
       duration: '2-3 days',
       ripening: 'room temperature',
-      notes: 'Refrigerate when fully ripe'
+      notes: 'Refrigerate when fully ripe',
     },
 
     sensoryProfile: {
       taste: ['Mild'],
       aroma: ['Fresh'],
       texture: ['Standard'],
-      notes: 'Characteristic custard apple profile'
+      notes: 'Characteristic custard apple profile',
     },
 
     culinaryProfile: {
       flavorProfile: {
-        primary: ['balanced']
+        primary: ['balanced'],
       },
 
       cookingMethods: ['versatile'],
-      cuisineAffinity: ['Global']
+      cuisineAffinity: ['Global'],
     },
 
     origin: ['Unknown'],
@@ -1078,9 +1078,9 @@ const rawTropicalFruits: Record<string, Partial<IngredientMapping>> = {
 
     astrologicalProfile: {
       rulingPlanets: [],
-      favorableZodiac: []
-    }
-  }
+      favorableZodiac: [],
+    },
+  },
 };
 
 // Fix the ingredient mappings to ensure they have all required properties

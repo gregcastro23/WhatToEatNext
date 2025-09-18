@@ -621,7 +621,7 @@ describe('LintingAlertingSystem', () => {
         }
       ];
 
-      const mockMetrics: LintingMetrics = { timestamp: new Date(),;
+      const mockMetrics: LintingMetrics = { timestamp: new Date(),
         totalIssues: 1,
         errors: 1,
         warnings: 0,
@@ -675,7 +675,7 @@ describe('LintingAlertingSystem', () => {
         }
       ];
 
-      const mockMetrics: LintingMetrics = { timestamp: new Date(),;
+      const mockMetrics: LintingMetrics = { timestamp: new Date(),
         totalIssues: 1,
         errors: 1,
         warnings: 0,
@@ -705,7 +705,7 @@ describe('LintingAlertingSystem', () => {
 
   describe('Performance Monitoring', () => {
     test('should detect performance threshold violations', async () => {
-      const mockMetrics: LintingMetrics = { timestamp: new Date(),;
+      const mockMetrics: LintingMetrics = { timestamp: new Date(),
         totalIssues: 0,
         errors: 0,
         warnings: 0,

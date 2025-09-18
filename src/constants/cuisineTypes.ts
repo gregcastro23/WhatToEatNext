@@ -15,5 +15,5 @@ export const _CUISINE_TYPES = {
   SPANISH: 'spanish',
   THAI: 'thai',
   TURKISH: 'turkish',
-  VIETNAMESE: 'vietnamese'
+  VIETNAMESE: 'vietnamese',
 } as const;

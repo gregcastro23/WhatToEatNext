@@ -13,7 +13,7 @@ class LoadingStateManager {
     isLoading: true,
     message: 'Initializing...',
     progress: 0,
-    stage: 'initial'
+    stage: 'initial',
   };
 
   private readonly STAGES = {
@@ -21,7 +21,7 @@ class LoadingStateManager {
     recipes: { progress: 25, message: 'Loading recipes...' },
     celestial: { progress: 50, message: 'Calculating celestial alignments...' },
     processing: { progress: 75, message: 'Processing data...' },
-    complete: { progress: 100, message: 'Complete' }
+    complete: { progress: 100, message: 'Complete' },
   };
 
   subscribe(callback: (state: LoadingState) => void) {
@@ -45,14 +45,14 @@ class LoadingStateManager {
     this.updateState({
       isLoading: true,
       ...stageData,
-      stage
+      stage,
     });
   }
 
   updateProgress(progress: number, message?: string) {
     this.updateState({
       progress,
-      ...(message ? { message } : {})
+      ...(message ? { message } : {}),
     });
   }
 
@@ -61,7 +61,7 @@ class LoadingStateManager {
     this.updateState({
       isLoading: false,
       message,
-      stage: 'error'
+      stage: 'error',
     });
   }
 
@@ -69,7 +69,7 @@ class LoadingStateManager {
     this.updateState({
       isLoading: false,
       ...this.STAGES.complete,
-      stage: 'complete'
+      stage: 'complete',
     });
   }
 
@@ -77,7 +77,7 @@ class LoadingStateManager {
     this.updateState({
       isLoading: true,
       ...this.STAGES.initial,
-      stage: 'initial'
+      stage: 'initial',
     });
   }
 }

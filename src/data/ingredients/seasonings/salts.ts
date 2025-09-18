@@ -887,8 +887,8 @@ const rawSalts = {
           baking: 'dough and batters'
         },
         conversion_ratios: {
-          table_salt: '1 tsp table = 1.25 tsp Morton = 2 tsp Diamond',,;
-          weight_based: '1 gram = 1 gram (any brand)',,;
+          table_salt: '1 tsp table = 1.25 tsp Morton = 2 tsp Diamond',,
+          weight_based: '1 gram = 1 gram (any brand)',,
         }
       },
       koshering: {
@@ -924,8 +924,8 @@ const rawSalts = {
           baking: 'dough and batters'
         },
         conversion_ratios: {
-          table_salt: '1 tsp table = 1.25 tsp Morton = 2 tsp Diamond',,;
-          weight_based: '1 gram = 1 gram (any brand)',,;
+          table_salt: '1 tsp table = 1.25 tsp Morton = 2 tsp Diamond',,
+          weight_based: '1 gram = 1 gram (any brand)',,
         }
       },
       koshering: {

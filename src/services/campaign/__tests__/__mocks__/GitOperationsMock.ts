@@ -20,7 +20,7 @@ export class GitOperationsMock {
       description,
       timestamp: new Date(),
       branch: this.mockBranch,
-      ref: `stash@{${this.mockStashes.size}}`
+      ref: `stash@{${this.mockStashes.size}}`,
     };
 
     this.mockStashes.set(stashId, stash);

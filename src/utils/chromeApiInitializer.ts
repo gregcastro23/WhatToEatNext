@@ -8,7 +8,7 @@ import { log } from '@/services/LoggingService';
 
 export function initializeChromeApis(): void {
   try {
-    if (typeof window === 'undefined') {;
+    if (typeof window === 'undefined') {
       return; // Server-side rendering - exit early
     }
 
@@ -65,7 +65,7 @@ export function initializeChromeApis(): void {
         },
         update: function () {
           return Promise.resolve({});
-        }
+        },
       };
     }
 
@@ -78,13 +78,13 @@ export function initializeChromeApis(): void {
           return window.location.origin + '/' + path;
         },
         sendMessage: function (message: unknown) {
-          log.info('[ChromeAPI] Mocked chrome.runtime.sendMessage called:', message );
+          log.info('[ChromeAPI] Mocked chrome.runtime.sendMessage called:', message);
           return Promise.resolve({ success: true });
         },
         onMessage: {
           addListener: function () {},
-          removeListener: function () {}
-        }
+          removeListener: function () {},
+        },
       };
     }
 
@@ -97,7 +97,7 @@ export function initializeChromeApis(): void {
         },
         getBackgroundPage: function () {
           return window;
-        }
+        },
       };
     }
 
@@ -117,12 +117,12 @@ export function initializeChromeApis(): void {
             if (!keys) {
               result = { ...mockStorage };
             } else if (Array.isArray(keys)) {
-              keys.forEach(key => {;
+              keys.forEach(key => {
                 if (mockStorage[key] !== undefined) {
                   result[key] = mockStorage[key];
                 }
               });
-            } else if (typeof keys === 'string') {;
+            } else if (typeof keys === 'string') {
               if (mockStorage[keys] !== undefined) {
                 result[keys] = mockStorage[keys];
               }
@@ -150,7 +150,7 @@ export function initializeChromeApis(): void {
               setTimeout(callback, 0);
             }
             return Promise.resolve();
-          }
+          },
         },
         sync: {
           get: function (keys: unknown, callback?: Function) {
@@ -160,8 +160,8 @@ export function initializeChromeApis(): void {
           set: function (items: unknown, callback?: Function) {
             if (callback) setTimeout(callback, 0);
             return Promise.resolve();
-          }
-        }
+          },
+        },
       };
     }
 

@@ -57,7 +57,7 @@ export interface CampaignResult {
 export interface CampaignError {
   type: 'compilation' | 'runtime' | 'validation' | 'system',
   severity: 'low' | 'medium' | 'high' | 'critical',
-  message: string;
+  message: string,
   file?: string;
   line?: number;
   column?: number;
@@ -101,7 +101,7 @@ export interface QualityGateResult {
 export interface QualityViolation {
   type: 'error' | 'warning' | 'coverage' | 'performance' | 'security',
   severity: 'low' | 'medium' | 'high' | 'critical',
-  message: string;
+  message: string,
   file?: string;
   rule?: string;
   suggestion?: string;
@@ -122,7 +122,7 @@ export interface AlertConfig {
 export interface AlertCondition {
   metric: string,
   operator: '>' | '<' | '=' | '!=' | '>=' | '<=',
-  threshold: number;
+  threshold: number,
   window?: number; // Time window in seconds
 }
 
@@ -134,7 +134,7 @@ export interface Alert {
   details: {
     metric: string,
     actualValue: number,
-    thresholdValue: number;
+    thresholdValue: number,
     file?: string;
     context?: string;
   };
@@ -256,7 +256,7 @@ export interface LintingResult {
   warningCount: number,
   fixableErrorCount: number,
   fixableWarningCount: number,
-  messages: LintingMessage[];
+  messages: LintingMessage[],
   source?: string;
   output?: string;
 }
@@ -266,7 +266,7 @@ export interface LintingMessage {
   severity: 'error' | 'warning' | 'info',
   message: string,
   line: number,
-  column: number;
+  column: number,
   endLine?: number;
   endColumn?: number;
   fix?: {
@@ -298,7 +298,7 @@ export interface ServiceResponse<T = unknown> {;
 export interface ServiceError {
   code: string,
   message: string,
-  type: 'validation' | 'authorization' | 'not_found' | 'rate_limit' | 'internal' | 'external';
+  type: 'validation' | 'authorization' | 'not_found' | 'rate_limit' | 'internal' | 'external',
   details?: Record<string, unknown>;
   retryable: boolean
 }
@@ -324,7 +324,7 @@ export interface ServiceFeature {
 export interface ServiceDependency {
   name: string,
   type: 'internal' | 'external',
-  required: boolean;
+  required: boolean,
   healthCheckUrl?: string;
   timeout?: number;
 }

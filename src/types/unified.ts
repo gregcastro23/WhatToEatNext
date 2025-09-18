@@ -417,7 +417,7 @@ export interface SearchResult<T> {
   total: number,
   page: number,
   limit: number,
-  hasMore: boolean;
+  hasMore: boolean,
   facets?: SearchFacets;
 }
 

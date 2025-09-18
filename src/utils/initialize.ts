@@ -21,6 +21,6 @@ export function initializeApp() {
   logger.info('Application initialized');
 
   return {
-    cache
+    cache,
   };
 }

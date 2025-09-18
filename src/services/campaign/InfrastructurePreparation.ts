@@ -107,7 +107,7 @@ export class InfrastructurePreparation {
       progressTracking: await this.setupProgressTracking(),
       overallReadiness: false,
       readinessScore: 0,
-      recommendations: []
+      recommendations: [],
     };
 
     // Calculate overall readiness
@@ -149,20 +149,20 @@ export class InfrastructurePreparation {
         exists: existsSync(fastConfigPath),
         functional: false,
         performanceOptimized: false,
-        estimatedTime: 0
+        estimatedTime: 0,
       },
       typeAwareConfig: {
         exists: existsSync(typeAwareConfigPath),
         functional: false,
         typeCheckingEnabled: false,
-        estimatedTime: 0
+        estimatedTime: 0,
       },
       packageScripts: {
         quickLint: false,
         typeAwareLint: false,
         incrementalLint: false,
-        ciLint: false
-      }
+        ciLint: false,
+      },
     };
 
     // Test fast configuration
@@ -172,7 +172,7 @@ export class InfrastructurePreparation {
         execSync('yarn lint:quick --max-warnings=10000 src/components/Header/Header.tsx', {
           cwd: this.projectRoot,
           stdio: 'pipe',
-          timeout: 30000
+          timeout: 30000,
         });
         validation.fastConfig.estimatedTime = Date.now() - startTime;
         validation.fastConfig.functional = true;
@@ -190,7 +190,7 @@ export class InfrastructurePreparation {
         execSync('yarn lint:type-aware --max-warnings=10000 src/components/Header/Header.tsx', {
           cwd: this.projectRoot,
           stdio: 'pipe',
-          timeout: 60000
+          timeout: 60000,
         });
         validation.typeAwareConfig.estimatedTime = Date.now() - startTime;
         validation.typeAwareConfig.functional = true;
@@ -233,8 +233,8 @@ export class InfrastructurePreparation {
       automaticBackupEnabled: false,
       retentionPolicy: {
         maxBackups: 10,
-        retentionDays: 7
-      }
+        retentionDays: 7,
+      },
     };
 
     // Check git stash availability
@@ -274,7 +274,7 @@ export class InfrastructurePreparation {
       retentionPolicy: backupSystem.retentionPolicy,
       backupBeforeChanges: true,
       compressionEnabled: true,
-      timestampFormat: 'YYYY-MM-DD-HH-mm-ss'
+      timestampFormat: 'YYYY-MM-DD-HH-mm-ss',
     };
 
     writeFileSync(backupConfigPath, JSON.stringify(backupConfig, null, 2));
@@ -295,7 +295,7 @@ export class InfrastructurePreparation {
       checkpointSystemReady: false,
       performanceMonitoring: false,
       errorThresholdMonitoring: false,
-      buildTimeTracking: false
+      buildTimeTracking: false,
     };
 
     // Test build stability
@@ -304,7 +304,7 @@ export class InfrastructurePreparation {
       execSync('yarn build', {
         cwd: this.projectRoot,
         stdio: 'pipe',
-        timeout: 120000
+        timeout: 120000,
       });
       const buildTime = Date.now() - startTime;
       buildMonitoring.buildStabilityChecks = true;
@@ -323,18 +323,14 @@ export class InfrastructurePreparation {
     const checkpointConfig = {
       enabled: true,
       frequency: 5, // Every 5 files processed
-      validationSteps: [
-        'typescript-compilation',
-        'eslint-validation',
-        'build-test'
-      ],
+      validationSteps: ['typescript-compilation', 'eslint-validation', 'build-test'],
       rollbackOnFailure: true,
-      maxFailures: 3
+      maxFailures: 3,
     };
 
     writeFileSync(
       join(checkpointDir, 'checkpoint-config.json'),
-      JSON.stringify(checkpointConfig, null, 2)
+      JSON.stringify(checkpointConfig, null, 2),
     );
     buildMonitoring.checkpointSystemReady = true;
     // // console.log('   ✅ Checkpoint system configured');
@@ -347,20 +343,20 @@ export class InfrastructurePreparation {
         'typescript-compilation-time',
         'eslint-analysis-time',
         'memory-usage',
-        'cpu-usage'
+        'cpu-usage',
       ],
       thresholds: {
         buildTime: 120000, // 2 minutes
         typescriptTime: 30000, // 30 seconds
         eslintTime: 60000, // 1 minute
         memoryUsage: 2048, // 2GB
-        cpuUsage: 80 // 80%
-      }
+        cpuUsage: 80, // 80%
+      },
     };
 
     writeFileSync(
       join(this.metricsDir, 'performance-config.json'),
-      JSON.stringify(performanceConfig, null, 2)
+      JSON.stringify(performanceConfig, null, 2),
     );
     buildMonitoring.performanceMonitoring = true;
     // // console.log('   ✅ Performance monitoring configured');
@@ -372,24 +368,24 @@ export class InfrastructurePreparation {
         typescript: {
           critical: 100,
           warning: 500,
-          target: 0
+          target: 0,
         },
         eslint: {
           critical: 1000,
           warning: 2000,
-          target: 0
-        }
+          target: 0,
+        },
       },
       alerting: {
         enabled: true,
         channels: ['console', 'file'],
-        frequency: 'immediate'
-      }
+        frequency: 'immediate',
+      },
     };
 
     writeFileSync(
       join(this.metricsDir, 'error-threshold-config.json'),
-      JSON.stringify(errorThresholdConfig, null, 2)
+      JSON.stringify(errorThresholdConfig, null, 2),
     );
     buildMonitoring.errorThresholdMonitoring = true;
     // // console.log('   ✅ Error threshold monitoring configured');
@@ -408,10 +404,10 @@ export class InfrastructurePreparation {
       batchSizeConfiguration: {
         defaultBatchSize: 15,
         maxBatchSize: 25,
-        criticalFilesBatchSize: 5
+        criticalFilesBatchSize: 5,
       },
       validationFrequency: 5,
-      rollbackOnFailure: true
+      rollbackOnFailure: true,
     };
 
     // Create batch processing configuration
@@ -424,45 +420,29 @@ export class InfrastructurePreparation {
       enabled: true,
       safetyValidation: {
         enabled: true,
-        validationSteps: [
-          'syntax-check',
-          'type-check',
-          'build-test',
-          'lint-check'
-        ],
+        validationSteps: ['syntax-check', 'type-check', 'build-test', 'lint-check'],
         failureThreshold: 3,
-        rollbackOnFailure: true
+        rollbackOnFailure: true,
       },
       batchSizes: batchProcessing.batchSizeConfiguration,
       processing: {
         validationFrequency: batchProcessing.validationFrequency,
         parallelProcessing: false,
         timeoutPerBatch: 300000, // 5 minutes
-        maxRetries: 2
+        maxRetries: 2,
       },
       fileClassification: {
         critical: [
           'src/types/**/*.ts',
           'src/utils/reliableAstronomy.ts',
-          'src/calculations/**/*.ts'
+          'src/calculations/**/*.ts',
         ],
-        standard: [
-          'src/components/**/*.tsx',
-          'src/services/**/*.ts',
-          'src/hooks/**/*.ts'
-        ],
-        test: [
-          '**/*.test.ts',
-          '**/*.test.tsx',
-          '**/__tests__/**/*.ts'
-        ]
-      }
+        standard: ['src/components/**/*.tsx', 'src/services/**/*.ts', 'src/hooks/**/*.ts'],
+        test: ['**/*.test.ts', '**/*.test.tsx', '**/__tests__/**/*.ts'],
+      },
     };
 
-    writeFileSync(
-      join(batchConfigDir, 'batch-config.json'),
-      JSON.stringify(batchConfig, null, 2)
-    );
+    writeFileSync(join(batchConfigDir, 'batch-config.json'), JSON.stringify(batchConfig, null, 2));
     batchProcessing.safetyValidationEnabled = true;
     // // console.log('   ✅ Batch processing configuration created');
 
@@ -506,10 +486,7 @@ async function validateBatch(files) {
 module.exports = { validateBatch };
 `;
 
-    writeFileSync(
-      join(batchConfigDir, 'safety-validation.js'),
-      safetyValidationScript
-    );
+    writeFileSync(join(batchConfigDir, 'safety-validation.js'), safetyValidationScript);
     // // console.log('   ✅ Safety validation script created');
 
     return batchProcessing;
@@ -526,7 +503,7 @@ module.exports = { validateBatch };
       realTimeTracking: false,
       reportGeneration: false,
       dashboardIntegration: false,
-      alertingSystem: false
+      alertingSystem: false,
     };
 
     // Create metrics collection system
@@ -535,7 +512,7 @@ module.exports = { validateBatch };
       collection: {
         frequency: 'real-time',
         storage: 'file',
-        retention: '30-days'
+        retention: '30-days',
       },
       metrics: [
         'typescript-errors',
@@ -543,39 +520,35 @@ module.exports = { validateBatch };
         'build-time',
         'processing-speed',
         'success-rate',
-        'rollback-count'
+        'rollback-count',
       ],
       realTime: {
         enabled: true,
         updateInterval: 5000, // 5 seconds
-        websocketPort: 3001
+        websocketPort: 3001,
       },
       reporting: {
         enabled: true,
         formats: ['json', 'html', 'csv'],
         schedule: 'on-demand',
-        templates: ['summary', 'detailed', 'trend-analysis']
+        templates: ['summary', 'detailed', 'trend-analysis'],
       },
       dashboard: {
         enabled: true,
         port: 3002,
         autoRefresh: true,
-        refreshInterval: 10000
+        refreshInterval: 10000,
       },
       alerting: {
         enabled: true,
         channels: ['console', 'file', 'webhook'],
-        conditions: [
-          'error-threshold-exceeded',
-          'build-failure',
-          'performance-degradation'
-        ]
-      }
+        conditions: ['error-threshold-exceeded', 'build-failure', 'performance-degradation'],
+      },
     };
 
     writeFileSync(
       join(this.metricsDir, 'metrics-config.json'),
-      JSON.stringify(metricsConfig, null, 2)
+      JSON.stringify(metricsConfig, null, 2),
     );
     progressTracking.metricsCollectionEnabled = true;
     // // console.log('   ✅ Metrics collection configured');
@@ -675,10 +648,7 @@ class ProgressTracker {
 module.exports = { ProgressTracker };
 `;
 
-    writeFileSync(
-      join(this.metricsDir, 'progress-tracker.js'),
-      progressTrackingScript
-    );
+    writeFileSync(join(this.metricsDir, 'progress-tracker.js'), progressTrackingScript);
     progressTracking.realTimeTracking = true;
     progressTracking.reportGeneration = true;
     // // console.log('   ✅ Progress tracking system created');
@@ -741,10 +711,7 @@ if (require.main === module) {
 module.exports = { InfrastructureDashboard };
 `;
 
-    writeFileSync(
-      join(this.metricsDir, 'dashboard.js'),
-      dashboardScript
-    );
+    writeFileSync(join(this.metricsDir, 'dashboard.js'), dashboardScript);
     progressTracking.dashboardIntegration = true;
     // // console.log('   ✅ Dashboard integration created');
 
@@ -755,18 +722,18 @@ module.exports = { InfrastructureDashboard };
         typescriptErrors: 100,
         eslintWarnings: 1000,
         buildTime: 120000,
-        successRate: 90
+        successRate: 90,
       },
       notifications: {
         console: true,
         file: true,
-        webhook: false
-      }
+        webhook: false,
+      },
     };
 
     writeFileSync(
       join(this.metricsDir, 'alerting-config.json'),
-      JSON.stringify(alertingConfig, null, 2)
+      JSON.stringify(alertingConfig, null, 2),
     );
     progressTracking.alertingSystem = true;
     // // console.log('   ✅ Alerting system configured');
@@ -832,10 +799,14 @@ module.exports = { InfrastructureDashboard };
       recommendations.push('Fix fast ESLint configuration - required for development workflow');
     }
     if (!status.eslintConfig.typeAwareConfig.functional) {
-      recommendations.push('Fix type-aware ESLint configuration - required for comprehensive validation');
+      recommendations.push(
+        'Fix type-aware ESLint configuration - required for comprehensive validation',
+      );
     }
     if (!status.eslintConfig.fastConfig.performanceOptimized) {
-      recommendations.push('Optimize fast ESLint configuration for better performance (<5s target)');
+      recommendations.push(
+        'Optimize fast ESLint configuration for better performance (<5s target)',
+      );
     }
 
     // Backup System recommendations
@@ -880,8 +851,8 @@ module.exports = { InfrastructureDashboard };
       summary: {
         readinessScore: status.readinessScore,
         overallReadiness: status.overallReadiness,
-        recommendationCount: status.recommendations.length
-      }
+        recommendationCount: status.recommendations.length,
+      },
     };
 
     writeFileSync(reportPath, JSON.stringify(jsonReport, null, 2));
@@ -936,21 +907,26 @@ module.exports = { InfrastructureDashboard };
         </ul>
     </div>
 
-    ${status.recommendations.length > 0 ? `
+    ${
+      status.recommendations.length > 0
+        ? `
     <div class='section recommendations'>;
         <h2>📋 Recommendations</h2>
         <ol>
             ${status.recommendations.map(rec => `<li>${rec}</li>`).join('')};
         </ol>
     </div>
-    ` : ''}
+    `
+        : ''
+    }
 
     <div class='section'>;
         <h2>🎯 Next Steps</h2>
         <p>
-            ${status.overallReadiness
-              ? 'Infrastructure is ready for linting excellence campaigns. You can proceed with Phase 2 tasks.'
-              : 'Please address the recommendations above before proceeding with campaigns.'
+            ${
+              status.overallReadiness
+                ? 'Infrastructure is ready for linting excellence campaigns. You can proceed with Phase 2 tasks.'
+                : 'Please address the recommendations above before proceeding with campaigns.'
             }
         </p>
     </div>

@@ -23,7 +23,7 @@ describe('Bundle Size Performance Tests', () => {
   let mockConfig: CampaignConfig,
 
   beforeEach(() => {
-    const safetySettings: SafetySettings = { maxFilesPerBatch: 25,,;
+    const safetySettings: SafetySettings = { maxFilesPerBatch: 25,,
       buildValidationFrequency: 5,
       testValidationFrequency: 10,
       corruptionDetectionEnabled: true,

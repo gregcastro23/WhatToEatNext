@@ -19,7 +19,7 @@ const userService = {
   },
   saveUserProfile: async (profile: Partial<UserProfile>): Promise<UserProfile> => {
     return { userId: profile.userId || 'mock', ...profile } as UserProfile;
-  }
+  },
 };
 
 interface UserContextType {
@@ -67,7 +67,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
 
       const updatedProfile = await userService.saveUserProfile({
         ...data,
-        userId: currentUser.userId
+        userId: currentUser.userId,
       });
 
       setCurrentUser(updatedProfile);
@@ -95,7 +95,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     error,
     loadProfile,
     updateProfile,
-    logout
+    logout,
   };
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;

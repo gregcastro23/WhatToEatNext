@@ -16,7 +16,7 @@ describe('BuildValidator', () => {
 
   beforeEach(() => {
     mockLogger = jest.fn() as any;
-    buildValidator = new BuildValidator('.next', mockLogger),;
+    buildValidator = new BuildValidator('.next', mockLogger),
     jest.clearAllMocks();
   });
 

@@ -136,7 +136,11 @@ const _getAllDishesForCuisine = (cuisineId: string): Dish[] => {
  * @param cuisineId Cuisine ID
  * @returns Array of dishes
  */
-export const _getRecommendations = (mealTime: string, season: Season, cuisineId: string): Dish[] => {
+export const _getRecommendations = (
+  mealTime: string,
+  season: Season,
+  cuisineId: string,
+): Dish[] => {
   try {
     void debugLog(`Getting recommendations for: ${cuisineId}, ${mealTime}, ${season}`);
 

@@ -17,8 +17,8 @@ export const MockAlchemicalProvider: React.FC<AlchemicalProviderProps> = ({ chil
 // Mock MainPageLayout with proper props
 export const MockMainPageLayout: React.FC<MainPageLayoutProps> = ({
   children,
-  debugMode = false,,;
-  loading = false,,;
+  debugMode = false,,
+  loading = false,,
   onSectionNavigate: _onSectionNavigate
 }) => {
   return (
@@ -31,7 +31,7 @@ export const MockMainPageLayout: React.FC<MainPageLayoutProps> = ({
 };
 
 // Type-safe component wrapper for testing
-export const _createTestWrapper = <P extends object>(Component: React.ComponentType<P>) => {;
+export const _createTestWrapper = <P extends object>(Component: React.ComponentType<P>) => {
   return (props: P) => <Component {...props} />;
 };
 
@@ -60,8 +60,8 @@ export const _renderWithProviders = (;
 };
 
 // Mock component factory with proper typing
-export const _createMockComponent = <P extends object>(name: string, defaultProps?: Partial<P>) => {;
-  const MockComponent: React.FC<P> = props => {;
+export const _createMockComponent = <P extends object>(name: string, defaultProps?: Partial<P>) => {
+  const MockComponent: React.FC<P> = props => {
     const mergedProps = { ...defaultProps, ...props };
     return (
       <div data-testid={`mock-${name.toLowerCase()}`}>;
@@ -113,7 +113,7 @@ export class TestErrorBoundary extends React.Component<
 export const _AsyncTestWrapper: React.FC<{
   children: React.ReactNode;
   fallback?: React.ReactNode;
-}> = ({ children, fallback = <div>Loading...</div> }) => {;
+}> = ({ children, fallback = <div>Loading...</div> }) => {
   return (
     <React.Suspense fallback={fallback}>;
       <TestErrorBoundary>{children}</TestErrorBoundary>

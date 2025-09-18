@@ -194,7 +194,7 @@ export function calculateAlchemicalProperties(planetaryPositions: {
     Essence: 0,
     Matter: 0,
     Substance: 0
-  },
+  };
 
   // Planetary to alchemical property mappings
   const planetaryMappings = {
@@ -208,7 +208,7 @@ export function calculateAlchemicalProperties(planetaryPositions: {
     Uranus: { Spirit: 0.4, Essence: 0.6, Matter: 0.3, Substance: 0.7 },
     Neptune: { Spirit: 0.2, Essence: 0.8, Matter: 0.4, Substance: 0.6 },
     Pluto: { Spirit: 0.5, Essence: 0.7, Matter: 0.9, Substance: 0.4 }
-  },
+  };
 
   // Process each planet
   Object.entries(planetaryPositions || {}).forEach(([planet, position]) => {
@@ -238,8 +238,8 @@ export function calculateAlchemicalProperties(planetaryPositions: {
     const scale = 20 / total; // Scale to approximately match example values
     properties.Spirit = Math.max(1, properties.Spirit * scale);
     properties.Essence = Math.max(1, properties.Essence * scale);
-    properties.Matter = Math.max(1, properties.Matter * scale),;
-    properties.Substance = Math.max(1, properties.Substance * scale),;
+    properties.Matter = Math.max(1, properties.Matter * scale);
+    properties.Substance = Math.max(1, properties.Substance * scale);
   }
 
   return properties;
@@ -294,8 +294,8 @@ export function calculateElementalValues(planetaryPositions: {
     const scale = 2.9 / total; // Scale to match example range
     elements.Fire = Math.max(0.1, Math.min(1.0, elements.Fire * scale));
     elements.Water = Math.max(0.1, Math.min(1.0, elements.Water * scale));
-    elements.Air = Math.max(0.1, Math.min(1.0, elements.Air * scale)),;
-    elements.Earth = Math.max(0.1, Math.min(1.0, elements.Earth * scale)),;
+    elements.Air = Math.max(0.1, Math.min(1.0, elements.Air * scale));
+    elements.Earth = Math.max(0.1, Math.min(1.0, elements.Earth * scale));
   }
 
   return elements;
@@ -341,64 +341,64 @@ export function calculateKalchmResults(planetaryPositions: {
       const elementalValues = calculateElementalValues(planetaryPositions);
 
       // Calculate thermodynamic properties
-      const heat = calculateHeat(;
-        alchemicalProperties.Spirit;
-        elementalValues.Fire;
-        alchemicalProperties.Substance;
-        alchemicalProperties.Essence;
-        alchemicalProperties.Matter;
-        elementalValues.Water;
-        elementalValues.Air;
+      const heat = calculateHeat(
+        alchemicalProperties.Spirit,
+        elementalValues.Fire,
+        alchemicalProperties.Substance,
+        alchemicalProperties.Essence,
+        alchemicalProperties.Matter,
+        elementalValues.Water,
+        elementalValues.Air,
         elementalValues.Earth
       );
 
-      const entropy = calculateEntropy(;
-        alchemicalProperties.Spirit;
-        alchemicalProperties.Substance;
-        elementalValues.Fire;
-        elementalValues.Air;
-        alchemicalProperties.Essence;
-        alchemicalProperties.Matter;
-        elementalValues.Earth;
+      const entropy = calculateEntropy(
+        alchemicalProperties.Spirit,
+        alchemicalProperties.Substance,
+        elementalValues.Fire,
+        elementalValues.Air,
+        alchemicalProperties.Essence,
+        alchemicalProperties.Matter,
+        elementalValues.Earth,
         elementalValues.Water
       );
 
-      const reactivity = calculateReactivity(;
-        alchemicalProperties.Spirit;
-        alchemicalProperties.Substance;
-        alchemicalProperties.Essence;
-        elementalValues.Fire;
-        elementalValues.Air;
-        elementalValues.Water;
-        alchemicalProperties.Matter;
+      const reactivity = calculateReactivity(
+        alchemicalProperties.Spirit,
+        alchemicalProperties.Substance,
+        alchemicalProperties.Essence,
+        elementalValues.Fire,
+        elementalValues.Air,
+        elementalValues.Water,
+        alchemicalProperties.Matter,
         elementalValues.Earth
       );
 
       const gregsEnergy = calculateGregsEnergy(heat, entropy, reactivity);
 
-      const kalchm = calculateKAlchm(;
-        alchemicalProperties.Spirit;
-        alchemicalProperties.Essence;
-        alchemicalProperties.Matter;
+      const kalchm = calculateKAlchm(
+        alchemicalProperties.Spirit,
+        alchemicalProperties.Essence,
+        alchemicalProperties.Matter,
         alchemicalProperties.Substance
       );
 
       const monicaConstant = calculateMonicaConstant(gregsEnergy, reactivity, kalchm);
 
       // Determine dominant element and property
-      const dominantElement = Object.entries(elementalValues).reduce((a, b) =>;
+      const dominantElement = Object.entries(elementalValues).reduce((a, b) =>
         elementalValues[a[0] as keyof ElementalValues] >
         elementalValues[b[0] as keyof ElementalValues]
           ? a
           : b,
       )[0] as keyof ElementalValues;
 
-      const dominantProperty = Object.entries(alchemicalProperties).reduce((a, b) =>,;
+      const dominantProperty = Object.entries(alchemicalProperties).reduce((a, b) =>
         alchemicalProperties[a[0] as keyof AlchemicalProperties] >
         alchemicalProperties[b[0] as keyof AlchemicalProperties]
           ? a
           : b,
-      )[0] as keyof AlchemicalProperties,
+      )[0] as keyof AlchemicalProperties;
 
       return {
         alchemicalProperties,

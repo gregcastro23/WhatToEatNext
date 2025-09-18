@@ -30,7 +30,7 @@ import type { PlanetaryAspect } from '@/types/celestial';
 export interface EnhancedPlanetaryPosition {
   planet: string,
   sign: string,
-  degree: number;
+  degree: number,
   exactLongitude?: number,
   isRetrograde: boolean,
   dignity: {

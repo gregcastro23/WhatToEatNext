@@ -1,4 +1,4 @@
-import type { } from 'jest';
+import type {} from 'jest';
 /**
  * Test Suite for Comprehensive Validation Framework
  *
@@ -26,7 +26,8 @@ describe('ComprehensiveValidationFramework', () => {
     jest.clearAllMocks();
 
     // Setup default configuration
-    const config: Partial<ValidationConfig> = { enableTypeScriptValidation: true,
+    const config: Partial<ValidationConfig> = {
+      enableTypeScriptValidation: true,
       enableTestSuiteValidation: true,
       enableComponentValidation: true,
       enableServiceValidation: true,
@@ -34,16 +35,16 @@ describe('ComprehensiveValidationFramework', () => {
       testTimeout: 30000,
       compilationTimeout: 45000,
       maxRetries: 2,
-      logLevel: 'info'
+      logLevel: 'info',
     };
 
     framework = new ComprehensiveValidationFramework(config);
 
     // Setup mock processed files
-    mockProcessedFiles = [;
+    mockProcessedFiles = [
       '/project/src/components/TestComponent.tsx',
       '/project/src/services/TestService.ts',
-      '/project/src/utils/helper.ts'
+      '/project/src/utils/helper.ts',
     ];
 
     // Mock successful executions by default
@@ -180,8 +181,8 @@ describe('ComprehensiveValidationFramework', () => {
 
       const tsResult: any = result.validationResults.find(r => r.validationType === 'typescript-compilation');
       expect(tsResult.details.errorTypes).toEqual({
-        'TS2322': 2,
-        'TS2339': 1
+        TS2322: 2,
+        TS2339: 1,
       });
     });
   });
@@ -232,7 +233,7 @@ describe('ComprehensiveValidationFramework', () => {
       expect(testResult.details.testResults).toEqual({
         passed: 8,
         failed: 2,
-        total: 10
+        total: 10,
       });
     });
   });
@@ -408,15 +409,19 @@ describe('ComprehensiveValidationFramework', () => {
 
   describe('Configuration Options', () => {
     test('should respect disabled validation options', async () => {
-      const configWithDisabledValidations: Partial<ValidationConfig> = { enableTypeScriptValidation: false,
+      const configWithDisabledValidations: Partial<ValidationConfig> = {
+        enableTypeScriptValidation: false,
         enableTestSuiteValidation: false,
         enableComponentValidation: false,
         enableServiceValidation: false,
-        enableBuildValidation: false
+        enableBuildValidation: false,
       };
 
       const frameworkWithDisabledValidations: any = new ComprehensiveValidationFramework(configWithDisabledValidations);
-      const result: any = await frameworkWithDisabledValidations.performComprehensiveValidation(mockProcessedFiles, 'test-batch-1');
+      const result: any = await frameworkWithDisabledValidations.performComprehensiveValidation(
+        mockProcessedFiles,
+        'test-batch-1',
+      );
 
       expect(result.validationResults.length).toBe(0);
       expect(result.overallPassed).toBe(true);
@@ -424,9 +429,7 @@ describe('ComprehensiveValidationFramework', () => {
     });
 
     test('should respect timeout configurations', async () => {
-      const configWithShortTimeouts: Partial<ValidationConfig> = { testTimeout: 1000,
-        compilationTimeout: 1000
-      };
+      const configWithShortTimeouts: Partial<ValidationConfig> = { testTimeout: 1000, compilationTimeout: 1000 };
 
       const frameworkWithShortTimeouts: any = new ComprehensiveValidationFramework(configWithShortTimeouts);
 
@@ -441,7 +444,10 @@ describe('ComprehensiveValidationFramework', () => {
         return Buffer.from('');
       });
 
-      const result: any = await frameworkWithShortTimeouts.performComprehensiveValidation(mockProcessedFiles, 'test-batch-1');
+      const result: any = await frameworkWithShortTimeouts.performComprehensiveValidation(
+        mockProcessedFiles,
+        'test-batch-1',
+      );
 
       const tsResult: any = result.validationResults.find(r => r.validationType === 'typescript-compilation');
       expect(tsResult.passed).toBe(false);

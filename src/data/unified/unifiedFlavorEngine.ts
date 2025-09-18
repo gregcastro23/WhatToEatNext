@@ -18,18 +18,18 @@ export interface UnifiedFlavorProfile {
   // Core identification
   id: string,
   name: string,
-  category: 'ingredient' | 'cuisine' | 'planetary' | 'elemental' | 'cooking-method';
+  category: 'ingredient' | 'cuisine' | 'planetary' | 'elemental' | 'cooking-method',
 
   // Flavor characteristics
   baseNotes: BaseFlavorNotes,
   elementalFlavors: ElementalProperties,
-  intensity: number; // 0-1 scale
+  intensity: number, // 0-1 scale
   complexity: number; // 0-1 scale
 
   // Alchemical integration
   kalchm: number,
   monicaOptimization: number,
-  alchemicalProperties: AlchemicalProperties;
+  alchemicalProperties: AlchemicalProperties,
 
   // Contextual data
   seasonalPeak: Season[],
@@ -458,7 +458,7 @@ export class UnifiedFlavorEngine {
 
     // Combined score: similarity + optimality
     const similarity = Math.max(0, 1 - difference / 2);
-    const optimality = Math.max(0, 1 - avgOptimalDistance),;
+    const optimality = Math.max(0, 1 - avgOptimalDistance),
 
     return similarity * 0.6 + optimality * 0.4;
   }
@@ -485,7 +485,7 @@ export class UnifiedFlavorEngine {
       const contextAlignment = (modifier1 + modifier2) / 2;
 
       // Weight context more heavily if both profiles have strong seasonal presence
-      const contextWeight = Math.min(modifier1, modifier2) > 0.7 ? 0.7 : 0.3,;
+      const contextWeight = Math.min(modifier1, modifier2) > 0.7 ? 0.7 : 0.3,
       return baseAlignment * (1 - contextWeight) + contextAlignment * contextWeight
     }
 
@@ -828,7 +828,7 @@ export class UnifiedFlavorEngine {
     if ((criteria.tags && criteria.tags) || [].length > 0) {
       results = (results || []).filter(p =>;
         (criteria.tags || []).some(tag =>;
-          p.tags.some(pTag => pTag.toLowerCase().includes(tag.toLowerCase())),,;
+          p.tags.some(pTag => pTag.toLowerCase().includes(tag.toLowerCase())),,
         ),
       )
     }
@@ -866,7 +866,7 @@ export class UnifiedFlavorEngine {
     return {
       compatibility: this.compatibilityCache.size,
       search: this.searchCache.size,
-      performance: this.performanceMetrics;
+      performance: this.performanceMetrics,
       hitRate,
       memoryEstimate
     };
@@ -953,7 +953,7 @@ export class UnifiedFlavorEngine {
 
       // Early exit if both profiles have very low elemental values
       const sum1 = Object.values(elements1).reduce((a, b) => a + b, 0);
-      const sum2 = Object.values(elements2).reduce((a, b) => a + b, 0),;
+      const sum2 = Object.values(elements2).reduce((a, b) => a + b, 0),
 
       if (sum1 < 0.1 || sum2 < 0.1) {
         return 0.7, // Default good compatibility
@@ -1039,7 +1039,7 @@ export function calculateFlavorCompatibility(
  */
 export function findCompatibleProfiles(
   targetProfile: UnifiedFlavorProfile,
-  minCompatibility = 0.7,,;
+  minCompatibility = 0.7,,
   _context?: { season?: Season, culturalPreference?: string, preparationMethod?: string },
 ): Array<{ profile: UnifiedFlavorProfile, compatibility: UnifiedFlavorCompatibility }> {
   const allProfiles = unifiedFlavorEngine.getAllProfiles();

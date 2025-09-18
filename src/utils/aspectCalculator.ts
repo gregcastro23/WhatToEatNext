@@ -19,7 +19,7 @@ export interface AspectData {
   planet2: string,
   type: AspectType,
   orb: number,
-  strength: number;
+  strength: number,
   influence?: number;
 }
 

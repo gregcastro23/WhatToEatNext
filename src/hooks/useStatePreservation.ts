@@ -374,7 +374,7 @@ export function useCulturalSensitivityGuidance() {
         guidance,
         issues,
         recommendations,
-        isCompliant: issues.length === 0,,;
+        isCompliant: issues.length === 0,,
       };
     },
     [intelligence],
@@ -510,7 +510,7 @@ export function usePerformanceOptimizationGuidance() {
       return {
         issues,
         recommendations,
-        isOptimal: issues.length === 0,,;
+        isOptimal: issues.length === 0,,
         thresholds
       };
     },

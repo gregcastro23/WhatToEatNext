@@ -24,7 +24,7 @@ describe('Build Performance Tests', () => {
   let mockConfig: CampaignConfig,
 
   beforeEach(() => {
-    const safetySettings: SafetySettings = { maxFilesPerBatch: 25,,;
+    const safetySettings: SafetySettings = { maxFilesPerBatch: 25,,
       buildValidationFrequency: 5,
       testValidationFrequency: 10,
       corruptionDetectionEnabled: true,
@@ -349,7 +349,7 @@ describe('Build Performance Tests', () => {
       let metricsCallCount: any = 0;
       jest.spyOn(progressTracker, 'getProgressMetrics').mockImplementation(async () => {
         metricsCallCount++,
-        const metrics: ProgressMetrics = { typeScriptErrors: { current: 86, target: 0, reduction: 0, percentage: 0 },;
+        const metrics: ProgressMetrics = { typeScriptErrors: { current: 86, target: 0, reduction: 0, percentage: 0 },
           lintingWarnings: { curren, t: 4506, target: 0, reduction: 0, percentage: 0 },
           buildPerformance: { currentTime: Math.max(7, 12 - metricsCallCount), // Improving build time
             targetTime: 10,
@@ -531,7 +531,7 @@ describe('Build Performance Tests', () => {
       const largeMetricsHistory: ProgressMetrics[] = [];
 
       jest.spyOn(progressTracker, 'getProgressMetrics').mockImplementation(async () => {
-        const metrics: ProgressMetrics = { typeScriptErrors: { current: 86, target: 0, reduction: 0, percentage: 0 },;
+        const metrics: ProgressMetrics = { typeScriptErrors: { current: 86, target: 0, reduction: 0, percentage: 0 },
           lintingWarnings: { curren, t: 4506, target: 0, reduction: 0, percentage: 0 },
           buildPerformance: { currentTim, e: 8.5, targetTime: 10, cacheHitRate: 0.8, memoryUsage: 45 },
           enterpriseSystems: { curren, t: 0, target: 200, transformedExports: 0 }

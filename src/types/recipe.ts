@@ -2,7 +2,7 @@ import { ZodiacSign, LunarPhase } from './alchemy';
 import {
   validateRecipe as validateAlchemyRecipe,
   validateIngredient as validateAlchemyIngredient,
-  validateElementalProperties as validateAlchemyElementalProps
+  validateElementalProperties as validateAlchemyElementalProps,
 } from './validators';
 
 // Primary elemental properties interface - used throughout the application

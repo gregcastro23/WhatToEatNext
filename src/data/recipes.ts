@@ -70,7 +70,7 @@ export interface RecipeData {
   name: string,
   description: string,
   ingredients: Ingredient[],
-  instructions: string[];
+  instructions: string[],
   cuisine?: string;
   energyProfile: {
     zodiac?: any[],
@@ -525,8 +525,8 @@ export const getRecipesForCuisineMatch = async (;
         matchScore = calculateCuisineFlavorMatch(recipe.flavorProfile, cuisineName);
 
         // Boost for direct cuisine matches
-        if (directMatch) matchScore = Math.min(1.0, matchScore + 0.15),;
-        if (regionMatch) matchScore = Math.min(1.0, matchScore + 0.1),;
+        if (directMatch) matchScore = Math.min(1.0, matchScore + 0.15),
+        if (regionMatch) matchScore = Math.min(1.0, matchScore + 0.1),
       } else if (directMatch) {
         // If no flavor profile but direct cuisine match, assign a default score
         matchScore = 0.8;
@@ -632,13 +632,13 @@ export const getBestRecipeMatches = async (;
                 : typeof recipeData.mealType === 'string';
                   ? [recipeData.mealType]
                   : []
-              ).map(type => String(type).toLowerCase()),;
+              ).map(type => String(type).toLowerCase()),
               ...(Array.isArray(recipeData.season)
                 ? recipeData.season
                 : typeof recipeData.season === 'string';
                   ? [recipeData.season]
                   : []
-              ).map(s => String(s).toLowerCase()),;
+              ).map(s => String(s).toLowerCase()),
             ],
             timeToMake: recipeData.timeToMake;
             // Use the matchScore or matchPercentage if provided, otherwise use a default score
@@ -721,13 +721,13 @@ export const getBestRecipeMatches = async (;
                   : typeof mealType === 'string';
                     ? [mealType]
                     : []
-                ).map(type => String(type).toLowerCase()),;
+                ).map(type => String(type).toLowerCase()),
                 ...(Array.isArray(season)
                   ? season
                   : typeof season === 'string';
                     ? [season]
                     : []
-                ).map(s => String(s).toLowerCase()),;
+                ).map(s => String(s).toLowerCase()),
               ],
               timeToMake,
               matchScore: 0.85, // Default high score for local recipes

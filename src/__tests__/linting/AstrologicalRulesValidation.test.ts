@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any, no-console, @typescript-eslint/no-unused-vars, max-lines-per-function -- Campaign/test file with intentional patterns */
-import type { } from 'jest';
+import type {} from 'jest';
 /**
  * Comprehensive Tests for Astrological ESLint Rules
  *
@@ -16,26 +16,27 @@ describe('Astrological ESLint Rules', () => {
   beforeAll(() => {
     // Create ESLint instance with our custom rules
     eslint = new ESLint({
-      baseConfig: { languageOptions: {
+      baseConfig: {
+        languageOptions: {
           ecmaVersion: 2022,
           sourceType: 'module',
           parser: require('@typescript-eslint/parser'),
-          parserOptions: { ecmaFeatures: {
-              jsx: true
-            }
-          }
+          parserOptions: {
+            ecmaFeatures: {
+              jsx: true,
+            },
+          },
         },
-        plugins: { astrological: require('../../eslint-plugins/astrological-rules.cjs')
-        },
+        plugins: { astrological: require('../../eslint-plugins/astrological-rules.cjs') },
         rules: {
           'astrological/preserve-planetary-constants': 'error',
           'astrological/validate-planetary-position-structure': 'error',
           'astrological/validate-elemental-properties': 'error',
           'astrological/require-transit-date-validation': 'warn',
-          'astrological/preserve-fallback-values': 'error'
-        }
+          'astrological/preserve-fallback-values': 'error',
+        },
       },
-      useEslintrc: false
+      useEslintrc: false,
     });
   });
 
@@ -236,7 +237,7 @@ describe('Astrological ESLint Rules', () => {
       `;
 
       const results: any = eslint.lintText(code, {
-        filePath: 'src/calculations/planetary.ts'
+        filePath: 'src/calculations/planetary.ts',
       });
       const messages: any = results[0].messages;
 
@@ -256,7 +257,7 @@ describe('Astrological ESLint Rules', () => {
       `;
 
       const results: any = eslint.lintText(code, {
-        filePath: 'src/calculations/planetary.ts'
+        filePath: 'src/calculations/planetary.ts',
       });
       const messages: any = results[0].messages;
 
@@ -276,7 +277,7 @@ describe('Astrological ESLint Rules', () => {
       `;
 
       const results: any = eslint.lintText(code, {
-        filePath: 'src/calculations/planetary.ts'
+        filePath: 'src/calculations/planetary.ts',
       });
       const messages: any = results[0].messages;
 
@@ -291,7 +292,7 @@ describe('Astrological ESLint Rules', () => {
       `;
 
       const results: any = eslint.lintText(code, {
-        filePath: 'src/components/Button.tsx'
+        filePath: 'src/components/Button.tsx',
       });
       const messages: any = results[0].messages;
 
@@ -407,7 +408,10 @@ describe('Astrological ESLint Rules', () => {
   describe('Rule performance and edge cases', () => {
     test('should handle large files efficiently', async () => {
       const largeCode: any = `;
-        ${Array(100).fill(0).map((_: any, i: any) => `
+        ${Array(100)
+          .fill(0)
+          .map(
+            (_: any, i: any) => `
           const position${i} = {
             sign: 'aries',
             degree: ${i},

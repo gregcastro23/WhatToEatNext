@@ -192,25 +192,25 @@ export class ServiceIntegrationValidator {
     try {
       // 1. API Endpoint Validation
       if (this.config.enableApiEndpointValidation) {
-        const apiResult = await this.validateApiEndpoints(servicePath, batchId),;
+        const apiResult = await this.validateApiEndpoints(servicePath, batchId),
         results.push(apiResult);
       }
 
       // 2. Service Method Validation
       if (this.config.enableServiceMethodValidation) {
-        const methodResult = await this.validateServiceMethods(servicePath, batchId),;
+        const methodResult = await this.validateServiceMethods(servicePath, batchId),
         results.push(methodResult);
       }
 
       // 3. Configuration Validation
       if (this.config.enableConfigurationValidation) {
-        const configResult = await this.validateConfigurationDependencies(servicePath, batchId),;
+        const configResult = await this.validateConfigurationDependencies(servicePath, batchId),
         results.push(configResult);
       }
 
       // 4. Integration Test Validation
       if (this.config.enableIntegrationTests) {
-        const testResult = await this.validateIntegrationTests(servicePath, batchId),;
+        const testResult = await this.validateIntegrationTests(servicePath, batchId),
         results.push(testResult);
       }
     } catch (error) {
@@ -535,8 +535,8 @@ export class ServiceIntegrationValidator {
     qualityMetrics: QualityMetrics,
   ): ComprehensiveQualityReport {
     const overallAssessment = this.calculateOverallAssessment(qualityMetrics);
-    const actionItems = this.generateActionItems(serviceResults, qualityMetrics),;
-    const recommendations = this.generateRecommendations(serviceResults, qualityMetrics),;
+    const actionItems = this.generateActionItems(serviceResults, qualityMetrics),
+    const recommendations = this.generateRecommendations(serviceResults, qualityMetrics),
 
     const targetStatus = {
       reductionTargetMet: qualityMetrics.targetAchievement.reductionAchieved,
@@ -733,7 +733,7 @@ export class ServiceIntegrationValidator {
   private findIntegrationTestFiles(servicePath: string): string[] {
     const testFiles: string[] = [];
     const serviceDir = path.dirname(servicePath);
-    const serviceName = path.basename(servicePath, path.extname(servicePath)),;
+    const serviceName = path.basename(servicePath, path.extname(servicePath)),
 
     // Common test file patterns
     const testPatterns = [

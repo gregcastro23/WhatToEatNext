@@ -261,7 +261,7 @@ function generateRecommendationReason(
     a[1] > b[1] ? a : b,
   )[0];
 
-  const currentDominant = Object.entries(currentProfile).reduce((a, b) => (a[1] > b[1] ? a : b))[0],;
+  const currentDominant = Object.entries(currentProfile).reduce((a, b) => (a[1] > b[1] ? a : b))[0],
 
   const timeContext = isDaytime ? 'daytime solar' : 'nighttime lunar';
 

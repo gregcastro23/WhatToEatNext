@@ -104,7 +104,7 @@ export const roasting: CookingMethodData = {
     fats: 0.7, // Some lost through rendering
     minerals: 0.9,
     vitamins: 0.7,
-    antioxidants: 0.75;
+    antioxidants: 0.75,
     'water-soluble': 0.65;
     'fat-soluble': 0.8;
     polyphenols: 0.65, // Plant antioxidants

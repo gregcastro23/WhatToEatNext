@@ -164,7 +164,7 @@ class AstrologizeApiCache {
     lat: number,
     lng: number,
     date: Date,
-    maxDistanceKm: number = 50,;
+    maxDistanceKm: number = 50,
     maxDaysDiff: number = 7
   ): CachedAstrologicalData[] {
     const results: CachedAstrologicalData[] = [];
@@ -393,12 +393,12 @@ class AstrologizeApiCache {
     return {
       size: this.cache.size,
       maxSize: this.maxCacheSize,
-      oldestEntry: Math.min(...Array.from(this.cache.values()).map(v => v.timestamp)),;
-      newestEntry: Math.max(...Array.from(this.cache.values()).map(v => v.timestamp)),;
+      oldestEntry: Math.min(...Array.from(this.cache.values()).map(v => v.timestamp)),
+      newestEntry: Math.max(...Array.from(this.cache.values()).map(v => v.timestamp)),
       qualityDistribution: {
-        high: Array.from(this.cache.values()).filter(v => v.quality === 'high').length,;
-        medium: Array.from(this.cache.values()).filter(v => v.quality === 'medium').length,;
-        low: Array.from(this.cache.values()).filter(v => v.quality === 'low').length,;
+        high: Array.from(this.cache.values()).filter(v => v.quality === 'high').length,
+        medium: Array.from(this.cache.values()).filter(v => v.quality === 'medium').length,
+        low: Array.from(this.cache.values()).filter(v => v.quality === 'low').length,
       }
     };
   }

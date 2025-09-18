@@ -76,7 +76,7 @@ class SimpleImportFixer {
 
         // Parse different import types
         if (importPart.includes('{')) {
-          // Named imports: import { a, b, c } from 'module'
+          // Named imports: import { a, b } from 'module'
           const namedMatch = importPart.match(/\{([^}]+)\}/);
           if (namedMatch) {
             const namedImports = namedMatch[1]

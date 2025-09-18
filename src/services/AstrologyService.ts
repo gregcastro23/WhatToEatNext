@@ -1,14 +1,12 @@
-import {
-    getCurrentPlanetaryPositions
-} from '@/services/astrologizeApi';
+import { getCurrentPlanetaryPositions } from '@/services/astrologizeApi';
 import { log } from '@/services/LoggingService';
 import {
-    AstrologicalState,
-    CelestialPosition,
-    LunarPhase,
-    Planet,
-    PlanetaryAlignment,
-    ZodiacSign
+  AstrologicalState,
+  CelestialPosition,
+  LunarPhase,
+  Planet,
+  PlanetaryAlignment,
+  ZodiacSign,
 } from '@/types/celestial';
 import { normalizePlanetaryPositions } from '@/utils/astrology/core';
 
@@ -27,7 +25,7 @@ export class AstrologyService {
     moonPhase: 'new moon',
     currentPlanetaryAlignment: {},
     loading: false,
-    isReady: false
+    isReady: false,
   };
 
   private constructor() {}
@@ -60,7 +58,7 @@ export class AstrologyService {
       Object.entries(positions).forEach(([planet, position]) => {
         celestialPositions[planet as Planet] = {
           sign: position.sign,
-          degree: position.degree
+          degree: position.degree,
         };
       });
 
@@ -201,7 +199,7 @@ export class AstrologyService {
         Object.entries(positions).forEach(([planet, position]) => {
           planetaryAlignment[planet as Planet] = {
             sign: position.sign,
-            degree: position.degree
+            degree: position.degree,
           };
         });
 
@@ -219,7 +217,7 @@ export class AstrologyService {
         planetaryHour: this.calculatePlanetaryHour(currentDate),
         loading: false,
         isReady: true,
-        sunSign: 'aries'
+        sunSign: 'aries',
       };
 
       this.currentState = state;

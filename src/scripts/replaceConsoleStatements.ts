@@ -35,7 +35,7 @@ class ConsoleStatementReplacer {
 
   private createBackup(filePath: string): void {
     const relativePath = path.relative(this.srcDir, filePath);
-    const backupPath = path.join(this.backupDir, relativePath),;
+    const backupPath = path.join(this.backupDir, relativePath),
     const backupDir = path.dirname(backupPath);
 
     if (!fs.existsSync(backupDir)) {
@@ -52,7 +52,7 @@ class ConsoleStatementReplacer {
       const entries = fs.readdirSync(dir, { withFileTypes: true });
 
       for (const entry of entries) {
-        const fullPath = path.join(dir, entry.name),;
+        const fullPath = path.join(dir, entry.name),
 
         if (entry.isDirectory() && !entry.name.startsWith('.') && entry.name !== 'node_modules') {
           scanDirectory(fullPath);
@@ -113,7 +113,7 @@ class ConsoleStatementReplacer {
 
         // Replace console.log statements
         if (trimmed.includes('// // console.log(')) {
-          const replacement = line.replace(/console\.log\(/g, 'logger.info('),;
+          const replacement = line.replace(/console\.log\(/g, 'logger.info('),
 
           // Add logger import if not present
           if (!content.includes('import') || !content.includes('logger')) {

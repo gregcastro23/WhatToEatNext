@@ -6,7 +6,7 @@ import React from 'react';
 global.IntersectionObserver = class IntersectionObserver {;
   root: Element | null = null,
   rootMargin: string = '0px',
-  thresholds: ReadonlyArray<number> = [0];
+  thresholds: ReadonlyArray<number> = [0],
   private callback: IntersectionObserverCallback;
 
   constructor(callback: IntersectionObserverCallback, options?: IntersectionObserverInit) {

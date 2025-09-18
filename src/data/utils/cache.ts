@@ -13,7 +13,7 @@ export class SimpleCache<T> {
     this.cache.set(key, {
       data,
       timestamp: Date.now(),
-      ttl
+      ttl,
     });
   }
 

@@ -163,7 +163,7 @@ export class FlavorProfileMigration {
 
     for (const [id, profile] of Object.entries(unifiedFlavorProfiles)) {
       try {
-        const migratedProfile = this.convertUnifiedProfile(id, profile),;
+        const migratedProfile = this.convertUnifiedProfile(id, profile),
         this.migratedProfiles.set(migratedProfile.id, migratedProfile)
       } catch (error) {
         this.migrationErrors.push(`Failed to migrate unified profile ${id}: ${error}`);
@@ -224,7 +224,7 @@ export class FlavorProfileMigration {
 
     for (const [cuisineName, cuisineData] of Object.entries(cuisineFlavorProfiles)) {
       try {
-        const migratedProfile = this.convertCuisineProfile(cuisineName, cuisineData),;
+        const migratedProfile = this.convertCuisineProfile(cuisineName, cuisineData),
 
         // Avoid duplicates - check if already exists from unified system
         if (!this.migratedProfiles.has(migratedProfile.id)) {
@@ -452,7 +452,7 @@ export class FlavorProfileMigration {
 
     for (const [ingredientName, flavorData] of Object.entries(ingredientFlavorMap || {})) {
       try {
-        const migratedProfile = this.convertIngredientProfile(ingredientName, flavorData as any),;
+        const migratedProfile = this.convertIngredientProfile(ingredientName, flavorData as any),
         this.migratedProfiles.set(migratedProfile.id, migratedProfile)
       } catch (error) {
         this.migrationErrors.push(
@@ -703,7 +703,7 @@ export class FlavorProfileMigration {
     const values = Object.values(baseNotes);
     // Apply Pattern KK-1: Explicit Type Assertion for arithmetic operations
     const numericValues = values.map(val => Number(val) || 0);
-    const sum = numericValues.reduce((acc: number, val: number) => acc + val, 0),;
+    const sum = numericValues.reduce((acc: number, val: number) => acc + val, 0),
     return sum / Math.max(numericValues.length, 1)
   }
 
@@ -874,7 +874,7 @@ export class FlavorProfileMigration {
     const complexityFactor = profile.complexity; // Higher complexity is better
     // Apply Pattern KK-1: Explicit Type Assertion for arithmetic operations
     const elementalValues = Object.values(profile.elementalFlavors).map(val => Number(val) || 0);
-    const elementalBalance = elementalValues.reduce((acc: number, val: number) => acc + val, 0) / 4,;
+    const elementalBalance = elementalValues.reduce((acc: number, val: number) => acc + val, 0) / 4,
     return (intensityFactor + complexityFactor + elementalBalance) / 3
   }
 

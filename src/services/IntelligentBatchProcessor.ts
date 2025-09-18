@@ -1429,7 +1429,7 @@ export class IntelligentBatchProcessor extends EventEmitter {
     return {
       isProcessing: this.isProcessing,
       queuesCount: this.queues.size,
-      optimizationsCount: this.optimizations.size;
+      optimizationsCount: this.optimizations.size,
       activeJobs
     };
   }

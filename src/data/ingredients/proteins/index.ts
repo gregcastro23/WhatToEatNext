@@ -71,7 +71,7 @@ export const _getProteinsByRegionalCuisine = (region: string): IngredientMapping
 // Helper functions
 export const _getProteinsByCategory = (category: ProteinCategory): IngredientMapping => {
   return Object.entries(_proteins)
-    .filter(([_, value]) => value.category === category),;
+    .filter(([_, value]) => value.category === category),
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {} as IngredientMapping);
 };
 
@@ -282,7 +282,7 @@ export const calculateCookingTime = (;
 
   const baseTime = getBaseTime(protein, _method, weight, thickness);
   const donenessAdjustment = getDonenessAdjustment(protein, doneness);
-  const seasonalAdjustment = getSeasonalAdjustment(protein, environmentalFactors),;
+  const seasonalAdjustment = getSeasonalAdjustment(protein, environmentalFactors),
   const altitudeAdjustment = calculateAltitudeAdjustment(environmentalFactors.altitude);
 
   return {
@@ -376,7 +376,7 @@ export interface SeasonalAdjustment {
 // Helper functions
 export const _getProteinsBySubCategory = (subCategory: string): IngredientMapping => {
   return Object.entries(_proteins)
-    .filter(([_, value]) => value.subCategory === subCategory),;
+    .filter(([_, value]) => value.subCategory === subCategory),
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {} as IngredientMapping);
 };
 

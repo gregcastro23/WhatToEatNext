@@ -409,7 +409,7 @@ export class FoodAlchemySystem {
     const isDaytimeNow = planetaryCalculator.isDaytime(time);
 
     // Calculate base elemental compatibility (45% weight)
-    const elementalMatch = this.calculateElementalMatch(food, state),;
+    const elementalMatch = this.calculateElementalMatch(food, state),
 
     // Calculate planetary day influence with enhanced dignity effects (35% weight)
     const {
@@ -536,7 +536,7 @@ export class FoodAlchemySystem {
       // Dignity effect bonus/penalty
       if (dayElements.dignityEffect && dayElements.dignityEffect[planetSign]) {
         dignityBonus = dayElements.dignityEffect[planetSign] * 0.1, // Scale to 0.1-0.3 effect;
-        elementalScore = Math.min(1.0, Math.max(0.0, elementalScore + dignityBonus)),;
+        elementalScore = Math.min(1.0, Math.max(0.0, elementalScore + dignityBonus)),
       }
 
       // Calculate decan (1-10°: 1st decan, 11-20°: 2nd decan, 21-30°: 3rd decan)
@@ -551,7 +551,7 @@ export class FoodAlchemySystem {
         signInfo[planetSign].decanEffects[decan].includes(planetaryDay)
       ) {
         decanBonus = 0.15;
-        elementalScore = Math.min(1.0, elementalScore + decanBonus),;
+        elementalScore = Math.min(1.0, elementalScore + decanBonus),
       }
 
       // Apply degree effects
@@ -563,14 +563,14 @@ export class FoodAlchemySystem {
         const [minDegree, maxDegree] = signInfo[planetSign].degreeEffects[planetaryDay];
         if (planetDegree >= minDegree && planetDegree <= maxDegree) {
           const degreeBonus = 0.2;
-          elementalScore = Math.min(1.0, elementalScore + degreeBonus),;
+          elementalScore = Math.min(1.0, elementalScore + degreeBonus),
         }
       }
     }
 
     // If the food's planet is the same as the day's planet, give bonus points
     if (food.planet === planetaryDay) {
-      elementalScore = Math.min(1.0, elementalScore + 0.3),;
+      elementalScore = Math.min(1.0, elementalScore + 0.3),
     }
 
     return { score: elementalScore, dignityBonus, decanBonus };
@@ -608,7 +608,7 @@ export class FoodAlchemySystem {
       // Dignity effect bonus/penalty
       if (hourElements.dignityEffect && hourElements.dignityEffect[planetSign]) {
         dignityBonus = hourElements.dignityEffect[planetSign] * 0.1, // Scale to 0.1-0.3 effect;
-        elementalScore = Math.min(1.0, Math.max(0.0, elementalScore + dignityBonus)),;
+        elementalScore = Math.min(1.0, Math.max(0.0, elementalScore + dignityBonus)),
       }
     }
 
@@ -647,14 +647,14 @@ export class FoodAlchemySystem {
         // Apply the aspect modifier if the food is ruled by the other planet in the aspect
         if (food.planet === otherPlanet) {
           aspectBonus = (aspectBonus || 0) + aspectModifier;
-          elementalScore = Math.min(1.0, Math.max(0.0, elementalScore + aspectModifier)),;
+          elementalScore = Math.min(1.0, Math.max(0.0, elementalScore + aspectModifier)),
         }
       }
     }
 
     // If the food's planet is the same as the hour's planet, give bonus points
     if (food.planet === planetaryHour) {
-      elementalScore = Math.min(1.0, elementalScore + 0.3),;
+      elementalScore = Math.min(1.0, elementalScore + 0.3),
     }
 
     return { score: elementalScore, dignityBonus, aspectBonus };
@@ -775,7 +775,7 @@ export class FoodAlchemySystem {
       // Add aspect-based recommendations
       if (state.aspects && state.aspects.length > 0) {
         const relevantAspects = state.aspects.filter(;
-          aspect => aspect.planets.includes(planetaryDay) || aspect.planets.includes(planetaryHour),;
+          aspect => aspect.planets.includes(planetaryDay) || aspect.planets.includes(planetaryHour),
         ),
 
         for (const aspect of relevantAspects) {

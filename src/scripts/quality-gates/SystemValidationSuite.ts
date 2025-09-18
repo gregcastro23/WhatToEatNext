@@ -13,7 +13,7 @@ import * as fs from 'fs';
 interface ValidationResult {
   component: string,
   passed: boolean,
-  score: number; // 0-100
+  score: number, // 0-100
   message: string,
   details?: any,
   recommendations?: string[],
@@ -785,13 +785,13 @@ class SystemValidationSuite {
     return [
       { code: 'const data: any[] = [],', expected: 'unintentional' },
       {
-        code: '// eslint-disable-next-line @typescript-eslint/no-explicit-any -- External API\nconst api: any = response,',;
+        code: '// eslint-disable-next-line @typescript-eslint/no-explicit-any -- External API\nconst api: any = response,',
         expected: 'intentional'
       },
       { code: 'Record<string, any>', expected: 'unintentional' },
       { code: 'function test(param: any) {}', expected: 'unintentional' },
       {
-        code: '// Intentional any type for dynamic content\nconst content: any = userInput,',;
+        code: '// Intentional any type for dynamic content\nconst content: any = userInput,',
         expected: 'intentional'
       }
     ];
@@ -829,7 +829,7 @@ class SystemValidationSuite {
 
   private async testBackupCreation(): Promise<{ passed: boolean }> {
     // Test if backup directories exist and are functional
-    const backupDirs = ['.any-elimination-backups-*', '.git'],;
+    const backupDirs = ['.any-elimination-backups-*', '.git'],
     return { passed: backupDirs.some(dir => fs.existsSync(dir.replace('*', '20241201'))) };
   }
 
@@ -871,7 +871,7 @@ class SystemValidationSuite {
     try {
       if (gate === 'Explicit Any Prevention') {
         const count = execSync(;
-          'yarn lint --format=compact 2>/dev/null | grep '@typescript-eslint/no-explicit-any' | wc -l',,;
+          'yarn lint --format=compact 2>/dev/null | grep '@typescript-eslint/no-explicit-any' | wc -l',,
           { encoding: 'utf8' },
         );
         return { functional: parseInt(count.trim()) >= 0 };
@@ -908,7 +908,7 @@ class SystemValidationSuite {
     // Test campaign system integration
     try {
       const campaignFiles = fs.readdirSync('src/scripts/unintentional-any-elimination/');
-      const hasMainFiles = ['execute-full-campaign.cjs', 'comprehensive-campaign.cjs'].every(file =>,;
+      const hasMainFiles = ['execute-full-campaign.cjs', 'comprehensive-campaign.cjs'].every(file =>,
         campaignFiles.includes(file);
       ),
       return hasMainFiles ? 90 : 60
@@ -946,7 +946,7 @@ class SystemValidationSuite {
 
   private async testConfigurationIntegrity(): Promise<{ valid: boolean }> {
     try {
-      const packageJson = JSON.parse(fs.readFileSync('package.json', 'utf8')),;
+      const packageJson = JSON.parse(fs.readFileSync('package.json', 'utf8')),
       return { valid: !!packageJson.scripts };
     } catch {
       return { valid: false };

@@ -28,7 +28,7 @@ export class BuildSystemRepair {
       success: false,
       steps: [],
       errors: [],
-      recommendations: []
+      recommendations: [],
     };
 
     try {
@@ -164,7 +164,7 @@ export class BuildSystemRepair {
         string,
         unknown
       >,
-      recommendations: []
+      recommendations: [],
     };
 
     // Generate recommendations based on findings

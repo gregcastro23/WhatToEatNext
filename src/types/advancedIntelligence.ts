@@ -109,7 +109,7 @@ export interface PredictiveAstrologicalAnalysis {
     zodiacSign: any,
     lunarPhase: LunarPhase,
     elementalProperties: ElementalProperties;
-     
+
     // Intentionally any: Astronomical library planetary data has varying structure depending on calculation method
     planetaryPositions: Record<string, unknown>;
   };
@@ -168,10 +168,10 @@ export interface MLRecipeOptimizationAnalysis {
       lunarPhase: LunarPhase,
       elementalProperties: ElementalProperties
     };
-     
+
     // Intentionally any: ML user preference data varies significantly across different analysis contexts
     userPreferences?: Record<string, unknown>;
-     
+
     // Intentionally any: Seasonal analysis data includes diverse metrics from weather APIs and seasonal libraries
     seasonalFactors?: Record<string, unknown>;
   };
@@ -233,7 +233,7 @@ export interface MLAstrologicalPredictionAnalysis {
     zodiacSign: any,
     lunarPhase: LunarPhase,
     elementalProperties: ElementalProperties;
-     
+
     // Intentionally any: Astronomical library planetary data has varying structure depending on calculation method
     planetaryPositions: Record<string, unknown>;
   };
@@ -338,13 +338,13 @@ export interface AdvancedRecipeAnalyticsAnalysis {
       lunarPhase: LunarPhase,
       elementalProperties: ElementalProperties
     };
-     
+
     // Intentionally any: Cultural analysis data integrates diverse ethnographic and regional data sources
     culturalContext?: Record<string, unknown>;
-     
+
     // Intentionally any: Seasonal context includes varying data structures from multiple environmental APIs
     seasonalContext?: Record<string, unknown>;
-     
+
     // Intentionally any: User context data includes diverse preference and behavioral analytics
     userContext?: Record<string, unknown>;
   };
@@ -406,10 +406,10 @@ export interface AdvancedCuisineAnalyticsAnalysis {
       lunarPhase: LunarPhase,
       elementalProperties: ElementalProperties
     };
-     
+
     // Intentionally any: Regional context integrates geographic and demographic data from multiple sources
     regionalContext?: Record<string, unknown>;
-     
+
     // Intentionally any: Historical context data varies significantly across different cultural and temporal periods
     historicalContext?: Record<string, unknown>;
   };
@@ -440,7 +440,7 @@ export interface AdvancedAstrologicalAnalyticsAnalysis {
     zodiacSign: any,
     lunarPhase: LunarPhase,
     elementalProperties: ElementalProperties;
-     
+
     // Intentionally any: Astronomical library planetary data has varying structure depending on calculation method
     planetaryPositions: Record<string, unknown>;
   };
@@ -450,10 +450,10 @@ export interface AdvancedAstrologicalAnalyticsAnalysis {
       ingredients?: Ingredient[];
       cuisine?: string;
     };
-     
+
     // Intentionally any: Temporal analysis includes diverse time-based data from astronomical and calendar systems
     temporalContext?: Record<string, unknown>;
-     
+
     // Intentionally any: Cultural analysis data integrates diverse ethnographic and regional data sources
     culturalContext?: Record<string, unknown>;
   };
@@ -529,13 +529,13 @@ export interface IntelligenceRequest {
       elementalProperties: ElementalProperties;
       planetaryPositions?: Record<string, unknown>;
     };
-     
+
     // Intentionally any: ML user preference data varies significantly across different analysis contexts
     userPreferences?: Record<string, unknown>;
-     
+
     // Intentionally any: Seasonal analysis data includes diverse metrics from weather APIs and seasonal libraries
     seasonalFactors?: Record<string, unknown>;
-     
+
     // Intentionally any: Cultural factor analysis incorporates diverse sociological and anthropological data
     culturalFactors?: Record<string, unknown>;
   };

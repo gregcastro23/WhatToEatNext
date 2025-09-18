@@ -5,7 +5,7 @@ interface SunTimes {
   sunset: Date | null,
   solarNoon: Date | null,
   goldenHour: Date | null,
-  goldenHourEnd: Date | null;
+  goldenHourEnd: Date | null,
   // Additional times available in SunCalc
   dawn: Date | null,
   dusk: Date | null,

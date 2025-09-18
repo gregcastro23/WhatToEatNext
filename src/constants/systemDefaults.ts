@@ -838,7 +838,7 @@ export function validateAgainstDefaults<T extends object>(
   }
 
   return {
-    isValid: (errors || []).length === 0,,;
+    isValid: (errors || []).length === 0,,
     errors
   };
 }

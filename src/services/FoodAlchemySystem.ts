@@ -252,7 +252,7 @@ export interface FoodCorrespondence {
 export interface CompatibilityScore {
   compatibility: number,
   recommendations: string[],
-  warnings: string[];
+  warnings: string[],
   scoreDetails?: {
     elementalMatch?: number;
     planetaryDayMatch?: number;
@@ -377,7 +377,7 @@ export class FoodAlchemySystem {
       scoreDetails: {
         elementalMatch: elementalMatch * 0.45,
         planetaryDayMatch: planetaryDayMatch * 0.35,
-        planetaryHourMatch: planetaryHourMatch * 0.2;
+        planetaryHourMatch: planetaryHourMatch * 0.2,
         affinityBonus,
         dignityBonus: (dayDignityBonus || 0) + (hourDignityBonus || 0),
         decanBonus: dayDecanBonus,

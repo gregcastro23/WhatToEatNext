@@ -13,7 +13,7 @@ export const _distilling: CookingMethodData = {
     Fire: 0.8,
     Water: 0.3,
     Earth: 0.1,
-    Air: 0.6
+    Air: 0.6,
   },
   duration: {
     min: 60, // 1 hour
@@ -23,7 +23,7 @@ export const _distilling: CookingMethodData = {
   benefits: [
     'Creates concentrated extracts with medicinal properties',
     'Removes impurities from volatile compounds',
-    'Preserves delicate aromas that might be lost in other extraction methods'
+    'Preserves delicate aromas that might be lost in other extraction methods',
   ],
   history:
     'Distillation has ancient origins, with evidence of the technique dating back to at least 3000 BCE in Mesopotamia. It was further developed by alchemists and has been crucial in perfumery, medicine, and spirits production throughout history.',
@@ -32,7 +32,7 @@ export const _distilling: CookingMethodData = {
     'Fractional distillation (multiple vaporization-condensation cycles)',
     'Steam distillation (for heat-sensitive plant materials)',
     'Vacuum distillation (at lower temperatures)',
-    'Molecular distillation (for specific compounds at very low pressures)'
+    'Molecular distillation (for specific compounds at very low pressures)',
   ],
   optimalTemperatures: {
     ethanol: 78, // °C (ethanol boiling point)
@@ -45,12 +45,12 @@ export const _distilling: CookingMethodData = {
     'Heat source',
     'Thermometer',
     'Cooling system',
-    'Hydrometer (for measuring alcohol content)'
+    'Hydrometer (for measuring alcohol content)',
   ],
   healthConsiderations: [
     'Home distillation of alcohol is illegal in many places',
     'Improperly distilled spirits can contain harmful compounds like methanol',
     'Concentrated plant compounds can be toxic if not properly identified',
-    'High proof spirits should be consumed in moderation'
-  ]
+    'High proof spirits should be consumed in moderation',
+  ],
 };

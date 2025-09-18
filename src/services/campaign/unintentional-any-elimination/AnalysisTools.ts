@@ -233,7 +233,7 @@ export class AnalysisTools {
         const recommendation: ManualReviewRecommendation = {
           filePath: occurrence.filePath,
           lineNumber: occurrence.lineNumber,
-          codeSnippet: occurrence.codeSnippet;
+          codeSnippet: occurrence.codeSnippet,
           classification,
           reviewReason: this.getReviewReason(classification, context),
           priority: this.calculateReviewPriority(classification, context),
@@ -346,7 +346,7 @@ export class AnalysisTools {
     const domainContext = await this.domainAnalyzer.analyzeDomain({
       filePath: occurrence.filePath,
       lineNumber: occurrence.lineNumber,
-      codeSnippet: occurrence.codeSnippet;
+      codeSnippet: occurrence.codeSnippet,
       surroundingLines,
       hasExistingComment,
       isInTestFile: occurrence.filePath.includes('.test.') || occurrence.filePath.includes('__tests__'),
@@ -361,7 +361,7 @@ export class AnalysisTools {
     return {
       filePath: occurrence.filePath,
       lineNumber: occurrence.lineNumber,
-      codeSnippet: occurrence.codeSnippet;
+      codeSnippet: occurrence.codeSnippet,
       surroundingLines,
       hasExistingComment,
       existingComment: hasExistingComment ? this.extractComment(surroundingLines) : undefined,

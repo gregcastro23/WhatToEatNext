@@ -301,7 +301,7 @@ export class AdvancedAnalyticsIntelligenceService {
       ),
 
       // Generate predictive insights
-      const predictiveInsights = this.generateRecipePredictiveInsights(recipe, astrologicalContext),;
+      const predictiveInsights = this.generateRecipePredictiveInsights(recipe, astrologicalContext),
 
       return {
         multiDimensionalScore,
@@ -406,7 +406,7 @@ export class AdvancedAnalyticsIntelligenceService {
       );
 
       // Analyze fusion analytics
-      const fusionAnalytics = this.analyzeFusionAnalytics(cuisineData, astrologicalContext),;
+      const fusionAnalytics = this.analyzeFusionAnalytics(cuisineData, astrologicalContext),
 
       // Calculate optimization metrics
       const optimizationMetrics = this.calculateCuisineOptimizationMetrics(;
@@ -544,7 +544,7 @@ export class AdvancedAnalyticsIntelligenceService {
       astrologicalContext.favorableAspects?.length &&
       astrologicalContext.favorableAspects.length > 0
     ) {
-      const reductionFactor = Math.min(0.1 * astrologicalContext.favorableAspects.length, 0.3),;
+      const reductionFactor = Math.min(0.1 * astrologicalContext.favorableAspects.length, 0.3),
       timeComplexity *= 1 - reductionFactor;
     }
 
@@ -573,10 +573,10 @@ export class AdvancedAnalyticsIntelligenceService {
     );
 
     // Calculate cultural optimization
-    const culturalOptimization = this.calculateCulturalOptimization(recipe, astrologicalContext),;
+    const culturalOptimization = this.calculateCulturalOptimization(recipe, astrologicalContext),
 
     // Calculate seasonal optimization
-    const seasonalOptimization = this.calculateSeasonalOptimization(recipe, astrologicalContext),;
+    const seasonalOptimization = this.calculateSeasonalOptimization(recipe, astrologicalContext),
 
     return {
       flavorOptimization,
@@ -600,7 +600,7 @@ export class AdvancedAnalyticsIntelligenceService {
     ),
 
     // Calculate adaptation potential
-    const adaptationPotential = this.calculateAdaptationPotential(recipe, astrologicalContext),;
+    const adaptationPotential = this.calculateAdaptationPotential(recipe, astrologicalContext),
 
     return {
       successProbability,
@@ -621,7 +621,7 @@ export class AdvancedAnalyticsIntelligenceService {
         if (ing1.name === ing2.name) {
           matrix[ing1.name][ing2.name] = 1.0;
         } else {
-          const interaction = this.calculateIngredientInteraction(ing1, ing2, astrologicalContext),;
+          const interaction = this.calculateIngredientInteraction(ing1, ing2, astrologicalContext),
           matrix[ing1.name][ing2.name] = Math.max(0, Math.min(1, interaction))
         }
       });
@@ -641,10 +641,10 @@ export class AdvancedAnalyticsIntelligenceService {
     const nutritionalSynergy = this.calculateNutritionalSynergy(ingredients, astrologicalContext);
 
     // Calculate cultural synergy
-    const culturalSynergy = this.calculateCulturalSynergy(ingredients, astrologicalContext),;
+    const culturalSynergy = this.calculateCulturalSynergy(ingredients, astrologicalContext),
 
     // Calculate seasonal synergy
-    const seasonalSynergy = this.calculateSeasonalSynergy(ingredients, astrologicalContext),;
+    const seasonalSynergy = this.calculateSeasonalSynergy(ingredients, astrologicalContext),
 
     return {
       flavorSynergy,
@@ -661,7 +661,7 @@ export class AdvancedAnalyticsIntelligenceService {
     const network: Record<string, string[]> = {};
 
     ingredients.forEach(ingredient => {
-      const substitutions = this.findAdvancedSubstitutions(ingredient, astrologicalContext),;
+      const substitutions = this.findAdvancedSubstitutions(ingredient, astrologicalContext),
       if (substitutions.length > 0) {
         network[ingredient.name] = substitutions;
       }
@@ -708,7 +708,7 @@ export class AdvancedAnalyticsIntelligenceService {
     const regionalCorrelation = this.calculateRegionalCorrelation(cuisineData, astrologicalContext);
 
     // Calculate seasonal correlation
-    const seasonalCorrelation = this.calculateSeasonalCorrelation(cuisineData, astrologicalContext),;
+    const seasonalCorrelation = this.calculateSeasonalCorrelation(cuisineData, astrologicalContext),
 
     // Calculate astrological correlation
     const astrologicalCorrelation = this.calculateAstrologicalCorrelation(;
@@ -807,10 +807,10 @@ export class AdvancedAnalyticsIntelligenceService {
     const zodiacPatterns = this.recognizeZodiacPatterns(astrologicalContext, culinaryContext);
 
     // Recognize lunar patterns
-    const lunarPatterns = this.recognizeLunarPatterns(astrologicalContext, culinaryContext),;
+    const lunarPatterns = this.recognizeLunarPatterns(astrologicalContext, culinaryContext),
 
     // Recognize seasonal patterns
-    const seasonalPatterns = this.recognizeSeasonalPatterns(astrologicalContext, culinaryContext),;
+    const seasonalPatterns = this.recognizeSeasonalPatterns(astrologicalContext, culinaryContext),
 
     return {
       planetaryPatterns,

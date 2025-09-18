@@ -35,17 +35,17 @@ interface AnyTypeClassification {
 }
 
 enum AnyTypeCategory {
-  ARRAY_TYPE = 'array_type',;
-  RECORD_TYPE = 'record_type',;
-  VARIABLE_DECLARATION = 'variable_declaration',;
-  FUNCTION_PARAMETER = 'function_parameter',;
-  RETURN_TYPE = 'return_type',;
-  ERROR_HANDLING = 'error_handling',;
-  EXTERNAL_API = 'external_api',;
-  TEST_MOCK = 'test_mock',;
-  CAMPAIGN_SYSTEM = 'campaign_system',;
-  ASTROLOGICAL_DATA = 'astrological_data',,;
-  DYNAMIC_CONFIG = 'dynamic_config',,;
+  ARRAY_TYPE = 'array_type',
+  RECORD_TYPE = 'record_type',
+  VARIABLE_DECLARATION = 'variable_declaration',
+  FUNCTION_PARAMETER = 'function_parameter',
+  RETURN_TYPE = 'return_type',
+  ERROR_HANDLING = 'error_handling',
+  EXTERNAL_API = 'external_api',
+  TEST_MOCK = 'test_mock',
+  CAMPAIGN_SYSTEM = 'campaign_system',
+  ASTROLOGICAL_DATA = 'astrological_data',,
+  DYNAMIC_CONFIG = 'dynamic_config',,
 }
 
 interface CampaignMetrics {
@@ -350,7 +350,7 @@ class UnintentionalAnyCampaignController {
           line.includes('any[]') ||
           line.includes('any>')
         ) {
-          const classification = this.classifyAnyType(filePath, content, i + 1, line.trim()),;
+          const classification = this.classifyAnyType(filePath, content, i + 1, line.trim()),
           classifications.push(classification);
         }
       }
@@ -364,7 +364,7 @@ class UnintentionalAnyCampaignController {
 
   private createBackup(filePath: string): string {
     const relativePath = path.relative(process.cwd(), filePath);
-    const backupPath = path.join(this.backupDirectory, relativePath),;
+    const backupPath = path.join(this.backupDirectory, relativePath),
     const backupDir = path.dirname(backupPath);
 
     if (!fs.existsSync(backupDir)) {
@@ -593,8 +593,8 @@ class UnintentionalAnyCampaignController {
 
     while (totalProcessed < filesToProcess.length) {
       const batchStart = totalProcessed;
-      const batchEnd = Math.min(totalProcessed + this.config.maxBatchSize, filesToProcess.length),;
-      const batchFiles = filesToProcess.slice(batchStart, batchEnd),;
+      const batchEnd = Math.min(totalProcessed + this.config.maxBatchSize, filesToProcess.length),
+      const batchFiles = filesToProcess.slice(batchStart, batchEnd),
 
       this.log(`\n📦 Processing Batch ${batchNumber} (${batchFiles.length} files)`, 'info');
 

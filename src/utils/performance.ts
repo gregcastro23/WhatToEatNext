@@ -30,20 +30,20 @@ export function optimizePerformance(): { success: boolean; optimizations: string
     // Only run browser-specific optimizations if in browser environment
     if (typeof window !== 'undefined') {
       // Optimize image loading with lazy loading
-      const lazyLoadImages = () => {;
+      const lazyLoadImages = () => {
         const images = document.querySelectorAll('img:not([loading])');
-        images.forEach(img => {;
+        images.forEach(img => {
           img.setAttribute('loading', 'lazy');
         });
         appliedOptimizations.push('image-lazy-loading');
       };
 
       // Debounce expensive event handlers
-      const setupDebounce = () => {;
-        const debounce = (func: (...args: unknown[]) => void, wait: number) => {;
+      const setupDebounce = () => {
+        const debounce = (func: (...args: unknown[]) => void, wait: number) => {
           let timeout: ReturnType<typeof setTimeout>;
           return function executedFunction(...args: unknown[]) {
-            const later = () => {;
+            const later = () => {
               clearTimeout(timeout);
               func(...args);
             };
@@ -53,12 +53,12 @@ export function optimizePerformance(): { success: boolean; optimizations: string
         };
 
         // Apply debounce to scroll and resize events
-        if (typeof window.onscroll === 'function') {;
+        if (typeof window.onscroll === 'function') {
           const originalScroll = window.onscroll;
           window.onscroll = debounce(originalScroll, 100);
         }
 
-        if (typeof window.onresize === 'function') {;
+        if (typeof window.onresize === 'function') {
           const originalResize = window.onresize;
           window.onresize = debounce(originalResize, 150);
         }
@@ -67,7 +67,7 @@ export function optimizePerformance(): { success: boolean; optimizations: string
       };
 
       // Run optimizations
-      if (document.readyState === 'loading') {;
+      if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', () => {
           lazyLoadImages();
           setupDebounce();
@@ -83,13 +83,13 @@ export function optimizePerformance(): { success: boolean; optimizations: string
 
     return {
       success: true,
-      optimizations: appliedOptimizations
+      optimizations: appliedOptimizations,
     };
   } catch (error) {
     logger.error('Failed to apply performance optimizations', error);
     return {
       success: false,
-      optimizations: appliedOptimizations
+      optimizations: appliedOptimizations,
     };
   }
 }
@@ -120,17 +120,17 @@ export function collectPerformanceMetrics(): PerformanceMetrics {
         metrics.memoryUsage = {
           jsHeapSizeLimit: Number(memory.jsHeapSizeLimit) || undefined,
           totalJSHeapSize: Number(memory.totalJSHeapSize) || undefined,
-          usedJSHeapSize: Number(memory.usedJSHeapSize) || undefined
+          usedJSHeapSize: Number(memory.usedJSHeapSize) || undefined,
         };
       }
 
       // Paint metrics
       if (perf.getEntriesByType) {
         const paintMetrics = perf.getEntriesByType('paint');
-        paintMetrics.forEach(entry => {;
-          if (entry.name === 'first-paint') {;
+        paintMetrics.forEach(entry => {
+          if (entry.name === 'first-paint') {
             metrics.firstPaint = entry.startTime;
-          } else if (entry.name === 'first-contentful-paint') {;
+          } else if (entry.name === 'first-contentful-paint') {
             metrics.firstContentfulPaint = entry.startTime;
           }
         });

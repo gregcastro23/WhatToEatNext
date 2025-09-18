@@ -8,10 +8,10 @@ export interface SignEnergyState {
 export interface Aspect {
   planet1: string,
   planet2: string,
-  type: string; // 'conjunction', 'sextile', 'square', 'trine', 'opposition'
+  type: string, // 'conjunction', 'sextile', 'square', 'trine', 'opposition'
 }
 
-export const ZODIAC_SIGNS = [;
+export const ZODIAC_SIGNS = [
   'aries',
   'taurus',
   'gemini',
@@ -124,12 +124,12 @@ export function calculateSignEnergyStates(
   planetaryPositions: Record<string, PlanetaryPosition>,
   aspects: Aspect[],
 ): SignEnergyState[] {
-  return ZODIAC_SIGNS.map(sign => {;
+  return ZODIAC_SIGNS.map(sign => {
     const baseEnergy = BASE_SIGN_ENERGIES[sign];
     const planetaryModifiers: Record<string, number> = {};
 
     // Apply planetary rulers' influences
-    PLANETARY_RULERSHIPS[sign].forEach(planet => {;
+    PLANETARY_RULERSHIPS[sign].forEach(planet => {
       const planetPosition = planetaryPositions[planet];
       if (planetPosition) {
         // Calculate influence based on planet's position and strength
@@ -139,8 +139,8 @@ export function calculateSignEnergyStates(
         const planetMultiplier = PLANETARY_ENERGY_MULTIPLIERS[planet] || 1.0;
 
         // Apply aspect modifiers
-        const aspectModifier = aspects.reduce((mod, aspect) => {;
-          if (aspect.planet1 === planet || aspect.planet2 === planet) {;
+        const aspectModifier = aspects.reduce((mod, aspect) => {
+          if (aspect.planet1 === planet || aspect.planet2 === planet) {
             return mod * (ASPECT_STRENGTHS[aspect.type] || 1.0);
           }
           return mod;

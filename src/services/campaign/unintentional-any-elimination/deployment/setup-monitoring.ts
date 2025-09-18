@@ -373,7 +373,7 @@ export class UnintentionalAnyMonitoringService extends EventEmitter {
       timestamp: new Date(),
       condition: condition.name,
       severity: condition.severity,
-      description: condition.description;
+      description: condition.description,
       metrics
     };
 

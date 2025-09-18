@@ -109,10 +109,10 @@ export class BatchProcessingOrchestrator {
 
     // Calculate risk summary
     const riskSummary = {
-      low: assessments.filter(a => a.riskLevel === 'low').length,;
-      medium: assessments.filter(a => a.riskLevel === 'medium').length,;
-      high: assessments.filter(a => a.riskLevel === 'high').length,,;
-      critical: assessments.filter(a => a.riskLevel === 'critical').length,,;
+      low: assessments.filter(a => a.riskLevel === 'low').length,
+      medium: assessments.filter(a => a.riskLevel === 'medium').length,
+      high: assessments.filter(a => a.riskLevel === 'high').length,,
+      critical: assessments.filter(a => a.riskLevel === 'critical').length,,
     };
 
     // Estimate number of batches
@@ -252,8 +252,8 @@ export class BatchProcessingOrchestrator {
     return assessments.map(assessment => ({
       filePath: assessment.filePath,
       relativePath: assessment.relativePath,
-      isHighImpact: assessment.riskLevel === 'high' || assessment.riskLevel === 'critical',,;
-      isCritical: assessment.riskLevel === 'critical',,;
+      isHighImpact: assessment.riskLevel === 'high' || assessment.riskLevel === 'critical',,
+      isCritical: assessment.riskLevel === 'critical',,
       unusedVariableCount: assessment.unusedVariableCount,
       riskLevel: assessment.riskLevel,
       fileType: assessment.fileType

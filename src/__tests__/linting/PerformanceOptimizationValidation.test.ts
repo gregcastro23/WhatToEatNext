@@ -63,7 +63,7 @@ describe('Performance Optimization Validation', () => {
 
     test('measures cache hit performance improvement', async () => {
         const result: any = await TestUtils.executeWithRetry(;
-          'yarn lint:fast --max-warnings=10000 src/components/debug/ConsolidatedDebugInfo.tsx',,;
+          'yarn lint:fast --max-warnings=10000 src/components/debug/ConsolidatedDebugInfo.tsx',,
           {
             timeout: 30000,
             retries: 1,
@@ -99,7 +99,7 @@ describe('Performance Optimization Validation', () => {
       const initialStats: any = statSync('.eslintcache');
 
       // Wait a moment and run again
-      await new Promise(resolve => setTimeout(resolve, 1000)),;
+      await new Promise(resolve => setTimeout(resolve, 1000)),
       try {
         execSync('yarn lint:fast --max-warnings=10000 src/components/debug/ConsolidatedDebugInfo.tsx', {
           stdio: 'pipe',
@@ -151,7 +151,7 @@ describe('Performance Optimization Validation', () => {
     test('validates optimal file distribution per process', () => {
       // Test that files are distributed optimally (around 30 files per process)
       const cpuCount = require('os').cpus().length;
-      const maxProcesses: any = Math.min(cpuCount, 4),;
+      const maxProcesses: any = Math.min(cpuCount, 4),
 
       // Estimate total files in src directory
       try {
@@ -186,14 +186,14 @@ describe('Performance Optimization Validation', () => {
         let peakMemoryUsage: any = 0;
         const memoryMonitor: any = setInterval(() => {
           const currentMemory: any = process.memoryUsage().heapUsed;
-          peakMemoryUsage = Math.max(peakMemoryUsage, currentMemory),;
+          peakMemoryUsage = Math.max(peakMemoryUsage, currentMemory),
         }, 100);
 
         try {
           execSync('yarn lint --max-warnings=10000 src/components/debug/ConsolidatedDebugInfo.tsx', {
             stdio: 'pipe',
             timeout: 30000,
-            env: { ...process.env, NODE_OPTIONS: '--max-old-space-size=4096' },,;
+            env: { ...process.env, NODE_OPTIONS: '--max-old-space-size=4096' },,
           });
         } catch (error) {
           // May have linting errors
@@ -359,7 +359,7 @@ export function testFunction(): string {
         // Run multiple operations to test memory stability
         for (let i: any = 0, i < 3, i++) {
         const result: any = await TestUtils.executeWithRetry(;
-            'yarn lint:fast --max-warnings=10000 src/components/debug/ConsolidatedDebugInfo.tsx',,;
+            'yarn lint:fast --max-warnings=10000 src/components/debug/ConsolidatedDebugInfo.tsx',,
             {
               timeout: 20000,
               memoryLimit: MEMORY_LIMITS.stress
@@ -370,7 +370,7 @@ export function testFunction(): string {
         }
 
         // Validate memory consistency
-        const consistency: any = await TestUtils.validateConsistency(async () => memoryResults[0],;
+        const consistency: any = await TestUtils.validateConsistency(async () => memoryResults[0],
           3,
           30, // 30% tolerance
         );

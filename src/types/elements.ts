@@ -33,5 +33,5 @@ export const _signElementMap: Record<string, ElementType> = {
 
   cancer: 'Water',
   scorpio: 'Water',
-  pisces: 'Water'
+  pisces: 'Water',
 };

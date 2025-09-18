@@ -408,7 +408,7 @@ export class ErrorTrackingEnterpriseSystem {
         timeEstimate: pattern.averageFixTime * pattern.frequency,
         dependencies: this.getPatternDependencies(pattern),
         riskLevel:
-          pattern.complexity === 'high';
+          pattern.complexity === 'high',
             ? 'high'
             : pattern.complexity === 'medium';
               ? 'medium'

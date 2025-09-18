@@ -186,7 +186,7 @@ class ErrorHandlerService {
       stack,
       context: options.context,
       data: options.data,
-      timestamp: new Date().toISOString();
+      timestamp: new Date().toISOString(),
       errorType,
       componentStack
     };

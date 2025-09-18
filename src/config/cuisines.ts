@@ -17,10 +17,10 @@ export const CUISINES: Record<string, CuisineProperties> = {
       Fire: 0.2,
       Water: 0.4,
       Air: 0.2,
-      Earth: 0.2
+      Earth: 0.2,
     },
     description: 'Balanced and refined, emphasizing seasonal ingredients and umami flavors',
-    traditionalIngredients: ['dashi', 'miso', 'soy sauce', 'rice', 'seaweed']
+    traditionalIngredients: ['dashi', 'miso', 'soy sauce', 'rice', 'seaweed'],
   },
   Chinese: {
     name: 'Chinese',
@@ -28,10 +28,10 @@ export const CUISINES: Record<string, CuisineProperties> = {
       Fire: 0.3,
       Water: 0.2,
       Air: 0.2,
-      Earth: 0.3
+      Earth: 0.3,
     },
     description: 'Dynamic and diverse, focusing on the balance of yin and yang',
-    traditionalIngredients: ['soy sauce', 'ginger', 'garlic', 'rice wine', 'five spice']
+    traditionalIngredients: ['soy sauce', 'ginger', 'garlic', 'rice wine', 'five spice'],
   },
   Italian: {
     name: 'Italian',
@@ -39,10 +39,10 @@ export const CUISINES: Record<string, CuisineProperties> = {
       Fire: 0.3,
       Water: 0.3,
       Air: 0.2,
-      Earth: 0.2
+      Earth: 0.2,
     },
     description: 'Fresh and passionate, celebrating regional ingredients',
-    traditionalIngredients: ['olive oil', 'tomatoes', 'basil', 'garlic', 'pasta']
+    traditionalIngredients: ['olive oil', 'tomatoes', 'basil', 'garlic', 'pasta'],
   },
   Indian: {
     name: 'Indian',
@@ -50,10 +50,10 @@ export const CUISINES: Record<string, CuisineProperties> = {
       Fire: 0.4,
       Water: 0.2,
       Air: 0.2,
-      Earth: 0.2
+      Earth: 0.2,
     },
     description: 'Rich and aromatic, built on complex spice combinations',
-    traditionalIngredients: ['cumin', 'turmeric', 'cardamom', 'rice', 'lentils']
+    traditionalIngredients: ['cumin', 'turmeric', 'cardamom', 'rice', 'lentils'],
   },
   Thai: {
     name: 'Thai',
@@ -61,10 +61,10 @@ export const CUISINES: Record<string, CuisineProperties> = {
       Fire: 0.3,
       Water: 0.3,
       Air: 0.2,
-      Earth: 0.2
+      Earth: 0.2,
     },
     description: 'Harmonious blend of sweet, sour, salty, and spicy',
-    traditionalIngredients: ['fish sauce', 'coconut milk', 'lemongrass', 'chilies', 'lime']
+    traditionalIngredients: ['fish sauce', 'coconut milk', 'lemongrass', 'chilies', 'lime'],
   },
   Mexican: {
     name: 'Mexican',
@@ -72,10 +72,10 @@ export const CUISINES: Record<string, CuisineProperties> = {
       Fire: 0.4,
       Water: 0.2,
       Air: 0.2,
-      Earth: 0.2
+      Earth: 0.2,
     },
     description: 'Bold and vibrant, with deep roots in ancient traditions',
-    traditionalIngredients: ['chilies', 'corn', 'beans', 'tomatoes', 'lime']
+    traditionalIngredients: ['chilies', 'corn', 'beans', 'tomatoes', 'lime'],
   },
   Mediterranean: {
     name: 'Mediterranean',
@@ -83,10 +83,10 @@ export const CUISINES: Record<string, CuisineProperties> = {
       Fire: 0.2,
       Water: 0.3,
       Air: 0.3,
-      Earth: 0.2
+      Earth: 0.2,
     },
     description: 'Fresh and healthy, emphasizing olive oil and seafood',
-    traditionalIngredients: ['olive oil', 'garlic', 'herbs', 'tomatoes', 'seafood']
+    traditionalIngredients: ['olive oil', 'garlic', 'herbs', 'tomatoes', 'seafood'],
   },
   French: {
     name: 'French',
@@ -94,10 +94,10 @@ export const CUISINES: Record<string, CuisineProperties> = {
       Fire: 0.2,
       Water: 0.3,
       Air: 0.3,
-      Earth: 0.2
+      Earth: 0.2,
     },
     description: 'Refined and technical, with emphasis on technique',
-    traditionalIngredients: ['butter', 'wine', 'herbs', 'cream', 'shallots']
+    traditionalIngredients: ['butter', 'wine', 'herbs', 'cream', 'shallots'],
   },
   Korean: {
     name: 'Korean',
@@ -105,10 +105,10 @@ export const CUISINES: Record<string, CuisineProperties> = {
       Fire: 0.3,
       Water: 0.2,
       Air: 0.2,
-      Earth: 0.3
+      Earth: 0.3,
     },
     description: 'Bold and fermented flavors with balance of textures',
-    traditionalIngredients: ['kimchi', 'gochugaru', 'sesame oil', 'soy sauce', 'garlic']
+    traditionalIngredients: ['kimchi', 'gochugaru', 'sesame oil', 'soy sauce', 'garlic'],
   },
   Vietnamese: {
     name: 'Vietnamese',
@@ -116,11 +116,11 @@ export const CUISINES: Record<string, CuisineProperties> = {
       Fire: 0.2,
       Water: 0.3,
       Air: 0.3,
-      Earth: 0.2
+      Earth: 0.2,
     },
     description: 'Fresh and light, with bright herbs and balanced flavors',
-    traditionalIngredients: ['fish sauce', 'rice noodles', 'herbs', 'lime', 'chilies']
-  }
+    traditionalIngredients: ['fish sauce', 'rice noodles', 'herbs', 'lime', 'chilies'],
+  },
 };
 
 export const _CUISINE_CATEGORIES = Object.keys(CUISINES);

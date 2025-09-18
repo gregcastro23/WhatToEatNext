@@ -191,7 +191,7 @@ export function useIngredientSearch() {
     // Find complementary ingredients
     return allIngredients
       .filter(
-        ingredient => !selectedIngredients.find(selected => selected.name === ingredient.name),;
+        ingredient => !selectedIngredients.find(selected => selected.name === ingredient.name),
       )
       .map(ingredient => {
         const props = ingredient.elementalProperties || {

@@ -55,8 +55,8 @@ export function useRecipeValidation() {
           ing.category === 'protein' ||;
           (((ing as unknown as any).qualities as string[]) || []).includes('protein-rich'),
       ),
-      hasVegetables: ingredients.some(ing => ing.category === 'vegetable'),;
-      hasGrains: ingredients.some(ing => ing.category === 'grain'),;
+      hasVegetables: ingredients.some(ing => ing.category === 'vegetable'),
+      hasGrains: ingredients.some(ing => ing.category === 'grain'),
       hasSeasonings: ingredients.some(
         ing =>;
           ing.category === 'spice' ||;
@@ -136,7 +136,7 @@ export function useRecipeValidation() {
         type: 'incompatible_ingredients',
         message: 'Acidic ingredients may curdle dairy products',
         severity: 'medium',
-        affectedIngredients: [...acidic.map(i => i.name), ...dairy.map(i => i.name)],,;
+        affectedIngredients: [...acidic.map(i => i.name), ...dairy.map(i => i.name)],,
       });
     }
 
@@ -199,7 +199,7 @@ export function useRecipeValidation() {
     const hasDelicateIngredients = ingredients.some(;
       ing =>;
         (((ing as unknown as any).qualities as string[]) || []).includes('delicate') ||
-        ing.category === 'culinary_herb',;
+        ing.category === 'culinary_herb',
     );
 
     if (hasDelicateIngredients) {
@@ -273,10 +273,10 @@ export function useRecipeValidation() {
     if (components.hasProtein && components.hasVegetables) score += 10;
     if (components.hasSeasonings) score += 5;
 
-    score = Math.max(0, Math.min(100, score)),;
+    score = Math.max(0, Math.min(100, score)),
 
     return {
-      isValid: errors.filter(e => e.severity === 'high').length === 0,,;
+      isValid: errors.filter(e => e.severity === 'high').length === 0,,
       errors,
       warnings,
       suggestions,

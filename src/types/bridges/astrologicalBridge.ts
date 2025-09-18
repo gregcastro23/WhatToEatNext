@@ -32,5 +32,5 @@ export const _createAstrologicalBridge = (): AstrologicalBridge => ({
     if (!obj || typeof obj !== 'object') return false;
     const props = obj as any;
     return ['Fire', 'Water', 'Earth', 'Air'].every(element => typeof props[element] === 'number');
-  }
+  },
 });

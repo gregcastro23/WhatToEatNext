@@ -9,8 +9,8 @@ const rawChia: Record<string, Partial<IngredientMapping>> = {
       rulingPlanets: ['Neptune', 'Moon'],
       elementalAffinity: {
         base: 'Water',
-        secondary: 'Earth'
-      }
+        secondary: 'Earth',
+      },
     },
     qualities: ['gelatinous', 'hydrophilic', 'versatile', 'gluten-free', 'omega-rich'],
     category: 'pseudo_grain',
@@ -23,23 +23,23 @@ const rawChia: Record<string, Partial<IngredientMapping>> = {
         tips: [
           'Use 1:6 chia to liquid ratio for gel',
           'Stir after adding to liquid to prevent clumping',
-          'Can be used directly in baking without soaking'
-        ]
+          'Can be used directly in baking without soaking',
+        ],
       },
-      methods: ['soaked', 'ground', 'raw sprinkled', 'incorporated into batter']
+      methods: ['soaked', 'ground', 'raw sprinkled', 'incorporated into batter'],
     },
     storage: {
       container: 'Airtight container',
       duration: 'Up to 2 years (dry), 5-7 days (prepared)',
       temperature: 'Cool, dark place (dry), refrigerated (prepared)',
-      notes: 'High oil content, but surprisingly shelf-stable when kept dry'
+      notes: 'High oil content, but surprisingly shelf-stable when kept dry',
     },
     pairingRecommendations: {
       complementary: ['fruits', 'yogurt', 'oats', 'honey', 'cinnamon', 'almond milk', 'coconut'],
       contrasting: ['citrus', 'spices', 'chocolate'],
-      toAvoid: ['high-acid marinades that might break down the gel structure']
-    }
-  }
+      toAvoid: ['high-acid marinades that might break down the gel structure'],
+    },
+  },
 };
 
 export const chia: Record<string, IngredientMapping> = fixIngredientMappings(rawChia);

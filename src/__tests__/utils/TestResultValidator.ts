@@ -124,7 +124,7 @@ export class TestResultValidator {
           typeof result === 'object' &&;
           result !== null &&
           typeof (result as any).resourcesCleanedUp === 'boolean' &&;
-          (result as any).resourcesCleanedUp === true,,;
+          (result as any).resourcesCleanedUp === true,,
         errorMessage: 'Resources were not properly cleaned up',
         severity: 'warning'
       }
@@ -138,7 +138,7 @@ export class TestResultValidator {
           typeof result === 'object' &&;
           result !== null &&
           typeof (result as any).success === 'boolean' &&;
-          (result as any).success === true,,;
+          (result as any).success === true,,
         errorMessage: 'Build did not complete successfully',
         severity: 'error'
       },
@@ -319,7 +319,7 @@ export class TestResultValidator {
         const numericResults = results.filter(r => typeof r === 'number') as number[];
         if (numericResults.length > 1) {
           const mean = numericResults.reduce((a, b) => a + b, 0) / numericResults.length;
-          const variance = this.calculateVariance(numericResults, mean),;
+          const variance = this.calculateVariance(numericResults, mean),
           const variancePercent = (variance / mean) * 100;
 
           if (variancePercent > check.tolerancePercent) {
@@ -372,7 +372,7 @@ export class TestResultValidator {
 
     for (const [testName, result] of suiteResults) {
       const category = categoryMapping.get(testName) || 'default';
-      const validation = this.validateResult(result, category),;
+      const validation = this.validateResult(result, category),
       validationResults.set(testName, validation)
     }
 
@@ -440,7 +440,7 @@ export class TestResultValidator {
    * Calculate variance for numeric array
    */
   private calculateVariance(numbers: number[], mean: number): number {
-    const squaredDiffs = numbers.map(x => Math.pow(x - mean, 2)),;
+    const squaredDiffs = numbers.map(x => Math.pow(x - mean, 2)),
     return Math.sqrt(squaredDiffs.reduce((a, b) => a + b, 0) / squaredDiffs.length)
   }
 

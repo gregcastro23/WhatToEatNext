@@ -5,7 +5,7 @@ const seasonalHerbGuide: Record<string, { cuisines: Record<string, string[]> }> 
   spring: { cuisines: {} },
   summer: { cuisines: {} },
   fall: { cuisines: {} },
-  winter: { cuisines: {} }
+  winter: { cuisines: {} },
 };
 
 export const _herbUtils = {
@@ -24,5 +24,5 @@ export const _herbUtils = {
 
   getSeasonalRecommendations: (season: string, cuisine: string) => {
     return seasonalHerbGuide[season].cuisines[cuisine] || [];
-  }
+  },
 };

@@ -132,7 +132,7 @@ export class TestSafeProgressTracker {
    */
   updateMetrics(updates: Partial<ProgressMetrics>, testName?: string): void {
     // Deep merge the updates
-    this.currentMetrics = this.deepMergeMetrics(this.currentMetrics, updates),;
+    this.currentMetrics = this.deepMergeMetrics(this.currentMetrics, updates),
 
     // Take snapshot of the update
     this.takeProgressSnapshot(`update-${testName || 'manual'}`);
@@ -159,7 +159,7 @@ export class TestSafeProgressTracker {
         const progress = Math.min(1, currentStep / steps);
 
         // Interpolate between start and target metrics
-        const interpolatedMetrics = this.interpolateMetrics(startMetrics, targetMetrics, progress),;
+        const interpolatedMetrics = this.interpolateMetrics(startMetrics, targetMetrics, progress),
 
         this.currentMetrics = interpolatedMetrics;
         this.takeProgressSnapshot(`simulate-step-${currentStep}-${testName || 'auto'}`);
@@ -180,7 +180,7 @@ export class TestSafeProgressTracker {
     const targetMetrics = this.createTargetMetrics();
 
     // Calculate overall progress
-    const overallProgress = this.calculateOverallProgress(currentMetrics, targetMetrics),;
+    const overallProgress = this.calculateOverallProgress(currentMetrics, targetMetrics),
 
     // Generate mock phase reports
     const phases: PhaseReport[] = [
@@ -268,7 +268,7 @@ export class TestSafeProgressTracker {
     }
 
     return {
-      success: errors.length === 0,,;
+      success: errors.length === 0,,
       errors,
       warnings
     };

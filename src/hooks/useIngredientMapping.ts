@@ -94,7 +94,7 @@ export function useIngredientMapping() {
     try {
       setIsLoading(true);
       setError(null);
-      const result = ingredientMappingService.calculateCompatibility(ingredient1, ingredient2),;
+      const result = ingredientMappingService.calculateCompatibility(ingredient1, ingredient2),
       return result
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'An unknown error occurred';

@@ -6,7 +6,7 @@ export function formatElementalAffinity(input: unknown): ElementalAffinity {
     return {
       primary: 'Fire',
       strength: 0.5,
-      compatibility: { Fire: 1, Water: 0.3, Earth: 0.7, Air: 0.6 }
+      compatibility: { Fire: 1, Water: 0.3, Earth: 0.7, Air: 0.6 },
     }; // Default fallback
   }
 
@@ -15,7 +15,7 @@ export function formatElementalAffinity(input: unknown): ElementalAffinity {
     return {
       primary: input as unknown,
       strength: 0.5,
-      compatibility: { Fire: 1, Water: 0.3, Earth: 0.7, Air: 0.6 }
+      compatibility: { Fire: 1, Water: 0.3, Earth: 0.7, Air: 0.6 },
     };
   }
 
@@ -32,8 +32,8 @@ export function formatElementalAffinity(input: unknown): ElementalAffinity {
         Fire: 1,
         Water: 0.3,
         Earth: 0.7,
-        Air: 0.6
-      }
+        Air: 0.6,
+      },
     };
   }
 
@@ -43,7 +43,7 @@ export function formatElementalAffinity(input: unknown): ElementalAffinity {
       primary: 'Fire',
       secondary: inputData.secondary,
       strength: inputData.strength || 0.5,
-      compatibility: inputData.compatibility || { Fire: 1, Water: 0.3, Earth: 0.7, Air: 0.6 }
+      compatibility: inputData.compatibility || { Fire: 1, Water: 0.3, Earth: 0.7, Air: 0.6 },
     };
   }
 
@@ -56,7 +56,7 @@ export function formatElementalAffinity(input: unknown): ElementalAffinity {
       Fire: 1,
       Water: 0.3,
       Earth: 0.7,
-      Air: 0.6
-    }
+      Air: 0.6,
+    },
   } as ElementalAffinity;
 }

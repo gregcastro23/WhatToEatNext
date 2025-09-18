@@ -238,7 +238,7 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
     return {
       elements: state.elements,
       metrics: state.metrics,
-      planetaryPositions: state.planetaryPositions;
+      planetaryPositions: state.planetaryPositions,
       // Add other relevant state properties
       ...(state as unknown)
     };

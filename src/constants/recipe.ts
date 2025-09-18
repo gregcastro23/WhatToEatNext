@@ -77,7 +77,7 @@ export interface Dish {
   cookTime: number,
   totalTime: number,
   ingredients: Ingredient[],
-  steps: CookingStep[];
+  steps: CookingStep[],
   nutritionalInfo?: NutritionalInfo;
   elementalState?: ElementalProperties;
 }

@@ -5,7 +5,7 @@ export function middleware(_request: NextRequest) {
   const response = NextResponse.next();
 
   // Define the environment
-  const isDevelopment = process.env.NODE_ENV === 'development',;
+  const isDevelopment = process.env.NODE_ENV === 'development',
 
   // Add security headers with more permissive settings for development
   const cspHeader =

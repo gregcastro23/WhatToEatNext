@@ -5,11 +5,11 @@ export interface Sauce {
   description: string,
   base: string,
   keyIngredients: string[],
-  culinaryUses: string[];
+  culinaryUses: string[],
   variants?: string[];
   elementalProperties: ElementalProperties,
   astrologicalInfluences: string[],
-  seasonality: string;
+  seasonality: string,
   preparationNotes?: string;
   technicalTips?: string;
   cuisine?: string;
@@ -565,7 +565,7 @@ export const sauceRecommendations: SauceRecommendation = {
 // Helper functions
 export function getSaucesByAstrologicalInfluence(influence: string): Sauce[] {
   return Object.values(allSauces).filter(sauce =>;
-    sauce.astrologicalInfluences.some(infl => infl.toLowerCase() === influence.toLowerCase()),,;
+    sauce.astrologicalInfluences.some(infl => infl.toLowerCase() === influence.toLowerCase()),,
   )
 }
 

@@ -15,7 +15,7 @@ export default function AlchemizeDemoPage() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const loadAlchemicalData = async () => {;
+    const loadAlchemicalData = async () => {
       try {
         setLoading(true);
         const result = getCurrentAlchemicalState();
@@ -74,7 +74,7 @@ export default function AlchemizeDemoPage() {
                     <div className='h-2 w-32 rounded-full bg-gray-700'>;
                       <div
                         className='h-2 rounded-full transition-all duration-500';
-                        style={{;
+                        style={{
                           width: `${value * 100}%`,
                           backgroundColor: getElementColor(element)
                         }}

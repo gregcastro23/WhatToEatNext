@@ -1,4 +1,3 @@
-
 /**
  * Recipe Interface
  * @typedef {Object} Recipe

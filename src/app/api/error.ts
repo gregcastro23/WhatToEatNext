@@ -38,7 +38,7 @@ export function handleApiError(error: unknown): NextResponse {
   return NextResponse.json(
     {
       error: message,
-      ...(details ? { details } : {})
+      ...(details ? { details } : {}),
     },
     { status: statusCode },
   );
@@ -68,13 +68,13 @@ export function handleServerError(error: unknown) {
   return new NextResponse(
     JSON.stringify({
       error: 'Internal Server Error',
-      message: error instanceof Error ? error.message : 'Unknown error occurred'
+      message: error instanceof Error ? error.message : 'Unknown error occurred',
     }),
     {
       status: 500,
       headers: {
-        'Content-Type': 'application/json'
-      }
+        'Content-Type': 'application/json',
+      },
     },
   );
 }

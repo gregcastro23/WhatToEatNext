@@ -13,7 +13,7 @@ import {
   SafetyEventType,
   SafetyEventSeverity,
   CampaignConfig,
-  SafetyLevel
+  SafetyLevel,
 } from '../../../../types/campaign';
 import { CampaignController } from '../../CampaignController';
 import { ProgressTracker } from '../../ProgressTracker';
@@ -40,7 +40,7 @@ describe('Safety Protocol Integration Tests', () => {
       testValidationFrequency: 10,
       corruptionDetectionEnabled: true,
       automaticRollbackEnabled: true,
-      stashRetentionDays: 7
+      stashRetentionDays: 7,
     };
 
     mockConfig = {
@@ -54,20 +54,21 @@ describe('Safety Protocol Integration Tests', () => {
               scriptPath: 'scripts/test-script.js',
               parameters: { maxFile, s: 10, autoFix: true },
               batchSize: 10,
-              safetyLevel: SafetyLevel.HIGH
-            }
+              safetyLevel: SafetyLevel.HIGH,
+            },
           ],
           successCriteria: { typeScriptError, s: 0 },
-          safetyCheckpoints: []
-        }
+          safetyCheckpoints: [],
+        },
       ],
       safetySettings: mockSafetySettings,
       progressTargets: { typeScriptError, s: 0, lintingWarnings: 0, buildTime: 10, enterpriseSystems: 200 },
-      toolConfiguration: { enhancedErrorFixer: 'scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js',
+      toolConfiguration: {
+        enhancedErrorFixer: 'scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js',
         explicitAnyFixer: 'scripts/typescript-fixes/fix-explicit-any-systematic.js',
         unusedVariablesFixer: 'scripts/typescript-fixes/fix-unused-variables-enhanced.js',
-        consoleStatementFixer: 'scripts/lint-fixes/fix-console-statements-only.js'
-      }
+        consoleStatementFixer: 'scripts/lint-fixes/fix-console-statements-only.js',
+      },
     };
 
     safetyProtocol = new SafetyProtocol(mockSafetySettings);
@@ -268,7 +269,7 @@ import type type Something, { a, b } from './module';
         detectedFiles: [],
         corruptionPatterns: [],
         severity: CorruptionSeverity.LOW,
-        recommendedAction: RecoveryAction.CONTINUE
+        recommendedAction: RecoveryAction.CONTINUE,
       });
 
       safetyProtocol.startRealTimeMonitoring(testFiles, 1000);
@@ -290,11 +291,11 @@ import type type Something, { a, b } from './module';
           {
             pattern: 'CRITICAL_CORRUPTION',
             description: 'Critical corruption detected',
-            files: ['file1.ts']
-          }
+            files: ['file1.ts'],
+          },
         ],
         severity: CorruptionSeverity.CRITICAL,
-        recommendedAction: RecoveryAction.EMERGENCY_RESTORE
+        recommendedAction: RecoveryAction.EMERGENCY_RESTORE,
       });
 
       jest.spyOn(safetyProtocol, 'emergencyRollback').mockResolvedValue();
@@ -317,7 +318,7 @@ import type type Something, { a, b } from './module';
         detectedFiles: ['file1.ts'],
         corruptionPatterns: [],
         severity: CorruptionSeverity.MEDIUM,
-        recommendedAction: RecoveryAction.RETRY
+        recommendedAction: RecoveryAction.RETRY,
       });
 
       safetyProtocol.startRealTimeMonitoring(testFiles, 1000);
@@ -424,7 +425,7 @@ import type type Something, { a, b } from './module';
         description: 'Old stash',
         timestamp: oldDate,
         branch: 'main',
-        ref: 'stash@{1}'
+        ref: 'stash@{1}',
       };
 
       const recentStash: any = {
@@ -432,7 +433,7 @@ import type type Something, { a, b } from './module';
         description: 'Recent stash',
         timestamp: recentDate,
         branch: 'main',
-        ref: 'stash@{0}'
+        ref: 'stash@{0}',
       };
 
       (safetyProtocol as any).stashes.set('old-stash', oldStash);
@@ -471,7 +472,7 @@ import type type Something, { a, b } from './module';
         typeScriptErrors: { curren, t: 0, target: 0, reduction: 86, percentage: 100 },
         lintingWarnings: { curren, t: 4506, target: 0, reduction: 0, percentage: 0 },
         buildPerformance: { currentTim, e: 8.5, targetTime: 10, cacheHitRate: 0.8, memoryUsage: 45 },
-        enterpriseSystems: { curren, t: 0, target: 200, transformedExports: 0 }
+        enterpriseSystems: { curren, t: 0, target: 200, transformedExports: 0 },
       });
 
       const result: any = await campaignController.executePhase(phase);
@@ -488,7 +489,7 @@ import type type Something, { a, b } from './module';
       jest.spyOn(campaignController as unknown, 'validatePhaseProgress').mockResolvedValue({
         success: false,
         errors: ['Corruption detected'],
-        warnings: []
+        warnings: [],
       });
 
       jest.spyOn(campaignController, 'rollbackToCheckpoint').mockResolvedValue();

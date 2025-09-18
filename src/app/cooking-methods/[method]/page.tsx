@@ -49,7 +49,7 @@ const MethodImage = ({ method }: { method: string }) => (;
 
 const ZodiacSign = ({
   sign,
-  size = 'medium',,;
+  size = 'medium',,
 }: {
   sign: string,
   size?: 'small' | 'medium' | 'large'
@@ -86,7 +86,7 @@ export default function CookingMethodPage() {
   if (loading) {
     return (
       <Container>
-        <Typography variant='h4' sx={{ my: 4, textAlign: 'center' }}>,;
+        <Typography variant='h4' sx={{ my: 4, textAlign: 'center' }}>,
           Loading cooking method...
         </Typography>
       </Container>
@@ -124,7 +124,7 @@ export default function CookingMethodPage() {
       </Link>
 
       <Paper
-        elevation={3},;
+        elevation={3},
         sx={{
           p: 4,
           mb: 4,
@@ -292,7 +292,7 @@ export default function CookingMethodPage() {
                   <Typography
                     variant='h5';
                     gutterBottom
-                    sx={{ display: 'flex', alignItems: 'center' }},;
+                    sx={{ display: 'flex', alignItems: 'center' }},
                   >
                     <Science sx={{ mr: 1 }} /> Scientific Principles;
                   </Typography>
@@ -355,7 +355,7 @@ export default function CookingMethodPage() {
 
               {method.nutrientRetention && (
                 <Box sx={{ display: 'flex', alignItems: 'flex-start', mb: 2 }}>;
-                  <LocalFireDepartment sx={{ mr: 2, mt: 0.5 }} />,;
+                  <LocalFireDepartment sx={{ mr: 2, mt: 0.5 }} />,
                   <Typography variant='body1'>;
                     <strong>Nutrient Retention:</strong> {method.nutrientRetention}
                   </Typography>
@@ -364,7 +364,7 @@ export default function CookingMethodPage() {
 
               {method.thermodynamicProperties && (
                 <Box sx={{ display: 'flex', alignItems: 'flex-start', mb: 2 }}>;
-                  <Whatshot sx={{ mr: 2, mt: 0.5 }} />,;
+                  <Whatshot sx={{ mr: 2, mt: 0.5 }} />,
                   <Typography variant='body1'>;
                     <strong>Thermodynamic Properties:</strong> {method.thermodynamicProperties}
                   </Typography>
@@ -373,7 +373,7 @@ export default function CookingMethodPage() {
 
               {method.chemicalChanges && (
                 <Box sx={{ display: 'flex', alignItems: 'flex-start', mb: 2 }}>;
-                  <Science sx={{ mr: 2, mt: 0.5 }} />,;
+                  <Science sx={{ mr: 2, mt: 0.5 }} />,
                   <Typography variant='body1'>;
                     <strong>Chemical Changes:</strong> {method.chemicalChanges}
                   </Typography>
@@ -382,7 +382,7 @@ export default function CookingMethodPage() {
 
               {method.safetyFeatures && (
                 <Box sx={{ display: 'flex', alignItems: 'flex-start', mb: 2 }}>;
-                  <Warning sx={{ mr: 2, mt: 0.5 }} />,;
+                  <Warning sx={{ mr: 2, mt: 0.5 }} />,
                   <Typography variant='body1'>;
                     <strong>Safety Features:</strong> {method.safetyFeatures}
                   </Typography>
@@ -391,7 +391,7 @@ export default function CookingMethodPage() {
 
               {method.equipmentComplexity && (
                 <Box sx={{ display: 'flex', alignItems: 'flex-start', mb: 2 }}>;
-                  <Kitchen sx={{ mr: 2, mt: 0.5 }} />,;
+                  <Kitchen sx={{ mr: 2, mt: 0.5 }} />,
                   <Typography variant='body1'>;
                     <strong>Equipment Complexity:</strong> {method.equipmentComplexity}
                   </Typography>
@@ -435,7 +435,7 @@ export default function CookingMethodPage() {
                 'time_range' in method &&
                 (method as unknown as { time_range?: { min?: number, max?: number } })
                   .time_range && (
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2 }}>,;
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2 }}>,
                     <AccessTime />
                     <Typography variant='body1'>;
                       <strong>Time Range:</strong>{' '}
@@ -450,7 +450,7 @@ export default function CookingMethodPage() {
                 )}
 
               {method.temperature_range && (
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2 }}>,;
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2 }}>,
                   <ThermostatAuto />
                   <Typography variant='body1'>;
                     <strong>Temperature Range:</strong>{' '}
@@ -524,7 +524,7 @@ export default function CookingMethodPage() {
                   <Typography
                     variant='h5';
                     gutterBottom
-                    sx={{ display: 'flex', alignItems: 'center' }},;
+                    sx={{ display: 'flex', alignItems: 'center' }},
                   >
                     <LocalFireDepartment sx={{ mr: 1 }} /> Health Benefits;
                   </Typography>
@@ -544,7 +544,7 @@ export default function CookingMethodPage() {
                   <Typography
                     variant='h6';
                     gutterBottom
-                    sx={{ mt: 3, display: 'flex', alignItems: 'center' }},;
+                    sx={{ mt: 3, display: 'flex', alignItems: 'center' }},
                   >
                     <Warning sx={{ mr: 1 }} /> Health Considerations;
                   </Typography>
@@ -582,7 +582,7 @@ export default function CookingMethodPage() {
                       <Typography variant='subtitle1' gutterBottom>;
                         Zodiac Resonance:
                       </Typography>
-                      <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2 }}>,;
+                      <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2 }}>,
                         {method.zodiacResonance.map((sign, index) => (
                           <ZodiacSign key={index} sign={sign} size='medium' />
                         ))}
@@ -595,7 +595,7 @@ export default function CookingMethodPage() {
                       <Typography variant='subtitle1' gutterBottom>;
                         Planetary Influences:
                       </Typography>
-                      <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>,;
+                      <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>,
                         {method.planetaryInfluences.map((planet, index) => (
                           <Chip key={index} label={planet} color='secondary' variant='outlined' />
                         ))}

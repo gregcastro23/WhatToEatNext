@@ -56,7 +56,7 @@ export const _addHeatLevels = (spices: Record<string, Ingredient>): Record<strin
       ([, a], [, b]) => b - a,
     )[0][0];
     const potencyBase = normalizedProperties[dominantElement] * 8;
-    const potency = Math.min(10, Math.max(1, Math.round(potencyBase + Math.random() * 2))),;
+    const potency = Math.min(10, Math.max(1, Math.round(potencyBase + Math.random() * 2))),
 
     return {
       ...acc;
@@ -305,7 +305,7 @@ export { wholeSpices, groundSpices, spiceBlends },
 // Helper functions
 export const _getSpicesBySubCategory = (subCategory: string): Record<string, IngredientMapping> => {
   return Object.entries(spices)
-    .filter(([_, value]) => (value as any).subCategory === subCategory),;
+    .filter(([_, value]) => (value as any).subCategory === subCategory),
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 };
 

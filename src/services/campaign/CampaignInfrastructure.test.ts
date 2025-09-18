@@ -25,23 +25,21 @@ describe('Campaign Infrastructure', () => {
     test('should create campaign controller with config', () => {
       const mockConfig: any = {
         phases: [],
-        safetySettings: { maxFilesPerBatch: 25,
+        safetySettings: {
+          maxFilesPerBatch: 25,
           buildValidationFrequency: 5,
           testValidationFrequency: 10,
           corruptionDetectionEnabled: true,
           automaticRollbackEnabled: true,
-          stashRetentionDays: 7
+          stashRetentionDays: 7,
         },
-        progressTargets: { typeScriptErrors: 0,
-          lintingWarnings: 0,
-          buildTime: 10,
-          enterpriseSystems: 200
-        },
-        toolConfiguration: { enhancedErrorFixer: 'scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js',
+        progressTargets: { typeScriptErrors: 0, lintingWarnings: 0, buildTime: 10, enterpriseSystems: 200 },
+        toolConfiguration: {
+          enhancedErrorFixer: 'scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js',
           explicitAnyFixer: 'scripts/typescript-fixes/fix-explicit-any-systematic.js',
           unusedVariablesFixer: 'scripts/typescript-fixes/fix-unused-variables-enhanced.js',
-          consoleStatementFixer: 'scripts/lint-fixes/fix-console-statements-only.js'
-        }
+          consoleStatementFixer: 'scripts/lint-fixes/fix-console-statements-only.js',
+        },
       };
 
       const controller: any = new CampaignController(mockConfig);
@@ -57,9 +55,8 @@ describe('Campaign Infrastructure', () => {
         name: 'Test Phase',
         description: 'Test phase for validation',
         tools: [],
-        successCriteria: { typeScriptErrors: 0
-        },
-        safetyCheckpoints: []
+        successCriteria: { typeScriptErrors: 0 },
+        safetyCheckpoints: [],
       };
 
       const validation: any = await controller.validatePhaseCompletion(mockPhase);
@@ -78,7 +75,7 @@ describe('Campaign Infrastructure', () => {
         testValidationFrequency: 10,
         corruptionDetectionEnabled: true,
         automaticRollbackEnabled: true,
-        stashRetentionDays: 7
+        stashRetentionDays: 7,
       };
 
       const safetyProtocol: any = new SafetyProtocol(settings);
@@ -92,7 +89,7 @@ describe('Campaign Infrastructure', () => {
         testValidationFrequency: 10,
         corruptionDetectionEnabled: true,
         automaticRollbackEnabled: true,
-        stashRetentionDays: 7
+        stashRetentionDays: 7,
       };
 
       const safetyProtocol: any = new SafetyProtocol(settings);
@@ -111,7 +108,7 @@ describe('Campaign Infrastructure', () => {
         testValidationFrequency: 10,
         corruptionDetectionEnabled: true,
         automaticRollbackEnabled: true,
-        stashRetentionDays: 7
+        stashRetentionDays: 7,
       };
 
       const safetyProtocol: any = new SafetyProtocol(settings);

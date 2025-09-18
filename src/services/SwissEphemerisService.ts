@@ -16,7 +16,7 @@ const logger = createLogger('SwissEphemerisService');
 export interface SwissEphemerisData {
   day: number,
   date: Date,
-  sidereal_time: string;
+  sidereal_time: string,
   // Planet codes: A=Sun, B=Moon, C=Mercury, D=Venus, E=Mars, F=Jupiter, G=Saturn, O=Uranus, I=Neptune, J=Pluto;
   A: number; // Sun
   B: number; // Moon

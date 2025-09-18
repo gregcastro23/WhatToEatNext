@@ -1,4 +1,3 @@
- 
 interface Props {
   required: string;
   optional?: number;

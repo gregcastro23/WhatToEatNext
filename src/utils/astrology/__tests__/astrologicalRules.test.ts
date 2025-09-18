@@ -15,7 +15,7 @@ describe('Astrological ESLint Rules Integration', () => {
         Fire: 0.4,
         Water: 0.3,
         Earth: 0.2,
-        Air: 0.1
+        Air: 0.1,
       };
 
       expect(validateElementalProperties(validProperties)).toBe(true);
@@ -33,7 +33,7 @@ describe('Astrological ESLint Rules Integration', () => {
     test('normalizes partial elemental properties', () => {
       const partialProperties: any = {
         Fire: 0.8,
-        Water: 0.2
+        Water: 0.2,
       };
 
       const normalized: any = normalizeElementalProperties(partialProperties);
@@ -53,7 +53,7 @@ describe('Astrological ESLint Rules Integration', () => {
         venus: { sign: 'cancer', degree: 5.2, exactLongitude: 95.2, isRetrograde: false },
         mars: { sign: 'leo', degree: 12.8, exactLongitude: 132.8, isRetrograde: false },
         jupiter: { sign: 'virgo', degree: 28.1, exactLongitude: 178.1, isRetrograde: false },
-        saturn: { sign: 'libra', degree: 3.4, exactLongitude: 183.4, isRetrograde: false }
+        saturn: { sign: 'libra', degree: 3.4, exactLongitude: 183.4, isRetrograde: false },
       };
 
       const result: any = validatePlanetaryPositions(validPositions);
@@ -84,7 +84,7 @@ describe('Astrological ESLint Rules Integration', () => {
         venus: { sign: 'cancer', degree: 5.2, exactLongitude: 95.2, isRetrograde: false },
         mars: { sign: 'leo', degree: 12.8, exactLongitude: 132.8, isRetrograde: false },
         jupiter: { sign: 'virgo', degree: 28.1, exactLongitude: 178.1, isRetrograde: false },
-        saturn: { sign: 'libra', degree: 3.4, exactLongitude: 183.4, isRetrograde: false }
+        saturn: { sign: 'libra', degree: 3.4, exactLongitude: 183.4, isRetrograde: false },
       };
 
       const result: any = validatePlanetaryPositions(invalidPositions, { strictMode: true });
@@ -110,7 +110,7 @@ describe('Astrological ESLint Rules Integration', () => {
         venus: { sign: 'cancer', degree: 5.2, exactLongitude: 95.2, isRetrograde: false },
         mars: { sign: 'leo', degree: 12.8, exactLongitude: 132.8, isRetrograde: false },
         jupiter: { sign: 'virgo', degree: 28.1, exactLongitude: 178.1, isRetrograde: false },
-        saturn: { sign: 'libra', degree: 3.4, exactLongitude: 183.4, isRetrograde: false }
+        saturn: { sign: 'libra', degree: 3.4, exactLongitude: 183.4, isRetrograde: false },
       };
 
       const result: any = quickValidate(validPositions, 'planetary');
@@ -125,7 +125,7 @@ describe('Astrological ESLint Rules Integration', () => {
         Fire: 0.4,
         Water: 0.3,
         Earth: 0.2,
-        Air: 0.1
+        Air: 0.1,
       };
 
       expect(quickValidate(validProperties, 'elemental')).toBe(true);
@@ -135,7 +135,7 @@ describe('Astrological ESLint Rules Integration', () => {
       const validConstants: any = {
         DEGREES_PER_SIGN: 30,
         SIGNS_PER_CIRCLE: 12,
-        MAX_LONGITUDE: 360
+        MAX_LONGITUDE: 360,
       };
 
       expect(quickValidate(validConstants, 'constants')).toBe(true);
@@ -148,7 +148,7 @@ describe('Astrological ESLint Rules Integration', () => {
     const SIGNS_PER_CIRCLE: any = 12;
     const MAX_LONGITUDE: any = 360;
     const FALLBACK_POSITIONS: any = {
-      sun: { sign: 'aries', degree: 8.5, exactLongitude: 8.5, isRetrograde: false }
+      sun: { sign: 'aries', degree: 8.5, exactLongitude: 8.5, isRetrograde: false },
     };
 
     test('mathematical constants maintain correct values', () => {

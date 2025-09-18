@@ -30,7 +30,7 @@ export interface LogContext {
 export interface LogEntry {
   timestamp: Date,
   level: LogLevel,
-  message: string;
+  message: string,
   context?: LogContext;
   error?: Error;
    

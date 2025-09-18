@@ -259,7 +259,7 @@ export interface EnhancedRecipe {
   timing: {
     prepTime: number,
     cookTime: number,
-    totalTime: number;
+    totalTime: number,
     optimalStartTime?: string;
     planetaryTiming?: {
       bestPlanetaryHour: Astrology.Planet,

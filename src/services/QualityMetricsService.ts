@@ -9,7 +9,7 @@ export interface QualityInsight {
   title: string,
   description: string,
   severity: 'info' | 'warning' | 'error' | 'critical',
-  confidence: number; // 0-1
+  confidence: number, // 0-1
   timeframe: string,
   actionable: boolean,
   suggestedActions: string[],

@@ -13,7 +13,7 @@ export interface Recipe {
   ingredients: string[],
   cookingMethod: string,
   cuisine: string,
-  elementalProfile: { Fire: number; Water: number, Earth: number, Air: number };
+  elementalProfile: { Fire: number, Water: number, Earth: number, Air: number };
   score?: number;
 }
 

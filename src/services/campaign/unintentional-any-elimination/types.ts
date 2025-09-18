@@ -33,7 +33,7 @@ export interface ClassificationContext {
   lineNumber: number,
   codeSnippet: string,
   surroundingLines: string[],
-  hasExistingComment: boolean;
+  hasExistingComment: boolean,
   existingComment?: string;
   isInTestFile: boolean,
   domainContext: DomainContext,
@@ -54,7 +54,7 @@ export interface ReplacementResult {
   appliedReplacements: TypeReplacement[],
   failedReplacements: TypeReplacement[],
   compilationErrors: string[],
-  rollbackPerformed: boolean;
+  rollbackPerformed: boolean,
   backupPath?: string;
 }
 
@@ -245,7 +245,7 @@ export interface ProgressiveImprovementEngine {
 export interface DocumentationTemplate {
   category: AnyTypeCategory,
   domain: CodeDomain,
-  template: string;
+  template: string,
   eslintDisableComment?: string;
   explanation: string
 }
@@ -255,7 +255,7 @@ export interface DocumentationResult {
   lineNumber: number,
   originalCode: string,
   documentedCode: string,
-  commentAdded: string;
+  commentAdded: string,
   eslintDisableAdded?: string;
   success: boolean;
   error?: string;
@@ -361,7 +361,7 @@ export interface TrendingData {
   successRate: number,
   totalAnyTypes: number,
   unintentionalCount: number,
-  classificationAccuracy: number;
+  classificationAccuracy: number,
   trends?: {
     successRateChange: number,
     totalAnyTypesChange: number,
@@ -395,7 +395,7 @@ export interface AnalysisReport {
   pilotPhase?: {
     executionDate: Date,
     configuration: PilotAnalysisConfig,
-    accuracyValidation: ClassificationAccuracyReport;
+    accuracyValidation: ClassificationAccuracyReport,
     tuningResults?: ClassificationTuningResults;
     domainDistribution: DomainDistribution[],
     baselineMetrics: BaselineMetrics,
@@ -438,7 +438,7 @@ export interface AlertThresholds {
   buildFailureThreshold: number,
   classificationAccuracyThreshold: number,
   safetyEventThreshold: number,
-  progressStallThreshold: number; // hours
+  progressStallThreshold: number, // hours
 }
 
 export interface Alert {
@@ -464,7 +464,7 @@ export interface SafetyEvent {
   severity: 'low' | 'medium' | 'high' | 'critical',
   description: string,
   action: string,
-  timestamp: Date;
+  timestamp: Date,
   affectedFiles?: string[];
 }
 

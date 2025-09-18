@@ -29,7 +29,7 @@ describe('RecipeElementalService', () => {
       const recipe: Partial<Recipe> = {
         id: 'test-recipe',
         name: 'Test Recipe',
-        elementalProperties: { Fire: 1, Water: 0, Earth: 0, Air: 0 }
+        elementalProperties: { Fire: 1, Water: 0, Earth: 0, Air: 0 },
       };
 
       const result: any = recipeElementalService.standardizeRecipe(recipe);
@@ -52,8 +52,8 @@ describe('RecipeElementalService', () => {
         {
           id: 'recipe2',
           name: 'Recipe 2',
-          elementalProperties: { Fire: 0.8, Water: 0.2, Earth: 0, Air: 0 }
-        }
+          elementalProperties: { Fire: 0.8, Water: 0.2, Earth: 0, Air: 0 },
+        },
       ];
 
       const results: any = recipeElementalService.standardizeRecipes(recipes);
@@ -76,7 +76,7 @@ describe('RecipeElementalService', () => {
       const recipe: any = {
         id: 'test-recipe',
         name: 'Test Recipe',
-        elementalProperties: { Fire: 0.4, Water: 0.3, Earth: 0.2, Air: 0.1 }
+        elementalProperties: { Fire: 0.4, Water: 0.3, Earth: 0.2, Air: 0.1 },
       } as Recipe;
 
       const result: any = recipeElementalService.getDominantElement(recipe);
@@ -109,7 +109,7 @@ describe('RecipeElementalService', () => {
     it('should derive properties based on recipe attributes', () => {
       const recipe: any = {
         cuisine: 'Mexican',
-        cookingMethod: ['grilling']
+        cookingMethod: ['grilling'],
       };
 
       const result: any = recipeElementalService.deriveElementalProperties(recipe);
@@ -130,9 +130,9 @@ describe('RecipeElementalService', () => {
             name: 'Rice',
             amount: 1,
             unit: 'cup',
-            elementalProperties: { Earth: 0.6, Water: 0.3, Fire: 0.05, Air: 0.05 }
-          }
-        ]
+            elementalProperties: { Earth: 0.6, Water: 0.3, Fire: 0.05, Air: 0.05 },
+          },
+        ],
       };
 
       const result: any = recipeElementalService.deriveElementalProperties(recipe);

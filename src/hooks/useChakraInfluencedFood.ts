@@ -139,7 +139,7 @@ export const useChakraInfluencedFood = (options?: {
         (moonSign || 'taurus'),
         // Pattern Y: Safe Planet array casting with validation and null checking
         (activePlanets
-          ? activePlanets.slice(0, 3).map(p => (typeof p === 'string' ? p.toLowerCase() : p)),;
+          ? activePlanets.slice(0, 3).map(p => (typeof p === 'string' ? p.toLowerCase() : p)),
           : ['sun', 'moon', 'mercury']) as unknown as Planet[],
         planetaryHour,
       ),
@@ -354,7 +354,7 @@ export const useChakraInfluencedFood = (options?: {
         (moonSign || 'taurus'),
         // Pattern Z: Safe Planet array casting with validation and null checking for refresh function
         (activePlanets
-          ? activePlanets.slice(0, 3).map(p => (typeof p === 'string' ? p.toLowerCase() : p)),;
+          ? activePlanets.slice(0, 3).map(p => (typeof p === 'string' ? p.toLowerCase() : p)),
           : ['sun', 'moon', 'mercury']) as unknown as Planet[],
         planetaryHour,
       );

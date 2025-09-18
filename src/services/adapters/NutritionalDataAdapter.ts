@@ -11,7 +11,7 @@ import type {
   ElementalProperties,
   ZodiacSign,
   PlanetName,
-  Season
+  Season,
 } from '@/types/alchemy';
 
 import {
@@ -22,7 +22,7 @@ import {
   getPlanetaryNutritionalRecommendations,
   getSeasonalNutritionalRecommendations,
   evaluateNutritionalElementalBalance,
-  getEnhancedPlanetaryNutritionalRecommendations
+  getEnhancedPlanetaryNutritionalRecommendations,
 } from '../../data/nutritional';
 import { createElementalProperties } from '../../utils/elemental/elementalUtils';
 import { errorHandler } from '../errorHandler';
@@ -98,7 +98,7 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
         logError(error, {
           context: 'NutritionalDataAdapter',
           action: 'getNutritionalData',
-          foodName
+          foodName,
         });
       }
       return null;
@@ -120,7 +120,7 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
       if (typeof logError === 'function') {
         logError(error, {
           context: 'NutritionalDataAdapter',
-          action: 'calculateNutritionalBalance'
+          action: 'calculateNutritionalBalance',
         });
       }
       return {
@@ -129,8 +129,8 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
           protein: 0,
           carbs: 0,
           fat: 0,
-          fiber: 0
-        }
+          fiber: 0,
+        },
       } as import('@/types/alchemy').NutritionalProfile;
     }
   }
@@ -149,7 +149,7 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
         Fire: result.Fire,
         Water: result.Water,
         Earth: result.Earth,
-        Air: result.Air
+        Air: result.Air,
       });
     } catch (error) {
       // Use safe type casting for errorHandler service access
@@ -158,7 +158,7 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
       if (typeof logError === 'function') {
         logError(error, {
           context: 'NutritionalDataAdapter',
-          action: 'convertNutritionalToElemental'
+          action: 'convertNutritionalToElemental',
         });
       }
       return createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 });
@@ -184,7 +184,7 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
       return {
         focusNutrients: result.focusNutrients,
         recommendedFoods: result.recommendedFoods,
-        avoidFoods: result.avoidFoods
+        avoidFoods: result.avoidFoods,
       };
     } catch (error) {
       // Use safe type casting for errorHandler service access
@@ -194,13 +194,13 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
         logError(error, {
           context: 'NutritionalDataAdapter',
           action: 'getZodiacNutritionalRecommendations',
-          sign: String(sign)
+          sign: String(sign),
         });
       }
       return {
         focusNutrients: [],
         recommendedFoods: [],
-        avoidFoods: []
+        avoidFoods: [],
       };
     }
   }
@@ -225,13 +225,13 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
       if (typeof logError === 'function') {
         logError(error, {
           context: 'NutritionalDataAdapter',
-          action: 'getPlanetaryNutritionalRecommendations'
+          action: 'getPlanetaryNutritionalRecommendations',
         });
       }
       return {
         focusNutrients: [],
         healthAreas: [],
-        recommendedFoods: []
+        recommendedFoods: [],
       };
     }
   }
@@ -242,7 +242,7 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
   getEnhancedPlanetaryNutritionalRecommendations(
     planetaryDay: PlanetName | string,
     planetaryHour: PlanetName | string,
-    currentTime: Date = new Date(),;
+    currentTime: Date = new Date(),
   ): {
     elements: ElementalProperties,
     focusNutrients: string[],
@@ -262,14 +262,14 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
         Fire: result.elements.Fire || 0,
         Water: result.elements.Water || 0,
         Earth: result.elements.Earth || 0,
-        Air: result.elements.Air || 0
+        Air: result.elements.Air || 0,
       });
 
       return {
         elements,
         focusNutrients: result.focusNutrients,
         healthAreas: result.healthAreas,
-        recommendedFoods: result.recommendedFoods
+        recommendedFoods: result.recommendedFoods,
       };
     } catch (error) {
       // Use safe type casting for errorHandler service access
@@ -280,14 +280,14 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
           context: 'NutritionalDataAdapter',
           action: 'getEnhancedPlanetaryNutritionalRecommendations',
           planetaryDay: String(planetaryDay),
-          planetaryHour: String(planetaryHour)
+          planetaryHour: String(planetaryHour),
         });
       }
       return {
         elements: createElementalProperties({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }),
         focusNutrients: [],
         healthAreas: [],
-        recommendedFoods: []
+        recommendedFoods: [],
       };
     }
   }
@@ -307,7 +307,7 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
       const result = getSeasonalNutritionalRecommendations(seasonStr);
       return {
         ...result,
-        element: result.element as Element
+        element: result.element as Element,
       };
     } catch (error) {
       // Use safe type casting for errorHandler service access
@@ -318,12 +318,12 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
       errorHandlerService.logError?.(error, {
         context: 'NutritionalDataAdapter',
         action: 'getSeasonalNutritionalRecommendations',
-        season: String(season)
+        season: String(season),
       });
       return {
         element: 'Fire' as Element,
         focusNutrients: [],
-        seasonalFoods: []
+        seasonalFoods: [],
       };
     }
   }
@@ -345,7 +345,7 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
         Fire: targetElements.Fire,
         Water: targetElements.Water,
         Earth: targetElements.Earth, // Convert to legacy capitalization
-        Air: targetElements.Air
+        Air: targetElements.Air,
       };
 
       return evaluateNutritionalElementalBalance(profile as unknown, legacyTargetElements);
@@ -356,13 +356,13 @@ class NutritionalDataAdapter implements NutritionalDataAdapterInterface {
       if (typeof logError === 'function') {
         logError(error, {
           context: 'NutritionalDataAdapter',
-          action: 'evaluateNutritionalElementalBalance'
+          action: 'evaluateNutritionalElementalBalance',
         });
       }
       return {
         score: 0.5, // Default moderate score
         imbalances: [],
-        recommendations: []
+        recommendations: [],
       };
     }
   }

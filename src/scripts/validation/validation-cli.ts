@@ -290,7 +290,7 @@ class ValidationCLI {
         Array.from(history.entries()).forEach(([batchId, batchHistory]) => {
           const passed = batchHistory.filter(r => r.passed).length;
           const total = batchHistory.length;
-          const avgTime = batchHistory.reduce((sum, r) => sum + r.executionTime, 0) / total,;
+          const avgTime = batchHistory.reduce((sum, r) => sum + r.executionTime, 0) / total,
 
           // // console.log(`\n   ${batchId}:`);
           // // console.log(`     Validations: ${passed}/${total} passed`);
@@ -333,7 +333,7 @@ class ValidationCLI {
       try {
         const configPath = path.resolve(options.config);
         if (fs.existsSync(configPath)) {
-          const customConfig = JSON.parse(fs.readFileSync(configPath, 'utf8')),;
+          const customConfig = JSON.parse(fs.readFileSync(configPath, 'utf8')),
           // // console.log('\n📄 Custom Configuration:');
           Object.entries(customConfig).forEach(([key, value]) => {
             // // console.log(`   ${key}: ${value}`);

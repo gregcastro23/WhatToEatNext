@@ -14,7 +14,7 @@ export {
   getmoonIllumination,
   getCurrentAstrologicalState,
   calculateElementalProfile,
-  calculateAspects
+  calculateAspects,
 } from './core';
 
 export * from './positions';

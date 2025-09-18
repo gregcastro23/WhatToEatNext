@@ -760,7 +760,7 @@ export class UnifiedSeasonalSystem {
    */
   getSeasonalIngredientProfile(
     ingredientName: string,
-    season: Season = this.getCurrentSeason(),;
+    season: Season = this.getCurrentSeason(),
   ): SeasonalIngredientProfile {
     const availability = this.getSeasonalScore(ingredientName, season);
     const seasonProfile = unifiedSeasonalProfiles[season];
@@ -788,7 +788,7 @@ export class UnifiedSeasonalSystem {
       : 0.5;
 
     // Calculate Monica resonance
-    const monicaResonance = this.calculateMonicaSeasonalResonance(season, availability),;
+    const monicaResonance = this.calculateMonicaSeasonalResonance(season, availability),
 
     return {
       availability,
@@ -874,7 +874,7 @@ export class UnifiedSeasonalSystem {
 
     // Apply current conditions modifiers if provided
     if (currentConditions) {
-      const conditionModifier = this.calculateConditionModifier(currentConditions, seasonProfile),;
+      const conditionModifier = this.calculateConditionModifier(currentConditions, seasonProfile),
       totalCompatibility *= conditionModifier;
     }
 
@@ -938,7 +938,7 @@ export class UnifiedSeasonalSystem {
     if (conditions.temperature) {
       const optimalTemp = 70 + seasonProfile.monicaModifiers.temperatureAdjustment;
       const tempDifference = Math.abs(conditions.temperature - optimalTemp);
-      const tempModifier = Math.max(0.8, 1 - tempDifference / 100),;
+      const tempModifier = Math.max(0.8, 1 - tempDifference / 100),
       modifier *= tempModifier;
     }
 
@@ -1067,7 +1067,7 @@ export class UnifiedSeasonalSystem {
     // Sort by seasonal compatibility and Monica alignment
     return optimalMethods.sort((a, b) => {
       const scoreA = this.calculateMethodSeasonalScore(a, season, targetMonica);
-      const scoreB = this.calculateMethodSeasonalScore(b, season, targetMonica),;
+      const scoreB = this.calculateMethodSeasonalScore(b, season, targetMonica),
       return scoreB - scoreA
     });
   }
@@ -1158,7 +1158,7 @@ export class UnifiedSeasonalSystem {
         const distance =
           kalchm < kalchmRange.min ? kalchmRange.min - kalchm : kalchm - kalchmRange.max;
 
-        const harmony = Math.max(0.1, Math.exp(-distance * 2)),;
+        const harmony = Math.max(0.1, Math.exp(-distance * 2)),
         totalHarmony += harmony;
       }
     }

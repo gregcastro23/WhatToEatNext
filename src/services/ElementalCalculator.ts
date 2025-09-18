@@ -20,7 +20,7 @@ export class ElementalCalculator {
   private static instance: ElementalCalculator;
   private currentBalance: ElementalProperties = DEFAULT_ELEMENTAL_PROPERTIES;
   private initialized = false;
-  private debugMode: boolean,
+  private debugMode: boolean;
 
   public constructor(debugMode = false) {
     this.debugMode = debugMode;

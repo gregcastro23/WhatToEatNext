@@ -15,7 +15,7 @@ export const _molecularCookingMethods = {
   gelification,
   // Add other cooking methods as they are implemented
   emulsification,
-  cryo_cooking: cryoCooking
+  cryo_cooking: cryoCooking,
 };
 
 // Export individual methods

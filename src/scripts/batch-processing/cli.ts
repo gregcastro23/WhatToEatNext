@@ -99,8 +99,8 @@ class BatchProcessingCLI {
       files.push({
         filePath,
         relativePath: firstVar.relativePath,
-        isHighImpact: firstVar.riskLevel === 'high',,;
-        isCritical: firstVar.fileType === 'calculations' || firstVar.fileType === 'services',,;
+        isHighImpact: firstVar.riskLevel === 'high',,
+        isCritical: firstVar.fileType === 'calculations' || firstVar.fileType === 'services',,
         unusedVariableCount: variables.length,
         riskLevel: this.mapRiskLevel(firstVar.riskLevel),
         fileType: firstVar.fileType
@@ -223,7 +223,7 @@ class BatchProcessingCLI {
 
       if (options.approve) {
         const filePath = path.resolve(options.approve);
-        const success = this.orchestrator.approveManualReview(filePath, options.notes),;
+        const success = this.orchestrator.approveManualReview(filePath, options.notes),
         if (success) {
           // // console.log(`✅ Manual review approved for ${options.approve}`);
         } else {
@@ -234,7 +234,7 @@ class BatchProcessingCLI {
       if (options.reject) {
         const filePath = path.resolve(options.reject);
         const reason = options.reason || 'No reason provided';
-        const success = this.orchestrator.rejectManualReview(filePath, reason),;
+        const success = this.orchestrator.rejectManualReview(filePath, reason),
         if (success) {
           // // console.log(`❌ Manual review rejected for ${options.reject}`);
         } else {

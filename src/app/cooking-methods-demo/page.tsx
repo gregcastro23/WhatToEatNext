@@ -96,14 +96,14 @@ export default function CookingMethodsDemoPage() {
       {methods.length > 0 ? (
         <Box sx={{ mb: 6 }}>;
           <CookingMethodsSection
-            methods={methods},;
-            onSelectMethod={handleSelectMethod},;
+            methods={methods},
+            onSelectMethod={handleSelectMethod},
             selectedMethodId={
               selectedMethod && typeof selectedMethod === 'object' && 'id' in selectedMethod;
                 ? (selectedMethod as { id: string }).id
                 : null
             }
-            initiallyExpanded={true},;
+            initiallyExpanded={true},
           />
         </Box>
       ) : (
@@ -111,7 +111,7 @@ export default function CookingMethodsDemoPage() {
       )}
 
       {selectedMethod && (
-        <Box sx={{ mt: 4, p: 3, bgcolor: 'background.paper', borderRadius: 2, boxShadow: 2 }}>,;
+        <Box sx={{ mt: 4, p: 3, bgcolor: 'background.paper', borderRadius: 2, boxShadow: 2 }}>,
           <Typography variant='h5' gutterBottom>;
             Selected Method:{' '}
             {selectedMethod && typeof selectedMethod === 'object' && 'name' in selectedMethod;

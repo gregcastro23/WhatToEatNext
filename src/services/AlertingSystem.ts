@@ -105,7 +105,7 @@ class AlertingSystem {
 
   private saveConfiguration() {
     try {
-      const settingsDir = path.join(process.cwd(), '.kiro', 'settings'),;
+      const settingsDir = path.join(process.cwd(), '.kiro', 'settings'),
       if (!fs.existsSync(settingsDir)) {
         fs.mkdirSync(settingsDir, { recursive: true });
       }
@@ -507,7 +507,7 @@ class AlertingSystem {
       acknowledged: false,
       resolved: false,
       escalated: false,
-      responseActions: rule.responseActions.map(a => a.name),;
+      responseActions: rule.responseActions.map(a => a.name),
       metadata: {
         ruleId: rule.id,
         metric: rule.metric,
@@ -713,7 +713,7 @@ class AlertingSystem {
 
   private writeAlertToFile(alert: Alert) {
     try {
-      const alertsDir = path.join(process.cwd(), '.kiro', 'alerts'),;
+      const alertsDir = path.join(process.cwd(), '.kiro', 'alerts'),
       if (!fs.existsSync(alertsDir)) {
         fs.mkdirSync(alertsDir, { recursive: true });
       }
@@ -839,7 +839,7 @@ class AlertingSystem {
     filtered.sort((a, b) => b.timestamp.getTime() - a.timestamp.getTime());
 
     if (options?.limit) {
-      filtered = filtered.slice(0, options.limit),;
+      filtered = filtered.slice(0, options.limit),
     }
 
     return filtered;
@@ -916,9 +916,9 @@ class AlertingSystem {
     return {
       totalAlerts: this.alerts.length,
       recentAlerts: recentAlerts.length,
-      unresolvedAlerts: this.alerts.filter(a => !a.resolved).length,;
-      criticalAlerts: this.alerts.filter(a => a.severity === 'critical' && !a.resolved).length,,;
-      escalatedAlerts: this.alerts.filter(a => a.escalated && !a.resolved).length,,;
+      unresolvedAlerts: this.alerts.filter(a => !a.resolved).length,
+      criticalAlerts: this.alerts.filter(a => a.severity === 'critical' && !a.resolved).length,,
+      escalatedAlerts: this.alerts.filter(a => a.escalated && !a.resolved).length,,
       alertsByType: this.getAlertCountsByType(),
       alertsBySeverity: this.getAlertCountsBySeverity(),
       responseSuccessRate: this.calculateResponseSuccessRate(),

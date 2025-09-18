@@ -202,7 +202,7 @@ async function main(): Promise<void> {
 
    
   // // console.log(
-    `Processing ${files.length} files across ${batches.length} batches (dryRun=${opts.dryRun})`,;
+    `Processing ${files.length} files across ${batches.length} batches (dryRun=${opts.dryRun})`,
   );
 
   for (let i = 0; i < batches.length; i++) {

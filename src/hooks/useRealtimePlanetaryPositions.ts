@@ -30,8 +30,8 @@ export function useRealtimePlanetaryPositions(options: UseRealtimePlanetaryPosit
     refreshInterval = 30 * 60 * 1000, // 30 minutes to reduce API load;
     location,
     autoStart = false, // Disabled by default to prevent unnecessary API calls;
-    zodiacSystem = 'tropical',;
-    testConnection = false,;
+    zodiacSystem = 'tropical',
+    testConnection = false,
   } = options;
 
   const [state, setState] = useState<PlanetaryPositionsState>({
@@ -94,7 +94,7 @@ export function useRealtimePlanetaryPositions(options: UseRealtimePlanetaryPosit
   return {
     ...state;
     refresh: forceRefresh,
-    isRealtime: state.source === 'astrologize-api-realtime',;
+    isRealtime: state.source === 'astrologize-api-realtime',
     isConnected: state.source?.includes('astrologize-api') ?? false
   };
 }

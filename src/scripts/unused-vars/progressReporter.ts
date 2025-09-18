@@ -17,7 +17,7 @@ export interface ProgressMetrics {
 }
 
 export function createBaselineReport(
-  targetFile = 'reports/unused-vars-baseline.json',;
+  targetFile = 'reports/unused-vars-baseline.json',
   baseline = 965,
 ): void {
   ensureDir(path.dirname(targetFile));
@@ -29,7 +29,7 @@ export function createBaselineReport(
     transformed: 0,
     batchesCompleted: 0,
     batchesTotal: 0,
-    lastUpdated: new Date().toISOString()
+    lastUpdated: new Date().toISOString(),
   };
   fs.writeFileSync(targetFile, JSON.stringify(initial, null, 2));
 }
@@ -51,13 +51,13 @@ export function updateProgress(
       transformed: 0,
       batchesCompleted: 0,
       batchesTotal: 0,
-      lastUpdated: new Date().toISOString()
+      lastUpdated: new Date().toISOString(),
     };
   }
   const updated = {
     ...current,
     ...metrics,
-    lastUpdated: new Date().toISOString()
+    lastUpdated: new Date().toISOString(),
   } as ProgressMetrics;
   fs.writeFileSync(targetFile, JSON.stringify(updated, null, 2));
 }

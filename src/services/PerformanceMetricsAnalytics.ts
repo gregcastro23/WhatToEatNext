@@ -765,7 +765,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
         passedTests: testStats.passedTests,
         failedTests: testStats.failedTests,
         skippedTests: testStats.skippedTests,
-        coverage: testStats.coverage;
+        coverage: testStats.coverage,
         duration,
         timestamp: new Date()
       };

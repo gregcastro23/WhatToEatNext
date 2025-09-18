@@ -7,7 +7,7 @@ export type {
   CookingMethod,
   ElementalProperties,
   AlchemicalProperties,
-  ThermodynamicProperties
+  ThermodynamicProperties,
 } from './types';
 
 // Re-export specific data from index module (avoiding conflicts)
@@ -18,7 +18,7 @@ export {
   getAllProteins,
   getAllHerbs,
   getAllSpices,
-  getAllGrains
+  getAllGrains,
 } from './index';
 
 // Re-export specific ingredient categories with explicit names

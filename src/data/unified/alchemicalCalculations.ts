@@ -12,7 +12,7 @@ export interface ThermodynamicMetrics {
   entropy: number,
   reactivity: number,
   gregsEnergy: number,
-  kalchm: number; // K_alchm - Baseline alchemical equilibrium
+  kalchm: number, // K_alchm - Baseline alchemical equilibrium
   monica: number; // Monica constant - Dynamic scaling factor
 }
 
@@ -82,7 +82,7 @@ export function calculateThermodynamics(
 
   // Reactivity calculation
   const reactivityNum =
-    Math.pow(Spirit, 2) +;
+    Math.pow(Spirit, 2) +
     Math.pow(Substance, 2) +
     Math.pow(Essence, 2) +
     Math.pow(Fire, 2) +
@@ -127,7 +127,7 @@ export function performAlchemicalAnalysis(
   const monica = calculateMonica(thermodynamics.gregsEnergy, thermodynamics.reactivity, kalchm);
 
   return {
-    ...thermodynamics;
+    ...thermodynamics,
     kalchm,
     monica
   };
@@ -175,7 +175,7 @@ export function enhanceIngredientWithAlchemy(ingredient: {
   const kalchm = calculateKalchm(alchemicalProperties);
 
   return {
-    ...ingredient;
+    ...ingredient,
     alchemicalProperties,
     kalchm
   };

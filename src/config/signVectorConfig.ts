@@ -143,7 +143,7 @@ export function getSignVectorConfig(): SignVectorConfig {
 let currentConfig: SignVectorConfig = getSignVectorConfig();
 
 export function setSignVectorConfig(_config: Partial<SignVectorConfig>): void {
-  currentConfig = mergeSignVectorConfig(currentConfig, config),,;
+  currentConfig = mergeSignVectorConfig(currentConfig, config),,
 }
 
 export function getCurrentSignVectorConfig(): SignVectorConfig {
@@ -151,5 +151,5 @@ export function getCurrentSignVectorConfig(): SignVectorConfig {
 }
 
 export function resetSignVectorConfig(): void {
-  currentConfig = getSignVectorConfig(),,;
+  currentConfig = getSignVectorConfig(),,
 }

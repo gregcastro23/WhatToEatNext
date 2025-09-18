@@ -19,7 +19,7 @@ export const SCORE_THRESHOLDS = {
   EXCELLENT: 80,
   GOOD: 60,
   MODERATE: 40,
-  POOR: 20
+  POOR: 20,
 };
 
 // ===== SEASONAL ELEMENTAL MODIFIERS =====;
@@ -57,14 +57,14 @@ export const SEASONAL_MODIFIERS: Record<Season, ElementalProperties> = {
     Earth: 0.4, // Alias for autumn
     Air: 0.3,
     Fire: 0.2,
-    Water: 0.1
+    Water: 0.1,
   },
   all: {
     Fire: 0.25, // Balanced for all-season items
     Air: 0.25,
     Water: 0.25,
-    Earth: 0.25
-  }
+    Earth: 0.25,
+  },
 };
 
 /**
@@ -74,7 +74,7 @@ export const BALANCED_ELEMENTS: ElementalProperties = {
   Fire: 0.25,
   Air: 0.25,
   Water: 0.25,
-  Earth: 0.25
+  Earth: 0.25,
 };
 
 // ===== ZODIAC SEASONAL ASSOCIATIONS =====;
@@ -100,8 +100,8 @@ export const ZODIAC_SEASONS: Record<Season, ZodiacSign[]> = {
     'sagittarius',
     'capricorn',
     'aquarius',
-    'pisces'
-  ]
+    'pisces',
+  ],
 };
 
 // ===== COMPREHENSIVE SEASONAL PROPERTIES =====;
@@ -129,7 +129,7 @@ export const SEASONAL_PROPERTIES = {
 
     // Health and mood
     healthFocus: ['detoxification', 'liver support', 'energy renewal'],
-    moodEffects: ['optimistic', 'energizing', 'creative', 'social']
+    moodEffects: ['optimistic', 'energizing', 'creative', 'social'],
   },
   summer: {
     elementalModifier: SEASONAL_MODIFIERS.summer,
@@ -150,7 +150,7 @@ export const SEASONAL_PROPERTIES = {
 
     // Health and mood
     healthFocus: ['cooling', 'hydration', 'heart health'],
-    moodEffects: ['joyful', 'active', 'social', 'confident']
+    moodEffects: ['joyful', 'active', 'social', 'confident'],
   },
   autumn: {
     elementalModifier: SEASONAL_MODIFIERS.autumn,
@@ -171,7 +171,7 @@ export const SEASONAL_PROPERTIES = {
 
     // Health and mood
     healthFocus: ['immune support', 'digestive strength', 'grounding'],
-    moodEffects: ['contemplative', 'grounding', 'introspective', 'grateful']
+    moodEffects: ['contemplative', 'grounding', 'introspective', 'grateful'],
   },
   winter: {
     elementalModifier: SEASONAL_MODIFIERS.winter,
@@ -192,8 +192,8 @@ export const SEASONAL_PROPERTIES = {
 
     // Health and mood
     healthFocus: ['kidney support', 'deep nourishment', 'rest'],
-    moodEffects: ['introspective', 'calm', 'deep', 'restorative']
-  }
+    moodEffects: ['introspective', 'calm', 'deep', 'restorative'],
+  },
 };
 
 // ===== SEASONAL TRANSITIONS =====;
@@ -208,7 +208,7 @@ export const SEASONAL_TRANSITIONS = {
     summerToAutumn: { month: 8, day: 15 }, // September 15
     autumnToWinter: { month: 11, day: 15 }, // December 15
     winterToSpring: { month: 2, day: 15 }, // March 15
-  }
+  },
 };
 
 /**
@@ -233,15 +233,15 @@ export const SEASONAL_INFLUENCE = {
     spring: 0.7,
     summer: 0.9,
     autumn: 0.6,
-    winter: 0.8
+    winter: 0.8,
   },
   // How seasons affect mood and energy
   energyModifier: {
     spring: { vitality: 0.8, creativity: 0.7, stability: 0.4, adaptability: 0.6 },
     summer: { vitality: 0.9, creativity: 0.8, stability: 0.3, adaptability: 0.7 },
     autumn: { vitality: 0.6, creativity: 0.6, stability: 0.6, adaptability: 0.5 },
-    winter: { vitality: 0.4, creativity: 0.5, stability: 0.7, adaptability: 0.4 }
-  }
+    winter: { vitality: 0.4, creativity: 0.5, stability: 0.7, adaptability: 0.4 },
+  },
 };
 
 // ===== VALIDATION THRESHOLDS =====;
@@ -252,7 +252,7 @@ export const SEASONAL_INFLUENCE = {
 export const VALIDATION_THRESHOLDS = {
   MINIMUM_ELEMENT: 0,
   MAXIMUM_ELEMENT: 1,
-  BALANCE_PRECISION: 0.000001
+  BALANCE_PRECISION: 0.000001,
 };
 
 // ===== UTILITY FUNCTIONS =====;
@@ -273,21 +273,21 @@ export function getCurrentSeason(date: Date = new Date()): Season {
     // Handle winter which spans year boundary
     if (season === 'winter') {
       if (
-        (month === startMonth && day >= startDay) ||;
+        (month === startMonth && day >= startDay) ||
         month > startMonth ||
         month < endMonth ||
-        (month === endMonth && day <= endDay);
+        (month === endMonth && day <= endDay)
       ) {
-        return season as Season
+        return season as Season;
       }
     } else {
       // Handle other seasons
       if (
-        (month === startMonth && day >= startDay) ||;
+        (month === startMonth && day >= startDay) ||
         (month > startMonth && month < endMonth) ||
-        (month === endMonth && day <= endDay);
+        (month === endMonth && day <= endDay)
       ) {
-        return season as Season
+        return season as Season;
       }
     }
   }
@@ -299,7 +299,7 @@ export function getCurrentSeason(date: Date = new Date()): Season {
  * Get seasonal elemental modifier for a given season
  */
 export function getSeasonalModifier(season: Season): ElementalProperties {
-  return SEASONAL_MODIFIERS[season] || BALANCED_ELEMENTS
+  return SEASONAL_MODIFIERS[season] || BALANCED_ELEMENTS;
 }
 
 /**
@@ -315,8 +315,8 @@ export function calculateSeasonalCompatibility(season1: Season, season2: Season)
   const index2 = seasonOrder.indexOf(season2);
 
   if (index1 !== -1 && index2 !== -1) {
-    const distance = Math.min(;
-      Math.abs(index1 - index2);
+    const distance = Math.min(
+      Math.abs(index1 - index2),
       4 - Math.abs(index1 - index2), // Circular distance
     );
 
@@ -326,9 +326,9 @@ export function calculateSeasonalCompatibility(season1: Season, season2: Season)
       case 1:
         return 0.7; // Adjacent seasons
       case 2:
-        return 0.4, // Opposite seasons
+        return 0.4; // Opposite seasons
       default:
-        return 0.5, // Fallback
+        return 0.5; // Fallback
     }
   }
 
@@ -339,7 +339,7 @@ export function calculateSeasonalCompatibility(season1: Season, season2: Season)
  * Get zodiac signs for a season
  */
 export function getZodiacSignsForSeason(season: Season): any[] {
-  return ZODIAC_SEASONS[season] || []
+  return ZODIAC_SEASONS[season] || [];
 }
 
 /**
@@ -348,7 +348,7 @@ export function getZodiacSignsForSeason(season: Season): any[] {
 export function getSeasonForZodiacSign(sign: any): Season {
   for (const [season, signs] of Object.entries(ZODIAC_SEASONS)) {
     if (Array.isArray(signs) && signs.includes(sign)) {
-      return season as Season
+      return season as Season;
     }
   }
   return 'spring'; // Default fallback
@@ -360,7 +360,7 @@ export function getSeasonForZodiacSign(sign: any): Season {
 export function applySeasonalModifier(
   baseProperties: ElementalProperties,
   season: Season,
-  strength: number = 0.5
+  strength: number = 0.5,
 ): ElementalProperties {
   const modifier = getSeasonalModifier(season);
 
@@ -368,7 +368,7 @@ export function applySeasonalModifier(
     Fire: baseProperties.Fire * (1 - strength) + modifier.Fire * strength,
     Water: baseProperties.Water * (1 - strength) + modifier.Water * strength,
     Earth: baseProperties.Earth * (1 - strength) + modifier.Earth * strength,
-    Air: baseProperties.Air * (1 - strength) + modifier.Air * strength
+    Air: baseProperties.Air * (1 - strength) + modifier.Air * strength,
   };
 }
 
@@ -388,5 +388,5 @@ export default {
   calculateSeasonalCompatibility,
   getZodiacSignsForSeason,
   getSeasonForZodiacSign,
-  applySeasonalModifier
+  applySeasonalModifier,
 };

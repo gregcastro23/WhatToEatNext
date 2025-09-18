@@ -57,7 +57,7 @@ describe('Astrological Rule Validation', () => {
     test('should preserve RELIABLE_POSITIONS constant', async() => {
       const testContent: any = `;
         const RELIABLE_POSITIONS = {
-  sun: { sign: 'aries', degree: 8.5, exactLongitude: 8.5, isRetrograde: false },;
+  sun: { sign: 'aries', degree: 8.5, exactLongitude: 8.5, isRetrograde: false },
           moon: { sign: 'aries', degree: 1.57, exactLongitude: 1.57, isRetrograde: false };
         };
 
@@ -111,7 +111,7 @@ describe('Astrological Rule Validation', () => {
     test('should preserve MARCH2025_POSITIONS fallback data', async() => {
       const testContent: any = `;
         const MARCH2025_POSITIONS = {
-  sun: { sign: 'aries', degree: 8.5, exactLongitude: 8.5, isRetrograde: false },;
+  sun: { sign: 'aries', degree: 8.5, exactLongitude: 8.5, isRetrograde: false },
           mercury: { sign: 'aries', degree: 0.85, exactLongitude: 0.85, isRetrograde: true };
         };
 
@@ -158,7 +158,7 @@ describe('Astrological Rule Validation', () => {
         const result: any = JSON.parse(output);
 
         if (result.length > 0 && result[0].messages) {
-          const unusedVarErrors: any = result[0].messages.filter(,;
+          const unusedVarErrors: any = result[0].messages.filter(,
             (msg: any) => {
               const message: any = msg as { ruleId: string, messag, e: string };
               return message.ruleId === '@typescript-eslint/no-unused-vars' &&;
@@ -178,7 +178,7 @@ describe('Astrological Rule Validation', () => {
         if (output != null) {
           const result: any = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
-            const unusedVarErrors: any = result[0].messages.filter(,;
+            const unusedVarErrors: any = result[0].messages.filter(,
               (msg: any) => {
                 const message: any = msg as { ruleId: string, messag, e: string };
                 return message.ruleId === '@typescript-eslint/no-unused-vars' &&;
@@ -213,7 +213,7 @@ describe('Astrological Rule Validation', () => {
         const result: any = JSON.parse(output);
 
         if (result.length > 0 && result[0].messages) {
-          const unusedVarErrors: any = result[0].messages.filter(,;
+          const unusedVarErrors: any = result[0].messages.filter(,
             (msg: any) => {
               const message: any = msg as { ruleId: string };
               return message.ruleId === '@typescript-eslint/no-unused-vars';
@@ -228,7 +228,7 @@ describe('Astrological Rule Validation', () => {
         if (output != null) {
           const result: any = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
-            const unusedVarErrors: any = result[0].messages.filter(,;
+            const unusedVarErrors: any = result[0].messages.filter(,
               (msg: any) => {
                 const message: any = msg as { ruleId: any, [key: string]: any };
                 return message.ruleId === '@typescript-eslint/no-unused-vars';
@@ -261,7 +261,7 @@ describe('Astrological Rule Validation', () => {
         const result: any = JSON.parse(output);
 
         if (result.length > 0 && result[0].messages) {
-          const camelCaseErrors: any = result[0].messages.filter(,;
+          const camelCaseErrors: any = result[0].messages.filter(,
             (msg: any) => {
               const message: any = msg as { ruleId: string, severity: number };
               return message.ruleId === 'camelcase' && message.severity === 2; // error level
@@ -277,7 +277,7 @@ describe('Astrological Rule Validation', () => {
         if (output != null) {
           const result: any = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
-            const camelCaseErrors: any = result[0].messages.filter(,;
+            const camelCaseErrors: any = result[0].messages.filter(,
               (msg: any) => {
                 const message: any = msg as { ruleId: string, severity: number };
                 return message.ruleId === 'camelcase' && message.severity === 2;
@@ -417,7 +417,7 @@ describe('Astrological Rule Validation', () => {
     test('should validate complete planetary position structure', async() => {
       const testContent: any = `;
         const planetPosition = {
-  sign: 'cancer',;
+  sign: 'cancer',
           degree: 22.63,
           exactLongitude: 112.63,
           isRetrograde: false
@@ -546,7 +546,7 @@ describe('Astrological Rule Validation', () => {
         const result: any = JSON.parse(output);
 
         if (result.length > 0 && result[0].messages) {
-          const transitWarnings: any = result[0].messages.filter(,;
+          const transitWarnings: any = result[0].messages.filter(,
             (msg: any) => {
               const message: any = msg as { ruleId: any, [key: string]: any };
               return message.ruleId === 'astrological/require-transit-date-validation';
@@ -562,7 +562,7 @@ describe('Astrological Rule Validation', () => {
         if (output != null) {
           const result: any = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
-            const transitWarnings: any = result[0].messages.filter(,;
+            const transitWarnings: any = result[0].messages.filter(,
               (msg: any) => {
               const message: any = msg as { ruleId: any, [key: string]: any };
               return message.ruleId === 'astrological/require-transit-date-validation';
@@ -598,7 +598,7 @@ describe('Astrological Rule Validation', () => {
         const result: any = JSON.parse(output);
 
         if (result.length > 0 && result[0].messages) {
-          const transitWarnings: any = result[0].messages.filter(,;
+          const transitWarnings: any = result[0].messages.filter(,
             (msg: any) => {
               const message: any = msg as { ruleId: any, [key: string]: any };
               return message.ruleId === 'astrological/require-transit-date-validation';
@@ -614,7 +614,7 @@ describe('Astrological Rule Validation', () => {
         if (output != null) {
           const result: any = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
-            const transitWarnings: any = result[0].messages.filter(,;
+            const transitWarnings: any = result[0].messages.filter(,
               (msg: any) => {
               const message: any = msg as { ruleId: any, [key: string]: any };
               return message.ruleId === 'astrological/require-transit-date-validation';
@@ -650,7 +650,7 @@ describe('Astrological Rule Validation', () => {
         const result: any = JSON.parse(output);
 
         if (result.length > 0 && result[0].messages) {
-          const consoleErrors: any = result[0].messages.filter(,;
+          const consoleErrors: any = result[0].messages.filter(,
             (msg: any) => {
               const message: any = msg as { ruleId: string, severity: number };
               return message.ruleId === 'no-console' && message.severity === 2; // error level
@@ -666,7 +666,7 @@ describe('Astrological Rule Validation', () => {
         if (output != null) {
           const result: any = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
-            const consoleErrors: any = result[0].messages.filter(,;
+            const consoleErrors: any = result[0].messages.filter(,
               (msg: any) => {
                 const message: any = msg as { ruleId: string, severity: number };
                 return message.ruleId === 'no-console' && message.severity === 2;
@@ -722,7 +722,7 @@ describe('Astrological Rule Validation', () => {
         const result: any = JSON.parse(output);
 
         if (result.length > 0 && result[0].messages) {
-          const complexityErrors: any = result[0].messages.filter(,;
+          const complexityErrors: any = result[0].messages.filter(,
             (msg: any) => {
               const message: any = msg as { ruleId: any, severity: any, [key: string]: any };
               return message.ruleId === 'complexity' && message.severity === 2; // error level
@@ -738,7 +738,7 @@ describe('Astrological Rule Validation', () => {
         if (output != null) {
           const result: any = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
-            const complexityErrors: any = result[0].messages.filter(,;
+            const complexityErrors: any = result[0].messages.filter(,
               (msg: any) => {
                 const message: any = msg as { ruleId: any, severity: any, [key: string]: any };
                 return message.ruleId === 'complexity' && message.severity === 2;

@@ -314,7 +314,7 @@ describe('Domain-Specific Rule Validation', () => {
           const result: any = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
             const complexityErrors: any = result[0].messages.filter(;
-              (msg: any) => (msg as any)?.ruleId === 'complexity' && (msg as any)?.severity === 2,;
+              (msg: any) => (msg as any)?.ruleId === 'complexity' && (msg as any)?.severity === 2,
             ),
 
             expect(complexityErrors.length).toBe(0);
@@ -334,7 +334,7 @@ describe('Domain-Specific Rule Validation', () => {
         console.debug('Detailed debugging info');
       `;
 
-      const testFile: any = join(projectRoot, 'src/services/campaign/temp-logging-test.ts'),;
+      const testFile: any = join(projectRoot, 'src/services/campaign/temp-logging-test.ts'),
       writeFileSync(testFile, testContent);
 
       try {
@@ -358,7 +358,7 @@ describe('Domain-Specific Rule Validation', () => {
           const result: any = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
             const consoleErrors: any = result[0].messages.filter(;
-              (msg: any) => (msg as any)?.ruleId === 'no-console' && (msg as any)?.severity === 2,;
+              (msg: any) => (msg as any)?.ruleId === 'no-console' && (msg as any)?.severity === 2,
             ),
 
             expect(consoleErrors.length).toBe(0);
@@ -482,7 +482,7 @@ describe('Domain-Specific Rule Validation', () => {
         const _magicNumber: any = 42, // magic number;
       `;
 
-      const testFile: any = join(projectRoot, 'temp-test-relaxations.test.ts'),;
+      const testFile: any = join(projectRoot, 'temp-test-relaxations.test.ts'),
       writeFileSync(testFile, testContent);
 
       try {
@@ -498,7 +498,7 @@ describe('Domain-Specific Rule Validation', () => {
               ((msg as any)?.ruleId === '@typescript-eslint/no-explicit-any' && (msg as any)?.severity === 2) ||;
               ((msg as any)?.ruleId === 'no-console' && (msg as any)?.severity === 2) ||;
               ((msg as any)?.ruleId === '@typescript-eslint/no-non-null-assertion' && (msg as any)?.severity === 2) ||;
-              ((msg as any)?.ruleId === 'no-magic-numbers' && (msg as any)?.severity === 2),;
+              ((msg as any)?.ruleId === 'no-magic-numbers' && (msg as any)?.severity === 2),
           ),
 
           expect(restrictiveErrors.length).toBe(0);
@@ -513,7 +513,7 @@ describe('Domain-Specific Rule Validation', () => {
                 ((msg as any)?.ruleId === '@typescript-eslint/no-explicit-any' && (msg as any)?.severity === 2) ||;
                 ((msg as any)?.ruleId === 'no-console' && (msg as any)?.severity === 2) ||;
                 ((msg as any)?.ruleId === '@typescript-eslint/no-non-null-assertion' && (msg as any)?.severity === 2) ||;
-                ((msg as any)?.ruleId === 'no-magic-numbers' && (msg as any)?.severity === 2),;
+                ((msg as any)?.ruleId === 'no-magic-numbers' && (msg as any)?.severity === 2),
             ),
 
             expect(restrictiveErrors.length).toBe(0);
@@ -602,7 +602,7 @@ describe('Domain-Specific Rule Validation', () => {
 
         if (result.length > 0 && result[0].messages) {
           const requireErrors = result[0].messages.filter(;
-            (msg: any) => (msg as any)?.ruleId === 'import/no-dynamic-require' && (msg as any)?.severity === 2,;
+            (msg: any) => (msg as any)?.ruleId === 'import/no-dynamic-require' && (msg as any)?.severity === 2,
           ),
 
           expect(requireErrors.length).toBe(0);
@@ -613,7 +613,7 @@ describe('Domain-Specific Rule Validation', () => {
           const result: any = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
             const requireErrors = result[0].messages.filter(;
-              (msg: any) => (msg as any)?.ruleId === 'import/no-dynamic-require' && (msg as any)?.severity === 2,;
+              (msg: any) => (msg as any)?.ruleId === 'import/no-dynamic-require' && (msg as any)?.severity === 2,
             ),
 
             expect(requireErrors.length).toBe(0);
@@ -631,7 +631,7 @@ describe('Domain-Specific Rule Validation', () => {
         const _dynamicRequire = require(process.env.MODULE);
       `;
 
-      const testFile: any = join(projectRoot, 'temp-build-patterns.config.ts'),;
+      const testFile: any = join(projectRoot, 'temp-build-patterns.config.ts'),
       writeFileSync(testFile, testContent);
 
       try {
@@ -646,7 +646,7 @@ describe('Domain-Specific Rule Validation', () => {
             (msg: any) =>
               ((msg as any)?.ruleId === '@typescript-eslint/no-explicit-any' && (msg as any)?.severity === 2) ||;
               ((msg as any)?.ruleId === 'no-console' && (msg as any)?.severity === 2) ||;
-              ((msg as any)?.ruleId === 'import/no-dynamic-require' && (msg as any)?.severity === 2),;
+              ((msg as any)?.ruleId === 'import/no-dynamic-require' && (msg as any)?.severity === 2),
           ),
 
           expect(restrictiveErrors.length).toBe(0);
@@ -660,7 +660,7 @@ describe('Domain-Specific Rule Validation', () => {
               (msg: any) =>
                 ((msg as any)?.ruleId === '@typescript-eslint/no-explicit-any' && (msg as any)?.severity === 2) ||;
                 ((msg as any)?.ruleId === 'no-console' && (msg as any)?.severity === 2) ||;
-                ((msg as any)?.ruleId === 'import/no-dynamic-require' && (msg as any)?.severity === 2),;
+                ((msg as any)?.ruleId === 'import/no-dynamic-require' && (msg as any)?.severity === 2),
             ),
 
             expect(restrictiveErrors.length).toBe(0);

@@ -185,12 +185,12 @@ export class ChakraRecipeEnhancer {
         if (recipe.elementalProperties) {
           const dominantElement = getDominantElement(recipe.elementalProperties);
           const elementValue = recipe.elementalProperties[dominantElement];
-          elementalAlignment = Math.min(elementValue, 1.0),;
+          elementalAlignment = Math.min(elementValue, 1.0),
         }
 
         // Get tarot recommendations for the dominant chakra
         const recommendations = this.chakraService.getTarotRecommendationsForChakra(;
-          dominantChakra === 'solarPlexus' ? 'solar plexus' : (dominantChakra as unknown),;
+          dominantChakra === 'solarPlexus' ? 'solar plexus' : (dominantChakra as unknown),
           chakraEnergies[dominantChakra],
         );
 

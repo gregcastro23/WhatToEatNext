@@ -27,26 +27,26 @@ const baseCuisine: Cuisine = {
       spring: [],
       summer: [],
       autumn: [],
-      winter: []
+      winter: [],
     },
     lunch: {
       spring: [],
       summer: [],
       autumn: [],
-      winter: []
+      winter: [],
     },
     dinner: {
       spring: [],
       summer: [],
       autumn: [],
-      winter: []
+      winter: [],
     },
     dessert: {
       spring: [],
       summer: [],
       autumn: [],
-      winter: []
-    }
+      winter: [],
+    },
   },
   traditionalSauces: {},
   sauceRecommender: {
@@ -55,7 +55,7 @@ const baseCuisine: Cuisine = {
     forCookingMethod: {},
     byAstrological: {},
     byRegion: {},
-    byDietary: {}
+    byDietary: {},
   },
   cookingTechniques: [],
   regionalCuisines: {},
@@ -63,9 +63,9 @@ const baseCuisine: Cuisine = {
     Fire: 0,
     Water: 0.75,
     Earth: 0.65,
-    Air: 0
+    Air: 0,
   },
-  astrologicalInfluences: []
+  astrologicalInfluences: [],
 };
 
 // Process the recipes to combine seasonal and 'all' categories
@@ -87,7 +87,7 @@ const processCuisineRecipes = (cuisine: Partial<Cuisine>): Cuisine => {
       spring: [...(Array.isArray(mealData.spring) ? mealData.spring : []), ...allRecipes],
       summer: [...(Array.isArray(mealData.summer) ? mealData.summer : []), ...allRecipes],
       autumn: [...(Array.isArray(mealData.autumn) ? mealData.autumn : []), ...allRecipes],
-      winter: [...(Array.isArray(mealData.winter) ? mealData.winter : []), ...allRecipes]
+      winter: [...(Array.isArray(mealData.winter) ? mealData.winter : []), ...allRecipes],
     };
   };
 
@@ -104,7 +104,7 @@ const processCuisineRecipes = (cuisine: Partial<Cuisine>): Cuisine => {
       breakfast: combineRecipes(cuisine.dishes?.breakfast),
       lunch: combineRecipes(cuisine.dishes?.lunch),
       dinner: combineRecipes(cuisine.dishes?.dinner),
-      dessert: combineRecipes(cuisine.dishes?.dessert)
+      dessert: combineRecipes(cuisine.dishes?.dessert),
     },
     traditionalSauces: cuisine.traditionalSauces || {},
     sauceRecommender: {
@@ -113,7 +113,7 @@ const processCuisineRecipes = (cuisine: Partial<Cuisine>): Cuisine => {
       forCookingMethod: cuisine.sauceRecommender?.forCookingMethod || {},
       byAstrological: cuisine.sauceRecommender?.byAstrological || {},
       byRegion: cuisine.sauceRecommender?.byRegion || {},
-      byDietary: cuisine.sauceRecommender?.byDietary || {}
+      byDietary: cuisine.sauceRecommender?.byDietary || {},
     },
     cookingTechniques: Array.isArray(cuisine.cookingTechniques) ? cuisine.cookingTechniques : [],
     regionalCuisines: cuisine.regionalCuisines || {},
@@ -122,7 +122,7 @@ const processCuisineRecipes = (cuisine: Partial<Cuisine>): Cuisine => {
     regionalVarieties: cuisine.regionalCuisines ? Object.keys(cuisine.regionalCuisines).length : 0,
     astrologicalInfluences: Array.isArray(cuisine.astrologicalInfluences)
       ? cuisine.astrologicalInfluences
-      : []
+      : [],
   } as Cuisine; // Use type assertion to ensure the return type is Cuisine
 };
 
@@ -144,7 +144,7 @@ export const cuisinesMap = {
   Vietnamese: processCuisineRecipes(vietnamese as Partial<Cuisine>),
   // Add lowercase variants for problematic cuisines
   african: processCuisineRecipes(african as Partial<Cuisine>),
-  american: processCuisineRecipes(american as Partial<Cuisine>)
+  american: processCuisineRecipes(american as Partial<Cuisine>),
 } as const;
 
 export type CuisineName = keyof typeof cuisinesMap;
@@ -158,8 +158,8 @@ export const CUISINES = {
       Fire: 0.3,
       Water: 0.2,
       Earth: 0.3,
-      Air: 0.2
-    }
+      Air: 0.2,
+    },
   },
   chinese: {
     name: 'Chinese',
@@ -167,8 +167,8 @@ export const CUISINES = {
       Fire: 0.3,
       Water: 0.3,
       Earth: 0.3,
-      Air: 0.1
-    }
+      Air: 0.1,
+    },
   },
   japanese: {
     name: 'Japanese',
@@ -176,8 +176,8 @@ export const CUISINES = {
       Fire: 0.2,
       Water: 0.4,
       Earth: 0.2,
-      Air: 0.2
-    }
+      Air: 0.2,
+    },
   },
   indian: {
     name: 'Indian',
@@ -185,8 +185,8 @@ export const CUISINES = {
       Fire: 0.4,
       Water: 0.2,
       Earth: 0.2,
-      Air: 0.2
-    }
+      Air: 0.2,
+    },
   },
   french: {
     name: 'French',
@@ -194,8 +194,8 @@ export const CUISINES = {
       Fire: 0.2,
       Water: 0.3,
       Earth: 0.3,
-      Air: 0.2
-    }
+      Air: 0.2,
+    },
   },
   italian: {
     name: 'Italian',
@@ -203,8 +203,8 @@ export const CUISINES = {
       Fire: 0.3,
       Earth: 0.4,
       Water: 0.2,
-      Air: 0.1
-    }
+      Air: 0.1,
+    },
   },
   african: {
     name: 'African',
@@ -212,8 +212,8 @@ export const CUISINES = {
       Fire: 0.3,
       Earth: 0.4,
       Water: 0.2,
-      Air: 0.1
-    }
+      Air: 0.1,
+    },
   },
   middleEastern: {
     name: 'Middle Eastern',
@@ -221,8 +221,8 @@ export const CUISINES = {
       Fire: 0.3,
       Earth: 0.3,
       Water: 0.2,
-      Air: 0.2
-    }
+      Air: 0.2,
+    },
   },
   greek: {
     name: 'Greek',
@@ -230,8 +230,8 @@ export const CUISINES = {
       Fire: 0.2,
       Earth: 0.3,
       Water: 0.3,
-      Air: 0.2
-    }
+      Air: 0.2,
+    },
   },
   mexican: {
     name: 'Mexican',
@@ -239,8 +239,8 @@ export const CUISINES = {
       Fire: 0.5,
       Earth: 0.3,
       Water: 0.1,
-      Air: 0.1
-    }
+      Air: 0.1,
+    },
   },
   thai: {
     name: 'Thai',
@@ -248,8 +248,8 @@ export const CUISINES = {
       Fire: 0.4,
       Water: 0.3,
       Earth: 0.2,
-      Air: 0.1
-    }
+      Air: 0.1,
+    },
   },
   vietnamese: {
     name: 'Vietnamese',
@@ -257,8 +257,8 @@ export const CUISINES = {
       Water: 0.4,
       Fire: 0.2,
       Earth: 0.2,
-      Air: 0.2
-    }
+      Air: 0.2,
+    },
   },
   korean: {
     name: 'Korean',
@@ -266,8 +266,8 @@ export const CUISINES = {
       Fire: 0.3,
       Earth: 0.3,
       Water: 0.2,
-      Air: 0.2
-    }
+      Air: 0.2,
+    },
   },
   russian: {
     name: 'Russian',
@@ -275,9 +275,9 @@ export const CUISINES = {
       Earth: 0.5,
       Water: 0.2,
       Fire: 0.2,
-      Air: 0.1
-    }
-  }
+      Air: 0.1,
+    },
+  },
 } as const;
 
 // Type for cuisine data

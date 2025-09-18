@@ -107,7 +107,7 @@ export class EnhancedSafetyProtocols {
       mitigationStrategies.push('Mandatory manual review required');
       mitigationStrategies.push('Process in smallest possible batches');
     } else if (unusedVariableCount > 10) {
-      riskLevel = this.escalateRiskLevel(riskLevel, 1),;
+      riskLevel = this.escalateRiskLevel(riskLevel, 1),
       riskFactors.push(`Moderate unused variable count (${unusedVariableCount})`);
       mitigationStrategies.push('Enhanced pre-processing validation');
     }
@@ -183,9 +183,9 @@ export class EnhancedSafetyProtocols {
     const request: ManualReviewRequest = {
       filePath: assessment.filePath,
       unusedVariableCount: assessment.unusedVariableCount,
-      riskFactors: assessment.riskFactors;
+      riskFactors: assessment.riskFactors,
       reviewInstructions,
-      approvalRequired: assessment.riskLevel === 'critical' || assessment.unusedVariableCount > 30,,;
+      approvalRequired: assessment.riskLevel === 'critical' || assessment.unusedVariableCount > 30,,
     };
 
     this.manualReviewQueue.push(request);
@@ -350,7 +350,7 @@ export class EnhancedSafetyProtocols {
 
   private containsAstrologicalCalculations(filePath: string): boolean {
     try {
-      const content = fs.readFileSync(filePath, 'utf8'),;
+      const content = fs.readFileSync(filePath, 'utf8'),
       return /\b(?:planetary|zodiac|astrology|ephemeris|longitude|latitude|degree)\b/i.test(
         content,
       )
@@ -361,7 +361,7 @@ export class EnhancedSafetyProtocols {
 
   private containsCampaignSystemLogic(filePath: string): boolean {
     try {
-      const content = fs.readFileSync(filePath, 'utf8'),;
+      const content = fs.readFileSync(filePath, 'utf8'),
       return /\b(?:campaign|metrics|progress|intelligence|monitoring)\b/i.test(content);
     } catch {
       return false
@@ -374,7 +374,7 @@ export class EnhancedSafetyProtocols {
   ): FileRiskAssessment['riskLevel'] {
     const levels: FileRiskAssessment['riskLevel'][] = ['low', 'medium', 'high', 'critical'];
     const currentIndex = levels.indexOf(currentLevel);
-    const newIndex = Math.min(levels.length - 1, currentIndex + steps),;
+    const newIndex = Math.min(levels.length - 1, currentIndex + steps),
     return levels[newIndex]
   }
 
@@ -436,7 +436,7 @@ export class EnhancedSafetyProtocols {
 
     try {
       // Check for common service layer patterns that might be broken
-      const content = fs.readFileSync(filePath, 'utf8'),;
+      const content = fs.readFileSync(filePath, 'utf8'),
 
       // Check for API endpoint definitions
       if (/\/api\//.test(content) && !/export.*api/i.test(content)) {
@@ -468,7 +468,7 @@ export class EnhancedSafetyProtocols {
       const content = fs.readFileSync(filePath, 'utf8');
 
       // Check for elemental properties
-      const elementalProps = ['Fire', 'Water', 'Earth', 'Air'],;
+      const elementalProps = ['Fire', 'Water', 'Earth', 'Air'],
       const missingElements = elementalProps.filter(element => !content.includes(element));
       if (missingElements.length > 0) {
         errors.push(`Missing elemental properties: ${missingElements.join(', ')}`);
@@ -503,7 +503,7 @@ export class EnhancedSafetyProtocols {
       // This is a simplified check - in a real implementation, you might want to
       // actually try importing the module or running dependency analysis tools
       if (fs.existsSync(filePath)) {
-        const content = fs.readFileSync(filePath, 'utf8'),;
+        const content = fs.readFileSync(filePath, 'utf8'),
 
         // Check for syntax errors that might prevent import
         if (content.includes('undefined') && content.includes('export')) {

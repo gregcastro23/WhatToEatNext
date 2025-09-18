@@ -128,7 +128,7 @@ describe('Test File Rule Validation', () => {
 
         if (result.length > 0 && result[0].messages) {
           const unusedVarErrors: any = result[0].messages.filter(;
-            (msg: any) => (msg as any)?.ruleId === '@typescript-eslint/no-unused-vars' && String((msg as any)?.message).includes('mock'),;
+            (msg: any) => (msg as any)?.ruleId === '@typescript-eslint/no-unused-vars' && String((msg as any)?.message).includes('mock'),
           ),
 
           // Jest mock functions should be allowed
@@ -140,7 +140,7 @@ describe('Test File Rule Validation', () => {
           const result: any = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
             const unusedVarErrors: any = result[0].messages.filter(;
-              (msg: any) => (msg as any)?.ruleId === '@typescript-eslint/no-unused-vars' && String((msg as any)?.message).includes('mock'),;
+              (msg: any) => (msg as any)?.ruleId === '@typescript-eslint/no-unused-vars' && String((msg as any)?.message).includes('mock'),
             ),
 
             expect(unusedVarErrors.length).toBe(0);
@@ -179,7 +179,7 @@ describe('Test File Rule Validation', () => {
 
         if (result.length > 0 && result[0].messages) {
           const unusedVarErrors: any = result[0].messages.filter(;
-            (msg: any) => (msg as any)?.ruleId === '@typescript-eslint/no-unused-vars' && String((msg as any)?.message).includes('test'),;
+            (msg: any) => (msg as any)?.ruleId === '@typescript-eslint/no-unused-vars' && String((msg as any)?.message).includes('test'),
           ),
 
           // Test data structures should be allowed
@@ -191,7 +191,7 @@ describe('Test File Rule Validation', () => {
           const result: any = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
             const unusedVarErrors: any = result[0].messages.filter(;
-              (msg: any) => (msg as any)?.ruleId === '@typescript-eslint/no-unused-vars' && String((msg as any)?.message).includes('test'),;
+              (msg: any) => (msg as any)?.ruleId === '@typescript-eslint/no-unused-vars' && String((msg as any)?.message).includes('test'),
             ),
 
             expect(unusedVarErrors.length).toBe(0);
@@ -222,7 +222,7 @@ describe('Test File Rule Validation', () => {
           });
           
           test('should handle API responses with any', () => {
-            const apiResponse: any = { data: { id: 1, name: 'test' },;
+            const apiResponse: any = { data: { id: 1, name: 'test' },
               status: 200,
               headers: { 'content-type': 'application/json' }
             };
@@ -258,7 +258,7 @@ describe('Test File Rule Validation', () => {
           const result: any = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
             const anyTypeErrors: any = result[0].messages.filter(;
-              (msg: any) => (msg as any)?.ruleId === '@typescript-eslint/no-explicit-any' && (msg as any)?.severity === 2,;
+              (msg: any) => (msg as any)?.ruleId === '@typescript-eslint/no-explicit-any' && (msg as any)?.severity === 2,
             ),
 
             expect(anyTypeErrors.length).toBe(0);
@@ -323,7 +323,7 @@ describe('Test File Rule Validation', () => {
           const result: any = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
             const consoleErrors: any = result[0].messages.filter(;
-              (msg: any) => (msg as any)?.ruleId === 'no-console' && (msg as any)?.severity === 2,;
+              (msg: any) => (msg as any)?.ruleId === 'no-console' && (msg as any)?.severity === 2,
             ),
 
             expect(consoleErrors.length).toBe(0);
@@ -386,7 +386,7 @@ describe('Test File Rule Validation', () => {
           const result: any = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
             const nonNullErrors: any = result[0].messages.filter(;
-              (msg: any) => (msg as any)?.ruleId === '@typescript-eslint/no-non-null-assertion' && (msg as any)?.severity === 2,;
+              (msg: any) => (msg as any)?.ruleId === '@typescript-eslint/no-non-null-assertion' && (msg as any)?.severity === 2,
             ),
 
             expect(nonNullErrors.length).toBe(0);
@@ -463,7 +463,7 @@ describe('Test File Rule Validation', () => {
           const result: any = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
             const magicNumberErrors: any = result[0].messages.filter(;
-              (msg: any) => (msg as any)?.ruleId === 'no-magic-numbers' && (msg as any)?.severity === 2,;
+              (msg: any) => (msg as any)?.ruleId === 'no-magic-numbers' && (msg as any)?.severity === 2,
             ),
 
             expect(magicNumberErrors.length).toBe(0);
@@ -540,7 +540,7 @@ describe('Test File Rule Validation', () => {
           const result: any = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
             const complexityErrors: any = result[0].messages.filter(;
-              (msg: any) => (msg as any)?.ruleId === 'complexity' && (msg as any)?.severity === 2,;
+              (msg: any) => (msg as any)?.ruleId === 'complexity' && (msg as any)?.severity === 2,
             ),
 
             expect(complexityErrors.length).toBe(0);
@@ -759,7 +759,7 @@ describe('Test File Rule Validation', () => {
 
       testFiles.forEach(file => {
         // Check if file would match test patterns in ESLint config
-        const matchesTestPattern =,;
+        const matchesTestPattern =,
           file.includes('.test.') || file.includes('.spec.') || file.includes('__tests__/') || file.includes('/tests/');
 
         expect(matchesTestPattern).toBe(true);
@@ -777,7 +777,7 @@ describe('Test File Rule Validation', () => {
 
       nonTestFiles.forEach(file => {
         // Check that file would NOT match test patterns
-        const matchesTestPattern =,;
+        const matchesTestPattern =,
           file.includes('.test.') || file.includes('.spec.') || file.includes('__tests__/') || file.includes('/tests/');
 
         expect(matchesTestPattern).toBe(false);

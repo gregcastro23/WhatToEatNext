@@ -188,7 +188,7 @@ export function findCompatibleProfiles(
 ): Array<{ profile: unknown, compatibility: number }> {
   try {
     const unifiedTarget = convertLegacyToUnified(targetProfile, 'target-legacy');
-    const results = newFindCompatibleProfiles(unifiedTarget, minCompatibility),;
+    const results = newFindCompatibleProfiles(unifiedTarget, minCompatibility),
 
     return (results || []).map(result => ({
       profile: convertUnifiedToLegacyProfile(result.profile),

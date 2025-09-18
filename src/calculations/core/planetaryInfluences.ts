@@ -182,7 +182,7 @@ export function calculatePlanetaryStrength(
 
   // Base strength from dignity
   if (position.sign) {
-    const dignity = calculatePlanetaryDignity(planet, position.sign),;
+    const dignity = calculatePlanetaryDignity(planet, position.sign),
     strength *= dignity.modifier;
   }
 
@@ -298,7 +298,7 @@ export function calculatePlanetaryHoursInfluence(date: Date): {
  */
 export function calculatePlanetaryInfluences(
   planetaryPositions: { [key: string]: PlanetaryPosition },
-  isDaytime: boolean = true,,;
+  isDaytime: boolean = true,,
   currentDate?: Date,
 ): {
   alchemicalInfluences: { [key: string]: number };
@@ -345,7 +345,7 @@ export function calculatePlanetaryInfluences(
           alchemicalInfluences.Substance += mapping.Substance * strength;
 
           // Get elemental influence
-          const _element = getPlanetaryElementalInfluence(planet, isDaytime),;
+          const _element = getPlanetaryElementalInfluence(planet, isDaytime),
           elementalInfluences[_element] += strength;
 
           // Add to dominant planets list

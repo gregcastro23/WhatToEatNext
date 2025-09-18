@@ -12,7 +12,7 @@ import type {
   ThermodynamicMetrics as _ThermodynamicMetrics,
   Season as _Season,
   LunarPhase as _LunarPhase,
-  AlchemicalProperties as _AlchemicalProperties
+  AlchemicalProperties as _AlchemicalProperties,
 } from '@/types/alchemy';
 import type { PlanetName as _PlanetName } from '@/types/celestial';
 import type { createElementalProperties as _createElementalProperties } from '@/utils/elemental/elementalUtils';

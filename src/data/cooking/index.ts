@@ -80,8 +80,8 @@ export const _calculateModifiedElementalEffect = (;
   const normalizedDuration = Math.min(1.0, duration / (methodData.duration.max || 60));
   if (normalizedDuration > 0.7) {
     // Longer cooking enhances Fire and reduces Water
-    baseEffect.Fire = Math.min(1.0, (baseEffect.Fire || 0) * 1.2),;
-    baseEffect.Water = Math.max(0.0, (baseEffect.Water || 0) * 0.8),;
+    baseEffect.Fire = Math.min(1.0, (baseEffect.Fire || 0) * 1.2),
+    baseEffect.Water = Math.max(0.0, (baseEffect.Water || 0) * 0.8),
   }
 
   // Return the modified effect

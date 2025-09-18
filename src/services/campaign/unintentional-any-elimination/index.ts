@@ -20,12 +20,12 @@ export { ProgressMonitoringSystem } from './ProgressMonitoringSystem';
 export {
   UnintentionalAnyCampaignController,
   UnintentionalAnyIntegrationHelper,
-  createUnintentionalAnyCampaignController
+  createUnintentionalAnyCampaignController,
 } from './CampaignIntegration';
 
 export {
   UnintentionalAnyCampaignScheduler,
-  UnintentionalAnyProgressTracker
+  UnintentionalAnyProgressTracker,
 } from './MetricsIntegration';
 
 // Export types

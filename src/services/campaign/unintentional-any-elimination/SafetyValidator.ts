@@ -26,7 +26,7 @@ export interface SafetyValidationResult {
 export interface BuildValidationResult {
   buildSuccessful: boolean,
   compilationErrors: string[],
-  lintingWarnings: string[];
+  lintingWarnings: string[],
   testResults?: TestValidationResult;
   performanceMetrics?: PerformanceMetrics;
 }

@@ -323,7 +323,7 @@ export class ConservativeReplacementPilot {
         endTime: new Date(),
         casesProcessed: cases.length,
         successfulReplacements: replacementResult.appliedReplacements.length,
-        failedReplacements: replacementResult.failedReplacements.length;
+        failedReplacements: replacementResult.failedReplacements.length,
         buildStable,
         rollbackPerformed: replacementResult.rollbackPerformed,
         compilationErrors: replacementResult.compilationErrors

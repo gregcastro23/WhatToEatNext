@@ -30,10 +30,10 @@ const defaultContext: TarotContextType = {
     Fire: 0,
     Water: 0,
     Earth: 0,
-    Air: 0
+    Air: 0,
   },
   setTarotCard: () => {},
-  setTarotElementalInfluences: () => {}
+  setTarotElementalInfluences: () => {},
 };
 
 const TarotContext = createContext<TarotContextType>(defaultContext);
@@ -45,7 +45,7 @@ export const _TarotProvider = ({ children }: { children: ReactNode }) => {
       Fire: 0,
       Water: 0,
       Earth: 0,
-      Air: 0
+      Air: 0,
     });
 
   return (
@@ -54,7 +54,7 @@ export const _TarotProvider = ({ children }: { children: ReactNode }) => {
         tarotCard,
         tarotElementalInfluences,
         setTarotCard,
-        setTarotElementalInfluences
+        setTarotElementalInfluences,
       }}
     >
       {children}

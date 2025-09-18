@@ -22,7 +22,7 @@ export const planetInfo: Record<string, PlanetData> = {
   Uranus: uranusData,
   Neptune: neptuneData,
   Pluto: plutoData,
-  Ascendant: ascendantData
+  Ascendant: ascendantData,
 };
 
 export * from './types';
@@ -39,7 +39,7 @@ export {
   uranusData,
   neptuneData,
   plutoData,
-  ascendantData
+  ascendantData,
 };
 
 // For backward compatibility

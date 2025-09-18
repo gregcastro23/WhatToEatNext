@@ -86,7 +86,7 @@ export class EnhancedIngredientSystem {
             s =>;
               typeof s === 'string' &&;
               s.toLowerCase() ===
-                (typeof currentSeason === 'string' ? currentSeason.toLowerCase() : ''),,;
+                (typeof currentSeason === 'string' ? currentSeason.toLowerCase() : ''),,
           )
         });
       }
@@ -101,7 +101,7 @@ export class EnhancedIngredientSystem {
           const zodiacArray = Array.isArray(zodiac) ? zodiac : [zodiac];
           return zodiacArray.some(
             z =>;
-              typeof z === 'string' && z.toLowerCase() === options.currentZodiacSign?.toLowerCase(),,;
+              typeof z === 'string' && z.toLowerCase() === options.currentZodiacSign?.toLowerCase(),,
           )
         });
       }
@@ -111,7 +111,7 @@ export class EnhancedIngredientSystem {
         filtered = filtered.filter(ingredient =>;
           Array.isArray(options.categories)
             ? options.categories.includes(ingredient.category)
-            : options.categories === ingredient.category,,;
+            : options.categories === ingredient.category,,
         )
       }
 
@@ -122,7 +122,7 @@ export class EnhancedIngredientSystem {
         if (dietaryFilter.isVegetarian) {
           filtered = filtered.filter(ingredient => {
             if (ingredient.category !== 'proteins') return true;
-            const nonVegetarianCategories = ['meat', 'poultry', 'seafood'],;
+            const nonVegetarianCategories = ['meat', 'poultry', 'seafood'],
             return !nonVegetarianCategories.includes(ingredient.subCategory || '');
           });
         }
@@ -130,7 +130,7 @@ export class EnhancedIngredientSystem {
         if (dietaryFilter.isVegan) {
           filtered = filtered.filter(ingredient => {
             if (ingredient.category !== 'proteins') return true;
-            const nonVeganCategories = ['meat', 'poultry', 'seafood', 'dAiry', 'eggs'],;
+            const nonVeganCategories = ['meat', 'poultry', 'seafood', 'dAiry', 'eggs'],
             return !nonVeganCategories.includes(ingredient.subCategory || '');
           });
         }
@@ -138,7 +138,7 @@ export class EnhancedIngredientSystem {
         if (dietaryFilter.isGlutenFree) {
           filtered = filtered.filter(ingredient => {
             if (ingredient.category !== 'grains') return true;
-            const glutenGrains = ['wheat', 'barley', 'rye', 'triticale'],;
+            const glutenGrains = ['wheat', 'barley', 'rye', 'triticale'],
             return !glutenGrains.some(g => ingredient.name.toLowerCase().includes(g));
           });
         }
@@ -177,10 +177,10 @@ export class EnhancedIngredientSystem {
 
     const elementsRecord = elements as unknown;
     return {
-      Fire: typeof elementsRecord.Fire === 'number' ? elementsRecord.Fire : 0.25,;
-      Water: typeof elementsRecord.Water === 'number' ? elementsRecord.Water : 0.25,;
-      Earth: typeof elementsRecord.Earth === 'number' ? elementsRecord.Earth : 0.25,,;
-      Air: typeof elementsRecord.Air === 'number' ? elementsRecord.Air : 0.25,,;
+      Fire: typeof elementsRecord.Fire === 'number' ? elementsRecord.Fire : 0.25,
+      Water: typeof elementsRecord.Water === 'number' ? elementsRecord.Water : 0.25,
+      Earth: typeof elementsRecord.Earth === 'number' ? elementsRecord.Earth : 0.25,,
+      Air: typeof elementsRecord.Air === 'number' ? elementsRecord.Air : 0.25,,
     };
   }
 
@@ -202,7 +202,7 @@ export class EnhancedIngredientSystem {
 
       // Remove duplicates
       const uniqueIngredients = Array.from(;
-        new Map((results || []).map(item => [item.name, item])).values(),;
+        new Map((results || []).map(item => [item.name, item])).values(),
       );
 
       return uniqueIngredients;
@@ -236,7 +236,7 @@ export class EnhancedIngredientSystem {
       // Filter out any ingredients already in the base list
       const baseIngredientNames = (ingredients || []).map(name => name.toLowerCase());
       const filtered = (allComplementary || []).filter(;
-        ingredient => !baseIngredientNames.includes(ingredient.name.toLowerCase() || ''),;
+        ingredient => !baseIngredientNames.includes(ingredient.name.toLowerCase() || ''),
       );
 
       // Remove duplicates and sort by calculated complementarity

@@ -20,7 +20,7 @@ export {
   ZODIAC_ELEMENTS,
   PLANETARY_RULERSHIPS,
   PLANETARY_EXALTATIONS,
-  TRIPLICITY_RULERS
+  TRIPLICITY_RULERS,
 } from './zodiac';
 
 export { DECAN_RULERS } from './decanRulers';

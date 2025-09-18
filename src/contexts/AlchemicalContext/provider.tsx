@@ -11,9 +11,9 @@ import { AlchemicalState, AstrologicalState, PlanetaryPositionsType } from './ty
 
 // Phase 5: Type-safe conversion interfaces for alchemical calculations
 interface CalculationCompatiblePosition {
-  sign?: string,
-  degree?: number,
-  isRetrograde?: boolean,
+  sign?: string;
+  degree?: number;
+  isRetrograde?: boolean;
   [key: string]: unknown
 }
 
@@ -73,7 +73,7 @@ const calculateActivePlanets = (positions: PlanetaryPositionsType): string[] => 
 
 // Safe type conversion function to replace 'as any' casts
 const convertToCalculationFormat = (
-  positions: PlanetaryPositionsType
+  positions: PlanetaryPositionsType,
 ): CalculationCompatiblePositions => {
   const converted: CalculationCompatiblePositions = {};
 
@@ -84,7 +84,7 @@ const convertToCalculationFormat = (
         degree: position.degree,
         isRetrograde: position.isRetrograde,
         // Preserve any additional properties safely
-        ...position
+        ...position,
       };
     }
   });
@@ -124,9 +124,9 @@ export const AlchemicalProvider: React.FC<{ children: React.ReactNode }> = ({ ch
                   Spirit: number,
                   Essence: number,
                   Matter: number,
-                  Substance: number
+                  Substance: number,
                 })
-              : { Spirit: 0.25, Essence: 0.25, Matter: 0.25, Substance: 0.25 }
+              : { Spirit: 0.25, Essence: 0.25, Matter: 0.25, Substance: 0.25 },
         });
       }
     } else if (state.astrologicalState) {
@@ -136,12 +136,12 @@ export const AlchemicalProvider: React.FC<{ children: React.ReactNode }> = ({ ch
         alchemicalValues:
           state.alchemicalValues && Object.keys(state.alchemicalValues).length === 4
             ? state.alchemicalValues
-            : { Spirit: 0.25, Essence: 0.25, Matter: 0.25, Substance: 0.25 }
+            : { Spirit: 0.25, Essence: 0.25, Matter: 0.25, Substance: 0.25 },
       };
 
       dispatch({
         type: 'SET_ASTROLOGICAL_STATE',
-        payload: updatedAstroState
+        payload: updatedAstroState,
       });
     }
   }, [state.astrologicalState]);
@@ -158,7 +158,7 @@ export const AlchemicalProvider: React.FC<{ children: React.ReactNode }> = ({ ch
       logger.info('Updating planetary positions', {
         sun: positions.Sun.sign,
         moon: positions.Moon.sign,
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
       });
       return positions;
     });
@@ -181,7 +181,7 @@ export const AlchemicalProvider: React.FC<{ children: React.ReactNode }> = ({ ch
           sign: data.sign?.toLowerCase() || 'unknown',
           degree: typeof data.degree === 'number' ? data.degree : 0,
           exactLongitude: typeof data.exactLongitude === 'number' ? data.exactLongitude : 0,
-          isRetrograde: !!data.isRetrograde
+          isRetrograde: !!data.isRetrograde,
         };
       });
 
@@ -191,7 +191,7 @@ export const AlchemicalProvider: React.FC<{ children: React.ReactNode }> = ({ ch
       const {
         calculateElementalValues,
         calculatePlanetaryAlchemicalValues,
-        calculateElementalBalance
+        calculateElementalBalance,
       } = await import('@/utils/alchemicalCalculations');
 
       // Calculate elemental and alchemical values using type-safe conversion
@@ -213,7 +213,7 @@ export const AlchemicalProvider: React.FC<{ children: React.ReactNode }> = ({ ch
           ((planetaryValues as any)?.Matter || 0) * 0.2,
         Substance:
           ((elementalValues as any)?.Substance || 0) * 0.2 +
-          ((planetaryValues as any)?.Substance || 0) * 0.2
+          ((planetaryValues as any)?.Substance || 0) * 0.2,
       };
 
       // Normalize alchemical values to ensure they sum to approximately 1
@@ -227,7 +227,7 @@ export const AlchemicalProvider: React.FC<{ children: React.ReactNode }> = ({ ch
         Spirit: combinedAlchemicalValues.Spirit / total,
         Essence: combinedAlchemicalValues.Essence / total,
         Matter: combinedAlchemicalValues.Matter / total,
-        Substance: combinedAlchemicalValues.Substance / total
+        Substance: combinedAlchemicalValues.Substance / total,
       };
 
       logger.debug('Calculated alchemical values:', normalizedAlchemicalValues);
@@ -240,13 +240,13 @@ export const AlchemicalProvider: React.FC<{ children: React.ReactNode }> = ({ ch
       // First update the alchemical values at the root of the state
       dispatch({
         type: 'SET_ALCHEMICAL_VALUES',
-        payload: normalizedAlchemicalValues
+        payload: normalizedAlchemicalValues,
       });
 
       // Update elemental state
       dispatch({
         type: 'SET_ELEMENTAL_STATE',
-        payload: elementalBalance
+        payload: elementalBalance,
       });
 
       // Sync with ElementalCalculator
@@ -272,12 +272,12 @@ export const AlchemicalProvider: React.FC<{ children: React.ReactNode }> = ({ ch
         calculationError: false,
         alchemicalValues: normalizedAlchemicalValues,
         currentZodiac: sunSign,
-        moonPhase: safeAstrology.getLunarPhaseName(safeAstrology.calculateLunarPhase())
+        moonPhase: safeAstrology.getLunarPhaseName(safeAstrology.calculateLunarPhase()),
       };
 
       dispatch({
         type: 'SET_ASTROLOGICAL_STATE',
-        payload: astrologicalState
+        payload: astrologicalState,
       });
 
       return normalizedPositions;
@@ -285,12 +285,12 @@ export const AlchemicalProvider: React.FC<{ children: React.ReactNode }> = ({ ch
       logger.error('Error refreshing planetary positions:', error);
       dispatch({
         type: 'SET_ERROR',
-        payload: { message: 'Failed to refresh planetary positions' }
+        payload: { message: 'Failed to refresh planetary positions' },
       });
       // Pattern JJ-2: AlchemicalState Interface Completion - Return proper structure instead of empty object
       return {
         Sun: { sign: 'aries', degree: 0, exactLongitude: 0, isRetrograde: false },
-        Moon: { sign: 'taurus', degree: 0, exactLongitude: 0, isRetrograde: false }
+        Moon: { sign: 'taurus', degree: 0, exactLongitude: 0, isRetrograde: false },
       };
     }
   }, [isDaytime, updatePlanetaryPositions]);
@@ -318,7 +318,7 @@ export const AlchemicalProvider: React.FC<{ children: React.ReactNode }> = ({ ch
   const updateState = useCallback((updatedState: Partial<AlchemicalState>) => {
     dispatch({
       type: 'UPDATE_STATE',
-      payload: updatedState
+      payload: updatedState,
     });
   }, []);
 
@@ -334,9 +334,9 @@ export const AlchemicalProvider: React.FC<{ children: React.ReactNode }> = ({ ch
         ) => void,
         refreshPlanetaryPositions: refreshPlanetaryPositions as () => Promise<
           Record<string, unknown>
-        >;
+        >,
         setDaytime,
-        updateState
+        updateState,
       }}
     >
       {children}

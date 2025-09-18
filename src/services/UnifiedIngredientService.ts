@@ -420,9 +420,9 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
   ingredient2: string | UnifiedIngredient,
   ): {
     score: number,
-    elementalCompatibility: number,
+  elementalCompatibility: number,
   flavorCompatibility: number,
-    seasonalCompatibility: number,
+  seasonalCompatibility: number,
   energeticCompatibility: number
   } {
     // Resolve ingredients if strings provided

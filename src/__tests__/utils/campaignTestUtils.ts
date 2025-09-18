@@ -56,11 +56,11 @@ export interface CampaignTestContext {
 export async function setupCampaignTest(setup: CampaignTestSetup): Promise<CampaignTestContext> {
   const {
     testName;
-    enableMemoryMonitoring = true,;
-    preventActualBuilds = true,;
-    preventGitOperations = true,;
-    mockProgressTracking = true,,;
-    simulateRealProgress: _simulateRealProgress = false,,;
+    enableMemoryMonitoring = true,
+    preventActualBuilds = true,
+    preventGitOperations = true,
+    mockProgressTracking = true,,
+    simulateRealProgress: _simulateRealProgress = false,,
     customConfig: _customConfig
   } = setup;
 
@@ -89,7 +89,7 @@ export async function setupCampaignTest(setup: CampaignTestSetup): Promise<Campa
   return {
     controller: mockInstances.controller,
     tracker: mockInstances.tracker,
-    safety: mockInstances.safety;
+    safety: mockInstances.safety,
     testSafeTracker,
     testController: campaignTestController
   };

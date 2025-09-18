@@ -93,7 +93,7 @@ export function useAstrologicalInfluence() {
     return {
       planetaryDay: astrologicalState.planetaryDay || 'Sun',
       planetaryHour: astrologicalState.planetaryHour || 'Sun',
-      lunarPhase: astrologicalState.lunarPhase || 'new moon';
+      lunarPhase: astrologicalState.lunarPhase || 'new moon',
       dominantElement,
       aspectStrength,
       overallInfluence

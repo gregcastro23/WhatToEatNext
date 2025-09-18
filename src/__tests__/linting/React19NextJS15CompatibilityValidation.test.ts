@@ -15,7 +15,7 @@ import fs from 'fs';
 import path from 'path';
 
 describe('React 19 and Next.js 15 Compatibility Validation', () => {
-  const testFilesDir: any = path.join(__dirname, 'test-files'),;
+  const testFilesDir: any = path.join(__dirname, 'test-files'),
 
   beforeAll(() => {
     // Create test files directory
@@ -99,7 +99,7 @@ export function ListComponent(): any {
     });
 
     test('should handle React 19 concurrent features', () => {
-      const testFile: any = path.join(testFilesDir, 'concurrent-features.tsx'),;
+      const testFile: any = path.join(testFilesDir, 'concurrent-features.tsx'),
       const content: any = `;
 import { Suspense, startTransition, useDeferredValue, useTransition } from 'react';
 
@@ -137,7 +137,7 @@ export function ConcurrentComponent(): any {
 
   describe('Next.js 15 App Router Support', () => {
     test('should handle App Router page components', () => {
-      const testFile: any = path.join(testFilesDir, 'app-page.tsx'),;
+      const testFile: any = path.join(testFilesDir, 'app-page.tsx'),
       const content: any = `;
 // Next.js 15 App Router page component
 export default function Page(): any {
@@ -164,7 +164,7 @@ export function generateMetadata(): any {
     });
 
     test('should handle App Router layout components', () => {
-      const testFile: any = path.join(testFilesDir, 'app-layout.tsx'),;
+      const testFile: any = path.join(testFilesDir, 'app-layout.tsx'),
       const content: any = `;
 // Next.js 15 App Router layout component
 export default function RootLayout(: any) {
@@ -216,7 +216,7 @@ export default ServerComponent;
     });
 
     test('should handle Client Components with use client directive', () => {
-      const testFile: any = path.join(testFilesDir, 'client-component.tsx'),;
+      const testFile: any = path.join(testFilesDir, 'client-component.tsx'),
       const content: any = `;
 'use client',
 
@@ -246,7 +246,7 @@ export default function ClientComponent(): any {
 
   describe('React Hooks Enhanced Rules', () => {
     test('should validate exhaustive-deps with additional hooks', () => {
-      const testFile: any = path.join(testFilesDir, 'enhanced-hooks.tsx'),;
+      const testFile: any = path.join(testFilesDir, 'enhanced-hooks.tsx'),
       const content: any = `;
 import { useEffect, useCallback } from 'react';
 import { useRecoilCallback } from 'recoil';
@@ -276,7 +276,7 @@ export function EnhancedHooksComponent(): any {
     });
 
     test('should handle custom hooks properly', () => {
-      const testFile: any = path.join(testFilesDir, 'custom-hooks.tsx'),;
+      const testFile: any = path.join(testFilesDir, 'custom-hooks.tsx'),
       const content: any = `;
 import { useState, useEffect } from 'react';
 
@@ -306,7 +306,7 @@ export function CustomHookComponent(): any {
     });
 
     test('should validate hooks rules in conditional usage', () => {
-      const testFile: any = path.join(testFilesDir, 'conditional-hooks.tsx'),;
+      const testFile: any = path.join(testFilesDir, 'conditional-hooks.tsx'),
       const content: any = `;
 import { useState } from 'react';
 
@@ -329,7 +329,7 @@ export function ConditionalHooksComponent(: any) { condition }: { condition: boo
 
   describe('Suspense and Error Boundaries', () => {
     test('should handle Suspense boundaries correctly', () => {
-      const testFile: any = path.join(testFilesDir, 'suspense-boundaries.tsx'),;
+      const testFile: any = path.join(testFilesDir, 'suspense-boundaries.tsx'),
       const content: any = `;
 import { Suspense, lazy } from 'react';
 
@@ -352,7 +352,7 @@ export function SuspenseBoundary(): any {
     });
 
     test('should handle Error Boundaries', () => {
-      const testFile: any = path.join(testFilesDir, 'error-boundary.tsx'),;
+      const testFile: any = path.join(testFilesDir, 'error-boundary.tsx'),
       const content: any = `;
 import { Component, ErrorInfo, ReactNode } from 'react';
 
@@ -397,7 +397,7 @@ export class ErrorBoundary extends Component<Props, State> {
 
   describe('TypeScript Integration', () => {
     test('should handle React 19 TypeScript types', () => {
-      const testFile: any = path.join(testFilesDir, 'typescript-types.tsx'),;
+      const testFile: any = path.join(testFilesDir, 'typescript-types.tsx'),
       const content: any = `;
 import { FC, PropsWithChildren, ComponentProps } from 'react';
 
@@ -525,7 +525,7 @@ export function PropValidationComponent(: any) { required, optional, callback }:
 
   describe('Performance and Optimization', () => {
     test('should handle large component trees efficiently', () => {
-      const testFile: any = path.join(testFilesDir, 'large-component.tsx'),;
+      const testFile: any = path.join(testFilesDir, 'large-component.tsx'),
       const content: any = `;
 import { memo, useMemo, useCallback } from 'react';
 
@@ -580,7 +580,7 @@ export function LargeComponentTree(): any {
     });
 
     test('should validate import organization with React 19', () => {
-      const testFile = path.join(testFilesDir, 'import-organization.tsx'),;
+      const testFile = path.join(testFilesDir, 'import-organization.tsx'),
       const content: any = `;
 import { useState, useEffect, useMemo } from 'react';
 import { NextPage } from 'next';

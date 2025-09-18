@@ -9,13 +9,13 @@ export const _config = {
       elemental: 1.5,
       timeOfDay: 1,
       celestial: 1.25,
-      traditional: 1
-    }
+      traditional: 1,
+    },
   },
   elements: {
     Fire: { complement: 'Fire', harmony: 'Air' },
     Water: { complement: 'Water', harmony: 'Earth' },
     Air: { complement: 'Air', harmony: 'Fire' },
-    Earth: { complement: 'Earth', harmony: 'Water' }
-  }
+    Earth: { complement: 'Earth', harmony: 'Water' },
+  },
 } as const;

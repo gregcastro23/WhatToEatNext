@@ -193,7 +193,7 @@ describe('Simplified Main Page Validation - Task 12', () => {
     });
 
     test('Semantic HTML elements work', () => {
-      const semanticElements: any = ['main', 'nav', 'section', 'article', 'aside', 'header', 'footer'],;
+      const semanticElements: any = ['main', 'nav', 'section', 'article', 'aside', 'header', 'footer'],
 
       semanticElements.forEach(tag => {
         const element: any = React.createElement(tag, {}, 'Content');

@@ -20,7 +20,7 @@ function tryCompiled(
 ): string | null {
   // When running compiled (CJS), __dirname should point at dist-scripts
   // Try sibling compiled files first
-   
+
   // @ts-ignore
   const here = typeof __dirname !== 'undefined' ? __dirname : null;
   if (!here) return null;
@@ -77,7 +77,6 @@ function main(): void {
       break;
     }
     default: {
-       
       // // console.log('Usage: yarn unused-vars <baseline|analyze|batch|progress> [options]')
     }
   }

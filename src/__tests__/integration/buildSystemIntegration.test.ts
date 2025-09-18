@@ -22,7 +22,7 @@ describe('Build System Integration', () => {
     it('should validate existing build system', () => {
       const output: any = execSync('node scripts/build-system-repair.cjs validate', {
         encoding: 'utf8',
-        stdio: 'pipe'
+        stdio: 'pipe',
       });
 
       expect(output).toContain('Validating build system');
@@ -32,7 +32,7 @@ describe('Build System Integration', () => {
     it('should check build system health', () => {
       const output: any = execSync('node scripts/build-system-repair.cjs health', {
         encoding: 'utf8',
-        stdio: 'pipe'
+        stdio: 'pipe',
       });
 
       expect(output).toContain('Health Report');
@@ -44,7 +44,7 @@ describe('Build System Integration', () => {
     it('should show help information', () => {
       const output: any = execSync('node scripts/build-system-repair.cjs help', {
         encoding: 'utf8',
-        stdio: 'pipe'
+        stdio: 'pipe',
       });
 
       expect(output).toContain('Build System Repair CLI');
@@ -60,14 +60,14 @@ describe('Build System Integration', () => {
       if (fs.existsSync(buildDir)) {
         const output: any = execSync('node scripts/build-system-repair.cjs validate', {
           encoding: 'utf8',
-          stdio: 'pipe'
+          stdio: 'pipe',
         });
 
         expect(output).toContain('Build system is valid');
       } else {
         const output: any = execSync('node scripts/build-system-repair.cjs validate', {
           encoding: 'utf8',
-          stdio: 'pipe'
+          stdio: 'pipe',
         });
 
         expect(output).toContain('Missing files');
@@ -77,7 +77,7 @@ describe('Build System Integration', () => {
     it('should provide meaningful health metrics', () => {
       const output: any = execSync('node scripts/build-system-repair.cjs health', {
         encoding: 'utf8',
-        stdio: 'pipe'
+        stdio: 'pipe',
       });
 
       // Should contain timestamp
@@ -96,7 +96,7 @@ describe('Build System Integration', () => {
       // This test runs repair but should not break existing build
       const output: any = execSync('node scripts/build-system-repair.cjs quick', {
         encoding: 'utf8',
-        stdio: 'pipe'
+        stdio: 'pipe',
       });
 
       expect(output).toContain('quick repair');
@@ -109,11 +109,11 @@ describe('Build System Integration', () => {
       try {
         execSync('node scripts/build-system-repair.cjs invalid-command', {
           encoding: 'utf8',
-          stdio: 'pipe'
+          stdio: 'pipe',
         });
         fail('Should have thrown an error for invalid command');
       } catch (error: any) {
-        const execError: any = error as { status: number; stdou, t: string };
+        const execError: any = error as { status: number; stdou; t: string };
         expect(execError.status).toBe(1);
         expect(execError.stdout).toContain('Invalid or missing command');
       }
@@ -123,11 +123,11 @@ describe('Build System Integration', () => {
       try {
         execSync('node scripts/build-system-repair.cjs', {
           encoding: 'utf8',
-          stdio: 'pipe'
+          stdio: 'pipe',
         });
         fail('Should have thrown an error for missing command');
       } catch (error: any) {
-        const execError: any = error as { status: number; stdou, t: string };
+        const execError: any = error as { status: number; stdou; t: string };
         expect(execError.status).toBe(1);
         expect(execError.stdout).toContain('Invalid or missing command');
       }
@@ -151,7 +151,7 @@ describe('Build System Integration', () => {
     it('should be able to run build validation via yarn script', () => {
       const output: any = execSync('yarn build:validate', {
         encoding: 'utf8',
-        stdio: 'pipe'
+        stdio: 'pipe',
       });
 
       expect(output).toContain('Validating build system');
@@ -160,7 +160,7 @@ describe('Build System Integration', () => {
     it('should be able to run health check via yarn script', () => {
       const output: any = execSync('yarn build:health', {
         encoding: 'utf8',
-        stdio: 'pipe'
+        stdio: 'pipe',
       });
 
       expect(output).toContain('Health Report');

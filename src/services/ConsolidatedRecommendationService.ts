@@ -394,7 +394,7 @@ export class ConsolidatedRecommendationService implements RecommendationServiceI
         return {
           id: String(methodData.id || methodData.name || ''),
           name: String(methodData.name || ''),
-          description: String(methodData.description || '');
+          description: String(methodData.description || ''),
           ...methodData
         } as CookingMethod;
       });

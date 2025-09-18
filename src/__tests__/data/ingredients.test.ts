@@ -9,7 +9,7 @@ describe('Ingredient Data Structure', () => {
       amount: 1,
       unit: 'cup',
       category: 'vegetables',
-      elementalProperties: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
+      elementalProperties: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
     };
 
     expect(validateIngredient(validIngredient)).toBe(true);
@@ -18,7 +18,7 @@ describe('Ingredient Data Structure', () => {
   it('should reject an ingredient with missing required fields', () => {
     const missingNameIngredient: any = {
       amount: 1,
-      unit: 'cup'
+      unit: 'cup',
     };
 
     expect(validateIngredient(missingNameIngredient)).toBe(false);
@@ -29,7 +29,7 @@ describe('Ingredient Data Structure', () => {
       name: 'Test Ingredient',
       amount: 1,
       unit: 'cup',
-      category: 'vegetables'
+      category: 'vegetables',
     };
 
     // This should still be valid as elemental properties are optional
@@ -41,7 +41,7 @@ describe('Ingredient Data Structure', () => {
       name: 'Test Ingredient',
       amount: 0.5,
       unit: 'cup',
-      category: 'vegetables'
+      category: 'vegetables',
     };
 
     expect(validateIngredient(fractionIngredient)).toBe(true);
@@ -67,7 +67,7 @@ describe('Ingredient Data Structure', () => {
       preparation: 'diced',
       notes: 'Use fresh if possible',
       elementalProperties: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
-      season: ['summer', 'fall']
+      season: ['summer', 'fall'],
     };
 
     expect(validateIngredient(fullIngredient)).toBe(true);

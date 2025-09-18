@@ -139,7 +139,7 @@ function validateAndNormalizeIngredients(
     category: ing.category || 'other',
     optional: ing.optional || false,
     preparation: ing.preparation || '',
-    notes: ing.notes || '';
+    notes: ing.notes || '',
     // Standardize ingredient elemental properties too
     elementalProperties: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
   }));

@@ -2,7 +2,7 @@
 
 import {
   AlchemicalState as BaseAlchemicalState,
-  AstrologicalState as BaseAstrologicalState
+  AstrologicalState as BaseAstrologicalState,
 } from '@/types/alchemical';
 import {
   _,
@@ -11,7 +11,7 @@ import {
   _ZodiacSign,
   _,
   _Planet,
-  _PlanetaryAlignment
+  _PlanetaryAlignment,
 } from '@/types/celestial';
 
 // Import types directly from alchemical types

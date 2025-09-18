@@ -101,7 +101,7 @@ export class UnintentionalAnyCampaignController extends CampaignController {
         },
         filesProcessed: campaignResult.filesProcessed,
         errorsFixed: campaignResult.errorsFixed,
-        warningsFixed: campaignResult.warningsFixed;
+        warningsFixed: campaignResult.warningsFixed,
         executionTime,
         safetyEvents: campaignResult.safetyEvents
       };

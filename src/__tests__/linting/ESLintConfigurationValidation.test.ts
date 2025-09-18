@@ -16,7 +16,7 @@ import { ESLint } from 'eslint';
 
 describe('ESLint Configuration Validation', () => {
   let eslint: ESLint;
-  const configPath: any = path.resolve(__dirname, '../../eslint.config.cjs'),;
+  const configPath: any = path.resolve(__dirname, '../../eslint.config.cjs'),
 
   beforeAll(async () => {
     // Load the ESLint configuration
@@ -68,7 +68,7 @@ describe('ESLint Configuration Validation', () => {
       expect(campaignConfig).toBeDefined();
 
       // Check for test file rules
-      const testConfig: any = config.find((c: any) => c.files && c.files.some((, f: string) => f.includes('**/*.test.ts'))),;
+      const testConfig: any = config.find((c: any) => c.files && c.files.some((, f: string) => f.includes('**/*.test.ts'))),
       expect(testConfig).toBeDefined();
     });
 
@@ -234,7 +234,7 @@ describe('ESLint Configuration Validation', () => {
 
     test('should define test globals for test files', () => {
       const config = require(configPath);
-      const testConfig: any = config.find((c: any) => c.files && c.files.some((, f: string) => f.includes('**/*.test.ts'))),;
+      const testConfig: any = config.find((c: any) => c.files && c.files.some((, f: string) => f.includes('**/*.test.ts'))),
 
       expect(testConfig).toBeDefined();
       expect(testConfig.languageOptions.globals.describe).toBe('readonly');

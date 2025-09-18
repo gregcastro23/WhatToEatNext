@@ -6,7 +6,7 @@ import React, {
   useState,
   useEffect,
   useCallback,
-  ReactNode
+  ReactNode,
 } from 'react';
 
 import alchemicalEngine from '@/calculations/alchemicalEngine';
@@ -21,11 +21,11 @@ interface SafeElementalProperties {
   Fire: number,
   Water: number,
   Earth: number,
-  Air: number
+  Air: number,
 }
 
 interface _ {
-  elements?: SafeElementalProperties,
+  elements?: SafeElementalProperties;
   [key: string]: unknown
 }
 
@@ -36,7 +36,7 @@ interface AstrologicalContextType {
   chakraEnergies: ChakraEnergies | null,
   loading: boolean,
   error: string | null,
-  updateZodiac: (zodiac: string) => void
+  updateZodiac: (zodiac: string) => void,
 }
 
 // Create the context
@@ -71,7 +71,7 @@ export function AstrologicalProvider({ children }: AstrologicalProviderProps) {
         Fire: zodiac === 'aries' || zodiac === 'leo' || zodiac === 'sagittarius' ? 0.7 : 0.2,
         Water: zodiac === 'cancer' || zodiac === 'scorpio' || zodiac === 'pisces' ? 0.7 : 0.2,
         Earth: zodiac === 'taurus' || zodiac === 'virgo' || zodiac === 'capricorn' ? 0.7 : 0.2,
-        Air: zodiac === 'gemini' || zodiac === 'libra' || zodiac === 'aquarius' ? 0.7 : 0.2
+        Air: zodiac === 'gemini' || zodiac === 'libra' || zodiac === 'aquarius' ? 0.7 : 0.2,
       };
 
       // Calculate basic alchemical values from elemental properties
@@ -79,7 +79,7 @@ export function AstrologicalProvider({ children }: AstrologicalProviderProps) {
         Spirit: (elementalProperties.Fire + elementalProperties.Air) * 0.5,
         Essence: (elementalProperties.Water + elementalProperties.Fire) * 0.5,
         Matter: (elementalProperties.Earth + elementalProperties.Water) * 0.5,
-        Substance: (elementalProperties.Earth + elementalProperties.Air) * 0.5
+        Substance: (elementalProperties.Earth + elementalProperties.Air) * 0.5,
       };
 
       // Get current planetary hour (simple mock based on time)
@@ -91,7 +91,7 @@ export function AstrologicalProvider({ children }: AstrologicalProviderProps) {
         'Moon',
         'Saturn',
         'Jupiter',
-        'Mars'
+        'Mars',
       ] as const;
       const planetaryHour = planetaryHours[currentHour % 7];
 
@@ -102,7 +102,7 @@ export function AstrologicalProvider({ children }: AstrologicalProviderProps) {
         planetaryHour: planetaryHour, // Add planetary hour
         planetaryPositions: {
           sun: { sign: zodiac, degree: 15 },
-          moon: { sign: zodiac, degree: 20 }
+          moon: { sign: zodiac, degree: 20 },
         },
         lunarPhase: 'full moon' as const,
         currentSeason: 'spring',
@@ -146,7 +146,7 @@ export function AstrologicalProvider({ children }: AstrologicalProviderProps) {
     chakraEnergies,
     loading,
     error,
-    updateZodiac
+    updateZodiac,
   };
 
   return <AstrologicalContext.Provider value={value}>{children}</AstrologicalContext.Provider>;

@@ -664,7 +664,7 @@ export async function getIngredientRecommendations(
         elementalScore: safeGetNumber(ingredient.elementalScore),
         astrologicalScore: safeGetNumber(ingredientData.astrologicalScore),
         seasonalScore: safeGetNumber(ingredient.seasonalScore),
-        dietary: safeGetStringArray(ingredientData.dietary);
+        dietary: safeGetStringArray(ingredientData.dietary),
         // Enterprise Intelligence Enhanced Properties
         flavorProfile: (() => {
           const analysis = ingredientIntelligence?.categorizationAnalysis as;

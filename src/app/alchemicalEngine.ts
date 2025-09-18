@@ -8,7 +8,7 @@ import {
   AlchemicalEngineAdvanced,
   calculateChakraEnergies as _calculateChakraEnergies,
   calculateZodiacEnergies as _calculateZodiacEnergies,
-  alchemize
+  alchemize,
 } from '@/calculations/alchemicalEngine';
 import { AlchemicalEngineBase } from '@/lib/alchemicalEngine';
 import type {
@@ -16,7 +16,7 @@ import type {
   BirthInfo,
   ChakraEnergies,
   HoroscopeData,
-  StandardizedAlchemicalResult
+  StandardizedAlchemicalResult,
 } from '@/types/alchemy';
 
 // Re-export the main functions and classes
@@ -36,8 +36,8 @@ const alchemicalEngine = {
           CelestialBodies:
             tropical?.CelestialBodies || (horoscopeDict as any).CelestialBodies || {},
           Ascendant: tropical?.Ascendant || (horoscopeDict as any).Ascendant || {},
-          Aspects: tropical?.Aspects || (horoscopeDict as any).Aspects || {}
-        }
+          Aspects: tropical?.Aspects || (horoscopeDict as any).Aspects || {},
+        },
       };
       return alchemize(birthInfo, extendedHoroscope);
     } catch (error) {
@@ -61,13 +61,13 @@ const alchemicalEngine = {
           Fire: 0.25,
           Water: 0.25,
           Earth: 0.25,
-          Air: 0.25
+          Air: 0.25,
         },
         thermodynamicProperties: {
           heat: 0.5,
           entropy: 0.5,
           reactivity: 0.5,
-          gregsEnergy: 0.0
+          gregsEnergy: 0.0,
         },
         kalchm: 1.0,
         monica: 1.0,
@@ -77,8 +77,8 @@ const alchemicalEngine = {
         metadata: {
           name: 'Alchm NFT',
           description: 'Fallback result due to error.',
-          attributes: []
-        }
+          attributes: [],
+        },
       };
     }
   },
@@ -96,7 +96,7 @@ const alchemicalEngine = {
       // Return a safe fallback
       return {
         Sun: { Sign: { label: 'Aries' } },
-        Moon: { Sign: { label: 'Cancer' } }
+        Moon: { Sign: { label: 'Cancer' } },
       };
     }
   },
@@ -120,7 +120,7 @@ const alchemicalEngine = {
         sagittarius: 0.0833,
         capricorn: 0.0833,
         aquarius: 0.0833,
-        pisces: 0.0833
+        pisces: 0.0833,
       };
     }
   },
@@ -139,7 +139,7 @@ const alchemicalEngine = {
         heart: 0.125,
         throat: 0.125,
         thirdEye: 0.125,
-        crown: 0.125
+        crown: 0.125,
       };
     }
   },
@@ -156,8 +156,8 @@ const alchemicalEngine = {
           Fire: 0.25,
           Water: 0.25,
           Air: 0.25,
-          Earth: 0.25
-        })
+          Earth: 0.25,
+        }),
       };
     }
   },
@@ -180,8 +180,8 @@ const alchemicalEngine = {
           Fire: 0.25,
           Water: 0.25,
           Earth: 0.25,
-          Air: 0.25
-        }
+          Air: 0.25,
+        },
       } as AstrologicalState;
     } catch (error) {
       console.error('Error getting current astrological state:', error);
@@ -199,11 +199,11 @@ const alchemicalEngine = {
           Fire: 0.25,
           Water: 0.25,
           Earth: 0.25,
-          Air: 0.25
-        }
+          Air: 0.25,
+        },
       } as AstrologicalState;
     }
-  }
+  },
 };
 
 // Create and export the alchemical engine instance
@@ -217,5 +217,5 @@ export default {
   AlchemicalEngineBase,
   AlchemicalEngineAdvanced,
   alchemize,
-  alchemicalEngine
+  alchemicalEngine,
 };

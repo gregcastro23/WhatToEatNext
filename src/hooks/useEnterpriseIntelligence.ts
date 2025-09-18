@@ -465,7 +465,7 @@ export function useEnterpriseIntelligenceHealth() {
       score: systemHealth.score,
       isHealthy,
       needsAttention,
-      criticalIssues: systemHealth.issues.filter(issue => issue.includes('critical')),,;
+      criticalIssues: systemHealth.issues.filter(issue => issue.includes('critical')),,
       warnings: systemHealth.warnings,
       lastChecked: state.lastAnalyzed,
       performanceIssues:
@@ -489,10 +489,10 @@ export function useEnterpriseIntelligenceRecommendations() {
 
   const prioritizedRecommendations = useMemo(() => {
     const allRecommendations = [
-      ...recommendations.recipe.map(r => ({ type: 'recipe', text: r, priority: 'medium' })),;
-      ...recommendations.ingredient.map(r => ({ type: 'ingredient', text: r, priority: 'medium' })),;
-      ...recommendations.validation.map(r => ({ type: 'validation', text: r, priority: 'high' })),,;
-      ...recommendations.safety.map(r => ({ type: 'safety', text: r, priority: 'high' })),,;
+      ...recommendations.recipe.map(r => ({ type: 'recipe', text: r, priority: 'medium' })),
+      ...recommendations.ingredient.map(r => ({ type: 'ingredient', text: r, priority: 'medium' })),
+      ...recommendations.validation.map(r => ({ type: 'validation', text: r, priority: 'high' })),,
+      ...recommendations.safety.map(r => ({ type: 'safety', text: r, priority: 'high' })),,
       ...recommendations.optimization.map(r => ({
         type: 'optimization',
         text: r,
@@ -512,7 +512,7 @@ export function useEnterpriseIntelligenceRecommendations() {
   return {
     recommendations: prioritizedRecommendations,
     hasRecommendations: prioritizedRecommendations.length > 0,
-    highPriorityCount: prioritizedRecommendations.filter(r => r.priority === 'high').length,,;
+    highPriorityCount: prioritizedRecommendations.filter(r => r.priority === 'high').length,,
     lastUpdated: state.lastAnalyzed
   };
 }

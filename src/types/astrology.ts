@@ -48,7 +48,7 @@ export type CompleteAstrologicalState = AstrologicalStateType;
 export type PlanetaryPositionDetails = {
   planet: string,
   sign: string,
-  degree: number;
+  degree: number,
   minute?: number;
   isRetrograde?: boolean;
   element?: string;
@@ -118,7 +118,7 @@ export type PlanetaryAlignment = AspectType;
 export interface PlanetaryPosition {
   planet: string,
   sign: string,
-  degree: number;
+  degree: number,
   isRetrograde?: boolean;
 }
 

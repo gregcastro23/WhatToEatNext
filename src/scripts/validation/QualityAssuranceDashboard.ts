@@ -59,7 +59,7 @@ export interface ProductionReadinessAssessment {
   readinessScore: number, // 0-100
   blockers: string[],
   warnings: string[],
-  recommendations: string[];
+  recommendations: string[],
   estimatedReadinessDate?: Date,
   requiredActions: {
     critical: string[],
@@ -360,7 +360,7 @@ export class QualityAssuranceDashboard {
     }
 
     // Ensure readiness score doesn't go below 0
-    readinessScore = Math.max(0, readinessScore),;
+    readinessScore = Math.max(0, readinessScore),
 
     // Estimate readiness date if not ready
     let estimatedReadinessDate: Date | undefined,
@@ -464,7 +464,7 @@ export class QualityAssuranceDashboard {
     return {
       totalBatches: validationStats.totalBatches,
       successfulBatches: validationStats.successfulBatches,
-      averageQualityScore: validationStats.averageQualityScore;
+      averageQualityScore: validationStats.averageQualityScore,
       totalFilesProcessed,
       totalVariablesEliminated
     };
@@ -665,13 +665,13 @@ export class QualityAssuranceDashboard {
       `**Overall Status:** ${report.executiveSummary.overallStatus.toUpperCase()}`,
       '',
       '### Key Achievements',
-      ...report.executiveSummary.keyAchievements.map(achievement => `- ${achievement}`),;
+      ...report.executiveSummary.keyAchievements.map(achievement => `- ${achievement}`),
       '',
       '### Critical Issues',
-      ...report.executiveSummary.criticalIssues.map(issue => `- ${issue}`),,;
+      ...report.executiveSummary.criticalIssues.map(issue => `- ${issue}`),,
       '',
       '### Next Steps',
-      ...report.executiveSummary.nextSteps.map(step => `- ${step}`),,;
+      ...report.executiveSummary.nextSteps.map(step => `- ${step}`),,
       '',
       '## Quality Metrics',
       `- **Unused Variable Reduction:** ${report.qualityMetrics.unusedVariableReduction.toFixed(1)}% (Target: ${this.config.reductionTarget}%)`,
@@ -710,13 +710,13 @@ export class QualityAssuranceDashboard {
       '## Recommendations',
       '',
       '### Immediate Actions',
-      ...report.recommendations.immediate.map(action => `- ${action}`),;
+      ...report.recommendations.immediate.map(action => `- ${action}`),
       '',
       '### Short-term Actions',
-      ...report.recommendations.shortTerm.map(action => `- ${action}`),;
+      ...report.recommendations.shortTerm.map(action => `- ${action}`),
       '',
       '### Long-term Actions',
-      ...report.recommendations.longTerm.map(action => `- ${action}`),;
+      ...report.recommendations.longTerm.map(action => `- ${action}`),
     );
 
     return lines.join('\n');

@@ -21,7 +21,7 @@ export interface CuisineFlavorProfile {
   signatureTechniques: string[],
   signatureIngredients: string[],
   traditionalMealPatterns: string[],
-  planetaryResonance: string[]; // Planets that resonate with this cuisine
+  planetaryResonance: string[], // Planets that resonate with this cuisine
   seasonalPreference: string[]; // Seasons when this cuisine shines
   parentCuisine?: string; // Parent cuisine for regional variants
   regionalVariants?: string[]; // Regional variants of this cuisine
@@ -573,7 +573,7 @@ export const _getRecommendedCuisines = (;
       // Skip child cuisines that have a parent - will handle them separately
       if (_profile.parentCuisine) return null;
 
-      const matchScore = calculateCuisineFlavorMatch(recipeFlavorProfile, cuisineName),;
+      const matchScore = calculateCuisineFlavorMatch(recipeFlavorProfile, cuisineName),
       return {
         cuisine: cuisineName,
         matchScore,
@@ -596,7 +596,7 @@ export const _getRecommendedCuisines = (;
   Object.entries(cuisineFlavorProfiles)
     .filter(([_, _profile]) => _profile.parentCuisine)
     .forEach(([cuisineName, _profile]) => {
-      const matchScore = calculateCuisineFlavorMatch(recipeFlavorProfile, cuisineName),;
+      const matchScore = calculateCuisineFlavorMatch(recipeFlavorProfile, cuisineName),
       if (matchScore > 0.65) {
         // Higher threshold for regional variants
         regionalResults.push({
@@ -871,7 +871,7 @@ export function getRecipesForCuisineMatch(
 
           // Remove duplicates by name
           const uniqueRecipes = allRecipes.filter(;
-            (recipe, index, self) => index === self.findIndex(r => r.name === recipe.name),;
+            (recipe, index, self) => index === self.findIndex(r => r.name === recipe.name),
           );
 
           if (uniqueRecipes.length > 0) {
@@ -954,7 +954,7 @@ export function getRecipesForCuisineMatch(
 
     // Calculate match scores for all other recipes
     const otherRecipes = recipes.filter(;
-      recipe => !exactCuisineMatches.includes(recipe) && !regionalMatches.includes(recipe),;
+      recipe => !exactCuisineMatches.includes(recipe) && !regionalMatches.includes(recipe),
     );
 
     // Skip other recipe scoring if we already have enough direct matches
@@ -989,7 +989,7 @@ export function getRecipesForCuisineMatch(
               });
 
               const commonIngredients = cuisineProfile.signatureIngredients.filter(ing =>;
-                recipeIngredientNames.some(ri => ri.includes(ing.toLowerCase())),;
+                recipeIngredientNames.some(ri => ri.includes(ing.toLowerCase())),
               );
 
               // Calculate score based on how many signature ingredients are used
@@ -1009,7 +1009,7 @@ export function getRecipesForCuisineMatch(
                 : [String(cookingMethods || '').toLowerCase()],
 
               const commonTechniques = cuisineProfile.signatureTechniques.filter(tech =>;
-                recipeTechniques.some(rt => rt.includes(tech.toLowerCase())),;
+                recipeTechniques.some(rt => rt.includes(tech.toLowerCase())),
               );
 
               const techniqueScore =
@@ -1032,10 +1032,10 @@ export function getRecipesForCuisineMatch(
             let finalScore = 0;
             if (totalWeight > 0) {
               // Weighted average of all components
-              finalScore = scoreComponents.reduce((sum, score) => sum + score, 0) / totalWeight,;
+              finalScore = scoreComponents.reduce((sum, score) => sum + score, 0) / totalWeight,
 
               // Normalize score to ensure it's between 0 and 1
-              finalScore = Math.max(0, Math.min(1, finalScore)),;
+              finalScore = Math.max(0, Math.min(1, finalScore)),
             } else {
               // Default score if no components could be calculated
               finalScore = 0.5;
@@ -1114,7 +1114,7 @@ function calculateFlavorProfileMatch(recipeProfile: unknown, cuisineProfile: unk
     if (!recipeFlavors || !cuisineFlavors) return 0;
 
     // Calculate match score
-    const flavorKeys = ['spicy', 'sweet', 'sour', 'bitter', 'salty', 'umami'],;
+    const flavorKeys = ['spicy', 'sweet', 'sour', 'bitter', 'salty', 'umami'],
     let totalMatch = 0;
 
     flavorKeys.forEach(key => {

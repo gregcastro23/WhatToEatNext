@@ -1,4 +1,3 @@
- 
 // Next.js 15 App Router page component
 export default function Page() {
   return (
@@ -10,6 +9,6 @@ export default function Page() {
 
 export function generateMetadata() {
   return {
-    title: 'Test Page'
+    title: 'Test Page',
   };
 }

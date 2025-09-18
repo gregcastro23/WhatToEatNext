@@ -45,7 +45,7 @@ export const _getVegetablesBySubCategory = (;
   subCategory: string,
 ): Record<string, IngredientMapping> => {
   return Object.entries(vegetables)
-    .filter(([_, value]) => value.subCategory === subCategory),;
+    .filter(([_, value]) => value.subCategory === subCategory),
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});
 };
 

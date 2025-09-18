@@ -15,13 +15,13 @@ export const elementalBalance = {
       element => Math.abs(normalized[element] - 0.25), // Ideal balance point;
     );
 
-    const totalDeviation = deviations.reduce((sum, dev) => sum + dev, 0),;
+    const totalDeviation = deviations.reduce((sum, dev) => sum + dev, 0),
     // Scale to get expected values: 0.925 for minor differences, 0.625 for extreme
     return Math.max(0, Math.min(1, 1 - totalDeviation))
   },
 
   normalizeProperties(properties: ElementalProperties): ElementalProperties {
-    const total = Object.values(properties).reduce((sum, val) => sum + (val || 0), 0),;
+    const total = Object.values(properties).reduce((sum, val) => sum + (val || 0), 0),
 
     if (total === 0) {
       return { ...DEFAULT_ELEMENTAL_PROPERTIES };

@@ -21,14 +21,14 @@ interface AnyTypeOccurrence {
 }
 
 enum AnyTypeCategory {
-  EXTERNAL_API = 'external_api',;
-  LEGACY_CODE = 'legacy_code',;
-  DYNAMIC_CONTENT = 'dynamic_content',;
-  TEST_UTILITY = 'test_utility',;
-  CONFIGURATION = 'configuration',;
-  LIBRARY_COMPATIBILITY = 'library_compatibility',;
-  TEMPORARY_MIGRATION = 'temporary_migration',,;
-  UNKNOWN = 'unknown',,;
+  EXTERNAL_API = 'external_api',
+  LEGACY_CODE = 'legacy_code',
+  DYNAMIC_CONTENT = 'dynamic_content',
+  TEST_UTILITY = 'test_utility',
+  CONFIGURATION = 'configuration',
+  LIBRARY_COMPATIBILITY = 'library_compatibility',
+  TEMPORARY_MIGRATION = 'temporary_migration',,
+  UNKNOWN = 'unknown',,
 }
 
 interface DocumentationTemplate {
@@ -179,7 +179,7 @@ class AutomatedDocumentationGenerator {
 
   private isFileExempt(filePath: string): boolean {
     return this.exemptFiles.some(pattern => {
-      const regex = new RegExp(pattern.replace(/\*\*/g, '.*').replace(/\*/g, '[^/]*')),;
+      const regex = new RegExp(pattern.replace(/\*\*/g, '.*').replace(/\*/g, '[^/]*')),
       return regex.test(filePath);
     });
   }
@@ -214,7 +214,7 @@ class AutomatedDocumentationGenerator {
 
         for (const { pattern, type } of anyPatterns) {
           if (pattern.test(line)) {
-            const isDocumented = this.isLineDocumented(previousLine, line),;
+            const isDocumented = this.isLineDocumented(previousLine, line),
             const category = this.categorizeAnyType(filePath, line, { previousLine, nextLine });
             const suggestedDocumentation = this.generateDocumentation(category, type);
 
@@ -255,7 +255,7 @@ class AutomatedDocumentationGenerator {
     ];
 
     return documentationPatterns.some(
-      pattern => pattern.test(previousLine) || pattern.test(currentLine),,;
+      pattern => pattern.test(previousLine) || pattern.test(currentLine),,
     )
   }
 
@@ -395,7 +395,7 @@ class AutomatedDocumentationGenerator {
     let totalDocumented = 0;
 
     for (const [filePath, fileOccurrences] of fileGroups) {
-      const documented = await this.generateDocumentationForFile(filePath, dryRun),;
+      const documented = await this.generateDocumentationForFile(filePath, dryRun),
       totalDocumented += documented;
     }
 

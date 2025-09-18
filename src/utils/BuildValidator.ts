@@ -22,7 +22,7 @@ export class BuildValidator {
       'pages-manifest.json',
       'app-paths-manifest.json',
       'next-font-manifest.json',
-      'middleware-manifest.json'
+      'middleware-manifest.json',
     ];
   }
 
@@ -35,7 +35,7 @@ export class BuildValidator {
       isValid: true,
       missingFiles: [],
       corruptedFiles: [],
-      repairActions: []
+      repairActions: [],
     };
 
     try {
@@ -46,7 +46,7 @@ export class BuildValidator {
         result.repairActions.push({
           type: 'create',
           target: this.buildDir,
-          description: 'Create build directory'
+          description: 'Create build directory',
         });
         return result;
       }
@@ -58,7 +58,7 @@ export class BuildValidator {
         result.repairActions.push({
           type: 'create',
           target: this.serverDir,
-          description: 'Create server directory'
+          description: 'Create server directory',
         });
       }
 
@@ -72,7 +72,7 @@ export class BuildValidator {
           result.repairActions.push({
             type: 'create',
             target: manifestPath,
-            description: `Create missing manifest file: ${manifest}`
+            description: `Create missing manifest file: ${manifest}`,
           });
         } else {
           // Check if file is corrupted (empty or invalid JSON)
@@ -83,7 +83,7 @@ export class BuildValidator {
               result.repairActions.push({
                 type: 'fix',
                 target: manifestPath,
-                description: `Fix empty manifest file: ${manifest}`
+                description: `Fix empty manifest file: ${manifest}`,
               });
             } else if (manifest.endsWith('.json')) {
               JSON.parse(content); // Validate JSON
@@ -94,7 +94,7 @@ export class BuildValidator {
             result.repairActions.push({
               type: 'fix',
               target: manifestPath,
-              description: `Fix corrupted manifest file: ${manifest}`
+              description: `Fix corrupted manifest file: ${manifest}`,
             });
           }
         }
@@ -104,7 +104,7 @@ export class BuildValidator {
       const essentialFiles = [
         'build-manifest.json',
         'app-build-manifest.json',
-        'react-loadable-manifest.json'
+        'react-loadable-manifest.json',
       ];
 
       for (const file of essentialFiles) {
@@ -115,7 +115,7 @@ export class BuildValidator {
           result.repairActions.push({
             type: 'create',
             target: filePath,
-            description: `Create missing build file: ${file}`
+            description: `Create missing build file: ${file}`,
           });
         }
       }
@@ -246,13 +246,13 @@ export class BuildValidator {
         pages: {},
         app: {},
         appUsingSizeAdjust: false,
-        pagesUsingSizeAdjust: false
+        pagesUsingSizeAdjust: false,
       },
       'middleware-manifest.json': {
         sortedMiddleware: [],
         middleware: {},
         functions: {},
-        version: 2
+        version: 2,
       },
       'build-manifest.json': {
         devFiles: [],
@@ -261,12 +261,12 @@ export class BuildValidator {
         lowPriorityFiles: [],
         rootMainFiles: [],
         pages: {},
-        ampFirstPages: []
+        ampFirstPages: [],
       },
       'app-build-manifest.json': {
-        pages: {}
+        pages: {},
       },
-      'react-loadable-manifest.json': {}
+      'react-loadable-manifest.json': {},
     };
   }
 
@@ -278,7 +278,7 @@ export class BuildValidator {
     const result: NextConfigValidationResult = {
       isValid: true,
       issues: [],
-      recommendations: []
+      recommendations: [],
     };
 
     try {
@@ -334,7 +334,7 @@ export class BuildValidator {
       manifestsValid: false,
       buildSize: 0,
       lastBuildTime: null,
-      issues: []
+      issues: [],
     };
 
     try {

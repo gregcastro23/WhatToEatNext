@@ -23,7 +23,7 @@ export const planetaryElementMap: Record<RulingPlanet, ElementalCharacter> = {
   Saturn: 'Earth',
   Neptune: 'Water',
   Uranus: 'Air',
-  Pluto: 'Earth'
+  Pluto: 'Earth',
 };
 
 /**
@@ -33,7 +33,7 @@ export const tarotSuitElementMap: Record<string, ElementalCharacter> = {
   Wands: 'Fire',
   Cups: 'Water',
   Pentacles: 'Earth',
-  Swords: 'Air'
+  Swords: 'Air',
 };
 
 /**
@@ -104,7 +104,7 @@ export const tarotCardQuantumValues: Record<string, number> = {
   'Page of Swords': 1,
   'Knight of Swords': 2,
   'Queen of Swords': 3,
-  'King of Swords': 4
+  'King of Swords': 4,
 };
 
 /**
@@ -131,7 +131,7 @@ export const majorArcanaPlanetMap: Record<string, RulingPlanet> = {
   'The Moon': 'Moon',
   'The Sun': 'Sun',
   Judgement: 'Pluto',
-  'The World': 'Saturn'
+  'The World': 'Saturn',
 };
 
 /**
@@ -147,7 +147,7 @@ export const planetaryAlchemicalMap: Record<RulingPlanet, AlchemicalProperty> = 
   Saturn: 'Matter',
   Neptune: 'Essence',
   Uranus: 'Substance',
-  Pluto: 'Matter'
+  Pluto: 'Matter',
 };
 
 /**

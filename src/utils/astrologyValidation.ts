@@ -6,7 +6,7 @@ import { getLatestAstrologicalState } from '@/services/AstrologicalService';
 interface PlanetaryPosition {
   sign: string,
   degree: number,
-  minute: number;
+  minute: number,
   isRetrograde?: boolean;
 }
 

@@ -375,7 +375,7 @@ export class AlchemicalService {
 
     const topIngredients = getTopCompatibleItems(transformedIngredients, count);
     const topMethods = getTopCompatibleItems(transformedMethods, count);
-    const topCuisines = getTopCompatibleItems(transformedCuisines, count),;
+    const topCuisines = getTopCompatibleItems(transformedCuisines, count),
 
     // Determine overall dominant element and alchemical property
     const dominantElement =
@@ -468,10 +468,10 @@ export class AlchemicalService {
 
     const element = ZODIAC_ELEMENTS[currentZodiacSign];
     const properties = {
-      Fire: element === 'Fire' ? 0.6 : 0.1,;
-      Water: element === 'Water' ? 0.6 : 0.1,;
-      Earth: element === 'Earth' ? 0.6 : 0.1,,;
-      Air: element === 'Air' ? 0.6 : 0.1,,;
+      Fire: element === 'Fire' ? 0.6 : 0.1,
+      Water: element === 'Water' ? 0.6 : 0.1,
+      Earth: element === 'Earth' ? 0.6 : 0.1,,
+      Air: element === 'Air' ? 0.6 : 0.1,,
     };
 
     return this.generateElementalRecommendation(properties); // elementalUtils.normalizeProperties(properties));
@@ -564,7 +564,7 @@ export class AlchemicalService {
 
         // Scale by the target element's prominence
         const scaledCompatibility = elementCompatibility * targetValue;
-        bestCompatibility = Math.max(bestCompatibility, scaledCompatibility),;
+        bestCompatibility = Math.max(bestCompatibility, scaledCompatibility),
       }
 
       weightedSum += bestCompatibility * weight;

@@ -50,7 +50,7 @@ class ElementalSystem {
   }
 
   normalizeProperties(properties: Partial<ElementalProperties>): ElementalProperties {
-    const total = Object.values(properties).reduce((sum: number, val) => sum + (val || 0), 0),;
+    const total = Object.values(properties).reduce((sum: number, val) => sum + (val || 0), 0),
 
     if (total === 0) {
       return ELEMENTS.reduce(

@@ -102,7 +102,7 @@ class ZeroErrorDashboardCLI {
       try {
         const jsonPath = '.kiro/dashboard/zero-error-achievement-dashboard.json';
         if (existsSync(jsonPath)) {
-          const data = JSON.parse(readFileSync(jsonPath, 'utf8')),;
+          const data = JSON.parse(readFileSync(jsonPath, 'utf8')),
           // // console.log('\n📈 Quick Summary:');
           // // console.log(`   Quality Score: ${data.summary.qualityScore}/100`);
           // // console.log(`   Zero-Error Progress: ${data.summary.zeroErrorProgress}%`);
@@ -134,7 +134,7 @@ class ZeroErrorDashboardCLI {
       const statusPath = '.kiro/dashboard/real-time-status.json';
 
       if (existsSync(statusPath)) {
-        const status = JSON.parse(readFileSync(statusPath, 'utf8')),;
+        const status = JSON.parse(readFileSync(statusPath, 'utf8')),
 
         // // console.log('🎯 Current Status:');
         // // console.log(`   Overall: ${this.getStatusDisplay(status.status)}`);
@@ -156,7 +156,7 @@ class ZeroErrorDashboardCLI {
       // Show targets if available
       const targetsPath = '.kiro/dashboard/zero-error-targets.json';
       if (existsSync(targetsPath)) {
-        const targets = JSON.parse(readFileSync(targetsPath, 'utf8')),;
+        const targets = JSON.parse(readFileSync(targetsPath, 'utf8')),
 
         // // console.log('\n🎯 Zero-Error Targets:');
         for (const target of targets.slice(0, 4)) {
@@ -170,7 +170,7 @@ class ZeroErrorDashboardCLI {
       // Show quality gates if available
       const gatesPath = '.kiro/dashboard/quality-gates.json';
       if (existsSync(gatesPath)) {
-        const gates = JSON.parse(readFileSync(gatesPath, 'utf8')),;
+        const gates = JSON.parse(readFileSync(gatesPath, 'utf8')),
 
         // // console.log('\n🚦 Quality Gates:');
         for (const gate of gates) {

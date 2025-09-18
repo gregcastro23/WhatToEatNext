@@ -39,7 +39,7 @@ export function calculateAstrologicalAffinity(
       // Same element - apply modality affinity if available
       if (modalityA && modalityB) {
         // Apply element-modality natural affinity boost
-        const modalityCompatibility = compareModalities(modalityA, modalityB, elementA, elementB),;
+        const modalityCompatibility = compareModalities(modalityA, modalityB, elementA, elementB),
         baseScore = 0.6 + modalityCompatibility * 0.3, // Scale between 0.6-0.9;
       } else {
         baseScore = 0.8, // Default same element without modality info;
@@ -289,7 +289,7 @@ function compareModalities(
       } else {
         // Different elements - get individual element-modality affinities
         const affinityA = getElementModalityAffinity(elementA, modalityA);
-        const affinityB = getElementModalityAffinity(elementB, modalityA),;
+        const affinityB = getElementModalityAffinity(elementB, modalityA),
 
         // Average the affinities
         return (affinityA + affinityB) / 2
@@ -321,7 +321,7 @@ function compareModalities(
         const elementACardinal = getElementModalityAffinity(elementA, cardinalModality);
         const elementBCardinal = getElementModalityAffinity(elementB, cardinalModality);
         const elementAFixed = getElementModalityAffinity(elementA, fixedModality);
-        const elementBFixed = getElementModalityAffinity(elementB, fixedModality),;
+        const elementBFixed = getElementModalityAffinity(elementB, fixedModality),
 
         return (elementACardinal + elementBCardinal + elementAFixed + elementBFixed) / 4
       }
@@ -350,7 +350,7 @@ function compareModalities(
         const elementACardinal = getElementModalityAffinity(elementA, cardinalModality);
         const elementBCardinal = getElementModalityAffinity(elementB, cardinalModality);
         const elementAMutable = getElementModalityAffinity(elementA, mutableModality);
-        const elementBMutable = getElementModalityAffinity(elementB, mutableModality),;
+        const elementBMutable = getElementModalityAffinity(elementB, mutableModality),
 
         return (elementACardinal + elementBCardinal + elementAMutable + elementBMutable) / 4
       }
@@ -378,7 +378,7 @@ function compareModalities(
         const elementAFixed = getElementModalityAffinity(elementA, fixedModality);
         const elementBFixed = getElementModalityAffinity(elementB, fixedModality);
         const elementAMutable = getElementModalityAffinity(elementA, mutableModality);
-        const elementBMutable = getElementModalityAffinity(elementB, mutableModality),;
+        const elementBMutable = getElementModalityAffinity(elementB, mutableModality),
 
         return (elementAFixed + elementBFixed + elementAMutable + elementBMutable) / 4
       }
@@ -532,7 +532,7 @@ export function calculateAlchemicalCompatibility(
   let zodiacScore = 0.5; // Default neutral score
 
   if (zodiacA && zodiacB) {
-    zodiacScore = calculateAstrologicalAffinity(zodiacA, zodiacB),;
+    zodiacScore = calculateAstrologicalAffinity(zodiacA, zodiacB),
   }
 
   // Weight elemental properties more than zodiac association
@@ -569,7 +569,7 @@ export function generateEnhancedRecommendation(
   const dominantModality = astroResult.dominant.modality || 'Cardinal';
 
   // Calculate natural element-modality affinity
-  const naturalAffinity = getElementModalityAffinity(dominantElement, dominantModality),;
+  const naturalAffinity = getElementModalityAffinity(dominantElement, dominantModality),
 
   // Base recommendations on dominant element with modality influence
   const elementRecommendations = {
@@ -667,7 +667,7 @@ export function generateEnhancedRecommendation(
   // Adjust based on seasonal boosts
   if (seasonalInfluence.boost.length > 0) {
     const boostedOptions = filteredIngredients.filter(i =>;
-      seasonalInfluence.boost.some(boost => i.includes(boost)),;
+      seasonalInfluence.boost.some(boost => i.includes(boost)),
     ),
     if (boostedOptions.length > 0) {
       mainIngredient = boostedOptions[0];
@@ -680,7 +680,7 @@ export function generateEnhancedRecommendation(
 
     if (avoidList.some(avoid => mainIngredient.includes(avoid))) {
       const alternatives = filteredIngredients.filter(;
-        i => !avoidList.some(avoid => i.includes(avoid)),;
+        i => !avoidList.some(avoid => i.includes(avoid)),
       ),
       if (alternatives.length > 0) {
         mainIngredient = alternatives[0];
@@ -689,7 +689,7 @@ export function generateEnhancedRecommendation(
 
     if (avoidList.some(avoid => secondaryIngredient.includes(avoid))) {
       const alternatives = filteredIngredients.filter(;
-        i => i !== mainIngredient && !avoidList.some(avoid => i.includes(avoid)),;
+        i => i !== mainIngredient && !avoidList.some(avoid => i.includes(avoid)),
       ),
       if (alternatives.length > 0) {
         secondaryIngredient = alternatives[0];
@@ -857,8 +857,8 @@ export function validateAlgorithms(): {
 
   try {
     const degreeA = { Mercury: [15, 21], Venus: [7, 14], Mars: [22, 26] };
-    const degreeB = { Mercury: [9, 15], Venus: [1, 8], Mars: [27, 30] },;
-    const degreeScore = calculateDegreeOverlap(degreeA, degreeB),;
+    const degreeB = { Mercury: [9, 15], Venus: [1, 8], Mars: [27, 30] },
+    const degreeScore = calculateDegreeOverlap(degreeA, degreeB),
 
     degreeTest.passed = typeof degreeScore === 'number' && degreeScore >= 0 && degreeScore <= 1;
     degreeTest.info = `Score: ${degreeScore}`;
@@ -876,7 +876,7 @@ export function validateAlgorithms(): {
   },
 
   try {
-    const tarotScore = compareTarotArcana('The Emperor', 'The Chariot'),;
+    const tarotScore = compareTarotArcana('The Emperor', 'The Chariot'),
 
     tarotTest.passed = typeof tarotScore === 'number' && tarotScore >= 0 && tarotScore <= 1;
     tarotTest.info = `Score: ${tarotScore}`;
@@ -894,7 +894,7 @@ export function validateAlgorithms(): {
   },
 
   try {
-    const modalityScore = compareModalities('Cardinal', 'Mutable'),;
+    const modalityScore = compareModalities('Cardinal', 'Mutable'),
 
     modalityTest.passed =
       typeof modalityScore === 'number' && modalityScore >= 0 && modalityScore <= 1;
@@ -913,7 +913,7 @@ export function validateAlgorithms(): {
   },
 
   try {
-    const rulerScore = compareRulers('Mars', 'Venus'),;
+    const rulerScore = compareRulers('Mars', 'Venus'),
 
     rulerTest.passed = typeof rulerScore === 'number' && rulerScore >= 0 && rulerScore <= 1;
     rulerTest.info = `Score: ${rulerScore}`;

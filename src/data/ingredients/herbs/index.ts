@@ -47,7 +47,7 @@ function generateHerbValues(elementalProps: Record<string, number>): Record<stri
   );
   const potency = Math.round(normalized[dominant] * 7 + Math.random() * 3);
   const flavor_complexity = Math.round(;
-    Object.keys(normalized).filter(k => normalized[k] > 0.15).length * 2 + Math.random() * 3,;
+    Object.keys(normalized).filter(k => normalized[k] > 0.15).length * 2 + Math.random() * 3,
   );
   const preservation_factor = Math.round(;
     normalized['Earth'] * 5 + normalized['Water'] * 3 + Math.random(),

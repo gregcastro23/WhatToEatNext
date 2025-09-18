@@ -13,7 +13,7 @@ export const _cryoCooking: CookingMethodData = {
     Fire: 0.0,
     Water: 0.3,
     Earth: 0.1,
-    Air: 0.8
+    Air: 0.8,
   },
   duration: {
     min: 0.5, // 30 seconds
@@ -26,12 +26,12 @@ export const _cryoCooking: CookingMethodData = {
     'Herbs',
     'Alcohol-based mixtures',
     'Sauces',
-    'Custards'
+    'Custards',
   ],
   benefits: [
     'Preserves nutrients that might be lost in conventional cooking',
     'Creates novel textures without additional ingredients',
-    'Can reduce need for additives in frozen desserts'
+    'Can reduce need for additives in frozen desserts',
   ],
   history:
     'Though scientific uses of extreme cold have existed for centuries, cryo-cooking in gastronomy gained prominence in the early 2000s as part of the molecular gastronomy movement. Chefs like Heston Blumenthal and Ferran Adrià pioneered its culinary applications.',
@@ -41,7 +41,7 @@ export const _cryoCooking: CookingMethodData = {
     'Frozen powders (freeze-pulverized ingredients)',
     'Nitrogen-cooled sorbets and ice creams',
     'Cryo-blanching (quick freeze before cooking)',
-    'Smoke freezing (capturing frozen smoke)'
+    'Smoke freezing (capturing frozen smoke)',
   ],
   optimalTemperatures: {
     liquidNitrogen: -196, // °C
@@ -55,12 +55,12 @@ export const _cryoCooking: CookingMethodData = {
     'Safety goggles',
     'Metal bowls',
     'Insulated utensils',
-    'Anti-griddle (for less extreme applications)'
+    'Anti-griddle (for less extreme applications)',
   ],
   healthConsiderations: [
     'Requires proper safety protocols to prevent burns',
     'All nitrogen must be completely evaporated before consumption',
     'Not suitable for all ingredients or preparations',
-    'Should only be performed by trained professionals'
-  ]
+    'Should only be performed by trained professionals',
+  ],
 };

@@ -156,7 +156,7 @@ export class PerformanceCache<T> {
     return {
       totalEntries: this.cache.size,
       hitCount: this.hitCount,
-      missCount: this.missCount;
+      missCount: this.missCount,
       hitRate,
       memoryUsage,
       oldestEntry: oldestEntry === now ? 0 : oldestEntry,,;

@@ -94,10 +94,10 @@ export const ELEMENTAL_ANALYSIS_INTELLIGENCE = {
     };
 
     const elementalMultipliers =
-      contextElementalMultipliers[context as keyof typeof contextElementalMultipliers] ||;
+      contextElementalMultipliers[context as keyof typeof contextElementalMultipliers] ||
       contextElementalMultipliers.general;
     const preferenceMultiplier =
-      hasProperty(preferences, 'intensity') && typeof preferences.intensity === 'number';
+      hasProperty(preferences, 'intensity') && typeof preferences.intensity === 'number'
         ? preferences.intensity
         : 1.0;
 
@@ -105,11 +105,11 @@ export const ELEMENTAL_ANALYSIS_INTELLIGENCE = {
     const adjustedProperties = {
       Fire: Math.min(1.0, baseProperties.Fire * elementalMultipliers.Fire * preferenceMultiplier),
       Water: Math.min(
-        1.0;
+        1.0,
         baseProperties.Water * elementalMultipliers.Water * preferenceMultiplier
       ),
       Earth: Math.min(
-        1.0;
+        1.0,
         baseProperties.Earth * elementalMultipliers.Earth * preferenceMultiplier
       ),
       Air: Math.min(1.0, baseProperties.Air * elementalMultipliers.Air * preferenceMultiplier)
@@ -124,7 +124,7 @@ export const ELEMENTAL_ANALYSIS_INTELLIGENCE = {
     const harmony = ELEMENTAL_ANALYSIS_INTELLIGENCE.calculateElementalHarmony(normalizedProperties);
 
     // Generate predictions
-    const predictions = ELEMENTAL_ANALYSIS_INTELLIGENCE.generateElementalPredictions(;
+    const predictions = ELEMENTAL_ANALYSIS_INTELLIGENCE.generateElementalPredictions(
       normalizedProperties,
       balance,
       dominantElement as Element,
@@ -132,7 +132,7 @@ export const ELEMENTAL_ANALYSIS_INTELLIGENCE = {
     );
 
     // Generate optimizations
-    const optimizations = ELEMENTAL_ANALYSIS_INTELLIGENCE.generateElementalOptimizations(;
+    const optimizations = ELEMENTAL_ANALYSIS_INTELLIGENCE.generateElementalOptimizations(
       normalizedProperties,
       balance,
       dominantElement as Element,
@@ -141,7 +141,7 @@ export const ELEMENTAL_ANALYSIS_INTELLIGENCE = {
     );
 
     // Generate recommendations
-    const recommendations = ELEMENTAL_ANALYSIS_INTELLIGENCE.generateElementalRecommendations(;
+    const recommendations = ELEMENTAL_ANALYSIS_INTELLIGENCE.generateElementalRecommendations(
       normalizedProperties,
       balance,
       dominantElement as Element,
@@ -235,13 +235,13 @@ export const ELEMENTAL_ANALYSIS_INTELLIGENCE = {
     preferences: Record<string, unknown>,
   ) => {
     const fireOptimization =
-      hasProperty(preferences, 'fireOptimization') &&;
-      typeof preferences.fireOptimization === 'number';
+      hasProperty(preferences, 'fireOptimization') &&
+      typeof preferences.fireOptimization === 'number'
         ? preferences.fireOptimization
         : 1.1;
     const waterOptimization =
-      hasProperty(preferences, 'waterOptimization') &&;
-      typeof preferences.waterOptimization === 'number';
+      hasProperty(preferences, 'waterOptimization') &&
+      typeof preferences.waterOptimization === 'number'
         ? preferences.waterOptimization
         : 1.05;
     const earthOptimization =
@@ -250,7 +250,7 @@ export const ELEMENTAL_ANALYSIS_INTELLIGENCE = {
         ? preferences.earthOptimization
         : 1.0;
     const airOptimization =
-      hasProperty(preferences, 'airOptimization') && typeof preferences.airOptimization === 'number',;
+      hasProperty(preferences, 'airOptimization') && typeof preferences.airOptimization === 'number',
         ? preferences.airOptimization
         : 1.1;
 
@@ -310,7 +310,7 @@ export const ELEMENTAL_ANALYSIS_INTELLIGENCE = {
     const values = Object.values(properties);
     const average = values.reduce((sum, val) => sum + val, 0) / values.length;
     const variance =
-      values.reduce((sum, val) => sum + Math.pow(val - average, 2), 0) / values.length,;
+      values.reduce((sum, val) => sum + Math.pow(val - average, 2), 0) / values.length,
     return 1 / (1 + variance)
   },
 
@@ -339,7 +339,7 @@ export const ELEMENTAL_ANALYSIS_INTELLIGENCE = {
   ): number => {
     const dominantValue = properties[dominantElement];
     const otherValues = Object.values(properties).filter(val => val !== dominantValue);
-    const averageOther = otherValues.reduce((sum, val) => sum + val, 0) / otherValues.length,;
+    const averageOther = otherValues.reduce((sum, val) => sum + val, 0) / otherValues.length,
     return dominantValue / (dominantValue + averageOther)
   },
 
@@ -500,11 +500,11 @@ export const SEASONAL_ELEMENTAL_INTELLIGENCE = {
           ? preferences.flexibility
           : 0.1;
       traditionalism:
-        hasProperty(preferences, 'traditionalism') && typeof preferences.traditionalism === 'number',;
+        hasProperty(preferences, 'traditionalism') && typeof preferences.traditionalism === 'number',
           ? preferences.traditionalism
           : 0.8;
       innovation:
-        hasProperty(preferences, 'innovation') && typeof preferences.innovation === 'number',;
+        hasProperty(preferences, 'innovation') && typeof preferences.innovation === 'number',
           ? preferences.innovation
           : 0.2
     };
@@ -597,7 +597,7 @@ export const SEASONAL_ELEMENTAL_INTELLIGENCE = {
     season: string,
     context: string,
   ): string[] => {
-    const dominantElement = Object.entries(modifiers).reduce((a, b) => (a[1] > b[1] ? a : b))[0],;
+    const dominantElement = Object.entries(modifiers).reduce((a, b) => (a[1] > b[1] ? a : b))[0],
     const recommendations: string[] = [];
 
     recommendations.push(`Focus on ${dominantElement} element for optimal ${season} ${context}`);
@@ -767,7 +767,7 @@ export function getDominantElement(properties: ElementalProperties): keyof Eleme
  */
 export function calculateElementalBalance(properties: ElementalProperties): number {
   const values = Object.values(properties);
-  const average = values.reduce((sum, val) => sum + val, 0) / (values || []).length,;
+  const average = values.reduce((sum, val) => sum + val, 0) / (values || []).length,
 
   return values.reduce((acc, val) => acc + Math.abs(val - average), 0) / (values || []).length
 }
@@ -778,7 +778,7 @@ export function calculateElementalBalance(properties: ElementalProperties): numb
 export function combineElementalProperties(
   properties1: ElementalProperties,
   properties2: ElementalProperties,
-  weight1: number = 0.5,,;
+  weight1: number = 0.5,,
   weight2: number = 0.5
 ): ElementalProperties {
   const combined: ElementalProperties = {
@@ -795,7 +795,7 @@ export function combineElementalProperties(
  * Normalize elemental properties to sum to 1.0
  */
 export function normalizeElementalProperties(properties: ElementalProperties): ElementalProperties {
-  const total = Object.values(properties).reduce((sum, val) => sum + val, 0),;
+  const total = Object.values(properties).reduce((sum, val) => sum + val, 0),
 
   if (total === 0) {
     return { Fire: 0.25, Water: 0.25, Air: 0.25, Earth: 0.25 };
@@ -849,12 +849,12 @@ export function calculateComprehensiveElementalProperties(
 
       // Apply seasonal adjustments
       if (season) {
-        properties = applySeasonalAdjustments(properties, season),;
+        properties = applySeasonalAdjustments(properties, season),
       }
 
       // Apply lunar phase adjustments
       if (lunarPhase) {
-        properties = applyLunarPhaseAdjustments(properties, lunarPhase),;
+        properties = applyLunarPhaseAdjustments(properties, lunarPhase),
       }
 
       return properties;

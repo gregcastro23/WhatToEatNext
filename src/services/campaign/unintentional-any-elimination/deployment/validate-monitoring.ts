@@ -56,14 +56,14 @@ function validateDirectories(): ValidationResult {
     return {
       component: 'Directories',
       status: 'pass',
-      message: 'All monitoring directories exist'
+      message: 'All monitoring directories exist',
     };
   } else {
     return {
       component: 'Directories',
       status: 'fail',
       message: `Missing directories: ${missingDirs.join(', ')}`,
-      details: 'Run setup-monitoring.ts to create missing directories'
+      details: 'Run setup-monitoring.ts to create missing directories',
     };
   }
 }
@@ -79,7 +79,7 @@ function validateConfiguration(): ValidationResult {
       component: 'Configuration',
       status: 'fail',
       message: 'Monitoring configuration file not found',
-      details: `Expected: ${configPath}`
+      details: `Expected: ${configPath}`,
     };
   }
 
@@ -95,7 +95,7 @@ function validateConfiguration(): ValidationResult {
       return {
         component: 'Configuration',
         status: 'fail',
-        message: `Missing configuration sections: ${missingSections.join(', ')}`
+        message: `Missing configuration sections: ${missingSections.join(', ')}`,
       };
     }
 
@@ -104,7 +104,7 @@ function validateConfiguration(): ValidationResult {
       return {
         component: 'Configuration',
         status: 'warning',
-        message: 'Metrics collection is disabled'
+        message: 'Metrics collection is disabled',
       };
     }
 
@@ -113,21 +113,21 @@ function validateConfiguration(): ValidationResult {
       return {
         component: 'Configuration',
         status: 'warning',
-        message: 'Alerts are disabled'
+        message: 'Alerts are disabled',
       };
     }
 
     return {
       component: 'Configuration',
       status: 'pass',
-      message: 'Monitoring configuration is valid'
+      message: 'Monitoring configuration is valid',
     };
   } catch (error) {
     return {
       component: 'Configuration',
       status: 'fail',
       message: 'Invalid monitoring configuration JSON',
-      details: String(error)
+      details: String(error),
     };
   }
 }
@@ -143,7 +143,7 @@ function validateMonitoringService(): ValidationResult {
       component: 'Monitoring Service',
       status: 'fail',
       message: 'Monitoring service file not found',
-      details: `Expected: ${servicePath}`
+      details: `Expected: ${servicePath}`,
     };
   }
 
@@ -154,14 +154,14 @@ function validateMonitoringService(): ValidationResult {
     return {
       component: 'Monitoring Service',
       status: 'pass',
-      message: 'Monitoring service is valid'
+      message: 'Monitoring service is valid',
     };
   } catch (error) {
     return {
       component: 'Monitoring Service',
       status: 'fail',
       message: 'Monitoring service has compilation errors',
-      details: String(error)
+      details: String(error),
     };
   }
 }
@@ -177,7 +177,7 @@ function validateDashboard(): ValidationResult {
       component: 'Dashboard',
       status: 'fail',
       message: 'Monitoring dashboard not found',
-      details: `Expected: ${dashboardPath}`
+      details: `Expected: ${dashboardPath}`,
     };
   }
 
@@ -188,14 +188,14 @@ function validateDashboard(): ValidationResult {
     return {
       component: 'Dashboard',
       status: 'pass',
-      message: 'Monitoring dashboard is valid'
+      message: 'Monitoring dashboard is valid',
     };
   } catch (error) {
     return {
       component: 'Dashboard',
       status: 'fail',
       message: 'Dashboard has compilation errors',
-      details: String(error)
+      details: String(error),
     };
   }
 }
@@ -211,7 +211,7 @@ function validateStartupScripts(): ValidationResult {
       component: 'Startup Scripts',
       status: 'fail',
       message: 'Monitoring startup script not found',
-      details: `Expected: ${startupScript}`
+      details: `Expected: ${startupScript}`,
     };
   }
 
@@ -223,14 +223,14 @@ function validateStartupScripts(): ValidationResult {
     return {
       component: 'Startup Scripts',
       status: 'pass',
-      message: 'Startup scripts are available'
+      message: 'Startup scripts are available',
     };
   } catch (error) {
     return {
       component: 'Startup Scripts',
       status: 'warning',
       message: 'Could not validate startup script permissions',
-      details: String(error)
+      details: String(error),
     };
   }
 }
@@ -248,8 +248,8 @@ async function validateHealthChecks(): Promise<ValidationResult[]> {
       {
         component: 'Health Checks',
         status: 'fail',
-        message: 'Cannot validate health checks - configuration not found'
-      }
+        message: 'Cannot validate health checks - configuration not found',
+      },
     ];
   }
 
@@ -262,8 +262,8 @@ async function validateHealthChecks(): Promise<ValidationResult[]> {
         {
           component: 'Health Checks',
           status: 'warning',
-          message: 'No health check endpoints configured'
-        }
+          message: 'No health check endpoints configured',
+        },
       ];
     }
 
@@ -279,14 +279,14 @@ async function validateHealthChecks(): Promise<ValidationResult[]> {
         results.push({
           component: `Health Check: ${endpoint.name}`,
           status: 'pass',
-          message: `Health check endpoint is responding`
+          message: `Health check endpoint is responding`,
         });
       } catch (error) {
         results.push({
           component: `Health Check: ${endpoint.name}`,
           status: 'fail',
           message: `Health check endpoint failed`,
-          details: String(error)
+          details: String(error),
         });
       }
     }
@@ -295,7 +295,7 @@ async function validateHealthChecks(): Promise<ValidationResult[]> {
       component: 'Health Checks',
       status: 'fail',
       message: 'Error validating health checks',
-      details: String(error)
+      details: String(error),
     });
   }
 

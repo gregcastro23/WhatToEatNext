@@ -34,7 +34,7 @@ describe('End-to-End Campaign Integration Tests', () => {
 
   beforeEach(() => {
     // Setup comprehensive campaign configuration
-    const safetySettings: SafetySettings = { maxFilesPerBatch: 25,,;
+    const safetySettings: SafetySettings = { maxFilesPerBatch: 25,,
       buildValidationFrequency: 5,
       testValidationFrequency: 10,
       corruptionDetectionEnabled: true,
@@ -499,7 +499,7 @@ describe('End-to-End Campaign Integration Tests', () => {
     });
 
     it('should support custom safety settings', async () => {
-      const customSafetySettings: SafetySettings = { maxFilesPerBatch: 50,,;
+      const customSafetySettings: SafetySettings = { maxFilesPerBatch: 50,,
         buildValidationFrequency: 10,
         testValidationFrequency: 20,
         corruptionDetectionEnabled: false,

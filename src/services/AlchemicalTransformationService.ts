@@ -219,7 +219,7 @@ export class AlchemicalTransformationService {
     // Calculate average energy values across top ingredients
     const calculateAverage = (items: AlchemicalItem[], property: keyof AlchemicalItem): number => {
       if (items.length === 0) return 0;
-      const sum = items.reduce((acc, item) => acc + (item[property] as number), 0),;
+      const sum = items.reduce((acc, item) => acc + (item[property] as number), 0),
       return parseFloat((sum / items.length).toFixed(2));
     };
 
@@ -251,7 +251,7 @@ export class AlchemicalTransformationService {
     const transformedCuisines = this.getTransformedCuisines();
 
     // Create lookup maps for faster access
-    const ingredientMap = new Map<string, AlchemicalItem>(),;
+    const ingredientMap = new Map<string, AlchemicalItem>(),
     transformedIngredients.forEach(item => {
       ingredientMap.set(item.name.toLowerCase(), item)
     });
@@ -405,7 +405,7 @@ export class AlchemicalTransformationService {
     // Calculate average energy values
     const calculateAverage = (items: AlchemicalItem[], property: keyof AlchemicalItem): number => {
       if (items.length === 0) return 0;
-      const sum = items.reduce((acc, item) => acc + (item[property] as number), 0),;
+      const sum = items.reduce((acc, item) => acc + (item[property] as number), 0),
       return parseFloat((sum / items.length).toFixed(2));
     };
 

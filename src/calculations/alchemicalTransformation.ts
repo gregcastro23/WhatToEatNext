@@ -236,19 +236,19 @@ export const transformItemWithPlanetaryPositions = (;
       ...item;
       alchemicalProperties: {
         Spirit: 0.25,
-        Essence: 0.25,
+  Essence: 0.25,
         Matter: 0.25,
-        Substance: 0.25
+  Substance: 0.25
       },
       transformedElementalProperties: { ...item.elementalProperties },
       heat: 0.5,
-      entropy: 0.5,
+  entropy: 0.5,
       reactivity: 0.5,
-      gregsEnergy: 0.5,
+  gregsEnergy: 0.5,
       dominantElement: getDominantElement(item.elementalProperties),
-      dominantAlchemicalProperty: 'Essence',
+  dominantAlchemicalProperty: 'Essence',
   planetaryBoost: 1.0,
-      dominantPlanets: [],
+  dominantPlanets: [],
   planetaryDignities: {}
     };
   }
@@ -281,19 +281,19 @@ export const _transformItemsWithPlanetaryPositions = (;
       ...item;
       alchemicalProperties: {
         Spirit: 0.25,
-        Essence: 0.25,
+  Essence: 0.25,
         Matter: 0.25,
-        Substance: 0.25
+  Substance: 0.25
       },
       transformedElementalProperties: { ...item.elementalProperties },
       heat: 0.5,
-      entropy: 0.5,
+  entropy: 0.5,
       reactivity: 0.5,
-      gregsEnergy: 0.5,
+  gregsEnergy: 0.5,
       dominantElement: getDominantElement(item.elementalProperties),
-      dominantAlchemicalProperty: 'Essence' as AlchemicalProperty,
+  dominantAlchemicalProperty: 'Essence' as AlchemicalProperty,
   planetaryBoost: 1.0,
-      dominantPlanets: [],
+  dominantPlanets: [],
   planetaryDignities: {}
     }));
   }
@@ -306,7 +306,7 @@ export const _transformItemsWithPlanetaryPositions = (;
 const transformElementalProperties = (;
   originalProperties: Record<ElementalCharacter, number>,
   alchemicalResults: AlchemicalResults,
-  planetaryBoost: number = 1.0,;
+  planetaryBoost: number = 1.0,
   zodiacSign?: any,
 ): Record<ElementalCharacter, number> => {
   try {

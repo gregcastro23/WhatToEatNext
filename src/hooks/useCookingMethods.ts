@@ -8,7 +8,7 @@ import { log } from '@/services/LoggingService';
 interface CookingMethod {
   id: string,
   name: string,
-  description: string;
+  description: string,
   score?: number;
   culturalOrigin?: string;
   variations?: CookingMethod[];
@@ -106,7 +106,7 @@ export function useCookingMethods() {
       // Combine and deduplicate methods
       const allMethods = [...convertedMethods, ...additionalMethods];
       const uniqueMethods = allMethods.filter(;
-        (method, index, self) => index === self.findIndex(m => m.id === method.id),;
+        (method, index, self) => index === self.findIndex(m => m.id === method.id),
       );
 
       setMethods(uniqueMethods);

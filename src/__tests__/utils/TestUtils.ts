@@ -37,10 +37,10 @@ export class TestUtils {
     options: TestExecutionOptions = {}
   ): Promise<TestResult> {
     const {
-      timeout = this.DEFAULT_TIMEOUT,;
-      retries = this.DEFAULT_RETRIES,;
-      expectedErrors = [],,;
-      memoryLimit = 4096 * 1024 * 1024, // 4GB in bytes,;
+      timeout = this.DEFAULT_TIMEOUT,
+      retries = this.DEFAULT_RETRIES,
+      expectedErrors = [],,
+      memoryLimit = 4096 * 1024 * 1024, // 4GB in bytes,
     } = options;
 
     let lastError: Error | undefined;
@@ -51,7 +51,7 @@ export class TestUtils {
     // Start memory monitoring
     const memoryMonitor = setInterval(() => {
       const currentMemory = process.memoryUsage().heapUsed;
-      peakMemoryUsage = Math.max(peakMemoryUsage, currentMemory),;
+      peakMemoryUsage = Math.max(peakMemoryUsage, currentMemory),
 
       if (currentMemory > memoryLimit) {
         console.warn(`Memory usage exceeded limit: ${currentMemory / 1024 / 1024}MB`);
@@ -67,7 +67,7 @@ export class TestUtils {
             stdio: 'pipe',
             timeout,
             encoding: 'utf8',
-            env: { ...process.env, NODE_OPTIONS: '--max-old-space-size=4096' },,;
+            env: { ...process.env, NODE_OPTIONS: '--max-old-space-size=4096' },,
           });
 
           return {
@@ -150,7 +150,7 @@ export class TestUtils {
     // Check expected output
     if (expectations.expectedOutput && result.output) {
       const missingOutput = expectations.expectedOutput.filter(;
-        expected => !result.output?.includes(expected),;
+        expected => !result.output?.includes(expected),
       ),
       if (missingOutput.length > 0) {
         issues.push(`Missing expected output: ${missingOutput.join(', ')}`);
@@ -158,7 +158,7 @@ export class TestUtils {
     }
 
     return {
-      isValid: issues.length === 0,,;
+      isValid: issues.length === 0,,
       issues
     };
   }
@@ -200,8 +200,8 @@ export class TestUtils {
     } = {};
   ): Promise<{ success: boolean, metrics: unknown, issues: string[] }> {
     const {
-      maxDuration = 60000, // 1 minute,;
-      memoryThreshold = 2048 * 1024 * 1024, // 2GB,;
+      maxDuration = 60000, // 1 minute,
+      memoryThreshold = 2048 * 1024 * 1024, // 2GB,
       cleanupFunction
     } = options;
 
@@ -220,7 +220,7 @@ export class TestUtils {
     const memoryMonitor = setInterval(() => {
       const currentMemory = process.memoryUsage().heapUsed;
       metrics.memoryReadings.push(currentMemory);
-      metrics.peakMemory = Math.max(metrics.peakMemory, currentMemory),;
+      metrics.peakMemory = Math.max(metrics.peakMemory, currentMemory),
 
       if (currentMemory > memoryThreshold) {
         issues.push(`Memory threshold exceeded: ${currentMemory / 1024 / 1024}MB`);
@@ -238,10 +238,10 @@ export class TestUtils {
       metrics.endTime = Date.now();
       metrics.duration = metrics.endTime - metrics.startTime;
       metrics.averageMemory =
-        metrics.memoryReadings.reduce((a, b) => a + b, 0) / metrics.memoryReadings.length,;
+        metrics.memoryReadings.reduce((a, b) => a + b, 0) / metrics.memoryReadings.length,
 
       return {
-        success: issues.length === 0,,;
+        success: issues.length === 0,,
         metrics,
         issues
       };
@@ -271,8 +271,8 @@ export class TestUtils {
    */
   static async validateConsistency(
     testFunction: () => Promise<unknown>,
-    runs: number = 3,;
-    tolerancePercent: number = 20,;
+    runs: number = 3,
+    tolerancePercent: number = 20,
   ): Promise<{ isConsistent: boolean, results: unknown[], variance: number }> {
     const results: unknown[] = [];
 
@@ -294,7 +294,7 @@ export class TestUtils {
         numericResults.reduce((a: number, b: unknown) => (a ) + (b as number), 0) /;
         numericResults.length;
       const squaredDiffs = numericResults.map((x: number) => Math.pow((x ) - mean, 2));
-      variance = Math.sqrt(squaredDiffs.reduce((a, b) => a + b, 0) / squaredDiffs.length),;
+      variance = Math.sqrt(squaredDiffs.reduce((a, b) => a + b, 0) / squaredDiffs.length),
       variance = (variance / mean) * 100, // Convert to percentage;
     }
 
@@ -309,7 +309,7 @@ export class TestUtils {
    * Utility function for delays
    */
   private static delay(ms: number): Promise<void> {
-    return new Promise(resolve => setTimeout(resolve, ms)),;
+    return new Promise(resolve => setTimeout(resolve, ms)),
   }
 
   /**

@@ -16,7 +16,7 @@ export interface AlertingConfig {
   regressionDetection: {
     enabled: boolean,
     sensitivity: 'low' | 'medium' | 'high',
-    cooldownPeriod: number; // minutes
+    cooldownPeriod: number, // minutes
   };
   performanceMonitoring: {
     enabled: boolean,

@@ -20,7 +20,7 @@ export type PreservationReason =
 export interface PreservationDecision {
   preserve: boolean,
   reason: PreservationReason,
-  confidence: number; // 0..1
+  confidence: number, // 0..1
 }
 
 const ELEMENT_NAMES = new Set(['Fire', 'Water', 'Earth', 'Air']);

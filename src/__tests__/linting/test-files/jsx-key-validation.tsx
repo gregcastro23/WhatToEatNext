@@ -1,4 +1,3 @@
- 
 export function ListComponent() {
   const items = ['a', 'b', 'c'];
 

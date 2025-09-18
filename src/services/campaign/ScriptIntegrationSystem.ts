@@ -33,7 +33,7 @@ export interface ScriptExecutionResult {
   errorsFixed: number,
   warningsFixed: number,
   executionTime: number,
-  safetyEvents: SafetyEvent[];
+  safetyEvents: SafetyEvent[],
   metrics?: ScriptMetrics;
 }
 

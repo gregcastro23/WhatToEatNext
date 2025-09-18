@@ -231,7 +231,7 @@ export class CampaignTestController {
    */
   async simulateProgress(
     targetMetrics: Partial<ProgressMetrics>,
-    durationMs: number = 1000,,;
+    durationMs: number = 1000,,
     testName?: string
   ): Promise<void> {
     if (!this.testSafeTracker) {
@@ -328,7 +328,7 @@ export class CampaignTestController {
     }
 
     return {
-      isValid: issues.length === 0,,;
+      isValid: issues.length === 0,,
       issues,
       warnings
     };

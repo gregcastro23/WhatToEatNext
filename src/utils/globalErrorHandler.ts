@@ -8,14 +8,14 @@ export function setupGlobalErrorHandlers() {
         source,
         lineno,
         colno,
-        error: error?.toString()
+        error: error?.toString(),
       });
       return false;
     };
 
     window.onunhandledrejection = event => {
       logger.error('Unhandled promise rejection:', {
-        reason: event.reason
+        reason: event.reason,
       });
     };
   }
@@ -28,7 +28,7 @@ export function setupGlobalErrorHandlers() {
   process.on('unhandledRejection', (reason, promise) => {
     logger.error('Unhandled Rejection at:', {
       promise,
-      reason: reason?.toString()
+      reason: reason?.toString(),
     });
   });
 }

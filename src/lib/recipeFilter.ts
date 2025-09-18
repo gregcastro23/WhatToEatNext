@@ -45,7 +45,7 @@ export const _recipeFilter = {
     // Apply cuisine filter
     if (filters.cuisineTypes && filters.cuisineTypes.length > 0) {
       filteredRecipes = filteredRecipes.filter(;
-        recipe => recipe.cuisine && filters.cuisineTypes?.includes(recipe.cuisine),,;
+        recipe => recipe.cuisine && filters.cuisineTypes?.includes(recipe.cuisine),,
       )
     }
 
@@ -77,7 +77,7 @@ export const _recipeFilter = {
     if (typeof filters.maxPrepTime === 'number') {
       filteredRecipes = filteredRecipes.filter(;
         recipe =>;
-          typeof recipe.prepTime === 'number' && recipe.prepTime <= (filters.maxPrepTime || 0),,;
+          typeof recipe.prepTime === 'number' && recipe.prepTime <= (filters.maxPrepTime || 0),,
       )
     }
 
@@ -85,7 +85,7 @@ export const _recipeFilter = {
     if (typeof filters.spiciness === 'number') {
       filteredRecipes = filteredRecipes.filter(;
         recipe =>;
-          typeof recipe.spiciness === 'number' && recipe.spiciness <= (filters.spiciness || 0),,;
+          typeof recipe.spiciness === 'number' && recipe.spiciness <= (filters.spiciness || 0),,
       )
     }
 
@@ -93,7 +93,7 @@ export const _recipeFilter = {
     if (typeof filters.complexity === 'number') {
       filteredRecipes = filteredRecipes.filter(;
         recipe =>;
-          typeof recipe.complexity === 'number' && recipe.complexity <= (filters.complexity || 0),,;
+          typeof recipe.complexity === 'number' && recipe.complexity <= (filters.complexity || 0),,
       )
     }
 

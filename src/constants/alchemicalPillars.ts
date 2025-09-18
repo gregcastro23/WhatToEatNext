@@ -467,7 +467,7 @@ export function getCookingMethodThermodynamics(cookingMethod: string): {
   const secondaryProps = ELEMENTAL_THERMODYNAMIC_PROPERTIES[secondaryElement];
   return {
     heat: ((primaryProps as any)?.heat || 0) * 0.2 + ((secondaryProps as any)?.heat || 0) * 0.2,
-    entropy:
+  entropy:
       ((primaryProps as any)?.entropy || 0) * 0.2 + ((secondaryProps as any)?.entropy || 0) * 0.2,
     reactivity:
       ((primaryProps as any)?.reactivity || 0) * 0.2 +
@@ -605,7 +605,7 @@ export const COOKING_METHOD_PILLAR_INTELLIGENCE = {
         compatibility: Math.random() * 0.4 + 0.6, // 60-100% compatibility
         optimization: {
           skillLevel: constraints?.skillLevel || 'intermediate',
-          equipment: constraints?.availableEquipment || ['standard'],
+  equipment: constraints?.availableEquipment || ['standard'],
   timeEfficiency: constraints?.timeConstraints ? Math.random() * 0.3 + 0.7 : 1.0, // 70-100% efficiency
           dietaryCompliance: constraints?.dietaryRestrictions ? Math.random() * 0.2 + 0.8 : 1.0, // 80-100% compliance
         }
@@ -616,7 +616,7 @@ export const COOKING_METHOD_PILLAR_INTELLIGENCE = {
       recommendations: compatibleMethods.slice(0, 5),
       analysis: {
         totalOptions: compatibleMethods.length,
-        averageCompatibility:
+  averageCompatibility:
           compatibleMethods.reduce((sum, m) => sum + m.compatibility, 0) / compatibleMethods.length,
         optimizationScore: Math.random() * 0.3 + 0.7, // 70-100% optimization
       }
@@ -641,7 +641,7 @@ export const COOKING_METHOD_PILLAR_INTELLIGENCE = {
     const enhancedEffects = {
       Spirit: baseEffects.Spirit * (1 + (Math.random() * 0.2 - 0.1)), // ±10% variation
       Essence: baseEffects.Essence * (1 + (Math.random() * 0.2 - 0.1)),
-      Matter: baseEffects.Matter * (1 + (Math.random() * 0.2 - 0.1)),
+  Matter: baseEffects.Matter * (1 + (Math.random() * 0.2 - 0.1)),
       Substance: baseEffects.Substance * (1 + (Math.random() * 0.2 - 0.1))
     };
 
@@ -658,15 +658,15 @@ export const COOKING_METHOD_PILLAR_INTELLIGENCE = {
         environmentalEnhancement: transformationContext?.environmentalConditions
           ? {
               temperature: transformationContext.environmentalConditions.temperature || 20,
-              humidity: transformationContext.environmentalConditions.humidity || 50,
+  humidity: transformationContext.environmentalConditions.humidity || 50,
               pressure: transformationContext.environmentalConditions.pressure || 1,
-              optimization: Math.random() * 0.4 + 0.6, // 60-100% optimization
+  optimization: Math.random() * 0.4 + 0.6, // 60-100% optimization
             }
           : null,
         userIntentAlignment: transformationContext?.userIntent
           ? {
               intent: transformationContext.userIntent,
-              alignment: Math.random() * 0.3 + 0.7, // 70-100% alignment
+  alignment: Math.random() * 0.3 + 0.7, // 70-100% alignment
               enhancement: `Enhanced for ${transformationContext.userIntent}`
             }
           : null
@@ -735,7 +735,7 @@ export const ELEMENTAL_THERMODYNAMIC_INTELLIGENCE = {
         cookingMethodIntegration: context?.cookingMethod
           ? {
               method: context.cookingMethod,
-              compatibility: Math.random() * 0.3 + 0.7, // 70-100% compatibility
+  compatibility: Math.random() * 0.3 + 0.7, // 70-100% compatibility
               optimization: `Optimize ${element} for ${context.cookingMethod}`
             }
           : null
@@ -796,7 +796,7 @@ export const ELEMENTAL_THERMODYNAMIC_INTELLIGENCE = {
         compatibility: Math.random() * 0.4 + 0.6, // 60-100% compatibility
         optimization: {
           skillLevel: constraints?.skillLevel || 'intermediate',
-          equipment: constraints?.availableEquipment || ['standard'],
+  equipment: constraints?.availableEquipment || ['standard'],
   timeEfficiency: constraints?.timeConstraints ? Math.random() * 0.3 + 0.7 : 1.0, // 70-100% efficiency
           environmentalAdaptation: constraints?.environmentalConditions
             ? Math.random() * 0.2 + 0.8
@@ -809,7 +809,7 @@ export const ELEMENTAL_THERMODYNAMIC_INTELLIGENCE = {
       recommendations: compatibleElements.slice(0, 5),
       analysis: {
         totalOptions: compatibleElements.length,
-        averageCompatibility:
+  averageCompatibility:
           compatibleElements.reduce((sum, e) => sum + e.compatibility, 0) /
           compatibleElements.length;
         optimizationScore: Math.random() * 0.3 + 0.7, // 70-100% optimization
@@ -864,7 +864,7 @@ export const PLANETARY_ALCHEMICAL_INTELLIGENCE = {
         cookingMethodIntegration: context?.cookingMethod
           ? {
               method: context.cookingMethod,
-              compatibility: Math.random() * 0.3 + 0.7, // 70-100% compatibility
+  compatibility: Math.random() * 0.3 + 0.7, // 70-100% compatibility
               optimization: `Optimize ${planet} for ${context.cookingMethod}`
             }
           : null
@@ -934,7 +934,7 @@ export const PLANETARY_ALCHEMICAL_INTELLIGENCE = {
           compatibility: Math.random() * 0.4 + 0.6, // 60-100% compatibility
           optimization: {
             skillLevel: constraints?.skillLevel || 'intermediate',
-            equipment: constraints?.availableEquipment || ['standard'],
+  equipment: constraints?.availableEquipment || ['standard'],
   timeEfficiency: constraints?.timeConstraints ? Math.random() * 0.3 + 0.7 : 1.0, // 70-100% efficiency
             astrologicalAdaptation: constraints?.astrologicalConditions
               ? Math.random() * 0.2 + 0.8
@@ -948,7 +948,7 @@ export const PLANETARY_ALCHEMICAL_INTELLIGENCE = {
       recommendations: compatiblePlanets.slice(0, 5),
       analysis: {
         totalOptions: compatiblePlanets.length,
-        averageCompatibility:
+  averageCompatibility:
           compatiblePlanets.reduce((sum, p) => sum + p.compatibility, 0) / compatiblePlanets.length,
         optimizationScore: Math.random() * 0.3 + 0.7, // 70-100% optimization
       }
@@ -1002,7 +1002,7 @@ export const TAROT_SUIT_ALCHEMICAL_INTELLIGENCE = {
         cookingMethodIntegration: context?.cookingMethod
           ? {
               method: context.cookingMethod,
-              compatibility: Math.random() * 0.3 + 0.7, // 70-100% compatibility
+  compatibility: Math.random() * 0.3 + 0.7, // 70-100% compatibility
               optimization: `Optimize ${cardName} for ${context.cookingMethod}`
             }
           : null
@@ -1084,7 +1084,7 @@ export const TAROT_SUIT_ALCHEMICAL_INTELLIGENCE = {
           compatibility: Math.random() * 0.4 + 0.6, // 60-100% compatibility
           optimization: {
             skillLevel: constraints?.skillLevel || 'intermediate',
-            equipment: constraints?.availableEquipment || ['standard'],
+  equipment: constraints?.availableEquipment || ['standard'],
   timeEfficiency: constraints?.timeConstraints ? Math.random() * 0.3 + 0.7 : 1.0, // 70-100% efficiency
             symbolicAdaptation: constraints?.symbolicConditions ? Math.random() * 0.2 + 0.8 : 1.0, // 80-100% adaptation
           }
@@ -1096,7 +1096,7 @@ export const TAROT_SUIT_ALCHEMICAL_INTELLIGENCE = {
       recommendations: compatibleCards.slice(0, 5),
       analysis: {
         totalOptions: compatibleCards.length,
-        averageCompatibility:
+  averageCompatibility:
           compatibleCards.reduce((sum, c) => sum + c.compatibility, 0) / compatibleCards.length,
         optimizationScore: Math.random() * 0.3 + 0.7, // 70-100% optimization
       }
@@ -1171,7 +1171,7 @@ const ENHANCED_COOKING_METHODS: EnhancedCookingMethod[] = [
     elementalInfluence: { Fire: 0.8, Water: 0.1, Earth: 0.3, Air: 0.4 },
     monicaCompatibility: {
       score: 0.85,
-      factors: ['high heat', 'flavor concentration'],
+  factors: ['high heat', 'flavor concentration'],
       enhancedProperties: ['caramelization', 'moisture reduction']
     },
     techniques: ['searing', 'browning', 'basting'],
@@ -1191,7 +1191,7 @@ const ENHANCED_COOKING_METHODS: EnhancedCookingMethod[] = [
     elementalInfluence: { Fire: 0.2, Water: 0.8, Earth: 0.2, Air: 0.6 },
     monicaCompatibility: {
       score: 0.92,
-      factors: ['gentle heat', 'nutrient preservation'],
+  factors: ['gentle heat', 'nutrient preservation'],
       enhancedProperties: ['moisture retention', 'texture preservation']
     },
     techniques: ['indirect cooking', 'vapor cooking'],
@@ -1211,7 +1211,7 @@ const ENHANCED_COOKING_METHODS: EnhancedCookingMethod[] = [
     elementalInfluence: { Fire: 0.1, Water: 0.6, Earth: 0.7, Air: 0.3 },
     monicaCompatibility: {
       score: 0.95,
-      factors: ['living transformation', 'probiotic benefits'],
+  factors: ['living transformation', 'probiotic benefits'],
       enhancedProperties: ['bioavailability', 'flavor complexity']
     },
     techniques: ['lacto-fermentation', 'alcoholic fermentation'],
@@ -1247,7 +1247,7 @@ export function calculatePillarKalchm(effects: Record<AlchemicalProperty, number
   const Substance = Math.max(0.1, effects.Substance + 2);
 
   const numerator = Math.pow(Spirit, Spirit) * Math.pow(Essence, Essence);
-  const denominator = Math.pow(Matter, Matter) * Math.pow(Substance, Substance),;
+  const denominator = Math.pow(Matter, Matter) * Math.pow(Substance, Substance),
 
   return numerator / denominator
 }
@@ -1337,7 +1337,7 @@ export function calculatePillarMonicaModifiers(monica: number): {
 
   return {
     temperatureAdjustment: Math.round(monica * 15),
-    timingAdjustment: Math.round(monica * 10),
+  timingAdjustment: Math.round(monica * 10),
     intensityModifier: monica > 0.1 ? 'increase' : monica < -0.1 ? 'decrease' : 'maintain'
   };
 }
@@ -1469,11 +1469,11 @@ export function calculateLunarPhaseBonus(
 export function enhanceAlchemicalPillar(pillar: AlchemicalPillar): AlchemicalPillar & {
   monicaProperties: {
     kalchm: number,
-    gregsEnergy: number,
+  gregsEnergy: number,
   monicaConstant: number,
-    thermodynamicProfile: { heat: number, entropy: number, reactivity: number };
+  thermodynamicProfile: { heat: number, entropy: number, reactivity: number };
     monicaClassification: string,
-    monicaModifiers: {
+  monicaModifiers: {
       temperatureAdjustment: number,
   timingAdjustment: number,
       intensityModifier: string
@@ -1483,7 +1483,7 @@ export function enhanceAlchemicalPillar(pillar: AlchemicalPillar): AlchemicalPil
   // Get thermodynamic properties from elemental associations
   const thermodynamics = getCookingMethodThermodynamics(pillar.name.toLowerCase()) || {
     heat: 0.5,
-    entropy: 0.5,
+  entropy: 0.5,
     reactivity: 0.5
   };
 
@@ -1547,20 +1547,20 @@ export function createEnhancedCookingMethod(
 
   return {
     id: cookingMethodName.toLowerCase(),
-    name: cookingMethodName,
+  name: cookingMethodName,
   description: `Enhanced ${cookingMethodName} with Monica constant analysis`,
     category: 'traditional' as const, // Default category
     alchemicalEffects: enhancedPillar.effects,
-    thermodynamics: enhancedPillar.monicaProperties.thermodynamicProfile,
+  thermodynamics: enhancedPillar.monicaProperties.thermodynamicProfile,
     elementalInfluence: {
       Fire: enhancedPillar.monicaProperties.thermodynamicProfile.heat,
-      Water: enhancedPillar.monicaProperties.thermodynamicProfile.entropy,
+  Water: enhancedPillar.monicaProperties.thermodynamicProfile.entropy,
       Earth: 1 - enhancedPillar.monicaProperties.thermodynamicProfile.heat,
-      Air: 1 - enhancedPillar.monicaProperties.thermodynamicProfile.entropy
+  Air: 1 - enhancedPillar.monicaProperties.thermodynamicProfile.entropy
     },
     monicaCompatibility: {
       score: Math.abs(enhancedPillar.monicaProperties.monicaConstant),
-      factors: [enhancedPillar.monicaProperties.monicaClassification],
+  factors: [enhancedPillar.monicaProperties.monicaClassification],
   enhancedProperties: [
         'temperature_optimization',
         'timing_adjustment',
@@ -1576,7 +1576,7 @@ export function createEnhancedCookingMethod(
       unit: 'minutes' as const
     },
     planetaryAssociations: enhancedPillar.planetaryAssociations,
-    zodiacAffinity: [],
+  zodiacAffinity: [],
   lunarPhaseOptimal: optimalConditions.lunarPhases
   };
 }

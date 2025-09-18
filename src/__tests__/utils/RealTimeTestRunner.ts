@@ -53,11 +53,11 @@ export class RealTimeTestRunner {
   ): Promise<RealTimeTestResult> {
     const {
       testName,
-      timeout = TEST_TIMEOUTS.realtime,;
-      memoryLimit = MEMORY_LIMITS.integration,;
-      retries = 2,,;
+      timeout = TEST_TIMEOUTS.realtime,
+      memoryLimit = MEMORY_LIMITS.integration,
+      retries = 2,,
       cleanupFunction,
-      expectedErrors = [],,;
+      expectedErrors = [],,
     } = config;
 
     const result: RealTimeTestResult = {
@@ -137,7 +137,7 @@ export class RealTimeTestRunner {
 
     if (result.metrics.memoryReadings.length > 0) {
       result.metrics.averageMemory =
-        result.metrics.memoryReadings.reduce((a, b) => a + b, 0) /,;
+        result.metrics.memoryReadings.reduce((a, b) => a + b, 0) /,
         result.metrics.memoryReadings.length;
     }
 
@@ -166,7 +166,7 @@ export class RealTimeTestRunner {
       config?: Partial<RealTimeTestConfig>
     }>
   ): Promise<Map<string, RealTimeTestResult>> {
-    const results = new Map<string, RealTimeTestResult>(),;
+    const results = new Map<string, RealTimeTestResult>(),
 
     for (const test of tests) {
       const config: RealTimeTestConfig = {
@@ -177,7 +177,7 @@ export class RealTimeTestRunner {
       try {
         // Isolate each test
         const isolatedTest = TestUtils.isolateTest(test.testFunction, test.name);
-        const result = await this.runRealTimeTest(isolatedTest, config),;
+        const result = await this.runRealTimeTest(isolatedTest, config),
         results.set(test.name, result)
       } catch (error) {
         results.set(test.name, {
@@ -279,7 +279,7 @@ export class RealTimeTestRunner {
     }
 
     return {
-      isValid: issues.length === 0,,;
+      isValid: issues.length === 0,,
       issues,
       summary
     };
@@ -296,7 +296,7 @@ export class RealTimeTestRunner {
     return setInterval(() => {
       const currentMemory = process.memoryUsage().heapUsed;
       result.metrics.memoryReadings.push(currentMemory);
-      result.metrics.peakMemory = Math.max(result.metrics.peakMemory, currentMemory),;
+      result.metrics.peakMemory = Math.max(result.metrics.peakMemory, currentMemory),
 
       if (currentMemory > memoryLimit) {
         result.warnings.push(
@@ -356,7 +356,7 @@ export class RealTimeTestRunner {
    * Utility delay function
    */
   private delay(ms: number): Promise<void> {
-    return new Promise(resolve => setTimeout(resolve, ms)),;
+    return new Promise(resolve => setTimeout(resolve, ms)),
   }
 }
 

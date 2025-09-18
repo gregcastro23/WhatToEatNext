@@ -15,8 +15,9 @@ export { createLogger, logger } from './logger';
 export { transformItemsWithPlanetaryPositions as astrologyUtilsTransformItems } from './astrologyUtils';
 export * from './elementalUtils';
 export {
-    getSignFromLongitude as zodiacUtilsGetSignFromLongitude,
-    getZodiacElementalInfluence as zodiacUtilsGetZodiacElementalInfluence, getZodiacSign as zodiacUtilsGetZodiacSign
+  getSignFromLongitude as zodiacUtilsGetSignFromLongitude,
+  getZodiacElementalInfluence as zodiacUtilsGetZodiacElementalInfluence,
+  getZodiacSign as zodiacUtilsGetZodiacSign,
 } from './zodiacUtils';
 
 // Export sign vector utilities

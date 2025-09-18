@@ -27,7 +27,7 @@ const categoryUpdaters = {
   proteins: updateProteins,
   spices: updateSpices,
   oils: updateOils,
-  vinegars: updateVinegars
+  vinegars: updateVinegars,
 };
 
 // All categories in the order they should be processed
@@ -39,7 +39,7 @@ const ALL_CATEGORIES = [
   'grains',
   'proteins',
   'oils',
-  'vinegars'
+  'vinegars',
 ];
 
 /**
@@ -92,7 +92,7 @@ async function main() {
 
 // Run the main function
 // Execute only when run directly
- 
+
 // @ts-expect-error Node.js runtime check
 if (typeof require !== 'undefined' && require.main === module) {
   void main().catch(() => process.exit(1));

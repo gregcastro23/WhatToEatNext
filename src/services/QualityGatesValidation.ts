@@ -133,7 +133,7 @@ export interface ValidationResult {
   name: string,
   status: 'passed' | 'failed' | 'error' | 'timeout' | 'skipped',
   executionTime: number,
-  output: string;
+  output: string,
   errorMessage?: string,
   score: number,
   weight: number,
@@ -247,7 +247,7 @@ export interface ValidationHook {
   conditions: HookCondition[],
   timeout: number,
   failureAction: 'block' | 'warn' | 'continue',
-  retryPolicy: RetryPolicy;
+  retryPolicy: RetryPolicy,
   lastTriggered?: Date;
   statistics: {
     triggerCount: number,

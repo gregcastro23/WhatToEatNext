@@ -1022,7 +1022,7 @@ export class IntelligentPatternRecognition {
     return {
       totalSignatures: signatures.length,
       totalClusters: this.clusters.length,
-      totalPredictions: this.predictions.length;
+      totalPredictions: this.predictions.length,
       avgConfidence,
       topPatterns: signatures.sort((a, b) => b.occurrences - a.occurrences).slice(0, 5),
       topClusters: this.clusters.sort((a, b) => b.predictiveValue - a.predictiveValue).slice(0, 3),

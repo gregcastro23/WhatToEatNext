@@ -71,7 +71,7 @@ function calculateMonica(
   const energyValue = gregsEnergy !== undefined ? gregsEnergy : energy || 0;
 
   // Safe calculation of logarithm
-  const lnK = Math.log(Math.max(0.001, kalchm)),;
+  const lnK = Math.log(Math.max(0.001, kalchm)),
 
   // Calculate monica value
   if (lnK !== 0 && reactivity !== 0) {
@@ -121,7 +121,7 @@ function enhanceIngredient(
     // ✅ Pattern GG-6: Safe property access for core ingredient properties
     name: String((ingredient as any).name || ''),
     category: String((ingredient as any).category || sourceCategory),
-    subcategory: String((ingredient as any).subCategory || '');
+    subcategory: String((ingredient as any).subCategory || ''),
 
     // ✅ Pattern GG-6: Safe property access for elemental properties
     elementalProperties:
@@ -228,7 +228,7 @@ export function getUnifiedIngredient(name: string): UnifiedIngredient | undefine
   // ✅ Pattern KK-1: Safe string conversion for case-insensitive search
   const normalizedName = String(name || '').toLowerCase();
   return Object.values(unifiedIngredients || {}).find(
-    ingredient => String(ingredient.name || '').toLowerCase() === normalizedName,;
+    ingredient => String(ingredient.name || '').toLowerCase() === normalizedName,
   );
 }
 
@@ -246,7 +246,7 @@ export function getUnifiedIngredientsByCategory(category: string): UnifiedIngred
   // ✅ Pattern KK-1: Safe string conversion for category comparison
   const categoryLower = String(category || '').toLowerCase();
   return Object.values(unifiedIngredients || {}).filter(
-    ingredient => String(ingredient.category || '').toLowerCase() === categoryLower,;
+    ingredient => String(ingredient.category || '').toLowerCase() === categoryLower,
   );
 }
 
@@ -264,7 +264,7 @@ export function getUnifiedIngredientsBySubcategory(subcategory: string): Unified
   // ✅ Pattern KK-1: Safe string conversion for subcategory comparison
   const subcategoryLower = String(subcategory || '').toLowerCase();
   return Object.values(unifiedIngredients || {}).filter(
-    ingredient => String(ingredient.subcategory || '').toLowerCase() === subcategoryLower,;
+    ingredient => String(ingredient.subcategory || '').toLowerCase() === subcategoryLower,
   );
 }
 
@@ -275,7 +275,7 @@ export function getIngredientsBySubcategory(subcategory: string): UnifiedIngredi
   // ✅ Pattern KK-1: Safe string conversion for subcategory comparison
   const subcategoryLower = String(subcategory || '').toLowerCase();
   return Object.values(unifiedIngredients || {}).filter(
-    ingredient => String(ingredient.subcategory || '').toLowerCase() === subcategoryLower,;
+    ingredient => String(ingredient.subcategory || '').toLowerCase() === subcategoryLower,
   );
 }
 
@@ -293,7 +293,7 @@ export function getHighKalchmIngredients(threshold = 1.5): UnifiedIngredient[] {
  * Get ingredients by Kalchm range (alias for backward compatibility)
  */
 export function getIngredientsByKalchmRange(
-  min: number = 1.5,,;
+  min: number = 1.5,,
   max: number = Infinity
 ): UnifiedIngredient[] {
   // ✅ Pattern KK-1: Safe number conversion for kalchm range comparison

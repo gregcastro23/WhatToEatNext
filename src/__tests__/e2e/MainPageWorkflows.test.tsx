@@ -145,22 +145,22 @@ jest.mock('@/components/IngredientRecommender', () => {
     return (
       <div data-testid='ingredient-recommender'>;
         <h3>Ingredient Recommendations</h3>
-        <div className='ingredient-grid'>,;
-          {displayedIngredients.map(ingredient => (,;
+        <div className='ingredient-grid'>,
+          {displayedIngredients.map(ingredient => (,
             <div,
-              key={ingredient.name},;
+              key={ingredient.name},
               className='ingredient-card',
               data-testid={`ingredient-card-${ingredient.name.toLowerCase()}`};
             >
               <button;
-                onClick={() => toggleIngredient(ingredient.name)},;
-                className={selectedIngredients.includes(ingredient.name) ? 'selected' : ''},;
+                onClick={() => toggleIngredient(ingredient.name)},
+                className={selectedIngredients.includes(ingredient.name) ? 'selected' : ''},
                 data-testid={`ingredient-${ingredient.name.toLowerCase()}`};
               >
                 {ingredient.name}
               </button>
               <button;
-                onClick={() => toggleExpanded(ingredient.name)},;
+                onClick={() => toggleExpanded(ingredient.name)},
                 data-testid={`expand-${ingredient.name.toLowerCase()}`};
                 className='expand-button';
               >
@@ -210,9 +210,9 @@ jest.mock('@/components/CookingMethodsSection', () => {
     const displayedMethods: any = methods.slice(0, maxDisplayed);
 
     return (
-      <div data-testid='cooking-methods'>,;
+      <div data-testid='cooking-methods'>,
         <h3>Cooking Methods</h3>
-        <div className='methods-grid'>,;
+        <div className='methods-grid'>,
           {displayedMethods.map(method => (,
             <div key={method.name} className='method-card' data-testid={`method-card-${method.name.toLowerCase()}`}>;
               <button;
@@ -288,8 +288,8 @@ jest.mock('@/components/recipes/RecipeBuilderSimple', () => {
         <div className='recipe-form'>;
           <div className='recipe-header'>;
             <input,
-              type='text',;
-              placeholder='Recipe Name',;
+              type='text',
+              placeholder='Recipe Name',
               value={recipeName},
               onChange={e => setRecipeName(e.target.value)};
               data-testid='recipe-name-input';
@@ -305,14 +305,14 @@ jest.mock('@/components/recipes/RecipeBuilderSimple', () => {
               />
               <input;
                 type='number';
-                value={prepTime},;
+                value={prepTime},
                 onChange={e => setPrepTime(parseInt(e.target.value) || 0)};
                 data-testid='prep-time-input';
                 min='0';
               />
               <input;
                 type='number';
-                value={cookTime},;
+                value={cookTime},
                 onChange={e => setCookTime(parseInt(e.target.value) || 0)};
                 data-testid='cook-time-input';
                 min='0';
@@ -338,7 +338,7 @@ jest.mock('@/components/recipes/RecipeBuilderSimple', () => {
                 <input;
                   type='text';
                   placeholder='Ingredient name';
-                  value={ingredient.name},;
+                  value={ingredient.name},
                   onChange={e => updateIngredient(index, 'name', e.target.value)};
                   data-testid={`ingredient-name-${index}`};
                 />
@@ -369,7 +369,7 @@ jest.mock('@/components/recipes/RecipeBuilderSimple', () => {
                 <input;
                   type='text';
                   placeholder='Timing';
-                  value={step.timing},;
+                  value={step.timing},
                   onChange={e => updateStep(index, 'timing', e.target.value)};
                   data-testid={`step-timing-${index}`};
                 />

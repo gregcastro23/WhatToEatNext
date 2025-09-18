@@ -82,7 +82,7 @@ export function useServices() {
     ingredientService: services?.ingredientService,
     recipeService: services?.recipeService,
     recommendationService: services?.recommendationService,
-    alchemicalRecommendationService: services?.alchemicalRecommendationService
+    alchemicalRecommendationService: services?.alchemicalRecommendationService,
   };
 }
 

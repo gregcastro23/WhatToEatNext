@@ -28,7 +28,7 @@ export function getCurrentTime(): string {
     hour12: false,
     hour: '2-digit',
     minute: '2-digit',
-    second: '2-digit'
+    second: '2-digit',
   });
 }
 
@@ -144,7 +144,7 @@ export function formatTimestamp(timestamp: string): string {
     month: 'short',
     day: 'numeric',
     hour: '2-digit',
-    minute: '2-digit'
+    minute: '2-digit',
   });
 }
 
@@ -174,6 +174,6 @@ export function getTimeBasedContext(): {
     season,
     isOptimalTime,
     timeConfidence,
-    recommendation
+    recommendation,
   };
 }

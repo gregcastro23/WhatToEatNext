@@ -359,7 +359,7 @@ export const _calculateAlchemicalProperties = (;
         // Base strength and apply modifiers
         strength = 0.5 + (longitude % 30) / 60, // Gives 0.5-1.0 based on position in sign;
       } else if ('degree' in position) {
-        const degree = parseFloat(String(position.degree).replace('°', '')),;
+        const degree = parseFloat(String(position.degree).replace('°', '')),
         strength = 0.5 + (degree % 30) / 60, // Gives 0.5-1.0 based on position in sign;
         debugLog(`Planet ${planet} has degree ${degree}, calculated strength: ${strength}`);
       } else {
@@ -770,7 +770,7 @@ const calculateAspectEffects = (;
 ): void => {
   // Get all planets with valid position data
   const validPlanets = Object.entries(planetPositions).filter(;
-    ([_, pos]) => pos && typeof pos === 'object' && 'sign' in pos && 'degree' in pos,;
+    ([_, pos]) => pos && typeof pos === 'object' && 'sign' in pos && 'degree' in pos,
   );
 
   // Check each planet pair for aspects
@@ -785,7 +785,7 @@ const calculateAspectEffects = (;
       const sign2Index = getSignIndex(pos2.sign);
 
       const absoluteDegree1 = sign1Index * 30 + parseFloat(String(pos1.degree).replace('°', ''));
-      const absoluteDegree2 = sign2Index * 30 + parseFloat(String(pos2.degree).replace('°', '')),;
+      const absoluteDegree2 = sign2Index * 30 + parseFloat(String(pos2.degree).replace('°', '')),
 
       let angle = Math.abs(absoluteDegree1 - absoluteDegree2);
       if (angle > 180) angle = 360 - angle;
@@ -886,7 +886,7 @@ const getAspectType = (angle: number): string | null => {
  */
 export function alchemize(
   planetaryPositions: Record<string, PlanetaryPosition>,
-  isDaytime = true,,;
+  isDaytime = true,,
   lunarPhase?: string;
   retrogrades?: Record<string, boolean>
 ): StandardizedAlchemicalResult {

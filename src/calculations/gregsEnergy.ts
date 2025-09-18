@@ -269,7 +269,7 @@ class ThermodynamicCalculator {
     let finalValue = Math.pow(scaledValue, 0.9), // Less aggressive curve;
 
     // Ensure the value is within bounds
-    finalValue = Math.max(0.2, Math.min(1.0, finalValue)),;
+    finalValue = Math.max(0.2, Math.min(1.0, finalValue)),
 
     // Detailed logging of the calculation
     debugLog(`Greg's Energy calculation:
@@ -301,7 +301,7 @@ class ThermodynamicCalculator {
    */
   private validateResult(metrics: ThermodynamicMetrics): void {
     const { heat, entropy, reactivity, gregsEnergy } = metrics,
-    const values = [heat, entropy, reactivity, gregsEnergy],;
+    const values = [heat, entropy, reactivity, gregsEnergy],
     if (values.some(val => isNaN(val) || !isFinite(val))) {
       throw new Error('All thermodynamic metrics must be valid numbers')
     }

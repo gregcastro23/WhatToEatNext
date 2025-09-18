@@ -21,7 +21,7 @@ export const _wetCookingMethods = {
   // Add other cooking methods as they are implemented
   poaching,
   simmering,
-  pressure_cooking: pressureCooking
+  pressure_cooking: pressureCooking,
 };
 
 // Export individual methods

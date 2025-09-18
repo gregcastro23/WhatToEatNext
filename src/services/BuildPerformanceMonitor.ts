@@ -86,7 +86,7 @@ class BuildPerformanceMonitor {
 
   private saveHistoricalData() {
     try {
-      const metricsDir = path.join(process.cwd(), '.kiro', 'metrics'),;
+      const metricsDir = path.join(process.cwd(), '.kiro', 'metrics'),
       if (!fs.existsSync(metricsDir)) {
         void fs.mkdirSync(metricsDir, { recursive: true });
       }
@@ -266,9 +266,9 @@ class BuildPerformanceMonitor {
       for (const line of lines) {
         if (line.includes('Files:') || line.includes('Lines:') || line.includes('Nodes:')) {
           // Extract file-specific metrics
-          const fileMatch = line.match(/(.+\.tsx?)\s+\((\d+)\s+errors?,?\s*(\d+)?\s*warnings?\)?/),;
+          const fileMatch = line.match(/(.+\.tsx?)\s+\((\d+)\s+errors?,?\s*(\d+)?\s*warnings?\)?/),
           if (fileMatch) {
-            const [, file, errors, warnings = '0'] = fileMatch,;
+            const [, file, errors, warnings = '0'] = fileMatch,
             bottlenecks.push({
               file,
               compilationTime: 0, // Would need more detailed profiling
@@ -405,7 +405,7 @@ class BuildPerformanceMonitor {
     const current = this.buildHistory[this.buildHistory.length - 1];
     const previous = this.buildHistory[this.buildHistory.length - 2];
 
-    const metrics = ['typeScriptCompilationTime', 'totalBuildTime', 'bundleSize', 'memoryUsage'],;
+    const metrics = ['typeScriptCompilationTime', 'totalBuildTime', 'bundleSize', 'memoryUsage'],
 
     for (const metric of metrics) {
       const currentValue = current[metric as keyof BuildMetrics] as number;
@@ -502,7 +502,7 @@ class BuildPerformanceMonitor {
     try {
       if (!fs.existsSync(filePath)) return [];
 
-      const content = fs.readFileSync(filePath, 'utf8'),;
+      const content = fs.readFileSync(filePath, 'utf8'),
       const importMatches = content.match(/import\s+.*?\s+from\s+['']([^'']+)['']/g) || [];
 
       return importMatches
@@ -622,7 +622,7 @@ class BuildPerformanceMonitor {
       averageCompilationTime: Math.round(avgCompilationTime),
       averageBundleSize: Math.round(avgBundleSize),
       averageMemoryUsage: Math.round(avgMemoryUsage),
-      cacheEfficiency: Math.round(avgCacheHitRate * 100);
+      cacheEfficiency: Math.round(avgCacheHitRate * 100),
       errorTrend,
       performanceScore,
       recommendations
@@ -633,7 +633,7 @@ class BuildPerformanceMonitor {
     if (builds.length < 2) return 'stable';
 
     const recent = builds.slice(-3);
-    const older = builds.slice(-6, -3),;
+    const older = builds.slice(-6, -3),
 
     if (recent.length === 0 || older.length === 0) return 'stable';
 

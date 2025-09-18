@@ -13,7 +13,7 @@ export const emulsification: CookingMethodData = {
     Fire: 0.1,
     Water: 0.6,
     Earth: 0.2,
-    Air: 0.4
+    Air: 0.4,
   },
   duration: {
     min: 5, // minutes
@@ -23,7 +23,7 @@ export const emulsification: CookingMethodData = {
   benefits: [
     'Can reduce the amount of fat needed in a dish while preserving flavor',
     'Creates light, airy textures with concentrated flavors',
-    'Allows for even distribution of flavor compounds'
+    'Allows for even distribution of flavor compounds',
   ],
   history:
     'While emulsification has been used traditionally in cooking for centuries (mayonnaise, hollandaise), modern molecular gastronomy has refined the technique using scientific principles and new ingredients, popularized by chefs like Ferran Adrià and Heston Blumenthal since the 1990s.',
@@ -33,7 +33,7 @@ export const emulsification: CookingMethodData = {
     'Airs (extremely light foams)',
     'Stable emulsions (like modern mayonnaise)',
     'Flavored butters (solid emulsions)',
-    'Fluid gels (emulsions stabilized with hydrocolloids)'
+    'Fluid gels (emulsions stabilized with hydrocolloids)',
   ],
   optimalTemperatures: {
     cold: 12, // °C (average for cold emulsions)
@@ -47,11 +47,11 @@ export const emulsification: CookingMethodData = {
     'Lecithin',
     'Soy lecithin',
     'Xanthan gum',
-    'Ultrasonic homogenizer (high-end)'
+    'Ultrasonic homogenizer (high-end)',
   ],
   healthConsiderations: [
     'Some emulsifiers may cause digestive discomfort in sensitive individuals',
     'Modern emulsifying agents should be used in appropriate quantities',
-    'Hot emulsions can break if not properly stabilized'
-  ]
+    'Hot emulsions can break if not properly stabilized',
+  ],
 };

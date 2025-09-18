@@ -64,7 +64,7 @@ export const DEFAULT_THERMODYNAMIC_PROPERTIES: ThermodynamicProperties = {
   heat: 0.5,
   entropy: 0.5,
   reactivity: 0.5,
-  energy: 0.5
+  energy: 0.5,
 };
 
 /**
@@ -84,7 +84,7 @@ export function normalizeThermodynamicProperties(
   const normalized: ThermodynamicProperties = {
     heat: Math.max(0, Math.min(1, props.heat)),
     entropy: Math.max(0, Math.min(1, props.entropy)),
-    reactivity: Math.max(0, Math.min(1, props.reactivity))
+    reactivity: Math.max(0, Math.min(1, props.reactivity)),
   };
 
   // Recalculate energy if needed
@@ -120,7 +120,7 @@ export function combineThermodynamicProperties(
   const result: ThermodynamicProperties = {
     heat: 0,
     entropy: 0,
-    reactivity: 0
+    reactivity: 0,
   };
 
   let totalWeight = 0;

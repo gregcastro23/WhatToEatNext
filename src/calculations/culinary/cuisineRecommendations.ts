@@ -78,8 +78,8 @@ export function generateCuisineRecommendations(
         processedCuisines.add(cuisine);
 
         const compatibility = calculateCuisineCompatibility(cuisine, elementalProperties, strength);
-        const reasons = generateCuisineReasons(cuisine, planet, element, strength),;
-        const suggestedDishes = getSuggestedDishes(cuisine, elementalProperties),;
+        const reasons = generateCuisineReasons(cuisine, planet, element, strength),
+        const suggestedDishes = getSuggestedDishes(cuisine, elementalProperties),
 
         recommendations.push({
           cuisine,

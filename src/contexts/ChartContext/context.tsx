@@ -11,7 +11,7 @@ const _: CurrentChart = {
   currentSeason: '',
   lastUpdated: new Date(),
   stelliums: {},
-  houseEffects: {}
+  houseEffects: {},
 };
 
 // Create the context with default values

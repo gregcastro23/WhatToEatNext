@@ -9,13 +9,13 @@ describe('Enhanced Alchemical Matching Algorithms', () => {
   describe('calculateAstrologicalAffinity', () => {
     it('should calculate compatibility between signs with the same element', () => {
       // Test Fire signs (should be harmonious)
-      const compatibility: any = calculateAstrologicalAffinity('aries' as any, 'leo' as any),;
+      const compatibility: any = calculateAstrologicalAffinity('aries' as any, 'leo' as any),
       expect(compatibility).toBeGreaterThan(0.5), // Should be above neutral
     });
 
     it('should calculate compatibility between signs with different elements', () => {
       // Test Fire and Water signs (should still have good compatibility)
-      const compatibility: any = calculateAstrologicalAffinity('aries' as any, 'cancer' as any),;
+      const compatibility: any = calculateAstrologicalAffinity('aries' as any, 'cancer' as any),
       expect(compatibility).toBeGreaterThanOrEqual(0.5), // All elements work well together
     });
 
@@ -54,7 +54,7 @@ describe('Enhanced Alchemical Matching Algorithms', () => {
       const _earthSignsCompat: any = calculateAstrologicalAffinity('taurus' as any, 'virgo' as any);
 
       // Cardinal Fire and Fixed Fire
-      const _fireSignsCompat: any = calculateAstrologicalAffinity('aries' as any, 'leo' as any),;
+      const _fireSignsCompat: any = calculateAstrologicalAffinity('aries' as any, 'leo' as any),
 
       // The air signs compatibility should reflect air's natural affinity with mutability
       expect(airSignsCompat).toBeGreaterThan(0.45);
@@ -62,7 +62,7 @@ describe('Enhanced Alchemical Matching Algorithms', () => {
 
     it('should incorporate tarot correspondences in scoring', () => {
       // Signs with same element tarot cards
-      const compatibility: any = calculateAstrologicalAffinity('aries' as any, 'leo' as any),;
+      const compatibility: any = calculateAstrologicalAffinity('aries' as any, 'leo' as any),
 
       // The Emperor (Aries) and Strength (Leo) are both Fire-aligned Major Arcana
       expect(compatibility).toBeGreaterThan(0.5);
@@ -70,7 +70,7 @@ describe('Enhanced Alchemical Matching Algorithms', () => {
 
     it('should incorporate rulership compatibility in scoring', () => {
       // Aries (ruled by Mars) and Scorpio (traditionally ruled by Mars)
-      const compatibility: any = calculateAstrologicalAffinity('aries' as any, 'scorpio' as any),;
+      const compatibility: any = calculateAstrologicalAffinity('aries' as any, 'scorpio' as any),
 
       // Different elements, but shared ruler should prevent score from being too low
       expect(compatibility).toBeGreaterThan(0.3);

@@ -6,7 +6,7 @@ import { logger } from '@/utils/logger';
 interface Recipe {
   id: string,
   name: string,
-  elementalProperties: ElementalProperties;
+  elementalProperties: ElementalProperties,
   [key: string]: unknown; // Allow additional properties
 }
 

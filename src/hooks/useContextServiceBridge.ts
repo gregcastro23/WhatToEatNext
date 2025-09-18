@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
-import { PlanetaryPosition } from '@/types/celestial';
 
 import { useServices } from './useServices';
 
@@ -51,7 +50,7 @@ export function useAlchemicalBridge() {
   // Merge data from both sources, prioritizing services when available
   const mergedPositions = {
     ...contextPositions,
-    ...servicePositions
+    ...servicePositions,
   };
 
   return {
@@ -74,7 +73,7 @@ export function useAlchemicalBridge() {
     chakraService,
 
     // Flag indicating if services are ready to use
-    servicesReady: !isLoading && !error && !!astrologyService
+    servicesReady: !isLoading && !error && !!astrologyService,
   };
 }
 
@@ -120,7 +119,7 @@ export function useChakraBridge() {
     chakras,
     activeChakra,
     chakraService,
-    servicesReady: !isLoading && !error && !!chakraService
+    servicesReady: !isLoading && !error && !!chakraService,
   };
 }
 
@@ -183,7 +182,7 @@ export function usePlanetaryHoursBridge() {
     currentDay,
     dailyHours,
     astrologyService,
-    servicesReady: !isLoading && !error && !!astrologyService
+    servicesReady: !isLoading && !error && !!astrologyService,
   };
 }
 
@@ -226,7 +225,7 @@ export function createServiceBridge<T, S>(
       error: error || fetchError,
       data,
       service,
-      servicesReady: !isLoading && !error && !!service
+      servicesReady: !isLoading && !error && !!service,
     };
   };
 }
@@ -235,5 +234,5 @@ export default {
   useAlchemicalBridge,
   useChakraBridge,
   usePlanetaryHoursBridge,
-  createServiceBridge
+  createServiceBridge,
 };

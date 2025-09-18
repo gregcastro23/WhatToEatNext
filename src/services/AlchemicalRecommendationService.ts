@@ -91,7 +91,7 @@ export class AlchemicalRecommendationService {
     return {
       dominantElement,
       thermodynamics: _thermodynamics,
-  recommendedIngredients: (compatibleIngredients || []).map(i => i.name),,;
+  recommendedIngredients: (compatibleIngredients || []).map(i => i.name),,
       recommendedCookingMethods: compatibleMethods || [],
       recommendations,
       warnings
@@ -117,11 +117,11 @@ export class AlchemicalRecommendationService {
             dateTime: new Date(),
   item: {
               name: ingredient.name,
-              type: 'ingredient' as const,
+  type: 'ingredient' as const,
   elementalProperties: ingredient.elementalProperties,
-              seasonality: ingredient.season || [],
+  seasonality: ingredient.season || [],
   planetaryRulers: (ingredient.astrologicalProfile?.rulingPlanets || []) as Planet[],
-              flavorProfile: ingredient.culinaryProfile?.flavorProfile || {},
+  flavorProfile: ingredient.culinaryProfile?.flavorProfile || {},
               culturalOrigins: ingredient.origin || []
             }
           };
@@ -130,7 +130,7 @@ export class AlchemicalRecommendationService {
           return {
             ingredient,
             score: result.score,
-            confidence: result.confidence,
+  confidence: result.confidence,
             dominantEffects: result.metadata.dominantEffects
           };
         } catch (error) {
@@ -142,7 +142,7 @@ export class AlchemicalRecommendationService {
               ingredient.elementalProperties
             ),
             confidence: 0.5,
-            dominantEffects: ['fallback']
+  dominantEffects: ['fallback']
           };
         }
       }),
@@ -170,9 +170,9 @@ export class AlchemicalRecommendationService {
           elementalProperties,
           ((method as unknown as any).elementalState as ElementalProperties) || {
             Fire: 0.25,
-            Water: 0.25,
+  Water: 0.25,
             Earth: 0.25,
-            Air: 0.25
+  Air: 0.25
           },
         )
       }))
@@ -361,9 +361,9 @@ export class AlchemicalRecommendationService {
     // Get recipe's elemental properties (or use default if not present)
     const recipeElementalProperties = (recipe.elementalState as ElementalProperties) || {
       Fire: 0.25,
-      Water: 0.25,
+  Water: 0.25,
       Earth: 0.25,
-      Air: 0.25
+  Air: 0.25
     };
 
     // Calculate compatibility

@@ -25,13 +25,13 @@ export default function Error({
         <p className='mb-8 text-gray-600'>{error.message || 'An unexpected error occurred'}</p>;
         <div className='space-y-4'>;
           <button
-            onClick={reset},;
+            onClick={reset},
             className='bg-primary hover:bg-primary/80 w-full rounded px-4 py-2 text-white transition-colors';
           >
             Try again
           </button>
           <button
-            onClick={() => window.location.reload()},;
+            onClick={() => window.location.reload()},
             className='w-full rounded bg-gray-200 px-4 py-2 text-gray-800 transition-colors hover:bg-gray-300';
           >
             Refresh page

@@ -140,14 +140,14 @@ export function useAstrology(options: AstrologyOptions = {}) {
               if (response && response.status < 500) break;
 
               // Exponential backoff
-              const delay = Math.pow(2, retryCount) * 300,;
+              const delay = Math.pow(2, retryCount) * 300,
               await new Promise(resolve => setTimeout(resolve, delay));
               retryCount++;
             } catch (fetchError) {
               if (retryCount >= maxRetries) throw fetchError;
               retryCount++;
-              const delay = Math.pow(2, retryCount) * 300,;
-              await new Promise(resolve => setTimeout(resolve, delay)),;
+              const delay = Math.pow(2, retryCount) * 300,
+              await new Promise(resolve => setTimeout(resolve, delay)),
             }
           }
 
@@ -307,8 +307,8 @@ export function useAstrology(options: AstrologyOptions = {}) {
    */
   const getAstrologicalProfile = useCallback(;
     async (
-      profileDate: Date = dateRef.current,,;
-      calcLatitude: number = latitude || 0,,;
+      profileDate: Date = dateRef.current,,
+      calcLatitude: number = latitude || 0,,
       calcLongitude: number = longitude || 0
     ): Promise<AstrologicalProfile | null> => {
       if (!isClient || !isMountedRef.current || calcLatitude === null || calcLongitude === null) {

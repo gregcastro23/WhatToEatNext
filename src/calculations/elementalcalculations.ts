@@ -156,7 +156,7 @@ export class ElementalCalculator {
    */
   calculateElementalState(
     baseProperties: ElementalProperties,
-    _phase = 'default',;
+    _phase = 'default',
     time = 'neutral',
   ): {
     properties: ElementalProperties,

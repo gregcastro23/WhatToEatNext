@@ -156,7 +156,7 @@ export class LegacyIngredientAdapter {
       return result as UnifiedIngredient[]
     } catch (error) {
       logger.error(
-        `Error in findComplementaryIngredients for '${typeof ingredient === 'string' ? ingredient : ingredient.name}':`,,;
+        `Error in findComplementaryIngredients for '${typeof ingredient === 'string' ? ingredient : ingredient.name}':`,,
         error,
       );
       // Fall back to original implementation if needed

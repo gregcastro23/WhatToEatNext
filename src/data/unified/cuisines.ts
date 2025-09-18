@@ -9,7 +9,7 @@ export interface EnhancedCuisine {
   // ===== EXISTING CUISINE PROPERTIES (PRESERVED) =====
   id: string,
   name: string,
-  description: string;
+  description: string,
   dishes?: unknown; // Preserve existing dish structure
   elementalProperties?: ElementalProperties;
   elementalState?: ElementalProperties;
@@ -235,14 +235,14 @@ export class CuisineEnhancer {
       roasting: 1.12,
       searing: 1.18,
       frying: 1.1,
-      broiling: 1.14;
+      broiling: 1.14,
 
       // Water-dominant methods (moderate Kalchm)
       steaming: 0.95,
       boiling: 0.92,
       poaching: 0.9,
       braising: 0.98,
-      simmering: 0.94;
+      simmering: 0.94,
 
       // Earth-dominant methods (stabilize Kalchm)
       baking: 0.88;
@@ -301,9 +301,9 @@ export class CuisineEnhancer {
 
     // Calculate from recipes
     const recipes = this.extractRecipesFromCuisine(cuisine);
-    let totalFire = 0,;
-      totalWater = 0,;
-      totalEarth = 0,;
+    let totalFire = 0,
+      totalWater = 0,
+      totalEarth = 0,
       totalAir = 0;
     let validRecipes = 0;
 
@@ -464,7 +464,7 @@ export class CuisineEnhancer {
         kalchmCalculated: true,
         recipesAnalyzed: kalchmAnalysis.recipesAnalyzed,
         ingredientsAnalyzed: kalchmAnalysis.ingredientsAnalyzed,
-        enhancedAt: new Date().toISOString();
+        enhancedAt: new Date().toISOString(),
         sourceFile
       }
     } as EnhancedCuisine;
@@ -486,7 +486,7 @@ export class CuisineAnalyzer {
     const kalchm2 = cuisine2.alchemicalProperties?.totalKalchm || 1.0;
 
     // Self-reinforcement principle: similar Kalchm = higher compatibility;
-    const ratio = Math.min(kalchm1, kalchm2) / Math.max(kalchm1, kalchm2),;
+    const ratio = Math.min(kalchm1, kalchm2) / Math.max(kalchm1, kalchm2),
     return 0.7 + ratio * 0.3, // Minimum 0.7 compatibility
   }
 
@@ -636,7 +636,7 @@ export class CuisineAnalyzer {
       if (!cuisine.alchemicalProperties) return cuisine;
 
       // Find compatible cuisines
-      const compatibleCuisines = this.findKalchmSimilarCuisines(cuisine, cuisines, 0.15),;
+      const compatibleCuisines = this.findKalchmSimilarCuisines(cuisine, cuisines, 0.15),
         .map(compatibleCuisine => ({
           cuisine: compatibleCuisine.name,
           compatibility: this.calculateCuisineCompatibility(cuisine, compatibleCuisine),

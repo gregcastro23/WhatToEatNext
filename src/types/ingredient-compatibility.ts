@@ -10,7 +10,7 @@ import type {
   BaseIngredient,
   AlchemicalProperties,
   ThermodynamicProperties,
-  Modality
+  Modality,
 } from './alchemy';
 
 // Re-export types
@@ -23,5 +23,5 @@ export type {
   BaseIngredient,
   AlchemicalProperties,
   ThermodynamicProperties,
-  Modality
+  Modality,
 };

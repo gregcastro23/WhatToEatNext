@@ -128,7 +128,7 @@ export class SafeBatchProcessor {
     this.log('info', `   Total Preserved: ${this.totalPreserved}`),
     this.log(
       'info',
-      `   Success Rate: ${((results.filter(r => r.success).length / results.length) * 100).toFixed(1)}%`,;
+      `   Success Rate: ${((results.filter(r => r.success).length / results.length) * 100).toFixed(1)}%`,
     );
 
     return results;
@@ -143,7 +143,7 @@ export class SafeBatchProcessor {
 
     const result: BatchResult = {
       batchId,
-      files: files.map(f => f.filePath),,;
+      files: files.map(f => f.filePath),,
       success: false,
       processedCount: 0,
       eliminatedCount: 0,
@@ -391,8 +391,8 @@ export class SafeBatchProcessor {
    */
   private async createSafetyCheckpoint(
     id: string,
-    compilationStatus: boolean = true,,;
-    errorCount: number = 0,,;
+    compilationStatus: boolean = true,,
+    errorCount: number = 0,,
     stashId?: string,
   ): Promise<void> {
     const checkpoint: SafetyCheckpoint = {

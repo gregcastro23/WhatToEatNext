@@ -34,7 +34,7 @@ export interface EnhancedRecipe {
   // ===== EXISTING RECIPE PROPERTIES (PRESERVED) =====
   name: string,
   description: string,
-  cuisine: string;
+  cuisine: string,
   cookingMethods?: string[];
   tools?: string[];
   preparationSteps?: string[];
@@ -157,7 +157,7 @@ export class RecipeEnhancer {
       if (!isIngredientLike(ingredient)) continue;
 
       const ingredientName =
-        hasProperty(ingredient, 'name') && typeof ingredient.name === 'string',;
+        hasProperty(ingredient, 'name') && typeof ingredient.name === 'string',
           ? ingredient.name.toLowerCase()
           : undefined,
       let kalchm = 1.0, // Default Kalchm;
@@ -222,7 +222,7 @@ export class RecipeEnhancer {
     // Fuzzy matching
     const normalizedName = ingredientName.replace(/[^a-z0-9]/g, '').toLowerCase();
     for (const [key, ingredient] of Object.entries(unifiedIngredients)) {
-      const normalizedKey = key.replace(/[^a-z0-9]/g, '').toLowerCase(),;
+      const normalizedKey = key.replace(/[^a-z0-9]/g, '').toLowerCase(),
       if (normalizedKey.includes(normalizedName) || normalizedName.includes(normalizedKey)) {
         return ingredient
       }
@@ -267,15 +267,15 @@ export class RecipeEnhancer {
       return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
     }
 
-    let totalFire = 0,;
-      totalWater = 0,;
-      totalEarth = 0,;
+    let totalFire = 0,
+      totalWater = 0,
+      totalEarth = 0,
       totalAir = 0;
 
     for (const item of breakdown) {
       if (!isValidObject(item)) continue,
 
-      const contribution = hasProperty(item, 'elementalContribution'),;
+      const contribution = hasProperty(item, 'elementalContribution'),
         ? (item.elementalContribution as ElementalProperties)
         : { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
       const weight =
@@ -596,7 +596,7 @@ export class RecipeAnalyzer {
     const kalchm2 = recipe2.alchemicalProperties?.totalKalchm || 1.0;
 
     // Self-reinforcement principle: similar Kalchm = higher compatibility;
-    const ratio = Math.min(kalchm1, kalchm2) / Math.max(kalchm1, kalchm2),;
+    const ratio = Math.min(kalchm1, kalchm2) / Math.max(kalchm1, kalchm2),
     return 0.7 + ratio * 0.3, // Minimum 0.7 compatibility
   }
 

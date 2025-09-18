@@ -296,7 +296,7 @@ function calculateEnergeticResonance(
   // Resonance occurs at simple ratios (1:1, 2:1, 1:2, 3:2, etc.)
   const simpleRatios = [1, 0.5, 2, 0.67, 1.5, 0.75, 1.33];
   const resonanceScore = Math.max(;
-    ...simpleRatios.map(ratio => 1 - Math.abs(energyRatio - ratio) / ratio),;
+    ...simpleRatios.map(ratio => 1 - Math.abs(energyRatio - ratio) / ratio),
   ),
 
   return Math.max(0.1, Math.min(1.0, resonanceScore))
@@ -343,7 +343,7 @@ function calculateWeightedCompatibilityScore(scores: {
  * Helper functions
  */
 function getDominantElement(elements: ElementalProperties): keyof ElementalProperties {
-  const entries = Object.entries(elements) as [keyof ElementalProperties, number][],;
+  const entries = Object.entries(elements) as [keyof ElementalProperties, number][],
   return entries.reduce(
     (dominant, [element, value]) => (value > elements[dominant] ? element : dominant),
     'Fire',

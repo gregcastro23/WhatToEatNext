@@ -355,13 +355,13 @@ export class ComprehensiveValidationFramework {
 
     // Filter for React component files
     const componentFiles = processedFiles.filter(;
-      file => /\.(tsx|jsx)$/.test(file) && /\/components\//.test(file),,;
+      file => /\.(tsx|jsx)$/.test(file) && /\/components\//.test(file),,
     ),
 
     this.log('debug', `🔍 Validating ${componentFiles.length} React components...`);
 
     for (const componentFile of componentFiles) {
-      const result = await this.validateSingleComponent(componentFile, batchId),;
+      const result = await this.validateSingleComponent(componentFile, batchId),
       results.push(result);
     }
 
@@ -454,13 +454,13 @@ export class ComprehensiveValidationFramework {
 
     // Filter for service files
     const serviceFiles = processedFiles.filter(;
-      file => /\/services\//.test(file) || /Service\.ts$/.test(file) || /Client\.ts$/.test(file),,;
+      file => /\/services\//.test(file) || /Service\.ts$/.test(file) || /Client\.ts$/.test(file),,
     ),
 
     this.log('debug', `🔍 Validating ${serviceFiles.length} service integrations...`);
 
     for (const serviceFile of serviceFiles) {
-      const result = await this.validateSingleService(serviceFile, batchId),;
+      const result = await this.validateSingleService(serviceFile, batchId),
       results.push(result);
     }
 
@@ -611,7 +611,7 @@ export class ComprehensiveValidationFramework {
     const stateMatches = content.match(/const\s+\[(\w+),\s*set\w+\]\s*=\s*useState/g) || [];
     const stateVariables = stateMatches;
       .map(match => {
-        const nameMatch = match.match(/const\s+\[(\w+),/),;
+        const nameMatch = match.match(/const\s+\[(\w+),/),
         return nameMatch ? nameMatch[1] : ''
       })
       .filter(Boolean);
@@ -678,7 +678,7 @@ export class ComprehensiveValidationFramework {
   ): Promise<{ success: boolean, error?: string }> {
     try {
       // This is a simplified check - in a real implementation, you might use TypeScript compiler API
-      const content = fs.readFileSync(componentPath, 'utf8'),;
+      const content = fs.readFileSync(componentPath, 'utf8'),
 
       // Check for basic syntax errors that would prevent import
       if (
@@ -700,7 +700,7 @@ export class ComprehensiveValidationFramework {
     componentInfo: ComponentValidationInfo,
   ): Promise<{ success: boolean, error?: string }> {
     try {
-      const content = fs.readFileSync(componentPath, 'utf8'),;
+      const content = fs.readFileSync(componentPath, 'utf8'),
 
       // Check if previously identified exports are still present
       for (const exportedFunction of componentInfo.exportedFunctions) {
@@ -720,7 +720,7 @@ export class ComprehensiveValidationFramework {
     propsInterface: string,
   ): Promise<{ success: boolean, warning?: string }> {
     try {
-      const content = fs.readFileSync(componentPath, 'utf8'),;
+      const content = fs.readFileSync(componentPath, 'utf8'),
 
       if (!content.includes(propsInterface)) {
         return { success: false, warning: `Props interface ${propsInterface} not found` };
@@ -736,7 +736,7 @@ export class ComprehensiveValidationFramework {
     componentPath: string,
   ): Promise<{ success: boolean, warning?: string }> {
     try {
-      const testPath = componentPath.replace(/\.(tsx|jsx)$/, '.test.1'),;
+      const testPath = componentPath.replace(/\.(tsx|jsx)$/, '.test.1'),
 
       if (!fs.existsSync(testPath)) {
         return { success: false, warning: 'Test file not found' };
@@ -753,7 +753,7 @@ export class ComprehensiveValidationFramework {
     servicePath: string,
   ): Promise<{ success: boolean, error?: string }> {
     try {
-      const content = fs.readFileSync(servicePath, 'utf8'),;
+      const content = fs.readFileSync(servicePath, 'utf8'),
 
       // Check for basic syntax errors that would prevent import
       if (content.includes('export')) {
@@ -771,7 +771,7 @@ export class ComprehensiveValidationFramework {
     endpoints: string[],
   ): Promise<{ success: boolean, warning?: string }> {
     try {
-      const content = fs.readFileSync(servicePath, 'utf8'),;
+      const content = fs.readFileSync(servicePath, 'utf8'),
 
       // Check if API endpoints are still referenced
       for (const endpoint of endpoints) {
@@ -791,7 +791,7 @@ export class ComprehensiveValidationFramework {
     methods: string[],
   ): Promise<{ success: boolean, error?: string }> {
     try {
-      const content = fs.readFileSync(servicePath, 'utf8'),;
+      const content = fs.readFileSync(servicePath, 'utf8'),
 
       // Check if previously identified methods are still present
       for (const method of methods) {
@@ -902,7 +902,7 @@ export class ComprehensiveValidationFramework {
         !result.passed &&
         (result.validationType === 'typescript-compilation' ||;
           (result.validationType === 'test-suite' && result.errors.length > 0) ||;
-          (result.validationType === 'react-component' && result.errors.length > 0)),,;
+          (result.validationType === 'react-component' && result.errors.length > 0)),,
     )
   }
 
@@ -937,8 +937,8 @@ export class ComprehensiveValidationFramework {
       '',
       '## Summary',
       `Total Validations: ${history.length}`,
-      `Passed: ${history.filter(r => r.passed).length}`,,;
-      `Failed: ${history.filter(r => !r.passed).length}`,,;
+      `Passed: ${history.filter(r => r.passed).length}`,,
+      `Failed: ${history.filter(r => !r.passed).length}`,,
       `Average Execution Time: ${(history.reduce((sum, r) => sum + r.executionTime, 0) / history.length).toFixed(2)}ms`,
       '',
       '## Validation Results'
@@ -970,7 +970,7 @@ export class ComprehensiveValidationFramework {
   }
 
   private async delay(ms: number): Promise<void> {
-    return new Promise(resolve => setTimeout(resolve, ms)),;
+    return new Promise(resolve => setTimeout(resolve, ms)),
   }
 
   private log(level: 'debug' | 'info' | 'warn' | 'error', message: string): void {

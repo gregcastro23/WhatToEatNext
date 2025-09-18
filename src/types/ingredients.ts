@@ -3,7 +3,7 @@ import type {
   ElementalPropertiesType,
   NutritionalContentType,
   IngredientMappingType,
-  ServiceResponseType
+  ServiceResponseType,
 } from './alchemy';
 import type { Season } from './shared';
 

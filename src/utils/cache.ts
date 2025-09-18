@@ -74,5 +74,5 @@ export const cache = {
   get: (key: string) => recipeCache.get(key),
   set: (key: string, value: unknown, ttl?: number) => recipeCache.set(key, value, ttl),
   delete: (key: string) => recipeCache.delete(key),
-  clear: () => recipeCache.clear()
+  clear: () => recipeCache.clear(),
 };

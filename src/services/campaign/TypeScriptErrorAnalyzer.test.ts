@@ -33,7 +33,7 @@ src/types/index.ts(5,1): error TS2304: Cannot find name 'UnknownType'.
         column: 5,
         code: 'TS2352',
         category: ErrorCategory.TS2352_TYPE_CONVERSION,
-        severity: ErrorSeverity.HIGH
+        severity: ErrorSeverity.HIGH,
       });
 
       expect(errors[1]).toMatchObject({
@@ -42,7 +42,7 @@ src/types/index.ts(5,1): error TS2304: Cannot find name 'UnknownType'.
         column: 12,
         code: 'TS2345',
         category: ErrorCategory.TS2345_ARGUMENT_MISMATCH,
-        severity: ErrorSeverity.HIGH
+        severity: ErrorSeverity.HIGH,
       });
 
       expect(errors[2]).toMatchObject({
@@ -51,7 +51,7 @@ src/types/index.ts(5,1): error TS2304: Cannot find name 'UnknownType'.
         column: 1,
         code: 'TS2304',
         category: ErrorCategory.TS2304_CANNOT_FIND_NAME,
-        severity: ErrorSeverity.HIGH
+        severity: ErrorSeverity.HIGH,
       });
     });
   });
@@ -106,7 +106,7 @@ src/types/index.ts(5,1): error TS2304: Cannot find name 'UnknownType'.
           message: 'test',
           category: ErrorCategory.TS2352_TYPE_CONVERSION,
           priority: 20,
-          severity: ErrorSeverity.HIGH
+          severity: ErrorSeverity.HIGH,
         },
         {
           filePath: 'src/test1.ts',
@@ -116,7 +116,7 @@ src/types/index.ts(5,1): error TS2304: Cannot find name 'UnknownType'.
           message: 'test',
           category: ErrorCategory.TS2345_ARGUMENT_MISMATCH,
           priority: 18,
-          severity: ErrorSeverity.HIGH
+          severity: ErrorSeverity.HIGH,
         },
         {
           filePath: 'src/test2.ts',
@@ -126,8 +126,8 @@ src/types/index.ts(5,1): error TS2304: Cannot find name 'UnknownType'.
           message: 'test',
           category: ErrorCategory.TS2352_TYPE_CONVERSION,
           priority: 15,
-          severity: ErrorSeverity.HIGH
-        }
+          severity: ErrorSeverity.HIGH,
+        },
       ];
 
       const distributionMethod: any = (analyzer as any).createErrorDistribution.bind(analyzer);
@@ -152,11 +152,11 @@ src/types/index.ts(5,1): error TS2304: Cannot find name 'UnknownType'.
           [ErrorCategory.TS2698_SPREAD_TYPE]: [],
           [ErrorCategory.TS2304_CANNOT_FIND_NAME]: [],
           [ErrorCategory.TS2362_ARITHMETIC_OPERATION]: [],
-          [ErrorCategory.OTHER]: []
+          [ErrorCategory.OTHER]: [],
         },
         errorsByFile: {},
         priorityRanking: [],
-        highImpactFiles: []
+        highImpactFiles: [],
       };
 
       const recommendMethod: any = (analyzer as any).generateRecommendations.bind(analyzer);

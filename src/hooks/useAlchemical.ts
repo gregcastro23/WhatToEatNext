@@ -14,7 +14,7 @@ export function useAlchemical() {
     planetaryPositions: {},
     isDaytime: true,
     isLoading: true,
-    error: null
+    error: null,
   });
 
   const fetchPlanetaryPositions = useCallback(async () => {
@@ -37,13 +37,13 @@ export function useAlchemical() {
         planetaryPositions: data.positions || {},
         isDaytime,
         isLoading: false,
-        error: null
+        error: null,
       });
     } catch (error) {
       setState(prev => ({
         ...prev,
         isLoading: false,
-        error: error instanceof Error ? error.message : 'Unknown error'
+        error: error instanceof Error ? error.message : 'Unknown error',
       }));
     }
   }, []);
@@ -54,6 +54,6 @@ export function useAlchemical() {
 
   return {
     ...state,
-    refresh: fetchPlanetaryPositions
+    refresh: fetchPlanetaryPositions,
   };
 }

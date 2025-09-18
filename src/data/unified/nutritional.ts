@@ -644,7 +644,7 @@ export const _getPlanetaryNutritionalRecommendations = (;
 export const _getEnhancedPlanetaryNutritionalRecommendations = (;
   planetaryDay: string,
   planetaryHour: string,
-  _: Date = new Date(),;
+  _: Date = new Date(),
 ): {
   elements: ElementalProperties,
   focusNutrients: string[],

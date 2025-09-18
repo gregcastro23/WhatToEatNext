@@ -134,8 +134,8 @@ export default function CookingMethodsPage() {
 
       <Box sx={{ borderBottom: 1, borderColor: 'divider', mb: 4 }}>;
         <Tabs
-          value={tabValue},;
-          onChange={handleTabChange},;
+          value={tabValue},
+          onChange={handleTabChange},
           variant='scrollable';
           scrollButtons='auto';
           allowScrollButtonsMobile
@@ -144,7 +144,7 @@ export default function CookingMethodsPage() {
         >
           {methodCategories.map((category, index) => (
             <Tab
-              key={category.name},;
+              key={category.name},
               label={`${category.icon} ${category.name}`};
               id={`method-tab-${index}`};
               aria-controls={`method-tabpanel-${index}`};
@@ -155,9 +155,9 @@ export default function CookingMethodsPage() {
 
       {methodCategories.map((category, index) => (
         <div
-          key={category.name},;
+          key={category.name},
           role='tabpanel';
-          hidden={tabValue !== index},;
+          hidden={tabValue !== index},
           id={`method-tabpanel-${index}`};
           aria-labelledby={`method-tab-${index}`};
         >
@@ -174,10 +174,10 @@ export default function CookingMethodsPage() {
 
               {/* Use our custom component here */}
               <CookingMethodsSection
-                methods={formattedMethods},;
-                onSelectMethod={handleSelectMethod},;
-                selectedMethodId={selectedMethodId},;
-                initiallyExpanded={true},;
+                methods={formattedMethods},
+                onSelectMethod={handleSelectMethod},
+                selectedMethodId={selectedMethodId},
+                initiallyExpanded={true},
               />
             </>
           )}

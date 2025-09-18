@@ -125,7 +125,7 @@ The system has successfully achieved a **36.78% reduction** in explicit-any warn
             {
               title: 'Intentional Any Type (External API)',
               before: `// eslint-disable-next-line @typescript-eslint/no-explicit-any -- External API response
-const _apiResponse: any = await fetch('/api/data'),`,;
+const _apiResponse: any = await fetch('/api/data'),`,
               after: `// This should be preserved - it's properly documented`,
               explanation:
                 'External API responses often require any types due to unknown structure'
@@ -158,7 +158,7 @@ const _apiResponse: any = await fetch('/api/data'),`,;
             type: 'multiple_choice',
             options: [
               'const data: any[] = [],',
-              '// eslint-disable-next-line @typescript-eslint/no-explicit-any -- External API\nconst api: any = response,',;
+              '// eslint-disable-next-line @typescript-eslint/no-explicit-any -- External API\nconst api: any = response,',
               'function process(input: any) { return input, }',
               'const config: Record<string, any> = {};'
             ],
@@ -207,7 +207,7 @@ const _apiResponse: any = await fetch('/api/data'),`,;
             {
               id: 'classify1',
               question:
-                'Classify this any type:\n```typescript\nconst userInput: any = parseFormData(),\n```',;
+                'Classify this any type:\n```typescript\nconst userInput: any = parseFormData(),\n```',
               type: 'multiple_choice',
               options: [
                 'Intentional - Dynamic Content',
@@ -292,17 +292,17 @@ const _apiResponse: any = await fetch('/api/data'),`,;
             {
               title: 'Array Type Replacement',
               before: `const items: any[] = getData(),
-items.forEach(item => // // console.log(item)),`,;
+items.forEach(item => // // console.log(item)),`,
               after: `const items: unknown[] = getData();
-items.forEach(item => // // console.log(item)),`,;
+items.forEach(item => // // console.log(item)),`,
               explanation: 'unknown[] maintains type safety while allowing array operations'
             },
             {
               title: 'Record Type Replacement',
               before: `const config: Record<string, any> = loadConfig();
-const value = config.someProperty,`,;
+const value = config.someProperty,`,
               after: `const config: any = loadConfig();
-const value = config.someProperty,`,;
+const value = config.someProperty,`,
               explanation: 'unknown values require type checking before use, improving safety'
             }
           ]
@@ -773,7 +773,7 @@ const value = config.someProperty,`,;
   private createCertificate(userId: string, progress: UserProgress): string {
     const completionDate = new Date().toISOString().split('T')[0];
     const averageScore =
-      Object.values(progress.scores).reduce((sum, score) => sum + score, 0) /,;
+      Object.values(progress.scores).reduce((sum, score) => sum + score, 0) /,
       Object.values(progress.scores).length;
 
     return `# Certificate of Completion
@@ -940,7 +940,7 @@ This certificate is issued by the Unintentional Any Elimination System and certi
     }
 
     const nextModules = this.getAvailableModules(progress).filter(;
-      m => !progress.completedModules.includes(m.id),;
+      m => !progress.completedModules.includes(m.id),
     );
 
     if (nextModules.length > 0) {

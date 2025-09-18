@@ -9,7 +9,7 @@ import { log } from '@/services/LoggingService';
 interface CacheItem<T> {
   value: T,
   timestamp: number,
-  input: string; // JSON string of inputs for comparison
+  input: string, // JSON string of inputs for comparison
 }
 
 // Global cache store

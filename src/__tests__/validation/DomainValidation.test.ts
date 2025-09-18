@@ -203,7 +203,7 @@ describe('Domain Validation Tests - Task 12', () => {
 
         retrogradeTests.forEach(test => {
           mockExecSync.mockReturnValue(;
-            Buffer.from(`✓ ${test.planet} retrograde=${test.retrograde} modifier=${test.modifier}`),;
+            Buffer.from(`✓ ${test.planet} retrograde=${test.retrograde} modifier=${test.modifier}`),
           );
 
           const result: any = mockExecSync(`test-retrograde ${test.planet} ${test.retrograde}`);
@@ -228,7 +228,7 @@ describe('Domain Validation Tests - Task 12', () => {
 
           mockExecSync.mockReturnValue(
             Buffer.from(
-              `✓ ${test.planet}: expected=${test.expectedDegree}°, actual=${test.actualDegree}°, diff=${difference.toFixed(3)}°`,;
+              `✓ ${test.planet}: expected=${test.expectedDegree}°, actual=${test.actualDegree}°, diff=${difference.toFixed(3)}°`,
             )
           );
 

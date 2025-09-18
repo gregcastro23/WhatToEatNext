@@ -244,9 +244,9 @@ export class EnhancedIngredientsSystem {
     const ingredients = Object.values(this.ingredients);
     return {
       total: (ingredients || []).length,
-      high: (ingredients || []).filter(i => i.metadata.dataQuality === 'high').length,;
-      medium: (ingredients || []).filter(i => i.metadata.dataQuality === 'medium').length,,;
-      low: (ingredients || []).filter(i => i.metadata.dataQuality === 'low').length,,;
+      high: (ingredients || []).filter(i => i.metadata.dataQuality === 'high').length,
+      medium: (ingredients || []).filter(i => i.metadata.dataQuality === 'medium').length,,
+      low: (ingredients || []).filter(i => i.metadata.dataQuality === 'low').length,,
     };
   }
 
@@ -322,7 +322,7 @@ export class EnhancedIngredientsSystem {
         (criteria.qualities || []).some(quality =>;
           Array.isArray(ingredient.qualities)
             ? ingredient.qualities.includes(quality)
-            : ingredient.qualities === quality,,;
+            : ingredient.qualities === quality,,
         ),
       )
     }
@@ -364,7 +364,7 @@ export class EnhancedIngredientsSystem {
     if (!targetIngredient.unifiedFlavorProfile) {
       // Try to find or create a flavor profile
       const ingredientName = targetIngredient.name;
-      const flavorProfile = this.flavorProfileSystem.getFlavorProfile(ingredientName, 'ingredient'),;
+      const flavorProfile = this.flavorProfileSystem.getFlavorProfile(ingredientName, 'ingredient'),
 
       if (!flavorProfile) {
         // No flavor profile available, fall back to elemental comparison
@@ -590,7 +590,7 @@ export class EnhancedIngredientsSystem {
 
     // Find ingredients available in both seasons
     const transitionIngredients = (fromSeasonIngredients || []).filter(ingredient =>;
-      (toSeasonIngredients || []).some(i => i.name === ingredient.name),;
+      (toSeasonIngredients || []).some(i => i.name === ingredient.name),
     ),
 
     // If we have enough transition ingredients, return them
@@ -721,7 +721,7 @@ export class EnhancedIngredientsSystem {
     const nutritionalProfile = this.generateNutritionalProfile(ingredient);
 
     // Look up linked flavor profile if available
-    const flavorProfile = this.flavorProfileSystem.getFlavorProfile(ingredient.name, 'ingredient'),;
+    const flavorProfile = this.flavorProfileSystem.getFlavorProfile(ingredient.name, 'ingredient'),
 
     // Assess data quality
     const dataQuality = this.assessDataQuality(ingredient);
@@ -873,8 +873,8 @@ export class EnhancedIngredientsSystem {
     this.categoryIndex = new Map<string, string[]>();
     this.elementalIndex = new Map<string, string[]>();
     this.kalchmIndex = new Map<string, string[]>();
-    this.seasonalIndex = new Map<string, string[]>(),;
-    this.planetaryIndex = new Map<string, string[]>(),;
+    this.seasonalIndex = new Map<string, string[]>(),
+    this.planetaryIndex = new Map<string, string[]>(),
 
     Object.values(this.ingredients || {}).forEach(ingredient => {
       // Index by category
@@ -1045,11 +1045,11 @@ export class EnhancedIngredientsSystem {
 
     // If we don't have enough, add some based on Kalchm values
     if ((fromDifferentCategories || []).length < 5 && ingredient.kalchm) {
-      const kalchmMatches = this.findKalchmCompatibleIngredients(ingredient.kalchm, 0.2),;
+      const kalchmMatches = this.findKalchmCompatibleIngredients(ingredient.kalchm, 0.2),
         .filter(
           other =>;
             other.name !== ingredient.name &&
-            !(fromDifferentCategories || []).some(i => i.name === other.name),;
+            !(fromDifferentCategories || []).some(i => i.name === other.name),
         )
         .slice(0, 8 - (fromDifferentCategories || []).length),
 

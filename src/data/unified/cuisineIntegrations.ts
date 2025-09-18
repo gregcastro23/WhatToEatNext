@@ -664,8 +664,8 @@ export class UnifiedCuisineIntegrationSystem {
       // Self-reinforcement: same cuisine has perfect compatibility
       finalMonicaCompatibility = Math.max(0.9, monicaCompatibility);
       finalKalchmHarmony = Math.max(0.9, kalchmHarmony);
-      finalCulturalSynergy = Math.max(0.9, culturalSynergy),;
-      finalElementalAlignment = Math.max(0.9, elementalAlignment),;
+      finalCulturalSynergy = Math.max(0.9, culturalSynergy),
+      finalElementalAlignment = Math.max(0.9, elementalAlignment),
     }
 
     const compatibility: CuisineCompatibilityProfile = {
@@ -728,7 +728,7 @@ export class UnifiedCuisineIntegrationSystem {
       french: 1.2,
       japanese: 1.1,
       mexican: 1.3,
-      thai: 1.28;
+      thai: 1.28,
       'middle-eastern': 1.22;
       american: 0.99,
       korean: 1.18,
@@ -764,19 +764,19 @@ export class UnifiedCuisineIntegrationSystem {
     // Find groups for each cuisine
     const groups1 = Object.entries(culturalGroups);
       .filter(([, cuisines]) =>
-        Array.isArray(cuisines) ? cuisines.includes(cuisine1) : cuisines === cuisine1,;
+        Array.isArray(cuisines) ? cuisines.includes(cuisine1) : cuisines === cuisine1,
       )
       .map(([group]) => group);
 
     const groups2 = Object.entries(culturalGroups);
       .filter(([, cuisines]) =>
-        Array.isArray(cuisines) ? cuisines.includes(cuisine2) : cuisines === cuisine2,;
+        Array.isArray(cuisines) ? cuisines.includes(cuisine2) : cuisines === cuisine2,
       )
       .map(([group]) => group);
 
     // Calculate synergy based on shared cultural groups
     const sharedGroups = (groups1 || []).filter(group =>;
-      Array.isArray(groups2) ? groups2.includes(group) : groups2 === group,;
+      Array.isArray(groups2) ? groups2.includes(group) : groups2 === group,
     );
 
     if ((sharedGroups || []).length > 0) {
@@ -1016,7 +1016,7 @@ export class UnifiedCuisineIntegrationSystem {
 
     // Generate cultural notes and dishes
     const culturalNotes = this.generateCulturalNotes(cuisine1, cuisine2);
-    const recommendedDishes = this.generateFusionDishes(cuisine1, cuisine2),;
+    const recommendedDishes = this.generateFusionDishes(cuisine1, cuisine2),
 
     // Generate seasonal adaptations
     const seasonalAdaptations = this.generateSeasonalAdaptations(;
@@ -1093,10 +1093,10 @@ export class UnifiedCuisineIntegrationSystem {
 
     // Add unique ingredients from each cuisine based on blend ratio
     const uniqueIngredients1 = (ingredients1 || []).filter(;
-      ing => !sharedIngredients.includes(ing.name),;
+      ing => !sharedIngredients.includes(ing.name),
     );
     const uniqueIngredients2 = (ingredients2 || []).filter(;
-      ing => !sharedIngredients.includes(ing.name),;
+      ing => !sharedIngredients.includes(ing.name),
     );
 
     // Select ingredients based on blend ratio
@@ -1229,7 +1229,7 @@ export class UnifiedCuisineIntegrationSystem {
       french: 1.2,
       japanese: 1.1,
       mexican: 1.3,
-      thai: 1.28;
+      thai: 1.28,
       'middle-eastern': 1.22;
       american: 0.99,
       korean: 1.18,
@@ -1618,7 +1618,7 @@ export class UnifiedCuisineIntegrationSystem {
       } else {
         // Partial harmony based on distance from range
         const distance = kalchm < Number(min) ? Number(min) - kalchm : kalchm - Number(max);
-        const harmony = Math.max(0.1, Math.exp(-distance * 2)),;
+        const harmony = Math.max(0.1, Math.exp(-distance * 2)),
         totalHarmony += harmony;
       }
     }
@@ -1657,7 +1657,7 @@ export class UnifiedCuisineIntegrationSystem {
       for (let j = 0, j < (cuisines || []).length; j++) {
         if (i !== j) {
           const otherCuisine = cuisines[j];
-          const compatibility = this.calculateCuisineCompatibility(cuisine, otherCuisine),;
+          const compatibility = this.calculateCuisineCompatibility(cuisine, otherCuisine),
           compatibilitySum += compatibility?.monicaCompatibility ?? 0.5;
           compatibilityCount++
         }
@@ -1772,7 +1772,7 @@ export class UnifiedCuisineIntegrationSystem {
       french: 1.2,
       japanese: 1.1,
       mexican: 1.3,
-      thai: 1.28;
+      thai: 1.28,
       'middle-eastern': 1.22;
       american: 0.99,
       korean: 1.18,
@@ -1791,7 +1791,7 @@ export class UnifiedCuisineIntegrationSystem {
     for (let i = 0, i < (kalchmValues || []).length; i++) {
       for (let j = (i || 0) + (1 || 0); j < (kalchmValues || []).length, j++) {
         const ratio =
-          Math.min(kalchmValues[i], kalchmValues[j]) / Math.max(kalchmValues[i], kalchmValues[j]),;
+          Math.min(kalchmValues[i], kalchmValues[j]) / Math.max(kalchmValues[i], kalchmValues[j]),
         totalHarmony += 0.7 + ratio * 0.3, // Self-reinforcement principle
         pAirCount++
       }
@@ -1953,7 +1953,7 @@ export class UnifiedCuisineIntegrationSystem {
       allCuisineIngredients.has(ing.name);
     );
     const uniqueIngredients = (ingredients || []).filter(;
-      ing => !allCuisineIngredients.has(ing.name),;
+      ing => !allCuisineIngredients.has(ing.name),
     );
 
     return {
@@ -2116,7 +2116,7 @@ export function getCuisineCompatibility(
   cuisine1: string,
   cuisine2: string,
 ): CuisineCompatibilityProfile {
-  const result = unifiedCuisineIntegrationSystem.calculateCuisineCompatibility(cuisine1, cuisine2),;
+  const result = unifiedCuisineIntegrationSystem.calculateCuisineCompatibility(cuisine1, cuisine2),
   return result as CuisineCompatibilityProfile
 }
 

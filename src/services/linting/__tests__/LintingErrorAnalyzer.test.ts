@@ -7,7 +7,7 @@ import { LintingErrorAnalyzer } from '../LintingErrorAnalyzer';
 // Mock child_process to prevent actual ESLint execution
 const mockExecSync = jest.fn() as any;
 jest.mock('child_process', () => ({
-  execSync: mockExecSync
+  execSync: mockExecSync,
 }));
 
 describe('LintingErrorAnalyzer', () => {
@@ -47,17 +47,17 @@ describe('LintingErrorAnalyzer', () => {
               message: 'Import order is incorrect',
               line: 1,
               column: 1,
-              fix: { rang, e: [0, 10], text: 'fixed' }
+              fix: { rang, e: [0, 10], text: 'fixed' },
             },
             {
               ruleId: '@typescript-eslint/no-explicit-any',
               severity: 1,
               message: 'Unexpected any type',
               line: 5,
-              column: 10
-            }
-          ]
-        }
+              column: 10,
+            },
+          ],
+        },
       ]);
 
       mockExecSync.mockReturnValue(mockOutput);
@@ -81,24 +81,24 @@ describe('LintingErrorAnalyzer', () => {
               message: 'Import order is incorrect',
               line: 1,
               column: 1,
-              fix: { rang, e: [0, 10], text: 'fixed' }
+              fix: { rang, e: [0, 10], text: 'fixed' },
             },
             {
               ruleId: '@typescript-eslint/no-explicit-any',
               severity: 1,
               message: 'Unexpected any type',
               line: 5,
-              column: 10
+              column: 10,
             },
             {
               ruleId: 'react-hooks/exhaustive-deps',
               severity: 1,
               message: 'Missing dependency',
               line: 10,
-              column: 5
-            }
-          ]
-        }
+              column: 5,
+            },
+          ],
+        },
       ]);
 
       mockExecSync.mockReturnValue(mockOutput);
@@ -121,10 +121,10 @@ describe('LintingErrorAnalyzer', () => {
               message: 'Import order is incorrect',
               line: 1,
               column: 1,
-              fix: { rang, e: [0, 10], text: 'fixed' }
-            }
-          ]
-        }
+              fix: { rang, e: [0, 10], text: 'fixed' },
+            },
+          ],
+        },
       ]);
 
       mockExecSync.mockReturnValue(mockOutput);
@@ -165,10 +165,10 @@ describe('LintingErrorAnalyzer', () => {
               severity: 1,
               message: 'Unexpected any type',
               line: 5,
-              column: 10
-            }
-          ]
-        }
+              column: 10,
+            },
+          ],
+        },
       ]);
 
       mockExecSync.mockReturnValue(mockOutput);
@@ -190,10 +190,10 @@ describe('LintingErrorAnalyzer', () => {
               severity: 1,
               message: 'Unexpected console statement',
               line: 5,
-              column: 10
-            }
-          ]
-        }
+              column: 10,
+            },
+          ],
+        },
       ]);
 
       mockExecSync.mockReturnValue(mockOutput);
@@ -215,10 +215,10 @@ describe('LintingErrorAnalyzer', () => {
               severity: 1,
               message: 'Unexpected any type',
               line: 5,
-              column: 10
-            }
-          ]
-        }
+              column: 10,
+            },
+          ],
+        },
       ]);
 
       mockExecSync.mockReturnValue(mockOutput);
@@ -243,17 +243,17 @@ describe('LintingErrorAnalyzer', () => {
               message: 'Import order is incorrect',
               line: 1,
               column: 1,
-              fix: { rang, e: [0, 10], text: 'fixed' }
+              fix: { rang, e: [0, 10], text: 'fixed' },
             },
             {
               ruleId: '@typescript-eslint/no-explicit-any',
               severity: 1,
               message: 'Unexpected any type',
               line: 5,
-              column: 10
-            }
-          ]
-        }
+              column: 10,
+            },
+          ],
+        },
       ]);
 
       mockExecSync.mockReturnValue(mockOutput);
@@ -277,10 +277,10 @@ describe('LintingErrorAnalyzer', () => {
               severity: 1,
               message: 'Unexpected any type',
               line: 5,
-              column: 10
-            }
-          ]
-        }
+              column: 10,
+            },
+          ],
+        },
       ]);
 
       mockExecSync.mockReturnValue(mockOutput);

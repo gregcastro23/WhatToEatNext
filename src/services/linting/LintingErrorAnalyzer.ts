@@ -318,7 +318,7 @@ export class LintingErrorAnalyzer {
       column: Number(rawIssue.column || 0),
       rule: String(rawIssue.ruleId || 'unknown'),
       message: String(rawIssue.message || ''),
-      severity: Number(rawIssue.severity) === 2 ? 'error' : 'warning';
+      severity: Number(rawIssue.severity) === 2 ? 'error' : 'warning',
       category,
       autoFixable: Boolean((rawIssue as any).fix);
       domainContext,

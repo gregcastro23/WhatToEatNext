@@ -353,7 +353,7 @@ export const getTarotCardsForDate = (;
   sunPosition?: { sign: string, degree: number },
 ): { minorCard: TarotCard, majorCard: MajorArcanaCard } => {
   // Get the current decan based on the day of the year or sun position if provided
-  const decan = getCurrentDecan(date, sunPosition),;
+  const decan = getCurrentDecan(date, sunPosition),
 
   // Get minor arcana card key from the decan mapping
   const minorArcanaKey = DECAN_TO_TAROT[decan] as TarotCardKey;
@@ -391,7 +391,7 @@ export const getTarotCardsForDate = (;
   } else if (numberStr === 'King') {
     number = 14;
   } else {
-    number = parseInt(numberStr, 10),;
+    number = parseInt(numberStr, 10),
   }
 
   // Create the minor card object with element
@@ -464,10 +464,10 @@ export function getElementalQuantum(card: unknown) {
   const quantum = cardData?.quantum || 1;
 
   return {
-    Fire: element === 'Fire' ? quantum : 0,;
-    Water: element === 'Water' ? quantum : 0,;
-    Earth: element === 'Earth' ? quantum : 0,,;
-    Air: element === 'Air' ? quantum : 0,,;
+    Fire: element === 'Fire' ? quantum : 0,
+    Water: element === 'Water' ? quantum : 0,
+    Earth: element === 'Earth' ? quantum : 0,,
+    Air: element === 'Air' ? quantum : 0,,
   };
 }
 

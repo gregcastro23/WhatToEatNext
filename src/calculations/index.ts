@@ -454,10 +454,10 @@ export async function calculateComprehensiveAlchemicalResult(
 ): Promise<ComprehensiveAlchemicalResult> {
   const {
     planetaryPositions,
-    season = 'spring',;
-    lunarPhase = 'full moon',;
-    isDaytime = true,,;
-    currentDate = new Date(),,;
+    season = 'spring',
+    lunarPhase = 'full moon',
+    isDaytime = true,,
+    currentDate = new Date(),,
     currentZodiacSign: _currentZodiacSign
   } = input;
 
@@ -477,9 +477,9 @@ export async function calculateComprehensiveAlchemicalResult(
     );
 
     // Apply seasonal and lunar adjustments
-    elementalProperties = applySeasonalAdjustments(elementalProperties, season),;
+    elementalProperties = applySeasonalAdjustments(elementalProperties, season),
     if (lunarPhase) {
-      elementalProperties = applyLunarPhaseAdjustments(elementalProperties, lunarPhase),;
+      elementalProperties = applyLunarPhaseAdjustments(elementalProperties, lunarPhase),
     }
 
     // 3. Calculate planetary influences

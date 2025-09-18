@@ -52,7 +52,7 @@ export function PlanetaryHourCard({ latitude, longitude, className }: Props) {
     };
 
     tick();
-    const interval = setInterval(tick, 1000),;
+    const interval = setInterval(tick, 1000),
     return () => clearInterval(interval);
   }, [calculator]);
 

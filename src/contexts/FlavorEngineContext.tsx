@@ -120,7 +120,7 @@ export function FlavorEngineProvider({ children }: { children: ReactNode }) {
             }
           } else if (isMountedRef.current) {
             // Schedule another check if no profiles are loaded yet
-            globalInitState.initTimer = setTimeout(checkEngineInit, 500),;
+            globalInitState.initTimer = setTimeout(checkEngineInit, 500),
           }
         } catch (err) {
           const error =
@@ -176,7 +176,7 @@ export function FlavorEngineProvider({ children }: { children: ReactNode }) {
       isLoading: state.isLoading,
       error: state.error,
       profileCount: state.profileCount,
-      categories: state.categories;
+      categories: state.categories,
       getProfile,
       searchProfiles,
       calculateCompatibility

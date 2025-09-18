@@ -1237,11 +1237,11 @@ export function alchemize(birthInfo: BirthInfo, horoscopeDict: HoroscopeData): A
                   ] as Record<string, unknown>
                 )[sign]
               ) {
-                const dignity_effect_value = (;
+                const dignity_effect_value = (
                   (alchmInfo['Planets'][planet] as Record<string, unknown>)[
                     'Dignity Effect'
                   ] as Record<string, unknown>
-                )[sign],
+                )[sign];
 
                 if (dignity_effect_value) {
                   if (
@@ -1256,9 +1256,9 @@ export function alchemize(birthInfo: BirthInfo, horoscopeDict: HoroscopeData): A
                     if (
                       (alchmInfo['Planets'][planet] as Record<string, unknown>)['Diurnal Element']
                     ) {
-                      const diurnalElement = (;
+                      const diurnalElement = (
                         alchmInfo['Planets'][planet] as Record<string, unknown>
-                      )['Diurnal Element'],
+                      )['Diurnal Element'];
                       dignity_effect[String(diurnalElement)] =
                         (dignity_effect[String(diurnalElement)] || 0) +
                         1 * (Number(dignity_effect_value) / Math.abs(Number(dignity_effect_value)));
@@ -1267,9 +1267,9 @@ export function alchemize(birthInfo: BirthInfo, horoscopeDict: HoroscopeData): A
                     if (
                       (alchmInfo['Planets'][planet] as Record<string, unknown>)['Nocturnal Element']
                     ) {
-                      const nocturnalElement = (;
+                      const nocturnalElement = (
                         alchmInfo['Planets'][planet] as Record<string, unknown>
-                      )['Nocturnal Element'],
+                      )['Nocturnal Element'];
                       dignity_effect[String(nocturnalElement)] =
                         (dignity_effect[String(nocturnalElement)] || 0) +
                         1 * (Number(dignity_effect_value) / Math.abs(Number(dignity_effect_value)));
@@ -1453,7 +1453,7 @@ export function alchemize(birthInfo: BirthInfo, horoscopeDict: HoroscopeData): A
 function getSeasonFromSunSign(sunSign: any): Season {
   try {
     if (!sunSign || typeof sunSign !== 'string') {
-      return 'spring', // Default
+      return 'spring'; // Default
     }
 
     // Convert to lowercase and handle seasonal mappings
@@ -1495,7 +1495,7 @@ function _generateRecommendation(dominantElement: string): string {
     case 'air':
       return 'Foods that nourish and stabilize: root vegetables, proteins, and warming spices.';
     case 'water':
-      return 'Foods that invigorate and enliven: spicy dishes, stimulating herbs, and bright flavors.',
+      return 'Foods that invigorate and enliven: spicy dishes, stimulating herbs, and bright flavors.';
     default:
       return 'A balanced diet incorporating elements from all food groups.'
   }
@@ -1511,12 +1511,12 @@ function _getSeasonsPrimaryElement(season: string): keyof ElementalProperties {
     case 'spring':
       return 'Air';
     case 'summer':
-      return 'Fire',
+      return 'Fire';
     case 'autumn':
     case 'fall':
-      return 'Earth',
+      return 'Earth';
     case 'winter':
-      return 'Water',
+      return 'Water';
     default:
       return 'Water'
   }
@@ -1565,7 +1565,7 @@ async function calculateCurrentPlanetaryPositions(): Promise<Record<string, unkn
       // Convert astrologize positions to our expected format
       if (
         astrologizePositions &&
-        typeof astrologizePositions === 'object' &&;
+        typeof astrologizePositions === 'object' &&
         Object.keys(astrologizePositions).length > 0
       ) {
         const convertedPositions: Record<string, unknown> = {};
@@ -1852,7 +1852,7 @@ export function calculateZodiacEnergies(
       // Check for data in expected format from accurate astronomy
       if (
         'Sign' in (data as any)?.Sign &&
-        typeof (data as any).Sign === 'object' &&;
+        typeof (data as any).Sign === 'object' &&
         'label' in (data as any).Sign
       ) {
         const signLabel = (data as any).Sign.label;
@@ -2098,7 +2098,7 @@ async function getCurrentAstrologicalState(): Promise<AstrologicalState> {
     if (sunSignElement) {
       elementalProperties[sunSignElement as any] += 0.1;
       // Normalize the values
-      const total = Object.values(elementalProperties).reduce((sum, val) => sum + val, 0),;
+      const total = Object.values(elementalProperties).reduce((sum, val) => sum + val, 0),
       Object.keys(elementalProperties).forEach(key => {
         elementalProperties[key as unknown] /= total;
       });

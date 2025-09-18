@@ -282,7 +282,7 @@ export class UnintentionalAnyEliminationCampaign {
         },
         filesProcessed: result.totalAnyTypesAnalyzed,
         errorsFixed: result.unintentionalTypesReplaced,
-        warningsFixed: result.unintentionalTypesReplaced;
+        warningsFixed: result.unintentionalTypesReplaced,
         executionTime,
         safetyEvents: result.safetyEvents
       };

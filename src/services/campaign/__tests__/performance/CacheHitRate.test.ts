@@ -13,7 +13,7 @@ describe('Cache Hit Rate Performance Tests', () => {
   let mockConfig: CampaignConfig,
 
   beforeEach(() => {
-    const safetySettings: SafetySettings = { maxFilesPerBatch: 25,,;
+    const safetySettings: SafetySettings = { maxFilesPerBatch: 25,,
       buildValidationFrequency: 5,
       testValidationFrequency: 10,
       corruptionDetectionEnabled: true,
@@ -393,7 +393,7 @@ describe('Cache Hit Rate Performance Tests', () => {
           return 0.85, // Good hit rate before invalidation
         } else {
           // Simulate cache rebuilding after invalidation
-          const rebuildProgress: any = Math.min(1, (Date.now() % 1000) / 1000),;
+          const rebuildProgress: any = Math.min(1, (Date.now() % 1000) / 1000),
           return 0.3 + 0.55 * rebuildProgress, // 30% to 85% recovery
         }
       });

@@ -14,7 +14,7 @@ import * as path from 'path';
 export interface PerformanceBenchmark {
   name: string,
   category: 'algorithm' | 'cache' | 'database' | 'api' | 'ui',
-  baseline: number; // milliseconds
+  baseline: number, // milliseconds
   current: number; // milliseconds
   improvement: number; // percentage
   target: number, // milliseconds
@@ -242,7 +242,7 @@ export class AlgorithmPerformanceValidator {
           testName,
           category: current.category,
           previousPerformance: previous.current,
-          currentPerformance: current.current;
+          currentPerformance: current.current,
           regressionDetected,
           regressionPercentage,
           threshold: this.REGRESSION_THRESHOLD * 100;

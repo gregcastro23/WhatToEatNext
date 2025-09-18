@@ -58,10 +58,10 @@ export function useRecommendationAnalytics(
   options: UseRecommendationAnalyticsOptions = {}
 ): [RecommendationAnalyticsState, RecommendationAnalyticsActions] {
   const {
-    enablePerformanceTracking = true,;
-    enableCaching = true,;
-    enableInteractionTracking = true,;
-    metricsUpdateInterval = 5000, // 5 seconds,;
+    enablePerformanceTracking = true,
+    enableCaching = true,
+    enableInteractionTracking = true,
+    metricsUpdateInterval = 5000, // 5 seconds,
   } = options;
 
   // ========== STATE ==========;

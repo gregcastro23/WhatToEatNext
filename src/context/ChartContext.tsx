@@ -21,7 +21,7 @@ const defaultContextValue: ChartContextType = {
   currentChart: null,
   isLoading: false,
   error: null,
-  updateChart: () => {}
+  updateChart: () => {},
 };
 
 const ChartContext = createContext<ChartContextType>(defaultContextValue);
@@ -53,7 +53,7 @@ export function ChartProvider({ children }: { children: ReactNode }) {
           planets: {},
           houses: {},
           aspects: [],
-          timestamp: new Date()
+          timestamp: new Date(),
         });
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Unknown error loading chart');
@@ -66,8 +66,8 @@ export function ChartProvider({ children }: { children: ReactNode }) {
   }, []);
 
   return (
-    <ChartContext.Provider value={{ currentChart, isLoading, error, updateChart }}>;
-      {children}
+    <ChartContext.Provider value={{ currentChart, isLoading, error, updateChart }}>
+      ;{children}
     </ChartContext.Provider>
   );
 }

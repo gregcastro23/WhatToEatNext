@@ -58,7 +58,7 @@ export interface QualityGateResult {
 export interface QualityViolation {
   type: 'error' | 'warning' | 'performance' | 'blocker',
   rule: string,
-  message: string;
+  message: string,
   file?: string,
   line?: number,
   severity: 'low' | 'medium' | 'high' | 'critical',

@@ -334,7 +334,7 @@ class SafeUnusedImportRemover {
             const line = lines[lineIndex];
 
             // Remove the specific import from the line
-            const updatedLine = this.removeImportFromLine(line, imp.importName),;
+            const updatedLine = this.removeImportFromLine(line, imp.importName),
 
             if (updatedLine !== line) {
               if (updatedLine.trim() === '' || updatedLine.match(/^import\s*{\s*}\s*from/)) {

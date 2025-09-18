@@ -28,7 +28,7 @@ const REFERENCE_POSITIONS = {
   NorthNode: [23, 46, 0, 'pisces'],
   Chiron: [22, 25, 0, 'aries'],
   Ascendant: [22, 19, 0, 'scorpio'],
-  MC: [6, 57, 0, 'leo']
+  MC: [6, 57, 0, 'leo'],
 };
 
 // Reference date for July 2, 2025 at 10:45 PM EDT
@@ -68,7 +68,7 @@ const RETROGRADE_STATUS = {
   southNode: true,
   Chiron: false,
   Ascendant: false,
-  MC: false
+  MC: false,
 };
 
 /**
@@ -101,7 +101,7 @@ const PLANET_MAPPING: Record<string, Astronomy.Body> = {
   Saturn: Astronomy.Body.Saturn,
   Uranus: Astronomy.Body.Uranus,
   Neptune: Astronomy.Body.Neptune,
-  Pluto: Astronomy.Body.Pluto
+  Pluto: Astronomy.Body.Pluto,
 };
 
 // Cache for planetary positions to avoid frequent recalculations
@@ -123,7 +123,7 @@ const ZODIAC_SIGNS = [
   'sagittarius',
   'capricorn',
   'aquarius',
-  'pisces'
+  'pisces',
 ];
 
 /**
@@ -193,7 +193,7 @@ export function getFallbackPlanetaryPositions(date: Date): { [key: string]: unkn
       sign: sign.toLowerCase(),
       degree: parseFloat(degree.toFixed(2)),
       exactLongitude: newLongitude,
-      isRetrograde
+      isRetrograde,
     };
   }
 
@@ -276,7 +276,7 @@ export function getAccuratePlanetaryPositions(date: Date): { [key: string]: Plan
             sign: sign.toLowerCase() as any,
             degree,
             exactLongitude: sunLong,
-            isRetrograde
+            isRetrograde,
           };
         } else {
           // For other planets, use ecliptic longitude and motion direction
@@ -290,7 +290,7 @@ export function getAccuratePlanetaryPositions(date: Date): { [key: string]: Plan
             sign: sign.toLowerCase() as any,
             degree,
             exactLongitude: longitude,
-            isRetrograde
+            isRetrograde,
           };
         }
       } catch (error) {
@@ -304,10 +304,10 @@ export function getAccuratePlanetaryPositions(date: Date): { [key: string]: Plan
         if (fallbackData[planet]) {
           const fallback = fallbackData[planet];
           positions[planet] = {
-            sign: (fallback.sign || 'aries'),
+            sign: fallback.sign || 'aries',
             degree: fallback.degree || 0,
             exactLongitude: fallback.exactLongitude || 0,
-            isRetrograde: fallback.isRetrograde || false
+            isRetrograde: fallback.isRetrograde || false,
           };
         }
       }
@@ -334,7 +334,7 @@ export function getAccuratePlanetaryPositions(date: Date): { [key: string]: Plan
     positionsCache = {
       positions,
       timestamp: Date.now(),
-      date: new Date(date)
+      date: new Date(date),
     };
 
     return positions;
@@ -350,10 +350,10 @@ export function getAccuratePlanetaryPositions(date: Date): { [key: string]: Plan
 
     for (const [planet, data] of Object.entries(fallbackData)) {
       convertedPositions[planet] = {
-        sign: (data.sign || 'aries'),
+        sign: data.sign || 'aries',
         degree: data.degree || 0,
         exactLongitude: data.exactLongitude || 0,
-        isRetrograde: data.isRetrograde || false
+        isRetrograde: data.isRetrograde || false,
       };
     }
 

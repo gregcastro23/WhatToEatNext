@@ -126,7 +126,7 @@ export function getElementalPercentages(
     Fire: Math.round((elementalProfile.Fire / total) * 100),
     Water: Math.round((elementalProfile.Water / total) * 100),
     Earth: Math.round((elementalProfile.Earth / total) * 100),
-    Air: Math.round((elementalProfile.Air / total) * 100)
+    Air: Math.round((elementalProfile.Air / total) * 100),
   };
 }
 

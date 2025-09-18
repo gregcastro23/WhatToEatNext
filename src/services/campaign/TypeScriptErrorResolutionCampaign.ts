@@ -46,7 +46,7 @@ export interface UnusedVariableIntelligence {
   importedFrom?: string;
   potentialImpact: 'safe' | 'risky' | 'dangerous',
   removalRecommendation: 'remove' | 'keep' | 'investigate',
-  relatedErrors: string[];
+  relatedErrors: string[],
   enterpriseContext?: {
     businessLogicRelevance: number,
     crossModuleDependencies: string[],

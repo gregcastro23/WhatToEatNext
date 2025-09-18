@@ -21,7 +21,7 @@ export default function App({ Component, pageProps }: AppProps) {
     log.info('[App] Initializing with Chrome API protection');
 
     // Setup global error handler for Chrome Extension API and lockdown errors
-    const errorHandler = function (event: ErrorEvent) {;
+    const errorHandler = function (event: ErrorEvent) {
       // Check for Chrome Extension API related errors
       if (
         event.message &&

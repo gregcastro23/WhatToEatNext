@@ -238,7 +238,7 @@ export class MemoryLeakDetector {
         if (typeof (global.__TEST_CACHE__ as { clear?: () => void }).clear === 'function') {
           (global.__TEST_CACHE__ as { clear: () => void }).clear();
         } else {
-          global.__TEST_CACHE__ = new Map<unknown, unknown>(),;
+          global.__TEST_CACHE__ = new Map<unknown, unknown>(),
         }
         fixed.push('Cleared test cache');
       }

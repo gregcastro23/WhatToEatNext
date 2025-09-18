@@ -77,7 +77,7 @@ export class ChakraAlchemyService {
    */
   public getMajorArcanaChakra(cardName: string): MajorArcanaChakra | undefined {
     return MAJOR_ARCANA_CHAKRAS.find(
-      card => card.cardName.toLowerCase() === cardName.toLowerCase(),,;
+      card => card.cardName.toLowerCase() === cardName.toLowerCase(),,
     )
   }
 
@@ -93,7 +93,7 @@ export class ChakraAlchemyService {
    */
   public getCardChakra(cardName: string): KeyCardChakraMapping | undefined {
     return KEY_CARD_CHAKRA_MAPPINGS.find(
-      card => card.cardName.toLowerCase() === cardName.toLowerCase(),,;
+      card => card.cardName.toLowerCase() === cardName.toLowerCase(),,
     )
   }
 

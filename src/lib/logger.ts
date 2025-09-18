@@ -17,7 +17,7 @@ export const _logger = {
     if (process.env.NODE_ENV !== 'production') {
       log.debug(`[DEBUG] ${message}`, data || '');
     }
-  }
+  },
 };
 
 export function logError(error: Error, context?: Record<string, unknown>) {

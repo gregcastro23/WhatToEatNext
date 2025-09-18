@@ -158,7 +158,7 @@ describe('ServiceIntegrationValidator', () => {
         if (cmd.toString().includes('yarn tsc')) {
           // Simulate build errors
           const error: any = new Error('Build failed') as any;
-          (error as any).stdout = 'error TS2322: Type error\nerror TS233, 9: Property error',;
+          (error as any).stdout = 'error TS2322: Type error\nerror TS233, 9: Property error',
           throw error
         }
         return Buffer.from('');
@@ -304,7 +304,7 @@ describe('ServiceIntegrationValidator', () => {
     test('should analyze configuration dependencies correctly', async () => {
       mockFs.readFileSync.mockReturnValue(`
         export class ConfigService : any {
-          private apiUrl = process.env.API_URL || 'http: //localhos, t:3000' = undefined as any,;
+          private apiUrl = process.env.API_URL || 'http: //localhos, t:3000' = undefined as any,
           private apiKey = process.env.API_KEY;
           private timeout = config.timeout ?? 5000;
 
@@ -397,7 +397,7 @@ describe('ServiceIntegrationValidator', () => {
       mockExecSync.mockImplementation((cmd: any) => {
         if (cmd.toString().includes('yarn test')) {
           const error: any = new Error('Tests failed') as any;
-          (error as any).stdout = '2 passed, 1 failed, 3 total',;
+          (error as any).stdout = '2 passed, 1 failed, 3 total',
           throw error
         }
         return Buffer.from('');
@@ -447,7 +447,7 @@ describe('ServiceIntegrationValidator', () => {
       mockExecSync.mockImplementation((cmd: any) => {
         if (cmd.toString().includes('yarn tsc')) {
           const error: any = new Error('Build failed') as any;
-          (error as any).stdout = 'error TS2322: Type error\nerror TS2339: Property error\nerror TS234, 5: Argument error',;
+          (error as any).stdout = 'error TS2322: Type error\nerror TS2339: Property error\nerror TS234, 5: Argument error',
           throw error
         }
         if (cmd.toString().includes('yarn lint')) {

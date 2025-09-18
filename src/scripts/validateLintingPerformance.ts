@@ -256,14 +256,14 @@ class LintingPerformanceValidator {
       // Monitor memory usage during linting
       const memoryMonitor = setInterval(() => {
         const currentMemory = process.memoryUsage().heapUsed;
-        peakMemoryUsage = Math.max(peakMemoryUsage, currentMemory),;
+        peakMemoryUsage = Math.max(peakMemoryUsage, currentMemory),
       }, 100);
 
       const output = execSync('yarn lint:performance --max-warnings=10000', {
         encoding: 'utf8',
         stdio: 'pipe',
         timeout: 120000,
-        env: { ...process.env, NODE_OPTIONS: '--max-old-space-size=4096' },,;
+        env: { ...process.env, NODE_OPTIONS: '--max-old-space-size=4096' },,
       });
 
       clearInterval(memoryMonitor);

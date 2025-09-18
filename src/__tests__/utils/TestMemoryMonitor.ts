@@ -48,7 +48,7 @@ export class TestMemoryMonitor {
       heapTotal: 300 * 1024 * 1024, // 300MB
       external: 50 * 1024 * 1024, // 50MB
       rss: 400 * 1024 * 1024, // 400MB
-      ...limits
+      ...limits,
     };
   }
 
@@ -83,7 +83,7 @@ export class TestMemoryMonitor {
       heapTotal: usage.heapTotal,
       external: usage.external,
       arrayBuffers: usage.arrayBuffers,
-      rss: usage.rss
+      rss: usage.rss,
     };
 
     this.snapshots.push(snapshot);
@@ -137,10 +137,10 @@ export class TestMemoryMonitor {
     }
 
     return {
-      isWithinLimits: errors.length === 0,;
+      isWithinLimits: errors.length === 0,
       currentUsage,
       warnings,
-      errors
+      errors,
     };
   }
 
@@ -155,7 +155,7 @@ export class TestMemoryMonitor {
         currentMemory: current.heapUsed / 1024 / 1024,
         peakMemory: current.heapUsed / 1024 / 1024,
         totalIncrease: 0,
-        testDuration: Date.now() - this.startTime
+        testDuration: Date.now() - this.startTime,
       };
     }
 
@@ -168,7 +168,7 @@ export class TestMemoryMonitor {
       currentMemory: currentUsage.heapUsed / 1024 / 1024,
       peakMemory: peakMemory / 1024 / 1024,
       totalIncrease: (currentUsage.heapUsed - initialSnapshot.heapUsed) / 1024 / 1024,
-      testDuration: Date.now() - this.startTime
+      testDuration: Date.now() - this.startTime,
     };
   }
 
@@ -184,7 +184,7 @@ export class TestMemoryMonitor {
       return {
         isIncreasing: false,
         averageIncrease: 0,
-        concerningTrend: false
+        concerningTrend: false,
       };
     }
 
@@ -203,7 +203,7 @@ export class TestMemoryMonitor {
     return {
       isIncreasing,
       averageIncrease: averageIncrease / 1024 / 1024, // Convert to MB
-      concerningTrend
+      concerningTrend,
     };
   }
 
@@ -259,14 +259,14 @@ export class TestMemoryMonitor {
       return {
         success: true,
         freedMemory: `${freedMemory.toFixed(2)}MB`,
-        actions
+        actions,
       };
     } catch (error) {
       console.error('Memory cleanup failed:', error);
       return {
         success: false,
         freedMemory: '0MB',
-        actions: [...actions, `Cleanup failed: ${(error as Error).message}`]
+        actions: [...actions, `Cleanup failed: ${(error as Error).message}`],
       };
     }
   }
@@ -305,7 +305,7 @@ export class TestMemoryMonitor {
       summary,
       trend,
       snapshots: this.snapshots,
-      recommendations
+      recommendations,
     };
   }
 
@@ -335,10 +335,10 @@ export class TestMemoryMonitor {
         startTime: this.startTime,
         endTime: Date.now(),
         duration: Date.now() - this.startTime,
-        snapshotCount: this.snapshots.length
+        snapshotCount: this.snapshots.length,
       },
       snapshots: this.snapshots,
-      summary: this.getMemorySummary()
+      summary: this.getMemorySummary(),
     };
   }
 }

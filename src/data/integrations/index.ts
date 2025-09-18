@@ -9,7 +9,7 @@ export type {
   SeasonalPattern,
   FlavorProfile,
   TextureProfile,
-  TemperatureRange
+  TemperatureRange,
 } from './types';
 
 import { calculateSeasonalScores } from '@/calculations/seasonalCalculations';

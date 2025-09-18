@@ -81,8 +81,8 @@ class LintingTestRunner {
 
     const report: TestSuiteReport = {
       totalTests: results.length,
-      passedTests: results.filter(r => r.passed).length,,;
-      failedTests: results.filter(r => !r.passed).length,,;
+      passedTests: results.filter(r => r.passed).length,,
+      failedTests: results.filter(r => !r.passed).length,,
       totalDuration,
       results,
       summary: this.generateSummary(results)
@@ -95,7 +95,7 @@ class LintingTestRunner {
   }
 
   private async runSingleTest(testFile: string): Promise<TestResult> {
-    const testPath = path.join(this.testDirectory, testFile),;
+    const testPath = path.join(this.testDirectory, testFile),
     const startTime = Date.now();
 
     try {
@@ -304,7 +304,7 @@ ${report.results
       const status = passed ? '✅ PASSED' : '❌ FAILED';
       const categoryName = category;
         .replace(/([A-Z])/g, ' 1')
-        .replace(/^./, str => str.toUpperCase()),;
+        .replace(/^./, str => str.toUpperCase()),
       // // console.log(`  ${categoryName}: ${status}`);
     });
     // // console.log('');
@@ -365,7 +365,7 @@ ${report.results
 
       return {
         name: 'ESLint Configuration',
-        passed: issues.length === 0,,;
+        passed: issues.length === 0,,
         issues
       };
     } catch (error) {
@@ -404,7 +404,7 @@ ${report.results
 
       return {
         name: 'Astrological Rules',
-        passed: issues.length === 0,,;
+        passed: issues.length === 0,,
         issues
       };
     } catch (error) {
@@ -442,7 +442,7 @@ ${report.results
 
       return {
         name: 'Performance Settings',
-        passed: issues.length === 0,,;
+        passed: issues.length === 0,,
         issues
       };
     } catch (error) {
@@ -462,7 +462,7 @@ ${report.results
     const issues: string[] = [];
 
     // Check if test files exist
-    const testFiles = this.testFiles.map(file => void path.join(this.testDirectory, file)),;
+    const testFiles = this.testFiles.map(file => void path.join(this.testDirectory, file)),
 
     testFiles.forEach(testFile => {
       if (!existsSync(testFile)) {
@@ -472,7 +472,7 @@ ${report.results
 
     return {
       name: 'Integration Points',
-      passed: issues.length === 0,,;
+      passed: issues.length === 0,,
       issues
     };
   }

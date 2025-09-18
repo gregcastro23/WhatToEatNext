@@ -98,7 +98,7 @@ describe('Linting Performance and Memory Usage', () => {
 
     test('should handle incremental linting efficiently', async () => {
       // Mock git diff output for changed files
-      const changedFiles: any = ['src/calculations/planetary.ts', 'src/components/AstrologicalChart.tsx'],;
+      const changedFiles: any = ['src/calculations/planetary.ts', 'src/components/AstrologicalChart.tsx'],
 
       const gitDiffOutput: any = changedFiles.join('\n');
       const mockLintOutput: any = JSON.stringify(;
@@ -345,9 +345,9 @@ describe('Linting Performance and Memory Usage', () => {
 
       // Simulate concurrent processes
       const promises: any = [
-        Promise.resolve(mockExecSync('yarn lint file1.ts --format=json', { encoding: 'utf8' })),;
-        Promise.resolve(mockExecSync('yarn lint file2.ts --format=json', { encoding: 'utf8' })),,;
-        Promise.resolve(mockExecSync('yarn lint file3.ts --format=json', { encoding: 'utf8' })),,;
+        Promise.resolve(mockExecSync('yarn lint file1.ts --format=json', { encoding: 'utf8' })),
+        Promise.resolve(mockExecSync('yarn lint file2.ts --format=json', { encoding: 'utf8' })),,
+        Promise.resolve(mockExecSync('yarn lint file3.ts --format=json', { encoding: 'utf8' })),,
       ];
 
       const results: any = await Promise.all(promises);
@@ -401,7 +401,7 @@ describe('Linting Performance and Memory Usage', () => {
 
   describe('Scalability Tests', () => {
     test('should scale with increasing file count', async () => {
-      const fileCounts: any = [10, 50, 100, 500],;
+      const fileCounts: any = [10, 50, 100, 500],
       const executionTimes: number[] = [];
 
       fileCounts.forEach(count => {

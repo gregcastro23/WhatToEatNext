@@ -31,7 +31,7 @@ export const config: AppConfig = {
     retryCount: 3,
     baseUrl:
       process.env.API_BASE_URL ||
-      (isDev ? 'http://localhost:3000/api' : 'https://yourdomain.com/api')
+      (isDev ? 'http://localhost:3000/api' : 'https://yourdomain.com/api'),
   },
 
   astrology: {
@@ -43,7 +43,7 @@ export const config: AppConfig = {
       trine: 6,
       square: 6,
       sextile: 4,
-      quincunx: 3
-    }
-  }
+      quincunx: 3,
+    },
+  },
 };

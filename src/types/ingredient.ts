@@ -4,7 +4,7 @@ import type {
   CookingMethod,
   AlchemicalProperties,
   ThermodynamicProperties,
-  Modality
+  Modality,
 } from '@/data/ingredients/types';
 
 import type { ElementalProperties } from './alchemy';

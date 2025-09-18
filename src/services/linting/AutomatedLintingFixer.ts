@@ -49,7 +49,7 @@ export interface RollbackInfo {
 export interface FixMetrics {
   startTime: Date,
   endTime: Date,
-  totalTime: number; // milliseconds
+  totalTime: number, // milliseconds
   filesProcessed: number,
   issuesAttempted: number,
   issuesFixed: number,

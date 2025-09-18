@@ -5,14 +5,14 @@ const plutoData: PlanetData = {
     scorpio: 1,
     leo: 2,
     taurus: -1,
-    aquarius: -2
+    aquarius: -2,
   },
   Elements: ['Earth', 'Water'],
   Alchemy: {
     Spirit: 0,
     Essence: 1,
     Matter: 1,
-    Substance: 0
+    Substance: 0,
   },
   'Diurnal Element': 'Earth',
   'Nocturnal Element': 'Water',
@@ -20,7 +20,7 @@ const plutoData: PlanetData = {
     DistanceFromSun: '3.7 billion miles (5.9 billion km) average',
     DistanceFromEarth: {
       Minimum: '2.66 billion miles (4.28 billion km)',
-      Maximum: '4.67 billion miles (7.5 billion km)'
+      Maximum: '4.67 billion miles (7.5 billion km)',
     },
     Diameter: '1,476 miles (2,376 km)',
     SurfaceTemperature: '-387°F (-233°C)',
@@ -34,8 +34,8 @@ const plutoData: PlanetData = {
       MagneticField: 'Weak or nonexistent',
       Composition: 'Rocky core surrounded by water ice mantle',
       NotableFeatures:
-        'Heart-shaped region (Tombaugh Regio), nitrogen ice glaciers, methane snow peaks'
-    }
+        'Heart-shaped region (Tombaugh Regio), nitrogen ice glaciers, methane snow peaks',
+    },
   },
   AstrologicalProperties: {
     AlchemicalName: 'The Transformer',
@@ -43,7 +43,7 @@ const plutoData: PlanetData = {
     HouseJoy: 8,
     CyclePeriod: {
       Return: '248 years',
-      Retrograde: 'Annual, approximately 160 days'
+      Retrograde: 'Annual, approximately 160 days',
     },
     Exaltation: 'Leo',
     Fall: 'Aquarius',
@@ -59,7 +59,7 @@ const plutoData: PlanetData = {
       'obsession',
       'destruction',
       'catharsis',
-      'unconscious'
+      'unconscious',
     ],
     Colors: ['black', 'deep red', 'dark purple', 'obsidian', 'charcoal'],
     Day: 'Tuesday',
@@ -69,10 +69,10 @@ const plutoData: PlanetData = {
       'excretory system',
       'bone marrow',
       'DNA',
-      'cellular regeneration'
+      'cellular regeneration',
     ],
     Animals: ['scorpion', 'snake', 'phoenix', 'vulture', 'creatures that transform'],
-    Stones: ['obsidian', 'black tourmaline', 'garnet', 'bloodstone', 'onyx', 'black diamond']
+    Stones: ['obsidian', 'black tourmaline', 'garnet', 'bloodstone', 'onyx', 'black diamond'],
   },
   ElementalConnections: {
     DayEmission: 'Earth energies from deep underground',
@@ -81,7 +81,7 @@ const plutoData: PlanetData = {
     SharedElements: {
       Mars: ['Water'],
       Saturn: ['Earth'],
-      Venus: ['Earth']
+      Venus: ['Earth'],
     },
     AssociatedQualities: [
       'intense',
@@ -89,20 +89,20 @@ const plutoData: PlanetData = {
       'transformative',
       'regenerative',
       'compulsive',
-      'controlling'
-    ]
+      'controlling',
+    ],
   },
   HerbalAssociations: {
     Herbs: ['bloodroot', 'mandrake', 'belladonna', 'wolfsbane', 'black cohosh', 'comfrey'],
     Flowers: ['black dahlia', 'black rose', 'black lily', 'hellebore', 'night-blooming flowers'],
     Woods: ['blackwood', 'ebony', 'iron wood', 'ancient petrified wood'],
-    Scents: ['musk', 'oud', 'myrrh', 'patchouli', 'vetiver', 'black pepper']
+    Scents: ['musk', 'oud', 'myrrh', 'patchouli', 'vetiver', 'black pepper'],
   },
   RetrogradeEffect: {
     Spirit: 0.3,
     Essence: 0.8,
     Matter: 0.7,
-    Substance: 0.2
+    Substance: 0.2,
   },
   FoodAssociations: [
     'black foods',
@@ -115,7 +115,7 @@ const plutoData: PlanetData = {
     'foods that undergo transformation',
     'rich fungi',
     'extreme flavors',
-    'potent herbs and spices'
+    'potent herbs and spices',
   ],
   FlavorProfiles: {
     Sweet: 0.2,
@@ -123,14 +123,14 @@ const plutoData: PlanetData = {
     Salty: 0.4,
     Bitter: 0.7,
     Umami: 0.9,
-    Spicy: 0.6
+    Spicy: 0.6,
   },
   CulinaryInfluences: [
     'Transforms ingredients through extreme processes',
     'Intensifies flavor profiles',
     'Unlocks hidden depths in ingredients',
     'Supports fermentation and controlled decay',
-    'Creates powerful and profound taste experiences'
+    'Creates powerful and profound taste experiences',
   ],
   AspectsEffect: {
     Sun: {
@@ -138,64 +138,64 @@ const plutoData: PlanetData = {
       Opposition: 0.2,
       Trine: 0.5,
       Square: 0.1,
-      Sextile: 0.4
+      Sextile: 0.4,
     },
     Moon: {
       Conjunction: 0.6,
       Opposition: 0.1,
       Trine: 0.4,
       Square: -0.1,
-      Sextile: 0.3
+      Sextile: 0.3,
     },
     Mars: {
       Conjunction: 0.8,
       Opposition: 0.3,
       Trine: 0.6,
       Square: 0.2,
-      Sextile: 0.5
+      Sextile: 0.5,
     },
     Venus: {
       Conjunction: 0.5,
       Opposition: 0.0,
       Trine: 0.4,
       Square: -0.1,
-      Sextile: 0.2
+      Sextile: 0.2,
     },
     Jupiter: {
       Conjunction: 0.6,
       Opposition: 0.1,
       Trine: 0.5,
       Square: 0.0,
-      Sextile: 0.3
+      Sextile: 0.3,
     },
     Saturn: {
       Conjunction: 0.7,
       Opposition: 0.2,
       Trine: 0.6,
       Square: 0.1,
-      Sextile: 0.4
+      Sextile: 0.4,
     },
     Mercury: {
       Conjunction: 0.5,
       Opposition: 0.0,
       Trine: 0.4,
       Square: -0.1,
-      Sextile: 0.2
+      Sextile: 0.2,
     },
     Uranus: {
       Conjunction: 0.8,
       Opposition: 0.2,
       Trine: 0.7,
       Square: 0.0,
-      Sextile: 0.5
+      Sextile: 0.5,
     },
     Neptune: {
       Conjunction: 0.6,
       Opposition: 0.1,
       Trine: 0.5,
       Square: 0.0,
-      Sextile: 0.3
-    }
+      Sextile: 0.3,
+    },
   },
   PlanetSpecific: {
     ZodiacTransit: {
@@ -206,7 +206,7 @@ const plutoData: PlanetData = {
           Fire: 0.3,
           Earth: 0.2,
           Air: 0.1,
-          Water: 0.9
+          Water: 0.9,
         },
         CookingMethods: ['fermentation', 'aging', 'smoking', 'curing', 'preserving', 'reduction'],
         FavoredIngredients: [
@@ -215,10 +215,10 @@ const plutoData: PlanetData = {
           'aged foods',
           'foraged fungi',
           'blood-based dishes',
-          'organ meats'
+          'organ meats',
         ],
         FlavorCombinations:
-          'Maximum depth and intensity, profound umami layers, transformative taste journeys'
+          'Maximum depth and intensity, profound umami layers, transformative taste journeys',
       },
       leo: {
         FoodFocus: 'Powerful showstopping dishes, dramatic presentations with hidden depths',
@@ -226,24 +226,24 @@ const plutoData: PlanetData = {
           Fire: 0.8,
           Earth: 0.2,
           Air: 0.1,
-          Water: 0.3
+          Water: 0.3,
         },
         CookingMethods: [
           'charring',
           'flame-grilling',
           'dramatic tableside presentation',
           'ancient cooking methods',
-          'primal fire techniques'
+          'primal fire techniques',
         ],
         FavoredIngredients: [
           'dramatic dark colors',
           'powerful centerpieces',
           'rare ingredients',
           'ancestral foods',
-          'ingredients with history'
+          'ingredients with history',
         ],
         FlavorCombinations:
-          'Bold contrasts, magnetic flavor pairings, transformative heat progressions'
+          'Bold contrasts, magnetic flavor pairings, transformative heat progressions',
       },
       capricorn: {
         FoodFocus:
@@ -252,14 +252,14 @@ const plutoData: PlanetData = {
           Fire: 0.2,
           Earth: 0.8,
           Air: 0.1,
-          Water: 0.3
+          Water: 0.3,
         },
         CookingMethods: [
           'slow-cooking',
           'underground cooking',
           'structural transformation',
           'ancestral techniques',
-          'traditional preservation'
+          'traditional preservation',
         ],
         FavoredIngredients: [
           'root vegetables',
@@ -267,11 +267,11 @@ const plutoData: PlanetData = {
           'marrow',
           'structural elements',
           'ancient grains',
-          'geological references'
+          'geological references',
         ],
         FlavorCombinations:
-          'Gradual depth development, foundations that transform, slow-revealing complexity'
-      }
+          'Gradual depth development, foundations that transform, slow-revealing complexity',
+      },
     },
     Retrograde: {
       CulinaryEffect:
@@ -280,33 +280,33 @@ const plutoData: PlanetData = {
         Spirit: 0.2,
         Essence: 0.7,
         Matter: 0.8,
-        Substance: 0.1
+        Substance: 0.1,
       },
       CookingMethodEffects: {
         Emphasized: [
           'traditional preservation',
           'archetypal cooking methods',
           'ancestral techniques',
-          'unearthing forgotten approaches'
+          'unearthing forgotten approaches',
         ],
         Diminished: [
           'excessive intensity',
           'overly destructive techniques',
-          'manipulative presentation'
-        ]
+          'manipulative presentation',
+        ],
       },
       IngredientEffects: {
         Emphasized: [
           'heritage ingredients',
           'ancestral foods',
           'historically significant components',
-          'foods with lineage'
+          'foods with lineage',
         ],
         Diminished: [
           'unnecessarily shocking elements',
           'gratuitously intense flavors',
-          'superficially dramatic presentations'
-        ]
+          'superficially dramatic presentations',
+        ],
       },
       FlavorModulation: {
         Sweet: 0.3,
@@ -314,8 +314,8 @@ const plutoData: PlanetData = {
         Salty: 0.5,
         Bitter: 0.6,
         Umami: 0.7,
-        Spicy: 0.5
-      }
+        Spicy: 0.5,
+      },
     },
     TransitDates: {
       capricorn: {
@@ -326,8 +326,8 @@ const plutoData: PlanetData = {
           TarotProperties: {
             Keywords: ['balance', 'adaptability', 'juggling priorities'],
             CulinaryAssociation:
-              'Balancing intense and subtle flavors, transformative techniques with traditional methods'
-          }
+              'Balancing intense and subtle flavors, transformative techniques with traditional methods',
+          },
         },
         '2ndDecan': {
           Start: '2018-07-12',
@@ -336,8 +336,8 @@ const plutoData: PlanetData = {
           TarotProperties: {
             Keywords: ['mastery', 'expertise', 'collaboration'],
             CulinaryAssociation:
-              'Mastery of transformative cooking processes, collaboration between ancient and modern techniques'
-          }
+              'Mastery of transformative cooking processes, collaboration between ancient and modern techniques',
+          },
         },
         '3rdDecan': {
           Start: '2024-03-23',
@@ -346,9 +346,9 @@ const plutoData: PlanetData = {
           TarotProperties: {
             Keywords: ['conservation', 'security', 'long-term perspective'],
             CulinaryAssociation:
-              'Preservation techniques that transform ingredients at their core, substantial and grounding foods'
-          }
-        }
+              'Preservation techniques that transform ingredients at their core, substantial and grounding foods',
+          },
+        },
       },
       aquarius: {
         '1stDecan': {
@@ -358,8 +358,8 @@ const plutoData: PlanetData = {
           TarotProperties: {
             Keywords: ['conflict', 'tension', 'strategic thinking'],
             CulinaryAssociation:
-              'Revolutionary approaches to food that challenge established norms, intensity in innovation'
-          }
+              'Revolutionary approaches to food that challenge established norms, intensity in innovation',
+          },
         },
         '2ndDecan': {
           Start: '2043-01-09',
@@ -368,8 +368,8 @@ const plutoData: PlanetData = {
           TarotProperties: {
             Keywords: ['transition', 'moving away', 'mental processing'],
             CulinaryAssociation:
-              'Transition from familiar to unfamiliar taste experiences, intellectual approach to deep flavors'
-          }
+              'Transition from familiar to unfamiliar taste experiences, intellectual approach to deep flavors',
+          },
         },
         '3rdDecan': {
           Start: '2053-03-16',
@@ -378,12 +378,12 @@ const plutoData: PlanetData = {
           TarotProperties: {
             Keywords: ['strategy', 'cunning', 'independent action'],
             CulinaryAssociation:
-              'Strategic combinations of intense flavors, unconventional approaches to traditional ingredients'
-          }
-        }
-      }
-    }
-  }
+              'Strategic combinations of intense flavors, unconventional approaches to traditional ingredients',
+          },
+        },
+      },
+    },
+  },
 };
 
 export default plutoData;

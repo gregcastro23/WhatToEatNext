@@ -727,7 +727,7 @@ function isDaytime(date: Date = new Date()): boolean {
 export function getEnhancedPlanetaryNutritionalRecommendations(
   planetaryDay: string,
   planetaryHour: string,
-  currentTime: Date = new Date(),,;
+  currentTime: Date = new Date(),,
 ): {
   elements: Record<string, number>;
   focusNutrients: string[],

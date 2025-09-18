@@ -9,8 +9,8 @@ const rawFlaxseed = {
       rulingPlanets: ['Moon', 'Venus'],
       elementalAffinity: {
         base: 'Water',
-        secondary: 'Air'
-      }
+        secondary: 'Air',
+      },
     },
     qualities: ['gelatinous', 'omega-rich', 'nutty', 'gluten-free', 'binding'],
     category: 'pseudo_grain',
@@ -20,14 +20,14 @@ const rawFlaxseed = {
         appearance: 'Small yellow seeds',
         texture: 'Similar to brown',
         flavor: 'Milder, lighter flavor than brown',
-        uses: 'Visually appealing in lighter dishes, often more expensive'
+        uses: 'Visually appealing in lighter dishes, often more expensive',
       },
       meal: {
         appearance: 'Ground powder',
         texture: 'Fine to coarse depending on grind',
         flavor: 'Nutty, can become rancid quickly',
-        uses: 'Baking, smoothies, egg substitute'
-      }
+        uses: 'Baking, smoothies, egg substitute',
+      },
     },
     preparation: {
       fresh: {
@@ -36,23 +36,23 @@ const rawFlaxseed = {
         tips: [
           'Grind whole seeds for best nutrition absorption',
           'Mix with water (1:3 ratio) for egg substitute',
-          'Add to dishes after cooking to preserve nutrients'
-        ]
+          'Add to dishes after cooking to preserve nutrients',
+        ],
       },
-      methods: ['ground', 'soaked', 'incorporated into batter', 'sprinkled whole']
+      methods: ['ground', 'soaked', 'incorporated into batter', 'sprinkled whole'],
     },
     storage: {
       container: 'Airtight container',
       duration: 'Up to 1 year (whole seeds), 1-2 weeks (ground)',
       temperature: 'Cool, dark place (whole), refrigerated or frozen (ground)',
-      notes: 'High oil content means ground flaxseed spoils quickly'
+      notes: 'High oil content means ground flaxseed spoils quickly',
     },
     pairingRecommendations: {
       complementary: ['oats', 'yogurt', 'smoothies', 'breads', 'muffins', 'granola'],
       contrasting: ['fruits', 'honey', 'maple syrup'],
-      toAvoid: ['dishes requiring long cooking that might damage omega oils']
-    }
-  }
+      toAvoid: ['dishes requiring long cooking that might damage omega oils'],
+    },
+  },
 };
 
 export const flaxseed: Record<string, IngredientMapping> = fixIngredientMappings(rawFlaxseed);

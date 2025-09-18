@@ -592,7 +592,7 @@ export interface CuisineCompatibility {
 export interface CuisinePairing {
   primary: CompleteCuisineType,
   secondary: CompleteCuisineType,
-  compatibility: number; // 0-1 scale
+  compatibility: number, // 0-1 scale
   commonIngredients: string[],
   fusionOpportunities: string[],
   culturalNotes: string

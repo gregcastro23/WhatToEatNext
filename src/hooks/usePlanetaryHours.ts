@@ -20,7 +20,7 @@ export function usePlanetaryHours() {
     timeUntilNext: 0,
     nextHour: 'Moon',
     isLoading: true,
-    error: null
+    error: null,
   });
 
   useEffect(() => {
@@ -51,13 +51,13 @@ export function usePlanetaryHours() {
           timeUntilNext,
           nextHour,
           isLoading: false,
-          error: null
+          error: null,
         });
       } catch (error) {
         setData(prev => ({
           ...prev,
           isLoading: false,
-          error: error instanceof Error ? error.message : 'Unknown error'
+          error: error instanceof Error ? error.message : 'Unknown error',
         }));
       }
     }

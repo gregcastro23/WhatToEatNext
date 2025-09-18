@@ -37,8 +37,8 @@ export function useAstrologize(options: AstrologizeOptions = {}): AstrologizeRes
 
   // Default options
   const {
-    useCurrentTime = true,;
-    useCurrentLocation = true,;
+    useCurrentTime = true,
+    useCurrentLocation = true,
     year,
     month,
     date,
@@ -46,7 +46,7 @@ export function useAstrologize(options: AstrologizeOptions = {}): AstrologizeRes
     minute,
     latitude,
     longitude,
-    zodiacSystem = 'tropical',;
+    zodiacSystem = 'tropical',
   } = options;
 
   // Get current location if needed
@@ -58,7 +58,7 @@ export function useAstrologize(options: AstrologizeOptions = {}): AstrologizeRes
           if (coords) {
             setLocation({
               latitude: coords.latitude,
-              longitude: coords.longitude
+              longitude: coords.longitude,
             });
           }
         } catch (locationError) {
@@ -96,7 +96,7 @@ export function useAstrologize(options: AstrologizeOptions = {}): AstrologizeRes
           hour,
           minute,
           zodiacSystem,
-          ...(location && { latitude: location.latitude, longitude: location.longitude })
+          ...(location && { latitude: location.latitude, longitude: location.longitude }),
         });
       } else {
         // Use GET with query params for current time
@@ -114,16 +114,16 @@ export function useAstrologize(options: AstrologizeOptions = {}): AstrologizeRes
 
       log.info(`🌟 Making ${method} request to astrologize API:`, {
         url,
-        body: body ? JSON.parse(body) : 'GET params'
+        body: body ? JSON.parse(body) : 'GET params',
       });
 
       // Make the API request
       const response = await fetch(url, {
         method,
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
-        body
+        body,
       });
 
       if (!response.ok) {
@@ -132,7 +132,7 @@ export function useAstrologize(options: AstrologizeOptions = {}): AstrologizeRes
 
       const result = await response.json();
       log.info('✅ Astrologize API response received:', {
-        dataType: result._celestialBodies ? 'Valid celestial data' : 'Unknown format'
+        dataType: result._celestialBodies ? 'Valid celestial data' : 'Unknown format',
       });
       setData(result);
     } catch (fetchError) {
@@ -155,6 +155,6 @@ export function useAstrologize(options: AstrologizeOptions = {}): AstrologizeRes
     loading,
     error,
     data,
-    refetch: fetchData
+    refetch: fetchData,
   };
 }

@@ -27,7 +27,7 @@ interface AstrologyUtilsModule {
   getLunarPhaseName: (phase: number) => string,
   getMoonIllumination: (date?: Date) => Promise<number>,
   calculateSunSign: (date?: Date) => string,
-  calculateLunarNodes: (date?: Date) => { northNode: number; isRetrograde: boolean };
+  calculateLunarNodes: (date?: Date) => { northNode: number, isRetrograde: boolean };
   getNodeInfo: (nodeLongitude: number) => { sign: string; degree: number; isRetrograde: boolean };
   getCurrentAstrologicalState: (date?: Date) => {
     zodiacSign: string,

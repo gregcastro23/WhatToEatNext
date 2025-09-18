@@ -32,7 +32,7 @@ export const _ChartProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     currentSeason: '',
     lastUpdated: new Date(),
     stelliums: {},
-    houseEffects: {}
+    houseEffects: {},
   });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -76,7 +76,7 @@ export const _ChartProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       Fire: 0,
       Water: 0,
       Earth: 0,
-      Air: 0
+      Air: 0,
     };
 
     Object.entries(positions).forEach(([planet, data]) => {
@@ -156,7 +156,7 @@ export const _ChartProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         currentSeason: season,
         lastUpdated: new Date(),
         stelliums,
-        houseEffects
+        houseEffects,
       });
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to update chart');
@@ -180,7 +180,7 @@ export const _ChartProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         sign: planetData.sign || 'Unknown',
         degree: planetData.degree || 0,
         isRetrograde: planetData.isRetrograde || false,
-        exactLongitude: planetData.exactLongitude || 0
+        exactLongitude: planetData.exactLongitude || 0,
       };
     });
 
@@ -202,7 +202,7 @@ export const _ChartProvider: React.FC<{ children: React.ReactNode }> = ({ childr
             return `<text x='${x}' y='${y}' text-anchor='middle'>${planet}: ${planetInfo.sign}</text>`;
           })
           .join('')}
-      </svg>`
+      </svg>`,
     };
   };
 
@@ -211,8 +211,8 @@ export const _ChartProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   }, [alchemicalPositions]);
 
   return (
-    <ChartContext.Provider value={{ chart, loading, error, refreshChart, createChartSvg }}>;
-      {children}
+    <ChartContext.Provider value={{ chart, loading, error, refreshChart, createChartSvg }}>
+      ;{children}
     </ChartContext.Provider>
   );
 };
