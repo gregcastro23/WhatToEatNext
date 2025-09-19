@@ -19,8 +19,8 @@ let cache: CacheEntry | null = null;
 function makeKey(date?: Date, lat?: number, lon?: number, system?: 'tropical' | 'sidereal') {
   return JSON.stringify({
     t: date ? date.toISOString() : 'now',
-    lat: typeof lat === 'number' ? Number(lat.toFixed(3)) : undefined,;
-    lon: typeof lon === 'number' ? Number(lon.toFixed(3)) : undefined,;
+    lat: typeof lat === 'number' ? Number(lat.toFixed(3)) : undefined,
+    lon: typeof lon === 'number' ? Number(lon.toFixed(3)) : undefined,
     sys: system || 'tropical'
   });
 }

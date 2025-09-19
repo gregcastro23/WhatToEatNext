@@ -74,34 +74,34 @@ jest.mock('@/components/CuisineRecommender', () => {
     };
 
     return (
-      <div data-testid='cuisine-recommender'>;
+      <div data-testid='cuisine-recommender'>
         <h3>Cuisine Recommendations</h3>
-        <div className='cuisine-grid'>;
-          {cuisines.map(cuisine => (,
-            <div key={cuisine.name} className='cuisine-card' data-testid={`cuisine-card-${cuisine.name.toLowerCase()}`}>;
-              <button;
-                onClick={() => handleCuisineSelect(cuisine)};
-                className={selectedCuisine === cuisine.name ? 'selected' : ''};
-                data-testid={`cuisine-${cuisine.name.toLowerCase()}`};
+        <div className='cuisine-grid'>
+          {cuisines.map(cuisine => (
+            <div key={cuisine.name} className='cuisine-card' data-testid={`cuisine-card-${cuisine.name.toLowerCase()}`}>
+              <button
+                onClick={() => handleCuisineSelect(cuisine)}
+                className={selectedCuisine === cuisine.name ? 'selected' : ''}
+                data-testid={`cuisine-${cuisine.name.toLowerCase()}`}
               >
                 <h4>{cuisine.name}</h4>
-                <div className='score'>Match: {cuisine.score}%</div>;
+                <div className='score'>Match: {cuisine.score}%</div>
               </button>
             </div>
           ))}
         </div>
 
         {showRecipes && selectedCuisine && (
-          <div data-testid='recipe-recommendations' className='recipe-section'>;
+          <div data-testid='recipe-recommendations' className='recipe-section'>
             <h4>Recommended {selectedCuisine} Recipes</h4>
-            <div className='recipe-list'>,
+            <div className='recipe-list'>
               {cuisines
-                .find(c => c.name === selectedCuisine);
-                ?.recipes.map(recipe => (;
-                  <button,
-                    key={recipe},
-                    data-testid={`recipe-${recipe.toLowerCase().replace(/\s+/g, '-')}`};
-                    className='recipe-button';
+                .find(c => c.name === selectedCuisine)
+                ?.recipes.map(recipe => (
+                  <button
+                    key={recipe}
+                    data-testid={`recipe-${recipe.toLowerCase().replace(/\s+/g, '-')}`}
+                    className='recipe-button'
                   >
                     {recipe}
                   </button>

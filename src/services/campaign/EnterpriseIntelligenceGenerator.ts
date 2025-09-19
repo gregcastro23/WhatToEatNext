@@ -54,31 +54,31 @@ export interface GenerationSummary {
 }
 
 export enum CapabilityComplexity {
-  BASIC = 'BASIC',;
-  INTERMEDIATE = 'INTERMEDIATE',;
-  ADVANCED = 'ADVANCED',,;
-  EXPERT = 'EXPERT',,;
+  BASIC = 'BASIC',
+  INTERMEDIATE = 'INTERMEDIATE',
+  ADVANCED = 'ADVANCED',,
+  EXPERT = 'EXPERT',,
 }
 
 export enum IntegrationMethod {
-  DIRECT_IMPORT = 'DIRECT_IMPORT',;
-  DEPENDENCY_INJECTION = 'DEPENDENCY_INJECTION',;
-  EVENT_DRIVEN = 'EVENT_DRIVEN',,;
-  API_ENDPOINT = 'API_ENDPOINT',,;
+  DIRECT_IMPORT = 'DIRECT_IMPORT',
+  DEPENDENCY_INJECTION = 'DEPENDENCY_INJECTION',
+  EVENT_DRIVEN = 'EVENT_DRIVEN',,
+  API_ENDPOINT = 'API_ENDPOINT',,
 }
 
 export enum IntegrationPriority {
-  IMMEDIATE = 'IMMEDIATE',;
-  HIGH = 'HIGH',;
-  MEDIUM = 'MEDIUM',,;
-  LOW = 'LOW',,;
+  IMMEDIATE = 'IMMEDIATE',
+  HIGH = 'HIGH',
+  MEDIUM = 'MEDIUM',,
+  LOW = 'LOW',,
 }
 
 export enum GenerationComplexity {
-  SIMPLE = 'SIMPLE',;
-  MODERATE = 'MODERATE',;
-  COMPLEX = 'COMPLEX',,;
-  VERY_COMPLEX = 'VERY_COMPLEX',,;
+  SIMPLE = 'SIMPLE',
+  MODERATE = 'MODERATE',
+  COMPLEX = 'COMPLEX',,
+  VERY_COMPLEX = 'VERY_COMPLEX',,
 }
 
 export class EnterpriseIntelligenceGenerator {
@@ -102,7 +102,7 @@ export class EnterpriseIntelligenceGenerator {
     for (const fileAnalysis of fileAnalyses) {
       for (const candidate of fileAnalysis.transformationCandidates) {
         try {
-          const result = await this.generateIntelligenceSystem(candidate, fileAnalysis.filePath),;
+          const result = await this.generateIntelligenceSystem(candidate, fileAnalysis.filePath),
           results.push(result);
           // // console.log(`✅ Generated: ${result.systemName}`);
         } catch (error) {
@@ -131,7 +131,7 @@ export class EnterpriseIntelligenceGenerator {
     const integrationPoints = this.generateIntegrationPoints(candidate, originalFilePath);
     const generatedCode = this.generateCode(candidate, template, capabilities);
     const estimatedValue = this.calculateEstimatedValue(candidate, capabilities);
-    const complexity = this.assessGenerationComplexity(candidate, capabilities),;
+    const complexity = this.assessGenerationComplexity(candidate, capabilities),
 
     // Ensure output directory exists
     await this.ensureOutputDirectory();
@@ -480,7 +480,7 @@ export class ${systemName} {
         systemName: '${systemName}',
         originalExport: '${originalName}',
         capabilities: [
-${capabilities.map(cap => `          '${cap.name}': '${cap.description}'`).join(',\n')},;
+${capabilities.map(cap => `          '${cap.name}': '${cap.description}'`).join(',\n')},
         ],
         sampleAnalysis: await this.analyzePatterns({ sample: true }),
         sampleRecommendations: await this.generateRecommendations({ sample: true }),
@@ -827,7 +827,7 @@ export const create${systemName} = (config?: Partial<${systemName}Config>) =>
 // Dashboard integration for ${systemName}
 const ${systemName.toLowerCase()}Widget = {
   title: '${systemName}',
-  component: () => <IntelligenceWidget system={${systemName.toLowerCase()}} />,;
+  component: () => <IntelligenceWidget system={${systemName.toLowerCase()}} />,
   priority: 'medium',
   refreshInterval: 30000
 };
@@ -930,8 +930,8 @@ app.get('/api/intelligence/${systemName.toLowerCase()}', async (req, res) => {
    */
   generateSummary(results: GenerationResult[]): GenerationSummary {
     const totalSystemsGenerated = results.length;
-    const totalCapabilitiesAdded = results.reduce((sum, r) => sum + r.capabilities.length, 0),;
-    const totalIntegrationPoints = results.reduce((sum, r) => sum + r.integrationPoints.length, 0),;
+    const totalCapabilitiesAdded = results.reduce((sum, r) => sum + r.capabilities.length, 0),
+    const totalIntegrationPoints = results.reduce((sum, r) => sum + r.integrationPoints.length, 0),
     const averageComplexity =
       results.reduce((sum, r) => {
         const complexityValue = {
@@ -984,8 +984,8 @@ app.get('/api/intelligence/${systemName.toLowerCase()}', async (req, res) => {
       '',
       '### 2. Initialize Systems';
       '```typescript',
-      'const _intelligenceSystems = [',,;
-      ...results.slice(0, 5).map(r => `  ${r.systemName.toLowerCase()},`),,;
+      'const _intelligenceSystems = [',,
+      ...results.slice(0, 5).map(r => `  ${r.systemName.toLowerCase()},`),,
       '];',
       '```',
       '',

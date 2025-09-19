@@ -235,7 +235,7 @@ export class EnhancedErrorFixerIntegration {
   }> {
     return new Promise((resolve, reject) => {
       const command = 'node';
-      const fullArgs = [this.ENHANCED_FIXER_PATH, ...args],;
+      const fullArgs = [this.ENHANCED_FIXER_PATH, ...args],
 
       // // console.log(`🔧 Executing: ${command} ${fullArgs.join(' ')}`);
 
@@ -267,7 +267,7 @@ export class EnhancedErrorFixerIntegration {
         const output = stdout + stderr;
 
         // Parse output for metrics
-        const result = this.parseFixerOutput(output, success),;
+        const result = this.parseFixerOutput(output, success),
 
         if (success) {
           resolve(result);
@@ -401,7 +401,7 @@ export class EnhancedErrorFixerIntegration {
     try {
       // // console.log('📊 Fetching Enhanced Error Fixer metrics...');
 
-      const result = await this.runFixerCommand(['--show-metrics', '--json']),;
+      const result = await this.runFixerCommand(['--show-metrics', '--json']),
 
       if (result.success) {
         // // console.log('✅ Metrics retrieved successfully');
@@ -425,7 +425,7 @@ export class EnhancedErrorFixerIntegration {
     try {
       // // console.log('🛡️  Validating safety...');
 
-      const result = await this.runFixerCommand(['--validate-safety', '--json']),;
+      const result = await this.runFixerCommand(['--validate-safety', '--json']),
 
       // Parse safety validation result
       // This would need to be implemented based on the actual output format

@@ -146,7 +146,7 @@ export const culinaryTraditions: Record<string, CuisineProfile> = {
       aspectEnhancers: ['Venus square Mars', 'Mercury trine Moon']
     },
     signatureModifications: {
-      fire_dominant: 'Intensify with bird's eye chili',
+      fire_dominant: 'Intensify with bird\'s eye chili',
       earth_dominant: 'Ground with galangal and lemongrass',
       air_dominant: 'Elevate with kaffir lime leaf',
       water_dominant: 'Balance with coconut milk'
@@ -201,7 +201,7 @@ export const culinaryTraditions: Record<string, CuisineProfile> = {
 
 // Add validation to ensure all elementalAlignments sum to 1.0
 Object.entries(culinaryTraditions).forEach(([_cuisine, profile]) => {
-  const sum = Object.values(profile.elementalAlignment).reduce((a, b) => a + b, 0),
+  const sum = Object.values(profile.elementalAlignment).reduce((a, b) => a + b, 0);
   if (Math.abs(sum - 1.0) > 0.001) {
     // console.warn(`Elemental alignment for ${cuisine} sums to ${sum.toFixed(2)}, should be 1.0`);
   }

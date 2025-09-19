@@ -64,8 +64,8 @@ const marsData: PlanetData = {
     Stones: ['Ruby', 'Garnet', 'Bloodstone', 'Red Jasper']
   } as unknown,
   ElementalConnections: {
-    DayEmission: 'Essence - 'that which an object cannot exist without'',
-    NightEmission: 'Matter - 'that which is minimally reactive'',
+    DayEmission: 'Essence - that which an object cannot exist without',
+    NightEmission: 'Matter - that which is minimally reactive',
     ElementalBridges: ['Connects Fire to Water', 'Connects Water to Fire'],
     SharedElements: {
       Fire: ['Sun'],
@@ -121,7 +121,7 @@ const marsData: PlanetData = {
     Scents: [
       'Tobacco',
       'Pepper',
-      'Dragon's Blood',
+      'Dragon\'s Blood',
       'Ammonia',
       'Camphor',
       'Cinnamon',

@@ -34,7 +34,7 @@ const mercuryData: PlanetData = {
     SunlightTravelTime: '3.2 minutes',
     ZodiacalRestriction: 'Never more than 1 sign away from the Sun',
     PhysicalCharacteristics: {
-      Surface: 'Heavily cratered, resembling Earth's moon',
+      Surface: 'Heavily cratered, resembling Earth\'s moon',
       MagneticField: 'Weak global magnetic field',
       Composition: 'Large iron core, thin crust, silicate mantle',
       NotableFeatures:
@@ -73,8 +73,8 @@ const mercuryData: PlanetData = {
     Stones: ['Agate', 'Aquamarine', 'Opal', 'Topaz']
   },
   ElementalConnections: {
-    DayEmission: 'Spirit - 'that which animates'',
-    NightEmission: 'Substance - 'that which takes form'',
+    DayEmission: 'Spirit - that which animates',
+    NightEmission: 'Substance - that which takes form',
     ElementalBridges: [
       'Connects Air and Earth',
       'Facilitates transition between immaterial and material'

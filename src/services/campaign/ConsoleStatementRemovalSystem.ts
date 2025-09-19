@@ -66,8 +66,8 @@ export class ConsoleStatementRemovalSystem {
   private config: ConsoleRemovalConfig,
 
   constructor(config: Partial<ConsoleRemovalConfig> = {}) {
-    this.scriptPath = path.join(process.cwd(), 'scripts/lint-fixes/fix-console-statements-only.js'),;
-    this.metricsFile = path.join(process.cwd(), '.console-removal-metrics.json'),;
+    this.scriptPath = path.join(process.cwd(), 'scripts/lint-fixes/fix-console-statements-only.js'),
+    this.metricsFile = path.join(process.cwd(), '.console-removal-metrics.json'),
 
     this.config = {
       maxFiles: 10,
@@ -195,7 +195,7 @@ export class ConsoleStatementRemovalSystem {
 
       // Calculate averages
       if (buildTimes.length > 0) {
-        batchResult.averageBuildTime = buildTimes.reduce((a, b) => a + b, 0) / buildTimes.length,;
+        batchResult.averageBuildTime = buildTimes.reduce((a, b) => a + b, 0) / buildTimes.length,
       }
 
       // // console.log(
@@ -222,7 +222,7 @@ export class ConsoleStatementRemovalSystem {
     for (const file of files) {
       try {
         const content = fs.readFileSync(file, 'utf-8');
-        const fileStatements = this.analyzeFileConsoleStatements(file, content),;
+        const fileStatements = this.analyzeFileConsoleStatements(file, content),
         statements.push(...fileStatements);
       } catch (error) {
         console.warn(`⚠️ Could not analyze file ${file}:`, error);
@@ -262,7 +262,7 @@ export class ConsoleStatementRemovalSystem {
         const context = lines.slice(contextStart, contextEnd + 1).join('\n');
 
         // Determine if critical
-        const isCritical = this.isConsoleStatementCritical(filePath, content, context, type),;
+        const isCritical = this.isConsoleStatementCritical(filePath, content, context, type),
         const shouldPreserve = this.config.preserveDebugCritical && isCritical;
 
         statements.push({
@@ -296,7 +296,7 @@ export class ConsoleStatementRemovalSystem {
     }
 
     // Preserve statements in debug/test files
-    const debugFiles = ['debug', 'test', 'spec', '.test.', '.spec.', 'logger'],;
+    const debugFiles = ['debug', 'test', 'spec', '.test.', '.spec.', 'logger'],
     if (debugFiles.some(pattern => filePath.toLowerCase().includes(pattern))) {
       return true
     }
@@ -352,7 +352,7 @@ export class ConsoleStatementRemovalSystem {
     const entries = fs.readdirSync(dir, { withFileTypes: true });
 
     for (const entry of entries) {
-      const fullPath = path.join(dir, entry.name),;
+      const fullPath = path.join(dir, entry.name),
 
       if (entry.isDirectory() && !entry.name.startsWith('.') && entry.name !== 'node_modules') {
         files.push(...this.getAllSourceFiles(fullPath));
@@ -393,7 +393,7 @@ export class ConsoleStatementRemovalSystem {
    */
   private async createSafetyStash(): Promise<string> {
     try {
-      const timestamp = new Date().toISOString().replace(/[:.]/g, '-'),;
+      const timestamp = new Date().toISOString().replace(/[:.]/g, '-'),
       const stashName = `console-removal-${timestamp}`;
 
       execSync(`git stash push -m '${stashName}'`, { encoding: 'utf-8' });
@@ -666,6 +666,6 @@ ${
    * Utility function for delays
    */
   private sleep(ms: number): Promise<void> {
-    return new Promise(resolve => setTimeout(resolve, ms)),;
+    return new Promise(resolve => setTimeout(resolve, ms)),
   }
 }

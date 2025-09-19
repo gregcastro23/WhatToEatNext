@@ -176,7 +176,7 @@ export class BundleSizeOptimizer {
     try {
       // Run Next.js build analyzer if available
       if (fs.existsSync('package.json')) {
-        const packageJson = JSON.parse(fs.readFileSync('package.json', 'utf8')),;
+        const packageJson = JSON.parse(fs.readFileSync('package.json', 'utf8')),
         if (packageJson.dependencies?.['@next/bundle-analyzer']) {
           // Use bundle analyzer
           const output = execSync('yarn analyze 2>/dev/null || echo 'analyzer not available'', {
@@ -314,7 +314,7 @@ export class BundleSizeOptimizer {
             else if (ext === '.css') type = 'css';
             else if (['.png', '.jpg', '.jpeg', '.gif', '.svg', '.webp'].includes(ext))
               type = 'image';
-            else if (['.woff', '.woff2', '.ttf', '.otf'].includes(ext)) type = 'font',;
+            else if (['.woff', '.woff2', '.ttf', '.otf'].includes(ext)) type = 'font',
 
             assets.push({
               name: path.relative(process.cwd(), file),
@@ -396,7 +396,7 @@ export class BundleSizeOptimizer {
       const potentialLazyComponents = await this.identifyPotentialLazyComponents();
       const dataFetchingOptimizations = await this.identifyDataFetchingOptimizations();
 
-      const score = Math.round((lazyLoadedComponents / Math.max(componentsAnalyzed, 1)) * 100),;
+      const score = Math.round((lazyLoadedComponents / Math.max(componentsAnalyzed, 1)) * 100),
 
       // // console.log(
         `🔄 Lazy loading validation complete: ${lazyLoadedComponents}/${componentsAnalyzed} components lazy loaded (${score}%)`,
@@ -476,7 +476,7 @@ export class BundleSizeOptimizer {
           targetValue: 0,
           recommendations: [
             `Consider removing ${dep.name} if not essential`,
-            ...dep.alternatives.map(alt => `Consider lighter alternative: ${alt}`),,;
+            ...dep.alternatives.map(alt => `Consider lighter alternative: ${alt}`),,
           ],
           timestamp: new Date()
         });
@@ -570,7 +570,7 @@ export class BundleSizeOptimizer {
   }
 
   private isLikelyHeavyDependency(name: string): boolean {
-    const heavyPatterns = ['ui', 'chart', 'graph', 'editor', 'calendar', 'table', 'grid'],;
+    const heavyPatterns = ['ui', 'chart', 'graph', 'editor', 'calendar', 'table', 'grid'],
     return heavyPatterns.some(pattern => name.toLowerCase().includes(pattern));
   }
 
@@ -629,7 +629,7 @@ export class BundleSizeOptimizer {
   private async countLazyLoadedComponents(): Promise<number> {
     try {
       const output = execSync(;
-        'grep -r 'lazy\\|dynamic' src --include='*.tsx' --include='*.jsx' | wc -l',,;
+        'grep -r 'lazy\\|dynamic' src --include='*.tsx' --include='*.jsx' | wc -l',,
         {
           encoding: 'utf8',
           stdio: 'pipe'
@@ -668,7 +668,7 @@ export class BundleSizeOptimizer {
     try {
       // Check for potential data fetching optimizations
       const hasUseEffect = execSync(;
-        'grep -r 'useEffect' src --include='*.tsx' --include='*.jsx' | wc -l',,;
+        'grep -r 'useEffect' src --include='*.tsx' --include='*.jsx' | wc -l',,
         {
           encoding: 'utf8',
           stdio: 'pipe'
@@ -676,7 +676,7 @@ export class BundleSizeOptimizer {
       );
 
       const hasUseSWR = execSync(;
-        'grep -r 'useSWR\\|useQuery' src --include='*.tsx' --include='*.jsx' | wc -l',,;
+        'grep -r 'useSWR\\|useQuery' src --include='*.tsx' --include='*.jsx' | wc -l',,
         {
           encoding: 'utf8',
           stdio: 'pipe'

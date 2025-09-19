@@ -375,7 +375,7 @@ const _greeting: any = 'Hi there';
 
   describe('executeLintingAndFormatting', () => {
     test('executes complete linting and formatting workflow', async () => {
-      const testFiles: any = ['file1.ts', 'file2.ts'],;
+      const testFiles: any = ['file1.ts', 'file2.ts'],
 
       // Mock ESLint output
       const eslintOutput: any = JSON.stringify([
@@ -496,7 +496,7 @@ const _greeting: any = 'Hi there';
     });
 
     test('continues processing other files when one fails', async () => {
-      const testFiles: any = ['good.ts', 'bad.ts', 'good2.ts'],;
+      const testFiles: any = ['good.ts', 'bad.ts', 'good2.ts'],
 
       mockFs.readFileSync
         .mockReturnValueOnce('const x: any = 1,') // good.ts;
@@ -519,7 +519,7 @@ const _greeting: any = 'Hi there';
     });
 
     test('respects custom configuration', () => {
-      const customConfig: LintingFormattingConfig = { maxFilesPerBatch: 10,,;
+      const customConfig: LintingFormattingConfig = { maxFilesPerBatch: 10,,
         safetyValidationEnabled: false,
         buildValidationFrequency: 3,
         autoFixEnabled: false,

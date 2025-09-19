@@ -76,8 +76,8 @@ const jupiterData: PlanetData = {
     Stones: ['Sapphire', 'Lapis Lazuli', 'Amethyst', 'Turquoise', 'Blue Topaz']
   },
   ElementalConnections: {
-    DayEmission: 'Spirit - 'that which animates'',
-    NightEmission: 'Essence - 'that which an object cannot exist without'',
+    DayEmission: 'Spirit - that which animates',
+    NightEmission: 'Essence - that which an object cannot exist without',
     ElementalBridges: ['Connects Air and Fire', 'Bridges intellect and passion'],
     SharedElements: {
       Air: ['Mercury', 'Saturn'],

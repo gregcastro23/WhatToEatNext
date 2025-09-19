@@ -219,7 +219,7 @@ describe('BundleSizeOptimizer', () => {
 
       expect(report.analysis.totalSize).toBe(513); // Math.round(350000 / 1024 * 1.5) = 513
       expect(report.targetCompliance).toBe(false);
-      expect(report.recommendations[0]).toContain('Reduce bundle size by 93kB'), // 513 - 420 = 93,;
+      expect(report.recommendations[0]).toContain('Reduce bundle size by 93kB'), // 513 - 420 = 93,
     });
   });
 

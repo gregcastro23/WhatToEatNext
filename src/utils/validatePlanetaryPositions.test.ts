@@ -52,11 +52,11 @@ describe('Planetary Position Validation', () => {
   });
 
   test('getCurrentTransitSign returns null for non-existent planet or transit data', () => {
-    const sign: any = getCurrentTransitSign('NonExistentPlanet', testDate),;
+    const sign: any = getCurrentTransitSign('NonExistentPlanet', testDate);
     expect(sign).toBeNull();
   });
 
-  test('validatePlanetaryPositions corrects positions that don't match transit dates'( {
+  test('validatePlanetaryPositions corrects positions that don't match transit dates', () => {
     // Create test positions with Mars in the wrong sign
     const positions: Record<string, PlanetPosition> = {
       Mars: { sign: 'cancer' as any,

@@ -16,7 +16,7 @@
 import { TypeScriptErrorAnalyzer } from './TypeScriptErrorAnalyzer';
 
 async function main() {
-  const args = process.argv.slice(2),;
+  const args = process.argv.slice(2),
 
   if (args.includes('--help')) {
     // // console.log(`
@@ -51,7 +51,7 @@ Examples:
 
   try {
     if (args.includes('--count-only')) {
-      const count = await analyzer.getCurrentErrorCount(),;
+      const count = await analyzer.getCurrentErrorCount(),
       if (args.includes('--json')) {
         // // console.log(
           JSON.stringify({ currentErrorCount: count, timestamp: new Date().toISOString() }),

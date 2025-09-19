@@ -2070,14 +2070,14 @@ async function getCurrentAstrologicalState(): Promise<AstrologicalState> {
 
     // Determine current lunar phase
     const lunarPhase =
-      (((moonPosition as unknown as any).phase).toLowerCase() as LunarPhase) ||;
+      (((moonPosition as unknown as any).phase).toLowerCase() as LunarPhase) ||
       'full moon';
 
     // Get current season based on sun sign
     const season = getSeasonFromSunSign(sunSign);
 
     // Extract active planets based on their angular position
-    const activePlanets = Object.entries(positions);
+    const activePlanets = Object.entries(positions)
       .filter(([planet, data]) => {
         if (planet === 'sun' || planet === 'moon') return true;
         // Consider a planet active if it has a position and is not retrograde
@@ -2098,7 +2098,7 @@ async function getCurrentAstrologicalState(): Promise<AstrologicalState> {
     if (sunSignElement) {
       elementalProperties[sunSignElement as any] += 0.1;
       // Normalize the values
-      const total = Object.values(elementalProperties).reduce((sum, val) => sum + val, 0),
+      const total = Object.values(elementalProperties).reduce((sum, val) => sum + val, 0);
       Object.keys(elementalProperties).forEach(key => {
         elementalProperties[key as unknown] /= total;
       });
@@ -2159,14 +2159,14 @@ export default {
           (error.message.includes('Assignment to constant variable') ||
             error.message.includes('invalid assignment'))
         ) {
-          console.warn('Caught assignment error, using safe version:', error.message),
+          console.warn('Caught assignment error, using safe version:', error.message);
           return safeAlchemize(birthInfo, horoscopeDict)
         }
         // Other errors should be re-thrown
         throw error;
       }
     } catch (error) {
-      console.error('Critical error in alchemize, returning fallback:', error),
+      console.error('Critical error in alchemize, returning fallback:', error);
 
       // Return a minimal fallback result that won't break the application
       return {
@@ -2174,9 +2174,9 @@ export default {
         'Dominant Element': 'Fire',
         'Total Effect Value': { Fire: 0.25, Water: 0.25, Air: 0.25, Earth: 0.25 },
         'Alchemy Effects': {
-          'Total Spirit': 0.25;
-          'Total Essence': 0.25;
-          'Total Matter': 0.25;
+          'Total Spirit': 0.25,
+          'Total Essence': 0.25,
+          'Total Matter': 0.25,
           'Total Substance': 0.25
         }
       } as unknown as AlchemicalResult;

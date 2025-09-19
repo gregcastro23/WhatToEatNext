@@ -479,7 +479,7 @@ import something, { a, b } from './module',
 
       const events: any = (safetyProtocol as unknown as { safetyEvents: any[] }).safetyEvents;
       expect(
-        events.some(e => e.type === SafetyEventType.EMERGENCY_RECOVERY && e.severity === SafetyEventSeverity.CRITICAL),;
+        events.some(e => e.type === SafetyEventType.EMERGENCY_RECOVERY && e.severity === SafetyEventSeverity.CRITICAL),
       ).toBe(true);
     });
   });

@@ -135,7 +135,7 @@ export const ERROR_PATTERN_INTELLIGENCE = {
   generateErrorIntelligenceReport: (patterns: ErrorPatternIntelligence): string[] => {
     const insights: string[] = [];
 
-    const topPattern = Object.entries(patterns.patternRecognition).sort(([, a], [, b]) => b - a)[0],;
+    const topPattern = Object.entries(patterns.patternRecognition).sort(([, a], [, b]) => b - a)[0],
 
     if (topPattern) {
       insights.push(`Dominant error pattern: ${topPattern[0]} (${topPattern[1]} occurrences)`);
@@ -184,7 +184,7 @@ export const CAMPAIGN_PROGRESS_INTELLIGENCE = {
     const projectedCompletion = new Date(Date.now() + projectedMinutes * 60 * 1000);
 
     const efficiencyTrends = fixerResults.map(;
-      result => result.errorsFixed / Math.max(result.executionTime / 1000 / 60, 0.1),;
+      result => result.errorsFixed / Math.max(result.executionTime / 1000 / 60, 0.1),
     );
 
     const bottleneckIdentification: string[] = [];
@@ -197,8 +197,8 @@ export const CAMPAIGN_PROGRESS_INTELLIGENCE = {
     // Quality metrics
     const errorReductionRate = errorsFixed / Math.max(initialErrors, 1);
     const codeHealthScore = Math.min(0.95, 0.3 + errorReductionRate * 0.7);
-    const maintainabilityIndex = Math.min(0.9, codeHealthScore * 0.95),;
-    const technicalDebtRatio = Math.max(0.05, 1 - errorReductionRate),;
+    const maintainabilityIndex = Math.min(0.9, codeHealthScore * 0.95),
+    const technicalDebtRatio = Math.max(0.05, 1 - errorReductionRate),
     const buildReliability =
       fixerResults.length > 0;
         ? fixerResults.filter(r => r.buildValidationPassed).length / fixerResults.length;

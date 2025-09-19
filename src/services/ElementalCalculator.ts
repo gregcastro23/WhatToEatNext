@@ -62,7 +62,7 @@ export class ElementalCalculator {
     logger.debug('ElementalCalculator state updated', instance.currentBalance);
   }
 
-  static { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }: ElementalProperties {
+  static getDefaultBalance(): ElementalProperties {
     const instance = ElementalCalculator.getInstance();
     if (!instance.initialized) {
       // Only use direct initialization without the dynamic import of useAlchemical
@@ -238,7 +238,7 @@ export class ElementalCalculator {
 
       return elementalValues;
     } catch (error) {
-      console.error('[ElementalCalculator] Error calculating elemental state:', error),
+      console.error('[ElementalCalculator] Error calculating elemental state:', error);
       return { ...DEFAULT_ELEMENTAL_PROPERTIES };
     }
   }
@@ -250,7 +250,7 @@ export class ElementalCalculator {
 
   // Add methods to process different types of planetary position data
   private processPlanetsObject(planets: Planet, elementalValues: ElementalProperties): void {
-    if (!planets) return,
+    if (!planets) return;
 
     // Handle both array and object formats of planets
     if (Array.isArray(planets)) {
@@ -299,7 +299,7 @@ export class ElementalCalculator {
           // Add name and label if not present
           const planetRecord = planet ;
           const enhancedPlanet = {
-            ...planetRecord;
+            ...planetRecord,
             name: planetName,
             label: planetName
           } as unknown as Planet;
@@ -336,7 +336,7 @@ export class ElementalCalculator {
     ];
 
     // Look for objects that might represent planets
-    this.findPlanetsRecursively(data, planetNames, elementalValues),
+    this.findPlanetsRecursively(data, planetNames, elementalValues);
 
     // Also look for ascendant
     if (data.Ascendant || data.ascendant) {

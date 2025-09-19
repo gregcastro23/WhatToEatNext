@@ -32,7 +32,7 @@ const uranusData: PlanetData = {
       Surface: 'Gas giant with no solid surface',
       MagneticField: 'Uniquely tilted magnetic field',
       Composition:
-        'Ice giant composed primarily of a 'hot dense fluid' of water, methane and ammonia',
+        'Ice giant composed primarily of a hot dense fluid of water, methane and ammonia',
       NotableFeatures: 'Extreme axial tilt, complex ring system, unusual sideways rotation'
     }
   },

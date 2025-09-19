@@ -180,7 +180,7 @@ export function calculateZodiacAffinityFromElements(
     result[sign as any] = elementalProperties[element] * 0.7;
 
     // Add smaller contributions from other elements based on compatibility
-    const otherElements = Object.keys(elementalProperties).filter(e => e !== element) as Array<;
+    const otherElements = Object.keys(elementalProperties).filter(e => e !== element) as Array<
       keyof ElementalProperties
     >;
 
@@ -202,9 +202,9 @@ export function calculateZodiacAffinityFromElements(
 
         // Add additional boost based on hierarchical element-modality affinities
         if (signModality === 'mutable' && element === 'Air') {
-          result[sign as any] += 0.1, // Air has strongest affinity with Mutable
+          result[sign as any] += 0.1; // Air has strongest affinity with Mutable
         } else if (signModality === 'fixed' && element === 'Earth') {
-          result[sign as any] += 0.1, // Earth has strongest affinity with Fixed
+          result[sign as any] += 0.1; // Earth has strongest affinity with Fixed
         } else if (signModality === 'cardinal') {
           // Cardinal has equal affinity with all elements, small boost
           result[sign as any] += 0.05;
@@ -246,7 +246,7 @@ function getElementalCompatibility(
 ): number {
   // Same element has highest compatibility
   if (element1 === element2) {
-    return 0.9, // Same element has high compatibility
+    return 0.9; // Same element has high compatibility
   }
 
   // All different element combinations have good compatibility

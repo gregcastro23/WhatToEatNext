@@ -47,7 +47,7 @@ describe('EnterpriseIntelligenceGenerator', () => {
   });
 
   describe('generateIntelligenceSystems', () => {
-    const mockFileAnalysis: FileAnalysis = { filePath: '/test/TestFile.ts',,;
+    const mockFileAnalysis: FileAnalysis = { filePath: '/test/TestFile.ts',,
       priority: FilePriority.HIGH,
       unusedExports: [
         {
@@ -309,7 +309,7 @@ describe('EnterpriseIntelligenceGenerator', () => {
       ).generateCapabilities(candidate, template);
 
       expect(
-        (capabilities).some((cap: any) => cap.name === 'generateAdvancedInsights'),;
+        (capabilities).some((cap: any) => cap.name === 'generateAdvancedInsights'),
       ).toBe(true);
     });
   });
@@ -339,10 +339,10 @@ describe('EnterpriseIntelligenceGenerator', () => {
 
       expect(integrationPoints.length).toBeGreaterThan(0);
       expect(
-        (integrationPoints).some((ip: any) => ip.method === IntegrationMethod.DIRECT_IMPORT),;
+        (integrationPoints).some((ip: any) => ip.method === IntegrationMethod.DIRECT_IMPORT),
       ).toBe(true);
       expect(
-        (integrationPoints).some((ip: any) => ip.method === IntegrationMethod.API_ENDPOINT),;
+        (integrationPoints).some((ip: any) => ip.method === IntegrationMethod.API_ENDPOINT),
       ).toBe(true);
     });
 

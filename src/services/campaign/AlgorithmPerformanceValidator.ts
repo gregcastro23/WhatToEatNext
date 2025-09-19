@@ -161,7 +161,7 @@ export class AlgorithmPerformanceValidator {
         ((tier2Metrics as any)?.avgResponseTime || 0) * 0.2 +
         ((tier3Metrics as any)?.avgResponseTime || 0) * 0.2;
 
-      const efficiency = Math.min(100, overallHitRate * 100),;
+      const efficiency = Math.min(100, overallHitRate * 100),
 
       const cacheMetrics: CachePerformanceMetrics = {
         tier1: tier1Metrics,
@@ -265,7 +265,7 @@ export class AlgorithmPerformanceValidator {
       }
 
       // // console.log(
-        `🔍 Regression analysis complete: ${regressionTests.filter(t => t.regressionDetected).length}/${regressionTests.length} regressions detected`,;
+        `🔍 Regression analysis complete: ${regressionTests.filter(t => t.regressionDetected).length}/${regressionTests.length} regressions detected`,
       );
       return regressionTests;
     } catch (error) {
@@ -350,7 +350,7 @@ export class AlgorithmPerformanceValidator {
     const cacheScore = cacheMetrics.overall.efficiency;
     const regressionScore = Math.max(;
       0,
-      100 - regressionTests.filter(t => t.regressionDetected).length * 20,;
+      100 - regressionTests.filter(t => t.regressionDetected).length * 20,
     );
     const improvementScore = improvementMaintained ? 100 : 50;
 
@@ -404,8 +404,8 @@ export class AlgorithmPerformanceValidator {
 
     for (const algo of algorithms) {
       const samples = await this.runAlgorithmBenchmark(algo.name);
-      const current = samples.reduce((sum, s) => sum + s, 0) / samples.length,;
-      const improvement = Math.max(0, (algo.baseline - current) / algo.baseline),;
+      const current = samples.reduce((sum, s) => sum + s, 0) / samples.length,
+      const improvement = Math.max(0, (algo.baseline - current) / algo.baseline),
 
       benchmarks.push({
         name: algo.name,
@@ -436,8 +436,8 @@ export class AlgorithmPerformanceValidator {
 
     for (const op of cacheOps) {
       const samples = await this.runCacheBenchmark(op.name);
-      const current = samples.reduce((sum, s) => sum + s, 0) / samples.length,;
-      const improvement = Math.max(0, (op.baseline - current) / op.baseline),;
+      const current = samples.reduce((sum, s) => sum + s, 0) / samples.length,
+      const improvement = Math.max(0, (op.baseline - current) / op.baseline),
 
       benchmarks.push({
         name: op.name,
@@ -466,8 +466,8 @@ export class AlgorithmPerformanceValidator {
 
     for (const op of dbOps) {
       const samples = await this.runDatabaseBenchmark(op.name);
-      const current = samples.reduce((sum, s) => sum + s, 0) / samples.length,;
-      const improvement = Math.max(0, (op.baseline - current) / op.baseline),;
+      const current = samples.reduce((sum, s) => sum + s, 0) / samples.length,
+      const improvement = Math.max(0, (op.baseline - current) / op.baseline),
 
       benchmarks.push({
         name: op.name,
@@ -496,8 +496,8 @@ export class AlgorithmPerformanceValidator {
 
     for (const op of apiOps) {
       const samples = await this.runApiBenchmark(op.name);
-      const current = samples.reduce((sum, s) => sum + s, 0) / samples.length,;
-      const improvement = Math.max(0, (op.baseline - current) / op.baseline),;
+      const current = samples.reduce((sum, s) => sum + s, 0) / samples.length,
+      const improvement = Math.max(0, (op.baseline - current) / op.baseline),
 
       benchmarks.push({
         name: op.name,
@@ -526,8 +526,8 @@ export class AlgorithmPerformanceValidator {
 
     for (const op of uiOps) {
       const samples = await this.runUiBenchmark(op.name);
-      const current = samples.reduce((sum, s) => sum + s, 0) / samples.length,;
-      const improvement = Math.max(0, (op.baseline - current) / op.baseline),;
+      const current = samples.reduce((sum, s) => sum + s, 0) / samples.length,
+      const improvement = Math.max(0, (op.baseline - current) / op.baseline),
 
       benchmarks.push({
         name: op.name,
@@ -700,7 +700,7 @@ export class AlgorithmPerformanceValidator {
   }
 
   private groupBenchmarksByName(): Map<string, PerformanceBenchmark[]> {
-    const groups = new Map<string, PerformanceBenchmark[]>(),;
+    const groups = new Map<string, PerformanceBenchmark[]>(),
 
     for (const benchmark of this.benchmarkHistory) {
       if (!groups.has(benchmark.name)) {

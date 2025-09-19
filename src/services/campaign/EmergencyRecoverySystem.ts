@@ -57,7 +57,7 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
 
   constructor(settings: SafetySettings) {
     super(settings);
-    this.backupDirectory = path.join('.kiro', 'emergency-backups'),;
+    this.backupDirectory = path.join('.kiro', 'emergency-backups'),
     this.ensureBackupDirectory();
   }
 
@@ -501,11 +501,11 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
     );
 
     const successfulRecoveries = recoveryEvents.filter(;
-      e => e.action.includes('SUCCESS') || e.severity === SafetyEventSeverity.INFO,;
+      e => e.action.includes('SUCCESS') || e.severity === SafetyEventSeverity.INFO,
     ).length;
 
     const failedRecoveries = recoveryEvents.filter(;
-      e => e.action.includes('FAILED') || e.severity === SafetyEventSeverity.CRITICAL,;
+      e => e.action.includes('FAILED') || e.severity === SafetyEventSeverity.CRITICAL,
     ).length;
 
     const nuclearResets = recoveryEvents.filter(e => e.action.includes('NUCLEAR_RESET')).length;
@@ -545,7 +545,7 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
   }
 
   private async createEmergencyBackup(description: string): Promise<string> {
-    const timestamp = new Date().toISOString().replace(/[:.]/g, '-'),;
+    const timestamp = new Date().toISOString().replace(/[:.]/g, '-'),
     const backupName = `emergency-backup-${description}-${timestamp}`;
     const backupPath = path.join(this.backupDirectory, backupName);
 

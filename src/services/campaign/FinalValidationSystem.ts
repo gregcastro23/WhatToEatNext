@@ -163,7 +163,7 @@ export class FinalValidationSystem {
         errorCount > 0;
           ? [
               `Found ${errorCount} TypeScript compilation errors`,
-              ...errorLines.slice(0, 10).map(line => `  ${line.trim()}`),,;
+              ...errorLines.slice(0, 10).map(line => `  ${line.trim()}`),,
               ...(errorLines.length > 10
                 ? [`  ... and ${errorLines.length - 10} more errors`]
                 : [])
@@ -180,7 +180,7 @@ export class FinalValidationSystem {
 
       return {
         category: 'TypeScript Compilation',
-        passed: errorCount === this.TYPESCRIPT_ERROR_TARGET,,;
+        passed: errorCount === this.TYPESCRIPT_ERROR_TARGET,,
         current: errorCount,
         target: this.TYPESCRIPT_ERROR_TARGET,
         details,
@@ -242,7 +242,7 @@ export class FinalValidationSystem {
               `  Explicit-any warnings: ${explicitAnyWarnings}`,
               `  Unused variable warnings: ${unusedVarWarnings}`,
               `  Console statement warnings: ${consoleWarnings}`,
-              ...warningLines.slice(0, 5).map(line => `  ${line.trim()}`),,;
+              ...warningLines.slice(0, 5).map(line => `  ${line.trim()}`),,
               ...(warningLines.length > 5
                 ? [`  ... and ${warningLines.length - 5} more warnings`]
                 : [])
@@ -259,7 +259,7 @@ export class FinalValidationSystem {
 
       return {
         category: 'Linting Quality',
-        passed: warningCount === this.LINTING_WARNING_TARGET,,;
+        passed: warningCount === this.LINTING_WARNING_TARGET,,
         current: warningCount,
         target: this.LINTING_WARNING_TARGET,
         details,
@@ -275,7 +275,7 @@ export class FinalValidationSystem {
 
       return {
         category: 'Linting Quality',
-        passed: warningCount === this.LINTING_WARNING_TARGET,,;
+        passed: warningCount === this.LINTING_WARNING_TARGET,,
         current: warningCount,
         target: this.LINTING_WARNING_TARGET,
         details: [
@@ -305,15 +305,15 @@ export class FinalValidationSystem {
 
       // Categorize intelligence systems
       const highPriorityCount = intelligenceLines.filter(;
-        line => line.includes('src/data/') || line.includes('src/recipes/'),;
+        line => line.includes('src/data/') || line.includes('src/recipes/'),
       ).length;
 
       const mediumPriorityCount = intelligenceLines.filter(;
-        line => line.includes('src/services/') || line.includes('src/components/'),;
+        line => line.includes('src/services/') || line.includes('src/components/'),
       ).length;
 
       const lowPriorityCount = intelligenceLines.filter(;
-        line => line.includes('src/utils/') || line.includes('src/__tests__/'),;
+        line => line.includes('src/utils/') || line.includes('src/__tests__/'),
       ).length;
 
       const details = [
@@ -526,7 +526,7 @@ export class FinalValidationSystem {
 
     try {
       if (fs.existsSync('.campaign-baseline.json')) {
-        const baseline = JSON.parse(fs.readFileSync('.campaign-baseline.json', 'utf8')),;
+        const baseline = JSON.parse(fs.readFileSync('.campaign-baseline.json', 'utf8')),
         initialState = {
           errors: baseline.errors || 0,
           warnings: baseline.warnings || 0,

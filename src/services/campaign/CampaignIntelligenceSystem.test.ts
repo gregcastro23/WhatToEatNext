@@ -46,7 +46,7 @@ describe('Campaign Intelligence System', () => {
     });
 
     it('should generate error intelligence report', () => {
-      const patterns: ErrorPatternIntelligence = { patternRecognition: { TS2352_TYPE_CONVERSION: 10, TS2345_ARGUMENT_MISMATCH: 5 },;
+      const patterns: ErrorPatternIntelligence = { patternRecognition: { TS2352_TYPE_CONVERSION: 10, TS2345_ARGUMENT_MISMATCH: 5 },
         fixSuccessRates: { TS2352_TYPE_CONVERSIO, N: 0.92, TS2345_ARGUMENT_MISMATCH: 0.87 },
         errorCategoryTrends: {
           [ErrorCategory.TS2352_TYPE_CONVERSION]: 10,
@@ -99,7 +99,7 @@ describe('Campaign Intelligence System', () => {
         }
       ];
 
-      const sampleCampaignProgress: CampaignProgress = { totalExplicitAnyStart: 1000,,;
+      const sampleCampaignProgress: CampaignProgress = { totalExplicitAnyStart: 1000,,
         totalExplicitAnyRemaining: 200,
         reductionAchieved: 800,
         reductionPercentage: 80,

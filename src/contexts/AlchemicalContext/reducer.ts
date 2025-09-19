@@ -55,14 +55,14 @@ export const _alchemicalReducer = (
 
     case 'SET_ELEMENTAL_STATE':
       return {
-        ...state;
+        ...state,
         elementalState: action.payload,
         lastUpdated: new Date()
       };
 
     case 'SET_ZODIAC_ENERGY':
       return {
-        ...state;
+        ...state,
         zodiacEnergy: action.payload,
         currentEnergy: {
           zodiacEnergy: action.payload,
@@ -74,7 +74,7 @@ export const _alchemicalReducer = (
 
     case 'SET_LUNAR_ENERGY':
       return {
-        ...state;
+        ...state,
         lunarEnergy: action.payload,
         currentEnergy: {
           zodiacEnergy: state.currentEnergy?.zodiacEnergy || '',
@@ -86,7 +86,7 @@ export const _alchemicalReducer = (
 
     case 'SET_PLANETARY_ENERGY':
       return {
-        ...state;
+        ...state,
         planetaryEnergy: action.payload,
         currentEnergy: {
           zodiacEnergy: state.currentEnergy?.zodiacEnergy || '',
@@ -98,7 +98,7 @@ export const _alchemicalReducer = (
 
     case 'SET_ASTROLOGICAL_STATE':
       return {
-        ...state;
+        ...state,
         astrologicalState: {
           currentZodiac: 'aries',
           sunSign: 'aries',
@@ -112,7 +112,7 @@ export const _alchemicalReducer = (
 
     case 'SET_ERROR':
       return {
-        ...state;
+        ...state,
         error: true,
         errorMessage: action.payload.message,
         errors: [...state.errors, action.payload.message],
@@ -121,7 +121,7 @@ export const _alchemicalReducer = (
 
     case 'CLEAR_ERROR':
       return {
-        ...state;
+        ...state,
         error: false,
         errorMessage: '',
         lastUpdated: new Date()
@@ -129,15 +129,15 @@ export const _alchemicalReducer = (
 
     case 'ADD_ERROR':
       return {
-        ...state;
+        ...state,
         errors: [...state.errors, action.payload],
         lastUpdated: new Date()
       };
 
     case 'UPDATE_STATE':
       return {
-        ...state;
-        ...action.payload;
+        ...state,
+        ...action.payload,
         lastUpdated: new Date()
       };
 

@@ -245,12 +245,12 @@ export const ELEMENTAL_ANALYSIS_INTELLIGENCE = {
         ? preferences.waterOptimization
         : 1.05;
     const earthOptimization =
-      hasProperty(preferences, 'earthOptimization') &&;
-      typeof preferences.earthOptimization === 'number';
+      hasProperty(preferences, 'earthOptimization') &&
+      typeof preferences.earthOptimization === 'number'
         ? preferences.earthOptimization
         : 1.0;
     const airOptimization =
-      hasProperty(preferences, 'airOptimization') && typeof preferences.airOptimization === 'number',
+      hasProperty(preferences, 'airOptimization') && typeof preferences.airOptimization === 'number'
         ? preferences.airOptimization
         : 1.1;
 
@@ -260,7 +260,7 @@ export const ELEMENTAL_ANALYSIS_INTELLIGENCE = {
         optimal: properties.Fire * fireOptimization,
         adjustment: fireOptimization - 1,
         recommendations: ELEMENTAL_ANALYSIS_INTELLIGENCE.generateFireOptimizations(
-          properties.Fire;
+          properties.Fire,
           context,
         )
       },
@@ -269,7 +269,7 @@ export const ELEMENTAL_ANALYSIS_INTELLIGENCE = {
         optimal: properties.Water * waterOptimization,
         adjustment: waterOptimization - 1,
         recommendations: ELEMENTAL_ANALYSIS_INTELLIGENCE.generateWaterOptimizations(
-          properties.Water;
+          properties.Water,
           context,
         )
       },
@@ -278,7 +278,7 @@ export const ELEMENTAL_ANALYSIS_INTELLIGENCE = {
         optimal: properties.Earth * earthOptimization,
         adjustment: earthOptimization - 1,
         recommendations: ELEMENTAL_ANALYSIS_INTELLIGENCE.generateEarthOptimizations(
-          properties.Earth;
+          properties.Earth,
           context,
         )
       },
@@ -287,7 +287,7 @@ export const ELEMENTAL_ANALYSIS_INTELLIGENCE = {
         optimal: properties.Air * airOptimization,
         adjustment: airOptimization - 1,
         recommendations: ELEMENTAL_ANALYSIS_INTELLIGENCE.generateAirOptimizations(
-          properties.Air;
+          properties.Air,
           context,
         )
       }
@@ -310,7 +310,7 @@ export const ELEMENTAL_ANALYSIS_INTELLIGENCE = {
     const values = Object.values(properties);
     const average = values.reduce((sum, val) => sum + val, 0) / values.length;
     const variance =
-      values.reduce((sum, val) => sum + Math.pow(val - average, 2), 0) / values.length,
+      values.reduce((sum, val) => sum + Math.pow(val - average, 2), 0) / values.length;
     return 1 / (1 + variance)
   },
 
@@ -339,7 +339,7 @@ export const ELEMENTAL_ANALYSIS_INTELLIGENCE = {
   ): number => {
     const dominantValue = properties[dominantElement];
     const otherValues = Object.values(properties).filter(val => val !== dominantValue);
-    const averageOther = otherValues.reduce((sum, val) => sum + val, 0) / otherValues.length,
+    const averageOther = otherValues.reduce((sum, val) => sum + val, 0) / otherValues.length;
     return dominantValue / (dominantValue + averageOther)
   },
 
@@ -420,7 +420,7 @@ export const ELEMENTAL_ANALYSIS_INTELLIGENCE = {
     const adjustments = Object.values(optimizations).map((opt: unknown) => {
       return isValidObject(opt) &&
         hasProperty(opt, 'adjustment') &&
-        typeof opt.adjustment === 'number';
+        typeof opt.adjustment === 'number'
         ? opt.adjustment
         : 0
     });

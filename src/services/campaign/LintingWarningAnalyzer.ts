@@ -25,10 +25,10 @@ export interface LintingWarning {
 }
 
 export enum WarningCategory {
-  EXPLICIT_ANY = 'explicit-any',;
-  UNUSED_VARIABLES = 'unused-vars',;
-  CONSOLE_STATEMENTS = 'no-console',,;
-  OTHER = 'other',,;
+  EXPLICIT_ANY = 'explicit-any',
+  UNUSED_VARIABLES = 'unused-vars',
+  CONSOLE_STATEMENTS = 'no-console',,
+  OTHER = 'other',,
 }
 
 export interface WarningDistribution {
@@ -70,7 +70,7 @@ export class LintingWarningAnalyzer {
   private metricsFile: string,
 
   constructor() {
-    this.metricsFile = path.join(process.cwd(), '.linting-analysis-metrics.json'),;
+    this.metricsFile = path.join(process.cwd(), '.linting-analysis-metrics.json'),
   }
 
   /**
@@ -115,7 +115,7 @@ export class LintingWarningAnalyzer {
     for (const file of files) {
       try {
         const content = fs.readFileSync(file, 'utf-8');
-        const fileWarnings = this.analyzeFileContent(file, content),;
+        const fileWarnings = this.analyzeFileContent(file, content),
         warnings.push(...fileWarnings);
       } catch (error) {
         console.warn(`⚠️ Could not analyze file ${file}:`, error);
@@ -138,7 +138,7 @@ export class LintingWarningAnalyzer {
     const entries = fs.readdirSync(dir, { withFileTypes: true });
 
     for (const entry of entries) {
-      const fullPath = path.join(dir, entry.name),;
+      const fullPath = path.join(dir, entry.name),
 
       if (entry.isDirectory() && !entry.name.startsWith('.') && entry.name !== 'node_modules') {
         files.push(...this.getAllSourceFiles(fullPath));
@@ -399,7 +399,7 @@ export class LintingWarningAnalyzer {
         explicitAnyCount: result.distribution.explicitAny.count,
         unusedVariablesCount: result.distribution.unusedVariables.count,
         consoleStatementsCount: result.distribution.consoleStatements.count,
-        filesAnalyzed: new Set(result.warnings.map(w => w.file)).size,,;
+        filesAnalyzed: new Set(result.warnings.map(w => w.file)).size,,
       }
     };
 

@@ -132,7 +132,7 @@ export class CodeQualityAutomationSystem {
 
       for (const phase of enabledPhases) {
         // Check dependencies
-        const dependenciesMet = await this.checkPhaseDependencies(phase, result.phaseResults),;
+        const dependenciesMet = await this.checkPhaseDependencies(phase, result.phaseResults),
         if (!dependenciesMet) {
           result.warnings.push(`Skipping phase ${phase.name} - dependencies not met`);
           continue;

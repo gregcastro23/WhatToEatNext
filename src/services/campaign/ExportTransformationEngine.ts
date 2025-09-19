@@ -86,26 +86,26 @@ export interface ValidationResult {
 }
 
 export enum BatchPriority {
-  HIGH = 'HIGH',;
-  MEDIUM = 'MEDIUM',,;
-  LOW = 'LOW',,;
+  HIGH = 'HIGH',
+  MEDIUM = 'MEDIUM',,
+  LOW = 'LOW',,
 }
 
 export enum TransformationErrorType {
-  ANALYSIS_FAILED = 'ANALYSIS_FAILED',;
-  GENERATION_FAILED = 'GENERATION_FAILED',;
-  BUILD_FAILED = 'BUILD_FAILED',;
-  TEST_FAILED = 'TEST_FAILED',;
-  FILE_WRITE_FAILED = 'FILE_WRITE_FAILED',;
-  ROLLBACK_FAILED = 'ROLLBACK_FAILED',,;
-  VALIDATION_FAILED = 'VALIDATION_FAILED',,;
+  ANALYSIS_FAILED = 'ANALYSIS_FAILED',
+  GENERATION_FAILED = 'GENERATION_FAILED',
+  BUILD_FAILED = 'BUILD_FAILED',
+  TEST_FAILED = 'TEST_FAILED',
+  FILE_WRITE_FAILED = 'FILE_WRITE_FAILED',
+  ROLLBACK_FAILED = 'ROLLBACK_FAILED',,
+  VALIDATION_FAILED = 'VALIDATION_FAILED',,
 }
 
 export enum ErrorSeverity {
-  LOW = 'LOW',;
-  MEDIUM = 'MEDIUM',;
-  HIGH = 'HIGH',,;
-  CRITICAL = 'CRITICAL',,;
+  LOW = 'LOW',
+  MEDIUM = 'MEDIUM',
+  HIGH = 'HIGH',,
+  CRITICAL = 'CRITICAL',,
 }
 
 export class ExportTransformationEngine {
@@ -270,7 +270,7 @@ export class ExportTransformationEngine {
     const batchSize = this.config.batchSize;
 
     for (let i = 0, i < files.length, i += batchSize) {
-      const batchFiles = files.slice(i, i + batchSize),;
+      const batchFiles = files.slice(i, i + batchSize),
       const batchNumber = Math.floor(i / batchSize) + 1;
 
       const batch: TransformationBatch = {

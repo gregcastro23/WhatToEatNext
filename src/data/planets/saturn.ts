@@ -35,7 +35,7 @@ const saturnData: PlanetData = {
     SunlightTravelTime: '80 minutes',
     PhysicalCharacteristics: {
       Surface: 'Gas giant with no solid surface, characterized by subtle bands and periodic storms',
-      MagneticField: 'Strong magnetic field, about 578 times Earth's strength',
+      MagneticField: 'Strong magnetic field, about 578 times Earth\'s strength',
       Composition: 'Mostly hydrogen and helium with a rocky core',
       NotableFeatures:
         'Most prominent ring system in solar system, at least 82 moons, hexagonal storm at north pole'

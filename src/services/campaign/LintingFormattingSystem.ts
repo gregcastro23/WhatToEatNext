@@ -366,7 +366,7 @@ export class LintingFormattingSystem {
             column: message.column,
             ruleId: message.ruleId,
             message: message.message,
-            severity: message.severity === 2 ? 'error' : 'warning',,;
+            severity: message.severity === 2 ? 'error' : 'warning',,
             fixable: message.fix !== undefined
           });
         }
@@ -381,7 +381,7 @@ export class LintingFormattingSystem {
 
   private async formatFile(filePath: string): Promise<boolean> {
     try {
-      const originalContent = fs.readFileSync(filePath, 'utf8'),;
+      const originalContent = fs.readFileSync(filePath, 'utf8'),
 
       // Run Prettier
       const _formattedContent = execSync(`npx prettier --write ${filePath}`, {
@@ -405,13 +405,13 @@ export class LintingFormattingSystem {
 
     const fileExtension = path.extname(filePath);
     const enabledPatterns = this.config.patternBasedFixes.filter(;
-      pattern => pattern.enabled && pattern.fileExtensions.includes(fileExtension),;
+      pattern => pattern.enabled && pattern.fileExtensions.includes(fileExtension),
     );
 
     for (const pattern of enabledPatterns) {
       const matches = modifiedContent.match(pattern.pattern);
       if (matches) {
-        modifiedContent = modifiedContent.replace(pattern.pattern, pattern.replacement),;
+        modifiedContent = modifiedContent.replace(pattern.pattern, pattern.replacement),
         fixesApplied += matches.length;
         logger.info(
           `Applied pattern fix '${pattern.name}' to ${filePath}: ${matches.length} occurrences`,
@@ -440,7 +440,7 @@ export class LintingFormattingSystem {
         const line = modifiedLines[i];
         if (line.match(/^\t/)) {
           // Convert tabs to spaces
-          modifiedLines[i] = line.replace(/^\t+/, match => '  '.repeat(match.length)),;
+          modifiedLines[i] = line.replace(/^\t+/, match => '  '.repeat(match.length)),
           fixesApplied++
         }
       }

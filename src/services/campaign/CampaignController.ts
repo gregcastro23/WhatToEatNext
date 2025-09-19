@@ -176,7 +176,7 @@ export class CampaignController {
       }
 
       return {
-        success: errors.length === 0,;
+        success: errors.length === 0,
         errors,
         warnings,
         metrics: currentMetrics

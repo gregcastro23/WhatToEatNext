@@ -109,7 +109,7 @@ describe('Emergency Recovery System - Task 6.3', () => {
       // First create a stash to rollback to
       await emergencyRecovery.createStash('Test stash for backup rollback');
 
-      const options: EmergencyRecoveryOptions = { createBackupBeforeReset: true,,;
+      const options: EmergencyRecoveryOptions = { createBackupBeforeReset: true,,
         validateAfterRecovery: true
       };
 
@@ -123,7 +123,7 @@ describe('Emergency Recovery System - Task 6.3', () => {
       // First create a stash to rollback to
       await emergencyRecovery.createStash('Test stash for validation skip');
 
-      const options: EmergencyRecoveryOptions = { validateAfterRecovery: false,,;
+      const options: EmergencyRecoveryOptions = { validateAfterRecovery: false,,
       };
 
       const result: any = await emergencyRecovery.emergencyRollbackWithOptions(options);
@@ -174,7 +174,7 @@ describe('Emergency Recovery System - Task 6.3', () => {
 
     test('should create backup before commit rollback when requested', async () => {
       const commitHash: any = 'abc123def456';
-      const options: EmergencyRecoveryOptions = { createBackupBeforeReset: true,,;
+      const options: EmergencyRecoveryOptions = { createBackupBeforeReset: true,,
       };
 
       const result: any = await emergencyRecovery.rollbackToCommit(commitHash, options);
@@ -210,7 +210,7 @@ describe('Emergency Recovery System - Task 6.3', () => {
     });
 
     test('should preserve stashes when requested', async () => {
-      const options: EmergencyRecoveryOptions = { preserveStashes: true,,;
+      const options: EmergencyRecoveryOptions = { preserveStashes: true,,
       };
 
       const result: any = await emergencyRecovery.nuclearReset(options);
@@ -220,7 +220,7 @@ describe('Emergency Recovery System - Task 6.3', () => {
     });
 
     test('should preserve metrics when requested', async () => {
-      const options: EmergencyRecoveryOptions = { preserveMetrics: true,,;
+      const options: EmergencyRecoveryOptions = { preserveMetrics: true,,
       };
 
       const result: any = await emergencyRecovery.nuclearReset(options);
@@ -231,7 +231,7 @@ describe('Emergency Recovery System - Task 6.3', () => {
 
     test('should reset to specific commit when provided', async () => {
       const specificCommit: any = 'def456abc789';
-      const options: EmergencyRecoveryOptions = { resetToCommit: specificCommit,,;
+      const options: EmergencyRecoveryOptions = { resetToCommit: specificCommit,,
       };
 
       const result: any = await emergencyRecovery.nuclearReset(options);
@@ -293,7 +293,7 @@ describe('Emergency Recovery System - Task 6.3', () => {
       // Create the specific stash first
       await emergencyRecovery.createStash('Test stash for specific recovery', 'phase1');
 
-      const result: any = await emergencyRecovery.selectiveRecovery(targets, specificStash),;
+      const result: any = await emergencyRecovery.selectiveRecovery(targets, specificStash),
 
       expect(result.success).toBe(true);
     });
@@ -503,7 +503,7 @@ describe('Emergency Recovery System - Task 6.3', () => {
       // First create a stash for the rollback operation
       await emergencyRecovery.createStash('Test stash for backup test');
 
-      const options: EmergencyRecoveryOptions = { createBackupBeforeReset: true,,;
+      const options: EmergencyRecoveryOptions = { createBackupBeforeReset: true,,
       };
 
       await emergencyRecovery.emergencyRollbackWithOptions(options);

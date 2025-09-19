@@ -79,8 +79,8 @@ const venusData: PlanetData = {
     Stones: ['Emerald', 'Turquoise', 'Rose Quartz', 'Malachite']
   },
   ElementalConnections: {
-    DayEmission: 'Essence - 'that which an object cannot exist without'',
-    NightEmission: 'Matter - 'that which is minimally reactive'',
+    DayEmission: 'Essence - that which an object cannot exist without',
+    NightEmission: 'Matter - that which is minimally reactive',
     ElementalBridges: ['Connects Air to Ground', 'Connects Ground to Water'],
     SharedElements: {
       Water: ['Moon'],

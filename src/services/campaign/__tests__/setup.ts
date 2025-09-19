@@ -54,7 +54,7 @@ afterEach(() => {
   },
 
   // Helper to wait for async operations
-  waitForAsync: () => new Promise(resolve => setTimeout(resolve, 0)),;
+  waitForAsync: () => new Promise(resolve => setTimeout(resolve, 0)),
 
   // Helper to create mock progress metrics
   createMockProgressMetrics: (overrides: Record<string, unknown> = {}) => ({

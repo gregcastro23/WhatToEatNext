@@ -18,21 +18,21 @@ const logInfo = (_message: string, _data?: unknown) => {
 
 // Error types
 export enum ErrorType {
-  UI = 'UI',;
-  API = 'API',;
-  DATA = 'DATA',;
-  NETWORK = 'NETWORK',;
-  ASTROLOGY = 'ASTROLOGY',,;
-  UNKNOWN = 'UNKNOWN',,;
+  UI = 'UI',
+  API = 'API',
+  DATA = 'DATA',
+  NETWORK = 'NETWORK',
+  ASTROLOGY = 'ASTROLOGY',
+  UNKNOWN = 'UNKNOWN'
 }
 
 // Error severity levels
 export enum ErrorSeverity {
-  INFO = 'INFO',;
-  WARNING = 'WARNING',;
-  ERROR = 'ERROR',;
-  CRITICAL = 'CRITICAL',,;
-  FATAL = 'FATAL',,;
+  INFO = 'INFO',
+  WARNING = 'WARNING',
+  ERROR = 'ERROR',
+  CRITICAL = 'CRITICAL',
+  FATAL = 'FATAL'
 }
 
 // Options for the error handler
@@ -62,13 +62,13 @@ class ErrorHandlerService {
    */
   log(error: unknown, options: ErrorOptions = {}) {
     const {
-      type = ErrorType.UNKNOWN,;
-      severity = ErrorSeverity.ERROR,,;
-      component = 'unknown',,;
-      context = {},;
-      data = {},;
-      isFatal = false,;
-      silent = false,;
+      type = ErrorType.UNKNOWN,
+      severity = ErrorSeverity.ERROR,
+      component = 'unknown',
+      context = {},
+      data = {},
+      isFatal = false,
+      silent = false,
     } = options;
 
     const errorDetails = this.prepareErrorDetails(error, options);
@@ -161,9 +161,9 @@ class ErrorHandlerService {
    */
   private prepareErrorDetails(error: unknown, options: ErrorOptions): ErrorDetails {
     let message = 'Unknown error';
-    let stack: string | undefined,
+    let stack: string | undefined;
     let errorType = 'unknown';
-    let componentStack: string | undefined,
+    let componentStack: string | undefined;
 
     if (error instanceof Error) {
       message = error.message;

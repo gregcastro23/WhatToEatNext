@@ -27,7 +27,7 @@ describe('ExplicitAnyEliminationSystem', () => {
 
   describe('buildFixerArguments', () => {
     it('should build correct arguments for explicit-any options', () => {
-      const options: ExplicitAnyOptions = { maxFiles: 25,,;
+      const options: ExplicitAnyOptions = { maxFiles: 25,,
         autoFix: true,
         aggressive: true,
         validateSafety: true
@@ -46,7 +46,7 @@ describe('ExplicitAnyEliminationSystem', () => {
     });
 
     it('should build correct arguments for dry run', () => {
-      const options: ExplicitAnyOptions = { dryRun: true,,;
+      const options: ExplicitAnyOptions = { dryRun: true,,
         silent: true,
         json: true
       };
@@ -208,7 +208,7 @@ describe('ExplicitAnyEliminationSystem', () => {
         .mockReturnValueOnce('Build successful') // Build validation
         .mockReturnValueOnce('80\n'); // Final count
 
-      const options: ExplicitAnyOptions = { maxFiles: 20,,;
+      const options: ExplicitAnyOptions = { maxFiles: 20,,
         autoFix: true,
         validateSafety: true
       };
@@ -219,7 +219,7 @@ describe('ExplicitAnyEliminationSystem', () => {
         'node',
         [
           'scripts/typescript-fixes/fix-explicit-any-systematic.js';
-          '--max-files=20',,;
+          '--max-files=20',,
           '--auto-fix',
           '--validate-safety'
         ],

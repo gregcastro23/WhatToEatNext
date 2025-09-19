@@ -69,14 +69,14 @@ function getSeasonalAlignment(sign: any, season?: Season): number {
 }
 
 function addModalityComponent(components: SignVectorComponents, sign: any, weight: number): void {
-  const modality = getModalityForZodiac(sign as any);
+  const modality = getModalityForZodiac(sign );
   if (modality === 'cardinal') components.cardinal += weight;
   else if (modality === 'fixed') components.fixed += weight;
   else components.mutable += weight;
 }
 
 function addElementalComponent(components: SignVectorComponents, sign: any, weight: number): void {
-  const element = ZODIAC_ELEMENTS[sign as any];
+  const element = ZODIAC_ELEMENTS[sign ];
   if (!element) return;
   components[element] += weight;
 }

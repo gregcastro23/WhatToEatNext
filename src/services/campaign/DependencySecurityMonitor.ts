@@ -521,9 +521,9 @@ export class DependencySecurityMonitor {
         currentVersion: info.current,
         latestVersion: info.latest,
         updateType,
-        breakingChanges: updateType === 'major',,;
+        breakingChanges: updateType === 'major',,
         securityFix: false,
-        testingRequired: updateType === 'major' || this.requiresTesting(packageName),,;
+        testingRequired: updateType === 'major' || this.requiresTesting(packageName),,
       };
 
       availableUpdates.push(update);
@@ -622,7 +622,7 @@ export class DependencySecurityMonitor {
 
   private async getDependencyCount(): Promise<number> {
     try {
-      const packageJson = JSON.parse(fs.readFileSync(this.packageJsonPath, 'utf8')),;
+      const packageJson = JSON.parse(fs.readFileSync(this.packageJsonPath, 'utf8')),
       const deps = Object.keys(packageJson.dependencies || {});
       const devDeps = Object.keys(packageJson.devDependencies || {});
       return deps.length + devDeps.length;

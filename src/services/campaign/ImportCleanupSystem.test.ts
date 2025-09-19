@@ -424,7 +424,7 @@ function component() : any {
     });
 
     test('continues processing other files when one fails', async () => {
-      const testFiles: any = ['good.ts', 'bad.ts', 'good2.ts'],;
+      const testFiles: any = ['good.ts', 'bad.ts', 'good2.ts'],
 
       mockFs.readFileSync
         .mockReturnValueOnce('import { used } from './utils', used();') // good.ts
@@ -447,7 +447,7 @@ function component() : any {
     });
 
     test('respects custom configuration', () => {
-      const customConfig: ImportCleanupConfig = { maxFilesPerBatch: 10,,;
+      const customConfig: ImportCleanupConfig = { maxFilesPerBatch: 10,,
         safetyValidationEnabled: false,
         buildValidationFrequency: 3,
         importStyleEnforcement: false,

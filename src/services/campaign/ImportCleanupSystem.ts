@@ -297,7 +297,7 @@ export class ImportCleanupSystem {
     const lines = content.split('\n');
 
     // Remove the import line from consideration
-    const contentWithoutImport = lines.filter((_, index) => index !== importLineIndex).join('\n'),;
+    const contentWithoutImport = lines.filter((_, index) => index !== importLineIndex).join('\n'),
 
     // Check for usage patterns
     const usagePatterns = [
@@ -345,7 +345,7 @@ export class ImportCleanupSystem {
       // If all imports on this line are unused, remove the entire line
       const allImportsOnLine = this.extractAllImportsFromLine(originalLine);
       const allUnused = allImportsOnLine.every(imp =>;
-        lineUnused.some(unused => unused.importName === imp),;
+        lineUnused.some(unused => unused.importName === imp),
       );
 
       if (allUnused) {
@@ -355,7 +355,7 @@ export class ImportCleanupSystem {
         // Remove only specific unused imports from the line
         let modifiedLine = originalLine;
         for (const unused of lineUnused) {
-          modifiedLine = this.removeImportFromLine(modifiedLine, unused.importName),;
+          modifiedLine = this.removeImportFromLine(modifiedLine, unused.importName),
           removedCount++
         }
         lines[lineIndex] = modifiedLine;
@@ -375,7 +375,7 @@ export class ImportCleanupSystem {
 
     if (match[1]) {
       // Named imports
-      return match[1].split(',').map(name => name.trim()),;
+      return match[1].split(',').map(name => name.trim()),
     } else if (match[2]) {
       // Namespace import
       return [match[2]]
@@ -395,8 +395,8 @@ export class ImportCleanupSystem {
         regex: new RegExp(`\\{([^}]*?)\\b${importName}\\b,?([^}]*?)\\}`, 'g'),
         replacement: (match: string, before: string, after: string) => {
           const cleanBefore = before.replace(/,\s*$/, '').trim();
-          const cleanAfter = after.replace(/^\s*,/, '').trim(),;
-          const combined = [cleanBefore, cleanAfter].filter(Boolean).join(', '),;
+          const cleanAfter = after.replace(/^\s*,/, '').trim(),
+          const combined = [cleanBefore, cleanAfter].filter(Boolean).join(', '),
           return `{${combined}}`;
         }
       }
@@ -405,7 +405,7 @@ export class ImportCleanupSystem {
     let modifiedLine = line;
     for (const pattern of patterns) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
-      modifiedLine = modifiedLine.replace(pattern.regex, pattern.replacement as any),;
+      modifiedLine = modifiedLine.replace(pattern.regex, pattern.replacement as any),
     }
 
     return modifiedLine;
@@ -574,7 +574,7 @@ export class ImportCleanupSystem {
       const importMatch = styledLine.match(/^(\s*import\s+(?:type\s+)?\{)([^}]+)(\}\s+from\s+.+)$/);
       if (importMatch) {
         const [, prefix, imports, suffix] = importMatch,
-        const importList = imports.split(',').map(imp => imp.trim()),;
+        const importList = imports.split(',').map(imp => imp.trim()),
 
         if (importList.length > 1) {
           const formattedImports = importList.map(imp => `  ${imp}`).join(',\n');

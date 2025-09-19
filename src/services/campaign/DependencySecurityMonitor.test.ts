@@ -491,7 +491,7 @@ describe('DependencySecurityMonitor', () => {
     });
 
     test('respects custom configuration', () => {
-      const customConfig: DependencySecurityConfig = { maxDependenciesPerBatch: 5,,;
+      const customConfig: DependencySecurityConfig = { maxDependenciesPerBatch: 5,,
         safetyValidationEnabled: false,
         autoUpdateEnabled: true,
         securityScanEnabled: false,

@@ -329,7 +329,7 @@ const _another: any = 'value';
 
   describe('generateReport', () => {
     it('should generate single execution report', () => {
-      const result: ConsoleRemovalResult = { success: true,,;
+      const result: ConsoleRemovalResult = { success: true,,
         filesProcessed: 10,
         consoleStatementsRemoved: 25,
         consoleStatementsPreserved: 5,
@@ -352,7 +352,7 @@ const _another: any = 'value';
     });
 
     it('should generate failure report', () => {
-      const result: ConsoleRemovalResult = { success: false,,;
+      const result: ConsoleRemovalResult = { success: false,,
         filesProcessed: 0,
         consoleStatementsRemoved: 0,
         consoleStatementsPreserved: 0,
@@ -387,7 +387,7 @@ const _another: any = 'value';
 
   describe('saveMetrics', () => {
     it('should save metrics to file', async () => {
-      const result: ConsoleRemovalResult = { success: true,,;
+      const result: ConsoleRemovalResult = { success: true,,
         filesProcessed: 5,
         consoleStatementsRemoved: 10,
         consoleStatementsPreserved: 2,
@@ -410,7 +410,7 @@ const _another: any = 'value';
     });
 
     it('should handle save metrics errors gracefully', async () => {
-      const result: ConsoleRemovalResult = { success: true,,;
+      const result: ConsoleRemovalResult = { success: true,,
         filesProcessed: 5,
         consoleStatementsRemoved: 10,
         consoleStatementsPreserved: 2,

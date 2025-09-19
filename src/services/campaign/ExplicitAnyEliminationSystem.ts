@@ -265,7 +265,7 @@ export class ExplicitAnyEliminationSystem {
   }> {
     return new Promise((resolve, reject) => {
       const command = 'node';
-      const fullArgs = [this.EXPLICIT_ANY_FIXER_PATH, ...args],;
+      const fullArgs = [this.EXPLICIT_ANY_FIXER_PATH, ...args],
 
       // // console.log(`🔧 Executing: ${command} ${fullArgs.join(' ')}`);
 
@@ -297,7 +297,7 @@ export class ExplicitAnyEliminationSystem {
         const output = stdout + stderr;
 
         // Parse output for metrics
-        const result = this.parseFixerOutput(output, success),;
+        const result = this.parseFixerOutput(output, success),
 
         resolve(result);
       });
