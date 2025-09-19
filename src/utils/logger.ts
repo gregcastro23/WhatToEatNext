@@ -143,7 +143,7 @@ class Logger {
   private storeError(message: string, component?: string): void {
     this.recentErrors.unshift({
       message,
-      timestamp: Date.now();
+      timestamp: Date.now(),
       component
     });
 

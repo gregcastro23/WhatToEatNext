@@ -1,23 +1,22 @@
 import { ZODIAC_ELEMENTS } from '@/calculations/core/elementalCalculations';
 import { ZODIAC_SEASONS } from '@/constants/seasonalCore';
 import {
-  calculateKalchm,
-  calculateMonica,
-  calculateThermodynamics,
+    calculateKalchm,
+    calculateMonica,
+    calculateThermodynamics,
 } from '@/data/unified/alchemicalCalculations';
-import type { Season, ElementalProperties } from '@/types/alchemy';
+import type { ElementalProperties, Season } from '@/types/alchemy';
 import type {
-  PlanetaryAspect,
-  PlanetaryPosition,
-  ZodiacSign,
-  AlchemicalProperties,
+    AlchemicalProperties,
+    PlanetaryAspect,
+    PlanetaryPosition
 } from '@/types/celestial';
 import type {
-  SignVector,
-  SignVectorCalculationInput,
-  SignVectorCompatibilityResult,
-  SignVectorComponents,
-  SignVectorMap,
+    SignVector,
+    SignVectorCalculationInput,
+    SignVectorCompatibilityResult,
+    SignVectorComponents,
+    SignVectorMap,
 } from '@/types/signVectors';
 import { getModalityForZodiac } from '@/utils/zodiacUtils';
 
@@ -246,8 +245,8 @@ export function compareSignVectors(a: SignVector, b: SignVector): SignVectorComp
 // =====================
 
 import {
-  calculateAlchemicalProperties as calcESMSFromPositions,
-  calculateElementalValues,
+    calculateAlchemicalProperties as calcESMSFromPositions,
+    calculateElementalValues,
 } from '@/calculations/core/kalchmEngine';
 
 export const VECTOR_CONFIG = {
@@ -367,7 +366,7 @@ export function getAlchemicalStateWithVectors(input: {
       moonSign && signVectors[moonSign],
       ascSign && signVectors[ascSign],
     ].filter(Boolean);
-    const weights = [0.50.30.2].slice(0, parts.length);
+    const weights = [0.5, 0.3, 0.2].slice(0, parts.length);
     if (parts.length > 0) {
       // Weighted average on components and magnitude; direction from strongest magnitude
       const ref = parts.reduce(

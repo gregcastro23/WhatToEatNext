@@ -1,5 +1,5 @@
 import type { CookingMethodData } from '@/types/cookingMethod';
-import type { ZodiacSign, ThermodynamicProperties } from '@/types/shared';
+import type { ThermodynamicProperties } from '@/types/shared';
 
 /**
  * Fermentation cooking method
@@ -228,7 +228,7 @@ export const fermentation: CookingMethodData = {
 
   // Additional metadata
   history:
-    'Fermentation is one of humanity's oldest food preservation methods, dating back at least 10,000 years. Every culture developed fermentation techniques, from wine and beer to bread, cheese, and preserved vegetables. It was critical for food security before refrigeration. Archaeological evidence suggests that fermented beverages predate agriculture, with fermented honey drinks (mead) possibly being one of the earliest alcoholic beverages. The scientific understanding of fermentation began with Antonie van Leeuwenhoek's microscopic observations in the 17th century, followed by Louis Pasteur's groundbreaking work in the 19th century that identified microorganisms as the agents of fermentation. The 20th century saw industrialization of many fermentation processes, while the 21st century has brought renewed interest in traditional fermentation techniques and their health benefits.',
+    'Fermentation is one of humanity\'s oldest food preservation methods, dating back at least 10,000 years. Every culture developed fermentation techniques, from wine and beer to bread, cheese, and preserved vegetables. It was critical for food security before refrigeration. Archaeological evidence suggests that fermented beverages predate agriculture, with fermented honey drinks (mead) possibly being one of the earliest alcoholic beverages. The scientific understanding of fermentation began with Antonie van Leeuwenhoek\'s microscopic observations in the 17th century, followed by Louis Pasteur\'s groundbreaking work in the 19th century that identified microorganisms as the agents of fermentation. The 20th century saw industrialization of many fermentation processes, while the 21st century has brought renewed interest in traditional fermentation techniques and their health benefits.',
 
   scientificPrinciples: [
     'Microbial conversion of sugars to acids, alcohols, or gases',

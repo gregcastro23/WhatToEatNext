@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 
 import { getLatestAstrologicalState } from '@/services/AstrologicalService';
-import { calculatePlanetaryPositions, calculateAspects } from '@/utils/astrologyUtils';
+import { calculateAspects, calculatePlanetaryPositions } from '@/utils/astrologyUtils';
 import { cache } from '@/utils/cache';
 
 const CACHE_KEY = 'planetary-positions';
@@ -22,12 +22,12 @@ export async function GET() {
     cache.set(CACHE_KEY, positions, CACHE_TTL);
 
     return NextResponse.json({
-      timestamp: new Date().toISOString();
+      timestamp: new Date().toISOString(),
       positions,
       source: 'default-positions'
     });
   } catch (error) {
-    console.error('API Error:', error),
+    console.error('API Error:', error);
     return NextResponse.json(
       { error: 'Failed to calculate positions', fallback: true },
       { status: 500 }
@@ -53,7 +53,7 @@ export async function POST(request: Request) {
     }
 
     // Check for valid position structure
-    const hasValidPositions = Object.values(positions).every(;
+    const hasValidPositions = Object.values(positions).every(
       position => position && typeof position === 'object' && 'sign' in position
     );
 
@@ -69,7 +69,7 @@ export async function POST(request: Request) {
       timestamp: new Date().toISOString()
     });
   } catch (error) {
-    console.error('Error calculating planetary positions:', error),
+    console.error('Error calculating planetary positions:', error);
     return NextResponse.json(
       {
         message: 'Error calculating planetary positions',

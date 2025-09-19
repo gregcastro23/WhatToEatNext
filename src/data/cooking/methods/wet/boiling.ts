@@ -1,4 +1,4 @@
-import type { ZodiacSign, ThermodynamicProperties } from '@/types/alchemy';
+import type { ThermodynamicProperties } from '@/types/alchemy';
 import type { CookingMethodData } from '@/types/cookingMethod';
 
 /**
@@ -213,7 +213,7 @@ export const boiling: CookingMethodData = {
 
   // Additional metadata
   history:
-    'Boiling is one of humanity\'s oldest cooking methods, dating back to the discovery of fire-resistant containers around 5000 BCE. Evidence of boiling has been found in archaeological sites worldwide, with specialized pottery for boiling developed in many cultures. The advent of pottery and the hearth revolutionized human nutrition by making grains, legumes, and tough plant materials digestible. In ancient Rome, the 'foculus' was specifically designed for boiling. Medieval cooking heavily relied on boiling, as evidenced in cookbooks like 'The Forme of Cury.' Industrial revolution brought standardized cooking equipment, and the development of pressure cooking in the 17th century by Denis Papin revolutionized boiling by raising the boiling point of water through pressure.',
+    'Boiling is one of humanity\'s oldest cooking methods, dating back to the discovery of fire-resistant containers around 5000 BCE. Evidence of boiling has been found in archaeological sites worldwide, with specialized pottery for boiling developed in many cultures. The advent of pottery and the hearth revolutionized human nutrition by making grains, legumes, and tough plant materials digestible. In ancient Rome, the \'foculus\' was specifically designed for boiling. Medieval cooking heavily relied on boiling, as evidenced in cookbooks like \'The Forme of Cury.\' Industrial revolution brought standardized cooking equipment, and the development of pressure cooking in the 17th century by Denis Papin revolutionized boiling by raising the boiling point of water through pressure.',
 
   scientificPrinciples: [
     'Water maintains consistent 100°C temperature while boiling at sea level',
@@ -228,7 +228,7 @@ export const boiling: CookingMethodData = {
     'Nucleation sites affect bubble formation dynamics',
     'Surface tension changes with temperature and additives',
     'Polarity of water enables dissolution of hydrophilic compounds',
-    'Boiling point elevation follows Raoult's law with dissolved solutes',
+    'Boiling point elevation follows Raoult\'s law with dissolved solutes',
     'Heat transfer efficiency varies with food surface area and composition'
   ],
 

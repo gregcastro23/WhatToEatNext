@@ -1,4 +1,4 @@
-import type { ZodiacSign, ThermodynamicProperties } from '@/types/alchemy';
+import type { ThermodynamicProperties } from '@/types/alchemy';
 import type { CookingMethodData } from '@/types/cookingMethod';
 
 /**
@@ -257,7 +257,7 @@ export const poaching: CookingMethodData = {
     'Osmosis facilitates flavor exchange between poaching liquid and food',
     'Gentle temperature prevents rapid protein coagulation that causes toughening',
     'Constant temperature environment provides even cooking throughout food',
-    'Water's high specific heat capacity creates stable cooking environment',
+    'Water\'s high specific heat capacity creates stable cooking environment',
     'Aromatic compounds dissolve in poaching liquid creating flavor infusion',
     'Convection currents in liquid distribute heat evenly around food',
     'Acidic poaching liquids denature proteins more readily than neutral liquids',

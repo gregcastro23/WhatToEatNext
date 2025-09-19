@@ -6,18 +6,17 @@ import { AlchemicalProperty, ElementalCharacter } from '@/constants/planetaryEle
 import { LunarPhase, calculatePlanetaryBoost } from '@/constants/planetaryFoodAssociations';
 import type { IngredientMapping } from '@/data/ingredients/types';
 import type {
-  Element,
-  ElementalAffinity,
-  ElementalCharacteristics,
-  ElementalProfile,
-  ElementalProperties,
-  Recipe
+    Element,
+    ElementalAffinity,
+    ElementalCharacteristics,
+    ElementalProperties,
+    Recipe
 } from '@/types/alchemy';
 import { ElementalItem } from '@/types/alchemy';
 import {
-  isElementalProperties,
-  isElementalPropertyKey,
-  logUnexpectedValue
+    isElementalProperties,
+    isElementalPropertyKey,
+    logUnexpectedValue
 } from '@/utils/validation';
 
 import { elementalFunctions, elementalInteractions, elements } from './elementalMappings';
@@ -149,11 +148,11 @@ export const normalizeProperties = (
  * @param recipe The recipe to standardize
  * @returns Recipe with standardized elemental properties
  */
-export const standardizeRecipeElements = <;
-  T extends { elementalProperties?: Partial<ElementalProperties> },
+export function standardizeRecipeElements<
+  T extends { elementalProperties?: Partial<ElementalProperties> }
 >(
-  recipe: T | null | undefined,
-): T & { elementalProperties: ElementalProperties } => {
+  recipe: T | null | undefined
+): T & { elementalProperties: ElementalProperties } {
   // Handle null /undefined recipe
   if (!recipe) {
     console.warn('Warning: recipe is null or undefined in standardizeRecipeElements');
@@ -166,22 +165,22 @@ export const standardizeRecipeElements = <;
   if (!recipe.elementalProperties) {
     const currentState = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
     return {
-      ...recipe;
+      ...recipe,
       elementalProperties: currentState
     };
   }
 
   // Normalize properties to ensure they sum to 1
   return {
-    ...recipe;
+    ...recipe,
     elementalProperties: normalizeProperties(recipe.elementalProperties)
   };
-};
+}
 
-export const validateElementalRequirements = (;
-  properties: unknown,
+export const validateElementalRequirements = (
+  properties: unknown
 ): properties is ElementalProperties => {
-  return isElementalProperties(properties)
+  return isElementalProperties(properties);
 };
 
 /**
@@ -226,8 +225,8 @@ export const elementalUtils = {
 
     // Get total amount for percentage calculations
     const totalAmount = recipe.ingredients.reduce((sum, ing) => {
-      const amount = ing.amount ?? 1, // Default to 1 if amount is missing;
-      return sum + amount
+      const amount = ing.amount ?? 1; // Default to 1 if amount is missing
+      return sum + amount;
     }, 0);
 
     // Handle the special case where there are no ingredients with amount
@@ -244,7 +243,7 @@ export const elementalUtils = {
 
     // Process each ingredient
     recipe.ingredients.forEach(ing => {
-      const amount = ing.amount ?? 1, // Default to 1 if amount is missing;
+      const amount = ing.amount ?? 1; // Default to 1 if amount is missing
 
       if (ing.elementalProperties) {
         // For each element in the ingredient
@@ -281,7 +280,7 @@ export const elementalUtils = {
       return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
     }
 
-    const combinedProperties = recipe.ingredients.reduce(;
+    const combinedProperties = recipe.ingredients.reduce(
       (acc, ingredient) => {
         const props = ingredient.elementalProperties || {
           Fire: 0.25,
@@ -361,22 +360,22 @@ export const elementalUtils = {
    */
   getSuggestedCookingTechniques(properties: ElementalProperties): string[] {
     const techniques: string[] = [];
-    const threshold = 0.3, // Only consider elements above this threshold for recommendations;
+    const threshold = 0.3; // Only consider elements above this threshold for recommendations
 
     if (properties.Fire > threshold) {
-      techniques.push(...ELEMENTAL_CHARACTERISTICS.Fire.cookingTechniques.slice(02))
+      techniques.push(...ELEMENTAL_CHARACTERISTICS.Fire.cookingTechniques.slice(0, 2));
     }
 
     if (properties.Water > threshold) {
-      techniques.push(...ELEMENTAL_CHARACTERISTICS.Water.cookingTechniques.slice(02))
+      techniques.push(...ELEMENTAL_CHARACTERISTICS.Water.cookingTechniques.slice(0, 2));
     }
 
     if (properties.Earth > threshold) {
-      techniques.push(...ELEMENTAL_CHARACTERISTICS.Earth.cookingTechniques.slice(02))
+      techniques.push(...ELEMENTAL_CHARACTERISTICS.Earth.cookingTechniques.slice(0, 2));
     }
 
     if (properties.Air > threshold) {
-      techniques.push(...ELEMENTAL_CHARACTERISTICS.Air.cookingTechniques.slice(02))
+      techniques.push(...ELEMENTAL_CHARACTERISTICS.Air.cookingTechniques.slice(0, 2));
     }
 
     // Return unique techniques or a default if none meet the threshold
@@ -390,30 +389,30 @@ export const elementalUtils = {
    */
   getRecommendedTimeOfDay(properties: ElementalProperties): string[] {
     const _times: string[] = [];
-    const threshold = 0.3, // Only consider elements above this threshold for recommendations;
+    const threshold = 0.3; // Only consider elements above this threshold for recommendations
     const weightedTimes: string[] = [];
 
     // Add times based on the elemental balance, weighted by their values
     if (properties.Fire > threshold) {
-      for (let i = 0i < Math.ceil(properties.Fire * 10), i++) {
+      for (let i = 0; i < Math.ceil(properties.Fire * 10); i++) {
         weightedTimes.push(...ELEMENTAL_CHARACTERISTICS.Fire.timeOfDay);
       }
     }
 
     if (properties.Water > threshold) {
-      for (let i = 0i < Math.ceil(properties.Water * 10), i++) {
+      for (let i = 0; i < Math.ceil(properties.Water * 10); i++) {
         weightedTimes.push(...ELEMENTAL_CHARACTERISTICS.Water.timeOfDay);
       }
     }
 
     if (properties.Earth > threshold) {
-      for (let i = 0i < Math.ceil(properties.Earth * 10), i++) {
+      for (let i = 0; i < Math.ceil(properties.Earth * 10); i++) {
         weightedTimes.push(...ELEMENTAL_CHARACTERISTICS.Earth.timeOfDay);
       }
     }
 
     if (properties.Air > threshold) {
-      for (let i = 0i < Math.ceil(properties.Air * 10), i++) {
+      for (let i = 0; i < Math.ceil(properties.Air * 10); i++) {
         weightedTimes.push(...ELEMENTAL_CHARACTERISTICS.Air.timeOfDay);
       }
     }
@@ -434,7 +433,7 @@ export const elementalUtils = {
    * Gets the current elemental state from the ElementalCalculator service
    * Pattern OO-3: Utility Import Alignment - Standalone export for TS2614 compatibility
    */
-  { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }: ElementalProperties {
+  getCurrentElementalState(): ElementalProperties {
     return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
   },
 
@@ -488,18 +487,18 @@ function _calculateUniqueness(
 ): number {
   // Calculate variance of elemental properties
   const values = Object.values(elements);
-  const mean = values.reduce((sum, val) => sum + val0) / values.length;
-  const variance = values.reduce((sum, val) => sum + Math.pow(val - mean2), 0) / values.length,;
+  const mean = values.reduce((sum, val) => sum + val, 0) / values.length;
+  const variance = values.reduce((sum, val) => sum + Math.pow(val - mean, 2), 0) / values.length;
 
   // Combine with planetary influence
-  return Math.min(1, variance * (1 + planetaryInfluence))
+  return Math.min(1, variance * (1 + planetaryInfluence));
 }
 
 // Or modify the transformation to remove uniqueness score if not needed
 export function transformItemsWithPlanetaryPositions(
   items: ElementalItem[],
   planetaryPositions: Record<string, unknown>,
-  _isDaytime = true,,;
+  _isDaytime = true,
   currentZodiac?: string,
   lunarPhase?: LunarPhase,
   tarotElementBoosts?: Record<ElementalCharacter, number>,
@@ -514,11 +513,11 @@ export function transformItemsWithPlanetaryPositions(
     );
 
     // Scale elemental properties
-    const scaledElements = Object.fromEntries(;
+    const scaledElements = Object.fromEntries(
       Object.entries(item.elementalProperties).map(([element, value]) => [
         element,
         value * (1 + (planetaryInfluence || 0))
-      ]),
+      ])
     ) as Record<ElementalCharacter, number>;
 
     // Calculate alchemical properties from elemental properties
@@ -549,19 +548,19 @@ export function transformItemsWithPlanetaryPositions(
     const earth = scaledElements.Earth;
 
     // Ensure we have non-zero values for denominator
-    const safeValueForHeat = (val: number) => Math.max(val0.01);
+    const safeValueForHeat = (val: number) => Math.max(val, 0.01);
 
     // Heat formula: (spirit^2 + fire^2) / ((substance || 1) + essence + matter + water + air + earth)^2
     const heat =
-      (Math.pow(safeValueForHeat(boostedSpirit), 2) + Math.pow(safeValueForHeat(fire), 2)) /;
+      (Math.pow(safeValueForHeat(boostedSpirit), 2) + Math.pow(safeValueForHeat(fire), 2)) /
       Math.pow(
-        safeValueForHeat(boostedSubstance + boostedEssence + boostedMatter + water + air + earth);
-        2,
+        safeValueForHeat(boostedSubstance + boostedEssence + boostedMatter + water + air + earth),
+        2
       );
 
     // Entropy formula: (spirit^2 + substance^2 + fire^2 + air^2) / ((essence || 1) + matter + earth + water)^2
     const entropy =
-      (Math.pow(safeValueForHeat(boostedSpirit), 2) +;
+      (Math.pow(safeValueForHeat(boostedSpirit), 2) +
         Math.pow(safeValueForHeat(boostedSubstance), 2) +
         Math.pow(safeValueForHeat(fire), 2) +
         Math.pow(safeValueForHeat(air), 2)) /
@@ -569,7 +568,7 @@ export function transformItemsWithPlanetaryPositions(
 
     // Reactivity formula: (spirit^2 + substance^2 + essence^2 + fire^2 + air^2 + water^2) / ((matter || 1) + earth)^2
     const reactivity =
-      (Math.pow(safeValueForHeat(boostedSpirit), 2) +;
+      (Math.pow(safeValueForHeat(boostedSpirit), 2) +
         Math.pow(safeValueForHeat(boostedSubstance), 2) +
         Math.pow(safeValueForHeat(boostedEssence), 2) +
         Math.pow(safeValueForHeat(fire), 2) +
@@ -588,8 +587,8 @@ export function transformItemsWithPlanetaryPositions(
     const normalizedReactivity = Math.max(0.1, Math.min(1.0, reactivity));
 
     // Calculate dominant element based on scaled elements
-    const dominantElement = Object.entries(scaledElements).sort(;
-      ([_keyA, valueA], [_keyB, valueB]) => valueB - valueA,
+    const dominantElement = Object.entries(scaledElements).sort(
+      ([_keyA, valueA], [_keyB, valueB]) => valueB - valueA
     )[0][0] as ElementalCharacter;
 
     // Calculate dominant alchemical property
@@ -599,8 +598,8 @@ export function transformItemsWithPlanetaryPositions(
       Matter: boostedMatter,
       Substance: boostedSubstance
     };
-    const dominantAlchemicalProperty = Object.entries(alchemicalProperties).sort(;
-      ([_keyA, valueA], [_keyB, valueB]) => valueB - valueA,
+    const dominantAlchemicalProperty = Object.entries(alchemicalProperties).sort(
+      ([_keyA, valueA], [_keyB, valueB]) => valueB - valueA
     )[0][0] as AlchemicalProperty;
 
     // Extract dominant planets based on planetary positions if available

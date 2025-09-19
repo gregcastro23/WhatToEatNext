@@ -1,5 +1,5 @@
 import type { CookingMethodData } from '@/types/cookingMethod';
-import type { ZodiacSign, ThermodynamicProperties } from '@/types/shared';
+import type { ThermodynamicProperties } from '@/types/shared';
 
 /**
  * Spherification cooking method
@@ -232,7 +232,7 @@ export const spherification: CookingMethodData = {
       sodium_hexametaphosphate: '0.1% to sequester existing calcium in liquids'
     },
     pHRequirements: {
-      idealRange: '4.0-6.0 (alginate won't gel properly below pH 3.8)',
+      idealRange: '4.0-6.0 (alginate won\'t gel properly below pH 3.8)',
       acidicSolutions: 'May require sodium citrate to adjust pH, test with pH meter',
       alcoholicSolutions: 'May require xanthan gum stabilizer (0.1-0.2%) to prevent separation',
       highCalciumLiquids:
@@ -250,16 +250,16 @@ export const spherification: CookingMethodData = {
     'Rest alginate solutions for 24 hours in refrigerator to fully hydrate and remove air bubbles',
     'Use a vacuum chamber to degas alginate solutions for absolutely clear spheres',
     'For alcohol spherification, add 0.15% xanthan gum to prevent ingredient separation',
-    'Create a 'wash bath' of clean water to rinse spheres after calcium bath to remove bitter taste',
+    'Create a \'wash bath\' of clean water to rinse spheres after calcium bath to remove bitter taste',
     'For extremely thin membranes, limit bath time to 20-30 seconds with immediate washing',
     'Use calcium lactate gluconate instead of calcium chloride for better taste in reverse spherification',
     'Freeze flavored liquids in silicone molds before reverse spherification for perfect shapes',
     'Test all liquids for calcium content before attempting basic spherification',
-    'For stable colored spheres, use oil-soluble natural colors that won't diffuse through membrane',
+    'For stable colored spheres, use oil-soluble natural colors that won\'t diffuse through membrane',
     'Use flavored oils to coat finished spheres and prevent them from sticking together',
     'For spheres with perfect round bottoms, drop liquid into a bath with deeper depth (4+ inches)',
     'Use spray bottle with water to mist spheres occasionally during service to maintain moisture',
-    'Create neutral flavored 'carrier spheres' that can be injected with different flavors before service'
+    'Create neutral flavored \'carrier spheres\' that can be injected with different flavors before service'
   ],
 
   ingredientPreparation: {
@@ -301,8 +301,8 @@ export const spherification: CookingMethodData = {
     basic_spheres:
       'Membrane holds shape when gently lifted with slotted spoon; liquid center moves freely inside.',
     reverse_spheres:
-      'Shape holds when rolled on flat surface; membrane is elastic but doesn't break under light pressure.',
-    caviar: 'Individual spheres remain separate and don't merge, bounce slightly when dropped.',
+      'Shape holds when rolled on flat surface; membrane is elastic but doesn\'t break under light pressure.',
+    caviar: 'Individual spheres remain separate and don\'t merge, bounce slightly when dropped.',
     large_spheres:
       'Surface tension creates slight resistance when touched, membrane is continuous with no weak spots.',
     over_gelled: 'Sphere feels firm throughout with reduced liquid center, membrane too thick.',

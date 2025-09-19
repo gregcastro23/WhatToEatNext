@@ -7,7 +7,7 @@
  */
 
 import { AstrologicalState, type LunarPhase } from '@/types/alchemy';
-import { ZodiacSign, PlanetaryAspect, CelestialPosition, AspectType } from '@/types/celestial';
+import { AspectType, CelestialPosition, PlanetaryAspect, ZodiacSign } from '@/types/celestial';
 import { createLogger } from '@/utils/logger';
 
 // Create a component-specific logger
@@ -143,9 +143,9 @@ export function getZodiacPositionInDegrees(sign: any, degree: number): number {
   const signIndex = ZODIAC_SIGNS.indexOf(sign);
   if (signIndex === -1) {
     logger.warn(`Unknown sign: ${sign}, falling back to Aries`);
-    return degree, // Aries starts at 0 degrees
+    return degree; // Aries starts at 0 degrees
   }
-  return signIndex * 30 + degree
+  return signIndex * 30 + degree;
 }
 
 /**
@@ -160,8 +160,8 @@ export function calculatePlanetaryAspects(
   const planets = Object.keys(positions);
 
   // Calculate aspects between all planet pairs
-  for (let i = 0i < planets.lengthi++) {
-    for (let j = i + 1j < planets.lengthj++) {
+  for (let i = 0; i < planets.length; i++) {
+    for (let j = i + 1; j < planets.length; j++) {
       const planet1 = planets[i];
       const planet2 = planets[j];
 
@@ -173,7 +173,7 @@ export function calculatePlanetaryAspects(
 
       // Calculate the angular difference between planets
       const pos1 = getZodiacPositionInDegrees(pos1Sign as any, positions[planet1].degree || 0);
-      const pos2 = getZodiacPositionInDegrees(pos2Sign as any, positions[planet2].degree || 0),;
+      const pos2 = getZodiacPositionInDegrees(pos2Sign as any, positions[planet2].degree || 0);
 
       let diff = Math.abs(pos1 - pos2);
       if (diff > 180) diff = 360 - diff;
@@ -250,11 +250,11 @@ export function calculateAspectStrength(type: AspectType, orb: number): number {
   // Diminish strength based on orb
   const baseStrength = baseStrengths[type] || 0;
   const maxOrb =
-    type === 'conjunction' || type === 'opposition';
+    type === 'conjunction' || type === 'opposition'
       ? 10
-      : type === 'trine' || type === 'square';
+      : type === 'trine' || type === 'square'
         ? 8
-        : type === 'sextile';
+        : type === 'sextile'
           ? 6
           : 5;
 
@@ -291,7 +291,7 @@ export function getCurrentAstrologicalState(): AstrologicalState {
   const _isDaytime = hours >= 6 && hours < 18;
 
   // Calculate active planets (sun, moon + any in major aspect)
-  const activePlanets = ['Sun', 'Moon'],;
+  const activePlanets = ['Sun', 'Moon'];
   aspects.forEach(aspect => {
     // Check influence rather than strength
     if (aspect.influence && aspect.influence > 5) {
@@ -304,7 +304,7 @@ export function getCurrentAstrologicalState(): AstrologicalState {
   });
 
   // Convert string element to proper casing for Element type
-  const dominantElementCapitalized = (dominantElement.charAt(0).toUpperCase() +;
+  const dominantElementCapitalized = (dominantElement.charAt(0).toUpperCase() +
     dominantElement.slice(1)) as 'Fire' | 'Water' | 'Earth' | 'Air';
 
   const state: AstrologicalState = {

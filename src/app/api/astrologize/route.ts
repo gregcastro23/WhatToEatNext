@@ -2,7 +2,6 @@ import { NextResponse } from 'next/server';
 
 import { onAstrologizeApiCall } from '@/services/CurrentMomentManager';
 import { log } from '@/services/LoggingService';
-import type { ZodiacSign } from '@/types/alchemy';
 import { PlanetPosition } from '@/utils/astrologyUtils';
 import { createLogger } from '@/utils/logger';
 
@@ -43,8 +42,8 @@ export async function POST(request: Request) {
       hour = new Date().getHours(),
       minute = new Date().getMinutes(),
       latitude = DEFAULT_LOCATION.latitude,
-      longitude = DEFAULT_LOCATION.longitude,,
-      zodiacSystem = 'tropical', // Default to tropical zodiac,
+      longitude = DEFAULT_LOCATION.longitude,
+      zodiacSystem = 'tropical' // Default to tropical zodiac
     } = body;
 
     // Convert conventional month (1-12) to 0-indexed month (0-11) for the API
@@ -90,13 +89,13 @@ export async function POST(request: Request) {
         void logger.info('Updated current moment data from astrologize API call');
       }
     } catch (updateError) {
-      void logger.warn('Failed to update current moment data:', updateError),
+      void logger.warn('Failed to update current moment data:', updateError);
       // Don't fail the entire request if update fails
     }
 
     return NextResponse.json(data);
   } catch (error) {
-    console.error('Error calling astrologize API:', error),
+    console.error('Error calling astrologize API:', error);
     return NextResponse.json({ error: 'Failed to get astrological data' }, { status: 500 });
   }
 }
@@ -184,7 +183,7 @@ function extractPlanetaryPositions(
     }
 
     // Try alternative structure if available
-    const astrologyInfo = (;
+    const astrologyInfo = (
       data as { astrology_info?: { horoscope_parameters?: { planets?: Record<string, unknown> } } }
     ).astrology_info?.horoscope_parameters?.planets;
     if (astrologyInfo) {
@@ -216,7 +215,7 @@ function extractPlanetaryPositions(
 
     return null;
   } catch (error) {
-    void logger.error('Error extracting planetary positions:', error),
-    return null
+    void logger.error('Error extracting planetary positions:', error);
+    return null;
   }
 }

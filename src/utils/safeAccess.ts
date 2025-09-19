@@ -117,7 +117,7 @@ export function safeHasProperty(obj: unknown, prop: string): boolean {
   return (
     obj !== null &&
     obj !== undefined &&
-    typeof obj === 'object' &&;
+    typeof obj === 'object' &&
     Object.prototype.hasOwnProperty.call(obj, prop)
   );
 }
@@ -154,7 +154,7 @@ export function safeProperty<T>(
   obj: unknown,
   key: string,
   defaultValue: T,
-  typeCheck?: (val: unknown) => boolean;
+  typeCheck?: (val: unknown) => boolean
 ): T {
   if (obj === null || obj === undefined || typeof obj !== 'object') {
     return defaultValue;

@@ -1,5 +1,5 @@
 import type { CookingMethodData } from '@/types/cookingMethod';
-import type { ZodiacSign, ThermodynamicProperties } from '@/types/shared';
+import type { ThermodynamicProperties } from '@/types/shared';
 
 /**
  * Simmering cooking method
@@ -209,7 +209,7 @@ export const simmering: CookingMethodData = {
 
   // Additional metadata
   history:
-    'Simmering is one of humanity's earliest refined cooking techniques, developed once humans mastered controlled fire and created vessels that could withstand heat. Archaeological evidence suggests controlled simmering dates back to at least 10,000 BCE. The technique was refined in ancient civilizations like China, where clay and bronze vessels were specifically designed for slow cooking. In medieval Europe, the cauldron suspended above a hearth allowed for precise simmering control. The technique gained scientific understanding during the 18th century with advancements in thermodynamics. Traditional cultures worldwide developed specialized simmering vessels, from the Moroccan tagine to the Japanese donabe, each designed to maintain ideal simmering conditions for regional cuisines.',
+    'Simmering is one of humanity\'s earliest refined cooking techniques, developed once humans mastered controlled fire and created vessels that could withstand heat. Archaeological evidence suggests controlled simmering dates back to at least 10,000 BCE. The technique was refined in ancient civilizations like China, where clay and bronze vessels were specifically designed for slow cooking. In medieval Europe, the cauldron suspended above a hearth allowed for precise simmering control. The technique gained scientific understanding during the 18th century with advancements in thermodynamics. Traditional cultures worldwide developed specialized simmering vessels, from the Moroccan tagine to the Japanese donabe, each designed to maintain ideal simmering conditions for regional cuisines.',
 
   scientificPrinciples: [
     'Convection currents distribute heat throughout liquid without violent agitation',
@@ -230,7 +230,7 @@ export const simmering: CookingMethodData = {
 
   modernVariations: [
     'Controlled water baths with precise temperature regulation',
-    'Sous vide techniques for ultra-precise 'simmer' without water contact',
+    'Sous vide techniques for ultra-precise \'simmer\' without water contact',
     'Induction cooking for exact temperature control',
     'Thermal immersion circulators for consistent temperature',
     'Pressure cooker simmering at lower temperatures',

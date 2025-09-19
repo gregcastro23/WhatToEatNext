@@ -28,7 +28,7 @@ export const _dehydrating: CookingMethodData = {
     'Reduces food waste'
   ],
   history:
-    'Dehydration is one of humanity's oldest food preservation techniques, dating back to prehistoric times. Sun-drying fruits, vegetables, and meats was practiced across ancient civilizations including Egypt, China, and the Middle East.',
+    'Dehydration is one of humanity\'s oldest food preservation techniques, dating back to prehistoric times. Sun-drying fruits, vegetables, and meats was practiced across ancient civilizations including Egypt, China, and the Middle East.',
   modernVariations: [
     'Sun drying (traditional method using solar heat)',
     'Air drying (hanging in a cool, dry place)',

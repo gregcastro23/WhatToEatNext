@@ -1,4 +1,4 @@
-import type { ZodiacSign, ThermodynamicProperties } from '@/types/alchemy';
+import type { ThermodynamicProperties } from '@/types/alchemy';
 import type { CookingMethodData } from '@/types/cookingMethod';
 
 /**
@@ -148,12 +148,12 @@ export const braising: CookingMethodData = {
       'boeuf bourguignon (beef in red wine)',
       'cassoulet (bean and meat casserole)',
       'daube provençale (beef stew with olives and orange)',
-      'navarin d'agneau (lamb stew with spring vegetables)'
+      'navarin d\'agneau (lamb stew with spring vegetables)'
     ],
     italian: [
       'osso buco (veal shanks)',
       'brasato al barolo (beef braised in wine)',
-      'pollo alla cacciatora (hunter's chicken)'
+      'pollo alla cacciatora (hunter\'s chicken)'
     ],
     chinese: [
       'hong shao rou (red-braised pork belly)',
@@ -211,7 +211,7 @@ export const braising: CookingMethodData = {
 
   // Additional metadata
   history:
-    'Braising has ancient origins across many cultures and was particularly refined in French cuisine with dishes like cassoulet and coq au vin. It evolved from the need to tenderize tough, less expensive cuts of meat, making it historically significant for working-class cooking. The technique appears in Roman cookbooks dating to the 1st century AD, with Apicius describing several braised dishes. Medieval European cooking featured braising in lidded clay vessels, while Chinese culture developed master-stock braising dating back to the Zhou dynasty. In colonial America, the 'New England boiled dinner' emerged as a braised one-pot meal, while French culinary codification in the 18th and 19th centuries established braising among the grand techniques of classical cuisine.',
+    'Braising has ancient origins across many cultures and was particularly refined in French cuisine with dishes like cassoulet and coq au vin. It evolved from the need to tenderize tough, less expensive cuts of meat, making it historically significant for working-class cooking. The technique appears in Roman cookbooks dating to the 1st century AD, with Apicius describing several braised dishes. Medieval European cooking featured braising in lidded clay vessels, while Chinese culture developed master-stock braising dating back to the Zhou dynasty. In colonial America, the \'New England boiled dinner\' emerged as a braised one-pot meal, while French culinary codification in the 18th and 19th centuries established braising among the grand techniques of classical cuisine.',
 
   scientificPrinciples: [
     'Initial Maillard reaction develops base flavors via high-heat searing',
@@ -234,7 +234,7 @@ export const braising: CookingMethodData = {
     'Pressure braising (faster results with intensified flavors)',
     'Sous vide braising (precise temperature control for texture)',
     'Vacuum-sealed flavor infusion (reduced liquid requirements)',
-    'Wine-forward vs. stock-forward techniques (flavor foundation variations)';
+    'Wine-forward vs. stock-forward techniques (flavor foundation variations)',
     'Deconstructed braises with components separated (modern presentation)',
     'Smoke-infused braising liquid (added dimension)',
     'Ultrasonic tenderization pre-braise (accelerated process)',
@@ -319,7 +319,7 @@ export const braising: CookingMethodData = {
       'Suppengrün: leek, carrot, celeriac',
       'Włoszczyzna: leek, carrot, parsley root, celeriac',
       'Battuto: onion, celery, carrot, pancetta',
-      'Sachet d'épices: herbs and spices in cheesecloth with string (removable)'
+      'Sachet d\'épices: herbs and spices in cheesecloth with string (removable)'
     ],
 
     textureConsiderations: [

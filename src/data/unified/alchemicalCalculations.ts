@@ -48,9 +48,9 @@ export function calculateKalchm(alchemicalProps: AlchemicalProperties): number {
   const { Spirit, Essence, Matter, Substance } = alchemicalProps;
 
   // Handle edge cases where values might be 0
-  const safespirit = Math.max(Spirit0.01);
+  const safespirit = Math.max(Spirit, 0.01);
   const safeessence = Math.max(Essence, 0.01);
-  const safematter = Math.max(Matter0.01);
+  const safematter = Math.max(Matter, 0.01);
   const safesubstance = Math.max(Substance, 0.01);
 
   const numerator = Math.pow(safespirit, safespirit) * Math.pow(safeessence, safeessence);

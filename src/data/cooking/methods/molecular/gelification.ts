@@ -1,5 +1,5 @@
 import type { CookingMethodData } from '@/types/cookingMethod';
-import type { ZodiacSign, ThermodynamicProperties } from '@/types/shared';
+import type { ThermodynamicProperties } from '@/types/shared';
 
 /**
  * Gelification cooking method
@@ -287,7 +287,7 @@ export const gelification: CookingMethodData = {
     'For iridescent gels, create rapid cooling environment to form microscopic crystalline regions',
     'Incorporate maltodextrin (0.5%) to reduce syneresis in stored gels',
     'Use low-methoxyl pectin with controlled calcium addition for room-temperature stable fruit gels',
-    'Create 'delayed gels' by keeping calcium sequestered until serving time through controlled pH change',
+    'Create \'delayed gels\' by keeping calcium sequestered until serving time through controlled pH change',
     'For perfectly clear gels, adjust pH to the isoelectric point of the specific hydrocolloid',
     'Introduce micro air bubbles before setting for opaque, lighter textured gels',
     'Add enzyme-treated gelatin to conventional gelatin for enhanced melting properties'
@@ -302,7 +302,7 @@ export const gelification: CookingMethodData = {
     pectin:
       'High-methoxyl requires 55%+ sugar and acidic pH (<3.5) to gel, low-methoxyl needs calcium ions but works with less sugar and wider pH range. Disperse in sugar before adding to liquid to prevent clumping. Pre-mix with 5 parts sugar for easier dispersion. Use at 0.15-0.7% concentration depending on type.',
     carrageenan:
-      'Kappa creates firm, brittle gels with potassium ions, iota creates soft, elastic gels with calcium ions, lambda thickens but doesn't gel. Disperse in cold liquid, then heat to 160-180°F (71-82°C). Mix with sugar (5:1 ratio) before dispersion for improved hydration. Use at 0.2-1.5% concentration.',
+      'Kappa creates firm, brittle gels with potassium ions, iota creates soft, elastic gels with calcium ions, lambda thickens but doesn\'t gel. Disperse in cold liquid, then heat to 160-180°F (71-82°C). Mix with sugar (5:1 ratio) before dispersion for improved hydration. Use at 0.2-1.5% concentration.',
     methylcellulose:
       'Unique reverse thermal gelling - remains liquid when cold, forms gel when heated (130-150°F/54-66°C). Disperse in hot water, then hydrate in cold environment. Use at 1-2% concentration. Creates gels that re-liquefy upon cooling. Can be whipped when cold to create stable foams that set when heated.',
     fruit_purees:
@@ -310,7 +310,7 @@ export const gelification: CookingMethodData = {
     dairy_bases:
       'For milk-based gels, pre-treat with 0.2% sodium citrate to bind calcium and prevent interference with gelling agents. Heat treat to 165°F (74°C) to denature whey proteins for improved texture. For yogurt gels, strain to remove excess whey before incorporating gelifiers.',
     alcohol_preparations:
-      'For wine or spirit gels, reduce alcohol content to below 20% through reduction or dilution. Increase hydrocolloid concentration to compensate for alcohol's effect on hydrogen bonding. Add hydrocolloid after alcohol to prevent precipitation. Use gellan gum or agar rather than gelatin for higher alcohol content applications.'
+      'For wine or spirit gels, reduce alcohol content to below 20% through reduction or dilution. Increase hydrocolloid concentration to compensate for alcohol\'s effect on hydrogen bonding. Add hydrocolloid after alcohol to prevent precipitation. Use gellan gum or agar rather than gelatin for higher alcohol content applications.'
   },
 
   timingConsiderations: {
@@ -363,7 +363,7 @@ export const gelification: CookingMethodData = {
   technicalNotes: {
     hydrocolloid_properties: {
       gelatin:
-        'Protein-based, melts at body temperature, thermoreversible, requires refrigeration. Bloom strength (measured in 'Bloom' units) indicates gel strength - professional applications typically use 180-220 Bloom gelatin.',
+        'Protein-based, melts at body temperature, thermoreversible, requires refrigeration. Bloom strength (measured in \'Bloom\' units) indicates gel strength - professional applications typically use 180-220 Bloom gelatin.',
       agar: 'Seaweed-derived polysaccharide, sets at 95-104°F, melts at 175°F, thermoreversible but with significant hysteresis. Creates brittle, clear gels with minimal flavor impact. Resistant to enzymatic breakdown and acidic conditions above pH 5.5.',
       gellan_gum:
         'Bacterial fermentation product, available in high-acyl (soft, elastic) and low-acyl (firm, brittle) forms. Extremely efficient at low concentrations (0.1-0.5%). Requires specific ion concentrations for optimal setting.',
@@ -380,7 +380,7 @@ export const gelification: CookingMethodData = {
       gel_strength:
         'Measured in grams (bloom strength for gelatin) or compression force. Affected by concentration, temperature history, and ion availability. Can be measured precisely with texture analyzer or estimated with penetrometer.',
       elasticity:
-        'Recovery after deformation, iota-carrageenan and high-acyl gellan produce highly elastic gels. Measured as 'strain recovery percentage' - elastic gels recover >85% after deformation.',
+        'Recovery after deformation, iota-carrageenan and high-acyl gellan produce highly elastic gels. Measured as \'strain recovery percentage\' - elastic gels recover >85% after deformation.',
       syneresis:
         'Water release over time, minimized by proper concentration, synergistic hydrocolloid combinations, or addition of starch/maltodextrin. More prevalent in kappa-carrageenan and agar than gelatin or pectin gels.',
       thermal_stability:
@@ -400,7 +400,7 @@ export const gelification: CookingMethodData = {
       compression_setting:
         'Applying physical pressure during gel setting to create anisotropic structures with directional properties. Results in gels with different mechanical behavior depending on direction of force application.',
       micro_gelification:
-        'Creating microscopic gel particles through controlled shearing or precise droplet formation. Used for 'caviar' effects or controlled mouthfeel modification in liquid systems.'
+        'Creating microscopic gel particles through controlled shearing or precise droplet formation. Used for \'caviar\' effects or controlled mouthfeel modification in liquid systems.'
     },
     equipment_specifications: {
       temperature_control:

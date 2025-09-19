@@ -1,4 +1,4 @@
-import type { ZodiacSign, ThermodynamicProperties } from '@/types/alchemy';
+import type { ThermodynamicProperties } from '@/types/alchemy';
 import type { CookingMethodData } from '@/types/cookingMethod';
 
 /**
@@ -198,7 +198,7 @@ export const steaming: CookingMethodData = {
 
   // Additional metadata
   history:
-    'Steaming dates back to ancient Chinese cooking techniques from at least 5000 BCE, where bamboo steamers were developed for rice and dumplings. Archaeological evidence shows pottery steamers from the Banpo Neolithic settlement (4800-4200 BCE) in China\'s Yellow River Valley. The technique spread throughout Asia and eventually worldwide. In 18th century Europe, 'bain-marie' steaming became fashionable in French cuisine. Modern pressure steamers were developed in the early 20th century, while contemporary high-tech combi-ovens with precision steam control represent the latest evolution.',
+    'Steaming dates back to ancient Chinese cooking techniques from at least 5000 BCE, where bamboo steamers were developed for rice and dumplings. Archaeological evidence shows pottery steamers from the Banpo Neolithic settlement (4800-4200 BCE) in China\'s Yellow River Valley. The technique spread throughout Asia and eventually worldwide. In 18th century Europe, \'bain-marie\' steaming became fashionable in French cuisine. Modern pressure steamers were developed in the early 20th century, while contemporary high-tech combi-ovens with precision steam control represent the latest evolution.',
 
   scientificPrinciples: [
     'Latent heat of vaporization releases 540 cal/g of energy when steam condenses on food surface',

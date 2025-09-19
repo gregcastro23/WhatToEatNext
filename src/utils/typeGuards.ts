@@ -51,7 +51,7 @@ export function isArray<T>(value: unknown, itemGuard?: (item: unknown) => item i
   if (!Array.isArray(value)) return false;
 
   // If no item guard is provided, just check it's an array
-  if (!itemGuard) return true,
+  if (!itemGuard) return true;
 
   // Check each item passes the guard
   return value.every(item => itemGuard(item));
@@ -149,8 +149,8 @@ export function safeJsonParse<T = unknown>(json: string, defaultValue?: T): T | 
 export function isError(value: unknown): value is Error {
   return (
     value instanceof Error ||
-    (isObject(value) && 'message' in value && typeof value.message === 'string');
-  )
+    (isObject(value) && 'message' in value && typeof value.message === 'string')
+  );
 }
 
 /**
@@ -164,5 +164,5 @@ export function asRecord(value: unknown): Record<string, unknown> {
  * Safe cast for test mocks
  */
 export function asMock(value: unknown): any {
-  return value 
+  return value
 }

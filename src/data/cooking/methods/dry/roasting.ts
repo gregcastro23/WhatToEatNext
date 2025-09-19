@@ -1,5 +1,5 @@
 import type { CookingMethodData } from '@/types/cookingMethod';
-import type { ZodiacSign, ThermodynamicProperties } from '@/types/shared';
+import type { ThermodynamicProperties } from '@/types/shared';
 
 /**
  * Roasting cooking method
@@ -148,7 +148,7 @@ export const roasting: CookingMethodData = {
     french: [
       'high-temperature poultry roasting (poulet rôti)',
       'en cocotte with aromatics',
-      'gigot d'agneau (leg of lamb with garlic)'
+      'gigot d\'agneau (leg of lamb with garlic)'
     ],
     chinese: [
       'char siu technique with honey glaze',
@@ -161,7 +161,7 @@ export const roasting: CookingMethodData = {
       'chicha-marinated roasts'
     ],
     middle_eastern: [
-      'slow roasted lamb with sumac and za'atar',
+      'slow roasted lamb with sumac and za\'atar',
       'pomegranate-glazed poultry',
       'saffron-infused roasting'
     ],
@@ -240,7 +240,7 @@ export const roasting: CookingMethodData = {
 
   // Additional metadata
   history:
-    'Roasting is one of humanity's oldest cooking methods, dating back to the discovery of fire approximately 1.8 million years ago. Archaeological evidence shows spit roasting was common in ancient civilizations throughout Mesopotamia, Egypt, and China. Medieval Europe developed sophisticated roasting techniques, including specialized turnspits operated by servants or even dogs. The 18th century saw innovations like the tin reflector oven, while the 19th century brought reliable temperature-controlled roasting in cast iron stoves. The development of gas and electric ovens in the 20th century standardized roasting temperatures, while the late 20th and early 21st centuries have seen a renewed interest in traditional methods including wood-fired ovens, rotisserie cooking, and precision temperature control with digital technology.',
+    'Roasting is one of humanity\'s oldest cooking methods, dating back to the discovery of fire approximately 1.8 million years ago. Archaeological evidence shows spit roasting was common in ancient civilizations throughout Mesopotamia, Egypt, and China. Medieval Europe developed sophisticated roasting techniques, including specialized turnspits operated by servants or even dogs. The 18th century saw innovations like the tin reflector oven, while the 19th century brought reliable temperature-controlled roasting in cast iron stoves. The development of gas and electric ovens in the 20th century standardized roasting temperatures, while the late 20th and early 21st centuries have seen a renewed interest in traditional methods including wood-fired ovens, rotisserie cooking, and precision temperature control with digital technology.',
 
   scientificPrinciples: [
     'Maillard reaction creates hundreds of flavor compounds at 280°F-330°F through amino acid-sugar interactions',
@@ -339,7 +339,7 @@ export const roasting: CookingMethodData = {
     rest_before:
       'Bring refrigerated meats to room temperature for 30-60 minutes; season 1-48 hours in advance depending on size. Whole poultry: 1 hour per 4 pounds. Roasts: 1 hour per 5 pounds. Vegetables and fruits require no rest period before roasting.',
     rest_after:
-      'Rest beef and lamb 10-20 minutes, poultry 15-30 minutes, pork 10-15 minutes to allow juice redistribution. For large prime rib (5+ pounds), rest up to 30-45 minutes in warm area. For tenderloins, 8-10 minutes is sufficient. Tent with foil but don't seal completely to prevent steam softening the crust.',
+      'Rest beef and lamb 10-20 minutes, poultry 15-30 minutes, pork 10-15 minutes to allow juice redistribution. For large prime rib (5+ pounds), rest up to 30-45 minutes in warm area. For tenderloins, 8-10 minutes is sufficient. Tent with foil but don\'t seal completely to prevent steam softening the crust.',
     carryover_cooking:
       'Internal temperature will rise 5-10°F for small cuts10-15°F for large roasts during resting period. Poultry breasts: 5-10°F rise. Beef rib roast: 10-15°F rise. Pork loin: 5-10°F rise. Fish: minimal rise of 2-5°F. Account for this by removing from heat when temperature reads 5-15°F below target.',
     temperature_adjustment:
@@ -352,22 +352,22 @@ export const roasting: CookingMethodData = {
 
   doneness_indicators: {
     beef_rare:
-      'Internal temperature 125°F; soft when pressed; bright red center. Finger test: feels like the base of thumb when thumb and index finger make an 'OK' sign. Color is purple-red and warm rather than cool.',
+      'Internal temperature 125°F; soft when pressed; bright red center. Finger test: feels like the base of thumb when thumb and index finger make an \'OK\' sign. Color is purple-red and warm rather than cool.',
     beef_medium:
-      'Internal temperature 135°F, slight resistance when pressed; pink center. Finger test: feels like base of thumb when thumb and middle finger make an 'OK' sign. Color is rosy pink throughout with barely visible fibers.',
+      'Internal temperature 135°F, slight resistance when pressed; pink center. Finger test: feels like base of thumb when thumb and middle finger make an \'OK\' sign. Color is rosy pink throughout with barely visible fibers.',
     beef_well:
-      'Internal temperature 150°F, firm when pressed; brown throughout. Finger test: feels like base of thumb when thumb and pinky make an 'OK' sign. No pink visible and meat fibers are clearly defined.',
+      'Internal temperature 150°F, firm when pressed; brown throughout. Finger test: feels like base of thumb when thumb and pinky make an \'OK\' sign. No pink visible and meat fibers are clearly defined.',
     poultry:
       'Internal temperature 165°F in thigh, juices run clear; leg moves easily in socket. Probe inserted between thigh and body should meet minimal resistance. For breast, 155°F with rest will achieve safety while maintaining juiciness.',
-    pork: 'Internal temperature 145°F with 3-minute rest; slightly pink center is safe and optimal. Modern pork is safe at lower temperatures than historically recommended. Texture should be firm but yield to gentle pressure.';
+    pork: 'Internal temperature 145°F with 3-minute rest; slightly pink center is safe and optimal. Modern pork is safe at lower temperatures than historically recommended. Texture should be firm but yield to gentle pressure.',
     lamb_medium_rare:
       'Internal temperature 130-135°F; springy when pressed; pink center. Color should be rosy with clear juice. For shoulder cuts, 175°F for proper collagen breakdown.',
     vegetables:
-      'Fork easily pierces with slight resistance; caramelized edges; vibrant color remains. Edges should show browning but centers should maintain integrity. Green vegetables should remain bright rather than olive-colored.';
-    fish: 'Internal temperature 135-140°F; flesh flakes easily but remains moist; opaque throughout. White fish should separate into clear flakes when gentle pressure applied. Oily fish should maintain translucence without appearing raw.';
-    nuts: 'Golden brown color; aromatic fragrance; crisp texture when cooled. Will continue to darken and crisp after removal from heat due to residual heat. Should be removed when slightly lighter than desired final color.';
+      'Fork easily pierces with slight resistance; caramelized edges; vibrant color remains. Edges should show browning but centers should maintain integrity. Green vegetables should remain bright rather than olive-colored.',
+    fish: 'Internal temperature 135-140°F; flesh flakes easily but remains moist; opaque throughout. White fish should separate into clear flakes when gentle pressure applied. Oily fish should maintain translucence without appearing raw.',
+    nuts: 'Golden brown color; aromatic fragrance; crisp texture when cooled. Will continue to darken and crisp after removal from heat due to residual heat. Should be removed when slightly lighter than desired final color.',
     game_meats:
-      'Internal temperature 135-140°F for medium-rare; firmer texture than farmed meats; slightly sweeter aroma. Wild game should never be cooked beyond medium due to low fat content.';
+      'Internal temperature 135-140°F for medium-rare; firmer texture than farmed meats; slightly sweeter aroma. Wild game should never be cooked beyond medium due to low fat content.',
     liver:
       'Internal temperature 140-145°F, center slightly pink, firm but not rigid texture. Overcooked liver becomes grainy and bitter.',
     duck_breast:
@@ -400,13 +400,13 @@ export const roasting: CookingMethodData = {
   technicalNotes: {
     surface_preparation: {
       patting_dry:
-        'Essential for proper Maillard reaction; removes surface moisture that would otherwise steam rather than brown.';
+        'Essential for proper Maillard reaction; removes surface moisture that would otherwise steam rather than brown.',
       scoring:
-        'Creates greater surface area for flavor development and fat rendering; critical for duck breast and pork skin.';
+        'Creates greater surface area for flavor development and fat rendering; critical for duck breast and pork skin.',
       trussing:
-        'Creates uniform shape for even cooking; prevents certain areas from overcooking; use cotton twine for temperatures up to 550°F.';
+        'Creates uniform shape for even cooking; prevents certain areas from overcooking; use cotton twine for temperatures up to 550°F.',
       rack_position:
-        'Elevates food for 360° heat circulation; prevents boiling in released juices; improves air flow for crisping.';
+        'Elevates food for 360° heat circulation; prevents boiling in released juices; improves air flow for crisping.',
       rubbing:
         'Oil provides better heat transfer than dry surface, helps seasonings adhere, creates vapor barrier that retains moisture.',
       torch_finishing:
@@ -452,13 +452,13 @@ export const roasting: CookingMethodData = {
       umami_development:
         'Glutamates concentrate through moisture loss, enhancing savory perception.',
       flavor_precursors:
-        'Certain molecules require heat transformation to become perceivable flavors, inosinate in meat converts to recognizable 'meaty' flavors.'
+        'Certain molecules require heat transformation to become perceivable flavors, inosinate in meat converts to recognizable \'meaty\' flavors.'
     },
     equipment_selection: {
       roasting_pans:
         'Heavy gauge3-inch sides ideal; too deep restricts air circulation; too shallow loses juices.',
       rack_types:
-        'V-racks center roasts for even exposure; flat racks provide stable surface for multiple items.';
+        'V-racks center roasts for even exposure; flat racks provide stable surface for multiple items.',
       probe_thermometers:
         'Continuous monitoring prevents door opening, select models with heat-resistant cables to 700°F.',
       pan_materials:

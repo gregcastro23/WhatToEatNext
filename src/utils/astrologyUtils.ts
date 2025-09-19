@@ -5,24 +5,24 @@ import { AlchemicalProperty, ElementalCharacter } from '@/constants/planetaryEle
 import { PlanetaryHourCalculator } from '@/lib/PlanetaryHourCalculator';
 import { log } from '@/services/LoggingService';
 import type {
-  AlchemicalItem,
-  AlchemicalResult,
-  AstrologicalState,
-  DignityType,
-  Element,
-  ElementalInteraction,
-  ElementalItem,
-  AspectType as ImportedAspectType,
-  ElementalProperties as ImportedElementalProperties,
-  // BasicThermodynamicProperties, // unused
-  PlanetaryAspect as ImportedPlanetaryAspect,
-  LowercaseElementalProperties,
-  LunarPhase,
-  // PlanetaryAlignment, // unused
-  Planet,
-  Season,
-  ThermodynamicProperties,
-  ZodiacSign
+    AlchemicalItem,
+    AlchemicalResult,
+    AstrologicalState,
+    DignityType,
+    Element,
+    ElementalInteraction,
+    ElementalItem,
+    AspectType as ImportedAspectType,
+    ElementalProperties as ImportedElementalProperties,
+    // BasicThermodynamicProperties, // unused
+    PlanetaryAspect as ImportedPlanetaryAspect,
+    LowercaseElementalProperties,
+    LunarPhase,
+    // PlanetaryAlignment, // unused
+    Planet,
+    Season,
+    ThermodynamicProperties,
+    ZodiacSign
 } from '@/types/alchemy';
 import type { TimeFactors } from '@/types/time';
 // Removed unused imports: getCurrentSeason, getTimeOfDay
@@ -303,17 +303,17 @@ export async function getMoonIllumination(date: Date = new Date()): Promise<numb
         case 'full moon':
           return 100;
         case 'waning gibbous':
-          return 75,
+          return 75;
         case 'last quarter':
-          return 50,
+          return 50;
         case 'waning crescent':
-          return 25,
+          return 25;
         default:
           return 50
       }
     } catch (_fallbackError) {
       errorLog('Fallback moon illumination calculation failed');
-      return 50, // Default to half-illuminated
+      return 50; // Default to half-illuminated
     }
   }
 }
@@ -364,7 +364,7 @@ export async function calculateMoonSign(date: Date = new Date()): Promise<Zodiac
 
 // Add validation to planetary position calculations
 export async function calculatePlanetaryPositions(
-  date: Date = new Date(),;
+  date: Date = new Date()
 ): Promise<Record<string, PlanetPosition>> {
   try {
     // Try to use the accurate astronomy calculations first
@@ -390,7 +390,7 @@ export async function calculatePlanetaryPositions(
       return formattedPositions;
     } catch (error) {
       errorLog('Error in getAccuratePlanetaryPositions:', error);
-      throw error, // Rethrow to fallback
+      throw error; // Rethrow to fallback
     }
   } catch (error) {
     errorLog('Error in calculatePlanetaryPositions:', error);
@@ -443,12 +443,12 @@ function _validatePlanetaryPositions(positions: Record<string, number>): boolean
     'Uranus',
     'Neptune',
     'Pluto'
-  ],
+  ];
 
   // Check if we have an empty object (positions parameter is defined by function signature)
   if (Object.keys(positions).length === 0) {
     errorLog('Validation failed: No positions provided in object');
-    return false
+    return false;
   }
 
   // Log the positions for debugging
@@ -457,9 +457,9 @@ function _validatePlanetaryPositions(positions: Record<string, number>): boolean
   // Check that required planets exist with valid values
   const validation = REQUIRED_PLANETS.every(requiredPlanet => {
     // Check if the planet exists in the positions object (case insensitive)
-    const planetKey = Object.keys(positions).find(;
-      key => key.toLowerCase() === requiredPlanet.toLowerCase(),,;
-    ),
+    const planetKey = Object.keys(positions).find(
+      key => key.toLowerCase() === requiredPlanet.toLowerCase()
+    );
 
     if (!planetKey) {
       errorLog(`Missing position for ${requiredPlanet}`);
@@ -485,7 +485,7 @@ function _calculatePlanetPosition(
   jd: number,
   planet: string,
 ): { sign: string, degree: number, minute: number } {
-  const longitude = calculatePlanetLongitude(jd, planet),;
+  const longitude = calculatePlanetLongitude(jd, planet);
   const position = longitudeToZodiacPosition(longitude);
 
   return {
@@ -499,9 +499,9 @@ function calculatePlanetLongitude(jd: number, planet: string): number {
   // More accurate calculations for each planet
   switch (planet.toLowerCase()) {
     case 'sun':
-      return calculateSunLongitude(jd),
+      return calculateSunLongitude(jd);
     case 'moon':
-      return calculateMoonLongitude(jd),
+      return calculateMoonLongitude(jd);
     case 'mercury':
       return calculateInnerPlanetLongitude(jd, 'mercury');
     case 'venus':
@@ -515,9 +515,9 @@ function calculatePlanetLongitude(jd: number, planet: string): number {
     case 'uranus':
       return calculateOuterPlanetLongitude(jd, 'uranus');
     case 'neptune':
-      return calculateOuterPlanetLongitude(jd, 'neptune'),
+      return calculateOuterPlanetLongitude(jd, 'neptune');
     case 'pluto':
-      return calculateOuterPlanetLongitude(jd, 'pluto'),
+      return calculateOuterPlanetLongitude(jd, 'pluto');
     default:
       throw new Error(`Unsupported planet: ${planet}`);
   }
@@ -543,7 +543,7 @@ function calculateJulianDate(date: Date): number {
   const m = month + 12 * a - 3;
 
   let jd =
-    day +;
+    day +
     Math.floor((153 * m + 2) / 5) +
     365 * y +
     Math.floor(y / 4) -
@@ -726,8 +726,8 @@ function calculateOuterPlanetLongitude(jd: number, planet: string): number {
 function _calculateFallbackPositions(date: Date): Record<string, number> {
   debugLog('Using fallback planetary position calculation');
   const positions: Record<string, number> = {};
-  const dayOfYear = Math.floor(;
-    (date.getTime() - new Date(date.getFullYear(), 00).getTime()) / (1000 * 60 * 60 * 24),
+  const dayOfYear = Math.floor(
+    (date.getTime() - new Date(date.getFullYear(), 0, 0).getTime()) / (1000 * 60 * 60 * 24)
   );
   const yearFraction = dayOfYear / 365.25;
 
@@ -873,8 +873,8 @@ export function calculateEnhancedStelliumEffects(
   Object.entries(planetsBySign).forEach(([sign, planets]) => {
     if (planets.length >= 3) {
       // Get the element of the sign
-      const element = getZodiacElement(;
-        sign as unknown,
+      const element = getZodiacElement(
+        sign as unknown
       ).toLowerCase() as keyof LowercaseElementalProperties;
 
       // 1. Add bonus of +n of the sign element (n = number of planets);
@@ -924,19 +924,19 @@ export function calculateEnhancedStelliumEffects(
             break;
           case 'ascendant':
           case 'rising':
-            planetElement = 'earth', // Ascendant is Earth element;
-            break,
+            planetElement = 'earth'; // Ascendant is Earth element
+            break;
           default:
-            planetElement = 'fire', // Default to fire;
+            planetElement = 'fire'; // Default to fire
         }
 
         elementsByPlanet[planet] = planetElement;
 
         // Check if planet's element matches the sign's element
         if (planetElement === element) {
-          matchingElementCount++
+          matchingElementCount++;
         }
-      }),
+      });
 
       // 2. For planets with matching elements, add (1 + m) per planet where m is other planets with matching elements
       if (matchingElementCount > 0) {
@@ -979,7 +979,7 @@ export function calculateEnhancedStelliumEffects(
 
       // Calculate house position
       const absoluteDegree = getLongitudeFromSignAndDegree(position.sign, position.degree);
-      const house = calculateHousePosition(risingDegree, absoluteDegree),;
+      const house = calculateHousePosition(risingDegree, absoluteDegree);
 
       if (!planetsByHouse[house]) {
         planetsByHouse[house] = [];
@@ -1166,9 +1166,9 @@ export function calculateCompleteAstrologicalEffects(
   const stelliumEffects = calculateEnhancedStelliumEffects(planetPositions, risingDegree);
 
   // Calculate house effects
-  const houseEffects = calculateAllHouseEffects(;
+  const houseEffects = calculateAllHouseEffects(
     planetPositions as Record<string, { sign: any, house?: number }>,
-    {},
+    {}
   ); // Use type assertion
 
   // Calculate joy effects
@@ -1401,7 +1401,7 @@ export function calculateAspects(
     // Check if position or position.sign is undefined/null
     if (!position || !position.sign) {
       debugLog('Invalid position object encountered:', position);
-      return 0, // Return default value
+      return 0; // Return default value
     }
 
     const signs = [
@@ -1425,8 +1425,8 @@ export function calculateAspects(
   // Calculate aspects between each planet pair
   const planets = Object.keys(positions);
 
-  for (let i = 0i < planets.lengthi++) {
-    for (let j = i + 1j < planets.lengthj++) {
+  for (let i = 0; i < planets.length; i++) {
+    for (let j = i + 1; j < planets.length; j++) {
       const planet1 = planets[i];
       const planet2 = planets[j];
 
@@ -1476,10 +1476,10 @@ export function calculateAspects(
 
           // Special case: Square aspect with Ascendant is positive (+1) instead of negative
           if (
-            type === 'square' &&;
+            type === 'square' &&
             (planet1.toLowerCase() === 'ascendant' || planet2.toLowerCase() === 'ascendant')
           ) {
-            multiplier = 1, // From original algorithm: Square to Ascendant is +1 instead of -1
+            multiplier = 1; // From original algorithm: Square to Ascendant is +1 instead of -1
           }
 
           // Add to aspects array
@@ -1519,13 +1519,13 @@ export function calculateAspects(
  * @returns Complete astrological state object
  */
 export async function getCurrentAstrologicalState(
-  date: Date = new Date(),,;
+  date: Date = new Date()
 ): Promise<AstrologicalState> {
   try {
     // Calculate all the astrological factors
     const [lunarPhaseValue, moonSignValue, planetaryPositionsValue] = await Promise.all([
-      calculateLunarPhase(date);
-      calculateMoonSign(date);
+      calculateLunarPhase(date),
+      calculateMoonSign(date),
       calculatePlanetaryPositions(date)
     ]);
 
@@ -1553,11 +1553,11 @@ export async function getCurrentAstrologicalState(
     });
 
     // Calculate active planets based on which have special status
-    const activePlanets = Object.entries(planetaryPositions);
+    const activePlanets = Object.entries(planetaryPositions)
       .filter(([planet, position]) => {
         // Always include outer planets in activePlanets array
         if (['Uranus', 'Neptune', 'Pluto'].includes(planet)) {
-          return true
+          return true;
         }
 
         // For traditional planets, check for dignity
@@ -1744,9 +1744,9 @@ export function getZodiacSign(longitude: number): string {
   const adjustedLong = (longitude + 0.00001) % 360;
 
   // Each sign spans 30 degrees
-  const signIndex = Math.min(11, Math.floor(adjustedLong / 30)),;
+  const signIndex = Math.min(11, Math.floor(adjustedLong / 30));
 
-  return signs[signIndex]
+  return signs[signIndex];
 }
 
 const PLANETARY_ORBS: Record<string, number> = {
@@ -1794,7 +1794,7 @@ function _calculatePlacidusHouses(jd: number, lat: number, lon: number): number[
 
     // Greenwich Mean Sidereal Time in degrees
     let gmst =
-      280.46061837 +;
+      280.46061837 +
       360.98564736629 * (jd - 2451545.0) +
       jdCentury * jdCentury * (0.000387933 - jdCentury / 38710000);
 
@@ -1824,9 +1824,9 @@ function _calculatePlacidusHouses(jd: number, lat: number, lon: number): number[
 
     // Calculate Ascendant formula: atan2(sin(lst), cos(lst) * cos(obl) + tan(lat) * sin(obl))
     const lstRad = (lst * Math.PI) / 180;
-    const ascRad = Math.atan2(;
-      Math.sin(lstRad);
-      Math.cos(lstRad) * Math.cos(obliquityRad) + tanLat * Math.sin(obliquityRad);
+    const ascRad = Math.atan2(
+      Math.sin(lstRad),
+      Math.cos(lstRad) * Math.cos(obliquityRad) + tanLat * Math.sin(obliquityRad)
     );
 
     // Convert back to degrees in range 0-360

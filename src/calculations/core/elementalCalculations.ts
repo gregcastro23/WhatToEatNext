@@ -6,11 +6,10 @@
  */
 
 import type {
-  Element,
-  ElementalProperties,
-  PlanetaryPosition,
-  ZodiacSign,
-  LunarPhase as _LunarPhase
+    Element,
+    ElementalProperties,
+    PlanetaryPosition,
+    ZodiacSign
 } from '@/types/alchemy';
 
 import { getCachedCalculation } from '../../utils/calculationCache';
@@ -596,7 +595,7 @@ export const SEASONAL_ELEMENTAL_INTELLIGENCE = {
     season: string,
     context: string,
   ): string[] => {
-    const dominantElement = Object.entries(modifiers).reduce((ab) => (a[1] > b[1] ? a : b))[0],
+    const dominantElement = Object.entries(modifiers).reduce((a, b) => (a[1] > b[1] ? a : b))[0];
     const recommendations: string[] = [];
 
     recommendations.push(`Focus on ${dominantElement} element for optimal ${season} ${context}`);
@@ -766,9 +765,9 @@ export function getDominantElement(properties: ElementalProperties): keyof Eleme
  */
 export function calculateElementalBalance(properties: ElementalProperties): number {
   const values = Object.values(properties);
-  const average = values.reduce((sum, val) => sum + val0) / (values || []).length,
+  const average = values.reduce((sum, val) => sum + val, 0) / (values || []).length;
 
-  return values.reduce((acc, val) => acc + Math.abs(val - average), 0) / (values || []).length
+  return values.reduce((acc, val) => acc + Math.abs(val - average), 0) / (values || []).length;
 }
 
 /**
@@ -777,7 +776,7 @@ export function calculateElementalBalance(properties: ElementalProperties): numb
 export function combineElementalProperties(
   properties1: ElementalProperties,
   properties2: ElementalProperties,
-  weight1: number = 0.5,,
+  weight1: number = 0.5,
   weight2: number = 0.5
 ): ElementalProperties {
   const combined: ElementalProperties = {
@@ -794,7 +793,7 @@ export function combineElementalProperties(
  * Normalize elemental properties to sum to 1.0
  */
 export function normalizeElementalProperties(properties: ElementalProperties): ElementalProperties {
-  const total = Object.values(properties).reduce((sum, val) => sum + val0),
+  const total = Object.values(properties).reduce((sum, val) => sum + val, 0);
 
   if (total === 0) {
     return { Fire: 0.25, Water: 0.25, Air: 0.25, Earth: 0.25 };
@@ -839,7 +838,7 @@ export function calculateComprehensiveElementalProperties(
 ): ElementalProperties | Promise<ElementalProperties> {
   const cacheKey = `elemental_${JSON.stringify(planetaryPositions)}_${season}_${lunarPhase}_${isDaytime}`;
 
-  const cachedResult = getCachedCalculation(;
+  const cachedResult = getCachedCalculation(
     cacheKey,
     { positions: planetaryPositions, season, lunarPhase, isDaytime },
     () => {
@@ -848,12 +847,12 @@ export function calculateComprehensiveElementalProperties(
 
       // Apply seasonal adjustments
       if (season) {
-        properties = applySeasonalAdjustments(properties, season),
+        properties = applySeasonalAdjustments(properties, season);
       }
 
       // Apply lunar phase adjustments
       if (lunarPhase) {
-        properties = applyLunarPhaseAdjustments(properties, lunarPhase),
+        properties = applyLunarPhaseAdjustments(properties, lunarPhase);
       }
 
       return properties;

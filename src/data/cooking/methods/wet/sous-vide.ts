@@ -1,4 +1,4 @@
-import type { ZodiacSign, ThermodynamicProperties } from '@/types/alchemy';
+import type { ThermodynamicProperties } from '@/types/alchemy';
 import type { CookingMethodData } from '@/types/cookingMethod';
 
 /**
@@ -157,13 +157,13 @@ export const _sousVide: CookingMethodData = {
 
   // Additional metadata
   history:
-    'Sous vide (French for 'under vacuum') was developed in France in the 1970s by chef Georges Pralus to minimize shrinkage in foie gras. However, low-temperature cooking was first described by Benjamin Thompson (Count Rumford) in 1799. The modern technique was refined and popularized by Bruno Goussault, who established time-temperature guidelines for various foods. Sous vide remained primarily in professional kitchens until the 2010s, when affordable immersion circulators made the technique accessible to home cooks.',
+    'Sous vide (French for \'under vacuum\') was developed in France in the 1970s by chef Georges Pralus to minimize shrinkage in foie gras. However, low-temperature cooking was first described by Benjamin Thompson (Count Rumford) in 1799. The modern technique was refined and popularized by Bruno Goussault, who established time-temperature guidelines for various foods. Sous vide remained primarily in professional kitchens until the 2010s, when affordable immersion circulators made the technique accessible to home cooks.',
 
   scientificPrinciples: [
     'Thermal equilibrium - food cannot exceed water bath temperature',
     'Precise protein denaturation at specific temperatures',
     'Vacuum environment prevents oxidation and flavor loss',
-    'Water's high specific heat provides stable cooking environment',
+    'Water\'s high specific heat provides stable cooking environment',
     'Slow enzymatic breakdown for tenderization',
     'Pasteurization through time-temperature combinations',
     'Conduction as primary heat transfer mechanism',

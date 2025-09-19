@@ -34,7 +34,7 @@ export const _marinating: CookingMethodData = {
     'Oil-based marinades (with herbs and spices in oil)',
     'Dry marinades/rubs (with salt and spices)',
     'Brines (salt water solutions)',
-    'Ceviche (acid 'cooking' of fish)'
+    'Ceviche (acid \'cooking\' of fish)'
   ],
   optimalTemperatures: {
     refrigeration: 1, // °C (refrigeration temperature)
@@ -51,7 +51,7 @@ export const _marinating: CookingMethodData = {
   ],
   healthConsiderations: [
     'Marinades that contain raw meat should not be reused without cooking',
-    'Acidic marinades can 'cook' seafood if left too long',
+    'Acidic marinades can \'cook\' seafood if left too long',
     'Some marinades contain high amounts of sodium, sugar, or fat',
     'Proper refrigeration is essential for food safety'
   ]

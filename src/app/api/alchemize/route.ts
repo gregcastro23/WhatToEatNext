@@ -1,10 +1,10 @@
 import { NextResponse } from 'next/server';
 
 import {
-  getCurrentPlanetaryPositions;
-  getPlanetaryPositionsForDateTime
+    getCurrentPlanetaryPositions,
+    getPlanetaryPositionsForDateTime
 } from '@/services/astrologizeApi';
-import { onAlchemizeApiCall, updateCurrentMoment } from '@/services/CurrentMomentManager';
+import { onAlchemizeApiCall } from '@/services/CurrentMomentManager';
 import { alchemize } from '@/services/RealAlchemizeService';
 import { PlanetPosition } from '@/utils/astrologyUtils';
 import { createLogger } from '@/utils/logger';
@@ -48,8 +48,8 @@ export async function POST(request: Request) {
       hour,
       minute,
       latitude = DEFAULT_LOCATION.latitude,
-      longitude = DEFAULT_LOCATION.longitude,,
-      zodiacSystem = 'tropical',,
+      longitude = DEFAULT_LOCATION.longitude,
+      zodiacSystem = 'tropical',
       planetaryPositions: providedPositions
     } = body;
 
@@ -59,7 +59,7 @@ export async function POST(request: Request) {
     // Determine if we should use custom date/time or current moment
     if (year && month && date && hour !== undefined && minute !== undefined) {
       useCustomDate = true;
-      const customDate = new Date(year, month - 1, date, hour, minute), // month - 1 because Date constructor expects 0-indexed month;
+      const customDate = new Date(year, month - 1, date, hour, minute); // month - 1 because Date constructor expects 0-indexed month
       logger.info(`Using custom date/time: ${customDate.toISOString()}`);
     }
 
@@ -71,14 +71,14 @@ export async function POST(request: Request) {
       logger.info('Fetching planetary positions from astrologize API');
 
       if (useCustomDate) {
-        const customDate = new Date(year ?? 2024, (month ?? 1) - 1, date, hour, minute),
-        planetaryPositions = await getPlanetaryPositionsForDateTime(;
+        const customDate = new Date(year ?? 2024, (month ?? 1) - 1, date, hour, minute);
+        planetaryPositions = await getPlanetaryPositionsForDateTime(
           customDate,
           { latitude, longitude },
           zodiacSystem
         );
       } else {
-        planetaryPositions = await getCurrentPlanetaryPositions(;
+        planetaryPositions = await getCurrentPlanetaryPositions(
           { latitude, longitude },
           zodiacSystem
         );
@@ -94,18 +94,18 @@ export async function POST(request: Request) {
 
     // Step 2: Update current moment data across all storage locations
     if (useCustomDate) {
-      const customDate = new Date(year ?? 2024, (month ?? 1) - 1, date, hour, minute),
+      const customDate = new Date(year ?? 2024, (month ?? 1) - 1, date, hour, minute);
       await updateCurrentMoment(customDate, { latitude, longitude });
     } else {
       // Trigger update with current moment
-      await onAlchemizeApiCall(planetaryPositions)
+      await onAlchemizeApiCall(planetaryPositions);
     }
 
     logger.info('Updated current moment data across all storage locations');
 
     // Step 3: Convert PlanetPosition to PlanetaryPosition format for alchemize function
     const convertedPositions: Record<
-      string;
+      string,
       import('@/services/RealAlchemizeService').PlanetaryPosition
     > = {};
 
@@ -146,7 +146,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json(response);
   } catch (error) {
-    logger.error('Error in alchemize API:', error),
+    logger.error('Error in alchemize API:', error);
 
     return NextResponse.json(
       {
