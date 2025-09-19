@@ -134,7 +134,7 @@ describe('Bundle Size Performance Tests', () => {
       });
 
       // Collect bundle sizes over multiple measurements
-      for (let i: any = 0, i < 6, i++) {
+      for (let i: any = 0i < 6i++) {
         const bundleSize: any = await progressTracker.getBundleSize();
         bundleSizes.push(bundleSize);
       }
@@ -349,7 +349,7 @@ describe('Bundle Size Performance Tests', () => {
       const bundleSizes: number[] = [];
 
       // Execute phase multiple times to simulate regression
-      for (let i: any = 0, i < 4, i++) {
+      for (let i: any = 0i < 4i++) {
         await campaignController.executePhase(phase);
         const bundleSize: any = await progressTracker.getBundleSize();
         bundleSizes.push(bundleSize);
@@ -383,7 +383,7 @@ describe('Bundle Size Performance Tests', () => {
       const bundleSizes: number[] = [];
 
       // Execute optimization phases
-      for (let i: any = 0, i < 5, i++) {
+      for (let i: any = 0i < 5i++) {
         await campaignController.executePhase(phase);
         const bundleSize: any = await progressTracker.getBundleSize();
         bundleSizes.push(bundleSize);
@@ -433,7 +433,7 @@ describe('Bundle Size Performance Tests', () => {
       expect(results[0].size).toBe(480);
 
       // Progressive optimization should reduce bundle size
-      for (let i: any = 1, i < results.length, i++) {
+      for (let i: any = 1i < results.lengthi++) {
         expect(results[i].size).toBeLessThan(results[i - 1].size);
       }
 
@@ -464,7 +464,7 @@ describe('Bundle Size Performance Tests', () => {
       }),
 
       // Perform multiple bundle size analyses
-      for (let i: any = 0, i < 10, i++) {
+      for (let i: any = 0i < 10i++) {
         await progressTracker.getBundleSize();
       }
 
@@ -472,7 +472,7 @@ describe('Bundle Size Performance Tests', () => {
       expect(analysisTimes.every(time => time > 0)).toBe(true);
 
       // Average analysis time should be reasonable
-      const averageTime: any = analysisTimes.reduce((sum: any, time: any) => sum + time, 0) / analysisTimes.length;
+      const averageTime: any = analysisTimes.reduce((sum: any, time: any) => sum + time0) / analysisTimes.length;
       expect(averageTime).toBeLessThan(100); // Should be under 100ms
     });
 
@@ -545,10 +545,10 @@ describe('Bundle Size Performance Tests', () => {
       jest.spyOn(campaignController as unknown, 'getCurrentMetrics').mockImplementation(async () => {
         const bundleSize: any = await progressTracker.getBundleSize();
         return {
-          typeScriptErrors: { curren, t: 86, target: 0, reduction: 0, percentage: 0 },
-          lintingWarnings: { curren, t: 4506, target: 0, reduction: 0, percentage: 0 },
+          typeScriptErrors: { current: 86, target: 0, reduction: 0, percentage: 0 },
+          lintingWarnings: { current: 4506, target: 0, reduction: 0, percentage: 0 },
           buildPerformance: { currentTim, e: 8.5, targetTime: 10, cacheHitRate: 0.8, memoryUsage: 45 },
-          enterpriseSystems: { curren, t: 0, target: 200, transformedExports: 0 },
+          enterpriseSystems: { current: 0, target: 200, transformedExports: 0 },
           bundleSize: bundleSize, // Additional bundle size tracking
         };
       });

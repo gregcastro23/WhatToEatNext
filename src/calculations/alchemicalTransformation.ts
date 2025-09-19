@@ -118,7 +118,7 @@ export const transformItemWithPlanetaryPositions = (;
 
     // Instead of a simple scaling, apply more varied calculations based on multiple factors
     // This will create more distinct recommendations with a wider range
-    const baseScaledEnergy = (rawGregsEnergy + 1) / 2; // Convert from range (-1,1) to (0,1)
+    const baseScaledEnergy = (rawGregsEnergy + 1) / 2; // Convert from range (-11) to (01)
 
     // Apply element-specific influence for each dominant element
     let elementalModifier = 0;
@@ -265,7 +265,7 @@ export const _transformItemsWithPlanetaryPositions = (;
   lunarPhase?: LunarPhaseWithSpaces | null,
 ): AlchemicalItem[] => {
   try {
-    return items.map(item =>;
+    return items.map(item =>
       transformItemWithPlanetaryPositions(
         item,
         planetPositions,
@@ -315,7 +315,7 @@ const transformElementalProperties = (;
 
     // Calculate base enhancement factor - stronger effect on dominant elements
     // Enhanced by planetary boost, but cap the enhancement factor to prevent excessive values
-    const enhancementFactor = Math.min(0.1, 0.15 * planetaryBoost) * 0.5;
+    const enhancementFactor = Math.min(0.10.15 * planetaryBoost) * 0.5;
 
     // Get the dominant original element to preserve character
     const dominantElement = getDominantElement(originalProperties);
@@ -358,7 +358,7 @@ const transformElementalProperties = (;
     );
 
     // Boost the dominant element slightly to preserve ingredient character, but cap the boost
-    transformedProperties[dominantElement] *= Math.min(1.5, 1.1 * planetaryBoost);
+    transformedProperties[dominantElement] *= Math.min(1.51.1 * planetaryBoost);
 
     // Apply zodiac-specific boost if available
     if (zodiacSign) {

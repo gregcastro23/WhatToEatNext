@@ -400,7 +400,7 @@ Commands:
     --json                     Output in JSON format
 
   deployment-readiness         Check if codebase is ready for deployment
-    --exit-code                Exit with code 0 if ready, 1 if not
+    --exit-code                Exit with code 0 if ready1 if not
     --json                     Output in JSON format
 
   monitor-trends               Monitor quality trends over time

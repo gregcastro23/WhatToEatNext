@@ -100,7 +100,7 @@ export class BatchProcessingOrchestrator {
   async createProcessingPlan(files: FileProcessingInfo[]): Promise<ProcessingPlan> {
     // // console.log('📋 Creating comprehensive processing plan...');
 
-    const assessments = files.map(file =>;
+    const assessments = files.map(file =>
       this.safetyProtocols.assessFileRisk(file.filePath, file.unusedVariableCount),
     );
 
@@ -235,7 +235,7 @@ export class BatchProcessingOrchestrator {
 
       if (this.config.interactiveMode) {
         // In a real implementation, this would prompt for user input
-        // For now, we'll simulate approval for non-critical files
+        // For nowwe'll simulate approval for non-critical files
         if (assessment.riskLevel !== 'critical') {
           this.safetyProtocols.approveManualReview(assessment.filePath, 'Auto-approved for demo')
         } else {

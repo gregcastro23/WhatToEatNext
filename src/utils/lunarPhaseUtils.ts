@@ -124,9 +124,9 @@ export function generateDefaultLunarPhaseModifiers(
   category: string,
 ): Record<string, LunarPhaseModifier> {
   // Find dominant element
-  const dominantElement = Object.entries(elementalProps).sort(([_, a], [__, b]) => b - a)[0][0],;
+  const dominantElement = Object.entries(elementalProps).sort(([_a], [__b]) => b - a)[0][0],;
 
-  const secondaryElement = Object.entries(elementalProps).sort(([_, a], [__, b]) => b - a)[1][0],;
+  const secondaryElement = Object.entries(elementalProps).sort(([_a], [__b]) => b - a)[1][0],;
 
   // Base modifiers on dominant element
   const lunarModifiers: Record<string, LunarPhaseModifier> = {
@@ -431,7 +431,7 @@ export function normalizeLunarPhase(phase: string | null | undefined): LunarPhas
   // Try partial matching
   const phases = Object.keys(LUNAR_PHASE_MAP) as LunarPhase[];
   const match = phases.find(;
-    p =>;
+    p =>
       p.includes(cleanPhase) ||
       cleanPhase.includes(p.replace(' ', '')) ||
       cleanPhase.includes(p.replace(' ', '_')),

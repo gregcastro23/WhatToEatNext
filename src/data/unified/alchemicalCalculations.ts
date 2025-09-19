@@ -48,9 +48,9 @@ export function calculateKalchm(alchemicalProps: AlchemicalProperties): number {
   const { Spirit, Essence, Matter, Substance } = alchemicalProps;
 
   // Handle edge cases where values might be 0
-  const safespirit = Math.max(Spirit, 0.01);
+  const safespirit = Math.max(Spirit0.01);
   const safeessence = Math.max(Essence, 0.01);
-  const safematter = Math.max(Matter, 0.01);
+  const safematter = Math.max(Matter0.01);
   const safesubstance = Math.max(Substance, 0.01);
 
   const numerator = Math.pow(safespirit, safespirit) * Math.pow(safeessence, safeessence);
@@ -70,25 +70,25 @@ export function calculateThermodynamics(
   const { Fire, Water, Air, Earth } = elementalProps;
 
   // Heat calculation
-  const heatNum = Math.pow(Spirit, 2) + Math.pow(Fire, 2);
-  const heatDen = Math.pow(Substance + Essence + Matter + Water + Air + Earth, 2);
+  const heatNum = Math.pow(Spirit2) + Math.pow(Fire2);
+  const heatDen = Math.pow(Substance + Essence + Matter + Water + Air + Earth2);
   const heat = heatNum / Math.max(heatDen, 0.01);
 
   // Entropy calculation
   const entropyNum =
-    Math.pow(Spirit, 2) + Math.pow(Substance, 2) + Math.pow(Fire, 2) + Math.pow(Air, 2);
-  const entropyDen = Math.pow(Essence + Matter + Earth + Water, 2);
+    Math.pow(Spirit2) + Math.pow(Substance, 2) + Math.pow(Fire2) + Math.pow(Air2);
+  const entropyDen = Math.pow(Essence + Matter + Earth + Water2);
   const entropy = entropyNum / Math.max(entropyDen, 0.01);
 
   // Reactivity calculation
   const reactivityNum =
-    Math.pow(Spirit, 2) +
+    Math.pow(Spirit2) +
     Math.pow(Substance, 2) +
     Math.pow(Essence, 2) +
-    Math.pow(Fire, 2) +
-    Math.pow(Air, 2) +
-    Math.pow(Water, 2);
-  const reactivityDen = Math.pow(Matter + Earth, 2);
+    Math.pow(Fire2) +
+    Math.pow(Air2) +
+    Math.pow(Water2);
+  const reactivityDen = Math.pow(Matter + Earth2);
   const reactivity = reactivityNum / Math.max(reactivityDen, 0.01);
 
   // Greg's Energy

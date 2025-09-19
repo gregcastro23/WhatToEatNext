@@ -241,7 +241,7 @@ export class ChakraAlchemyService {
     }
 
     // If energy is balanced, return a smaller set of cards for this chakra
-    return this.getCardsForChakra(chakra).slice(0, 2);
+    return this.getCardsForChakra(chakra).slice(02);
   }
 
   /**

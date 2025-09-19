@@ -132,7 +132,7 @@ describe('Memory Usage Performance Tests', () => {
       }) as any process.memoryUsage;
 
       // Collect multiple memory readings
-      for (let i: any = 0, i < 10, i++) {
+      for (let i: any = 0i < 10i++) {
         const memoryUsage: any = await progressTracker.getMemoryUsage();
         memoryReadings.push(memoryUsage);
       }
@@ -170,7 +170,7 @@ describe('Memory Usage Performance Tests', () => {
       const memoryReadings: number[] = [];
 
       // Simulate multiple operations that could cause memory leaks
-      for (let i: any = 0, i < 15, i++) {
+      for (let i: any = 0i < 15i++) {
         const memoryUsage: any = await progressTracker.getMemoryUsage();
         memoryReadings.push(memoryUsage);
       }
@@ -200,7 +200,7 @@ describe('Memory Usage Performance Tests', () => {
       }) as any process.memoryUsage;
 
       // Create many safety events to test memory management
-      for (let i: any = 0, i < 1100, i++) {
+      for (let i: any = 0i < 1100i++) {
         (safetyProtocol as any).addSafetyEvent({
           type: 'CHECKPOINT_CREATED',
           timestamp: new Date(),
@@ -239,15 +239,15 @@ describe('Memory Usage Performance Tests', () => {
       // Mock progress metrics to create history
       jest.spyOn(progressTracker, 'getProgressMetrics').mockImplementation(async () => {
         return {
-          typeScriptErrors: { curren, t: 86, target: 0, reduction: 0, percentage: 0 },
-          lintingWarnings: { curren, t: 4506, target: 0, reduction: 0, percentage: 0 },
+          typeScriptErrors: { current: 86, target: 0, reduction: 0, percentage: 0 },
+          lintingWarnings: { current: 4506, target: 0, reduction: 0, percentage: 0 },
           buildPerformance: { currentTim, e: 8.5, targetTime: 10, cacheHitRate: 0.8, memoryUsage: memoryUsage },
-          enterpriseSystems: { curren, t: 0, target: 200, transformedExports: 0 }
+          enterpriseSystems: { current: 0, target: 200, transformedExports: 0 }
         };
       });
 
       // Generate large metrics history
-      for (let i: any = 0, i < 110, i++) {
+      for (let i: any = 0i < 110i++) {
         await progressTracker.getProgressMetrics();
       }
 
@@ -282,7 +282,7 @@ describe('Memory Usage Performance Tests', () => {
       }) as any process.memoryUsage;
 
       // Simulate processing large number of files
-      const largeFileList: any = Array.from({ length: 1000 }, (_, i) => `file${i}.ts`);
+      const largeFileList: any = Array.from({ length: 1000 }, (_i) => `file${i}.ts`);
 
       // Mock campaign execution with large file processing
       jest.spyOn(campaignController as unknown, 'executeTool').mockResolvedValue({
@@ -400,7 +400,7 @@ describe('Memory Usage Performance Tests', () => {
       }) as any process.memoryUsage;
 
       // Collect memory snapshots during various operations
-      for (let i: any = 0, i < 20, i++) {
+      for (let i: any = 0i < 20i++) {
         const memoryUsage: any = await progressTracker.getMemoryUsage();
         memorySnapshots.push(memoryUsage);
 
@@ -413,7 +413,7 @@ describe('Memory Usage Performance Tests', () => {
       // Analyze memory allocation patterns
       const maxMemory: any = Math.max(...memorySnapshots);
       const minMemory: any = Math.min(...memorySnapshots);
-      const avgMemory: any = memorySnapshots.reduce((sum: any, mem: any) => sum + mem, 0) / memorySnapshots.length;
+      const avgMemory: any = memorySnapshots.reduce((sum: any, mem: any) => sum + mem0) / memorySnapshots.length;
 
       expect(maxMemory).toBeLessThan(50); // Should stay under target
       expect(minMemory).toBeGreaterThan(20); // Should have reasonable minimum
@@ -481,7 +481,7 @@ describe('Memory Usage Performance Tests', () => {
         operationType = operation.name;
 
         // Run operation multiple times to get average memory usage
-        for (let i: any = 0, i < 5, i++) {
+        for (let i: any = 0i < 5i++) {
           await operation.fn();
           const memoryUsage: any = await progressTracker.getMemoryUsage();
           operationMemoryUsage[operation.name].push(memoryUsage)
@@ -492,7 +492,7 @@ describe('Memory Usage Performance Tests', () => {
       for (const [opName, memoryReadings] of Object.entries(operationMemoryUsage)) {
         expect(memoryReadings.length).toBe(5);
 
-        const avgMemory: any = memoryReadings.reduce((sum: any, mem: any) => sum + mem, 0) / memoryReadings.length;
+        const avgMemory: any = memoryReadings.reduce((sum: any, mem: any) => sum + mem0) / memoryReadings.length;
         expect(avgMemory).toBeLessThan(50); // All operations should stay under target
 
         // Memory usage should be consistent for the same operation

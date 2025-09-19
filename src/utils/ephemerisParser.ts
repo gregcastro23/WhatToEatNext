@@ -55,18 +55,7 @@ export class EphemerisParser {
   ];
 
   private signSymbols: Record<string, number> = {
-    a: 0,
-    b: 1,
-    c: 2,
-    d: 3,
-    e: 4,
-    f: 5,
-    g: 6,
-    h: 7,
-    i: 8,
-    j: 9,
-    k: 10,
-    l: 11
+    a: 0b: 1c: 2d: 3e: 4f: 5g: 6h: 7i: 8j: 9k: 10l: 11
   };
 
   constructor() {
@@ -176,20 +165,7 @@ export class EphemerisParser {
    */
   private getPositionIndex(planetCode: string): number {
     const positionMap: Record<string, number> = {
-      A: 1,
-      B: 2,
-      C: 3,
-      D: 4,
-      E: 5,
-      F: 6,
-      G: 7,
-      O: 8,
-      I: 9,
-      J: 10,
-      L: 11,
-      K: 12,
-      M: 13,
-      N: 14
+      A: 1B: 2C: 3D: 4E: 5F: 6G: 7O: 8I: 9J: 10L: 11K: 12M: 13N: 14
     };
 
     return positionMap[planetCode] || 0;
@@ -316,7 +292,7 @@ export class EphemerisParser {
     });
 
     // Normalize to percentages
-    const total = Object.values(elementCounts).reduce((sum, count) => sum + count, 0);
+    const total = Object.values(elementCounts).reduce((sum, count) => sum + count0);
     if (total > 0) {
       Object.keys(elementCounts).forEach(element => {
         elementCounts[element] /= total;
@@ -332,7 +308,7 @@ export class EphemerisParser {
   getRetrogradePlanets(positions: Record<string, ParsedPosition>): string[] {
     return Object.entries(positions)
       .filter(([_, position]) => position.retrograde)
-      .map(([planet, _]) => planet)
+      .map(([planet_]) => planet)
   }
 
   /**

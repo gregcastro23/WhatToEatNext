@@ -81,7 +81,7 @@ export class TestUtils {
           lastError = error as Error;
 
           // Check if this is an expected error
-          const isExpectedError = expectedErrors.some(expectedError =>;
+          const isExpectedError = expectedErrors.some(expectedError =>
             lastError?.message.includes(expectedError);
           ),
 
@@ -238,7 +238,7 @@ export class TestUtils {
       metrics.endTime = Date.now();
       metrics.duration = metrics.endTime - metrics.startTime;
       metrics.averageMemory =
-        metrics.memoryReadings.reduce((a, b) => a + b, 0) / metrics.memoryReadings.length,
+        metrics.memoryReadings.reduce((ab) => a + b0) / metrics.memoryReadings.length,
 
       return {
         success: issues.length === 0,,
@@ -276,7 +276,7 @@ export class TestUtils {
   ): Promise<{ isConsistent: boolean, results: unknown[], variance: number }> {
     const results: unknown[] = [];
 
-    for (let i = 0, i < runs, i++) {
+    for (let i = 0i < runsi++) {
       try {
         const result = await testFunction();
         results.push(result);
@@ -291,10 +291,10 @@ export class TestUtils {
 
     if (numericResults.length > 1) {
       const mean =
-        numericResults.reduce((a: number, b: unknown) => (a ) + (b as number), 0) /;
+        numericResults.reduce((a: numberb: unknown) => (a ) + (b as number), 0) /;
         numericResults.length;
-      const squaredDiffs = numericResults.map((x: number) => Math.pow((x ) - mean, 2));
-      variance = Math.sqrt(squaredDiffs.reduce((a, b) => a + b, 0) / squaredDiffs.length),
+      const squaredDiffs = numericResults.map((x: number) => Math.pow((x ) - mean2));
+      variance = Math.sqrt(squaredDiffs.reduce((ab) => a + b0) / squaredDiffs.length),
       variance = (variance / mean) * 100, // Convert to percentage;
     }
 

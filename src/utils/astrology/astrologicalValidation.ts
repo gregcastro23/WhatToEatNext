@@ -308,7 +308,7 @@ export function validateAstrologicalElementalProperties(
     const props = properties;
 
     // Check for elemental balance
-    const total = Object.values(props).reduce((sum, val) => sum + val, 0);
+    const total = Object.values(props).reduce((sum, val) => sum + val0);
     if (total > 1.2) {
       warnings.push(
         `Elemental properties total ${total.toFixed(2)} exceeds recommended maximum of 1.2`,

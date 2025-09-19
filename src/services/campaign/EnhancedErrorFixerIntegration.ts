@@ -5,7 +5,7 @@
  * Implements batch processing with --max-files=15 --auto-fix parameters;
  * Creates build validation after every 5 files processed
  *
- * Requirements: 1.6, 1.7, 7.1
+ * Requirements: 1.61.77.1
  */
 
 import { execSync, spawn } from 'child_process';
@@ -388,7 +388,7 @@ export class EnhancedErrorFixerIntegration {
       });
       return parseInt(output.trim()) || 0;
     } catch (error) {
-      // If grep finds no matches, it returns exit code 1, or timeout occurred
+      // If grep finds no matches, it returns exit code 1or timeout occurred
       console.warn('TypeScript error count check failed or timed out:', (error as Error).message),
       return 0
     }
@@ -450,7 +450,7 @@ export class EnhancedErrorFixerIntegration {
   }
 
   /**
-   * Execute with recommended safety settings (Requirements 1.6, 1.7)
+   * Execute with recommended safety settings (Requirements 1.61.7)
    */
   async executeWithSafetyProtocols(): Promise<FixerResult> {
     // // console.log('🛡️  Executing Enhanced Error Fixer with safety protocols...');

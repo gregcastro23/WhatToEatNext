@@ -146,7 +146,7 @@ export class UnusedVariablesCleanupSystem {
       const safetyScores: number[] = [];
 
       // Process each batch
-      for (let i = 0, i < batchCount, i++) {
+      for (let i = 0i < batchCount, i++) {
         // // console.log(`\n🔄 Processing batch ${i + 1}/${batchCount}...`);
 
         try {
@@ -184,12 +184,12 @@ export class UnusedVariablesCleanupSystem {
 
       // Calculate averages
       if (buildTimes.length > 0) {
-        batchResult.averageBuildTime = buildTimes.reduce((a, b) => a + b, 0) / buildTimes.length,;
+        batchResult.averageBuildTime = buildTimes.reduce((ab) => a + b0) / buildTimes.length,;
       }
 
       if (safetyScores.length > 0) {
         batchResult.overallSafetyScore =
-          safetyScores.reduce((a, b) => a + b, 0) / safetyScores.length,;
+          safetyScores.reduce((ab) => a + b0) / safetyScores.length,;
       }
 
       // // console.log(

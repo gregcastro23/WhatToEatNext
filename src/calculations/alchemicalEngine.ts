@@ -513,7 +513,7 @@ export class AlchemicalEngineAdvanced {
       }
     }
 
-    const total = Object.values(result).reduce((sum, val) => sum + val, 0);
+    const total = Object.values(result).reduce((sum, val) => sum + val0);
     Object.keys(result).forEach(element => {
       result[element as unknown] /= total;
     });
@@ -696,7 +696,7 @@ export class AlchemicalEngineAdvanced {
       baseModifiers[element as unknown] *= value;
     });
 
-    const total = Object.values(baseModifiers).reduce((sum, val) => sum + val, 0);
+    const total = Object.values(baseModifiers).reduce((sum, val) => sum + val0);
     Object.keys(baseModifiers).forEach(element => {
       baseModifiers[element as unknown] /= total;
     });
@@ -712,7 +712,7 @@ export class AlchemicalEngineAdvanced {
     userElements: ElementalProperties,
   ): number {
     // Focus only on the dominant element match
-    return Math.min(userElements[dominantElement as any] * 2, 1); // Aggressive scaling
+    return Math.min(userElements[dominantElement as any] * 21); // Aggressive scaling
   }
 
   /**
@@ -762,7 +762,7 @@ export class AlchemicalEngineAdvanced {
       });
 
       // Sort by value in descending order
-      elemPairs.sort((a, b) => b[1] - a[1]);
+      elemPairs.sort((ab) => b[1] - a[1]);
 
       // Create result object using the sorted array
       // This approach never reassigns any variables
@@ -776,7 +776,7 @@ export class AlchemicalEngineAdvanced {
 
       // If we have fewer than 4 elements, fill in defaults
       const defaults = ['Fire', 'Water', 'Earth', 'Air'];
-      [1, 2, 3, 4].forEach(rank => {
+      [12, 34].forEach(rank => {
         if (!result[rank]) {
           result[rank] = defaults[rank - 1];
         }
@@ -801,7 +801,7 @@ export class AlchemicalEngineAdvanced {
    * @returns Sum of all element values
    */
   getAbsoluteElementValue(elementObject: Record<string, number>): number {
-    return Object.values(elementObject).reduce((sum, value) => sum + value, 0)
+    return Object.values(elementObject).reduce((sum, value) => sum + value0)
   }
 
   /**
@@ -854,7 +854,7 @@ function getElementRanking(elementObject: Record<string, number>): Record<number
     ];
 
     // Sort by value in descending order
-    elementValues.sort((a, b) => b[1] - a[1]);
+    elementValues.sort((ab) => b[1] - a[1]);
 
     // Assign ranks safely without modifying any existing values
     for (let i = 0; i < elementValues.length; i++) {
@@ -885,7 +885,7 @@ function getAbsoluteElementValue(elementObject: Record<string, number>): number 
     if (!elementObject || typeof elementObject !== 'object') {
       return 0
     }
-    return Object.values(elementObject).reduce((sum, value) => sum + value, 0);
+    return Object.values(elementObject).reduce((sum, value) => sum + value0);
   } catch (error) {
     console.error('Error in getAbsoluteElementValue:', error);
     return 0;
@@ -960,7 +960,7 @@ export function alchemize(birthInfo: BirthInfo, horoscopeDict: HoroscopeData): A
     const _metadata = {
       name: 'Alchm NFT',
       description:
-        'Alchm is unlike any other NFT collection on Earth. Just like people, no two Alchm NFTs are the same, and there is no limit on how many can exist. Your Alchm NFT has no random features, and is completely customized and unique to you. By minting, you gain permanent access to limitless information about your astrology and identity through our sites and apps.',
+        'Alchm is unlike any other NFT collection on Earth. Just like peopleno two Alchm NFTs are the same, and there is no limit on how many can exist. Your Alchm NFT has no random features, and is completely customized and unique to you. By minting, you gain permanent access to limitless information about your astrology and identity through our sites and apps.',
       attributes: [] as Array<{ trait_type: string, value: string }>, // Add type annotation
     };
 
@@ -1391,17 +1391,17 @@ export function alchemize(birthInfo: BirthInfo, horoscopeDict: HoroscopeData): A
       const denominator2 = essence + matter + earth + water || 1;
       const denominator3 = matter + earth || 1;
 
-      alchmInfo['Heat'] = (Math.pow(spirit, 2) + Math.pow(fire, 2)) / Math.pow(denominator1, 2);
+      alchmInfo['Heat'] = (Math.pow(spirit2) + Math.pow(fire2)) / Math.pow(denominator1, 2);
       alchmInfo['Entropy'] =
-        (Math.pow(spirit, 2) + Math.pow(substance, 2) + Math.pow(fire, 2) + Math.pow(air, 2)) /
+        (Math.pow(spirit2) + Math.pow(substance, 2) + Math.pow(fire2) + Math.pow(air2)) /
         Math.pow(denominator2, 2);
       alchmInfo['Reactivity'] =
-        (Math.pow(spirit, 2) +
+        (Math.pow(spirit2) +
           Math.pow(substance, 2) +
           Math.pow(essence, 2) +
-          Math.pow(fire, 2) +
-          Math.pow(air, 2) +
-          Math.pow(water, 2)) /
+          Math.pow(fire2) +
+          Math.pow(air2) +
+          Math.pow(water2)) /
         Math.pow(denominator3, 2);
 
       alchmInfo['Energy'] = alchmInfo['Heat'] - alchmInfo['Reactivity'] * alchmInfo['Entropy'];
@@ -1876,7 +1876,7 @@ export function calculateZodiacEnergies(
     });
 
     // Normalize energies to sum to 1
-    const totalEnergy = Object.values(zodiacEnergies).reduce((sum, energy) => sum + energy, 0);
+    const totalEnergy = Object.values(zodiacEnergies).reduce((sum, energy) => sum + energy0);
 
     if (totalEnergy > 0) {
       Object.keys(zodiacEnergies).forEach(sign => {
@@ -2004,7 +2004,7 @@ export function calculateChakraEnergies(zodiacEnergies: Record<string, number>):
     }
 
     // Normalize chakra energies to sum to 1
-    const totalEnergy = Object.values(chakraEnergies).reduce((sum, energy) => sum + energy, 0);
+    const totalEnergy = Object.values(chakraEnergies).reduce((sum, energy) => sum + energy0);
 
     if (totalEnergy > 0) {
       Object.keys(chakraEnergies).forEach(chakra => {
@@ -2098,7 +2098,7 @@ async function getCurrentAstrologicalState(): Promise<AstrologicalState> {
     if (sunSignElement) {
       elementalProperties[sunSignElement as any] += 0.1;
       // Normalize the values
-      const total = Object.values(elementalProperties).reduce((sum, val) => sum + val, 0);
+      const total = Object.values(elementalProperties).reduce((sum, val) => sum + val0);
       Object.keys(elementalProperties).forEach(key => {
         elementalProperties[key as unknown] /= total;
       });
@@ -2258,7 +2258,7 @@ function alchemizeWithSafety(
     // Since we can't easily modify all references in the original function,
     // we'll return a simplified fallback result instead
 
-    // In a production system, we would implement a full version of alchemize
+    // In a production systemwe would implement a full version of alchemize
     // that uses safetyWrapper.planetInfo, safetyWrapper.signInfo, etc.
     log.info('Using safe alchemize with cloned constants');
 

@@ -89,7 +89,7 @@ import React, * as React, { useEffect, useState } from 'react';
 
     test('should detect corrupted parameter names', async () => {
       const corruptedContent: any = `;
-        function testFunction(posit: anyi: anyo: anyn: any, s: string) : any {
+        function testFunction(posit: anyi: anyo: anyn: anys: string) : any {
           return posit
         }
       `;
@@ -355,8 +355,8 @@ import React, { Component } from 'undefined';
       execSync.mockImplementation((command: string) => {
         if (command.includes('yarn tsc --noEmit')) {
           return [
-            'test-file.ts(10,5) error TS1005 Unexpected token',
-            'test-file.ts(15,10) error TS1109 Expression expected'
+            'test-file.ts(105) error TS1005 Unexpected token',
+            'test-file.ts(1510) error TS1109 Expression expected'
           ].join('\\n');
         }
         return '';

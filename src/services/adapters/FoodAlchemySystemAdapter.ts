@@ -263,7 +263,7 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
     ];
 
     // Sort by difference from ideal (descending)
-    elements.sort((a, b) => b.diff - a.diff);
+    elements.sort((ab) => b.diff - a.diff);
 
     // Get the element that needs balancing the most
     const elementToBalance = elements[0];

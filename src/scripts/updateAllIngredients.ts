@@ -4,7 +4,7 @@
  *
  * Run with: yarn ts-node src/scripts/updateAllIngredients.ts
  *
- * You can also specify which categories to update, e.g.:
+ * You can also specify which categories to updatee.g.:
  * yarn ts-node src/scripts/updateAllIngredients.ts herbs spices
  */
 

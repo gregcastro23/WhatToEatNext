@@ -3,7 +3,7 @@ import { AlchemicalProperties, _, ElementalProperties } from '@/types/alchemy';
 export interface AlchemicalState {
   elementalProperties: ElementalProperties,
   isCalculating: boolean,
-  lastUpdated: Date | null;
+  lastUpdated: Date | null,
   elementalState?: ElementalProperties;
   currentSeason?: string;
 }
@@ -11,7 +11,7 @@ export interface AlchemicalState {
 export interface AlchemicalContextType {
   state: AlchemicalState,
   updateElementalProperties: (properties: Partial<ElementalProperties>) => void,
-  resetState: () => void;
+  resetState: () => void,
   elementalState?: ElementalProperties;
   alchemicalValues?: AlchemicalProperties;
 }

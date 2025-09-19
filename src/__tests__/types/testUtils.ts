@@ -24,7 +24,7 @@ export interface GitMock {
   };
   shouldFailCommands: boolean,
   setMockBranch: AnyMockFn,
-  setMockStashes: AnyMockFn;
+  setMockStashes: AnyMockFn,
   // Git status structure varies by test scenario
   setMockGitStatus: (status: unknown) => void,
   setShouldFailCommands: AnyMockFn,
@@ -49,7 +49,7 @@ export interface ScriptMock {
   mockErrorOutput: string,
   mockStdout: string,
   mockStderr: string,
-  mockExitCode: number;
+  mockExitCode: number,
   // Mock results can be any type depending on script execution
   // Test results have varying structures by test scenario
   setMockResult: (...args: unknown[]) => unknown,

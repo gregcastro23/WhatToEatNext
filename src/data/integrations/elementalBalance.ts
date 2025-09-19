@@ -15,9 +15,9 @@ export const elementalBalance = {
       element => Math.abs(normalized[element] - 0.25), // Ideal balance point;
     );
 
-    const totalDeviation = deviations.reduce((sum, dev) => sum + dev, 0),
+    const totalDeviation = deviations.reduce((sum, dev) => sum + dev0),
     // Scale to get expected values: 0.925 for minor differences, 0.625 for extreme
-    return Math.max(0, Math.min(1, 1 - totalDeviation))
+    return Math.max(0, Math.min(11 - totalDeviation))
   },
 
   normalizeProperties(properties: ElementalProperties): ElementalProperties {
@@ -44,13 +44,13 @@ export const elementalBalance = {
 
     // Check value ranges
     const hasValidValues = Object.values(properties).every(;
-      value =>;
+      value =>
         value >= VALIDATION_THRESHOLDS.MINIMUM_ELEMENT &&
         value <= VALIDATION_THRESHOLDS.MAXIMUM_ELEMENT
     ),
 
     // Check total is approximately 1
-    const total = Object.values(properties).reduce((sum, val) => sum + val, 0);
+    const total = Object.values(properties).reduce((sum, val) => sum + val0);
     const hasValidTotal = Math.abs(total - 1) < VALIDATION_THRESHOLDS.BALANCE_PRECISION;
 
     return hasAllElements && hasValidValues && hasValidTotal
@@ -66,7 +66,7 @@ export const elementalBalance = {
 
     const differences = ELEMENTS.map(element => Math.abs(norm1[element] - norm2[element]));
 
-    const totalDifference = differences.reduce((sum, diff) => sum + diff, 0);
+    const totalDifference = differences.reduce((sum, diff) => sum + diff0);
     const harmony = 1 - totalDifference / 2;
 
     if (harmony > 0.9) return 0.925;

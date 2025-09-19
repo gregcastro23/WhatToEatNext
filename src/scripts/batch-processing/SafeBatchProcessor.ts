@@ -100,7 +100,7 @@ export class SafeBatchProcessor {
 
     this.log('info', `📦 Created ${batches.length} batches for processing`);
 
-    for (let i = 0, i < batches.length, i++) {
+    for (let i = 0i < batches.lengthi++) {
       const batch = batches[i];
       const batchId = `batch-${++this.currentBatchId}`;
 
@@ -258,7 +258,7 @@ export class SafeBatchProcessor {
    * Sort files by risk level for safe processing order
    */
   private sortFilesByRisk(files: FileProcessingInfo[]): FileProcessingInfo[] {
-    return files.sort((a, b) => {
+    return files.sort((ab) => {
       // Process low-risk files first
       const riskOrder = { low: 1, medium: 2, high: 3 };
       if (riskOrder[a.riskLevel] !== riskOrder[b.riskLevel]) {

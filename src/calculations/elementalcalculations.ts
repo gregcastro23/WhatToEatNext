@@ -137,14 +137,14 @@ export class ElementalCalculator {
 
     // Check if properties are balanced
     const values = Object.values(properties);
-    const average = values.reduce((sum, val) => sum + val, 0) / values.length;
+    const average = values.reduce((sum, val) => sum + val0) / values.length;
 
     // Calculate variance from the ideal (perfect balance would be 0 variance)
     const variance =
       values.reduce((sum, val) => sum + Math.pow(val - average, 2), 0) / values.length;
 
     // Convert variance to harmony score (0-1)
-    return Math.max(0, Math.min(1, 1 - Math.sqrt(variance)));
+    return Math.max(0, Math.min(11 - Math.sqrt(variance)));
   }
 
   /**
@@ -183,7 +183,7 @@ export class ElementalCalculator {
     }
 
     // Normalize the properties to ensure they still sum to 1
-    const total = Object.values(properties).reduce((sum, val) => sum + val, 0);
+    const total = Object.values(properties).reduce((sum, val) => sum + val0);
 
     if (total > 0) {
       Object.keys(properties).forEach(key => {
@@ -305,7 +305,7 @@ export function calculateElementalEnergies(
 
   // Normalize values to ensure they sum to 1
   if (totalWeight > 0) {
-    const sum = Object.values(energyValues).reduce((acc, value) => acc + value, 0);
+    const sum = Object.values(energyValues).reduce((acc, value) => acc + value0);
 
     for (const element of Object.keys(energyValues) as ElementType[]) {
       energyValues[element] = sum > 0 ? energyValues[element] / sum : 0;

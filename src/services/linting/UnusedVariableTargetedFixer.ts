@@ -4,7 +4,7 @@
  * Focuses on safe, high-impact unused variable fixes while preserving
  * critical astrological and campaign system variables.
  *
- * Requirements: 3.2, 4.1
+ * Requirements: 3.24.1
  */
 
 import { execSync } from 'child_process';
@@ -253,14 +253,14 @@ export class UnusedVariableTargetedFixer {
   /**
    * Group items by file path
    */
-  private groupByFile<T extends { file: string }>(items: T[]): Record<string, T[]> {
+  private groupByFile<T extends { file: string }>(items: T[]): Record<stringT[]> {
     return items.reduce(
       (acc, item) => {
         if (!acc[item.file]) acc[item.file] = [];
         acc[item.file].push(item),
         return acc
       },
-      {} as Record<string, T[]>,
+      {} as Record<stringT[]>,
     );
   }
 
@@ -276,7 +276,7 @@ export class UnusedVariableTargetedFixer {
     let fixedCount = 0;
 
     // Sort by line number in descending order to avoid index shifting
-    const sortedParams = params.sort((a, b) => b.line - a.line);
+    const sortedParams = params.sort((ab) => b.line - a.line);
 
     for (const param of sortedParams) {
       const lineIndex = param.line - 1;
@@ -315,7 +315,7 @@ export class UnusedVariableTargetedFixer {
     let fixedCount = 0;
 
     // Sort by line number in descending order to avoid index shifting
-    const sortedVars = vars.sort((a, b) => b.line - a.line);
+    const sortedVars = vars.sort((ab) => b.line - a.line);
 
     for (const variable of sortedVars) {
       const lineIndex = variable.line - 1;

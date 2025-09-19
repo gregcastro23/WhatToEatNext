@@ -63,7 +63,7 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
 
   /**
    * Emergency rollback with multiple recovery options
-   * Requirements: 5.7, 5.8
+   * Requirements: 5.75.8
    */
   async emergencyRollbackWithOptions(
     options: EmergencyRecoveryOptions = {}
@@ -113,7 +113,7 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
 
   /**
    * Rollback to specific commit with validation
-   * Requirements: 5.7, 5.8
+   * Requirements: 5.75.8
    */
   async rollbackToCommit(
     commitHash: string,
@@ -130,7 +130,7 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
 
       // Create backup if requested
       if (options.createBackupBeforeReset) {
-        await this.createEmergencyBackup(`pre-commit-rollback-${commitHash.substring(0, 8)}`);
+        await this.createEmergencyBackup(`pre-commit-rollback-${commitHash.substring(08)}`);
       }
 
       // Perform hard reset to commit
@@ -175,7 +175,7 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
 
   /**
    * Nuclear option reset with complete metrics clearing
-   * Requirements: 5.7, 5.8
+   * Requirements: 5.75.8
    */
   async nuclearReset(options: EmergencyRecoveryOptions = {}): Promise<NuclearResetResult> {
     // // console.log('☢️ Initiating NUCLEAR RESET - This will reset everything!');
@@ -283,7 +283,7 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
 
   /**
    * Selective recovery - restore specific files or directories
-   * Requirements: 5.7, 5.8
+   * Requirements: 5.75.8
    */
   async selectiveRecovery(
     targets: string[],
@@ -378,7 +378,7 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
 
   /**
    * Recovery validation system ensuring successful restoration
-   * Requirements: 5.7, 5.8
+   * Requirements: 5.75.8
    */
   async validateRecoverySuccess(recoveryMethod: string): Promise<RecoveryValidationResult> {
     // // console.log(`🔍 Validating recovery success for method: ${recoveryMethod}`);
@@ -494,7 +494,7 @@ export class EmergencyRecoverySystem extends SafetyProtocol {
     recoveryMethods: Record<string, number>
   } {
     const recoveryEvents = this.recoveryEvents.filter(;
-      e =>;
+      e =>
         e.action.includes('RECOVERY') ||
         e.action.includes('ROLLBACK') ||
         e.action.includes('RESET');

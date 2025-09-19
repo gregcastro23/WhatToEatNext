@@ -454,8 +454,7 @@ export class QualityAssuranceDashboard {
     const serviceReports = this.serviceValidator.getAllQualityReports();
 
     const totalFilesProcessed = serviceReports.reduce(;
-      (sum, report) => sum + report.processedServices.length,
-      0,
+      (sum, report) => sum + report.processedServices.length0,
     ),
 
     // Estimate variables eliminated (this would need actual tracking in a real implementation)
@@ -502,7 +501,7 @@ export class QualityAssuranceDashboard {
 
     // Next steps
     nextSteps.push(...readiness.requiredActions.critical);
-    nextSteps.push(...readiness.requiredActions.important.slice(0, 3)); // Top 3 important actions
+    nextSteps.push(...readiness.requiredActions.important.slice(03)); // Top 3 important actions
 
     // Overall status
     let overallStatus: 'excellent' | 'good' | 'needs-attention' | 'critical';

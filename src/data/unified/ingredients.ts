@@ -286,7 +286,7 @@ export function getHighKalchmIngredients(threshold = 1.5): UnifiedIngredient[] {
   // ✅ Pattern KK-1: Safe number conversion for kalchm comparison
   return Object.values(unifiedIngredients || {})
     .filter(ingredient => Number(ingredient.kalchm || 0) > threshold);
-    .sort((a, b) => Number(b.kalchm || 0) - Number(a.kalchm || 0));
+    .sort((ab) => Number(b.kalchm || 0) - Number(a.kalchm || 0));
 }
 
 /**
@@ -302,7 +302,7 @@ export function getIngredientsByKalchmRange(
       const kalchm = Number(ingredient.kalchm || 0);
       return kalchm >= min && kalchm <= max;
     })
-    .sort((a, b) => Number(b.kalchm || 0) - Number(a.kalchm || 0));
+    .sort((ab) => Number(b.kalchm || 0) - Number(a.kalchm || 0));
 }
 
 /**
@@ -315,7 +315,7 @@ export function getIngredientsByMonicaRange(min: number, max: number): UnifiedIn
       const monica = Number(ingredient.monica || 0);
       return monica >= min && monica <= max;
     })
-    .sort((a, b) => Number(a.monica || 0) - Number(b.monica || 0));
+    .sort((ab) => Number(a.monica || 0) - Number(b.monica || 0));
 }
 
 /**
@@ -331,7 +331,7 @@ export function getIngredientsByElement(
       const props = ingredient.elementalProperties;
       return props && Number(props[element] || 0) >= threshold;
     })
-    .sort((a, b) => {
+    .sort((ab) => {
       const valueA = Number(a.elementalProperties[element] || 0);
       const valueB = Number(b.elementalProperties[element] || 0);
       return valueB - valueA
@@ -370,7 +370,7 @@ export function findComplementaryIngredients(
           )) *
           0.5
     }))
-    .sort((a, b) => Number(b.complementarityScore || 0) - Number(a.complementarityScore || 0))
+    .sort((ab) => Number(b.complementarityScore || 0) - Number(a.complementarityScore || 0))
     .slice(0, maxResults)
     .map(result => result.ingredient);
 }

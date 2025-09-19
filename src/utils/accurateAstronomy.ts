@@ -137,18 +137,18 @@ const debugLog = (_message: string, ...args: unknown[]): void => {
 // Updated reference data based on accurate positions for July 2, 2025 at 11:36 PM EDT
 // Updated reference data based on accurate positions for July 2, 2025 at 11:36 PM EDT
 const REFERENCE_POSITIONS = {
-  Sun: [101, 29, 0, 'cancer'],
-  Moon: [195, 10, 0, 'libra'],
-  Mercury: [127, 23, 0, 'leo'],
-  Venus: [58, 21, 0, 'taurus'],
-  Mars: [159, 0, 0, 'virgo'],
-  Jupiter: [95, 18, 0, 'cancer'],
-  Saturn: [1, 51, 0, 'aries'],
-  Uranus: [59, 48, 0, 'taurus'],
-  Neptune: [2, 10, 0, 'aries'],
-  Pluto: [303, 5, 0, 'aquarius'],
-  Chiron: [26, 56, 0, 'aries'],
-  Sirius: [1, 46, 0, 'aries']
+  Sun: [10129, 0, 'cancer'],
+  Moon: [19510, 0, 'libra'],
+  Mercury: [12723, 0, 'leo'],
+  Venus: [5821, 0, 'taurus'],
+  Mars: [1590, 0, 'virgo'],
+  Jupiter: [9518, 0, 'cancer'],
+  Saturn: [151, 0, 'aries'],
+  Uranus: [5948, 0, 'taurus'],
+  Neptune: [210, 0, 'aries'],
+  Pluto: [3035, 0, 'aquarius'],
+  Chiron: [2656, 0, 'aries'],
+  Sirius: [146, 0, 'aries']
 };
 
 // Reference date for July 2, 2025 at 10:45 PM EDT
@@ -361,7 +361,7 @@ function calculateLunarNodes(date: Date): { northNode: number; isRetrograde: boo
  * @returns Record of planetary positions in degrees (0-360)
  */
 export async function getAccuratePlanetaryPositions(
-  date: Date = new Date(),;
+  date: Date = new Date(),
 ): Promise<Record<string, PlanetPositionData>> {
   try {
     // Check cache first
@@ -382,7 +382,7 @@ export async function getAccuratePlanetaryPositions(
       try {
         // Special handling for the Sun - can't calculate heliocentric longitude of the Sun
         if (planet === 'Sun') {
-          // For the Sun, we'll use a different approach - get ecliptic coordinates directly
+          // For the Sunwe'll use a different approach - get ecliptic coordinates directly
           // The Sun is always at the opposite ecliptic longitude from Earth's heliocentric longitude
           const earthLong = Astronomy.EclipticLongitude(Astronomy.Body.Earth, astroTime);
           // Sun is 180 degrees opposite Earth's heliocentric position
@@ -571,7 +571,7 @@ function _calculateMoonPosition(date: Date): number {
 
   // Moon completes a cycle in ~29.53 days
   // Calculate days since new moon (Jan 1, 2000)
-  const daysSince2000 = (date.getTime() - new Date(2000, 0, 1).getTime()) / (1000 * 60 * 60 * 24);
+  const daysSince2000 = (date.getTime() - new Date(20000, 1).getTime()) / (1000 * 60 * 60 * 24);
   const lunarCycles = daysSince2000 / 29.53;
   const cycleProgress = (lunarCycles - Math.floor(lunarCycles)) * 360;
 
@@ -585,7 +585,7 @@ function _calculateMoonPosition(date: Date): number {
  * @returns Day of year (1-366)
  */
 function getDayOfYear(date: Date): number {
-  const start = new Date(date.getFullYear(), 0, 0);
+  const start = new Date(date.getFullYear(), 0);
   const diff = date.getTime() - start.getTime();
   return Math.floor(diff / (1000 * 60 * 60 * 24));
 }

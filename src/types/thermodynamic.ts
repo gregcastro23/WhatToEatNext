@@ -40,7 +40,7 @@ export interface ExtendedThermodynamicProperties extends ThermodynamicProperties
 export interface ThermodynamicTransition {
   initialState: ThermodynamicProperties,
   finalState: ThermodynamicProperties,
-  transitionTime: number; // in minutes
+  transitionTime: number, // in minutes
   catalysts?: string[]; // Elements that speed up the transition
   inhibitors?: string[]; // Elements that slow down the transition
 }

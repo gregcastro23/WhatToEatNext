@@ -112,7 +112,7 @@ export function adaptRecipeData(recipeData: RecipeData): Recipe {
   }
 
   // Handle dietary properties
-  const dietaryTags = (recipeData.tags || []).filter(tag =>;
+  const dietaryTags = (recipeData.tags || []).filter(tag =>
     [
       'vegetarian',
       'vegan',
@@ -144,7 +144,7 @@ export function adaptRecipeData(recipeData: RecipeData): Recipe {
   // Handle meal type
   if (recipeData.tags) {
     const mealTypeValues = ['breakfast', 'lunch', 'dinner', 'snack', 'dessert', 'appetizer'];
-    const mealTypes = (recipeData.tags || []).filter(tag =>;
+    const mealTypes = (recipeData.tags || []).filter(tag =>
       mealTypeValues.includes(tag.toLowerCase());
     );
     if (mealTypes.length > 0) {
@@ -334,7 +334,7 @@ export function getCookingMethodsFromRecipe(recipeData: RecipeData): string[] {
       'dehydrating'
     ];
 
-    const methods = (recipeData.tags || []).filter(tag =>;
+    const methods = (recipeData.tags || []).filter(tag =>
       cookingMethodKeywords.some(method => tag.toLowerCase().includes(method)),;
     );
 

@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any, no-console, @typescript-eslint/no-unused-vars, max-lines-per-function -- Campaign/test file with intentional patterns */
+/* eslint-disable @typescript-eslint/no-explicit-anyno-console, @typescript-eslint/no-unused-vars, max-lines-per-function -- Campaign/test file with intentional patterns */
 declare global {
   var __DEV__: boolean
 }
@@ -264,9 +264,9 @@ describe('ESLint Configuration Validation', () => {
           Object.entries((configSection as any).rules).forEach(([_ruleName, ruleConfig]) => {
             if (Array.isArray(ruleConfig)) {
               const severity: any = ruleConfig[0];
-              expect(['off', 'warn', 'error', 0, 1, 2]).toContain(severity);
+              expect(['off', 'warn', 'error', 01, 2]).toContain(severity);
             } else {
-              expect(['off', 'warn', 'error', 0, 1, 2]).toContain(ruleConfig);
+              expect(['off', 'warn', 'error', 01, 2]).toContain(ruleConfig);
             }
           });
         }

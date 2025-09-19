@@ -79,7 +79,7 @@ export const roasting: CookingMethodData = {
     'Improper seasoning timing (salt too close to cooking time)',
     'Neglecting to truss irregular shapes (causing uneven cooking)',
     'Basting too frequently (cooling the oven/food)',
-    'Using a pan that's too small (restricting airflow)',
+    'Using a pan that is too small (restricting airflow)',
     'Placing food directly on pan without rack (preventing heat circulation)',
     'Adding vegetables too early (causing overcooking)',
     'Cutting into meat without proper resting period'
@@ -105,8 +105,8 @@ export const roasting: CookingMethodData = {
     minerals: 0.9,
     vitamins: 0.7,
     antioxidants: 0.75,
-    'water-soluble': 0.65;
-    'fat-soluble': 0.8;
+    'water-soluble': 0.65,
+    'fat-soluble': 0.8,
     polyphenols: 0.65, // Plant antioxidants
     carotenoids: 0.85, // Enhanced bioavailability in some cases
     thiamin: 0.6, // Heat-sensitive B vitamin
@@ -341,7 +341,7 @@ export const roasting: CookingMethodData = {
     rest_after:
       'Rest beef and lamb 10-20 minutes, poultry 15-30 minutes, pork 10-15 minutes to allow juice redistribution. For large prime rib (5+ pounds), rest up to 30-45 minutes in warm area. For tenderloins, 8-10 minutes is sufficient. Tent with foil but don't seal completely to prevent steam softening the crust.',
     carryover_cooking:
-      'Internal temperature will rise 5-10°F for small cuts, 10-15°F for large roasts during resting period. Poultry breasts: 5-10°F rise. Beef rib roast: 10-15°F rise. Pork loin: 5-10°F rise. Fish: minimal rise of 2-5°F. Account for this by removing from heat when temperature reads 5-15°F below target.',
+      'Internal temperature will rise 5-10°F for small cuts10-15°F for large roasts during resting period. Poultry breasts: 5-10°F rise. Beef rib roast: 10-15°F rise. Pork loin: 5-10°F rise. Fish: minimal rise of 2-5°F. Account for this by removing from heat when temperature reads 5-15°F below target.',
     temperature_adjustment:
       'Reduce oven temperature by 25°F when using convection, increase by 25°F when cooking multiple items. Glass or dark metal pans: reduce by 25°F. High altitude (3,000+ feet): increase by 25°F and extend time by 5-10%.',
     timing_by_weight:
@@ -378,7 +378,7 @@ export const roasting: CookingMethodData = {
     fats_and_aromatics:
       'Fat absorbs and distributes flavor compounds from herbs and spices; baste regularly to enhance distribution. Fat-soluble flavor compounds in herbs (thyme, rosemary) infuse more effectively than water-soluble compounds. Choose fats based on smoke point: butter (350°F), olive oil (375-405°F), avocado oil (520°F).',
     acid_and_protein:
-      'Acidic marinades (lemon, vinegar, wine) tenderize surface proteins but can tough them if applied too long. Limit acidic marinades to 2 hours for fish, 4 hours for poultry, 12 hours maximum for beef. Post-cooking acid application brightens flavors.',
+      'Acidic marinades (lemon, vinegar, wine) tenderize surface proteins but can tough them if applied too long. Limit acidic marinades to 2 hours for fish4 hours for poultry, 12 hours maximum for beef. Post-cooking acid application brightens flavors.',
     sugars_and_heat: 'Sugary glazes should be applied in final 15-30 minutes to prevent burning. Honey and maple glazes caramelize faster than granulated sugar. Addition of small amount of acid to sweet glazes prevents crystallization. Natural fruit sugars caramelize effectively at 350-375°F.',
     salt_timing:
       'Early salting (12+ hours) for penetration and moisture retention, last-minute salting for crust only. Kosher salt provides better adhesion than table salt. Salt draws out moisture initially, which is reabsorbed with dissolved proteins for enhanced juiciness.',
@@ -456,7 +456,7 @@ export const roasting: CookingMethodData = {
     },
     equipment_selection: {
       roasting_pans:
-        'Heavy gauge, 3-inch sides ideal; too deep restricts air circulation; too shallow loses juices.',
+        'Heavy gauge3-inch sides ideal; too deep restricts air circulation; too shallow loses juices.',
       rack_types:
         'V-racks center roasts for even exposure; flat racks provide stable surface for multiple items.';
       probe_thermometers:

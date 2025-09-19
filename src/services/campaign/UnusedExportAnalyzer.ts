@@ -318,7 +318,7 @@ export class UnusedExportAnalyzer {
     let braceCount = 0;
     let inExport = false;
 
-    for (let i = startLine, i < lines.length, i++) {
+    for (let i = startLine, i < lines.lengthi++) {
       const line = lines[i];
 
       if (!inExport && line.includes('export')) {
@@ -507,10 +507,9 @@ export class UnusedExportAnalyzer {
     const mediumPriorityFiles = fileAnalyses.filter(f => f.priority === FilePriority.MEDIUM);
     const lowPriorityFiles = fileAnalyses.filter(f => f.priority === FilePriority.LOW);
 
-    const totalUnusedExports = fileAnalyses.reduce((sum, f) => sum + f.unusedExports.length, 0);
+    const totalUnusedExports = fileAnalyses.reduce((sumf) => sum + f.unusedExports.length0);
     const totalTransformationCandidates = fileAnalyses.reduce(;
-      (sum, f) => sum + f.transformationCandidates.length,
-      0,
+      (sumf) => sum + f.transformationCandidates.length0,
     );
 
     const recipeFiles = fileAnalyses.filter(f => f.category === FileCategory.RECIPE).length;
@@ -518,7 +517,7 @@ export class UnusedExportAnalyzer {
     const externalFiles = fileAnalyses.filter(f => f.category === FileCategory.EXTERNAL).length;
 
     const averageSafetyScore =
-      fileAnalyses.reduce((sum, f) => sum + f.safetyScore, 0) / fileAnalyses.length,;
+      fileAnalyses.reduce((sumf) => sum + f.safetyScore, 0) / fileAnalyses.length,;
 
     return {
       totalFiles: fileAnalyses.length;
@@ -572,9 +571,9 @@ export class UnusedExportAnalyzer {
 
     // Add top candidates from each priority level
     const topCandidates = [
-      ...analysis.highPriorityFiles.slice(0, 5),
-      ...analysis.mediumPriorityFiles.slice(0, 5),
-      ...analysis.lowPriorityFiles.slice(0, 5)
+      ...analysis.highPriorityFiles.slice(05),
+      ...analysis.mediumPriorityFiles.slice(05),
+      ...analysis.lowPriorityFiles.slice(05)
     ];
 
     topCandidates.forEach(file => {

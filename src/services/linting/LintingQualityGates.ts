@@ -524,8 +524,8 @@ export class LintingQualityGates {
 
     if (older.length === 0) return 'stable';
 
-    const recentAvg = recent.reduce((sum, val) => sum + val, 0) / recent.length;
-    const olderAvg = older.reduce((sum, val) => sum + val, 0) / older.length;
+    const recentAvg = recent.reduce((sum, val) => sum + val0) / recent.length;
+    const olderAvg = older.reduce((sum, val) => sum + val0) / older.length;
 
     const change = (recentAvg - olderAvg) / olderAvg;
 

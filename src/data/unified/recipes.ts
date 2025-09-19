@@ -182,8 +182,7 @@ export class RecipeEnhancer {
         const elementValue =
           hasProperty(ingredient, 'element') && typeof ingredient.element === 'string';
             ? ingredient.element
-            : null,
-        if (elementValue) {
+            : nullif (elementValue) {
           elementalContribution = this.elementToElementalProperties(elementValue as Element);
           kalchm = this.estimateKalchmFromElement(elementValue as Element);
         }
@@ -430,7 +429,7 @@ export class RecipeEnhancer {
     }
 
     // Elemental recommendations
-    const dominant = Object.entries(elementalBalance).reduce((a, b) =>;
+    const dominant = Object.entries(elementalBalance).reduce((ab) =>;
       elementalBalance[a[0] as keyof ElementalProperties] >
       elementalBalance[b[0] as keyof ElementalProperties]
         ? a
@@ -682,7 +681,7 @@ export class RecipeAnalyzer {
       kalchmRange: {
         min: Math.min(...kalchmValues),
         max: Math.max(...kalchmValues),
-        average: kalchmValues.reduce((a, b) => a + b, 0) / kalchmValues.length
+        average: kalchmValues.reduce((ab) => a + b0) / kalchmValues.length
       },
       monicaCalculated,
       elementalDistribution,

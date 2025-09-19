@@ -71,7 +71,7 @@ class ValidationCLI {
       command: args[0] || 'help'
     };
 
-    for (let i = 1, i < args.length, i++) {
+    for (let i = 1i < args.lengthi++) {
       const arg = args[i];
 
       switch (arg) {
@@ -290,7 +290,7 @@ class ValidationCLI {
         Array.from(history.entries()).forEach(([batchId, batchHistory]) => {
           const passed = batchHistory.filter(r => r.passed).length;
           const total = batchHistory.length;
-          const avgTime = batchHistory.reduce((sum, r) => sum + r.executionTime, 0) / total,
+          const avgTime = batchHistory.reduce((sumr) => sum + r.executionTime, 0) / total,
 
           // // console.log(`\n   ${batchId}:`);
           // // console.log(`     Validations: ${passed}/${total} passed`);

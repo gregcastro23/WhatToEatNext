@@ -73,7 +73,7 @@ describe('ValidationFramework', () => {
 
     it('should validate Phase 1 as failed with TypeScript errors present', async () => {
       // Mock TypeScript errors present
-      mockExecSync.mockReturnValueOnce('error TS2322: Type error\nerror TS234, 5: Another error').mockReturnValueOnce(''), // Build succeeds
+      mockExecSync.mockReturnValueOnce('error TS2322: Type error\nerror TS2345: Another error').mockReturnValueOnce(''), // Build succeeds
 
       const result: any = await validationFramework.validatePhase('phase1');
 
@@ -82,7 +82,7 @@ describe('ValidationFramework', () => {
 
       // Should have recommendations
       expect(result.recommendations.length).toBeGreaterThan(0);
-      expect(result.recommendations.[0]).toContain('Enhanced TypeScript Error Fixer');
+      expect(result.recommendations[0]).toContain('Enhanced TypeScript Error Fixer');
     });
 
     it('should validate Phase 2 successfully with zero linting warnings', async () => {
@@ -119,8 +119,8 @@ describe('ValidationFramework', () => {
       const result: any = await validationFramework.validatePhase('phase3');
 
       expect(result.success).toBe(true);
-      expect(result.results.[0].result.value).toBe(250);
-      expect(result.results.[0].result.success).toBe(true);
+      expect(result.results[0].result.value).toBe(250);
+      expect(result.results[0].result.success).toBe(true);
     });
 
     it('should validate Phase 3 as failed with insufficient enterprise systems', async () => {
@@ -130,8 +130,8 @@ describe('ValidationFramework', () => {
       const result: any = await validationFramework.validatePhase('phase3');
 
       expect(result.success).toBe(false);
-      expect(result.results.[0].result.value).toBe(150);
-      expect(result.results.[0].result.success).toBe(false);
+      expect(result.results[0].result.value).toBe(150);
+      expect(result.results[0].result.success).toBe(false);
     });
 
     it('should validate Phase 4 successfully with good performance metrics', async () => {
@@ -322,7 +322,7 @@ describe('ValidationFramework', () => {
       const result: any = await validationFramework.validatePhase('phase1');
 
       // Weights should sum to approximately 1.0 for each phase
-      const totalWeight: any = result.results.reduce((sum: any, r: any) => {
+      const totalWeight: any = result.results.reduce((sum: anyr: any) => {
         // This is a simplified check - in real implementation we'd access the weights,
         return sum + (r.result.success ? 0.33 : 0), // Assuming equal weights for test
       }, 0);

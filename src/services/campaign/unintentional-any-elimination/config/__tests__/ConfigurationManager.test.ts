@@ -123,7 +123,7 @@ describe('ConfigurationManager', () => {
 
     test('detects invalid threshold values', () => {
       configManager.updateClassificationConfig({
-        intentionalThreshold: 1.5, // Invali, d: > 1
+        intentionalThreshold: 1.5, // Invalid: > 1
       });
 
       const validation: any = configManager.validateConfig();
@@ -133,7 +133,7 @@ describe('ConfigurationManager', () => {
 
     test('detects invalid batch size', () => {
       configManager.updateSafetyConfig({
-        maxBatchSize: -5, // Invali, d: negative
+        maxBatchSize: -5, // Invalid: negative
       });
 
       const validation: any = configManager.validateConfig();
@@ -143,7 +143,7 @@ describe('ConfigurationManager', () => {
 
     test('detects invalid success rate', () => {
       configManager.updateTargetConfig({
-        minSuccessRate: 2.0, // Invali, d: > 1
+        minSuccessRate: 2.0, // Invalid: > 1
       });
 
       const validation: any = configManager.validateConfig();

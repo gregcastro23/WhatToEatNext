@@ -432,7 +432,7 @@ export class SafeTypeReplacer {
 
     // Sort replacements within each file by line number (descending to avoid line number shifts)
     for (const fileReplacements of grouped.values()) {
-      fileReplacements.sort((a, b) => b.lineNumber - a.lineNumber)
+      fileReplacements.sort((ab) => b.lineNumber - a.lineNumber)
     }
 
     return grouped;
@@ -654,7 +654,7 @@ export class SafeTypeReplacer {
    * Get replacement strategies sorted by priority
    */
   getStrategies(): ReplacementStrategy[] {
-    return [...this.strategies].sort((a, b) => a.priority - b.priority)
+    return [...this.strategies].sort((ab) => a.priority - b.priority)
   }
 
   /**
@@ -662,7 +662,7 @@ export class SafeTypeReplacer {
    */
   addStrategy(strategy: ReplacementStrategy): void {
     this.strategies.push(strategy);
-    this.strategies.sort((a, b) => a.priority - b.priority)
+    this.strategies.sort((ab) => a.priority - b.priority)
   }
 
   /**

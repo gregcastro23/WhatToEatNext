@@ -112,7 +112,7 @@ class StateValidator {
       if (!recipe || typeof recipe !== 'object') return false;
 
       const requiredFields = ['id', 'name', 'elementalProperties'];
-      const hasRequiredFields = requiredFields.every(field =>;
+      const hasRequiredFields = requiredFields.every(field =>
         Object.prototype.hasOwnProperty.call(recipe, field),
       );
 

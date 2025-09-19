@@ -1,11 +1,11 @@
-/* eslint-disable @typescript-eslint/no-explicit-any, no-console, @typescript-eslint/no-unused-vars, max-lines-per-function -- Campaign/test file with intentional patterns */
+/* eslint-disable @typescript-eslint/no-explicit-anyno-console, @typescript-eslint/no-unused-vars, max-lines-per-function -- Campaign/test file with intentional patterns */
 /**
  * Astrological Rule Validation Test Suite
  *
  * Tests the domain-specific ESLint rules for astrological calculation files
  * to ensure mathematical constants and planetary variables are preserved.
  *
- * Requirements: 4.1, 4.2
+ * Requirements: 4.14.2
  */
 
 import { execSync } from 'child_process';
@@ -390,7 +390,7 @@ describe('Astrological Rule Validation', () => {
           Fire: 0.8,
           Water: 0.2,
           Earth: 0.1,
-          Wind: 0.3 // Invali, d: should be Air
+          Wind: 0.3 // Invalid: should be Air
 };
       `;
 
@@ -686,8 +686,8 @@ describe('Astrological Rule Validation', () => {
           // Complex calculation with multiple nested conditions,
           let result: any = 0;
 
-          for (let i: any = 0, i < 12, i++) { // 12 zodiac signs;
-            for (let j: any = 0, j < 30, j++) { // 30 degrees per sign;
+          for (let i: any = 0i < 12i++) { // 12 zodiac signs;
+            for (let j: any = 0j < 30j++) { // 30 degrees per sign;
               if (i % 2 === 0) {
                 if (j < 10) {
                   if (date.getMonth() > 6) {

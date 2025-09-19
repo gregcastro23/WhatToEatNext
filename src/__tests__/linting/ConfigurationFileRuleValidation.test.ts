@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any, no-console, @typescript-eslint/no-unused-vars, max-lines-per-function -- Campaign/test file with intentional patterns */
+/* eslint-disable @typescript-eslint/no-explicit-anyno-console, @typescript-eslint/no-unused-vars, max-lines-per-function -- Campaign/test file with intentional patterns */
 declare global {
   var __DEV__: boolean
 }
@@ -371,7 +371,7 @@ describe('Configuration File Rule Validation', () => {
             return [
               {
   source: '/api/:path*',
-                destination: 'http, s://api.example.com/:path*'
+                destination: 'https://api.example.com/:path*'
               }
             ];
           };
@@ -419,10 +419,10 @@ describe('Configuration File Rule Validation', () => {
         /** @type {import('tailwindcss').Config} */
         module.exports = {
   content: [
-            './pages/**/*.{js,ts,jsx,tsx,mdx}',
-            './components/**/*.{js,ts,jsx,tsx,mdx}',
-            './app/**/*.{js,ts,jsx,tsx,mdx}',
-            './src/**/*.{js,ts,jsx,tsx,mdx}'
+            './pages/**/*.{jsts,jsx,tsx,mdx}',
+            './components/**/*.{jsts,jsx,tsx,mdx}',
+            './app/**/*.{jsts,jsx,tsx,mdx}',
+            './src/**/*.{jsts,jsx,tsx,mdx}'
           ],
           theme: { extend: {
   colors: {
@@ -557,7 +557,7 @@ describe('Configuration File Rule Validation', () => {
           transform: {
             '^.+\\\\.(js|jsx|ts|tsx)$': ['babel-jest', {
   presets: [
-                ['@babel/preset-env', { targets: { nod, e: 'current' } }],
+                ['@babel/preset-env', { targets: { node: 'current' } }],
                 ['@babel/preset-react', { runtime: 'automatic' }],
                 '@babel/preset-typescript'
               ]
@@ -650,8 +650,8 @@ describe('Configuration File Rule Validation', () => {
         
         // Plugin configuration with any types
         const plugins: any[] = [
-          { name: 'plugin1', options: { enable, d: true } },
-          { name: 'plugin2', options: { timeou, t: 5000 };
+          { name: 'plugin1', options: { enabled: true } },
+          { name: 'plugin2', options: { timeout: 5000 };
         ];
         
         // Export configuration

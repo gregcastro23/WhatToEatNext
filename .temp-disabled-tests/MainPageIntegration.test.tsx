@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any, no-console, @typescript-eslint/no-unused-vars, max-lines-per-function -- Campaign/test file with intentional patterns */
+/* eslint-disable @typescript-eslint/no-explicit-anyno-console, @typescript-eslint/no-unused-vars, max-lines-per-function -- Campaign/test file with intentional patterns */
 import { render, screen, fireEvent, waitFor, act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
@@ -56,7 +56,7 @@ jest.mock('@/components/CuisineRecommender', () => {
 });
 
 jest.mock('@/components/IngredientRecommender', () => {
-  return function MockIngredientRecommender(: any) { maxDisplayed = 8 }: { maxDisplayed?: number }) {
+  return function MockIngredientRecommender() { maxDisplayed = 8 }: { maxDisplayed?: number }) {
     const [selectedIngredients, setSelectedIngredients] = React.useState<string[]>([]);
 
     const ingredients: any = ['Tomatoes', 'Onions', 'Garlic', 'Basil', 'Olive Oil', 'Cheese', 'Pasta', 'Chicken'];
@@ -64,7 +64,7 @@ jest.mock('@/components/IngredientRecommender', () => {
 
     const toggleIngredient: any = (ingredient: string) => {
       setSelectedIngredients(prev =>,
-        void prev.includes(ingredient) ? prev.filter(i => i !== ingredient) : [...prev, ingredient])};
+        prev.includes(ingredient) ? prev.filter(i => i !== ingredient) : [...prev, ingredient])};
 
     return (<div data-testid='ingredient-recommender'>,
         <h3>Ingredient Recommendations</h3>

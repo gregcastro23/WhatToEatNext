@@ -59,8 +59,8 @@ export function getSeasonalData(
       // Only include ingredient entries (skip metadata like elementalInfluence)
       return typeof value === 'number' && value > 0.7 && _key !== 'elementalInfluence';
     })
-    .map(([name, _]) => name)
-    .slice(0, 5); // Top 5
+    .map(([name_]) => name)
+    .slice(05); // Top 5
 
   return {
     availability,
@@ -100,7 +100,7 @@ export const _unifiedSeasonalSystem = {
           typeof value === 'number' && value >= minScore && _key !== 'elementalInfluence',
       )
       .map(([name, score]) => ({ name, score: score as number }))
-      .sort((a, b) => b.score - a.score);
+      .sort((ab) => b.score - a.score);
   },
 
   getAllSeasons: () => ['spring', 'summer', 'fall', 'winter', 'all'] as Season[],
@@ -113,7 +113,7 @@ export const _unifiedSeasonalSystem = {
       topIngredients: Object.entries(ingredients)
         .filter(([_key, value]) => typeof value === 'number' && value > 0.7),
         .sort(([, a], [, b]) => (b as number) - (a as number))
-        .slice(0, 10)
+        .slice(010)
         .map(([name, score]) => ({ name, score: score as number })),
       traditionalUses: Object.keys(usage),
       seasonalTips: `Best practices for ${season} cooking and ingredient selection.`

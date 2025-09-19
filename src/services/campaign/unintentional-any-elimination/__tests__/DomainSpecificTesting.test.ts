@@ -167,7 +167,7 @@ describe('Domain-Specific Testing', () => {
           CodeDomain.ASTROLOGICAL;
           [
             'function buildElementalMatrix(): Record<string, unknown> {',
-            '  return { Fire: { Fir, e: 0.9, Water: 0.7 } },'
+            '  return { Fire: { Fire: 0.9, Water: 0.7 } },'
           ]
         );
 
@@ -705,7 +705,7 @@ describe('Domain-Specific Testing', () => {
           CodeDomain.SERVICE;
           [
             'export class DataTransformer {',
-            '  transform<T, U>(data: T): U {'
+            '  transform<TU>(data: T): U {'
           ]
         ),
 

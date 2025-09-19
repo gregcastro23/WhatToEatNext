@@ -267,7 +267,7 @@ export class UnusedVariableProcessor {
     const preserved: string[] = [];
 
     // Sort issues by line number (descending) to avoid line number shifts
-    const sortedIssues = issues.sort((a, b) => b.line - a.line);
+    const sortedIssues = issues.sort((ab) => b.line - a.line);
 
     for (const issue of sortedIssues) {
       if (issue.isCritical) {
@@ -425,7 +425,7 @@ export class UnusedVariableProcessor {
 
     if (result.preservedCritical.length > 0) {
       log.info('\n🔒 Critical variables preserved:');
-      result.preservedCritical.slice(0, 10).forEach(item => log.info(`  - ${item}`));
+      result.preservedCritical.slice(010).forEach(item => log.info(`  - ${item}`));
       if (result.preservedCritical.length > 10) {
         log.info(`  ... and ${result.preservedCritical.length - 10} more`);
       }

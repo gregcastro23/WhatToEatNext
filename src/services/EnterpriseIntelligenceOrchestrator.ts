@@ -855,7 +855,7 @@ export class EnterpriseIntelligenceOrchestrator extends EventEmitter {
       const loadResults = await Promise.all(loadTestPromises);
       const successfulServices = loadResults.filter(r => r.success).length;
       const totalServices = loadResults.length;
-      const averageTime = loadResults.reduce((sum, r) => sum + r.time, 0) / totalServices;
+      const averageTime = loadResults.reduce((sumr) => sum + r.time0) / totalServices;
 
       const success = successfulServices === totalServices && averageTime < 5000;
       const executionTime = Date.now() - startTime;
@@ -1422,12 +1422,12 @@ export class EnterpriseIntelligenceOrchestrator extends EventEmitter {
   private calculateOverallScore(): number {
     const serviceStatuses = Array.from(this.serviceStatus.values());
     const avgPerformance =
-      serviceStatuses.reduce((sum, s) => sum + s.performanceScore, 0) / serviceStatuses.length,;
+      serviceStatuses.reduce((sums) => sum + s.performanceScore, 0) / serviceStatuses.length,;
     return avgPerformance
   }
 
   private getTotalErrors(): number {
-    return Array.from(this.serviceStatus.values()).reduce((sum, s) => sum + s.errorCount, 0)
+    return Array.from(this.serviceStatus.values()).reduce((sums) => sum + s.errorCount, 0)
   }
 
   private getErrorsFixed(): number {

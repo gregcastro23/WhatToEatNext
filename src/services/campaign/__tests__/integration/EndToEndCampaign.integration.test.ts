@@ -79,7 +79,7 @@ describe('End-to-End Campaign Integration Tests', () => {
             },
             {
               scriptPath: 'scripts/lint-fixes/fix-console-statements-only.js',
-              parameters: { dryRu, n: false },
+              parameters: { dryRun: false },
               batchSize: 15,
               safetyLevel: SafetyLevel.MEDIUM
             }
@@ -231,7 +231,7 @@ describe('End-to-End Campaign Integration Tests', () => {
       for (const phase of mockConfig.phases) {
         expect(
           allSafetyEvents.some(
-            event =>;
+            event =>
               String(event.description || '').includes(phase.name) ||;
               String(event.description || '').includes(phase.id);
           ),
@@ -245,7 +245,7 @@ describe('End-to-End Campaign Integration Tests', () => {
 
       jest.spyOn(progressTracker, 'getProgressMetrics').mockImplementation(async () => {
         const metrics: any = {
-          typeScriptErrors: { current: Math.max(0, 86 - metricsHistory.length * 20),
+          typeScriptErrors: { current: Math.max(086 - metricsHistory.length * 20),
             target: 0,
             reduction: metricsHistory.length * 20,
             percentage: Math.min(100, ((metricsHistory.length * 20) / 86) * 100)
@@ -255,7 +255,7 @@ describe('End-to-End Campaign Integration Tests', () => {
             reduction: metricsHistory.length * 1000,
             percentage: Math.min(100, ((metricsHistory.length * 1000) / 4506) * 100)
           },
-          buildPerformance: { currentTime: Math.max(8, 12 - metricsHistory.length),
+          buildPerformance: { currentTime: Math.max(812 - metricsHistory.length),
             targetTime: 10,
             cacheHitRate: 0.8,
             memoryUsage: 45
@@ -286,10 +286,10 @@ describe('End-to-End Campaign Integration Tests', () => {
     it('should validate all milestones after campaign completion', async () => {
       // Mock successful campaign completion
       jest.spyOn(progressTracker, 'getProgressMetrics').mockResolvedValue({
-        typeScriptErrors: { curren, t: 0, target: 0, reduction: 86, percentage: 100 },
-        lintingWarnings: { curren, t: 0, target: 0, reduction: 4506, percentage: 100 },
+        typeScriptErrors: { current: 0, target: 0, reduction: 86, percentage: 100 },
+        lintingWarnings: { current: 0, target: 0, reduction: 4506, percentage: 100 },
         buildPerformance: { currentTim, e: 8.5, targetTime: 10, cacheHitRate: 0.85, memoryUsage: 42 },
-        enterpriseSystems: { curren, t: 200, target: 200, transformedExports: 200 }
+        enterpriseSystems: { current: 200, target: 200, transformedExports: 200 }
       });
 
       // Execute all phases
@@ -318,10 +318,10 @@ describe('End-to-End Campaign Integration Tests', () => {
     it('should generate comprehensive final report', async () => {
       // Mock successful campaign completion
       jest.spyOn(progressTracker, 'getProgressMetrics').mockResolvedValue({
-        typeScriptErrors: { curren, t: 0, target: 0, reduction: 86, percentage: 100 },
-        lintingWarnings: { curren, t: 0, target: 0, reduction: 4506, percentage: 100 },
+        typeScriptErrors: { current: 0, target: 0, reduction: 86, percentage: 100 },
+        lintingWarnings: { current: 0, target: 0, reduction: 4506, percentage: 100 },
         buildPerformance: { currentTim, e: 8.5, targetTime: 10, cacheHitRate: 0.85, memoryUsage: 42 },
-        enterpriseSystems: { curren, t: 200, target: 200, transformedExports: 200 }
+        enterpriseSystems: { current: 200, target: 200, transformedExports: 200 }
       });
 
       // Execute all phases
@@ -432,7 +432,7 @@ describe('End-to-End Campaign Integration Tests', () => {
       const phase1: any = mockConfig.phases[0];
 
       // Mock large file processing
-      const largeFileList: any = Array.from({ length: 100 }, (_, i) => `file${i}.ts`);
+      const largeFileList: any = Array.from({ length: 100 }, (_i) => `file${i}.ts`);
 
       jest.spyOn(campaignController as unknown as { executeTool: jest.Mock }, 'executeTool').mockResolvedValue({
         filesProcessed: largeFileList,
@@ -463,7 +463,7 @@ describe('End-to-End Campaign Integration Tests', () => {
 
     it('should handle concurrent safety operations', async () => {
       // Create multiple stashes concurrently
-      const stashPromises: any = Array.from({ length: 5 }, (_, i) => safetyProtocol.createStash(`Concurrent stash ${i}`));
+      const stashPromises: any = Array.from({ length: 5 }, (_i) => safetyProtocol.createStash(`Concurrent stash ${i}`));
 
       const stashIds: any = await Promise.all(stashPromises);
 
@@ -527,10 +527,10 @@ describe('End-to-End Campaign Integration Tests', () => {
 
       // Mock 5 remaining TypeScript errors
       jest.spyOn(progressTracker, 'getProgressMetrics').mockResolvedValue({
-        typeScriptErrors: { curren, t: 5, target: 0, reduction: 81, percentage: 94 },
-        lintingWarnings: { curren, t: 4506, target: 0, reduction: 0, percentage: 0 },
+        typeScriptErrors: { current: 5, target: 0, reduction: 81, percentage: 94 },
+        lintingWarnings: { current: 4506, target: 0, reduction: 0, percentage: 0 },
         buildPerformance: { currentTim, e: 8.5, targetTime: 10, cacheHitRate: 0.8, memoryUsage: 45 },
-        enterpriseSystems: { curren, t: 0, target: 200, transformedExports: 0 }
+        enterpriseSystems: { current: 0, target: 200, transformedExports: 0 }
       });
 
       const validation: any = await campaignController.validatePhaseCompletion(customPhase);
@@ -587,7 +587,7 @@ describe('End-to-End Campaign Integration Tests', () => {
       jest.spyOn(progressTracker, 'getProgressMetrics').mockImplementation(async () => {
         improvementStep++,
         return {
-          typeScriptErrors: { current: Math.max(0, 86 - improvementStep * 20),
+          typeScriptErrors: { current: Math.max(086 - improvementStep * 20),
             target: 0,
             reduction: improvementStep * 20,
             percentage: Math.min(100, ((improvementStep * 20) / 86) * 100)
@@ -597,12 +597,12 @@ describe('End-to-End Campaign Integration Tests', () => {
             reduction: improvementStep * 1000,
             percentage: Math.min(100, ((improvementStep * 1000) / 4506) * 100)
           },
-          buildPerformance: { currentTime: Math.max(8, 12 - improvementStep),
+          buildPerformance: { currentTime: Math.max(812 - improvementStep),
             targetTime: 10,
             cacheHitRate: 0.8,
             memoryUsage: 45
           },
-          enterpriseSystems: { curren, t: improvementStep * 50, target: 200, transformedExports: improvementStep * 50 }
+          enterpriseSystems: { current: improvementStep * 50, target: 200, transformedExports: improvementStep * 50 }
         };
       });
 

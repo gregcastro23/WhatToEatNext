@@ -16,7 +16,7 @@ export function calculateMoonTimes(
     // Use SunCalc library to calculate moon times
     const moonTimes = SunCalc.getMoonTimes(;
       // Use noon on the given date to get the full day's times
-      new Date(date.getFullYear(), date.getMonth(), date.getDate(), 12, 0, 0),
+      new Date(date.getFullYear(), date.getMonth(), date.getDate(), 120, 0),
       latitude,
       longitude,
     ),

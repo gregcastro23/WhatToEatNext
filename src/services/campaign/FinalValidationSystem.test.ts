@@ -49,8 +49,8 @@ describe('FinalValidationSystem', () => {
       // Mock TypeScript compilation with errors
       const mockError: any = new Error('TypeScript compilation failed');
       (mockError as Error & { stdout?: string }).stdout = `;
-src/test.ts(10,5): error TS2304: Cannot find name 'unknownVariable'.;
-src/test.ts(15,10): error TS2345: Argument of type 'string' is not assignable to parameter of type 'number'.
+src/test.ts(105): error TS2304: Cannot find name 'unknownVariable'.;
+src/test.ts(1510): error TS2345: Argument of type 'string' is not assignable to parameter of type 'number'.
       `;
       mockedExecSync.mockImplementation(() => {
         throw mockError
@@ -93,9 +93,9 @@ src/test.ts(15,10): error TS2345: Argument of type 'string' is not assignable to
       // Mock linting with warnings
       const mockError: any = new Error('Linting warnings found');
       (mockError as Error & { stdout?: string }).stdout = `;
-src/test.ts: 10:5 - warnin, g: Unexpected any. Specify a different type (@typescript-eslint/no-explicit-unknown)
-src/test.ts: 15:10 - warnin, g: 'unusedVar' is defined but never used (no-unused-vars);
-src/test.ts: 20:8 - warnin, g: Unexpected console statement (no-console)
+src/test.ts: 10:5 - warning: Unexpected any. Specify a different type (@typescript-eslint/no-explicit-unknown)
+src/test.ts: 15:10 - warning: 'unusedVar' is defined but never used (no-unused-vars);
+src/test.ts: 20:8 - warning: Unexpected console statement (no-console)
       `;
       mockedExecSync.mockImplementation(() => {
         throw mockError
@@ -116,7 +116,7 @@ src/test.ts: 20:8 - warnin, g: Unexpected console statement (no-console)
   describe('Enterprise Intelligence Validation', () => {
     it('should pass validation when sufficient intelligence systems exist', async () => {
       // Mock grep output with 250 intelligence systems
-      const mockIntelligenceOutput: any = Array(250).fill(0).map((_: any, i: any) => `src/services/test${i}.ts:export const TEST_${i}_INTELLIGENCE_SYSTEM = {`);
+      const mockIntelligenceOutput: any = Array(250).fill(0).map((_: anyi: any) => `src/services/test${i}.ts:export const TEST_${i}_INTELLIGENCE_SYSTEM = {`);
         .join('\n');
 
       mockedExecSync.mockReturnValue(mockIntelligenceOutput);
@@ -134,7 +134,7 @@ src/test.ts: 20:8 - warnin, g: Unexpected console statement (no-console)
 
     it('should fail validation when insufficient intelligence systems exist', async () => {
       // Mock grep output with only 50 intelligence systems
-      const mockIntelligenceOutput: any = Array(50).fill(0).map((_: any, i: any) => `src/services/test${i}.ts:export const TEST_${i}_INTELLIGENCE_SYSTEM = {`);
+      const mockIntelligenceOutput: any = Array(50).fill(0).map((_: anyi: any) => `src/services/test${i}.ts:export const TEST_${i}_INTELLIGENCE_SYSTEM = {`);
         .join('\n');
 
       mockedExecSync.mockReturnValue(mockIntelligenceOutput);
@@ -468,7 +468,7 @@ src/test.ts: 20:8 - warnin, g: Unexpected console statement (no-console)
   describe('Report Generation', () => {
     it('should save validation report to file', async () => {
       const mockReport: any = {
-        timestamp: '2025-01-15T10:0, 0:00.000Z',
+        timestamp: '2025-01-15T10:00:00.000Z',
         overallSuccess: true,
         validationResults: [],
         performanceMetrics: { buildTime: 8,
@@ -478,14 +478,14 @@ src/test.ts: 20:8 - warnin, g: Unexpected console statement (no-console)
           testCoverage: 98
         },
         campaignSummary: { initialState: { errors: 100, warnings: 500, intelligence: 10 },
-          finalState: { error, s: 0, warnings: 0, intelligence: 250 },
+          finalState: { errors: 0, warnings: 0, intelligence: 250 },
           improvements: { errorReductio, n: 100, warningReduction: 500, intelligenceIncrease: 240 }
         },
         certificationStatus: { perfectCodebaseAchieved: true,
           enterpriseReady: true,
           productionDeploymentReady: true,
           certificationLevel: 'ENTERPRISE' as const,
-          certificationDate: '2025-01-15T10:0, 0:00.000Z'
+          certificationDate: '2025-01-15T10:00:00.000Z'
         }
       };
 
@@ -494,7 +494,7 @@ src/test.ts: 20:8 - warnin, g: Unexpected console statement (no-console)
       mockedFs.writeFileSync.mockReturnValue(undefined);
 
       await (
-        validationSystem as unknown as { saveValidationReport: (repor, t: Record<string, unknown>) => Promise<any> }
+        validationSystem as unknown as { saveValidationReport: (report: Record<string, unknown>) => Promise<any> }
       ).saveValidationReport(mockReport);
 
       expect(mockedFs.mkdirSync).toHaveBeenCalledWith('.campaign-progress', { recursive: true });
@@ -506,7 +506,7 @@ src/test.ts: 20:8 - warnin, g: Unexpected console statement (no-console)
 
     it('should create certification document for successful campaigns', async () => {
       const mockReport: any = {
-        timestamp: '2025-01-15T10:0, 0:00.000Z',
+        timestamp: '2025-01-15T10:00:00.000Z',
         overallSuccess: true,
         validationResults: [
           { category: 'TypeScript', passed: true, current: 0, target: 0, details: [], criticalIssues: [] }
@@ -518,21 +518,21 @@ src/test.ts: 20:8 - warnin, g: Unexpected console statement (no-console)
           testCoverage: 98
         },
         campaignSummary: { initialState: { errors: 100, warnings: 500, intelligence: 10 },
-          finalState: { error, s: 0, warnings: 0, intelligence: 250 },
+          finalState: { errors: 0, warnings: 0, intelligence: 250 },
           improvements: { errorReductio, n: 100, warningReduction: 500, intelligenceIncrease: 240 }
         },
         certificationStatus: { perfectCodebaseAchieved: true,
           enterpriseReady: true,
           productionDeploymentReady: true,
           certificationLevel: 'ENTERPRISE' as const,
-          certificationDate: '2025-01-15T10:0, 0:00.000Z'
+          certificationDate: '2025-01-15T10:00:00.000Z'
         }
       };
 
       mockedFs.writeFileSync.mockReturnValue(undefined);
 
       await (
-        validationSystem as unknown as { createCertification: (repor, t: Record<string, unknown>) => Promise<any> }
+        validationSystem as unknown as { createCertification: (report: Record<string, unknown>) => Promise<any> }
       ).createCertification(mockReport);
 
       expect(mockedFs.writeFileSync).toHaveBeenCalledWith(
@@ -551,7 +551,7 @@ src/test.ts: 20:8 - warnin, g: Unexpected console statement (no-console)
 describe('FinalValidationSystem CLI', () => {
   it('should handle CLI validation command', () => {
     // This test would require more complex mocking of the module execution
-    // For now, we'll just verify the class can be instantiated
+    // For nowwe'll just verify the class can be instantiated
     const validator: any = new FinalValidationSystem();
     expect(validator).toBeInstanceOf(FinalValidationSystem);
   });

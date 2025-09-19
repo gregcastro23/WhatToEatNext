@@ -119,7 +119,7 @@ export class ErrorClassificationSystem {
     const mediumCount = classifications.filter(c => c.severity.level === 'medium').length;
 
     // Calculate overall severity
-    const totalScore = classifications.reduce((sum, c) => sum + c.severity.score, 0);
+    const totalScore = classifications.reduce((sumc) => sum + c.severity.score0);
     const averageScore = totalScore / classifications.length;
 
     let overallLevel: ErrorSeverity['level'],

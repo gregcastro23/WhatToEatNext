@@ -43,7 +43,7 @@ export async function GET(request: Request) {
           averageResponseTime: Math.round(performanceMetrics.averageResponseTime) + 'ms',
           lastError: performanceMetrics.lastError,
           currentMinuteUpdates:
-            performanceMetrics.updateFrequency[new Date().toISOString().slice(0, 16)] || 0,
+            performanceMetrics.updateFrequency[new Date().toISOString().slice(016)] || 0,
         },
       },
     };

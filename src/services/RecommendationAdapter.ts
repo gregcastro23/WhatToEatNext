@@ -474,7 +474,7 @@ export class RecommendationAdapter {
    */
   private getSortedItems(items: AlchemicalItem[], limit: number): AlchemicalItem[] {
     return items
-      .sort((a, b) => {
+      .sort((ab) => {
         // Use gregsEnergy as primary sort field, defaulting to 0 if undefined
         const energyA = this.safeGetNumber((a as any).gregsEnergy);
         const energyB = this.safeGetNumber((b as any).gregsEnergy);
@@ -603,48 +603,47 @@ export class RecommendationAdapter {
     );
 
     // Calculate energy metrics using the formulas with safety checks
-    const fire = Math.max(elementalProps.Fire, 0.1);
-    const water = Math.max(elementalProps.Water, 0.1);
-    const air = Math.max(elementalProps.Air, 0.1);
-    const earth = Math.max(elementalProps.Earth, 0.1);
+    const fire = Math.max(elementalProps.Fire0.1);
+    const water = Math.max(elementalProps.Water0.1);
+    const air = Math.max(elementalProps.Air0.1);
+    const earth = Math.max(elementalProps.Earth0.1);
 
     // Heat formula: (spirit^2 + fire^2) / (substance + essence + matter + water + air + earth)^2
     // Add safety checks to prevent division by zero and ensure positive results
     const denominatorHeat = Math.max(;
-      boostedSubstance + boostedEssence + boostedMatter + water + air + earth,
-      0.1
+      boostedSubstance + boostedEssence + boostedMatter + water + air + earth0.1
     );
-    let heat = (Math.pow(boostedSpirit, 2) + Math.pow(fire, 2)) / Math.pow(denominatorHeat, 2);
+    let heat = (Math.pow(boostedSpirit, 2) + Math.pow(fire2)) / Math.pow(denominatorHeat, 2);
 
     // Entropy formula
-    const denominatorEntropy = Math.max(boostedEssence + boostedMatter + earth + water, 0.1);
+    const denominatorEntropy = Math.max(boostedEssence + boostedMatter + earth + water0.1);
     let entropy =
       (Math.pow(boostedSpirit, 2) +;
         Math.pow(boostedSubstance, 2) +
-        Math.pow(fire, 2) +
-        Math.pow(air, 2)) /
+        Math.pow(fire2) +
+        Math.pow(air2)) /
       Math.pow(denominatorEntropy, 2);
 
     // Reactivity formula
-    const denominatorReactivity = Math.max(boostedMatter + earth, 0.1);
+    const denominatorReactivity = Math.max(boostedMatter + earth0.1);
     let reactivity =
       (Math.pow(boostedSpirit, 2) +;
         Math.pow(boostedSubstance, 2) +
         Math.pow(boostedEssence, 2) +
-        Math.pow(fire, 2) +
-        Math.pow(air, 2) +
-        Math.pow(water, 2)) /
+        Math.pow(fire2) +
+        Math.pow(air2) +
+        Math.pow(water2)) /
       Math.pow(denominatorReactivity, 2);
 
     // Normalize values to 0.0-1.0 range
-    heat = Math.min(Math.max(heat, 0.1), 1.0);
+    heat = Math.min(Math.max(heat0.1), 1.0);
     entropy = Math.min(Math.max(entropy, 0.1), 1.0);
     reactivity = Math.min(Math.max(reactivity, 0.1), 1.0);
 
     // Calculate gregsEnergy using the original formula: heat - (reactivity * entropy)
     // Then scale to the 0-1 range for UI friendliness
     const rawGregsEnergy = heat - reactivity * entropy;
-    const scaledGregsEnergy = (rawGregsEnergy + 1) / 2; // Convert from range (-1,1) to (0,1)
+    const scaledGregsEnergy = (rawGregsEnergy + 1) / 2; // Convert from range (-11) to (01)
     const gregsEnergy = Math.min(Math.max(scaledGregsEnergy, 0.1), 1.0);
 
     // Create updated properties with type assertion for AlchemicalItem compatibility

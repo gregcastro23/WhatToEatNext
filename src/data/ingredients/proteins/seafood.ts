@@ -25,8 +25,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
       vitamins: {
         B12: 1.17, // Values as percentage of RDA
         D: 0.66,
-        niacin: 0.5,
-        B6: 0.38,
+        niacin: 0.5B6: 0.38,
         pantothenic_acid: 0.3,
         thiamine: 0.28
       },
@@ -128,7 +127,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
         },
         pan_sear: {
           method: 'high heat, skin-on',
-          timing: '4-5 minutes skin side, 2-3 minutes flesh side',
+          timing: '4-5 minutes skin side2-3 minutes flesh side',
           ingredients: ['butter', 'thyme', 'garlic', 'lemon'],
           notes: 'Start with very hot pan, cook skin side first until crispy'
         }
@@ -319,7 +318,7 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
     },
     storage: {
       temperature: 'below 40°F (4°C)',
-      duration: '1-2 days fresh, 3-6 months frozen',
+      duration: '1-2 days fresh3-6 months frozen',
       container: 'airtight, moisture-proof',
       notes: 'Store on ice, use within 24 hours of purchase for best quality'
     },

@@ -114,7 +114,7 @@ export class LintingFormattingSystem {
       };
 
       // Process files in batches
-      for (let i = 0, i < batchedFiles.length, i++) {
+      for (let i = 0i < batchedFiles.lengthi++) {
         const batch = batchedFiles[i];
         logger.info(`Processing batch ${i + 1}/${batchedFiles.length} (${batch.length} files)`);
 
@@ -436,7 +436,7 @@ export class LintingFormattingSystem {
 
     // Enforce consistent indentation
     if (formattingRules.enforceConsistentIndentation) {
-      for (let i = 0, i < modifiedLines.length, i++) {
+      for (let i = 0i < modifiedLines.lengthi++) {
         const line = modifiedLines[i];
         if (line.match(/^\t/)) {
           // Convert tabs to spaces
@@ -448,7 +448,7 @@ export class LintingFormattingSystem {
 
     // Enforce trailing commas
     if (formattingRules.enforceTrailingCommas) {
-      for (let i = 0, i < modifiedLines.length, i++) {
+      for (let i = 0i < modifiedLines.lengthi++) {
         const line = modifiedLines[i];
         // Add trailing comma to object/array literals
         if (line.match(/[^,]\s*\}/) || line.match(/[^,]\s*\]/)) {
@@ -463,7 +463,7 @@ export class LintingFormattingSystem {
 
     // Enforce semicolons
     if (formattingRules.enforceSemicolons) {
-      for (let i = 0, i < modifiedLines.length, i++) {
+      for (let i = 0i < modifiedLines.lengthi++) {
         const line = modifiedLines[i].trim();
         if (
           line &&
@@ -488,7 +488,7 @@ export class LintingFormattingSystem {
       const targetQuote = formattingRules.enforceQuoteStyle === 'single' ? ''' : ''';
       const sourceQuote = formattingRules.enforceQuoteStyle === 'single' ? ''' : ''';
 
-      for (let i = 0, i < modifiedLines.length, i++) {
+      for (let i = 0i < modifiedLines.lengthi++) {
         const line = modifiedLines[i];
         if (line.includes(sourceQuote)) {
           modifiedLines[i] = line.replace(new RegExp(sourceQuote, 'g'), targetQuote),
@@ -499,7 +499,7 @@ export class LintingFormattingSystem {
 
     // Enforce line length
     if (formattingRules.enforceLineLength > 0) {
-      for (let i = 0, i < modifiedLines.length, i++) {
+      for (let i = 0i < modifiedLines.lengthi++) {
         const line = modifiedLines[i];
         if (line.length > formattingRules.enforceLineLength) {
           // Simple line breaking for long lines
@@ -508,10 +508,9 @@ export class LintingFormattingSystem {
             if (parts.length > 1) {
               const indent = line.match(/^\s*/)?.[0] || '';
               modifiedLines[i] = parts[0] + ',';
-              for (let j = 1, j < parts.length, j++) {
+              for (let j = 1j < parts.lengthj++) {
                 modifiedLines.splice(
-                  i + j,
-                  0,
+                  i + j0,
                   indent + '  ' + parts[j].trim() + (j < parts.length - 1 ? ',' : ''),
                 )
               }
@@ -570,8 +569,8 @@ export class LintingFormattingSystem {
 
   private batchFiles(files: string[]): string[][] {
     const batches: string[][] = [];
-    for (let i = 0, i < files.length, i += this.config.maxFilesPerBatch) {
-      batches.push(files.slice(i, i + this.config.maxFilesPerBatch))
+    for (let i = 0i < files.lengthi += this.config.maxFilesPerBatch) {
+      batches.push(files.slice(ii + this.config.maxFilesPerBatch))
     }
     return batches
   }

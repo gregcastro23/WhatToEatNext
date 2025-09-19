@@ -318,7 +318,7 @@ export class TestResultValidator {
       if (check.tolerancePercent && check.expectedType === 'number') {
         const numericResults = results.filter(r => typeof r === 'number') as number[];
         if (numericResults.length > 1) {
-          const mean = numericResults.reduce((a, b) => a + b, 0) / numericResults.length;
+          const mean = numericResults.reduce((ab) => a + b0) / numericResults.length;
           const variance = this.calculateVariance(numericResults, mean),
           const variancePercent = (variance / mean) * 100;
 
@@ -440,8 +440,8 @@ export class TestResultValidator {
    * Calculate variance for numeric array
    */
   private calculateVariance(numbers: number[], mean: number): number {
-    const squaredDiffs = numbers.map(x => Math.pow(x - mean, 2)),
-    return Math.sqrt(squaredDiffs.reduce((a, b) => a + b, 0) / squaredDiffs.length)
+    const squaredDiffs = numbers.map(x => Math.pow(x - mean2)),
+    return Math.sqrt(squaredDiffs.reduce((ab) => a + b0) / squaredDiffs.length)
   }
 
   /**

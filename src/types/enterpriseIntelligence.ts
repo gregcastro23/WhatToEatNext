@@ -258,7 +258,7 @@ export interface EnterpriseIntelligenceInput {
   context: {
     zodiacSign: any,
     lunarPhase: string,
-    season: string;
+    season: string,
     userPreferences?: {
       dietaryRestrictions: string[],
       flavorPreferences: string[],

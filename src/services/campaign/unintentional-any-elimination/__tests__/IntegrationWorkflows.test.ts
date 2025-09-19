@@ -68,11 +68,11 @@ describe('Integration Workflows', () => {
     test('should execute complete workflow from classification to replacement', async () => {
       // Setup test scenario with various any types
       const testFiles: any = {
-        'src/arrays.ts': 'const items: any[] = [], const dat, a: Array<any> = [],',
+        'src/arrays.ts': 'const items: any[] = [], const data: Array<any> = [],',
         // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
         'src/records.ts': 'const config: Record<string, unknown> = {}; const map: { [key: string]: unknown  } = {} as any;',
         'src/functions.ts': 'function process(param: any): any { return param, }',
-        'src/errors.ts': '} catch (error: any) : any { console.log(error), }',
+        'src/errors.ts': '} catch (error: any: any) { console.log(error), }',
         'src/api.ts': 'const response: any = await fetch('/api/data');'
       };
 
@@ -90,7 +90,7 @@ describe('Integration Workflows', () => {
       const contexts: ClassificationContext[] = [];
       for (const [filePath, content] of Object.entries(testFiles)) {
         const lines: any = content.split('\n');
-        for (let i: any = 0, i < lines.length, i++) {
+        for (let i: any = 0i < lines.lengthi++) {
           if (lines[i].includes(': unknown')) {
             const context: ClassificationContext = {
               filePath,
@@ -106,7 +106,7 @@ describe('Integration Workflows', () => {
                 surroundingLines: [],
                 hasExistingComment: false,
                 isInTestFile: false,
-                domainContext: { domai, n: CodeDomain.UTILITY, intentionalityHints: [], suggestedTypes: [], preservationReasons: [] }
+                domainContext: { domain: CodeDomain.UTILITY, intentionalityHints: [], suggestedTypes: [], preservationReasons: [] }
               })
             };
             contexts.push(context);
@@ -134,7 +134,7 @@ describe('Integration Workflows', () => {
       // Step 3: Create replacements for unintentional types
       const replacements: any = classifications;
         .filter(c => !c.isIntentional && c.suggestedReplacement);
-        .map((c: any, i: any) => ({
+        .map((c: anyi: any) => ({
           original: 'any',
           replacement: c.suggestedReplacement!,
           filePath: contexts[i].filePath,
@@ -161,9 +161,9 @@ describe('Integration Workflows', () => {
 
     test('should handle mixed success and failure scenarios', async () => {
       const mixedScenarios: any = {
-        'src/safe.ts': 'const items: any[] = [], const dat, a: Record<string, unknown> = {};',
-        'src/risky.ts': 'const _complex: any = getComplexObject(); function dangerous(para, m: any): any { return param, }',
-        'src/intentional.ts': '} catch (error: any) : any { /* Intentionally an, y: error handling */ }'
+        'src/safe.ts': 'const items: any[] = [], const data: Record<string, unknown> = {};',
+        'src/risky.ts': 'const _complex: any = getComplexObject(); function dangerous(param: any): any { return param, }',
+        'src/intentional.ts': '} catch (error: any: any) { /* Intentionally any: error handling */ }'
       };
 
       mockFs.readFileSync.mockImplementation((path: any) => {
@@ -247,13 +247,13 @@ describe('Integration Workflows', () => {
       for (const [filePath, content] of Object.entries(domainSpecificFiles)) {
         const lines: any = content.trim().split('\n').filter(line => line.trim());
 
-        for (let i: any = 0, i < lines.length, i++) {
+        for (let i: any = 0i < lines.lengthi++) {
           if (lines[i].includes(': unknown')) {
             const context: ClassificationContext = {
               filePath,
               lineNumber: i + 1,
               codeSnippet: lines[i].trim(),
-              surroundingLines: lines.slice(Math.max(0, i-1), i+2),
+              surroundingLines: lines.slice(Math.max(0i-1), i+2),
               hasExistingComment: false,
               isInTestFile: false,
               domainContext: await analyzer.analyzeDomain({
@@ -263,7 +263,7 @@ describe('Integration Workflows', () => {
                 surroundingLines: [],
                 hasExistingComment: false,
                 isInTestFile: false,
-                domainContext: { domai, n: CodeDomain.UTILITY, intentionalityHints: [], suggestedTypes: [], preservationReasons: [] }
+                domainContext: { domain: CodeDomain.UTILITY, intentionalityHints: [], suggestedTypes: [], preservationReasons: [] }
               })
             };
 
@@ -274,13 +274,13 @@ describe('Integration Workflows', () => {
       }
 
       // Verify domain-specific preservation
-      const astrologicalResults: any = results.filter(r =>;
+      const astrologicalResults: any = results.filter(r =>
         (r as any)?.context.filePath.includes('planetary') || (r as any)?.context.filePath.includes('calculations')
       );
-      const recipeResults: any = results.filter(r =>;
+      const recipeResults: any = results.filter(r =>
         (r as any)?.context.filePath.includes('ingredients') || (r as any)?.context.filePath.includes('spices')
       );
-      const campaignResults: any = results.filter(r =>;
+      const campaignResults: any = results.filter(r =>
         (r as any)?.context.filePath.includes('campaign') || (r as any)?.context.filePath.includes('metrics')
       );
 
@@ -309,7 +309,7 @@ describe('Integration Workflows', () => {
       // Mock campaign execution
       mockFs.readFileSync.mockImplementation((path: any) => {
         if ((path as any).includes('test')) {
-          return 'const items: any[] = [], const dat, a: Record<string, unknown> = {};';
+          return 'const items: any[] = [], const data: Record<string, unknown> = {};';
         }
         return 'backup content';
       });
@@ -356,7 +356,7 @@ describe('Integration Workflows', () => {
       const campaignResult: any = await (campaign as any)?.execute(campaignConfig);
 
       expect(campaignResult.safetyEvents.length).toBeGreaterThan(0);
-      expect(campaignResult.safetyEvents.some(event =>;
+      expect(campaignResult.safetyEvents.some(event =>
         event.type === 'LOW_SAFETY_SCORE' || event.type === 'BATCH_FAILURE'
       )).toBe(true);
     });
@@ -364,7 +364,7 @@ describe('Integration Workflows', () => {
     test('should integrate with progress tracking and metrics', async () => {
       mockFs.readFileSync.mockImplementation((path: any) => {
         if ((path as any).includes('metrics')) {
-          return 'const _progressData: any = getMetrics(), const confi, g: Record<string, unknown> = {};';
+          return 'const _progressData: any = getMetrics(), const config: Record<string, unknown> = {};';
         }
         return 'const items: any[] = [];';
       });
@@ -532,7 +532,7 @@ describe('Integration Workflows', () => {
                 const response: any = await fetch(endpoint);
                 const data: any = await response.json();
                 return this.transformData(data);
-              } catch (error: any) : any {
+              } catch (error: any: any) {
                 console.error('API Error:', error),
                 throw error
               }
@@ -564,7 +564,7 @@ describe('Integration Workflows', () => {
 
           describe('helpers', () => {
             test('processItems', () => {
-              const mockItems: any[] = [{ nam, e: 'test' }];
+              const mockItems: any[] = [{ name: 'test' }];
               const result: any = processItems(mockItems);
               expect(result).toBeDefined();
             });
@@ -637,7 +637,7 @@ describe('Integration Workflows', () => {
       const fileCount: any = 50;
       mockExecSync.mockImplementation((command: any) => {
         if (command.includes('grep -r -l')) {
-          return Array(fileCount).fill(null).map((_: any, i: any) => `src/file${i}.ts`).join('\n');
+          return Array(fileCount).fill(null).map((_: anyi: any) => `src/file${i}.ts`).join('\n');
         }
         if (command.includes('grep -c 'error TS'')) {
           const error: any = new Error('No matches') as unknown;
@@ -689,14 +689,14 @@ describe('Integration Workflows', () => {
         },
         'api-heavy': {
           files: {
-            'src/api1.ts': 'const response: any = await fetch('/api'), const dat, a: any = response.json(),',;
+            'src/api1.ts': 'const response: any = await fetch('/api'), const data: any = response.json(),',;
             'src/api2.ts': 'const result: any = await apiCall(),';
           },
           expectedBehavior: 'preserve API-related any types'
         },
         'utility-heavy': {
           files: {
-            'src/util1.ts': 'const items: any[] = [], const ma, p: Record<string, unknown> = {};',
+            'src/util1.ts': 'const items: any[] = [], const map: Record<string, unknown> = {};',
             'src/util2.ts': 'function transform(data: any[]): unknown[] { return data, }'
           },
           expectedBehavior: 'replace many utility any types'
@@ -792,7 +792,7 @@ describe('Integration Workflows', () => {
     }),
 
     test('should maintain data integrity during failures', async () => {
-      const originalContent: any = 'const items: any[] = [], const dat, a: Record<string, unknown> = {};';
+      const originalContent: any = 'const items: any[] = [], const data: Record<string, unknown> = {};';
       let backupContent: any = '';
 
       mockFs.readFileSync.mockImplementation((path: any) => {

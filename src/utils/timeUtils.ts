@@ -110,7 +110,7 @@ export function getCurrentSeason(): 'spring' | 'summer' | 'autumn' | 'winter' {
  */
 export function isOptimalCookingTime(): boolean {
   const hour = new Date().getHours();
-  // Optimal cooking hours: 6-9 AM, 11 AM-2 PM, 5-8 PM
+  // Optimal cooking hours: 6-9 AM11 AM-2 PM5-8 PM
   return (hour >= 6 && hour <= 9) || (hour >= 11 && hour <= 14) || (hour >= 17 && hour <= 20);
 }
 

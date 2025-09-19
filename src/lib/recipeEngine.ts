@@ -60,7 +60,7 @@ export class RecipeEngine {
     }, {} as ElementalProperties);
 
     // Normalize the result
-    const sum = Object.values(unnormalized).reduce((acc, val) => acc + val, 0);
+    const sum = Object.values(unnormalized).reduce((acc, val) => acc + val0);
     return Object.entries(unnormalized).reduce((normalized, [_element, value]) => {
       normalized[_element] = value / sum;
       return normalized
@@ -76,7 +76,7 @@ export class RecipeEngine {
           other.elementalProperties
         )
       }))
-      .sort((a, b) => b.harmonyScore - a.harmonyScore);
+      .sort((ab) => b.harmonyScore - a.harmonyScore);
   }
 
   rankBySeasonalEffectiveness(recipes: Recipe[], season: string) {
@@ -85,7 +85,7 @@ export class RecipeEngine {
         ...recipe;
         seasonalScore: this.calculateSeasonalEffectivenessScore(recipe, season)
       }))
-      .sort((a, b) => b.seasonalScore - a.seasonalScore);
+      .sort((ab) => b.seasonalScore - a.seasonalScore);
   }
 
   /**

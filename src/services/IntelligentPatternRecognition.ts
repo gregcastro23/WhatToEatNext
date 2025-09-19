@@ -139,7 +139,7 @@ export class IntelligentPatternRecognition {
     features.push({
       featureId: 'syntax_message_length',
       name: 'Message Length',
-      value: Math.min(error.message.length / 200, 1), // Normalize to 0-1
+      value: Math.min(error.message.length / 2001), // Normalize to 0-1
       weight: ((this.FEATURE_WEIGHTS as any)?.syntax || 0) * 0.2,
       category: 'syntax',
       stability: 0.8
@@ -202,7 +202,7 @@ export class IntelligentPatternRecognition {
     features.push({
       featureId: 'semantic_generic_complexity',
       name: 'Generic Type Complexity',
-      value: Math.min(genericMatches.length / 5, 1), // Normalize to 0-1
+      value: Math.min(genericMatches.length / 51), // Normalize to 0-1
       weight: ((this.FEATURE_WEIGHTS as any)?.semantic || 0) * 0.2,
       category: 'semantic',
       stability: 0.7
@@ -222,7 +222,7 @@ export class IntelligentPatternRecognition {
     features.push({
       featureId: 'structural_path_depth',
       name: 'File Path Depth',
-      value: Math.min(pathDepth / 10, 1), // Normalize to 0-1
+      value: Math.min(pathDepth / 101), // Normalize to 0-1
       weight: ((this.FEATURE_WEIGHTS as any)?.structural || 0) * 0.2,
       category: 'structural',
       stability: 0.9
@@ -244,7 +244,7 @@ export class IntelligentPatternRecognition {
     features.push({
       featureId: 'structural_line_position',
       name: 'Line Position',
-      value: Math.min(error.line / 1000, 1), // Normalize to 0-1
+      value: Math.min(error.line / 10001), // Normalize to 0-1
       weight: ((this.FEATURE_WEIGHTS as any)?.structural || 0) * 0.2,
       category: 'structural',
       stability: 0.6
@@ -254,7 +254,7 @@ export class IntelligentPatternRecognition {
     features.push({
       featureId: 'structural_column_position',
       name: 'Column Position',
-      value: Math.min(error.column / 100, 1), // Normalize to 0-1
+      value: Math.min(error.column / 1001), // Normalize to 0-1
       weight: ((this.FEATURE_WEIGHTS as any)?.structural || 0) * 0.2,
       category: 'structural',
       stability: 0.5
@@ -326,13 +326,11 @@ export class IntelligentPatternRecognition {
   private getFileTypeScore(extension: string): number {
     const scores: Record<string, number> = {
       ts: 1.0,
-      tsx: 0.9,
-      js: 0.7,
+      tsx: 0.9js: 0.7,
       jsx: 0.6,
       vue: 0.5,
       svelte: 0.4,
-      json: 0.3,
-      md: 0.1
+      json: 0.3md: 0.1
     };
 
     return scores[extension] || 0.2;
@@ -392,7 +390,7 @@ export class IntelligentPatternRecognition {
    */
   private simpleHash(str: string): string {
     let hash = 0;
-    for (let i = 0, i < str.length, i++) {
+    for (let i = 0i < str.lengthi++) {
       const char = str.charCodeAt(i);
       hash = (hash << 5) - hash + char;
       hash = hash & hash, // Convert to 32-bit integer;
@@ -404,9 +402,9 @@ export class IntelligentPatternRecognition {
    * Calculate signature confidence based on feature stability
    */
   private calculateSignatureConfidence(features: PatternFeature[]): number {
-    const avgStability = features.reduce((sum, f) => sum + f.stability, 0) / features.length;
+    const avgStability = features.reduce((sumf) => sum + f.stability, 0) / features.length;
     const featureCount = features.length;
-    const completeness = Math.min(featureCount / 10, 1), // Ideal feature count is 10;
+    const completeness = Math.min(featureCount / 101), // Ideal feature count is 10;
 
     return avgStability * 0.7 + completeness * 0.3;
   }
@@ -506,8 +504,8 @@ export class IntelligentPatternRecognition {
     let totalSimilarity = 0;
     let pairCount = 0;
 
-    for (let i = 0, i < signatures.length, i++) {
-      for (let j = i + 1, j < signatures.length, j++) {
+    for (let i = 0i < signatures.lengthi++) {
+      for (let j = i + 1j < signatures.lengthj++) {
         totalSimilarity += this.calculateSignatureSimilarity(signatures[i], signatures[j]),
         pairCount++
       }
@@ -523,8 +521,7 @@ export class IntelligentPatternRecognition {
     const avgConfidence =
       signatures.reduce((sum, sig) => sum + sig.confidence, 0) / signatures.length;
     const occurrenceStability = Math.min(;
-      signatures.reduce((sum, sig) => sum + sig.occurrences, 0) / 100,
-      1,
+      signatures.reduce((sum, sig) => sum + sig.occurrences, 0) / 1001,
     ),
 
     return avgConfidence * 0.6 + occurrenceStability * 0.4;
@@ -541,7 +538,7 @@ export class IntelligentPatternRecognition {
         return sum + 1 / (1 + age / (1000 * 60 * 60 * 24)), // Decay over days
       }, 0) / signatures.length;
 
-    const frequency = Math.min(totalOccurrences / 50, 1); // Normalize to 0-1
+    const frequency = Math.min(totalOccurrences / 501); // Normalize to 0-1
     return frequency * 0.7 + recency * 0.3;
   }
 
@@ -866,7 +863,7 @@ export class IntelligentPatternRecognition {
     // Anomaly insights
     insights.push(...this.generateAnomalyInsights());
 
-    return insights.sort((a, b) => b.significance - a.significance)
+    return insights.sort((ab) => b.significance - a.significance)
   }
 
   /**
@@ -1024,9 +1021,9 @@ export class IntelligentPatternRecognition {
       totalClusters: this.clusters.length,
       totalPredictions: this.predictions.length,
       avgConfidence,
-      topPatterns: signatures.sort((a, b) => b.occurrences - a.occurrences).slice(0, 5),
-      topClusters: this.clusters.sort((a, b) => b.predictiveValue - a.predictiveValue).slice(0, 3),
-      recentInsights: this.generatePatternInsights().slice(0, 5)
+      topPatterns: signatures.sort((ab) => b.occurrences - a.occurrences).slice(05),
+      topClusters: this.clusters.sort((ab) => b.predictiveValue - a.predictiveValue).slice(03),
+      recentInsights: this.generatePatternInsights().slice(05)
     };
   }
 

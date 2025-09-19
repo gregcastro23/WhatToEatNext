@@ -156,7 +156,7 @@ export class ConservativeReplacementPilot {
       }
 
       // Sort by confidence score (highest first)
-      highConfidenceCases.sort((a, b) => b.confidence - a.confidence);
+      highConfidenceCases.sort((ab) => b.confidence - a.confidence);
 
       // // console.log(
         `✅ Identified ${highConfidenceCases.length} high-confidence cases from ${filesAnalyzed} files`,
@@ -551,7 +551,7 @@ export class ConservativeReplacementPilot {
     const lines = content.split('\n');
     const occurrences: Array<{ context: unknown, lineNumber: number }> = [];
 
-    for (let i = 0, i < lines.length, i++) {
+    for (let i = 0i < lines.lengthi++) {
       const line = lines[i];
 
        
@@ -563,8 +563,8 @@ export class ConservativeReplacementPilot {
             filePath,
             lineNumber: i + 1,
             codeSnippet: line.trim(),
-            surroundingLines: this.getSurroundingLines(lines, i),
-            hasExistingComment: this.hasCommentAbove(lines, i),
+            surroundingLines: this.getSurroundingLines(linesi),
+            hasExistingComment: this.hasCommentAbove(linesi),
             isInTestFile: filePath.includes('.test.') || filePath.includes('__tests__'),
             domainContext: { domain: this.inferDomain(filePath) }
           },
@@ -583,8 +583,8 @@ export class ConservativeReplacementPilot {
             filePath,
             lineNumber: i + 1,
             codeSnippet: line.trim(),
-            surroundingLines: this.getSurroundingLines(lines, i),
-            hasExistingComment: this.hasCommentAbove(lines, i),
+            surroundingLines: this.getSurroundingLines(linesi),
+            hasExistingComment: this.hasCommentAbove(linesi),
             isInTestFile: filePath.includes('.test.') || filePath.includes('__tests__'),
             domainContext: { domain: this.inferDomain(filePath) }
           },
@@ -674,9 +674,7 @@ export class ConservativeReplacementPilot {
     }
 
     let original: string;
-    let replacement: string,
-
-    if (classification.category === AnyTypeCategory.ARRAY_TYPE) {
+    let replacement: stringif (classification.category === AnyTypeCategory.ARRAY_TYPE) {
        
       original = 'unknown[]';
       replacement = 'unknown[]';

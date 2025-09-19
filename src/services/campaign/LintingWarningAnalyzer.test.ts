@@ -157,10 +157,10 @@ console.log(usedVar);
   describe('generateRecommendations', () => {
     it('should generate appropriate recommendations', () => {
       const distribution: any = {
-        explicitAny: { coun, t: 100, priority: 1, files: [] },
-        unusedVariables: { coun, t: 50, priority: 2, files: [] },
-        consoleStatements: { coun, t: 25, priority: 3, files: [] },
-        other: { coun, t: 0, priority: 4, files: [] },
+        explicitAny: { count: 100, priority: 1, files: [] },
+        unusedVariables: { count: 50, priority: 2, files: [] },
+        consoleStatements: { count: 25, priority: 3, files: [] },
+        other: { count: 0, priority: 4, files: [] },
         total: 175,
       };
 
@@ -178,9 +178,9 @@ console.log(usedVar);
       const mockResult: any = {
         distribution: {
           explicitAny: { count: 10, priority: 1, files: ['file1.ts'] },
-          unusedVariables: { coun, t: 5, priority: 2, files: ['file2.ts'] },
-          consoleStatements: { coun, t: 3, priority: 3, files: ['file3.ts'] },
-          other: { coun, t: 0, priority: 4, files: [] },
+          unusedVariables: { count: 5, priority: 2, files: ['file2.ts'] },
+          consoleStatements: { count: 3, priority: 3, files: ['file3.ts'] },
+          other: { count: 0, priority: 4, files: [] },
           total: 18,
         },
         warnings: [],

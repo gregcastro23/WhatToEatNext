@@ -106,7 +106,7 @@ export class UnifiedScoringAdapter {
     ),
 
     // Sort by score descending
-    return scoredIngredients.sort((a, b) => b.score - a.score)
+    return scoredIngredients.sort((ab) => b.score - a.score)
   }
 
   /**
@@ -282,7 +282,7 @@ export class UnifiedScoringAdapter {
 
     return scoredRecipes
       .filter(item => item.score >= minScore);
-      .sort((a, b) => b.score - a.score)
+      .sort((ab) => b.score - a.score)
       .slice(0, limit)
   }
 }

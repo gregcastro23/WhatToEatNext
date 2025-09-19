@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any, no-console, @typescript-eslint/no-unused-vars, max-lines-per-function -- Campaign/test file with intentional patterns */
+/* eslint-disable @typescript-eslint/no-explicit-anyno-console, @typescript-eslint/no-unused-vars, max-lines-per-function -- Campaign/test file with intentional patterns */
 // Test file for Cultural Analytics Service
 import { ElementalProperties } from '@/types/alchemy';
 
@@ -90,8 +90,7 @@ describe('CulturalAnalyticsService', () => {
     it('should return empty array for poor fusion potential', () => {
       const result: any = CulturalAnalyticsService.generateFusionRecommendations(;
         'japanese',
-        ['japanese'], // Same cuisine only,
-        3,
+        ['japanese'], // Same cuisine only3,
       ),
 
       expect(result).toEqual([]);

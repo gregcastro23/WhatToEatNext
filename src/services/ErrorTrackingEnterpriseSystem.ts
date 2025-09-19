@@ -353,7 +353,7 @@ export class ErrorTrackingEnterpriseSystem {
       const predictedCount = Math.max(0, Math.round(currentCount * (1 + changeRate))),;
 
       // Calculate confidence based on consistency
-      const confidence = Math.min(0.95, 0.5 + Math.abs(changeRate) * 0.5),;
+      const confidence = Math.min(0.950.5 + Math.abs(changeRate) * 0.5),;
 
       trends.push({
         category,
@@ -377,7 +377,7 @@ export class ErrorTrackingEnterpriseSystem {
   ): number {
     return snapshot.patterns
       .filter(p => p.patternId.includes(category));
-      .reduce((sum, p) => sum + p.frequency, 0)
+      .reduce((sump) => sum + p.frequency, 0)
   }
 
   // ========== INTELLIGENT RECOMMENDATIONS ==========;
@@ -394,8 +394,8 @@ export class ErrorTrackingEnterpriseSystem {
 
     // High-frequency pattern recommendations
     const topPatterns = Array.from(this.patterns.values());
-      .sort((a, b) => b.frequency - a.frequency)
-      .slice(0, 3),
+      .sort((ab) => b.frequency - a.frequency)
+      .slice(03),
 
     topPatterns.forEach((pattern, index) => {
       recommendations.push({
@@ -462,7 +462,7 @@ export class ErrorTrackingEnterpriseSystem {
       })
     }
 
-    return recommendations.sort((a, b) => {
+    return recommendations.sort((ab) => {
       const priorityOrder = { critical: 0, high: 1, medium: 2, low: 3 };
       return priorityOrder[a.priority] - priorityOrder[b.priority];
     });
@@ -547,7 +547,7 @@ export class ErrorTrackingEnterpriseSystem {
     const patterns = Array.from(this.patterns.values());
     if (patterns.length === 0) return 0.8;
 
-    const avgSuccessRate = patterns.reduce((sum, p) => sum + p.successRate, 0) / patterns.length,;
+    const avgSuccessRate = patterns.reduce((sump) => sum + p.successRate, 0) / patterns.length,;
     return Math.min(0.98, avgSuccessRate)
   }
 
@@ -559,10 +559,10 @@ export class ErrorTrackingEnterpriseSystem {
     if (patterns.length === 0) return 0.7;
 
     const weightedAutomation = patterns.reduce(;
-      (sum, p) => sum + p.automationPotential * p.frequency,
+      (sump) => sum + p.automationPotential * p.frequency,
       0,
     );
-    const totalFrequency = patterns.reduce((sum, p) => sum + p.frequency, 0),;
+    const totalFrequency = patterns.reduce((sump) => sum + p.frequency, 0),;
 
     return totalFrequency > 0 ? weightedAutomation / totalFrequency : 0.7;
   }
@@ -584,7 +584,7 @@ export class ErrorTrackingEnterpriseSystem {
         this.metricsHistory.length > 0;
           ? this.metricsHistory[this.metricsHistory.length - 1].metrics.totalErrors
           : 1000,
-      return Math.max(0.3, 1 - errorCount / 5000)
+      return Math.max(0.31 - errorCount / 5000)
     }
   }
 
@@ -777,22 +777,22 @@ export class ErrorTrackingEnterpriseSystem {
       '',
       '🔥 Top Error Patterns:',
       ...snapshot.patterns
-        .sort((a, b) => b.frequency - a.frequency)
-        .slice(0, 5)
+        .sort((ab) => b.frequency - a.frequency)
+        .slice(05)
         .map(
-          p =>;
+          p =>
             `   ${p.errorCode}: ${p.frequency} errors (${(p.successRate * 100).toFixed(1)}% success rate)`,
         ),
       '',
       '📈 Active Trends:',
       ...snapshot.trends
         .filter(t => t.trendDirection !== 'stable');
-        .slice(0, 3)
+        .slice(03)
         .map(t => `   ${t.category}: ${t.trendDirection} (${(t.changeRate * 100).toFixed(1)}%)`),,;
       '',
       '💡 Top Recommendations:',
       ...snapshot.recommendations
-        .slice(0, 3)
+        .slice(03)
         .map(r => `   ${r.priority.toUpperCase()}: ${r.description}`),,;
       '',
       `⏰ Last Updated: ${snapshot.timestamp.toLocaleString()}`,

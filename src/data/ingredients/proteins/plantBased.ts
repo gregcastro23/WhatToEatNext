@@ -60,9 +60,7 @@ const rawPlantBased: Record<string, Partial<IngredientMapping>> = {
         fiber: 6
       },
       vitamins: {
-        B2: 0.18,
-        B3: 0.12,
-        B6: 0.15,
+        B2: 0.18B3: 0.12B6: 0.15,
         folate: 0.14
       },
       minerals: {
@@ -1603,7 +1601,7 @@ Object.entries(plantBased).forEach(([_id, ingredient]) => {
   if (!ingredient.elementalProperties) return;
 
   const sum = Object.values(ingredient.elementalProperties).reduce(;
-    (a, b) => Number(a) + Number(b),
+    (ab) => Number(a) + Number(b),
     0,
   ),
   if (Math.abs(Number(sum) - 1) > 0.0001) {

@@ -94,7 +94,7 @@ function generateHumanReadableReport(findings: Finding[]): string {
   const total = findings.length;
   const preserve = findings.filter(f => f.preserve).length;
   const eliminate = total - preserve;
-  const byReason = findings.reduce<Record<string, number>>((acc, f) => {
+  const byReason = findings.reduce<Record<string, number>>((accf) => {
     acc[f.reason] = (acc[f.reason] || 0) + 1;
     return acc;
   }, {});
@@ -105,7 +105,7 @@ function generateHumanReadableReport(findings: Finding[]): string {
     `Eliminate: ${eliminate}`,
     `Breakdown by reason:`,
   ];
-  for (const [reason, count] of Object.entries(byReason).sort((a, b) => b[1] - a[1])) {
+  for (const [reason, count] of Object.entries(byReason).sort((ab) => b[1] - a[1])) {
     lines.push(`  - ${reason}: ${count}`);
   }
   return lines.join('\n');
@@ -118,7 +118,7 @@ async function main(): Promise<void> {
   ensureDir(path.dirname(opts.outPath));
   fs.writeFileSync(
     opts.outPath,
-    JSON.stringify({ generatedAt: new Date().toISOString(), findings }, null, 2),
+    JSON.stringify({ generatedAt: new Date().toISOString(), findings }, null2),
   );
 
   const humanReport = generateHumanReadableReport(findings);

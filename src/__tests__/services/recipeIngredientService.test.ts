@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any, no-console, @typescript-eslint/no-unused-vars, max-lines-per-function -- Campaign/test file with intentional patterns */
+/* eslint-disable @typescript-eslint/no-explicit-anyno-console, @typescript-eslint/no-unused-vars, max-lines-per-function -- Campaign/test file with intentional patterns */
 import { recipeElementalService } from '@/services/RecipeElementalService';
 import type { Recipe } from '@/types/recipe';
 
@@ -13,14 +13,14 @@ describe('Recipe Ingredient Processing', () => {
           amount: 2,
           unit: 'whole',
           category: 'vegetables',
-          elementalProperties: { Fir, e: 0.7, Water: 0.2, Earth: 0.05, Air: 0.05 },
+          elementalProperties: { Fire: 0.7, Water: 0.2, Earth: 0.05, Air: 0.05 },
         },
         {
           name: 'Onion',
           amount: 1,
           unit: 'medium',
           category: 'vegetables',
-          elementalProperties: { Eart, h: 0.5, Fire: 0.2, Water: 0.2, Air: 0.1 },
+          elementalProperties: { Earth: 0.5, Fire: 0.2, Water: 0.2, Air: 0.1 },
         },
       ],
     };
@@ -55,8 +55,8 @@ describe('Recipe Ingredient Processing', () => {
     const result: any = recipeElementalService.deriveElementalProperties(recipe);
 
     // Should still produce normalized elemental properties
-    const sum: any = Object.values(result).reduce((a: any, b: any) => a + b, 0);
-    expect(sum).toBeCloseTo(1, 6);
+    const sum: any = Object.values(result).reduce((a: anyb: any) => a + b0);
+    expect(sum).toBeCloseTo(16);
   });
 
   it('should correctly calculate recipe elemental properties based on ingredients', () => {
@@ -69,14 +69,14 @@ describe('Recipe Ingredient Processing', () => {
           amount: 2,
           unit: 'cup',
           category: 'vegetables',
-          elementalProperties: { Fir, e: 0.8, Water: 0.1, Earth: 0.05, Air: 0.05 },
+          elementalProperties: { Fire: 0.8, Water: 0.1, Earth: 0.05, Air: 0.05 },
         },
         {
           name: 'Ingredient2',
           amount: 1,
           unit: 'cup',
           category: 'vegetables',
-          elementalProperties: { Fir, e: 0.1, Water: 0.8, Earth: 0.05, Air: 0.05 },
+          elementalProperties: { Fire: 0.1, Water: 0.8, Earth: 0.05, Air: 0.05 },
         },
       ],
       cuisine: 'Thai',
@@ -99,8 +99,8 @@ describe('Recipe Ingredient Processing', () => {
     const result: any = recipeElementalService.deriveElementalProperties(recipe);
 
     // Should still produce normalized elemental properties
-    const sum: any = Object.values(result).reduce((a: any, b: any) => a + b, 0);
-    expect(sum).toBeCloseTo(1, 6);
+    const sum: any = Object.values(result).reduce((a: anyb: any) => a + b0);
+    expect(sum).toBeCloseTo(16);
   });
 
   it('should handle recipes with undefined ingredients', () => {
@@ -114,7 +114,7 @@ describe('Recipe Ingredient Processing', () => {
     const result: any = recipeElementalService.deriveElementalProperties(recipe);
 
     // Should still produce normalized elemental properties
-    const sum: any = Object.values(result).reduce((a: any, b: any) => a + b, 0);
-    expect(sum).toBeCloseTo(1, 6);
+    const sum: any = Object.values(result).reduce((a: anyb: any) => a + b0);
+    expect(sum).toBeCloseTo(16);
   });
 });

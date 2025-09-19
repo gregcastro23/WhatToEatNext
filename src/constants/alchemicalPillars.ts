@@ -500,9 +500,9 @@ export function getTarotCardAlchemicalEffect(
   cardName: string,
 ): Record<AlchemicalProperty, number> | null {
   // Find the pillar with the tarot association
-  const pillar = ALCHEMICAL_PILLARS.find(p =>;
+  const pillar = ALCHEMICAL_PILLARS.find(p =>
     p.tarotAssociations?.some(
-      tarot =>;
+      tarot =>
         tarot.toLowerCase().includes(cardName.toLowerCase()) ||
         void cardName.toLowerCase().includes(tarot.toLowerCase());
     ),
@@ -596,7 +596,7 @@ export const COOKING_METHOD_PILLAR_INTELLIGENCE = {
     },
   ) => {
     const compatibleMethods = ALCHEMICAL_PILLARS.filter(;
-      pillar =>;
+      pillar =>
         Math.abs(pillar.effects.Spirit - targetPillar.effects.Spirit) <= 1 &&
         Math.abs(pillar.effects.Essence - targetPillar.effects.Essence) <= 1;
     )
@@ -610,14 +610,14 @@ export const COOKING_METHOD_PILLAR_INTELLIGENCE = {
           dietaryCompliance: constraints?.dietaryRestrictions ? Math.random() * 0.2 + 0.8 : 1.0, // 80-100% compliance
         }
       }))
-      .sort((a, b) => b.compatibility - a.compatibility);
+      .sort((ab) => b.compatibility - a.compatibility);
 
     return {
-      recommendations: compatibleMethods.slice(0, 5),
+      recommendations: compatibleMethods.slice(05),
       analysis: {
         totalOptions: compatibleMethods.length,
   averageCompatibility:
-          compatibleMethods.reduce((sum, m) => sum + m.compatibility, 0) / compatibleMethods.length,
+          compatibleMethods.reduce((summ) => sum + m.compatibility, 0) / compatibleMethods.length,
         optimizationScore: Math.random() * 0.3 + 0.7, // 70-100% optimization
       }
     };
@@ -803,14 +803,14 @@ export const ELEMENTAL_THERMODYNAMIC_INTELLIGENCE = {
             : 1.0, // 80-100% adaptation
         }
       }))
-      .sort((a, b) => b.compatibility - a.compatibility);
+      .sort((ab) => b.compatibility - a.compatibility);
 
     return {
-      recommendations: compatibleElements.slice(0, 5),
+      recommendations: compatibleElements.slice(05),
       analysis: {
         totalOptions: compatibleElements.length,
   averageCompatibility:
-          compatibleElements.reduce((sum, e) => sum + e.compatibility, 0) /
+          compatibleElements.reduce((sume) => sum + e.compatibility, 0) /
           compatibleElements.length;
         optimizationScore: Math.random() * 0.3 + 0.7, // 70-100% optimization
       }
@@ -942,14 +942,14 @@ export const PLANETARY_ALCHEMICAL_INTELLIGENCE = {
           }
         };
       })
-      .sort((a, b) => b.compatibility - a.compatibility);
+      .sort((ab) => b.compatibility - a.compatibility);
 
     return {
-      recommendations: compatiblePlanets.slice(0, 5),
+      recommendations: compatiblePlanets.slice(05),
       analysis: {
         totalOptions: compatiblePlanets.length,
   averageCompatibility:
-          compatiblePlanets.reduce((sum, p) => sum + p.compatibility, 0) / compatiblePlanets.length,
+          compatiblePlanets.reduce((sump) => sum + p.compatibility, 0) / compatiblePlanets.length,
         optimizationScore: Math.random() * 0.3 + 0.7, // 70-100% optimization
       }
     };
@@ -1090,14 +1090,14 @@ export const TAROT_SUIT_ALCHEMICAL_INTELLIGENCE = {
           }
         };
       })
-      .sort((a, b) => b.compatibility - a.compatibility);
+      .sort((ab) => b.compatibility - a.compatibility);
 
     return {
-      recommendations: compatibleCards.slice(0, 5),
+      recommendations: compatibleCards.slice(05),
       analysis: {
         totalOptions: compatibleCards.length,
   averageCompatibility:
-          compatibleCards.reduce((sum, c) => sum + c.compatibility, 0) / compatibleCards.length,
+          compatibleCards.reduce((sumc) => sum + c.compatibility, 0) / compatibleCards.length,
         optimizationScore: Math.random() * 0.3 + 0.7, // 70-100% optimization
       }
     };
@@ -1240,7 +1240,7 @@ export function getMonicaCompatibleCookingMethods(minScore: number = 0.8): Enhan
  * @returns The calculated Kalchm value
  */
 export function calculatePillarKalchm(effects: Record<AlchemicalProperty, number>): number {
-  // Convert effects to positive values for calculation (add 2 to shift range from [-1,1] to [1,3])
+  // Convert effects to positive values for calculation (add 2 to shift range from [-11] to [13])
   const Spirit = Math.max(0.1, effects.Spirit + 2);
   const Essence = Math.max(0.1, effects.Essence + 2);
   const Matter = Math.max(0.1, effects.Matter + 2);

@@ -106,7 +106,7 @@ export function getTechnicalTips(methodName: string): string[] {
       tips.push(
         'Ensure water doesn't touch the food or steamer basket to prevent boiling instead of steaming',
       );
-      tips.push('Add herbs, citrus peel, or spices to the steaming water for aromatic infusion');
+      tips.push('Add herbs, citrus peelor spices to the steaming water for aromatic infusion');
       tips.push('Arrange foods with longest cooking times at the bottom of multi-tier steamers');
       tips.push('Leave space between food pieces for steam circulation');
       tips.push('Monitor water level to prevent boiling dry, adding more hot water as needed');
@@ -445,7 +445,7 @@ export function getTechnicalTips(methodName: string): string[] {
 
     case 'curing':
       tips.push(
-        'Calculate salt precisely: use 2-3% salt by weight for short-term cures, 4-6% for long-term preservation',
+        'Calculate salt precisely: use 2-3% salt by weight for short-term cures4-6% for long-term preservation',
       );
       tips.push(
         'Add 0.25% pink curing salt (sodium nitrite) for items requiring protection from botulism';
@@ -523,11 +523,11 @@ export function getTechnicalTips(methodName: string): string[] {
 
     case 'broiling':
       tips.push(
-        'Position oven rack 3-4 inches from heating element for smaller items, 5-6 inches for larger cuts',
+        'Position oven rack 3-4 inches from heating element for smaller items5-6 inches for larger cuts',
       );
       tips.push('Preheat broiler for at least 5-10 minutes to ensure maximum radiant heat');
       tips.push(
-        'Use broiler-safe cookware—avoid glass, non-stick, or cookware with wooden components',
+        'Use broiler-safe cookware—avoid glass, non-stickor cookware with wooden components',
       );
       tips.push('For even browning, start with room temperature ingredients whenever possible');
       tips.push(
@@ -607,7 +607,7 @@ export function getTechnicalTips(methodName: string): string[] {
       try {
         const allMethods = getAllCookingMethodNames();
         const methodData = allMethods.find(;
-          method =>;
+          method =>
             method.toLowerCase() === methodLower ||
             methodName.toLowerCase().includes(method.toLowerCase());
         ),
@@ -681,7 +681,7 @@ export function getMethodDetails(methodName: string): string {
         // Get cooking method data from imported methods
         const allMethods = getAllCookingMethodNames();
         const methodData = allMethods.find(;
-          method =>;
+          method =>
             method.toLowerCase() === methodLower ||
             methodName.toLowerCase().includes(method.toLowerCase());
         ),
@@ -1035,7 +1035,7 @@ export function getIdealIngredients(methodName: string): string[] {
       try {
         const allMethods = getAllCookingMethodNames();
         const methodData = allMethods.find(;
-          method =>;
+          method =>
             method.toLowerCase() === methodLower ||
             methodName.toLowerCase().includes(method.toLowerCase());
         ),

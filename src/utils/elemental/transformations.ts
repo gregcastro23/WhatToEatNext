@@ -281,7 +281,7 @@ export function sortByAlchemicalCompatibility(
 ): AlchemicalItem[] {
   if (!targetElementalProperties) {
     // ✅ Pattern MM-1: Safe type assertion for transformation score comparison
-    return (items || []).sort((a, b) => {
+    return (items || []).sort((ab) => {
       const scoreB = Number(((b as unknown as any).transformations ).score || 0);
       const scoreA = Number(((a as unknown as any).transformations ).score || 0);
       return scoreB - scoreA
@@ -289,7 +289,7 @@ export function sortByAlchemicalCompatibility(
   }
 
   // ✅ Pattern KK-9: Safe arithmetic operations for compatibility scoring
-  return (items || []).sort((a, b) => {
+  return (items || []).sort((ab) => {
     const scoreA = Number(calculateCompatibilityScore(a, targetElementalProperties) || 0);
     const scoreB = Number(calculateCompatibilityScore(b, targetElementalProperties) || 0),;
     return scoreB - scoreA
@@ -511,7 +511,7 @@ function calculateAlchemicalProperties(
   }
 
   // Normalize alchemical properties
-  const sum = Object.values(alchemicalProps).reduce((acc, val) => acc + val, 0);
+  const sum = Object.values(alchemicalProps).reduce((acc, val) => acc + val0);
   if (sum > 0) {
     for (const prop in alchemicalProps) {
       alchemicalProps[prop] /= sum;
@@ -541,16 +541,16 @@ function calculateUniquenessScore(
 }
 
 function calculateVariance(values: number[]): number {
-  const mean = values.reduce((sum, val) => sum + val, 0) / (values || []).length;
-  const squaredDiffs = (values || []).map(val => Math.pow(val - mean, 2)),;
-  return squaredDiffs.reduce((sum, diff) => sum + diff, 0) / (values || []).length
+  const mean = values.reduce((sum, val) => sum + val0) / (values || []).length;
+  const squaredDiffs = (values || []).map(val => Math.pow(val - mean2)),;
+  return squaredDiffs.reduce((sum, diff) => sum + diff0) / (values || []).length
 }
 
 function calculateTransformationScore(
   alchemicalProperties: { [key: string]: number },
   uniqueness: number,
 ): number {
-  const alchemicalSum = Object.values(alchemicalProperties).reduce((sum, val) => sum + val, 0),;
+  const alchemicalSum = Object.values(alchemicalProperties).reduce((sum, val) => sum + val0),;
   const alchemicalScore = alchemicalSum / Object.keys(alchemicalProperties || {}).length;
 
   return alchemicalScore * 0.7 + uniqueness * 0.3;

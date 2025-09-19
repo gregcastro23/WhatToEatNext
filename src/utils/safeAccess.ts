@@ -71,7 +71,7 @@ export function safeExecute<T>(fn: () => T, defaultValue: T, logError = true): T
  *
  * @example
  * // Returns numeric value of count or 0 if it's not a valid number
- * safeNumber(formData.count, 0)
+ * safeNumber(formData.count0)
  */
 export function safeNumber(value: unknown, defaultValue = 0): number {
   if (value === null || value === undefined) {

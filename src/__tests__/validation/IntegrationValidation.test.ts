@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any, no-console, @typescript-eslint/no-unused-vars, max-lines-per-function -- Campaign/test file with intentional patterns */
+/* eslint-disable @typescript-eslint/no-explicit-anyno-console, @typescript-eslint/no-unused-vars, max-lines-per-function -- Campaign/test file with intentional patterns */
 declare global {
   var __DEV__: boolean
 }
@@ -7,7 +7,7 @@ declare global {
  * Integration Validation Tests - Task 12
  *
  * Integration tests for automated error resolution systems
- * Requirements: 5.1, 5.2
+ * Requirements: 5.15.2
  */
 
 import { execSync } from 'child_process';
@@ -193,7 +193,7 @@ describe('Integration Validation Tests - Task 12', () => {
       });
 
       test('Batch processing works with safety protocols', () => {
-        const batchSizes: any = [5, 10, 15, 25],
+        const batchSizes: any = [510, 1525],
 
         batchSizes.forEach(batchSize => {
           mockExecSync.mockReturnValue(;

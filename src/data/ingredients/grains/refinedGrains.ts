@@ -354,7 +354,7 @@ const rawRefinedGrains = {
       },
       enriched: {
         characteristics: 'nutrients added back after processing',
-        nutritional_notes: 'contains added iron, B vitamins',
+        nutritional_notes: 'contains added ironB vitamins',
         uses: 'standard for most commercial flour',
         regulation: 'required by law in many countries',
       },

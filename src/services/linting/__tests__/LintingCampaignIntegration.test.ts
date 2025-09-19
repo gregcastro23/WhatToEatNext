@@ -48,8 +48,8 @@ describe('Linting Campaign System Integration', () => {
           filePath: '/test/file1.ts',
           messages: [
             { ruleId: 'no-unused-vars', severity: 2, fix: null },
-            { ruleId: 'no-console', severity: 2, fix: { rang, e: [0, 10], text: '' } },
-            { ruleId: 'prefer-const', severity: 1, fix: { rang, e: [0, 5], text: 'const' } }
+            { ruleId: 'no-console', severity: 2, fix: { range: [010], text: '' } },
+            { ruleId: 'prefer-const', severity: 1, fix: { range: [05], text: 'const' } }
           ]
         }
       ]);
@@ -58,7 +58,7 @@ describe('Linting Campaign System Integration', () => {
       const improvedLintOutput: any = JSON.stringify([
         {
           filePath: '/test/file1.ts',
-          messages: [{ ruleI, d: 'no-unused-vars', severity: 1, fix: null }]
+          messages: [{ ruleId: 'no-unused-vars', severity: 1, fix: null }]
         }
       ]);
 
@@ -125,7 +125,7 @@ describe('Linting Campaign System Integration', () => {
       const mockLintOutput: any = JSON.stringify([
         {
           filePath: '/test/file.ts',
-          messages: [{ ruleI, d: 'no-unused-vars', severity: 1, fix: null }]
+          messages: [{ ruleId: 'no-unused-vars', severity: 1, fix: null }]
         }
       ]);
 
@@ -149,7 +149,7 @@ describe('Linting Campaign System Integration', () => {
       const mockLintOutput: any = JSON.stringify([
         {
           filePath: '/test/file.ts',
-          messages: Array.from({ lengt, h: 50 }, (_, i) => ({
+          messages: Array.from({ length: 50 }, (_i) => ({
             ruleId: 'no-unused-vars',
             severity: 2,
             fix: null
@@ -191,21 +191,21 @@ describe('Linting Campaign System Integration', () => {
       const phase1Output: any = JSON.stringify([
         {
           filePath: '/test/file.ts',
-          messages: Array.from({ lengt, h: 10 }, () => ({ ruleId: 'error', severity: 2, fix: null }))
+          messages: Array.from({ length: 10 }, () => ({ ruleId: 'error', severity: 2, fix: null }))
         }
       ]);
 
       const phase2Output: any = JSON.stringify([
         {
           filePath: '/test/file.ts',
-          messages: Array.from({ lengt, h: 5 }, () => ({ ruleId: 'error', severity: 2, fix: null }))
+          messages: Array.from({ length: 5 }, () => ({ ruleId: 'error', severity: 2, fix: null }))
         }
       ]);
 
       const phase3Output: any = JSON.stringify([
         {
           filePath: '/test/file.ts',
-          messages: Array.from({ lengt, h: 2 }, () => ({ ruleId: 'warning', severity: 1, fix: null }))
+          messages: Array.from({ length: 2 }, () => ({ ruleId: 'warning', severity: 1, fix: null }))
         }
       ]);
 
@@ -231,7 +231,7 @@ describe('Linting Campaign System Integration', () => {
 
     test('should generate comprehensive progress reports', async () => {
       const currentOutput: any = JSON.stringify([
-        { filePath: '/test/file.ts', messages: [{ ruleI, d: 'warning', severity: 1, fix: null }] }
+        { filePath: '/test/file.ts', messages: [{ ruleId: 'warning', severity: 1, fix: null }] }
       ]);
 
       const previousMetrics: any = {
@@ -372,9 +372,9 @@ describe('Linting Campaign System Integration', () => {
     test('should handle large codebases efficiently', async () => {
       // Mock large codebase with many files
       const largeOutput: any = JSON.stringify(;
-        Array.from({ length: 100 }, (_, i) => ({
+        Array.from({ length: 100 }, (_i) => ({
           filePath: `/test/file${i}.ts`,
-          messages: Array.from({ lengt, h: 5 }, () => ({
+          messages: Array.from({ length: 5 }, () => ({
             ruleId: 'no-unused-vars',
             severity: 1,
             fix: null

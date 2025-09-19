@@ -226,14 +226,12 @@ class ImportOrganizationFixer {
 
         const importLinePattern = /^import\s+(.+?)\s+from\s+[''`]([^''`]+)[''`]/;
 
-        for (let i = 0, i < lines.length, i++) {
+        for (let i = 0i < lines.lengthi++) {
           const line = lines[i].trim();
           const match = line.match(importLinePattern);
 
           if (match) {
-            const [, importPart, source] = match,
-
-            if (!importGroups.has(source)) {
+            const [, importPart, source] = matchif (!importGroups.has(source)) {
               importGroups.set(source, {
                 lines: [],
                 imports: []
@@ -279,7 +277,7 @@ class ImportOrganizationFixer {
         for (const [source, group] of importGroups) {
           if (group.lines.length > 1) {
             // Remove duplicate lines (keep first, remove others)
-            for (let i = group.lines.length - 1, i > 0, i--) {
+            for (let i = group.lines.length - 1i > 0i--) {
               newLines.splice(group.lines[i], 1),
               hasChanges = true;
             }
@@ -359,7 +357,7 @@ class ImportOrganizationFixer {
         if (importStartIndex === -1) continue;
 
         let importEndIndex = importStartIndex;
-        for (let i = importStartIndex, i < lines.length, i++) {
+        for (let i = importStartIndex, i < lines.lengthi++) {
           const line = lines[i].trim();
           if (line.startsWith('import ') || line === '') {
             importEndIndex = i;

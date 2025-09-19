@@ -61,7 +61,7 @@ async function testStreamlinedSystem() {
     log.info(`  Dominant Element: ${result.kalchm.dominantElement}\n`);
 
     log.info('🪐 PLANETARY INFLUENCES:');
-    const topPlanets = result.planetaryInfluences.dominantPlanets.slice(0, 3);
+    const topPlanets = result.planetaryInfluences.dominantPlanets.slice(03);
     (topPlanets || []).forEach((planet, index) => {
       log.info(
         `  ${index + 1}. ${planet.planet}: ${(planet.strength * 100).toFixed(1)}% (${planet.element})`,
@@ -71,25 +71,25 @@ async function testStreamlinedSystem() {
 
     log.info('🍳 CULINARY RECOMMENDATIONS:');
     log.info(
-      `  Ingredients: ${result.recommendations.culinary.ingredients.slice(0, 3).join(', ')}`,
+      `  Ingredients: ${result.recommendations.culinary.ingredients.slice(03).join(', ')}`,
     );
     log.info(
-      `  Cooking Methods: ${result.recommendations.culinary.cookingMethods.slice(0, 3).join(', ')}`,
+      `  Cooking Methods: ${result.recommendations.culinary.cookingMethods.slice(03).join(', ')}`,
     );
-    log.info(`  Flavors: ${result.recommendations.culinary.flavors.slice(0, 3).join(', ')}`);
-    log.info(`  Timing: ${result.recommendations.culinary.timing.slice(0, 2).join(', ')}\n`);
+    log.info(`  Flavors: ${result.recommendations.culinary.flavors.slice(03).join(', ')}`);
+    log.info(`  Timing: ${result.recommendations.culinary.timing.slice(02).join(', ')}\n`);
 
     log.info('📊 ELEMENTAL RECOMMENDATIONS:');
     log.info(`  Balance Score: ${result.recommendations.elemental.balance.toFixed(3)}`);
     log.info(
-      `  Recommendations: ${result.recommendations.elemental.recommendations.slice(0, 2).join(', ')}\n`,
+      `  Recommendations: ${result.recommendations.elemental.recommendations.slice(02).join(', ')}\n`,
     );
 
     // Test recipe compatibility
     log.info('🥘 RECIPE COMPATIBILITY TEST:');
     const testRecipe = { Fire: 0.3, Water: 0.2, Air: 0.35, Earth: 0.15 };
 
-    const compatibility = await import('./calculations/index').then(mod =>;
+    const compatibility = await import('./calculations/index').then(mod =>
       mod.calculateRecipeCompatibility(testRecipe, result),
     );
 
@@ -97,7 +97,7 @@ async function testStreamlinedSystem() {
     log.info(`  Elemental Alignment: ${(compatibility.elementalAlignment * 100).toFixed(1)}%`);
     log.info(`  Kalchm Alignment: ${(compatibility.kalchmAlignment * 100).toFixed(1)}%`);
     log.info(`  Planetary Alignment: ${(compatibility.planetaryAlignment * 100).toFixed(1)}%`);
-    log.info(`  Recommendations: ${compatibility.recommendations.slice(0, 2).join(', ')}\n`);
+    log.info(`  Recommendations: ${compatibility.recommendations.slice(02).join(', ')}\n`);
 
     log.info('✅ Streamlined system test completed successfully!');
     log.info(`📝 Cache Key: ${result.cacheKey}`);

@@ -190,7 +190,7 @@ class AutomatedDocumentationGenerator {
       const lines = content.split('\n');
       const occurrences: AnyTypeOccurrence[] = [];
 
-      for (let i = 0, i < lines.length, i++) {
+      for (let i = 0i < lines.lengthi++) {
         const line = lines[i];
         const previousLine = i > 0 ? lines[i - 1] : '';
         const nextLine = i < lines.length - 1 ? lines[i + 1] : '';
@@ -345,7 +345,7 @@ class AutomatedDocumentationGenerator {
       const lines = content.split('\n');
 
       // Process from bottom to top to maintain line numbers
-      const sortedOccurrences = undocumented.sort((a, b) => b.lineNumber - a.lineNumber);
+      const sortedOccurrences = undocumented.sort((ab) => b.lineNumber - a.lineNumber);
 
       for (const occurrence of sortedOccurrences) {
         const lineIndex = occurrence.lineNumber - 1;

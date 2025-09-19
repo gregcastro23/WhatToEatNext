@@ -39,7 +39,7 @@ afterEach(() => {
   createMockTypeScriptErrors: (count: number) => {
     const errors: Array<string> = [];
     for (let i = 0; i < count; i++) {
-      errors.push(`file${i}.ts(10,5): error TS2352: Type conversion error`)
+      errors.push(`file${i}.ts(105): error TS2352: Type conversion error`)
     }
     return errors.join('\n');
   },

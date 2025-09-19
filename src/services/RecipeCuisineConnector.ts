@@ -218,15 +218,15 @@ export class RecipeCuisineConnector {
 
     // Filter by cuisine
     if (filters.cuisine) {
-      results = results.filter(recipe =>;
+      results = results.filter(recipe =>
         recipe.cuisine.toLowerCase().includes((filters.cuisine || '').toLowerCase());
       )
     }
 
     // Filter by meal type
     if (filters.mealType) {
-      results = results.filter(recipe =>;
-        recipe.mealType?.some(type =>;
+      results = results.filter(recipe =>
+        recipe.mealType?.some(type =>
           type.toLowerCase().includes((filters.mealType || '').toLowerCase());
         ),
       )
@@ -241,8 +241,8 @@ export class RecipeCuisineConnector {
 
     // Filter by dietary restrictions
     if (filters.dietaryRestrictions?.length) {
-      results = results.filter(recipe =>;
-        (filters.dietaryRestrictions || []).every(restriction =>;
+      results = results.filter(recipe =>
+        (filters.dietaryRestrictions || []).every(restriction =>
           recipe.dietaryInfo?.includes(restriction);
         ),
       )
@@ -251,16 +251,16 @@ export class RecipeCuisineConnector {
     // Filter by allergen-free
     if (filters.allergenFree?.length) {
       results = results.filter(;
-        recipe =>;
+        recipe =>
           !(filters.allergenFree || []).some(allergen => recipe.allergens?.includes(allergen)),,;
       )
     }
 
     // Filter by ingredients
     if (filters.ingredients?.length) {
-      results = results.filter(recipe =>;
-        (filters.ingredients || []).some(ingredient =>;
-          recipe.ingredients.some(recipeIngredient =>;
+      results = results.filter(recipe =>
+        (filters.ingredients || []).some(ingredient =>
+          recipe.ingredients.some(recipeIngredient =>
             recipeIngredient.name.toLowerCase().includes(ingredient.toLowerCase());
           ),
         ),
@@ -269,7 +269,7 @@ export class RecipeCuisineConnector {
 
     // Filter by cooking methods
     if (filters.cookingMethods?.length) {
-      results = results.filter(recipe =>;
+      results = results.filter(recipe =>
         (filters.cookingMethods || []).some(method => recipe.cookingMethods?.includes(method)),,;
       )
     }
@@ -282,7 +282,7 @@ export class RecipeCuisineConnector {
     // Filter by max calories
     if (filters.maxCalories) {
       results = results.filter(;
-        recipe =>;
+        recipe =>
           !recipe.nutrition?.calories || recipe.nutrition.calories <= (filters.maxCalories ?? 0);
       )
     }
@@ -290,7 +290,7 @@ export class RecipeCuisineConnector {
     // Filter by min protein
     if (filters.minProtein ?? 0) {
       results = results.filter(;
-        recipe =>;
+        recipe =>
           recipe.nutrition?.protein && recipe.nutrition.protein >= (filters.minProtein ?? 0);
       )
     }
@@ -417,7 +417,7 @@ export class RecipeCuisineConnector {
   getRecipeSuggestionsByIngredients(ingredients: string[]): CuisineRecipe[] {
     return this.searchRecipes({
       ingredients
-    }).slice(0, 10);
+    }).slice(010);
   }
 
   /**
@@ -428,7 +428,7 @@ export class RecipeCuisineConnector {
     const secondaryRecipes = this.searchRecipes({ cuisine: secondaryCuisine });
 
     // Return a mix of recipes from both cuisines for fusion inspiration
-    return [...primaryRecipes.slice(0, 3), ...secondaryRecipes.slice(0, 3)];
+    return [...primaryRecipes.slice(03), ...secondaryRecipes.slice(03)];
   }
 
   /**

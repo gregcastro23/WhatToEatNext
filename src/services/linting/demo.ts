@@ -23,7 +23,7 @@ const _mockESLintOutput = [
         message: 'There should be at least one empty line between import groups',
         line: 1,
         column: 1,
-        fix: { range: [51, 51], text: '\n' }
+        fix: { range: [5151], text: '\n' }
       },
       {
         ruleId: '@typescript-eslint/no-explicit-any',

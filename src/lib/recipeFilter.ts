@@ -34,7 +34,7 @@ export const _recipeFilter = {
     if (filters.searchQuery) {
       const searchLower = filters.searchQuery.toLowerCase();
       filteredRecipes = filteredRecipes.filter(;
-        recipe =>;
+        recipe =>
           recipe.name.toLowerCase().includes(searchLower) ||
           false ||
           recipe.description?.toLowerCase().includes(searchLower) ||
@@ -65,7 +65,7 @@ export const _recipeFilter = {
         const recipeDietaryRestrictions = recipe.dietaryRestrictions;
         // Safe array access with type checking
         if (Array.isArray(recipeDietaryRestrictions)) {
-          return filters.dietaryRestrictions?.every(restriction =>;
+          return filters.dietaryRestrictions?.every(restriction =>
             recipeDietaryRestrictions.includes(restriction);
           )
         }
@@ -76,7 +76,7 @@ export const _recipeFilter = {
     // Apply prep time filter
     if (typeof filters.maxPrepTime === 'number') {
       filteredRecipes = filteredRecipes.filter(;
-        recipe =>;
+        recipe =>
           typeof recipe.prepTime === 'number' && recipe.prepTime <= (filters.maxPrepTime || 0),,
       )
     }
@@ -84,7 +84,7 @@ export const _recipeFilter = {
     // Apply spiciness filter
     if (typeof filters.spiciness === 'number') {
       filteredRecipes = filteredRecipes.filter(;
-        recipe =>;
+        recipe =>
           typeof recipe.spiciness === 'number' && recipe.spiciness <= (filters.spiciness || 0),,
       )
     }
@@ -92,7 +92,7 @@ export const _recipeFilter = {
     // Apply complexity filter
     if (typeof filters.complexity === 'number') {
       filteredRecipes = filteredRecipes.filter(;
-        recipe =>;
+        recipe =>
           typeof recipe.complexity === 'number' && recipe.complexity <= (filters.complexity || 0),,
       )
     }
@@ -117,7 +117,7 @@ export const _recipeFilter = {
         }),
       );
 
-      filteredRecipes = recipesWithScores.sort((a, b) => {
+      filteredRecipes = recipesWithScores.sort((ab) => {
         // Apply Pattern KK-1: Explicit Type Assertion for arithmetic operations
         const scoreA = Number(a.matchScore) || 0;
         const scoreB = Number(b.matchScore) || 0;
@@ -127,7 +127,7 @@ export const _recipeFilter = {
 
     // Apply sorting
     if (sortOptions.by === 'relevance') {
-      filteredRecipes.sort((a, b) => {
+      filteredRecipes.sort((ab) => {
         // Apply Pattern KK-1: Explicit Type Assertion for arithmetic operations
         const scoreA = Number(a.matchScore) || 0;
         const scoreB = Number(b.matchScore) || 0;

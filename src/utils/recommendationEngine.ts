@@ -197,7 +197,7 @@ export function getRecommendedRecipes(
   }));
 
   // Sort by score (highest first)
-  scoredRecipes.sort((a, b) => b.score - a.score);
+  scoredRecipes.sort((ab) => b.score - a.score);
 
   // Return top N recipes
   return scoredRecipes.slice(0, count).map(item => item.recipe);

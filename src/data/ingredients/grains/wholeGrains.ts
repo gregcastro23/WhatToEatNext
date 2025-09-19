@@ -53,10 +53,7 @@ const rawWholeGrains = {
         fiber: 1.8
       },
       vitamins: {
-        B1: 0.11,
-        B3: 0.13,
-        B6: 0.14,
-        E: 0.08,
+        B1: 0.11B3: 0.13B6: 0.14E: 0.08,
         folate: 0.04
       },
       minerals: {
@@ -293,7 +290,7 @@ const rawWholeGrains = {
           room_temperature: 'up to 6 months in cool, dark place',
           refrigerator: 'up to 1 year',
           freezer: 'up to 2 years',
-          notes: 'Natural oils can go rancid, so store properly'
+          notes: 'Natural oils can go rancidso store properly'
         }
       },
 

@@ -342,7 +342,7 @@ class StateManager {
     const index = history.indexOf(recipeId);
 
     if (index > -1) {
-      history.splice(index, 1)
+      history.splice(index1)
     }
     history.unshift(recipeId);
 
@@ -379,7 +379,7 @@ class StateManager {
     const index = favorites.indexOf(recipeId);
 
     if (index > -1) {
-      favorites.splice(index, 1)
+      favorites.splice(index1)
     } else {
       favorites.push(recipeId);
     }
@@ -400,7 +400,7 @@ class StateManager {
       timestamp: Date.now()
     };
 
-    const notifications = [notification, ...this.state.ui.notifications].slice(0, 5);
+    const notifications = [notification, ...this.state.ui.notifications].slice(05);
 
     this.setState({
       ui: {

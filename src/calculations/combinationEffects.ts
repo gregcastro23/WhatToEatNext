@@ -109,7 +109,7 @@ export function calculateCombinationEffects({
     // Check elemental interactions
     effects.push(...calculateElementalInteractions(ingredients));
 
-    return effects.sort((a, b) => {
+    return effects.sort((ab) => {
       const aValue =
         (a as { modifier?: number, strength?: number })?.modifier ||;
         (a as { strength?: number })?.strength ||
@@ -130,7 +130,7 @@ const hasIngredientCombination = (;
   recipeIngredients: string[],
   combinationIngredients: string[],
 ): boolean => {
-  return combinationIngredients.every(ingredient =>;
+  return combinationIngredients.every(ingredient =>
     recipeIngredients.some(recipeIng => recipeIng.toLowerCase().includes(ingredient.toLowerCase())),,
   )
 };
@@ -143,9 +143,7 @@ const calculateElementalInteractions = (ingredients: string[]): CombinationEffec
     const elem1 = ingredientMappings[ing1]?.elementalProperties;
     const elem2 = ingredientMappings[ing2]?.elementalProperties;
 
-    if (!elem1 || !elem2) return,
-
-    if (isHarmoniousCombination(elem1, elem2)) {
+    if (!elem1 || !elem2) returnif (isHarmoniousCombination(elem1, elem2)) {
       effects.push({
         ingredients: [ing1, ing2],
         type: 'synergy' as EffectType,
@@ -169,10 +167,10 @@ const calculateElementalInteractions = (ingredients: string[]): CombinationEffec
   return effects;
 };
 
-const getPairs = <T>(array: T[]): [T, T][] => {
-  const pairs: [T, T][] = [];
-  for (let i = 0, i < array.length, i++) {
-    for (let j = i + 1, j < array.length, j++) {
+const getPairs = <T>(array: T[]): [TT][] => {
+  const pairs: [TT][] = [];
+  for (let i = 0i < array.lengthi++) {
+    for (let j = i + 1j < array.lengthj++) {
       pairs.push([array[i], array[j]])
     }
   }
@@ -184,7 +182,7 @@ const isHarmoniousCombination = (;
   elem2: ElementalProperties,
 ): boolean => {
   return ELEMENT_COMBINATIONS.harmonious.some(
-    ([e1, e2]) =>
+    ([e1e2]) =>
       (getDominantElement(elem1) === e1 && getDominantElement(elem2) === e2) ||
       (getDominantElement(elem1) === e2 && getDominantElement(elem2) === e1);
   )
@@ -197,7 +195,7 @@ const isAntagonisticCombination = (;
   const antagonistic =
     (ELEMENT_COMBINATIONS as { antagonistic?: Array<[string, string]> })?.antagonistic || [];
   return antagonistic.some(
-    ([e1, e2]: [unknown, unknown]) =>
+    ([e1e2]: [unknown, unknown]) =>
       (getDominantElement(elem1) === e1 && getDominantElement(elem2) === e2) ||
       (getDominantElement(elem1) === e2 && getDominantElement(elem2) === e1);
   );
@@ -229,7 +227,7 @@ export const _suggestComplementaryIngredients = (;
     }
   });
 
-  return suggestions.slice(0, 5);
+  return suggestions.slice(05);
 };
 
 const calculateCombinedElements = (ingredients: string[]): ElementalProperties => {
@@ -252,7 +250,7 @@ const calculateCombinedElements = (ingredients: string[]): ElementalProperties =
   });
 
   // Normalize
-  const total = Object.values(combined).reduce((a, b) => a + b, 0);
+  const total = Object.values(combined).reduce((ab) => a + b0);
   if (total > 0) {
     Object.keys(combined).forEach(key => {
       combined[key as unknown] /= total;
@@ -264,7 +262,7 @@ const calculateCombinedElements = (ingredients: string[]): ElementalProperties =
 
 const isHarmoniousWith = (element1: Element, element2: Element): boolean => {
   return ELEMENT_COMBINATIONS.harmonious.some(
-    ([e1, e2]) => (element1 === e1 && element2 === e2) || (element1 === e2 && element2 === e1),,
+    ([e1e2]) => (element1 === e1 && element2 === e2) || (element1 === e2 && element2 === e1),,
   )
 };
 

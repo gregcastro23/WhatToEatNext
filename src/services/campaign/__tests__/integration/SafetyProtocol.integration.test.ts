@@ -155,7 +155,7 @@ describe('Safety Protocol Integration Tests', () => {
 
       it('should detect double commas in destructuring', async () => {
         const corruptedContent: any = `;
-import type type Something, { a, b } from './module';
+import type type Something, { ab } from './module';
           export { x,, y };
         `;
 
@@ -227,8 +227,8 @@ import type type Something, { a, b } from './module';
 
       it('should detect TypeScript syntax errors', async () => {
         mockExecSync.mockReturnValue(`
-          test-file.ts(10,5): error TS1005: Unexpected token 'function'
-          test-file.ts(15,10): error TS1109: Expression expected
+          test-file.ts(105): error TS1005: Unexpected token 'function'
+          test-file.ts(1510): error TS1109: Expression expected
         `);
 
         const report: any = await safetyProtocol.validateSyntaxWithTypeScript(['test-file.ts']);
@@ -469,10 +469,10 @@ import type type Something, { a, b } from './module';
       // Mock successful execution with safety protocols
       jest.spyOn(campaignController as unknown, 'createSafetyCheckpoint').mockResolvedValue('checkpoint-1');
       jest.spyOn(campaignController as unknown, 'getCurrentMetrics').mockResolvedValue({
-        typeScriptErrors: { curren, t: 0, target: 0, reduction: 86, percentage: 100 },
-        lintingWarnings: { curren, t: 4506, target: 0, reduction: 0, percentage: 0 },
+        typeScriptErrors: { current: 0, target: 0, reduction: 86, percentage: 100 },
+        lintingWarnings: { current: 4506, target: 0, reduction: 0, percentage: 0 },
         buildPerformance: { currentTim, e: 8.5, targetTime: 10, cacheHitRate: 0.8, memoryUsage: 45 },
-        enterpriseSystems: { curren, t: 0, target: 200, transformedExports: 0 },
+        enterpriseSystems: { current: 0, target: 200, transformedExports: 0 },
       });
 
       const result: any = await campaignController.executePhase(phase);

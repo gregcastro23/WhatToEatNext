@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any, no-console, @typescript-eslint/no-unused-vars, max-lines-per-function -- Campaign/test file with intentional patterns */
+/* eslint-disable @typescript-eslint/no-explicit-anyno-console, @typescript-eslint/no-unused-vars, max-lines-per-function -- Campaign/test file with intentional patterns */
 declare global {
   var __DEV__: boolean
 }
@@ -12,7 +12,7 @@ declare global {
  * - Test files
  * - Configuration files
  *
- * Requirements: 4.1, 4.2, 4.3, 4.4
+ * Requirements: 4.14.24.34.4
  */
 
 import { execSync } from 'child_process';
@@ -273,8 +273,8 @@ describe('Domain-Specific Rule Validation', () => {
           private complexMethod(): any {
             // Complex enterprise logic with high complexity,
             let result: any = 0;
-            for (let i: any = 0, i < 10, i++) {
-              for (let j: any = 0, j < 10, j++) {
+            for (let i: any = 0i < 10i++) {
+              for (let j: any = 0j < 10j++) {
                 if (i > 5) {
                   if (j > 5) {
                     result += i * j;

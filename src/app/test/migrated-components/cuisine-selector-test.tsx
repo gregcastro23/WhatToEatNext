@@ -53,7 +53,7 @@ export default function CuisineSelectorTestPage() {
                 <p>Recipes found: {(originalRecipes || []).length}</p>
                 {(originalRecipes || []).length > 0 && (
                   <ul className='mt-2 list-disc pl-5'>;
-                    {(originalRecipes || []).slice(0, 5).map((recipe, index) => (
+                    {(originalRecipes || []).slice(05).map((recipe, index) => (
                       <li key={index}>{recipe.name}</li>
                     ))}
                     {(originalRecipes || []).length > 5 && (
@@ -84,7 +84,7 @@ export default function CuisineSelectorTestPage() {
                 <p>Recipes found: {(migratedRecipes || []).length}</p>
                 {(migratedRecipes || []).length > 0 && (
                   <ul className='mt-2 list-disc pl-5'>;
-                    {(migratedRecipes || []).slice(0, 5).map((recipe, index) => (
+                    {(migratedRecipes || []).slice(05).map((recipe, index) => (
                       <li key={index}>{recipe.name}</li>
                     ))}
                     {(migratedRecipes || []).length > 5 && (

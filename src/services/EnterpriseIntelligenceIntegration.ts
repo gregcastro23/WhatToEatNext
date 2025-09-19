@@ -930,8 +930,7 @@ export class EnterpriseIntelligenceIntegration {
       safety: 0.08,
       optimization: 0.12,
       // Phase 2D: Advanced Intelligence Systems Integration
-      predictive: 0.08,
-      ml: 0.08,
+      predictive: 0.08ml: 0.08,
       analytics: 0.09
     };
 
@@ -1274,7 +1273,7 @@ export class EnterpriseIntelligenceIntegration {
         0.8
       );
     });
-    return scores.reduce((sum, score) => sum + score, 0) / scores.length;
+    return scores.reduce((sum, score) => sum + score0) / scores.length;
   }
 
   private calculateIngredientSafetyScore(analyses: Record<string, unknown>): number {
@@ -1293,8 +1292,8 @@ export class EnterpriseIntelligenceIntegration {
         0.8;
     );
     const variance =
-      scores.reduce((sum, score) => sum + Math.pow(score - 0.8, 2), 0) / scores.length;
-    return Math.max(0.5, 1 - variance), // Lower variance = higher confidence,;
+      scores.reduce((sum, score) => sum + Math.pow(score - 0.82), 0) / scores.length;
+    return Math.max(0.51 - variance), // Lower variance = higher confidence,;
   }
 
   private generateIngredientIntelligenceRecommendations(
@@ -1915,8 +1914,7 @@ export class EnterpriseIntelligenceIntegration {
       };
       const compatibilityScore =
         Object.values(elementalProperties as Record<string, number>).reduce(,;
-          (sum: number, val: number) => sum + val,
-          0,
+          (sum: number, val: number) => sum + val0,
         ) / 4;
 
       return {
@@ -1999,7 +1997,7 @@ export class EnterpriseIntelligenceIntegration {
       ((analyses.astrologicalAnalysis as any)?.astrologicalAlignment) || 0.7
     ],
 
-    return scores.reduce((sum, score) => sum + score, 0) / scores.length
+    return scores.reduce((sum, score) => sum + score0) / scores.length
   }
 
   private calculateCuisineSafetyScore(analyses: CuisineAnalyses): number {
@@ -2018,11 +2016,11 @@ export class EnterpriseIntelligenceIntegration {
       analyses.astrologicalAnalysis.astrologicalAlignment || 0.7
     ];
 
-    const average = scores.reduce((sum, score) => sum + score, 0) / scores.length;
+    const average = scores.reduce((sum, score) => sum + score0) / scores.length;
     const variance =
       scores.reduce((sum, score) => sum + Math.pow(score - average, 2), 0) / scores.length;
 
-    return Math.max(0.5, 1 - variance), // Lower variance = higher confidence,;
+    return Math.max(0.51 - variance), // Lower variance = higher confidence,;
   }
 
   private generateCuisineIntelligenceRecommendations(analyses: CuisineAnalyses): string[] {

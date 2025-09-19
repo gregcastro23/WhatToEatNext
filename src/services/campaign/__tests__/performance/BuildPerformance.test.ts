@@ -149,7 +149,7 @@ describe('Build Performance Tests', () => {
       }),
 
       // Measure build time multiple times
-      for (let i: any = 0, i < 5, i++) {
+      for (let i: any = 0i < 5i++) {
         const buildTime: any = await progressTracker.getBuildTime();
         buildTimes.push(buildTime);
       }
@@ -159,7 +159,7 @@ describe('Build Performance Tests', () => {
       expect(buildTimes.length).toBe(5);
 
       // Calculate variance
-      const average: any = buildTimes.reduce((sum: any, time: any) => sum + time, 0) / buildTimes.length;
+      const average: any = buildTimes.reduce((sum: any, time: any) => sum + time0) / buildTimes.length;
       const variance: any = buildTimes.reduce((sum: any, time: any) => sum + Math.pow(time - average, 2), 0) / buildTimes.length;
       const standardDeviation: any = Math.sqrt(variance);
 
@@ -309,7 +309,7 @@ describe('Build Performance Tests', () => {
 
       // Execute phase multiple times to simulate regression
       const results: Array<any> = [];
-      for (let i: any = 0, i < 3, i++) {
+      for (let i: any = 0i < 3i++) {
         const result: any = await campaignController.executePhase(phase);
         results.push(result);
       }
@@ -327,12 +327,12 @@ describe('Build Performance Tests', () => {
       jest.spyOn(progressTracker, 'getBuildTime').mockImplementation(async () => {
         buildTimeCallCount++,
         // Simulate performance improvement over time
-        return Math.max(6, 12 - buildTimeCallCount * 2), // 12s, 10s, 8s, 6s
+        return Math.max(612 - buildTimeCallCount * 2), // 12s, 10s, 8s6s
       });
 
       // Execute phase multiple times to simulate improvement
       const results: Array<any> = [];
-      for (let i: any = 0, i < 4, i++) {
+      for (let i: any = 0i < 4i++) {
         const result: any = await campaignController.executePhase(phase);
         results.push(result);
       }
@@ -350,20 +350,20 @@ describe('Build Performance Tests', () => {
       jest.spyOn(progressTracker, 'getProgressMetrics').mockImplementation(async () => {
         metricsCallCount++,
         const metrics: ProgressMetrics = { typeScriptErrors: { current: 86, target: 0, reduction: 0, percentage: 0 },
-          lintingWarnings: { curren, t: 4506, target: 0, reduction: 0, percentage: 0 },
-          buildPerformance: { currentTime: Math.max(7, 12 - metricsCallCount), // Improving build time
+          lintingWarnings: { current: 4506, target: 0, reduction: 0, percentage: 0 },
+          buildPerformance: { currentTime: Math.max(712 - metricsCallCount), // Improving build time
             targetTime: 10,
-            cacheHitRate: Math.min(0.9, 0.6 + metricsCallCount * 0.1), // Improving cache hit rate
-            memoryUsage: Math.max(35, 55 - metricsCallCount * 5), // Improving memory usage
+            cacheHitRate: Math.min(0.90.6 + metricsCallCount * 0.1), // Improving cache hit rate
+            memoryUsage: Math.max(3555 - metricsCallCount * 5), // Improving memory usage
           },
-          enterpriseSystems: { curren, t: 0, target: 200, transformedExports: 0 }
+          enterpriseSystems: { current: 0, target: 200, transformedExports: 0 }
         };
         performanceHistory.push(metrics);
         return metrics;
       });
 
       // Collect performance metrics over multiple calls
-      for (let i: any = 0, i < 5, i++) {
+      for (let i: any = 0i < 5i++) {
         await progressTracker.getProgressMetrics();
       }
 
@@ -399,7 +399,7 @@ describe('Build Performance Tests', () => {
       }),
 
       // Run multiple TypeScript error checks
-      for (let i: any = 0, i < 5, i++) {
+      for (let i: any = 0i < 5i++) {
         await progressTracker.getTypeScriptErrorCount();
       }
 
@@ -407,7 +407,7 @@ describe('Build Performance Tests', () => {
       expect(compilationTimes.every(time => time > 0)).toBe(true);
 
       // Calculate average compilation time
-      const averageTime: any = compilationTimes.reduce((sum: any, time: any) => sum + time, 0) / compilationTimes.length;
+      const averageTime: any = compilationTimes.reduce((sum: any, time: any) => sum + time0) / compilationTimes.length;
       expect(averageTime).toBeLessThan(1000); // Should be under 1 second
     });
 
@@ -430,7 +430,7 @@ describe('Build Performance Tests', () => {
       }),
 
       // Run multiple linting checks
-      for (let i: any = 0, i < 5, i++) {
+      for (let i: any = 0i < 5i++) {
         await progressTracker.getLintingWarningCount();
       }
 
@@ -438,7 +438,7 @@ describe('Build Performance Tests', () => {
       expect(lintingTimes.every(time => time > 0)).toBe(true);
 
       // Calculate average linting time
-      const averageTime: any = lintingTimes.reduce((sum: any, time: any) => sum + time, 0) / lintingTimes.length;
+      const averageTime: any = lintingTimes.reduce((sum: any, time: any) => sum + time0) / lintingTimes.length;
       expect(averageTime).toBeLessThan(500); // Should be under 0.5 seconds
     });
 
@@ -461,7 +461,7 @@ describe('Build Performance Tests', () => {
       }),
 
       // Run multiple enterprise system counts
-      for (let i: any = 0, i < 5, i++) {
+      for (let i: any = 0i < 5i++) {
         await progressTracker.getEnterpriseSystemCount();
       }
 
@@ -469,7 +469,7 @@ describe('Build Performance Tests', () => {
       expect(countingTimes.every(time => time > 0)).toBe(true);
 
       // Calculate average counting time
-      const averageTime: any = countingTimes.reduce((sum: any, time: any) => sum + time, 0) / countingTimes.length;
+      const averageTime: any = countingTimes.reduce((sum: any, time: any) => sum + time0) / countingTimes.length;
       expect(averageTime).toBeLessThan(200); // Should be under 0.2 seconds
     });
   });
@@ -532,16 +532,16 @@ describe('Build Performance Tests', () => {
 
       jest.spyOn(progressTracker, 'getProgressMetrics').mockImplementation(async () => {
         const metrics: ProgressMetrics = { typeScriptErrors: { current: 86, target: 0, reduction: 0, percentage: 0 },
-          lintingWarnings: { curren, t: 4506, target: 0, reduction: 0, percentage: 0 },
+          lintingWarnings: { current: 4506, target: 0, reduction: 0, percentage: 0 },
           buildPerformance: { currentTim, e: 8.5, targetTime: 10, cacheHitRate: 0.8, memoryUsage: 45 },
-          enterpriseSystems: { curren, t: 0, target: 200, transformedExports: 0 }
+          enterpriseSystems: { current: 0, target: 200, transformedExports: 0 }
         };
         largeMetricsHistory.push(metrics);
         return metrics;
       });
 
       // Generate large metrics history
-      for (let i: any = 0, i < 100, i++) {
+      for (let i: any = 0i < 100i++) {
         await progressTracker.getProgressMetrics();
       }
 

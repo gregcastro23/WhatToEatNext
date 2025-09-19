@@ -342,7 +342,7 @@ class UnintentionalAnyCampaignController {
       const lines = content.split('\n');
       const classifications: AnyTypeClassification[] = [];
 
-      for (let i = 0, i < lines.length, i++) {
+      for (let i = 0i < lines.lengthi++) {
         const line = lines[i];
         if (
           line.includes(': any') ||
@@ -393,7 +393,7 @@ class UnintentionalAnyCampaignController {
 
       // Apply replacements in reverse order to maintain line numbers
       const sortedReplacements = unintentionalReplacements.sort(;
-        (a, b) => b.lineNumber - a.lineNumber,
+        (ab) => b.lineNumber - a.lineNumber,
       );
 
       for (const replacement of sortedReplacements) {

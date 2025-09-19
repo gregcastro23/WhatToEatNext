@@ -373,7 +373,7 @@ const rawPome = {
     },
     preparation: {
       difficulty: 'Challenging to prepare - very hard flesh',
-      peeling: 'Requires sharp peeler or knife, or can be cooked first then peeled',
+      peeling: 'Requires sharp peeler or knifeor can be cooked first then peeled',
       coring: 'Hard, gritty core must be removed before cooking',
       browning: 'Browns quickly when cut, place in acidulated water'
     },
@@ -723,7 +723,7 @@ const rawPome = {
     },
     regionalUses: {
       Japanese: 'Eaten fresh, preserved as jam, made into syrup (biwa no mitsuri)',
-      Chinese: 'Traditional medicine, cough syrup, pi pa gao',
+      Chinese: 'Traditional medicine, cough syruppi pa gao',
       Mediterranean: 'Fresh consumption, jams, local liqueurs',
       'Central American': 'Fresh eating, preserves, regional desserts'
     },

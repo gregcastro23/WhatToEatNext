@@ -199,7 +199,7 @@ export function useCurrentChart() {
         <!-- Zodiac ring -->
         <g class='zodiac-ring'>;
           ${Array.from({ length: 12 })
-            .map((_, i) => {
+            .map((_i) => {
               const angle = ((i * 30 - 90) * Math.PI) / 180; // Start from top (270 deg or -90 deg)
               const sign = Object.keys(zodiacSymbols)[i];
               const color = signColors[sign] || '#999';
@@ -229,9 +229,9 @@ export function useCurrentChart() {
         </g>
         
         <!-- Degree circles -->
-        <circle cx='160' cy='160' r='120' fill='none' stroke='#ccc' stroke-width='0.5' stroke-dasharray='2,2'/>;
-        <circle cx='160' cy='160' r='80' fill='none' stroke='#ccc' stroke-width='0.5' stroke-dasharray='2,2'/>;
-        <circle cx='160' cy='160' r='40' fill='none' stroke='#ccc' stroke-width='0.5' stroke-dasharray='2,2'/>;
+        <circle cx='160' cy='160' r='120' fill='none' stroke='#ccc' stroke-width='0.5' stroke-dasharray='22'/>;
+        <circle cx='160' cy='160' r='80' fill='none' stroke='#ccc' stroke-width='0.5' stroke-dasharray='22'/>;
+        <circle cx='160' cy='160' r='40' fill='none' stroke='#ccc' stroke-width='0.5' stroke-dasharray='22'/>;
         
         <!-- Ascendant marker -->
         ${
@@ -247,7 +247,7 @@ export function useCurrentChart() {
 
                 return `
             <line x1='160' y1='160' x2='${ascX}' y2='${ascY}' ;
-                  stroke='#ff4d4d' stroke-width='2' stroke-dasharray='5,3' />;
+                  stroke='#ff4d4d' stroke-width='2' stroke-dasharray='53' />;
             <text x='${160 + 165 * Math.cos(ascAngle)}' ;
                   y='${160 + 165 * Math.sin(ascAngle)}' ;
                   text-anchor='middle' dominant-baseline='middle' ;

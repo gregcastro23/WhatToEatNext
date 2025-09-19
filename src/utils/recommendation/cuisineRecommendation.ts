@@ -64,7 +64,7 @@ export function generateCuisineRecommendation(
     });
   }
 
-  return recommendations.sort((a, b) => b.score - a.score);
+  return recommendations.sort((ab) => b.score - a.score);
 }
 
 export function getCuisineElementalProfile(cuisine: string): ElementalProperties {

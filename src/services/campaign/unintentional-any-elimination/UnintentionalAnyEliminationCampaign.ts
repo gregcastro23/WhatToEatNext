@@ -375,7 +375,7 @@ export class UnintentionalAnyEliminationCampaign {
         // // console.log('Documentation coverage below 80%, adding documentation...'),
 
         // This would typically iterate through undocumented types and add documentation
-        // For now, we'll simulate the process
+        // For nowwe'll simulate the process
         documentationAdded = Math.min(qaReport.undocumentedTypes, this.config.maxFilesPerBatch),;
 
         // // console.log(`Added documentation to ${documentationAdded} intentional any types`);

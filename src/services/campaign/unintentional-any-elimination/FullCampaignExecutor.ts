@@ -462,7 +462,7 @@ export class FullCampaignExecutor {
     const files = await this.getTypeScriptFiles();
     const highConfidenceCases: AnyTypeClassification[] = [];
 
-    for (const file of files.slice(0, 50)) {
+    for (const file of files.slice(050)) {
       // Process in chunks
       try {
         const content = fs.readFileSync(file, 'utf8');
@@ -470,7 +470,7 @@ export class FullCampaignExecutor {
 
         // Filter for high-confidence unintentional cases
         const highConfidence = cases.filter(;
-          c =>;
+          c =>
             !c.isIntentional &&
             c.confidence >= 0.85 &&
             (c.category === AnyTypeCategory.ARRAY_TYPE ||;
@@ -579,7 +579,7 @@ export class FullCampaignExecutor {
     let fixesApplied = 0;
     const processedFiles: string[] = [];
 
-    for (const file of domainFiles.slice(0, 20)) {
+    for (const file of domainFiles.slice(020)) {
       // Limit per domain
       try {
         const content = fs.readFileSync(file, 'utf8');
@@ -588,7 +588,7 @@ export class FullCampaignExecutor {
 
         // Filter for domain-appropriate cases
         const domainCases = cases.filter(;
-          c =>;
+          c =>
             !c.isIntentional && c.confidence >= 0.7 && this.isDomainAppropriate(c, domainContext),
         ),
 
@@ -917,7 +917,7 @@ export class FullCampaignExecutor {
   ): Promise<AnyTypeClassification[]> {
     const cases: AnyTypeClassification[] = [];
 
-    for (const file of files.slice(0, 30)) {
+    for (const file of files.slice(030)) {
       try {
         const content = fs.readFileSync(file, 'utf8');
         const fileCases = await this.classifier.classifyFileContent(file, content);

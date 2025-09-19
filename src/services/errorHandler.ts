@@ -235,8 +235,8 @@ export function safePropertyAccess<T>(
   context: string,
 ): T {
   if (obj === null || obj === undefined) {
-    warnNullValue(properties.join('.'), context),
-    return defaultValue
+    warnNullValue(properties.join('.'), context);
+    return defaultValue;
   }
 
   try {
@@ -253,8 +253,8 @@ export function safePropertyAccess<T>(
     }
     return current as T;
   } catch (error) {
-    handlePropertyAccessError(error, properties.join('.'), context),
-    return defaultValue
+    handlePropertyAccessError(error, properties.join('.'), context);
+    return defaultValue;
   }
 }
 

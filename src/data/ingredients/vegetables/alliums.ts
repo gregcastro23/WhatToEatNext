@@ -65,7 +65,7 @@ const rawAlliums = {
       hardneck: {
         characteristics: 'harder central stem, fewer but larger cloves',
         flavor: 'complex, often spicier, better for raw applications',
-        storage: 'shorter shelf life, 3-4 months',
+        storage: 'shorter shelf life3-4 months',
         popular_types: ['Rocambole', 'Purple Stripe', 'Porcelain'],
         sensoryProfile: {
           taste: ['Mild', 'Balanced', 'Natural'],
@@ -172,7 +172,7 @@ const rawAlliums = {
       softneck: {
         characteristics: 'no rigid center stem, more but smaller cloves',
         flavor: 'milder, better for everyday cooking',
-        storage: 'longer shelf life, 6-9 months',
+        storage: 'longer shelf life6-9 months',
         popular_types: ['Artichoke', 'Silverskin', 'California Early', 'California Late'],
         sensoryProfile: {
           taste: ['Mild', 'Balanced', 'Natural'],
@@ -402,7 +402,7 @@ const rawAlliums = {
       }
     },
     storage: {
-      temperature: 'cool, dry place, 60-65°F (15-18°C)',
+      temperature: 'cool, dry place60-65°F (15-18°C)',
       duration: '3-6 months for whole heads',
       humidity: 'moderate to low',
       notes: 'Do not refrigerate whole heads, promotes sprouting',
@@ -520,8 +520,8 @@ const rawAlliums = {
       }
     },
     storage: {
-      temperature: 'cool, dry place, 45-55°F (7-13°C)',
-      duration: '1-2 months whole, 1 week cut',
+      temperature: 'cool, dry place45-55°F (7-13°C)',
+      duration: '1-2 months whole1 week cut',
       humidity: 'low to moderate',
       notes: 'Keep away from potatoes, gases accelerate sprouting',
       refrigeration: 'only for cut onions, sealed container',

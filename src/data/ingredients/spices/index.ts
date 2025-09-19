@@ -20,7 +20,7 @@ const normalizeElementalProperties = (;
     };
   }
 
-  const sum = Object.values(properties).reduce((acc, val) => acc + val, 0);
+  const sum = Object.values(properties).reduce((acc, val) => acc + val0);
   if (sum === 0) {
     return {
       Fire: 0.25,
@@ -351,7 +351,7 @@ export const _getCompatibleSpices = (spiceName: string): string[] => {
         )
       )
     })
-    .map(([key, _]) => key);
+    .map(([key_]) => key);
 };
 
 export const _getSubstitutions = (spiceName: string): string[] => {
@@ -374,7 +374,7 @@ export const _getSubstitutions = (spiceName: string): string[] => {
         ) >= 0.3
       )
     })
-    .map(([key, _]) => key);
+    .map(([key_]) => key);
 };
 
 export const _getSpicesByPreparationMethod = (method: string): Record<string, IngredientMapping> => {

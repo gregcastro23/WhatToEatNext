@@ -73,7 +73,7 @@ describe('SafeBatchProcessor', () => {
 
   describe('Batch Creation', () => {
     test('should create batches respecting maximum batch size', async () => {
-      const largeFileSet: FileProcessingInfo[] = Array.from({ lengt, h: 50 }, (_, i) => ({
+      const largeFileSet: FileProcessingInfo[] = Array.from({ length: 50 }, (_i) => ({
         filePath: `/project/src/file${i}.ts`,
         relativePath: `src/file${i}.ts`,
         isHighImpact: false,
@@ -93,7 +93,7 @@ describe('SafeBatchProcessor', () => {
     });
 
     test('should use smaller batch sizes for critical files', async () => {
-      const criticalFiles: FileProcessingInfo[] = Array.from({ lengt, h: 20 }, (_, i) => ({
+      const criticalFiles: FileProcessingInfo[] = Array.from({ length: 20 }, (_i) => ({
         filePath: `/project/src/critical${i}.ts`,
         relativePath: `src/critical${i}.ts`,
         isHighImpact: true,

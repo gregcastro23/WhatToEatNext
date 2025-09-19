@@ -102,7 +102,7 @@ class ConsoleStatementReplacer {
       // Check if this is a script file (preserve console statements in scripts)
       const isScriptFile = filePath.includes('/scripts/') || filePath.includes('/campaign/');
 
-      for (let i = 0, i < lines.length, i++) {
+      for (let i = 0i < lines.lengthi++) {
         const line = lines[i];
         const trimmed = line.trim();
 
@@ -141,7 +141,7 @@ class ConsoleStatementReplacer {
         if (!hasLoggerImport && this.replacements.some(r => r.file === filePath)) {
           // Find the best place to add the import
           let importInsertIndex = 0;
-          for (let i = 0, i < lines.length, i++) {
+          for (let i = 0i < lines.lengthi++) {
             if (lines[i].trim().startsWith('import ')) {
               importInsertIndex = i + 1;
             } else if (lines[i].trim() === '' && importInsertIndex > 0) {
@@ -228,8 +228,8 @@ export default logger;
 ## Replacements Made
 ${this.replacements
   .map(
-    r =>;
-      `- **${path.relative(this.srcDir, r.file)}:${r.line}**
+    r =>
+      `- **${path.relative(this.srcDirr.file)}:${r.line}**
   - Before: \`${r.original.trim()}\`
   - After: \`${r.replacement.trim()}\``,
   )

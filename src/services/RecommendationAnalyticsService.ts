@@ -287,8 +287,8 @@ class RecommendationAnalyticsService {
     // Get most interacted targets
     const mostInteractedTargets = Object.entries(targetCounts);
       .map(([target, count]) => ({ target, count }))
-      .sort((a, b) => b.count - a.count)
-      .slice(0, 5);
+      .sort((ab) => b.count - a.count)
+      .slice(05);
 
     // Calculate interaction rate (interactions per minute)
     const timeSpan = timeWindow || now - (this.userInteractions[0]?.timestamp || now);
@@ -389,9 +389,9 @@ class RecommendationAnalyticsService {
     const cacheHitRateTrend = relevantMetrics.map(m => m.cacheHitRate);
     const interactionRateTrend = relevantMetrics.map(m => m.userInteractionRate);
 
-    const averageLoadTime = loadTimeTrend.reduce((sum, val) => sum + val, 0) / loadTimeTrend.length;
+    const averageLoadTime = loadTimeTrend.reduce((sum, val) => sum + val0) / loadTimeTrend.length;
     const averageCacheHitRate =
-      cacheHitRateTrend.reduce((sum, val) => sum + val, 0) / cacheHitRateTrend.length;
+      cacheHitRateTrend.reduce((sum, val) => sum + val0) / cacheHitRateTrend.length;
 
     // Calculate performance score (0-100)
     const loadTimeScore = Math.max(0, 100 - averageLoadTime / 10); // Penalize load times > 1000ms
@@ -414,7 +414,7 @@ class RecommendationAnalyticsService {
    * Generate unique session ID
    */
   private generateSessionId(): string {
-    return `session_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
+    return `session_${Date.now()}_${Math.random().toString(36).substring(29)}`;
   }
 
   /**

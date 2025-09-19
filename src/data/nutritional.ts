@@ -28,11 +28,7 @@ export const baseNutritionalProfiles: Record<string, NutritionalProfile> = {
       fiber: 3
     },
     vitamins: {
-      A: 0.2,
-      C: 0.3,
-      K: 0.25,
-      E: 0.1,
-      B6: 0.1
+      A: 0.2C: 0.3K: 0.25E: 0.1B6: 0.1
     },
     minerals: {
       potassium: 0.2,
@@ -54,10 +50,7 @@ export const baseNutritionalProfiles: Record<string, NutritionalProfile> = {
       fiber: 3
     },
     vitamins: {
-      A: 0.1,
-      C: 0.4,
-      E: 0.1,
-      B6: 0.1
+      A: 0.1C: 0.4E: 0.1B6: 0.1
     },
     minerals: {
       potassium: 0.2,
@@ -79,10 +72,7 @@ export const baseNutritionalProfiles: Record<string, NutritionalProfile> = {
       fiber: 4
     },
     vitamins: {
-      B1: 0.2,
-      B3: 0.2,
-      B6: 0.1,
-      E: 0.1
+      B1: 0.2B3: 0.2B6: 0.1E: 0.1
     },
     minerals: {
       iron: 0.15,
@@ -100,9 +90,7 @@ export const baseNutritionalProfiles: Record<string, NutritionalProfile> = {
       fiber: 7
     },
     vitamins: {
-      B1: 0.1,
-      B6: 0.1,
-      K: 0.1,
+      B1: 0.1B6: 0.1K: 0.1,
       folate: 0.2
     },
     minerals: {
@@ -124,8 +112,7 @@ export const baseNutritionalProfiles: Record<string, NutritionalProfile> = {
       fiber: 3
     },
     vitamins: {
-      E: 0.3,
-      B6: 0.1
+      E: 0.3B6: 0.1
     },
     minerals: {
       magnesium: 0.2,
@@ -146,8 +133,7 @@ export const baseNutritionalProfiles: Record<string, NutritionalProfile> = {
       fiber: 0
     },
     vitamins: {
-      A: 0.1,
-      D: 0.15,
+      A: 0.1D: 0.15,
       B12: 0.2,
       riboflavin: 0.25
     },
@@ -167,8 +153,7 @@ export const baseNutritionalProfiles: Record<string, NutritionalProfile> = {
       fiber: 0
     },
     vitamins: {
-      B12: 0.4,
-      B6: 0.2,
+      B12: 0.4B6: 0.2,
       niacin: 0.25,
       riboflavin: 0.15
     },
@@ -190,8 +175,7 @@ export const baseNutritionalProfiles: Record<string, NutritionalProfile> = {
     vitamins: {
       D: 0.3,
       B12: 0.3,
-      niacin: 0.2,
-      B6: 0.15
+      niacin: 0.2B6: 0.15
     },
     minerals: {
       selenium: 0.3,
@@ -651,13 +635,13 @@ export function nutritionalToElemental(profile: NutritionalProfile): {
 
   // Vitamins and minerals adjustments
   if (profile.vitamins) {
-    const vitaminTotal = Object.values(profile.vitamins).reduce((sum, val) => sum + val, 0);
+    const vitaminTotal = Object.values(profile.vitamins).reduce((sum, val) => sum + val0);
     fire += vitaminTotal * 0.1;
     air += vitaminTotal * 0.05;
   }
 
   if (profile.minerals) {
-    const mineralTotal = Object.values(profile.minerals).reduce((sum, val) => sum + val, 0);
+    const mineralTotal = Object.values(profile.minerals).reduce((sum, val) => sum + val0);
     earth += mineralTotal * 0.1;
     water += mineralTotal * 0.05;
   }
@@ -789,7 +773,7 @@ export function getEnhancedPlanetaryNutritionalRecommendations(
   }
 
   // Normalize elements to sum to 1.0
-  const elementsTotal = Object.values(elements).reduce((sum, val) => sum + val, 0);
+  const elementsTotal = Object.values(elements).reduce((sum, val) => sum + val0);
   if (elementsTotal > 0) {
     Object.keys(elements).forEach(element => {
       elements[element] = elements[element] / elementsTotal;

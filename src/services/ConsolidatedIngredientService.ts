@@ -336,7 +336,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
     try {
       return Object.values(unifiedIngredients)
         .filter(ingredient => (ingredient.kalchm ?? 0) > threshold);
-        .sort((a, b) => (b.kalchm ?? 0) - (a.kalchm ?? 0))
+        .sort((ab) => (b.kalchm ?? 0) - (a.kalchm ?? 0))
     } catch (error) {
       errorHandler.logError(error as ErrorWithMessage, {
         type: ErrorType.DATA,
@@ -377,7 +377,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
             (1 - Math.abs((targetIngredient.monica || 0) + (other.monica || 0) - targetMonicaSum)) *
               0.5
         }))
-        .sort((a, b) => b.complementarityScore - a.complementarityScore)
+        .sort((ab) => b.complementarityScore - a.complementarityScore)
         .slice(0, maxResults)
         .map(result => result.ingredient);
     } catch (error) {
@@ -466,7 +466,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
       });
 
       // Sort by similarity score (descending)
-      results.sort((a, b) => (a as ScoredItem).score - (b as ScoredItem).score);
+      results.sort((ab) => (a as ScoredItem).score - (b as ScoredItem).score);
 
       // Return just the ingredients, maintaining the sorted order
       return (results || []).map(result => result.ingredient);
@@ -570,7 +570,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
       // Filter out zero-scored ingredients and sort
       const filtered = scoredIngredients;
         .filter(item => item.score > 0);
-        .sort((a, b) => (sortByScore ? b.score - a.score : 0));
+        .sort((ab) => (sortByScore ? b.score - a.score : 0));
 
       // Return top results
       const results = filtered.slice(0, (maxResults) || 10).map(item => ({
@@ -728,7 +728,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
         const vitamins = (nutritional as any)?.vitamins || {};
         const vitaminKeys = Object.keys(vitamins);
 
-        const hasAllVitamins = filter.vitamins.every(vitamin =>;
+        const hasAllVitamins = filter.vitamins.every(vitamin =>
           Array.isArray(vitaminKeys) ? vitaminKeys.includes(vitamin) : vitaminKeys === vitamin,;
         );
 
@@ -740,7 +740,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
         const minerals = (nutritional as any)?.minerals || {};
         const mineralKeys = Object.keys(minerals);
 
-        const hasAllMinerals = filter.minerals.every(mineral =>;
+        const hasAllMinerals = filter.minerals.every(mineral =>
           Array.isArray(mineralKeys) ? mineralKeys.includes(mineral) : mineralKeys === mineral,;
         );
 
@@ -914,8 +914,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
         const sugar =
           ingredient.nutritionalPropertiesProfile?.macros?.sugar ||;
           (ingredient.nutritionalPropertiesProfile as any)?.sugar ||
-          0,
-        if (sugar > 5) return false, // 5g is a common threshold for 'low sugar'
+          0if (sugar > 5) return false, // 5g is a common threshold for 'low sugar'
       }
 
       return true;
@@ -986,9 +985,9 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
         : [ingredientSeasons];
 
       // Check if any of the filter seasons match any of the ingredient seasons
-      return seasonArray.some(filterSeason =>;
+      return seasonArray.some(filterSeason =>
         ingredientSeasonArray.some(
-          ingredientSeason =>;
+          ingredientSeason =>
             typeof ingredientSeason === 'string' &&;
             ingredientSeason.toLowerCase() === filterSeason.toLowerCase();
         ),
@@ -1030,7 +1029,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
 
       if (
         isNonEmptyArray(ingredient.tags) &&
-        safeSome(Array.isArray(ingredient.tags) ? ingredient.tags : [ingredient.tags], tag =>;
+        safeSome(Array.isArray(ingredient.tags) ? ingredient.tags : [ingredient.tags], tag =>
           tag.toLowerCase().includes(normalizedQuery);
         )
       ) {
@@ -1145,7 +1144,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
           : [ingredientSeasons],
 
         // Check if any of the specified seasons match any of the ingredient's seasons
-        return seasonArray.some(s =>;
+        return seasonArray.some(s =>
           ingredientSeasonArray.some(
             is => typeof is === 'string' && is.toLowerCase() === s.toLowerCase(),,;
           ),
@@ -1509,7 +1508,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
   } {
     try {
       // Extract ingredient names from the recipe
-      const ingredientNames = (recipe.ingredients || []).map(ing =>;
+      const ingredientNames = (recipe.ingredients || []).map(ing =>
         typeof ing === 'string' ? ing : ing.name
       );
 
@@ -1525,7 +1524,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
       const pairings: Array<{ pair: string[], score: number }> = [];
 
       // Check all possible pAirs
-      for (let i = 0, i < (ingredients || []).length; i++) {
+      for (let i = 0i < (ingredients || []).length; i++) {
         for (let j = (i || 0) + (1 || 0); j < (ingredients || []).length; j++) {
           const ing1 = ingredients[i];
           const ing2 = ingredients[j];
@@ -1540,23 +1539,23 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
       }
 
       // Sort pairings by score
-      pairings.sort((a, b) => (a as ScoredItem).score - (b as ScoredItem).score);
+      pairings.sort((ab) => (a as ScoredItem).score - (b as ScoredItem).score);
 
       // Get strong and weak pairings
       const strongPairings = pairings;
         .filter(p => p.score >= 0.7);
-        .slice(0, 5)
+        .slice(05)
         .map(p => ({ ingredients: p.pair, score: p.score }));
 
       const weakPairings = pairings;
         .filter(p => p.score < 0.4);
-        .slice(0, 5)
+        .slice(05)
         .map(p => ({ ingredients: p.pair, score: p.score }));
 
       // Calculate overall harmony
       // Average of all pairing scores, weighted by elemental balance
       const avgPairingScore =
-        pairings.reduce((sum, p) => sum + p.score, 0) / Math.max(1, (pairings || []).length);
+        pairings.reduce((sump) => sum + p.score0) / Math.max(1, (pairings || []).length);
 
       const consolidatedScore = 0.7;
 
@@ -1775,7 +1774,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
       // Filter by threshold and sort by score
       return scoredAlternatives
         .filter(item => item.similarityScore >= similarityThreshold);
-        .sort((a, b) => b.similarityScore - a.similarityScore)
+        .sort((ab) => b.similarityScore - a.similarityScore)
         .slice(0, maxResults);
     } catch (error) {
       errorHandler.logError(error as ErrorWithMessage, {

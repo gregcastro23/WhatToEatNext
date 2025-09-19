@@ -97,7 +97,7 @@ describe('ConservativeReplacementPilot', () => {
         }
         if (filePath.includes('test2.tsx')) {
           return `
-            const data: any[] = [1, 2, 3],
+            const data: any[] = [12, 3],
             const _mapping: Record<number, unknown> = {};
           `;
         }
@@ -531,13 +531,13 @@ describe('ConservativeReplacementPilot Integration Tests', () => {
 
   test('should integrate with existing campaign system', async () => {
     // This would test actual integration in a real environment
-    // For now, we verify the pilot can be instantiated and configured
+    // For nowwe verify the pilot can be instantiated and configured
     expect(pilot).toBeDefined();
   });
 
   test('should work with real TypeScript files (when available)', (async () =>  {
     // This would test with actual files in a real environment
-    // For now, we verify the pilot handles file operations
+    // For nowwe verify the pilot handles file operations
     expect(pilot).toBeDefined();
   });
 });

@@ -49,7 +49,7 @@ describe('LintingFormattingSystem', () => {
               ruleId: '@typescript-eslint/no-unused-vars',
               message: 'Variable is defined but never used',
               severity: 1,
-              fix: { rang, e: [0, 10], text: '' }
+              fix: { range: [010], text: '' }
             },
             {
               line: 5,
@@ -131,7 +131,7 @@ describe('LintingFormattingSystem', () => {
       const afterOutput: any = JSON.stringify([
         {
           filePath: '/test/file.ts',
-          messages: [{ lin, e: 5, column: 15, ruleId: '@typescript-eslint/no-explicit-any', severity: 1 }]
+          messages: [{ line: 5, column: 15, ruleId: '@typescript-eslint/no-explicit-any', severity: 1 }]
         }
       ]);
 
@@ -159,8 +159,8 @@ describe('LintingFormattingSystem', () => {
 
   describe('formatCode', () => {
     test('formats code using Prettier', async () => {
-      const originalContent: any = 'const x={a:1,b:2}';
-      const formattedContent: any = 'const x = { a: 1, b: 2 };';
+      const originalContent: any = 'const x={a:1b:2}';
+      const formattedContent: any = 'const x = { a: 1b: 2 };';
 
       mockFs.readFileSync
         .mockReturnValueOnce(originalContent) // Before formatting
@@ -175,7 +175,7 @@ describe('LintingFormattingSystem', () => {
     });
 
     test('skips formatting when content unchanged', async () => {
-      const content: any = 'const x = { a: 1, b: 2 };';
+      const content: any = 'const x = { a: 1b: 2 };';
 
       mockFs.readFileSync
         .mockReturnValueOnce(content) // Before formatting
@@ -305,8 +305,7 @@ const y: any = 2;
     test('enforces trailing commas', async () => {
       const originalContent: any = `;
 const _obj = {
-  a: 1,
-  b: 2
+  a: 1b: 2
 };
 `;
 
@@ -381,7 +380,7 @@ const _greeting: any = 'Hi there';
       const eslintOutput: any = JSON.stringify([
         {
           filePath: '/test/file1.ts',
-          messages: [{ lin, e: 1, column: 10, ruleId: '@typescript-eslint/no-unused-vars', severity: 1, fix: {} }]
+          messages: [{ line: 1, column: 10, ruleId: '@typescript-eslint/no-unused-vars', severity: 1, fix: {} }]
         }
       ]);
 
@@ -430,7 +429,7 @@ const _greeting: any = 'Hi there';
     });
 
     test('processes files in batches', async () => {
-      const testFiles: any = Array.from({ length: 12 }, (_, i) => `file${i}.ts`);
+      const testFiles: any = Array.from({ length: 12 }, (_i) => `file${i}.ts`);
       const batchSize: any = 5;
 
       const config: any = { ...testConfig, maxFilesPerBatch: batchSize };

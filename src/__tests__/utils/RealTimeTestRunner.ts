@@ -137,7 +137,7 @@ export class RealTimeTestRunner {
 
     if (result.metrics.memoryReadings.length > 0) {
       result.metrics.averageMemory =
-        result.metrics.memoryReadings.reduce((a, b) => a + b, 0) /,
+        result.metrics.memoryReadings.reduce((ab) => a + b0) /,
         result.metrics.memoryReadings.length;
     }
 

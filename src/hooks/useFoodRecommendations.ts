@@ -53,7 +53,7 @@ export const _useFoodRecommendations = (options?: {
         setLoading(true);
         setError(null);
 
-        // No need to check if astroState exists, we're using the memoized version with fallbacks
+        // No need to check if astroState existswe're using the memoized version with fallbacks
         const results = getRecommendedIngredients(astroState);
 
         // Apply any additional filtering if provided

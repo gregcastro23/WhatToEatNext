@@ -64,7 +64,7 @@ describe('PilotCampaignAnalysis', () => {
           byCategory: [],
           intentionalVsUnintentional: {
             intentional: { count: 45, percentage: 30 },
-            unintentional: { coun, t: 105, percentage: 70 },
+            unintentional: { count: 105, percentage: 70 },
           },
           analysisDate: new Date(),
         },
@@ -171,8 +171,8 @@ describe('PilotCampaignAnalysis', () => {
           byDomain: [],
           byCategory: [],
           intentionalVsUnintentional: {
-            intentional: { coun, t: 30, percentage: 30 },
-            unintentional: { coun, t: 70, percentage: 70 },
+            intentional: { count: 30, percentage: 30 },
+            unintentional: { count: 70, percentage: 70 },
           },
           analysisDate: new Date(),
         },
@@ -192,8 +192,7 @@ describe('PilotCampaignAnalysis', () => {
           improvementNeeded: 10,
           categorySuccessRates: [],
           trendingData: {
-            dat,
-            e: new Date(),
+            date: new Date(),
             successRate: 75,
             totalAnyTypes: 100,
             unintentionalCount: 70,
@@ -231,8 +230,7 @@ describe('PilotCampaignAnalysis', () => {
         improvementNeeded: 10,
         categorySuccessRates: [],
         trendingData: {
-          dat,
-          e: new Date(),
+          date: new Date(),
           successRate: 75,
           totalAnyTypes: 100,
           unintentionalCount: 70,
@@ -293,8 +291,8 @@ describe('PilotCampaignAnalysis', () => {
           byDomain: [],
           byCategory: [],
           intentionalVsUnintentional: {
-            intentional: { coun, t: 15, percentage: 30 },
-            unintentional: { coun, t: 35, percentage: 70 },
+            intentional: { count: 15, percentage: 30 },
+            unintentional: { count: 35, percentage: 70 },
           },
           analysisDate: new Date(),
         },
@@ -314,8 +312,7 @@ describe('PilotCampaignAnalysis', () => {
           improvementNeeded: 15,
           categorySuccessRates: [],
           trendingData: {
-            dat,
-            e: new Date(),
+            date: new Date(),
             successRate: 70,
             totalAnyTypes: 50,
             unintentionalCount: 35,
@@ -353,8 +350,7 @@ describe('PilotCampaignAnalysis', () => {
         improvementNeeded: 15,
         categorySuccessRates: [],
         trendingData: {
-          dat,
-          e: new Date(),
+          date: new Date(),
           successRate: 70,
           totalAnyTypes: 50,
           unintentionalCount: 35,
@@ -399,8 +395,8 @@ describe('PilotCampaignAnalysis', () => {
           byDomain: [],
           byCategory: [],
           intentionalVsUnintentional: {
-            intentional: { coun, t: 30, percentage: 30 },
-            unintentional: { coun, t: 70, percentage: 70 },
+            intentional: { count: 30, percentage: 30 },
+            unintentional: { count: 70, percentage: 70 },
           },
           analysisDate: new Date(),
         },
@@ -420,8 +416,7 @@ describe('PilotCampaignAnalysis', () => {
           improvementNeeded: 20,
           categorySuccessRates: [],
           trendingData: {
-            dat,
-            e: new Date(),
+            date: new Date(),
             successRate: 65,
             totalAnyTypes: 100,
             unintentionalCount: 70,
@@ -459,8 +454,7 @@ describe('PilotCampaignAnalysis', () => {
         improvementNeeded: 20,
         categorySuccessRates: [],
         trendingData: {
-          dat,
-          e: new Date(),
+          date: new Date(),
           successRate: 65,
           totalAnyTypes: 100,
           unintentionalCount: 70,
@@ -491,8 +485,8 @@ describe('PilotCampaignAnalysis', () => {
           byDomain: [],
           byCategory: [],
           intentionalVsUnintentional: {
-            intentional: { coun, t: 30, percentage: 30 },
-            unintentional: { coun, t: 70, percentage: 70 },
+            intentional: { count: 30, percentage: 30 },
+            unintentional: { count: 70, percentage: 70 },
           },
           analysisDate: new Date(),
         },
@@ -512,8 +506,7 @@ describe('PilotCampaignAnalysis', () => {
           improvementNeeded: 5,
           categorySuccessRates: [],
           trendingData: {
-            dat,
-            e: new Date(),
+            date: new Date(),
             successRate: 80,
             totalAnyTypes: 100,
             unintentionalCount: 70,
@@ -551,8 +544,7 @@ describe('PilotCampaignAnalysis', () => {
         improvementNeeded: 5,
         categorySuccessRates: [],
         trendingData: {
-          dat,
-          e: new Date(),
+          date: new Date(),
           successRate: 80,
           totalAnyTypes: 100,
           unintentionalCount: 70,
@@ -583,8 +575,8 @@ describe('PilotCampaignAnalysis', () => {
           byDomain: [],
           byCategory: [],
           intentionalVsUnintentional: {
-            intentional: { coun, t: 30, percentage: 30 },
-            unintentional: { coun, t: 70, percentage: 70 },
+            intentional: { count: 30, percentage: 30 },
+            unintentional: { count: 70, percentage: 70 },
           },
           analysisDate: new Date(),
         },
@@ -604,8 +596,7 @@ describe('PilotCampaignAnalysis', () => {
           improvementNeeded: 5,
           categorySuccessRates: [],
           trendingData: {
-            dat,
-            e: new Date(),
+            date: new Date(),
             successRate: 80,
             totalAnyTypes: 100,
             unintentionalCount: 70,
@@ -643,8 +634,7 @@ describe('PilotCampaignAnalysis', () => {
         improvementNeeded: 5,
         categorySuccessRates: [],
         trendingData: {
-          dat,
-          e: new Date(),
+          date: new Date(),
           successRate: 80,
           totalAnyTypes: 100,
           unintentionalCount: 70,

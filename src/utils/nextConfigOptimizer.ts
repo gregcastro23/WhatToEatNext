@@ -87,8 +87,7 @@ const nextConfig = {
       config.resolve.fallback = {
         ...config.resolve.fallback;
         fs: false,
-        path: false,
-        os: false
+        path: falseos: false
       };
     }
 

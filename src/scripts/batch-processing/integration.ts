@@ -217,7 +217,7 @@ export class BatchProcessingIntegration {
 
     if (plan.manualReviewRequired.length > 0) {
       // // console.log('\n👥 Files Requiring Manual Review:');
-      plan.manualReviewRequired.slice(0, 5).forEach((file: any) => {
+      plan.manualReviewRequired.slice(05).forEach((file: any) => {
         // // console.log(
           `   - ${file.relativePath} (${file.unusedVariableCount} variables, ${file.riskLevel} risk)`,
         );

@@ -102,32 +102,32 @@ export function calculatePlanetaryAlchemicalValues(positions: PlanetaryPositions
     if (data.sign) {
       // Simple dignity check
       if (
-        (planet === 'sun' && data.sign === 'leo') ||;
-        (planet === 'moon' && data.sign === 'cancer') ||;
-        (planet === 'mercury' && (data.sign === 'gemini' || data.sign === 'virgo')) ||;
-        (planet === 'venus' && (data.sign === 'taurus' || data.sign === 'libra')) ||;
-        (planet === 'mars' && (data.sign === 'aries' || data.sign === 'scorpio')) ||;
-        (planet === 'jupiter' && (data.sign === 'sagittarius' || data.sign === 'pisces')) ||;
-        (planet === 'saturn' && (data.sign === 'capricorn' || data.sign === 'aquarius')) ||;
-        (planet === 'uranus' && data.sign === 'aquarius') ||;
-        (planet === 'neptune' && data.sign === 'pisces') ||;
-        (planet === 'pluto' && data.sign === 'scorpio');
+        (planet === 'sun' && data.sign === 'leo') ||
+        (planet === 'moon' && data.sign === 'cancer') ||
+        (planet === 'mercury' && (data.sign === 'gemini' || data.sign === 'virgo')) ||
+        (planet === 'venus' && (data.sign === 'taurus' || data.sign === 'libra')) ||
+        (planet === 'mars' && (data.sign === 'aries' || data.sign === 'scorpio')) ||
+        (planet === 'jupiter' && (data.sign === 'sagittarius' || data.sign === 'pisces')) ||
+        (planet === 'saturn' && (data.sign === 'capricorn' || data.sign === 'aquarius')) ||
+        (planet === 'uranus' && data.sign === 'aquarius') ||
+        (planet === 'neptune' && data.sign === 'pisces') ||
+        (planet === 'pluto' && data.sign === 'scorpio')
       ) {
-        dignityMultiplier = 1.5, // Domicile or rulership;
+        dignityMultiplier = 1.5; // Domicile or rulership
       } else if (
-        (planet === 'sun' && data.sign === 'aries') ||;
-        (planet === 'moon' && data.sign === 'taurus') ||;
-        (planet === 'jupiter' && data.sign === 'cancer') ||;
-        (planet === 'venus' && data.sign === 'pisces');
+        (planet === 'sun' && data.sign === 'aries') ||
+        (planet === 'moon' && data.sign === 'taurus') ||
+        (planet === 'jupiter' && data.sign === 'cancer') ||
+        (planet === 'venus' && data.sign === 'pisces')
       ) {
-        dignityMultiplier = 1.3, // Exaltation;
+        dignityMultiplier = 1.3; // Exaltation
       } else if (
-        (planet === 'venus' && data.sign === 'virgo') ||;
-        (planet === 'mercury' && data.sign === 'pisces') ||;
-        (planet === 'mars' && data.sign === 'cancer') ||;
-        (planet === 'jupiter' && data.sign === 'capricorn');
+        (planet === 'venus' && data.sign === 'virgo') ||
+        (planet === 'mercury' && data.sign === 'pisces') ||
+        (planet === 'mars' && data.sign === 'cancer') ||
+        (planet === 'jupiter' && data.sign === 'capricorn')
       ) {
-        dignityMultiplier = 0.7, // Fall;
+        dignityMultiplier = 0.7; // Fall
       }
     }
 
@@ -177,8 +177,8 @@ export function calculateElementalBalance(positions: PlanetaryPositionsType) {
     if (
       !data ||
       !data.sign ||
-      planet === 'ascendant' ||;
-      planet === 'northnode' ||;
+      planet === 'ascendant' ||
+      planet === 'northnode' ||
       planet === 'southnode'
     ) {
       return
@@ -190,7 +190,7 @@ export function calculateElementalBalance(positions: PlanetaryPositionsType) {
     // Only proceed if it's a valid element
     if (
       element &&
-      (element === 'Fire' || element === 'Water' || element === 'Earth' || element === 'Air');
+      (element === 'Fire' || element === 'Water' || element === 'Earth' || element === 'Air')
     ) {
       // Weight by planet importance
       let weight = 1.0;
@@ -258,7 +258,7 @@ export interface PlanetaryPosition {
  */
 export function alchemize(
   planetaryPositions: Record<string, PlanetaryPosition>,
-  isDaytime = true,,;
+  isDaytime = true,
   lunarPhase?: string,
   retrogrades?: Record<string, boolean>,
 ): AlchemicalResult {
@@ -306,7 +306,7 @@ export function alchemize(
 
     // Adjust for retrograde
     if (planetData.isRetrograde || retrogrades?.[planetName]) {
-      planetWeight *= 0.8, // Reduce influence when retrograde
+      planetWeight *= 0.8; // Reduce influence when retrograde
     }
 
     // Increase elemental balance based on the planet's sign
@@ -467,7 +467,7 @@ function generateRecommendation(dominantElement: string): string {
     case 'air':
       return 'Foods that ground and nourish: root vegetables, whole grains, and warming spices like ginger and cinnamon.';
     case 'water':
-      return 'Foods that warm and stimulate: spicy dishes, roasted vegetables, and herbs like cayenne and black pepper.',
+      return 'Foods that warm and stimulate: spicy dishes, roasted vegetables, and herbs like cayenne and black pepper.';
     default:
       return 'A balanced diet incorporating elements from all food groups for holistic nourishment.'
   }

@@ -7,7 +7,7 @@ import { Recipe, Ingredient, ZodiacSign, ElementalProperties } from './unified';
 export interface PredictiveContext {
   zodiacSign: any,
   lunarPhase: string,
-  season: string;
+  season: string,
   planetaryPositions?: Record<string, PlanetaryPosition>;
   elementalProperties: ElementalProperties;
   timeOfDay?: string;
@@ -79,7 +79,7 @@ export interface PredictiveMetrics {
   averageConfidence: number,
   cacheHitRate: number,
   errorRate: number,
-  executionTimes: number[];
+  executionTimes: number[],
   accuracyRate?: number;
   predictionTypes: Record<string, number>;
 }

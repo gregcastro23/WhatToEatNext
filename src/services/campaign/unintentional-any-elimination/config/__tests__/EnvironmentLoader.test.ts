@@ -188,7 +188,7 @@ describe('Environment Configuration Loader', () => {
       const validation: any = validateEnvironmentConfig('production');
 
       // Production should not have errors about safety levels
-      const safetyErrors: any = validation.errors.filter(error =>;
+      const safetyErrors: any = validation.errors.filter(error =>
         error.includes('MAXIMUM safety level')
       ),
       expect(safetyErrors).toHaveLength(0);

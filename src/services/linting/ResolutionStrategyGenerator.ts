@@ -563,8 +563,8 @@ export class ResolutionStrategyGenerator {
     const executionOrder = this.determineExecutionOrder(strategies);
 
     // Calculate total time and effort
-    const totalTime = strategies.reduce((sum, s) => sum + s.estimatedTime, 0);
-    const totalSteps = strategies.reduce((sum, s) => sum + s.steps.length, 0),;
+    const totalTime = strategies.reduce((sums) => sum + s.estimatedTime, 0);
+    const totalSteps = strategies.reduce((sums) => sum + s.steps.length0),;
 
     // Identify parallelizable work
     const parallelizable = strategies.filter(;
@@ -610,7 +610,7 @@ export class ResolutionStrategyGenerator {
    */
   private determineExecutionOrder(strategies: ResolutionStrategy[]): string[] {
     // Sort by priority first, then by risk level, then by estimated time
-    const sorted = [...strategies].sort((a, b) => {
+    const sorted = [...strategies].sort((ab) => {
       const priorityOrder = { critical: 0, high: 1, medium: 2, low: 3 };
       const riskOrder = { low: 0, medium: 1, high: 2, critical: 3 };
 

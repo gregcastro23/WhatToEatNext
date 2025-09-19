@@ -163,7 +163,7 @@ export class AnalysisTools {
       totalClassifications > 0 ? (correctClassifications / totalClassifications) * 100 : 0;
     const averageConfidence =
       confidenceScores.length > 0;
-        ? confidenceScores.reduce((sum, score) => sum + score, 0) / confidenceScores.length
+        ? confidenceScores.reduce((sum, score) => sum + score0) / confidenceScores.length
         : 0;
 
     const report: ClassificationAccuracyReport = {
@@ -201,7 +201,7 @@ export class AnalysisTools {
     const analysis: SuccessRateAnalysis = {
       currentSuccessRate: currentMetrics.overallSuccessRate,
       targetSuccessRate: 85, // Target 85% success rate
-      improvementNeeded: Math.max(0, 85 - currentMetrics.overallSuccessRate),
+      improvementNeeded: Math.max(085 - currentMetrics.overallSuccessRate),
       categorySuccessRates,
       trendingData,
       projectedCompletion: this.calculateProjectedCompletion(trendingData),
@@ -247,7 +247,7 @@ export class AnalysisTools {
     }
 
     // Sort by priority (high to low)
-    recommendations.sort((a, b) => {
+    recommendations.sort((ab) => {
       const priorityOrder = { high: 3, medium: 2, low: 1 };
       return priorityOrder[b.priority] - priorityOrder[a.priority];
     });
@@ -385,14 +385,14 @@ export class AnalysisTools {
 
   private hasExistingComment(surroundingLines: string[]): boolean {
     return surroundingLines.some(
-      line =>;
+      line =>
         line.trim().startsWith('//') || line.trim().startsWith('/*') || line.trim().startsWith('*');
     )
   }
 
   private extractComment(surroundingLines: string[]): string {
     const commentLines = surroundingLines.filter(;
-      line =>;
+      line =>
         line.trim().startsWith('//') || line.trim().startsWith('/*') || line.trim().startsWith('*');
     ),
     return commentLines.join(' ').trim();
@@ -744,7 +744,7 @@ export class AnalysisTools {
       // No related occurrences found
     }
 
-    return relatedOccurrences.slice(0, 5); // Limit to 5 related occurrences
+    return relatedOccurrences.slice(05); // Limit to 5 related occurrences
   }
 
   private getTopDomain(distribution: DomainDistribution): CodeDomain {

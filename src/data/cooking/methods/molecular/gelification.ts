@@ -156,7 +156,7 @@ export const gelification: CookingMethodData = {
   regionalVariations: {
     french: ['consommé gels', 'foie gras terrines', 'modern patisserie'],
     spanish: ['el bulli-inspired spherifications', 'textural landscapes'],
-    peruvian: ['tiger's milk gels', 'ceviche reimagined'],
+    peruvian: ['tiger milk gels', 'ceviche reimagined'],
     nordic: ['forest floor textures', 'native ingredient hydrogels'],
     japanese: ['wagashi-inspired transparent gels', 'dashi jellies', 'yuzu kosho gels'],
     italian: ['panna cotta reinventions', 'balsamic pearls', 'savory espumas'],
@@ -296,7 +296,7 @@ export const gelification: CookingMethodData = {
   ingredientPreparation: {
     agar: 'Disperse powder in cold liquid, then heat to 185°F (85°C) for at least 2 minutes to fully hydrate. Gels set at 95-104°F (35-40°C) and withstand temperatures up to 175°F (80°C) before melting. For clean flavor, use at 0.2-1.0% concentration. Creates firm, brittle gels with clean release from molds. Pre-soak in cold water for 5-10 minutes for more uniform dispersion.',
     gelatin:
-      'Bloom in cold water for 5-10 minutes before dissolving in warm liquid (104-140°F/40-60°C). Never boil. Use 0.5-2.5% for soft gels, 2.5-5% for firm gels. Sets at 59-77°F (15-25°C), melts near body temperature. Requires refrigeration to maintain structure. Pre-grind sheet gelatin for faster blooming.',
+      'Bloom in cold water for 5-10 minutes before dissolving in warm liquid (104-140°F/40-60°C). Never boil. Use 0.5-2.5% for soft gels2.5-5% for firm gels. Sets at 59-77°F (15-25°C), melts near body temperature. Requires refrigeration to maintain structure. Pre-grind sheet gelatin for faster blooming.',
     gellan_gum:
       'Disperse in cold liquid with high shear, then heat to 194°F (90°C). Low-acyl gellan (0.1-0.5%) creates firm, brittle gels; high-acyl gellan (0.1-1.0%) creates soft, elastic gels. Requires ions (calcium, potassium, sodium) to set effectively. Sensitive to hard water; use distilled water for consistent results.',
     pectin:
@@ -332,7 +332,7 @@ export const gelification: CookingMethodData = {
     setting_point:
       'Agar and gellan begin setting at surface first, gelatin sets uniformly throughout. Surface tension changes become visible, mixture becomes increasingly viscous before gelling. Coating on back of spoon becomes tacky just before setting.',
     gel_completion:
-      'For soft gels, slight wobble when container is tapped, for firm gels, no movement when container is inverted. Clean separation from container edges indicates complete setting. Clear gels show distinct refraction of light when fully set.',
+      'For soft gels, slight wobble when container is tapped, for firm gelsno movement when container is inverted. Clean separation from container edges indicates complete setting. Clear gels show distinct refraction of light when fully set.',
     texture_assessment:
       'When sliced, surface should be smooth and hold shape without flowing. Proper gel consistency springs back partially when gently pressed. Mouthfeel transitions appropriately from solid to liquid state based on design intention.',
     syneresis_evaluation:

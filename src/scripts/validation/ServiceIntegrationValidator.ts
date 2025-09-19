@@ -564,7 +564,7 @@ export class ServiceIntegrationValidator {
 
   private identifyServiceFiles(files: string[]): string[] {
     return files.filter(
-      file =>;
+      file =>
         /\/services\//.test(file) ||
         /Service\.ts$/.test(file) ||
         /Client\.ts$/.test(file) ||

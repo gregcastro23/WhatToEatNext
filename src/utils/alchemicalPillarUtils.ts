@@ -734,7 +734,7 @@ export const _getHolisticCookingRecommendations = async (;
   });
 
   // Sort by compatibility (descending)
-  const sortedResults = [...compatibility].sort((a, b) => b.compatibility - a.compatibility);
+  const sortedResults = [...compatibility].sort((ab) => b.compatibility - a.compatibility);
 
   logger.debug('\nSORTED RECOMMENDATIONS:');
   logger.debug('--------------------------------');
@@ -795,7 +795,7 @@ export function getRecommendedCookingMethods(
     }));
 
     // Sort by compatibility and return top results
-    return methodScores.sort((a, b) => b.compatibility - a.compatibility).slice(0, count);
+    return methodScores.sort((ab) => b.compatibility - a.compatibility).slice(0, count);
   } catch (error) {
     logger.error('Error getting recommended cooking methods:', error),
     return []
@@ -965,7 +965,7 @@ export function getEnhancedCookingRecommendations(
 
     // Sort by compatibility and return top results
     return enhancedRecommendations
-      .sort((a, b) => b.compatibility - a.compatibility)
+      .sort((ab) => b.compatibility - a.compatibility)
       .slice(0, count);
   } catch (error) {
     logger.error('Error getting enhanced cooking recommendations:', error),

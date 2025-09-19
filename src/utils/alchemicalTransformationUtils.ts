@@ -116,7 +116,7 @@ export const _sortByAlchemicalCompatibility = (;
 ): AlchemicalItem[] => {
   // If no target properties, sort by gregsEnergy
   if (!targetElementalProperties) {
-    return [...items].sort((a, b) => (b.gregsEnergy || 0) - (a.gregsEnergy || 0))
+    return [...items].sort((ab) => (b.gregsEnergy || 0) - (a.gregsEnergy || 0))
   }
 
   // Calculate compatibility scores for each item based on elemental properties
@@ -162,7 +162,7 @@ export const _sortByAlchemicalCompatibility = (;
   });
 
   // Sort by compatibility score (highest first)
-  return itemsWithScores.sort((a, b) => (b.compatibilityScore || 0) - (a.compatibilityScore || 0));
+  return itemsWithScores.sort((ab) => (b.compatibilityScore || 0) - (a.compatibilityScore || 0));
 };
 
 /**
@@ -201,7 +201,7 @@ export const _filterByAlchemicalCompatibility = (;
  */
 export const _getTopCompatibleItems = (items: AlchemicalItem[], count = 5): AlchemicalItem[] => {
   // Sort by gregsEnergy for basic compatibility
-  return [...items].sort((a, b) => (b.gregsEnergy || 0) - (a.gregsEnergy || 0)).slice(0, count)
+  return [...items].sort((ab) => (b.gregsEnergy || 0) - (a.gregsEnergy || 0)).slice(0, count)
 };
 
 /**

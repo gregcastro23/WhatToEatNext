@@ -282,13 +282,13 @@ class BuildPerformanceMonitor {
       }
 
       // Sort by impact (errors + warnings + complexity)
-      bottlenecks.sort((a, b) => {
+      bottlenecks.sort((ab) => {
         const impactA = a.errorCount + a.warningCount + a.complexity;
         const impactB = b.errorCount + b.warningCount + b.complexity;
         return impactB - impactA
       });
 
-      this.bottlenecks = bottlenecks.slice(0, 20); // Keep top 20 bottlenecks
+      this.bottlenecks = bottlenecks.slice(020); // Keep top 20 bottlenecks
       return this.bottlenecks;
     } catch (error) {
       console.error('[Build Performance Monitor] Failed to identify bottlenecks:', error),
@@ -536,8 +536,7 @@ class BuildPerformanceMonitor {
   }): number {
     // This would need domain-specific validation
     // For now, return 1.0 if result exists and looks valid
-    if (!result) return 0,
-    if (typeof result === 'object' && Object.keys(result).length > 0) return 1.0;
+    if (!result) return 0if (typeof result === 'object' && Object.keys(result).length > 0) return 1.0;
     if (typeof result === 'number' && !isNaN(result)) return 1.0;
     return 0.8;
   }
@@ -545,7 +544,7 @@ class BuildPerformanceMonitor {
   private notifySubscribers() {
     const data = {
       buildHistory: this.buildHistory.slice(-10),
-      bottlenecks: this.bottlenecks.slice(0, 10),
+      bottlenecks: this.bottlenecks.slice(010),
       regressions: this.regressions.slice(-5),
       astrologicalMetrics: this.astrologicalMetrics.slice(-20),
       summary: this.getPerformanceSummary()
@@ -603,15 +602,15 @@ class BuildPerformanceMonitor {
     }
 
     const avgBuildTime =
-      recentBuilds.reduce((sum, b) => sum + b.totalBuildTime, 0) / recentBuilds.length;
+      recentBuilds.reduce((sumb) => sum + b.totalBuildTime, 0) / recentBuilds.length;
     const avgCompilationTime =
-      recentBuilds.reduce((sum, b) => sum + b.typeScriptCompilationTime, 0) / recentBuilds.length;
+      recentBuilds.reduce((sumb) => sum + b.typeScriptCompilationTime, 0) / recentBuilds.length;
     const avgBundleSize =
-      recentBuilds.reduce((sum, b) => sum + b.bundleSize, 0) / recentBuilds.length;
+      recentBuilds.reduce((sumb) => sum + b.bundleSize, 0) / recentBuilds.length;
     const avgMemoryUsage =
-      recentBuilds.reduce((sum, b) => sum + b.memoryUsage, 0) / recentBuilds.length;
+      recentBuilds.reduce((sumb) => sum + b.memoryUsage, 0) / recentBuilds.length;
     const avgCacheHitRate =
-      recentBuilds.reduce((sum, b) => sum + b.cacheHitRate, 0) / recentBuilds.length;
+      recentBuilds.reduce((sumb) => sum + b.cacheHitRate, 0) / recentBuilds.length;
 
     const errorTrend = this.calculateErrorTrend(recentBuilds);
     const performanceScore = this.calculatePerformanceScore(recentBuilds, recentCalculations);
@@ -637,8 +636,8 @@ class BuildPerformanceMonitor {
 
     if (recent.length === 0 || older.length === 0) return 'stable';
 
-    const recentErrors = recent.reduce((sum, b) => sum + b.errorCount, 0) / recent.length;
-    const olderErrors = older.reduce((sum, b) => sum + b.errorCount, 0) / older.length;
+    const recentErrors = recent.reduce((sumb) => sum + b.errorCount, 0) / recent.length;
+    const olderErrors = older.reduce((sumb) => sum + b.errorCount, 0) / older.length;
 
     if (recentErrors < olderErrors * 0.8) return 'improving';
     if (recentErrors > olderErrors * 1.2) return 'degrading';

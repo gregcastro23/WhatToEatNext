@@ -2,7 +2,7 @@
 export interface CookingMethodInfo {
   id: string,
   name: string,
-  description: string;
+  description: string,
   elementalEffect?: {
     Fire: number,
     Water: number,

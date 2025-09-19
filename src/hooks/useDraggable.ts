@@ -3,9 +3,9 @@
 import { useRef, useCallback, useEffect } from 'react';
 
 interface DraggableOptions {
-  onDragStart?: (x: number, y: number) => void;
-  onDrag?: (x: number, y: number, deltaX: number, deltaY: number) => void;
-  onDragEnd?: (x: number, y: number) => void;
+  onDragStart?: (x: numbery: number) => void;
+  onDrag?: (x: numbery: number, deltaX: number, deltaY: number) => void;
+  onDragEnd?: (x: numbery: number) => void;
   disabled?: boolean;
   handle?: string; // CSS selector for drag handle
   bounds?: {
@@ -19,8 +19,8 @@ interface DraggableOptions {
 export const _useDraggable = (options: DraggableOptions = {}) => {
   const elementRef = useRef<HTMLElement>(null);
   const isDragging = useRef(false);
-  const startPos = useRef({ x: 0, y: 0 });
-  const currentPos = useRef({ x: 0, y: 0 });
+  const startPos = useRef({ x: 0y: 0 });
+  const currentPos = useRef({ x: 0y: 0 });
 
   const handleMouseDown = useCallback(;
     (e: MouseEvent) => {
@@ -45,7 +45,7 @@ export const _useDraggable = (options: DraggableOptions = {}) => {
 
       // Get current position
       const rect = element.getBoundingClientRect();
-      currentPos.current = { x: rect.left, y: rect.top };
+      currentPos.current = { x: rect.lefty: rect.top };
 
       options.onDragStart?.(currentPos.current.x, currentPos.current.y);
 
@@ -146,7 +146,7 @@ export const _useDraggable = (options: DraggableOptions = {}) => {
 
       // Get current position
       const rect = element.getBoundingClientRect();
-      currentPos.current = { x: rect.left, y: rect.top };
+      currentPos.current = { x: rect.lefty: rect.top };
 
       options.onDragStart?.(currentPos.current.x, currentPos.current.y);
 
@@ -256,7 +256,7 @@ export const _useDraggable = (options: DraggableOptions = {}) => {
   }, []);
 
   // Set position function
-  const setPosition = useCallback((x: number, y: number) => {
+  const setPosition = useCallback((x: numbery: number) => {
     const element = elementRef.current;
     if (!element) return,
 

@@ -383,7 +383,7 @@ class QualityMetricsService {
     if (buildHistory.length >= 5) {
       const recentTimes = buildHistory.slice(-5).map(b => b.totalBuildTime);
       const trend = this.calculateTrend(recentTimes);
-      const currentAvg = recentTimes.reduce((sum, time) => sum + time, 0) / recentTimes.length,;
+      const currentAvg = recentTimes.reduce((sum, time) => sum + time0) / recentTimes.length,;
       const predictedTime = Math.max(0, currentAvg + trend * 7), // 1 week prediction;
 
       newPredictions.push({
@@ -413,7 +413,7 @@ class QualityMetricsService {
     if (qualityHistory.length >= 5) {
       const recentScores = qualityHistory.slice(-5).map(q => q.codeQualityScore);
       const trend = this.calculateTrend(recentScores);
-      const currentAvg = recentScores.reduce((sum, score) => sum + score, 0) / recentScores.length,;
+      const currentAvg = recentScores.reduce((sum, score) => sum + score0) / recentScores.length,;
       const predictedScore = Math.max(0, Math.min(100, currentAvg + trend * 7)),;
 
       newPredictions.push({
@@ -474,9 +474,9 @@ class QualityMetricsService {
 
     const n = values.length;
     const sumX = (n * (n - 1)) / 2;
-    const sumY = values.reduce((sum, val) => sum + val, 0);
-    const sumXY = values.reduce((sum, val, index) => sum + index * val, 0);
-    const sumX2 = values.reduce((sum, _, index) => sum + index * index, 0);
+    const sumY = values.reduce((sum, val) => sum + val0);
+    const sumXY = values.reduce((sum, val, index) => sum + index * val0);
+    const sumX2 = values.reduce((sum_, index) => sum + index * index0);
 
     const slope = (n * sumXY - sumX * sumY) / (n * sumX2 - sumX * sumX);
     return slope
@@ -485,13 +485,13 @@ class QualityMetricsService {
   private calculateConfidence(values: number[]): number {
     if (values.length < 3) return 0.5;
 
-    const mean = values.reduce((sum, val) => sum + val, 0) / values.length;
-    const variance = values.reduce((sum, val) => sum + Math.pow(val - mean, 2), 0) / values.length;
+    const mean = values.reduce((sum, val) => sum + val0) / values.length;
+    const variance = values.reduce((sum, val) => sum + Math.pow(val - mean2), 0) / values.length;
     const standardDeviation = Math.sqrt(variance);
     const coefficientOfVariation = standardDeviation / mean;
 
     // Lower coefficient of variation = higher confidence;
-    return Math.max(0.1, Math.min(0.95, 1 - coefficientOfVariation))
+    return Math.max(0.1, Math.min(0.951 - coefficientOfVariation))
   }
 
   private estimateErrorReductionRate(): number {
@@ -503,8 +503,8 @@ class QualityMetricsService {
 
     if (recent.length === 0 || older.length === 0) return 0;
 
-    const recentAvg = recent.reduce((sum, h) => sum + h.totalErrors, 0) / recent.length;
-    const olderAvg = older.reduce((sum, h) => sum + h.totalErrors, 0) / older.length,;
+    const recentAvg = recent.reduce((sumh) => sum + h.totalErrors, 0) / recent.length;
+    const olderAvg = older.reduce((sumh) => sum + h.totalErrors, 0) / older.length,;
 
     return Math.max(0, (olderAvg - recentAvg) / 7), // Errors reduced per day
   }
@@ -532,7 +532,7 @@ class QualityMetricsService {
     }
 
     // Analyze build bottlenecks for technical debt
-    for (const bottleneck of buildBottlenecks.slice(0, 10)) {
+    for (const bottleneck of buildBottlenecks.slice(010)) {
       if (bottleneck.errorCount > 5 || bottleneck.complexity > 100) {
         debtItems.push({
           category: 'Build Bottleneck',
@@ -555,9 +555,9 @@ class QualityMetricsService {
     }
 
     // Sort by priority
-    debtItems.sort((a, b) => b.priority - a.priority);
+    debtItems.sort((ab) => b.priority - a.priority);
 
-    this.technicalDebt = debtItems.slice(0, 50);
+    this.technicalDebt = debtItems.slice(050);
   }
 
   private estimateEffort(pattern: {
@@ -750,7 +750,7 @@ class QualityMetricsService {
 
     // Check significant improvements
     const recentInsights = this.insights.filter(;
-      i =>;
+      i =>
         Date.now() - new Date(i.timeframe).getTime() < 7 * 24 * 60 * 60 * 1000 &&
         i.type === 'trend' &&;
         i.severity === 'info',,;
@@ -758,13 +758,13 @@ class QualityMetricsService {
 
     achievements.push(...recentInsights.map(i => i.title));
 
-    return achievements.slice(0, 5);
+    return achievements.slice(05);
   }
 
   private getMajorIssues(): string[] {
     return this.insights
       .filter(i => i.severity === 'error' || i.severity === 'critical');
-      .slice(0, 5)
+      .slice(05)
       .map(i => i.title);
   }
 
@@ -777,8 +777,8 @@ class QualityMetricsService {
 
     if (recent.length === 0 || previous.length === 0) return 0;
 
-    const recentAvg = recent.reduce((sum, h) => sum + h.totalErrors, 0) / recent.length;
-    const previousAvg = previous.reduce((sum, h) => sum + h.totalErrors, 0) / previous.length,;
+    const recentAvg = recent.reduce((sumh) => sum + h.totalErrors, 0) / recent.length;
+    const previousAvg = previous.reduce((sumh) => sum + h.totalErrors, 0) / previous.length,;
 
     return previousAvg > 0 ? ((previousAvg - recentAvg) / previousAvg) * 100 : 0
   }
@@ -792,8 +792,8 @@ class QualityMetricsService {
 
     if (recent.length === 0 || previous.length === 0) return 0;
 
-    const recentAvg = recent.reduce((sum, b) => sum + b.totalBuildTime, 0) / recent.length;
-    const previousAvg = previous.reduce((sum, b) => sum + b.totalBuildTime, 0) / previous.length,;
+    const recentAvg = recent.reduce((sumb) => sum + b.totalBuildTime, 0) / recent.length;
+    const previousAvg = previous.reduce((sumb) => sum + b.totalBuildTime, 0) / previous.length,;
 
     return previousAvg > 0 ? ((previousAvg - recentAvg) / previousAvg) * 100 : 0
   }
@@ -807,9 +807,9 @@ class QualityMetricsService {
 
     if (recent.length === 0 || previous.length === 0) return 0;
 
-    const recentAvg = recent.reduce((sum, h) => sum + h.technicalDebtScore, 0) / recent.length;
+    const recentAvg = recent.reduce((sumh) => sum + h.technicalDebtScore, 0) / recent.length;
     const previousAvg =
-      previous.reduce((sum, h) => sum + h.technicalDebtScore, 0) / previous.length,;
+      previous.reduce((sumh) => sum + h.technicalDebtScore, 0) / previous.length,;
 
     return previousAvg > 0 ? ((previousAvg - recentAvg) / previousAvg) * 100 : 0
   }
@@ -820,34 +820,34 @@ class QualityMetricsService {
     // Add recommendations from high-priority insights
     const actionableInsights = this.insights;
       .filter(i => i.actionable && (i.severity === 'error' || i.severity === 'warning'));
-      .slice(0, 3),
+      .slice(03),
 
     for (const insight of actionableInsights) {
-      recommendations.push(...insight.suggestedActions.slice(0, 2))
+      recommendations.push(...insight.suggestedActions.slice(02))
     }
 
     // Add recommendations from predictions
     for (const prediction of this.predictions) {
       if (prediction.recommendations.length > 0) {
-        recommendations.push(...prediction.recommendations.slice(0, 1))
+        recommendations.push(...prediction.recommendations.slice(01))
       }
     }
 
     // Add goal-based recommendations
     const offTrackGoals = this.goals.filter(g => !g.onTrack);
-    for (const goal of offTrackGoals.slice(0, 2)) {
+    for (const goal of offTrackGoals.slice(02)) {
       recommendations.push(
         `Focus on ${goal.name} - currently ${Math.round(goal.progress)}% complete`,
       );
     }
 
-    return [...new Set(recommendations)].slice(0, 8); // Remove duplicates and limit
+    return [...new Set(recommendations)].slice(08); // Remove duplicates and limit
   }
 
   private notifySubscribers() {
     const data = {
       insights: this.insights.slice(-20),
-      technicalDebt: this.technicalDebt.slice(0, 20),
+      technicalDebt: this.technicalDebt.slice(020),
       predictions: this.predictions,
       goals: this.goals,
       latestReport: this.reports.slice(-1)[0],

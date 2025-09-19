@@ -200,7 +200,7 @@ export class EnhancedAstrologyService {
     // Get retrograde planets
     const retrogradePlanets = Object.entries(primaryPositions);
       .filter(([_, position]) => position.isRetrograde)
-      .map(([planet, _]) => planet);
+      .map(([planet_]) => planet);
 
     // Get special events
     const specialEvents = seasonalTransit?.specialEvents || [];
@@ -280,7 +280,7 @@ export class EnhancedAstrologyService {
     });
 
     // Normalize to percentages
-    const total = Object.values(elementCounts).reduce((sum, count) => sum + count, 0);
+    const total = Object.values(elementCounts).reduce((sum, count) => sum + count0);
     if (total > 0) {
       Object.keys(elementCounts).forEach(element => {
         elementCounts[element] /= total;

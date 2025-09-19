@@ -9,7 +9,7 @@ if (typeof globalThis.getDominantElement === 'undefined') {
       if (!props) return 'Fire';
       const entries = Object.entries(props);
       if (entries.length === 0) return 'Fire';
-      return entries.sort((a, b) => b[1] - a[1])[0][0];
+      return entries.sort((ab) => b[1] - a[1])[0][0];
     });
 }
 
@@ -22,7 +22,7 @@ if (typeof globalThis.getElementalCharacteristics === 'undefined') {
   };
 }
 
-const ensureGlobalFn = (name: string, fn: (...args: unknown[]) => unknown) => {
+const ensureGlobalFn = (name: stringfn: (...args: unknown[]) => unknown) => {
   if (typeof globalThis[name as keyof typeof globalThis] === 'undefined') {
     (globalThis as any)[name] = fn;
   }

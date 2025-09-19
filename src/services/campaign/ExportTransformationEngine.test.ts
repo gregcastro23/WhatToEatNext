@@ -331,7 +331,7 @@ describe('ExportTransformationEngine', () => {
       ];
 
       const score: any = (;
-        engine as unknown as { calculateBatchSafetyScore: (file, s: any[]) => number }
+        engine as unknown as { calculateBatchSafetyScore: (files: any[]) => number }
       ).calculateBatchSafetyScore(mockFiles);
 
       expect(score).toBeLessThan(85); // Should be penalized for complex candidate
@@ -353,7 +353,7 @@ describe('ExportTransformationEngine', () => {
       ];
 
       const duration: any = (;
-        engine as unknown as { estimateBatchDuration: (file, s: any[]) => number }
+        engine as unknown as { estimateBatchDuration: (files: any[]) => number }
       ).estimateBatchDuration(mockFiles);
 
       expect(duration).toBeGreaterThan(2); // Base time + complexity
@@ -399,7 +399,7 @@ describe('ExportTransformationEngine', () => {
     it('should handle empty results', () => {
       const summary: any = (;
         engine as unknown as {
-          generateTransformationSummary: (result, s: any[], duration: number) => Record<string, unknown>;
+          generateTransformationSummary: (results: any[], duration: number) => Record<string, unknown>;
         }
       ).generateTransformationSummary([], 10);
 

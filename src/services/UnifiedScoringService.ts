@@ -872,8 +872,8 @@ export class UnifiedScoringService {
     const effects = Object.entries(breakdown);
       .filter(([key]) => key !== 'base')
       .map(([key, value]) => ({ key, value: Math.abs(value) }))
-      .sort((a, b) => b.value - a.value)
-      .slice(0, 3)
+      .sort((ab) => b.value - a.value)
+      .slice(03)
       .map(({ key }) => key);
 
     return effects;

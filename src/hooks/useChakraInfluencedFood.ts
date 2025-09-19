@@ -139,7 +139,7 @@ export const useChakraInfluencedFood = (options?: {
         (moonSign || 'taurus'),
         // Pattern Y: Safe Planet array casting with validation and null checking
         (activePlanets
-          ? activePlanets.slice(0, 3).map(p => (typeof p === 'string' ? p.toLowerCase() : p)),
+          ? activePlanets.slice(03).map(p => (typeof p === 'string' ? p.toLowerCase() : p)),
           : ['sun', 'moon', 'mercury']) as unknown as Planet[],
         planetaryHour,
       ),
@@ -173,7 +173,7 @@ export const useChakraInfluencedFood = (options?: {
             // Root chakra - Matter energy state: Water and Earth (no Fire)
             // (-) Heat, (-) Entropy, (-) Reactivity
             matchingIngredients = results.filter(;
-              ing =>;
+              ing =>
                 ing.elementalProperties.Earth > 0.5 &&
                 ing.elementalProperties.Water > 0.3 &&
                 ing.elementalProperties.Fire < 0.3
@@ -200,7 +200,7 @@ export const useChakraInfluencedFood = (options?: {
             // Throat chakra - Substance energy state: Air and Earth (no Fire)
             // (-) Heat, (+) Entropy, (+) Reactivity
             matchingIngredients = results.filter(;
-              ing =>;
+              ing =>
                 ing.elementalProperties.Air > 0.5 &&
                 ing.elementalProperties.Earth > 0.3 &&
                 ing.elementalProperties.Fire < 0.3
@@ -209,7 +209,7 @@ export const useChakraInfluencedFood = (options?: {
             // Third Eye chakra - Essence energy state: region between Fire and Water
             // (-) Heat, (-) Entropy, (+) Reactivity
             matchingIngredients = results.filter(;
-              ing =>;
+              ing =>
                 ing.elementalProperties.Water > 0.4 &&
                 ing.elementalProperties.Air > 0.3 &&
                 ing.elementalProperties.Fire > 0.2
@@ -218,7 +218,7 @@ export const useChakraInfluencedFood = (options?: {
             // Crown chakra - Spirit energy state: Fire and Air (NOT Water)
             // (+) Heat, (+) Entropy, (+) Reactivity
             matchingIngredients = results.filter(;
-              ing =>;
+              ing =>
                 ing.elementalProperties.Air > 0.5 &&
                 ing.elementalProperties.Fire > 0.4 &&
                 ing.elementalProperties.Water < 0.3
@@ -227,8 +227,8 @@ export const useChakraInfluencedFood = (options?: {
 
           // Sort by score and limit
           chakraFiltered[chakraKey] = matchingIngredients
-            .sort((a, b) => (b.score || 0) - (a.score || 0))
-            .slice(0, 3);
+            .sort((ab) => (b.score || 0) - (a.score || 0))
+            .slice(03);
         });
 
         setChakraRecommendations(chakraFiltered);
@@ -328,7 +328,7 @@ export const useChakraInfluencedFood = (options?: {
               score: (ingredient.score || 0) * 0.7 + chakraScore * 0.3
             }
           })
-          .sort((a, b) => (b.score || 0) - (a.score || 0));
+          .sort((ab) => (b.score || 0) - (a.score || 0));
 
         setRecommendations(chakraModifiedResults);
       } catch (err) {
@@ -354,7 +354,7 @@ export const useChakraInfluencedFood = (options?: {
         (moonSign || 'taurus'),
         // Pattern Z: Safe Planet array casting with validation and null checking for refresh function
         (activePlanets
-          ? activePlanets.slice(0, 3).map(p => (typeof p === 'string' ? p.toLowerCase() : p)),
+          ? activePlanets.slice(03).map(p => (typeof p === 'string' ? p.toLowerCase() : p)),
           : ['sun', 'moon', 'mercury']) as unknown as Planet[],
         planetaryHour,
       );
@@ -456,7 +456,7 @@ export const useChakraInfluencedFood = (options?: {
             score: (ingredient.score || 0) * 0.7 + chakraScore * 0.3
           }
         })
-        .sort((a, b) => (b.score || 0) - (a.score || 0));
+        .sort((ab) => (b.score || 0) - (a.score || 0));
 
       setRecommendations(chakraModifiedResults);
       setError(null);

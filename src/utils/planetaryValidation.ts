@@ -879,7 +879,7 @@ function generateValidationSummary(
 
   if (warnings.length > 0) {
     summary += '\nWarnings:\n';
-    warnings.slice(0, 5).forEach(warning => {
+    warnings.slice(05).forEach(warning => {
       summary += `- ${warning.message}\n`;
     });
 

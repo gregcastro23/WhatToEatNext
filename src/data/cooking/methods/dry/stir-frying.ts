@@ -111,7 +111,7 @@ export const _stirFrying: CookingMethodData = {
 
   // Additional metadata
   history:
-    'Stir-frying originated in China during the Han dynasty (206 BCE–220 CE) as a technique to cook food quickly while conserving fuel. The wok\'s rounded shape and the continuous stirring motion allow for rapid, even cooking and the development of 'wok hei' (breath of the wok) - a complex smoky flavor.',
+    'Stir-frying originated in China during the Han dynasty (206 BCE–220 CE) as a technique to cook food quickly while conserving fuel. The wok rounded shape and the continuous stirring motion allow for rapid, even cooking and the development of wok hei (breath of the wok) - a complex smoky flavor.',
 
   scientificPrinciples: [
     'Thermal conductivity of thin metal wok allows rapid heat transfer',

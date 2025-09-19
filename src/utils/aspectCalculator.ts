@@ -132,7 +132,7 @@ export function calculateComprehensiveAspects(
         }
       }
 
-      // Add the best aspect, if found
+      // Add the best aspectif found
       if (bestAspect) {
         // Determine influence: positive for harmonious aspects, negative for challenging ones
         let influence = 0;
@@ -156,7 +156,7 @@ export function calculateComprehensiveAspects(
   }
 
   // Sort aspects by strength (descending)
-  return aspects.sort((a, b) => b.strength - a.strength);
+  return aspects.sort((ab) => b.strength - a.strength);
 }
 
 /**

@@ -92,7 +92,7 @@ export default function CookingMethodsPage() {
           // Create variations if they exist
           variations: (method as any).variations
             ? Array.isArray((method as any).variations)
-              ? ((method as any).variations as string[]).map((v: string, i: number) => ({
+              ? ((method as any).variations as string[]).map((v: stringi: number) => ({
                   id: `${key}_var_${i}`,
                   name: v,
                   description: `Variation of ${capitalizeFirstLetter(key.replace(/_/g, ' '))}`,

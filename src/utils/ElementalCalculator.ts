@@ -168,7 +168,7 @@ export function calculateMatchScore(
   // This makes high matches more distinguishable from medium matches
   let finalScore;
   if (options?.preferHigherContrast) {
-    // For contrast mode, we actually want a lower score for high differences
+    // For contrast modewe actually want a lower score for high differences
     finalScore = 1 - rawScore;
   } else {
     // For similarity mode (default)

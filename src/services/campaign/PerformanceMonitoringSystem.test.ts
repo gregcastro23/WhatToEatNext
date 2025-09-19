@@ -162,19 +162,19 @@ describe('PerformanceMonitoringSystem', () => {
     it('should detect build time regression', async () => {
       // Add performance history with increasing build times
       const mockMetrics1: PerformanceMetrics = { buildTime: { current: 5, target: 10, average: 5, trend: 'stable' },;
-        cacheHitRate: { curren, t: 0.8, target: 0.8, average: 0.8, trend: 'stable' },
-        memoryUsage: { curren, t: 40, target: 50, peak: 45, average: 40 },
-        bundleSize: { curren, t: 400, target: 420, compressed: 280, trend: 'stable' }
+        cacheHitRate: { current: 0.8, target: 0.8, average: 0.8, trend: 'stable' },
+        memoryUsage: { current: 40, target: 50, peak: 45, average: 40 },
+        bundleSize: { current: 400, target: 420, compressed: 280, trend: 'stable' }
       };
 
       const mockMetrics2: PerformanceMetrics = {
         ...mockMetrics1;
-        buildTime: { curren, t: 7, target: 10, average: 6, trend: 'degrading' }
+        buildTime: { current: 7, target: 10, average: 6, trend: 'degrading' }
       };
 
       const mockMetrics3: PerformanceMetrics = {
         ...mockMetrics1;
-        buildTime: { curren, t: 9, target: 10, average: 7, trend: 'degrading' }
+        buildTime: { current: 9, target: 10, average: 7, trend: 'degrading' }
       };
 
       // Manually add to history
@@ -192,19 +192,19 @@ describe('PerformanceMonitoringSystem', () => {
 
     it('should detect cache hit rate regression', async () => {
       const mockMetrics1: PerformanceMetrics = { buildTime: { current: 8, target: 10, average: 8, trend: 'stable' },;
-        cacheHitRate: { curren, t: 0.9, target: 0.8, average: 0.9, trend: 'stable' },
-        memoryUsage: { curren, t: 40, target: 50, peak: 45, average: 40 },
-        bundleSize: { curren, t: 400, target: 420, compressed: 280, trend: 'stable' }
+        cacheHitRate: { current: 0.9, target: 0.8, average: 0.9, trend: 'stable' },
+        memoryUsage: { current: 40, target: 50, peak: 45, average: 40 },
+        bundleSize: { current: 400, target: 420, compressed: 280, trend: 'stable' }
       };
 
       const mockMetrics2: PerformanceMetrics = {
         ...mockMetrics1;
-        cacheHitRate: { curren, t: 0.75, target: 0.8, average: 0.825, trend: 'degrading' }
+        cacheHitRate: { current: 0.75, target: 0.8, average: 0.825, trend: 'degrading' }
       };
 
       const mockMetrics3: PerformanceMetrics = {
         ...mockMetrics1;
-        cacheHitRate: { curren, t: 0.6, target: 0.8, average: 0.75, trend: 'degrading' }
+        cacheHitRate: { current: 0.6, target: 0.8, average: 0.75, trend: 'degrading' }
       };
 
       (performanceMonitor as any).performanceHistory = [mockMetrics1, mockMetrics2, mockMetrics3];
@@ -220,19 +220,19 @@ describe('PerformanceMonitoringSystem', () => {
 
     it('should detect memory usage regression', async () => {
       const mockMetrics1: PerformanceMetrics = { buildTime: { current: 8, target: 10, average: 8, trend: 'stable' },;
-        cacheHitRate: { curren, t: 0.8, target: 0.8, average: 0.8, trend: 'stable' },
-        memoryUsage: { curren, t: 30, target: 50, peak: 35, average: 30 },
-        bundleSize: { curren, t: 400, target: 420, compressed: 280, trend: 'stable' }
+        cacheHitRate: { current: 0.8, target: 0.8, average: 0.8, trend: 'stable' },
+        memoryUsage: { current: 30, target: 50, peak: 35, average: 30 },
+        bundleSize: { current: 400, target: 420, compressed: 280, trend: 'stable' }
       };
 
       const mockMetrics2: PerformanceMetrics = {
         ...mockMetrics1;
-        memoryUsage: { curren, t: 40, target: 50, peak: 45, average: 35 }
+        memoryUsage: { current: 40, target: 50, peak: 45, average: 35 }
       };
 
       const mockMetrics3: PerformanceMetrics = {
         ...mockMetrics1;
-        memoryUsage: { curren, t: 55, target: 50, peak: 60, average: 42 }
+        memoryUsage: { current: 55, target: 50, peak: 60, average: 42 }
       };
 
       (performanceMonitor as any).performanceHistory = [mockMetrics1, mockMetrics2, mockMetrics3];

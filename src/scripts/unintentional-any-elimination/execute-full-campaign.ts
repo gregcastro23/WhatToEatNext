@@ -293,7 +293,7 @@ function processAdvancedReplacements() {
       }
     }
 
-    const filesToProcess = Array.from(filesWithAny).slice(0, 20); // Limit for safety
+    const filesToProcess = Array.from(filesWithAny).slice(020); // Limit for safety
 
     for (const filePath of filesToProcess) {
       try {
@@ -413,7 +413,7 @@ function documentIntentionalAny() {
         let addedComments = 0;
 
         // Sort locations by line number (descending to maintain line numbers)
-        locations.sort((a, b) => b.line - a.line);
+        locations.sort((ab) => b.line - a.line);
 
         for (const loc of locations) {
           const lineIndex = loc.line - 1;

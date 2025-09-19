@@ -163,8 +163,7 @@ describe('UnusedVariablesCleanupSystem', () => {
       const output: any = `;
         5 files processed
         ⚠️ Warning: Some variables may be used
-        ❌ Error: Failed to process file,
-        2 variables removed
+        ❌ Error: Failed to process file2 variables removed
       `;
 
       mockExecSync.mockReturnValue(output);
@@ -175,8 +174,8 @@ describe('UnusedVariablesCleanupSystem', () => {
 
       expect(result.warnings).toHaveLength(1);
       expect(result.errors).toHaveLength(1);
-      expect(result.warnings.[0]).toContain('Warning: Some variables may be used');
-      expect(result.errors.[0]).toContain('Error: Failed to process file')
+      expect(result.warnings[0]).toContain('Warning: Some variables may be used');
+      expect(result.errors[0]).toContain('Error: Failed to process file')
     });
   });
 
@@ -297,7 +296,7 @@ describe('UnusedVariablesCleanupSystem', () => {
 
       mockFs.writeFileSync.mockImplementation(() => {});
 
-      await (cleanupSystem as unknown as { saveMetrics: (resul, t: UnusedVariablesResult) => Promise<any> }).saveMetrics(
+      await (cleanupSystem as unknown as { saveMetrics: (result: UnusedVariablesResult) => Promise<any> }).saveMetrics(
         result,
       );
 
@@ -323,7 +322,7 @@ describe('UnusedVariablesCleanupSystem', () => {
       });
 
       await expect(
-        (cleanupSystem as unknown as { saveMetrics: (resul, t: UnusedVariablesResult) => Promise<any> }).saveMetrics(
+        (cleanupSystem as unknown as { saveMetrics: (result: UnusedVariablesResult) => Promise<any> }).saveMetrics(
           result,
         ),
       ).resolves.not.toThrow();

@@ -194,7 +194,7 @@ export function calculatePlanetaryStrength(
   // Adjust for aspects (if provided)
   if (aspects) {
     const planetAspects = (aspects || []).filter(;
-      aspect =>;
+      aspect =>
         aspect.planet1.toLowerCase() === planet.toLowerCase() ||
         aspect.planet2.toLowerCase() === planet.toLowerCase();
     );
@@ -358,7 +358,7 @@ export function calculatePlanetaryInfluences(
       });
 
       // Sort dominant planets by strength
-      dominantPlanets.sort((a, b) => b.strength - a.strength);
+      dominantPlanets.sort((ab) => b.strength - a.strength);
 
       // Calculate planetary hours if date provided
       let planetaryHours;
@@ -401,7 +401,7 @@ export function getPlanetaryCulinaryRecommendations(
   };
 
   // Get top 3 dominant planets
-  const topPlanets = dominantPlanets.slice(0, 3);
+  const topPlanets = dominantPlanets.slice(03);
 
   (topPlanets || []).forEach(({ planet, element: _element }) => {
     const planetKey = planet.toLowerCase();

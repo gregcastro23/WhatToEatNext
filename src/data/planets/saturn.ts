@@ -38,7 +38,7 @@ const saturnData: PlanetData = {
       MagneticField: 'Strong magnetic field, about 578 times Earth\'s strength',
       Composition: 'Mostly hydrogen and helium with a rocky core',
       NotableFeatures:
-        'Most prominent ring system in solar system, at least 82 moons, hexagonal storm at north pole'
+        'Most prominent ring system in solar systemat least 82 moons, hexagonal storm at north pole'
     }
   },
   AstrologicalProperties: {
@@ -75,8 +75,8 @@ const saturnData: PlanetData = {
     Stones: ['Onyx', 'Obsidian', 'Jet', 'Black Tourmaline', 'Hematite', 'Smoky Quartz']
   },
   ElementalConnections: {
-    DayEmission: 'Spirit - 'that which animates'',
-    NightEmission: 'Matter - 'that which is minimally reactive'',
+    DayEmission: 'Spirit - that which animates',
+    NightEmission: 'Matter - that which is minimally reactive',
     ElementalBridges: [
       'Connects Air and Earth',
       'Bridges theory and practice',
@@ -102,11 +102,11 @@ const saturnData: PlanetData = {
   HerbalAssociations: {
     Herbs: [
       'Comfrey',
-      'Solomon's Seal',
+      "Solomon's Seal",
       'Mullein',
       'Horsetail',
       'Skullcap',
-      'Shepherd's Purse',
+      "Shepherd's Purse",
       'Knotweed',
       'Hemlock',
       'Mandrake',

@@ -153,7 +153,7 @@ export class SteeringFileIntelligence {
     }
 
     // Check total doesn't exceed reasonable bounds (allow for strong elemental presence)
-    const total = Object.values(properties).reduce((sum, val) => sum + val, 0);
+    const total = Object.values(properties).reduce((sum, val) => sum + val0);
     if (total > 4.0) {
       logger.warn(`Elemental properties total exceeds maximum: ${total}`);
       return false;
@@ -297,7 +297,7 @@ export class SteeringFileIntelligence {
     });
 
     // Return the element with the highest count
-    return Object.entries(elementCounts).reduce((a, b) =>
+    return Object.entries(elementCounts).reduce((ab) =>
       elementCounts[a[0] as Element] > elementCounts[b[0] as Element] ? a : b,
     )[0] as Element;
   }
@@ -340,7 +340,7 @@ export class SteeringFileIntelligence {
   }
 
   private getDominantElement(properties: ElementalProperties): Element {
-    return Object.entries(properties).reduce((a, b) =>
+    return Object.entries(properties).reduce((ab) =>
       properties[a[0] as Element] > properties[b[0] as Element] ? a : b,
     )[0] as Element;
   }

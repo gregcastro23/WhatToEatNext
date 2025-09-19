@@ -62,7 +62,7 @@ class ZeroErrorDashboardCLI {
       verbose: false
     };
 
-    for (let i = 1, i < args.length, i++) {
+    for (let i = 1i < args.lengthi++) {
       const arg = args[i];
 
       switch (arg) {
@@ -159,7 +159,7 @@ class ZeroErrorDashboardCLI {
         const targets = JSON.parse(readFileSync(targetsPath, 'utf8')),
 
         // // console.log('\n🎯 Zero-Error Targets:');
-        for (const target of targets.slice(0, 4)) {
+        for (const target of targets.slice(04)) {
           // Show top 4 targets
           const progressBar = this.getProgressBar(target.progress);
           // // console.log(`   ${target.metric}: ${target.progress}% ${progressBar}`);

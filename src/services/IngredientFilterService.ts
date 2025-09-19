@@ -443,7 +443,7 @@ export class IngredientFilterService {
       const ingredientName = (ingredient as any).name || ingredient.id || '';
 
       return !excludedIngredients.some(
-        excluded =>;
+        excluded =>
           typeof ingredientName === 'string' &&;
           typeof excluded === 'string' &&;
           ingredientName.toLowerCase().includes(excluded.toLowerCase());
@@ -463,7 +463,7 @@ export class IngredientFilterService {
     // For each category, select a limited number of most nutritionally balanced items
     Object.entries(filteredByCategory).forEach(([category, ingredients]) => {
       // Sort ingredients by nutritional completeness (if data available)
-      const sorted = [...ingredients].sort((a, b) => {
+      const sorted = [...ingredients].sort((ab) => {
         const aNutrition = a.nutritionalProfile || {};
         const bNutrition = b.nutritionalProfile || {};
 
@@ -575,9 +575,9 @@ export class IngredientFilterService {
       const recommendations: RecipeRecommendation[] = [];
 
       // Create basic recipes based on the ingredients provided
-      for (let i = 0, i < Math.min(ingredients.length, 3), i++) {
+      for (let i = 0i < Math.min(ingredients.length3), i++) {
         const mainIngredient = ingredients[i];
-        const otherIngredients = ingredients.filter(ing => ing !== mainIngredient).slice(0, 2),;
+        const otherIngredients = ingredients.filter(ing => ing !== mainIngredient).slice(02),;
 
         const recipe: RecipeRecommendation = {
           id: `local_${i + 1}`,

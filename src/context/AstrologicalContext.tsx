@@ -108,7 +108,7 @@ export function AstrologicalProvider({ children }: AstrologicalProviderProps) {
         currentSeason: 'spring',
         elements: elementalProperties,
         alchemicalValues: alchemicalValues, // Add alchemical values
-        dominantElement: Object.entries(elementalProperties).reduce((a, b) =>
+        dominantElement: Object.entries(elementalProperties).reduce((ab) =>
           elementalProperties[a[0] as keyof SafeElementalProperties] >
           elementalProperties[b[0] as keyof SafeElementalProperties]
             ? a

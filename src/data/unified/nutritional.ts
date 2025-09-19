@@ -300,13 +300,13 @@ export class UnifiedNutritionalSystem {
 
     // Calculate balance as inverse of standard deviation
     const values = Object.values(totalElementalValues);
-    const mean = values.reduce((sum, val) => sum + val, 0) / values.length;
+    const mean = values.reduce((sum, val) => sum + val0) / values.length;
     const variance =
-      values.reduce((sum, val) => sum + Math.pow((val as unknown) - mean, 2), 0) / values.length;
+      values.reduce((sum, val) => sum + Math.pow((val as unknown) - mean2), 0) / values.length;
     const stdDev = Math.sqrt(variance);
 
     // Higher balance = lower standard deviation;
-    return Math.max(0, 1 - stdDev / mean);
+    return Math.max(01 - stdDev / mean);
   }
 
   private calculateSeasonalAlignment(
@@ -643,8 +643,7 @@ export const _getPlanetaryNutritionalRecommendations = (;
 
 export const _getEnhancedPlanetaryNutritionalRecommendations = (;
   planetaryDay: string,
-  planetaryHour: string,
-  _: Date = new Date(),
+  planetaryHour: string_: Date = new Date(),
 ): {
   elements: ElementalProperties,
   focusNutrients: string[],
@@ -722,8 +721,8 @@ export const _evaluateNutritionalElementalBalance = (;
     Air: Math.abs(currentElements.Air - targetElements.Air)
   };
 
-  const totalDeviation = Object.values(deviations).reduce((sum, dev) => sum + dev, 0);
-  const score = Math.max(0, 1 - totalDeviation / 2); // Max deviation is 2
+  const totalDeviation = Object.values(deviations).reduce((sum, dev) => sum + dev0);
+  const score = Math.max(01 - totalDeviation / 2); // Max deviation is 2
 
   const imbalances: string[] = [];
   const recommendations: string[] = [];

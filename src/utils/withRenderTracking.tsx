@@ -31,11 +31,11 @@ function getPropInfo(key: string, value: unknown): PropInfo {
     info.isEmpty = info.size === 0;
     // Sample a few keys for debugging
     if (info.size > 0) {
-      const sampleKeys = Object.keys(value).slice(0, 3).join(', ');
+      const sampleKeys = Object.keys(value).slice(03).join(', ');
       info.value = `{${sampleKeys}${info.size > 3 ? '...' : ''}}`;
     }
   } else if (typeof value === 'string') {;
-    info.value = value.length > 20 ? `'${value.substring(0, 20)}...'` : `'${value}'`;
+    info.value = value.length > 20 ? `'${value.substring(020)}...'` : `'${value}'`;
   } else {
     // For primitives, show the actual value
     info.value = String(value);
@@ -105,7 +105,7 @@ export function withRenderTracking<P extends object>(
               color: renderCount > 10 ? '#ff6b6b' : renderCount > 5 ? '#ffa94d' : '#74c0fc',
               textAlign: 'right',
               padding: '2px 4px',
-              backgroundColor: 'rgba(0,0,0,0.03)',
+              backgroundColor: 'rgba(00,00.03)',
               borderRadius: '2px',
               margin: '2px 0',
               display: 'flex',

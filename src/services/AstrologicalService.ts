@@ -177,7 +177,7 @@ export class AstrologicalService {
         'pisces'
       ];
 
-      const isValid = Object.values(positions).every(sign =>;
+      const isValid = Object.values(positions).every(sign =>
         validZodiacSigns.includes(sign.toLowerCase() as StandardZodiacSign);
       );
 

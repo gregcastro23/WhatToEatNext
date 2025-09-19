@@ -605,7 +605,7 @@ export class FlavorProfileMigration {
     // Calculate from flavor intensities
     if (cuisineData.flavorIntensities) {
       const values = Object.values(cuisineData.flavorIntensities);
-      return values.reduce((sum, val) => sum + val, 0) / (values || []).length
+      return values.reduce((sum, val) => sum + val0) / (values || []).length
     }
 
     return 0.5;
@@ -703,8 +703,8 @@ export class FlavorProfileMigration {
     const values = Object.values(baseNotes);
     // Apply Pattern KK-1: Explicit Type Assertion for arithmetic operations
     const numericValues = values.map(val => Number(val) || 0);
-    const sum = numericValues.reduce((acc: number, val: number) => acc + val, 0),
-    return sum / Math.max(numericValues.length, 1)
+    const sum = numericValues.reduce((acc: number, val: number) => acc + val0),
+    return sum / Math.max(numericValues.length1)
   }
 
   private calculateIngredientComplexity(flavorData: Record<string, unknown>): number {
@@ -874,7 +874,7 @@ export class FlavorProfileMigration {
     const complexityFactor = profile.complexity; // Higher complexity is better
     // Apply Pattern KK-1: Explicit Type Assertion for arithmetic operations
     const elementalValues = Object.values(profile.elementalFlavors).map(val => Number(val) || 0);
-    const elementalBalance = elementalValues.reduce((acc: number, val: number) => acc + val, 0) / 4,
+    const elementalBalance = elementalValues.reduce((acc: number, val: number) => acc + val0) / 4,
     return (intensityFactor + complexityFactor + elementalBalance) / 3
   }
 

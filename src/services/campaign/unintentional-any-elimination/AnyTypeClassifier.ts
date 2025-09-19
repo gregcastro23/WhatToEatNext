@@ -270,7 +270,7 @@ export class AnyTypeClassifier {
     const lowerComment = comment.toLowerCase();
 
     // Check for explicit intentional markers
-    const hasIntentionalMarker = intentionalKeywords.some(keyword =>;
+    const hasIntentionalMarker = intentionalKeywords.some(keyword =>
       lowerComment.includes(keyword);
     );
 
@@ -1045,7 +1045,7 @@ export class AnyTypeClassifier {
 
     // API-related keywords boost confidence
     const apiKeywords = ['fetch', 'axios', 'api', 'response', 'request', 'http', 'json'];
-    const foundKeywords = apiKeywords.filter(keyword =>;
+    const foundKeywords = apiKeywords.filter(keyword =>
       codeWithSurrounding.toLowerCase().includes(keyword);
     );
     confidence += ((foundKeywords as any)?.length || 0) * 0.2;
@@ -1067,7 +1067,7 @@ export class AnyTypeClassifier {
 
     // Test-specific keywords
     const testKeywords = ['mock', 'spy', 'jest', 'describe', 'it', 'test', 'expect'];
-    const foundKeywords = testKeywords.filter(keyword =>;
+    const foundKeywords = testKeywords.filter(keyword =>
       codeWithSurrounding.toLowerCase().includes(keyword);
     );
     confidence += ((foundKeywords as any)?.length || 0) * 0.2;
@@ -1087,7 +1087,7 @@ export class AnyTypeClassifier {
 
     // Configuration-related context
     const configKeywords = ['config', 'options', 'settings', 'params', 'env'];
-    const foundKeywords = configKeywords.filter(keyword =>;
+    const foundKeywords = configKeywords.filter(keyword =>
       codeWithSurrounding.toLowerCase().includes(keyword);
     );
     confidence += ((foundKeywords as any)?.length || 0) * 0.2;
@@ -1107,7 +1107,7 @@ export class AnyTypeClassifier {
 
     // Legacy-related keywords
     const legacyKeywords = ['legacy', 'deprecated', 'old', 'backward', 'compat'];
-    const foundKeywords = legacyKeywords.filter(keyword =>;
+    const foundKeywords = legacyKeywords.filter(keyword =>
       codeWithSurrounding.toLowerCase().includes(keyword);
     );
     confidence += ((foundKeywords as any)?.length || 0) * 0.2;

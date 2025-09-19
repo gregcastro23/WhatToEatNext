@@ -21,7 +21,7 @@ export class BuildSystemRepair {
 
   /**
    * Performs comprehensive build system repair
-   * Addresses all requirements: 3.1, 3.2, 3.3, 3.4, 3.5
+   * Addresses all requirements: 3.13.23.33.43.5
    */
   async performComprehensiveRepair(): Promise<BuildRepairResult> {
     const result: BuildRepairResult = {

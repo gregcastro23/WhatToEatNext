@@ -4,7 +4,7 @@ import type { ElementalProperties, ZodiacSign } from '@/types/alchemy';
 export type { ElementalProperties };
 
 export type IngredientCategory =
-  | 'culinary_herb';
+  | 'culinary_herb'
   | 'spice'
   | 'vegetable'
   | 'fruit'

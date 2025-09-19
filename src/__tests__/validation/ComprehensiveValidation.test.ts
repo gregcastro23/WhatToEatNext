@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any, no-console, @typescript-eslint/no-unused-vars, max-lines-per-function -- Campaign/test file with intentional patterns */
+/* eslint-disable @typescript-eslint/no-explicit-anyno-console, @typescript-eslint/no-unused-vars, max-lines-per-function -- Campaign/test file with intentional patterns */
 declare global {
   var __DEV__: boolean
 }
@@ -6,11 +6,11 @@ declare global {
 /**
  * Comprehensive Validation Test Suite - Task 12
  *
- * This test suite provides comprehensive validation testing including: * - Integration Test, s: Automated error resolution systems
+ * This test suite provides comprehensive validation testing including: * - Integration Tests: Automated error resolution systems
  * - Performance Tests: Linting speed and memory usage
  * - Domain Tests: Astrological calculation rule behavior
  *
- * Requirements: 5.1, 5.2, 6.4
+ * Requirements: 5.15.26.4
  */
 
 import { execSync } from 'child_process';
@@ -177,7 +177,7 @@ describe('Comprehensive Validation Test Suite - Task 12', () => {
 
       test('Linting integration with build process', () => {
         // Mock linting as part of build
-        mockExecSync.mockReturnValue(Buffer.from('✓ 0 problems (0 errors, 0 warnings)')),
+        mockExecSync.mockReturnValue(Buffer.from('✓ 0 problems (0 errors0 warnings)')),
 
         const result: any = mockExecSync('yarn lint');
         expect(result.toString()).toContain('0 problems');
@@ -272,7 +272,7 @@ describe('Comprehensive Validation Test Suite - Task 12', () => {
         // Mock cache-enabled linting
         mockExecSync
           .mockReturnValueOnce(Buffer.from('✓ First run: 5.2s (no cache)'))
-          .mockReturnValueOnce(Buffer.from('✓ Second run: 1.1s (cache hi, t: 80%)'));
+          .mockReturnValueOnce(Buffer.from('✓ Second run: 1.1s (cache hit: 80%)'));
 
         const firstRun: any = mockExecSync('yarn lint:cache-test');
         const secondRun: any = mockExecSync('yarn lint:cache-test');
@@ -285,8 +285,8 @@ describe('Comprehensive Validation Test Suite - Task 12', () => {
     describe('2.3 Scalability Tests', () => {
       test('Performance scales with codebase size', () => {
         // Mock performance scaling
-        const fileCounts: any = [10, 50, 100, 500],
-        const expectedTimes: any = [0.5, 2.0, 4.0, 15.0], // seconds;
+        const fileCounts: any = [1050, 100, 500],
+        const expectedTimes: any = [0.52.04.015.0], // seconds;
 
         fileCounts.forEach((fileCount: any, index: any) => {
           mockExecSync.mockReturnValueOnce(Buffer.from(`✓ ${fileCount} files linted in ${expectedTimes[index]}s`));
@@ -310,10 +310,10 @@ describe('Comprehensive Validation Test Suite - Task 12', () => {
       test('Self-reinforcement principle is enforced', () => {
         // Mock elemental compatibility validation
         const elementalCompatibility: any = {
-          Fire: { Fir, e: 0.9, Water: 0.7, Earth: 0.7, Air: 0.8 },
-          Water: { Wate, r: 0.9, Fire: 0.7, Earth: 0.8, Air: 0.7 },
-          Earth: { Eart, h: 0.9, Fire: 0.7, Water: 0.8, Air: 0.7 },
-          Air: { Ai, r: 0.9, Fire: 0.8, Water: 0.7, Earth: 0.7 }
+          Fire: { Fire: 0.9, Water: 0.7, Earth: 0.7, Air: 0.8 },
+          Water: { Water: 0.9, Fire: 0.7, Earth: 0.8, Air: 0.7 },
+          Earth: { Earth: 0.9, Fire: 0.7, Water: 0.8, Air: 0.7 },
+          Air: { Air: 0.9, Fire: 0.8, Water: 0.7, Earth: 0.7 }
         };
 
         // Test self-reinforcement (same elements ≥ 0.9)
@@ -362,8 +362,8 @@ describe('Comprehensive Validation Test Suite - Task 12', () => {
       test('Transit date validation rules work correctly', () => {
         // Mock transit date validation
         const transitDates: any = {
-          mars: { cancer: { Star, t: '2024-07-01', End: '2024-08-15' } },
-          venus: { pisces: { Star, t: '2024-03-01', End: '2024-04-30' } }
+          mars: { cancer: { Start: '2024-07-01', End: '2024-08-15' } },
+          venus: { pisces: { Start: '2024-03-01', End: '2024-04-30' } }
         };
 
         Object.entries(transitDates).forEach(([planet, signs]) => {
@@ -470,10 +470,10 @@ describe('Comprehensive Validation Test Suite - Task 12', () => {
       test('Quality metrics are tracked accurately', () => {
         // Mock quality metrics
         const metrics: any = {
-          typeScriptErrors: { curren, t: 0, target: 0, reduction: 100 },
-          lintingWarnings: { curren, t: 0, target: 0, reduction: 100 },
+          typeScriptErrors: { current: 0, target: 0, reduction: 100 },
+          lintingWarnings: { current: 0, target: 0, reduction: 100 },
           buildPerformance: { currentTim, e: 8.5, targetTime: 10 },
-          enterpriseSystems: { curren, t: 200, target: 200 }
+          enterpriseSystems: { current: 200, target: 200 }
         };
 
         mockExecSync.mockReturnValue(Buffer.from(JSON.stringify(metrics)));
@@ -488,7 +488,7 @@ describe('Comprehensive Validation Test Suite - Task 12', () => {
 
       test('Progress tracking works correctly', () => {
         // Mock progress tracking
-        const progressSteps: any = [25, 50, 75, 100],
+        const progressSteps: any = [2550, 75, 100],
 
         progressSteps.forEach(progress => {
           mockExecSync.mockReturnValueOnce(Buffer.from(`Progress: ${progress}%`));

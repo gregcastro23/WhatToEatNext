@@ -11,7 +11,7 @@ import type {
 export interface CookingMethodData {
   name: CookingMethod,
   description: string,
-  elementalEffect: ElementalProperties;
+  elementalEffect: ElementalProperties,
   elementalProperties?: ElementalProperties; // Some methods use this property name instead
   duration: {
     min: number,

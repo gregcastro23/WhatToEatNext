@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any, no-console, @typescript-eslint/no-unused-vars, max-lines-per-function -- Campaign/test file with intentional patterns */
+/* eslint-disable @typescript-eslint/no-explicit-anyno-console, @typescript-eslint/no-unused-vars, max-lines-per-function -- Campaign/test file with intentional patterns */
 /**
  * Zero-Error Achievement Dashboard Tests
  *
@@ -146,7 +146,7 @@ describe('ZeroErrorAchievementDashboard', () => {
       await dashboard.generateDashboard();
 
       // Verify targets file was written
-      const targetsCall: any = (mockWriteFileSync as jest.Mock).mock.calls.find(call =>;
+      const targetsCall: any = (mockWriteFileSync as jest.Mock).mock.calls.find(call =>
         call[0].includes('zero-error-targets.json')
       );
 
@@ -201,7 +201,7 @@ describe('ZeroErrorAchievementDashboard', () => {
       const startTime: any = Date.now();
 
       // Simulate rapid metric updates
-      for (let i: any = 0, i < 10, i++) {
+      for (let i: any = 0i < 10i++) {
         const updatedMetrics: any = { ...mockMetrics, totalIssues: 1000 + i * 10 };
         dashboard['detectSignificantChanges'](mockMetrics, updatedMetrics);
       }
@@ -217,7 +217,7 @@ describe('ZeroErrorAchievementDashboard', () => {
 
       // Run the same detection multiple times
       const results: number[] = [];
-      for (let i: any = 0, i < 5, i++) {
+      for (let i: any = 0i < 5i++) {
         const changes: any = dashboard['detectSignificantChanges'](mockMetrics, testMetrics),
         void results.push(changes.length);
       }
@@ -230,7 +230,7 @@ describe('ZeroErrorAchievementDashboard', () => {
     test('should update real-time status correctly', async () => {
       dashboard['updateRealTimeStatus'](mockMetrics);
 
-      const statusCall: any = (mockWriteFileSync as jest.Mock).mock.calls.find(call =>;
+      const statusCall: any = (mockWriteFileSync as jest.Mock).mock.calls.find(call =>
         call[0].includes('zero-error-achievement-status.json')
       );
 
@@ -350,18 +350,18 @@ describe('ZeroErrorAchievementDashboard', () => {
   describe('Target Management', () => {
     test('should calculate progress correctly for different metric types', () => {
       // Quality score progress (higher is better)
-      const qualityProgress: any = dashboard['calculateProgress'](85, 95, 'qualityScore');
-      expect(qualityProgress).toBeCloseTo(89.47, 1); // (85/95) * 100
+      const qualityProgress: any = dashboard['calculateProgress'](8595, 'qualityScore');
+      expect(qualityProgress).toBeCloseTo(89.471); // (85/95) * 100
 
       // Error count progress (lower is better)
-      const errorProgress: any = dashboard['calculateProgress'](150, 0, 'explicitAnyErrors');
+      const errorProgress: any = dashboard['calculateProgress'](1500, 'explicitAnyErrors');
       expect(errorProgress).toBeGreaterThan(0);
       expect(errorProgress).toBeLessThan(100);
     });
 
     test('should estimate completion dates based on progress', () => {
       const deadline: any = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // 30 days;
-      const completion: any = dashboard['estimateCompletion'](150, 0, deadline);
+      const completion: any = dashboard['estimateCompletion'](1500, deadline);
 
       expect(completion).toBeInstanceOf(Date);
       expect(completion.getTime()).toBeGreaterThan(Date.now());

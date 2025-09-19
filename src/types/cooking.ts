@@ -3,7 +3,7 @@ import { Element, ElementalProperties, ZodiacSign } from '@/types/alchemy';
 export interface CookingMethod {
   id: string,
   name: string,
-  description: string;
+  description: string,
   elementalEffect?: ElementalProperties;
   duration?: {
     min: number,

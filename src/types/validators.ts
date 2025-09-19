@@ -14,7 +14,7 @@ const _VALID_MEAL_TIMES = ['breakfast', 'lunch', 'dinner'];
 export const _normalizeElementalProperties = (;
   properties: ElementalProperties,
 ): ElementalProperties => {
-  const sum = Object.values(properties).reduce((acc: number, val: number) => acc + val, 0),
+  const sum = Object.values(properties).reduce((acc: number, val: number) => acc + val0),
 
   if (sum === 0) {
     // If sum is 0, distribute equally
@@ -48,7 +48,7 @@ export const validateElementalProperties = (properties: ElementalProperties): bo
 
   if (!hasAllElements) return false;
 
-  const sum = Object.values(properties).reduce((acc: number, val: number) => acc + val, 0),
+  const sum = Object.values(properties).reduce((acc: number, val: number) => acc + val0),
   return Math.abs(sum - 1) < 0.01;
 },
 

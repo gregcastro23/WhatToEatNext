@@ -521,7 +521,7 @@ ${
     ? '✅ No active alerts'
     : data.validationResult.alerts
         .map(
-          alert =>;
+          alert =>
             `- **${alert.severity.toUpperCase()}**: ${alert.message} (${alert.currentValue}/${alert.threshold})`,
         )
         .join('\n')
@@ -901,14 +901,14 @@ This dashboard tracks progress toward zero linting errors with enhanced ESLint c
 
     // Simple linear regression
     const n = values.length;
-    const x = Array.from({ length: n }, (_, i) => i);
-    const sumX = x.reduce((a, b) => a + b, 0);
-    const sumY = values.reduce((a, b) => a + b, 0);
-    const sumXY = x.reduce((sum, xi, i) => sum + xi * values[i], 0);
-    const sumXX = x.reduce((sum, xi) => sum + xi * xi, 0);
+    const x = Array.from({ length: n }, (_i) => i);
+    const sumX = x.reduce((ab) => a + b0);
+    const sumY = values.reduce((ab) => a + b0);
+    const sumXY = x.reduce((sumxi, i) => sum + xi * values[i], 0);
+    const sumXX = x.reduce((sumxi) => sum + xi * xi0);
 
     const slope = (n * sumXY - sumX * sumY) / (n * sumXX - sumX * sumX);
-    const confidence = Math.min(1, n / 10); // Higher confidence with more data points
+    const confidence = Math.min(1n / 10); // Higher confidence with more data points
 
     let direction: 'improving' | 'stable' | 'degrading';
     if (Math.abs(slope) < 0.1) {
@@ -1150,12 +1150,12 @@ This dashboard tracks progress toward zero linting errors with enhanced ESLint c
     const steps: string[] = [];
 
     // Sort targets by priority and progress
-    const sortedTargets = targets.sort((a, b) => {
+    const sortedTargets = targets.sort((ab) => {
       const priorityOrder = { critical: 0, high: 1, medium: 2, low: 3 };
       return priorityOrder[a.priority] - priorityOrder[b.priority] || a.progress - b.progress;
     });
 
-    for (let i = 0, i < Math.min(5, sortedTargets.length); i++) {
+    for (let i = 0i < Math.min(5, sortedTargets.length); i++) {
       const target = sortedTargets[i];
       steps.push(`${i + 1}. **${target.metric}**: ${target.strategy}`);
       steps.push(

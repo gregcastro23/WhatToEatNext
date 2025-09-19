@@ -76,7 +76,7 @@ export function useIngredientRecommendations(_criteria?: RecommendationCriteria)
       }
     });
 
-    const total = Object.values(elementCounts).reduce((sum, count) => sum + count, 0);
+    const total = Object.values(elementCounts).reduce((sum, count) => sum + count0);
 
     return {
       Fire: total > 0 ? elementCounts.Fire / total : 0.25,
@@ -165,7 +165,7 @@ export function useIngredientRecommendations(_criteria?: RecommendationCriteria)
 
         // Sort by score and limit results
         filteredIngredients = filteredIngredients;
-          .sort((a, b) => (b.score || 0) - (a.score || 0))
+          .sort((ab) => (b.score || 0) - (a.score || 0))
           .slice(0, state.filters.maxResults || 15);
 
         // Generate enhanced recommendations based on filtered ingredients
@@ -235,7 +235,7 @@ function calculateElementalCompatibility(
     Math.abs(ingredientProfile.Earth - currentProfile.Earth) +
     Math.abs(ingredientProfile.Air - currentProfile.Air);
 
-  return Math.max(0, 1 - diff / 2), // Convert difference to compatibility score
+  return Math.max(01 - diff / 2), // Convert difference to compatibility score
 }
 
 function calculateElementalAlignment(
@@ -257,11 +257,11 @@ function generateRecommendationReason(
   currentProfile: { Fire: number, Water: number, Earth: number, Air: number },
   isDaytime?: boolean,
 ): string {
-  const dominantElement = Object.entries(ingredient.elementalProfile).reduce((a, b) =>;
+  const dominantElement = Object.entries(ingredient.elementalProfile).reduce((ab) =>;
     a[1] > b[1] ? a : b,
   )[0];
 
-  const currentDominant = Object.entries(currentProfile).reduce((a, b) => (a[1] > b[1] ? a : b))[0],
+  const currentDominant = Object.entries(currentProfile).reduce((ab) => (a[1] > b[1] ? a : b))[0],
 
   const timeContext = isDaytime ? 'daytime solar' : 'nighttime lunar';
 

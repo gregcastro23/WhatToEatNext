@@ -1,6 +1,6 @@
 // ===== UNIFIED DATA SYSTEMS INDEX =====;
 // Central export point for all unified data systems
-// Phases 1, 2, and 3 consolidated systems
+// Phases 12, and 3 consolidated systems
 
 // Phase 1: Unified Flavor Profiles
 export * from './flavorProfiles';
@@ -36,7 +36,7 @@ export { RecipeEnhancer, RecipeAnalyzer } from './recipes';
 export { CuisineEnhancer, CuisineAnalyzer } from './cuisines';
 
 // Export singleton instances
-import { _, _ } from '@/types/alchemy';
+import { __ } from '@/types/alchemy';
 
 // Placeholder classes until imports are fixed
 class UnifiedSeasonalSystem {}

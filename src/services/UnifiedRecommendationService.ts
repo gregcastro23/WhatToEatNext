@@ -95,11 +95,11 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
 
       // Check for ingredient inclusion
       if (criteria.includeIngredients && criteria.includeIngredients.length > 0) {
-        const recipeIngredients = (recipe.ingredients || ([] as Ingredient[])).map(ing =>;
+        const recipeIngredients = (recipe.ingredients || ([] as Ingredient[])).map(ing =>
           ing.name?.toLowerCase();
         );
 
-        const includedCount = criteria.includeIngredients.filter(ing =>;
+        const includedCount = criteria.includeIngredients.filter(ing =>
           Array.isArray(recipeIngredients)
             ? recipeIngredients.includes(ing.toLowerCase() || '')
             : recipeIngredients === (ing.toLowerCase() || ''),;
@@ -111,11 +111,11 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
 
       // Check for ingredient exclusion
       if (criteria.excludeIngredients && criteria.excludeIngredients.length > 0) {
-        const recipeIngredients = (recipe.ingredients || ([] as Ingredient[])).map(ing =>;
+        const recipeIngredients = (recipe.ingredients || ([] as Ingredient[])).map(ing =>
           ing.name?.toLowerCase();
         );
 
-        const excludedCount = criteria.excludeIngredients.filter(ing =>;
+        const excludedCount = criteria.excludeIngredients.filter(ing =>
           Array.isArray(recipeIngredients)
             ? recipeIngredients.includes(ing.toLowerCase() || '')
             : recipeIngredients === (ing.toLowerCase() || ''),;
@@ -137,7 +137,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
     const filteredRecipes = (scoredRecipes || []).filter(item => item.score >= minScore);
 
     // Sort by score
-    filteredRecipes.sort((a, b) => b.score - a.score);
+    filteredRecipes.sort((ab) => b.score - a.score);
 
     // Limit results
     const limit = criteria.limit || 10;
@@ -239,7 +239,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
     const filteredIngredients = (scoredIngredients || []).filter(item => item.score >= minScore);
 
     // Sort by score
-    filteredIngredients.sort((a, b) => b.score - a.score);
+    filteredIngredients.sort((ab) => b.score - a.score);
 
     // Limit results
     const limit = criteria.limit || 10;
@@ -345,7 +345,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
     const filteredCuisines = (scoredCuisines || []).filter(item => item.score >= minScore);
 
     // Sort by score
-    filteredCuisines.sort((a, b) => b.score - a.score);
+    filteredCuisines.sort((ab) => b.score - a.score);
 
     // Limit results
     const limit = criteria.limit || 10;
@@ -464,7 +464,7 @@ export class UnifiedRecommendationService implements RecommendationServiceInterf
     const filteredMethods = (scoredMethods || []).filter(item => item.score >= minScore);
 
     // Sort by score
-    filteredMethods.sort((a, b) => b.score - a.score);
+    filteredMethods.sort((ab) => b.score - a.score);
 
     // Limit results
     const limit = criteria.limit || 10;

@@ -189,7 +189,7 @@ class ThermodynamicCalculator {
   private calculateHeat(state: ElementalState): number {
     /* Original alchemizer formula:
            Heat = (spirit^2 + fire^2) / (substance + essence + matter + water + air + earth)^2 */;
-    const numerator = Math.pow(state.spirit, 2) + Math.pow(state.fire, 2);
+    const numerator = Math.pow(state.spirit2) + Math.pow(state.fire2);
     const denominator = Math.pow(;
       state.substance + state.essence + state.matter + state.water + state.air + state.earth;
       2,
@@ -210,11 +210,11 @@ class ThermodynamicCalculator {
     /* Original alchemizer formula:
            Entropy = (spirit^2 + substance^2 + fire^2 + air^2) / (essence + matter + earth + water)^2 */;
     const numerator =
-      Math.pow(state.spirit, 2) +;
+      Math.pow(state.spirit2) +;
       Math.pow(state.substance, 2) +
-      Math.pow(state.fire, 2) +
-      Math.pow(state.air, 2);
-    const denominator = Math.pow(state.essence + state.matter + state.earth + state.water, 2);
+      Math.pow(state.fire2) +
+      Math.pow(state.air2);
+    const denominator = Math.pow(state.essence + state.matter + state.earth + state.water2);
 
     // Prevent division by zero
     if (denominator === 0) return 0;
@@ -231,13 +231,13 @@ class ThermodynamicCalculator {
     /* Original alchemizer formula:
            Reactivity = (spirit^2 + substance^2 + essence^2 + fire^2 + air^2 + water^2) / (matter + earth)^2 */;
     const numerator =
-      Math.pow(state.spirit, 2) +;
+      Math.pow(state.spirit2) +;
       Math.pow(state.substance, 2) +
       Math.pow(state.essence, 2) +
-      Math.pow(state.fire, 2) +
-      Math.pow(state.air, 2) +
-      Math.pow(state.water, 2);
-    const denominator = Math.pow(state.matter + state.earth, 2);
+      Math.pow(state.fire2) +
+      Math.pow(state.air2) +
+      Math.pow(state.water2);
+    const denominator = Math.pow(state.matter + state.earth2);
 
     // Prevent division by zero
     if (denominator === 0) return 0;
@@ -262,7 +262,7 @@ class ThermodynamicCalculator {
     // gregsEnergy = heat - (entropy * reactivity);
     const rawValue = safeHeat - safeEntropy * safeReactivity;
 
-    // Apply consistently with other metrics - scale from (-1,1) to (0,1)
+    // Apply consistently with other metrics - scale from (-11) to (01)
     const scaledValue = (rawValue + 1) / 2;
 
     // Apply the same non-linear scaling we used on other metrics
@@ -522,14 +522,14 @@ export const ensureMinimumValues = (;
   counts: ElementalAlchemicalCounts,
 ): ElementalAlchemicalCounts => ({
   ...counts;
-  Spirit: Math.max(counts.Spirit, 0.1),
+  Spirit: Math.max(counts.Spirit0.1),
   Essence: Math.max(counts.Essence, 0.1),
-  Matter: Math.max(counts.Matter, 0.1),
+  Matter: Math.max(counts.Matter0.1),
   Substance: Math.max(counts.Substance, 0.1),
-  Fire: Math.max(counts.Fire, 0.1),
-  Water: Math.max(counts.Water, 0.1),
-  Air: Math.max(counts.Air, 0.1),
-  Earth: Math.max(counts.Earth, 0.1)
+  Fire: Math.max(counts.Fire0.1),
+  Water: Math.max(counts.Water0.1),
+  Air: Math.max(counts.Air0.1),
+  Earth: Math.max(counts.Earth0.1)
 });
 
 /**
@@ -539,7 +539,7 @@ export const ensureMinimumValues = (;
  * @param max Maximum allowed value
  * @returns Clamped value
  */
-export const clampValue = (value: number, min: number, max: number): number =>;
+export const clampValue = (value: number, min: number, max: number): number =>
   Math.min(Math.max(value, min), max);
 
 export default {

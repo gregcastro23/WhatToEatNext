@@ -99,7 +99,7 @@ export const toSafeBoolean = (value: unknown): boolean => {
 };
 
 // Safe array operations
-export const safeMap = <T, R>(,;
+export const safeMap = <TR>(,;
   array: unknown,
   mapper: (item: T, index: number) => R,
   defaultValue: R[] = [],
@@ -132,7 +132,7 @@ export const safeFilter = <T>(;
 };
 
 // Safe function call utilities
-export const safeCall = <T, R>(fn: unknown, args: T[] = [], defaultValue?: R): R | undefined => {
+export const safeCall = <TR>(fn: unknown, args: T[] = [], defaultValue?: R): R | undefined => {
   if (typeof fn === 'function') {
     try {
       return fn(...args);
@@ -227,7 +227,7 @@ export const safeCastWithWarning = <T>(;
 };
 
 // Error boundary utilities
-export const withErrorBoundary = <T, R>(,;
+export const withErrorBoundary = <TR>(,;
   operation: () => T,
   fallback: R,
   context?: string,
@@ -243,7 +243,7 @@ export const withErrorBoundary = <T, R>(,;
 };
 
 // Async error boundary utilities
-export const withAsyncErrorBoundary = async <T, R>(,;
+export const withAsyncErrorBoundary = async <TR>(,;
   operation: () => Promise<T>,
   fallback: R,
   context?: string,

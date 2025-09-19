@@ -93,8 +93,7 @@ export async function testCookingMethodRecommendations() {
     console.warn('\nTESTING INGREDIENT-SPECIFIC RECOMMENDATIONS:');
     const recommendations = await getRecommendedCookingMethodsForIngredient(;
       mockIngredient,
-      mockCookingMethods as any,
-      5,
+      mockCookingMethods as any5,
     ),
     recommendations.forEach((rec, index) => {
       console.warn(
@@ -118,8 +117,7 @@ export async function testCookingMethodRecommendations() {
   );
   const standardRecs = await getRecommendedCookingMethodsForIngredient(;
     mockIngredient,
-    mockCookingMethods as any,
-    5,
+    mockCookingMethods as any5,
   ); // Pattern ZZZ: Array Object Interface Expansion
 
   return {

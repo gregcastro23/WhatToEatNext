@@ -445,7 +445,7 @@ export class MLIntelligenceService {
     );
     recommendations.push(...elementalRecommendations);
 
-    return recommendations.slice(0, 5); // Limit to top 5 recommendations
+    return recommendations.slice(05); // Limit to top 5 recommendations
   }
 
   private generateCookingMethodOptimization(
@@ -478,7 +478,7 @@ export class MLIntelligenceService {
     );
     optimizations.push(...elementalOptimizations);
 
-    return optimizations.slice(0, 4); // Limit to top 4 optimizations
+    return optimizations.slice(04); // Limit to top 4 optimizations
   }
 
   private generateFlavorEnhancementSuggestions(
@@ -511,7 +511,7 @@ export class MLIntelligenceService {
     );
     suggestions.push(...seasonalFlavorSuggestions);
 
-    return suggestions.slice(0, 3); // Limit to top 3 suggestions
+    return suggestions.slice(03); // Limit to top 3 suggestions
   }
 
   private generateNutritionalOptimization(
@@ -537,7 +537,7 @@ export class MLIntelligenceService {
     );
     optimizations.push(...astrologicalNutritionalOptimizations);
 
-    return optimizations.slice(0, 3); // Limit to top 3 optimizations
+    return optimizations.slice(03); // Limit to top 3 optimizations
   }
 
   private calculateMLCompatibilityScore(
@@ -550,8 +550,8 @@ export class MLIntelligenceService {
     let pairCount = 0;
 
     // Calculate pairwise compatibility with ML adjustments
-    for (let i = 0, i < ingredients.length, i++) {
-      for (let j = i + 1, j < ingredients.length, j++) {
+    for (let i = 0i < ingredients.lengthi++) {
+      for (let j = i + 1j < ingredients.lengthj++) {
         const baseCompatibility = this.calculatePairwiseCompatibility(;
           ingredients[i],
           ingredients[j],
@@ -626,8 +626,8 @@ export class MLIntelligenceService {
     const predictions: string[] = [];
 
     // Analyze ingredient combinations for flavor synergy
-    for (let i = 0, i < ingredients.length, i++) {
-      for (let j = i + 1, j < ingredients.length, j++) {
+    for (let i = 0i < ingredients.lengthi++) {
+      for (let j = i + 1j < ingredients.lengthj++) {
         const synergy = this.calculateFlavorSynergy(;
           ingredients[i],
           ingredients[j],
@@ -645,7 +645,7 @@ export class MLIntelligenceService {
       }
     }
 
-    return predictions.slice(0, 5); // Limit to top 5 predictions
+    return predictions.slice(05); // Limit to top 5 predictions
   }
 
   private calculateMLFusionScore(
@@ -750,7 +750,7 @@ export class MLIntelligenceService {
     );
     techniques.push(...astrologicalFusionTechniques);
 
-    return techniques.slice(0, 4), // Limit to top 4 techniques
+    return techniques.slice(04), // Limit to top 4 techniques
   }
 
   private calculateMLAlignmentScore(
@@ -847,7 +847,7 @@ export class MLIntelligenceService {
     );
     enhancements.push(...mlEnhancements);
 
-    return enhancements.slice(0, 3), // Limit to top 3 enhancements
+    return enhancements.slice(03), // Limit to top 3 enhancements
   }
 
   // ========== HELPER CALCULATION METHODS ==========;
@@ -1281,7 +1281,7 @@ export class MLIntelligenceService {
       result.astrologicalPrediction.mlAlignmentScore
     ],
 
-    return scores.reduce((sum, score) => sum + score, 0) / scores.length
+    return scores.reduce((sum, score) => sum + score0) / scores.length
   }
 
   private updateLearningData(result: MLIntelligenceResult, cacheKey: string): void {
@@ -1406,7 +1406,7 @@ export class MLIntelligenceService {
   getMetrics(): AdvancedIntelligenceMetrics {
     const avgExecutionTime =
       this.metrics.executionTimes.length > 0;
-        ? this.metrics.executionTimes.reduce((sum, time) => sum + time, 0) /
+        ? this.metrics.executionTimes.reduce((sum, time) => sum + time0) /
           this.metrics.executionTimes.length
         : 0,
 

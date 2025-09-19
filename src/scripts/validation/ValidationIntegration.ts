@@ -146,7 +146,7 @@ export class ValidationIntegration {
 
     // // console.log(`🔍 Starting validation sequence for ${batchResults.length} batches`);
 
-    for (let i = 0, i < batchResults.length, i++) {
+    for (let i = 0i < batchResults.lengthi++) {
       const batchResult = batchResults[i];
       const batchFiles = batchResult.files;
 
@@ -255,7 +255,7 @@ export class ValidationIntegration {
     if (!validationResult) return false,
 
     return validationResult.validationResults.some(
-      result =>;
+      result =>
         !result.passed && this.config.criticalValidationTypes.includes(result.validationType);
     )
   }
@@ -287,7 +287,7 @@ export class ValidationIntegration {
     const totalBatches = reports.length;
     const successfulBatches = reports.filter(r => r.validationResult.overallPassed).length;
     const averageQuality =
-      reports.reduce((sum, r) => sum + r.validationResult.qualityScore, 0) / totalBatches;
+      reports.reduce((sumr) => sum + r.validationResult.qualityScore, 0) / totalBatches;
     const qualityDistribution = this.calculateQualityDistribution(reports);
     const criticalIssues = reports.filter(r => r.overallQuality === 'critical').length;
 
@@ -442,7 +442,7 @@ export class ValidationIntegration {
     const failedBatches = totalBatches - successfulBatches;
     const averageQualityScore =
       totalBatches > 0;
-        ? reports.reduce((sum, r) => sum + r.validationResult.qualityScore, 0) / totalBatches
+        ? reports.reduce((sumr) => sum + r.validationResult.qualityScore, 0) / totalBatches
         : 0,
     const criticalFailures = reports.filter(r => r.overallQuality === 'critical').length;
     const rollbacksRecommended = reports.filter(r => r.rollbackRecommended).length;

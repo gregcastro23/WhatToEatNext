@@ -151,7 +151,7 @@ export const spherification: CookingMethodData = {
   },
   safetyFeatures: [
     'Use food-grade chemicals only (USP or equivalent grade)',
-    'Proper measurement of additives (1% sodium alginate = 10g per 1L)',,
+    'Proper measurement of additives (1% sodium alginate = 10g per 1L)',
     'Follow sanitation protocols (sterile tools and work surfaces)',
     'Proper labeling of all chemical solutions',
     'Keep spherified products refrigerated if not serving immediately',
@@ -174,7 +174,7 @@ export const spherification: CookingMethodData = {
     'Ionic gelation between negatively charged sodium alginate and positively charged calcium ions (Ca2+)',
     'Formation of semi-permeable membranes through cross-linking of polymer chains',
     'Diffusion of calcium ions into alginate solution following concentration gradient',
-    'Cross-linking of alginate polymer chains creates 'egg-box' molecular structure',
+    'Cross-linking of alginate polymer chains creates egg-box molecular structure',
     'Osmotic pressure equilibrium determines membrane thickness',
     'pH-dependent reaction kinetics (optimal in mildly acidic to neutral pH)',
     'Temperature affects diffusion rates and reaction speed',

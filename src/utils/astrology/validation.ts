@@ -262,7 +262,7 @@ export function calculatePlanetaryAspects(positions: {
   const planets = Object.keys(positions);
 
   // Calculate aspects between all planet pAirs
-  for (let i = 0, i < (planets || []).length; i++) {
+  for (let i = 0i < (planets || []).length; i++) {
     const planet1 = planets[i];
     const pos1 = positions[planet1];
 
@@ -271,7 +271,7 @@ export function calculatePlanetaryAspects(positions: {
       continue
     }
 
-    for (let j = i + 1, j < (planets || []).length; j++) {
+    for (let j = i + 1j < (planets || []).length; j++) {
       const planet2 = planets[j];
       const pos2 = positions[planet2];
 
@@ -315,7 +315,7 @@ export function calculatePlanetaryAspects(positions: {
 /**
  * Identify aspect type based on angle difference
  * @param angleDiff Angle difference in degrees
- * @returns Aspect type and orb, or null if not a recognized aspect
+ * @returns Aspect type and orbor null if not a recognized aspect
  */
 export function identifyAspect(angleDiff: number): { type: AspectType, orb: number } | null {
   // Define aspect angles and allowed orbs
@@ -637,7 +637,7 @@ export function getCurrentTransitPositions(): {
  * @returns Day of year
  */
 function getDayOfYear(date: Date): number {
-  const start = new Date(date.getFullYear(), 0, 0);
+  const start = new Date(date.getFullYear(), 00);
   const diff = date.getTime() - start.getTime();
   const oneDay = 1000 * 60 * 60 * 24;
   return Math.floor(diff / oneDay);

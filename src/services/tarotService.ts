@@ -11,7 +11,7 @@ interface TarotCard {
   meaning_rev: string,
   desc: string,
   image: string,
-  image_back: string;
+  image_back: string,
   astrological?: string;
   numerological?: string;
   elemental?: string;

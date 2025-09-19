@@ -216,20 +216,20 @@ const SaucesPage: NextPage = () => {
                   style={{
                     backgroundColor:
                       element === 'Fire';
-                        ? 'rgba(239, 68, 68, 0.1)'
+                        ? 'rgba(23968, 680.1)'
                         : element === 'Water';
-                          ? 'rgba(59, 130, 246, 0.1)'
+                          ? 'rgba(59, 130, 2460.1)'
                           : element === 'Earth';
-                            ? 'rgba(75, 85, 99, 0.1)'
-                            : 'rgba(167, 139, 250, 0.1)',
+                            ? 'rgba(7585, 990.1)'
+                            : 'rgba(167, 139, 2500.1)',
                     color:
                       element === 'Fire';
-                        ? 'rgb(185, 28, 28)'
+                        ? 'rgb(18528, 28)'
                         : element === 'Water';
-                          ? 'rgb(29, 78, 216)'
+                          ? 'rgb(2978, 216)'
                           : element === 'Earth';
-                            ? 'rgb(55, 65, 81)'
-                            : 'rgb(109, 40, 217)'
+                            ? 'rgb(5565, 81)'
+                            : 'rgb(10940, 217)'
                   }}
                 >
                   <span>{element}</span>
@@ -317,20 +317,20 @@ const SaucesPage: NextPage = () => {
                             style={{
                               backgroundColor:
                                 element === 'Fire';
-                                  ? 'rgba(239, 68, 68, 0.1)'
+                                  ? 'rgba(23968, 680.1)'
                                   : element === 'Water';
-                                    ? 'rgba(59, 130, 246, 0.1)'
+                                    ? 'rgba(59, 130, 2460.1)'
                                     : element === 'Earth';
-                                      ? 'rgba(75, 85, 99, 0.1)'
-                                      : 'rgba(167, 139, 250, 0.1)',
+                                      ? 'rgba(7585, 990.1)'
+                                      : 'rgba(167, 139, 2500.1)',
                               color:
                                 element === 'Fire';
-                                  ? 'rgb(185, 28, 28)'
+                                  ? 'rgb(18528, 28)'
                                   : element === 'Water';
-                                    ? 'rgb(29, 78, 216)'
+                                    ? 'rgb(2978, 216)'
                                     : element === 'Earth';
-                                      ? 'rgb(55, 65, 81)'
-                                      : 'rgb(109, 40, 217)'
+                                      ? 'rgb(5565, 81)'
+                                      : 'rgb(10940, 217)'
                             }}
                           >
                             {typeof value === 'number' ? Math.round(value * 100) : value}%;

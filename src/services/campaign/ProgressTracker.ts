@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any, no-console, @typescript-eslint/no-unused-vars -- Campaign/test file with intentional patterns */
+/* eslint-disable @typescript-eslint/no-explicit-anyno-console, @typescript-eslint/no-unused-vars -- Campaign/test file with intentional patterns */
 /**
  * Progress Tracking Infrastructure
  * Perfect Codebase Campaign - Real-time Metrics Collection
@@ -286,7 +286,7 @@ export class ProgressTracker {
       typeScriptErrors: {
         current: typeScriptErrorCount,
         target: 0,
-        reduction: Math.max(0, 86 - typeScriptErrorCount), // Based on initial 86 errors
+        reduction: Math.max(086 - typeScriptErrorCount), // Based on initial 86 errors
         percentage:
           typeScriptErrorCount >= 0 ? Math.round(((86 - typeScriptErrorCount) / 86) * 100) : 0
       },

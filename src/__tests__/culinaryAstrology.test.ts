@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any, no-console, @typescript-eslint/no-unused-vars, max-lines-per-function -- Campaign/test file with intentional patterns */
+/* eslint-disable @typescript-eslint/no-explicit-anyno-console, @typescript-eslint/no-unused-vars, max-lines-per-function -- Campaign/test file with intentional patterns */
 import { CulinaryAstrologer } from '@/calculations/culinaryAstrology';
 import { AstrologicalState } from '@/types/alchemy';
 
@@ -63,8 +63,8 @@ describe('CulinaryAstrologer', () => {
       planetaryHour: 'Sun',
       planetaryAlignment: { Sun: { sign: 'leo', degree: 15 }, Moon: { sign: 'cancer', degree: 5 } },
       aspects: [],
-      tarotElementBoosts: { Fir, e: 0.2, Water: 0.1, Air: 0, Earth: 0 },
-      tarotPlanetaryBoosts: { Su, n: 0.2, Moon: 0.1 },
+      tarotElementBoosts: { Fire: 0.2, Water: 0.1, Air: 0, Earth: 0 },
+      tarotPlanetaryBoosts: { Sun: 0.2, Moon: 0.1 },
     };
 
     const recommendations: any = astrologer.getRecipeRecommendations(astroState);

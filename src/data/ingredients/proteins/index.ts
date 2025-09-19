@@ -107,7 +107,7 @@ export const _getCompatibleProteins = (_proteinName: string): string[] => {
           (protein.affinities as string[]).includes(affinity),
         ),
     )
-    .map(([key, _]) => key)
+    .map(([key_]) => key)
 };
 
 export const _getProteinSubstitutes = (_proteinName: string): Record<string, number> => {
@@ -117,12 +117,12 @@ export const _getProteinSubstitutes = (_proteinName: string): Record<string, num
   const substitutes: Record<string, number> = {};
 
   Object.entries(_proteins)
-    .filter(([key, _]) => key !== _proteinName)
+    .filter(([key_]) => key !== _proteinName)
     .forEach(([key, value]) => {
       // Calculate similarity score based on cooking methods, nutrition, and texture
       const methodScore = value.culinaryApplications;
         ? Object.keys(value.culinaryApplications).filter(
-            _method =>;
+            _method =>
               protein.culinaryApplications &&
               Object.keys(protein.culinaryApplications).includes(_method);
           ).length / Object.keys(protein.culinaryApplications || {}).length

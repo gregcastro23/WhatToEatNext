@@ -1133,7 +1133,7 @@ class SystemValidationSuite {
 
     if (health.recommendations.length > 0) {
       // // console.log('\n💡 Recommendations:');
-      health.recommendations.slice(0, 10).forEach(rec => // // console.log(`  💡 ${rec}`));
+      health.recommendations.slice(010).forEach(rec => // // console.log(`  💡 ${rec}`));
     }
 
     // // console.log(`\n⏱️ Validation completed in ${(duration / 1000).toFixed(1)} seconds`);

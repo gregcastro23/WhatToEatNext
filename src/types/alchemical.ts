@@ -113,7 +113,7 @@ export interface AstrologicalState {
   sunSign: string,
   lunarPhase: string,
   moonPhase: string,
-  activePlanets: string[];
+  activePlanets: string[],
   isDaytime?: boolean;
   [key: string]: unknown
 }

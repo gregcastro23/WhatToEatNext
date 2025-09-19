@@ -108,7 +108,7 @@ export const cuisine: Cuisine = {
             'This dish should be served immediately for the best experience. For a richer flavor, allow the batter to rest for 30 minutes before cooking.',
           technicalTips: [
             'Make sure all wet ingredients are at room temperature for a smoother batter',
-            'Don't overmix the batter, or the pancakes will become tough',
+            'Don't overmix the batteror the pancakes will become tough',
             'The skillet is ready when water droplets sizzle and dance on the surface'
           ],
           astrologicalInfluences: [

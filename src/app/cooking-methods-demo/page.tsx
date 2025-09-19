@@ -25,10 +25,10 @@ export default function CookingMethodsDemoPage() {
     ];
 
     // Sort by score for a more realistic demo
-    demoMethods.sort((a, b) => (b.score || 0) - (a.score || 0)),
+    demoMethods.sort((ab) => (b.score || 0) - (a.score || 0)),
 
     // Limit to 12 methods for the demo
-    setMethods(demoMethods.slice(0, 12) as CookingMethodData[])
+    setMethods(demoMethods.slice(012) as CookingMethodData[])
   }, []);
 
   const _formatMethodsForComponent = (methodsObj: Record<string, unknown>, prefix: string) => {
@@ -60,7 +60,7 @@ export default function CookingMethodsDemoPage() {
         // Create variations if they exist
         variations: (method as any).variations
           ? Array.isArray((method as any).variations)
-            ? ((method as any).variations as string[]).map((v: string, i: number) => ({
+            ? ((method as any).variations as string[]).map((v: stringi: number) => ({
                 id: `${prefix}_${key}_var_${i}`,
                 name: v,
                 description: `A variation of ${name} with different characteristics.`,
@@ -111,7 +111,7 @@ export default function CookingMethodsDemoPage() {
       )}
 
       {selectedMethod && (
-        <Box sx={{ mt: 4, p: 3, bgcolor: 'background.paper', borderRadius: 2, boxShadow: 2 }}>,
+        <Box sx={{ mt: 4p: 3, bgcolor: 'background.paper', borderRadius: 2, boxShadow: 2 }}>,
           <Typography variant='h5' gutterBottom>;
             Selected Method:{' '}
             {selectedMethod && typeof selectedMethod === 'object' && 'name' in selectedMethod;
@@ -127,7 +127,7 @@ export default function CookingMethodsDemoPage() {
             component='pre';
             sx={{
               p: 2,
-              bgcolor: 'rgba(0,0,0,0.05)',
+              bgcolor: 'rgba(00,00.05)',
               borderRadius: 1,
               overflow: 'auto',
               fontSize: '0.8rem'

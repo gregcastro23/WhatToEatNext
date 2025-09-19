@@ -281,8 +281,8 @@ class PerformanceMonitoringService {
       slowComponents: slowComponents.length,
       errorProneComponents: errorProneComponents.length,
       averageRenderTime:
-        components.reduce((sum, c) => sum + c.averageRenderTime, 0) /
-        Math.max(components.length, 1),
+        components.reduce((sumc) => sum + c.averageRenderTime, 0) /
+        Math.max(components.length1),
       totalErrors: this.systemMetrics.totalErrors,
       memoryUsage: this.systemMetrics.totalMemoryUsage,
       uptime: this.systemMetrics.systemUptime,
@@ -296,10 +296,10 @@ class PerformanceMonitoringService {
     // Deduct for slow components
     const components = Array.from(this.componentMetrics.values());
     const slowComponents = components.filter(c => c.averageRenderTime > this.RENDER_TIME_WARNING);
-    score -= (slowComponents.length / Math.max(components.length, 1)) * 30;
+    score -= (slowComponents.length / Math.max(components.length1)) * 30;
 
     // Deduct for errors
-    const totalRenders = components.reduce((sum, c) => sum + c.renderCount, 0);
+    const totalRenders = components.reduce((sumc) => sum + c.renderCount, 0);
     const errorRate = this.systemMetrics.totalErrors / Math.max(totalRenders, 1);
     score -= errorRate * 40;
 

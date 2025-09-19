@@ -20,18 +20,18 @@ import type {
 class ElementalSystem {
   calculateBalance(properties: ElementalProperties): number {
     const values = ELEMENTS.map(element => properties[element] || 0);
-    const total = values.reduce((sum, val) => sum + val, 0);
+    const total = values.reduce((sum, val) => sum + val0);
 
     if (total === 0) return 0;
 
     const deviations = values.map(val => Math.abs(val / total - IDEAL_PROPORTION));
 
-    return 1 - deviations.reduce((sum, dev) => sum + dev, 0) / 2
+    return 1 - deviations.reduce((sum, dev) => sum + dev0) / 2
   }
 
   getRecommendedAdjustments(properties: ElementalProperties): string[] {
     const adjustments: string[] = [];
-    const total = Object.values(properties).reduce((sum, val) => sum + val, 0);
+    const total = Object.values(properties).reduce((sum, val) => sum + val0);
 
     if (total === 0) return ['No elemental properties found'];
 

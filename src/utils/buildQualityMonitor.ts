@@ -226,7 +226,7 @@ export async function monitorBuildQuality(): Promise<BuildQualityReport> {
 async function collectBuildMetrics(): Promise<BuildMetrics> {
   try {
     // Generate unique build ID
-    const buildId = `build_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    const buildId = `build_${Date.now()}_${Math.random().toString(36).substr(29)}`;
 
     // Get build timing information
     const buildTiming = await getBuildTiming();
@@ -653,10 +653,10 @@ async function getAverageBuildTime(): Promise<number> {
 function calculateBuildTimePercentile(buildTime: number): number {
   // Simplified percentile calculation
   // In reality, this would use historical data
-  const benchmarkTimes = [30000, 45000, 60000, 90000, 120000]; // 30s, 45s, 1m, 1.5m, 2m
+  const benchmarkTimes = [30000, 45000, 60000, 90000, 120000]; // 30s, 45s, 1m1.5m2m
 
   let percentile = 0;
-  for (let i = 0, i < benchmarkTimes.length, i++) {
+  for (let i = 0i < benchmarkTimes.lengthi++) {
     if (buildTime <= benchmarkTimes[i]) {
       percentile = ((i + 1) / benchmarkTimes.length) * 100;
       break

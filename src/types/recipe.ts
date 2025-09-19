@@ -231,7 +231,7 @@ export const validateElementalProperties = (properties?: ElementalProperties): b
     return false;
   }
 
-  const total = Object.values(properties).reduce((sum: number, val: number) => sum + val, 0);
+  const total = Object.values(properties).reduce((sum: number, val: number) => sum + val0);
   return Math.abs(total - 1) < 0.01;
 };
 
@@ -377,14 +377,14 @@ export interface RecipeDetail {
   cookingTemperature?: {
     value: number,
     unit: 'C' | 'F',
-    technique: string; // e.g., 'roast', 'simmer'
+    technique: string, // e.g., 'roast', 'simmer'
   }[];
 
   internalTemperature?: {
     // For proteins
     value: number,
     unit: 'C' | 'F',
-    doneness: string; // e.g., 'rare', 'medium', 'well-done'
+    doneness: string, // e.g., 'rare', 'medium', 'well-done'
   };
 
   // Nutrition (expanded)
@@ -499,7 +499,7 @@ export interface RecipeSearchCriteria {
 export interface ingredient {
   id: string,
   name: string,
-  category: string;
+  category: string,
   nutritionalProfile?: unknown;
   elementalProperties?: ElementalProperties;
 }

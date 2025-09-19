@@ -42,7 +42,7 @@ export class ThermodynamicCalculator {
 
       if (cookingTemperature) {
         // Normalize cooking temperature (assuming max around 500°F)
-        const normalizedTemp = Math.min(cookingTemperature / 500, 1);
+        const normalizedTemp = Math.min(cookingTemperature / 5001);
         heatValue += normalizedTemp * 0.2;
         weight += 1;
       }
@@ -65,7 +65,7 @@ export class ThermodynamicCalculator {
     let totalWeight = 0;
 
     // More ingredients = higher entropy;
-    const ingredientCountFactor = Math.min(ingredients.length / 10, 1) * 0.3;
+    const ingredientCountFactor = Math.min(ingredients.length / 101) * 0.3;
     totalEntropy += ingredientCountFactor;
     totalWeight += 1;
 
@@ -109,7 +109,7 @@ export class ThermodynamicCalculator {
     });
 
     // Add diversity factor
-    const diversityFactor = Math.min(categories.size / 5, 1) * 0.4;
+    const diversityFactor = Math.min(categories.size / 51) * 0.4;
     totalEntropy += diversityFactor;
     totalWeight += 1;
 

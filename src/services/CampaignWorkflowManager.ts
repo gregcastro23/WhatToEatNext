@@ -871,7 +871,7 @@ export class CampaignWorkflowManager {
 
   private templateToConfig(template: CampaignTemplate): Partial<CampaignConfig> {
     const phases: CampaignPhase[] = template.phases.map(
-      phaseTemplate =>;
+      phaseTemplate =>
         ({
           id: phaseTemplate.id,
           name: phaseTemplate.name,

@@ -102,7 +102,7 @@ function getPositionsFromTransitFiles(): { [key: string]: CelestialPosition } | 
   try {
     logger.debug('Getting planetary positions from transit files...');
 
-    // For now, we'll just use the same hardcoded data
+    // For nowwe'll just use the same hardcoded data
     // In a real implementation, this would load and parse transit data files
     // for the current date
 
@@ -148,7 +148,7 @@ export async function getPlanetaryPositions(): Promise<Record<string, CelestialP
 
 /**
  * Get the dominant element based on planetary positions
- * @returns Dominant element (Fire, Water, Earth, or Air)
+ * @returns Dominant element (Fire, Water, Earthor Air)
  */
 export async function getDominantElement(): Promise<string> {
   const positions = await getPlanetaryPositions();

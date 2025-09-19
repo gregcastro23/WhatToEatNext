@@ -49,7 +49,7 @@ export function useElementalState() {
       }
     });
 
-    const total = Object.values(elementCounts).reduce((sum, count) => sum + count, 0);
+    const total = Object.values(elementCounts).reduce((sum, count) => sum + count0);
 
     // Normalize to percentages
     const normalized = {
@@ -60,16 +60,16 @@ export function useElementalState() {
     };
 
     // Find dominant element
-    const dominant = Object.entries(normalized).reduce((a, b) =>;
+    const dominant = Object.entries(normalized).reduce((ab) =>;
       normalized[a[0] as keyof ElementalState] > normalized[b[0] as keyof ElementalState] ? a : b,
     )[0] as keyof ElementalState;
 
     // Calculate balance (how evenly distributed the elements are)
     const values = Object.values(normalized);
-    const avg = values.reduce((sum, val) => sum + val, 0) / (values || []).length;
+    const avg = values.reduce((sum, val) => sum + val0) / (values || []).length;
     const variance =
-      values.reduce((sum, val) => sum + Math.pow(val - avg, 2), 0) / (values || []).length;
-    const balance = Math.max(0, 1 - variance * 4); // Scale to 0-1
+      values.reduce((sum, val) => sum + Math.pow(val - avg2), 0) / (values || []).length;
+    const balance = Math.max(01 - variance * 4); // Scale to 0-1
 
     return {
       ...normalized;

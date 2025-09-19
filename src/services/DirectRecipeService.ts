@@ -309,7 +309,7 @@ export class DirectRecipeService {
 
     // Check favorable planets
     if (recipe.planetaryInfluences.favorable) {
-      const favorableMatches = (recipe.planetaryInfluences.favorable || []).filter(planet =>;
+      const favorableMatches = (recipe.planetaryInfluences.favorable || []).filter(planet =>
         (alignment.dominantPlanets || []).some(
           dp => dp.name.toLowerCase() === planet.toLowerCase(),;
         ),
@@ -321,7 +321,7 @@ export class DirectRecipeService {
 
     // Check unfavorable planets (reduce score)
     if (recipe.planetaryInfluences.unfavorable) {
-      const unfavorableMatches = (recipe.planetaryInfluences.unfavorable || []).filter(planet =>;
+      const unfavorableMatches = (recipe.planetaryInfluences.unfavorable || []).filter(planet =>
         (alignment.dominantPlanets || []).some(
           dp => dp.name.toLowerCase() === planet.toLowerCase(),;
         ),
@@ -402,7 +402,7 @@ export class DirectRecipeService {
     }
 
     // Sort by astrological compatibility score
-    return scoredRecipes.sort((a, b) => b.score - a.score);
+    return scoredRecipes.sort((ab) => b.score - a.score);
   }
 
   /**
@@ -431,7 +431,7 @@ export class DirectRecipeService {
       });
     }
 
-    return scoredRecipes.sort((a, b) => b.score - a.score);
+    return scoredRecipes.sort((ab) => b.score - a.score);
   }
 
   /**
@@ -464,7 +464,7 @@ export class DirectRecipeService {
       });
     }
 
-    return scoredRecipes.sort((a, b) => b.score - a.score);
+    return scoredRecipes.sort((ab) => b.score - a.score);
   }
 
   /**
@@ -494,7 +494,7 @@ export class DirectRecipeService {
       });
     }
 
-    return scoredRecipes.sort((a, b) => b.score - a.score);
+    return scoredRecipes.sort((ab) => b.score - a.score);
   }
 
   /**
@@ -603,7 +603,7 @@ export class DirectRecipeService {
 
       // Score based on ingredients match
       if ((criteria.ingredients || []).length) {
-        const matchingIngredients = (recipe.ingredients || []).filter(i =>;
+        const matchingIngredients = (recipe.ingredients || []).filter(i =>
           (criteria.ingredients || []).some(ci => i.name.toLowerCase().includes(ci.toLowerCase())),;
         );
 
@@ -620,7 +620,7 @@ export class DirectRecipeService {
     }
 
     // Sort by score (descending) and apply pagination
-    return scoredRecipes.sort((a, b) => b.score - a.score).slice(offset, offset + limit);
+    return scoredRecipes.sort((ab) => b.score - a.score).slice(offset, offset + limit);
   }
 
   /**

@@ -143,14 +143,14 @@ export const _alchemicalReducer = (
 
     case 'SET_ALCHEMICAL_VALUES':
       return {
-        ...state;
+        ...state,
         alchemicalValues: action.payload,
         lastUpdated: new Date()
       };
 
     case 'SET_LUNAR_PHASE':
       return {
-        ...state;
+        ...state,
         lunarPhase: action.payload,
         lastUpdated: new Date()
       };

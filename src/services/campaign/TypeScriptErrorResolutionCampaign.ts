@@ -198,7 +198,7 @@ export class TypeScriptErrorResolutionCampaign {
     }
 
     // Sort by enterprise relevance and safety
-    unusedVariables.sort((a, b) => {
+    unusedVariables.sort((ab) => {
       // Prioritize safe removals first
       if (a.potentialImpact === 'safe' && b.potentialImpact !== 'safe') return -1;
       if (b.potentialImpact === 'safe' && a.potentialImpact !== 'safe') return 1;
@@ -301,7 +301,7 @@ export class TypeScriptErrorResolutionCampaign {
         v => v.removalRecommendation === 'investigate'
       ).length;
       businessCritical: unusedVarAnalysis.filter(
-        v =>;
+        v =>
           v.enterpriseContext?.businessLogicRelevance &&
           v.enterpriseContext.businessLogicRelevance > 0.7
       ).length

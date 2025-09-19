@@ -902,7 +902,7 @@ const rawSalts = {
       temperature: 'room temperature',
       humidity: 'low',
       container: 'airtight container',
-      notes: 'Very stable, no special requirements'
+      notes: 'Very stableno special requirements'
     }
   },
 
@@ -939,7 +939,7 @@ const rawSalts = {
       temperature: 'room temperature',
       humidity: 'low',
       container: 'airtight container',
-      notes: 'Very stable, no special requirements'
+      notes: 'Very stableno special requirements'
     }
   }
 };

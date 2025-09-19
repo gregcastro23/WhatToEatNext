@@ -87,7 +87,7 @@ export const _getCompatibleSeasonings = (seasoningName: string): string[] => {
             Array.isArray(seasoning.affinities) && seasoning.affinities.includes(affinity);
         ),
     )
-    .map(([key, _]) => key)
+    .map(([key_]) => key)
 };
 
 export const _getSeasoningsByTiming = (timing: CulinaryTiming): IngredientMapping => {

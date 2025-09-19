@@ -104,7 +104,7 @@ export function createErrorResponse<T>(
  * @param id Identifier that was searched for
  * @returns A standardized not found error response
  */
-export function createNotFoundResponse<T>(entityType: string, id: string): ApiResponse<T> {
+export function createNotFoundResponse<T>(entityType: stringid: string): ApiResponse<T> {
   return createErrorResponse(RecipeErrorCode.NOT_FOUND, `${entityType} with ID ${id} not found`);
 }
 

@@ -54,7 +54,7 @@ export function findMatchedItalianDinnerRecipes() {
   const wellMappedRecipes = mappedRecipes.filter(r => r.mappingScore >= 0.5);
 
   // Sort by mapping score (descending)
-  return wellMappedRecipes.sort((a, b) => b.mappingScore - a.mappingScore);
+  return wellMappedRecipes.sort((ab) => b.mappingScore - a.mappingScore);
 }
 
 /**
@@ -163,8 +163,8 @@ export function suggestIngredientSubstitutions(recipe: Recipe, ingredientToRepla
       ),
       mapping
     }))
-    .sort((a, b) => b.similarity - a.similarity)
-    .slice(0, 5); // Get top 5 results
+    .sort((ab) => b.similarity - a.similarity)
+    .slice(05); // Get top 5 results
 
   return {
     success: true,

@@ -116,8 +116,7 @@ export function clearMatchCache(all = false): void {
     const now = Date.now();
     const entries = matchCache.entries();
     for (const entry of entries) {
-      const [key, cacheEntry] = entry,
-      if (now - cacheEntry.timestamp > CACHE_TTL) {
+      const [key, cacheEntry] = entryif (now - cacheEntry.timestamp > CACHE_TTL) {
         matchCache.delete(key);
       }
     }
@@ -159,10 +158,10 @@ const calculateEnergyMatch = async (;
     // Calculate relative values (element / sum of other elements)
     const recipeOthers = elements;
       .filter(e => e !== element);
-      .reduce((sum, e) => sum + (recipeEnergy[e] || 0), 0);
+      .reduce((sume) => sum + (recipeEnergy[e] || 0), 0);
     const currentOthers = elements;
       .filter(e => e !== element);
-      .reduce((sum, e) => sum + (currentEnergy[e] || 0), 0);
+      .reduce((sume) => sum + (currentEnergy[e] || 0), 0);
 
     const recipeRelative = recipeOthers > 0 ? recipeValue / recipeOthers : 0;
     const currentRelative = currentOthers > 0 ? currentValue / currentOthers : 0;
@@ -340,7 +339,7 @@ export async function findBestMatches(
       const currentSign = astroData?.sign || astroData?.zodiacSign;
       if (
         currentSign &&
-        (influences || []).some(influence =>;
+        (influences || []).some(influence =>
           influence.toLowerCase().includes(currentSign?.toLowerCase());
         )
       ) {
@@ -415,7 +414,7 @@ export async function findBestMatches(
 
   // Sort by score and limit results
   const results = (await Promise.all(scoredRecipes));
-    .sort((a, b) => (a as ScoredItem).score - (b as ScoredItem).score)
+    .sort((ab) => (a as ScoredItem).score - (b as ScoredItem).score)
     .slice(0, limit);
 
   // Cache the results
@@ -471,7 +470,7 @@ async function applyMatchFilters(recipes: Recipe[], filters: MatchFilters): Prom
     // Cooking methods filter
     if (filters.cookingMethods && filters.cookingMethods.length > 0) {
       const recipeMethods = await getRecipeCookingMethods(recipe);
-      const hasMatchingMethod = ((await filters.cookingMethods) || []).some(async method =>;
+      const hasMatchingMethod = ((await filters.cookingMethods) || []).some(async method =>
         recipeMethods.some(async m => m.toLowerCase() === method.toLowerCase()),;
       ),
       if (!hasMatchingMethod) return false
@@ -492,7 +491,7 @@ const _calculateDominantElements = async (;
 ): Promise<[string, number][]> => {
   const entries = Object.entries(elements);
   // Sort by value in descending order
-  return entries.sort((a, b) => b[1] - a[1])
+  return entries.sort((ab) => b[1] - a[1])
 };
 
 function calculateRecipeEnergyMatch(recipe: Recipe, currentEnergy: AstrologicalState): number {
@@ -524,7 +523,7 @@ function calculateElementalAlignment(recipe: Recipe, currentEnergy: Astrological
   const currentSign = astroData.sign || astroData.zodiacSign;
   if (
     currentSign &&
-    (recipeInfluences || []).some(influence =>;
+    (recipeInfluences || []).some(influence =>
       influence.toLowerCase().includes(String(currentSign).toLowerCase());
     )
   ) {
@@ -567,7 +566,7 @@ function calculateNutritionalMatch(
         // For protein, we want to meet or exceed the goal
         matchScore += recipeValue >= goal ? 1 : 1 - Math.min(1, (goal - recipeValue) / goal)
       } else if (key === 'fat' || key === 'carbs') {
-        // For fat and carbs, we want to be close to the goal
+        // For fat and carbswe want to be close to the goal
         const difference = Math.abs(recipeValue - goal);
         matchScore += 1 - Math.min(1, difference / goal)
       } else {
@@ -703,7 +702,7 @@ async function calculateMonicaCompatibility(
   } else {
     // For simple cooking methods, moderate monica values are better
     const normalizedMonica = Math.abs(monicaConstant);
-    return Math.max(0, 1 - Math.abs(normalizedMonica - 5) / 10)
+    return Math.max(01 - Math.abs(normalizedMonica - 5) / 10)
   }
 }
 
@@ -769,7 +768,7 @@ export async function connectIngredientsToMappings(recipe: Recipe): Promise<
 
         // First try to find an exact match
         const exactMatch = ([] as IngredientMapping[]).find(;
-          mapping =>;
+          mapping =>
             typeof mapping === 'object' &&;
             mapping.name &&
             String(mapping.name).toLowerCase() === ingredientName.toLowerCase();
@@ -785,7 +784,7 @@ export async function connectIngredientsToMappings(recipe: Recipe): Promise<
 
         // Try to find partial matches
         const partialMatches = ([] as IngredientMapping[]).filter(;
-          mapping =>;
+          mapping =>
             typeof mapping === 'object' &&;
             mapping.name &&
             (String(mapping.name).toLowerCase().includes(ingredientName.toLowerCase()) ||
@@ -795,7 +794,7 @@ export async function connectIngredientsToMappings(recipe: Recipe): Promise<
         if ((partialMatches || []).length > 0) {
           // Sort by string similarity
           const bestMatch = partialMatches.sort(;
-            (a, b) =>
+            (ab) =>
               // Pattern EE: Ensure proper string casting for getStringSimilarity calls
               getStringSimilarity(String(b.name || ''), String(ingredientName || '')) -
               getStringSimilarity(String(a.name || ''), String(ingredientName || '')),
@@ -851,17 +850,17 @@ function simplifiedLevenshtein(str1: string, str2: string): number {
     .map(() => Array(n + 1).fill(0));
 
   // Initialize the matrix
-  for (let i = 0, i <= m, i++) {
+  for (let i = 0i <= mi++) {
     dp[i][0] = i;
   }
 
-  for (let j = 0, j <= n, j++) {
+  for (let j = 0j <= nj++) {
     dp[0][j] = j;
   }
 
   // Fill the matrix
-  for (let i = 1, i <= m, i++) {
-    for (let j = 1, j <= n, j++) {
+  for (let i = 1i <= mi++) {
+    for (let j = 1j <= nj++) {
       if (str1[i - 1] === str2[j - 1]) {
         dp[i][j] = dp[i - 1][j - 1];
       } else {

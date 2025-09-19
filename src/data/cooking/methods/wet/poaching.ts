@@ -132,7 +132,7 @@ export const poaching: CookingMethodData = {
     fats: 0.8, // Some fat rendered into liquid but majority retained
     antioxidants: 0.9, // Well preserved due to low temperature
     water_soluble_vitamins: 0.75, // Some B and C vitamins migrate to liquid
-    fat_soluble_vitamins: 0.9, // Excellent A, D, E, K retention
+    fat_soluble_vitamins: 0.9, // Excellent AD, EK retention
     phytonutrients: 0.85, // Good preservation of beneficial plant compounds
     flavor_compounds: 0.75, // Some transfer to poaching liquid
   },
@@ -352,19 +352,19 @@ export const poaching: CookingMethodData = {
     'Control poaching temperature precisely with an instant-read thermometer',
     'Add a splash of vinegar to poaching liquid for eggs (1 Tbsp per quart)',
     'For chicken breasts, start in cold liquid and slowly bring to temperature',
-    'When poaching fish, a court bouillon with acid helps maintain firmness',
+    'When poaching fisha court bouillon with acid helps maintain firmness',
     'Let delicate items like fish rest in turned-off poaching liquid for 1-2 minutes',
     'Butter-baste poached items just before serving for added richness',
     'Strain and freeze poaching liquid for future use (label with date and ingredients)'
   ],
 
   timingConsiderations: {
-    eggs: 'Just barely simmering water: 3 minutes for soft yolk, 4-5 minutes for medium',
+    eggs: 'Just barely simmering water: 3 minutes for soft yolk4-5 minutes for medium',
     fish_fillets: '8-10 minutes per inch of thickness at 170°F',
-    chicken_breasts: 'Start in cold liquid, 15-20 minutes at 170°F until 165°F internal',
+    chicken_breasts: 'Start in cold liquid15-20 minutes at 170°F until 165°F internal',
     shellfish: 'Shrimp: 2-3 minutes, Scallops: 3-5 minutes until just opaque',
     pears: '15-25 minutes depending on ripeness (test with knife)',
-    apples: '10-15 minutes for slices, 20-30 minutes for whole',
+    apples: '10-15 minutes for slices20-30 minutes for whole',
     stone_fruits: '8-12 minutes depending on ripeness',
     whole_fish: '8-10 minutes per pound at 170°F',
     rest_period: 'Fish: 2-3 minutes in liquid, Chicken: 5-10 minutes in liquid',

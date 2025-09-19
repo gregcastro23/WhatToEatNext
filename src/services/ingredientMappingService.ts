@@ -141,7 +141,7 @@ class IngredientMappingService {
         ),
         mapping
       }))
-      .sort((a, b) => b.similarity - a.similarity)
+      .sort((ab) => b.similarity - a.similarity)
       .slice(0, maxResults);
 
     return {
@@ -257,8 +257,8 @@ class IngredientMappingService {
       type: string
     }[] = [];
 
-    for (let i = 0, i < validMappings.length, i++) {
-      for (let j = i + 1, j < validMappings.length, j++) {
+    for (let i = 0i < validMappings.lengthi++) {
+      for (let j = i + 1j < validMappings.lengthj++) {
         const ing1 = validMappings[i];
         const ing2 = validMappings[j];
 
@@ -286,12 +286,12 @@ class IngredientMappingService {
         : 0;
 
     // Find strongest and weakest combinations
-    const sortedCombinations = [...combinations].sort((a, b) => b.compatibility - a.compatibility);
+    const sortedCombinations = [...combinations].sort((ab) => b.compatibility - a.compatibility);
 
     return {
       success: true,
       averageCompatibility,
-      bestCombinations: sortedCombinations.slice(0, 3),
+      bestCombinations: sortedCombinations.slice(03),
       weakestCombinations: sortedCombinations.slice(-3).reverse(),
       allCombinations: combinations,
       mappingQuality: validMappings.length / Math.max(1, recipe.ingredients.length)

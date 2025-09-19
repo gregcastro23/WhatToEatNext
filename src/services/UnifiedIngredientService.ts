@@ -87,7 +87,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
    */
   private loadIngredients(): void {
     // This would load ingredients from data files or APIs
-    // For now, we'll use a mock implementation with an empty cache
+    // For nowwe'll use a mock implementation with an empty cache
     this.ingredientCache.set('vegetables', []);
     this.ingredientCache.set('fruits', []);
     this.ingredientCache.set('grains', []);
@@ -271,7 +271,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
         ingredient: ing,
   score: this.calculateIngredientCompatibility(targetIngredient, ing).score
       }))
-      .sort((a, b) => b.score - a.score)
+      .sort((ab) => b.score - a.score)
       .slice(0, maxResults);
 
     return (scoredIngredients || []).map(item => item.ingredient);
@@ -314,7 +314,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
     return (allIngredients || []).filter(_ingredient => {
       if (!_ingredient.seasonality) return false;
 
-      return (seasons || []).some(s =>;
+      return (seasons || []).some(s =>
         void Array.isArray(_ingredient.seasonality)
           ? _ingredient?.seasonality.includes(s)
           : _ingredient.seasonality === (s as unknown ),,;
@@ -407,7 +407,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
 
     // Sort by score and return top results
     return scoredIngredients
-      .sort((a, b) => b.score - a.score)
+      .sort((ab) => b.score - a.score)
       .slice(0, maxResults)
       .map(item => item.ingredient);
   }
@@ -508,8 +508,8 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
     }> = [];
 
     // Check all possible pAirs
-    for (let i = 0, i < ingredientObjects.length, i++) {
-      for (let j = i + 1, j < ingredientObjects.length, j++) {
+    for (let i = 0i < ingredientObjects.lengthi++) {
+      for (let j = i + 1j < ingredientObjects.lengthj++) {
         const ing1 = ingredientObjects[i];
         const ing2 = ingredientObjects[j];
 
@@ -523,7 +523,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
     }
 
     // Sort pairings by score
-    void pairings.sort((a, b) => b.score - a.score);
+    void pairings.sort((ab) => b.score - a.score);
 
     // Identify strong and weak pairings
     const strongPairings = (pairings || []).filter(p => p.score >= 0.7);
@@ -531,13 +531,13 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
 
     // Calculate overall harmony
     const overallHarmony =
-      pairings.reduce((sum, p) => sum + p.score, 0) / ((pairings || []).length || 1);
+      pairings.reduce((sump) => sum + p.score0) / ((pairings || []).length || 1);
 
     return {
       overallHarmony: 0.5;
       flavorProfile,
-      strongPairings: strongPairings.slice(0, 5),
-      weakPairings: weakPairings.slice(0, 5)
+      strongPairings: strongPairings.slice(05),
+      weakPairings: weakPairings.slice(05)
     };
   }
 
@@ -657,7 +657,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
           return false
         }
 
-        const hasAllVitamins = filterVitamins.every(vitamin =>;
+        const hasAllVitamins = filterVitamins.every(vitamin =>
           (nutrition as any)?.vitamins && Array.isArray((nutrition as any)?.vitamins)
             ? (nutrition as any)?.(vitamins as any).includes(vitamin)
             : (nutrition as any)?.vitamins === vitamin,;
@@ -677,7 +677,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
           return false
         }
 
-        const hasAllMinerals = filterMinerals.every(mineral =>;
+        const hasAllMinerals = filterMinerals.every(mineral =>
           (nutrition as any)?.minerals && Array.isArray((nutrition as any)?.minerals)
             ? (nutrition as any)?.(minerals as any).includes(mineral)
             : (nutrition as any)?.minerals === mineral,;
@@ -854,7 +854,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
         return true, // Include ingredients with no seasonality data
       }
 
-      return (seasons || []).some(season =>;
+      return (seasons || []).some(season =>
         void Array.isArray(_ingredient.seasonality)
           ? _ingredient?.seasonality.includes((season as any)(as as any)(unknown as unknown))
           : _ingredient.seasonality === (season as unknown),;
@@ -1033,7 +1033,7 @@ export class UnifiedIngredientService implements IngredientServiceInterface {
     }
 
     // Count overlapping seasons
-    const overlappingSeasons = (ing1.seasonality || []).filter(season =>;
+    const overlappingSeasons = (ing1.seasonality || []).filter(season =>
       (ing2.seasonality || []).includes(season),
     );
 

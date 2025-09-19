@@ -119,13 +119,13 @@ export function getRecipeEnhancedRecommendations(recipeId: string) {
   if (!recipe) return null;
 
   // Get base recommendations from the ElementalRecommendationService
-  const baseRecommendation = ElementalRecommendationService.generateRecommendation(;
+  const baseRecommendation = ElementalRecommendationService.generateRecommendation(
     recipe.elementalProperties
-  ),
+  );
 
   // Merge with any recipe-specific overrides
   return {
-    ...baseRecommendation;
+    ...baseRecommendation,
     cookingTechniques: recipe.cookingTechniques || baseRecommendation.cookingTechniques,
     flavorProfiles: recipe.flavorProfiles || baseRecommendation.flavorProfiles,
     healthBenefits: recipe.healthBenefits || baseRecommendation.healthBenefits,

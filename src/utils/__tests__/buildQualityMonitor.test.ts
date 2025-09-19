@@ -79,9 +79,9 @@ describe('Build Quality Monitor', () => {
     it('should detect TypeScript errors', async () => {
       // Mock TypeScript output with errors
       const mockTscOutput: any = [
-        'src/test1.ts(10,5): error TS2304: Cannot find name 'test1'.',
-        'src/test2.ts(15,10): error TS2352: Conversion error.',
-        'src/test3.ts(20,15): error TS2345: Argument error.'
+        'src/test1.ts(105): error TS2304: Cannot find name 'test1'.',
+        'src/test2.ts(1510): error TS2352: Conversion error.',
+        'src/test3.ts(2015): error TS2345: Argument error.'
       ].join('\n');
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -233,11 +233,11 @@ describe('Build Quality Monitor', () => {
     it('should identify build bottlenecks', async () => {
       // Mock build with TypeScript errors (smaller number to avoid memory issues)
       const mockTscOutput: any = [
-        'src/test1.ts(10,5): error TS2304: Cannot find name 'test1'.',
-        'src/test2.ts(15,10): error TS2352: Conversion error.',
-        'src/test3.ts(20,15): error TS2345: Argument error.',
-        'src/test4.ts(25,20): error TS2698: Spread error.',
-        'src/test5.ts(30,25): error TS2362: Arithmetic error.'
+        'src/test1.ts(105): error TS2304: Cannot find name 'test1'.',
+        'src/test2.ts(1510): error TS2352: Conversion error.',
+        'src/test3.ts(2015): error TS2345: Argument error.',
+        'src/test4.ts(2520): error TS2698: Spread error.',
+        'src/test5.ts(3025): error TS2362: Arithmetic error.'
       ].join('\n');
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -280,9 +280,9 @@ describe('Build Quality Monitor', () => {
     it('should generate alerts for high error counts', async () => {
       // Mock TypeScript errors (smaller number to avoid memory issues)
       const mockTscOutput: any = [
-        'src/test1.ts(10,5): error TS2304: Cannot find name 'test1'.',
-        'src/test2.ts(15,10): error TS2352: Conversion error.',
-        'src/test3.ts(20,15): error TS2345: Argument error.'
+        'src/test1.ts(105): error TS2304: Cannot find name 'test1'.',
+        'src/test2.ts(1510): error TS2352: Conversion error.',
+        'src/test3.ts(2015): error TS2345: Argument error.'
       ].join('\n');
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any

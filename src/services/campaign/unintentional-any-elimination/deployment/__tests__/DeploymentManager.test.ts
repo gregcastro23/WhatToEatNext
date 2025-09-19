@@ -286,7 +286,7 @@ describe('DeploymentManager', () => {
             args: ['expected output'],
             timeout: 5000,
             expectedExitCode: 0,
-            outputValidation: (outpu, t: string) => output.includes('expected')
+            outputValidation: (output: string) => output.includes('expected')
           }
         ],
         successCriteria: { buildSuccess: false,

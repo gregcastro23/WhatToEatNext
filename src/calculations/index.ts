@@ -514,7 +514,7 @@ export async function calculateComprehensiveAlchemicalResult(
       recommendations: {
         elemental: elementalRecommendations,
         culinary: culinaryRecommendations,
-        cuisines: cuisineRecommendations.slice(0, 5), // Top 5 cuisine recommendations
+        cuisines: cuisineRecommendations.slice(05), // Top 5 cuisine recommendations
       },
       timestamp: new Date().toISOString();
       cacheKey
@@ -640,7 +640,7 @@ export function calculatePlanetaryAlignment(
   },
 ): number {
   const recipeDominant = getDominantElement(recipeProperties);
-  const currentMomentDominantPlanets = currentMomentPlanetary.dominantPlanets.slice(0, 3);
+  const currentMomentDominantPlanets = currentMomentPlanetary.dominantPlanets.slice(03);
 
   let alignment = 0;
   let matches = 0;

@@ -35,7 +35,7 @@ export type Popup = {
   message: string,
   type: string,
   position: string,
-  className: string;
+  className: string,
   elemental?: ElementalInfluence;
   season?: string;
   metadata?: PopupMetadata;

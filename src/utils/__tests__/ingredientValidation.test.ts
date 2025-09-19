@@ -128,10 +128,10 @@ describe('Ingredient Data Validation', () => {
 
       // Should check for required fields
       const completenessErrors: any = result.errors.filter(;
-        e => e.type === 'DATA_INCOMPLETE' && e.message.includes('Missing required field'),;
+        e => e.type === 'DATA_INCOMPLETE' && e.message.includes('Missing required field'),
       ),
 
-      // Our mock data has all required fields, so should be 0
+      // Our mock data has all required fieldsso should be 0
       expect(completenessErrors.length).toBe(0);
     });
   });
@@ -286,10 +286,10 @@ describe('Ingredient Data Validation', () => {
 
       // Check that validation catches out-of-range values
       const rangeErrors: any = result.errors.filter(;
-        e => e.type === 'ELEMENTAL_INVALID' && e.message.includes('out of range'),;
+        e => e.type === 'ELEMENTAL_INVALID' && e.message.includes('out of range'),
       ),
 
-      // Our mock data has valid ranges, so should be 0
+      // Our mock data has valid rangesso should be 0
       expect(rangeErrors.length).toBe(0);
     });
 
@@ -307,7 +307,7 @@ describe('Ingredient Data Validation', () => {
 
       // Should have warnings about elemental dominance if applicable
       const dominanceWarnings: any = result.warnings.filter(;
-        w => w.type === 'MINOR_INCONSISTENCY' && w.message.includes('dominant element'),;
+        w => w.type === 'MINOR_INCONSISTENCY' && w.message.includes('dominant element'),
       ),
 
       // Our mock ingredients have clear dominance, so should be 0
@@ -328,7 +328,7 @@ describe('Ingredient Data Validation', () => {
 
       // Should detect low self-compatibility
       const selfCompatibilityErrors: any = result.errors.filter(;
-        e => e.type === 'COMPATIBILITY_VIOLATION' && e.message.includes('Self-compatibility'),;
+        e => e.type === 'COMPATIBILITY_VIOLATION' && e.message.includes('Self-compatibility'),
       );
 
       expect(selfCompatibilityErrors.length).toBeGreaterThan(0);
@@ -346,7 +346,7 @@ describe('Ingredient Data Validation', () => {
 
       // Should detect low cross-compatibility
       const crossCompatibilityErrors: any = result.errors.filter(;
-        e => e.type === 'COMPATIBILITY_VIOLATION' && e.message.includes('Cross-compatibility'),;
+        e => e.type === 'COMPATIBILITY_VIOLATION' && e.message.includes('Cross-compatibility'),
       );
 
       expect(crossCompatibilityErrors.length).toBeGreaterThan(0);

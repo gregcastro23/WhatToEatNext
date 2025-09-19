@@ -118,7 +118,7 @@ type KnownModulePath = keyof typeof MODULE_MAP;
 /**
  * Safely import and execute a function using a known module path
  */
-export async function safeImportAndExecuteKnown<R, A extends unknown[] = unknown[]>(
+export async function safeImportAndExecuteKnown<RA extends unknown[] = unknown[]>(
   path: KnownModulePath,
   functionName: string,
   _args: A,
@@ -189,7 +189,7 @@ import * as safeAstrology from '@/utils/safeAstrology';
 // astronomia module removed
 
 // Safe import function using static imports for known modules
-export async function safeImportAndExecute<R, A extends unknown[] = unknown[]>(
+export async function safeImportAndExecute<RA extends unknown[] = unknown[]>(
   path: string,
   functionName: string,
   _args: A,
@@ -303,7 +303,7 @@ export async function safeImportFunction<T extends (...args: unknown[]) => unkno
  * Legacy functions for backward compatibility
  */
 
-export async function dynamicImport<T, F = null>(;
+export async function dynamicImport<TF = null>(;
   importFn: () => Promise<T>,
   fallbackFn: (() => F) | null = null,;
 ): Promise<T | F | null> {
@@ -324,12 +324,12 @@ export async function dynamicImportFunction<
   return safeImportFunction<T>(path, functionName);
 }
 
-export async function dynamicImportAndExecute<R, A extends unknown[] = unknown[], F = R>(;
+export async function dynamicImportAndExecute<RA extends unknown[] = unknown[], F = R>(;
   path: string,
   functionName: string,
   _args: A,
   _fallbackFn: ((...args: A) => F) | null = null,;
 ): Promise<R | F | null> {
   debugLog('dynamicImportAndExecute is deprecated, use safeImportAndExecute instead');
-  return safeImportAndExecute<R, A>(path, functionName, _args);
+  return safeImportAndExecute<RA>(path, functionName, _args);
 }

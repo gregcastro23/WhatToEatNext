@@ -16,9 +16,9 @@ describe('TypeScriptErrorAnalyzer', () => {
   describe('parseErrorsFromOutput', () => {
     it('should parse TypeScript compiler output correctly', () => {
       const mockOutput: any = `;
-src/components/test.tsx(10,5): error TS2352: Conversion of type 'string' to type 'number' may be a mistake.
-src/services/api.ts(25,12): error TS2345: Argument of type 'string' is not assignable to parameter of type 'number'.;
-src/types/index.ts(5,1): error TS2304: Cannot find name 'UnknownType'.
+src/components/test.tsx(105): error TS2352: Conversion of type 'string' to type 'number' may be a mistake.
+src/services/api.ts(2512): error TS2345: Argument of type 'string' is not assignable to parameter of type 'number'.;
+src/types/index.ts(51): error TS2304: Cannot find name 'UnknownType'.
       `.trim();
 
       // Use reflection to access private method for testing

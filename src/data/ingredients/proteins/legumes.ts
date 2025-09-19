@@ -180,7 +180,7 @@ const rawLegumes = {
           'Brown and green add texture to clear soups'
         ],
         techniques: 'Sauté aromatics first, add lentils, then liquid',
-        cooking_ratio: '1:3 lentils to liquid for soup, 1:4 for thinner consistency'
+        cooking_ratio: '1:3 lentils to liquid for soup1:4 for thinner consistency'
       },
       salads: {
         notes: [

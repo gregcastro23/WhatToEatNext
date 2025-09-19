@@ -15,7 +15,7 @@ export function isNotNullOrUndefined<T>(value: T | null | undefined): value is T
 /**
  * Safe property access with default value
  */
-export function safeGet<T, K extends keyof T>(
+export function safeGet<TK extends keyof T>(
   obj: T | null | undefined,
   key: K,
   defaultValue: T[K],
@@ -80,7 +80,7 @@ export function safeCall<T extends (...args: unknown[]) => unknown>(
 /**
  * Safe object property check
  */
-export function hasProperty<T extends object, K extends PropertyKey>(
+export function hasProperty<T extends objectK extends PropertyKey>(
   obj: T | null | undefined,
   key: K,
 ): obj is T & Record<K, unknown> {

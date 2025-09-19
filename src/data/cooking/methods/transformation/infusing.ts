@@ -8,7 +8,7 @@ import type { CookingMethod } from '@/types/shared';
 export const infusing: CookingMethodData = {
   name: 'Infusing' as CookingMethod,
   description:
-    'A technique that transfers flavors, colors, aromas, or medicinal properties from herbs, spices, fruits, or other ingredients into a liquid base such as oil, water, alcohol, or vinegar.',
+    'A technique that transfers flavors, colors, aromasor medicinal properties from herbs, spices, fruitsor other ingredients into a liquid base such as oil, water, alcohol, or vinegar.',
   elementalEffect: {
     Fire: 0.1,
     Water: 0.7,

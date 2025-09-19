@@ -11,8 +11,8 @@ const rawWarmSpices: Record<string, Partial<IngredientMapping>> = {
       element: 'Fire',
       energyType: 'Restorative',
       seasonalPeak: {
-        northern: [9, 10, 11, 12, 1, 2],
-        southern: [3, 4, 5, 6, 7, 8],
+        northern: [910, 1112, 12],
+        southern: [34, 56, 78],
       },
     } as unknown,
     qualities: ['warming', 'sweet', 'pungent', 'aromatic', 'drying', 'carminative'],
@@ -41,9 +41,7 @@ const rawWarmSpices: Record<string, Partial<IngredientMapping>> = {
         fiber: 1.4,
       },
       vitamins: {
-        K: 0.01,
-        B6: 0.01,
-        E: 0.01,
+        K: 0.01B6: 0.01E: 0.01,
       },
       minerals: {
         calcium: 0.26,

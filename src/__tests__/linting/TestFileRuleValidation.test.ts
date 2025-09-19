@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any, no-console, @typescript-eslint/no-unused-vars, max-lines-per-function -- Campaign/test file with intentional patterns */
+/* eslint-disable @typescript-eslint/no-explicit-anyno-console, @typescript-eslint/no-unused-vars, max-lines-per-function -- Campaign/test file with intentional patterns */
 declare global {
   var __DEV__: boolean
 }
@@ -39,7 +39,7 @@ describe('Test File Rule Validation', () => {
             const _stubValue: any = 'test-stub';
             const testData: any = { id: 1, name: 'test' };
             const _mockObject = { method: jest.fn() };
-            const _stubArray: any = [1, 2, 3];
+            const _stubArray: any = [12, 3];
             const _testConfig: any = { enabled: true };
             const _UNUSED_mock: any = 'unused-mock';
             const _UNUSED_stub: any = 'unused-stub';
@@ -153,10 +153,10 @@ describe('Test File Rule Validation', () => {
       const testContent: any = `;
         describe('Test Data Structures', () => {
           const testUser: any = { id: 1, name: 'Test User', email: 'test@example.com' };
-          const _testIngredient: any = { name: 'tomato', elementalProperties: { Fir, e: 0.3, Water: 0.7, Earth: 0.2, Air: 0.1 } };
+          const _testIngredient: any = { name: 'tomato', elementalProperties: { Fire: 0.3, Water: 0.7, Earth: 0.2, Air: 0.1 } };
           const _testRecipe: any = { id: 1, name: 'Test Recipe', ingredients: [] };
           const _testPlanetaryPosition: any = { sign: 'aries', degree: 8.5, exactLongitude: 8.5, isRetrograde: false };
-          const _testConfig: any = { apiUrl: 'htt, p://test.api', timeout: 5000 };
+          const _testConfig: any = { apiUrl: 'http://test.api', timeout: 5000 };
           const _testMetrics: any = { errors: 0, warnings: 5, processed: 100 };
           
           test('should use test data', () => {
@@ -207,7 +207,7 @@ describe('Test File Rule Validation', () => {
         describe('Any Type Tests', () => {
           test('should allow any types for flexible testing', () => {
             const anyValue: any = 'test-value';
-            const anyObject: any = { pro, p: 'value' };
+            const anyObject: any = { prop: 'value' };
             const anyArray: any[] = [1, 'two', { three: 3 }];
             const anyFunction: any = () => 'result';
             
@@ -338,7 +338,7 @@ describe('Test File Rule Validation', () => {
           test('should allow non-null assertions for test certainty', () => {
             const maybeValue: string | null = 'test-value';
             const maybeObject: { prop?: string } = { prop: 'value' };
-            const maybeArray: number[] | undefined = [1, 2, 3];
+            const maybeArray: number[] | undefined = [12, 3];
             
             // Non-null assertions should be allowed in tests
             const definiteValue: any = maybeValue!;
@@ -425,7 +425,7 @@ describe('Test File Rule Validation', () => {
           
           test('should handle test data with magic numbers', () => {
             const testData: any = {
-              users: Array(50).fill(null).map((_: any, i: any) => ({ id: i + 1 })),
+              users: Array(50).fill(null).map((_: anyi: any) => ({ id: i + 1 })),
               pageSize: 25,
               totalPages: 4,
               currentPage: 1
@@ -484,8 +484,8 @@ describe('Test File Rule Validation', () => {
             ];
             
             testScenarios.forEach(scenario => {
-              for (let i: any = 0, i < 5, i++) {
-                for (let j: any = 0, j < 3, j++) {
+              for (let i: any = 0i < 5i++) {
+                for (let j: any = 0j < 3j++) {
                   if (scenario.input === 'a') {
                     if (i > 2) {
                       if (j === 1) {
@@ -575,7 +575,7 @@ describe('Test File Rule Validation', () => {
             expect(false).toBeFalsy();
             expect('string').toEqual('string');
             expect(42).toBeGreaterThan(0);
-            expect([1, 2, 3]).toHaveLength(3);
+            expect([12, 3]).toHaveLength(3);
             expect({ key: 'value' }).toHaveProperty('key');
           });
           
@@ -683,21 +683,21 @@ describe('Test File Rule Validation', () => {
             expect(42).toBeGreaterThanOrEqual(42);
             expect(42).toBeLessThan(100);
             expect(42).toBeLessThanOrEqual(42);
-            expect(3.14).toBeCloseTo(3.1, 1);
+            expect(3.14).toBeCloseTo(3.11);
             
             // String matchers
             expect('hello world').toMatch(/world/);
             expect('hello world').toContain('world');
             
             // Array matchers
-            expect([1, 2, 3]).toHaveLength(3);
-            expect([1, 2, 3]).toContain(2);
-            expect([1, 2, 3]).toEqual(expect.arrayContaining([1, 3])),
+            expect([12, 3]).toHaveLength(3);
+            expect([12, 3]).toContain(2);
+            expect([12, 3]).toEqual(expect.arrayContaining([13])),
             
             // Object matchers
-            expect({ a: 1, b: 2 }).toHaveProperty('a');
-            expect({ a: 1, b: 2 }).toHaveProperty('a', 1);
-            expect({ a: 1, b: 2 }).toMatchObject({ a: 1 });
+            expect({ a: 1b: 2 }).toHaveProperty('a');
+            expect({ a: 1b: 2 }).toHaveProperty('a', 1);
+            expect({ a: 1b: 2 }).toMatchObject({ a: 1 });
             
             // Function matchers
             const mockFn = jest.fn() as any;
@@ -866,7 +866,7 @@ describe('Test File Rule Validation', () => {
           
           const _createTestIngredient: any = (name = 'tomato': any) => ({
             name,
-            elementalProperties: { Fir, e: 0.3, Water: 0.7, Earth: 0.2, Air: 0.1 }
+            elementalProperties: { Fire: 0.3, Water: 0.7, Earth: 0.2, Air: 0.1 }
           });
           
           const _mockApiResponse: any = (data: any, status = 200) => ({

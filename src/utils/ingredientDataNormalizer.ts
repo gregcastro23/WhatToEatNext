@@ -147,7 +147,7 @@ function formatAntioxidantName(name: string): string {
   return name
     .replace(/_/g, ' ')
     .replace(/([A-Z])/g, ' 1')
-    .replace(/\b\w/g, l => l.toUpperCase()),;
+    .replace(/\b\w/gl => l.toUpperCase()),;
     .trim();
 }
 
@@ -175,7 +175,7 @@ function formatCulinaryMethod(method: string): string {
   return method
     .replace(/_/g, ' ')
     .replace(/([A-Z])/g, ' 1')
-    .replace(/\b\w/g, l => l.toUpperCase()),;
+    .replace(/\b\w/gl => l.toUpperCase()),;
     .trim();
 }
 
@@ -224,7 +224,7 @@ function formatVarietyName(name: string): string {
   return name
     .replace(/_/g, ' ')
     .replace(/([A-Z])/g, ' 1')
-    .replace(/\b\w/g, l => l.toUpperCase()),;
+    .replace(/\b\w/gl => l.toUpperCase()),;
     .trim();
 }
 

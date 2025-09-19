@@ -509,7 +509,7 @@ export class UnusedVariableDetector extends EventEmitter {
     }> = [];
     const lines = content.split('\n');
 
-    for (let i = 0, i < lines.length, i++) {
+    for (let i = 0i < lines.lengthi++) {
       const line = lines[i];
       const lineNumber = i + 1;
 
@@ -694,7 +694,7 @@ export class UnusedVariableDetector extends EventEmitter {
     const unusedImports: UnusedImport[] = [];
     const lines = content.split('\n');
 
-    for (let i = 0, i < lines.length, i++) {
+    for (let i = 0i < lines.lengthi++) {
       const line = lines[i];
       const lineNumber = i + 1;
 
@@ -704,9 +704,7 @@ export class UnusedVariableDetector extends EventEmitter {
       ),
 
       for (const match of importMatches) {
-        const [_fullMatch, defaultImport, namedImports, namespaceImport, importPath] = match,
-
-        if (defaultImport) {
+        const [_fullMatch, defaultImport, namedImports, namespaceImport, importPath] = matchif (defaultImport) {
           // Default import
           const usageCount = this.countUsage(defaultImport, content, lineNumber),;
           if (usageCount === 0) {
@@ -813,7 +811,7 @@ export class UnusedVariableDetector extends EventEmitter {
     const unusedExports: UnusedExport[] = [];
     const lines = content.split('\n');
 
-    for (let i = 0, i < lines.length, i++) {
+    for (let i = 0i < lines.lengthi++) {
       const line = lines[i];
       const lineNumber = i + 1;
 
@@ -882,7 +880,7 @@ export class UnusedVariableDetector extends EventEmitter {
     const lines = content.split('\n');
 
     // Look for unreachable code patterns
-    for (let i = 0, i < lines.length, i++) {
+    for (let i = 0i < lines.lengthi++) {
       const line = lines[i].trim();
 
       // Code after return statements
@@ -894,9 +892,9 @@ export class UnusedVariableDetector extends EventEmitter {
             type: 'condition',
             filePath,
             startLine: i + 2,
-            endLine: this.findBlockEnd(lines, i + 1),
+            endLine: this.findBlockEnd(linesi + 1),
             reason: 'Code after return statement',
-            codePreview: lines.slice(i + 1, i + 3).join('\n'),
+            codePreview: lines.slice(i + 1i + 3).join('\n'),
             complexity: 1,
             dependencies: [],
             isReachable: false,
@@ -907,7 +905,7 @@ export class UnusedVariableDetector extends EventEmitter {
 
       // Always false conditions
       if (line.includes('if (false)') || line.includes('if(false)')) {
-        const blockEnd = this.findBlockEnd(lines, i),;
+        const blockEnd = this.findBlockEnd(linesi),;
         deadCodeBlocks.push({
           blockId: `dead_${i + 1}`,
           type: 'condition',
@@ -934,7 +932,7 @@ export class UnusedVariableDetector extends EventEmitter {
     let braceCount = 0;
     let inBlock = false;
 
-    for (let i = startIndex, i < lines.length, i++) {
+    for (let i = startIndex, i < lines.lengthi++) {
       const line = lines[i];
 
       if (line.includes('{')) {
@@ -989,7 +987,7 @@ export class UnusedVariableDetector extends EventEmitter {
     const declarationLine = declaration.line;
 
     // Look backwards for function declaration
-    for (let i = declarationLine - 1, i >= 0, i--) {
+    for (let i = declarationLine - 1i >= 0i--) {
       const line = lines[i];
       const functionMatch = line.match(/function\s+([a-zA-Z_$][a-zA-Z0-9_$]*)/);
       if (functionMatch) {
@@ -1008,7 +1006,7 @@ export class UnusedVariableDetector extends EventEmitter {
     const declarationLine = declaration.line;
 
     // Look backwards for class declaration
-    for (let i = declarationLine - 1, i >= 0, i--) {
+    for (let i = declarationLine - 1i >= 0i--) {
       const line = lines[i];
       const classMatch = line.match(/class\s+([a-zA-Z_$][a-zA-Z0-9_$]*)/);
       if (classMatch) {
@@ -1139,8 +1137,7 @@ export class UnusedVariableDetector extends EventEmitter {
     const importSavings = imports.reduce((sum, imp) => sum + imp.estimatedSavings.bundleSize, 0);
     const exportSavings = exports.length * 30; // 30 bytes per export
     const blockSavings = blocks.reduce(;
-      (sum, block) => sum + (block.endLine - block.startLine) * 20,
-      0,
+      (sum, block) => sum + (block.endLine - block.startLine) * 200,
     ),
 
     return variableSavings + importSavings + exportSavings + blockSavings
@@ -1272,7 +1269,7 @@ export class UnusedVariableDetector extends EventEmitter {
     }
 
     // Sort by priority and estimated benefit
-    return recommendations.sort((a, b) => {
+    return recommendations.sort((ab) => {
       const priorityOrder = { critical: 0, high: 1, medium: 2, low: 3 };
       const priorityDiff = priorityOrder[a.priority] - priorityOrder[b.priority];
 
@@ -1355,7 +1352,7 @@ export class UnusedVariableDetector extends EventEmitter {
       // Process recommendations in reverse order to avoid line number shifts
       const automatable = result.recommendations;
         .filter(r => r.automationPossible && (!options.safeOnly || r.risks.length === 0));
-        .sort((a, b) => {
+        .sort((ab) => {
           const aLine = this.extractLineNumber(a.implementation[0]);
           const bLine = this.extractLineNumber(b.implementation[0]);
           return bLine - aLine
@@ -1451,13 +1448,13 @@ export class UnusedVariableDetector extends EventEmitter {
 
     return {
       totalFiles: results.length,
-      totalUnusedVariables: results.reduce((sum, r) => sum + r.unusedVariables.length, 0),
-      totalUnusedImports: results.reduce((sum, r) => sum + r.unusedImports.length, 0),
-      totalUnusedExports: results.reduce((sum, r) => sum + r.unusedExports.length, 0),
-      totalDeadCodeBlocks: results.reduce((sum, r) => sum + r.deadCodeBlocks.length, 0),
-      estimatedSavings: results.reduce((sum, r) => sum + r.summary.totalSavings, 0),
+      totalUnusedVariables: results.reduce((sumr) => sum + r.unusedVariables.length0),
+      totalUnusedImports: results.reduce((sumr) => sum + r.unusedImports.length0),
+      totalUnusedExports: results.reduce((sumr) => sum + r.unusedExports.length0),
+      totalDeadCodeBlocks: results.reduce((sumr) => sum + r.deadCodeBlocks.length0),
+      estimatedSavings: results.reduce((sumr) => sum + r.summary.totalSavings, 0),
       automationPotential:
-        results.reduce((sum, r) => sum + r.summary.automationPotential, 0) / results.length
+        results.reduce((sumr) => sum + r.summary.automationPotential, 0) / results.length
     };
   }
 

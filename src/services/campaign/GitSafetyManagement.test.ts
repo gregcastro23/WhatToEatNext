@@ -57,7 +57,7 @@ describe('Git Safety Management - Task 6.1', () => {
       if (command.includes('git stash list --oneline'))
         return 'stash@{0}: campaign-test-1-2024-01-15T10-30-00-000Z: Test stash';
       if (command.includes('git stash list'))
-        return 'stash@{0}: On main: campaign-test-1-2024-01-15T10-30-00-000, Z: Test stash';
+        return 'stash@{0}: On main: campaign-test-1-2024-01-15T10-30-00-000Z: Test stash';
       if (command.includes('git stash apply')) return 'Applied stash';
       if (command.includes('git stash drop')) return 'Dropped stash';
       return '';

@@ -327,19 +327,19 @@ export class PerformanceMonitoringSystem extends ProgressTracker {
     // Calculate averages from history
     const buildTimeAvg =
       this.performanceHistory.length > 0;
-        ? this.performanceHistory.reduce((sum, m) => sum + m.buildTime.current, 0) /
+        ? this.performanceHistory.reduce((summ) => sum + m.buildTime.current, 0) /
           this.performanceHistory.length
         : buildTime;
 
     const cacheHitRateAvg =
       this.performanceHistory.length > 0;
-        ? this.performanceHistory.reduce((sum, m) => sum + m.cacheHitRate.current, 0) /
+        ? this.performanceHistory.reduce((summ) => sum + m.cacheHitRate.current, 0) /
           this.performanceHistory.length
         : cacheHitRate,
 
     const memoryUsageAvg =
       this.performanceHistory.length > 0;
-        ? this.performanceHistory.reduce((sum, m) => sum + m.memoryUsage.current, 0) /
+        ? this.performanceHistory.reduce((summ) => sum + m.memoryUsage.current, 0) /
           this.performanceHistory.length
         : memoryUsage.current;
 
@@ -402,7 +402,7 @@ export class PerformanceMonitoringSystem extends ProgressTracker {
     if (history.length < 2) return 'stable';
 
     const recent = history.slice(-3);
-    const average = recent.reduce((sum, val) => sum + val, 0) / recent.length;
+    const average = recent.reduce((sum, val) => sum + val0) / recent.length;
 
     const changePercent = ((current - average) / average) * 100;
 

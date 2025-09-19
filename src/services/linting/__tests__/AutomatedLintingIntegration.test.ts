@@ -92,7 +92,7 @@ describe('AutomatedLintingIntegration', () => {
           domainDistribution: {},
           severityDistribution: {},
           complexityDistribution: {},
-          confidenceScores: { averag, e: 0.8, median: 0.8, distribution: {} }
+          confidenceScores: { average: 0.8, median: 0.8, distribution: {} }
         }
       };
 
@@ -107,7 +107,7 @@ describe('AutomatedLintingIntegration', () => {
         failedIssues: 0,
         processedFiles: ['file1.ts', 'file2.ts'],
         errors: [],
-        validationResults: [{ typ, e: 'build' as const, success: true, message: 'Build passed' }],
+        validationResults: [{ type: 'build' as const, success: true, message: 'Build passed' }],
         metrics: { startTime: new Date(),
           endTime: new Date(),
           totalTime: 5000,
@@ -182,7 +182,7 @@ describe('AutomatedLintingIntegration', () => {
           domainDistribution: {},
           severityDistribution: {},
           complexityDistribution: {},
-          confidenceScores: { averag, e: 0.5, median: 0.5, distribution: {} }
+          confidenceScores: { average: 0.5, median: 0.5, distribution: {} }
         }
       };
 
@@ -259,7 +259,7 @@ describe('AutomatedLintingIntegration', () => {
           domainDistribution: {},
           severityDistribution: {},
           complexityDistribution: {},
-          confidenceScores: { averag, e: 0.9, median: 0.9, distribution: {} }
+          confidenceScores: { average: 0.9, median: 0.9, distribution: {} }
         }
       };
 
@@ -336,7 +336,7 @@ describe('AutomatedLintingIntegration', () => {
           domainDistribution: {},
           severityDistribution: {},
           complexityDistribution: {},
-          confidenceScores: { averag, e: 0.7, median: 0.7, distribution: {} }
+          confidenceScores: { average: 0.7, median: 0.7, distribution: {} }
         }
       };
 
@@ -428,7 +428,7 @@ describe('AutomatedLintingIntegration', () => {
       expect(result.fixedIssues).toBe(2);
       expect(mockFixer.applyAutomatedFixes).toHaveBeenCalledWith(
         expect.objectContaining({
-          autoFixable: expect.arrayContaining([expect.objectContaining({ rul, e: 'import/order' })])
+          autoFixable: expect.arrayContaining([expect.objectContaining({ rule: 'import/order' })])
         }),
         expect.objectContaining({
           batchSize: 5,
@@ -449,7 +449,7 @@ describe('AutomatedLintingIntegration', () => {
           overallRiskLevel: 'low' as const
         },
         topIssues: [],
-        quickWins: [{ rul, e: 'quotes', autoFixable: true, severity: 'warning' as const }],
+        quickWins: [{ rule: 'quotes', autoFixable: true, severity: 'warning' as const }],
         criticalIssues: []
       };
 
@@ -527,7 +527,7 @@ describe('AutomatedLintingIntegration', () => {
           domainDistribution: {},
           severityDistribution: {},
           complexityDistribution: {},
-          confidenceScores: { averag, e: 0.8, median: 0.8, distribution: {} }
+          confidenceScores: { average: 0.8, median: 0.8, distribution: {} }
         }
       };
 
@@ -606,7 +606,7 @@ describe('AutomatedLintingIntegration', () => {
           domainDistribution: {},
           severityDistribution: {},
           complexityDistribution: {},
-          confidenceScores: { averag, e: 0, median: 0, distribution: {} }
+          confidenceScores: { average: 0, median: 0, distribution: {} }
         }
       };
 
@@ -664,7 +664,7 @@ describe('AutomatedLintingIntegration', () => {
           domainDistribution: {},
           severityDistribution: {},
           complexityDistribution: {},
-          confidenceScores: { averag, e: 0.9, median: 0.9, distribution: {} }
+          confidenceScores: { average: 0.9, median: 0.9, distribution: {} }
         }
       };
 
@@ -720,7 +720,7 @@ describe('AutomatedLintingIntegration', () => {
         categorizedErrors: { total: 0,
           errors: 0,
           warnings: 0,
-          byCategory: { impor, t: [] },
+          byCategory: { import: [] },
           byPriority: {  1: [], 2: [], 3: [], 4: [] },
           byFile: {},
           autoFixable: [],
@@ -743,7 +743,7 @@ describe('AutomatedLintingIntegration', () => {
           domainDistribution: {},
           severityDistribution: {},
           complexityDistribution: {},
-          confidenceScores: { averag, e: 0, median: 0, distribution: {} }
+          confidenceScores: { average: 0, median: 0, distribution: {} }
         }
       };
 
@@ -803,7 +803,7 @@ describe('AutomatedLintingIntegration', () => {
           domainDistribution: {},
           severityDistribution: {},
           complexityDistribution: {},
-          confidenceScores: { averag, e: 0.7, median: 0.7, distribution: {} }
+          confidenceScores: { average: 0.7, median: 0.7, distribution: {} }
         }
       };
 
@@ -883,7 +883,7 @@ describe('AutomatedLintingIntegration', () => {
           domainDistribution: {},
           severityDistribution: {},
           complexityDistribution: {},
-          confidenceScores: { averag, e: 0.8, median: 0.8, distribution: {} }
+          confidenceScores: { average: 0.8, median: 0.8, distribution: {} }
         }
       };
 

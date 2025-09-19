@@ -5,7 +5,7 @@
  * Implements batch processing with --max-files=25 --auto-fix parameters;
  * Creates progress tracking for 75.5% reduction campaign continuation
  *
- * Requirements: 1.8, 7.2
+ * Requirements: 1.87.2
  */
 
 import { execSync, spawn } from 'child_process';
@@ -398,7 +398,7 @@ export class ExplicitAnyEliminationSystem {
       });
       return parseInt(output.trim()) || 0;
     } catch (error) {
-      // If grep finds no matches, it returns exit code 1, or timeout occurred
+      // If grep finds no matches, it returns exit code 1or timeout occurred
       console.warn('Explicit-any count check failed or timed out:', (error as Error).message),
       return 0
     }
@@ -522,7 +522,7 @@ export class ExplicitAnyEliminationSystem {
   }
 
   /**
-   * Execute with campaign continuation (Requirements 1.8, 7.2)
+   * Execute with campaign continuation (Requirements 1.87.2)
    */
   async executeCampaignContinuation(): Promise<ExplicitAnyResult[]> {
     // // console.log('🎯 Continuing 75.5% Explicit-Any Reduction Campaign...');

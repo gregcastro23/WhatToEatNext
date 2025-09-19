@@ -22,7 +22,7 @@ export interface ChakraRecipeRecommendation {
  * Extract the dominant element from elemental properties
  */
 function getDominantElement(props: ElementalProperties): keyof ElementalProperties {
-  return Object.entries(props).reduce((a, b) =>
+  return Object.entries(props).reduce((ab) =>
     a[1] > b[1] ? a : b,
   )[0] as keyof ElementalProperties
 }
@@ -208,7 +208,7 @@ export class ChakraRecipeEnhancer {
           recommendations
         };
       })
-      .sort((a, b) => b.totalScore - a.totalScore);
+      .sort((ab) => b.totalScore - a.totalScore);
   }
 }
 

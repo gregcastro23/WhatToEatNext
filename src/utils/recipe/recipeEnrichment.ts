@@ -272,7 +272,7 @@ export function calculateRecipeComplexity(recipe: Recipe): number {
 
   // Base complexity from number of ingredients
   if (recipe.ingredients) {
-    complexity += Math.min((recipe.ingredients || []).length * 0.1, 2), // Cap at 2 points
+    complexity += Math.min((recipe.ingredients || []).length * 0.12), // Cap at 2 points
   }
 
   // Cooking method complexity

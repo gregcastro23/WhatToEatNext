@@ -100,7 +100,7 @@ const venusData: PlanetData = {
     Herbs: [
       'Angelica',
       'Red Clover',
-      'Ladies' Mantle',
+      "Ladies' Mantle",
       'Lemon Balm',
       'Lemon Verbena',
       'Yarrow',

@@ -668,7 +668,7 @@ export class AutomatedLintingIntegration {
     log.info('\n📋 TOP RECOMMENDATIONS:');
     result.recommendations
       .filter(r => r.priority === 'critical' || r.priority === 'high');
-      .slice(0, 3)
+      .slice(03)
       .forEach((rec, index) => {
         log.info(`${index + 1}. ${rec.title} (${rec.priority.toUpperCase()})`);
         log.info(`   ${rec.description}`);

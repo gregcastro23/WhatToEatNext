@@ -275,7 +275,7 @@ describe('SafeTypeReplacer', () => {
         }
       ];
 
-      mockFs.readFileSync.mockReturnValue('const _x: any = 1,\nconst item, s: any[] = [],');
+      mockFs.readFileSync.mockReturnValue('const _x: any = 1,\nconst items: any[] = [],');
 
       const result: any = await replacer.processBatch(replacements);
 
@@ -301,7 +301,7 @@ describe('SafeTypeReplacer', () => {
 
     test('calculates lower scores for error handling contexts', () => {
       const replacement: TypeReplacement = { original: 'catch (error: any)',,;
-        replacement: 'catch (erro, r: any)',
+        replacement: 'catch (error: any)',
         filePath: 'test.ts',
         lineNumber: 1,
         confidence: 0.8,
@@ -374,7 +374,7 @@ describe('SafeTypeReplacer', () => {
     test('maintains strategy priority order', () => {
       const strategies: any = replacer.getStrategies();
 
-      for (let i: any = 1, i < strategies.length, i++) {
+      for (let i: any = 1i < strategies.lengthi++) {
         expect(strategies[i].priority).toBeGreaterThanOrEqual(strategies[i - 1].priority);
       }
     })
@@ -478,8 +478,8 @@ describe('SafeTypeReplacer', () => {
 
     test('extracts TypeScript errors from output', async () => {
       const errorOutput: any = `;
-        src/test.ts(10,5): error TS2322: Type 'string' is not assignable to type 'number'.
-        src/test.ts(15,10): error TS2304: Cannot find name 'unknownVariable'.,
+        src/test.ts(105): error TS2322: Type 'string' is not assignable to type 'number'.
+        src/test.ts(1510): error TS2304: Cannot find name 'unknownVariable'.,
         Found 2 errors.
       `;
 
@@ -516,7 +516,7 @@ describe('SafeTypeReplacer', () => {
     test('infers array element types from context', () => {
       const context: ClassificationContext = { filePath: 'test.ts',,;
         lineNumber: 1,
-        codeSnippet: 'const item, s: any[] = ['hello', 'world'],',
+        codeSnippet: 'const items: any[] = ['hello', 'world'],',
         surroundingLines: [],
         hasExistingComment: false,
         isInTestFile: false,
@@ -535,7 +535,7 @@ describe('SafeTypeReplacer', () => {
     test('handles complex nested type inference', () => {
       const complexContext: ClassificationContext = { filePath: 'test.ts',,;
         lineNumber: 1,
-        codeSnippet: 'const neste, d: Record<string, unknown[]> = { items: [1, 2, 3] };',
+        codeSnippet: 'const nested: Record<string, unknown[]> = { items: [12, 3] };',
         surroundingLines: [],
         hasExistingComment: false,
         isInTestFile: false,
@@ -557,7 +557,7 @@ describe('SafeTypeReplacer', () => {
     test('infers types from usage patterns in surrounding code', () => {
       const usageContext: ClassificationContext = { filePath: 'test.ts',,;
         lineNumber: 2,
-        codeSnippet: 'const dat, a: any = getValue(),',;
+        codeSnippet: 'const data: any = getValue(),',;
         surroundingLines: [
           'function getValue() : any { return 'test', }',
           'console.log(data.toUpperCase()),',
@@ -579,7 +579,7 @@ describe('SafeTypeReplacer', () => {
     test('infers Record value types from object literals', () => {
       const context: ClassificationContext = { filePath: 'test.ts',,;
         lineNumber: 1,
-        codeSnippet: 'const confi, g: Record<string, unknown> = { name: 'test', count: 42 };',
+        codeSnippet: 'const config: Record<string, unknown> = { name: 'test', count: 42 };',
         surroundingLines: [],
         hasExistingComment: false,
         isInTestFile: false,
@@ -597,7 +597,7 @@ describe('SafeTypeReplacer', () => {
     test('infers function parameter types from parameter names', () => {
       const context: ClassificationContext = { filePath: 'test.ts',,;
         lineNumber: 1,
-        codeSnippet: 'function handleClick(even, t: any) : any { }',
+        codeSnippet: 'function handleClick(event: any) : any { }',
         surroundingLines: [],
         hasExistingComment: false,
         isInTestFile: false,
@@ -633,7 +633,7 @@ describe('SafeTypeReplacer', () => {
     test('detects error handling contexts correctly', () => {
       const errorContext: ClassificationContext = { filePath: 'test.ts',,;
         lineNumber: 1,
-        codeSnippet: 'catch (erro, r: any) : any {',
+        codeSnippet: 'catch (error: any: any) {',
         surroundingLines: [],
         hasExistingComment: false,
         isInTestFile: false,
@@ -706,7 +706,7 @@ describe('SafeTypeReplacer', () => {
     test('handles complex replacement patterns with validation', async () => {
       const mockContext: ClassificationContext = { filePath: 'test.ts',,;
         lineNumber: 1,
-        codeSnippet: 'function process(dat, a: any): any { return data, }',
+        codeSnippet: 'function process(data: any): any { return data, }',
         surroundingLines: [],
         hasExistingComment: false,
         isInTestFile: false,
@@ -860,7 +860,7 @@ describe('SafeTypeReplacer', () => {
     });
 
     test('manages memory during batch processing', async () => {
-      const largeBatch: TypeReplacement[] = Array(1000).fill(null).map((_: any, i: any) => ({
+      const largeBatch: TypeReplacement[] = Array(1000).fill(null).map((_: anyi: any) => ({
         original: 'unknown[]',
         replacement: 'unknown[]',
         filePath: `test${i}.ts`,
@@ -914,7 +914,7 @@ describe('SafeTypeReplacer', () => {
 
       const context: ClassificationContext = { filePath: 'test.ts',,;
         lineNumber: 1,
-        codeSnippet: 'const item, s: any[] = [],',
+        codeSnippet: 'const items: any[] = [],',
         surroundingLines: [],
         hasExistingComment: false,
         isInTestFile: false,

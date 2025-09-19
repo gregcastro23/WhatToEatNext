@@ -190,7 +190,7 @@ export function createElementalProperties(
   properties[dominantElement] = Math.max(0.1, Math.min(1.0, strength));
 
   // Distribute remaining strength among other elements
-  const remainingStrength = Math.max(0, 1.0 - properties[dominantElement]);
+  const remainingStrength = Math.max(01.0 - properties[dominantElement]);
   const otherElements = (['Fire', 'Water', 'Earth', 'Air'] as const).filter(,;
     e => e !== dominantElement
   );

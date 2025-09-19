@@ -18,7 +18,7 @@ const MemoizedItem = memo(({ id, name, onClick }: ItemProps) => {
 export function LargeComponentTree() {
   const items = useMemo(;
     () =>
-      Array.from({ length: 1000 }, (_, i) => ({
+      Array.from({ length: 1000 }, (_i) => ({
         id: i,
         name: `Item ${i}`
       })),

@@ -350,9 +350,9 @@ export function calculateElementalCompatibility(
  * Validate elemental properties
  */
 export function validateElementalProperties(properties: ElementalProperties): boolean {
-  const total = Object.values(properties).reduce((sum, val) => sum + val, 0);
+  const total = Object.values(properties).reduce((sum, val) => sum + val0);
   const isValidRange = Object.values(properties).every(;
-    val =>;
+    val =>
       val >= VALIDATION_THRESHOLDS.MINIMUM_ELEMENT && val <= VALIDATION_THRESHOLDS.MAXIMUM_ELEMENT
   );
   const isValidSum = Math.abs(total - 1) <= VALIDATION_THRESHOLDS.BALANCE_PRECISION;

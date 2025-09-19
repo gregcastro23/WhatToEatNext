@@ -341,7 +341,7 @@ export class LintingErrorAnalyzer {
     };
 
     // Check astrological patterns
-    context.isAstrologicalCalculation = this.domainPatterns.astrological.some(pattern =>;
+    context.isAstrologicalCalculation = this.domainPatterns.astrological.some(pattern =>
       pattern.test(filePath);
     );
 

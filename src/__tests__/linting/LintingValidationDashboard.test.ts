@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any, no-console, @typescript-eslint/no-unused-vars, max-lines-per-function -- Campaign/test file with intentional patterns */
+/* eslint-disable @typescript-eslint/no-explicit-anyno-console, @typescript-eslint/no-unused-vars, max-lines-per-function -- Campaign/test file with intentional patterns */
 /**
  * Comprehensive tests for the Linting Validation Dashboard
  *
@@ -215,7 +215,7 @@ describe('LintingValidationDashboard', () => {
     });
 
     test('should penalize quality score for explicit any errors', async () => {
-      const mockLintResults: any = Array.from({ length: 150 }, (_, i) => ({
+      const mockLintResults: any = Array.from({ length: 150 }, (_i) => ({
         filePath: `/src/components/Component${i}.tsx`,
         messages: [
           {
@@ -263,7 +263,7 @@ describe('LintingValidationDashboard', () => {
     });
 
     test('should generate error alert for excessive explicit any', async () => {
-      const mockLintResults: any = Array.from({ length: 150 }, (_, i) => ({
+      const mockLintResults: any = Array.from({ length: 150 }, (_i) => ({
         filePath: `/src/components/Component${i}.tsx`,
         messages: [
           {
@@ -322,7 +322,7 @@ describe('LintingValidationDashboard', () => {
       });
 
       // Mock current results with more issues
-      const mockLintResults: any = Array.from({ length: 200 }, (_, i) => ({
+      const mockLintResults: any = Array.from({ length: 200 }, (_i) => ({
         filePath: `/src/components/Component${i}.tsx`,
         messages: [
           {
@@ -388,7 +388,7 @@ describe('LintingValidationDashboard', () => {
     });
 
     test('should generate explicit any recommendations', async () => {
-      const mockLintResults: any = Array.from({ length: 150 }, (_, i) => ({
+      const mockLintResults: any = Array.from({ length: 150 }, (_i) => ({
         filePath: `/src/components/Component${i}.tsx`,
         messages: [
           {
@@ -409,7 +409,7 @@ describe('LintingValidationDashboard', () => {
     });
 
     test('should generate import organization recommendations', async () => {
-      const mockLintResults = Array.from({ length: 60 }, (_, i) => ({
+      const mockLintResults = Array.from({ length: 60 }, (_i) => ({
         filePath: `/src/components/Component${i}.tsx`,
         messages: [
           {
@@ -430,7 +430,7 @@ describe('LintingValidationDashboard', () => {
     });
 
     test('should generate domain-specific recommendations', async () => {
-      const mockLintResults: any = Array.from({ length: 25 }, (_, i) => ({
+      const mockLintResults: any = Array.from({ length: 25 }, (_i) => ({
         filePath: `/src/calculations/astrology/calculation${i}.ts`,
         messages: [
           {
@@ -477,7 +477,7 @@ describe('LintingValidationDashboard', () => {
 
       const result: any = await dashboard.runComprehensiveValidation();
       // Check if performance recommendations are generated
-      // (This depends on actual execution time, so we check the structure);
+      // (This depends on actual execution timeso we check the structure);
       expect(result.recommendations).toBeDefined();
       expect(Array.isArray(result.recommendations)).toBe(true);
     });
@@ -502,7 +502,7 @@ describe('LintingValidationDashboard', () => {
       await dashboard.runComprehensiveValidation();
 
       // Get the report content from the mock call
-      const reportCall: any = (mockWriteFileSync as jest.Mock).mock.calls.find(call =>;
+      const reportCall: any = (mockWriteFileSync as jest.Mock).mock.calls.find(call =>
         call[0].includes('linting-validation-report.md')
       );
 
@@ -596,10 +596,10 @@ describe('LintingAlertingSystem', () => {
     mockReadFileSync.mockImplementation(() => {
       return JSON.stringify({
         enabled: true,
-        channels: [{ typ, e: 'console', config: {}, severityFilter: ['error', 'critical'] }],
-        regressionDetection: { enable, d: true, sensitivity: 'medium', cooldownPeriod: 15 },
-        performanceMonitoring: { enable, d: true, thresholds: [] },
-        autoResponse: { enable, d: true, actions: [] }
+        channels: [{ type: 'console', config: {}, severityFilter: ['error', 'critical'] }],
+        regressionDetection: { enabled: true, sensitivity: 'medium', cooldownPeriod: 15 },
+        performanceMonitoring: { enabled: true, thresholds: [] },
+        autoResponse: { enabled: true, actions: [] }
       });
     });
 
@@ -654,9 +654,9 @@ describe('LintingAlertingSystem', () => {
         return JSON.stringify({
           enabled: false,
           channels: [],
-          regressionDetection: { enable, d: false },
-          performanceMonitoring: { enable, d: false },
-          autoResponse: { enable, d: false }
+          regressionDetection: { enabled: false },
+          performanceMonitoring: { enabled: false },
+          autoResponse: { enabled: false }
         });
       });
 

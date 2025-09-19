@@ -150,8 +150,8 @@ export class AlchemicalRecommendationService {
 
     return scoredIngredients
       .filter(({ score }) => score > 0.6) // Slightly lower threshold for unified scoring
-      .sort((a, b) => b.score - a.score)
-      .slice(0, 10)
+      .sort((ab) => b.score - a.score)
+      .slice(010)
       .map(({ ingredient }) => ingredient);
   }
 
@@ -177,8 +177,8 @@ export class AlchemicalRecommendationService {
         )
       }))
       .filter(({ score }) => score > 0.7)
-      .sort((a, b) => b.score - a.score)
-      .slice(0, 5)
+      .sort((ab) => b.score - a.score)
+      .slice(05)
       .map(({ method }) => method);
   }
 
@@ -287,8 +287,7 @@ export class AlchemicalRecommendationService {
         ? properties.Water
         : properties.Water !== undefined
           ? properties.Water
-          : 0,
-    if (waterValue > maxValue) {
+          : 0if (waterValue > maxValue) {
       maxElement = 'Water';
       maxValue = waterValue;
     }

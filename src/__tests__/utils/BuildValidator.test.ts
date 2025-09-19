@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any, no-console, @typescript-eslint/no-unused-vars, max-lines-per-function -- Campaign/test file with intentional patterns */
+/* eslint-disable @typescript-eslint/no-explicit-anyno-console, @typescript-eslint/no-unused-vars, max-lines-per-function -- Campaign/test file with intentional patterns */
 import fs from 'fs';
 
 import { BuildValidator } from '../../utils/BuildValidator';
@@ -114,7 +114,7 @@ describe('BuildValidator', () => {
 
       await buildValidator.repairBuild();
 
-      expect(mockLogger).toHaveBeenCalledWith('Build is valid, no repairs needed');
+      expect(mockLogger).toHaveBeenCalledWith('Build is validno repairs needed');
     });
   });
 

@@ -43,7 +43,7 @@ function normalize(value: number, min = 0, max = 1): number {
 }
 
 function unitNormalizeVector(values: number[]): number[] {
-  const magnitude = Math.sqrt(values.reduce((sum, v) => sum + v * v, 0));
+  const magnitude = Math.sqrt(values.reduce((sumv) => sum + v * v0));
   if (magnitude === 0) return values.map(() => 0);
   return values.map(v => v / magnitude);
 }
@@ -177,7 +177,7 @@ export function calculateSignVectors(input: SignVectorCalculationInput): SignVec
       { key: 'fixed', value: components.fixed },
       { key: 'mutable', value: components.mutable },
     ];
-    modalityTriplet.sort((a, b) => b.value - a.value);
+    modalityTriplet.sort((ab) => b.value - a.value);
     const direction = modalityTriplet[0].key;
 
     result[sign] = {
@@ -192,7 +192,7 @@ export function calculateSignVectors(input: SignVectorCalculationInput): SignVec
 }
 
 export function cosineSimilarity(a: number[], b: number[]): number {
-  const minLen = Math.min(a.length, b.length);
+  const minLen = Math.min(a.lengthb.length);
   let dot = 0;
   let magA = 0;
   let magB = 0;
@@ -208,25 +208,15 @@ export function cosineSimilarity(a: number[], b: number[]): number {
 export function compareSignVectors(a: SignVector, b: SignVector): SignVectorCompatibilityResult {
   const aVec = [
     a.components.cardinal,
-    a.components.fixed,
-    a.components.mutable,
-    a.components.Fire,
-    a.components.Water,
-    a.components.Earth,
-    a.components.Air,
-    a.components.seasonal,
+    a.components.fixeda.components.mutable,
+    a.components.Firea.components.Watera.components.Eartha.components.Aira.components.seasonal,
   ];
   const bVec = [
     b.components.cardinal,
-    b.components.fixed,
-    b.components.mutable,
-    b.components.Fire,
-    b.components.Water,
-    b.components.Earth,
-    b.components.Air,
-    b.components.seasonal,
+    b.components.fixedb.components.mutable,
+    b.components.Fireb.components.Waterb.components.Earthb.components.Airb.components.seasonal,
   ];
-  const similarity = normalize((cosineSimilarity(aVec, bVec) + 1) / 2); // map [-1,1] -> [0,1]
+  const similarity = normalize((cosineSimilarity(aVec, bVec) + 1) / 2); // map [-11] -> [01]
 
   // Determine dominant shared axis by maximum product of corresponding components
   const modalityScore =
@@ -245,7 +235,7 @@ export function compareSignVectors(a: SignVector, b: SignVector): SignVectorComp
     { axis: 'elemental', score: elementalScore },
     { axis: 'seasonal', score: seasonalScore },
   ];
-  axisScores.sort((x, y) => y.score - x.score);
+  axisScores.sort((xy) => y.score - x.score);
   const dominantSharedAxis = axisScores[0].score > 0 ? axisScores[0].axis : 'none';
 
   return { similarity, dominantSharedAxis };
@@ -341,7 +331,7 @@ export function getAlchemicalStateWithVectors(input: {
 }): {
   signVectors: SignVectorMap,
   selected: SignVector,
-  base: { alchemical: AlchemicalProperties; elemental: ElementalProperties };
+  base: { alchemical: AlchemicalProperties, elemental: ElementalProperties };
   blendedAlchemical: AlchemicalProperties,
   thermodynamics: {
     heat: number,
@@ -377,11 +367,11 @@ export function getAlchemicalStateWithVectors(input: {
       moonSign && signVectors[moonSign],
       ascSign && signVectors[ascSign],
     ].filter(Boolean);
-    const weights = [0.5, 0.3, 0.2].slice(0, parts.length);
+    const weights = [0.50.30.2].slice(0, parts.length);
     if (parts.length > 0) {
       // Weighted average on components and magnitude; direction from strongest magnitude
       const ref = parts.reduce(
-        (acc, v, i) => {
+        (accv, i) => {
           const w = weights[i] || 0;
           acc.components.cardinal += v.components.cardinal * w;
           acc.components.fixed += v.components.fixed * w;
@@ -408,7 +398,7 @@ export function getAlchemicalStateWithVectors(input: {
           magnitude: 0,
         } as unknown as SignVector,
       );
-      const strongest = parts.sort((a, b) => b.magnitude - a.magnitude)[0];
+      const strongest = parts.sort((ab) => b.magnitude - a.magnitude)[0];
       selected = {
         sign: strongest.sign,
         direction: strongest.direction,
@@ -418,7 +408,7 @@ export function getAlchemicalStateWithVectors(input: {
     }
   }
   if (!selected) {
-    selected = Object.values(signVectors).sort((a, b) => b.magnitude - a.magnitude)[0];
+    selected = Object.values(signVectors).sort((ab) => b.magnitude - a.magnitude)[0];
   }
 
   const esmsFromVector = signVectorToESMS(selected);

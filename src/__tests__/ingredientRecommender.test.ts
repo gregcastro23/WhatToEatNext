@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any, no-console, @typescript-eslint/no-unused-vars, max-lines-per-function -- Campaign/test file with intentional patterns */
+/* eslint-disable @typescript-eslint/no-explicit-anyno-console, @typescript-eslint/no-unused-vars, max-lines-per-function -- Campaign/test file with intentional patterns */
 import { AstrologicalState } from '@/types/alchemy';
 import { Ingredient } from '@/types/ingredient';
 import { getRecommendedIngredients } from '@/utils/ingredientRecommender';
@@ -11,14 +11,14 @@ jest.mock('@/utils/ingredientRecommender', () => {
         name: 'Rosemary',
         category: 'culinary_herb',
         qualities: ['aromatic', 'warming'],
-        elementalProperties: { Fir, e: 0.6, Air: 0.3, Earth: 0.1, Water: 0 },
+        elementalProperties: { Fire: 0.6, Air: 0.3, Earth: 0.1, Water: 0 },
         astrologicalProfile: { rulingPlanets: ['Sun', 'Mercury'] },
       } as Ingredient,
       {
         name: 'Thyme',
         category: 'culinary_herb',
         qualities: ['aromatic', 'warming'],
-        elementalProperties: { Fir, e: 0.4, Air: 0.4, Earth: 0.2, Water: 0 },
+        elementalProperties: { Fire: 0.4, Air: 0.4, Earth: 0.2, Water: 0 },
         astrologicalProfile: { rulingPlanets: ['Mercury'] },
       } as Ingredient,
     ],
@@ -37,8 +37,8 @@ describe('getRecommendedIngredients', () => {
       planetaryHour: 'Sun',
       planetaryAlignment: { Sun: { sign: 'leo', degree: 15 }, Moon: { sign: 'cancer', degree: 5 } },
       aspects: [],
-      tarotElementBoosts: { Fir, e: 0.2, Water: 0.1, Air: 0, Earth: 0 },
-      tarotPlanetaryBoosts: { Su, n: 0.2, Moon: 0.1 },
+      tarotElementBoosts: { Fire: 0.2, Water: 0.1, Air: 0, Earth: 0 },
+      tarotPlanetaryBoosts: { Sun: 0.2, Moon: 0.1 },
     };
 
     const ingredients: any = getRecommendedIngredients(astroState);

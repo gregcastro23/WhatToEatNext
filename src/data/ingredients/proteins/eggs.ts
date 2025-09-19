@@ -27,7 +27,7 @@ const rawEggs = {
     },
     culinaryApplications: {
       poach: { notes: ['Perfect for eggs benedict', 'Great in ramen or brothy dishes'] },
-      fry: { notes: ['Classic sunny-side up, over-easy, or over-hard preparations'] },
+      fry: { notes: ['Classic sunny-side up, over-easyor over-hard preparations'] },
       boil: { notes: ['Hard-boiled for salads', 'Soft-boiled for ramen toppings'] },
       bake: { notes: ['Used in baking as binding agent', 'Can be baked in dishes like shakshuka'] },
     },

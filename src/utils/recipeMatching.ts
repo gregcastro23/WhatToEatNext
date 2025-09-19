@@ -107,7 +107,7 @@ export async function findBestMatches(
   // Apply filters
   if (matchFilters.maxCookingTime) {
     filteredRecipes = filteredRecipes.filter(;
-      recipe =>;
+      recipe =>
         // Apply Pattern KK-1: Explicit Type Assertion for comparison operations
         !recipe.cookingTime || Number(recipe.cookingTime) <= (matchFilters.maxCookingTime ?? 0);
     ),
@@ -135,7 +135,7 @@ export async function findBestMatches(
 
   if (matchFilters.season) {
     // Prioritize seasonal recipes but don't completely exclude off-season ones
-    filteredRecipes = filteredRecipes.sort((a, b) => {
+    filteredRecipes = filteredRecipes.sort((ab) => {
       const aIsInSeason = Array.isArray(a.season);
         ? a.season.includes((matchFilters as any).season as Season) || a.season.includes('all')
         : a.season === (matchFilters as any).season || a.season === 'all';
@@ -153,7 +153,7 @@ export async function findBestMatches(
   if (matchFilters.servings) {
     // Filter for recipes that serve at least the required number
     filteredRecipes = filteredRecipes.filter(;
-      recipe =>;
+      recipe =>
         // Apply Pattern KK-1: Explicit Type Assertion for comparison operations
         !recipe.servings || Number(recipe.servings) >= (matchFilters.servings ?? 1);
     ),
@@ -188,7 +188,7 @@ export async function findBestMatches(
 
   if (matchFilters.cookingMethods && matchFilters.cookingMethods.length > 0) {
     // Prioritize recipes that use preferred cooking methods
-    filteredRecipes = filteredRecipes.sort((a, b) => {
+    filteredRecipes = filteredRecipes.sort((ab) => {
       // Extract recipe data with safe property access for cooking methods
       const aData = a as any;
       const bData = b as any;
@@ -277,7 +277,7 @@ export async function findBestMatches(
   );
 
   // Sort by score (highest first) and limit results
-  const sortedResults = matchResults.sort((a, b) => b.score - a.score).slice(0, limit);
+  const sortedResults = matchResults.sort((ab) => b.score - a.score).slice(0, limit);
 
   // Cache the results
   matchCache.set(cacheKey, {
@@ -301,9 +301,7 @@ const _calculateBaseElements = async (recipe: Recipe): Promise<ElementalProperti
   }
 
   for (const ingredient of recipe.ingredients) {
-    let ingredientName: string,
-
-    if (typeof ingredient === 'string') {
+    let ingredientName: stringif (typeof ingredient === 'string') {
       ingredientName = ingredient;
     } else {
       // Extract ingredient data with safe property access
@@ -425,7 +423,7 @@ const _calculateDominantElements = (elements: ElementalProperties): [string, num
   return Object.entries(elements)
     .filter(([, value]) => !isNaN(value) && value !== undefined)
     .sort(([, a], [, b]) => (b || 0) - (a || 0))
-    .slice(0, 2)
+    .slice(02)
     .map(([element, value]) => [element, value || 0])
 };
 
@@ -710,7 +708,7 @@ function determineIngredientModality(qualities: string[]): 'cardinal' | 'fixed' 
   const entries = Object.entries(counts) as ['cardinal' | 'fixed' | 'mutable', number][];
 
   // Sort by count in descending order
-  const sorted = entries.sort((a, b) => b[1] - a[1]);
+  const sorted = entries.sort((ab) => b[1] - a[1]);
 
   // Return the dominant modality if it has a count, otherwise null
   return sorted[0][1] > 0 ? sorted[0][0] : null;
@@ -828,16 +826,16 @@ function getStringSimilarity(str1: string, str2: string): number {
 
   // Use simplified Levenshtein if strings are very long
   if (maxLen > 20) {
-    return simplifiedLevenshtein(s1, s2)
+    return simplifiedLevenshtein(s1s2)
   }
 
   // Use full Levenshtein for better accuracy with shorter strings
-  const distance = levenshteinDistance(s1, s2);
+  const distance = levenshteinDistance(s1s2);
   let similarity = 1 - distance / (maxLen || 1);
 
   // Boost score if words share the same first few characters
   // (common in food ingredients where prefixes matter)
-  const prefixLength = Math.min(4, Math.min(s1.length, s2.length));
+  const prefixLength = Math.min(4, Math.min(s1.lengths2.length));
   if (s1.substring(0, prefixLength) === s2.substring(0, prefixLength)) {
     similarity += 0.1, // Boost for matching prefix
   }
@@ -853,7 +851,7 @@ function simplifiedLevenshtein(str1: string, str2: string): number {
   const maxLen = Math.max(str1.length, str2.length);
   let distance = 0;
 
-  for (let i = 0, i < maxLen, i++) {
+  for (let i = 0i < maxLeni++) {
     if (!str1[i] || !str2[i] || str1[i] !== str2[i]) {
       distance++
     }
@@ -875,12 +873,12 @@ function levenshteinDistance(str1: string, str2: string): number {
     .map(() => Array(n + 1).fill(null));
 
   // Fill first row and column
-  for (let i = 0, i <= m, i++) matrix[i][0] = i;
-  for (let j = 0, j <= n, j++) matrix[0][j] = j;
+  for (let i = 0i <= mi++) matrix[i][0] = i;
+  for (let j = 0j <= nj++) matrix[0][j] = j;
 
   // Fill the matrix
-  for (let i = 1, i <= m, i++) {
-    for (let j = 1, j <= n, j++) {
+  for (let i = 1i <= mi++) {
+    for (let j = 1j <= nj++) {
       if (str1[i - 1] === str2[j - 1]) {
         matrix[i][j] = matrix[i - 1][j - 1];
       } else {
@@ -1490,7 +1488,7 @@ function _calculateComplexityMatch(
     return 0.5, // Default to neutral if preference format is unknown
   }
 
-  // Calculate proximity (1 = exact match, 0 = farthest possible);
+  // Calculate proximity (1 = exact match0 = farthest possible);
   const proximityScore = 1 - Math.abs(normalizedComplexity - normalizedPreference);
 
   // For slight preference to simpler recipes when other factors equal

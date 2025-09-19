@@ -62,7 +62,7 @@ export class ServicesManager {
   }
 
   /**
-   * Get initialization error, if any
+   * Get initialization errorif any
    */
   get initializationError(): Error | null {
     return this._initializationError;

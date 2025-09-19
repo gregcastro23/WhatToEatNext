@@ -142,7 +142,7 @@ export interface CorruptionPattern {
 export interface ValidationResult {
   success: boolean,
   errors: string[],
-  warnings: string[];
+  warnings: string[],
   metrics?: ProgressMetrics;
 }
 
@@ -197,7 +197,7 @@ export interface GitStash {
 export interface PhaseReport {
   phaseId: string,
   phaseName: string,
-  startTime: Date;
+  startTime: Date,
   endTime?: Date;
   status: PhaseStatus,
   metrics: ProgressMetrics,

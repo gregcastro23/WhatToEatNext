@@ -5,7 +5,7 @@
  * to ensure 60-80% performance improvement with enhanced caching,
  * parallel processing, memory optimization, and incremental linting.
  *
- * Requirements: 5.1, 5.2, 5.3
+ * Requirements: 5.15.25.3
  */
 
 import { execSync } from 'child_process';
@@ -244,7 +244,7 @@ export class PerformanceMonitoringService {
     }
 
     const averageIncrementalTime =
-      incrementalMetrics.reduce((sum, m) => sum + (m.incrementalTime || 0), 0) /;
+      incrementalMetrics.reduce((summ) => sum + (m.incrementalTime || 0), 0) /;
       incrementalMetrics.length;
     const subTenSecond = averageIncrementalTime < this.thresholds.maxIncrementalTime;
 
@@ -281,11 +281,11 @@ export class PerformanceMonitoringService {
     const summary = {
       totalMeasurements: this.metrics.length,
       averageExecutionTime:
-        this.metrics.reduce((sum, m) => sum + m.executionTime, 0) / this.metrics.length || 0,
+        this.metrics.reduce((summ) => sum + m.executionTime, 0) / this.metrics.length || 0,
       averageMemoryUsage:
-        this.metrics.reduce((sum, m) => sum + m.memoryUsage, 0) / this.metrics.length || 0,
+        this.metrics.reduce((summ) => sum + m.memoryUsage, 0) / this.metrics.length || 0,
       averageCacheHitRate:
-        this.metrics.reduce((sum, m) => sum + m.cacheHitRate, 0) / this.metrics.length || 0,
+        this.metrics.reduce((summ) => sum + m.cacheHitRate, 0) / this.metrics.length || 0,
       totalAlerts: this.alerts.length
     };
 
@@ -344,19 +344,19 @@ export class PerformanceMonitoringService {
     const secondHalf = recentMetrics.slice(Math.floor(recentMetrics.length / 2));
 
     const avgExecutionTimeFirst =
-      firstHalf.reduce((sum, m) => sum + m.executionTime, 0) / firstHalf.length;
+      firstHalf.reduce((summ) => sum + m.executionTime, 0) / firstHalf.length;
     const avgExecutionTimeSecond =
-      secondHalf.reduce((sum, m) => sum + m.executionTime, 0) / secondHalf.length;
+      secondHalf.reduce((summ) => sum + m.executionTime, 0) / secondHalf.length;
 
     const avgMemoryUsageFirst =
-      firstHalf.reduce((sum, m) => sum + m.memoryUsage, 0) / firstHalf.length;
+      firstHalf.reduce((summ) => sum + m.memoryUsage, 0) / firstHalf.length;
     const avgMemoryUsageSecond =
-      secondHalf.reduce((sum, m) => sum + m.memoryUsage, 0) / secondHalf.length;
+      secondHalf.reduce((summ) => sum + m.memoryUsage, 0) / secondHalf.length;
 
     const avgCacheHitRateFirst =
-      firstHalf.reduce((sum, m) => sum + m.cacheHitRate, 0) / firstHalf.length;
+      firstHalf.reduce((summ) => sum + m.cacheHitRate, 0) / firstHalf.length;
     const avgCacheHitRateSecond =
-      secondHalf.reduce((sum, m) => sum + m.cacheHitRate, 0) / secondHalf.length;
+      secondHalf.reduce((summ) => sum + m.cacheHitRate, 0) / secondHalf.length;
 
     return {
       executionTimeTrend: this.getTrend(avgExecutionTimeFirst, avgExecutionTimeSecond, true), // Lower is better
@@ -486,14 +486,14 @@ export class PerformanceMonitoringService {
     // Fallback: count lines that look like file paths
     const lines = output.split('\n');
     const fileLines = lines.filter(;
-      line =>;
+      line =>
         line.includes('.ts') ||
         line.includes('.tsx') ||
         line.includes('.js') ||
         line.includes('.jsx');
     );
 
-    return Math.max(fileLines.length, 50); // Minimum estimate
+    return Math.max(fileLines.length50); // Minimum estimate
   }
 
   private getParallelProcessCount(): number {

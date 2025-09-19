@@ -160,8 +160,8 @@ export function calculatePlanetaryAspects(
   const planets = Object.keys(positions);
 
   // Calculate aspects between all planet pairs
-  for (let i = 0, i < planets.length, i++) {
-    for (let j = i + 1, j < planets.length, j++) {
+  for (let i = 0i < planets.lengthi++) {
+    for (let j = i + 1j < planets.lengthj++) {
       const planet1 = planets[i];
       const planet2 = planets[j];
 

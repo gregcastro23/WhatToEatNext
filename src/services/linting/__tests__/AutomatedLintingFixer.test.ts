@@ -54,7 +54,7 @@ describe('AutomatedLintingFixer', () => {
         rule: '@typescript-eslint/no-unused-vars',
         message: ''unusedVar' is defined but never used',
         severity: 'warning',
-        category: { primar, y: 'typescript', secondary: 'no-unused-vars', priority: 2 },
+        category: { primary: 'typescript', secondary: 'no-unused-vars', priority: 2 },
         autoFixable: true,
         resolutionStrategy: { type: 'auto-fix',
           confidence: 0.8,
@@ -72,7 +72,7 @@ describe('AutomatedLintingFixer', () => {
         rule: 'import/order',
         message: 'Import order is incorrect',
         severity: 'warning',
-        category: { primar, y: 'import', secondary: 'order', priority: 3 },
+        category: { primary: 'import', secondary: 'order', priority: 3 },
         autoFixable: true,
         resolutionStrategy: { type: 'auto-fix',
           confidence: 0.9,
@@ -297,7 +297,7 @@ describe('AutomatedLintingFixer', () => {
       expect(result.success).toBe(false);
       expect(result.failedIssues).toBe(1);
       expect(result.errors).toHaveLength(1);
-      expect(result.errors.[0].severity).toBe('error');
+      expect(result.errors[0].severity).toBe('error');
     });
   });
 
@@ -333,7 +333,7 @@ describe('AutomatedLintingFixer', () => {
 
       expect(result.success).toBe(true);
       expect(result.fixedIssues).toBe(2);
-      expect(result.processedFiles).toHaveLength(1); // Same file, so only one processed
+      expect(result.processedFiles).toHaveLength(1); // Same fileso only one processed
     });
 
     it('should handle eslint command failures', async () => {
@@ -561,8 +561,8 @@ describe('AutomatedLintingFixer', () => {
       const result: any = await fixer.applyAutomatedFixes(mockCategorizedErrors);
 
       expect(result.errors).toHaveLength(1);
-      expect(result.errors.[0].severity).toBe('error');
-      expect(result.errors.[0].message).toContain('batch');
+      expect(result.errors[0].severity).toBe('error');
+      expect(result.errors[0].message).toContain('batch');
     });
 
     it('should perform emergency rollback on critical failure', async () => {

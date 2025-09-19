@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any, no-console, @typescript-eslint/no-unused-vars, max-lines-per-function -- Campaign/test file with intentional patterns */
+/* eslint-disable @typescript-eslint/no-explicit-anyno-console, @typescript-eslint/no-unused-vars, max-lines-per-function -- Campaign/test file with intentional patterns */
 import AlertingSystem, { AlertRule } from '../AlertingSystem';
 
 // Mock the dependencies
@@ -157,7 +157,7 @@ describe('AlertingSystem', () => {
         type: 'error',
         metric: 'typescript_errors',
         condition: 'greater_than',
-        threshold: 100, // Mock returns 150, so this should trigger
+        threshold: 100, // Mock returns 150so this should trigger
         severity: 'warning',
         enabled: true,
         cooldownMinutes: 5,
@@ -170,7 +170,7 @@ describe('AlertingSystem', () => {
       // Manually trigger rule evaluation (in real system this happens automatically)
       const rule: any = alertingSystem.getAlertRules().find(r => r.id === ruleId);
       if (rule != null) {
-        (alertingSystem as unknown as { evaluateRule: (rul, e: AlertRule) => void }).evaluateRule(rule);
+        (alertingSystem as unknown as { evaluateRule: (rule: AlertRule) => void }).evaluateRule(rule);
       }
 
       // Check if alert was created
@@ -192,7 +192,7 @@ describe('AlertingSystem', () => {
         type: 'error',
         metric: 'typescript_errors',
         condition: 'greater_than',
-        threshold: 1000, // Mock returns 150, so this should NOT trigger
+        threshold: 1000, // Mock returns 150so this should NOT trigger
         severity: 'critical',
         enabled: true,
         cooldownMinutes: 5,
@@ -205,7 +205,7 @@ describe('AlertingSystem', () => {
       // Manually trigger rule evaluation
       const rule: any = alertingSystem.getAlertRules().find(r => r.id === ruleId);
       if (rule != null) {
-        (alertingSystem as unknown as { evaluateRule: (rul, e: AlertRule) => void }).evaluateRule(rule);
+        (alertingSystem as unknown as { evaluateRule: (rule: AlertRule) => void }).evaluateRule(rule);
       }
 
       // Check that no alert was created for this rule
@@ -234,10 +234,10 @@ describe('AlertingSystem', () => {
       const rule: any = alertingSystem.getAlertRules().find(r => r.id === ruleId);
       if (rule != null) {
         // First evaluation should create alert
-        (alertingSystem as unknown as { evaluateRule: (rul, e: AlertRule) => void }).evaluateRule(rule);
+        (alertingSystem as unknown as { evaluateRule: (rule: AlertRule) => void }).evaluateRule(rule);
 
         // Second evaluation should be blocked by cooldown (immediate)
-        (alertingSystem as unknown as { evaluateRule: (rul, e: AlertRule) => void }).evaluateRule(rule);
+        (alertingSystem as unknown as { evaluateRule: (rule: AlertRule) => void }).evaluateRule(rule);
       }
 
       // Should only have one alert despite two evaluations
@@ -268,7 +268,7 @@ describe('AlertingSystem', () => {
 
       const rule: any = alertingSystem.getAlertRules().find(r => r.id === ruleId);
       if (rule != null) {
-        (alertingSystem as unknown as { evaluateRule: (rul, e: AlertRule) => void }).evaluateRule(rule);
+        (alertingSystem as unknown as { evaluateRule: (rule: AlertRule) => void }).evaluateRule(rule);
       }
 
       const alerts: any = alertingSystem.getAlerts({ resolved: false });
@@ -306,7 +306,7 @@ describe('AlertingSystem', () => {
 
       const rule: any = alertingSystem.getAlertRules().find(r => r.id === ruleId);
       if (rule != null) {
-        (alertingSystem as unknown as { evaluateRule: (rul, e: AlertRule) => void }).evaluateRule(rule);
+        (alertingSystem as unknown as { evaluateRule: (rule: AlertRule) => void }).evaluateRule(rule);
       }
 
       const alerts: any = alertingSystem.getAlerts({ resolved: false });
@@ -353,7 +353,7 @@ describe('AlertingSystem', () => {
           type: 'quality' as const,
           severity: 'critical' as const,
           metric: 'code_quality_score',
-          threshold: 80, // Mock returns 75, so this should trigger with less_than condition
+          threshold: 80, // Mock returns 75so this should trigger with less_than condition
         }
       ];
 
@@ -372,7 +372,7 @@ describe('AlertingSystem', () => {
 
         const rule: any = alertingSystem.getAlertRules().find(r => r.id === ruleId);
         if (rule != null) {
-          (alertingSystem as unknown as { evaluateRule: (rul, e: AlertRule) => void }).evaluateRule(rule);
+          (alertingSystem as unknown as { evaluateRule: (rule: AlertRule) => void }).evaluateRule(rule);
         }
       }
     });
@@ -424,7 +424,7 @@ describe('AlertingSystem', () => {
 
       const rule: any = alertingSystem.getAlertRules().find(r => r.id === ruleId);
       if (rule != null) {
-        (alertingSystem as unknown as { evaluateRule: (rul, e: AlertRule) => void }).evaluateRule(rule);
+        (alertingSystem as unknown as { evaluateRule: (rule: AlertRule) => void }).evaluateRule(rule);
       }
 
       const summary: any = alertingSystem.getAlertSummary();

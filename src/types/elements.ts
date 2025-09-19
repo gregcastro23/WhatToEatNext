@@ -7,7 +7,7 @@ export type ElementType = 'Fire' | 'Water' | 'Air' | 'Earth' | 'Metal' | 'Wood' 
 export interface ElementalEnergy {
   type: ElementType,
   strength: number,
-  influence: string[];
+  influence: string[],
   description?: string;
 }
 

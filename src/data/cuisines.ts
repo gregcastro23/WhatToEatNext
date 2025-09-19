@@ -111,12 +111,12 @@ export type { CuisineType };
 export type Cuisine = (typeof cuisines)[keyof typeof cuisines];
 
 // Helper functions for accessing cuisine properties
-export const _getCuisineByName = (name: string): AlchemyCuisine | undefined =>;
+export const _getCuisineByName = (name: string): AlchemyCuisine | undefined =>
   cuisines[name.toLowerCase()];
 
 export const _getCuisinesByElement = (element: keyof ElementalProperties): AlchemyCuisine[] =>;
   Object.values(cuisines).filter(
-    cuisine =>;
+    cuisine =>
       (cuisine.elementalState?.[element] ?? 0) >= 0.3 ||
       (cuisine.elementalProperties?.[element] ?? 0) >= 0.3;
   );

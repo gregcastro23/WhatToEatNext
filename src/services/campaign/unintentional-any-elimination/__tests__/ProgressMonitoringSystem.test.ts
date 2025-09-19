@@ -123,7 +123,7 @@ describe('ProgressMonitoringSystem', () => {
         timestamp: new Date(),
         domainDistribution: { totalAnyTypes: 1000,
           intentionalVsUnintentional: { intentional: { count: 300, percentage: 30 },
-            unintentional: { coun, t: 700, percentage: 70 }
+            unintentional: { count: 700, percentage: 70 }
           },
           byDomain: [],
           byCategory: [],
@@ -199,7 +199,7 @@ describe('ProgressMonitoringSystem', () => {
     });
 
     it('should detect build failures', async () => {
-      const errorOutput: any = 'error TS2304: Cannot find name\nerror TS234, 5: Argument type',;
+      const errorOutput: any = 'error TS2304: Cannot find name\nerror TS2345: Argument type',
       mockExecSync.mockImplementation(() => {
         const error: any = new Error('Compilation failed');
         (error as any).stdout = errorOutput;
@@ -244,7 +244,7 @@ describe('ProgressMonitoringSystem', () => {
       });
 
       // Trigger multiple build failures
-      for (let i: any = 0, i < 3, i++) {
+      for (let i: any = 0i < 3i++) {
         await monitoringSystem.monitorBuildStability();
       }
 
@@ -260,7 +260,7 @@ describe('ProgressMonitoringSystem', () => {
       mockAnalysisToolsInstance.generateComprehensiveReport.mockResolvedValue({
         domainDistribution: { totalAnyTypes: 1000,
           intentionalVsUnintentional: { intentional: { count: 300, percentage: 30 },
-            unintentional: { coun, t: 700, percentage: 70 }
+            unintentional: { count: 700, percentage: 70 }
           }
         },
         summary: { currentSuccessRat, e: 60 }, // Below threshold
@@ -360,7 +360,7 @@ describe('ProgressMonitoringSystem', () => {
         timestamp: new Date(),
         domainDistribution: { totalAnyTypes: 1000,
           intentionalVsUnintentional: { intentional: { count: 300, percentage: 30 },
-            unintentional: { coun, t: 700, percentage: 70 }
+            unintentional: { count: 700, percentage: 70 }
           }
         },
         accuracyReport: { overallAccurac, y: 85 },
@@ -413,7 +413,7 @@ describe('ProgressMonitoringSystem', () => {
       mockAnalysisToolsInstance.generateComprehensiveReport.mockResolvedValue({
         domainDistribution: { totalAnyTypes: 1000,
           intentionalVsUnintentional: { intentional: { count: 300, percentage: 30 },
-            unintentional: { coun, t: 700, percentage: 70 }
+            unintentional: { count: 700, percentage: 70 }
           }
         },
         summary: { currentSuccessRat, e: 60 }
@@ -483,7 +483,7 @@ describe('ProgressMonitoringSystem', () => {
       mockAnalysisToolsInstance.generateComprehensiveReport.mockResolvedValue({
         domainDistribution: { totalAnyTypes: 1000,
           intentionalVsUnintentional: { intentional: { count: 300, percentage: 30 },
-            unintentional: { coun, t: 700, percentage: 70 }
+            unintentional: { count: 700, percentage: 70 }
           }
         },
         summary: { currentSuccessRat, e: 75, totalAnyTypes: 1000 }

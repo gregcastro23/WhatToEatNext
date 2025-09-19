@@ -77,7 +77,7 @@ export function validateAstrologyConfig() {
 export interface FeedbackData {
   type: 'bug' | 'feature' | 'improvement' | 'other',
   title: string,
-  description: string;
+  description: string,
   userEmail?: string;
   priority?: 'low' | 'medium' | 'high';
   metadata?: { [key: string]: unknown };

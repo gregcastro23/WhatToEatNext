@@ -163,7 +163,7 @@ export function findComplementaryDishes(
     }
   });
 
-  return recommendations.sort((a, b) => {
+  return recommendations.sort((ab) => {
     const bProtein = b.nutrition?.protein || 0;
     const aProtein = a.nutrition?.protein || 0;
     return bProtein - aProtein

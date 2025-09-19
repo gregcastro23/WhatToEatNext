@@ -161,10 +161,10 @@ describe('ProgressTracker', () => {
   describe('getLintingWarningBreakdown', () => {
     it('should return warning breakdown by rule type', async () => {
       mockExecSync.mockReturnValue(`
-        file1.ts: 10:5 - warnin, g: Unexpected any @typescript-eslint/no-explicit-any
-        file2.ts: 15:10 - warnin, g: Unused variable no-unused-vars
-        file3.ts: 20:1 - warnin, g: Console statement no-console
-        file4.ts: 25:3 - warnin, g: Another any @typescript-eslint/no-explicit-any
+        file1.ts: 10:5 - warning: Unexpected any @typescript-eslint/no-explicit-any
+        file2.ts: 15:10 - warning: Unused variable no-unused-vars
+        file3.ts: 20:1 - warning: Console statement no-console
+        file4.ts: 25:3 - warning: Another any @typescript-eslint/no-explicit-any
       `),
 
       const breakdown: any = await progressTracker.getLintingWarningBreakdown();
@@ -381,7 +381,7 @@ describe('ProgressTracker', () => {
 
     it('should limit metrics history to prevent memory issues', async () => {
       // Add many metrics to history
-      for (let i: any = 0, i < 110, i++) {
+      for (let i: any = 0i < 110i++) {
         await progressTracker.getProgressMetrics();
       }
 
@@ -403,10 +403,10 @@ describe('ProgressTracker', () => {
   describe('validateMilestone', () => {
     beforeEach(() => {
       jest.spyOn(progressTracker, 'getProgressMetrics').mockResolvedValue({
-        typeScriptErrors: { curren, t: 0, target: 0, reduction: 86, percentage: 100 },
-        lintingWarnings: { curren, t: 0, target: 0, reduction: 4506, percentage: 100 },
+        typeScriptErrors: { current: 0, target: 0, reduction: 86, percentage: 100 },
+        lintingWarnings: { current: 0, target: 0, reduction: 4506, percentage: 100 },
         buildPerformance: { currentTim, e: 8.5, targetTime: 10, cacheHitRate: 0.85, memoryUsage: 42 },
-        enterpriseSystems: { curren, t: 200, target: 200, transformedExports: 200 }
+        enterpriseSystems: { current: 200, target: 200, transformedExports: 200 }
       });
     });
 
@@ -444,10 +444,10 @@ describe('ProgressTracker', () => {
 
     it('should fail validation for incomplete milestones', async () => {
       jest.spyOn(progressTracker, 'getProgressMetrics').mockResolvedValue({
-        typeScriptErrors: { curren, t: 5, target: 0, reduction: 81, percentage: 94 },
-        lintingWarnings: { curren, t: 100, target: 0, reduction: 4406, percentage: 98 },
+        typeScriptErrors: { current: 5, target: 0, reduction: 81, percentage: 94 },
+        lintingWarnings: { current: 100, target: 0, reduction: 4406, percentage: 98 },
         buildPerformance: { currentTim, e: 12, targetTime: 10, cacheHitRate: 0.6, memoryUsage: 60 },
-        enterpriseSystems: { curren, t: 150, target: 200, transformedExports: 150 }
+        enterpriseSystems: { current: 150, target: 200, transformedExports: 150 }
       });
 
       const tsErrors: any = await progressTracker.validateMilestone('zero-typescript-errors');
@@ -470,10 +470,10 @@ describe('ProgressTracker', () => {
   describe('generateProgressReport', () => {
     beforeEach(() => {
       jest.spyOn(progressTracker, 'getProgressMetrics').mockResolvedValue({
-        typeScriptErrors: { curren, t: 25, target: 0, reduction: 61, percentage: 71 },
-        lintingWarnings: { curren, t: 1000, target: 0, reduction: 3506, percentage: 78 },
+        typeScriptErrors: { current: 25, target: 0, reduction: 61, percentage: 71 },
+        lintingWarnings: { current: 1000, target: 0, reduction: 3506, percentage: 78 },
         buildPerformance: { currentTim, e: 9, targetTime: 10, cacheHitRate: 0.8, memoryUsage: 45 },
-        enterpriseSystems: { curren, t: 150, target: 200, transformedExports: 150 }
+        enterpriseSystems: { current: 150, target: 200, transformedExports: 150 }
       });
     });
 
@@ -511,10 +511,10 @@ describe('ProgressTracker', () => {
 
     it('should show completed status for finished phases', async () => {
       jest.spyOn(progressTracker, 'getProgressMetrics').mockResolvedValue({
-        typeScriptErrors: { curren, t: 0, target: 0, reduction: 86, percentage: 100 },
-        lintingWarnings: { curren, t: 0, target: 0, reduction: 4506, percentage: 100 },
+        typeScriptErrors: { current: 0, target: 0, reduction: 86, percentage: 100 },
+        lintingWarnings: { current: 0, target: 0, reduction: 4506, percentage: 100 },
         buildPerformance: { currentTim, e: 8, targetTime: 10, cacheHitRate: 0.8, memoryUsage: 45 },
-        enterpriseSystems: { curren, t: 200, target: 200, transformedExports: 200 }
+        enterpriseSystems: { current: 200, target: 200, transformedExports: 200 }
       });
 
       const report: any = await progressTracker.generateProgressReport();
@@ -533,19 +533,19 @@ describe('ProgressTracker', () => {
     it('should calculate improvement correctly', async () => {
       // Add initial metrics
       jest.spyOn(progressTracker, 'getProgressMetrics').mockResolvedValueOnce({
-        typeScriptErrors: { curren, t: 86, target: 0, reduction: 0, percentage: 0 },
-        lintingWarnings: { curren, t: 4506, target: 0, reduction: 0, percentage: 0 },
+        typeScriptErrors: { current: 86, target: 0, reduction: 0, percentage: 0 },
+        lintingWarnings: { current: 4506, target: 0, reduction: 0, percentage: 0 },
         buildPerformance: { currentTim, e: 12, targetTime: 10, cacheHitRate: 0.7, memoryUsage: 60 },
-        enterpriseSystems: { curren, t: 0, target: 200, transformedExports: 0 }
+        enterpriseSystems: { current: 0, target: 200, transformedExports: 0 }
       });
       await progressTracker.getProgressMetrics();
 
       // Add improved metrics
       jest.spyOn(progressTracker, 'getProgressMetrics').mockResolvedValueOnce({
-        typeScriptErrors: { curren, t: 50, target: 0, reduction: 36, percentage: 42 },
-        lintingWarnings: { curren, t: 3000, target: 0, reduction: 1506, percentage: 33 },
+        typeScriptErrors: { current: 50, target: 0, reduction: 36, percentage: 42 },
+        lintingWarnings: { current: 3000, target: 0, reduction: 1506, percentage: 33 },
         buildPerformance: { currentTim, e: 9, targetTime: 10, cacheHitRate: 0.8, memoryUsage: 45 },
-        enterpriseSystems: { curren, t: 100, target: 200, transformedExports: 100 }
+        enterpriseSystems: { current: 100, target: 200, transformedExports: 100 }
       });
       await progressTracker.getProgressMetrics();
 

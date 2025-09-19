@@ -47,7 +47,7 @@ export interface Recipe {
   name: string,
   description: string,
   ingredients: RecipeIngredient[],
-  instructions: string[];
+  instructions: string[],
   [key: string]: unknown
 }
 

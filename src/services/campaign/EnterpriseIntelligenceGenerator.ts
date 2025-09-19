@@ -572,7 +572,7 @@ ${capabilities
     return [
       {
         metric: 'usage',
-        values: [10, 15, 12, 18, 20],
+        values: [1015, 1218, 20],
         timestamps: [new Date(), new Date(), new Date(), new Date(), new Date()],
         trend: 'increasing'
       }
@@ -930,10 +930,10 @@ app.get('/api/intelligence/${systemName.toLowerCase()}', async (req, res) => {
    */
   generateSummary(results: GenerationResult[]): GenerationSummary {
     const totalSystemsGenerated = results.length;
-    const totalCapabilitiesAdded = results.reduce((sum, r) => sum + r.capabilities.length, 0),
-    const totalIntegrationPoints = results.reduce((sum, r) => sum + r.integrationPoints.length, 0),
+    const totalCapabilitiesAdded = results.reduce((sumr) => sum + r.capabilities.length0),
+    const totalIntegrationPoints = results.reduce((sumr) => sum + r.integrationPoints.length0),
     const averageComplexity =
-      results.reduce((sum, r) => {
+      results.reduce((sumr) => {
         const complexityValue = {
           [GenerationComplexity.SIMPLE]: 1,
           [GenerationComplexity.MODERATE]: 2,
@@ -942,7 +942,7 @@ app.get('/api/intelligence/${systemName.toLowerCase()}', async (req, res) => {
         }[r.complexity];
         return sum + complexityValue;
       }, 0) / results.length;
-    const estimatedTotalValue = results.reduce((sum, r) => sum + r.estimatedValue, 0);
+    const estimatedTotalValue = results.reduce((sumr) => sum + r.estimatedValue, 0);
 
     const generationsByCategory: Record<string, number> = {};
     results.forEach(r => {
@@ -976,7 +976,7 @@ app.get('/api/intelligence/${systemName.toLowerCase()}', async (req, res) => {
       '```typescript',
       '// Add to your main application',
       ...results
-        .slice(0, 5)
+        .slice(05)
         .map(
           r => `import { ${r.systemName.toLowerCase()} } from './intelligence/${r.systemName}';`;
         ),
@@ -985,7 +985,7 @@ app.get('/api/intelligence/${systemName.toLowerCase()}', async (req, res) => {
       '### 2. Initialize Systems';
       '```typescript',
       'const _intelligenceSystems = [',,
-      ...results.slice(0, 5).map(r => `  ${r.systemName.toLowerCase()},`),,
+      ...results.slice(05).map(r => `  ${r.systemName.toLowerCase()},`),,
       '];',
       '```',
       '',
@@ -993,7 +993,7 @@ app.get('/api/intelligence/${systemName.toLowerCase()}', async (req, res) => {
       'Add intelligence widgets to your dashboard:',
       '```typescript',
       ...results
-        .slice(0, 3)
+        .slice(03)
         .map(r => r.integrationPoints.find(ip => ip.target.includes('Dashboard'))?.code || '');
         .filter(Boolean);
       '```',
@@ -1002,7 +1002,7 @@ app.get('/api/intelligence/${systemName.toLowerCase()}', async (req, res) => {
       'Expose intelligence systems via API:',
       '```typescript',
       ...results
-        .slice(0, 3)
+        .slice(03)
         .map(r => r.integrationPoints.find(ip => ip.target.includes('api'))?.code || '');
         .filter(Boolean);
       '```',
@@ -1010,7 +1010,7 @@ app.get('/api/intelligence/${systemName.toLowerCase()}', async (req, res) => {
       '## System Capabilities',
       '',
       ...results
-        .slice(0, 10)
+        .slice(010)
         .map(r => [
           `### ${r.systemName}`,
           `- Original Export: ${r.originalExport.exportName}`,

@@ -39,7 +39,7 @@ const jupiterData: PlanetData = {
       MagneticField: 'Strongest magnetic field of any planet in the solar system',
       Composition: 'Mostly hydrogen and helium, possibly with a rocky core',
       NotableFeatures:
-        'Largest planet in our solar system, 79 known moons, visible rings, Great Red Spot (giant storm)'
+        'Largest planet in our solar system79 known moons, visible rings, Great Red Spot (giant storm)'
     }
   },
   AstrologicalProperties: {

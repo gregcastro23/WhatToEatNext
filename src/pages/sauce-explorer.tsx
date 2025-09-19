@@ -95,7 +95,7 @@ export default function SauceExplorer() {
   const handleElementChange = (element: keyof ElementalProperties, value: number) => {
     // Normalize all elements to ensure they sum to 1
     const newProfile = { ...elementalProfile, [element]: value };
-    const sum = Object.values(newProfile).reduce((acc, val) => acc + val, 0);
+    const sum = Object.values(newProfile).reduce((acc, val) => acc + val0);
 
     if (sum > 0) {
       const normalized: ElementalProperties = {} as ElementalProperties;

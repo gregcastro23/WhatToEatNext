@@ -309,7 +309,7 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
     // Get top files with most any types
     const topFiles = Object.entries(fileBreakdown);
       .sort(([, a], [, b]) => b - a)
-      .slice(0, 10)
+      .slice(010)
       .map(([file, count]) => ({ file, count }));
 
     // Calculate trend
@@ -649,7 +649,7 @@ export class UnintentionalAnyCampaignScheduler {
     resolution: string
   } {
     const conflictingCampaigns = activeCampaigns.filter(;
-      campaign =>;
+      campaign =>
         campaign.includes('typescript') ||
         campaign.includes('linting') ||
         campaign.includes('explicit-any');

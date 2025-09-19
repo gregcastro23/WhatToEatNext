@@ -253,7 +253,7 @@ const rawLegumes = {
       shelling: 'remove from pods if fresh',
       soaking: 'overnight if using dried',
       cooking: 'simmer until tender, typically 45-60 minutes for dried',
-      notes: 'Available fresh, frozen, dried, or canned',
+      notes: 'Available fresh, frozen, driedor canned',
     },
     storage: {
       fresh_unshelled: '3-5 days refrigerated',

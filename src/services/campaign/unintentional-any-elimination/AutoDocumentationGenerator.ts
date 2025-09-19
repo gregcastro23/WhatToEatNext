@@ -256,7 +256,7 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
    */
   async generateReport(): Promise<DocumentationReport> {
     // This would typically scan the entire codebase
-    // For now, we'll return a basic structure
+    // For nowwe'll return a basic structure
     const report: DocumentationReport = {
       totalIntentionalAnyTypes: 0,
       documentedTypes: 0,

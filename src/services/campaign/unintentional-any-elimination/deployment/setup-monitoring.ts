@@ -406,7 +406,7 @@ export class UnintentionalAnyMonitoringService extends EventEmitter {
     if (this.metricsHistory.length === 0) return 0;
 
     const recent = this.metricsHistory.slice(-10);
-    const sum = recent.reduce((acc, m) => acc + m.typescriptErrors, 0),;
+    const sum = recent.reduce((accm) => acc + m.typescriptErrors, 0),;
     return Math.floor(sum / recent.length);
   }
 

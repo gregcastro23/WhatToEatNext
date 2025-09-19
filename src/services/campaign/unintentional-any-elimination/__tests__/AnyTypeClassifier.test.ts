@@ -31,7 +31,7 @@ describe('AnyTypeClassifier', () => {
 
   describe('Error Handling Classification', () => {
     test('classifies error handling any as intentional', async () => {
-      const context: any = createContext('} catch (error: any) : any {');
+      const context: any = createContext('} catch (error: any: any) {');
       const result: any = await classifier.classify(context);
 
       expect(result.isIntentional).toBe(true);
@@ -93,7 +93,7 @@ describe('AnyTypeClassifier', () => {
         'const data: any = response,',;
         {
           hasExistingComment: true,
-          existingComment: '// Intentionally an, y: External API response'
+          existingComment: '// Intentionally any: External API response'
         }
       );
 
@@ -164,7 +164,7 @@ describe('AnyTypeClassifier', () => {
     test('processes multiple contexts in batch', async () => {
       const contexts: any = [
         createContext('const items: any[] = [],');
-        createContext('} catch (error: any) : any {'),
+        createContext('} catch (error: any: any) {'),
         createContext('const data: Record<string, unknown> = {},')
       ];
 
@@ -201,7 +201,7 @@ describe('AnyTypeClassifier', () => {
           surroundingLines: [
             'try {',
             '  performOperation(),',
-            '} catch (e) : any {'
+            '} catch (e: any) {'
           ]
         }
       );
@@ -379,7 +379,7 @@ describe('AnyTypeClassifier', () => {
         'const data: any = response,',;
         {
           hasExistingComment: true,
-          existingComment: '// TOD, O: Fix this any type when API schema is available'
+          existingComment: '// TODO: Fix this any type when API schema is available'
         }
       );
 
@@ -544,7 +544,7 @@ describe('AnyTypeClassifier', () => {
 
   describe('Performance and Stress Testing', () => {
     test('handles large batch processing efficiently', async () => {
-      const largeBatch: any = Array(100).fill(null).map((_: any, i: any) =>,;
+      const largeBatch: any = Array(100).fill(null).map((_: anyi: any) =>,
         createContext(`const item${i}: unknown[] = [],`)
       );
 
@@ -581,7 +581,7 @@ describe('AnyTypeClassifier', () => {
     test('handles concurrent classification requests', async () => {
       const contexts: any = [
         createContext('const items: any[] = [],');
-        createContext('} catch (error: any) : any {'),
+        createContext('} catch (error: any: any) {'),
         createContext('const config: Record<string, unknown> = {},');
         createContext('const mockFn = jest.fn() as any as unknown;', { isInTestFile: true }),
         createContext('const response: any = await fetch('/api');')

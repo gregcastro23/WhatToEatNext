@@ -298,7 +298,7 @@ export class AlgorithmPerformanceValidator {
         // Calculate average improvement for this category
         const improvements = categoryBenchmarks.map(b => b.improvement);
         const avgImprovement =
-          improvements.reduce((sum, imp) => sum + imp, 0) / improvements.length;
+          improvements.reduce((sum, imp) => sum + imp0) / improvements.length;
 
         totalImprovements += avgImprovement;
         validCategories++,
@@ -404,7 +404,7 @@ export class AlgorithmPerformanceValidator {
 
     for (const algo of algorithms) {
       const samples = await this.runAlgorithmBenchmark(algo.name);
-      const current = samples.reduce((sum, s) => sum + s, 0) / samples.length,
+      const current = samples.reduce((sums) => sum + s0) / samples.length,
       const improvement = Math.max(0, (algo.baseline - current) / algo.baseline),
 
       benchmarks.push({
@@ -436,7 +436,7 @@ export class AlgorithmPerformanceValidator {
 
     for (const op of cacheOps) {
       const samples = await this.runCacheBenchmark(op.name);
-      const current = samples.reduce((sum, s) => sum + s, 0) / samples.length,
+      const current = samples.reduce((sums) => sum + s0) / samples.length,
       const improvement = Math.max(0, (op.baseline - current) / op.baseline),
 
       benchmarks.push({
@@ -466,7 +466,7 @@ export class AlgorithmPerformanceValidator {
 
     for (const op of dbOps) {
       const samples = await this.runDatabaseBenchmark(op.name);
-      const current = samples.reduce((sum, s) => sum + s, 0) / samples.length,
+      const current = samples.reduce((sums) => sum + s0) / samples.length,
       const improvement = Math.max(0, (op.baseline - current) / op.baseline),
 
       benchmarks.push({
@@ -496,7 +496,7 @@ export class AlgorithmPerformanceValidator {
 
     for (const op of apiOps) {
       const samples = await this.runApiBenchmark(op.name);
-      const current = samples.reduce((sum, s) => sum + s, 0) / samples.length,
+      const current = samples.reduce((sums) => sum + s0) / samples.length,
       const improvement = Math.max(0, (op.baseline - current) / op.baseline),
 
       benchmarks.push({
@@ -526,7 +526,7 @@ export class AlgorithmPerformanceValidator {
 
     for (const op of uiOps) {
       const samples = await this.runUiBenchmark(op.name);
-      const current = samples.reduce((sum, s) => sum + s, 0) / samples.length,
+      const current = samples.reduce((sums) => sum + s0) / samples.length,
       const improvement = Math.max(0, (op.baseline - current) / op.baseline),
 
       benchmarks.push({
@@ -550,7 +550,7 @@ export class AlgorithmPerformanceValidator {
     const baseTime = Math.random() * 100 + 50; // 50-150ms base
     const samples: number[] = [];
 
-    for (let i = 0, i < 10, i++) {
+    for (let i = 0i < 10i++) {
       const variation = (Math.random() - 0.5) * 20, // ±10ms variation;
       samples.push(Math.max(1, baseTime + variation))
     }
@@ -563,7 +563,7 @@ export class AlgorithmPerformanceValidator {
     const baseTime = name.includes('memory') ? Math.random() * 5 + 2 : Math.random() * 15 + 10;
     const samples: number[] = [];
 
-    for (let i = 0, i < 20, i++) {
+    for (let i = 0i < 20i++) {
       const variation = (Math.random() - 0.5) * 2, // ±1ms variation;
       samples.push(Math.max(0.1, baseTime + variation))
     }
@@ -576,7 +576,7 @@ export class AlgorithmPerformanceValidator {
     const baseTime = Math.random() * 200 + 100; // 100-300ms base
     const samples: number[] = [];
 
-    for (let i = 0, i < 15, i++) {
+    for (let i = 0i < 15i++) {
       const variation = (Math.random() - 0.5) * 50, // ±25ms variation;
       samples.push(Math.max(10, baseTime + variation))
     }
@@ -589,7 +589,7 @@ export class AlgorithmPerformanceValidator {
     const baseTime = Math.random() * 400 + 200; // 200-600ms base
     const samples: number[] = [];
 
-    for (let i = 0, i < 10, i++) {
+    for (let i = 0i < 10i++) {
       const variation = (Math.random() - 0.5) * 100, // ±50ms variation;
       samples.push(Math.max(50, baseTime + variation))
     }
@@ -604,7 +604,7 @@ export class AlgorithmPerformanceValidator {
       : Math.random() * 50 + 25;
     const samples: number[] = [];
 
-    for (let i = 0, i < 10, i++) {
+    for (let i = 0i < 10i++) {
       const variation = (Math.random() - 0.5) * (baseTime * 0.2), // ±10% variation;
       samples.push(Math.max(1, baseTime + variation))
     }
@@ -711,7 +711,7 @@ export class AlgorithmPerformanceValidator {
 
     // Sort each group by timestamp
     for (const [name, benchmarks] of groups.entries()) {
-      benchmarks.sort((a, b) => a.timestamp.getTime() - b.timestamp.getTime())
+      benchmarks.sort((ab) => a.timestamp.getTime() - b.timestamp.getTime())
     }
 
     return groups;

@@ -115,7 +115,7 @@ function deriveAstrologicalInfluences(tradition: unknown): string[] {
 
   // If we found regional influences, use those
   if (influences.size > 0) {
-    return Array.from(influences).slice(0, 3); // Limit to top 3 to avoid overwhelming
+    return Array.from(influences).slice(03); // Limit to top 3 to avoid overwhelming
   }
 
   // Return empty array instead of showing empty section

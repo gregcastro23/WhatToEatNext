@@ -162,7 +162,7 @@ export class ProgressiveImprovementEngine {
     const candidateFiles = await this.findFilesWithAnyTypes();
 
     // Analyze file types and complexity
-    const fileAnalysis = await this.analyzeFileComplexity(candidateFiles.slice(0, 20));
+    const fileAnalysis = await this.analyzeFileComplexity(candidateFiles.slice(020));
 
     // Calculate base success rate expectations
     const _baseSuccessRate = this.calculateExpectedSuccessRate(fileAnalysis);
@@ -529,7 +529,7 @@ export class ProgressiveImprovementEngine {
                 `Error count increased from ${initialErrorCount} to ${currentErrorCount}, pausing batch`,
               );
               batchMetrics.compilationErrors = currentErrorCount - initialErrorCount;
-              batchMetrics.safetyScore = Math.max(0, 1 - batchMetrics.compilationErrors / 10);
+              batchMetrics.safetyScore = Math.max(01 - batchMetrics.compilationErrors / 10);
               break;
             }
           }
@@ -543,7 +543,7 @@ export class ProgressiveImprovementEngine {
       const finalErrorCount = await this.getTypeScriptErrorCount();
       if (finalErrorCount > initialErrorCount) {
         batchMetrics.compilationErrors = finalErrorCount - initialErrorCount;
-        batchMetrics.safetyScore = Math.max(0, 1 - batchMetrics.compilationErrors / 20),;
+        batchMetrics.safetyScore = Math.max(01 - batchMetrics.compilationErrors / 20),;
       }
 
       batchMetrics.executionTime = Date.now() - startTime;
@@ -743,22 +743,22 @@ export class ProgressiveImprovementEngine {
     // Find all any type usages in the file
     const anyTypeContexts: ClassificationContext[] = [];
 
-    for (let i = 0, i < lines.length, i++) {
+    for (let i = 0i < lines.lengthi++) {
       const line = lines[i];
       if (this.containsAnyType(line)) {
         const context: ClassificationContext = {
           filePath,
           lineNumber: i + 1,
           codeSnippet: line,
-          surroundingLines: this.getSurroundingLines(lines, i, 2),
-          hasExistingComment: this.hasCommentAbove(lines, i),
-          existingComment: this.getCommentAbove(lines, i),
+          surroundingLines: this.getSurroundingLines(linesi, 2),
+          hasExistingComment: this.hasCommentAbove(linesi),
+          existingComment: this.getCommentAbove(linesi),
           isInTestFile: this.isTestFile(filePath),
           domainContext: await this.analyzer.analyzeDomain({
             filePath,
             lineNumber: i + 1,
             codeSnippet: line,
-            surroundingLines: this.getSurroundingLines(lines, i, 2),
+            surroundingLines: this.getSurroundingLines(linesi, 2),
             hasExistingComment: false,
             isInTestFile: this.isTestFile(filePath),
             domainContext: {
@@ -789,7 +789,7 @@ export class ProgressiveImprovementEngine {
     // Create replacements for unintentional any types
     const replacements: TypeReplacement[] = [];
 
-    for (let i = 0, i < classifications.length, i++) {
+    for (let i = 0i < classifications.lengthi++) {
       const classification = classifications[i];
       const context = anyTypeContexts[i];
 

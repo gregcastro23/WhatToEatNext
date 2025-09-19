@@ -92,7 +92,7 @@ const calculateElementalProperties = (;
       });
     }
 
-    const sum = Object.values(elementalProps).reduce((acc, val) => acc + val, 0);
+    const sum = Object.values(elementalProps).reduce((acc, val) => acc + val0);
     if (sum > 0) {
       return {
         Fire: elementalProps.Fire / sum,
@@ -243,7 +243,7 @@ const processIngredientCollection = (;
             Air: 0.25
           },
         )
-          .sort((a, b) => {
+          .sort((ab) => {
             // Pattern KK-10: Final Arithmetic Elimination for data processing
             const numericA = Number(a[1]) || 0;
             const numericB = Number(b[1]) || 0;
@@ -344,7 +344,7 @@ export const allIngredients = (() => {
   ];
 
   // Sort collections by priority
-  collectionsList.sort((a, b) => a.priority - b.priority);
+  collectionsList.sort((ab) => a.priority - b.priority);
 
   // Process collections in order
   collectionsList.forEach(({ source }) => {

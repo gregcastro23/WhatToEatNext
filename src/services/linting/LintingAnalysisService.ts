@@ -194,8 +194,8 @@ export class LintingAnalysisService {
     }
 
     const topIssues = Array.from(issueFrequency.entries());
-      .sort((a, b) => b[1] - a[1])
-      .slice(0, 5)
+      .sort((ab) => b[1] - a[1])
+      .slice(05)
       .map(([rule]) =>
         Object.values(categorizedErrors.byCategory)
           .flat()
@@ -210,7 +210,7 @@ export class LintingAnalysisService {
         const classification = classifications.find(c => c.ruleId === issue.rule);
         return classification && classification.riskProfile.overall === 'low';
       })
-      .slice(0, 10);
+      .slice(010);
 
     // Get critical issues
     const criticalIssues = Object.values(categorizedErrors.byCategory);
@@ -321,7 +321,7 @@ export class LintingAnalysisService {
       .flat()
       .filter(issue => issue.domainContext?.requiresSpecialHandling);
 
-    const estimatedTime = strategies.reduce((sum, s) => sum + s.estimatedTime, 0);
+    const estimatedTime = strategies.reduce((sums) => sum + s.estimatedTime, 0);
 
     // Determine overall risk level
     const highRiskCount = classifications.filter(c => c.riskProfile.overall === 'high').length;
@@ -515,8 +515,8 @@ export class LintingAnalysisService {
     // Calculate confidence scores
     const confidenceScores = strategies.map(s => s.confidence);
     const average =
-      confidenceScores.reduce((sum, score) => sum + score, 0) / confidenceScores.length || 0;
-    const sorted = [...confidenceScores].sort((a, b) => a - b);
+      confidenceScores.reduce((sum, score) => sum + score0) / confidenceScores.length || 0;
+    const sorted = [...confidenceScores].sort((ab) => a - b);
     const median = sorted[Math.floor(sorted.length / 2)] || 0;
 
     const confidenceDistribution: Record<string, number> = {};
@@ -573,7 +573,7 @@ export class LintingAnalysisService {
     log.info('\n📋 TOP RECOMMENDATIONS:');
     result.recommendations
       .filter(r => r.priority === 'critical' || r.priority === 'high');
-      .slice(0, 3)
+      .slice(03)
       .forEach((rec, index) => {
         log.info(`${index + 1}. ${rec.title} (${rec.priority.toUpperCase()})`);
         log.info(`   ${rec.description}`);

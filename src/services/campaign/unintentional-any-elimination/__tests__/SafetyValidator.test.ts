@@ -37,8 +37,8 @@ describe('SafetyValidator', () => {
 
     test('handles compilation errors', async () => {
       const errorOutput: any = `;
-        src/test.ts(10,5): error TS2322: Type 'string' is not assignable to type 'number'.
-        src/test.ts(15,10): error TS2304: Cannot find name 'unknownVariable'.,
+        src/test.ts(105): error TS2322: Type 'string' is not assignable to type 'number'.
+        src/test.ts(1510): error TS2304: Cannot find name 'unknownVariable'.,
         Found 2 errors.
       `;
 
@@ -109,7 +109,7 @@ describe('SafetyValidator', () => {
       const result: any = await slowValidator.validateBuildAfterBatch(['test.ts']);
 
       expect(result.buildSuccessful).toBe(false);
-      expect(result.compilationErrors.some(error =>;
+      expect(result.compilationErrors.some(error =>
         error.includes('Build time') && error.includes('exceeds threshold')
       )).toBe(true);
     });
@@ -172,7 +172,7 @@ describe('SafetyValidator', () => {
 
       const context: ClassificationContext = { filePath: 'test.ts',,;
         lineNumber: 1,
-        codeSnippet: 'const item, s: any[] = [],',
+        codeSnippet: 'const items: any[] = [],',
         surroundingLines: [],
         hasExistingComment: false,
         isInTestFile: false,
@@ -201,7 +201,7 @@ describe('SafetyValidator', () => {
 
       const errorContext: ClassificationContext = { filePath: 'test.ts',,;
         lineNumber: 1,
-        codeSnippet: 'catch (erro, r: any) : any {',
+        codeSnippet: 'catch (error: any: any) {',
         surroundingLines: [],
         hasExistingComment: false,
         isInTestFile: false,
@@ -284,7 +284,7 @@ describe('SafetyValidator', () => {
 
       const functionContext: ClassificationContext = { filePath: 'function.ts',,;
         lineNumber: 1,
-        codeSnippet: 'function process(dat, a: any) : any {',
+        codeSnippet: 'function process(data: any) : any {',
         surroundingLines: [],
         hasExistingComment: false,
         isInTestFile: false,
@@ -340,7 +340,7 @@ describe('SafetyValidator', () => {
 
       const mockContext: ClassificationContext = { filePath: 'test.ts',,;
         lineNumber: 1,
-        codeSnippet: 'const item, s: any[] = [],',
+        codeSnippet: 'const items: any[] = [],',
         surroundingLines: [],
         hasExistingComment: false,
         isInTestFile: false,
@@ -359,9 +359,9 @@ describe('SafetyValidator', () => {
   describe('Error Output Parsing', () => {
     test('parses TypeScript errors correctly', async () => {
       const complexErrorOutput: any = `;
-        src/file1.ts(10,5): error TS2322: Type 'string' is not assignable to type 'number'.
-        src/file2.ts(15,10): error TS2304: Cannot find name 'unknownVariable'.
-        src/file3.ts(20,15): error TS2345: Argument of type 'number' is not assignable to parameter of type 'string'.,
+        src/file1.ts(105): error TS2322: Type 'string' is not assignable to type 'number'.
+        src/file2.ts(1510): error TS2304: Cannot find name 'unknownVariable'.
+        src/file3.ts(2015): error TS2345: Argument of type 'number' is not assignable to parameter of type 'string'.,
         Found 3 errors.
       `;
 
@@ -381,7 +381,7 @@ describe('SafetyValidator', () => {
     });
 
     test('limits error count to maximum threshold', async () => {
-      const manyErrorsOutput: any = Array.from({ length: 20 }, (_, i) =>;
+      const manyErrorsOutput: any = Array.from({ length: 20 }, (_i) =>;
         `src/file${i}.ts(${i},5): error TS2322: Type error ${i}.`
       ).join('\n');
 

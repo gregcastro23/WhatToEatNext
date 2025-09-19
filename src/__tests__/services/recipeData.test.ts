@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any, no-console, @typescript-eslint/no-unused-vars, max-lines-per-function -- Campaign/test file with intentional patterns */
+/* eslint-disable @typescript-eslint/no-explicit-anyno-console, @typescript-eslint/no-unused-vars, max-lines-per-function -- Campaign/test file with intentional patterns */
 import { recipeData } from '@/services/recipeData';
 import { recipeElementalService } from '@/services/RecipeElementalService';
 import { Recipe } from '@/types/recipe';
@@ -103,7 +103,7 @@ describe('RecipeData Service', () => {
       expect(recipe.ingredients).toBeDefined();
       expect(recipe.instructions).toBeDefined();
     } catch (error) {
-      // In CI, we might encounter filesystem differences, so handle errors gracefully
+      // In CIwe might encounter filesystem differences, so handle errors gracefully
       if (process.env.CI) {
         // console.warn('Test failed in CI environment, but continuing:', error);
       } else {
@@ -132,7 +132,7 @@ describe('RecipeData Service', () => {
             Earth: 0.3,
             Air: 0.1
           },
-          ingredients: [{ nam, e: 'Test', amount: 1, unit: 'cup', category: 'test' }],
+          ingredients: [{ name: 'Test', amount: 1, unit: 'cup', category: 'test' }],
           instructions: ['Test'],
           timeToMake: '30 minutes',
           numberOfServings: 4
@@ -152,7 +152,7 @@ describe('RecipeData Service', () => {
             Earth: 0.2,
             Air: 0.3
           },
-          ingredients: [{ nam, e: 'Test', amount: 1, unit: 'cup', category: 'test' }],
+          ingredients: [{ name: 'Test', amount: 1, unit: 'cup', category: 'test' }],
           instructions: ['Test'],
           timeToMake: '45 minutes',
           numberOfServings: 2
@@ -279,7 +279,7 @@ describe('RecipeData Service', () => {
       recipeData.getAllRecipes = originalGetAllRecipes;
       recipeData.filterRecipes = originalFilterRecipes;
     } catch (error) {
-      // In CI, we might encounter environment differences, so handle errors gracefully
+      // In CIwe might encounter environment differences, so handle errors gracefully
       if (process.env.CI) {
         // console.warn('Test failed in CI environment, but continuing:', error);
       } else {
@@ -327,14 +327,14 @@ describe('RecipeData Service', () => {
     expect(recipes.length).toBe(1);
 
     // The elemental properties should be normalized (sum to 1)
-    const sum: any = Object.values(recipes[0].elementalProperties).reduce((a: number, b: number) => a + b, 0);
-    expect(sum).toBeCloseTo(1, 6);
+    const sum: any = Object.values(recipes[0].elementalProperties).reduce((a: numberb: number) => a + b0);
+    expect(sum).toBeCloseTo(16);
 
     // All elementalProperties values should be equal since we started with equal values
-    expect(recipes[0].elementalProperties.Fire).toBeCloseTo(0.25, 6);
-    expect(recipes[0].elementalProperties.Water).toBeCloseTo(0.25, 6);
-    expect(recipes[0].elementalProperties.Earth).toBeCloseTo(0.25, 6);
-    expect(recipes[0].elementalProperties.Air).toBeCloseTo(0.25, 6);
+    expect(recipes[0].elementalProperties.Fire).toBeCloseTo(0.256);
+    expect(recipes[0].elementalProperties.Water).toBeCloseTo(0.256);
+    expect(recipes[0].elementalProperties.Earth).toBeCloseTo(0.256);
+    expect(recipes[0].elementalProperties.Air).toBeCloseTo(0.256);
 
     // Restore original methods
     recipeData.getAllRecipes = originalGetAllRecipes;

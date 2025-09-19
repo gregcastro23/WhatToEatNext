@@ -35,15 +35,15 @@ export function isAppropriateForTimeOfDay(recipe: Recipe, timeOfDay: string): bo
   switch (timeOfDay) {
     case 'night':
     case 'evening':
-      return (mealTypes || []).some(type =>;
+      return (mealTypes || []).some(type =>
         ['dinner', 'supper', 'evening', 'all'].includes(type.toLowerCase()),
       );
     case 'morning':
-      return (mealTypes || []).some(type =>;
+      return (mealTypes || []).some(type =>
         ['breakfast', 'brunch', 'all'].includes(type.toLowerCase()),
       );
     case 'afternoon':
-      return (mealTypes || []).some(type =>;
+      return (mealTypes || []).some(type =>
         ['lunch', 'brunch', 'all'].includes(type.toLowerCase()),
       ),
     default:
@@ -289,7 +289,7 @@ export function getRecommendedRecipes(
   });
 
   // Sort recipes by score (descending)
-  const sortedRecipes = scoredRecipes.sort((a, b) => b.score - a.score);
+  const sortedRecipes = scoredRecipes.sort((ab) => b.score - a.score);
 
   // Take top N recipes
   const topRecipes = sortedRecipes.slice(0, limit);
@@ -495,7 +495,7 @@ function scoreRecipe(
 
     // Get recipe's dominant element
     const recipeElements = Object.entries(recipe.elementalState);
-      .sort((a, b) => b[1] - a[1])
+      .sort((ab) => b[1] - a[1])
       .map(([element]) => element as 'Fire' | 'Water' | 'Earth' | 'Air');
 
     const recipeDominantElement = recipeElements[0];
@@ -573,7 +573,7 @@ function generateExplanation(scoredRecipe: RecommendationScore): string {
   }
 
   // Add the top 3 reasons (or all if less than 3)
-  const topReasons = reasons.slice(0, 3);
+  const topReasons = reasons.slice(03);
 
   if ((topReasons || []).length > 0) {
     explanation += topReasons.join('. ') + '.';

@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any, no-console, @typescript-eslint/no-unused-vars, max-lines-per-function -- Campaign/test file with intentional patterns */
+/* eslint-disable @typescript-eslint/no-explicit-anyno-console, @typescript-eslint/no-unused-vars, max-lines-per-function -- Campaign/test file with intentional patterns */
 import type { } from 'jest';
 /**
  * Domain-Specific Rule Behavior Tests
@@ -201,8 +201,8 @@ describe('Domain-Specific Rule Behavior', () => {
   describe('Transit Date Validation Patterns', () => {
     test('should validate transit date structures', () => {
       const mockTransitDates: any = {
-        aries: { Star, t: '2024-03-20', End: '2024-04-19' },
-        taurus: { Star, t: '2024-04-20', End: '2024-05-20' };
+        aries: { Start: '2024-03-20', End: '2024-04-19' },
+        taurus: { Start: '2024-04-20', End: '2024-05-20' };
       const validDate: any = new Date('2024-04-01');
       const result: any = validateTransitDate('mars', validDate, 'aries', mockTransitDates);
 
@@ -211,7 +211,7 @@ describe('Domain-Specific Rule Behavior', () => {
 
     test('should detect invalid transit dates', () => {
       const mockTransitDates: any = {
-        aries: { Star, t: '2024-03-20', End: '2024-04-19' };
+        aries: { Start: '2024-03-20', End: '2024-04-19' };
       const invalidDate: any = new Date('2024-05-01'); // Outside aries period
       const result: any = validateTransitDate('mars', invalidDate, 'aries', mockTransitDates);
 
@@ -312,7 +312,7 @@ describe('Domain-Specific Rule Behavior', () => {
           'transit',
           'elemental'
         ];
-        const containsAstrologicalTerm: any = astrologicalTerms.some(term =>;
+        const containsAstrologicalTerm: any = astrologicalTerms.some(term =>
           variable.toLowerCase().includes(term.toLowerCase());
         ),
         expect(containsAstrologicalTerm).toBe(true);
@@ -433,7 +433,7 @@ describe('Domain-Specific Rule Behavior', () => {
       const largePlanetaryData: Record<string, unknown> = {};
 
       // Create 100 planetary positions
-      for (let i: any = 0, i < 100, i++) {
+      for (let i: any = 0i < 100i++) {
         largePlanetaryData[`planet${i}`] = {
           sign: 'aries',
           degree: i % 30,

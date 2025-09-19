@@ -75,7 +75,7 @@ export const broiling: CookingMethodData = {
   pairingSuggestions: [
     'Fresh herb compounds',
     'Citrus-based marinades',
-    'Light sauces that won't mask broiled flavor',
+    'Light sauces that will not mask broiled flavor',
     'Crisp salads as contrast',
     'Roasted vegetables',
     'Wine reductions'
@@ -133,7 +133,7 @@ export const broiling: CookingMethodData = {
 
   // Additional metadata
   history:
-    'Broiling evolved from ancient cooking methods where food was placed near open fires, but as a distinct technique with overhead heat, it became refined with the development of modern ovens in the 19th century. It gained particular popularity in American steakhouses in the 20th century as a way to quickly prepare steaks with a charred exterior while maintaining a juicy interior.',
+    'Broiling evolved from ancient cooking methods where food was placed near open fires, but as a distinct technique with overhead heatit became refined with the development of modern ovens in the 19th century. It gained particular popularity in American steakhouses in the 20th century as a way to quickly prepare steaks with a charred exterior while maintaining a juicy interior.',
 
   scientificPrinciples: [
     'Radiant heat transfer from element directly to food surface',

@@ -313,7 +313,7 @@ export const braising: CookingMethodData = {
     ],
 
     aromaticBases: [
-      'Mirepoix: 2 parts onion, 1 part carrot, 1 part celery',
+      'Mirepoix: 2 parts onion1 part carrot1 part celery',
       'Sofrito: onion, garlic, bell pepper, tomato',
       'Holy Trinity: equal parts onion, celery, bell pepper',
       'Suppengrün: leek, carrot, celeriac',

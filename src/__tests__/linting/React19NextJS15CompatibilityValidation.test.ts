@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any, no-console, @typescript-eslint/no-unused-vars, max-lines-per-function -- Campaign/test file with intentional patterns */
+/* eslint-disable @typescript-eslint/no-explicit-anyno-console, @typescript-eslint/no-unused-vars, max-lines-per-function -- Campaign/test file with intentional patterns */
 import type { } from 'jest';
 /**
  * React 19 and Next.js 15 Compatibility Validation Test Suite
@@ -57,7 +57,7 @@ interface Props {
   children: React.ReactNode
 }
 
-export function JSXComponent(: any) { title, children }: Props) {
+export function JSXComponent() { title, children }: Props) {
   return (
     <div>
       <h1>{title}</h1>
@@ -167,7 +167,7 @@ export function generateMetadata(): any {
       const testFile: any = path.join(testFilesDir, 'app-layout.tsx'),
       const content: any = `;
 // Next.js 15 App Router layout component
-export default function RootLayout(: any) {
+export default function RootLayout() {
   children
 }: {
   children: React.ReactNode
@@ -310,7 +310,7 @@ export function CustomHookComponent(): any {
       const content: any = `;
 import { useState } from 'react';
 
-export function ConditionalHooksComponent(: any) { condition }: { condition: boolean }) {
+export function ConditionalHooksComponent() { condition }: { condition: boolean }) {
   if (condition != null) {
     const [state] = useState(''), // Hooks in conditional - should error
   }
@@ -442,10 +442,10 @@ export const _TypedButton: FC<ButtonProps> = ({ title: any,  ...buttonProps }) =
 interface Props {
   required: string,
   optional?: number,,
-  callback: (valu, e: string) => void
+  callback: (value: string) => void
 }
 
-export function PropValidationComponent(: any) { required, optional, callback }: Props) {
+export function PropValidationComponent() { required, optional, callback }: Props) {
   const handleClick: any = () => {
     callback(required);
   };
@@ -532,7 +532,7 @@ import { memo, useMemo, useCallback } from 'react';
 interface ItemProps {
   id: number,,
   name: string,,
-  onClick: (i, d: number) => void
+  onClick: (id: number) => void
 }
 
 const MemoizedItem: any = memo(({ id, name, onClick }: ItemProps) => {
@@ -548,7 +548,7 @@ const MemoizedItem: any = memo(({ id, name, onClick }: ItemProps) => {
 
 export function LargeComponentTree(): any {
   const items: any = useMemo(() =>;
-    Array.from({ length: 1000 }, (_, i) => ({
+    Array.from({ length: 1000 }, (_i) => ({
   id: i,
       name: \`Item \${i}\`
     }))
@@ -561,10 +561,10 @@ export function LargeComponentTree(): any {
   return (<div>
       {items.map(item => (;
         <MemoizedItem
-          key={item.id};
-          id={item.id};
-          name={item.name};
-          onClick={() => void handleItemClick()};
+          key={item.id}
+          id={item.id}
+          name={item.name}
+          onClick={() => void handleItemClick()}
         />
       ))}
     </div>

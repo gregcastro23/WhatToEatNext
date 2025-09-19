@@ -22,7 +22,7 @@ jest.mock('child_process', () => ({
             message: 'Import order is incorrect',
             line: 1,
             column: 1,
-            fix: { rang, e: [0, 10], text: 'fixed import' }
+            fix: { range: [010], text: 'fixed import' }
           },
           {
             ruleId: '@typescript-eslint/no-explicit-any',
@@ -50,7 +50,7 @@ import React, { useState } from 'react';
       return <div>Test</div>;
     }
   `),
-  statSync: jest.fn().mockReturnValue({ mtim, e: new Date() })
+  statSync: jest.fn().mockReturnValue({ mtime: new Date() })
 }));
 
 describe('LintingAnalysisService', () => {
@@ -79,7 +79,7 @@ describe('LintingAnalysisService', () => {
 
       // Should have at least one quick win (import/order is auto-fixable)
       expect(result.quickWins.length).toBeGreaterThan(0);
-      expect(result.quickWins.[0].autoFixable).toBe(true);
+      expect(result.quickWins[0].autoFixable).toBe(true);
     });
 
     it('should categorize issues by severity', async () => {
@@ -139,7 +139,7 @@ describe('LintingAnalysisService', () => {
       expect(result.recommendations.length).toBeGreaterThan(0);
 
       // Should have at least one recommendation
-      const firstRec: any = result.recommendations.[0];
+      const firstRec: any = result.recommendations[0];
       expect(firstRec.title).toBeDefined();
       expect(firstRec.description).toBeDefined();
       expect(firstRec.actionItems).toBeDefined();

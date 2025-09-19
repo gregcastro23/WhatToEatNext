@@ -225,7 +225,7 @@ class EnhancedPreCommitHook {
   private async checkFormatting(): Promise<PreCommitResult> {
     try {
       const tsFiles = this.stagedFiles.filter(;
-        file =>;
+        file =>
           file.endsWith('.ts') ||
           file.endsWith('.tsx') ||
           file.endsWith('.js') ||
@@ -260,7 +260,7 @@ class EnhancedPreCommitHook {
       if (this.config.autoFix.formatting) {
         try {
           const tsFiles = this.stagedFiles.filter(;
-            file =>;
+            file =>
               file.endsWith('.ts') ||
               file.endsWith('.tsx') ||
               file.endsWith('.js') ||

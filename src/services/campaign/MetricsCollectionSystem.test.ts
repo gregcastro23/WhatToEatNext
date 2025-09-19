@@ -227,7 +227,7 @@ describe('MetricsCollectionSystem', () => {
       mockExecSync.mockReturnValue('0');
 
       // Create more than 1000 snapshots
-      for (let i: any = 0, i < 1100, i++) {
+      for (let i: any = 0i < 1100i++) {
         await metricsSystem.collectSnapshot(`phase${(i % 4) + 1}`);
       }
 

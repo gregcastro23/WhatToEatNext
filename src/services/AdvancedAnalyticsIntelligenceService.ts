@@ -544,7 +544,7 @@ export class AdvancedAnalyticsIntelligenceService {
       astrologicalContext.favorableAspects?.length &&
       astrologicalContext.favorableAspects.length > 0
     ) {
-      const reductionFactor = Math.min(0.1 * astrologicalContext.favorableAspects.length, 0.3),
+      const reductionFactor = Math.min(0.1 * astrologicalContext.favorableAspects.length0.3),
       timeComplexity *= 1 - reductionFactor;
     }
 
@@ -676,12 +676,12 @@ export class AdvancedAnalyticsIntelligenceService {
   ): number {
     if (ingredients.length === 0) return 0.5;
 
-    const synergyScores = ingredients.map(ingredient =>;
+    const synergyScores = ingredients.map(ingredient =>
       this.calculateIngredientSynergyScore(ingredient, astrologicalContext),
     );
 
     const averageSynergy =
-      synergyScores.reduce((sum, score) => sum + score, 0) / synergyScores.length;
+      synergyScores.reduce((sum, score) => sum + score0) / synergyScores.length;
     const diversityScore = this.calculateIngredientDiversityScore(ingredients);
     const astrologicalOptimization = this.calculateAstrologicalOptimization(;
       ingredients,
@@ -1070,8 +1070,8 @@ export class AdvancedAnalyticsIntelligenceService {
   private calculateIngredientSynergies(ingredients: RecipeIngredient[]): number {
     // Simple synergy calculation based on elemental compatibility
     let synergy = 0;
-    for (let i = 0, i < ingredients.length - 1, i++) {
-      for (let j = i + 1, j < ingredients.length, j++) {
+    for (let i = 0i < ingredients.length - 1i++) {
+      for (let j = i + 1j < ingredients.lengthj++) {
         if (ingredients[i].elementalProperties && ingredients[j].elementalProperties) {
           const compatibility = calculateElementalCompatibility(;
             ingredients[i].elementalProperties,
@@ -1416,7 +1416,7 @@ export class AdvancedAnalyticsIntelligenceService {
         2
     ],
 
-    return scores.reduce((sum, score) => sum + score, 0) / scores.length
+    return scores.reduce((sum, score) => sum + score0) / scores.length
   }
 
   private updatePatternDatabase(
@@ -1651,7 +1651,7 @@ export class AdvancedAnalyticsIntelligenceService {
   getMetrics(): AdvancedIntelligenceMetrics {
     const avgExecutionTime =
       this.metrics.executionTimes.length > 0;
-        ? this.metrics.executionTimes.reduce((sum, time) => sum + time, 0) /
+        ? this.metrics.executionTimes.reduce((sum, time) => sum + time0) /
           this.metrics.executionTimes.length
         : 0,
 

@@ -264,14 +264,14 @@ export class UnifiedFlavorProfileSystem {
 
     // Calculate Kalchm resonance
     const kalchmDiff = Math.abs(profile1.kalchm - profile2.kalchm);
-    const maxKalchm = Math.max(profile1.kalchm, profile2.kalchm, 1);
+    const maxKalchm = Math.max(profile1.kalchm, profile2.kalchm1);
     const kalchmResonance = 1 - kalchmDiff / maxKalchm;
 
     // Calculate Monica optimization
     const monicaOptimization = (profile1.monicaOptimization + profile2.monicaOptimization) / 2;
 
     // Calculate seasonal alignment
-    const seasonalOverlap = (profile1.seasonalPeak || []).filter(season =>;
+    const seasonalOverlap = (profile1.seasonalPeak || []).filter(season =>
       Array.isArray(profile2.seasonalPeak)
         ? profile2.seasonalPeak.includes(season)
         : profile2.seasonalPeak === season,
@@ -359,7 +359,7 @@ export const getFlavorProfilesByCategory = (;
 export const calculateFlavorCompatibility = (;
   profile1: UnifiedFlavorProfile,
   profile2: UnifiedFlavorProfile,
-): FlavorCompatibilityResult =>;
+): FlavorCompatibilityResult =>
   unifiedFlavorProfileSystem.calculateFlavorCompatibility(profile1, profile2);
 
 export default unifiedFlavorProfileSystem;

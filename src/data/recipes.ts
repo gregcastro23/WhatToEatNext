@@ -12,7 +12,7 @@ import {
   getDominantFlavor,
   calculatePlanetaryFlavorMatch
 } from '@/data/planetaryFlavorProfiles';
-import type { ZodiacSign, LunarPhase, Season, _ } from '@/types/alchemy';
+import type { ZodiacSign, LunarPhase, Season_ } from '@/types/alchemy';
 import type { _ } from '@/types/ingredient';
 import type { Recipe } from '@/types/recipe';
 import { logger } from '@/utils/logger';
@@ -202,7 +202,7 @@ const transformCuisineData = async (): Promise<RecipeData[]> => {
                     if (dishPlanetary && Array.isArray(dishPlanetary)) {
                       dishPlanetary.forEach((planet: string) => {
                         dishPlanetaryInfluences[planet] = dishPlanetaryInfluences[planet]
-                          ? Math.min(dishPlanetaryInfluences[planet] + 0.3, 1.0)
+                          ? Math.min(dishPlanetaryInfluences[planet] + 0.31.0)
                           : 0.7;
                       });
                     }
@@ -407,7 +407,7 @@ export const _getRecipesForPlanetaryAlignment = async (;
         : 0
     }))
     .filter(recipe => (recipe.matchScore || 0) >= minMatchScore);
-    .sort((a, b) => (b.matchScore || 0) - (a.matchScore || 0));
+    .sort((ab) => (b.matchScore || 0) - (a.matchScore || 0));
 };
 
 /**
@@ -448,7 +448,7 @@ export const _getRecommendedCookingTechniques = (recipe: RecipeData): string[] =
 
   return Object.entries(techniques)
     .sort(([, scoreA], [, scoreB]) => scoreB - scoreA)
-    .slice(0, 3)
+    .slice(03)
     .map(([technique]) => technique);
 };
 
@@ -493,7 +493,7 @@ export const _getRecipesForFlavorProfile = async (;
       };
     })
     .filter(recipe => (recipe.matchScore || 0) >= minMatchScore);
-    .sort((a, b) => (b.matchScore || 0) - (a.matchScore || 0));
+    .sort((ab) => (b.matchScore || 0) - (a.matchScore || 0));
 };
 
 /**
@@ -541,7 +541,7 @@ export const getRecipesForCuisineMatch = async (;
       };
     })
     .filter(recipe => (recipe.matchScore || 0) >= minMatchScore);
-    .sort((a, b) => (b.matchScore || 0) - (a.matchScore || 0));
+    .sort((ab) => (b.matchScore || 0) - (a.matchScore || 0));
 };
 
 /**
@@ -568,7 +568,7 @@ export const getBestRecipeMatches = async (;
       const matchedCuisineRecipes = getRecipesForCuisineMatch(;
         criteria.cuisine;
         [], // Empty array triggers direct LocalRecipeService use
-        Math.max(limit * 2, 20), // Get more recipes for better filtering
+        Math.max(limit * 220), // Get more recipes for better filtering
       );
 
       logger.debug(`getRecipesForCuisineMatch returned ${matchedCuisineRecipes.length} recipes`);
@@ -946,7 +946,7 @@ async function applyAdditionalFilters(
 
     // Add a small random variation for natural-feeling results
     const jitter = Math.random() * 0.04 - 0.02;
-    const finalScore = Math.min(Math.max(adjustedScore + jitter, 0.1), 1.0);
+    const finalScore = Math.min(Math.max(adjustedScore + jitter0.1), 1.0);
     const percentage = Math.round(finalScore * 100);
 
     return {
@@ -959,7 +959,7 @@ async function applyAdditionalFilters(
   logger.debug(`Returning ${Math.min(scoredRecipes.length, limit)} recipes after scoring`),
 
   // Sort by match score and return top results
-  return scoredRecipes.sort((a, b) => (b.matchScore || 0) - (a.matchScore || 0)).slice(0, limit);
+  return scoredRecipes.sort((ab) => (b.matchScore || 0) - (a.matchScore || 0)).slice(0, limit);
 }
 
 // Export additional utility functions
@@ -1021,7 +1021,7 @@ export const _getRecommendedCuisines = (profile: CuisineRecommendationProfile) =
       };
     })
     .filter(result => result !== null && result.score > 0.6);
-    .sort((a, b) => (b?.score || 0) - (a?.score || 0)) as {
+    .sort((ab) => (b?.score || 0) - (a?.score || 0)) as {
     id: string,
     name: string,
     score: number
@@ -1051,15 +1051,15 @@ export const _getFusionSuggestions = (cuisine1: string, cuisine2: string) => {
   // Fusion suggestions
   const techniques = [
     ...new Set([
-      ...profile1.signatureTechniques.slice(0, 2),
-      ...profile2.signatureTechniques.slice(0, 2)
+      ...profile1.signatureTechniques.slice(02),
+      ...profile2.signatureTechniques.slice(02)
     ])
   ];
 
   const ingredients = [
     ...new Set([
-      ...profile1.signatureIngredients.slice(0, 3),
-      ...profile2.signatureIngredients.slice(0, 3)
+      ...profile1.signatureIngredients.slice(03),
+      ...profile2.signatureIngredients.slice(03)
     ])
   ];
 
@@ -1077,7 +1077,7 @@ export const getAllRecipes = async (): Promise<Recipe[]> => {
 
     // Transform RecipeData to Recipe format with interface compliance
     return recipeData.map(
-      recipe =>;
+      recipe =>
         ({
           id: recipe.id,
           name: recipe.name,

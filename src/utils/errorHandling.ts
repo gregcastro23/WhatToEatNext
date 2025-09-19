@@ -79,7 +79,7 @@ export function createEnhancedError(
   error.recoverable = isRecoverable(type);
   error.retryable = isRetryable(type);
   error.timestamp = new Date();
-  error.errorId = `error_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+  error.errorId = `error_${Date.now()}_${Math.random().toString(36).substr(29)}`;
 
   // Preserve original error stack if available
   if (originalError) {

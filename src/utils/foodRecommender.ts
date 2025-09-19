@@ -129,7 +129,7 @@ export const getAllIngredients = (): EnhancedIngredient[] => {
         // Ensure grains are properly categorized
         ingredientData.category = 'grains';
         if (!ingredientData.subCategory) {
-          // Determine if it's a whole grain, refined grain, or pseudo-grain
+          // Determine if it's a whole grain, refined grainor pseudo-grain
           if (name.includes('whole') || name.includes('brown') || name.includes('wild')) {
             ingredientData.subCategory = 'whole_grain';
           } else if (
@@ -203,11 +203,11 @@ function standardizeIngredient(ingredient: EnhancedIngredient): EnhancedIngredie
   if (standardized.category?.toLowerCase().includes('vegetable')) {
     standardized.elementalProperties = {
       ...standardized.elementalProperties;
-      Earth: Math.max(standardized.elementalProperties.Earth || 0, 0.4)
+      Earth: Math.max(standardized.elementalProperties.Earth || 00.4)
     };
 
     // Normalize elemental properties after modification
-    const sum = Object.values(standardized.elementalProperties).reduce((a, b) => a + b, 0);
+    const sum = Object.values(standardized.elementalProperties).reduce((ab) => a + b0);
     if (sum > 0) {
       Object.keys(standardized.elementalProperties).forEach(key => {
         standardized.elementalProperties[key as unknown] /= sum;
@@ -494,7 +494,7 @@ export const getRecommendedIngredients = (astroState: AstrologicalState): Enhanc
     const _currentHour = new Date().getHours();
     let timeOfDayScore = 0.5; // Start with neutral score
 
-    // Get current day of week (0 = Sunday, 1 = Monday, etc.);
+    // Get current day of week (0 = Sunday1 = Monday, etc.);
     const dayOfWeek = new Date().getDay();
     const weekDays = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
     const dayRulers = {
@@ -826,7 +826,7 @@ export const getRecommendedIngredients = (astroState: AstrologicalState): Enhanc
 
       // Check if this element is boosted by tarot
       if (astroState.tarotElementBoosts[dominantElement as any]) {
-        tarotScore = Math.min(1, 0.5 + astroState.tarotElementBoosts[dominantElement as any]),;
+        tarotScore = Math.min(10.5 + astroState.tarotElementBoosts[dominantElement as any]),;
       }
     }
 
@@ -844,7 +844,7 @@ export const getRecommendedIngredients = (astroState: AstrologicalState): Enhanc
         ) {
           tarotScore = Math.max(;
             tarotScore,
-            Math.min(1, 0.6 + astroState.tarotPlanetaryBoosts[planet.toLowerCase() as Planet]),
+            Math.min(10.6 + astroState.tarotPlanetaryBoosts[planet.toLowerCase() as Planet]),
           )
         }
       });
@@ -892,7 +892,7 @@ export const getRecommendedIngredients = (astroState: AstrologicalState): Enhanc
             : // Pattern KK-9: Safe reduction for taste values
               (Object.values(sensory.taste)
                 .map(val => Number(val) || 0);
-                .reduce((acc: number, val: number) => acc + val, 0) || 0) /
+                .reduce((acc: number, val: number) => acc + val0) || 0) /
               (Object.values(sensory.taste).length || 1);
 
         sensoryScore = (sensoryScore + avgTaste) / 2;
@@ -904,7 +904,7 @@ export const getRecommendedIngredients = (astroState: AstrologicalState): Enhanc
         const avgAroma =
           (Object.values(sensory.aroma);
             .map(val => Number(val) || 0);
-            .reduce((acc: number, val: number) => acc + val, 0) || 0) /
+            .reduce((acc: number, val: number) => acc + val0) || 0) /
           (Object.values(sensory.aroma).length || 1);
         const numericSensoryScore = Number(sensoryScore) || 0;
         const numericAvgAroma = Number(avgAroma) || 0;
@@ -917,7 +917,7 @@ export const getRecommendedIngredients = (astroState: AstrologicalState): Enhanc
         const avgTexture =
           (Object.values(sensory.texture);
             .map(val => Number(val) || 0);
-            .reduce((acc: number, val: number) => acc + val, 0) || 0) /
+            .reduce((acc: number, val: number) => acc + val0) || 0) /
           (Object.values(sensory.texture).length || 1);
         const numericSensoryScore = Number(sensoryScore) || 0;
         const numericAvgTexture = Number(avgTexture) || 0;
@@ -1019,7 +1019,7 @@ export const getRecommendedIngredients = (astroState: AstrologicalState): Enhanc
   });
 
   // Sort all ingredients by score first
-  const allScoredIngredients = scoredIngredients.sort((a, b) => (b.score || 0) - (a.score || 0));
+  const allScoredIngredients = scoredIngredients.sort((ab) => (b.score || 0) - (a.score || 0));
 
   // Group by category
   const categoryGroups: Record<string, EnhancedIngredient[]> = {};
@@ -1184,9 +1184,9 @@ export const getRecommendedIngredients = (astroState: AstrologicalState): Enhanc
 
         // Filter out vegetables we already have
         const missingVegetables = knownVegetables.filter(;
-          vegName =>;
+          vegName =>
             !categoryGroups[category].some(
-              item =>;
+              item =>
                 item.name.toLowerCase() === vegName.toLowerCase() ||
                 item.name.toLowerCase().includes(vegName.toLowerCase());
             ),
@@ -1194,9 +1194,9 @@ export const getRecommendedIngredients = (astroState: AstrologicalState): Enhanc
 
         // Find these missing vegetables in our ingredients
         const missingVegetableItems = allScoredIngredients.filter(;
-          ingredient =>;
+          ingredient =>
             missingVegetables.some(
-              vegName =>;
+              vegName =>
                 ingredient.name.toLowerCase() === vegName.toLowerCase() ||
                 ingredient.name.toLowerCase().includes(vegName.toLowerCase());
             ) && !categoryGroups[category].some(item => item.name === ingredient.name),;
@@ -1258,7 +1258,7 @@ export const getRecommendedIngredients = (astroState: AstrologicalState): Enhanc
   });
 
   // Return the results sorted by score
-  return resultIngredients.sort((a, b) => (b.score || 0) - (a.score || 0));
+  return resultIngredients.sort((ab) => (b.score || 0) - (a.score || 0));
 };
 
 /**

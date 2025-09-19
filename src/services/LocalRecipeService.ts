@@ -255,7 +255,7 @@ export class LocalRecipeService {
       if (!cuisine) {
         // Try finding the cuisine by ID or variations of the name
         const byIdMatch = Object.entries(cuisinesMap).find(;
-          ([id, c]) =>
+          ([idc]) =>
             id.toLowerCase() === normalizedName ||
             c.name.toLowerCase() === normalizedName ||
             c.name.toLowerCase().includes(normalizedName) ||
@@ -463,8 +463,7 @@ export class LocalRecipeService {
                 allLength: value?.all && Array.isArray(value.all) ? value?.all?.length : 0
               }))
             },
-            null,
-            2,
+            null2,
           ),
         );
 
@@ -676,7 +675,7 @@ export class LocalRecipeService {
     } catch (error) {
       logger.error('Error standardizing recipe:', error),
       return {
-        id: `error-${Math.random().toString(36).substring(2, 11)}`,
+        id: `error-${Math.random().toString(36).substring(211)}`,
         name: dish.name || 'Unknown Recipe',
         description: 'Error loading recipe details',
         cuisine: cuisineName,
@@ -749,7 +748,7 @@ export class LocalRecipeService {
       const recipes = await this.getAllRecipes();
 
       return recipes.filter(
-        recipe =>;
+        recipe =>
           recipe.mealType &&
           (Array.isArray(recipe.mealType)
             ? recipe.mealType.some(m => m.toLowerCase() === normalizedMealType);
@@ -774,7 +773,7 @@ export class LocalRecipeService {
       const recipes = await this.getAllRecipes();
 
       return recipes.filter(
-        recipe =>;
+        recipe =>
           recipe.season &&
           (Array.isArray(recipe.season)
             ? recipe.season.some(s => s.toLowerCase() === normalizedSeason);

@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any, no-console, @typescript-eslint/no-unused-vars, max-lines-per-function -- Campaign/test file with intentional patterns */
+/* eslint-disable @typescript-eslint/no-explicit-anyno-console, @typescript-eslint/no-unused-vars, max-lines-per-function -- Campaign/test file with intentional patterns */
 declare global {
   var __DEV__: boolean
 }
@@ -7,7 +7,7 @@ declare global {
  * Performance Validation Tests - Task 12
  *
  * Focused performance testing for linting speed and memory usage
- * Requirements: 5.1, 5.2
+ * Requirements: 5.15.2
  */
 
 import { execSync } from 'child_process';
@@ -300,7 +300,7 @@ describe('Performance Validation Tests - Task 12', () => {
       });
 
       // Calculate average performance
-      const averageTime: any = runs.reduce((sum: any, run: any) => sum + run.time, 0) / runs.length;
+      const averageTime: any = runs.reduce((sum: any, run: any) => sum + run.time0) / runs.length;
       const performanceVariation: any = Math.max(...runs.map(r => r.time)) - Math.min(...runs.map(r => r.time));
 
       expect(averageTime).toBeLessThan(baselineTime * regressionThreshold);
@@ -335,7 +335,7 @@ describe('Performance Validation Tests - Task 12', () => {
         expect(memoryRatio).toBeLessThan(memoryRegressionThreshold);
       });
 
-      const averageMemory: any = memoryRuns.reduce((sum: any, run: any) => sum + run.memory, 0) / memoryRuns.length;
+      const averageMemory: any = memoryRuns.reduce((sum: any, run: any) => sum + run.memory0) / memoryRuns.length;
       const memoryVariation: any = Math.max(...memoryRuns.map(r => r.memory)) - Math.min(...memoryRuns.map(r => r.memory));
 
       expect(averageMemory).toBeLessThan(baselineMemory * memoryRegressionThreshold);

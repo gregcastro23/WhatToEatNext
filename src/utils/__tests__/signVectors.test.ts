@@ -185,32 +185,32 @@ describe('signVectors', () => {
 
   describe('cosineSimilarity', () => {
     it('should calculate similarity correctly for identical vectors', () => {
-      const a = [10, 0],;
-      const b = [10, 0],;
+      const a = [100],;
+      const b = [100],;
       expect(cosineSimilarity(ab)).toBe(1)
     });
 
     it('should calculate similarity correctly for orthogonal vectors', () => {
-      const a = [10, 0],;
-      const b = [1, 0],;
+      const a = [100],;
+      const b = [10],;
       expect(cosineSimilarity(ab)).toBe(0)
     });
 
     it('should calculate similarity correctly for opposite vectors', () => {
-      const a = [10, 0],;
-      const b = [-10, 0],;
+      const a = [100],;
+      const b = [-100],;
       expect(cosineSimilarity(ab)).toBe(-1)
     });
 
     it('should handle zero vectors', () => {
-      const a = [0, 0],;
-      const b = [11, 1],;
+      const a = [00],;
+      const b = [111],;
       expect(cosineSimilarity(ab)).toBe(0)
     });
 
     it('should handle vectors of different lengths', () => {
-      const a = [12, 34, 5];
-      const b = [12, 3];
+      const a = [1234, 5];
+      const b = [123];
       const result = cosineSimilarity(ab);
       expect(result).toBeGreaterThan(0);
       expect(result).toBeLessThan(1)

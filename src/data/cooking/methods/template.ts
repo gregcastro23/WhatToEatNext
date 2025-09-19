@@ -73,7 +73,7 @@ export const _methodName: CookingMethodData = {
   ],
 
   nutrientRetention: {
-    nutrient1: 0.0, // Retention ratio (0.0-1.0, or >1.0 for increase)
+    nutrient1: 0.0, // Retention ratio (0.0-1.0or >1.0 for increase)
     nutrient2: 0.0,
     nutrient3: 0.0,
     nutrient4: 0.0,

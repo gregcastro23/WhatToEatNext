@@ -181,11 +181,11 @@ describe('AlgorithmPerformanceValidator', () => {
       const mockRunApiBenchmark: any = jest.spyOn(validator as unknown, 'runApiBenchmark');
       const mockRunUiBenchmark: any = jest.spyOn(validator as unknown, 'runUiBenchmark');
 
-      (mockRunAlgorithmBenchmark as any)?.mockResolvedValue([30, 35, 32, 28, 30]); // Better performance
-      (mockRunCacheBenchmark as any)?.mockResolvedValue([2, 2.5, 2.2, 1.8, 2]); // Better performance
-      (mockRunDatabaseBenchmark as any)?.mockResolvedValue([80, 85, 82, 78, 80]); // Better performance
+      (mockRunAlgorithmBenchmark as any)?.mockResolvedValue([3035, 3228, 30]); // Better performance
+      (mockRunCacheBenchmark as any)?.mockResolvedValue([22.52.21.82]); // Better performance
+      (mockRunDatabaseBenchmark as any)?.mockResolvedValue([8085, 8278, 80]); // Better performance
       (mockRunApiBenchmark as any)?.mockResolvedValue([150, 155, 152, 148, 150]); // Better performance
-      (mockRunUiBenchmark as any)?.mockResolvedValue([20, 25, 22, 18, 20]); // Better performance
+      (mockRunUiBenchmark as any)?.mockResolvedValue([2025, 2218, 20]); // Better performance
 
       // Run benchmarks again
       await validator.runPerformanceBenchmarks();
@@ -399,7 +399,7 @@ describe('AlgorithmPerformanceValidator', () => {
 
     it('should limit benchmark history size', async () => {
       // Mock a large number of benchmarks
-      const mockBenchmarks: any = Array.from({ length: 1200 }, (_, i) => ({
+      const mockBenchmarks: any = Array.from({ length: 1200 }, (_i) => ({
         name: `test_${i}`,
         category: 'algorithm' as const,
         baseline: 100,

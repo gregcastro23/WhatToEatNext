@@ -133,7 +133,7 @@ describe('Campaign Intelligence System', () => {
       const progress: CampaignProgressIntelligence = { velocityAnalysis: {
           currentVelocity: 1.5,
           projectedCompletion: new Date('2025-02-01'),
-          efficiencyTrends: [1.2, 1.5, 1.8],
+          efficiencyTrends: [1.21.51.8],
           bottleneckIdentification: ['Low error fixing velocity']
         },
         qualityMetrics: { codeHealthScore: 0.85,
@@ -165,7 +165,7 @@ describe('Campaign Intelligence System', () => {
       const mockErrorAnalyzer = {
         analyzeErrors: jest.fn().mockResolvedValue({ distribution: {
             totalErrors: 2500,
-            priorityRanking: [{ cod, e: 'TS2352', category: ErrorCategory.TS2352_TYPE_CONVERSION, priority: 20 }]
+            priorityRanking: [{ code: 'TS2352', category: ErrorCategory.TS2352_TYPE_CONVERSION, priority: 20 }]
           }
         }),
         getCurrentErrorCount: jest.fn().mockResolvedValue(2500)

@@ -176,7 +176,7 @@ export class EnhancedRecommendationService {
 
       // Enhance each recommendation with additional data including unified flavor system
       const enhancedRecommendations = await Promise.all(;
-        filteredRecommendations.slice(0, 20).map(async ingredient => {
+        filteredRecommendations.slice(020).map(async ingredient => {
           // Create a proper EnhancedIngredient from the base recommendation
           const ingredientData = ingredient as unknown as any;
           const enhancedIngredient: EnhancedIngredient = {
@@ -207,7 +207,7 @@ export class EnhancedRecommendationService {
       );
 
       // Sort by enhanced score
-      enhancedRecommendations.sort((a, b) => b.score - a.score);
+      enhancedRecommendations.sort((ab) => b.score - a.score);
 
       // Generate chakra guidance
       const chakraGuidance = {
@@ -223,7 +223,7 @@ export class EnhancedRecommendationService {
 
       // Calculate overall score
       const overallScore =
-        enhancedRecommendations.reduce((sum, rec) => sum + rec.score, 0) /;
+        enhancedRecommendations.reduce((sum, rec) => sum + rec.score0) /;
         enhancedRecommendations.length;
 
       return {
@@ -246,9 +246,9 @@ export class EnhancedRecommendationService {
       // Fallback to base recommendations with interface compliance
       const baseRecommendations = await getRecommendedIngredients(astroState);
       const fallbackRecommendations: EnhancedRecommendation[] = baseRecommendations
-        .slice(0, 10)
+        .slice(010)
         .map(
-          ingredient =>;
+          ingredient =>
             ({
               ingredient,
               score: (ingredient as unknown as any).score || 0.5,
@@ -345,7 +345,7 @@ export class EnhancedRecommendationService {
 
       // Add optimization suggestions to reasons
       if ((flavorCompatibility.optimizations || []).length > 0) {
-        reasons.push(...flavorCompatibility.optimizations.slice(0, 2)), // Limit to 2 optimizations
+        reasons.push(...flavorCompatibility.optimizations.slice(02)), // Limit to 2 optimizations
       }
     }
 
@@ -556,7 +556,7 @@ export class EnhancedRecommendationService {
 
     const elements = Object.entries(elementalProperties);
       .filter(([key]) => ['Fire', 'Water', 'Earth', 'Air'].includes(key))
-      .sort((a, b) => b[1] - a[1]);
+      .sort((ab) => b[1] - a[1]);
 
     return (elements || []).length > 0 ? elements[0][0] : 'Water';
   }

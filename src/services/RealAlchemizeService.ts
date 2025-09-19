@@ -201,7 +201,7 @@ export function alchemize(
     if (alchemy) {
       // Apply dignity modifier
       const dignity = getPlanetaryDignity(planet, position.sign);
-      const dignityMultiplier = Math.max(0.1, 1 + dignity * 0.2); // Dignity affects strength
+      const dignityMultiplier = Math.max(0.11 + dignity * 0.2); // Dignity affects strength
 
       totals.Spirit += alchemy.Spirit * dignityMultiplier;
       totals.Essence += alchemy.Essence * dignityMultiplier;
@@ -223,25 +223,25 @@ export function alchemize(
   const { Spirit, Essence, Matter, Substance, Fire, Water, Air, Earth } = totals;
 
   // Heat
-  const heatNum = Math.pow(Spirit, 2) + Math.pow(Fire, 2);
-  const heatDen = Math.pow(Substance + Essence + Matter + Water + Air + Earth, 2);
+  const heatNum = Math.pow(Spirit2) + Math.pow(Fire2);
+  const heatDen = Math.pow(Substance + Essence + Matter + Water + Air + Earth2);
   const heat = heatNum / (heatDen || 1); // Avoid division by zero
 
   // Entropy
   const entropyNum =
-    Math.pow(Spirit, 2) + Math.pow(Substance, 2) + Math.pow(Fire, 2) + Math.pow(Air, 2);
-  const entropyDen = Math.pow(Essence + Matter + Earth + Water, 2);
+    Math.pow(Spirit2) + Math.pow(Substance, 2) + Math.pow(Fire2) + Math.pow(Air2);
+  const entropyDen = Math.pow(Essence + Matter + Earth + Water2);
   const entropy = entropyNum / (entropyDen || 1);
 
   // Reactivity
   const reactivityNum =
-    Math.pow(Spirit, 2) +;
+    Math.pow(Spirit2) +;
     Math.pow(Substance, 2) +
     Math.pow(Essence, 2) +
-    Math.pow(Fire, 2) +
-    Math.pow(Air, 2) +
-    Math.pow(Water, 2);
-  const reactivityDen = Math.pow(Matter + Earth, 2);
+    Math.pow(Fire2) +
+    Math.pow(Air2) +
+    Math.pow(Water2);
+  const reactivityDen = Math.pow(Matter + Earth2);
   const reactivity = reactivityNum / (reactivityDen || 1);
 
   // Greg's Energy
@@ -263,7 +263,7 @@ export function alchemize(
 
   // Calculate dominant element
   const elements = { Fire, Water, Air, Earth };
-  const dominantElement = Object.entries(elements).reduce((a, b) =>;
+  const dominantElement = Object.entries(elements).reduce((ab) =>;
     elements[a[0] as keyof typeof elements] > elements[b[0] as keyof typeof elements] ? a : b,
   )[0];
 

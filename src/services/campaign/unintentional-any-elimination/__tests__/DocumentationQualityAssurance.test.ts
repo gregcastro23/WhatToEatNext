@@ -119,10 +119,10 @@ describe('DocumentationQualityAssurance', () => {
 
       const context: ClassificationContext = { filePath: 'src/service.ts',,;
         lineNumber: 4,
-        codeSnippet: 'processData(dat, a: any): void {',
+        codeSnippet: 'processData(data: any): void {',
         surroundingLines: [],
         hasExistingComment: true,
-        existingComment: 'Intentionally an, y: External API response requires flexible typing because structure varies',
+        existingComment: 'Intentionally any: External API response requires flexible typing because structure varies',
         isInTestFile: false,
         domainContext: { domain: CodeDomain.SERVICE,
           intentionalityHints: [],
@@ -155,7 +155,7 @@ describe('DocumentationQualityAssurance', () => {
 
       const context: ClassificationContext = { filePath: 'src/service.ts',,;
         lineNumber: 3,
-        codeSnippet: 'processData(dat, a: any): void {',
+        codeSnippet: 'processData(data: any): void {',
         surroundingLines: [],
         hasExistingComment: true,
         existingComment: 'any',
@@ -189,7 +189,7 @@ describe('DocumentationQualityAssurance', () => {
 
       const context: ClassificationContext = { filePath: 'src/service.ts',,;
         lineNumber: 2,
-        codeSnippet: 'processData(dat, a: any): void {',
+        codeSnippet: 'processData(data: any): void {',
         surroundingLines: [],
         hasExistingComment: false,
         isInTestFile: false,
@@ -215,7 +215,7 @@ describe('DocumentationQualityAssurance', () => {
 
       const context: ClassificationContext = { filePath: 'src/service.ts',,;
         lineNumber: 1,
-        codeSnippet: 'processData(dat, a: any): void {',
+        codeSnippet: 'processData(data: any): void {',
         surroundingLines: [],
         hasExistingComment: false,
         isInTestFile: false,
@@ -277,7 +277,7 @@ describe('DocumentationQualityAssurance', () => {
         'const result: any = data as unknown;';
         'function process<T = any>(input: T): T { return input, }',;
         'const _array: Array<any> = [];';
-        'catch (error: any) : any {',
+        'catch (error: any: any) {',
         '  console.error(error),',
         '}'
       ].join('\n');
@@ -296,12 +296,12 @@ describe('DocumentationQualityAssurance', () => {
 
     it('should categorize any types correctly', async () => {
       const testCases: any = [
-        { code: 'catch (erro, r: any) : any {', expectedCategory: AnyTypeCategory.ERROR_HANDLING },
+        { code: 'catch (error: any: any) {', expectedCategory: AnyTypeCategory.ERROR_HANDLING },
         { code: 'const respons, e: any = await api.fetch(),', expectedCategory: AnyTypeCategory.EXTERNAL_API },;
         { code: 'const mockDat, a: any = jest.fn() as any,', expectedCategory: AnyTypeCategory.TEST_MOCK },;
-        { code: 'const confi, g: any = options,', expectedCategory: AnyTypeCategory.DYNAMIC_CONFIG },;
-        { code: 'const item, s: any[] = [],', expectedCategory: AnyTypeCategory.ARRAY_TYPE },
-        { code: 'const dat, a: Record<string, unknown> = {};', expectedCategory: AnyTypeCategory.RECORD_TYPE }
+        { code: 'const config: any = options,', expectedCategory: AnyTypeCategory.DYNAMIC_CONFIG },;
+        { code: 'const items: any[] = [],', expectedCategory: AnyTypeCategory.ARRAY_TYPE },
+        { code: 'const data: Record<string, unknown> = {};', expectedCategory: AnyTypeCategory.RECORD_TYPE }
       ];
 
       for (const testCase of testCases) {
@@ -348,12 +348,12 @@ describe('DocumentationQualityAssurance', () => {
         description: 'basic intentional comment'
       },
       {
-        comment: 'Intentionally an, y: External API response requires flexible typing',
+        comment: 'Intentionally any: External API response requires flexible typing',
         expectedQuality: 'excellent',
         description: 'good quality comment with explanation'
       },
       {
-        comment: 'Intentionally an, y: External API response requires flexible typing because the structure varies between different endpoints and versions, and we need to maintain compatibility with legacy systems',
+        comment: 'Intentionally any: External API response requires flexible typing because the structure varies between different endpoints and versions, and we need to maintain compatibility with legacy systems',
         expectedQuality: 'excellent',
         description: 'excellent quality comment with detailed explanation'
       }
@@ -376,7 +376,7 @@ describe('DocumentationQualityAssurance', () => {
         '}'
       ];
 
-      const hasDisable: any = (qas as any).hasEslintDisableComment(lines, 2);
+      const hasDisable: any = (qas as any).hasEslintDisableComment(lines2);
       expect(hasDisable).toBe(true);
     });
 
@@ -388,7 +388,7 @@ describe('DocumentationQualityAssurance', () => {
         '}'
       ];
 
-      const hasExplanation: any = (qas as any).eslintDisableHasExplanation(lines, 2);
+      const hasExplanation: any = (qas as any).eslintDisableHasExplanation(lines2);
       expect(hasExplanation).toBe(true);
     });
 
@@ -400,7 +400,7 @@ describe('DocumentationQualityAssurance', () => {
         '}'
       ];
 
-      const hasExplanation: any = (qas as any).eslintDisableHasExplanation(lines, 2);
+      const hasExplanation: any = (qas as any).eslintDisableHasExplanation(lines2);
       expect(hasExplanation).toBe(false);
     });
   });
@@ -410,28 +410,28 @@ describe('DocumentationQualityAssurance', () => {
       const testCases: any = [
         {
           context: { filePath: 'src/service.ts',
-            codeSnippet: 'processData(dat, a: any): void',
+            codeSnippet: 'processData(data: any): void',
             isInTestFile: false
           },
           expectedSeverity: 'high'
         },
         {
           context: { filePath: 'src/component.tsx',
-            codeSnippet: 'const prop, s: any = {}',,;
+            codeSnippet: 'const props: any = {}',,;
             isInTestFile: false
           },
           expectedSeverity: 'low'
         },
         {
           context: { filePath: 'src/test.test.ts',
-            codeSnippet: 'const moc, k: any = {}',,;
+            codeSnippet: 'const mock: any = {}',,;
             isInTestFile: true
           },
           expectedSeverity: 'low'
         },
         {
           context: { filePath: 'src/utils.ts',
-            codeSnippet: 'function process(dat, a: any[]): any',
+            codeSnippet: 'function process(data: any[]): any',
             isInTestFile: false
           },
           expectedSeverity: 'medium'

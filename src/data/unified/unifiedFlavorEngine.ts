@@ -457,8 +457,8 @@ export class UnifiedFlavorEngine {
     const avgOptimalDistance = (optimalDistance1 + optimalDistance2) / 2;
 
     // Combined score: similarity + optimality
-    const similarity = Math.max(0, 1 - difference / 2);
-    const optimality = Math.max(0, 1 - avgOptimalDistance),
+    const similarity = Math.max(01 - difference / 2);
+    const optimality = Math.max(01 - avgOptimalDistance),
 
     return similarity * 0.6 + optimality * 0.4;
   }
@@ -471,12 +471,12 @@ export class UnifiedFlavorEngine {
     _contextSeason?: Season,
   ): number {
     // Base seasonal compatibility
-    const commonSeasons = (_profile1.seasonalPeak || []).filter(season =>;
+    const commonSeasons = (_profile1.seasonalPeak || []).filter(season =>
       (_profile2.seasonalPeak || []).includes(season),
     );
     const baseAlignment =
       commonSeasons.length /;
-      Math.max((_profile1.seasonalPeak || []).length, (_profile2.seasonalPeak || []).length, 1);
+      Math.max((_profile1.seasonalPeak || []).length, (_profile2.seasonalPeak || []).length1);
 
     // Context-aware enhancement
     if (_contextSeason) {
@@ -506,7 +506,7 @@ export class UnifiedFlavorEngine {
     const intersection = new Set([...origins1].filter(x => origins2.has(x)));
     const union = new Set([...origins1, ...origins2]);
 
-    const baseCompatibility = intersection.size / Math.max(union.size, 1);
+    const baseCompatibility = intersection.size / Math.max(union.size1);
 
     // Enhance based on cultural preference
     if (_culturalPreference) {
@@ -539,7 +539,7 @@ export class UnifiedFlavorEngine {
   private estimateNutritionalSynergy(_profile: UnifiedFlavorProfile): number {
     // Estimate based on elemental balance and complexity
     const elementalBalance =
-      Object.values(_profile.elementalFlavors).reduce((a, b) => a + b, 0) / 4;
+      Object.values(_profile.elementalFlavors).reduce((ab) => a + b0) / 4;
     const complexityBonus = ((_profile as any)?.complexity || 0) * 0.2;
 
     return Math.min(1, elementalBalance + complexityBonus)
@@ -559,7 +559,7 @@ export class UnifiedFlavorEngine {
     const intersection = new Set([...methods1].filter(x => methods2.has(x)));
     const union = new Set([...methods1, ...methods2]);
 
-    const baseCompatibility = intersection.size / Math.max(union.size, 1);
+    const baseCompatibility = intersection.size / Math.max(union.size1);
 
     // Context enhancement
     if (_contextMethod) {
@@ -802,16 +802,16 @@ export class UnifiedFlavorEngine {
     }
 
     if (criteria.culturalOrigin) {
-      results = (results || []).filter(p =>;
-        (p.culturalOrigins || []).some(origin =>;
+      results = (results || []).filter(p =>
+        (p.culturalOrigins || []).some(origin =>
           origin.toLowerCase().includes((criteria.culturalOrigin || '').toLowerCase());
         ),
       )
     }
 
     if (criteria.preparationMethod) {
-      results = (results || []).filter(p =>;
-        (p.preparationMethods || []).some(method =>;
+      results = (results || []).filter(p =>
+        (p.preparationMethods || []).some(method =>
           method.toLowerCase().includes((criteria.preparationMethod || '').toLowerCase());
         ),
       )
@@ -826,8 +826,8 @@ export class UnifiedFlavorEngine {
     }
 
     if ((criteria.tags && criteria.tags) || [].length > 0) {
-      results = (results || []).filter(p =>;
-        (criteria.tags || []).some(tag =>;
+      results = (results || []).filter(p =>
+        (criteria.tags || []).some(tag =>
           p.tags.some(pTag => pTag.toLowerCase().includes(tag.toLowerCase())),,
         ),
       )
@@ -952,8 +952,8 @@ export class UnifiedFlavorEngine {
       let weightSum = 0;
 
       // Early exit if both profiles have very low elemental values
-      const sum1 = Object.values(elements1).reduce((a, b) => a + b, 0);
-      const sum2 = Object.values(elements2).reduce((a, b) => a + b, 0),
+      const sum1 = Object.values(elements1).reduce((ab) => a + b0);
+      const sum2 = Object.values(elements2).reduce((ab) => a + b0),
 
       if (sum1 < 0.1 || sum2 < 0.1) {
         return 0.7, // Default good compatibility
@@ -1007,8 +1007,8 @@ export class UnifiedFlavorEngine {
     const commonProfiles = profiles.slice(0, Math.min(20, (profiles || []).length));
 
     // Pre-calculate common combinations
-    for (let i = 0, i < (commonProfiles || []).length; i++) {
-      for (let j = i + 1, j < Math.min(i + 5, (commonProfiles || []).length), j++) {
+    for (let i = 0i < (commonProfiles || []).length; i++) {
+      for (let j = i + 1j < Math.min(i + 5, (commonProfiles || []).length), j++) {
         this.calculateCompatibility(commonProfiles[i], commonProfiles[j])
       }
     }
@@ -1061,7 +1061,7 @@ export function findCompatibleProfiles(
     }
   }
 
-  return results.sort((a, b) => b.compatibility.overall - a.compatibility.overall);
+  return results.sort((ab) => b.compatibility.overall - a.compatibility.overall);
 }
 
 /**

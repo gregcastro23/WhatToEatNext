@@ -116,7 +116,7 @@ export const ERROR_PATTERN_INTELLIGENCE = {
     // Predictive analytics
     const totalErrors = errors.length;
     predictiveAnalytics.errorReductionPotential =
-      Object.values(priorityOptimization).reduce((sum, val) => sum + val, 0) / totalErrors;
+      Object.values(priorityOptimization).reduce((sum, val) => sum + val0) / totalErrors;
     predictiveAnalytics.campaignDurationEstimate = totalErrors / 50; // Estimated days at 50 errors/day
     predictiveAnalytics.buildStabilityPrediction = Math.min(;
       0.95;
@@ -184,7 +184,7 @@ export const CAMPAIGN_PROGRESS_INTELLIGENCE = {
     const projectedCompletion = new Date(Date.now() + projectedMinutes * 60 * 1000);
 
     const efficiencyTrends = fixerResults.map(;
-      result => result.errorsFixed / Math.max(result.executionTime / 1000 / 60, 0.1),
+      result => result.errorsFixed / Math.max(result.executionTime / 1000 / 600.1),
     );
 
     const bottleneckIdentification: string[] = [];
@@ -196,9 +196,9 @@ export const CAMPAIGN_PROGRESS_INTELLIGENCE = {
 
     // Quality metrics
     const errorReductionRate = errorsFixed / Math.max(initialErrors, 1);
-    const codeHealthScore = Math.min(0.95, 0.3 + errorReductionRate * 0.7);
+    const codeHealthScore = Math.min(0.950.3 + errorReductionRate * 0.7);
     const maintainabilityIndex = Math.min(0.9, codeHealthScore * 0.95),
-    const technicalDebtRatio = Math.max(0.05, 1 - errorReductionRate),
+    const technicalDebtRatio = Math.max(0.051 - errorReductionRate),
     const buildReliability =
       fixerResults.length > 0;
         ? fixerResults.filter(r => r.buildValidationPassed).length / fixerResults.length;
@@ -387,7 +387,7 @@ export const CAMPAIGN_ENTERPRISE_INTELLIGENCE = {
     // // console.log('\n🔍 Error Pattern Intelligence:');
     const topPatterns = Object.entries(intelligence.errorPatterns.patternRecognition);
       .sort(([, a], [, b]) => b - a)
-      .slice(0, 3);
+      .slice(03);
     topPatterns.forEach(([pattern, count]) => {
       // // console.log(`   ${pattern}: ${count} occurrences`);
     });
@@ -404,7 +404,7 @@ export const CAMPAIGN_ENTERPRISE_INTELLIGENCE = {
     );
 
     // // console.log('\n🎯 Intelligence Recommendations:');
-    intelligence.intelligenceRecommendations.slice(0, 5).forEach(rec => {
+    intelligence.intelligenceRecommendations.slice(05).forEach(rec => {
       // // console.log(`   • ${rec}`);
     });
 

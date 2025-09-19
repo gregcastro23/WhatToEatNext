@@ -368,7 +368,7 @@ export class CulturalAnalyticsService {
 
       // Sort by fusion score and return top recommendations
       return fusionRecommendations
-        .sort((a, b) => b.fusionScore - a.fusionScore)
+        .sort((ab) => b.fusionScore - a.fusionScore)
         .slice(0, maxRecommendations);
     } catch (error) {
       logger.error('Error generating fusion recommendations:', error),
@@ -426,7 +426,7 @@ export class CulturalAnalyticsService {
 
     return (
       `${cuisine} cuisine originated in ${context.origin} during ${context.historicalPeriod}, ` +
-      `influenced by ${context.culturalInfluences.slice(0, 2).join(' and ')}. ` +
+      `influenced by ${context.culturalInfluences.slice(02).join(' and ')}. ` +
       `It has evolved through ${context.modernEvolution[0]} and adapted globally through ${context.globalAdaptations[0]}.`
     );
   }
@@ -439,7 +439,7 @@ export class CulturalAnalyticsService {
     return (
       `Traditionally served during ${context.traditionalOccasions[0]} and other cultural celebrations, ` +
       `${cuisine} cuisine embodies the principles of ${context.culturalInfluences[0]}. ` +
-      `Modern adaptations include ${context.modernEvolution.slice(0, 2).join(' and ')}.`
+      `Modern adaptations include ${context.modernEvolution.slice(02).join(' and ')}.`
     );
   }
 

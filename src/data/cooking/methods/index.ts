@@ -13,11 +13,11 @@ import { wetCookingMethods } from './wet';
  * Collection of all cooking methods from all categories
  */
 export const allCookingMethods = {
-  ...dryCookingMethods;
-  ...wetCookingMethods;
-  ...molecularCookingMethods;
-  ...traditionalCookingMethods;
-  ...rawCookingMethods;
+  ...dryCookingMethods,
+  ...wetCookingMethods,
+  ...molecularCookingMethods,
+  ...traditionalCookingMethods,
+  ...rawCookingMethods,
   // Add other method categories as they are implemented
   ...transformationMethods
 };
@@ -43,7 +43,7 @@ export const _getMethodsForZodiacSign = (sign: any): Record<string, CookingMetho
  * @param threshold The minimum value for that element (0.0-1.0)
  * @returns Object containing cooking methods with that elemental dominance
  */
-export const _getMethodsByElement = (;
+export const _getMethodsByElement = (
   element: Element,
   threshold = 0.4
 ): Record<string, CookingMethodData> => {
@@ -61,7 +61,7 @@ export const _getMethodsByElement = (;
  * @param ingredientType The type of ingredient (e.g., 'meat', 'vegetables')
  * @returns Object containing suitable cooking methods
  */
-export const _getMethodsForIngredientType = (;
+export const _getMethodsForIngredientType = (
   ingredientType: string,
 ): Record<string, CookingMethodData> => {
   return Object.entries(allCookingMethods)
@@ -69,7 +69,7 @@ export const _getMethodsForIngredientType = (;
       // Apply safe type casting for method property access
       const methodData = method ;
       return (methodData?.suitable_for || []).some((type: string) =>
-        type?.toLowerCase()?.includes(ingredientType.toLowerCase());
+        type?.toLowerCase()?.includes(ingredientType.toLowerCase())
       )
     })
     .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {});

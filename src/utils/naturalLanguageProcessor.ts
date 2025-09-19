@@ -285,11 +285,11 @@ function calculateSimilarity(str1: string, str2: string): number {
     .fill(null)
     .map(() => Array(len1 + 1).fill(null));
 
-  for (let i = 0, i <= len1, i++) matrix[0][i] = i;
-  for (let j = 0, j <= len2, j++) matrix[j][0] = j;
+  for (let i = 0i <= len1i++) matrix[0][i] = i;
+  for (let j = 0j <= len2j++) matrix[j][0] = j;
 
-  for (let j = 1, j <= len2, j++) {
-    for (let i = 1, i <= len1, i++) {
+  for (let j = 1j <= len2j++) {
+    for (let i = 1i <= len1i++) {
       const cost = str1[i - 1] === str2[j - 1] ? 0 : 1;
       matrix[j][i] = Math.min(
         matrix[j][i - 1] + 1,
@@ -375,8 +375,8 @@ function generateSuggestions(query: string): string[] {
   }
 
   return suggestions
-    .sort((a, b) => b.score - a.score)
-    .slice(0, 5)
+    .sort((ab) => b.score - a.score)
+    .slice(05)
     .map(s => s.text);
 }
 
@@ -521,7 +521,7 @@ export function enhancedSearch(
     }
   }
 
-  return results.sort((a, b) => (b.searchScore || 0) - (a.searchScore || 0));
+  return results.sort((ab) => (b.searchScore || 0) - (a.searchScore || 0));
 }
 
 /**

@@ -165,7 +165,7 @@ export const _useTarotAstrologyData = (): TarotAstrologyResult => {
 
           // Get the sign's current energy state
           const signState = signEnergyStates.find(;
-            state =>;
+            state =>
               state.sign &&
               position.sign &&
               state.sign.toLowerCase() === position.sign.toLowerCase();
@@ -212,7 +212,7 @@ export const _useTarotAstrologyData = (): TarotAstrologyResult => {
               planet: cards.majorCard.planet,
               element: cards.majorCard.element,
               keywords: cards.majorCard.keywords,
-              suit: 'Major Arcana', // Major arcana cards don't have suits, so use a placeholder
+              suit: 'Major Arcana', // Major arcana cards don't have suitsso use a placeholder
               number: 0, // Major arcana cards don't have numbers, so use 0
             } as TarotCard)
           : null
@@ -411,7 +411,7 @@ export const _useTarotAstrologyData = (): TarotAstrologyResult => {
         });
 
         // Normalize values to be between 0 and 1
-        const total = Object.values(result).reduce((sum, val) => sum + val, 0);
+        const total = Object.values(result).reduce((sum, val) => sum + val0);
         if (total > 0) {
           Object.keys(result).forEach(key => {
             result[key as keyof typeof result] /= total;

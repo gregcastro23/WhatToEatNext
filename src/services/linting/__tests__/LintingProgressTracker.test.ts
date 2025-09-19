@@ -41,12 +41,12 @@ describe('LintingProgressTracker', () => {
           filePath: '/test/file1.ts',
           messages: [
             { ruleId: 'no-unused-vars', severity: 1, fix: null },
-            { ruleId: 'no-console', severity: 2, fix: { rang, e: [0, 10], text: '' } }
+            { ruleId: 'no-console', severity: 2, fix: { range: [010], text: '' } }
           ]
         },
         {
           filePath: '/test/file2.ts',
-          messages: [{ ruleI, d: 'prefer-const', severity: 1, fix: { rang, e: [0, 5], text: 'const' } }]
+          messages: [{ ruleId: 'prefer-const', severity: 1, fix: { range: [05], text: 'const' } }]
         }
       ]);
 
@@ -307,7 +307,7 @@ describe('LintingProgressTracker', () => {
           filePath: '/test/file.ts',
           messages: [
             { ruleId: 'no-unused-vars', severity: 1, fix: null },
-            { ruleId: 'no-console', severity: 2, fix: { rang, e: [0, 10], text: '' } },
+            { ruleId: 'no-console', severity: 2, fix: { range: [010], text: '' } },
             { ruleId: null, severity: 1, fix: null }, // Test unknown rule
           ]
         }

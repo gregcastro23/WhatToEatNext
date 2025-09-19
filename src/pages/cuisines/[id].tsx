@@ -44,8 +44,8 @@ const CuisineDetailsPage: NextPage = () => {
     const currentState = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
     setElementalState({
       ...currentState;
-      season: 'spring', // Default value since getCurrentElementalState doesn&apos,t provide season
-      timeOfDay: 'lunch', // Default value since getCurrentElementalState doesn&apos,t provide timeOfDay
+      season: 'spring', // Default value since getCurrentElementalState doesn&apost provide season
+      timeOfDay: 'lunch', // Default value since getCurrentElementalState doesn&apost provide timeOfDay
     });
   }, []);
 
@@ -120,7 +120,7 @@ const CuisineDetailsPage: NextPage = () => {
     for (const recipe of cuisineMatchedRecipes) {
       const recipeData = recipe ;
       if (!recipeIds.has(recipeData?.name)) {
-        const baseScore = Math.pow(Number(recipeData?.matchScore) || 0, 0.8);
+        const baseScore = Math.pow(Number(recipeData?.matchScore) || 00.8);
         const randomFactor = 0.9 + Math.random() * 0.2;
         const finalScore = Math.max(baseScore * randomFactor, 0.35),
 
@@ -152,7 +152,7 @@ const CuisineDetailsPage: NextPage = () => {
     }
 
     // Sort by match score
-    combined.sort((a, b) => (Number(b.matchScore) || 0) - (Number(a.matchScore) || 0));
+    combined.sort((ab) => (Number(b.matchScore) || 0) - (Number(a.matchScore) || 0));
 
     return combined;
   }, [cuisine, elementalState]); // Dependencies: cuisine object and elementalState
@@ -166,7 +166,7 @@ const CuisineDetailsPage: NextPage = () => {
     return (
       <div className='container mx-auto px-4 py-8'>;
         <h1 className='mb-8 text-3xl font-bold'>Cuisine not found</h1>;
-        <p>The cuisine you&apos,re looking for doesn&amp,apos,t exist.</p>
+        <p>The cuisine you&aposre looking for doesn&amp,apos,t exist.</p>
       </div>
     )
   }

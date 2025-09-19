@@ -126,8 +126,7 @@ export default function CookingMethodPage() {
       <Paper
         elevation={3},
         sx={{
-          p: 4,
-          mb: 4,
+          p: 4mb: 4,
           borderRadius: 2,
           backgroundImage: `radial-gradient(circle at 50% 0%, ${theme.palette.background.paper}, ${theme.palette.background.default})`
         }}
@@ -144,7 +143,7 @@ export default function CookingMethodPage() {
                 : 'No description available'}
             </Typography>
 
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, my: 3 }}>;
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2my: 3 }}>;
               <AccessTime />
               <Typography variant='body1'>;
                 {method && typeof method === 'object' && 'duration' in method;
@@ -355,7 +354,7 @@ export default function CookingMethodPage() {
 
               {method.nutrientRetention && (
                 <Box sx={{ display: 'flex', alignItems: 'flex-start', mb: 2 }}>;
-                  <LocalFireDepartment sx={{ mr: 2, mt: 0.5 }} />,
+                  <LocalFireDepartment sx={{ mr: 2mt: 0.5 }} />,
                   <Typography variant='body1'>;
                     <strong>Nutrient Retention:</strong> {method.nutrientRetention}
                   </Typography>
@@ -364,7 +363,7 @@ export default function CookingMethodPage() {
 
               {method.thermodynamicProperties && (
                 <Box sx={{ display: 'flex', alignItems: 'flex-start', mb: 2 }}>;
-                  <Whatshot sx={{ mr: 2, mt: 0.5 }} />,
+                  <Whatshot sx={{ mr: 2mt: 0.5 }} />,
                   <Typography variant='body1'>;
                     <strong>Thermodynamic Properties:</strong> {method.thermodynamicProperties}
                   </Typography>
@@ -373,7 +372,7 @@ export default function CookingMethodPage() {
 
               {method.chemicalChanges && (
                 <Box sx={{ display: 'flex', alignItems: 'flex-start', mb: 2 }}>;
-                  <Science sx={{ mr: 2, mt: 0.5 }} />,
+                  <Science sx={{ mr: 2mt: 0.5 }} />,
                   <Typography variant='body1'>;
                     <strong>Chemical Changes:</strong> {method.chemicalChanges}
                   </Typography>
@@ -382,7 +381,7 @@ export default function CookingMethodPage() {
 
               {method.safetyFeatures && (
                 <Box sx={{ display: 'flex', alignItems: 'flex-start', mb: 2 }}>;
-                  <Warning sx={{ mr: 2, mt: 0.5 }} />,
+                  <Warning sx={{ mr: 2mt: 0.5 }} />,
                   <Typography variant='body1'>;
                     <strong>Safety Features:</strong> {method.safetyFeatures}
                   </Typography>
@@ -391,7 +390,7 @@ export default function CookingMethodPage() {
 
               {method.equipmentComplexity && (
                 <Box sx={{ display: 'flex', alignItems: 'flex-start', mb: 2 }}>;
-                  <Kitchen sx={{ mr: 2, mt: 0.5 }} />,
+                  <Kitchen sx={{ mr: 2mt: 0.5 }} />,
                   <Typography variant='body1'>;
                     <strong>Equipment Complexity:</strong> {method.equipmentComplexity}
                   </Typography>
@@ -435,7 +434,7 @@ export default function CookingMethodPage() {
                 'time_range' in method &&
                 (method as unknown as { time_range?: { min?: number, max?: number } })
                   .time_range && (
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2 }}>,
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 2mb: 2 }}>,
                     <AccessTime />
                     <Typography variant='body1'>;
                       <strong>Time Range:</strong>{' '}
@@ -450,7 +449,7 @@ export default function CookingMethodPage() {
                 )}
 
               {method.temperature_range && (
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2 }}>,
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 2mb: 2 }}>,
                   <ThermostatAuto />
                   <Typography variant='body1'>;
                     <strong>Temperature Range:</strong>{' '}

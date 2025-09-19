@@ -5,7 +5,7 @@
  * milestone validation, success criteria checking, and failure detection
  * with recovery trigger system.
  *
- * Requirements: 7.6, 6.5, 6.6, 6.7, 6.8
+ * Requirements: 7.66.56.66.76.8
  */
 
 import { execSync } from 'child_process';

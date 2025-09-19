@@ -100,7 +100,7 @@ export class ConsolidatedRecommendationService implements RecommendationServiceI
           const recipeData = recipe as any;
           const recipeIngredients = recipeData.ingredients || [];
 
-          return criteria.includeIngredients?.every(ingredient =>;
+          return criteria.includeIngredients?.every(ingredient =>
             (recipeIngredients as unknown[]).some((recipeIngredient: unknown) =>
               String((recipeIngredient as any).name || '')
                 .toLowerCase()
@@ -115,7 +115,7 @@ export class ConsolidatedRecommendationService implements RecommendationServiceI
           const recipeData = recipe as any;
           const recipeIngredients = recipeData.ingredients || [];
 
-          return !criteria.excludeIngredients?.some(ingredient =>;
+          return !criteria.excludeIngredients?.some(ingredient =>
             (recipeIngredients as unknown[]).some((recipeIngredient: unknown) =>
               String((recipeIngredient as any).name || '')
                 .toLowerCase()
@@ -141,7 +141,7 @@ export class ConsolidatedRecommendationService implements RecommendationServiceI
       });
 
       // Sort recipes by score
-      filteredRecipes.sort((a, b) => {
+      filteredRecipes.sort((ab) => {
         const recipeA = a as any;
         const recipeB = b as any;
         return scores[String(recipeB.id || '')] - scores[String(recipeA.id || '')]
@@ -249,7 +249,7 @@ export class ConsolidatedRecommendationService implements RecommendationServiceI
       if (criteria.excludeIngredients && criteria.excludeIngredients.length > 0) {
         filteredIngredients = filteredIngredients.filter(ingredient => {
           const ingredientData = ingredient as any;
-          return !criteria.excludeIngredients?.some(excludeIngredient =>;
+          return !criteria.excludeIngredients?.some(excludeIngredient =>
             String(ingredientData.name || '')
               .toLowerCase()
               .includes(String(excludeIngredient || '').toLowerCase());
@@ -281,7 +281,7 @@ export class ConsolidatedRecommendationService implements RecommendationServiceI
       });
 
       // Sort ingredients by score
-      filteredIngredients.sort((a, b) => {
+      filteredIngredients.sort((ab) => {
         const ingredientA = a as any;
         const ingredientB = b as any;
         const idA = String(ingredientA.id || '');

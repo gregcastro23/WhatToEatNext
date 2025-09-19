@@ -193,7 +193,7 @@ export function usePlanetaryHoursBridge() {
  * @param fetchFunction The function to fetch data when the service is ready
  * @returns A hook with status, data, and service reference
  */
-export function createServiceBridge<T, S>(
+export function createServiceBridge<TS>(
   serviceName: string,
   fetchFunction: (service: S) => Promise<T>,
 ) {

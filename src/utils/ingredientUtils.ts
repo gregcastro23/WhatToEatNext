@@ -177,7 +177,7 @@ export function determineIngredientModality(
       case 'Water':
         // Water is balanced between Fixed and Mutable
         if (Water > 0.4) {
-          // Slightly favor Mutable for Water, as per our hierarchy
+          // Slightly favor Mutable for Wateras per our hierarchy
           return Water > 0.6 ? 'Mutable' : 'Fixed';
         }
         break;

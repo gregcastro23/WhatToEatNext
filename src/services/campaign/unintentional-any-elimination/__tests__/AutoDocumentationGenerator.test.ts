@@ -26,13 +26,13 @@ describe('AutoDocumentationGenerator', () => {
     mockContext = {
       filePath: '/test/file.ts',
       lineNumber: 10,
-      codeSnippet: 'const dat, a: any = response,',;
+      codeSnippet: 'const data: any = response,',;
       surroundingLines: [
         'function processResponse() : any {',
         '  try {',
         '    const data: any = response,',;
         '    return data.result,',
-        '  } catch (error) : any {'
+        '  } catch (error: any) {'
       ],
       hasExistingComment: false,
       isInTestFile: false,
@@ -62,7 +62,7 @@ describe('AutoDocumentationGenerator', () => {
         '  try {',
         '    const data: any = response,',;
         '    return data.result,',
-        '  } catch (error) : any {',
+        '  } catch (error: any) {',
         '    console.error(error),',
         '  }',
         '}'
@@ -97,7 +97,7 @@ describe('AutoDocumentationGenerator', () => {
       const contextWithComment: any = {
         ...mockContext;
         hasExistingComment: true,
-        existingComment: 'Intentionally an, y: External API response'
+        existingComment: 'Intentionally any: External API response'
       };
 
       const result: any = await generator.generateDocumentation(mockClassification, contextWithComment);
@@ -199,7 +199,7 @@ describe('AutoDocumentationGenerator', () => {
         ...mockContext;
         lineNumber: 4,
         hasExistingComment: true,
-        existingComment: 'Intentionally an, y: External API response'
+        existingComment: 'Intentionally any: External API response'
       };
 
       const validation: any = await generator.validateDocumentation(contextWithComment);
@@ -266,7 +266,7 @@ describe('AutoDocumentationGenerator', () => {
     it('should select appropriate template for error handling', async () => {
       const errorContext: any = {
         ...mockContext;
-        codeSnippet: 'catch (erro, r: any) : any {',
+        codeSnippet: 'catch (error: any: any) {',
         domainContext: {
           ...mockContext.domainContext;
           domain: CodeDomain.UTILITY
@@ -278,7 +278,7 @@ describe('AutoDocumentationGenerator', () => {
         category: AnyTypeCategory.ERROR_HANDLING
       };
 
-      const fileContent: any = 'catch (error: any) : any {';
+      const fileContent: any = 'catch (error: any: any) {';
       mockFs.readFile.mockResolvedValue(fileContent);
       mockFs.writeFile.mockResolvedValue();
 
@@ -355,11 +355,11 @@ describe('AutoDocumentationGenerator', () => {
         expectedQuality: 'good'
       },
       {
-        comment: 'Intentionally an, y: External API response requires flexible typing',
+        comment: 'Intentionally any: External API response requires flexible typing',
         expectedQuality: 'good'
       },
       {
-        comment: 'Intentionally an, y: External API response requires flexible typing because the structure varies between different endpoints and versions',
+        comment: 'Intentionally any: External API response requires flexible typing because the structure varies between different endpoints and versions',
         expectedQuality: 'excellent'
       }
     ];

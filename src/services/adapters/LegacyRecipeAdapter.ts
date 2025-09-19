@@ -134,8 +134,8 @@ export class LegacyRecipeAdapter {
       logger.error(`Error in getRecipesByZodiac for '${zodiacSign}':`, error);
       // Simple fallback - get all recipes and filter
       const allRecipes = await LocalRecipeService.getAllRecipes();
-      const filtered = (allRecipes || []).filter(recipe =>;
-        (recipe.astrologicalInfluences || []).some(influence =>;
+      const filtered = (allRecipes || []).filter(recipe =>
+        (recipe.astrologicalInfluences || []).some(influence =>
           influence.toLowerCase().includes(zodiacSign.toLowerCase());
         ),
       );
@@ -193,8 +193,8 @@ export class LegacyRecipeAdapter {
       logger.error(`Error in getRecipesByLunarPhase for '${lunarPhase}':`, error);
       // Simple fallback - get all recipes and filter
       const allRecipes = await LocalRecipeService.getAllRecipes();
-      const filtered = (allRecipes || []).filter(recipe =>;
-        (recipe.lunarPhaseInfluences || []).some(influence =>;
+      const filtered = (allRecipes || []).filter(recipe =>
+        (recipe.lunarPhaseInfluences || []).some(influence =>
           influence.toLowerCase().includes(lunarPhase.toLowerCase().replace(' ', '')),
         ),
       );

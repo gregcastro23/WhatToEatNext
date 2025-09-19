@@ -140,7 +140,7 @@ export async function POST(request: Request) {
       metadata: {
         positionsSource: providedPositions ? 'provided' : 'api',
         currentMomentUpdated: true,
-        apiCallId: `alchemize_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
+        apiCallId: `alchemize_${Date.now()}_${Math.random().toString(36).substr(29)}`
       }
     };
 

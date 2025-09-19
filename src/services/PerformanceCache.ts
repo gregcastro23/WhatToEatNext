@@ -321,39 +321,39 @@ export class PerformanceMonitor {
     const metricsLength = this.metrics.length || 1;
     const average: PerformanceMetrics = {
       calculationTime:
-        (this.metrics.reduce((sum, m) => {
+        (this.metrics.reduce((summ) => {
           const numericSum = typeof sum === 'number' ? sum : 0;
           const numericValue = typeof m.calculationTime === 'number' ? m.calculationTime : 0;
           return numericSum + numericValue
         }, 0) || 0) / metricsLength,
       cacheHitRate:
-        (this.metrics.reduce((sum, m) => {
+        (this.metrics.reduce((summ) => {
           const numericSum = typeof sum === 'number' ? sum : 0;
           const numericValue = typeof m.cacheHitRate === 'number' ? m.cacheHitRate : 0;
           return numericSum + numericValue
         }, 0) || 0) / metricsLength,
       memoryUsage:
-        (this.metrics.reduce((sum, m) => {
+        (this.metrics.reduce((summ) => {
           const numericSum = typeof sum === 'number' ? sum : 0;
           const numericValue = typeof m.memoryUsage === 'number' ? m.memoryUsage : 0;
           return numericSum + numericValue
         }, 0) || 0) / metricsLength,
       recommendationCount:
-        (this.metrics.reduce((sum, m) => {
+        (this.metrics.reduce((summ) => {
           const numericSum = typeof sum === 'number' ? sum : 0;
           const numericValue =
             typeof m.recommendationCount === 'number' ? m.recommendationCount : 0;
           return numericSum + numericValue
         }, 0) || 0) / metricsLength,
       averageResponseTime:
-        (this.metrics.reduce((sum, m) => {
+        (this.metrics.reduce((summ) => {
           const numericSum = typeof sum === 'number' ? sum : 0;
           const numericValue =
             typeof m.averageResponseTime === 'number' ? m.averageResponseTime : 0;
           return numericSum + numericValue
         }, 0) || 0) / metricsLength,
       peakMemoryUsage:
-        (this.metrics.reduce((sum, m) => {
+        (this.metrics.reduce((summ) => {
           const numericSum = typeof sum === 'number' ? sum : 0;
           const numericValue = typeof m.peakMemoryUsage === 'number' ? m.peakMemoryUsage : 0;
           return numericSum + numericValue

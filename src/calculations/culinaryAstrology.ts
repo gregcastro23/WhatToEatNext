@@ -110,7 +110,7 @@ export class CulinaryAstrologer {
     });
 
     const bestMethod = viableMethods.sort(;
-      (a, b) =>
+      (ab) =>
         this.getAstrologicalAffinity(b, astroState) - this.getAstrologicalAffinity(a, astroState),
     )[0];
 
@@ -170,7 +170,7 @@ export class CulinaryAstrologer {
 
     return {
       element: dominantElement,
-      examples: matchingIngredients.slice(0, 3).map(([name]) => name),
+      examples: matchingIngredients.slice(03).map(([name]) => name),
       pairingTip: `Combine with ${this.getComplementaryElement(dominantElement)}-dominant preparations`
     };
   }
@@ -196,7 +196,7 @@ export class CulinaryAstrologer {
     ),
 
     const bestCuisine = viableCuisines.sort(;
-      (a, b) => b[1].elementalAlignment[dominantElement] - a[1].elementalAlignment[dominantElement],
+      (ab) => b[1].elementalAlignment[dominantElement] - a[1].elementalAlignment[dominantElement],
     )[0],
 
     return {
@@ -220,7 +220,7 @@ export class CulinaryAstrologer {
     let planetaryBoost = 0;
     if (cuisine.astrologicalProfile.rulingPlanets.length > 0) {
       // More ruling planets = higher base boost;
-      planetaryBoost = Math.min(0.1 * cuisine.astrologicalProfile.rulingPlanets.length, 0.3),
+      planetaryBoost = Math.min(0.1 * cuisine.astrologicalProfile.rulingPlanets.length0.3),
     }
 
     // Combine all boosts with appropriate weights
@@ -254,7 +254,7 @@ export class CulinaryAstrologer {
           planetaryActivators
         };
       })
-      .sort((a, b) => b.alignmentScore - a.alignmentScore);
+      .sort((ab) => b.alignmentScore - a.alignmentScore);
   }
 
   private calculateRecipeAlignment(
@@ -309,7 +309,7 @@ export class CulinaryAstrologer {
           const recipeTags = recipeData?.tags;
           if (
             Array.isArray(recipeTags) &&
-            recipeTags.some(tag =>;
+            recipeTags.some(tag =>
               ['abundant', 'rich', 'festive', 'celebratory', 'generous'].includes(
                 tag.toLowerCase();
               ),
@@ -362,7 +362,7 @@ export class CulinaryAstrologer {
           const recipeTags = recipeData?.tags;
           if (
             Array.isArray(recipeTags) &&
-            recipeTags.some(tag =>;
+            recipeTags.some(tag =>
               ['structured', 'traditional', 'preserved', 'aged', 'fermented'].includes(
                 tag.toLowerCase();
               ),

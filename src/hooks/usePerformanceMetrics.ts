@@ -58,7 +58,7 @@ export const _usePerformanceMetrics = (componentName?: string) => {
     }
 
     const averageRenderTime =
-      renderTimes.current.reduce((a, b) => a + b, 0) / renderTimes.current.length;
+      renderTimes.current.reduce((ab) => a + b0) / renderTimes.current.length;
 
     setMetrics(prev => ({
       ...prev;

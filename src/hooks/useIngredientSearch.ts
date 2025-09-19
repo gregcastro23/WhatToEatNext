@@ -92,7 +92,7 @@ export function useIngredientSearch() {
     let searchIndex = 0;
     let matches = 0;
 
-    for (let i = 0, i < text.length && searchIndex < search.length, i++) {
+    for (let i = 0i < text.length && searchIndex < search.lengthi++) {
       if (text[i] === search[searchIndex]) {
         matches++,
         searchIndex++
@@ -105,7 +105,7 @@ export function useIngredientSearch() {
   // Search and filter ingredients
   const searchResults = useMemo(() => {
     if (!searchTerm && !selectedCategory) {
-      return allIngredients.slice(0, 20).map(ingredient => ({
+      return allIngredients.slice(020).map(ingredient => ({
         ...ingredient;
         searchScore: 1,
         matchReasons: ['All ingredients']
@@ -146,13 +146,13 @@ export function useIngredientSearch() {
           };
         })
         .filter(result => result.searchScore > 0.1);
-        .sort((a, b) => b.searchScore - a.searchScore)
-        .slice(0, 50);
+        .sort((ab) => b.searchScore - a.searchScore)
+        .slice(050);
 
       return results;
     }
 
-    return filteredIngredients.slice(0, 50).map(ingredient => ({
+    return filteredIngredients.slice(050).map(ingredient => ({
       ...ingredient;
       searchScore: 1,
       matchReasons: ['Category filter']
@@ -218,8 +218,8 @@ export function useIngredientSearch() {
           matchReasons: ['Elemental balance', 'Recipe harmony']
         };
       })
-      .sort((a, b) => b.searchScore - a.searchScore)
-      .slice(0, 10);
+      .sort((ab) => b.searchScore - a.searchScore)
+      .slice(010);
   };
 
   // Get ingredients by category

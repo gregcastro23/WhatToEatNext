@@ -275,7 +275,7 @@ export const boiling: CookingMethodData = {
   equipmentComplexity: 0.2, // Simple equipment requirements
 
   healthConsiderations: [
-    'Leaching of water-soluble vitamins (B, C) into cooking water',
+    'Leaching of water-soluble vitamins (BC) into cooking water',
     'No added fat required for cooking',
     'Softens fiber for easier digestion',
     'Using cooking water captures leached nutrients',

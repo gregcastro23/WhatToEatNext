@@ -451,8 +451,8 @@ export class IngredientService implements IngredientServiceInterface {
 
         // Check vitamin constraints
         if (isNonEmptyArray(filter.vitamins) && profile.vitamins) {
-          const hasRequiredVitamins = filter.vitamins.every(vitamin =>;
-            Object.keys(profile.vitamins || {}).some(v =>;
+          const hasRequiredVitamins = filter.vitamins.every(vitamin =>
+            Object.keys(profile.vitamins || {}).some(v =>
               v.toLowerCase().includes(vitamin.toLowerCase());
             ),
           );
@@ -464,8 +464,8 @@ export class IngredientService implements IngredientServiceInterface {
 
         // Check mineral constraints
         if (isNonEmptyArray(filter.minerals) && profile.minerals) {
-          const hasRequiredMinerals = filter.minerals.every(mineral =>;
-            Object.keys(profile.minerals || {}).some(m =>;
+          const hasRequiredMinerals = filter.minerals.every(mineral =>
+            Object.keys(profile.minerals || {}).some(m =>
               m.toLowerCase().includes(mineral.toLowerCase());
             ),
           );
@@ -685,7 +685,7 @@ export class IngredientService implements IngredientServiceInterface {
 
         // Check if any of the ingredient's seasons match any of the filter seasons
         const ingredientSeasons = ingredient.seasonality || ingredient.currentSeason || [];
-        return safeSome(ingredientSeasons, season =>;
+        return safeSome(ingredientSeasons, season =>
           safeSome(normalizedSeasons, s =>,;
             typeof season === 'string' && typeof s === 'string';
               ? season.toLowerCase() === s.toLowerCase()
@@ -720,7 +720,7 @@ export class IngredientService implements IngredientServiceInterface {
         // Check tags
         if (
           ingredient.tags &&
-          safeSome(Array.isArray(ingredient.tags) ? ingredient.tags : [ingredient.tags], tag =>;
+          safeSome(Array.isArray(ingredient.tags) ? ingredient.tags : [ingredient.tags], tag =>
             tag.includes(normalizedQuery);
           )
         ) {
@@ -732,7 +732,7 @@ export class IngredientService implements IngredientServiceInterface {
           ingredient.healthBenefits &&
           safeSome(
             ingredient.healthBenefits;
-            benefit =>;
+            benefit =>
               typeof benefit === 'string' && benefit.toLowerCase().includes(normalizedQuery),;
           )
         ) {
@@ -987,7 +987,7 @@ export class IngredientService implements IngredientServiceInterface {
         const ingredients = filteredIngredients[category];
 
         // Sort by nutritional score
-        const sortedIngredients = [...ingredients].sort((a, b) => {
+        const sortedIngredients = [...ingredients].sort((ab) => {
           // Apply Pattern N: Apply unknown-first casting for TS2352 warnings
           const scoreA = this.calculateNutritionalScore(;
             (a.nutritionalProfile || {}) as unknown as NutritionData,
@@ -1018,13 +1018,13 @@ export class IngredientService implements IngredientServiceInterface {
     // Base score on protein content (0-5 points)
     if (nutrition.protein_g) {
       // Apply Pattern C: Safe union type casting for number parameters
-      score += Math.min(Number(nutrition.protein_g) / 5, 5)
+      score += Math.min(Number(nutrition.protein_g) / 55)
     }
 
     // Add fiber content (0-3 points)
     if (nutrition.fiber_g) {
       // Apply Pattern C: Safe union type casting for number parameters
-      score += Math.min(Number(nutrition.fiber_g) / 2, 3)
+      score += Math.min(Number(nutrition.fiber_g) / 23)
     }
 
     // Add points for vitamins (0-5 points)
@@ -1041,11 +1041,11 @@ export class IngredientService implements IngredientServiceInterface {
 
     // Subtract for high calories (penalty up to -3 points)
     if (nutrition.calories && nutrition.calories > 300) {
-      score -= Math.min((nutrition.calories - 300) / 100, 3)
+      score -= Math.min((nutrition.calories - 300) / 1003)
     }
 
     // Normalize to 0-1 scale
-    return Math.max(0, Math.min(score / 18, 1));
+    return Math.max(0, Math.min(score / 181));
   }
 
   // ===== MAPPING OPERATIONS =====;
@@ -1186,7 +1186,7 @@ export class IngredientService implements IngredientServiceInterface {
       );
 
       // Sort by similarity score (descending)
-      filteredAlternatives.sort((a, b) => b.similarityScore - a.similarityScore);
+      filteredAlternatives.sort((ab) => b.similarityScore - a.similarityScore);
 
       // Limit results
       return filteredAlternatives.slice(0, maxResults);
@@ -1255,7 +1255,7 @@ export class IngredientService implements IngredientServiceInterface {
             // Higher scores for complementary flavors
             const diff = Math.abs(flavor1 - flavor2);
             // Use a bell curve - moderate differences are ideal
-            const similarity = 1 - Math.pow(diff - 0.3, 2);
+            const similarity = 1 - Math.pow(diff - 0.32);
             matchingScore += Math.max(0, similarity),
             totalFlavors++
           }
@@ -1270,7 +1270,7 @@ export class IngredientService implements IngredientServiceInterface {
         const ing1Seasons = ing1.currentSeason;
         const ing2Seasons = ing2.currentSeason;
 
-        const sharedSeasons = (ing1Seasons || []).filter(season =>;
+        const sharedSeasons = (ing1Seasons || []).filter(season =>
           Array.isArray(ing2Seasons) ? ing2Seasons.includes(season) : ing2Seasons === season,;
         );
 
@@ -1294,9 +1294,9 @@ export class IngredientService implements IngredientServiceInterface {
         const reactivityDiff = Math.abs(energy1.reactivity - energy2.reactivity);
 
         // Balance is key for energy - neither too similar nor too different
-        const heatScore = 1 - Math.pow(heatDiff - 0.3, 2);
-        const entropyScore = 1 - Math.pow(entropyDiff - 0.3, 2);
-        const reactivityScore = 1 - Math.pow(reactivityDiff - 0.3, 2),;
+        const heatScore = 1 - Math.pow(heatDiff - 0.32);
+        const entropyScore = 1 - Math.pow(entropyDiff - 0.32);
+        const reactivityScore = 1 - Math.pow(reactivityDiff - 0.32),;
 
         energeticCompatibility =
           (Math.max(0, heatScore) + Math.max(0, entropyScore) + Math.max(0, reactivityScore)) / 3,;
@@ -1405,8 +1405,8 @@ export class IngredientService implements IngredientServiceInterface {
       }> = [];
 
       // Generate all possible pAirs
-      for (let i = 0, i < (ingredients || []).length; i++) {
-        for (let j = i + 1, j < (ingredients || []).length; j++) {
+      for (let i = 0i < (ingredients || []).length; i++) {
+        for (let j = i + 1j < (ingredients || []).length; j++) {
           const ing1 = ingredients[i];
           const ing2 = ingredients[j];
 
@@ -1420,16 +1420,16 @@ export class IngredientService implements IngredientServiceInterface {
       }
 
       // Sort pairings by score
-      pairings.sort((a, b) => (a as ScoredItem).score - (b as ScoredItem).score);
+      pairings.sort((ab) => (a as ScoredItem).score - (b as ScoredItem).score);
 
       // Get strong and weak pairings
-      result.strongPairings = pairings.filter(pair => pair.score >= 0.7).slice(0, 5);
+      result.strongPairings = pairings.filter(pair => pair.score >= 0.7).slice(05);
 
-      result.weakPairings = pairings.filter(pair => pair.score <= 0.4).slice(0, 5),;
+      result.weakPairings = pairings.filter(pair => pair.score <= 0.4).slice(05),;
 
       // Calculate overall harmony
       if ((pairings || []).length > 0) {
-        const totalScore = pairings.reduce((sum, pair) => sum + pair.score, 0),;
+        const totalScore = pairings.reduce((sum, pair) => sum + pair.score0),;
         result.overallHarmony = totalScore / (pairings || []).length;
       }
 
@@ -1590,7 +1590,7 @@ export class IngredientService implements IngredientServiceInterface {
           ingredient: candidate,
           score: this.calculateIngredientCompatibility(targetIngredient, candidate).score
         }))
-        .sort((a, b) => (a as ScoredItem).score - (b as ScoredItem).score)
+        .sort((ab) => (a as ScoredItem).score - (b as ScoredItem).score)
         .slice(0, maxResults)
         .map(result => result.ingredient);
 
@@ -1883,7 +1883,7 @@ export class IngredientService implements IngredientServiceInterface {
       const distance = Math.sqrt(squaredDistance);
       const similarity = 1 - distance / 2;
 
-      // Ensure the similarity is in the range [0, 1]
+      // Ensure the similarity is in the range [01]
       return Math.max(0, Math.min(1, similarity))
     } catch (error) {
       logger.error('Error calculating elemental similarity:', error),
@@ -1904,7 +1904,7 @@ export class IngredientService implements IngredientServiceInterface {
       ],
 
       // Sort by value (descending)
-      elements.sort((a, b) => b.value - a.value);
+      elements.sort((ab) => b.value - a.value);
 
       // Return the element with the highest value
       return elements[0].name;
@@ -1963,7 +1963,7 @@ export class IngredientService implements IngredientServiceInterface {
 
       // Filter by category if specified
       if (categories.length > 0) {
-        ingredientsToScore = ingredientsToScore.filter(ingredient =>;
+        ingredientsToScore = ingredientsToScore.filter(ingredient =>
           categories.includes(ingredient.category);
         )
       }
@@ -1971,8 +1971,8 @@ export class IngredientService implements IngredientServiceInterface {
       // Filter out excluded ingredients
       if (excludeIngredients.length > 0) {
         ingredientsToScore = ingredientsToScore.filter(;
-          ingredient =>;
-            !excludeIngredients.some(excludedName =>;
+          ingredient =>
+            !excludeIngredients.some(excludedName =>
               ingredient.name.toLowerCase().includes(excludedName.toLowerCase());
             ),
         )
@@ -1981,7 +1981,7 @@ export class IngredientService implements IngredientServiceInterface {
       // Apply dietary preferences if specified
       if (dietaryPreferences.length > 0) {
         ingredientsToScore = ingredientsToScore.filter(;
-          ingredient =>;
+          ingredient =>
             !dietaryPreferences.some(preference => {
               // Check if the ingredient has tags that contradict the preference
               if (ingredient.tags) {
@@ -2022,7 +2022,7 @@ export class IngredientService implements IngredientServiceInterface {
           const fav = astro['favorableZodiac'];
           const favorable = Array.isArray(fav) ? (fav as Array<string | ZodiacSign>) : undefined;
           if (favorable) {
-            const isCompatible = favorable.some(sign =>;
+            const isCompatible = favorable.some(sign =>
               typeof sign === 'string';
                 ? sign.toLowerCase() === currentZodiacSign.toLowerCase()
                 : sign === currentZodiacSign,;
@@ -2060,7 +2060,7 @@ export class IngredientService implements IngredientServiceInterface {
       });
 
       // Sort by score (highest first)
-      const results = scoredIngredients.sort((a, b) => (b.score || 0) - (a.score || 0));
+      const results = scoredIngredients.sort((ab) => (b.score || 0) - (a.score || 0));
 
       // Return top results
       return results.slice(0, limit);

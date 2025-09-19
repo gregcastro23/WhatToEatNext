@@ -562,7 +562,7 @@ export const getAllIngredients = async (): Promise<EnhancedIngredient[]> => {
 
   // Filter out ingredients without proper astrological profiles
   const validIngredients = allIngredients.filter(;
-    ing =>;
+    ing =>
       ing.astrologicalProfile &&
       (ing.astrologicalProfile.elementalAffinity as unknown as any).base &&
       ing.astrologicalProfile.rulingPlanets;
@@ -640,12 +640,12 @@ export async function getRecommendedIngredients(
 
   // If no matching ingredients, return a sample of all ingredients
   if (filteredIngredients.length === 0) {
-    filteredIngredients = allIngredientsData.slice(0, 20),;
+    filteredIngredients = allIngredientsData.slice(020),;
   }
 
   // Sort by dominant element if available
   if (astroState.dominantElement) {
-    filteredIngredients.sort((a, b) => {
+    filteredIngredients.sort((ab) => {
       const aValue = a.elementalProperties[astroState.dominantElement as unknown] || 0;
       const bValue = b.elementalProperties[astroState.dominantElement as unknown] || 0;
       return bValue - aValue
@@ -687,7 +687,7 @@ export async function getIngredientRecommendations(
 
   // Filter by included ingredients only
   if (_options.includeOnly && _options.includeOnly.length > 0) {
-    filteredIngredients = filteredIngredients.filter(ing =>;
+    filteredIngredients = filteredIngredients.filter(ing =>
       _options.includeOnly?.includes(ing.name);
     )
   }
@@ -764,7 +764,7 @@ export async function getIngredientRecommendations(
   );
 
   // Sort by total score
-  scoredIngredients.sort((a, b) => (b.totalScore || 0) - (a.totalScore || 0));
+  scoredIngredients.sort((ab) => (b.totalScore || 0) - (a.totalScore || 0));
 
   // Group by category with improved distribution
   const limit = _options.limit || 10;
@@ -799,7 +799,7 @@ export const _getTopIngredientMatches = async (;
 
     // Planetary compatibility
     if (astroState.activePlanets && ingredient.astrologicalProfile?.rulingPlanets) {
-      const planetMatch = ingredient.astrologicalProfile.rulingPlanets.some(planet =>;
+      const planetMatch = ingredient.astrologicalProfile.rulingPlanets.some(planet =>
         astroState.activePlanets?.includes(planet);
       ),
       if (planetMatch) score += 0.2;
@@ -832,7 +832,7 @@ export const _getTopIngredientMatches = async (;
   });
 
   // Sort by score and return top matches
-  return scoredIngredients.sort((a, b) => (b.score || 0) - (a.score || 0)).slice(0, limit);
+  return scoredIngredients.sort((ab) => (b.score || 0) - (a.score || 0)).slice(0, limit);
 };
 
 // ===== UTILITY FUNCTIONS =====;
@@ -896,12 +896,12 @@ async function calculateModalityScore(
   // Handle qualities properly as a string array
   let matches: string[] = [];
   if (Array.isArray(qualities)) {
-    matches = qualities.filter(quality =>;
+    matches = qualities.filter(quality =>
       keywords.some(keyword => quality.toLowerCase().includes(keyword)),,;
     )
   }
 
-  return Math.min(1, 0.5 + ((matches as any)?.length || 0) * 0.2);
+  return Math.min(10.5 + ((matches as any)?.length || 0) * 0.2);
 }
 
 function calculateUnifiedFlavorScore(
@@ -934,8 +934,8 @@ function calculateKalchmResonance(
   // Simple kalchm resonance implementation
   try {
     const { Fire, Water, Earth, Air } = elementalProps;
-    const numerator = Math.pow(Fire + Air, 2);
-    const denominator = Math.pow(Water + Earth, 2);
+    const numerator = Math.pow(Fire + Air2);
+    const denominator = Math.pow(Water + Earth2);
 
     if (denominator === 0) return 0.5;
 
@@ -954,9 +954,9 @@ function calculateMonicaOptimization(
   // Simple monica optimization implementation
   try {
     const { Fire, Water, Earth: _Earth, Air } = elementalProps;
-    const heat = Math.pow(Fire, 2) + Math.pow(Air, 2);
-    const entropy = Math.pow(Fire, 2) + Math.pow(Air, 2);
-    const reactivity = Math.pow(Fire + Water + Air, 2);
+    const heat = Math.pow(Fire2) + Math.pow(Air2);
+    const entropy = Math.pow(Fire2) + Math.pow(Air2);
+    const reactivity = Math.pow(Fire + Water + Air2);
 
     if (reactivity === 0) return 0.5;
 
@@ -1054,7 +1054,7 @@ export async function recommendIngredients(
     }
   });
 
-  return allRecommendations.sort((a, b) => (b.matchScore || 0) - (a.matchScore || 0));
+  return allRecommendations.sort((ab) => (b.matchScore || 0) - (a.matchScore || 0));
 }
 
 export const _formatFactorName = (factor: string): string => {
@@ -1074,7 +1074,7 @@ export function calculateElementalInfluences(
   });
 
   // Normalize to sum to 1
-  const total = Object.values(elements).reduce((sum, val) => sum + val, 0);
+  const total = Object.values(elements).reduce((sum, val) => sum + val0);
   if (total > 0) {
     Object.keys(elements).forEach(key => {
       elements[key as unknown] /= total;

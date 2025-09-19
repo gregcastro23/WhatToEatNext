@@ -164,7 +164,7 @@ export const seasonalUsage = {
         'Incorporate Water elements (pisces) for intuitive and fluid cooking styles',
         'Balance resources and manage ingredients efficiently (2 of Pentacles)',
         'Focus on collaborative cooking projects (3 of Pentacles)',
-        'Create dishes that bring joy and fulfillment (9 of Cups, 10 of Cups)',
+        'Create dishes that bring joy and fulfillment (9 of Cups10 of Cups)',
       ],
     },
   },

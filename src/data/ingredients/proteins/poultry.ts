@@ -359,7 +359,7 @@ const rawPoultry = {
     varieties: {
       broiler: {
         name: 'Broiler / (Fryer || 1)',
-        characteristics: 'young and tender, usually 7-10 weeks old, 2-5 pounds',
+        characteristics: 'young and tender, usually 7-10 weeks old2-5 pounds',
         best_cooking_methods: ['roasting', 'frying', 'grilling', 'sautéing'],
         notes: 'Most common commercial chicken, versatile for most recipes',
         sensoryProfile: {
@@ -398,7 +398,7 @@ const rawPoultry = {
       },
       roaster: {
         name: 'Roaster',
-        characteristics: 'older than broilers, usually 3-5 months old, 5-7 pounds',
+        characteristics: 'older than broilers, usually 3-5 months old5-7 pounds',
         best_cooking_methods: ['roasting', 'rotisserie', 'braising'],
         notes: 'More flavor and fat than broilers, good for whole bird preparations',
         sensoryProfile: {
@@ -646,10 +646,8 @@ const rawPoultry = {
         fiber: 0,
       },
       vitamins: {
-        B6: 0.5,
-        B3: 0.64,
-        B12: 0.32,
-        B5: 0.25,
+        B6: 0.5B3: 0.64,
+        B12: 0.32B5: 0.25,
       },
       minerals: {
         selenium: 0.36,
@@ -712,7 +710,7 @@ const rawPoultry = {
           pieces: 'up to 9 months',
           cooked: 'up to 4 months',
         },
-        method: 'Wrap tightly in freezer paper, then plastic wrap, or vacuum seal for best results',
+        method: 'Wrap tightly in freezer paper, then plastic wrapor vacuum seal for best results',
       },
     },
     affinities: [
@@ -1132,7 +1130,7 @@ const rawPoultry = {
         whole: 'Up to 6 months',
         parts: 'Up to 4 months',
         preparation: 'Wrap tightly to prevent freezer burn',
-        thawing: 'In refrigerator 24 hours for whole duck, 12 hours for parts',
+        thawing: 'In refrigerator 24 hours for whole duck12 hours for parts',
       },
       rendered_fat: {
         refrigerated: 'Up to 6 months in sealed container',
@@ -1326,7 +1324,7 @@ const rawPoultry = {
           name: 'Traditional',
           preparation: {
             brining: {
-              wet: '1 cup salt, 1 cup sugar per gallon water for 12-24 hours',
+              wet: '1 cup salt1 cup sugar per gallon water for 12-24 hours',
               dry: '1 tbsp salt per 5 lbs, refrigerate uncovered 24-48 hours',
             },
             cavity: ['lemon', 'onion', 'herbs', 'aromatics'],

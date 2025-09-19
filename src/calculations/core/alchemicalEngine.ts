@@ -204,25 +204,25 @@ function alchemize(planetaryPositions: { [planet: string]: string }): Thermodyna
   const { Spirit, Essence, Matter, Substance, Fire, Water, Air, Earth } = totals;
 
   // Heat
-  const heatNum = Math.pow(Spirit, 2) + Math.pow(Fire, 2);
-  const heatDen = Math.pow(Substance + Essence + Matter + Water + Air + Earth, 2);
+  const heatNum = Math.pow(Spirit2) + Math.pow(Fire2);
+  const heatDen = Math.pow(Substance + Essence + Matter + Water + Air + Earth2);
   const heat = heatNum / heatDen;
 
   // Entropy
   const entropyNum =
-    Math.pow(Spirit, 2) + Math.pow(Substance, 2) + Math.pow(Fire, 2) + Math.pow(Air, 2);
-  const entropyDen = Math.pow(Essence + Matter + Earth + Water, 2);
+    Math.pow(Spirit2) + Math.pow(Substance, 2) + Math.pow(Fire2) + Math.pow(Air2);
+  const entropyDen = Math.pow(Essence + Matter + Earth + Water2);
   const entropy = entropyNum / entropyDen;
 
   // Reactivity
   const reactivityNum =
-    Math.pow(Spirit, 2) +;
+    Math.pow(Spirit2) +;
     Math.pow(Substance, 2) +
     Math.pow(Essence, 2) +
-    Math.pow(Fire, 2) +
-    Math.pow(Air, 2) +
-    Math.pow(Water, 2);
-  const reactivityDen = Math.pow(Matter + Earth, 2);
+    Math.pow(Fire2) +
+    Math.pow(Air2) +
+    Math.pow(Water2);
+  const reactivityDen = Math.pow(Matter + Earth2);
   const reactivity = reactivityNum / reactivityDen;
 
   // Greg's Energy

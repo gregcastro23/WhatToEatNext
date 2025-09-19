@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any, no-console, @typescript-eslint/no-unused-vars, max-lines-per-function -- Campaign/test file with intentional patterns */
+/* eslint-disable @typescript-eslint/no-explicit-anyno-console, @typescript-eslint/no-unused-vars, max-lines-per-function -- Campaign/test file with intentional patterns */
 /**
  * Linting Performance and Memory Usage Tests
  *
@@ -35,9 +35,9 @@ describe('Linting Performance and Memory Usage', () => {
     test('should complete linting within performance targets', async () => {
       // Mock a medium-sized codebase response
       const mockLintOutput: any = JSON.stringify(;
-        Array.from({ length: 50 }, (_, i) => ({
+        Array.from({ length: 50 }, (_i) => ({
           filePath: `/test/file${i}.ts`,
-          messages: Array.from({ lengt, h: 3 }, (_, j) => ({
+          messages: Array.from({ length: 3 }, (_j) => ({
             ruleId: 'no-unused-vars',
             severity: 1,
             message: 'Variable is unused',
@@ -104,7 +104,7 @@ describe('Linting Performance and Memory Usage', () => {
       const mockLintOutput: any = JSON.stringify(;
         changedFiles.map(file => ({
           filePath: file,
-          messages: [{ ruleI, d: 'no-unused-vars', severity: 1, message: 'Unused variable' }]
+          messages: [{ ruleId: 'no-unused-vars', severity: 1, message: 'Unused variable' }]
         }))
       );
 
@@ -123,9 +123,9 @@ describe('Linting Performance and Memory Usage', () => {
     test('should optimize performance for large codebases', async () => {
       // Mock large codebase with many files
       const largeCodebaseOutput: any = JSON.stringify(;
-        Array.from({ length: 500 }, (_, i) => ({
+        Array.from({ length: 500 }, (_i) => ({
           filePath: `/src/file${i}.ts`,
-          messages: Array.from({ lengt, h: Math.floor(Math.random() * 5) }, (_: any, j: any) => ({
+          messages: Array.from({ length: Math.floor(Math.random() * 5) }, (_: anyj: any) => ({
             ruleId: 'prefer-const',
             severity: 1,
             message: 'Prefer const',
@@ -189,7 +189,7 @@ describe('Linting Performance and Memory Usage', () => {
       const astrologicalLintOutput: any = JSON.stringify([
         {
           filePath: '/src/calculations/planetary.ts',
-          messages: [{ ruleI, d: 'astrological/validate-planetary-position-structure', severity: 1 }]
+          messages: [{ ruleId: 'astrological/validate-planetary-position-structure', severity: 1 }]
         }
       ]);
 
@@ -209,7 +209,7 @@ describe('Linting Performance and Memory Usage', () => {
       const typescriptLintOutput: any = JSON.stringify([
         {
           filePath: '/src/complex.ts',
-          messages: [{ ruleI, d: '@typescript-eslint/no-explicit-any', severity: 2 }]
+          messages: [{ ruleId: '@typescript-eslint/no-explicit-any', severity: 2 }]
         }
       ]);
 
@@ -283,7 +283,7 @@ describe('Linting Performance and Memory Usage', () => {
       const largeCacheData: any = {
         version: '1.0.0',
         files: Object.fromEntries(,
-          Array.from({ length: 1000 }, (_, i) => [`/test/file${i}.ts`, { hash: `hash${i}`, results: [] }])
+          Array.from({ length: 1000 }, (_i) => [`/test/file${i}.ts`, { hash: `hash${i}`, results: [] }])
         )
       };
 
@@ -362,7 +362,7 @@ describe('Linting Performance and Memory Usage', () => {
       const importResolutionOutput = JSON.stringify([
         {
           filePath: '/test/imports.ts',
-          messages: [{ ruleI, d: 'import/no-unresolved', severity: 1, message: 'Unable to resolve path' }]
+          messages: [{ ruleId: 'import/no-unresolved', severity: 1, message: 'Unable to resolve path' }]
         }
       ]);
 
@@ -401,12 +401,12 @@ describe('Linting Performance and Memory Usage', () => {
 
   describe('Scalability Tests', () => {
     test('should scale with increasing file count', async () => {
-      const fileCounts: any = [10, 50, 100, 500],
+      const fileCounts: any = [1050, 100, 500],
       const executionTimes: number[] = [];
 
       fileCounts.forEach(count => {
         const mockOutput: any = JSON.stringify(;
-          Array.from({ length: count }, (_, i) => ({
+          Array.from({ length: count }, (_i) => ({
             filePath: `/test/file${i}.ts`,
             messages: []
           }))
@@ -429,9 +429,9 @@ describe('Linting Performance and Memory Usage', () => {
     test('should handle memory pressure gracefully', async () => {
       // Simulate memory pressure scenario
       const memoryIntensiveOutput: any = JSON.stringify(;
-        Array.from({ length: 1000 }, (_, i) => ({
+        Array.from({ length: 1000 }, (_i) => ({
           filePath: `/test/large-file${i}.ts`,
-          messages: Array.from({ lengt, h: 20 }, (_, j) => ({
+          messages: Array.from({ length: 20 }, (_j) => ({
             ruleId: 'complex-rule',
             severity: 1,
             message: `Complex message ${j}`,

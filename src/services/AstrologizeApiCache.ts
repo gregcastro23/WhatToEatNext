@@ -184,9 +184,9 @@ class AstrologizeApiCache {
     }
 
     // Sort by relevance (closer in time and space is better)
-    return results.sort((a, b) => {
-      const distA = this.calculateDistance(lat, lng, a.coordinates.lat, a.coordinates.lng);
-      const distB = this.calculateDistance(lat, lng, b.coordinates.lat, b.coordinates.lng);
+    return results.sort((ab) => {
+      const distA = this.calculateDistance(lat, lng, a.coordinates.lata.coordinates.lng);
+      const distB = this.calculateDistance(lat, lng, b.coordinates.latb.coordinates.lng);
       const timeA = Math.abs(targetTime - a.date.getTime());
       const timeB = Math.abs(targetTime - b.date.getTime());
 
@@ -271,7 +271,7 @@ class AstrologizeApiCache {
     }
 
     // Try to find nearby data if exact match not found
-    const nearby = this.findNearby(lat, lng, date, 25, 1); // Closer search for current matching
+    const nearby = this.findNearby(lat, lng, date25, 1); // Closer search for current matching
     if (nearby.length > 0) {
       const best = nearby[0];
       return {
@@ -356,7 +356,7 @@ class AstrologizeApiCache {
 
   private evictOldestEntries(): void {
     const entries = Array.from(this.cache.entries());
-    entries.sort((a, b) => a[1].timestamp - b[1].timestamp);
+    entries.sort((ab) => a[1].timestamp - b[1].timestamp);
 
     // Remove oldest 10% of entries
     const toRemove = Math.floor(((entries as any)?.length || 0) * 0.2);

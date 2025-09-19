@@ -169,10 +169,10 @@ describe('Phase Execution Integration Tests', () => {
 
       // Mock zero TypeScript errors
       jest.spyOn(progressTracker, 'getProgressMetrics').mockResolvedValue({
-        typeScriptErrors: { curren, t: 0, target: 0, reduction: 86, percentage: 100 },
-        lintingWarnings: { curren, t: 4506, target: 0, reduction: 0, percentage: 0 },
+        typeScriptErrors: { current: 0, target: 0, reduction: 86, percentage: 100 },
+        lintingWarnings: { current: 4506, target: 0, reduction: 0, percentage: 0 },
         buildPerformance: { currentTim, e: 8.5, targetTime: 10, cacheHitRate: 0.8, memoryUsage: 45 },
-        enterpriseSystems: { curren, t: 0, target: 200, transformedExports: 0 }
+        enterpriseSystems: { current: 0, target: 200, transformedExports: 0 }
       });
 
       const validation: any = await campaignController.validatePhaseCompletion(phase1);
@@ -186,10 +186,10 @@ describe('Phase Execution Integration Tests', () => {
 
       // Mock successful completion metrics
       jest.spyOn(progressTracker, 'getProgressMetrics').mockResolvedValue({
-        typeScriptErrors: { curren, t: 0, target: 0, reduction: 86, percentage: 100 },
-        lintingWarnings: { curren, t: 4506, target: 0, reduction: 0, percentage: 0 },
+        typeScriptErrors: { current: 0, target: 0, reduction: 86, percentage: 100 },
+        lintingWarnings: { current: 4506, target: 0, reduction: 0, percentage: 0 },
         buildPerformance: { currentTim, e: 8.5, targetTime: 10, cacheHitRate: 0.8, memoryUsage: 45 },
-        enterpriseSystems: { curren, t: 0, target: 200, transformedExports: 0 }
+        enterpriseSystems: { current: 0, target: 200, transformedExports: 0 }
       });
 
       const report: any = await campaignController.generatePhaseReport(phase1);
@@ -252,10 +252,10 @@ describe('Phase Execution Integration Tests', () => {
 
       // Mock zero linting warnings
       jest.spyOn(progressTracker, 'getProgressMetrics').mockResolvedValue({
-        typeScriptErrors: { curren, t: 0, target: 0, reduction: 86, percentage: 100 },
-        lintingWarnings: { curren, t: 0, target: 0, reduction: 4506, percentage: 100 },
+        typeScriptErrors: { current: 0, target: 0, reduction: 86, percentage: 100 },
+        lintingWarnings: { current: 0, target: 0, reduction: 4506, percentage: 100 },
         buildPerformance: { currentTim, e: 8.5, targetTime: 10, cacheHitRate: 0.8, memoryUsage: 45 },
-        enterpriseSystems: { curren, t: 0, target: 200, transformedExports: 0 }
+        enterpriseSystems: { current: 0, target: 200, transformedExports: 0 }
       });
 
       const validation: any = await campaignController.validatePhaseCompletion(phase2);
@@ -405,10 +405,10 @@ describe('Phase Execution Integration Tests', () => {
 
       // Mock successful phase completion
       jest.spyOn(progressTracker, 'getProgressMetrics').mockResolvedValue({
-        typeScriptErrors: { curren, t: 0, target: 0, reduction: 86, percentage: 100 },
-        lintingWarnings: { curren, t: 4506, target: 0, reduction: 0, percentage: 0 },
+        typeScriptErrors: { current: 0, target: 0, reduction: 86, percentage: 100 },
+        lintingWarnings: { current: 4506, target: 0, reduction: 0, percentage: 0 },
         buildPerformance: { currentTim, e: 8.5, targetTime: 10, cacheHitRate: 0.8, memoryUsage: 45 },
-        enterpriseSystems: { curren, t: 0, target: 200, transformedExports: 0 }
+        enterpriseSystems: { current: 0, target: 200, transformedExports: 0 }
       });
 
       await campaignController.executePhase(phase1);

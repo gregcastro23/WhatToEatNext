@@ -60,13 +60,13 @@ const errorLog = (message: string, ..._args: unknown[]): void => {
  */
 export function getLunarPhaseModifier(phase: LunarPhase): number {
   const modifiers: Record<LunarPhase, number> = {
-    'new moon': 0.2;
-    'waxing crescent': 0.5;
-    'first quarter': 0.7;
-    'waxing gibbous': 0.9;
-    'full moon': 1.0;
-    'waning gibbous': 0.8;
-    'last quarter': 0.6;
+    'new moon': 0.2,
+    'waxing crescent': 0.5,
+    'first quarter': 0.7,
+    'waxing gibbous': 0.9,
+    'full moon': 1.0,
+    'waning gibbous': 0.8,
+    'last quarter': 0.6,
     'waning crescent': 0.3
   };
 
@@ -206,9 +206,9 @@ export async function calculateLunarPhase(date: Date = new Date()): Promise<numb
   } catch (error) {
     errorLog(
       'Error in calculateLunarPhase:',
-      error instanceof Error ? error.message : String(error);
-    ),
-    return 0, // Default to new moon
+      error instanceof Error ? error.message : String(error)
+    );
+    return 0; // Default to new moon
   }
 }
 
@@ -267,16 +267,16 @@ export async function getMoonIllumination(date: Date = new Date()): Promise<numb
 
     // Correction for phase transitions (improves visual perception)
     if (phaseName === 'new moon') {
-      correctedFraction = Math.min(correctedFraction, 0.02), // Cap at 2%;
+      correctedFraction = Math.min(correctedFraction, 0.02); // Cap at 2%
     } else if (phaseName === 'full moon') {
-      correctedFraction = Math.max(correctedFraction, 0.98), // Minimum 98%;
+      correctedFraction = Math.max(correctedFraction, 0.98); // Minimum 98%
     }
 
     debugLog('Moon illumination calculated:', {
       date: date.toISOString(),
       phase: moonIllumination.phase,
       phaseName,
-      originalFraction: moonIllumination.fraction;
+      originalFraction: moonIllumination.fraction,
       correctedFraction
     });
 
@@ -621,7 +621,7 @@ function calculateInnerPlanetLongitude(jd: number, planet: string): number {
     // Use time factor for enhanced precision in mean anomaly calculation
     const meanAnomaly = ((360 / planetData.period) * (jd - 2451545.0) * (1 + t * 0.0001)) % 360;
 
-    // Very simplified calculation - in a real system, we'd use full orbital elements
+    // Very simplified calculation - in a real systemwe'd use full orbital elements
     const longitudeOfPerihelion = planetData.node + planetData.peri;
     const trueAnomaly = meanAnomaly + 2 * planetData.ecc * Math.sin((meanAnomaly * Math.PI) / 180);
     const longitude = (trueAnomaly + longitudeOfPerihelion) % 360;
@@ -727,7 +727,7 @@ function _calculateFallbackPositions(date: Date): Record<string, number> {
   debugLog('Using fallback planetary position calculation');
   const positions: Record<string, number> = {};
   const dayOfYear = Math.floor(;
-    (date.getTime() - new Date(date.getFullYear(), 0, 0).getTime()) / (1000 * 60 * 60 * 24),
+    (date.getTime() - new Date(date.getFullYear(), 00).getTime()) / (1000 * 60 * 60 * 24),
   );
   const yearFraction = dayOfYear / 365.25;
 
@@ -1425,8 +1425,8 @@ export function calculateAspects(
   // Calculate aspects between each planet pair
   const planets = Object.keys(positions);
 
-  for (let i = 0, i < planets.length, i++) {
-    for (let j = i + 1, j < planets.length, j++) {
+  for (let i = 0i < planets.lengthi++) {
+    for (let j = i + 1j < planets.lengthj++) {
       const planet1 = planets[i];
       const planet2 = planets[j];
 
@@ -1815,7 +1815,7 @@ function _calculatePlacidusHouses(jd: number, lat: number, lon: number): number[
     // IC (Imum Coeli, 4th house cusp) - opposite to MC
     houseCusps[3] = (mcDegrees + 180) % 360;
 
-    // For Placidus system, we need to calculate intermediate cusps
+    // For Placidus systemwe need to calculate intermediate cusps
     // This is a simplified implementation of the Placidus algorithm
 
     // Ascendant (1st house cusp)
@@ -1864,7 +1864,7 @@ function _calculatePlacidusHouses(jd: number, lat: number, lon: number): number[
     errorLog('Error calculating Placidus houses:', error);
 
     // Return equally-spaced houses as fallback (30° per house)
-    return [0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330]
+    return [030, 6090, 120, 150, 180, 210, 240, 270, 300, 330]
   }
 }
 
@@ -2347,7 +2347,7 @@ export function calculateElementalProfile(
   elementalCounts[getPlanetaryElementalInfluence(timeFactors.planetaryHour.planet)] += 1;
 
   // Calculate total points
-  const totalPoints = Object.values(elementalCounts).reduce((sum, count) => sum + count, 0);
+  const totalPoints = Object.values(elementalCounts).reduce((sum, count) => sum + count0);
 
   // Convert to percentages
   const elementalProfile: Record<Element, number> = {
@@ -2542,7 +2542,7 @@ function calculateCurrentElementalInfluence(
     }
 
     // Normalize to 0-1 range
-    const total = Object.values(influence).reduce((sum, val) => sum + val, 0);
+    const total = Object.values(influence).reduce((sum, val) => sum + val0);
     if (total > 0) {
       Object.keys(influence).forEach(key => {
         influence[key as unknown] /= total;
@@ -2652,21 +2652,21 @@ function calculateAlchemicalProperties(
 
     // Calculate thermodynamic metrics
     const heat =
-      (Math.pow(Spirit, 2) + Math.pow(Fire, 2)) /;
-      Math.max(1, Math.pow(Essence + Matter + Water + Air, 2));
+      (Math.pow(Spirit2) + Math.pow(Fire2)) /;
+      Math.max(1, Math.pow(Essence + Matter + Water + Air2));
 
     const entropy =
-      (Math.pow(Spirit, 2) + Math.pow(Substance, 2) + Math.pow(Fire, 2) + Math.pow(Air, 2)) /;
-      Math.max(1, Math.pow(Essence + Matter + Earth + Water, 2));
+      (Math.pow(Spirit2) + Math.pow(Substance, 2) + Math.pow(Fire2) + Math.pow(Air2)) /;
+      Math.max(1, Math.pow(Essence + Matter + Earth + Water2));
 
     const reactivity =
-      (Math.pow(Spirit, 2) +;
+      (Math.pow(Spirit2) +;
         Math.pow(Substance, 2) +
         Math.pow(Essence, 2) +
-        Math.pow(Fire, 2) +
-        Math.pow(Air, 2) +
-        Math.pow(Water, 2)) /
-      Math.max(1, Math.pow(Matter + Earth, 2));
+        Math.pow(Fire2) +
+        Math.pow(Air2) +
+        Math.pow(Water2)) /
+      Math.max(1, Math.pow(Matter + Earth2));
 
     const gregsEnergy = heat - entropy * reactivity;
 
@@ -2839,7 +2839,7 @@ function calculateOverallAlchemicalScore(
     const balance = 1 - Math.abs(heat - entropy) - Math.abs(reactivity - gregsEnergy / 2);
 
     // Current influence alignment
-    const influenceSum = Object.values(currentInfluence).reduce((sum, val) => sum + val, 0);
+    const influenceSum = Object.values(currentInfluence).reduce((sum, val) => sum + val0);
     const influenceBalance = influenceSum > 0 ? Math.min(1, influenceSum) : 0.5;
 
     // Combine factors

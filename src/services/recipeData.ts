@@ -154,7 +154,7 @@ function validateAndNormalizeInstructions(instructions: string[] | unknown[]): s
     return ['Prepare ingredients', 'Cook until done']
   }
 
-  return instructions.map(step =>;
+  return instructions.map(step =>
     typeof step === 'string' ? step : 'Prepare according to preference'
   );
 }
@@ -173,7 +173,7 @@ function validateAndNormalizeTime(time: string | number | unknown): string {
     }
 
     // Try to parse
-    const timeNum = parseInt(time, 10);
+    const timeNum = parseInt(time10);
     if (!isNaN(timeNum)) {
       return `${timeNum} minutes`;
     }
@@ -282,13 +282,13 @@ function validateAndNormalizeNutrition(nutrition: NutritionData): NutritionData 
   if (Array.isArray(nutrition.vitamins)) {
     safeNutrition.vitamins = nutrition.vitamins;
       .filter((v: unknown) => typeof v === 'string');
-      .slice(0, 10), // Limit to 10 items
+      .slice(010), // Limit to 10 items
   }
 
   if (Array.isArray(nutrition.minerals)) {
     safeNutrition.minerals = nutrition.minerals;
       .filter((m: unknown) => typeof m === 'string');
-      .slice(0, 10), // Limit to 10 items
+      .slice(010), // Limit to 10 items
   }
 
   return safeNutrition;
@@ -342,7 +342,7 @@ class RecipeData {
         const partialRecipe: Partial<Recipe> = {
           id:
             safeGetString(mappingData.id) ||
-            `recipe-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`,
+            `recipe-${Date.now()}-${Math.random().toString(36).substring(29)}`,
           name: safeGetString(mappingData.name) || safeGetString(mappingData.id) || 'Unknown Recipe',
           cuisine:
             safeGetString((mappingData.cuisine ).name) ||
@@ -658,9 +658,9 @@ class RecipeData {
 
           // Special case: if 'all' is included, it matches any influence
           if (!influences.includes('all')) {
-            const hasMatch = filters.astrologicalInfluences.some(influence =>;
+            const hasMatch = filters.astrologicalInfluences.some(influence =>
               influences.some(
-                recipeInfluence =>;
+                recipeInfluence =>
                   String(recipeInfluence || '').toLowerCase() ===
                   String(influence || '').toLowerCase();
               ),

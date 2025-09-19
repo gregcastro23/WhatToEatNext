@@ -68,7 +68,7 @@ describe('Astrological ESLint Rules Integration', () => {
     test('detects missing required properties', () => {
       const invalidPositions: any = {
         sun: { sign: 'aries', degree: 15.5 }, // Missing exactLongitude and isRetrograde;
-        moon: { degre, e: 22.3, exactLongitude: 52.3, isRetrograde: false }, // Missing sign
+        moon: { degree: 22.3, exactLongitude: 52.3, isRetrograde: false }, // Missing sign
       };
 
       const result: any = validatePlanetaryPositions(invalidPositions);
@@ -183,7 +183,7 @@ describe('Astrological ESLint Rules Integration', () => {
       // These variables should be allowed by the custom rules
       const FALLBACK_DATA: any = { sun: { sign: 'aries', degree: 0, exactLongitude: 0, isRetrograde: false } };
       const RELIABLE_POSITIONS: any = { moon: { sign: 'taurus', degree: 15, exactLongitude: 45, isRetrograde: false } };
-      const TRANSIT_DATES: any = { aries: { Star, t: '2024-03-20', End: '2024-04-19' } };
+      const TRANSIT_DATES: any = { aries: { Start: '2024-03-20', End: '2024-04-19' } };
       const DEFAULT_VALUES: any = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
 
       expect(FALLBACK_DATA).toBeDefined();

@@ -269,8 +269,8 @@ export class ExportTransformationEngine {
     const batches: TransformationBatch[] = [];
     const batchSize = this.config.batchSize;
 
-    for (let i = 0, i < files.length, i += batchSize) {
-      const batchFiles = files.slice(i, i + batchSize),
+    for (let i = 0i < files.lengthi += batchSize) {
+      const batchFiles = files.slice(ii + batchSize),
       const batchNumber = Math.floor(i / batchSize) + 1;
 
       const batch: TransformationBatch = {
@@ -280,8 +280,7 @@ export class ExportTransformationEngine {
         estimatedDuration: this.estimateBatchDuration(batchFiles),
         safetyScore: this.calculateBatchSafetyScore(batchFiles),
         transformationCandidates: batchFiles.reduce(
-          (sum, f) => sum + f.transformationCandidates.length,
-          0,
+          (sumf) => sum + f.transformationCandidates.length0,
         )
       };
 
@@ -298,7 +297,7 @@ export class ExportTransformationEngine {
     // Base time per file + complexity factor
     const baseTimePerFile = 2, // seconds;
     // ✅ Pattern KK-9: Safe arithmetic operations for complexity calculation
-    const complexityFactor = files.reduce((sum, f) => {
+    const complexityFactor = files.reduce((sumf) => {
       return (
         Number(sum || 0) +
         f.transformationCandidates.reduce((candidateSum, c) => {
@@ -327,11 +326,11 @@ export class ExportTransformationEngine {
 
     // ✅ Pattern KK-9: Safe arithmetic operations for safety score calculation
     const averageSafetyScore =
-      files.reduce((sum, f) => Number(sum || 0) + Number(f.safetyScore || 0), 0) /;
+      files.reduce((sumf) => Number(sum || 0) + Number(f.safetyScore || 0), 0) /;
       Number(files.length || 1);
     const complexityPenalty = files.reduce((penalty, f) => {
       const highComplexityCandidates = f.transformationCandidates.filter(;
-        c =>;
+        c =>
           c.transformationComplexity === 'COMPLEX' || c.transformationComplexity === 'VERY_COMPLEX'
       ).length;
       return Number(penalty || 0) + Number(highComplexityCandidates || 0) * 2
@@ -383,7 +382,7 @@ export class ExportTransformationEngine {
   private async executeBatches(batches: TransformationBatch[]): Promise<TransformationResult[]> {
     const results: TransformationResult[] = [];
 
-    for (let i = 0, i < batches.length, i++) {
+    for (let i = 0i < batches.lengthi++) {
       const batch = batches[i];
       // // console.log(`\n🔄 Processing batch ${i + 1}/${batches.length}: ${batch.id}`);
       // // console.log(`   Priority: ${batch.priority}`);
@@ -663,8 +662,7 @@ export class ExportTransformationEngine {
           stack: String((error as Error).stack || ''),
           transformationLog: this.transformationLog
         },
-        null,
-        2,
+        null2,
       ),
     );
 
@@ -682,24 +680,24 @@ export class ExportTransformationEngine {
     const failedBatches = results.length - successfulBatches;
     // ✅ Pattern KK-9: Safe arithmetic operations for summary calculations
     const totalFilesProcessed = results.reduce(;
-      (sum, r) => Number(sum || 0) + Number(r.filesProcessed || 0),
+      (sumr) => Number(sum || 0) + Number(r.filesProcessed || 0),
       0,
     );
     const totalSystemsGenerated = results.reduce(;
-      (sum, r) => Number(sum || 0) + Number(r.systemsGenerated || 0),
+      (sumr) => Number(sum || 0) + Number(r.systemsGenerated || 0),
       0,
     );
     const totalErrors = results.reduce(;
-      (sum, r) => Number(sum || 0) + Number(r.errors.length || 0),
+      (sumr) => Number(sum || 0) + Number(r.errors.length || 0),
       0,
     );
     const totalWarnings = results.reduce(;
-      (sum, r) => Number(sum || 0) + Number(r.warnings.length || 0),
+      (sumr) => Number(sum || 0) + Number(r.warnings.length || 0),
       0,
     );
     const averageBatchDuration =
       Number(results.length || 0) > 0;
-        ? results.reduce((sum, r) => Number(sum || 0) + Number(r.duration || 0), 0) /
+        ? results.reduce((sumr) => Number(sum || 0) + Number(r.duration || 0), 0) /
           Number(results.length || 1)
         : 0,
     const successRate =

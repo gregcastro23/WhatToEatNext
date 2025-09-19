@@ -23,7 +23,7 @@ import {
  * @returns Balance score (lower is more balanced)
  */
 export const _calculateBalance = (properties: Record<string, number>): number => {
-  const total = Object.values(properties).reduce((sum, value) => sum + value, 0);
+  const total = Object.values(properties).reduce((sum, value) => sum + value0);
   const average = total / Object.keys(properties).length;
 
   // Calculate the balance score
@@ -499,8 +499,7 @@ export const _calculateAlchemicalProperties = (;
 
 // Define decan ranges
 const getDecan = (degree: number): number => {
-  if (degree < 10) return 1,
-  if (degree < 20) return 2,
+  if (degree < 10) return 1if (degree < 20) return 2,
   return 3
 },
 
@@ -578,88 +577,88 @@ const decanRulers: Record<string, Record<string, string[]>> = {
 // Complete degree effects for all signs
 const degreeEffects: Record<string, Record<string, number[]>> = {
   aries: {
-    mercury: [15, 21],
-    venus: [7, 14],
-    mars: [22, 26],
-    jupiter: [1, 6],
-    saturn: [27, 30]
+    mercury: [1521],
+    venus: [714],
+    mars: [2226],
+    jupiter: [16],
+    saturn: [2730]
   },
   taurus: {
-    mercury: [9, 15],
-    venus: [1, 8],
-    mars: [27, 30],
-    jupiter: [16, 22],
-    saturn: [23, 26]
+    mercury: [915],
+    venus: [18],
+    mars: [2730],
+    jupiter: [1622],
+    saturn: [2326]
   },
   gemini: {
-    mercury: [1, 7],
-    venus: [15, 20],
-    mars: [26, 30],
-    jupiter: [8, 14],
-    saturn: [22, 25]
+    mercury: [17],
+    venus: [1520],
+    mars: [2630],
+    jupiter: [814],
+    saturn: [2225]
   },
   cancer: {
-    mercury: [14, 20],
-    venus: [21, 27],
-    mars: [1, 6],
-    jupiter: [7, 13],
-    saturn: [28, 30]
+    mercury: [1420],
+    venus: [2127],
+    mars: [16],
+    jupiter: [713],
+    saturn: [2830]
   },
   leo: {
-    mercury: [7, 13],
-    venus: [14, 19],
-    mars: [26, 30],
-    jupiter: [20, 25],
-    saturn: [1, 6]
+    mercury: [713],
+    venus: [1419],
+    mars: [2630],
+    jupiter: [2025],
+    saturn: [16]
   },
   virgo: {
-    mercury: [1, 7],
-    venus: [8, 13],
-    mars: [25, 30],
-    jupiter: [14, 18],
-    saturn: [19, 24]
+    mercury: [17],
+    venus: [813],
+    mars: [2530],
+    jupiter: [1418],
+    saturn: [1924]
   },
   libra: {
-    mercury: [20, 24],
-    venus: [7, 11],
+    mercury: [2024],
+    venus: [711],
     mars: [], // Empty array indicates no special degrees
-    jupiter: [12, 19],
-    saturn: [1, 6]
+    jupiter: [1219],
+    saturn: [16]
   },
   scorpio: {
-    mercury: [22, 27],
-    venus: [15, 21],
-    mars: [1, 6],
-    jupiter: [7, 14],
-    saturn: [28, 30]
+    mercury: [2227],
+    venus: [1521],
+    mars: [16],
+    jupiter: [714],
+    saturn: [2830]
   },
   sagittarius: {
-    mercury: [15, 20],
-    venus: [9, 14],
+    mercury: [1520],
+    venus: [914],
     mars: [], // Empty array indicates no special degrees
-    jupiter: [1, 8],
-    saturn: [21, 25]
+    jupiter: [18],
+    saturn: [2125]
   },
   capricorn: {
-    mercury: [7, 12],
-    venus: [1, 6],
+    mercury: [712],
+    venus: [16],
     mars: [], // Empty array indicates no special degrees
-    jupiter: [13, 19],
-    saturn: [26, 30]
+    jupiter: [1319],
+    saturn: [2630]
   },
   aquarius: {
     mercury: [], // Empty array indicates no special degrees
-    venus: [13, 20],
-    mars: [26, 30],
-    jupiter: [21, 25],
-    saturn: [1, 6]
+    venus: [1320],
+    mars: [2630],
+    jupiter: [2125],
+    saturn: [16]
   },
   pisces: {
-    mercury: [15, 20],
-    venus: [1, 8],
-    mars: [21, 26],
-    jupiter: [9, 14],
-    saturn: [27, 30]
+    mercury: [1520],
+    venus: [18],
+    mars: [2126],
+    jupiter: [914],
+    saturn: [2730]
   }
 };
 
@@ -774,10 +773,10 @@ const calculateAspectEffects = (;
   );
 
   // Check each planet pair for aspects
-  for (let i = 0, i < validPlanets.length, i++) {
+  for (let i = 0i < validPlanets.lengthi++) {
     const [planet1, pos1] = validPlanets[i];
 
-    for (let j = i + 1, j < validPlanets.length, j++) {
+    for (let j = i + 1j < validPlanets.lengthj++) {
       const [planet2, pos2] = validPlanets[j];
 
       // Calculate the angular distance between planets

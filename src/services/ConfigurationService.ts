@@ -414,8 +414,7 @@ class ConfigurationServiceImpl {
         timestamp: Date.now(),
         version: '1.0.0'
       },
-      null,
-      2,
+      null2,
     );
   }
 
@@ -555,8 +554,7 @@ class ConfigurationServiceImpl {
 
     // Check astrology configuration
     const totalOrbs = Object.values(this.currentConfig.astrology.aspectOrbs).reduce(;
-      (sum, orb) => sum + orb,
-      0,
+      (sum, orb) => sum + orb0,
     );
     if (totalOrbs > 50) {
       issues.push('Very large aspect orbs may affect calculation accuracy');

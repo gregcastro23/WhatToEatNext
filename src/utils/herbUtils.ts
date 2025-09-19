@@ -12,7 +12,7 @@ export const _herbUtils = {
   findByCuisine: (cuisine: string) => {
     return Object.entries(herbs)
       .filter(([_, herb]) => herb.culinary_traditions?.[cuisine])
-      .map(([name, _]) => name);
+      .map(([name_]) => name);
   },
 
   findComplementary: (herbName: string, cuisine: string) => {

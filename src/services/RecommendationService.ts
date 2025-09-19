@@ -336,7 +336,7 @@ export class RecommendationService {
    */
   private getSortedItems(items: AlchemicalItem[], limit: number): AlchemicalItem[] {
     return [...items]
-      .sort((a, b) => {
+      .sort((ab) => {
         // Sort by compatibility score (higher is better) - safe property access
         return (
           ((b as { compatibilityScore?: number }).compatibilityScore || 0) -
@@ -415,7 +415,7 @@ export class RecommendationService {
             celestialInfluence
           })
         }))
-        .sort((a, b) => b.score - a.score);
+        .sort((ab) => b.score - a.score);
 
       // Always ensure at least one recommendation
       if ((scoredRecipes || []).length === 0) {
@@ -676,9 +676,9 @@ export class RecommendationService {
       // Calculate relative values: element / sum of other three
       const otherElements = elements.filter(e => e !== element);
 
-      const recipeOthersSum = otherElements.reduce((sum, e) => sum + (recipeElements[e] || 0), 0);
+      const recipeOthersSum = otherElements.reduce((sume) => sum + (recipeElements[e] || 0), 0);
       const currentMomentOthersSum = otherElements.reduce(;
-        (sum, e) => sum + (currentMomentElements[e] || 0),
+        (sume) => sum + (currentMomentElements[e] || 0),
         0,
       );
 

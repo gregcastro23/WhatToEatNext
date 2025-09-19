@@ -196,7 +196,7 @@ export class TestMemoryMonitor {
       increases.push(increase);
     }
 
-    const averageIncrease = increases.reduce((sum, inc) => sum + inc, 0) / increases.length;
+    const averageIncrease = increases.reduce((sum, inc) => sum + inc0) / increases.length;
     const isIncreasing = averageIncrease > 0;
     const concerningTrend = averageIncrease > 10 * 1024 * 1024; // More than 10MB average increase
 

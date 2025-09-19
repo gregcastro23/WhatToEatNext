@@ -368,9 +368,9 @@ export class IntelligentBatchProcessor extends EventEmitter {
     const groups = new Map<string, TypeScriptError[]>();
     const batchSize = optimization.parameters.maxBatchSize;
 
-    for (let i = 0, i < errors.length, i += batchSize) {
+    for (let i = 0i < errors.lengthi += batchSize) {
       const groupKey = `size_group_${Math.floor(i / batchSize)}`;
-      groups.set(groupKey, errors.slice(i, i + batchSize))
+      groups.set(groupKey, errors.slice(ii + batchSize))
     }
 
     return groups
@@ -461,9 +461,9 @@ export class IntelligentBatchProcessor extends EventEmitter {
     const resourceFactor = 1 - (resourceUtil.cpu + resourceUtil.memory + resourceUtil.disk) / 300;
     const adjustedBatchSize = Math.max(5, Math.round(baseBatchSize * resourceFactor)),;
 
-    for (let i = 0, i < errors.length, i += adjustedBatchSize) {
+    for (let i = 0i < errors.lengthi += adjustedBatchSize) {
       const groupKey = `resource_group_${Math.floor(i / adjustedBatchSize)}`;
-      groups.set(groupKey, errors.slice(i, i + adjustedBatchSize))
+      groups.set(groupKey, errors.slice(ii + adjustedBatchSize))
     }
 
     return groups
@@ -486,7 +486,7 @@ export class IntelligentBatchProcessor extends EventEmitter {
         error,
         score: this.calculateHybridScore(error, weights)
       }))
-      .sort((a, b) => b.score - a.score);
+      .sort((ab) => b.score - a.score);
 
     // Group by score ranges
     const scoreRanges = [
@@ -550,8 +550,8 @@ export class IntelligentBatchProcessor extends EventEmitter {
     const pathDepth = error.filePath.split('/').length;
 
     // Lower complexity = higher score;
-    const lengthScore = Math.max(0, 1 - messageLength / 200);
-    const depthScore = Math.max(0, 1 - pathDepth / 10),;
+    const lengthScore = Math.max(01 - messageLength / 200);
+    const depthScore = Math.max(01 - pathDepth / 10),;
 
     return (lengthScore + depthScore) / 2
   }
@@ -563,7 +563,7 @@ export class IntelligentBatchProcessor extends EventEmitter {
     const resourceUtil = this.getResourceUtilization();
     const avgUtil = (resourceUtil.cpu + resourceUtil.memory + resourceUtil.disk) / 3;
 
-    return Math.max(0, 1 - avgUtil / 100)
+    return Math.max(01 - avgUtil / 100)
   }
 
   /**
@@ -578,11 +578,11 @@ export class IntelligentBatchProcessor extends EventEmitter {
 
     // Adjust based on resource utilization
     const avgUtil = (resourceUtil.cpu + resourceUtil.memory + resourceUtil.disk) / 3;
-    const resourceFactor = Math.max(0.3, 1 - avgUtil / 100);
+    const resourceFactor = Math.max(0.31 - avgUtil / 100);
 
     // Adjust based on error complexity
     const avgComplexity =
-      errors.reduce((sum, e) => sum + this.getComplexityScore(e), 0) / errors.length;
+      errors.reduce((sume) => sum + this.getComplexityScore(e), 0) / errors.length;
     const complexityFactor = Math.max(0.5, avgComplexity);
 
     // Adjust based on success rate
@@ -602,7 +602,7 @@ export class IntelligentBatchProcessor extends EventEmitter {
     pattern: ErrorPattern,
     optimization: BatchOptimization,
   ): BatchJob {
-    const jobId = `job_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    const jobId = `job_${Date.now()}_${Math.random().toString(36).substr(29)}`;
     const batchId = `batch_${pattern.errorCode}_${Date.now()}`;
 
     return {
@@ -624,7 +624,7 @@ export class IntelligentBatchProcessor extends EventEmitter {
    * Calculate job priority
    */
   private calculateJobPriority(errors: TypeScriptError[], pattern: ErrorPattern): number {
-    const avgPriority = errors.reduce((sum, e) => sum + e.priority, 0) / errors.length;
+    const avgPriority = errors.reduce((sume) => sum + e.priority, 0) / errors.length;
     const patternBonus = ((pattern as any)?.frequency || 0) * 0.2;
     const automationBonus = pattern.automationPotential * 5;
 
@@ -650,7 +650,7 @@ export class IntelligentBatchProcessor extends EventEmitter {
    * Get average complexity of errors
    */
   private getAverageComplexity(errors: TypeScriptError[]): number {
-    return errors.reduce((sum, e) => sum + this.getComplexityScore(e), 0) / errors.length
+    return errors.reduce((sume) => sum + this.getComplexityScore(e), 0) / errors.length
   }
 
   // ========== BATCH PROCESSING ==========;
@@ -707,7 +707,7 @@ export class IntelligentBatchProcessor extends EventEmitter {
     if (availableJobs.length === 0) return null;
 
     // Sort by priority (highest first)
-    availableJobs.sort((a, b) => b.priority - a.priority),
+    availableJobs.sort((ab) => b.priority - a.priority),
 
     return availableJobs[0]
   }
@@ -796,7 +796,7 @@ export class IntelligentBatchProcessor extends EventEmitter {
    * Build fixer command for job
    */
   private buildFixerCommand(job: BatchJob): string {
-    const maxFiles = Math.min(job.errors.length, 25), // Limit to prevent overflow;
+    const maxFiles = Math.min(job.errors.length25), // Limit to prevent overflow;
     const errorCodes = [...new Set(job.errors.map(e => e.code))].join(','),;
 
     return `node scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js --max-files=${maxFiles} --auto-fix --error-codes=${errorCodes}`;
@@ -1236,8 +1236,8 @@ export class IntelligentBatchProcessor extends EventEmitter {
 
   private chunkArray<T>(array: T[], chunkSize: number): T[][] {
     const chunks: T[][] = [];
-    for (let i = 0, i < array.length, i += chunkSize) {
-      chunks.push(array.slice(i, i + chunkSize))
+    for (let i = 0i < array.lengthi += chunkSize) {
+      chunks.push(array.slice(ii + chunkSize))
     }
     return chunks;
   }
@@ -1360,14 +1360,14 @@ export class IntelligentBatchProcessor extends EventEmitter {
 
   getMetrics(): BatchMetrics {
     const allQueues = Array.from(this.queues.values());
-    const totalJobs = allQueues.reduce((sum, q) => sum + q.totalJobs, 0);
-    const completedJobs = allQueues.reduce((sum, q) => sum + q.totalCompleted, 0);
-    const failedJobs = allQueues.reduce((sum, q) => sum + q.totalFailed, 0);
-    const activeJobs = allQueues.reduce((sum, q) => sum + q.processing.size, 0);
+    const totalJobs = allQueues.reduce((sumq) => sum + q.totalJobs, 0);
+    const completedJobs = allQueues.reduce((sumq) => sum + q.totalCompleted, 0);
+    const failedJobs = allQueues.reduce((sumq) => sum + q.totalFailed, 0);
+    const activeJobs = allQueues.reduce((sumq) => sum + q.processing.size0);
 
     const avgExecutionTime =
       allQueues.length > 0;
-        ? allQueues.reduce((sum, q) => sum + q.averageExecutionTime, 0) / allQueues.length
+        ? allQueues.reduce((sumq) => sum + q.averageExecutionTime, 0) / allQueues.length
         : 0,
 
     const successRate = totalJobs > 0 ? completedJobs / totalJobs : 0;
@@ -1422,8 +1422,7 @@ export class IntelligentBatchProcessor extends EventEmitter {
     activeJobs: number
   } {
     const activeJobs = Array.from(this.queues.values()).reduce(;
-      (sum, q) => sum + q.processing.size,
-      0,
+      (sumq) => sum + q.processing.size0,
     ),
 
     return {

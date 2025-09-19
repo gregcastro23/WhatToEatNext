@@ -82,22 +82,22 @@ const signInfo: Record<
     element: 'Fire',
     decanEffects: { '1st Decan': ['Mars'], '2nd Decan': ['Sun'], '3rd Decan': ['Venus'] },
     degreeEffects: {
-      Mercury: [15, 21],
-      Venus: [7, 14],
-      Mars: [22, 26],
-      Jupiter: [1, 6],
-      Saturn: [27, 30]
+      Mercury: [1521],
+      Venus: [714],
+      Mars: [2226],
+      Jupiter: [16],
+      Saturn: [2730]
     }
   },
   taurus: {
     element: 'Earth',
     decanEffects: { '1st Decan': ['Mercury'], '2nd Decan': ['Moon'], '3rd Decan': ['Saturn'] },
     degreeEffects: {
-      Mercury: [9, 15],
-      Venus: [1, 8],
-      Mars: [27, 30],
-      Jupiter: [16, 22],
-      Saturn: [23, 26]
+      Mercury: [915],
+      Venus: [18],
+      Mars: [2730],
+      Jupiter: [1622],
+      Saturn: [2326]
     }
   },
   gemini: {
@@ -108,11 +108,11 @@ const signInfo: Record<
       '3rd Decan': ['Uranus', 'Sun']
     },
     degreeEffects: {
-      Mercury: [1, 7],
-      Venus: [15, 20],
-      Mars: [26, 30],
-      Jupiter: [8, 14],
-      Saturn: [22, 25]
+      Mercury: [17],
+      Venus: [1520],
+      Mars: [2630],
+      Jupiter: [814],
+      Saturn: [2225]
     }
   },
   cancer: {
@@ -123,22 +123,22 @@ const signInfo: Record<
       '3rd Decan': ['Neptune', 'Moon']
     },
     degreeEffects: {
-      Mercury: [14, 20],
-      Venus: [21, 27],
-      Mars: [1, 6],
-      Jupiter: [7, 13],
-      Saturn: [28, 30]
+      Mercury: [1420],
+      Venus: [2127],
+      Mars: [16],
+      Jupiter: [713],
+      Saturn: [2830]
     }
   },
   leo: {
     element: 'Fire',
     decanEffects: { '1st Decan': ['Saturn'], '2nd Decan': ['Jupiter'], '3rd Decan': ['Mars'] },
     degreeEffects: {
-      Mercury: [7, 13],
-      Venus: [14, 19],
-      Mars: [26, 30],
-      Jupiter: [20, 25],
-      Saturn: [1, 6]
+      Mercury: [713],
+      Venus: [1419],
+      Mars: [2630],
+      Jupiter: [2025],
+      Saturn: [16]
     }
   },
   virgo: {
@@ -149,11 +149,11 @@ const signInfo: Record<
       '3rd Decan': ['Mercury']
     },
     degreeEffects: {
-      Mercury: [1, 7],
-      Venus: [8, 13],
-      Mars: [25, 30],
-      Jupiter: [14, 18],
-      Saturn: [19, 24]
+      Mercury: [17],
+      Venus: [813],
+      Mars: [2530],
+      Jupiter: [1418],
+      Saturn: [1924]
     }
   },
   libra: {
@@ -164,11 +164,11 @@ const signInfo: Record<
       '3rd Decan': ['Jupiter']
     },
     degreeEffects: {
-      Mercury: [20, 24],
-      Venus: [7, 11],
+      Mercury: [2024],
+      Venus: [711],
       Mars: [],
-      Jupiter: [12, 19],
-      Saturn: [1, 6]
+      Jupiter: [1219],
+      Saturn: [16]
     }
   },
   scorpio: {
@@ -179,33 +179,33 @@ const signInfo: Record<
       '3rd Decan': ['Venus']
     },
     degreeEffects: {
-      Mercury: [22, 27],
-      Venus: [15, 21],
-      Mars: [1, 6],
-      Jupiter: [7, 14],
-      Saturn: [28, 30]
+      Mercury: [2227],
+      Venus: [1521],
+      Mars: [16],
+      Jupiter: [714],
+      Saturn: [2830]
     }
   },
   sagittarius: {
     element: 'Fire',
     decanEffects: { '1st Decan': ['Mercury'], '2nd Decan': ['Moon'], '3rd Decan': ['Saturn'] },
     degreeEffects: {
-      Mercury: [15, 20],
-      Venus: [9, 14],
+      Mercury: [1520],
+      Venus: [914],
       Mars: [],
-      Jupiter: [1, 8],
-      Saturn: [21, 25]
+      Jupiter: [18],
+      Saturn: [2125]
     }
   },
   capricorn: {
     element: 'Earth',
     decanEffects: { '1st Decan': ['Jupiter'], '2nd Decan': [], '3rd Decan': ['Sun'] },
     degreeEffects: {
-      Mercury: [7, 12],
-      Venus: [1, 6],
+      Mercury: [712],
+      Venus: [16],
       Mars: [],
-      Jupiter: [13, 19],
-      Saturn: [26, 30]
+      Jupiter: [1319],
+      Saturn: [2630]
     }
   },
   aquarius: {
@@ -213,10 +213,10 @@ const signInfo: Record<
     decanEffects: { '1st Decan': ['Uranus'], '2nd Decan': ['Mercury'], '3rd Decan': ['Moon'] },
     degreeEffects: {
       Mercury: [],
-      Venus: [13, 20],
-      Mars: [26, 30],
-      Jupiter: [21, 25],
-      Saturn: [1, 6]
+      Venus: [1320],
+      Mars: [2630],
+      Jupiter: [2125],
+      Saturn: [16]
     }
   },
   pisces: {
@@ -227,11 +227,11 @@ const signInfo: Record<
       '3rd Decan': ['Pisces', 'Mars']
     },
     degreeEffects: {
-      Mercury: [15, 20],
-      Venus: [1, 8],
-      Mars: [21, 26],
-      Jupiter: [9, 14],
-      Saturn: [27, 30]
+      Mercury: [1520],
+      Venus: [18],
+      Mars: [2126],
+      Jupiter: [914],
+      Saturn: [2730]
     }
   }
 };
@@ -320,8 +320,8 @@ export class FoodAlchemySystem {
         element: 'Fire',
         planet: 'Mars',
         alchemy: {
-          day: [0.8, 0.4, 0.6],
-          night: [0.6, 0.3, 0.5]
+          day: [0.80.40.6],
+          night: [0.60.30.5]
         },
         energyValues: {
           heat: 0.8,
@@ -336,8 +336,8 @@ export class FoodAlchemySystem {
         element: 'Fire',
         planet: 'Mars',
         alchemy: {
-          day: [0.7, 0.5, 0.6],
-          night: [0.5, 0.4, 0.5]
+          day: [0.70.50.6],
+          night: [0.50.40.5]
         },
         energyValues: {
           heat: 0.7,
@@ -478,7 +478,7 @@ export class FoodAlchemySystem {
       { element: 'Air', value: Air },
       { element: 'Earth', value: Earth }
     ];
-    elementValues.sort((a, b) => b.value - a.value);
+    elementValues.sort((ab) => b.value - a.value);
 
     const dominantElement = elementValues[0].element;
     const weakestElement = elementValues[3].element;
@@ -539,7 +539,7 @@ export class FoodAlchemySystem {
         elementalScore = Math.min(1.0, Math.max(0.0, elementalScore + dignityBonus)),
       }
 
-      // Calculate decan (1-10°: 1st decan, 11-20°: 2nd decan, 21-30°: 3rd decan)
+      // Calculate decan (1-10°: 1st decan11-20°: 2nd decan21-30°: 3rd decan)
       let decan = '1st Decan';
       if (planetDegree > 10 && planetDegree <= 20) decan = '2nd Decan';
       else if (planetDegree > 20) decan = '3rd Decan';
@@ -905,7 +905,7 @@ export class FoodAlchemySystem {
     const isDaytime = time.getHours() >= 6 && time.getHours() < 18;
 
     // Filter methods compatible with the food and current time
-    return this.preparationMethods.filter(method =>;
+    return this.preparationMethods.filter(method =>
       this.isMethodCompatible(method, food, currentPlanetaryHour, isDaytime),
     );
   }

@@ -166,7 +166,7 @@ export interface SuccessMetrics {
 export interface MLPredictionInput {
   recipe: Recipe,
   ingredients: Ingredient[],
-  context: MLContext;
+  context: MLContext,
   userHistory?: UserFeedback[];
 }
 

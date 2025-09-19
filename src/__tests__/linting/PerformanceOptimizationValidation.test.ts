@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any, no-console, @typescript-eslint/no-unused-vars, max-lines-per-function -- Campaign/test file with intentional patterns */
+/* eslint-disable @typescript-eslint/no-explicit-anyno-console, @typescript-eslint/no-unused-vars, max-lines-per-function -- Campaign/test file with intentional patterns */
 /**
  * Performance Optimization Validation Test Suite
  *
@@ -6,7 +6,7 @@
  * to ensure 60-80% performance improvement with enhanced caching,
  * parallel processing, memory optimization, and incremental linting.
  *
- * Requirements: 5.1, 5.2, 5.3
+ * Requirements: 5.15.25.3
  */
 
 import { execSync } from 'child_process';
@@ -316,7 +316,7 @@ export function testFunction(): string {
       // Run twice to test cache efficiency
       const times: number[] = [];
 
-      for (let i: any = 0, i < 2, i++) {
+      for (let i: any = 0i < 2i++) {
         const startTime: any = Date.now();
 
         try {
@@ -357,7 +357,7 @@ export function testFunction(): string {
         const memoryResults: number[] = [];
 
         // Run multiple operations to test memory stability
-        for (let i: any = 0, i < 3, i++) {
+        for (let i: any = 0i < 3i++) {
         const result: any = await TestUtils.executeWithRetry(;
             'yarn lint:fast --max-warnings=10000 src/components/debug/ConsolidatedDebugInfo.tsx',,
             {
@@ -371,8 +371,7 @@ export function testFunction(): string {
 
         // Validate memory consistency
         const consistency: any = await TestUtils.validateConsistency(async () => memoryResults[0],
-          3,
-          30, // 30% tolerance
+          330, // 30% tolerance
         );
 
         expect(consistency.isConsistent).toBe(true);

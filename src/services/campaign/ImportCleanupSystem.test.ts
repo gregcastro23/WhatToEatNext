@@ -383,7 +383,7 @@ function component() : any {
     });
 
     test('processes files in batches', async () => {
-      const testFiles: any = Array.from({ length: 12 }, (_, i) => `file${i}.ts`);
+      const testFiles: any = Array.from({ length: 12 }, (_i) => `file${i}.ts`);
       const batchSize: any = 5;
 
       const config: any = { ...testConfig, maxFilesPerBatch: batchSize };

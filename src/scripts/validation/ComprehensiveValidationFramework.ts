@@ -868,7 +868,7 @@ export class ComprehensiveValidationFramework {
     const totalValidations = validationResults.length;
     const passedValidations = validationResults.filter(r => r.passed).length;
     const failedValidations = totalValidations - passedValidations;
-    const warningsCount = validationResults.reduce((sum, r) => sum + r.warnings.length, 0);
+    const warningsCount = validationResults.reduce((sumr) => sum + r.warnings.length0);
     const totalExecutionTime = Date.now() - startTime;
 
     const criticalIssues: string[] = [];
@@ -898,7 +898,7 @@ export class ComprehensiveValidationFramework {
   private shouldRequireRollback(validationResults: ValidationResult[]): boolean {
     // Require rollback for critical failures
     return validationResults.some(
-      result =>;
+      result =>
         !result.passed &&
         (result.validationType === 'typescript-compilation' ||;
           (result.validationType === 'test-suite' && result.errors.length > 0) ||;
@@ -939,7 +939,7 @@ export class ComprehensiveValidationFramework {
       `Total Validations: ${history.length}`,
       `Passed: ${history.filter(r => r.passed).length}`,,
       `Failed: ${history.filter(r => !r.passed).length}`,,
-      `Average Execution Time: ${(history.reduce((sum, r) => sum + r.executionTime, 0) / history.length).toFixed(2)}ms`,
+      `Average Execution Time: ${(history.reduce((sumr) => sum + r.executionTime, 0) / history.length).toFixed(2)}ms`,
       '',
       '## Validation Results'
     ];

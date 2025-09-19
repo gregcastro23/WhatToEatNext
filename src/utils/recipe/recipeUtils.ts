@@ -229,7 +229,7 @@ export function recipeHasTag(recipe: Recipe, tag: string): boolean {
   const recipeData = recipe as unknown;
   const tags = Array.isArray(recipeData.tags) ? recipeData.tags : [recipeData.tags];
 
-  return safeSome(tags, t => String(t).toLowerCase() === tag.toLowerCase());
+  return safeSome(tagst => String(t).toLowerCase() === tag.toLowerCase());
 }
 
 /**

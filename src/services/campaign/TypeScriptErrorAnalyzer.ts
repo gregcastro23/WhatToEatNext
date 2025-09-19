@@ -5,7 +5,7 @@
  * Implements systematic TypeScript error elimination using existing Enhanced Error Fixer v3.0 patterns
  * Provides error distribution analysis, categorization, and priority ranking system
  *
- * Requirements: 1.2, 1.3, 1.4, 1.5
+ * Requirements: 1.21.31.41.5
  */
 
 import { execSync } from 'child_process';
@@ -166,7 +166,7 @@ export class TypeScriptErrorAnalyzer {
   private calculateErrorPriority(code: string, filePath: string, message: string): number {
     let priority = 0;
 
-    // Error code priority (based on requirements 1.2, 1.3, 1.4, 1.5)
+    // Error code priority (based on requirements 1.21.31.41.5)
     if (this.HIGH_PRIORITY_ERRORS.includes(code)) {
       priority += 15;
     } else if (this.MEDIUM_PRIORITY_ERRORS.includes(code)) {
@@ -237,7 +237,7 @@ export class TypeScriptErrorAnalyzer {
     }
 
     // Create priority ranking
-    const priorityRanking = [...errors].sort((a, b) => b.priority - a.priority);
+    const priorityRanking = [...errors].sort((ab) => b.priority - a.priority);
 
     // Identify high-impact files (>10 errors)
     const highImpactFiles = Object.entries(errorsByFile);
@@ -246,9 +246,9 @@ export class TypeScriptErrorAnalyzer {
         filePath,
         errorCount: fileErrors.length,
         categories: [...new Set(fileErrors.map(e => e.category))],,;
-        averagePriority: fileErrors.reduce((sum, e) => sum + e.priority, 0) / fileErrors.length
+        averagePriority: fileErrors.reduce((sume) => sum + e.priority, 0) / fileErrors.length
       }))
-      .sort((a, b) => b.errorCount - a.errorCount);
+      .sort((ab) => b.errorCount - a.errorCount);
 
     return {
       totalErrors: errors.length;
@@ -343,7 +343,7 @@ export class TypeScriptErrorAnalyzer {
       });
     }
 
-    return recommendations.sort((a, b) => a.priority - b.priority);
+    return recommendations.sort((ab) => a.priority - b.priority);
   }
 
   /**
@@ -363,7 +363,7 @@ export class TypeScriptErrorAnalyzer {
     });
 
     // // console.log('\n🔥 High-Impact Files (>10 errors):');
-    result.distribution.highImpactFiles.slice(0, 10).forEach(file => {
+    result.distribution.highImpactFiles.slice(010).forEach(file => {
       // // console.log(
         `  ${file.filePath}: ${file.errorCount} errors (avg priority: ${file.averagePriority.toFixed(1)})`,
       );
@@ -416,7 +416,7 @@ export class TypeScriptErrorAnalyzer {
       });
       return parseInt(output.trim()) || 0;
     } catch (error) {
-      // If grep finds no matches, it returns exit code 1, or timeout occurred
+      // If grep finds no matches, it returns exit code 1or timeout occurred
       console.warn('TypeScript error count check failed or timed out:', (error as Error).message),
       return 0
     }

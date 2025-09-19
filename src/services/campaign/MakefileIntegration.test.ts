@@ -143,7 +143,7 @@ describe('MakefileIntegration', () => {
     it('should return campaign progress with correct phase determination', async () => {
       const progress: any = await makefileIntegration.getCampaignProgress();
 
-      expect(progress.currentPhase).toBe(1); // Has TS errors, so phase 1
+      expect(progress.currentPhase).toBe(1); // Has TS errorsso phase 1
       expect(progress.totalPhases).toBe(4);
       expect(progress.typeScriptErrors).toBe(5);
       expect(progress.lintingWarnings).toBe(10);

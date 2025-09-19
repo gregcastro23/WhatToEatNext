@@ -104,7 +104,7 @@ export type IngredientCompatibilityResult = {
 export type IngredientSubstitution = {
   originalIngredient: string,
   substitute: string,
-  substitutionRatio: number; // e.g., 1.5 means use 1.5x the amount
+  substitutionRatio: number, // e.g., 1.5 means use 1.5x the amount
   confidenceScore: number; // 0-1 scale
   nutritionalDifference: Partial<NutritionalContent>,
   flavorNotes: string[],

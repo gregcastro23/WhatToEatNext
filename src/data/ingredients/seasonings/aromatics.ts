@@ -184,7 +184,7 @@ const rawAromatics = {
       temperature: 'refrigerated',
       humidity: 'moderate',
       container: 'wrapped in damp paper towel',
-      duration: '2-3 weeks fresh, 6 months frozen',
+      duration: '2-3 weeks fresh6 months frozen',
       notes: 'Can be frozen whole or chopped',
     },
   },

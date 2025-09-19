@@ -102,8 +102,8 @@ describe('DependencySecurityMonitor', () => {
         vulnerabilities: {
           'test-package': {
             severity: 'critical',
-            via: [{ sourc, e: 'CVE-2021-0001', title: 'Test vulnerability' }],
-            fixAvailable: { versio, n: '2.0.0' }
+            via: [{ source: 'CVE-2021-0001', title: 'Test vulnerability' }],
+            fixAvailable: { version: '2.0.0' }
           }
         }
       });
@@ -370,8 +370,8 @@ describe('DependencySecurityMonitor', () => {
   describe('executeDependencySecurityMonitoring', () => {
     test('executes complete monitoring workflow', async () => {
       const packageJson: any = {
-        dependencies: { lodas, h: '4.17.20' },
-        devDependencies: { jes, t: '29.0.0' }
+        dependencies: { lodash: '4.17.20' },
+        devDependencies: { jest: '29.0.0' }
       };
 
       mockFs.readFileSync.mockReturnValue(JSON.stringify(packageJson));
@@ -402,7 +402,7 @@ describe('DependencySecurityMonitor', () => {
       const monitor: any = new DependencySecurityMonitor(config);
 
       const packageJson: any = {
-        dependencies: { lodas, h: '4.17.20' }
+        dependencies: { lodash: '4.17.20' }
       };
 
       mockFs.readFileSync.mockReturnValue(JSON.stringify(packageJson));
@@ -411,8 +411,8 @@ describe('DependencySecurityMonitor', () => {
       const auditOutput: any = JSON.stringify({
         vulnerabilities: { lodash: {
             severity: 'critical',
-            via: [{ sourc, e: 'CVE-2021-23337', title: 'Test vuln' }],
-            fixAvailable: { versio, n: '4.17.21' }
+            via: [{ source: 'CVE-2021-23337', title: 'Test vuln' }],
+            fixAvailable: { version: '4.17.21' }
           }
         }
       });

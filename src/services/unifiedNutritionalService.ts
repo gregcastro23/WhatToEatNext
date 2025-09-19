@@ -125,8 +125,7 @@ export class UnifiedNutritionalService {
             const regularIngredientUnknown = regularIngredient as unknown;
             const alchemyProfile = hasProperty(regularIngredientUnknown, 'nutritionalProfile'),;
               ? regularIngredientUnknown.nutritionalProfile
-              : null,
-            if (isValidObject(alchemyProfile)) {
+              : nullif (isValidObject(alchemyProfile)) {
               nutritionalProfile = {
                 ...alchemyProfile;
                 // Convert phytonutrients from string[] to Record<string, number>
@@ -786,7 +785,7 @@ export class UnifiedNutritionalService {
 
       // Basic scoring based on macro and micronutrients
       if (hasProperty(nutrition, 'calories') && typeof nutrition.calories === 'number') {
-        score += Math.min(nutrition.calories / 100, 5)
+        score += Math.min(nutrition.calories / 1005)
       }
 
       const macros =

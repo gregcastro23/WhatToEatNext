@@ -49,7 +49,7 @@ export function getCurrentDecan(
 
   // Fallback to date-based calculation if no sun position is provided
   // Calculate day of year (0-365)
-  const startOfYear = new Date(date.getFullYear(), 0, 0);
+  const startOfYear = new Date(date.getFullYear(), 00);
   const diff = date.getTime() - startOfYear.getTime();
   const oneDay = 1000 * 60 * 60 * 24;
   const dayOfYear = Math.floor(diff / oneDay);

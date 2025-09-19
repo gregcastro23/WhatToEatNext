@@ -15,8 +15,7 @@ export type ElementalColor = {
   primary: string,
   secondary: string,
   text: string,
-  border: string,
-  bg: string
+  border: stringbg: string
 };
 
 export interface ElementalCompatibility {
@@ -493,7 +492,7 @@ function calculateBalanceScore(
 
   // Convert difference to balance score (lower difference = higher balance);
   const averageDifference = totalDifference / (elements || []).length;
-  return Math.max(0, 1 - averageDifference);
+  return Math.max(01 - averageDifference);
 }
 
 function generateCompatibilityRecommendation(

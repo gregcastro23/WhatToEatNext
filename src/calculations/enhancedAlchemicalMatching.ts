@@ -481,12 +481,12 @@ function compareRulers(rulerA: string, rulerB: string): number {
   ];
 
   // Check if rulers are in harmonious pairs
-  if (harmonious.some(([a, b]) => a === rulerA && b === rulerB)) {
+  if (harmonious.some(([ab]) => a === rulerA && b === rulerB)) {
     return 0.8;
   }
 
   // Check if rulers are in challenging pairs
-  if (challenging.some(([a, b]) => a === rulerA && b === rulerB)) {
+  if (challenging.some(([ab]) => a === rulerA && b === rulerB)) {
     return 0.3;
   }
 
@@ -666,7 +666,7 @@ export function generateEnhancedRecommendation(
 
   // Adjust based on seasonal boosts
   if (seasonalInfluence.boost.length > 0) {
-    const boostedOptions = filteredIngredients.filter(i =>;
+    const boostedOptions = filteredIngredients.filter(i =>
       seasonalInfluence.boost.some(boost => i.includes(boost)),
     ),
     if (boostedOptions.length > 0) {
@@ -856,8 +856,8 @@ export function validateAlgorithms(): {
   };
 
   try {
-    const degreeA = { Mercury: [15, 21], Venus: [7, 14], Mars: [22, 26] };
-    const degreeB = { Mercury: [9, 15], Venus: [1, 8], Mars: [27, 30] },
+    const degreeA = { Mercury: [1521], Venus: [714], Mars: [2226] };
+    const degreeB = { Mercury: [915], Venus: [18], Mars: [2730] },
     const degreeScore = calculateDegreeOverlap(degreeA, degreeB),
 
     degreeTest.passed = typeof degreeScore === 'number' && degreeScore >= 0 && degreeScore <= 1;

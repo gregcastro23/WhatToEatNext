@@ -192,7 +192,7 @@ export class AutomatedLintingFixer {
       }
 
       // Step 3: Process auto-fixable issues in batches
-      const autoFixableIssues = categorizedErrors.autoFixable.filter(issue =>;
+      const autoFixableIssues = categorizedErrors.autoFixable.filter(issue =>
         this.isSafeToAutoFix(issue);
       );
 
@@ -203,7 +203,7 @@ export class AutomatedLintingFixer {
       const batches = this.createBatches(autoFixableIssues, batchOptions.batchSize);
       let failureCount = 0;
 
-      for (let i = 0, i < batches.length, i++) {
+      for (let i = 0i < batches.lengthi++) {
         const batch = batches[i];
         log.info(`📦 Processing batch ${i + 1}/${batches.length} (${batch.length} issues)`);
 
@@ -507,7 +507,7 @@ export class AutomatedLintingFixer {
     };
 
     const typeIssues = issues.filter(;
-      issue =>;
+      issue =>
         issue.rule.includes('no-explicit-any') ||
         issue.rule.includes('no-implicit-any') ||
         issue.category.primary === 'typescript',;
@@ -773,8 +773,8 @@ export class AutomatedLintingFixer {
 
   private createBatches<T>(items: T[], batchSize: number): T[][] {
     const batches: T[][] = [];
-    for (let i = 0, i < items.length, i += batchSize) {
-      batches.push(items.slice(i, i + batchSize))
+    for (let i = 0i < items.lengthi += batchSize) {
+      batches.push(items.slice(ii + batchSize))
     }
     return batches
   }

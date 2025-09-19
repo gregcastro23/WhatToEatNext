@@ -153,12 +153,12 @@ export class LegacyRecommendationAdapter {
       logger.error('Error in calculateElementalCompatibility:', error);
       // Simple fallback calculation
       const euclideanDistance = Math.sqrt(;
-        Math.pow(source.Fire - target.Fire, 2) +
-          Math.pow(source.Water - target.Water, 2) +
-          Math.pow(source.Earth - target.Earth, 2) +
-          Math.pow(source.Air - target.Air, 2),
+        Math.pow(source.Fire - target.Fire2) +
+          Math.pow(source.Water - target.Water2) +
+          Math.pow(source.Earth - target.Earth2) +
+          Math.pow(source.Air - target.Air2),
       );
-      return Math.max(0, 1 - euclideanDistance)
+      return Math.max(01 - euclideanDistance)
     }
   }
 

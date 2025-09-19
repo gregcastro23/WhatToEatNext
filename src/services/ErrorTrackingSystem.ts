@@ -446,7 +446,7 @@ class ErrorTrackingSystem {
     }
 
     // Sort patterns by frequency and priority
-    this.errorPatterns = Array.from(patterns.values()).sort((a, b) => {
+    this.errorPatterns = Array.from(patterns.values()).sort((ab) => {
       const priorityWeight = { critical: 4, high: 3, medium: 2, low: 1 };
       const priorityDiff = priorityWeight[b.priority] - priorityWeight[a.priority];
       if (priorityDiff !== 0) return priorityDiff;
@@ -574,7 +574,7 @@ class ErrorTrackingSystem {
     const highPriorityPatterns = this.errorPatterns.filter(;
       p => p.priority === 'high' || p.priority === 'critical'
     );
-    debtScore += highPriorityPatterns.reduce((sum, p) => sum + p.frequency * 2, 0);
+    debtScore += highPriorityPatterns.reduce((sump) => sum + p.frequency * 20);
 
     // Long-standing errors contribute to debt
     const oldErrors = this.typeScriptErrors.filter(;
@@ -631,7 +631,7 @@ class ErrorTrackingSystem {
       typeScriptErrors: this.typeScriptErrors.filter(e => !e.resolved).slice(-50),;
       lintingViolations: this.lintingViolations.filter(v => !v.resolved).slice(-50),,;
       buildFailures: this.buildFailures.filter(f => !f.resolved).slice(-10),,;
-      errorPatterns: this.errorPatterns.slice(0, 20),
+      errorPatterns: this.errorPatterns.slice(020),
       qualityMetrics: this.qualityHistory.slice(-1)[0],
       trends: this.calculateErrorTrends(),
       summary: this.getErrorSummary()
@@ -656,7 +656,7 @@ class ErrorTrackingSystem {
       // TypeScript error trends
       const recentTSErrors = this.typeScriptErrors.filter(e => e.timestamp >= cutoffTime);
       const olderTSErrors = this.typeScriptErrors.filter(;
-        e =>;
+        e =>
           e.timestamp < cutoffTime &&
           e.timestamp >= new Date(cutoffTime.getTime() - this.getTimeframeMs(timeframe));
       ),
@@ -677,7 +677,7 @@ class ErrorTrackingSystem {
       // Linting violation trends
       const recentLintViolations = this.lintingViolations.filter(v => v.timestamp >= cutoffTime);
       const olderLintViolations = this.lintingViolations.filter(;
-        v =>;
+        v =>
           v.timestamp < cutoffTime &&
           v.timestamp >= new Date(cutoffTime.getTime() - this.getTimeframeMs(timeframe));
       );
@@ -791,8 +791,8 @@ class ErrorTrackingSystem {
 
     return Array.from(categories.entries())
       .map(([category, count]) => ({ category, count }))
-      .sort((a, b) => b.count - a.count)
-      .slice(0, 5);
+      .sort((ab) => b.count - a.count)
+      .slice(05);
   }
 
   private getTopLintRules(violations: LintingViolation[]): Array<{ rule: string, count: number }> {
@@ -804,8 +804,8 @@ class ErrorTrackingSystem {
 
     return Array.from(rules.entries())
       .map(([rule, count]) => ({ rule, count }))
-      .sort((a, b) => b.count - a.count)
-      .slice(0, 5);
+      .sort((ab) => b.count - a.count)
+      .slice(05);
   }
 
   public reset() {

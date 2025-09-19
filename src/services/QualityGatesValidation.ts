@@ -674,7 +674,7 @@ export class QualityGatesValidation extends EventEmitter {
 
       // Execute actions based on result
       const actionsToExecute = gate.actions.filter(;
-        action =>;
+        action =>
           action.trigger === 'always' ||;
           (action.trigger === 'pass' && result.status === 'passed') ||;
           (action.trigger === 'fail' && result.status === 'failed') ||;
@@ -1422,15 +1422,15 @@ export class QualityGatesValidation extends EventEmitter {
   private calculateOverallScore(results: QualityGateResult[]): number {
     if (results.length === 0) return 0;
 
-    const totalScore = results.reduce((sum, r) => sum + r.overallScore, 0),;
+    const totalScore = results.reduce((sumr) => sum + r.overallScore, 0),;
     return totalScore / results.length;
   }
 
   private calculateGateScore(result: QualityGateResult): number {
-    const validationScore = result.validationResults.reduce((sum, v) => sum + v.score, 0);
-    const validationWeight = result.validationResults.reduce((sum, v) => sum + v.weight, 0);
+    const validationScore = result.validationResults.reduce((sumv) => sum + v.score0);
+    const validationWeight = result.validationResults.reduce((sumv) => sum + v.weight0);
 
-    const thresholdScore = result.thresholdResults.reduce((sum, t) => sum + (t.passed ? 1 : 0), 0);
+    const thresholdScore = result.thresholdResults.reduce((sumt) => sum + (t.passed ? 1 : 0), 0);
     const thresholdTotal = result.thresholdResults.length;
 
     const validationComponent =

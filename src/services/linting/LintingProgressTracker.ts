@@ -407,9 +407,7 @@ export class LintingProgressTracker {
    * Assess risk based on metrics
    */
   private assessRisk(report: LintingProgressReport): 'low' | 'medium' | 'high' {
-    const { currentMetrics, improvement } = report,
-
-    if (currentMetrics.errors > 100 || improvement.percentageImprovement < -10) {
+    const { currentMetrics, improvement } = reportif (currentMetrics.errors > 100 || improvement.percentageImprovement < -10) {
       return 'high'
     } else if (currentMetrics.errors > 10 || improvement.percentageImprovement < 0) {
       return 'medium'
@@ -423,9 +421,7 @@ export class LintingProgressTracker {
    */
   private generateRecommendations(report: LintingProgressReport): string[] {
     const recommendations: string[] = [];
-    const { currentMetrics, improvement } = report,
-
-    if (currentMetrics.errors > 0) {
+    const { currentMetrics, improvement } = reportif (currentMetrics.errors > 0) {
       recommendations.push(`Focus on eliminating ${currentMetrics.errors} remaining errors`);
     }
 

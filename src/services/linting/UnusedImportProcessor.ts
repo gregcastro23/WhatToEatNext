@@ -4,7 +4,7 @@
  * Handles safe removal of unused import statements while preserving
  * imports that may be used in type annotations or JSX.
  *
- * Requirements: 3.2, 4.1
+ * Requirements: 3.24.1
  */
 
 import { execSync } from 'child_process';

@@ -35,7 +35,7 @@ describe('ExplicitAnyEliminationSystem', () => {
 
       // Use reflection to access private method
       const buildMethod: any = (;
-        system as unknown as { buildFixerArguments: (option, s: ExplicitAnyOptions) => string[] }
+        system as unknown as { buildFixerArguments: (options: ExplicitAnyOptions) => string[] }
       ).buildFixerArguments.bind(system);
       const args: any = buildMethod(options);
 
@@ -52,7 +52,7 @@ describe('ExplicitAnyEliminationSystem', () => {
       };
 
       const buildMethod: any = (;
-        system as unknown as { buildFixerArguments: (option, s: ExplicitAnyOptions) => string[] }
+        system as unknown as { buildFixerArguments: (options: ExplicitAnyOptions) => string[] }
       ).buildFixerArguments.bind(system);
       const args: any = buildMethod(options);
 
@@ -193,8 +193,8 @@ describe('ExplicitAnyEliminationSystem', () => {
     it('should execute fixer with correct options and calculate reduction', async () => {
       // Mock spawn to simulate successful execution
       const mockChild = {
-        stdout: { o, n: jest.fn() },
-        stderr: { o, n: jest.fn() },
+        stdout: { on: jest.fn() },
+        stderr: { on: jest.fn() },
         on: jest.fn((event: any, callback: any) => {
           if (event === 'close') {
             callback(0), // Success exit code
@@ -238,8 +238,8 @@ describe('ExplicitAnyEliminationSystem', () => {
     it('should process multiple batches until target is met', async () => {
       // Mock successful executions
       const mockChild = {
-        stdout: { o, n: jest.fn() },
-        stderr: { o, n: jest.fn() },
+        stdout: { on: jest.fn() },
+        stderr: { on: jest.fn() },
         on: jest.fn((event: any, callback: any) => {
           if (event === 'close') {
             callback(0);
@@ -277,8 +277,8 @@ describe('ExplicitAnyEliminationSystem', () => {
 
     it('should stop when no progress is made', async () => {
       const mockChild = {
-        stdout: { o, n: jest.fn() },
-        stderr: { o, n: jest.fn() },
+        stdout: { on: jest.fn() },
+        stderr: { on: jest.fn() },
         on: jest.fn((event: any, callback: any) => {
           if (event === 'close') {
             callback(0);
@@ -343,8 +343,8 @@ describe('ExplicitAnyEliminationSystem', () => {
       mockExecSync.mockReturnValue('400\n');
 
       const mockChild = {
-        stdout: { o, n: jest.fn() },
-        stderr: { o, n: jest.fn() },
+        stdout: { on: jest.fn() },
+        stderr: { on: jest.fn() },
         on: jest.fn((event: any, callback: any) => {
           if (event === 'close') {
             callback(0);

@@ -326,7 +326,7 @@ export class BundleSizeOptimizer {
         }
       }
 
-      return assets.sort((a, b) => b.size - a.size); // Sort by size descending
+      return assets.sort((ab) => b.size - a.size); // Sort by size descending
     } catch (error) {
       console.warn(`⚠️  Asset analysis failed: ${(error as any).message || 'Unknown error'}`);
       return [];
@@ -377,7 +377,7 @@ export class BundleSizeOptimizer {
         }
       }
 
-      return dependencies.sort((a, b) => b.size - a.size);
+      return dependencies.sort((ab) => b.size - a.size);
     } catch (error) {
       console.warn(`⚠️  Dependency analysis failed: ${(error as any).message || 'Unknown error'}`);
       return [];

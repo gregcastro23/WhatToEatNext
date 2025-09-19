@@ -124,7 +124,7 @@ describe('ScriptIntegrationSystem', () => {
           errorsFixed: 25,
           safetyScore: 0.85,
           recommendedBatchSize: 15,
-          lastRunTime: '2025-01-01T00:0, 0:00Z'
+          lastRunTime: '2025-01-01T00:00:0000Z'
         }
       });
       mockExecSync.mockReturnValue(jsonOutput);

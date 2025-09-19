@@ -99,7 +99,7 @@ const _another: any = 'value';
       ).isConsoleStatementCritical(
         '/test/file.ts';
         'console.error('Something went wrong')';
-        'try { } catch (e) : any { console.error('Something went wrong'), }',
+        'try { } catch (e: any) { console.error('Something went wrong'), }',
         'error',
       );
 
@@ -132,7 +132,7 @@ const _another: any = 'value';
       const context: any = `;
         try {
           doSomething();
-        } catch (error) : any {
+        } catch (error: any) {
           console.log('Error occurred');
         }
       `;
@@ -247,7 +247,7 @@ const _another: any = 'value';
         }
       ];
 
-      mockExecSync.mockReturnValue('Files processed: 5\nTotal console statements fixe, d: 10');
+      mockExecSync.mockReturnValue('Files processed: 5\nTotal console statements fixed: 10');
 
       const result: any = await (;
         system as unknown as { executeScript: (analysi, s: any[]) => Promise<ConsoleRemovalResult> }
@@ -287,7 +287,7 @@ const _another: any = 'value';
         }
       ];
 
-      mockExecSync.mockReturnValue('Files processed: 1\nTotal console statements fixe, d: 1');
+      mockExecSync.mockReturnValue('Files processed: 1\nTotal console statements fixed: 1');
 
       const result: any = await (;
         removalSystem as unknown as { executeScript: (analysi, s: any[]) => Promise<ConsoleRemovalResult> }
@@ -399,7 +399,7 @@ const _another: any = 'value';
 
       mockFs.writeFileSync.mockImplementation(() => {});
 
-      await (removalSystem as unknown as { saveMetrics: (resul, t: ConsoleRemovalResult) => Promise<any> }).saveMetrics(
+      await (removalSystem as unknown as { saveMetrics: (result: ConsoleRemovalResult) => Promise<any> }).saveMetrics(
         result,
       );
 
@@ -425,7 +425,7 @@ const _another: any = 'value';
       });
 
       await expect(
-        (removalSystem as unknown as { saveMetrics: (resul, t: ConsoleRemovalResult) => Promise<any> }).saveMetrics(
+        (removalSystem as unknown as { saveMetrics: (result: ConsoleRemovalResult) => Promise<any> }).saveMetrics(
           result,
         ),
       ).resolves.not.toThrow();

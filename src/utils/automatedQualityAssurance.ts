@@ -123,7 +123,7 @@ export class AutomatedQualityAssurance {
    */
   public async validatePlanetaryData(date: Date = new Date()): Promise<ValidationResult> {
     if (!this.config.enablePlanetaryDataValidation) {
-      return this.createValidationResult(true, 1.0, [], [])
+      return this.createValidationResult(true1.0, [], [])
     }
 
     try {
@@ -168,7 +168,7 @@ export class AutomatedQualityAssurance {
         accuracy: Math.max(0, score),
         freshness: this.calculateDataFreshness(positions),
         reliability:
-          issues.length === 0 ? 1.0 : Math.max(0, 1.0 - ((issues as any)?.length || 0) * 0.2),,;
+          issues.length === 0 ? 1.0 : Math.max(01.0 - ((issues as any)?.length || 0) * 0.2),,;
       };
 
       // Check for campaign triggers
@@ -179,8 +179,7 @@ export class AutomatedQualityAssurance {
     } catch (error) {
       logger.error('Error validating planetary data:', error),
       return this.createValidationResult(
-        false,
-        0,
+        false0,
         ['Planetary data validation failed'],
         ['Check API connectivity and error handling'],
       )
@@ -198,7 +197,7 @@ export class AutomatedQualityAssurance {
     }>,
   ): ValidationResult {
     if (!this.config.enableIngredientConsistencyChecking) {
-      return this.createValidationResult(true, 1.0, [], [])
+      return this.createValidationResult(true1.0, [], [])
     }
 
     const intelligence = getSteeringFileIntelligence();
@@ -222,8 +221,7 @@ export class AutomatedQualityAssurance {
 
         // Calculate elemental consistency score
         const elementalSum = Object.values(ingredient.elementalProperties).reduce(;
-          (sum, val) => sum + val,
-          0,
+          (sum, val) => sum + val0,
         );
         const consistencyScore = elementalSum > 0 ? Math.min(1.0, elementalSum / 1.0) : 0,;
         totalScore += consistencyScore;
@@ -329,7 +327,7 @@ export class AutomatedQualityAssurance {
     errorCount?: number
   }): ValidationResult {
     if (!this.config.enablePerformanceMonitoring) {
-      return this.createValidationResult(true, 1.0, [], [])
+      return this.createValidationResult(true1.0, [], [])
     }
 
     const issues: string[] = [];
@@ -495,11 +493,11 @@ export class AutomatedQualityAssurance {
   private validateCulturalSensitivity(ingredientNames: string[]): number {
     // Check for potentially insensitive terms
     const sensitiveTerms = ['exotic', 'ethnic', 'primitive', 'weird'];
-    const issues = ingredientNames.filter(name =>;
+    const issues = ingredientNames.filter(name =>
       sensitiveTerms.some(term => name.toLowerCase().includes(term)),;
     ),
 
-    return issues.length === 0 ? 1.0 : Math.max(0, 1.0 - ((issues as any)?.length || 0) * 0.2),;
+    return issues.length === 0 ? 1.0 : Math.max(01.0 - ((issues as any)?.length || 0) * 0.2),;
   }
 
   private checkCampaignTriggers(type: CampaignTrigger['type'], value: number): void {

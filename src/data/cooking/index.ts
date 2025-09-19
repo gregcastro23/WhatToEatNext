@@ -24,14 +24,14 @@ export const cookingMethods = allCookingMethods;
 /**
  * Get astrological effect for a cooking method (simplified version for backwards compatibility)
  */
-export const _getAstrologicalEffect = (;
+export const _getAstrologicalEffect = (
   method: CookingMethod,
   astroState: AstrologicalState,
 ): number => {
   const methodData = allCookingMethods[method as unknown as keyof typeof allCookingMethods];
   if (!methodData || !methodData.astrologicalInfluences) return 0.5;
 
-  let effectScore = 0.5, // Neutral score as default;
+  let effectScore = 0.5; // Neutral score as default
 
   // Check zodiac sign
   if (
@@ -61,7 +61,7 @@ export const _getAstrologicalEffect = (;
 /**
  * Calculate modified elemental effect for a cooking method (simplified version for backwards compatibility)
  */
-export const _calculateModifiedElementalEffect = (;
+export const _calculateModifiedElementalEffect = (
   method: CookingMethod,
   astroState: AstrologicalState,
   duration: number,
@@ -80,8 +80,8 @@ export const _calculateModifiedElementalEffect = (;
   const normalizedDuration = Math.min(1.0, duration / (methodData.duration.max || 60));
   if (normalizedDuration > 0.7) {
     // Longer cooking enhances Fire and reduces Water
-    baseEffect.Fire = Math.min(1.0, (baseEffect.Fire || 0) * 1.2),
-    baseEffect.Water = Math.max(0.0, (baseEffect.Water || 0) * 0.8),
+    baseEffect.Fire = Math.min(1.0, (baseEffect.Fire || 0) * 1.2);
+    baseEffect.Water = Math.max(0.0, (baseEffect.Water || 0) * 0.8);
   }
 
   // Return the modified effect
@@ -163,13 +163,13 @@ export function getCookingMethodsByCategory(category: string): Record<string, Co
     case 'dry':
       return dryCookingMethods;
     case 'wet':
-      return wetCookingMethods,
+      return wetCookingMethods;
     case 'molecular':
-      return molecularCookingMethods,
+      return molecularCookingMethods;
     case 'traditional':
-      return traditionalCookingMethods,
+      return traditionalCookingMethods;
     case 'raw':
-      return rawCookingMethods,
+      return rawCookingMethods;
     default:
       return {};
   }
@@ -188,7 +188,7 @@ export function getCookingMethodsByTemperature(
   return Object.entries(allCookingMethods)
     .filter(([_, method]) => {
       // Apply safe type casting for method property access
-      const methodData = method as unknown;
+      const methodData = method ;
       // Check if the method has optimal temperatures and at least one falls within range
       if (!methodData?.optimalTemperatures) return false;
 
@@ -212,10 +212,10 @@ export function getCookingMethodsBySustainability(descending = true): CookingMet
   return Object.values(allCookingMethods)
     .filter(method => {
       // Apply safe type casting for method property access
-      const methodData = method as unknown;
+      const methodData = method ;
       return methodData?.sustainabilityRating !== undefined;
     })
-    .sort((a, b) => {
+    .sort((ab) => {
       // Apply safe type casting for method property access
       const aData = a as unknown;
       const bData = b as unknown;

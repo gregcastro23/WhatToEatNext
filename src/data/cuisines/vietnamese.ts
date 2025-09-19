@@ -1141,7 +1141,7 @@ export const vietnamese: Cuisine = {
       ],
       cookingTechniques: ['smoking', 'open fire cooking', 'bamboo tube cooking', 'preserving'],
       elementalProperties: { Earth: 0.5, Fire: 0.3, Air: 0.1, Water: 0.1 },
-      culturalInfluences: ['Ethnic minorities (Ê Đê, H'Mông, Thái)', 'Indigenous practices'],
+      culturalInfluences: ['Ethnic minorities (Ê Đê, H'MôngThái)', 'Indigenous practices'],
       philosophicalFoundations:
         'Deep connection to mountain landscapes and ethnic culinary heritage'
     }

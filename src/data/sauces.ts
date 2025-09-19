@@ -154,8 +154,8 @@ export const italianSauces: Record<string, Sauce> = {
       'Temper eggs carefully to prevent scrambling, use pasta water to adjust consistency',
     cuisine: 'Italian',
     ingredients: [
-      '4 large egg yolks, at room temperature',
-      '2 large whole eggs, at room temperature',
+      '4 large egg yolksat room temperature',
+      '2 large whole eggsat room temperature',
       '1 cup (100g) Pecorino Romano, freshly grated',
       '1/4 cup (25g) Parmigiano-Reggiano, freshly grated (optional)',
       '4 oz (115g) guanciale, diced (can substitute pancetta)',
@@ -420,7 +420,7 @@ export const mexicanSauces: Record<string, Sauce> = {
       '4 cloves garlic, peeled',
       '1/2 cup fresh cilantro, roughly chopped',
       '2 tbsp lime juice (about 1-2 limes)',
-      '1 tsp salt, or to taste',
+      '1 tsp saltor to taste',
       '1 tsp ground cumin (optional)',
       '1 tbsp vegetable oil (for roasted version)'
     ],
@@ -564,7 +564,7 @@ export const sauceRecommendations: SauceRecommendation = {
 
 // Helper functions
 export function getSaucesByAstrologicalInfluence(influence: string): Sauce[] {
-  return Object.values(allSauces).filter(sauce =>;
+  return Object.values(allSauces).filter(sauce =>
     sauce.astrologicalInfluences.some(infl => infl.toLowerCase() === influence.toLowerCase()),,
   )
 }

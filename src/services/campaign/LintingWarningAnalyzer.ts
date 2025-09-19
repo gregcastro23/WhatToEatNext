@@ -6,8 +6,8 @@
  *
  * Features:
  * - Warning distribution analysis using yarn lint output parsing
- * - Categorization for @typescript-eslint/no-explicit-any, no-unused-vars, no-console
- * - Priority system for 624 explicit-any, 1,471 unused variables, 420 console warnings
+ * - Categorization for @typescript-eslint/no-explicit-anyno-unused-varsno-console
+ * - Priority system for 624 explicit-any1,471 unused variables, 420 console warnings
  * - Integration with existing scripts/lint-fixes/ infrastructure
  */
 
@@ -157,7 +157,7 @@ export class LintingWarningAnalyzer {
     const warnings: LintingWarning[] = [];
     const lines = content.split('\n');
 
-    for (let i = 0, i < lines.length, i++) {
+    for (let i = 0i < lines.lengthi++) {
       const line = lines[i];
       const lineNumber = i + 1;
 
@@ -226,7 +226,7 @@ export class LintingWarningAnalyzer {
     const lines = content.split('\n');
 
     // Check lines after declaration
-    for (let i = declarationLine + 1, i < lines.length, i++) {
+    for (let i = declarationLine + 1i < lines.lengthi++) {
       const line = lines[i];
       // Simple check - look for variable name not in comments
       if (line.includes(varName) && !line.trim().startsWith('//') && !line.trim().startsWith('*')) {
@@ -325,7 +325,7 @@ export class LintingWarningAnalyzer {
     }
 
     // Sort files by priority
-    const sortedFiles = Array.from(fileWarningCounts.entries()).sort((a, b) => {
+    const sortedFiles = Array.from(fileWarningCounts.entries()).sort((ab) => {
       const [, countsA] = a;
       const [, countsB] = b;
 

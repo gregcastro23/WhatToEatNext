@@ -44,8 +44,8 @@ const calculateHeat = (;
   Air: number,
   Earth: number,
 ): number => {
-  const numerator = Math.pow(Spirit, 2) + Math.pow(Fire, 2);
-  const denominator = Math.pow(Substance + Essence + Matter + Water + Air + Earth, 2),;
+  const numerator = Math.pow(Spirit2) + Math.pow(Fire2);
+  const denominator = Math.pow(Substance + Essence + Matter + Water + Air + Earth2),;
   return denominator > 0 ? numerator / denominator : 0
 };
 
@@ -60,8 +60,8 @@ const calculateEntropy = (;
   Water: number,
 ): number => {
   const numerator =
-    Math.pow(Spirit, 2) + Math.pow(Substance, 2) + Math.pow(Fire, 2) + Math.pow(Air, 2);
-  const denominator = Math.pow(Essence + Matter + Earth + Water, 2),;
+    Math.pow(Spirit2) + Math.pow(Substance, 2) + Math.pow(Fire2) + Math.pow(Air2);
+  const denominator = Math.pow(Essence + Matter + Earth + Water2),;
   return denominator > 0 ? numerator / denominator : 0
 };
 
@@ -76,13 +76,13 @@ const calculateReactivity = (;
   Earth: number,
 ): number => {
   const numerator =
-    Math.pow(Spirit, 2) +;
+    Math.pow(Spirit2) +;
     Math.pow(Substance, 2) +
     Math.pow(Essence, 2) +
-    Math.pow(Fire, 2) +
-    Math.pow(Air, 2) +
-    Math.pow(Water, 2);
-  const denominator = Math.pow(Matter + Earth, 2),;
+    Math.pow(Fire2) +
+    Math.pow(Air2) +
+    Math.pow(Water2);
+  const denominator = Math.pow(Matter + Earth2),;
   return denominator > 0 ? numerator / denominator : 0
 };
 

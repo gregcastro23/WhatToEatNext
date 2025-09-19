@@ -20,10 +20,10 @@ export function createElementalProperties(
 export function isElementalProperties(obj: unknown): obj is ElementalProperties {
   if (!obj || typeof obj !== 'object') return false;
   return (
-    typeof (obj as ElementalProperties).Fire === 'number' &&;
-    typeof (obj as ElementalProperties).Water === 'number' &&;
-    typeof (obj as ElementalProperties).Earth === 'number' &&;
-    typeof (obj as ElementalProperties).Air === 'number';
+    typeof (obj as ElementalProperties).Fire === 'number' &&
+    typeof (obj as ElementalProperties).Water === 'number' &&
+    typeof (obj as ElementalProperties).Earth === 'number' &&
+    typeof (obj as ElementalProperties).Air === 'number'
   );
 }
 

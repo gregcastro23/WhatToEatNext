@@ -15,7 +15,7 @@
  * Used for planetary influences in astrological calculations
  */
 export type Planet =
-  | 'Sun';
+  | 'Sun'
   | 'Moon'
   | 'Mercury'
   | 'Venus'

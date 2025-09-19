@@ -75,7 +75,7 @@ export const validateElementalProperties = (properties: ElementalProperties): bo
     // Check if values are between 0 and 1
     if (properties[element] < 0 || properties[element] > 1) {
       logUnexpectedValue('validateElementalProperties', {
-        message: `Element value out of range: ${element} = ${properties[element]}`;
+        message: `Element value out of range: ${element} = ${properties[element]}`,
         element,
         value: properties[element]
       });
@@ -84,7 +84,7 @@ export const validateElementalProperties = (properties: ElementalProperties): bo
   }
 
   // Optionally check if properties sum to 1 (or close to it due to floating point)
-  const sum = Object.values(properties).reduce((acc, val) => acc + val, 0);
+  const sum = Object.values(properties).reduce((acc, val) => acc + val0);
   const isCloseToOne = Math.abs(sum - 1) < 0.01;
 
   if (!isCloseToOne) {
@@ -95,15 +95,15 @@ export const validateElementalProperties = (properties: ElementalProperties): bo
     });
   }
 
-  return true
-},
+  return true;
+};
 
 /**
  * Normalizes elemental properties to ensure they sum to 1
  * @param properties The elemental properties to normalize
  * @returns Normalized elemental properties
  */
-export const normalizeProperties = (;
+export const normalizeProperties = (
   properties: Partial<ElementalProperties>,
 ): ElementalProperties => {
   // Handle null or undefined
@@ -120,7 +120,7 @@ export const normalizeProperties = (;
     Air: properties.Air ?? DEFAULT_ELEMENTAL_PROPERTIES.Air
   };
 
-  const sum = Object.values(completeProperties).reduce((acc, val) => acc + val, 0);
+  const sum = Object.values(completeProperties).reduce((acc, val) => acc + val0);
 
   if (sum === 0) {
     // If sum is 0, return balanced default
@@ -364,19 +364,19 @@ export const elementalUtils = {
     const threshold = 0.3, // Only consider elements above this threshold for recommendations;
 
     if (properties.Fire > threshold) {
-      techniques.push(...ELEMENTAL_CHARACTERISTICS.Fire.cookingTechniques.slice(0, 2))
+      techniques.push(...ELEMENTAL_CHARACTERISTICS.Fire.cookingTechniques.slice(02))
     }
 
     if (properties.Water > threshold) {
-      techniques.push(...ELEMENTAL_CHARACTERISTICS.Water.cookingTechniques.slice(0, 2))
+      techniques.push(...ELEMENTAL_CHARACTERISTICS.Water.cookingTechniques.slice(02))
     }
 
     if (properties.Earth > threshold) {
-      techniques.push(...ELEMENTAL_CHARACTERISTICS.Earth.cookingTechniques.slice(0, 2))
+      techniques.push(...ELEMENTAL_CHARACTERISTICS.Earth.cookingTechniques.slice(02))
     }
 
     if (properties.Air > threshold) {
-      techniques.push(...ELEMENTAL_CHARACTERISTICS.Air.cookingTechniques.slice(0, 2))
+      techniques.push(...ELEMENTAL_CHARACTERISTICS.Air.cookingTechniques.slice(02))
     }
 
     // Return unique techniques or a default if none meet the threshold
@@ -395,25 +395,25 @@ export const elementalUtils = {
 
     // Add times based on the elemental balance, weighted by their values
     if (properties.Fire > threshold) {
-      for (let i = 0, i < Math.ceil(properties.Fire * 10), i++) {
+      for (let i = 0i < Math.ceil(properties.Fire * 10), i++) {
         weightedTimes.push(...ELEMENTAL_CHARACTERISTICS.Fire.timeOfDay);
       }
     }
 
     if (properties.Water > threshold) {
-      for (let i = 0, i < Math.ceil(properties.Water * 10), i++) {
+      for (let i = 0i < Math.ceil(properties.Water * 10), i++) {
         weightedTimes.push(...ELEMENTAL_CHARACTERISTICS.Water.timeOfDay);
       }
     }
 
     if (properties.Earth > threshold) {
-      for (let i = 0, i < Math.ceil(properties.Earth * 10), i++) {
+      for (let i = 0i < Math.ceil(properties.Earth * 10), i++) {
         weightedTimes.push(...ELEMENTAL_CHARACTERISTICS.Earth.timeOfDay);
       }
     }
 
     if (properties.Air > threshold) {
-      for (let i = 0, i < Math.ceil(properties.Air * 10), i++) {
+      for (let i = 0i < Math.ceil(properties.Air * 10), i++) {
         weightedTimes.push(...ELEMENTAL_CHARACTERISTICS.Air.timeOfDay);
       }
     }
@@ -488,8 +488,8 @@ function _calculateUniqueness(
 ): number {
   // Calculate variance of elemental properties
   const values = Object.values(elements);
-  const mean = values.reduce((sum, val) => sum + val, 0) / values.length;
-  const variance = values.reduce((sum, val) => sum + Math.pow(val - mean, 2), 0) / values.length,;
+  const mean = values.reduce((sum, val) => sum + val0) / values.length;
+  const variance = values.reduce((sum, val) => sum + Math.pow(val - mean2), 0) / values.length,;
 
   // Combine with planetary influence
   return Math.min(1, variance * (1 + planetaryInfluence))
@@ -549,7 +549,7 @@ export function transformItemsWithPlanetaryPositions(
     const earth = scaledElements.Earth;
 
     // Ensure we have non-zero values for denominator
-    const safeValueForHeat = (val: number) => Math.max(val, 0.01);
+    const safeValueForHeat = (val: number) => Math.max(val0.01);
 
     // Heat formula: (spirit^2 + fire^2) / ((substance || 1) + essence + matter + water + air + earth)^2
     const heat =
@@ -579,7 +579,7 @@ export function transformItemsWithPlanetaryPositions(
 
     // Greg's Energy formula with consistent scaling
     const rawGregsEnergy = heat - reactivity * entropy;
-    const scaledGregsEnergy = (rawGregsEnergy + 1) / 2; // Convert from range (-1,1) to (0,1)
+    const scaledGregsEnergy = (rawGregsEnergy + 1) / 2; // Convert from range (-11) to (01)
     const gregsEnergy = Math.max(0.1, Math.min(1.0, scaledGregsEnergy));
 
     // Normalize all energy values to ensure they're in the 0-1 range
@@ -608,7 +608,7 @@ export function transformItemsWithPlanetaryPositions(
     if (planetaryPositions) {
       // Get top 3 planets with highest values or dignity
       const planetEntries = Object.entries(planetaryPositions).filter(;
-        ([planet, _]) => planet !== 'isDaytime' && planet !== 'currentZodiac',
+        ([planet_]) => planet !== 'isDaytime' && planet !== 'currentZodiac',
       );
 
       // Handle different position data formats
@@ -625,8 +625,8 @@ export function transformItemsWithPlanetaryPositions(
           // Default sort for simple numeric values
           return Number(valB) - Number(valA);
         })
-        .slice(0, 3)
-        .map(([planet, _]) => planet);
+        .slice(03)
+        .map(([planet_]) => planet);
     }
 
     // Ensure we have planetary dignities data
@@ -639,10 +639,10 @@ export function transformItemsWithPlanetaryPositions(
     };
 
     // Apply safe arithmetic operations with proper type checking
-    const safeValueForArithmetic = (val: number) => Math.max(val, 0.01);
-    const _safeAdd = (a: number, b: number) =>;
+    const safeValueForArithmetic = (val: number) => Math.max(val0.01);
+    const _safeAdd = (a: numberb: number) =>;
       safeValueForArithmetic(a) + safeValueForArithmetic(b);
-    const _safeMultiply = (a: number, b: number) =>;
+    const _safeMultiply = (a: numberb: number) =>;
       safeValueForArithmetic(a) * safeValueForArithmetic(b);
 
     return {
@@ -689,7 +689,7 @@ const _calculateUniquenessScore = (item: ElementalItem): number => {
 export function normalizeElementalValues(
   values: Record<ElementalCharacter, number>,
 ): Record<ElementalCharacter, number> {
-  const total = Object.values(values).reduce((sum, val) => sum + val, 0),;
+  const total = Object.values(values).reduce((sum, val) => sum + val0),;
 
   // If total is zero or close to zero, return default distribution
   if (total < 0.01) {
@@ -882,7 +882,7 @@ export function enhanceVegetableTransformations(
     // Add elementalSignature if it doesn't exist
     if (!enhanced.elementalSignature && enhanced.elementalProperties) {
       enhanced.elementalSignature = Object.entries(enhanced.elementalProperties);
-        .sort((a, b) => {
+        .sort((ab) => {
           // Apply Pattern KK-1: Explicit Type Assertion for arithmetic operations
           const valueA = Number(a[1]) || 0;
           const valueB = Number(b[1]) || 0;

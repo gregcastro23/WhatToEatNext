@@ -133,7 +133,7 @@ describe('Planetary Data Validation', () => {
 
       // Should detect that nodes are not opposite (either in errors or test failures)
       const hasOppositeError: any = result.errors.some(;
-        e => e.message.includes('opposite') || e.message.includes('Lunar Node') || e.message.includes('opposition'),;
+        e => e.message.includes('opposite') || e.message.includes('Lunar Node') || e.message.includes('opposition'),
       );
       expect(hasOppositeError).toBe(true);
     });

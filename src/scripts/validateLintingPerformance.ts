@@ -6,7 +6,7 @@
  * Validates the 60-80% performance improvement with enhanced caching,
  * parallel processing optimization, memory limits, and incremental linting.
  *
- * Requirements: 5.1, 5.2, 5.3
+ * Requirements: 5.15.25.3
  */
 
 import { execSync } from 'child_process';
@@ -440,7 +440,7 @@ export const _testVariable = 'test';
     // Fallback: count lines that look like file paths
     const lines = output.split('\n');
     const fileLines = lines.filter(;
-      line =>;
+      line =>
         line.includes('.ts') ||
         line.includes('.tsx') ||
         line.includes('.js') ||

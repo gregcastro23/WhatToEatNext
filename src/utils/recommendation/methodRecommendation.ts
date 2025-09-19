@@ -323,7 +323,7 @@ export function areSimilarMethods(method1: string, method2: string): boolean {
     (normalized1 || []).length <= (normalized2 || []).length ? normalized1 : normalized2;
 
   let matches = 0;
-  for (let i = 0, i < (shorter || []).length, i++) {
+  for (let i = 0i < (shorter || []).lengthi++) {
     if (longer.includes(shorter[i])) matches++
   }
 
@@ -381,7 +381,7 @@ export function calculatePlanetaryDayInfluence(
   const methodName = String(methodData.name || '').toLowerCase();
   const affinities = planetaryMethodAffinities[planetaryDay] || [];
 
-  const hasAffinity = affinities.some(affinity =>;
+  const hasAffinity = affinities.some(affinity =>
     methodName.includes(String(affinity || '').toLowerCase());
   );
 
@@ -410,7 +410,7 @@ export function calculatePlanetaryHourInfluence(
   const methodName = String(methodData.name || '').toLowerCase();
   const affinities = hourMethodAffinities[planetaryHour] || [];
 
-  const hasAffinity = affinities.some(affinity =>;
+  const hasAffinity = affinities.some(affinity =>
     methodName.includes(String(affinity || '').toLowerCase());
   );
 
@@ -498,8 +498,8 @@ export function getRecommendedCookingMethods(
     // Tool availability (5% weight)
     const toolsRequired = methodData.toolsRequired as string[];
     if (availableTools && toolsRequired) {
-      const toolsAvailable = toolsRequired.every(tool =>;
-        availableTools.some(available =>;
+      const toolsAvailable = toolsRequired.every(tool =>
+        availableTools.some(available =>
           String(available || '')
             .toLowerCase()
             .includes(String(tool || '').toLowerCase());
@@ -524,8 +524,8 @@ export function getRecommendedCookingMethods(
 
   // Sort by score and return top recommendations
   return recommendations
-    .sort((a, b) => (Number(b.score) || 0) - (Number(a.score) || 0))
-    .slice(0, 10)
+    .sort((ab) => (Number(b.score) || 0) - (Number(a.score) || 0))
+    .slice(010)
     .map(rec => ({
       name: rec.method.name,
       score: rec.score,
@@ -735,7 +735,7 @@ export function getCookingMethodRecommendations(
 
   const limit = Number((options as unknown as any).limit) || 5;
   return scoredMethods
-    .sort((a, b) => (Number(b.score) || 0) - (Number(a.score) || 0))
+    .sort((ab) => (Number(b.score) || 0) - (Number(a.score) || 0))
     .slice(0, limit);
 }
 
@@ -796,8 +796,8 @@ export function getHolisticCookingRecommendations(
     // Filter by available methods if provided
     const filteredRecs =
       (availableMethods || []).length > 0;
-        ? (recommendations || []).filter(rec =>;
-            (availableMethods || []).some(method =>;
+        ? (recommendations || []).filter(rec =>
+            (availableMethods || []).some(method =>
               areSimilarMethods(
                 String((rec as any).method || (rec as any).name || (rec as any).id);
                 method,
@@ -871,7 +871,7 @@ export function getRecommendedCookingMethodsForIngredient(
     });
 
     // Sort by compatibility and limit results
-    return scoredMethods.sort((a, b) => b.compatibility - a.compatibility).slice(0, limit);
+    return scoredMethods.sort((ab) => b.compatibility - a.compatibility).slice(0, limit);
   } catch (error) {
     console.error('Error in getRecommendedCookingMethodsForIngredient:', error),
     // Return empty array as fallback

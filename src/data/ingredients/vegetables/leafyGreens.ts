@@ -67,7 +67,7 @@ const rawLeafyGreens = {
       bitterness: 7,
       cooking_time: 8,
     }),
-    seasonal_peak_months: [10, 11, 12, 1, 2], // Oct-Feb
+    seasonal_peak_months: [1011, 121, 2], // Oct-Feb
     nutritionalProfile: {
       serving_size: '1 cup, raw (67g)',
       calories: 33,
@@ -79,12 +79,8 @@ const rawLeafyGreens = {
       },
       vitamins: {
         A: 0.206, // Values as percentage of RDA
-        C: 0.134,
-        K: 0.684,
-        B6: 0.14,
-        E: 0.1,
-        folate: 0.07,
-        B2: 0.09,
+        C: 0.134K: 0.684B6: 0.14E: 0.1,
+        folate: 0.07B2: 0.09,
       },
       minerals: {
         calcium: 0.15,
@@ -352,7 +348,7 @@ const rawLeafyGreens = {
       bitterness: 3,
       cooking_time: 2,
     }),
-    seasonal_peak_months: [3, 4, 5, 9, 10], // Mar-May, Sep-Oct
+    seasonal_peak_months: [34, 59, 10], // Mar-May, Sep-Oct
     iron_content: 6.5, // Scale 1-10
     oxalate_level: 8.2, // Scale 1-10
     nutritionalProfile: {
@@ -414,10 +410,10 @@ const rawLeafyGreens = {
       bitterness: 5,
       cooking_time: 5,
     }),
-    seasonal_peak_months: [6, 7, 8, 9], // Jun-Sep
+    seasonal_peak_months: [67, 89], // Jun-Sep
     stalk_to_leaf_ratio: 0.6, // Higher means more stalk
     color_varieties: ['green', 'red', 'yellow', 'rainbow'],
-    colorant_strength: 6.2, // How much it colors cooking liquid, 1-10
+    colorant_strength: 6.2, // How much it colors cooking liquid1-10
     nutritionalProfile: {
       fiber: 'high',
       vitamins: ['k', 'a', 'c'],

@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any, no-console, @typescript-eslint/no-unused-vars, max-lines-per-function -- Campaign/test file with intentional patterns */
+/* eslint-disable @typescript-eslint/no-explicit-anyno-console, @typescript-eslint/no-unused-vars, max-lines-per-function -- Campaign/test file with intentional patterns */
 declare global {
   var __DEV__: boolean
 }
@@ -237,7 +237,7 @@ describe('EnterpriseIntelligenceIntegration', () => {
           zodiacSign: 'aries' as any,
           lunarPhase: 'new moon',
           season: 'all',
-          elementalProperties: { Fir, e: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+          elementalProperties: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
           userPreferences: { dietaryRestrictions: [],
             flavorPreferences: [],
             culturalPreferences: []
@@ -287,7 +287,7 @@ describe('EnterpriseIntelligenceIntegration', () => {
           zodiacSign: 'aries' as any,
           lunarPhase: 'new moon',
           season: 'all',
-          elementalProperties: { Fir, e: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+          elementalProperties: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
           userPreferences: { dietaryRestrictions: [],
             flavorPreferences: [],
             culturalPreferences: []

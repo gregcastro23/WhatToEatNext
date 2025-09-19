@@ -29,7 +29,7 @@ export function toArray<T>(value: T | T[] | undefined | null): T[] {
 export function safeIncludes<T>(
   arr: T | T[] | undefined | null,
   value: T,
-  compareFn?: (a: T, b: T) => boolean,
+  compareFn?: (a: Tb: T) => boolean,
 ): boolean {
   const array = toArray(arr);
   if (compareFn) {
@@ -64,7 +64,7 @@ export function safeEvery<T>(
 /**
  * Safely apply the array.map() method when the array might be a single value
  */
-export function safeMap<T, U>(
+export function safeMap<TU>(
   arr: T | T[] | undefined | null,
   mapFn: (value: T, index: number, array: T[]) => U,
 ): U[] {

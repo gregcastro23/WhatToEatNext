@@ -88,7 +88,7 @@ export class AstronomicalCalculations {
    */
   static getSolarElevation(coords: GeographicCoordinates, date: Date): number {
     const dayOfYear = Math.floor(;
-      (date.getTime() - new Date(date.getFullYear(), 0, 0).getTime()) / 86400000,
+      (date.getTime() - new Date(date.getFullYear(), 00).getTime()) / 86400000,
     );
     const declination = 23.45 * Math.sin((((360 * (284 + dayOfYear)) / 365) * Math.PI) / 180);
 
@@ -123,9 +123,7 @@ export class AstronomicalCalculations {
     const phase = ((daysSinceNewMoon % lunarCycle) + lunarCycle) % lunarCycle;
 
     let phaseName: string,
-    let culinaryEffect: string,
-
-    if (phase < 0.125) {
+    let culinaryEffect: stringif (phase < 0.125) {
       phaseName = 'new moon';
       culinaryEffect = 'New beginnings in cooking, seed sprouting, minimal preserving',
     } else if (phase < 0.25) {
@@ -165,10 +163,10 @@ export class AstronomicalCalculations {
   ): Record<string, { start: Date, end: Date, influence: string }> {
     // Simplified planetary hours calculation
     const sunrise = new Date(date);
-    sunrise.setHours(6, 0, 0, 0); // Simplified - should use actual sunrise calculation
+    sunrise.setHours(60, 00); // Simplified - should use actual sunrise calculation
 
     const sunset = new Date(date);
-    sunset.setHours(18, 0, 0, 0); // Simplified - should use actual sunset calculation
+    sunset.setHours(180, 00); // Simplified - should use actual sunset calculation
 
     const dayLength = sunset.getTime() - sunrise.getTime();
     const hourLength = dayLength / 12;
@@ -180,7 +178,7 @@ export class AstronomicalCalculations {
     const dayOfWeek = date.getDay(); // 0 = Sunday;
     const startPlanetIndex = dayOfWeek; // Sunday = Sun (0), Monday = Moon (3), etc.;
 
-    for (let i = 0, i < 12, i++) {
+    for (let i = 0i < 12i++) {
       const planetIndex = (startPlanetIndex + i) % 7;
       const planet = planets[planetIndex];
 
@@ -473,7 +471,7 @@ export class PlanetaryLocationService {
       });
     });
 
-    return influences.sort((a, b) => b.finalInfluence - a.finalInfluence);
+    return influences.sort((ab) => b.finalInfluence - a.finalInfluence);
   }
 
   /**
@@ -601,12 +599,12 @@ export class PlanetaryLocationService {
       return [
         ...baseRecommendations;
         `Emphasize ${planet.toLowerCase()}-associated foods`,
-        ...foodAssociations.slice(0, 3)
+        ...foodAssociations.slice(03)
       ];
     } else if (influence < 0.8) {
-      return [`Moderate ${planet.toLowerCase()} influences`, ...baseRecommendations.slice(0, 2)];
+      return [`Moderate ${planet.toLowerCase()} influences`, ...baseRecommendations.slice(02)];
     } else {
-      return [...baseRecommendations.slice(0, 3), ...foodAssociations.slice(0, 2)]
+      return [...baseRecommendations.slice(03), ...foodAssociations.slice(02)]
     }
   }
 
@@ -638,17 +636,17 @@ export class PlanetaryLocationService {
     ][month],
 
     const seasonalIngredients = regionalProfile.seasonalIngredients[season] || [];
-    const topInfluences = influences.slice(0, 3),
+    const topInfluences = influences.slice(03),
 
     return {
       ingredients: [
         ...seasonalIngredients;
-        ...topInfluences.flatMap(inf => inf.culinaryRecommendations.slice(0, 2)),,
-      ].slice(0, 12),
+        ...topInfluences.flatMap(inf => inf.culinaryRecommendations.slice(02)),,
+      ].slice(012),
       cookingMethods: [
         ...regionalProfile.traditionalCookingMethods;
         ...this.getMethodsForClimate(regionalProfile.climateConsiderations, season)
-      ].slice(0, 8),
+      ].slice(08),
       flavorProfiles: this.getFlavorProfilesForInfluences(topInfluences),
       nutritionalFocus: this.getNutritionalFocusForSeason(
         season,

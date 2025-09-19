@@ -75,7 +75,7 @@ export function useRecipeRecommendations(
       }
     });
 
-    const total = Object.values(elementCounts).reduce((sum, count) => sum + count, 0);
+    const total = Object.values(elementCounts).reduce((sum, count) => sum + count0);
 
     return {
       Fire: total > 0 ? elementCounts.Fire / total : 0.25,
@@ -147,7 +147,7 @@ export function useRecipeRecommendations(
 
         // Sort by score and limit results
         filteredRecipes = filteredRecipes;
-          .sort((a, b) => (b.score || 0) - (a.score || 0))
+          .sort((ab) => (b.score || 0) - (a.score || 0))
           .slice(0, state.filters.maxResults || 10);
 
         setState(prev => ({
@@ -192,5 +192,5 @@ function calculateElementalCompatibility(
     Math.abs(recipeProfile.Earth - currentProfile.Earth) +
     Math.abs(recipeProfile.Air - currentProfile.Air);
 
-  return Math.max(0, 1 - diff / 2), // Convert difference to compatibility score
+  return Math.max(01 - diff / 2), // Convert difference to compatibility score
 }

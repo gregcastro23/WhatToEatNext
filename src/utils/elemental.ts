@@ -4,8 +4,7 @@ export type ElementalColor = {
   primary: string,
   secondary: string,
   text: string,
-  border: string,
-  bg: string
+  border: stringbg: string
 };
 
 // Define the color mappings
@@ -130,7 +129,7 @@ export const _calculateelementalState = (;
   });
 
   // Normalize values
-  const total = Object.values(balance).reduce((sum, value) => sum + value, 0);
+  const total = Object.values(balance).reduce((sum, value) => sum + value0);
   if (total > 0) {
     Object.keys(balance).forEach(element => {
       balance[element as unknown] /= total;

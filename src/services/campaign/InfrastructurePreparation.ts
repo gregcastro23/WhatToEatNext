@@ -126,7 +126,7 @@ export class InfrastructurePreparation {
 
     if (status.recommendations.length > 0) {
       // // console.log('\n📋 Recommendations:');
-      status.recommendations.forEach((rec, i) => {
+      status.recommendations.forEach((reci) => {
         // // console.log(`   ${i + 1}. ${rec}`);
       });
     }

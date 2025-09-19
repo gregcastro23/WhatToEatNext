@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any, no-console, @typescript-eslint/no-unused-vars, max-lines-per-function -- Campaign/test file with intentional patterns */
+/* eslint-disable @typescript-eslint/no-explicit-anyno-console, @typescript-eslint/no-unused-vars, max-lines-per-function -- Campaign/test file with intentional patterns */
 declare global {
   var __DEV__: boolean
 }
@@ -30,10 +30,10 @@ describe('Domain Validation Tests - Task 12', () => {
     describe('1.1 Self-Reinforcement Principle', () => {
       test('Same elements have highest compatibility (≥0.9)', (() =>  {
         const elementalCompatibility: any = {
-          Fire: { Fir, e: 0.9, Water: 0.7, Earth: 0.7, Air: 0.8 },
-          Water: { Wate, r: 0.9, Fire: 0.7, Earth: 0.8, Air: 0.7 },
-          Earth: { Eart, h: 0.9, Fire: 0.7, Water: 0.8, Air: 0.7 },
-          Air: { Ai, r: 0.9, Fire: 0.8, Water: 0.7, Earth: 0.7 }
+          Fire: { Fire: 0.9, Water: 0.7, Earth: 0.7, Air: 0.8 },
+          Water: { Water: 0.9, Fire: 0.7, Earth: 0.8, Air: 0.7 },
+          Earth: { Earth: 0.9, Fire: 0.7, Water: 0.8, Air: 0.7 },
+          Air: { Air: 0.9, Fire: 0.8, Water: 0.7, Earth: 0.7 }
         };
 
         // Test self-reinforcement principle
@@ -48,10 +48,10 @@ describe('Domain Validation Tests - Task 12', () => {
 
       test('No opposing elements exist (all combinations ≥0.7)', (() =>  {
         const elementalCompatibility: any = {
-          Fire: { Fir, e: 0.9, Water: 0.7, Earth: 0.7, Air: 0.8 },
-          Water: { Wate, r: 0.9, Fire: 0.7, Earth: 0.8, Air: 0.7 },
-          Earth: { Eart, h: 0.9, Fire: 0.7, Water: 0.8, Air: 0.7 },
-          Air: { Ai, r: 0.9, Fire: 0.8, Water: 0.7, Earth: 0.7 }
+          Fire: { Fire: 0.9, Water: 0.7, Earth: 0.7, Air: 0.8 },
+          Water: { Water: 0.9, Fire: 0.7, Earth: 0.8, Air: 0.7 },
+          Earth: { Earth: 0.9, Fire: 0.7, Water: 0.8, Air: 0.7 },
+          Air: { Air: 0.9, Fire: 0.8, Water: 0.7, Earth: 0.7 }
         };
 
         // Test no opposing elements principle
@@ -67,10 +67,10 @@ describe('Domain Validation Tests - Task 12', () => {
 
       test('Fire-Air and Water-Earth have slightly higher compatibility', () => {
         const elementalCompatibility: any = {
-          Fire: { Fir, e: 0.9, Water: 0.7, Earth: 0.7, Air: 0.8 },
-          Water: { Wate, r: 0.9, Fire: 0.7, Earth: 0.8, Air: 0.7 },
-          Earth: { Eart, h: 0.9, Fire: 0.7, Water: 0.8, Air: 0.7 },
-          Air: { Ai, r: 0.9, Fire: 0.8, Water: 0.7, Earth: 0.7 }
+          Fire: { Fire: 0.9, Water: 0.7, Earth: 0.7, Air: 0.8 },
+          Water: { Water: 0.9, Fire: 0.7, Earth: 0.8, Air: 0.7 },
+          Earth: { Earth: 0.9, Fire: 0.7, Water: 0.8, Air: 0.7 },
+          Air: { Air: 0.9, Fire: 0.8, Water: 0.7, Earth: 0.7 }
         };
 
         // Fire-Air affinity (shared dynamic nature)

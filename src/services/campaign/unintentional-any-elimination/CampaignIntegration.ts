@@ -444,7 +444,7 @@ export class UnintentionalAnyIntegrationHelper {
     priorityOrder: string[],
   ): CampaignConfig {
     // Sort campaigns by priority order
-    const sortedCampaigns = campaigns.sort((a, b) => {
+    const sortedCampaigns = campaigns.sort((ab) => {
       const aIndex = priorityOrder.findIndex(p => a.phases.some(phase => phase.id.includes(p)));
       const bIndex = priorityOrder.findIndex(p => b.phases.some(phase => phase.id.includes(p)));
       return aIndex - bIndex

@@ -282,7 +282,7 @@ export class EnhancedSafetyProtocols {
       return false
     }
 
-    this.manualReviewQueue.splice(index, 1);
+    this.manualReviewQueue.splice(index1);
     // // console.log(`✅ Manual review approved for ${path.relative(process.cwd(), filePath)}`);
     if (reviewerNotes) {
       // // console.log(`   Reviewer notes: ${reviewerNotes}`);
@@ -299,7 +299,7 @@ export class EnhancedSafetyProtocols {
       return false
     }
 
-    this.manualReviewQueue.splice(index, 1);
+    this.manualReviewQueue.splice(index1);
     // // console.log(`❌ Manual review rejected for ${path.relative(process.cwd(), filePath)}`);
     // // console.log(`   Reason: ${reason}`);
     return true;

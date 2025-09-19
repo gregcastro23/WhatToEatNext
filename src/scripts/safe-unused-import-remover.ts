@@ -8,7 +8,7 @@
  * - Dynamic imports and conditional imports
  * - Imports that may be used in complex expressions
  *
- * Requirements: 3.2, 4.1
+ * Requirements: 3.24.1
  */
 
 import { execSync } from 'child_process';
@@ -326,7 +326,7 @@ class SafeUnusedImportRemover {
         const lines = content.split('\n');
 
         // Sort by line number in descending order to avoid index shifting
-        const sortedImports = fileImports.sort((a, b) => b.line - a.line);
+        const sortedImports = fileImports.sort((ab) => b.line - a.line);
 
         for (const imp of sortedImports) {
           const lineIndex = imp.line - 1;

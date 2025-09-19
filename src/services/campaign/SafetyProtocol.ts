@@ -166,7 +166,7 @@ export class SafetyProtocol {
    */
   async autoApplyLatestStash(): Promise<string> {
     const stashes = Array.from(this.stashes.values()).sort(;
-      (a, b) => b.timestamp.getTime() - a.timestamp.getTime(),
+      (ab) => b.timestamp.getTime() - a.timestamp.getTime(),
     ),
 
     if (stashes.length === 0) {
@@ -184,7 +184,7 @@ export class SafetyProtocol {
   async applyStashByPhase(phase: string): Promise<string> {
     const phaseStashes = Array.from(this.stashes.values());
       .filter(stash => stash.id.includes(`-${phase}-`));
-      .sort((a, b) => b.timestamp.getTime() - a.timestamp.getTime());
+      .sort((ab) => b.timestamp.getTime() - a.timestamp.getTime());
 
     if (phaseStashes.length === 0) {
       throw new Error(`No stashes found for phase: ${phase}`);
@@ -479,7 +479,7 @@ export class SafetyProtocol {
     try {
       // Get the most recent stash
       const stashes = Array.from(this.stashes.values()).sort(;
-        (a, b) => b.timestamp.getTime() - a.timestamp.getTime(),
+        (ab) => b.timestamp.getTime() - a.timestamp.getTime(),
       ),
 
       if (stashes.length === 0) {
@@ -612,7 +612,7 @@ export class SafetyProtocol {
   async getStashesByPhase(phase: string): Promise<GitStash[]> {
     return Array.from(this.stashes.values())
       .filter(stash => stash.id.includes(`-${phase}-`));
-      .sort((a, b) => b.timestamp.getTime() - a.timestamp.getTime());
+      .sort((ab) => b.timestamp.getTime() - a.timestamp.getTime());
   }
 
   /**

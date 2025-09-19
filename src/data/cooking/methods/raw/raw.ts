@@ -207,7 +207,7 @@ export const raw: CookingMethodData = {
   scientificPrinciples: [
     'Enzyme preservation occurs below ~118°F (48°C) - the threshold at which most food enzymes denature',
     'Mechanical cell disruption through cutting/blending releases nutrients and flavors without heat',
-    'Water-soluble vitamins (B, C) remain intact without thermal degradation',
+    'Water-soluble vitamins (BC) remain intact without thermal degradation',
     'Phytochemical structures maintain biological activity without heat alteration',
     'Natural antioxidants remain at maximum potency without oxidative thermal stress',
     'Fermentation creates probiotic cultures and transforms nutrients without heat application',

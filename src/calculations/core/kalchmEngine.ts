@@ -67,7 +67,7 @@ export function calculateHeat(
   Air: number,
   Earth: number,
 ): number {
-  const numerator = Math.pow(Spirit, 2) + Math.pow(Fire, 2);
+  const numerator = Math.pow(Spirit2) + Math.pow(Fire2);
   const denominator = Math.pow(Substance + Essence + Matter + Water + (Air || 0) + (Earth || 0), 2);
 
   // Prevent division by zero
@@ -91,7 +91,7 @@ export function calculateEntropy(
   Water: number,
 ): number {
   const numerator =
-    Math.pow(Spirit, 2) + Math.pow(Substance, 2) + Math.pow(Fire, 2) + Math.pow(Air, 2);
+    Math.pow(Spirit2) + Math.pow(Substance, 2) + Math.pow(Fire2) + Math.pow(Air2);
   const denominator = Math.pow(Essence + Matter + (Earth || 0) + (Water || 0), 2);
 
   // Prevent division by zero
@@ -115,12 +115,12 @@ export function calculateReactivity(
   Earth: number,
 ): number {
   const numerator =
-    Math.pow(Spirit, 2) +
+    Math.pow(Spirit2) +
     Math.pow(Substance, 2) +
     Math.pow(Essence, 2) +
-    Math.pow(Fire, 2) +
-    Math.pow(Air, 2) +
-    Math.pow(Water, 2);
+    Math.pow(Fire2) +
+    Math.pow(Air2) +
+    Math.pow(Water2);
   const denominator = Math.pow((Matter || 0) + (Earth || 0), 2);
 
   // Prevent division by zero
@@ -386,14 +386,14 @@ export function calculateKalchmResults(planetaryPositions: {
       const monicaConstant = calculateMonicaConstant(gregsEnergy, reactivity, kalchm);
 
       // Determine dominant element and property
-      const dominantElement = Object.entries(elementalValues).reduce((a, b) =>
+      const dominantElement = Object.entries(elementalValues).reduce((ab) =>
         elementalValues[a[0] as keyof ElementalValues] >
         elementalValues[b[0] as keyof ElementalValues]
           ? a
           : b,
       )[0] as keyof ElementalValues;
 
-      const dominantProperty = Object.entries(alchemicalProperties).reduce((a, b) =>
+      const dominantProperty = Object.entries(alchemicalProperties).reduce((ab) =>
         alchemicalProperties[a[0] as keyof AlchemicalProperties] >
         alchemicalProperties[b[0] as keyof AlchemicalProperties]
           ? a

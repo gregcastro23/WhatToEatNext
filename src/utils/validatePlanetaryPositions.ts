@@ -111,7 +111,7 @@ export function validatePlanetaryPositions(
 }
 
 /**
- * Gets the base longitude value for a sign (0 for Aries, 30 for Taurus, etc.)
+ * Gets the base longitude value for a sign (0 for Aries30 for Taurus, etc.)
  */
 function getBaseSignLongitude(sign: any): number {
   const signs: any[] = [

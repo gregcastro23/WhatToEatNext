@@ -107,7 +107,7 @@ export const steaming: CookingMethodData = {
     antioxidants: 0.9, // Limited oxidation
     color_compounds: 0.85, // Good chlorophyll preservation
     water_soluble_vitamins: 0.85, // Some B and C vitamins retained
-    fat_soluble_vitamins: 0.95, // A, D, E, K vitamins well preserved
+    fat_soluble_vitamins: 0.95, // AD, EK vitamins well preserved
     phytochemicals: 0.9, // Beneficial plant compounds mostly intact
   },
   optimalTemperatures: {
@@ -215,7 +215,7 @@ export const steaming: CookingMethodData = {
 
   modernVariations: [
     'Pressure steaming for faster cooking (reduces time by 50-70%)',
-    'Flavored steam with herbs, wine, tea, or citrus for aromatic infusion',
+    'Flavored steam with herbs, wine, teaor citrus for aromatic infusion',
     'Combi-oven steaming with precise humidity control (1-100%)',
     'Multi-tiered stackable steamers for complete meal components',
     'Steam-convection combination cooking for moist interior/crisper exterior',

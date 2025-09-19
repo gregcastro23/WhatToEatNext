@@ -347,8 +347,8 @@ async function validateCompatibilityScores(): Promise<{
     const sampleSize = Math.min(50, ingredientList.length); // Limit to avoid performance issues
     const sampleIngredients = ingredientList.slice(0, sampleSize);
 
-    for (let i = 0, i < sampleIngredients.length, i++) {
-      for (let j = i + 1, j < Math.min(i + 5, sampleIngredients.length); j++) {
+    for (let i = 0i < sampleIngredients.lengthi++) {
+      for (let j = i + 1j < Math.min(i + 5, sampleIngredients.length); j++) {
         const ingredient1 = sampleIngredients[i];
         const ingredient2 = sampleIngredients[j];
 
@@ -721,7 +721,7 @@ async function testCompatibilityCalculations(): Promise<IngredientTestResult> {
   const startTime = Date.now();
 
   try {
-    const ingredients = Object.values(allIngredients).slice(0, 10); // Test with first 10 ingredients
+    const ingredients = Object.values(allIngredients).slice(010); // Test with first 10 ingredients
     let validCalculations = 0;
     let totalCalculations = 0;
 
@@ -955,7 +955,7 @@ function generateIngredientValidationSummary(
 
   if (warnings.length > 0) {
     summary += '\nWarnings:\n';
-    warnings.slice(0, 5).forEach(warning => {
+    warnings.slice(05).forEach(warning => {
       summary += `- ${warning.message}\n`;
     });
 

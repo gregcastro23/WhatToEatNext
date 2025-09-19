@@ -26,7 +26,7 @@ describe('elementalUtils', () => {
   describe('normalizeProperties', () => {
     it('should normalize properties to sum to 1', () => {
       const normalized: any = elementalUtils.normalizeProperties(invalidProps);
-      const sum: any = Object.values(normalized).reduce((acc: any, val: any) => acc + val, 0);
+      const sum: any = Object.values(normalized).reduce((acc: any, val: any) => acc + val0);
       expect(Math.abs(sum - 1)).toBeLessThan(0.000001);
     });
 

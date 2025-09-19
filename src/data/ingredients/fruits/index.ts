@@ -106,9 +106,7 @@ export const getFruitsByElementalAffinity = (;
       const fruitData = value as unknown as any;
       const astroProfile = fruitData.astrologicalProfile as unknown;
       const affinity = astroProfile.elementalAffinity;
-      if (!affinity) return false,
-
-      if (typeof affinity === 'string') {
+      if (!affinity) return falseif (typeof affinity === 'string') {
         return String(affinity || '') === String(element || '');
       } else {
         const affinityData = affinity ;
@@ -162,7 +160,7 @@ Object.entries(fruits).forEach(([_id, fruit]) => {
   if (!fruit.elementalProperties) {
     // Use type-safe logging instead of console.log
     // If a logger is available, we would use it like: logger.warn(`Missing properties for ${id}`);
-    // For now, we'll just comment this out to avoid linting errors
+    // For nowwe'll just comment this out to avoid linting errors
     // console.warn(`Missing properties for ${id}`);
   }
 });
@@ -192,7 +190,7 @@ export const FRUIT_CATEGORIZATION_INTELLIGENCE = {
         return {
           category,
           fruitCount: Object.keys(results).length,
-          representativeFruits: Object.keys(results).slice(0, 3),
+          representativeFruits: Object.keys(results).slice(03),
           categoryDensity: Object.keys(results).length / Object.keys(fruits).length,
           categoryRichness: Object.keys(results).length > 0 ? 1.0 : 0.0
         };
@@ -252,7 +250,7 @@ export const FRUIT_CATEGORIZATION_INTELLIGENCE = {
     const categoryOptimization = testCategories.reduce(;
       (acc, category) => {
         const results = subcategoryFunc(category);
-        acc[category] = Object.keys(results).slice(0, 5),
+        acc[category] = Object.keys(results).slice(05),
         return acc
       },
       {} as Record<string, string[]>,
@@ -296,7 +294,7 @@ export const FRUIT_CATEGORIZATION_INTELLIGENCE = {
         return {
           season,
           fruitCount: Object.keys(results).length,
-          representativeFruits: Object.keys(results).slice(0, 3),
+          representativeFruits: Object.keys(results).slice(03),
           seasonalDensity: Object.keys(results).length / Object.keys(fruits).length,
           seasonalRichness: Object.keys(results).length > 0 ? 1.0 : 0.0
         };
@@ -311,7 +309,7 @@ export const FRUIT_CATEGORIZATION_INTELLIGENCE = {
       })),
       functionalMetrics: {
         averageSeasonalSize:
-          testSeasons.reduce((sum, season) => sum + Object.keys(seasonalFunc(season)).length, 0) /
+          testSeasons.reduce((sum, season) => sum + Object.keys(seasonalFunc(season)).length0) /
           testSeasons.length;
         maxSeasonalSize: Math.max(
           ...testSeasons.map(season => Object.keys(seasonalFunc(season)).length),
@@ -348,7 +346,7 @@ export const FRUIT_CATEGORIZATION_INTELLIGENCE = {
     const seasonalOptimization = testSeasons.reduce(;
       (acc, season) => {
         const results = seasonalFunc(season);
-        acc[season] = Object.keys(results).slice(0, 5),
+        acc[season] = Object.keys(results).slice(05),
         return acc
       },
       {} as Record<string, string[]>,
@@ -392,7 +390,7 @@ export const FRUIT_CATEGORIZATION_INTELLIGENCE = {
         return {
           method,
           fruitCount: Object.keys(results).length,
-          representativeFruits: Object.keys(results).slice(0, 3),
+          representativeFruits: Object.keys(results).slice(03),
           preparationDensity: Object.keys(results).length / Object.keys(fruits).length,
           preparationRichness: Object.keys(results).length > 0 ? 1.0 : 0.0
         };
@@ -409,8 +407,7 @@ export const FRUIT_CATEGORIZATION_INTELLIGENCE = {
       functionalMetrics: {
         averagePreparationSize:
           testMethods.reduce(
-            (sum, method) => sum + Object.keys(preparationFunc(method)).length,
-            0,
+            (sum, method) => sum + Object.keys(preparationFunc(method)).length0,
           ) / testMethods.length;
         maxPreparationSize: Math.max(
           ...testMethods.map(method => Object.keys(preparationFunc(method)).length),
@@ -447,7 +444,7 @@ export const FRUIT_CATEGORIZATION_INTELLIGENCE = {
     const preparationOptimization = testMethods.reduce(;
       (acc, method) => {
         const results = preparationFunc(method);
-        acc[method] = Object.keys(results).slice(0, 5),
+        acc[method] = Object.keys(results).slice(05),
         return acc
       },
       {} as Record<string, string[]>,
@@ -495,8 +492,7 @@ export const FRUIT_PREPARATION_INTELLIGENCE = {
       functionalMetrics: {
         averageMethodSize:
           testMethods.reduce(
-            (sum, method) => sum + Object.keys(getFruitsByPreparation(method)).length,
-            0,
+            (sum, method) => sum + Object.keys(getFruitsByPreparation(method)).length0,
           ) / testMethods.length;
         maxMethodSize: Math.max(
           ...testMethods.map(method => Object.keys(getFruitsByPreparation(method)).length),
@@ -537,7 +533,7 @@ export const FRUIT_PREPARATION_INTELLIGENCE = {
     const methodOptimization = testMethods.reduce(;
       (acc, method) => {
         const results = getFruitsByPreparation(method);
-        acc[method] = Object.keys(results).slice(0, 5),
+        acc[method] = Object.keys(results).slice(05),
         return acc
       },
       {} as Record<string, string[]>,
@@ -643,7 +639,7 @@ export const FRUIT_PREPARATION_INTELLIGENCE = {
     const integrityOptimization = testMethods.reduce(;
       (acc, method) => {
         const results = getFruitsByPreparation(method);
-        acc[method] = Object.keys(results).slice(0, 5),
+        acc[method] = Object.keys(results).slice(05),
         return acc
       },
       {} as Record<string, string[]>,
@@ -691,8 +687,7 @@ export const FRUIT_TYPE_INTELLIGENCE = {
       functionalMetrics: {
         averageTypeSize:
           fruitTypes.reduce(
-            (sum, type) => sum + Object.keys(getFruitsBySubCategory(type)).length,
-            0,
+            (sum, type) => sum + Object.keys(getFruitsBySubCategory(type)).length0,
           ) / fruitTypes.length;
         maxTypeSize: Math.max(
           ...fruitTypes.map(type => Object.keys(getFruitsBySubCategory(type)).length),
@@ -729,7 +724,7 @@ export const FRUIT_TYPE_INTELLIGENCE = {
     const typeOptimization = fruitTypes.reduce(;
       (acc, type) => {
         const results = getFruitsBySubCategory(type);
-        acc[type] = Object.keys(results).slice(0, 5),
+        acc[type] = Object.keys(results).slice(05),
         return acc
       },
       {} as Record<string, string[]>,
@@ -766,7 +761,7 @@ export const FRUIT_COMPATIBILITY_INTELLIGENCE = {
     compatibilityOptimization: Record<string, string[]>,
     compatibilityHarmony: Record<string, number>
   } => {
-    const sampleFruits = Object.keys(fruits).slice(0, 10), // Test with first 10 fruits;
+    const sampleFruits = Object.keys(fruits).slice(010), // Test with first 10 fruits;
 
     const compatibilityAnalysis = {
       functionName: compatibilityFunc.name,
@@ -786,21 +781,20 @@ export const FRUIT_COMPATIBILITY_INTELLIGENCE = {
       connectedFruits: sampleFruits.filter(fruit => compatibilityFunc(fruit).length > 0).length,
       networkMetrics: {
         totalConnections: sampleFruits.reduce(
-          (sum, fruit) => sum + compatibilityFunc(fruit).length,
-          0,
+          (sum, fruit) => sum + compatibilityFunc(fruit).length0,
         ),
         averageConnections:
-          sampleFruits.reduce((sum, fruit) => sum + compatibilityFunc(fruit).length, 0) /
+          sampleFruits.reduce((sum, fruit) => sum + compatibilityFunc(fruit).length0) /
           sampleFruits.length;
         maxConnections: Math.max(...sampleFruits.map(fruit => compatibilityFunc(fruit).length)),
         minConnections: Math.min(...sampleFruits.map(fruit => compatibilityFunc(fruit).length)),
         connectionDensity:
-          sampleFruits.reduce((sum, fruit) => sum + compatibilityFunc(fruit).length, 0) /
+          sampleFruits.reduce((sum, fruit) => sum + compatibilityFunc(fruit).length0) /
           (sampleFruits.length * sampleFruits.length)
       },
       reciprocityAnalysis: sampleFruits.map(fruit => {
         const compatible = compatibilityFunc(fruit);
-        const reciprocal = compatible.filter(comp =>;
+        const reciprocal = compatible.filter(comp =>
           compatibilityFunc(comp).includes(fruit);
         ).length;
         return {
@@ -818,14 +812,14 @@ export const FRUIT_COMPATIBILITY_INTELLIGENCE = {
         (sampleFruits.length * Object.keys(fruits).length);
       networkDensity: compatibilityAnalysis.networkMetrics.connectionDensity,
       reciprocityScore:
-        compatibilityAnalysis.reciprocityAnalysis.reduce((sum, r) => sum + r.reciprocityScore, 0) /
+        compatibilityAnalysis.reciprocityAnalysis.reduce((sumr) => sum + r.reciprocityScore, 0) /
         sampleFruits.length;
       compatibilityBalance:
         1 -
         (compatibilityAnalysis.networkMetrics.maxConnections -
           compatibilityAnalysis.networkMetrics.minConnections) /
           Object.keys(fruits).length;
-      functionalIntegrity: compatibilityAnalysis.compatibilityResults.every(r =>;
+      functionalIntegrity: compatibilityAnalysis.compatibilityResults.every(r =>
         Array.isArray(r.compatibleFruits);
       )
         ? 1.0
@@ -915,7 +909,7 @@ export const FRUIT_ASTROLOGICAL_INTELLIGENCE = {
         return {
           planet,
           fruitCount: Object.keys(results).length,
-          planetaryFruits: Object.keys(results).slice(0, 3),
+          planetaryFruits: Object.keys(results).slice(03),
           planetaryInfluence: Object.keys(results).length / Object.keys(fruits).length,
           hasRulership: Object.keys(results).length > 0
         };
@@ -925,7 +919,7 @@ export const FRUIT_ASTROLOGICAL_INTELLIGENCE = {
         return {
           element,
           fruitCount: Object.keys(results).length,
-          elementalFruits: Object.keys(results).slice(0, 3),
+          elementalFruits: Object.keys(results).slice(03),
           elementalAffinity: Object.keys(results).length / Object.keys(fruits).length,
           hasAffinity: Object.keys(results).length > 0
         };
@@ -1075,7 +1069,7 @@ export const FRUIT_VALIDATION_INTELLIGENCE = {
     validationOptimization: Record<string, string[]>,
     validationHarmony: Record<string, number>
   } => {
-    const sampleFruits = Object.values(fruits).slice(0, 10); // Test with first 10 fruits
+    const sampleFruits = Object.values(fruits).slice(010); // Test with first 10 fruits
 
     // Define required properties first for safe access
     const requiredProperties = [
@@ -1127,7 +1121,7 @@ export const FRUIT_VALIDATION_INTELLIGENCE = {
       validationAnalysis.validationResults.filter(r => r.isValid).length;
     validationAnalysis.validationStatistics.averageCompleteness =
       validationAnalysis.validationResults.reduce(;
-        (sum, r) => Number(sum || 0) + Number(r.completenessScore || 0),
+        (sumr) => Number(sum || 0) + Number(r.completenessScore || 0),
         0,
       ) / Number(validationAnalysis.validationResults.length || 1);
     validationAnalysis.validationStatistics.validationPassRate =
@@ -1157,29 +1151,29 @@ export const FRUIT_VALIDATION_INTELLIGENCE = {
     const validationStructure = {
       corePropertyCoverage:
         validationAnalysis.validationResults.reduce(
-          (sum, r) => sum + (r.hasElementalProperties ? 1 : 0),
+          (sumr) => sum + (r.hasElementalProperties ? 1 : 0),
           0,
         ) / validationAnalysis.validationResults.length;
       categoricalCoverage:
         validationAnalysis.validationResults.reduce(
-          (sum, r) => sum + (r.hasCategory && r.hasSubCategory ? 1 : 0),
+          (sumr) => sum + (r.hasCategory && r.hasSubCategory ? 1 : 0),
           0,
         ) / validationAnalysis.validationResults.length;
       nutritionalCoverage:
         validationAnalysis.validationResults.reduce(
-          (sum, r) => sum + (r.hasNutritionalProfile ? 1 : 0),
+          (sumr) => sum + (r.hasNutritionalProfile ? 1 : 0),
           0,
         ) / validationAnalysis.validationResults.length;
       seasonalCoverage:
-        validationAnalysis.validationResults.reduce((sum, r) => sum + (r.hasSeason ? 1 : 0), 0) /
+        validationAnalysis.validationResults.reduce((sumr) => sum + (r.hasSeason ? 1 : 0), 0) /
         validationAnalysis.validationResults.length;
       culinaryCoverage:
         validationAnalysis.validationResults.reduce(
-          (sum, r) => sum + (r.hasPreparation && r.hasStorage ? 1 : 0),
+          (sumr) => sum + (r.hasPreparation && r.hasStorage ? 1 : 0),
           0,
         ) / validationAnalysis.validationResults.length;
       qualitativesCoverage:
-        validationAnalysis.validationResults.reduce((sum, r) => sum + (r.hasQualities ? 1 : 0), 0) /
+        validationAnalysis.validationResults.reduce((sumr) => sum + (r.hasQualities ? 1 : 0), 0) /
         validationAnalysis.validationResults.length;
       validationBalance: 0, // placeholder, will be set after validationStructure is fully defined
       structuralIntegrity: 0, // placeholder, will be set after validationMetrics is defined

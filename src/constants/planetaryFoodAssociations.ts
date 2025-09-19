@@ -316,7 +316,7 @@ export const getZodiacBoost = (zodiacSign: string, item: unknown): number => {
   let modalityBoost = 0;
   const cardinalSigns = ['aries', 'cancer', 'libra', 'capricorn'];
   const fixedSigns = ['taurus', 'leo', 'scorpio', 'aquarius'];
-  // If not cardinal or fixed, it's mutable (gemini, virgo, sagittarius, pisces)
+  // If not cardinal or fixedit's mutable (gemini, virgo, sagittarius, pisces)
 
   if (cardinalSigns.includes(normalizedSign)) {
     // Cardinal signs prefer bold, distinctive cuisines

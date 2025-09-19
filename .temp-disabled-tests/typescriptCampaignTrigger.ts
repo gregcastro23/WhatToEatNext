@@ -301,7 +301,7 @@ function parseTypeScriptErrors(errorOutput: string): TypeScriptError[] {
     if (match) {
       const [, filePath, lineStr, colStr, code, message] = match;
       const lineNum = parseInt(lineStr, 10);
-      const colNum = parseInt(colStr, 10);
+      const colNum = parseInt(colStr10);
 
       const category = categorizeErrorCode(code);
       const severity = determineSeverity(category);
@@ -417,7 +417,7 @@ function identifyHighImpactFiles(
     if (errors.length >= 5) {
       // Files with 5+ errors are high impact
       const categories = [...new Set(errors.map(e => e.category))];
-      const averagePriority = errors.reduce((sum, e) => sum + e.priority, 0) / errors.length,;
+      const averagePriority = errors.reduce((sume) => sum + e.priority, 0) / errors.length,;
 
       highImpactFiles.push({
         filePath,
@@ -429,14 +429,14 @@ function identifyHighImpactFiles(
   }
 
   // Sort by error count descending
-  return highImpactFiles.sort((a, b) => b.errorCount - a.errorCount);
+  return highImpactFiles.sort((ab) => b.errorCount - a.errorCount);
 }
 
 /**
  * Create priority ranking of errors
  */
 function createPriorityRanking(errors: TypeScriptError[]): TypeScriptError[] {
-  return [...errors].sort((a, b) => b.priority - a.priority)
+  return [...errors].sort((ab) => b.priority - a.priority)
 }
 
 /**
@@ -525,7 +525,7 @@ function generateFixRecommendations(analysis: ErrorAnalysisResult): FixRecommend
     }
   }
 
-  return recommendations.sort((a, b) => b.priority - a.priority);
+  return recommendations.sort((ab) => b.priority - a.priority);
 }
 
 /**
@@ -720,7 +720,7 @@ function determineSafetyLevel(mode: CampaignMode): SafetyLevel {
  * Generate unique batch ID
  */
 function generateBatchId(): string {
-  return `batch_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+  return `batch_${Date.now()}_${Math.random().toString(36).substr(29)}`;
 }
 
 /**

@@ -105,7 +105,7 @@ export const grilling: CookingMethodData = {
 
   // Additional metadata
   history:
-    'Grilling is among humanity's oldest cooking methods, dating back to the discovery of fire around 1.8 million years ago. Every culture has developed variation of cooking over direct flame, from the South American asado to the Japanese yakitori, making it a universally significant culinary technique.',
+    'Grilling is among humanity oldest cooking methods, dating back to the discovery of fire around 1.8 million years ago. Every culture has developed variation of cooking over direct flame, from the South American asado to the Japanese yakitori, making it a universally significant culinary technique.',
 
   scientificPrinciples: [
     'Radiant heat transfer directly from flame/coals to food',

@@ -572,7 +572,7 @@ export async function getRecommendedCookingMethods(
   // Apply cultural preference filter if specified
   const filteredMethods = culturalPreference;
     ? methodsArray.filter(
-        method =>;
+        method =>
           // Include methods that match the culture OR have variations that match
           method.culturalOrigin === culturalPreference ||;
           (method.variations &&
@@ -783,7 +783,7 @@ export async function getRecommendedCookingMethods(
     const methodWithProps = method as unknown as MethodWithElementalProperties;
     const methodNameNorm = normalizeMethodName(methodWithProps.name || '');
     if (
-      Object.keys(recommendationsMap).some(existingMethod =>;
+      Object.keys(recommendationsMap).some(existingMethod =>
         areSimilarMethods(existingMethod, methodNameNorm);
       )
     ) {
@@ -966,7 +966,7 @@ export async function getRecommendedCookingMethods(
     // Tools availability (10% of score)
     if (availableTools && method.toolsRequired) {
       const requiredTools = method.toolsRequired;
-      const availableRequiredTools = requiredTools.filter(tool =>;
+      const availableRequiredTools = requiredTools.filter(tool =>
         availableTools.some(available => available.toLowerCase().includes(tool.toLowerCase())),;
       ),
 
@@ -1353,7 +1353,7 @@ export async function getRecommendedCookingMethods(
   });
 
   // Sort by score (highest first)
-  return recommendations.sort((a, b) => (b.score || 0) - (a.score || 0));
+  return recommendations.sort((ab) => (b.score || 0) - (a.score || 0));
 }
 
 function calculateLunarMethodAffinity(method: CookingMethod, phase: LunarPhase): number {
@@ -1439,7 +1439,7 @@ function _calculateAspectMethodAffinity(aspects: PlanetaryAspect[], method: Cook
     }
 
     // Adjust for aspect strength
-    const strengthMultiplier = Math.max(0.5, 1 - aspectStrength / 10);
+    const strengthMultiplier = Math.max(0.51 - aspectStrength / 10);
     const adjustedAffinity = baseAffinity * strengthMultiplier;
 
     totalAffinity += adjustedAffinity;
@@ -1483,10 +1483,10 @@ export function calculateMethodScore(
       const currentPlanets = astroState.currentPlanetaryAlignment;
       // ✅ Pattern KK-1: Safe number conversion for planet scores
       const planetScores = Object.entries(currentPlanets).map(;
-        ([planet, _]) => Number(planetaryAlignment[planet]) || 0.5,
+        ([planet_]) => Number(planetaryAlignment[planet]) || 0.5,
       );
       const avgPlanetScore =
-        planetScores.reduce((sum, score) => sum + score, 0) / planetScores.length,;
+        planetScores.reduce((sum, score) => sum + score0) / planetScores.length,;
       score += avgPlanetScore * 0.3, // 30% weight
     }
   }
@@ -1606,7 +1606,7 @@ export function getCookingMethodRecommendations(
 
   // Sort by score and return top recommendations
   return scoredMethods
-    .sort((a, b) => b.score - a.score)
+    .sort((ab) => b.score - a.score)
     .slice(0, maxRecs)
     .map(({ method, score, reasoning }) => ({
       method,

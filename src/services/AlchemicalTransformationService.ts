@@ -352,7 +352,7 @@ export class AlchemicalTransformationService {
     });
 
     // Sort by compatibility score
-    const sortedRecipes = scoredRecipes.sort((a, b) => b.compatibility - a.compatibility);
+    const sortedRecipes = scoredRecipes.sort((ab) => b.compatibility - a.compatibility);
 
     // Return top N recipes
     return sortedRecipes.slice(0, count);

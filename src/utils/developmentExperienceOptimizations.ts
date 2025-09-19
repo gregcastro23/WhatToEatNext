@@ -613,7 +613,7 @@ export type {
 
   private startRealTimeErrorDetection(): void {
     // In a real implementation, this would integrate with the TypeScript compiler API
-    // For now, we'll simulate real-time error detection
+    // For nowwe'll simulate real-time error detection
     setInterval(() => {
       // Simulate error detection
       const errorCount = Math.floor(Math.random() * 5);

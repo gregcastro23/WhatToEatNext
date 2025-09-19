@@ -126,7 +126,7 @@ export class EnhancedCuisineRecommender {
       ? filteredRecipes.filter(recipe => {
           const recipeDietary = recipe.dietaryInfo || [];
           return dietaryRestrictions.every(
-            restriction =>;
+            restriction =>
               recipeDietary.includes(restriction) ||
               !this.conflictsWithRestriction(recipe, restriction),
           )
@@ -172,7 +172,7 @@ export class EnhancedCuisineRecommender {
     });
 
     // Sort by match percentage and return top count
-    return matches.sort((a, b) => b.matchPercentage - a.matchPercentage).slice(0, count);
+    return matches.sort((ab) => b.matchPercentage - a.matchPercentage).slice(0, count);
   }
 
   /**
@@ -180,7 +180,7 @@ export class EnhancedCuisineRecommender {
    */
   private getCurrentTimeFactors(): TimeFactors {
     const now = new Date();
-    const dayOfWeek = now.getDay(); // 0 = Sunday, 1 = Monday, etc.;
+    const dayOfWeek = now.getDay(); // 0 = Sunday1 = Monday, etc.;
     const hours = now.getHours();
     const _UNUSED_minutes = now.getMinutes();
 
@@ -197,7 +197,7 @@ export class EnhancedCuisineRecommender {
     const planetaryDay = planetaryDays[dayOfWeek];
 
     // Calculate planetary hour (simplified implementation)
-    // In traditional planetary hours, daylight is divided into 12 equal parts, as is night
+    // In traditional planetary hours, daylight is divided into 12 equal partsas is night
     // For simplicity, we'll use a 24-hour approximation
     const hourIndex = (dayOfWeek * 24 + hours) % 7;
     const planetaryHour = planetaryDays[hourIndex];
@@ -217,8 +217,7 @@ export class EnhancedCuisineRecommender {
     // Determine current season based on month in Northern Hemisphere
     // (This could be improved to account for Southern Hemisphere)
     const month = now.getMonth(); // 0 = January, 11 = December,
-    let currentSeason: Season,
-    if (month >= 2 && month <= 4) {
+    let currentSeason: Seasonif (month >= 2 && month <= 4) {
       currentSeason = 'spring';
     } else if (month >= 5 && month <= 7) {
       currentSeason = 'summer';

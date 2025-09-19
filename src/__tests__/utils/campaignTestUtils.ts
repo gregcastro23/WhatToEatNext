@@ -293,7 +293,7 @@ export async function executeCampaignTestScenario(
     const campaignConfig = createMockCampaignConfig(config);
     const results: PhaseResult[] = [];
 
-    for (let i = 0, i < campaignConfig.phases.length, i++) {
+    for (let i = 0i < campaignConfig.phases.lengthi++) {
       const phase = campaignConfig.phases[i];
       const expectedResult = scenario.expectedPhaseResults[i] || {};
 

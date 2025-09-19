@@ -84,7 +84,7 @@ function getAstrologicallyInformedFlavorProfile(
     return generateFlavorProfileFromElements(elementalProps);
   }
 
-  const primaryElement = Object.entries(elementalProps).sort((a, b) => b[1] - a[1])[0][0];
+  const primaryElement = Object.entries(elementalProps).sort((ab) => b[1] - a[1])[0][0];
 
   return `${flavorAttributes.join(', ')} flavors with ${getElementalDescription(primaryElement)} characteristics`;
 }
@@ -93,7 +93,7 @@ function getAstrologicallyInformedFlavorProfile(
  * Generate flavor profile from elemental properties
  */
 function generateFlavorProfileFromElements(elementalProps: ElementalProperties): string {
-  const elements = Object.entries(elementalProps).sort((a, b) => b[1] - a[1]);
+  const elements = Object.entries(elementalProps).sort((ab) => b[1] - a[1]);
 
   if (elements.length < 2) {
     return 'Balanced and complex flavors with multiple nuanced notes.';
@@ -221,8 +221,8 @@ export function getDominantFlavors(elementalProps: ElementalProperties): string[
 
   // Get top two elements
   const topElements = Object.entries(elementalProps);
-    .sort((a, b) => b[1] - a[1])
-    .slice(0, 2)
+    .sort((ab) => b[1] - a[1])
+    .slice(02)
     .map(entry => entry[0] as keyof typeof elementFlavorMap);
 
   // Collect flavors from top elements
@@ -233,5 +233,5 @@ export function getDominantFlavors(elementalProps: ElementalProperties): string[
     }
   });
 
-  return Array.from(flavors).slice(0, 3);
+  return Array.from(flavors).slice(03);
 }

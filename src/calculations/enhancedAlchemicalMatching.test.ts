@@ -118,16 +118,16 @@ describe('Enhanced Alchemical Matching Algorithms', () => {
   describe('generateEnhancedRecommendation', () => {
     it('should generate recommendations based on dominant element and modality', () => {
       const mockResultCardinalFire: any = {
-        elements: { Fir, e: 0.6, Water: 0.2, Earth: 0.1, Air: 0.1 },
+        elements: { Fire: 0.6, Water: 0.2, Earth: 0.1, Air: 0.1 },
         modalities: { Cardina, l: 0.5, Fixed: 0.3, Mutable: 0.2 },
-        qualities: { Ho, t: 0.7, Dry: 0.5, Cold: 0.2, Wet: 0.1 },
+        qualities: { Hot: 0.7, Dry: 0.5, Cold: 0.2, Wet: 0.1 },
         dominant: { element: 'Fire', modality: 'Cardinal', quality: 'Hot' }
       };
 
       const mockResultMutableAir: any = {
-        elements: { Fir, e: 0.2, Water: 0.2, Earth: 0.1, Air: 0.5 },
+        elements: { Fire: 0.2, Water: 0.2, Earth: 0.1, Air: 0.5 },
         modalities: { Cardina, l: 0.2, Fixed: 0.2, Mutable: 0.6 },
-        qualities: { Ho, t: 0.3, Dry: 0.6, Cold: 0.2, Wet: 0.3 },
+        qualities: { Hot: 0.3, Dry: 0.6, Cold: 0.2, Wet: 0.3 },
         dominant: { element: 'Air', modality: 'Mutable', quality: 'Dry' }
       };
 
@@ -147,9 +147,9 @@ describe('Enhanced Alchemical Matching Algorithms', () => {
 
     it('should adapt recommendations based on user preferences', () => {
       const mockResult: any = {
-        elements: { Fir, e: 0.6, Water: 0.2, Earth: 0.1, Air: 0.1 },
+        elements: { Fire: 0.6, Water: 0.2, Earth: 0.1, Air: 0.1 },
         modalities: { Cardina, l: 0.5, Fixed: 0.3, Mutable: 0.2 },
-        qualities: { Ho, t: 0.7, Dry: 0.5, Cold: 0.2, Wet: 0.1 },
+        qualities: { Hot: 0.7, Dry: 0.5, Cold: 0.2, Wet: 0.1 },
         dominant: { element: 'Fire', modality: 'Cardinal', quality: 'Hot' }
       };
 
@@ -163,9 +163,9 @@ describe('Enhanced Alchemical Matching Algorithms', () => {
 
     it('should consider seasonal influences', () => {
       const mockResult: any = {
-        elements: { Fir, e: 0.6, Water: 0.2, Earth: 0.1, Air: 0.1 },
+        elements: { Fire: 0.6, Water: 0.2, Earth: 0.1, Air: 0.1 },
         modalities: { Cardina, l: 0.5, Fixed: 0.3, Mutable: 0.2 },
-        qualities: { Ho, t: 0.7, Dry: 0.5, Cold: 0.2, Wet: 0.1 },
+        qualities: { Hot: 0.7, Dry: 0.5, Cold: 0.2, Wet: 0.1 },
         dominant: { element: 'Fire', modality: 'Cardinal', quality: 'Hot' }
       };
 

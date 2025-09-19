@@ -252,7 +252,7 @@ describe('EnhancedSafetyProtocols', () => {
 
       expect(result.passed).toBe(false);
       expect(result.requiresRollback).toBe(true);
-      expect(result.errors).toContain('TypeScript compilation failed: Erro, r: Compilation failed')
+      expect(result.errors).toContain('TypeScript compilation failed: Error: Compilation failed')
     });
 
     test('should perform service layer validation', async () => {

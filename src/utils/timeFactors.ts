@@ -87,7 +87,7 @@ export function getPlanetaryHourRuler(dayOfWeek: number, hour: number): Planet {
   // Find the position of the day's ruling planet in the Chaldean order
   const startPosition = planetaryOrder.indexOf(dayPlanet);
 
-  // For planetary hours, we count from sunrise to sunset as 12 hours,
+  // For planetary hourswe count from sunrise to sunset as 12 hours,
   // and sunset to sunrise as 12 hours. For simplicity, we use civil hours.
   const hourSequencePosition = (startPosition + hour) % 7;
 

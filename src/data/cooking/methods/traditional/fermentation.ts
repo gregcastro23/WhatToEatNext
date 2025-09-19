@@ -232,7 +232,7 @@ export const fermentation: CookingMethodData = {
 
   scientificPrinciples: [
     'Microbial conversion of sugars to acids, alcohols, or gases',
-    'Selective pressure through environmental conditions (salt, pH, oxygen)',
+    'Selective pressure through environmental conditions (saltpH, oxygen)',
     'Competitive inhibition of pathogenic bacteria',
     'Enzymatic breakdown of complex molecules',
     'Succession of microbial communities over time',
@@ -368,7 +368,7 @@ export const fermentation: CookingMethodData = {
     salt_effects:
       'Creates selective pressure favoring salt-tolerant microbes like Lactobacillus while inhibiting pathogens. Above 10% primarily favors yeast activity. Traditional ranges: vegetables (1.5-3%), cheese (1-5%), bread (1.8-2.2% of flour weight), meat ferments (2.5-3.5%).',
     sugar_concentration:
-      'Provides food for microbes, influencing rate of fermentation and final product. Higher concentrations (above 55%) become preservative, inhibiting most microbial activity. In vegetable ferments, natural sugars are converted to acids, in beverages, determines potential alcohol content.',
+      'Provides food for microbes, influencing rate of fermentation and final product. Higher concentrations (above 55%) become preservative, inhibiting most microbial activity. In vegetable ferments, natural sugars are converted to acidsin beverages, determines potential alcohol content.',
     protein_breakdown:
       'Proteolysis during fermentation breaks proteins into peptides and amino acids, enhancing digestibility and flavor (especially umami). Particularly important in soy, dairy, and meat ferments. Different microbial strains produce distinct proteolytic enzyme profiles.',
     tannin_impact:

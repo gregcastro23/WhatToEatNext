@@ -47,7 +47,7 @@ export interface PredictiveRecipeAnalysis {
   astrologicalContext: {
     zodiacSign: any,
     lunarPhase: LunarPhase,
-    elementalProperties: ElementalProperties;
+    elementalProperties: ElementalProperties,
     planetaryPositions?: Record<
       string,
       {
@@ -108,7 +108,7 @@ export interface PredictiveAstrologicalAnalysis {
   astrologicalState: {
     zodiacSign: any,
     lunarPhase: LunarPhase,
-    elementalProperties: ElementalProperties;
+    elementalProperties: ElementalProperties,
 
     // Intentionally any: Astronomical library planetary data has varying structure depending on calculation method
     planetaryPositions: Record<string, unknown>;
@@ -232,7 +232,7 @@ export interface MLAstrologicalPredictionAnalysis {
   astrologicalState: {
     zodiacSign: any,
     lunarPhase: LunarPhase,
-    elementalProperties: ElementalProperties;
+    elementalProperties: ElementalProperties,
 
     // Intentionally any: Astronomical library planetary data has varying structure depending on calculation method
     planetaryPositions: Record<string, unknown>;
@@ -439,7 +439,7 @@ export interface AdvancedAstrologicalAnalyticsAnalysis {
   astrologicalState: {
     zodiacSign: any,
     lunarPhase: LunarPhase,
-    elementalProperties: ElementalProperties;
+    elementalProperties: ElementalProperties,
 
     // Intentionally any: Astronomical library planetary data has varying structure depending on calculation method
     planetaryPositions: Record<string, unknown>;
@@ -526,7 +526,7 @@ export interface IntelligenceRequest {
     astrologicalState: {
       zodiacSign: any,
       lunarPhase: LunarPhase,
-      elementalProperties: ElementalProperties;
+      elementalProperties: ElementalProperties,
       planetaryPositions?: Record<string, unknown>;
     };
 
@@ -549,7 +549,7 @@ export interface IntelligenceRequest {
 export interface IntelligenceResponse {
   success: boolean,
   result: PredictiveIntelligenceResult | MLIntelligenceResult | AdvancedAnalyticsIntelligenceResult,
-  metrics: AdvancedIntelligenceMetrics;
+  metrics: AdvancedIntelligenceMetrics,
   error?: string;
   timestamp: string
 }

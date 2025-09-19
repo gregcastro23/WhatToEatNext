@@ -255,7 +255,7 @@ async function runComprehensiveTests() {
       0.7, // Recipe weight
       0.3, // User weight
     );
-    log.info('Combined Elements (70% recipe, 30% user):', combinedElements);
+    log.info('Combined Elements (70% recipe30% user):', combinedElements);
     log.info('✅ Combined elements test completed\n');
 
     // Test 9: Multiple Cuisine Compatibility
@@ -280,7 +280,7 @@ async function runComprehensiveTests() {
       });
     }
     // Sort by score
-    cuisineResults.sort((a, b) => parseFloat(b.score) - parseFloat(a.score));
+    cuisineResults.sort((ab) => parseFloat(b.score) - parseFloat(a.score));
     log.info('Cuisine Compatibility Rankings:');
     (cuisineResults || []).forEach((result, index) => {
       log.info(

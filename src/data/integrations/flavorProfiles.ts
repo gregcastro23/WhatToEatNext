@@ -3,7 +3,7 @@ import type { ElementalProperties } from '@/types/alchemy';
 interface FlavorProfile {
   elementalProperties: ElementalProperties,
   taste: string[],
-  intensity: number; // 0 to 1
+  intensity: number, // 0 to 1
   pairings: string[];
   seasonalPeak?: string[];
   description: string

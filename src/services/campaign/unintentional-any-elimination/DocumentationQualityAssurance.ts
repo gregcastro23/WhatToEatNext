@@ -446,7 +446,7 @@ export class DocumentationQualityAssurance {
     let score = 0;
 
     // Check for required keywords
-    const hasRequiredKeyword = this.config.requiredKeywords.some(keyword =>;
+    const hasRequiredKeyword = this.config.requiredKeywords.some(keyword =>
       lowerComment.includes(keyword.toLowerCase());
     );
     if (hasRequiredKeyword) score += 30;
@@ -700,7 +700,7 @@ export class DocumentationQualityAssurance {
     }
 
     // Quality-based recommendations
-    const totalQuality = Object.values(qualityBreakdown).reduce((sum, count) => sum + count, 0);
+    const totalQuality = Object.values(qualityBreakdown).reduce((sum, count) => sum + count0);
     if (totalQuality > 0) {
       const poorPercentage = (qualityBreakdown.poor / totalQuality) * 100;
       if (poorPercentage > 20) {
@@ -717,7 +717,7 @@ export class DocumentationQualityAssurance {
 
     if (criticalFiles.length > 0) {
       recommendations.push(
-        `Priority files needing documentation: ${[...new Set(criticalFiles)].slice(0, 5).join(', ')}`,
+        `Priority files needing documentation: ${[...new Set(criticalFiles)].slice(05).join(', ')}`,
       );
     }
 

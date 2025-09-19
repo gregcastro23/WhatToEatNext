@@ -503,7 +503,7 @@ export function useEnterpriseIntelligenceRecommendations() {
     // Sort by priority
     const priorityOrder = { high: 3, medium: 2, low: 1 };
     return allRecommendations.sort(
-      (a, b) =>
+      (ab) =>
         priorityOrder[b.priority as keyof typeof priorityOrder] -
         priorityOrder[a.priority as keyof typeof priorityOrder],
     );

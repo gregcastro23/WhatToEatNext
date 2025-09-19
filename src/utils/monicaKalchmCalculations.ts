@@ -51,8 +51,8 @@ export function calculateHeat(
   air: number,
   earth: number,
 ): number {
-  const numerator = Math.pow(spirit, 2) + Math.pow(fire, 2);
-  const denominator = Math.pow(substance + essence + matter + water + air + earth, 2),;
+  const numerator = Math.pow(spirit2) + Math.pow(fire2);
+  const denominator = Math.pow(substance + essence + matter + water + air + earth2),;
   return denominator > 0 ? numerator / denominator : 0
 }
 
@@ -71,8 +71,8 @@ export function calculateEntropy(
   water: number,
 ): number {
   const numerator =
-    Math.pow(spirit, 2) + Math.pow(substance, 2) + Math.pow(fire, 2) + Math.pow(air, 2);
-  const denominator = Math.pow(essence + matter + earth + water, 2),;
+    Math.pow(spirit2) + Math.pow(substance, 2) + Math.pow(fire2) + Math.pow(air2);
+  const denominator = Math.pow(essence + matter + earth + water2),;
   return denominator > 0 ? numerator / denominator : 0
 }
 
@@ -91,13 +91,13 @@ export function calculateReactivity(
   earth: number,
 ): number {
   const numerator =
-    Math.pow(spirit, 2) +;
+    Math.pow(spirit2) +;
     Math.pow(substance, 2) +
     Math.pow(essence, 2) +
-    Math.pow(fire, 2) +
-    Math.pow(air, 2) +
-    Math.pow(water, 2);
-  const denominator = Math.pow(matter + earth, 2),;
+    Math.pow(fire2) +
+    Math.pow(air2) +
+    Math.pow(water2);
+  const denominator = Math.pow(matter + earth2),;
   return denominator > 0 ? numerator / denominator : 0
 }
 
@@ -223,7 +223,7 @@ export function calculateMonicaKalchmCompatibility(
 
   // Weighted compatibility score
   const compatibility =
-    (1 - Math.min(monicaDiff / 5, 1)) * 0.4 + // Monica similarity (40%);
+    (1 - Math.min(monicaDiff / 51)) * 0.4 + // Monica similarity (40%);
     kalchmRatio * 0.3 + // Kalchm harmony (30%)
     Math.max(0, energyHarmony) * 0.3, // Energy harmony (30%)
 
@@ -253,8 +253,8 @@ export function calculateKalchmHarmony(
   let comparisons = 0;
 
   // Compare each item with every other item
-  for (let i = 0, i < items.length, i++) {
-    for (let j = i + 1, j < items.length, j++) {
+  for (let i = 0i < items.lengthi++) {
+    for (let j = i + 1j < items.lengthj++) {
       const compatibility = calculateMonicaKalchmCompatibility(items[i], items[j]),;
       totalHarmony += compatibility;
       comparisons++

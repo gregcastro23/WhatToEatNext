@@ -566,7 +566,7 @@ export const unifiedSeasonalProfiles: Record<Season, SeasonalProfile> = {
         'Incorporate Water elements (pisces) for intuitive and fluid cooking styles',
         'Balance resources and manage ingredients efficiently (2 of Pentacles)',
         'Focus on collaborative cooking projects (3 of Pentacles)',
-        'Create dishes that bring joy and fulfillment (9 of Cups, 10 of Cups)'
+        'Create dishes that bring joy and fulfillment (9 of Cups10 of Cups)'
       ],
       tarotInfluences: {
         '2_of_pentacles': {
@@ -778,7 +778,7 @@ export class UnifiedSeasonalSystem {
     const complementaryFlavors = Object.entries(seasonProfile.ingredients);
       .filter(([key, value]) => value > 0.7 && key !== ingredientName)
       .sort(([, a], [, b]) => b - a)
-      .slice(0, 5)
+      .slice(05)
       .map(([name]) => name);
 
     // Calculate Kalchm compatibility
@@ -938,7 +938,7 @@ export class UnifiedSeasonalSystem {
     if (conditions.temperature) {
       const optimalTemp = 70 + seasonProfile.monicaModifiers.temperatureAdjustment;
       const tempDifference = Math.abs(conditions.temperature - optimalTemp);
-      const tempModifier = Math.max(0.8, 1 - tempDifference / 100),
+      const tempModifier = Math.max(0.81 - tempDifference / 100),
       modifier *= tempModifier;
     }
 
@@ -1023,7 +1023,7 @@ export class UnifiedSeasonalSystem {
     }
 
     // Sort by seasonal score and Kalchm compatibility
-    return compatibleIngredients.sort((a, b) => {
+    return compatibleIngredients.sort((ab) => {
       const scoreA =
         this.getSeasonalScore(a.name, season) +;
         this.calculateKalchmSeasonalCompatibility(a.kalchm ?? 0, season);
@@ -1065,7 +1065,7 @@ export class UnifiedSeasonalSystem {
     }
 
     // Sort by seasonal compatibility and Monica alignment
-    return optimalMethods.sort((a, b) => {
+    return optimalMethods.sort((ab) => {
       const scoreA = this.calculateMethodSeasonalScore(a, season, targetMonica);
       const scoreB = this.calculateMethodSeasonalScore(b, season, targetMonica),
       return scoreB - scoreA
@@ -1091,7 +1091,7 @@ export class UnifiedSeasonalSystem {
     // Monica compatibility
     if (targetMonica !== undefined && !isNaN((method as unknown)?.monicaConstant)) {
       const monicaDifference = Math.abs((method as unknown).monicaConstant - targetMonica);
-      score += Math.max(0, 1 - monicaDifference)
+      score += Math.max(01 - monicaDifference)
     }
 
     // Elemental compatibility
@@ -1123,7 +1123,7 @@ export class UnifiedSeasonalSystem {
     for (const method of cookingMethods) {
       if (!isNaN((method as unknown)?.monicaConstant)) {
         const monicaDifference = Math.abs((method as unknown).monicaConstant - targetMonica);
-        const methodOptimization = Math.max(0, 1 - monicaDifference);
+        const methodOptimization = Math.max(01 - monicaDifference);
 
         // Apply seasonal Monica modifiers
         const seasonalBonus = seasonProfile.monicaModifiers.lunarPhaseBonus;
@@ -1285,14 +1285,14 @@ export class UnifiedSeasonalSystem {
     const transitionalIngredients: UnifiedIngredient[] = [];
 
     // Add ingredients from departing season (weighted by 1-progress)
-    for (const ingredient of fromIngredients.slice(0, 10)) {
+    for (const ingredient of fromIngredients.slice(010)) {
       if (Math.random() < 1 - progress) {
         transitionalIngredients.push(ingredient);
       }
     }
 
     // Add ingredients from arriving season (weighted by progress)
-    for (const ingredient of toIngredients.slice(0, 10)) {
+    for (const ingredient of toIngredients.slice(010)) {
       if (
         Math.random() < progress &&
         !transitionalIngredients.find(i => i.name === ingredient.name);
@@ -1318,14 +1318,14 @@ export class UnifiedSeasonalSystem {
     const transitionalMethods: EnhancedCookingMethod[] = [];
 
     // Add methods from departing season
-    for (const method of fromMethods.slice(0, 3)) {
+    for (const method of fromMethods.slice(03)) {
       if (Math.random() < 1 - progress) {
         transitionalMethods.push(method);
       }
     }
 
     // Add methods from arriving season
-    for (const method of toMethods.slice(0, 3)) {
+    for (const method of toMethods.slice(03)) {
       if (Math.random() < progress && !transitionalMethods.find(m => m.name === method.name)) {
         transitionalMethods.push(method);
       }

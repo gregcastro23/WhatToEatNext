@@ -11,7 +11,7 @@ export interface SignVectorComponents {
   // Modality components
   cardinal: number,
   fixed: number,
-  mutable: number;
+  mutable: number,
 
   // Elemental components
   Fire: number,

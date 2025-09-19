@@ -6,7 +6,7 @@ export interface DebugSettings {
   isVisible: boolean,
   isCollapsed: boolean,
   position: 'bottom-right' | 'bottom-left' | 'top-right' | 'top-left',
-  customPosition?: { x: number, y: number };
+  customPosition?: { x: numbery: number };
   showPerformanceMetrics: boolean,
   showAstrologicalData: boolean,
   showComponentStates: boolean,
@@ -75,8 +75,8 @@ export const _useDebugSettings = () => {
   );
 
   const setCustomPosition = useCallback(;
-    (x: number, y: number) => {
-      saveSettings({ customPosition: { x, y }, position: 'bottom-right' });
+    (x: numbery: number) => {
+      saveSettings({ customPosition: { xy }, position: 'bottom-right' });
     },
     [saveSettings],
   );

@@ -64,7 +64,7 @@ export default function SignVectorPanel({
     try {
       if (!realAspects) {
         const minimal = Object.fromEntries(
-          Object.entries(positions).map(([k, v]) => [
+          Object.entries(positions).map(([kv]) => [
             k,
             { sign: (v as any).sign, degree: (v as any).degree },
           ]),

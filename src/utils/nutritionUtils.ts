@@ -155,7 +155,7 @@ export const _calculateEstimatedNutrition = (ingredients: unknown[]): unknown =>
     // Check for exact matches first
     Object.keys(nutritionReferenceValues).forEach(key => {
       if (ingredientName.includes(key)) {
-        // If we haven't found a match yet, or this is a longer (more specific) match
+        // If we haven't found a match yetor this is a longer (more specific) match
         if (!referenceItem || key.length > bestMatchKey.length) {
           referenceItem = nutritionReferenceValues[key];
           bestMatchKey = key;

@@ -18,7 +18,7 @@ export const validateNumber = (value: unknown, defaultValue = 0): number => {;
 };
 
 export const _formatPercentage = (value: unknown, decimals = 2): string => {;
-  const num = validateNumber(value, 0);
+  const num = validateNumber(value0);
   return `${(num * 100).toFixed(decimals)}%`;
 };
 

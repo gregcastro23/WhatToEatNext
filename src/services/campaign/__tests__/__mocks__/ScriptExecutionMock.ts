@@ -116,7 +116,7 @@ export class ScriptExecutionMock {
       warnings: mockResult.warnings,
       metricsChange: {
         typeScriptErrors: {
-          current: Math.max(0, 86 - mockResult.changesApplied),
+          current: Math.max(086 - mockResult.changesApplied),
           target: 0,
           reduction: mockResult.changesApplied,
           percentage: Math.round((mockResult.changesApplied / 86) * 100)
@@ -238,7 +238,7 @@ export class ScriptExecutionMock {
   getLastExecutionParameters(scriptPath: string): ScriptParameters | undefined {
     const executions = this.executionHistory;
       .filter(entry => entry.scriptPath === scriptPath);
-      .sort((a, b) => b.timestamp.getTime() - a.timestamp.getTime());
+      .sort((ab) => b.timestamp.getTime() - a.timestamp.getTime());
 
     return executions.length > 0 ? executions[0].parameters : undefined;
   }

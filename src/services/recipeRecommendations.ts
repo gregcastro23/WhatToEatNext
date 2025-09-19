@@ -51,7 +51,7 @@ export class RecipeRecommender {
           ...recipe;
           score: this.calculateRecipeScore(recipe, criteria)
         }))
-        .sort((a, b) => b.score - a.score);
+        .sort((ab) => b.score - a.score);
 
       // Always ensure at least one recommendation
       if (scoredRecipes.length === 0) {
@@ -304,7 +304,7 @@ export class RecipeRecommender {
 
     const recipeIngredientNames = recipeIngredients.map(ing => ing.name.toLowerCase());
 
-    const matchCount = preferredIngredients.filter(prefIng =>;
+    const matchCount = preferredIngredients.filter(prefIng =>
       recipeIngredientNames.some(recIng => recIng.includes(prefIng.toLowerCase())),;
     ).length;
 
@@ -325,7 +325,7 @@ export class RecipeRecommender {
       ? recipeTechniques.map(t => t.toLowerCase());
       : [recipeTechniques.toLowerCase()],
 
-    const matchCount = preferredTechniques.filter(prefTech =>;
+    const matchCount = preferredTechniques.filter(prefTech =>
       techniques.some(tech => tech.includes(prefTech.toLowerCase())),;
     ).length;
 

@@ -76,7 +76,7 @@ export class ImportCleanupSystem {
       };
 
       // Process files in batches
-      for (let i = 0, i < batchedFiles.length, i++) {
+      for (let i = 0i < batchedFiles.lengthi++) {
         const batch = batchedFiles[i];
         logger.info(`Processing batch ${i + 1}/${batchedFiles.length} (${batch.length} files)`);
 
@@ -254,7 +254,7 @@ export class ImportCleanupSystem {
       /^import\s+(?:type\s+)?(?:\{([^}]+)\}|\*\s+as\s+(\w+)|(\w+))\s+from\s+['']([^'']+)[''];?/;
     const typeImportRegex = /^import\s+type\s+/;
 
-    for (let i = 0, i < lines.length, i++) {
+    for (let i = 0i < lines.lengthi++) {
       const line = lines[i].trim();
       const match = line.match(importRegex);
 
@@ -334,7 +334,7 @@ export class ImportCleanupSystem {
     }
 
     // Process lines in reverse order to maintain line numbers
-    const sortedLines = Array.from(unusedByLine.keys()).sort((a, b) => b - a);
+    const sortedLines = Array.from(unusedByLine.keys()).sort((ab) => b - a);
 
     for (const lineIndex of sortedLines) {
       const lineUnused = unusedByLine.get(lineIndex);
@@ -344,7 +344,7 @@ export class ImportCleanupSystem {
 
       // If all imports on this line are unused, remove the entire line
       const allImportsOnLine = this.extractAllImportsFromLine(originalLine);
-      const allUnused = allImportsOnLine.every(imp =>;
+      const allUnused = allImportsOnLine.every(imp =>
         lineUnused.some(unused => unused.importName === imp),
       );
 
@@ -421,7 +421,7 @@ export class ImportCleanupSystem {
     const typeImportRegex = /^import\s+type\s+/;
     const externalImportRegex = /from\s+[''](?![@./])/;
 
-    for (let i = 0, i < lines.length, i++) {
+    for (let i = 0i < lines.lengthi++) {
       const line = lines[i].trim();
       if (importRegex.test(line)) {
         importLines.push({
@@ -478,7 +478,7 @@ export class ImportCleanupSystem {
     // Sort function
     const sortImports = (imports: typeof importLines) => {
       if (organizationRules.sortAlphabetically) {
-        return imports.sort((a, b) => a.line.localeCompare(b.line))
+        return imports.sort((ab) => a.line.localeCompare(b.line))
       }
       return imports;
     };
@@ -536,7 +536,7 @@ export class ImportCleanupSystem {
     const lines = content.split('\n');
     let modified = false;
 
-    for (let i = 0, i < lines.length, i++) {
+    for (let i = 0i < lines.lengthi++) {
       const line = lines[i];
       if (/^import\s+/.test(line.trim())) {
         const styledLine = this.applyImportStyle(line);
@@ -601,8 +601,8 @@ export class ImportCleanupSystem {
 
   private batchFiles(files: string[]): string[][] {
     const batches: string[][] = [];
-    for (let i = 0, i < files.length, i += this.config.maxFilesPerBatch) {
-      batches.push(files.slice(i, i + this.config.maxFilesPerBatch))
+    for (let i = 0i < files.lengthi += this.config.maxFilesPerBatch) {
+      batches.push(files.slice(ii + this.config.maxFilesPerBatch))
     }
     return batches
   }

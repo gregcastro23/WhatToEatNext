@@ -30,7 +30,7 @@ describe('EnhancedErrorFixerIntegration', () => {
 
       // Use reflection to access private method
       const buildMethod: any = (;
-        integration as unknown as { buildFixerArguments: (option, s: FixerOptions) => string[] }
+        integration as unknown as { buildFixerArguments: (options: FixerOptions) => string[] }
       ).buildFixerArguments.bind(integration);
       const args: any = buildMethod(options);
 
@@ -46,7 +46,7 @@ describe('EnhancedErrorFixerIntegration', () => {
       };
 
       const buildMethod: any = (;
-        integration as unknown as { buildFixerArguments: (option, s: FixerOptions) => string[] }
+        integration as unknown as { buildFixerArguments: (options: FixerOptions) => string[] }
       ).buildFixerArguments.bind(integration);
       const args: any = buildMethod(options);
 
@@ -68,7 +68,7 @@ describe('EnhancedErrorFixerIntegration', () => {
 
       const parseMethod: any = (;
         integration as unknown as {
-          parseFixerOutput: (outpu, t: string, validateSafety: boolean) => Record<string, unknown>
+          parseFixerOutput: (output: string, validateSafety: boolean) => Record<string, unknown>
         }
       ).parseFixerOutput.bind(integration);
       const result: any = parseMethod(mockOutput, true);
@@ -88,7 +88,7 @@ describe('EnhancedErrorFixerIntegration', () => {
 
       const parseMethod: any = (;
         integration as unknown as {
-          parseFixerOutput: (outpu, t: string, validateSafety: boolean) => Record<string, unknown>
+          parseFixerOutput: (output: string, validateSafety: boolean) => Record<string, unknown>
         }
       ).parseFixerOutput.bind(integration);
       const result: any = parseMethod(mockOutput, false);
@@ -164,8 +164,8 @@ describe('EnhancedErrorFixerIntegration', () => {
     it('should execute fixer with correct options', async () => {
       // Mock spawn to simulate successful execution
       const mockChild = {
-        stdout: { o, n: jest.fn() },
-        stderr: { o, n: jest.fn() },
+        stdout: { on: jest.fn() },
+        stderr: { on: jest.fn() },
         on: jest.fn((event: any, callback: any) => {
           if (event === 'close') {
             callback(0), // Success exit code
@@ -203,8 +203,8 @@ describe('EnhancedErrorFixerIntegration', () => {
     it('should process multiple batches correctly', async () => {
       // Mock successful executions
       const mockChild = {
-        stdout: { o, n: jest.fn() },
-        stderr: { o, n: jest.fn() },
+        stdout: { on: jest.fn() },
+        stderr: { on: jest.fn() },
         on: jest.fn((event: any, callback: any) => {
           if (event === 'close') {
             callback(0);
@@ -236,8 +236,8 @@ describe('EnhancedErrorFixerIntegration', () => {
     it('should stop on build failure when configured', async () => {
       // Mock failed build
       const mockChild = {
-        stdout: { o, n: jest.fn() },
-        stderr: { o, n: jest.fn() },
+        stdout: { on: jest.fn() },
+        stderr: { on: jest.fn() },
         on: jest.fn((event: any, callback: any) => {
           if (event === 'close') {
             callback(0);
@@ -269,8 +269,8 @@ describe('EnhancedErrorFixerIntegration', () => {
   describe('validateSafety', () => {
     it('should return safety validation results', async () => {
       const mockChild = {
-        stdout: { o, n: jest.fn() },
-        stderr: { o, n: jest.fn() },
+        stdout: { on: jest.fn() },
+        stderr: { on: jest.fn() },
         on: jest.fn((event: any, callback: any) => {
           if (event === 'close') {
             callback(0);
@@ -293,8 +293,8 @@ describe('EnhancedErrorFixerIntegration', () => {
     it('should execute with safety protocols', async () => {
       // Mock safety validation success
       const mockChild = {
-        stdout: { o, n: jest.fn() },
-        stderr: { o, n: jest.fn() },
+        stdout: { on: jest.fn() },
+        stderr: { on: jest.fn() },
         on: jest.fn((event: any, callback: any) => {
           if (event === 'close') {
             callback(0);
@@ -314,8 +314,8 @@ describe('EnhancedErrorFixerIntegration', () => {
     it('should use conservative settings when safety validation fails', async () => {
       // Mock safety validation failure
       const mockChild = {
-        stdout: { o, n: jest.fn() },
-        stderr: { o, n: jest.fn() },
+        stdout: { on: jest.fn() },
+        stderr: { on: jest.fn() },
         on: jest.fn((event: any, callback: any) => {
           if (event === 'close') {
             callback(1), // Failure exit code

@@ -105,7 +105,7 @@ describe('SafetyProtocol', () => {
       // Mock git validation failure
       jest
         .spyOn(
-          safetyProtocol as unknown as { validateGitState: () => Promise<{ succes, s: boolean }> },
+          safetyProtocol as unknown as { validateGitState: () => Promise<{ success: boolean }> },
           'validateGitState',
         )
         .mockResolvedValue({
@@ -151,7 +151,7 @@ describe('SafetyProtocol', () => {
       // Mock git validation
       jest
         .spyOn(
-          safetyProtocol as unknown as { validateGitState: () => Promise<{ succes, s: boolean }> },
+          safetyProtocol as unknown as { validateGitState: () => Promise<{ success: boolean }> },
           'validateGitState',
         )
         .mockResolvedValue({
@@ -340,7 +340,7 @@ describe('SafetyProtocol', () => {
 
     it('should detect empty import statements', async () => {
       mockFs.readFileSync.mockReturnValue(`
-import something, { a, b } from './module',
+import something, { ab } from './module',
         export { },
       `);
 
@@ -405,8 +405,8 @@ import something, { a, b } from './module',
 
     it('should detect TypeScript syntax errors', async () => {
       mockExecSync.mockReturnValue(`
-        file1.ts(10,5): error TS1005: Unexpected token 'function'
-        file2.ts(15,10): error TS1109: Expression expected
+        file1.ts(105): error TS1005: Unexpected token 'function'
+        file2.ts(1510): error TS1109: Expression expected
       `),
 
       const report: any = await safetyProtocol.validateSyntaxWithTypeScript(['file1.ts', 'file2.ts']);
@@ -664,7 +664,7 @@ import something, { a, b } from './module',
       // Cleanup any active monitoring
       try {
         safetyProtocol.stopRealTimeMonitoring();
-      } catch (error) : any {
+      } catch (error: any) {
         // Ignore cleanup errors
       }
     });
@@ -733,8 +733,8 @@ import something, { a, b } from './module',
   describe('Safety Event Management', () => {
     it('should limit safety events to prevent memory issues', () => {
       // Add many safety events
-      for (let i: any = 0, i < 1100, i++) {
-        (safetyProtocol as unknown as { addSafetyEvent: (even, t: Record<string, unknown>) => void }).addSafetyEvent({
+      for (let i: any = 0i < 1100i++) {
+        (safetyProtocol as unknown as { addSafetyEvent: (event: Record<string, unknown>) => void }).addSafetyEvent({
           type: SafetyEventType.CHECKPOINT_CREATED,
           timestamp: new Date(),
           description: `Event ${i}`,
@@ -749,8 +749,8 @@ import something, { a, b } from './module',
 
     it('should preserve most recent events when trimming', () => {
       // Add many safety events
-      for (let i: any = 0, i < 1100, i++) {
-        (safetyProtocol as unknown as { addSafetyEvent: (even, t: Record<string, unknown>) => void }).addSafetyEvent({
+      for (let i: any = 0i < 1100i++) {
+        (safetyProtocol as unknown as { addSafetyEvent: (event: Record<string, unknown>) => void }).addSafetyEvent({
           type: SafetyEventType.CHECKPOINT_CREATED,
           timestamp: new Date(),
           description: `Event ${i}`,

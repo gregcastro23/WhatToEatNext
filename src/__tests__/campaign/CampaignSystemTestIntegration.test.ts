@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any, no-console, @typescript-eslint/no-unused-vars, max-lines-per-function -- Campaign/test file with intentional patterns */
+/* eslint-disable @typescript-eslint/no-explicit-anyno-console, @typescript-eslint/no-unused-vars, max-lines-per-function -- Campaign/test file with intentional patterns */
 /**
  * Campaign System Test Integration Tests
  *
@@ -190,8 +190,8 @@ describe('Campaign System Test Integration', () => {
           const initialMetrics: any = await context.testSafeTracker.getProgressMetrics();
           // Simulate progress to target metrics
           const targetMetrics: any = {
-            typeScriptErrors: { curren, t: 0, target: 0, reduction: 86, percentage: 100 },
-            lintingWarnings: { curren, t: 0, target: 0, reduction: 4506, percentage: 100 },
+            typeScriptErrors: { current: 0, target: 0, reduction: 86, percentage: 100 },
+            lintingWarnings: { current: 0, target: 0, reduction: 4506, percentage: 100 },
           };
 
           context.testSafeTracker.simulateProgress(targetMetrics, 1000, 'simulation-test');
@@ -279,7 +279,7 @@ describe('Campaign System Test Integration', () => {
       try {
         context1.testController.updateMockMetrics(
           {
-            typeScriptErrors: { curren, t: 10, target: 0, reduction: 76, percentage: 88 },
+            typeScriptErrors: { current: 10, target: 0, reduction: 76, percentage: 88 },
           },
           'isolation-test-1',
         );
@@ -312,7 +312,7 @@ describe('Campaign System Test Integration', () => {
         withCampaignTestIsolation('concurrent-test-1', async context => {
           context.testController.updateMockMetrics(
             {
-              typeScriptErrors: { curren, t: 20, target: 0, reduction: 66, percentage: 77 },
+              typeScriptErrors: { current: 20, target: 0, reduction: 66, percentage: 77 },
             },
             'concurrent-test-1',
           );
@@ -324,7 +324,7 @@ describe('Campaign System Test Integration', () => {
         withCampaignTestIsolation('concurrent-test-2', async context => {
           context.testController.updateMockMetrics(
             {
-              typeScriptErrors: { curren, t: 30, target: 0, reduction: 56, percentage: 65 },
+              typeScriptErrors: { current: 30, target: 0, reduction: 56, percentage: 65 },
             },
             'concurrent-test-2',
           );
@@ -355,7 +355,7 @@ describe('Campaign System Test Integration', () => {
           // Update metrics
           context.testController.updateMockMetrics(
             {
-              typeScriptErrors: { curren, t: 86 - i, target: 0, reduction: i, percentage: Math.round((i / 86) * 100) },
+              typeScriptErrors: { current: 86 - i, target: 0, reduction: i, percentage: Math.round((i / 86) * 100) },
             },
             `iteration-${i}`,
           );
@@ -390,7 +390,7 @@ describe('Campaign System Test Integration', () => {
         context.testSafeTracker.startTracking('cleanup-test');
         context.testSafeTracker.updateMetrics(
           {
-            typeScriptErrors: { curren, t: 50, target: 0, reduction: 50, percentage: 50 },
+            typeScriptErrors: { current: 50, target: 0, reduction: 50, percentage: 50 },
           },
           'cleanup-test',
         );
@@ -525,7 +525,7 @@ describe('Campaign System Test Integration', () => {
         const initialMetrics: any = await (await context).tracker.getProgressMetrics();
         context.testController.updateMockMetrics(
           {
-            typeScriptErrors: { curren, t: 25, target: 0, reduction: 61, percentage: 71 },
+            typeScriptErrors: { current: 25, target: 0, reduction: 61, percentage: 71 },
           },
           'integration-test',
         );

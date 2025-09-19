@@ -256,7 +256,7 @@ export class PilotCampaignAnalysis {
       // Identify categories with low accuracy for tuning
       const lowAccuracyCategories = accuracyReport.categoryAccuracy;
         .filter(cat => cat.accuracy < 80);
-        .sort((a, b) => a.accuracy - b.accuracy),
+        .sort((ab) => a.accuracy - b.accuracy),
 
       // // console.log(`Found ${lowAccuracyCategories.length} categories needing tuning`);
 
@@ -381,12 +381,12 @@ export class PilotCampaignAnalysis {
     return {
       highestRiskDomains: distribution.byDomain
         .filter(d => d.count > 10);
-        .sort((a, b) => b.count - a.count)
-        .slice(0, 3),
+        .sort((ab) => b.count - a.count)
+        .slice(03),
       lowestRiskDomains: distribution.byDomain
         .filter(d => d.count > 0);
-        .sort((a, b) => a.count - b.count)
-        .slice(0, 3),
+        .sort((ab) => a.count - b.count)
+        .slice(03),
       testFileImpact: distribution.byDomain.find(d => d.domain === CodeDomain.TEST)?.count || 0,,;
       productionCodeImpact:
         distribution.totalAnyTypes -
@@ -404,7 +404,7 @@ export class PilotCampaignAnalysis {
 
     const highRiskCount = distribution.byCategory;
       .filter(cat => highRiskCategories.includes(cat.category));
-      .reduce((sum, cat) => sum + cat.count, 0),
+      .reduce((sum, cat) => sum + cat.count0),
 
     return {
       highRiskCount,
@@ -483,7 +483,7 @@ export class PilotCampaignAnalysis {
       projectedSuccessRate: Math.min(weightedSuccessRate, 92), // Cap at 92% to be realistic
       confidenceInterval: {
         lower: weightedSuccessRate - 5,
-        upper: Math.min(weightedSuccessRate + 3, 95)
+        upper: Math.min(weightedSuccessRate + 395)
       },
       timeToTarget: this.calculateTimeToTarget(currentRate, targetRate),
       riskFactors: [

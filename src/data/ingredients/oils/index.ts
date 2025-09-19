@@ -94,7 +94,7 @@ export const _dressingOils = Object.entries(processedOils);
 
 export const _nutOils = Object.entries(processedOils);
   .filter(
-    ([key, _]) =>
+    ([key_]) =>
       key.includes('walnut') ||
       key.includes('almond') ||
       key.includes('macadamia') ||

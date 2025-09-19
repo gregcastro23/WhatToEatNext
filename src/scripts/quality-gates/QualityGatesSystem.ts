@@ -596,9 +596,7 @@ Last Audit: ${metrics.lastAuditDate.toISOString()}
       fs.mkdirSync(workflowDir, { recursive: true });
     }
 
-    const workflow = `name: Quality Gates,
-
-on:
+    const workflow = `name: Quality Gateson:
   push:
     branches: [ main, develop ]
   pull_request:

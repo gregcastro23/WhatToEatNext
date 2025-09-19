@@ -242,7 +242,7 @@ class CelestialCalculator {
         lunarPhase,
         elementalBalance,
         aspectInfluences: this.calculatePlanetaryAspects(now).map(
-          aspect =>;
+          aspect =>
             ({
               planet1: aspect.planets[0],
               planet2: aspect.planets[1],
@@ -844,7 +844,7 @@ class CelestialCalculator {
     // Calculate days since known new moon
     const daysSinceNewMoon = (date.getTime() - knownNewMoon.getTime()) / msPerDay;
 
-    // Calculate current phase (0 to 1, where 0 and 1 are new moon, 0.5 is full moon)
+    // Calculate current phase (0 to 1, where 0 and 1 are new moon0.5 is full moon)
     const normalizedPhase = (daysSinceNewMoon % synodicPeriod) / synodicPeriod;
 
     // More precise phase boundaries - using proper LunarPhase format
@@ -928,7 +928,7 @@ class CelestialCalculator {
     }
 
     // Normalize values
-    const sum = Object.values(balance).reduce((a, b) => a + b, 0);
+    const sum = Object.values(balance).reduce((ab) => a + b0);
     Object.keys(balance).forEach(key => {
       balance[key as unknown] /= sum;
     });
@@ -1168,7 +1168,7 @@ class CelestialCalculator {
       }
 
       // Normalize values again
-      const sum = Object.values(balance).reduce((a, b) => a + b, 0);
+      const sum = Object.values(balance).reduce((ab) => a + b0);
       if (sum > 0) {
         Object.keys(balance).forEach(key => {
           balance[key as unknown] /= sum;
@@ -1316,7 +1316,7 @@ class CelestialCalculator {
     }
 
     // Normalize energy state values
-    const total = Object.values(energyStateBalance).reduce((sum, val) => sum + val, 0);
+    const total = Object.values(energyStateBalance).reduce((sum, val) => sum + val0);
     if (total > 0) {
       Object.keys(energyStateBalance).forEach(key => {
         energyStateBalance[key as keyof EnergyStateProperties] /= total;
@@ -1400,7 +1400,7 @@ class CelestialCalculator {
     }
 
     // Normalize chakra energy values
-    const total = Object.values(chakraEnergies).reduce((sum, val) => sum + val, 0);
+    const total = Object.values(chakraEnergies).reduce((sum, val) => sum + val0);
     if (total > 0) {
       Object.keys(chakraEnergies).forEach(key => {
         chakraEnergies[key as keyof ChakraEnergies] /= total;
@@ -1459,7 +1459,7 @@ class CelestialCalculator {
 
       if (isInRange) {
         // Parse suit from card name (e.g., 'two_of_wands' -> 'wands')
-        const [_, __, suit] = cardName.split('_'),
+        const [___, suit] = cardName.split('_'),
 
         // Get value from card name (e.g., 'two_of_wands' -> 2)
         const valueMap: Record<string, number> = {
@@ -1778,7 +1778,7 @@ class CelestialCalculator {
     };
 
     // Adjust for zero-indexing of arrays
-    const index = Math.max(0, Math.min(value - 1, 9));
+    const index = Math.max(0, Math.min(value - 19));
 
     // Return appropriate meanings based on suit, value, and orientation
     const orientation = isUpright ? 'upright' : 'reversed';

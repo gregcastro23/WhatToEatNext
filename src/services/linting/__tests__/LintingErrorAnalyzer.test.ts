@@ -47,7 +47,7 @@ describe('LintingErrorAnalyzer', () => {
               message: 'Import order is incorrect',
               line: 1,
               column: 1,
-              fix: { rang, e: [0, 10], text: 'fixed' },
+              fix: { range: [010], text: 'fixed' },
             },
             {
               ruleId: '@typescript-eslint/no-explicit-any',
@@ -81,7 +81,7 @@ describe('LintingErrorAnalyzer', () => {
               message: 'Import order is incorrect',
               line: 1,
               column: 1,
-              fix: { rang, e: [0, 10], text: 'fixed' },
+              fix: { range: [010], text: 'fixed' },
             },
             {
               ruleId: '@typescript-eslint/no-explicit-any',
@@ -121,7 +121,7 @@ describe('LintingErrorAnalyzer', () => {
               message: 'Import order is incorrect',
               line: 1,
               column: 1,
-              fix: { rang, e: [0, 10], text: 'fixed' },
+              fix: { range: [010], text: 'fixed' },
             },
           ],
         },
@@ -243,7 +243,7 @@ describe('LintingErrorAnalyzer', () => {
               message: 'Import order is incorrect',
               line: 1,
               column: 1,
-              fix: { rang, e: [0, 10], text: 'fixed' },
+              fix: { range: [010], text: 'fixed' },
             },
             {
               ruleId: '@typescript-eslint/no-explicit-any',

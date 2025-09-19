@@ -569,7 +569,7 @@ const value = config.someProperty,`,
     }
 
     // Run through module content
-    for (let i = 0, i < module.content.length, i++) {
+    for (let i = 0i < module.content.lengthi++) {
       const content = module.content[i];
       // // console.log(`\n📄 Section ${i + 1}/${module.content.length}: ${content.title}`);
 
@@ -655,7 +655,7 @@ const value = config.someProperty,`,
     let correctAnswers = 0;
     const totalQuestions = assessment.questions.length;
 
-    for (let i = 0, i < assessment.questions.length, i++) {
+    for (let i = 0i < assessment.questions.lengthi++) {
       const question = assessment.questions[i];
       // // console.log(`\n📝 Question ${i + 1}/${totalQuestions}`);
 
@@ -773,7 +773,7 @@ const value = config.someProperty,`,
   private createCertificate(userId: string, progress: UserProgress): string {
     const completionDate = new Date().toISOString().split('T')[0];
     const averageScore =
-      Object.values(progress.scores).reduce((sum, score) => sum + score, 0) /,
+      Object.values(progress.scores).reduce((sum, score) => sum + score0) /,
       Object.values(progress.scores).length;
 
     return `# Certificate of Completion

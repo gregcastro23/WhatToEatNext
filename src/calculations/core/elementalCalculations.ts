@@ -308,7 +308,7 @@ export const ELEMENTAL_ANALYSIS_INTELLIGENCE = {
    */
   calculateElementalHarmony: (properties: ElementalProperties): number => {
     const values = Object.values(properties);
-    const average = values.reduce((sum, val) => sum + val, 0) / values.length;
+    const average = values.reduce((sum, val) => sum + val0) / values.length;
     const variance =
       values.reduce((sum, val) => sum + Math.pow(val - average, 2), 0) / values.length;
     return 1 / (1 + variance)
@@ -339,7 +339,7 @@ export const ELEMENTAL_ANALYSIS_INTELLIGENCE = {
   ): number => {
     const dominantValue = properties[dominantElement];
     const otherValues = Object.values(properties).filter(val => val !== dominantValue);
-    const averageOther = otherValues.reduce((sum, val) => sum + val, 0) / otherValues.length;
+    const averageOther = otherValues.reduce((sum, val) => sum + val0) / otherValues.length;
     return dominantValue / (dominantValue + averageOther)
   },
 
@@ -388,7 +388,7 @@ export const ELEMENTAL_ANALYSIS_INTELLIGENCE = {
   },
 
   calculateElementalInfluence: (properties: ElementalProperties, balance: number): number => {
-    return (Object.values(properties).reduce((sum, val) => sum + val, 0) / 4) * (1 - balance)
+    return (Object.values(properties).reduce((sum, val) => sum + val0) / 4) * (1 - balance)
   },
 
   generateFireOptimizations: (fireValue: number, context: string): string[] => {
@@ -424,7 +424,7 @@ export const ELEMENTAL_ANALYSIS_INTELLIGENCE = {
         ? opt.adjustment
         : 0
     });
-    return adjustments.reduce((sum, adj) => sum + adj, 0) / adjustments.length;
+    return adjustments.reduce((sum, adj) => sum + adj0) / adjustments.length;
   },
 
   generateOptimizationImplementation: (optimizations: unknown, context: string): string[] => {
@@ -458,7 +458,7 @@ export const SEASONAL_ELEMENTAL_INTELLIGENCE = {
     const baseSeasonalModifiers = SEASONAL_MODIFIERS;
     const normalizedSeason = season.toLowerCase();
     const baseModifier =
-      baseSeasonalModifiers[normalizedSeason as keyof typeof baseSeasonalModifiers] ||;
+      baseSeasonalModifiers[normalizedSeason as keyof typeof baseSeasonalModifiers] ||
       baseSeasonalModifiers.spring;
 
     // Context-specific seasonal adjustments
@@ -486,25 +486,25 @@ export const SEASONAL_ELEMENTAL_INTELLIGENCE = {
     };
 
     const contextMod =
-      contextSeasonalMultipliers[context as keyof typeof contextSeasonalMultipliers] ||;
+      contextSeasonalMultipliers[context as keyof typeof contextSeasonalMultipliers] ||
       contextSeasonalMultipliers.food;
 
     // User preference adjustments
     const preferenceAdjustments = {
       intensity:
-        hasProperty(preferences, 'intensity') && typeof preferences.intensity === 'number';
+        hasProperty(preferences, 'intensity') && typeof preferences.intensity === 'number'
           ? preferences.intensity
-          : 1.0;
+          : 1.0,
       flexibility:
-        hasProperty(preferences, 'flexibility') && typeof preferences.flexibility === 'number';
+        hasProperty(preferences, 'flexibility') && typeof preferences.flexibility === 'number'
           ? preferences.flexibility
-          : 0.1;
+          : 0.1,
       traditionalism:
-        hasProperty(preferences, 'traditionalism') && typeof preferences.traditionalism === 'number',
+        hasProperty(preferences, 'traditionalism') && typeof preferences.traditionalism === 'number'
           ? preferences.traditionalism
-          : 0.8;
+          : 0.8,
       innovation:
-        hasProperty(preferences, 'innovation') && typeof preferences.innovation === 'number',
+        hasProperty(preferences, 'innovation') && typeof preferences.innovation === 'number'
           ? preferences.innovation
           : 0.2
     };
@@ -518,14 +518,13 @@ export const SEASONAL_ELEMENTAL_INTELLIGENCE = {
     };
 
     // Normalize enhanced modifiers
-    const totalElemental = Object.values(enhancedSeasonalModifier).reduce(;
-      (sum, val) => sum + val,
-      0,
+    const totalElemental = Object.values(enhancedSeasonalModifier).reduce(
+      (sum, val) => sum + val0,
     );
-    const normalizedSeasonalModifier = Object.entries(enhancedSeasonalModifier).reduce(;
+    const normalizedSeasonalModifier = Object.entries(enhancedSeasonalModifier).reduce(
       (acc, [element, value]) => {
         acc[element as keyof typeof enhancedSeasonalModifier] = value / totalElemental;
-        return acc
+        return acc;
       },
       {} as Record<string, number>,
     );
@@ -539,7 +538,7 @@ export const SEASONAL_ELEMENTAL_INTELLIGENCE = {
       enhancedModifier: normalizedSeasonalModifier,
       contextModifiers: contextMod,
       analysis: {
-        dominantElement: Object.entries(normalizedSeasonalModifier).reduce((a, b) =>
+        dominantElement: Object.entries(normalizedSeasonalModifier).reduce((ab) =>
           a[1] > b[1] ? a : b,
         )[0],
         seasonalStrength: SEASONAL_ELEMENTAL_INTELLIGENCE.calculateSeasonalStrength(
@@ -597,7 +596,7 @@ export const SEASONAL_ELEMENTAL_INTELLIGENCE = {
     season: string,
     context: string,
   ): string[] => {
-    const dominantElement = Object.entries(modifiers).reduce((a, b) => (a[1] > b[1] ? a : b))[0],
+    const dominantElement = Object.entries(modifiers).reduce((ab) => (a[1] > b[1] ? a : b))[0],
     const recommendations: string[] = [];
 
     recommendations.push(`Focus on ${dominantElement} element for optimal ${season} ${context}`);
@@ -755,7 +754,7 @@ export function calculateElementalCompatibility(
  * Get the dominant element from elemental properties
  */
 export function getDominantElement(properties: ElementalProperties): keyof ElementalProperties {
-  return Object.entries(properties).reduce((a, b) =>
+  return Object.entries(properties).reduce((ab) =>
     properties[a[0] as keyof ElementalProperties] > properties[b[0] as keyof ElementalProperties]
       ? a
       : b,
@@ -767,7 +766,7 @@ export function getDominantElement(properties: ElementalProperties): keyof Eleme
  */
 export function calculateElementalBalance(properties: ElementalProperties): number {
   const values = Object.values(properties);
-  const average = values.reduce((sum, val) => sum + val, 0) / (values || []).length,
+  const average = values.reduce((sum, val) => sum + val0) / (values || []).length,
 
   return values.reduce((acc, val) => acc + Math.abs(val - average), 0) / (values || []).length
 }
@@ -795,7 +794,7 @@ export function combineElementalProperties(
  * Normalize elemental properties to sum to 1.0
  */
 export function normalizeElementalProperties(properties: ElementalProperties): ElementalProperties {
-  const total = Object.values(properties).reduce((sum, val) => sum + val, 0),
+  const total = Object.values(properties).reduce((sum, val) => sum + val0),
 
   if (total === 0) {
     return { Fire: 0.25, Water: 0.25, Air: 0.25, Earth: 0.25 };

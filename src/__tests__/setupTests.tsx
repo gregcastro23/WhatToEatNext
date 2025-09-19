@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any, no-console, @typescript-eslint/no-unused-vars, max-lines-per-function -- Campaign/test file with intentional patterns */
+/* eslint-disable @typescript-eslint/no-explicit-anyno-console, @typescript-eslint/no-unused-vars, max-lines-per-function -- Campaign/test file with intentional patterns */
 import '@testing-library/jest-dom';
 import React from 'react';
 
@@ -80,7 +80,7 @@ Object.defineProperty(window, 'sessionStorage', {
 });
 
 // Mock requestAnimationFrame
-global.requestAnimationFrame = jest.fn(cb => setTimeout(cb, 0));
+global.requestAnimationFrame = jest.fn(cb => setTimeout(cb0));
 global.cancelAnimationFrame = jest.fn();
 
 // Mock performance.now
@@ -456,14 +456,14 @@ campaignMock.resetAllMocks = jest.fn(() => {;
   createMockTypeScriptErrors: (count: number) => {
     return Array.from(
       { length: count },
-      (_, i) => `error TS2339: Property 'test${i}' does not exist on type 'unknown'.`,
+      (_i) => `error TS2339: Property 'test${i}' does not exist on type 'unknown'.`,
     ).join('\n');
   },
 
   createMockLintingWarnings: (count: number) => {
     return Array.from(
       { length: count },
-      (_, i) => `warning: Unused variable 'test${i}' @typescript-eslint/no-unused-vars`,
+      (_i) => `warning: Unused variable 'test${i}' @typescript-eslint/no-unused-vars`,
     ).join('\n');
   },
 

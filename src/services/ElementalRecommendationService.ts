@@ -21,16 +21,16 @@ export class ElementalRecommendationService {
     return {
       elementalBalance: properties,
       dominantElement,
-      cookingTechniques: elementalUtils.getSuggestedCookingTechniques(properties);
+      cookingTechniques: elementalUtils.getSuggestedCookingTechniques(properties),
       // ✅ Pattern MM-1: getComplementaryElement returns element key, convert to string and wrap in array
       complementaryIngredients: [elementalUtils.getComplementaryElement(dominantElement) as string],
       flavorProfiles:
         utilsService.getFlavorProfileRecommendations &&
-        typeof utilsService.getFlavorProfileRecommendations === 'function';
+        typeof utilsService.getFlavorProfileRecommendations === 'function'
           ? utilsService.getFlavorProfileRecommendations(properties)
           : [],
       healthBenefits:
-        utilsService.getHealthBenefits && typeof utilsService.getHealthBenefits === 'function';
+        utilsService.getHealthBenefits && typeof utilsService.getHealthBenefits === 'function'
           ? utilsService.getHealthBenefits(properties)
           : [],
       timeOfDay: elementalUtils.getRecommendedTimeOfDay(properties),
@@ -59,10 +59,10 @@ export class ElementalRecommendationService {
   public static generateZodiacRecommendation(zodiacSign: any): ElementalRecommendation {
     const element = ZODIAC_ELEMENTS[zodiacSign];
     const properties = {
-      Fire: element === 'Fire' ? 0.6 : 0.1,;
-      Water: element === 'Water' ? 0.6 : 0.1,;
-      Earth: element === 'Earth' ? 0.6 : 0.1,,;
-      Air: element === 'Air' ? 0.6 : 0.1,,;
+      Fire: element === 'Fire' ? 0.6 : 0.1,
+      Water: element === 'Water' ? 0.6 : 0.1,
+      Earth: element === 'Earth' ? 0.6 : 0.1,
+      Air: element === 'Air' ? 0.6 : 0.1
     };
 
     return this.generateRecommendation(elementalUtils.normalizeProperties(properties));

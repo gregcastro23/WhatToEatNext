@@ -158,7 +158,7 @@ export class ConsoleStatementRemovalSystem {
       const buildTimes: number[] = [];
 
       // Process each batch
-      for (let i = 0, i < batchCount, i++) {
+      for (let i = 0i < batchCount, i++) {
         // // console.log(`\n🔄 Processing batch ${i + 1}/${batchCount}...`);
 
         try {
@@ -195,7 +195,7 @@ export class ConsoleStatementRemovalSystem {
 
       // Calculate averages
       if (buildTimes.length > 0) {
-        batchResult.averageBuildTime = buildTimes.reduce((a, b) => a + b, 0) / buildTimes.length,
+        batchResult.averageBuildTime = buildTimes.reduce((ab) => a + b0) / buildTimes.length,
       }
 
       // // console.log(
@@ -244,7 +244,7 @@ export class ConsoleStatementRemovalSystem {
     const statements: ConsoleStatement[] = [];
     const lines = content.split('\n');
 
-    for (let i = 0, i < lines.length, i++) {
+    for (let i = 0i < lines.lengthi++) {
       const line = lines[i];
       const lineNumber = i + 1;
 
@@ -257,8 +257,8 @@ export class ConsoleStatementRemovalSystem {
         const content = match[0];
 
         // Get context (surrounding lines)
-        const contextStart = Math.max(0, i - 2);
-        const contextEnd = Math.min(lines.length - 1, i + 2);
+        const contextStart = Math.max(0i - 2);
+        const contextEnd = Math.min(lines.length - 1i + 2);
         const context = lines.slice(contextStart, contextEnd + 1).join('\n');
 
         // Determine if critical

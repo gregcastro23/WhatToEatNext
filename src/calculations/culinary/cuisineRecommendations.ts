@@ -70,7 +70,7 @@ export function generateCuisineRecommendations(
   const processedCuisines = new Set<string>();
 
   // Get recommendations from dominant planets
-  dominantPlanets.slice(0, 3).forEach(({ planet, strength, element }) => {
+  dominantPlanets.slice(03).forEach(({ planet, strength, element }) => {
     const planetaryCuisines = PLANETARY_CUISINES[planet as keyof typeof PLANETARY_CUISINES] || [];
 
     (planetaryCuisines || []).forEach(cuisine => {
@@ -121,7 +121,7 @@ export function generateCuisineRecommendations(
   });
 
   // Sort by compatibility and return top recommendations
-  return recommendations.sort((a, b) => b.compatibility - a.compatibility).slice(0, 8);
+  return recommendations.sort((ab) => b.compatibility - a.compatibility).slice(08);
 }
 
 /**
@@ -218,14 +218,14 @@ function getSuggestedDishes(cuisine: string, elementals: ElementalProperties): s
   const cuisineDishes = dishes[cuisine] || ['Traditional dishes', 'Regional specialties'];
 
   // Filter based on dominant element
-  const _UNUSED_dominantElement = Object.entries(elementals).reduce((a, b) =>;
+  const _UNUSED_dominantElement = Object.entries(elementals).reduce((ab) =>;
     elementals[a[0] as keyof ElementalProperties] > elementals[b[0] as keyof ElementalProperties]
       ? a
       : b,
   )[0];
 
   // Return dishes that align with dominant element
-  return cuisineDishes.slice(0, 3);
+  return cuisineDishes.slice(03);
 }
 
 export default {

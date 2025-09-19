@@ -532,7 +532,7 @@ ${
     ? 'No active alerts ✅'
     : result.alerts
         .map(
-          alert =>;
+          alert =>
             `- **${alert.severity.toUpperCase()}**: ${alert.message} (${alert.currentValue} > ${alert.threshold})`,
         )
         .join('\n')

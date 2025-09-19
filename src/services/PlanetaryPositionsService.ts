@@ -31,7 +31,7 @@ function isFresh(entry: CacheEntry | null, key: string): entry is CacheEntry {
 
 function normalizeFromEngine(raw: Record<string, { sign: any; degree: number; exactLongitude: number; isRetrograde: boolean }>): PositionRecord {
   const out: PositionRecord = {};
-  Object.entries(raw || {}).forEach(([planet, p]) => {
+  Object.entries(raw || {}).forEach(([planetp]) => {
     out[planet] = {
       sign: (String(p?.sign || 'aries').toLowerCase() as any),
       degree: Number(p?.degree || 0),

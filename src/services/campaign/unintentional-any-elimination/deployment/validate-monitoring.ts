@@ -13,7 +13,7 @@ import { existsSync, readFileSync, statSync } from 'fs';
 interface ValidationResult {
   component: string,
   status: 'pass' | 'fail' | 'warning',
-  message: string;
+  message: string,
   details?: string;
 }
 

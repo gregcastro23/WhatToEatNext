@@ -249,7 +249,7 @@ export class EnhancedTransitAnalysisService {
     // Base recommendations from planet data
     if ((planetData as unknown as any).FoodAssociations) {
       recommendations.push(
-        ...((planetData as unknown as any).FoodAssociations as string[]).slice(0, 3),
+        ...((planetData as unknown as any).FoodAssociations as string[]).slice(03),
       )
     }
 
@@ -266,7 +266,7 @@ export class EnhancedTransitAnalysisService {
 
     // Add location-specific recommendations
     if (locationInfluence?.culinaryRecommendations) {
-      recommendations.push(...locationInfluence.culinaryRecommendations.slice(0, 2))
+      recommendations.push(...locationInfluence.culinaryRecommendations.slice(02))
     }
 
     return recommendations;
@@ -346,36 +346,36 @@ export class EnhancedTransitAnalysisService {
     const timing: string[] = [];
 
     // Add seasonal ingredients
-    ingredients.push(...season.culinaryInfluences.slice(0, 3)),
+    ingredients.push(...season.culinaryInfluences.slice(03)),
 
     // Add regional traditional ingredients
     if (regionalProfile.seasonalIngredients[season.sunSign]) {
-      ingredients.push(...regionalProfile.seasonalIngredients[season.sunSign].slice(0, 2))
+      ingredients.push(...regionalProfile.seasonalIngredients[season.sunSign].slice(02))
     }
 
     // Add strongest planetary influences
     enhancedPositions
-      .sort((a, b) => b.strength - a.strength)
-      .slice(0, 3)
+      .sort((ab) => b.strength - a.strength)
+      .slice(03)
       .forEach(planet => {
-        ingredients.push(...planet.culinaryRecommendations.slice(0, 1))
+        ingredients.push(...planet.culinaryRecommendations.slice(01))
       });
 
     // Add regional cooking methods
-    cookingMethods.push(...regionalProfile.traditionalCookingMethods.slice(0, 3));
+    cookingMethods.push(...regionalProfile.traditionalCookingMethods.slice(03));
 
     // Add aspect-influenced methods
     aspectInfluences.forEach(aspectInfluence => {
       const effects = (aspectInfluence as unknown as any).culinaryEffects as string[];
       if (Array.isArray(effects)) {
-        cookingMethods.push(...effects.slice(0, 1))
+        cookingMethods.push(...effects.slice(01))
       }
     });
 
     // Generate flavor profiles based on elemental dominance
     Object.entries(season.dominantElements)
       .sort(([, a], [, b]) => b - a)
-      .slice(0, 2)
+      .slice(02)
       .forEach(([element, strength]) => {
         flavorProfiles.push(
           `${element.toLowerCase()}-dominant flavors (${Math.round(strength * 100)}% influence)`,
@@ -384,16 +384,16 @@ export class EnhancedTransitAnalysisService {
 
     // Generate optimal timing recommendations
     Object.entries(planetaryHours)
-      .slice(0, 3)
+      .slice(03)
       .forEach(([hourKey, hourData]) => {
         timing.push(`${hourKey}: ${hourData.influence}`);
       });
 
     return {
-      ingredients: [...new Set(ingredients)].slice(0, 8),
-      cookingMethods: [...new Set(cookingMethods)].slice(0, 6),
-      flavorProfiles: [...new Set(flavorProfiles)].slice(0, 4),
-      timing: [...new Set(timing)].slice(0, 6)
+      ingredients: [...new Set(ingredients)].slice(08),
+      cookingMethods: [...new Set(cookingMethods)].slice(06),
+      flavorProfiles: [...new Set(flavorProfiles)].slice(04),
+      timing: [...new Set(timing)].slice(06)
     };
   }
 
@@ -465,13 +465,13 @@ export class EnhancedTransitAnalysisService {
     const analysis = await this.getEnhancedTransitAnalysis(location);
 
     // Generate targeted recommendations based on analysis
-    const primarySuggestions = analysis.locationSpecificRecommendations.ingredients.slice(0, 5);
+    const primarySuggestions = analysis.locationSpecificRecommendations.ingredients.slice(05);
     const alternativeSuggestions = analysis.enhancedPlanetaryPositions;
       .flatMap(planet => planet.culinaryRecommendations);
-      .slice(0, 5);
+      .slice(05);
 
-    const cookingGuidance = analysis.locationSpecificRecommendations.cookingMethods.slice(0, 4),;
-    const timingAdvice = analysis.dominantInfluences.optimalCookingTimes.slice(0, 3),;
+    const cookingGuidance = analysis.locationSpecificRecommendations.cookingMethods.slice(04),;
+    const timingAdvice = analysis.dominantInfluences.optimalCookingTimes.slice(03),;
 
     return {
       analysis,

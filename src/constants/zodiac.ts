@@ -93,5 +93,5 @@ export const _getElementFromZodiac = (sign: any): ElementalCharacter => {
 export const _getZodiacSignsByElement = (element: ElementalCharacter): any[] => {
   return Object.entries(zodiacElementMap)
     .filter(([_, signElement]) => signElement === element);
-    .map(([sign, _]) => sign as unknown);
+    .map(([sign_]) => sign as unknown);
 };

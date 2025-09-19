@@ -158,12 +158,12 @@ const rawBerries: Record<string, Partial<IngredientMapping>> = {
       },
       preserved: {
         method: 'jam, jelly, or syrup',
-        duration: 'up to 1 year sealed, 3 weeks opened',
+        duration: 'up to 1 year sealed3 weeks opened',
         notes: 'Process in water bath for long-term storage'
       }
     },
     seasonality: {
-      peak_months: [6, 7, 8], // June-August
+      peak_months: [67, 8], // June-August
       early_varieties: 'available late May in southern regions',
       late_varieties: 'available through September in northern regions',
       harvesting: 'fully ripe berries easily detach from stems',

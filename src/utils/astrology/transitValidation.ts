@@ -189,7 +189,7 @@ export function validateAllTransitDates(transitDates: PlanetTransitDates): {
         )
       }))
       .filter(t => !isNaN(t.start.getTime()) && !isNaN(t.end.getTime()));
-      .sort((a, b) => a.start.getTime() - b.start.getTime());
+      .sort((ab) => a.start.getTime() - b.start.getTime());
 
     for (let i = 0; i < sortedTransits.length - 1; i++) {
       const current = sortedTransits[i];

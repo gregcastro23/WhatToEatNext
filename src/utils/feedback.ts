@@ -5,7 +5,7 @@ import { logger } from './logger';
 export interface FeedbackData {
   type: 'bug' | 'feature' | 'improvement' | 'other',
   title: string,
-  description: string;
+  description: string,
   userEmail?: string;
   priority?: 'low' | 'medium' | 'high';
   metadata?: Record<string, unknown>;

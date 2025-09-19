@@ -844,7 +844,7 @@ export const middleEastern: Cuisine = {
           prepTime: '20 minutes',
           cookTime: '30 minutes',
           culturalNotes:
-            'A beloved Egyptian dessert with a royal history, named after Umm Ali, a sultan's wife',
+            'A beloved Egyptian dessert with a royal history, named after Umm Alia sultan's wife',
           pairingSuggestions: ['Arabic coffee', 'mint tea'],
           dietaryInfo: ['vegetarian'],
           spiceLevel: 'none',

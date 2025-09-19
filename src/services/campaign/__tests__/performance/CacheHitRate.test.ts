@@ -100,7 +100,7 @@ describe('Cache Hit Rate Performance Tests', () => {
       });
 
       // Collect multiple cache hit rate readings
-      for (let i: any = 0, i < 10, i++) {
+      for (let i: any = 0i < 10i++) {
         const cacheHitRate: any = await progressTracker.getCacheHitRate();
         cacheReadings.push(cacheHitRate);
       }
@@ -134,7 +134,7 @@ describe('Cache Hit Rate Performance Tests', () => {
 
       const cacheHitRate: any = await progressTracker.getCacheHitRate();
 
-      expect(cacheHitRate).toBeCloseTo(0.81, 2); // Should be ~81%
+      expect(cacheHitRate).toBeCloseTo(0.812); // Should be ~81%
       expect(cacheHitRate).toBeGreaterThan(0.8); // Above target
     });
 
@@ -170,7 +170,7 @@ describe('Cache Hit Rate Performance Tests', () => {
       });
 
       // Simulate cache warming process
-      for (let i: any = 0, i < 8, i++) {
+      for (let i: any = 0i < 8i++) {
         const cacheHitRate: any = await progressTracker.getCacheHitRate();
         warmupReadings.push(cacheHitRate);
       }
@@ -182,7 +182,7 @@ describe('Cache Hit Rate Performance Tests', () => {
       expect(warmupReadings[warmupReadings.length - 1]).toBeGreaterThan(0.8), // Warmed up
 
       // Each reading should be better than or equal to the previous
-      for (let i: any = 1, i < warmupReadings.length, i++) {
+      for (let i: any = 1i < warmupReadings.lengthi++) {
         expect(warmupReadings[i]).toBeGreaterThanOrEqual(warmupReadings[i - 1]);
       }
     }),
@@ -237,7 +237,7 @@ describe('Cache Hit Rate Performance Tests', () => {
       expect(results.every(rate => rate >= 0.7)).toBe(true); // All should be above minimum
 
       // Average should still be reasonable
-      const averageHitRate: any = results.reduce((sum: any, rate: any) => sum + rate, 0) / results.length;
+      const averageHitRate: any = results.reduce((sum: any, rate: any) => sum + rate0) / results.length;
       expect(averageHitRate).toBeGreaterThan(0.75);
     });
 
@@ -262,7 +262,7 @@ describe('Cache Hit Rate Performance Tests', () => {
       thrashingActive = true;
       const thrashingReadings: number[] = [];
 
-      for (let i: any = 0, i < 5, i++) {
+      for (let i: any = 0i < 5i++) {
         cacheHitRate = await progressTracker.getCacheHitRate();
         thrashingReadings.push(cacheHitRate);
       }
@@ -298,10 +298,10 @@ describe('Cache Hit Rate Performance Tests', () => {
       jest.spyOn(campaignController as unknown, 'getCurrentMetrics').mockImplementation(async () => {
         const cacheHitRate: any = await progressTracker.getCacheHitRate();
         return {
-          typeScriptErrors: { curren, t: 86, target: 0, reduction: 0, percentage: 0 },
-          lintingWarnings: { curren, t: 4506, target: 0, reduction: 0, percentage: 0 },
+          typeScriptErrors: { current: 86, target: 0, reduction: 0, percentage: 0 },
+          lintingWarnings: { current: 4506, target: 0, reduction: 0, percentage: 0 },
           buildPerformance: { currentTim, e: 8.5, targetTime: 10, cacheHitRate, memoryUsage: 45 },
-          enterpriseSystems: { curren, t: 0, target: 200, transformedExports: 0 }
+          enterpriseSystems: { current: 0, target: 200, transformedExports: 0 }
         };
       });
 
@@ -335,7 +335,7 @@ describe('Cache Hit Rate Performance Tests', () => {
       }),
 
       // Perform multiple cache lookups
-      for (let i: any = 0, i < 10, i++) {
+      for (let i: any = 0i < 10i++) {
         await progressTracker.getCacheHitRate();
       }
 
@@ -343,7 +343,7 @@ describe('Cache Hit Rate Performance Tests', () => {
       expect(lookupTimes.every(time => time > 0)).toBe(true);
 
       // Average lookup time should be reasonable
-      const averageLookupTime: any = lookupTimes.reduce((sum: any, time: any) => sum + time, 0) / lookupTimes.length;
+      const averageLookupTime: any = lookupTimes.reduce((sum: any, time: any) => sum + time0) / lookupTimes.length;
       expect(averageLookupTime).toBeLessThan(50); // Should be under 50ms
     });
 

@@ -88,7 +88,7 @@ function groupByFile(findings: Finding[]): Map<string, Finding[]> {
 }
 
 function sortFilesForSafety(files: string[]): string[] {
-  return files.sort((a, b) => {
+  return files.sort((ab) => {
     const aImpact = isHighImpactFile(a) ? 1 : 0;
     const bImpact = isHighImpactFile(b) ? 1 : 0;
     if (aImpact !== bImpact) return aImpact - bImpact; // low impact first
@@ -140,7 +140,7 @@ function applyEditsToFile(
     if (idx >= 0 && idx < lines.length) {
       const re = new RegExp(`\\b${f.variableName}\\b`);
       lines[idx] = lines[idx].replace(re, `_${f.variableName}`);
-      renameMap.set(idx, f.variableName);
+      renameMap.set(idxf.variableName);
     }
   }
 

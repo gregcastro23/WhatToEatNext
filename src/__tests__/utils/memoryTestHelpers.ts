@@ -230,7 +230,7 @@ export async function withMemoryTracking<T>(
 /**
  * Batch process large datasets with memory management
  */
-export async function processBatchWithMemoryManagement<T, R>(
+export async function processBatchWithMemoryManagement<TR>(
   items: T[],
   processor: (item: T) => Promise<R> | R,
   batchSize: number = 10,
@@ -239,7 +239,7 @@ export async function processBatchWithMemoryManagement<T, R>(
   const results: R[] = [];
 
   for (let i = 0; i < items.length; i += batchSize) {
-    const batch = items.slice(i, i + batchSize);
+    const batch = items.slice(ii + batchSize);
 
     // Process batch
     const batchResults = await Promise.all(batch.map(item => processor(item)));

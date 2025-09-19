@@ -4,7 +4,7 @@ import path from 'path';
 
 /**
  * BuildValidator class for checking and repairing build artifacts
- * Implements requirements 3.1, 3.2, 3.3, 3.4, 3.5 from test system stabilization
+ * Implements requirements 3.13.23.33.43.5 from test system stabilization
  */
 export class BuildValidator {
   private readonly buildDir: string;
@@ -139,7 +139,7 @@ export class BuildValidator {
     const validation = await this.validateBuild();
 
     if (validation.isValid) {
-      this.logger('Build is valid, no repairs needed');
+      this.logger('Build is validno repairs needed');
       return;
     }
 
@@ -164,7 +164,7 @@ export class BuildValidator {
         const filename = path.basename(action.target);
 
         if (manifestDefaults[filename]) {
-          fs.writeFileSync(action.target, JSON.stringify(manifestDefaults[filename], null, 2));
+          fs.writeFileSync(action.target, JSON.stringify(manifestDefaults[filename], null2));
           this.logger(`${action.type === 'create' ? 'Created' : 'Fixed'} ${filename}`);
         }
       }

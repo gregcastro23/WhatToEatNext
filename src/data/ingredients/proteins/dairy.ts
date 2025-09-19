@@ -142,7 +142,7 @@ const rawDairy = {
     culturalSignificance: {
       middle_eastern: {
         role: 'Traditional breakfast component and sauce base',
-        pairings: 'Olive oil, za'atar, honey, nuts',
+        pairings: 'Olive oilza'atar, honey, nuts',
         dishes: 'Labneh, breakfast spreads'
       },
       'modern health': {
@@ -444,7 +444,7 @@ const rawDairy = {
         ingredients: [
           'Whole milk',
           'Heavy cream (optional)',
-          'Acid (vinegar, lemon juice, or buttermilk)'
+          'Acid (vinegar, lemon juiceor buttermilk)'
         ],
         process: 'Heat milk, add acid, let curds form, drain in cheesecloth',
         tips: ['Higher fat content creates creamier cheese', 'Save whey for bread making or soup']

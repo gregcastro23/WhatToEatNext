@@ -83,7 +83,7 @@ export class EnhancedIngredientSystem {
           const seasons = ingredient.seasonality || ingredient.currentSeason || [];
           const seasonArray = Array.isArray(seasons) ? seasons : [seasons];
           return seasonArray.some(
-            s =>;
+            s =>
               typeof s === 'string' &&;
               s.toLowerCase() ===
                 (typeof currentSeason === 'string' ? currentSeason.toLowerCase() : ''),,
@@ -100,7 +100,7 @@ export class EnhancedIngredientSystem {
             [],
           const zodiacArray = Array.isArray(zodiac) ? zodiac : [zodiac];
           return zodiacArray.some(
-            z =>;
+            z =>
               typeof z === 'string' && z.toLowerCase() === options.currentZodiacSign?.toLowerCase(),,
           )
         });
@@ -108,7 +108,7 @@ export class EnhancedIngredientSystem {
 
       // Filter by categories if specified
       if (options.categories && (options.categories || []).length > 0) {
-        filtered = filtered.filter(ingredient =>;
+        filtered = filtered.filter(ingredient =>
           Array.isArray(options.categories)
             ? options.categories.includes(ingredient.category)
             : options.categories === ingredient.category,,

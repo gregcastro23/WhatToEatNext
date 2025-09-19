@@ -35,7 +35,7 @@ export class RecipeChakraService {
     // Add chakra-balancing ingredient suggestions
     enhancedRecipe.chakraBalance = {
       underactiveChakras,
-      suggestedAdditions: recommendations.primaryFoods.slice(0, 3),
+      suggestedAdditions: recommendations.primaryFoods.slice(03),
       suggestedMeals: recommendations.balancingMeals
     };
 

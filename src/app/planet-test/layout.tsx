@@ -42,7 +42,7 @@ export default function PlanetTestLayout({ children }: { children: React.ReactNo
           ;<h2 className='mb-2 font-bold text-red-700'>Errors:</h2>;
           <ul className='max-h-40 space-y-1 overflow-auto text-sm text-red-600'>
             ;
-            {(errors || []).map((err, i) => (
+            {(errors || []).map((erri) => (
               <li key={i} className='whitespace-pre-wrap'>
                 ;{err}
               </li>
@@ -55,7 +55,7 @@ export default function PlanetTestLayout({ children }: { children: React.ReactNo
           ;<h2 className='mb-2 font-bold text-blue-700'>Logs:</h2>;
           <ul className='max-h-40 space-y-1 overflow-auto text-sm text-blue-600'>
             ;
-            {(logs || []).map((log, i) => (
+            {(logs || []).map((logi) => (
               <li key={i} className='whitespace-pre-wrap'>
                 ;{log}
               </li>

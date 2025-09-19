@@ -22,10 +22,8 @@ const rawFreshHerbs = {
       },
       vitamins: {
         K: 0.13, // Values as percentage of RDA
-        A: 0.03,
-        C: 0.02,
-        folate: 0.01,
-        B6: 0.01
+        A: 0.03C: 0.02,
+        folate: 0.01B6: 0.01
       },
       minerals: {
         manganese: 0.03,
@@ -73,7 +71,7 @@ const rawFreshHerbs = {
     // Storage information (standardized)
     storage: {
       temperature: 'room temperature or refrigerated',
-      duration: '4-7 days fresh, 6-12 months dried',
+      duration: '4-7 days fresh6-12 months dried',
       container: 'stem in water like flowers, loosely cover with plastic',
       tips: [
         'Do not refrigerate if possible - causes blackening',

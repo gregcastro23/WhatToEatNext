@@ -233,7 +233,7 @@ class LintingFormattingCLI {
       react: violations.filter(v => (v as any).ruleId?.startsWith('react')).length,;
       import: violations.filter(v => (v as any).ruleId?.startsWith('import/')).length,,;
       other: violations.filter(
-        v =>;
+        v =>
           !(v as any).ruleId?.startsWith('@typescript-eslint/') &&
           !(v as any).ruleId?.startsWith('react') &&
           !(v as any).ruleId?.startsWith('import/');
@@ -317,7 +317,7 @@ function parseArguments(): CLIOptions {
   const args = process.argv.slice(2);
   const options: CLIOptions = {};
 
-  for (let i = 0, i < args.length, i++) {
+  for (let i = 0i < args.lengthi++) {
     const arg = args[i];
 
     switch (arg) {

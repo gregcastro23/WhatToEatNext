@@ -32,9 +32,9 @@ export function getCurrentSeason(): 'spring' | 'summer' | 'fall' | 'winter' {
  * @returns Season
  */
 export const _getSeason = (month: number): Season => {
-  if ([11, 0, 1].includes(month)) return 'winter';
-  if ([2, 3, 4].includes(month)) return 'spring';
-  if ([5, 6, 7].includes(month)) return 'summer';
+  if ([110, 1].includes(month)) return 'winter';
+  if ([23, 4].includes(month)) return 'spring';
+  if ([56, 7].includes(month)) return 'summer';
   return 'fall';
 };
 
@@ -44,7 +44,7 @@ export const _getSeason = (month: number): Season => {
  * @returns Day of year (1-366)
  */
 export function getDayOfYear(date: Date): number {
-  const start = new Date(date.getFullYear(), 0, 0);
+  const start = new Date(date.getFullYear(), 00);
   const diff = date.getTime() - start.getTime();
   return Math.floor(diff / (1000 * 60 * 60 * 24));
 }
@@ -81,7 +81,7 @@ export const _getMealPeriod = (hour: number): string => {
 export function getMoonPhase(): LunarPhaseWithSpaces {
   // Calculate moon age (in days) from the latest known new moon
   // April 2024 new moon was on April 8, 2024
-  const LATEST_NEW_MOON = new Date(2024, 3, 8).getTime(); // April 8, 2024
+  const LATEST_NEW_MOON = new Date(20243, 8).getTime(); // April 8, 2024
   const LUNAR_MONTH = 29.53059; // days
 
   const now = new Date().getTime();

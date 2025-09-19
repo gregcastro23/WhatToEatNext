@@ -117,7 +117,7 @@ describe('CodeQualityAutomationSystem', () => {
           availableUpdates: [],
           appliedUpdates: [],
           failedUpdates: [],
-          summary: { majo, r: 0, minor: 2, patch: 3, security: 2, total: 5 },
+          summary: { major: 0, minor: 2, patch: 3, security: 2, total: 5 },
         },
       });
 
@@ -190,7 +190,7 @@ describe('CodeQualityAutomationSystem', () => {
           availableUpdates: [],
           appliedUpdates: [],
           failedUpdates: [],
-          summary: { majo, r: 0, minor: 0, patch: 0, security: 0, total: 0 },
+          summary: { major: 0, minor: 0, patch: 0, security: 0, total: 0 },
         },
       });
 
@@ -434,7 +434,7 @@ describe('CodeQualityAutomationSystem', () => {
           availableUpdates: [],
           appliedUpdates: [],
           failedUpdates: [],
-          summary: { majo, r: 0, minor: 1, patch: 2, security: 1, total: 3 },
+          summary: { major: 0, minor: 1, patch: 2, security: 1, total: 3 },
         },
       };
 
@@ -461,7 +461,7 @@ describe('CodeQualityAutomationSystem', () => {
       const result: any = await automationSystem.executePhase(phase);
 
       expect(result.success).toBe(false);
-      expect(result.errors).toContain('Phase execution failed: Unknown syste, m: any')
+      expect(result.errors).toContain('Phase execution failed: Unknown system: any')
     });
   });
 

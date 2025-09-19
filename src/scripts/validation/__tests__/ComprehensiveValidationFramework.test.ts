@@ -68,7 +68,7 @@ describe('ComprehensiveValidationFramework', () => {
       mockExecSync.mockImplementation((cmd: any) => {
         if (cmd.toString().includes('tsc')) {
           const error = new Error('Compilation failed');
-          (error as any).stdout = 'error TS2322: Type error\nerror TS233, 9: Property error';
+          (error as any).stdout = 'error TS2322: Type error\nerror TS2339: Property error';
           throw error;
         }
         return Buffer.from('');
@@ -90,7 +90,7 @@ describe('ComprehensiveValidationFramework', () => {
       mockExecSync.mockImplementation((cmd: any) => {
         if (cmd.toString().includes('yarn test')) {
           const error = new Error('Tests failed');
-          (error as any).stdout = '2 failed, 5 passed, 7 total';
+          (error as any).stdout = '2 failed5 passed7 total';
           throw error;
         }
         return Buffer.from('');
@@ -115,7 +115,7 @@ describe('ComprehensiveValidationFramework', () => {
         }
         if (cmd.toString().includes('yarn test')) {
           const error = new Error('Some tests failed');
-          (error as any).stdout = '1 failed, 4 passed, 5 total';
+          (error as any).stdout = '1 failed4 passed5 total';
           throw error; // Tests fail
         }
         return Buffer.from('');
@@ -196,7 +196,7 @@ describe('ComprehensiveValidationFramework', () => {
 
       mockExecSync.mockImplementation((cmd: any) => {
         if (cmd.toString().includes('yarn test')) {
-          return Buffer.from('5 passed, 0 failed, 5 total');
+          return Buffer.from('5 passed0 failed5 total');
         }
         return Buffer.from('');
       });
@@ -222,7 +222,7 @@ describe('ComprehensiveValidationFramework', () => {
     test('should parse test results correctly', async () => {
       mockExecSync.mockImplementation((cmd: any) => {
         if (cmd.toString().includes('yarn test')) {
-          return Buffer.from('Test Suites: 2 passed, 1 failed, 3 total\nTests: 8 passed, 2 failed, 10 total');
+          return Buffer.from('Test Suites: 2 passed1 failed3 total\nTests: 8 passed2 failed10 total')
         }
         return Buffer.from('');
       });
@@ -367,7 +367,7 @@ describe('ComprehensiveValidationFramework', () => {
       const serviceResult: any = serviceResults[0];
 
       // This test would need more sophisticated analysis to detect missing methods
-      // For now, we test that the validation framework processes service files
+      // For nowwe test that the validation framework processes service files
       expect(serviceResult).toBeDefined();
       expect(serviceResult.details.serviceInfo).toBeDefined();
     });
@@ -542,7 +542,7 @@ describe('ComprehensiveValidationFramework', () => {
         }
         if (cmd.toString().includes('yarn test')) {
           const error = new Error('Tests failed');
-          (error as any).stdout = '1 failed, 4 passed, 5 total';
+          (error as any).stdout = '1 failed4 passed5 total';
           throw error; // Tests fail (-25 points)
         }
         if (cmd.toString().includes('next build')) {

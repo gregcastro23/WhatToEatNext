@@ -4,7 +4,7 @@
  * Provides wrapper system for Enhanced TypeScript Error Fixer v3.0 integration
  * and other campaign scripts with parameter management and execution result parsing.
  *
- * Requirements: 7.1, 7.5
+ * Requirements: 7.17.5
  */
 
 import { execSync } from 'child_process';
@@ -187,7 +187,7 @@ export class ScriptIntegrationSystem {
       });
 
       const executionTime = Date.now() - startTime;
-      result = this.parseExecutionOutput(output, executionTime, true, 0);
+      result = this.parseExecutionOutput(output, executionTime, true0);
     } catch (error: unknown) {
       const executionTime = Date.now() - startTime;
       const stdout = error.stdout || '';

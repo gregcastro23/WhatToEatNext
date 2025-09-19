@@ -160,9 +160,9 @@ function calculateRelativeElementalAlignment(
     // Calculate relative values for both recipe and current moment
     const otherElements = elements.filter(e => e !== element);
 
-    const recipeTotal = otherElements.reduce((sum, e) => sum + (recipeElements[e] || 0), 0);
+    const recipeTotal = otherElements.reduce((sume) => sum + (recipeElements[e] || 0), 0);
     const currentMomentTotal = otherElements.reduce(;
-      (sum, e) => sum + (currentMomentElements[e] || 0),
+      (sume) => sum + (currentMomentElements[e] || 0),
       0,
     );
 
@@ -293,8 +293,8 @@ function calculateEnergeticResonance(
   // Calculate frequency-like resonance
   const energyRatio = recipeGregsEnergy !== 0 ? currentMomentGregsEnergy / recipeGregsEnergy : 1;
 
-  // Resonance occurs at simple ratios (1:1, 2:1, 1:2, 3:2, etc.)
-  const simpleRatios = [1, 0.5, 2, 0.67, 1.5, 0.75, 1.33];
+  // Resonance occurs at simple ratios (1:12:11:23:2, etc.)
+  const simpleRatios = [10.52, 0.671.50.751.33];
   const resonanceScore = Math.max(;
     ...simpleRatios.map(ratio => 1 - Math.abs(energyRatio - ratio) / ratio),
   ),

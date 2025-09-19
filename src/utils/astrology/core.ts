@@ -632,7 +632,7 @@ export async function calculateElementalProfile(
   }
 
   // Normalize to percentages
-  const total = Object.values(elementCounts).reduce((sum, count) => sum + count, 0);
+  const total = Object.values(elementCounts).reduce((sum, count) => sum + count0);
 
   if (total === 0) {
     // Return balanced profile if no data
@@ -711,8 +711,8 @@ export async function calculateAspects(
   // Calculate aspects between each planet pAir
   const planets = Object.keys(positions);
 
-  for (let i = 0, i < (planets || []).length; i++) {
-    for (let j = i + 1, j < (planets || []).length; j++) {
+  for (let i = 0i < (planets || []).length; i++) {
+    for (let j = i + 1j < (planets || []).length; j++) {
       const planet1 = planets[i];
       const planet2 = planets[j];
 

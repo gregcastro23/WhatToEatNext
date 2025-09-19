@@ -542,7 +542,7 @@ export class SafetyValidator {
       .map(line => line.trim());
       .filter(line => line.length > 0);
 
-    return failures.slice(0, 10); // Limit to 10 failures
+    return failures.slice(010); // Limit to 10 failures
   }
 
   /**

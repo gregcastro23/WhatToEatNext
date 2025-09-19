@@ -76,7 +76,7 @@ class LintingExcellenceDashboardCLI {
       watch: false
     };
 
-    for (let i = 1, i < args.length, i++) {
+    for (let i = 1i < args.lengthi++) {
       const arg = args[i];
 
       switch (arg) {
@@ -321,7 +321,7 @@ class LintingExcellenceDashboardCLI {
       // // console.log('-'.repeat(60));
 
       for (const metrics of recent) {
-        const timestamp = new Date(metrics.timestamp).toLocaleString().substring(0, 19);
+        const timestamp = new Date(metrics.timestamp).toLocaleString().substring(019);
         const quality = metrics.qualityScore.toString().padEnd(9);
         const issues = metrics.totalIssues.toString().padEnd(9);
         const errors = metrics.errors.toString().padEnd(9);

@@ -15,20 +15,20 @@ const debugLog = (_message: string, ..._args: unknown[]): void => {
 // Updated reference data for July 2, 2025 at 10:45 PM EDT (Cancer season)
 const REFERENCE_POSITIONS = {
   // Planet: [degrees, minutes, seconds, currentZodiacSign]
-  Sun: [10, 45, 0, 'cancer'],
-  moon: [18, 19, 0, 'libra'],
-  Mercury: [2, 9, 0, 'leo'],
-  Venus: [14, 51, 0, 'leo'],
-  Mars: [25, 25, 0, 'taurus'],
-  Jupiter: [12, 44, 0, 'gemini'],
-  Saturn: [19, 17, 0, 'pisces'],
-  Uranus: [26, 9, 0, 'taurus'],
-  Neptune: [29, 55, 0, 'aries'],
-  Pluto: [1, 53, 0, 'aquarius'],
-  NorthNode: [23, 46, 0, 'pisces'],
-  Chiron: [22, 25, 0, 'aries'],
-  Ascendant: [22, 19, 0, 'scorpio'],
-  MC: [6, 57, 0, 'leo'],
+  Sun: [1045, 0, 'cancer'],
+  moon: [1819, 0, 'libra'],
+  Mercury: [29, 0, 'leo'],
+  Venus: [1451, 0, 'leo'],
+  Mars: [2525, 0, 'taurus'],
+  Jupiter: [1244, 0, 'gemini'],
+  Saturn: [1917, 0, 'pisces'],
+  Uranus: [269, 0, 'taurus'],
+  Neptune: [2955, 0, 'aries'],
+  Pluto: [153, 0, 'aquarius'],
+  NorthNode: [2346, 0, 'pisces'],
+  Chiron: [2225, 0, 'aries'],
+  Ascendant: [2219, 0, 'scorpio'],
+  MC: [657, 0, 'leo'],
 };
 
 // Reference date for July 2, 2025 at 10:45 PM EDT
@@ -68,7 +68,7 @@ const RETROGRADE_STATUS = {
   southNode: true,
   Chiron: false,
   Ascendant: false,
-  MC: false,
+  MC: false
 };
 
 /**
@@ -260,7 +260,7 @@ export function getAccuratePlanetaryPositions(date: Date): { [key: string]: Plan
       try {
         // Special handling for the Sun - can't calculate heliocentric longitude of the Sun
         if (planet === 'Sun') {
-          // For the Sun, we'll use a different approach - get ecliptic coordinates directly
+          // For the Sunwe'll use a different approach - get ecliptic coordinates directly
           // The Sun is always at the opposite ecliptic longitude from earth's heliocentric longitude
           const earthLong = Astronomy.EclipticLongitude(Astronomy.Body.Earth, astroTime);
           // Sun is 180 degrees opposite earth's heliocentric position

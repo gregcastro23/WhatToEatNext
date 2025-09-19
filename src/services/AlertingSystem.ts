@@ -496,7 +496,7 @@ class AlertingSystem {
 
   private createAlert(rule: AlertRule, currentValue: number) {
     const alert: Alert = {
-      id: `alert-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+      id: `alert-${Date.now()}-${Math.random().toString(36).substr(29)}`,
       type: rule.type,
       severity: rule.severity,
       title: rule.name,
@@ -836,7 +836,7 @@ class AlertingSystem {
     }
 
     // Sort by timestamp (newest first)
-    filtered.sort((a, b) => b.timestamp.getTime() - a.timestamp.getTime());
+    filtered.sort((ab) => b.timestamp.getTime() - a.timestamp.getTime());
 
     if (options?.limit) {
       filtered = filtered.slice(0, options.limit),
@@ -851,7 +851,7 @@ class AlertingSystem {
 
   public addAlertRule(rule: Omit<AlertRule, 'id'>): string {
     const id = `rule-${Date.now()}`;
-    const newRule: AlertRule = { ...rule, id };
+    const newRule: AlertRule = { ...ruleid };
 
     this.alertRules.push(newRule);
     this.saveConfiguration();

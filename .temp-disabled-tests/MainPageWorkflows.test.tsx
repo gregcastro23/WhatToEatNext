@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any, no-console, @typescript-eslint/no-unused-vars, max-lines-per-function -- Campaign/test file with intentional patterns */
+/* eslint-disable @typescript-eslint/no-explicit-anyno-console, @typescript-eslint/no-unused-vars, max-lines-per-function -- Campaign/test file with intentional patterns */
 import type { } from 'jest';
 /**
  * End-to-End Tests for Main Page Workflows
@@ -27,7 +27,7 @@ interface MainPageLayoutProps {
 
 const MainPageLayout: React.FC<MainPageLayoutProps> = ({ onSectionNavigate }: any) => {
   return (
-    <div data-testid='main-page-layout'>,
+    <div data-testid='main-page-layout'>
       <MockCuisineRecommender />
       <MockElementalBalance />
       <MockIntelligencePanel />
@@ -133,8 +133,8 @@ jest.mock('@/components/IngredientRecommender', () => {
     const displayedIngredients: any = ingredients.slice(0, maxDisplayed);
 
     const toggleIngredient: any = (ingredient: string) => {
-      setSelectedIngredients(prev =>,
-        prev.includes(ingredient) ? prev.filter(i => i !== ingredient) : [...prev, ingredient];
+      setSelectedIngredients(prev =>
+        prev.includes(ingredient) ? prev.filter(i => i !== ingredient) : [...prev, ingredient]
       );
     };
 
@@ -143,9 +143,9 @@ jest.mock('@/components/IngredientRecommender', () => {
     };
 
     return (
-      <div data-testid='ingredient-recommender'>;
+      <div data-testid='ingredient-recommender'>
         <h3>Ingredient Recommendations</h3>
-        <div className='ingredient-grid'>,
+        <div className='ingredient-grid'>
           {displayedIngredients.map(ingredient => (,
             <div,
               key={ingredient.name},
@@ -216,8 +216,8 @@ jest.mock('@/components/CookingMethodsSection', () => {
           {displayedMethods.map(method => (,
             <div key={method.name} className='method-card' data-testid={`method-card-${method.name.toLowerCase()}`}>;
               <button;
-                onClick={() => setSelectedMethod(method.name)};
-                className={selectedMethod === method.name ? 'selected' : ''};
+                onClick={() => setSelectedMethod(method.name)}
+                className={selectedMethod === method.name ? 'selected' : ''}
                 data-testid={`method-${method.name.toLowerCase()}`};
               >
                 <h4>{method.name}</h4>
@@ -258,11 +258,11 @@ jest.mock('@/components/recipes/RecipeBuilderSimple', () => {
     };
 
     const updateIngredient: any = (index: number, field: 'name' | 'quantity', value: string) => {
-      setIngredients(prev => prev.map((ing: any, i: any) => (i === index ? { ...ing, [field]: value } : ing)));
+      setIngredients(prev => prev.map((ing: anyi: any) => (i === index ? { ...ing, [field]: value } : ing)));
     };
 
     const removeIngredient: any = (index: number) => {
-      setIngredients(prev => prev.filter((_: any, i: any) => i !== index))
+      setIngredients(prev => prev.filter((_: anyi: any) => i !== index))
     };
 
     const addStep: React.FC<any> = (props: any) => {
@@ -270,11 +270,11 @@ jest.mock('@/components/recipes/RecipeBuilderSimple', () => {
     };
 
     const updateStep: any = (index: number, field: 'instruction' | 'timing', value: string) => {
-      setSteps(prev => prev.map((step: any, i: any) => (i === index ? { ...step, [field]: value } : step)));
+      setSteps(prev => prev.map((step: anyi: any) => (i === index ? { ...step, [field]: value } : step)));
     };
 
     const removeStep: any = (index: number) => {
-      setSteps(prev => prev.filter((_: any, i: any) => i !== index))
+      setSteps(prev => prev.filter((_: anyi: any) => i !== index))
     };
 
     const canSave: any = recipeName.trim() && ingredients.some(ing => ing.name.trim()) && steps.some(step => step.instruction.trim());
@@ -291,29 +291,29 @@ jest.mock('@/components/recipes/RecipeBuilderSimple', () => {
               type='text',
               placeholder='Recipe Name',
               value={recipeName},
-              onChange={e => setRecipeName(e.target.value)};
+              onChange={e => setRecipeName(e.target.value)}
               data-testid='recipe-name-input';
             />
 
             <div className='recipe-meta'>;
               <input;
                 type='number';
-                value={servings};
-                onChange={e => setServings(parseInt(e.target.value) || 1)};
+                value={servings}
+                onChange={e => setServings(parseInt(e.target.value) || 1)}
                 data-testid='servings-input';
                 min='1';
               />
               <input;
                 type='number';
                 value={prepTime},
-                onChange={e => setPrepTime(parseInt(e.target.value) || 0)};
+                onChange={e => setPrepTime(parseInt(e.target.value) || 0)}
                 data-testid='prep-time-input';
                 min='0';
               />
               <input;
                 type='number';
                 value={cookTime},
-                onChange={e => setCookTime(parseInt(e.target.value) || 0)};
+                onChange={e => setCookTime(parseInt(e.target.value) || 0)}
                 data-testid='cook-time-input';
                 min='0';
               />
@@ -332,14 +332,14 @@ jest.mock('@/components/recipes/RecipeBuilderSimple', () => {
                   type='text';
                   placeholder='Quantity';
                   value={ingredient.quantity},
-                  onChange={e => updateIngredient(index, 'quantity', e.target.value)};
+                  onChange={e => updateIngredient(index, 'quantity', e.target.value)}
                   data-testid={`ingredient-quantity-${index}`};
                 />
                 <input;
                   type='text';
                   placeholder='Ingredient name';
                   value={ingredient.name},
-                  onChange={e => updateIngredient(index, 'name', e.target.value)};
+                  onChange={e => updateIngredient(index, 'name', e.target.value)}
                   data-testid={`ingredient-name-${index}`};
                 />
                 <button onClick={() => removeIngredient(index)} data-testid={`remove-ingredient-${index}`}>;
@@ -363,14 +363,14 @@ jest.mock('@/components/recipes/RecipeBuilderSimple', () => {
                 <textarea,
                   placeholder='Describe this step...';
                   value={step.instruction},
-                  onChange={e => updateStep(index, 'instruction', e.target.value)};
+                  onChange={e => updateStep(index, 'instruction', e.target.value)}
                   data-testid={`step-instruction-${index}`};
                 />
                 <input;
                   type='text';
                   placeholder='Timing';
                   value={step.timing},
-                  onChange={e => updateStep(index, 'timing', e.target.value)};
+                  onChange={e => updateStep(index, 'timing', e.target.value)}
                   data-testid={`step-timing-${index}`};
                 />
                 <button onClick={() => removeStep(index)} data-testid={`remove-step-${index}`}>;
@@ -626,7 +626,7 @@ describe('Main Page E2E Workflows', () => {
     void user.type(cookTimeInput, '45');
 
     // Add multiple ingredients;
-    for (let i: any = 0, i < 4, i++) {
+    for (let i: any = 0i < 4i++) {
       void user.click(screen.getByTestId('add-ingredient'));
     }
 
@@ -637,13 +637,13 @@ describe('Main Page E2E Workflows', () => {
       { quantity: '1/4 cup', name: 'Olive Oil' }
     ];
 
-    for (let i: any = 0, i < ingredients.length, i++) {
+    for (let i: any = 0i < ingredients.lengthi++) {
       void user.type(screen.getByTestId(`ingredient-quantity-${i}`), ingredients[i].quantity);
       void user.type(screen.getByTestId(`ingredient-name-${i}`), ingredients[i].name);
     }
 
     // Add cooking steps;
-    for (let i: any = 0, i < 3, i++) {
+    for (let i: any = 0i < 3i++) {
       void user.click(screen.getByTestId('add-step'));
     }
 
@@ -653,7 +653,7 @@ describe('Main Page E2E Workflows', () => {
       { instruction: 'Add tomatoes and olives, bake until done', timing: '30 min' }
     ];
 
-    for (let i: any = 0, i < steps.length, i++) {
+    for (let i: any = 0i < steps.lengthi++) {
       void user.type(screen.getByTestId(`step-instruction-${i}`), steps[i].instruction);
       void user.type(screen.getByTestId(`step-timing-${i}`), steps[i].timing);
     }

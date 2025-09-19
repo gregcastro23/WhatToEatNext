@@ -5,8 +5,7 @@ import {
   AstrologicalState as BaseAstrologicalState,
 } from '@/types/alchemical';
 import {
-  _,
-  _,
+  __,
   CelestialPosition,
   _ZodiacSign,
   _,

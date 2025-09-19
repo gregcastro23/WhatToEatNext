@@ -696,10 +696,10 @@ export class UnifiedRecipeBuildingSystem {
     // Higher Monica = higher energy = higher temperatures;
     if (monicaDiff > 20) {
       // Need significant temperature increase
-      adjustments.push(25, 50), // Increase by 25-50°F
+      adjustments.push(2550), // Increase by 25-50°F
     } else if (monicaDiff > 10) {
       // Moderate temperature increase
-      adjustments.push(10, 25), // Increase by 10-25°F
+      adjustments.push(1025), // Increase by 10-25°F
     } else if (monicaDiff < -20) {
       // Need temperature decrease for lower Monica
       adjustments.push(-25, -10), // Decrease by 10-25°F
@@ -708,7 +708,7 @@ export class UnifiedRecipeBuildingSystem {
       adjustments.push(-15, -5), // Decrease by 5-15°F
     } else {
       // Monica is close to target
-      adjustments.push(-5, 5), // Minor adjustments only
+      adjustments.push(-55), // Minor adjustments only
     }
 
     return adjustments
@@ -732,13 +732,13 @@ export class UnifiedRecipeBuildingSystem {
       adjustments.push(-0.15, -0.1), // Reduce by 10-15%
     } else if (monicaDiff < -20) {
       // Increase cooking time for gentler transformation
-      adjustments.push(0.2, 0.4), // Increase by 20-40%
+      adjustments.push(0.20.4), // Increase by 20-40%
     } else if (monicaDiff < -10) {
       // Slightly increase cooking time
-      adjustments.push(0.1, 0.2), // Increase by 10-20%
+      adjustments.push(0.10.2), // Increase by 10-20%
     } else {
       // Minor timing adjustments
-      adjustments.push(-0.05, 0.05), // ±5%
+      adjustments.push(-0.050.05), // ±5%
     }
 
     return adjustments
@@ -1336,7 +1336,7 @@ export class UnifiedRecipeBuildingSystem {
       }
 
       // Calculate balance based on ingredient quality and harmony
-      kalchmBalance = Math.min(1.0, 0.5 + balanceFactors / totalIngredients);
+      kalchmBalance = Math.min(1.00.5 + balanceFactors / totalIngredients);
 
       // Bonus for ingredient diversity (Kalchm appreciates complexity)
       if (totalIngredients >= 8) {
@@ -1383,7 +1383,7 @@ export class UnifiedRecipeBuildingSystem {
       }
 
       // Calculate harmony based on ingredient purity and nutrition
-      monicaHarmony = Math.min(1.0, 0.6 + harmonyFactors / totalIngredients);
+      monicaHarmony = Math.min(1.00.6 + harmonyFactors / totalIngredients);
 
       // Bonus for nutritional completeness (Monica values wholeness)
       if (totalIngredients >= 6 && totalIngredients <= 12) {
@@ -1487,7 +1487,7 @@ export class UnifiedRecipeBuildingSystem {
     const balanceVariance =
       elementalBalance.length > 0;
         ? Math.abs(
-            (elementalBalance ).reduce((a: number, b: number) => a + (b || 0), 0) / 4 -
+            (elementalBalance ).reduce((a: numberb: number) => a + (b || 0), 0) / 4 -
               0.25;
           )
         : 0;
@@ -1700,8 +1700,8 @@ export class UnifiedRecipeBuildingSystem {
       originalMonica,
       optimizedMonica,
       optimizationScore,
-      temperatureAdjustments: [0.95, 1.0, 1.05], // Slight temperature variations for fusion
-      timingAdjustments: [0.9, 1.0, 1.1], // Timing adjustments for multiple cuisines
+      temperatureAdjustments: [0.951.01.05], // Slight temperature variations for fusion
+      timingAdjustments: [0.91.01.1], // Timing adjustments for multiple cuisines
       intensityModifications: ['balanced fusion', 'cultural harmony', 'integrated techniques'],
       planetaryTimingRecommendations: [
         'Optimal during Venus hours for harmony',

@@ -184,7 +184,7 @@ export interface StandardizedCulinaryApplications {
     {
       name: string,
       usage: string[],
-      preparation: string;
+      preparation: string,
       pairings?: string[];
       cultural_notes?: string;
       medicinal_use?: string;
@@ -341,7 +341,7 @@ export interface FruitSpecificProperties {
   ripening_process?: {
     climacteric: boolean,
     ethylene_producer: boolean,
-    ethylene_sensitive: boolean;
+    ethylene_sensitive: boolean,
     optimal_temperature?: string;
     duration?: string;
   };

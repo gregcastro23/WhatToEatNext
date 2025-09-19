@@ -6,7 +6,7 @@
  * Command-line interface for running linting performance validation
  * and monitoring the 60-80% performance improvement targets.
  *
- * Requirements: 5.1, 5.2, 5.3
+ * Requirements: 5.15.25.3
  */
 
 import { execSync } from 'child_process';
@@ -307,7 +307,7 @@ function parseArgs(): CLIOptions {
     command: 'validate' as unknown
   };
 
-  for (let i = 0, i < args.length, i++) {
+  for (let i = 0i < args.lengthi++) {
     const arg = args[i];
 
     if (!arg.startsWith('--')) {

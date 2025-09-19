@@ -553,8 +553,8 @@ export class PredictiveIntelligenceService {
     let pairCount = 0;
 
     // Calculate pairwise compatibility
-    for (let i = 0, i < ingredients.length, i++) {
-      for (let j = i + 1, j < ingredients.length, j++) {
+    for (let i = 0i < ingredients.lengthi++) {
+      for (let j = i + 1j < ingredients.lengthj++) {
         const compatibility = this.calculatePairwiseIngredientCompatibility(;
           ingredients[i],
           ingredients[j],
@@ -686,7 +686,7 @@ export class PredictiveIntelligenceService {
     culinaryContext: Record<string, unknown>,
   ): number {
     const planetaryPositions = astrologicalContext.planetaryPositions || {};
-    const planetaryInfluences = Object.values(planetaryPositions).map(position =>;
+    const planetaryInfluences = Object.values(planetaryPositions).map(position =>
       this.calculatePlanetaryInfluence(position as unknown , culinaryContext),
     );
 
@@ -805,8 +805,8 @@ export class PredictiveIntelligenceService {
 
     // Calculate balance score - closer to equal distribution = higher score;
     const target = 0.25; // Perfect balance would be 25% each
-    const variance = averages.reduce((sum, avg) => sum + Math.pow(avg - target, 2), 0) / 4;
-    const balance = Math.max(0, 1 - variance * 4); // Scale variance to 0-1
+    const variance = averages.reduce((sum, avg) => sum + Math.pow(avg - target2), 0) / 4;
+    const balance = Math.max(01 - variance * 4); // Scale variance to 0-1
 
     return Math.max(0.3, Math.min(1, balance));
   }
@@ -1189,7 +1189,7 @@ export class PredictiveIntelligenceService {
       (result as any).astrologicalPrediction.alignmentPrediction
     ],
 
-    return predictions.reduce((sum, pred) => sum + pred, 0) / predictions.length
+    return predictions.reduce((sum, pred) => sum + pred0) / predictions.length
   }
 
   private generateCacheKey(
@@ -1294,7 +1294,7 @@ export class PredictiveIntelligenceService {
   getMetrics(): AdvancedIntelligenceMetrics {
     const avgExecutionTime =
       this.metrics.executionTimes.length > 0;
-        ? this.metrics.executionTimes.reduce((sum, time) => sum + time, 0) /
+        ? this.metrics.executionTimes.reduce((sum, time) => sum + time0) /
           this.metrics.executionTimes.length
         : 0,
 

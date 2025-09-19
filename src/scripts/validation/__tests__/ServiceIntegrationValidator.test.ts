@@ -83,7 +83,7 @@ describe('ServiceIntegrationValidator', () => {
           return Buffer.from(''), // No build errors
         }
         if (cmd.toString().includes('yarn test')) {
-          return Buffer.from('5 passed, 0 failed, 5 total')
+          return Buffer.from('5 passed0 failed5 total')
         }
         return Buffer.from('');
       });
@@ -123,7 +123,7 @@ describe('ServiceIntegrationValidator', () => {
         if (cmd.toString().includes('yarn lint')) {
           // Simulate 10 remaining unused variables (90% reduction)
           const lintResults: any = Array.from({ length: 10 }, () => ({
-            messages: [{ ruleI, d: '@typescript-eslint/no-unused-vars' }]
+            messages: [{ ruleId: '@typescript-eslint/no-unused-vars' }]
           }));
           return Buffer.from(JSON.stringify(lintResults));
         }
@@ -151,14 +151,14 @@ describe('ServiceIntegrationValidator', () => {
         if (cmd.toString().includes('yarn lint')) {
           // Simulate 50 remaining unused variables (50% reduction)
           const lintResults: any = Array.from({ length: 50 }, () => ({
-            messages: [{ ruleI, d: '@typescript-eslint/no-unused-vars' }]
+            messages: [{ ruleId: '@typescript-eslint/no-unused-vars' }]
           }));
           return Buffer.from(JSON.stringify(lintResults));
         }
         if (cmd.toString().includes('yarn tsc')) {
           // Simulate build errors
           const error: any = new Error('Build failed') as any;
-          (error as any).stdout = 'error TS2322: Type error\nerror TS233, 9: Property error',
+          (error as any).stdout = 'error TS2322: Type error\nerror TS2339: Property error',
           throw error
         }
         return Buffer.from('');
@@ -358,7 +358,7 @@ describe('ServiceIntegrationValidator', () => {
       // Mock successful test execution
       mockExecSync.mockImplementation((cmd: any) => {
         if (cmd.toString().includes('yarn test')) {
-          return Buffer.from('3 passed, 0 failed, 3 total')
+          return Buffer.from('3 passed0 failed3 total')
         }
         return Buffer.from('');
       });
@@ -397,7 +397,7 @@ describe('ServiceIntegrationValidator', () => {
       mockExecSync.mockImplementation((cmd: any) => {
         if (cmd.toString().includes('yarn test')) {
           const error: any = new Error('Tests failed') as any;
-          (error as any).stdout = '2 passed, 1 failed, 3 total',
+          (error as any).stdout = '2 passed1 failed3 total',
           throw error
         }
         return Buffer.from('');
@@ -422,7 +422,7 @@ describe('ServiceIntegrationValidator', () => {
       mockExecSync.mockImplementation((cmd: any) => {
         if (cmd.toString().includes('yarn lint')) {
           const lintResults: any = Array.from({ length: 20 }, () => ({
-            messages: [{ ruleI, d: '@typescript-eslint/no-unused-vars' }]
+            messages: [{ ruleId: '@typescript-eslint/no-unused-vars' }]
           }));
           return Buffer.from(JSON.stringify(lintResults));
         }
@@ -447,7 +447,7 @@ describe('ServiceIntegrationValidator', () => {
       mockExecSync.mockImplementation((cmd: any) => {
         if (cmd.toString().includes('yarn tsc')) {
           const error: any = new Error('Build failed') as any;
-          (error as any).stdout = 'error TS2322: Type error\nerror TS2339: Property error\nerror TS234, 5: Argument error',
+          (error as any).stdout = 'error TS2322: Type error\nerror TS2339: Property error\nerror TS2345: Argument error',
           throw error
         }
         if (cmd.toString().includes('yarn lint')) {
@@ -511,7 +511,7 @@ describe('ServiceIntegrationValidator', () => {
         if (cmd.toString().includes('yarn lint')) {
           // 50% reduction (below 90% target)
           const lintResults: any = Array.from({ length: 50 }, () => ({
-            messages: [{ ruleI, d: '@typescript-eslint/no-unused-vars' }]
+            messages: [{ ruleId: '@typescript-eslint/no-unused-vars' }]
           }));
           return Buffer.from(JSON.stringify(lintResults));
         }

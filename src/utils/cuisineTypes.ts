@@ -521,7 +521,7 @@ export function getCuisineCompatibilityRecommendations(
       ingredientMatches: getCommonIngredients(cuisine, targetCuisine),
       regionalVariations: getRegionalVariations(cuisine, targetCuisine)
     }))
-    .sort((a, b) => b.score - a.score);
+    .sort((ab) => b.score - a.score);
 }
 
 /**

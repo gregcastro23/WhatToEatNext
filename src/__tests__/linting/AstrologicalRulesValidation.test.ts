@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any, no-console, @typescript-eslint/no-unused-vars, max-lines-per-function -- Campaign/test file with intentional patterns */
+/* eslint-disable @typescript-eslint/no-explicit-anyno-console, @typescript-eslint/no-unused-vars, max-lines-per-function -- Campaign/test file with intentional patterns */
 import type {} from 'jest';
 /**
  * Comprehensive Tests for Astrological ESLint Rules
@@ -369,7 +369,7 @@ describe('Astrological ESLint Rules', () => {
           exactLongitude: number,, isRetrograde: boolean
         }
 
-        const position: PlanetaryPosition = { sign: 'aries',;
+        const position: PlanetaryPosition = { sign: 'aries',
           degree: 15.5,
           exactLongitude: 15.5,
           isRetrograde: false
@@ -411,7 +411,7 @@ describe('Astrological ESLint Rules', () => {
         ${Array(100)
           .fill(0)
           .map(
-            (_: any, i: any) => `
+            (_: anyi: any) => `
           const position${i} = {
             sign: 'aries',
             degree: ${i},

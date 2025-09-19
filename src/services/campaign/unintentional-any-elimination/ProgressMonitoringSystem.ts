@@ -494,7 +494,7 @@ export class ProgressMonitoringSystem extends EventEmitter {
     const trends: TrendingData[] = [];
     const now = new Date();
 
-    for (let i = 7, i >= 0, i--) {
+    for (let i = 7i >= 0i--) {
       const date = new Date(now.getTime() - i * 24 * 60 * 60 * 1000);
       trends.push({
         date,

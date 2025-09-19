@@ -97,8 +97,8 @@ export function generateTopSauceRecommendations(
 
       // Simple flavor matching based on ingredients
       if (planetaryFlavors.flavorProfiles) {
-        const matchingIngredients = sauce.keyIngredients.filter(ingredient =>;
-          Object.keys(planetaryFlavors.flavorProfiles).some(flavor =>;
+        const matchingIngredients = sauce.keyIngredients.filter(ingredient =>
+          Object.keys(planetaryFlavors.flavorProfiles).some(flavor =>
             ingredient.toLowerCase().includes(flavor);
           ),
         );
@@ -129,7 +129,7 @@ export function generateTopSauceRecommendations(
   });
 
   // Sort by overall match percentage and return top results
-  return scoredSauces.sort((a, b) => (b.score || 0) - (a.score || 0)).slice(0, count);
+  return scoredSauces.sort((ab) => (b.score || 0) - (a.score || 0)).slice(0, count);
 }
 
 export function calculateElementalProfileFromZodiac(_zodiac: string) {
@@ -235,7 +235,7 @@ export function getCuisineRecommendations(
     ? scoredCuisines
     : scoredCuisines.filter(c => !(c as unknown as any).parentCuisine);
 
-  return filteredCuisines.sort((a, b) => b.score - a.score).slice(0, count);
+  return filteredCuisines.sort((ab) => b.score - a.score).slice(0, count);
 }
 
 // calculateElementalMatch function (causing errors in multiple components)

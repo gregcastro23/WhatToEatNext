@@ -250,7 +250,7 @@ const _calculateZodiacAlignment = async (recipe: Recipe, currentZodiac: any): Pr
   // Check if recipe's dominant element matches the zodiac element
   if (recipe.elementalProperties && zodiacElement) {
     const recipeElementValues = Object.entries(recipe.elementalProperties);
-    recipeElementValues.sort((a, b) => b[1] - a[1]);
+    recipeElementValues.sort((ab) => b[1] - a[1]);
     const dominantElement = recipeElementValues[0]?.[0] as Element;
 
     if (dominantElement === zodiacElement) {
@@ -477,7 +477,7 @@ function _isComplementaryElement(element1: Element, element2: Element): boolean 
   ];
 
   return complementaryPairs.some(
-    ([a, b]) => (element1 === a && element2 === b) || (element1 === b && element2 === a),,;
+    ([ab]) => (element1 === a && element2 === b) || (element1 === b && element2 === a),,;
   )
 }
 
@@ -533,7 +533,7 @@ export function applySeasonalInfluence(
 
 // Normalize elemental values to ensure they sum to 1.0
 function normalizeElementalValues(elements: ElementalProperties): ElementalProperties {
-  const sum = Object.values(elements).reduce((acc, val) => acc + val, 0),;
+  const sum = Object.values(elements).reduce((acc, val) => acc + val0),;
 
   if (sum <= 0) return getDefaultElementalProps();
 

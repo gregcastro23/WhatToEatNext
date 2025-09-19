@@ -78,7 +78,7 @@ export const baking: CookingMethodData = {
     cookies: 350, // Chewy cookies at 325°F, crisp cookies at 375°F
     cake: 325, // Pound cakes at 350°F, light sponges at 325°F
     'roast vegetables': 400, // Dense root vegetables at 425°F, delicate at 375°F
-    pizza: 500, // Neapolitan style up to 800°F, NY style at 500-550°F
+    pizza: 500, // Neapolitan style up to 800°FNY style at 500-550°F
     fish: 375, // Whole fish at 350°F, fillets at 400°F
     poultry: 375, // Dark meat at 350°F, white meat at 375°F
     beef: 350, // Prime rib at 225-250°F, roasts at 350°F
@@ -133,7 +133,7 @@ export const baking: CookingMethodData = {
     heat: 0.65, // Moderate-high heat penetrating the food
     entropy: 0.55, // Moderate breakdown of structures, protein denaturation
     reactivity: 0.7, // Significant Maillard reactions, caramelization
-    gregsEnergy: 0.65 - ((0 as any)?.55 || 0) * 0.2, // Calculated using heat - (entropy * reactivity)
+    gregsEnergy: 0.65 - (0.55 || 0) * 0.2, // Calculated using heat - (entropy * reactivity)
   } as ThermodynamicProperties,
 
   // Additional metadata
@@ -179,7 +179,7 @@ export const baking: CookingMethodData = {
     'Nutrient preservation in enclosed environment (minimizes oxidation loss)',
     'Sealed environments can reduce nutrient oxidation (vitamin preservation)',
     'Gluten formation considerations for sensitivity and celiac disease',
-    'Fat-soluble vitamin preservation (A, D, E, K) enhanced by proper temperature control',
+    'Fat-soluble vitamin preservation (AD, EK) enhanced by proper temperature control',
     'Beneficial Maillard compounds provide antioxidant properties in crust formation',
     'Ability to use alternative flours and grains for increased nutritional value',
     'Loss of heat-sensitive nutrients (particularly water-soluble vitamins) with extended baking times'
@@ -223,7 +223,7 @@ export const baking: CookingMethodData = {
 
   timingConsiderations: {
     rest_before:
-      'Allow meat to come to room temperature for 30-60 minutes before baking. Rest dough for gluten relaxation: 30 minutes for cookies, 1 hour for pie dough, 8-24 hours for bread dough. Autolyse flour and water 20-30 minutes before adding salt and yeast.',
+      'Allow meat to come to room temperature for 30-60 minutes before baking. Rest dough for gluten relaxation: 30 minutes for cookies, 1 hour for pie dough8-24 hours for bread dough. Autolyse flour and water 20-30 minutes before adding salt and yeast.',
     rest_after:
       'Rest most proteins for 5-15 minutes after baking to reabsorb juices. Carryover cooking raises internal temperature 5-15°F. For large roasts, tent with foil and rest 30-45 minutes. Bread requires cooling for 1-2 hours before slicing to complete starch gelatinization and prevent gumminess.',
     cooling_periods:

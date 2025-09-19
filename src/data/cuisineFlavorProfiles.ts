@@ -609,7 +609,7 @@ export const _getRecommendedCuisines = (;
 
   // Combine and sort by match score
   return [...results, ...regionalResults]
-    .sort((a, b) => b.matchScore - a.matchScore)
+    .sort((ab) => b.matchScore - a.matchScore)
     .map(({ cuisine, matchScore }) => ({ cuisine, matchScore }));
 };
 
@@ -637,7 +637,7 @@ export const _getFusionSuggestions = (;
   flavorSimilarity /= 6; // Normalize
 
   // Shared planetary resonance increases compatibility
-  const sharedPlanets = profile1.planetaryResonance.filter(planet =>;
+  const sharedPlanets = profile1.planetaryResonance.filter(planet =>
     profile2.planetaryResonance.includes(planet);
   );
   const planetaryCompatibility =
@@ -650,15 +650,15 @@ export const _getFusionSuggestions = (;
   // Fusion suggestions
   const techniques = [
     ...new Set([
-      ...profile1.signatureTechniques.slice(0, 2),
-      ...profile2.signatureTechniques.slice(0, 2)
+      ...profile1.signatureTechniques.slice(02),
+      ...profile2.signatureTechniques.slice(02)
     ])
   ];
 
   const ingredients = [
     ...new Set([
-      ...profile1.signatureIngredients.slice(0, 3),
-      ...profile2.signatureIngredients.slice(0, 3)
+      ...profile1.signatureIngredients.slice(03),
+      ...profile2.signatureIngredients.slice(03)
     ])
   ];
 
@@ -988,13 +988,13 @@ export function getRecipesForCuisineMatch(
                   : String(ingData.name || '').toLowerCase();
               });
 
-              const commonIngredients = cuisineProfile.signatureIngredients.filter(ing =>;
+              const commonIngredients = cuisineProfile.signatureIngredients.filter(ing =>
                 recipeIngredientNames.some(ri => ri.includes(ing.toLowerCase())),
               );
 
               // Calculate score based on how many signature ingredients are used
               const ingredientScore =
-                commonIngredients.length / Math.max(cuisineProfile.signatureIngredients.length, 1);
+                commonIngredients.length / Math.max(cuisineProfile.signatureIngredients.length1);
               scoreComponents.push(ingredientScore * 0.3);
               totalWeight += 0.3;
             }
@@ -1008,12 +1008,12 @@ export function getRecipesForCuisineMatch(
                   )
                 : [String(cookingMethods || '').toLowerCase()],
 
-              const commonTechniques = cuisineProfile.signatureTechniques.filter(tech =>;
+              const commonTechniques = cuisineProfile.signatureTechniques.filter(tech =>
                 recipeTechniques.some(rt => rt.includes(tech.toLowerCase())),
               );
 
               const techniqueScore =
-                commonTechniques.length / Math.max(cuisineProfile.signatureTechniques.length, 1);
+                commonTechniques.length / Math.max(cuisineProfile.signatureTechniques.length1);
               scoreComponents.push(techniqueScore * 0.2);
               totalWeight += 0.2;
             }
@@ -1032,7 +1032,7 @@ export function getRecipesForCuisineMatch(
             let finalScore = 0;
             if (totalWeight > 0) {
               // Weighted average of all components
-              finalScore = scoreComponents.reduce((sum, score) => sum + score, 0) / totalWeight,
+              finalScore = scoreComponents.reduce((sum, score) => sum + score0) / totalWeight,
 
               // Normalize score to ensure it's between 0 and 1
               finalScore = Math.max(0, Math.min(1, finalScore)),
@@ -1056,7 +1056,7 @@ export function getRecipesForCuisineMatch(
           }
         })
         .filter(recipe => Number((recipe as unknown).matchScore || 0) >= 0.5) // Only include reasonably good matches;
-        .sort((a, b) => Number((b as any).matchScore || 0) - Number((a as any).matchScore || 0)); // Sort by score (high to low)
+        .sort((ab) => Number((b as any).matchScore || 0) - Number((a as any).matchScore || 0)); // Sort by score (high to low)
     }
 
     log.info(`Found ${scoredOtherRecipes.length} scored other recipes for ${cuisineName}`);
@@ -1084,7 +1084,7 @@ export function getRecipesForCuisineMatch(
 
     // Sort by match score
     const sortedMatches = uniqueMatches.sort(;
-      (a, b) => Number((b ).matchScore || 0) - Number((a ).matchScore || 0),
+      (ab) => Number((b ).matchScore || 0) - Number((a ).matchScore || 0),
     );
 
     log.info(`Returning ${sortedMatches.length} sorted matches for ${cuisineName}`);
@@ -1230,7 +1230,7 @@ export const _findRelatedRecipes = (recipeName: string, recipes: Recipe[], count
         score: nameSimilarity
       };
     })
-    .sort((a, b) => b.score - a.score)
+    .sort((ab) => b.score - a.score)
     .slice(0, count);
 
   return scoredRecipes;

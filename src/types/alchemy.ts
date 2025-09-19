@@ -69,7 +69,7 @@ export type PlanetaryPositionsType = Record<string, string>;
  * All twelve zodiac signs in lowercase (project standard)
  */
 export type ZodiacSignType =
-  | 'aries';
+  | 'aries'
   | 'taurus'
   | 'gemini'
   | 'cancer'
@@ -1137,8 +1137,7 @@ export const TYPE_INTELLIGENCE_DEMO = {
           integrationMetrics.celestialIntegration +
           integrationMetrics.alchemicalIntegration +
           integrationMetrics.thermodynamicIntegration) /
-          4,
-        1.0;
+          41.0;
       ),
       validationSystemIntegration: Math.min(
         (integrationMetrics.filterIntegration + integrationMetrics.searchIntegration) / 2;
@@ -1226,7 +1225,7 @@ const _PHASE_29_DEMONSTRATION_RESULTS = executeDemonstration();
 // Note: All Type Intelligence Systems are already exported via their const declarations above
 
 // Export all previously unused variables as functional type aliases for compatibility
-// Note: These types are already exported above, so we're commenting out duplicates to avoid conflicts
+// Note: These types are already exported aboveso we're commenting out duplicates to avoid conflicts
 // export type {
 //   PlanetaryPositionsType,
 //   AlchemicalState,
@@ -1269,7 +1268,7 @@ export const ALCHEMY_TYPE_INTELLIGENCE_SYSTEM = {
 
     // Analyze property patterns
     const propertyAnalysis = properties.map(prop => ({
-      totalStrength: Object.values(prop).reduce((sum, val) => sum + val, 0),
+      totalStrength: Object.values(prop).reduce((sum, val) => sum + val0),
       dominantElement: Object.entries(prop).reduce(
         (max, [key, value]) => (value > max.value ? { key, value } : max),
         { key: 'Fire', value: 0 },
@@ -1290,7 +1289,7 @@ export const ALCHEMY_TYPE_INTELLIGENCE_SYSTEM = {
       propertyPatterns: propertyAnalysis,
       interactionPatterns: interactionAnalysis,
       averageBalance:
-        propertyAnalysis.reduce((sum, p) => sum + p.balance, 0) / propertyAnalysis.length,
+        propertyAnalysis.reduce((sump) => sum + p.balance, 0) / propertyAnalysis.length,
       totalInteractions: interactions.length
     };
   },
@@ -1327,7 +1326,7 @@ export const ALCHEMY_TYPE_INTELLIGENCE_SYSTEM = {
       scoreRange: calc.score,
       confidence: (calc as unknown as AlchemicalCalculationResult).confidence || 0,
       factorCount: (calc as unknown as AlchemicalCalculationResult).factors.length || 0,
-      elementalBalance: Object.values(calc.elementalProperties).reduce((sum, val) => sum + val, 0)
+      elementalBalance: Object.values(calc.elementalProperties).reduce((sum, val) => sum + val0)
     }));
 
     return {
@@ -1335,9 +1334,9 @@ export const ALCHEMY_TYPE_INTELLIGENCE_SYSTEM = {
       metricPatterns: metricAnalysis,
       calculationPatterns: calculationAnalysis,
       averageEnergy:
-        energyAnalysis.reduce((sum, e) => sum + e.totalEnergy, 0) / energyAnalysis.length,
+        energyAnalysis.reduce((sume) => sum + e.totalEnergy, 0) / energyAnalysis.length,
       averageKalchm:
-        metricAnalysis.reduce((sum, m) => sum + m.kalchmRatio, 0) / metricAnalysis.length
+        metricAnalysis.reduce((summ) => sum + m.kalchmRatio, 0) / metricAnalysis.length
     };
   },
 
@@ -1357,8 +1356,7 @@ export const ALCHEMY_TYPE_INTELLIGENCE_SYSTEM = {
     const recipeAnalysis = recipes.map(recipe => ({
       ingredientCount: recipe.ingredients.length,
       elementalComplexity: Object.values(recipe.elementalProperties).reduce(
-        (sum, val) => sum + val,
-        0,
+        (sum, val) => sum + val0,
       ),
       seasonCount: recipe.season?.length || 0,
       mealTypeCount: recipe.mealType?.length || 0
@@ -1368,8 +1366,7 @@ export const ALCHEMY_TYPE_INTELLIGENCE_SYSTEM = {
     const ingredientAnalysis = ingredients.map(ingredient => ({
       category: ingredient.category,
       elementalStrength: Object.values(ingredient.elementalProperties).reduce(
-        (sum, val) => sum + val,
-        0,
+        (sum, val) => sum + val0,
       ),
       hasNutritionalProfile: !!ingredient.nutritionalProfile,
       hasAlchemicalProperties: !!ingredient.alchemicalProperties,
@@ -1390,9 +1387,9 @@ export const ALCHEMY_TYPE_INTELLIGENCE_SYSTEM = {
       ingredientPatterns: ingredientAnalysis,
       methodPatterns: methodAnalysis,
       averageIngredientCount:
-        recipeAnalysis.reduce((sum, r) => sum + r.ingredientCount, 0) / recipeAnalysis.length,
+        recipeAnalysis.reduce((sumr) => sum + r.ingredientCount, 0) / recipeAnalysis.length,
       averageElementalComplexity:
-        recipeAnalysis.reduce((sum, r) => sum + r.elementalComplexity, 0) / recipeAnalysis.length
+        recipeAnalysis.reduce((sumr) => sum + r.elementalComplexity, 0) / recipeAnalysis.length
     };
   },
 
@@ -1443,9 +1440,9 @@ export const ALCHEMY_TYPE_INTELLIGENCE_SYSTEM = {
       alignmentPatterns: alignmentAnalysis,
       positionPatterns: positionAnalysis,
       averageEnergyFlow:
-        alignmentAnalysis.reduce((sum, a) => sum + a.energyFlow, 0) / alignmentAnalysis.length,
+        alignmentAnalysis.reduce((suma) => sum + a.energyFlow, 0) / alignmentAnalysis.length,
       averageAspectCount:
-        alignmentAnalysis.reduce((sum, a) => sum + a.aspectCount, 0) / alignmentAnalysis.length
+        alignmentAnalysis.reduce((suma) => sum + a.aspectCount, 0) / alignmentAnalysis.length
     };
   },
 
@@ -1463,7 +1460,7 @@ export const ALCHEMY_TYPE_INTELLIGENCE_SYSTEM = {
 
     // Analyze chakra patterns
     const chakraAnalysis = chakraEnergies.map(chakra => ({
-      totalEnergy: Object.values(chakra).reduce((sum, val) => sum + val, 0),
+      totalEnergy: Object.values(chakra).reduce((sum, val) => sum + val0),
       dominantChakra: Object.entries(chakra).reduce(
         (max, [key, value]) => (value > max.value ? { key, value } : max),
         { key: 'root', value: 0 },
@@ -1494,9 +1491,9 @@ export const ALCHEMY_TYPE_INTELLIGENCE_SYSTEM = {
       energyStatePatterns: energyStateAnalysis,
       valuePatterns: valueAnalysis,
       averageChakraEnergy:
-        chakraAnalysis.reduce((sum, c) => sum + c.totalEnergy, 0) / chakraAnalysis.length,
+        chakraAnalysis.reduce((sumc) => sum + c.totalEnergy, 0) / chakraAnalysis.length,
       averageEnergyState:
-        energyStateAnalysis.reduce((sum, e) => sum + e.totalEnergy, 0) / energyStateAnalysis.length
+        energyStateAnalysis.reduce((sume) => sum + e.totalEnergy, 0) / energyStateAnalysis.length
     };
   }
 };

@@ -133,7 +133,7 @@ export function calculatePlanetaryFlavorMatch(
     const recipeProfile = convertLegacyToUnified(recipeFlavors, 'recipe-planetary');
 
     // Find strongest planetary influence
-    const strongestPlanet = Object.entries(planetaryInfluences).sort((a, b) => b[1] - a[1])[0];
+    const strongestPlanet = Object.entries(planetaryInfluences).sort((ab) => b[1] - a[1])[0];
 
     if (!strongestPlanet) return 0.5;
 
@@ -394,7 +394,7 @@ function estimateElementalFromFlavors(baseNotes: BaseFlavorNotes): ElementalProp
 
 function calculateIntensity(baseNotes: BaseFlavorNotes): number {
   const values = Object.values(baseNotes);
-  return values.reduce((sum, val) => sum + val, 0) / (values || []).length
+  return values.reduce((sum, val) => sum + val0) / (values || []).length
 }
 
 function calculateComplexity(baseNotes: BaseFlavorNotes): number {

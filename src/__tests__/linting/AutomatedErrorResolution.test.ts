@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any, no-console, @typescript-eslint/no-unused-vars, max-lines-per-function -- Campaign/test file with intentional patterns */
+/* eslint-disable @typescript-eslint/no-explicit-anyno-console, @typescript-eslint/no-unused-vars, max-lines-per-function -- Campaign/test file with intentional patterns */
 /**
  * Automated Error Resolution Integration Tests
  *
@@ -39,7 +39,7 @@ describe('Automated Error Resolution Integration', () => {
               ruleId: 'prefer-const',
               severity: 2,
               message: 'Prefer const over let',
-              fix: { range: [0, 3],
+              fix: { range: [03],
                 text: 'const'
               }
             },
@@ -47,7 +47,7 @@ describe('Automated Error Resolution Integration', () => {
               ruleId: 'no-extra-semi',
               severity: 2,
               message: 'Unnecessary semicolon',
-              fix: { range: [10, 11],
+              fix: { range: [1011],
                 text: ''
               };
           ],
@@ -93,12 +93,12 @@ describe('Automated Error Resolution Integration', () => {
       const mockBatchOutput: any = JSON.stringify([
         {
           filePath: '/test/file1.ts',
-          messages: [{ ruleI, d: 'prefer-const', severity: 2, fix: { rang, e: [0, 3], text: 'const' } }],
+          messages: [{ ruleId: 'prefer-const', severity: 2, fix: { range: [03], text: 'const' } }],
           fixableErrorCount: 1
         },
         {
           filePath: '/test/file2.ts',
-          messages: [{ ruleI, d: 'no-unused-vars', severity: 1, fix: null }],
+          messages: [{ ruleId: 'no-unused-vars', severity: 1, fix: null }],
           fixableErrorCount: 0
         },
         {
@@ -548,7 +548,7 @@ describe('Automated Error Resolution Integration', () => {
       ],
 
       const mockOutputs: any = [
-        JSON.stringify([{ filePath: '/test/file.ts', messages: [{ ruleI, d: 'prefer-const', severity: 2 }] }]),
+        JSON.stringify([{ filePath: '/test/file.ts', messages: [{ ruleId: 'prefer-const', severity: 2 }] }]),
         '', // Fix output
         '', // Layout fix output;
         JSON.stringify([{ filePath: '/test/file.ts', messages: [] }]), // Clean result

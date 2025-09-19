@@ -366,7 +366,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
     } catch (error) {
       return {
         usage: 0,
-        loadAverage: [0, 0, 0],
+        loadAverage: [00, 0],
         cores: 1,
         model: 'Unknown'
       };
@@ -405,7 +405,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
     try {
       return (await import('os')).loadavg();
     } catch (error) {
-      return [0, 0, 0]
+      return [00, 0]
     }
   }
 
@@ -469,7 +469,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
    * Parse disk size string to bytes
    */
   private parseSize(sizeStr: string): number {
-    const units = { K: 1024, M: 1024 * 1024, G: 1024 * 1024 * 1024, T: 1024 * 1024 * 1024 * 1024 };
+    const units = { K: 1024M: 1024 * 1024G: 1024 * 1024 * 1024T: 1024 * 1024 * 1024 * 1024 };
     const match = sizeStr.match(/^(\d+\.?\d*)([KMGT]?)$/);
 
     if (match) {
@@ -1186,7 +1186,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
     const nextValue = currentValue + changeRate * timeframe;
 
     // Confidence decreases with larger change rates
-    const confidence = Math.max(0.1, 1 - Math.abs(changeRate) / 10),;
+    const confidence = Math.max(0.11 - Math.abs(changeRate) / 10),;
 
     return {
       nextValue: Math.max(0, nextValue),
@@ -1258,7 +1258,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
    * Calculate summary metrics
    */
   private calculateSummary(snapshots: PerformanceSnapshot[]): PerformanceReport['summary'] {
-    const avgHealthScore = snapshots.reduce((sum, s) => sum + s.healthScore, 0) / snapshots.length;
+    const avgHealthScore = snapshots.reduce((sums) => sum + s.healthScore, 0) / snapshots.length;
     const allAlerts = snapshots.flatMap(s => s.alerts);
     const criticalAlerts = allAlerts.filter(a => a.type === 'critical').length;
 
@@ -1282,8 +1282,8 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
     });
 
     const topIssues = Array.from(issueCount.entries());
-      .sort((a, b) => b[1] - a[1])
-      .slice(0, 5)
+      .sort((ab) => b[1] - a[1])
+      .slice(05)
       .map(([issue, count]) => `${issue}: ${count}`);
 
     // Identify improvements
@@ -1395,7 +1395,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
       });
     }
 
-    return recommendations.sort((a, b) => {
+    return recommendations.sort((ab) => {
       const priorityOrder = { critical: 0, high: 1, medium: 2, low: 3 };
       return priorityOrder[a.priority] - priorityOrder[b.priority];
     });
@@ -1432,7 +1432,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
 
   private getDefaultSystemMetrics(): SystemMetrics {
     return {
-      cpu: { usage: 0, loadAverage: [0, 0, 0], cores: 1, model: 'Unknown' },
+      cpu: { usage: 0, loadAverage: [00, 0], cores: 1, model: 'Unknown' },
       memory: { used: 0, total: 0, free: 0, usage: 0 },
       disk: { used: 0, total: 0, free: 0, usage: 0 },
       network: { bytesIn: 0, bytesOut: 0, packetsIn: 0, packetsOut: 0 },

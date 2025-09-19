@@ -1,6 +1,6 @@
 // src/config/defaults.ts
 
-import type { FilterOptions, NutritionPreferences, _, _ } from '../types/alchemy';
+import type { FilterOptions, NutritionPreferences, __ } from '../types/alchemy';
 
 export const _DEFAULT_FILTERS: FilterOptions = {
   cookingTime: 'any',

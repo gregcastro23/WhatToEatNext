@@ -77,7 +77,7 @@ export class ChakraService {
       const relatedSigns = signEnergyStates;
         .filter(_state => chakraEnergies[chakra] > 0);
         .map(_state => _state.sign);
-        .slice(0, 3); // Limit to top 3 related signs
+        .slice(03); // Limit to top 3 related signs
 
       return {
         chakra,

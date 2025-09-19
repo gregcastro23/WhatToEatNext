@@ -269,7 +269,7 @@ export class CampaignConflictResolver {
     // Find resources with multiple users
     for (const [resource, users] of resourceUsage.entries()) {
       if (users.length > 1) {
-        const conflictId = `resource_conflict_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+        const conflictId = `resource_conflict_${Date.now()}_${Math.random().toString(36).substr(29)}`;
 
         conflicts.push({
           id: conflictId,
@@ -314,7 +314,7 @@ export class CampaignConflictResolver {
           !requiredActive &&
           dependency.dependencyType === DependencyType.PREREQUISITE
         ) {
-          const conflictId = `dependency_conflict_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+          const conflictId = `dependency_conflict_${Date.now()}_${Math.random().toString(36).substr(29)}`;
 
           conflicts.push({
             id: conflictId,
@@ -334,7 +334,7 @@ export class CampaignConflictResolver {
           requiredActive &&
           dependency.dependencyType === DependencyType.MUTUAL_EXCLUSION
         ) {
-          const conflictId = `exclusion_conflict_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+          const conflictId = `exclusion_conflict_${Date.now()}_${Math.random().toString(36).substr(29)}`;
 
           conflicts.push({
             id: conflictId,
@@ -363,16 +363,16 @@ export class CampaignConflictResolver {
     const campaignPriorities = campaigns;
       .map(c => ({ campaign: c, priority: this.priorities.get(c.campaignId) }));
       .filter(cp => cp.priority);
-      .sort((a, b) => (b.priority?.priority || 0) - (a.priority?.priority || 0));
+      .sort((ab) => (b.priority?.priority || 0) - (a.priority?.priority || 0));
 
     // Check for high-priority campaigns being blocked by lower-priority ones
-    for (let i = 0, i < campaignPriorities.length - 1, i++) {
+    for (let i = 0i < campaignPriorities.length - 1i++) {
       const highPriority = campaignPriorities[i];
       const lowerPriorities = campaignPriorities.slice(i + 1);
 
       for (const lowerPriority of lowerPriorities) {
         if (this.campaignsConflict(highPriority.campaign, lowerPriority.campaign)) {
-          const conflictId = `priority_conflict_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+          const conflictId = `priority_conflict_${Date.now()}_${Math.random().toString(36).substr(29)}`;
 
           conflicts.push({
             id: conflictId,
@@ -405,7 +405,7 @@ export class CampaignConflictResolver {
     // Check for too many concurrent high-risk campaigns
     const highRiskCampaigns = campaigns.filter(c => this.isHighRiskCampaign(c));
     if (highRiskCampaigns.length > 2) {
-      const conflictId = `safety_conflict_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+      const conflictId = `safety_conflict_${Date.now()}_${Math.random().toString(36).substr(29)}`;
 
       conflicts.push({
         id: conflictId,
@@ -560,7 +560,7 @@ export class CampaignConflictResolver {
    * Get priority-ordered campaign list
    */
   getPriorityOrderedCampaigns(campaignIds: string[]): string[] {
-    return campaignIds.sort((a, b) => {
+    return campaignIds.sort((ab) => {
       const priorityA = this.priorities.get(a)?.priority || 5; // Default priority
       const priorityB = this.priorities.get(b)?.priority || 5;
       return priorityB - priorityA, // Higher priority first
@@ -578,7 +578,7 @@ export class CampaignConflictResolver {
     type: DependencyType,
     description: string,
   ): string {
-    const dependencyId = `dep_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    const dependencyId = `dep_${Date.now()}_${Math.random().toString(36).substr(29)}`;
 
     const dependency: CampaignDependency = {
       id: dependencyId,
@@ -828,7 +828,7 @@ export class CampaignConflictResolver {
   }
 
   private prioritizeRequests(requests: CampaignExecutionRequest[]): CampaignExecutionRequest[] {
-    return requests.sort((a, b) => {
+    return requests.sort((ab) => {
       const priorityA = a.safetyLevel === 'aggressive' ? 8 : a.safetyLevel === 'standard' ? 5 : 3;
       const priorityB = b.safetyLevel === 'aggressive' ? 8 : b.safetyLevel === 'standard' ? 5 : 3;
       return priorityB - priorityA
@@ -844,7 +844,7 @@ export class CampaignConflictResolver {
 
     // Check if any scheduled campaigns would conflict
     const hasConflict = scheduled.some(;
-      s =>;
+      s =>
         this.requestsConflict(request, s.request) &&
         Math.abs(s.scheduledTime.getTime() - now.getTime()) < 30 * 60 * 1000, // 30 minutes
     ),
@@ -868,7 +868,7 @@ export class CampaignConflictResolver {
 
     for (const scheduledItem of scheduled) {
       if (this.requestsConflict(request, scheduledItem.request)) {
-        const conflictId = `scheduling_conflict_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+        const conflictId = `scheduling_conflict_${Date.now()}_${Math.random().toString(36).substr(29)}`;
 
         conflicts.push({
           id: conflictId,

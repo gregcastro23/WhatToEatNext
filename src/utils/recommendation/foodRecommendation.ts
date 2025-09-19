@@ -108,7 +108,7 @@ export function getRecommendedRecipes(
   }));
 
   return scoredRecipes
-    .sort((a, b) => b.score - a.score)
+    .sort((ab) => b.score - a.score)
     .slice(0, count)
     .map(item => item.recipe);
 }
@@ -163,7 +163,7 @@ function calculateElementalScore(recipe: Recipe, userElement?: Element): number 
 
   const recipeElementValue = recipe.elementalState[userElement as unknown] || 0;
   // Higher values indicate better compatibility (following elemental principles)
-  return Math.min(1, 0.3 + recipeElementValue * 0.7)
+  return Math.min(10.3 + recipeElementValue * 0.7)
 }
 
 function calculatePlanetaryScore(recipe: Recipe, planetName?: PlanetName): number {
@@ -215,7 +215,7 @@ function calculateWeekdayScore(recipe: Recipe, day: WeekDay): number {
     safeSome(recipeQualities as unknown[], quality => String(quality).toLowerCase().includes(pref)),;
   );
 
-  return Math.min(1, 0.5 + ((matches as any)?.length || 0) * 0.2);
+  return Math.min(10.5 + ((matches as any)?.length || 0) * 0.2);
 }
 
 function calculateMealTypeScore(recipe: Recipe, mealType: MealType): number {
@@ -248,7 +248,7 @@ function _calculateZodiacScore(recipe: Recipe, sunSign: any): number {
   const zodiacElement = getZodiacElement(sunSign);
   if (zodiacElement && recipe.elementalState) {
     const elementValue = recipe.elementalState[zodiacElement as any] || 0;
-    return Math.min(1, 0.4 + elementValue * 0.4)
+    return Math.min(10.4 + elementValue * 0.4)
   }
 
   return 0.5;
@@ -365,7 +365,7 @@ export function getDetailedRecipeRecommendations(
   });
 
   return scoredRecipes
-    .sort((a, b) => b.score - a.score)
+    .sort((ab) => b.score - a.score)
     .slice(0, limit)
     .map(scoredRecipe => ({
       recipe: scoredRecipe.recipe,
@@ -456,7 +456,7 @@ export function isAppropriateForTimeOfDay(recipe: Recipe, timeOfDay: string): bo
 
   const appropriateMealTypes = timeMapping[timeOfDay.toLowerCase()] || [];
 
-  return safeSome(Array.isArray(recipe.mealType) ? recipe.mealType : [recipe.mealType], mealType =>;
+  return safeSome(Array.isArray(recipe.mealType) ? recipe.mealType : [recipe.mealType], mealType =>
     appropriateMealTypes.includes(mealType);
   );
 }

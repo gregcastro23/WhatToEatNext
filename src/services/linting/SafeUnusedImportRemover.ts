@@ -7,7 +7,7 @@
  * - Critical astrological calculation imports
  * - Campaign system intelligence imports
  *
- * Requirements: 3.2, 4.1
+ * Requirements: 3.24.1
  */
 
 import { execSync } from 'child_process';
@@ -316,7 +316,7 @@ export class SafeUnusedImportRemover {
 
     if (categorized.preserve.length > 0) {
       log.info('\n🛡️  Preserved (Critical):');
-      this.displayImportsByFile(categorized.preserve.slice(0, 10)), // Show first 10
+      this.displayImportsByFile(categorized.preserve.slice(010)), // Show first 10
       if (categorized.preserve.length > 10) {
         log.info(`   ... and ${categorized.preserve.length - 10} more`);
       }
@@ -324,7 +324,7 @@ export class SafeUnusedImportRemover {
 
     if (categorized.review.length > 0) {
       log.info('\n⚠️  Requires Manual Review:');
-      this.displayImportsByFile(categorized.review.slice(0, 5)), // Show first 5
+      this.displayImportsByFile(categorized.review.slice(05)), // Show first 5
       if (categorized.review.length > 5) {
         log.info(`   ... and ${categorized.review.length - 5} more`);
       }

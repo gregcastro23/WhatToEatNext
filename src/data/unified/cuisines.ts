@@ -201,7 +201,7 @@ export class CuisineEnhancer {
     }
 
     // Sort by frequency (most common first)
-    mostCommon.sort((a, b) => b.frequency - a.frequency);
+    mostCommon.sort((ab) => b.frequency - a.frequency);
 
     // Calculate Kalchm range
     const kalchmRange =
@@ -209,12 +209,12 @@ export class CuisineEnhancer {
         ? {
             min: Math.min(...kalchmValues),
             max: Math.max(...kalchmValues),
-            average: kalchmValues.reduce((a, b) => a + b, 0) / (kalchmValues || []).length
+            average: kalchmValues.reduce((ab) => a + b0) / (kalchmValues || []).length
           }
         : { min: 1.0, max: 1.0, average: 1.0 };
 
     return {
-      mostCommon: mostCommon.slice(0, 10), // Top 10 most common ingredients
+      mostCommon: mostCommon.slice(010), // Top 10 most common ingredients
       kalchmRange
     };
   }
@@ -264,16 +264,16 @@ export class CuisineEnhancer {
     };
 
     // Sort cooking methods by frequency
-    const sortedMethods = Array.from(cookingMethods.entries()).sort((a, b) => b[1] - a[1]);
+    const sortedMethods = Array.from(cookingMethods.entries()).sort((ab) => b[1] - a[1]);
 
     // Get primary methods (top 5)
-    primaryMethods.push(...sortedMethods.slice(0, 5).map(([method]) => method));
+    primaryMethods.push(...sortedMethods.slice(05).map(([method]) => method));
 
     // Calculate method Kalchm modifiers
     for (const [method, frequency] of cookingMethods.entries()) {
       const baseModifier = kalchmModifierMap[method.toLowerCase()] || 1.0;
       // Weight modifier by frequency (more frequent methods have stronger influence)
-      const totalFrequency = Array.from(cookingMethods.values()).reduce((a, b) => a + b, 0);
+      const totalFrequency = Array.from(cookingMethods.values()).reduce((ab) => a + b0);
       const frequencyWeight = frequency / totalFrequency;
       methodKalchmModifiers[method] = baseModifier * (0.5 + frequencyWeight * 0.5);
     }
@@ -346,11 +346,11 @@ export class CuisineEnhancer {
     else baseClassification = 'Grounding';
 
     // Modify based on cooking methods
-    const fireMethodCount = (cookingMethods || []).filter(method =>;
+    const fireMethodCount = (cookingMethods || []).filter(method =>
       ['grilling', 'roasting', 'searing', 'frying', 'broiling'].includes(method.toLowerCase()),
     ).length;
 
-    const waterMethodCount = (cookingMethods || []).filter(method =>;
+    const waterMethodCount = (cookingMethods || []).filter(method =>
       ['steaming', 'boiling', 'poaching', 'braising', 'simmering'].includes(method.toLowerCase()),
     ).length;
 
@@ -398,8 +398,8 @@ export class CuisineEnhancer {
 
     // Get optimal seasons (top 2)
     const optimalSeasons = Array.from(seasonFrequency.entries());
-      .sort((a, b) => b[1] - a[1])
-      .slice(0, 2)
+      .sort((ab) => b[1] - a[1])
+      .slice(02)
       .map(([season]) => season);
 
     // Determine elemental cooking methods
@@ -413,7 +413,7 @@ export class CuisineEnhancer {
 
     return {
       optimalSeasons: optimalSeasons.length > 0 ? optimalSeasons : ['all'],
-      planetaryAffinities: Array.from(planetaryAffinities).slice(0, 3),
+      planetaryAffinities: Array.from(planetaryAffinities).slice(03),
       elementalCookingMethods,
       kalchmCompatibleCuisines: [], // Will be populated when comparing with other cuisines
     };
@@ -533,12 +533,12 @@ export class CuisineAnalyzer {
       .filter(k => k !== undefined) as number[];
 
     const totalRecipesAnalyzed = enhanced.reduce(;
-      (sum, c) => sum + (c.enhancementMetadata?.recipesAnalyzed || 0),
+      (sumc) => sum + (c.enhancementMetadata?.recipesAnalyzed || 0),
       0,
     ),
 
     const totalIngredientsAnalyzed = enhanced.reduce(;
-      (sum, c) => sum + (c.enhancementMetadata?.ingredientsAnalyzed || 0),
+      (sumc) => sum + (c.enhancementMetadata?.ingredientsAnalyzed || 0),
       0,
     ),
 
@@ -562,7 +562,7 @@ export class CuisineAnalyzer {
       const alchemicalData = cuisine.alchemicalProperties as any;
       const elementalBalance = alchemicalData.elementalBalance;
       if (elementalBalance) {
-        const dominant = Object.entries(elementalBalance).reduce((a, b) =>;
+        const dominant = Object.entries(elementalBalance).reduce((ab) =>;
           elementalBalance[a[0] as keyof ElementalProperties] >
           elementalBalance[b[0] as keyof ElementalProperties]
             ? a
@@ -606,8 +606,8 @@ export class CuisineAnalyzer {
         cuisineCount: data.count,
         averageKalchm: data.totalKalchm / data.count
       }))
-      .sort((a, b) => b.cuisineCount - a.cuisineCount)
-      .slice(0, 20);
+      .sort((ab) => b.cuisineCount - a.cuisineCount)
+      .slice(020);
 
     return {
       totalCuisines: cuisines.length,
@@ -617,7 +617,7 @@ export class CuisineAnalyzer {
           ? {
               min: Math.min(...kalchmValues),
               max: Math.max(...kalchmValues),
-              average: kalchmValues.reduce((a, b) => a + b, 0) / kalchmValues.length
+              average: kalchmValues.reduce((ab) => a + b0) / kalchmValues.length
             }
           : { min: 1.0, max: 1.0, average: 1.0 },
       totalRecipesAnalyzed,
@@ -647,8 +647,8 @@ export class CuisineAnalyzer {
                 (compatibleCuisine.alchemicalProperties?.totalKalchm || 1.0);
             )
         }))
-        .sort((a, b) => b.compatibility - a.compatibility)
-        .slice(0, 5);
+        .sort((ab) => b.compatibility - a.compatibility)
+        .slice(05);
 
       // Update cuisine optimization with compatibility data
       return {
