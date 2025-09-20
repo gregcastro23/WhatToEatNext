@@ -68,21 +68,21 @@ export async function testCookingMethodRecommendations() {
   try {
     console.warn('\nTESTING HOLISTIC RECOMMENDATIONS DIRECTLY:');
     const methods = mockCookingMethods.map(m => m.name);
-    const holisticRecs = await getHolisticCookingRecommendations(;
+    const holisticRecs = await getHolisticCookingRecommendations(
       mockIngredient,
       undefined,
       undefined,
       true,
       methods,
       5,
-    ),
+    );
     holisticRecs.forEach((rec, index) => {
       console.warn(
         `${index + 1}. ${rec.method} - Compatibility: ${Math.round(rec.compatibility)}% - ${rec.reason}`,
       );
     });
   } catch (error) {
-    console.error('ERROR GETTING HOLISTIC RECOMMENDATIONS:', error),
+    console.error('ERROR GETTING HOLISTIC RECOMMENDATIONS:', error);
     if (error instanceof Error && error.stack) {
       console.error(error.stack);
     }
@@ -91,33 +91,33 @@ export async function testCookingMethodRecommendations() {
   // Test the ingredient-specific function - Pattern ZZZ: Array Object Interface Expansion
   try {
     console.warn('\nTESTING INGREDIENT-SPECIFIC RECOMMENDATIONS:');
-    const recommendations = await getRecommendedCookingMethodsForIngredient(;
+    const recommendations = await getRecommendedCookingMethodsForIngredient(
       mockIngredient,
-      mockCookingMethods as any5,
-    ),
+      mockCookingMethods as any
+    );
     recommendations.forEach((rec, index) => {
       console.warn(
         `${index + 1}. ${rec.method} - Compatibility: ${Math.round(rec.compatibility)}%`,
       );
     });
   } catch (error) {
-    console.error('ERROR GETTING RECOMMENDATIONS:', error),
+    console.error('ERROR GETTING RECOMMENDATIONS:', error);
     if (error instanceof Error && error.stack) {
       console.error(error.stack);
     }
   }
 
-  const holisticRecs = await getHolisticCookingRecommendations(;
+  const holisticRecs = await getHolisticCookingRecommendations(
     mockIngredient,
     undefined,
     undefined,
     true,
-    mockCookingMethods.map(m => m.name),;
-    5,
+    mockCookingMethods.map(m => m.name),
+    5
   );
-  const standardRecs = await getRecommendedCookingMethodsForIngredient(;
+  const standardRecs = await getRecommendedCookingMethodsForIngredient(
     mockIngredient,
-    mockCookingMethods as any5,
+    mockCookingMethods as any
   ); // Pattern ZZZ: Array Object Interface Expansion
 
   return {
