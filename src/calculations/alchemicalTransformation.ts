@@ -95,20 +95,20 @@ export const transformItemWithPlanetaryPositions = (
 
     // Calculate dominant element and alchemical property
     const dominantElement = getDominantElement(transformedElementalProperties);
-    const dominantAlchemicalProperty = getDominantAlchemicalProperty(;
+    const dominantAlchemicalProperty = getDominantAlchemicalProperty(
       alchemicalResults.alchemicalCounts
     );
 
     // Apply safety checks for energy metrics
-    const safeHeat = Number.isFinite(alchemicalResults.heat);
+    const safeHeat = Number.isFinite(alchemicalResults.heat)
       ? Math.max(0.1, Math.min(1.0, alchemicalResults.heat * planetaryBoost * 2.5))
       : 0.5;
 
-    const safeEntropy = Number.isFinite(alchemicalResults.entropy);
+    const safeEntropy = Number.isFinite(alchemicalResults.entropy)
       ? Math.max(0.1, Math.min(1.0, alchemicalResults.entropy * 1.5))
       : 0.5;
 
-    const safeReactivity = Number.isFinite(alchemicalResults.reactivity);
+    const safeReactivity = Number.isFinite(alchemicalResults.reactivity)
       ? Math.max(0.1, Math.min(1.0, alchemicalResults.reactivity * 1.5))
       : 0.5;
 
@@ -164,31 +164,31 @@ export const transformItemWithPlanetaryPositions = (
 
     const zodiacElement = zodiacElementMap[zodiacSign];
     if (zodiacElement && zodiacElement === dominantElement) {
-      zodiacModifier = 0.25, // Increased bonus for matching zodiac element;
+      zodiacModifier = 0.25; // Increased bonus for matching zodiac element
     } else if (zodiacElement) {
       // Calculate compatibility based on elemental relationships with wider variance
       if (
-        (zodiacElement === 'Fire' && dominantElement === 'Air') ||;
-        (zodiacElement === 'Air' && dominantElement === 'Fire');
+        (zodiacElement === 'Fire' && dominantElement === 'Air') ||
+        (zodiacElement === 'Air' && dominantElement === 'Fire')
       ) {
-        zodiacModifier = 0.18, // Fire and Air are complementary;
+        zodiacModifier = 0.18; // Fire and Air are complementary
       } else if (
-        (zodiacElement === 'Earth' && dominantElement === 'Water') ||;
+        (zodiacElement === 'Earth' && dominantElement === 'Water') ||
         (zodiacElement === 'Water' && dominantElement === 'Earth');
       ) {
-        zodiacModifier = 0.18, // Earth and Water are complementary;
+        zodiacModifier = 0.18; // Earth and Water are complementary
       } else if (
-        (zodiacElement === 'Fire' && dominantElement === 'Earth') ||;
+        (zodiacElement === 'Fire' && dominantElement === 'Earth') ||
         (zodiacElement === 'Earth' && dominantElement === 'Fire');
       ) {
-        zodiacModifier = 0.12, // Fire and Earth have moderate compatibility;
+        zodiacModifier = 0.12; // Fire and Earth have moderate compatibility
       } else if (
-        (zodiacElement === 'Water' && dominantElement === 'Air') ||;
+        (zodiacElement === 'Water' && dominantElement === 'Air') ||
         (zodiacElement === 'Air' && dominantElement === 'Water');
       ) {
-        zodiacModifier = 0.12, // Water and Air have moderate compatibility;
+        zodiacModifier = 0.12; // Water and Air have moderate compatibility
       } else {
-        zodiacModifier = 0.5, // Other combinations have lower compatibility;
+        zodiacModifier = 0.5; // Other combinations have lower compatibility
       }
     }
 
@@ -466,7 +466,7 @@ const getDominantElement = (;
 ): ElementalCharacter => {
   try {
     let maxValue = -Infinity;
-    let dominantElement: ElementalCharacter = 'Fire', // Default;
+    let dominantElement: ElementalCharacter = 'Fire'; // Default
 
     (Object.entries(transformedProperties) as [ElementalCharacter, number][]).forEach(
       ([element, value]) => {
@@ -495,7 +495,7 @@ const getDominantAlchemicalProperty = (;
 ): AlchemicalProperty => {
   try {
     let maxValue = -Infinity;
-    let dominantProperty: AlchemicalProperty = 'Spirit', // Default;
+    let dominantProperty: AlchemicalProperty = 'Spirit'; // Default
 
     (Object.entries(alchemicalCounts) as [AlchemicalProperty, number][]).forEach(
       ([property, value]) => {
