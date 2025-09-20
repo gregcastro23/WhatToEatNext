@@ -6,19 +6,19 @@
 
 export interface AstrologicalTestData {
   mockPlanetaryPositions?: Record<string, number>;
-  testZodiacSign?: string;
-  testLunarPhase?: string;
+  testZodiacSign?: string,
+  testLunarPhase?: string,
   testElementalInfluence?: {
     Fire: number,
     Water: number,
     Earth: number,
     Air: number
   };
-  testDate?: Date;
+  testDate?: Date,
   mockCoordinates?: {
     latitude: number,
     longitude: number
   };
-  testScenario?: string;
+  testScenario?: string,
   expectedResults?: Record<string, unknown>;
 }

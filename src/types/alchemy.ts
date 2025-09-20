@@ -26,7 +26,7 @@ export type AlchemicalPropertiesType = {
  * Core Elemental Properties (Classical Elements)
  * These are the four classical elements used throughout the system
  */
-export type ElementalPropertiesType = {;
+export type ElementalPropertiesType = {
   Fire: number,
   Water: number,
   Earth: number,
@@ -37,7 +37,7 @@ export type ElementalPropertiesType = {;
  * Thermodynamic Metrics for alchemical calculations
  * Core metrics used in Greg's Energy and other thermodynamic calculations
  */
-export type ThermodynamicMetricsType = {;
+export type ThermodynamicMetricsType = {
   heat: number,
   entropy: number,
   reactivity: number,
@@ -100,7 +100,7 @@ export type LunarPhaseType =
  * Nutritional Content Type
  * Standard nutritional information structure
  */
-export type NutritionalContentType = {;
+export type NutritionalContentType = {
   calories: number,
   protein: number,
   fat: number,
@@ -114,7 +114,7 @@ export type NutritionalContentType = {;
  * Ingredient Mapping Type
  * Standard structure for ingredient data
  */
-export type IngredientMappingType = {;
+export type IngredientMappingType = {
   name: string,
   category: string,
   season: string[],
@@ -143,7 +143,7 @@ export type ServiceResponseType<T> = {
  * Alchemical Transformation Result
  * Result of alchemical transformation operations
  */
-export type AlchemicalTransformationResultType = {;
+export type AlchemicalTransformationResultType = {
   originalProperties: AlchemicalPropertiesType,
   transformedProperties: AlchemicalPropertiesType,
   elementalShift: ElementalPropertiesType,
@@ -156,7 +156,7 @@ export type AlchemicalTransformationResultType = {;
  * Planetary Influence Result
  * Result of planetary influence calculations
  */
-export type PlanetaryInfluenceResultType = {;
+export type PlanetaryInfluenceResultType = {
   planetaryPositions: PlanetaryPositionsType,
   elementalBoost: ElementalPropertiesType,
   alchemicalModifier: AlchemicalPropertiesType,
@@ -167,7 +167,7 @@ export type PlanetaryInfluenceResultType = {;
  * Astrological State Type
  * Complete astrological state including planetary positions and influences
  */
-export type AstrologicalStateType = {;
+export type AstrologicalStateType = {
   planetaryPositions: PlanetaryPositionsType,
   currentZodiac: anyType,
   lunarPhase: LunarPhaseType,
@@ -807,7 +807,7 @@ export interface Decan {
     end: number
   };
   characteristics: string[];
-  season?: Season;
+  season?: Season
 }
 
 // ========== PHASE 2 MISSING TYPES FOR TS2305 FIXES ==========;
@@ -1005,7 +1005,7 @@ export type _season = Season; // Lowercase underscore-prefixed alias for Season
 // ========== PHASE 29 TYPE INTELLIGENCE INTEGRATION AND DEMONSTRATION ==========;
 
 // Add missing constants
-export const ASTROLOGICAL_TYPE_INTELLIGENCE = {;
+export const ASTROLOGICAL_TYPE_INTELLIGENCE = {
   analyzeLunarPhaseTypes: (phase: LunarPhase) => ({
     temporalInfluences: { newMoonIntensity: 0.8 },
     phaseAnalysis: { phase, intensity: 0.7 }
@@ -1016,7 +1016,7 @@ export const ASTROLOGICAL_TYPE_INTELLIGENCE = {;
   })
 };
 
-export const ALCHEMICAL_PROPERTIES_INTELLIGENCE = {;
+export const ALCHEMICAL_PROPERTIES_INTELLIGENCE = {
   analyzeAlchemicalValues: (values: AlchemicalValues) => ({
     alchemicalHarmonyMetrics: { overallAlchemicalHarmony: 0.8 },
     valuesAnalysis: { values, harmony: 0.75 }
@@ -1027,7 +1027,7 @@ export const ALCHEMICAL_PROPERTIES_INTELLIGENCE = {;
   })
 };
 
-export const TYPE_VALIDATION_INTELLIGENCE = {;
+export const TYPE_VALIDATION_INTELLIGENCE = {
   analyzeFilterOptions: (filters: FilterOptions) => ({
     filterEfficiencyMetrics: { filteringEfficiency: 0.7 },
     filterAnalysis: { filters, efficiency: 0.65 }
@@ -1038,7 +1038,7 @@ export const TYPE_VALIDATION_INTELLIGENCE = {;
   })
 };
 
-export const CELESTIAL_ALIGNMENT_INTELLIGENCE = {;
+export const CELESTIAL_ALIGNMENT_INTELLIGENCE = {
   analyzeCelestialBody: (body: CelestialBody) => ({
     celestialHarmonyPredictions: { overallHarmony: 0.9 },
     bodyAnalysis: { body, harmony: 0.85 }
@@ -1050,7 +1050,7 @@ export const CELESTIAL_ALIGNMENT_INTELLIGENCE = {;
 };
 
 // Comprehensive Type Intelligence Demo Platform
-export const TYPE_INTELLIGENCE_DEMO = {;
+export const TYPE_INTELLIGENCE_DEMO = {
   // Master Type Intelligence Integration Engine
   demonstrateAllTypeIntelligence: (
     sampleLunarPhase: LunarPhase,
@@ -1092,7 +1092,7 @@ export const TYPE_INTELLIGENCE_DEMO = {;
       ASTROLOGICAL_TYPE_INTELLIGENCE.analyzeCelestialTypes(sampleAlignment);
     const alchemicalValuesResults =
       ALCHEMICAL_PROPERTIES_INTELLIGENCE.analyzeAlchemicalValues(sampleValues);
-    const thermodynamicTypeResults = ALCHEMICAL_PROPERTIES_INTELLIGENCE.analyzeThermodynamicTypes(;
+    const thermodynamicTypeResults = ALCHEMICAL_PROPERTIES_INTELLIGENCE.analyzeThermodynamicTypes(
       sampleMetrics || { heat: 0, entropy: 0, reactivity: 0, gregsEnergy: 0, kalchm: 0, monica: 0 },
     );
     const filterOptionsResults = TYPE_VALIDATION_INTELLIGENCE.analyzeFilterOptions(sampleFilters);
@@ -1105,7 +1105,7 @@ export const TYPE_INTELLIGENCE_DEMO = {;
     const cookingMethodResults = { thermodynamicHarmonyMetrics: { overallHarmony: 0.8 } };
 
     // Integration metrics across all systems
-    const integrationMetrics = {;
+    const integrationMetrics = {
       astrologicalIntegration: ((astrologicalTypeResults.temporalInfluences as any)?.newMoonIntensity || 0) * 0.2,
       celestialIntegration:
         ((celestialTypeResults.celestialHarmonyAnalysis as any)?.overallHarmony || 0) * 0.2,
@@ -1125,7 +1125,7 @@ export const TYPE_INTELLIGENCE_DEMO = {;
     };
 
     // Comprehensive type analysis
-    const comprehensiveTypeAnalysis = {;
+    const comprehensiveTypeAnalysis = {
       typeIntelligenceSystemCount: 5,
       analysisMethodCount: 9,
       totalMetricsGenerated: Object.keys(integrationMetrics).length,
@@ -1170,7 +1170,7 @@ export const TYPE_INTELLIGENCE_DEMO = {;
 const executeDemonstration = () => {;
   // Sample data for demonstration
   const sampleLunarPhase: LunarPhase = 'full moon';
-  const sampleAlignment: CelestialAlignment = {;
+  const sampleAlignment: CelestialAlignment = {
     moment: new Date(),
     planetaryPositions: {} as PlanetaryAlignment,
     lunarPhase: 'new moon',
@@ -1180,7 +1180,7 @@ const executeDemonstration = () => {;
     energyFlow: 0.85
   };
   const sampleValues: AlchemicalValues = { Spirit: 0.8, Essence: 0.7, Matter: 0.6, Substance: 0.9 };
-  const sampleMetrics: ThermodynamicMetrics = {;
+  const sampleMetrics: ThermodynamicMetrics = {
     heat: 0.7,
     entropy: 0.5,
     reactivity: 0.8,
@@ -1188,12 +1188,12 @@ const executeDemonstration = () => {;
     kalchm: 0.6,
     monica: 0.8
   };
-  const sampleFilters: FilterOptions = {;
+  const sampleFilters: FilterOptions = {
     elements: ['Fire', 'Water'],
     seasons: ['spring'],
     mealTypes: ['breakfast']
   };
-  const sampleCriteria: IngredientSearchCriteria = {;
+  const sampleCriteria: IngredientSearchCriteria = {
     elements: ['Fire'],
     seasons: ['summer'],
     categories: ['herbs']
@@ -1244,7 +1244,7 @@ const _PHASE_29_DEMONSTRATION_RESULTS = executeDemonstration();
  * Comprehensive intelligence system for alchemy type definitions
  * Analyzes type usage patterns, validation, and compatibility
  */
-export const ALCHEMY_TYPE_INTELLIGENCE_SYSTEM = {;
+export const ALCHEMY_TYPE_INTELLIGENCE_SYSTEM = {
   /**
    * Analyze elemental type definitions and their usage patterns
    * @param typeData Collection of elemental type definitions
@@ -1258,7 +1258,7 @@ export const ALCHEMY_TYPE_INTELLIGENCE_SYSTEM = {;
     const { elements, properties, interactions } = typeData;
 
     // Analyze element distribution
-    const elementCounts = elements.reduce(;
+    const elementCounts = elements.reduce(
       (acc, element) => {
         acc[element] = (acc[element] || 0) + 1;
         return acc
@@ -1502,10 +1502,10 @@ export const ALCHEMY_TYPE_INTELLIGENCE_SYSTEM = {;
  * Demonstration platform for all alchemy type intelligence analytics
  * Runs all analytics and returns a summary object
  */
-export const ALCHEMY_TYPE_DEMONSTRATION_PLATFORM = {;
+export const ALCHEMY_TYPE_DEMONSTRATION_PLATFORM = {
   demonstrateAllAlchemyTypeSystems: () => {
     // Sample data for demonstration
-    const sampleElementalData = {;
+    const sampleElementalData = {
       elements: ['Fire', 'Water', 'Earth', 'Air'] as Element[],
       properties: [
         { Fire: 0.4, Water: 0.2, Earth: 0.2, Air: 0.2 },
@@ -1517,7 +1517,7 @@ export const ALCHEMY_TYPE_DEMONSTRATION_PLATFORM = {;
       ] as ElementalInteraction[]
     };
 
-    const sampleThermoData = {;
+    const sampleThermoData = {
       properties: [
         { heat: 0.3, entropy: 0.2, reactivity: 0.4, gregsEnergy: 0.8 },
         { heat: 0.5, entropy: 0.3, reactivity: 0.2, gregsEnergy: 0.7 }
@@ -1537,7 +1537,7 @@ export const ALCHEMY_TYPE_DEMONSTRATION_PLATFORM = {;
       ] as AlchemicalResult[]
     };
 
-    const sampleRecipeData = {;
+    const sampleRecipeData = {
       recipes: [
         {
           id: 'recipe1',
@@ -1567,7 +1567,7 @@ export const ALCHEMY_TYPE_DEMONSTRATION_PLATFORM = {;
       ] as CookingMethod[]
     };
 
-    const sampleAstroData = {;
+    const sampleAstroData = {
       profiles: [
         {
           lunarPhase: 'full moon',
@@ -1589,7 +1589,7 @@ export const ALCHEMY_TYPE_DEMONSTRATION_PLATFORM = {;
       positions: [{ sign: 'aries', degree: 15 }] as PlanetaryPosition[]
     };
 
-    const sampleEnergyData = {;
+    const sampleEnergyData = {
       chakraEnergies: [
         {
           root: 0.8,

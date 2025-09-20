@@ -5,22 +5,22 @@
 import {Recipe, Ingredient, _ZodiacSign, ElementalProperties} from './unified';
 
 export interface MLContext {
-  zodiacSign?: any;
-  lunarPhase?: string;
-  elementalProperties?: ElementalProperties;
-  season?: string;
-  mealType?: string;
+  zodiacSign?: any,
+  lunarPhase?: string,
+  elementalProperties?: ElementalProperties,
+  season?: string,
+  mealType?: string,
   planetaryPositions?: Record<string, unknown>;
   astrologicalInsights?: Record<string, unknown>;
   lunarInfluence?: Record<string, unknown>;
   planetaryHarmonics?: Record<string, unknown>;
-  planetaryHour?: string;
-  moonPhase?: string;
-  sunSign?: string;
-  moonSign?: string;
+  planetaryHour?: string,
+  moonPhase?: string,
+  sunSign?: string,
+  moonSign?: string,
   marsAspects?: Array<Record<string, unknown>>;
-  userPreferences?: UserPreferences;
-  historicalData?: HistoricalData;
+  userPreferences?: UserPreferences,
+  historicalData?: HistoricalData,
 }
 
 export interface UserPreferences {
@@ -100,7 +100,7 @@ export interface MLMetrics {
 // Additional interface for ingredient compatibility service
 export interface IngredientCompatibilityResult {
   mlCompatibilityScore: number,
-  pairwiseCompatibilityMatrix: Record<string, Record<string, number>>;
+  pairwiseCompatibilityMatrix: Record<string, Record<string, number>>
   substitutionRecommendations: Record<string, string[]>;
   flavorSynergyPredictions: string[]
 }
@@ -167,7 +167,7 @@ export interface MLPredictionInput {
   recipe: Recipe,
   ingredients: Ingredient[],
   context: MLContext,
-  userHistory?: UserFeedback[];
+  userHistory?: UserFeedback[],
 }
 
 export interface MLOptimizationInput {
@@ -178,11 +178,11 @@ export interface MLOptimizationInput {
 }
 
 export interface OptimizationConstraints {
-  maxCookTime?: number;
-  budgetLimit?: number;
-  availableIngredients?: string[];
-  skillLevel?: 'beginner' | 'intermediate' | 'advanced';
-  dietaryRestrictions?: string[];
+  maxCookTime?: number,
+  budgetLimit?: number,
+  availableIngredients?: string[],
+  skillLevel?: 'beginner' | 'intermediate' | 'advanced',
+  dietaryRestrictions?: string[],
 }
 
 export interface OptimizationObjectives {

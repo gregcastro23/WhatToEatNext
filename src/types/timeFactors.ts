@@ -2,11 +2,11 @@
 export interface TimeFactors {
   _time: number,
   _season: string,
-  moonPhase?: string;
-  dayOfWeek?: string;
-  planetaryHour?: string;
-  timeOfDay?: string;
-  temperature?: number;
-  weather?: string;
-  currentSeason?: string;
+  moonPhase?: string
+  dayOfWeek?: string,
+  planetaryHour?: string,
+  timeOfDay?: string,
+  temperature?: number,
+  weather?: string,
+  currentSeason?: string,
 }

@@ -57,11 +57,11 @@ export interface RecipeBuildingContext {
     _planetaryInfluences: Record<string, number>;
   };
   _preferences: {
-    targetKalchm?: number;
-    kalchmTolerance?: number;
-    monicaBoost?: boolean;
-    dietaryRestrictions?: string[];
-    allergens?: string[];
+    targetKalchm?: number,
+    kalchmTolerance?: number,
+    monicaBoost?: boolean,
+    dietaryRestrictions?: string[],
+    allergens?: string[],
   };
 }
 

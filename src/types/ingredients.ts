@@ -4,10 +4,10 @@ import type {
   NutritionalContentType,
   IngredientMappingType,
   ServiceResponseType
-} from './alchemy';
+} from './alchemy'
 import type { Season } from './shared';
 
-// ========== PHASE 1: INGREDIENT TYPE ALIASES ==========;
+// ========== PHASE 1: INGREDIENT TYPE ALIASES ==========
 
 /**
  * Standardized Elemental Properties
@@ -54,7 +54,7 @@ export interface IngredientRecommendation {
     name: string,
     category: string,
     elementalProperties: ElementalProperties,
-    nutritionalContent?: NutritionalContent;
+    nutritionalContent?: NutritionalContent,
   };
   matchScore: number,
   elementalCompatibility: number,
@@ -62,33 +62,33 @@ export interface IngredientRecommendation {
   seasonalScore: number,
   reason: string,
   category: string,
-  alternatives?: string[];
+  alternatives?: string[],
 }
 
 /**
  * Ingredient Search Criteria Type
  * Comprehensive search parameters for ingredient filtering
  */
-export type IngredientSearchCriteria = {;
-  elements?: ('Fire' | 'Water' | 'Earth' | 'Air')[];
-  seasons?: Season[];
-  categories?: string[];
+export type IngredientSearchCriteria = {
+  elements?: ('Fire' | 'Water' | 'Earth' | 'Air')[],
+  seasons?: Season[],
+  categories?: string[],
   nutritionalRequirements?: {
-    minProtein?: number;
-    maxCalories?: number;
-    minFiber?: number;
-    allergens?: string[];
+    minProtein?: number,
+    maxCalories?: number,
+    minFiber?: number,
+    allergens?: string[],
   };
-  cookingMethods?: string[];
-  sustainabilityThreshold?: number;
-  regionalOrigins?: string[];
+  cookingMethods?: string[],
+  sustainabilityThreshold?: number,
+  regionalOrigins?: string[],
 };
 
 /**
  * Ingredient Compatibility Result
  * Result of ingredient compatibility analysis
  */
-export type IngredientCompatibilityResult = {;
+export type IngredientCompatibilityResult = {
   primaryIngredient: string,
   compatibleIngredients: string[],
   incompatibleIngredients: string[],
@@ -101,21 +101,21 @@ export type IngredientCompatibilityResult = {;
  * Ingredient Substitution Recommendation
  * Suggested ingredient substitutions with ratios and notes
  */
-export type IngredientSubstitution = {;
+export type IngredientSubstitution = {
   originalIngredient: string,
   substitute: string,
   substitutionRatio: number, // e.g., 1.5 means use 1.5x the amount
   confidenceScore: number; // 0-1 scale
   nutritionalDifference: Partial<NutritionalContent>,
   flavorNotes: string[],
-  cookingAdjustments?: string[];
+  cookingAdjustments?: string[]
 };
 
 /**
  * Ingredient Recommendation Response
  * Standardized service response for ingredient recommendations
  */
-export type IngredientRecommendationResponse = ServiceResponseType<{;
+export type IngredientRecommendationResponse = ServiceResponseType<{
   recommendations: IngredientRecommendation[],
   total: number,
   criteria: IngredientSearchCriteria,
@@ -127,7 +127,7 @@ export type IngredientRecommendationResponse = ServiceResponseType<{;
  * Ingredient Analysis Response
  * Standardized service response for ingredient analysis
  */
-export type IngredientAnalysisResponse = ServiceResponseType<{;
+export type IngredientAnalysisResponse = ServiceResponseType<{
   ingredient: IngredientMapping,
   elementalProfile: ElementalProperties,
   nutritionalAnalysis: NutritionalContent,
@@ -137,4 +137,4 @@ export type IngredientAnalysisResponse = ServiceResponseType<{;
 }>;
 
 // Re-export Season type for convenience
-export { Season, type ElementalPropertiesType };
+export { Season, type ElementalPropertiesType }

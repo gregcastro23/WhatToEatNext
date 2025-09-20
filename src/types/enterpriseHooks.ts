@@ -6,11 +6,11 @@
  */
 
 export interface EnterpriseRecipeData {
-  id?: string;
-  name?: string;
-  ingredients?: unknown[];
-  instructions?: string[];
-  cuisine?: string;
+  id?: string,
+  name?: string,
+  ingredients?: unknown[],
+  instructions?: string[],
+  cuisine?: string,
   elementalProperties?: {
     Fire: number,
     Water: number,
@@ -22,9 +22,9 @@ export interface EnterpriseRecipeData {
 }
 
 export interface EnterpriseIngredientData {
-  name: string;
-  category?: string;
-  subcategory?: string;
+  name: string,
+  category?: string,
+  subcategory?: string,
   nutritionalData?: Record<string, number>;
   elementalProperties?: {
     Fire: number,
@@ -41,14 +41,14 @@ export interface EnterpriseAstrologicalContext {
   planetaryPositions?: Record<
     string,
     {
-      longitude: number;
-      latitude?: number;
-      retrograde?: boolean;
-      house?: number;
+      longitude: number,
+      latitude?: number,
+      retrograde?: boolean,
+      house?: number,
     }
   >;
-  zodiacSign?: string;
-  lunarPhase?: string;
+  zodiacSign?: string,
+  lunarPhase?: string,
   elementalInfluence?: {
     Fire: number,
     Water: number,
@@ -56,17 +56,17 @@ export interface EnterpriseAstrologicalContext {
     Air: number
   };
   transitData?: Record<string, unknown>;
-  timestamp?: Date;
+  timestamp?: Date,
 }
 
 export interface EnterpriseIntelligenceOptions {
-  enableRecipeIntelligence?: boolean;
-  enableIngredientIntelligence?: boolean;
-  enableValidationIntelligence?: boolean;
-  enableSafetyIntelligence?: boolean;
-  cacheResults?: boolean;
-  logLevel?: 'debug' | 'info' | 'warn' | 'error';
-  analysisDepth?: 'shallow' | 'standard' | 'deep';
+  enableRecipeIntelligence?: boolean,
+  enableIngredientIntelligence?: boolean,
+  enableValidationIntelligence?: boolean,
+  enableSafetyIntelligence?: boolean,
+  cacheResults?: boolean,
+  logLevel?: 'debug' | 'info' | 'warn' | 'error',
+  analysisDepth?: 'shallow' | 'standard' | 'deep',
 }
 
 export interface EnterpriseIntelligenceRecommendations {
@@ -141,7 +141,7 @@ export type EnterpriseIntelligenceHook = EnterpriseIntelligenceHookState &;
 export interface ChakraAnalysisContext {
   chakraType: 'root' | 'sacral' | 'solarPlexus' | 'heart' | 'throat' | 'brow' | 'crown',
   analysisMode: 'mantra' | 'visual' | 'nutritional' | 'functional' | 'platform',
-  analysisData: Record<string, unknown>;
+  analysisData: Record<string, unknown>
   chakraProperties: {
     color: string,
     element: string,

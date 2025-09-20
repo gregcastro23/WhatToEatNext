@@ -1,46 +1,46 @@
 // Item types for the application
-import { AlchemicalProperties, ElementalProperties } from './alchemy';
+import { AlchemicalProperties, ElementalProperties } from './alchemy'
 
 export interface BaseItem {
   id: string,
   name: string,
-  description?: string;
-  elementalProperties: ElementalProperties;
-  alchemicalProperties?: AlchemicalProperties;
+  description?: string,
+  elementalProperties: ElementalProperties,
+  alchemicalProperties?: AlchemicalProperties,
 }
 
 export interface IngredientItem extends BaseItem {
   type: 'ingredient',
   category: string,
-  subcategory?: string;
+  subcategory?: string,
   nutritionalInfo?: Record<string, string | number>;
-  flavorProfile?: string[];
-  cookingMethods?: string[];
-  seasonality?: string[];
+  flavorProfile?: string[],
+  cookingMethods?: string[],
+  seasonality?: string[],
 }
 
 export interface RecipeItem extends BaseItem {
   type: 'recipe',
   ingredients: IngredientItem[],
   cookingMethod: string,
-  cookingTime?: number;
-  servings?: number;
-  difficulty?: 'easy' | 'medium' | 'hard';
-  cuisine?: string;
+  cookingTime?: number,
+  servings?: number,
+  difficulty?: 'easy' | 'medium' | 'hard',
+  cuisine?: string,
 }
 
 export interface FoodItem extends BaseItem {
   type: 'food',
   category: 'ingredient' | 'recipe' | 'dish',
-  source?: 'database' | 'api' | 'user';
-  tags?: string[];
+  source?: 'database' | 'api' | 'user',
+  tags?: string[],
 }
 
 export type Item = IngredientItem | RecipeItem | FoodItem;
 
 // Type guards
 export function isIngredientItem(item: Item): item is IngredientItem {
-  return item.type === 'ingredient';
+  return item.type === 'ingredient'
 }
 
 export function isRecipeItem(item: Item): item is RecipeItem {
@@ -52,11 +52,11 @@ export function isFoodItem(item: Item): item is FoodItem {
 }
 
 // Utility types
-export type ItemType = Item['type'];
+export type ItemType = Item['type']
 export type ItemCategory = IngredientItem['category'] | RecipeItem['type'] | FoodItem['category'];
 
 // Item collections
-export interface ItemCollection<T extends Item = Item> {;
+export interface ItemCollection<T extends Item = Item> {
   items: T[],
   count: number,
   categories: string[]

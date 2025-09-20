@@ -5,7 +5,7 @@
 
 // Basic lunar phase types with different formats
 export type LunarPhase =
-  | 'NEW_MOON';
+  | 'NEW_MOON'
   | 'WAXING_CRESCENT'
   | 'FIRST_QUARTER'
   | 'WAXING_GIBBOUS'
@@ -41,11 +41,11 @@ export interface LunarPhaseModifier {
     Water: number,
     Earth: number,
     Air: number
-  };
+  }
   elementalBoost?: Record<string, number>;
   description: string,
   keywords: string[],
-  preparationTips?: string[];
+  preparationTips?: string[],
 }
 
 // Interface for lunar influence
@@ -57,12 +57,12 @@ export interface LunarInfluence {
     Water: number,
     Earth: number,
     Air: number
-  };
+  }
   description: string
 }
 
 // Type for mapping lunar phases to modifiers
-export type LunarPhaseMap = Record<LunarPhase, LunarPhaseModifier>;
+export type LunarPhaseMap = Record<LunarPhase, LunarPhaseModifier>
 
 // Mapping between different lunar phase formats
 export const _LUNAR_PHASE_MAP: Record<LunarPhaseWithUnderscores, LunarPhase> = {
@@ -74,7 +74,7 @@ export const _LUNAR_PHASE_MAP: Record<LunarPhaseWithUnderscores, LunarPhase> = {
   waning_gibbous: 'WANING_GIBBOUS',
   last_quarter: 'LAST_QUARTER',
   waning_crescent: 'WANING_CRESCENT'
-};
+}
 
 // Mapping from LunarPhase to LunarPhaseWithSpaces
 export const _LUNAR_PHASE_TO_DISPLAY: Record<LunarPhase, LunarPhaseWithSpaces> = {
@@ -86,7 +86,7 @@ export const _LUNAR_PHASE_TO_DISPLAY: Record<LunarPhase, LunarPhaseWithSpaces> =
   WANING_GIBBOUS: 'Waning Gibbous',
   LAST_QUARTER: 'Last Quarter',
   WANING_CRESCENT: 'Waning Crescent'
-};
+}
 
 // Reverse mapping from LunarPhaseWithSpaces to LunarPhase
 export const _LUNAR_PHASE_REVERSE_MAPPING: Record<LunarPhaseWithSpaces, LunarPhase> = {
@@ -98,7 +98,7 @@ export const _LUNAR_PHASE_REVERSE_MAPPING: Record<LunarPhaseWithSpaces, LunarPha
   'Waning Gibbous': 'WANING_GIBBOUS',
   'Last Quarter': 'LAST_QUARTER',
   'Waning Crescent': 'WANING_CRESCENT'
-};
+}
 
 // Array of all lunar phases
 export const _LUNAR_PHASES: LunarPhase[] = [
@@ -110,4 +110,4 @@ export const _LUNAR_PHASES: LunarPhase[] = [
   'WANING_GIBBOUS',
   'LAST_QUARTER',
   'WANING_CRESCENT'
-];
+]

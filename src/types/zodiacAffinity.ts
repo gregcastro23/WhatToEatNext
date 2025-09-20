@@ -32,7 +32,7 @@ export const ZODIAC_MODALITIES: Record<ZodiacSign, Modality> = {
 /**
  * Default neutral affinity values for all zodiac signs
  */
-export const DEFAULT_ZODIAC_AFFINITY: ZodiacAffinity = {;
+export const DEFAULT_ZODIAC_AFFINITY: ZodiacAffinity = {
   aries: 0,
   taurus: 0,
   gemini: 0,
@@ -75,7 +75,7 @@ export function getModalityCompatibility(sign1: any, sign2: any): number {
     cardinal: { cardinal: 0.8, fixed: 0.4, mutable: 0.5 },
     fixed: { cardinal: 0.4, fixed: 0.8, mutable: 0.3 },
     mutable: { cardinal: 0.5, fixed: 0.3, mutable: 0.8 }
-  };
+  }
 
   return modalityCompatibilityChart[modality1][modality2];
 }
@@ -110,11 +110,11 @@ export function getZodiacCompatibility(_sign1: any, _sign2: any): number {
   const element2 = elementMap[sign2];
 
   // Get element compatibility
-  const elementCompatibility = elementCompatibilityChart[element1][element2];
+  const elementCompatibility = elementCompatibilityChart[element1][element2]
 
   // Get modality compatibility
-  const modalityCompatibility = getModalityCompatibility(sign1, sign2);
+  const modalityCompatibility = getModalityCompatibility(sign1, sign2)
 
   // Combine element and modality compatibility (weighted average)
-  return elementCompatibility * 0.6 + modalityCompatibility * 0.4;
+  return elementCompatibility * 0.6 + modalityCompatibility * 0.4
 }

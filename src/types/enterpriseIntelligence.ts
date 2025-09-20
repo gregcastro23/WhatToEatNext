@@ -214,12 +214,12 @@ export interface OptimizationIntelligenceResult {
 }
 
 export interface EnterpriseIntelligenceResult {
-  recipeIntelligence?: RecipeIntelligenceResult;
-  ingredientIntelligence?: IngredientIntelligenceResult;
-  cuisineIntelligence?: CuisineIntelligenceResult;
-  validationIntelligence?: ValidationIntelligenceResult;
-  safetyIntelligence?: SafetyIntelligenceResult;
-  optimizationIntelligence?: OptimizationIntelligenceResult;
+  recipeIntelligence?: RecipeIntelligenceResult,
+  ingredientIntelligence?: IngredientIntelligenceResult,
+  cuisineIntelligence?: CuisineIntelligenceResult,
+  validationIntelligence?: ValidationIntelligenceResult,
+  safetyIntelligence?: SafetyIntelligenceResult,
+  optimizationIntelligence?: OptimizationIntelligenceResult,
   predictiveIntelligence?: unknown; // Will use existing type
   mlIntelligence?: unknown; // Will use existing type
   advancedAnalyticsIntelligence?: unknown; // Will use existing type
@@ -243,12 +243,12 @@ export interface EnterpriseIntelligenceMetrics {
     validationIntelligence: number,
     safetyIntelligence: number,
     optimizationIntelligence: number
-  };
+  }
 }
 
 export interface EnterpriseIntelligenceInput {
-  recipe?: Recipe;
-  ingredients?: Ingredient[];
+  recipe?: Recipe,
+  ingredients?: Ingredient[],
   cuisine?: {
     name: string,
     type: string,

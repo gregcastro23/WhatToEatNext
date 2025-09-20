@@ -1,10 +1,10 @@
 declare module 'swe' {
-  export const _SEFLG_SWIEPH: number;
-  export const _SEFLG_SPEED: number;
-  export const _SE_PLUTO: number;
+  export const _SEFLG_SWIEPH: number,
+  export const _SEFLG_SPEED: number,
+  export const _SE_PLUTO: number,
 
-  export function init(): Promise<void>;
-  export function julday(_year: number, _month: number, _day: number, _hour: number): number;
+  export function init(): Promise<void>,
+  export function julday(_year: number, _month: number, _day: number, _hour: number): number,
   export function calc_ut(
     _julianDate: number,
     _planet: number,

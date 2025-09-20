@@ -1,11 +1,11 @@
-// ===== FLAVOR PROFILE TYPE DEFINITIONS =====;
+// ===== FLAVOR PROFILE TYPE DEFINITIONS =====
 // Used for classifying flavor profiles across the application
 
 /**
  * Enum for categorizing flavor profiles in various cuisines and ingredients
  */
 export enum FlavorProfileType {
-  SAVORY = 'SAVORY',;
+  SAVORY = 'SAVORY',
   SWEET = 'SWEET',;
   BITTER = 'BITTER',;
   SOUR = 'SOUR',;

@@ -17,7 +17,7 @@ export function middleware(_request: NextRequest) {
     `connect-src 'self' https:; ` +
     `media-src 'self' https:; ` +
     `object-src 'none'; ` +
-    `frame-src 'self' https:;`;
+    `frame-src 'self' https:`;
 
   // Add CSP header
   response.headers.set('Content-Security-Policy', cspHeader);
@@ -32,7 +32,7 @@ export function middleware(_request: NextRequest) {
 }
 
 // Match all request paths except for API routes, static files, and _next
-export const _config = {;
+export const _config = {
   _matcher: [
     // Only apply to the website pages, not to API routes or static files
     '/((?!api|_next/static|_next/image|favicon.ico|empty.js|dummy-popup.js|popup-fix.js|block-popup.js|window-patching.js|lockdown-patch.js|popup.js).*)'

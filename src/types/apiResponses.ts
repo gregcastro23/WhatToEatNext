@@ -14,19 +14,19 @@ import {
 } from './alchemy';
 import { IngredientRecommendationResponse, IngredientAnalysisResponse } from './ingredients';
 
-// ========== PHASE 1: API RESPONSE TYPE ALIASES ==========;
+// ========== PHASE 1: API RESPONSE TYPE ALIASES ==========
 
 /**
  * Generic Service Response
  * Standardized response structure for all services
  */
-export type ServiceResponse<T> = ServiceResponseType<T>;
+export type ServiceResponse<T> = ServiceResponseType<T>
 
 /**
  * Alchemical Recommendation Response
  * Standardized response for alchemical recommendation services
  */
-export type AlchemicalRecommendationResponse = ServiceResponseType<{;
+export type AlchemicalRecommendationResponse = ServiceResponseType<{
   recommendations: AlchemicalTransformationResultType[],
   compatibility: number,
   reasoning: string[],
@@ -44,8 +44,8 @@ export type PlanetaryInfluenceResponse = ServiceResponseType<PlanetaryInfluenceR
  * Standardized Planetary Position Response
  * Common structure for planetary position data from any API
  */
-export type StandardizedPlanetaryResponse = ServiceResponseType<{;
-  positions: Record<string, StandardizedPlanetaryPosition>;
+export type StandardizedPlanetaryResponse = ServiceResponseType<{
+  positions: Record<string, StandardizedPlanetaryPosition>,
   timestamp: string,
   source: string,
   accuracy: number
@@ -55,7 +55,7 @@ export type StandardizedPlanetaryResponse = ServiceResponseType<{;
  * Recipe Recommendation Response
  * Standardized response for recipe recommendations
  */
-export type RecipeRecommendationResponse = ServiceResponseType<{;
+export type RecipeRecommendationResponse = ServiceResponseType<{
   recipes: Array<{
     id: string,
     name: string,
@@ -72,7 +72,7 @@ export type RecipeRecommendationResponse = ServiceResponseType<{;
  * Culinary Analysis Response
  * Comprehensive culinary analysis response
  */
-export type CulinaryAnalysisResponse = ServiceResponseType<{;
+export type CulinaryAnalysisResponse = ServiceResponseType<{
   overallCompatibility: number,
   elementalAnalysis: ElementalPropertiesType,
   thermodynamicProfile: ThermodynamicMetricsType,
@@ -84,7 +84,7 @@ export type CulinaryAnalysisResponse = ServiceResponseType<{;
   warnings: string[]
 }>;
 
-// ========== EXTERNAL API RESPONSE TYPES ==========;
+// ========== EXTERNAL API RESPONSE TYPES ==========
 
 /**
  * Base response for NASA JPL Horizons API
@@ -291,4 +291,4 @@ export function isValidSwissEphemerisApiResponse(data: unknown): data is SwissEp
 }
 
 // Re-export ingredient response types for convenience
-export type { IngredientRecommendationResponse, IngredientAnalysisResponse };
+export type { IngredientRecommendationResponse, IngredientAnalysisResponse }
