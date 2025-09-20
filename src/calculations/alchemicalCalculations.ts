@@ -2,7 +2,7 @@ import {
   ElementalCharacter,
   AlchemicalProperties,
   StandardizedAlchemicalResult,
-  PlanetaryPosition;
+  PlanetaryPosition,
   ElementalProperties
 } from '@/types/alchemy';
 
@@ -13,7 +13,7 @@ import { planetInfo } from '../data/astroData';
 import {
   calculateHeat,
   calculateEntropy,
-  calculateReactivity;
+  calculateReactivity,
   calculateGregsEnergy
 } from './gregsEnergy';
 
@@ -33,7 +33,7 @@ export const _calculateBalance = (properties: Record<string, number>): number =>
     }, 0) / total;
 
   return score; // Ensure this returns a value < 0.5 for balanced properties
-},
+};
 
 /**
  * Get recommended adjustments to balance elemental properties
