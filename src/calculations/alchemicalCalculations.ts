@@ -719,7 +719,7 @@ const calculateDegreeEffects = (
 
   // Check if planet has special effects in this degree range
   if (degreeEffects[signLower][planetLower] && degreeEffects[signLower][planetLower].length === 2) {
-    const [minDegree, maxDegree] = degreeEffects[signLower][planetLower],
+    const [minDegree, maxDegree] = degreeEffects[signLower][planetLower];
     if (degree >= minDegree && degree < maxDegree) {
       // Add bonus to planet's natural element
       if (planetElementMap[planetLower]) {
@@ -734,7 +734,7 @@ const calculateDegreeEffects = (
   // Use getPlanetaryElement for planets that are represented in RulingPlanet
   try {
     // Try to get planetary element using the imported function
-    const rulingPlanet = (planet.charAt(0).toUpperCase() +;
+    const rulingPlanet = (planet.charAt(0).toUpperCase() +
       planet.slice(1).toLowerCase()) as RulingPlanet;
     // Only apply if it's a valid RulingPlanet type
     if (
@@ -761,23 +761,23 @@ const calculateDegreeEffects = (
     // If planet doesn't match RulingPlanet type, ignore this part
     debugLog(`Could not get planetary element for ${planet} using getPlanetaryElement`);
   }
-},
+};
 
 // Calculate all aspect effects
-const calculateAspectEffects = (;
+const calculateAspectEffects = (
   planetPositions: Record<string, PlanetaryPosition>,
   elementalCounts: Record<ElementalCharacter, number>
 ): void => {
   // Get all planets with valid position data
-  const validPlanets = Object.entries(planetPositions).filter(;
-    ([_, pos]) => pos && typeof pos === 'object' && 'sign' in pos && 'degree' in pos,
+  const validPlanets = Object.entries(planetPositions).filter(
+    ([_, pos]) => pos && typeof pos === 'object' && 'sign' in pos && 'degree' in pos
   );
 
   // Check each planet pair for aspects
-  for (let i = 0i < validPlanets.lengthi++) {
+  for (let i = 0; i < validPlanets.length; i++) {
     const [planet1, pos1] = validPlanets[i];
 
-    for (let j = i + 1j < validPlanets.lengthj++) {
+    for (let j = i + 1; j < validPlanets.length; j++) {
       const [planet2, pos2] = validPlanets[j];
 
       // Calculate the angular distance between planets
@@ -785,7 +785,7 @@ const calculateAspectEffects = (;
       const sign2Index = getSignIndex(pos2.sign);
 
       const absoluteDegree1 = sign1Index * 30 + parseFloat(String(pos1.degree).replace('°', ''));
-      const absoluteDegree2 = sign2Index * 30 + parseFloat(String(pos2.degree).replace('°', '')),
+      const absoluteDegree2 = sign2Index * 30 + parseFloat(String(pos2.degree).replace('°', ''));
 
       let angle = Math.abs(absoluteDegree1 - absoluteDegree2);
       if (angle > 180) angle = 360 - angle;
@@ -857,7 +857,7 @@ const getSignIndex = (sign: string): number => {
     'capricorn',
     'aquarius',
     'pisces'
-  ],
+  ];
   return signs.indexOf(sign.toLowerCase());
 };
 
@@ -876,8 +876,8 @@ const getAspectType = (angle: number): string | null => {
   if (angle >= 82 && angle <= 98) return 'square';
 
   // No recognized aspect
-  return null
-},
+  return null;
+};
 
 // Alchemical Calculations Module
 
@@ -886,8 +886,8 @@ const getAspectType = (angle: number): string | null => {
  */
 export function alchemize(
   planetaryPositions: Record<string, PlanetaryPosition>,
-  isDaytime = true,,
-  lunarPhase?: string;
+  isDaytime = true,
+  lunarPhase?: string,
   retrogrades?: Record<string, boolean>
 ): StandardizedAlchemicalResult {
   // Initialize alchemical properties
@@ -944,7 +944,7 @@ export function alchemize(
 
     if (
       element &&
-      (element === 'fire' || element === 'earth' || element === 'air' || element === 'water');
+      (element === 'fire' || element === 'earth' || element === 'air' || element === 'water')
     ) {
       _elementalBalance[element] += 1;
     }
@@ -995,10 +995,10 @@ export function alchemize(
 
         if (
           northNodeElement &&
-          (northNodeElement === 'fire' ||;
-            northNodeElement === 'earth' ||;
-            northNodeElement === 'air' ||;
-            northNodeElement === 'water');
+          (northNodeElement === 'fire' ||
+            northNodeElement === 'earth' ||
+            northNodeElement === 'air' ||
+            northNodeElement === 'water')
         ) {
           _elementalBalance[northNodeElement as keyof typeof _elementalBalance] += 0.5;
         }

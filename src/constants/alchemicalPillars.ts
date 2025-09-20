@@ -945,7 +945,7 @@ export const PLANETARY_ALCHEMICAL_INTELLIGENCE = {
       .sort((ab) => b.compatibility - a.compatibility);
 
     return {
-      recommendations: compatiblePlanets.slice(05),
+      recommendations: compatiblePlanets.slice(0, 5),
       analysis: {
         totalOptions: compatiblePlanets.length,
   averageCompatibility:
@@ -1070,7 +1070,7 @@ export const TAROT_SUIT_ALCHEMICAL_INTELLIGENCE = {
       'Judgement',
       'The World'
     ]
-      .filter(card => card !== targetCard);
+      .filter(card => card !== targetCard)
       .map(card => {
         const effects = getTarotCardAlchemicalEffect(card) || {
           Spirit: 0,
@@ -1093,7 +1093,7 @@ export const TAROT_SUIT_ALCHEMICAL_INTELLIGENCE = {
       .sort((ab) => b.compatibility - a.compatibility);
 
     return {
-      recommendations: compatibleCards.slice(05),
+      recommendations: compatibleCards.slice(0, 5),
       analysis: {
         totalOptions: compatibleCards.length,
   averageCompatibility:
@@ -1247,9 +1247,9 @@ export function calculatePillarKalchm(effects: Record<AlchemicalProperty, number
   const Substance = Math.max(0.1, effects.Substance + 2);
 
   const numerator = Math.pow(Spirit, Spirit) * Math.pow(Essence, Essence);
-  const denominator = Math.pow(Matter, Matter) * Math.pow(Substance, Substance),
+  const denominator = Math.pow(Matter, Matter) * Math.pow(Substance, Substance);
 
-  return numerator / denominator
+  return numerator / denominator;
 }
 
 /**
@@ -1387,7 +1387,7 @@ export function calculateOptimalCookingConditions(
     void planetaryHours.push('Neptune', 'Pluto')
   }
   if (planetaryHours.length === 0) {
-    planetaryHours.push('Jupiter'), // Default
+    planetaryHours.push('Jupiter'); // Default
   }
 
   // Lunar phases based on Monica classification
@@ -1401,7 +1401,7 @@ export function calculateOptimalCookingConditions(
       void lunarPhases.push('first_quarter', 'third_quarter')
     }
   } else {
-    lunarPhases.push('all'), // Stable for all phases
+    lunarPhases.push('all'); // Stable for all phases
   }
 
   return {
@@ -1430,7 +1430,7 @@ export function calculatePlanetaryAlignment(
   const baseAlignment = ((planetaryAssociations as any)?.length || 0) * 0.2;
 
   // Monica modifier
-  const monicaModifier = isNaN(enhancedPillar.monicaProperties.monicaConstant);
+  const monicaModifier = isNaN(enhancedPillar.monicaProperties.monicaConstant)
     ? 0
     : Math.abs(enhancedPillar.monicaProperties.monicaConstant) * 0.5;
 
@@ -1454,7 +1454,7 @@ export function calculateLunarPhaseBonus(
   const monica = enhancedPillar.monicaProperties.monicaConstant;
 
   if (isNaN(monica)) {
-    return 0.5, // Neutral for stable pillars
+    return 0.5; // Neutral for stable pillars
   }
 
   // Higher bonus for more extreme Monica values
@@ -1491,9 +1491,9 @@ export function enhanceAlchemicalPillar(pillar: AlchemicalPillar): AlchemicalPil
   const kalchm = calculatePillarKalchm(pillar.effects);
 
   // Calculate Greg's Energy
-  const gregsEnergy = calculatePillarGregsEnergy(;
-    thermodynamics.heat;
-    thermodynamics.entropy;
+  const gregsEnergy = calculatePillarGregsEnergy(
+    thermodynamics.heat,
+    thermodynamics.entropy,
     thermodynamics.reactivity
   );
 
@@ -1507,7 +1507,7 @@ export function enhanceAlchemicalPillar(pillar: AlchemicalPillar): AlchemicalPil
   const monicaModifiers = calculatePillarMonicaModifiers(monicaConstant);
 
   return {
-    ...pillar;
+    ...pillar,
     monicaProperties: {
       kalchm,
       gregsEnergy,
@@ -1540,8 +1540,8 @@ export function createEnhancedCookingMethod(
   }
 
   // Calculate optimal conditions based on Monica constant
-  const optimalConditions = calculateOptimalCookingConditions(;
-    enhancedPillar.monicaProperties.monicaConstant;
+  const optimalConditions = calculateOptimalCookingConditions(
+    enhancedPillar.monicaProperties.monicaConstant,
     enhancedPillar.monicaProperties.thermodynamicProfile
   );
 
