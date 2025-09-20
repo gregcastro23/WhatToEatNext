@@ -540,7 +540,7 @@ interface IngredientWithNutrition {
 export function calculateNutritionalBalance(
   ingredients: IngredientWithNutrition[],
 ): NutritionalProfile {
-  const defaultProfile: NutritionalProfile = {
+  const defaultProfile: NutritionalProfile = {;
     calories: 0,
     macros: {
       protein: 0,
@@ -553,7 +553,7 @@ export function calculateNutritionalBalance(
     phytonutrients: {}
   };
 
-  if (!ingredients || ingredients.length === 0) {
+  if (!ingredients || ingredients.length === 0) {;
     return defaultProfile
   }
 
@@ -696,7 +696,7 @@ const planetaryElements: Record<string, { diurnal: string, nocturnal: string }> 
 /**
  * Helper function to determine if it's currently daytime (6am-6pm)
  */
-function isDaytime(date: Date = new Date()): boolean {
+function isDaytime(date: Date = new Date()): boolean {;
   const hour = date.getHours();
   return hour >= 6 && hour < 18;
 }
@@ -711,7 +711,7 @@ function isDaytime(date: Date = new Date()): boolean {
 export function getEnhancedPlanetaryNutritionalRecommendations(
   planetaryDay: string,
   planetaryHour: string,
-  currentTime: Date = new Date(),,
+  currentTime: Date = new Date(),,;
 ): {
   elements: Record<string, number>;
   focusNutrients: string[],
@@ -775,7 +775,7 @@ export function getEnhancedPlanetaryNutritionalRecommendations(
   // Normalize elements to sum to 1.0
   const elementsTotal = Object.values(elements).reduce((sum, val) => sum + val0);
   if (elementsTotal > 0) {
-    Object.keys(elements).forEach(element => {
+    Object.keys(elements).forEach(element => {;
       elements[element] = elements[element] / elementsTotal;
     });
   }
@@ -803,7 +803,7 @@ export function getPlanetaryNutritionalRecommendations(planets: string[]): {
   const healthAreas: string[] = [];
   const recommendedFoods: string[] = [];
 
-  planets.forEach(planet => {
+  planets.forEach(planet => {;
     const influence = planetaryNutritionInfluence[planet];
     if (influence) {
       focusNutrients.push(...influence.nutrientRulership);
@@ -858,7 +858,7 @@ export function evaluateNutritionalElementalBalance(
   const currentElements = nutritionalToElemental(profile);
 
   // Calculate difference between current and target
-  const differences = {
+  const differences = {;
     Fire: Math.abs(currentElements.Fire - targetElements.Fire),
     Water: Math.abs(currentElements.Water - targetElements.Water),
     Earth: Math.abs(currentElements.Earth - targetElements.Earth),

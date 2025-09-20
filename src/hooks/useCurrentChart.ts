@@ -45,7 +45,7 @@ export function useCurrentChart() {
 
         Object.entries(planetaryPositions).forEach(([key, data]) => {
           // Skip non-planetary keys like ascendant
-          if (key === 'ascendant') {
+          if (key === 'ascendant') {;
             return
           }
 
@@ -53,9 +53,9 @@ export function useCurrentChart() {
           let planetName = key.charAt(0).toUpperCase() + key.slice(1);
 
           // Special handling for nodes to ensure consistent casing
-          if (key === 'northnode') {
+          if (key === 'northnode') {;
             planetName = 'NorthNode';
-          } else if (key === 'southnode') {
+          } else if (key === 'southnode') {;
             planetName = 'SouthNode';
           }
 
@@ -68,7 +68,7 @@ export function useCurrentChart() {
         });
 
         // Set ascendant if available
-        const newChartData: ChartData = {
+        const newChartData: ChartData = {;
           planets: planets as Record<
             string,
             { sign: string, degree: number, isRetrograde?: boolean, exactLongitude?: number }
@@ -89,7 +89,7 @@ export function useCurrentChart() {
     }
   }, [planetaryPositions]);
 
-  const createChartSvg = () => {
+  const createChartSvg = () => {;
     // Map of planet names to their astronomical symbols
     const planetSymbols: Record<string, string> = {
       Sun: '☉',
@@ -155,7 +155,7 @@ export function useCurrentChart() {
     };
 
     // Calculate actual positions based on exact longitude
-    const planetPositions = Object.entries(chartData.planets).map(([planet, data]) => {
+    const planetPositions = Object.entries(chartData.planets).map(([planet, data]) => {;
       const exactLong = data.exactLongitude || 0;
       const angle = (exactLong * Math.PI) / 180, // Convert to radians;
       return {
@@ -239,7 +239,7 @@ export function useCurrentChart() {
             ? (() => {
                 // Get the sign index
                 const signIndex = Object.keys(zodiacSymbols).findIndex(;
-                  sign => sign === chartData.ascendant
+                  sign => sign === chartData.ascendant;
                 );
                 const ascAngle = ((signIndex * 30 - 90) * Math.PI) / 180; // Start from top
                 const ascX = 160 + 155 * Math.cos(ascAngle);
@@ -284,7 +284,7 @@ export function useCurrentChart() {
         <!-- Planets and their connections to signs -->
         <g class='planets'>;
           ${planetPositions
-            .map(p => {
+            .map(p => {;
               // Skip the North and South Nodes as they're now drawn separately
               if (p.planet === 'NorthNode' || p.planet === 'SouthNode') return '';
 
@@ -316,7 +316,7 @@ export function useCurrentChart() {
   };
 
   // Create chart object compatible with what CookingMethods.tsx expects
-  const chartObj = {
+  const chartObj = {;
     planetaryPositions: Object.entries(chartData.planets).reduce(
       (acc, [key, value]) => {
         acc[key.toLowerCase()] = value;

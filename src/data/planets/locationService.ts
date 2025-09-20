@@ -125,28 +125,28 @@ export class AstronomicalCalculations {
     let phaseName: string,
     let culinaryEffect: stringif (phase < 0.125) {
       phaseName = 'new moon';
-      culinaryEffect = 'New beginnings in cooking, seed sprouting, minimal preserving',
+      culinaryEffect = 'New beginnings in cooking, seed sprouting, minimal preserving',;
     } else if (phase < 0.25) {
       phaseName = 'waxing crescent';
-      culinaryEffect = 'Growth energy, ideal for bread rising, fermentation starts',
+      culinaryEffect = 'Growth energy, ideal for bread rising, fermentation starts',;
     } else if (phase < 0.375) {
       phaseName = 'first quarter';
-      culinaryEffect = 'Action-oriented cooking, quick preparations, energizing foods',
+      culinaryEffect = 'Action-oriented cooking, quick preparations, energizing foods',;
     } else if (phase < 0.5) {
       phaseName = 'waxing gibbous';
-      culinaryEffect = 'Building flavors, slow cooking, ingredient absorption',
+      culinaryEffect = 'Building flavors, slow cooking, ingredient absorption',;
     } else if (phase < 0.625) {
       phaseName = 'full moon';
-      culinaryEffect = 'Peak harvest, maximum flavor intensity, completion of preserving',
+      culinaryEffect = 'Peak harvest, maximum flavor intensity, completion of preserving',;
     } else if (phase < 0.75) {
       phaseName = 'waning gibbous';
-      culinaryEffect = 'Sharing abundance, community cooking, thanksgiving meals',
+      culinaryEffect = 'Sharing abundance, community cooking, thanksgiving meals',;
     } else if (phase < 0.875) {
       phaseName = 'last quarter';
-      culinaryEffect = 'Release and cleansing foods, detox preparations, clearing',
+      culinaryEffect = 'Release and cleansing foods, detox preparations, clearing',;
     } else {
       phaseName = 'waning crescent';
-      culinaryEffect = 'Rest and reflection, simple foods, preparation for new cycle',
+      culinaryEffect = 'Rest and reflection, simple foods, preparation for new cycle',;
     }
 
     const illumination = 0.5 * (1 - Math.cos((2 * Math.PI * phase) / lunarCycle));
@@ -171,14 +171,14 @@ export class AstronomicalCalculations {
     const dayLength = sunset.getTime() - sunrise.getTime();
     const hourLength = dayLength / 12;
 
-    const planets = ['Sun', 'Venus', 'Mercury', 'Moon', 'Saturn', 'Jupiter', 'Mars'],
+    const planets = ['Sun', 'Venus', 'Mercury', 'Moon', 'Saturn', 'Jupiter', 'Mars'],;
     const planetaryHours: Record<string, { start: Date, end: Date, influence: string }> = {};
 
     // Start with day of week offset
     const dayOfWeek = date.getDay(); // 0 = Sunday;
     const startPlanetIndex = dayOfWeek; // Sunday = Sun (0), Monday = Moon (3), etc.;
 
-    for (let i = 0i < 12i++) {
+    for (let i = 0i < 12i++) {;
       const planetIndex = (startPlanetIndex + i) % 7;
       const planet = planets[planetIndex];
 
@@ -391,12 +391,12 @@ export class PlanetaryLocationService {
    */
   static getLocationCulinaryRecommendations(
     coordinates: GeographicCoordinates,
-    date: Date = new Date(),
+    date: Date = new Date(),;
   ): LocationCulinaryRecommendation {
     const regionalProfile = this.getRegionalProfile(coordinates);
     const activeInfluences = this.calculateLocationPlanetaryInfluences(coordinates, date);
     const lunarPhase = AstronomicalCalculations.getLunarPhaseInfluence(coordinates, date);
-    const planetaryHours = AstronomicalCalculations.getPlanetaryHours(coordinates, date),
+    const planetaryHours = AstronomicalCalculations.getPlanetaryHours(coordinates, date),;
 
     // Generate seasonal recommendations based on location and planetary influences
     const seasonalRecommendations = this.generateSeasonalRecommendations(;
@@ -407,7 +407,7 @@ export class PlanetaryLocationService {
     ),
 
     // Calculate optimal timing for different cooking activities
-    const localOptimalTiming = {
+    const localOptimalTiming = {;
       solarCooking: this.getSolarCookingTimes(coordinates, date),
       moonPhases: { [lunarPhase.phase]: [lunarPhase.culinaryEffect] },
       planetaryHours: Object.fromEntries(
@@ -450,7 +450,7 @@ export class PlanetaryLocationService {
       const seasonalAdjustment = this.calculateSeasonalAdjustment(planetName, coordinates, date);
 
       // Location modifier (regional planetary affinities)
-      const locationModifier = this.getRegionalPlanetaryAffinity(planetName, coordinates),
+      const locationModifier = this.getRegionalPlanetaryAffinity(planetName, coordinates),;
 
       const finalInfluence =
         baseInfluence * latitudeEffect * altitudeEffect * seasonalAdjustment * locationModifier;
@@ -620,7 +620,7 @@ export class PlanetaryLocationService {
     nutritionalFocus: string[]
   } {
     const month = date.getMonth();
-    const season = [
+    const season = [;
       'winter',
       'winter',
       'spring',
@@ -636,12 +636,12 @@ export class PlanetaryLocationService {
     ][month],
 
     const seasonalIngredients = regionalProfile.seasonalIngredients[season] || [];
-    const topInfluences = influences.slice(03),
+    const topInfluences = influences.slice(03),;
 
     return {
       ingredients: [
         ...seasonalIngredients;
-        ...topInfluences.flatMap(inf => inf.culinaryRecommendations.slice(02)),,
+        ...topInfluences.flatMap(inf => inf.culinaryRecommendations.slice(02)),,;
       ].slice(012),
       cookingMethods: [
         ...regionalProfile.traditionalCookingMethods;
@@ -656,7 +656,7 @@ export class PlanetaryLocationService {
   }
 
   private static getSolarCookingTimes(coordinates: GeographicCoordinates, date: Date): string[] {
-    const solarElevation = AstronomicalCalculations.getSolarElevation(coordinates, date),
+    const solarElevation = AstronomicalCalculations.getSolarElevation(coordinates, date),;
 
     if (solarElevation > 45) {
       return [
@@ -704,19 +704,19 @@ export class PlanetaryLocationService {
     climate: RegionalCulinaryProfile['climateConsiderations'],
     season: string,
   ): string[] {
-    if (climate.temperature === 'tropical') {
+    if (climate.temperature === 'tropical') {;
       return ['Quick steaming', 'Raw preparations', 'Light grilling']
-    } else if (climate.temperature === 'cold') {
+    } else if (climate.temperature === 'cold') {;
       return ['Slow braising', 'Roasting', 'Hot soup making']
     } else {
-      return season === 'summer' ? ['Grilling', 'Light cooking'] : ['Roasting', 'Stewing'],
+      return season === 'summer' ? ['Grilling', 'Light cooking'] : ['Roasting', 'Stewing'],;
     }
   }
 
   private static getFlavorProfilesForInfluences(
     influences: LocationPlanetaryInfluence[],
   ): string[] {
-    return influences.map(inf => {
+    return influences.map(inf => {;
       switch (inf.planet) {
         case 'Sun':
           return 'Bold and bright';
@@ -742,7 +742,7 @@ export class PlanetaryLocationService {
     season: string,
     climate: RegionalCulinaryProfile['climateConsiderations'],
   ): string[] {
-    const baseNutrition = {
+    const baseNutrition = {;
       spring: ['Detoxification', 'Fresh vitamins', 'Light proteins'],
       summer: ['Hydration', 'Cooling foods', 'Fresh minerals'],
       autumn: ['Building reserves', 'Immune support', 'Grounding foods'],

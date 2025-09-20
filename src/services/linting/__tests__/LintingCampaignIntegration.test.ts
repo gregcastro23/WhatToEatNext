@@ -43,7 +43,7 @@ describe('Linting Campaign System Integration', () => {
   describe('End-to-End Campaign Execution', () => {
     test('should execute complete campaign workflow successfully', async () => {
       // Mock initial high error state
-      const initialLintOutput: any = JSON.stringify([
+      const initialLintOutput: any = JSON.stringify([;
         {
           filePath: '/test/file1.ts',
           messages: [
@@ -55,7 +55,7 @@ describe('Linting Campaign System Integration', () => {
       ]);
 
       // Mock improved state after campaign
-      const improvedLintOutput: any = JSON.stringify([
+      const improvedLintOutput: any = JSON.stringify([;
         {
           filePath: '/test/file1.ts',
           messages: [{ ruleId: 'no-unused-vars', severity: 1, fix: null }]
@@ -98,7 +98,7 @@ describe('Linting Campaign System Integration', () => {
 
     test('should handle campaign phase failures gracefully', async () => {
       const mockError: any = new Error('Tool execution failed');
-      mockExecSync.mockImplementation(command => {
+      mockExecSync.mockImplementation(command => {;
         if (command.toString().includes('lint:fix')) {
           throw mockError
         }
@@ -122,7 +122,7 @@ describe('Linting Campaign System Integration', () => {
   describe('Quality Gates Integration', () => {
     test('should integrate quality gates with campaign progress', async () => {
       // Mock metrics for quality gate evaluation
-      const mockLintOutput: any = JSON.stringify([
+      const mockLintOutput: any = JSON.stringify([;
         {
           filePath: '/test/file.ts',
           messages: [{ ruleId: 'no-unused-vars', severity: 1, fix: null }]
@@ -146,7 +146,7 @@ describe('Linting Campaign System Integration', () => {
 
     test('should fail quality gates with high error count', async () => {
       // Mock high error state
-      const mockLintOutput: any = JSON.stringify([
+      const mockLintOutput: any = JSON.stringify([;
         {
           filePath: '/test/file.ts',
           messages: Array.from({ length: 50 }, (_i) => ({
@@ -188,21 +188,21 @@ describe('Linting Campaign System Integration', () => {
   describe('Progress Tracking Integration', () => {
     test('should track progress across multiple campaign phases', async () => {
       // Mock progressive improvement
-      const phase1Output: any = JSON.stringify([
+      const phase1Output: any = JSON.stringify([;
         {
           filePath: '/test/file.ts',
           messages: Array.from({ length: 10 }, () => ({ ruleId: 'error', severity: 2, fix: null }))
         }
       ]);
 
-      const phase2Output: any = JSON.stringify([
+      const phase2Output: any = JSON.stringify([;
         {
           filePath: '/test/file.ts',
           messages: Array.from({ length: 5 }, () => ({ ruleId: 'error', severity: 2, fix: null }))
         }
       ]);
 
-      const phase3Output: any = JSON.stringify([
+      const phase3Output: any = JSON.stringify([;
         {
           filePath: '/test/file.ts',
           messages: Array.from({ length: 2 }, () => ({ ruleId: 'warning', severity: 1, fix: null }))
@@ -230,11 +230,11 @@ describe('Linting Campaign System Integration', () => {
     });
 
     test('should generate comprehensive progress reports', async () => {
-      const currentOutput: any = JSON.stringify([
+      const currentOutput: any = JSON.stringify([;
         { filePath: '/test/file.ts', messages: [{ ruleId: 'warning', severity: 1, fix: null }] }
       ]);
 
-      const previousMetrics: any = {
+      const previousMetrics: any = {;
         timestamp: new Date(),
         totalIssues: 10,
         errors: 5,
@@ -280,7 +280,7 @@ describe('Linting Campaign System Integration', () => {
       const campaign: any = campaigns.[0];
 
       // Verify phase structure
-      campaign.phases.forEach(phase => {
+      campaign.phases.forEach(phase => {;
         expect(phase.id).toBeDefined();
         expect(phase.name).toBeDefined();
         expect(phase.description).toBeDefined();
@@ -292,7 +292,7 @@ describe('Linting Campaign System Integration', () => {
 
       // Verify tool availability
       const allTools: any = campaign.phases.flatMap(phase => phase.tools);
-      const expectedTools = [
+      const expectedTools = [;
         'eslint-fix',
         'unused-imports',
         'import-organization',
@@ -300,7 +300,7 @@ describe('Linting Campaign System Integration', () => {
         'console-cleanup'
       ];
 
-      expectedTools.forEach(tool => {
+      expectedTools.forEach(tool => {;
         expect(allTools).toContain(tool);
       });
     });
@@ -342,7 +342,7 @@ describe('Linting Campaign System Integration', () => {
       mockExistsSync.mockReturnValue(false);
 
       // Test with custom configuration
-      const customConfig = {
+      const customConfig = {;
         name: 'Custom Gate',
         description: 'Custom quality gate',
         thresholds: { maxErrors: 5,

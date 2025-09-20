@@ -27,7 +27,7 @@ describe('CampaignController', () => {
 
   beforeEach(() => {
     // Setup mock configuration
-    mockConfig = {
+    mockConfig = {;
       phases: [
         {
           id: 'phase1',
@@ -256,7 +256,7 @@ describe('CampaignController', () => {
     });
 
     it('should detect linting warning validation failure', async () => {
-      const phaseWithLintingCriteria: any = {
+      const phaseWithLintingCriteria: any = {;
         ...mockPhase;
         successCriteria: { lintingWarning, s: 0 }
       };
@@ -268,7 +268,7 @@ describe('CampaignController', () => {
     });
 
     it('should detect build time validation warning', async () => {
-      const phaseWithBuildTimeCriteria: any = {
+      const phaseWithBuildTimeCriteria: any = {;
         ...mockPhase;
         successCriteria: { buildTim, e: 5 }
       };
@@ -281,7 +281,7 @@ describe('CampaignController', () => {
 
     it('should execute custom validation when provided', async () => {
       const customValidation = jest.fn().mockResolvedValue(true);
-      const phaseWithCustomValidation: any = {
+      const phaseWithCustomValidation: any = {;
         ...mockPhase;
         successCriteria: { customValidation }
       };
@@ -334,7 +334,7 @@ describe('CampaignController', () => {
 
   describe('getProgressMetrics', () => {
     it('should return current metrics', async () => {
-      const mockMetrics: any = {
+      const mockMetrics: any = {;
         typeScriptErrors: { current: 86, target: 0, reduction: 0, percentage: 0 },
         lintingWarnings: { current: 4506, target: 0, reduction: 0, percentage: 0 },
         buildPerformance: { currentTim, e: 8.5, targetTime: 10, cacheHitRate: 0.8, memoryUsage: 45 },
@@ -458,14 +458,14 @@ describe('CampaignController', () => {
 
   describe('Metrics Improvement Calculation', () => {
     it('should calculate metrics improvement correctly', () => {
-      const initialMetrics: any = {
+      const initialMetrics: any = {;
         typeScriptErrors: { current: 86, target: 0, reduction: 0, percentage: 0 },
         lintingWarnings: { current: 4506, target: 0, reduction: 0, percentage: 0 },
         buildPerformance: { currentTim, e: 10.5, targetTime: 10, cacheHitRate: 0.7, memoryUsage: 55 },
         enterpriseSystems: { current: 0, target: 200, transformedExports: 0 }
       };
 
-      const finalMetrics: any = {
+      const finalMetrics: any = {;
         typeScriptErrors: { current: 50, target: 0, reduction: 36, percentage: 42 },
         lintingWarnings: { current: 3000, target: 0, reduction: 1506, percentage: 33 },
         buildPerformance: { currentTim, e: 8.5, targetTime: 10, cacheHitRate: 0.8, memoryUsage: 45 },
@@ -487,7 +487,7 @@ describe('CampaignController', () => {
 
   describe('Achievement Generation', () => {
     it('should generate achievements for zero TypeScript errors', () => {
-      const metrics: any = {
+      const metrics: any = {;
         typeScriptErrors: { current: 0, target: 0, reduction: 86, percentage: 100 },
         lintingWarnings: { current: 4506, target: 0, reduction: 0, percentage: 0 },
         buildPerformance: { currentTim, e: 8.5, targetTime: 10, cacheHitRate: 0.8, memoryUsage: 45 },
@@ -503,7 +503,7 @@ describe('CampaignController', () => {
     });
 
     it('should generate achievements for zero linting warnings', () => {
-      const metrics: any = {
+      const metrics: any = {;
         typeScriptErrors: { current: 5, target: 0, reduction: 81, percentage: 94 },
         lintingWarnings: { current: 0, target: 0, reduction: 4506, percentage: 100 },
         buildPerformance: { currentTim, e: 8.5, targetTime: 10, cacheHitRate: 0.8, memoryUsage: 45 },
@@ -519,7 +519,7 @@ describe('CampaignController', () => {
 
   describe('Recommendation Generation', () => {
     it('should recommend addressing validation errors', () => {
-      const validation: any = {
+      const validation: any = {;
         success: false,
         errors: ['TypeScript errors: 5 > 0'],
         warnings: []
@@ -535,7 +535,7 @@ describe('CampaignController', () => {
     });
 
     it('should recommend addressing warnings', () => {
-      const validation: any = {
+      const validation: any = {;
         success: true,
         errors: [],
         warnings: ['Build time: 12s > 10s']

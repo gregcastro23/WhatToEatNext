@@ -43,8 +43,8 @@ describe('ConfigurationManager', () => {
     });
 
     test('saves and loads configuration correctly', () => {
-      const updates: any = {
-        classification: { intentionalThreshold: 0.9, minCommentLength: 20 },
+      const updates: any = {;
+        classification: { intentionalThreshold: 0.9, minCommentLength: 20 }
       };
 
       configManager.updateConfig(updates);
@@ -60,10 +60,10 @@ describe('ConfigurationManager', () => {
 
   describe('Configuration Updates', () => {
     test('updates classification configuration', () => {
-      const updates: any = {
+      const updates: any = {;
         intentionalThreshold: 0.85,
         unintentionalThreshold: 0.65,
-        minCommentLength: 15,
+        minCommentLength: 15
       };
 
       configManager.updateClassificationConfig(updates);
@@ -75,10 +75,10 @@ describe('ConfigurationManager', () => {
     });
 
     test('updates safety configuration', () => {
-      const updates: any = {
+      const updates: any = {;
         maxBatchSize: 30,
         validationFrequency: 10,
-        compilationTimeout: 45000,
+        compilationTimeout: 45000
       };
 
       configManager.updateSafetyConfig(updates);
@@ -90,9 +90,9 @@ describe('ConfigurationManager', () => {
     });
 
     test('updates target configuration', () => {
-      const updates: any = {
+      const updates: any = {;
         targetReductionPercentage: 25,
-        minSuccessRate: 0.9,
+        minSuccessRate: 0.9
       };
 
       configManager.updateTargetConfig(updates);
@@ -106,7 +106,7 @@ describe('ConfigurationManager', () => {
       const originalSafety: any = configManager.getSafetyConfig();
 
       configManager.updateClassificationConfig({
-        intentionalThreshold: 0.95,
+        intentionalThreshold: 0.95
       });
 
       const newSafety: any = configManager.getSafetyConfig();
@@ -156,10 +156,10 @@ describe('ConfigurationManager', () => {
     test('resets to default configuration', () => {
       // Make some changes
       configManager.updateClassificationConfig({
-        intentionalThreshold: 0.95,
+        intentionalThreshold: 0.95
       });
       configManager.updateSafetyConfig({
-        maxBatchSize: 50,
+        maxBatchSize: 50
       });
 
       // Reset to defaults
@@ -169,9 +169,9 @@ describe('ConfigurationManager', () => {
       expect(config).toEqual(
         expect.objectContaining({
           classification: expect.objectContaining({
-            intentionalThreshold: DEFAULT_CONFIG.classification.intentionalThreshold,
+            intentionalThreshold: DEFAULT_CONFIG.classification.intentionalThreshold
           }),
-          safety: expect.objectContaining({ maxBatchSize: DEFAULT_CONFIG.safety.maxBatchSize }),
+          safety: expect.objectContaining({ maxBatchSize: DEFAULT_CONFIG.safety.maxBatchSize })
         }),
       );
     });
@@ -179,11 +179,11 @@ describe('ConfigurationManager', () => {
 
   describe('Domain Configuration', () => {
     test('manages domain-specific type suggestions', () => {
-      const updates: any = {
+      const updates: any = {;
         typeSuggestions: {
           ...configManager.getDomainConfig().typeSuggestions,
-          custom: ['CustomType', 'AnotherType'],
-        },
+          custom: ['CustomType', 'AnotherType']
+        }
       };
 
       configManager.updateDomainConfig(updates);
@@ -193,11 +193,11 @@ describe('ConfigurationManager', () => {
     });
 
     test('manages path patterns for domain detection', () => {
-      const updates: any = {
+      const updates: any = {;
         pathPatterns: {
           ...configManager.getDomainConfig().pathPatterns,
-          custom: ['**/custom/**', '**/special/**'],
-        },
+          custom: ['**/custom/**', '**/special/**']
+        }
       };
 
       configManager.updateDomainConfig(updates);
@@ -209,13 +209,13 @@ describe('ConfigurationManager', () => {
 
   describe('Safety Configuration Edge Cases', () => {
     test('handles safety level configuration', () => {
-      const updates: any = {
+      const updates: any = {;
         safetyLevels: {
           classification: 'MAXIMUM' as const,
           replacement: 'HIGH' as const,
           documentation: 'MEDIUM' as const,
-          batch_processing: 'MAXIMUM' as const,
-        },
+          batch_processing: 'MAXIMUM' as const
+        }
       };
 
       configManager.updateSafetyConfig(updates);
@@ -227,7 +227,7 @@ describe('ConfigurationManager', () => {
 
     test('validates backup retention period', () => {
       configManager.updateSafetyConfig({
-        backupRetentionDays: 30,
+        backupRetentionDays: 30
       });
 
       const validation: any = configManager.validateConfig();
@@ -237,10 +237,10 @@ describe('ConfigurationManager', () => {
 
   describe('Target Configuration Milestones', () => {
     test('manages milestone configuration', () => {
-      const milestones: any = [
+      const milestones: any = [;
         { name: 'Phase 1', targetReduction: 5, timeframe: '1 week' },
         { name: 'Phase 2', targetReduction: 15, timeframe: '2 weeks' },
-        { name: 'Final', targetReduction: 25, timeframe: '3 weeks' },
+        { name: 'Final', targetReduction: 25, timeframe: '3 weeks' }
       ];
 
       configManager.updateTargetConfig({ milestones });
@@ -252,10 +252,10 @@ describe('ConfigurationManager', () => {
     });
 
     test('validates tracking intervals', () => {
-      const trackingIntervals: any = {
+      const trackingIntervals: any = {;
         metrics: 2,
         reports: 0.5,
-        checkpoints: 5,
+        checkpoints: 5
       };
 
       configManager.updateTargetConfig({ trackingIntervals });
@@ -273,7 +273,7 @@ describe('ConfigurationManager', () => {
       const manager1: any = new ConfigurationManager(configPath);
 
       manager1.updateClassificationConfig({
-        intentionalThreshold: 0.88,
+        intentionalThreshold: 0.88
       });
 
       const manager2: any = new ConfigurationManager(configPath);
@@ -288,7 +288,7 @@ describe('ConfigurationManager', () => {
       // Wait a bit to ensure timestamp difference
       setTimeout(() => {
         configManager.updateClassificationConfig({
-          intentionalThreshold: 0.87,
+          intentionalThreshold: 0.87
         });
 
         const newTimestamp: any = configManager.getConfig().lastUpdated;

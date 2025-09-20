@@ -312,7 +312,7 @@ export class CampaignDebugger {
   async startDebugSession(campaignId: string): Promise<string> {
     const sessionId = `debug_${campaignId}_${Date.now()}`;
 
-    const session: CampaignDebugSession = {
+    const session: CampaignDebugSession = {;
       id: sessionId,
       campaignId,
       startTime: new Date(),
@@ -394,7 +394,7 @@ export class CampaignDebugger {
     }
 
     const failureEvents = campaign.safetyEvents.filter(;
-      event => event.severity === 'ERROR' || event.severity === 'CRITICAL'
+      event => event.severity === 'ERROR' || event.severity === 'CRITICAL';
     );
 
     const rootCauses: string[] = [];
@@ -402,9 +402,9 @@ export class CampaignDebugger {
 
     // Analyze error patterns
     for (const event of failureEvents) {
-      if (event.type === 'BUILD_FAILURE') {
+      if (event.type === 'BUILD_FAILURE') {;
         rootCauses.push('Build system failure during campaign execution');
-      } else if (event.type === 'CORRUPTION_DETECTED') {
+      } else if (event.type === 'CORRUPTION_DETECTED') {;
         rootCauses.push('Data corruption detected during file processing');
       }
     }
@@ -522,7 +522,7 @@ export class CampaignDebugger {
     const healthScore = this.calculateHealthScore(healthMetrics, issues);
     const overallHealth = this.determineOverallHealth(healthScore);
 
-    const healthReport: CampaignHealthReport = {
+    const healthReport: CampaignHealthReport = {;
       campaignId,
       overallHealth,
       healthScore,
@@ -757,7 +757,7 @@ export class CampaignDebugger {
     for (const finding of findings) {
       if (
         finding.severity === FindingSeverity.HIGH ||;
-        finding.severity === FindingSeverity.CRITICAL
+        finding.severity === FindingSeverity.CRITICAL;
       ) {
         recoverySteps.push({
           id: `fix_${finding.id}`,
@@ -881,7 +881,7 @@ export class CampaignDebugger {
     const issues: HealthIssue[] = [];
 
     for (const metric of metrics) {
-      if (metric.status === MetricStatus.CRITICAL) {
+      if (metric.status === MetricStatus.CRITICAL) {;
         issues.push({
           id: `issue_${metric.name.toLowerCase().replace(' ', '_')}_${Date.now()}`,
           severity: IssueSeverity.HIGH,
@@ -904,7 +904,7 @@ export class CampaignDebugger {
     const recommendations: MaintenanceRecommendation[] = [];
 
     for (const issue of issues) {
-      if (issue.severity === IssueSeverity.HIGH || issue.severity === IssueSeverity.CRITICAL) {
+      if (issue.severity === IssueSeverity.HIGH || issue.severity === IssueSeverity.CRITICAL) {;
         recommendations.push({
           id: `maint_${issue.id}`,
           priority:
@@ -928,18 +928,18 @@ export class CampaignDebugger {
 
     // Deduct points for critical metrics
     for (const metric of metrics) {
-      if (metric.status === MetricStatus.CRITICAL) {
+      if (metric.status === MetricStatus.CRITICAL) {;
         score -= 30;
-      } else if (metric.status === MetricStatus.WARNING) {
+      } else if (metric.status === MetricStatus.WARNING) {;
         score -= 15;
       }
     }
 
     // Deduct points for issues
     for (const issue of issues) {
-      if (issue.severity === IssueSeverity.CRITICAL) {
+      if (issue.severity === IssueSeverity.CRITICAL) {;
         score -= 25;
-      } else if (issue.severity === IssueSeverity.HIGH) {
+      } else if (issue.severity === IssueSeverity.HIGH) {;
         score -= 15;
       }
     }

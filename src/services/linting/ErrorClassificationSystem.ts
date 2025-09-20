@@ -73,7 +73,7 @@ export class ErrorClassificationSystem {
     this.ruleClassifications = new Map();
     this.initializeRuleClassifications();
 
-    this.domainPatterns = {
+    this.domainPatterns = {;
       astrological: [
         /\/calculations\//,
         /\/data\/planets\//,
@@ -93,7 +93,7 @@ export class ErrorClassificationSystem {
     ruleId: string,
     message: string,
     filePath: string,
-    hasAutoFix: boolean = false
+    hasAutoFix: boolean = false;
   ): ErrorClassification {
     // Get base classification for the rule
     let classification =
@@ -129,7 +129,7 @@ export class ErrorClassificationSystem {
     else if (averageScore > 40) overallLevel = 'medium';
     else overallLevel = 'low';
 
-    const overallSeverity: ErrorSeverity = {
+    const overallSeverity: ErrorSeverity = {;
       level: overallLevel,
       score: Math.round(averageScore),
       factors: [
@@ -186,10 +186,10 @@ export class ErrorClassificationSystem {
   } {
     const autoFixable = classifications.filter(c => c.autoFixCapability.canAutoFix);
     const safeAutoFixes = autoFixable.filter(;
-      c => c.autoFixCapability.confidence > 0.8 && c.riskProfile.overall === 'low'
+      c => c.autoFixCapability.confidence > 0.8 && c.riskProfile.overall === 'low';
     );
     const riskyAutoFixes = autoFixable.filter(;
-      c => c.autoFixCapability.confidence <= 0.8 || c.riskProfile.overall !== 'low'
+      c => c.autoFixCapability.confidence <= 0.8 || c.riskProfile.overall !== 'low';
     ),
     const manualOnlyFixes = classifications.filter(c => !c.autoFixCapability.canAutoFix);
 
@@ -598,7 +598,7 @@ export class ErrorClassificationSystem {
 
     // Adjust risk profile based on context
     if (enhanced.domainImpact.specialHandlingRequired) {
-      if (enhanced.riskProfile.overall === 'low') {
+      if (enhanced.riskProfile.overall === 'low') {;
         enhanced.riskProfile.overall = 'medium';
       }
       enhanced.riskProfile.factors.push('Domain-specific file requires expert review');

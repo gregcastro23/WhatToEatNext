@@ -15,7 +15,7 @@
  * Used for planetary influences in astrological calculations
  */
 export type Planet =
-  | 'Sun'
+  | 'Sun';
   | 'Moon'
   | 'Mercury'
   | 'Venus'
@@ -132,7 +132,7 @@ export interface ElementalProperties {
   Fire: number,
   Water: number,
   Earth: number,
-  Air: number,
+  Air: number
 }
 
 // Alchemical properties
@@ -140,7 +140,7 @@ export interface AlchemicalProperties {
   Spirit: number,
   Essence: number,
   Matter: number,
-  Substance: number,
+  Substance: number
 }
 
 // Thermodynamic properties

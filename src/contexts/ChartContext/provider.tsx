@@ -32,20 +32,20 @@ export const _ChartProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     currentSeason: '',
     lastUpdated: new Date(),
     stelliums: {},
-    houseEffects: {},
+    houseEffects: {}
   });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   // Safe helper function for planetary data access
-  const getSafePlanetaryData = (data: unknown): SafePlanetaryData => {
+  const getSafePlanetaryData = (data: unknown): SafePlanetaryData => {;
     if (!data || typeof data !== 'object') {
       return {};
     }
     return data as SafePlanetaryData;
   };
 
-  const calculateStelliums = (positions: Record<string, unknown>): Record<string, string[]> => {
+  const calculateStelliums = (positions: Record<string, unknown>): Record<string, string[]> => {;
     const signGroups: Record<string, string[]> = {};
     Object.entries(positions).forEach(([planet, data]) => {
       if (planet === 'ascendant' || !data) return;
@@ -71,12 +71,12 @@ export const _ChartProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     return stelliums;
   };
 
-  const calculateHouseEffects = (positions: Record<string, unknown>): Record<string, number> => {
+  const calculateHouseEffects = (positions: Record<string, unknown>): Record<string, number> => {;
     const houseEffects: Record<string, number> = {
       Fire: 0,
       Water: 0,
       Earth: 0,
-      Air: 0,
+      Air: 0
     };
 
     Object.entries(positions).forEach(([planet, data]) => {
@@ -96,7 +96,7 @@ export const _ChartProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     return houseEffects;
   };
 
-  const _getElementFromSign = (sign: string): string => {
+  const _getElementFromSign = (sign: string): string => {;
     const fireElements = ['aries', 'leo', 'sagittarius'];
     const earthElements = ['taurus', 'virgo', 'capricorn'];
     const airElements = ['gemini', 'libra', 'aquarius'];
@@ -109,7 +109,7 @@ export const _ChartProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     return 'Fire'; // Default
   };
 
-  const refreshChart = async () => {
+  const refreshChart = async () => {;
     setLoading(true);
     setError(null);
 
@@ -139,7 +139,7 @@ export const _ChartProvider: React.FC<{ children: React.ReactNode }> = ({ childr
       }
 
       // Validate positions before calculating aspects
-      if (!positions || Object.keys(positions).length === 0) {
+      if (!positions || Object.keys(positions).length === 0) {;
         throw new Error('Unable to calculate planetary positions');
       }
 
@@ -156,7 +156,7 @@ export const _ChartProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         currentSeason: season,
         lastUpdated: new Date(),
         stelliums,
-        houseEffects,
+        houseEffects
       });
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to update chart');
@@ -166,7 +166,7 @@ export const _ChartProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     }
   };
 
-  const createChartSvg = () => {
+  const createChartSvg = () => {;
     // Convert chart data to the format expected by components
     const formattedPlanets: Record<string, SafePlanetaryData> = {};
     Object.entries(chart.planetaryPositions).forEach(([key, data]) => {
@@ -180,7 +180,7 @@ export const _ChartProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         sign: planetData.sign || 'Unknown',
         degree: planetData.degree || 0,
         isRetrograde: planetData.isRetrograde || false,
-        exactLongitude: planetData.exactLongitude || 0,
+        exactLongitude: planetData.exactLongitude || 0
       };
     });
 
@@ -191,7 +191,7 @@ export const _ChartProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     return {
       planetPositions: formattedPlanets,
       ascendantSign: ascendantData.sign || 'Libra',
-      svgContent: `<svg width='300' height='300' viewBox='0 0 300 300'>,
+      svgContent: `<svg width='300' height='300' viewBox='0 0 300 300'>,;
         <circle cx='150' cy='150' r='140' fill='none' stroke='#333' stroke-width='1'/>;
         <text x='150' y='20' text-anchor='middle'>Current Chart</text>;
         ${Object.entries(formattedPlanets)
@@ -202,7 +202,7 @@ export const _ChartProvider: React.FC<{ children: React.ReactNode }> = ({ childr
             return `<text x='${x}' y='${y}' text-anchor='middle'>${planet}: ${planetInfo.sign}</text>`;
           })
           .join('')}
-      </svg>`,
+      </svg>`
     };
   };
 
@@ -211,7 +211,7 @@ export const _ChartProvider: React.FC<{ children: React.ReactNode }> = ({ childr
   }, [alchemicalPositions]);
 
   return (
-    <ChartContext.Provider value={{ chart, loading, error, refreshChart, createChartSvg }}>
+    <ChartContext.Provider value={{ chart, loading, error, refreshChart, createChartSvg }}>;
       ;{children}
     </ChartContext.Provider>
   );

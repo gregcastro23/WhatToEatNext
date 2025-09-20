@@ -508,7 +508,7 @@ export const allSauces: Record<string, Sauce> = {
 };
 
 // Sauce recommendations
-export const sauceRecommendations: SauceRecommendation = {
+export const sauceRecommendations: SauceRecommendation = {;
   forProtein: {
     beef: [
       'ragù alla Bolognese',
@@ -564,13 +564,13 @@ export const sauceRecommendations: SauceRecommendation = {
 
 // Helper functions
 export function getSaucesByAstrologicalInfluence(influence: string): Sauce[] {
-  return Object.values(allSauces).filter(sauce =>
-    sauce.astrologicalInfluences.some(infl => infl.toLowerCase() === influence.toLowerCase()),,
+  return Object.values(allSauces).filter(sauce =>;
+    sauce.astrologicalInfluences.some(infl => infl.toLowerCase() === influence.toLowerCase()),,;
   )
 }
 
 export function getSaucesByElement(element: keyof ElementalProperties): Sauce[] {
-  return Object.values(allSauces).filter(sauce => {
+  return Object.values(allSauces).filter(sauce => {;
     // Find the dominant element
     const dominantElement = Object.entries(sauce.elementalProperties).sort(;
       ([, a], [, b]) => b - a,
@@ -583,7 +583,7 @@ export function getMarsInfluencedSauces(): Sauce[] {
   return getSaucesByAstrologicalInfluence('Mars')
 }
 
-const saucesExport = {
+const saucesExport = {;
   italianSauces,
   mexicanSauces,
   asianSauces,

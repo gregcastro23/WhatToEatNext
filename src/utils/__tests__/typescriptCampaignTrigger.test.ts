@@ -117,7 +117,7 @@ describe('TypeScript Campaign Trigger', () => {
     });
 
     it('should categorize different error types correctly', async () => {
-      const mockTscOutput: any = [
+      const mockTscOutput: any = [;
         'src/test1.ts(105): error TS2352: Conversion of type 'string' to type 'number'.',
         'src/test2.ts(1510): error TS2304: Cannot find name 'undefined_var'.',
         'src/test3.ts(2015): error TS2345: Argument of type 'string' is not assignable.',
@@ -160,7 +160,7 @@ describe('TypeScript Campaign Trigger', () => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       // Intentionally any: Error object needs custom stdout property for test mock scenario
       const error: any = new Error('Command failed') as unknown;
-      (error as any).stdout = 'src/test.ts(105): error TS2304: Cannot find name 'test'.',
+      (error as any).stdout = 'src/test.ts(105): error TS2304: Cannot find name 'test'.',;
       mockExecSync.mockImplementation(() => {
         throw error
       });
@@ -278,7 +278,7 @@ describe('TypeScript Campaign Trigger', () => {
     });
 
     it('should ignore non-error lines', async () => {
-      const mockTscOutput: any = [
+      const mockTscOutput: any = [;
         'Found 5 errors watching for file changes.';
         'src/test.ts(105): error TS2304: Cannot find name 'test'.',
         'Compilation complete. Watching for file changes.';
@@ -295,7 +295,7 @@ describe('TypeScript Campaign Trigger', () => {
 
   describe('Batch Scheduling', () => {
     it('should create appropriate batch sizes for different error categories', async () => {
-      const mockTscOutput: any = [
+      const mockTscOutput: any = [;
         ...Array.from({ length: 50 }, (_i) => `src/test${i}.ts(105): error TS2352: Conversion error.`),
         ...Array.from({ length: 30 }, (_i) => `src/test${i}.ts(1510): error TS2304: Cannot find name.`),
         ...Array.from({ length: 20 }, (_i) => `src/test${i}.ts(2015): error TS2345: Argument error.`)

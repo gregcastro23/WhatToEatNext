@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 
 import { PlanetaryHourCalculator } from '@/lib/PlanetaryHourCalculator';
 
-type Props = {
+type Props = {;
   latitude?: number,
   longitude?: number,
   className?: string
@@ -33,7 +33,7 @@ export function PlanetaryHourCard({ latitude, longitude, className }: Props) {
   }),
 
   useEffect(() => {
-    const tick = () => {
+    const tick = () => {;
       const now = new Date();
       const detailed = calculator.getCurrentPlanetaryHourDetailed(now);
       const next = calculator.getNextPlanetaryHourTransition(now);
@@ -52,7 +52,7 @@ export function PlanetaryHourCard({ latitude, longitude, className }: Props) {
     };
 
     tick();
-    const interval = setInterval(tick, 1000),
+    const interval = setInterval(tick, 1000),;
     return () => clearInterval(interval);
   }, [calculator]);
 

@@ -7,7 +7,7 @@ import type { ThermodynamicProperties } from '@/types/shared';
  * Molecular gastronomy technique for creating caviar-like spheres
  * with thin gel membranes containing liquid centers
  */
-export const spherification: CookingMethodData = {
+export const spherification: CookingMethodData = {;
   name: 'spherification',
   description:
     'Molecular gastronomy technique that creates caviar-like spheres or larger droplets with thin gel membranes containing liquid centers',
@@ -151,7 +151,7 @@ export const spherification: CookingMethodData = {
   },
   safetyFeatures: [
     'Use food-grade chemicals only (USP or equivalent grade)',
-    'Proper measurement of additives (1% sodium alginate = 10g per 1L)',
+    'Proper measurement of additives (1% sodium alginate = 10g per 1L)',;
     'Follow sanitation protocols (sterile tools and work surfaces)',
     'Proper labeling of all chemical solutions',
     'Keep spherified products refrigerated if not serving immediately',

@@ -106,7 +106,7 @@ describe('LintingAnalysisService', () => {
     });
 
     it('should generate resolution strategies when requested', async () => {
-      const result: any = await service.performComprehensiveAnalysis({
+      const result: any = await service.performComprehensiveAnalysis({;
         generateStrategies: true
       });
 
@@ -115,7 +115,7 @@ describe('LintingAnalysisService', () => {
     });
 
     it('should skip file analysis when disabled', async () => {
-      const result: any = await service.performComprehensiveAnalysis({
+      const result: any = await service.performComprehensiveAnalysis({;
         includeFileAnalysis: false
       });
 
@@ -123,7 +123,7 @@ describe('LintingAnalysisService', () => {
     });
 
     it('should focus on specific areas when requested', async () => {
-      const result: any = await service.performComprehensiveAnalysis({
+      const result: any = await service.performComprehensiveAnalysis({;
         focusAreas: ['import', 'typescript']
       });
 
@@ -189,7 +189,7 @@ describe('LintingAnalysisService', () => {
 
   describe('Integration', () => {
     it('should integrate all analysis components', async () => {
-      const result: any = await service.performComprehensiveAnalysis({
+      const result: any = await service.performComprehensiveAnalysis({;
         includeFileAnalysis: true,
         generateStrategies: true,
         projectContext: { hasTests: true,

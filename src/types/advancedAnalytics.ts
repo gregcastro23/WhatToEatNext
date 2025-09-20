@@ -23,7 +23,7 @@ export interface PlanetaryPosition {
 
 export interface LunarPhase {
   phase: string,
-  illumination: number,
+  illumination: number
 }
 
 export interface CuisineData {
@@ -46,14 +46,14 @@ export interface ComplexityAnalysis {
   ingredientComplexity: number,
   techniqueComplexity: number,
   timeComplexity: number,
-  skillComplexity: number,
+  skillComplexity: number
 }
 
 export interface OptimizationMetrics {
   flavorOptimization: number,
   nutritionalOptimization: number,
   culturalOptimization: number,
-  seasonalOptimization: number,
+  seasonalOptimization: number
 }
 
 export interface PredictiveInsights {
@@ -66,14 +66,14 @@ export interface RecipeAnalytics {
   multiDimensionalScore: number,
   complexityAnalysis: ComplexityAnalysis,
   optimizationMetrics: OptimizationMetrics,
-  predictiveInsights: PredictiveInsights,
+  predictiveInsights: PredictiveInsights
 }
 
 export interface SynergyAnalysis {
   flavorSynergy: number,
   nutritionalSynergy: number,
   culturalSynergy: number,
-  seasonalSynergy: number,
+  seasonalSynergy: number
 }
 
 export interface IngredientAnalytics {
@@ -87,7 +87,7 @@ export interface CulturalCorrelations {
   historicalCorrelation: number,
   regionalCorrelation: number,
   seasonalCorrelation: number,
-  astrologicalCorrelation: number,
+  astrologicalCorrelation: number
 }
 
 export interface FusionAnalytics {
@@ -101,7 +101,7 @@ export interface CuisineOptimizationMetrics {
   culturalOptimization: number,
   seasonalOptimization: number,
   astrologicalOptimization: number,
-  innovationOptimization: number,
+  innovationOptimization: number
 }
 
 export interface CuisineAnalytics {
@@ -121,14 +121,14 @@ export interface CorrelationSet {
   culinaryCorrelation: number,
   culturalCorrelation: number,
   seasonalCorrelation: number,
-  temporalCorrelation: number,
+  temporalCorrelation: number
 }
 
 export interface PredictiveModeling {
   alignmentPrediction: number,
   timingOptimization: number,
   influencePrediction: number,
-  harmonyPrediction: number,
+  harmonyPrediction: number
 }
 
 export interface AstrologicalAnalytics {
@@ -143,5 +143,5 @@ export interface AdvancedAnalyticsIntelligenceResult {
   cuisineAnalytics: CuisineAnalytics,
   astrologicalAnalytics: AstrologicalAnalytics,
   confidence: number,
-  timestamp: string,
+  timestamp: string
 }

@@ -121,7 +121,7 @@ class QualityMetricsService {
       }
 
       const dataPath = path.join(metricsDir, 'quality-insights.json');
-      const data = {
+      const data = {;
         insights: this.insights.slice(-100),
         technicalDebt: this.technicalDebt.slice(-50),
         predictions: this.predictions.slice(-20),
@@ -159,7 +159,7 @@ class QualityMetricsService {
   }
 
   private initializeDefaultGoals() {
-    if (this.goals.length === 0) {
+    if (this.goals.length === 0) {;
       const defaultGoals: QualityGoal[] = [
         {
           id: 'typescript-errors',
@@ -571,7 +571,7 @@ class QualityMetricsService {
     }
 
     const baseEffort =
-      {
+      {;
         critical: 2,
         high: 1.5,
         medium: 1,
@@ -583,7 +583,7 @@ class QualityMetricsService {
 
   private calculateDebtPriority(priority: string, frequency: number): number {
     const priorityWeight =
-      {
+      {;
         critical: 100,
         high: 75,
         medium: 50,
@@ -616,7 +616,7 @@ class QualityMetricsService {
       goal.currentValue = currentValue;
 
       // Calculate progress
-      if (goal.id === 'typescript-errors' || goal.id === 'build-performance') {
+      if (goal.id === 'typescript-errors' || goal.id === 'build-performance') {;
         // For metrics where lower is better
         const initialValue = goal.targetValue === 0 ? 5000 : goal.targetValue * 3, // Estimate initial value;
         goal.progress = Math.max(;
@@ -659,7 +659,7 @@ class QualityMetricsService {
     const errorSummary = errorTrackingSystem.getErrorSummary();
     const qualityMetrics = errorTrackingSystem.getCurrentQualityMetrics();
 
-    const report: QualityReport = {
+    const report: QualityReport = {;
       period: `${startDate.toISOString().split('T')[0]} to ${endDate.toISOString().split('T')[0]}`,
       summary: {
         overallScore: this.calculateOverallScore(buildSummary, errorSummary, qualityMetrics),
@@ -691,7 +691,7 @@ class QualityMetricsService {
     errorSummary: Record<string, unknown>,
     qualityMetrics: Record<string, unknown>,
   ): number {
-    const weights = {
+    const weights = {;
       codeQuality: 0.3,
       performance: 0.25,
       maintainability: 0.25,
@@ -750,7 +750,7 @@ class QualityMetricsService {
 
     // Check significant improvements
     const recentInsights = this.insights.filter(;
-      i =>
+      i =>;
         Date.now() - new Date(i.timeframe).getTime() < 7 * 24 * 60 * 60 * 1000 &&
         i.type === 'trend' &&;
         i.severity === 'info',,;
@@ -845,7 +845,7 @@ class QualityMetricsService {
   }
 
   private notifySubscribers() {
-    const data = {
+    const data = {;
       insights: this.insights.slice(-20),
       technicalDebt: this.technicalDebt.slice(020),
       predictions: this.predictions,
@@ -861,7 +861,7 @@ class QualityMetricsService {
       }
     };
 
-    this.subscribers.forEach(callback => {
+    this.subscribers.forEach(callback => {;
       try {
         callback(data);
       } catch (error) {
@@ -902,13 +902,13 @@ class QualityMetricsService {
     return this.goals;
   }
 
-  public getReports(limit = 5): QualityReport[] {
+  public getReports(limit = 5): QualityReport[] {;
     return this.reports.slice(-limit);
   }
 
   public addGoal(goal: Omit<QualityGoal, 'id' | 'progress' | 'onTrack'>): string {
     const id = `goal-${Date.now()}`;
-    const newGoal: QualityGoal = {
+    const newGoal: QualityGoal = {;
       ...goal;
       id,
       progress: 0,

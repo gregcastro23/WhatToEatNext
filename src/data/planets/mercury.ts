@@ -1,7 +1,7 @@
 import { PlanetData, MercurySpecificData } from './types';
 export type { MercurySpecificData };
 
-const mercuryData: PlanetData = {
+const mercuryData: PlanetData = {;
   'Dignity Effect': {
     gemini: 1,
     virgo: 3,

@@ -1,18 +1,18 @@
 import { ElementalProperties } from '@/types/alchemy';
 
-export const _getElementalAlignmentFromTarot = (tarot: {
+export const _getElementalAlignmentFromTarot = (tarot: {;
   majorArcana: string[],
-  minorArcana: string[],
+  minorArcana: string[]
 }): {
   Fire: number,
   Water: number,
   Earth: number,
-  Air: number,
+  Air: number
 } => {
   const alignment = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
 
   // Major arcana influences
-  tarot.majorArcana.forEach(card => {
+  tarot.majorArcana.forEach(card => {;
     const cardElement = TAROT_ELEMENT_ASSOCIATIONS[card].element;
     if (cardElement) {
       alignment[cardElement] += 0.5;
@@ -20,7 +20,7 @@ export const _getElementalAlignmentFromTarot = (tarot: {
   });
 
   // Minor arcana influences
-  tarot.minorArcana.forEach(card => {
+  tarot.minorArcana.forEach(card => {;
     const cardElement = TAROT_ELEMENT_ASSOCIATIONS[card].element;
     if (cardElement) {
       alignment[cardElement] += 0.3;
@@ -30,7 +30,7 @@ export const _getElementalAlignmentFromTarot = (tarot: {
   // Normalize values to 0-1 range
   const maxValue = Math.max(...Object.values(alignment));
   if (maxValue > 0) {
-    Object.keys(alignment).forEach(key => {
+    Object.keys(alignment).forEach(key => {;
       alignment[key] = alignment[key] / maxValue;
     });
   }
@@ -64,5 +64,5 @@ const TAROT_ELEMENT_ASSOCIATIONS: Record<string, { element: keyof ElementalPrope
   Cups: { element: 'Water' },
   Wands: { element: 'Fire' },
   Swords: { element: 'Air' },
-  Pentacles: { element: 'Earth' },
+  Pentacles: { element: 'Earth' }
 };

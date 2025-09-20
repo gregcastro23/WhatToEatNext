@@ -48,7 +48,7 @@ interface AlchemicalRecommendationResults {
  *
  * @returns Recommendations, transformed data, loading state, and any errors
  */
-export const _useAlchemicalRecommendations = ({
+export const _useAlchemicalRecommendations = ({;
   ingredients,
   cookingMethods,
   cuisines,
@@ -56,13 +56,13 @@ export const _useAlchemicalRecommendations = ({
   isDaytime,
   targetElement,
   targetAlchemicalProperty: _targetAlchemicalProperty,
-  count = 5,
-  currentZodiac = null,
+  count = 5,;
+  currentZodiac = null,;
   lunarPhase,
   tarotElementBoosts,
   tarotPlanetaryBoosts,
-  aspects = [],
-}: UseAlchemicalRecommendationsProps): AlchemicalRecommendationResults => {
+  aspects = [],;
+}: UseAlchemicalRecommendationsProps): AlchemicalRecommendationResults => {;
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
   const [recommendations, setRecommendations] = useState<AlchemicalRecommendations | null>(null);
@@ -73,7 +73,7 @@ export const _useAlchemicalRecommendations = ({
     useState<AlchemicalRecommendationResults['energeticProfile']>();
 
   useEffect(() => {
-    const fetchRecommendations = async () => {
+    const fetchRecommendations = async () => {;
       try {
         setLoading(true);
 
@@ -93,7 +93,7 @@ export const _useAlchemicalRecommendations = ({
         );
 
         // Get recommendations
-        const recs: AlchemicalRecommendations = {
+        const recs: AlchemicalRecommendations = {;
           topIngredients: adapter.getRecommendedIngredients(count || 5).items,
           topMethods: adapter.getRecommendedCookingMethods(count || 3).items,
           topCuisines: adapter.getRecommendedCuisines(count || 3).items,
@@ -110,10 +110,10 @@ export const _useAlchemicalRecommendations = ({
         setRecommendations(recs);
 
         // Apply deep type conversion to resolve cross-import conflicts
-        const _convertToLocalAlchemicalItem = (items: unknown[]): AlchemicalItem[] => {
-          return items.map(item => {
+        const _convertToLocalAlchemicalItem = (items: unknown[]): AlchemicalItem[] => {;
+          return items.map(item => {;
             // Create a new object that fully satisfies the alchemicalTransformation.AlchemicalItem interface
-            const convertedItem = {
+            const convertedItem = {;
               ...item;
               // Ensure all required AlchemicalItem properties are present
               elementalProperties: (item as any).elementalProperties || {
@@ -160,7 +160,7 @@ export const _useAlchemicalRecommendations = ({
         setTransformedCuisines(adapter.getAllTransformedCuisines() as AlchemicalItem[]);
 
         // Create an energetic profile for the current recommendations
-        const profile = {
+        const profile = {;
           dominantElement: recs.dominantElement,
           dominantProperty: recs.dominantAlchemicalProperty,
           heat: recs.heat,
@@ -183,7 +183,7 @@ export const _useAlchemicalRecommendations = ({
 
         // Calculate average elemental values from top ingredients
         if (recs.topIngredients.length > 0) {
-          recs.topIngredients.forEach(item => {
+          recs.topIngredients.forEach(item => {;
             if (item.elementalProperties) {
               profile.elementalBalance.Fire +=
                 (item.elementalProperties.Fire || 0) / recs.topIngredients.length;

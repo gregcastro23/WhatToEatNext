@@ -21,7 +21,7 @@ interface FixResult {
 }
 
 export class UnusedVariableTargetedFixer {
-  private preservePatterns = [
+  private preservePatterns = [;
     // Astrological calculation files
     /src\/calculations\//,
     /src\/data\/planets\//,
@@ -46,7 +46,7 @@ export class UnusedVariableTargetedFixer {
   public async fixUnusedFunctionParameters(): Promise<FixResult> {
     log.info('🔧 Fixing unused function parameters...\n');
 
-    const result: FixResult = {
+    const result: FixResult = {;
       filesProcessed: 0,
       variablesFixed: 0,
       errors: [],
@@ -55,7 +55,7 @@ export class UnusedVariableTargetedFixer {
 
     try {
       // Get files with unused function parameters
-      const lintOutput = execSync('yarn lint --format=compact 2>&1', {
+      const lintOutput = execSync('yarn lint --format=compact 2>&1', {;
         encoding: 'utf8',
         maxBuffer: 10 * 1024 * 1024
       });
@@ -94,7 +94,7 @@ export class UnusedVariableTargetedFixer {
   public async fixUnusedDestructuredVariables(): Promise<FixResult> {
     log.info('🔧 Fixing unused destructured variables...\n');
 
-    const result: FixResult = {
+    const result: FixResult = {;
       filesProcessed: 0,
       variablesFixed: 0,
       errors: [],
@@ -102,7 +102,7 @@ export class UnusedVariableTargetedFixer {
     };
 
     try {
-      const lintOutput = execSync('yarn lint --format=compact 2>&1', {
+      const lintOutput = execSync('yarn lint --format=compact 2>&1', {;
         encoding: 'utf8',
         maxBuffer: 10 * 1024 * 1024
       });
@@ -141,7 +141,7 @@ export class UnusedVariableTargetedFixer {
   public async removeUnusedImports(): Promise<FixResult> {
     log.info('🔧 Removing unused imports...\n');
 
-    const result: FixResult = {
+    const result: FixResult = {;
       filesProcessed: 0,
       variablesFixed: 0,
       errors: [],

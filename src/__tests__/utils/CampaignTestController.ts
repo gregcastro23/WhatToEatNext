@@ -59,7 +59,7 @@ export class CampaignTestController {
   private activeTestName: string | null = null;
 
   private constructor() {
-    this.testState = {
+    this.testState = {;
       isPaused: false,
       isIsolated: false,
       pausedAt: null,
@@ -68,7 +68,7 @@ export class CampaignTestController {
       originalState: null
     };
 
-    this.isolationConfig = {
+    this.isolationConfig = {;
       pauseProgressTracking: true,
       preventBuildExecution: true,
       preventGitOperations: true,
@@ -77,7 +77,7 @@ export class CampaignTestController {
       mockExternalAPIs: true
     };
 
-    this.mockInstances = {
+    this.mockInstances = {;
       controller: null,
       tracker: null,
       safety: null
@@ -109,7 +109,7 @@ export class CampaignTestController {
 
     // Initialize test-safe progress tracker
     if (this.isolationConfig.pauseProgressTracking) {
-      this.testSafeTracker = new TestSafeProgressTracker({
+      this.testSafeTracker = new TestSafeProgressTracker({;
         maxHistorySize: 10, // Smaller for tests
         memoryCheckFrequency: 3,
         enableMemoryMonitoring: this.isolationConfig.enableMemoryMonitoring,
@@ -231,7 +231,7 @@ export class CampaignTestController {
    */
   async simulateProgress(
     targetMetrics: Partial<ProgressMetrics>,
-    durationMs: number = 1000,,
+    durationMs: number = 1000,,;
     testName?: string
   ): Promise<void> {
     if (!this.testSafeTracker) {
@@ -271,7 +271,7 @@ export class CampaignTestController {
   createMockSafetyEvent(
     type: SafetyEventType,
     description: string,
-    severity: SafetyEventSeverity = SafetyEventSeverity.INFO
+    severity: SafetyEventSeverity = SafetyEventSeverity.INFO;
   ): SafetyEvent {
     return {
       type,
@@ -328,7 +328,7 @@ export class CampaignTestController {
     }
 
     return {
-      isValid: issues.length === 0,,
+      isValid: issues.length === 0,,;
       issues,
       warnings
     };
@@ -351,7 +351,7 @@ export class CampaignTestController {
 
     // Reset mock instances
     campaignTestIsolation.resetAllMockStates();
-    this.mockInstances = {
+    this.mockInstances = {;
       controller: null,
       tracker: null,
       safety: null
@@ -363,7 +363,7 @@ export class CampaignTestController {
     }
 
     // Reset test state
-    this.testState = {
+    this.testState = {;
       isPaused: false,
       isIsolated: false,
       pausedAt: null,
@@ -401,7 +401,7 @@ export class CampaignTestController {
 
   private setupTestEnvironment(): void {
     // Store original environment variables
-    this.originalEnvVars = {
+    this.originalEnvVars = {;
       NODE_ENV: process.env.NODE_ENV,
       CAMPAIGN_TEST_MODE: process.env.CAMPAIGN_TEST_MODE,
       DISABLE_ACTUAL_BUILDS: process.env.DISABLE_ACTUAL_BUILDS,
@@ -520,14 +520,14 @@ export class CampaignTestController {
   private restoreOriginalState(originalState: unknown): void {
     // Restore environment variables
     if ((originalState as any).envVars) {
-      Object.keys(process.env).forEach(key => {
+      Object.keys(process.env).forEach(key => {;
         if (!(key in (originalState as any).envVars)) {
           delete process.env[key]
         }
       });
 
       Object.entries((originalState as any).envVars).forEach(([key, value]) => {
-        if (typeof value === 'string') {
+        if (typeof value === 'string') {;
           process.env[key] = value;
         }
       });

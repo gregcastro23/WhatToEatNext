@@ -176,7 +176,7 @@ export interface FusionRecipeProfile {
   culturalHarmony: number,
   kalchmFusionBalance: number,
   monicaFusionOptimization: number,
-  innovationScore: number,
+  innovationScore: number
 }
 
 export interface PlanetaryRecipeRecommendation {
@@ -242,13 +242,13 @@ export class UnifiedRecipeBuildingSystem {
     const seasonalAdaptation = this.applySeasonalAdaptation(enhancedRecipe, seasonCriteria);
 
     // Step 5: Apply cuisine integration
-    const cuisineIntegration = this.applyCuisineIntegration(enhancedRecipe, criteria.cuisine),
+    const cuisineIntegration = this.applyCuisineIntegration(enhancedRecipe, criteria.cuisine),;
 
     // Step 6: Apply nutritional optimization
     const nutritionalOptimization = this.applyNutritionalOptimization(enhancedRecipe);
 
     // Step 7: Create optimized recipe
-    const optimizedRecipe: MonicaOptimizedRecipe = {
+    const optimizedRecipe: MonicaOptimizedRecipe = {;
       ...enhancedRecipe;
       monicaOptimization,
       seasonalAdaptation,
@@ -263,7 +263,7 @@ export class UnifiedRecipeBuildingSystem {
     const confidence = this.calculateGenerationConfidence(optimizedRecipe, criteria);
     const generationMetadata = this.generateMetadata(optimizedRecipe, criteria);
 
-    const result: RecipeGenerationResult = {
+    const result: RecipeGenerationResult = {;
       recipe: optimizedRecipe,
       confidence,
       alternatives,
@@ -294,7 +294,7 @@ export class UnifiedRecipeBuildingSystem {
       originalMonica,
       targetMonica,
     );
-    const planetaryTimingRecommendations = this.calculatePlanetaryTiming(targetMonica, criteria),
+    const planetaryTimingRecommendations = this.calculatePlanetaryTiming(targetMonica, criteria),;
 
     // Calculate optimization score
     const optimizationScore = this.calculateOptimizationScore(;
@@ -466,18 +466,18 @@ export class UnifiedRecipeBuildingSystem {
 
     // Calculate improvement scores
     const seasonalScore = this.calculateSeasonalScore(adaptedRecipe, targetSeason);
-    const kalchmImprovement = this.calculateKalchmImprovement(originalRecipe, adaptedRecipe),
-    const monicaImprovement = this.calculateMonicaImprovement(originalRecipe, adaptedRecipe),
+    const kalchmImprovement = this.calculateKalchmImprovement(originalRecipe, adaptedRecipe),;
+    const monicaImprovement = this.calculateMonicaImprovement(originalRecipe, adaptedRecipe),;
 
     return {
       originalRecipe,
       adaptedRecipe,
       adaptationChanges: {
-        ingredientSubstitutions: ingredientSubstitutions.map(sub => ({
+        ingredientSubstitutions: ingredientSubstitutions.map(sub => ({;
           ...sub;
           seasonalImprovement: 0.1
         })),
-        cookingMethodAdjustments: cookingMethodAdjustments.map(adj => ({
+        cookingMethodAdjustments: cookingMethodAdjustments.map(adj => ({;
           original: (adj as unknown as MethodAdjustment)?.method || '',
           adjusted: (adj as unknown as MethodAdjustment)?.adjustment || '',
           reason: (adj as unknown as MethodAdjustment)?.reason || '',
@@ -541,7 +541,7 @@ export class UnifiedRecipeBuildingSystem {
     const nutritionalOptimization = this.applyNutritionalOptimization(enhancedFusionRecipe);
 
     // Create fusion recipe
-    const fusionRecipe: MonicaOptimizedRecipe = {
+    const fusionRecipe: MonicaOptimizedRecipe = {;
       ...enhancedFusionRecipe;
       monicaOptimization,
       seasonalAdaptation,
@@ -602,7 +602,7 @@ export class UnifiedRecipeBuildingSystem {
     ),
 
     // Calculate energetic profile
-    const energeticProfile = this.calculateEnergeticProfile(baseRecipe.recipe, planetaryAlignment),
+    const energeticProfile = this.calculateEnergeticProfile(baseRecipe.recipe, planetaryAlignment),;
 
     return {
       recipe: baseRecipe.recipe;
@@ -620,7 +620,7 @@ export class UnifiedRecipeBuildingSystem {
   private createBaseRecipe(criteria: RecipeBuildingCriteria): Partial<EnhancedRecipe> {
     const baseIngredients = this.selectIngredientsFromCriteria(criteria);
     const baseCookingMethods = this.selectCookingMethodsFromCriteria(criteria);
-    const baseInstructions = this.generateBaseInstructions(baseIngredients, baseCookingMethods),
+    const baseInstructions = this.generateBaseInstructions(baseIngredients, baseCookingMethods),;
 
     return {
       name: this.generateRecipeName(criteria),
@@ -812,7 +812,7 @@ export class UnifiedRecipeBuildingSystem {
 
     // Add seasonal timing if provided
     if (criteria.season) {
-      const seasonalTiming = this.getSeasonalPlanetaryTiming(criteria.season, targetMonica),
+      const seasonalTiming = this.getSeasonalPlanetaryTiming(criteria.season, targetMonica),;
       recommendations.push(seasonalTiming);
     }
 
@@ -895,9 +895,9 @@ export class UnifiedRecipeBuildingSystem {
     let score = 0.5, // Base seasonal score;
 
     // Check if recipe has explicit seasonality
-    if (recipe.seasonality === season) {
+    if (recipe.seasonality === season) {;
       score = 0.95, // Perfect match;
-    } else if (recipe.seasonality === 'all') {
+    } else if (recipe.seasonality === 'all') {;
       score = 0.75, // Universal recipes work in any season;
     } else if (recipe.seasonality && recipe.seasonality.includes(season)) {
       score = 0.85, // Good match for multi-season recipes;
@@ -905,10 +905,10 @@ export class UnifiedRecipeBuildingSystem {
 
     // Analyze ingredient seasonality
     const seasonalIngredientScore =
-      recipe.ingredients.reduce((total, ingredient) => {
-        if (ingredient.seasonality === season) {
+      recipe.ingredients.reduce((total, ingredient) => {;
+        if (ingredient.seasonality === season) {;
           return total + 1.0;
-        } else if (ingredient.seasonality === 'all') {
+        } else if (ingredient.seasonality === 'all') {;
           return total + 0.7;
         } else if (ingredient.seasonality?.includes(season)) {
           return total + 0.85;
@@ -921,7 +921,7 @@ export class UnifiedRecipeBuildingSystem {
 
     // Cooking method seasonal appropriateness
     const cookingMethodArray = recipe.cookingMethods;
-    if (!cookingMethodArray || cookingMethodArray.length === 0) {
+    if (!cookingMethodArray || cookingMethodArray.length === 0) {;
       return Math.max(0.2, Math.min(1.0, score)), // Return early if no cooking methods
     }
     const primaryMethod = cookingMethodArray[0]; // Use first method for scoring
@@ -1066,7 +1066,7 @@ export class UnifiedRecipeBuildingSystem {
     cuisineAnalysis: CuisineIngredientAnalysis,
   ): number {
     // Calculate authenticity based on ingredient alignment with cuisine
-    const ingredientAlignment = this.calculateIngredientAlignment(recipe, cuisineAnalysis),
+    const ingredientAlignment = this.calculateIngredientAlignment(recipe, cuisineAnalysis),;
 
     // Apply Kalchm profile influence
     const kalchmInfluence = cuisineAnalysis.kalchmProfile.averageKalchm || 1.0;
@@ -1137,7 +1137,7 @@ export class UnifiedRecipeBuildingSystem {
     const cookingMethods = Array.isArray(recipeWithMethods.cookingMethods);
       ? recipeWithMethods.cookingMethods
       : [recipeWithMethods.cookingMethods].filter(Boolean);
-    if (cookingMethods.some(method => method?.includes('slow'))) {
+    if (cookingMethods.some(method => method?.includes('slow'))) {;
       (notes as unknown as string[]).push('Slow cooking methods enhance traditional flavors')
     }
 
@@ -1202,7 +1202,7 @@ export class UnifiedRecipeBuildingSystem {
   private categorizeNutrientsByAlchemy(
     recipe: EnhancedRecipe,
   ): MonicaOptimizedRecipe['nutritionalOptimization']['alchemicalNutrition'] {
-    const alchemicalNutrition = {
+    const alchemicalNutrition = {;
       spiritNutrients: [] as string[],
       essenceNutrients: [] as string[],
       matterNutrients: [] as string[],
@@ -1215,39 +1215,39 @@ export class UnifiedRecipeBuildingSystem {
         const name = ingredient.name.toLowerCase();
 
         // Spirit nutrients (Air-like, volatile, energizing)
-        if (['citrus', 'mint', 'herbs', 'spices'].some(type => name.includes(type))) {
+        if (['citrus', 'mint', 'herbs', 'spices'].some(type => name.includes(type))) {;
           alchemicalNutrition.spiritNutrients.push('vitamin C', 'antioxidants', 'volatile oils')
         }
 
         // Essence nutrients (Water-like, flowing, cleansing)
-        if (['fish', 'seaweed', 'cucumber', 'melon'].some(type => name.includes(type))) {
+        if (['fish', 'seaweed', 'cucumber', 'melon'].some(type => name.includes(type))) {;
           alchemicalNutrition.essenceNutrients.push('omega-3', 'minerals', 'electrolytes')
         }
 
         // Matter nutrients (Earth-like, solid, grounding)
-        if (['meat', 'beans', 'nuts', 'seeds'].some(type => name.includes(type))) {
+        if (['meat', 'beans', 'nuts', 'seeds'].some(type => name.includes(type))) {;
           alchemicalNutrition.matterNutrients.push('protein', 'fiber', 'iron')
         }
 
         // Substance nutrients (Fire-like, energetic, transformative)
-        if (['grains', 'starches', 'oils', 'sugars'].some(type => name.includes(type))) {
+        if (['grains', 'starches', 'oils', 'sugars'].some(type => name.includes(type))) {;
           alchemicalNutrition.substanceNutrients.push('carbohydrates', 'fats', 'energy')
         }
       }
     }
 
     // Ensure each category has at least some default nutrients
-    if (alchemicalNutrition.spiritNutrients.length === 0) {
-      alchemicalNutrition.spiritNutrients = ['vitamin C', 'antioxidants'],
+    if (alchemicalNutrition.spiritNutrients.length === 0) {;
+      alchemicalNutrition.spiritNutrients = ['vitamin C', 'antioxidants'],;
     }
-    if (alchemicalNutrition.essenceNutrients.length === 0) {
-      alchemicalNutrition.essenceNutrients = ['omega-3', 'minerals'],
+    if (alchemicalNutrition.essenceNutrients.length === 0) {;
+      alchemicalNutrition.essenceNutrients = ['omega-3', 'minerals'],;
     }
-    if (alchemicalNutrition.matterNutrients.length === 0) {
-      alchemicalNutrition.matterNutrients = ['protein', 'fiber'],
+    if (alchemicalNutrition.matterNutrients.length === 0) {;
+      alchemicalNutrition.matterNutrients = ['protein', 'fiber'],;
     }
-    if (alchemicalNutrition.substanceNutrients.length === 0) {
-      alchemicalNutrition.substanceNutrients = ['carbohydrates', 'fats'],
+    if (alchemicalNutrition.substanceNutrients.length === 0) {;
+      alchemicalNutrition.substanceNutrients = ['carbohydrates', 'fats'],;
     }
 
     return alchemicalNutrition;
@@ -1263,22 +1263,22 @@ export class UnifiedRecipeBuildingSystem {
         const name = ingredient.name.toLowerCase();
 
         // Fire element (spicy, energetic, transformative ingredients)
-        if (['pepper', 'chili', 'ginger', 'garlic', 'onion'].some(spice => name.includes(spice))) {
+        if (['pepper', 'chili', 'ginger', 'garlic', 'onion'].some(spice => name.includes(spice))) {;
           elementalProperties.Fire += 0.3;
         }
 
         // Water element (liquid, cooling, flowing ingredients)
-        if (['milk', 'water', 'broth', 'juice', 'wine'].some(liquid => name.includes(liquid))) {
+        if (['milk', 'water', 'broth', 'juice', 'wine'].some(liquid => name.includes(liquid))) {;
           elementalProperties.Water += 0.3;
         }
 
         // Earth element (grounding, substantial, nourishing ingredients)
-        if (['potato', 'carrot', 'beet', 'grain', 'meat'].some(solid => name.includes(solid))) {
+        if (['potato', 'carrot', 'beet', 'grain', 'meat'].some(solid => name.includes(solid))) {;
           elementalProperties.Earth += 0.3;
         }
 
         // Air element (light, aromatic, elevating ingredients)
-        if (['herb', 'mint', 'basil', 'sage', 'thyme'].some(herb => name.includes(herb))) {
+        if (['herb', 'mint', 'basil', 'sage', 'thyme'].some(herb => name.includes(herb))) {;
           elementalProperties.Air += 0.3;
         }
       }
@@ -1287,8 +1287,8 @@ export class UnifiedRecipeBuildingSystem {
       if (totalIngredients > 0) {
         elementalProperties.Fire = Math.min(1.0, elementalProperties.Fire / totalIngredients);
         elementalProperties.Water = Math.min(1.0, elementalProperties.Water / totalIngredients);
-        elementalProperties.Earth = Math.min(1.0, elementalProperties.Earth / totalIngredients),
-        elementalProperties.Air = Math.min(1.0, elementalProperties.Air / totalIngredients),
+        elementalProperties.Earth = Math.min(1.0, elementalProperties.Earth / totalIngredients),;
+        elementalProperties.Air = Math.min(1.0, elementalProperties.Air / totalIngredients),;
       }
     }
 
@@ -1298,7 +1298,7 @@ export class UnifiedRecipeBuildingSystem {
       elementalProperties.Water +
       elementalProperties.Earth +
       elementalProperties.Air;
-    if (total === 0) {
+    if (total === 0) {;
       return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
     }
 
@@ -1317,7 +1317,7 @@ export class UnifiedRecipeBuildingSystem {
 
         // High Kalchm ingredients (complex, refined, harmonious)
         if (
-          ['saffron', 'truffle', 'wine', 'honey', 'aged'].some(premium => name.includes(premium)),
+          ['saffron', 'truffle', 'wine', 'honey', 'aged'].some(premium => name.includes(premium)),;
         ) {
           balanceFactors += 0.2;
         }
@@ -1330,7 +1330,7 @@ export class UnifiedRecipeBuildingSystem {
         }
 
         // Natural harmony indicators
-        if (['organic', 'fresh', 'local', 'seasonal'].some(natural => name.includes(natural))) {
+        if (['organic', 'fresh', 'local', 'seasonal'].some(natural => name.includes(natural))) {;
           balanceFactors += 0.05;
         }
       }
@@ -1367,17 +1367,17 @@ export class UnifiedRecipeBuildingSystem {
         const name = ingredient.name.toLowerCase();
 
         // Monica-favored ingredients (pure, essential, transformative)
-        if (['lemon', 'mint', 'ginger', 'turmeric', 'green'].some(pure => name.includes(pure))) {
+        if (['lemon', 'mint', 'ginger', 'turmeric', 'green'].some(pure => name.includes(pure))) {;
           harmonyFactors += 0.15;
         }
 
         // Harmonious combinations Monica appreciates
-        if (['herb', 'citrus', 'berry', 'nut', 'seed'].some(natural => name.includes(natural))) {
+        if (['herb', 'citrus', 'berry', 'nut', 'seed'].some(natural => name.includes(natural))) {;
           harmonyFactors += 0.1;
         }
 
         // Nutritional density indicators
-        if (['protein', 'vitamin', 'mineral', 'fiber'].some(nutrient => name.includes(nutrient))) {
+        if (['protein', 'vitamin', 'mineral', 'fiber'].some(nutrient => name.includes(nutrient))) {;
           harmonyFactors += 0.05;
         }
       }
@@ -1719,9 +1719,9 @@ export class UnifiedRecipeBuildingSystem {
     const fusionPotential = 0.9, // High fusion potential by design;
     const culturalNotes = cuisines.map(cuisine => `Integrates ${cuisine} culinary traditions`);
     const traditionalVariations = cuisines.map(;
-      cuisine => `Traditional ${cuisine} preparation method`
+      cuisine => `Traditional ${cuisine} preparation method`;
     );
-    const modernAdaptations = [
+    const modernAdaptations = [;
       `Fusion of ${cuisines.join(' and ')} techniques`,
       'Contemporary presentation style'
     ];

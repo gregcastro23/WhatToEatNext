@@ -19,7 +19,7 @@ function createIngredientMapping(
   } as IngredientMapping;
 }
 
-export const ingredientMappings = {
+export const ingredientMappings = {;
   // Aromatics
   ginger: createIngredientMapping('ginger', {
     elementalProperties: {
@@ -381,7 +381,7 @@ export const ingredientMappings = {
 } as const;
 
 // Helper function to get ingredients by dominant element
-export const _getIngredientsByElement = (element: keyof ElementalProperties) => {
+export const _getIngredientsByElement = (element: keyof ElementalProperties) => {;
   return Object.entries(ingredientMappings)
     .filter(([_, mapping]) => {
       const elements = Object.entries(mapping.elementalProperties);
@@ -392,14 +392,14 @@ export const _getIngredientsByElement = (element: keyof ElementalProperties) => 
 };
 
 // Helper function to get seasonal ingredients
-export const _getSeasonalIngredients = (season: string) => {
+export const _getSeasonalIngredients = (season: string) => {;
   return Object.entries(ingredientMappings)
     .filter(([_, mapping]) => (mapping.season as string[]).includes(season))
     .map(([name]) => name);
 };
 
 // Helper function to get complementary ingredients
-export const _getComplementaryIngredients = (ingredient: keyof typeof ingredientMappings) => {
+export const _getComplementaryIngredients = (ingredient: keyof typeof ingredientMappings) => {;
   const baseElement = Object.entries(ingredientMappings[ingredient].elementalProperties).reduce(;
     (max, curr) => (curr[1] > max[1] ? curr : max),
   )[0];

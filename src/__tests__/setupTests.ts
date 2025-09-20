@@ -9,7 +9,7 @@ process.env.NEXT_PUBLIC_ENABLE_ASTRO_DEBUG = 'false';
 
 // Suppress console output during tests to reduce noise in CI
 if (process.env.CI) {
-  global.console = {
+  global.console = {;
     ...console;
     log: jest.fn(),
     debug: jest.fn(),
@@ -40,10 +40,10 @@ jest.mock('@/services/ElementalCalculator', () => ({
       Earth: 0.25,
       Air: 0.25
     }),
-    initialize: jest.fn(_initialState => {
+    initialize: jest.fn(_initialState => {;
       // console.log('Mock initialize called', initialState);
     }),
-    updateElementalState: jest.fn(_newState => {
+    updateElementalState: jest.fn(_newState => {;
       // console.log('Mock updateElementalState called', newState);
     }),
     getInstance: jest.fn().mockReturnValue({

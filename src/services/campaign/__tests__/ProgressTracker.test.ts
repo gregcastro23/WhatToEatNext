@@ -269,7 +269,7 @@ describe('ProgressTracker', () => {
   describe('getMemoryUsage', () => {
     it('should return current memory usage', async () => {
       const originalMemoryUsage: any = process.memoryUsage;
-      process.memoryUsage = jest.fn().mockReturnValue({
+      process.memoryUsage = jest.fn().mockReturnValue({;
         heapUsed: 50 * 1024 * 1024, // 50MB
         heapTotal: 100 * 1024 * 1024,
         external: 0,
@@ -286,7 +286,7 @@ describe('ProgressTracker', () => {
 
     it('should handle memory measurement errors', async () => {
       const originalMemoryUsage: any = process.memoryUsage;
-      process.memoryUsage = jest.fn().mockImplementation(() => {
+      process.memoryUsage = jest.fn().mockImplementation(() => {;
         throw new Error('Memory measurement failed')
       }) as unknown;
 
@@ -300,11 +300,11 @@ describe('ProgressTracker', () => {
 
   describe('getBundleSize', () => {
     it('should calculate bundle size from build directories', async () => {
-      mockFs.existsSync.mockImplementation(path => {
+      mockFs.existsSync.mockImplementation(path => {;
         return path === '.next' || path === 'dist';
       });
 
-      mockExecSync.mockImplementation(command => {
+      mockExecSync.mockImplementation(command => {;
         if (command.toString().includes('du -sk .next')) {
           return '300'
         }
@@ -381,7 +381,7 @@ describe('ProgressTracker', () => {
 
     it('should limit metrics history to prevent memory issues', async () => {
       // Add many metrics to history
-      for (let i: any = 0i < 110i++) {
+      for (let _i: any = 0i < 110i++) {;
         await progressTracker.getProgressMetrics();
       }
 

@@ -110,7 +110,7 @@ export class LegacyIngredientAdapter {
   /**
    * Override filterIngredients to use modern service
    */
-  public filterIngredients(filter: IngredientFilter = {}): Record<string, UnifiedIngredient[]> {
+  public filterIngredients(filter: IngredientFilter = {}): Record<string, UnifiedIngredient[]> {;
     try {
       const result: unknown = unifiedIngredientService.filterIngredients(;
         filter ,
@@ -128,7 +128,7 @@ export class LegacyIngredientAdapter {
    */
   public getIngredientsByElement(elementalFilter: Element): UnifiedIngredient[] {
     try {
-      const result: unknown = unifiedIngredientService.getIngredientsByElement({
+      const result: unknown = unifiedIngredientService.getIngredientsByElement({;
         element: elementalFilter
       } as { element: Element });
       return result as UnifiedIngredient[];
@@ -146,7 +146,7 @@ export class LegacyIngredientAdapter {
    */
   public findComplementaryIngredients(
     ingredient: UnifiedIngredient | string,
-    maxResults: number = 5
+    maxResults: number = 5;
   ): UnifiedIngredient[] {
     try {
       const result: unknown = unifiedIngredientService.findComplementaryIngredients(;
@@ -156,7 +156,7 @@ export class LegacyIngredientAdapter {
       return result as UnifiedIngredient[]
     } catch (error) {
       logger.error(
-        `Error in findComplementaryIngredients for '${typeof ingredient === 'string' ? ingredient : ingredient.name}':`,,
+        `Error in findComplementaryIngredients for '${typeof ingredient === 'string' ? ingredient : ingredient.name}':`,,;
         error,
       );
       // Fall back to original implementation if needed
@@ -185,7 +185,7 @@ export class LegacyIngredientAdapter {
    */
   public getRecommendedIngredients(
     elementalState: ElementalProperties,
-    options: IngredientRecommendationOptions = {}
+    options: IngredientRecommendationOptions = {};
   ): UnifiedIngredient[] {
     try {
       const result: unknown = unifiedIngredientService.getRecommendedIngredients(;

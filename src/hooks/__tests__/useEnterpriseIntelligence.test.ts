@@ -19,7 +19,7 @@ jest.mock('@/utils/logger', () => ({
 }));
 
 describe('useEnterpriseIntelligence', () => {
-  const mockRecipeData: any = {
+  const mockRecipeData: any = {;
     id: 'test-recipe',
     name: 'Test Recipe',
     elementalProperties: { Fire: 0.3,
@@ -29,7 +29,7 @@ describe('useEnterpriseIntelligence', () => {
     }
   };
 
-  const mockIngredientData: any = {
+  const mockIngredientData: any = {;
     name: 'Test Ingredient',
     category: 'vegetables',
     elementalProperties: { Fire: 0.2,
@@ -39,7 +39,7 @@ describe('useEnterpriseIntelligence', () => {
     }
   };
 
-  const mockAstrologicalContext: any = {
+  const mockAstrologicalContext: any = {;
     zodiacSign: 'aries' as any,
     lunarPhase: 'new moon' as LunarPhase,
     elementalProperties: { Fire: 0.4,

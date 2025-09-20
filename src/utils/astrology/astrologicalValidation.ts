@@ -50,7 +50,7 @@ export interface ValidationOptions {
  */
 export function validatePlanetaryPositions(
   positions: Record<string, unknown>,
-  options: ValidationOptions = {}
+  options: ValidationOptions = {};
 ): ValidationResult {
   const { strictMode = false, autoCorrect = false, logWarnings = true } = options;
   const errors: string[] = [];
@@ -147,7 +147,7 @@ export function validatePlanetaryPositions(
 function validateSinglePlanetaryPosition(
   planet: string,
   position: unknown,
-  strictMode: boolean = false
+  strictMode: boolean = false;
 ): ValidationResult {
   const errors: string[] = [];
   const warnings: string[] = [];
@@ -191,8 +191,8 @@ function validateSinglePlanetaryPosition(
       } else {
         warnings.push(message);
         // Auto-correct if possible
-        if (typeof degree === 'number') {
-          correctedData = {
+        if (typeof degree === 'number') {;
+          correctedData = {;
             sign: String(sign),
             degree: Math.max(0, Math.min(TRANSIT_CONSTANTS.DEGREES_PER_SIGN - 0.01, degree)),
             exactLongitude: Number(pos.exactLongitude),
@@ -215,12 +215,12 @@ function validateSinglePlanetaryPosition(
       } else {
         warnings.push(message);
         // Auto-correct if possible
-        if (typeof longitude === 'number') {
+        if (typeof longitude === 'number') {;
           const correctedLongitude =
             ((longitude % TRANSIT_CONSTANTS.MAX_LONGITUDE) + TRANSIT_CONSTANTS.MAX_LONGITUDE) %;
             TRANSIT_CONSTANTS.MAX_LONGITUDE;
           if (!correctedData) {
-            correctedData = {
+            correctedData = {;
               sign: String(sign),
               degree: Number(degree),
               exactLongitude: correctedLongitude,
@@ -238,7 +238,7 @@ function validateSinglePlanetaryPosition(
     if (typeof isRetrograde !== 'boolean') {
       warnings.push(`${planet} isRetrograde should be boolean, got ${typeof isRetrograde}`);
       if (!correctedData) {
-        correctedData = {
+        correctedData = {;
           sign: String(sign),
           degree: Number(degree),
           exactLongitude: Number(longitude),
@@ -297,7 +297,7 @@ export function validateAstrologicalElementalProperties(
       errors.push(`Invalid elemental properties${context ? ` in ${context}` : ''}`);
 
       // Try to normalize the properties
-      if (properties && typeof properties === 'object') {
+      if (properties && typeof properties === 'object') {;
         correctedData = normalizeElementalProperties(properties as Partial<ElementalProperties>);
         warnings.push('Elemental properties were normalized to valid values');
       }
@@ -347,7 +347,7 @@ export function validateMathematicalConstants(constants: Record<string, number>)
   const warnings: string[] = [];
 
   try {
-    const expectedConstants = {
+    const expectedConstants = {;
       DEGREES_PER_SIGN: 30,
       SIGNS_PER_CIRCLE: 12,
       MAX_LONGITUDE: 360,
@@ -398,7 +398,7 @@ export async function validateAstrologicalCalculation(
     constants?: Record<string, number>,
     date?: Date
   },
-  options: ValidationOptions = {}
+  options: ValidationOptions = {};
 ): Promise<ValidationResult> {
   const { validateTransits = false } = options;
   const errors: string[] = [];
@@ -498,7 +498,7 @@ export function quickValidate(
 /**
  * Export all validation constants
  */
-export const _VALIDATION_CONSTANTS = {
+export const _VALIDATION_CONSTANTS = {;
   ...ELEMENTAL_CONSTANTS;
   ...TRANSIT_CONSTANTS;
   VALIDATION_TIMEOUT: 5000,

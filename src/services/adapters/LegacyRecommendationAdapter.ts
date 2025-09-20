@@ -233,7 +233,7 @@ export class LegacyRecommendationAdapter {
     } catch (error) {
       logger.error('Error in generateAlchemicalRecommendations:', error),
       // Return minimal result with default values
-      const defaultThermodynamics = {
+      const defaultThermodynamics = {;
         heat: 0.5,
         entropy: 0.5,
         reactivity: 0.5,

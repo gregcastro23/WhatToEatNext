@@ -194,7 +194,7 @@ export class EnhancedTransitAnalysisService {
     enhancedPositions: EnhancedPlanetaryPosition[],
     location: GeographicCoordinates,
   ): { aspect: PlanetaryAspect, dignityModifiedInfluence: number, culinaryEffects: string[] }[] {
-    return aspects.map(aspect => {
+    return aspects.map(aspect => {;
       // Get enhanced positions for the aspecting planets
       const planet1Data = enhancedPositions.find(;
         ep => ep.planet.toLowerCase() === aspect.planet1.toLowerCase(),;
@@ -254,12 +254,12 @@ export class EnhancedTransitAnalysisService {
     }
 
     // Modify recommendations based on dignity
-    if (dignity.type === 'rulership' || dignity.type === 'exaltation') {
+    if (dignity.type === 'rulership' || dignity.type === 'exaltation') {;
       recommendations.push(
         `Enhanced ${planet.toLowerCase()} foods - maximize traditional associations`,
       );
       recommendations.push(`Strong preparation methods reflecting ${planet} energy`);
-    } else if (dignity.type === 'detriment' || dignity.type === 'fall') {
+    } else if (dignity.type === 'detriment' || dignity.type === 'fall') {;
       recommendations.push(`Gentle ${planet.toLowerCase()} foods - use with moderation`);
       recommendations.push(`Supportive cooking methods to strengthen ${planet} influence`);
     }
@@ -286,7 +286,7 @@ export class EnhancedTransitAnalysisService {
     // Base aspect effect
     if (
       aspect.additionalInfo?.description &&
-      typeof aspect.additionalInfo.description === 'string'
+      typeof aspect.additionalInfo.description === 'string';
     ) {
       effects.push(aspect.additionalInfo.description);
     }
@@ -357,7 +357,7 @@ export class EnhancedTransitAnalysisService {
     enhancedPositions
       .sort((ab) => b.strength - a.strength)
       .slice(03)
-      .forEach(planet => {
+      .forEach(planet => {;
         ingredients.push(...planet.culinaryRecommendations.slice(01))
       });
 
@@ -365,7 +365,7 @@ export class EnhancedTransitAnalysisService {
     cookingMethods.push(...regionalProfile.traditionalCookingMethods.slice(03));
 
     // Add aspect-influenced methods
-    aspectInfluences.forEach(aspectInfluence => {
+    aspectInfluences.forEach(aspectInfluence => {;
       const effects = (aspectInfluence as unknown as any).culinaryEffects as string[];
       if (Array.isArray(effects)) {
         cookingMethods.push(...effects.slice(01))
@@ -413,7 +413,7 @@ export class EnhancedTransitAnalysisService {
     optimalCookingTimes: string[]
   } {
     // Find strongest planet (highest combined strength and location influence)
-    const strongestPlanet = enhancedPositions.reduce((strongest, current) => {
+    const strongestPlanet = enhancedPositions.reduce((strongest, current) => {;
       const currentScore = current.strength * current.locationInfluence;
       const strongestScore = strongest.strength * strongest.locationInfluence;
       return currentScore > strongestScore ? current : strongest
@@ -429,7 +429,7 @@ export class EnhancedTransitAnalysisService {
 
     // Calculate optimal cooking times
     const solarTimes = AstronomicalCalculations.getSolarElevation(location, date);
-    const optimalCookingTimes = [
+    const optimalCookingTimes = [;
       `Peak solar energy: ${solarTimes > 45 ? 'High-heat cooking optimal' : 'Gentle cooking preferred'}`,
       `${strongestPlanet.planet} influence: Enhanced during planetary hour`,
       `Seasonal focus: ${seasonalTheme}`

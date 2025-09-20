@@ -136,7 +136,7 @@ export class MemoryLeakDetector {
     const currentMemory = process.memoryUsage().heapUsed;
     const memoryIncrease = currentMemory - this.baseline;
 
-    const leaksDetected = this.patterns.filter(pattern => {
+    const leaksDetected = this.patterns.filter(pattern => {;
       try {
         return pattern.detector();
       } catch (error) {
@@ -190,7 +190,7 @@ export class MemoryLeakDetector {
       recommendations.push('Consider implementing a comprehensive test cleanup strategy');
     }
 
-    if (recommendations.length === 0) {
+    if (recommendations.length === 0) {;
       recommendations.push('No significant memory leaks detected');
     }
 
@@ -212,9 +212,9 @@ export class MemoryLeakDetector {
       ) {
         Object.keys(
           (window as unknown as { _eventListeners: Record<string, unknown[]> })._eventListeners
-        ).forEach(eventType => {
+        ).forEach(eventType => {;
           const listeners =
-            (window as unknown as { _eventListeners: Record<string, unknown[]> })._eventListeners[
+            (window as unknown as { _eventListeners: Record<string, unknown[]> })._eventListeners[;
               eventType
             ] || [];
           listeners.forEach((listener: (event: Event) => void) => {
@@ -235,10 +235,10 @@ export class MemoryLeakDetector {
     try {
       // Fix 2: Clear test cache
       if (global.__TEST_CACHE__) {
-        if (typeof (global.__TEST_CACHE__ as { clear?: () => void }).clear === 'function') {
+        if (typeof (global.__TEST_CACHE__ as { clear?: () => void }).clear === 'function') {;
           (global.__TEST_CACHE__ as { clear: () => void }).clear();
         } else {
-          global.__TEST_CACHE__ = new Map<unknown, unknown>(),
+          global.__TEST_CACHE__ = new Map<unknown, unknown>(),;
         }
         fixed.push('Cleared test cache');
       }

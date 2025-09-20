@@ -105,13 +105,13 @@ class AlertingSystem {
 
   private saveConfiguration() {
     try {
-      const settingsDir = path.join(process.cwd(), '.kiro', 'settings'),
+      const settingsDir = path.join(process.cwd(), '.kiro', 'settings'),;
       if (!fs.existsSync(settingsDir)) {
         fs.mkdirSync(settingsDir, { recursive: true });
       }
 
       const configPath = path.join(settingsDir, 'alerting-config.json');
-      const config = {
+      const config = {;
         alertRules: this.alertRules,
         escalationRules: this.escalationRules,
         alerts: this.alerts.slice(-500), // Keep last 500 alerts
@@ -125,7 +125,7 @@ class AlertingSystem {
   }
 
   private initializeDefaultRules() {
-    if (this.alertRules.length === 0) {
+    if (this.alertRules.length === 0) {;
       const defaultRules: AlertRule[] = [
         {
           id: 'build-time-critical',
@@ -278,7 +278,7 @@ class AlertingSystem {
       this.alertRules = defaultRules;
     }
 
-    if (this.escalationRules.length === 0) {
+    if (this.escalationRules.length === 0) {;
       const defaultEscalationRules: EscalationRule[] = [
         {
           id: 'critical-escalation',
@@ -343,15 +343,15 @@ class AlertingSystem {
     );
 
     // Subscribe to data sources
-    buildPerformanceMonitor.subscribe(data => {
+    buildPerformanceMonitor.subscribe(data => {;
       this.evaluatePerformanceAlerts(data);
     });
 
-    errorTrackingSystem.subscribe(data => {
+    errorTrackingSystem.subscribe(data => {;
       this.evaluateErrorAlerts(data);
     });
 
-    qualityMetricsService.subscribe(data => {
+    qualityMetricsService.subscribe(data => {;
       this.evaluateQualityAlerts(data);
     });
   }
@@ -495,7 +495,7 @@ class AlertingSystem {
   }
 
   private createAlert(rule: AlertRule, currentValue: number) {
-    const alert: Alert = {
+    const alert: Alert = {;
       id: `alert-${Date.now()}-${Math.random().toString(36).substr(29)}`,
       type: rule.type,
       severity: rule.severity,
@@ -507,7 +507,7 @@ class AlertingSystem {
       acknowledged: false,
       resolved: false,
       escalated: false,
-      responseActions: rule.responseActions.map(a => a.name),
+      responseActions: rule.responseActions.map(a => a.name),;
       metadata: {
         ruleId: rule.id,
         metric: rule.metric,
@@ -540,7 +540,7 @@ class AlertingSystem {
         continue
       }
 
-      const response: AlertResponse = {
+      const response: AlertResponse = {;
         alertId: alert.id,
         actionId: action.id,
         status: 'pending',
@@ -614,7 +614,7 @@ class AlertingSystem {
   private async executeAction(
     action: AlertAction,
   ): Promise<{ success: boolean, result?: unknown, error?: string }> {
-    const timeout = new Promise((_, reject) => {
+    const timeout = new Promise((_, reject) => {;
       setTimeout(() => reject(new Error('Action timeout')), action.timeoutSeconds * 1000)
     });
 
@@ -713,7 +713,7 @@ class AlertingSystem {
 
   private writeAlertToFile(alert: Alert) {
     try {
-      const alertsDir = path.join(process.cwd(), '.kiro', 'alerts'),
+      const alertsDir = path.join(process.cwd(), '.kiro', 'alerts'),;
       if (!fs.existsSync(alertsDir)) {
         fs.mkdirSync(alertsDir, { recursive: true });
       }
@@ -800,7 +800,7 @@ class AlertingSystem {
   }
 
   private notifySubscribers(alert: Alert) {
-    this.subscribers.forEach(callback => {
+    this.subscribers.forEach(callback => {;
       try {
         callback(alert);
       } catch (error) {
@@ -839,7 +839,7 @@ class AlertingSystem {
     filtered.sort((ab) => b.timestamp.getTime() - a.timestamp.getTime());
 
     if (options?.limit) {
-      filtered = filtered.slice(0, options.limit),
+      filtered = filtered.slice(0, options.limit),;
     }
 
     return filtered;
@@ -916,9 +916,9 @@ class AlertingSystem {
     return {
       totalAlerts: this.alerts.length,
       recentAlerts: recentAlerts.length,
-      unresolvedAlerts: this.alerts.filter(a => !a.resolved).length,
-      criticalAlerts: this.alerts.filter(a => a.severity === 'critical' && !a.resolved).length,,
-      escalatedAlerts: this.alerts.filter(a => a.escalated && !a.resolved).length,,
+      unresolvedAlerts: this.alerts.filter(a => !a.resolved).length,;
+      criticalAlerts: this.alerts.filter(a => a.severity === 'critical' && !a.resolved).length,,;
+      escalatedAlerts: this.alerts.filter(a => a.escalated && !a.resolved).length,,;
       alertsByType: this.getAlertCountsByType(),
       alertsBySeverity: this.getAlertCountsBySeverity(),
       responseSuccessRate: this.calculateResponseSuccessRate(),
@@ -929,7 +929,7 @@ class AlertingSystem {
   private getAlertCountsByType(): Record<string, number> {
     const counts: Record<string, number> = {};
 
-    for (const alert of this.alerts.filter(a => !a.resolved)) {
+    for (const alert of this.alerts.filter(a => !a.resolved)) {;
       counts[alert.type] = (counts[alert.type] || 0) + 1;
     }
 
@@ -939,7 +939,7 @@ class AlertingSystem {
   private getAlertCountsBySeverity(): Record<string, number> {
     const counts: Record<string, number> = {};
 
-    for (const alert of this.alerts.filter(a => !a.resolved)) {
+    for (const alert of this.alerts.filter(a => !a.resolved)) {;
       counts[alert.severity] = (counts[alert.severity] || 0) + 1;
     }
 
@@ -958,7 +958,7 @@ class AlertingSystem {
     const resolvedAlerts = this.alerts.filter(a => a.resolved && a.resolvedAt);
     if (resolvedAlerts.length === 0) return 0;
 
-    const totalResolutionTime = resolvedAlerts.reduce((sum, alert) => {
+    const totalResolutionTime = resolvedAlerts.reduce((sum, alert) => {;
       if (alert.resolvedAt) {
         return sum + (alert.resolvedAt.getTime() - alert.timestamp.getTime());
       }

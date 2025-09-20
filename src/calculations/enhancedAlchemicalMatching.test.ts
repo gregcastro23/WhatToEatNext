@@ -9,13 +9,13 @@ describe('Enhanced Alchemical Matching Algorithms', () => {
   describe('calculateAstrologicalAffinity', () => {
     it('should calculate compatibility between signs with the same element', () => {
       // Test Fire signs (should be harmonious)
-      const compatibility: any = calculateAstrologicalAffinity('aries' as any, 'leo' as any),
+      const compatibility: any = calculateAstrologicalAffinity('aries' as any, 'leo' as any),;
       expect(compatibility).toBeGreaterThan(0.5), // Should be above neutral
     });
 
     it('should calculate compatibility between signs with different elements', () => {
       // Test Fire and Water signs (should still have good compatibility)
-      const compatibility: any = calculateAstrologicalAffinity('aries' as any, 'cancer' as any),
+      const compatibility: any = calculateAstrologicalAffinity('aries' as any, 'cancer' as any),;
       expect(compatibility).toBeGreaterThanOrEqual(0.5), // All elements work well together
     });
 
@@ -54,7 +54,7 @@ describe('Enhanced Alchemical Matching Algorithms', () => {
       const _earthSignsCompat: any = calculateAstrologicalAffinity('taurus' as any, 'virgo' as any);
 
       // Cardinal Fire and Fixed Fire
-      const _fireSignsCompat: any = calculateAstrologicalAffinity('aries' as any, 'leo' as any),
+      const _fireSignsCompat: any = calculateAstrologicalAffinity('aries' as any, 'leo' as any),;
 
       // The air signs compatibility should reflect air's natural affinity with mutability
       expect(airSignsCompat).toBeGreaterThan(0.45);
@@ -62,7 +62,7 @@ describe('Enhanced Alchemical Matching Algorithms', () => {
 
     it('should incorporate tarot correspondences in scoring', () => {
       // Signs with same element tarot cards
-      const compatibility: any = calculateAstrologicalAffinity('aries' as any, 'leo' as any),
+      const compatibility: any = calculateAstrologicalAffinity('aries' as any, 'leo' as any),;
 
       // The Emperor (Aries) and Strength (Leo) are both Fire-aligned Major Arcana
       expect(compatibility).toBeGreaterThan(0.5);
@@ -70,7 +70,7 @@ describe('Enhanced Alchemical Matching Algorithms', () => {
 
     it('should incorporate rulership compatibility in scoring', () => {
       // Aries (ruled by Mars) and Scorpio (traditionally ruled by Mars)
-      const compatibility: any = calculateAstrologicalAffinity('aries' as any, 'scorpio' as any),
+      const compatibility: any = calculateAstrologicalAffinity('aries' as any, 'scorpio' as any),;
 
       // Different elements, but shared ruler should prevent score from being too low
       expect(compatibility).toBeGreaterThan(0.3);
@@ -117,14 +117,14 @@ describe('Enhanced Alchemical Matching Algorithms', () => {
 
   describe('generateEnhancedRecommendation', () => {
     it('should generate recommendations based on dominant element and modality', () => {
-      const mockResultCardinalFire: any = {
+      const mockResultCardinalFire: any = {;
         elements: { Fire: 0.6, Water: 0.2, Earth: 0.1, Air: 0.1 },
         modalities: { Cardina, l: 0.5, Fixed: 0.3, Mutable: 0.2 },
         qualities: { Hot: 0.7, Dry: 0.5, Cold: 0.2, Wet: 0.1 },
         dominant: { element: 'Fire', modality: 'Cardinal', quality: 'Hot' }
       };
 
-      const mockResultMutableAir: any = {
+      const mockResultMutableAir: any = {;
         elements: { Fire: 0.2, Water: 0.2, Earth: 0.1, Air: 0.5 },
         modalities: { Cardina, l: 0.2, Fixed: 0.2, Mutable: 0.6 },
         qualities: { Hot: 0.3, Dry: 0.6, Cold: 0.2, Wet: 0.3 },
@@ -146,7 +146,7 @@ describe('Enhanced Alchemical Matching Algorithms', () => {
     });
 
     it('should adapt recommendations based on user preferences', () => {
-      const mockResult: any = {
+      const mockResult: any = {;
         elements: { Fire: 0.6, Water: 0.2, Earth: 0.1, Air: 0.1 },
         modalities: { Cardina, l: 0.5, Fixed: 0.3, Mutable: 0.2 },
         qualities: { Hot: 0.7, Dry: 0.5, Cold: 0.2, Wet: 0.1 },
@@ -162,7 +162,7 @@ describe('Enhanced Alchemical Matching Algorithms', () => {
     });
 
     it('should consider seasonal influences', () => {
-      const mockResult: any = {
+      const mockResult: any = {;
         elements: { Fire: 0.6, Water: 0.2, Earth: 0.1, Air: 0.1 },
         modalities: { Cardina, l: 0.5, Fixed: 0.3, Mutable: 0.2 },
         qualities: { Hot: 0.7, Dry: 0.5, Cold: 0.2, Wet: 0.1 },
@@ -185,7 +185,7 @@ describe('Enhanced Alchemical Matching Algorithms', () => {
       expect(validationResult.success).toBe(true);
 
       // All individual tests should pass
-      validationResult.results.forEach(result => {
+      validationResult.results.forEach(result => {;
         expect(result.passed).toBe(true);
       });
     });

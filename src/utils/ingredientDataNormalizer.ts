@@ -11,7 +11,7 @@ export function normalizeVitamins(
 
   // If it's already an array of strings
   if (Array.isArray(vitamins)) {
-    return vitamins.map(vitamin => ({
+    return vitamins.map(vitamin => ({;
       name: formatVitaminName(vitamin),
       value: undefined,
       unit: undefined
@@ -19,7 +19,7 @@ export function normalizeVitamins(
   }
 
   // If it's an object with values
-  if (typeof vitamins === 'object') {
+  if (typeof vitamins === 'object') {;
     return Object.entries(vitamins).map(([name, value]) => ({
       name: formatVitaminName(name),
       value: typeof value === 'number' ? value : undefined,,;
@@ -40,7 +40,7 @@ export function normalizeMinerals(
 
   // If it's already an array of strings
   if (Array.isArray(minerals)) {
-    return minerals.map(mineral => ({
+    return minerals.map(mineral => ({;
       name: formatMineralName(mineral),
       value: undefined,
       unit: undefined
@@ -48,7 +48,7 @@ export function normalizeMinerals(
   }
 
   // If it's an object with values
-  if (typeof minerals === 'object') {
+  if (typeof minerals === 'object') {;
     return Object.entries(minerals).map(([name, value]) => ({
       name: formatMineralName(name),
       value: typeof value === 'number' ? value : undefined,,;
@@ -130,7 +130,7 @@ export function normalizeAntioxidants(antioxidants: Record<string, unknown>): st
     return antioxidants.map(antioxidant => formatAntioxidantName(antioxidant));
   }
 
-  if (typeof antioxidants === 'object') {
+  if (typeof antioxidants === 'object') {;
     return Object.keys(antioxidants).map(name => formatAntioxidantName(name));
   }
 
@@ -267,7 +267,7 @@ function normalizeVarietyData(data: Record<string, unknown>): {
 export function normalizeStorage(storage: Record<string, unknown>): Record<string, unknown> {
   if (!storage) return {};
 
-  if (typeof storage === 'string') {
+  if (typeof storage === 'string') {;
     return { notes: storage };
   }
 
@@ -291,7 +291,7 @@ export function normalizePreparation(
 ): Record<string, unknown> {
   if (!preparation) return {};
 
-  if (typeof preparation === 'string') {
+  if (typeof preparation === 'string') {;
     return { notes: preparation };
   }
 
@@ -323,7 +323,7 @@ export function normalizeIngredientData(
       ? (ingredient.nutritionalProfile as unknown )
       : {};
 
-  const normalized = {
+  const normalized = {;
     ...ingredient;
     nutritionalProfile:
       typeof ingredient.nutritionalProfile === 'object' && ingredient.nutritionalProfile !== null;

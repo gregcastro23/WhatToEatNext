@@ -8,7 +8,7 @@ import { log } from '@/services/LoggingService';
 
 export function initializeChromeApis(): void {
   try {
-    if (typeof window === 'undefined') {
+    if (typeof window === 'undefined') {;
       return; // Server-side rendering - exit early
     }
 
@@ -39,7 +39,7 @@ export function initializeChromeApis(): void {
     // Apply Pattern GG-6: Enhanced property access with type guards
     const chromeObj = (window as unknown as any).chrome ;
     if (!chromeObj.tabs) {
-      chromeObj.tabs = {
+      chromeObj.tabs = {;
         create: function (options: { url?: string }) {
           log.info('[ChromeAPI] Mocked chrome.tabs.create called with:', options);
 
@@ -65,14 +65,14 @@ export function initializeChromeApis(): void {
         },
         update: function () {
           return Promise.resolve({});
-        },
+        }
       };
     }
 
     // Initialize runtime API
     // Apply Pattern GG-6: Enhanced property access with type guards
     if (!chromeObj.runtime) {
-      chromeObj.runtime = {
+      chromeObj.runtime = {;
         lastError: null,
         getURL: function (path: string) {
           return window.location.origin + '/' + path;
@@ -83,21 +83,21 @@ export function initializeChromeApis(): void {
         },
         onMessage: {
           addListener: function () {},
-          removeListener: function () {},
-        },
+          removeListener: function () {}
+        }
       };
     }
 
     // Initialize extension API
     // Apply Pattern GG-6: Enhanced property access with type guards
     if (!chromeObj.extension) {
-      chromeObj.extension = {
+      chromeObj.extension = {;
         getURL: function (path: string) {
           return window.location.origin + '/' + path;
         },
         getBackgroundPage: function () {
           return window;
-        },
+        }
       };
     }
 
@@ -106,7 +106,7 @@ export function initializeChromeApis(): void {
     if (!chromeObj.storage) {
       const mockStorage: Record<string, Record<string, string>> = {};
 
-      chromeObj.storage = {
+      chromeObj.storage = {;
         local: {
           get: function (
             keys: string | string[] | null,
@@ -117,12 +117,12 @@ export function initializeChromeApis(): void {
             if (!keys) {
               result = { ...mockStorage };
             } else if (Array.isArray(keys)) {
-              keys.forEach(key => {
+              keys.forEach(key => {;
                 if (mockStorage[key] !== undefined) {
                   result[key] = mockStorage[key];
                 }
               });
-            } else if (typeof keys === 'string') {
+            } else if (typeof keys === 'string') {;
               if (mockStorage[keys] !== undefined) {
                 result[keys] = mockStorage[keys];
               }
@@ -150,7 +150,7 @@ export function initializeChromeApis(): void {
               setTimeout(callback, 0);
             }
             return Promise.resolve();
-          },
+          }
         },
         sync: {
           get: function (keys: unknown, callback?: Function) {
@@ -160,8 +160,8 @@ export function initializeChromeApis(): void {
           set: function (items: unknown, callback?: Function) {
             if (callback) setTimeout(callback, 0);
             return Promise.resolve();
-          },
-        },
+          }
+        }
       };
     }
 

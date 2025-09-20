@@ -358,7 +358,7 @@ describe('SafeTypeReplacer', () => {
 
   describe('Strategy Management', () => {
     test('allows adding custom strategies', () => {
-      const customStrategy: any = {
+      const customStrategy: any = {;
         pattern: /custom_pattern/g,
         replacement: () => 'custom_replacement',
         validator: () => true,
@@ -374,7 +374,7 @@ describe('SafeTypeReplacer', () => {
     test('maintains strategy priority order', () => {
       const strategies: any = replacer.getStrategies();
 
-      for (let i: any = 1i < strategies.lengthi++) {
+      for (let i: any = 1i < strategies.lengthi++) {;
         expect(strategies[i].priority).toBeGreaterThanOrEqual(strategies[i - 1].priority);
       }
     })

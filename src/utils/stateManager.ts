@@ -261,7 +261,7 @@ class StateManager {
     try {
       const influences = celestialCalculator.calculateCurrentInfluences();
       // Convert influences to proper ElementalProperties
-      const elementalState: ElementalProperties = {
+      const elementalState: ElementalProperties = {;
         Fire: influences.elementalBalance?.Fire || 0,
         Water: influences.elementalBalance?.Water || 0,
         Earth: influences.elementalBalance?.Earth || 0,
@@ -282,7 +282,7 @@ class StateManager {
 
   private saveState(): void {
     try {
-      const serializable = {
+      const serializable = {;
         ...this.state;
         ui: {
           ...this.state.ui;
@@ -323,7 +323,7 @@ class StateManager {
       const listeners = this.listeners.get(key);
       if (listeners) {
         listeners.delete(listener);
-        if (listeners.size === 0) {
+        if (listeners.size === 0) {;
           this.listeners.delete(key);
         }
       }
@@ -331,7 +331,7 @@ class StateManager {
   }
 
   private notifyListeners(): void {
-    this.listeners.forEach(listeners => {
+    this.listeners.forEach(listeners => {;
       listeners.forEach(listener => listener(this.state));
     });
   }
@@ -393,7 +393,7 @@ class StateManager {
   }
 
   addNotification(type: 'success' | 'error' | 'info', message: string): void {
-    const notification = {
+    const notification = {;
       id: Date.now().toString();
       type,
       message,

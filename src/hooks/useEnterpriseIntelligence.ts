@@ -81,13 +81,13 @@ export interface UseEnterpriseIntelligenceReturn {
     warnings: string[]
   };
   isHealthy: boolean,
-  needsAttention: boolean,
+  needsAttention: boolean
 }
 
 // ========== HOOK IMPLEMENTATION ==========;
 
 export function useEnterpriseIntelligence(
-  config: UseEnterpriseIntelligenceConfig = {}
+  config: UseEnterpriseIntelligenceConfig = {};
 ): UseEnterpriseIntelligenceReturn {
   // ========== STATE ==========;
 
@@ -112,14 +112,14 @@ export function useEnterpriseIntelligence(
 
   // ========== MEMOIZED VALUES ==========;
 
-  const intelligenceService = useMemo(() => {
+  const intelligenceService = useMemo(() => {;
     if (Object.keys(config).length > 0) {
       return new EnterpriseIntelligenceIntegration(config)
     }
     return enterpriseIntelligenceIntegration;
   }, [config]);
 
-  const recommendations = useMemo(() => {
+  const recommendations = useMemo(() => {;
     if (!state.analysis) {
       return {
         recipe: [],
@@ -189,7 +189,7 @@ export function useEnterpriseIntelligence(
     };
   }, [state.analysis]);
 
-  const systemHealth = useMemo(() => {
+  const systemHealth = useMemo(() => {;
     if (!state.analysis) {
       return {
         overall: 'fair' as const,
@@ -200,7 +200,7 @@ export function useEnterpriseIntelligence(
     }
 
     const analysis = state.analysis;
-    const issues = [
+    const issues = [;
       ...((
         analysis.validationIntelligence as unknown as {
           overallValidation?: { criticalIssues?: string[] }
@@ -214,7 +214,7 @@ export function useEnterpriseIntelligence(
         : [])
     ];
 
-    const warnings = [
+    const warnings = [;
       ...((
         analysis.validationIntelligence as unknown as {
           dataIntegrity?: { warnings?: string[] };
@@ -243,11 +243,11 @@ export function useEnterpriseIntelligence(
     };
   }, [state.analysis]);
 
-  const isHealthy = useMemo(() => {
+  const isHealthy = useMemo(() => {;
     return systemHealth.overall === 'excellent' || systemHealth.overall === 'good';
   }, [systemHealth.overall]);
 
-  const needsAttention = useMemo(() => {
+  const needsAttention = useMemo(() => {;
     return (
       systemHealth.issues.length > 0 ||
       systemHealth.overall === 'poor' ||;
@@ -271,7 +271,7 @@ export function useEnterpriseIntelligence(
         planetaryPositions?: Record<string, unknown>
       },
     ): Promise<EnterpriseIntelligenceResult | null> => {
-      setState(prev => ({
+      setState(prev => ({;
         ...prev;
         isAnalyzing: true,
         error: null
@@ -295,7 +295,7 @@ export function useEnterpriseIntelligence(
         // Update performance metrics
         const metrics = intelligenceService.getPerformanceMetrics();
 
-        setState(prev => ({
+        setState(prev => ({;
           ...prev;
           analysis,
           isAnalyzing: false,
@@ -318,7 +318,7 @@ export function useEnterpriseIntelligence(
       } catch (error) {
         const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
 
-        setState(prev => ({
+        setState(prev => ({;
           ...prev;
           isAnalyzing: false,
           error: errorMessage,
@@ -332,8 +332,8 @@ export function useEnterpriseIntelligence(
     [intelligenceService],
   );
 
-  const clearAnalysis = useCallback(() => {
-    setState(prev => ({
+  const clearAnalysis = useCallback(() => {;
+    setState(prev => ({;
       ...prev;
       analysis: null,
       error: null,
@@ -351,14 +351,14 @@ export function useEnterpriseIntelligence(
     [intelligenceService],
   );
 
-  const clearCache = useCallback(() => {
+  const clearCache = useCallback(() => {;
     intelligenceService.clearCache();
     logger.info('[useEnterpriseIntelligence] Cache cleared')
   }, [intelligenceService]);
 
-  const resetMetrics = useCallback(() => {
+  const resetMetrics = useCallback(() => {;
     intelligenceService.resetMetrics();
-    setState(prev => ({
+    setState(prev => ({;
       ...prev;
       performanceMetrics: {
         analysisCount: 0,
@@ -370,7 +370,7 @@ export function useEnterpriseIntelligence(
     logger.info('[useEnterpriseIntelligence] Metrics reset');
   }, [intelligenceService]);
 
-  const retryAnalysis = useCallback(async () => {
+  const retryAnalysis = useCallback(async () => {;
     if (!lastAnalysisParams) {
       logger.warn(
         '[useEnterpriseIntelligence] No previous analysis parameters available for retry',
@@ -393,7 +393,7 @@ export function useEnterpriseIntelligence(
     if (config.autoAnalyze && lastAnalysisParams && !state.isAnalyzing) {
       const interval = config.analysisInterval || 30000, // Default 30 seconds;
 
-      const timer = setInterval(() => {
+      const timer = setInterval(() => {;
         if (config.enableRealTimeUpdates) {
           retryAnalysis();
         }
@@ -412,9 +412,9 @@ export function useEnterpriseIntelligence(
 
   // Performance metrics update effect
   useEffect(() => {
-    const updateMetrics = () => {
+    const updateMetrics = () => {;
       const metrics = intelligenceService.getPerformanceMetrics();
-      setState(prev => ({
+      setState(prev => ({;
         ...prev;
         performanceMetrics: metrics
       }));
@@ -465,7 +465,7 @@ export function useEnterpriseIntelligenceHealth() {
       score: systemHealth.score,
       isHealthy,
       needsAttention,
-      criticalIssues: systemHealth.issues.filter(issue => issue.includes('critical')),,
+      criticalIssues: systemHealth.issues.filter(issue => issue.includes('critical')),,;
       warnings: systemHealth.warnings,
       lastChecked: state.lastAnalyzed,
       performanceIssues:
@@ -487,13 +487,13 @@ export function useEnterpriseIntelligenceRecommendations() {
     cacheResults: true
   });
 
-  const prioritizedRecommendations = useMemo(() => {
-    const allRecommendations = [
-      ...recommendations.recipe.map(r => ({ type: 'recipe', text: r, priority: 'medium' })),
-      ...recommendations.ingredient.map(r => ({ type: 'ingredient', text: r, priority: 'medium' })),
-      ...recommendations.validation.map(r => ({ type: 'validation', text: r, priority: 'high' })),,
-      ...recommendations.safety.map(r => ({ type: 'safety', text: r, priority: 'high' })),,
-      ...recommendations.optimization.map(r => ({
+  const prioritizedRecommendations = useMemo(() => {;
+    const allRecommendations = [;
+      ...recommendations.recipe.map(r => ({ type: 'recipe', text: r, priority: 'medium' })),;
+      ...recommendations.ingredient.map(r => ({ type: 'ingredient', text: r, priority: 'medium' })),;
+      ...recommendations.validation.map(r => ({ type: 'validation', text: r, priority: 'high' })),,;
+      ...recommendations.safety.map(r => ({ type: 'safety', text: r, priority: 'high' })),,;
+      ...recommendations.optimization.map(r => ({;
         type: 'optimization',
         text: r,
         priority: 'low'
@@ -512,7 +512,7 @@ export function useEnterpriseIntelligenceRecommendations() {
   return {
     recommendations: prioritizedRecommendations,
     hasRecommendations: prioritizedRecommendations.length > 0,
-    highPriorityCount: prioritizedRecommendations.filter(r => r.priority === 'high').length,,
+    highPriorityCount: prioritizedRecommendations.filter(r => r.priority === 'high').length,,;
     lastUpdated: state.lastAnalyzed
   };
 }

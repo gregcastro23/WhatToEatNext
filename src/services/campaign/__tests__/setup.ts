@@ -26,7 +26,7 @@ afterEach(() => {
 });
 
 // Global test utilities
-(global as unknown).testUtils = {
+(global as unknown).testUtils = {;
   gitMock: gitOperationsMock as unknown,
   scriptMock: scriptExecutionMock as unknown,
 
@@ -54,7 +54,7 @@ afterEach(() => {
   },
 
   // Helper to wait for async operations
-  waitForAsync: () => new Promise(resolve => setTimeout(resolve, 0)),
+  waitForAsync: () => new Promise(resolve => setTimeout(resolve, 0)),;
 
   // Helper to create mock progress metrics
   createMockProgressMetrics: (overrides: Record<string, unknown> = {}) => ({
@@ -133,7 +133,7 @@ declare global {
 
 // Console override for cleaner test output
 const originalConsole = console;
-global.console = {
+global.console = {;
   ...originalConsole,
   log: jest.fn() as unknown,
   warn: jest.fn() as unknown,

@@ -1,7 +1,7 @@
 import type { IngredientMapping } from '@/data/ingredients/types';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
-const rawLegumes = {
+const rawLegumes = {;
   black_beans: {
     name: 'Black Beans',
     description:

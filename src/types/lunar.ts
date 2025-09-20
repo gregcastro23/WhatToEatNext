@@ -40,7 +40,7 @@ export interface LunarPhaseModifier {
     Fire: number,
     Water: number,
     Earth: number,
-    Air: number,
+    Air: number
   };
   elementalBoost?: Record<string, number>;
   description: string,
@@ -56,7 +56,7 @@ export interface LunarInfluence {
     Fire: number,
     Water: number,
     Earth: number,
-    Air: number,
+    Air: number
   };
   description: string
 }

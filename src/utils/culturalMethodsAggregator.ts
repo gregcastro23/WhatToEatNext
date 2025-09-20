@@ -142,7 +142,7 @@ const TECHNIQUE_MAPPING: Record<string, string> = {
  * into a standardized structure
  */
 export function extractCulturalCookingMethods(): CulturalCookingMethod[] {
-  const cuisines = [
+  const cuisines = [;
     { data: thai, name: 'Thai' },
     { data: vietnamese, name: 'Vietnamese' },
     { data: italian, name: 'Italian' },
@@ -168,10 +168,10 @@ export function extractCulturalCookingMethods(): CulturalCookingMethod[] {
   const methodsByMainCategory: Record<string, CulturalCookingMethod[]> = {};
 
   // Extract cooking techniques from each cuisine
-  cuisines.forEach(cuisine => {
+  cuisines.forEach(cuisine => {;
     if (!cuisine.data.cookingTechniques) return;
 
-    cuisine.data.cookingTechniques.forEach(technique => {
+    cuisine.data.cookingTechniques.forEach(technique => {;
       // Generate a unique ID for each cooking method
       const methodName = technique.name.toLowerCase();
       const methodId = `${cuisine.name.toLowerCase()}_${methodName.replace(/\s+/g, '_')}`;
@@ -203,7 +203,7 @@ export function extractCulturalCookingMethods(): CulturalCookingMethod[] {
         methodVariationsMap[relatedMainMethod].add(culturalMethodKey);
       }
 
-      const culturalMethod: CulturalCookingMethod = {
+      const culturalMethod: CulturalCookingMethod = {;
         id: methodId,
         name: technique.name,
         description: technique.description,
@@ -233,12 +233,12 @@ export function extractCulturalCookingMethods(): CulturalCookingMethod[] {
   });
 
   // Add basic astrological influences for methods that don't have them
-  methods.forEach(method => {
+  methods.forEach(method => {;
     if (method.relatedToMainMethod && cookingMethods[method.relatedToMainMethod]) {
       // Inherit some properties from the main method
       const mainMethod = cookingMethods[method.relatedToMainMethod];
       if (mainMethod.astrologicalInfluences) {
-        method.astrologicalInfluences = {
+        method.astrologicalInfluences = {;
           ...method.astrologicalInfluences;
           favorableZodiac: mainMethod.astrologicalInfluences.favorableZodiac,
           unfavorableZodiac: mainMethod.astrologicalInfluences.unfavorableZodiac,

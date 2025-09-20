@@ -7,7 +7,7 @@ import { freshHerbs } from './freshHerbs';
 import { medicinalHerbs } from './medicinalHerbs';
 
 // Define cuisine types as string literals
-const CUISINE_TYPES = {
+const CUISINE_TYPES = {;
   ITALIAN: 'italian',
   THAI: 'thai',
   VIETNAMESE: 'vietnamese',
@@ -47,7 +47,7 @@ function generateHerbValues(elementalProps: Record<string, number>): Record<stri
   );
   const potency = Math.round(normalized[dominant] * 7 + Math.random() * 3);
   const flavor_complexity = Math.round(;
-    Object.keys(normalized).filter(k => normalized[k] > 0.15).length * 2 + Math.random() * 3,
+    Object.keys(normalized).filter(k => normalized[k] > 0.15).length * 2 + Math.random() * 3,;
   );
   const preservation_factor = Math.round(;
     normalized['Earth'] * 5 + normalized['Water'] * 3 + Math.random(),
@@ -71,7 +71,7 @@ function createIngredientMapping(
   properties: Partial<IngredientMapping>,
 ): IngredientMapping {
   // Default elemental properties if none provided
-  const elementalProps = properties.elementalProperties || {
+  const elementalProps = properties.elementalProperties || {;
     Earth: 0.25,
     Water: 0.25,
     Fire: 0.25,
@@ -317,7 +317,7 @@ export const herbs: Record<string, IngredientMapping> = fixIngredientMappings({
 export { freshHerbs, driedHerbs, aromaticHerbs, medicinalHerbs };
 
 // Create a comprehensive herb collection that includes all herb variants
-export const allHerbs = fixIngredientMappings({
+export const allHerbs = fixIngredientMappings({;
   ...freshHerbs;
   ...driedHerbs;
   ...aromaticHerbs;

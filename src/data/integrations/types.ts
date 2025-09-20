@@ -27,20 +27,20 @@ export interface FlavorProfile {
   elementalProperties: ElementalProperties,
   taste: string[],
   intensity: number,
-  pairings: string[],
+  pairings: string[]
 }
 
 export interface TextureProfile {
   elementalProperties: ElementalProperties,
   characteristics: string[],
   methods: string[],
-  pairings: string[],
+  pairings: string[]
 }
 
 export interface TemperatureRange {
   range: {
     min: number,
-    max: number,
+    max: number
   };
   elementalEffect: ElementalProperties
 }

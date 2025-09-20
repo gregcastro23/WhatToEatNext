@@ -25,7 +25,7 @@ export function formatToTitleCase(str: string): string {
   // Capitalize first letter of each word and trim extra spaces
   return withSpaces
     .split(' ')
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase());
     .join(' ')
     .trim();
 }

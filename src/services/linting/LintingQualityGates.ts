@@ -121,7 +121,7 @@ export class LintingQualityGates {
       // Calculate risk level
       const riskLevel = this.calculateRiskLevel(violations, metrics);
 
-      const result: QualityGateResult = {
+      const result: QualityGateResult = {;
         gateName: config.name;
         passed,
         timestamp: new Date(),
@@ -169,7 +169,7 @@ export class LintingQualityGates {
 
       const riskAssessment = this.assessRisk(gateResult);
 
-      const readiness: DeploymentReadiness = {
+      const readiness: DeploymentReadiness = {;
         ready: gateResult.deploymentApproved && blockers.length === 0,,;
         confidence,
         blockers,
@@ -217,7 +217,7 @@ export class LintingQualityGates {
       const readiness = await this.assessDeploymentReadiness();
       const gateResult = await this.evaluateQualityGates();
 
-      const report = {
+      const report = {;
         timestamp: new Date().toISOString(),
         deployment: {
           approved: readiness.ready,
@@ -345,7 +345,7 @@ export class LintingQualityGates {
       const parserErrors = await this.checkForParserErrors();
       if (parserErrors.length > 0) {
         violations.push(
-          ...parserErrors.map(error => ({
+          ...parserErrors.map(error => ({;
             type: 'blocker' as const,
             rule: 'parser-error',
             message: error.message,
@@ -364,7 +364,7 @@ export class LintingQualityGates {
   private determineGateStatus(config: QualityGateConfig, violations: QualityViolation[]): boolean {
     // Gates fail if there are any critical violations or blockers
     const criticalViolations = violations.filter(;
-      v => v.severity === 'critical' || v.type === 'blocker'
+      v => v.severity === 'critical' || v.type === 'blocker';
     ),
     return criticalViolations.length === 0;
   }
@@ -375,7 +375,7 @@ export class LintingQualityGates {
   ): string[] {
     const recommendations: string[] = [];
 
-    if (violations.some(v => v.type === 'error')) {
+    if (violations.some(v => v.type === 'error')) {;
       recommendations.push('Run automated error fixing tools to reduce error count');
     }
 
@@ -383,11 +383,11 @@ export class LintingQualityGates {
       recommendations.push(`${metrics.fixableIssues} issues can be auto-fixed with ESLint --fix`);
     }
 
-    if (violations.some(v => v.type === 'performance')) {
+    if (violations.some(v => v.type === 'performance')) {;
       recommendations.push('Consider optimizing linting performance with better caching');
     }
 
-    if (violations.some(v => v.type === 'blocker')) {
+    if (violations.some(v => v.type === 'blocker')) {;
       recommendations.push('Address critical blockers before attempting deployment');
     }
 
@@ -405,7 +405,7 @@ export class LintingQualityGates {
     // 3. No parser errors or other critical issues
 
     const criticalIssues = violations.filter(;
-      v => v.severity === 'critical' || v.type === 'blocker'
+      v => v.severity === 'critical' || v.type === 'blocker';
     ),
     const errorCountAcceptable = metrics.errors <= config.thresholds.maxErrors;
 
@@ -416,15 +416,15 @@ export class LintingQualityGates {
     violations: QualityViolation[],
     metrics: LintingMetrics,
   ): 'low' | 'medium' | 'high' | 'critical' {
-    if (violations.some(v => v.severity === 'critical' || v.type === 'blocker')) {
+    if (violations.some(v => v.severity === 'critical' || v.type === 'blocker')) {;
       return 'critical'
     }
 
-    if (metrics.errors > 50 || violations.filter(v => v.severity === 'high').length > 5) {
+    if (metrics.errors > 50 || violations.filter(v => v.severity === 'high').length > 5) {;
       return 'high'
     }
 
-    if (metrics.errors > 10 || violations.filter(v => v.severity === 'medium').length > 10) {
+    if (metrics.errors > 10 || violations.filter(v => v.severity === 'medium').length > 10) {;
       return 'medium'
     }
 
@@ -469,7 +469,7 @@ export class LintingQualityGates {
       mitigations.push('Run automated error fixing before deployment');
     }
 
-    if (gateResult.violations.some(v => v.type === 'blocker')) {
+    if (gateResult.violations.some(v => v.type === 'blocker')) {;
       factors.push('Critical blockers detected');
       mitigations.push('Resolve all blocker issues immediately');
     }
@@ -486,7 +486,7 @@ export class LintingQualityGates {
   > {
     try {
       // This would check for TypeScript parser errors
-      const result = execSync('yarn tsc --noEmit --skipLibCheck 2>&1 || true', {
+      const result = execSync('yarn tsc --noEmit --skipLibCheck 2>&1 || true', {;
         encoding: 'utf8'
       });
       const errors: Array<{ message: string, file?: string, line?: number }> = [];
@@ -551,15 +551,15 @@ export class LintingQualityGates {
   ): string[] {
     const recommendations: string[] = [];
 
-    if (trends.errorTrend === 'degrading') {
+    if (trends.errorTrend === 'degrading') {;
       recommendations.push('Error count is increasing - investigate recent changes');
     }
 
-    if (trends.performanceTrend === 'degrading') {
+    if (trends.performanceTrend === 'degrading') {;
       recommendations.push('Linting performance is degrading - optimize configuration');
     }
 
-    if (trends.qualityTrend === 'improving') {
+    if (trends.qualityTrend === 'improving') {;
       recommendations.push('Quality trend is positive - maintain current practices');
     }
 

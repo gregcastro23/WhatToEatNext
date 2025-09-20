@@ -37,7 +37,7 @@ export interface CampaignTemplate {
   phases: CampaignPhaseTemplate[],
   safetySettings: SafetySettings,
   prerequisites: string[],
-  expectedOutcomes: string[],
+  expectedOutcomes: string[]
 }
 
 export interface CampaignPhaseTemplate {
@@ -61,7 +61,7 @@ export interface ToolTemplate {
   description: string,
   parameters: Record<string, ParameterTemplate>;
   batchSize: number,
-  safetyLevel: 'LOW' | 'MEDIUM' | 'HIGH' | 'MAXIMUM',
+  safetyLevel: 'LOW' | 'MEDIUM' | 'HIGH' | 'MAXIMUM'
 }
 
 export interface ParameterTemplate {
@@ -106,7 +106,7 @@ export interface ValidationRule {
   field: string,
   rule: string,
   message: string,
-  severity: 'error' | 'warning' | 'info',
+  severity: 'error' | 'warning' | 'info'
 }
 
 export interface CampaignVersion {
@@ -127,7 +127,7 @@ export interface RollbackPlan {
   rollbackSteps: RollbackStep[],
   estimatedDuration: number,
   riskAssessment: string,
-  approvalRequired: boolean,
+  approvalRequired: boolean
 }
 
 export interface RollbackStep {
@@ -167,7 +167,7 @@ export class CampaignWorkflowManager {
     }
 
     const workflowId = `workflow_${Date.now()}`;
-    const workflow: CampaignWorkflow = {
+    const workflow: CampaignWorkflow = {;
       id: workflowId,
       name: workflowName,
       description: `Campaign workflow based on ${template.name}`,
@@ -190,7 +190,7 @@ export class CampaignWorkflowManager {
    */
   async createCustomWorkflow(workflowName: string, description: string): Promise<string> {
     const workflowId = `workflow_${Date.now()}`;
-    const workflow: CampaignWorkflow = {
+    const workflow: CampaignWorkflow = {;
       id: workflowId,
       name: workflowName,
       description,
@@ -316,14 +316,14 @@ export class CampaignWorkflowManager {
     const warnings: string[] = [];
 
     // Validate basic configuration
-    if (!workflow.config.phases || workflow.config.phases.length === 0) {
+    if (!workflow.config.phases || workflow.config.phases.length === 0) {;
       errors.push('At least one campaign phase is required');
     }
 
     // Validate phases
     if (workflow.config.phases) {
       for (const phase of workflow.config.phases) {
-        if (!phase.tools || phase.tools.length === 0) {
+        if (!phase.tools || phase.tools.length === 0) {;
           errors.push(`Phase ${phase.name} has no tools configured`);
         }
 
@@ -382,7 +382,7 @@ export class CampaignWorkflowManager {
       }
     }
 
-    const dryRunResult: DryRunResult = {
+    const dryRunResult: DryRunResult = {;
       wouldProcess,
       estimatedChanges,
       potentialIssues,
@@ -405,12 +405,12 @@ export class CampaignWorkflowManager {
     campaignId: string,
     config: CampaignConfig,
     description: string,
-    createdBy: string = 'system'
+    createdBy: string = 'system';
   ): Promise<string> {
     const versions = this.versions.get(campaignId) || [];
     const versionNumber = `v${versions.length + 1}.0`;
 
-    const version: CampaignVersion = {
+    const version: CampaignVersion = {;
       id: `${campaignId}_${versionNumber}`,
       campaignId,
       version: versionNumber,
@@ -871,12 +871,12 @@ export class CampaignWorkflowManager {
 
   private templateToConfig(template: CampaignTemplate): Partial<CampaignConfig> {
     const phases: CampaignPhase[] = template.phases.map(
-      phaseTemplate =>
+      phaseTemplate =>;
         ({
           id: phaseTemplate.id,
           name: phaseTemplate.name,
           description: phaseTemplate.description,
-          tools: phaseTemplate.tools.map(toolTemplate => ({
+          tools: phaseTemplate.tools.map(toolTemplate => ({;
             scriptPath: toolTemplate.scriptPath,
             parameters: Object.fromEntries(
               Object.entries(toolTemplate.parameters).map(([key, param]) => [
@@ -914,7 +914,7 @@ export class CampaignWorkflowManager {
     files: string[],
     changes: number,
     issues: string[],
-    safetyScore: number,
+    safetyScore: number
   }> {
     // Mock analysis - in real implementation, this would analyze the actual tool impact
     return {

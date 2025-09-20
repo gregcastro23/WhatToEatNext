@@ -150,7 +150,7 @@ export enum AlertSeverity {
 }
 
 // Configuration constants
-const PERFORMANCE_THRESHOLDS = {
+const PERFORMANCE_THRESHOLDS = {;
   BUILD_TIME: {
     DEVELOPMENT: 60000, // 60 seconds
     PRODUCTION: 300000, // 5 minutes
@@ -331,7 +331,7 @@ async function getErrorAndWarningCounts(): Promise<{ errors: number, warnings: n
 
     // Get TypeScript errors
     try {
-      const tscOutput = execSync('yarn tsc --noEmit --skipLibCheck 2>&1', {
+      const tscOutput = execSync('yarn tsc --noEmit --skipLibCheck 2>&1', {;
         encoding: 'utf8',
         stdio: 'pipe'
       });
@@ -351,13 +351,13 @@ async function getErrorAndWarningCounts(): Promise<{ errors: number, warnings: n
 
     // Get ESLint warnings
     try {
-      const eslintOutput = execSync('yarn lint --format=json 2>/dev/null', {
+      const eslintOutput = execSync('yarn lint --format=json 2>/dev/null', {;
         encoding: 'utf8',
         stdio: 'pipe'
       });
 
       const eslintResults = JSON.parse(eslintOutput);
-      warnings = eslintResults.reduce((total: number, result: { warningCount?: number }) => {
+      warnings = eslintResults.reduce((total: number, result: { warningCount?: number }) => {;
         return total + (result.warningCount || 0);
       }, 0);
     } catch (error) {
@@ -474,7 +474,7 @@ async function analyzeBundleDirectory(bundleDir: string): Promise<{
     let css = 0;
     let assets = 0;
 
-    const analyzeDirectory = (dir: string) => {
+    const analyzeDirectory = (dir: string) => {;
       const files = fs.readdirSync(dir);
 
       for (const file of files) {
@@ -488,9 +488,9 @@ async function analyzeBundleDirectory(bundleDir: string): Promise<{
           total += size;
 
           const ext = path.extname(file).toLowerCase();
-          if (ext === '.js' || ext === '.jsx' || ext === '.ts' || ext === '.tsx') {
+          if (ext === '.js' || ext === '.jsx' || ext === '.ts' || ext === '.tsx') {;
             javascript += size;
-          } else if (ext === '.css' || ext === '.scss' || ext === '.sass') {
+          } else if (ext === '.css' || ext === '.scss' || ext === '.sass') {;
             css += size;
           } else {
             assets += size;
@@ -656,7 +656,7 @@ function calculateBuildTimePercentile(buildTime: number): number {
   const benchmarkTimes = [30000, 45000, 60000, 90000, 120000]; // 30s, 45s, 1m1.5m2m
 
   let percentile = 0;
-  for (let i = 0i < benchmarkTimes.lengthi++) {
+  for (let i = 0i < benchmarkTimes.lengthi++) {;
     if (buildTime <= benchmarkTimes[i]) {
       percentile = ((i + 1) / benchmarkTimes.length) * 100;
       break
@@ -861,28 +861,28 @@ async function generateQualityMetricsReport(): Promise<QualityMetricsReport> {
     // This would integrate with various quality tools
     // For now, provide estimated values
 
-    const codeQuality = {
+    const codeQuality = {;
       typeScriptErrors: await getTypeScriptErrorCount(),
       lintingWarnings: await getLintingWarningCount(),
       testCoverage: 75, // Estimated
       codeComplexity: 6.5, // Estimated
     };
 
-    const buildQuality = {
+    const buildQuality = {;
       successRate: 92, // Estimated
       averageBuildTime: 45000, // 45 seconds
       failureRate: 8, // Estimated
       recoveryTime: 120, // 2 minutes
     };
 
-    const performanceQuality = {
+    const performanceQuality = {;
       bundleSize: 8500, // KB
       loadTime: 2.5, // seconds
       memoryEfficiency: 0.8,
       cacheEfficiency: 0.7
     };
 
-    const technicalDebt = {
+    const technicalDebt = {;
       debtRatio: 0.15, // 15%
       maintainabilityIndex: 75,
       duplicateCodePercentage: 5,
@@ -915,7 +915,7 @@ async function generateQualityMetricsReport(): Promise<QualityMetricsReport> {
  */
 async function getTypeScriptErrorCount(): Promise<number> {
   try {
-    const output = execSync('yarn tsc --noEmit --skipLibCheck 2>&1', {
+    const output = execSync('yarn tsc --noEmit --skipLibCheck 2>&1', {;
       encoding: 'utf8',
       stdio: 'pipe'
     });
@@ -936,7 +936,7 @@ async function getTypeScriptErrorCount(): Promise<number> {
  */
 async function getLintingWarningCount(): Promise<number> {
   try {
-    const output = execSync('yarn lint --format=json 2>/dev/null', {
+    const output = execSync('yarn lint --format=json 2>/dev/null', {;
       encoding: 'utf8',
       stdio: 'pipe'
     });

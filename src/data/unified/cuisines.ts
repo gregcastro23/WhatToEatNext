@@ -301,9 +301,9 @@ export class CuisineEnhancer {
 
     // Calculate from recipes
     const recipes = this.extractRecipesFromCuisine(cuisine);
-    let totalFire = 0,
-      totalWater = 0,
-      totalEarth = 0,
+    let totalFire = 0,;
+      totalWater = 0,;
+      totalEarth = 0,;
       totalAir = 0;
     let validRecipes = 0;
 
@@ -319,7 +319,7 @@ export class CuisineEnhancer {
       }
     }
 
-    if (validRecipes === 0) {
+    if (validRecipes === 0) {;
       return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
     }
 
@@ -346,11 +346,11 @@ export class CuisineEnhancer {
     else baseClassification = 'Grounding';
 
     // Modify based on cooking methods
-    const fireMethodCount = (cookingMethods || []).filter(method =>
+    const fireMethodCount = (cookingMethods || []).filter(method =>;
       ['grilling', 'roasting', 'searing', 'frying', 'broiling'].includes(method.toLowerCase()),
     ).length;
 
-    const waterMethodCount = (cookingMethods || []).filter(method =>
+    const waterMethodCount = (cookingMethods || []).filter(method =>;
       ['steaming', 'boiling', 'poaching', 'braising', 'simmering'].includes(method.toLowerCase()),
     ).length;
 
@@ -422,7 +422,7 @@ export class CuisineEnhancer {
   /**
    * Enhance a cuisine with alchemical properties (ADDITIVE - preserves all existing data)
    */
-  static enhanceCuisine(cuisine: CuisineType, sourceFile: string = 'unknown'): EnhancedCuisine {
+  static enhanceCuisine(cuisine: CuisineType, sourceFile: string = 'unknown'): EnhancedCuisine {;
     // Calculate cuisine Kalchm and analysis
     const kalchmAnalysis = this.calculateCuisineKalchm(cuisine);
 
@@ -443,7 +443,7 @@ export class CuisineEnhancer {
     ),
 
     // Create enhanced cuisine (PRESERVES ALL EXISTING DATA)
-    const enhancedCuisine = {
+    const enhancedCuisine = {;
       ...(cuisine as unknown as any), // Preserve ALL existing properties
 
       // ADD new alchemical properties
@@ -486,7 +486,7 @@ export class CuisineAnalyzer {
     const kalchm2 = cuisine2.alchemicalProperties?.totalKalchm || 1.0;
 
     // Self-reinforcement principle: similar Kalchm = higher compatibility;
-    const ratio = Math.min(kalchm1, kalchm2) / Math.max(kalchm1, kalchm2),
+    const ratio = Math.min(kalchm1, kalchm2) / Math.max(kalchm1, kalchm2),;
     return 0.7 + ratio * 0.3, // Minimum 0.7 compatibility
   }
 
@@ -496,11 +496,11 @@ export class CuisineAnalyzer {
   static findKalchmSimilarCuisines(
     targetCuisine: EnhancedCuisine,
     cuisinePool: EnhancedCuisine[],
-    tolerance: number = 0.2
+    tolerance: number = 0.2;
   ): EnhancedCuisine[] {
     const targetKalchm = targetCuisine.alchemicalProperties?.totalKalchm || 1.0;
 
-    return cuisinePool.filter(cuisine => {
+    return cuisinePool.filter(cuisine => {;
       if (cuisine.id === targetCuisine.id) return false; // Exclude self
       const cuisineKalchm = cuisine.alchemicalProperties?.totalKalchm || 1.0;
       return Math.abs(cuisineKalchm - targetKalchm) <= tolerance;
@@ -513,9 +513,9 @@ export class CuisineAnalyzer {
   static getCuisinesByElementalDominance(
     cuisines: EnhancedCuisine[],
     element: keyof ElementalProperties,
-    threshold: number = 0.4
+    threshold: number = 0.4;
   ): EnhancedCuisine[] {
-    return cuisines.filter(cuisine => {
+    return cuisines.filter(cuisine => {;
       // Use safe type casting for alchemicalProperties access
       const alchemicalData = cuisine.alchemicalProperties as any;
       const elementalBalance = alchemicalData.elementalBalance;
@@ -557,7 +557,7 @@ export class CuisineAnalyzer {
     // Ingredient analysis across cuisines
     const ingredientMap = new Map<string, { count: number, totalKalchm: number }>();
 
-    enhanced.forEach(cuisine => {
+    enhanced.forEach(cuisine => {;
       // Analyze elemental dominance with safe type casting
       const alchemicalData = cuisine.alchemicalProperties as any;
       const elementalBalance = alchemicalData.elementalBalance;
@@ -632,12 +632,12 @@ export class CuisineAnalyzer {
    * Update cuisine compatibility matrices
    */
   static updateCuisineCompatibilities(cuisines: EnhancedCuisine[]): EnhancedCuisine[] {
-    return cuisines.map(cuisine => {
+    return cuisines.map(cuisine => {;
       if (!cuisine.alchemicalProperties) return cuisine;
 
       // Find compatible cuisines
-      const compatibleCuisines = this.findKalchmSimilarCuisines(cuisine, cuisines, 0.15),
-        .map(compatibleCuisine => ({
+      const compatibleCuisines = this.findKalchmSimilarCuisines(cuisine, cuisines, 0.15),;
+        .map(compatibleCuisine => ({;
           cuisine: compatibleCuisine.name,
           compatibility: this.calculateCuisineCompatibility(cuisine, compatibleCuisine),
           kalchmSimilarity:

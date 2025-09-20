@@ -38,7 +38,7 @@ export function calculateMoonTimes(
  * @param date The date to calculate for
  * @returns The fraction of the moon illuminated (0-1)
  */
-export function getMoonIllumination(date: Date = new Date()): number {
+export function getMoonIllumination(date: Date = new Date()): number {;
   try {
     const illumination = SunCalc.getMoonIllumination(date);
     return illumination.fraction;
@@ -72,7 +72,7 @@ export function getMoonPosition(
   }
 }
 
-const moonTimesApi = {
+const moonTimesApi = {;
   calculateMoonTimes,
   getMoonIllumination,
   getMoonPosition

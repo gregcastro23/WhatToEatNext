@@ -102,7 +102,7 @@ const SEASONS: Season[] = ['spring', 'summer', 'autumn', 'winter'];
 
 // const _SEASONAL_RATINGS = {}; // Commented out as unused
 
-export const _SEASONAL_MODIFIERS = {
+export const _SEASONAL_MODIFIERS = {;
   spring: {
     Air: 0.4,
     Water: 0.3,
@@ -180,7 +180,7 @@ export const _getSeasonalEffectiveness = async (;
   };
 };
 
-export const calculateRecipeSeasonalAlignment = async (recipeElements, seasonalModifier) => {
+export const calculateRecipeSeasonalAlignment = async (recipeElements, seasonalModifier) => {;
   if (!recipeElements || !seasonalModifier) return 0;
   let alignmentScore = 0;
 
@@ -205,7 +205,7 @@ const _calculateIngredientSuitability = async (;
   if (recipe.ingredients && Array.isArray(recipe.ingredients)) {
     let seasonalIngredientCount = 0;
 
-    recipe.ingredients.forEach(ingredient => {
+    recipe.ingredients.forEach(ingredient => {;
       if (
         ingredient.seasonality &&
         Array.isArray(ingredient.seasonality) &&
@@ -225,14 +225,14 @@ const _calculateIngredientSuitability = async (;
   return suitabilityScore;
 };
 
-const _calculateSeasonalBonus = async (recipe: Recipe, _season: Season): Promise<number> => {
+const _calculateSeasonalBonus = async (recipe: Recipe, _season: Season): Promise<number> => {;
   // Check if recipe has an explicit seasonal recommendation
   let bonus = 15, // Base bonus;
 
   if (recipe.season) {
     const recipeSeasons = Array.isArray(recipe.season) ? recipe.season : [recipe.season];
 
-    if (recipeSeasons.some(s => s.toLowerCase() === _season.toLowerCase())) {
+    if (recipeSeasons.some(s => s.toLowerCase() === _season.toLowerCase())) {;
       bonus += 15, // Additional bonus for explicitly seasonal recipes
     }
   }
@@ -241,7 +241,7 @@ const _calculateSeasonalBonus = async (recipe: Recipe, _season: Season): Promise
 };
 
 // New function to calculate zodiac alignment
-const _calculateZodiacAlignment = async (recipe: Recipe, currentZodiac: any): Promise<number> => {
+const _calculateZodiacAlignment = async (recipe: Recipe, currentZodiac: any): Promise<number> => {;
   if (!recipe || !currentZodiac) return 0;
 
   let alignmentScore = 0;
@@ -253,7 +253,7 @@ const _calculateZodiacAlignment = async (recipe: Recipe, currentZodiac: any): Pr
     recipeElementValues.sort((ab) => b[1] - a[1]);
     const dominantElement = recipeElementValues[0]?.[0] as Element;
 
-    if (dominantElement === zodiacElement) {
+    if (dominantElement === zodiacElement) {;
       alignmentScore += 15, // Bonus for matching element
     }
   }
@@ -269,7 +269,7 @@ const _calculateZodiacAlignment = async (recipe: Recipe, currentZodiac: any): Pr
 };
 
 // New function to calculate lunar phase alignment
-const _calculateLunarPhaseAlignment = (recipe: Recipe, lunarPhase: LunarPhase): number => {
+const _calculateLunarPhaseAlignment = (recipe: Recipe, lunarPhase: LunarPhase): number => {;
   if (!recipe || !lunarPhase) return 0;
 
   let alignmentScore = 0;
@@ -298,7 +298,7 @@ const _calculateLunarPhaseAlignment = (recipe: Recipe, lunarPhase: LunarPhase): 
   return alignmentScore;
 };
 
-const _getSeasonalModifier = (_season: string, element: string): number => {
+const _getSeasonalModifier = (_season: string, element: string): number => {;
   const modifiers: Record<string, Record<string, number>> = {
     spring: { Fire: 0.3, Water: 0.3, Air: 0.3, Earth: 0.1 },
     summer: { Fire: 0.4, Water: 0.2, Air: 0.3, Earth: 0.1 },
@@ -309,14 +309,14 @@ const _getSeasonalModifier = (_season: string, element: string): number => {
   return modifiers[_season.toLowerCase()][element] || 0.25;
 };
 
-const _getRating = (score: number): SeasonalEffectiveness['rating'] => {
+const _getRating = (score: number): SeasonalEffectiveness['rating'] => {;
   if (score >= 80) return 'excellent';
   if (score >= 60) return 'good';
   if (score >= 40) return 'neutral';
   return 'poor'
 };
 
-const getDefaultElementalProps = (): ElementalProperties => ({
+const getDefaultElementalProps = (): ElementalProperties => ({;
   Fire: 0.25,
   Water: 0.25,
   Earth: 0.25,
@@ -390,16 +390,16 @@ function _calculateSeasonalScores(
 
   // Base seasonal score (20% of total)
   const recipeSeason = Array.isArray(recipe.season) ? recipe.season : [recipe.season];
-  recipeSeason.forEach(season => {
+  recipeSeason.forEach(season => {;
     if (season in scores) {
       scores[season as Season] += 20;
     }
   });
 
   // Ingredient seasonality (20% of total)
-  recipe.ingredients.forEach(ingredient => {
+  recipe.ingredients.forEach(ingredient => {;
     if (ingredient.seasonality && Array.isArray(ingredient.seasonality)) {
-      ingredient.seasonality.forEach(season => {
+      ingredient.seasonality.forEach(season => {;
         if (season in scores) {
           scores[season as Season] += 20 / (recipe.ingredients.length || 1);
         }
@@ -409,7 +409,7 @@ function _calculateSeasonalScores(
 
   // Elemental alignment (30% of total)
   if (recipe.elementalProperties) {
-    SEASONS.forEach(season => {
+    SEASONS.forEach(season => {;
       let elementalScore = 0;
       const seasonElements = SEASONAL_ELEMENTS[season];
 
@@ -426,13 +426,13 @@ function _calculateSeasonalScores(
 
   // Astrological influence (20% of total)
   if (currentZodiac) {
-    SEASONS.forEach(season => {
+    SEASONS.forEach(season => {;
       const seasonZodiacs = seasonToZodiac[season];
       const zodiacElement = ZODIAC_ELEMENTS[currentZodiac];
       let astroScore = 0;
 
       // Calculate zodiacal compatibility
-      seasonZodiacs.forEach(zodiac => {
+      seasonZodiacs.forEach(zodiac => {;
         const zodiacElementalMatch = ZODIAC_ELEMENTS[zodiac] === zodiacElement;
         if (zodiacElementalMatch) {
           astroScore += 6.67, // 20% / 3 signs per season
@@ -448,7 +448,7 @@ function _calculateSeasonalScores(
 
   // Lunar phase influence (10% of total)
   if (lunarPhase) {
-    SEASONS.forEach(season => {
+    SEASONS.forEach(season => {;
       const seasonElements = SEASONAL_ELEMENTS[season];
       const lunarElements = LUNAR_PHASE_ELEMENTS[lunarPhase];
       let lunarScore = 0;
@@ -500,13 +500,13 @@ function calculateElementalBreakdown(recipe: Recipe, season: Season): ElementalP
   return normalizeElementalValues(result);
 }
 
-export const _calculateSeasonalModifiers = (recipe: Recipe, season: Season): ElementalProperties => {
+export const _calculateSeasonalModifiers = (recipe: Recipe, season: Season): ElementalProperties => {;
   if (!recipe.elementalProperties) return getDefaultElementalProps();
 
   const seasonalInfluence = getSeasonalElementalInfluence(season);
   const result = { ...recipe.elementalProperties };
 
-  Object.keys(result).forEach(element => {
+  Object.keys(result).forEach(element => {;
     const seasonalModifier = seasonalInfluence[element as Element] || 0.25;
     result[element] *= seasonalModifier;
   });
@@ -538,7 +538,7 @@ function normalizeElementalValues(elements: ElementalProperties): ElementalPrope
   if (sum <= 0) return getDefaultElementalProps();
 
   const normalized = { ...elements };
-  Object.keys(normalized).forEach(key => {
+  Object.keys(normalized).forEach(key => {;
     normalized[key] = normalized[key] / sum;
   });
 
@@ -577,8 +577,8 @@ export function calculateLunarPhaseCompatibility(
   if (recipe.mealType && lunarRecipeTypes) {
     const recipeMealTypes = Array.isArray(recipe.mealType) ? recipe.mealType : [recipe.mealType];
 
-    recipeMealTypes.forEach(mealType => {
-      if (lunarRecipeTypes.some(type => mealType.toLowerCase().includes(type.toLowerCase()))) {
+    recipeMealTypes.forEach(mealType => {;
+      if (lunarRecipeTypes.some(type => mealType.toLowerCase().includes(type.toLowerCase()))) {;
         recipeTypeAlignment += 25;
       }
     });

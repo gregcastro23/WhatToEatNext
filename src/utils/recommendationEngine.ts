@@ -94,7 +94,7 @@ function calculateWeekdayScore(recipe: Recipe, day: WeekDay): number {
 
 // Calculate meal type appropriateness
 function calculateMealTypeScore(recipe: Recipe, mealType: MealType): number {
-  if (recipe.mealType === mealType || recipe.mealType === 'Anytime') {
+  if (recipe.mealType === mealType || recipe.mealType === 'Anytime') {;
     return 1
   }
   // Some meal types can work for others
@@ -124,7 +124,7 @@ function calculateZodiacScore(recipe: Recipe, sunSign: any): number {
   const signAffinity = zodiacAffinities[sunSign];
   if (signAffinity && recipe.name) {
     const recipeName = recipe.name.toLowerCase();
-    if (signAffinity.some(affinity => recipeName.includes(affinity.toLowerCase()))) {
+    if (signAffinity.some(affinity => recipeName.includes(affinity.toLowerCase()))) {;
       return 1
     }
   }
@@ -191,7 +191,7 @@ export function getRecommendedRecipes(
   timeFactors: TimeFactors = getTimeFactors(),;
 ): Recipe[] {
   // Score all recipes
-  const scoredRecipes = recipes.map(recipe => ({
+  const scoredRecipes = recipes.map(recipe => ({;
     recipe,
     score: calculateRecommendationScore(recipe, astrologicalState, timeFactors)
   }));
@@ -280,7 +280,7 @@ export function explainRecommendation(
     }
   }
 
-  if (reasons.length === 0) {
+  if (reasons.length === 0) {;
     return 'This recipe was selected based on a combination of factors including the current time, astrological influences, and seasonal considerations.'
   }
 

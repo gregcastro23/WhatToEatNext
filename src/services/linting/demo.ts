@@ -13,7 +13,7 @@ import { CategorizedErrors, LintingErrorAnalyzer, LintingIssue } from './Linting
 import { ResolutionStrategyGenerator } from './ResolutionStrategyGenerator';
 
 // Mock ESLint output for demonstration
-const _mockESLintOutput = [
+const _mockESLintOutput = [;
   {
     filePath: '/project/src/App.tsx',
     messages: [
@@ -91,7 +91,7 @@ function demonstrateErrorClassification() {
   const classifier = new ErrorClassificationSystem();
 
   // Classify different types of errors
-  const testCases = [
+  const testCases = [;
     {
       rule: 'import/order',
       message: 'Import order incorrect',
@@ -118,7 +118,7 @@ function demonstrateErrorClassification() {
     }
   ];
 
-  testCases.forEach(testCase => {
+  testCases.forEach(testCase => {;
     const classification = classifier.classifyError(;
       testCase.rule;
       testCase.message;
@@ -152,7 +152,7 @@ async function demonstrateDomainContextDetection() {
 
   const detector = new DomainContextDetector('/project');
 
-  const testFiles = [
+  const testFiles = [;
     'src/App.tsx';
     'src/calculations/astrology.ts';
     'src/services/campaign/CampaignController.ts';
@@ -164,7 +164,7 @@ async function demonstrateDomainContextDetection() {
   for (const file of testFiles) {
     try {
       // Mock file analysis since we don't have actual files
-      const mockAnalysis = {
+      const mockAnalysis = {;
         filePath: file,
         domainContext: {
           type:
@@ -284,7 +284,7 @@ function demonstrateCompleteWorkflow() {
   log.info('============================================');
 
   // Simulate categorized errors from the mock data
-  const mockCategorizedErrors: CategorizedErrors = {
+  const mockCategorizedErrors: CategorizedErrors = {;
     total: 7,
     errors: 1,
     warnings: 6,
@@ -363,7 +363,7 @@ function demonstrateCompleteWorkflow() {
   const allIssues = Object.values(mockCategorizedErrors.byCategory).flat();
   mockCategorizedErrors.autoFixable = allIssues.filter(i => i.autoFixable);
   mockCategorizedErrors.requiresManualReview = allIssues.filter(;
-    i => i.resolutionStrategy.type === 'manual-review'
+    i => i.resolutionStrategy.type === 'manual-review';
   );
 
   // Group by priority and file
@@ -447,7 +447,7 @@ async function runDemonstration() {
 }
 
 // Run the demonstration if this file is executed directly
-if (require.main === module) {
+if (require.main === module) {;
   void runDemonstration()
 }
 

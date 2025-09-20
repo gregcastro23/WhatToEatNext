@@ -159,7 +159,7 @@ export interface AstrologicalData {
   dignity: Record<Planet, number>;
   houses?: Record<string, number>;
   source: 'astrologize' | 'swiss_ephemeris' | 'fallback',
-  confidence: number,
+  confidence: number
 }
 
 // ==================== SCORING MODULES ====================;
@@ -224,7 +224,7 @@ export function calculateTarotEffect(
   const itemType = _context.item.type;
 
   // Different item types have different tarot affinities
-  const tarotAffinities = {
+  const tarotAffinities = {;
     ingredient: 0.05,
     recipe: 0.1,
     cuisine: 0.15,
@@ -242,7 +242,7 @@ export function calculateSeasonalEffect(
   context: ScoringContext,
 ): number {
   const month = context.dateTime.getMonth();
-  const season = [
+  const season = [;
     'winter',
     'winter',
     'spring',
@@ -479,7 +479,7 @@ export function calculateThermodynamicEffect(
   let score = 0;
 
   // High energy states favor active cooking methods and bold flavors
-  if (context.item.type === 'cooking_method') {
+  if (context.item.type === 'cooking_method') {;
     if (
       thermo.heat > 0.7 &&
       (context.item.name.includes('grill') || context.item.name.includes('sear'))
@@ -497,7 +497,7 @@ export function calculateThermodynamicEffect(
     (context.item.type === 'recipe' || context.item.type === 'ingredient');
   ) {
     const complexity = context.preferences?.complexityPreference;
-    if (complexity === 'complex') {
+    if (complexity === 'complex') {;
       score += 0.1;
     }
   }
@@ -562,7 +562,7 @@ export function calculateRetrogradeEffect(
       score -= 0.1;
 
       // Exception: Mercury retrograde can favor traditional methods
-      if (planet === 'Mercury' && context.item.type === 'cooking_method') {
+      if (planet === 'Mercury' && context.item.type === 'cooking_method') {;
         score += 0.05, // Partial compensation
       }
     }
@@ -596,7 +596,7 @@ export class UnifiedScoringService {
       const astroData = await this.gatherAstrologicalData(context);
 
       // 2. Calculate each effect using modular functions
-      const breakdown: ScoringBreakdown = {
+      const breakdown: ScoringBreakdown = {;
         base: 0.5, // Neutral base score
         transitEffect: calculateTransitEffect(astroData, context),
         dignityEffect: calculateDignityEffect(astroData, context),
@@ -615,7 +615,7 @@ export class UnifiedScoringService {
       // 3. Apply custom weights if provided
       if (context.options?.weights) {
         for (const [key, weight] of Object.entries(context.options.weights)) {
-          if (key in breakdown && typeof weight === 'number') {
+          if (key in breakdown && typeof weight === 'number') {;
             breakdown[key] *= weight;
           }
         }
@@ -632,7 +632,7 @@ export class UnifiedScoringService {
       const dominantEffects = this.identifyDominantEffects(breakdown);
       const warnings = this.generateWarnings(breakdown, astroData, context);
 
-      const result: ScoringResult = {
+      const result: ScoringResult = {;
         score: finalScore,
         confidence,
         breakdown,
@@ -713,7 +713,7 @@ export class UnifiedScoringService {
     context: ScoringContext,
   ): Promise<Partial<AstrologicalData> | null> {
     try {
-      const response = await fetch('/api/astrologize', {
+      const response = await fetch('/api/astrologize', {;
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -747,7 +747,7 @@ export class UnifiedScoringService {
   ): Promise<Partial<AstrologicalData>> {
     return {
       planetaryPositions: context.planetaryPositions || ({} as Record<Planet, PlanetaryPosition>),
-      aspects: (context.aspects || []).map(aspect => ({
+      aspects: (context.aspects || []).map(aspect => ({;
         ...aspect;
         strength: 0.5, // Default strength for fallback data
       })),
@@ -790,7 +790,7 @@ export class UnifiedScoringService {
    */
   private aggregateScore(breakdown: ScoringBreakdown): number {
     // Default weights for each effect
-    const weights = {
+    const weights = {;
       base: 1.0,
       transitEffect: 0.8,
       dignityEffect: 0.7,
@@ -906,6 +906,6 @@ export class UnifiedScoringService {
 }
 
 // Export convenience function
-export const scoreRecommendation = (context: ScoringContext): Promise<ScoringResult> => {
+export const scoreRecommendation = (context: ScoringContext): Promise<ScoringResult> => {;
   return UnifiedScoringService.getInstance().scoreRecommendation(context);
 };

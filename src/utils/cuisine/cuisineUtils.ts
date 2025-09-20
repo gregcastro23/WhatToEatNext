@@ -40,7 +40,7 @@ export function getIngredientsForCuisine(
     oil: [],
     vinegar: [],
     seasoning: [],
-    dairy: [],
+    dairy: []
   };
 
   // Process each matrix to find ingredients that pAir with this cuisine

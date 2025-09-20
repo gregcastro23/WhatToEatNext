@@ -23,7 +23,7 @@ describe('EnhancedErrorFixerIntegration', () => {
 
   describe('buildFixerArguments', () => {
     it('should build correct arguments for basic options', () => {
-      const options: FixerOptions = { maxFiles: 15,,
+      const options: FixerOptions = { maxFiles: 15,,;
         autoFix: true,
         validateSafety: true
       };
@@ -40,7 +40,7 @@ describe('EnhancedErrorFixerIntegration', () => {
     });
 
     it('should build correct arguments for dry run', () => {
-      const options: FixerOptions = { dryRun: true,,
+      const options: FixerOptions = { dryRun: true,,;
         silent: true,
         json: true
       };
@@ -163,11 +163,11 @@ describe('EnhancedErrorFixerIntegration', () => {
   describe('executeEnhancedFixer', () => {
     it('should execute fixer with correct options', async () => {
       // Mock spawn to simulate successful execution
-      const mockChild = {
+      const mockChild = {;
         stdout: { on: jest.fn() },
         stderr: { on: jest.fn() },
         on: jest.fn((event: any, callback: any) => {
-          if (event === 'close') {
+          if (event === 'close') {;
             callback(0), // Success exit code
           }
         })
@@ -176,7 +176,7 @@ describe('EnhancedErrorFixerIntegration', () => {
       mockSpawn.mockReturnValue(mockChild as any<typeof spawn>);
       mockExecSync.mockReturnValue('Build successful'); // Mock build validation
 
-      const options: FixerOptions = { maxFiles: 10,,
+      const options: FixerOptions = { maxFiles: 10,,;
         autoFix: true,
         validateSafety: true
       };
@@ -187,7 +187,7 @@ describe('EnhancedErrorFixerIntegration', () => {
         'node',
         [
           'scripts/typescript-fixes/fix-typescript-errors-enhanced-v3.js';
-          '--max-files=10',,
+          '--max-files=10',,;
           '--auto-fix',
           '--validate-safety'
         ],
@@ -202,11 +202,11 @@ describe('EnhancedErrorFixerIntegration', () => {
   describe('executeBatchProcessing', () => {
     it('should process multiple batches correctly', async () => {
       // Mock successful executions
-      const mockChild = {
+      const mockChild = {;
         stdout: { on: jest.fn() },
         stderr: { on: jest.fn() },
         on: jest.fn((event: any, callback: any) => {
-          if (event === 'close') {
+          if (event === 'close') {;
             callback(0);
           }
         })
@@ -221,7 +221,7 @@ describe('EnhancedErrorFixerIntegration', () => {
         .mockReturnValueOnce('Build successful') // Third build validation
         .mockReturnValueOnce('0\n'); // Final error count (no more errors)
 
-      const options: BatchProcessingOptions = { batchSize: 15,,
+      const options: BatchProcessingOptions = { batchSize: 15,,;
         buildValidationInterval: 5,
         maxBatches: 3,
         stopOnBuildFailure: true
@@ -235,11 +235,11 @@ describe('EnhancedErrorFixerIntegration', () => {
 
     it('should stop on build failure when configured', async () => {
       // Mock failed build
-      const mockChild = {
+      const mockChild = {;
         stdout: { on: jest.fn() },
         stderr: { on: jest.fn() },
         on: jest.fn((event: any, callback: any) => {
-          if (event === 'close') {
+          if (event === 'close') {;
             callback(0);
           }
         })
@@ -252,7 +252,7 @@ describe('EnhancedErrorFixerIntegration', () => {
         }) // Build validation fails
         .mockReturnValue('50\n'); // Error count
 
-      const options: BatchProcessingOptions = { batchSize: 10,,
+      const options: BatchProcessingOptions = { batchSize: 10,,;
         buildValidationInterval: 5,
         maxBatches: 5,
         stopOnBuildFailure: true
@@ -268,11 +268,11 @@ describe('EnhancedErrorFixerIntegration', () => {
 
   describe('validateSafety', () => {
     it('should return safety validation results', async () => {
-      const mockChild = {
+      const mockChild = {;
         stdout: { on: jest.fn() },
         stderr: { on: jest.fn() },
         on: jest.fn((event: any, callback: any) => {
-          if (event === 'close') {
+          if (event === 'close') {;
             callback(0);
           }
         })
@@ -292,11 +292,11 @@ describe('EnhancedErrorFixerIntegration', () => {
   describe('executeWithSafetyProtocols', () => {
     it('should execute with safety protocols', async () => {
       // Mock safety validation success
-      const mockChild = {
+      const mockChild = {;
         stdout: { on: jest.fn() },
         stderr: { on: jest.fn() },
         on: jest.fn((event: any, callback: any) => {
-          if (event === 'close') {
+          if (event === 'close') {;
             callback(0);
           }
         })
@@ -313,11 +313,11 @@ describe('EnhancedErrorFixerIntegration', () => {
 
     it('should use conservative settings when safety validation fails', async () => {
       // Mock safety validation failure
-      const mockChild = {
+      const mockChild = {;
         stdout: { on: jest.fn() },
         stderr: { on: jest.fn() },
         on: jest.fn((event: any, callback: any) => {
-          if (event === 'close') {
+          if (event === 'close') {;
             callback(1), // Failure exit code
           }
         })

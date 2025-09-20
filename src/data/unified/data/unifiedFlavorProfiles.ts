@@ -6,7 +6,7 @@ export interface UnifiedFlavorProfile {
   elementalProperties: ElementalProperties,
   description: string,
   commonIngredients: string[],
-  cuisineAssociations: string[],
+  cuisineAssociations: string[]
 }
 
 export const unifiedFlavorProfiles: UnifiedFlavorProfile[] = [

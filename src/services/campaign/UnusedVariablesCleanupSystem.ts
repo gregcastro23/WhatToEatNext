@@ -60,7 +60,7 @@ export class UnusedVariablesCleanupSystem {
     ),
     this.metricsFile = path.join(process.cwd(), '.unused-variables-cleanup-metrics.json'),;
 
-    this.config = {
+    this.config = {;
       maxFiles: 20,
       autoFix: false,
       dryRun: true,
@@ -76,7 +76,7 @@ export class UnusedVariablesCleanupSystem {
    * Execute unused variables cleanup with safety protocols
    */
   async executeCleanup(): Promise<UnusedVariablesResult> {
-    // // console.log('🧹 Starting Unused Variables Cleanup System...');
+    // // // console.log('🧹 Starting Unused Variables Cleanup System...');
 
     try {
       // Pre-execution validation
@@ -119,9 +119,9 @@ export class UnusedVariablesCleanupSystem {
    * Execute batch processing for large-scale cleanup
    */
   async executeBatchProcessing(totalFiles?: number): Promise<BatchProcessingResult> {
-    // // console.log('⚡ Starting batch processing for unused variables cleanup...');
+    // // // console.log('⚡ Starting batch processing for unused variables cleanup...');
 
-    const batchResult: BatchProcessingResult = {
+    const batchResult: BatchProcessingResult = {;
       totalBatches: 0,
       successfulBatches: 0,
       failedBatches: 0,
@@ -138,7 +138,7 @@ export class UnusedVariablesCleanupSystem {
       const batchCount = Math.ceil(estimatedFiles / this.config.batchSize);
       batchResult.totalBatches = batchCount;
 
-      // // console.log(
+      // // // console.log(
         `📊 Processing ${estimatedFiles} files in ${batchCount} batches of ${this.config.batchSize} files each`,
       );
 
@@ -146,11 +146,11 @@ export class UnusedVariablesCleanupSystem {
       const safetyScores: number[] = [];
 
       // Process each batch
-      for (let i = 0i < batchCount, i++) {
-        // // console.log(`\n🔄 Processing batch ${i + 1}/${batchCount}...`);
+      for (let i = 0i < batchCount, i++) {;
+        // // // console.log(`\n🔄 Processing batch ${i + 1}/${batchCount}...`);
 
         try {
-          const batchConfig = {
+          const batchConfig = {;
             ...this.config;
             maxFiles: this.config.batchSize
           };
@@ -172,7 +172,7 @@ export class UnusedVariablesCleanupSystem {
 
           // Safety pause between batches
           if (i < batchCount - 1) {
-            // // console.log('⏸️ Pausing 2 seconds between batches for safety...');
+            // // // console.log('⏸️ Pausing 2 seconds between batches for safety...');
             await this.sleep(2000);
           }
         } catch (error) {
@@ -192,7 +192,7 @@ export class UnusedVariablesCleanupSystem {
           safetyScores.reduce((ab) => a + b0) / safetyScores.length,;
       }
 
-      // // console.log(
+      // // // console.log(
         `\n✅ Batch processing completed: ${batchResult.successfulBatches}/${batchResult.totalBatches} batches successful`,
       );
 
@@ -243,7 +243,7 @@ export class UnusedVariablesCleanupSystem {
       const stashName = `unused-variables-cleanup-${timestamp}`;
 
       execSync(`git stash push -m '${stashName}'`, { encoding: 'utf-8' });
-      // // console.log(`📦 Created safety stash: ${stashName}`);
+      // // // console.log(`📦 Created safety stash: ${stashName}`);
 
       return stashName;
     } catch (error) {
@@ -256,7 +256,7 @@ export class UnusedVariablesCleanupSystem {
    * Execute the unused variables script
    */
   private async executeScript(): Promise<UnusedVariablesResult> {
-    const result: UnusedVariablesResult = {
+    const result: UnusedVariablesResult = {;
       success: false,
       filesProcessed: 0,
       variablesRemoved: 0,
@@ -286,10 +286,10 @@ export class UnusedVariablesCleanupSystem {
       }
 
       const command = `node ${this.scriptPath} ${args.join(' ')}`;
-      // // console.log(`🔧 Executing: ${command}`);
+      // // // console.log(`🔧 Executing: ${command}`);
 
       const startTime = Date.now();
-      const output = execSync(command, {
+      const output = execSync(command, {;
         encoding: 'utf-8',
         maxBuffer: 1024 * 1024 * 10, // 10MB buffer
       });
@@ -331,7 +331,7 @@ export class UnusedVariablesCleanupSystem {
         }
       }
 
-      // // console.log(`✅ Script execution completed in ${result.buildTime}ms`);
+      // // // console.log(`✅ Script execution completed in ${result.buildTime}ms`);
 
       return result;
     } catch (error) {
@@ -347,7 +347,7 @@ export class UnusedVariablesCleanupSystem {
    */
   private async validateBuild(): Promise<boolean> {
     try {
-      // // console.log('🔍 Validating build after cleanup...');
+      // // // console.log('🔍 Validating build after cleanup...');
 
       const startTime = Date.now();
       execSync('yarn build', {
@@ -356,7 +356,7 @@ export class UnusedVariablesCleanupSystem {
       });
       const buildTime = Date.now() - startTime;
 
-      // // console.log(`✅ Build validation successful (${buildTime}ms)`);
+      // // // console.log(`✅ Build validation successful (${buildTime}ms)`);
       return true;
     } catch (error) {
       console.error('❌ Build validation failed:', error),
@@ -369,9 +369,9 @@ export class UnusedVariablesCleanupSystem {
    */
   private async rollbackFromStash(stashName: string): Promise<void> {
     try {
-      // // console.log(`🔄 Rolling back from stash: ${stashName}`);
+      // // // console.log(`🔄 Rolling back from stash: ${stashName}`);
       execSync(`git stash apply stash^{/${stashName}}`, { encoding: 'utf-8' });
-      // // console.log('✅ Rollback completed');
+      // // // console.log('✅ Rollback completed');
     } catch (error) {
       console.error('❌ Rollback failed:', error),
       throw error
@@ -400,7 +400,7 @@ export class UnusedVariablesCleanupSystem {
    */
   private async saveMetrics(result: UnusedVariablesResult): Promise<void> {
     try {
-      const metrics = {
+      const metrics = {;
         timestamp: new Date().toISOString(),
         config: this.config,
         result,
@@ -414,7 +414,7 @@ export class UnusedVariablesCleanupSystem {
       };
 
       fs.writeFileSync(this.metricsFile, JSON.stringify(metrics, null, 2));
-      // // console.log(`📊 Metrics saved to ${this.metricsFile}`);
+      // // // console.log(`📊 Metrics saved to ${this.metricsFile}`);
     } catch (error) {
       console.warn('⚠️ Could not save metrics:', error)
     }

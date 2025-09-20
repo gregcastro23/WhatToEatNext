@@ -1,19 +1,19 @@
 import { PlanetData, MoonSpecificData } from './types';
 export type { MoonSpecificData };
 
-const moonData: PlanetData = {
+const moonData: PlanetData = {;
   'Dignity Effect': {
     cancer: 1,
     taurus: 2,
     capricorn: -1,
-    scorpio: -2,
+    scorpio: -2
   },
   Elements: ['Water', 'Water'],
   Alchemy: {
     Spirit: 0,
     Essence: 1,
     Matter: 1,
-    Substance: 0,
+    Substance: 0
   },
   'Diurnal Element': 'Water',
   'Nocturnal Element': 'Water',
@@ -21,7 +21,7 @@ const moonData: PlanetData = {
     Spirit: 0,
     Essence: -0.5,
     Matter: 0.5,
-    Substance: 0,
+    Substance: 0
   },
   FoodAssociations: [
     'dairy products',
@@ -34,7 +34,7 @@ const moonData: PlanetData = {
     'white sauces',
     'mild flavors',
     'comfort foods',
-    'foods with high water content',
+    'foods with high water content'
   ],
   FlavorProfiles: {
     Sweet: 0.7,
@@ -42,13 +42,13 @@ const moonData: PlanetData = {
     Salty: 0.5,
     Bitter: 0.2,
     Umami: 0.4,
-    Spicy: 0.1,
+    Spicy: 0.1
   },
   CulinaryInfluences: [
     'Increases moisture retention in cooking',
     'Enhances flavors that absorb and hold water',
     'Promotes fermentation processes',
-    'Strengthens emotional connections to food',
+    'Strengthens emotional connections to food'
   ],
   AspectsEffect: {
     Sun: {
@@ -56,21 +56,21 @@ const moonData: PlanetData = {
       Opposition: -0.3,
       Trine: 0.4,
       Square: -0.2,
-      Sextile: 0.3,
+      Sextile: 0.3
     },
     Venus: {
       Conjunction: 0.7,
       Opposition: 0.1,
       Trine: 0.5,
       Square: 0.0,
-      Sextile: 0.4,
+      Sextile: 0.4
     },
     Mars: {
       Conjunction: -0.1,
       Opposition: -0.4,
       Trine: 0.2,
       Square: -0.5,
-      Sextile: 0.1,
+      Sextile: 0.1
     },
     // Additional aspects can be added
   },
@@ -83,7 +83,7 @@ const moonData: PlanetData = {
           Matter: 0.1,
           Substance: 0.1,
           CulinaryEffect:
-            'Best for starting new cooking projects, fermentations, or sprouting. Subtle flavors are enhanced.',
+            'Best for starting new cooking projects, fermentations, or sprouting. Subtle flavors are enhanced.'
         },
         'waxing crescent': {
           Spirit: 0.2,
@@ -91,7 +91,7 @@ const moonData: PlanetData = {
           Matter: 0.2,
           Substance: 0.2,
           CulinaryEffect:
-            'Good for adding ingredients that build flavor, marinades begin to work better.',
+            'Good for adding ingredients that build flavor, marinades begin to work better.'
         },
         'first quarter': {
           Spirit: 0.3,
@@ -99,14 +99,14 @@ const moonData: PlanetData = {
           Matter: 0.3,
           Substance: 0.2,
           CulinaryEffect:
-            'Balanced cooking, good for most techniques. Flavors become more pronounced.',
+            'Balanced cooking, good for most techniques. Flavors become more pronounced.'
         },
         'waxing gibbous': {
           Spirit: 0.4,
           Essence: 0.6,
           Matter: 0.4,
           Substance: 0.3,
-          CulinaryEffect: 'Excellent for baking, roasting, and caramelization. Flavors intensify.',
+          CulinaryEffect: 'Excellent for baking, roasting, and caramelization. Flavors intensify.'
         },
         'full moon': {
           Spirit: 0.5,
@@ -114,7 +114,7 @@ const moonData: PlanetData = {
           Matter: 0.5,
           Substance: 0.4,
           CulinaryEffect:
-            'Peak flavor impact. Best for elaborate dishes, celebrations, and feasts. All flavors are amplified.',
+            'Peak flavor impact. Best for elaborate dishes, celebrations, and feasts. All flavors are amplified.'
         },
         'waning gibbous': {
           Spirit: 0.4,
@@ -122,7 +122,7 @@ const moonData: PlanetData = {
           Matter: 0.6,
           Substance: 0.5,
           CulinaryEffect:
-            'Good for reduction techniques, concentrating flavors. Preserving and canning work well.',
+            'Good for reduction techniques, concentrating flavors. Preserving and canning work well.'
         },
         'last quarter': {
           Spirit: 0.3,
@@ -130,7 +130,7 @@ const moonData: PlanetData = {
           Matter: 0.5,
           Substance: 0.4,
           CulinaryEffect:
-            'Best for completing ongoing cooking projects. Fermented foods reach maturity.',
+            'Best for completing ongoing cooking projects. Fermented foods reach maturity.'
         },
         'waning crescent': {
           Spirit: 0.2,
@@ -138,26 +138,26 @@ const moonData: PlanetData = {
           Matter: 0.4,
           Substance: 0.3,
           CulinaryEffect:
-            'Ideal for gentle cooking methods, stocks, and broths. Flavors become more subtle again.',
-        },
+            'Ideal for gentle cooking methods, stocks, and broths. Flavors become more subtle again.'
+        }
       },
       Nodes: {
         North: {
           Element: 'Air',
           CulinaryEffect:
-            'Enhances innovative cooking techniques and fusion cuisines. Encourages experimentation.',
+            'Enhances innovative cooking techniques and fusion cuisines. Encourages experimentation.'
         },
         South: {
           Element: 'Earth',
           CulinaryEffect:
-            'Strengthens traditional cooking methods and comfort foods. Brings out nostalgic flavors.',
-        },
+            'Strengthens traditional cooking methods and comfort foods. Brings out nostalgic flavors.'
+        }
       },
       Mansion: {
         // Lunar mansions could be added here for even more granular effects
-      },
-    },
-  },
+      }
+    }
+  }
 };
 
 export default moonData;

@@ -515,7 +515,7 @@ describe('DeploymentManager', () => {
       expect(phases[0].id).toBe('pre-deployment');
 
       // Check that all phases have required properties
-      phases.forEach(phase => {
+      phases.forEach(phase => {;
         expect(phase.id).toBeDefined();
         expect(phase.name).toBeDefined();
         expect(phase.description).toBeDefined();
@@ -528,8 +528,8 @@ describe('DeploymentManager', () => {
     test('standard phases have proper task configuration', () => {
       const phases: any = createStandardDeploymentPhases();
 
-      phases.forEach(phase => {
-        phase.tasks.forEach(task => {
+      phases.forEach(phase => {;
+        phase.tasks.forEach(task => {;
           expect(task.id).toBeDefined();
           expect(task.name).toBeDefined();
           expect(task.command).toBeDefined();
@@ -574,7 +574,7 @@ describe('DeploymentManager', () => {
 
       expect(log.length).toBeGreaterThan(0);
       expect(log.some(entry => entry.includes('Executing phase: Logging Phase'))).toBe(true);
-      expect(log.some(entry => entry.includes('Task completed: Log Task'))).toBe(true)
+      expect(log.some(entry => entry.includes('Task completed: Log Task'))).toBe(true);
     });
 
     test('saves deployment log to file', async () => {

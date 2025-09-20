@@ -2,7 +2,7 @@ import { ZodiacSign, LunarPhase } from './alchemy';
 import {
   validateRecipe as validateAlchemyRecipe,
   validateIngredient as validateAlchemyIngredient,
-  validateElementalProperties as validateAlchemyElementalProps,
+  validateElementalProperties as validateAlchemyElementalProps
 } from './validators';
 
 // Primary elemental properties interface - used throughout the application
@@ -150,7 +150,7 @@ export interface Recipe {
       protein: number,
       carbs: number,
       fat: number,
-      fiber: number,
+      fiber: number
     };
     micronutrients?: {
       vitamins: Record<string, number>;
@@ -174,7 +174,7 @@ export interface Recipe {
     visual: string[],
     aroma: string[],
     texture: string[],
-    sound: string[],
+    sound: string[]
   };
 
   // Recipe metadata
@@ -223,11 +223,11 @@ export interface ScoredRecipe extends Recipe {
 }
 
 // Validation utilities
-export const validateElementalProperties = (properties?: ElementalProperties): boolean => {
+export const validateElementalProperties = (properties?: ElementalProperties): boolean => {;
   if (!properties) return false;
 
   const requiredElements = ['Fire', 'Water', 'Earth', 'Air'] as const;
-  if (!requiredElements.every(element => typeof properties[element] === 'number')) {
+  if (!requiredElements.every(element => typeof properties[element] === 'number')) {;
     return false;
   }
 
@@ -235,23 +235,23 @@ export const validateElementalProperties = (properties?: ElementalProperties): b
   return Math.abs(total - 1) < 0.01;
 };
 
-export const validateRecipe = (recipe: Partial<Recipe>): boolean => {
+export const validateRecipe = (recipe: Partial<Recipe>): boolean => {;
   if (!recipe) return false;
   if (!recipe.name || !recipe.id) return false;
   return true;
 };
 
-export const validateSeason = (season: string): boolean => {
+export const validateSeason = (season: string): boolean => {;
   const validSeasons = ['spring', 'summer', 'autumn', 'winter'];
   return validSeasons.includes(season.toLowerCase());
 };
 
-export const validateSeasonality = (seasonality: string[]): boolean => {
+export const validateSeasonality = (seasonality: string[]): boolean => {;
   if (!Array.isArray(seasonality)) return false;
   return seasonality.every(season => validateSeason(season));
 };
 
-export const validateIngredient = (ingredient: Partial<RecipeIngredient>): boolean => {
+export const validateIngredient = (ingredient: Partial<RecipeIngredient>): boolean => {;
   if (!ingredient) return false;
 
   // Required properties
@@ -337,7 +337,7 @@ export interface RecipeDetail {
   instructionSections?: {
     // For recipes with distinct preparation phases
     title: string,
-    steps: string[],
+    steps: string[]
   }[];
 
   // Flavor Profile & Culinary Theory
@@ -351,7 +351,7 @@ export interface RecipeDetail {
       salty: number,
       sour: number,
       bitter: number,
-      umami: number,
+      umami: number
     };
   };
 
@@ -395,7 +395,7 @@ export interface RecipeDetail {
       protein: number,
       carbs: number,
       fat: number,
-      fiber: number,
+      fiber: number
     };
     micronutrients?: {
       vitamins: Record<string, number>;
@@ -414,7 +414,7 @@ export interface RecipeDetail {
     isKeto: boolean,
     isPaleo: boolean,
     containsAlcohol: boolean,
-    allergens: string[],
+    allergens: string[]
   };
 
   // Seasonal & Astrological Information
@@ -426,7 +426,7 @@ export interface RecipeDetail {
     Fire: number,
     Water: number,
     Earth: number,
-    Air: number,
+    Air: number
   };
 
   astrologicalInfluences: string[],
@@ -451,7 +451,7 @@ export interface RecipeDetail {
     visual: string[],
     aroma: string[],
     texture: string[],
-    sound: string[],
+    sound: string[]
   };
 
   // Tags & Metadata

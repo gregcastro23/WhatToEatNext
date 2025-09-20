@@ -39,7 +39,7 @@ import { calculateAllHouseEffects } from './houseEffects';
  * A utility function for logging debug information
  * This is a safe replacement for console.log that can be disabled in production
  */
-const debugLog = (message: string, ..._args: unknown[]): void => {
+const debugLog = (message: string, ..._args: unknown[]): void => {;
   // Use the log service for debugging with enterprise intelligence integration
   log.info(`[AstrologyUtils Debug] ${message}`);
 };
@@ -48,7 +48,7 @@ const debugLog = (message: string, ..._args: unknown[]): void => {
  * A utility function for logging errors
  * This is a safe replacement for console.error that can be disabled in production
  */
-const errorLog = (message: string, ..._args: unknown[]): void => {
+const errorLog = (message: string, ..._args: unknown[]): void => {;
   // Use the log service for errors with enterprise intelligence integration
   log.error(`[AstrologyUtils Error] ${message}`);
 };
@@ -164,7 +164,7 @@ export function isValidZodiacSign(sign: string): sign is ZodiacSign {
   return zodiacSigns.includes(sign as unknown);
 }
 
-export type PlanetPositionData = {
+export type PlanetPositionData = {;
   sign: any,
   degree: number,
   minute?: number,
@@ -182,7 +182,7 @@ export interface PlanetaryDignity {
  * @param date Date to calculate phase for
  * @returns A value between 0 and 1 representing the lunar phase
  */
-export async function calculateLunarPhase(date: Date = new Date()): Promise<number> {
+export async function calculateLunarPhase(date: Date = new Date()): Promise<number> {;
   try {
     // Get accurate positions
     const positions = await getAccuratePlanetaryPositions(date);
@@ -240,7 +240,7 @@ export function getLunarPhaseName(phase: number): LunarPhase {
  * @param date Date to calculate illumination for
  * @returns Percentage of illumination (0-100)
  */
-export async function getMoonIllumination(date: Date = new Date()): Promise<number> {
+export async function getMoonIllumination(date: Date = new Date()): Promise<number> {;
   try {
     // Try using SunCalc library first
     const moonIllumination = SunCalc.getMoonIllumination(date);
@@ -266,9 +266,9 @@ export async function getMoonIllumination(date: Date = new Date()): Promise<numb
     let correctedFraction = moonIllumination.fraction;
 
     // Correction for phase transitions (improves visual perception)
-    if (phaseName === 'new moon') {
+    if (phaseName === 'new moon') {;
       correctedFraction = Math.min(correctedFraction, 0.02); // Cap at 2%
-    } else if (phaseName === 'full moon') {
+    } else if (phaseName === 'full moon') {;
       correctedFraction = Math.max(correctedFraction, 0.98); // Minimum 98%
     }
 
@@ -323,7 +323,7 @@ export async function getMoonIllumination(date: Date = new Date()): Promise<numb
  * @param date Date to calculate sun sign for
  * @returns The zodiac sign the sun is in
  */
-export function calculateSunSign(date: Date = new Date()): any {
+export function calculateSunSign(date: Date = new Date()): any {;
   const month = date.getMonth() + 1; // Jan is 1, Feb is 2, etc.
   const day = date.getDate();
 
@@ -347,7 +347,7 @@ export function calculateSunSign(date: Date = new Date()): any {
  * @param date Date to calculate moon sign for
  * @returns The zodiac sign the moon is in
  */
-export async function calculateMoonSign(date: Date = new Date()): Promise<ZodiacSign> {
+export async function calculateMoonSign(date: Date = new Date()): Promise<ZodiacSign> {;
   try {
     // Try to get accurate positions first
     const positions = await getAccuratePlanetaryPositions(date);
@@ -364,7 +364,7 @@ export async function calculateMoonSign(date: Date = new Date()): Promise<Zodiac
 
 // Add validation to planetary position calculations
 export async function calculatePlanetaryPositions(
-  date: Date = new Date()
+  date: Date = new Date();
 ): Promise<Record<string, PlanetPosition>> {
   try {
     // Try to use the accurate astronomy calculations first
@@ -397,7 +397,7 @@ export async function calculatePlanetaryPositions(
     // Fallback to default positions with error flag
     const defaults = getDefaultPlanetaryPositions();
     // Mark all positions as error states (all positions exist by design)
-    Object.values(defaults).forEach(p => {
+    Object.values(defaults).forEach(p => {;
       p.error = true;
     });
     return defaults;
@@ -432,7 +432,7 @@ function _standardizePlanetName(planet: string): string {
  * @returns True if all positions are valid
  */
 function _validatePlanetaryPositions(positions: Record<string, number>): boolean {
-  const REQUIRED_PLANETS = [
+  const REQUIRED_PLANETS = [;
     'Sun',
     'Moon',
     'Mercury',
@@ -446,7 +446,7 @@ function _validatePlanetaryPositions(positions: Record<string, number>): boolean
   ];
 
   // Check if we have an empty object (positions parameter is defined by function signature)
-  if (Object.keys(positions).length === 0) {
+  if (Object.keys(positions).length === 0) {;
     errorLog('Validation failed: No positions provided in object');
     return false;
   }
@@ -455,10 +455,10 @@ function _validatePlanetaryPositions(positions: Record<string, number>): boolean
   debugLog('Validating positions:', positions);
 
   // Check that required planets exist with valid values
-  const validation = REQUIRED_PLANETS.every(requiredPlanet => {
+  const validation = REQUIRED_PLANETS.every(requiredPlanet => {;
     // Check if the planet exists in the positions object (case insensitive)
-    const planetKey = Object.keys(positions).find(
-      key => key.toLowerCase() === requiredPlanet.toLowerCase()
+    const planetKey = Object.keys(positions).find(;
+      key => key.toLowerCase() === requiredPlanet.toLowerCase();
     );
 
     if (!planetKey) {
@@ -543,7 +543,7 @@ function calculateJulianDate(date: Date): number {
   const m = month + 12 * a - 3;
 
   let jd =
-    day +
+    day +;
     Math.floor((153 * m + 2) / 5) +
     365 * y +
     Math.floor(y / 4) -
@@ -593,7 +593,7 @@ function calculateMoonLongitude(jd: number): number {
 function calculateInnerPlanetLongitude(jd: number, planet: string): number {
   try {
     // Inner planets have different orbital characteristics
-    const orbitalData = {
+    const orbitalData = {;
       mercury: {
         sma: 0.387098, // Semi-major axis in AU
         ecc: 0.20563, // Eccentricity
@@ -646,7 +646,7 @@ function calculateInnerPlanetLongitude(jd: number, planet: string): number {
 function calculateOuterPlanetLongitude(jd: number, planet: string): number {
   try {
     // Outer planets have different orbital characteristics
-    const orbitalData = {
+    const orbitalData = {;
       mars: {
         period: 686.98,
         epochLongitude: 355.45332,
@@ -700,7 +700,7 @@ function calculateOuterPlanetLongitude(jd: number, planet: string): number {
   } catch (error) {
     errorLog(`Error calculating ${planet} longitude:`, error);
     // Fallback to very simple calculation based on orbital period
-    const periods = {
+    const periods = {;
       mars: 686.98,
       jupiter: 4332.59,
       saturn: 10759.22,
@@ -726,13 +726,13 @@ function calculateOuterPlanetLongitude(jd: number, planet: string): number {
 function _calculateFallbackPositions(date: Date): Record<string, number> {
   debugLog('Using fallback planetary position calculation');
   const positions: Record<string, number> = {};
-  const dayOfYear = Math.floor(
+  const dayOfYear = Math.floor(;
     (date.getTime() - new Date(date.getFullYear(), 0, 0).getTime()) / (1000 * 60 * 60 * 24)
   );
   const yearFraction = dayOfYear / 365.25;
 
   // Planetary periods and offsets for simple approximation
-  const planetaryData = {
+  const planetaryData = {;
     Sun: { period: 1, offset: 280 },
     Moon: { period: 0.0748, offset: 100 },
     Mercury: { period: 0.241, offset: 50 },
@@ -849,7 +849,7 @@ export function calculateEnhancedStelliumEffects(
   planetPositions: Record<string, { sign: string, degree: number }>,
   risingDegree?: number,
 ): LowercaseElementalProperties {
-  const result: LowercaseElementalProperties = {
+  const result: LowercaseElementalProperties = {;
     fire: 0,
     earth: 0,
     air: 0,
@@ -873,7 +873,7 @@ export function calculateEnhancedStelliumEffects(
   Object.entries(planetsBySign).forEach(([sign, planets]) => {
     if (planets.length >= 3) {
       // Get the element of the sign
-      const element = getZodiacElement(
+      const element = getZodiacElement(;
         sign as unknown
       ).toLowerCase() as keyof LowercaseElementalProperties;
 
@@ -887,7 +887,7 @@ export function calculateEnhancedStelliumEffects(
       const elementsByPlanet: Record<string, string> = {};
 
       // Get element for each planet
-      planets.forEach(planet => {
+      planets.forEach(planet => {;
         let planetElement = '';
 
         // Handle both traditional and modern planets
@@ -933,7 +933,7 @@ export function calculateEnhancedStelliumEffects(
         elementsByPlanet[planet] = planetElement;
 
         // Check if planet's element matches the sign's element
-        if (planetElement === element) {
+        if (planetElement === element) {;
           matchingElementCount++;
         }
       });
@@ -953,7 +953,7 @@ export function calculateEnhancedStelliumEffects(
       };
 
       // Count non-matching elements
-      Object.values(elementsByPlanet).forEach(planetElement => {
+      Object.values(elementsByPlanet).forEach(planetElement => {;
         if (planetElement !== element) {
           nonMatchingElements[planetElement as keyof LowercaseElementalProperties]++
         }
@@ -1012,7 +1012,7 @@ export function calculateEnhancedStelliumEffects(
  */
 function getHouseElement(house: number): string {
   // Houses follow the elemental pattern: Fire, Earth, Air, Water, repeating
-  const houseElements = {
+  const houseElements = {;
     1: 'Fire',
     5: 'Fire',
     9: 'Fire',
@@ -1034,7 +1034,7 @@ function getHouseElement(house: number): string {
  * Get longitude from sign and degree
  */
 function getLongitudeFromSignAndDegree(sign: string, degree: number): number {
-  const signs = [
+  const signs = [;
     'aries',
     'taurus',
     'gemini',
@@ -1063,7 +1063,7 @@ export function calculateJoyEffects(
   planetPositions: Record<string, { sign: string, degree: number }>,
   risingDegree: number,
 ): LowercaseElementalProperties {
-  const result: LowercaseElementalProperties = {
+  const result: LowercaseElementalProperties = {;
     fire: 0,
     earth: 0,
     air: 0,
@@ -1073,7 +1073,7 @@ export function calculateJoyEffects(
   // Process each planet
   for (const [planet, position] of Object.entries(planetPositions)) {
     // Calculate absolute degree (0-359)
-    const zodiacSigns = [
+    const zodiacSigns = [;
       'aries',
       'taurus',
       'gemini',
@@ -1120,14 +1120,14 @@ export function calculateJoyEffects(
 export function combineElementalProperties(
   ...properties: LowercaseElementalProperties[]
 ): LowercaseElementalProperties {
-  const result: LowercaseElementalProperties = {
+  const result: LowercaseElementalProperties = {;
     fire: 0,
     earth: 0,
     air: 0,
     water: 0
   };
 
-  properties.forEach(prop => {
+  properties.forEach(prop => {;
     result.fire += prop.fire || 0;
     result.earth += prop.earth || 0;
     result.air += prop.air || 0;
@@ -1166,7 +1166,7 @@ export function calculateCompleteAstrologicalEffects(
   const stelliumEffects = calculateEnhancedStelliumEffects(planetPositions, risingDegree);
 
   // Calculate house effects
-  const houseEffects = calculateAllHouseEffects(
+  const houseEffects = calculateAllHouseEffects(;
     planetPositions as Record<string, { sign: any, house?: number }>,
     {}
   ); // Use type assertion
@@ -1191,7 +1191,7 @@ export function calculateCompleteAstrologicalEffects(
 export function longitudeToZodiacPosition(longitude: number): { sign: string, degree: number } {
   try {
     // Enhanced validation for longitude
-    if (longitude === undefined || longitude === null) {
+    if (longitude === undefined || longitude === null) {;
       errorLog('longitudeToZodiacPosition: Longitude is undefined or null');
       return { sign: 'aries', degree: 0 };
     }
@@ -1216,7 +1216,7 @@ export function longitudeToZodiacPosition(longitude: number): { sign: string, de
     const degree = normalizedLongitude % 30;
 
     // Get sign name
-    const signs = [
+    const signs = [;
       'aries',
       'taurus',
       'gemini',
@@ -1314,7 +1314,7 @@ export function getPlanetaryDignityInfo(
   };
 
   // Calculate detriment (opposite of rulership)
-  const getDetriments = (planet: string): string[] => {
+  const getDetriments = (planet: string): string[] => {;
     const oppositeSignIndexes: Record<string, number> = {
       aries: 6,
       taurus: 7,
@@ -1330,7 +1330,7 @@ export function getPlanetaryDignityInfo(
       pisces: 5
     };
 
-    const signs = [
+    const signs = [;
       'aries',
       'taurus',
       'gemini',
@@ -1397,14 +1397,14 @@ export function calculateAspects(
   };
 
   // Helper function to get longitude from sign and degree
-  const getLongitude = (position: { sign: string, degree: number }): number => {
+  const getLongitude = (position: { sign: string, degree: number }): number => {;
     // Check if position or position.sign is undefined/null
     if (!position || !position.sign) {
       debugLog('Invalid position object encountered:', position);
       return 0; // Return default value
     }
 
-    const signs = [
+    const signs = [;
       'aries',
       'taurus',
       'gemini',
@@ -1476,7 +1476,7 @@ export function calculateAspects(
 
           // Special case: Square aspect with Ascendant is positive (+1) instead of negative
           if (
-            type === 'square' &&
+            type === 'square' &&;
             (planet1.toLowerCase() === 'ascendant' || planet2.toLowerCase() === 'ascendant')
           ) {
             multiplier = 1; // From original algorithm: Square to Ascendant is +1 instead of -1
@@ -1519,7 +1519,7 @@ export function calculateAspects(
  * @returns Complete astrological state object
  */
 export async function getCurrentAstrologicalState(
-  date: Date = new Date()
+  date: Date = new Date();
 ): Promise<AstrologicalState> {
   try {
     // Calculate all the astrological factors
@@ -1553,7 +1553,7 @@ export async function getCurrentAstrologicalState(
     });
 
     // Calculate active planets based on which have special status
-    const activePlanets = Object.entries(planetaryPositions)
+    const activePlanets = Object.entries(planetaryPositions);
       .filter(([planet, position]) => {
         // Always include outer planets in activePlanets array
         if (['Uranus', 'Neptune', 'Pluto'].includes(planet)) {
@@ -1725,7 +1725,7 @@ export function getDefaultPlanetaryPositions(): Record<string, PlanetPosition> {
  * @returns Zodiac sign
  */
 export function getZodiacSign(longitude: number): string {
-  const signs = [
+  const signs = [;
     'aries',
     'taurus',
     'gemini',
@@ -1794,7 +1794,7 @@ function _calculatePlacidusHouses(jd: number, lat: number, lon: number): number[
 
     // Greenwich Mean Sidereal Time in degrees
     let gmst =
-      280.46061837 +
+      280.46061837 +;
       360.98564736629 * (jd - 2451545.0) +
       jdCentury * jdCentury * (0.000387933 - jdCentury / 38710000);
 
@@ -1824,7 +1824,7 @@ function _calculatePlacidusHouses(jd: number, lat: number, lon: number): number[
 
     // Calculate Ascendant formula: atan2(sin(lst), cos(lst) * cos(obl) + tan(lat) * sin(obl))
     const lstRad = (lst * Math.PI) / 180;
-    const ascRad = Math.atan2(
+    const ascRad = Math.atan2(;
       Math.sin(lstRad),
       Math.cos(lstRad) * Math.cos(obliquityRad) + tanLat * Math.sin(obliquityRad)
     );
@@ -1868,7 +1868,7 @@ function _calculatePlacidusHouses(jd: number, lat: number, lon: number): number[
   }
 }
 
-const TEST_DATES = [
+const TEST_DATES = [;
   { date: '2024-01-01', expected: { Sun: 'capricorn', Moon: 'taurus' } },
   { date: '2024-06-21', expected: { Sun: 'gemini', Moon: 'aquarius' } }
 ];
@@ -1928,7 +1928,7 @@ function _calculatePlanetPositionsInternal(date: Date): Record<string, number> {
  * @param date Date to calculate for
  * @returns Object with north node position and retrograde status
  */
-export function calculateLunarNodes(date: Date = new Date()): {
+export function calculateLunarNodes(date: Date = new Date()): {;
   northNode: number,
   isRetrograde: boolean
 } {
@@ -2002,7 +2002,7 @@ export function getSignFromLongitude(longitude: number): { sign: string, degree:
   const signIndex = Math.floor(normalized / 30);
   const degree = normalized % 30;
 
-  const signs = [
+  const signs = [;
     'aries',
     'taurus',
     'gemini',
@@ -2056,7 +2056,7 @@ export const _elementToZodiac: Record<string, string[]> = {
  * @param astroChartData Raw data from AstroCharts.com
  * @returns Formatted planetary positions in our internal format
  */
-export const _parseAstroChartData = (astroChartData: unknown): Record<string, number> => {
+export const _parseAstroChartData = (astroChartData: unknown): Record<string, number> => {;
   try {
     const result: Record<string, number> = {};
     const data = astroChartData as any;
@@ -2110,7 +2110,7 @@ export const _parseAstroChartData = (astroChartData: unknown): Record<string, nu
  * @param astroChartData Raw data from AstroCharts.com
  * @returns Formatted aspects array in our internal format
  */
-export const _parseAstroChartAspects = (
+export const _parseAstroChartAspects = (;
   astroChartData: unknown,
 ): Array<{
   type: string,
@@ -2155,7 +2155,7 @@ export const _parseAstroChartAspects = (
             planet1: String(aspectData.planet1),
             planet2: String(aspectData.planet2),
             orb: Number(aspectData.orb) || 0,
-            applying: aspectData.applying === true
+            applying: aspectData.applying === true;
           });
         }
       });
@@ -2226,7 +2226,7 @@ export function getZodiacElementalInfluence(sign: any): Element {
  */
 export function calculateElementalCompatibility(element1: Element, element2: Element): number {
   // Elements boost themselves
-  if (element1 === element2) {
+  if (element1 === element2) {;
     return 1.0;
   }
 
@@ -2371,25 +2371,25 @@ export function calculateElementalProfile(
 export function transformItemsWithPlanetaryPositions(
   items: ElementalItem[],
   planetaryPositions: { [key: string]: unknown },
-  isDaytime: boolean = true,
+  isDaytime: boolean = true,;
   currentZodiac?: string,
 ): AlchemicalItem[] {
-  if (!items || items.length === 0) {
+  if (!items || items.length === 0) {;
     return []
   }
 
   try {
     // Calculate current elemental influence from planetary positions
-    const currentElementalInfluence = calculateCurrentElementalInfluence(
+    const currentElementalInfluence = calculateCurrentElementalInfluence(;
       planetaryPositions,
       isDaytime,
       currentZodiac,
     );
 
     // Transform each item
-    return items.map(item => {
+    return items.map(item => {;
       // Calculate compatibility score based on elemental alignment
-      const compatibilityScore = calculateItemCompatibilityScore(
+      const compatibilityScore = calculateItemCompatibilityScore(;
         item.elementalProperties,
         currentElementalInfluence,
         planetaryPositions,
@@ -2400,20 +2400,20 @@ export function transformItemsWithPlanetaryPositions(
       const dominantElement = getDominantElementFromProperties(item.elementalProperties);
 
       // Calculate alchemical properties based on planetary influence
-      const alchemicalProperties = calculateAlchemicalProperties(
+      const alchemicalProperties = calculateAlchemicalProperties(;
         item.elementalProperties,
         planetaryPositions,
         currentElementalInfluence,
       );
 
       // Calculate thermodynamic properties
-      const thermodynamicProperties = calculateThermodynamicProperties(
+      const thermodynamicProperties = calculateThermodynamicProperties(;
         item.elementalProperties,
         compatibilityScore,
       );
 
       // Create alchemical item with interface compliance
-      const alchemicalItem = {
+      const alchemicalItem = {;
         ...item,
         compatibilityScore,
         dominantElement,
@@ -2449,7 +2449,7 @@ export function transformItemsWithPlanetaryPositions(
       );
 
     // Return items with basic transformation if error occurs
-    return items.map(item => {
+    return items.map(item => {;
       const dominantElement = getDominantElementFromProperties(item.elementalProperties);
 
       // Create AlchemicalItem-compliant object with all required properties
@@ -2544,7 +2544,7 @@ function calculateCurrentElementalInfluence(
     // Normalize to 0-1 range
     const total = Object.values(influence).reduce((sum, val) => sum + val, 0);
     if (total > 0) {
-      Object.keys(influence).forEach(key => {
+      Object.keys(influence).forEach(key => {;
         influence[key as unknown] /= total;
       });
     }
@@ -2573,7 +2573,7 @@ function calculateItemCompatibilityScore(
     let compatibility = 0;
 
     // Calculate weighted alignment for each element
-    Object.keys(itemProperties).forEach(element => {
+    Object.keys(itemProperties).forEach(element => {;
       if (element in currentInfluence) {
         const itemStrength = itemProperties[element] || 0;
         const currentStrength = currentInfluence[element as unknown] || 0;
@@ -2589,7 +2589,7 @@ function calculateItemCompatibilityScore(
     const itemDominant = getDominantElementFromProperties(itemProperties);
     const currentDominant = getDominantElementFromProperties(currentInfluence);
 
-    if (itemDominant === currentDominant) {
+    if (itemDominant === currentDominant) {;
       compatibility *= 1.4; // Strong bonus for same dominant element
     }
 
@@ -2598,7 +2598,7 @@ function calculateItemCompatibilityScore(
     compatibility *= 0.8 + planetaryStrength * 0.4;
 
     // Time of day adjustment
-    const timeBonus = isDaytime
+    const timeBonus = isDaytime;
       ? (itemProperties.Fire + itemProperties.Air) * 0.1
       : (itemProperties.Water + itemProperties.Earth) * 0.1;
 
@@ -2621,7 +2621,7 @@ function calculateItemCompatibilityScore(
 function getDominantElementFromProperties(properties: ElementalProperties): ElementalCharacter {
   try {
     const elements = Object.entries(properties) as [ElementalCharacter, number][];
-    const dominant = elements.reduce(
+    const dominant = elements.reduce(;
       (max, [element, value]) => (value > max.value ? { element, value } : max),
       { element: 'Fire' as ElementalCharacter, value: 0 }
     );
@@ -2652,15 +2652,15 @@ function calculateAlchemicalProperties(
 
     // Calculate thermodynamic metrics
     const heat =
-      (Math.pow(Spirit, 2) + Math.pow(Fire, 2)) /
+      (Math.pow(Spirit, 2) + Math.pow(Fire, 2)) /;
       Math.max(1, Math.pow(Essence + Matter + Water + Air, 2));
 
     const entropy =
-      (Math.pow(Spirit, 2) + Math.pow(Substance, 2) + Math.pow(Fire, 2) + Math.pow(Air, 2)) /
+      (Math.pow(Spirit, 2) + Math.pow(Substance, 2) + Math.pow(Fire, 2) + Math.pow(Air, 2)) /;
       Math.max(1, Math.pow(Essence + Matter + Earth + Water, 2));
 
     const reactivity =
-      (Math.pow(Spirit, 2) +
+      (Math.pow(Spirit, 2) +;
         Math.pow(Substance, 2) +
         Math.pow(Essence, 2) +
         Math.pow(Fire, 2) +
@@ -2672,7 +2672,7 @@ function calculateAlchemicalProperties(
 
     // Calculate Kalchm
     const kalchm =
-      Spirit > 0 && Essence > 0 && Matter > 0 && Substance > 0
+      Spirit > 0 && Essence > 0 && Matter > 0 && Substance > 0;
         ? (Math.pow(Spirit, Spirit) * Math.pow(Essence, Essence)) /
           (Math.pow(Matter, Matter) * Math.pow(Substance, Substance))
         : 1;
@@ -2686,7 +2686,7 @@ function calculateAlchemicalProperties(
       }
     }
 
-    const thermodynamicProperties: ThermodynamicProperties = {
+    const thermodynamicProperties: ThermodynamicProperties = {;
       heat,
       entropy,
       reactivity,
@@ -2795,7 +2795,7 @@ function calculatePlanetaryStrength(planetaryPositions: { [key: string]: unknown
     let planetCount = 0;
 
     Object.entries(planetaryPositions).forEach(([planet, data]) => {
-      if (typeof data === 'object' && data !== null) {
+      if (typeof data === 'object' && data !== null) {;
         // Check for retrograde (reduces strength)
         const retrogradeModifier = data.isRetrograde ? 0.7 : 1.0;
 

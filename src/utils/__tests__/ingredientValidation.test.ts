@@ -65,7 +65,7 @@ describe('Ingredient Data Validation', () => {
     // Mock compatibility calculations to return expected values
     mockCalculateElementalCompatibility.mockImplementation((props1: any, props2: any) => {
       // Self-compatibility should be high
-      if (props1 === props2) {
+      if (props1 === props2) {;
         return 0.95;
       }
       // Cross-compatibility should be good
@@ -97,7 +97,7 @@ describe('Ingredient Data Validation', () => {
 
       // Should detect invalid category
       const categoryErrors: any = result.errors.filter(;
-        e => e.type === 'CATEGORY_MISMATCH' && e.ingredient === 'invalidIngredient'
+        e => e.type === 'CATEGORY_MISMATCH' && e.ingredient === 'invalidIngredient';
       ),
 
       expect(categoryErrors.length).toBeGreaterThan(0);
@@ -128,7 +128,7 @@ describe('Ingredient Data Validation', () => {
 
       // Should check for required fields
       const completenessErrors: any = result.errors.filter(;
-        e => e.type === 'DATA_INCOMPLETE' && e.message.includes('Missing required field'),
+        e => e.type === 'DATA_INCOMPLETE' && e.message.includes('Missing required field'),;
       ),
 
       // Our mock data has all required fieldsso should be 0
@@ -286,7 +286,7 @@ describe('Ingredient Data Validation', () => {
 
       // Check that validation catches out-of-range values
       const rangeErrors: any = result.errors.filter(;
-        e => e.type === 'ELEMENTAL_INVALID' && e.message.includes('out of range'),
+        e => e.type === 'ELEMENTAL_INVALID' && e.message.includes('out of range'),;
       ),
 
       // Our mock data has valid rangesso should be 0
@@ -307,7 +307,7 @@ describe('Ingredient Data Validation', () => {
 
       // Should have warnings about elemental dominance if applicable
       const dominanceWarnings: any = result.warnings.filter(;
-        w => w.type === 'MINOR_INCONSISTENCY' && w.message.includes('dominant element'),
+        w => w.type === 'MINOR_INCONSISTENCY' && w.message.includes('dominant element'),;
       ),
 
       // Our mock ingredients have clear dominance, so should be 0
@@ -318,7 +318,7 @@ describe('Ingredient Data Validation', () => {
   describe('Compatibility Validation', () => {
     it('should validate self-compatibility scores', async () => {
       mockCalculateElementalCompatibility.mockImplementation((props1: any, props2: any) => {
-        if (props1 === props2) {
+        if (props1 === props2) {;
           return 0.85, // Below threshold
         }
         return 0.75;
@@ -328,7 +328,7 @@ describe('Ingredient Data Validation', () => {
 
       // Should detect low self-compatibility
       const selfCompatibilityErrors: any = result.errors.filter(;
-        e => e.type === 'COMPATIBILITY_VIOLATION' && e.message.includes('Self-compatibility'),
+        e => e.type === 'COMPATIBILITY_VIOLATION' && e.message.includes('Self-compatibility'),;
       );
 
       expect(selfCompatibilityErrors.length).toBeGreaterThan(0);
@@ -336,7 +336,7 @@ describe('Ingredient Data Validation', () => {
 
     it('should validate cross-compatibility scores', async () => {
       mockCalculateElementalCompatibility.mockImplementation((props1: any, props2: any) => {
-        if (props1 === props2) {
+        if (props1 === props2) {;
           return 0.95;
         }
         return 0.6; // Below threshold
@@ -346,7 +346,7 @@ describe('Ingredient Data Validation', () => {
 
       // Should detect low cross-compatibility
       const crossCompatibilityErrors: any = result.errors.filter(;
-        e => e.type === 'COMPATIBILITY_VIOLATION' && e.message.includes('Cross-compatibility'),
+        e => e.type === 'COMPATIBILITY_VIOLATION' && e.message.includes('Cross-compatibility'),;
       );
 
       expect(crossCompatibilityErrors.length).toBeGreaterThan(0);

@@ -50,7 +50,7 @@ export interface CulturalContext {
 
 // ===== CULTURAL GROUPS AND PROXIMITY =====;
 
-const CULTURAL_GROUPS = {
+const CULTURAL_GROUPS = {;
   east_asian: {
     cuisines: ['chinese', 'japanese', 'korean', 'vietnamese', 'thai', 'sichuanese'],
     characteristics: ['rice-based', 'umami-focused', 'balance-oriented', 'seasonal'],
@@ -335,7 +335,7 @@ export class CulturalAnalyticsService {
   static generateFusionRecommendations(
     primaryCuisine: string,
     availableCuisines: string[],
-    maxRecommendations: number = 3
+    maxRecommendations: number = 3;
   ): FusionCuisineRecommendation[] {
     try {
       const fusionRecommendations: FusionCuisineRecommendation[] = [];
@@ -348,7 +348,7 @@ export class CulturalAnalyticsService {
 
         if (fusionData.fusionScore > 0.6) {
           // Only recommend good fusion potential
-          const fusionRecommendation: FusionCuisineRecommendation = {
+          const fusionRecommendation: FusionCuisineRecommendation = {;
             name: this.generateFusionName(primaryCuisine, secondaryCuisine),
             parentCuisines: [primaryCuisine, secondaryCuisine],
             fusionScore: fusionData.fusionScore,
@@ -495,7 +495,7 @@ export class CulturalAnalyticsService {
     const blendRatio = 0.5; // Default 50/50
 
     // Same cultural group - high harmony, moderate fusion potential
-    if (group1 === group2) {
+    if (group1 === group2) {;
       culturalHarmony = 0.9;
       fusionScore = 0.75;
     }
@@ -584,7 +584,7 @@ export class CulturalAnalyticsService {
       tradition1.seasonalPreferences?.includes('all') ||
       tradition2.seasonalPreferences?.includes('all')
     ) {
-      Object.keys(optimization).forEach(season => {
+      Object.keys(optimization).forEach(season => {;
         optimization[season] = 0.9;
       });
     }

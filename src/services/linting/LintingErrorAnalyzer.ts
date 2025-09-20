@@ -95,12 +95,12 @@ export class LintingErrorAnalyzer {
   private eslintConfigPath: string,
   private domainPatterns: Record<string, RegExp[]>,
 
-  constructor(workspaceRoot: string = process.cwd()) {
+  constructor(workspaceRoot: string = process.cwd()) {;
     this.workspaceRoot = workspaceRoot;
     this.eslintConfigPath = path.join(workspaceRoot, 'eslint.config.cjs'),;
 
     // Define domain-specific file patterns
-    this.domainPatterns = {
+    this.domainPatterns = {;
       astrological: [
         /\/calculations\//,
         /\/data\/planets\//,
@@ -155,7 +155,7 @@ export class LintingErrorAnalyzer {
 
     // Phase 1: Auto-fixable issues (low risk)
     if (categorizedErrors.autoFixable.length > 0) {
-      const autoFixPhase: ResolutionPhase = {
+      const autoFixPhase: ResolutionPhase = {;
         id: 'auto-fix',
         name: 'Automated Fixes',
         issues: categorizedErrors.autoFixable,
@@ -168,13 +168,13 @@ export class LintingErrorAnalyzer {
     }
 
     // Phase 2: Import and style issues (medium risk)
-    const importStyleIssues = [
+    const importStyleIssues = [;
       ...(categorizedErrors.byCategory['import'] || []),
       ...(categorizedErrors.byCategory['style'] || [])
     ].filter(issue => issue.resolutionStrategy.type !== 'auto-fix');
 
     if (importStyleIssues.length > 0) {
-      const importStylePhase: ResolutionPhase = {
+      const importStylePhase: ResolutionPhase = {;
         id: 'import-style',
         name: 'Import and Style Fixes',
         issues: importStyleIssues,
@@ -189,7 +189,7 @@ export class LintingErrorAnalyzer {
     // Phase 3: TypeScript issues (high risk)
     const typescriptIssues = categorizedErrors.byCategory['typescript'] || [];
     if (typescriptIssues.length > 0) {
-      const typescriptPhase: ResolutionPhase = {
+      const typescriptPhase: ResolutionPhase = {;
         id: 'typescript',
         name: 'TypeScript Fixes',
         issues: typescriptIssues,
@@ -204,7 +204,7 @@ export class LintingErrorAnalyzer {
     // Phase 4: React issues (medium risk)
     const reactIssues = categorizedErrors.byCategory['react'] || [];
     if (reactIssues.length > 0) {
-      const reactPhase: ResolutionPhase = {
+      const reactPhase: ResolutionPhase = {;
         id: 'react',
         name: 'React Fixes',
         issues: reactIssues,
@@ -219,7 +219,7 @@ export class LintingErrorAnalyzer {
     // Phase 5: Domain-specific issues (varies by context)
     const domainIssues = categorizedErrors.byCategory['domain'] || [];
     if (domainIssues.length > 0) {
-      const domainPhase: ResolutionPhase = {
+      const domainPhase: ResolutionPhase = {;
         id: 'domain',
         name: 'Domain-Specific Fixes',
         issues: domainIssues,
@@ -237,7 +237,7 @@ export class LintingErrorAnalyzer {
     // Calculate success probability based on issue types and complexity
     const successProbability = this.calculateSuccessProbability(categorizedErrors);
 
-    const plan: ResolutionPlan = {
+    const plan: ResolutionPlan = {;
       phases,
       totalEstimatedTime: totalTime,
       riskAssessment,
@@ -257,7 +257,7 @@ export class LintingErrorAnalyzer {
   private async runESLint(): Promise<string> {
     try {
       const command = `npx eslint --config ${this.eslintConfigPath} src --format json --max-warnings=10000`;
-      const output = execSync(command, {
+      const output = execSync(command, {;
         encoding: 'utf8',
         cwd: this.workspaceRoot,
         maxBuffer: 10 * 1024 * 1024, // 10MB buffer
@@ -278,7 +278,7 @@ export class LintingErrorAnalyzer {
    */
   private parseESLintOutput(output: string): Array<Record<string, unknown>> {
     try {
-      const results = JSON.parse(output) as Array<{
+      const results = JSON.parse(output) as Array<{;
         filePath: string,
         messages: Array<Record<string, unknown>>
       }>;
@@ -311,7 +311,7 @@ export class LintingErrorAnalyzer {
     const category = this.categorizeIssue(rawIssue, domainContext),;
     const resolutionStrategy = this.determineResolutionStrategy(rawIssue, category, domainContext),;
 
-    const issue: LintingIssue = {
+    const issue: LintingIssue = {;
       id: `${file}:${String(rawIssue.line)}:${String(rawIssue.column)}:${String(rawIssue.ruleId)}`,
       file,
       line: Number(rawIssue.line || 0),
@@ -332,7 +332,7 @@ export class LintingErrorAnalyzer {
    * Detect domain context for a file
    */
   private detectDomainContext(filePath: string): DomainContext {
-    const context: DomainContext = {
+    const context: DomainContext = {;
       isAstrologicalCalculation: false,
       isCampaignSystem: false,
       isTestFile: false,
@@ -341,7 +341,7 @@ export class LintingErrorAnalyzer {
     };
 
     // Check astrological patterns
-    context.isAstrologicalCalculation = this.domainPatterns.astrological.some(pattern =>
+    context.isAstrologicalCalculation = this.domainPatterns.astrological.some(pattern =>;
       pattern.test(filePath);
     );
 
@@ -449,7 +449,7 @@ export class LintingErrorAnalyzer {
     }
 
     // Import issues - usually safe to auto-fix
-    if (category.primary === 'import') {
+    if (category.primary === 'import') {;
       return {
         type: hasAutoFix ? 'auto-fix' : 'manual-review',
         confidence: hasAutoFix ? 0.8 : 0.6,
@@ -464,7 +464,7 @@ export class LintingErrorAnalyzer {
     }
 
     // TypeScript issues - require careful handling
-    if (category.primary === 'typescript') {
+    if (category.primary === 'typescript') {;
       const isExplicitAny = rule.includes('no-explicit-any');
       return {
         type: isExplicitAny ? 'manual-review' : 'auto-fix',
@@ -480,7 +480,7 @@ export class LintingErrorAnalyzer {
     }
 
     // React issues - moderate risk
-    if (category.primary === 'react') {
+    if (category.primary === 'react') {;
       const isExhaustiveDeps = rule.includes('exhaustive-deps');
       return {
         type: isExhaustiveDeps ? 'manual-review' : 'auto-fix',
@@ -525,7 +525,7 @@ export class LintingErrorAnalyzer {
    * Check if a rule is safe for auto-fixing
    */
   private isLowRiskAutoFix(rule: string): boolean {
-    const lowRiskRules = [
+    const lowRiskRules = [;
       'import/order',
       'import/newline-after-import',
       'semi',
@@ -544,7 +544,7 @@ export class LintingErrorAnalyzer {
    * Categorize all analyzed issues
    */
   private categorizeIssues(issues: LintingIssue[]): CategorizedErrors {
-    const categorized: CategorizedErrors = {
+    const categorized: CategorizedErrors = {;
       total: issues.length,
       errors: issues.filter(i => i.severity === 'error').length,,;
       warnings: issues.filter(i => i.severity === 'warning').length,,;

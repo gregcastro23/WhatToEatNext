@@ -8,7 +8,7 @@ import type { ZodiacSign, ThermodynamicProperties } from '@/types/shared';
  * Copy this file, rename it to your method name (kebab-case), and fill in the data.
  */
 
-export const _methodName: CookingMethodData = {
+export const _methodName: CookingMethodData = {;
   name: 'method_name', // Use snake_case for the name property
   description:
     'Description of the cooking method and how it works, including key characteristics and effects on food',
@@ -35,7 +35,7 @@ export const _methodName: CookingMethodData = {
       waxing_crescent: 0.0,
       waning_gibbous: 0.0,
       // Other lunar phases can be added
-    },
+    }
   },
 
   toolsRequired: [
@@ -48,7 +48,7 @@ export const _methodName: CookingMethodData = {
     'Tool7',
     'Tool8',
     'Tool9',
-    'Tool10',
+    'Tool10'
   ],
 
   commonMistakes: [
@@ -59,7 +59,7 @@ export const _methodName: CookingMethodData = {
     'mistake5',
     'mistake6',
     'mistake7',
-    'mistake8',
+    'mistake8'
   ],
 
   pairingSuggestions: [
@@ -69,7 +69,7 @@ export const _methodName: CookingMethodData = {
     'pairing4',
     'pairing5',
     'pairing6',
-    'pairing7',
+    'pairing7'
   ],
 
   nutrientRetention: {
@@ -78,7 +78,7 @@ export const _methodName: CookingMethodData = {
     nutrient3: 0.0,
     nutrient4: 0.0,
     nutrient5: 0.0,
-    nutrient6: 0.0,
+    nutrient6: 0.0
   },
 
   optimalTemperatures: {
@@ -89,7 +89,7 @@ export const _methodName: CookingMethodData = {
     application5: 0,
     application6: 0,
     application7: 0,
-    application8: 0,
+    application8: 0
   },
 
   regionalVariations: {
@@ -97,7 +97,7 @@ export const _methodName: CookingMethodData = {
     region2: ['variation4', 'variation5', 'variation6'],
     region3: ['variation7', 'variation8', 'variation9'],
     region4: ['variation10', 'variation11', 'variation12'],
-    region5: ['variation13', 'variation14', 'variation15'],
+    region5: ['variation13', 'variation14', 'variation15']
   },
 
   chemicalChanges: {
@@ -108,7 +108,7 @@ export const _methodName: CookingMethodData = {
     change5: true,
     change6: true,
     change7: true,
-    change8: true,
+    change8: true
   },
 
   safetyFeatures: ['safety1', 'safety2', 'safety3', 'safety4', 'safety5', 'safety6', 'safety7'],
@@ -134,7 +134,7 @@ export const _methodName: CookingMethodData = {
     'principle7',
     'principle8',
     'principle9',
-    'principle10',
+    'principle10'
   ],
 
   modernVariations: [
@@ -146,7 +146,7 @@ export const _methodName: CookingMethodData = {
     'variation6',
     'variation7',
     'variation8',
-    'variation9',
+    'variation9'
   ],
 
   sustainabilityRating: 0.0, // 0.0-1.0 rating of environmental sustainability
@@ -163,7 +163,7 @@ export const _methodName: CookingMethodData = {
     'consideration7',
     'consideration8',
     'consideration9',
-    'consideration10',
+    'consideration10'
   ],
 
   expertTips: [
@@ -181,7 +181,7 @@ export const _methodName: CookingMethodData = {
     'tip12',
     'tip13',
     'tip14',
-    'tip15',
+    'tip15'
   ],
 
   ingredientPreparation: {
@@ -196,7 +196,7 @@ export const _methodName: CookingMethodData = {
     ingredient5:
       'Detailed preparation instructions for ingredient5, including specific techniques, measurements, and timing considerations.',
     ingredient6:
-      'Detailed preparation instructions for ingredient6, including specific techniques, measurements, and timing considerations.',
+      'Detailed preparation instructions for ingredient6, including specific techniques, measurements, and timing considerations.'
   },
 
   timingConsiderations: {
@@ -211,7 +211,7 @@ export const _methodName: CookingMethodData = {
     aspect5:
       'Detailed timing information for aspect5, including specific duration, indicators, and adjustments based on conditions.',
     aspect6:
-      'Detailed timing information for aspect6, including specific duration, indicators, and adjustments based on conditions.',
+      'Detailed timing information for aspect6, including specific duration, indicators, and adjustments based on conditions.'
   },
 
   doneness_indicators: {
@@ -226,7 +226,7 @@ export const _methodName: CookingMethodData = {
     indicator5:
       'Detailed description of indicator5, including visual cues, textural changes, and objective measurements.',
     indicator6:
-      'Detailed description of indicator6, including visual cues, textural changes, and objective measurements.',
+      'Detailed description of indicator6, including visual cues, textural changes, and objective measurements.'
   },
 
   ingredientInteractions: {
@@ -241,7 +241,7 @@ export const _methodName: CookingMethodData = {
     interaction5:
       'Detailed explanation of interaction5, including chemical basis, practical implications, and tips for leveraging or avoiding.',
     interaction6:
-      'Detailed explanation of interaction6, including chemical basis, practical implications, and tips for leveraging or avoiding.',
+      'Detailed explanation of interaction6, including chemical basis, practical implications, and tips for leveraging or avoiding.'
   },
 
   technicalNotes: {
@@ -253,7 +253,7 @@ export const _methodName: CookingMethodData = {
       subcategory3:
         'Detailed technical information about subcategory3, including specific parameters, scientific principles, and practical applications.',
       subcategory4:
-        'Detailed technical information about subcategory4, including specific parameters, scientific principles, and practical applications.',
+        'Detailed technical information about subcategory4, including specific parameters, scientific principles, and practical applications.'
     },
     category2: {
       subcategory1:
@@ -263,7 +263,7 @@ export const _methodName: CookingMethodData = {
       subcategory3:
         'Detailed technical information about subcategory3, including specific parameters, scientific principles, and practical applications.',
       subcategory4:
-        'Detailed technical information about subcategory4, including specific parameters, scientific principles, and practical applications.',
+        'Detailed technical information about subcategory4, including specific parameters, scientific principles, and practical applications.'
     },
     category3: {
       subcategory1:
@@ -273,7 +273,7 @@ export const _methodName: CookingMethodData = {
       subcategory3:
         'Detailed technical information about subcategory3, including specific parameters, scientific principles, and practical applications.',
       subcategory4:
-        'Detailed technical information about subcategory4, including specific parameters, scientific principles, and practical applications.',
+        'Detailed technical information about subcategory4, including specific parameters, scientific principles, and practical applications.'
     },
     category4: {
       subcategory1:
@@ -283,7 +283,7 @@ export const _methodName: CookingMethodData = {
       subcategory3:
         'Detailed technical information about subcategory3, including specific parameters, scientific principles, and practical applications.',
       subcategory4:
-        'Detailed technical information about subcategory4, including specific parameters, scientific principles, and practical applications.',
+        'Detailed technical information about subcategory4, including specific parameters, scientific principles, and practical applications.'
     },
     category5: {
       subcategory1:
@@ -293,7 +293,7 @@ export const _methodName: CookingMethodData = {
       subcategory3:
         'Detailed technical information about subcategory3, including specific parameters, scientific principles, and practical applications.',
       subcategory4:
-        'Detailed technical information about subcategory4, including specific parameters, scientific principles, and practical applications.',
-    },
-  },
+        'Detailed technical information about subcategory4, including specific parameters, scientific principles, and practical applications.'
+    }
+  }
 };

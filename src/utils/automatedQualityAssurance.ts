@@ -14,7 +14,7 @@ import { getReliablePlanetaryPositions } from '@/utils/reliableAstronomy';
 import { ElementalProperties, getSteeringFileIntelligence } from '@/utils/steeringFileIntelligence';
 
 // Quality assurance thresholds from campaign-integration.md
-export const QA_THRESHOLDS = {
+export const QA_THRESHOLDS = {;
   typescript: {
     criticalThreshold: 100,
     warningThreshold: 500,
@@ -97,7 +97,7 @@ export class AutomatedQualityAssurance {
   private campaignTriggers: CampaignTrigger[] = [];
 
   private constructor(config?: Partial<QualityAssuranceConfig>) {
-    this.config = {
+    this.config = {;
       enableAutomaticValidation: true,
       enableCampaignTriggers: true,
       enablePerformanceMonitoring: true,
@@ -121,7 +121,7 @@ export class AutomatedQualityAssurance {
   /**
    * Agent hook for automatic planetary data validation
    */
-  public async validatePlanetaryData(date: Date = new Date()): Promise<ValidationResult> {
+  public async validatePlanetaryData(date: Date = new Date()): Promise<ValidationResult> {;
     if (!this.config.enablePlanetaryDataValidation) {
       return this.createValidationResult(true1.0, [], [])
     }
@@ -164,7 +164,7 @@ export class AutomatedQualityAssurance {
       });
 
       // Update metrics
-      this.metrics.planetaryDataQuality = {
+      this.metrics.planetaryDataQuality = {;
         accuracy: Math.max(0, score),
         freshness: this.calculateDataFreshness(positions),
         reliability:
@@ -256,7 +256,7 @@ export class AutomatedQualityAssurance {
     const averageScore = validatedCount > 0 ? totalScore / validatedCount : 0;
 
     // Update metrics
-    this.metrics.ingredientConsistency = {
+    this.metrics.ingredientConsistency = {;
       elementalValidation: averageScore,
       compatibilityScores:
         issues.filter(issue => issue.includes('compatibility')).length === 0 ? 1.0 : 0.7,,;
@@ -289,7 +289,7 @@ export class AutomatedQualityAssurance {
 
       this.metrics.typeScriptErrors = errorCount;
 
-      const trigger: CampaignTrigger = {
+      const trigger: CampaignTrigger = {;
         type: 'typescript',
         threshold: this.config.thresholds.typescript.criticalThreshold,
         currentValue: errorCount,
@@ -372,7 +372,7 @@ export class AutomatedQualityAssurance {
     }
 
     // Update performance metrics
-    this.metrics.performanceMetrics = {
+    this.metrics.performanceMetrics = {;
       renderTime: 0, // Will be updated by component monitoring
       memoryUsage: buildMetrics.memoryUsage || 0,
       bundleSize: buildMetrics.bundleSize || 0,
@@ -493,7 +493,7 @@ export class AutomatedQualityAssurance {
   private validateCulturalSensitivity(ingredientNames: string[]): number {
     // Check for potentially insensitive terms
     const sensitiveTerms = ['exotic', 'ethnic', 'primitive', 'weird'];
-    const issues = ingredientNames.filter(name =>
+    const issues = ingredientNames.filter(name =>;
       sensitiveTerms.some(term => name.toLowerCase().includes(term)),;
     ),
 
@@ -508,7 +508,7 @@ export class AutomatedQualityAssurance {
     const thresholds = this.getThresholdsForType(type);
     if (!thresholds) return;
 
-    const trigger: CampaignTrigger = {
+    const trigger: CampaignTrigger = {;
       type,
       threshold: thresholds.critical,
       currentValue: value,
@@ -550,7 +550,7 @@ export class AutomatedQualityAssurance {
     const thresholds = this.getThresholdsForType(type as CampaignTrigger['type']);
     if (!thresholds) return 'monitor',
 
-    if (type === 'typescript' || type === 'linting') {
+    if (type === 'typescript' || type === 'linting') {;
       // For error counts, higher values are worse
       if (value > thresholds.critical) return 'emergency';
       if (value > thresholds.warning) return 'campaign';

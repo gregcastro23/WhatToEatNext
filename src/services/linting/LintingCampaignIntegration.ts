@@ -133,7 +133,7 @@ export class LintingCampaignIntegration {
       // Evaluate success criteria
       const success = this.evaluatePhaseSuccess(phase, prePhaseReport, postPhaseReport);
 
-      const result: CampaignExecutionResult = {
+      const result: CampaignExecutionResult = {;
         campaignId: config.campaignId,
         phase: phase.id,
         success,
@@ -325,7 +325,7 @@ export class LintingCampaignIntegration {
         throw new Error('Campaign data not found');
       }
 
-      const report = {
+      const report = {;
         campaignId,
         name: config.name,
         startTime: (activeCampaign as any)?.startTime,
@@ -476,7 +476,7 @@ export class LintingCampaignIntegration {
 
   private setActiveCampaign(campaignId: string, baselineReport: LintingProgressReport): void {
     try {
-      const activeCampaign = {
+      const activeCampaign = {;
         campaignId,
         startTime: new Date(),
         baselineMetrics: baselineReport.currentMetrics,
@@ -507,7 +507,7 @@ export class LintingCampaignIntegration {
   ): Promise<void> {
     try {
       const activeCampaign = this.getActiveCampaign();
-      if (activeCampaign && (activeCampaign as any)?.campaignId === campaignId) {
+      if (activeCampaign && (activeCampaign as any)?.campaignId === campaignId) {;
         (activeCampaign as any)?.phasesExecuted = (activeCampaign as any)?.phasesExecuted || [];
         (activeCampaign as any)?.phasesExecuted.push({
           phaseId,

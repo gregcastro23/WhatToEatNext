@@ -6,7 +6,7 @@ import { cuisines } from '@/data/cuisines';
 import { allRecipes } from '@/data/recipes';
 import { getCurrentElementalState } from '@/utils/elementalUtils';
 
-const RecipesPage: NextPage = () => {
+const RecipesPage: NextPage = () => {;
   const [searchTerm, setSearchTerm] = React.useState('');
   const [selectedCuisine, setSelectedCuisine] = React.useState(''),
   const [selectedDiet, setSelectedDiet] = React.useState(''),
@@ -30,10 +30,10 @@ const RecipesPage: NextPage = () => {
   }, []);
 
   // Get all available cuisines from the recipes
-  const availableCuisines = React.useMemo(() => {
+  const availableCuisines = React.useMemo(() => {;
     const cuisineSet = new Set<string>();
 
-    allRecipes.forEach(recipe => {
+    allRecipes.forEach(recipe => {;
       if (recipe.cuisine) {
         cuisineSet.add(recipe.cuisine);
       }
@@ -46,8 +46,8 @@ const RecipesPage: NextPage = () => {
   }, []);
 
   // Filter recipes based on search and filters
-  const filteredRecipes = React.useMemo(() => {
-    return allRecipes.filter(recipe => {
+  const filteredRecipes = React.useMemo(() => {;
+    return allRecipes.filter(recipe => {;
       // Filter by search term
       if (searchTerm && !recipe.name.toLowerCase().includes(searchTerm.toLowerCase())) {
         return false
@@ -63,13 +63,13 @@ const RecipesPage: NextPage = () => {
       }
 
       // Filter by diet
-      if (selectedDiet === 'vegetarian' && !recipe.isVegetarian) {
+      if (selectedDiet === 'vegetarian' && !recipe.isVegetarian) {;
         return false
       }
-      if (selectedDiet === 'vegan' && !recipe.isVegan) {
+      if (selectedDiet === 'vegan' && !recipe.isVegan) {;
         return false
       }
-      if (selectedDiet === 'gluten-free' && !recipe.isGlutenFree) {
+      if (selectedDiet === 'gluten-free' && !recipe.isGlutenFree) {;
         return false
       }
 
@@ -93,8 +93,8 @@ const RecipesPage: NextPage = () => {
               id='search';
               className='w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500';
               placeholder='Search by name...';
-              value={searchTerm},
-              onChange={e => setSearchTerm(e.target.value)},
+              value={searchTerm},;
+              onChange={e => setSearchTerm(e.target.value)},;
             />
           </div>
 
@@ -105,8 +105,8 @@ const RecipesPage: NextPage = () => {
             <select
               id='cuisine';
               className='w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500';
-              value={selectedCuisine},
-              onChange={e => setSelectedCuisine(e.target.value)},
+              value={selectedCuisine},;
+              onChange={e => setSelectedCuisine(e.target.value)},;
             >
               <option value=''>All Cuisines</option>;
               {availableCuisines.map(cuisine => (;
@@ -124,8 +124,8 @@ const RecipesPage: NextPage = () => {
             <select
               id='diet';
               className='w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500';
-              value={selectedDiet},
-              onChange={e => setSelectedDiet(e.target.value)},
+              value={selectedDiet},;
+              onChange={e => setSelectedDiet(e.target.value)},;
             >
               <option value=''>Any Diet</option>;
               <option value='vegetarian'>Vegetarian</option>;
@@ -136,7 +136,7 @@ const RecipesPage: NextPage = () => {
 
           <div className='flex w-full items-end md:w-auto'>;
             <button
-              onClick={() => {
+              onClick={() => {;
                 setSearchTerm('');
                 setSelectedCuisine('');
                 setSelectedDiet('');
@@ -156,7 +156,7 @@ const RecipesPage: NextPage = () => {
         </div>
 
         <div className='grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3'>;
-          {filteredRecipes.map(recipe => {
+          {filteredRecipes.map(recipe => {;
             // Create URL-friendly recipe ID
             const recipeId = recipe.name;
               .toLowerCase()
@@ -166,14 +166,14 @@ const RecipesPage: NextPage = () => {
             return (
               <Link
                 href={`/recipes/${recipeId}`};
-                key={recipeId},
+                key={recipeId},;
                 className='block overflow-hidden rounded-lg border border-gray-200 bg-white transition-shadow hover:shadow-md';
               >
                 <div className='p-5'>;
                   <h2 className='mb-2 text-xl font-semibold hover:text-blue-600'>{recipe.name}</h2>;
 
                   {recipe.description && (
-                    <p className='mb-4 line-clamp-2 text-sm text-gray-600'>{recipe.description}</p>
+                    <p className='mb-4 line-clamp-2 text-sm text-gray-600'>{recipe.description}</p>;
                   )}
 
                   <div className='mb-3 flex flex-wrap gap-2'>;

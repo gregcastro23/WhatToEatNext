@@ -55,11 +55,11 @@ export interface FoodEntry {
   elementalProperties: ElementalProperties,
   category: string,
   properties: FoodProperty[],
-  portion: number,
+  portion: number
 }
 
 // Daily nutrition targets
-export const nutritionTargets = {
+export const nutritionTargets = {;
   calories: { min: 1800, max: 2400, unit: 'kcal' },
   protein: { min: 50, max: 100, unit: 'g' },
   carbs: { min: 225, max: 325, unit: 'g' },
@@ -86,7 +86,7 @@ export function calculateNutritionalBalance(entries: FoodEntry[]): { [key: strin
   return entries.reduce(
     (acc, entry) => {
       Object.entries(entry.nutrition).forEach(([nutrient, value]) => {
-        if (typeof value === 'number') {
+        if (typeof value === 'number') {;
           acc[nutrient] = (acc[nutrient] || 0) + value * entry.portion;
         }
       });
@@ -102,7 +102,7 @@ export function analyzePropertyBalance(
 ): { property: FoodProperty, count: number }[] {
   const propertyCount = entries.reduce(;
     (acc, entry) => {
-      entry.properties.forEach(prop => {
+      entry.properties.forEach(prop => {;
         acc[prop] = (acc[prop] || 0) + 1;
       });
       return acc;
@@ -128,13 +128,13 @@ export function findComplementaryDishes(
   // Find dishes that help balance nutrition and properties
   const recommendations: Dish[] = [];
 
-  Object.values(availableDishes).forEach(cuisine => {
+  Object.values(availableDishes).forEach(cuisine => {;
     if (cuisine?.dishes) {
-      Object.values(cuisine.dishes).forEach(mealTypes => {
+      Object.values(cuisine.dishes).forEach(mealTypes => {;
         if (mealTypes) {
-          Object.values(mealTypes).forEach(seasonalDishes => {
+          Object.values(mealTypes).forEach(seasonalDishes => {;
             if (seasonalDishes && Array.isArray(seasonalDishes)) {
-              seasonalDishes.forEach(dish => {
+              seasonalDishes.forEach(dish => {;
                 let score = 0;
 
                 // Score based on needed nutrients
@@ -146,7 +146,7 @@ export function findComplementaryDishes(
                 }),
 
                 // Score based on desired properties
-                targetProperties.forEach(prop => {
+                targetProperties.forEach(prop => {;
                   if (Array.isArray(dish.properties) && dish.properties.includes(prop)) {
                     score += 1;
                   }
@@ -179,7 +179,7 @@ export interface MealRecommendation {
 }
 
 // Export the main foodTypes object that components expect
-export const foodTypes = {
+export const foodTypes = {;
   properties: [
     'hot',
     'cold',

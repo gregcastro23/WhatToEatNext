@@ -35,7 +35,7 @@ class ElementalSystem {
 
     if (total === 0) return ['No elemental properties found'];
 
-    ELEMENTS.forEach(element => {
+    ELEMENTS.forEach(element => {;
       const value = properties[element] || 0;
       const proportion = value / total;
 
@@ -50,9 +50,9 @@ class ElementalSystem {
   }
 
   normalizeProperties(properties: Partial<ElementalProperties>): ElementalProperties {
-    const total = Object.values(properties).reduce((sum: number, val) => sum + (val || 0), 0),
+    const total = Object.values(properties).reduce((sum: number, val) => sum + (val || 0), 0),;
 
-    if (total === 0) {
+    if (total === 0) {;
       return ELEMENTS.reduce(
         (acc, element) => ({
           ...acc;
@@ -75,7 +75,7 @@ class ElementalSystem {
     let dominantElement: Element = 'Fire';
     let maxValue = -Infinity;
 
-    ELEMENTS.forEach(element => {
+    ELEMENTS.forEach(element => {;
       const value = properties[element] || 0;
       if (value > maxValue) {
         maxValue = value;
@@ -92,7 +92,7 @@ class ElementalSystem {
     const moonSign = typeof moonSignValue === 'string' ? moonSignValue.toLowerCase() : '';
     const moonElement = moonSign ? ZODIAC_ELEMENTS[moonSign] : 'Water';
 
-    const baseProperties: ElementalProperties = {
+    const baseProperties: ElementalProperties = {;
       Fire: 0.25,
       Water: 0.25,
       Air: 0.25,

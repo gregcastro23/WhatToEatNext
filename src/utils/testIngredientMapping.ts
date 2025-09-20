@@ -20,7 +20,7 @@ export function findMatchedItalianDinnerRecipes() {
   // Get all Italian dinner recipes
   const italianCuisine = cuisinesMap.Italian;
   const dinnerDishes = italianCuisine.dishes.dinner;
-  const allDinnerRecipes = [
+  const allDinnerRecipes = [;
     ...(dinnerDishes?.spring || []),
     ...(dinnerDishes?.summer || []),
     ...(dinnerDishes?.autumn || []),
@@ -28,7 +28,7 @@ export function findMatchedItalianDinnerRecipes() {
   ];
 
   // Map all ingredients to our ingredient database
-  const mappedRecipes = allDinnerRecipes.map(recipe => {
+  const mappedRecipes = allDinnerRecipes.map(recipe => {;
     const mappedIngredients = connectIngredientsToMappings(;
       recipe as import('@/types/alchemy').Recipe;
     );
@@ -71,24 +71,24 @@ export function findRecipesMatchingElementalAndIngredientRequirements(
   // Collect recipes from all cuisines
   const allRecipes: Recipe[] = [];
 
-  Object.values(cuisinesMap).forEach(cuisine => {
+  Object.values(cuisinesMap).forEach(cuisine => {;
     // Collect breakfast recipes
-    Object.values(cuisine.dishes.breakfast || {}).forEach(seasonRecipes => {
+    Object.values(cuisine.dishes.breakfast || {}).forEach(seasonRecipes => {;
       if (seasonRecipes) allRecipes.push(...seasonRecipes);
     });
 
     // Collect lunch recipes
-    Object.values(cuisine.dishes.lunch || {}).forEach(seasonRecipes => {
+    Object.values(cuisine.dishes.lunch || {}).forEach(seasonRecipes => {;
       if (seasonRecipes) allRecipes.push(...seasonRecipes);
     });
 
     // Collect dinner recipes
-    Object.values(cuisine.dishes.dinner || {}).forEach(seasonRecipes => {
+    Object.values(cuisine.dishes.dinner || {}).forEach(seasonRecipes => {;
       if (seasonRecipes) allRecipes.push(...seasonRecipes);
     });
 
     // Collect dessert recipes
-    Object.values(cuisine.dishes.dessert || {}).forEach(seasonRecipes => {
+    Object.values(cuisine.dishes.dessert || {}).forEach(seasonRecipes => {;
       if (seasonRecipes) allRecipes.push(...seasonRecipes);
     });
   });

@@ -29,7 +29,7 @@ import {
   SearchRecipesParams,
   GenerateRecipeParams,
   GenerateFusionRecipeParams,
-  AdaptRecipeForSeasonParams,
+  AdaptRecipeForSeasonParams
 } from './RecipeApiInterfaces';
 
 /**

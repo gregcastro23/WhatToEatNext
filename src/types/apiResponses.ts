@@ -26,7 +26,7 @@ export type ServiceResponse<T> = ServiceResponseType<T>;
  * Alchemical Recommendation Response
  * Standardized response for alchemical recommendation services
  */
-export type AlchemicalRecommendationResponse = ServiceResponseType<{
+export type AlchemicalRecommendationResponse = ServiceResponseType<{;
   recommendations: AlchemicalTransformationResultType[],
   compatibility: number,
   reasoning: string[],
@@ -44,7 +44,7 @@ export type PlanetaryInfluenceResponse = ServiceResponseType<PlanetaryInfluenceR
  * Standardized Planetary Position Response
  * Common structure for planetary position data from any API
  */
-export type StandardizedPlanetaryResponse = ServiceResponseType<{
+export type StandardizedPlanetaryResponse = ServiceResponseType<{;
   positions: Record<string, StandardizedPlanetaryPosition>;
   timestamp: string,
   source: string,
@@ -55,7 +55,7 @@ export type StandardizedPlanetaryResponse = ServiceResponseType<{
  * Recipe Recommendation Response
  * Standardized response for recipe recommendations
  */
-export type RecipeRecommendationResponse = ServiceResponseType<{
+export type RecipeRecommendationResponse = ServiceResponseType<{;
   recipes: Array<{
     id: string,
     name: string,
@@ -72,7 +72,7 @@ export type RecipeRecommendationResponse = ServiceResponseType<{
  * Culinary Analysis Response
  * Comprehensive culinary analysis response
  */
-export type CulinaryAnalysisResponse = ServiceResponseType<{
+export type CulinaryAnalysisResponse = ServiceResponseType<{;
   overallCompatibility: number,
   elementalAnalysis: ElementalPropertiesType,
   thermodynamicProfile: ThermodynamicMetricsType,

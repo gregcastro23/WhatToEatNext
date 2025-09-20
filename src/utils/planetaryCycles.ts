@@ -2,7 +2,7 @@
  * Planetary Cycles Configuration
  * Defines the fundamental cycles that govern token behavior
  */
-export const planetaryCycles = {
+export const planetaryCycles = {;
   Spirit: {
     primary: {
       period: 1.88, // Mars cycle
@@ -189,17 +189,17 @@ export const _planetaryModifiers: Record<string, Record<string, number>> = {
  * @param date The date to calculate for
  * @returns Object containing token values
  */
-export function calculateTokenizedValues(date: Date = new Date()): {
+export function calculateTokenizedValues(date: Date = new Date()): {;
   Spirit: number,
   Essence: number,
   Matter: number,
-  Substance: number,
+  Substance: number
 } {
   // Convert date to days since epoch for cycle calculations
   const daysSinceEpoch = date.getTime() / (24 * 60 * 60 * 1000);
 
   // Calculate each token's value based on its cycles
-  const values = {
+  const values = {;
     Spirit: calculateTokenValue('Spirit', daysSinceEpoch),
     Essence: calculateTokenValue('Essence', daysSinceEpoch),
     Matter: calculateTokenValue('Matter', daysSinceEpoch),

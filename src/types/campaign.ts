@@ -7,7 +7,7 @@ export interface CampaignConfig {
   phases: CampaignPhase[],
   safetySettings: SafetySettings,
   progressTargets: ProgressTargets,
-  toolConfiguration: ToolConfiguration,
+  toolConfiguration: ToolConfiguration
 }
 
 export interface CampaignPhase {
@@ -16,14 +16,14 @@ export interface CampaignPhase {
   description: string,
   tools: ScriptTool[],
   successCriteria: SuccessCriteria,
-  safetyCheckpoints: SafetyCheckpoint[],
+  safetyCheckpoints: SafetyCheckpoint[]
 }
 
 export interface ScriptTool {
   scriptPath: string,
   parameters: ScriptParameters,
   batchSize: number,
-  safetyLevel: SafetyLevel,
+  safetyLevel: SafetyLevel
 }
 
 export interface ScriptParameters {
@@ -56,19 +56,19 @@ export interface ProgressMetrics {
     current: number,
     target: number,
     reduction: number,
-    percentage: number,
+    percentage: number
   };
   lintingWarnings: {
     current: number,
     target: number,
     reduction: number,
-    percentage: number,
+    percentage: number
   };
   buildPerformance: {
     currentTime: number,
     targetTime: number,
     cacheHitRate: number,
-    memoryUsage: number,
+    memoryUsage: number
   };
   enterpriseSystems: {
     current: number,
@@ -85,14 +85,14 @@ export interface PhaseResult {
   errorsFixed: number,
   warningsFixed: number,
   executionTime: number,
-  safetyEvents: SafetyEvent[],
+  safetyEvents: SafetyEvent[]
 }
 
 export interface MetricsImprovement {
   typeScriptErrorsReduced: number,
   lintingWarningsReduced: number,
   buildTimeImproved: number,
-  enterpriseSystemsAdded: number,
+  enterpriseSystemsAdded: number
 }
 
 export interface SafetyEvent {
@@ -109,28 +109,28 @@ export interface SafetySettings {
   testValidationFrequency: number,
   corruptionDetectionEnabled: boolean,
   automaticRollbackEnabled: boolean,
-  stashRetentionDays: number,
+  stashRetentionDays: number
 }
 
 export interface ProgressTargets {
   typeScriptErrors: number,
   lintingWarnings: number,
   buildTime: number,
-  enterpriseSystems: number,
+  enterpriseSystems: number
 }
 
 export interface ToolConfiguration {
   enhancedErrorFixer: string,
   explicitAnyFixer: string,
   unusedVariablesFixer: string,
-  consoleStatementFixer: string,
+  consoleStatementFixer: string
 }
 
 export interface CorruptionReport {
   detectedFiles: string[],
   corruptionPatterns: CorruptionPattern[],
   severity: CorruptionSeverity,
-  recommendedAction: RecoveryAction,
+  recommendedAction: RecoveryAction
 }
 
 export interface CorruptionPattern {
@@ -150,7 +150,7 @@ export interface BuildValidation {
   success: boolean,
   buildTime: number,
   errors: string[],
-  warnings: string[],
+  warnings: string[]
 }
 
 export interface TestValidation {
@@ -165,7 +165,7 @@ export interface DryRunResult {
   wouldProcess: string[],
   estimatedChanges: number,
   potentialIssues: string[],
-  safetyScore: number,
+  safetyScore: number
 }
 
 export interface ExecutionResult {
@@ -174,7 +174,7 @@ export interface ExecutionResult {
   changesApplied: number,
   errors: string[],
   warnings: string[],
-  executionTime: number,
+  executionTime: number
 }
 
 export interface BatchResult {
@@ -183,7 +183,7 @@ export interface BatchResult {
   success: boolean,
   errors: string[],
   warnings: string[],
-  metricsChange: Partial<ProgressMetrics>,
+  metricsChange: Partial<ProgressMetrics>
 }
 
 export interface GitStash {
@@ -212,72 +212,72 @@ export interface ProgressReport {
   phases: PhaseReport[],
   currentMetrics: ProgressMetrics,
   targetMetrics: ProgressMetrics,
-  estimatedCompletion: Date,
+  estimatedCompletion: Date
 }
 
 // Enums
 export enum SafetyLevel {
-  LOW = 'LOW',
-  MEDIUM = 'MEDIUM',
-  HIGH = 'HIGH',
-  MAXIMUM = 'MAXIMUM',
+  LOW = 'LOW',;
+  MEDIUM = 'MEDIUM',;
+  HIGH = 'HIGH',;
+  MAXIMUM = 'MAXIMUM',;
 }
 
 export enum SafetyEventType {
-  CHECKPOINT_CREATED = 'CHECKPOINT_CREATED',
-  ROLLBACK_TRIGGERED = 'ROLLBACK_TRIGGERED',
-  CORRUPTION_DETECTED = 'CORRUPTION_DETECTED',
-  BUILD_FAILURE = 'BUILD_FAILURE',
-  TEST_FAILURE = 'TEST_FAILURE',
-  EMERGENCY_RECOVERY = 'EMERGENCY_RECOVERY',
+  CHECKPOINT_CREATED = 'CHECKPOINT_CREATED',;
+  ROLLBACK_TRIGGERED = 'ROLLBACK_TRIGGERED',;
+  CORRUPTION_DETECTED = 'CORRUPTION_DETECTED',;
+  BUILD_FAILURE = 'BUILD_FAILURE',;
+  TEST_FAILURE = 'TEST_FAILURE',;
+  EMERGENCY_RECOVERY = 'EMERGENCY_RECOVERY',;
 }
 
 export enum SafetyEventSeverity {
-  INFO = 'INFO',
-  WARNING = 'WARNING',
-  ERROR = 'ERROR',
-  CRITICAL = 'CRITICAL',
+  INFO = 'INFO',;
+  WARNING = 'WARNING',;
+  ERROR = 'ERROR',;
+  CRITICAL = 'CRITICAL',;
 }
 
 export enum CorruptionSeverity {
-  LOW = 'LOW',
-  MEDIUM = 'MEDIUM',
-  HIGH = 'HIGH',
-  CRITICAL = 'CRITICAL',
+  LOW = 'LOW',;
+  MEDIUM = 'MEDIUM',;
+  HIGH = 'HIGH',;
+  CRITICAL = 'CRITICAL',;
 }
 
 export enum RecoveryAction {
-  CONTINUE = 'CONTINUE',
-  RETRY = 'RETRY',
-  ROLLBACK = 'ROLLBACK',
-  EMERGENCY_RESTORE = 'EMERGENCY_RESTORE',
+  CONTINUE = 'CONTINUE',;
+  RETRY = 'RETRY',;
+  ROLLBACK = 'ROLLBACK',;
+  EMERGENCY_RESTORE = 'EMERGENCY_RESTORE',;
 }
 
 export enum PhaseStatus {
-  NOT_STARTED = 'NOT_STARTED',
-  IN_PROGRESS = 'IN_PROGRESS',
-  COMPLETED = 'COMPLETED',
-  FAILED = 'FAILED',
-  ROLLED_BACK = 'ROLLED_BACK',
+  NOT_STARTED = 'NOT_STARTED',;
+  IN_PROGRESS = 'IN_PROGRESS',;
+  COMPLETED = 'COMPLETED',;
+  FAILED = 'FAILED',;
+  ROLLED_BACK = 'ROLLED_BACK',;
 }
 
 export enum ErrorCategory {
   // High-priority TypeScript errors
-  TS2352_TYPE_CONVERSION = 'TS2352',
-  TS2345_ARGUMENT_MISMATCH = 'TS2345',
-  TS2698_SPREAD_TYPE = 'TS2698',
-  TS2304_CANNOT_FIND_NAME = 'TS2304',
-  TS2362_ARITHMETIC_OPERATION = 'TS2362',
+  TS2352_TYPE_CONVERSION = 'TS2352',;
+  TS2345_ARGUMENT_MISMATCH = 'TS2345',;
+  TS2698_SPREAD_TYPE = 'TS2698',;
+  TS2304_CANNOT_FIND_NAME = 'TS2304',;
+  TS2362_ARITHMETIC_OPERATION = 'TS2362',;
 
   // Linting categories
-  EXPLICIT_ANY_WARNING = 'explicit-any',
-  UNUSED_VARIABLES = 'unused-vars',
-  CONSOLE_STATEMENTS = 'no-console',
+  EXPLICIT_ANY_WARNING = 'explicit-any',;
+  UNUSED_VARIABLES = 'unused-vars',;
+  CONSOLE_STATEMENTS = 'no-console',;
 
   // Safety categories
-  CORRUPTION_DETECTED = 'corruption',
-  BUILD_FAILURE = 'build-fail',
-  TEST_FAILURE = 'test-fail',
+  CORRUPTION_DETECTED = 'corruption',;
+  BUILD_FAILURE = 'build-fail',;
+  TEST_FAILURE = 'test-fail',;
 }
 
 export type CheckpointId = string;

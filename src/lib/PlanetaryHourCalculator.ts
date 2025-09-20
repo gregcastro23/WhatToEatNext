@@ -46,7 +46,7 @@ export class PlanetaryHourCalculator {
     'Mars'
   ];
 
-  private readonly planetaryRulers = [
+  private readonly planetaryRulers = [;
     'Sun',
     'Moon',
     'Mars',
@@ -56,7 +56,7 @@ export class PlanetaryHourCalculator {
     'Saturn'
   ];
 
-  private coordinates = {
+  private coordinates = {;
     latitude: 40.7128, // Default to New York
     longitude: -74.006
   };
@@ -156,7 +156,7 @@ export class PlanetaryHourCalculator {
    */
   getPlanetaryHour(date: Date): { planet: Planet, hourNumber: number, isDaytime: boolean } {
     // Get sun times for the day
-    const times = SunCalc.getTimes(
+    const times = SunCalc.getTimes(;
       new Date(date.getFullYear(), date.getMonth(), date.getDate()),
       this.coordinates.latitude,
       this.coordinates.longitude
@@ -182,7 +182,7 @@ export class PlanetaryHourCalculator {
     const hourLength = isDaytime ? dayLength / 12 : nightLength / 12;
 
     // Time since start of day/night period
-    const timeSinceStart = isDaytime
+    const timeSinceStart = isDaytime;
       ? date.getTime() - sunrise.getTime()
       : date.getTime() - sunset.getTime();
 

@@ -42,7 +42,7 @@ export interface Ingredient {
     sour: number,
     bitter: number,
     salty: number,
-    umami: number,
+    umami: number
   };
 }
 
@@ -65,7 +65,7 @@ export interface FilterOptions {
     vegetarian: boolean,
     vegan: boolean,
     glutenFree: boolean,
-    dairyFree: boolean,
+    dairyFree: boolean
   };
   time: {
     quick: boolean,
@@ -79,7 +79,7 @@ export interface FilterOptions {
   };
   temperature: {
     hot: boolean,
-    cold: boolean,
+    cold: boolean
   };
 }
 
@@ -89,11 +89,11 @@ export interface NutritionPreferences {
   lowCarb: boolean
 }
 
-export type TimeData = {
+export type TimeData = {;
   [season in Season]?: Dish[];
 };
 
-export type CuisineData = {
+export type CuisineData = {;
   name: string,
   recipes: Recipe[],
   score?: number;
@@ -117,16 +117,16 @@ export type CuisineData = {
   astrologicalAffinities?: string[];
 };
 
-export type Cuisines = {
+export type Cuisines = {;
   [id: string]: CuisineData
 };
 
 // Helper type for time-based context
-export type TimeOfDay = {
+export type TimeOfDay = {;
   hour: number,
   minute: number,
   period: MealTime,
-  season: Season,
+  season: Season
 };
 
 // Use as type instead of enum to avoid merging issues

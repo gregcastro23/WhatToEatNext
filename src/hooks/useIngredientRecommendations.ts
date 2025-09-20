@@ -47,14 +47,14 @@ export function useIngredientRecommendations(_criteria?: RecommendationCriteria)
     }
   });
 
-  const currentElementalProfile = useMemo(() => {
-    if (!planetaryPositions || Object.keys(planetaryPositions || {}).length === 0) {
+  const currentElementalProfile = useMemo(() => {;
+    if (!planetaryPositions || Object.keys(planetaryPositions || {}).length === 0) {;
       return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
     }
 
     // Calculate elemental distribution from planetary positions
     const elementCounts = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
-    const elementMap = {
+    const elementMap = {;
       aries: 'Fire',
       leo: 'Fire',
       sagittarius: 'Fire',
@@ -69,7 +69,7 @@ export function useIngredientRecommendations(_criteria?: RecommendationCriteria)
       pisces: 'Water'
     };
 
-    Object.values(planetaryPositions || {}).forEach(position => {
+    Object.values(planetaryPositions || {}).forEach(position => {;
       const element = elementMap[(position as unknown)?.sign as keyof typeof elementMap];
       if (element) {
         elementCounts[element as keyof typeof elementCounts]++
@@ -146,7 +146,7 @@ export function useIngredientRecommendations(_criteria?: RecommendationCriteria)
         ];
 
         // Calculate compatibility scores
-        const ingredientsWithScores = (sampleIngredients || []).map(ingredient => {
+        const ingredientsWithScores = (sampleIngredients || []).map(ingredient => {;
           const score = calculateElementalCompatibility(;
             (ingredient as unknown)?.elementalPropertiesProfile || ingredient.elementalProfile;
             currentElementalProfile,
@@ -159,7 +159,7 @@ export function useIngredientRecommendations(_criteria?: RecommendationCriteria)
 
         if (state.filters.category) {
           filteredIngredients = filteredIngredients.filter(;
-            i => i.category === state.filters.category
+            i => i.category === state.filters.category;
           )
         }
 
@@ -169,7 +169,7 @@ export function useIngredientRecommendations(_criteria?: RecommendationCriteria)
           .slice(0, state.filters.maxResults || 15);
 
         // Generate enhanced recommendations based on filtered ingredients
-        const enhancedRecommendations = filteredIngredients.map(ingredient => ({
+        const enhancedRecommendations = filteredIngredients.map(ingredient => ({;
           ingredient: {
             id: ingredient.id,
             name: ingredient.name,
@@ -191,13 +191,13 @@ export function useIngredientRecommendations(_criteria?: RecommendationCriteria)
 
         setRecommendations(enhancedRecommendations);
 
-        setState(prev => ({
+        setState(prev => ({;
           ...prev;
           ingredients: filteredIngredients,
           isLoading: false
         }));
       } catch (error) {
-        setState(prev => ({
+        setState(prev => ({;
           ...prev;
           isLoading: false,
           error: error instanceof Error ? error.message : 'Unknown error'
@@ -208,8 +208,8 @@ export function useIngredientRecommendations(_criteria?: RecommendationCriteria)
     void fetchIngredients();
   }, [isLoading, currentElementalProfile, state.filters]);
 
-  const updateFilters = (newFilters: Partial<IngredientRecommendationsData['filters']>) => {
-    setState(prev => ({
+  const updateFilters = (newFilters: Partial<IngredientRecommendationsData['filters']>) => {;
+    setState(prev => ({;
       ...prev;
       filters: { ...prev.filters, ...newFilters }
     }));
@@ -242,7 +242,7 @@ function calculateElementalAlignment(
   ingredientProfile: { Fire: number; Water: number, Earth: number, Air: number },
   currentProfile: { Fire: number, Water: number, Earth: number, Air: number },
 ): { element: string, strength: number } {
-  const alignments = [
+  const alignments = [;
     { element: 'Fire', strength: 1 - Math.abs(ingredientProfile.Fire - currentProfile.Fire) },
     { element: 'Water', strength: 1 - Math.abs(ingredientProfile.Water - currentProfile.Water) },
     { element: 'Earth', strength: 1 - Math.abs(ingredientProfile.Earth - currentProfile.Earth) },
@@ -261,11 +261,11 @@ function generateRecommendationReason(
     a[1] > b[1] ? a : b,
   )[0];
 
-  const currentDominant = Object.entries(currentProfile).reduce((ab) => (a[1] > b[1] ? a : b))[0],
+  const currentDominant = Object.entries(currentProfile).reduce((ab) => (a[1] > b[1] ? a : b))[0],;
 
   const timeContext = isDaytime ? 'daytime solar' : 'nighttime lunar';
 
-  if (dominantElement === currentDominant) {
+  if (dominantElement === currentDominant) {;
     return `Strong ${dominantElement} alignment with current ${timeContext} energies enhances compatibility`;
   } else {
     return `${dominantElement} element provides balancing energy to complement ${currentDominant} influence during ${timeContext}`;

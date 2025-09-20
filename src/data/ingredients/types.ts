@@ -4,7 +4,7 @@ import type { ElementalProperties, ZodiacSign } from '@/types/alchemy';
 export type { ElementalProperties };
 
 export type IngredientCategory =
-  | 'culinary_herb'
+  | 'culinary_herb';
   | 'spice'
   | 'vegetable'
   | 'fruit'
@@ -24,7 +24,7 @@ export interface SensoryProfile {
         sour: number,
         bitter: number,
         umami: number,
-        spicy: number,
+        spicy: number
       }
     | Record<string, number>;
   aroma:
@@ -34,7 +34,7 @@ export interface SensoryProfile {
         herbal: number,
         spicy: number,
         earthy: number,
-        woody: number,
+        woody: number
       }
     | Record<string, number>;
   texture:
@@ -44,7 +44,7 @@ export interface SensoryProfile {
         creamy: number,
         chewy: number,
         crunchy: number,
-        silky: number,
+        silky: number
       }
     | Record<string, number>;
 }
@@ -103,7 +103,7 @@ export interface Ingredient extends BaseIngredient {
   >;
   smokePoint?: {
     celsius: number,
-    fahrenheit: number,
+    fahrenheit: number
   };
   potency?: number;
   heatLevel?: number;
@@ -127,7 +127,7 @@ export interface Ingredient extends BaseIngredient {
       | string
       | {
           fahrenheit: number,
-          celsius: number,
+          celsius: number
         };
     notes?: string;
   };
@@ -186,7 +186,7 @@ export interface AlchemicalProperties {
   spirit: number,
   essence: number,
   matter: number,
-  substance: number,
+  substance: number
 }
 
 // Updated ThermodynamicProperties interface based on the FoodAlchemySystem
@@ -194,7 +194,7 @@ export interface ThermodynamicProperties {
   heat: number,
   entropy: number,
   reactivity: number,
-  energy: number,
+  energy: number
 }
 
 // Add Modality type to the types file

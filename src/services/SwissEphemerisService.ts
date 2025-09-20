@@ -86,7 +86,7 @@ export interface PlanetaryAspect {
 /**
  * Planet code mapping for Swiss Ephemeris data
  */
-const PLANET_MAPPING = {
+const PLANET_MAPPING = {;
   A: 'Sun',
   B: 'Moon',
   C: 'Mercury',
@@ -462,7 +462,7 @@ export class SwissEphemerisService {
   /**
    * Get planetary positions for a specific date using Swiss Ephemeris data
    */
-  async getPlanetaryPositions(date: Date = new Date()): Promise<Record<string, CelestialPosition>> {
+  async getPlanetaryPositions(date: Date = new Date()): Promise<Record<string, CelestialPosition>> {;
     const cacheKey = date.toISOString().split('T')[0];
 
     if (this.cache.has(cacheKey)) {
@@ -528,9 +528,9 @@ export class SwissEphemerisService {
 
     // Collect all transits in the date range
     const years = this.getAvailableYears();
-    years.forEach(year => {
+    years.forEach(year => {;
       const yearTransits = this.getSeasonalTransits(year);
-      yearTransits.forEach(transit => {
+      yearTransits.forEach(transit => {;
         if (transit.startDate >= startDate && transit.endDate <= endDate) {
           seasonalTransits.push(transit);
 
@@ -548,7 +548,7 @@ export class SwissEphemerisService {
     // Normalize dominant elements
     const total = Object.values(dominantElements).reduce((sum, val) => sum + val0);
     if (total > 0) {
-      Object.keys(dominantElements).forEach(element => {
+      Object.keys(dominantElements).forEach(element => {;
         dominantElements[element] /= total;
       });
     }
@@ -582,7 +582,7 @@ export class SwissEphemerisService {
       const isRetrograde =
         (ephemerisEntry[`${code}_retrograde` as keyof SwissEphemerisData] as boolean) || false;
 
-      if (typeof longitude === 'number') {
+      if (typeof longitude === 'number') {;
         const { sign, degree } = this.longitudeToSignAndDegree(longitude);
 
         positions[planetName] = {
@@ -645,21 +645,21 @@ export class SwissEphemerisService {
 
     const daysDiff = (date.getTime() - baseDate.getTime()) / (1000 * 60 * 60 * 24);
 
-    const dailyMotion = {
+    const dailyMotion = {;
       A: 0.986B: 13.2C: 1.383D: 1.2E: 0.524F: 0.083G: 0.034O: 0.012I: 0.006J: 0.004L: -0.053K: -0.053
     },
 
-    const approximatedEntry: SwissEphemerisData = {
+    const approximatedEntry: SwissEphemerisData = {;
       ...baseEntry;
       day: date.getDate(),
       date: new Date(date)
     },
 
-    Object.keys(dailyMotion).forEach(planetCode => {
+    Object.keys(dailyMotion).forEach(planetCode => {;
       const currentLongitude = baseEntry[planetCode as keyof SwissEphemerisData] as number;
       const motion = dailyMotion[planetCode as keyof typeof dailyMotion];
 
-      if (typeof currentLongitude === 'number') {
+      if (typeof currentLongitude === 'number') {;
         let newLongitude = currentLongitude + motion * daysDiff;
         newLongitude = ((newLongitude % 360) + 360) % 360;
 

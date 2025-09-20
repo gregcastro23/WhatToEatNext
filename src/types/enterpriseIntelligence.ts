@@ -24,7 +24,7 @@ export interface CompatibilityAnalysis {
   astrologicalCompatibility: number,
   culturalCompatibility: number,
   nutritionalCompatibility: number,
-  flavorCompatibility: number,
+  flavorCompatibility: number
 }
 
 export interface RecipeIntelligenceResult {
@@ -33,7 +33,7 @@ export interface RecipeIntelligenceResult {
   safetyScore: number,
   recommendations: string[],
   confidence: number,
-  timestamp: string,
+  timestamp: string
 }
 
 export interface CategorizationAnalysis {
@@ -68,7 +68,7 @@ export interface IngredientIntelligenceResult {
   safetyScore: number,
   recommendations: string[],
   confidence: number,
-  timestamp: string,
+  timestamp: string
 }
 
 export interface CulturalAnalysis {
@@ -146,7 +146,7 @@ export interface ValidationIntelligenceResult {
     criticalIssues: string[]
   };
   confidence: number,
-  timestamp: string,
+  timestamp: string
 }
 
 export interface SafetyIntelligenceResult {
@@ -158,7 +158,7 @@ export interface SafetyIntelligenceResult {
   fallbackStrategies: string[],
   errorRecovery: {
     enabled: boolean,
-    strategies: string[],
+    strategies: string[]
   };
   monitoringAlerts: string[],
   confidence: number,
@@ -226,7 +226,7 @@ export interface EnterpriseIntelligenceResult {
   overallIntelligenceScore: number,
   executionTime: number,
   confidence: number,
-  timestamp: string,
+  timestamp: string
 }
 
 export interface EnterpriseIntelligenceMetrics {
@@ -242,7 +242,7 @@ export interface EnterpriseIntelligenceMetrics {
     cuisineIntelligence: number,
     validationIntelligence: number,
     safetyIntelligence: number,
-    optimizationIntelligence: number,
+    optimizationIntelligence: number
   };
 }
 
@@ -253,7 +253,7 @@ export interface EnterpriseIntelligenceInput {
     name: string,
     type: string,
     region: string,
-    characteristics: string[],
+    characteristics: string[]
   };
   context: {
     zodiacSign: any,

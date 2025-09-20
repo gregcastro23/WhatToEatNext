@@ -25,7 +25,7 @@ describe('DependencySecurityMonitor', () => {
   let testConfig: DependencySecurityConfig,
 
   beforeEach(() => {
-    testConfig = {
+    testConfig = {;
       ...DEFAULT_DEPENDENCY_SECURITY_CONFIG;
       maxDependenciesPerBatch: 5,
       safetyValidationEnabled: true
@@ -38,7 +38,7 @@ describe('DependencySecurityMonitor', () => {
 
   describe('scanSecurityVulnerabilities', () => {
     test('detects and categorizes security vulnerabilities', async () => {
-      const auditOutput: any = JSON.stringify({
+      const auditOutput: any = JSON.stringify({;
         vulnerabilities: { lodash: {
             severity: 'high',
             via: [
@@ -98,7 +98,7 @@ describe('DependencySecurityMonitor', () => {
     });
 
     test('generates appropriate security recommendations', async () => {
-      const auditOutput: any = JSON.stringify({
+      const auditOutput: any = JSON.stringify({;
         vulnerabilities: {
           'test-package': {
             severity: 'critical',
@@ -123,7 +123,7 @@ describe('DependencySecurityMonitor', () => {
 
   describe('checkDependencyUpdates', () => {
     test('detects available dependency updates', async () => {
-      const outdatedOutput: any = JSON.stringify({
+      const outdatedOutput: any = JSON.stringify({;
         lodash: { current: '4.17.20',
           wanted: '4.17.21',
           latest: '4.17.21',
@@ -170,7 +170,7 @@ describe('DependencySecurityMonitor', () => {
 
   describe('applySecurityPatches', () => {
     test('applies security patches for critical vulnerabilities', async () => {
-      const config: any = {
+      const config: any = {;
         ...testConfig;
         autoUpdateEnabled: true,
         securityThresholds: {
@@ -180,7 +180,7 @@ describe('DependencySecurityMonitor', () => {
       };
       const monitor: any = new DependencySecurityMonitor(config);
 
-      const vulnerabilities: any = [
+      const vulnerabilities: any = [;
         {
           packageName: 'lodash',
           currentVersion: '4.17.20',
@@ -204,7 +204,7 @@ describe('DependencySecurityMonitor', () => {
     }),
 
     test('skips excluded packages', async () => {
-      const config: any = {
+      const config: any = {;
         ...testConfig;
         autoUpdateEnabled: true,
         excludedPackages: ['lodash'],
@@ -215,7 +215,7 @@ describe('DependencySecurityMonitor', () => {
       };
       const monitor: any = new DependencySecurityMonitor(config);
 
-      const vulnerabilities: any = [
+      const vulnerabilities: any = [;
         {
           packageName: 'lodash',
           currentVersion: '4.17.20',
@@ -235,7 +235,7 @@ describe('DependencySecurityMonitor', () => {
     }),
 
     test('respects security threshold settings', async () => {
-      const config: any = {
+      const config: any = {;
         ...testConfig;
         autoUpdateEnabled: true,
         securityThresholds: {
@@ -246,7 +246,7 @@ describe('DependencySecurityMonitor', () => {
       };
       const monitor: any = new DependencySecurityMonitor(config);
 
-      const vulnerabilities: any = [
+      const vulnerabilities: any = [;
         {
           packageName: 'lodash',
           currentVersion: '4.17.20',
@@ -267,13 +267,13 @@ describe('DependencySecurityMonitor', () => {
 
   describe('applySafeUpdates', () => {
     test('applies safe patch updates', async () => {
-      const config: any = {
+      const config: any = {;
         ...testConfig;
         autoUpdateEnabled: true
       };
       const monitor: any = new DependencySecurityMonitor(config);
 
-      const availableUpdates: any = [
+      const availableUpdates: any = [;
         {
           packageName: 'lodash',
           currentVersion: '4.17.20',
@@ -294,7 +294,7 @@ describe('DependencySecurityMonitor', () => {
     });
 
     test('skips major updates requiring manual approval', async () => {
-      const config = {
+      const config = {;
         ...testConfig;
         autoUpdateEnabled: true,
         updateStrategies: [
@@ -310,7 +310,7 @@ describe('DependencySecurityMonitor', () => {
       };
       const monitor: any = new DependencySecurityMonitor(config);
 
-      const availableUpdates: any = [
+      const availableUpdates: any = [;
         {
           packageName: 'react',
           currentVersion: '17.0.0',
@@ -369,7 +369,7 @@ describe('DependencySecurityMonitor', () => {
 
   describe('executeDependencySecurityMonitoring', () => {
     test('executes complete monitoring workflow', async () => {
-      const packageJson: any = {
+      const packageJson: any = {;
         dependencies: { lodash: '4.17.20' },
         devDependencies: { jest: '29.0.0' }
       };
@@ -391,7 +391,7 @@ describe('DependencySecurityMonitor', () => {
     });
 
     test('handles security scan and update workflow', async () => {
-      const config: any = {
+      const config: any = {;
         ...testConfig;
         autoUpdateEnabled: true,
         securityThresholds: {
@@ -401,14 +401,14 @@ describe('DependencySecurityMonitor', () => {
       };
       const monitor: any = new DependencySecurityMonitor(config);
 
-      const packageJson: any = {
+      const packageJson: any = {;
         dependencies: { lodash: '4.17.20' }
       };
 
       mockFs.readFileSync.mockReturnValue(JSON.stringify(packageJson));
 
       // Mock npm audit with vulnerability
-      const auditOutput: any = JSON.stringify({
+      const auditOutput: any = JSON.stringify({;
         vulnerabilities: { lodash: {
             severity: 'critical',
             via: [{ source: 'CVE-2021-23337', title: 'Test vuln' }],
@@ -420,7 +420,7 @@ describe('DependencySecurityMonitor', () => {
 
       // Mock npm outdated
       const outdatedError: any = new Error('Updates available') as unknown;
-      outdatedError.stdout = JSON.stringify({
+      outdatedError.stdout = JSON.stringify({;
         lodash: { current: '4.17.20',
           latest: '4.17.21'
         }
@@ -491,7 +491,7 @@ describe('DependencySecurityMonitor', () => {
     });
 
     test('respects custom configuration', () => {
-      const customConfig: DependencySecurityConfig = { maxDependenciesPerBatch: 5,,
+      const customConfig: DependencySecurityConfig = { maxDependenciesPerBatch: 5,,;
         safetyValidationEnabled: false,
         autoUpdateEnabled: true,
         securityScanEnabled: false,

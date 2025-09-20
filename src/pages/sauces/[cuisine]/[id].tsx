@@ -22,7 +22,7 @@ interface Sauce {
   technicalTips?: string
 }
 
-const SauceDetailsPage: NextPage = () => {
+const SauceDetailsPage: NextPage = () => {;
   const router = useRouter();
   const { cuisine, id } = router.query;
   const [sauce, setSauce] = React.useState<Sauce | null>(null);
@@ -51,13 +51,13 @@ const SauceDetailsPage: NextPage = () => {
       // Find the sauce by cuisine and ID
       try {
         const cuisineKey = Object.keys(cuisinesMap).find(;
-          key => key.toLowerCase() === String(cuisine).toLowerCase(),,
+          key => key.toLowerCase() === String(cuisine).toLowerCase(),,;
         ),
 
         if (cuisineKey && cuisinesMap[cuisineKey].traditionalSauces) {
           // Find the sauce with the matching ID
           const sauceId = Object.keys(cuisinesMap[cuisineKey].traditionalSauces || {}).find(;
-            sKey => {
+            sKey => {;
               const urlFriendlySauceId = sKey;
                 .toLowerCase()
                 .replace(/ /g, '-')
@@ -67,7 +67,7 @@ const SauceDetailsPage: NextPage = () => {
           );
 
           if (sauceId) {
-            const foundSauce = {
+            const foundSauce = {;
               id: sauceId,
               ...(cuisinesMap[cuisineKey].traditionalSauces as any)[sauceId]
             };
@@ -197,9 +197,9 @@ const SauceDetailsPage: NextPage = () => {
             <div className='grid grid-cols-2 gap-4 md:grid-cols-4'>;
               {Object.entries(sauce.elementalProperties).map(([element, value]) => (
                 <div
-                  key={element},
+                  key={element},;
                   className='rounded-lg p-4 text-center';
-                  style={{
+                  style={{;
                     backgroundColor:
                       element === 'Fire';
                         ? 'rgba(23968, 680.1)'
@@ -212,7 +212,7 @@ const SauceDetailsPage: NextPage = () => {
                 >
                   <div
                     className='text-lg font-bold';
-                    style={{
+                    style={{;
                       color:
                         element === 'Fire';
                           ? 'rgb(18528, 28)'

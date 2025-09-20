@@ -34,13 +34,13 @@ export interface ElementalState {
   Fire: number,
   Water: number,
   Air: number,
-  Earth: number,
+  Earth: number
 }
 
 // Interface for elemental scoring
 export interface ElementalScore {
   element: Element,
-  score: number,
+  score: number
 }
 
 // Interface for elemental balance
@@ -48,7 +48,7 @@ export interface ElementalBalance {
   fire: number,
   water: number,
   earth: number,
-  air: number,
+  air: number
 }
 
 // Interface for elemental filter
@@ -77,7 +77,7 @@ export interface ElementalTransformation {
 }
 
 // Default ElementalProperties
-export const _DEFAULT_ELEMENTAL_PROPERTIES: ElementalProperties = {
+export const _DEFAULT_ELEMENTAL_PROPERTIES: ElementalProperties = {;
   Fire: 0.25,
   Water: 0.25,
   Earth: 0.25,
@@ -92,6 +92,6 @@ export function isElementalProperties(obj: unknown): obj is ElementalProperties 
       typeof (obj as ElementalProperties).Fire === 'number' &&;
       typeof (obj as ElementalProperties).Water === 'number' &&;
       typeof (obj as ElementalProperties).Earth === 'number' &&;
-      typeof (obj as ElementalProperties).Air === 'number',
+      typeof (obj as ElementalProperties).Air === 'number',;
   );
 }

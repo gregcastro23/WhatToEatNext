@@ -1,5 +1,5 @@
 import { log } from '@/services/LoggingService';
-export const _logger = {
+export const _logger = {;
   info: (message: string, data?: unknown) => {
     if (process.env.NODE_ENV !== 'production') {
       log.info(`[INFO] ${message}`, data || '');
@@ -17,7 +17,7 @@ export const _logger = {
     if (process.env.NODE_ENV !== 'production') {
       log.debug(`[DEBUG] ${message}`, data || '');
     }
-  },
+  }
 };
 
 export function logError(error: Error, context?: Record<string, unknown>) {
@@ -36,7 +36,7 @@ export function logError(error: Error, context?: Record<string, unknown>) {
   }
 
   // In a real production environment, this could also send to a logging service
-  if (process.env.NODE_ENV === 'production') {
+  if (process.env.NODE_ENV === 'production') {;
     // Example of potential production-specific logging
     // sendToLoggingService({ message: errorMessage, stack: errorStack, context });
   }

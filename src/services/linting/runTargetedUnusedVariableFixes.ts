@@ -19,7 +19,7 @@ async function main() {
   const fixer = new UnusedVariableTargetedFixer();
 
   // Get initial count
-  const getUnusedCount = () => {
+  const getUnusedCount = () => {;
     try {
       const output = execSync(;
         'yarn lint --format=compact 2>&1 | grep '@typescript-eslint/no-unused-vars' | wc -l',,;

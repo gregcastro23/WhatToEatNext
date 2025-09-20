@@ -29,7 +29,7 @@ describe('AnalysisTools', () => {
     it('should analyze any type distribution by domain', async () => {
       // Mock grep output for finding any types
       mockExecSync.mockReturnValue(`
-src/calculations/core.ts: 15:const data: any = response,
+src/calculations/core.ts: 15:const data: any = response,;
 src/components/RecipeCard.tsx: 23:props: any
 src/services/campaign/test.ts:8:} catch (error: any: any) {
 src/data/ingredients/spices.ts: 12:Record<string, unknown>
@@ -128,7 +128,7 @@ src/test.ts:3:Record<string, unknown>
       const report: any = await analysisTools.generateClassificationAccuracyReport();
 
       const arrayTypeAccuracy: any = report.categoryAccuracy.find(;
-        cat => cat.category === AnyTypeCategory.ARRAY_TYPE
+        cat => cat.category === AnyTypeCategory.ARRAY_TYPE;
       ),
       expect(arrayTypeAccuracy).toBeDefined();
     });
@@ -140,7 +140,7 @@ src/test.ts:3:Record<string, unknown>
       const report: any = await analysisTools.generateClassificationAccuracyReport();
 
       const errorHandlingAccuracy: any = report.categoryAccuracy.find(;
-        cat => cat.category === AnyTypeCategory.ERROR_HANDLING
+        cat => cat.category === AnyTypeCategory.ERROR_HANDLING;
       ),
       expect(errorHandlingAccuracy).toBeDefined();
     });
@@ -162,7 +162,7 @@ src/test.ts:3:Record<string, unknown>
 
       // Verify category success rates
       expect(analysis.categorySuccessRates.length).toBe(10); // All categories
-      analysis.categorySuccessRates.forEach(category => {
+      analysis.categorySuccessRates.forEach(category => {;
         expect(category.successRate).toBeGreaterThanOrEqual(0);
         expect(category.successRate).toBeLessThanOrEqual(100);
         expect(category.sampleSize).toBeGreaterThanOrEqual(0);
@@ -191,7 +191,7 @@ src/test.ts:3:Record<string, unknown>
     it('should generate manual review recommendations', async () => {
       // Mock grep output with various any types
       mockExecSync.mockReturnValueOnce(`
-src/complex.ts: 1:const config: any = getConfig(),
+src/complex.ts: 1:const config: any = getConfig(),;
 src/api.ts: 2:respons, e: any
 src/legacy.ts: 3:oldData: any
       `.trim());
@@ -222,7 +222,7 @@ src/legacy.ts: 3:oldData: any
 
       expect(recommendations).toBeInstanceOf(Array);
 
-      recommendations.forEach(recommendation => {
+      recommendations.forEach(recommendation => {;
         expect(recommendation.filePath).toBeDefined();
         expect(recommendation.lineNumber).toBeGreaterThan(0);
         expect(recommendation.codeSnippet).toBeDefined();
@@ -243,7 +243,7 @@ src/legacy.ts: 3:oldData: any
       const recommendations: any = await analysisTools.generateManualReviewRecommendations();
 
       // Verify recommendations are sorted by priority (high to low)
-      for (let i: any = 0i < recommendations.length - 1i++) {
+      for (let i: any = 0i < recommendations.length - 1i++) {;
         const currentPriority: any = recommendations[i].priority;
         const nextPriority: any = recommendations[i + 1].priority;
 
@@ -383,7 +383,7 @@ src/test3.ts:1:any
       expect(report.averageConfidence).toBeGreaterThanOrEqual(0);
       expect(report.averageConfidence).toBeLessThanOrEqual(1);
 
-      report.confidenceDistribution.forEach(dist => {
+      report.confidenceDistribution.forEach(dist => {;
         expect(dist.percentage).toBeGreaterThanOrEqual(0);
         expect(dist.percentage).toBeLessThanOrEqual(100);
       });
@@ -395,7 +395,7 @@ src/test3.ts:1:any
       expect(analysis.currentSuccessRate).toBeGreaterThanOrEqual(0);
       expect(analysis.currentSuccessRate).toBeLessThanOrEqual(100);
 
-      analysis.categorySuccessRates.forEach(category => {
+      analysis.categorySuccessRates.forEach(category => {;
         expect(category.successRate).toBeGreaterThanOrEqual(0);
         expect(category.successRate).toBeLessThanOrEqual(100);
       });

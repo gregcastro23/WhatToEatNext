@@ -10,7 +10,7 @@ import type { TarotContextType } from './types';
  * @returns The TarotContext
  * @throws Error if used outside of TarotProvider
  */
-export const useTarotContext = (): TarotContextType => {
+export const useTarotContext = (): TarotContextType => {;
   const context = useContext(TarotContext);
 
   if (!context) {

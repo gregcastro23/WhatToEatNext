@@ -106,7 +106,7 @@ export interface EnhancedRecipe {
       intensityModifier?: string
     };
     elementalCookingMethod: string,
-    thermodynamicRecommendations: string[],
+    thermodynamicRecommendations: string[]
   };
 
   // ===== NEW ENHANCEMENT METADATA (ADDITIVE) =====
@@ -157,11 +157,11 @@ export class RecipeEnhancer {
       if (!isIngredientLike(ingredient)) continue;
 
       const ingredientName =
-        hasProperty(ingredient, 'name') && typeof ingredient.name === 'string',
+        hasProperty(ingredient, 'name') && typeof ingredient.name === 'string',;
           ? ingredient.name.toLowerCase()
           : undefined,
       let kalchm = 1.0, // Default Kalchm;
-      let elementalContribution: ElementalProperties = {
+      let elementalContribution: ElementalProperties = {;
         Fire: 0.25,
         Water: 0.25,
         Earth: 0.25,
@@ -173,7 +173,7 @@ export class RecipeEnhancer {
       if (unifiedIngredient) {
         kalchm = unifiedIngredient.kalchm ?? 1.0;
         const elementalState = unifiedIngredient.elementalState;
-        if (elementalState && typeof elementalState === 'object') {
+        if (elementalState && typeof elementalState === 'object') {;
           elementalContribution = elementalState as ElementalProperties;
         }
         matchedIngredients++;
@@ -221,7 +221,7 @@ export class RecipeEnhancer {
     // Fuzzy matching
     const normalizedName = ingredientName.replace(/[^a-z0-9]/g, '').toLowerCase();
     for (const [key, ingredient] of Object.entries(unifiedIngredients)) {
-      const normalizedKey = key.replace(/[^a-z0-9]/g, '').toLowerCase(),
+      const normalizedKey = key.replace(/[^a-z0-9]/g, '').toLowerCase(),;
       if (normalizedKey.includes(normalizedName) || normalizedName.includes(normalizedKey)) {
         return ingredient
       }
@@ -262,19 +262,19 @@ export class RecipeEnhancer {
    * Calculate elemental balance from ingredient breakdown
    */
   static calculateElementalBalance(breakdown: unknown[]): ElementalProperties {
-    if (!breakdown || breakdown.length === 0) {
+    if (!breakdown || breakdown.length === 0) {;
       return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
     }
 
-    let totalFire = 0,
-      totalWater = 0,
-      totalEarth = 0,
+    let totalFire = 0,;
+      totalWater = 0,;
+      totalEarth = 0,;
       totalAir = 0;
 
     for (const item of breakdown) {
       if (!isValidObject(item)) continue,
 
-      const contribution = hasProperty(item, 'elementalContribution'),
+      const contribution = hasProperty(item, 'elementalContribution'),;
         ? (item.elementalContribution as ElementalProperties)
         : { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
       const weight =
@@ -289,7 +289,7 @@ export class RecipeEnhancer {
     }
 
     const total = totalFire + totalWater + totalEarth + totalAir;
-    if (total === 0) {
+    if (total === 0) {;
       return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
     }
 
@@ -327,12 +327,12 @@ export class RecipeEnhancer {
   static calculateRecipeMonica(thermodynamics, kalchm: number): number | null {
     const { gregsEnergy, reactivity } = thermodynamics;
 
-    if (kalchm <= 0 || reactivity === 0) {
+    if (kalchm <= 0 || reactivity === 0) {;
       return null
     }
 
     const lnKalchm = Math.log(kalchm);
-    if (lnKalchm === 0) {
+    if (lnKalchm === 0) {;
       return null
     }
 
@@ -344,7 +344,7 @@ export class RecipeEnhancer {
    * Determine alchemical classification
    */
   static determineAlchemicalClassification(kalchm: number, monica: number | null): string {
-    if (monica === null) {
+    if (monica === null) {;
       return kalchm > 1.0 ? 'Spirit-Dominant' : 'Matter-Dominant';
     }
 
@@ -462,7 +462,7 @@ export class RecipeEnhancer {
     timingAdjustment?: number,
     intensityModifier?: string
   } {
-    if (monica === null) {
+    if (monica === null) {;
       return {};
     }
 
@@ -516,7 +516,7 @@ export class RecipeEnhancer {
   /**
    * Enhance a recipe with alchemical properties (ADDITIVE - preserves all existing data)
    */
-  static enhanceRecipe(recipe, sourceFile: string = 'unknown'): EnhancedRecipe {
+  static enhanceRecipe(recipe, sourceFile: string = 'unknown'): EnhancedRecipe {;
     // Calculate recipe Kalchm from ingredients
     const kalchmResult = this.calculateRecipeKalchm(recipe.ingredients || []);
 
@@ -547,7 +547,7 @@ export class RecipeEnhancer {
     ),
 
     // Create enhanced recipe (PRESERVES ALL EXISTING DATA)
-    const enhancedRecipe: EnhancedRecipe = {
+    const enhancedRecipe: EnhancedRecipe = {;
       ...recipe, // Preserve ALL existing properties
 
       // ADD new alchemical properties
@@ -595,7 +595,7 @@ export class RecipeAnalyzer {
     const kalchm2 = recipe2.alchemicalProperties?.totalKalchm || 1.0;
 
     // Self-reinforcement principle: similar Kalchm = higher compatibility;
-    const ratio = Math.min(kalchm1, kalchm2) / Math.max(kalchm1, kalchm2),
+    const ratio = Math.min(kalchm1, kalchm2) / Math.max(kalchm1, kalchm2),;
     return 0.7 + ratio * 0.3, // Minimum 0.7 compatibility
   }
 
@@ -605,11 +605,11 @@ export class RecipeAnalyzer {
   static findKalchmSimilarRecipes(
     targetRecipe: EnhancedRecipe,
     recipePool: EnhancedRecipe[],
-    tolerance: number = 0.2
+    tolerance: number = 0.2;
   ): EnhancedRecipe[] {
     const targetKalchm = targetRecipe.alchemicalProperties?.totalKalchm || 1.0;
 
-    return recipePool.filter(recipe => {
+    return recipePool.filter(recipe => {;
       const recipeKalchm = recipe.alchemicalProperties?.totalKalchm || 1.0;
       return Math.abs(recipeKalchm - targetKalchm) <= tolerance;
     })
@@ -621,9 +621,9 @@ export class RecipeAnalyzer {
   static getRecipesByElementalDominance(
     recipes: EnhancedRecipe[],
     element: keyof ElementalProperties,
-    threshold: number = 0.4
+    threshold: number = 0.4;
   ): EnhancedRecipe[] {
-    return recipes.filter(recipe => {
+    return recipes.filter(recipe => {;
       // Use safe type casting for alchemical properties access
       // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
       const alchemicalData = recipe.alchemicalProperties as any;
@@ -662,7 +662,7 @@ export class RecipeAnalyzer {
     // Alchemical classifications
     const alchemicalClassifications: { [key: string]: number } = {};
 
-    enhanced.forEach(recipe => {
+    enhanced.forEach(recipe => {;
       const cookingMethod = recipe.cookingOptimization?.elementalCookingMethod;
       if (cookingMethod && elementalDistribution[cookingMethod] !== undefined) {
         elementalDistribution[cookingMethod]++

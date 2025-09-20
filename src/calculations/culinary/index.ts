@@ -7,7 +7,7 @@
 // Export all from cuisine recommendations
 export {
   generateCuisineRecommendations,
-  type CuisineRecommendation,
+  type CuisineRecommendation
 } from './cuisineRecommendations';
 
 // Export all from recipe matching
@@ -19,7 +19,7 @@ export {
   applyLunarPhaseAdjustments,
   applyTimeOfDayAdjustments,
   getSeasonalCookingRecommendations,
-  calculateSeasonalEffectiveness,
+  calculateSeasonalEffectiveness
 } from './seasonalAdjustments';
 
 // Default exports

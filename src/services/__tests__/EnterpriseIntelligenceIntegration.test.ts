@@ -24,7 +24,7 @@ jest.mock('@/utils/logger', () => ({
 describe('EnterpriseIntelligenceIntegration', () => {
   let service: EnterpriseIntelligenceIntegration,
 
-  const mockRecipeData: any = {
+  const mockRecipeData: any = {;
     id: 'test-recipe',
     name: 'Test Recipe',
     elementalProperties: { Fire: 0.3,
@@ -41,7 +41,7 @@ describe('EnterpriseIntelligenceIntegration', () => {
     numberOfServings: 4
   } as any('@/types/unified').Recipe;
 
-  const mockCuisineData: any = {
+  const mockCuisineData: any = {;
     name: 'Test Cuisine',
     type: 'fusion',
     region: 'global',
@@ -49,7 +49,7 @@ describe('EnterpriseIntelligenceIntegration', () => {
   };
 
   beforeEach(() => {
-    service = new EnterpriseIntelligenceIntegration({
+    service = new EnterpriseIntelligenceIntegration({;
       enableRecipeIntelligence: true,
       enableIngredientIntelligence: true,
       enableValidationIntelligence: true,
@@ -61,7 +61,7 @@ describe('EnterpriseIntelligenceIntegration', () => {
   });
 
   describe('performEnterpriseAnalysis', () => {
-    const mockIngredientData: any = {
+    const mockIngredientData: any = {;
       id: 'test-ingredients',
       ingredients: [
         {
@@ -76,7 +76,7 @@ describe('EnterpriseIntelligenceIntegration', () => {
       ]
     };
 
-    const mockAstrologicalContext: any = {
+    const mockAstrologicalContext: any = {;
       zodiacSign: 'aries' as any,
       lunarPhase: 'new moon',
       season: 'spring',
@@ -221,7 +221,7 @@ describe('EnterpriseIntelligenceIntegration', () => {
 
   describe('configuration', () => {
     it('should respect disabled features', async () => {
-      const disabledService: any = new EnterpriseIntelligenceIntegration({
+      const disabledService: any = new EnterpriseIntelligenceIntegration({;
         enableRecipeIntelligence: false,
         enableIngredientIntelligence: false,
         enableValidationIntelligence: false,

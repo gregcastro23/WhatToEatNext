@@ -4,7 +4,7 @@ import type {
   CookingMethod,
   AlchemicalProperties,
   ThermodynamicProperties,
-  Modality,
+  Modality
 } from '@/data/ingredients/types';
 
 import type { ElementalProperties } from './alchemy';
@@ -27,7 +27,7 @@ export interface Ingredient {
           | string
           | {
               fahrenheit: number,
-              celsius: number,
+              celsius: number
             };
         notes?: string;
       };

@@ -12,7 +12,7 @@ export interface AnyTypeClassification {
   reasoning: string;
   suggestedReplacement?: string;
   requiresDocumentation: boolean,
-  category: AnyTypeCategory,
+  category: AnyTypeCategory
 }
 
 export enum AnyTypeCategory {
@@ -36,7 +36,7 @@ export interface ClassificationContext {
   hasExistingComment: boolean,
   existingComment?: string;
   isInTestFile: boolean,
-  domainContext: DomainContext,
+  domainContext: DomainContext
 }
 
 // Type Replacement Types
@@ -46,7 +46,7 @@ export interface TypeReplacement {
   filePath: string,
   lineNumber: number,
   confidence: number,
-  validationRequired: boolean,
+  validationRequired: boolean
 }
 
 export interface ReplacementResult {
@@ -124,7 +124,7 @@ export interface UnintentionalAnyProgress extends ProgressMetrics {
   reductionPercentage: number,
   targetReductionPercentage: number,
   batchesCompleted: number,
-  averageSuccessRate: number,
+  averageSuccessRate: number
 }
 
 export interface BatchMetrics {
@@ -267,7 +267,7 @@ export interface DocumentationValidation {
   hasEslintDisable: boolean,
   eslintDisableHasExplanation: boolean,
   isComplete: boolean,
-  suggestions: string[],
+  suggestions: string[]
 }
 
 export interface DocumentationReport {
@@ -277,7 +277,7 @@ export interface DocumentationReport {
   documentationCoverage: number, // percentage
   qualityBreakdown: Record<string, number>;
   undocumentedFiles: string[],
-  recommendations: string[],
+  recommendations: string[]
 }
 
 export interface AutoDocumentationGenerator {
@@ -308,11 +308,11 @@ export interface DomainDistribution {
   intentionalVsUnintentional: {
     intentional: {
       count: number,
-      percentage: number,
+      percentage: number
     };
     unintentional: {
       count: number,
-      percentage: number,
+      percentage: number
     };
   };
   analysisDate: Date
@@ -337,7 +337,7 @@ export interface ClassificationAccuracyReport {
     manualReviewSimulation: any,
     crossValidation: any,
     edgeCaseAnalysis: any,
-    domainSpecificAccuracy: any,
+    domainSpecificAccuracy: any
   };
 }
 
@@ -353,7 +353,7 @@ export interface SuccessRateAnalysis {
   trendingData: TrendingData,
   projectedCompletion: Date,
   recommendations: string[],
-  analysisDate: Date,
+  analysisDate: Date
 }
 
 export interface TrendingData {
@@ -366,7 +366,7 @@ export interface TrendingData {
     successRateChange: number,
     totalAnyTypesChange: number,
     unintentionalCountChange: number,
-    classificationAccuracyChange: number,
+    classificationAccuracyChange: number
   };
 }
 
@@ -381,7 +381,7 @@ export interface ManualReviewRecommendation {
   estimatedEffort: 'low' | 'medium' | 'high',
   relatedOccurrences: Array<{
     filePath: string,
-    lineNumber: number,
+    lineNumber: number
   }>;
 }
 
@@ -400,7 +400,7 @@ export interface AnalysisReport {
     domainDistribution: DomainDistribution[],
     baselineMetrics: BaselineMetrics,
     successPrediction: SuccessRatePrediction,
-    recommendations: string[],
+    recommendations: string[]
   };
   summary: {
     totalAnyTypes: number,
@@ -482,7 +482,7 @@ export interface AlertSummary {
   highAlerts: number,
   mediumAlerts: number,
   lowAlerts: number,
-  recentAlerts: Alert[],
+  recentAlerts: Alert[]
 }
 
 export interface SystemHealth {
@@ -511,7 +511,7 @@ export interface PilotAnalysisConfig {
   confidenceThreshold: number,
   enableTuning: boolean,
   generateDetailedReports: boolean,
-  outputDirectory: string,
+  outputDirectory: string
 }
 
 export interface PilotAnalysisResults {
@@ -536,7 +536,7 @@ export interface ClassificationTuningResults {
   tunedAccuracy: number,
   adjustedThresholds: Record<AnyTypeCategory, number>;
   improvementPercentage: number,
-  tuningIterations: number,
+  tuningIterations: number
 }
 
 export interface SuccessRatePrediction {
@@ -562,7 +562,7 @@ export interface CampaignMetrics {
   totalRollbacks: number,
   totalExecutionTime: number,
   overallSuccessRate: number,
-  averageSafetyScore: number,
+  averageSafetyScore: number
 }
 
 export interface CampaignPhase {
@@ -596,7 +596,7 @@ export interface FinalReport {
   successfulReplacements: TypeReplacement[],
   failedReplacements: Array<{ replacement: TypeReplacement, error: string }>;
   recommendations: string[],
-  nextSteps: string[],
+  nextSteps: string[]
 }
 
 export interface FullCampaignConfig {
@@ -609,5 +609,5 @@ export interface FullCampaignConfig {
   rollbackOnFailure: boolean,
   validateBuildAfterEachBatch: boolean,
   generateIntermediateReports: boolean,
-  outputDirectory: string,
+  outputDirectory: string
 }

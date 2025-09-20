@@ -298,7 +298,7 @@ export interface StandardizedHealthProperties {
 export interface OilSpecificProperties {
   smokePoint?: {
     celsius: number,
-    fahrenheit: number,
+    fahrenheit: number
   };
   extractionMethod?: string;
   refinementLevel?: 'crude' | 'refined' | 'extra-virgin' | 'cold-pressed';
@@ -308,7 +308,7 @@ export interface OilSpecificProperties {
     polyunsaturated: number,
     omega3: number,
     omega6: number,
-    omega9: number,
+    omega9: number
   };
   stability?: {
     heat: 'low' | 'medium' | 'high',
@@ -527,7 +527,7 @@ export interface DataCompletenessScore {
   storage: number,
   missingFields: string[],
   strengths: string[],
-  recommendations: string[],
+  recommendations: string[]
 }
 
 export function assessDataCompleteness(ingredient: StandardizedIngredient): DataCompletenessScore {
@@ -616,7 +616,7 @@ export function assessDataCompleteness(ingredient: StandardizedIngredient): Data
     storage: ingredient.storage ? 90 : 0,
     missingFields,
     strengths,
-    recommendations: generateRecommendations(missingFields, overallScore),
+    recommendations: generateRecommendations(missingFields, overallScore)
   };
 }
 

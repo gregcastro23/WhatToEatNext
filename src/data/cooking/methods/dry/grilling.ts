@@ -6,7 +6,7 @@ import type { CookingMethodData } from '@/types/cookingMethod';
  *
  * Cooking food directly over live heat, typically open flame or hot coals
  */
-export const grilling: CookingMethodData = {
+export const grilling: CookingMethodData = {;
   name: 'grilling',
   description:
     'Cooking food directly over heat, typically an open flame or hot coals, creating distinctive char marks and smoky flavor',

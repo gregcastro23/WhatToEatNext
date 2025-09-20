@@ -14,14 +14,14 @@ interface ChartContextType {
   currentChart: AstrologicalChart | null,
   isLoading: boolean,
   error: string | null,
-  updateChart: (data: AstrologicalChart | null) => void,
+  updateChart: (data: AstrologicalChart | null) => void
 }
 
-const defaultContextValue: ChartContextType = {
+const defaultContextValue: ChartContextType = {;
   currentChart: null,
   isLoading: false,
   error: null,
-  updateChart: () => {},
+  updateChart: () => {}
 };
 
 const ChartContext = createContext<ChartContextType>(defaultContextValue);
@@ -31,7 +31,7 @@ export function ChartProvider({ children }: { children: ReactNode }) {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const updateChart = (data: AstrologicalChart | null) => {
+  const updateChart = (data: AstrologicalChart | null) => {;
     try {
       setCurrentChart(data);
     } catch (err) {
@@ -41,7 +41,7 @@ export function ChartProvider({ children }: { children: ReactNode }) {
 
   // Load initial chart data
   useEffect(() => {
-    const loadInitialChart = async () => {
+    const loadInitialChart = async () => {;
       try {
         setIsLoading(true);
         setError(null);
@@ -53,7 +53,7 @@ export function ChartProvider({ children }: { children: ReactNode }) {
           planets: {},
           houses: {},
           aspects: [],
-          timestamp: new Date(),
+          timestamp: new Date()
         });
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Unknown error loading chart');
@@ -66,7 +66,7 @@ export function ChartProvider({ children }: { children: ReactNode }) {
   }, []);
 
   return (
-    <ChartContext.Provider value={{ currentChart, isLoading, error, updateChart }}>
+    <ChartContext.Provider value={{ currentChart, isLoading, error, updateChart }}>;
       ;{children}
     </ChartContext.Provider>
   );
@@ -74,7 +74,7 @@ export function ChartProvider({ children }: { children: ReactNode }) {
 
 export function useCurrentChart() {
   const context = useContext(ChartContext);
-  if (context === undefined) {
+  if (context === undefined) {;
     throw new Error('useCurrentChart must be used within a ChartProvider');
   }
   return context;

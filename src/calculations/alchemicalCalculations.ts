@@ -22,13 +22,13 @@ import {
  * @param properties Record of elemental properties
  * @returns Balance score (lower is more balanced)
  */
-export const _calculateBalance = (properties: Record<string, number>): number => {
+export const _calculateBalance = (properties: Record<string, number>): number => {;
   const total = Object.values(properties).reduce((sum, value) => sum + value0);
   const average = total / Object.keys(properties).length;
 
   // Calculate the balance score
   const score =
-    Object.values(properties).reduce((acc, value) => {
+    Object.values(properties).reduce((acc, value) => {;
       return acc + Math.abs(value - average);
     }, 0) / total;
 
@@ -40,7 +40,7 @@ export const _calculateBalance = (properties: Record<string, number>): number =>
  * @param properties Record of elemental properties
  * @returns Array of recommended adjustmentss
  */
-export const _getRecommendedAdjustments = (properties: Record<string, number>): string[] => {
+export const _getRecommendedAdjustments = (properties: Record<string, number>): string[] => {;
   const adjustments: string[] = [];
 
   // Example logic for recommending adjustments
@@ -58,7 +58,7 @@ export const _getRecommendedAdjustments = (properties: Record<string, number>): 
  * Represents planetary dignity types
  */
 export type DignityType =
-  | 'rulership'
+  | 'rulership';
   | 'exaltation'
   | 'triplicity'
   | 'term'
@@ -73,7 +73,7 @@ export type DignityType =
 export interface PlanetaryDignity {
   type: DignityType,
   value: number,
-  description: string,
+  description: string
 }
 
 /**
@@ -113,7 +113,7 @@ export interface AlchemicalResults {
 // Add these functions at the top of your file, before they're used
 
 // Define day/night element maps for all planets based on original engine
-const planetElementMap = (isDaytime: boolean): Record<string, ElementalCharacter> => ({
+const planetElementMap = (isDaytime: boolean): Record<string, ElementalCharacter> => ({;
   sun: 'Fire', // Sun is always Fire
   moon: 'Water', // Moon is always Water
   mercury: isDaytime ? 'Air' : 'Earth',
@@ -131,7 +131,7 @@ const planetElementMap = (isDaytime: boolean): Record<string, ElementalCharacter
 });
 
 // Define day/night alchemical property maps
-const planetPropertyMap = (isDaytime: boolean): Record<string, keyof AlchemicalProperties> => ({
+const planetPropertyMap = (isDaytime: boolean): Record<string, keyof AlchemicalProperties> => ({;
   sun: 'Spirit', // Always Spirit
   moon: 'Essence', // Always Essence
   mercury: isDaytime ? 'Substance' : 'Matter',
@@ -149,7 +149,7 @@ const planetPropertyMap = (isDaytime: boolean): Record<string, keyof AlchemicalP
 });
 
 // Helper function to convert element to alchemical property
-const elementToAlchemicalProperty = (element: ElementalCharacter): keyof AlchemicalProperties => {
+const elementToAlchemicalProperty = (element: ElementalCharacter): keyof AlchemicalProperties => {;
   switch (element) {
     case 'Fire':
       return 'Spirit';
@@ -165,7 +165,7 @@ const elementToAlchemicalProperty = (element: ElementalCharacter): keyof Alchemi
 };
 
 // Replace console.log with commented code for production
-const debugLog = (_message: string, ..._args: unknown[]): void => {
+const debugLog = (_message: string, ..._args: unknown[]): void => {;
   // Comment out console.log to avoid linting warnings
   // log.info(message, ...args)
 };
@@ -179,13 +179,13 @@ const debugLog = (_message: string, ..._args: unknown[]): void => {
  * @param nutritionalBoosts Optional nutritional boosts
  * @returns Comprehensive alchemical results
  */
-export const _calculateAlchemicalProperties = (
+export const _calculateAlchemicalProperties = (;
   planetPositions: Record<string, PlanetaryPosition>,
   isDaytime: boolean,
   tarotElementBoosts?: Record<ElementalCharacter, number>,
   tarotPlanetaryBoosts?: Record<string, number>,
   nutritionalBoosts?: Record<string, number>
-): AlchemicalResults => {
+): AlchemicalResults => {;
   debugLog('Starting calculation with positions:', planetPositions);
   debugLog('Is daytime:', isDaytime);
 
@@ -208,7 +208,7 @@ export const _calculateAlchemicalProperties = (
   if (
     !planetPositions ||
     typeof planetPositions !== 'object' ||
-    Object.keys(planetPositions).length === 0
+    Object.keys(planetPositions).length === 0;
   ) {
     debugLog('Invalid planetary positions provided:', planetPositions);
     return {
@@ -297,14 +297,14 @@ export const _calculateAlchemicalProperties = (
       planetElement = elementMap[planetLower];
 
       // If planet is in its own element sign, give extra weight to that element
-      if (signElement && signElement === planetElement) {
+      if (signElement && signElement === planetElement) {;
         elementalCounts[planetElement] += 1.5; // Extra weight
         debugLog(`Planet ${planet} is in its own element sign! Extra weight given.`);
       }
       // If the planet is in any sign, weigh the sign element more heavily
       else if (signElement) {
         // For major planets (Sun, Moon), still use their natural element
-        if (planetLower === 'sun' || planetLower === 'moon') {
+        if (planetLower === 'sun' || planetLower === 'moon') {;
           elementalCounts[planetElement] += 1.5; // Extra weight
           debugLog(
             `Sun/Moon in ${position.sign} - using natural element ${planetElement} but adding ${signElement} contribution`
@@ -324,7 +324,7 @@ export const _calculateAlchemicalProperties = (
       elementalCounts[planetElement] += 1.5; // Extra weight
     } else {
       // Last resort fallback
-      planetElement = ['Fire', 'Water', 'Air', 'Earth'][
+      planetElement = ['Fire', 'Water', 'Air', 'Earth'][;
         Math.floor(Math.random() * 4)
       ] as ElementalCharacter;
       elementalCounts[planetElement] += 1.5; // Extra weight
@@ -346,15 +346,15 @@ export const _calculateAlchemicalProperties = (
     let strength = 0;
 
     // Determine the strength based on position data
-    if (typeof position === 'number') {
+    if (typeof position === 'number') {;
       // Numeric value directly
       strength = position;
       debugLog(`Planet ${planet} has numeric position: ${strength}`);
-    } else if (typeof position === 'object') {
+    } else if (typeof position === 'object') {;
       // If we have exact longitude or other data, process it
-      if ('strength' in position && typeof position.strength === 'number') {
+      if ('strength' in position && typeof position.strength === 'number') {;
         strength = position.strength;
-      } else if ('exactLongitude' in position && typeof position.exactLongitude === 'number') {
+      } else if ('exactLongitude' in position && typeof position.exactLongitude === 'number') {;
         const longitude = position.exactLongitude;
         // Base strength and apply modifiers
         strength = 0.5 + (longitude % 30) / 60; // Gives 0.5-1.0 based on position in sign
@@ -391,7 +391,7 @@ export const _calculateAlchemicalProperties = (
 
     // If Sun/Moon are in a different element sign, add both elements
     if (
-      (planetLower === 'sun' || planetLower === 'moon') &&
+      (planetLower === 'sun' || planetLower === 'moon') &&;
       signElement &&
       signElement !== planetElement
     ) {
@@ -415,14 +415,14 @@ export const _calculateAlchemicalProperties = (
 
     // Add small contributions to other elements and properties based on the original algorithm
     // This creates a more nuanced profile rather than extreme values
-    Object.keys(elementalCounts).forEach(elem => {
+    Object.keys(elementalCounts).forEach(elem => {;
       if (elem !== planetElement) {
         // Minor contribution to other elements (prevents 0 values)
         elementalCounts[elem as ElementalCharacter] += elementContribution * 0.15;
       }
     });
 
-    Object.keys(alchemicalCounts).forEach(prop => {
+    Object.keys(alchemicalCounts).forEach(prop => {;
       if (prop !== property) {
         // Minor contribution to other properties (prevents 0 values)
         alchemicalCounts[prop as keyof AlchemicalProperties] += propertyContribution * 0.15;
@@ -430,7 +430,7 @@ export const _calculateAlchemicalProperties = (
     });
 
     // Add decan effects if we have degree information
-    if (position.sign && typeof position.degree === 'number') {
+    if (position.sign && typeof position.degree === 'number') {;
       calculateDecanEffects(planet, position.sign, position.degree, elementalCounts);
 
       // Add degree effects
@@ -476,7 +476,7 @@ export const _calculateAlchemicalProperties = (
   // Use the imported calculation functions from gregsEnergy
   const heat = calculateHeat(firePercentage, earthPercentage, airPercentage, waterPercentage);
   const entropy = calculateEntropy(firePercentage, earthPercentage, airPercentage, waterPercentage);
-  const reactivity = calculateReactivity(
+  const reactivity = calculateReactivity(;
     firePercentage,
     earthPercentage,
     airPercentage,
@@ -498,14 +498,14 @@ export const _calculateAlchemicalProperties = (
 };
 
 // Define decan ranges
-const getDecan = (degree: number): number => {
+const getDecan = (degree: number): number => {;
   if (degree < 10) return 1;
   if (degree < 20) return 2;
   return 3;
 };
 
 // Get decan name for display and calculation
-const getDecanString = (decan: number): string => {
+const getDecanString = (decan: number): string => {;
   if (decan === 1) return '1st Decan';
   if (decan === 2) return '2nd Decan';
   return '3rd Decan'
@@ -664,7 +664,7 @@ const degreeEffects: Record<string, Record<string, number[]>> = {
 };
 
 // Helper function to get sign element safely typed
-const getElementFromSign = (sign: string): ElementalCharacter => {
+const getElementFromSign = (sign: string): ElementalCharacter => {;
   const fireigns = ['aries', 'leo', 'sagittarius'];
   const earthSigns = ['taurus', 'virgo', 'capricorn'];
   const airSigns = ['gemini', 'libra', 'aquarius'];
@@ -682,12 +682,12 @@ const getElementFromSign = (sign: string): ElementalCharacter => {
 };
 
 // Calculate decan effects based on planet and decan
-const calculateDecanEffects = (
+const calculateDecanEffects = (;
   planet: string,
   sign: string,
   degree: number,
   elementalCounts: Record<ElementalCharacter, number>
-): void => {
+): void => {;
   // Get decan
   const decanNumber = getDecan(degree);
   const decanString = getDecanString(decanNumber);
@@ -707,18 +707,18 @@ const calculateDecanEffects = (
 };
 
 // Calculate degree-specific effects
-const calculateDegreeEffects = (
+const calculateDegreeEffects = (;
   planet: string,
   sign: string,
   degree: number,
   elementalCounts: Record<ElementalCharacter, number>,
   planetElementMap: Record<string, ElementalCharacter>
-): void => {
+): void => {;
   const planetLower = planet.toLowerCase();
   const signLower = sign.toLowerCase();
 
   // Check if planet has special effects in this degree range
-  if (degreeEffects[signLower][planetLower] && degreeEffects[signLower][planetLower].length === 2) {
+  if (degreeEffects[signLower][planetLower] && degreeEffects[signLower][planetLower].length === 2) {;
     const [minDegree, maxDegree] = degreeEffects[signLower][planetLower];
     if (degree >= minDegree && degree < maxDegree) {
       // Add bonus to planet's natural element
@@ -734,7 +734,7 @@ const calculateDegreeEffects = (
   // Use getPlanetaryElement for planets that are represented in RulingPlanet
   try {
     // Try to get planetary element using the imported function
-    const rulingPlanet = (planet.charAt(0).toUpperCase() +
+    const rulingPlanet = (planet.charAt(0).toUpperCase() +;
       planet.slice(1).toLowerCase()) as RulingPlanet;
     // Only apply if it's a valid RulingPlanet type
     if (
@@ -764,13 +764,13 @@ const calculateDegreeEffects = (
 };
 
 // Calculate all aspect effects
-const calculateAspectEffects = (
+const calculateAspectEffects = (;
   planetPositions: Record<string, PlanetaryPosition>,
   elementalCounts: Record<ElementalCharacter, number>
-): void => {
+): void => {;
   // Get all planets with valid position data
-  const validPlanets = Object.entries(planetPositions).filter(
-    ([_, pos]) => pos && typeof pos === 'object' && 'sign' in pos && 'degree' in pos
+  const validPlanets = Object.entries(planetPositions).filter(;
+    ([_, pos]) => pos && typeof pos === 'object' && 'sign' in pos && 'degree' in pos;
   );
 
   // Check each planet pair for aspects
@@ -843,8 +843,8 @@ const calculateAspectEffects = (
 };
 
 // Helper function to get sign index (0-11)
-const getSignIndex = (sign: string): number => {
-  const signs = [
+const getSignIndex = (sign: string): number => {;
+  const signs = [;
     'aries',
     'taurus',
     'gemini',
@@ -862,7 +862,7 @@ const getSignIndex = (sign: string): number => {
 };
 
 // Helper function to determine aspect type
-const getAspectType = (angle: number): string | null => {
+const getAspectType = (angle: number): string | null => {;
   // Conjunction: 0° ± 10°
   if (angle <= 10) return 'conjunction';
 
@@ -886,7 +886,7 @@ const getAspectType = (angle: number): string | null => {
  */
 export function alchemize(
   planetaryPositions: Record<string, PlanetaryPosition>,
-  isDaytime = true,
+  isDaytime = true,;
   lunarPhase?: string,
   retrogrades?: Record<string, boolean>
 ): StandardizedAlchemicalResult {
@@ -897,7 +897,7 @@ export function alchemize(
   let substance = 0;
 
   // Initialize elemental balance
-  const _elementalBalance = {
+  const _elementalBalance = {;
     fire: 0,
     earth: 0,
     air: 0,
@@ -924,7 +924,7 @@ export function alchemize(
     // Apply retrograde effects if the planet is retrograde
     let alchemyProps = planetData.Alchemy;
     if (isRetrograde && planetData.RetrogradeEffect) {
-      alchemyProps = {
+      alchemyProps = {;
         Spirit: alchemyProps.Spirit + (planetData.RetrogradeEffect.Spirit || 0),
         Essence: alchemyProps.Essence + (planetData.RetrogradeEffect.Essence || 0),
         Matter: alchemyProps.Matter + (planetData.RetrogradeEffect.Matter || 0),
@@ -944,7 +944,7 @@ export function alchemize(
 
     if (
       element &&
-      (element === 'fire' || element === 'earth' || element === 'air' || element === 'water')
+      (element === 'fire' || element === 'earth' || element === 'air' || element === 'water');
     ) {
       _elementalBalance[element] += 1;
     }
@@ -976,7 +976,7 @@ export function alchemize(
 
     // Special handling for specific planets
     const planetDataObj = planetData as any;
-    if (planetKey === 'Moon' && lunarPhase && planetDataObj.PlanetSpecific?.Lunar?.Phases) {
+    if (planetKey === 'Moon' && lunarPhase && planetDataObj.PlanetSpecific?.Lunar?.Phases) {;
       const lunarData = planetDataObj.PlanetSpecific.Lunar;
       const phaseData = lunarData.Phases[lunarPhase];
 
@@ -995,10 +995,10 @@ export function alchemize(
 
         if (
           northNodeElement &&
-          (northNodeElement === 'fire' ||
-            northNodeElement === 'earth' ||
-            northNodeElement === 'air' ||
-            northNodeElement === 'water')
+          (northNodeElement === 'fire' ||;
+            northNodeElement === 'earth' ||;
+            northNodeElement === 'air' ||;
+            northNodeElement === 'water');
         ) {
           _elementalBalance[northNodeElement as keyof typeof _elementalBalance] += 0.5;
         }
@@ -1016,7 +1016,7 @@ export function alchemize(
     }
 
     // For Sun, apply zodiac transit effects if available
-    if (planetKey === 'Sun' && sign && planetDataObj.PlanetSpecific?.Solar?.ZodiacTransit) {
+    if (planetKey === 'Sun' && sign && planetDataObj.PlanetSpecific?.Solar?.ZodiacTransit) {;
       const solarData = planetDataObj.PlanetSpecific.Solar;
       const transitData = solarData.ZodiacTransit[sign];
 
@@ -1024,7 +1024,7 @@ export function alchemize(
         // Boost elements based on Sun's position
         Object.entries(transitData.Elements).forEach(([elemKey, value]) => {
           const elem = elemKey.toLowerCase();
-          if (elem && (elem === 'fire' || elem === 'earth' || elem === 'air' || elem === 'water')) {
+          if (elem && (elem === 'fire' || elem === 'earth' || elem === 'air' || elem === 'water')) {;
             // Pattern KK-1: Safe arithmetic with type validation
             const numericValue = typeof value === 'number' ? value : 0;
             _elementalBalance[elem] += numericValue * 0.5;
@@ -1059,7 +1059,7 @@ export function alchemize(
   const recommendation = generateRecommendation(dominantElement, _elementalBalance);
 
   // Convert to upper case for ElementalProperties
-  const totalEffectValue: ElementalProperties = {
+  const totalEffectValue: ElementalProperties = {;
     Fire: _elementalBalance.fire,
     Earth: _elementalBalance.earth,
     Air: _elementalBalance.air,

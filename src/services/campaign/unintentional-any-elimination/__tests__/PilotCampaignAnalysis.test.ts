@@ -18,13 +18,13 @@ describe('PilotCampaignAnalysis', () => {
   let mockConfig: PilotAnalysisConfig;
 
   beforeEach(() => {
-    mockConfig = {
+    mockConfig = {;
       maxFilesToAnalyze: 100,
       sampleSizeForAccuracy: 50,
       confidenceThreshold: 0.7,
       enableTuning: true,
       generateDetailedReports: true,
-      outputDirectory: '.kiro/test-reports',
+      outputDirectory: '.kiro/test-reports'
     };
 
     pilotAnalysis = new PilotCampaignAnalysis(mockConfig);
@@ -64,9 +64,9 @@ describe('PilotCampaignAnalysis', () => {
           byCategory: [],
           intentionalVsUnintentional: {
             intentional: { count: 45, percentage: 30 },
-            unintentional: { count: 105, percentage: 70 },
+            unintentional: { count: 105, percentage: 70 }
           },
-          analysisDate: new Date(),
+          analysisDate: new Date()
         },
         accuracyReport: {
           overallAccuracy: 85.5,
@@ -74,7 +74,7 @@ describe('PilotCampaignAnalysis', () => {
           sampleSize: 50,
           categoryAccuracy: [],
           confidenceDistribution: [],
-          reportDate: new Date(),
+          reportDate: new Date()
         },
         successRateAnalysis: {
           currentSuccessRate: 78.5,
@@ -86,11 +86,11 @@ describe('PilotCampaignAnalysis', () => {
             successRate: 78.5,
             totalAnyTypes: 150,
             unintentionalCount: 105,
-            classificationAccuracy: 85.5,
+            classificationAccuracy: 85.5
           },
           projectedCompletion: new Date(),
           recommendations: [],
-          analysisDate: new Date(),
+          analysisDate: new Date()
         },
         manualReviewRecommendations: [],
         summary: {
@@ -100,8 +100,8 @@ describe('PilotCampaignAnalysis', () => {
           currentSuccessRate: 78.5,
           manualReviewCases: 12,
           topDomain: 'SERVICE',
-          topCategory: 'FUNCTION_PARAM',
-        },
+          topCategory: 'FUNCTION_PARAM'
+        }
       });
 
       mockAnalysisTools.prototype.generateClassificationAccuracyReport.mockResolvedValue({
@@ -110,7 +110,7 @@ describe('PilotCampaignAnalysis', () => {
         sampleSize: 50,
         categoryAccuracy: [],
         confidenceDistribution: [],
-        reportDate: new Date(),
+        reportDate: new Date()
       });
 
       mockAnalysisTools.prototype.generateSuccessRateAnalysis.mockResolvedValue({
@@ -119,18 +119,18 @@ describe('PilotCampaignAnalysis', () => {
         improvementNeeded: 6.5,
         categorySuccessRates: [
           { category: 'ARRAY_TYPE', successRate: 95.2, sampleSize: 20 },
-          { category: 'FUNCTION_PARAM', successRate: 65.8, sampleSize: 30 },
+          { category: 'FUNCTION_PARAM', successRate: 65.8, sampleSize: 30 }
         ],
         trendingData: {
           date: new Date(),
           successRate: 78.5,
           totalAnyTypes: 150,
           unintentionalCount: 105,
-          classificationAccuracy: 85.5,
+          classificationAccuracy: 85.5
         },
         projectedCompletion: new Date(),
         recommendations: [],
-        analysisDate: new Date(),
+        analysisDate: new Date()
       });
 
       const results: any = await pilotAnalysis.executePilotAnalysis();
@@ -172,9 +172,9 @@ describe('PilotCampaignAnalysis', () => {
           byCategory: [],
           intentionalVsUnintentional: {
             intentional: { count: 30, percentage: 30 },
-            unintentional: { count: 70, percentage: 70 },
+            unintentional: { count: 70, percentage: 70 }
           },
-          analysisDate: new Date(),
+          analysisDate: new Date()
         },
         accuracyReport: {
           overallAccurac,
@@ -183,7 +183,7 @@ describe('PilotCampaignAnalysis', () => {
           sampleSize: 50,
           categoryAccuracy: [],
           confidenceDistribution: [],
-          reportDate: new Date(),
+          reportDate: new Date()
         },
         successRateAnalysis: {
           currentSuccessRat,
@@ -196,11 +196,11 @@ describe('PilotCampaignAnalysis', () => {
             successRate: 75,
             totalAnyTypes: 100,
             unintentionalCount: 70,
-            classificationAccuracy: 80,
+            classificationAccuracy: 80
           },
           projectedCompletion: new Date(),
           recommendations: [],
-          analysisDate: new Date(),
+          analysisDate: new Date()
         },
         manualReviewRecommendations: [],
         summary: {
@@ -211,8 +211,8 @@ describe('PilotCampaignAnalysis', () => {
           currentSuccessRate: 75,
           manualReviewCases: 5,
           topDomain: 'SERVICE',
-          topCategory: 'FUNCTION_PARAM',
-        },
+          topCategory: 'FUNCTION_PARAM'
+        }
       });
 
       mockAnalysisTools.prototype.generateClassificationAccuracyReport.mockResolvedValue({
@@ -221,7 +221,7 @@ describe('PilotCampaignAnalysis', () => {
         sampleSize: 50,
         categoryAccuracy: [],
         confidenceDistribution: [],
-        reportDate: new Date(),
+        reportDate: new Date()
       });
 
       mockAnalysisTools.prototype.generateSuccessRateAnalysis.mockResolvedValue({
@@ -234,11 +234,11 @@ describe('PilotCampaignAnalysis', () => {
           successRate: 75,
           totalAnyTypes: 100,
           unintentionalCount: 70,
-          classificationAccuracy: 80,
+          classificationAccuracy: 80
         },
         projectedCompletion: new Date(),
         recommendations: [],
-        analysisDate: new Date(),
+        analysisDate: new Date()
       });
 
       await pilotAnalysis.executePilotAnalysis();
@@ -292,9 +292,9 @@ describe('PilotCampaignAnalysis', () => {
           byCategory: [],
           intentionalVsUnintentional: {
             intentional: { count: 15, percentage: 30 },
-            unintentional: { count: 35, percentage: 70 },
+            unintentional: { count: 35, percentage: 70 }
           },
-          analysisDate: new Date(),
+          analysisDate: new Date()
         },
         accuracyReport: {
           overallAccurac,
@@ -303,7 +303,7 @@ describe('PilotCampaignAnalysis', () => {
           sampleSize: 25,
           categoryAccuracy: [],
           confidenceDistribution: [],
-          reportDate: new Date(),
+          reportDate: new Date()
         },
         successRateAnalysis: {
           currentSuccessRat,
@@ -316,11 +316,11 @@ describe('PilotCampaignAnalysis', () => {
             successRate: 70,
             totalAnyTypes: 50,
             unintentionalCount: 35,
-            classificationAccuracy: 75,
+            classificationAccuracy: 75
           },
           projectedCompletion: new Date(),
           recommendations: [],
-          analysisDate: new Date(),
+          analysisDate: new Date()
         },
         manualReviewRecommendations: [],
         summary: {
@@ -331,8 +331,8 @@ describe('PilotCampaignAnalysis', () => {
           currentSuccessRate: 70,
           manualReviewCases: 3,
           topDomain: 'UTILITY',
-          topCategory: 'ARRAY_TYPE',
-        },
+          topCategory: 'ARRAY_TYPE'
+        }
       });
 
       mockAnalysisTools.prototype.generateClassificationAccuracyReport.mockResolvedValue({
@@ -341,7 +341,7 @@ describe('PilotCampaignAnalysis', () => {
         sampleSize: 25,
         categoryAccuracy: [],
         confidenceDistribution: [],
-        reportDate: new Date(),
+        reportDate: new Date()
       });
 
       mockAnalysisTools.prototype.generateSuccessRateAnalysis.mockResolvedValue({
@@ -354,11 +354,11 @@ describe('PilotCampaignAnalysis', () => {
           successRate: 70,
           totalAnyTypes: 50,
           unintentionalCount: 35,
-          classificationAccuracy: 75,
+          classificationAccuracy: 75
         },
         projectedCompletion: new Date(),
         recommendations: [],
-        analysisDate: new Date(),
+        analysisDate: new Date()
       });
 
       const results: any = await pilotAnalysis.executePilotAnalysis();
@@ -396,9 +396,9 @@ describe('PilotCampaignAnalysis', () => {
           byCategory: [],
           intentionalVsUnintentional: {
             intentional: { count: 30, percentage: 30 },
-            unintentional: { count: 70, percentage: 70 },
+            unintentional: { count: 70, percentage: 70 }
           },
-          analysisDate: new Date(),
+          analysisDate: new Date()
         },
         accuracyReport: {
           overallAccurac,
@@ -407,7 +407,7 @@ describe('PilotCampaignAnalysis', () => {
           sampleSize: 50,
           categoryAccuracy: [{ categor, y: 'FUNCTION_PARAM', accuracy: 60, sampleCount: 20 }],
           confidenceDistribution: [],
-          reportDate: new Date(),
+          reportDate: new Date()
         },
         successRateAnalysis: {
           currentSuccessRat,
@@ -420,11 +420,11 @@ describe('PilotCampaignAnalysis', () => {
             successRate: 65,
             totalAnyTypes: 100,
             unintentionalCount: 70,
-            classificationAccuracy: 70,
+            classificationAccuracy: 70
           },
           projectedCompletion: new Date(),
           recommendations: [],
-          analysisDate: new Date(),
+          analysisDate: new Date()
         },
         manualReviewRecommendations: [],
         summary: {
@@ -435,8 +435,8 @@ describe('PilotCampaignAnalysis', () => {
           currentSuccessRate: 65,
           manualReviewCases: 10,
           topDomain: 'SERVICE',
-          topCategory: 'FUNCTION_PARAM',
-        },
+          topCategory: 'FUNCTION_PARAM'
+        }
       });
 
       mockAnalysisTools.prototype.generateClassificationAccuracyReport.mockResolvedValue({
@@ -445,7 +445,7 @@ describe('PilotCampaignAnalysis', () => {
         sampleSize: 50,
         categoryAccuracy: [{ categor, y: 'FUNCTION_PARAM', accuracy: 60, sampleCount: 20 }],
         confidenceDistribution: [],
-        reportDate: new Date(),
+        reportDate: new Date()
       });
 
       mockAnalysisTools.prototype.generateSuccessRateAnalysis.mockResolvedValue({
@@ -458,11 +458,11 @@ describe('PilotCampaignAnalysis', () => {
           successRate: 65,
           totalAnyTypes: 100,
           unintentionalCount: 70,
-          classificationAccuracy: 70,
+          classificationAccuracy: 70
         },
         projectedCompletion: new Date(),
         recommendations: [],
-        analysisDate: new Date(),
+        analysisDate: new Date()
       });
 
       const results: any = await tuningPilot.executePilotAnalysis();
@@ -486,9 +486,9 @@ describe('PilotCampaignAnalysis', () => {
           byCategory: [],
           intentionalVsUnintentional: {
             intentional: { count: 30, percentage: 30 },
-            unintentional: { count: 70, percentage: 70 },
+            unintentional: { count: 70, percentage: 70 }
           },
-          analysisDate: new Date(),
+          analysisDate: new Date()
         },
         accuracyReport: {
           overallAccurac,
@@ -497,7 +497,7 @@ describe('PilotCampaignAnalysis', () => {
           sampleSize: 50,
           categoryAccuracy: [],
           confidenceDistribution: [],
-          reportDate: new Date(),
+          reportDate: new Date()
         },
         successRateAnalysis: {
           currentSuccessRat,
@@ -510,11 +510,11 @@ describe('PilotCampaignAnalysis', () => {
             successRate: 80,
             totalAnyTypes: 100,
             unintentionalCount: 70,
-            classificationAccuracy: 85,
+            classificationAccuracy: 85
           },
           projectedCompletion: new Date(),
           recommendations: [],
-          analysisDate: new Date(),
+          analysisDate: new Date()
         },
         manualReviewRecommendations: [],
         summary: {
@@ -525,8 +525,8 @@ describe('PilotCampaignAnalysis', () => {
           currentSuccessRate: 80,
           manualReviewCases: 5,
           topDomain: 'SERVICE',
-          topCategory: 'ARRAY_TYPE',
-        },
+          topCategory: 'ARRAY_TYPE'
+        }
       });
 
       mockAnalysisTools.prototype.generateClassificationAccuracyReport.mockResolvedValue({
@@ -535,7 +535,7 @@ describe('PilotCampaignAnalysis', () => {
         sampleSize: 50,
         categoryAccuracy: [],
         confidenceDistribution: [],
-        reportDate: new Date(),
+        reportDate: new Date()
       });
 
       mockAnalysisTools.prototype.generateSuccessRateAnalysis.mockResolvedValue({
@@ -548,11 +548,11 @@ describe('PilotCampaignAnalysis', () => {
           successRate: 80,
           totalAnyTypes: 100,
           unintentionalCount: 70,
-          classificationAccuracy: 85,
+          classificationAccuracy: 85
         },
         projectedCompletion: new Date(),
         recommendations: [],
-        analysisDate: new Date(),
+        analysisDate: new Date()
       });
 
       const results: any = await noTuningPilot.executePilotAnalysis();
@@ -576,9 +576,9 @@ describe('PilotCampaignAnalysis', () => {
           byCategory: [],
           intentionalVsUnintentional: {
             intentional: { count: 30, percentage: 30 },
-            unintentional: { count: 70, percentage: 70 },
+            unintentional: { count: 70, percentage: 70 }
           },
-          analysisDate: new Date(),
+          analysisDate: new Date()
         },
         accuracyReport: {
           overallAccurac,
@@ -587,7 +587,7 @@ describe('PilotCampaignAnalysis', () => {
           sampleSize: 50,
           categoryAccuracy: [],
           confidenceDistribution: [],
-          reportDate: new Date(),
+          reportDate: new Date()
         },
         successRateAnalysis: {
           currentSuccessRat,
@@ -600,11 +600,11 @@ describe('PilotCampaignAnalysis', () => {
             successRate: 80,
             totalAnyTypes: 100,
             unintentionalCount: 70,
-            classificationAccuracy: 85,
+            classificationAccuracy: 85
           },
           projectedCompletion: new Date(),
           recommendations: [],
-          analysisDate: new Date(),
+          analysisDate: new Date()
         },
         manualReviewRecommendations: [],
         summary: {
@@ -615,8 +615,8 @@ describe('PilotCampaignAnalysis', () => {
           currentSuccessRate: 80,
           manualReviewCases: 5,
           topDomain: 'SERVICE',
-          topCategory: 'ARRAY_TYPE',
-        },
+          topCategory: 'ARRAY_TYPE'
+        }
       });
 
       mockAnalysisTools.prototype.generateClassificationAccuracyReport.mockResolvedValue({
@@ -625,7 +625,7 @@ describe('PilotCampaignAnalysis', () => {
         sampleSize: 50,
         categoryAccuracy: [],
         confidenceDistribution: [],
-        reportDate: new Date(),
+        reportDate: new Date()
       });
 
       mockAnalysisTools.prototype.generateSuccessRateAnalysis.mockResolvedValue({
@@ -638,11 +638,11 @@ describe('PilotCampaignAnalysis', () => {
           successRate: 80,
           totalAnyTypes: 100,
           unintentionalCount: 70,
-          classificationAccuracy: 85,
+          classificationAccuracy: 85
         },
         projectedCompletion: new Date(),
         recommendations: [],
-        analysisDate: new Date(),
+        analysisDate: new Date()
       });
 
       const results: any = await pilotAnalysis.executePilotAnalysis();

@@ -47,8 +47,8 @@ console.warn('warning message');
       `;
 
       const warnings: any = (analyzer as any).analyzeFileContent('/test/(file as any).ts', content);
-      const consoleWarnings: any = warnings.filter(
-        (w: LintingWarning) => w.category === WarningCategory.CONSOLE_STATEMENTS,
+      const consoleWarnings: any = warnings.filter(;
+        (w: LintingWarning) => w.category === WarningCategory.CONSOLE_STATEMENTS,;
       );
 
       expect(consoleWarnings).toHaveLength(3);
@@ -63,8 +63,8 @@ console.log(usedVar);
       `;
 
       const warnings: any = (analyzer as any).analyzeFileContent('/test/(file as any).ts', content);
-      const unusedWarnings: any = warnings.filter(
-        (w: LintingWarning) => w.category === WarningCategory.UNUSED_VARIABLES,
+      const unusedWarnings: any = warnings.filter(;
+        (w: LintingWarning) => w.category === WarningCategory.UNUSED_VARIABLES,;
       );
 
       expect(unusedWarnings).toHaveLength(1);
@@ -83,7 +83,7 @@ console.log(usedVar);
           rule: '@typescript-eslint/no-explicit-any',
           severity: 'warning',
           message: 'Unexpected any',
-          category: WarningCategory.EXPLICIT_ANY,
+          category: WarningCategory.EXPLICIT_ANY
         },
         {
           file: '/test/file2.ts',
@@ -92,7 +92,7 @@ console.log(usedVar);
           rule: 'no-unused-vars',
           severity: 'warning',
           message: 'Unused variable',
-          category: WarningCategory.UNUSED_VARIABLES,
+          category: WarningCategory.UNUSED_VARIABLES
         },
         {
           file: '/test/file3.ts',
@@ -101,8 +101,8 @@ console.log(usedVar);
           rule: 'no-console',
           severity: 'warning',
           message: 'Console statement',
-          category: WarningCategory.CONSOLE_STATEMENTS,
-        },
+          category: WarningCategory.CONSOLE_STATEMENTS
+        }
       ];
 
       const distribution: any = (analyzer as any).categorizeWarnings(warnings);
@@ -125,7 +125,7 @@ console.log(usedVar);
           rule: '@typescript-eslint/no-explicit-any',
           severity: 'warning',
           message: 'Unexpected any',
-          category: WarningCategory.EXPLICIT_ANY,
+          category: WarningCategory.EXPLICIT_ANY
         },
         {
           file: '/test/high-priority.ts',
@@ -134,7 +134,7 @@ console.log(usedVar);
           rule: '@typescript-eslint/no-explicit-any',
           severity: 'warning',
           message: 'Unexpected any',
-          category: WarningCategory.EXPLICIT_ANY,
+          category: WarningCategory.EXPLICIT_ANY
         },
         {
           file: '/test/low-priority.ts',
@@ -143,8 +143,8 @@ console.log(usedVar);
           rule: 'no-console',
           severity: 'warning',
           message: 'Console statement',
-          category: WarningCategory.CONSOLE_STATEMENTS,
-        },
+          category: WarningCategory.CONSOLE_STATEMENTS
+        }
       ];
 
       const prioritized: any = (analyzer as any).prioritizeFiles(warnings);
@@ -156,12 +156,12 @@ console.log(usedVar);
 
   describe('generateRecommendations', () => {
     it('should generate appropriate recommendations', () => {
-      const distribution: any = {
+      const distribution: any = {;
         explicitAny: { count: 100, priority: 1, files: [] },
         unusedVariables: { count: 50, priority: 2, files: [] },
         consoleStatements: { count: 25, priority: 3, files: [] },
         other: { count: 0, priority: 4, files: [] },
-        total: 175,
+        total: 175
       };
 
       const recommendations: any = (analyzer as any).generateRecommendations(distribution);
@@ -175,17 +175,17 @@ console.log(usedVar);
 
   describe('generateReport', () => {
     it('should generate a comprehensive report', () => {
-      const mockResult: any = {
+      const mockResult: any = {;
         distribution: {
           explicitAny: { count: 10, priority: 1, files: ['file1.ts'] },
           unusedVariables: { count: 5, priority: 2, files: ['file2.ts'] },
           consoleStatements: { count: 3, priority: 3, files: ['file3.ts'] },
           other: { count: 0, priority: 4, files: [] },
-          total: 18,
+          total: 18
         },
         warnings: [],
         prioritizedFiles: { highPriority: ['file1.ts'], mediumPriority: ['file2.ts'], lowPriority: ['file3.ts'] },
-        recommendations: ['Fix explicit-any warnings first'],
+        recommendations: ['Fix explicit-any warnings first']
       };
 
       const report: any = analyzer.generateReport(mockResult);

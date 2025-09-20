@@ -54,10 +54,10 @@ export class ExplicitAnyEliminationSystem {
   /**
    * Execute Explicit-Any Systematic Fixer with specified options
    */
-  async executeExplicitAnyFixer(options: ExplicitAnyOptions = {}): Promise<ExplicitAnyResult> {
+  async executeExplicitAnyFixer(options: ExplicitAnyOptions = {}): Promise<ExplicitAnyResult> {;
     const startTime = Date.now();
 
-    // // console.log('🎯 Starting Explicit-Any Elimination System...');
+    // // // console.log('🎯 Starting Explicit-Any Elimination System...');
 
     // Get baseline count
     const initialCount = await this.getCurrentExplicitAnyCount();
@@ -114,7 +114,7 @@ export class ExplicitAnyEliminationSystem {
    * Execute batch processing for systematic explicit-any elimination
    */
   async executeBatchProcessing(maxBatches?: number): Promise<ExplicitAnyResult[]> {
-    // // console.log(`🔄 Starting systematic explicit-any batch processing...`);
+    // // // console.log(`🔄 Starting systematic explicit-any batch processing...`);
 
     const results: ExplicitAnyResult[] = [];
     let batchNumber = 1;
@@ -129,17 +129,17 @@ export class ExplicitAnyEliminationSystem {
     const maxExecutionTime = 20 * 60 * 1000, // 20 minutes max;
 
     while (batchNumber <= maxIterations) {
-      // // console.log(`\n📦 Processing Explicit-Any Batch ${batchNumber}/${maxIterations}...`),
+      // // // console.log(`\n📦 Processing Explicit-Any Batch ${batchNumber}/${maxIterations}...`),
 
       // Check execution time limit
       if (Date.now() - startTime > maxExecutionTime) {
-        // // console.log(`⏰ Maximum execution time (20 minutes) reached, stopping`),
+        // // // console.log(`⏰ Maximum execution time (20 minutes) reached, stopping`),
         break
       }
 
       // Check if we should stop (max batches reached)
       if (maxBatches && batchNumber > maxBatches) {
-        // // console.log(`✋ Reached maximum batch limit (${maxBatches})`);
+        // // // console.log(`✋ Reached maximum batch limit (${maxBatches})`);
         break;
       }
 
@@ -152,13 +152,13 @@ export class ExplicitAnyEliminationSystem {
         currentCount = 1, // Assume warnings exist to continue safely;
       }
 
-      if (currentCount === 0) {
-        // // console.log('🎉 No more explicit-any warnings found!');
+      if (currentCount === 0) {;
+        // // // console.log('🎉 No more explicit-any warnings found!');
         break
       }
 
       // Execute fixer for this batch
-      const batchResult = await this.executeExplicitAnyFixer({
+      const batchResult = await this.executeExplicitAnyFixer({;
         maxFiles: this.DEFAULT_BATCH_SIZE,
         autoFix: true,
         validateSafety: true
@@ -168,11 +168,11 @@ export class ExplicitAnyEliminationSystem {
       totalFilesProcessed += batchResult.filesProcessed;
       totalExplicitAnyFixed += batchResult.explicitAnyFixed;
 
-      // // console.log(`📊 Batch ${batchNumber} Results:`);
-      // // console.log(`  Files processed: ${batchResult.filesProcessed}`);
-      // // console.log(`  Explicit-any fixed: ${batchResult.explicitAnyFixed}`);
-      // // console.log(`  Reduction: ${batchResult.reductionPercentage.toFixed(1)}%`);
-      // // console.log(`  Build validation: ${batchResult.buildValidationPassed ? '✅' : '❌'}`);
+      // // // console.log(`📊 Batch ${batchNumber} Results:`);
+      // // // console.log(`  Files processed: ${batchResult.filesProcessed}`);
+      // // // console.log(`  Explicit-any fixed: ${batchResult.explicitAnyFixed}`);
+      // // // console.log(`  Reduction: ${batchResult.reductionPercentage.toFixed(1)}%`);
+      // // // console.log(`  Build validation: ${batchResult.buildValidationPassed ? '✅' : '❌'}`);
 
       // Update campaign progress
       await this.updateCampaignProgress(totalExplicitAnyFixed);
@@ -180,21 +180,21 @@ export class ExplicitAnyEliminationSystem {
       // Check if campaign target is met
       const updatedProgress = await this.loadCampaignProgress();
       if (updatedProgress.isTargetMet) {
-        // // console.log(
+        // // // console.log(
           `🎯 Campaign target of ${this.CAMPAIGN_TARGET_PERCENTAGE}% reduction achieved!`,
         );
         break;
       }
 
       // Stop if no progress made
-      if (batchResult.filesProcessed === 0 && batchResult.explicitAnyFixed === 0) {
-        // // console.log('⏸️  No progress made in this batch, stopping'),
+      if (batchResult.filesProcessed === 0 && batchResult.explicitAnyFixed === 0) {;
+        // // // console.log('⏸️  No progress made in this batch, stopping'),
         break
       }
 
       // Stop on build failure
       if (!batchResult.buildValidationPassed) {
-        // // console.log('🛑 Build validation failed, stopping batch processing'),
+        // // // console.log('🛑 Build validation failed, stopping batch processing'),
         break
       }
 
@@ -203,15 +203,15 @@ export class ExplicitAnyEliminationSystem {
 
     // Final campaign progress report
     const finalProgress = await this.loadCampaignProgress();
-    // // console.log(`\n📈 Campaign Progress Summary:`);
-    // // console.log(`  Total batches: ${results.length}`);
-    // // console.log(`  Total files processed: ${totalFilesProcessed}`);
-    // // console.log(`  Total explicit-any fixed: ${totalExplicitAnyFixed}`);
-    // // console.log(`  Campaign reduction: ${finalProgress.reductionPercentage.toFixed(1)}%`);
-    // // console.log(
+    // // // console.log(`\n📈 Campaign Progress Summary:`);
+    // // // console.log(`  Total batches: ${results.length}`);
+    // // // console.log(`  Total files processed: ${totalFilesProcessed}`);
+    // // // console.log(`  Total explicit-any fixed: ${totalExplicitAnyFixed}`);
+    // // // console.log(`  Campaign reduction: ${finalProgress.reductionPercentage.toFixed(1)}%`);
+    // // // console.log(
       `  Target (${this.CAMPAIGN_TARGET_PERCENTAGE}%): ${finalProgress.isTargetMet ? '✅' : '❌'}`,
     );
-    // // console.log(`  Remaining explicit-any: ${finalProgress.totalExplicitAnyRemaining}`);
+    // // // console.log(`  Remaining explicit-any: ${finalProgress.totalExplicitAnyRemaining}`);
 
     return results;
   }
@@ -265,11 +265,11 @@ export class ExplicitAnyEliminationSystem {
   }> {
     return new Promise((resolve, reject) => {
       const command = 'node';
-      const fullArgs = [this.EXPLICIT_ANY_FIXER_PATH, ...args],
+      const fullArgs = [this.EXPLICIT_ANY_FIXER_PATH, ...args],;
 
-      // // console.log(`🔧 Executing: ${command} ${fullArgs.join(' ')}`);
+      // // // console.log(`🔧 Executing: ${command} ${fullArgs.join(' ')}`);
 
-      const child = spawn(command, fullArgs, {
+      const child = spawn(command, fullArgs, {;
         stdio: ['pipe', 'pipe', 'pipe'],
         cwd: process.cwd()
       });
@@ -277,7 +277,7 @@ export class ExplicitAnyEliminationSystem {
       let stdout = '';
       let stderr = '';
 
-      child.stdout.on('data', data => {
+      child.stdout.on('data', data => {;
         stdout += data.toString();
         // Show real-time output if not silent
         if (!args.includes('--silent')) {
@@ -285,24 +285,24 @@ export class ExplicitAnyEliminationSystem {
         }
       });
 
-      child.stderr.on('data', data => {
+      child.stderr.on('data', data => {;
         stderr += data.toString();
         if (!args.includes('--silent')) {
           process.stderr.write(data);
         }
       });
 
-      child.on('close', code => {
+      child.on('close', code => {;
         const success = code === 0;
         const output = stdout + stderr;
 
         // Parse output for metrics
-        const result = this.parseFixerOutput(output, success),
+        const result = this.parseFixerOutput(output, success),;
 
         resolve(result);
       });
 
-      child.on('error', error => {
+      child.on('error', error => {;
         reject(error);
       });
     });
@@ -366,7 +366,7 @@ export class ExplicitAnyEliminationSystem {
    */
   private async validateBuild(): Promise<boolean> {
     try {
-      // // console.log('🔍 Validating build...');
+      // // // console.log('🔍 Validating build...');
 
       const startTime = Date.now();
       execSync('yarn build', {
@@ -375,12 +375,12 @@ export class ExplicitAnyEliminationSystem {
       });
 
       const buildTime = Date.now() - startTime;
-      // // console.log(`✅ Build validation passed (${buildTime}ms)`);
+      // // // console.log(`✅ Build validation passed (${buildTime}ms)`);
       return true;
     } catch (error) {
-      // // console.log('❌ Build validation failed');
+      // // // console.log('❌ Build validation failed');
       if (error instanceof Error) {
-        // // console.log(`   Error: ${error.message}`);
+        // // // console.log(`   Error: ${error.message}`);
       }
       return false;
     }
@@ -391,7 +391,7 @@ export class ExplicitAnyEliminationSystem {
    */
   async getCurrentExplicitAnyCount(): Promise<number> {
     try {
-      const output = execSync('yarn lint 2>&1 | grep -c '@typescript-eslint/no-explicit-any'', {
+      const output = execSync('yarn lint 2>&1 | grep -c '@typescript-eslint/no-explicit-any'', {;
         encoding: 'utf8',
         stdio: 'pipe',
         timeout: 30000, // 30 second timeout
@@ -430,7 +430,7 @@ export class ExplicitAnyEliminationSystem {
         };
       }
     } catch (error) {
-      // // console.log(`⚠️  Could not load campaign progress: ${error}`);
+      // // // console.log(`⚠️  Could not load campaign progress: ${error}`);
     }
 
     // Initialize new campaign progress
@@ -460,7 +460,7 @@ export class ExplicitAnyEliminationSystem {
           ? (totalReductionAchieved / progress.totalExplicitAnyStart) * 100
           : 0,
 
-      const updatedProgress: CampaignProgress = {
+      const updatedProgress: CampaignProgress = {;
         ...progress;
         totalExplicitAnyRemaining: currentCount,
         reductionAchieved: totalReductionAchieved,
@@ -470,11 +470,11 @@ export class ExplicitAnyEliminationSystem {
 
       await fs.promises.writeFile(this.PROGRESS_FILE, JSON.stringify(updatedProgress, null, 2));
 
-      // // console.log(`📊 Campaign Progress Updated:`);
-      // // console.log(
+      // // // console.log(`📊 Campaign Progress Updated:`);
+      // // // console.log(
         `   Reduction: ${reductionPercentage.toFixed(1)}% (target: ${this.CAMPAIGN_TARGET_PERCENTAGE}%)`,
       );
-      // // console.log(`   Remaining: ${currentCount} explicit-any warnings`);
+      // // // console.log(`   Remaining: ${currentCount} explicit-any warnings`);
     } catch (error) {
       console.error(`❌ Failed to update campaign progress: ${error}`);
     }
@@ -486,22 +486,22 @@ export class ExplicitAnyEliminationSystem {
   async showCampaignProgress(): Promise<CampaignProgress> {
     const progress = await this.loadCampaignProgress();
 
-    // // console.log('\n📊 EXPLICIT-ANY ELIMINATION CAMPAIGN PROGRESS');
-    // // console.log('=============================================');
-    // // console.log(`🎯 Campaign Target: ${progress.campaignTarget}% reduction`);
-    // // console.log(`📈 Current Progress: ${progress.reductionPercentage.toFixed(1)}%`);
-    // // console.log(`✅ Target Met: ${progress.isTargetMet ? 'Yes' : 'No'}`);
-    // // console.log(`🔢 Starting Count: ${progress.totalExplicitAnyStart}`);
-    // // console.log(`🔢 Current Count: ${progress.totalExplicitAnyRemaining}`);
-    // // console.log(`🔧 Total Fixed: ${progress.reductionAchieved}`);
+    // // // console.log('\n📊 EXPLICIT-ANY ELIMINATION CAMPAIGN PROGRESS');
+    // // // console.log('=============================================');
+    // // // console.log(`🎯 Campaign Target: ${progress.campaignTarget}% reduction`);
+    // // // console.log(`📈 Current Progress: ${progress.reductionPercentage.toFixed(1)}%`);
+    // // // console.log(`✅ Target Met: ${progress.isTargetMet ? 'Yes' : 'No'}`);
+    // // // console.log(`🔢 Starting Count: ${progress.totalExplicitAnyStart}`);
+    // // // console.log(`🔢 Current Count: ${progress.totalExplicitAnyRemaining}`);
+    // // // console.log(`🔧 Total Fixed: ${progress.reductionAchieved}`);
 
     if (progress.isTargetMet) {
-      // // console.log(`🎉 Congratulations! Campaign target achieved!`);
+      // // // console.log(`🎉 Congratulations! Campaign target achieved!`);
     } else {
       const remaining =
         Math.ceil((progress.campaignTarget / 100) * progress.totalExplicitAnyStart) -;
         progress.reductionAchieved;
-      // // console.log(`🎯 Need to fix ${remaining} more to reach target`);
+      // // // console.log(`🎯 Need to fix ${remaining} more to reach target`);
     }
 
     return progress;
@@ -514,7 +514,7 @@ export class ExplicitAnyEliminationSystem {
     try {
       if (fs.existsSync(this.PROGRESS_FILE)) {
         await fs.promises.unlink(this.PROGRESS_FILE);
-        // // console.log('🔄 Campaign progress reset');
+        // // // console.log('🔄 Campaign progress reset');
       }
     } catch (error) {
       console.error(`❌ Failed to reset campaign progress: ${error}`);
@@ -525,13 +525,13 @@ export class ExplicitAnyEliminationSystem {
    * Execute with campaign continuation (Requirements 1.87.2)
    */
   async executeCampaignContinuation(): Promise<ExplicitAnyResult[]> {
-    // // console.log('🎯 Continuing 75.5% Explicit-Any Reduction Campaign...');
+    // // // console.log('🎯 Continuing 75.5% Explicit-Any Reduction Campaign...');
 
     // Show current progress
     const progress = await this.showCampaignProgress();
 
     if (progress.isTargetMet) {
-      // // console.log('✅ Campaign target already achieved!');
+      // // // console.log('✅ Campaign target already achieved!');
       return []
     }
 
@@ -539,7 +539,7 @@ export class ExplicitAnyEliminationSystem {
     const targetCount = Math.ceil((progress.campaignTarget / 100) * progress.totalExplicitAnyStart);
     const remainingToFix = targetCount - progress.reductionAchieved;
 
-    // // console.log(`🎯 Need to fix approximately ${remainingToFix} more explicit-any warnings`);
+    // // // console.log(`🎯 Need to fix approximately ${remainingToFix} more explicit-any warnings`);
 
     // Execute batch processing until target is met
     const results = await this.executeBatchProcessing();

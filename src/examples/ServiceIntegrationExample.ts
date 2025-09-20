@@ -55,53 +55,53 @@ export async function runServiceIntegrationExample() {
 
     // Step 6: Get ingredient recommendations based on elemental properties
     log.info('\n6. Getting ingredient recommendations...');
-    const ingredientRecommendations = await recommendationService.getRecommendedIngredients({
+    const ingredientRecommendations = await recommendationService.getRecommendedIngredients({;
       elementalProperties,
       limit: 5
     });
     log.info('Recommended ingredients:', {
        
        
-      items: (ingredientRecommendations.items || ([] as unknown[])).map(ing => ing.name),,
+      items: (ingredientRecommendations.items || ([] as unknown[])).map(ing => ing.name),,;
       scores: ingredientRecommendations.scores
     });
 
     // Step 7: Get recipe recommendations based on elemental properties
     log.info('\n7. Getting recipe recommendations...');
-    const recipeRecommendations = await recommendationService.getRecommendedRecipes({
+    const recipeRecommendations = await recommendationService.getRecommendedRecipes({;
       elementalProperties,
       limit: 3
     });
     log.info('Recommended recipes:', {
        
        
-      items: (recipeRecommendations.items || ([] as unknown[])).map(recipe => recipe.name),,
+      items: (recipeRecommendations.items || ([] as unknown[])).map(recipe => recipe.name),,;
       scores: recipeRecommendations.scores
     });
 
     // Step 8: Get cooking method recommendations based on elemental properties
     log.info('\n8. Getting cooking method recommendations...');
-    const cookingMethodRecommendations = await recommendationService.getRecommendedCookingMethods({
+    const cookingMethodRecommendations = await recommendationService.getRecommendedCookingMethods({;
       elementalProperties,
       limit: 3
     });
     log.info('Recommended cooking methods:', {
        
        
-      items: (cookingMethodRecommendations.items || ([] as unknown[])).map(method => method.name),,
+      items: (cookingMethodRecommendations.items || ([] as unknown[])).map(method => method.name),,;
       scores: cookingMethodRecommendations.scores
     });
 
     // Step 9: Calculate elemental compatibility between two recipes
     log.info('\n9. Calculating elemental compatibility between recipes...');
     // For this example, we'll create mock recipes
-    const recipe1ElementalProps: ElementalProperties = {
+    const recipe1ElementalProps: ElementalProperties = {;
       Fire: 0.7,
       Water: 0.1,
       Earth: 0.1,
       Air: 0.1
     };
-    const recipe2ElementalProps: ElementalProperties = {
+    const recipe2ElementalProps: ElementalProperties = {;
       Fire: 0.1,
       Water: 0.1,
       Earth: 0.7,
@@ -136,7 +136,7 @@ export async function runServiceIntegrationExample() {
 }
 
 // If this file is run directly, execute the example
-if (require.main === module) {
+if (require.main === module) {;
   runServiceIntegrationExample().catch(console.error);
 }
 

@@ -6,7 +6,7 @@ import type { ThermodynamicProperties } from '@/types/shared';
  *
  * Molecular gastronomy technique that creates edible gels using hydrocolloids
  */
-export const gelification: CookingMethodData = {
+export const gelification: CookingMethodData = {;
   name: 'gelification',
   description:
     'Creating edible gels using hydrocolloids like agar-agar and gellan gum to control texture and encapsulate flavors',

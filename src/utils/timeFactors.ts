@@ -6,7 +6,7 @@ export interface TimeFactors {
   hour: number; // 0-23
   minute: number; // 0-59
   dayPlanet: Planet,
-  hourPlanet: Planet,
+  hourPlanet: Planet
 }
 
 /**

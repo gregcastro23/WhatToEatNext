@@ -37,7 +37,7 @@ class Logger {
     this.componentLoggers.add(component);
 
     return {
-      debug: (message: string, ...args: unknown[]): void => {
+      debug: (message: string, ...args: unknown[]): void => {;
         try {
           this.debug(message, { component, args });
         } catch (e) {
@@ -45,28 +45,28 @@ class Logger {
           console.warn(`[LOGGER-ERROR] Failed to log debug message for ${component}:`, e);
         }
       },
-      log: (message: string, ...args: unknown[]): void => {
+      log: (message: string, ...args: unknown[]): void => {;
         try {
           this.info(message, { component, args });
         } catch (e) {
           console.warn(`[LOGGER-ERROR] Failed to log message for ${component}:`, e);
         }
       },
-      info: (message: string, ...args: unknown[]): void => {
+      info: (message: string, ...args: unknown[]): void => {;
         try {
           this.info(message, { component, args });
         } catch (e) {
           console.warn(`[LOGGER-ERROR] Failed to log info message for ${component}:`, e);
         }
       },
-      warn: (message: string, ...args: unknown[]): void => {
+      warn: (message: string, ...args: unknown[]): void => {;
         try {
           this.warn(message, { component, args });
         } catch (e) {
           console.warn(`[LOGGER-ERROR] Failed to log warning for ${component}:`, e);
         }
       },
-      error: (message: string, ...args: unknown[]): void => {
+      error: (message: string, ...args: unknown[]): void => {;
         try {
           this.error(message, { component, args });
         } catch (e) {
@@ -128,7 +128,7 @@ class Logger {
    */
   private extractOptions(args: unknown[]) {
     const last = args[args.length - 1];
-    if (last && typeof last === 'object' && !Array.isArray(last) && 'component' in last) {
+    if (last && typeof last === 'object' && !Array.isArray(last) && 'component' in last) {;
       return {
         component: last.component as string,
         rest: args.slice(0, args.length - 1)
@@ -157,12 +157,12 @@ class Logger {
    * Get a summary of recent errors
    */
   getErrorSummary(): string {
-    if (this.recentErrors.length === 0) {
+    if (this.recentErrors.length === 0) {;
       return 'No recent errors';
     }
 
     return this.recentErrors
-      .map(err => {
+      .map(err => {;
         const date = new Date(err.timestamp).toLocaleTimeString();
         const component = err.component ? `[${err.component}]` : '';
         return `[${date}]${component} ${err.message}`;
@@ -197,7 +197,7 @@ class Logger {
 // Singleton instance of the logger with safe initialization
 let loggerInstance: Logger | undefined;
 
-export const logger = (() => {
+export const logger = (() => {;
   if (!loggerInstance) {
     loggerInstance = new Logger();
   }
@@ -208,9 +208,9 @@ export const logger = (() => {
 export const createLogger = (component: string) => logger.createLogger(component);
 
 // Utility functions for direct use (for backwards compatibility)
-export const _debugLog = (message: string, ...args: unknown[]): void =>
+export const _debugLog = (message: string, ...args: unknown[]): void =>;
   logger.debug(message, ...args);
 export const _infoLog = (message: string, ...args: unknown[]): void => logger.info(message, ...args);
 export const _warnLog = (message: string, ...args: unknown[]): void => logger.warn(message, ...args);
-export const _errorLog = (message: string, ...args: unknown[]): void =>
+export const _errorLog = (message: string, ...args: unknown[]): void =>;
   logger.error(message, ...args);

@@ -133,7 +133,7 @@ export class RecommendationService {
     // Track retrograde planets
     if (this.planetaryPositions) {
       Object.entries(this.planetaryPositions || {}).forEach(([planet, data]) => {
-        if (typeof data === 'object' && data !== null && 'isRetrograde' in data) {
+        if (typeof data === 'object' && data !== null && 'isRetrograde' in data) {;
           this.retrogradeStatus[planet] = !!data.isRetrograde;
         }
       });
@@ -142,13 +142,13 @@ export class RecommendationService {
     this.convertedPositions = {};
     if (this.planetaryPositions) {
       Object.entries(this.planetaryPositions || {}).forEach(([planet, data]) => {
-        if (typeof data === 'object' && data !== null) {
+        if (typeof data === 'object' && data !== null) {;
           this.convertedPositions[planet] = {
             sign: data.sign || '',
             degree: data.degree || 0,
             ...(data.isRetrograde !== undefined ? { isRetrograde: data.isRetrograde } : {})
           };
-        } else if (typeof data === 'number') {
+        } else if (typeof data === 'number') {;
           this.convertedPositions[planet] = {
             degree: data
           };
@@ -273,8 +273,8 @@ export class RecommendationService {
     // Apply boosts to each ingredient
     this.transformedIngredients =
       this.transformedIngredients ||;
-      [].map(item => {
-        const properties = ((item as any).elementalState as ElementalProperties) || {
+      [].map(item => {;
+        const properties = ((item as any).elementalState as ElementalProperties) || {;
           Fire: 0,
           Water: 0,
           Earth: 0,
@@ -313,21 +313,21 @@ export class RecommendationService {
   /**
    * Get recommended ingredients based on current planetary positions
    */
-  getRecommendedIngredients(limit = 10): AlchemicalItem[] {
+  getRecommendedIngredients(limit = 10): AlchemicalItem[] {;
     return this.getSortedItems(this.transformedIngredients, limit)
   }
 
   /**
    * Get recommended cooking methods based on current planetary positions
    */
-  getRecommendedCookingMethods(limit = 5): AlchemicalItem[] {
+  getRecommendedCookingMethods(limit = 5): AlchemicalItem[] {;
     return this.getSortedItems(this.transformedMethods, limit)
   }
 
   /**
    * Get recommended cuisines based on current planetary positions
    */
-  getRecommendedCuisines(limit = 5): AlchemicalItem[] {
+  getRecommendedCuisines(limit = 5): AlchemicalItem[] {;
     return this.getSortedItems(this.transformedCuisines, limit)
   }
 
@@ -393,10 +393,10 @@ export class RecommendationService {
    */
   async recommendRecipes(
     recipes: Recipe[],
-    criteria: RecommendationCriteria = {}
+    criteria: RecommendationCriteria = {};
   ): Promise<ScoredRecipe[]> {
     try {
-      if (!Array.isArray(recipes) || (recipes || []).length === 0) {
+      if (!Array.isArray(recipes) || (recipes || []).length === 0) {;
         throw new (createError as unknown as new (
           message: string,
           details?: Record<string, unknown>,
@@ -408,7 +408,7 @@ export class RecommendationService {
 
       // Score and sort recipes
       const scoredRecipes = (recipes || []);
-        .map(recipe => ({
+        .map(recipe => ({;
           ...recipe;
           score: this.calculateRecipeScore(recipe, {
             ...criteria;
@@ -418,7 +418,7 @@ export class RecommendationService {
         .sort((ab) => b.score - a.score);
 
       // Always ensure at least one recommendation
-      if ((scoredRecipes || []).length === 0) {
+      if ((scoredRecipes || []).length === 0) {;
         logger.warn('No recipes matched criteria, using fallback');
         return [this.getFallbackRecipe()]
       }
@@ -464,7 +464,7 @@ export class RecommendationService {
     } else if (criteria.astrologicalState) {
       // Basic compatibility check using simple elemental matching
       const currentElements = this.getCurrentElementalInfluence();
-      const recipeElements = recipe.elementalProperties || {
+      const recipeElements = recipe.elementalProperties || {;
         Fire: 0.25,
         Water: 0.25,
         Earth: 0.25,
@@ -491,7 +491,7 @@ export class RecommendationService {
       let seasonalScore = 0.5; // Default neutral score
       if (recipe.season && Array.isArray(recipe.season)) {
         seasonalScore = recipe.season.includes(criteria.season) ? 0.9 : 0.3;
-      } else if (recipe.season === criteria.season) {
+      } else if (recipe.season === criteria.season) {;
         seasonalScore = 0.9;
       }
       score += seasonalScore * 0.15; // 15% weight for seasonal matching
@@ -527,7 +527,7 @@ export class RecommendationService {
   ): number {
     try {
       // Get recipe elemental properties, defaulting if not available
-      const recipeElements: ElementalProperties = recipe.elementalProperties || {
+      const recipeElements: ElementalProperties = recipe.elementalProperties || {;
         Fire: 0.25,
         Water: 0.25,
         Earth: 0.25,
@@ -535,7 +535,7 @@ export class RecommendationService {
       };
 
       // Get current moment's elemental influence
-      const astroStateData = astrologicalState as {
+      const astroStateData = astrologicalState as {;
         currentZodiac?: string;
         lunarPhase?: string;
         activePlanets?: string[],
@@ -557,7 +557,7 @@ export class RecommendationService {
       let advancedScore = 0.5; // Default neutral score
       try {
         // Create a mock KalchmResult from AstrologicalState for compatibility
-        const mockKalchmResult = {
+        const mockKalchmResult = {;
           alchemicalProperties: {
             totalKalchm: 1.0,
             gregsEnergy: 1.0,
@@ -712,12 +712,12 @@ export class RecommendationService {
     const currentMomentDominant = this.getDominantElement(currentMomentElements);
 
     // Perfect match for same element
-    if (recipeDominant === currentMomentDominant) {
+    if (recipeDominant === currentMomentDominant) {;
       return 1.0;
     }
 
     // Check elemental harmony (elements that work well together)
-    const elementalHarmony = {
+    const elementalHarmony = {;
       Fire: ['Air', 'Fire'], // Fire enhances with Air
       Water: ['Earth', 'Water'], // Water nourishes Earth
       Earth: ['Water', 'Earth'], // Earth grounds Water

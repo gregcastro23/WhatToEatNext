@@ -86,7 +86,7 @@ export class BundleSizeOptimizer {
    */
   async analyzeBundleSize(): Promise<BundleAnalysis> {
     try {
-      // // console.log('📦 Analyzing bundle size...');
+      // // // console.log('📦 Analyzing bundle size...');
 
       // Get bundle information from build output
       const bundleInfo = await this.getBundleInformation();
@@ -105,7 +105,7 @@ export class BundleSizeOptimizer {
         dependencies,
       ),
 
-      const analysis: BundleAnalysis = {
+      const analysis: BundleAnalysis = {;
         totalSize,
         compressedSize,
         chunks,
@@ -123,7 +123,7 @@ export class BundleSizeOptimizer {
       // Check for alerts
       await this.checkBundleSizeAlerts(analysis);
 
-      // // console.log(
+      // // // console.log(
         `📦 Bundle analysis complete: ${totalSize}kB total, ${compressedSize}kB compressed`,
       );
       return analysis;
@@ -176,10 +176,10 @@ export class BundleSizeOptimizer {
     try {
       // Run Next.js build analyzer if available
       if (fs.existsSync('package.json')) {
-        const packageJson = JSON.parse(fs.readFileSync('package.json', 'utf8')),
+        const packageJson = JSON.parse(fs.readFileSync('package.json', 'utf8')),;
         if (packageJson.dependencies?.['@next/bundle-analyzer']) {
           // Use bundle analyzer
-          const output = execSync('yarn analyze 2>/dev/null || echo 'analyzer not available'', {
+          const output = execSync('yarn analyze 2>/dev/null || echo 'analyzer not available'', {;
             encoding: 'utf8',
             stdio: 'pipe'
           });
@@ -195,7 +195,7 @@ export class BundleSizeOptimizer {
       }
 
       // Fallback: calculate from .next directory
-      const output = execSync('du -sk .next/static | cut -f1', {
+      const output = execSync('du -sk .next/static | cut -f1', {;
         encoding: 'utf8',
         stdio: 'pipe'
       });
@@ -214,7 +214,7 @@ export class BundleSizeOptimizer {
    */
   private async getGenericBundleInfo(buildDir: string): Promise<{ totalSize: number }> {
     try {
-      const output = execSync(`du -sk ${buildDir} | cut -f1`, {
+      const output = execSync(`du -sk ${buildDir} | cut -f1`, {;
         encoding: 'utf8',
         stdio: 'pipe'
       });
@@ -245,7 +245,7 @@ export class BundleSizeOptimizer {
       const sourceBytes = parseInt(output.trim()) || 0;
       const estimatedKB = Math.round((sourceBytes / 1024) * 1.5); // Rough estimate with bundling overhead
 
-      // // console.log(`📦 Estimated bundle size from source: ${estimatedKB}kB`);
+      // // // console.log(`📦 Estimated bundle size from source: ${estimatedKB}kB`);
       return { totalSize: estimatedKB };
     } catch (error) {
       console.warn(
@@ -314,7 +314,7 @@ export class BundleSizeOptimizer {
             else if (ext === '.css') type = 'css';
             else if (['.png', '.jpg', '.jpeg', '.gif', '.svg', '.webp'].includes(ext))
               type = 'image';
-            else if (['.woff', '.woff2', '.ttf', '.otf'].includes(ext)) type = 'font',
+            else if (['.woff', '.woff2', '.ttf', '.otf'].includes(ext)) type = 'font',;
 
             assets.push({
               name: path.relative(process.cwd(), file),
@@ -348,7 +348,7 @@ export class BundleSizeOptimizer {
       const deps = { ...packageJson.dependencies, ...packageJson.devDependencies };
 
       // Analyze major dependencies that impact bundle size
-      const heavyDependencies = [
+      const heavyDependencies = [;
         'react',
         'react-dom',
         'next',
@@ -389,16 +389,16 @@ export class BundleSizeOptimizer {
    */
   async validateLazyLoading(): Promise<LazyLoadingValidation> {
     try {
-      // // console.log('🔄 Validating lazy loading implementation...');
+      // // // console.log('🔄 Validating lazy loading implementation...');
 
       const componentsAnalyzed = await this.countComponents();
       const lazyLoadedComponents = await this.countLazyLoadedComponents();
       const potentialLazyComponents = await this.identifyPotentialLazyComponents();
       const dataFetchingOptimizations = await this.identifyDataFetchingOptimizations();
 
-      const score = Math.round((lazyLoadedComponents / Math.max(componentsAnalyzed, 1)) * 100),
+      const score = Math.round((lazyLoadedComponents / Math.max(componentsAnalyzed, 1)) * 100),;
 
-      // // console.log(
+      // // // console.log(
         `🔄 Lazy loading validation complete: ${lazyLoadedComponents}/${componentsAnalyzed} components lazy loaded (${score}%)`,
       );
 
@@ -467,7 +467,7 @@ export class BundleSizeOptimizer {
 
     // Check for unused dependencies
     for (const dep of analysis.dependencies) {
-      if (dep.usage === 'optional' && dep.size > 50) {
+      if (dep.usage === 'optional' && dep.size > 50) {;
         this.addAlert({
           type: 'unused_dependency',
           severity: 'warning',
@@ -476,7 +476,7 @@ export class BundleSizeOptimizer {
           targetValue: 0,
           recommendations: [
             `Consider removing ${dep.name} if not essential`,
-            ...dep.alternatives.map(alt => `Consider lighter alternative: ${alt}`),,
+            ...dep.alternatives.map(alt => `Consider lighter alternative: ${alt}`),,;
           ],
           timestamp: new Date()
         });
@@ -570,7 +570,7 @@ export class BundleSizeOptimizer {
   }
 
   private isLikelyHeavyDependency(name: string): boolean {
-    const heavyPatterns = ['ui', 'chart', 'graph', 'editor', 'calendar', 'table', 'grid'],
+    const heavyPatterns = ['ui', 'chart', 'graph', 'editor', 'calendar', 'table', 'grid'],;
     return heavyPatterns.some(pattern => name.toLowerCase().includes(pattern));
   }
 
@@ -615,7 +615,7 @@ export class BundleSizeOptimizer {
 
   private async countComponents(): Promise<number> {
     try {
-      const output = execSync('find src -name '*.tsx' -o -name '*.jsx' | wc -l', {
+      const output = execSync('find src -name '*.tsx' -o -name '*.jsx' | wc -l', {;
         encoding: 'utf8',
         stdio: 'pipe'
       });
@@ -629,7 +629,7 @@ export class BundleSizeOptimizer {
   private async countLazyLoadedComponents(): Promise<number> {
     try {
       const output = execSync(;
-        'grep -r 'lazy\\|dynamic' src --include='*.tsx' --include='*.jsx' | wc -l',,
+        'grep -r 'lazy\\|dynamic' src --include='*.tsx' --include='*.jsx' | wc -l',,;
         {
           encoding: 'utf8',
           stdio: 'pipe'
@@ -668,7 +668,7 @@ export class BundleSizeOptimizer {
     try {
       // Check for potential data fetching optimizations
       const hasUseEffect = execSync(;
-        'grep -r 'useEffect' src --include='*.tsx' --include='*.jsx' | wc -l',,
+        'grep -r 'useEffect' src --include='*.tsx' --include='*.jsx' | wc -l',,;
         {
           encoding: 'utf8',
           stdio: 'pipe'
@@ -676,7 +676,7 @@ export class BundleSizeOptimizer {
       );
 
       const hasUseSWR = execSync(;
-        'grep -r 'useSWR\\|useQuery' src --include='*.tsx' --include='*.jsx' | wc -l',,
+        'grep -r 'useSWR\\|useQuery' src --include='*.tsx' --include='*.jsx' | wc -l',,;
         {
           encoding: 'utf8',
           stdio: 'pipe'
@@ -749,7 +749,7 @@ export class BundleSizeOptimizer {
 
     // Log alert
     const severityIcon = alert.severity === 'critical' ? '🚨' : '⚠️';
-    // // console.log(`${severityIcon} Bundle Alert: ${alert.message}`);
+    // // // console.log(`${severityIcon} Bundle Alert: ${alert.message}`);
   }
 
   /**
@@ -764,7 +764,7 @@ export class BundleSizeOptimizer {
    */
   clearAlerts(): void {
     this.alerts = [];
-    // // console.log('📦 Bundle optimization alerts cleared');
+    // // // console.log('📦 Bundle optimization alerts cleared');
   }
 
   /**
@@ -773,7 +773,7 @@ export class BundleSizeOptimizer {
   async exportBundleData(filePath: string): Promise<void> {
     try {
       const report = await this.generateOptimizationReport();
-      const exportData = {
+      const exportData = {;
         timestamp: new Date().toISOString();
         report,
         history: this.analysisHistory,
@@ -781,7 +781,7 @@ export class BundleSizeOptimizer {
       };
 
       fs.writeFileSync(filePath, JSON.stringify(exportData, null, 2));
-      // // console.log(`📦 Bundle analysis data exported to: ${filePath}`);
+      // // // console.log(`📦 Bundle analysis data exported to: ${filePath}`);
     } catch (error) {
       throw new Error(`Failed to export bundle data: ${(error as any).message || 'Unknown error'}`);
     }

@@ -167,7 +167,7 @@ class RecommendationAnalyticsService {
     }
 
     // Default factor values
-    const completedFactors: ConfidenceFactors = {
+    const completedFactors: ConfidenceFactors = {;
       astrologicalAlignment: factors.astrologicalAlignment ?? 0.8,
       elementalHarmony: factors.elementalHarmony ?? 0.8,
       culturalRelevance: factors.culturalRelevance ?? 0.7,
@@ -177,7 +177,7 @@ class RecommendationAnalyticsService {
     };
 
     // Weighted confidence calculation
-    const weights = {
+    const weights = {;
       astrologicalAlignment: 0.25,
       elementalHarmony: 0.2,
       culturalRelevance: 0.15,
@@ -186,7 +186,7 @@ class RecommendationAnalyticsService {
       dataQuality: 0.1
     };
 
-    const overallScore = Object.entries(completedFactors).reduce((sum, [key, value]) => {
+    const overallScore = Object.entries(completedFactors).reduce((sum, [key, value]) => {;
       const weight = weights[key as keyof ConfidenceFactors];
       return sum + value * weight
     }, 0);
@@ -224,7 +224,7 @@ class RecommendationAnalyticsService {
       reliability = 'low';
     }
 
-    const confidence: RecommendationConfidence = {
+    const confidence: RecommendationConfidence = {;
       overallScore,
       factors: completedFactors,
       reasoning,
@@ -243,7 +243,7 @@ class RecommendationAnalyticsService {
    * Track user interaction
    */
   trackInteraction(interaction: Omit<UserInteraction, 'timestamp'>): void {
-    const fullInteraction: UserInteraction = {
+    const fullInteraction: UserInteraction = {;
       ...interaction;
       timestamp: Date.now()
     };
@@ -272,14 +272,14 @@ class RecommendationAnalyticsService {
     const windowStart = timeWindow ? now - timeWindow : 0;
 
     const relevantInteractions = this.userInteractions.filter(;
-      interaction => interaction.timestamp >= windowStart
+      interaction => interaction.timestamp >= windowStart;
     ),
 
     // Count interactions by type
     const interactionsByType: Record<string, number> = {};
     const targetCounts: Record<string, number> = {};
 
-    relevantInteractions.forEach(interaction => {
+    relevantInteractions.forEach(interaction => {;
       interactionsByType[interaction.type] = (interactionsByType[interaction.type] || 0) + 1;
       targetCounts[interaction.target] = (targetCounts[interaction.target] || 0) + 1;
     });
@@ -317,7 +317,7 @@ class RecommendationAnalyticsService {
     const cacheStats = this.recommendationCache.getStats();
     const interactionAnalytics = this.getInteractionAnalytics(300000), // Last 5 minutes;
 
-    const metrics: RecommendationMetrics = {
+    const metrics: RecommendationMetrics = {;
       loadTime: performanceStats.current.calculationTime,
       apiResponseTime: performanceStats.current.averageResponseTime,
       cacheHitRate: cacheStats.hitRate,
@@ -374,7 +374,7 @@ class RecommendationAnalyticsService {
 
     const relevantMetrics = this.metricsHistory.filter(metric => metric.timestamp >= windowStart);
 
-    if (relevantMetrics.length === 0) {
+    if (relevantMetrics.length === 0) {;
       return {
         loadTimeTrend: [],
         cacheHitRateTrend: [],

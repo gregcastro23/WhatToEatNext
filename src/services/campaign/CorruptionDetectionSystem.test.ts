@@ -32,7 +32,7 @@ describe('Corruption Detection System - Task 6.2', () => {
   beforeEach(() => {
     jest.clearAllMocks();
 
-    mockSettings = {
+    mockSettings = {;
       maxFilesPerBatch: 15,
       buildValidationFrequency: 5,
       testValidationFrequency: 10,
@@ -227,7 +227,7 @@ import React, { Component } from 'undefined';
       expect(report.detectedFiles).toContain('test-file.ts');
       expect(report.severity).toBe(CorruptionSeverity.CRITICAL);
       expect(
-        report.corruptionPatterns.some(p => p.description.includes('Duplicate destructuring braces in import')),,
+        report.corruptionPatterns.some(p => p.description.includes('Duplicate destructuring braces in import')),,;
       ).toBe(true);
     });
 
@@ -259,7 +259,7 @@ import React, { Component } from 'undefined';
       expect(report.detectedFiles).toContain('test-file.ts');
       expect(report.severity).toBe(CorruptionSeverity.HIGH);
       expect(
-        report.corruptionPatterns.some(p => p.description.includes('Malformed import/export statement syntax')),
+        report.corruptionPatterns.some(p => p.description.includes('Malformed import/export statement syntax')),;
       ).toBe(true);
     });
 
@@ -323,7 +323,7 @@ import React, { Component } from 'undefined';
     });
 
     test('should handle monitoring errors gracefully', async () => {
-      const consoleErrorSpy: any = jest.spyOn(console, 'error').mockImplementation(),
+      const consoleErrorSpy: any = jest.spyOn(console, 'error').mockImplementation(),;
 
       // Mock file read error during monitoring
       mockFs.readFileSync.mockImplementation(() => {
@@ -416,7 +416,7 @@ import React, { Component } from 'undefined';
 
       mockFs.readFileSync.mockReturnValue(highSeverityContent);
 
-      const report: any = await safetyProtocol.detectCorruption(['test-file.ts'])
+      const report: any = await safetyProtocol.detectCorruption(['test-file.ts']);
     });
 
     test('should recommend retry for medium severity corruption', async () => {

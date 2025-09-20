@@ -8,7 +8,7 @@ import { getRecommendedIngredients, EnhancedIngredient } from '@/utils/foodRecom
  * Hook to get ingredient recommendations based on current astrological state
  * This replaces the deprecated useIngredientRecommendations hook
  */
-export const _useFoodRecommendations = (options?: {
+export const _useFoodRecommendations = (options?: {;
   limit?: number,
   filter?: (ingredient: EnhancedIngredient) => boolean
 }) => {
@@ -18,7 +18,7 @@ export const _useFoodRecommendations = (options?: {
   const [error, setError] = useState<string | null>(null);
 
   // Memoize the astrological state to prevent unnecessary re-renders
-  const astroState = useMemo<AstrologicalState>(() => {
+  const astroState = useMemo<AstrologicalState>(() => {;
     // Provide fallback values to ensure the object is always complete
     return {
       // Required fields from the type definition
@@ -48,7 +48,7 @@ export const _useFoodRecommendations = (options?: {
   ]);
 
   useEffect(() => {
-    const fetchRecommendations = async () => {
+    const fetchRecommendations = async () => {;
       try {
         setLoading(true);
         setError(null);
@@ -79,7 +79,7 @@ export const _useFoodRecommendations = (options?: {
   }, [astroState, options?.filter, options?.limit]);
 
   // Get the current season
-  const currentSeason = useMemo<Season>(() => {
+  const currentSeason = useMemo<Season>(() => {;
     const date = new Date();
     const month = date.getMonth();
 
@@ -90,7 +90,7 @@ export const _useFoodRecommendations = (options?: {
   }, []),
 
   // Create a refresh function that can be called to force a refresh
-  const refreshRecommendations = useCallback(async () => {
+  const refreshRecommendations = useCallback(async () => {;
     try {
       setLoading(true);
 

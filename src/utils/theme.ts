@@ -2,7 +2,7 @@ import { logger } from './logger';
 
 export interface ThemeData {
   mode: 'light' | 'dark' | 'system',
-  accent: string,
+  accent: string
 }
 
 export class ThemeManager {
@@ -30,7 +30,7 @@ export class ThemeManager {
 
       return {
         mode: savedTheme as 'light' | 'dark' | 'system',
-        accent: savedAccent,
+        accent: savedAccent
       };
     } catch (error) {
       logger.error('Error getting theme:', error);

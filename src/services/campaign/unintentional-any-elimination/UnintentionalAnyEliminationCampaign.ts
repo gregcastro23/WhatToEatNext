@@ -28,7 +28,7 @@ export class UnintentionalAnyEliminationCampaign {
   private qualityAssurance: DocumentationQualityAssurance,
 
   constructor(config?: Partial<UnintentionalAnyConfig>) {
-    this.config = {
+    this.config = {;
       maxFilesPerBatch: 15,
       targetReductionPercentage: 15,
       confidenceThreshold: 0.8,
@@ -41,7 +41,7 @@ export class UnintentionalAnyEliminationCampaign {
 
     this.engine = new ProgressiveImprovementEngine();
     this.progressTracker = new ProgressTracker();
-    this.safetyProtocol = new SafetyProtocol({
+    this.safetyProtocol = new SafetyProtocol({;
       maxFilesPerBatch: this.config.maxFilesPerBatch,
       buildValidationFrequency: this.config.validationFrequency,
       testValidationFrequency: 10,
@@ -50,7 +50,7 @@ export class UnintentionalAnyEliminationCampaign {
       stashRetentionDays: 7
     });
     this.documentationGenerator = new AutoDocumentationGenerator();
-    this.qualityAssurance = new DocumentationQualityAssurance({
+    this.qualityAssurance = new DocumentationQualityAssurance({;
       sourceDirectories: ['src'],
       excludePatterns: [
         'node_modules/**',
@@ -184,8 +184,8 @@ export class UnintentionalAnyEliminationCampaign {
    * Execute the campaign using the existing campaign infrastructure
    */
   async executeCampaign(): Promise<UnintentionalAnyCampaignResult> {
-    // // console.log('Starting Unintentional Any Elimination Campaign');
-    // // console.log(`Configuration:`, {
+    // // // console.log('Starting Unintentional Any Elimination Campaign');
+    // // // console.log(`Configuration:`, {
       maxFilesPerBatch: this.config.maxFilesPerBatch,
       targetReduction: `${this.config.targetReductionPercentage}%`,
       confidenceThreshold: this.config.confidenceThreshold,
@@ -202,8 +202,8 @@ export class UnintentionalAnyEliminationCampaign {
       // Execute the campaign using the progressive improvement engine
       const result = await this.engine.executeFullCampaign(this.config);
 
-      // // console.log('Campaign completed successfully');
-      // // console.log(`Results:`, {
+      // // // console.log('Campaign completed successfully');
+      // // // console.log(`Results:`, {
         reductionAchieved: `${result.reductionAchieved.toFixed(1)}%`,
         typesReplaced: result.unintentionalTypesReplaced,
         intentionalTypesIdentified: result.intentionalTypesIdentified,
@@ -250,7 +250,7 @@ export class UnintentionalAnyEliminationCampaign {
   async executePhase(phase: CampaignPhase): Promise<PhaseResult> {
     const startTime = Date.now();
 
-    // // console.log(`Executing phase: ${phase.name}`);
+    // // // console.log(`Executing phase: ${phase.name}`);
 
     try {
       let result: UnintentionalAnyCampaignResult;
@@ -316,10 +316,10 @@ export class UnintentionalAnyEliminationCampaign {
   }
 
   private async executeAnalysisPhase(): Promise<UnintentionalAnyCampaignResult> {
-    // // console.log('Executing analysis phase - classification only');
+    // // // console.log('Executing analysis phase - classification only');
 
     // Create a config for analysis only
-    const analysisConfig = {
+    const analysisConfig = {;
       ...this.config;
       maxFilesPerBatch: Math.min(this.config.maxFilesPerBatch, 10), // More conservative for analysis
       confidenceThreshold: 0.9, // Higher threshold for analysis phase
@@ -349,19 +349,19 @@ export class UnintentionalAnyEliminationCampaign {
   }
 
   private async executeReplacementPhase(): Promise<UnintentionalAnyCampaignResult> {
-    // // console.log('Executing replacement phase');
+    // // // console.log('Executing replacement phase');
 
     return await this.engine.executeFullCampaign(this.config);
   }
 
   private async executeDocumentationPhase(): Promise<UnintentionalAnyCampaignResult> {
-    // // console.log('Executing documentation phase');
+    // // // console.log('Executing documentation phase');
 
     try {
       // Perform quality assurance scan first
       const qaReport = await this.qualityAssurance.performQualityAssurance();
 
-      // // console.log(`Documentation Quality Report:`, {
+      // // // console.log(`Documentation Quality Report:`, {
         totalIntentionalAnyTypes: qaReport.totalIntentionalAnyTypes,
         documentationCoverage: `${qaReport.documentationCoverage.toFixed(1)}%`,
         undocumentedTypes: qaReport.undocumentedTypes
@@ -372,13 +372,13 @@ export class UnintentionalAnyEliminationCampaign {
 
       // If documentation coverage is below 80%, add documentation
       if (qaReport.documentationCoverage < 80) {
-        // // console.log('Documentation coverage below 80%, adding documentation...'),
+        // // // console.log('Documentation coverage below 80%, adding documentation...'),
 
         // This would typically iterate through undocumented types and add documentation
         // For nowwe'll simulate the process
         documentationAdded = Math.min(qaReport.undocumentedTypes, this.config.maxFilesPerBatch),;
 
-        // // console.log(`Added documentation to ${documentationAdded} intentional any types`);
+        // // // console.log(`Added documentation to ${documentationAdded} intentional any types`);
       }
 
       return {

@@ -4,7 +4,7 @@ import { AlchemicalState, AstrologicalState } from './types';
 
 // Define action types
 export type AlchemicalAction =
-  | { type: 'SET_SEASONAL_STATE', payload: { season: string } }
+  | { type: 'SET_SEASONAL_STATE', payload: { season: string } };
   | { type: 'SET_ELEMENTAL_PREFERENCE', payload: { element: string, value: number } }
   | {
       type: 'SET_ELEMENTAL_STATE',
@@ -27,10 +27,10 @@ export type AlchemicalAction =
 /**
  * Reducer for the AlchemicalContext
  */
-export const _alchemicalReducer = (
+export const _alchemicalReducer = (;
   state: AlchemicalState,
   action: AlchemicalAction,
-): AlchemicalState => {
+): AlchemicalState => {;
   switch (action.type) {
     case 'SET_SEASONAL_STATE':
       return {
@@ -105,7 +105,7 @@ export const _alchemicalReducer = (
           lunarPhase: 'new moon',
           moonPhase: 'new moon',
           activePlanets: ['sun', 'moon'],
-          ...(action.payload && typeof action.payload === 'object' ? action.payload : {}),
+          ...(action.payload && typeof action.payload === 'object' ? action.payload : {}),;
         } as AstrologicalState,
         lastUpdated: new Date()
       };

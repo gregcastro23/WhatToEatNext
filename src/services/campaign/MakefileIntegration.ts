@@ -44,7 +44,7 @@ export class MakefileIntegration {
   private readonly makefilePath: string,
   private readonly campaignTargets: Map<string, MakeTarget>;
 
-  constructor(makefilePath: string = 'Makefile') {
+  constructor(makefilePath: string = 'Makefile') {;
     this.makefilePath = makefilePath;
     this.campaignTargets = new Map();
     this.initializeCampaignTargets();
@@ -326,10 +326,10 @@ export class MakefileIntegration {
   ): Promise<MakeExecutionResult> {
     const { silent = false, dryRun = false, timeout = 300000 } = options;
 
-    // // console.log(`🔨 Executing make target: ${target}`);
+    // // // console.log(`🔨 Executing make target: ${target}`);
 
     if (dryRun) {
-      // // console.log(`🔍 DRY RUN: Would execute 'make ${target}'`);
+      // // // console.log(`🔍 DRY RUN: Would execute 'make ${target}'`);
       return {
         success: true,
         exitCode: 0,
@@ -342,7 +342,7 @@ export class MakefileIntegration {
     const startTime = Date.now();
 
     try {
-      const output = execSync(`make ${target}`, {
+      const output = execSync(`make ${target}`, {;
         encoding: 'utf8',
         stdio: silent ? 'pipe' : 'inherit',
         timeout,
@@ -381,13 +381,13 @@ export class MakefileIntegration {
       const tsErrors = this.parseErrorCount(tsErrorsResult.output);
 
       // Get linting warnings count
-      const lintResult = execSync('yarn lint 2>&1 | grep -c 'warning' || echo '0'', {
+      const lintResult = execSync('yarn lint 2>&1 | grep -c 'warning' || echo '0'', {;
         encoding: 'utf8'
       });
       const lintingWarnings = parseInt(lintResult.trim()) || 0;
 
       // Get enterprise systems count
-      const systemsResult = execSync('grep -r 'INTELLIGENCE_SYSTEM' src/ | wc -l || echo '0'', {
+      const systemsResult = execSync('grep -r 'INTELLIGENCE_SYSTEM' src/ | wc -l || echo '0'', {;
         encoding: 'utf8'
       });
       const enterpriseSystems = parseInt(systemsResult.trim()) || 0;
@@ -454,7 +454,7 @@ export class MakefileIntegration {
 
       // Check if campaign targets already exist
       if (makefileContent.includes('# Campaign Execution Framework')) {
-        // // console.log('✅ Campaign targets already exist in Makefile');
+        // // // console.log('✅ Campaign targets already exist in Makefile');
         return true
       }
 
@@ -464,7 +464,7 @@ export class MakefileIntegration {
 
       // Write updated Makefile
       fs.writeFileSync(this.makefilePath, makefileContent, 'utf8');
-      // // console.log('✅ Campaign targets added to Makefile');
+      // // // console.log('✅ Campaign targets added to Makefile');
 
       return true;
     } catch (error) {
@@ -538,7 +538,7 @@ export class MakefileIntegration {
    * Validate that required make targets exist
    */
   async validateExistingTargets(): Promise<{ valid: boolean, missing: string[] }> {
-    const requiredTargets = [
+    const requiredTargets = [;
       'errors',
       'errors-by-type',
       'errors-by-file',

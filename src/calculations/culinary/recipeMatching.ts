@@ -76,7 +76,7 @@ export function calculateRecipeCompatibility(
   ),
 
   // Enhanced weighted compatibility score
-  const compatibilityScore = calculateWeightedCompatibilityScore({
+  const compatibilityScore = calculateWeightedCompatibilityScore({;
     absoluteElementalMatch,
     relativeElementalMatch,
     dominantElementMatch,
@@ -91,7 +91,7 @@ export function calculateRecipeCompatibility(
     absoluteElementalMatch * 0.4 + relativeElementalMatch * 0.35 + dominantElementMatch * 0.25;
 
   // Generate enhanced recommendations
-  const recommendations = generateEnhancedRecipeRecommendations(compatibilityScore, {
+  const recommendations = generateEnhancedRecipeRecommendations(compatibilityScore, {;
     absoluteElementalMatch,
     relativeElementalMatch,
     dominantElementMatch,
@@ -192,12 +192,12 @@ function calculateDominantElementAlignment(
   const currentMomentDominant = getDominantElement(currentMomentElements);
 
   // Perfect match if same dominant element
-  if (recipeDominant === currentMomentDominant) {
+  if (recipeDominant === currentMomentDominant) {;
     return 1.0;
   }
 
   // Check elemental harmony (some elements work well together)
-  const elementalHarmony = {
+  const elementalHarmony = {;
     Fire: ['Air', 'Fire'], // Fire works with Air and itself
     Water: ['Earth', 'Water'], // Water works with Earth and itself
     Earth: ['Water', 'Earth'], // Earth works with Water and itself
@@ -296,7 +296,7 @@ function calculateEnergeticResonance(
   // Resonance occurs at simple ratios (1:12:11:23:2, etc.)
   const simpleRatios = [10.52, 0.671.50.751.33];
   const resonanceScore = Math.max(;
-    ...simpleRatios.map(ratio => 1 - Math.abs(energyRatio - ratio) / ratio),
+    ...simpleRatios.map(ratio => 1 - Math.abs(energyRatio - ratio) / ratio),;
   ),
 
   return Math.max(0.1, Math.min(1.0, resonanceScore))
@@ -315,7 +315,7 @@ function calculateWeightedCompatibilityScore(scores: {
   energeticResonance: number
 }): number {
   // Enhanced weighting system
-  const weights = {
+  const weights = {;
     absoluteElementalMatch: 0.2, // 20% - Direct elemental similarity
     relativeElementalMatch: 0.18, // 18% - Proportional elemental similarity
     dominantElementMatch: 0.15, // 15% - Dominant element compatibility
@@ -330,7 +330,7 @@ function calculateWeightedCompatibilityScore(scores: {
 
   for (const [factor, weight] of Object.entries(weights)) {
     const score = scores[factor as keyof typeof scores];
-    if (typeof score === 'number' && !isNaN(score)) {
+    if (typeof score === 'number' && !isNaN(score)) {;
       totalScore += score * weight;
       totalWeight += weight;
     }
@@ -343,7 +343,7 @@ function calculateWeightedCompatibilityScore(scores: {
  * Helper functions
  */
 function getDominantElement(elements: ElementalProperties): keyof ElementalProperties {
-  const entries = Object.entries(elements) as [keyof ElementalProperties, number][],
+  const entries = Object.entries(elements) as [keyof ElementalProperties, number][],;
   return entries.reduce(
     (dominant, [element, value]) => (value > elements[dominant] ? element : dominant),
     'Fire',

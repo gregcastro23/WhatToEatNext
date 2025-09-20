@@ -21,7 +21,7 @@ interface AstrologizeRequest {
 }
 
 // Default location (New York City)
-const DEFAULT_LOCATION = {
+const DEFAULT_LOCATION = {;
   latitude: 40.7498,
   longitude: -73.7976
 };
@@ -36,21 +36,21 @@ export async function POST(request: Request) {
 
     // Extract parameters from request or use defaults
     const {
-      year = new Date().getFullYear(),
+      year = new Date().getFullYear(),;
       month = new Date().getMonth() + 1, // Convert from conventional 1-indexed to our expected format;
-      date = new Date().getDate(),
-      hour = new Date().getHours(),
-      minute = new Date().getMinutes(),
-      latitude = DEFAULT_LOCATION.latitude,
-      longitude = DEFAULT_LOCATION.longitude,
-      zodiacSystem = 'tropical' // Default to tropical zodiac
+      date = new Date().getDate(),;
+      hour = new Date().getHours(),;
+      minute = new Date().getMinutes(),;
+      latitude = DEFAULT_LOCATION.latitude,;
+      longitude = DEFAULT_LOCATION.longitude,;
+      zodiacSystem = 'tropical' // Default to tropical zodiac;
     } = body;
 
     // Convert conventional month (1-12) to 0-indexed month (0-11) for the API
     const apiMonth = typeof month === 'number' ? month - 1 : month;
 
     // Prepare the API request payload
-    const apiPayload: AstrologizeRequest = {
+    const apiPayload: AstrologizeRequest = {;
       year,
       month: apiMonth, // Use 0-indexed month
       date,
@@ -62,12 +62,12 @@ export async function POST(request: Request) {
     };
 
     // Development logging for API payload
-    if (process.env.NODE_ENV === 'development') {
+    if (process.env.NODE_ENV === 'development') {;
       void log.info('Making API call to astrologize with payload:', apiPayload)
     }
 
     // Make the API call
-    const response = await fetch(ASTROLOGIZE_API_URL, {
+    const response = await fetch(ASTROLOGIZE_API_URL, {;
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -114,7 +114,7 @@ export async function GET(request: Request) {
   // Use current date/time
   const now = new Date();
 
-  const payload = {
+  const payload = {;
     year: now.getFullYear(),
     month: now.getMonth(), // Send 0-indexed month directly since POST handler expects this format
     date: now.getDate(),
@@ -147,7 +147,7 @@ function extractPlanetaryPositions(
     if (celestialBodies) {
       const positions: Record<string, PlanetPosition> = {};
 
-      const planetMap = {
+      const planetMap = {;
         sun: 'Sun',
         moon: 'Moon',
         mercury: 'Mercury',
@@ -183,14 +183,14 @@ function extractPlanetaryPositions(
     }
 
     // Try alternative structure if available
-    const astrologyInfo = (
+    const astrologyInfo = (;
       data as { astrology_info?: { horoscope_parameters?: { planets?: Record<string, unknown> } } }
     ).astrology_info?.horoscope_parameters?.planets;
     if (astrologyInfo) {
       const positions: Record<string, PlanetPosition> = {};
 
       Object.entries(astrologyInfo).forEach(([planetName, planetData]: [string, unknown]) => {
-        const typedPlanetData = planetData as {
+        const typedPlanetData = planetData as {;
           sign?: string,
           angle?: number,
           isRetrograde?: boolean

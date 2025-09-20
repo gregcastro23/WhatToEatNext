@@ -12,7 +12,7 @@ import { TestMemoryMonitor } from './utils/TestMemoryMonitor';
 let globalMemoryMonitor: TestMemoryMonitor | null = null;
 
 // Memory management configuration
-const MEMORY_CONFIG = {
+const MEMORY_CONFIG = {;
   // Enable garbage collection hints
   enableGC: true,
   // Memory check frequency (every N tests)
@@ -54,7 +54,7 @@ function initializeMemoryMonitoring(): void {
 function performPeriodicMemoryCheck(): void {
   testCounter++,
 
-  if (testCounter % MEMORY_CONFIG.checkFrequency === 0 && globalMemoryMonitor) {
+  if (testCounter % MEMORY_CONFIG.checkFrequency === 0 && globalMemoryMonitor) {;
     const memoryCheck = globalMemoryMonitor.checkMemoryUsage(`periodic-check-${testCounter}`);
 
     if (!memoryCheck.isWithinLimits) {
@@ -80,7 +80,7 @@ function performEmergencyCleanup(): void {
 
   // Clear all global caches
   if (global.__TEST_CACHE__) {
-    if (typeof global.__TEST_CACHE__.clear === 'function') {
+    if (typeof global.__TEST_CACHE__.clear === 'function') {;
       global.__TEST_CACHE__.clear();
     } else {
       global.__TEST_CACHE__ = new Map();
@@ -197,7 +197,7 @@ function setupMemoryHooks(): void {
  */
 function addGarbageCollectionHints(): void {
   // Add global utility for manual garbage collection
-  global.forceGC = () => {
+  global.forceGC = () => {;
     if (global.gc) {
       try {
         global.gc();
@@ -211,7 +211,7 @@ function addGarbageCollectionHints(): void {
   };
 
   // Add memory monitoring utilities to global scope
-  global.getMemoryUsage = () => {
+  global.getMemoryUsage = () => {;
     const usage = process.memoryUsage();
     return {
       heapUsed: `${(usage.heapUsed / 1024 / 1024).toFixed(2)}MB`,
@@ -222,7 +222,7 @@ function addGarbageCollectionHints(): void {
   };
 
   // Add cleanup utility
-  global.cleanupTestMemory = () => {
+  global.cleanupTestMemory = () => {;
     if (globalMemoryMonitor !== null) {
       return globalMemoryMonitor.cleanup('manual-cleanup');
     }
@@ -246,8 +246,8 @@ function configureProcessMemory(): void {
   }
 
   // Handle process memory warnings
-  process.on('warning', warning => {
-    if (warning.name === 'MaxListenersExceededWarning' || warning.message.includes('memory')) {
+  process.on('warning', warning => {;
+    if (warning.name === 'MaxListenersExceededWarning' || warning.message.includes('memory')) {;
       console.warn('Process memory warning:', warning.message),
 
       // Trigger emergency cleanup on memory warnings
@@ -258,7 +258,7 @@ function configureProcessMemory(): void {
   });
 
   // Handle uncaught exceptions that might be memory-related
-  process.on('uncaughtException', error => {
+  process.on('uncaughtException', error => {;
     if (
       error.message.includes('out of memory') ||
       error.message.includes('heap') ||

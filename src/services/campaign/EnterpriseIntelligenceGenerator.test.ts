@@ -27,7 +27,7 @@ describe('EnterpriseIntelligenceGenerator', () => {
     jest.clearAllMocks();
 
     // Mock fs operations
-    mockFs.promises = {
+    mockFs.promises = {;
       access: jest.fn().mockRejectedValue(new Error('Directory does not exist')),
       mkdir: jest.fn().mockResolvedValue(undefined),
       writeFile: jest.fn().mockResolvedValue(undefined)
@@ -47,7 +47,7 @@ describe('EnterpriseIntelligenceGenerator', () => {
   });
 
   describe('generateIntelligenceSystems', () => {
-    const mockFileAnalysis: FileAnalysis = { filePath: '/test/TestFile.ts',,
+    const mockFileAnalysis: FileAnalysis = { filePath: '/test/TestFile.ts',,;
       priority: FilePriority.HIGH,
       unusedExports: [
         {
@@ -109,7 +109,7 @@ describe('EnterpriseIntelligenceGenerator', () => {
     });
 
     it('should handle generation errors gracefully', async () => {
-      const invalidAnalysis: any = {
+      const invalidAnalysis: any = {;
         ...mockFileAnalysis;
         transformationCandidates: [
           {
@@ -129,7 +129,7 @@ describe('EnterpriseIntelligenceGenerator', () => {
 
   describe('selectTemplate', () => {
     it('should select function template for function exports', () => {
-      const candidate: any = {
+      const candidate: any = {;
         export: { filePath: '/test/test.ts',
           exportName: 'testFunction',
           exportType: 'function' as const,
@@ -151,7 +151,7 @@ describe('EnterpriseIntelligenceGenerator', () => {
     });
 
     it('should select class template for class exports', () => {
-      const candidate: any = {
+      const candidate: any = {;
         export: { filePath: '/test/test.ts',
           exportName: 'TestClass',
           exportType: 'class' as const,
@@ -173,7 +173,7 @@ describe('EnterpriseIntelligenceGenerator', () => {
     });
 
     it('should select type template for interface exports', () => {
-      const candidate: any = {
+      const candidate: any = {;
         export: { filePath: '/test/test.ts',
           exportName: 'TestInterface',
           exportType: 'interface' as const,
@@ -195,7 +195,7 @@ describe('EnterpriseIntelligenceGenerator', () => {
     });
 
     it('should select data template for const exports', () => {
-      const candidate: any = {
+      const candidate: any = {;
         export: { filePath: '/test/test.ts',
           exportName: 'TEST_CONSTANT',
           exportType: 'const' as const,
@@ -219,7 +219,7 @@ describe('EnterpriseIntelligenceGenerator', () => {
 
   describe('generateCapabilities', () => {
     it('should generate function-specific capabilities', () => {
-      const candidate: any = {
+      const candidate: any = {;
         export: { filePath: '/test/test.ts',
           exportName: 'testFunction',
           exportType: 'function' as const,
@@ -250,7 +250,7 @@ describe('EnterpriseIntelligenceGenerator', () => {
     });
 
     it('should generate class-specific capabilities', () => {
-      const candidate: any = {
+      const candidate: any = {;
         export: { filePath: '/test/test.ts',
           exportName: 'TestClass',
           exportType: 'class' as const,
@@ -282,7 +282,7 @@ describe('EnterpriseIntelligenceGenerator', () => {
     });
 
     it('should add advanced capabilities for complex exports', () => {
-      const candidate: any = {
+      const candidate: any = {;
         export: { filePath: '/test/test.ts',
           exportName: 'complexFunction',
           exportType: 'function' as const,
@@ -309,14 +309,14 @@ describe('EnterpriseIntelligenceGenerator', () => {
       ).generateCapabilities(candidate, template);
 
       expect(
-        (capabilities).some((cap: any) => cap.name === 'generateAdvancedInsights'),
+        (capabilities).some((cap: any) => cap.name === 'generateAdvancedInsights'),;
       ).toBe(true);
     });
   });
 
   describe('generateIntegrationPoints', () => {
     it('should generate integration points for intelligence systems', () => {
-      const candidate: any = {
+      const candidate: any = {;
         export: { filePath: '/test/test.ts',
           exportName: 'testFunction',
           exportType: 'function' as const,
@@ -339,15 +339,15 @@ describe('EnterpriseIntelligenceGenerator', () => {
 
       expect(integrationPoints.length).toBeGreaterThan(0);
       expect(
-        (integrationPoints).some((ip: any) => ip.method === IntegrationMethod.DIRECT_IMPORT),
+        (integrationPoints).some((ip: any) => ip.method === IntegrationMethod.DIRECT_IMPORT),;
       ).toBe(true);
       expect(
-        (integrationPoints).some((ip: any) => ip.method === IntegrationMethod.API_ENDPOINT),
+        (integrationPoints).some((ip: any) => ip.method === IntegrationMethod.API_ENDPOINT),;
       ).toBe(true);
     });
 
     it('should include original file integration for safe candidates', () => {
-      const candidate: any = {
+      const candidate: any = {;
         export: { filePath: '/test/test.ts',
           exportName: 'safeFunction',
           exportType: 'function' as const,
@@ -376,7 +376,7 @@ describe('EnterpriseIntelligenceGenerator', () => {
 
   describe('generateCode', () => {
     it('should generate complete intelligence system code', () => {
-      const candidate: any = {
+      const candidate: any = {;
         export: { filePath: '/test/test.ts',
           exportName: 'testFunction',
           exportType: 'function' as const,
@@ -419,7 +419,7 @@ describe('EnterpriseIntelligenceGenerator', () => {
     });
 
     it('should include original export information in comments', () => {
-      const candidate: any = {
+      const candidate: any = {;
         export: { filePath: '/test/test.ts',
           exportName: 'originalFunction',
           exportType: 'function' as const,
@@ -460,7 +460,7 @@ describe('EnterpriseIntelligenceGenerator', () => {
 
   describe('calculateEstimatedValue', () => {
     it('should calculate value based on candidate benefit and capabilities', () => {
-      const candidate: any = {
+      const candidate: any = {;
         export: { filePath: '/test/test.ts',
           exportName: 'testFunction',
           exportType: 'function' as const,
@@ -475,7 +475,7 @@ describe('EnterpriseIntelligenceGenerator', () => {
         estimatedBenefit: 50
       };
 
-      const capabilities: any = [
+      const capabilities: any = [;
         {
           name: 'basicCapability',
           description: 'Basic capability',
@@ -504,7 +504,7 @@ describe('EnterpriseIntelligenceGenerator', () => {
 
   describe('assessGenerationComplexity', () => {
     it('should assess SIMPLE complexity for simple candidates', () => {
-      const candidate: any = {
+      const candidate: any = {;
         export: { filePath: '/test/test.ts',
           exportName: 'simpleFunction',
           exportType: 'const' as const,
@@ -519,7 +519,7 @@ describe('EnterpriseIntelligenceGenerator', () => {
         estimatedBenefit: 40
       };
 
-      const capabilities: any = [
+      const capabilities: any = [;
         {
           name: 'basicCapability',
           description: 'Basic capability',
@@ -539,7 +539,7 @@ describe('EnterpriseIntelligenceGenerator', () => {
     });
 
     it('should assess VERY_COMPLEX complexity for complex candidates', () => {
-      const candidate: any = {
+      const candidate: any = {;
         export: { filePath: '/test/test.ts',
           exportName: 'complexFunction',
           exportType: 'class' as const,
@@ -554,7 +554,7 @@ describe('EnterpriseIntelligenceGenerator', () => {
         estimatedBenefit: 95
       };
 
-      const capabilities: any = [
+      const capabilities: any = [;
         {
           name: 'expertCapability',
           description: 'Expert capability',
@@ -576,7 +576,7 @@ describe('EnterpriseIntelligenceGenerator', () => {
 
   describe('generateSummary', () => {
     it('should generate comprehensive summary of results', () => {
-      const mockResults: any = [
+      const mockResults: any = [;
         {
           systemName: 'SYSTEM_1',
           filePath: '/output/SYSTEM_1.ts',
@@ -650,7 +650,7 @@ describe('EnterpriseIntelligenceGenerator', () => {
 
   describe('generateIntegrationGuide', () => {
     it('should generate comprehensive integration guide', () => {
-      const mockResults: any = [
+      const mockResults: any = [;
         {
           systemName: 'TEST_SYSTEM_INTELLIGENCE_SYSTEM',
           filePath: '/output/TEST_SYSTEM_INTELLIGENCE_SYSTEM.ts',

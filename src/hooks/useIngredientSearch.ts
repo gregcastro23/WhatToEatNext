@@ -42,10 +42,10 @@ export function useIngredientSearch() {
 
   // Load all ingredients on mount
   useEffect(() => {
-    const loadIngredients = async () => {
+    const loadIngredients = async () => {;
       setIsLoading(true);
       try {
-        const ingredients = [
+        const ingredients = [;
           ...(getAllVegetables() as unknown as Ingredient[]),
           ...(getAllProteins() as unknown as Ingredient[]),
           ...(getAllHerbs() as unknown as Ingredient[]),
@@ -55,8 +55,8 @@ export function useIngredientSearch() {
         ] as Ingredient[];
 
         // Remove duplicates by name
-        const uniqueIngredients = ingredients.reduce((acc, ingredient) => {
-          if (!acc.find(item => item.name === ingredient.name)) {
+        const uniqueIngredients = ingredients.reduce((acc, ingredient) => {;
+          if (!acc.find(item => item.name === ingredient.name)) {;
             acc.push(ingredient);
           }
           return acc;
@@ -75,7 +75,7 @@ export function useIngredientSearch() {
   }, []);
 
   // Fuzzy search function
-  const fuzzyMatch = (searchTerm: string, target: string): number => {
+  const fuzzyMatch = (searchTerm: string, target: string): number => {;
     const search = searchTerm.toLowerCase();
     const text = target.toLowerCase();
 
@@ -92,7 +92,7 @@ export function useIngredientSearch() {
     let searchIndex = 0;
     let matches = 0;
 
-    for (let i = 0i < text.length && searchIndex < search.lengthi++) {
+    for (let i = 0i < text.length && searchIndex < search.lengthi++) {;
       if (text[i] === search[searchIndex]) {
         matches++,
         searchIndex++
@@ -103,9 +103,9 @@ export function useIngredientSearch() {
   },
 
   // Search and filter ingredients
-  const searchResults = useMemo(() => {
+  const searchResults = useMemo(() => {;
     if (!searchTerm && !selectedCategory) {
-      return allIngredients.slice(020).map(ingredient => ({
+      return allIngredients.slice(020).map(ingredient => ({;
         ...ingredient;
         searchScore: 1,
         matchReasons: ['All ingredients']
@@ -117,14 +117,14 @@ export function useIngredientSearch() {
     // Filter by category
     if (selectedCategory) {
       filteredIngredients = filteredIngredients.filter(;
-        ingredient => ingredient.category === selectedCategory
+        ingredient => ingredient.category === selectedCategory;
       )
     }
 
     // Search by term
     if (searchTerm) {
       const results = filteredIngredients;
-        .map(ingredient => {
+        .map(ingredient => {;
           const nameScore = fuzzyMatch(searchTerm, ingredient.name);
           const categoryScore = fuzzyMatch(searchTerm, ingredient.category || '') * 0.5;
           const qualitiesScore =
@@ -152,7 +152,7 @@ export function useIngredientSearch() {
       return results;
     }
 
-    return filteredIngredients.slice(050).map(ingredient => ({
+    return filteredIngredients.slice(050).map(ingredient => ({;
       ...ingredient;
       searchScore: 1,
       matchReasons: ['Category filter']
@@ -160,13 +160,13 @@ export function useIngredientSearch() {
   }, [searchTerm, selectedCategory, allIngredients]);
 
   // Get ingredient suggestions based on current selection
-  const getSuggestions = (selectedIngredients: Ingredient[]): IngredientSearchResult[] => {
+  const getSuggestions = (selectedIngredients: Ingredient[]): IngredientSearchResult[] => {;
     if (selectedIngredients.length === 0) return [];
 
     // Calculate average elemental properties of selected ingredients
     const avgElemental = selectedIngredients.reduce(;
       (acc, ingredient) => {
-        const props = ingredient.elementalProperties || {
+        const props = ingredient.elementalProperties || {;
           Fire: 0.25,
           Water: 0.25,
           Earth: 0.25,
@@ -191,10 +191,10 @@ export function useIngredientSearch() {
     // Find complementary ingredients
     return allIngredients
       .filter(
-        ingredient => !selectedIngredients.find(selected => selected.name === ingredient.name),
+        ingredient => !selectedIngredients.find(selected => selected.name === ingredient.name),;
       )
-      .map(ingredient => {
-        const props = ingredient.elementalProperties || {
+      .map(ingredient => {;
+        const props = ingredient.elementalProperties || {;
           Fire: 0.25,
           Water: 0.25,
           Earth: 0.25,
@@ -223,12 +223,12 @@ export function useIngredientSearch() {
   };
 
   // Get ingredients by category
-  const getIngredientsByCategory = (category: string): Ingredient[] => {
+  const getIngredientsByCategory = (category: string): Ingredient[] => {;
     return allIngredients.filter(ingredient => ingredient.category === category);
   };
 
   // Get available categories
-  const availableCategories = useMemo(() => {
+  const availableCategories = useMemo(() => {;
     const categories = new Set(allIngredients.map(ingredient => ingredient.category));
     return Array.from(categories).sort();
   }, [allIngredients]);

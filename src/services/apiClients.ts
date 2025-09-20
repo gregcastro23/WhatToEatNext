@@ -25,7 +25,7 @@ export class FoodDataCentral {
    */
   static async getFood(fdcId: string): Promise<FoodData> {
     try {
-      const response = await axios.get(`${this.baseUrl}/food/${fdcId}`, {
+      const response = await axios.get(`${this.baseUrl}/food/${fdcId}`, {;
         params: {
           api_key: this.apiKey
         }
@@ -46,7 +46,7 @@ export class FoodDataCentral {
   /**
    * Search for foods matching a query
    */
-  static async searchFoods(query: string, pageSize = 10): Promise<FoodData[]> {
+  static async searchFoods(query: string, pageSize = 10): Promise<FoodData[]> {;
     try {
       const response = await axios.post(;
         `${this.baseUrl}/foods/search`,

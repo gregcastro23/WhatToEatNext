@@ -1,6 +1,6 @@
 import { ZODIAC_SIGNS, ZodiacSign } from './signEnergyStates';
 
-export const CHAKRAS = [
+export const CHAKRAS = [;
   'Root', // Muladhara
   'Sacral', // Svadhisthana
   'Solar Plexus', // Manipura
@@ -123,7 +123,7 @@ export function calculateChakraEnergies(
 ): Record<Chakra, number> {
   const chakraEnergies: Record<Chakra, number> = {} as Record<Chakra, number>;
 
-  CHAKRAS.forEach(chakra => {
+  CHAKRAS.forEach(chakra => {;
     // Get all zodiac signs related to this chakra
     const relatedSigns = CHAKRA_ZODIAC_MAPPINGS[chakra];
 

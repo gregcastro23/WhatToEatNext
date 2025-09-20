@@ -68,7 +68,7 @@ describe('UnusedVariablesCleanupSystem', () => {
     });
 
     it('should validate TypeScript compilation', async () => {
-      mockExecSync.mockImplementation(command => {
+      mockExecSync.mockImplementation(command => {;
         if (command === 'git status --porcelain') return '';
         if (command === 'yarn tsc --noEmit --skipLibCheck') return '';
         return ''

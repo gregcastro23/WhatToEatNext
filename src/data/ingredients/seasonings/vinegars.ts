@@ -17,7 +17,7 @@ function createIngredientMapping(id: string, properties: unknown) {
   };
 }
 
-const rawVinegars = {
+const rawVinegars = {;
   rice_vinegar: createIngredientMapping('rice_vinegar', {
     elementalProperties: {
       Water: 0.4,

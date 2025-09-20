@@ -15,7 +15,7 @@ import { PlanetPosition } from './astrologyUtils';
 
 interface TransitDate {
   Start: string,
-  End: string,
+  End: string
 }
 
 interface PlanetDataWithTransits {

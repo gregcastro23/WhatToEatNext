@@ -8,5 +8,5 @@ export interface SeasonalPhase {
   peak: Date,
   end: Date,
   primaryElement: keyof ElementalProperties,
-  secondaryElement: keyof ElementalProperties,
+  secondaryElement: keyof ElementalProperties
 }

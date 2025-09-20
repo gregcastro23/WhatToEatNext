@@ -11,6 +11,6 @@ export { useAstrologicalState } from '../hooks/useAstrologicalState';
 // Server-safe exports
 import * as alchemicalServer from './AlchemicalContext/server';
 
-export const _serverExports = {
-  alchemical: alchemicalServer,
+export const _serverExports = {;
+  alchemical: alchemicalServer
 };

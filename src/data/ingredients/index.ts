@@ -34,7 +34,7 @@ import { warmSpices } from './spices/warmSpices';
 import { enhancedVegetables } from './vegetables';
 import { allVinegars } from './vinegars/vinegars';
 
-export const proteins = {
+export const proteins = {;
   ...meatsData;
   ...poultryData;
   ...seafoodData;
@@ -161,13 +161,13 @@ function calculateElementalPropertiesFromCategory(category: string): Record<stri
 }
 
 // Process and validate a single ingredient
-const processIngredient = (ingredient: unknown, name: string): Ingredient => {
+const processIngredient = (ingredient: unknown, name: string): Ingredient => {;
   if (!ingredient) {
     throw new Error(`Invalid ingredient data for ${name}`);
   }
 
   // Create default lunar phase modifiers if none exist
-  const defaultLunarPhaseModifiers = {
+  const defaultLunarPhaseModifiers = {;
     newMoon: {
       elementalBoost: { Earth: 0.05, Water: 0.05 },
       preparationTips: ['Best for subtle preparation methods'],
@@ -182,7 +182,7 @@ const processIngredient = (ingredient: unknown, name: string): Ingredient => {
 
   // Apply uniform standardization to the ingredient
   const ingredientData = ingredient as unknown as any;
-  const standardized = standardizeIngredient({
+  const standardized = standardizeIngredient({;
     name: name,
     category: ingredientData.category || 'culinary_herb',
     elementalProperties: calculateElementalProperties(
@@ -279,13 +279,13 @@ export const herbsCollection = processIngredientCollection(allHerbs);
 export const oilsCollection = processIngredientCollection(allOils);
 export const vinegarsCollection = processIngredientCollection(allVinegars);
 export const grainsCollection = processIngredientCollection(allGrains);
-export const spicesCollection = processIngredientCollection({
+export const spicesCollection = processIngredientCollection({;
   ...spices;
   ...warmSpices
 });
 export const _vegetablesCollection = processIngredientCollection(enhancedVegetables);
 
-export const VALID_CATEGORIES = [
+export const VALID_CATEGORIES = [;
   'culinary_herb',
   'spice',
   'protein',
@@ -300,7 +300,7 @@ export const VALID_CATEGORIES = [
 
 // Compile all ingredients into a single collection with deduplication
 // Order matters - later sources overwrite earlier ones
-export const allIngredients = (() => {
+export const allIngredients = (() => {;
   // First process all collections separately
   const processedSeasonings = processIngredientCollection(seasonings);
   const processedVegetables = processIngredientCollection(enhancedVegetables);
@@ -319,7 +319,7 @@ export const allIngredients = (() => {
   const result: Record<string, Ingredient> = {};
 
   // Helper function to normalize ingredient name for comparison
-  const normalizeIngredientName = (name: string): string => {
+  const normalizeIngredientName = (name: string): string => {;
     return name
       .toLowerCase()
       .trim()
@@ -328,7 +328,7 @@ export const allIngredients = (() => {
   };
 
   // Build a list of collections in priority order (lowest to highest)
-  const collectionsList = [
+  const collectionsList = [;
     { source: processedSeasonings, priority: 1 },
     { source: processedVegetables, priority: 2 },
     { source: processedFruits, priority: 3 },

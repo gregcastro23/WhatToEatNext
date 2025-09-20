@@ -26,7 +26,7 @@ async function testStreamlinedSystem() {
 
   try {
     // Test comprehensive calculation
-    const result = await calculateComprehensiveAlchemicalResult({
+    const result = await calculateComprehensiveAlchemicalResult({;
       planetaryPositions: streamlinedPositions,
       season: 'spring',
       lunarPhase: 'waxing gibbous',
@@ -89,7 +89,7 @@ async function testStreamlinedSystem() {
     log.info('🥘 RECIPE COMPATIBILITY TEST:');
     const testRecipe = { Fire: 0.3, Water: 0.2, Air: 0.35, Earth: 0.15 };
 
-    const compatibility = await import('./calculations/index').then(mod =>
+    const compatibility = await import('./calculations/index').then(mod =>;
       mod.calculateRecipeCompatibility(testRecipe, result),
     );
 

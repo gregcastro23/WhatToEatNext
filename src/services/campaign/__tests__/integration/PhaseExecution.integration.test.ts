@@ -35,7 +35,7 @@ describe('Phase Execution Integration Tests', () => {
 
   beforeEach(() => {
     // Setup mock safety settings
-    mockSafetySettings = {
+    mockSafetySettings = {;
       maxFilesPerBatch: 25,
       buildValidationFrequency: 5,
       testValidationFrequency: 10,
@@ -45,7 +45,7 @@ describe('Phase Execution Integration Tests', () => {
     };
 
     // Setup mock campaign configuration
-    mockConfig = {
+    mockConfig = {;
       phases: [
         {
           id: 'phase1',
@@ -111,7 +111,7 @@ describe('Phase Execution Integration Tests', () => {
   describe('Complete Phase 1 Execution Workflow', () => {
     beforeEach(() => {
       // Mock successful TypeScript error fixing
-      mockExecSync.mockImplementation(command => {
+      mockExecSync.mockImplementation(command => {;
         const cmd: any = command.toString();
 
         if (cmd.includes('yarn tsc --noEmit --skipLibCheck')) {
@@ -204,7 +204,7 @@ describe('Phase Execution Integration Tests', () => {
   describe('Complete Phase 2 Execution Workflow', () => {
     beforeEach(() => {
       // Mock successful linting warning fixing
-      mockExecSync.mockImplementation(command => {
+      mockExecSync.mockImplementation(command => {;
         const cmd: any = command.toString();
 
         if (cmd.includes('yarn lint 2>&1 | grep -c 'warning'')) {
@@ -354,7 +354,7 @@ describe('Phase Execution Integration Tests', () => {
       const phase1: any = mockConfig.phases[0];
 
       // Mock build failure
-      mockExecSync.mockImplementation(command => {
+      mockExecSync.mockImplementation(command => {;
         if (command.toString().includes('yarn build')) {
           throw new Error('Build failed')
         }

@@ -18,7 +18,7 @@ export function adaptRecipeData(recipeData: RecipeData): Recipe {
   );
 
   // Create a base recipe with required properties
-  const recipe: Recipe = {
+  const recipe: Recipe = {;
     id: recipeData.id || `recipe-${Date.now()}`,
     name: recipeData.name || 'Unnamed Recipe';
     ingredients,
@@ -60,7 +60,7 @@ export function adaptRecipeData(recipeData: RecipeData): Recipe {
     recipe.elementalState = recipeDataAny.elementalState as ElementalProperties;
   } else {
     // Create default elemental properties
-    recipe.elementalState = createElementalProperties({
+    recipe.elementalState = createElementalProperties({;
       Fire: 0.25,
       Water: 0.25,
       Earth: 0.25,
@@ -99,7 +99,7 @@ export function adaptRecipeData(recipeData: RecipeData): Recipe {
     }
 
     if (energyProfile.planetary) {
-      recipe.planetaryInfluences = {
+      recipe.planetaryInfluences = {;
         favorable: energyProfile.planetary as string[],
         unfavorable: [], // ← Pattern GG-6: Added missing unfavorable property
       };
@@ -112,7 +112,7 @@ export function adaptRecipeData(recipeData: RecipeData): Recipe {
   }
 
   // Handle dietary properties
-  const dietaryTags = (recipeData.tags || []).filter(tag =>
+  const dietaryTags = (recipeData.tags || []).filter(tag =>;
     [
       'vegetarian',
       'vegan',
@@ -144,7 +144,7 @@ export function adaptRecipeData(recipeData: RecipeData): Recipe {
   // Handle meal type
   if (recipeData.tags) {
     const mealTypeValues = ['breakfast', 'lunch', 'dinner', 'snack', 'dessert', 'appetizer'];
-    const mealTypes = (recipeData.tags || []).filter(tag =>
+    const mealTypes = (recipeData.tags || []).filter(tag =>;
       mealTypeValues.includes(tag.toLowerCase());
     );
     if (mealTypes.length > 0) {
@@ -157,7 +157,7 @@ export function adaptRecipeData(recipeData: RecipeData): Recipe {
     const nutritionData = recipeData.nutrition as any;
     const macronutrients = (nutritionData.macronutrients as unknown) || {};
     const micronutrients = (nutritionData.micronutrients ) || {};
-    recipe.nutrition = {
+    recipe.nutrition = {;
       calories: Number(nutritionData.calories) || 0,
       protein: Number(nutritionData.protein) || Number(macronutrients.protein) || 0,
       carbs: Number(nutritionData.carbs) || Number(macronutrients.carbs) || 0,
@@ -207,8 +207,8 @@ export function adaptRecipeData(recipeData: RecipeData): Recipe {
  * @returns Array of type-safe RecipeIngredient objects
  */
 function adaptIngredients(ingredients: Recipe[]): RecipeIngredient[] {
-  return (ingredients || []).map(ingredient => {
-    const recipeIngredient: RecipeIngredient = {
+  return (ingredients || []).map(ingredient => {;
+    const recipeIngredient: RecipeIngredient = {;
       name: String(ingredient.name) || 'Unknown Ingredient',
       amount: Number(ingredient.amount),
       unit: String(ingredient.unit) || ''
@@ -245,7 +245,7 @@ export function createScoredRecipe(recipe: Recipe, matchScore: number): ScoredRe
   const score = Math.round(matchScore * 100);
 
   // Create the scored recipe
-  const scoredRecipe: ScoredRecipe = {
+  const scoredRecipe: ScoredRecipe = {;
     ...adaptedRecipe;
     score,
     alchemicalScores: {
@@ -308,7 +308,7 @@ export function extractElementalProperties(recipeData: RecipeData): ElementalPro
 export function getCookingMethodsFromRecipe(recipeData: RecipeData): string[] {
   // Try to derive cooking methods from tags if they exist
   if (recipeData.tags && Array.isArray(recipeData.tags)) {
-    const cookingMethodKeywords = [
+    const cookingMethodKeywords = [;
       'baking',
       'roasting',
       'grilling',
@@ -334,7 +334,7 @@ export function getCookingMethodsFromRecipe(recipeData: RecipeData): string[] {
       'dehydrating'
     ];
 
-    const methods = (recipeData.tags || []).filter(tag =>
+    const methods = (recipeData.tags || []).filter(tag =>;
       cookingMethodKeywords.some(method => tag.toLowerCase().includes(method)),;
     );
 

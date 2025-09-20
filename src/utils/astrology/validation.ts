@@ -12,7 +12,7 @@ import { CelestialPosition } from '@/types/celestial';
  * A utility function for logging debug information
  * This is a safe replacement for console.log that can be disabled in production
  */
-const _debugLog = (_message: string, ..._args: unknown[]): void => {
+const _debugLog = (_message: string, ..._args: unknown[]): void => {;
   // No-op for production
 };
 
@@ -20,7 +20,7 @@ const _debugLog = (_message: string, ..._args: unknown[]): void => {
  * A utility function for logging errors
  * This is a safe replacement for console.error that can be disabled in production
  */
-const errorLog = (_message: string, ..._args: unknown[]): void => {
+const errorLog = (_message: string, ..._args: unknown[]): void => {;
   // No-op for production
 };
 
@@ -127,7 +127,7 @@ export function getReliablePlanetaryPositions(): { [key: string]: CelestialPosit
   };
 
   // Cache the results
-  reliablePositionsCache = {
+  reliablePositionsCache = {;
     data: positions,
     timestamp: Date.now()
   };
@@ -205,7 +205,7 @@ export function getmoonIllumination(): number {
  * @param date Date to calculate for
  * @returns Zodiac sign
  */
-export function calculateSunSign(date: Date = new Date()): any {
+export function calculateSunSign(date: Date = new Date()): any {;
   const month = date.getMonth() + 1;
   const day = date.getDate();
 
@@ -452,7 +452,7 @@ export function getCurrentAstrologicalState(): AstrologicalState {
  * @param sign Zodiac sign string (case insensitive)
  * @returns Normalized zodiac sign
  */
-export const normalizeZodiacSign = (sign: string): any => {
+export const normalizeZodiacSign = (sign: string): any => {;
   // Convert to lowercase and trim
   const normalizedSign = sign.toLowerCase().trim();
 
@@ -496,7 +496,7 @@ export const normalizeZodiacSign = (sign: string): any => {
  * @param date Date to check
  * @returns Current zodiac sign
  */
-export function getCurrentTransitSign(planet: string, date: Date = new Date()): any | null {
+export function getCurrentTransitSign(planet: string, date: Date = new Date()): any | null {;
   try {
     // Get reliable positions
     const positions = getReliablePlanetaryPositions();
@@ -507,11 +507,11 @@ export function getCurrentTransitSign(planet: string, date: Date = new Date()): 
     }
 
     // For common planets, calculate fallback
-    if (planet === 'Sun') {
+    if (planet === 'Sun') {;
       return calculateSunSign(date)
     }
 
-    if (planet === 'Moon') {
+    if (planet === 'Moon') {;
       const dayOfYear = getDayOfYear(date);
       return calculateApproximatemoonSign(dayOfYear)
     }
@@ -538,7 +538,7 @@ export function validatePlanetaryPositions(
   _date: Date = new Date(),;
 ): { [key: string]: CelestialPosition } {
   // If positions are missing or empty, use reliable positions
-  if (!positions || Object.keys(positions || {}).length === 0) {
+  if (!positions || Object.keys(positions || {}).length === 0) {;
     return getReliablePlanetaryPositions()
   }
 
@@ -561,9 +561,9 @@ export function validatePlanetaryPositions(
   const result: { [key: string]: CelestialPosition } = {};
 
   for (const [planet, data] of Object.entries(positions)) {
-    if (typeof data === 'object' && data !== null) {
+    if (typeof data === 'object' && data !== null) {;
       const src = data as unknown;
-      const position: CelestialPosition = {
+      const position: CelestialPosition = {;
         sign: String(src.sign || ''),
         degree: Number(src.degree || 0),
         exactLongitude: Number(src.exactLongitude || 0),
@@ -571,7 +571,7 @@ export function validatePlanetaryPositions(
       };
 
       // Convert sign to lowercase if it exists
-      if (position.sign && typeof position.sign === 'string') {
+      if (position.sign && typeof position.sign === 'string') {;
         position.sign = position.sign?.toLowerCase();
       }
 
@@ -729,7 +729,7 @@ function countElements(positions: { [key: string]: CelestialPosition }): { [key:
 
     // Weigh Sun and Moon more heavily
     let weight = 1;
-    if (planet === 'Sun' || planet === 'Moon') {
+    if (planet === 'Sun' || planet === 'Moon') {;
       weight = 3;
     } else if (['Mercury', 'Venus', 'Mars'].includes(planet)) {
       weight = 2;

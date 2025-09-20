@@ -7,7 +7,7 @@ import { log } from '@/services/LoggingService';
  */
 
 // Test values from the notepad example (exact values)
-const testValues = {
+const testValues = {;
   Spirit: 4,
   Essence: 7,
   Matter: 6,
@@ -24,7 +24,7 @@ const calculateKAlchm = (;
   Essence: number,
   Matter: number,
   Substance: number,
-): number => {
+): number => {;
   if (Spirit <= 0 || Essence <= 0 || Matter <= 0 || Substance <= 0) {
     return 0
   }
@@ -43,7 +43,7 @@ const calculateHeat = (;
   Water: number,
   Air: number,
   Earth: number,
-): number => {
+): number => {;
   const numerator = Math.pow(Spirit2) + Math.pow(Fire2);
   const denominator = Math.pow(Substance + Essence + Matter + Water + Air + Earth2),;
   return denominator > 0 ? numerator / denominator : 0
@@ -58,7 +58,7 @@ const calculateEntropy = (;
   Matter: number,
   Earth: number,
   Water: number,
-): number => {
+): number => {;
   const numerator =
     Math.pow(Spirit2) + Math.pow(Substance, 2) + Math.pow(Fire2) + Math.pow(Air2);
   const denominator = Math.pow(Essence + Matter + Earth + Water2),;
@@ -74,7 +74,7 @@ const calculateReactivity = (;
   Water: number,
   Matter: number,
   Earth: number,
-): number => {
+): number => {;
   const numerator =
     Math.pow(Spirit2) +;
     Math.pow(Substance, 2) +
@@ -86,7 +86,7 @@ const calculateReactivity = (;
   return denominator > 0 ? numerator / denominator : 0
 };
 
-const calculateGregsEnergy = (heat: number, entropy: number, reactivity: number): number => {
+const calculateGregsEnergy = (heat: number, entropy: number, reactivity: number): number => {;
   return heat - entropy * reactivity
 };
 
@@ -94,7 +94,7 @@ const calculateMonicaConstant = (;
   gregsEnergy: number,
   reactivity: number,
   K_alchm: number,
-): number => {
+): number => {;
   if (K_alchm <= 0 || reactivity === 0) return NaN;
   const ln_K = Math.log(K_alchm);
   if (ln_K === 0) return NaN;

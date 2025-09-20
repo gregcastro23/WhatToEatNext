@@ -4,7 +4,7 @@ import { RecipeElementalMapping } from '@/types/recipes';
  * A utility function for logging debug information
  * This is a safe replacement for console.log that can be disabled in production
  */
-const debugLog = (_message: string, ..._args: unknown[]): void => {
+const debugLog = (_message: string, ..._args: unknown[]): void => {;
   // Comment out console.log to avoid linting warnings
   // log.info(message, ...args)
 };
@@ -12,7 +12,7 @@ const debugLog = (_message: string, ..._args: unknown[]): void => {
 /**
  * Utility functions for recipe calculations and alignments
  */
-export const _recipeCalculations = {
+export const _recipeCalculations = {;
   /**
    * Calculate how well a recipe aligns with its cuisine's elemental properties
    * @param recipe Recipe with elemental properties and cuisine data
@@ -20,7 +20,7 @@ export const _recipeCalculations = {
    */
   calculateCuisineAlignment(recipe: RecipeElementalMapping): number {
     const cuisineElements = recipe.cuisine.elementalAlignment;
-    const alignmentScore = Object.entries(recipe.elementalProperties).reduce(
+    const alignmentScore = Object.entries(recipe.elementalProperties).reduce(;
       (sum, [element, value]) => {
         return sum + value * cuisineElements[element as unknown]
       },
@@ -40,8 +40,8 @@ export const _recipeCalculations = {
    * @returns Array of optimal times / (conditions || 1) for cooking
    */
   getOptimalCookingWindow(recipe: RecipeElementalMapping): string[] {
-    const optimalTimes = [
-      ...recipe.astrologicalProfile.rulingPlanets.map(p => `${p} dominant hours`),
+    const optimalTimes = [;
+      ...recipe.astrologicalProfile.rulingPlanets.map(p => `${p} dominant hours`),;
       ...recipe.cuisine.astrologicalProfile.aspectEnhancers
     ];
 
@@ -65,7 +65,7 @@ export const _recipeCalculations = {
     userElements: ElementalProperties,
   ): number {
     // Find the dominant element in the recipe
-    const dominantElement = Object.entries(recipe.elementalProperties).sort(
+    const dominantElement = Object.entries(recipe.elementalProperties).sort(;
       ([, a], [, b]) => b - a
     )[0][0];
 

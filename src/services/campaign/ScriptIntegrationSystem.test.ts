@@ -117,7 +117,7 @@ describe('ScriptIntegrationSystem', () => {
     });
 
     it('should parse JSON output correctly', async () => {
-      const jsonOutput: any = JSON.stringify({
+      const jsonOutput: any = JSON.stringify({;
         safetyMetrics: { totalRuns: 10,
           successfulRuns: 8,
           filesProcessed: 50,
@@ -161,7 +161,7 @@ describe('ScriptIntegrationSystem', () => {
     });
 
     it('should return metrics from script execution', async () => {
-      const jsonOutput: any = JSON.stringify({
+      const jsonOutput: any = JSON.stringify({;
         safetyMetrics: { totalRuns: 5,
           successfulRuns: 4,
           safetyScore: 0.8
@@ -208,7 +208,7 @@ describe('ScriptIntegrationSystem', () => {
     });
 
     it('should parse safety validation from script output', async () => {
-      const jsonOutput: any = JSON.stringify({
+      const jsonOutput: any = JSON.stringify({;
         safe: true,
         issues: [],
         recommendedBatchSize: 10
@@ -285,7 +285,7 @@ describe('ScriptIntegrationSystem', () => {
 
       await scriptSystem.executeScript('typescript-enhanced-v3', options);
 
-      const expectedArgs: any = [
+      const expectedArgs: any = [;
         '--max-files=15',,;
         '--auto-fix',
         '--validate-safety',

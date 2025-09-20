@@ -31,13 +31,13 @@ describe('SafeBatchProcessor', () => {
       validateAfterEachBatch: true,
       autoRollbackOnError: true,
       createGitStash: true,
-      logLevel: 'info',
+      logLevel: 'info'
     };
 
     processor = new SafeBatchProcessor(config);
 
     // Setup mock files
-    mockFiles = [
+    mockFiles = [;
       {
         filePath: '/project/src/utils/helper.ts',
         relativePath: 'src/utils/helper.ts',
@@ -45,7 +45,7 @@ describe('SafeBatchProcessor', () => {
         isCritical: false,
         unusedVariableCount: 3,
         riskLevel: 'low',
-        fileType: 'utility',
+        fileType: 'utility'
       },
       {
         filePath: '/project/src/services/api.ts',
@@ -54,7 +54,7 @@ describe('SafeBatchProcessor', () => {
         isCritical: false,
         unusedVariableCount: 8,
         riskLevel: 'medium',
-        fileType: 'service',
+        fileType: 'service'
       },
       {
         filePath: '/project/src/calculations/planetary.ts',
@@ -63,8 +63,8 @@ describe('SafeBatchProcessor', () => {
         isCritical: true,
         unusedVariableCount: 25,
         riskLevel: 'high',
-        fileType: 'calculation',
-      },
+        fileType: 'calculation'
+      }
     ];
 
     // Mock successful TypeScript compilation by default
@@ -80,14 +80,14 @@ describe('SafeBatchProcessor', () => {
         isCritical: false,
         unusedVariableCount: 2,
         riskLevel: 'low' as const,
-        fileType: 'utility',
+        fileType: 'utility'
       }));
 
       const results: any = await processor.processBatches(largeFileSet);
 
       // Should create multiple batches, each with max 15 files
       expect(results.length).toBeGreaterThan(1);
-      results.forEach(result => {
+      results.forEach(result => {;
         expect(result.files.length).toBeLessThanOrEqual(15);
       });
     });
@@ -100,13 +100,13 @@ describe('SafeBatchProcessor', () => {
         isCritical: true,
         unusedVariableCount: 5,
         riskLevel: 'high' as const,
-        fileType: 'calculation',
+        fileType: 'calculation'
       }));
 
       const results: any = await processor.processBatches(criticalFiles);
 
       // Critical files should be processed in smaller batches (max 5)
-      results.forEach(result => {
+      results.forEach(result => {;
         expect(result.files.length).toBeLessThanOrEqual(5);
       });
     });
@@ -202,7 +202,7 @@ describe('SafeBatchProcessor', () => {
       mockExecSync.mockImplementation((cmd: any) => {
         if (cmd.toString().includes('tsc')) {
           callCount++;
-          if (callCount === 2) {
+          if (callCount === 2) {;
             throw new Error('Compilation failed');
           }
         }

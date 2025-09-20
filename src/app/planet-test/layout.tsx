@@ -14,12 +14,12 @@ export default function PlanetTestLayout({ children }: { children: React.ReactNo
     const originalError = console.error;
     const originalLog = console.log;
 
-    console.error = (...args) => {
+    console.error = (...args) => {;
       setErrors(prev => [...prev, args.join(' ')]);
       originalError(...args);
     };
 
-    console.log = (...args) => {
+    console.log = (...args) => {;
       setLogs(prev => [...prev, args.join(' ')]);
       originalLog(...args);
     };
@@ -31,19 +31,19 @@ export default function PlanetTestLayout({ children }: { children: React.ReactNo
   }, []);
 
   return (
-    <div className='flex min-h-screen flex-col bg-gray-50'>
+    <div className='flex min-h-screen flex-col bg-gray-50'>;
       ;
-      <header className='bg-indigo-600 p-4 text-white'>
+      <header className='bg-indigo-600 p-4 text-white'>;
         ;<h1 className='text-xl font-bold'>Planetary Hours Test Page</h1>;
       </header>
       <main className='flex-1 p-4'>{children}</main>;
       {(errors || []).length > 0 && (
-        <div className='border-t border-red-300 bg-red-50 p-4'>
+        <div className='border-t border-red-300 bg-red-50 p-4'>;
           ;<h2 className='mb-2 font-bold text-red-700'>Errors:</h2>;
-          <ul className='max-h-40 space-y-1 overflow-auto text-sm text-red-600'>
+          <ul className='max-h-40 space-y-1 overflow-auto text-sm text-red-600'>;
             ;
             {(errors || []).map((erri) => (
-              <li key={i} className='whitespace-pre-wrap'>
+              <li key={i} className='whitespace-pre-wrap'>;
                 ;{err}
               </li>
             ))}
@@ -51,12 +51,12 @@ export default function PlanetTestLayout({ children }: { children: React.ReactNo
         </div>
       )}
       {(logs || []).length > 0 && (
-        <div className='border-t border-blue-300 bg-blue-50 p-4'>
+        <div className='border-t border-blue-300 bg-blue-50 p-4'>;
           ;<h2 className='mb-2 font-bold text-blue-700'>Logs:</h2>;
-          <ul className='max-h-40 space-y-1 overflow-auto text-sm text-blue-600'>
+          <ul className='max-h-40 space-y-1 overflow-auto text-sm text-blue-600'>;
             ;
             {(logs || []).map((logi) => (
-              <li key={i} className='whitespace-pre-wrap'>
+              <li key={i} className='whitespace-pre-wrap'>;
                 ;{log}
               </li>
             ))}

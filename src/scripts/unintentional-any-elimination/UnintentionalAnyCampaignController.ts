@@ -35,17 +35,17 @@ interface AnyTypeClassification {
 }
 
 enum AnyTypeCategory {
-  ARRAY_TYPE = 'array_type',
-  RECORD_TYPE = 'record_type',
-  VARIABLE_DECLARATION = 'variable_declaration',
-  FUNCTION_PARAMETER = 'function_parameter',
-  RETURN_TYPE = 'return_type',
-  ERROR_HANDLING = 'error_handling',
-  EXTERNAL_API = 'external_api',
-  TEST_MOCK = 'test_mock',
-  CAMPAIGN_SYSTEM = 'campaign_system',
-  ASTROLOGICAL_DATA = 'astrological_data',,
-  DYNAMIC_CONFIG = 'dynamic_config',,
+  ARRAY_TYPE = 'array_type',;
+  RECORD_TYPE = 'record_type',;
+  VARIABLE_DECLARATION = 'variable_declaration',;
+  FUNCTION_PARAMETER = 'function_parameter',;
+  RETURN_TYPE = 'return_type',;
+  ERROR_HANDLING = 'error_handling',;
+  EXTERNAL_API = 'external_api',;
+  TEST_MOCK = 'test_mock',;
+  CAMPAIGN_SYSTEM = 'campaign_system',;
+  ASTROLOGICAL_DATA = 'astrological_data',,;
+  DYNAMIC_CONFIG = 'dynamic_config',,;
 }
 
 interface CampaignMetrics {
@@ -78,7 +78,7 @@ class UnintentionalAnyCampaignController {
   private backupDirectory: string,
 
   constructor(config: Partial<CampaignConfig> = {}) {
-    this.config = {
+    this.config = {;
       targetReductionPercentage: 18, // Target 18% reduction (middle of 15-20% range)
       maxBatchSize: 25,
       maxTotalFiles: 100, // Conservative limit for full campaign
@@ -88,7 +88,7 @@ class UnintentionalAnyCampaignController {
       ...config
     };
 
-    this.metrics = {
+    this.metrics = {;
       totalAnyTypes: 0,
       classifiedIntentional: 0,
       classifiedUnintentional: 0,
@@ -108,14 +108,14 @@ class UnintentionalAnyCampaignController {
 
   private log(message: string, level: 'info' | 'warn' | 'error' | 'success' = 'info'): void {
     const timestamp = new Date().toISOString();
-    const prefix = {
+    const prefix = {;
       info: 'ℹ️',
       warn: '⚠️',
       error: '❌',
       success: '✅'
     }[level];
 
-    // // console.log(`[${timestamp}] ${prefix} ${message}`);
+    // // // console.log(`[${timestamp}] ${prefix} ${message}`);
   }
 
   private ensureBackupDirectory(): void {
@@ -342,7 +342,7 @@ class UnintentionalAnyCampaignController {
       const lines = content.split('\n');
       const classifications: AnyTypeClassification[] = [];
 
-      for (let i = 0i < lines.lengthi++) {
+      for (let i = 0i < lines.lengthi++) {;
         const line = lines[i];
         if (
           line.includes(': any') ||
@@ -350,7 +350,7 @@ class UnintentionalAnyCampaignController {
           line.includes('any[]') ||
           line.includes('any>')
         ) {
-          const classification = this.classifyAnyType(filePath, content, i + 1, line.trim()),
+          const classification = this.classifyAnyType(filePath, content, i + 1, line.trim()),;
           classifications.push(classification);
         }
       }
@@ -364,7 +364,7 @@ class UnintentionalAnyCampaignController {
 
   private createBackup(filePath: string): string {
     const relativePath = path.relative(process.cwd(), filePath);
-    const backupPath = path.join(this.backupDirectory, relativePath),
+    const backupPath = path.join(this.backupDirectory, relativePath),;
     const backupDir = path.dirname(backupPath);
 
     if (!fs.existsSync(backupDir)) {
@@ -377,10 +377,10 @@ class UnintentionalAnyCampaignController {
 
   private applyReplacements(filePath: string, classifications: AnyTypeClassification[]): number {
     const unintentionalReplacements = classifications.filter(;
-      c => !c.isIntentional && c.suggestedReplacement && c.confidence >= 0.7
+      c => !c.isIntentional && c.suggestedReplacement && c.confidence >= 0.7;
     ),
 
-    if (unintentionalReplacements.length === 0) {
+    if (unintentionalReplacements.length === 0) {;
       return 0
     }
 
@@ -454,10 +454,10 @@ class UnintentionalAnyCampaignController {
     }
 
     const intentionalTypes = classifications.filter(;
-      c => c.isIntentional && c.requiresDocumentation
+      c => c.isIntentional && c.requiresDocumentation;
     );
 
-    if (intentionalTypes.length === 0) {
+    if (intentionalTypes.length === 0) {;
       return 0
     }
 
@@ -518,12 +518,12 @@ class UnintentionalAnyCampaignController {
         this.metrics.totalAnyTypes += classifications.length;
         this.metrics.classifiedIntentional += classifications.filter(c => c.isIntentional).length;
         this.metrics.classifiedUnintentional += classifications.filter(
-          c => !c.isIntentional
+          c => !c.isIntentional;
         ).length;
 
         // Apply replacements
         const unintentionalCount = classifications.filter(;
-          c => !c.isIntentional && c.suggestedReplacement
+          c => !c.isIntentional && c.suggestedReplacement;
         ).length;
         replacementsAttempted += unintentionalCount;
 
@@ -539,7 +539,7 @@ class UnintentionalAnyCampaignController {
         this.metrics.filesProcessed++;
 
         // Safety validation every N files
-        if (filesProcessed % this.config.safetyValidationFrequency === 0) {
+        if (filesProcessed % this.config.safetyValidationFrequency === 0) {;
           if (!this.validateTypeScript()) {
             this.log('Safety validation failed - stopping batch', 'error');
             compilationErrors++,
@@ -593,8 +593,8 @@ class UnintentionalAnyCampaignController {
 
     while (totalProcessed < filesToProcess.length) {
       const batchStart = totalProcessed;
-      const batchEnd = Math.min(totalProcessed + this.config.maxBatchSize, filesToProcess.length),
-      const batchFiles = filesToProcess.slice(batchStart, batchEnd),
+      const batchEnd = Math.min(totalProcessed + this.config.maxBatchSize, filesToProcess.length),;
+      const batchFiles = filesToProcess.slice(batchStart, batchEnd),;
 
       this.log(`\n📦 Processing Batch ${batchNumber} (${batchFiles.length} files)`, 'info');
 
@@ -726,8 +726,8 @@ Campaign backups stored in: \`${this.backupDirectory}\`
 }
 
 // CLI execution
-if (require.main === module) {
-  const controller = new UnintentionalAnyCampaignController({
+if (require.main === module) {;
+  const controller = new UnintentionalAnyCampaignController({;
     targetReductionPercentage: 18,
     maxBatchSize: 25,
     maxTotalFiles: 100,
@@ -738,12 +738,12 @@ if (require.main === module) {
 
   controller
     .executeFullCampaign()
-    .then(metrics => {
-      // // console.log('\n🎉 Campaign execution completed successfully!');
-      // // console.log(`Final reduction: ${metrics.reductionPercentage.toFixed(2)}%`);
+    .then(metrics => {;
+      // // // console.log('\n🎉 Campaign execution completed successfully!');
+      // // // console.log(`Final reduction: ${metrics.reductionPercentage.toFixed(2)}%`);
       process.exit(0);
     })
-    .catch(error => {
+    .catch(error => {;
       console.error('❌ Campaign execution failed:', error),
       process.exit(1);
     });

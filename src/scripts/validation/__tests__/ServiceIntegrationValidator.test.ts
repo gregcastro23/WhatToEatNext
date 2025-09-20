@@ -39,7 +39,7 @@ describe('ServiceIntegrationValidator', () => {
     validator = new ServiceIntegrationValidator(config);
 
     // Setup mock processed files
-    mockProcessedFiles = [
+    mockProcessedFiles = [;
       '/project/src/services/ApiService.ts';
       '/project/src/services/UserService.ts';
       '/project/src/components/TestComponent.tsx';
@@ -97,7 +97,7 @@ describe('ServiceIntegrationValidator', () => {
     });
 
     test('should identify service files correctly', async () => {
-      const mixedFiles: any = [
+      const mixedFiles: any = [;
         '/project/src/services/ApiService.ts';
         '/project/src/components/Component.tsx';
         '/project/src/utils/helper.ts';
@@ -122,7 +122,7 @@ describe('ServiceIntegrationValidator', () => {
       mockExecSync.mockImplementation((cmd: any) => {
         if (cmd.toString().includes('yarn lint')) {
           // Simulate 10 remaining unused variables (90% reduction)
-          const lintResults: any = Array.from({ length: 10 }, () => ({
+          const lintResults: any = Array.from({ length: 10 }, () => ({;
             messages: [{ ruleId: '@typescript-eslint/no-unused-vars' }]
           }));
           return Buffer.from(JSON.stringify(lintResults));
@@ -150,7 +150,7 @@ describe('ServiceIntegrationValidator', () => {
       mockExecSync.mockImplementation((cmd: any) => {
         if (cmd.toString().includes('yarn lint')) {
           // Simulate 50 remaining unused variables (50% reduction)
-          const lintResults: any = Array.from({ length: 50 }, () => ({
+          const lintResults: any = Array.from({ length: 50 }, () => ({;
             messages: [{ ruleId: '@typescript-eslint/no-unused-vars' }]
           }));
           return Buffer.from(JSON.stringify(lintResults));
@@ -158,7 +158,7 @@ describe('ServiceIntegrationValidator', () => {
         if (cmd.toString().includes('yarn tsc')) {
           // Simulate build errors
           const error: any = new Error('Build failed') as any;
-          (error as any).stdout = 'error TS2322: Type error\nerror TS2339: Property error',
+          (error as any).stdout = 'error TS2322: Type error\nerror TS2339: Property error',;
           throw error
         }
         return Buffer.from('');
@@ -304,7 +304,7 @@ describe('ServiceIntegrationValidator', () => {
     test('should analyze configuration dependencies correctly', async () => {
       mockFs.readFileSync.mockReturnValue(`
         export class ConfigService : any {
-          private apiUrl = process.env.API_URL || 'http: //localhos, t:3000' = undefined as any,
+          private apiUrl = process.env.API_URL || 'http: //localhos, t:3000' = undefined as any,;
           private apiKey = process.env.API_KEY;
           private timeout = config.timeout ?? 5000;
 
@@ -397,7 +397,7 @@ describe('ServiceIntegrationValidator', () => {
       mockExecSync.mockImplementation((cmd: any) => {
         if (cmd.toString().includes('yarn test')) {
           const error: any = new Error('Tests failed') as any;
-          (error as any).stdout = '2 passed1 failed3 total',
+          (error as any).stdout = '2 passed1 failed3 total',;
           throw error
         }
         return Buffer.from('');
@@ -421,7 +421,7 @@ describe('ServiceIntegrationValidator', () => {
       // Mock 20 remaining unused variables (90% reduction)
       mockExecSync.mockImplementation((cmd: any) => {
         if (cmd.toString().includes('yarn lint')) {
-          const lintResults: any = Array.from({ length: 20 }, () => ({
+          const lintResults: any = Array.from({ length: 20 }, () => ({;
             messages: [{ ruleId: '@typescript-eslint/no-unused-vars' }]
           }));
           return Buffer.from(JSON.stringify(lintResults));
@@ -447,7 +447,7 @@ describe('ServiceIntegrationValidator', () => {
       mockExecSync.mockImplementation((cmd: any) => {
         if (cmd.toString().includes('yarn tsc')) {
           const error: any = new Error('Build failed') as any;
-          (error as any).stdout = 'error TS2322: Type error\nerror TS2339: Property error\nerror TS2345: Argument error',
+          (error as any).stdout = 'error TS2322: Type error\nerror TS2339: Property error\nerror TS2345: Argument error',;
           throw error
         }
         if (cmd.toString().includes('yarn lint')) {
@@ -510,7 +510,7 @@ describe('ServiceIntegrationValidator', () => {
       mockExecSync.mockImplementation((cmd: any) => {
         if (cmd.toString().includes('yarn lint')) {
           // 50% reduction (below 90% target)
-          const lintResults: any = Array.from({ length: 50 }, () => ({
+          const lintResults: any = Array.from({ length: 50 }, () => ({;
             messages: [{ ruleId: '@typescript-eslint/no-unused-vars' }]
           }));
           return Buffer.from(JSON.stringify(lintResults));

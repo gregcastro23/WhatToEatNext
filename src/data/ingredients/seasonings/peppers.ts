@@ -1,7 +1,7 @@
 import type { IngredientMapping } from '@/data/ingredients/types';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
-const rawPeppers = {
+const rawPeppers = {;
   black_pepper: {
     name: 'Black Pepper',
     elementalProperties: { Fire: 0.7, Air: 0.2, Earth: 0.1, Water: 0 },
@@ -13,19 +13,19 @@ const rawPeppers = {
         decanModifiers: {
           first: { element: 'Fire', planet: 'Mars' },
           second: { element: 'Air', planet: 'Sun' },
-          third: { element: 'Earth', planet: 'Saturn' },
-        },
+          third: { element: 'Earth', planet: 'Saturn' }
+        }
       },
       lunarPhaseModifiers: {
         waxingCrescent: {
           elementalBoost: { Fire: 0.1, Air: 0.1 },
-          preparationTips: ['Best for marinades'],
+          preparationTips: ['Best for marinades']
         },
         fullMoon: {
           elementalBoost: { Fire: 0.2 },
-          preparationTips: ['Ideal for robust dishes'],
-        },
-      },
+          preparationTips: ['Ideal for robust dishes']
+        }
+      }
     },
     qualities: ['pungent', 'sharp', 'aromatic'],
     origin: ['India', 'Vietnam', 'Brazil'],
@@ -37,22 +37,22 @@ const rawPeppers = {
         appearance: 'large, dark berries',
         flavor: 'complex, citrusy undertones',
         heat: 'moderate',
-        uses: 'premium applications',
+        uses: 'premium applications'
       },
       Malabar: {
         name: 'Malabar',
         appearance: 'medium-sized berries',
         flavor: 'balanced, standard profile',
         heat: 'moderate',
-        uses: 'all-purpose',
+        uses: 'all-purpose'
       },
       Lampong: {
         name: 'Lampong',
         appearance: 'small berries',
         flavor: 'sharp, intense',
         heat: 'high',
-        uses: 'hearty dishes',
-      },
+        uses: 'hearty dishes'
+      }
     },
     culinaryApplications: {
       finishing: {
@@ -62,20 +62,20 @@ const rawPeppers = {
         applications: {
           proteins: 'after cooking',
           pasta: 'finish with pepper and cheese',
-          vegetables: 'light dusting',
+          vegetables: 'light dusting'
         },
         techniques: {
           cracked: {
             name: 'Cracked',
             method: 'coarse grind or mortar',
-            applications: 'crusts, rustic dishes',
+            applications: 'crusts, rustic dishes'
           },
           fine_ground: {
             name: 'Fine Ground',
             method: 'fine pepper mill',
-            applications: 'sauces, delicate dishes',
-          },
-        },
+            applications: 'sauces, delicate dishes'
+          }
+        }
       },
       cooking: {
         name: 'Cooking',
@@ -83,18 +83,18 @@ const rawPeppers = {
         timing: {
           early: 'for infused flavor',
           middle: 'for balanced heat',
-          end: 'for pronounced aroma',
+          end: 'for pronounced aroma'
         },
-        pairings: ['cream', 'lemon', 'tomato', 'beef', 'cheese'],
-      },
+        pairings: ['cream', 'lemon', 'tomato', 'beef', 'cheese']
+      }
     },
     storage: {
       temperature: 'room temperature',
       humidity: 'low',
       container: 'airtight, opaque',
       duration: 'whole: 2-3 years, ground: 3-4 months',
-      notes: 'Best stored whole and ground as needed',
-    },
+      notes: 'Best stored whole and ground as needed'
+    }
   },
 
   white_pepper: {
@@ -104,8 +104,8 @@ const rawPeppers = {
       rulingPlanets: ['Mercury', 'Mars'],
       favorableZodiac: ['gemini', 'virgo'],
       elementalAffinity: {
-        base: 'Fire',
-      },
+        base: 'Fire'
+      }
     },
     qualities: ['earthy', 'musty', 'hot'],
     origin: ['Indonesia', 'Malaysia', 'China'],
@@ -117,15 +117,15 @@ const rawPeppers = {
         appearance: 'off-white to beige',
         flavor: 'earthy, complex',
         heat: 'medium-high',
-        uses: 'light-colored sauces, Asian cuisine',
+        uses: 'light-colored sauces, Asian cuisine'
       },
       Sarawak: {
         name: 'Sarawak',
         appearance: 'cream colored',
         flavor: 'delicate, less fermented',
         heat: 'medium',
-        uses: 'European cuisine',
-      },
+        uses: 'European cuisine'
+      }
     },
     culinaryApplications: {
       light_colored_dishes: {
@@ -135,8 +135,8 @@ const rawPeppers = {
         applications: {
           cream_sauces: 'when thickening',
           mashed_potatoes: 'during mashing',
-          soups: 'white or clear',
-        },
+          soups: 'white or clear'
+        }
       },
       asian_cuisine: {
         name: 'Asian Cuisine',
@@ -145,17 +145,17 @@ const rawPeppers = {
         applications: {
           hot_pot: 'in broth',
           marinades: 'ground in paste',
-          stir_fry: 'in sauce',
-        },
-      },
+          stir_fry: 'in sauce'
+        }
+      }
     },
     storage: {
       temperature: 'room temperature',
       humidity: 'low',
       container: 'airtight, opaque',
       duration: 'whole: 1-2 years, ground: 2-3 months',
-      notes: 'More delicate than black pepper',
-    },
+      notes: 'More delicate than black pepper'
+    }
   },
 
   pink_peppercorn: {
@@ -165,8 +165,8 @@ const rawPeppers = {
       rulingPlanets: ['Venus', 'Mars'],
       favorableZodiac: ['libra', 'taurus'],
       elementalAffinity: {
-        base: 'Air',
-      },
+        base: 'Air'
+      }
     },
     qualities: ['sweet', 'aromatic', 'mild heat'],
     origin: ['Brazil', 'Madagascar', 'Reunion Island'],
@@ -175,7 +175,7 @@ const rawPeppers = {
     botanical: {
       family: 'Anacardiaceae',
       genus: 'Schinus',
-      notes: 'Not true pepper, related to cashews',
+      notes: 'Not true pepper, related to cashews'
     },
     culinaryApplications: {
       visual_accent: {
@@ -184,8 +184,8 @@ const rawPeppers = {
         applications: {
           salads: 'colorful garnish',
           cheese_plates: 'decorative and flavorful accent',
-          desserts: 'with chocolate or fruit',
-        },
+          desserts: 'with chocolate or fruit'
+        }
       },
       delicate_seasoning: {
         name: 'Delicate Seasoning',
@@ -193,21 +193,21 @@ const rawPeppers = {
         applications: {
           fish: 'with citrus',
           poultry: 'light seasoning',
-          vinaigrettes: 'subtle heat',
-        },
-      },
+          vinaigrettes: 'subtle heat'
+        }
+      }
     },
     storage: {
       temperature: 'room temperature',
       humidity: 'low',
       container: 'airtight',
       duration: '6-12 months',
-      notes: 'Loses color and aroma faster than true peppercorns',
+      notes: 'Loses color and aroma faster than true peppercorns'
     },
     allergies: {
       warning: 'May cause reaction in people with tree nut allergies',
-      related_to: 'cashews and mangoes',
-    },
+      related_to: 'cashews and mangoes'
+    }
   },
 
   szechuan_peppercorn: {
@@ -217,8 +217,8 @@ const rawPeppers = {
       rulingPlanets: ['Mercury', 'Uranus'],
       favorableZodiac: ['gemini', 'aquarius'],
       elementalAffinity: {
-        base: 'Fire',
-      },
+        base: 'Fire'
+      }
     },
     qualities: ['numbing', 'citrusy', 'aromatic'],
     origin: ['China'],
@@ -227,7 +227,7 @@ const rawPeppers = {
     botanical: {
       family: 'Rutaceae',
       genus: 'Zanthoxylum',
-      notes: 'Not related to black pepper',
+      notes: 'Not related to black pepper'
     },
     culinaryApplications: {
       mala_flavor: {
@@ -236,18 +236,18 @@ const rawPeppers = {
         applications: {
           stir_fry: 'with chili for numbing-spicy effect',
           braises: 'in five-spice blend',
-          oil_infusion: 'for numbing oil',
+          oil_infusion: 'for numbing oil'
         },
-        pairings: ['chili', 'garlic', 'star anise', 'beef', 'tofu'],
-      },
+        pairings: ['chili', 'garlic', 'star anise', 'beef', 'tofu']
+      }
     },
     storage: {
       temperature: 'room temperature',
       humidity: 'low',
       container: 'airtight',
       duration: 'whole: 1-2 years, ground: 1 month',
-      notes: 'Volatile oils dissipate quickly when ground',
-    },
+      notes: 'Volatile oils dissipate quickly when ground'
+    }
   },
 
   long_pepper: {
@@ -257,8 +257,8 @@ const rawPeppers = {
       rulingPlanets: ['Mars', 'Saturn'],
       favorableZodiac: ['aries', 'capricorn'],
       elementalAffinity: {
-        base: 'Fire',
-      },
+        base: 'Fire'
+      }
     },
     qualities: ['hot', 'sweet', 'complex'],
     origin: ['India', 'Indonesia'],
@@ -266,7 +266,7 @@ const rawPeppers = {
     subCategory: 'true peppercorn',
     botanical: {
       species: 'Piper longum',
-      notes: 'Ancient pepper variety',
+      notes: 'Ancient pepper variety'
     },
     culinaryApplications: {
       spice_blends: {
@@ -275,26 +275,26 @@ const rawPeppers = {
         applications: {
           curry_powders: 'traditional component',
           pickling_spice: 'complex heat',
-          mulling_spice: 'for warming beverages',
-        },
+          mulling_spice: 'for warming beverages'
+        }
       },
       medicinal: {
         name: 'Medicinal',
         method: 'infusions and powders',
         applications: {
           digestive_aids: 'traditional use',
-          warming_teas: 'with honey and ginger',
-        },
-      },
+          warming_teas: 'with honey and ginger'
+        }
+      }
     },
     storage: {
       temperature: 'room temperature',
       humidity: 'low',
       container: 'airtight',
       duration: 'whole: 2 years, ground: 6 months',
-      notes: 'Less common but keeps well',
-    },
-  },
+      notes: 'Less common but keeps well'
+    }
+  }
 };
 
 // Fix the ingredient mappings to ensure they have all required properties

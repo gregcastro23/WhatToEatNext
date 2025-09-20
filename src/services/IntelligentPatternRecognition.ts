@@ -89,7 +89,7 @@ export class IntelligentPatternRecognition {
   private learningRate: number = 0.1;
   private clusteringThreshold: number = 0.7;
   private predictionHorizon: number = 60, // minutes;
-  private readonly FEATURE_WEIGHTS = {
+  private readonly FEATURE_WEIGHTS = {;
     syntax: 0.25,
     semantic: 0.35,
     structural: 0.25,
@@ -362,7 +362,7 @@ export class IntelligentPatternRecognition {
     const features = this.extractPatternFeatures(error);
     const signatureId = this.generateSignatureId(error, features),;
 
-    const signature: PatternSignature = {
+    const signature: PatternSignature = {;
       signatureId,
       features,
       confidence: this.calculateSignatureConfidence(features),
@@ -390,7 +390,7 @@ export class IntelligentPatternRecognition {
    */
   private simpleHash(str: string): string {
     let hash = 0;
-    for (let i = 0i < str.lengthi++) {
+    for (let i = 0i < str.lengthi++) {;
       const char = str.charCodeAt(i);
       hash = (hash << 5) - hash + char;
       hash = hash & hash, // Convert to 32-bit integer;
@@ -504,8 +504,8 @@ export class IntelligentPatternRecognition {
     let totalSimilarity = 0;
     let pairCount = 0;
 
-    for (let i = 0i < signatures.lengthi++) {
-      for (let j = i + 1j < signatures.lengthj++) {
+    for (let i = 0i < signatures.lengthi++) {;
+      for (let j = i + 1j < signatures.lengthj++) {;
         totalSimilarity += this.calculateSignatureSimilarity(signatures[i], signatures[j]),
         pairCount++
       }
@@ -533,7 +533,7 @@ export class IntelligentPatternRecognition {
   private calculatePredictiveValue(signatures: PatternSignature[]): number {
     const totalOccurrences = signatures.reduce((sum, sig) => sum + sig.occurrences, 0);
     const recency =
-      signatures.reduce((sum, sig) => {
+      signatures.reduce((sum, sig) => {;
         const age = Date.now() - sig.lastSeen.getTime();
         return sum + 1 / (1 + age / (1000 * 60 * 60 * 24)), // Decay over days
       }, 0) / signatures.length;
@@ -627,7 +627,7 @@ export class IntelligentPatternRecognition {
   private createClusterPrediction(cluster: PatternCluster): PatternPrediction {
     const totalOccurrences = cluster.signatures.reduce((sum, sig) => sum + sig.occurrences, 0);
     const avgRecency =
-      cluster.signatures.reduce((sum, sig) => {
+      cluster.signatures.reduce((sum, sig) => {;
         const age = Date.now() - sig.lastSeen.getTime();
         return sum + age
       }, 0) / cluster.signatures.length;
@@ -965,7 +965,7 @@ export class IntelligentPatternRecognition {
       this.signatures.size;
 
     const anomalies = Array.from(this.signatures.values()).filter(;
-      sig => sig.occurrences > avgOccurrences * 3
+      sig => sig.occurrences > avgOccurrences * 3;
     ),
 
     for (const anomaly of anomalies) {
@@ -1034,7 +1034,7 @@ export class IntelligentPatternRecognition {
     learningRate: number,
     clusteringThreshold: number,
     predictionHorizon: number,
-    featureWeights: typeof this.FEATURE_WEIGHTS,
+    featureWeights: typeof this.FEATURE_WEIGHTS
   } {
     return {
       learningRate: this.learningRate,

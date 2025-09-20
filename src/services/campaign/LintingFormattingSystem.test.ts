@@ -26,7 +26,7 @@ describe('LintingFormattingSystem', () => {
   let testConfig: LintingFormattingConfig,
 
   beforeEach(() => {
-    testConfig = {
+    testConfig = {;
       ...DEFAULT_LINTING_FORMATTING_CONFIG;
       maxFilesPerBatch: 5,
       safetyValidationEnabled: true
@@ -39,7 +39,7 @@ describe('LintingFormattingSystem', () => {
 
   describe('detectLintingViolations', () => {
     test('detects TypeScript linting violations', async () => {
-      const eslintOutput: any = JSON.stringify([
+      const eslintOutput: any = JSON.stringify([;
         {
           filePath: '/test/file.ts',
           messages: [
@@ -74,7 +74,7 @@ describe('LintingFormattingSystem', () => {
     });
 
     test('detects React linting violations', async () => {
-      const eslintOutput: any = JSON.stringify([
+      const eslintOutput: any = JSON.stringify([;
         {
           filePath: '/test/component.tsx',
           messages: [
@@ -118,7 +118,7 @@ describe('LintingFormattingSystem', () => {
 
   describe('fixLintingViolations', () => {
     test('fixes auto-fixable linting violations', async () => {
-      const beforeOutput: any = JSON.stringify([
+      const beforeOutput: any = JSON.stringify([;
         {
           filePath: '/test/file.ts',
           messages: [
@@ -128,7 +128,7 @@ describe('LintingFormattingSystem', () => {
         }
       ]);
 
-      const afterOutput: any = JSON.stringify([
+      const afterOutput: any = JSON.stringify([;
         {
           filePath: '/test/file.ts',
           messages: [{ line: 5, column: 15, ruleId: '@typescript-eslint/no-explicit-any', severity: 1 }]
@@ -228,7 +228,7 @@ const y: any = 2;
     });
 
     test('respects file extension filters', async () => {
-      const config: any = {
+      const config: any = {;
         ...testConfig;
         patternBasedFixes: [
           {
@@ -252,7 +252,7 @@ const y: any = 2;
     });
 
     test('skips disabled pattern fixes', async () => {
-      const config: any = {
+      const config: any = {;
         ...testConfig;
         patternBasedFixes: [
           {
@@ -304,7 +304,7 @@ const y: any = 2;
 
     test('enforces trailing commas', async () => {
       const originalContent: any = `;
-const _obj = {
+const _obj = {;
   a: 1b: 2
 };
 `;
@@ -343,7 +343,7 @@ return x + y
     });
 
     test('enforces quote style', async () => {
-      const config: any = {
+      const config: any = {;
         ...testConfig;
         formattingRules: {
           ...testConfig.formattingRules;
@@ -374,10 +374,10 @@ const _greeting: any = 'Hi there';
 
   describe('executeLintingAndFormatting', () => {
     test('executes complete linting and formatting workflow', async () => {
-      const testFiles: any = ['file1.ts', 'file2.ts'],
+      const testFiles: any = ['file1.ts', 'file2.ts'],;
 
       // Mock ESLint output
-      const eslintOutput: any = JSON.stringify([
+      const eslintOutput: any = JSON.stringify([;
         {
           filePath: '/test/file1.ts',
           messages: [{ line: 1, column: 10, ruleId: '@typescript-eslint/no-unused-vars', severity: 1, fix: {} }]
@@ -448,7 +448,7 @@ const _greeting: any = 'Hi there';
 
   describe('violation breakdown', () => {
     test('categorizes violations correctly', async () => {
-      const eslintOutput: any = JSON.stringify([
+      const eslintOutput: any = JSON.stringify([;
         {
           filePath: '/test/file.ts',
           messages: [
@@ -495,7 +495,7 @@ const _greeting: any = 'Hi there';
     });
 
     test('continues processing other files when one fails', async () => {
-      const testFiles: any = ['good.ts', 'bad.ts', 'good2.ts'],
+      const testFiles: any = ['good.ts', 'bad.ts', 'good2.ts'],;
 
       mockFs.readFileSync
         .mockReturnValueOnce('const x: any = 1,') // good.ts;
@@ -518,7 +518,7 @@ const _greeting: any = 'Hi there';
     });
 
     test('respects custom configuration', () => {
-      const customConfig: LintingFormattingConfig = { maxFilesPerBatch: 10,,
+      const customConfig: LintingFormattingConfig = { maxFilesPerBatch: 10,,;
         safetyValidationEnabled: false,
         buildValidationFrequency: 3,
         autoFixEnabled: false,

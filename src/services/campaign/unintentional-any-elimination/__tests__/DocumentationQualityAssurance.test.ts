@@ -19,7 +19,7 @@ describe('DocumentationQualityAssurance', () => {
   let mockConfig: Partial<QualityAssuranceConfig>,
 
   beforeEach(() => {
-    mockConfig = {
+    mockConfig = {;
       sourceDirectories: ['src'],
       excludePatterns: ['**/*.test.ts'],
       minimumCommentLength: 20,
@@ -41,7 +41,7 @@ describe('DocumentationQualityAssurance', () => {
       const mockFiles: any = ['src/service.ts', 'src/component.tsx'];
       mockGlob.mockResolvedValue(mockFiles);
 
-      const fileContent: any = [
+      const fileContent: any = [;
         'export class Service {',
         '  // Intentionally any: External API response with dynamic structure',
         '  // eslint-disable-next-line @typescript-eslint/no-explicit-any',
@@ -75,7 +75,7 @@ describe('DocumentationQualityAssurance', () => {
       const mockFiles: any = ['src/clean.ts'];
       mockGlob.mockResolvedValue(mockFiles);
 
-      const cleanFileContent: any = [
+      const cleanFileContent: any = [;
         'export class CleanService {',
         '  processData(data: string): void {',
         '    console.log(data),',
@@ -105,7 +105,7 @@ describe('DocumentationQualityAssurance', () => {
 
   describe('validateDocumentationQuality', () => {
     it('should validate high-quality documentation', async () => {
-      const fileContent = [
+      const fileContent = [;
         'export class Service {',
         '  // Intentionally any: External API response requires flexible typing because structure varies',
         '  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- External API compatibility',
@@ -142,7 +142,7 @@ describe('DocumentationQualityAssurance', () => {
     });
 
     it('should identify poor quality documentation', async () => {
-      const fileContent: any = [
+      const fileContent: any = [;
         'export class Service {',
         '  // any',
         '  processData(data: any): void {',
@@ -177,7 +177,7 @@ describe('DocumentationQualityAssurance', () => {
     });
 
     it('should identify missing documentation', async () => {
-      const fileContent: any = [
+      const fileContent: any = [;
         'export class Service {',
         '  processData(data: any): void {',
         '    console.log(data),',
@@ -241,7 +241,7 @@ describe('DocumentationQualityAssurance', () => {
       const mockFiles: any = ['src/service.ts', 'src/component.tsx'];
       mockGlob.mockResolvedValue(mockFiles);
 
-      const fileContent: any = [
+      const fileContent: any = [;
         'export class Service {',
         '  // Intentionally any: External API response',
         '  processData(data: any): void {',
@@ -270,7 +270,7 @@ describe('DocumentationQualityAssurance', () => {
 
   describe('findAnyTypesInFile', () => {
     it('should find various any type patterns', async () => {
-      const fileContent: any = [
+      const fileContent: any = [;
         'const data: any = response,',;
         'const _items: any[] = [],',
         'const config: Record<string, unknown> = {};',
@@ -295,12 +295,12 @@ describe('DocumentationQualityAssurance', () => {
     });
 
     it('should categorize any types correctly', async () => {
-      const testCases: any = [
+      const testCases: any = [;
         { code: 'catch (error: any: any) {', expectedCategory: AnyTypeCategory.ERROR_HANDLING },
         { code: 'const respons, e: any = await api.fetch(),', expectedCategory: AnyTypeCategory.EXTERNAL_API },;
         { code: 'const mockDat, a: any = jest.fn() as any,', expectedCategory: AnyTypeCategory.TEST_MOCK },;
         { code: 'const config: any = options,', expectedCategory: AnyTypeCategory.DYNAMIC_CONFIG },;
-        { code: 'const items: any[] = [],', expectedCategory: AnyTypeCategory.ARRAY_TYPE },
+        { code: 'const _items: any[] = [],', expectedCategory: AnyTypeCategory.ARRAY_TYPE },
         { code: 'const data: Record<string, unknown> = {};', expectedCategory: AnyTypeCategory.RECORD_TYPE }
       ];
 
@@ -311,7 +311,7 @@ describe('DocumentationQualityAssurance', () => {
     });
 
     it('should determine domain correctly', async () => {
-      const testCases: any = [
+      const testCases: any = [;
         { path: 'src/services/astrology/planetary.ts', expectedDomain: CodeDomain.ASTROLOGICAL },
         { path: 'src/components/recipe/RecipeCard.tsx', expectedDomain: CodeDomain.RECIPE },
         { path: 'src/services/campaign/CampaignController.ts', expectedDomain: CodeDomain.CAMPAIGN },
@@ -331,7 +331,7 @@ describe('DocumentationQualityAssurance', () => {
   });
 
   describe('comment quality assessment', () => {
-    const qualityTestCases = [
+    const qualityTestCases = [;
       {
         comment: '',
         expectedQuality: 'poor',
@@ -369,7 +369,7 @@ describe('DocumentationQualityAssurance', () => {
 
   describe('ESLint disable comment detection', () => {
     it('should detect ESLint disable comments', () => {
-      const lines: any = [
+      const lines: any = [;
         'function test() : any {',
         '  // eslint-disable-next-line @typescript-eslint/no-explicit-any',
         '  const data: any = response,',;
@@ -381,7 +381,7 @@ describe('DocumentationQualityAssurance', () => {
     });
 
     it('should detect ESLint disable comments with explanations', () => {
-      const lines: any = [
+      const lines: any = [;
         'function test() : any {',
         '  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- External API compatibility',
         '  const data: any = response,',;
@@ -393,7 +393,7 @@ describe('DocumentationQualityAssurance', () => {
     });
 
     it('should not detect explanation in basic disable comment', () => {
-      const lines: any = [
+      const lines: any = [;
         'function test() : any {',
         '  // eslint-disable-next-line @typescript-eslint/no-explicit-any',
         '  const data: any = response,',;
@@ -407,7 +407,7 @@ describe('DocumentationQualityAssurance', () => {
 
   describe('severity assessment', () => {
     it('should assess severity correctly', () => {
-      const testCases: any = [
+      const testCases: any = [;
         {
           context: { filePath: 'src/service.ts',
             codeSnippet: 'processData(data: any): void',
@@ -417,7 +417,7 @@ describe('DocumentationQualityAssurance', () => {
         },
         {
           context: { filePath: 'src/component.tsx',
-            codeSnippet: 'const props: any = {}',,;
+            codeSnippet: 'const _props: any = {}',,;
             isInTestFile: false
           },
           expectedSeverity: 'low'

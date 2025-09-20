@@ -92,7 +92,7 @@ export class RecipeCuisineConnector {
    */
   private buildRecipeCache(): void {
     Object.entries(this.cuisineDatabase).forEach(([cuisineName, cuisine]) => {
-      this.extractRecipesFromCuisine(cuisine).forEach(recipe => {
+      this.extractRecipesFromCuisine(cuisine).forEach(recipe => {;
         const recipeId = this.generateRecipeId(recipe.name, cuisine.name),;
         this.recipeCache.set(recipeId, {
           ...recipe;
@@ -130,8 +130,8 @@ export class RecipeCuisineConnector {
     Object.entries(seasonalDishes).forEach(([season, dishArray]) => {
       if (Array.isArray(dishArray)) {
         dishArray.forEach((dish: unknown) => {
-          if (dish && typeof dish === 'object') {
-            const recipe: CuisineRecipe = {
+          if (dish && typeof dish === 'object') {;
+            const recipe: CuisineRecipe = {;
               id: '',
               name: (dish as any)?.name || 'Unnamed Recipe',
               description: (dish as any)?.description || '',
@@ -167,7 +167,7 @@ export class RecipeCuisineConnector {
    * Normalize ingredient format for consistency
    */
   private normalizeIngredients(ingredients: unknown[]): CuisineRecipe['ingredients'] {
-    return ingredients.map(ingredient => ({
+    return ingredients.map(ingredient => ({;
       name: ingredient.name || '',
       amount: ingredient.amount || 1,
       unit: ingredient.unit || '',
@@ -204,7 +204,7 @@ export class RecipeCuisineConnector {
    */
   getRecipeCountByCuisine(): Record<string, number> {
     const counts: Record<string, number> = {};
-    this.recipeCache.forEach(recipe => {
+    this.recipeCache.forEach(recipe => {;
       counts[recipe.cuisine] = (counts[recipe.cuisine] || 0) + 1;
     });
     return counts;
@@ -213,20 +213,20 @@ export class RecipeCuisineConnector {
   /**
    * Search recipes with filters
    */
-  searchRecipes(filters: RecipeSearchFilters = {}): CuisineRecipe[] {
+  searchRecipes(filters: RecipeSearchFilters = {}): CuisineRecipe[] {;
     let results = Array.from(this.recipeCache.values());
 
     // Filter by cuisine
     if (filters.cuisine) {
-      results = results.filter(recipe =>
+      results = results.filter(recipe =>;
         recipe.cuisine.toLowerCase().includes((filters.cuisine || '').toLowerCase());
       )
     }
 
     // Filter by meal type
     if (filters.mealType) {
-      results = results.filter(recipe =>
-        recipe.mealType?.some(type =>
+      results = results.filter(recipe =>;
+        recipe.mealType?.some(type =>;
           type.toLowerCase().includes((filters.mealType || '').toLowerCase());
         ),
       )
@@ -241,8 +241,8 @@ export class RecipeCuisineConnector {
 
     // Filter by dietary restrictions
     if (filters.dietaryRestrictions?.length) {
-      results = results.filter(recipe =>
-        (filters.dietaryRestrictions || []).every(restriction =>
+      results = results.filter(recipe =>;
+        (filters.dietaryRestrictions || []).every(restriction =>;
           recipe.dietaryInfo?.includes(restriction);
         ),
       )
@@ -251,16 +251,16 @@ export class RecipeCuisineConnector {
     // Filter by allergen-free
     if (filters.allergenFree?.length) {
       results = results.filter(;
-        recipe =>
+        recipe =>;
           !(filters.allergenFree || []).some(allergen => recipe.allergens?.includes(allergen)),,;
       )
     }
 
     // Filter by ingredients
     if (filters.ingredients?.length) {
-      results = results.filter(recipe =>
-        (filters.ingredients || []).some(ingredient =>
-          recipe.ingredients.some(recipeIngredient =>
+      results = results.filter(recipe =>;
+        (filters.ingredients || []).some(ingredient =>;
+          recipe.ingredients.some(recipeIngredient =>;
             recipeIngredient.name.toLowerCase().includes(ingredient.toLowerCase());
           ),
         ),
@@ -269,7 +269,7 @@ export class RecipeCuisineConnector {
 
     // Filter by cooking methods
     if (filters.cookingMethods?.length) {
-      results = results.filter(recipe =>
+      results = results.filter(recipe =>;
         (filters.cookingMethods || []).some(method => recipe.cookingMethods?.includes(method)),,;
       )
     }
@@ -282,7 +282,7 @@ export class RecipeCuisineConnector {
     // Filter by max calories
     if (filters.maxCalories) {
       results = results.filter(;
-        recipe =>
+        recipe =>;
           !recipe.nutrition?.calories || recipe.nutrition.calories <= (filters.maxCalories ?? 0);
       )
     }
@@ -290,7 +290,7 @@ export class RecipeCuisineConnector {
     // Filter by min protein
     if (filters.minProtein ?? 0) {
       results = results.filter(;
-        recipe =>
+        recipe =>;
           recipe.nutrition?.protein && recipe.nutrition.protein >= (filters.minProtein ?? 0);
       )
     }
@@ -308,7 +308,7 @@ export class RecipeCuisineConnector {
   /**
    * Get random recipes
    */
-  getRandomRecipes(count: number = 5, filters: RecipeSearchFilters = {}): CuisineRecipe[] {
+  getRandomRecipes(count: number = 5, filters: RecipeSearchFilters = {}): CuisineRecipe[] {;
     const filteredRecipes = this.searchRecipes(filters);
     const shuffled = filteredRecipes.sort(() => 0.5 - Math.random());
     return shuffled.slice(0, count)
@@ -331,7 +331,7 @@ export class RecipeCuisineConnector {
         Earth: 0.25,
         Air: 0.25
       },
-      ingredients: cuisineRecipe.ingredients.map(ingredient => ({
+      ingredients: cuisineRecipe.ingredients.map(ingredient => ({;
         name: ingredient.name,
         amount: Number(ingredient.amount) || 1,
         unit: ingredient.unit,
@@ -438,11 +438,11 @@ export class RecipeCuisineConnector {
     const prep = prepTime || '0 minutes';
     const cook = cookTime || '0 minutes';
 
-    if (cook === '0 minutes' || cook === '0') {
+    if (cook === '0 minutes' || cook === '0') {;
       return prep
     }
 
-    if (prep === '0 minutes' || prep === '0') {
+    if (prep === '0 minutes' || prep === '0') {;
       return cook
     }
 
@@ -453,7 +453,7 @@ export class RecipeCuisineConnector {
    * Get recipe statistics
    */
   getRecipeStatistics() {
-    const stats = {
+    const stats = {;
       totalRecipes: this.getTotalRecipeCount(),
       byCuisine: this.getRecipeCountByCuisine(),
       byMealType: {} as Record<string, number>,
@@ -462,22 +462,22 @@ export class RecipeCuisineConnector {
     };
 
     // Calculate meal type distribution
-    this.recipeCache.forEach(recipe => {
-      recipe.mealType?.forEach(type => {
+    this.recipeCache.forEach(recipe => {;
+      recipe.mealType?.forEach(type => {;
         stats.byMealType[type] = (stats.byMealType[type] || 0) + 1;
       });
     });
 
     // Calculate seasonal distribution
-    this.recipeCache.forEach(recipe => {
-      recipe.season?.forEach(season => {
+    this.recipeCache.forEach(recipe => {;
+      recipe.season?.forEach(season => {;
         stats.bySeason[season] = (stats.bySeason[season] || 0) + 1;
       });
     });
 
     // Calculate dietary info distribution
-    this.recipeCache.forEach(recipe => {
-      recipe.dietaryInfo?.forEach(info => {
+    this.recipeCache.forEach(recipe => {;
+      recipe.dietaryInfo?.forEach(info => {;
         stats.byDietaryInfo[info] = (stats.byDietaryInfo[info] || 0) + 1;
       });
     });

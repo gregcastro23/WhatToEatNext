@@ -1,11 +1,11 @@
-export const _mockLogger = {
+export const _mockLogger = {;
   info: jest.fn(),
   error: jest.fn(),
   warn: jest.fn(),
   debug: jest.fn()
 };
 
-export const _mockElementalCalculator = {
+export const _mockElementalCalculator = {;
   getCurrentElementalState: jest.fn(() => ({
     Fire: 0.25,
     Water: 0.25,
@@ -19,10 +19,10 @@ export const _mockElementalCalculator = {
     Earth: 0.25,
     Air: 0.25
   })),
-  initialize: jest.fn(_initialState => {
+  initialize: jest.fn(_initialState => {;
     // Mock implementation - intentionally empty for testing
   }),
-  updateElementalState: jest.fn(_newState => {
+  updateElementalState: jest.fn(_newState => {;
     // Mock implementation - intentionally empty for testing
   }),
   getInstance: jest.fn().mockReturnValue({

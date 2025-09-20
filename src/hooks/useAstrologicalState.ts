@@ -25,11 +25,11 @@ export interface AstrologyHookData {
 // Helper function to create a celestial position with defaults
 function _createCelestialPosition(
   sign: any,
-  longOffset = 0,,
+  longOffset = 0,,;
   options?: { planetName?: string },
 ): CelestialPosition {
   // Calculate a reasonable longitude based on the zodiac sign
-  const signIndex = [
+  const signIndex = [;
     'aries',
     'taurus',
     'gemini',
@@ -48,7 +48,7 @@ function _createCelestialPosition(
 
   // Determine default speed based on planet traits
   // Moon moves fastest, inner planets medium, outer planets slow
-  const getPlanetSpeed = (planetName?: string): number => {
+  const getPlanetSpeed = (planetName?: string): number => {;
     if (!planetName) return 0.5, // Default
 
     const planetSpeeds: Record<string, number> = {
@@ -85,7 +85,7 @@ export function useAstrologicalState(): AstrologyHookData {
   // Track renders for debugging - add empty dependency array to run only once
   useEffect(() => {
     // We don't want to increment renderCount in every render cycle
-    if (renderCount === 0) {
+    if (renderCount === 0) {;
       setRenderCount(1);
       logger.debug(`Hook initialized`);
     }
@@ -119,7 +119,7 @@ export function useAstrologicalState(): AstrologyHookData {
       }
 
       // List of planets we want to check
-      const planetKeys = [
+      const planetKeys = [;
         'sun',
         'moon',
         'mercury',
@@ -209,7 +209,7 @@ export function useAstrologicalState(): AstrologyHookData {
   const planetaryPositionsString = JSON.stringify(planetaryPositions);
 
   // Memoize key values to prevent unnecessary updates
-  const memoizedPlanetaryPositions = useMemo(() => {
+  const memoizedPlanetaryPositions = useMemo(() => {;
     return planetaryPositions
   }, [planetaryPositionsString]);
 
@@ -256,7 +256,7 @@ export function useAstrologicalState(): AstrologyHookData {
   }, [memoizedPlanetaryPositions, getActivePlanets]);
 
   // Memoize the current planetary alignment to prevent unnecessary recalculations
-  const currentPlanetaryAlignment = useMemo(() => {
+  const currentPlanetaryAlignment = useMemo(() => {;
     return astroState.currentPlanetaryAlignment;
   }, [astroState.currentPlanetaryAlignment]);
 
@@ -269,7 +269,7 @@ export function useAstrologicalState(): AstrologyHookData {
       setCurrentPlanetaryHour(hourInfo.planet);
 
       // Add a refresh interval if needed
-      const intervalId = setInterval(() => {
+      const intervalId = setInterval(() => {;
         const hourInfo = calculator.getCurrentPlanetaryHour();
         setCurrentPlanetaryHour(hourInfo.planet);
       }, 60000); // Update every minute

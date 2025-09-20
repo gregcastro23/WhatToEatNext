@@ -91,7 +91,7 @@ export class LintingAnalysisService {
    * Perform comprehensive linting analysis
    */
   async performComprehensiveAnalysis(
-    options: LintingAnalysisOptions = {}
+    options: LintingAnalysisOptions = {};
   ): Promise<ComprehensiveAnalysisResult> {
     const startTime = Date.now();
 
@@ -152,7 +152,7 @@ export class LintingAnalysisService {
         resolutionStrategies,
       );
 
-      const result: ComprehensiveAnalysisResult = {
+      const result: ComprehensiveAnalysisResult = {;
         summary,
         categorizedErrors,
         fileAnalyses,
@@ -206,7 +206,7 @@ export class LintingAnalysisService {
 
     // Get quick wins (auto-fixable, low risk)
     const quickWins = categorizedErrors.autoFixable;
-      .filter(issue => {
+      .filter(issue => {;
         const classification = classifications.find(c => c.ruleId === issue.rule);
         return classification && classification.riskProfile.overall === 'low';
       })
@@ -215,7 +215,7 @@ export class LintingAnalysisService {
     // Get critical issues
     const criticalIssues = Object.values(categorizedErrors.byCategory);
       .flat()
-      .filter(issue => {
+      .filter(issue => {;
         const classification = classifications.find(c => c.ruleId === issue.rule);
         return classification && classification.severity.level === 'critical';
       });
@@ -282,7 +282,7 @@ export class LintingAnalysisService {
     const allIssues = Object.values(categorizedErrors.byCategory).flat();
 
     // Create default project context
-    const fullProjectContext: ProjectContext = {
+    const fullProjectContext: ProjectContext = {;
       hasTests: true,
       hasCICD: false,
       teamSize: 'small',
@@ -326,7 +326,7 @@ export class LintingAnalysisService {
     // Determine overall risk level
     const highRiskCount = classifications.filter(c => c.riskProfile.overall === 'high').length;
     const criticalRiskCount = classifications.filter(;
-      c => c.riskProfile.overall === 'critical'
+      c => c.riskProfile.overall === 'critical';
     ).length;
 
     let overallRiskLevel: AnalysisSummary['overallRiskLevel'] = 'low';
@@ -449,7 +449,7 @@ export class LintingAnalysisService {
     }
 
     // Strategic recommendations based on options
-    if (options.riskTolerance === 'conservative') {
+    if (options.riskTolerance === 'conservative') {;
       recommendations.push({
         type: 'strategic',
         priority: 'low',

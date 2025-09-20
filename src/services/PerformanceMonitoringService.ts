@@ -45,7 +45,7 @@ class PerformanceMonitoringService {
   private readonly ERROR_RATE_WARNING = 0.1, // 10% error rate;
 
   constructor() {
-    this.systemMetrics = {
+    this.systemMetrics = {;
       totalMemoryUsage: 0,
       peakMemoryUsage: 0,
       totalErrors: 0,
@@ -77,7 +77,7 @@ class PerformanceMonitoringService {
     }
 
     // Update system metrics
-    this.systemMetrics = {
+    this.systemMetrics = {;
       ...this.systemMetrics;
       totalMemoryUsage: totalMemory,
       peakMemoryUsage: Math.max(this.systemMetrics.peakMemoryUsage, totalMemory),
@@ -159,22 +159,22 @@ class PerformanceMonitoringService {
     }
 
     // Log critical alerts
-    if (alert.type === 'error') {
+    if (alert.type === 'error') {;
       console.error('[Performance Monitor]', alert.message, alert)
-    } else if (alert.type === 'warning') {
+    } else if (alert.type === 'warning') {;
       console.warn('[Performance Monitor]', alert.message, alert)
     }
   }
 
   private notifySubscribers() {
-    const data = {
+    const data = {;
       componentMetrics: Array.from(this.componentMetrics.entries()),
       systemMetrics: this.systemMetrics,
       alerts: this.alerts.slice(-10), // Last 10 alerts
       summary: this.getPerformanceSummary()
     };
 
-    this.subscribers.forEach(callback => {
+    this.subscribers.forEach(callback => {;
       try {
         callback(data);
       } catch (error) {
@@ -314,7 +314,7 @@ class PerformanceMonitoringService {
   public reset() {
     this.componentMetrics.clear();
     this.alerts = [];
-    this.systemMetrics = {
+    this.systemMetrics = {;
       totalMemoryUsage: 0,
       peakMemoryUsage: 0,
       totalErrors: 0,

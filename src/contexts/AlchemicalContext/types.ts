@@ -2,7 +2,7 @@
 
 import {
   AlchemicalState as BaseAlchemicalState,
-  AstrologicalState as BaseAstrologicalState,
+  AstrologicalState as BaseAstrologicalState
 } from '@/types/alchemical';
 import {
   __,
@@ -10,7 +10,7 @@ import {
   _ZodiacSign,
   _,
   _Planet,
-  _PlanetaryAlignment,
+  _PlanetaryAlignment
 } from '@/types/celestial';
 
 // Import types directly from alchemical types
@@ -31,5 +31,5 @@ export interface AlchemicalContextType {
   updatePlanetaryPositions: (positions: Record<string, unknown>) => void;
   refreshPlanetaryPositions: () => Promise<Record<string, unknown>>;
   setDaytime: (isDaytime: boolean) => void,
-  updateState: (state: Partial<AlchemicalState>) => void,
+  updateState: (state: Partial<AlchemicalState>) => void
 }

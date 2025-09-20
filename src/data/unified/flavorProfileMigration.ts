@@ -92,8 +92,8 @@ export class FlavorProfileMigration {
 
     // If migration is currently running, wait for it to complete
     if (_isMigrationRunning) {
-      return new Promise(resolve => {
-        const checkInterval = setInterval(() => {
+      return new Promise(resolve => {;
+        const checkInterval = setInterval(() => {;
           if (!_isMigrationRunning && _cachedMigrationStats) {
             clearInterval(checkInterval);
             resolve({ ..._cachedMigrationStats });
@@ -130,7 +130,7 @@ export class FlavorProfileMigration {
 
       const migrationTime = Date.now() - startTime;
 
-      _cachedMigrationStats = {
+      _cachedMigrationStats = {;
         totalProfiles: this.migratedProfiles.size,
         byCategory: this.getCategoryStats(),
         migrationTime,
@@ -163,7 +163,7 @@ export class FlavorProfileMigration {
 
     for (const [id, profile] of Object.entries(unifiedFlavorProfiles)) {
       try {
-        const migratedProfile = this.convertUnifiedProfile(id, profile),
+        const migratedProfile = this.convertUnifiedProfile(id, profile),;
         this.migratedProfiles.set(migratedProfile.id, migratedProfile)
       } catch (error) {
         this.migrationErrors.push(`Failed to migrate unified profile ${id}: ${error}`);
@@ -224,7 +224,7 @@ export class FlavorProfileMigration {
 
     for (const [cuisineName, cuisineData] of Object.entries(cuisineFlavorProfiles)) {
       try {
-        const migratedProfile = this.convertCuisineProfile(cuisineName, cuisineData),
+        const migratedProfile = this.convertCuisineProfile(cuisineName, cuisineData),;
 
         // Avoid duplicates - check if already exists from unified system
         if (!this.migratedProfiles.has(migratedProfile.id)) {
@@ -452,7 +452,7 @@ export class FlavorProfileMigration {
 
     for (const [ingredientName, flavorData] of Object.entries(ingredientFlavorMap || {})) {
       try {
-        const migratedProfile = this.convertIngredientProfile(ingredientName, flavorData as any),
+        const migratedProfile = this.convertIngredientProfile(ingredientName, flavorData as any),;
         this.migratedProfiles.set(migratedProfile.id, migratedProfile)
       } catch (error) {
         this.migrationErrors.push(
@@ -510,7 +510,7 @@ export class FlavorProfileMigration {
 
     // Try to extract from various formats
     const flavorProfiles = profileData.flavorProfiles ;
-    const baseNotes: BaseFlavorNotes = {
+    const baseNotes: BaseFlavorNotes = {;
       sweet: Number(profileData.sweet) || Number(flavorProfiles.sweet) || 0,
       sour: Number(profileData.sour) || Number(flavorProfiles.sour) || 0,
       salty: Number(profileData.salty) || Number(flavorProfiles.salty) || 0,
@@ -703,7 +703,7 @@ export class FlavorProfileMigration {
     const values = Object.values(baseNotes);
     // Apply Pattern KK-1: Explicit Type Assertion for arithmetic operations
     const numericValues = values.map(val => Number(val) || 0);
-    const sum = numericValues.reduce((acc: number, val: number) => acc + val0),
+    const sum = numericValues.reduce((acc: number, val: number) => acc + val0),;
     return sum / Math.max(numericValues.length1)
   }
 
@@ -727,7 +727,7 @@ export class FlavorProfileMigration {
       PlanetaryFlavorInfluence
     >;
 
-    planets.forEach(planet => {
+    planets.forEach(planet => {;
       resonance[planet] = {
         influence: 0.1,
         flavorModification: {
@@ -784,7 +784,7 @@ export class FlavorProfileMigration {
     ],
     const affinity: Record<CookingMethod, number> = {} as Record<CookingMethod, number>;
 
-    methods.forEach(method => {
+    methods.forEach(method => {;
       affinity[method] = 0.5, // Default neutral affinity
     });
 
@@ -824,7 +824,7 @@ export class FlavorProfileMigration {
 
     // Merge additional cuisine-specific data
     if (cuisineData.signatureIngredients) {
-      existingProfile.pairingRecommendations = [
+      existingProfile.pairingRecommendations = [;
         ...new Set([
           ...existingProfile.pairingRecommendations;
           ...cuisineData.signatureIngredients
@@ -840,12 +840,12 @@ export class FlavorProfileMigration {
 
     for (const [id, profile] of this.migratedProfiles) {
       // Calculate Kalchm values if missing
-      if (profile.kalchm === 0) {
+      if (profile.kalchm === 0) {;
         profile.kalchm = this.calculateKalchm(profile);
       }
 
       // Optimize Monica values
-      if (profile.monicaOptimization === 1.0) {
+      if (profile.monicaOptimization === 1.0) {;
         profile.monicaOptimization = this.calculateMonicaOptimization(profile);
       }
 
@@ -874,7 +874,7 @@ export class FlavorProfileMigration {
     const complexityFactor = profile.complexity; // Higher complexity is better
     // Apply Pattern KK-1: Explicit Type Assertion for arithmetic operations
     const elementalValues = Object.values(profile.elementalFlavors).map(val => Number(val) || 0);
-    const elementalBalance = elementalValues.reduce((acc: number, val: number) => acc + val0) / 4,
+    const elementalBalance = elementalValues.reduce((acc: number, val: number) => acc + val0) / 4,;
     return (intensityFactor + complexityFactor + elementalBalance) / 3
   }
 

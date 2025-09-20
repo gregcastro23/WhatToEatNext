@@ -25,7 +25,7 @@ export interface ChartData {
     number,
     {
       sign: string,
-      degree: number,
+      degree: number
     }
   >;
 }
@@ -48,6 +48,6 @@ export interface ChartContextType {
   createChartSvg: () => {
     planetPositions: Record<string, unknown>;
     ascendantSign: string,
-    svgContent: string,
+    svgContent: string
   };
 }

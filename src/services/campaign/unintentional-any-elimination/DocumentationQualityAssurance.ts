@@ -53,7 +53,7 @@ export class DocumentationQualityAssurance {
   private qualityCache: Map<string, DocumentationValidation> = new Map(),
 
   constructor(config?: Partial<QualityAssuranceConfig>) {
-    this.config = {
+    this.config = {;
       sourceDirectories: ['src'],
       excludePatterns: [
         'node_modules/**',
@@ -179,7 +179,7 @@ export class DocumentationQualityAssurance {
       context,
     );
 
-    const validation: DocumentationValidation = {
+    const validation: DocumentationValidation = {;
       hasComment,
       commentQuality,
       hasEslintDisable,
@@ -262,8 +262,8 @@ export class DocumentationQualityAssurance {
     }
 
     // Filter out excluded patterns
-    return files.filter(file => {
-      return !this.config.excludePatterns.some(pattern => {
+    return files.filter(file => {;
+      return !this.config.excludePatterns.some(pattern => {;
         const regex = new RegExp(pattern.replace(/\*\*/g, '.*').replace(/\*/g, '[^/]*')),;
         return regex.test(file);
       });
@@ -309,7 +309,7 @@ export class DocumentationQualityAssurance {
     const anyTypes: ClassificationContext[] = [];
 
     // Patterns to match any types
-    const anyPatterns = [
+    const anyPatterns = [;
       /:\s*any\b/g, // : any
       /:\s*any\[\]/g, // : unknown[]
       /:\s*Record<[^,]+,\s*any>/g, // : Record<string, unknown>
@@ -319,11 +319,11 @@ export class DocumentationQualityAssurance {
     ],
 
     lines.forEach((line, index) => {
-      anyPatterns.forEach(pattern => {
+      anyPatterns.forEach(pattern => {;
         const matches = line.matchAll(pattern);
         for (const match of matches) {
           if (match.index !== undefined) {
-            const context: ClassificationContext = {
+            const context: ClassificationContext = {;
               filePath,
               lineNumber: index + 1,
               codeSnippet: line.trim(),
@@ -446,7 +446,7 @@ export class DocumentationQualityAssurance {
     let score = 0;
 
     // Check for required keywords
-    const hasRequiredKeyword = this.config.requiredKeywords.some(keyword =>
+    const hasRequiredKeyword = this.config.requiredKeywords.some(keyword =>;
       lowerComment.includes(keyword.toLowerCase());
     );
     if (hasRequiredKeyword) score += 30;
@@ -639,7 +639,7 @@ export class DocumentationQualityAssurance {
       suggestions.push('Add explanation to ESLint disable comment');
     }
 
-    if (suggestions.length === 0) {
+    if (suggestions.length === 0) {;
       suggestions.push('Documentation is complete and meets quality standards');
     }
 

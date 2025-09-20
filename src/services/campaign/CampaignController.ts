@@ -73,7 +73,7 @@ export class CampaignController {
 
       const executionTime = Date.now() - startTime;
 
-      const result: PhaseResult = {
+      const result: PhaseResult = {;
         phaseId: phase.id,
         success: true,
         metricsImprovement,
@@ -176,7 +176,7 @@ export class CampaignController {
       }
 
       return {
-        success: errors.length === 0,
+        success: errors.length === 0,;
         errors,
         warnings,
         metrics: currentMetrics
@@ -223,7 +223,7 @@ export class CampaignController {
 
     // This will be implemented by the SafetyProtocol class
     // For now, just log the rollback attempt
-    // // console.log(`Rollback to checkpoint ${checkpointId} requested`);
+    // // // console.log(`Rollback to checkpoint ${checkpointId} requested`);
   }
 
   /**
@@ -257,7 +257,7 @@ export class CampaignController {
    */
   static async loadConfiguration(configPath?: string): Promise<CampaignConfig> {
     // Default configuration based on the design document
-    const defaultConfig: CampaignConfig = {
+    const defaultConfig: CampaignConfig = {;
       phases: [
         {
           id: 'phase1',
@@ -387,11 +387,11 @@ export class CampaignController {
   private generateAchievements(phase: CampaignPhase, metrics: ProgressMetrics): string[] {
     const achievements: string[] = [];
 
-    if (metrics.typeScriptErrors.current === 0) {
+    if (metrics.typeScriptErrors.current === 0) {;
       achievements.push('Zero TypeScript errors achieved');
     }
 
-    if (metrics.lintingWarnings.current === 0) {
+    if (metrics.lintingWarnings.current === 0) {;
       achievements.push('Zero linting warnings achieved');
     }
 

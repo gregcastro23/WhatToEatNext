@@ -121,7 +121,7 @@ export class LintingValidationDashboard {
    * Run comprehensive linting validation across entire codebase
    */
   async runComprehensiveValidation(): Promise<ValidationResult> {
-    // // console.log('🔍 Starting comprehensive linting validation...');
+    // // // console.log('🔍 Starting comprehensive linting validation...');
 
     const startTime = Date.now();
     const metrics = await this.collectMetrics();
@@ -129,7 +129,7 @@ export class LintingValidationDashboard {
     const regressionAnalysis = await this.analyzeRegression(metrics);
     const recommendations = this.generateRecommendations(metrics, alerts),;
 
-    const result: ValidationResult = {
+    const result: ValidationResult = {;
       passed: alerts.filter(a => a.severity === 'error' || a.severity === 'critical').length === 0,,;
       metrics,
       alerts,
@@ -144,7 +144,7 @@ export class LintingValidationDashboard {
     // Generate dashboard report
     await this.generateDashboardReport(result);
 
-    // // console.log(`✅ Validation completed in ${Date.now() - startTime}ms`);
+    // // // console.log(`✅ Validation completed in ${Date.now() - startTime}ms`);
     return result;
   }
 
@@ -156,7 +156,7 @@ export class LintingValidationDashboard {
 
     try {
       // Run ESLint with enhanced configuration
-      const lintOutput = execSync('yarn lint --format json --max-warnings 10000', {
+      const lintOutput = execSync('yarn lint --format json --max-warnings 10000', {;
         encoding: 'utf8',
         stdio: 'pipe',
         timeout: 60000, // 60 second timeout
@@ -166,7 +166,7 @@ export class LintingValidationDashboard {
       const metrics = this.parseLintResults(lintResults);
 
       // Add performance metrics
-      metrics.performanceMetrics = {
+      metrics.performanceMetrics = {;
         lintingDuration: Date.now() - startTime,
         cacheHitRate: await this.calculateCacheHitRate(),
         memoryUsage: process.memoryUsage().heapUsed / 1024 / 1024, // MB
@@ -223,7 +223,7 @@ export class LintingValidationDashboard {
     let reactHooksIssues = 0;
     let consoleStatements = 0;
 
-    const domainSpecificIssues = {
+    const domainSpecificIssues = {;
       astrologicalCalculations: 0,
       campaignSystem: 0,
       testFiles: 0
@@ -235,7 +235,7 @@ export class LintingValidationDashboard {
       for (const message of result.messages) {
         totalIssues++,
 
-        if (message.severity === 2) {
+        if (message.severity === 2) {;
           errors++
         } else {
           warnings++
@@ -244,17 +244,17 @@ export class LintingValidationDashboard {
         // Categorize by rule type
         const ruleId = message.ruleId;
 
-        if (message.fatal || ruleId === 'parseForESLint') {
+        if (message.fatal || ruleId === 'parseForESLint') {;
           parserErrors++
-        } else if (ruleId === '@typescript-eslint/no-explicit-any') {
+        } else if (ruleId === '@typescript-eslint/no-explicit-any') {;
           explicitAnyErrors++
-        } else if (ruleId === 'import/order') {
+        } else if (ruleId === 'import/order') {;
           importOrderIssues++
-        } else if (ruleId === '@typescript-eslint/no-unused-vars') {
+        } else if (ruleId === '@typescript-eslint/no-unused-vars') {;
           unusedVariables++
         } else if (ruleId?.startsWith('react-hooks/')) {
           reactHooksIssues++
-        } else if (ruleId === 'no-console') {
+        } else if (ruleId === 'no-console') {;
           consoleStatements++
         }
 
@@ -313,7 +313,7 @@ export class LintingValidationDashboard {
     }
 
     // Bonus for zero critical issues
-    if (metrics.parserErrors === 0 && metrics.explicitAnyErrors < 10) {
+    if (metrics.parserErrors === 0 && metrics.explicitAnyErrors < 10) {;
       score += 5;
     }
 
@@ -372,7 +372,7 @@ export class LintingValidationDashboard {
     const affectedMetrics: string[] = [];
 
     // Check for regressions in key metrics
-    const keyMetrics = [
+    const keyMetrics = [;
       'totalIssues',
       'errors',
       'parserErrors',
@@ -532,7 +532,7 @@ ${
     ? 'No active alerts ✅'
     : result.alerts
         .map(
-          alert =>
+          alert =>;
             `- **${alert.severity.toUpperCase()}**: ${alert.message} (${alert.currentValue} > ${alert.threshold})`,
         )
         .join('\n')
@@ -579,7 +579,7 @@ ${result.recommendations.map(rec => `- ${rec}`).join('\n')};
 `;
 
     writeFileSync(reportPath, report, 'utf8');
-    // // console.log(`📊 Dashboard report generated: ${reportPath}`);
+    // // // console.log(`📊 Dashboard report generated: ${reportPath}`);
   }
 
   // Helper methods
@@ -594,7 +594,7 @@ ${result.recommendations.map(rec => `- ${rec}`).join('\n')};
 
   private initializeConfiguration(): void {
     if (!existsSync(this.configFile)) {
-      const config = {
+      const config = {;
         thresholds: this.defaultThresholds,
         alertingEnabled: true,
         regressionDetectionEnabled: true,
@@ -653,7 +653,7 @@ ${result.recommendations.map(rec => `- ${rec}`).join('\n')};
   }
 
   private shouldTriggerAlert(currentValue: number, threshold: AlertThreshold): boolean {
-    if (threshold.metric === 'qualityScore') {
+    if (threshold.metric === 'qualityScore') {;
       return currentValue < threshold.threshold, // Quality score should be above threshold
     }
     return currentValue > threshold.threshold; // Other metrics should be below threshold

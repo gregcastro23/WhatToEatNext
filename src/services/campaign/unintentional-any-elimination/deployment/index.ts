@@ -53,7 +53,7 @@ export interface SuccessCriteria {
   configurationValid: boolean,
   customChecks: Array<{
     name: string,
-    validator: () => Promise<boolean>,
+    validator: () => Promise<boolean>
   }>;
 }
 
@@ -144,7 +144,7 @@ export class DeploymentManager {
    */
   async executePhase(phase: DeploymentPhase): Promise<DeploymentResult> {
     const startTime = new Date();
-    const result: DeploymentResult = {
+    const result: DeploymentResult = {;
       success: false,
       phase: phase.id,
       startTime,
@@ -228,7 +228,7 @@ export class DeploymentManager {
    */
   private async executeTask(task: DeploymentTask): Promise<void> {
     return new Promise((resolve, reject) => {
-      const process = spawn(task.command, task.args, {
+      const process = spawn(task.command, task.args, {;
         env: { ...process.env, ...task.environment },
         stdio: 'pipe'
       });
@@ -236,30 +236,30 @@ export class DeploymentManager {
       let output = '';
       let errorOutput = '';
 
-      process.stdout?.on('data', data => {
+      process.stdout?.on('data', data => {;
         output += data.toString();
       });
 
-      process.stderr?.on('data', data => {
+      process.stderr?.on('data', data => {;
         errorOutput += data.toString();
       });
 
-      const timeout = setTimeout(() => {
+      const timeout = setTimeout(() => {;
         process.kill();
         reject(new Error(`Task ${task.name} timed out after ${task.timeout}ms`));
       }, task.timeout);
 
-      process.on('close', code => {
+      process.on('close', code => {;
         clearTimeout(timeout);
 
-        if (code === 0) {
+        if (code === 0) {;
           resolve();
         } else {
           reject(new Error(`Task ${task.name} exited with code ${code}: ${errorOutput}`));
         }
       });
 
-      process.on('error', error => {
+      process.on('error', error => {;
         clearTimeout(timeout);
         reject(error);
       });
@@ -274,7 +274,7 @@ export class DeploymentManager {
 
     for (const check of checks) {
       const startTime = Date.now();
-      const result: ValidationResult = {
+      const result: ValidationResult = {;
         checkId: check.id,
         checkName: check.name,
         success: false,
@@ -303,30 +303,30 @@ export class DeploymentManager {
    */
   private async executeValidationCheck(check: ValidationCheck): Promise<string> {
     return new Promise((resolve, reject) => {
-      const process = spawn(check.command, check.args, {
+      const process = spawn(check.command, check.args, {;
         stdio: 'pipe'
       });
 
       let output = '';
       let errorOutput = '';
 
-      process.stdout?.on('data', data => {
+      process.stdout?.on('data', data => {;
         output += data.toString();
       });
 
-      process.stderr?.on('data', data => {
+      process.stderr?.on('data', data => {;
         errorOutput += data.toString();
       });
 
-      const timeout = setTimeout(() => {
+      const timeout = setTimeout(() => {;
         process.kill();
         reject(new Error(`Validation check ${check.name} timed out`));
       }, check.timeout);
 
-      process.on('close', code => {
+      process.on('close', code => {;
         clearTimeout(timeout);
 
-        if (code === check.expectedExitCode) {
+        if (code === check.expectedExitCode) {;
           resolve(output);
         } else {
           reject(
@@ -335,7 +335,7 @@ export class DeploymentManager {
         }
       });
 
-      process.on('error', error => {
+      process.on('error', error => {;
         clearTimeout(timeout);
         reject(error);
       });
@@ -429,7 +429,7 @@ export class DeploymentManager {
     const timestamp = new Date().toISOString();
     const logMessage = `[${timestamp}] ${message}`;
     this.deploymentLog.push(logMessage);
-    // // console.log(logMessage);
+    // // // console.log(logMessage);
   }
 
   /**

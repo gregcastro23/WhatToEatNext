@@ -22,29 +22,29 @@ export interface SeasonalRecommendations {
     ingredients: string[],
     recipes: string[],
     techniques: string[],
-    energies: string[],
+    energies: string[]
   };
   summer: {
     ingredients: string[],
     recipes: string[],
     techniques: string[],
-    energies: string[],
+    energies: string[]
   };
   autumn: {
     ingredients: string[],
     recipes: string[],
     techniques: string[],
-    energies: string[],
+    energies: string[]
   };
   winter: {
     ingredients: string[],
     recipes: string[],
     techniques: string[],
-    energies: string[],
+    energies: string[]
   };
   general: {
     transitions: string[],
-    balancing: string[],
+    balancing: string[]
   };
 }
 
@@ -69,6 +69,6 @@ export interface recipe {
     Fire: number,
     Water: number,
     Earth: number,
-    Air: number,
+    Air: number
   };
 }

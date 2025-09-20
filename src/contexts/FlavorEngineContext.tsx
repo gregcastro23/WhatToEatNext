@@ -25,7 +25,7 @@ interface FlavorEngineContextType {
 }
 
 // Create the context with default values
-const FlavorEngineContext = createContext<FlavorEngineContextType>({
+const FlavorEngineContext = createContext<FlavorEngineContextType>({;
   isInitialized: false,
   isLoading: true,
   error: null,
@@ -43,7 +43,7 @@ export const _useFlavorEngine = () => useContext(FlavorEngineContext);
 const engine = unifiedFlavorEngine;
 
 // Keep track of initialization outside of component lifecycle
-const globalInitState = {
+const globalInitState = {;
   isInitialized: false,
   isLoading: true,
   error: null as Error | null,
@@ -90,7 +90,7 @@ export function FlavorEngineProvider({ children }: { children: ReactNode }) {
       globalInitState.initAttempted = true;
 
       // Function to check engine initialization status
-      const checkEngineInit = () => {
+      const checkEngineInit = () => {;
         try {
           // Get profiles
           const profiles = engine.getAllProfiles();
@@ -98,7 +98,7 @@ export function FlavorEngineProvider({ children }: { children: ReactNode }) {
           if ((profiles || []).length > 0) {
             // Calculate categories
             const categoryMap: { [key: string]: number } = {};
-            (profiles || []).forEach(profile => {
+            (profiles || []).forEach(profile => {;
               categoryMap[profile.category] = (categoryMap[profile.category] || 0) + 1;
             });
 
@@ -120,7 +120,7 @@ export function FlavorEngineProvider({ children }: { children: ReactNode }) {
             }
           } else if (isMountedRef.current) {
             // Schedule another check if no profiles are loaded yet
-            globalInitState.initTimer = setTimeout(checkEngineInit, 500),
+            globalInitState.initTimer = setTimeout(checkEngineInit, 500),;
           }
         } catch (err) {
           const error =
@@ -194,7 +194,7 @@ export function FlavorEngineProvider({ children }: { children: ReactNode }) {
   );
 
   return (
-    <FlavorEngineContext.Provider value={contextValue}>{children}</FlavorEngineContext.Provider>
+    <FlavorEngineContext.Provider value={contextValue}>{children}</FlavorEngineContext.Provider>;
   );
 }
 

@@ -58,11 +58,11 @@ export const elementalInteractions: Record<Element, Record<Element, number>> = {
   }
 };
 
-export const elementalFunctions = {
+export const elementalFunctions = {;
   /**
    * Calculate the elemental affinity between two sets of properties
    */
-  calculateAffinity: (props1: ElementalProperties, props2: ElementalProperties): number => {
+  calculateAffinity: (props1: ElementalProperties, props2: ElementalProperties): number => {;
     let affinity = 0;
     let count = 0;
 
@@ -82,21 +82,21 @@ export const elementalFunctions = {
   /**
    * Get dominant element from properties
    */
-  getDominantElement: (props: ElementalProperties): Element => {
+  getDominantElement: (props: ElementalProperties): Element => {;
     return Object.entries(props).reduce((a, b) => (b[1] > a[1] ? b : a))[0] as Element
   },
 
   /**
    * Check if elements are complementary
    */
-  areComplementary: (element1: Element, element2: Element): boolean => {
+  areComplementary: (element1: Element, element2: Element): boolean => {;
     return elementalInteractions[element1][element2] > 0.5
   },
 
   /**
    * Get element balance score
    */
-  getBalanceScore: (props: ElementalProperties): number => {
+  getBalanceScore: (props: ElementalProperties): number => {;
     const values = Object.values(props);
     const average = values.reduce((a, b) => a + b, 0) / values.length;
     const variance = values.reduce((a, b) => a + Math.pow(b - average, 2), 0) / values.length;
@@ -109,12 +109,12 @@ export const elementalFunctions = {
   suggestComplementaryElements: (props: ElementalProperties): Element[] => {
     const dominant = elementalFunctions.getDominantElement(props);
     return Object.keys(elementalInteractions).filter(
-      element => elementalInteractions[element as Element][dominant] > 0.5 && !(element in props)
+      element => elementalInteractions[element as Element][dominant] > 0.5 && !(element in props);
     ) as Element[]
   }
 };
 
-export const _ELEMENT_COMBINATIONS = {
+export const _ELEMENT_COMBINATIONS = {;
   harmonious: [
     ['Fire', 'Fire'],
     ['Water', 'Water'],
@@ -125,14 +125,14 @@ export const _ELEMENT_COMBINATIONS = {
   ]
 } as const;
 
-export const _ELEMENT_AFFINITIES = {
+export const _ELEMENT_AFFINITIES = {;
   Fire: ['Fire', 'Air'],
   Water: ['Water', 'Earth'],
   Air: ['Air', 'Fire'],
   Earth: ['Earth', 'Water']
 } as const;
 
-const elementalMappings = {
+const elementalMappings = {;
   elements,
   elementalInteractions,
   elementalFunctions

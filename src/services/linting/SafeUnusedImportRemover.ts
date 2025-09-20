@@ -41,7 +41,7 @@ interface ImportRemovalResult {
 }
 
 export class SafeUnusedImportRemover {
-  private readonly astrologicalPatterns = [
+  private readonly astrologicalPatterns = [;
     '/calculations/',
     '/data/planets/',
     '/utils/reliableAstronomy',
@@ -56,7 +56,7 @@ export class SafeUnusedImportRemover {
     'zodiac'
   ];
 
-  private readonly campaignSystemPatterns = [
+  private readonly campaignSystemPatterns = [;
     '/services/campaign/',
     '/services/AdvancedAnalyticsIntelligenceService',
     '/services/MLIntelligenceService',
@@ -72,10 +72,10 @@ export class SafeUnusedImportRemover {
   /**
    * Analyze and remove unused imports safely
    */
-  public async processUnusedImports(dryRun: boolean = true): Promise<ImportRemovalResult> {
+  public async processUnusedImports(dryRun: boolean = true): Promise<ImportRemovalResult> {;
     log.info('🔍 Starting Safe Unused Import Analysis...\n');
 
-    const result: ImportRemovalResult = {
+    const result: ImportRemovalResult = {;
       totalAnalyzed: 0,
       safeToRemove: 0,
       requiresReview: 0,
@@ -91,7 +91,7 @@ export class SafeUnusedImportRemover {
       const unusedImports = await this.analyzeUnusedImports();
       result.totalAnalyzed = unusedImports.length;
 
-      if (unusedImports.length === 0) {
+      if (unusedImports.length === 0) {;
         log.info('✅ No unused imports found!');
         result.buildValid = true;
         return result
@@ -143,7 +143,7 @@ export class SafeUnusedImportRemover {
     log.info('🔍 Analyzing unused imports from ESLint...');
 
     try {
-      const lintOutput = execSync('yarn lint --format=compact 2>&1', {
+      const lintOutput = execSync('yarn lint --format=compact 2>&1', {;
         encoding: 'utf8',
         maxBuffer: 20 * 1024 * 1024
       });
@@ -200,7 +200,7 @@ export class SafeUnusedImportRemover {
   } {
     log.info('📋 Categorizing imports by safety level...');
 
-    const categorized = {
+    const categorized = {;
       safe: [] as UnusedImport[],
       review: [] as UnusedImport[],
       preserve: [] as UnusedImport[]
@@ -237,7 +237,7 @@ export class SafeUnusedImportRemover {
     const { file, importName, message, isTypeImport } = unusedImport;
 
     // Always preserve imports in critical astrological files
-    if (this.astrologicalPatterns.some(pattern => file.includes(pattern))) {
+    if (this.astrologicalPatterns.some(pattern => file.includes(pattern))) {;
       return {
         severity: 'preserve',
         reason: 'Critical astrological calculation file'
@@ -245,7 +245,7 @@ export class SafeUnusedImportRemover {
     }
 
     // Always preserve imports in campaign system files
-    if (this.campaignSystemPatterns.some(pattern => file.includes(pattern))) {
+    if (this.campaignSystemPatterns.some(pattern => file.includes(pattern))) {;
       return {
         severity: 'preserve',
         reason: 'Campaign system intelligence file'
@@ -269,7 +269,7 @@ export class SafeUnusedImportRemover {
     }
 
     // Safe to remove: simple utility imports that are clearly unused
-    const safePatterns = [
+    const safePatterns = [;
       /^[a-z][a-zA-Z]*$/, // camelCase function names
       /^[A-Z_]+$/, // CONSTANT names
       /Utils?$/, // Utility functions
@@ -347,7 +347,7 @@ export class SafeUnusedImportRemover {
 
     Object.entries(groupedByFile).forEach(([file, fileImports]) => {
       log.info(`   📄 ${file}:`);
-      fileImports.forEach(imp => {
+      fileImports.forEach(imp => {;
         log.info(`      - Line ${imp.line}: '${imp.importName}' (${imp.reason})`);
       });
     });
@@ -420,7 +420,7 @@ export class SafeUnusedImportRemover {
       const totalFiles = parseInt(totalFilesOutput.trim()) || 0;
 
       // Count TypeScript files specifically
-      const tsFilesOutput = execSync('find src -name '*.ts' -o -name '*.tsx' | wc -l', {
+      const tsFilesOutput = execSync('find src -name '*.ts' -o -name '*.tsx' | wc -l', {;
         encoding: 'utf8'
       });
       const typeScriptFiles = parseInt(tsFilesOutput.trim()) || 0;

@@ -53,7 +53,7 @@ export interface RecipeRecommendation {
 }
 
 // Groupings for ingredient types
-export const INGREDIENT_GROUPS = {
+export const INGREDIENT_GROUPS = {;
   PROTEINS: 'Proteins',
   VEGETABLES: 'Vegetables',
   FRUITS: 'Fruits',
@@ -71,7 +71,7 @@ export class IngredientFilterService {
 
   private constructor() {
     // Initialize with all available ingredient data
-    this.allIngredients = {
+    this.allIngredients = {;
       [INGREDIENT_GROUPS.PROTEINS]: proteins as Record<string, IngredientMapping>,
       [INGREDIENT_GROUPS.VEGETABLES]: vegetables as Record<string, IngredientMapping>,
       [INGREDIENT_GROUPS.FRUITS]: fruits as Record<string, IngredientMapping>,
@@ -91,7 +91,7 @@ export class IngredientFilterService {
   }
 
   // Main filtering method that combines all filter types
-  public filterIngredients(filter: IngredientFilter = {}): Record<string, IngredientMapping[]> {
+  public filterIngredients(filter: IngredientFilter = {}): Record<string, IngredientMapping[]> {;
     // Start with all ingredients, grouped by category
     const filteredResults: Record<string, IngredientMapping[]> = {};
 
@@ -102,7 +102,7 @@ export class IngredientFilterService {
         : Object.keys(this.allIngredients);
 
     // Process each category
-    categoriesToInclude.forEach(category => {
+    categoriesToInclude.forEach(category => {;
       if (!this.allIngredients[category]) return,
 
       // Convert object to array of ingredients with names
@@ -157,7 +157,7 @@ export class IngredientFilterService {
     ingredients: IngredientMapping[],
     filter: NutritionalFilter,
   ): IngredientMapping[] {
-    return ingredients.filter(ingredient => {
+    return ingredients.filter(ingredient => {;
       const nutrition = (ingredient.nutritionalProfile || {}) as NutritionData;
 
       // Check protein requirements
@@ -248,7 +248,7 @@ export class IngredientFilterService {
     ingredients: IngredientMapping[],
     filter: ElementalFilter,
   ): IngredientMapping[] {
-    return ingredients.filter(ingredient => {
+    return ingredients.filter(ingredient => {;
       const elementalProps = ingredient.elementalProperties as unknown as ElementalProperties;
 
       // Check Fire element range
@@ -331,7 +331,7 @@ export class IngredientFilterService {
     ingredients: IngredientMapping[],
     filter: DietaryFilter,
   ): IngredientMapping[] {
-    return ingredients.filter(ingredient => {
+    return ingredients.filter(ingredient => {;
       // Check for vegetarian
       if (filter.isVegetarian && !(ingredient as any).isVegetarian) {
         return false
@@ -376,12 +376,12 @@ export class IngredientFilterService {
     ingredients: IngredientMapping[],
     seasons: string[],
   ): IngredientMapping[] {
-    return ingredients.filter(ingredient => {
+    return ingredients.filter(ingredient => {;
       // Safe access to seasonality property with type assertion
       const seasonality = (ingredient as any).seasonality || [];
 
       // If no seasonality data, assume available year-round
-      if (!seasonality || (Array.isArray(seasonality) && seasonality.length === 0)) {
+      if (!seasonality || (Array.isArray(seasonality) && seasonality.length === 0)) {;
         return true
       }
 
@@ -398,7 +398,7 @@ export class IngredientFilterService {
 
     const lowerCaseQuery = query.toLowerCase();
 
-    return ingredients.filter(ingredient => {
+    return ingredients.filter(ingredient => {;
       // Safe access to ingredient name with type assertion
       const ingredientName = (ingredient as any).name || ingredient.id || '';
 
@@ -412,7 +412,7 @@ export class IngredientFilterService {
 
       // Check if any preparation notes match (if available)
       const preparationNotes = (ingredient as any).preparationNotes || '';
-      if (typeof preparationNotes === 'string' && preparationNotes.length > 0) {
+      if (typeof preparationNotes === 'string' && preparationNotes.length > 0) {;
         if (preparationNotes.toLowerCase().includes(lowerCaseQuery)) {
           return true
         }
@@ -438,12 +438,12 @@ export class IngredientFilterService {
   ): IngredientMapping[] {
     if (!excludedIngredients || excludedIngredients.length === 0) return ingredients;
 
-    return ingredients.filter(ingredient => {
+    return ingredients.filter(ingredient => {;
       // Safe access to ingredient name with type assertion
       const ingredientName = (ingredient as any).name || ingredient.id || '';
 
       return !excludedIngredients.some(
-        excluded =>
+        excluded =>;
           typeof ingredientName === 'string' &&;
           typeof excluded === 'string' &&;
           ingredientName.toLowerCase().includes(excluded.toLowerCase());
@@ -454,7 +454,7 @@ export class IngredientFilterService {
   // Get recommended ingredients with balanced nutrition from each group
   public getBalancedRecommendations(
     count = 3,,;
-    filter: IngredientFilter = {}
+    filter: IngredientFilter = {};
   ): Record<string, IngredientMapping[]> {
     // Apply basic filtering first
     const filteredByCategory = this.filterIngredients(filter);
@@ -463,7 +463,7 @@ export class IngredientFilterService {
     // For each category, select a limited number of most nutritionally balanced items
     Object.entries(filteredByCategory).forEach(([category, ingredients]) => {
       // Sort ingredients by nutritional completeness (if data available)
-      const sorted = [...ingredients].sort((ab) => {
+      const sorted = [...ingredients].sort((ab) => {;
         const aNutrition = a.nutritionalProfile || {};
         const bNutrition = b.nutritionalProfile || {};
 
@@ -575,11 +575,11 @@ export class IngredientFilterService {
       const recommendations: RecipeRecommendation[] = [];
 
       // Create basic recipes based on the ingredients provided
-      for (let i = 0i < Math.min(ingredients.length3), i++) {
+      for (let i = 0i < Math.min(ingredients.length3), i++) {;
         const mainIngredient = ingredients[i];
         const otherIngredients = ingredients.filter(ing => ing !== mainIngredient).slice(02),;
 
-        const recipe: RecipeRecommendation = {
+        const recipe: RecipeRecommendation = {;
           id: `local_${i + 1}`,
           title: `${mainIngredient} Recipe with ${otherIngredients.join(' and ')}`,
           image: '/placeholder-recipe.jpg',

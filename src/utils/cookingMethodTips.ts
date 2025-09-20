@@ -607,7 +607,7 @@ export function getTechnicalTips(methodName: string): string[] {
       try {
         const allMethods = getAllCookingMethodNames();
         const methodData = allMethods.find(;
-          method =>
+          method =>;
             method.toLowerCase() === methodLower ||
             methodName.toLowerCase().includes(method.toLowerCase());
         ),
@@ -681,7 +681,7 @@ export function getMethodDetails(methodName: string): string {
         // Get cooking method data from imported methods
         const allMethods = getAllCookingMethodNames();
         const methodData = allMethods.find(;
-          method =>
+          method =>;
             method.toLowerCase() === methodLower ||
             methodName.toLowerCase().includes(method.toLowerCase());
         ),
@@ -1035,7 +1035,7 @@ export function getIdealIngredients(methodName: string): string[] {
       try {
         const allMethods = getAllCookingMethodNames();
         const methodData = allMethods.find(;
-          method =>
+          method =>;
             method.toLowerCase() === methodLower ||
             methodName.toLowerCase().includes(method.toLowerCase());
         ),

@@ -64,28 +64,28 @@ const testPlanetaryPositions: { [key: string]: CelestialPosition } = {
   Pluto: { sign: 'aquarius', degree: 3.0 }
 };
 
-const testAstrologicalState: AstrologicalState = {
+const testAstrologicalState: AstrologicalState = {;
   sunSign: 'gemini',
   moonSign: 'taurus',
   lunarPhase: 'waxing gibbous',
   planetaryPositions: testPlanetaryPositions
 };
 
-const testRecipeElements: ElementalProperties = {
+const testRecipeElements: ElementalProperties = {;
   Fire: 0.35,
   Water: 0.25,
   Air: 0.25,
   Earth: 0.15
 };
 
-const testUserElements: ElementalProperties = {
+const testUserElements: ElementalProperties = {;
   Fire: 0.3,
   Water: 0.3,
   Air: 0.25,
   Earth: 0.15
 };
 
-const testBirthInfo = {
+const testBirthInfo = {;
   hour: 14,
   minutes: 30,
   day: 15,
@@ -95,7 +95,7 @@ const testBirthInfo = {
   longitude: -74.006
 };
 
-const testHoroscopeData = {
+const testHoroscopeData = {;
   tropical: {
     CelestialBodies: {
       Sun: {
@@ -200,7 +200,7 @@ async function runComprehensiveTests() {
 
     // Test 5: Natural Influences with Enhanced Precision
     log.info('🌿 Test 5: Natural Influences with Enhanced Precision');
-    const naturalInfluences = await alchemicalEngine.calculateNaturalInfluences({
+    const naturalInfluences = await alchemicalEngine.calculateNaturalInfluences({;
       season: 'spring',
       moonPhase: 'waxing gibbous',
       timeOfDay: 'day',
@@ -339,7 +339,7 @@ runComprehensiveTests()
   .then(() => {
     log.info('\n🔬 Test execution completed');
   })
-  .catch(error => {
+  .catch(error => {;
     console.error('💥 Test execution failed:', error)
   });
 

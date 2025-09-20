@@ -89,7 +89,7 @@ export interface UnintentionalAnyConfig {
 /**
  * Default configuration values
  */
-export const DEFAULT_CONFIG: UnintentionalAnyConfig = {
+export const DEFAULT_CONFIG: UnintentionalAnyConfig = {;
   classification: {
     intentionalThreshold: 0.8,
     unintentionalThreshold: 0.7,

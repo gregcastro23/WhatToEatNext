@@ -57,7 +57,7 @@ describe('LintingValidationDashboard', () => {
   describe('Comprehensive Validation', () => {
     test('should run comprehensive validation successfully', async () => {
       // Mock successful ESLint output
-      const mockLintResults = [
+      const mockLintResults = [;
         {
           filePath: '/src/components/TestComponent.tsx',
           messages: [
@@ -118,7 +118,7 @@ describe('LintingValidationDashboard', () => {
     });
 
     test('should categorize domain-specific issues correctly', async () => {
-      const mockLintResults: any = [
+      const mockLintResults: any = [;
         {
           filePath: '/src/calculations/culinary/astrology.ts',
           messages: [
@@ -169,7 +169,7 @@ describe('LintingValidationDashboard', () => {
 
   describe('Quality Score Calculation', () => {
     test('should calculate quality score correctly for good metrics', async () => {
-      const mockLintResults = [
+      const mockLintResults = [;
         {
           filePath: '/src/components/TestComponent.tsx',
           messages: [
@@ -191,7 +191,7 @@ describe('LintingValidationDashboard', () => {
     });
 
     test('should penalize quality score for parser errors', async () => {
-      const mockLintResults: any = [
+      const mockLintResults: any = [;
         {
           filePath: '/src/utils/recommendationEngine.ts',
           messages: [
@@ -215,7 +215,7 @@ describe('LintingValidationDashboard', () => {
     });
 
     test('should penalize quality score for explicit any errors', async () => {
-      const mockLintResults: any = Array.from({ length: 150 }, (_i) => ({
+      const mockLintResults: any = Array.from({ length: 150 }, (_i) => ({;
         filePath: `/src/components/Component${i}.tsx`,
         messages: [
           {
@@ -238,7 +238,7 @@ describe('LintingValidationDashboard', () => {
 
   describe('Alert Generation', () => {
     test('should generate critical alert for parser errors', async () => {
-      const mockLintResults: any = [
+      const mockLintResults: any = [;
         {
           filePath: '/src/utils/recommendationEngine.ts',
           messages: [
@@ -263,7 +263,7 @@ describe('LintingValidationDashboard', () => {
     });
 
     test('should generate error alert for excessive explicit any', async () => {
-      const mockLintResults: any = Array.from({ length: 150 }, (_i) => ({
+      const mockLintResults: any = Array.from({ length: 150 }, (_i) => ({;
         filePath: `/src/components/Component${i}.tsx`,
         messages: [
           {
@@ -304,7 +304,7 @@ describe('LintingValidationDashboard', () => {
   describe('Regression Analysis', () => {
     test('should detect regression when issues increase', async () => {
       // Mock historical data with fewer issues
-      const historicalMetrics: any = [
+      const historicalMetrics: any = [;
         {
           timestamp: new Date(Date.now() - 86400000), // 1 day ago,
           totalIssues: 100,
@@ -322,7 +322,7 @@ describe('LintingValidationDashboard', () => {
       });
 
       // Mock current results with more issues
-      const mockLintResults: any = Array.from({ length: 200 }, (_i) => ({
+      const mockLintResults: any = Array.from({ length: 200 }, (_i) => ({;
         filePath: `/src/components/Component${i}.tsx`,
         messages: [
           {
@@ -364,7 +364,7 @@ describe('LintingValidationDashboard', () => {
 
   describe('Recommendations Generation', () => {
     test('should generate parser error recommendations', async () => {
-      const mockLintResults: any = [
+      const mockLintResults: any = [;
         {
           filePath: '/src/utils/recommendationEngine.ts',
           messages: [
@@ -388,7 +388,7 @@ describe('LintingValidationDashboard', () => {
     });
 
     test('should generate explicit any recommendations', async () => {
-      const mockLintResults: any = Array.from({ length: 150 }, (_i) => ({
+      const mockLintResults: any = Array.from({ length: 150 }, (_i) => ({;
         filePath: `/src/components/Component${i}.tsx`,
         messages: [
           {
@@ -409,7 +409,7 @@ describe('LintingValidationDashboard', () => {
     });
 
     test('should generate import organization recommendations', async () => {
-      const mockLintResults = Array.from({ length: 60 }, (_i) => ({
+      const mockLintResults = Array.from({ length: 60 }, (_i) => ({;
         filePath: `/src/components/Component${i}.tsx`,
         messages: [
           {
@@ -430,7 +430,7 @@ describe('LintingValidationDashboard', () => {
     });
 
     test('should generate domain-specific recommendations', async () => {
-      const mockLintResults: any = Array.from({ length: 25 }, (_i) => ({
+      const mockLintResults: any = Array.from({ length: 25 }, (_i) => ({;
         filePath: `/src/calculations/astrology/calculation${i}.ts`,
         messages: [
           {
@@ -449,7 +449,7 @@ describe('LintingValidationDashboard', () => {
       expect(result.recommendations.some(rec => rec.includes('DOMAIN: Review astrological calculation files'))).toBe(;
         true
       );
-      expect(result.recommendations.some(rec => rec.includes('lint:domain-astro'))).toBe(true)
+      expect(result.recommendations.some(rec => rec.includes('lint:domain-astro'))).toBe(true);
     });
   });
 
@@ -502,7 +502,7 @@ describe('LintingValidationDashboard', () => {
       await dashboard.runComprehensiveValidation();
 
       // Get the report content from the mock call
-      const reportCall: any = (mockWriteFileSync as jest.Mock).mock.calls.find(call =>
+      const reportCall: any = (mockWriteFileSync as jest.Mock).mock.calls.find(call =>;
         call[0].includes('linting-validation-report.md')
       );
 
@@ -552,7 +552,7 @@ describe('LintingValidationDashboard', () => {
 
   describe('Integration with Alerting System', () => {
     test('should process alerts through alerting system', async () => {
-      const mockLintResults: any = [
+      const mockLintResults: any = [;
         {
           filePath: '/src/utils/recommendationEngine.ts',
           messages: [
@@ -608,7 +608,7 @@ describe('LintingAlertingSystem', () => {
 
   describe('Alert Processing', () => {
     test('should process alerts when enabled', async () => {
-      const mockAlerts: any = [
+      const mockAlerts: any = [;
         {
           id: 'test-alert-1',
           timestamp: new Date(),
@@ -621,7 +621,7 @@ describe('LintingAlertingSystem', () => {
         }
       ];
 
-      const mockMetrics: LintingMetrics = { timestamp: new Date(),
+      const mockMetrics: LintingMetrics = { timestamp: new Date(),;
         totalIssues: 1,
         errors: 1,
         warnings: 0,
@@ -662,7 +662,7 @@ describe('LintingAlertingSystem', () => {
 
       const disabledAlerting: any = new LintingAlertingSystem();
 
-      const mockAlerts: any = [
+      const mockAlerts: any = [;
         {
           id: 'test-alert-1',
           timestamp: new Date(),
@@ -675,7 +675,7 @@ describe('LintingAlertingSystem', () => {
         }
       ];
 
-      const mockMetrics: LintingMetrics = { timestamp: new Date(),
+      const mockMetrics: LintingMetrics = { timestamp: new Date(),;
         totalIssues: 1,
         errors: 1,
         warnings: 0,
@@ -705,7 +705,7 @@ describe('LintingAlertingSystem', () => {
 
   describe('Performance Monitoring', () => {
     test('should detect performance threshold violations', async () => {
-      const mockMetrics: LintingMetrics = { timestamp: new Date(),
+      const mockMetrics: LintingMetrics = { timestamp: new Date(),;
         totalIssues: 0,
         errors: 0,
         warnings: 0,

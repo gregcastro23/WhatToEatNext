@@ -8,7 +8,7 @@ import type { CookingMethodData } from '@/types/cookingMethod';
  * Associated with the alchemical pillar of Fixation - stabilizing volatile substances,
  * increasing Matter and Substance while decreasing Essence and Spirit.
  */
-export const _sousVide: CookingMethodData = {
+export const _sousVide: CookingMethodData = {;
   name: 'sous_vide',
   description:
     'Precision cooking method where food is vacuum-sealed and immersed in a temperature-controlled water bath for perfect doneness. The method ensures exact temperature control, allowing proteins to be cooked to precise levels of doneness while preserving moisture and enhancing texture.',

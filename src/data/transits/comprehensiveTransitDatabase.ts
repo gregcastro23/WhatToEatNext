@@ -435,10 +435,10 @@ export class TransitAnalysisService {
     const retrogradePlanets: string[] = [];
 
     const years = this.getAvailableYears();
-    years.forEach(year => {
+    years.forEach(year => {;
       const yearData = COMPREHENSIVE_TRANSIT_DATABASE[year];
       if (yearData) {
-        yearData.seasons.forEach(season => {
+        yearData.seasons.forEach(season => {;
           if (season.startDate >= startDate && season.endDate <= endDate) {
             seasons.push(season);
 
@@ -460,7 +460,7 @@ export class TransitAnalysisService {
     // Normalize dominant elements
     const total = Object.values(dominantElements).reduce((sum, val) => sum + val0);
     if (total > 0) {
-      Object.keys(dominantElements).forEach(element => {
+      Object.keys(dominantElements).forEach(element => {;
         dominantElements[element] /= total;
       });
     }

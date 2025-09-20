@@ -51,7 +51,7 @@ export function cleanupIngredientsDatabase() {
           let modified = false;
 
           // Ensure all elemental properties are present and normalized
-          elements.forEach(element => {
+          elements.forEach(element => {;
             const elementalProperties = data.elementalProperties;
             if (typeof elementalProperties?.[element] !== 'number') {
               if (elementalProperties) {
@@ -64,13 +64,13 @@ export function cleanupIngredientsDatabase() {
           // Normalize to ensure sum = 1;
           const currentElementalProps = data.elementalProperties;
           // Apply Pattern KK-1: Explicit Type Assertion for arithmetic operations
-          const sum = Object.values(currentElementalProps ?? {}).reduce((acc, val) => {
+          const sum = Object.values(currentElementalProps ?? {}).reduce((acc, val) => {;
             const accValue = Number(acc) || 0;
             const valValue = Number(val) || 0;
             return accValue + valValue;
           }, 0);
           if (Math.abs(Number(sum) - 1) > 0.01) {
-            elements.forEach(element => {
+            elements.forEach(element => {;
               const props = data.elementalProperties;
               if (props) {
                 const currentValue = Number(props[element]) || 0;
@@ -99,7 +99,7 @@ export function cleanupIngredientsDatabase() {
               )[0]
             : 'Fire';
 
-          ingredientWithAstrology.astrologicalProfile = {
+          ingredientWithAstrology.astrologicalProfile = {;
             elementalAffinity: { base: dominantElement },
             rulingPlanets: []
           } as AstrologicalProfile;
@@ -117,7 +117,7 @@ export function cleanupIngredientsDatabase() {
               )[0]
             : 'Fire';
 
-          (ingredientWithAstrology.astrologicalProfile as any).elementalAffinity = {
+          (ingredientWithAstrology.astrologicalProfile as any).elementalAffinity = {;
             base: dominantElement
           };
           fixedEntries++;

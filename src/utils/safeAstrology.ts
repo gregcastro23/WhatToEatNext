@@ -113,7 +113,7 @@ export function getMoonIllumination(): number {
  * @param date Date to calculate sun sign for (defaults to current date)
  * @returns Zodiac sign as a string
  */
-export function calculateSunSign(date: Date = new Date()): any {
+export function calculateSunSign(date: Date = new Date()): any {;
   // For simplicity, hardcode the sun sign based on the month
   const month = date.getMonth();
   const day = date.getDate();
@@ -141,7 +141,7 @@ export function calculateSunSign(date: Date = new Date()): any {
  */
 export function getZodiacPositionInDegrees(sign: any, degree: number): number {
   const signIndex = ZODIAC_SIGNS.indexOf(sign);
-  if (signIndex === -1) {
+  if (signIndex === -1) {;
     logger.warn(`Unknown sign: ${sign}, falling back to Aries`);
     return degree; // Aries starts at 0 degrees
   }
@@ -204,7 +204,7 @@ export function calculatePlanetaryAspects(
  * @returns Aspect type and orb if aspect exists, null otherwise
  */
 export function identifyAspect(angleDiff: number): { type: AspectType, orb: number } | null {
-  const aspects = [
+  const aspects = [;
     { type: 'conjunction' as AspectType, angle: 0, maxOrb: 10 },
     { type: 'opposition' as AspectType, angle: 180, maxOrb: 10 },
     { type: 'trine' as AspectType, angle: 120, maxOrb: 8 },
@@ -233,7 +233,7 @@ export function identifyAspect(angleDiff: number): { type: AspectType, orb: numb
  * @returns Strength value (0-10)
  */
 export function calculateAspectStrength(type: AspectType, orb: number): number {
-  const baseStrengths = {
+  const baseStrengths = {;
     conjunction: 10,
     opposition: 10,
     trine: 8,
@@ -250,11 +250,11 @@ export function calculateAspectStrength(type: AspectType, orb: number): number {
   // Diminish strength based on orb
   const baseStrength = baseStrengths[type] || 0;
   const maxOrb =
-    type === 'conjunction' || type === 'opposition'
+    type === 'conjunction' || type === 'opposition';
       ? 10
-      : type === 'trine' || type === 'square'
+      : type === 'trine' || type === 'square';
         ? 8
-        : type === 'sextile'
+        : type === 'sextile';
           ? 6
           : 5;
 
@@ -292,7 +292,7 @@ export function getCurrentAstrologicalState(): AstrologicalState {
 
   // Calculate active planets (sun, moon + any in major aspect)
   const activePlanets = ['Sun', 'Moon'];
-  aspects.forEach(aspect => {
+  aspects.forEach(aspect => {;
     // Check influence rather than strength
     if (aspect.influence && aspect.influence > 5) {
       const planet1 = aspect.planet1.charAt(0).toUpperCase() + aspect.planet1.slice(1);
@@ -304,10 +304,10 @@ export function getCurrentAstrologicalState(): AstrologicalState {
   });
 
   // Convert string element to proper casing for Element type
-  const dominantElementCapitalized = (dominantElement.charAt(0).toUpperCase() +
+  const dominantElementCapitalized = (dominantElement.charAt(0).toUpperCase() +;
     dominantElement.slice(1)) as 'Fire' | 'Water' | 'Earth' | 'Air';
 
-  const state: AstrologicalState = {
+  const state: AstrologicalState = {;
     sunSign: toZodiacSign(String(positions.sun.sign)),
     moonSign: toZodiacSign(String(positions.moon.sign)),
     lunarPhase: phaseName as LunarPhase,
@@ -317,7 +317,7 @@ export function getCurrentAstrologicalState(): AstrologicalState {
   };
 
   // Update cache
-  astrologyCache = {
+  astrologyCache = {;
     data: state,
     timestamp: Date.now()
   };

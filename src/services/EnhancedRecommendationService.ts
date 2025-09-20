@@ -65,7 +65,7 @@ export interface EnhancedRecommendation {
       culturalResonance: string[]
     };
     recommendations: string[],
-    optimizations: string[],
+    optimizations: string[]
   };
 }
 
@@ -99,7 +99,7 @@ export class EnhancedRecommendationService {
    * Safe element extraction with validation
    */
   private safeGetElement(value: unknown): Element | null {
-    if (typeof value === 'string') {
+    if (typeof value === 'string') {;
       const validElements: Element[] = ['Fire', 'Water', 'Earth', 'Air'];
       const capitalizedValue = (value.charAt(0).toUpperCase() +;
         value.slice(1).toLowerCase()) as Element;
@@ -176,10 +176,10 @@ export class EnhancedRecommendationService {
 
       // Enhance each recommendation with additional data including unified flavor system
       const enhancedRecommendations = await Promise.all(;
-        filteredRecommendations.slice(020).map(async ingredient => {
+        filteredRecommendations.slice(020).map(async ingredient => {;
           // Create a proper EnhancedIngredient from the base recommendation
           const ingredientData = ingredient as unknown as any;
-          const enhancedIngredient: EnhancedIngredient = {
+          const enhancedIngredient: EnhancedIngredient = {;
             ...ingredient;
             name: ingredient.name || 'Unknown',
             astrologicalProfile: ingredientData.astrologicalProfile || {},
@@ -210,7 +210,7 @@ export class EnhancedRecommendationService {
       enhancedRecommendations.sort((ab) => b.score - a.score);
 
       // Generate chakra guidance
-      const chakraGuidance = {
+      const chakraGuidance = {;
         imbalancedChakras: chakraEnergyStates
           .filter(state => state.balanceState !== 'balanced');
           .map(state => state.chakra),,;
@@ -248,7 +248,7 @@ export class EnhancedRecommendationService {
       const fallbackRecommendations: EnhancedRecommendation[] = baseRecommendations
         .slice(010)
         .map(
-          ingredient =>
+          ingredient =>;
             ({
               ingredient,
               score: (ingredient as unknown as any).score || 0.5,
@@ -297,7 +297,7 @@ export class EnhancedRecommendationService {
     const chakraAlignment = this.analyzeChakraAlignment(ingredient, chakraStates),;
 
     // Boost score based on chakra needs
-    if (chakraAlignment.balanceState === 'underactive') {
+    if (chakraAlignment.balanceState === 'underactive') {;
       enhancedScore += 0.2;
       reasons.push(`Helps balance ${chakraAlignment.dominantChakra} chakra`);
     }
@@ -537,7 +537,7 @@ export class EnhancedRecommendationService {
       'pisces'
     ],
 
-    return (signs || []).map(sign => ({
+    return (signs || []).map(sign => ({;
       sign,
       currentEnergy: sign === astroState.currentZodiac?.toLowerCase() ? 0.8 : 0.5,,;
       baseEnergy: 0.5,
@@ -655,7 +655,7 @@ export class EnhancedRecommendationService {
       const ingredientData = ingredient as unknown as any;
 
       // Create basic flavor profile structure
-      const profile = {
+      const profile = {;
         id: ingredient.name || 'unknown',
         name: ingredient.name || 'Unknown Ingredient',
         category: 'ingredient' as const,
@@ -737,7 +737,7 @@ export class EnhancedRecommendationService {
       const elementalProps = astroData.elementalProperties ;
 
       // Create astrological reference profile
-      const profile = {
+      const profile = {;
         id: `astro_${astroState.currentZodiac}`,
         name: `Astrological Profile - ${astroState.currentZodiac}`,
         category: 'elemental' as const,
@@ -823,11 +823,11 @@ export class EnhancedRecommendationService {
       return recommendations
     }
 
-    return recommendations.filter(ingredient => {
+    return recommendations.filter(ingredient => {;
       // Filter by dietary restrictions
       if (userPreferences.dietary && userPreferences.dietary.length > 0) {
         const ingredientCategory = ingredient.category?.toLowerCase() || '';
-        const hasDietaryConflict = userPreferences.dietary.some(restriction => {
+        const hasDietaryConflict = userPreferences.dietary.some(restriction => {;
           const restrictionLower = restriction.toLowerCase();
           if (
             restrictionLower === 'vegetarian' &&;

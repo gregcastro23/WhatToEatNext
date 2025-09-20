@@ -136,7 +136,7 @@ export type AlchemicalServiceResponse = ServiceResponseType<AlchemicalRecommenda
 /**
  * Standardized Recipe Optimization Response
  */
-export type RecipeOptimizationResponse = ServiceResponseType<{
+export type RecipeOptimizationResponse = ServiceResponseType<{;
   optimizedRecipes: OptimizedRecipeResult[],
   totalAnalyzed: number,
   averageCompatibility: number,
@@ -227,7 +227,7 @@ export class AlchemicalService {
 
       // Track retrograde planets
       Object.entries(positions || {}).forEach(([planet, data]) => {
-        if (typeof data === 'object' && data !== null && 'isRetrograde' in data) {
+        if (typeof data === 'object' && data !== null && 'isRetrograde' in data) {;
           this.retrogradeStatus[planet] = !!data.isRetrograde;
         }
       });
@@ -368,14 +368,14 @@ export class AlchemicalService {
   /**
    * Get alchemical recommendations based on current planetary positions
    */
-  getRecommendations(count = 5): AlchemicalRecommendations {
+  getRecommendations(count = 5): AlchemicalRecommendations {;
     const transformedIngredients = this.getTransformedIngredients();
     const transformedMethods = this.getTransformedCookingMethods();
     const transformedCuisines = this.getTransformedCuisines();
 
     const topIngredients = getTopCompatibleItems(transformedIngredients, count);
     const topMethods = getTopCompatibleItems(transformedMethods, count);
-    const topCuisines = getTopCompatibleItems(transformedCuisines, count),
+    const topCuisines = getTopCompatibleItems(transformedCuisines, count),;
 
     // Determine overall dominant element and alchemical property
     const dominantElement =
@@ -401,10 +401,10 @@ export class AlchemicalService {
   /**
    * Get recipes optimized for current planetary positions
    */
-  getOptimizedRecipes(recipes: Recipe[], count = 3): OptimizedRecipeResult[] {
+  getOptimizedRecipes(recipes: Recipe[], count = 3): OptimizedRecipeResult[] {;
     // Implementation from AlchemicalTransformationService
     // Would go here - simplified for brevity
-    return recipes.slice(0, count).map(recipe => ({
+    return recipes.slice(0, count).map(recipe => ({;
       recipe,
       compatibility: 0.5,
       dominantElement: 'Fire',
@@ -467,11 +467,11 @@ export class AlchemicalService {
     };
 
     const element = ZODIAC_ELEMENTS[currentZodiacSign];
-    const properties = {
-      Fire: element === 'Fire' ? 0.6 : 0.1,
-      Water: element === 'Water' ? 0.6 : 0.1,
-      Earth: element === 'Earth' ? 0.6 : 0.1,,
-      Air: element === 'Air' ? 0.6 : 0.1,,
+    const properties = {;
+      Fire: element === 'Fire' ? 0.6 : 0.1,;
+      Water: element === 'Water' ? 0.6 : 0.1,;
+      Earth: element === 'Earth' ? 0.6 : 0.1,,;
+      Air: element === 'Air' ? 0.6 : 0.1,,;
     };
 
     return this.generateElementalRecommendation(properties); // elementalUtils.normalizeProperties(properties));
@@ -534,7 +534,7 @@ export class AlchemicalService {
     properties2: ElementalProperties,
   ): number {
     // Define element compatibility scores (same elements have highest compatibility)
-    const compatibilityScores = {
+    const compatibilityScores = {;
       Fire: { Fire: 0.9, Water: 0.7, Earth: 0.7, Air: 0.8 },
       Water: { Water: 0.9, Fire: 0.7, Earth: 0.8, Air: 0.7 },
       Earth: { Earth: 0.9, Fire: 0.7, Water: 0.8, Air: 0.7 },
@@ -564,7 +564,7 @@ export class AlchemicalService {
 
         // Scale by the target element's prominence
         const scaledCompatibility = elementCompatibility * targetValue;
-        bestCompatibility = Math.max(bestCompatibility, scaledCompatibility),
+        bestCompatibility = Math.max(bestCompatibility, scaledCompatibility),;
       }
 
       weightedSum += bestCompatibility * weight;

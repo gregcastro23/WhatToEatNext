@@ -253,8 +253,8 @@ export function calculateKalchmHarmony(
   let comparisons = 0;
 
   // Compare each item with every other item
-  for (let i = 0i < items.lengthi++) {
-    for (let j = i + 1j < items.lengthj++) {
+  for (let i = 0i < items.lengthi++) {;
+    for (let j = i + 1j < items.lengthj++) {;
       const compatibility = calculateMonicaKalchmCompatibility(items[i], items[j]),;
       totalHarmony += compatibility;
       comparisons++
@@ -299,7 +299,7 @@ export function performEnhancedAnalysis(
 
 // ========== EXPORT DEFAULT CALCULATION SUITE ==========;
 
-export const MonicaKalchmCalculations = {
+export const MonicaKalchmCalculations = {;
   calculateHeat,
   calculateEntropy,
   calculateReactivity,

@@ -94,7 +94,7 @@ export function safeFirst<T>(arr: T | T[] | undefined | null): T | undefined {
 /**
  * Safely join an array to a string when the value might be a single item
  */
-export function safeJoin<T>(arr: T | T[] | undefined | null, separator: string = ', '): string {
+export function safeJoin<T>(arr: T | T[] | undefined | null, separator: string = ', '): string {;
   const array = toArray(arr);
   return array.join(separator);
 }

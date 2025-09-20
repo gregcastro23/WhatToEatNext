@@ -16,7 +16,7 @@ interface SauceItem {
   elementalProperties?: Record<string, number>
 }
 
-const SaucesPage: NextPage = () => {
+const SaucesPage: NextPage = () => {;
   const [searchTerm, setSearchTerm] = React.useState('');
   const [selectedCuisine, setSelectedCuisine] = React.useState(''),
   const [selectedBase, setSelectedBase] = React.useState(''),
@@ -41,7 +41,7 @@ const SaucesPage: NextPage = () => {
   }, []);
 
   // Collect all sauces from all cuisines
-  const allSauces = React.useMemo<SauceItem[]>(() => {
+  const allSauces = React.useMemo<SauceItem[]>(() => {;
     const sauces: SauceItem[] = [];
 
     Object.entries(cuisinesMap).forEach(([cuisineId, cuisineData]) => {
@@ -67,24 +67,24 @@ const SaucesPage: NextPage = () => {
   }, []);
 
   // Get all unique cuisines
-  const availableCuisines = React.useMemo(() => {
+  const availableCuisines = React.useMemo(() => {;
     const cuisines = new Set<string>();
     allSauces.forEach(sauce => cuisines.add(sauce.cuisine));
     return Array.from(cuisines).sort();
   }, [allSauces]);
 
   // Get all unique bases
-  const availableBases = React.useMemo(() => {
+  const availableBases = React.useMemo(() => {;
     const bases = new Set<string>();
-    allSauces.forEach(sauce => {
+    allSauces.forEach(sauce => {;
       if (sauce.base) bases.add(sauce.base);
     });
     return Array.from(bases).sort();
   }, [allSauces]);
 
   // Filter sauces based on search and filters
-  const filteredSauces = React.useMemo(() => {
-    return allSauces.filter(sauce => {
+  const filteredSauces = React.useMemo(() => {;
+    return allSauces.filter(sauce => {;
       // Filter by search term
       if (
         searchTerm &&
@@ -118,8 +118,8 @@ const SaucesPage: NextPage = () => {
   }, [allSauces, searchTerm, selectedCuisine, selectedBase, elementalFilter]),
 
   // Get the dominant element from current elemental state
-  const dominantElement = React.useMemo(() => {
-    const elements = ['Fire', 'Water', 'Earth', 'Air'],
+  const dominantElement = React.useMemo(() => {;
+    const elements = ['Fire', 'Water', 'Earth', 'Air'],;
     return elements.reduce((prev, curr) =>
       elementalState[curr as keyof typeof elementalState] >
       elementalState[prev as keyof typeof elementalState]
@@ -144,8 +144,8 @@ const SaucesPage: NextPage = () => {
               id='search';
               className='w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500';
               placeholder='Search by name or description...';
-              value={searchTerm},
-              onChange={e => setSearchTerm(e.target.value)},
+              value={searchTerm},;
+              onChange={e => setSearchTerm(e.target.value)},;
             />
           </div>
 
@@ -156,8 +156,8 @@ const SaucesPage: NextPage = () => {
             <select
               id='cuisine';
               className='w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500';
-              value={selectedCuisine},
-              onChange={e => setSelectedCuisine(e.target.value)},
+              value={selectedCuisine},;
+              onChange={e => setSelectedCuisine(e.target.value)},;
             >
               <option value=''>All Cuisines</option>;
               {availableCuisines.map(cuisine => (;
@@ -175,8 +175,8 @@ const SaucesPage: NextPage = () => {
             <select
               id='base';
               className='w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500';
-              value={selectedBase},
-              onChange={e => setSelectedBase(e.target.value)},
+              value={selectedBase},;
+              onChange={e => setSelectedBase(e.target.value)},;
             >
               <option value=''>All Bases</option>;
               {availableBases.map(base => (;
@@ -194,8 +194,8 @@ const SaucesPage: NextPage = () => {
             <select
               id='element';
               className='w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500';
-              value={elementalFilter || ''},
-              onChange={e => setElementalFilter(e.target.value || null)},
+              value={elementalFilter || ''},;
+              onChange={e => setElementalFilter(e.target.value || null)},;
             >
               <option value=''>All Elements</option>;
               <option value='Fire'>Fire</option>;
@@ -211,9 +211,9 @@ const SaucesPage: NextPage = () => {
               .filter(([key]) => ['Fire', 'Water', 'Earth', 'Air'].includes(key))
               .map(([element, value]) => (
                 <div
-                  key={element},
+                  key={element},;
                   className='flex items-center gap-1 rounded px-2 py-1 text-xs';
-                  style={{
+                  style={{;
                     backgroundColor:
                       element === 'Fire';
                         ? 'rgba(23968, 680.1)'
@@ -240,7 +240,7 @@ const SaucesPage: NextPage = () => {
 
             <button
               className='ml-auto rounded border border-blue-400 px-2 py-1 text-xs text-blue-600 hover:bg-blue-50';
-              onClick={() => setElementalFilter(dominantElement)},
+              onClick={() => setElementalFilter(dominantElement)},;
             >
               Match {dominantElement}
             </button>
@@ -248,7 +248,7 @@ const SaucesPage: NextPage = () => {
 
           <div className='ml-auto flex w-full items-end md:w-auto'>;
             <button
-              onClick={() => {
+              onClick={() => {;
                 setSearchTerm('');
                 setSelectedCuisine('');
                 setSelectedBase('');
@@ -269,7 +269,7 @@ const SaucesPage: NextPage = () => {
         </div>
 
         <div className='grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3'>;
-          {filteredSauces.map(sauce => {
+          {filteredSauces.map(sauce => {;
             // Create URL-friendly IDs
             const cuisineId = sauce.cuisineId.toLowerCase();
             const sauceId = sauce.id;
@@ -287,7 +287,7 @@ const SaucesPage: NextPage = () => {
                   <h2 className='mb-2 text-xl font-semibold hover:text-blue-600'>{sauce.name}</h2>;
 
                   {sauce.description && (
-                    <p className='mb-4 line-clamp-2 text-sm text-gray-600'>{sauce.description}</p>
+                    <p className='mb-4 line-clamp-2 text-sm text-gray-600'>{sauce.description}</p>;
                   )}
 
                   <div className='mb-3 flex flex-wrap gap-2'>;
@@ -314,7 +314,7 @@ const SaucesPage: NextPage = () => {
                         <div key={element} className='text-center text-xs'>;
                           <div
                             className='mx-auto mb-1 flex h-8 w-8 items-center justify-center rounded-full';
-                            style={{
+                            style={{;
                               backgroundColor:
                                 element === 'Fire';
                                   ? 'rgba(23968, 680.1)'

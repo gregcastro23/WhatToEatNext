@@ -15,7 +15,7 @@ import path from 'node:path';
 
 import { classifyFileKind, isHighImpactFile } from './domainPreservation';
 
-type Finding = {
+type Finding = {;
   filePath: string,
   fileKind: ReturnType<typeof classifyFileKind>,
   variableName: string,
@@ -23,14 +23,14 @@ type Finding = {
   column: number,
   preserve: boolean,
   reason: string,
-  confidence: number,
+  confidence: number
 };
 
-type CliOptions = {
+type CliOptions = {;
   inPath: string,
   dryRun: boolean,
   maxBatch: number,
-  maxBatchCritical: number,
+  maxBatchCritical: number
 };
 
 function parseArgs(argv: string[]): CliOptions {
@@ -201,8 +201,8 @@ async function main(): Promise<void> {
   const batches = batchFiles(files, opts.maxBatch, opts.maxBatchCritical);
 
    
-  // // console.log(
-    `Processing ${files.length} files across ${batches.length} batches (dryRun=${opts.dryRun})`,
+  // // // console.log(
+    `Processing ${files.length} files across ${batches.length} batches (dryRun=${opts.dryRun})`,;
   );
 
   for (let i = 0; i < batches.length; i++) {

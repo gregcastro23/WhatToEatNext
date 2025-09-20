@@ -11,7 +11,7 @@ export interface CompatibilityAnalysisResult {
     elementalAlignment: number,
     kalchmAlignment: number,
     planetaryAlignment: number,
-    overallCompatibility: number,
+    overallCompatibility: number
   };
   detailMetrics?: {
     seasonalFit: number,
@@ -44,7 +44,7 @@ export interface IngredientSeasonalityAnalysis {
 export interface ChakraAnalysisResult {
   effectiveness?: {
     pronunciationAccuracy: number,
-    vibrationalResonance: number,
+    vibrationalResonance: number
   };
   advancedVibrations?: {
     harmonicResonance?: {
@@ -74,7 +74,7 @@ export interface PredictiveAnalysisConfig {
   modelType: string,
   parameters: Record<string, unknown>;
   version: string,
-  timestamp: Date,
+  timestamp: Date
 }
 
 // General analysis result wrapper
@@ -103,7 +103,7 @@ export interface RecipeAnalysisData {
     Fire: number,
     Water: number,
     Earth: number,
-    Air: number,
+    Air: number
   };
   [key: string]: unknown
 }
@@ -114,7 +114,7 @@ export interface AstrologicalAnalysisContext {
     Fire: number,
     Water: number,
     Earth: number,
-    Air: number,
+    Air: number
   };
   planetaryInfluences?: Record<string, number>;
   zodiacAlignment?: string;

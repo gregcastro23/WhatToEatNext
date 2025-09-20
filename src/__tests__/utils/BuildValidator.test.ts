@@ -16,7 +16,7 @@ describe('BuildValidator', () => {
 
   beforeEach(() => {
     mockLogger = jest.fn() as any;
-    buildValidator = new BuildValidator('.next', mockLogger),
+    buildValidator = new BuildValidator('.next', mockLogger),;
     jest.clearAllMocks();
   });
 
@@ -131,7 +131,7 @@ describe('BuildValidator', () => {
     it('should validate existing config': any, async () => {
       mockFs.existsSync.mockImplementation((path: string) => path === 'next.config.js');
       mockFs.readFileSync.mockReturnValue(`
-        module.exports = {
+        module.exports = {;
           output: 'standalone',
           typescript: { ignoreBuildError, s: false },
           eslint: { ignoreDuringBuild, s: false }

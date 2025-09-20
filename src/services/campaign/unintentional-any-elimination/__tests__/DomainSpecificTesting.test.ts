@@ -26,14 +26,14 @@ describe('Domain-Specific Testing', () => {
     replacer = new SafeTypeReplacer();
   });
 
-  const createDomainContext: any = (,
+  const createDomainContext: any = (,;
     codeSnippet: string,
     filePath: string,
     domain: CodeDomain,
     surroundingLines: string[] = [],
     hasComment = false,,;
     comment?: string
-  ): ClassificationContext => ({
+  ): ClassificationContext => ({;
     filePath,
     lineNumber: 1,
     codeSnippet,
@@ -268,7 +268,7 @@ describe('Domain-Specific Testing', () => {
       });
 
       test('should suggest specific ingredient subtypes', async () => {
-        const contexts: any = [
+        const contexts: any = [;
           createDomainContext(
             'const _spice: any = getSpiceProperties(name);';
             'src/data/ingredients/spices.ts';
@@ -648,7 +648,7 @@ describe('Domain-Specific Testing', () => {
       });
 
       test('should suggest specific service interfaces', async () => {
-        const contexts: any = [
+        const contexts: any = [;
           createDomainContext(
             'const service: any = new RecommendationService(),',;
             'src/services/RecommendationService.ts';
@@ -916,7 +916,7 @@ describe('Domain-Specific Testing', () => {
         replacements.map(replacement => replacer.applyReplacement(replacement));
       );
 
-      results.forEach(result => {
+      results.forEach(result => {;
         expect(result.success).toBe(true);
         expect(result.appliedReplacements).toHaveLength(1);
       });

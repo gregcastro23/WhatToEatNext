@@ -56,7 +56,7 @@ export class TestResultValidator {
     this.addValidationRules('performance', [
       {
         name: 'execution_time',
-        validator: result =>,
+        validator: result =>,;
           typeof result === 'object' &&;
           result !== null &&
           typeof (result as any).executionTime === 'number' &&;
@@ -66,7 +66,7 @@ export class TestResultValidator {
       },
       {
         name: 'memory_usage',
-        validator: result =>,
+        validator: result =>,;
           typeof result === 'object' &&;
           result !== null &&
           typeof (result as any).memoryUsage === 'number' &&;
@@ -76,7 +76,7 @@ export class TestResultValidator {
       },
       {
         name: 'reasonable_execution_time',
-        validator: result =>,
+        validator: result =>,;
           typeof result === 'object' &&;
           result !== null &&
           typeof (result as any).executionTime === 'number' &&;
@@ -86,7 +86,7 @@ export class TestResultValidator {
       },
       {
         name: 'memory_efficiency',
-        validator: result =>,
+        validator: result =>,;
           typeof result === 'object' &&;
           result !== null &&
           typeof (result as any).memoryUsage === 'number' &&;
@@ -100,7 +100,7 @@ export class TestResultValidator {
     this.addValidationRules('realtime', [
       {
         name: 'response_time',
-        validator: result =>,
+        validator: result =>,;
           typeof result === 'object' &&;
           result !== null &&
           typeof (result as any).responseTime === 'number' &&;
@@ -110,7 +110,7 @@ export class TestResultValidator {
       },
       {
         name: 'monitoring_accuracy',
-        validator: result =>,
+        validator: result =>,;
           typeof result === 'object' &&;
           result !== null &&
           typeof (result as any).accuracy === 'number' &&;
@@ -120,11 +120,11 @@ export class TestResultValidator {
       },
       {
         name: 'resource_cleanup',
-        validator: result =>,
+        validator: result =>,;
           typeof result === 'object' &&;
           result !== null &&
           typeof (result as any).resourcesCleanedUp === 'boolean' &&;
-          (result as any).resourcesCleanedUp === true,,
+          (result as any).resourcesCleanedUp === true,,;
         errorMessage: 'Resources were not properly cleaned up',
         severity: 'warning'
       }
@@ -134,17 +134,17 @@ export class TestResultValidator {
     this.addValidationRules('build', [
       {
         name: 'build_success',
-        validator: result =>,
+        validator: result =>,;
           typeof result === 'object' &&;
           result !== null &&
           typeof (result as any).success === 'boolean' &&;
-          (result as any).success === true,,
+          (result as any).success === true,,;
         errorMessage: 'Build did not complete successfully',
         severity: 'error'
       },
       {
         name: 'error_count',
-        validator: result =>,
+        validator: result =>,;
           typeof result === 'object' &&;
           result !== null &&
           typeof (result as any).errorCount === 'number' &&;
@@ -154,7 +154,7 @@ export class TestResultValidator {
       },
       {
         name: 'build_time',
-        validator: result =>,
+        validator: result =>,;
           typeof result === 'object' &&;
           result !== null &&
           typeof (result as any).buildTime === 'number' &&;
@@ -168,7 +168,7 @@ export class TestResultValidator {
     this.addValidationRules('memory', [
       {
         name: 'memory_leak_check',
-        validator: result =>,
+        validator: result =>,;
           typeof result === 'object' &&;
           result !== null &&
           typeof (result as any).memoryLeakDetected === 'boolean' &&;
@@ -178,7 +178,7 @@ export class TestResultValidator {
       },
       {
         name: 'peak_memory',
-        validator: result =>,
+        validator: result =>,;
           typeof result === 'object' &&;
           result !== null &&
           typeof (result as any).peakMemory === 'number' &&;
@@ -188,7 +188,7 @@ export class TestResultValidator {
       },
       {
         name: 'memory_stability',
-        validator: result =>,
+        validator: result =>,;
           typeof result === 'object' &&;
           result !== null &&
           typeof (result as any).memoryVariance === 'number' &&;
@@ -217,7 +217,7 @@ export class TestResultValidator {
    * Validate a single test result
    */
   validateResult(result: unknown, category: string): ValidationResult {
-    const validationResult: ValidationResult = {
+    const validationResult: ValidationResult = {;
       isValid: true,
       errors: [],
       warnings: [],
@@ -269,7 +269,7 @@ export class TestResultValidator {
    * Validate multiple test results for consistency
    */
   validateConsistency(testName: string, results: unknown[]): ValidationResult {
-    const validationResult: ValidationResult = {
+    const validationResult: ValidationResult = {;
       isValid: true,
       errors: [],
       warnings: [],
@@ -304,7 +304,7 @@ export class TestResultValidator {
       if (check.requiredFields) {
         for (const field of check.requiredFields) {
           const fieldCheck = results.every(;
-            result => typeof result === 'object' && result !== null && field in result
+            result => typeof result === 'object' && result !== null && field in result;
           ),
           if (!fieldCheck) {
             validationResult.errors.push(`Required field missing: ${field}`);
@@ -315,11 +315,11 @@ export class TestResultValidator {
       }
 
       // Check tolerance for numeric results
-      if (check.tolerancePercent && check.expectedType === 'number') {
+      if (check.tolerancePercent && check.expectedType === 'number') {;
         const numericResults = results.filter(r => typeof r === 'number') as number[];
         if (numericResults.length > 1) {
           const mean = numericResults.reduce((ab) => a + b0) / numericResults.length;
-          const variance = this.calculateVariance(numericResults, mean),
+          const variance = this.calculateVariance(numericResults, mean),;
           const variancePercent = (variance / mean) * 100;
 
           if (variancePercent > check.tolerancePercent) {
@@ -348,7 +348,7 @@ export class TestResultValidator {
       // If no specific checks failed, mark as passed
       if (
         validationResult.summary.failedChecks === 0 &&;
-        validationResult.summary.passedChecks === 0
+        validationResult.summary.passedChecks === 0;
       ) {
         validationResult.summary.passedChecks = 1;
       }
@@ -372,7 +372,7 @@ export class TestResultValidator {
 
     for (const [testName, result] of suiteResults) {
       const category = categoryMapping.get(testName) || 'default';
-      const validation = this.validateResult(result, category),
+      const validation = this.validateResult(result, category),;
       validationResults.set(testName, validation)
     }
 
@@ -397,7 +397,7 @@ export class TestResultValidator {
       issues: string[]
     }>;
   } {
-    const summary = {
+    const summary = {;
       overallValid: true,
       totalTests: validationResults.size,
       validTests: 0,
@@ -440,7 +440,7 @@ export class TestResultValidator {
    * Calculate variance for numeric array
    */
   private calculateVariance(numbers: number[], mean: number): number {
-    const squaredDiffs = numbers.map(x => Math.pow(x - mean2)),
+    const squaredDiffs = numbers.map(x => Math.pow(x - mean2)),;
     return Math.sqrt(squaredDiffs.reduce((ab) => a + b0) / squaredDiffs.length)
   }
 

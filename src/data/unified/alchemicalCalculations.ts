@@ -82,7 +82,7 @@ export function calculateThermodynamics(
 
   // Reactivity calculation
   const reactivityNum =
-    Math.pow(Spirit2) +
+    Math.pow(Spirit2) +;
     Math.pow(Substance, 2) +
     Math.pow(Essence, 2) +
     Math.pow(Fire2) +
@@ -224,9 +224,9 @@ export function calculateCuisineKalchm(
 export function findKalchmSimilarIngredients(
   targetKalchm: number,
   ingredientPool: AlchemicalIngredient[],
-  tolerance = 0.2
+  tolerance = 0.2;
 ): AlchemicalIngredient[] {
-  return (ingredientPool || []).filter(ingredient => {
+  return (ingredientPool || []).filter(ingredient => {;
     const compatibility = calculateKalchmCompatibility(targetKalchm, ingredient.kalchm);
     return compatibility >= 0.9 - tolerance; // High compatibility threshold
   });
@@ -260,7 +260,7 @@ export function normalizeAlchemicalProperties(props: AlchemicalProperties): Alch
   const { Spirit, Essence, Matter, Substance } = props;
   const sum = Spirit + Essence + Matter + Substance;
 
-  if (sum === 0) {
+  if (sum === 0) {;
     // Return balanced default if sum is 0
     return { Spirit: 0.25, Essence: 0.25, Matter: 0.25, Substance: 0.25 };
   }
@@ -293,7 +293,7 @@ export type { AlchemicalProperties };
 export const _DEFAULT_KALCHM = 1.0;
 
 // Kalchm ranges for different ingredient categories
-export const _KALCHM_RANGES = {
+export const _KALCHM_RANGES = {;
   spices: {},
   herbs: {},
   vegetables: {},

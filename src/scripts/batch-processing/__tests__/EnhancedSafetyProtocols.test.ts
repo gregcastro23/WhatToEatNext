@@ -114,7 +114,7 @@ describe('EnhancedSafetyProtocols', () => {
 
   describe('Manual Review Workflow', () => {
     test('should create manual review request for high-risk files', () => {
-      const assessment: FileRiskAssessment = { filePath: '/project/src/calculations/planetary.ts',,
+      const assessment: FileRiskAssessment = { filePath: '/project/src/calculations/planetary.ts',,;
         relativePath: 'src/calculations/planetary.ts',
         riskLevel: 'critical',
         fileType: 'calculation',
@@ -140,7 +140,7 @@ describe('EnhancedSafetyProtocols', () => {
     });
 
     test('should generate specific review instructions for service layer files', () => {
-      const assessment: FileRiskAssessment = { filePath: '/project/src/services/api.ts',,
+      const assessment: FileRiskAssessment = { filePath: '/project/src/services/api.ts',,;
         relativePath: 'src/services/api.ts',
         riskLevel: 'high',
         fileType: 'service',
@@ -163,7 +163,7 @@ describe('EnhancedSafetyProtocols', () => {
     });
 
     test('should track pending manual reviews', () => {
-      const assessment: FileRiskAssessment = { filePath: '/project/src/test.ts',,
+      const assessment: FileRiskAssessment = { filePath: '/project/src/test.ts',,;
         relativePath: 'src/test.ts',
         riskLevel: 'high',
         fileType: 'other',
@@ -183,7 +183,7 @@ describe('EnhancedSafetyProtocols', () => {
     });
 
     test('should approve manual reviews', () => {
-      const assessment: FileRiskAssessment = { filePath: '/project/src/test.ts',,
+      const assessment: FileRiskAssessment = { filePath: '/project/src/test.ts',,;
         relativePath: 'src/test.ts',
         riskLevel: 'medium',
         fileType: 'other',
@@ -203,7 +203,7 @@ describe('EnhancedSafetyProtocols', () => {
     });
 
     test('should reject manual reviews', () => {
-      const assessment: FileRiskAssessment = { filePath: '/project/src/test.ts',,
+      const assessment: FileRiskAssessment = { filePath: '/project/src/test.ts',,;
         relativePath: 'src/test.ts',
         riskLevel: 'medium',
         fileType: 'other',

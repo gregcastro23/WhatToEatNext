@@ -77,7 +77,7 @@ export class DomainContextDetector {
    
   private contentAnalysisCache: Map<string, unknown>;
 
-  constructor(workspaceRoot: string = process.cwd()) {
+  constructor(workspaceRoot: string = process.cwd()) {;
     this.workspaceRoot = workspaceRoot;
     this.contentAnalysisCache = new Map();
     this.initializeDomainPatterns();
@@ -180,7 +180,7 @@ export class DomainContextDetector {
     // Analyze path patterns
     for (const [domain, patterns] of this.domainPatterns.entries()) {
       for (const pattern of patterns) {
-        if (pattern.type === 'path' && new RegExp(pattern.pattern).test(relativePath)) {
+        if (pattern.type === 'path' && new RegExp(pattern.pattern).test(relativePath)) {;
           indicators.push(pattern);
           confidence += pattern.weight;
 
@@ -254,7 +254,7 @@ export class DomainContextDetector {
     let subtype: string | undefined;
 
     // Astrological content patterns
-    const astrologicalPatterns = [
+    const astrologicalPatterns = [;
       { pattern: /planetary|planet|astro|zodiac|sign|degree|longitude/i, weight: 0.3 },
       { pattern: /mercury|venus|mars|jupiter|saturn|uranus|neptune|pluto/i, weight: 0.4 },
       {
@@ -282,7 +282,7 @@ export class DomainContextDetector {
     }
 
     // Campaign system patterns
-    const campaignPatterns = [
+    const campaignPatterns = [;
       { pattern: /campaign|Campaign/g, weight: 0.4 },
       { pattern: /progress.*track|track.*progress/i, weight: 0.3 },
       { pattern: /safety.*protocol|protocol.*safety/i, weight: 0.4 },
@@ -302,7 +302,7 @@ export class DomainContextDetector {
           description: 'Campaign system content detected'
         });
         confidenceBoost += weight;
-        if (!detectedType || detectedType === 'utility') {
+        if (!detectedType || detectedType === 'utility') {;
           detectedType = 'campaign';
         }
       }
@@ -328,7 +328,7 @@ export class DomainContextDetector {
         weight: 0.6,
         description: 'React component detected'
       });
-      if (!detectedType || detectedType === 'utility') {
+      if (!detectedType || detectedType === 'utility') {;
         detectedType = 'component';
       }
     }
@@ -341,13 +341,13 @@ export class DomainContextDetector {
         weight: 0.4,
         description: 'Service layer detected'
       });
-      if (!detectedType || detectedType === 'utility') {
+      if (!detectedType || detectedType === 'utility') {;
         detectedType = 'service';
       }
     }
 
     // Determine subtype based on specific patterns
-    if (detectedType === 'astrological') {
+    if (detectedType === 'astrological') {;
       if (/calculation|compute|math/i.test(content)) {
         subtype = 'calculation';
       } else if (/data|constant|fallback/i.test(content)) {
@@ -355,7 +355,7 @@ export class DomainContextDetector {
       } else if (/service|api/i.test(content)) {
         subtype = 'service';
       }
-    } else if (detectedType === 'campaign') {
+    } else if (detectedType === 'campaign') {;
       if (/controller|orchestrat/i.test(content)) {
         subtype = 'controller';
       } else if (/track|progress|metric/i.test(content)) {
@@ -409,7 +409,7 @@ export class DomainContextDetector {
           },
         );
 
-        if (subtype === 'calculation') {
+        if (subtype === 'calculation') {;
           rules.push(
             {
               rule: 'complexity',
@@ -452,7 +452,7 @@ export class DomainContextDetector {
           },
         );
 
-        if (subtype === 'safety') {
+        if (subtype === 'safety') {;
           rules.push({
             rule: 'no-process-exit',
             action: 'disable',

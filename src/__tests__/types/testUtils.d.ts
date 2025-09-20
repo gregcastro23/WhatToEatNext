@@ -55,7 +55,7 @@ export interface GitOperationsMock {
   clearMockStashes: () => void,
   getMockStashes: () => string[],
   simulateGitError: (command: string, error: string) => void,
-  resetMocks: () => void,
+  resetMocks: () => void
 }
 
 // Script execution mock interface - comprehensive implementation
@@ -82,7 +82,7 @@ export interface ScriptExecutionMock {
   setMockOutput: (stdout: string, stderr: string, exitCode: number) => void,
   simulateScriptError: (scriptPath: string, error: string) => void,
   simulateTimeout: (scriptPath: string, timeout: number) => void,
-  resetMocks: () => void,
+  resetMocks: () => void
 }
 
 // Core test utilities interface
@@ -94,7 +94,7 @@ export interface CoreTestUtils {
     testId?: string,
   ) => React.ComponentType<Record<string, unknown>>;
   checkMemory: () => MemoryUsage,
-  cleanupMemory: () => unknown,
+  cleanupMemory: () => unknown
 }
 
 // Extended test utilities interface (includes mocks)
@@ -104,7 +104,7 @@ export interface ExtendedTestUtils extends CoreTestUtils {
   createMockCorruptedFile: (content: string) => string,
   createMockTypeScriptErrors: (count: number) => string,
   createMockLintingWarnings: (count: number) => string,
-  createMockProgressMetrics: (overrides?: unknown) => unknown,
+  createMockProgressMetrics: (overrides?: unknown) => unknown
 }
 
 // Mock planetary positions type for tests
@@ -112,7 +112,7 @@ export interface MockPlanetaryPosition {
   sign: string,
   degree: number,
   exactLongitude: number,
-  isRetrograde: boolean,
+  isRetrograde: boolean
 }
 
 export interface MockPlanetaryPositions {
@@ -127,7 +127,7 @@ export interface MockPlanetaryPositions {
   neptune: MockPlanetaryPosition,
   pluto: MockPlanetaryPosition,
   northNode: MockPlanetaryPosition,
-  southNode: MockPlanetaryPosition,
+  southNode: MockPlanetaryPosition
 }
 
 // React component props types for testing

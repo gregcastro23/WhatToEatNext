@@ -194,7 +194,7 @@ export interface GenerateRecipeParams {
  */
 export interface GenerateFusionRecipeParams {
   cuisines: string[],
-  criteria: GenerateRecipeParams['criteria'],
+  criteria: GenerateRecipeParams['criteria']
 }
 
 /**

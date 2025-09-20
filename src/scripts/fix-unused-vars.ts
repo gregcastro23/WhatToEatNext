@@ -20,7 +20,7 @@ function getUnusedVariables() {
       const filePath = result.filePath;
 
       for (const message of result.messages) {
-        if (message.ruleId === '@typescript-eslint/no-unused-vars') {
+        if (message.ruleId === '@typescript-eslint/no-unused-vars') {;
           // Extract the variable name from the message
           const match = message.message.match(/'([^']+)' is defined but never used/);
           if (match?.[1]) {
@@ -28,7 +28,7 @@ function getUnusedVariables() {
               filePath,
               varName: match[1],
               line: message.line,
-              column: message.column,
+              column: message.column
             });
           }
         }
@@ -63,20 +63,20 @@ function fixUnusedVariables(unusedVars) {
     fs.writeFileSync(filePath, lines.join('\n'));
     processedFiles.add(filePath);
 
-    // // // console.log(`Fixed unused variable '${varName}' in ${filePath}`);
+    // // // // console.log(`Fixed unused variable '${varName}' in ${filePath}`);
   }
 
-  // // // console.log(`\nProcessed ${processedFiles.size} files`);
+  // // // // console.log(`\nProcessed ${processedFiles.size} files`);
 }
 
 // Main function
 function main() {
-  // // // console.log('Identifying unused variables...');
+  // // // // console.log('Identifying unused variables...');
   const unusedVars = getUnusedVariables();
-  // // // console.log(`Found ${unusedVars.length} unused variables`);
+  // // // // console.log(`Found ${unusedVars.length} unused variables`);
 
   if (unusedVars.length > 0) {
-    // // // console.log('Fixing unused variables...');
+    // // // // console.log('Fixing unused variables...');
     fixUnusedVariables(unusedVars);
   }
 }

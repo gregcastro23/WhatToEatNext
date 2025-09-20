@@ -20,7 +20,7 @@ export const isServer = typeof window === 'undefined';
  * Safe client-only execution wrapper
  * Only executes the callback if we're on the client side
  */
-export const _clientOnly = (callback: () => void) => {
+export const _clientOnly = (callback: () => void) => {;
   if (isClient) {
     callback();
   }
@@ -30,7 +30,7 @@ export const _clientOnly = (callback: () => void) => {
  * Safe server-only execution wrapper
  * Only executes the callback if we're on the server side
  */
-export const _serverOnly = (callback: () => void) => {
+export const _serverOnly = (callback: () => void) => {;
   if (isServer) {
     callback();
   }

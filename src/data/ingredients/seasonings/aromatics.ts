@@ -1,7 +1,7 @@
 import type { IngredientMapping } from '@/data/ingredients/types';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
-const rawAromatics = {
+const rawAromatics = {;
   onion: {
     name: 'Onion',
     elementalProperties: { Fire: 0.4, Earth: 0.3, Water: 0.2, Air: 0.1 },
@@ -13,9 +13,9 @@ const rawAromatics = {
         decanModifiers: {
           first: { element: 'Fire', planet: 'Mars' },
           second: { element: 'Earth', planet: 'Saturn' },
-          third: { element: 'Water', planet: 'Neptune' },
-        },
-      },
+          third: { element: 'Water', planet: 'Neptune' }
+        }
+      }
     },
     qualities: ['pungent', 'savory', 'sweet when cooked'],
     origin: ['Global'],
@@ -30,17 +30,17 @@ const rawAromatics = {
         applications: {
           mirepoix: 'with carrots and celery',
           sofrito: 'with peppers and tomatoes',
-          holy_trinity: 'with celery and bell peppers',
-        },
-      },
+          holy_trinity: 'with celery and bell peppers'
+        }
+      }
     },
     storage: {
       temperature: 'cool, dry place',
       humidity: 'low',
       container: 'ventilated',
       duration: '1-2 months',
-      notes: 'Keep away from potatoes',
-    },
+      notes: 'Keep away from potatoes'
+    }
   },
 
   garlic: {
@@ -54,9 +54,9 @@ const rawAromatics = {
         decanModifiers: {
           first: { element: 'Fire', planet: 'Mars' },
           second: { element: 'Earth', planet: 'Pluto' },
-          third: { element: 'Air', planet: 'Uranus' },
-        },
-      },
+          third: { element: 'Air', planet: 'Uranus' }
+        }
+      }
     },
     qualities: ['pungent', 'spicy', 'medicinal'],
     origin: ['Central Asia'],
@@ -71,17 +71,17 @@ const rawAromatics = {
         applications: {
           base_flavor: 'start of many dishes',
           infused_oils: 'for finishing dishes',
-          pasta_sauces: 'essential foundation',
-        },
-      },
+          pasta_sauces: 'essential foundation'
+        }
+      }
     },
     storage: {
       temperature: 'cool, dry place',
       humidity: 'moderate',
       container: 'ventilated',
       duration: '3-6 months',
-      notes: 'Do not refrigerate whole heads',
-    },
+      notes: 'Do not refrigerate whole heads'
+    }
   },
 
   ginger: {
@@ -95,9 +95,9 @@ const rawAromatics = {
         decanModifiers: {
           first: { element: 'Fire', planet: 'Mars' },
           second: { element: 'Air', planet: 'Sun' },
-          third: { element: 'Earth', planet: 'Saturn' },
-        },
-      },
+          third: { element: 'Earth', planet: 'Saturn' }
+        }
+      }
     },
     qualities: ['warming', 'pungent', 'aromatic'],
     origin: ['Southeast Asia'],
@@ -108,20 +108,20 @@ const rawAromatics = {
         name: 'Young',
         appearance: 'thin skin, juicy flesh',
         flavor: 'mild, less fibrous',
-        uses: 'fresh applications, pickling',
+        uses: 'fresh applications, pickling'
       },
       Mature: {
         name: 'Mature',
         appearance: 'thick skin, fibrous',
         flavor: 'strong, spicy',
-        uses: 'cooking, powdering',
+        uses: 'cooking, powdering'
       },
       Galangal: {
         name: 'Galangal',
         appearance: 'harder, white flesh',
         flavor: 'citrusy, pine-like',
-        uses: 'Thai cuisine, spice blends',
-      },
+        uses: 'Thai cuisine, spice blends'
+      }
     },
     culinaryApplications: {
       fresh: {
@@ -131,17 +131,17 @@ const rawAromatics = {
         applications: {
           stir_fry: 'aromatic base',
           marinades: 'tenderizing properties',
-          teas: 'medicinal and flavorful',
-        },
-      },
+          teas: 'medicinal and flavorful'
+        }
+      }
     },
     storage: {
       temperature: 'room temperature or refrigerated',
       humidity: 'moderate',
       container: 'paper bag or wrapped in paper towel',
       duration: 'fresh: 3 weeks, frozen: 6 months',
-      notes: 'Can be frozen whole or grated',
-    },
+      notes: 'Can be frozen whole or grated'
+    }
   },
 
   lemongrass: {
@@ -151,8 +151,8 @@ const rawAromatics = {
       rulingPlanets: ['Mercury', 'Venus'],
       favorableZodiac: ['gemini', 'libra'],
       elementalAffinity: {
-        base: 'Air',
-      },
+        base: 'Air'
+      }
     },
     qualities: ['citrusy', 'aromatic', 'bright'],
     origin: ['Southeast Asia'],
@@ -166,8 +166,8 @@ const rawAromatics = {
         applications: {
           soups: 'thai tom yum',
           curries: 'southeast asian',
-          teas: 'medicinal brewing',
-        },
+          teas: 'medicinal brewing'
+        }
       },
       paste: {
         name: 'Paste',
@@ -176,17 +176,17 @@ const rawAromatics = {
         applications: {
           curry_pastes: 'with chilies and galangal',
           marinades: 'with lime and garlic',
-          rubs: 'for grilled proteins',
-        },
-      },
+          rubs: 'for grilled proteins'
+        }
+      }
     },
     storage: {
       temperature: 'refrigerated',
       humidity: 'moderate',
       container: 'wrapped in damp paper towel',
       duration: '2-3 weeks fresh6 months frozen',
-      notes: 'Can be frozen whole or chopped',
-    },
+      notes: 'Can be frozen whole or chopped'
+    }
   },
 
   shallot: {
@@ -196,8 +196,8 @@ const rawAromatics = {
       rulingPlanets: ['Mercury', 'Venus'],
       favorableZodiac: ['virgo', 'taurus'],
       elementalAffinity: {
-        base: 'Earth',
-      },
+        base: 'Earth'
+      }
     },
     qualities: ['delicate', 'sweet', 'aromatic'],
     origin: ['Southeast Asia'],
@@ -211,17 +211,17 @@ const rawAromatics = {
         applications: {
           vinaigrettes: 'classic french',
           pan_sauces: 'for proteins',
-          garnishes: 'raw or fried',
-        },
-      },
+          garnishes: 'raw or fried'
+        }
+      }
     },
     storage: {
       temperature: 'cool, dry place',
       humidity: 'low',
       container: 'ventilated',
       duration: '1 month',
-      notes: 'Similar to onions',
-    },
+      notes: 'Similar to onions'
+    }
   },
 
   scallion: {
@@ -231,8 +231,8 @@ const rawAromatics = {
       rulingPlanets: ['Mercury', 'Moon'],
       favorableZodiac: ['gemini', 'cancer'],
       elementalAffinity: {
-        base: 'Air',
-      },
+        base: 'Air'
+      }
     },
     qualities: ['fresh', 'mild', 'grassy'],
     origin: ['Asia'],
@@ -246,17 +246,17 @@ const rawAromatics = {
         applications: {
           stir_fry: 'added toward end',
           scallion_oil: 'chinese condiment',
-          pancakes: 'chinese scallion pancakes',
-        },
-      },
+          pancakes: 'chinese scallion pancakes'
+        }
+      }
     },
     storage: {
       temperature: 'refrigerated',
       humidity: 'high',
       container: 'wrapped in damp paper towel',
       duration: '1-2 weeks',
-      notes: 'Can be regrown in water from roots',
-    },
+      notes: 'Can be regrown in water from roots'
+    }
   },
 
   saffron: {
@@ -270,9 +270,9 @@ const rawAromatics = {
         decanModifiers: {
           first: { element: 'Fire', planet: 'Sun' },
           second: { element: 'Earth', planet: 'Mars' },
-          third: { element: 'Air', planet: 'Venus' },
-        },
-      },
+          third: { element: 'Air', planet: 'Venus' }
+        }
+      }
     },
     qualities: ['aromatic', 'warm', 'floral'],
     origin: ['Iran'],
@@ -286,8 +286,8 @@ const rawAromatics = {
         applications: {
           curries: 'Indian and Middle Eastern',
           rice: 'Persian and Indian',
-          tea: 'Turkish and Middle Eastern',
-        },
+          tea: 'Turkish and Middle Eastern'
+        }
       },
       paste: {
         name: 'Paste',
@@ -296,18 +296,18 @@ const rawAromatics = {
         applications: {
           curries: 'Indian and Middle Eastern',
           rice: 'Persian and Indian',
-          tea: 'Turkish and Middle Eastern',
-        },
-      },
+          tea: 'Turkish and Middle Eastern'
+        }
+      }
     },
     storage: {
       temperature: 'cool, dry place',
       humidity: 'low',
       container: 'airtight container',
       duration: '2-3 years',
-      notes: 'Keep away from light and heat',
-    },
-  },
+      notes: 'Keep away from light and heat'
+    }
+  }
 };
 
 // Fix the ingredient mappings to ensure they have all required properties

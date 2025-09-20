@@ -7,7 +7,7 @@ import { CulturalAnalyticsService } from '../CulturalAnalyticsService';
 describe('CulturalAnalyticsService', () => {
   const mockElementalProfile: ElementalProperties = { Fire: 0.3, Water: 0.2, Earth: 0.3, Air: 0.2 };
 
-  const mockAstrologicalState: any = {
+  const mockAstrologicalState: any = {;
     zodiacSign: 'aries' as const,
     lunarPhase: 'new moon' as const
   };

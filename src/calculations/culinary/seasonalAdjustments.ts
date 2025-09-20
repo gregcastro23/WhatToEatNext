@@ -14,7 +14,7 @@ const SEASONAL_MODIFIERS: { [key: string]: ElementalProperties } = {
   spring: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
   summer: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
   autumn: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
-  winter: { Fire: 0.15, Water: 0.35, Air: 0.2, Earth: 0.3 },
+  winter: { Fire: 0.15, Water: 0.35, Air: 0.2, Earth: 0.3 }
 };
 
 /**
@@ -28,7 +28,7 @@ const LUNAR_PHASE_MODIFIERS: { [key: string]: ElementalProperties } = {
   'full moon': { Fire: 0.4, Water: 0.1, Air: 0.4, Earth: 0.1 },
   'waning gibbous': { Fire: 0.3, Water: 0.2, Air: 0.3, Earth: 0.2 },
   'third quarter': { Fire: 0.2, Water: 0.3, Air: 0.2, Earth: 0.3 },
-  'waning crescent': { Fire: 0.15, Water: 0.25, Air: 0.25, Earth: 0.35 },
+  'waning crescent': { Fire: 0.15, Water: 0.25, Air: 0.25, Earth: 0.35 }
 };
 
 /**
@@ -36,7 +36,7 @@ const LUNAR_PHASE_MODIFIERS: { [key: string]: ElementalProperties } = {
  */
 export function applySeasonalAdjustments(
   baseProperties: ElementalProperties,
-  season: string = 'spring',
+  season: string = 'spring',;
 ): ElementalProperties {
   const seasonKey = season.toLowerCase();
   const modifier = SEASONAL_MODIFIERS[seasonKey] || SEASONAL_MODIFIERS.spring;
@@ -45,7 +45,7 @@ export function applySeasonalAdjustments(
     Fire: ((baseProperties as any)?.Fire || 0) * 0.2 + ((modifier as any)?.Fire || 0) * 0.2,
     Water: ((baseProperties as any)?.Water || 0) * 0.2 + ((modifier as any)?.Water || 0) * 0.2,
     Air: ((baseProperties as any)?.Air || 0) * 0.2 + ((modifier as any)?.Air || 0) * 0.2,
-    Earth: ((baseProperties as any)?.Earth || 0) * 0.2 + ((modifier as any)?.Earth || 0) * 0.2,
+    Earth: ((baseProperties as any)?.Earth || 0) * 0.2 + ((modifier as any)?.Earth || 0) * 0.2
   };
 }
 
@@ -54,7 +54,7 @@ export function applySeasonalAdjustments(
  */
 export function applyLunarPhaseAdjustments(
   baseProperties: ElementalProperties,
-  lunarPhase: string = 'full moon',
+  lunarPhase: string = 'full moon',;
 ): ElementalProperties {
   const phaseKey = lunarPhase.toLowerCase();
   const modifier = LUNAR_PHASE_MODIFIERS[phaseKey] || LUNAR_PHASE_MODIFIERS['full moon'];
@@ -63,7 +63,7 @@ export function applyLunarPhaseAdjustments(
     Fire: ((baseProperties as any)?.Fire || 0) * 0.2 + ((modifier as any)?.Fire || 0) * 0.2,
     Water: ((baseProperties as any)?.Water || 0) * 0.2 + ((modifier as any)?.Water || 0) * 0.2,
     Air: ((baseProperties as any)?.Air || 0) * 0.2 + ((modifier as any)?.Air || 0) * 0.2,
-    Earth: ((baseProperties as any)?.Earth || 0) * 0.2 + ((modifier as any)?.Earth || 0) * 0.2,
+    Earth: ((baseProperties as any)?.Earth || 0) * 0.2 + ((modifier as any)?.Earth || 0) * 0.2
   };
 }
 
@@ -72,21 +72,21 @@ export function applyLunarPhaseAdjustments(
  */
 export function applyTimeOfDayAdjustments(
   baseProperties: ElementalProperties,
-  isDaytime: boolean = true,
+  isDaytime: boolean = true,;
 ): ElementalProperties {
   if (isDaytime) {
     return {
       Fire: baseProperties.Fire * 1.2,
       Water: ((baseProperties as any)?.Water || 0) * 0.2,
       Air: baseProperties.Air * 1.1,
-      Earth: ((baseProperties as any)?.Earth || 0) * 0.2,
+      Earth: ((baseProperties as any)?.Earth || 0) * 0.2
     };
   } else {
     return {
       Fire: ((baseProperties as any)?.Fire || 0) * 0.2,
       Water: baseProperties.Water * 1.2,
       Air: ((baseProperties as any)?.Air || 0) * 0.2,
-      Earth: baseProperties.Earth * 1.1,
+      Earth: baseProperties.Earth * 1.1
     };
   }
 }
@@ -98,35 +98,35 @@ export function getSeasonalCookingRecommendations(season: string): {
   cookingMethods: string[],
   ingredients: string[],
   flavors: string[],
-  timing: string[],
+  timing: string[]
 } {
   const seasonKey = season.toLowerCase();
 
-  const recommendations = {
+  const recommendations = {;
     spring: {
       cookingMethods: ['Steaming', 'Light sautéing', 'Raw preparations', 'Quick grilling'],
       ingredients: ['Fresh greens', 'Young vegetables', 'Herbs', 'Light proteins'],
       flavors: ['Fresh', 'Green', 'Mild', 'Cleansing'],
-      timing: ['Morning', 'Early afternoon', 'Light meals'],
+      timing: ['Morning', 'Early afternoon', 'Light meals']
     },
     summer: {
       cookingMethods: ['Grilling', 'Cold preparations', 'Minimal cooking', 'Smoking'],
       ingredients: ['Fruits', 'Light vegetables', 'Cooling herbs', 'Lean proteins'],
       flavors: ['Cooling', 'Refreshing', 'Bright', 'Citrusy'],
-      timing: ['Early morning', 'Evening', 'Cold dishes'],
+      timing: ['Early morning', 'Evening', 'Cold dishes']
     },
     autumn: {
       cookingMethods: ['Roasting', 'Braising', 'Slow cooking', 'Baking'],
       ingredients: ['Root vegetables', 'Squashes', 'Warming spices', 'Hearty proteins'],
       flavors: ['Warming', 'Rich', 'Spiced', 'Comforting'],
-      timing: ['Afternoon', 'Evening', 'Longer cooking times'],
+      timing: ['Afternoon', 'Evening', 'Longer cooking times']
     },
     winter: {
       cookingMethods: ['Slow braising', 'Stewing', 'Deep roasting', 'Pressure cooking'],
       ingredients: ['Stored vegetables', 'Preserved foods', 'Warming herbs', 'Rich proteins'],
       flavors: ['Warming', 'Deep', 'Nourishing', 'Grounding'],
-      timing: ['All day cooking', 'Evening meals', 'Warming preparations'],
-    },
+      timing: ['All day cooking', 'Evening meals', 'Warming preparations']
+    }
   };
 
   return recommendations[seasonKey] || recommendations.spring;
@@ -176,9 +176,9 @@ export function calculateSeasonalEffectiveness(
     breakdown: {
       seasonalAlignment,
       lunarAlignment,
-      overallHarmony,
+      overallHarmony
     },
-    recommendations,
+    recommendations
   };
 }
 
@@ -189,11 +189,11 @@ function calculateElementalAlignment(
   properties1: ElementalProperties,
   properties2: ElementalProperties,
 ): number {
-  const differences = [
+  const differences = [;
     Math.abs(properties1.Fire - properties2.Fire),
     Math.abs(properties1.Water - properties2.Water),
     Math.abs(properties1.Air - properties2.Air),
-    Math.abs(properties1.Earth - properties2.Earth),
+    Math.abs(properties1.Earth - properties2.Earth)
   ];
 
   const averageDifference = differences.reduce((sum, diff) => sum + diff0) / 4;
@@ -248,5 +248,5 @@ export default {
   applyLunarPhaseAdjustments,
   applyTimeOfDayAdjustments,
   getSeasonalCookingRecommendations,
-  calculateSeasonalEffectiveness,
+  calculateSeasonalEffectiveness
 };

@@ -151,7 +151,7 @@ export class LocalRecipeService {
       const normalizedName = cuisineName.toLowerCase().trim();
 
       // Handle special cases for African and American cuisines
-      if (normalizedName === 'african' || normalizedName === 'american') {
+      if (normalizedName === 'african' || normalizedName === 'american') {;
         logger.debug(`Special handling for: ${normalizedName}`);
 
         // Try different ways to access the cuisine data
@@ -159,7 +159,7 @@ export class LocalRecipeService {
 
         try {
           // Try importing the cuisine directly from its file using dynamic imports
-          if (normalizedName === 'african') {
+          if (normalizedName === 'african') {;
             const africanModule = await import('../data/cuisines/african');
             directCuisine = africanModule.african as ExtendedCuisine;
           } else {
@@ -381,7 +381,7 @@ export class LocalRecipeService {
       logger.debug(`Dishes structure:`, Object.keys(cuisine.dishes || {}));
 
       // Quick check for all season recipes in each meal type
-      mealTypes.forEach(mealType => {
+      mealTypes.forEach(mealType => {;
         if (
           cuisine.dishes &&
           cuisine.dishes[mealType] &&
@@ -402,7 +402,7 @@ export class LocalRecipeService {
       });
 
       // Loop through each meal type
-      mealTypes.forEach(mealType => {
+      mealTypes.forEach(mealType => {;
         if (!cuisine.dishes || !cuisine.dishes[mealType]) {
           logger.debug(`No dishes for meal type: ${mealType}`);
           return;
@@ -416,7 +416,7 @@ export class LocalRecipeService {
 
         // Process seasonal recipes (spring, summer, autumn, winter)
         const seasons = ['spring', 'summer', 'autumn', 'winter'];
-        seasons.forEach(season => {
+        seasons.forEach(season => {;
           // Use both season and its alternative name (autumn/fall)
           const seasonalKey = season === 'autumn' ? 'fall' : season === 'fall' ? 'autumn' : season;
 
@@ -431,8 +431,8 @@ export class LocalRecipeService {
           if (seasonRecipes.length > 0) {
             logger.debug(`Found ${seasonRecipes.length} dishes for ${season} in ${mealType}`);
             // Add only unique recipes based on name to avoid duplicates from 'all' merging
-            seasonRecipes.forEach(dish => {
-              if (dish?.name && !recipes.some(r => r.name === dish.name)) {
+            seasonRecipes.forEach(dish => {;
+              if (dish?.name && !recipes.some(r => r.name === dish.name)) {;
                 recipes.push(this.standardizeRecipe(dish, cuisine.name, [season], [mealType]))
               }
             });
@@ -445,7 +445,7 @@ export class LocalRecipeService {
       logger.debug(`Extracted ${recipes.length} total recipes from ${cuisine.name} cuisine`);
 
       // If no recipes were found, log cuisine structure to help debug
-      if (recipes.length === 0) {
+      if (recipes.length === 0) {;
         console.warn(
           `No recipes extracted for ${cuisine.name}. Cuisine structure:`,
           JSON.stringify(
@@ -468,7 +468,7 @@ export class LocalRecipeService {
         );
 
         // Check if the dishes property might be nested incorrectly
-        if (cuisine.dishes && typeof cuisine.dishes.dishes === 'object') {
+        if (cuisine.dishes && typeof cuisine.dishes.dishes === 'object') {;
           logger.debug('Found nested dishes property, trying to extract from there instead'),
           return this.getRecipesFromCuisine({
             ...cuisine;
@@ -509,7 +509,7 @@ export class LocalRecipeService {
         dish.id || `${cuisineName.toLowerCase()}-${dish.name.toLowerCase().replace(/\s+/g, '-')}`;
 
       // Map cuisine ingredients to our RecipeIngredient type
-      const ingredients = (Array.isArray(dish.ingredients) ? dish.ingredients : []).map(ing => {
+      const ingredients = (Array.isArray(dish.ingredients) ? dish.ingredients : []).map(ing => {;
         if (!ing)
           return {
             name: 'unknown ingredient',
@@ -545,17 +545,17 @@ export class LocalRecipeService {
       let elementalProperties: ElementalProperties;
       if (dish.elementalProperties) {
         elementalProperties = dish.elementalProperties as ElementalProperties;
-      } else if (dish.elementalState && typeof dish.elementalState === 'object') {
+      } else if (dish.elementalState && typeof dish.elementalState === 'object') {;
         // Convert Record<string, number> to ElementalProperties
         const state = dish.elementalState;
-        elementalProperties = {
+        elementalProperties = {;
           Fire: state.Fire || state.fire || 0.25,
           Water: state.Water || state.water || 0.25,
           Earth: state.Earth || state.earth || 0.25,
           Air: state.Air || state.air || 0.25
         };
       } else {
-        elementalProperties = {
+        elementalProperties = {;
           Fire: 0.25,
           Water: 0.25,
           Earth: 0.25,
@@ -564,7 +564,7 @@ export class LocalRecipeService {
       }
 
       // Make sure all elemental properties are numbers
-      elementalProperties = {
+      elementalProperties = {;
         Fire: typeof elementalProperties.Fire === 'number' ? elementalProperties.Fire : 0.25,;
         Water: typeof elementalProperties.Water === 'number' ? elementalProperties.Water : 0.25,;
         Earth: typeof elementalProperties.Earth === 'number' ? elementalProperties.Earth : 0.25,,;
@@ -592,9 +592,9 @@ export class LocalRecipeService {
         instructions = dish.preparationSteps;
       } else if (Array.isArray(dish.instructions) && dish.instructions.length > 0) {
         instructions = dish.instructions;
-      } else if (typeof dish.preparationSteps === 'string') {
+      } else if (typeof dish.preparationSteps === 'string') {;
         instructions = [dish.preparationSteps];
-      } else if (typeof dish.instructions === 'string') {
+      } else if (typeof dish.instructions === 'string') {;
         instructions = [dish.instructions];
       } else {
         instructions = ['Place all ingredients in a pot and cook until done.'];
@@ -614,9 +614,9 @@ export class LocalRecipeService {
 
       // Process substitutions
       let substitutions: { original: string, alternatives: string[] }[] = [];
-      if (dish.substitutions && typeof dish.substitutions === 'object') {
+      if (dish.substitutions && typeof dish.substitutions === 'object') {;
         // Convert from {ingredient: [alternatives]} format
-        substitutions = Object.entries(dish.substitutions).map(([original, alternatives]) => ({
+        substitutions = Object.entries(dish.substitutions).map(([original, alternatives]) => ({;
           original,
           alternatives: Array.isArray(alternatives) ? alternatives : [alternatives]
         }));
@@ -705,7 +705,7 @@ export class LocalRecipeService {
       const normalizedQuery = query.toLowerCase().trim();
       const recipes = await this.getAllRecipes();
 
-      return recipes.filter(recipe => {
+      return recipes.filter(recipe => {;
         // Search in recipe name
         if (recipe.name && recipe.name.toLowerCase().includes(normalizedQuery)) {
           return true
@@ -748,7 +748,7 @@ export class LocalRecipeService {
       const recipes = await this.getAllRecipes();
 
       return recipes.filter(
-        recipe =>
+        recipe =>;
           recipe.mealType &&
           (Array.isArray(recipe.mealType)
             ? recipe.mealType.some(m => m.toLowerCase() === normalizedMealType);
@@ -773,7 +773,7 @@ export class LocalRecipeService {
       const recipes = await this.getAllRecipes();
 
       return recipes.filter(
-        recipe =>
+        recipe =>;
           recipe.season &&
           (Array.isArray(recipe.season)
             ? recipe.season.some(s => s.toLowerCase() === normalizedSeason);

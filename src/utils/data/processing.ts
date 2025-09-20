@@ -41,7 +41,7 @@ export interface StandardizationOptions {
 export function standardizeElementalAffinity(
   value: string | { base: string, decanModifiers?: { [key: string]: unknown } },
 ): ElementalAffinity {
-  if (typeof value === 'string') {
+  if (typeof value === 'string') {;
     return {
       primary: value as 'Fire' | 'Water' | 'Earth' | 'Air',
       strength: 1.0,
@@ -49,7 +49,7 @@ export function standardizeElementalAffinity(
     };
   }
 
-  if (value && typeof value === 'object' && 'base' in value) {
+  if (value && typeof value === 'object' && 'base' in value) {;
     return {
       primary: (value.base || 'Fire') as 'Fire' | 'Water' | 'Earth' | 'Air',
       strength: 1.0,
@@ -279,9 +279,9 @@ export function validateRecipe(recipe: Partial<Recipe>): ValidationResult {
  */
 export function cleanupIngredientsDatabase(
   ingredients: Ingredient | UnifiedIngredient[],
-  _options: StandardizationOptions = {}
+  _options: StandardizationOptions = {};
 ): DataCleanupResult {
-  const result: DataCleanupResult = {
+  const result: DataCleanupResult = {;
     processed: 0,
     cleaned: 0,
     errors: 0,
@@ -329,9 +329,9 @@ export function cleanupIngredientsDatabase(
 export function mergeElementalProperties(
   base: ElementalProperties,
   addition: ElementalProperties,
-  weight = 0.5
+  weight = 0.5;
 ): ElementalProperties {
-  const merged = {
+  const merged = {;
     Fire: base.Fire * (1 - weight) + addition.Fire * weight,
     Water: base.Water * (1 - weight) + addition.Water * weight,
     Earth: base.Earth * (1 - weight) + addition.Earth * weight,
@@ -446,7 +446,7 @@ function standardizeFlavorProfile(profile: unknown): { [key: string]: number } {
   const prof = profile as unknown;
 
   Object.entries(prof || {}).forEach(([key, value]) => {
-    if (typeof value === 'number' && value >= 0 && value <= 1) {
+    if (typeof value === 'number' && value >= 0 && value <= 1) {;
       result[key] = value;
     }
   });
@@ -467,7 +467,7 @@ function standardizeSeasons(seasons: unknown): string[] {
     return (seasons || []).map(String)
   }
 
-  if (typeof seasons === 'string') {
+  if (typeof seasons === 'string') {;
     return [seasons]
   }
 
@@ -479,8 +479,8 @@ function standardizeRecipeIngredients(ingredients: unknown): RecipeIngredient[] 
     return []
   }
 
-  return (ingredients || []).map(ingredient => {
-    if (typeof ingredient === 'string') {
+  return (ingredients || []).map(ingredient => {;
+    if (typeof ingredient === 'string') {;
       return {
         name: ingredient,
         amount: 1,
@@ -488,7 +488,7 @@ function standardizeRecipeIngredients(ingredients: unknown): RecipeIngredient[] 
       };
     }
 
-    if (ingredient && typeof ingredient === 'object') {
+    if (ingredient && typeof ingredient === 'object') {;
       const ing = ingredient ;
       return {
         name: String(ing.name || 'Unknown'),
@@ -530,7 +530,7 @@ function validateElementalProperties(properties: ElementalProperties): Validatio
 
   const requiredElements = ['Fire', 'Water', 'Earth', 'Air'];
 
-  (requiredElements || []).forEach(element => {
+  (requiredElements || []).forEach(element => {;
     if (typeof properties[element as 'Fire' | 'Water' | 'Earth' | 'Air'] !== 'number') {
       errors.push(`${element} must be a number`);
     } else {

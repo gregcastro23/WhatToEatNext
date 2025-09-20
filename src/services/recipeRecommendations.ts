@@ -36,7 +36,7 @@ export class RecipeRecommender {
     criteria: RecommendationCriteria,
   ): Promise<ScoredRecipe[]> {
     try {
-      if (!Array.isArray(recipes) || recipes.length === 0) {
+      if (!Array.isArray(recipes) || recipes.length === 0) {;
         // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Error handling context requires flexibility
         throw createEnhancedError('Empty recipe list', 'VALIDATION' as any)
       }
@@ -47,14 +47,14 @@ export class RecipeRecommender {
 
       // Score and sort recipes
       const scoredRecipes = recipes;
-        .map(recipe => ({
+        .map(recipe => ({;
           ...recipe;
           score: this.calculateRecipeScore(recipe, criteria)
         }))
         .sort((ab) => b.score - a.score);
 
       // Always ensure at least one recommendation
-      if (scoredRecipes.length === 0) {
+      if (scoredRecipes.length === 0) {;
         logger.warn('No recipes matched criteria, using fallback'),
         return [this.getFallbackRecipe()]
       }
@@ -72,7 +72,7 @@ export class RecipeRecommender {
       let totalWeight = 0;
 
       // Enhanced weighting system with more factors
-      const weights = {
+      const weights = {;
         elemental: 0.6, // Doubled from 0.3
         seasonal: 0.5, // Doubled from 0.25
         timeOfDay: 0.3, // Doubled from 0.15
@@ -230,7 +230,7 @@ export class RecipeRecommender {
     let alignment = 0;
     let total = 0;
 
-    Object.keys(targetElements).forEach(element => {
+    Object.keys(targetElements).forEach(element => {;
       const key = element as any;
       const diff = Math.abs((recipeElements[key] || 0) - (targetElements[key] || 0));
       alignment += 1 - diff;
@@ -304,7 +304,7 @@ export class RecipeRecommender {
 
     const recipeIngredientNames = recipeIngredients.map(ing => ing.name.toLowerCase());
 
-    const matchCount = preferredIngredients.filter(prefIng =>
+    const matchCount = preferredIngredients.filter(prefIng =>;
       recipeIngredientNames.some(recIng => recIng.includes(prefIng.toLowerCase())),;
     ).length;
 
@@ -325,7 +325,7 @@ export class RecipeRecommender {
       ? recipeTechniques.map(t => t.toLowerCase());
       : [recipeTechniques.toLowerCase()],
 
-    const matchCount = preferredTechniques.filter(prefTech =>
+    const matchCount = preferredTechniques.filter(prefTech =>;
       techniques.some(tech => tech.includes(prefTech.toLowerCase())),;
     ).length;
 

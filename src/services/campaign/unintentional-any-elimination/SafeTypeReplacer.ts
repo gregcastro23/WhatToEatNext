@@ -36,14 +36,14 @@ export class SafeTypeReplacer {
     backupDirectory = './.any-elimination-backups',;
     safetyThreshold = 0.7,,;
     validationTimeout = 30000,,;
-    maxRetries = 3
+    maxRetries = 3;
   ) {
     this.backupDirectory = backupDirectory;
     this.safetyThreshold = safetyThreshold;
     this.validationTimeout = validationTimeout;
     this.maxRetries = maxRetries;
     this.strategies = this.initializeStrategies();
-    this.safetyValidator = new SafetyValidator(validationTimeout, {
+    this.safetyValidator = new SafetyValidator(validationTimeout, {;
       minimumSafetyScore: safetyThreshold
     });
     this.ensureBackupDirectory();
@@ -65,7 +65,7 @@ export class SafeTypeReplacer {
     } else {
       // Fallback to basic safety score calculation
       const basicSafetyScore = this.calculateSafetyScore(replacement);
-      safetyValidation = {
+      safetyValidation = {;
         isValid: basicSafetyScore >= this.safetyThreshold,
         safetyScore: basicSafetyScore,
         validationErrors:
@@ -462,7 +462,7 @@ export class SafeTypeReplacer {
           const originalLine = lines[lineIndex];
           const modifiedLine = originalLine.replace(replacement.original, replacement.replacement);
 
-          if (originalLine === modifiedLine) {
+          if (originalLine === modifiedLine) {;
             failed.push(replacement);
             errors.push(`Pattern '${replacement.original}' not found in line: ${originalLine}`);
             continue;
@@ -534,7 +534,7 @@ export class SafeTypeReplacer {
       const modifiedLine = originalLine.replace(replacement.original, replacement.replacement);
 
       // Verify replacement was applied
-      if (originalLine === modifiedLine) {
+      if (originalLine === modifiedLine) {;
         return {
           success: false,
           appliedReplacements: [],
@@ -598,7 +598,7 @@ export class SafeTypeReplacer {
 
       // For testing purposes, we'll just verify the backup exists and is readable
       // In a real scenario, we might do a more comprehensive test
-      if (backupContent.length === 0) {
+      if (backupContent.length === 0) {;
         return { success: false, error: 'Backup file is empty' };
       }
 
@@ -628,7 +628,7 @@ export class SafeTypeReplacer {
     }
 
     // Adjust based on replacement pattern complexity
-    if (replacement.original === 'any[]') {
+    if (replacement.original === 'any[]') {;
       score += 0.15, // Array replacements are very safe
     } else if (replacement.original.includes('Record<string, any>')) {
       score += 0.1, // Record replacements are generally safe
@@ -675,7 +675,7 @@ export class SafeTypeReplacer {
   /**
    * Clean up old backup files (older than specified days)
    */
-  cleanupOldBackups(daysToKeep = 7): void {
+  cleanupOldBackups(daysToKeep = 7): void {;
     try {
       const cutoffDate = new Date();
       cutoffDate.setDate(cutoffDate.getDate() - daysToKeep);
@@ -734,7 +734,7 @@ export class SafeTypeReplacer {
     }
 
     // Domain-specific inference
-    if (context.domainContext.domain === CodeDomain.ASTROLOGICAL) {
+    if (context.domainContext.domain === CodeDomain.ASTROLOGICAL) {;
       if (codeSnippet.includes('planet') || codeSnippet.includes('sign')) {
         return 'string'
       }
@@ -743,7 +743,7 @@ export class SafeTypeReplacer {
       }
     }
 
-    if (context.domainContext.domain === CodeDomain.RECIPE) {
+    if (context.domainContext.domain === CodeDomain.RECIPE) {;
       if (codeSnippet.includes('ingredient') || codeSnippet.includes('recipe')) {
         return 'string'
       }
@@ -797,7 +797,7 @@ export class SafeTypeReplacer {
     }
 
     // Domain-specific inference
-    if (context.domainContext.domain === CodeDomain.ASTROLOGICAL) {
+    if (context.domainContext.domain === CodeDomain.ASTROLOGICAL) {;
       if (codeSnippet.includes('element') || codeSnippet.includes('Element')) {
         return 'number', // Elemental properties are numeric
       }
@@ -827,7 +827,7 @@ export class SafeTypeReplacer {
     const paramLower = paramName.toLowerCase();
 
     // Event handlers
-    if (paramLower.includes('event') || paramLower === 'e') {
+    if (paramLower.includes('event') || paramLower === 'e') {;
       if (context.codeSnippet.includes('onClick') || context.codeSnippet.includes('onSubmit')) {
         return 'React.MouseEvent | React.FormEvent';
       }
@@ -835,17 +835,17 @@ export class SafeTypeReplacer {
     }
 
     // Error parameters
-    if (paramLower.includes('error') || paramLower === 'err') {
+    if (paramLower.includes('error') || paramLower === 'err') {;
       return 'Error'
     }
 
     // ID parameters
-    if (paramLower.includes('id') || paramLower === 'key') {
+    if (paramLower.includes('id') || paramLower === 'key') {;
       return 'string | number'
     }
 
     // Index parameters
-    if (paramLower.includes('index') || paramLower === 'i') {
+    if (paramLower.includes('index') || paramLower === 'i') {;
       return 'number'
     }
 
@@ -864,7 +864,7 @@ export class SafeTypeReplacer {
     }
 
     // Domain-specific inference
-    if (context.domainContext.domain === CodeDomain.ASTROLOGICAL) {
+    if (context.domainContext.domain === CodeDomain.ASTROLOGICAL) {;
       if (paramLower.includes('planet') || paramLower.includes('sign')) {
         return 'string'
       }
@@ -876,7 +876,7 @@ export class SafeTypeReplacer {
       }
     }
 
-    if (context.domainContext.domain === CodeDomain.RECIPE) {
+    if (context.domainContext.domain === CodeDomain.RECIPE) {;
       if (paramLower.includes('ingredient')) {
         return 'Ingredient'
       }
@@ -966,7 +966,7 @@ export class SafeTypeReplacer {
     }
 
     // Domain-specific generics
-    if (context.domainContext.domain === CodeDomain.ASTROLOGICAL) {
+    if (context.domainContext.domain === CodeDomain.ASTROLOGICAL) {;
       if (
         codeSnippet.includes('PlanetaryPosition') ||
         codeSnippet.includes('ElementalProperties')
@@ -986,7 +986,7 @@ export class SafeTypeReplacer {
     const propLower = propertyName.toLowerCase();
 
     // Common property patterns
-    if (propLower.includes('id') || propLower === 'key') {
+    if (propLower.includes('id') || propLower === 'key') {;
       return 'string | number'
     }
 
@@ -1024,7 +1024,7 @@ export class SafeTypeReplacer {
     }
 
     // Domain-specific inference
-    if (context.domainContext.domain === CodeDomain.ASTROLOGICAL) {
+    if (context.domainContext.domain === CodeDomain.ASTROLOGICAL) {;
       if (
         propLower.includes('element') ||
         propLower.includes('fire') ||
@@ -1196,7 +1196,7 @@ export class SafeTypeReplacer {
    */
   async validateBuildSafety(
     modifiedFiles: string[],
-    includeTests = false
+    includeTests = false;
   ): Promise<BuildValidationResult> {
     return this.safetyValidator.validateBuildAfterBatch(modifiedFiles, includeTests)
   }

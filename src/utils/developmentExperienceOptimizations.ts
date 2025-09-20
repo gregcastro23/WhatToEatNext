@@ -41,7 +41,7 @@ export interface ImportOrganizationConfig {
   enableImportSorting: boolean,
   enablePathMapping: boolean,
   groupExternalImports: boolean,
-  groupInternalImports: boolean,
+  groupInternalImports: boolean
 }
 
 // Performance monitoring configuration
@@ -73,7 +73,7 @@ export class DevelopmentExperienceOptimizer {
     typescript: TypeScriptOptimizationConfig,
     intelliSense: IntelliSenseConfig,
     importOrganization: ImportOrganizationConfig,
-    performanceMonitoring: PerformanceMonitoringConfig,
+    performanceMonitoring: PerformanceMonitoringConfig
   };
 
   private constructor() {
@@ -237,7 +237,7 @@ declare global {
       flavorProfile: string[],
       cookingMethods: string[],
       seasonality: string[],
-      pairings: string[],
+      pairings: string[]
     };
     nutritionalData?: {
       calories: number,
@@ -245,7 +245,7 @@ declare global {
       carbs: number,
       fat: number,
       vitamins: string[],
-      minerals: string[],
+      minerals: string[]
     };
   }
 
@@ -335,7 +335,7 @@ export type {
     const remainingErrors: string[] = [];
 
     // Fix common TypeScript errors
-    const commonFixes = [
+    const commonFixes = [;
       {
         pattern: /React\.FC<([^>]+)>/g,
         replacement: 'React.FC<1>',
@@ -358,7 +358,7 @@ export type {
       }
     ];
 
-    commonFixes.forEach(fix => {
+    commonFixes.forEach(fix => {;
       if (fix.pattern.test(fixedCode)) {
         fixedCode = fixedCode.replace(fix.pattern, fix.replacement);
         fixes.push(fix.description);
@@ -366,13 +366,13 @@ export type {
     });
 
     // Detect remaining errors (simplified detection)
-    const errorPatterns = [
+    const errorPatterns = [;
       /Property '([^']+)' does not exist on type/g,
       /Type '([^']+)' is not assignable to type/g,
       /Cannot find name '([^']+)'/g
     ];
 
-    errorPatterns.forEach(pattern => {
+    errorPatterns.forEach(pattern => {;
       const matches = fixedCode.match(pattern);
       if (matches) {
         matches.forEach(match => remainingErrors.push(match));
@@ -407,9 +407,9 @@ export type {
     typescript: string[],
     bundling: string[],
     runtime: string[],
-    development: string[],
+    development: string[]
   } {
-    const recommendations = {
+    const recommendations = {;
       typescript: [] as string[],
       bundling: [] as string[],
       runtime: [] as string[],
@@ -556,7 +556,7 @@ export type {
   }
 
   private checkPerformanceThresholds(): void {
-    const thresholds = {
+    const thresholds = {;
       compilationTime: 30000, // 30 seconds
       memoryUsage: 100, // 100MB
       bundleSize: 500 * 1024, // 500KB
@@ -565,7 +565,7 @@ export type {
 
     Object.entries(thresholds).forEach(([metric, threshold]) => {
       const currentValue = this.metrics[metric as keyof DevelopmentMetrics];
-      if (typeof currentValue === 'number' && currentValue > threshold) {
+      if (typeof currentValue === 'number' && currentValue > threshold) {;
         logger.warn(`Performance threshold exceeded for ${metric}:`, {
           current: currentValue,
           threshold
@@ -575,7 +575,7 @@ export type {
   }
 
   private removeUnusedImports(imports: string[], codeBody: string): string[] {
-    return imports.filter(importLine => {
+    return imports.filter(importLine => {;
       // Extract imported names from the import statement
       const importMatch = importLine.match(/import\s+(?:\{([^}]+)\}|\*\s+as\s+(\w+)|(\w+))/);
       if (!importMatch) return true;
@@ -585,7 +585,7 @@ export type {
         : [importMatch[2] || importMatch[3]];
 
       // Check if any imported name is used in the code
-      return importedNames.some(name => {
+      return importedNames.some(name => {;
         const regex = new RegExp(`\\b${name}\\b`, 'g');
         return regex.test(codeBody);
       });
@@ -596,7 +596,7 @@ export type {
     const externalImports: string[] = [];
     const internalImports: string[] = [];
 
-    imports.forEach(importLine => {
+    imports.forEach(importLine => {;
       if (importLine.includes('@/') || importLine.includes('./') || importLine.includes('../')) {
         internalImports.push(importLine);
       } else if (importLine.trim().startsWith('import ')) {

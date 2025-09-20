@@ -79,7 +79,7 @@ export interface QualityGateConfig {
     buildTime?: number;
   };
   blocksDeployment: boolean,
-  notificationChannels: string[],
+  notificationChannels: string[]
 }
 
 export interface QualityGateResult {
@@ -149,7 +149,7 @@ export interface RecipeServiceConfig {
   apiTimeout: number,
   enableValidation: boolean,
   dataSource: 'local' | 'spoonacular' | 'hybrid',
-  fallbackEnabled: boolean,
+  fallbackEnabled: boolean
 }
 
 export interface RecipeQueryParams {
@@ -179,7 +179,7 @@ export interface RecipeServiceResult<T = unknown> {;
     source: string,
     cached: boolean,
     executionTime: number,
-    timestamp: Date,
+    timestamp: Date
   };
 }
 
@@ -345,7 +345,7 @@ export interface SecurityConfig {
   };
   validation: {
     inputSanitization: boolean,
-    outputSanitization: boolean,
+    outputSanitization: boolean
   };
   encryption: {
     enabled: boolean;

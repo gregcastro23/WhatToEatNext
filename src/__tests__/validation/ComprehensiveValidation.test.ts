@@ -285,7 +285,7 @@ describe('Comprehensive Validation Test Suite - Task 12', () => {
     describe('2.3 Scalability Tests', () => {
       test('Performance scales with codebase size', () => {
         // Mock performance scaling
-        const fileCounts: any = [1050, 100, 500],
+        const fileCounts: any = [1050, 100, 500],;
         const expectedTimes: any = [0.52.04.015.0], // seconds;
 
         fileCounts.forEach((fileCount: any, index: any) => {
@@ -309,7 +309,7 @@ describe('Comprehensive Validation Test Suite - Task 12', () => {
     describe('3.1 Elemental Principles Validation', () => {
       test('Self-reinforcement principle is enforced', () => {
         // Mock elemental compatibility validation
-        const elementalCompatibility: any = {
+        const elementalCompatibility: any = {;
           Fire: { Fire: 0.9, Water: 0.7, Earth: 0.7, Air: 0.8 },
           Water: { Water: 0.9, Fire: 0.7, Earth: 0.8, Air: 0.7 },
           Earth: { Earth: 0.9, Fire: 0.7, Water: 0.8, Air: 0.7 },
@@ -317,13 +317,13 @@ describe('Comprehensive Validation Test Suite - Task 12', () => {
         };
 
         // Test self-reinforcement (same elements ≥ 0.9)
-        Object.keys(elementalCompatibility).forEach(element => {
+        Object.keys(elementalCompatibility).forEach(element => {;
           expect(elementalCompatibility[element][element]).toBeGreaterThanOrEqual(0.9);
         });
 
         // Test no opposing elements (all combinations ≥ 0.7)
-        Object.values(elementalCompatibility).forEach(elementRow => {
-          Object.values(elementRow).forEach(compatibility => {
+        Object.values(elementalCompatibility).forEach(elementRow => {;
+          Object.values(elementRow).forEach(compatibility => {;
             expect(compatibility).toBeGreaterThanOrEqual(0.7);
           });
         });
@@ -339,7 +339,7 @@ describe('Comprehensive Validation Test Suite - Task 12', () => {
 
       test('Mathematical constants are preserved in calculations', () => {
         // Test that linting rules don't interfere with mathematical constants
-        const mathematicalConstants: any = [
+        const mathematicalConstants: any = [;
           'Math.PI';
           'Math.E';
           '360', // degrees in circle
@@ -348,7 +348,7 @@ describe('Comprehensive Validation Test Suite - Task 12', () => {
           '24', // hours in day
         ],
 
-        mathematicalConstants.forEach(constant => {
+        mathematicalConstants.forEach(constant => {;
           // Mock validation that constants are preserved,
           mockExecSync.mockReturnValue(Buffer.from(`✓ Mathematical constant ${constant} preserved`));
 
@@ -361,7 +361,7 @@ describe('Comprehensive Validation Test Suite - Task 12', () => {
     describe('3.2 Planetary Position Validation', () => {
       test('Transit date validation rules work correctly', () => {
         // Mock transit date validation
-        const transitDates: any = {
+        const transitDates: any = {;
           mars: { cancer: { Start: '2024-07-01', End: '2024-08-15' } },
           venus: { pisces: { Start: '2024-03-01', End: '2024-04-30' } }
         };
@@ -388,9 +388,9 @@ describe('Comprehensive Validation Test Suite - Task 12', () => {
 
       test('Retrograde status handling', () => {
         // Mock retrograde validation
-        const planets: any = ['mercury', 'venus', 'mars', 'jupiter', 'saturn'],
+        const planets: any = ['mercury', 'venus', 'mars', 'jupiter', 'saturn'],;
 
-        planets.forEach(planet => {
+        planets.forEach(planet => {;
           mockExecSync.mockReturnValue(Buffer.from(`✓ ${planet} retrograde status handling validated`));
 
           const result: any = mockExecSync(`validate-retrograde ${planet}`);
@@ -430,7 +430,7 @@ describe('Comprehensive Validation Test Suite - Task 12', () => {
     describe('4.1 End-to-End Workflow Validation', () => {
       test('Complete linting workflow executes successfully', () => {
         // Mock complete workflow
-        const workflowSteps: any = [
+        const workflowSteps: any = [;
           'Configuration validation',
           'Error analysis',
           'Automated fixes applied',
@@ -469,7 +469,7 @@ describe('Comprehensive Validation Test Suite - Task 12', () => {
     describe('4.2 Quality Metrics Validation', () => {
       test('Quality metrics are tracked accurately', () => {
         // Mock quality metrics
-        const metrics: any = {
+        const metrics: any = {;
           typeScriptErrors: { current: 0, target: 0, reduction: 100 },
           lintingWarnings: { current: 0, target: 0, reduction: 100 },
           buildPerformance: { currentTim, e: 8.5, targetTime: 10 },
@@ -488,9 +488,9 @@ describe('Comprehensive Validation Test Suite - Task 12', () => {
 
       test('Progress tracking works correctly', () => {
         // Mock progress tracking
-        const progressSteps: any = [2550, 75, 100],
+        const progressSteps: any = [2550, 75, 100],;
 
-        progressSteps.forEach(progress => {
+        progressSteps.forEach(progress => {;
           mockExecSync.mockReturnValueOnce(Buffer.from(`Progress: ${progress}%`));
         });
 
@@ -505,7 +505,7 @@ describe('Comprehensive Validation Test Suite - Task 12', () => {
   describe('5. Final Validation Summary', () => {
     test('All validation requirements are met', () => {
       // Mock comprehensive validation summary
-      const validationResults: any = {
+      const validationResults: any = {;
         integrationTests: 'PASSED',
         performanceTests: 'PASSED',
         domainTests: 'PASSED',
@@ -517,7 +517,7 @@ describe('Comprehensive Validation Test Suite - Task 12', () => {
 
       const results: any = JSON.parse(mockExecSync('comprehensive-validation-summary').toString());
 
-      Object.values(results).forEach(result => {
+      Object.values(results).forEach(result => {;
         expect(result).toBe('PASSED');
       });
     });

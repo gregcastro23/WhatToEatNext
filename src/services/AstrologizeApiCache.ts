@@ -15,7 +15,7 @@ interface CachedAstrologicalData {
   date: Date,
   coordinates: {
     lat: number,
-    lng: number,
+    lng: number
   };
   astrologicalState: AstrologicalState,
   alchemicalResult: StandardizedAlchemicalResult,
@@ -25,7 +25,7 @@ interface CachedAstrologicalData {
     fire: number,
     water: number,
     earth: number,
-    air: number,
+    air: number
   };
   elementalRelatives: {
     fire: number; // fire/(water+earth+air)
@@ -39,7 +39,7 @@ interface CachedAstrologicalData {
     reactivity: number,
     gregsEnergy: number,
     kalchm: number,
-    monica: number,
+    monica: number
   };
   quality: 'high' | 'medium' | 'low'; // Data quality indicator
 }
@@ -82,7 +82,7 @@ class AstrologizeApiCache {
     const Air = Number(elementalBalance.Air) || 0;
 
     // Absolute values (direct from alchemical result)
-    const elementalAbsolutes = {
+    const elementalAbsolutes = {;
       fire: Fire,
       water: Water,
       earth: Earth,
@@ -90,7 +90,7 @@ class AstrologizeApiCache {
     };
 
     // Relative values: each element / sum of other three
-    const elementalRelatives = {
+    const elementalRelatives = {;
       fire: Fire / (Water + Earth + Air || 1),
       water: Water / (Fire + Earth + Air || 1),
       earth: Earth / (Fire + Water + Air || 1),
@@ -119,7 +119,7 @@ class AstrologizeApiCache {
     // Safe access to alchemical result properties
     const resultData = alchemicalResult as unknown as any;
 
-    const cachedData: CachedAstrologicalData = {
+    const cachedData: CachedAstrologicalData = {;
       timestamp: Date.now();
       date,
       coordinates: { lat, lng },
@@ -164,8 +164,8 @@ class AstrologizeApiCache {
     lat: number,
     lng: number,
     date: Date,
-    maxDistanceKm: number = 50,
-    maxDaysDiff: number = 7
+    maxDistanceKm: number = 50,;
+    maxDaysDiff: number = 7;
   ): CachedAstrologicalData[] {
     const results: CachedAstrologicalData[] = [];
     const targetTime = date.getTime();
@@ -204,7 +204,7 @@ class AstrologizeApiCache {
   public predictPositions(lat: number, lng: number, targetDate: Date): TransitPrediction | null {
     const nearbyData = this.findNearby(lat, lng, targetDate, 100, 30); // Wider search for predictions
 
-    if (nearbyData.length === 0) {
+    if (nearbyData.length === 0) {;
       return null;
     }
 
@@ -256,7 +256,7 @@ class AstrologizeApiCache {
       reactivity: number,
       gregsEnergy: number,
       kalchm: number,
-      monica: number,
+      monica: number
     };
     quality: 'high' | 'medium' | 'low'
   } | null {
@@ -289,7 +289,7 @@ class AstrologizeApiCache {
    * Private helper methods
    */
   private assessDataQuality(result: StandardizedAlchemicalResult): 'high' | 'medium' | 'low' {
-    type WithAlchemical = {
+    type WithAlchemical = {;
       elementalBalance?: Record<string, number>;
       heat?: number;
       entropy?: number;
@@ -337,7 +337,7 @@ class AstrologizeApiCache {
   }
 
   private degreeToSign(degree: number): string {
-    const signs = [
+    const signs = [;
       'aries',
       'taurus',
       'gemini',
@@ -393,12 +393,12 @@ class AstrologizeApiCache {
     return {
       size: this.cache.size,
       maxSize: this.maxCacheSize,
-      oldestEntry: Math.min(...Array.from(this.cache.values()).map(v => v.timestamp)),
-      newestEntry: Math.max(...Array.from(this.cache.values()).map(v => v.timestamp)),
+      oldestEntry: Math.min(...Array.from(this.cache.values()).map(v => v.timestamp)),;
+      newestEntry: Math.max(...Array.from(this.cache.values()).map(v => v.timestamp)),;
       qualityDistribution: {
-        high: Array.from(this.cache.values()).filter(v => v.quality === 'high').length,
-        medium: Array.from(this.cache.values()).filter(v => v.quality === 'medium').length,
-        low: Array.from(this.cache.values()).filter(v => v.quality === 'low').length,
+        high: Array.from(this.cache.values()).filter(v => v.quality === 'high').length,;
+        medium: Array.from(this.cache.values()).filter(v => v.quality === 'medium').length,;
+        low: Array.from(this.cache.values()).filter(v => v.quality === 'low').length,;
       }
     };
   }

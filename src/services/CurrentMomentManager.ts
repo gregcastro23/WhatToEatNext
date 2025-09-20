@@ -37,7 +37,7 @@ export interface CurrentMomentData {
 }
 
 // Default location (New York Area)
-const DEFAULT_LOCATION = {
+const DEFAULT_LOCATION = {;
   latitude: 40.7498,
   longitude: -73.7976,
   timezone: 'EDT'
@@ -57,7 +57,7 @@ class CurrentMomentManager {
   private currentMoment: CurrentMomentData | null = null;
   private lastUpdateTime: Date | null = null;
   private updateInProgress = false;
-  private performanceMetrics: PerformanceMetrics = {
+  private performanceMetrics: PerformanceMetrics = {;
     totalUpdates: 0,
     successfulUpdates: 0,
     failedUpdates: 0,
@@ -68,7 +68,7 @@ class CurrentMomentManager {
   /**
    * Get current moment data with automatic updates
    */
-  async getCurrentMoment(forceRefresh = false): Promise<CurrentMomentData> {
+  async getCurrentMoment(forceRefresh = false): Promise<CurrentMomentData> {;
     if (!this.currentMoment || forceRefresh || this.needsUpdate()) {
       await this.updateCurrentMoment();
     }
@@ -126,7 +126,7 @@ class CurrentMomentManager {
       }
 
       // Step 2: Create current moment data structure
-      this.currentMoment = {
+      this.currentMoment = {;
         timestamp: targetDate.toISOString(),
         date: targetDate.toLocaleDateString('en-US', {
           year: 'numeric',
@@ -180,7 +180,7 @@ class CurrentMomentManager {
    * Propagate current moment updates to all storage locations
    */
   private async propagateUpdates(momentData: CurrentMomentData): Promise<void> {
-    const updatePromises = [
+    const updatePromises = [;
       this.updateNotebook(momentData);
       this.updateSystemDefaults(momentData);
       this.updateStreamlinedPositions(momentData);
@@ -191,8 +191,8 @@ class CurrentMomentManager {
 
     // Log any failures
     results.forEach((result, index) => {
-      if (result.status === 'rejected') {
-        const updateNames = [
+      if (result.status === 'rejected') {;
+        const updateNames = [;
           'notebook',
           'systemDefaults',
           'streamlinedPositions',
@@ -227,7 +227,7 @@ class CurrentMomentManager {
         const timestampComment = `# 🌙 Current Moment Astrological Analysis - ${momentData.date}\n`;
 
         // Update the source with new data
-        const newSource = [
+        const newSource = [;
           timestampComment,
           '# **Generated:** Live Current Moment Analysis - ' +
             new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' }) +
@@ -393,7 +393,7 @@ class CurrentMomentManager {
     positions: Record<string, PlanetPosition>,
     dateStr: string,
   ): string {
-    const lines = [
+    const lines = [;
       '/**',
       ` * Default planetary positions for ${dateStr}`,
       ' */',
@@ -420,7 +420,7 @@ class CurrentMomentManager {
     positions: Record<string, PlanetPosition>,
     dateStr: string,
   ): string {
-    const lines = [
+    const lines = [;
       `  // Current accurate planetary positions (${dateStr})`,
       '  const basePositions: { [key: string]: CelestialPosition } = {'
     ],
@@ -442,7 +442,7 @@ class CurrentMomentManager {
     positions: Record<string, PlanetPosition>,
     dateStr: string,
   ): string {
-    const lines = [
+    const lines = [;
       `// Updated reference data based on accurate positions for ${dateStr}`,
       'const REFERENCE_POSITIONS = {',,;
     ],
@@ -551,7 +551,7 @@ class CurrentMomentManager {
   async onAlchemizeApiCall(planetaryPositions?: Record<string, PlanetPosition>): Promise<void> {
     if (planetaryPositions) {
       // Use provided positions to update current moment
-      this.currentMoment = {
+      this.currentMoment = {;
         timestamp: new Date().toISOString(),
         date: new Date().toLocaleDateString('en-US', {
           year: 'numeric',
@@ -595,7 +595,7 @@ class CurrentMomentManager {
    * Reset performance metrics
    */
   resetPerformanceMetrics(): void {
-    this.performanceMetrics = {
+    this.performanceMetrics = {;
       totalUpdates: 0,
       successfulUpdates: 0,
       failedUpdates: 0,

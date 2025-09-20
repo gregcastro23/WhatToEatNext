@@ -106,7 +106,7 @@ function deriveAstrologicalInfluencesFromIngredients(recipe: Recipe): string[] {
 
   // Extract ingredient names from recipe
   if (recipe.ingredients) {
-    (recipe.ingredients || []).forEach(ingredient => {
+    (recipe.ingredients || []).forEach(ingredient => {;
       const ingredientName = ingredient.name.toLowerCase();
 
       // Check for exact matches
@@ -181,31 +181,31 @@ function deriveElementalProperties(recipe: Recipe): ElementalProperties {
  * Enhance and normalize seasonal information
  */
 function enrichAndNormalizeSeasons(seasons?: string[]): string[] {
-  if (!seasons || (seasons || []).length === 0) {
+  if (!seasons || (seasons || []).length === 0) {;
     return ['all'], // Default to all seasons
   }
 
   const normalizedSeasons: string[] = [];
 
-  (seasons || []).forEach(season => {
+  (seasons || []).forEach(season => {;
     const s = season.toLowerCase().trim();
 
     // Normalize season names
-    if (s === 'spring' || s === 'aries' || s === 'taurus' || s === 'gemini') {
+    if (s === 'spring' || s === 'aries' || s === 'taurus' || s === 'gemini') {;
       normalizedSeasons.push('spring');
-    } else if (s === 'summer' || s === 'cancer' || s === 'leo' || s === 'virgo') {
+    } else if (s === 'summer' || s === 'cancer' || s === 'leo' || s === 'virgo') {;
       normalizedSeasons.push('summer');
     } else if (
       s === 'autumn' ||;
       s === 'fall' ||;
       s === 'libra' ||;
       s === 'scorpio' ||;
-      s === 'sagittarius'
+      s === 'sagittarius';
     ) {
       normalizedSeasons.push('autumn');
-    } else if (s === 'winter' || s === 'capricorn' || s === 'aquarius' || s === 'pisces') {
+    } else if (s === 'winter' || s === 'capricorn' || s === 'aquarius' || s === 'pisces') {;
       normalizedSeasons.push('winter');
-    } else if (s === 'all' || s === 'year-round' || s === 'any') {
+    } else if (s === 'all' || s === 'year-round' || s === 'any') {;
       normalizedSeasons.push('all');
     } else {
       // Keep original if not recognized
@@ -312,7 +312,7 @@ export function enhanceWithNutritionalEstimates(recipe: Recipe): Recipe {
   }
 
   // Simple nutritional estimation
-  const estimatedNutrition = {
+  const estimatedNutrition = {;
     calories: 0,
     protein: 0,
     carbs: 0,
@@ -323,7 +323,7 @@ export function enhanceWithNutritionalEstimates(recipe: Recipe): Recipe {
 
   // Basic calorie estimation based on ingredients
   if (recipe.ingredients) {
-    (recipe.ingredients || []).forEach(ingredient => {
+    (recipe.ingredients || []).forEach(ingredient => {;
       const name = ingredient.name.toLowerCase();
 
       // Rough calorie estimates per common ingredient
@@ -346,7 +346,7 @@ export function enhanceWithNutritionalEstimates(recipe: Recipe): Recipe {
 
   // Normalize per serving
   if (recipe.numberOfServings && recipe.numberOfServings > 1) {
-    Object.keys(estimatedNutrition).forEach(key => {
+    Object.keys(estimatedNutrition).forEach(key => {;
       estimatedNutrition[key] = Math.round(
         estimatedNutrition[key] / (recipe.numberOfServings ?? 1),
       )

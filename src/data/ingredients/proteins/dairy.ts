@@ -1,7 +1,7 @@
 import type { IngredientMapping } from '@/data/ingredients/types';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
-const rawDairy = {
+const rawDairy = {;
   greek_yogurt: {
     name: 'Greek Yogurt',
     description: 'Strained yogurt with higher protein content and thick texture.',

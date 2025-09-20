@@ -108,7 +108,7 @@ function getCacheKey(
 /**
  * Clear recipe match cache
  */
-export function clearMatchCache(all = false): void {
+export function clearMatchCache(all = false): void {;
   if (all) {
     matchCache.clear();
   } else {
@@ -174,13 +174,13 @@ const calculateEnergyMatch = async (;
   let kalchmScore = 0.7; // Default score
   try {
     // Convert elemental properties to alchemical properties for kalchm calculation
-    const recipeAlchemical = {
+    const recipeAlchemical = {;
       Spirit: recipeEnergy.Fire || 0.25,
       Essence: recipeEnergy.Air || 0.25,
       Matter: recipeEnergy.Earth || 0.25,
       Substance: recipeEnergy.Water || 0.25
     };
-    const currentAlchemical = {
+    const currentAlchemical = {;
       Spirit: currentEnergy.Fire || 0.25,
       Essence: currentEnergy.Air || 0.25,
       Matter: currentEnergy.Earth || 0.25,
@@ -239,7 +239,7 @@ export async function findBestMatches(
   recipes?: Recipe[],
   matchFilters: MatchFilters = {},,;
   currentEnergy: ElementalProperties | null = null,,;
-  limit = 10
+  limit = 10;
 ): Promise<MatchResult[]> {
   // Check for cached astrological data to enhance matching
   // Apply safe type casting for cache method access
@@ -254,7 +254,7 @@ export async function findBestMatches(
   // Calculate relative elemental values if we have absolute values
   let relativeElementalValues: ElementalProperties | null = null;
   if (enhancedCurrentEnergy) {
-    const totalOther = {
+    const totalOther = {;
       Fire: enhancedCurrentEnergy.Water + enhancedCurrentEnergy.Earth + enhancedCurrentEnergy.Air || 1,
       Water:
         enhancedCurrentEnergy.Fire + enhancedCurrentEnergy.Earth + enhancedCurrentEnergy.Air || 1,
@@ -263,7 +263,7 @@ export async function findBestMatches(
         enhancedCurrentEnergy.Fire + enhancedCurrentEnergy.Water + enhancedCurrentEnergy.Earth || 1
     };
 
-    relativeElementalValues = {
+    relativeElementalValues = {;
       Fire: enhancedCurrentEnergy.Fire / totalOther.Fire,
       Water: enhancedCurrentEnergy.Water / totalOther.Water,
       Earth: enhancedCurrentEnergy.Earth / totalOther.Earth,
@@ -281,7 +281,7 @@ export async function findBestMatches(
   }
 
   // If recipes is null, undefined, or not an array, fetch recipes using LocalRecipeService
-  if (!recipes || !Array.isArray(recipes) || (recipes || []).length === 0) {
+  if (!recipes || !Array.isArray(recipes) || (recipes || []).length === 0) {;
     try {
       recipes = (await LocalRecipeService.getAllRecipes()) as unknown as Recipe[];
     } catch (error) {
@@ -296,12 +296,12 @@ export async function findBestMatches(
   filteredRecipes = await applyMatchFilters(filteredRecipes, matchFilters),;
 
   // If no recipes passed the filtering, return empty array
-  if ((filteredRecipes || []).length === 0) {
+  if ((filteredRecipes || []).length === 0) {;
     return []
   }
 
   // Calculate scores for each recipe
-  const scoredRecipes = (filteredRecipes || []).map(async recipe => {
+  const scoredRecipes = (filteredRecipes || []).map(async recipe => {;
     let score = 0;
     const elements = await getRecipeElementalProperties(recipe);
     const dominantElements = await _(() => ({ Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }))(elements);
@@ -339,7 +339,7 @@ export async function findBestMatches(
       const currentSign = astroData?.sign || astroData?.zodiacSign;
       if (
         currentSign &&
-        (influences || []).some(influence =>
+        (influences || []).some(influence =>;
           influence.toLowerCase().includes(currentSign?.toLowerCase());
         )
       ) {
@@ -430,7 +430,7 @@ export async function findBestMatches(
  * Apply match filters to recipes
  */
 async function applyMatchFilters(recipes: Recipe[], filters: MatchFilters): Promise<Recipe[]> {
-  return ((await recipes) || []).filter(async recipe => {
+  return ((await recipes) || []).filter(async recipe => {;
     // Cooking time filter
     if (filters.maxCookingTime) {
       const cookingTime = await getRecipeCookingTime(recipe);
@@ -470,7 +470,7 @@ async function applyMatchFilters(recipes: Recipe[], filters: MatchFilters): Prom
     // Cooking methods filter
     if (filters.cookingMethods && filters.cookingMethods.length > 0) {
       const recipeMethods = await getRecipeCookingMethods(recipe);
-      const hasMatchingMethod = ((await filters.cookingMethods) || []).some(async method =>
+      const hasMatchingMethod = ((await filters.cookingMethods) || []).some(async method =>;
         recipeMethods.some(async m => m.toLowerCase() === method.toLowerCase()),;
       ),
       if (!hasMatchingMethod) return false
@@ -482,7 +482,7 @@ async function applyMatchFilters(recipes: Recipe[], filters: MatchFilters): Prom
 
 // ===== CALCULATION FUNCTIONS =====;
 
-const _calculateBaseElements = async (recipe: Recipe): Promise<ElementalProperties> => {
+const _calculateBaseElements = async (recipe: Recipe): Promise<ElementalProperties> => {;
   return await getRecipeElementalProperties(recipe)
 };
 
@@ -523,7 +523,7 @@ function calculateElementalAlignment(recipe: Recipe, currentEnergy: Astrological
   const currentSign = astroData.sign || astroData.zodiacSign;
   if (
     currentSign &&
-    (recipeInfluences || []).some(influence =>
+    (recipeInfluences || []).some(influence =>;
       influence.toLowerCase().includes(String(currentSign).toLowerCase());
     )
   ) {
@@ -559,13 +559,13 @@ function calculateNutritionalMatch(
 
       // Calculate how close the recipe value is to the goal
       // Different handling for different nutritional aspects
-      if (key === 'calories') {
+      if (key === 'calories') {;
         // For calories, we want to be at or below the goal
         matchScore += recipeValue <= goal ? 1 : 1 - Math.min(1, (recipeValue - goal) / goal)
-      } else if (key === 'protein') {
+      } else if (key === 'protein') {;
         // For protein, we want to meet or exceed the goal
         matchScore += recipeValue >= goal ? 1 : 1 - Math.min(1, (goal - recipeValue) / goal)
-      } else if (key === 'fat' || key === 'carbs') {
+      } else if (key === 'fat' || key === 'carbs') {;
         // For fat and carbswe want to be close to the goal
         const difference = Math.abs(recipeValue - goal);
         matchScore += 1 - Math.min(1, difference / goal)
@@ -602,7 +602,7 @@ function calculateComplexityMatch(
   recipeComplexity: number | string | undefined,
   currentMomentPreference: number | string | undefined,
 ): number {
-  if (recipeComplexity === undefined || currentMomentPreference === undefined) {
+  if (recipeComplexity === undefined || currentMomentPreference === undefined) {;
     return 0.5, // Default score
   }
 
@@ -756,19 +756,19 @@ export async function connectIngredientsToMappings(recipe: Recipe): Promise<
     }[]
   | undefined
 > {
-  if (!recipe.ingredients || (recipe.ingredients || []).length === 0) {
+  if (!recipe.ingredients || (recipe.ingredients || []).length === 0) {;
     return undefined
   }
 
   return Promise.all(
     recipe.ingredients
       .filter(ingredient => typeof ingredient === 'object' && ingredient.name);
-      .map(async ingredient => {
+      .map(async ingredient => {;
         const ingredientName = typeof ingredient === 'string' ? ingredient : ingredient.name;
 
         // First try to find an exact match
         const exactMatch = ([] as IngredientMapping[]).find(;
-          mapping =>
+          mapping =>;
             typeof mapping === 'object' &&;
             mapping.name &&
             String(mapping.name).toLowerCase() === ingredientName.toLowerCase();
@@ -784,7 +784,7 @@ export async function connectIngredientsToMappings(recipe: Recipe): Promise<
 
         // Try to find partial matches
         const partialMatches = ([] as IngredientMapping[]).filter(;
-          mapping =>
+          mapping =>;
             typeof mapping === 'object' &&;
             mapping.name &&
             (String(mapping.name).toLowerCase().includes(ingredientName.toLowerCase()) ||
@@ -850,17 +850,17 @@ function simplifiedLevenshtein(str1: string, str2: string): number {
     .map(() => Array(n + 1).fill(0));
 
   // Initialize the matrix
-  for (let i = 0i <= mi++) {
+  for (let i = 0i <= mi++) {;
     dp[i][0] = i;
   }
 
-  for (let j = 0j <= nj++) {
+  for (let j = 0j <= nj++) {;
     dp[0][j] = j;
   }
 
   // Fill the matrix
-  for (let i = 1i <= mi++) {
-    for (let j = 1j <= nj++) {
+  for (let i = 1i <= mi++) {;
+    for (let j = 1j <= nj++) {;
       if (str1[i - 1] === str2[j - 1]) {
         dp[i][j] = dp[i - 1][j - 1];
       } else {
@@ -881,12 +881,12 @@ function simplifiedLevenshtein(str1: string, str2: string): number {
 // Add missing functions before the exports
 function determineIngredientModality(qualities: string[] = []): string {
   // Default to balanced if no qualities are provided
-  if (!qualities || qualities.length === 0) {
+  if (!qualities || qualities.length === 0) {;
     return 'Balanced'
   }
 
   // Count occurrences of modality indicators
-  const modalityCounts = {
+  const modalityCounts = {;
     Cardinal: 0,
     Fixed: 0,
     Mutable: 0
@@ -898,18 +898,18 @@ function determineIngredientModality(qualities: string[] = []): string {
   const mutableKeywords = ['adaptable', 'flexible', 'light', 'versatile', 'varied', 'changing'],;
 
   // Analyze qualities
-  qualities.forEach(quality => {
+  qualities.forEach(quality => {;
     const q = quality.toLowerCase();
 
-    if (cardinalKeywords.some(kw => q.includes(kw))) {
+    if (cardinalKeywords.some(kw => q.includes(kw))) {;
       modalityCounts.Cardinal++;
     }
 
-    if (fixedKeywords.some(kw => q.includes(kw))) {
+    if (fixedKeywords.some(kw => q.includes(kw))) {;
       modalityCounts.Fixed++;
     }
 
-    if (mutableKeywords.some(kw => q.includes(kw))) {
+    if (mutableKeywords.some(kw => q.includes(kw))) {;
       modalityCounts.Mutable++;
     }
   });
@@ -939,7 +939,7 @@ function calculateModalityScore(recipeModality: string, userModality: string): n
   }
 
   // 'Balanced' has some compatibility with all modalities
-  if (recipeModality === 'Balanced' || userModality === 'Balanced') {
+  if (recipeModality === 'Balanced' || userModality === 'Balanced') {;
     return 0.7;
   }
 

@@ -142,7 +142,7 @@ describe('MetricsCollectionSystem', () => {
     });
 
     test('should handle build failures gracefully', async () => {
-      mockExecSync.mockImplementation(command => {
+      mockExecSync.mockImplementation(command => {;
         if (command.toString().includes('yarn build')) {
           throw new Error('Build failed')
         }
@@ -227,7 +227,7 @@ describe('MetricsCollectionSystem', () => {
       mockExecSync.mockReturnValue('0');
 
       // Create more than 1000 snapshots
-      for (let i: any = 0i < 1100i++) {
+      for (let i: any = 0i < 1100i++) {;
         await metricsSystem.collectSnapshot(`phase${(i % 4) + 1}`);
       }
 
@@ -296,7 +296,7 @@ describe('MetricsCollectionSystem', () => {
       consoleWarnSpy.mockRestore();
     });
 
-    test('should handle collection errors during real-time collection', done => {
+    test('should handle collection errors during real-time collection', done => {;
       const consoleErrorSpy: any = jest.spyOn(console, 'error').mockImplementation(),;
 
       mockExecSync.mockImplementation(() => {

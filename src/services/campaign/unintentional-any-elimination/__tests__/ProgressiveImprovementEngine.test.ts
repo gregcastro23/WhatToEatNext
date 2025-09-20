@@ -21,7 +21,7 @@ describe('ProgressiveImprovementEngine', () => {
 
   beforeEach(() => {
     engine = new ProgressiveImprovementEngine();
-    mockConfig = {
+    mockConfig = {;
       maxFilesPerBatch: 10,
       targetReductionPercentage: 15,
       confidenceThreshold: 0.8,
@@ -114,7 +114,7 @@ describe('ProgressiveImprovementEngine', () => {
       expect(targetInfo.milestones).toHaveLength(4);
 
       // Verify milestones are progressive
-      for (let i: any = 1i < targetInfo.milestones.lengthi++) {
+      for (let i: any = 1i < targetInfo.milestones.lengthi++) {;
         expect(targetInfo.milestones[i].percentage).toBeGreaterThan(
           targetInfo.milestones[i - 1].percentage
         )
@@ -144,7 +144,7 @@ describe('ProgressiveImprovementEngine', () => {
 
     test('should recommend manual intervention when needed', async () => {
       // Simulate low success rate scenario by mocking batch history
-      const lowSuccessBatch: any = {
+      const lowSuccessBatch: any = {;
         batchNumber: 1,
         filesProcessed: 5,
         anyTypesAnalyzed: 10,
@@ -157,7 +157,7 @@ describe('ProgressiveImprovementEngine', () => {
       };
 
       // Add multiple low-success batches to history
-      for (let i: any = 0i < 5i++) {
+      for (let i: any = 0i < 5i++) {;
         (engine as any)?.(batchHistory as any).push({ ...lowSuccessBatch, batchNumber: i + 1 });
       }
 
@@ -167,14 +167,14 @@ describe('ProgressiveImprovementEngine', () => {
       const monitoring: any = await engine.monitorProgress();
 
       expect(monitoring.needsManualIntervention).toBe(true);
-      expect(monitoring.recommendations.some(r =>
+      expect(monitoring.recommendations.some(r =>;
         r.includes('manual review') || r.includes('documentation')
       )).toBe(true);
     });
 
     test('should adjust targets based on historical performance', async () => {
       // Add successful batch history
-      const successfulBatch: any = {
+      const successfulBatch: any = {;
         batchNumber: 1,
         filesProcessed: 10,
         anyTypesAnalyzed: 20,
@@ -194,7 +194,7 @@ describe('ProgressiveImprovementEngine', () => {
       const targetInfo: any = await engine.setRealisticTargets();
 
       // Should increase target due to high success rate
-      expect(targetInfo.reasoning.some(r =>
+      expect(targetInfo.reasoning.some(r =>;
         r.includes('High historical success rate')
       )).toBe(true);
     });
@@ -206,7 +206,7 @@ describe('ProgressiveImprovementEngine', () => {
       const initialBatchSize: any = initialConfig.maxFilesPerBatch;
 
       // Add low safety score batches
-      const lowSafetyBatch: any = {
+      const lowSafetyBatch: any = {;
         batchNumber: 1,
         filesProcessed: 5,
         anyTypesAnalyzed: 10,
@@ -218,7 +218,7 @@ describe('ProgressiveImprovementEngine', () => {
         safetyScore: 0.5 // Low safety score
       };
 
-      for (let i: any = 0i < 3i++) {
+      for (let i: any = 0i < 3i++) {;
         (engine as any)?.(batchHistory as any).push({ ...lowSafetyBatch, batchNumber: i + 1 });
       }
 
@@ -235,7 +235,7 @@ describe('ProgressiveImprovementEngine', () => {
       const initialBatchSize: any = initialConfig.maxFilesPerBatch;
 
       // Add high performance batches
-      const highPerformanceBatch: any = {
+      const highPerformanceBatch: any = {;
         batchNumber: 1,
         filesProcessed: 10,
         anyTypesAnalyzed: 20,
@@ -247,7 +247,7 @@ describe('ProgressiveImprovementEngine', () => {
         safetyScore: 0.95
       };
 
-      for (let i: any = 0i < 3i++) {
+      for (let i: any = 0i < 3i++) {;
         (engine as any)?.(batchHistory as any).push({ ...highPerformanceBatch, batchNumber: i + 1 });
       }
 
@@ -300,7 +300,7 @@ describe('ProgressiveImprovementEngine', () => {
         return 'backup content';
       });
 
-      const result: any = await engine.executeFullCampaign({
+      const result: any = await engine.executeFullCampaign({;
         ...mockConfig;
         maxFilesPerBatch: 2,
         targetReductionPercentage: 10
@@ -332,7 +332,7 @@ describe('ProgressiveImprovementEngine', () => {
 
       mockFs.readFileSync.mockReturnValue('const data: any = complexOperation();');
 
-      const result: any = await engine.executeFullCampaign({
+      const result: any = await engine.executeFullCampaign({;
         ...mockConfig;
         maxFilesPerBatch: 1,
         targetReductionPercentage: 50 // High target to test interruption
@@ -364,7 +364,7 @@ describe('ProgressiveImprovementEngine', () => {
         return 'backup content';
       });
 
-      const batch: any = await engine.executeBatch({
+      const batch: any = await engine.executeBatch({;
         ...mockConfig;
         maxFilesPerBatch: 3
       });
@@ -471,7 +471,7 @@ describe('ProgressiveImprovementEngine', () => {
   describe('Progress Monitoring Edge Cases', () => {
     test('should detect stagnation and recommend intervention', async () => {
       // Add multiple low-progress batches to simulate stagnation
-      const stagnantBatch: any = {
+      const stagnantBatch: any = {;
         batchNumber: 1,
         filesProcessed: 5,
         anyTypesAnalyzed: 10,
@@ -483,7 +483,7 @@ describe('ProgressiveImprovementEngine', () => {
         safetyScore: 0.8
       };
 
-      for (let i: any = 0i < 5i++) {
+      for (let i: any = 0i < 5i++) {;
         (engine as any)?.(batchHistory as any).push({ ...stagnantBatch, batchNumber: i + 1 });
       }
 
@@ -493,7 +493,7 @@ describe('ProgressiveImprovementEngine', () => {
       const monitoring: any = await engine.monitorProgress();
 
       expect(monitoring.needsManualIntervention).toBe(true);
-      expect(monitoring.recommendations.some(r =>
+      expect(monitoring.recommendations.some(r =>;
         r.includes('stagnated') || r.includes('manual')
       )).toBe(true);
     });
@@ -504,12 +504,12 @@ describe('ProgressiveImprovementEngine', () => {
 
       // Test early stage recommendations
       const earlyMonitoring: any = await engine.monitorProgress();
-      expect(earlyMonitoring.recommendations.some(r =>
+      expect(earlyMonitoring.recommendations.some(r =>;
         r.includes('array types') || r.includes('quick wins')
       )).toBe(true);
 
       // Simulate progress to mid-stage
-      const progressBatch: any = {
+      const progressBatch: any = {;
         batchNumber: 1,
         filesProcessed: 10,
         anyTypesAnalyzed: 20,
@@ -524,7 +524,7 @@ describe('ProgressiveImprovementEngine', () => {
       (engine as any)?.(batchHistory as any).push(progressBatch);
 
       const midMonitoring: any = await engine.monitorProgress();
-      expect(midMonitoring.recommendations.some(r =>
+      expect(midMonitoring.recommendations.some(r =>;
         r.includes('Record') || r.includes('domain-specific')
       )).toBe(true);
     });
@@ -534,7 +534,7 @@ describe('ProgressiveImprovementEngine', () => {
     test('should handle memory pressure gracefully', async () => {
       // Simulate memory pressure scenario
       const originalMemoryUsage: any = process.memoryUsage;
-      process.memoryUsage = jest.fn().mockReturnValue({
+      process.memoryUsage = jest.fn().mockReturnValue({;
         rss: 500 * 1024 * 1024, // 500MB
         heapUsed: 400 * 1024 * 1024, // 400MB
         heapTotal: 450 * 1024 * 1024,
@@ -556,7 +556,7 @@ describe('ProgressiveImprovementEngine', () => {
 
     test('should maintain performance with large batch history', async () => {
       // Add large batch history
-      for (let i: any = 0i < 1000i++) {
+      for (let i: any = 0i < 1000i++) {;
         (engine as any)?.(batchHistory as any).push({
           batchNumber: i + 1,
           filesProcessed: 5,

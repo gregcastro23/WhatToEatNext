@@ -31,7 +31,7 @@ export function getCachedCalculation<T>(
   cacheKey: string,
   inputObj: Record<string, unknown>,
   calculationFn: () => T | Promise<T>,
-  ttl: number = DEFAULT_CACHE_TTL
+  ttl: number = DEFAULT_CACHE_TTL;
 ): T | Promise<T> {
   // Create a hash of the input for comparison
   const inputHash = JSON.stringify(inputObj);
@@ -101,7 +101,7 @@ export function getCacheStats(): {
   totalEntries: number,
   keys: string[],
   oldestEntry: number,
-  newestEntry: number,
+  newestEntry: number
 } {
   const keys = Object.keys(calculationCache);
   const timestamps = keys.map(key => calculationCache[key].timestamp);

@@ -180,7 +180,7 @@ src/test.ts: 20:8 - warning: Unexpected console statement (no-console)
       // Mock Date.now to simulate 5-second build
       const originalDateNow: any = Date.now;
       let callCount: any = 0;
-      Date.now = jest.fn(() => {
+      Date.now = jest.fn(() => {;
         callCount++,
         return callCount === 1 ? 1000 : 6000, // 5 second difference;
       });
@@ -209,7 +209,7 @@ src/test.ts: 20:8 - warning: Unexpected console statement (no-console)
       // Mock Date.now to simulate 15-second build
       const originalDateNow: any = Date.now;
       let callCount: any = 0;
-      Date.now = jest.fn(() => {
+      Date.now = jest.fn(() => {;
         callCount++,
         return callCount === 1 ? 1000 : 16000, // 15 second difference;
       });
@@ -289,7 +289,7 @@ src/test.ts: 20:8 - warning: Unexpected console statement (no-console)
   describe('Campaign Summary Generation', () => {
     it('should generate accurate campaign summary with baseline', async () => {
       // Mock baseline file
-      const mockBaseline: any = {
+      const mockBaseline: any = {;
         errors: 100,
         warnings: 500,
         intelligence: 10
@@ -338,7 +338,7 @@ src/test.ts: 20:8 - warning: Unexpected console statement (no-console)
 
   describe('Certification Status Determination', () => {
     it('should achieve ENTERPRISE certification for perfect codebase', () => {
-      const mockValidationResults: any = [
+      const mockValidationResults: any = [;
         { category: 'TypeScript', passed: true, current: 0, target: 0, details: [], criticalIssues: [] },
         { category: 'Linting', passed: true, current: 0, target: 0, details: [], criticalIssues: [] },
         { category: 'Intelligence', passed: true, current: 250, target: 200, details: [], criticalIssues: [] },
@@ -346,7 +346,7 @@ src/test.ts: 20:8 - warning: Unexpected console statement (no-console)
         { category: 'Build/Test', passed: true, current: 1, target: 1, details: [], criticalIssues: [] }
       ];
 
-      const mockPerformanceMetrics: any = {
+      const mockPerformanceMetrics: any = {;
         buildTime: 8,
         memoryUsage: 40,
         bundleSize: '400kB',
@@ -370,7 +370,7 @@ src/test.ts: 20:8 - warning: Unexpected console statement (no-console)
     });
 
     it('should achieve BASIC certification for incomplete campaign', () => {
-      const mockValidationResults: any = [
+      const mockValidationResults: any = [;
         { category: 'TypeScript', passed: false, current: 10, target: 0, details: [], criticalIssues: [] },
         { category: 'Linting', passed: false, current: 50, target: 0, details: [], criticalIssues: [] },
         { category: 'Intelligence', passed: false, current: 100, target: 200, details: [], criticalIssues: [] },
@@ -378,7 +378,7 @@ src/test.ts: 20:8 - warning: Unexpected console statement (no-console)
         { category: 'Build/Test', passed: true, current: 1, target: 1, details: [], criticalIssues: [] }
       ];
 
-      const mockPerformanceMetrics: any = {
+      const mockPerformanceMetrics: any = {;
         buildTime: 15,
         memoryUsage: 60,
         bundleSize: '500kB',
@@ -428,7 +428,7 @@ src/test.ts: 20:8 - warning: Unexpected console statement (no-console)
       // Mock Date.now for consistent build time
       const originalDateNow: any = Date.now;
       let callCount: any = 0;
-      Date.now = jest.fn(() => {
+      Date.now = jest.fn(() => {;
         callCount++,
         return callCount % 2 === 1 ? 1000 : 6000, // 5 second build times;
       });
@@ -467,7 +467,7 @@ src/test.ts: 20:8 - warning: Unexpected console statement (no-console)
 
   describe('Report Generation', () => {
     it('should save validation report to file', async () => {
-      const mockReport: any = {
+      const mockReport: any = {;
         timestamp: '2025-01-15T10:00:00.000Z',
         overallSuccess: true,
         validationResults: [],
@@ -505,7 +505,7 @@ src/test.ts: 20:8 - warning: Unexpected console statement (no-console)
     });
 
     it('should create certification document for successful campaigns', async () => {
-      const mockReport: any = {
+      const mockReport: any = {;
         timestamp: '2025-01-15T10:00:00.000Z',
         overallSuccess: true,
         validationResults: [

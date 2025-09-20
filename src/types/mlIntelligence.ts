@@ -29,7 +29,7 @@ export interface UserPreferences {
   spiceLevel: 'mild' | 'medium' | 'hot',
   cookingSkillLevel: 'beginner' | 'intermediate' | 'advanced',
   favoriteIngredients: string[],
-  dislikedIngredients: string[],
+  dislikedIngredients: string[]
 }
 
 export interface HistoricalData {
@@ -43,21 +43,21 @@ export interface MLOptimizationResult {
   optimizedRecipe: Recipe,
   confidenceScore: number,
   improvementAreas: string[],
-  optimizationReasons: string[],
+  optimizationReasons: string[]
 }
 
 export interface IngredientPairingResult {
   primaryIngredient: Ingredient,
   recommendedPairings: IngredientPairing[],
   pairingConfidence: number,
-  contextualFactors: string[],
+  contextualFactors: string[]
 }
 
 export interface IngredientPairing {
   ingredient: Ingredient,
   compatibilityScore: number,
   synergyType: 'flavor' | 'nutritional' | 'cultural' | 'seasonal',
-  confidence: number,
+  confidence: number
 }
 
 export interface CuisiveFusionResult {
@@ -66,7 +66,7 @@ export interface CuisiveFusionResult {
   fusionScore: number,
   recommendedIngredients: string[],
   cookingTechniques: string[],
-  culturalConsiderations: string[],
+  culturalConsiderations: string[]
 }
 
 export interface AstrologicalPrediction {
@@ -76,7 +76,7 @@ export interface AstrologicalPrediction {
     optimalCookingTimes: string[],
     favorableIngredients: string[],
     cookingMethodRecommendations: string[],
-    seasonalAlignment: number,
+    seasonalAlignment: number
   };
   confidence: number
 }
@@ -94,7 +94,7 @@ export interface MLMetrics {
   cacheHitRate: number,
   errorRate: number,
   executionTimes: number[],
-  learningProgress: number,
+  learningProgress: number
 }
 
 // Additional interface for ingredient compatibility service
@@ -125,10 +125,10 @@ export interface MLIntelligenceResult {
     mlAlignmentScore: number,
     optimalTimingPrediction: string,
     planetaryInfluenceOptimization: number,
-    cosmicHarmonyEnhancement: string[],
+    cosmicHarmonyEnhancement: string[]
   };
   confidence: number,
-  timestamp: string,
+  timestamp: string
 }
 
 export interface MLModelWeights {
@@ -143,7 +143,7 @@ export interface MLTrainingData {
   recipes: Recipe[],
   ingredients: Ingredient[],
   userFeedback: UserFeedback[],
-  successMetrics: SuccessMetrics[],
+  successMetrics: SuccessMetrics[]
 }
 
 export interface UserFeedback {
@@ -152,7 +152,7 @@ export interface UserFeedback {
   comments: string,
   wouldMakeAgain: boolean,
   difficulty: 'easy' | 'medium' | 'hard',
-  timestamp: string,
+  timestamp: string
 }
 
 export interface SuccessMetrics {
@@ -174,7 +174,7 @@ export interface MLOptimizationInput {
   targetRecipe: Recipe,
   constraints: OptimizationConstraints,
   context: MLContext,
-  objectives: OptimizationObjectives,
+  objectives: OptimizationObjectives
 }
 
 export interface OptimizationConstraints {

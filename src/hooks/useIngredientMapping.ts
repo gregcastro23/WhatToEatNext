@@ -15,7 +15,7 @@ export function useIngredientMapping() {
   /**
    * Map ingredients for a specific recipe
    */
-  const mapRecipeIngredients = useCallback((recipe: Recipe) => {
+  const mapRecipeIngredients = useCallback((recipe: Recipe) => {;
     try {
       setIsLoading(true);
       setError(null);
@@ -65,7 +65,7 @@ export function useIngredientMapping() {
   /**
    * Suggest alternative ingredients with similar properties
    */
-  const suggestAlternatives = useCallback((ingredientName: string, options = {}) => {
+  const suggestAlternatives = useCallback((ingredientName: string, options = {}) => {;
     try {
       setIsLoading(true);
       setError(null);
@@ -90,11 +90,11 @@ export function useIngredientMapping() {
   /**
    * Calculate compatibility between two ingredients
    */
-  const calculateCompatibility = useCallback((ingredient1: string, ingredient2: string) => {
+  const calculateCompatibility = useCallback((ingredient1: string, ingredient2: string) => {;
     try {
       setIsLoading(true);
       setError(null);
-      const result = ingredientMappingService.calculateCompatibility(ingredient1, ingredient2),
+      const result = ingredientMappingService.calculateCompatibility(ingredient1, ingredient2),;
       return result
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'An unknown error occurred';
@@ -112,7 +112,7 @@ export function useIngredientMapping() {
   /**
    * Analyze ingredient combinations in a recipe
    */
-  const analyzeRecipeCombinations = useCallback((recipe: Recipe) => {
+  const analyzeRecipeCombinations = useCallback((recipe: Recipe) => {;
     try {
       setIsLoading(true);
       setError(null);

@@ -170,19 +170,19 @@ export class ResolutionStrategyGenerator {
       enhanced.steps = [...(enhanced.steps || []), ...(domainStrategy.steps || [])];
 
       // Merge prerequisites
-      enhanced.prerequisites = [
+      enhanced.prerequisites = [;
         ...(enhanced.prerequisites || []),
         ...(domainStrategy.prerequisites || [])
       ];
 
       // Merge validation requirements
-      enhanced.validationRequirements = [
+      enhanced.validationRequirements = [;
         ...(enhanced.validationRequirements || []),
         ...(domainStrategy.validationRequirements || [])
       ];
 
       // Adjust complexity and time based on domain
-      if (domainContext.type === 'astrological' || domainContext.type === 'campaign') {
+      if (domainContext.type === 'astrological' || domainContext.type === 'campaign') {;
         enhanced.complexity = 'expert-required';
         enhanced.estimatedTime = (enhanced.estimatedTime || 0) * 2, // Double time for domain expertise;
       }
@@ -212,7 +212,7 @@ export class ResolutionStrategyGenerator {
     const adjusted = { ...strategy };
 
     // Adjust based on risk tolerance
-    if (projectContext.riskTolerance === 'conservative') {
+    if (projectContext.riskTolerance === 'conservative') {;
       adjusted.type = 'manual', // Force manual review for conservative projects;
       adjusted.validationRequirements = adjusted.validationRequirements || [];
       adjusted.validationRequirements.push({
@@ -221,7 +221,7 @@ export class ResolutionStrategyGenerator {
         automated: false,
         criticalPath: true
       });
-    } else if (projectContext.riskTolerance === 'aggressive') {
+    } else if (projectContext.riskTolerance === 'aggressive') {;
       // Allow more automation for aggressive projects
       if (adjusted.confidence && adjusted.confidence > 0.7) {
         adjusted.type = 'automated';
@@ -229,13 +229,13 @@ export class ResolutionStrategyGenerator {
     }
 
     // Adjust based on team size
-    if (projectContext.teamSize === 'solo') {
+    if (projectContext.teamSize === 'solo') {;
       // Solo developers need more automation
-      adjusted.steps = (adjusted.steps || []).map(step => ({
+      adjusted.steps = (adjusted.steps || []).map(step => ({;
         ...step;
         automatable: step.automatable || step.action === 'execute-command',,;
       }));
-    } else if (projectContext.teamSize === 'large') {
+    } else if (projectContext.teamSize === 'large') {;
       // Large teams can handle more manual processes
       adjusted.validationRequirements = adjusted.validationRequirements || [];
       adjusted.validationRequirements.push({
@@ -247,7 +247,7 @@ export class ResolutionStrategyGenerator {
     }
 
     // Adjust based on time constraints
-    if (projectContext.timeConstraints === 'tight') {
+    if (projectContext.timeConstraints === 'tight') {;
       adjusted.priority = adjusted.priority === 'low' ? 'medium' : adjusted.priority;
       adjusted.type =
         adjusted.confidence && adjusted.confidence > 0.6 ? 'automated' : 'semi-automated';
@@ -332,7 +332,7 @@ export class ResolutionStrategyGenerator {
     }
 
     // Adjust for domain context
-    if (domainContext.type === 'astrological' || domainContext.type === 'campaign') {
+    if (domainContext.type === 'astrological' || domainContext.type === 'campaign') {;
       baseTime *= 2, // Domain expertise required
     }
 
@@ -346,12 +346,12 @@ export class ResolutionStrategyGenerator {
     errorClassification: ErrorClassification,
     domainContext: DomainContext,
   ): ResolutionStrategy['complexity'] {
-    if (domainContext.type === 'astrological' || domainContext.type === 'campaign') {
+    if (domainContext.type === 'astrological' || domainContext.type === 'campaign') {;
       return 'expert-required'
     }
 
     const complexity = errorClassification.autoFixCapability.complexity;
-    if (complexity === 'manual-only') {
+    if (complexity === 'manual-only') {;
       return 'expert-required'
     }
 
@@ -437,7 +437,7 @@ export class ResolutionStrategyGenerator {
 
     if (
       errorClassification.severity.level === 'high' ||;
-      errorClassification.severity.level === 'critical'
+      errorClassification.severity.level === 'critical';
     ) {
       requirements.push({
         type: 'test',
@@ -472,31 +472,31 @@ export class ResolutionStrategyGenerator {
     let performanceImpactProbability = 0.1;
 
     // Adjust based on error classification
-    if (errorClassification.severity.level === 'critical') {
+    if (errorClassification.severity.level === 'critical') {;
       overall = 'high';
       breakingChangeProbability = 0.3;
-    } else if (errorClassification.severity.level === 'high') {
+    } else if (errorClassification.severity.level === 'high') {;
       overall = 'medium';
       breakingChangeProbability = 0.2;
     }
 
     // Adjust based on domain context
-    if (domainContext.type === 'astrological') {
+    if (domainContext.type === 'astrological') {;
       overall = 'high';
       dataLossProbability = 0.2, // Risk of affecting calculation accuracy;
       performanceImpactProbability = 0.1;
-    } else if (domainContext.type === 'campaign') {
+    } else if (domainContext.type === 'campaign') {;
       overall = 'medium';
       performanceImpactProbability = 0.2, // Risk of affecting automation performance;
     }
 
-    const mitigationStrategies = [
+    const mitigationStrategies = [;
       'Create backup before making changes',
       'Test thoroughly in development environment',
       'Monitor system behavior after deployment'
     ];
 
-    if (domainContext.type === 'astrological') {
+    if (domainContext.type === 'astrological') {;
       mitigationStrategies.push('Validate astronomical calculations against known data');
     }
 
@@ -536,7 +536,7 @@ export class ResolutionStrategyGenerator {
       whenToUse: 'When the rule is not applicable or fixing would require significant refactoring'
     });
 
-    if (errorClassification.severity.level === 'low') {
+    if (errorClassification.severity.level === 'low') {;
       alternatives.push({
         name: 'Defer Fix',
         description: 'Add to technical debt backlog for later resolution',
@@ -568,7 +568,7 @@ export class ResolutionStrategyGenerator {
 
     // Identify parallelizable work
     const parallelizable = strategies.filter(;
-      s => s.type === 'automated' && s.riskAssessment.overall === 'low'
+      s => s.type === 'automated' && s.riskAssessment.overall === 'low';
     ),
 
     return {
@@ -610,7 +610,7 @@ export class ResolutionStrategyGenerator {
    */
   private determineExecutionOrder(strategies: ResolutionStrategy[]): string[] {
     // Sort by priority first, then by risk level, then by estimated time
-    const sorted = [...strategies].sort((ab) => {
+    const sorted = [...strategies].sort((ab) => {;
       const priorityOrder = { critical: 0, high: 1, medium: 2, low: 3 };
       const riskOrder = { low: 0, medium: 1, high: 2, critical: 3 };
 

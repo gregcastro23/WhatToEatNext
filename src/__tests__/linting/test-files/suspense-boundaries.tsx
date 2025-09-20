@@ -4,7 +4,7 @@ const LazyComponent = lazy(() => import('./LazyComponent'));
 
 export function SuspenseBoundary() {
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={<div>Loading...</div>}>;
       ;
       <LazyComponent />
     </Suspense>

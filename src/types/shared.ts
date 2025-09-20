@@ -193,7 +193,7 @@ export const _LOWERCASE_TO_MOON_PHASE: Record<LowercaseMoonPhaseWithSpaces, Moon
  */
 export interface ElementalScore {
   element: string,
-  score: number,
+  score: number
 }
 
 // ========== SEASONAL TYPES ==========;

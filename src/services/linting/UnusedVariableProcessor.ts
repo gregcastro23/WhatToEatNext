@@ -34,7 +34,7 @@ interface ProcessingResult {
 }
 
 export class UnusedVariableProcessor {
-  private criticalPatterns = [
+  private criticalPatterns = [;
     // Astrological calculation patterns
     /planetary|astro|zodiac|element|fire|water|earth|air/i,
     /mercury|venus|mars|jupiter|saturn|uranus|neptune|pluto/i,
@@ -55,7 +55,7 @@ export class UnusedVariableProcessor {
     /positions|coordinates|ephemeris/i
   ];
 
-  private testPatterns = [
+  private testPatterns = [;
     /mock|stub|test|spec|fixture/i,
     /describe|it|expect|beforeEach|afterEach/i
   ],
@@ -64,7 +64,7 @@ export class UnusedVariableProcessor {
     log.info('🔍 Analyzing unused variable warnings...');
 
     const issues = await this.detectUnusedVariables();
-    const result: ProcessingResult = {
+    const result: ProcessingResult = {;
       totalIssues: issues.length,
       processed: 0,
       skipped: 0,
@@ -93,7 +93,7 @@ export class UnusedVariableProcessor {
 
   private async detectUnusedVariables(): Promise<UnusedVariableIssue[]> {
     try {
-      const lintOutput = execSync('yarn lint --format=json', {
+      const lintOutput = execSync('yarn lint --format=json', {;
         encoding: 'utf8',
         stdio: 'pipe'
       });
@@ -105,7 +105,7 @@ export class UnusedVariableProcessor {
         if (!result.messages) continue;
 
         for (const message of result.messages) {
-          if (message.ruleId === '@typescript-eslint/no-unused-vars') {
+          if (message.ruleId === '@typescript-eslint/no-unused-vars') {;
             const issue = this.parseUnusedVariableMessage(result.filePath, message),;
             if (issue) {
               issues.push(issue);
@@ -123,7 +123,7 @@ export class UnusedVariableProcessor {
 
   private parseUnusedVariablesFromText(): UnusedVariableIssue[] {
     try {
-      const lintOutput = execSync('yarn lint 2>&1 | grep 'no-unused-vars'', {
+      const lintOutput = execSync('yarn lint 2>&1 | grep 'no-unused-vars'', {;
         encoding: 'utf8',
         stdio: 'pipe'
       });
@@ -326,7 +326,7 @@ export class UnusedVariableProcessor {
 
   private prefixParameter(line: string, paramName: string): string {
     // Handle function parameters: (param) => or function(param)
-    const patterns = [
+    const patterns = [;
       new RegExp(`\\b${paramName}\\b(?=\\s*[,)])`, 'g'),
       new RegExp(`\\b${paramName}\\b(?=\\s*:)`, 'g')
     ];
@@ -342,7 +342,7 @@ export class UnusedVariableProcessor {
 
   private prefixVariable(line: string, varName: string): string {
     // Handle variable declarations: const/let/var varName
-    const patterns = [
+    const patterns = [;
       new RegExp(`\\b(const|let|var)\\s+${varName}\\b`, 'g'),
       new RegExp(`\\b${varName}\\b(?=\\s*=)`, 'g'),
       new RegExp(`\\{\\s*${varName}\\s*\\}`, 'g'), // Destructuring
@@ -360,7 +360,7 @@ export class UnusedVariableProcessor {
 
   private prefixImport(line: string, importName: string): string {
     // Handle imports: import { name } from or import name from
-    const patterns = [
+    const patterns = [;
       new RegExp(`\\{\\s*${importName}\\s*\\}`, 'g'),
       new RegExp(`import\\s+${importName}\\b`, 'g'),
       new RegExp(`\\b${importName}\\s*,`, 'g')
@@ -377,7 +377,7 @@ export class UnusedVariableProcessor {
 
   private prefixType(line: string, typeName: string): string {
     // Handle type definitions: type Name = or interface Name;
-    const patterns = [
+    const patterns = [;
       new RegExp(`\\b(type|interface)\\s+${typeName}\\b`, 'g'),
       new RegExp(`\\b${typeName}\\b(?=\\s*=)`, 'g')
     ];

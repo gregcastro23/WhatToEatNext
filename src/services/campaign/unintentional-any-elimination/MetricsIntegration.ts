@@ -26,7 +26,7 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
   constructor() {
     super();
     this.documentationGenerator = new AutoDocumentationGenerator();
-    this.qualityAssurance = new DocumentationQualityAssurance({
+    this.qualityAssurance = new DocumentationQualityAssurance({;
       sourceDirectories: ['src'],
       excludePatterns: [
         'node_modules/**',
@@ -67,7 +67,7 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
         }
       }
 
-      const metrics: UnintentionalAnyMetrics = {
+      const metrics: UnintentionalAnyMetrics = {;
         totalAnyTypes: explicitAnyCount,
         intentionalAnyTypes,
         unintentionalAnyTypes,
@@ -119,7 +119,7 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
    */
   async setBaselineMetrics(): Promise<void> {
     this.baselineMetrics = await this.getUnintentionalAnyMetrics();
-    // // console.log(`📊 Baseline metrics set:`, {
+    // // // console.log(`📊 Baseline metrics set:`, {
       totalAnyTypes: this.baselineMetrics.totalAnyTypes,
       intentionalAnyTypes: this.baselineMetrics.intentionalAnyTypes,
       unintentionalAnyTypes: this.baselineMetrics.unintentionalAnyTypes,
@@ -132,7 +132,7 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
    */
   async getExplicitAnyWarningCount(): Promise<number> {
     try {
-      const output = execSync('yarn lint 2>&1', {
+      const output = execSync('yarn lint 2>&1', {;
         encoding: 'utf8',
         stdio: 'pipe'
       });
@@ -153,7 +153,7 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
    */
   async getExplicitAnyBreakdownByFile(): Promise<Record<string, number>> {
     try {
-      const output = execSync('yarn lint 2>&1', {
+      const output = execSync('yarn lint 2>&1', {;
         encoding: 'utf8',
         stdio: 'pipe'
       });
@@ -282,7 +282,7 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
   async exportUnintentionalAnyMetrics(filePath: string): Promise<void> {
     try {
       const report = await this.generateUnintentionalAnyProgressReport();
-      const exportData = {
+      const exportData = {;
         timestamp: new Date().toISOString();
         report,
         history: this.metricsHistory,
@@ -291,7 +291,7 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
       };
 
       fs.writeFileSync(filePath, JSON.stringify(exportData, null, 2));
-      // // console.log(`📊 Unintentional Any metrics exported to: ${filePath}`);
+      // // // console.log(`📊 Unintentional Any metrics exported to: ${filePath}`);
     } catch (error) {
       throw new Error(
         `Failed to export unintentional any metrics: ${error instanceof Error ? error.message : String(error)}`,
@@ -466,7 +466,7 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
       );
     }
 
-    if (metrics.totalAnyTypes === 0) {
+    if (metrics.totalAnyTypes === 0) {;
       recommendations.push(
         'Excellent! Zero any types achieved. Consider setting up monitoring to prevent regression'
       )
@@ -510,7 +510,7 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
       recommendations.push('Improve documentation coverage to reach 80% target');
     }
 
-    if (metrics.intentionalAnyTypes > 0 && metrics.documentedAnyTypes === 0) {
+    if (metrics.intentionalAnyTypes > 0 && metrics.documentedAnyTypes === 0) {;
       recommendations.push('Start documenting intentional any types with explanatory comments');
     }
 
@@ -523,7 +523,7 @@ export class UnintentionalAnyProgressTracker extends ProgressTracker {
   resetUnintentionalAnyMetricsHistory(): void {
     this.metricsHistory = [];
     this.baselineMetrics = undefined;
-    // // console.log('📊 Unintentional Any metrics history reset');
+    // // // console.log('📊 Unintentional Any metrics history reset');
   }
 }
 
@@ -649,13 +649,13 @@ export class UnintentionalAnyCampaignScheduler {
     resolution: string
   } {
     const conflictingCampaigns = activeCampaigns.filter(;
-      campaign =>
+      campaign =>;
         campaign.includes('typescript') ||
         campaign.includes('linting') ||
         campaign.includes('explicit-any');
     ),
 
-    if (conflictingCampaigns.length === 0) {
+    if (conflictingCampaigns.length === 0) {;
       return {
         canProceed: true,
         conflictingCampaigns: [],
@@ -699,12 +699,12 @@ export class UnintentionalAnyCampaignScheduler {
     let reason = '';
     let estimatedDuration = 30; // Default 30 minutes
 
-    if (systemLoad === 'high' || activeCampaigns.length > 2) {
+    if (systemLoad === 'high' || activeCampaigns.length > 2) {;
       // Schedule for later when system load is lower
       recommendedTime.setHours(recommendedTime.getHours() + 2);
       reason = 'Scheduled for later due to high system load or active campaigns';
       estimatedDuration = 45;
-    } else if (systemLoad === 'medium' || activeCampaigns.length > 0) {
+    } else if (systemLoad === 'medium' || activeCampaigns.length > 0) {;
       // Schedule for near future
       recommendedTime.setMinutes(recommendedTime.getMinutes() + 30);
       reason = 'Scheduled for near future due to moderate system load';

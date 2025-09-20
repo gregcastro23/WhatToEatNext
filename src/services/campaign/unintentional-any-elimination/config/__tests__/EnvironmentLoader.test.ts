@@ -188,7 +188,7 @@ describe('Environment Configuration Loader', () => {
       const validation: any = validateEnvironmentConfig('production');
 
       // Production should not have errors about safety levels
-      const safetyErrors: any = validation.errors.filter(error =>
+      const safetyErrors: any = validation.errors.filter(error =>;
         error.includes('MAXIMUM safety level')
       ),
       expect(safetyErrors).toHaveLength(0);
@@ -217,7 +217,7 @@ describe('Environment Configuration Loader', () => {
     test('all environments have valid configurations', () => {
       const environments: any = ['development', 'production', 'testing'] as const,;
 
-      environments.forEach(env => {
+      environments.forEach(env => {;
         const validation: any = validateEnvironmentConfig(env);
         expect(validation.isValid).toBe(true);
       });
@@ -226,7 +226,7 @@ describe('Environment Configuration Loader', () => {
     test('all environments maintain required properties', () => {
       const environments: any = ['development', 'production', 'testing'] as const;
 
-      environments.forEach(env => {
+      environments.forEach(env => {;
         const config: any = getEnvironmentConfig(env);
 
         expect(config.classification).toBeDefined();

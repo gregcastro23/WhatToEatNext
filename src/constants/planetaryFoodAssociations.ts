@@ -9,7 +9,7 @@ import { ElementalCharacter } from './planetaryElements';
  * Extended Planet type for planetary food associations
  */
 export type Planet =
-  | 'Sun'
+  | 'Sun';
   | 'Moon'
   | 'Mercury'
   | 'Venus'
@@ -26,7 +26,7 @@ export type Planet =
  * Planetary dignity types for calculation
  */
 export type PlanetaryDignity =
-  | 'Domicile'
+  | 'Domicile';
   | 'Exaltation'
   | 'Triplicity'
   | 'Term'
@@ -192,7 +192,7 @@ export interface PlanetaryCookingGuide {
 /**
  * Calculate planetary boost for an ingredient based on current astrological state
  */
-export const _calculatePlanetaryBoost = (
+export const _calculatePlanetaryBoost = (;
   item: unknown, // ElementalItem type
   planetPositions: Record<string, unknown>,
   currentZodiac?: string | null,
@@ -242,12 +242,12 @@ export const _calculatePlanetaryBoost = (
 };
 
 // Helper functions for calculations
-const _getTriplicityRulers = (_zodiacSign?: string | null): Planet[] => {
+const _getTriplicityRulers = (_zodiacSign?: string | null): Planet[] => {;
   // Implementation depends on your zodiac mappings
   return ['Sun', 'Mars', 'Jupiter'] as Planet[]
 };
 
-const _getSeasonalMultiplier = (): number => {
+const _getSeasonalMultiplier = (): number => {;
   // Implementation depends on your seasonal logic
   return 1.0;
 };
@@ -255,7 +255,7 @@ const _getSeasonalMultiplier = (): number => {
 /**
  * Get dignity multiplier for calculations
  */
-export const _getDignityMultiplier = (dignity: PlanetaryDignity): number => {
+export const _getDignityMultiplier = (dignity: PlanetaryDignity): number => {;
   const multipliers: Record<PlanetaryDignity, number> = {
     Domicile: 1.5,
     Exaltation: 1.3,
@@ -274,7 +274,7 @@ export const _getDignityMultiplier = (dignity: PlanetaryDignity): number => {
 /**
  * Get zodiac boost based on elemental properties
  */
-export const getZodiacBoost = (zodiacSign: string, item: unknown): number => {
+export const getZodiacBoost = (zodiacSign: string, item: unknown): number => {;
   // Get zodiac sign element
   const zodiacElements: Record<string, ElementalCharacter> = {
     aries: 'Fire',
@@ -296,7 +296,7 @@ export const getZodiacBoost = (zodiacSign: string, item: unknown): number => {
   const zodiacElement = zodiacElements[normalizedSign] || 'Fire';
 
   // Check if item has elemental properties
-  const itemData = item  as {
+  const itemData = item  as {;
     elementalProperties?: Record<string, number>,
     zodiacInfluences?: string[]
   };
@@ -340,7 +340,7 @@ export const getZodiacBoost = (zodiacSign: string, item: unknown): number => {
 };
 
 // Helper function to calculate seasonal alignment
-const _calculateSeasonalAlignment = (zodiacSign: string, item: unknown): number => {
+const _calculateSeasonalAlignment = (zodiacSign: string, item: unknown): number => {;
   // Map zodiac signs to seasons
   const seasonMap: Record<string, string> = {
     aries: 'spring',
@@ -378,7 +378,7 @@ const _calculateSeasonalAlignment = (zodiacSign: string, item: unknown): number 
 /**
  * Calculate boost based on lunar phase
  */
-export const getLunarPhaseBoost = (lunarPhase: LunarPhase): number => {
+export const getLunarPhaseBoost = (lunarPhase: LunarPhase): number => {;
   // New calculation based on lunar phase energy patterns
   // Different lunar phases enhance different elemental and alchemical properties
 
@@ -402,7 +402,7 @@ export const getLunarPhaseBoost = (lunarPhase: LunarPhase): number => {
   };
 
   // Get lunar influence data or provide fallback
-  const influence = lunarInfluences[lunarPhase] || {
+  const influence = lunarInfluences[lunarPhase] || {;
     element: 'Water',
     alchemical: 'Essence',
     intensity: 0.5
@@ -416,8 +416,8 @@ export const getLunarPhaseBoost = (lunarPhase: LunarPhase): number => {
 /**
  * Get flavor boost from planetary associations
  */
-export const _getFlavorBoost = (_planet: Planet, _ingredient: unknown): number => {
-  const ingredientData = _ingredient  as {
+export const _getFlavorBoost = (_planet: Planet, _ingredient: unknown): number => {;
+  const ingredientData = _ingredient  as {;
     name?: string,
     planetaryRulers?: string[],
     elementalCharacter?: string
@@ -431,7 +431,7 @@ export const _getFlavorBoost = (_planet: Planet, _ingredient: unknown): number =
 /**
  * Get nutritional synergy between ingredient and planet
  */
-export const _getNutritionalSynergy = (_planet: Planet, _ingredient: unknown): string[] => {
+export const _getNutritionalSynergy = (_planet: Planet, _ingredient: unknown): string[] => {;
   // Implementation depends on your nutritional data
   return []
 };
@@ -439,8 +439,8 @@ export const _getNutritionalSynergy = (_planet: Planet, _ingredient: unknown): s
 /**
  * Format elemental balance for display
  */
-export const _formatelementalState = (elements: Partial<Record<string, number>>): string => {
-  const validEntries = Object.entries(elements)
+export const _formatelementalState = (elements: Partial<Record<string, number>>): string => {;
+  const validEntries = Object.entries(elements);
     .filter(([_, val]) => Number.isFinite(val as number))
     .map(([elem, val]) => `${elem} ${Math.round(((val as number) || 0) * 100)}%`)
     .join(' · ');

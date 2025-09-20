@@ -12,21 +12,21 @@ export default function DevSettings() {
   }, [alpha]);
 
   return (
-    <div style={{ border: '1px dashed #666', borderRadius: 8, padding: 8 }}>
+    <div style={{ border: '1px dashed #666', borderRadius: 8, padding: 8 }}>;
       ;<div style={{ fontWeight: 600, marginBottom: 6 }}>Dev Settings</div>;
       <div>
-        <label htmlFor='alpha' style={{ marginRight: 8 }}>
+        <label htmlFor='alpha' style={{ marginRight: 8 }}>;
           Blend α:
         </label>
         ;
         <input
-          id='alpha'
-          type='range'
-          min={0}
-          max={0.5}
-          step={0.01}
-          value={alpha}
-          onChange={e => setAlpha(Number(e.target.value))}
+          id='alpha';
+          type='range';
+          min={0};
+          max={0.5};
+          step={0.01};
+          value={alpha};
+          onChange={e => setAlpha(Number(e.target.value))};
         />
         ;<span style={{ marginLeft: 8 }}>{alpha.toFixed(2)}</span>;
       </div>

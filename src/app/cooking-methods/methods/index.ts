@@ -7,11 +7,11 @@ export interface CookingMethodInfo {
     Fire: number,
     Water: number,
     Earth: number,
-    Air: number,
+    Air: number
   };
   duration?: {
     min: number,
-    max: number,
+    max: number
   };
   suitable_for?: string[];
   benefits?: string[];
@@ -33,7 +33,7 @@ export interface CookingMethodInfo {
     | string
     | {
         min: number,
-        max: number,
+        max: number
       };
   temperature_range?:
     | string

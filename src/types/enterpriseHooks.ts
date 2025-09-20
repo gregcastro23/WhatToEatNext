@@ -15,7 +15,7 @@ export interface EnterpriseRecipeData {
     Fire: number,
     Water: number,
     Earth: number,
-    Air: number,
+    Air: number
   };
   nutritionalProfile?: Record<string, number>;
   metadata?: Record<string, unknown>;
@@ -30,7 +30,7 @@ export interface EnterpriseIngredientData {
     Fire: number,
     Water: number,
     Earth: number,
-    Air: number,
+    Air: number
   };
   seasonalAvailability?: Record<string, number>;
   astrologicalAffinity?: Record<string, number>;
@@ -53,7 +53,7 @@ export interface EnterpriseAstrologicalContext {
     Fire: number,
     Water: number,
     Earth: number,
-    Air: number,
+    Air: number
   };
   transitData?: Record<string, unknown>;
   timestamp?: Date;
@@ -82,22 +82,22 @@ export interface EnterpriseIntelligenceAnalysisState {
     recommendations: string[],
     compatibilityScore: number,
     optimizationSuggestions: string[],
-    confidence: number,
+    confidence: number
   };
   ingredientIntelligence?: {
     recommendations: string[],
     seasonalScore: number,
     nutritionalScore: number,
-    confidence: number,
+    confidence: number
   };
   validationIntelligence?: {
     dataIntegrity: {
       issues: string[],
-      score: number,
+      score: number
     };
     astrologicalConsistency: {
       issues: string[],
-      score: number,
+      score: number
     };
     overallValid: boolean
   };
@@ -105,10 +105,10 @@ export interface EnterpriseIntelligenceAnalysisState {
     allergenWarnings: string[],
     nutritionalConcerns: string[],
     interactionWarnings: string[],
-    safetyScore: number,
+    safetyScore: number
   };
   timestamp: Date,
-  processingTime: number,
+  processingTime: number
 }
 
 export interface EnterpriseIntelligenceHookState {
@@ -117,7 +117,7 @@ export interface EnterpriseIntelligenceHookState {
   analysis: EnterpriseIntelligenceAnalysisState | null,
   recommendations: EnterpriseIntelligenceRecommendations,
   isAnalyzing: boolean,
-  lastUpdate: Date | null,
+  lastUpdate: Date | null
 }
 
 export interface EnterpriseIntelligenceHookMethods {
@@ -131,7 +131,7 @@ export interface EnterpriseIntelligenceHookMethods {
   clearAnalysis: () => void,
   refreshAnalysis: () => Promise<void>,
   getRecommendations: () => EnterpriseIntelligenceRecommendations,
-  getAnalysisState: () => EnterpriseIntelligenceAnalysisState | null,
+  getAnalysisState: () => EnterpriseIntelligenceAnalysisState | null
 }
 
 export type EnterpriseIntelligenceHook = EnterpriseIntelligenceHookState &;
@@ -146,7 +146,7 @@ export interface ChakraAnalysisContext {
     color: string,
     element: string,
     frequency: number,
-    symbol: string,
+    symbol: string
   };
 }
 
@@ -155,5 +155,5 @@ export interface ChakraAnalysisResult {
   recommendations: string[],
   analysisDetails: Record<string, unknown>;
   confidenceScore: number,
-  improvementSuggestions: string[],
+  improvementSuggestions: string[]
 }

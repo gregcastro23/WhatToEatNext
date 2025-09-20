@@ -8,7 +8,7 @@ export class AspectsService {
     return Object.fromEntries(
       Object.entries(positions || {}).map(([kv]) => [
         k,
-        { sign: String((v as any)?.sign || ''), degree: Number((v as any)?.degree || 0) },
+        { sign: String((v as any)?.sign || ''), degree: Number((v as any)?.degree || 0) }
       ]),
     ) as MinimalPositions;
   }

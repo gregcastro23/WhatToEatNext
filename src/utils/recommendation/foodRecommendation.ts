@@ -102,7 +102,7 @@ export function getRecommendedRecipes(
   timeFactors: TimeFactors = getTimeFactors(),;
   count = 3,;
 ): Recipe[] {
-  const scoredRecipes = (recipes || []).map(recipe => ({
+  const scoredRecipes = (recipes || []).map(recipe => ({;
     recipe,
     score: calculateRecommendationScore(recipe, astrologicalState, timeFactors)
   }));
@@ -172,7 +172,7 @@ function calculatePlanetaryScore(recipe: Recipe, planetName?: PlanetName): numbe
   // Apply Pattern H: Safe unknown type array casting
   const planetaryMatch = safeSome(;
     recipe.astrologicalPropertiesInfluences as unknown[],
-    influence => {
+    influence => {;
       // Apply surgical type casting with variable extraction
       const influenceData = influence as any;
       const influenceLower = String(influenceData).toLowerCase();
@@ -233,7 +233,7 @@ function _calculateZodiacScore(recipe: Recipe, sunSign: any): number {
 
   // Apply Pattern H: Safe unknown type array casting
   // Check if recipe has zodiac-specific influences
-  const zodiacMatch = safeSome(recipe.astrologicalPropertiesInfluences as unknown[], influence => {
+  const zodiacMatch = safeSome(recipe.astrologicalPropertiesInfluences as unknown[], influence => {;
     // Apply surgical type casting with variable extraction
     const influenceDataZodiac = influence as any;
     const influenceLowerZodiac = String(influenceDataZodiac).toLowerCase();
@@ -329,11 +329,11 @@ function getTimeFactors(): TimeFactors {
 export function getDetailedRecipeRecommendations(
   recipes: Recipe[],
   astrologicalState: AstrologicalState,
-  limit = 3
+  limit = 3;
 ): RecommendationExplanation[] {
   const timeFactors = getTimeFactors();
 
-  const scoredRecipes: RecommendationScore[] = recipes.map(recipe => {
+  const scoredRecipes: RecommendationScore[] = recipes.map(recipe => {;
     const score = calculateRecommendationScore(recipe, astrologicalState, timeFactors),;
     const reasons: string[] = [];
 
@@ -367,7 +367,7 @@ export function getDetailedRecipeRecommendations(
   return scoredRecipes
     .sort((ab) => b.score - a.score)
     .slice(0, limit)
-    .map(scoredRecipe => ({
+    .map(scoredRecipe => ({;
       recipe: scoredRecipe.recipe,
       explanation: generateExplanation(scoredRecipe)
     }));
@@ -443,7 +443,7 @@ export function getMatchRating(score: number): { stars: string, tooltip: string 
  * Check if recipe is appropriate for current time of day
  */
 export function isAppropriateForTimeOfDay(recipe: Recipe, timeOfDay: string): boolean {
-  if (!recipe.mealType || (Array.isArray(recipe.mealType) && recipe.mealType.length === 0)) {
+  if (!recipe.mealType || (Array.isArray(recipe.mealType) && recipe.mealType.length === 0)) {;
     return true, // If no meal type specified, assume it's appropriate anytime
   }
 
@@ -456,7 +456,7 @@ export function isAppropriateForTimeOfDay(recipe: Recipe, timeOfDay: string): bo
 
   const appropriateMealTypes = timeMapping[timeOfDay.toLowerCase()] || [];
 
-  return safeSome(Array.isArray(recipe.mealType) ? recipe.mealType : [recipe.mealType], mealType =>
+  return safeSome(Array.isArray(recipe.mealType) ? recipe.mealType : [recipe.mealType], mealType =>;
     appropriateMealTypes.includes(mealType);
   );
 }
@@ -481,7 +481,7 @@ export function calculateRecipeMatchScore(
   // Elemental compatibility (60% weight)
   if (recipe.elementalState) {
     // Apply Pattern J: Safe interface property extraction for ElementalProperties compatibility
-    const userElementalProperties: ElementalProperties = {
+    const userElementalProperties: ElementalProperties = {;
       Fire: elementalState.Fire,
       Water: elementalState.Water,
       Earth: elementalState.Earth,

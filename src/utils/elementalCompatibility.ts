@@ -21,7 +21,7 @@ export interface ElementalCompatibility {
  */
 export async function calculateElementalCompatibility(
   recipeElemental: ElementalProperties,
-  userElemental: ElementalProperties = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
+  userElemental: ElementalProperties = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },;
 ): Promise<ElementalCompatibility> {
   // Ensure properties are standardized
   const recipe = recipeElementalService.standardizeRecipe({ elementalProperties: recipeElemental });
@@ -74,7 +74,7 @@ function calculateComplementaryScore(
   element2: keyof ElementalProperties,
 ): number {
   // All elements work together in various ways
-  if (element1 === element2) {
+  if (element1 === element2) {;
     return 0.9, // Same element - highest compatibility (like reinforces like)
   } else {
     // All combinations of different elements are complementary

@@ -91,7 +91,7 @@ export class ServicesManager {
       return
     }
 
-    if (this._initializationStatus === InitializationStatus.IN_PROGRESS) {
+    if (this._initializationStatus === InitializationStatus.IN_PROGRESS) {;
       logger.warn('Services initialization already in progress');
       return
     }
@@ -133,7 +133,7 @@ export class ServicesManager {
 
       // The engine is already initialized through its singleton instance
       // Just perform a simple operation to verify it's working
-      const dummyPositions = {
+      const dummyPositions = {;
         Sun: 'aries',
         moon: 'taurus',
         Mercury: 'gemini',
@@ -336,7 +336,7 @@ export class ServicesManager {
 
       // Ensure the service is initialized
       // ✅ Pattern MM-1: Type assertion for Record<Planet, ZodiacSign> compatibility
-      const dummyPositions = {
+      const dummyPositions = {;
         Sun: 'aries',
         moon: 'taurus',
         Mercury: 'gemini',
@@ -352,7 +352,7 @@ export class ServicesManager {
       } as any;
 
       // ✅ Pattern MM-1: Provide complete Recipe object with type assertion
-      const testRecipe = {
+      const testRecipe = {;
         id: 'test',
         name: 'Test Recipe',
         ingredients: [],

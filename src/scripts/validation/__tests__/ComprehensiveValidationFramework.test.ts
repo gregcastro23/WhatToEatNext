@@ -35,16 +35,16 @@ describe('ComprehensiveValidationFramework', () => {
       testTimeout: 30000,
       compilationTimeout: 45000,
       maxRetries: 2,
-      logLevel: 'info',
+      logLevel: 'info'
     };
 
     framework = new ComprehensiveValidationFramework(config);
 
     // Setup mock processed files
-    mockProcessedFiles = [
+    mockProcessedFiles = [;
       '/project/src/components/TestComponent.tsx',
       '/project/src/services/TestService.ts',
-      '/project/src/utils/helper.ts',
+      '/project/src/utils/helper.ts'
     ];
 
     // Mock successful executions by default
@@ -182,7 +182,7 @@ describe('ComprehensiveValidationFramework', () => {
       const tsResult: any = result.validationResults.find(r => r.validationType === 'typescript-compilation');
       expect(tsResult.details.errorTypes).toEqual({
         TS2322: 2,
-        TS2339: 1,
+        TS2339: 1
       });
     });
   });
@@ -233,7 +233,7 @@ describe('ComprehensiveValidationFramework', () => {
       expect(testResult.details.testResults).toEqual({
         passed: 8,
         failed: 2,
-        total: 10,
+        total: 10
       });
     });
   });
@@ -414,11 +414,11 @@ describe('ComprehensiveValidationFramework', () => {
         enableTestSuiteValidation: false,
         enableComponentValidation: false,
         enableServiceValidation: false,
-        enableBuildValidation: false,
+        enableBuildValidation: false
       };
 
       const frameworkWithDisabledValidations: any = new ComprehensiveValidationFramework(configWithDisabledValidations);
-      const result: any = await frameworkWithDisabledValidations.performComprehensiveValidation(
+      const result: any = await frameworkWithDisabledValidations.performComprehensiveValidation(;
         mockProcessedFiles,
         'test-batch-1',
       );
@@ -444,7 +444,7 @@ describe('ComprehensiveValidationFramework', () => {
         return Buffer.from('');
       });
 
-      const result: any = await frameworkWithShortTimeouts.performComprehensiveValidation(
+      const result: any = await frameworkWithShortTimeouts.performComprehensiveValidation(;
         mockProcessedFiles,
         'test-batch-1',
       );

@@ -23,14 +23,14 @@ interface UnifiedState {
   alchemicalData: StandardizedAlchemicalResult | null,
   recommendationData: AlchemicalRecommendation | null,
   lastUpdated: Date | null,
-  refreshData: () => void,
+  refreshData: () => void
 }
 
 // Create the context with a default value
 const UnifiedContext = createContext<UnifiedState | undefined>(undefined);
 
 // Create the provider component
-export const UnifiedStateProvider = ({ children }: { children: ReactNode }) => {
+export const UnifiedStateProvider = ({ children }: { children: ReactNode }) => {;
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [astrologicalData, setAstrologicalData] = useState<Record<string, PlanetPosition> | null>(
@@ -42,7 +42,7 @@ export const UnifiedStateProvider = ({ children }: { children: ReactNode }) => {
   );
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
 
-  const refreshData = useCallback(async () => {
+  const refreshData = useCallback(async () => {;
     setIsLoading(true);
     setError(null);
     logger.info('UnifiedContext: Refreshing all data...');
@@ -59,7 +59,7 @@ export const UnifiedStateProvider = ({ children }: { children: ReactNode }) => {
 
       // Handle the actual astrologicalData structure from debug output
       // The data structure shows planets as direct keys: Sun, moon, Mercury, etc.
-      const planetMap = {
+      const planetMap = {;
         Sun: 'Sun',
         moon: 'Moon',
         Mercury: 'Mercury',
@@ -75,7 +75,7 @@ export const UnifiedStateProvider = ({ children }: { children: ReactNode }) => {
 
       Object.entries(planetMap).forEach(([dataKey, planetName]) => {
         const planetData = astroData[dataKey];
-        if (planetData && typeof planetData === 'object' && 'sign' in planetData) {
+        if (planetData && typeof planetData === 'object' && 'sign' in planetData) {;
           planetaryPositions[planetName] = {
             sign: planetData.sign,
             degree: planetData.degree,
@@ -100,7 +100,7 @@ export const UnifiedStateProvider = ({ children }: { children: ReactNode }) => {
       // Handle the actual astrologicalData structure for recommendations
       Object.entries(planetMap).forEach(([dataKey, planetName]) => {
         const planetData = astroData[dataKey];
-        if (planetData && typeof planetData === 'object' && 'sign' in planetData) {
+        if (planetData && typeof planetData === 'object' && 'sign' in planetData) {;
           positionsForRecs[planetName] = planetData.sign;
         }
       });
@@ -126,7 +126,7 @@ export const UnifiedStateProvider = ({ children }: { children: ReactNode }) => {
     void refreshData()
   }, [refreshData]);
 
-  const value = {
+  const value = {;
     isLoading,
     error,
     astrologicalData,
@@ -140,9 +140,9 @@ export const UnifiedStateProvider = ({ children }: { children: ReactNode }) => {
 };
 
 // Create a custom hook for easy consumption
-export const useUnifiedState = () => {
+export const useUnifiedState = () => {;
   const context = useContext(UnifiedContext);
-  if (context === undefined) {
+  if (context === undefined) {;
     throw new Error('useUnifiedState must be used within a UnifiedStateProvider')
   }
   return context;

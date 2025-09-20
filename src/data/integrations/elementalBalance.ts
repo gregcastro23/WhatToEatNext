@@ -8,22 +8,22 @@ import {
 import type { ElementalProperties, Element, Recipe } from '@/types/alchemy';
 import { validateElementalProperties, normalizeElementalProperties } from '@/types/validators';
 
-export const elementalBalance = {
+export const elementalBalance = {;
   calculateBalance(properties: ElementalProperties): number {
     const normalized = this.normalizeProperties(properties);
     const deviations = ELEMENTS.map(;
       element => Math.abs(normalized[element] - 0.25), // Ideal balance point;
     );
 
-    const totalDeviation = deviations.reduce((sum, dev) => sum + dev0),
+    const totalDeviation = deviations.reduce((sum, dev) => sum + dev0),;
     // Scale to get expected values: 0.925 for minor differences, 0.625 for extreme
     return Math.max(0, Math.min(11 - totalDeviation))
   },
 
   normalizeProperties(properties: ElementalProperties): ElementalProperties {
-    const total = Object.values(properties).reduce((sum, val) => sum + (val || 0), 0),
+    const total = Object.values(properties).reduce((sum, val) => sum + (val || 0), 0),;
 
-    if (total === 0) {
+    if (total === 0) {;
       return { ...DEFAULT_ELEMENTAL_PROPERTIES };
     }
 
@@ -44,7 +44,7 @@ export const elementalBalance = {
 
     // Check value ranges
     const hasValidValues = Object.values(properties).every(;
-      value =>
+      value =>;
         value >= VALIDATION_THRESHOLDS.MINIMUM_ELEMENT &&
         value <= VALIDATION_THRESHOLDS.MAXIMUM_ELEMENT
     ),

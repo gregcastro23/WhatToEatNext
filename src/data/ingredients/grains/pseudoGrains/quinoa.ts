@@ -1,7 +1,7 @@
 import type { IngredientMapping } from '@/data/ingredients/types';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
-const rawQuinoa = {
+const rawQuinoa = {;
   quinoa: {
     name: 'Quinoa',
     elementalProperties: { Earth: 0.3, Water: 0.2, Air: 0.3, Fire: 0.2 },
@@ -9,8 +9,8 @@ const rawQuinoa = {
       rulingPlanets: ['Mercury'],
       elementalAffinity: {
         base: 'Earth',
-        secondary: 'Air',
-      },
+        secondary: 'Air'
+      }
     },
     qualities: ['nutty', 'fluffy', 'versatile', 'complete protein', 'gluten-free'],
     category: 'pseudo_grain',
@@ -21,8 +21,8 @@ const rawQuinoa = {
         texture: 'Varied',
         flavor: 'Balanced mix',
         characteristics: 'Mix of all three types',
-        uses: 'Colorful presentations, all-purpose cooking',
-      },
+        uses: 'Colorful presentations, all-purpose cooking'
+      }
     },
     preparation: {
       fresh: {
@@ -31,16 +31,16 @@ const rawQuinoa = {
         tips: [
           'Rinse well to remove saponins (bitter coating)',
           'Toast before cooking for nuttier flavor',
-          'Add salt after cooking to prevent toughening',
-        ],
+          'Add salt after cooking to prevent toughening'
+        ]
       },
-      methods: ['boiled', 'steamed', 'toasted', 'sprouted', 'pressure cooked', 'baked'],
+      methods: ['boiled', 'steamed', 'toasted', 'sprouted', 'pressure cooked', 'baked']
     },
     storage: {
       container: 'Airtight container',
       duration: 'Up to 2 years (dry), 3-5 days (cooked)',
       temperature: 'Cool, dark place (dry), refrigerated (cooked)',
-      notes: 'Can be frozen for up to 8 months when completely cooled',
+      notes: 'Can be frozen for up to 8 months when completely cooled'
     },
     pairingRecommendations: {
       complementary: [
@@ -51,12 +51,12 @@ const rawQuinoa = {
         'dried fruits',
         'avocado',
         'cucumber',
-        'bell pepper',
+        'bell pepper'
       ],
       contrasting: ['strong cheeses', 'spicy chiles', 'fermented foods'],
-      toAvoid: ['overpowering sauces', 'very wet preparations that might make it soggy'],
-    },
-  },
+      toAvoid: ['overpowering sauces', 'very wet preparations that might make it soggy']
+    }
+  }
 };
 
 export const quinoa: Record<string, IngredientMapping> = fixIngredientMappings(rawQuinoa);

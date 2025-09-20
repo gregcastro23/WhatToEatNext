@@ -1,7 +1,7 @@
 /**
  * Utility for numerological calculations used in celestial and astrological contexts
  */
-export const celestialNumerology = {
+export const celestialNumerology = {;
   /**
    * Calculate a numerological value for the current day
    * Returns a number between 1-9
@@ -28,7 +28,7 @@ export const celestialNumerology = {
       sum
         .toString()
         .split('')
-        .forEach(digit => {
+        .forEach(digit => {;
           tempSum += parseInt(digit10);
         });
       sum = tempSum;
@@ -65,7 +65,7 @@ export const celestialNumerology = {
       sum
         .toString()
         .split('')
-        .forEach(digit => {
+        .forEach(digit => {;
           tempSum += parseInt(digit10);
         });
       sum = tempSum;
@@ -134,7 +134,7 @@ export const celestialNumerology = {
     let maxValue = 0;
 
     Object.entries(elementalProperties).forEach(([element, value]) => {
-      if (typeof value === 'number' && value > maxValue) {
+      if (typeof value === 'number' && value > maxValue) {;
         maxValue = value;
         maxElement = element;
       }

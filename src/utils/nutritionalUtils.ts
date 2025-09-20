@@ -39,7 +39,7 @@ export async function getNutritionalData(
   if (!profile) return null;
 
   // Convert profile to match alchemy types
-  const alchemyProfile: unknown = {
+  const alchemyProfile: unknown = {;
     ...profile;
     // Convert phytonutrients from Record<string, number> to string[]
     phytonutrients:

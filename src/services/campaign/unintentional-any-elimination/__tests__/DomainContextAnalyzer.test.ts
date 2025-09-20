@@ -592,7 +592,7 @@ describe('DomainContextAnalyzer', () => {
       test('suggests array types for any[] patterns', () => {
         const context: ClassificationContext = { filePath: 'src/calculations/planetary.ts',,;
           lineNumber: 10,
-          codeSnippet: 'const planets: any[] = getAllPlanets(),',
+          codeSnippet: 'const _planets: any[] = getAllPlanets(),',
           surroundingLines: [],
           hasExistingComment: false,
           isInTestFile: false,

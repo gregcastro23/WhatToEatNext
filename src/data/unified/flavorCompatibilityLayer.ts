@@ -184,13 +184,13 @@ export function getFlavorProfileForIngredient(ingredientName: string): LegacyFla
  */
 export function findCompatibleProfiles(
   targetProfile,
-  minCompatibility = 0.7
+  minCompatibility = 0.7;
 ): Array<{ profile: unknown, compatibility: number }> {
   try {
     const unifiedTarget = convertLegacyToUnified(targetProfile, 'target-legacy');
-    const results = newFindCompatibleProfiles(unifiedTarget, minCompatibility),
+    const results = newFindCompatibleProfiles(unifiedTarget, minCompatibility),;
 
-    return (results || []).map(result => ({
+    return (results || []).map(result => ({;
       profile: convertUnifiedToLegacyProfile(result.profile),
       compatibility: result.compatibility.overall
     }));
@@ -258,7 +258,7 @@ export function calculateElementalCompatibility(
 
 function convertLegacyToUnified(legacyProfile, id: string): UnifiedFlavorProfile {
   // Extract base notes from various legacy formats
-  const baseNotes: BaseFlavorNotes = {
+  const baseNotes: BaseFlavorNotes = {;
     sweet: legacyProfile.sweet || legacyProfile.flavorProfiles?.sweet || 0,
     sour: legacyProfile.sour || legacyProfile.flavorProfiles?.sour || 0,
     salty: legacyProfile.salty || legacyProfile.flavorProfiles?.salty || 0,

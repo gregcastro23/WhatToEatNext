@@ -12,22 +12,22 @@ jest.mock('@/utils/ingredientRecommender', () => {
         category: 'culinary_herb',
         qualities: ['aromatic', 'warming'],
         elementalProperties: { Fire: 0.6, Air: 0.3, Earth: 0.1, Water: 0 },
-        astrologicalProfile: { rulingPlanets: ['Sun', 'Mercury'] },
+        astrologicalProfile: { rulingPlanets: ['Sun', 'Mercury'] }
       } as Ingredient,
       {
         name: 'Thyme',
         category: 'culinary_herb',
         qualities: ['aromatic', 'warming'],
         elementalProperties: { Fire: 0.4, Air: 0.4, Earth: 0.2, Water: 0 },
-        astrologicalProfile: { rulingPlanets: ['Mercury'] },
-      } as Ingredient,
-    ],
+        astrologicalProfile: { rulingPlanets: ['Mercury'] }
+      } as Ingredient
+    ]
   };
 });
 
 describe('getRecommendedIngredients', () => {
   it('should return ingredients matching the current elemental state', () => {
-    const astroState: AstrologicalState = {
+    const astroState: AstrologicalState = {;
       currentZodiac: 'leo',
       moonPhase: 'full moon',
       currentPlanetaryAlignment: { Sun: { sign: 'leo', degree: 15 }, Moon: { sign: 'cancer', degree: 5 } },
@@ -38,13 +38,13 @@ describe('getRecommendedIngredients', () => {
       planetaryAlignment: { Sun: { sign: 'leo', degree: 15 }, Moon: { sign: 'cancer', degree: 5 } },
       aspects: [],
       tarotElementBoosts: { Fire: 0.2, Water: 0.1, Air: 0, Earth: 0 },
-      tarotPlanetaryBoosts: { Sun: 0.2, Moon: 0.1 },
+      tarotPlanetaryBoosts: { Sun: 0.2, Moon: 0.1 }
     };
 
     const ingredients: any = getRecommendedIngredients(astroState);
 
     expect(ingredients).toBeInstanceOf(Array);
-    ingredients.forEach(ingredient => {
+    ingredients.forEach(ingredient => {;
       expect(ingredient).toHaveProperty('elementalProperties');
       expect(ingredient).toHaveProperty('astrologicalProfile');
       const astroProfile: any = (ingredient as { astrologicalProfile: { rulingPlanet; s: string[] } })

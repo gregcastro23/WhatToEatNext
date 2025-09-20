@@ -33,21 +33,21 @@ import { createElementalProperties } from '../../utils/elemental/elementalUtils'
 // Import shared utility functions
 
 // Missing unified seasonal system variables
-const unifiedSeasonalSystem = {
+const unifiedSeasonalSystem = {;
   spring: { dominantElement: 'Air', supportingElements: ['Water'] },
   summer: { dominantElement: 'Fire', supportingElements: ['Air'] },
   autumn: { dominantElement: 'Earth', supportingElements: ['Fire'] },
   winter: { dominantElement: 'Water', supportingElements: ['Earth'] }
 };
 
-const unifiedSeasonalProfiles = {
+const unifiedSeasonalProfiles = {;
   spring: { ingredients: [], flavors: [], techniques: [] },
   summer: { ingredients: [], flavors: [], techniques: [] },
   autumn: { ingredients: [], flavors: [], techniques: [] },
   winter: { ingredients: [], flavors: [], techniques: [] }
 };
 
-const unifiedIngredients = {
+const unifiedIngredients = {;
   // Placeholder for unified ingredient system
   getAllIngredients: () => [],
   getIngredientsByCategory: (_category: string) => [],
@@ -163,7 +163,7 @@ export interface CuisineIngredientAnalysis {
   elementalProfile: ElementalProperties,
   seasonalAvailability: Record<Season, number>;
   commonIngredients: UnifiedIngredient[],
-  uniqueIngredients: UnifiedIngredient[],
+  uniqueIngredients: UnifiedIngredient[]
 }
 
 // ===== UNIFIED CUISINE INTEGRATION INTERFACE =====;
@@ -210,7 +210,7 @@ export interface UnifiedCuisineIntegration {
 // ===== CONSOLIDATED CUISINE DATA =====;
 
 // Enhanced cuisine matrix that includes all ingredient categories
-export const enhancedCuisineMatrix = {
+export const enhancedCuisineMatrix = {;
   // Consolidate existing matrices (with fallbacks in case imports fail)
   grain: grainCuisineMatrix || {
     white_rice: {
@@ -660,15 +660,15 @@ export class UnifiedCuisineIntegrationSystem {
     let finalCulturalSynergy = culturalSynergy;
     let finalElementalAlignment = elementalAlignment;
 
-    if (cuisine1 === cuisine2) {
+    if (cuisine1 === cuisine2) {;
       // Self-reinforcement: same cuisine has perfect compatibility
       finalMonicaCompatibility = Math.max(0.9, monicaCompatibility);
       finalKalchmHarmony = Math.max(0.9, kalchmHarmony);
-      finalCulturalSynergy = Math.max(0.9, culturalSynergy),
-      finalElementalAlignment = Math.max(0.9, elementalAlignment),
+      finalCulturalSynergy = Math.max(0.9, culturalSynergy),;
+      finalElementalAlignment = Math.max(0.9, elementalAlignment),;
     }
 
-    const compatibility: CuisineCompatibilityProfile = {
+    const compatibility: CuisineCompatibilityProfile = {;
       monicaCompatibility: finalMonicaCompatibility,
       kalchmHarmony: finalKalchmHarmony,
       culturalSynergy: finalCulturalSynergy,
@@ -751,7 +751,7 @@ export class UnifiedCuisineIntegrationSystem {
    */
   private calculateCulturalSynergy(cuisine1: string, cuisine2: string): number {
     // Define cultural proximity groups
-    const culturalGroups = {
+    const culturalGroups = {;
       east_asian: ['chinese', 'japanese', 'korean', 'vietnamese', 'thai'],
       south_asian: ['indian'],
       mediterranean: ['italian', 'greek', 'spanish', 'middle-eastern'],
@@ -764,19 +764,19 @@ export class UnifiedCuisineIntegrationSystem {
     // Find groups for each cuisine
     const groups1 = Object.entries(culturalGroups);
       .filter(([, cuisines]) =>
-        Array.isArray(cuisines) ? cuisines.includes(cuisine1) : cuisines === cuisine1,
+        Array.isArray(cuisines) ? cuisines.includes(cuisine1) : cuisines === cuisine1,;
       )
       .map(([group]) => group);
 
     const groups2 = Object.entries(culturalGroups);
       .filter(([, cuisines]) =>
-        Array.isArray(cuisines) ? cuisines.includes(cuisine2) : cuisines === cuisine2,
+        Array.isArray(cuisines) ? cuisines.includes(cuisine2) : cuisines === cuisine2,;
       )
       .map(([group]) => group);
 
     // Calculate synergy based on shared cultural groups
-    const sharedGroups = (groups1 || []).filter(group =>
-      Array.isArray(groups2) ? groups2.includes(group) : groups2 === group,
+    const sharedGroups = (groups1 || []).filter(group =>;
+      Array.isArray(groups2) ? groups2.includes(group) : groups2 === group,;
     );
 
     if ((sharedGroups || []).length > 0) {
@@ -883,7 +883,7 @@ export class UnifiedCuisineIntegrationSystem {
     };
 
     // Get cuisine profiles with fallback to default
-    const defaultElemental = createElementalProperties({
+    const defaultElemental = createElementalProperties({;
       Fire: 0.4,
       Water: 0.4,
       Earth: 0.4,
@@ -969,7 +969,7 @@ export class UnifiedCuisineIntegrationSystem {
     methods1: { [key: string]: number },
     methods2: { [key: string]: number },
   ): number {
-    const sharedMethods = Object.keys(methods1 || {}).filter(method =>
+    const sharedMethods = Object.keys(methods1 || {}).filter(method =>;
       Object.keys(methods2 || {}).includes(method),
     );
 
@@ -1016,7 +1016,7 @@ export class UnifiedCuisineIntegrationSystem {
 
     // Generate cultural notes and dishes
     const culturalNotes = this.generateCulturalNotes(cuisine1, cuisine2);
-    const recommendedDishes = this.generateFusionDishes(cuisine1, cuisine2),
+    const recommendedDishes = this.generateFusionDishes(cuisine1, cuisine2),;
 
     // Generate seasonal adaptations
     const seasonalAdaptations = this.generateSeasonalAdaptations(;
@@ -1093,10 +1093,10 @@ export class UnifiedCuisineIntegrationSystem {
 
     // Add unique ingredients from each cuisine based on blend ratio
     const uniqueIngredients1 = (ingredients1 || []).filter(;
-      ing => !sharedIngredients.includes(ing.name),
+      ing => !sharedIngredients.includes(ing.name),;
     );
     const uniqueIngredients2 = (ingredients2 || []).filter(;
-      ing => !sharedIngredients.includes(ing.name),
+      ing => !sharedIngredients.includes(ing.name),;
     );
 
     // Select ingredients based on blend ratio
@@ -1155,10 +1155,10 @@ export class UnifiedCuisineIntegrationSystem {
     }
 
     // Add unique methods from each cuisine
-    const uniqueMethods1 = Object.keys(monica1.cookingMethodOptimization).filter(method =>
+    const uniqueMethods1 = Object.keys(monica1.cookingMethodOptimization).filter(method =>;
       Array.isArray(sharedMethods) ? !sharedMethods.includes(method) : sharedMethods !== method;
     );
-    const uniqueMethods2 = Object.keys(monica2.cookingMethodOptimization).filter(method =>
+    const uniqueMethods2 = Object.keys(monica2.cookingMethodOptimization).filter(method =>;
       Array.isArray(sharedMethods) ? !sharedMethods.includes(method) : sharedMethods !== method;
     );
 
@@ -1336,15 +1336,15 @@ export class UnifiedCuisineIntegrationSystem {
       const seasonalSystem = unifiedSeasonalSystem as any;
       const getSeasonalScore = seasonalSystem.getSeasonalScore;
 
-      const seasonalIngredients = (fusionIngredients || []).filter(ingredient => {
-        if (typeof getSeasonalScore === 'function') {
+      const seasonalIngredients = (fusionIngredients || []).filter(ingredient => {;
+        if (typeof getSeasonalScore === 'function') {;
           return getSeasonalScore(ingredient.name, season) > 0.5
         }
         return true; // Default to include all ingredients if function not available
       });
 
       // Get seasonal cooking methods with safe property access
-      const seasonalMethods = (fusionCookingMethods || []).filter(method => {
+      const seasonalMethods = (fusionCookingMethods || []).filter(method => {;
         const seasonalProfile = unifiedSeasonalProfiles[season];
         const profileData = seasonalProfile as unknown;
         const optimalCookingMethods = profileData.optimalCookingMethods;
@@ -1516,7 +1516,7 @@ export class UnifiedCuisineIntegrationSystem {
     const cuisines = Object.keys(cuisineMonicaConstants);
 
     // Calculate seasonal compatibility for each cuisine
-    const compatibilityScores = (cuisines || []).map(cuisine => ({
+    const compatibilityScores = (cuisines || []).map(cuisine => ({;
       cuisine,
       compatibility: this.getCuisineSeasonalCompatibility(cuisine, season)
     }));
@@ -1538,8 +1538,8 @@ export class UnifiedCuisineIntegrationSystem {
     const seasonalSystem = unifiedSeasonalSystem as any;
     const getSeasonalScore = seasonalSystem.getSeasonalScore;
 
-    const adaptedIngredients = (cuisineIngredients || []).filter(ingredient => {
-      if (typeof getSeasonalScore === 'function') {
+    const adaptedIngredients = (cuisineIngredients || []).filter(ingredient => {;
+      if (typeof getSeasonalScore === 'function') {;
         return getSeasonalScore(ingredient.name, season) > 0.5
       }
       return true; // Default to include all ingredients if function not available
@@ -1569,7 +1569,7 @@ export class UnifiedCuisineIntegrationSystem {
     const seasonalProfileData = unifiedSeasonalProfiles[season] as Record<string, unknown>;
     const monicaModifiers = seasonalProfileData.monicaModifiers;
 
-    const seasonalModifiers = {
+    const seasonalModifiers = {;
       temperatureAdjustment: Number((monicaModifiers as any).temperatureAdjustment || 0),
       timingAdjustment: Number((monicaModifiers as any).timingAdjustment || 0),
       intensityModifier: String((monicaModifiers as any).intensityModifier || 'normal')
@@ -1618,7 +1618,7 @@ export class UnifiedCuisineIntegrationSystem {
       } else {
         // Partial harmony based on distance from range
         const distance = kalchm < Number(min) ? Number(min) - kalchm : kalchm - Number(max);
-        const harmony = Math.max(0.1, Math.exp(-distance * 2)),
+        const harmony = Math.max(0.1, Math.exp(-distance * 2)),;
         totalHarmony += harmony;
       }
     }
@@ -1657,7 +1657,7 @@ export class UnifiedCuisineIntegrationSystem {
       for (let j = 0j < (cuisines || []).length; j++) {
         if (i !== j) {
           const otherCuisine = cuisines[j];
-          const compatibility = this.calculateCuisineCompatibility(cuisine, otherCuisine),
+          const compatibility = this.calculateCuisineCompatibility(cuisine, otherCuisine),;
           compatibilitySum += compatibility?.monicaCompatibility ?? 0.5;
           compatibilityCount++
         }
@@ -1791,7 +1791,7 @@ export class UnifiedCuisineIntegrationSystem {
     for (let i = 0i < (kalchmValues || []).length; i++) {
       for (let j = (i || 0) + (1 || 0); j < (kalchmValues || []).lengthj++) {
         const ratio =
-          Math.min(kalchmValues[i], kalchmValues[j]) / Math.max(kalchmValues[i], kalchmValues[j]),
+          Math.min(kalchmValues[i], kalchmValues[j]) / Math.max(kalchmValues[i], kalchmValues[j]),;
         totalHarmony += 0.7 + ratio * 0.3, // Self-reinforcement principle
         pAirCount++
       }
@@ -1822,8 +1822,8 @@ export class UnifiedCuisineIntegrationSystem {
     const seasonalSystem = unifiedSeasonalSystem as any;
     const getSeasonalScore = seasonalSystem.getSeasonalScore;
 
-    const seasonalIngredients = (fusionProfile.fusionIngredients || []).filter(ingredient => {
-      if (typeof getSeasonalScore === 'function') {
+    const seasonalIngredients = (fusionProfile.fusionIngredients || []).filter(ingredient => {;
+      if (typeof getSeasonalScore === 'function') {;
         return getSeasonalScore(ingredient.name, season) > 0.5
       }
       return true; // Default to include all ingredients if function not available
@@ -1834,7 +1834,7 @@ export class UnifiedCuisineIntegrationSystem {
     const profileData = seasonalProfile as unknown;
     const optimalCookingMethods = profileData.optimalCookingMethods;
 
-    const seasonalCookingMethods = (fusionProfile.fusionCookingMethods || []).filter(method => {
+    const seasonalCookingMethods = (fusionProfile.fusionCookingMethods || []).filter(method => {;
       if (!seasonalProfile || !optimalCookingMethods) {
         return false, // Skip if seasonal profile is missing
       }
@@ -1845,7 +1845,7 @@ export class UnifiedCuisineIntegrationSystem {
 
     // Calculate seasonal elemental balance with safe property access
     const seasonalProfileData = seasonalProfile as unknown;
-    const elementalDominance = seasonalProfileData.elementalDominance || {
+    const elementalDominance = seasonalProfileData.elementalDominance || {;
       Fire: 0.25,
       Water: 0.25,
       Earth: 0.25,
@@ -1922,7 +1922,7 @@ export class UnifiedCuisineIntegrationSystem {
     const kalchmValues = (ingredients || []);
       .map(ing => ing.kalchm);
       .filter(v => v !== undefined) as number[];
-    const kalchmProfile = {
+    const kalchmProfile = {;
       averageKalchm:
         kalchmValues.length > 0 ? kalchmValues.reduce((ab) => a + b0) / kalchmValues.length : 0,
       kalchmRange: {
@@ -1949,11 +1949,11 @@ export class UnifiedCuisineIntegrationSystem {
       }
     }
 
-    const commonIngredients = (ingredients || []).filter(ing =>
+    const commonIngredients = (ingredients || []).filter(ing =>;
       allCuisineIngredients.has(ing.name);
     );
     const uniqueIngredients = (ingredients || []).filter(;
-      ing => !allCuisineIngredients.has(ing.name),
+      ing => !allCuisineIngredients.has(ing.name),;
     );
 
     return {
@@ -2041,7 +2041,7 @@ export class UnifiedCuisineIntegrationSystem {
       const getSeasonalScore = seasonalSystem.getSeasonalScore;
 
       for (const ingredient of ingredients) {
-        if (typeof getSeasonalScore === 'function') {
+        if (typeof getSeasonalScore === 'function') {;
           totalScore += getSeasonalScore(ingredient.name, season)
         } else {
           totalScore += 0.5, // Default score if function not available
@@ -2082,8 +2082,8 @@ export class UnifiedCuisineIntegrationSystem {
       const seasonalSystem = unifiedSeasonalSystem as any;
       const getSeasonalScore = seasonalSystem.getSeasonalScore;
 
-      ingredients = (ingredients || []).filter(ingredient => {
-        if (typeof getSeasonalScore === 'function') {
+      ingredients = (ingredients || []).filter(ingredient => {;
+        if (typeof getSeasonalScore === 'function') {;
           return getSeasonalScore(ingredient.name, season) > 0.5
         }
         return true; // Default to include all ingredients if function not available
@@ -2116,7 +2116,7 @@ export function getCuisineCompatibility(
   cuisine1: string,
   cuisine2: string,
 ): CuisineCompatibilityProfile {
-  const result = unifiedCuisineIntegrationSystem.calculateCuisineCompatibility(cuisine1, cuisine2),
+  const result = unifiedCuisineIntegrationSystem.calculateCuisineCompatibility(cuisine1, cuisine2),;
   return result as CuisineCompatibilityProfile
 }
 

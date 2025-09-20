@@ -31,7 +31,7 @@ describe('Domain-Specific Rule Validation', () => {
 
   afterEach(() => {
     // Clean up any temporary test files
-    const tempFiles = [
+    const tempFiles = [;
       'temp-planetary-test.ts';
       'temp-elemental-test.ts';
       'temp-fallback-test.ts';
@@ -44,7 +44,7 @@ describe('Domain-Specific Rule Validation', () => {
       'temp-config-relaxation.config.ts'
     ],
 
-    tempFiles.forEach(file => {
+    tempFiles.forEach(file => {;
       try {
         execSync(`rm -f '${join(projectRoot, file)}'`);
       } catch {}
@@ -132,7 +132,7 @@ describe('Domain-Specific Rule Validation', () => {
       writeFileSync(testFile, testContent);
 
       try {
-        const output: any = execSync(`npx eslint '${testFile}' --config eslint.config.cjs --format json`, {
+        const output: any = execSync(`npx eslint '${testFile}' --config eslint.config.cjs --format json`, {;
           encoding: 'utf8',
           cwd: projectRoot
         });
@@ -175,7 +175,7 @@ describe('Domain-Specific Rule Validation', () => {
 
     test('should validate elemental properties structure', async () => {
       const validElementalContent: any = `;
-        const _UNUSED_elementalProps = {
+        const _UNUSED_elementalProps = {;
           Fire: 0.8,
           Water: 0.2,
           Earth: 0.1,
@@ -207,7 +207,7 @@ describe('Domain-Specific Rule Validation', () => {
 
     test('should detect invalid elemental properties', async () => {
       const invalidElementalContent: any = `;
-        const _badElementalProps = {
+        const _badElementalProps = {;
           Fire: 0.8,
           Water: 0.2,
           // Missing Earth and Air - should be flagged
@@ -273,8 +273,8 @@ describe('Domain-Specific Rule Validation', () => {
           private complexMethod(): any {
             // Complex enterprise logic with high complexity,
             let result: any = 0;
-            for (let i: any = 0i < 10i++) {
-              for (let j: any = 0j < 10j++) {
+            for (let i: any = 0i < 10i++) {;
+              for (let j: any = 0j < 10j++) {;
                 if (i > 5) {
                   if (j > 5) {
                     result += i * j;
@@ -293,7 +293,7 @@ describe('Domain-Specific Rule Validation', () => {
       writeFileSync(testFile, testContent);
 
       try {
-        const output: any = execSync(`npx eslint '${testFile}' --config eslint.config.cjs --format json`, {
+        const output: any = execSync(`npx eslint '${testFile}' --config eslint.config.cjs --format json`, {;
           encoding: 'utf8',
           cwd: projectRoot
         });
@@ -314,7 +314,7 @@ describe('Domain-Specific Rule Validation', () => {
           const result: any = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
             const complexityErrors: any = result[0].messages.filter(;
-              (msg: any) => (msg as any)?.ruleId === 'complexity' && (msg as any)?.severity === 2,
+              (msg: any) => (msg as any)?.ruleId === 'complexity' && (msg as any)?.severity === 2,;
             ),
 
             expect(complexityErrors.length).toBe(0);
@@ -334,11 +334,11 @@ describe('Domain-Specific Rule Validation', () => {
         console.debug('Detailed debugging info');
       `;
 
-      const testFile: any = join(projectRoot, 'src/services/campaign/temp-logging-test.ts'),
+      const testFile: any = join(projectRoot, 'src/services/campaign/temp-logging-test.ts'),;
       writeFileSync(testFile, testContent);
 
       try {
-        const output: any = execSync(`npx eslint '${testFile}' --config eslint.config.cjs --format json`, {
+        const output: any = execSync(`npx eslint '${testFile}' --config eslint.config.cjs --format json`, {;
           encoding: 'utf8',
           cwd: projectRoot
         });
@@ -358,7 +358,7 @@ describe('Domain-Specific Rule Validation', () => {
           const result: any = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
             const consoleErrors: any = result[0].messages.filter(;
-              (msg: any) => (msg as any)?.ruleId === 'no-console' && (msg as any)?.severity === 2,
+              (msg: any) => (msg as any)?.ruleId === 'no-console' && (msg as any)?.severity === 2,;
             ),
 
             expect(consoleErrors.length).toBe(0);
@@ -382,7 +382,7 @@ describe('Domain-Specific Rule Validation', () => {
       writeFileSync(testFile, testContent);
 
       try {
-        const output: any = execSync(`npx eslint '${testFile}' --config eslint.config.cjs --format json`, {
+        const output: any = execSync(`npx eslint '${testFile}' --config eslint.config.cjs --format json`, {;
           encoding: 'utf8',
           cwd: projectRoot
         });
@@ -436,7 +436,7 @@ describe('Domain-Specific Rule Validation', () => {
       writeFileSync(testFile, testContent);
 
       try {
-        const output: any = execSync(`npx eslint '${testFile}' --config eslint.config.cjs --format json`, {
+        const output: any = execSync(`npx eslint '${testFile}' --config eslint.config.cjs --format json`, {;
           encoding: 'utf8',
           cwd: projectRoot
         });
@@ -482,11 +482,11 @@ describe('Domain-Specific Rule Validation', () => {
         const _magicNumber: any = 42, // magic number;
       `;
 
-      const testFile: any = join(projectRoot, 'temp-test-relaxations.test.ts'),
+      const testFile: any = join(projectRoot, 'temp-test-relaxations.test.ts'),;
       writeFileSync(testFile, testContent);
 
       try {
-        const output: any = execSync(`npx eslint '${testFile}' --config eslint.config.cjs --format json`, {
+        const output: any = execSync(`npx eslint '${testFile}' --config eslint.config.cjs --format json`, {;
           encoding: 'utf8',
           cwd: projectRoot
         });
@@ -498,7 +498,7 @@ describe('Domain-Specific Rule Validation', () => {
               ((msg as any)?.ruleId === '@typescript-eslint/no-explicit-any' && (msg as any)?.severity === 2) ||;
               ((msg as any)?.ruleId === 'no-console' && (msg as any)?.severity === 2) ||;
               ((msg as any)?.ruleId === '@typescript-eslint/no-non-null-assertion' && (msg as any)?.severity === 2) ||;
-              ((msg as any)?.ruleId === 'no-magic-numbers' && (msg as any)?.severity === 2),
+              ((msg as any)?.ruleId === 'no-magic-numbers' && (msg as any)?.severity === 2),;
           ),
 
           expect(restrictiveErrors.length).toBe(0);
@@ -513,7 +513,7 @@ describe('Domain-Specific Rule Validation', () => {
                 ((msg as any)?.ruleId === '@typescript-eslint/no-explicit-any' && (msg as any)?.severity === 2) ||;
                 ((msg as any)?.ruleId === 'no-console' && (msg as any)?.severity === 2) ||;
                 ((msg as any)?.ruleId === '@typescript-eslint/no-non-null-assertion' && (msg as any)?.severity === 2) ||;
-                ((msg as any)?.ruleId === 'no-magic-numbers' && (msg as any)?.severity === 2),
+                ((msg as any)?.ruleId === 'no-magic-numbers' && (msg as any)?.severity === 2),;
             ),
 
             expect(restrictiveErrors.length).toBe(0);
@@ -541,7 +541,7 @@ describe('Domain-Specific Rule Validation', () => {
       writeFileSync(testFile, testContent);
 
       try {
-        const output: any = execSync(`npx eslint '${testFile}' --config eslint.config.cjs --format json`, {
+        const output: any = execSync(`npx eslint '${testFile}' --config eslint.config.cjs --format json`, {;
           encoding: 'utf8',
           cwd: projectRoot
         });
@@ -594,7 +594,7 @@ describe('Domain-Specific Rule Validation', () => {
       writeFileSync(testFile, testContent);
 
       try {
-        const output: any = execSync(`npx eslint '${testFile}' --config eslint.config.cjs --format json`, {
+        const output: any = execSync(`npx eslint '${testFile}' --config eslint.config.cjs --format json`, {;
           encoding: 'utf8',
           cwd: projectRoot
         });
@@ -602,7 +602,7 @@ describe('Domain-Specific Rule Validation', () => {
 
         if (result.length > 0 && result[0].messages) {
           const requireErrors = result[0].messages.filter(;
-            (msg: any) => (msg as any)?.ruleId === 'import/no-dynamic-require' && (msg as any)?.severity === 2,
+            (msg: any) => (msg as any)?.ruleId === 'import/no-dynamic-require' && (msg as any)?.severity === 2,;
           ),
 
           expect(requireErrors.length).toBe(0);
@@ -613,7 +613,7 @@ describe('Domain-Specific Rule Validation', () => {
           const result: any = JSON.parse(output);
           if (result.length > 0 && result[0].messages) {
             const requireErrors = result[0].messages.filter(;
-              (msg: any) => (msg as any)?.ruleId === 'import/no-dynamic-require' && (msg as any)?.severity === 2,
+              (msg: any) => (msg as any)?.ruleId === 'import/no-dynamic-require' && (msg as any)?.severity === 2,;
             ),
 
             expect(requireErrors.length).toBe(0);
@@ -631,11 +631,11 @@ describe('Domain-Specific Rule Validation', () => {
         const _dynamicRequire = require(process.env.MODULE);
       `;
 
-      const testFile: any = join(projectRoot, 'temp-build-patterns.config.ts'),
+      const testFile: any = join(projectRoot, 'temp-build-patterns.config.ts'),;
       writeFileSync(testFile, testContent);
 
       try {
-        const output: any = execSync(`npx eslint '${testFile}' --config eslint.config.cjs --format json`, {
+        const output: any = execSync(`npx eslint '${testFile}' --config eslint.config.cjs --format json`, {;
           encoding: 'utf8',
           cwd: projectRoot
         });
@@ -646,7 +646,7 @@ describe('Domain-Specific Rule Validation', () => {
             (msg: any) =>
               ((msg as any)?.ruleId === '@typescript-eslint/no-explicit-any' && (msg as any)?.severity === 2) ||;
               ((msg as any)?.ruleId === 'no-console' && (msg as any)?.severity === 2) ||;
-              ((msg as any)?.ruleId === 'import/no-dynamic-require' && (msg as any)?.severity === 2),
+              ((msg as any)?.ruleId === 'import/no-dynamic-require' && (msg as any)?.severity === 2),;
           ),
 
           expect(restrictiveErrors.length).toBe(0);
@@ -660,7 +660,7 @@ describe('Domain-Specific Rule Validation', () => {
               (msg: any) =>
                 ((msg as any)?.ruleId === '@typescript-eslint/no-explicit-any' && (msg as any)?.severity === 2) ||;
                 ((msg as any)?.ruleId === 'no-console' && (msg as any)?.severity === 2) ||;
-                ((msg as any)?.ruleId === 'import/no-dynamic-require' && (msg as any)?.severity === 2),
+                ((msg as any)?.ruleId === 'import/no-dynamic-require' && (msg as any)?.severity === 2),;
             ),
 
             expect(restrictiveErrors.length).toBe(0);

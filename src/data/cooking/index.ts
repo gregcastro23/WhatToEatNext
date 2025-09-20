@@ -24,10 +24,10 @@ export const cookingMethods = allCookingMethods;
 /**
  * Get astrological effect for a cooking method (simplified version for backwards compatibility)
  */
-export const _getAstrologicalEffect = (
+export const _getAstrologicalEffect = (;
   method: CookingMethod,
   astroState: AstrologicalState,
-): number => {
+): number => {;
   const methodData = allCookingMethods[method as unknown as keyof typeof allCookingMethods];
   if (!methodData || !methodData.astrologicalInfluences) return 0.5;
 
@@ -61,13 +61,13 @@ export const _getAstrologicalEffect = (
 /**
  * Calculate modified elemental effect for a cooking method (simplified version for backwards compatibility)
  */
-export const _calculateModifiedElementalEffect = (
+export const _calculateModifiedElementalEffect = (;
   method: CookingMethod,
   astroState: AstrologicalState,
   duration: number,
   _temperature?: number,
   _currentSeason?: Season,
-): ElementalProperties => {
+): ElementalProperties => {;
   const methodData = allCookingMethods[method as unknown as keyof typeof allCookingMethods];
   if (!methodData || !methodData.elementalEffect) {
     return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
@@ -192,7 +192,7 @@ export function getCookingMethodsByTemperature(
       // Check if the method has optimal temperatures and at least one falls within range
       if (!methodData?.optimalTemperatures) return false;
 
-      return Object.values((methodData as any)?.optimalTemperatures).some(temp => {
+      return Object.values((methodData as any)?.optimalTemperatures).some(temp => {;
         // Pattern KK-10: Final Arithmetic Elimination for data layer operations
         const numericTemp = Number(temp) || 0;
         const numericMinTemp = Number(minTemp) || 0;
@@ -208,9 +208,9 @@ export function getCookingMethodsByTemperature(
  * @param descending Whether to sort in descending order (most sustainable first)
  * @returns Array of cooking methods sorted by sustainability rating
  */
-export function getCookingMethodsBySustainability(descending = true): CookingMethodData[] {
+export function getCookingMethodsBySustainability(descending = true): CookingMethodData[] {;
   return Object.values(allCookingMethods)
-    .filter(method => {
+    .filter(method => {;
       // Apply safe type casting for method property access
       const methodData = method ;
       return methodData?.sustainabilityRating !== undefined;

@@ -278,7 +278,7 @@ export class QualityGatesValidation extends EventEmitter {
   private readonly HOOKS_FILE = '.quality-hooks-config.json';
 
   // Default configurations
-  private readonly DEFAULT_RETRY_POLICY: RetryPolicy = {
+  private readonly DEFAULT_RETRY_POLICY: RetryPolicy = {;
     maxRetries: 3,
     baseDelay: 1000,
     maxDelay: 10000,
@@ -592,7 +592,7 @@ export class QualityGatesValidation extends EventEmitter {
           gateResults.push(result);
 
           // Check fail-fast condition
-          if (options.failFast && result.status === 'failed') {
+          if (options.failFast && result.status === 'failed') {;
             log.info(`⚠️  Fail-fast triggered by gate: ${gate.name}`);
             break;
           }
@@ -637,7 +637,7 @@ export class QualityGatesValidation extends EventEmitter {
     const startTime = Date.now();
     log.info(`🔍 Executing quality gate: ${gate.name}`);
 
-    const result: QualityGateResult = {
+    const result: QualityGateResult = {;
       resultId: `result_${gate.gateId}_${Date.now()}`,
       gateId: gate.gateId,
       status: 'passed',
@@ -674,7 +674,7 @@ export class QualityGatesValidation extends EventEmitter {
 
       // Execute actions based on result
       const actionsToExecute = gate.actions.filter(;
-        action =>
+        action =>;
           action.trigger === 'always' ||;
           (action.trigger === 'pass' && result.status === 'passed') ||;
           (action.trigger === 'fail' && result.status === 'failed') ||;
@@ -721,7 +721,7 @@ export class QualityGatesValidation extends EventEmitter {
   ): Promise<ValidationResult> {
     const startTime = Date.now();
 
-    const result: ValidationResult = {
+    const result: ValidationResult = {;
       ruleId: rule.ruleId,
       name: rule.name,
       status: 'passed',
@@ -774,7 +774,7 @@ export class QualityGatesValidation extends EventEmitter {
    */
   private async executeCommandRule(rule: ValidationRule, result: ValidationResult): Promise<void> {
     try {
-      const output = execSync(rule.target, {
+      const output = execSync(rule.target, {;
         encoding: 'utf8',
         timeout: rule.timeoutSeconds * 1000,
         stdio: 'pipe'
@@ -788,9 +788,9 @@ export class QualityGatesValidation extends EventEmitter {
       result.output = (execErr?.stdout as string) || (execErr?.stderr as string) || '';
       result.errorMessage = (execErr?.message as string) || 'Unknown error';
 
-      if (rule.expectedResult === 'fail') {
+      if (rule.expectedResult === 'fail') {;
         result.status = 'passed', // Command was expected to fail;
-      } else if (rule.expectedResult === 'any') {
+      } else if (rule.expectedResult === 'any') {;
         result.status = 'passed', // Any result is acceptable;
       } else {
         result.status = 'failed';
@@ -812,7 +812,7 @@ export class QualityGatesValidation extends EventEmitter {
     }
 
     try {
-      const output = execSync(`node ${scriptPath}`, {
+      const output = execSync(`node ${scriptPath}`, {;
         encoding: 'utf8',
         timeout: rule.timeoutSeconds * 1000,
         stdio: 'pipe'
@@ -948,7 +948,7 @@ export class QualityGatesValidation extends EventEmitter {
     let value: unknown = metrics;
 
     for (const part of metricPath) {
-      if (value && typeof value === 'object' && part in value) {
+      if (value && typeof value === 'object' && part in value) {;
         value = value[part];
       } else {
         return 0
@@ -967,7 +967,7 @@ export class QualityGatesValidation extends EventEmitter {
   ): Promise<ActionResult> {
     const startTime = Date.now();
 
-    const result: ActionResult = {
+    const result: ActionResult = {;
       actionId: action.actionId,
       name: action.name,
       status: 'success',
@@ -1032,7 +1032,7 @@ export class QualityGatesValidation extends EventEmitter {
     result: ActionResult,
   ): Promise<void> {
     if (action.command) {
-      const output = execSync(action.command, {
+      const output = execSync(action.command, {;
         encoding: 'utf8',
         timeout: action.timeout * 1000,
         stdio: 'pipe'
@@ -1119,7 +1119,7 @@ export class QualityGatesValidation extends EventEmitter {
   private async collectBuildMetrics(): Promise<QualityMetrics['buildMetrics']> {
     try {
       const startTime = Date.now();
-      const buildOutput = execSync('yarn build', {
+      const buildOutput = execSync('yarn build', {;
         encoding: 'utf8',
         timeout: 300000,
         stdio: 'pipe'
@@ -1154,7 +1154,7 @@ export class QualityGatesValidation extends EventEmitter {
   private async collectTestMetrics(): Promise<QualityMetrics['testMetrics']> {
     try {
       const startTime = Date.now();
-      const testOutput = execSync('yarn test --coverage --passWithNoTests', {
+      const testOutput = execSync('yarn test --coverage --passWithNoTests', {;
         encoding: 'utf8',
         timeout: 300000,
         stdio: 'pipe'
@@ -1262,7 +1262,7 @@ export class QualityGatesValidation extends EventEmitter {
     failedTests: number,
     coverage: number
   } {
-    const testResult = {
+    const testResult = {;
       totalTests: 0,
       passedTests: 0,
       failedTests: 0,
@@ -1292,7 +1292,7 @@ export class QualityGatesValidation extends EventEmitter {
 
   private countLinesOfCode(): number {
     try {
-      const output = execSync('find . -name '*.ts' -o -name '*.tsx' | xargs wc -l', {
+      const output = execSync('find . -name '*.ts' -o -name '*.tsx' | xargs wc -l', {;
         encoding: 'utf8',
         timeout: 30000
       });
@@ -1384,7 +1384,7 @@ export class QualityGatesValidation extends EventEmitter {
     const sorted: QualityGate[] = [];
     const visited = new Set<string>();
 
-    const visit = (gate: QualityGate) => {
+    const visit = (gate: QualityGate) => {;
       if (visited.has(gate.gateId)) return;
 
       // Visit dependencies first
@@ -1446,7 +1446,7 @@ export class QualityGatesValidation extends EventEmitter {
     if (result.errors.length > 0) return 'error';
 
     const criticalFailures = result.thresholdResults.filter(;
-      t => !t.passed && t.severity === 'critical'
+      t => !t.passed && t.severity === 'critical';
     );
     if (criticalFailures.length > 0) return 'failed';
 
@@ -1454,7 +1454,7 @@ export class QualityGatesValidation extends EventEmitter {
     if (errorFailures.length > 0) return 'failed';
 
     const warningFailures = result.thresholdResults.filter(;
-      t => !t.passed && t.severity === 'warning'
+      t => !t.passed && t.severity === 'warning';
     );
     if (warningFailures.length > 0) return 'warning';
 
@@ -1478,7 +1478,7 @@ export class QualityGatesValidation extends EventEmitter {
 
     // Validation-based recommendations
     for (const validation of result.validationResults) {
-      if (validation.status === 'failed') {
+      if (validation.status === 'failed') {;
         recommendations.push(`Fix validation rule: ${validation.name}`);
       }
     }
@@ -1501,7 +1501,7 @@ export class QualityGatesValidation extends EventEmitter {
     stats.totalRuns++;
     stats.lastRun = new Date();
 
-    if (result.status === 'passed') {
+    if (result.status === 'passed') {;
       stats.passedRuns++;
     } else {
       stats.failedRuns++;
@@ -1524,7 +1524,7 @@ export class QualityGatesValidation extends EventEmitter {
       stats.bestScore = result.overallScore;
     }
 
-    if (stats.worstScore === 0 || result.overallScore < stats.worstScore) {
+    if (stats.worstScore === 0 || result.overallScore < stats.worstScore) {;
       stats.worstScore = result.overallScore;
     }
 
@@ -1539,7 +1539,7 @@ export class QualityGatesValidation extends EventEmitter {
     overallScore: number,
     totalExecutionTime: number,
   ): QualityReport {
-    const summary = {
+    const summary = {;
       totalGates: gateResults.length,
       passedGates: gateResults.filter(r => r.status === 'passed').length,;
       failedGates: gateResults.filter(r => r.status === 'failed').length,;
@@ -1550,7 +1550,7 @@ export class QualityGatesValidation extends EventEmitter {
       recommendations: gateResults.flatMap(r => r.recommendations),,;
     };
 
-    const trends = {
+    const trends = {;
       scoreHistory: this.getScoreHistory(),
       performanceHistory: this.getPerformanceHistory(),
       reliabilityHistory: this.getReliabilityHistory()
@@ -1583,7 +1583,7 @@ export class QualityGatesValidation extends EventEmitter {
   }
 
   private getReliabilityHistory(): Array<{ date: Date, reliability: number }> {
-    return this.executionHistory.slice(-10).map(result => ({
+    return this.executionHistory.slice(-10).map(result => ({;
       date: result.timestamp,
       reliability: result.status === 'passed' ? 100 : 0,,;
     }));
@@ -1595,16 +1595,16 @@ export class QualityGatesValidation extends EventEmitter {
   ): string[] {
     const nextSteps: string[] = [];
 
-    if (overallStatus === 'failed') {
+    if (overallStatus === 'failed') {;
       nextSteps.push('Address critical failures before proceeding');
       nextSteps.push('Review failed validation rules');
     }
 
-    if (overallStatus === 'warning') {
+    if (overallStatus === 'warning') {;
       nextSteps.push('Consider addressing warnings to improve quality');
     }
 
-    if (overallStatus === 'passed') {
+    if (overallStatus === 'passed') {;
       nextSteps.push('All quality gates passed - ready for deployment');
     }
 
@@ -1726,7 +1726,7 @@ export class QualityGatesValidation extends EventEmitter {
   /**
    * Get execution history
    */
-  getExecutionHistory(limit: number = 50): QualityGateResult[] {
+  getExecutionHistory(limit: number = 50): QualityGateResult[] {;
     return this.executionHistory.slice(-limit);
   }
 
@@ -1775,7 +1775,7 @@ export class QualityGatesValidation extends EventEmitter {
     }
 
     for (const hook of this.validationHooks.values()) {
-      hook.statistics = {
+      hook.statistics = {;
         triggerCount: 0,
         successCount: 0,
         failureCount: 0,
@@ -1815,14 +1815,14 @@ export class QualityGatesValidation extends EventEmitter {
   private persistConfiguration(): void {
     try {
       // Save quality gates
-      const configData = {
+      const configData = {;
         qualityGates: Array.from(this.qualityGates.entries()),
         timestamp: new Date().toISOString()
       };
       fs.writeFileSync(this.CONFIG_FILE, JSON.stringify(configData, null, 2));
 
       // Save validation hooks
-      const hooksData = {
+      const hooksData = {;
         validationHooks: Array.from(this.validationHooks.entries()),
         timestamp: new Date().toISOString()
       };
@@ -1834,7 +1834,7 @@ export class QualityGatesValidation extends EventEmitter {
 
   private persistResults(): void {
     try {
-      const resultsData = {
+      const resultsData = {;
         executionHistory: this.executionHistory,
         timestamp: new Date().toISOString()
       };

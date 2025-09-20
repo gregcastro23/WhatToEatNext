@@ -12,17 +12,17 @@ export class BuildValidator {
   private readonly requiredManifests: string[];
   private readonly logger: (message: string, ...args: unknown[]) => void;
 
-  constructor(buildDir = '.next', logger = console.log) {
+  constructor(buildDir = '.next', logger = console.log) {;
     this.buildDir = buildDir;
     this.serverDir = path.join(buildDir, 'server');
     this.logger = logger;
 
     // Required manifest files for Next.js build
-    this.requiredManifests = [
+    this.requiredManifests = [;
       'pages-manifest.json',
       'app-paths-manifest.json',
       'next-font-manifest.json',
-      'middleware-manifest.json',
+      'middleware-manifest.json'
     ];
   }
 
@@ -31,11 +31,11 @@ export class BuildValidator {
    * Requirement 3.2: Implement BuildValidator class to check for required build artifacts
    */
   async validateBuild(): Promise<BuildValidationResult> {
-    const result: BuildValidationResult = {
+    const result: BuildValidationResult = {;
       isValid: true,
       missingFiles: [],
       corruptedFiles: [],
-      repairActions: [],
+      repairActions: []
     };
 
     try {
@@ -46,7 +46,7 @@ export class BuildValidator {
         result.repairActions.push({
           type: 'create',
           target: this.buildDir,
-          description: 'Create build directory',
+          description: 'Create build directory'
         });
         return result;
       }
@@ -58,7 +58,7 @@ export class BuildValidator {
         result.repairActions.push({
           type: 'create',
           target: this.serverDir,
-          description: 'Create server directory',
+          description: 'Create server directory'
         });
       }
 
@@ -72,7 +72,7 @@ export class BuildValidator {
           result.repairActions.push({
             type: 'create',
             target: manifestPath,
-            description: `Create missing manifest file: ${manifest}`,
+            description: `Create missing manifest file: ${manifest}`
           });
         } else {
           // Check if file is corrupted (empty or invalid JSON)
@@ -83,7 +83,7 @@ export class BuildValidator {
               result.repairActions.push({
                 type: 'fix',
                 target: manifestPath,
-                description: `Fix empty manifest file: ${manifest}`,
+                description: `Fix empty manifest file: ${manifest}`
               });
             } else if (manifest.endsWith('.json')) {
               JSON.parse(content); // Validate JSON
@@ -94,17 +94,17 @@ export class BuildValidator {
             result.repairActions.push({
               type: 'fix',
               target: manifestPath,
-              description: `Fix corrupted manifest file: ${manifest}`,
+              description: `Fix corrupted manifest file: ${manifest}`
             });
           }
         }
       }
 
       // Check for essential build files
-      const essentialFiles = [
+      const essentialFiles = [;
         'build-manifest.json',
         'app-build-manifest.json',
-        'react-loadable-manifest.json',
+        'react-loadable-manifest.json'
       ];
 
       for (const file of essentialFiles) {
@@ -115,7 +115,7 @@ export class BuildValidator {
           result.repairActions.push({
             type: 'create',
             target: filePath,
-            description: `Create missing build file: ${file}`,
+            description: `Create missing build file: ${file}`
           });
         }
       }
@@ -160,7 +160,7 @@ export class BuildValidator {
     const manifestDefaults = this.getManifestDefaults();
 
     for (const action of validation.repairActions) {
-      if (action.type === 'create' || action.type === 'fix') {
+      if (action.type === 'create' || action.type === 'fix') {;
         const filename = path.basename(action.target);
 
         if (manifestDefaults[filename]) {
@@ -177,7 +177,7 @@ export class BuildValidator {
    * Attempts to rebuild the application with error recovery
    * Requirement 3.4: Add build error recovery and retry mechanisms
    */
-  async rebuildWithRecovery(maxRetries = 3): Promise<boolean> {
+  async rebuildWithRecovery(maxRetries = 3): Promise<boolean> {;
     let attempt = 0;
 
     while (attempt < maxRetries) {
@@ -246,13 +246,13 @@ export class BuildValidator {
         pages: {},
         app: {},
         appUsingSizeAdjust: false,
-        pagesUsingSizeAdjust: false,
+        pagesUsingSizeAdjust: false
       },
       'middleware-manifest.json': {
         sortedMiddleware: [],
         middleware: {},
         functions: {},
-        version: 2,
+        version: 2
       },
       'build-manifest.json': {
         devFiles: [],
@@ -261,12 +261,12 @@ export class BuildValidator {
         lowPriorityFiles: [],
         rootMainFiles: [],
         pages: {},
-        ampFirstPages: [],
+        ampFirstPages: []
       },
       'app-build-manifest.json': {
-        pages: {},
+        pages: {}
       },
-      'react-loadable-manifest.json': {},
+      'react-loadable-manifest.json': {}
     };
   }
 
@@ -275,10 +275,10 @@ export class BuildValidator {
    * Requirement 3.1: Fix Next.js configuration to properly generate manifest files
    */
   validateNextConfig(): NextConfigValidationResult {
-    const result: NextConfigValidationResult = {
+    const result: NextConfigValidationResult = {;
       isValid: true,
       issues: [],
-      recommendations: [],
+      recommendations: []
     };
 
     try {
@@ -328,13 +328,13 @@ export class BuildValidator {
    * Requirement 3.5: Add build error recovery and retry mechanisms
    */
   async monitorBuildHealth(): Promise<BuildHealthReport> {
-    const report: BuildHealthReport = {
+    const report: BuildHealthReport = {;
       timestamp: new Date(),
       buildExists: fs.existsSync(this.buildDir),
       manifestsValid: false,
       buildSize: 0,
       lastBuildTime: null,
-      issues: [],
+      issues: []
     };
 
     try {
@@ -399,7 +399,7 @@ export interface BuildValidationResult {
   isValid: boolean,
   missingFiles: string[],
   corruptedFiles: string[],
-  repairActions: RepairAction[],
+  repairActions: RepairAction[]
 }
 
 export interface RepairAction {
@@ -420,7 +420,7 @@ export interface BuildHealthReport {
   manifestsValid: boolean,
   buildSize: number,
   lastBuildTime: Date | null,
-  issues: string[],
+  issues: string[]
 }
 
 // Export default instance

@@ -30,7 +30,7 @@ describe('BundleSizeOptimizer', () => {
       });
 
       mockFs.readFileSync.mockImplementation((path: string) => {
-        if (path === 'package.json') {
+        if (path === 'package.json') {;
           return JSON.stringify({
             dependencies: { react: '^18.0.0',
               '@next/bundle-analyzer': '^13.0.0'
@@ -219,7 +219,7 @@ describe('BundleSizeOptimizer', () => {
 
       expect(report.analysis.totalSize).toBe(513); // Math.round(350000 / 1024 * 1.5) = 513
       expect(report.targetCompliance).toBe(false);
-      expect(report.recommendations[0]).toContain('Reduce bundle size by 93kB'), // 513 - 420 = 93,
+      expect(report.recommendations[0]).toContain('Reduce bundle size by 93kB'), // 513 - 420 = 93,;
     });
   });
 

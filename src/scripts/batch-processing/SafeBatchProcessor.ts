@@ -66,7 +66,7 @@ export class SafeBatchProcessor {
   private totalPreserved = 0;
 
   constructor(config: Partial<BatchProcessingConfig> = {}) {
-    this.config = {
+    this.config = {;
       maxBatchSize: 15,
       maxBatchSizeCritical: 5,
       validateAfterEachBatch: true,
@@ -84,7 +84,7 @@ export class SafeBatchProcessor {
     this.log('info', `🚀 Starting safe batch processing of ${files.length} files`);
     this.log(
       'info',
-      `📋 Configuration: maxBatch=${this.config.maxBatchSize}, maxCritical=${this.config.maxBatchSizeCritical}`,
+      `📋 Configuration: maxBatch=${this.config.maxBatchSize}, maxCritical=${this.config.maxBatchSizeCritical}`,;
     );
 
     const results: BatchResult[] = [];
@@ -100,7 +100,7 @@ export class SafeBatchProcessor {
 
     this.log('info', `📦 Created ${batches.length} batches for processing`);
 
-    for (let i = 0i < batches.lengthi++) {
+    for (let i = 0i < batches.lengthi++) {;
       const batch = batches[i];
       const batchId = `batch-${++this.currentBatchId}`;
 
@@ -128,7 +128,7 @@ export class SafeBatchProcessor {
     this.log('info', `   Total Preserved: ${this.totalPreserved}`),
     this.log(
       'info',
-      `   Success Rate: ${((results.filter(r => r.success).length / results.length) * 100).toFixed(1)}%`,
+      `   Success Rate: ${((results.filter(r => r.success).length / results.length) * 100).toFixed(1)}%`,;
     );
 
     return results;
@@ -141,9 +141,9 @@ export class SafeBatchProcessor {
     const startTime = Date.now();
     let stashId: string | undefined,
 
-    const result: BatchResult = {
+    const result: BatchResult = {;
       batchId,
-      files: files.map(f => f.filePath),,
+      files: files.map(f => f.filePath),,;
       success: false,
       processedCount: 0,
       eliminatedCount: 0,
@@ -309,7 +309,7 @@ export class SafeBatchProcessor {
    */
   private getBatchLimit(file: FileProcessingInfo): number {
     // Use smaller batch sizes for critical files
-    if (file.isCritical || file.riskLevel === 'high' || file.unusedVariableCount > 20) {
+    if (file.isCritical || file.riskLevel === 'high' || file.unusedVariableCount > 20) {;
       return this.config.maxBatchSizeCritical;
     }
 
@@ -391,11 +391,11 @@ export class SafeBatchProcessor {
    */
   private async createSafetyCheckpoint(
     id: string,
-    compilationStatus: boolean = true,,
-    errorCount: number = 0,,
+    compilationStatus: boolean = true,,;
+    errorCount: number = 0,,;
     stashId?: string,
   ): Promise<void> {
-    const checkpoint: SafetyCheckpoint = {
+    const checkpoint: SafetyCheckpoint = {;
       id,
       timestamp: new Date(),
       batchId: id,
@@ -439,7 +439,7 @@ export class SafeBatchProcessor {
     if (messageLevel >= configLevel) {
       const timestamp = new Date().toISOString();
       const prefix = level.toUpperCase().padEnd(5);
-      // // console.log(`[${timestamp}] ${prefix} ${message}`);
+      // // // console.log(`[${timestamp}] ${prefix} ${message}`);
     }
   }
 }

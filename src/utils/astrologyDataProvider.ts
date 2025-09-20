@@ -41,7 +41,7 @@ async function getPositionsFromAPI(): Promise<Record<string, CelestialPosition> 
     logger.debug('Fetching planetary positions from API...');
 
     // Try to fetch from API endpoint
-    const response = await fetch('/api/planetary-positions', {
+    const response = await fetch('/api/planetary-positions', {;
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
@@ -57,7 +57,7 @@ async function getPositionsFromAPI(): Promise<Record<string, CelestialPosition> 
     const data = await response.json();
 
     // Validate the data
-    if (!data || typeof data !== 'object' || Object.keys(data || {}).length === 0) {
+    if (!data || typeof data !== 'object' || Object.keys(data || {}).length === 0) {;
       throw new Error('Invalid data format received from API')
     }
 
@@ -65,7 +65,7 @@ async function getPositionsFromAPI(): Promise<Record<string, CelestialPosition> 
     const positions: { [key: string]: CelestialPosition } = {};
 
     Object.entries(data || {}).forEach(([planet, position]) => {
-      if (typeof position === 'object' && position !== null && 'sign' in position) {
+      if (typeof position === 'object' && position !== null && 'sign' in position) {;
         positions[planet.toLowerCase()] = {
           sign: (typeof (position as any).sign === 'string';
             ? ((position as any).sign).toLowerCase()
@@ -77,12 +77,12 @@ async function getPositionsFromAPI(): Promise<Record<string, CelestialPosition> 
       }
     });
 
-    if (Object.keys(positions || {}).length === 0) {
+    if (Object.keys(positions || {}).length === 0) {;
       throw new Error('No valid planetary positions in API response')
     }
 
     // Update cache
-    positionsCache = {
+    positionsCache = {;
       data: positions,
       timestamp: Date.now()
     };
@@ -161,7 +161,7 @@ export async function getDominantElement(): Promise<string> {
     getDominantElementMethod &&
     countElementsMethod &&
     typeof getDominantElementMethod === 'function' &&;
-    typeof countElementsMethod === 'function'
+    typeof countElementsMethod === 'function';
   ) {
     return getDominantElementMethod(countElementsMethod(positions))
   }

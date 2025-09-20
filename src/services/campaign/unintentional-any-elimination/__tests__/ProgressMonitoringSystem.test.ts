@@ -26,7 +26,7 @@ describe('ProgressMonitoringSystem', () => {
     mockFs.mkdirSync.mockImplementation(() => '');
 
     // Mock AnalysisTools
-    mockAnalysisToolsInstance = {
+    mockAnalysisToolsInstance = {;
       generateComprehensiveReport: jest.fn(),
       analyzeDomainDistribution: jest.fn(),
       generateClassificationAccuracyReport: jest.fn(),
@@ -58,7 +58,7 @@ describe('ProgressMonitoringSystem', () => {
     });
 
     it('should initialize with custom alert thresholds', () => {
-      const customThresholds: any = {
+      const customThresholds: any = {;
         successRateThreshold: 80,
         buildFailureThreshold: 2
       };
@@ -199,7 +199,7 @@ describe('ProgressMonitoringSystem', () => {
     });
 
     it('should detect build failures', async () => {
-      const errorOutput: any = 'error TS2304: Cannot find name\nerror TS2345: Argument type',
+      const errorOutput: any = 'error TS2304: Cannot find name\nerror TS2345: Argument type',;
       mockExecSync.mockImplementation(() => {
         const error: any = new Error('Compilation failed');
         (error as any).stdout = errorOutput;
@@ -220,7 +220,7 @@ describe('ProgressMonitoringSystem', () => {
       });
 
       monitoringSystem.on('alert', (alert: Alert) => {
-        if (alert.type === 'build_failure') {
+        if (alert.type === 'build_failure') {;
           expect(alert.severity).toBe('high');
           expect(alert.message).toContain('Build failure detected');
           done();
@@ -235,16 +235,16 @@ describe('ProgressMonitoringSystem', () => {
         throw new Error('Build failed')
       });
 
-      const alertPromise: any = new Promise<Alert>((resolve: any) => {
+      const alertPromise: any = new Promise<Alert>((resolve: any) => {;
         monitoringSystem.on('alert', (alert: Alert) => {
-          if (alert.type === 'consecutive_build_failures') {
+          if (alert.type === 'consecutive_build_failures') {;
             resolve(alert);
           }
         });
       });
 
       // Trigger multiple build failures
-      for (let i: any = 0i < 3i++) {
+      for (let _i: any = 0i < 3i++) {;
         await monitoringSystem.monitorBuildStability();
       }
 
@@ -269,9 +269,9 @@ describe('ProgressMonitoringSystem', () => {
     });
 
     it('should emit low success rate alert', async () => {
-      const alertPromise: any = new Promise<Alert>((resolve: any) => {
+      const alertPromise: any = new Promise<Alert>((resolve: any) => {;
         monitoringSystem.on('alert', (alert: Alert) => {
-          if (alert.type === 'low_success_rate') {
+          if (alert.type === 'low_success_rate') {;
             resolve(alert);
           }
         });
@@ -290,7 +290,7 @@ describe('ProgressMonitoringSystem', () => {
       let alertCount: any = 0;
 
       monitoringSystem.on('alert', (alert: Alert) => {
-        if (alert.type === 'low_success_rate') {
+        if (alert.type === 'low_success_rate') {;
           alertCount++
         }
       });
@@ -303,7 +303,7 @@ describe('ProgressMonitoringSystem', () => {
     });
 
     it('should handle safety protocol activation', () => {
-      const safetyEvent: any = {
+      const safetyEvent: any = {;
         type: 'corruption_detected',
         severity: 'critical' as const,
         description: 'File corruption detected',
@@ -312,15 +312,15 @@ describe('ProgressMonitoringSystem', () => {
         affectedFiles: ['test.ts']
       };
 
-      const alertPromise: any = new Promise<Alert>((resolve: any) => {
+      const alertPromise: any = new Promise<Alert>((resolve: any) => {;
         monitoringSystem.on('alert', (alert: Alert) => {
-          if (alert.type === 'safety_protocol_activation') {
+          if (alert.type === 'safety_protocol_activation') {;
             resolve(alert);
           }
         });
       });
 
-      const criticalEventPromise: any = new Promise((resolve: any) => {
+      const criticalEventPromise: any = new Promise((resolve: any) => {;
         monitoringSystem.on('critical_safety_event', resolve)
       });
 
@@ -334,12 +334,12 @@ describe('ProgressMonitoringSystem', () => {
     });
 
     it('should update alert thresholds', () => {
-      const newThresholds: any = {
+      const newThresholds: any = {;
         successRateThreshold: 80,
         buildFailureThreshold: 2
       };
 
-      const updatePromise: any = new Promise((resolve: any) => {
+      const updatePromise: any = new Promise((resolve: any) => {;
         monitoringSystem.on('alert_thresholds_updated', resolve)
       });
 
@@ -369,7 +369,7 @@ describe('ProgressMonitoringSystem', () => {
     });
 
     it('should update dashboard data', async () => {
-      const updatePromise: any = new Promise<DashboardData>((resolve: any) => {
+      const updatePromise: any = new Promise<DashboardData>((resolve: any) => {;
         monitoringSystem.on('dashboard_updated', resolve)
       });
 
@@ -432,7 +432,7 @@ describe('ProgressMonitoringSystem', () => {
     });
 
     it('should clear alert history', () => {
-      const clearPromise: any = new Promise((resolve: any) => {
+      const clearPromise: any = new Promise((resolve: any) => {;
         monitoringSystem.on('alert_history_cleared', resolve)
       });
 

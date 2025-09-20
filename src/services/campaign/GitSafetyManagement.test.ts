@@ -33,7 +33,7 @@ describe('Git Safety Management - Task 6.1', () => {
   beforeEach(() => {
     jest.clearAllMocks();
 
-    mockSettings = {
+    mockSettings = {;
       maxFilesPerBatch: 15,
       buildValidationFrequency: 5,
       testValidationFrequency: 10,
@@ -71,7 +71,7 @@ describe('Git Safety Management - Task 6.1', () => {
       const description: any = 'Before TypeScript error fixes';
       const phase: any = 'phase1';
 
-      const stashId: any = await safetyProtocol.createStash(description, phase),
+      const stashId: any = await safetyProtocol.createStash(description, phase),;
 
       expect(stashId).toMatch(/^campaign-phase1-\d+-\d{4}-\d{2}-\d{2}T\d{2}-\d{2}-\d{2}-\d{3}Z$/);
       expect(execSync).toHaveBeenCalledWith(
@@ -234,7 +234,7 @@ describe('Git Safety Management - Task 6.1', () => {
     });
 
     test('should load stash tracking from persistent storage', async () => {
-      const mockStashData: any = {
+      const mockStashData: any = {;
         counter: 5,
         stashes: {
           'test-stash': {
@@ -299,7 +299,7 @@ describe('Git Safety Management - Task 6.1', () => {
         return ''
       });
 
-      const settingsWithoutAutoRollback: any = {
+      const settingsWithoutAutoRollback: any = {;
         ...mockSettings;
         automaticRollbackEnabled: false
       };

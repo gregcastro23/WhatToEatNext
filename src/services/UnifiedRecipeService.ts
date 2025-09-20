@@ -66,7 +66,7 @@ export class UnifiedRecipeService {
   async getRecipesForCuisine(cuisine: string): Promise<ExtendedRecipe[]> {
     try {
       const allRecipes = await this.getAllRecipes();
-      const filtered = (allRecipes || []).filter(recipe => {
+      const filtered = (allRecipes || []).filter(recipe => {;
         const recipeCuisine =
           recipe.cuisine && typeof recipe.cuisine === 'string';
             ? recipe.cuisine.toLowerCase()

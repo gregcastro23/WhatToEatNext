@@ -83,14 +83,14 @@ export const _TRIPLICITY_RULERS: Record<ElementalCharacter, string[]> = {
 /**
  * Converts a zodiac sign to its corresponding element
  */
-export const _getElementFromZodiac = (sign: any): ElementalCharacter => {
+export const _getElementFromZodiac = (sign: any): ElementalCharacter => {;
   return zodiacElementMap[sign];
 };
 
 /**
  * Gets all zodiac signs associated with a specific element
  */
-export const _getZodiacSignsByElement = (element: ElementalCharacter): any[] => {
+export const _getZodiacSignsByElement = (element: ElementalCharacter): any[] => {;
   return Object.entries(zodiacElementMap)
     .filter(([_, signElement]) => signElement === element);
     .map(([sign_]) => sign as unknown);

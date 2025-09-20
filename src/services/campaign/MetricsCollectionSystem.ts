@@ -69,16 +69,16 @@ export class MetricsCollectionSystem {
   /**
    * Start real-time metrics collection
    */
-  startRealTimeCollection(intervalMs: number = 30000): void {
+  startRealTimeCollection(intervalMs: number = 30000): void {;
     if (this.isCollecting) {
-      // // console.log('📊 Metrics collection already running');
+      // // // console.log('📊 Metrics collection already running');
       return
     }
 
     this.isCollecting = true;
-    // // console.log(`📊 Starting real-time metrics collection (interval: ${intervalMs}ms)`);
+    // // // console.log(`📊 Starting real-time metrics collection (interval: ${intervalMs}ms)`);
 
-    this.collectionInterval = setInterval(() => {
+    this.collectionInterval = setInterval(() => {;
       void (async () => {
         try {
           await this.collectSnapshot();
@@ -104,7 +104,7 @@ export class MetricsCollectionSystem {
       this.collectionInterval = null;
     }
     this.isCollecting = false;
-    // // console.log('📊 Stopped real-time metrics collection');
+    // // // console.log('📊 Stopped real-time metrics collection');
   }
 
   /**
@@ -118,11 +118,11 @@ export class MetricsCollectionSystem {
     const timestamp = new Date();
     const id = `snapshot_${timestamp.getTime()}`;
 
-    // // console.log('📊 Collecting metrics snapshot...');
+    // // // console.log('📊 Collecting metrics snapshot...');
 
     const metrics = await this.collectDetailedMetrics();
 
-    const snapshot: MetricsSnapshot = {
+    const snapshot: MetricsSnapshot = {;
       id,
       timestamp,
       metrics,
@@ -138,7 +138,7 @@ export class MetricsCollectionSystem {
       this.snapshots = this.snapshots.slice(-500);
     }
 
-    // // console.log(`📊 Snapshot collected: ${id}`);
+    // // // console.log(`📊 Snapshot collected: ${id}`);
     return snapshot;
   }
 
@@ -162,7 +162,7 @@ export class MetricsCollectionSystem {
 
     const trendData = this.calculateTrendData();
 
-    const detailedMetrics: DetailedMetrics = {
+    const detailedMetrics: DetailedMetrics = {;
       timestamp: new Date(),
       typeScriptErrors: {
         current: typeScriptMetrics.count,
@@ -272,7 +272,7 @@ export class MetricsCollectionSystem {
   }> {
     try {
       // Get total warning count
-      const countOutput = execSync('yarn lint 2>&1 | grep -c 'warning' || echo '0'', {
+      const countOutput = execSync('yarn lint 2>&1 | grep -c 'warning' || echo '0'', {;
         encoding: 'utf8',
         stdio: 'pipe'
       });
@@ -284,7 +284,7 @@ export class MetricsCollectionSystem {
 
       if (count > 0) {
         try {
-          const lintOutput = execSync('yarn lint 2>&1', {
+          const lintOutput = execSync('yarn lint 2>&1', {;
             encoding: 'utf8',
             stdio: 'pipe'
           });
@@ -392,7 +392,7 @@ export class MetricsCollectionSystem {
       (recent[recent.length - 1].timestamp.getTime() - recent[0].timestamp.getTime()) /;
       (1000 * 60 * 60);
 
-    if (timeSpanHours === 0) {
+    if (timeSpanHours === 0) {;
       return {
         errorReductionRate: 0,
         warningReductionRate: 0,
@@ -427,7 +427,7 @@ export class MetricsCollectionSystem {
    */
   private async getEnterpriseSystemCount(): Promise<number> {
     try {
-      const output = execSync('grep -r 'INTELLIGENCE_SYSTEM' src/ | wc -l', {
+      const output = execSync('grep -r 'INTELLIGENCE_SYSTEM' src/ | wc -l', {;
         encoding: 'utf8',
         stdio: 'pipe'
       });
@@ -444,7 +444,7 @@ export class MetricsCollectionSystem {
 
       for (const dir of buildDirs) {
         if (fs.existsSync(dir)) {
-          const output = execSync(`du -sk ${dir} | cut -f1`, {
+          const output = execSync(`du -sk ${dir} | cut -f1`, {;
             encoding: 'utf8',
             stdio: 'pipe'
           });
@@ -471,7 +471,7 @@ export class MetricsCollectionSystem {
 
   private async getCpuUsage(): Promise<number> {
     try {
-      const output = execSync('ps -o %cpu -p $$ | tail -1', {
+      const output = execSync('ps -o %cpu -p $$ | tail -1', {;
         encoding: 'utf8',
         stdio: 'pipe'
       });
@@ -483,7 +483,7 @@ export class MetricsCollectionSystem {
 
   private async getDiskUsage(): Promise<number> {
     try {
-      const output = execSync('du -sh . | cut -f1', {
+      const output = execSync('du -sh . | cut -f1', {;
         encoding: 'utf8',
         stdio: 'pipe'
       });
@@ -502,7 +502,7 @@ export class MetricsCollectionSystem {
 
   private countSourceFiles(): number {
     try {
-      const output = execSync('find src -name '*.ts' -o -name '*.tsx' | wc -l', {
+      const output = execSync('find src -name '*.ts' -o -name '*.tsx' | wc -l', {;
         encoding: 'utf8',
         stdio: 'pipe'
       });
@@ -514,7 +514,7 @@ export class MetricsCollectionSystem {
 
   private async getSystemMemory(): Promise<ResourceMetrics['systemMemory']> {
     try {
-      const output = execSync('free -m | grep Mem', {
+      const output = execSync('free -m | grep Mem', {;
         encoding: 'utf8',
         stdio: 'pipe'
       });
@@ -545,7 +545,7 @@ export class MetricsCollectionSystem {
 
   private async getDiskSpace(): Promise<ResourceMetrics['diskSpace']> {
     try {
-      const output = execSync('df -h . | tail -1', {
+      const output = execSync('df -h . | tail -1', {;
         encoding: 'utf8',
         stdio: 'pipe'
       });
@@ -595,7 +595,7 @@ export class MetricsCollectionSystem {
   }
 
   async exportSnapshots(filePath: string): Promise<void> {
-    const exportData = {
+    const exportData = {;
       timestamp: new Date().toISOString(),
       totalSnapshots: this.snapshots.length,
       snapshots: this.snapshots,
@@ -612,11 +612,11 @@ export class MetricsCollectionSystem {
     };
 
     fs.writeFileSync(filePath, JSON.stringify(exportData, null, 2));
-    // // console.log(`📊 Metrics snapshots exported to: ${filePath}`);
+    // // // console.log(`📊 Metrics snapshots exported to: ${filePath}`);
   }
 
   clearSnapshots(): void {
     this.snapshots = [];
-    // // console.log('📊 Metrics snapshots cleared');
+    // // // console.log('📊 Metrics snapshots cleared');
   }
 }

@@ -13,12 +13,12 @@ export type TimeOfDay = 'Morning' | 'Afternoon' | 'Evening' | 'Night';
 
 export interface PlanetaryDay {
   day: WeekDay,
-  planet: PlanetName,
+  planet: PlanetName
 }
 
 export interface PlanetaryHour {
   planet: PlanetName,
-  hourOfDay: number,
+  hourOfDay: number
 }
 
 export type MealType = 'Breakfast' | 'Lunch' | 'Dinner' | 'Snack' | 'Anytime';
@@ -97,7 +97,7 @@ export function getTimeFactors(): TimeFactors {
   const weekDay = weekDays[dayOfWeek];
 
   // Determine planetary day
-  const planetaryDay: PlanetaryDay = {
+  const planetaryDay: PlanetaryDay = {;
     day: weekDay,
     planet: DAY_RULERS[weekDay]
   };
@@ -118,7 +118,7 @@ export function getTimeFactors(): TimeFactors {
   const planetIndex = (startingPlanetIndex + planetaryHourOfDay) % 7;
   const hourPlanet = PLANETARY_HOUR_SEQUENCE[planetIndex];
 
-  const planetaryHour: PlanetaryHour = {
+  const planetaryHour: PlanetaryHour = {;
     planet: hourPlanet,
     hourOfDay: planetaryHourOfDay
   };

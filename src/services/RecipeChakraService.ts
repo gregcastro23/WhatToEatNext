@@ -33,7 +33,7 @@ export class RecipeChakraService {
     const enhancedRecipe = { ...recipe };
 
     // Add chakra-balancing ingredient suggestions
-    enhancedRecipe.chakraBalance = {
+    enhancedRecipe.chakraBalance = {;
       underactiveChakras,
       suggestedAdditions: recommendations.primaryFoods.slice(03),
       suggestedMeals: recommendations.balancingMeals
@@ -55,7 +55,7 @@ export class RecipeChakraService {
     score: number,
     balancedChakras: Chakra[],
     imbalancedChakras: Chakra[],
-    suggestions: string[],
+    suggestions: string[]
   } {
     // Evaluate recipe ingredients for their chakra influences
     const ingredientColors = recipe.ingredients.map(ing => this.getIngredientColor(ing.name));

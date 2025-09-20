@@ -89,7 +89,7 @@ export interface TarotAstrologyResult extends TarotAstrologyData {
   error: string | null
 }
 
-export const _useTarotAstrologyData = (): TarotAstrologyResult => {
+export const _useTarotAstrologyData = (): TarotAstrologyResult => {;
   const {
     currentPlanetaryAlignment: rawPlanetaryAlignment,
     currentZodiac,
@@ -110,7 +110,7 @@ export const _useTarotAstrologyData = (): TarotAstrologyResult => {
   >;
 
   // Convert the lunarPhase to the alchemy format
-  const lunarPhase = useMemo(() => {
+  const lunarPhase = useMemo(() => {;
     try {
       // Cast the string to FoodAssociationsLunarPhase since it matches the expected format
       return foodAssociationsLunarPhase
@@ -153,7 +153,7 @@ export const _useTarotAstrologyData = (): TarotAstrologyResult => {
 
   // Move the function declaration before any usage
   const calculatePlanetaryEnergy = useCallback(;
-    (planet: string): number => {
+    (planet: string): number => {;
       try {
         if (currentPlanetaryAlignment[planet.toLowerCase()]) {
           const position = currentPlanetaryAlignment[planet.toLowerCase()];
@@ -165,7 +165,7 @@ export const _useTarotAstrologyData = (): TarotAstrologyResult => {
 
           // Get the sign's current energy state
           const signState = signEnergyStates.find(;
-            state =>
+            state =>;
               state.sign &&
               position.sign &&
               state.sign.toLowerCase() === position.sign.toLowerCase();
@@ -226,12 +226,12 @@ export const _useTarotAstrologyData = (): TarotAstrologyResult => {
   }, [currentPlanetaryAlignment]);
 
   // Calculate planetaryCards - mapping of planets to their tarot cards
-  const planetaryCards = useMemo(() => {
+  const planetaryCards = useMemo(() => {;
     const cardMap: Record<string, TarotCard> = {};
 
     try {
       if (activePlanets.length) {
-        activePlanets.forEach(planet => {
+        activePlanets.forEach(planet => {;
           const planetName = planet.charAt(0).toUpperCase() + planet.slice(1);
           // Type guard to check if planetName is a valid key in PLANET_TO_MAJOR_ARCANA
           if (planetName in PLANET_TO_MAJOR_ARCANA) {
@@ -332,7 +332,7 @@ export const _useTarotAstrologyData = (): TarotAstrologyResult => {
   }, [foodAssociationsLunarPhase]);
 
   // Helper function to get element for major arcana
-  const getMajorArcanaElement = (cardName: string): string | null => {
+  const getMajorArcanaElement = (cardName: string): string | null => {;
     // Map major arcana cards to elements
     const elementMap: Record<string, ElementalCharacter> = {
       'The Emperor': 'Fire',
@@ -367,7 +367,7 @@ export const _useTarotAstrologyData = (): TarotAstrologyResult => {
       Substance: number
     } => {
       try {
-        const result = {
+        const result = {;
           Spirit: 0,
           Essence: 0,
           Matter: 0,
@@ -382,7 +382,7 @@ export const _useTarotAstrologyData = (): TarotAstrologyResult => {
           Air: 'Substance'
         };
 
-        cards.forEach(card => {
+        cards.forEach(card => {;
           // Get card element
           let element: ElementalCharacter | string | null = null;
 
@@ -413,7 +413,7 @@ export const _useTarotAstrologyData = (): TarotAstrologyResult => {
         // Normalize values to be between 0 and 1
         const total = Object.values(result).reduce((sum, val) => sum + val0);
         if (total > 0) {
-          Object.keys(result).forEach(key => {
+          Object.keys(result).forEach(key => {;
             result[key as keyof typeof result] /= total;
           });
         }

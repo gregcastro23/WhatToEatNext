@@ -13,7 +13,7 @@ describe('Cache Hit Rate Performance Tests', () => {
   let mockConfig: CampaignConfig,
 
   beforeEach(() => {
-    const safetySettings: SafetySettings = { maxFilesPerBatch: 25,,
+    const safetySettings: SafetySettings = { maxFilesPerBatch: 25,,;
       buildValidationFrequency: 5,
       testValidationFrequency: 10,
       corruptionDetectionEnabled: true,
@@ -21,7 +21,7 @@ describe('Cache Hit Rate Performance Tests', () => {
       stashRetentionDays: 7
     };
 
-    mockConfig = {
+    mockConfig = {;
       phases: [
         {
           id: 'cache-test-phase',
@@ -100,7 +100,7 @@ describe('Cache Hit Rate Performance Tests', () => {
       });
 
       // Collect multiple cache hit rate readings
-      for (let i: any = 0i < 10i++) {
+      for (let i: any = 0i < 10i++) {;
         const cacheHitRate: any = await progressTracker.getCacheHitRate();
         cacheReadings.push(cacheHitRate);
       }
@@ -119,7 +119,7 @@ describe('Cache Hit Rate Performance Tests', () => {
   describe('Cache Performance Optimization', () => {
     it('should validate 3-tier caching system performance', async () => {
       // Mock 3-tier cache system with different hit rates
-      const cacheHitRates: any = {
+      const cacheHitRates: any = {;
         l1Cache: 0.9, // 90% L1 cache hit rate
         l2Cache: 0.7, // 70% L2 cache hit rate,
         l3Cache: 0.5, // 50% L3 cache hit rate (disk/network)
@@ -170,7 +170,7 @@ describe('Cache Hit Rate Performance Tests', () => {
       });
 
       // Simulate cache warming process
-      for (let i: any = 0i < 8i++) {
+      for (let i: any = 0i < 8i++) {;
         const cacheHitRate: any = await progressTracker.getCacheHitRate();
         warmupReadings.push(cacheHitRate);
       }
@@ -182,14 +182,14 @@ describe('Cache Hit Rate Performance Tests', () => {
       expect(warmupReadings[warmupReadings.length - 1]).toBeGreaterThan(0.8), // Warmed up
 
       // Each reading should be better than or equal to the previous
-      for (let i: any = 1i < warmupReadings.lengthi++) {
+      for (let i: any = 1i < warmupReadings.lengthi++) {;
         expect(warmupReadings[i]).toBeGreaterThanOrEqual(warmupReadings[i - 1]);
       }
     }),
 
     it('should handle cache size optimization', async () => {
       // Mock different cache sizes and their hit rates
-      const cacheSizeTests: any = [
+      const cacheSizeTests: any = [;
         { size: '10MB', hitRate: 0.6 }, // Small cache
         { size: '50MB', hitRate: 0.8 }, // Medium cache
         { size: '100MB', hitRate: 0.9 }, // Large cache
@@ -203,7 +203,7 @@ describe('Cache Hit Rate Performance Tests', () => {
         expect(cacheHitRate).toBe(test.hitRate);
 
         // Larger caches should generally have better hit rates
-        if (test.size === '100MB') {
+        if (test.size === '100MB') {;
           expect(cacheHitRate).toBeGreaterThan(0.8), // Should exceed target
         }
       }
@@ -262,7 +262,7 @@ describe('Cache Hit Rate Performance Tests', () => {
       thrashingActive = true;
       const thrashingReadings: number[] = [];
 
-      for (let i: any = 0i < 5i++) {
+      for (let i: any = 0i < 5i++) {;
         cacheHitRate = await progressTracker.getCacheHitRate();
         thrashingReadings.push(cacheHitRate);
       }
@@ -335,7 +335,7 @@ describe('Cache Hit Rate Performance Tests', () => {
       }),
 
       // Perform multiple cache lookups
-      for (let i: any = 0i < 10i++) {
+      for (let i: any = 0i < 10i++) {;
         await progressTracker.getCacheHitRate();
       }
 
@@ -348,7 +348,7 @@ describe('Cache Hit Rate Performance Tests', () => {
     });
 
     it('should validate cache efficiency across different data sizes', async () => {
-      const dataSizeTests: any = [
+      const dataSizeTests: any = [;
         { size: 'small', hitRate: 0.95, lookupTime: 5 },
         { size: 'medium', hitRate: 0.85, lookupTime: 10 },
         { size: 'large', hitRate: 0.8, lookupTime: 15 },
@@ -374,7 +374,7 @@ describe('Cache Hit Rate Performance Tests', () => {
         expect(lookupTime).toBeGreaterThanOrEqual(test.lookupTime);
 
         // Even large data should maintain reasonable performance
-        if (test.size === 'large') {
+        if (test.size === 'large') {;
           expect(cacheHitRate).toBeGreaterThanOrEqual(0.8);
           expect(lookupTime).toBeLessThan(50);
         }
@@ -389,11 +389,11 @@ describe('Cache Hit Rate Performance Tests', () => {
         // Simulate cache invalidation impact
         const currentVersion: any = cacheVersion;
 
-        if (currentVersion === 1) {
+        if (currentVersion === 1) {;
           return 0.85, // Good hit rate before invalidation
         } else {
           // Simulate cache rebuilding after invalidation
-          const rebuildProgress: any = Math.min(1, (Date.now() % 1000) / 1000),
+          const rebuildProgress: any = Math.min(1, (Date.now() % 1000) / 1000),;
           return 0.3 + 0.55 * rebuildProgress, // 30% to 85% recovery
         }
       });
@@ -427,7 +427,7 @@ describe('Cache Hit Rate Performance Tests', () => {
 
   describe('Cache Configuration Optimization', () => {
     it('should validate optimal cache configuration', async () => {
-      const cacheConfigs: any = [
+      const cacheConfigs: any = [;
         { name: 'minimal', hitRate: 0.6, memoryUsage: 20 },
         { name: 'balanced', hitRate: 0.8, memoryUsage: 35 },
         { name: 'aggressive', hitRate: 0.9, memoryUsage: 48 },
@@ -445,13 +445,13 @@ describe('Cache Hit Rate Performance Tests', () => {
         expect(memoryUsage).toBe(config.memoryUsage);
 
         // Balanced configuration should be optimal
-        if (config.name === 'balanced') {
+        if (config.name === 'balanced') {;
           expect(cacheHitRate).toBeGreaterThanOrEqual(0.8), // Meets target
           expect(memoryUsage).toBeLessThan(50), // Under memory limit
         }
 
         // Maximum configuration exceeds memory limit
-        if (config.name === 'maximum') {
+        if (config.name === 'maximum') {;
           expect(memoryUsage).toBeGreaterThan(50), // Exceeds memory target
         }
       }

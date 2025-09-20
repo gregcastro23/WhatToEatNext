@@ -11,7 +11,7 @@ import { getCurrentElementalState } from '@/utils/elementalUtils';
 
 // --- Core Types ---
 
-export type ElementalColor = {
+export type ElementalColor = {;
   primary: string,
   secondary: string,
   text: string,
@@ -132,7 +132,7 @@ export function validateElementalProperties(properties: ElementalProperties): bo
  * @returns Normalized elemental properties
  */
 export function normalizeProperties(properties: Partial<ElementalProperties>): ElementalProperties {
-  const normalized: ElementalProperties = {
+  const normalized: ElementalProperties = {;
     Fire: properties.Fire || 0,
     Water: properties.Water || 0,
     Earth: properties.Earth || 0,
@@ -141,7 +141,7 @@ export function normalizeProperties(properties: Partial<ElementalProperties>): E
 
   const total = normalized.Fire + normalized.Water + normalized.Earth + normalized.Air;
 
-  if (total === 0) {
+  if (total === 0) {;
     return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }; // Default balanced state
   }
 
@@ -182,7 +182,7 @@ export function calculateDominantElement(
  */
 export function getElementalColor(
   element: keyof ElementalProperties | undefined,
-  type: keyof ElementalColor = 'text'
+  type: keyof ElementalColor = 'text';
 ): string {
   if (!element || !ELEMENTAL_COLORS[element]) {
     return ELEMENTAL_COLORS.Fire[type], // Default to Fire
@@ -219,7 +219,7 @@ export function getElementalCompatibility(
   element2: keyof ElementalProperties,
 ): 'highly-compatible' | 'compatible' | 'neutral' {
   // Same element has highest compatibility
-  if (element1 === element2) {
+  if (element1 === element2) {;
     return 'highly-compatible'
   }
 
@@ -235,7 +235,7 @@ export function getElementalCompatibility(
  */
 export function calculateElementalCompatibility(element1: Element, element2: Element): number {
   // Following the elemental principles: all elements work well together
-  if (element1 === element2) {
+  if (element1 === element2) {;
     return 0.9, // Same element has highest compatibility
   }
 
@@ -320,7 +320,7 @@ export function getStrengtheningElement(element: Element): Element {
 export function combineElementalProperties(
   a: ElementalProperties,
   b: ElementalProperties,
-  bWeight = 0.5
+  bWeight = 0.5;
 ): ElementalProperties {
   const aWeight = 1 - bWeight;
 
@@ -367,7 +367,7 @@ function calculateElementalStateFromIngredients(
   const elementalState = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
   let totalWeight = 0;
 
-  (ingredients || []).forEach(ingredient => {
+  (ingredients || []).forEach(ingredient => {;
     const category = ingredient.category?.toLowerCase() || '';
     const amount = ingredient.amount || 1;
 
@@ -392,7 +392,7 @@ function calculateElementalStateFromIngredients(
     }
 
     // Add weighted contribution
-    Object.keys(elementContribution || {}).forEach(element => {
+    Object.keys(elementContribution || {}).forEach(element => {;
       elementalState[element as 'Fire' | 'Water' | 'Earth' | 'Air'] +=
         elementContribution[element as 'Fire' | 'Water' | 'Earth' | 'Air'] * amount;
     });
@@ -402,7 +402,7 @@ function calculateElementalStateFromIngredients(
 
   // Normalize
   if (totalWeight > 0) {
-    Object.keys(elementalState || {}).forEach(element => {
+    Object.keys(elementalState || {}).forEach(element => {;
       elementalState[element as 'Fire' | 'Water' | 'Earth' | 'Air'] /= totalWeight;
     });
   }
@@ -469,7 +469,7 @@ function calculateComplementaryScore(
   element2: keyof ElementalProperties,
 ): number {
   // Same element has highest complementary score
-  if (element1 === element2) {
+  if (element1 === element2) {;
     return 0.9;
   }
 
@@ -485,7 +485,7 @@ function calculateBalanceScore(
   let totalDifference = 0;
   const elements: (keyof ElementalProperties)[] = ['Fire', 'Water', 'Earth', 'Air'];
 
-  (elements || []).forEach(element => {
+  (elements || []).forEach(element => {;
     const difference = Math.abs(recipeProps[element] - userProps[element]);
     totalDifference += difference;
   });

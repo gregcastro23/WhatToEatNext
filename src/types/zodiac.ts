@@ -14,11 +14,11 @@ export type ZodiacSign =
   | 'pisces';
 
 // Elemental Properties
-export type ElementalProperties = {
+export type ElementalProperties = {;
   Fire: number,
   Earth: number,
   Air: number,
-  Water: number,
+  Water: number
 };
 
 // Zodiac Date Ranges
@@ -82,7 +82,7 @@ export const _elementalCompatibility: Record<
   keyof ElementalProperties,
   {
     compatible: Array<keyof ElementalProperties>,
-    incompatible: Array<keyof ElementalProperties>,
+    incompatible: Array<keyof ElementalProperties>
   }
 > = {
   Fire: {
@@ -186,7 +186,7 @@ export interface ElementalAffinity {
   Fire: number,
   Earth: number,
   Air: number,
-  Water: number,
+  Water: number
 }
 
 export interface CelestialPosition {

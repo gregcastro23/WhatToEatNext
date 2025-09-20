@@ -45,7 +45,7 @@ export async function POST(request: Request) {
     const positions = await calculatePlanetaryPositions(targetDate);
 
     // Validate positions before calculating aspects
-    if (!positions || Object.keys(positions).length === 0) {
+    if (!positions || Object.keys(positions).length === 0) {;
       return NextResponse.json(
         { message: 'Failed to calculate planetary positions' },
         { status: 500 }
@@ -53,8 +53,8 @@ export async function POST(request: Request) {
     }
 
     // Check for valid position structure
-    const hasValidPositions = Object.values(positions).every(
-      position => position && typeof position === 'object' && 'sign' in position
+    const hasValidPositions = Object.values(positions).every(;
+      position => position && typeof position === 'object' && 'sign' in position;
     );
 
     if (!hasValidPositions) {

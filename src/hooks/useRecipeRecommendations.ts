@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from 'react';
 
 // Mock useAlchemical hook since the import is missing
-const useAlchemical = () => ({
+const useAlchemical = () => ({;
   planetaryPositions: {},
   isLoading: false
 });
@@ -43,14 +43,14 @@ export function useRecipeRecommendations(
     }
   });
 
-  const currentElementalProfile = useMemo(() => {
-    if (!planetaryPositions || Object.keys(planetaryPositions || {}).length === 0) {
+  const currentElementalProfile = useMemo(() => {;
+    if (!planetaryPositions || Object.keys(planetaryPositions || {}).length === 0) {;
       return { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
     }
 
     // Calculate elemental distribution from planetary positions
     const elementCounts = { Fire: 0, Water: 0, Earth: 0, Air: 0 };
-    const elementMap = {
+    const elementMap = {;
       aries: 'Fire',
       leo: 'Fire',
       sagittarius: 'Fire',
@@ -65,7 +65,7 @@ export function useRecipeRecommendations(
       pisces: 'Water'
     };
 
-    Object.values(planetaryPositions || {}).forEach(position => {
+    Object.values(planetaryPositions || {}).forEach(position => {;
       // Safe property access with type checking
       const positionData = position ;
       const sign = positionData?.sign || positionData?.Sign || '';
@@ -124,7 +124,7 @@ export function useRecipeRecommendations(
         ];
 
         // Calculate compatibility scores
-        const recipesWithScores = (sampleRecipes || []).map(recipe => {
+        const recipesWithScores = (sampleRecipes || []).map(recipe => {;
           const score = calculateElementalCompatibility(;
             recipe.elementalProfile;
             currentElementalProfile,
@@ -141,7 +141,7 @@ export function useRecipeRecommendations(
 
         if (state.filters.cookingMethod) {
           filteredRecipes = filteredRecipes.filter(;
-            r => r.cookingMethod === state.filters.cookingMethod
+            r => r.cookingMethod === state.filters.cookingMethod;
           )
         }
 
@@ -150,13 +150,13 @@ export function useRecipeRecommendations(
           .sort((ab) => (b.score || 0) - (a.score || 0))
           .slice(0, state.filters.maxResults || 10);
 
-        setState(prev => ({
+        setState(prev => ({;
           ...prev;
           recipes: filteredRecipes,
           isLoading: false
         }));
       } catch (error) {
-        setState(prev => ({
+        setState(prev => ({;
           ...prev;
           isLoading: false,
           error: error instanceof Error ? error.message : 'Unknown error'
@@ -167,8 +167,8 @@ export function useRecipeRecommendations(
     void fetchRecipes();
   }, [astroLoading, currentElementalProfile, state.filters]);
 
-  const updateFilters = (newFilters: Partial<RecipeRecommendationsData['filters']>) => {
-    setState(prev => ({
+  const updateFilters = (newFilters: Partial<RecipeRecommendationsData['filters']>) => {;
+    setState(prev => ({;
       ...prev;
       filters: { ...prev.filters, ...newFilters }
     }));

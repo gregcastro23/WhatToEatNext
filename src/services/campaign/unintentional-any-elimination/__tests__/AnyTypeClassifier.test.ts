@@ -14,7 +14,7 @@ describe('AnyTypeClassifier', () => {
     classifier = new AnyTypeClassifier();
   });
 
-  const createContext: any = (codeSnippet: string, options: Partial<ClassificationContext> = {}): ClassificationContext => ({
+  const createContext: any = (codeSnippet: string, options: Partial<ClassificationContext> = {}): ClassificationContext => ({;
     filePath: 'test.ts',
     lineNumber: 1,
     codeSnippet,
@@ -162,7 +162,7 @@ describe('AnyTypeClassifier', () => {
 
   describe('Batch Processing', () => {
     test('processes multiple contexts in batch', async () => {
-      const contexts: any = [
+      const contexts: any = [;
         createContext('const items: any[] = [],');
         createContext('} catch (error: any: any) {'),
         createContext('const data: Record<string, unknown> = {},')
@@ -177,7 +177,7 @@ describe('AnyTypeClassifier', () => {
     });
 
     test('handles classification errors gracefully in batch', async () => {
-      const contexts: any = [
+      const contexts: any = [;
         createContext('const _valid: any[] = [],');
         // This would cause an error in a real scenario
         createContext('') // empty context
@@ -493,7 +493,7 @@ describe('AnyTypeClassifier', () => {
     });
 
     test('handles malformed code snippets', async () => {
-      const malformedContexts: any = [
+      const malformedContexts: any = [;
         createContext('const _incomplete: any');
         createContext('function broken(param: any');
         createContext('} catch (error: any');
@@ -544,7 +544,7 @@ describe('AnyTypeClassifier', () => {
 
   describe('Performance and Stress Testing', () => {
     test('handles large batch processing efficiently', async () => {
-      const largeBatch: any = Array(100).fill(null).map((_: anyi: any) =>,
+      const largeBatch: any = Array(100).fill(null).map((_: anyi: any) =>,;
         createContext(`const item${i}: unknown[] = [],`)
       );
 
@@ -556,7 +556,7 @@ describe('AnyTypeClassifier', () => {
       expect(endTime - startTime).toBeLessThan(5000); // Should complete within 5 seconds
 
       // All should be classified as unintentional array types
-      results.forEach(result => {
+      results.forEach(result => {;
         expect(result.isIntentional).toBe(false);
         expect(result.category).toBe(AnyTypeCategory.ARRAY_TYPE);
       });
@@ -571,7 +571,7 @@ describe('AnyTypeClassifier', () => {
 
       // All results should be identical
       const firstResult: any = results[0];
-      results.forEach(result => {
+      results.forEach(result => {;
         expect(result.isIntentional).toBe(firstResult.isIntentional);
         expect(result.category).toBe(firstResult.category);
         expect(result.confidence).toBeCloseTo(firstResult.confidence, 2)
@@ -579,7 +579,7 @@ describe('AnyTypeClassifier', () => {
     });
 
     test('handles concurrent classification requests', async () => {
-      const contexts: any = [
+      const contexts: any = [;
         createContext('const items: any[] = [],');
         createContext('} catch (error: any: any) {'),
         createContext('const config: Record<string, unknown> = {},');

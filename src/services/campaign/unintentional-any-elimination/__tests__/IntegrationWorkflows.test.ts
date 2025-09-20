@@ -67,7 +67,7 @@ describe('Integration Workflows', () => {
   describe('Complete Classification and Replacement Workflows', () => {
     test('should execute complete workflow from classification to replacement', async () => {
       // Setup test scenario with various any types
-      const testFiles: any = {
+      const testFiles: any = {;
         'src/arrays.ts': 'const items: any[] = [], const data: Array<any> = [],',
         // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
         'src/records.ts': 'const config: Record<string, unknown> = {}; const map: { [key: string]: unknown  } = {} as any;',
@@ -90,9 +90,9 @@ describe('Integration Workflows', () => {
       const contexts: ClassificationContext[] = [];
       for (const [filePath, content] of Object.entries(testFiles)) {
         const lines: any = content.split('\n');
-        for (let i: any = 0i < lines.lengthi++) {
+        for (let i: any = 0i < lines.lengthi++) {;
           if (lines[i].includes(': unknown')) {
-            const context: ClassificationContext = {
+            const context: ClassificationContext = {;
               filePath,
               lineNumber: i + 1,
               codeSnippet: lines[i],
@@ -160,7 +160,7 @@ describe('Integration Workflows', () => {
     });
 
     test('should handle mixed success and failure scenarios', async () => {
-      const mixedScenarios: any = {
+      const mixedScenarios: any = {;
         'src/safe.ts': 'const items: any[] = [], const data: Record<string, unknown> = {};',
         'src/risky.ts': 'const _complex: any = getComplexObject(); function dangerous(param: any): any { return param, }',
         'src/intentional.ts': '} catch (error: any: any) { /* Intentionally any: error handling */ }'
@@ -217,7 +217,7 @@ describe('Integration Workflows', () => {
     });
 
     test('should preserve domain-specific intentional any types', async () => {
-      const domainSpecificFiles: any = {
+      const domainSpecificFiles: any = {;
         'src/calculations/planetary/positions.ts': `;
           const _planetaryData: any = await getReliablePlanetaryPositions();
           const _transitDates: any = validateTransitDate(planet, date, sign);
@@ -247,9 +247,9 @@ describe('Integration Workflows', () => {
       for (const [filePath, content] of Object.entries(domainSpecificFiles)) {
         const lines: any = content.trim().split('\n').filter(line => line.trim());
 
-        for (let i: any = 0i < lines.lengthi++) {
+        for (let i: any = 0i < lines.lengthi++) {;
           if (lines[i].includes(': unknown')) {
-            const context: ClassificationContext = {
+            const context: ClassificationContext = {;
               filePath,
               lineNumber: i + 1,
               codeSnippet: lines[i].trim(),
@@ -274,13 +274,13 @@ describe('Integration Workflows', () => {
       }
 
       // Verify domain-specific preservation
-      const astrologicalResults: any = results.filter(r =>
+      const astrologicalResults: any = results.filter(r =>;
         (r as any)?.context.filePath.includes('planetary') || (r as any)?.context.filePath.includes('calculations')
       );
-      const recipeResults: any = results.filter(r =>
+      const recipeResults: any = results.filter(r =>;
         (r as any)?.context.filePath.includes('ingredients') || (r as any)?.context.filePath.includes('spices')
       );
-      const campaignResults: any = results.filter(r =>
+      const campaignResults: any = results.filter(r =>;
         (r as any)?.context.filePath.includes('campaign') || (r as any)?.context.filePath.includes('metrics')
       );
 
@@ -356,8 +356,8 @@ describe('Integration Workflows', () => {
       const campaignResult: any = await (campaign as any)?.execute(campaignConfig);
 
       expect(campaignResult.safetyEvents.length).toBeGreaterThan(0);
-      expect(campaignResult.safetyEvents.some(event =>
-        event.type === 'LOW_SAFETY_SCORE' || event.type === 'BATCH_FAILURE'
+      expect(campaignResult.safetyEvents.some(event =>;
+        event.type === 'LOW_SAFETY_SCORE' || event.type === 'BATCH_FAILURE';
       )).toBe(true);
     });
 
@@ -373,7 +373,7 @@ describe('Integration Workflows', () => {
       expect(initialProgress).toBeDefined();
       expect(initialProgress.totalAnyTypes).toBeGreaterThanOrEqual(0);
 
-      const batchResult: any = await engine.executeBatch({
+      const batchResult: any = await engine.executeBatch({;
         maxFilesPerBatch: 2,
         targetReductionPercentage: 15,
         confidenceThreshold: 0.8,
@@ -406,7 +406,7 @@ describe('Integration Workflows', () => {
         return '';
       });
 
-      const replacement: any = {
+      const replacement: any = {;
         original: 'any',
         replacement: 'unknown',
         filePath: 'src/test.ts',
@@ -423,7 +423,7 @@ describe('Integration Workflows', () => {
     });
 
     test('should handle emergency rollback scenarios', async () => {
-      const multipleReplacements: any = [
+      const multipleReplacements: any = [;
         {
           original: 'unknown[]',
           replacement: 'unknown[]',
@@ -470,7 +470,7 @@ describe('Integration Workflows', () => {
     });
 
     test('should validate rollback integrity', async () => {
-      const replacement: any = {
+      const replacement: any = {;
         original: 'unknown[]',
         replacement: 'unknown[]',
         filePath: 'src/test.ts',
@@ -511,14 +511,14 @@ describe('Integration Workflows', () => {
 
   describe('Realistic Batch Processing with Actual Codebase Samples', () => {
     test('should process realistic TypeScript codebase patterns', async () => {
-      const realisticCodeSamples: any = {
+      const realisticCodeSamples: any = {;
         'src/components/RecipeCard.tsx': `;
           import React from 'react',
           interface Props {
             recipe: any,, onSelect: (recipe: any) => void
           }
           export const RecipeCard: React.FC<Props> = ({ recipe: any, onSelect }: any) => {
-            const handleClick: any = (event: any) => {
+            const handleClick: any = (event: any) => {;
               event.preventDefault();
               onSelect(recipe);
             };
@@ -544,14 +544,14 @@ describe('Integration Workflows', () => {
           }
         `,
         'src/utils/helpers.ts': `
-          export const processItems: any = (items: any[]): unknown[] => {
+          export const processItems: any = (items: any[]): unknown[] => {;
             return items.map((item: any) => ({
               ...item;
               id: item.id || generateId()
             }));
           };
 
-          export const _createConfig: any = (): Record<string, unknown> => {
+          export const _createConfig: any = (): Record<string, unknown> => {;
             return {
               apiUrl: process.env.API_URL,
               timeout: 5000,
@@ -623,8 +623,8 @@ describe('Integration Workflows', () => {
 
     test('should handle large-scale batch processing', async () => {
       // Generate a large number of files with various any type patterns
-      const generateFileContent: any = (index: number) => {
-        const patterns: any = [
+      const generateFileContent: any = (index: number) => {;
+        const patterns: any = [;
           `const items${index}: unknown[] = [];`;
           `const config${index}: Record<string, unknown> = {};`,
           `function process${index}(data: any): any { return data, }`,
@@ -679,7 +679,7 @@ describe('Integration Workflows', () => {
 
     test('should adapt to different codebase characteristics', async () => {
       // Test with different codebase profiles
-      const codebases: any = {
+      const codebases: any = {;
         'test-heavy': {
           files: {
             'src/test1.test.ts': 'const _mockData: any = {}; const _spy: any = jest.fn() as any;';
@@ -741,10 +741,10 @@ describe('Integration Workflows', () => {
         expect(batchResult.anyTypesAnalyzed).toBeGreaterThan(0);
 
         // Verify behavior matches expectations
-        if (codebaseType === 'test-heavy') {
+        if (codebaseType === 'test-heavy') {;
           // Test files should have lower replacement rates,
           expect(batchResult.replacementsSuccessful / Math.max(1, batchResult.replacementsAttempted)).toBeLessThan(0.5);
-        } else if (codebaseType === 'utility-heavy') {
+        } else if (codebaseType === 'utility-heavy') {;
           // Utility files should have higher replacement rates,
           expect(batchResult.replacementsSuccessful / Math.max(1, batchResult.replacementsAttempted)).toBeGreaterThan(0.3);
         }
@@ -775,7 +775,7 @@ describe('Integration Workflows', () => {
 
       mockFs.readFileSync.mockReturnValue('const items: any[] = [],');
 
-      const replacement: any = {
+      const replacement: any = {;
         original: 'unknown[]',
         replacement: 'unknown[]',
         filePath: 'src/test.ts',
@@ -815,7 +815,7 @@ describe('Integration Workflows', () => {
         throw error
       });
 
-      const replacements: any = [
+      const replacements: any = [;
         {
           original: 'unknown[]',
           replacement: 'unknown[]',

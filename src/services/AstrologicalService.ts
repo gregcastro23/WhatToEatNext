@@ -37,7 +37,7 @@ const logger = createLogger('AstrologicalService');
 const EPHE_PATH =
   typeof window === 'undefined' ? path.join(process.cwd(), 'public', 'ephe') : '/ephe';
 
-const _isEphemerisFileAvailable = (fileName: string): boolean => {
+const _isEphemerisFileAvailable = (fileName: string): boolean => {;
   if (typeof window !== 'undefined') {
     // In browser, we can't synchronously check files, assume true if running client side
     return true
@@ -58,7 +58,7 @@ const _isEphemerisFileAvailable = (fileName: string): boolean => {
  * Astrological Calculation Response
  * Standardized response for astrological calculations
  */
-export type AstrologicalCalculationResponse = ServiceResponseType<{
+export type AstrologicalCalculationResponse = ServiceResponseType<{;
   planetaryPositions: PlanetaryPositions,
   zodiacSign: StandardZodiacSign,
   lunarPhase: StandardLunarPhase,
@@ -71,7 +71,7 @@ export type AstrologicalCalculationResponse = ServiceResponseType<{
  * Astrological Analysis Response
  * Comprehensive astrological analysis response
  */
-export type AstrologicalAnalysisResponse = ServiceResponseType<{
+export type AstrologicalAnalysisResponse = ServiceResponseType<{;
   astrologicalState: CompleteAstrologicalState,
   compatibility: number,
   recommendations: string[],
@@ -101,7 +101,7 @@ export class AstrologicalService {
 
   private constructor() {
     // Initialize with default state
-    this.currentState = {
+    this.currentState = {;
       ...DefaultAstrologicalState;
       elementalInfluence: DefaultAstrologicalState.elementalInfluence
     };
@@ -126,7 +126,7 @@ export class AstrologicalService {
     try {
       logger.info('Testing astrological calculations...');
 
-      const mockCalculationResult = {
+      const mockCalculationResult = {;
         planetaryPositions: DefaultPlanetaryPositions,
         zodiacSign: 'aries' as StandardZodiacSign,
         lunarPhase: 'new moon' as StandardLunarPhase,
@@ -157,7 +157,7 @@ export class AstrologicalService {
     try {
       logger.info('Verifying planetary positions...');
 
-      if (!positions || Object.keys(positions).length === 0) {
+      if (!positions || Object.keys(positions).length === 0) {;
         return createErrorResponse('No planetary positions provided for verification')
       }
 
@@ -177,7 +177,7 @@ export class AstrologicalService {
         'pisces'
       ];
 
-      const isValid = Object.values(positions).every(sign =>
+      const isValid = Object.values(positions).every(sign =>;
         validZodiacSigns.includes(sign.toLowerCase() as StandardZodiacSign);
       );
 
@@ -198,7 +198,7 @@ export class AstrologicalService {
     try {
       logger.info('Testing astrological APIs...');
 
-      const endpoints = apiEndpoints || [
+      const endpoints = apiEndpoints || [;
         '/api/planetary-positions',
         '/api/astrologize',
         '/api/astrology'
@@ -212,7 +212,7 @@ export class AstrologicalService {
         results[endpoint] = Math.random() > 0.1, // 90% success rate for testing
       }
 
-      const responseData = {
+      const responseData = {;
         testedEndpoints: endpoints,
         results
       };
@@ -256,7 +256,7 @@ export class AstrologicalService {
   ): Promise<PlanetaryInfluenceResponse> {
     try {
       // Mock planetary influence calculation
-      const influences = {
+      const influences = {;
         planetaryPositions,
         elementalBoost: {
           Fire: 0.25,
@@ -311,7 +311,7 @@ export async function getLatestAstrologicalState(): Promise<AstrologicalCalculat
   try {
     // TODO: Integrate with actual astrologize/alchemize API result cache or state management
     // For now, return a minimal valid state as a placeholder
-    const astrologicalData = {
+    const astrologicalData = {;
       planetaryPositions: DefaultPlanetaryPositions,
       zodiacSign: 'aries' as StandardZodiacSign,
       lunarPhase: 'new moon' as StandardLunarPhase,

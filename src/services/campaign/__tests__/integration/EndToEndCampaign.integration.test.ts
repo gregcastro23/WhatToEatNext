@@ -34,7 +34,7 @@ describe('End-to-End Campaign Integration Tests', () => {
 
   beforeEach(() => {
     // Setup comprehensive campaign configuration
-    const safetySettings: SafetySettings = { maxFilesPerBatch: 25,,
+    const safetySettings: SafetySettings = { maxFilesPerBatch: 25,,;
       buildValidationFrequency: 5,
       testValidationFrequency: 10,
       corruptionDetectionEnabled: true,
@@ -42,7 +42,7 @@ describe('End-to-End Campaign Integration Tests', () => {
       stashRetentionDays: 7
     };
 
-    mockConfig = {
+    mockConfig = {;
       phases: [
         {
           id: 'phase1',
@@ -145,7 +145,7 @@ describe('End-to-End Campaign Integration Tests', () => {
 
   function setupDefaultMocks() : any {
     // Default successful git operations
-    mockExecSync.mockImplementation(command => {
+    mockExecSync.mockImplementation(command => {;
       const cmd: any = command.toString();
 
       if (cmd.includes('git status --porcelain')) return '';
@@ -231,7 +231,7 @@ describe('End-to-End Campaign Integration Tests', () => {
       for (const phase of mockConfig.phases) {
         expect(
           allSafetyEvents.some(
-            event =>
+            event =>;
               String(event.description || '').includes(phase.name) ||;
               String(event.description || '').includes(phase.id);
           ),
@@ -244,7 +244,7 @@ describe('End-to-End Campaign Integration Tests', () => {
       const metricsHistory: Array<any> = [];
 
       jest.spyOn(progressTracker, 'getProgressMetrics').mockImplementation(async () => {
-        const metrics: any = {
+        const metrics: any = {;
           typeScriptErrors: { current: Math.max(086 - metricsHistory.length * 20),
             target: 0,
             reduction: metricsHistory.length * 20,
@@ -298,7 +298,7 @@ describe('End-to-End Campaign Integration Tests', () => {
       }
 
       // Validate all milestones
-      const milestones: any = [
+      const milestones: any = [;
         'zero-typescript-errors',
         'zero-linting-warnings',
         'build-time-under-10s',
@@ -372,7 +372,7 @@ describe('End-to-End Campaign Integration Tests', () => {
       expect(corruptionReport.recommendedAction).toBe(RecoveryAction.EMERGENCY_RESTORE);
 
       // Verify emergency rollback would be triggered
-      if (corruptionReport.severity === CorruptionSeverity.CRITICAL) {
+      if (corruptionReport.severity === CorruptionSeverity.CRITICAL) {;
         // Create a stash first for rollback;
         await safetyProtocol.createStash('Emergency stash');
         await safetyProtocol.emergencyRollback();
@@ -385,7 +385,7 @@ describe('End-to-End Campaign Integration Tests', () => {
       const phase1: any = mockConfig.phases[0];
 
       // Mock build failure
-      mockExecSync.mockImplementation(command => {
+      mockExecSync.mockImplementation(command => {;
         if (command.toString().includes('yarn build')) {
           throw new Error('Build compilation failed')
         }
@@ -409,7 +409,7 @@ describe('End-to-End Campaign Integration Tests', () => {
         .spyOn(campaignController as unknown as { executeTool: jest.Mock }, 'executeTool')
         .mockImplementation(async () => {
           toolCallCount++,
-          if (toolCallCount === 1) {
+          if (toolCallCount === 1) {;
             throw new Error('First tool failed')
           }
           return {
@@ -477,7 +477,7 @@ describe('End-to-End Campaign Integration Tests', () => {
 
   describe('Configuration and Customization', () => {
     it('should support custom phase configurations', async () => {
-      const customPhase: any = {
+      const customPhase: any = {;
         id: 'custom-phase',
         name: 'Custom Phase',
         description: 'Custom phase for testing',
@@ -499,7 +499,7 @@ describe('End-to-End Campaign Integration Tests', () => {
     });
 
     it('should support custom safety settings', async () => {
-      const customSafetySettings: SafetySettings = { maxFilesPerBatch: 50,,
+      const customSafetySettings: SafetySettings = { maxFilesPerBatch: 50,,;
         buildValidationFrequency: 10,
         testValidationFrequency: 20,
         corruptionDetectionEnabled: false,
@@ -515,7 +515,7 @@ describe('End-to-End Campaign Integration Tests', () => {
     });
 
     it('should support custom success criteria', async () => {
-      const customPhase: any = {
+      const customPhase: any = {;
         ...mockConfig.phases[0],
         successCriteria: { typeScriptErrors: 5, // Allow 5 errors instead of 0
           customValidation: async () => {

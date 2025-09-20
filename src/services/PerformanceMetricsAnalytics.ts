@@ -97,7 +97,7 @@ export interface TestMetrics {
     statements: number
   };
   duration: number,
-  timestamp: Date,
+  timestamp: Date
 }
 
 export interface PerformanceSnapshot {
@@ -188,7 +188,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
   private readonly ALERTS_FILE = '.performance-alerts.json';
 
   // Performance thresholds
-  private readonly THRESHOLDS = {
+  private readonly THRESHOLDS = {;
     cpu: { warning: 70, error: 85, critical: 95 },
     memory: { warning: 70, error: 85, critical: 95 },
     disk: { warning: 80, error: 90, critical: 95 },
@@ -208,7 +208,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
   /**
    * Start performance monitoring
    */
-  startMonitoring(intervalMinutes: number = 5): void {
+  startMonitoring(intervalMinutes: number = 5): void {;
     if (this.isMonitoring) {
       log.info('⚠️  Performance monitoring already active');
       return
@@ -272,7 +272,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
         this.collectTestMetrics()
       ]),
 
-    const snapshot: PerformanceSnapshot = {
+    const snapshot: PerformanceSnapshot = {;
       snapshotId: `snap_${Date.now()}`,
       systemMetrics,
       processMetrics,
@@ -329,7 +329,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
       const diskInfo = await this.getDiskInfo();
 
       // Get network info (basic)
-      const networkInfo = {
+      const networkInfo = {;
         bytesIn: 0,
         bytesOut: 0,
         packetsIn: 0,
@@ -521,7 +521,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
       const buildStart = Date.now();
 
       // Run build command
-      const buildOutput = execSync('yarn build', {
+      const buildOutput = execSync('yarn build', {;
         encoding: 'utf8',
         timeout: 120000,
         stdio: 'pipe'
@@ -608,7 +608,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
       const tsStart = Date.now();
 
       // Run TypeScript compiler
-      const tsOutput = execSync('yarn tsc --noEmit --skipLibCheck', {
+      const tsOutput = execSync('yarn tsc --noEmit --skipLibCheck', {;
         encoding: 'utf8',
         timeout: 60000,
         stdio: 'pipe'
@@ -689,7 +689,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
    */
   private countTypeScriptFiles(): number {
     try {
-      const output = execSync('find . -name '*.ts' -o -name '*.tsx' | wc -l', {
+      const output = execSync('find . -name '*.ts' -o -name '*.tsx' | wc -l', {;
         encoding: 'utf8',
         timeout: 10000
       });
@@ -704,7 +704,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
    */
   private estimateLinesOfCode(): number {
     try {
-      const output = execSync('find . -name '*.ts' -o -name '*.tsx' | xargs wc -l', {
+      const output = execSync('find . -name '*.ts' -o -name '*.tsx' | xargs wc -l', {;
         encoding: 'utf8',
         timeout: 10000
       });
@@ -751,7 +751,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
       const testStart = Date.now();
 
       // Run test command
-      const testOutput = execSync('yarn test --coverage --passWithNoTests', {
+      const testOutput = execSync('yarn test --coverage --passWithNoTests', {;
         encoding: 'utf8',
         timeout: 120000,
         stdio: 'pipe'
@@ -842,7 +842,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
     typescript: TypeScriptMetrics,
     test: TestMetrics,
   ): number {
-    const weights = {
+    const weights = {;
       system: 0.2,
       build: 0.3,
       typescript: 0.3,
@@ -1115,7 +1115,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
    * Update performance trends
    */
   private updateTrends(snapshot: PerformanceSnapshot): void {
-    const metrics = {
+    const metrics = {;
       cpu_usage: snapshot.systemMetrics.cpu.usage,
       memory_usage: snapshot.systemMetrics.memory.usage,
       disk_usage: snapshot.systemMetrics.disk.usage,
@@ -1154,7 +1154,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
       this.trends.set(metricName, existingTrend)
     } else {
       // Create new trend
-      const trend: PerformanceTrend = {
+      const trend: PerformanceTrend = {;
         trendId: `trend_${metricName}_${Date.now()}`,
         metric: metricName,
         direction: 'stable',
@@ -1207,7 +1207,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
     const startTime = new Date(endTime);
 
     // Calculate start time based on timeframe
-    const timeframeMs = {
+    const timeframeMs = {;
       '1h': 60 * 60 * 1000,
       '6h': 6 * 60 * 60 * 1000,
       '24h': 24 * 60 * 60 * 1000,
@@ -1219,10 +1219,10 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
 
     // Filter snapshots by timeframe
     const timeframeSnapshots = this.snapshots.filter(;
-      snapshot => snapshot.timestamp >= startTime && snapshot.timestamp <= endTime
+      snapshot => snapshot.timestamp >= startTime && snapshot.timestamp <= endTime;
     ),
 
-    if (timeframeSnapshots.length === 0) {
+    if (timeframeSnapshots.length === 0) {;
       return this.generateEmptyReport(timeframe);
     }
 
@@ -1276,7 +1276,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
 
     // Identify top issues
     const issueCount = new Map<string, number>(),;
-    allAlerts.forEach(alert => {
+    allAlerts.forEach(alert => {;
       const key = `${alert.category}_${alert.type}`;
       issueCount.set(key, (issueCount.get(key) || 0) + 1);
     });
@@ -1361,7 +1361,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
 
     // Build time recommendations
     const buildTimeTrend = trends.find(t => t.metric === 'build_time');
-    if (buildTimeTrend && buildTimeTrend.direction === 'degrading') {
+    if (buildTimeTrend && buildTimeTrend.direction === 'degrading') {;
       recommendations.push({
         recommendationId: `rec_build_${Date.now()}`,
         priority: 'medium',
@@ -1379,7 +1379,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
 
     // TypeScript error recommendations
     const errorTrend = trends.find(t => t.metric === 'error_count');
-    if (errorTrend && errorTrend.direction === 'degrading') {
+    if (errorTrend && errorTrend.direction === 'degrading') {;
       recommendations.push({
         recommendationId: `rec_typescript_${Date.now()}`,
         priority: 'high',
@@ -1517,7 +1517,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
       // Load snapshots
       if (fs.existsSync(this.METRICS_FILE)) {
         const data = JSON.parse(fs.readFileSync(this.METRICS_FILE, 'utf8')),;
-        this.snapshots = data.map((item: unknown) => ({
+        this.snapshots = data.map((item: unknown) => ({;
           ...item;
           timestamp: new Date(item.timestamp)
         }));
@@ -1526,7 +1526,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
       // Load alerts
       if (fs.existsSync(this.ALERTS_FILE)) {
         const data = JSON.parse(fs.readFileSync(this.ALERTS_FILE, 'utf8')),;
-        this.alerts = data.map((item: unknown) => ({
+        this.alerts = data.map((item: unknown) => ({;
           ...item;
           timestamp: new Date(item.timestamp)
         }));
@@ -1560,7 +1560,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
     return this.snapshots[this.snapshots.length - 1] || null
   }
 
-  getAlerts(resolved: boolean = false): PerformanceAlert[] {
+  getAlerts(resolved: boolean = false): PerformanceAlert[] {;
     return this.alerts.filter(alert => alert.resolved === resolved);
   }
 
@@ -1576,7 +1576,7 @@ export class PerformanceMetricsAnalytics extends EventEmitter {
     }
   }
 
-  clearOldData(daysToKeep: number = 30): void {
+  clearOldData(daysToKeep: number = 30): void {;
     const cutoffDate = new Date();
     cutoffDate.setDate(cutoffDate.getDate() - daysToKeep);
 

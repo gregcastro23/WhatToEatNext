@@ -120,7 +120,7 @@ describe('Memory Management Integration', () => {
   });
 
   it('should handle memory-intensive operations safely', async() => {
-    const monitor: any = new TestMemoryMonitor({
+    const monitor: any = new TestMemoryMonitor({;
       heapUsed: 100 * 1024 * 1024, // 100MB,
       heapTotal: 500 * 1024 * 1024, // 500MB,
       external: 50 * 1024 * 1024, // 50MB,
@@ -131,7 +131,7 @@ describe('Memory Management Integration', () => {
 
     // Simulate memory-intensive operation;
     const largeArrays: any[][] = [];
-    for (let i: any = 0i < 10i++) {
+    for (let i: any = 0i < 10i++) {;
       largeArrays.push(new Array(1000).fill(`data-${i}`));
     }
 

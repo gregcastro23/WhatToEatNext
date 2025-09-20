@@ -20,7 +20,7 @@ import { ErrorCategory } from './TypeScriptErrorAnalyzer';
 describe('Campaign Intelligence System', () => {
   describe('ERROR_PATTERN_INTELLIGENCE', () => {
     it('should analyze error patterns correctly', () => {
-      const sampleErrors: any = [
+      const sampleErrors: any = [;
         { code: 'TS2352', category: ErrorCategory.TS2352_TYPE_CONVERSION, priority: 20 },
         { code: 'TS2352', category: ErrorCategory.TS2352_TYPE_CONVERSION, priority: 18 },
         { code: 'TS2345', category: ErrorCategory.TS2345_ARGUMENT_MISMATCH, priority: 15 },
@@ -46,7 +46,7 @@ describe('Campaign Intelligence System', () => {
     });
 
     it('should generate error intelligence report', () => {
-      const patterns: ErrorPatternIntelligence = { patternRecognition: { TS2352_TYPE_CONVERSION: 10, TS2345_ARGUMENT_MISMATCH: 5 },
+      const patterns: ErrorPatternIntelligence = { patternRecognition: { TS2352_TYPE_CONVERSION: 10, TS2345_ARGUMENT_MISMATCH: 5 },;
         fixSuccessRates: { TS2352_TYPE_CONVERSIO, N: 0.92, TS2345_ARGUMENT_MISMATCH: 0.87 },
         errorCategoryTrends: {
           [ErrorCategory.TS2352_TYPE_CONVERSION]: 10,
@@ -99,7 +99,7 @@ describe('Campaign Intelligence System', () => {
         }
       ];
 
-      const sampleCampaignProgress: CampaignProgress = { totalExplicitAnyStart: 1000,,
+      const sampleCampaignProgress: CampaignProgress = { totalExplicitAnyStart: 1000,,;
         totalExplicitAnyRemaining: 200,
         reductionAchieved: 800,
         reductionPercentage: 80,
@@ -130,7 +130,7 @@ describe('Campaign Intelligence System', () => {
     });
 
     it('should generate progress intelligence report', () => {
-      const progress: CampaignProgressIntelligence = { velocityAnalysis: {
+      const progress: CampaignProgressIntelligence = { velocityAnalysis: {;
           currentVelocity: 1.5,
           projectedCompletion: new Date('2025-02-01'),
           efficiencyTrends: [1.21.51.8],
@@ -162,7 +162,7 @@ describe('Campaign Intelligence System', () => {
   describe('CAMPAIGN_ENTERPRISE_INTELLIGENCE', () => {
     it('should generate comprehensive intelligence', async () => {
       // Mock the analyzer methods to avoid actual system calls
-      const mockErrorAnalyzer = {
+      const mockErrorAnalyzer = {;
         analyzeErrors: jest.fn().mockResolvedValue({ distribution: {
             totalErrors: 2500,
             priorityRanking: [{ code: 'TS2352', category: ErrorCategory.TS2352_TYPE_CONVERSION, priority: 20 }]
@@ -173,7 +173,7 @@ describe('Campaign Intelligence System', () => {
 
       const mockFixerIntegration: any = {};
 
-      const mockAnyElimination = {
+      const mockAnyElimination = {;
         showCampaignProgress: jest.fn().mockResolvedValue({ totalExplicitAnyStart: 1000,
           totalExplicitAnyRemaining: 250,
           reductionAchieved: 750,
@@ -212,7 +212,7 @@ describe('Campaign Intelligence System', () => {
     });
 
     it('should display enterprise intelligence correctly', () => {
-      const mockIntelligence: any = {
+      const mockIntelligence: any = {;
         campaignMetrics: { errorReductionVelocity: 1.5,
           codeQualityImprovement: 0.85,
           buildStabilityScore: 0.95,

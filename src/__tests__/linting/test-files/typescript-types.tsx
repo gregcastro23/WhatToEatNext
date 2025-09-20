@@ -9,8 +9,8 @@ type ButtonProps = ComponentProps<'button'> & CustomProps;
 
 export const _TypedComponent: FC<PropsWithChildren<CustomProps>> = ({
   title,
-  optional = false,
-  children,
+  optional = false,;
+  children
 }) => {
   return (
     <div>

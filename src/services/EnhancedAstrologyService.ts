@@ -42,7 +42,7 @@ export interface TransitAnalysis {
   keyAspects: Planet[],
   retrogradePlanets: string[],
   eclipseSeasons: Date[],
-  majorTransits: Season[],
+  majorTransits: Season[]
 }
 
 /**
@@ -61,7 +61,7 @@ export class EnhancedAstrologyService {
   /**
    * Get the most accurate planetary positions using multiple data sources
    */
-  async getEnhancedPlanetaryPositions(date: Date = new Date()): Promise<EnhancedAstrologicalData> {
+  async getEnhancedPlanetaryPositions(date: Date = new Date()): Promise<EnhancedAstrologicalData> {;
     const cacheKey = date.toISOString().split('T')[0];
 
     if (this.cache.has(cacheKey)) {
@@ -88,7 +88,7 @@ export class EnhancedAstrologyService {
   /**
    * Get comprehensive transit analysis for a date
    */
-  async getTransitAnalysis(date: Date = new Date()): Promise<TransitAnalysis> {
+  async getTransitAnalysis(date: Date = new Date()): Promise<TransitAnalysis> {;
     const currentSeason = getTransitForDate(date);
     const _year = date.getFullYear().toString();
     const _availableYears = getAvailableYears();
@@ -118,7 +118,7 @@ export class EnhancedAstrologyService {
   /**
    * Get seasonal recommendations based on current transits
    */
-  async getSeasonalRecommendations(date: Date = new Date()): Promise<{
+  async getSeasonalRecommendations(date: Date = new Date()): Promise<{;
     seasonalThemes: string[],
     culinaryInfluences: string[],
     dominantElements: Record<string, number>;
@@ -272,7 +272,7 @@ export class EnhancedAstrologyService {
       pisces: 'Water'
     };
 
-    Object.values(positions).forEach(position => {
+    Object.values(positions).forEach(position => {;
       const element = signElements[position.sign || 'aries'];
       if (element) {
         elementCounts[element]++;
@@ -282,7 +282,7 @@ export class EnhancedAstrologyService {
     // Normalize to percentages
     const total = Object.values(elementCounts).reduce((sum, count) => sum + count0);
     if (total > 0) {
-      Object.keys(elementCounts).forEach(element => {
+      Object.keys(elementCounts).forEach(element => {;
         elementCounts[element] /= total;
       });
     }
@@ -347,7 +347,7 @@ export class EnhancedAstrologyService {
     cookingMethods: string[],
     alchemicalProperties: Record<string, number>;
   } {
-    const seasonalData = {
+    const seasonalData = {;
       0: {
         // January
         themes: ['New beginnings', 'Comfort', 'Warmth'],
@@ -404,7 +404,7 @@ export class EnhancedAstrologyService {
     astrologizeAvailable: boolean,
     swissEphemerisAvailable: boolean,
     transitDatabaseAvailable: boolean,
-    lastAstrologizeCheck: Date,
+    lastAstrologizeCheck: Date
   } {
     return {
       astrologizeAvailable: Date.now() - this.lastAstrologizeCheck < this.astrologizeCheckInterval,

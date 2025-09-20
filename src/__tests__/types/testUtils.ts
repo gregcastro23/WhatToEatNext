@@ -33,7 +33,7 @@ export interface GitMock {
   clearMockStashes: AnyMockFn,
   getMockStashes: AnyMockFn,
   simulateGitError: AnyMockFn,
-  resetMocks: AnyMockFn,
+  resetMocks: AnyMockFn
 }
 
 export interface ScriptMock {
@@ -61,7 +61,7 @@ export interface ScriptMock {
   setMockOutput: AnyMockFn,
   simulateScriptError: AnyMockFn,
   simulateTimeout: AnyMockFn,
-  resetMocks: AnyMockFn,
+  resetMocks: AnyMockFn
 }
 
 export interface CampaignMock {
@@ -77,7 +77,7 @@ export interface CampaignMock {
     isRunning: AnyMockFn,
     getSafetyEvents: AnyMockFn,
     updateMockMetrics: AnyMockFn,
-    resetMockState: AnyMockFn,
+    resetMockState: AnyMockFn
   };
   tracker: {
     getTypeScriptErrorCount: AnyMockFn,
@@ -104,7 +104,7 @@ export interface CampaignMock {
     emergencyRollback: AnyMockFn,
     listStashes: AnyMockFn,
     getSafetyEvents: AnyMockFn,
-    resetMockState: AnyMockFn,
+    resetMockState: AnyMockFn
   };
   testController: {
     initializeForTest: AnyMockFn,
@@ -118,7 +118,7 @@ export interface CampaignMock {
     updateMockMetrics: AnyMockFn,
     validateTestIsolation: AnyMockFn,
     getMockInstances: AnyMockFn,
-    getTestSafeTracker: AnyMockFn,
+    getTestSafeTracker: AnyMockFn
   };
   isolation: {
     initializeMockCampaignSystem: AnyMockFn,
@@ -155,7 +155,7 @@ export interface ExtendedTestUtils {
     heapUsed: string,
     heapTotal: string,
     external: string,
-    arrayBuffers: string,
+    arrayBuffers: string
   };
   cleanupMemory: () => void;
 

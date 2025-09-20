@@ -91,7 +91,7 @@ export class AlchemicalRecommendationService {
     return {
       dominantElement,
       thermodynamics: _thermodynamics,
-  recommendedIngredients: (compatibleIngredients || []).map(i => i.name),,
+  recommendedIngredients: (compatibleIngredients || []).map(i => i.name),,;
       recommendedCookingMethods: compatibleMethods || [],
       recommendations,
       warnings
@@ -111,9 +111,9 @@ export class AlchemicalRecommendationService {
     const { scoreRecommendation } = await import('./UnifiedScoringService');
 
     const scoredIngredients = await Promise.all(;
-      ingredients.map(async ingredient => {
+      ingredients.map(async ingredient => {;
         try {
-          const context = {
+          const context = {;
             dateTime: new Date(),
   item: {
               name: ingredient.name,
@@ -164,7 +164,7 @@ export class AlchemicalRecommendationService {
     thermodynamics: ThermodynamicProperties,
   ): CookingMethod[] {
     return methods
-      .map(method => ({
+      .map(method => ({;
         method,
         score: this.engine.calculateElementalCompatibility(
           elementalProperties,
@@ -258,7 +258,7 @@ export class AlchemicalRecommendationService {
     // Use a type with optional kalchm property
     type WithKalchm = ThermodynamicProperties & { kalchm?: number };
     const t = thermodynamics as WithKalchm;
-    if (typeof t.kalchm === 'number' && t.kalchm < 0.5) {
+    if (typeof t.kalchm === 'number' && t.kalchm < 0.5) {;
       warnings.push(
         'Low kalchm levels indicate poor transformation potential - avoid fermentation or chemical leavening.'
       )
@@ -358,7 +358,7 @@ export class AlchemicalRecommendationService {
     const currentElementalProperties = this.deriveElementalProperties(_thermodynamics);
 
     // Get recipe's elemental properties (or use default if not present)
-    const recipeElementalProperties = (recipe.elementalState as ElementalProperties) || {
+    const recipeElementalProperties = (recipe.elementalState as ElementalProperties) || {;
       Fire: 0.25,
   Water: 0.25,
       Earth: 0.25,

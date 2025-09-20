@@ -1,4 +1,4 @@
-export const _DECAN_RULERS = {
+export const _DECAN_RULERS = {;
   // aries
   '0-10': 'Mars',
   '10-20': 'Sun',
@@ -57,5 +57,5 @@ export const _DECAN_RULERS = {
   // pisces
   '330-340': 'Neptune',
   '340-350': 'Moon',
-  '350-360': 'Pluto',
+  '350-360': 'Pluto'
 };

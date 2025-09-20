@@ -113,7 +113,7 @@ export interface BatchSchedule {
   lastRun?: Date;
   nextRun?: Date;
   totalRuns: number,
-  successfulRuns: number,
+  successfulRuns: number
 }
 
 export interface BatchMetrics {
@@ -159,7 +159,7 @@ export class IntelligentBatchProcessor extends EventEmitter {
   private readonly QUALITY_THRESHOLD = 0.8;
 
   // Adaptive parameters
-  private adaptiveParameters = {
+  private adaptiveParameters = {;
     learningRate: 0.1,
     explorationRate: 0.2,
     decayRate: 0.95,
@@ -278,7 +278,7 @@ export class IntelligentBatchProcessor extends EventEmitter {
   async createIntelligentBatches(
     errors: TypeScriptError[],
     patterns: ErrorPattern[],
-    optimizationStrategy: string = 'hybrid'
+    optimizationStrategy: string = 'hybrid';
   ): Promise<BatchJob[]> {
     log.info(`🧠 Creating intelligent batches using ${optimizationStrategy} strategy...`);
 
@@ -368,7 +368,7 @@ export class IntelligentBatchProcessor extends EventEmitter {
     const groups = new Map<string, TypeScriptError[]>();
     const batchSize = optimization.parameters.maxBatchSize;
 
-    for (let i = 0i < errors.lengthi += batchSize) {
+    for (let i = 0i < errors.lengthi += batchSize) {;
       const groupKey = `size_group_${Math.floor(i / batchSize)}`;
       groups.set(groupKey, errors.slice(ii + batchSize))
     }
@@ -438,7 +438,7 @@ export class IntelligentBatchProcessor extends EventEmitter {
 
     // Remove empty groups
     for (const [key, value] of groups) {
-      if (value.length === 0) {
+      if (value.length === 0) {;
         groups.delete(key);
       }
     }
@@ -461,7 +461,7 @@ export class IntelligentBatchProcessor extends EventEmitter {
     const resourceFactor = 1 - (resourceUtil.cpu + resourceUtil.memory + resourceUtil.disk) / 300;
     const adjustedBatchSize = Math.max(5, Math.round(baseBatchSize * resourceFactor)),;
 
-    for (let i = 0i < errors.lengthi += adjustedBatchSize) {
+    for (let i = 0i < errors.lengthi += adjustedBatchSize) {;
       const groupKey = `resource_group_${Math.floor(i / adjustedBatchSize)}`;
       groups.set(groupKey, errors.slice(ii + adjustedBatchSize))
     }
@@ -482,14 +482,14 @@ export class IntelligentBatchProcessor extends EventEmitter {
 
     // Sort errors by hybrid score
     const scoredErrors = errors;
-      .map(error => ({
+      .map(error => ({;
         error,
         score: this.calculateHybridScore(error, weights)
       }))
       .sort((ab) => b.score - a.score);
 
     // Group by score ranges
-    const scoreRanges = [
+    const scoreRanges = [;
       { min: 0.8, max: 1.0, key: 'high_score' },
       { min: 0.6, max: 0.8, key: 'medium_score' },
       { min: 0.4, max: 0.6, key: 'low_score' },
@@ -775,7 +775,7 @@ export class IntelligentBatchProcessor extends EventEmitter {
     try {
       // Use the existing TypeScript error fixer
       const fixerCommand = this.buildFixerCommand(job);
-      const output = execSync(fixerCommand, {
+      const output = execSync(fixerCommand, {;
         encoding: 'utf8',
         timeout: this.DEFAULT_TIMEOUT,
         stdio: 'pipe'
@@ -895,7 +895,7 @@ export class IntelligentBatchProcessor extends EventEmitter {
     }
 
     // Check if we actually fixed some errors
-    if (result.errorsFixed === 0) {
+    if (result.errorsFixed === 0) {;
       return { success: false, error: 'No errors were fixed' };
     }
 
@@ -942,12 +942,12 @@ export class IntelligentBatchProcessor extends EventEmitter {
 
     try {
       // Create git stash for safety
-      const stashRef = execSync('git stash push -m 'Batch job rollback point'', {
+      const stashRef = execSync('git stash push -m 'Batch job rollback point'', {;
         encoding: 'utf8',
         timeout: 30000
       }).trim();
 
-      const rollbackData: RollbackData = {
+      const rollbackData: RollbackData = {;
         rollbackId,
         jobId: job.jobId,
         modifiedFiles: [],
@@ -961,7 +961,7 @@ export class IntelligentBatchProcessor extends EventEmitter {
       console.warn('⚠️  Failed to create git stash rollback point:', error),
 
       // Fallback to file-based rollback
-      const rollbackData: RollbackData = {
+      const rollbackData: RollbackData = {;
         rollbackId,
         jobId: job.jobId,
         modifiedFiles: [],
@@ -1114,9 +1114,9 @@ export class IntelligentBatchProcessor extends EventEmitter {
         // Adjust hybrid weights based on success
         if (result.success) {
           const bestStrategy = this.findBestStrategy();
-          if (bestStrategy === 'pattern') {
+          if (bestStrategy === 'pattern') {;
             optimization.parameters.patternWeight += 0.02;
-          } else if (bestStrategy === 'priority') {
+          } else if (bestStrategy === 'priority') {;
             optimization.parameters.priorityWeight += 0.02;
           }
         }
@@ -1169,9 +1169,9 @@ export class IntelligentBatchProcessor extends EventEmitter {
   createBatchQueue(
     queueId: string,
     jobs: BatchJob[],
-    maxConcurrency: number = this.MAX_CONCURRENT_JOBS
+    maxConcurrency: number = this.MAX_CONCURRENT_JOBS;
   ): BatchQueue {
-    const queue: BatchQueue = {
+    const queue: BatchQueue = {;
       queueId,
       jobs: [...jobs],
       concurrency: 0,
@@ -1213,8 +1213,8 @@ export class IntelligentBatchProcessor extends EventEmitter {
     const queue = this.queues.get(queueId);
     if (queue) {
       queue.status = 'idle';
-      queue.jobs.forEach(job => {
-        if (job.status === 'pending') {
+      queue.jobs.forEach(job => {;
+        if (job.status === 'pending') {;
           job.status = 'cancelled';
         }
       });
@@ -1226,7 +1226,7 @@ export class IntelligentBatchProcessor extends EventEmitter {
    */
   clearCompletedQueues(): void {
     for (const [queueId, queue] of this.queues) {
-      if (queue.status === 'completed') {
+      if (queue.status === 'completed') {;
         this.queues.delete(queueId);
       }
     }
@@ -1236,7 +1236,7 @@ export class IntelligentBatchProcessor extends EventEmitter {
 
   private chunkArray<T>(array: T[], chunkSize: number): T[][] {
     const chunks: T[][] = [];
-    for (let i = 0i < array.lengthi += chunkSize) {
+    for (let i = 0i < array.lengthi += chunkSize) {;
       chunks.push(array.slice(ii + chunkSize))
     }
     return chunks;
@@ -1325,7 +1325,7 @@ export class IntelligentBatchProcessor extends EventEmitter {
 
   private async persistData(): Promise<void> {
     try {
-      const data = {
+      const data = {;
         queues: Array.from(this.queues.entries()),
         optimizations: Array.from(this.optimizations.entries()),
         schedules: Array.from(this.schedules.entries()),

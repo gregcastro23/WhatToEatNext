@@ -25,7 +25,7 @@ interface AlchemizeRequest {
 }
 
 // Default location (New York City)
-const DEFAULT_LOCATION = {
+const DEFAULT_LOCATION = {;
   latitude: 40.7498,
   longitude: -73.7976
 };
@@ -47,9 +47,9 @@ export async function POST(request: Request) {
       date,
       hour,
       minute,
-      latitude = DEFAULT_LOCATION.latitude,
-      longitude = DEFAULT_LOCATION.longitude,
-      zodiacSystem = 'tropical',
+      latitude = DEFAULT_LOCATION.latitude,;
+      longitude = DEFAULT_LOCATION.longitude,;
+      zodiacSystem = 'tropical',;
       planetaryPositions: providedPositions
     } = body;
 
@@ -72,13 +72,13 @@ export async function POST(request: Request) {
 
       if (useCustomDate) {
         const customDate = new Date(year ?? 2024, (month ?? 1) - 1, date, hour, minute);
-        planetaryPositions = await getPlanetaryPositionsForDateTime(
+        planetaryPositions = await getPlanetaryPositionsForDateTime(;
           customDate,
           { latitude, longitude },
           zodiacSystem
         );
       } else {
-        planetaryPositions = await getCurrentPlanetaryPositions(
+        planetaryPositions = await getCurrentPlanetaryPositions(;
           { latitude, longitude },
           zodiacSystem
         );
@@ -86,7 +86,7 @@ export async function POST(request: Request) {
     }
 
     // Validate planetary positions
-    if (!planetaryPositions || Object.keys(planetaryPositions).length === 0) {
+    if (!planetaryPositions || Object.keys(planetaryPositions).length === 0) {;
       throw new Error('Failed to get planetary positions')
     }
 
@@ -124,7 +124,7 @@ export async function POST(request: Request) {
     logger.info('Alchemical calculation completed');
 
     // Step 4: Return comprehensive result
-    const response = {
+    const response = {;
       success: true,
       timestamp: new Date().toISOString(),
       request: {
@@ -172,7 +172,7 @@ export async function GET(request: Request) {
   const zodiacSystem = (searchParams.get('zodiacSystem') || 'tropical') as 'tropical' | 'sidereal';
 
   // Forward to POST handler with current moment
-  const payload: AlchemizeRequest = {
+  const payload: AlchemizeRequest = {;
     latitude,
     longitude,
     zodiacSystem

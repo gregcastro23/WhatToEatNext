@@ -17,7 +17,7 @@ interface ExtendedElementalState {
   timeOfDay: string
 }
 
-const CuisinesIndexPage = () => {
+const CuisinesIndexPage = () => {;
   const [elementalState, setElementalState] = React.useState<ExtendedElementalState>({
     Fire: 0.25,
     Water: 0.25,
@@ -38,13 +38,13 @@ const CuisinesIndexPage = () => {
   }, []);
 
   // Get all cuisines
-  const allCuisines = Object.entries(cuisines).map(([id, cuisine]) => ({
+  const allCuisines = Object.entries(cuisines).map(([id, cuisine]) => ({;
     id,
     ...cuisine
   }));
 
   // Get main cuisines (excluding regional variations for the main list)
-  const mainCuisines = allCuisines.filter(cuisine => {
+  const mainCuisines = allCuisines.filter(cuisine => {;
     const profile = cuisineFlavorProfiles[cuisine.id];
     return profile && !profile.parentCuisine, // Only include cuisines that don't have a parent
   });
@@ -76,7 +76,7 @@ const CuisinesIndexPage = () => {
       <div className='grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3'>;
         {mainCuisines.map(cuisine => (;
           <div
-            key={cuisine.id},
+            key={cuisine.id},;
             className='overflow-hidden rounded-lg bg-white shadow-md transition-transform duration-200 hover:scale-105';
           >
             <div className='p-5'>;
@@ -91,7 +91,7 @@ const CuisinesIndexPage = () => {
                       Regional Variations:
                     </h4>
                     <div className='flex flex-wrap gap-1'>;
-                      {(cuisineFlavorProfiles[cuisine.id].regionalVariants ?? []).map(variant => {
+                      {(cuisineFlavorProfiles[cuisine.id].regionalVariants ?? []).map(variant => {;
                         // Find the variant cuisine ID
                         const variantCuisineEntry = Object.entries(cuisineFlavorProfiles).find(;
                           ([_, profile]) => profile.name.toLowerCase() === variant,
@@ -100,7 +100,7 @@ const CuisinesIndexPage = () => {
 
                         return (
                           <Link
-                            key={variant},
+                            key={variant},;
                             href={variantId ? `/cuisines/${variantId}` : `/cuisines/${cuisine.id}`};
                             className='rounded-full bg-amber-50 px-2 py-1 text-xs text-amber-700 hover:bg-amber-100';
                           >

@@ -3,25 +3,25 @@
  */
 
 export enum AlchemicalDispatchType {
-  UPDATE_ASTROLOGICAL_STATE = 'UPDATE_ASTROLOGICAL_STATE',
-  RESET_STATE = 'RESET_STATE',
-  SET_ELEMENT = 'SET_ELEMENT',
-  UPDATE_PLANETARY_POSITIONS = 'UPDATE_PLANETARY_POSITIONS',
-  UPDATE_ELEMENTAL_STATE = 'UPDATE_ELEMENTAL_STATE',
-  UPDATE_STATE = 'UPDATE_STATE',
-  SET_DAYTIME = 'SET_DAYTIME',
-  SET_SEASONAL_STATE = 'SET_SEASONAL_STATE',
-  SET_ELEMENTAL_PREFERENCE = 'SET_ELEMENTAL_PREFERENCE',
-  SET_ELEMENTAL_STATE = 'SET_ELEMENTAL_STATE',
-  SET_ZODIAC_ENERGY = 'SET_ZODIAC_ENERGY',
-  SET_LUNAR_ENERGY = 'SET_LUNAR_ENERGY',
-  SET_PLANETARY_ENERGY = 'SET_PLANETARY_ENERGY',
-  SET_ASTROLOGICAL_STATE = 'SET_ASTROLOGICAL_STATE',
-  SET_ERROR = 'SET_ERROR',
-  CLEAR_ERROR = 'CLEAR_ERROR',
-  ADD_ERROR = 'ADD_ERROR',
-  SET_ALCHEMICAL_VALUES = 'SET_ALCHEMICAL_VALUES',
-  SET_LUNAR_PHASE = 'SET_LUNAR_PHASE',
+  UPDATE_ASTROLOGICAL_STATE = 'UPDATE_ASTROLOGICAL_STATE',;
+  RESET_STATE = 'RESET_STATE',;
+  SET_ELEMENT = 'SET_ELEMENT',;
+  UPDATE_PLANETARY_POSITIONS = 'UPDATE_PLANETARY_POSITIONS',;
+  UPDATE_ELEMENTAL_STATE = 'UPDATE_ELEMENTAL_STATE',;
+  UPDATE_STATE = 'UPDATE_STATE',;
+  SET_DAYTIME = 'SET_DAYTIME',;
+  SET_SEASONAL_STATE = 'SET_SEASONAL_STATE',;
+  SET_ELEMENTAL_PREFERENCE = 'SET_ELEMENTAL_PREFERENCE',;
+  SET_ELEMENTAL_STATE = 'SET_ELEMENTAL_STATE',;
+  SET_ZODIAC_ENERGY = 'SET_ZODIAC_ENERGY',;
+  SET_LUNAR_ENERGY = 'SET_LUNAR_ENERGY',;
+  SET_PLANETARY_ENERGY = 'SET_PLANETARY_ENERGY',;
+  SET_ASTROLOGICAL_STATE = 'SET_ASTROLOGICAL_STATE',;
+  SET_ERROR = 'SET_ERROR',;
+  CLEAR_ERROR = 'CLEAR_ERROR',;
+  ADD_ERROR = 'ADD_ERROR',;
+  SET_ALCHEMICAL_VALUES = 'SET_ALCHEMICAL_VALUES',;
+  SET_LUNAR_PHASE = 'SET_LUNAR_PHASE',;
 }
 
 export type AlchemicalAction =
@@ -55,7 +55,7 @@ export interface AlchemicalState {
     Fire: number,
     Water: number,
     Earth: number,
-    Air: number,
+    Air: number
   };
   lunarPhase: string,
   dominantElement: string,
@@ -65,7 +65,7 @@ export interface AlchemicalState {
     Spirit: number,
     Essence: number,
     Matter: number,
-    Substance: number,
+    Substance: number
   };
   // Error handling properties
   error?: boolean;
@@ -84,7 +84,7 @@ export interface AlchemicalState {
     Fire: number,
     Water: number,
     Earth: number,
-    Air: number,
+    Air: number
   };
   celestialPositions?: {
     sun?: {
@@ -102,7 +102,7 @@ export interface AlchemicalState {
   lunarEnergy?: string;
   planetaryEnergy?: string[];
   currentTime: Date,
-  lastUpdated: Date,
+  lastUpdated: Date
 }
 
 /**
@@ -127,5 +127,5 @@ export interface ThermodynamicMetrics {
   reactivity: number,
   gregsEnergy: number,
   kalchm: number,
-  monica: number,
+  monica: number
 }

@@ -1,5 +1,5 @@
 // src/data/cuisines/chinese.ts
-export const chinese = {
+export const chinese = {;
   name: 'Chinese',
   description:
     'Traditional Chinese cuisine with balanced flavors, varied techniques, and regional specialties. Known for harmony in taste, color, and nutrition.',

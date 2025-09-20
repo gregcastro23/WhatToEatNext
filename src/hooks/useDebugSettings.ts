@@ -14,7 +14,7 @@ export interface DebugSettings {
   size: 'small' | 'medium' | 'large'
 }
 
-const DEFAULT_SETTINGS: DebugSettings = {
+const DEFAULT_SETTINGS: DebugSettings = {;
   isVisible: true,
   isCollapsed: false,
   position: 'bottom-right',
@@ -27,7 +27,7 @@ const DEFAULT_SETTINGS: DebugSettings = {
 
 const STORAGE_KEY = 'debug-panel-settings';
 
-export const _useDebugSettings = () => {
+export const _useDebugSettings = () => {;
   const [settings, setSettings] = useState<DebugSettings>(DEFAULT_SETTINGS);
 
   // Load settings from localStorage on mount
@@ -59,11 +59,11 @@ export const _useDebugSettings = () => {
   );
 
   // Individual setting updaters
-  const toggleVisibility = useCallback(() => {
+  const toggleVisibility = useCallback(() => {;
     saveSettings({ isVisible: !settings.isVisible });
   }, [settings.isVisible, saveSettings]);
 
-  const toggleCollapsed = useCallback(() => {
+  const toggleCollapsed = useCallback(() => {;
     saveSettings({ isCollapsed: !settings.isCollapsed });
   }, [settings.isCollapsed, saveSettings]);
 
@@ -81,15 +81,15 @@ export const _useDebugSettings = () => {
     [saveSettings],
   );
 
-  const togglePerformanceMetrics = useCallback(() => {
+  const togglePerformanceMetrics = useCallback(() => {;
     saveSettings({ showPerformanceMetrics: !settings.showPerformanceMetrics });
   }, [settings.showPerformanceMetrics, saveSettings]);
 
-  const toggleAstrologicalData = useCallback(() => {
+  const toggleAstrologicalData = useCallback(() => {;
     saveSettings({ showAstrologicalData: !settings.showAstrologicalData });
   }, [settings.showAstrologicalData, saveSettings]);
 
-  const toggleComponentStates = useCallback(() => {
+  const toggleComponentStates = useCallback(() => {;
     saveSettings({ showComponentStates: !settings.showComponentStates });
   }, [settings.showComponentStates, saveSettings]);
 
@@ -107,7 +107,7 @@ export const _useDebugSettings = () => {
     [saveSettings],
   );
 
-  const resetSettings = useCallback(() => {
+  const resetSettings = useCallback(() => {;
     setSettings(DEFAULT_SETTINGS);
     try {
       localStorage.removeItem(STORAGE_KEY);

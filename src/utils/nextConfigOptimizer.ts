@@ -52,7 +52,7 @@ export class NextConfigOptimizer {
    */
   private createDefaultConfig(): void {
     const defaultConfig = `/** @type {import('next').NextConfig} */;
-const nextConfig = {
+const nextConfig = {;
   reactStrictMode: true,
 
   // Build optimization for manifest generation
@@ -77,14 +77,14 @@ const nextConfig = {
   // Webpack optimization for manifest generation
   webpack: (config, { isServer, dev }) => {
     // Ensure proper module resolution
-    config.resolve.alias = {
+    config.resolve.alias = {;
       ...config.resolve.alias;
       '@': path.resolve(__dirname, './src')
     };
 
     // Optimize for server-side rendering
     if (isServer) {
-      config.resolve.fallback = {
+      config.resolve.fallback = {;
         ...config.resolve.fallback;
         fs: false,
         path: falseos: false
@@ -114,7 +114,7 @@ const nextConfig = {
     const content = fs.readFileSync(configPath, 'utf8'),;
 
     // Check for essential configurations
-    const checks = [
+    const checks = [;
       {
         pattern: /output\s*:/,
         recommendation: 'Add output: 'standalone' for better build optimization'
@@ -166,7 +166,7 @@ const nextConfig = {
     let modified = false;
 
     // Fix common issues
-    const fixes = [
+    const fixes = [;
       {
         issue: /ignoreBuildErrors\s*:\s*true/g,
         fix: 'ignoreBuildErrors: false',

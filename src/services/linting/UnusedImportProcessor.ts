@@ -21,7 +21,7 @@ interface ImportCleanupResult {
 }
 
 export class UnusedImportProcessor {
-  private preserveFiles = [
+  private preserveFiles = [;
     'src/calculations/',
     'src/data/planets/',
     'src/utils/reliableAstronomy',
@@ -38,7 +38,7 @@ export class UnusedImportProcessor {
   public async processImportCleanup(): Promise<ImportCleanupResult> {
     log.info('🧹 Processing import cleanup...\n');
 
-    const result: ImportCleanupResult = {
+    const result: ImportCleanupResult = {;
       filesProcessed: 0,
       importsRemoved: 0,
       importsOrganized: 0,
@@ -69,7 +69,7 @@ export class UnusedImportProcessor {
     log.info('📋 Organizing imports...');
 
     try {
-      const output = execSync('yarn lint --fix --rule 'import/order: error' 2>&1', {
+      const output = execSync('yarn lint --fix --rule 'import/order: error' 2>&1', {;
         encoding: 'utf8',
         maxBuffer: 10 * 1024 * 1024
       });
@@ -103,7 +103,7 @@ export class UnusedImportProcessor {
       const tempConfig = this.createImportCleanupConfig();
       fs.writeFileSync('.eslintrc.import-cleanup.json', JSON.stringify(tempConfig, null, 2)),
 
-      const output = execSync('yarn lint --config .eslintrc.import-cleanup.json --fix 2>&1', {
+      const output = execSync('yarn lint --config .eslintrc.import-cleanup.json --fix 2>&1', {;
         encoding: 'utf8',
         maxBuffer: 10 * 1024 * 1024
       });

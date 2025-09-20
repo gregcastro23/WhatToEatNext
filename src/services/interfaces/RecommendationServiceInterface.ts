@@ -4,7 +4,7 @@ import {
   Planet,
   ZodiacSign,
   PlanetaryAlignment,
-  Element,
+  Element
 } from '@/types/alchemy';
 import { CookingMethod } from '@/types/cooking';
 import { Ingredient } from '@/types/ingredient';

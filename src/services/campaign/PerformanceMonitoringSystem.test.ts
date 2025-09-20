@@ -167,12 +167,12 @@ describe('PerformanceMonitoringSystem', () => {
         bundleSize: { current: 400, target: 420, compressed: 280, trend: 'stable' }
       };
 
-      const mockMetrics2: PerformanceMetrics = {
+      const mockMetrics2: PerformanceMetrics = {;
         ...mockMetrics1;
         buildTime: { current: 7, target: 10, average: 6, trend: 'degrading' }
       };
 
-      const mockMetrics3: PerformanceMetrics = {
+      const mockMetrics3: PerformanceMetrics = {;
         ...mockMetrics1;
         buildTime: { current: 9, target: 10, average: 7, trend: 'degrading' }
       };
@@ -197,12 +197,12 @@ describe('PerformanceMonitoringSystem', () => {
         bundleSize: { current: 400, target: 420, compressed: 280, trend: 'stable' }
       };
 
-      const mockMetrics2: PerformanceMetrics = {
+      const mockMetrics2: PerformanceMetrics = {;
         ...mockMetrics1;
         cacheHitRate: { current: 0.75, target: 0.8, average: 0.825, trend: 'degrading' }
       };
 
-      const mockMetrics3: PerformanceMetrics = {
+      const mockMetrics3: PerformanceMetrics = {;
         ...mockMetrics1;
         cacheHitRate: { current: 0.6, target: 0.8, average: 0.75, trend: 'degrading' }
       };
@@ -225,12 +225,12 @@ describe('PerformanceMonitoringSystem', () => {
         bundleSize: { current: 400, target: 420, compressed: 280, trend: 'stable' }
       };
 
-      const mockMetrics2: PerformanceMetrics = {
+      const mockMetrics2: PerformanceMetrics = {;
         ...mockMetrics1;
         memoryUsage: { current: 40, target: 50, peak: 45, average: 35 }
       };
 
-      const mockMetrics3: PerformanceMetrics = {
+      const mockMetrics3: PerformanceMetrics = {;
         ...mockMetrics1;
         memoryUsage: { current: 55, target: 50, peak: 60, average: 42 }
       };

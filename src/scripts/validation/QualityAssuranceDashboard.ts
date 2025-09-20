@@ -103,7 +103,7 @@ export class QualityAssuranceDashboard {
   private monitoringTimer?: NodeJS.Timeout;
 
   constructor(config: Partial<QualityDashboardConfig> = {}) {
-    this.config = {
+    this.config = {;
       reductionTarget: 90,
       stabilityTarget: 100,
       qualityThreshold: 85,
@@ -195,7 +195,7 @@ export class QualityAssuranceDashboard {
 
       const testCoverageScore = this.calculateTestCoverageScore();
 
-      const targetAchievement = {
+      const targetAchievement = {;
         reductionTargetMet: unusedVariableReduction >= this.config.reductionTarget,
         stabilityTargetMet: buildStabilityScore >= this.config.stabilityTarget,
         qualityThresholdMet: overallQualityScore >= this.config.qualityThreshold,
@@ -205,7 +205,7 @@ export class QualityAssuranceDashboard {
           overallQualityScore >= this.config.qualityThreshold
       };
 
-      const metrics: QualityMetrics = {
+      const metrics: QualityMetrics = {;
         timestamp: new Date(),
         batchId,
         unusedVariableReduction,
@@ -273,7 +273,7 @@ export class QualityAssuranceDashboard {
       qualityTrends,
     ),
 
-    const report: ComprehensiveDashboardReport = {
+    const report: ComprehensiveDashboardReport = {;
       timestamp: new Date(),
       reportId: `quality-report-${Date.now()}`,
       executiveSummary,
@@ -360,7 +360,7 @@ export class QualityAssuranceDashboard {
     }
 
     // Ensure readiness score doesn't go below 0
-    readinessScore = Math.max(0, readinessScore),
+    readinessScore = Math.max(0, readinessScore),;
 
     // Estimate readiness date if not ready
     let estimatedReadinessDate: Date | undefined,
@@ -392,7 +392,7 @@ export class QualityAssuranceDashboard {
     }
 
     const trends: QualityTrend[] = [];
-    const metrics = [
+    const metrics = [;
       'unusedVariableReduction',
       'buildStabilityScore',
       'overallQualityScore',
@@ -400,7 +400,7 @@ export class QualityAssuranceDashboard {
     ],
 
     for (const metric of metrics) {
-      const values = this.qualityHistory.map(h => ({
+      const values = this.qualityHistory.map(h => ({;
         timestamp: h.timestamp,
         value: h[metric as keyof QualityMetrics] as number
       }));
@@ -543,7 +543,7 @@ export class QualityAssuranceDashboard {
 
     // Add trend-based recommendations
     for (const trend of trends) {
-      if (trend.trend === 'declining' && Math.abs(trend.changeRate) > 5) {
+      if (trend.trend === 'declining' && Math.abs(trend.changeRate) > 5) {;
         shortTerm.push(
           `Address declining ${trend.metric} trend (${trend.changeRate.toFixed(1)}% decrease)`,
         );
@@ -655,7 +655,7 @@ export class QualityAssuranceDashboard {
    * Generate Markdown report
    */
   private generateMarkdownReport(report: ComprehensiveDashboardReport): string {
-    const lines = [
+    const lines = [;
       '# Quality Assurance Dashboard Report',
       `Generated: ${report.timestamp.toISOString()}`,
       `Report ID: ${report.reportId}`,
@@ -664,13 +664,13 @@ export class QualityAssuranceDashboard {
       `**Overall Status:** ${report.executiveSummary.overallStatus.toUpperCase()}`,
       '',
       '### Key Achievements',
-      ...report.executiveSummary.keyAchievements.map(achievement => `- ${achievement}`),
+      ...report.executiveSummary.keyAchievements.map(achievement => `- ${achievement}`),;
       '',
       '### Critical Issues',
-      ...report.executiveSummary.criticalIssues.map(issue => `- ${issue}`),,
+      ...report.executiveSummary.criticalIssues.map(issue => `- ${issue}`),,;
       '',
       '### Next Steps',
-      ...report.executiveSummary.nextSteps.map(step => `- ${step}`),,
+      ...report.executiveSummary.nextSteps.map(step => `- ${step}`),,;
       '',
       '## Quality Metrics',
       `- **Unused Variable Reduction:** ${report.qualityMetrics.unusedVariableReduction.toFixed(1)}% (Target: ${this.config.reductionTarget}%)`,
@@ -709,13 +709,13 @@ export class QualityAssuranceDashboard {
       '## Recommendations',
       '',
       '### Immediate Actions',
-      ...report.recommendations.immediate.map(action => `- ${action}`),
+      ...report.recommendations.immediate.map(action => `- ${action}`),;
       '',
       '### Short-term Actions',
-      ...report.recommendations.shortTerm.map(action => `- ${action}`),
+      ...report.recommendations.shortTerm.map(action => `- ${action}`),;
       '',
       '### Long-term Actions',
-      ...report.recommendations.longTerm.map(action => `- ${action}`),
+      ...report.recommendations.longTerm.map(action => `- ${action}`),;
     );
 
     return lines.join('\n');
@@ -750,7 +750,7 @@ export class QualityAssuranceDashboard {
     if (messageLevel >= configLevel) {
       const timestamp = new Date().toISOString();
       const prefix = level.toUpperCase().padEnd(5);
-      // // console.log(`[${timestamp}] ${prefix} ${message}`);
+      // // // console.log(`[${timestamp}] ${prefix} ${message}`);
     }
   }
 }

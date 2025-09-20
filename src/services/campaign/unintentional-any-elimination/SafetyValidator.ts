@@ -47,7 +47,7 @@ export interface RollbackValidationResult {
   canRollback: boolean,
   backupIntegrity: boolean,
   rollbackErrors: string[],
-  restorationVerified: boolean,
+  restorationVerified: boolean
 }
 
 export class SafetyValidator {
@@ -60,10 +60,10 @@ export class SafetyValidator {
     validationTimeout = 60000, // 1 minute default;
     safetyThresholds: Partial<SafetyThresholds> = {},
     buildCommand = 'yarn tsc --noEmit --skipLibCheck',;
-    testCommand = 'yarn test --passWithNoTests --silent',
+    testCommand = 'yarn test --passWithNoTests --silent',;
   ) {
     this.validationTimeout = validationTimeout;
-    this.safetyThresholds = {
+    this.safetyThresholds = {;
       minimumSafetyScore: 0.7,
       maximumErrorCount: 10,
       maximumBuildTime: 30000, // 30 seconds
@@ -81,7 +81,7 @@ export class SafetyValidator {
     const startTime = Date.now();
 
     try {
-      const output = execSync(this.buildCommand, {
+      const output = execSync(this.buildCommand, {;
         encoding: 'utf8',
         stdio: 'pipe',
         timeout: this.validationTimeout
@@ -120,7 +120,7 @@ export class SafetyValidator {
    */
   async validateBuildAfterBatch(
     modifiedFiles: string[],
-    includeTests = false,
+    includeTests = false,;
   ): Promise<BuildValidationResult> {
     // First, validate TypeScript compilation
     const compilationResult = await this.validateTypeScriptCompilation();
@@ -169,7 +169,7 @@ export class SafetyValidator {
 
         try {
           const backupContent = fs.readFileSync(backupPath, 'utf8');
-          if (backupContent.length === 0) {
+          if (backupContent.length === 0) {;
             rollbackErrors.push(`Backup file is empty: ${backupPath}`);
             backupIntegrity = false;
           }
@@ -306,7 +306,7 @@ export class SafetyValidator {
         };
       }
 
-      const output = execSync(`${this.testCommand} --testPathPattern='${testPattern}'`, {
+      const output = execSync(`${this.testCommand} --testPathPattern='${testPattern}'`, {;
         encoding: 'utf8',
         stdio: 'pipe',
         timeout: this.validationTimeout
@@ -434,13 +434,13 @@ export class SafetyValidator {
    */
   private evaluateReplacementPatternSafety(replacement: TypeReplacement): {
     score: number,
-    warnings: string[],
+    warnings: string[]
   } {
     let score = 0.8; // Base pattern score
     const warnings: string[] = [];
 
     // Array replacements are very safe
-    if (replacement.original === 'any[]' && replacement.replacement === 'unknown[]') {
+    if (replacement.original === 'any[]' && replacement.replacement === 'unknown[]') {;
       score = 0.95;
     }
 
@@ -478,7 +478,7 @@ export class SafetyValidator {
    */
   private evaluateFileTypeSafety(filePath: string): {
     score: number,
-    warnings: string[],
+    warnings: string[]
   } {
     let score = 0.8; // Base file score
     const warnings: string[] = [];
@@ -513,7 +513,7 @@ export class SafetyValidator {
    * Extract error output from command execution
    */
   private extractErrorOutput(error: unknown): string {
-    if (error && typeof error === 'object') {
+    if (error && typeof error === 'object') {;
       return error.stdout || error.stderr || error.message || String(error);
     }
     return String(error);
@@ -564,7 +564,7 @@ export interface SafetyThresholds {
   minimumSafetyScore: number,
   maximumErrorCount: number,
   maximumBuildTime: number,
-  minimumTestCoverage: number,
+  minimumTestCoverage: number
 }
 
 export default SafetyValidator;

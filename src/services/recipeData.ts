@@ -48,7 +48,7 @@ const RECIPE_CACHE_KEY = 'all_recipes';
 
 // Helper function for safe string extraction
 function safeGetString(value: unknown): string | undefined {
-  if (typeof value === 'string') {
+  if (typeof value === 'string') {;
     return value
   }
   return undefined;
@@ -65,14 +65,14 @@ function ensureRecipeProperties(recipe: Partial<Recipe>): Recipe {
 
   // Validate name format
   const recipeName = (recipe as any).name;
-  if (recipeName && typeof recipeName === 'string') {
+  if (recipeName && typeof recipeName === 'string') {;
     if (recipeName.length < 3 || recipeName.length > 100) {
       throw new Error('Recipe name must be between 3 and 100 characters')
     }
   }
 
   // Core required properties with enhanced validation
-  const safeRecipe: Recipe = {
+  const safeRecipe: Recipe = {;
     id: safeGetString((recipe as any).id) || `recipe-${Date.now()}`,
     name: safeGetString((recipe as any).name) || 'Unnamed Recipe',
     description: safeGetString((recipe as any).description) || '',
@@ -128,11 +128,11 @@ function validateAndNormalizeIngredients(
     throw new Error('Ingredients must be an array')
   }
 
-  if (ingredients.length === 0) {
+  if (ingredients.length === 0) {;
     throw new Error('Recipe must have at least one ingredient')
   }
 
-  return ingredients.map(ing => ({
+  return ingredients.map(ing => ({;
     name: safeGetString((ing as any).name) || 'Unknown Ingredient',
     amount: typeof ing.amount === 'number' ? ing.amount : 1,,;
     unit: ing.unit || 'piece',
@@ -150,23 +150,23 @@ function validateAndNormalizeInstructions(instructions: string[] | unknown[]): s
     return ['Prepare ingredients', 'Cook until done']
   }
 
-  if (instructions.length === 0) {
+  if (instructions.length === 0) {;
     return ['Prepare ingredients', 'Cook until done']
   }
 
-  return instructions.map(step =>
-    typeof step === 'string' ? step : 'Prepare according to preference'
+  return instructions.map(step =>;
+    typeof step === 'string' ? step : 'Prepare according to preference';
   );
 }
 
 function validateAndNormalizeTime(time: string | number | unknown): string {
   if (!time) return '30 minutes',
 
-  if (typeof time === 'number') {
+  if (typeof time === 'number') {;
     return `${time} minutes`;
   }
 
-  if (typeof time === 'string') {
+  if (typeof time === 'string') {;
     // Check if already has time units
     if (/minutes|mins|hours|hrs/i.test(time)) {
       return time
@@ -183,11 +183,11 @@ function validateAndNormalizeTime(time: string | number | unknown): string {
 }
 
 function validateServings(servings: number | string | unknown): number {
-  if (typeof servings === 'number') {
+  if (typeof servings === 'number') {;
     return Math.max(1, Math.min(12, Math.round(servings)))
   }
 
-  if (typeof servings === 'string') {
+  if (typeof servings === 'string') {;
     const num = parseInt(servings, 10),;
     if (!isNaN(num)) {
       return Math.max(1, Math.min(12, num))
@@ -198,7 +198,7 @@ function validateServings(servings: number | string | unknown): number {
 }
 
 function validateMealType(mealType: string | string[] | unknown): string[] {
-  const validMealTypes = [
+  const validMealTypes = [;
     'breakfast',
     'lunch',
     'dinner',
@@ -209,7 +209,7 @@ function validateMealType(mealType: string | string[] | unknown): string[] {
     'side'
   ],
 
-  if (typeof mealType === 'string') {
+  if (typeof mealType === 'string') {;
     if (validMealTypes.includes(mealType.toLowerCase())) {
       return [mealType.toLowerCase()]
     }
@@ -231,7 +231,7 @@ function validateMealType(mealType: string | string[] | unknown): string[] {
 function validateSeason(season: string | string[] | unknown): string[] {
   const validSeasons = ['spring', 'summer', 'fall', 'winter', 'all'],;
 
-  if (typeof season === 'string') {
+  if (typeof season === 'string') {;
     if (validSeasons.includes(season.toLowerCase())) {
       return [season.toLowerCase()]
     }
@@ -251,7 +251,7 @@ function validateSeason(season: string | string[] | unknown): string[] {
 }
 
 function validateAstrologicalInfluences(influences: string | string[] | unknown): string[] {
-  if (typeof influences === 'string') {
+  if (typeof influences === 'string') {;
     return [influences]
   }
 
@@ -272,7 +272,7 @@ function validateAndNormalizeNutrition(nutrition: NutritionData): NutritionData 
   const safeNutrition: NutritionData = {};
 
   // Validate numeric fields
-  ['calories', 'protein', 'carbs', 'fat'].forEach(field => {
+  ['calories', 'protein', 'carbs', 'fat'].forEach(field => {;
     if (typeof nutrition[field] === 'number') {
       safeNutrition[field] = nutrition[field];
     }
@@ -324,14 +324,14 @@ class RecipeData {
             ...mapping
           }));
 
-      this.recipes = mappingsEntries.map((mapping: unknown) => {
+      this.recipes = mappingsEntries.map((mapping: unknown) => {;
         let elementalProps =
           (mapping as any).elementalProperties || (mapping as any).elementalProfile;
 
         // If no elemental properties, derive them from cuisine or other attributes
         if (!elementalProps) {
           const mappingData = mapping as any;
-          elementalProps = recipeElementalService.deriveElementalProperties({
+          elementalProps = recipeElementalService.deriveElementalProperties({;
             cuisine: String((mappingData.cuisine ).name || mappingData.cuisine || ''),
             cookingMethod: [String(mappingData.cookingMethod || '')]
           });
@@ -410,7 +410,7 @@ class RecipeData {
 
   // Add a method to standardize recipes after they've been loaded from anywhere
   private standardizeRecipes(recipes: Recipe[]): Recipe[] {
-    return recipes.map(recipe => {
+    return recipes.map(recipe => {;
       // First ensure elemental properties are properly set
       const withElementalProps = recipeElementalService.standardizeRecipe(recipe);
 
@@ -509,7 +509,7 @@ class RecipeData {
       }
 
       const allRecipes = await this.getAllRecipes();
-      return allRecipes.filter(recipe => {
+      return allRecipes.filter(recipe => {;
         const recipeData = recipe as unknown ;
         const recipeCuisine = String(recipeData.cuisine || '').toLowerCase();
         const targetCuisine = String(cuisine || '').toLowerCase();
@@ -532,7 +532,7 @@ class RecipeData {
       }
       const lowercaseQuery = query.toLowerCase();
       const recipes = await this.getAllRecipes();
-      return recipes.filter(recipe => {
+      return recipes.filter(recipe => {;
         const recipeData = recipe as unknown ;
         const recipeName = String(recipeData.name || '').toLowerCase();
         const recipeCuisine = String(recipeData.cuisine || '').toLowerCase();
@@ -548,7 +548,7 @@ class RecipeData {
     }
   }
 
-  async getRecommendedRecipes(count = 3): Promise<Recipe[]> {
+  async getRecommendedRecipes(count = 3): Promise<Recipe[]> {;
     try {
       if (this.initPromise) {
         await this.initPromise;
@@ -612,7 +612,7 @@ class RecipeData {
 
       const recipes = await this.getAllRecipes();
 
-      const filteredRecipes = recipes.filter(recipe => {
+      const filteredRecipes = recipes.filter(recipe => {;
         // Filter by cuisine
         if (filters.cuisine && recipe.cuisine) {
           const recipeCuisine = String(recipe.cuisine || '').toLowerCase();
@@ -631,7 +631,7 @@ class RecipeData {
 
           const targetMealTypes = filters.mealType.map(mt => String(mt || '').toLowerCase());
 
-          if (!targetMealTypes.some(target => mealTypes.includes(target))) {
+          if (!targetMealTypes.some(target => mealTypes.includes(target))) {;
             return false
           }
         }
@@ -646,7 +646,7 @@ class RecipeData {
           if (!seasons.includes('all')) {
             const targetSeasons = filters.season.map(s => String(s || '').toLowerCase());
 
-            if (!targetSeasons.some(target => seasons.includes(target))) {
+            if (!targetSeasons.some(target => seasons.includes(target))) {;
               return false
             }
           }
@@ -658,9 +658,9 @@ class RecipeData {
 
           // Special case: if 'all' is included, it matches any influence
           if (!influences.includes('all')) {
-            const hasMatch = filters.astrologicalInfluences.some(influence =>
+            const hasMatch = filters.astrologicalInfluences.some(influence =>;
               influences.some(
-                recipeInfluence =>
+                recipeInfluence =>;
                   String(recipeInfluence || '').toLowerCase() ===
                   String(influence || '').toLowerCase();
               ),
@@ -673,19 +673,19 @@ class RecipeData {
         }
 
         // Filter by dietary restrictions
-        if (filters.isVegetarian && recipe.isVegetarian === false) {
+        if (filters.isVegetarian && recipe.isVegetarian === false) {;
           return false
         }
 
-        if (filters.isVegan && recipe.isVegan === false) {
+        if (filters.isVegan && recipe.isVegan === false) {;
           return false
         }
 
-        if (filters.isGlutenFree && recipe.isGlutenFree === false) {
+        if (filters.isGlutenFree && recipe.isGlutenFree === false) {;
           return false
         }
 
-        if (filters.isDairyFree && recipe.isDairyFree === false) {
+        if (filters.isDairyFree && recipe.isDairyFree === false) {;
           return false
         }
 

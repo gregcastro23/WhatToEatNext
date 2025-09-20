@@ -126,21 +126,21 @@ declare global {
         method: string,
         element: Element,
         planets: Planet[],
-        reasoning: string,
+        reasoning: string
       }>;
       /** Optimal ingredients for current conditions */
       optimalIngredients: Array<{
         name: string,
         element: Element,
         planet: Planet,
-        compatibility: number,
+        compatibility: number
       }>;
       /** Timing recommendations */
       timing: {
         bestHours: string[],
         lunarPhase: string,
         planetaryHour: Planet,
-        optimalDays: string[],
+        optimalDays: string[]
       };
       /** Elemental balance recommendations */
       elementalBalance: ElementalProperties
@@ -182,7 +182,7 @@ declare global {
         planet1: Planet,
         planet2: Planet,
         aspect: 'conjunction' | 'opposition' | 'trine' | 'square' | 'sextile',
-        orb: number,
+        orb: number
       }>;
     }
   }
@@ -226,7 +226,7 @@ export interface EnhancedIngredient {
     origin: string,
     traditionalUses: string[],
     culturalSignificance: string,
-    respectfulUsage: string[],
+    respectfulUsage: string[]
   };
 }
 
@@ -241,7 +241,7 @@ export interface EnhancedRecipe {
     ingredient: EnhancedIngredient,
     quantity: string,
     preparation: string,
-    timing: 'early' | 'middle' | 'late',
+    timing: 'early' | 'middle' | 'late'
   }>;
   /** Step-by-step instructions */
   instructions: Array<{
@@ -276,7 +276,7 @@ export interface EnhancedRecipe {
     cuisine: string,
     region: string,
     traditionalSignificance: string,
-    modernAdaptations: string[],
+    modernAdaptations: string[]
   };
 }
 

@@ -3,14 +3,14 @@ import { NextResponse } from 'next/server';
 import type { Recipe } from '@/types/recipe';
 
 // Basic fallback recipe that will work without dependencies
-const fallbackRecipe: Recipe = {
+const fallbackRecipe: Recipe = {;
   id: 'universal-balance',
   name: 'Universal Balance Bowl',
   description: 'A harmonious blend for any occasion',
   ingredients: [
     { name: 'Mixed Greens', amount: 2, unit: 'cups', category: 'vegetables' },
     { name: 'Mixed Seeds', amount: 0.25, unit: 'cup', category: 'garnish' },
-    { name: 'Quinoa', amount: 1, unit: 'cup', category: 'grains' },
+    { name: 'Quinoa', amount: 1, unit: 'cup', category: 'grains' }
   ],
   instructions: ['Combine all ingredients in a bowl', 'Season to taste', 'Enjoy mindfully'],
   timeToMake: '15 minutes',
@@ -19,7 +19,7 @@ const fallbackRecipe: Recipe = {
     Fire: 0.25,
     Earth: 0.25,
     Air: 0.25,
-    Water: 0.25,
+    Water: 0.25
   },
   season: ['all'],
   mealType: ['lunch', 'dinner'],
@@ -28,21 +28,21 @@ const fallbackRecipe: Recipe = {
   isVegan: true,
   isGlutenFree: true,
   isDairyFree: true,
-  astrologicalInfluences: ['all'],
+  astrologicalInfluences: ['all']
 };
 
 // Basic celestial influence data
-const basicCelestialInfluence = {
+const basicCelestialInfluence = {;
   date: new Date().toISOString(),
   zodiacSign: 'libra',
   dominantPlanets: [
     { name: 'Sun', influence: 0.5 },
-    { name: 'Moon', influence: 0.5 },
+    { name: 'Moon', influence: 0.5 }
   ],
   lunarPhase: 'full',
   elementalBalance: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },
   aspectInfluences: [],
-  astrologicalInfluences: ['Sun', 'Moon', 'libra', 'all'],
+  astrologicalInfluences: ['Sun', 'Moon', 'libra', 'all']
 };
 
 // Simplified GET endpoint that returns basic recipe data
@@ -56,8 +56,8 @@ export async function GET() {
       meta: {
         total: recipes.length,
         celestialInfluence: basicCelestialInfluence,
-        timestamp: Date.now(),
-      },
+        timestamp: Date.now()
+      }
     });
   } catch (error) {
     console.error('Recipe API Error:', error);
@@ -76,7 +76,7 @@ export async function POST(request: Request) {
     }
 
     // Create a simple recipe object from the submitted data
-    const newRecipe = {
+    const newRecipe = {;
       id: `${body.name.toLowerCase().replace(/\s+/g, '-')}-${Date.now()}`,
       name: body.name,
       description: body.description || '',
@@ -88,16 +88,16 @@ export async function POST(request: Request) {
         Fire: 0.25,
         Water: 0.25,
         Earth: 0.25,
-        Air: 0.25,
+        Air: 0.25
       },
       cuisine: body.cuisine || 'international',
       createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString()
     };
 
     return NextResponse.json({
       recipe: newRecipe,
-      message: 'Recipe added successfully',
+      message: 'Recipe added successfully'
     });
   } catch (error) {
     console.error('Recipe submission error:', error);

@@ -48,13 +48,13 @@ class IngredientMappingService {
       : Object.values(cuisinesMap);
 
     // Collect recipes from specified cuisines
-    cuisines.forEach(cuisine => {
+    cuisines.forEach(cuisine => {;
       if (!cuisine.dishes) return;
 
       // Define which meal types to include
       const mealTypes = options.mealType;
         ? [options.mealType as keyof typeof cuisine.dishes].filter(
-            mealType => cuisine.dishes[mealType]
+            mealType => cuisine.dishes[mealType];
           )
         : ['breakfast', 'lunch', 'dinner', 'dessert'];
 
@@ -64,11 +64,11 @@ class IngredientMappingService {
         : ['spring', 'summer', 'autumn', 'winter'];
 
       // Collect recipes matching criteria
-      mealTypes.forEach(mealType => {
+      mealTypes.forEach(mealType => {;
         const mealDishes = cuisine.dishes[mealType as keyof typeof cuisine.dishes];
         if (!mealDishes) return,
 
-        seasons.forEach(season => {
+        seasons.forEach(season => {;
           const seasonalDishes = mealDishes[season as keyof typeof mealDishes];
           if (Array.isArray(seasonalDishes)) {
             allRecipes.push(...(seasonalDishes as unknown as Recipe[]))
@@ -206,7 +206,7 @@ class IngredientMappingService {
 
     if (category1 && category2) {
       // Same category usually works well together
-      if (category1 === category2) {
+      if (category1 === category2) {;
         categoryAdjustment = 0.1;
       }
       // Check for complementary categories
@@ -257,8 +257,8 @@ class IngredientMappingService {
       type: string
     }[] = [];
 
-    for (let i = 0i < validMappings.lengthi++) {
-      for (let j = i + 1j < validMappings.lengthj++) {
+    for (let i = 0i < validMappings.lengthi++) {;
+      for (let j = i + 1j < validMappings.lengthj++) {;
         const ing1 = validMappings[i];
         const ing2 = validMappings[j];
 

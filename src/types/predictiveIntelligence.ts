@@ -27,42 +27,42 @@ export interface UserPreferences {
   preferredCuisines: string[],
   dietaryRestrictions: string[],
   spicePreference: 'mild' | 'medium' | 'hot',
-  cookingSkillLevel: 'beginner' | 'intermediate' | 'advanced',
+  cookingSkillLevel: 'beginner' | 'intermediate' | 'advanced'
 }
 
 export interface PredictionResult {
   prediction: unknown,
   confidence: number,
   factors: string[],
-  timeframe: 'immediate' | 'short-term' | 'medium-term' | 'long-term',
+  timeframe: 'immediate' | 'short-term' | 'medium-term' | 'long-term'
 }
 
 export interface RecipePredictions {
   successProbability: PredictionResult,
   popularityForecast: PredictionResult,
   seasonalTrends: PredictionResult,
-  userSatisfactionPrediction: PredictionResult,
+  userSatisfactionPrediction: PredictionResult
 }
 
 export interface IngredientPredictions {
   availabilityForecast: PredictionResult,
   priceProjections: PredictionResult,
   qualityPredictions: PredictionResult,
-  substitutionRecommendations: PredictionResult,
+  substitutionRecommendations: PredictionResult
 }
 
 export interface CuisinePredictions {
   trendAnalysis: PredictionResult,
   fusionOpportunities: PredictionResult,
   marketDemandProjection: PredictionResult,
-  seasonalPopularity: PredictionResult,
+  seasonalPopularity: PredictionResult
 }
 
 export interface AstrologicalPredictions {
   optimalTimingPrediction: PredictionResult,
   planetaryInfluenceProjection: PredictionResult,
   lunarCycleOptimization: PredictionResult,
-  energeticHarmonyForecast: PredictionResult,
+  energeticHarmonyForecast: PredictionResult
 }
 
 export interface PredictiveIntelligenceResult {
@@ -71,7 +71,7 @@ export interface PredictiveIntelligenceResult {
   cuisinePrediction: CuisinePredictions,
   astrologicalPrediction: AstrologicalPredictions,
   confidence: number,
-  timestamp: string,
+  timestamp: string
 }
 
 export interface PredictiveMetrics {
@@ -90,14 +90,14 @@ export interface PredictiveModelWeights {
   astrological: number,
   user: number,
   market: number,
-  cultural: number,
+  cultural: number
 }
 
 export interface TimeSeriesData {
   timestamp: string,
   value: number,
   confidence: number,
-  factors: string[],
+  factors: string[]
 }
 
 export interface TrendAnalysis {
@@ -125,7 +125,7 @@ export interface SeasonalPrediction {
   season: string,
   probability: number,
   factors: string[],
-  recommendations: string[],
+  recommendations: string[]
 }
 
 export interface MarketPrediction {
@@ -140,7 +140,7 @@ export interface CulturalPrediction {
   adoption: number,
   resistance: number,
   culturalFactors: string[],
-  adaptationRecommendations: string[],
+  adaptationRecommendations: string[]
 }
 
 export interface PredictiveAlgorithmConfig {

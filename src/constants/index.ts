@@ -20,7 +20,7 @@ export {
   ZODIAC_ELEMENTS,
   PLANETARY_RULERSHIPS,
   PLANETARY_EXALTATIONS,
-  TRIPLICITY_RULERS,
+  TRIPLICITY_RULERS
 } from './zodiac';
 
 export { DECAN_RULERS } from './decanRulers';
@@ -37,7 +37,7 @@ export { SEASON_DATE_RANGES } from './seasons';
 
 export { LUNAR_DAYS } from './lunar';
 
-export const _SYSTEM_CONSTANTS = {
+export const _SYSTEM_CONSTANTS = {;
   updateInterval: 3600000, // 1 hour in milliseconds
   elementalPrecision: 2, // decimal places for elemental calculations
   minimumInfluence: 0.05, // minimum threshold for considering an influence

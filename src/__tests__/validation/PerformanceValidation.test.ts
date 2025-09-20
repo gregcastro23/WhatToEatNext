@@ -205,13 +205,13 @@ describe('Performance Validation Tests - Task 12', () => {
 
     test('Cache efficiency reduces memory pressure', () => {
       // Test cache impact on memory usage
-      const cacheScenarios: any = [
+      const cacheScenarios: any = [;
         { name: 'no-cache', expectedMemory: 180 },
         { name: 'with-cache', expectedMemory: 120 },
         { name: 'warm-cache', expectedMemory: 80 }
       ];
 
-      cacheScenarios.forEach(scenario => {
+      cacheScenarios.forEach(scenario => {;
         mockExecSync.mockImplementation((_command: string) => {
           return Buffer.from(`✓ Linting (${scenario.name}): ${scenario.expectedMemory}MB peak memory`);
         });
@@ -230,7 +230,7 @@ describe('Performance Validation Tests - Task 12', () => {
       const baseMemory: any = 50, // 50MB base;
       const memoryPerFile: any = 0.1, // 0.1MB per file;
 
-      fileCounts.forEach(fileCount => {
+      fileCounts.forEach(fileCount => {;
         const expectedMemory: any = baseMemory + fileCount * memoryPerFile;
 
         mockExecSync.mockImplementation((_command: string) => {
@@ -278,7 +278,7 @@ describe('Performance Validation Tests - Task 12', () => {
       const regressionThreshold: any = 1.2, // 20% regression threshold;
 
       // Simulate multiple runs to check for regression
-      const runs: any = [
+      const runs: any = [;
         { run: 1, time: 14500 },
         { run: 2, time: 15200 },
         { run: 3, time: 14800 },
@@ -314,7 +314,7 @@ describe('Performance Validation Tests - Task 12', () => {
       const baselineMemory: any = 150, // 150MB baseline;
       const memoryRegressionThreshold: any = 1.3, // 30% regression threshold;
 
-      const memoryRuns: any = [
+      const memoryRuns: any = [;
         { run: 1, memory: 145 },
         { run: 2, memory: 152 },
         { run: 3, memory: 148 },
@@ -421,7 +421,7 @@ describe('Performance Validation Tests - Task 12', () => {
 
   describe('5. Performance Summary and Reporting', () => {
     test('Performance metrics are within acceptable ranges', () => {
-      const performanceTargets: any = {
+      const performanceTargets: any = {;
         fullLinting: 30000, // 30 seconds
         incrementalLinting: 10000, // 10 seconds
         cachedLinting: 5000, // 5 seconds
@@ -431,7 +431,7 @@ describe('Performance Validation Tests - Task 12', () => {
 
       // Mock performance summary
       mockExecSync.mockImplementation((_command: string) => {
-        const summary: any = {
+        const summary: any = {;
           fullLinting: 25000,
           incrementalLinting: 7000,
           cachedLinting: 3000,

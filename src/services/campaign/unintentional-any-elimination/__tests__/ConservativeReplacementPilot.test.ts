@@ -28,7 +28,7 @@ describe('ConservativeReplacementPilot', () => {
     jest.clearAllMocks();
 
     // Default test configuration
-    mockConfig = {
+    mockConfig = {;
       maxFilesPerBatch: 10,
       minFilesPerBatch: 5,
       targetSuccessRate: 0.8,
@@ -280,7 +280,7 @@ describe('ConservativeReplacementPilot', () => {
 
       const result: any = await pilot.executePilot();
 
-      if (result.successRate >= mockConfig.targetSuccessRate && result.buildFailures === 0) {
+      if (result.successRate >= mockConfig.targetSuccessRate && result.buildFailures === 0) {;
         expect(result.targetAchieved).toBe(true);
       }
     });
@@ -419,7 +419,7 @@ describe('ConservativeReplacementPilot', () => {
       const result: any = await pilot.executePilot();
 
       // Each batch should respect size limits
-      result.batchResults.forEach(batch => {
+      result.batchResults.forEach(batch => {;
         expect(batch.casesProcessed).toBeLessThanOrEqual(mockConfig.maxFilesPerBatch);
       });
     });
@@ -521,7 +521,7 @@ describe('ConservativeReplacementPilot Integration Tests', () => {
   let pilot: ConservativeReplacementPilot,
 
   beforeEach(() => {
-    pilot = new ConservativeReplacementPilot({
+    pilot = new ConservativeReplacementPilot({;
       maxFilesPerBatch: 5,
       maxBatches: 2,
       targetSuccessRate: 0.8,

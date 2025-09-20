@@ -7,7 +7,7 @@ export interface CookingMethod {
   elementalEffect?: ElementalProperties;
   duration?: {
     min: number,
-    max: number,
+    max: number
   };
   suitable_for?: string[];
   benefits?: string[];
@@ -29,7 +29,7 @@ export interface CookingMethod {
     | string
     | {
         min: number,
-        max: number,
+        max: number
       };
   temperature_range?:
     | string
@@ -63,7 +63,7 @@ export interface EnhancedCookingMethod extends CookingMethod {
     transformationPotential: number,
     elementalAmplification: ElementalProperties,
     energeticSignature: string,
-    harmonyFactor: number,
+    harmonyFactor: number
   };
 
   // Monica-compatible enhancements

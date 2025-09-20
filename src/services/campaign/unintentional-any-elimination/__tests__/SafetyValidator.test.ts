@@ -102,14 +102,14 @@ describe('SafetyValidator', () => {
         return '';
       });
 
-      const slowValidator: any = new SafetyValidator(60000, {
+      const slowValidator: any = new SafetyValidator(60000, {;
         maximumBuildTime: 50 // Very low threshold
       });
 
       const result: any = await slowValidator.validateBuildAfterBatch(['test.ts']);
 
       expect(result.buildSuccessful).toBe(false);
-      expect(result.compilationErrors.some(error =>
+      expect(result.compilationErrors.some(error =>;
         error.includes('Build time') && error.includes('exceeds threshold')
       )).toBe(true);
     });
@@ -311,7 +311,7 @@ describe('SafetyValidator', () => {
     });
 
     test('updates safety thresholds', () => {
-      const newThresholds: any = {
+      const newThresholds: any = {;
         minimumSafetyScore: 0.9,
         maximumBuildTime: 60000
       };
@@ -326,7 +326,7 @@ describe('SafetyValidator', () => {
 
   describe('Performance Metrics Validation', () => {
     test('validates acceptable performance metrics', () => {
-      const fastValidator: any = new SafetyValidator(60000, {
+      const fastValidator: any = new SafetyValidator(60000, {;
         maximumBuildTime: 30000
       });
 
@@ -391,7 +391,7 @@ describe('SafetyValidator', () => {
         throw error
       });
 
-      const limitedValidator: any = new SafetyValidator(60000, {
+      const limitedValidator: any = new SafetyValidator(60000, {;
         maximumErrorCount: 5
       });
 

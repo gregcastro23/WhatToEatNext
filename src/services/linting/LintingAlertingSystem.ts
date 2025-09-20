@@ -20,11 +20,11 @@ export interface AlertingConfig {
   };
   performanceMonitoring: {
     enabled: boolean,
-    thresholds: PerformanceThreshold[],
+    thresholds: PerformanceThreshold[]
   };
   autoResponse: {
     enabled: boolean,
-    actions: AutoResponseAction[],
+    actions: AutoResponseAction[]
   };
 }
 
@@ -38,7 +38,7 @@ export interface PerformanceThreshold {
   metric: 'duration' | 'memory' | 'cacheHitRate' | 'filesPerSecond',
   threshold: number,
   severity: 'warning' | 'error' | 'critical',
-  message: string,
+  message: string
 }
 
 export interface AutoResponseAction {
@@ -51,7 +51,7 @@ export interface AlertHistory {
   alerts: Alert[],
   suppressedAlerts: Alert[],
   resolvedAlerts: Alert[],
-  performanceEvents: PerformanceEvent[],
+  performanceEvents: PerformanceEvent[]
 }
 
 export interface PerformanceEvent {
@@ -62,7 +62,7 @@ export interface PerformanceEvent {
   value: number,
   threshold: number,
   impact: 'low' | 'medium' | 'high',
-  autoResponseTriggered: boolean,
+  autoResponseTriggered: boolean
 }
 
 export class LintingAlertingSystem {
@@ -87,7 +87,7 @@ export class LintingAlertingSystem {
       return;
     }
 
-    // // console.log(`🚨 Processing ${alerts.length} alerts...`);
+    // // // console.log(`🚨 Processing ${alerts.length} alerts...`);
 
     // Filter alerts based on cooldown and suppression
     const activeAlerts = this.filterActiveAlerts(alerts);
@@ -111,7 +111,7 @@ export class LintingAlertingSystem {
       await this.triggerAutoResponses(activeAlerts, performanceEvents);
     }
 
-    // // console.log(
+    // // // console.log(
       `✅ Processed ${activeAlerts.length} active alerts and ${performanceEvents.length} performance events`,
     );
   }
@@ -131,7 +131,7 @@ export class LintingAlertingSystem {
       const value = this.getPerformanceMetricValue(metrics, threshold.metric);
 
       if (this.isThresholdExceeded(value, threshold)) {
-        const event: PerformanceEvent = {
+        const event: PerformanceEvent = {;
           id: `perf-${threshold.metric}-${Date.now()}`,
           timestamp: new Date(),
           type: 'threshold_exceeded',
@@ -143,7 +143,7 @@ export class LintingAlertingSystem {
         };
 
         events.push(event);
-        // // console.log(
+        // // // console.log(
           `⚠️ Performance threshold exceeded: ${threshold.metric} = ${value} > ${threshold.threshold}`
         );
       }
@@ -194,11 +194,11 @@ export class LintingAlertingSystem {
     const icon = this.getSeverityIcon(alert.severity);
     const timestamp = alert.timestamp.toISOString();
 
-    // // console.log(`${icon} [${alert.severity.toUpperCase()}] ${timestamp}`);
-    // // console.log(`   Metric: ${alert.metric}`);
-    // // console.log(`   Value: ${alert.currentValue} (threshold: ${alert.threshold})`);
-    // // console.log(`   Message: ${alert.message}`);
-    // // console.log('');
+    // // // console.log(`${icon} [${alert.severity.toUpperCase()}] ${timestamp}`);
+    // // // console.log(`   Metric: ${alert.metric}`);
+    // // // console.log(`   Value: ${alert.currentValue} (threshold: ${alert.threshold})`);
+    // // // console.log(`   Message: ${alert.message}`);
+    // // // console.log('');
   }
 
   /**
@@ -222,7 +222,7 @@ export class LintingAlertingSystem {
    */
   private async sendKiroAlert(alert: Alert, config: Record<string, unknown>): Promise<void> {
     // Create Kiro notification file
-    const kiroAlert = {
+    const kiroAlert = {;
       id: alert.id,
       timestamp: alert.timestamp,
       type: 'linting_alert',
@@ -250,7 +250,7 @@ export class LintingAlertingSystem {
       return;
     }
 
-    const payload = {
+    const payload = {;
       alert_id: alert.id,
       timestamp: alert.timestamp,
       severity: alert.severity,
@@ -277,7 +277,7 @@ export class LintingAlertingSystem {
    * Process performance event and trigger responses
    */
   private async processPerformanceEvent(event: PerformanceEvent): Promise<void> {
-    // // console.log(`📊 Performance event: ${event.type} for ${event.metric}`);
+    // // // console.log(`📊 Performance event: ${event.type} for ${event.metric}`);
 
     // Log performance event
     const performanceLog = `.kiro/metrics/performance-events.log`;
@@ -310,7 +310,7 @@ export class LintingAlertingSystem {
    * Execute automatic response action
    */
   private async executeAutoResponse(action: AutoResponseAction): Promise<void> {
-    // // console.log(`🤖 Executing auto-response: ${action.action}`);
+    // // // console.log(`🤖 Executing auto-response: ${action.action}`);
 
     try {
       switch (action.action) {
@@ -336,7 +336,7 @@ export class LintingAlertingSystem {
    * Filter alerts based on cooldown and suppression
    */
   private filterActiveAlerts(alerts: Alert[]): Alert[] {
-    return alerts.filter(alert => {
+    return alerts.filter(alert => {;
       // Check suppression
       if (this.suppressedAlerts.has(alert.metric)) {
         return false;
@@ -361,7 +361,7 @@ export class LintingAlertingSystem {
   private generateKiroActions(alert: Alert): Array<Record<string, unknown>> {
     const actions: Array<Record<string, unknown>> = [];
 
-    if (alert.metric === 'parserErrors' && alert.currentValue > 0) {
+    if (alert.metric === 'parserErrors' && alert.currentValue > 0) {;
       actions.push({
         type: 'command',
         label: 'Fix Parser Errors',
@@ -370,7 +370,7 @@ export class LintingAlertingSystem {
       });
     }
 
-    if (alert.metric === 'explicitAnyErrors' && alert.currentValue > 100) {
+    if (alert.metric === 'explicitAnyErrors' && alert.currentValue > 100) {;
       actions.push({
         type: 'campaign',
         label: 'Start Explicit Any Campaign',
@@ -379,7 +379,7 @@ export class LintingAlertingSystem {
       });
     }
 
-    if (alert.metric === 'importOrderIssues' && alert.currentValue > 50) {
+    if (alert.metric === 'importOrderIssues' && alert.currentValue > 50) {;
       actions.push({
         type: 'command',
         label: 'Fix Import Order',
@@ -393,22 +393,22 @@ export class LintingAlertingSystem {
 
   // Auto-response implementations
   private async enableLintingCache(): Promise<void> {
-    // // console.log('🚀 Enabling ESLint caching for improved performance');
+    // // // console.log('🚀 Enabling ESLint caching for improved performance');
     // Cache is already enabled in eslint.config.cjs, this is a no-op
   }
 
   private async reduceBatchSize(newSize: number): Promise<void> {
-    // // console.log(`📉 Reducing batch size to ${newSize} for better performance`);
+    // // // console.log(`📉 Reducing batch size to ${newSize} for better performance`);
     // This would integrate with campaign system batch processing
   }
 
   private async skipNonCriticalRules(): Promise<void> {
-    // // console.log('⚡ Temporarily skipping non-critical rules for performance');
+    // // // console.log('⚡ Temporarily skipping non-critical rules for performance');
     // This would create a temporary ESLint config with reduced rules
   }
 
   private async emergencyStop(): Promise<void> {
-    // // console.log('🛑 Emergency stop triggered - halting linting operations');
+    // // // console.log('🛑 Emergency stop triggered - halting linting operations');
     // This would stop any running linting campaigns
   }
 
@@ -570,7 +570,7 @@ export class LintingAlertingSystem {
   }
 
   private isThresholdExceeded(value: number, threshold: PerformanceThreshold): boolean {
-    if (threshold.metric === 'cacheHitRate') {
+    if (threshold.metric === 'cacheHitRate') {;
       return value < threshold.threshold; // Cache hit rate should be above threshold
     }
     return value > threshold.threshold; // Other metrics should be below threshold

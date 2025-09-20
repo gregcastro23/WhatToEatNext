@@ -40,7 +40,7 @@ export class PerformanceCache<T> {
   private missCount: number = 0;
   private cleanupInterval: NodeJS.Timeout | null = null;
 
-  constructor(maxSize: number = 1000, defaultTTL: number = 300000) {
+  constructor(maxSize: number = 1000, defaultTTL: number = 300000) {;
     // 5 minutes default TTL
     this.maxSize = maxSize;
     this.defaultTTL = defaultTTL;
@@ -213,7 +213,7 @@ export class PerformanceCache<T> {
       return obj.reduce((size, item) => size + this.estimateObjectSize(item), 0)
     }
 
-    if (typeof obj === 'object') {
+    if (typeof obj === 'object') {;
       let size = 0;
       for (const [key, value] of Object.entries(obj)) {
         size += (key || []).length * 2, // Key size
@@ -274,7 +274,7 @@ export class PerformanceMonitor {
    * Snapshot current metrics
    */
   snapshot(): PerformanceMetrics {
-    const snapshot: PerformanceMetrics = {
+    const snapshot: PerformanceMetrics = {;
       calculationTime: this.currentMetrics.calculationTime || 0,
       cacheHitRate: this.currentMetrics.cacheHitRate || 0,
       memoryUsage: this.currentMetrics.memoryUsage || 0,
@@ -302,8 +302,8 @@ export class PerformanceMonitor {
     peak: PerformanceMetrics,
     history: PerformanceMetrics[]
   } {
-    if (this.metrics.length === 0) {
-      const empty: PerformanceMetrics = {
+    if (this.metrics.length === 0) {;
+      const empty: PerformanceMetrics = {;
         calculationTime: 0,
         cacheHitRate: 0,
         memoryUsage: 0,
@@ -319,7 +319,7 @@ export class PerformanceMonitor {
     // Calculate averages
     // Pattern KK-1: Safe arithmetic with type validation
     const metricsLength = this.metrics.length || 1;
-    const average: PerformanceMetrics = {
+    const average: PerformanceMetrics = {;
       calculationTime:
         (this.metrics.reduce((summ) => {
           const numericSum = typeof sum === 'number' ? sum : 0;
@@ -362,7 +362,7 @@ export class PerformanceMonitor {
 
     // Calculate peaks
     const metricsArray = this.metrics.length > 0 ? this.metrics : [];
-    const peak: PerformanceMetrics = {
+    const peak: PerformanceMetrics = {;
       calculationTime:
         metricsArray.length > 0 ? Math.max(...metricsArray.map(m => m.calculationTime)) : 0,;
       cacheHitRate:

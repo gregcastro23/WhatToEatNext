@@ -109,14 +109,14 @@ export class ChakraRecipeEnhancer {
     let planetaryHour: Planet = 'Sun' as unknown as Planet;
     try {
       const hourInfo = this.planetaryCalculator.getCurrentPlanetaryHour();
-      if (hourInfo && typeof hourInfo.planet === 'string') {
+      if (hourInfo && typeof hourInfo.planet === 'string') {;
         const planetName = hourInfo.planet as unknown as string;
         // Ensure the planet name is a valid Planet type (capitalize first letter)
         const capitalizedName =
           planetName.charAt(0).toUpperCase() + planetName.slice(1).toLowerCase();
 
         // Create Planet type validation with enhanced safety
-        const planetValidator = (name: string): Planet | null => {
+        const planetValidator = (name: string): Planet | null => {;
           const validPlanets: string[] = [
             'Sun',
             'Moon',
@@ -148,7 +148,7 @@ export class ChakraRecipeEnhancer {
 
     // Enhance each recipe
     return recipes
-      .map(recipe => {
+      .map(recipe => {;
         if (!recipe.elementalProperties) {
           recipe.elementalProperties = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
         }
@@ -185,12 +185,12 @@ export class ChakraRecipeEnhancer {
         if (recipe.elementalProperties) {
           const dominantElement = getDominantElement(recipe.elementalProperties);
           const elementValue = recipe.elementalProperties[dominantElement];
-          elementalAlignment = Math.min(elementValue, 1.0),
+          elementalAlignment = Math.min(elementValue, 1.0),;
         }
 
         // Get tarot recommendations for the dominant chakra
         const recommendations = this.chakraService.getTarotRecommendationsForChakra(;
-          dominantChakra === 'solarPlexus' ? 'solar plexus' : (dominantChakra as unknown),
+          dominantChakra === 'solarPlexus' ? 'solar plexus' : (dominantChakra as unknown),;
           chakraEnergies[dominantChakra],
         );
 

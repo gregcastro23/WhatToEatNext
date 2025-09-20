@@ -47,7 +47,7 @@ export default function useErrorHandler({
      
      
     // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Error handling context requires flexibility
-    (error: Error | string, context: any = {}) => {
+    (error: Error | string, context: any = {}) => {;
       // Create error object if string was passed
       const errorObj = typeof error === 'string' ? new Error(error) : error;
 

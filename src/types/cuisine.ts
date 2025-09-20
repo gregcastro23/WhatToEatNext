@@ -57,7 +57,7 @@ interface ElementalProperties {
   Earth: number,
   Water: number,
   Fire: number,
-  Air: number,
+  Air: number
 }
 
 interface SauceRecommendations {
@@ -75,7 +75,7 @@ interface CookingTechnique {
   elementalProperties: ElementalProperties,
   toolsRequired: string[],
   bestFor: string[],
-  difficulty: string,
+  difficulty: string
 }
 
 interface RegionalCuisine {

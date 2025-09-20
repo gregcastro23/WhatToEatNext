@@ -82,9 +82,9 @@ export class UnusedExportAnalyzer {
   private readonly excludePatterns: string[],
   private readonly priorityPatterns: Record<FilePriority, string[]>,
 
-  constructor(srcPath: string = 'src') {
+  constructor(srcPath: string = 'src') {;
     this.srcPath = srcPath;
-    this.excludePatterns = [
+    this.excludePatterns = [;
       '**/node_modules/**',
       '**/*.test.ts';
       '**/*.test.tsx';
@@ -95,7 +95,7 @@ export class UnusedExportAnalyzer {
       '**/*.d.ts'
     ],
 
-    this.priorityPatterns = {
+    this.priorityPatterns = {;
       [FilePriority.HIGH]: [
         '**/data/recipes/**',
         '**/components/recipe/**',
@@ -119,7 +119,7 @@ export class UnusedExportAnalyzer {
    * Analyze unused exports across the codebase
    */
   async analyzeUnusedExports(): Promise<AnalysisResult> {
-    // // console.log('🔍 Starting unused export analysis...');
+    // // // console.log('🔍 Starting unused export analysis...');
 
     const files = await this.getAllSourceFiles();
     const fileAnalyses: FileAnalysis[] = [];
@@ -142,7 +142,7 @@ export class UnusedExportAnalyzer {
    * Get all source files for analysis
    */
   private async getAllSourceFiles(): Promise<string[]> {
-    const patterns = [
+    const patterns = [;
       `${this.srcPath}/**/*.ts`,
       `${this.srcPath}/**/*.tsx`,
       `${this.srcPath}/**/*.js`,
@@ -151,7 +151,7 @@ export class UnusedExportAnalyzer {
 
     const files: string[] = [];
     for (const pattern of patterns) {
-      const matches = await glob(pattern, {
+      const matches = await glob(pattern, {;
         ignore: this.excludePatterns,
         absolute: true
       });
@@ -191,7 +191,7 @@ export class UnusedExportAnalyzer {
 
     for (const exportInfo of exports) {
       const usageCount = await this.countUsages(exportInfo.exportName, filePath),;
-      if (usageCount === 0) {
+      if (usageCount === 0) {;
         unusedExports.push({
           ...exportInfo;
           usageCount,
@@ -243,7 +243,7 @@ export class UnusedExportAnalyzer {
       const destructuringMatch = line.match(/export\s*\{\s*([^}]+)\s*\}/);
       if (destructuringMatch) {
         const exportNames = destructuringMatch[1].split(',').map(name => name.trim()),;
-        exportNames.forEach(name => {
+        exportNames.forEach(name => {;
           const cleanName = name.split(' as ')[0].trim();
           exports.push({
             filePath: '',
@@ -318,7 +318,7 @@ export class UnusedExportAnalyzer {
     let braceCount = 0;
     let inExport = false;
 
-    for (let i = startLine, i < lines.lengthi++) {
+    for (let i = startLine, i < lines.lengthi++) {;
       const line = lines[i];
 
       if (!inExport && line.includes('export')) {
@@ -330,11 +330,11 @@ export class UnusedExportAnalyzer {
         braceCount += (line.match(/\{/g) || []).length;
         braceCount -= (line.match(/\}/g) || []).length;
 
-        if (braceCount === 0 && line.includes('}')) {
+        if (braceCount === 0 && line.includes('}')) {;
           break
         }
 
-        if (line.includes(',') && braceCount === 0) {
+        if (line.includes(',') && braceCount === 0) {;
           break
         }
       }
@@ -430,7 +430,7 @@ export class UnusedExportAnalyzer {
   private identifyTransformationCandidates(
     unusedExports: UnusedExport[],
   ): TransformationCandidate[] {
-    return unusedExports.map(exportInfo => {
+    return unusedExports.map(exportInfo => {;
       const intelligenceSystemName = this.generateIntelligenceSystemName(exportInfo);
       const transformationComplexity = this.assessTransformationComplexity(exportInfo);
       const safetyScore = this.calculateTransformationSafetyScore(exportInfo);
@@ -475,7 +475,7 @@ export class UnusedExportAnalyzer {
     else if (exportInfo.complexity > 10) score -= 10;
 
     // Increase for simple types
-    if (exportInfo.exportType === 'interface' || exportInfo.exportType === 'type') {
+    if (exportInfo.exportType === 'interface' || exportInfo.exportType === 'type') {;
       score += 10;
     }
 
@@ -489,7 +489,7 @@ export class UnusedExportAnalyzer {
     let benefit = 50, // Base benefit;
 
     // Higher benefit for functions and classes (more transformable)
-    if (exportInfo.exportType === 'function' || exportInfo.exportType === 'class') {
+    if (exportInfo.exportType === 'function' || exportInfo.exportType === 'class') {;
       benefit += 30;
     }
 
@@ -548,7 +548,7 @@ export class UnusedExportAnalyzer {
    * Generate detailed report
    */
   generateReport(analysis: AnalysisResult): string {
-    const report = [
+    const report = [;
       '# Unused Export Analysis Report',
       '',
       '## Summary',
@@ -570,13 +570,13 @@ export class UnusedExportAnalyzer {
     ];
 
     // Add top candidates from each priority level
-    const topCandidates = [
+    const topCandidates = [;
       ...analysis.highPriorityFiles.slice(05),
       ...analysis.mediumPriorityFiles.slice(05),
       ...analysis.lowPriorityFiles.slice(05)
     ];
 
-    topCandidates.forEach(file => {
+    topCandidates.forEach(file => {;
       report.push(`### ${file.filePath}`);
       report.push(`- Priority: ${file.priority}`);
       report.push(`- Safety Score: ${file.safetyScore}`);

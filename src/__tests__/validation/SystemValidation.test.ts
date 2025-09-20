@@ -80,9 +80,9 @@ describe('System Validation - Task 11.2', () => {
       expect(ELEMENTAL_COMPATIBILITY.Air.Air).toBeGreaterThanOrEqual(0.9);
 
       // Check no opposing elements (all combinations ≥ 0.7)
-      Object.values(ELEMENTAL_COMPATIBILITY).forEach(elementRow => {
-        if (elementRow && typeof elementRow === 'object') {
-          Object.values(elementRow).forEach(compatibility => {
+      Object.values(ELEMENTAL_COMPATIBILITY).forEach(elementRow => {;
+        if (elementRow && typeof elementRow === 'object') {;
+          Object.values(elementRow).forEach(compatibility => {;
             expect(compatibility).toBeGreaterThanOrEqual(0.7);
           });
         }
@@ -148,13 +148,13 @@ describe('System Validation - Task 11.2', () => {
   describe('9. Integration Systems', () => {
     test('Campaign system integration exists', () => {
       // Check if campaign system files exist
-      const campaignFiles: any = [
+      const campaignFiles: any = [;
         '../../services/campaign/CampaignController',
         '../../services/campaign/ProgressTracker',
-        '../../services/campaign/SafetyProtocol',
+        '../../services/campaign/SafetyProtocol'
       ];
 
-      campaignFiles.forEach(file => {
+      campaignFiles.forEach(file => {;
         expect(() => require(file)).not.toThrow();
       });
     });
@@ -167,16 +167,16 @@ describe('System Validation - Task 11.2', () => {
   describe('10. Final System Validation', () => {
     test('All critical paths are accessible', () => {
       // Test that all main application entry points work
-      const criticalModules: any = [
+      const criticalModules: any = [;
         '../../utils/logger',
         '../../utils/steeringFileIntelligence',
         '../../hooks/useStatePreservation',
         '../../components/layout/MainPageLayout',
         '../../contexts/AlchemicalContext',
-        '../../utils/errorHandling',
+        '../../utils/errorHandling'
       ];
 
-      criticalModules.forEach(module => {
+      criticalModules.forEach(module => {;
         expect(() => require(module)).not.toThrow();
       });
     });

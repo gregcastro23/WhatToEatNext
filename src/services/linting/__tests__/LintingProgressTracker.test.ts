@@ -36,7 +36,7 @@ describe('LintingProgressTracker', () => {
 
   describe('collectMetrics', () => {
     test('should collect and parse linting metrics successfully', async () => {
-      const mockLintOutput: any = JSON.stringify([
+      const mockLintOutput: any = JSON.stringify([;
         {
           filePath: '/test/file1.ts',
           messages: [
@@ -113,7 +113,7 @@ describe('LintingProgressTracker', () => {
         }
       };
 
-      const mockPreviousMetrics: LintingMetrics = {
+      const mockPreviousMetrics: LintingMetrics = {;
         ...mockCurrentMetrics;
         totalIssues: 80,
         errors: 15,
@@ -176,7 +176,7 @@ describe('LintingProgressTracker', () => {
 
   describe('integrateCampaignProgress', () => {
     test('should integrate with campaign system successfully', async () => {
-      const campaignData: any = {
+      const campaignData: any = {;
         campaignId: 'test-campaign',
         phase: 'phase-1',
         targetReduction: 100,
@@ -185,7 +185,7 @@ describe('LintingProgressTracker', () => {
         safetyProtocols: ['backup', 'validate']
       };
 
-      const mockReport: LintingProgressReport = { currentMetrics: {
+      const mockReport: LintingProgressReport = { currentMetrics: {;
           timestamp: new Date(),
           totalIssues: 25,
           errors: 2,
@@ -246,7 +246,7 @@ describe('LintingProgressTracker', () => {
       // Intentionally any: Jest spy requires access to private method for testing
       jest.spyOn(tracker as unknown, 'getLatestMetrics').mockReturnValue(mockMetrics);
 
-      const thresholds: any = {
+      const thresholds: any = {;
         maxErrors: 0,
         maxWarnings: 50,
         maxExecutionTime: 60000
@@ -274,7 +274,7 @@ describe('LintingProgressTracker', () => {
 
       jest.spyOn(tracker as unknown, 'getLatestMetrics').mockReturnValue(mockMetrics);
 
-      const thresholds: any = {
+      const thresholds: any = {;
         maxErrors: 0,
         maxWarnings: 50,
         maxExecutionTime: 60000
@@ -288,7 +288,7 @@ describe('LintingProgressTracker', () => {
     test('should handle missing metrics gracefully', () => {
       jest.spyOn(tracker as unknown, 'getLatestMetrics').mockReturnValue(null),
 
-      const thresholds: any = {
+      const thresholds: any = {;
         maxErrors: 0,
         maxWarnings: 50,
         maxExecutionTime: 60000
@@ -302,7 +302,7 @@ describe('LintingProgressTracker', () => {
 
   describe('private methods', () => {
     test('should parse linting output correctly', () => {
-      const mockOutput: any = JSON.stringify([
+      const mockOutput: any = JSON.stringify([;
         {
           filePath: '/test/file.ts',
           messages: [
@@ -346,7 +346,7 @@ describe('LintingProgressTracker', () => {
         }
       };
 
-      const previous: LintingMetrics = {
+      const previous: LintingMetrics = {;
         ...current;
         totalIssues: 100,
         errors: 20,

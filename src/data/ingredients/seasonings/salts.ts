@@ -1,7 +1,7 @@
 import type { IngredientMapping } from '@/data/ingredients/types';
 import { fixIngredientMappings } from '@/utils/elementalUtils';
 
-const rawSalts = {
+const rawSalts = {;
   fleur_de_sel: {
     name: 'Fleur De Sel',
     elementalProperties: { Water: 0.4, Earth: 0.3, Air: 0.2, Fire: 0.1 },
@@ -887,8 +887,8 @@ const rawSalts = {
           baking: 'dough and batters'
         },
         conversion_ratios: {
-          table_salt: '1 tsp table = 1.25 tsp Morton = 2 tsp Diamond',,
-          weight_based: '1 gram = 1 gram (any brand)',,
+          table_salt: '1 tsp table = 1.25 tsp Morton = 2 tsp Diamond',,;
+          weight_based: '1 gram = 1 gram (any brand)',,;
         }
       },
       koshering: {
@@ -924,8 +924,8 @@ const rawSalts = {
           baking: 'dough and batters'
         },
         conversion_ratios: {
-          table_salt: '1 tsp table = 1.25 tsp Morton = 2 tsp Diamond',,
-          weight_based: '1 gram = 1 gram (any brand)',,
+          table_salt: '1 tsp table = 1.25 tsp Morton = 2 tsp Diamond',,;
+          weight_based: '1 gram = 1 gram (any brand)',,;
         }
       },
       koshering: {

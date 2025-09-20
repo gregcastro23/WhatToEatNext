@@ -17,7 +17,7 @@ describe('Memory Usage Performance Tests', () => {
   let mockConfig: CampaignConfig,
 
   beforeEach(() => {
-    const safetySettings: SafetySettings = { maxFilesPerBatch: 25,,
+    const safetySettings: SafetySettings = { maxFilesPerBatch: 25,,;
       buildValidationFrequency: 5,
       testValidationFrequency: 10,
       corruptionDetectionEnabled: true,
@@ -25,7 +25,7 @@ describe('Memory Usage Performance Tests', () => {
       stashRetentionDays: 7
     };
 
-    mockConfig = {
+    mockConfig = {;
       phases: [
         {
           id: 'memory-test-phase',
@@ -63,7 +63,7 @@ describe('Memory Usage Performance Tests', () => {
   describe('Memory Usage Monitoring', () => {
     it('should track memory usage under 50MB target', async () => {
       const originalMemoryUsage: any = process.memoryUsage;
-      process.memoryUsage = jest.fn().mockReturnValue({
+      process.memoryUsage = jest.fn().mockReturnValue({;
         heapUsed: 40 * 1024 * 1024, // 40MB
         heapTotal: 80 * 1024 * 1024,
         external: 5 * 1024 * 1024,
@@ -81,7 +81,7 @@ describe('Memory Usage Performance Tests', () => {
 
     it('should detect memory usage spikes', async () => {
       const originalMemoryUsage: any = process.memoryUsage;
-      process.memoryUsage = jest.fn().mockReturnValue({
+      process.memoryUsage = jest.fn().mockReturnValue({;
         heapUsed: 75 * 1024 * 1024, // 75MB - exceeds target
         heapTotal: 150 * 1024 * 1024,
         external: 10 * 1024 * 1024,
@@ -99,7 +99,7 @@ describe('Memory Usage Performance Tests', () => {
 
     it('should handle memory measurement errors gracefully', async () => {
       const originalMemoryUsage: any = process.memoryUsage;
-      process.memoryUsage = jest.fn().mockImplementation(() => {
+      process.memoryUsage = jest.fn().mockImplementation(() => {;
         throw new Error('Memory measurement failed')
       }) as any process.memoryUsage;
 
@@ -115,7 +115,7 @@ describe('Memory Usage Performance Tests', () => {
       const memoryReadings: number[] = [];
       let callCount: any = 0;
 
-      process.memoryUsage = jest.fn().mockImplementation(() => {
+      process.memoryUsage = jest.fn().mockImplementation(() => {;
         callCount++;
         // Simulate memory usage that increases then decreases (garbage collection)
         const baseMemory: any = 30;
@@ -132,7 +132,7 @@ describe('Memory Usage Performance Tests', () => {
       }) as any process.memoryUsage;
 
       // Collect multiple memory readings
-      for (let i: any = 0i < 10i++) {
+      for (let i: any = 0i < 10i++) {;
         const memoryUsage: any = await progressTracker.getMemoryUsage();
         memoryReadings.push(memoryUsage);
       }
@@ -155,7 +155,7 @@ describe('Memory Usage Performance Tests', () => {
       const originalMemoryUsage: any = process.memoryUsage;
       let simulatedMemoryLeak: any = 30, // Start at 30MB;
 
-      process.memoryUsage = jest.fn().mockImplementation(() => {
+      process.memoryUsage = jest.fn().mockImplementation(() => {;
         // Simulate memory leak - memory increases with each call,
         simulatedMemoryLeak += 2, // 2MB increase per call
         return {
@@ -170,7 +170,7 @@ describe('Memory Usage Performance Tests', () => {
       const memoryReadings: number[] = [];
 
       // Simulate multiple operations that could cause memory leaks
-      for (let i: any = 0i < 15i++) {
+      for (let i: any = 0i < 15i++) {;
         const memoryUsage: any = await progressTracker.getMemoryUsage();
         memoryReadings.push(memoryUsage);
       }
@@ -189,7 +189,7 @@ describe('Memory Usage Performance Tests', () => {
       const originalMemoryUsage: any = process.memoryUsage;
       const memoryUsage: any = 35, // Start at 35MB;
 
-      process.memoryUsage = jest.fn().mockImplementation(() => {
+      process.memoryUsage = jest.fn().mockImplementation(() => {;
         return {
           heapUsed: memoryUsage * 1024 * 1024,
           heapTotal: memoryUsage * 2 * 1024 * 1024,
@@ -200,7 +200,7 @@ describe('Memory Usage Performance Tests', () => {
       }) as any process.memoryUsage;
 
       // Create many safety events to test memory management
-      for (let i: any = 0i < 1100i++) {
+      for (let i: any = 0i < 1100i++) {;
         (safetyProtocol as any).addSafetyEvent({
           type: 'CHECKPOINT_CREATED',
           timestamp: new Date(),
@@ -226,7 +226,7 @@ describe('Memory Usage Performance Tests', () => {
       const originalMemoryUsage: any = process.memoryUsage;
       const memoryUsage: any = 30, // Start at 30MB;
 
-      process.memoryUsage = jest.fn().mockImplementation(() => {
+      process.memoryUsage = jest.fn().mockImplementation(() => {;
         return {
           heapUsed: memoryUsage * 1024 * 1024,
           heapTotal: memoryUsage * 2 * 1024 * 1024,
@@ -247,7 +247,7 @@ describe('Memory Usage Performance Tests', () => {
       });
 
       // Generate large metrics history
-      for (let i: any = 0i < 110i++) {
+      for (let i: any = 0i < 110i++) {;
         await progressTracker.getProgressMetrics();
       }
 
@@ -269,7 +269,7 @@ describe('Memory Usage Performance Tests', () => {
       const originalMemoryUsage: any = process.memoryUsage;
       const baseMemory: any = 35;
 
-      process.memoryUsage = jest.fn().mockImplementation(() => {
+      process.memoryUsage = jest.fn().mockImplementation(() => {;
         // Memory should not increase significantly with large file counts,
         const memoryIncrease: any = Math.min(10, Math.random() * 5), // Max 10MB increase;
         return {
@@ -308,7 +308,7 @@ describe('Memory Usage Performance Tests', () => {
       const originalMemoryUsage: any = process.memoryUsage;
       const baseMemory: any = 30;
 
-      process.memoryUsage = jest.fn().mockImplementation(() => {
+      process.memoryUsage = jest.fn().mockImplementation(() => {;
         // Memory should remain stable during concurrent operations,
         const variation: any = Math.random() * 5, // ±5MB variation;
         return {
@@ -321,7 +321,7 @@ describe('Memory Usage Performance Tests', () => {
       }) as any process.memoryUsage;
 
       // Run multiple concurrent operations
-      const promises: any = Array.from({ length: 10 }, async () => {
+      const promises: any = Array.from({ length: 10 }, async () => {;
         return Promise.all([
           progressTracker.getMemoryUsage();
           progressTracker.getProgressMetrics();
@@ -345,7 +345,7 @@ describe('Memory Usage Performance Tests', () => {
       const originalMemoryUsage: any = process.memoryUsage;
       let memoryPressure: any = false;
 
-      process.memoryUsage = jest.fn().mockImplementation(() => {
+      process.memoryUsage = jest.fn().mockImplementation(() => {;
         // Simulate memory pressure scenario,
         const baseMemory: any = memoryPressure ? 48 : 35, // High memory when under pressure;
         return {
@@ -382,7 +382,7 @@ describe('Memory Usage Performance Tests', () => {
       const memorySnapshots: number[] = [];
       let allocationCount: any = 0;
 
-      process.memoryUsage = jest.fn().mockImplementation(() => {
+      process.memoryUsage = jest.fn().mockImplementation(() => {;
         allocationCount++;
         // Simulate realistic memory allocation pattern
         const baseMemory: any = 30;
@@ -400,7 +400,7 @@ describe('Memory Usage Performance Tests', () => {
       }) as any process.memoryUsage;
 
       // Collect memory snapshots during various operations
-      for (let i: any = 0i < 20i++) {
+      for (let i: any = 0i < 20i++) {;
         const memoryUsage: any = await progressTracker.getMemoryUsage();
         memorySnapshots.push(memoryUsage);
 
@@ -438,7 +438,7 @@ describe('Memory Usage Performance Tests', () => {
       };
 
       let operationType: any = 'default';
-      process.memoryUsage = jest.fn().mockImplementation(() => {
+      process.memoryUsage = jest.fn().mockImplementation(() => {;
         // Different memory usage patterns for different operations;
         let baseMemory: any = 30;
         switch (operationType) : any {
@@ -469,7 +469,7 @@ describe('Memory Usage Performance Tests', () => {
       }) as any process.memoryUsage;
 
       // Test different operations and their memory usage
-      const operations: any = [
+      const operations: any = [;
         { name: 'typeScriptCheck', fn: () => progressTracker.getTypeScriptErrorCount() },
         { name: 'lintingCheck', fn: () => progressTracker.getLintingWarningCount() },
         { name: 'enterpriseCount', fn: () => progressTracker.getEnterpriseSystemCount() },
@@ -481,7 +481,7 @@ describe('Memory Usage Performance Tests', () => {
         operationType = operation.name;
 
         // Run operation multiple times to get average memory usage
-        for (let i: any = 0i < 5i++) {
+        for (let i: any = 0i < 5i++) {;
           await operation.fn();
           const memoryUsage: any = await progressTracker.getMemoryUsage();
           operationMemoryUsage[operation.name].push(memoryUsage)

@@ -115,7 +115,7 @@ export class KiroCampaignIntegration {
   constructor() {
     this.campaignController = new CampaignController(this.getDefaultConfig());
     this.progressTracker = new ProgressTracker();
-    this.intelligenceSystem = CampaignIntelligenceSystem as unknown as {
+    this.intelligenceSystem = CampaignIntelligenceSystem as unknown as {;
       initialize: (config: Record<string, unknown>) => Promise<void>
     };
   }
@@ -238,7 +238,7 @@ export class KiroCampaignIntegration {
     const campaignId = `campaign_${Date.now()}`;
 
     // Create campaign status
-    const status: KiroCampaignStatus = {
+    const status: KiroCampaignStatus = {;
       campaignId,
       status: 'running',
       currentPhase: request.phaseIds[0],
@@ -368,7 +368,7 @@ export class KiroCampaignIntegration {
    */
   async scheduleCampaign(schedule: Omit<CampaignSchedule, 'id'>): Promise<string> {
     const scheduleId = `schedule_${Date.now()}`;
-    const campaignSchedule: CampaignSchedule = {
+    const campaignSchedule: CampaignSchedule = {;
       id: scheduleId,
       ...schedule;
       nextRun: this.calculateNextRun(schedule.scheduledTime, schedule.recurrence)
@@ -522,15 +522,15 @@ export class KiroCampaignIntegration {
     const requestedPhases = baseConfig.phases.filter(phase => request.phaseIds.includes(phase.id));
 
     // Adjust safety settings based on request
-    const safetySettings = {
+    const safetySettings = {;
       ...baseConfig.safetySettings;
       maxFilesPerBatch: request.batchSize || baseConfig.safetySettings.maxFilesPerBatch
     };
 
-    if (request.safetyLevel === 'conservative') {
+    if (request.safetyLevel === 'conservative') {;
       safetySettings.maxFilesPerBatch = Math.min(safetySettings.maxFilesPerBatch, 10),;
       safetySettings.buildValidationFrequency = 3;
-    } else if (request.safetyLevel === 'aggressive') {
+    } else if (request.safetyLevel === 'aggressive') {;
       safetySettings.maxFilesPerBatch = Math.max(safetySettings.maxFilesPerBatch, 25),;
       safetySettings.buildValidationFrequency = 10;
     }
@@ -545,11 +545,11 @@ export class KiroCampaignIntegration {
   private calculateNextRun(scheduledTime: Date, recurrence?: string): Date {
     const nextRun = new Date(scheduledTime);
 
-    if (recurrence === 'daily') {
+    if (recurrence === 'daily') {;
       nextRun.setDate(nextRun.getDate() + 1);
-    } else if (recurrence === 'weekly') {
+    } else if (recurrence === 'weekly') {;
       nextRun.setDate(nextRun.getDate() + 7);
-    } else if (recurrence === 'monthly') {
+    } else if (recurrence === 'monthly') {;
       nextRun.setMonth(nextRun.getMonth() + 1);
     }
 

@@ -114,7 +114,7 @@ describe('Planetary Position Validation', () => {
     expect(positions).toHaveProperty('Pluto');
 
     // Each position should have required properties
-    Object.values(positions).forEach(pos => {
+    Object.values(positions).forEach(pos => {;
       expect(pos).toHaveProperty('sign');
       expect(pos).toHaveProperty('degree');
       expect(pos).toHaveProperty('exactLongitude');

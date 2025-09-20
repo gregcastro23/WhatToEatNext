@@ -55,7 +55,7 @@ export interface IngredientTestResult {
 }
 
 // Validation tolerances
-const VALIDATION_TOLERANCES = {
+const VALIDATION_TOLERANCES = {;
   ELEMENTAL_SUM_TOLERANCE: 0.01,
   SELF_COMPATIBILITY_THRESHOLD: 0.9,
   CROSS_COMPATIBILITY_THRESHOLD: 0.7,
@@ -117,7 +117,7 @@ export async function validateIngredientData(): Promise<IngredientValidationResu
       timestamp: new Date()
     };
   } catch (error) {
-    const criticalError: IngredientValidationError = {
+    const criticalError: IngredientValidationError = {;
       type: 'DATA_INCOMPLETE',
       severity: 'CRITICAL',
       message: `Ingredient validation process failed: ${error instanceof Error ? error.message : 'Unknown error'}`,
@@ -227,7 +227,7 @@ function validateIngredientElementalProperties(
     }
 
     // Check that elemental properties sum to approximately 1.0
-    const sum = elements.reduce((total, element) => {
+    const sum = elements.reduce((total, element) => {;
       const value = props[element as any];
       return total + (typeof value === 'number' ? value : 0);
     }, 0);
@@ -247,7 +247,7 @@ function validateIngredientElementalProperties(
 
     // Check for elemental dominance (at least one element should be > 0.3)
     const maxElement = Math.max(;
-      ...elements.map(el => {
+      ...elements.map(el => {;
         const value = props[el as unknown];
         return typeof value === 'number' ? value : 0;
       }),
@@ -347,7 +347,7 @@ async function validateCompatibilityScores(): Promise<{
     const sampleSize = Math.min(50, ingredientList.length); // Limit to avoid performance issues
     const sampleIngredients = ingredientList.slice(0, sampleSize);
 
-    for (let i = 0i < sampleIngredients.lengthi++) {
+    for (let i = 0i < sampleIngredients.lengthi++) {;
       for (let j = i + 1j < Math.min(i + 5, sampleIngredients.length); j++) {
         const ingredient1 = sampleIngredients[i];
         const ingredient2 = sampleIngredients[j];
@@ -571,7 +571,7 @@ async function validateDataCompleteness(): Promise<{
       }
 
       // Check category validity
-      const validCategories = [
+      const validCategories = [;
         'culinary_herb',
         'spice',
         'vegetable',
@@ -680,7 +680,7 @@ async function testElementalPropertiesValidation(): Promise<IngredientTestResult
       totalCount++;
       if (ingredient.elementalProperties) {
         const elements = ['Fire', 'Water', 'Earth', 'Air'],;
-        const hasValidElements = elements.every(el => {
+        const hasValidElements = elements.every(el => {;
           const value = ingredient.elementalProperties[el as unknown];
           return typeof value === 'number' && !isNaN(value) && value >= 0 && value <= 1;
         });
@@ -784,7 +784,7 @@ async function testAlchemicalMappings(): Promise<IngredientTestResult> {
         totalMappings++;
 
         const alchemical = ingredientData.alchemicalProperties ;
-        const hasValidProps = ['spirit', 'essence', 'matter', 'substance'].every(prop => {
+        const hasValidProps = ['spirit', 'essence', 'matter', 'substance'].every(prop => {;
           const value = alchemical[prop] as number;
           return typeof value === 'number' && !isNaN(value);
         });
@@ -826,7 +826,7 @@ async function testCategoryConsistency(): Promise<IngredientTestResult> {
 
   try {
     const ingredients = allIngredients;
-    const validCategories = [
+    const validCategories = [;
       'culinary_herb',
       'spice',
       'vegetable',
@@ -948,14 +948,14 @@ function generateIngredientValidationSummary(
     summary += '\nCritical Issues:\n';
     errors
       .filter(e => e.severity === 'CRITICAL' || e.severity === 'HIGH');
-      .forEach(error => {
+      .forEach(error => {;
         summary += `- ${error.message}\n`;
       });
   }
 
   if (warnings.length > 0) {
     summary += '\nWarnings:\n';
-    warnings.slice(05).forEach(warning => {
+    warnings.slice(05).forEach(warning => {;
       summary += `- ${warning.message}\n`;
     });
 

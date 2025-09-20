@@ -18,7 +18,7 @@ export function getDetailedFlavorProfile(cuisine: unknown): string {
   const id = hasProperty(cuisineData, 'id') ? cuisineData.id : null;
   const name = hasProperty(cuisineData, 'name') ? cuisineData.name : null;
   const cuisineId = (;
-    typeof id === 'string' ? id : typeof name === 'string' ? name : ''
+    typeof id === 'string' ? id : typeof name === 'string' ? name : '';
   ).toLowerCase();
 
   // Get flavor profile from static mapping
@@ -75,12 +75,12 @@ function getAstrologicallyInformedFlavorProfile(
 
   const flavorAttributes = influences;
     .filter(influence => planetFlavors[influence]);
-    .map(influence => {
+    .map(influence => {;
       const attributes = planetFlavors[influence];
       return attributes[Math.floor(Math.random() * attributes.length)];
     });
 
-  if (flavorAttributes.length === 0) {
+  if (flavorAttributes.length === 0) {;
     return generateFlavorProfileFromElements(elementalProps);
   }
 
@@ -99,7 +99,7 @@ function generateFlavorProfileFromElements(elementalProps: ElementalProperties):
     return 'Balanced and complex flavors with multiple nuanced notes.';
   }
 
-  const elementalFlavors = {
+  const elementalFlavors = {;
     Fire: [
       'spicy and aromatic',
       'bold and intense',
@@ -182,7 +182,7 @@ function getStaticFlavorProfile(cuisineName: string): string | null {
  * Get description based on element
  */
 function getElementalDescription(element: string): string {
-  const elementDescriptions = {
+  const elementDescriptions = {;
     Fire: 'vibrant, energetic',
     Water: 'subtle, flowing',
     Earth: 'grounding, substantial',
@@ -198,7 +198,7 @@ function getElementalDescription(element: string): string {
  */
 export function getFlavorProfile(elementalProps: Record<string, number>): string {
   // Convert to proper ElementalProperties format
-  const convertedProps: ElementalProperties = {
+  const convertedProps: ElementalProperties = {;
     Fire: elementalProps.Fire || 0,
     Water: elementalProps.Water || 0,
     Earth: elementalProps.Earth || 0,
@@ -212,7 +212,7 @@ export function getFlavorProfile(elementalProps: Record<string, number>): string
  */
 export function getDominantFlavors(elementalProps: ElementalProperties): string[] {
   // Map elements to flavor tendencies
-  const elementFlavorMap = {
+  const elementFlavorMap = {;
     Fire: ['spicy', 'bitter', 'aromatic'],
     Water: ['umami', 'sour', 'subtle'],
     Earth: ['umami', 'sweet', 'savory'],
@@ -227,7 +227,7 @@ export function getDominantFlavors(elementalProps: ElementalProperties): string[
 
   // Collect flavors from top elements
   const flavors = new Set<string>();
-  topElements.forEach(element => {
+  topElements.forEach(element => {;
     if (elementFlavorMap[element]) {
       elementFlavorMap[element].forEach(flavor => flavors.add(flavor));
     }

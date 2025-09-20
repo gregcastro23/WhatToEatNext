@@ -13,7 +13,7 @@ export const molecularCookingMethods: Record<
     commonErrors: string[],
     advancedEquipment: string[],
     texturalOutcomes: string[],
-    thermodynamicProperties: BasicThermodynamicProperties,
+    thermodynamicProperties: BasicThermodynamicProperties
   }
 > = {
   spherification: {

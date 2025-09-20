@@ -59,7 +59,7 @@ describe('UnintentionalAnyProgressTracker', () => {
 
     it('should handle linting command failure gracefully', async () => {
       const error: any = new Error('Linting failed') as unknown;
-      (error as any).stdout = 'src/file1.ts: 10:, 5: warning @typescript-eslint/no-explicit-any',
+      (error as any).stdout = 'src/file1.ts: 10:, 5: warning @typescript-eslint/no-explicit-any',;
       mockExecSync.mockImplementation(() => {
         throw error
       });
@@ -259,13 +259,13 @@ describe('UnintentionalAnyProgressTracker', () => {
 
     it('should generate alerts for high unintentional any count', async () => {
       // Mock high number of explicit-any warnings
-      const mockLintOutput: any = Array(150).fill('src/file.ts: 10:, 5: warning @typescript-eslint/no-explicit-any').join('\n'),
+      const mockLintOutput: any = Array(150).fill('src/file.ts: 10:, 5: warning @typescript-eslint/no-explicit-any').join('\n'),;
       mockExecSync.mockReturnValue(mockLintOutput);
 
       const dashboardMetrics: any = await tracker.getDashboardMetrics();
 
-      const highCountAlert: any = dashboardMetrics.alerts.find(alert =>
-        alert.type === 'high-unintentional-any-count'
+      const highCountAlert: any = dashboardMetrics.alerts.find(alert =>;
+        alert.type === 'high-unintentional-any-count';
       );
       expect(highCountAlert).toBeDefined();
       expect(highCountAlert.severity).toBe('warning');
@@ -310,7 +310,7 @@ describe('UnintentionalAnyCampaignScheduler', () => {
   describe('shouldTriggerCampaign', () => {
     it('should trigger high priority campaign for many unintentional any types', async () => {
       // Mock high number of explicit-any warnings
-      const mockLintOutput: any = Array(250).fill('src/file.ts: 10:, 5: warning @typescript-eslint/no-explicit-any').join('\n'),
+      const mockLintOutput: any = Array(250).fill('src/file.ts: 10:, 5: warning @typescript-eslint/no-explicit-any').join('\n'),;
       const mockExecSync = require('child_process').execSync as jest.MockedFunction<typeof import('child_process').execSync>;
       mockExecSync.mockReturnValue(mockLintOutput);
 
@@ -323,7 +323,7 @@ describe('UnintentionalAnyCampaignScheduler', () => {
 
     it('should trigger medium priority campaign for moderate unintentional any types', async () => {
       // Mock moderate number of explicit-any warnings
-      const mockLintOutput: any = Array(75).fill('src/file.ts: 10:, 5: warning @typescript-eslint/no-explicit-any').join('\n'),
+      const mockLintOutput: any = Array(75).fill('src/file.ts: 10:, 5: warning @typescript-eslint/no-explicit-any').join('\n'),;
       const mockExecSync = require('child_process').execSync as jest.MockedFunction<typeof import('child_process').execSync>;
       mockExecSync.mockReturnValue(mockLintOutput);
 

@@ -38,7 +38,7 @@ export class AnalysisTools {
    * Analyze current any type distribution by domain
    */
   async analyzeDomainDistribution(): Promise<DomainDistribution> {
-    // // console.log('Analyzing any type distribution by domain...');
+    // // // console.log('Analyzing any type distribution by domain...');
 
     const anyTypeOccurrences = await this.findAllAnyTypes();
     const domainDistribution: Record<CodeDomain, number> = {
@@ -88,7 +88,7 @@ export class AnalysisTools {
     }
 
     const totalCount = anyTypeOccurrences.length;
-    const distribution: DomainDistribution = {
+    const distribution: DomainDistribution = {;
       totalAnyTypes: totalCount,
       byDomain: Object.entries(domainDistribution).map(([domain, count]) => ({
         domain: domain as CodeDomain,
@@ -113,7 +113,7 @@ export class AnalysisTools {
       analysisDate: new Date()
     };
 
-    // // console.log(`Domain distribution analysis complete: ${totalCount} any types found`);
+    // // // console.log(`Domain distribution analysis complete: ${totalCount} any types found`);
     return distribution;
   }
 
@@ -121,7 +121,7 @@ export class AnalysisTools {
    * Implement classification accuracy reporting
    */
   async generateClassificationAccuracyReport(): Promise<ClassificationAccuracyReport> {
-    // // console.log('Generating classification accuracy report...');
+    // // // console.log('Generating classification accuracy report...');
 
     const anyTypeOccurrences = await this.findAllAnyTypes();
     const sampleSize = Math.min(100, anyTypeOccurrences.length); // Sample for accuracy testing
@@ -166,7 +166,7 @@ export class AnalysisTools {
         ? confidenceScores.reduce((sum, score) => sum + score0) / confidenceScores.length
         : 0;
 
-    const report: ClassificationAccuracyReport = {
+    const report: ClassificationAccuracyReport = {;
       overallAccuracy,
       averageConfidence,
       sampleSize,
@@ -179,7 +179,7 @@ export class AnalysisTools {
       reportDate: new Date()
     };
 
-    // // console.log(`Classification accuracy report complete: ${overallAccuracy.toFixed(1)}% accuracy`);
+    // // // console.log(`Classification accuracy report complete: ${overallAccuracy.toFixed(1)}% accuracy`);
     return report;
   }
 
@@ -187,7 +187,7 @@ export class AnalysisTools {
    * Add success rate analysis and trending
    */
   async generateSuccessRateAnalysis(): Promise<SuccessRateAnalysis> {
-    // // console.log('Generating success rate analysis and trending...');
+    // // // console.log('Generating success rate analysis and trending...');
 
     const currentMetrics = await this.getCurrentMetrics();
     const historicalData = this.getHistoricalTrendingData();
@@ -198,7 +198,7 @@ export class AnalysisTools {
     // Calculate trending data
     const trendingData = this.calculateTrendingMetrics(historicalData);
 
-    const analysis: SuccessRateAnalysis = {
+    const analysis: SuccessRateAnalysis = {;
       currentSuccessRate: currentMetrics.overallSuccessRate,
       targetSuccessRate: 85, // Target 85% success rate
       improvementNeeded: Math.max(085 - currentMetrics.overallSuccessRate),
@@ -209,7 +209,7 @@ export class AnalysisTools {
       analysisDate: new Date()
     };
 
-    // // console.log(
+    // // // console.log(
       `Success rate analysis complete: ${currentMetrics.overallSuccessRate.toFixed(1)}% current success rate`,
     );
     return analysis;
@@ -219,7 +219,7 @@ export class AnalysisTools {
    * Create recommendations for manual review cases
    */
   async generateManualReviewRecommendations(): Promise<ManualReviewRecommendation[]> {
-    // // console.log('Generating manual review recommendations...');
+    // // // console.log('Generating manual review recommendations...');
 
     const anyTypeOccurrences = await this.findAllAnyTypes();
     const recommendations: ManualReviewRecommendation[] = [];
@@ -230,7 +230,7 @@ export class AnalysisTools {
 
       // Identify cases that need manual review
       if (this.requiresManualReview(classification, context)) {
-        const recommendation: ManualReviewRecommendation = {
+        const recommendation: ManualReviewRecommendation = {;
           filePath: occurrence.filePath,
           lineNumber: occurrence.lineNumber,
           codeSnippet: occurrence.codeSnippet,
@@ -252,7 +252,7 @@ export class AnalysisTools {
       return priorityOrder[b.priority] - priorityOrder[a.priority];
     });
 
-    // // console.log(
+    // // // console.log(
       `Manual review recommendations complete: ${recommendations.length} cases identified`,
     );
     return recommendations;
@@ -262,7 +262,7 @@ export class AnalysisTools {
    * Generate comprehensive analysis report
    */
   async generateComprehensiveReport(): Promise<AnalysisReport> {
-    // // console.log('Generating comprehensive analysis report...');
+    // // // console.log('Generating comprehensive analysis report...');
 
     const [domainDistribution, accuracyReport, successRateAnalysis, manualReviewRecommendations] =
       await Promise.all([
@@ -272,7 +272,7 @@ export class AnalysisTools {
         this.generateManualReviewRecommendations()
       ]),
 
-    const report: AnalysisReport = {
+    const report: AnalysisReport = {;
       id: `analysis-${Date.now()}`,
       timestamp: new Date(),
       domainDistribution,
@@ -294,7 +294,7 @@ export class AnalysisTools {
     this.analysisHistory.push(report);
     await this.saveAnalysisHistory();
 
-    // // console.log('Comprehensive analysis report generated successfully');
+    // // // console.log('Comprehensive analysis report generated successfully');
     return report;
   }
 
@@ -343,7 +343,7 @@ export class AnalysisTools {
       occurrence.lineNumber
     ),
     const hasExistingComment = this.hasExistingComment(surroundingLines);
-    const domainContext = await this.domainAnalyzer.analyzeDomain({
+    const domainContext = await this.domainAnalyzer.analyzeDomain({;
       filePath: occurrence.filePath,
       lineNumber: occurrence.lineNumber,
       codeSnippet: occurrence.codeSnippet,
@@ -385,14 +385,14 @@ export class AnalysisTools {
 
   private hasExistingComment(surroundingLines: string[]): boolean {
     return surroundingLines.some(
-      line =>
+      line =>;
         line.trim().startsWith('//') || line.trim().startsWith('/*') || line.trim().startsWith('*');
     )
   }
 
   private extractComment(surroundingLines: string[]): string {
     const commentLines = surroundingLines.filter(;
-      line =>
+      line =>;
         line.trim().startsWith('//') || line.trim().startsWith('/*') || line.trim().startsWith('*');
     ),
     return commentLines.join(' ').trim();
@@ -405,24 +405,24 @@ export class AnalysisTools {
     // Heuristic validation based on context
 
     // Error handling should be in catch blocks
-    if (classification.category === AnyTypeCategory.ERROR_HANDLING) {
+    if (classification.category === AnyTypeCategory.ERROR_HANDLING) {;
       return context.codeSnippet.includes('catch') || context.codeSnippet.includes('error');
     }
 
     // Test mocks should be in test files
-    if (classification.category === AnyTypeCategory.TEST_MOCK) {
+    if (classification.category === AnyTypeCategory.TEST_MOCK) {;
       return context.isInTestFile;
     }
 
     // Array types should contain array syntax
-    if (classification.category === AnyTypeCategory.ARRAY_TYPE) {
+    if (classification.category === AnyTypeCategory.ARRAY_TYPE) {;
       return (
         context.codeSnippet.includes('any[]') || context.codeSnippet.includes('Array<unknown>')
       )
     }
 
     // Record types should contain Record syntax
-    if (classification.category === AnyTypeCategory.RECORD_TYPE) {
+    if (classification.category === AnyTypeCategory.RECORD_TYPE) {;
       return context.codeSnippet.includes('Record<') && context.codeSnippet.includes('any');
     }
 
@@ -433,7 +433,7 @@ export class AnalysisTools {
   private calculateConfidenceDistribution(
     scores: number[],
   ): { range: string, count: number, percentage: number }[] {
-    const ranges = [
+    const ranges = [;
       { min: 0.9, max: 1.0, label: '90-100%' },
       { min: 0.8, max: 0.9, label: '80-90%' },
       { min: 0.7, max: 0.8, label: '70-80%' },
@@ -441,7 +441,7 @@ export class AnalysisTools {
       { min: 0.0, max: 0.6, label: '0-60%' }
     ],
 
-    return ranges.map(range => {
+    return ranges.map(range => {;
       const count = scores.filter(score => score >= range.min && score < range.max).length;
       return {
         range: range.label;
@@ -469,7 +469,7 @@ export class AnalysisTools {
 
     return this.analysisHistory
       .filter(report => report.timestamp >= thirtyDaysAgo);
-      .map(report => ({
+      .map(report => ({;
         date: report.timestamp,
         successRate: report.successRateAnalysis.currentSuccessRate,
         totalAnyTypes: report.domainDistribution.totalAnyTypes,
@@ -498,7 +498,7 @@ export class AnalysisTools {
   }
 
   private calculateTrendingMetrics(historicalData: TrendingData[]): TrendingData {
-    if (historicalData.length === 0) {
+    if (historicalData.length === 0) {;
       return {
         date: new Date(),
         successRate: 0,
@@ -615,7 +615,7 @@ export class AnalysisTools {
     }
 
     // High-risk categories need manual review
-    const highRiskCategories = [
+    const highRiskCategories = [;
       AnyTypeCategory.EXTERNAL_API;
       AnyTypeCategory.DYNAMIC_CONFIG;
       AnyTypeCategory.LEGACY_COMPATIBILITY

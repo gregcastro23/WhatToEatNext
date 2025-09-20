@@ -10,21 +10,21 @@ import fs from 'fs';
 import { ElementalProperties } from '@/types/celestial';
 
 // Types
-export type PlanetaryPosition = {
+export type PlanetaryPosition = {;
   sign: any,
   degree: number,
   minute: number,
   isRetrograde: boolean
 };
 
-export type ThermodynamicProperties = {
+export type ThermodynamicProperties = {;
   heat: number,
   entropy: number,
   reactivity: number,
   gregsEnergy: number
 };
 
-export type StandardizedAlchemicalResult = {
+export type StandardizedAlchemicalResult = {;
   elementalProperties: ElementalProperties,
   thermodynamicProperties: ThermodynamicProperties,
   kalchm: number,
@@ -166,7 +166,7 @@ export function alchemize(
   planetaryPositions: Record<string, PlanetaryPosition>,
 ): StandardizedAlchemicalResult {
   // Initialize totals
-  const totals = {
+  const totals = {;
     Spirit: 0,
     Essence: 0,
     Matter: 0,
@@ -235,7 +235,7 @@ export function alchemize(
 
   // Reactivity
   const reactivityNum =
-    Math.pow(Spirit, 2) +
+    Math.pow(Spirit, 2) +;
     Math.pow(Substance, 2) +
     Math.pow(Essence, 2) +
     Math.pow(Fire, 2) +
@@ -249,7 +249,7 @@ export function alchemize(
 
   // Kalchm (K_alchm)
   const kalchm =
-    (Math.pow(Spirit, Spirit) * Math.pow(Essence, Essence)) /
+    (Math.pow(Spirit, Spirit) * Math.pow(Essence, Essence)) /;
     (Math.pow(Matter, Matter) * Math.pow(Substance, Substance));
 
   // Monica constant
@@ -266,7 +266,7 @@ export function alchemize(
   const dominantElement = Object.entries(elements).sort((a, b) => b[1] - a[1])[0][0];
 
   // Calculate score based on total energy
-  const score = Math.min(
+  const score = Math.min(;
     1.0,
     Math.max(0.0, (Spirit + Essence + Matter + Substance + Fire + Water + Air + Earth) / 20)
   );

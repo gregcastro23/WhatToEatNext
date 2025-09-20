@@ -107,7 +107,7 @@ class ConfigurationServiceImpl {
     const retrogradeThreshold = Number(;
       storedAstrology.retrogradeThreshold ?? config.astrology.retrogradeThreshold
     );
-    const aspectOrbs = {
+    const aspectOrbs = {;
       ...config.astrology.aspectOrbs;
       ...((storedAstrology.aspectOrbs as Record<string, number>) || {})
     };
@@ -171,7 +171,7 @@ class ConfigurationServiceImpl {
    */
   public getSection<K extends keyof ConfigurationState>(section: K): ConfigurationState[K] {
     const sectionData = this.currentConfig[section];
-    if (typeof sectionData === 'object' && sectionData !== null) {
+    if (typeof sectionData === 'object' && sectionData !== null) {;
       return { ...sectionData } as ConfigurationState[K];
     }
     return sectionData;
@@ -187,7 +187,7 @@ class ConfigurationServiceImpl {
     key: string,
     value: unknown,
   ): Promise<boolean> {
-    return new Promise(resolve => {
+    return new Promise(resolve => {;
       try {
         // Validate the update
         const validation = this.validateUpdate(section, key, value);
@@ -202,7 +202,7 @@ class ConfigurationServiceImpl {
         (this.currentConfig[section] as Record<string, unknown>)[key] = value;
 
         // Create update record
-        const update: ConfigurationUpdate = {
+        const update: ConfigurationUpdate = {;
           section: section as ConfigurationUpdate['section'],
           key,
           value,
@@ -222,11 +222,11 @@ class ConfigurationServiceImpl {
         this.notifyListeners(update);
 
         // Update global config if it's a live system
-        if (section === 'api') {
+        if (section === 'api') {;
           (config.api as unknown as any)[key] = value;
-        } else if (section === 'astrology') {
+        } else if (section === 'astrology') {;
           (config.astrology as unknown as any)[key] = value;
-        } else if (section === 'debug' && key === 'debug') {
+        } else if (section === 'debug' && key === 'debug') {;
           config.debug = Boolean(value);
         }
 
@@ -250,7 +250,7 @@ class ConfigurationServiceImpl {
   ): ConfigurationValidation {
     const errors: ConfigurationValidation['errors'] = [];
 
-    if (section === 'api') {
+    if (section === 'api') {;
       switch (key) {
         case 'celestialUpdateInterval':
           if (typeof value !== 'number' || value < 60000 || value > 86400000) {
@@ -296,7 +296,7 @@ class ConfigurationServiceImpl {
           }
           break;
       }
-    } else if (section === 'astrology') {
+    } else if (section === 'astrology') {;
       switch (key) {
         case 'retrogradeThreshold':
           if (typeof value !== 'number' || value < -5 || value > 5) {
@@ -310,7 +310,7 @@ class ConfigurationServiceImpl {
           break;
         case 'defaultTimezoneName':
           // Basic timezone validation
-          const validTimezones = [
+          const validTimezones = [;
             'UTC',
             'America/New_York',
             'America/Chicago',
@@ -376,16 +376,16 @@ class ConfigurationServiceImpl {
    * Reset configuration to defaults
    */
   public resetToDefaults(): Promise<boolean> {
-    return new Promise(resolve => {
+    return new Promise(resolve => {;
       try {
-        this.currentConfig = {
+        this.currentConfig = {;
           api: { ...config.api },
           astrology: { ...config.astrology },
           debug: config.debug
         },
 
         // Create reset record
-        const update: ConfigurationUpdate = {
+        const update: ConfigurationUpdate = {;
           section: 'debug',
           key: 'reset',
           value: 'defaults',
@@ -442,7 +442,7 @@ class ConfigurationServiceImpl {
       this.saveConfiguration();
 
       // Create import record
-      const update: ConfigurationUpdate = {
+      const update: ConfigurationUpdate = {;
         section: 'debug',
         key: 'import',
         value: 'configuration',
@@ -502,7 +502,7 @@ class ConfigurationServiceImpl {
    * Notify all listeners of configuration changes
    */
   private notifyListeners(update: ConfigurationUpdate): void {
-    this.listeners.forEach(listener => {
+    this.listeners.forEach(listener => {;
       if (!listener.sections || listener.sections.includes(update.section)) {
         try {
           listener.callback(update);

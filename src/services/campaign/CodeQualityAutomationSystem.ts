@@ -104,7 +104,7 @@ export class CodeQualityAutomationSystem {
     const startTime = Date.now();
     logger.info('Starting code quality automation system');
 
-    const result: CodeQualityAutomationResult = {
+    const result: CodeQualityAutomationResult = {;
       overallSuccess: true,
       phasesExecuted: 0,
       phasesSucceeded: 0,
@@ -132,7 +132,7 @@ export class CodeQualityAutomationSystem {
 
       for (const phase of enabledPhases) {
         // Check dependencies
-        const dependenciesMet = await this.checkPhaseDependencies(phase, result.phaseResults),
+        const dependenciesMet = await this.checkPhaseDependencies(phase, result.phaseResults),;
         if (!dependenciesMet) {
           result.warnings.push(`Skipping phase ${phase.name} - dependencies not met`);
           continue;
@@ -213,7 +213,7 @@ export class CodeQualityAutomationSystem {
   ): Promise<PhaseExecutionResult> {
     const startTime = Date.now();
 
-    const phaseResult: PhaseExecutionResult = {
+    const phaseResult: PhaseExecutionResult = {;
       phaseName: phase.name,
       system: phase.system,
       success: false,
@@ -359,7 +359,7 @@ export class CodeQualityAutomationSystem {
     phase: AutomationPhase,
     completedPhases: PhaseExecutionResult[],
   ): Promise<boolean> {
-    if (phase.dependencies.length === 0) {
+    if (phase.dependencies.length === 0) {;
       return true
     }
 
@@ -471,7 +471,7 @@ export class CodeQualityAutomationSystem {
 /**
  * Default configuration for code quality automation
  */
-export const _DEFAULT_CODE_QUALITY_AUTOMATION_CONFIG: CodeQualityAutomationConfig = {
+export const _DEFAULT_CODE_QUALITY_AUTOMATION_CONFIG: CodeQualityAutomationConfig = {;
   importCleanup: DEFAULT_IMPORT_CLEANUP_CONFIG,
   lintingFormatting: DEFAULT_LINTING_FORMATTING_CONFIG,
   dependencySecurity: DEFAULT_DEPENDENCY_SECURITY_CONFIG,

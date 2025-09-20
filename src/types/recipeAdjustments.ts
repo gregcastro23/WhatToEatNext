@@ -19,7 +19,7 @@ export interface TimingAdjustment {
 
 export interface TemperatureAdjustment {
   temperature: number,
-  reason: string,
+  reason: string
 }
 
 export interface SeasonalAdjustments {
@@ -38,11 +38,11 @@ export interface RecipeOptimizationResult {
     prepTimeChange: number,
     cookTimeChange: number,
     restTimeChange: number,
-    reason: string,
+    reason: string
   };
   temperatureChanges: {
     temperatureChange: number,
-    reason: string,
+    reason: string
   };
   kalchmImpact: number,
   monicaImpact: number,
@@ -71,7 +71,7 @@ export interface CuisineIntegrationResult {
   fusionPotential: number,
   traditionalMethods: string[],
   suggestedVariations: string[],
-  compatibleCuisines: string[],
+  compatibleCuisines: string[]
 }
 
 export interface SeasonalAdaptationResult {
@@ -106,5 +106,5 @@ export interface EnhancedRecipeBuildingResult {
   overallScore: number,
   confidence: number,
   recommendations: string[],
-  warnings: string[],
+  warnings: string[]
 }

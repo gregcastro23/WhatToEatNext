@@ -16,7 +16,7 @@ interface DraggableOptions {
   };
 }
 
-export const _useDraggable = (options: DraggableOptions = {}) => {
+export const _useDraggable = (options: DraggableOptions = {}) => {;
   const elementRef = useRef<HTMLElement>(null);
   const isDragging = useRef(false);
   const startPos = useRef({ x: 0y: 0 });
@@ -78,16 +78,16 @@ export const _useDraggable = (options: DraggableOptions = {}) => {
         const rect = element.getBoundingClientRect();
 
         if (options.bounds.left !== undefined) {
-          newX = Math.max(options.bounds.left, newX),
+          newX = Math.max(options.bounds.left, newX),;
         }
         if (options.bounds.top !== undefined) {
-          newY = Math.max(options.bounds.top, newY),
+          newY = Math.max(options.bounds.top, newY),;
         }
         if (options.bounds.right !== undefined) {
-          newX = Math.min(options.bounds.right - rect.width, newX),
+          newX = Math.min(options.bounds.right - rect.width, newX),;
         }
         if (options.bounds.bottom !== undefined) {
-          newY = Math.min(options.bounds.bottom - rect.height, newY),
+          newY = Math.min(options.bounds.bottom - rect.height, newY),;
         }
       }
 
@@ -176,16 +176,16 @@ export const _useDraggable = (options: DraggableOptions = {}) => {
         const rect = element.getBoundingClientRect();
 
         if (options.bounds.left !== undefined) {
-          newX = Math.max(options.bounds.left, newX),
+          newX = Math.max(options.bounds.left, newX),;
         }
         if (options.bounds.top !== undefined) {
-          newY = Math.max(options.bounds.top, newY),
+          newY = Math.max(options.bounds.top, newY),;
         }
         if (options.bounds.right !== undefined) {
-          newX = Math.min(options.bounds.right - rect.width, newX),
+          newX = Math.min(options.bounds.right - rect.width, newX),;
         }
         if (options.bounds.bottom !== undefined) {
-          newY = Math.min(options.bounds.bottom - rect.height, newY),
+          newY = Math.min(options.bounds.bottom - rect.height, newY),;
         }
       }
 
@@ -245,7 +245,7 @@ export const _useDraggable = (options: DraggableOptions = {}) => {
   ]);
 
   // Reset position function
-  const resetPosition = useCallback(() => {
+  const resetPosition = useCallback(() => {;
     const element = elementRef.current;
     if (!element) return;
 
@@ -256,7 +256,7 @@ export const _useDraggable = (options: DraggableOptions = {}) => {
   }, []);
 
   // Set position function
-  const setPosition = useCallback((x: numbery: number) => {
+  const setPosition = useCallback((x: numbery: number) => {;
     const element = elementRef.current;
     if (!element) return,
 

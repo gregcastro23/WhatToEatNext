@@ -6,7 +6,7 @@ export const textureProfiles: Record<
     elementalProperties: ElementalProperties,
     characteristics: string[],
     methods: string[],
-    pairings: string[],
+    pairings: string[]
   }
 > = {
   crispy: {
@@ -14,36 +14,36 @@ export const textureProfiles: Record<
       Fire: 0.5,
       Air: 0.3,
       Earth: 0.2,
-      Water: 0,
+      Water: 0
     },
     characteristics: ['crunchy', 'brittle', 'light'],
     methods: ['frying', 'baking', 'dehydrating'],
-    pairings: ['creamy', 'smooth'],
+    pairings: ['creamy', 'smooth']
   },
   creamy: {
     elementalProperties: {
       Water: 0.5,
       Earth: 0.3,
       Air: 0.2,
-      Fire: 0,
+      Fire: 0
     },
     characteristics: ['smooth', 'rich', 'coating'],
     methods: ['blending', 'emulsifying', 'churning'],
-    pairings: ['crispy', 'crunchy'],
+    pairings: ['crispy', 'crunchy']
   },
   tender: {
     elementalProperties: {
       Water: 0.4,
       Earth: 0.3,
       Fire: 0.2,
-      Air: 0.1,
+      Air: 0.1
     },
     characteristics: ['soft', 'yielding', 'moist'],
     methods: ['braising', 'steaming', 'poaching'],
-    pairings: ['crispy', 'chewy'],
-  },
+    pairings: ['crispy', 'chewy']
+  }
 };
 
-export const _getTextureProfile = (textureName: string) => {
+export const _getTextureProfile = (textureName: string) => {;
   return textureProfiles[textureName] || null;
 };

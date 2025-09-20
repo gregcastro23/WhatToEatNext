@@ -200,7 +200,7 @@ export class AlchemicalTransformationService {
   /**
    * Get alchemical recommendations based on current planetary positions
    */
-  getRecommendations(count = 5): AlchemicalRecommendations {
+  getRecommendations(count = 5): AlchemicalRecommendations {;
     const transformedIngredients = this.getTransformedIngredients();
     const transformedMethods = this.getTransformedCookingMethods();
     const transformedCuisines = this.getTransformedCuisines();
@@ -217,9 +217,9 @@ export class AlchemicalTransformationService {
       topIngredients.length > 0 ? topIngredients[0].dominantAlchemicalProperty : 'Spirit';
 
     // Calculate average energy values across top ingredients
-    const calculateAverage = (items: AlchemicalItem[], property: keyof AlchemicalItem): number => {
+    const calculateAverage = (items: AlchemicalItem[], property: keyof AlchemicalItem): number => {;
       if (items.length === 0) return 0;
-      const sum = items.reduce((acc, item) => acc + (item[property] as number), 0),
+      const sum = items.reduce((acc, item) => acc + (item[property] as number), 0),;
       return parseFloat((sum / items.length).toFixed(2));
     };
 
@@ -241,7 +241,7 @@ export class AlchemicalTransformationService {
    * Analyzes recipes based on their ingredients, cooking methods, and cuisine
    * to find the ones most compatible with the current astrological conditions
    */
-  getOptimizedRecipes(recipes: Recipe[], count = 3): OptimizedRecipeResult[] {
+  getOptimizedRecipes(recipes: Recipe[], count = 3): OptimizedRecipeResult[] {;
     // Get alchemical recommendations to determine optimal elements and properties
     const recommendations = this.getRecommendations();
 
@@ -251,23 +251,23 @@ export class AlchemicalTransformationService {
     const transformedCuisines = this.getTransformedCuisines();
 
     // Create lookup maps for faster access
-    const ingredientMap = new Map<string, AlchemicalItem>(),
-    transformedIngredients.forEach(item => {
+    const ingredientMap = new Map<string, AlchemicalItem>(),;
+    transformedIngredients.forEach(item => {;
       ingredientMap.set(item.name.toLowerCase(), item)
     });
 
     const methodMap = new Map<string, AlchemicalItem>();
-    transformedMethods.forEach(item => {
+    transformedMethods.forEach(item => {;
       methodMap.set(item.name.toLowerCase(), item)
     });
 
     const cuisineMap = new Map<string, AlchemicalItem>();
-    transformedCuisines.forEach(item => {
+    transformedCuisines.forEach(item => {;
       cuisineMap.set(item.name.toLowerCase(), item)
     });
 
     // Score each recipe based on its compatibility with the current planetary conditions
-    const scoredRecipes = recipes.map(recipe => {
+    const scoredRecipes = recipes.map(recipe => {;
       // Base compatibility score
       let compatibility = 0;
 
@@ -275,7 +275,7 @@ export class AlchemicalTransformationService {
       let ingredientMatch = 0;
       let ingredientCount = 0;
 
-      recipe.ingredients.forEach(ingredient => {
+      recipe.ingredients.forEach(ingredient => {;
         const ingredientName = ingredient.name.toLowerCase();
         const alchemicalIngredient = ingredientMap.get(ingredientName);
 
@@ -366,7 +366,7 @@ export class AlchemicalTransformationService {
   getTargetedRecommendations(
     targetElement?: ElementalCharacter,
     targetAlchemicalProperty?: AlchemicalProperty,
-    count = 5
+    count = 5;
   ): AlchemicalRecommendations {
     const transformedIngredients = this.getTransformedIngredients();
     const transformedMethods = this.getTransformedCookingMethods();
@@ -403,9 +403,9 @@ export class AlchemicalTransformationService {
       (topIngredients.length > 0 ? topIngredients[0].dominantAlchemicalProperty : 'Spirit'),
 
     // Calculate average energy values
-    const calculateAverage = (items: AlchemicalItem[], property: keyof AlchemicalItem): number => {
+    const calculateAverage = (items: AlchemicalItem[], property: keyof AlchemicalItem): number => {;
       if (items.length === 0) return 0;
-      const sum = items.reduce((acc, item) => acc + (item[property] as number), 0),
+      const sum = items.reduce((acc, item) => acc + (item[property] as number), 0),;
       return parseFloat((sum / items.length).toFixed(2));
     };
 
@@ -459,7 +459,7 @@ export class AlchemicalTransformationService {
     const astrologicalAffinities = recipeData.astrologicalAffinities as unknown;
     const lunarPhases = (astrologicalAffinities.lunarPhases as string[]) || [];
 
-    if (lunarPhases.length === 0 || !this.lunarPhase) {
+    if (lunarPhases.length === 0 || !this.lunarPhase) {;
       return 0.5;
     }
 
@@ -481,7 +481,7 @@ export class AlchemicalTransformationService {
     const astrologicalAffinities = recipeData.astrologicalAffinities as unknown;
     const signs = (astrologicalAffinities.signs as string[]) || [];
 
-    if (signs.length === 0 || !this.currentZodiac) {
+    if (signs.length === 0 || !this.currentZodiac) {;
       return 0.5;
     }
 

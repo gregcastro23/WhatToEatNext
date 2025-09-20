@@ -123,7 +123,7 @@ export function calculateComprehensiveAspects(
 
           // Check if this is the best aspect so far
           if (!bestAspect || strength > bestAspect.strength) {
-            bestAspect = {
+            bestAspect = {;
               type,
               orb,
               strength

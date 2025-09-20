@@ -128,7 +128,7 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
       }
     ];
 
-    templates.forEach(template => {
+    templates.forEach(template => {;
       const key = `${template.category}_${template.domain}`;
       this.templates.set(key, template);
     });
@@ -257,7 +257,7 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
   async generateReport(): Promise<DocumentationReport> {
     // This would typically scan the entire codebase
     // For nowwe'll return a basic structure
-    const report: DocumentationReport = {
+    const report: DocumentationReport = {;
       totalIntentionalAnyTypes: 0,
       documentedTypes: 0,
       undocumentedTypes: 0,
@@ -487,9 +487,9 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
 
     if (!hasComment) {
       suggestions.push('Add explanatory comment indicating intentional use of any type');
-    } else if (commentQuality === 'poor') {
+    } else if (commentQuality === 'poor') {;
       suggestions.push('Improve comment quality with more detailed explanation');
-    } else if (commentQuality === 'fair') {
+    } else if (commentQuality === 'fair') {;
       suggestions.push('Consider adding more context about why any type is necessary');
     }
 
@@ -499,7 +499,7 @@ export class AutoDocumentationGeneratorImpl implements AutoDocumentationGenerato
       suggestions.push('Add explanation to ESLint disable comment');
     }
 
-    if (suggestions.length === 0) {
+    if (suggestions.length === 0) {;
       suggestions.push('Documentation is complete and well-structured');
     }
 
