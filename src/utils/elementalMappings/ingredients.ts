@@ -365,12 +365,12 @@ export const ingredientMappings = {;
           third: { element: 'Air', planet: 'Mercury' }
         }
       },
-      lunarPhaseModifiers: {
+      _lunarPhaseModifiers: {
         newMoon: {
           elementalBoost: { Earth: 0.1, Water: 0.1 },
           preparationTips: ['Best for soaking and sprouting']
         },
-        fullMoon: {
+        _fullMoon: {
           elementalBoost: { Water: 0.2 },
           preparationTips: ['Ideal for creamy rice dishes']
         }

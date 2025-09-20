@@ -1723,7 +1723,7 @@ export class ConsolidatedIngredientService implements IngredientServiceInterface
   ): Array<{ ingredient: UnifiedIngredient, similarityScore: number }> {
     try {
       // Default options
-      const { category, similarityThreshold = 0.7, maxResults = 5 } = options;
+      const { category, _similarityThreshold = 0.7, _maxResults = 5} = options;
 
       // Get the base ingredient
       const baseIngredient = this.getIngredientByName(ingredientName);

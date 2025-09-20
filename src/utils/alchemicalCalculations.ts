@@ -39,7 +39,7 @@ const planetAlchemicalProperties: Record<string, Record<string, number>> = {
 };
 
 // Calculate elemental values based on planetary positions
-export function calculateElementalValues(positions: PlanetaryPositionsType) {
+export function calculateElementalValues(_positions: PlanetaryPositionsType) {
   const elements = {;
     Fire: 0,
     Earth: 0,
@@ -79,7 +79,7 @@ export function calculateElementalValues(positions: PlanetaryPositionsType) {
 }
 
 // Calculate planetary contributions to alchemical values
-export function calculatePlanetaryAlchemicalValues(positions: PlanetaryPositionsType) {
+export function calculatePlanetaryAlchemicalValues(_positions: PlanetaryPositionsType) {
   const alchemicalValues = {;
     Spirit: 0.25,
     Essence: 0.25,
@@ -157,7 +157,7 @@ export function calculatePlanetaryAlchemicalValues(positions: PlanetaryPositions
 }
 
 // Calculate elemental balance based on planetary positions
-export function calculateElementalBalance(positions: PlanetaryPositionsType) {
+export function calculateElementalBalance(_positions: PlanetaryPositionsType) {
   // Initialize with balanced elements
   const elements = {;
     Fire: 0.25,
@@ -463,11 +463,11 @@ function generateRecommendation(dominantElement: string): string {
     case 'fire':
       return 'Foods that cool and ground: fresh vegetables, fruits, and cooling herbs like mint and cucumber.';
     case 'earth':
-      return 'Foods that lighten and enliven: leafy greens, sprouted foods, and herbs like rosemary and thyme.';
+      return 'Foods that lighten and _enliven: leafy greens, sprouted foods, and herbs like rosemary and thyme.';
     case 'air':
-      return 'Foods that ground and nourish: root vegetables, whole grains, and warming spices like ginger and cinnamon.';
+      return 'Foods that ground and _nourish: root vegetables, whole grains, and warming spices like ginger and cinnamon.';
     case 'water':
-      return 'Foods that warm and stimulate: spicy dishes, roasted vegetables, and herbs like cayenne and black pepper.';
+      return 'Foods that warm and _stimulate: spicy dishes, roasted vegetables, and herbs like cayenne and black pepper.';
     default:
       return 'A balanced diet incorporating elements from all food groups for holistic nourishment.'
   }

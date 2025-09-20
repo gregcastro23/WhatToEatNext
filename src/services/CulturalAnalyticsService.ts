@@ -2,10 +2,10 @@
 // Implements cross-cultural compatibility analysis, cultural synergy scoring,
 // and fusion cuisine recommendations for the CuisineRecommender component
 
-import { culinaryTraditions, CuisineProfile } from '@/data/cuisines/culinaryTraditions';
-import { culturalRules, getCulturalRecommendations } from '@/data/culturalrules';
-import { ElementalProperties, ZodiacSign, LunarPhase } from '@/types/alchemy';
-import { logger } from '@/utils/logger';
+import {culinaryTraditions, _CuisineProfile} from '@/data/cuisines/culinaryTraditions';
+import {culturalRules, _getCulturalRecommendations} from '@/data/culturalrules';
+import {ElementalProperties, _ZodiacSign, LunarPhase} from '@/types/alchemy';
+import {logger} from '@/utils/logger';
 
 // ===== INTERFACES =====;
 
@@ -410,7 +410,7 @@ export class CulturalAnalyticsService {
       return 0.7, // Default compatibility
     }
 
-    const { favorableZodiac } = culinaryTradition.astrologicalProfile;
+    const { _favorableZodiac} = culinaryTradition.astrologicalProfile;
     const isZodiacFavorable = favorableZodiac.includes(astrologicalState.zodiacSign.toLowerCase());
 
     return isZodiacFavorable ? 0.9 : 0.7;

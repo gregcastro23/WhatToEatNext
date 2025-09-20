@@ -37,7 +37,7 @@ export async function getReliablePlanetaryPositions(
       return positionsCache.positions;
     }
 
-    // Primary: Use fallback positions (MCP integration removed)
+    // _Primary: Use fallback positions (MCP integration removed)
     try {
       logger.debug('Using fallback planetary positions (MCP integration removed)');
 
@@ -88,7 +88,7 @@ export async function getReliablePlanetaryPositions(
       // Continue to third API
     }
 
-    // Tertiary: Try TimeAndDate.com API if credentials are available
+    // _Tertiary: Try TimeAndDate.com API if credentials are available
     if (process.env.TIMEANDDATE_API_KEY && process.env.TIMEANDDATE_API_SECRET) {
       try {
         logger.debug('Fetching planetary positions from TimeAndDate.com API');
@@ -257,7 +257,7 @@ function processHorizonsResponse(result: string, planetName: string): unknown {
 /**
  * Convert longitude to zodiac sign
  */
-function getLongitudeToZodiacSign(longitude: number): { sign: string, degree: number } {
+function getLongitudeToZodiacSign(_longitude: number): { sign: string, degree: number } {
   // Normalize longitude to 0-360 range
   const normalized = ((longitude % 360) + 360) % 360;
 
@@ -306,7 +306,7 @@ function calculateLunarNode(date: Date, nodeType: 'northNode' | 'southNode'): un
     const longitude = nodeType === 'northNode' ? (Omega + 180) % 360 : Omega;
 
     // Get zodiac sign
-    const { sign, degree } = getLongitudeToZodiacSign(longitude);
+    const { sign, degree} = getLongitudeToZodiacSign(longitude);
 
     return {
       sign,
@@ -356,7 +356,7 @@ function getMarch2025Positions(date: Date | unknown = new Date()): Record<string
     pluto: { sign: 'aquarius', degree: 3.5, exactLongitude: 333.5, isRetrograde: false },
     northNode: { sign: 'pisces', degree: 26.88, exactLongitude: 356.88, isRetrograde: true },
     southNode: { sign: 'virgo', degree: 26.88, exactLongitude: 176.88, isRetrograde: true },
-    ascendant: { sign: 'libra', degree: 7.82, exactLongitude: 187.82, isRetrograde: false }
+    _ascendant: { sign: 'libra', degree: 7.82, exactLongitude: 187.82, isRetrograde: false }
   };
 
   return positions;
@@ -412,8 +412,8 @@ async function fetchPublicApiData(date: Date): Promise<Record<string, unknown>> 
         uranus: 'Uranus',
         neptune: 'Neptune',
         pluto: 'Pluto',
-        rahu: 'northNode', // Rahu is North Node in Vedic astrology
-        ketu: 'southNode', // Ketu is South Node in Vedic astrology
+        _rahu: 'northNode', // Rahu is North Node in Vedic astrology
+        _ketu: 'southNode', // Ketu is South Node in Vedic astrology
       };
 
       // Process each planet
@@ -427,7 +427,7 @@ async function fetchPublicApiData(date: Date): Promise<Record<string, unknown>> 
           ) {
             const standardName = planetNameMap[planetData.name.toLowerCase()];
             const exactLongitude = parseFloat(planetData.longitude);
-            const { sign, degree } = getLongitudeToZodiacSign(exactLongitude);
+            const { sign, degree} = getLongitudeToZodiacSign(exactLongitude);
 
             positions[standardName] = {
               sign,
@@ -490,7 +490,7 @@ async function fetchPublicApiData(date: Date): Promise<Record<string, unknown>> 
 }
 
 /**
- * Alternative source: Time and Date Astronomy API
+ * Alternative _source: Time and Date Astronomy API
  */
 async function fetchTimeAndDateData(date: Date): Promise<Record<string, unknown>> {
   try {
@@ -551,7 +551,7 @@ async function fetchTimeAndDateData(date: Date): Promise<Record<string, unknown>
             typeof objData.position?.eclipticLongitude === 'number';
           ) {
             const planetName = objData.name.charAt(0).toUpperCase() + objData.name.slice(1);
-            const { sign, degree } = getLongitudeToZodiacSign(objData.position.eclipticLongitude);
+            const { sign, degree} = getLongitudeToZodiacSign(objData.position.eclipticLongitude);
 
             positions[planetName] = {
               sign,

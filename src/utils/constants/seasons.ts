@@ -7,19 +7,19 @@ export const _SEASONAL_PROPERTIES: { [key: string]: ElementalProperties } = {
     Earth: 0.4,
     Fire: 0.2
   },
-  SUMMER: {
+  _SUMMER: {
     Fire: 0.8,
     Air: 0.6,
     Earth: 0.4,
     Water: 0.2
   },
-  AUTUMN: {
+  _AUTUMN: {
     Earth: 0.8,
     Air: 0.6,
     Water: 0.4,
     Fire: 0.2
   },
-  WINTER: {
+  _WINTER: {
     Water: 0.8,
     Earth: 0.6,
     Fire: 0.4,

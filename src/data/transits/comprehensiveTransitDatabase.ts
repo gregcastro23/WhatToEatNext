@@ -8,7 +8,7 @@
  * - Elemental dominance patterns
  */
 
-import { ZodiacSign, CelestialPosition, PlanetaryAspect, AspectType } from '@/types/celestial';
+import {_ZodiacSign, CelestialPosition, PlanetaryAspect, AspectType} from '@/types/celestial';
 
 export interface TransitSeason {
   id: string,

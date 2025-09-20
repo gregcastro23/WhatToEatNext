@@ -18,9 +18,9 @@ import {
   IngredientCompatibilityResult
 } from '@/types/mlIntelligence';
 import { getCurrentSeason } from '@/types/seasons';
-import { Recipe, Ingredient, ZodiacSign } from '@/types/unified';
-import { calculateElementalCompatibility } from '@/utils/elemental/elementalUtils';
-import { logger } from '@/utils/logger';
+import {Recipe, Ingredient, _ZodiacSign} from '@/types/unified';
+import {calculateElementalCompatibility} from '@/utils/elemental/elementalUtils';
+import {logger} from '@/utils/logger';
 
 // Note: These functions are not yet implemented in calculations/index
 // Using placeholder implementations for now

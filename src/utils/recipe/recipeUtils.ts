@@ -334,7 +334,7 @@ export function getSafeRecipeDescription(recipe: Recipe): string {
 /**
  * Converts a Recipe to a ScoredRecipe with optional score
  */
-export function toScoredRecipe(recipe: Recipe, score?: number): ScoredRecipe {
+export function toScoredRecipe(recipe: Recipe, _score?: number): ScoredRecipe {
   if (!recipe) {
     throw new Error('Cannot convert null or undefined recipe to ScoredRecipe');
   }

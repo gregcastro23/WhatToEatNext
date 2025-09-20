@@ -286,7 +286,7 @@ export const useChakraInfluencedFood = (options?: {;
             if (ingredient.thermodynamicProperties) {
               // Use safe type casting for thermodynamic properties
               const thermoData = ingredient.thermodynamicProperties as BasicThermodynamicProperties;
-              const { heat = 0.5, entropy = 0.5, reactivity = 0.5 } = thermoData || {};
+              const { _heat = 0.5, _entropy = 0.5, _reactivity = 0.5} = thermoData || {};
 
               // Crown (Spirit): (+) Heat, (+) Entropy, (+) Reactivity
               if (heat > 0.6 && entropy > 0.6 && reactivity > 0.6) {
@@ -416,7 +416,7 @@ export const useChakraInfluencedFood = (options?: {;
           if (ingredient.thermodynamicProperties) {
             // Use safe type casting for thermodynamic properties
             const thermoData = ingredient.thermodynamicProperties as BasicThermodynamicProperties;
-            const { heat = 0.5, entropy = 0.5, reactivity = 0.5 } = thermoData || {};
+            const { _heat = 0.5, _entropy = 0.5, _reactivity = 0.5} = thermoData || {};
 
             // Apply alchemical energy state rules
             // Crown (Spirit): (+) Heat, (+) Entropy, (+) Reactivity

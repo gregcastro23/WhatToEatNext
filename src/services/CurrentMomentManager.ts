@@ -13,9 +13,9 @@ import {
   getPlanetaryPositionsForDateTime
 } from '@/services/astrologizeApi';
 import { ZodiacSign } from '@/types/alchemy';
-import { PlanetaryPosition, CelestialPosition } from '@/types/celestial';
-import { PlanetPosition } from '@/utils/astrologyUtils';
-import { createLogger } from '@/utils/logger';
+import {_PlanetaryPosition, CelestialPosition} from '@/types/celestial';
+import {PlanetPosition} from '@/utils/astrologyUtils';
+import {createLogger} from '@/utils/logger';
 
 const logger = createLogger('CurrentMomentManager');
 

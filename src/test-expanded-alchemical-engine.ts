@@ -1,7 +1,8 @@
+/* eslint-disable @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any */
 /**
  * Comprehensive Test for Expanded Alchemical Engine
  *
- * This test validates all the new functionality including:
+ * This test validates all the new functionality _including:
  * - Advanced recipe harmony analysis
  * - Kalchm and Monica constant calculations
  * - Thermodynamic alignments
@@ -45,30 +46,30 @@ const testPlanetaryPositions: { [key: string]: CelestialPosition } = {
     sign: 'aries',
     degree: 12.2
   },
-  Jupiter: {
+  _Jupiter: {
     sign: 'pisces',
     degree: 28.9
   },
-  Saturn: {
+  _Saturn: {
     sign: 'aquarius',
     degree: 18.4
   },
-  Uranus: {
+  _Uranus: {
     sign: 'taurus',
     degree: 14.1
   },
-  Neptune: {
+  _Neptune: {
     sign: 'pisces',
     degree: 22.8
   },
-  Pluto: { sign: 'aquarius', degree: 3.0 }
+  _Pluto: { sign: 'aquarius', degree: 3.0 }
 };
 
 const testAstrologicalState: AstrologicalState = {;
   sunSign: 'gemini',
-  moonSign: 'taurus',
-  lunarPhase: 'waxing gibbous',
-  planetaryPositions: testPlanetaryPositions
+  _moonSign: 'taurus',
+  _lunarPhase: 'waxing gibbous',
+  _planetaryPositions: testPlanetaryPositions
 };
 
 const testRecipeElements: ElementalProperties = {;
@@ -87,12 +88,12 @@ const testUserElements: ElementalProperties = {;
 
 const testBirthInfo = {;
   hour: 14,
-  minutes: 30,
+  _minutes: 30,
   day: 15,
-  month: 5,
-  year: 1990,
-  latitude: 40.7128,
-  longitude: -74.006
+  _month: 5,
+  _year: 1990,
+  _latitude: 40.7128,
+  _longitude: -74.006
 };
 
 const testHoroscopeData = {;
@@ -119,8 +120,8 @@ const testHoroscopeData = {;
         ChartPosition: { Ecliptic: { DecimalDegrees: 12.25 } }
       }
     },
-    Ascendant: {},
-    Aspects: {}
+    _Ascendant: {},
+    _Aspects: {}
   }
 };
 
@@ -201,13 +202,13 @@ async function runComprehensiveTests() {
     // Test 5: Natural Influences with Enhanced Precision
     log.info('🌿 Test 5: Natural Influences with Enhanced Precision');
     const naturalInfluences = await alchemicalEngine.calculateNaturalInfluences({;
-      season: 'spring',
-      moonPhase: 'waxing gibbous',
-      timeOfDay: 'day',
+      _season: 'spring',
+      _moonPhase: 'waxing gibbous',
+      _timeOfDay: 'day',
       sunSign: 'gemini',
-      degreesInSign: 4.133,
-      lunarDegree: 5.333,
-      planetaryHour: 'Mercury'
+      _degreesInSign: 4.133,
+      _lunarDegree: 5.333,
+      _planetaryHour: 'Mercury'
     });
     log.info('Natural Influences:', naturalInfluences);
     log.info('✅ Natural influences test completed\n');
@@ -232,7 +233,7 @@ async function runComprehensiveTests() {
     });
     // Check for enhanced properties
     if ('kalchm' in legacyResult) {
-      log.info('Enhanced Thermodynamic Properties:', {
+      log.info('Enhanced Thermodynamic _Properties:', {
         kalchm: (legacyResult ).kalchm?.toFixed(4),
         monicaConstant: (legacyResult ).monicaConstant?.toFixed(6),
         gregsEnergy: (legacyResult ).gregsEnergy?.toFixed(6),
@@ -243,7 +244,7 @@ async function runComprehensiveTests() {
     }
     const elementalState = legacyResultData?.elementalState;
     if (elementalState) {
-      log.info('Elemental Balance:', elementalState)
+      log.info('Elemental _Balance:', elementalState)
     }
     log.info('✅ Legacy alchemize test completed\n');
 
@@ -281,7 +282,7 @@ async function runComprehensiveTests() {
     }
     // Sort by score
     cuisineResults.sort((ab) => parseFloat(b.score) - parseFloat(a.score));
-    log.info('Cuisine Compatibility Rankings:');
+    log.info('Cuisine Compatibility _Rankings:');
     (cuisineResults || []).forEach((result, index) => {
       log.info(
         `${index + 1}. ${result.cuisine}: ${result.score} (confidence: ${result.confidence})`,
@@ -307,14 +308,14 @@ async function runComprehensiveTests() {
     );
     const secondRunTime = Date.now() - cacheStartTime;
     log.info('Performance Results:', {
-      firstRun: `${firstRunTime}ms`,
-      secondRun: `${secondRunTime}ms`,
-      cacheSpeedup: `${(firstRunTime / Math.max(secondRunTime, 1)).toFixed(1)}x faster`
+      _firstRun: `${firstRunTime}ms`,
+      _secondRun: `${secondRunTime}ms`,
+      _cacheSpeedup: `${(firstRunTime / Math.max(secondRunTime, 1)).toFixed(1)}x faster`
     });
     log.info('✅ Performance test completed\n');
 
     log.info('🎉 All Comprehensive Tests Completed Successfully!');
-    log.info('\n📋 Summary:');
+    log.info('\n📋 _Summary:');
     log.info('✅ Basic astro-cuisine matching');
     log.info('✅ Advanced recipe harmony analysis with Kalchm/Monica constants');
     log.info('✅ Enhanced astrological power calculations');

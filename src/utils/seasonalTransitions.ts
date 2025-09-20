@@ -11,10 +11,10 @@ const defaultBalance: ElementalState = {;
 
 // Seasonal modifiers for elemental balance
 const seasonalModifiers: Record<string, Record<string, number>> = {
-  Spring: { Fire: 0.2, Water: 0.1, Earth: 0.0, Air: 0.3 },
-  Summer: { Fire: 0.3, Water: 0.0, Earth: 0.1, Air: 0.2 },
-  Autumn: { Fire: 0.1, Water: 0.2, Earth: 0.3, Air: 0.0 },
-  Winter: { Fire: 0.0, Water: 0.3, Earth: 0.2, Air: 0.1 }
+  _Spring: { Fire: 0.2, Water: 0.1, Earth: 0.0, Air: 0.3 },
+  _Summer: { Fire: 0.3, Water: 0.0, Earth: 0.1, Air: 0.2 },
+  _Autumn: { Fire: 0.1, Water: 0.2, Earth: 0.3, Air: 0.0 },
+  _Winter: { Fire: 0.0, Water: 0.3, Earth: 0.2, Air: 0.1 }
 };
 
 // Base elements for calculations

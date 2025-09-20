@@ -351,7 +351,7 @@ export function ExhaustiveDepsComponent() {
     const rulesOfHooksContent = `;
 import { useState } from 'react';
 
-export function ConditionalHooksComponent({ condition }: { condition: boolean }) {
+export function ConditionalHooksComponent(_{ condition }: { condition: boolean }) {
   if (condition) {
     const [state] = useState(''), // Hooks in conditional - should error
   }
@@ -422,7 +422,7 @@ export function ConditionalHooksComponent({ condition }: { condition: boolean })
       if (fs.existsSync(eslintConfigPath)) {
         // Use dynamic import for CJS module
         const moduleLib = await import('module');
-        const { createRequire } = moduleLib as unknown;
+        const { _createRequire} = moduleLib as unknown;
         const require = createRequire(import.meta.url);
         const eslintConfig = require(eslintConfigPath);
 

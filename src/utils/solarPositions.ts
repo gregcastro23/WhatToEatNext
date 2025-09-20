@@ -59,7 +59,7 @@ export function getSunPosition(
 function getOrbitalPosition(date: Date): number {
   // Days since Jan 1, 2000 (J2000 epoch)
   const daysSinceJ2000 =
-    (date.getTime() - new Date('2000-01-01T12:00:00Z').getTime()) / (1000 * 60 * 60 * 24);
+    (date.getTime() - new Date('2000-01-_01T12:00:00Z').getTime()) / (1000 * 60 * 60 * 24);
 
   // Mean anomaly (in radians)
   const meanAnomaly = ((357.5291 + 0.98560028 * daysSinceJ2000) * Math.PI) / 180;

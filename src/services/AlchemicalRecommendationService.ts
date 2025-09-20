@@ -108,7 +108,7 @@ export class AlchemicalRecommendationService {
     thermodynamics: ThermodynamicProperties,
   ): Promise<UnifiedIngredient[]> {
     // Import the unified scoring service
-    const { scoreRecommendation } = await import('./UnifiedScoringService');
+    const { _scoreRecommendation} = await import('./UnifiedScoringService');
 
     const scoredIngredients = await Promise.all(;
       ingredients.map(async ingredient => {;

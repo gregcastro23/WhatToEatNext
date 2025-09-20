@@ -94,7 +94,7 @@ export function applyTimeOfDayAdjustments(
 /**
  * Get seasonal cooking recommendations
  */
-export function getSeasonalCookingRecommendations(season: string): {
+export function getSeasonalCookingRecommendations(_season: string): {
   cookingMethods: string[],
   ingredients: string[],
   flavors: string[],

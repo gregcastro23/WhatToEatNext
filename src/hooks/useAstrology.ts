@@ -1,10 +1,10 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 
-import { ZodiacSign, LunarPhase, PlanetaryPosition, AstrologicalProfile } from '../types/astrology';
-import { createLogger } from '../utils/logger';
+import {_ZodiacSign, LunarPhase, PlanetaryPosition, AstrologicalProfile} from '../types/astrology';
+import {createLogger} from '../utils/logger';
 import * as safeAstrology from '../utils/safeAstrology';
 
-import { useClientEffect } from './useClientEffect';
+import {useClientEffect} from './useClientEffect';
 
 const logger = createLogger('useAstrology');
 
@@ -51,8 +51,8 @@ const initialAstrologyState: AstrologyState = {;
  * Provides an easy interface for components to get planetary positions,
  * elemental balance, and other astrological information
  */
-export function useAstrology(options: AstrologyOptions = {}) {;
-  const { latitude = null, longitude = null, autoLoad = true, useFallback = false } = options;
+export function useAstrology(_options: AstrologyOptions = {}) {;
+  const { _latitude = null, _longitude = null, _autoLoad = true, _useFallback = false} = options;
 
   // Use ref for date to prevent recreating on each render
   const dateRef = useRef(options.date || new Date());

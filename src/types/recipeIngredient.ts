@@ -26,7 +26,7 @@ export interface RecipeIngredient {
 
   // Astrological profile for recipe context
   astrologicalProfile?: {
-    elementalAffinity: {
+    _elementalAffinity: {
       base: string;
       secondary?: string;
     };
@@ -63,7 +63,7 @@ export interface RecipeIngredient {
   avoidWith?: string[];
 
   // Allow additional properties for extensibility
-  [key: string]: unknown
+  [_key: string]: unknown
 }
 
 /**

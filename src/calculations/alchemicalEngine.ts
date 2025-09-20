@@ -829,7 +829,7 @@ function createElementObject(): ElementalProperties {
  * @param elementObject Elemental property object
  * @returns Object with ranks as keys and element names as values
  */
-function getElementRanking(elementObject: Record<string, number>): Record<number, string> {
+function getElementRanking(elementObject: Record<string, _number>): Record<number, string> {
   try {
     // Check for null/undefined elementObject
     if (!elementObject) {
@@ -880,7 +880,7 @@ function getElementRanking(elementObject: Record<string, number>): Record<number
  * @param elementObject Elemental property object
  * @returns Sum of all element values
  */
-function getAbsoluteElementValue(elementObject: Record<string, number>): number {
+function getAbsoluteElementValue(elementObject: Record<string, _number>): number {
   try {
     if (!elementObject || typeof elementObject !== 'object') {
       return 0
@@ -926,7 +926,7 @@ function combineElementObjects(
  * @param horoscopeDict Horoscope data
  * @returns Alchemical result
  */
-export function alchemize(birthInfo: BirthInfo, horoscopeDict: HoroscopeData): AlchemicalResult {
+export function alchemize(birthInfo: BirthInfo, _horoscopeDict: HoroscopeData): AlchemicalResult {
   try {
     // Validate inputs
     if (!birthInfo || typeof birthInfo !== 'object') {
@@ -1559,7 +1559,7 @@ async function calculateCurrentPlanetaryPositions(): Promise<Record<string, unkn
 
     // **PRIMARY**: Try to use the astrologize API for maximum accuracy
     try {
-      const { fetchPlanetaryPositions } = await import('@/services/astrologizeApi');
+      const { fetchPlanetaryPositions} = await import('@/services/astrologizeApi');
       const astrologizePositions = await fetchPlanetaryPositions();
 
       // Convert astrologize positions to our expected format
@@ -1916,7 +1916,7 @@ export function calculateZodiacEnergies(
  * @param zodiacEnergies Record of zodiac energies
  * @returns Chakra energies
  */
-export function calculateChakraEnergies(zodiacEnergies: Record<string, number>): ChakraEnergies {
+export function calculateChakraEnergies(_zodiacEnergies: Record<string, _number>): ChakraEnergies {
   try {
     // Initialize with default values - ensures all chakras have values
     const chakraEnergies = {;
@@ -2192,7 +2192,7 @@ export default {
  * Safe version of alchemize that makes deep copies of all referenced constants
  * to prevent 'Assignment to constant variable' errors
  */
-function safeAlchemize(birthInfo: BirthInfo, horoscopeDict: HoroscopeData): AlchemicalResult {
+function safeAlchemize(_birthInfo: BirthInfo, _horoscopeDict: HoroscopeData): AlchemicalResult {
   try {
     // Create a deep copy of the actual planetary information
     // JSON.parse/stringify is used for deep cloning, though it has limitations

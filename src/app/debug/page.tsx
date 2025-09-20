@@ -30,7 +30,7 @@ interface TestResult {
   standardRecommendations: Array<{ method: string, compatibility: number }>;
 }
 
-function ClientOnly({ children }: { children: React.ReactNode }) {
+function ClientOnly(_{ children }: { children: React.ReactNode }) {
   const [hasMounted, setHasMounted] = useState(false);
 
   useEffect(() => {

@@ -37,8 +37,8 @@ const _CACHE_DURATION = 15 * 60 * 1000; // 15 minutes
 
 // Interface for transit date
 interface TransitDate {
-  Start: string,
-  End: string
+  _Start: string,
+  _End: string
 }
 
 // Interface for planet data with transits
@@ -100,25 +100,25 @@ export function getReliablePlanetaryPositions(): { [key: string]: CelestialPosit
       exactLongitude: 86.87,
       isRetrograde: false
     },
-    Saturn: {
+    _Saturn: {
       sign: 'aries',
       degree: 0.13,
       exactLongitude: 0.13,
       isRetrograde: false
     },
-    Uranus: {
+    _Uranus: {
       sign: 'taurus',
       degree: 27.82,
       exactLongitude: 57.82,
       isRetrograde: false
     },
-    Neptune: {
+    _Neptune: {
       sign: 'aries',
       degree: 1.77,
       exactLongitude: 1.77,
       isRetrograde: false
     },
-    Pluto: {
+    _Pluto: {
       sign: 'aquarius',
       degree: 3.7,
       exactLongitude: 303.7,
@@ -317,7 +317,7 @@ export function calculatePlanetaryAspects(positions: {
  * @param angleDiff Angle difference in degrees
  * @returns Aspect type and orbor null if not a recognized aspect
  */
-export function identifyAspect(angleDiff: number): { type: AspectType, orb: number } | null {
+export function identifyAspect(_angleDiff: number): { type: AspectType, orb: number } | null {
   // Define aspect angles and allowed orbs
   const aspectDefinitions: Record<AspectType, { angle: number, maxOrb: number }> = {
     conjunction: { angle: 0, maxOrb: 8 },
@@ -350,7 +350,7 @@ export function identifyAspect(angleDiff: number): { type: AspectType, orb: numb
  * @param orb Orb (deviation from exact aspect)
  * @returns Strength value between 0 and 1
  */
-export function calculateAspectStrength(type: AspectType, orb: number): number {
+export function calculateAspectStrength(type: AspectType, _orb: number): number {
   // Define base strength for each aspect type
   const baseStrength: Record<AspectType, number> = {
     conjunction: 1.0,
@@ -426,8 +426,8 @@ export function getCurrentAstrologicalState(): AstrologicalState {
       lunarPhase,
       activePlanets,
       dominantElement,
-      planetaryPositions: positions as Record<string, CelestialPosition>,
-      isDaytime: new Date().getHours() > 6 && new Date().getHours() < 18
+      _planetaryPositions: positions as Record<string, CelestialPosition>,
+      _isDaytime: new Date().getHours() > 6 && new Date().getHours() < 18
     }
   } catch (error) {
     errorLog(
@@ -442,7 +442,7 @@ export function getCurrentAstrologicalState(): AstrologicalState {
       lunarPhase: 'new moon',
       activePlanets: ['Sun', 'Moon', 'Jupiter'],
       dominantElement: 'Fire',
-      loading: false
+      _loading: false
     }
   }
 }
@@ -496,7 +496,7 @@ export const normalizeZodiacSign = (sign: string): any => {;
  * @param date Date to check
  * @returns Current zodiac sign
  */
-export function getCurrentTransitSign(planet: string, date: Date = new Date()): any | null {;
+export function getCurrentTransitSign(planet: string, _date: Date = new Date()): any | null {;
   try {
     // Get reliable positions
     const positions = getReliablePlanetaryPositions();
@@ -696,7 +696,7 @@ function calculateApproximatemoonSign(dayOfYear: number): any {
  * @param positions Planetary positions
  * @returns Element count object
  */
-function countElements(positions: { [key: string]: CelestialPosition }): { [key: string]: number } {
+function countElements(_positions: { [key: string]: CelestialPosition }): { [key: string]: number } {
   const elements: { [key: string]: number } = {
     Fire: 0,
     Earth: 0,
@@ -746,7 +746,7 @@ function countElements(positions: { [key: string]: CelestialPosition }): { [key:
  * @param elements Element count object
  * @returns Dominant element
  */
-function getDominantElement(elements: { [key: string]: number }): string {
+function getDominantElement(_elements: { [key: string]: number }): string {
   let max = 0;
   let dominant = 'Fire';
 

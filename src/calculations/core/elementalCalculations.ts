@@ -810,7 +810,7 @@ export function normalizeElementalProperties(properties: ElementalProperties): E
 /**
  * Get dignity modifier for a planet in a sign
  */
-function getDignityModifier(planet: string, sign: string): number {
+function getDignityModifier(_planet: string, _sign: string): number {
   const dignities: Record<string, Record<string, number>> = {
     Sun: {},
     moon: {},
@@ -869,7 +869,7 @@ export function calculateComprehensiveElementalProperties(
 /**
  * Get elemental recommendations based on properties
  */
-export function getElementalRecommendations(properties: ElementalProperties): {
+export function getElementalRecommendations(_properties: ElementalProperties): {
   dominant: Element,
   balance: number,
   recommendations: string[]

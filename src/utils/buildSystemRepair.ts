@@ -11,7 +11,7 @@ import { NextConfigOptimizer } from './nextConfigOptimizer';
 export class BuildSystemRepair {
   private readonly buildValidator: BuildValidator;
   private readonly configOptimizer: NextConfigOptimizer;
-  private readonly logger: (message: string, ...args: unknown[]) => void;
+  private readonly logger: (message: string, ..._args: unknown[]) => void;
 
   constructor(logger = console.log) {;
     this.buildValidator = new BuildValidator('.next', logger);
@@ -204,7 +204,7 @@ export class BuildSystemRepair {
       // Step 3: Clear node modules and reinstall (if needed)
       if (!fs.existsSync('node_modules')) {
         this.logger('Reinstalling dependencies...');
-        execSync('yarn install', { stdio: 'inherit' });
+        execSync('yarn install', { _stdio: 'inherit' });
       }
 
       // Step 4: Attempt fresh build

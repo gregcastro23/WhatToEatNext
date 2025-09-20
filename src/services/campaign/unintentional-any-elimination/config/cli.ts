@@ -27,7 +27,7 @@ const configManager = new ConfigurationManager();
 /**
  * Display configuration in a readable format
  */
-function displayConfig(config: unknown, title: string = 'Configuration'): void {;
+function displayConfig(_config: unknown, title: string = 'Configuration'): void {;
   // // // console.log(`\n=== ${title} ===`);
   // // // console.log(JSON.stringify(config, null, 2));
 }

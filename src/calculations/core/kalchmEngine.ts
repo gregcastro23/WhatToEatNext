@@ -304,7 +304,7 @@ export function calculateElementalValues(planetaryPositions: {
 /**
  * Get dignity modifier for a planet in a sign
  */
-function getDignityModifier(planet: string, sign: string): number {
+function getDignityModifier(_planet: string, _sign: string): number {
   const dignities: Record<string, Record<string, number>> = {
     Sun: {},
     moon: {},

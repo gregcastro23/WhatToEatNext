@@ -18,7 +18,7 @@ export function getCuisinePAirings(ingredientName: string, category: IngredientC
     case 'culinary_herb':
       return herbCuisineMatrix[ingredientName] || [];
     // Additional categories can be added as their matrix files are created
-    default:
+    _default:
       return []
   }
 }
@@ -33,14 +33,14 @@ export function getIngredientsForCuisine(
   const result: Record<IngredientCategory, string[]> = {
     grain: [],
     culinary_herb: [],
-    spice: [],
-    protein: [],
-    vegetable: [],
-    fruit: [],
-    oil: [],
-    vinegar: [],
-    seasoning: [],
-    dairy: []
+    _spice: [],
+    _protein: [],
+    _vegetable: [],
+    _fruit: [],
+    _oil: [],
+    _vinegar: [],
+    _seasoning: [],
+    _dairy: []
   };
 
   // Process each matrix to find ingredients that pAir with this cuisine

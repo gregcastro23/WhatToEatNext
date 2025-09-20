@@ -159,22 +159,22 @@ export interface IngredientRecommendation {
   duration?: unknown;
   isRetrograde?: boolean;
   sensoryProfile?: {
-    taste: Record<string, number>;
+    _taste: Record<string, number>;
     aroma: Record<string, number>,
     texture: Record<string, number>
   };
   recommendedCookingMethods?: Array<{
     name: string,
     description: string,
-    cookingTime: {
+    _cookingTime: {
       min: number,
       max: number,
-      unit: string
+      _unit: string
     },
-    elementalEffect: Record<string, number>;
+    _elementalEffect: Record<string, number>;
   }>;
   pairingRecommendations?: {
-    complementary: string[],
+    _complementary: string[],
     contrasting: string[]
   };
 }
@@ -371,10 +371,10 @@ export function getRecommendedIngredients(astroState: AstrologicalState): Enhanc
       const ingredientA = a as unknown as BaseIngredient;
       const ingredientB = b as unknown as BaseIngredient;
 
-      let aHasAffinity = ingredientA.astrologicalProfile?.signAffinities?.includes(zodiacSign);
+      const aHasAffinity = ingredientA.astrologicalProfile?.signAffinities?.includes(zodiacSign);
         ? 1
         : 0,
-      let bHasAffinity = ingredientB.astrologicalProfile?.signAffinities?.includes(zodiacSign);
+      const bHasAffinity = ingredientB.astrologicalProfile?.signAffinities?.includes(zodiacSign);
         ? 1
         : 0,
 
@@ -409,7 +409,7 @@ export function getRecommendedIngredients(astroState: AstrologicalState): Enhanc
 export async function getIngredientRecommendations(
   elementalProps: ElementalProperties & {
     timestamp: Date,
-    currentStability: number,
+    _currentStability: number,
     planetaryAlignment: Record<string, { sign: string, degree: number }>;
     zodiacSign: string,
     activePlanets: string[],
@@ -420,9 +420,9 @@ export async function getIngredientRecommendations(
 ): Promise<GroupedIngredientRecommendations> {
   // Enterprise Intelligence Integration - Phase 27 Ingredient Intelligence Systems
   const enterpriseIntelligence = new EnterpriseIntelligenceIntegration({;
-    enableIngredientIntelligence: true,
-    enableValidationIntelligence: true,
-    enableOptimizationRecommendations: true
+    _enableIngredientIntelligence: true,
+    _enableValidationIntelligence: true,
+    _enableOptimizationRecommendations: true
   });
   // Get all ingredients
   const allIngredients = getAllIngredients();
@@ -602,8 +602,8 @@ export async function getIngredientRecommendations(
       astroContext.userPreferences && typeof astroContext.userPreferences === 'object';
         ? (astroContext.userPreferences as {
             dietaryRestrictions: string[],
-            flavorPreferences: string[],
-            culturalPreferences: string[]
+            _flavorPreferences: string[],
+            _culturalPreferences: string[]
           })
         : undefined
   };
@@ -611,7 +611,7 @@ export async function getIngredientRecommendations(
   const enterpriseAnalysis = await enterpriseIntelligence.performEnterpriseAnalysis(;
     undefined, // No recipe data for ingredient-only analysis
     ingredientData as any,
-    { name: 'general', type: 'universal', region: 'global', characteristics: [] }, // Generic cuisine data for ingredient-only analysis
+    { name: 'general', type: 'universal', _region: 'global', _characteristics: [] }, // Generic cuisine data for ingredient-only analysis
     safeAstroContext,
   );
 
@@ -655,7 +655,7 @@ export async function getIngredientRecommendations(
           ...(ingredientIntelligence?.recommendations ?? []).slice(03), // Top 3 enterprise recommendations
           ...((validationIntelligence?.overallValidation?.criticalIssues ?? []).length > 0
             ? [
-                `Validation: ${(validationIntelligence?.overallValidation?.criticalIssues ?? [])[0]}`
+                `_Validation: ${(validationIntelligence?.overallValidation?.criticalIssues ?? [])[0]}`
               ]
             : [])
         ],
@@ -753,8 +753,8 @@ function calculateElementalScore(
   )[0][0] as keyof ElementalProperties;
 
   // Calculate similarity based on overlap of elemental properties
-  let similarityScore = 0;
-  let totalWeight = 0;
+  const similarityScore = 0;
+  const totalWeight = 0;
 
   // Process each element
   for (const element of ['Fire', 'Water', 'Earth', 'Air'] as const) {
@@ -909,9 +909,9 @@ export function calculateElementalInfluences(
     mars: 3,
     jupiter: 2,
     saturn: 2,
-    uranus: 1,
-    neptune: 1,
-    pluto: 1
+    _uranus: 1,
+    _neptune: 1,
+    _pluto: 1
   };
 
   // Initialize elemental influences
@@ -2222,7 +2222,7 @@ function calculateMercuryInfluence(
       adaptable: 1.3,
       versatile: 1.4,
       detailed: 1.2,
-      precise: 1.2
+      _precise: 1.2
     };
 
     for (const quality of ingredient.qualities) {

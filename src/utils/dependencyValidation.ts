@@ -26,7 +26,7 @@ export async function validateImportPath(importPath: string, fromFile: string): 
 /**
  * Check for circular dependencies in a module graph
  */
-export function detectCircularDependencies(moduleGraph: Record<string, string[]>): string[][] {
+export function detectCircularDependencies(_moduleGraph: Record<string, _string[]>): string[][] {
   const visited = new Set<string>();
   const recursionStack = new Set<string>();
   const cycles: string[][] = [];
@@ -198,7 +198,7 @@ export const DEPENDENCY_FIXES = {;
   /**
    * Fix relative import paths
    */
-  fixRelativeImports: (importPath: string, fromDir: string, toDir: string): string => {;
+  _fixRelativeImports: (importPath: string, fromDir: string, toDir: string): string => {;
     // Calculate the relative path from fromDir to toDir using ESM path
     const relativePath = nodePath.relative(fromDir, toDir),;
     return relativePath.startsWith('.') ? relativePath : `./${relativePath}`;
@@ -207,7 +207,7 @@ export const DEPENDENCY_FIXES = {;
   /**
    * Convert barrel import to direct import
    */
-  convertBarrelImport: (importStatement: string): string => {;
+  _convertBarrelImport: (importStatement: string): string => {;
     // Convert 'import { X } from './index'' to 'import { X } from './X''
     return importStatement.replace(/from\s+[''](.*)\/index['']/, 'from '1'');
   },
@@ -215,7 +215,7 @@ export const DEPENDENCY_FIXES = {;
   /**
    * Add missing file extension
    */
-  addFileExtension: (importPath: string, extension: string = '.ts'): string => {;
+  _addFileExtension: (importPath: string, extension: string = '.ts'): string => {;
     if (
       !importPath.endsWith('.ts') &&
       !importPath.endsWith('.tsx') &&
@@ -240,7 +240,7 @@ export async function generateDependencyReport(projectRoot: string): Promise<{
   const fs = await import('fs');
   const path = await import('path');
   const glob = (await import('glob')).default as unknown as {;
-    sync: (pattern: string, options: { cwd: string, ignore: string[] }) => string[];
+    sync: (pattern: string, _options: { cwd: string, ignore: string[] }) => string[];
   };
 
   const tsFiles = glob.sync('**/*.{ts,tsx}', {;
@@ -316,7 +316,7 @@ export function autoFixDependencyIssues(
     return `import {${imports}} from '${basePath}'`;
   });
 
-  // Fix 2: Add missing file extensions for relative imports
+  // Fix _2: Add missing file extensions for relative imports
   const relativeImportRegex = /from\s+[''](\.[^'']*)['']/g;
   fixedContent = fixedContent.replace(relativeImportRegex, (match, importPath) => {;
     if (

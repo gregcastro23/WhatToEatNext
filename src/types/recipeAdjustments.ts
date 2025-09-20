@@ -6,14 +6,14 @@
  */
 
 export interface MethodAdjustment {
-  method: string,
-  adjustment: string,
+  _method: string,
+  _adjustment: string,
   reason: string
 }
 
 export interface TimingAdjustment {
   cookingTime: number,
-  restTime: number,
+  _restTime: number,
   reason: string
 }
 
@@ -24,20 +24,20 @@ export interface TemperatureAdjustment {
 
 export interface SeasonalAdjustments {
   methodAdjustments: MethodAdjustment[],
-  timingAdjustments: TimingAdjustment,
-  temperatureAdjustments: TemperatureAdjustment
+  _timingAdjustments: TimingAdjustment,
+  _temperatureAdjustments: TemperatureAdjustment
 }
 
 export interface RecipeOptimizationResult {
   methodChanges: {
     original: string,
-    adjusted: string,
+    _adjusted: string,
     reason: string
   }[];
   timingChanges: {
     prepTimeChange: number,
-    cookTimeChange: number,
-    restTimeChange: number,
+    _cookTimeChange: number,
+    _restTimeChange: number,
     reason: string
   };
   temperatureChanges: {
@@ -45,18 +45,18 @@ export interface RecipeOptimizationResult {
     reason: string
   };
   kalchmImpact: number,
-  monicaImpact: number,
+  _monicaImpact: number,
   confidence: number
 }
 
 export interface RecipeBuildingContext {
   season: string,
-  astrologicalData: {
+  _astrologicalData: {
     zodiacSign: string,
-    lunarPhase: string,
-    planetaryInfluences: Record<string, number>;
+    _lunarPhase: string,
+    _planetaryInfluences: Record<string, number>;
   };
-  preferences: {
+  _preferences: {
     targetKalchm?: number;
     kalchmTolerance?: number;
     monicaBoost?: boolean;
@@ -67,43 +67,43 @@ export interface RecipeBuildingContext {
 
 export interface CuisineIntegrationResult {
   culturalAuthenticity: number,
-  modernAdaptation: number,
-  fusionPotential: number,
-  traditionalMethods: string[],
-  suggestedVariations: string[],
-  compatibleCuisines: string[]
+  _modernAdaptation: number,
+  _fusionPotential: number,
+  _traditionalMethods: string[],
+  _suggestedVariations: string[],
+  _compatibleCuisines: string[]
 }
 
 export interface SeasonalAdaptationResult {
   seasonalCompatibility: number,
-  ingredientAvailability: Record<string, number>;
-  energeticAlignment: number,
+  _ingredientAvailability: Record<string, number>;
+  _energeticAlignment: number,
   recommendations: string[],
   adjustments: SeasonalAdjustments
 }
 
 export interface MonicaOptimizationResult {
   originalMonica: number,
-  optimizedMonica: number,
-  improvementRatio: number,
-  optimizationTechniques: string[],
-  confidenceScore: number
+  _optimizedMonica: number,
+  _improvementRatio: number,
+  _optimizationTechniques: string[],
+  _confidenceScore: number
 }
 
 export interface EnhancedRecipeBuildingResult {
   baseRecipe: {
     id: string,
-    name: string,
-    cuisine: string,
-    ingredients: unknown[],
-    instructions: string[],
-    metadata: Record<string, unknown>;
+    _name: string,
+    _cuisine: string,
+    _ingredients: unknown[],
+    _instructions: string[],
+    _metadata: Record<string, unknown>;
   };
-  optimizationResult: RecipeOptimizationResult,
-  cuisineIntegration: CuisineIntegrationResult,
-  seasonalAdaptation: SeasonalAdaptationResult,
-  monicaOptimization: MonicaOptimizationResult,
-  overallScore: number,
+  _optimizationResult: RecipeOptimizationResult,
+  _cuisineIntegration: CuisineIntegrationResult,
+  _seasonalAdaptation: SeasonalAdaptationResult,
+  _monicaOptimization: MonicaOptimizationResult,
+  _overallScore: number,
   confidence: number,
   recommendations: string[],
   warnings: string[]

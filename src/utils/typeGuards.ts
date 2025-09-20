@@ -74,21 +74,21 @@ export function hasProperty<T extends string>(obj: unknown, prop: T): obj is Rec
 /**
  * Safe getter for number values with default fallback
  */
-export function safeGetNumber(value: unknown, defaultValue = 0): number {;
+export function safeGetNumber(value: unknown, _defaultValue = 0): number {;
   return typeof value === 'number' && !isNaN(value) ? value : defaultValue;
 }
 
 /**
  * Safe getter for string values with default fallback
  */
-export function safeGetString(value: unknown, defaultValue = ''): string {;
+export function safeGetString(value: unknown, _defaultValue = ''): string {;
   return typeof value === 'string' ? value : defaultValue;
 }
 
 /**
  * Safe getter for boolean values with default fallback
  */
-export function safeGetBoolean(value: unknown, defaultValue = false): boolean {;
+export function safeGetBoolean(value: unknown, _defaultValue = false): boolean {;
   return typeof value === 'boolean' ? value : defaultValue;
 }
 

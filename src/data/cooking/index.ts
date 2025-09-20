@@ -208,7 +208,7 @@ export function getCookingMethodsByTemperature(
  * @param descending Whether to sort in descending order (most sustainable first)
  * @returns Array of cooking methods sorted by sustainability rating
  */
-export function getCookingMethodsBySustainability(descending = true): CookingMethodData[] {;
+export function getCookingMethodsBySustainability(_descending = true): CookingMethodData[] {;
   return Object.values(allCookingMethods)
     .filter(method => {;
       // Apply safe type casting for method property access

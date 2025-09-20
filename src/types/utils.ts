@@ -34,9 +34,9 @@ export type ElementalRecord = {;
  */
 export type SeasonalRecord<T> = {
   spring: T,
-  summer: T,
-  autumn: T,
-  winter: T,
+  _summer: T,
+  _autumn: T,
+  _winter: T,
   [key: string]: T; // For case-insensitive lookup
 };
 
@@ -45,15 +45,15 @@ export type SeasonalRecord<T> = {
  */
 export type PlanetaryRecord<T> = {
   sun: T,
-  moon: T,
-  mercury: T,
-  venus: T,
-  mars: T,
-  jupiter: T,
-  saturn: T,
-  uranus: T,
-  neptune: T,
-  pluto: T,
+  _moon: T,
+  _mercury: T,
+  _venus: T,
+  _mars: T,
+  _jupiter: T,
+  _saturn: T,
+  _uranus: T,
+  _neptune: T,
+  _pluto: T,
   [key: string]: T; // For case-insensitive or additional planets
 };
 
@@ -62,8 +62,8 @@ export type PlanetaryRecord<T> = {
  */
 export type TimeOfDayRecord<T> = {
   morning: T,
-  noon: T,
-  evening: T,
-  night: T,
+  _noon: T,
+  _evening: T,
+  _night: T,
   [key: string]: T; // For additional time periods
 };

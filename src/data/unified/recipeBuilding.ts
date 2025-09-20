@@ -21,8 +21,8 @@ import {
   unifiedCuisineIntegrationSystem,
   type CuisineIngredientAnalysis
 } from './cuisineIntegrations.js';
-import { RecipeEnhancer, type EnhancedRecipe } from './recipes';
-import { SeasonalRecommendations } from './seasonal';
+import {RecipeEnhancer, _type EnhancedRecipe} from './recipes';
+import {SeasonalRecommendations} from './seasonal';
 
 // ===== ENHANCED RECIPE BUILDING INTERFACES =====;
 

@@ -8,7 +8,7 @@ type Props = {;
   className?: string
 };
 
-export function PlanetaryHourCard({ latitude, longitude, className }: Props) {
+export function PlanetaryHourCard(_{ latitude, _longitude, _className }: Props) {
   const calculator = useMemo(;
     () => new PlanetaryHourCalculator(latitude, longitude),
     [latitude, longitude],

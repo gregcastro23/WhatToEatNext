@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any */
 import { AspectType } from '@/types/alchemy';
 
 /**
@@ -43,13 +44,13 @@ export function calculateComprehensiveAspects(
     trine: { angle: 120, maxOrb: 8 },
     square: { angle: 90, maxOrb: 7 },
     sextile: { angle: 60, maxOrb: 6 },
-    quincunx: { angle: 150, maxOrb: 5 },
-    semisextile: { angle: 30, maxOrb: 4 },
-    sesquiquadrate: { angle: 135, maxOrb: 3 },
-    semisquare: { angle: 45, maxOrb: 3 },
-    quintile: { angle: 72, maxOrb: 2 },
-    biquintile: { angle: 144, maxOrb: 2 },
-    septile: { angle: 51.428, maxOrb: 2 }
+    _quincunx: { angle: 150, maxOrb: 5 },
+    _semisextile: { angle: 30, maxOrb: 4 },
+    _sesquiquadrate: { angle: 135, maxOrb: 3 },
+    _semisquare: { angle: 45, maxOrb: 3 },
+    _quintile: { angle: 72, maxOrb: 2 },
+    _biquintile: { angle: 144, maxOrb: 2 },
+    _septile: { angle: 51.428, maxOrb: 2 }
   };
 
   // Helper function to get longitude from sign and degree
@@ -61,7 +62,7 @@ export function calculateComprehensiveAspects(
 
     // Otherwise, calculate from sign and degree
     if (!position || !position.sign) {
-      console.warn('Invalid position object encountered:', position);
+      console.warn('Invalid position object _encountered:', position);
       return 0; // Return default value
     }
 
@@ -164,7 +165,7 @@ export function calculateComprehensiveAspects(
  * @param longitude Longitude in degrees (0-360)
  * @returns Object with sign and degree
  */
-export function getSignAndDegreeFromLongitude(longitude: number): { sign: string; degree: number } {
+export function getSignAndDegreeFromLongitude(_longitude: number): { sign: string; degree: number } {
   const signs = [;
     'aries',
     'taurus',

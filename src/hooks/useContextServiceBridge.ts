@@ -198,7 +198,7 @@ export function createServiceBridge<TS>(
   fetchFunction: (service: S) => Promise<T>,
 ) {
   return function useCustomBridge() {
-    const { isLoading, error, ...services } = useServices();
+    const { isLoading, error, _...services} = useServices();
     const service = services[serviceName as keyof typeof services] as S;
 
     const [data, setData] = useState<T | null>(null);

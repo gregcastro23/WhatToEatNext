@@ -43,7 +43,7 @@ function getUnusedVariables() {
 }
 
 // Fix unused variables by adding an underscore prefix
-function fixUnusedVariables(unusedVars) {
+function fixUnusedVariables(_unusedVars) {
   const processedFiles = new Set();
 
   for (const { filePath, varName, line, column } of unusedVars) {

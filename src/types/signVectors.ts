@@ -5,7 +5,7 @@ import type { PlanetaryAspect, PlanetaryPosition, ZodiacSign } from '@/types/cel
  * Sign vector components capture multi-dimensional expression of a sign
  * - Modality axes: cardinal, fixed, mutable
  * - Elemental axes: Fire, Water, Earth, Air
- * - Seasonal axis: seasonal (alignment with current season)
+ * - Seasonal _axis: seasonal (alignment with current season)
  */
 export interface SignVectorComponents {
   // Modality components
@@ -27,7 +27,7 @@ export type SignDirection = 'cardinal' | 'fixed' | 'mutable';
 
 export interface SignVector {
   sign: any,
-  magnitude: number, // 0-1: intensity of sign expression at the moment
+  _magnitude: number, // 0-1: intensity of sign expression at the moment
   direction: SignDirection; // dominant modality expression
   components: SignVectorComponents; // multi-dimensional breakdown
 }

@@ -80,7 +80,7 @@ export function standardizeIngredient(ingredient: unknown): Ingredient {
     id: String(raw.id || 'unknown'),
     name: String(raw.name || 'Unknown Ingredient'),
     category: String(raw.category || 'other'),
-    subcategory: raw.subCategory ? String(raw.subCategory) : undefined,
+    _subcategory: raw.subCategory ? String(raw.subCategory) : undefined,
     elementalProperties: standardizeElementalProperties(raw.elementalState),
     flavorProfile: standardizeFlavorProfile(raw.flavorProfile),
     nutritionalProfile: standardizeNutritionalProfile(raw.nutritionalProfile),
@@ -430,7 +430,7 @@ function _standardizeAstrologicalProfile(profile: unknown): AstrologicalProfile 
   } as unknown as AstrologicalProfile;
 }
 
-function standardizeFlavorProfile(profile: unknown): { [key: string]: number } {
+function standardizeFlavorProfile(_profile: unknown): { [key: string]: number } {
   if (!profile || typeof profile !== 'object') {
     return {
       sweet: 0,
@@ -454,7 +454,7 @@ function standardizeFlavorProfile(profile: unknown): { [key: string]: number } {
   return result;
 }
 
-function standardizeNutritionalProfile(profile: unknown): { [key: string]: unknown } | undefined {
+function standardizeNutritionalProfile(_profile: unknown): { [key: string]: unknown } | undefined {
   if (!profile || typeof profile !== 'object') {
     return undefined
   }
@@ -508,7 +508,7 @@ function standardizeRecipeIngredients(ingredients: unknown): RecipeIngredient[] 
   });
 }
 
-function standardizeNutritionalInfo(info: unknown): { [key: string]: unknown } | undefined {
+function standardizeNutritionalInfo(_info: unknown): { [key: string]: unknown } | undefined {
   if (!info || typeof info !== 'object') {
     return undefined
   }

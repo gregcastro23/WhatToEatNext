@@ -85,7 +85,7 @@ export function getEnvironmentConfig(environment?: Environment): UnintentionalAn
 /**
  * Deep merge utility function
  */
-function deepMerge(target: unknown, source: unknown): unknown {
+function deepMerge(target: unknown, _source: unknown): unknown {
   const result = { ...target };
 
   for (const key in source) {
@@ -102,7 +102,7 @@ function deepMerge(target: unknown, source: unknown): unknown {
 /**
  * Validate environment configuration
  */
-export function validateEnvironmentConfig(environment: Environment): {
+export function validateEnvironmentConfig(_environment: Environment): {
   isValid: boolean,
   errors: string[],
   warnings: string[]

@@ -100,8 +100,8 @@ export function adaptRecipeData(recipeData: RecipeData): Recipe {
 
     if (energyProfile.planetary) {
       recipe.planetaryInfluences = {;
-        favorable: energyProfile.planetary as string[],
-        unfavorable: [], // ← Pattern GG-6: Added missing unfavorable property
+        _favorable: energyProfile.planetary as string[],
+        unfavorable: [], // ← Pattern GG-_6: Added missing unfavorable property
       };
     }
   }
@@ -248,12 +248,12 @@ export function createScoredRecipe(recipe: Recipe, matchScore: number): ScoredRe
   const scoredRecipe: ScoredRecipe = {;
     ...adaptedRecipe;
     score,
-    alchemicalScores: {
+    _alchemicalScores: {
       elementalScore: 0,
-      zodiacalScore: 0,
-      lunarScore: 0,
-      planetaryScore: 0,
-      seasonalScore: 0
+      _zodiacalScore: 0,
+      _lunarScore: 0,
+      _planetaryScore: 0,
+      _seasonalScore: 0
     }
   };
 
@@ -349,7 +349,7 @@ export function getCookingMethodsFromRecipe(recipeData: RecipeData): string[] {
 /**
  * Creates a recipe with dummy or minimal data for fallback purposes
  */
-export function createMinimalRecipe(name: string): Recipe {
+export function createMinimalRecipe(_name: string): Recipe {
   return {
     id: `minimal-recipe-${Date.now()}`,
     name,

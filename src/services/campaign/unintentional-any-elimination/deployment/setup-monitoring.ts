@@ -203,17 +203,17 @@ function setupMonitoringDirectories(): void {
 /**
  * Create monitoring service
  */
-function createMonitoringService(config: MonitoringConfig): void {
+function createMonitoringService(_config: MonitoringConfig): void {
   const serviceCode = `/**;
  * Unintentional Any Elimination Monitoring Service
  *
  * Auto-generated monitoring service for campaign system.
  */
 
-import { EventEmitter } from 'events';
-import { writeFileSync, appendFileSync, existsSync } from 'fs';
-import { join } from 'path';
-import { execSync } from 'child_process';
+import {EventEmitter} from 'events';
+import {writeFileSync, appendFileSync, existsSync} from 'fs';
+import {join} from 'path';
+import {execSync} from 'child_process';
 
 export interface MetricsData {
   timestamp: Date,
@@ -535,7 +535,7 @@ function createMonitoringDashboard(): void {
  * Simple CLI dashboard to view monitoring status and metrics.
  */
 
-import { monitoringService } from './UnintentionalAnyMonitoringService';
+import {monitoringService} from './UnintentionalAnyMonitoringService';
 
 async function displayDashboard() {
   console.clear();

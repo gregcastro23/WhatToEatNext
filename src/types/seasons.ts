@@ -5,13 +5,13 @@ export interface SeasonalProfile {
   summer: number,
   autumn: number,
   winter: number,
-  [key: string]: number; // Allow indexing with string
+  [_key: string]: number; // Allow indexing with string
 }
 
 export interface SeasonalAdjustment {
   season: Season,
-  effectStrength: number,
-  recommendations: string[]
+  _effectStrength: number,
+  _recommendations: string[]
 }
 
 // ========== MISSING TYPES FOR TS2305 FIXES ==========;
@@ -44,7 +44,7 @@ export interface SeasonalRecommendations {
   };
   general: {
     transitions: string[],
-    balancing: string[]
+    _balancing: string[]
   };
 }
 
@@ -61,14 +61,14 @@ export function getCurrentSeason(): Season {
 
 // recipe type (simple type, causing error in AlchemicalRecommendationService.ts)
 export interface recipe {
-  id: string,
-  name: string,
+  _id: string,
+  _name: string,
   season?: Season | Season[];
   ingredients?: string[];
   elementalProperties?: {
-    Fire: number,
-    Water: number,
-    Earth: number,
+    _Fire: number,
+    _Water: number,
+    _Earth: number,
     Air: number
   };
 }

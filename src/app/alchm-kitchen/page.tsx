@@ -13,7 +13,7 @@ import SignVectorPanel from './SignVectorPanel';
 
 const logger = createLogger('AlchmKitchenPage');
 
-function ClientOnly({ children }: { children: React.ReactNode }) {
+function ClientOnly(_{ children }: { children: React.ReactNode }) {
   const [hasMounted, setHasMounted] = useState(false);
 
   useEffect(() => {

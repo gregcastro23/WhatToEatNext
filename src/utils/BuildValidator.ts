@@ -10,7 +10,7 @@ export class BuildValidator {
   private readonly buildDir: string;
   private readonly serverDir: string;
   private readonly requiredManifests: string[];
-  private readonly logger: (message: string, ...args: unknown[]) => void;
+  private readonly logger: (message: string, ..._args: unknown[]) => void;
 
   constructor(buildDir = '.next', logger = console.log) {;
     this.buildDir = buildDir;
@@ -175,7 +175,7 @@ export class BuildValidator {
 
   /**
    * Attempts to rebuild the application with error recovery
-   * Requirement 3.4: Add build error recovery and retry mechanisms
+   * Requirement 3._4: Add build error recovery and retry mechanisms
    */
   async rebuildWithRecovery(maxRetries = 3): Promise<boolean> {;
     let attempt = 0;
@@ -193,7 +193,7 @@ export class BuildValidator {
 
         // Attempt build
         execSync('yarn build', {
-          stdio: 'pipe',
+          _stdio: 'pipe',
           timeout: 300000, // 5 minute timeout
         });
 
@@ -226,7 +226,7 @@ export class BuildValidator {
   async cleanBuild(): Promise<void> {
     try {
       if (fs.existsSync(this.buildDir)) {
-        fs.rmSync(this.buildDir, { recursive: true, force: true });
+        fs.rmSync(this.buildDir, { recursive: true, _force: true });
         this.logger('Build directory cleaned');
       }
     } catch (error) {
@@ -245,23 +245,23 @@ export class BuildValidator {
       'next-font-manifest.json': {
         pages: {},
         app: {},
-        appUsingSizeAdjust: false,
-        pagesUsingSizeAdjust: false
+        _appUsingSizeAdjust: false,
+        _pagesUsingSizeAdjust: false
       },
       'middleware-manifest.json': {
-        sortedMiddleware: [],
+        _sortedMiddleware: [],
         middleware: {},
-        functions: {},
-        version: 2
+        _functions: {},
+        _version: 2
       },
       'build-manifest.json': {
-        devFiles: [],
-        ampDevFiles: [],
-        polyfillFiles: [],
-        lowPriorityFiles: [],
-        rootMainFiles: [],
+        _devFiles: [],
+        _ampDevFiles: [],
+        _polyfillFiles: [],
+        _lowPriorityFiles: [],
+        _rootMainFiles: [],
         pages: {},
-        ampFirstPages: []
+        _ampFirstPages: []
       },
       'app-build-manifest.json': {
         pages: {}
@@ -313,7 +313,7 @@ export class BuildValidator {
       }
 
       this.logger(
-        `Next.js config validation completed. Valid: ${result.isValid}, Issues: ${result.issues.length}`,
+        `Next.js config validation completed. Valid: ${result.isValid}, _Issues: ${result.issues.length}`,
       );
     } catch (error) {
       result.isValid = false;

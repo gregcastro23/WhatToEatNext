@@ -16,7 +16,7 @@ import type { CookingMethodData } from '@/types/cookingMethod';
 import { capitalizeFirstLetter } from '@/utils/stringUtils';
 
 // Local fallback component to avoid importing test file during build
-function CookingMethodsSection({ methods, onSelectMethod }: { methods: any[], onSelectMethod: (m: any) => void }) {
+function CookingMethodsSection(_{ methods, _onSelectMethod }: { methods: any[], _onSelectMethod: (m: any) => void }) {
   return (
     <div className='space-y-2'>;
       {methods.map((m, idx) => (

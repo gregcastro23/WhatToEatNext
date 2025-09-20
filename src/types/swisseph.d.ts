@@ -3,15 +3,15 @@ declare module 'swisseph' {
   export const _SEFLG_SPEED: number;
   export const _SE_PLUTO: number;
 
-  export function init(ephePath: string): Promise<void>;
-  export function julday(year: number, month: number, day: number, hour: number): number;
+  export function init(_ephePath: string): Promise<void>;
+  export function julday(_year: number, _month: number, _day: number, _hour: number): number;
   export function calc_ut(
-    julianDate: number,
-    planet: number,
-    flags: number,
+    _julianDate: number,
+    _planet: number,
+    _flags: number,
   ): {
-    longitude: number,
-    latitude: number,
+    _longitude: number,
+    _latitude: number,
     distance: number
   };
 }

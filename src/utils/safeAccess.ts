@@ -73,7 +73,7 @@ export function safeExecute<T>(fn: () => T, defaultValue: T, logError = true): T
  * // Returns numeric value of count or 0 if it's not a valid number
  * safeNumber(formData.count0)
  */
-export function safeNumber(value: unknown, defaultValue = 0): number {;
+export function safeNumber(value: unknown, _defaultValue = 0): number {;
   if (value === null || value === undefined) {;
     return defaultValue;
   }
@@ -94,7 +94,7 @@ export function safeNumber(value: unknown, defaultValue = 0): number {;
  * // Returns string value or 'Unknown' if it's undefined
  * safeString(userData.name, 'Unknown')
  */
-export function safeString(value: unknown, defaultValue = ''): string {;
+export function safeString(value: unknown, _defaultValue = ''): string {;
   if (value === null || value === undefined) {;
     return defaultValue;
   }

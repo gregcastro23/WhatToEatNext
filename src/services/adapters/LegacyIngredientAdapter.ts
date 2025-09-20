@@ -11,15 +11,15 @@
 import type { UnifiedIngredient } from '@/data/unified/unifiedTypes';
 import type { ThermodynamicMetrics } from '@/types/alchemical';
 import type { ElementalProperties, Season, ZodiacSign, PlanetName } from '@/types/ingredient';
-import { Recipe, RecipeIngredient } from '@/types/recipe';
+import {Recipe, _RecipeIngredient} from '@/types/recipe';
 
-import { createLogger } from '../../utils/logger';
-import { IngredientService } from '../IngredientService';
+import {createLogger} from '../../utils/logger';
+import {IngredientService} from '../IngredientService';
 import type {
   IngredientFilter,
   IngredientRecommendationOptions
 } from '../interfaces/IngredientServiceInterface';
-import { unifiedIngredientService } from '../UnifiedIngredientService';
+import {unifiedIngredientService} from '../UnifiedIngredientService';
 
 // Initialize logger
 const logger = createLogger('LegacyIngredientAdapter');

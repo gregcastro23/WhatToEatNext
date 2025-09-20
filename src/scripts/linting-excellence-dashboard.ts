@@ -452,7 +452,7 @@ class LintingExcellenceDashboardCLI {
           try {
             // Keep only last 50 entries in metrics history
             const metricsFile = '.kiro/metrics/linting-metrics-history.json';
-            const { existsSync, readFileSync, writeFileSync } = await import('fs');
+            const { existsSync, readFileSync, _writeFileSync} = await import('fs');
             if (existsSync(metricsFile)) {
               const history = JSON.parse(readFileSync(metricsFile, 'utf8'));
               if (history.length > 50) {

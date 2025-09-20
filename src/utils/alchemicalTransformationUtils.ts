@@ -7,7 +7,7 @@ import {
   ElementalItem,
   AlchemicalItem
 } from '../calculations/alchemicalTransformation';
-import { LunarPhase, LunarPhaseWithSpaces, CookingMethod } from '../types/alchemy';
+import {LunarPhaseWithSpaces} from '../types/alchemy';
 
 import {
   getCookingMethodPillar,
@@ -226,11 +226,11 @@ export const _getRecommendedCookingMethodsForIngredient = async (;
   log.info('\n===========================================');
   log.info('COOKING METHOD RECOMMENDATIONS ENGINE START');
   log.info('===========================================');
-  log.info(`Ingredient: ${ingredient.name}`);
-  log.info(`Element: ${ingredient.element || 'Not specified'}`);
-  log.info(`Elemental Character: ${ingredient.elementalCharacter || 'Not specified'}`);
+  log.info(`_Ingredient: ${ingredient.name}`);
+  log.info(`_Element: ${ingredient.element || 'Not specified'}`);
+  log.info(`Elemental _Character: ${ingredient.elementalCharacter || 'Not specified'}`);
   log.info(
-    `Spirit: ${ingredient.spirit || 0}, Essence: ${ingredient.essence || 0}, Matter: ${ingredient.matter || 0}, Substance: ${ingredient.substance || 0}`,
+    `_Spirit: ${ingredient.spirit || 0}, _Essence: ${ingredient.essence || 0}, _Matter: ${ingredient.matter || 0}, _Substance: ${ingredient.substance || 0}`,
   );
   log.info(`Available cooking methods: ${cookingMethods.length}`);
 
@@ -257,7 +257,7 @@ export const _getRecommendedCookingMethodsForIngredient = async (;
 
   log.info('\nFINAL COOKING RECOMMENDATIONS (sorted by compatibility):');
   results.forEach((rec, index) => {
-    log.info(`${index + 1}. ${rec.method} - Compatibility: ${Math.round(rec.compatibility)}%`);
+    log.info(`${index + 1}. ${rec.method} - _Compatibility: ${Math.round(rec.compatibility)}%`);
   });
 
   log.info('===========================================');

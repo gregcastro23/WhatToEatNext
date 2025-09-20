@@ -2,7 +2,7 @@
  * Type definitions for Machine Learning Intelligence Service
  */
 
-import { Recipe, Ingredient, ZodiacSign, ElementalProperties } from './unified';
+import {Recipe, Ingredient, _ZodiacSign, ElementalProperties} from './unified';
 
 export interface MLContext {
   zodiacSign?: any;

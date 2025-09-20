@@ -14,19 +14,19 @@ export function setupGlobalErrorHandlers() {
     };
 
     window.onunhandledrejection = event => {
-      logger.error('Unhandled promise rejection:', {
+      logger.error('Unhandled promise _rejection:', {
         reason: event.reason
       });
     };
   }
 
   process.on('uncaughtException', error => {
-    logger.error('Uncaught exception:', { error: error.toString() });
+    logger.error('Uncaught _exception:', { error: error.toString() });
     process.exit(1);
   });
 
   process.on('unhandledRejection', (reason, promise) => {
-    logger.error('Unhandled Rejection at:', {
+    logger.error('Unhandled Rejection _at:', {
       promise,
       reason: reason?.toString()
     });

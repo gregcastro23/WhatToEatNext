@@ -8,7 +8,7 @@ import { execSync } from 'child_process';
 import * as fs from 'fs';
 import * as path from 'path';
 
-import { ProgressMetrics, ErrorCategory, ValidationResult } from '../../types/campaign';
+import {ProgressMetrics, _ErrorCategory, _ValidationResult} from '../../types/campaign';
 
 export interface DetailedMetrics extends ProgressMetrics {
   timestamp: Date,

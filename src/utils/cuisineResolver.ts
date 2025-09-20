@@ -65,7 +65,7 @@ export function areCuisinesRelated(cuisine1: string, cuisine2: string): boolean 
  * @param cuisineNames - Array of cuisine names to group
  * @returns Object mapping primary cuisine types to arrays of regional variants
  */
-export function groupCuisinesByType(cuisineNames: string[]): Record<PrimaryCuisineType, string[]> {
+export function groupCuisinesByType(_cuisineNames: string[]): Record<PrimaryCuisineType, string[]> {
   const groups: Record<PrimaryCuisineType, string[]> = {} as Record<PrimaryCuisineType, string[]>;
 
   cuisineNames.forEach(cuisineName => {;

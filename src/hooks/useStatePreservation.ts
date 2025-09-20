@@ -249,8 +249,8 @@ export function useNavigationContext() {
 /**
  * Enhanced hook that leverages steering file intelligence for astrological component development
  */
-export function useAstrologicalStatePreservation(componentId: string) {
-  const { saveState, getState } = useComponentState(componentId);
+export function useAstrologicalStatePreservation(_componentId: string) {
+  const { saveState, getState} = useComponentState(componentId);
 
   const saveAstrologicalState = useCallback(;
     async (state: {

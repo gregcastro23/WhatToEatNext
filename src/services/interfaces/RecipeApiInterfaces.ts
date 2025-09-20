@@ -13,8 +13,8 @@ import {
   PlanetName,
   ElementalProperties
 } from '@/types/alchemy';
-import { PlanetaryAlignment } from '@/types/celestial';
-import { Recipe } from '@/types/recipe';
+import {_PlanetaryAlignment} from '@/types/celestial';
+import {Recipe} from '@/types/recipe';
 
 /**
  * Standard API Response interface for all recipe endpoints

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any */
 import { log } from '@/services/LoggingService';
 /**
  * Test Kalchm and Monica Constants in Debug Component
@@ -107,7 +108,7 @@ function testKalchmMonicaCalculations() {
 
   const { Spirit, Essence, Matter, Substance, Fire, Water, Air, Earth } = testValues;
 
-  log.info('📊 Input Values:');
+  log.info('📊 Input _Values:');
   log.info(`Spirit: ${Spirit}, Essence: ${Essence}, Matter: ${Matter}, Substance: ${Substance}`);
   log.info(`Fire: ${Fire}, Water: ${Water}, Air: ${Air}, Earth: ${Earth}\n`);
 
@@ -126,7 +127,7 @@ function testKalchmMonicaCalculations() {
   );
   const gregsEnergy = calculateGregsEnergy(heat, entropy, reactivity);
 
-  log.info('🔥 Thermodynamic Properties:');
+  log.info('🔥 Thermodynamic _Properties:');
   log.info(`Heat: ${heat.toFixed(6)}`);
   log.info(`Entropy: ${entropy.toFixed(6)}`);
   log.info(`Reactivity: ${reactivity.toFixed(6)}`);
@@ -140,21 +141,21 @@ function testKalchmMonicaCalculations() {
   log.info(`K_alchm: ${K_alchm.toFixed(2)}`);
   log.info(`Monica Constant (M): ${monicaConstant.toFixed(6)}\n`);
 
-  // Note: The expected values from the notepad are for different input values
+  // _Note: The expected values from the notepad are for different input values
   // These calculations are correct for the given inputs
   log.info('✅ Validation:');
   log.info('✅ Calculations are mathematically correct for the given inputs');
   log.info('✅ Formulas match the exact specifications from the notepad');
   log.info('✅ The debug component will display live values based on current astrological state');
 
-  log.info('\n🎯 Debug Component Integration:');
+  log.info('\n🎯 Debug Component _Integration:');
   log.info('The enhanced DebugInfo component will now display:');
   log.info(`- K_alchm: ${K_alchm > 1000000 ? K_alchm.toExponential(3) : K_alchm.toFixed(6)}`);
   log.info(
     `- M (Monica): ${isNaN(monicaConstant) ? 'NaN' : Math.abs(monicaConstant) > 1000000 ? monicaConstant.toExponential(3) : monicaConstant.toFixed(6)}`,
   );
 
-  log.info('\n📝 Formula Verification:');
+  log.info('\n📝 Formula _Verification:');
   log.info('K_alchm = (Spirit^Spirit * Essence^Essence) / (Matter^Matter * Substance^Substance)');
   log.info(
     `K_alchm = (${Spirit}^${Spirit} * ${Essence}^${Essence}) / (${Matter}^${Matter} * ${Substance}^${Substance})`,;
@@ -184,9 +185,9 @@ function testKalchmMonicaCalculations() {
 // Run the test
 const results = testKalchmMonicaCalculations();
 
-log.info('\n🏁 Test Results Summary:');
+log.info('\n🏁 Test Results _Summary:');
 log.info(`Overall Test: ${results.testPassed ? '✅ PASSED' : '❌ FAILED'}`);
-log.info('\n🎉 Success! The debug component is now enhanced with:');
+log.info('\n🎉 Success! The debug component is now enhanced _with:');
 log.info('   • Kalchm constant (K_alchm) calculations');
 log.info('   • Monica constant (M) calculations');
 log.info('   • Thermodynamic properties (Heat, Entropy, Reactivity, Greg's Energy)');

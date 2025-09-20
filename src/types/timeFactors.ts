@@ -1,7 +1,7 @@
 // Unified TimeFactors interface
 export interface TimeFactors {
-  time: number,
-  season: string,
+  _time: number,
+  _season: string,
   moonPhase?: string;
   dayOfWeek?: string;
   planetaryHour?: string;

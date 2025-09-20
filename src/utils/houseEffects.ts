@@ -255,6 +255,6 @@ export function calculateAllHouseEffects(
     }
   }
 
-  debugLog(`House effects calculation complete. Results:`, totalEffects);
+  debugLog(`House effects calculation complete. _Results:`, totalEffects);
   return totalEffects;
 }

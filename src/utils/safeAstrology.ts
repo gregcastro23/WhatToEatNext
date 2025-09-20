@@ -6,9 +6,9 @@
  * complex API calls and calculations that might fail.
  */
 
-import { AstrologicalState, type LunarPhase } from '@/types/alchemy';
-import { AspectType, CelestialPosition, PlanetaryAspect, ZodiacSign } from '@/types/celestial';
-import { createLogger } from '@/utils/logger';
+import {AstrologicalState} from '@/types/alchemy';
+import {AspectType, CelestialPosition, PlanetaryAspect, ZodiacSign} from '@/types/celestial';
+import {createLogger} from '@/utils/logger';
 
 // Create a component-specific logger
 const logger = createLogger('SafeAstrology');
@@ -47,17 +47,17 @@ export function getReliablePlanetaryPositions(): Record<string, CelestialPositio
   const positions: Record<string, CelestialPosition> = {
     Sun: { sign: 'aries', degree: 8.63, exactLongitude: 8.63, isRetrograde: false },
     Moon: { sign: 'aries', degree: 3.48, exactLongitude: 3.48, isRetrograde: false },
-    Mercury: { sign: 'aries', degree: 0.75, exactLongitude: 0.75, isRetrograde: true },
-    Venus: { sign: 'pisces', degree: 29.0, exactLongitude: 359.0, isRetrograde: true },
-    Mars: { sign: 'cancer', degree: 22.67, exactLongitude: 112.67, isRetrograde: false },
-    Jupiter: { sign: 'gemini', degree: 15.53, exactLongitude: 75.53, isRetrograde: false },
-    Saturn: { sign: 'pisces', degree: 24.13, exactLongitude: 354.13, isRetrograde: false },
-    Uranus: { sign: 'taurus', degree: 24.62, exactLongitude: 54.62, isRetrograde: false },
-    Neptune: { sign: 'pisces', degree: 29.93, exactLongitude: 359.93, isRetrograde: false },
-    Pluto: { sign: 'aquarius', degree: 3.5, exactLongitude: 333.5, isRetrograde: false },
+    _Mercury: { sign: 'aries', degree: 0.75, exactLongitude: 0.75, isRetrograde: true },
+    _Venus: { sign: 'pisces', degree: 29.0, exactLongitude: 359.0, isRetrograde: true },
+    _Mars: { sign: 'cancer', degree: 22.67, exactLongitude: 112.67, isRetrograde: false },
+    _Jupiter: { sign: 'gemini', degree: 15.53, exactLongitude: 75.53, isRetrograde: false },
+    _Saturn: { sign: 'pisces', degree: 24.13, exactLongitude: 354.13, isRetrograde: false },
+    _Uranus: { sign: 'taurus', degree: 24.62, exactLongitude: 54.62, isRetrograde: false },
+    _Neptune: { sign: 'pisces', degree: 29.93, exactLongitude: 359.93, isRetrograde: false },
+    _Pluto: { sign: 'aquarius', degree: 3.5, exactLongitude: 333.5, isRetrograde: false },
     northNode: { sign: 'pisces', degree: 26.88, exactLongitude: 356.88, isRetrograde: true },
     southNode: { sign: 'virgo', degree: 26.88, exactLongitude: 176.88, isRetrograde: true },
-    Ascendant: { sign: 'scorpio', degree: 13.88, exactLongitude: 223.88, isRetrograde: false }
+    _Ascendant: { sign: 'scorpio', degree: 13.88, exactLongitude: 223.88, isRetrograde: false }
   };
 
   return positions;
@@ -139,7 +139,7 @@ export function calculateSunSign(date: Date = new Date()): any {;
  * @param degree Degree within the sign (0-29.99)
  * @returns Absolute position in degrees (0-359)
  */
-export function getZodiacPositionInDegrees(sign: any, degree: number): number {
+export function getZodiacPositionInDegrees(sign: any, _degree: number): number {
   const signIndex = ZODIAC_SIGNS.indexOf(sign);
   if (signIndex === -1) {;
     logger.warn(`Unknown sign: ${sign}, falling back to Aries`);
@@ -160,8 +160,8 @@ export function calculatePlanetaryAspects(
   const planets = Object.keys(positions);
 
   // Calculate aspects between all planet pairs
-  for (let i = 0; i < planets.length; i++) {
-    for (let j = i + 1; j < planets.length; j++) {
+  for (const i = 0; i < planets.length; i++) {
+    for (const j = i + 1; j < planets.length; j++) {
       const planet1 = planets[i];
       const planet2 = planets[j];
 
@@ -188,7 +188,7 @@ export function calculatePlanetaryAspects(
           orb: aspect.orb,
           influence: calculateAspectStrength(aspect.type, aspect.orb),
           planets: [planet1, planet2],
-          additionalInfo: { aspectType: aspect.type }
+          _additionalInfo: { aspectType: aspect.type }
         });
       }
     }
@@ -203,7 +203,7 @@ export function calculatePlanetaryAspects(
  * @param angleDiff Angular difference between planets
  * @returns Aspect type and orb if aspect exists, null otherwise
  */
-export function identifyAspect(angleDiff: number): { type: AspectType, orb: number } | null {
+export function identifyAspect(_angleDiff: number): { type: AspectType, orb: number } | null {
   const aspects = [;
     { type: 'conjunction' as AspectType, angle: 0, maxOrb: 10 },
     { type: 'opposition' as AspectType, angle: 180, maxOrb: 10 },
@@ -232,7 +232,7 @@ export function identifyAspect(angleDiff: number): { type: AspectType, orb: numb
  * @param orb Orb (angle deviation from exact aspect)
  * @returns Strength value (0-10)
  */
-export function calculateAspectStrength(type: AspectType, orb: number): number {
+export function calculateAspectStrength(_type: AspectType, _orb: number): number {
   const baseStrengths = {;
     conjunction: 10,
     opposition: 10,
@@ -243,8 +243,8 @@ export function calculateAspectStrength(type: AspectType, orb: number): number {
     semisextile: 2,
     semisquare: 2,
     sesquisquare: 2,
-    quintile: 1,
-    biquintile: 1
+    _quintile: 1,
+    _biquintile: 1
   } as Record<AspectType, number>;
 
   // Diminish strength based on orb
@@ -309,11 +309,11 @@ export function getCurrentAstrologicalState(): AstrologicalState {
 
   const state: AstrologicalState = {;
     sunSign: toZodiacSign(String(positions.sun.sign)),
-    moonSign: toZodiacSign(String(positions.moon.sign)),
+    _moonSign: toZodiacSign(String(positions.moon.sign)),
     lunarPhase: phaseName as LunarPhase,
     activePlanets,
     dominantElement: dominantElementCapitalized,
-    dominantPlanets: activePlanets
+    _dominantPlanets: activePlanets
   };
 
   // Update cache
@@ -330,12 +330,12 @@ export function getCurrentAstrologicalState(): AstrologicalState {
  * @param positions Record of planetary positions
  * @returns Count of each element
  */
-function countElements(positions: Record<string, CelestialPosition>): Record<string, number> {
+function countElements(_positions: Record<string, _CelestialPosition>): Record<string, number> {
   const elements: Record<string, number> = {
-    fire: 0,
-    earth: 0,
-    air: 0,
-    water: 0
+    _fire: 0,
+    _earth: 0,
+    _air: 0,
+    _water: 0
   };
 
   // Element mapping for signs
@@ -358,15 +358,15 @@ function countElements(positions: Record<string, CelestialPosition>): Record<str
   const planetWeight: Record<string, number> = {
     sun: 3,
     moon: 2,
-    ascendant: 2,
-    mercury: 1.5,
-    venus: 1.5,
-    mars: 1.5,
-    jupiter: 1.5,
-    saturn: 1.5,
-    uranus: 1,
-    neptune: 1,
-    pluto: 1,
+    _ascendant: 2,
+    _mercury: 1.5,
+    _venus: 1.5,
+    _mars: 1.5,
+    _jupiter: 1.5,
+    _saturn: 1.5,
+    _uranus: 1,
+    _neptune: 1,
+    _pluto: 1,
     northNode: 0.5,
     southNode: 0.5
   };
@@ -386,7 +386,7 @@ function countElements(positions: Record<string, CelestialPosition>): Record<str
  * @param elements Record of element counts
  * @returns Dominant element
  */
-function getDominantElement(elements: Record<string, number>): string {
+function getDominantElement(elements: Record<string, _number>): string {
   let maxElement = 'balanced';
   let maxCount = 0;
 

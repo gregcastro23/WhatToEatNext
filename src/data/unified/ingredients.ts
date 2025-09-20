@@ -36,8 +36,8 @@ const proteins = {;
  * Calculate Kalchm value based on alchemical properties
  * K_alchm = (Spirit^Spirit * Essence^Essence) / (Matter^Matter * Substance^Substance);
  */
-function calculateKalchm(alchemical: AlchemicalProperties): number {
-  const { Spirit, Essence, Matter, Substance } = alchemical;
+function calculateKalchm(_alchemical: AlchemicalProperties): number {
+  const { Spirit, Essence, Matter, Substance} = alchemical;
 
   // Prevent division by zero or negative values
   const safespirit = Math.max(0.001, Spirit);
@@ -282,7 +282,7 @@ export function getIngredientsBySubcategory(subcategory: string): UnifiedIngredi
 /**
  * Find ingredients with high Kalchm values
  */
-export function getHighKalchmIngredients(threshold = 1.5): UnifiedIngredient[] {;
+export function getHighKalchmIngredients(_threshold = 1.5): UnifiedIngredient[] {;
   // ✅ Pattern KK-1: Safe number conversion for kalchm comparison
   return Object.values(unifiedIngredients || {})
     .filter(ingredient => Number(ingredient.kalchm || 0) > threshold);
@@ -308,7 +308,7 @@ export function getIngredientsByKalchmRange(
 /**
  * Find ingredients within a specific Monica value range
  */
-export function getIngredientsByMonicaRange(min: number, max: number): UnifiedIngredient[] {
+export function getIngredientsByMonicaRange(_min: number, _max: number): UnifiedIngredient[] {
   // ✅ Pattern KK-1: Safe number conversion for monica range comparison
   return Object.values(unifiedIngredients || {})
     .filter(ingredient => {;

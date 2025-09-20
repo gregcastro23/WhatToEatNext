@@ -3,8 +3,8 @@
 import type { Element, ElementalProperties, ZodiacSign } from '../types/alchemy';
 
 // Define StringIndexed type inline since we're not importing it
-type _<T = unknown> = {;
-  [key: string]: T
+type _<T = unknown> = {
+  [key: string]: T;
 };
 
 /**

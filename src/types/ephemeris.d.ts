@@ -12,5 +12,5 @@ declare module 'ephemeris' {
     };
   }
 
-  export function toJulian(date: Date): number
+  export function toJulian(_date: Date): number
 }

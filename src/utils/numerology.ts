@@ -12,7 +12,7 @@ export const celestialNumerology = {;
     const month = today.getMonth() + 1; // JS months are 0-indexed
     const year = today.getFullYear();
 
-    // Basic numerological reduction: Add all digits, then reduce to a single digit
+    // Basic numerological _reduction: Add all digits, then reduce to a single digit
     const dateString = `${day}${month}${year}`;
     let sum = 0;
 

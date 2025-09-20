@@ -129,7 +129,7 @@ export function generatePersonalizedMealPlan(
   // Recipe generation functionality is deactivated
   // Return a simple placeholder instead
   return {
-    message: 'Recipe generation is deactivated. Using existing recipes instead.',
+    _message: 'Recipe generation is deactivated. Using existing recipes instead.',
     dominant: dominant
   };
 
@@ -147,7 +147,7 @@ export function generatePersonalizedMealPlan(
       suggestion: '',
       explanation: ''
     },
-    mainCourse: {
+    _mainCourse: {
       suggestion: `${baseRecommendation.cookingMethod} ${baseRecommendation.mainIngredient} with ${baseRecommendation.secondaryIngredient}`,
       explanation: baseRecommendation.reasoning.elementalInfluence
     },
@@ -162,7 +162,7 @@ export function generatePersonalizedMealPlan(
     overallHarmony: 0,
     astrological: {
       dominant: alchemicalResult.dominant,
-      specialConsiderations: baseRecommendation.reasoning.planetary
+      _specialConsiderations: baseRecommendation.reasoning.planetary
     }
   };
 
@@ -270,7 +270,7 @@ export function enhanceAlchemicalCalculations(
   return {
     type: 'basicRecommendation',
     result: basicRecommendation,
-    note: 'Recipe generation is temporarily disabled. Using existing recipes instead.'
+    _note: 'Recipe generation is temporarily disabled. Using existing recipes instead.'
   };
 
   /* Original implementation commented out

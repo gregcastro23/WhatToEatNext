@@ -1,8 +1,8 @@
-import { useState, useEffect, useMemo } from 'react';
+import {_useState, _useEffect, useMemo} from 'react';
 
-import { ElementalProperties } from '@/types/alchemy';
+import {ElementalProperties} from '@/types/alchemy';
 
-import { useAlchemical } from './useAlchemical';
+import {useAlchemical} from './useAlchemical';
 
 export interface ElementalState {
   Fire: number,
@@ -11,7 +11,7 @@ export interface ElementalState {
   Air: number
 }
 export function useElementalState() {
-  const { planetaryPositions, isLoading } = useAlchemical();
+  const { planetaryPositions, _isLoading} = useAlchemical();
 
   const elementalState = useMemo((): ElementalProperties => {;
     if (!planetaryPositions || Object.keys(planetaryPositions || {}).length === 0) {;

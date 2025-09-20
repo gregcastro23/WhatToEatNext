@@ -1142,7 +1142,7 @@ export class IngredientService implements IngredientServiceInterface {
     similarityScore: number
   }> {
     try {
-      const { category, similarityThreshold = 0.7, maxResults = 5 } = options;
+      const { category, _similarityThreshold = 0.7, _maxResults = 5} = options;
 
       // Find the original ingredient
       const originalIngredient = this.getIngredientByName(ingredientName);
@@ -1172,7 +1172,7 @@ export class IngredientService implements IngredientServiceInterface {
 
       // Calculate similarity scores
       const alternatives = (potentialAlternatives || []).map(alternative => {;
-        const { score } = this.calculateIngredientCompatibility(originalIngredient, alternative);
+        const { score} = this.calculateIngredientCompatibility(originalIngredient, alternative);
 
         return {
           ingredient: alternative,
@@ -1410,7 +1410,7 @@ export class IngredientService implements IngredientServiceInterface {
           const ing1 = ingredients[i];
           const ing2 = ingredients[j];
 
-          const { score } = this.calculateIngredientCompatibility(ing1, ing2),
+          const { score} = this.calculateIngredientCompatibility(ing1, ing2),
 
           pairings.push({
             ingredients: [ing1.name, ing2.name],
@@ -1507,9 +1507,9 @@ export class IngredientService implements IngredientServiceInterface {
 
       // Calculate kalchm value if not present
       if (mergedIngredient.kalchm === undefined) {;
-        const { alchemicalProperties } = mergedIngredient;
+        const { alchemicalProperties} = mergedIngredient;
         if (alchemicalProperties) {
-          const { Spirit, Essence, Matter, Substance } = alchemicalProperties;
+          const { Spirit, Essence, Matter, Substance} = alchemicalProperties;
 
           // K_alchm = (Spirit^Spirit * Essence^Essence) / (Matter^Matter * Substance^Substance);
           // Prevent division by zero and handle zero bases with zero exponents
@@ -1761,7 +1761,7 @@ export class IngredientService implements IngredientServiceInterface {
    */
   public calculateThermodynamicMetrics(ingredient: UnifiedIngredient): ThermodynamicMetrics {
     try {
-      const { Fire, Water, Earth, Air } = ingredient.elementalProperties;
+      const { Fire, Water, Earth, Air} = ingredient.elementalProperties;
 
       // Calculate heat (Fire dominant)
       const heat = 0.5 + (Fire * 0.4 - Water * 0.2);
@@ -1812,7 +1812,7 @@ export class IngredientService implements IngredientServiceInterface {
    */
   private calculateKalchmValue(ingredient: UnifiedIngredient): number {
     try {
-      const { Spirit, Essence, Matter, Substance } = ingredient.alchemicalProperties;
+      const { Spirit, Essence, Matter, Substance} = ingredient.alchemicalProperties;
 
       // Ensure values are positive
       const safeSpirit = Math.max(0.1, Spirit);
@@ -1840,7 +1840,7 @@ export class IngredientService implements IngredientServiceInterface {
       if (kalchm <= 0) return NaN;
 
       // Calculate basic metrics directly to avoid circular dependency
-      const { Fire, Water, Earth, Air } = ingredient.elementalProperties;
+      const { Fire, Water, Earth, Air} = ingredient.elementalProperties;
       const heat = 0.5 + (Fire * 0.4 - Water * 0.2);
       const entropy = 0.5 + (Air * 0.3 + Water * 0.3 - Earth * 0.2);
       const reactivity = 0.5 + (Fire * 0.3 + Air * 0.3 - Earth * 0.2);

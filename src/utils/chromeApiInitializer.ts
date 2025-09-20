@@ -60,10 +60,10 @@ export function initializeChromeApis(): void {
 
           return Promise.resolve({ id: 999, url: options.url || 'about:blank' });
         },
-        query: function () {
-          return Promise.resolve([{ id: 1, active: true, windowId: 1 }]);
+        _query: function () {
+          return Promise.resolve([{ id: 1, _active: true, _windowId: 1 }]);
         },
-        update: function () {
+        _update: function () {
           return Promise.resolve({});
         }
       };
@@ -73,17 +73,17 @@ export function initializeChromeApis(): void {
     // Apply Pattern GG-6: Enhanced property access with type guards
     if (!chromeObj.runtime) {
       chromeObj.runtime = {;
-        lastError: null,
+        _lastError: null,
         getURL: function (path: string) {
           return window.location.origin + '/' + path;
         },
         sendMessage: function (message: unknown) {
           log.info('[ChromeAPI] Mocked chrome.runtime.sendMessage called:', message);
-          return Promise.resolve({ success: true });
+          return Promise.resolve({ _success: true });
         },
-        onMessage: {
+        _onMessage: {
           addListener: function () {},
-          removeListener: function () {}
+          _removeListener: function () {}
         }
       };
     }
@@ -95,7 +95,7 @@ export function initializeChromeApis(): void {
         getURL: function (path: string) {
           return window.location.origin + '/' + path;
         },
-        getBackgroundPage: function () {
+        _getBackgroundPage: function () {
           return window;
         }
       };
@@ -107,7 +107,7 @@ export function initializeChromeApis(): void {
       const mockStorage: Record<string, Record<string, string>> = {};
 
       chromeObj.storage = {;
-        local: {
+        _local: {
           get: function (
             keys: string | string[] | null,
             callback?: (items: Record<string, string[]>) => void,
@@ -140,7 +140,7 @@ export function initializeChromeApis(): void {
             }
             return Promise.resolve();
           },
-          remove: function (keys: string | string[], callback?: () => void) {
+          _remove: function (keys: string | string[], callback?: () => void) {
             if (Array.isArray(keys)) {
               keys.forEach(key => delete mockStorage[key]);
             } else {
@@ -152,7 +152,7 @@ export function initializeChromeApis(): void {
             return Promise.resolve();
           }
         },
-        sync: {
+        _sync: {
           get: function (keys: unknown, callback?: Function) {
             if (callback) setTimeout(() => callback({}), 0);
             return Promise.resolve({});

@@ -7,14 +7,14 @@
 import * as fs from 'fs';
 import * as path from 'path';
 
-import { ProgressMetrics, PhaseReport, ProgressReport, PhaseStatus } from '../../types/campaign';
+import {_ProgressMetrics, PhaseReport, _ProgressReport, PhaseStatus} from '../../types/campaign';
 
 import {
   MetricsCollectionSystem,
   DetailedMetrics,
   MetricsSnapshot
 } from './MetricsCollectionSystem';
-import { MilestoneValidationSystem, PhaseValidationResult } from './MilestoneValidationSystem';
+import {MilestoneValidationSystem, PhaseValidationResult} from './MilestoneValidationSystem';
 
 export interface CampaignSummaryReport {
   campaignId: string,

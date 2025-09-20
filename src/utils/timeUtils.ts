@@ -1,6 +1,6 @@
 /**
  * Time Utilities for Advanced Intelligence Systems
- * Phase 2D: Advanced Intelligence Systems Integration
+ * Phase _2D: Advanced Intelligence Systems Integration
  *
  * Provides utility functions for time calculations, formatting, and analysis
  * used by predictive, ML, and advanced analytics intelligence services.
@@ -21,14 +21,14 @@ export function getCurrentDate(): string {
 }
 
 /**
- * Get current time in HH:MM:SS format
+ * Get current time in _HH:MM:SS format
  */
 export function getCurrentTime(): string {
   return new Date().toLocaleTimeString('en-US', {
-    hour12: false,
+    _hour12: false,
     hour: '2-digit',
     minute: '2-digit',
-    second: '2-digit'
+    _second: '2-digit'
   });
 }
 
@@ -140,9 +140,9 @@ export function getTimeBasedConfidence(): number {
 export function formatTimestamp(timestamp: string): string {
   const date = new Date(timestamp);
   return date.toLocaleString('en-US', {
-    year: 'numeric',
+    _year: 'numeric',
     month: 'short',
-    day: 'numeric',
+    _day: 'numeric',
     hour: '2-digit',
     minute: '2-digit'
   });

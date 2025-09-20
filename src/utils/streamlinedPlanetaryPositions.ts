@@ -6,12 +6,11 @@
  * current accurate positions with fallback mechanisms.
  */
 
-import { ZodiacSign } from '../types';
-import { CelestialPosition } from '../types/celestial';
+import {CelestialPosition} from '../types/celestial';
 
-import { getCurrentTransitSign } from './astrology/validation';
+import {getCurrentTransitSign} from './astrology/validation';
 // Removed unused cache import
-import { createLogger } from './logger';
+import {createLogger} from './logger';
 
 const logger = createLogger('StreamlinedPlanetaryPositions');
 
@@ -210,13 +209,13 @@ export function getCurrentPlanetaryPositions(): { [key: string]: CelestialPositi
       exactLongitude: 303.09529999999995,
       isRetrograde: false
     },
-    Chiron: {
+    _Chiron: {
       sign: 'aries',
       degree: 26.933333333333334,
       exactLongitude: 26.939399999999978,
       isRetrograde: false
     },
-    Sirius: {
+    _Sirius: {
       sign: 'aries',
       degree: 1.7666666666666666,
       exactLongitude: 1.7726000000000113,
@@ -234,8 +233,8 @@ export function getCurrentPlanetaryPositions(): { [key: string]: CelestialPositi
   };
 
   logger.info('Updated planetary positions cache with transit validation', {
-    sunSign: validatedPositions.Sun.sign,
-    moonSign: validatedPositions.moon.sign,
+    _sunSign: validatedPositions.Sun.sign,
+    _moonSign: validatedPositions.moon.sign,
     timestamp: new Date().toISOString()
   });
 
@@ -247,7 +246,7 @@ export function getCurrentPlanetaryPositions(): { [key: string]: CelestialPositi
  * @param positions Base positions to validate
  * @returns Validated positions
  */
-function validatePositionsWithTransitDates(positions: { [key: string]: CelestialPosition }): {
+function validatePositionsWithTransitDates(_positions: { [key: string]: CelestialPosition }): {
   [key: string]: CelestialPosition
 } {
   const validatedPositions = { ...positions };
@@ -288,7 +287,7 @@ function validatePositionsWithTransitDates(positions: { [key: string]: Celestial
  * Get planetary positions adjusted for a specific date
  * Uses daily movement rates to approximate positions
  */
-export function getPlanetaryPositionsForDate(date: Date): { [key: string]: CelestialPosition } {
+export function getPlanetaryPositionsForDate(_date: Date): { [key: string]: CelestialPosition } {
   const basePositions = getCurrentPlanetaryPositions();
   const now = new Date();
   const daysDiff = (date.getTime() - now.getTime()) / (1000 * 60 * 60 * 24);
@@ -305,7 +304,7 @@ export function getPlanetaryPositionsForDate(date: Date): { [key: string]: Celes
     Uranus: 0.01,
     Neptune: 0.006,
     Pluto: 0.004,
-    NorthNode: -0.05, // Nodes move backwards
+    _NorthNode: -0.05, // Nodes move backwards
     southNode: -0.05,
     Ascendant: 1.0, // Approximation
   };
@@ -327,7 +326,7 @@ export function getPlanetaryPositionsForDate(date: Date): { [key: string]: Celes
     adjustedLongitude = ((adjustedLongitude % 360) + 360) % 360;
 
     // Convert back to sign and degree
-    const { sign, degree } = longitudeToSignAndDegree(adjustedLongitude);
+    const { sign, degree} = longitudeToSignAndDegree(adjustedLongitude);
 
     adjustedPositions[planet] = {
       sign,
@@ -343,7 +342,7 @@ export function getPlanetaryPositionsForDate(date: Date): { [key: string]: Celes
 /**
  * Convert longitude to zodiac sign and degree
  */
-function longitudeToSignAndDegree(longitude: number): { sign: any; degree: number } {
+function longitudeToSignAndDegree(_longitude: number): { sign: any; degree: number } {
   const signs: any[] = [
     'aries',
     'taurus',
@@ -418,7 +417,7 @@ export function getmoonIllumination(): number {
 /**
  * Validate that planetary positions have the required structure
  */
-export function validatePositionsStructure(positions: { [key: string]: unknown }): boolean {
+export function validatePositionsStructure(_positions: { [key: string]: unknown }): boolean {
   const requiredPlanets = ['Sun', 'Moon', 'Mercury', 'Venus', 'Mars', 'Jupiter', 'Saturn'];
 
   for (const planet of requiredPlanets) {
@@ -453,7 +452,7 @@ export function getPositionsSummary(): string {
   }
 
   lines.push(
-    `Lunar Phase: ${getCurrentLunarPhaseName()} (${(getmoonIllumination() * 100).toFixed(0)}% illuminated)`,
+    `Lunar _Phase: ${getCurrentLunarPhaseName()} (${(getmoonIllumination() * 100).toFixed(0)}% illuminated)`,
   );
 
   return lines.join('\n');

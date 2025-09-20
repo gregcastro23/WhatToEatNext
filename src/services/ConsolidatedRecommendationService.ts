@@ -1,17 +1,17 @@
-import { ElementalProperties, ThermodynamicMetrics, Planet, Element } from '@/types/alchemy';
-import { PlanetaryAlignment } from '@/types/celestial';
+import {ElementalProperties, ThermodynamicMetrics, _Planet, _Element} from '@/types/alchemy';
+import {_PlanetaryAlignment} from '@/types/celestial';
 import type { CookingMethod } from '@/types/cooking';
 
-import { Ingredient } from '../types/ingredient';
-import { Recipe } from '../types/recipe';
+import {Ingredient} from '../types/ingredient';
+import {Recipe} from '../types/recipe';
 // Import utility functions
-import { getCuisineRecommendations } from '../utils/cuisineRecommender';
-import { calculateElementalCompatibility } from '../utils/elemental/elementalUtils';
-import { getCookingMethodRecommendations } from '../utils/recommendation/methodRecommendation';
+import {getCuisineRecommendations} from '../utils/cuisineRecommender';
+import {calculateElementalCompatibility} from '../utils/elemental/elementalUtils';
+import {getCookingMethodRecommendations} from '../utils/recommendation/methodRecommendation';
 
 // Import consolidated services
-import { ConsolidatedIngredientService } from './ConsolidatedIngredientService';
-import { ConsolidatedRecipeService } from './ConsolidatedRecipeService';
+import {ConsolidatedIngredientService} from './ConsolidatedIngredientService';
+import {ConsolidatedRecipeService} from './ConsolidatedRecipeService';
 import {
   RecommendationServiceInterface,
   RecipeRecommendationCriteria,
@@ -523,7 +523,7 @@ export class ConsolidatedRecommendationService implements RecommendationServiceI
    */
   calculateThermodynamics(elementalProperties: ElementalProperties): ThermodynamicMetrics {
     // Calculate thermodynamic metrics based on elemental properties
-    const { Fire, Water, Earth, Air } = elementalProperties;
+    const { Fire, Water, Earth, Air} = elementalProperties;
 
     // Using formulas similar to alchemicalEngine.ts but simplified
     const heat = Fire / (Fire + Water + Earth + Air || 1);

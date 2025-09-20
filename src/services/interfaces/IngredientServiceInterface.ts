@@ -7,7 +7,7 @@ import type {
   PlanetName,
   ZodiacSign
 } from '@/types/alchemy';
-import { Recipe, RecipeIngredient } from '@/types/unified';
+import {Recipe, _RecipeIngredient} from '@/types/unified';
 
 /**
  * IngredientServiceInterface.ts

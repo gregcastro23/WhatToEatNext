@@ -52,11 +52,11 @@ const normalizeZodiacSign = (sign: string): any => {;
  * @param date Current date (defaults to now)
  * @returns Zodiac sign or null if no match found
  */
-export function getCurrentTransitSign(planet: string, date: Date = new Date()): any | null {;
+export function getCurrentTransitSign(planet: string, _date: Date = new Date()): any | null {;
   const planetData = planetDataMap[planet];
   if (!planetData || !planetData.PlanetSpecific) return null;
 
-  const { TransitDates } = planetData.PlanetSpecific;
+  const { TransitDates} = planetData.PlanetSpecific;
   if (!TransitDates) return null;
 
   const currentDateString = date.toISOString().split('T')[0]; // YYYY-MM-DD format
@@ -153,12 +153,12 @@ export function getCurrentTransitPositions(): Record<string, PlanetPosition> {
     Uranus: { sign: 'taurus', degree: 27, minute: 17 },
     Neptune: { sign: 'aries', degree: 1, minute: 33 },
     Pluto: { sign: 'aquarius', degree: 3, minute: 46 },
-    Ascendant: { sign: 'libra', degree: 23, minute: 47 }
+    _Ascendant: { sign: 'libra', degree: 23, minute: 47 }
   };
 
   // Use the hardcoded positions from May 16, 2024
   for (const [planet, data] of Object.entries(hardcodedPositions)) {
-    const { sign, degree, minute } = data;
+    const { sign, degree, minute} = data;
 
     // Calculate exact longitude
     const exactLongitude = getBaseSignLongitude(sign) + degree + minute / 60;
@@ -168,7 +168,7 @@ export function getCurrentTransitPositions(): Record<string, PlanetPosition> {
       degree,
       minute,
       exactLongitude,
-      isRetrograde: planet === 'Pluto', // Only Pluto is retrograde currently;
+      _isRetrograde: planet === 'Pluto', // Only Pluto is retrograde currently;
     };
   }
 

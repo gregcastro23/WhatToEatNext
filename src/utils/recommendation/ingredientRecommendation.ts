@@ -232,8 +232,8 @@ export interface IngredientRecommendation {
   sensoryProfile?: SensoryProfile;
   recommendedCookingMethods?: Array<CookingMethod>,
   pairingRecommendations?: {
-    complementary: string[],
-    contrasting: string[],
+    _complementary: string[],
+    _contrasting: string[],
     toAvoid?: string[]
   };
   element?: Element;
@@ -317,17 +317,17 @@ export interface EnhancedIngredientRecommendation extends IngredientRecommendati
   details?: {
     chakraAlignment?: {
       dominantChakra: string,
-      energyLevel: number,
-      balanceState: 'balanced' | 'underactive' | 'overactive'
+      _energyLevel: number,
+      _balanceState: 'balanced' | 'underactive' | 'overactive'
     };
     tarotInfluence?: {
       card: string,
       element: Element,
-      recommendation: string
+      _recommendation: string
     };
     wiccanProperties?: {
       magicalAttributes: string[],
-      planetaryRulers: string[]
+      _planetaryRulers: string[]
     };
     flavorCompatibility?: {
       overall: number,
@@ -336,15 +336,15 @@ export interface EnhancedIngredientRecommendation extends IngredientRecommendati
       monica: number,
       seasonal: number,
       cultural: number,
-      nutritional: number,
-      breakdown: {
+      _nutritional: number,
+      _breakdown: {
         elementalDetails: { [key: string]: number };
         flavorHarmony: { [key: string]: number };
         seasonalAlignment: { [key: string]: number };
         culturalResonance: string[]
       };
       recommendations: string[],
-      optimizations: string[]
+      _optimizations: string[]
     };
   };
   expanded?: boolean;
@@ -1084,10 +1084,10 @@ export function calculateElementalInfluences(
   return elements;
 }
 
-function getPlanetaryWeight(planet: string): number {
+function getPlanetaryWeight(_planet: string): number {
   const weights: Record<string, number> = {
     Sun: 0.25,
-    moon: 0.2,
+    _moon: 0.2,
     Mercury: 0.15,
     Venus: 0.15,
     Mars: 0.15,

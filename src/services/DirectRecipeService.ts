@@ -505,7 +505,7 @@ export class DirectRecipeService {
     limit?: number,
     offset?: number
   }): Promise<ScoredRecipe[]> {
-    const { criteria, limit = 10, offset = 0 } = options;
+    const { criteria, _limit = 10, offset = 0} = options;
 
     // Get current celestial alignment (this will use real astrologize API data)
     const _alignment = await this.getCurrentCelestialAlignment();

@@ -855,7 +855,7 @@ export const _zodiacMealTimingPreferences: Record<
 /**
  * Get modality-compatible flavors for cooking
  */
-export function getCompatibleFlavorsForModality(modality: Modality): string[] {
+export function getCompatibleFlavorsForModality(_modality: Modality): string[] {
   const flavorMappings: Record<Modality, string[]> = {
     cardinal: ['spicy', 'bold', 'crisp', 'pronounced', 'direct', 'immediate', 'energetic'],
     fixed: ['rich', 'deep', 'complex', 'sustained', 'persistent', 'powerful', 'foundational'],

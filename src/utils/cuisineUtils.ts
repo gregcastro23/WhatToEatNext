@@ -12,8 +12,8 @@ import { getDominantElement } from '@/utils/elemental/elementalUtils';
  * @param elementalProperties The elemental properties of the cuisine
  * @returns The modality (Cardinal, Fixed, or Mutable)
  */
-export function determineModalityFromElements(elementalProperties: ElementalProperties): any {
-  const { Fire, Water, Earth, Air } = elementalProperties;
+export function determineModalityFromElements(_elementalProperties: ElementalProperties): any {
+  const { Fire, Water, Earth, Air} = elementalProperties;
 
   // Determine dominant element
   const dominantElement = getDominantElement(elementalProperties);

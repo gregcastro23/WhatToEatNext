@@ -83,7 +83,7 @@ export function getModalityCompatibility(sign1: any, sign2: any): number {
 /**
  * Calculates affinity between two zodiac signs based on both element and modality compatibility
  */
-export function getZodiacCompatibility(sign1: any, sign2: any): number {
+export function getZodiacCompatibility(_sign1: any, _sign2: any): number {
   const elementMap: Record<ZodiacSign, 'fire' | 'earth' | 'air' | 'water'> = {
     aries: 'fire',
     leo: 'fire',

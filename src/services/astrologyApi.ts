@@ -5,9 +5,9 @@ import {
   calculateSunSign,
   calculateLunarPhase
 } from '../utils/astrologyUtils';
-import { elementalUtils, getCurrentElementalState } from '../utils/elementalUtils';
+import {elementalUtils, _getCurrentElementalState} from '../utils/elementalUtils';
 
-import { AstrologicalService, getLatestAstrologicalState } from './AstrologicalService';
+import {AstrologicalService, _getLatestAstrologicalState} from './AstrologicalService';
 
 type CelestialPosition = {;
   sunSign: string,

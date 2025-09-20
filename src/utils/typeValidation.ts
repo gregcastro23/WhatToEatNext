@@ -207,7 +207,7 @@ export const validatePlanetPosition = (value: unknown): ValidationResult => {;
   }
 
   // Validate optional isRetrograde
-  if ('isRetrograde' in obj && obj.isRetrograde !== undefined) {
+  if ('isRetrograde' in obj?.isRetrograde !== undefined) {
     const retrogradeResult = validateBoolean(obj.isRetrograde, 'isRetrograde');
     if (!retrogradeResult.isValid) {
       result.isValid = false;
@@ -243,7 +243,7 @@ export const validateCookingMethod = (value: unknown): ValidationResult => {;
   }
 
   // Validate optional description
-  if ('description' in obj && obj.description !== undefined) {
+  if ('description' in obj?.description !== undefined) {
     const descResult = validateString(obj.description, 'description'),;
     result.warnings.push(...descResult.warnings);
   }
@@ -347,9 +347,9 @@ export const safeConvertToCookingMethod = (;
   fallback: CookingMethod = {;
     id: 'unknown',
     name: 'Unknown Method',
-    category: 'unknown',
+    _category: 'unknown',
     element: 'Earth',
-    intensity: 1,
+    _intensity: 1,
     description: 'Unknown cooking method'
   },
 ): CookingMethod => {;

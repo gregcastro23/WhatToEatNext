@@ -1,4 +1,4 @@
-import { Element, ElementalProperties, ZodiacSign, LunarPhase } from '@/types/alchemy';
+import {_Element, ElementalProperties, _ZodiacSign, _LunarPhase} from '@/types/alchemy';
 
 /**
  * 🚀 Phase 10: ExtendedRecipe Interface - Complete Property Access Support

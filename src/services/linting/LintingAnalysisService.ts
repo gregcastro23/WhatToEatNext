@@ -7,9 +7,9 @@
 
 import { log } from '@/services/LoggingService';
 
-import { DomainContextDetector, FileAnalysis, DomainContext } from './DomainContextDetector';
-import { ErrorClassificationSystem, ErrorClassification } from './ErrorClassificationSystem';
-import { LintingErrorAnalyzer, CategorizedErrors, LintingIssue } from './LintingErrorAnalyzer';
+import {DomainContextDetector, FileAnalysis, _DomainContext} from './DomainContextDetector';
+import {ErrorClassificationSystem, ErrorClassification} from './ErrorClassificationSystem';
+import {LintingErrorAnalyzer, CategorizedErrors, LintingIssue} from './LintingErrorAnalyzer';
 import {
   ResolutionStrategyGenerator,
   ResolutionStrategy,

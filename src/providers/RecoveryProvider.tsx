@@ -13,7 +13,7 @@ interface RecoveryContextType {
 
 const RecoveryContext = createContext<RecoveryContextType | null>(null);
 
-export function RecoveryProvider({ children }: { children: React.ReactNode }) {
+export function RecoveryProvider(_{ children }: { children: React.ReactNode }) {
   const [isRecovering, setIsRecovering] = useState(false);
   const [lastError, setLastError] = useState<Error | null>(null);
 

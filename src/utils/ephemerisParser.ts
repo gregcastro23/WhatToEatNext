@@ -24,19 +24,19 @@ export interface EphemerisEntry {
 export class EphemerisParser {
   private planetCodes: Record<string, string> = {
     A: 'Sun',
-    B: 'Moon',
-    C: 'Mercury',
+    _B: 'Moon',
+    _C: 'Mercury',
     D: 'Venus',
-    E: 'Mars',
-    F: 'Jupiter',
-    G: 'Saturn',
-    O: 'Uranus',
-    I: 'Neptune',
-    J: 'Pluto',
-    L: 'NorthNode',
-    K: 'SouthNode',
-    M: 'Chiron',
-    N: 'Lilith'
+    _E: 'Mars',
+    _F: 'Jupiter',
+    _G: 'Saturn',
+    _O: 'Uranus',
+    _I: 'Neptune',
+    _J: 'Pluto',
+    _L: 'NorthNode',
+    _K: 'SouthNode',
+    _M: 'Chiron',
+    _N: 'Lilith'
   };
 
   private zodiacSigns: string[] = [

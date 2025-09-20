@@ -47,61 +47,61 @@ export function enrichRecipeData(recipe: unknown): Recipe {
 /**
  * Derive astrological influences from recipe ingredients
  */
-function deriveAstrologicalInfluencesFromIngredients(recipe: Recipe): string[] {
+function deriveAstrologicalInfluencesFromIngredients(_recipe: Recipe): string[] {
   const influences: Set<string> = new Set();
 
   // Common astrological correspondences for ingredients
   const ingredientCorrespondences: Record<string, string[]> = {
     // Spices - Enhanced Mars, Sun, and Moon associations
-    cinnamon: ['Sun', 'Mars', 'Fire'],
-    nutmeg: ['Jupiter', 'Air'],
-    clove: ['Jupiter', 'Mars', 'Fire'],
-    ginger: ['Mars', 'Fire'],
-    pepper: ['Mars', 'Fire'],
-    chili: ['Mars', 'Fire'],
-    cayenne: ['Mars', 'Fire'],
-    paprika: ['Mars', 'Sun', 'Fire'],
-    turmeric: ['Sun', 'Earth'],
-    saffron: ['Sun', 'Fire'],
-    cumin: ['Mars', 'Earth'],
-    cardamom: ['Moon', 'Venus', 'Water'],
+    _cinnamon: ['Sun', 'Mars', 'Fire'],
+    _nutmeg: ['Jupiter', 'Air'],
+    _clove: ['Jupiter', 'Mars', 'Fire'],
+    _ginger: ['Mars', 'Fire'],
+    _pepper: ['Mars', 'Fire'],
+    _chili: ['Mars', 'Fire'],
+    _cayenne: ['Mars', 'Fire'],
+    _paprika: ['Mars', 'Sun', 'Fire'],
+    _turmeric: ['Sun', 'Earth'],
+    _saffron: ['Sun', 'Fire'],
+    _cumin: ['Mars', 'Earth'],
+    _cardamom: ['Moon', 'Venus', 'Water'],
 
     // Fruits - Enhanced Sun and Moon associations
-    apple: ['Venus', 'Water'],
-    orange: ['Sun', 'Fire'],
-    lemon: ['Moon', 'Water'],
-    lime: ['Moon', 'Water'],
-    banana: ['Moon', 'Water'],
-    coconut: ['Moon', 'Water'],
+    _apple: ['Venus', 'Water'],
+    _orange: ['Sun', 'Fire'],
+    _lemon: ['Moon', 'Water'],
+    _lime: ['Moon', 'Water'],
+    _banana: ['Moon', 'Water'],
+    _coconut: ['Moon', 'Water'],
 
     // Vegetables - Enhanced Mars, Sun, and Moon associations
-    potato: ['Earth', 'Saturn'],
-    carrot: ['Sun', 'Mars', 'Earth'],
-    onion: ['Mars', 'Fire'],
-    garlic: ['Mars', 'Fire'],
-    tomato: ['Mars', 'Fire'],
-    cucumber: ['Moon', 'Water'],
-    mushroom: ['Moon', 'Earth'],
+    _potato: ['Earth', 'Saturn'],
+    _carrot: ['Sun', 'Mars', 'Earth'],
+    _onion: ['Mars', 'Fire'],
+    _garlic: ['Mars', 'Fire'],
+    _tomato: ['Mars', 'Fire'],
+    _cucumber: ['Moon', 'Water'],
+    _mushroom: ['Moon', 'Earth'],
 
     // Grains - Enhanced Sun and Moon associations
     rice: ['Moon', 'Water'],
-    wheat: ['Sun', 'Earth'],
-    quinoa: ['Sun', 'Earth'],
-    oats: ['Venus', 'Earth'],
+    _wheat: ['Sun', 'Earth'],
+    _quinoa: ['Sun', 'Earth'],
+    _oats: ['Venus', 'Earth'],
 
     // Proteins - Enhanced Mars associations
     beef: ['Mars', 'Fire'],
     chicken: ['Mercury', 'Sun', 'Air'],
-    fish: ['Neptune', 'Water'],
-    egg: ['Moon', 'Water'],
+    _fish: ['Neptune', 'Water'],
+    _egg: ['Moon', 'Water'],
 
     // Herbs - Enhanced Mars, Sun, and Moon associations
-    basil: ['Mars', 'Fire'],
-    rosemary: ['Sun', 'Fire'],
-    thyme: ['Venus', 'Air'],
-    sage: ['Jupiter', 'Air'],
-    mint: ['Mercury', 'Air'],
-    parsley: ['Mercury', 'Air']
+    _basil: ['Mars', 'Fire'],
+    _rosemary: ['Sun', 'Fire'],
+    _thyme: ['Venus', 'Air'],
+    _sage: ['Jupiter', 'Air'],
+    _mint: ['Mercury', 'Air'],
+    _parsley: ['Mercury', 'Air']
   };
 
   // Extract ingredient names from recipe
@@ -124,7 +124,7 @@ function deriveAstrologicalInfluencesFromIngredients(recipe: Recipe): string[] {
 /**
  * Derive elemental properties from recipe characteristics
  */
-function deriveElementalProperties(recipe: Recipe): ElementalProperties {
+function deriveElementalProperties(_recipe: Recipe): ElementalProperties {
   const elementalProps = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 };
 
   // Cooking method influences
@@ -220,7 +220,7 @@ function enrichAndNormalizeSeasons(seasons?: string[]): string[] {
 /**
  * Derive celestial timing recommendations
  */
-function deriveCelestialTiming(recipe: Recipe): {
+function deriveCelestialTiming(_recipe: Recipe): {
   optimalMoonPhase?: string,
   optimalPlanetaryHour?: string,
   bestZodiacSeason?: string
@@ -318,7 +318,7 @@ export function enhanceWithNutritionalEstimates(recipe: Recipe): Recipe {
     carbs: 0,
     fat: 0,
     fiber: 0,
-    sugar: 0
+    _sugar: 0
   };
 
   // Basic calorie estimation based on ingredients

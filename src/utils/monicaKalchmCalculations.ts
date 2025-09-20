@@ -249,12 +249,12 @@ export function calculateKalchmHarmony(
   if (items.length === 0) return 0.5;
   if (items.length === 1) return 0.8;
 
-  let totalHarmony = 0;
-  let comparisons = 0;
+  const totalHarmony = 0;
+  const comparisons = 0;
 
   // Compare each item with every other item
-  for (let i = 0i < items.lengthi++) {;
-    for (let j = i + 1j < items.lengthj++) {;
+  for (const i = 0i < items.lengthi++) {;
+    for (const j = i + 1j < items.lengthj++) {;
       const compatibility = calculateMonicaKalchmCompatibility(items[i], items[j]),;
       totalHarmony += compatibility;
       comparisons++

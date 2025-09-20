@@ -1,6 +1,5 @@
 import type { Element, ElementalProperties } from '@/types/alchemy';
 import { Recipe } from '@/types/recipe';
-import { getCurrentElementalState } from '@/utils/elementalUtils';
 
 /**
  * Elemental Core Module
@@ -45,7 +44,7 @@ export interface ElementalProfile {
   secondary: Element,
   balance: ElementalProperties,
   characteristics: ElementalCharacteristics,
-  recommendations: {
+  _recommendations: {
     ingredients: string[],
     cookingMethods: string[],
     timeOfDay: string[]
@@ -415,7 +414,7 @@ function calculateElementalStateFromIngredients(
  * @param element Element
  * @returns Elemental characteristics
  */
-export function getElementalCharacteristics(element: Element): ElementalCharacteristics {
+export function getElementalCharacteristics(_element: Element): ElementalCharacteristics {
   const characteristics: Record<Element, ElementalCharacteristics> = {
     Fire: {
       name: 'Fire',

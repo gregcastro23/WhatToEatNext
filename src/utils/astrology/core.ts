@@ -218,7 +218,7 @@ export async function calculateActivePlanets(
  * @param phase Lunar phase
  * @returns Modifier value between 0 and 1
  */
-export function getLunarPhaseModifier(phase: LunarPhase): number {
+export function getLunarPhaseModifier(_phase: LunarPhase): number {
   const modifiers: Record<LunarPhase, number> = {
     'new moon': 0.2;
     'waxing crescent': 0.5;
@@ -238,7 +238,7 @@ export function getLunarPhaseModifier(phase: LunarPhase): number {
  * @param sign Zodiac sign
  * @returns Element ('Fire', 'Earth', 'Air', or 'Water')
  */
-export function getZodiacElement(sign: any): ElementalCharacter {
+export function getZodiacElement(_sign: any): ElementalCharacter {
   const elements: Record<ZodiacSign, ElementalCharacter> = {
     aries: 'Fire',
     leo: 'Fire',
@@ -327,7 +327,7 @@ export async function getmoonIllumination(date: Date = new Date()): Promise<numb
     // New Moon (1) = 0% illumination
 
     if (phase <= 0.5) {
-      // Waxing: 0 to 1
+      // _Waxing: 0 to 1
       return phase * 2
     } else {
       // Waning: 1 to 0
@@ -462,10 +462,10 @@ export async function getCurrentAstrologicalState(
 
     const _timeFactors: TimeFactors = {;
       currentDate: now,
-      season: (getCurrentSeason().charAt(0).toUpperCase() + getCurrentSeason().slice(1)) as Season,
-      timeOfDay: (getTimeOfDay().charAt(0).toUpperCase() + getTimeOfDay().slice(1)) as TimeOfDay,
-      planetaryDay: { day: weekDay, planet: planetaryHour },
-      planetaryHour: { planet: planetaryHour, hourOfDay: now.getHours() },
+      _season: (getCurrentSeason().charAt(0).toUpperCase() + getCurrentSeason().slice(1)) as Season,
+      _timeOfDay: (getTimeOfDay().charAt(0).toUpperCase() + getTimeOfDay().slice(1)) as TimeOfDay,
+      _planetaryDay: { day: weekDay, planet: planetaryHour },
+      planetaryHour: { planet: planetaryHour, _hourOfDay: now.getHours() },
       weekDay,
       lunarPhase
     } as TimeFactors;
@@ -485,14 +485,14 @@ export async function getCurrentAstrologicalState(
       currentZodiac: sunSign,
       sunSign,
       moonSign,
-      moonPhase: lunarPhase,
+      _moonPhase: lunarPhase,
       lunarPhase,
       isDaytime,
       planetaryHour,
       activePlanets,
       aspects,
       dominantElement,
-      dominantPlanets: activePlanets,
+      _dominantPlanets: activePlanets,
       planetaryPositions: positions as unknown
     };
 
@@ -511,18 +511,18 @@ export async function getCurrentAstrologicalState(
  * @param planet Planet name
  * @returns Element
  */
-export function getPlanetaryElementalInfluence(planet: PlanetName): Element {
+export function getPlanetaryElementalInfluence(_planet: PlanetName): Element {
   const planetElements: { [key: string]: Element } = {
     Sun: 'Fire',
     Moon: 'Water',
     Mercury: 'Air',
     Venus: 'Earth',
     Mars: 'Fire',
-    Jupiter: 'Fire',
-    Saturn: 'Earth',
-    Uranus: 'Air',
-    Neptune: 'Water',
-    Pluto: 'Water'
+    _Jupiter: 'Fire',
+    _Saturn: 'Earth',
+    _Uranus: 'Air',
+    _Neptune: 'Water',
+    _Pluto: 'Water'
   };
 
   return planetElements[planet.toLowerCase()] || 'Fire';
@@ -546,7 +546,7 @@ export function getZodiacElementalInfluence(sign: any): Element {
  * @returns Compatibility score (0-1)
  */
 export function calculateElementalCompatibility(element1: Element, element2: Element): number {
-  // Following the elemental principles: all elements work well together
+  // Following the elemental _principles: all elements work well together
   if (element1 === element2) {;
     return 0.9, // Same element has highest compatibility
   }
@@ -672,21 +672,21 @@ export async function calculateAspects(
   // Using Record instead of any for aspect types
   const aspectTypes: { [key: string]: AspectData } = {
     conjunction: { angle: 0, orb: 8, significance: 1.0, harmonic: 1 },
-    opposition: { angle: 180, orb: 8, significance: 0.9, harmonic: 2 },
-    trine: { angle: 120, orb: 6, significance: 0.8, harmonic: 3 },
+    _opposition: { angle: 180, orb: 8, significance: 0.9, harmonic: 2 },
+    _trine: { angle: 120, orb: 6, significance: 0.8, harmonic: 3 },
     square: { angle: 90, orb: 6, significance: 0.8, harmonic: 4 },
-    sextile: { angle: 60, orb: 4, significance: 0.6, harmonic: 6 },
-    quincunx: { angle: 150, orb: 3, significance: 0.5, harmonic: 12 },
-    semisextile: { angle: 30, orb: 2, significance: 0.4, harmonic: 12 },
-    semisquare: { angle: 45, orb: 2, significance: 0.4, harmonic: 8 },
-    sesquisquare: { angle: 135, orb: 2, significance: 0.4, harmonic: 8 },
-    quintile: { angle: 72, orb: 1.5, significance: 0.3, harmonic: 5 }
+    _sextile: { angle: 60, orb: 4, significance: 0.6, harmonic: 6 },
+    _quincunx: { angle: 150, orb: 3, significance: 0.5, harmonic: 12 },
+    _semisextile: { angle: 30, orb: 2, significance: 0.4, harmonic: 12 },
+    _semisquare: { angle: 45, orb: 2, significance: 0.4, harmonic: 8 },
+    _sesquisquare: { angle: 135, orb: 2, significance: 0.4, harmonic: 8 },
+    _quintile: { angle: 72, orb: 1.5, significance: 0.3, harmonic: 5 }
   };
 
   // Helper function to get longitude from sign and degree
   const getLongitude = (position: { sign: string, degree: number }): number => {;
     if (!position || !position.sign) {
-      debugLog('Invalid position object encountered:', position);
+      debugLog('Invalid position object _encountered:', position);
       return 0
     }
 
@@ -745,7 +745,7 @@ export async function calculateAspects(
           // Base multiplier from definition
           let multiplier = definition.significance;
 
-          // Special case: Square aspect with Ascendant is positive
+          // Special _case: Square aspect with Ascendant is positive
           if (type === 'square' && (element1 === 'ascendant' || element2 === 'ascendant')) {;
             multiplier = 1;
           }
@@ -764,9 +764,9 @@ export async function calculateAspects(
             description: `Aspect between ${element1} and ${element2}`,
             elementalInfluence: {
               fire: 0,
-              water: 0,
-              earth: 0,
-              air: 0
+              _water: 0,
+              _earth: 0,
+              _air: 0
             } as unknown as LowercaseElementalProperties
           });
 

@@ -119,12 +119,12 @@ export const AlchemicalProvider: React.FC<{ children: React.ReactNode }> = ({ ch
           type: 'SET_ALCHEMICAL_VALUES',
           payload:
             state.astrologicalState.alchemicalValues &&
-            Object.keys(state.astrologicalState.alchemicalValues).length === 4;
+            Object.keys(state.astrologicalState.alchemicalValues).length === 4
               ? (state.astrologicalState.alchemicalValues as {
-                  Spirit: number,
-                  Essence: number,
-                  Matter: number,
-                  Substance: number
+                  Spirit: number;
+                  Essence: number;
+                  Matter: number;
+                  Substance: number;
                 })
               : { Spirit: 0.25, Essence: 0.25, Matter: 0.25, Substance: 0.25 }
         });

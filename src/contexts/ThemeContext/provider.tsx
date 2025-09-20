@@ -7,7 +7,7 @@ import { themeManager } from '@/utils/theme';
 import { ThemeContext } from './context';
 import { Theme } from './types';
 
-export function ThemeProvider({ children }: { children: ReactNode }) {
+export function ThemeProvider(_{ children }: { children: ReactNode }) {
   const [theme, setTheme] = useState<Theme>('light');
 
   useEffect(() => {

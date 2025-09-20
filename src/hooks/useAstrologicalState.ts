@@ -4,9 +4,9 @@ import { LunarPhase } from '@/constants/planetaryFoodAssociations';
 import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
 import { PlanetaryHourCalculator } from '@/lib/PlanetaryHourCalculator';
 import { CelestialPosition } from '@/types/celestial';
-import { ZodiacSign, PlanetaryAlignment } from '@/types/common';
-import { longitudeToZodiacPosition } from '@/utils/astrologyUtils';
-import { logger } from '@/utils/logger';
+import {_ZodiacSign, PlanetaryAlignment} from '@/types/common';
+import {_longitudeToZodiacPosition} from '@/utils/astrologyUtils';
+import {logger} from '@/utils/logger';
 
 // Interface for hook return value
 export interface AstrologyHookData {
@@ -78,7 +78,7 @@ function _createCelestialPosition(
 }
 
 export function useAstrologicalState(): AstrologyHookData {
-  const { planetaryPositions, isDaytime } = useAlchemical();
+  const { planetaryPositions, isDaytime} = useAlchemical();
   const [isReady, setIsReady] = useState<boolean>(false);
   const [renderCount, setRenderCount] = useState<number>(0);
 

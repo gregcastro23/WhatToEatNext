@@ -191,12 +191,12 @@ export interface ElementalAffinity {
 
 export interface CelestialPosition {
   sign: any,
-  degree: number,
-  minutes: number
+  _degree: number,
+  _minutes: number
 }
 
 export interface CelestialData {
   sun: CelestialPosition,
-  moon: CelestialPosition,
+  _moon: CelestialPosition,
   timestamp: number
 }

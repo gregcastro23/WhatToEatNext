@@ -9,7 +9,7 @@
 
 import { EnhancedErrorFixerIntegration, FixerResult } from './EnhancedErrorFixerIntegration';
 import { ExplicitAnyEliminationSystem, CampaignProgress } from './ExplicitAnyEliminationSystem';
-import { TypeScriptErrorAnalyzer, ErrorCategory, ErrorSeverity } from './TypeScriptErrorAnalyzer';
+import {TypeScriptErrorAnalyzer, ErrorCategory, _ErrorSeverity} from './TypeScriptErrorAnalyzer';
 
 // ========== ENTERPRISE INTELLIGENCE TYPE DEFINITIONS ==========;
 

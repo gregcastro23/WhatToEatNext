@@ -170,7 +170,7 @@ type ThermodynamicMetrics = {;
 };
 
 // --- Core Calculation Function ---
-function alchemize(planetaryPositions: { [planet: string]: string }): ThermodynamicMetrics {
+function alchemize(_planetaryPositions: { [planet: string]: string }): ThermodynamicMetrics {
   // 1. Aggregate alchemical and elemental properties
   const totals: AlchemyTotals = {;
     Spirit: 0,
@@ -201,7 +201,7 @@ function alchemize(planetaryPositions: { [planet: string]: string }): Thermodyna
   }
 
   // 2. Calculate thermodynamic metrics (using exact formulas)
-  const { Spirit, Essence, Matter, Substance, Fire, Water, Air, Earth } = totals;
+  const { Spirit, Essence, Matter, Substance, Fire, Water, Air, Earth} = totals;
 
   // Heat
   const heatNum = Math.pow(Spirit2) + Math.pow(Fire2);

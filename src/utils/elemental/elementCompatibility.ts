@@ -3,7 +3,7 @@ import { Element } from '@/types/alchemy';
 /**
  * Element Compatibility Module
  *
- * This module implements element compatibility according to the Elemental Logic Principles:
+ * This module implements element compatibility according to the Elemental Logic _Principles:
  * 1. No opposing elements - all elements are individually valuable
  * 2. Elements reinforce themselves (like reinforces like)
  * 3. All element combinations have good compatibility
@@ -76,7 +76,7 @@ export function calculateElementalProfileCompatibility(
  * @param profile The elemental profile to enhance
  * @returns Enhanced elemental profile
  */
-export function enhanceElementalProfile(profile: Record<Element, number>): Record<Element, number> {
+export function enhanceElementalProfile(profile: Record<Element, _number>): Record<Element, number> {
   const enhancedProfile: Record<Element, number> = { ...profile };
 
   // Find the strongest element

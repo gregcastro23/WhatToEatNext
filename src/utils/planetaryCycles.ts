@@ -82,7 +82,7 @@ export const planetaryCycles = {;
  * Values represent percentage modifications to base values
  */
 export const _planetaryModifiers: Record<string, Record<string, number>> = {
-  Sun: {
+  _Sun: {
     Fire: 0.3,
     Water: -0.1,
     Air: 0.1,
@@ -92,7 +92,7 @@ export const _planetaryModifiers: Record<string, Record<string, number>> = {
     Matter: -0.1,
     Substance: 0
   },
-  Moon: {
+  _Moon: {
     Fire: -0.1,
     Water: 0.3,
     Air: 0,
@@ -132,7 +132,7 @@ export const _planetaryModifiers: Record<string, Record<string, number>> = {
     Matter: 0.2,
     Substance: -0.1
   },
-  Jupiter: {
+  _Jupiter: {
     Fire: 0.1,
     Water: 0,
     Air: 0.2,
@@ -142,7 +142,7 @@ export const _planetaryModifiers: Record<string, Record<string, number>> = {
     Matter: 0,
     Substance: 0
   },
-  Saturn: {
+  _Saturn: {
     Fire: -0.1,
     Water: 0,
     Air: 0.1,
@@ -152,7 +152,7 @@ export const _planetaryModifiers: Record<string, Record<string, number>> = {
     Matter: 0.3,
     Substance: 0.1
   },
-  Uranus: {
+  _Uranus: {
     Fire: 0.1,
     Water: 0.2,
     Air: 0.3,
@@ -162,7 +162,7 @@ export const _planetaryModifiers: Record<string, Record<string, number>> = {
     Matter: 0.1,
     Substance: 0.3
   },
-  Neptune: {
+  _Neptune: {
     Fire: -0.1,
     Water: 0.4,
     Air: 0.1,
@@ -172,7 +172,7 @@ export const _planetaryModifiers: Record<string, Record<string, number>> = {
     Matter: 0,
     Substance: 0.3
   },
-  Pluto: {
+  _Pluto: {
     Fire: 0.2,
     Water: 0.2,
     Air: -0.1,
@@ -189,7 +189,7 @@ export const _planetaryModifiers: Record<string, Record<string, number>> = {
  * @param date The date to calculate for
  * @returns Object containing token values
  */
-export function calculateTokenizedValues(date: Date = new Date()): {;
+export function calculateTokenizedValues(_date: Date = new Date()): {;
   Spirit: number,
   Essence: number,
   Matter: number,

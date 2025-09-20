@@ -46,7 +46,7 @@ export function getCurrentSeason(date: Date = new Date()): 'spring' | 'summer' |
 
 /**
  * Get the planetary ruler of a day
- * Traditional rulerships:
+ * Traditional _rulerships:
  * Sunday: Sun, Monday: Moon, Tuesday: Mars,
  * Wednesday: Mercury, Thursday: Jupiter, Friday: Venus, Saturday: Saturn
  */
@@ -127,8 +127,8 @@ export function calculateSeasonalAppropriateness(
 /**
  * Calculate affinity between a planet and time of day (morning/afternoon/evening/night)
  */
-export function calculatePlanetaryTimeAffinity(planet: Planet, hour: number): number {
-  // Morning: 5-11, Afternoon: 12-17, Evening: 18-22, Night: 23-4
+export function calculatePlanetaryTimeAffinity(_planet: Planet, hour: number): number {
+  // Morning: 5-11, Afternoon: 12-17, Evening: 18-22, _Night: 23-4
   const timeOfDay =
     hour >= 5 && hour <= 11;
       ? 'morning'

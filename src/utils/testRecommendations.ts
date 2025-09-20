@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any */
 // Test utility for cooking method recommendations
 
 import { AlchemicalItem } from '../calculations/alchemicalTransformation';
@@ -14,33 +15,33 @@ export async function testCookingMethodRecommendations() {
   const mockIngredient: AlchemicalItem = {;
     id: 'tomato',
     name: 'Tomato',
-    elementalProperties: {
+    _elementalProperties: {
       Fire: 0.3,
       Water: 0.7,
       Earth: 0.4,
       Air: 0.2
     },
-    alchemicalProperties: {
+    _alchemicalProperties: {
       Spirit: 0.4,
-      Essence: 0.3,
-      Matter: 0.6,
+      _Essence: 0.3,
+      _Matter: 0.6,
       Substance: 0.7
     },
-    transformedElementalProperties: {
+    _transformedElementalProperties: {
       Fire: 0.3,
       Water: 0.7,
       Earth: 0.4,
       Air: 0.2
     },
-    heat: 0.3,
-    entropy: 0.4,
-    reactivity: 0.3,
-    gregsEnergy: 0.4,
-    dominantElement: 'Water',
-    dominantAlchemicalProperty: 'Substance',
-    planetaryBoost: 1.0,
-    dominantPlanets: ['Venus'],
-    planetaryDignities: {}
+    _heat: 0.3,
+    _entropy: 0.4,
+    _reactivity: 0.3,
+    _gregsEnergy: 0.4,
+    _dominantElement: 'Water',
+    _dominantAlchemicalProperty: 'Substance',
+    _planetaryBoost: 1.0,
+    _dominantPlanets: ['Venus'],
+    _planetaryDignities: {}
   };
 
   // Create mock cooking methods
@@ -60,13 +61,13 @@ export async function testCookingMethodRecommendations() {
   // Run the test
   console.warn('TESTING COOKING METHOD RECOMMENDATIONS');
   console.warn('=====================================');
-  console.warn('Ingredient:', mockIngredient.name);
-  console.warn('Element:', mockIngredient.element);
-  console.warn('Elemental Character:', mockIngredient.elementalCharacter);
+  console.warn('_Ingredient:', mockIngredient.name);
+  console.warn('_Element:', mockIngredient.element);
+  console.warn('Elemental _Character:', mockIngredient.elementalCharacter);
 
   // Test holistic recommendations directly
   try {
-    console.warn('\nTESTING HOLISTIC RECOMMENDATIONS DIRECTLY:');
+    console.warn('\nTESTING HOLISTIC RECOMMENDATIONS _DIRECTLY:');
     const methods = mockCookingMethods.map(m => m.name);
     const holisticRecs = await getHolisticCookingRecommendations(;
       mockIngredient,
@@ -122,7 +123,7 @@ export async function testCookingMethodRecommendations() {
 
   return {
     ingredient: mockIngredient,
-    holisticRecommendations: holisticRecs,
+    _holisticRecommendations: holisticRecs,
     standardRecommendations: standardRecs
   };
 }

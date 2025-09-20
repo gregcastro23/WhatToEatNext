@@ -93,7 +93,7 @@ export function calculateThermodynamicProperties(
 // Helper functions to calculate individual properties
 function _calculateSpiritValue(flavorProfile: FlavorProfile): number {
   // Implement logic based on flavor profile attributes
-  // Example: spirit might be higher for aromatic, fragrant ingredients
+  // _Example: spirit might be higher for aromatic, fragrant ingredients
   return flavorProfile.intensity || 0.5; // Default to 0.5 if intensity not provided
 }
 
@@ -302,7 +302,7 @@ export function validateIngredient(
 /**
  * Validates a recipe ingredient
  */
-export function validateRecipeIngredient(ingredient: Partial<RecipeIngredient>): {
+export function validateRecipeIngredient(_ingredient: Partial<RecipeIngredient>): {
   isValid: boolean,
   errors: string[]
 } {
@@ -323,7 +323,7 @@ export function validateRecipeIngredient(ingredient: Partial<RecipeIngredient>):
 
   // If elemental properties are provided, validate them
   if (ingredient.elementalProperties) {
-    const { Fire, Water, Earth, Air } = ingredient.elementalProperties;
+    const { Fire, Water, Earth, Air} = ingredient.elementalProperties;
 
     if (typeof Fire !== 'number' || Fire < 0 || Fire > 1) {
       errors.push('Fire elemental property must be a number between 0 and 1');
@@ -364,8 +364,8 @@ export function mergeElementalProperties(
 /**
  * Gets the dominant element from an ElementalProperties object
  */
-export function getDominantElement(elementalProperties: ElementalProperties): string {
-  const { Fire, Water, Earth, Air } = elementalProperties;
+export function getDominantElement(_elementalProperties: ElementalProperties): string {
+  const { Fire, Water, Earth, Air} = elementalProperties;
   const max = Math.max(Fire, Water, Earth, Air);
 
   if (max === Fire) return 'Fire';
@@ -392,14 +392,14 @@ export function mapToIngredient(mapping: IngredientMapping): Ingredient {
     },
     qualities: (mapping.qualities as unknown as string[]) || [],
     storage: (mapping.storage as unknown ) || {
-      duration: 'unknown'
+      _duration: 'unknown'
     },
     // Add missing required properties for Ingredient interface
     amount: (mapping as unknown ).amount || 1,
     astrologicalProfile: (mapping as unknown ).astrologicalProfile || {
-      elementalAffinity: { base: 'Earth' },
-      rulingPlanets: [],
-      zodiacAffinity: []
+      _elementalAffinity: { base: 'Earth' },
+      _rulingPlanets: [],
+      _zodiacAffinity: []
     }
   } as unknown as Ingredient;
 
@@ -443,8 +443,8 @@ export function ingredientToRecipeIngredient(
 /**
  * Normalizes elemental properties to ensure they sum to 1
  */
-export function normalizeElementalProperties(properties: ElementalProperties): ElementalProperties {
-  const { Fire, Water, Earth, Air } = properties;
+export function normalizeElementalProperties(_properties: ElementalProperties): ElementalProperties {
+  const { Fire, Water, Earth, Air} = properties;
   const sum = Fire + Water + Earth + Air;
 
   if (sum === 0) {;

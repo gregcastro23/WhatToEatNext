@@ -26,7 +26,7 @@ const defaultContextValue: ChartContextType = {;
 
 const ChartContext = createContext<ChartContextType>(defaultContextValue);
 
-export function ChartProvider({ children }: { children: ReactNode }) {
+export function ChartProvider(_{ children }: { children: ReactNode }) {
   const [currentChart, setCurrentChart] = useState<AstrologicalChart | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);

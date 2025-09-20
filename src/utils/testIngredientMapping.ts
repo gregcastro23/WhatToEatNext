@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any */
 /**
  * Test utility for ingredient mapping functionality
  * Shows how to use the mapping between ingredient data and recipe ingredients
@@ -98,8 +99,8 @@ export function findRecipesMatchingElementalAndIngredientRequirements(
     allRecipes as unknown as Recipe[],
     elementalTarget as unknown as ElementalProperties,
     {
-      required: requiredIngredients,
-      excluded: excludedIngredients,
+      _required: requiredIngredients,
+      _excluded: excludedIngredients,
       dietaryRestrictions: dietaryRestrictions,
       emphasized: [], // Optional emphasized ingredients
     } as unknown,
@@ -126,7 +127,7 @@ export function suggestIngredientSubstitutions(recipe: Recipe, ingredientToRepla
   if (!ingredientMapping?.matchedTo) {
     return {
       success: false,
-      message: `Could not find a mapping for '${ingredientToReplace}'`,
+      _message: `Could not find a mapping for '${ingredientToReplace}'`,
       suggestions: []
     };
   }

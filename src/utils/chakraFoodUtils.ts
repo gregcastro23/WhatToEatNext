@@ -115,7 +115,7 @@ const FOOD_ITEMS_BY_GROUP: Record<string, string[]> = {
  * @param chakraEnergyStates Array of chakra energy states
  * @returns Object with specific food recommendations
  */
-export function getFoodRecommendationsFromChakras(chakraEnergyStates: ChakraEnergyState[]): {
+export function getFoodRecommendationsFromChakras(_chakraEnergyStates: ChakraEnergyState[]): {
   primaryFoods: string[],
   secondaryFoods: string[],
   avoidFoods: string[],
@@ -319,7 +319,7 @@ function generateBalancingMeals(
  * @param zodiacSign The zodiac sign to get food recommendations for
  * @returns Array of recommended foods
  */
-export function getZodiacSignFoodRecommendations(zodiacSign: any): string[] {
+export function getZodiacSignFoodRecommendations(_zodiacSign: any): string[] {
   // Mapping of zodiac signs to primarily associated chakras
   const ZODIAC_PRIMARY_CHAKRA: Record<ZodiacSign, Chakra> = {
     aries: 'Solar Plexus',

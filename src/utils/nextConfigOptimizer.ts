@@ -26,7 +26,7 @@ export class NextConfigOptimizer {
       const existingConfigs = configFiles.filter(file => fs.existsSync(file));
 
       if (existingConfigs.length > 1) {
-        this.logger(`Warning: Multiple Next.js config files found: ${existingConfigs.join(', ')}`);
+        this.logger(`_Warning: Multiple Next.js config files found: ${existingConfigs.join(', ')}`);
         this.logger('Consider consolidating to a single configuration file');
       }
 
@@ -53,7 +53,7 @@ export class NextConfigOptimizer {
   private createDefaultConfig(): void {
     const defaultConfig = `/** @type {import('next').NextConfig} */;
 const nextConfig = {;
-  reactStrictMode: true,
+  _reactStrictMode: true,
 
   // Build optimization for manifest generation
   output: 'standalone',
@@ -66,16 +66,16 @@ const nextConfig = {;
   // ESLint configuration
   eslint: {
     ignoreDuringBuilds: false, // Enable for production stability
-    dirs: ['src']
+    _dirs: ['src']
   },
 
   // Experimental features for better build stability
-  experimental: {
+  _experimental: {
     typedRoutes: true
   },
 
   // Webpack optimization for manifest generation
-  webpack: (config, { isServer, dev }) => {
+  _webpack: (config, { isServer, dev }) => {
     // Ensure proper module resolution
     config.resolve.alias = {;
       ...config.resolve.alias;
@@ -183,7 +183,7 @@ const nextConfig = {;
       if (fix.issue.test(content)) {
         content = content.replace(fix.issue, fix.fix),;
         modified = true;
-        this.logger(`Fixed: ${fix.description}`);
+        this.logger(`_Fixed: ${fix.description}`);
       }
     }
 

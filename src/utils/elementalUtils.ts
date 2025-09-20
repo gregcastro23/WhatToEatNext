@@ -210,7 +210,7 @@ export function getMissingElements(
 }
 
 export const elementalUtils = {;
-  validateProperties: validateElementalRequirements,
+  _validateProperties: validateElementalRequirements,
   normalizeProperties: normalizeProperties,
   standardizeRecipeElements: standardizeRecipeElements,
   getMissingElements,
@@ -505,7 +505,7 @@ export function transformItemsWithPlanetaryPositions(
   tarotPlanetaryBoosts?: Record<string, number>,
 ): AlchemicalItem[] {
   return items.map(item => {;
-    const { boost: planetaryInfluence } = calculatePlanetaryBoost(
+    const { _boost: planetaryInfluence} = calculatePlanetaryBoost(
       item,
       planetaryPositions,
       currentZodiac,
@@ -648,7 +648,7 @@ export function transformItemsWithPlanetaryPositions(
       id: item.id,
       name: item.name,
       elementalProperties: item.elementalProperties,
-      transformedElementalProperties: scaledElements,
+      _transformedElementalProperties: scaledElements,
       alchemicalProperties: {
         Spirit: boostedSpirit,
         Essence: boostedEssence,
@@ -661,7 +661,7 @@ export function transformItemsWithPlanetaryPositions(
       gregsEnergy: gregsEnergy,
       dominantElement,
       dominantAlchemicalProperty,
-      planetaryBoost: planetaryInfluence,
+      _planetaryBoost: planetaryInfluence,
       dominantPlanets,
       planetaryDignities
     } as unknown as AlchemicalItem;
@@ -840,9 +840,9 @@ export function enhanceVegetableTransformations(
 
       // Set default transformations based on dominant element
       enhanced.elementalTransformation = {;
-        whenCooked: { [dominantElement]: 0.1, Fire: 0.05 },
-        whenDried: { Earth: 0.1, Air: 0.05 },
-        whenFermented: { Water: 0.1, Air: 0.05 }
+        _whenCooked: { [dominantElement]: 0.1, Fire: 0.05 },
+        _whenDried: { Earth: 0.1, Air: 0.05 },
+        _whenFermented: { Water: 0.1, Air: 0.05 }
       };
     }
 
@@ -850,29 +850,29 @@ export function enhanceVegetableTransformations(
     const transformation = enhanced.elementalTransformation as any;
     if (transformation && !transformation.thermodynamicChanges) {
       transformation.thermodynamicChanges = {;
-        cooked: {
+        _cooked: {
           heat: 0.1,
           entropy: 0.05,
           reactivity: 0.05
         },
-        dried: {
+        _dried: {
           heat: -0.05,
           entropy: -0.1,
           reactivity: -0.05
         },
-        fermented: {
+        _fermented: {
           entropy: 0.2,
           reactivity: 0.15,
-          stabilityIndex: -0.1
+          _stabilityIndex: -0.1
         },
-        roasted: {
+        _roasted: {
           heat: 0.2,
           entropy: 0.1,
           energy: 0.15
         },
-        steamed: {
+        _steamed: {
           heat: 0.05,
-          moisture: 0.2,
+          _moisture: 0.2,
           reactivity: 0.05
         }
       };
@@ -922,7 +922,7 @@ export function enhanceVegetableTransformations(
             crunchy: 0
           }
         },
-        root: {
+        _root: {
           taste: {
             sweet: 0.5,
             earthy: 0.3,
@@ -948,7 +948,7 @@ export function enhanceVegetableTransformations(
             creamy: 0
           }
         },
-        allium: {
+        _allium: {
           taste: {
             pungent: 0.6,
             sweet: 0.2,
@@ -974,7 +974,7 @@ export function enhanceVegetableTransformations(
             creamy: 0
           }
         },
-        cruciferous: {
+        _cruciferous: {
           taste: {
             bitter: 0.5,
             sweet: 0.2,
@@ -985,7 +985,7 @@ export function enhanceVegetableTransformations(
           },
           aroma: {
             earthy: 0.4,
-            sulfurous: 0.3,
+            _sulfurous: 0.3,
             woody: 0.2,
             herbal: 0.1,
             floral: 0,
@@ -1000,7 +1000,7 @@ export function enhanceVegetableTransformations(
             creamy: 0
           }
         },
-        nightshade: {
+        _nightshade: {
           taste: {
             umami: 0.5,
             sweet: 0.3,
@@ -1019,14 +1019,14 @@ export function enhanceVegetableTransformations(
           },
           texture: {
             tender: 0.5,
-            juicy: 0.3,
+            _juicy: 0.3,
             chewy: 0.2,
             crisp: 0,
             crunchy: 0,
             silky: 0
           }
         },
-        squash: {
+        _squash: {
           taste: {
             sweet: 0.6,
             earthy: 0.2,
@@ -1052,7 +1052,7 @@ export function enhanceVegetableTransformations(
             silky: 0
           }
         },
-        legume: {
+        _legume: {
           taste: {
             earthy: 0.5,
             sweet: 0.3,
@@ -1195,19 +1195,19 @@ export function enhanceOilProperties(
             sweet: isFruity || isTropical ? 0.6 : 0.2,
             bitter: isNutty ? 0.4 : 0.1,
             umami: isNutty ? 0.5 : 0.2,
-            rich: isNutty || isFruity ? 0.7 : 0.4
+            _rich: isNutty || isFruity ? 0.7 : 0.4
           },
           aroma: {
             fruity: isFruity ? 0.8 : 0.1,
             nutty: isNutty ? 0.8 : 0.1,
             floral: isFloral ? 0.7 : 0.1,
             neutral: isNeutral ? 0.9 : 0.2,
-            tropical: isTropical ? 0.8 : 0.1
+            _tropical: isTropical ? 0.8 : 0.1
           },
           texture: {
             viscosity: isTropical || oilType.includes('olive') ? 0.7 : 0.5,
-            mouthfeel: isFruity || isNutty ? 0.8 : 0.5,
-            richness: isFruity || isNutty || isTropical ? 0.7 : 0.4
+            _mouthfeel: isFruity || isNutty ? 0.8 : 0.5,
+            _richness: isFruity || isNutty || isTropical ? 0.7 : 0.4
           }
         })
       );
@@ -1304,25 +1304,25 @@ export function enhanceOilProperties(
     if (!enhancedOil.elementalTransformation) {
       enhancedOil.elementalTransformation = String(;
         JSON.stringify({
-          whenHeated: {
+          _whenHeated: {
             Fire: 0.2,
             Air: 0.1,
             Water: -0.1,
             Earth: -0.05
           },
-          whenCooled: {
+          _whenCooled: {
             Water: 0.1,
             Earth: 0.2,
             Fire: -0.1,
             Air: -0.05
           },
-          whenMixed: {
+          _whenMixed: {
             Air: 0.15,
             Water: 0.1,
             Fire: -0.05,
             Earth: -0.05
           },
-          whenInfused: {
+          _whenInfused: {
             Air: 0.2,
             Fire: 0.1,
             Earth: -0.05,
@@ -1440,8 +1440,8 @@ export const fixIngredientMapping = (;
     Object.keys(mapping.astrologicalProfile).length === 0;
   ) {
     mapping.astrologicalProfile = {;
-      rulingPlanets: [],
-      favorableZodiac: []
+      _rulingPlanets: [],
+      _favorableZodiac: []
     };
   }
   return {

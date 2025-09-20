@@ -1,8 +1,8 @@
-import { useState, useEffect, useMemo } from 'react';
+import {useState, useEffect, _useMemo} from 'react';
 
-import { cookingMethods } from '@/data/cooking/cookingMethods';
-import { allCookingMethods } from '@/data/cooking/methods';
-import { log } from '@/services/LoggingService';
+import {cookingMethods} from '@/data/cooking/cookingMethods';
+import {allCookingMethods} from '@/data/cooking/methods';
+import {log} from '@/services/LoggingService';
 
 // Define the interface for cooking methods that the component expects
 interface CookingMethod {

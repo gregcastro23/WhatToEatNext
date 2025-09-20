@@ -18,8 +18,8 @@ import {
 } from '../types/campaign';
 
 import { CampaignController } from './campaign/CampaignController';
-import { CAMPAIGN_INTELLIGENCE_DEMO as CampaignIntelligenceSystem } from './campaign/CampaignIntelligenceSystem';
-import { ProgressTracker } from './campaign/ProgressTracker';
+import {_CAMPAIGN_INTELLIGENCE_DEMO as CampaignIntelligenceSystem} from './campaign/CampaignIntelligenceSystem';
+import {ProgressTracker} from './campaign/ProgressTracker';
 
 // Re-export required types for external components
 export type { CampaignPhase, ValidationResult } from '../types/campaign';

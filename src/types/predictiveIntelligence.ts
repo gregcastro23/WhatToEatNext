@@ -2,110 +2,110 @@
  * Type definitions for Predictive Intelligence Service
  */
 
-import { Recipe, Ingredient, ZodiacSign, ElementalProperties } from './unified';
+import {Recipe, Ingredient, ElementalProperties} from './unified';
 
 export interface PredictiveContext {
-  zodiacSign: any,
-  lunarPhase: string,
+  _zodiacSign: any,
+  _lunarPhase: string,
   season: string,
   planetaryPositions?: Record<string, PlanetaryPosition>;
-  elementalProperties: ElementalProperties;
+  _elementalProperties: ElementalProperties;
   timeOfDay?: string;
   userPreferences?: UserPreferences;
 }
 
 export interface PlanetaryPosition {
   sign: string,
-  degree: number,
+  _degree: number,
   isRetrograde?: boolean;
   aspect?: string;
 }
 
 export interface UserPreferences {
-  favoriteIngredients: string[],
-  dislikedIngredients: string[],
-  preferredCuisines: string[],
-  dietaryRestrictions: string[],
-  spicePreference: 'mild' | 'medium' | 'hot',
-  cookingSkillLevel: 'beginner' | 'intermediate' | 'advanced'
+  _favoriteIngredients: string[],
+  _dislikedIngredients: string[],
+  _preferredCuisines: string[],
+  _dietaryRestrictions: string[],
+  _spicePreference: 'mild' | 'medium' | 'hot',
+  _cookingSkillLevel: 'beginner' | 'intermediate' | 'advanced'
 }
 
 export interface PredictionResult {
   prediction: unknown,
   confidence: number,
   factors: string[],
-  timeframe: 'immediate' | 'short-term' | 'medium-term' | 'long-term'
+  _timeframe: 'immediate' | 'short-term' | 'medium-term' | 'long-term'
 }
 
 export interface RecipePredictions {
   successProbability: PredictionResult,
-  popularityForecast: PredictionResult,
-  seasonalTrends: PredictionResult,
-  userSatisfactionPrediction: PredictionResult
+  _popularityForecast: PredictionResult,
+  _seasonalTrends: PredictionResult,
+  _userSatisfactionPrediction: PredictionResult
 }
 
 export interface IngredientPredictions {
   availabilityForecast: PredictionResult,
-  priceProjections: PredictionResult,
-  qualityPredictions: PredictionResult,
-  substitutionRecommendations: PredictionResult
+  _priceProjections: PredictionResult,
+  _qualityPredictions: PredictionResult,
+  _substitutionRecommendations: PredictionResult
 }
 
 export interface CuisinePredictions {
   trendAnalysis: PredictionResult,
-  fusionOpportunities: PredictionResult,
-  marketDemandProjection: PredictionResult,
-  seasonalPopularity: PredictionResult
+  _fusionOpportunities: PredictionResult,
+  _marketDemandProjection: PredictionResult,
+  _seasonalPopularity: PredictionResult
 }
 
 export interface AstrologicalPredictions {
   optimalTimingPrediction: PredictionResult,
-  planetaryInfluenceProjection: PredictionResult,
-  lunarCycleOptimization: PredictionResult,
-  energeticHarmonyForecast: PredictionResult
+  _planetaryInfluenceProjection: PredictionResult,
+  _lunarCycleOptimization: PredictionResult,
+  _energeticHarmonyForecast: PredictionResult
 }
 
 export interface PredictiveIntelligenceResult {
   recipePrediction: RecipePredictions,
-  ingredientPrediction: IngredientPredictions,
-  cuisinePrediction: CuisinePredictions,
-  astrologicalPrediction: AstrologicalPredictions,
+  _ingredientPrediction: IngredientPredictions,
+  _cuisinePrediction: CuisinePredictions,
+  _astrologicalPrediction: AstrologicalPredictions,
   confidence: number,
   timestamp: string
 }
 
 export interface PredictiveMetrics {
   totalPredictions: number,
-  averageConfidence: number,
-  cacheHitRate: number,
-  errorRate: number,
-  executionTimes: number[],
+  _averageConfidence: number,
+  _cacheHitRate: number,
+  _errorRate: number,
+  _executionTimes: number[],
   accuracyRate?: number;
-  predictionTypes: Record<string, number>;
+  _predictionTypes: Record<string, number>;
 }
 
 export interface PredictiveModelWeights {
-  historical: number,
-  seasonal: number,
-  astrological: number,
-  user: number,
-  market: number,
-  cultural: number
+  _historical: number,
+  _seasonal: number,
+  _astrological: number,
+  _user: number,
+  _market: number,
+  _cultural: number
 }
 
 export interface TimeSeriesData {
   timestamp: string,
-  value: number,
+  _value: number,
   confidence: number,
   factors: string[]
 }
 
 export interface TrendAnalysis {
   direction: 'increasing' | 'decreasing' | 'stable' | 'volatile',
-  strength: number,
-  duration: string,
+  _strength: number,
+  _duration: string,
   confidence: number,
-  supportingFactors: string[]
+  _supportingFactors: string[]
 }
 
 export interface PredictionInput {
@@ -113,8 +113,8 @@ export interface PredictionInput {
   ingredients?: Ingredient[];
   cuisine?: {
     name: string,
-    type: string,
-    characteristics: string[]
+    _type: string,
+    _characteristics: string[]
   };
   context: PredictiveContext;
   historicalData?: TimeSeriesData[];
@@ -123,30 +123,30 @@ export interface PredictionInput {
 
 export interface SeasonalPrediction {
   season: string,
-  probability: number,
+  _probability: number,
   factors: string[],
-  recommendations: string[]
+  _recommendations: string[]
 }
 
 export interface MarketPrediction {
   demand: number,
-  supply: number,
-  priceEstimate: number,
-  marketFactors: string[],
-  competitorAnalysis: string[]
+  _supply: number,
+  _priceEstimate: number,
+  _marketFactors: string[],
+  _competitorAnalysis: string[]
 }
 
 export interface CulturalPrediction {
   adoption: number,
-  resistance: number,
-  culturalFactors: string[],
-  adaptationRecommendations: string[]
+  _resistance: number,
+  _culturalFactors: string[],
+  _adaptationRecommendations: string[]
 }
 
 export interface PredictiveAlgorithmConfig {
   algorithm: 'linear' | 'polynomial' | 'neural' | 'ensemble',
-  lookback: number,
-  horizon: number,
+  _lookback: number,
+  _horizon: number,
   confidence: number,
   factors: string[]
 }

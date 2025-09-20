@@ -22,7 +22,7 @@ import type {
   ElementalProperties,
   ZodiacSign
 } from '@/types';
-// Removed unused imports: LunarPhase, Season, Element
+// Removed unused _imports: LunarPhase, Season, Element
 import type { Modality, Planet } from '@/types/celestial';
 
 // Create eggs and dairy from proteins by filtering category
@@ -55,7 +55,7 @@ export interface EnhancedIngredient {
       carbs: number,
       fat: number,
       fiber: number,
-      sugars: number
+      _sugars: number
     };
     vitamins: Record<string, number>;
     minerals: Record<string, number>;
@@ -101,8 +101,8 @@ export const getAllIngredients = (): EnhancedIngredient[] => {;
   ];
 
   // Track counts for categories of interest
-  let herbCount = 0;
-  let grainCount = 0;
+  const herbCount = 0;
+  const grainCount = 0;
 
   // Process each category
   categories.forEach(category => {;
@@ -262,7 +262,7 @@ function standardizeIngredient(ingredient: EnhancedIngredient): EnhancedIngredie
 /**
  * Calculate elemental properties based on ingredient characteristics
  */
-function calculateElementalProperties(ingredient: EnhancedIngredient): ElementalProperties {
+function calculateElementalProperties(_ingredient: EnhancedIngredient): ElementalProperties {
   // Start with balanced values
   const elementalProps: ElementalProperties = {;
     Fire: 0,
@@ -425,8 +425,8 @@ export const getRecommendedIngredients = (astroState: AstrologicalState): Enhanc
     // Now includes planet strength based on current sign and aspects
     let _planetScore = 0;
     if (profile.rulingPlanets && profile.rulingPlanets.length > 0) {
-      let totalPlanetStrength = 0;
-      let matchingPlanets = 0;
+      const totalPlanetStrength = 0;
+      const matchingPlanets = 0;
 
       profile.rulingPlanets.forEach(planet => {;
         const planetLower = planet.toLowerCase();
@@ -763,7 +763,7 @@ export const getRecommendedIngredients = (astroState: AstrologicalState): Enhanc
 
         if (relevantAspects.length > 0) {
           // Calculate average aspect strength considering aspect type
-          let totalStrength = 0;
+          const totalStrength = 0;
 
           relevantAspects.forEach(aspect => {;
             let multiplier = 1.0;
@@ -871,8 +871,8 @@ export const getRecommendedIngredients = (astroState: AstrologicalState): Enhanc
 
       // Calculate weighted scores based on user preferences
       if (sensory.taste) {
-        let tasteScore = 0;
-        let weightSum = 0;
+        const tasteScore = 0;
+        const weightSum = 0;
 
         // Weight taste dimensions based on user preferences
         Object.entries(sensory.taste).forEach(([taste, value]) => {
@@ -925,7 +925,7 @@ export const getRecommendedIngredients = (astroState: AstrologicalState): Enhanc
       }
     }
 
-    // NEW: Calculate nutritional score based on ingredient nutritional properties
+    // _NEW: Calculate nutritional score based on ingredient nutritional properties
     let _nutritionalScore = 0.5; // Default neutral score
     if (standardized.nutritionalProfile) {
       const nutrition = standardized.nutritionalProfile;
@@ -1009,7 +1009,7 @@ export const getRecommendedIngredients = (astroState: AstrologicalState): Enhanc
         elemental: elementScore,
         zodiac: zodiacScore,
         season: seasonalScore,
-        timeOfDay: timeOfDayScore,
+        _timeOfDay: timeOfDayScore,
         lunar: lunarScore,
         aspect: aspectScore,
         planetaryDay: planetaryDayScore,

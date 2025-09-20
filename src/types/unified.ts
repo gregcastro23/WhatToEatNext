@@ -97,17 +97,17 @@ export interface Ingredient {
 
 export interface UnifiedIngredient extends Ingredient {
   unifiedId: string,
-  mappings: IngredientMapping[],
+  _mappings: IngredientMapping[],
   validationStatus: 'validated' | 'pending' | 'error',
-  sources: string[],
-  lastUpdated: Date
+  _sources: string[],
+  _lastUpdated: Date
 }
 
 export interface IngredientMapping {
   sourceId: string,
-  sourceName: string,
-  confidence: number,
-  mappingType: 'exact' | 'similar' | 'category'
+  _sourceName: string,
+  _confidence: number,
+  _mappingType: 'exact' | 'similar' | 'category'
 }
 
 // Astrological profile types
@@ -120,10 +120,10 @@ export interface AstrologicalProfile {
 }
 
 export interface SeasonalPreferences {
-  spring: number,
-  summer: number,
-  autumn: number,
-  winter: number
+  _spring: number,
+  _summer: number,
+  _autumn: number,
+  _winter: number
 }
 
 // Nutritional data types
@@ -144,7 +144,7 @@ export interface PlanetPosition {
   sign: any,
   degree: number,
   minute?: number;
-  exactLongitude: number;
+  _exactLongitude: number;
   isRetrograde?: boolean;
   error?: boolean;
 }
@@ -160,23 +160,23 @@ export interface PlanetaryPosition {
 export interface SearchFilters {
   query: string,
   dietaryRestrictions: string[],
-  difficultyLevel: string[],
-  cookingTime: {
+  _difficultyLevel: string[],
+  _cookingTime: {
     min: number,
     max: number
   };
   cuisineTypes: string[],
-  mealTypes: string[],
-  spiciness: string[],
+  _mealTypes: string[],
+  _spiciness: string[],
   ingredients: string[]
 }
 
 export interface FilterChip {
   id: string,
-  label: string,
+  _label: string,
   category: string,
   value: string | number,
-  removable: boolean
+  _removable: boolean
 }
 
 // Cooking method types (extended)
@@ -210,9 +210,9 @@ export interface TemperatureRange {
 
 export interface ThermodynamicProperties {
   heat: number,
-  entropy: number,
-  reactivity: number,
-  gregsEnergy: number
+  _entropy: number,
+  _reactivity: number,
+  _gregsEnergy: number
 }
 
 export interface AstrologicalInfluences {
@@ -229,8 +229,8 @@ export interface Recipe {
   description?: string;
   ingredients: RecipeIngredient[],
   instructions: string[],
-  cookingMethod: string,
-  servings: number,
+  _cookingMethod: string,
+  _servings: number,
   prepTime?: number;
   cookTime?: number;
   totalTime?: number;
@@ -333,29 +333,29 @@ export interface NutritionalGoals {
 }
 
 export interface RecommendationResult {
-  recipes: Recipe[],
+  _recipes: Recipe[],
   ingredients: Ingredient[],
   cookingMethods: CookingMethodExtended[],
-  score: number,
-  reasoning: string[],
-  astrologicalAlignment: number,
-  elementalHarmony: number,
-  nutritionalFit: number,
-  culturalRelevance: number
+  _score: number,
+  _reasoning: string[],
+  _astrologicalAlignment: number,
+  _elementalHarmony: number,
+  _nutritionalFit: number,
+  _culturalRelevance: number
 }
 
 // Validation types
 export interface ValidationResult {
   isValid: boolean,
-  errors: ValidationError[],
-  warnings: ValidationWarning[]
+  _errors: ValidationError[],
+  _warnings: ValidationWarning[]
 }
 
 export interface ValidationError {
   field: string,
   message: string,
   code: string,
-  severity: 'error' | 'warning' | 'info'
+  _severity: 'error' | 'warning' | 'info'
 }
 
 export interface ValidationWarning {
@@ -366,7 +366,7 @@ export interface ValidationWarning {
 
 // API response types
 export interface ApiResponse<T> {
-  success: boolean;
+  _success: boolean;
   data?: T;
   error?: ApiError;
   timestamp: string;
@@ -413,24 +413,24 @@ export interface PaginationOptions {
 }
 
 export interface SearchResult<T> {
-  items: T[],
-  total: number,
+  _items: T[],
+  _total: number,
   page: number,
   limit: number,
-  hasMore: boolean,
+  _hasMore: boolean,
   facets?: SearchFacets;
 }
 
 export interface SearchFacets {
-  categories: FacetCount[],
-  elements: FacetCount[],
-  cuisines: FacetCount[],
+  _categories: FacetCount[],
+  _elements: FacetCount[],
+  _cuisines: FacetCount[],
   difficulty: FacetCount[]
 }
 
 export interface FacetCount {
   value: string,
-  count: number,
+  _count: number,
   selected?: boolean;
 }
 
@@ -458,9 +458,9 @@ export type NumberKeys<T> = {
 // Default values and constants
 export const DEFAULT_ELEMENTAL_PROPERTIES: ElementalProperties = {;
   Fire: 0.25,
-  Water: 0.25,
-  Earth: 0.25,
-  Air: 0.25
+  _Water: 0.25,
+  _Earth: 0.25,
+  _Air: 0.25
 };
 
 export const DEFAULT_NUTRITIONAL_DATA: NutritionalData = {;

@@ -1,16 +1,16 @@
 import { CuisineProfile } from '@/data/cuisines/culinaryTraditions';
-import { ElementalProperties, ZodiacSign, AstrologicalInfluence } from '@/types/alchemy';
+import {ElementalProperties, AstrologicalInfluence} from '@/types/alchemy';
 
 // Re-export Recipe from recipe.ts to fix TS2305 error in recipeCalculations.ts
 export type { Recipe } from './recipe';
 
 export interface RecipeElementalMapping {
-  elementalProperties: ElementalProperties,
-  astrologicalProfile: {
+  _elementalProperties: ElementalProperties,
+  _astrologicalProfile: {
     rulingPlanets: string[],
-    favorableZodiac: any[],
-    optimalAspects: string[],
-    techniqueEnhancers: AstrologicalInfluence[]
+    _favorableZodiac: any[],
+    _optimalAspects: string[],
+    _techniqueEnhancers: AstrologicalInfluence[]
   };
   cuisine: CuisineProfile,
   ingredientBalance: {

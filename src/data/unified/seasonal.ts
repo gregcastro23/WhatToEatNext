@@ -1407,7 +1407,7 @@ export function getRecommendedCookingMethodByTarotCard(season: Season, cardKey: 
 }
 
 // Export helper functions from original seasonalUsage.ts
-export function getSeasonalUsageData(ingredient: string, season: Season) {
+export function getSeasonalUsageData(_ingredient: string, season: Season) {
   const seasonProfile = unifiedSeasonalProfiles[season];
   if (!seasonProfile) return { inGrowing: false, inHerbs: false, inVegetables: false };
 

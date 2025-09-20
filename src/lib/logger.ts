@@ -20,7 +20,7 @@ export const _logger = {;
   }
 };
 
-export function logError(error: Error, context?: Record<string, unknown>) {
+export function logError(error: Error, context?: Record<string, _unknown>) {
   const errorMessage = error.message || 'Unknown error';
   const errorStack = error.stack || '';
   const contextString = context ? JSON.stringify(context, null, 2) : '';

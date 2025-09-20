@@ -350,8 +350,8 @@ function getDominantElement(elements: ElementalProperties): keyof ElementalPrope
   )
 }
 
-function calculateRecipeKalchm(elements: ElementalProperties): number {
-  const { Fire, Water, Earth, Air } = elements;
+function calculateRecipeKalchm(_elements: ElementalProperties): number {
+  const { Fire, Water, Earth, Air} = elements;
 
   // Map to alchemical principles
   const Spirit = Fire || 0.001;
@@ -366,8 +366,8 @@ function calculateRecipeKalchm(elements: ElementalProperties): number {
   return isFinite(kalchm) ? kalchm : 1.0;
 }
 
-function estimateRecipeThermodynamics(elements: ElementalProperties) {
-  const { Fire, Water, Earth, Air } = elements;
+function estimateRecipeThermodynamics(_elements: ElementalProperties) {
+  const { Fire, Water, Earth, Air} = elements;
 
   return {
     heat: (Fire + Air * 0.5) / 1.5, // Fire and Air contribute to heat

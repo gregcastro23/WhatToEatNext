@@ -111,7 +111,7 @@ class IngredientMappingService {
       };
     }
 
-    const { similarityThreshold = 0.7, maxResults = 5, category } = options;
+    const { _similarityThreshold = 0.7, _maxResults = 5, category} = options;
 
     // Find alternatives with similar elemental properties
     const potentialAlternatives = Object.entries(ingredientsMap);

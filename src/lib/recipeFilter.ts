@@ -1,6 +1,6 @@
-import { getLatestAstrologicalState } from '@/services/AstrologicalService';
+import {_getLatestAstrologicalState} from '@/services/AstrologicalService';
 import type { Recipe, ElementalProperties } from '@/types/recipe';
-import { elementalUtils, getCurrentElementalState } from '@/utils/elementalUtils';
+import {elementalUtils, _getCurrentElementalState} from '@/utils/elementalUtils';
 
 // Calculate elemental harmony between two sets of elemental properties
 const calculateElementalHarmony = (;

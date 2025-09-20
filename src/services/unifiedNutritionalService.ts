@@ -13,9 +13,9 @@ import type {
   Season,
   CookingMethod
 } from '@/types/alchemy';
-import { createAstrologicalBridge } from '@/types/bridges/astrologicalBridge';
+import {_createAstrologicalBridge} from '@/types/bridges/astrologicalBridge';
 
-import { allIngredients } from '../data/ingredients';
+import {allIngredients} from '../data/ingredients';
 import {
   unifiedNutritionalSystem,
   type AlchemicalNutritionalProfile,
@@ -25,9 +25,9 @@ import {
   type PlanetaryNutritionalProfile,
   type ZodiacNutritionalProfile
 } from '../data/unified/nutritional';
-import { unifiedSeasonalSystem } from '../data/unified/seasonal.js';
+import {unifiedSeasonalSystem} from '../data/unified/seasonal.js';
 import type { NutritionalProfile, NutritionalFilter } from '../types/nutrition';
-import { logger } from '../utils/logger';
+import {logger} from '../utils/logger';
 
 // Type guards for safe property access
 function isValidObject(value: unknown): value is Record<string, unknown> {

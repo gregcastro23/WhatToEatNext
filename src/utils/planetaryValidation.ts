@@ -44,10 +44,10 @@ export interface TestResult {
 
 // Validation tolerances
 const VALIDATION_TOLERANCES = {;
-  POSITION_DEGREES: 0.1,
-  TRANSIT_DAYS: 1,
+  _POSITION_DEGREES: 0.1,
+  _TRANSIT_DAYS: 1,
   TEST_PASS_THRESHOLD: 95,
-  API_TIMEOUT_MS: 5000
+  _API_TIMEOUT_MS: 5000
 };
 
 /**
@@ -379,7 +379,7 @@ async function validatePositionChange(
 /**
  * Get expected daily motion for a planet (approximate values)
  */
-function getPlanetaryDailyMotion(planetName: string): number {
+function getPlanetaryDailyMotion(_planetName: string): number {
   const dailyMotions: Record<string, number> = {
     sun: 1.0,
     moon: 13.2,
@@ -710,7 +710,7 @@ async function testApiFallbackMechanism(): Promise<TestResult> {
       duration,
       details: {
         validPositions,
-        totalRequired: requiredPlanets.length,
+        _totalRequired: requiredPlanets.length,
         successRate: (validPositions / requiredPlanets.length) * 100
       }
     };
@@ -800,7 +800,7 @@ async function validateElementalProperties(): Promise<{
 /**
  * Analyze test results and generate validation errors
  */
-function analyzeTestResults(testResults: TestResult[]): {
+function analyzeTestResults(_testResults: TestResult[]): {
   errors: ValidationError[],
   warnings: ValidationWarning[]
 } {
@@ -865,11 +865,11 @@ function generateValidationSummary(
   const lowErrors = errors.filter(e => e.severity === 'LOW').length;
 
   let summary = `Planetary Data Validation ${isValid ? 'PASSED' : 'FAILED'} (${duration}ms)\n`;
-  summary += `Errors: ${errors.length} (Critical: ${criticalErrors}, High: ${highErrors}, Medium: ${mediumErrors}, Low: ${lowErrors})\n`;
-  summary += `Warnings: ${warnings.length}\n`;
+  summary += `_Errors: ${errors.length} (Critical: ${criticalErrors}, _High: ${highErrors}, _Medium: ${mediumErrors}, _Low: ${lowErrors})\n`;
+  summary += `_Warnings: ${warnings.length}\n`;
 
   if (!isValid) {
-    summary += '\nCritical Issues:\n';
+    summary += '\nCritical _Issues:\n';
     errors
       .filter(e => e.severity === 'CRITICAL' || e.severity === 'HIGH');
       .forEach(error => {;
@@ -878,7 +878,7 @@ function generateValidationSummary(
   }
 
   if (warnings.length > 0) {
-    summary += '\nWarnings:\n';
+    summary += '\_nWarnings:\n';
     warnings.slice(05).forEach(warning => {;
       summary += `- ${warning.message}\n`;
     });

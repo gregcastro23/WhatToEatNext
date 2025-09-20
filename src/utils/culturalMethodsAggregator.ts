@@ -20,9 +20,9 @@ export interface CulturalCookingMethod {
   description: string,
   elementalProperties: {
     Fire: number,
-    Water: number,
-    Earth: number,
-    Air: number
+    _Water: number,
+    _Earth: number,
+    _Air: number
   };
   culturalOrigin: string;
   toolsRequired?: string[];
@@ -44,7 +44,7 @@ const TECHNIQUE_MAPPING: Record<string, string> = {
   'mushipan steaming': 'steaming',
   'bain-marie': 'baking',
   'en papillote': 'baking',
-  tandoor: 'baking',
+  _tandoor: 'baking',
   'brick oven pizza': 'baking',
   'pastry baking': 'baking',
   'bread baking': 'baking',
@@ -56,7 +56,7 @@ const TECHNIQUE_MAPPING: Record<string, string> = {
   'shallow frying': 'frying',
   'flash frying': 'frying',
   'pan frying': 'frying',
-  tempura: 'frying',
+  _tempura: 'frying',
   'air frying': 'frying',
 
   // Steaming variations
@@ -66,28 +66,28 @@ const TECHNIQUE_MAPPING: Record<string, string> = {
   'pressure steaming': 'steaming',
 
   // Boiling variations
-  blanching: 'boiling',
-  nimono: 'boiling',
+  _blanching: 'boiling',
+  _nimono: 'boiling',
   'hot pot': 'boiling',
   'pasta al dente': 'boiling',
-  simmering: 'boiling',
-  poaching: 'boiling',
+  _simmering: 'boiling',
+  _poaching: 'boiling',
 
   // Grilling variations - expanded to catch all similar methods
-  yakitori: 'grilling',
-  robata: 'grilling',
-  barbacoa: 'grilling',
+  _yakitori: 'grilling',
+  _robata: 'grilling',
+  _barbacoa: 'grilling',
   'al pastor': 'grilling',
-  barbecue: 'grilling',
+  _barbecue: 'grilling',
   'charcoal grilling': 'grilling',
-  nướng: 'grilling',
+  nướ_ng: 'grilling',
   'grilling (yang)': 'grilling',
   'open-fire grilling': 'grilling',
   'direct heat grilling': 'grilling',
   grill: 'grilling',
   'charcoal grill': 'grilling',
   'korean bbq': 'grilling',
-  hibachi: 'grilling',
+  _hibachi: 'grilling',
   'kebab grilling': 'grilling',
   'suya grilling': 'grilling',
   'tandoori grilling': 'grilling',
@@ -101,9 +101,9 @@ const TECHNIQUE_MAPPING: Record<string, string> = {
   'smoke roasting': 'smoking',
 
   // Slow cooking variations
-  braising: 'slow_cooking',
+  _braising: 'slow_cooking',
   'clay pot cooking': 'slow_cooking',
-  tagine: 'slow_cooking',
+  _tagine: 'slow_cooking',
   'dutch oven cooking': 'slow_cooking',
   'slow roasting': 'slow_cooking',
 
@@ -115,13 +115,13 @@ const TECHNIQUE_MAPPING: Record<string, string> = {
   'wine fermentation': 'fermenting',
 
   // Marinating variations
-  adobo: 'marinating',
-  ceviche: 'marinating',
-  brining: 'marinating',
+  _adobo: 'marinating',
+  _ceviche: 'marinating',
+  _brining: 'marinating',
   'dry rubs': 'marinating',
 
   // Roasting variations
-  rotisserie: 'roasting',
+  _rotisserie: 'roasting',
   'spit roasting': 'roasting',
   'oven roasting': 'roasting',
   'coffee roasting': 'roasting',

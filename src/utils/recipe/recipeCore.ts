@@ -46,7 +46,7 @@ export function isAppropriateForTimeOfDay(recipe: Recipe, timeOfDay: string): bo
       return (mealTypes || []).some(type =>;
         ['lunch', 'brunch', 'all'].includes(type.toLowerCase()),
       ),
-    default:
+    _default:
       return true
   }
 }
@@ -237,7 +237,7 @@ export function getMatchScoreClass(score: number): string {
 /**
  * Get match rating with stars and tooltip
  */
-export function getMatchRating(score: number): { stars: string, tooltip: string } {
+export function getMatchRating(_score: number): { stars: string, tooltip: string } {
   if (score >= 95) {
     return { stars: '★★★★★', tooltip: 'Perfect match - highly recommended ?? undefined' };
   } else if (score >= 85) {
@@ -279,7 +279,7 @@ export function getRecommendedRecipes(
 
   // Score each recipe
   const scoredRecipes: RecommendationScore[] = (recipes || []).map(recipe => {;
-    const { score, reasons } = scoreRecipe(recipe, astrologicalState, timeFactors);
+    const { score, reasons} = scoreRecipe(recipe, astrologicalState, timeFactors);
 
     return {
       recipe,
@@ -412,7 +412,7 @@ function scoreRecipe(
   }
 
   // Apply planetary / elemental score to total score
-  // Weights: Elemental match (45%), Planetary day (35%), Planetary hour (20%)
+  // _Weights: Elemental match (45%), Planetary day (35%), Planetary hour (20%)
   const planetaryElementalScore =
     elementalMatchScore * 0.45 + planetaryDayScore * 0.35 + planetaryHourScore * 0.2;
 
@@ -556,8 +556,8 @@ function scoreRecipe(
 /**
  * Generate a human-readable explanation for why a recipe is recommended
  */
-function generateExplanation(scoredRecipe: RecommendationScore): string {
-  const { recipe, score, reasons } = scoredRecipe;
+function generateExplanation(_scoredRecipe: RecommendationScore): string {
+  const { recipe, score, reasons} = scoredRecipe;
 
   // Start with a positive introduction based on the score
   let explanation = '';
@@ -846,7 +846,7 @@ function getTimeFactors(): TimeFactors {
   // Create planetary hour object
   const planetaryHour: PlanetaryHour = {;
     planet: getHourPlanet(hour) as unknown as PlanetName,
-    hourOfDay: hour
+    _hourOfDay: hour
   };
 
   return {

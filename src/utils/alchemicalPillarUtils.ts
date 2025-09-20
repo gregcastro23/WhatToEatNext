@@ -365,7 +365,7 @@ export function applyPlanetaryInfluence(
  * @param cardName The full name of the tarot card (e.g., '10 of Cups')
  * @returns Transformed alchemical item with tarot influences applied
  */
-export function applyTarotInfluence(item: AlchemicalItem, cardName: string): AlchemicalItem {
+export function applyTarotInfluence(item: AlchemicalItem, _cardName: string): AlchemicalItem {
   // Clone the item to avoid modifying the original
   const transformedItem = { ...item };
 
@@ -482,7 +482,7 @@ const getMethodCompatibility = (;
   }
 
   logger.debug(`Method: ${methodName}`);
-  logger.debug(`- Associated Pillar: ${(pillar as any).name} (ID: ${(pillar as any).id})`);
+  logger.debug(`- Associated Pillar: ${(pillar as any).name} (_ID: ${(pillar as any).id})`);
 
   if ((pillar as unknown as any).elementalAssociations) {
     const elementalAssociations = (pillar as unknown as any).elementalAssociations as unknown;
@@ -493,13 +493,13 @@ const getMethodCompatibility = (;
   }
 
   logger.debug(
-    `- Alchemical Effects: Spirit:${pillar.effects.Spirit}, Essence:${pillar.effects.Essence}, Matter:${pillar.effects.Matter}, Substance:${pillar.effects.Substance}`,
+    `- Alchemical _Effects: Spirit:${pillar.effects.Spirit}, Essence:${pillar.effects.Essence}, Matter:${pillar.effects.Matter}, Substance:${pillar.effects.Substance}`,
   );
 
-  logger.debug(`\nIngredient Details:`);
+  logger.debug(`\nIngredient _Details:`);
   logger.debug(`- Element: ${(transformedItem as any).element || 'Not specified'}`);
   logger.debug(
-    `- Elemental Character: ${(transformedItem as any).elementalCharacter || 'Not specified'}`,
+    `- Elemental _Character: ${(transformedItem as any).elementalCharacter || 'Not specified'}`,
   );
   logger.debug(
     `- Spirit: ${transformedItem.spirit || 0}, Essence: ${transformedItem.essence || 0}, Matter: ${transformedItem.matter || 0}, Substance: ${transformedItem.substance || 0}`,
@@ -1009,7 +1009,7 @@ function calculateMethodCompatibility(item: AlchemicalItem, methodName: string):
 }
 
 // Helper function to generate health benefits
-function generateHealthBenefits(methodName: string, item: AlchemicalItem): string[] {
+function generateHealthBenefits(methodName: string, _item: AlchemicalItem): string[] {
   const benefits: string[] = [];
 
   // Add method-specific benefits

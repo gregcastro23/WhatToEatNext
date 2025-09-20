@@ -1,7 +1,7 @@
 // Removed unused ElementalProperties import
 import type { RecipeIngredient } from '@/types/recipe';
 
-export function validateIngredientData(recipes: { ingredients: RecipeIngredient[] }[]): boolean {
+export function validateIngredientData(_recipes: { ingredients: RecipeIngredient[] }[]): boolean {
   const missingElementals: RecipeIngredient[] = [];
 
   recipes.forEach(recipe => {

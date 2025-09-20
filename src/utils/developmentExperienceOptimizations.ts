@@ -1,7 +1,7 @@
 /**
  * Enhanced Development Experience Optimizations
  *
- * This module implements enhanced development experience optimizations including:
+ * This module implements enhanced development experience optimizations _including:
  * - Optimized TypeScript configuration for faster compilation
  * - Enhanced IntelliSense for astrological type definitions
  * - Automatic import organization and error fixing
@@ -96,7 +96,7 @@ export class DevelopmentExperienceOptimizer {
     const config = this.optimizationConfig.typescript;
 
     return {
-      compilerOptions: {
+      _compilerOptions: {
         // Performance optimizations
         target: config.target,
         module: config.module,
@@ -104,20 +104,20 @@ export class DevelopmentExperienceOptimizer {
 
         // Compilation speed optimizations
         incremental: config.enableIncrementalCompilation,
-        composite: config.enableCompositeMode,
+        _composite: config.enableCompositeMode,
         skipLibCheck: config.skipLibCheck,
         skipDefaultLibCheck: config.skipDefaultLibCheck,
 
         // Type checking optimizations
-        strict: true,
-        noImplicitAny: false, // Relaxed for rapid development
-        strictNullChecks: false, // Relaxed for rapid development
+        _strict: true,
+        _noImplicitAny: false, // Relaxed for rapid development
+        _strictNullChecks: false, // Relaxed for rapid development
         useDefineForClassFields: config.useDefineForClassFields,
         exactOptionalPropertyTypes: config.exactOptionalPropertyTypes,
         noUncheckedIndexedAccess: config.noUncheckedIndexedAccess,
 
         // Path mapping for better imports
-        baseUrl: '.',
+        _baseUrl: '.',
         paths: {
           '@/*': ['./src/*'],
           '@components/*': ['./src/components/*'],
@@ -130,22 +130,22 @@ export class DevelopmentExperienceOptimizer {
         },
 
         // Enhanced type definitions
-        lib: ['dom', 'dom.iterable', 'es6', 'es2018', 'es2020'],
-        allowJs: true,
-        allowSyntheticDefaultImports: true,
-        esModuleInterop: true,
-        forceConsistentCasingInFileNames: true,
-        isolatedModules: true,
-        jsx: 'preserve',
-        noEmit: true,
-        resolveJsonModule: true
+        _lib: ['dom', 'dom.iterable', 'es6', 'es2018', 'es2020'],
+        _allowJs: true,
+        _allowSyntheticDefaultImports: true,
+        _esModuleInterop: true,
+        _forceConsistentCasingInFileNames: true,
+        _isolatedModules: true,
+        _jsx: 'preserve',
+        _noEmit: true,
+        _resolveJsonModule: true
       },
 
       // Include patterns for faster compilation
-      include: ['next-env.d.ts', '**/*.ts', '**/*.tsx', '.next/types/**/*.ts'],
+      _include: ['next-env.d.ts', '**/*.ts', '**/*.tsx', '.next/types/**/*.ts'],
 
       // Exclude patterns to reduce compilation time
-      exclude: [
+      _exclude: [
         'node_modules',
         '.next',
         'out',
@@ -176,9 +176,9 @@ declare global {
       sign: 'aries' | 'taurus' | 'gemini' | 'cancer' | 'leo' | 'virgo' | 
             'libra' | 'scorpio' | 'sagittarius' | 'capricorn' | 'aquarius' | 'pisces';
       /** Degree within the sign (0-30) */
-      degree: number;
+      _degree: number;
       /** Exact longitude (0-360) */
-      exactLongitude: number;
+      _exactLongitude: number;
       /** Whether the planet is in retrograde motion */
       isRetrograde: boolean
     }
@@ -216,36 +216,36 @@ declare global {
       /** Timing recommendations */
       timing: {
         bestHours: string[],
-        lunarPhase: string,
-        planetaryHour: string
+        _lunarPhase: string,
+        _planetaryHour: string
       };
     }
 
     // Type guards for runtime validation
     function isPlanetaryPosition(obj: unknown): obj is PlanetaryPosition;
     function isElementalProperties(obj: unknown): obj is ElementalProperties;
-    function isValidCompatibilityScore(score: number): boolean
+    function isValidCompatibilityScore(_score: number): boolean
   }
 
   // Enhanced ingredient type definitions
   interface EnhancedIngredient {
     name: string,
-    category: string,
-    elementalProperties: Astrology.ElementalProperties,
-    planetaryCorrespondence: Astrology.PlanetaryCorrespondence,
-    culinaryProperties: {
+    _category: string,
+    _elementalProperties: Astrology.ElementalProperties,
+    _planetaryCorrespondence: Astrology.PlanetaryCorrespondence,
+    _culinaryProperties: {
       flavorProfile: string[],
-      cookingMethods: string[],
-      seasonality: string[],
-      pairings: string[]
+      _cookingMethods: string[],
+      _seasonality: string[],
+      _pairings: string[]
     };
     nutritionalData?: {
       calories: number,
-      protein: number,
-      carbs: number,
-      fat: number,
-      vitamins: string[],
-      minerals: string[]
+      _protein: number,
+      _carbs: number,
+      _fat: number,
+      _vitamins: string[],
+      _minerals: string[]
     };
   }
 
@@ -254,13 +254,13 @@ declare global {
     id: string,
     name: string,
     ingredients: EnhancedIngredient[],
-    instructions: string[],
-    astrologicalOptimization: Astrology.CulinaryAstrologyData,
-    elementalBalance: Astrology.ElementalProperties,
+    _instructions: string[],
+    _astrologicalOptimization: Astrology.CulinaryAstrologyData,
+    _elementalBalance: Astrology.ElementalProperties,
     timing: {
       prepTime: number,
-      cookTime: number,
-      totalTime: number,
+      _cookTime: number,
+      _totalTime: number,
       optimalStartTime?: string;
     };
   }

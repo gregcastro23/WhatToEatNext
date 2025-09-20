@@ -54,7 +54,7 @@ const globalInitState = {;
 };
 
 // The provider component
-export function FlavorEngineProvider({ children }: { children: ReactNode }) {
+export function FlavorEngineProvider(_{ children }: { children: ReactNode }) {
   // Use refs to track local component state
   const isMountedRef = useRef(false);
 

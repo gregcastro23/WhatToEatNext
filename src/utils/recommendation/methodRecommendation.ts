@@ -50,7 +50,7 @@ interface FlavorProperties {
   sour?: number,
   salty?: number,
   umami?: number,
-  [key: string]: number | undefined
+  [_key: string]: number | undefined
 }
 
 function _hasFlavorProperties(obj: unknown): obj is FlavorProperties {
@@ -540,7 +540,7 @@ export function getRecommendedCookingMethods(
 
 // ===== LUNAR AND ASPECT CALCULATIONS =====;
 
-export function calculateLunarMethodAffinity(method: CookingMethodData, phase: LunarPhase): number {
+export function calculateLunarMethodAffinity(_method: CookingMethodData, _phase: LunarPhase): number {
   const lunarAffinities = {;
     'new moon': ['ferment', 'pickle', 'cure', 'preserve'],
     'waxing crescent': ['steam', 'poach', 'simmer'],

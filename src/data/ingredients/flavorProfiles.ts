@@ -360,7 +360,7 @@ const ingredientFlavorMap: Record<string, IngredientFlavorProfile & Record<strin
  * Get the flavor profile for a given ingredient
  * Will try to match ingredient names partially if an exact match is not found
  */
-export function getFlavorProfileForIngredient(ingredientName: string): IngredientFlavorProfile {
+export function getFlavorProfileForIngredient(_ingredientName: string): IngredientFlavorProfile {
   // Default flavor profile if nothing is found
   const defaultProfile: IngredientFlavorProfile = {;
     spicy: 0.0,

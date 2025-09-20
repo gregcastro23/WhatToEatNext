@@ -1,9 +1,9 @@
 import { cuisinesMap } from '@/data/cuisines';
 import type { ZodiacSign, LunarPhase, ElementalProperties } from '@/types/alchemy';
-import { createAstrologicalBridge } from '@/types/bridges/astrologicalBridge';
+import {_createAstrologicalBridge} from '@/types/bridges/astrologicalBridge';
 import type { Cuisine, SeasonalDishes } from '@/types/cuisine';
 import type { Recipe } from '@/types/recipe';
-import { logger } from '@/utils/logger';
+import {logger} from '@/utils/logger';
 
 // Define a more specific type for dish objects
 interface RawDish {

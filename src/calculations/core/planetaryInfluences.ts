@@ -243,7 +243,7 @@ export function getPlanetaryElementalInfluence(
 /**
  * Calculate planetary hours influence
  */
-export function calculatePlanetaryHoursInfluence(date: Date): {
+export function calculatePlanetaryHoursInfluence(_date: Date): {
   dayRuler: string,
   hourRuler: string,
   influence: number

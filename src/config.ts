@@ -39,10 +39,10 @@ export const config: AppConfig = {;
     retrogradeThreshold: 0, // speeds less than 0 indicate retrograde motion
     aspectOrbs: {
       conjunction: 8,
-      opposition: 8,
-      trine: 6,
-      square: 6,
-      sextile: 4,
+      _opposition: 8,
+      _trine: 6,
+      _square: 6,
+      _sextile: 4,
       quincunx: 3
     }
   }

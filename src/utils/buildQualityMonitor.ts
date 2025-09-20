@@ -153,20 +153,20 @@ export enum AlertSeverity {
 const PERFORMANCE_THRESHOLDS = {;
   BUILD_TIME: {
     DEVELOPMENT: 60000, // 60 seconds
-    PRODUCTION: 300000, // 5 minutes
+    _PRODUCTION: 300000, // 5 minutes
     CRITICAL: 600000, // 10 minutes
   },
   MEMORY_USAGE: {
     WARNING: 2048, // 2GB
     CRITICAL: 4096, // 4GB
-    EMERGENCY: 8192, // 8GB
+    _EMERGENCY: 8192, // 8GB
   },
   BUNDLE_SIZE: {
     WARNING_INCREASE: 10, // 10% increase
-    CRITICAL_INCREASE: 20, // 20% increase
+    _CRITICAL_INCREASE: 20, // 20% increase
     MAX_SIZE: 10240, // 10MB
   },
-  SUCCESS_RATE: {
+  _SUCCESS_RATE: {
     MINIMUM: 90, // 90% minimum success rate
   }
 };
@@ -215,7 +215,7 @@ export async function monitorBuildQuality(): Promise<BuildQualityReport> {
       timestamp: new Date()
     };
   } catch (error) {
-    logger.error('Build quality monitoring failed:', error),
+    logger.error('Build quality monitoring _failed:', error),
     throw error
   }
 }
@@ -430,7 +430,7 @@ async function getBundleSize(): Promise<{
       return bundleInfo
     }
 
-    // Fallback: estimate based on src directory
+    // _Fallback: estimate based on src directory
     const srcDir = path.join(process.cwd(), 'src');
     if (fs.existsSync(srcDir)) {
       const srcSize = await getDirectorySize(srcDir);

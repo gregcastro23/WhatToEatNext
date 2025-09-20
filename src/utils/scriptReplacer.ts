@@ -98,8 +98,8 @@ if (typeof window !== 'undefined') {
         log.info('[ScriptReplacer] Intercepted chrome.tabs.create call');
         return Promise.resolve({ id: 999 });
       },
-      query: function (queryInfo: unknown, callback?: Function) {
-        const result = [{ id: 1, active: true }];
+      _query: function (queryInfo: unknown, callback?: Function) {
+        const result = [{ id: 1, _active: true }];
         if (callback) callback(result);
         return true;
       },

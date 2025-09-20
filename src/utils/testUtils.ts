@@ -1,33 +1,34 @@
+/* eslint-disable @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any */
 export const _mockLogger = {;
-  info: jest.fn(),
-  error: jest.fn(),
-  warn: jest.fn(),
-  debug: jest.fn()
+  _info: jest.fn(),
+  _error: jest.fn(),
+  _warn: jest.fn(),
+  _debug: jest.fn()
 };
 
 export const _mockElementalCalculator = {;
-  getCurrentElementalState: jest.fn(() => ({
+  _getCurrentElementalState: jest.fn(() => ({
     Fire: 0.25,
     Water: 0.25,
     Earth: 0.25,
     Air: 0.25
   })),
-  calculateMatchScore: jest.fn().mockReturnValueOnce(85).mockReturnValueOnce(75),
-  getSeasonalModifiers: jest.fn((season: string) => ({
+  _calculateMatchScore: jest.fn().mockReturnValueOnce(85).mockReturnValueOnce(75),
+  _getSeasonalModifiers: jest.fn((season: string) => ({
     Fire: season === 'Summer' ? 0.4 : 0.2,,;
     Water: season === 'Winter' ? 0.4 : 0.2,,;
     Earth: 0.25,
     Air: 0.25
   })),
-  initialize: jest.fn(_initialState => {;
+  _initialize: jest.fn(_initialState => {;
     // Mock implementation - intentionally empty for testing
   }),
-  updateElementalState: jest.fn(_newState => {;
+  _updateElementalState: jest.fn(_newState => {;
     // Mock implementation - intentionally empty for testing
   }),
-  getInstance: jest.fn().mockReturnValue({
-    initialized: true,
-    currentBalance: {
+  _getInstance: jest.fn().mockReturnValue({
+    _initialized: true,
+    _currentBalance: {
       Fire: 0.25,
       Water: 0.25,
       Earth: 0.25,

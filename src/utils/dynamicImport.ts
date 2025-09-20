@@ -27,8 +27,8 @@ interface AstrologyUtilsModule {
   getLunarPhaseName: (phase: number) => string,
   getMoonIllumination: (date?: Date) => Promise<number>,
   calculateSunSign: (date?: Date) => string,
-  calculateLunarNodes: (date?: Date) => { northNode: number, isRetrograde: boolean };
-  getNodeInfo: (nodeLongitude: number) => { sign: string; degree: number; isRetrograde: boolean };
+  _calculateLunarNodes: (date?: Date) => { _northNode: number, isRetrograde: boolean };
+  getNodeInfo: (nodeLongitude: number) => { _sign: string; degree: number; isRetrograde: boolean };
   getCurrentAstrologicalState: (date?: Date) => {
     zodiacSign: string,
     lunarPhase: string,
@@ -37,11 +37,11 @@ interface AstrologyUtilsModule {
 }
 
 interface AccurateAstronomyModule {
-  getAccuratePlanetaryPositions: (date?: Date) => Record<string, unknown>;
+  _getAccuratePlanetaryPositions: (date?: Date) => Record<string, unknown>;
 }
 
 interface SafeAstrologyModule {
-  getReliablePlanetaryPositions: () => Record<string, unknown>;
+  _getReliablePlanetaryPositions: () => Record<string, unknown>;
   calculateLunarPhase: () => Promise<number>,
   getLunarPhaseName: (phase: number) => string,
   getMoonIllumination: () => Promise<number>,
@@ -54,7 +54,7 @@ interface SafeAstrologyModule {
 }
 
 interface MoonTimesModule {
-  calculateMoonTimes: (
+  _calculateMoonTimes: (
     date: Date,
     latitude: number,
     longitude: number,
@@ -62,7 +62,7 @@ interface MoonTimesModule {
 }
 
 interface CuisineCalculationsModule {
-  getCuisineRecommendations: (
+  _getCuisineRecommendations: (
     zodiacSign?: string,
     lunarPhase?: string,
     planetaryAlignment?: unknown,
@@ -70,15 +70,15 @@ interface CuisineCalculationsModule {
 }
 
 interface SunTimesModule {
-  calculateSunTimes: (
+  _calculateSunTimes: (
     date: Date,
     latitude: number,
     longitude: number,
   ) => {
-    sunrise: Date,
-    sunset: Date,
-    solarNoon: Date,
-    goldenHour: Date
+    _sunrise: Date,
+    _sunset: Date,
+    _solarNoon: Date,
+    _goldenHour: Date
   };
 }
 
@@ -88,8 +88,8 @@ interface SolarPositionsModule {
     latitude: number,
     longitude: number,
   ) => {
-    azimuth: number,
-    altitude: number
+    _azimuth: number,
+    _altitude: number
   };
 }
 
@@ -242,25 +242,25 @@ export async function safeImportAndExecute<RA extends unknown[] = unknown[]>(
     ) {
       const calculatedResults = {} as R;
 
-      // Fix TS2339: Property does not exist on type 'R'
+      // Fix _TS2339: Property does not exist on type 'R'
       const resultData = calculatedResults as any;
 
       // Add fallbacks for missing calculations
       if (!resultData.elementalCounts) {
         resultData.elementalCounts = {;
-          Fire: 0.32,
-          Water: 0.28,
-          Earth: 0.18,
-          Air: 0.22
+          _Fire: 0.32,
+          _Water: 0.28,
+          _Earth: 0.18,
+          _Air: 0.22
         };
       }
 
       if (!resultData.alchemicalCounts) {
         resultData.alchemicalCounts = {;
-          Spirit: 0.29,
-          Essence: 0.28,
-          Matter: 0.21,
-          Substance: 0.22
+          _Spirit: 0.29,
+          _Essence: 0.28,
+          _Matter: 0.21,
+          _Substance: 0.22
         };
       }
 

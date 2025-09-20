@@ -21,13 +21,13 @@ import { seasonings } from '../data/ingredients/seasonings';
 import { spices } from '../data/ingredients/spices';
 import { vegetables } from '../data/ingredients/vegetables';
 import { recipeElementalMappings } from '../data/recipes/elementalMappings';
-import { Recipe, validateElementalProperties } from '../types/recipe';
-import { RecipeIngredient } from '../types/recipeIngredient';
-import { cache } from '../utils/cache';
-import { logger } from '../utils/logger';
+import {Recipe, _validateElementalProperties} from '../types/recipe';
+import {RecipeIngredient} from '../types/recipeIngredient';
+import {cache} from '../utils/cache';
+import {logger} from '../utils/logger';
 
-import { errorHandler } from './errorHandler';
-import { recipeElementalService } from './RecipeElementalService';
+import {errorHandler} from './errorHandler';
+import {recipeElementalService} from './RecipeElementalService';
 
 // Define interface for nutrition data
 export interface NutritionData {

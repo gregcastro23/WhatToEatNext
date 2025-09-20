@@ -605,7 +605,7 @@ export function calculateNutritionalBalance(
 /**
  * Convert NutritionalProfile to elemental influences
  */
-export function nutritionalToElemental(profile: NutritionalProfile): {
+export function nutritionalToElemental(_profile: NutritionalProfile): {
   Fire: number,
   Water: number,
   Earth: number,
@@ -660,7 +660,7 @@ export function nutritionalToElemental(profile: NutritionalProfile): {
 /**
  * Get nutritional recommendations based on zodiac sign
  */
-export function getZodiacNutritionalRecommendations(sign: string): {
+export function getZodiacNutritionalRecommendations(_sign: string): {
   elementalBalance: Record<string, number>;
   focusNutrients: string[],
   recommendedFoods: string[],
@@ -793,7 +793,7 @@ export function getEnhancedPlanetaryNutritionalRecommendations(
  * Get nutritional recommendations based on planetary influences
  * Legacy method - consider using getEnhancedPlanetaryNutritionalRecommendations instead
  */
-export function getPlanetaryNutritionalRecommendations(planets: string[]): {
+export function getPlanetaryNutritionalRecommendations(_planets: string[]): {
   focusNutrients: string[],
   healthAreas: string[],
   recommendedFoods: string[]
@@ -823,7 +823,7 @@ export function getPlanetaryNutritionalRecommendations(planets: string[]): {
 /**
  * Get seasonal nutritional recommendations
  */
-export function getSeasonalNutritionalRecommendations(season: string): {
+export function getSeasonalNutritionalRecommendations(_season: string): {
   element: string,
   focusNutrients: string[],
   seasonalFoods: string[]

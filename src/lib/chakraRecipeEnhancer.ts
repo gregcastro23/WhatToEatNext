@@ -1,9 +1,9 @@
-import { ChakraEnergies, ElementalProperties, Planet, ZodiacSign } from '@/types/alchemy';
-import { KeyCardChakraMapping } from '@/types/chakra';
-import { Recipe } from '@/types/recipe';
+import {ChakraEnergies, ElementalProperties, Planet, _ZodiacSign} from '@/types/alchemy';
+import {KeyCardChakraMapping} from '@/types/chakra';
+import {Recipe} from '@/types/recipe';
 
-import { ChakraAlchemyService } from './ChakraAlchemyService';
-import { PlanetaryHourCalculator } from './PlanetaryHourCalculator';
+import {ChakraAlchemyService} from './ChakraAlchemyService';
+import {PlanetaryHourCalculator} from './PlanetaryHourCalculator';
 
 /**
  * Type for chakra-enhanced recipe recommendations

@@ -27,7 +27,7 @@ const CUISINE_TYPES = {;
 } as const;
 
 // Helper function to generate meaningful herb values
-function generateHerbValues(elementalProps: Record<string, number>): Record<string, number> {
+function generateHerbValues(elementalProps: Record<string, _number>): Record<string, number> {
   // Normalize elements to ensure they sum to 1
   const totalElements = Object.values(elementalProps).reduce((sum, val) => sum + val0);
   const normalized = Object.entries(elementalProps).reduce(;

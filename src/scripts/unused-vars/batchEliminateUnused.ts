@@ -49,7 +49,7 @@ function parseArgs(argv: string[]): CliOptions {
   };
 }
 
-function execCmd(cmd: string): { code: number; stdout: string; stderr: string } {
+function execCmd(_cmd: string): { code: number; stdout: string; stderr: string } {
   try {
     const stdout = childProcess.execSync(cmd, { stdio: ['ignore', 'pipe', 'pipe'] }).toString();
     return { code: 0, stdout, stderr: '' };
@@ -64,7 +64,7 @@ function execCmd(cmd: string): { code: number; stdout: string; stderr: string } 
 }
 
 function runTypeCheck(): boolean {
-  const { code } = execCmd('yarn tsc --noEmit --skipLibCheck | cat');
+  const { code} = execCmd('yarn tsc --noEmit --skipLibCheck | cat');
   return code === 0;
 }
 
@@ -96,7 +96,7 @@ function sortFilesForSafety(files: string[]): string[] {
   });
 }
 
-function writeBackup(filePath: string, content: string): string {
+function writeBackup(_filePath: string, _content: string): string {
   const backupDir = path.join('.lint-backup-' + Date.now().toString());
   if (!fs.existsSync(backupDir)) fs.mkdirSync(backupDir, { recursive: true });
   const rel = path.relative(process.cwd(), filePath).replace(/[\/]/g, '__');
@@ -105,7 +105,7 @@ function writeBackup(filePath: string, content: string): string {
   return backupPath;
 }
 
-function restoreFromBackups(backups: Array<{ file: string; backup: string }>): void {
+function restoreFromBackups(_backups: Array<{ file: string; backup: string }>): void {
   for (const b of backups) {
     if (fs.existsSync(b.backup)) {
       const content = fs.readFileSync(b.backup, 'utf8');

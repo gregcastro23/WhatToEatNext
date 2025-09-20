@@ -1,4 +1,4 @@
-import { ZodiacSign, LunarPhase } from './alchemy';
+import {LunarPhase} from './alchemy';
 import {
   validateRecipe as validateAlchemyRecipe,
   validateIngredient as validateAlchemyIngredient,
@@ -206,11 +206,11 @@ export interface Recipe {
   // Scoring (for recommendations)
   score?: number;
   alchemicalScores?: {
-    elementalScore: number,
-    zodiacalScore: number,
-    lunarScore: number,
-    planetaryScore: number,
-    seasonalScore: number
+    _elementalScore: number,
+    _zodiacalScore: number,
+    _lunarScore: number,
+    _planetaryScore: number,
+    _seasonalScore: number
   };
 
   // Allow additional dynamic properties for extensibility
@@ -231,7 +231,7 @@ export const validateElementalProperties = (properties?: ElementalProperties): b
     return false;
   }
 
-  const total = Object.values(properties).reduce((sum: number, val: number) => sum + val0);
+  const total = Object.values(properties).reduce((sum: number, _val: number) => sum + val0);
   return Math.abs(total - 1) < 0.01;
 };
 
@@ -337,7 +337,7 @@ export interface RecipeDetail {
   instructionSections?: {
     // For recipes with distinct preparation phases
     title: string,
-    steps: string[]
+    _steps: string[]
   }[];
 
   // Flavor Profile & Culinary Theory
@@ -404,7 +404,7 @@ export interface RecipeDetail {
   };
 
   // Dietary Considerations
-  dietaryClassifications: {
+  _dietaryClassifications: {
     isVegetarian: boolean,
     isVegan: boolean,
     isGlutenFree: boolean,
@@ -413,7 +413,7 @@ export interface RecipeDetail {
     isLowCarb: boolean,
     isKeto: boolean,
     isPaleo: boolean,
-    containsAlcohol: boolean,
+    _containsAlcohol: boolean,
     allergens: string[]
   };
 

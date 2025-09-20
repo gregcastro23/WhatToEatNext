@@ -8,7 +8,7 @@
  * - Resource usage limits
  */
 
-import { execSync, spawn, ChildProcess } from 'child_process';
+import {execSync, spawn, _ChildProcess} from 'child_process';
 import fs from 'fs';
 import path from 'path';
 

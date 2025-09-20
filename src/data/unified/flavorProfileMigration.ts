@@ -11,11 +11,11 @@ import {
   Season
 } from '@/types/alchemy';
 import type { CookingMethod } from '@/types/constants';
-import { getCurrentElementalState } from '@/utils/elementalUtils';
+import {_getCurrentElementalState} from '@/utils/elementalUtils';
 
-import { cuisineFlavorProfiles, type CuisineFlavorProfile } from '../cuisineFlavorProfiles';
-import { flavorProfiles as integrationFlavorProfiles } from '../integrations/flavorProfiles';
-import { planetaryFlavorProfiles, type PlanetaryFlavorProfile } from '../planetaryFlavorProfiles';
+import {cuisineFlavorProfiles, _type CuisineFlavorProfile} from '../cuisineFlavorProfiles';
+import {flavorProfiles as integrationFlavorProfiles} from '../integrations/flavorProfiles';
+import {planetaryFlavorProfiles, _type PlanetaryFlavorProfile} from '../planetaryFlavorProfiles';
 // ingredientFlavorMap import disabled - not exported
 // import { ingredientFlavorMap } from '../ingredients/flavorProfiles';
 
@@ -26,9 +26,9 @@ type PlanetaryFlavorInfluence = unknown;
 type CuisineFlavorCompatibility = unknown;
 
 // Missing unified data imports
-import { unifiedFlavorProfiles } from './data/unifiedFlavorProfiles';
+import {unifiedFlavorProfiles} from './data/unifiedFlavorProfiles';
 
-import { processAstrologicalData as processData } from '@/services/AstrologicalService';
+import {_processAstrologicalData as processData} from '@/services/AstrologicalService';
 
 // ===== FLAVOR PROFILE MIGRATION UTILITY - PHASE 4 =====;
 // Consolidates all existing flavor profile data into the unified system
@@ -858,7 +858,7 @@ export class FlavorProfileMigration {
 
   private calculateKalchm(profile: UnifiedFlavorProfile): number {
     // Simplified Kalchm calculation based on elemental and alchemical properties
-    const { Spirit, Essence, Matter, Substance } = profile.alchemicalProperties;
+    const { Spirit, Essence, Matter, Substance} = profile.alchemicalProperties;
 
     if (Matter === 0 || Substance === 0) return 1.0; // Default neutral value
 

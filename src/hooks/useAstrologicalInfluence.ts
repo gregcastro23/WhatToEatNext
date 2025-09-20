@@ -1,9 +1,9 @@
 import { useState, useEffect, useMemo } from 'react';
 
-import { AstrologicalState } from '@/types/celestial';
-import { getCurrentAstrologicalState } from '@/utils/astrologyUtils';
+import {_AstrologicalState} from '@/types/celestial';
+import {getCurrentAstrologicalState} from '@/utils/astrologyUtils';
 
-import { useAlchemical } from './useAlchemical';
+import {useAlchemical} from './useAlchemical';
 
 export interface AstrologicalInfluence {
   planetaryDay: string,
@@ -15,7 +15,7 @@ export interface AstrologicalInfluence {
 }
 
 export function useAstrologicalInfluence() {
-  const { planetaryPositions, isLoading } = useAlchemical();
+  const { planetaryPositions, isLoading} = useAlchemical();
   // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
   const [astrologicalState, setAstrologicalState] = useState<any>(null);
 

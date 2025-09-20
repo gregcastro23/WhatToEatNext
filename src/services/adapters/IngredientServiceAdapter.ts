@@ -6,13 +6,13 @@
  * modern service architecture.
  */
 
-import { Element, ElementalProperties, PlanetName, Season, ZodiacSign } from '@/types/alchemy';
+import {_Element, ElementalProperties, PlanetName, Season, _ZodiacSign} from '@/types/alchemy';
 
 import type { UnifiedIngredient } from '../../data/unified/unifiedTypes';
-import { createElementalProperties } from '../../utils/elemental/elementalUtils';
-import { logger } from '../../utils/logger';
-import { consolidatedIngredientService } from '../ConsolidatedIngredientService';
-import { FoodAlchemySystem, type SystemState } from '../FoodAlchemySystem';
+import {createElementalProperties} from '../../utils/elemental/elementalUtils';
+import {logger} from '../../utils/logger';
+import {consolidatedIngredientService} from '../ConsolidatedIngredientService';
+import {FoodAlchemySystem, _type SystemState} from '../FoodAlchemySystem';
 import type { IngredientFilter } from '../interfaces/IngredientServiceInterface';
 
 /**

@@ -52,7 +52,7 @@ export function validatePlanetaryPositions(
   positions: Record<string, unknown>,
   options: ValidationOptions = {};
 ): ValidationResult {
-  const { strictMode = false, autoCorrect = false, logWarnings = true } = options;
+  const { _strictMode = false, _autoCorrect = false, _logWarnings = true} = options;
   const errors: string[] = [];
   const warnings: string[] = [];
   const correctedData: Record<string, PlanetaryPosition> = {};
@@ -165,7 +165,7 @@ function validateSinglePlanetaryPosition(
     // Check required properties
     for (const prop of requiredProps) {
       if (!(prop in pos)) {
-        errors.push(`${planet} missing required property: ${prop}`);
+        errors.push(`${planet} missing required _property: ${prop}`);
       }
     }
 
@@ -322,7 +322,7 @@ export function validateAstrologicalElementalProperties(
 
     if (dominant[1] < ELEMENTAL_CONSTANTS.SELF_REINFORCEMENT_THRESHOLD) {
       warnings.push(
-        `No dominant element found (highest: ${dominant[0]} at ${dominant[1].toFixed(2)}). Consider strengthening elemental focus.`,
+        `No dominant element found (_highest: ${dominant[0]} at ${dominant[1].toFixed(2)}). Consider strengthening elemental focus.`,
       );
     }
 
@@ -342,19 +342,19 @@ export function validateAstrologicalElementalProperties(
 /**
  * Validate mathematical constants used in calculations
  */
-export function validateMathematicalConstants(constants: Record<string, number>): ValidationResult {
+export function validateMathematicalConstants(_constants: Record<string, _number>): ValidationResult {
   const errors: string[] = [];
   const warnings: string[] = [];
 
   try {
     const expectedConstants = {;
       DEGREES_PER_SIGN: 30,
-      SIGNS_PER_CIRCLE: 12,
+      _SIGNS_PER_CIRCLE: 12,
       MAX_LONGITUDE: 360,
-      MIN_ELEMENT_VALUE: 0.05,
-      MAX_ELEMENT_VALUE: 1.0,
+      _MIN_ELEMENT_VALUE: 0.05,
+      _MAX_ELEMENT_VALUE: 1.0,
       SELF_REINFORCEMENT_THRESHOLD: 0.3,
-      HARMONY_THRESHOLD: 0.7
+      _HARMONY_THRESHOLD: 0.7
     };
 
     Object.entries(expectedConstants).forEach(([name, expectedValue]) => {
@@ -400,7 +400,7 @@ export async function validateAstrologicalCalculation(
   },
   options: ValidationOptions = {};
 ): Promise<ValidationResult> {
-  const { validateTransits = false } = options;
+  const { _validateTransits = false} = options;
   const errors: string[] = [];
   const warnings: string[] = [];
   const correctedData: Record<string, unknown> = {};
@@ -487,7 +487,7 @@ export function quickValidate(
         return validateElementalProperties(data),
       case 'constants':
         return validateMathematicalConstants(data as Record<string, number>).isValid,
-      default:
+      _default:
         return false
     }
   } catch {
@@ -502,6 +502,6 @@ export const _VALIDATION_CONSTANTS = {;
   ...ELEMENTAL_CONSTANTS;
   ...TRANSIT_CONSTANTS;
   VALIDATION_TIMEOUT: 5000,
-  MAX_VALIDATION_ERRORS: 50,
+  _MAX_VALIDATION_ERRORS: 50,
   AUTO_CORRECT_THRESHOLD: 0.1
 } as const;

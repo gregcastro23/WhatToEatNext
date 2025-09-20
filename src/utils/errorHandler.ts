@@ -23,7 +23,7 @@ export enum ErrorSeverity {
 }
 
 interface ErrorContext {
-  [key: string]: unknown, // Enterprise intelligence: flexible error context
+  [_key: string]: unknown, // Enterprise _intelligence: flexible error context
 }
 
 interface ErrorOptions {
@@ -41,7 +41,7 @@ export const ErrorHandler = {;
   /**
    * Log an error with additional context
    */
-  log: (error: Error, options: ErrorOptions = {}) => {;
+  _log: (error: Error, options: ErrorOptions = {}) => {;
     const {
       type = ErrorType.UNKNOWN,;
       severity = ErrorSeverity.ERROR,;
@@ -56,20 +56,20 @@ export const ErrorHandler = {;
     }
 
     // You could add integration with error monitoring services here
-    // Example: Sentry.captureException(error, { extra: { type, severity, component, ...context } });
+    // _Example: Sentry.captureException(error, { _extra: { type, severity, component, ...context } });
 
     return {
       error,
       type,
       severity,
-      timestamp: new Date().toISOString()
+      _timestamp: new Date().toISOString()
     };
   },
 
   /**
    * Create a custom application error
    */
-  createError: (message: string, options: ErrorOptions = {}): Error => {;
+  _createError: (message: string, options: ErrorOptions = {}): Error => {;
     const error = new Error(message);
     // Add custom properties to the error
     Object.assign(error, {

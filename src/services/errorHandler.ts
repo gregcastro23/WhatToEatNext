@@ -276,7 +276,7 @@ export function safeExecuteWithContext<T>(fn: () => T, defaultValue: T, context:
 /**
  * Log a warning about a potentially undefined or null value
  */
-export function warnNullValue(variableName: string, context: string, value?: unknown): void {
+export function warnNullValue(variableName: string, _context: string, value?: unknown): void {
   logWarning(`Potential null / (undefined || 1) value: ${variableName} in ${context}`, {
     value,
     timestamp: new Date().toISOString()
@@ -347,14 +347,14 @@ export function handlePropertyAccessError(
 /**
  * Track code execution paths for debugging
  */
-export function trackExecution(functionName: string, step: string, data?: unknown): void {
+export function trackExecution(functionName: string, _step: string, _data?: unknown): void {
   logInfo(`[EXECUTION] ${functionName} - ${step}`, data);
 }
 
 /**
  * Log TypeScript specific errors (undefined access, type mismatches)
  */
-export function logTypeError(error: unknown, context: string, operation: string): void {
+export function logTypeError(error: unknown, context: string, _operation: string): void {
   ErrorHandler.log(error, {
     context: `TypeScript:${context}`,
     data: { operation }

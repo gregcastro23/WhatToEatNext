@@ -94,7 +94,7 @@ export const _PartialUnintentionalAnyConfigSchema = UnintentionalAnyConfigSchema
 /**
  * Validation functions
  */
-export function validateClassificationConfig(config: unknown): {
+export function validateClassificationConfig(_config: unknown): {
   isValid: boolean;
   data?: z.infer<typeof ClassificationConfigSchema>;
   errors?: z.ZodError;
@@ -107,7 +107,7 @@ export function validateClassificationConfig(config: unknown): {
   }
 }
 
-export function validateDomainConfig(config: unknown): {
+export function validateDomainConfig(_config: unknown): {
   isValid: boolean;
   data?: z.infer<typeof DomainConfigSchema>;
   errors?: z.ZodError;
@@ -120,7 +120,7 @@ export function validateDomainConfig(config: unknown): {
   }
 }
 
-export function validateSafetyConfig(config: unknown): {
+export function validateSafetyConfig(_config: unknown): {
   isValid: boolean;
   data?: z.infer<typeof SafetyConfigSchema>;
   errors?: z.ZodError;
@@ -133,7 +133,7 @@ export function validateSafetyConfig(config: unknown): {
   }
 }
 
-export function validateTargetConfig(config: unknown): {
+export function validateTargetConfig(_config: unknown): {
   isValid: boolean;
   data?: z.infer<typeof TargetConfigSchema>;
   errors?: z.ZodError;
@@ -146,7 +146,7 @@ export function validateTargetConfig(config: unknown): {
   }
 }
 
-export function validateUnintentionalAnyConfig(config: unknown): {
+export function validateUnintentionalAnyConfig(_config: unknown): {
   isValid: boolean;
   data?: z.infer<typeof UnintentionalAnyConfigSchema>;
   errors?: z.ZodError;
@@ -162,7 +162,7 @@ export function validateUnintentionalAnyConfig(config: unknown): {
 /**
  * Business logic validation functions
  */
-export function validateBusinessRules(config: z.infer<typeof UnintentionalAnyConfigSchema>): {
+export function validateBusinessRules(_config: z.infer<typeof UnintentionalAnyConfigSchema>): {
   isValid: boolean,
   errors: string[],
   warnings: string[]
@@ -233,7 +233,7 @@ export function validateBusinessRules(config: z.infer<typeof UnintentionalAnyCon
 /**
  * Comprehensive validation function
  */
-export function validateCompleteConfig(config: unknown): {
+export function validateCompleteConfig(_config: unknown): {
   isValid: boolean;
   data?: z.infer<typeof UnintentionalAnyConfigSchema>;
   schemaErrors?: z.ZodError;

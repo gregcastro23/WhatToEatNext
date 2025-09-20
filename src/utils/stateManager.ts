@@ -8,11 +8,11 @@ import { themeManager } from './theme';
 
 // Add the missing type definitions
 interface ScoredRecipe extends Recipe {
-  score: number,
-  matches: {
+  _score: number,
+  _matches: {
     elemental: number,
-    seasonal: number,
-    astrological: number
+    _seasonal: number,
+    _astrological: number
   };
 }
 

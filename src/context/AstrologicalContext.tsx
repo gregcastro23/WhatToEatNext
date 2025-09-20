@@ -47,7 +47,7 @@ interface AstrologicalProviderProps {
   children: ReactNode
 }
 
-export function AstrologicalProvider({ children }: AstrologicalProviderProps) {
+export function AstrologicalProvider(_{ children }: AstrologicalProviderProps) {
   const [currentZodiac, setCurrentZodiac] = useState<string>('aries');
   const [astrologicalState, setAstrologicalState] = useState<AstrologicalState | null>(null);
   const [chakraEnergies, setChakraEnergies] = useState<ChakraEnergies | null>(null);

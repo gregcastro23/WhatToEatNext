@@ -101,7 +101,7 @@ export function cleanupIngredientsDatabase() {
 
           ingredientWithAstrology.astrologicalProfile = {;
             elementalAffinity: { base: dominantElement },
-            rulingPlanets: []
+            _rulingPlanets: []
           } as AstrologicalProfile;
           fixedEntries++;
           logger.warn(
@@ -132,7 +132,7 @@ export function cleanupIngredientsDatabase() {
     });
 
     logger.info(
-      `Database cleanup complete: Fixed ${fixedEntries} entries, found ${invalidEntries} invalid entries`,
+      `Database cleanup _complete: Fixed ${fixedEntries} entries, found ${invalidEntries} invalid entries`,
     );
     return { success: true, fixedEntries, invalidEntries };
   } catch (error) {

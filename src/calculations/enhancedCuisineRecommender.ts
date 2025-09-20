@@ -4,7 +4,7 @@ import { cuisinesMap } from '@/data/cuisines';
 import type { AstrologicalState, ElementalProperties, ZodiacSign } from '@/types/alchemy';
 import { createAstrologicalBridge } from '@/types/bridges/astrologicalBridge';
 import type { Cuisine } from '@/types/cuisine';
-import { isValidAstrologicalState as _isValidAstrologicalState } from '@/utils/typeGuards/astrologicalGuards';
+import {_isValidAstrologicalState as _isValidAstrologicalState} from '@/utils/typeGuards/astrologicalGuards';
 
 // Recipe interface for internal use in enhanced recommender
 interface RecipeData {
@@ -312,7 +312,7 @@ export class EnhancedCuisineRecommender {
     timeFactors: TimeFactors,
     _astroState: AstrologicalState,
   ): number {
-    const { planetaryDay, currentDate } = timeFactors;
+    const { planetaryDay, currentDate} = timeFactors;
     const _UNUSED_isDaytime = this.isDaytime(currentDate);
 
     // If recipe has no elemental properties, give it a neutral score
@@ -373,7 +373,7 @@ export class EnhancedCuisineRecommender {
     timeFactors: TimeFactors,
     _astroState: AstrologicalState,
   ): number {
-    const { planetaryHour, currentDate } = timeFactors;
+    const { planetaryHour, currentDate} = timeFactors;
     const isDaytime = this.isDaytime(currentDate);
 
     // If recipe has no elemental properties, give it a neutral score
@@ -480,7 +480,7 @@ export class EnhancedCuisineRecommender {
    * Calculate match based on time of day (0-1)
    */
   private calculateTimeOfDayScore(recipe: RecipeData, timeFactors: TimeFactors): number {
-    const { timeOfDay } = timeFactors;
+    const { timeOfDay} = timeFactors;
 
     // Map meal types to appropriate times of day
     const mealTypeToTimeMap: Record<string, TimeOfDay[]> = {

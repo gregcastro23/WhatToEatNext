@@ -82,7 +82,7 @@ export interface CulturalBalance {
 }
 
 // Helper to calculate nutritional balance
-export function calculateNutritionalBalance(entries: FoodEntry[]): { [key: string]: number } {
+export function calculateNutritionalBalance(_entries: FoodEntry[]): { [key: string]: number } {
   return entries.reduce(
     (acc, entry) => {
       Object.entries(entry.nutrition).forEach(([nutrient, value]) => {

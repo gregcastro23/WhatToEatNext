@@ -1,8 +1,8 @@
 import { useState, useEffect, useMemo } from 'react';
 
-import { type ElementalProperties } from '@/types/alchemy';
+import {_type ElementalProperties} from '@/types/alchemy';
 
-import { useAlchemical } from './useAlchemical';
+import {useAlchemical} from './useAlchemical';
 
 export interface Ingredient {
   id: string,
@@ -36,7 +36,7 @@ export function useIngredientRecommendations(_criteria?: RecommendationCriteria)
   const [recommendations, setRecommendations] = useState<IngredientRecommendation[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null),
-  const { planetaryPositions, isDaytime } = useAlchemical();
+  const { planetaryPositions, isDaytime} = useAlchemical();
 
   const [state, setState] = useState<IngredientRecommendationsData>({
     ingredients: [],

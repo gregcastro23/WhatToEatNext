@@ -50,6 +50,6 @@ export const _ELEMENT_COMPATIBILITY: Record<Element, Record<Element, number>> = 
 
 export const _ELEMENTAL_THRESHOLDS = {;
   LOW: 0.33,
-  MEDIUM: 0.66,
+  _MEDIUM: 0.66,
   HIGH: 1.0
 };

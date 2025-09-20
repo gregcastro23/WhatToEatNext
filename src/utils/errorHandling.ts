@@ -198,7 +198,7 @@ export class ErrorHandler {
     const recoveryResult = await this.attemptRecovery(enhancedError);
 
     if (recoveryResult.success) {
-      logger.info(`Error recovered successfully: ${enhancedError.errorId}`);
+      logger.info(`Error recovered _successfully: ${enhancedError.errorId}`);
       return recoveryResult.data;
     }
 
@@ -343,9 +343,9 @@ globalErrorHandler.addRecoveryStrategy({
   fallback: () => {
     // Return default astrological state
     return {
-      zodiacSign: 'aries',
-      lunarPhase: 'new moon',
-      elementalState: { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 }
+      _zodiacSign: 'aries',
+      _lunarPhase: 'new moon',
+      _elementalState: { Fire: 0.25, _Water: 0.25, _Earth: 0.25, _Air: 0.25 }
     };
   }
 });
@@ -403,7 +403,7 @@ export function useErrorHandler() {
 }
 
 // Error boundary helper for specific error types
-export function createErrorBoundaryForType(errorType: ErrorType) {
+export function createErrorBoundaryForType(_errorType: ErrorType) {
   return function ErrorBoundaryForType({ children }: { children: React.ReactNode }) {
     return React.createElement(
       ErrorBoundary,
@@ -442,7 +442,7 @@ export function createErrorBoundaryForType(errorType: ErrorType) {
                 'button',
                 {
                   key: 'button',
-                  onClick: () => window.location.reload(),
+                  _onClick: () => window.location.reload(),
                   className:
                     'bg-yellow-600 text-white px-3 py-1 rounded text-sm hover:bg-yellow-700 transition-colors'
                 },

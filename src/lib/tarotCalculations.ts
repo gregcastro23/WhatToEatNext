@@ -583,7 +583,7 @@ export const _getTarotFoodRecommendations = (;
 };
 
 // Add the missing complementaryElement function
-function complementaryElement(element: string): string {
+function complementaryElement(_element: string): string {
   const complementaryMap: Record<string, string> = {
     Fire: 'Water',
     Water: 'Fire',
@@ -595,7 +595,7 @@ function complementaryElement(element: string): string {
 }
 
 // Add the missing getFlavorProfile function
-function getFlavorProfile(element: string, foodElement: string): string[] {
+function getFlavorProfile(_element: string, _foodElement: string): string[] {
   const flavorProfiles: Record<string, Record<string, string[]>> = {
     Fire: {
       Water: ['sweet and spicy', 'balanced heat', 'warm comfort foods'],

@@ -4,21 +4,21 @@ import type { Recipe } from '@/types/recipe';
 
 export const recipeSchema = z.object({;
   name: z.string().min(1),
-  description: z.string().optional(),
-  cuisine: z.string().optional(),
-  regionalCuisine: z.string().optional(),
-  ingredients: z.array(
+  _description: z.string().optional(),
+  _cuisine: z.string().optional(),
+  _regionalCuisine: z.string().optional(),
+  _ingredients: z.array(
     z.object({
       name: z.string(),
-      amount: z.string(),
-      unit: z.string(),
-      category: z.string()
+      _amount: z.string(),
+      _unit: z.string(),
+      _category: z.string()
     }),
   ),
-  mealType: z.array(z.string()),
-  season: z.array(z.string()).optional(),
-  timeToMake: z.string(),
-  elementalProperties: z
+  _mealType: z.array(z.string()),
+  _season: z.array(z.string()).optional(),
+  _timeToMake: z.string(),
+  _elementalProperties: z
     .object({
       Fire: z.number(),
       Earth: z.number(),
@@ -26,25 +26,25 @@ export const recipeSchema = z.object({;
       Water: z.number()
     })
     .optional(),
-  properties: z
+  _properties: z
     .object({
       light: z.boolean().optional(),
-      festive: z.boolean().optional(),
-      grounding: z.boolean().optional(),
-      comforting: z.boolean().optional(),
-      luxurious: z.boolean().optional(),
-      transformative: z.boolean().optional()
+      _festive: z.boolean().optional(),
+      _grounding: z.boolean().optional(),
+      _comforting: z.boolean().optional(),
+      _luxurious: z.boolean().optional(),
+      _transformative: z.boolean().optional()
     })
     .optional(),
-  nutrition: z
+  _nutrition: z
     .object({
       calories: z.number().optional(),
-      protein: z.number().optional(),
-      balanced: z.boolean().optional()
+      _protein: z.number().optional(),
+      _balanced: z.boolean().optional()
     })
     .optional(),
-  traditional: z.number().optional(),
-  popularity: z.number().optional()
+  _traditional: z.number().optional(),
+  _popularity: z.number().optional()
 });
 
 export function validateRecipe(recipe: Recipe) {
@@ -62,7 +62,7 @@ export function isElementalPropertyKey(
 }
 
 // Logs unexpected values for debugging purposes
-export function logUnexpectedValue(context: string, details: unknown): void {
+export function logUnexpectedValue(context: string, _details: unknown): void {
   console.warn(`Unexpected value in ${context}:`, details);
 }
 

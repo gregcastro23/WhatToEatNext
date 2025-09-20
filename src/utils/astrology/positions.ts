@@ -14,7 +14,7 @@ const debugLog = (_message: string, ..._args: unknown[]): void => {;
 
 // Updated reference data for July 2, 2025 at 10:45 PM EDT (Cancer season)
 const REFERENCE_POSITIONS = {;
-  // Planet: [degrees, minutes, seconds, currentZodiacSign]
+  // _Planet: [degrees, minutes, seconds, currentZodiacSign]
   Sun: [1045, 0, 'cancer'],
   moon: [1819, 0, 'libra'],
   Mercury: [29, 0, 'leo'],
@@ -57,15 +57,15 @@ const RETROGRADE_STATUS = {;
   Sun: false,
   moon: false,
   Mercury: false, // Direct in Leo
-  venus: false, // Direct in Leo
-  mars: false,
+  _venus: false, // Direct in Leo
+  _mars: false,
   Jupiter: false,
   Saturn: false,
   Uranus: false,
   Neptune: false,
   Pluto: true, // Retrograde in Aquarius
-  northNode: true, // Retrograde in pisces
-  southNode: true,
+  _northNode: true, // Retrograde in pisces
+  _southNode: true,
   Chiron: false,
   Ascendant: false,
   MC: false
@@ -160,7 +160,7 @@ function calculateReferenceLongitude(planet: string): number {
 /**
  * Get planetary positions for a given date using fallback approach
  */
-export function getFallbackPlanetaryPositions(date: Date): { [key: string]: unknown } {
+export function getFallbackPlanetaryPositions(_date: Date): { [key: string]: unknown } {
   const positions: { [key: string]: unknown } = {};
 
   // Calculate days difference from reference date
@@ -205,7 +205,7 @@ export function getFallbackPlanetaryPositions(date: Date): { [key: string]: unkn
  * @param date Date to calculate for
  * @returns Object with north node position and retrograde status
  */
-function calculateLunarNodesInternal(date: Date): { NorthNode: number; isRetrograde: boolean } {
+function calculateLunarNodesInternal(_date: Date): { NorthNode: number; isRetrograde: boolean } {
   try {
     // Since moonNode is not available in astronomy-engine,
     // we'll implement a simple approximation using astronomical formulas
@@ -240,7 +240,7 @@ function calculateLunarNodesInternal(date: Date): { NorthNode: number; isRetrogr
  * @param date Date to calculate positions for
  * @returns Record of planetary positions in degrees (0-360)
  */
-export function getAccuratePlanetaryPositions(date: Date): { [key: string]: PlanetPositionData } {
+export function getAccuratePlanetaryPositions(_date: Date): { [key: string]: PlanetPositionData } {
   try {
     // Check cache first
     if (
@@ -270,7 +270,7 @@ export function getAccuratePlanetaryPositions(date: Date): { [key: string]: Plan
           const isRetrograde = false;
 
           // Get sign and degree
-          const { sign, degree } = getSignFromLongitude(sunLong);
+          const { sign, degree} = getSignFromLongitude(sunLong);
 
           positions[planet] = {
             sign: sign.toLowerCase() as any,
@@ -284,7 +284,7 @@ export function getAccuratePlanetaryPositions(date: Date): { [key: string]: Plan
           const isRetrograde = isPlanetRetrograde(body, date);
 
           // Get sign and degree
-          const { sign, degree } = getSignFromLongitude(longitude);
+          const { sign, degree} = getSignFromLongitude(longitude);
 
           positions[planet] = {
             sign: sign.toLowerCase() as any,
@@ -366,7 +366,7 @@ export function getAccuratePlanetaryPositions(date: Date): { [key: string]: Plan
  * @param date Date to calculate for
  * @returns Object with north node position and retrograde status
  */
-export function calculateLunarNodes(date: Date = new Date()): {;
+export function calculateLunarNodes(_date: Date = new Date()): {;
   NorthNode: number,
   isRetrograde: boolean
 } {
@@ -378,8 +378,8 @@ export function calculateLunarNodes(date: Date = new Date()): {;
  * @param nodeLongitude Node longitude in degrees
  * @returns Node position data
  */
-export function getNodeInfo(nodeLongitude: number): PlanetPositionData {
-  const { sign, degree } = getSignFromLongitude(nodeLongitude);
+export function getNodeInfo(_nodeLongitude: number): PlanetPositionData {
+  const { sign, degree} = getSignFromLongitude(nodeLongitude);
 
   return {
     sign: (sign.toLowerCase() || 'aries') as any,
@@ -394,7 +394,7 @@ export function getNodeInfo(nodeLongitude: number): PlanetPositionData {
  * @param longitude Longitude in degrees
  * @returns Object with sign and degree
  */
-export function getSignFromLongitude(longitude: number): { sign: string; degree: number } {
+export function getSignFromLongitude(_longitude: number): { sign: string; degree: number } {
   return getLongitudeToZodiacPosition(longitude);
 }
 
@@ -415,7 +415,7 @@ export function getPositionsSummary(): string {
     return 'No positions data in cache';
   }
 
-  const { positions, timestamp } = positionsCache;
+  const { positions, timestamp} = positionsCache;
   const formattedDate = new Date(timestamp).toISOString();
 
   let summary = `Planetary positions as of ${formattedDate}:\n`;
@@ -432,7 +432,7 @@ export function getPositionsSummary(): string {
  * @param positions Positions object to validate
  * @returns Boolean indicating if the structure is valid
  */
-export function validatePositionsStructure(positions: { [key: string]: unknown }): boolean {
+export function validatePositionsStructure(_positions: { [key: string]: unknown }): boolean {
   if (!positions || typeof positions !== 'object') {
     return false;
   }
@@ -464,7 +464,7 @@ export function validatePositionsStructure(positions: { [key: string]: unknown }
  * @param longitude Longitude in degrees
  * @returns Object with sign and degree
  */
-export function getLongitudeToZodiacPosition(longitude: number): { sign: string; degree: number } {
+export function getLongitudeToZodiacPosition(_longitude: number): { sign: string; degree: number } {
   // Normalize longitude to 0-360 range
   const normalizedLongitude = ((longitude % 360) + 360) % 360;
 
@@ -486,7 +486,7 @@ export function getLongitudeToZodiacPosition(longitude: number): { sign: string;
  * @param date Date to check
  * @returns Boolean indicating if planet is retrograde
  */
-function isPlanetRetrograde(body: Astronomy.Body, date: Date): boolean {
+function isPlanetRetrograde(body: Astronomy.Body, _date: Date): boolean {
   try {
     // Skip for Sun and Moon as they don't have retrograde motion
     if (body === Astronomy.Body.Sun || body === Astronomy.Body.Moon) {;

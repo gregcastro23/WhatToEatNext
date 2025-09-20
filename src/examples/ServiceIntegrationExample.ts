@@ -1,8 +1,8 @@
 import { log } from '@/services/LoggingService';
-import { ElementalProperties, Recipe, Element } from '@/types/alchemy';
-import { PlanetaryPosition } from '@/types/celestial';
+import {ElementalProperties, _Recipe, _Element} from '@/types/alchemy';
+import {_PlanetaryPosition} from '@/types/celestial';
 
-import { servicesManager } from '../services';
+import {servicesManager} from '../services';
 
 /**
  * This example shows how to use the unified service architecture

@@ -292,9 +292,9 @@ export function useStateCleanup(): (() => void) | void {
  */
 export function createStatePreservationHook(componentId: string) {
   return {
-    saveState: (state: unknown) => saveComponentState(componentId, state),
-    getState: () => getComponentState(componentId),
-    clearState: () => {
+    _saveState: (state: unknown) => saveComponentState(componentId, state),
+    _getState: () => getComponentState(componentId),
+    _clearState: () => {
       const allStates = getComponentStates();
       delete allStates[componentId];
       safeSetItem(STATE_KEYS.COMPONENT_STATES, JSON.stringify(allStates));

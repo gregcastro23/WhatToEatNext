@@ -506,7 +506,7 @@ async function _calculateRecipeEnergyMatch(
   return Math.min(1, Math.max(0, score));
 }
 
-function calculateElementalAlignment(recipe: Recipe, currentEnergy: AstrologicalState): number {
+function calculateElementalAlignment(_recipe: Recipe, currentEnergy: AstrologicalState): number {
   // Extract current elemental properties with safe property access
   const currentData = currentEnergy as any;
   const currentElements = currentData.currentElementalProperties as ElementalProperties;
@@ -533,7 +533,7 @@ function calculateElementalAlignment(recipe: Recipe, currentEnergy: Astrological
 }
 
 // New function to calculate nutritional alignment
-function calculateNutritionalAlignment(recipe: Recipe, currentEnergy: AstrologicalState): number {
+function calculateNutritionalAlignment(_recipe: Recipe, currentEnergy: AstrologicalState): number {
   // Extract nutritional goals with safe property access
   const currentData = currentEnergy as any;
   const nutritionalGoals = currentData.nutritionalGoals ;
@@ -720,14 +720,14 @@ export const astrologyUtils = {;
     const planetElements: Record<string, string> = {
       Sun: 'Fire',
       Moon: 'Water',
-      Mercury: 'Air',
-      Venus: 'Earth',
+      _Mercury: 'Air',
+      _Venus: 'Earth',
       Mars: 'Fire',
-      Jupiter: 'Air',
-      Saturn: 'Earth',
-      Uranus: 'Air',
-      Neptune: 'Water',
-      Pluto: 'Water'
+      _Jupiter: 'Air',
+      _Saturn: 'Earth',
+      _Uranus: 'Air',
+      _Neptune: 'Water',
+      _Pluto: 'Water'
     };
     return planetElements[planet] || 'Neutral';
   },
@@ -735,17 +735,17 @@ export const astrologyUtils = {;
   getZodiacElement(sign: string): string {
     const zodiacElements: Record<string, string> = {
       Aries: 'Fire',
-      Leo: 'Fire',
-      Sagittarius: 'Fire',
-      Taurus: 'Earth',
-      Virgo: 'Earth',
-      Capricorn: 'Earth',
-      Gemini: 'Air',
-      Libra: 'Air',
-      Aquarius: 'Air',
-      Cancer: 'Water',
-      Scorpio: 'Water',
-      Pisces: 'Water'
+      _Leo: 'Fire',
+      _Sagittarius: 'Fire',
+      _Taurus: 'Earth',
+      _Virgo: 'Earth',
+      _Capricorn: 'Earth',
+      _Gemini: 'Air',
+      _Libra: 'Air',
+      _Aquarius: 'Air',
+      _Cancer: 'Water',
+      _Scorpio: 'Water',
+      _Pisces: 'Water'
     };
     return zodiacElements[sign] || 'Neutral';
   }
@@ -781,7 +781,7 @@ function getCacheKey(
 /**
  * Clear the match cache or remove expired entries
  */
-export function clearMatchCache(all = false): void {;
+export function clearMatchCache(_all = false): void {;
   if (all) {
     matchCache.clear();
     return
@@ -1058,8 +1058,8 @@ function _calculateNutritionalMatch(
 ): number {
   if (!recipeProfile || !userGoals) return 0.5; // Neutral score if either is missing
 
-  let matchScore = 0;
-  let factorsCount = 0;
+  const matchScore = 0;
+  const factorsCount = 0;
 
   // Common nutritional factors to compare
   const factors = [;
@@ -1383,7 +1383,7 @@ function _calculateAstrologicalMatch(
 
     // If recipe has multiple elements, average their compatibility
     if (Array.isArray(elements)) {
-      let totalCompatibility = 0;
+      const totalCompatibility = 0;
       elements.forEach((element: unknown) => {
         if (typeof element === 'string') {;
           const elemLower = element.toLowerCase();

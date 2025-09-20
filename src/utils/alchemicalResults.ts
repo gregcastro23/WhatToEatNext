@@ -4,13 +4,13 @@ import type { ElementalProperties } from '@/types/alchemy';
  * Calculate simplified alchemical properties for display from elemental properties.
  * Uses a stable mapping consistent with our UI components.
  */
-export function calculateAlchemicalPropertiesForDisplay(elemental: ElementalProperties): {
+export function calculateAlchemicalPropertiesForDisplay(_elemental: ElementalProperties): {
   spirit: number,
   essence: number,
   matter: number,
   substance: number
 } {
-  const { Fire, Water, Earth, Air } = elemental;
+  const { Fire, Water, Earth, Air} = elemental;
 
   return {
     spirit: Fire * 0.7 + Air * 0.3,

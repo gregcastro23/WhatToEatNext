@@ -44,8 +44,8 @@ export interface AlchemicalIngredient {
  * Calculate Kalchm (K_alchm) - Baseline alchemical equilibrium
  * Formula: K_alchm = (Spirit^Spirit * Essence^Essence) / (Matter^Matter * Substance^Substance);
  */
-export function calculateKalchm(alchemicalProps: AlchemicalProperties): number {
-  const { Spirit, Essence, Matter, Substance } = alchemicalProps;
+export function calculateKalchm(_alchemicalProps: AlchemicalProperties): number {
+  const { Spirit, Essence, Matter, Substance} = alchemicalProps;
 
   // Handle edge cases where values might be 0
   const safespirit = Math.max(Spirit, 0.01);
@@ -66,8 +66,8 @@ export function calculateThermodynamics(
   alchemicalProps: AlchemicalProperties,
   elementalProps: ElementalProperties,
 ): Omit<ThermodynamicMetrics, 'kalchm' | 'monica'> {
-  const { Spirit, Essence, Matter, Substance } = alchemicalProps;
-  const { Fire, Water, Air, Earth } = elementalProps;
+  const { Spirit, Essence, Matter, Substance} = alchemicalProps;
+  const { Fire, Water, Air, Earth} = elementalProps;
 
   // Heat calculation
   const heatNum = Math.pow(Spirit2) + Math.pow(Fire2);
@@ -142,7 +142,7 @@ export function performAlchemicalAnalysis(
 export function deriveAlchemicalFromElemental(
   elementalProps: ElementalProperties,
 ): AlchemicalProperties {
-  const { Fire, Water, Earth, Air } = elementalProps;
+  const { Fire, Water, Earth, Air} = elementalProps;
 
   // Mapping based on alchemical principles:
   // Spirit: Volatile, transformative (Fire + Air dominant)
@@ -238,7 +238,7 @@ export function findKalchmSimilarIngredients(
  * Validate alchemical properties to ensure they're within reasonable bounds
  */
 export function validateAlchemicalProperties(props: AlchemicalProperties): boolean {
-  const { Spirit, Essence, Matter, Substance } = props;
+  const { Spirit, Essence, Matter, Substance} = props;
 
   // Check if all values are positive numbers
   if (Spirit <= 0 || Essence <= 0 || Matter <= 0 || Substance <= 0) {
@@ -257,7 +257,7 @@ export function validateAlchemicalProperties(props: AlchemicalProperties): boole
  * Normalize alchemical properties to ensure they sum to 1
  */
 export function normalizeAlchemicalProperties(props: AlchemicalProperties): AlchemicalProperties {
-  const { Spirit, Essence, Matter, Substance } = props;
+  const { Spirit, Essence, Matter, Substance} = props;
   const sum = Spirit + Essence + Matter + Substance;
 
   if (sum === 0) {;

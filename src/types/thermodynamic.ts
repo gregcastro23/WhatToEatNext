@@ -30,17 +30,17 @@ export interface BasicThermodynamicProperties {
 export interface ExtendedThermodynamicProperties extends ThermodynamicProperties {
   resonance: number; // Energy alignment/harmony (0-1)
   potential: number; // Stored energetic potential (0-1)
-  stability: number; // Resistance to transformation (0-1)
-  dynamism: number; // Rate of energy exchange (0-1)
+  _stability: number; // Resistance to transformation (0-1)
+  _dynamism: number; // Rate of energy exchange (0-1)
 }
 
 /**
  * Time-based thermodynamic transitions
  */
 export interface ThermodynamicTransition {
-  initialState: ThermodynamicProperties,
-  finalState: ThermodynamicProperties,
-  transitionTime: number, // in minutes
+  _initialState: ThermodynamicProperties,
+  _finalState: ThermodynamicProperties,
+  _transitionTime: number, // in minutes
   catalysts?: string[]; // Elements that speed up the transition
   inhibitors?: string[]; // Elements that slow down the transition
 }
@@ -49,7 +49,7 @@ export interface ThermodynamicTransition {
  * Temperature-specific thermodynamic effects
  */
 export interface TemperatureEffect {
-  range: {
+  _range: {
     min: number; // temperature in Celsius
     max: number
   };

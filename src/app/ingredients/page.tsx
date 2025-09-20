@@ -30,8 +30,8 @@ export default function IngredientsPage() {
   const [selectedIngredient, setSelectedIngredient] = useState<string | null>(null);
 
   // Use enhanced state preservation hooks
-  const { preserveContext, restoreContext } = useNavigationContext();
-  const { restoreScrollPosition } = useScrollPreservation('ingredients-page');
+  const { _preserveContext, restoreContext} = useNavigationContext();
+  const { restoreScrollPosition} = useScrollPreservation('ingredients-page');
 
   // Restore context from URL parameters or enhanced state preservation
   useEffect(() => {

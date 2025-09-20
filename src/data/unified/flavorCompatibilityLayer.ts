@@ -83,7 +83,7 @@ export function calculateFlavorCompatibility(
  * Legacy calculateFlavorMatch function
  * @deprecated Use calculateFlavorCompatibility from unifiedFlavorEngine instead
  */
-export function calculateFlavorMatch(profile1, profile2: {}): number {
+export function calculateFlavorMatch(_profile1, _profile2: {}): number {
   const result = calculateFlavorCompatibility(profile1, profile2);
   return result.compatibility;
 }
@@ -256,7 +256,7 @@ export function calculateElementalCompatibility(
 
 // ===== CONVERSION HELPERS =====;
 
-function convertLegacyToUnified(legacyProfile, id: string): UnifiedFlavorProfile {
+function convertLegacyToUnified(legacyProfile, _id: string): UnifiedFlavorProfile {
   // Extract base notes from various legacy formats
   const baseNotes: BaseFlavorNotes = {;
     sweet: legacyProfile.sweet || legacyProfile.flavorProfiles?.sweet || 0,

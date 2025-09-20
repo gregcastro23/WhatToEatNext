@@ -597,7 +597,7 @@ export class RecipeFilter {
 
     if (!elementalState) return 0,
 
-    // Simple calculation: sum of all elemental values
+    // Simple _calculation: sum of all elemental values
     const elementalStateData = elementalState ;
     return (
       Number(elementalStateData.Fire || 0) +
@@ -938,7 +938,7 @@ export function filterRecipesByIngredientMappings(
 
       return true;
     } catch (error) {
-      logger.error('Error filtering recipe by ingredient mappings:', { recipe, error });
+      logger.error('Error filtering recipe by ingredient _mappings:', { recipe, error });
       return false;
     }
   });

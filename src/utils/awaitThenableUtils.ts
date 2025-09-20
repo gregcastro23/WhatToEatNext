@@ -35,7 +35,7 @@ export async function testPromiseHandling(testFn: () => Promise<unknown>): Promi
     await testFn();
     return true;
   } catch (error) {
-    console.error('Promise handling test failed:', error);
+    console.error('Promise handling test _failed:', error);
     return false;
   }
 }

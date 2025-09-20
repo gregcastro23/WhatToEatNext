@@ -9,16 +9,16 @@ const nutritionReferenceValues: Record<string, unknown> = {
   egg: { calories: 155, protein: 13, carbs: 1.1, fat: 11, fiber: 0, sugar: 1.1 },
   beans: { calories: 127, protein: 8.7, carbs: 22.8, fat: 0.5, fiber: 7.4, sugar: 0.3 },
   lentils: { calories: 116, protein: 9, carbs: 20, fat: 0.4, fiber: 7.9, sugar: 1.8 },
-  tofu: { calories: 76, protein: 8, carbs: 1.9, fat: 4.8, fiber: 0.3, sugar: 0.5 },
+  _tofu: { calories: 76, protein: 8, carbs: 1.9, fat: 4.8, fiber: 0.3, sugar: 0.5 },
 
   // Vegetables
   vegetable: { calories: 65, protein: 2.5, carbs: 12, fat: 0.3, fiber: 3.8, sugar: 5 },
   'leafy greens': { calories: 25, protein: 2.1, carbs: 3.8, fat: 0.4, fiber: 2.4, sugar: 0.5 },
   'root vegetables': { calories: 75, protein: 1.5, carbs: 17, fat: 0.2, fiber: 2.8, sugar: 4 },
-  tomato: { calories: 18, protein: 0.9, carbs: 3.9, fat: 0.2, fiber: 1.2, sugar: 2.6 },
-  potato: { calories: 77, protein: 2, carbs: 17, fat: 0.1, fiber: 2.2, sugar: 0.8 },
-  onion: { calories: 40, protein: 1.1, carbs: 9.3, fat: 0.1, fiber: 1.7, sugar: 4.2 },
-  garlic: { calories: 149, protein: 6.4, carbs: 33, fat: 0.5, fiber: 2.1, sugar: 1 },
+  _tomato: { calories: 18, protein: 0.9, carbs: 3.9, fat: 0.2, fiber: 1.2, sugar: 2.6 },
+  _potato: { calories: 77, protein: 2, carbs: 17, fat: 0.1, fiber: 2.2, sugar: 0.8 },
+  _onion: { calories: 40, protein: 1.1, carbs: 9.3, fat: 0.1, fiber: 1.7, sugar: 4.2 },
+  _garlic: { calories: 149, protein: 6.4, carbs: 33, fat: 0.5, fiber: 2.1, sugar: 1 },
 
   // Fruits
   fruit: { calories: 70, protein: 0.8, carbs: 18, fat: 0.3, fiber: 2.5, sugar: 12 },
@@ -26,28 +26,28 @@ const nutritionReferenceValues: Record<string, unknown> = {
   citrus: { calories: 47, protein: 0.9, carbs: 12, fat: 0.1, fiber: 2.4, sugar: 9 },
 
   // Grains
-  rice: { calories: 130, protein: 2.7, carbs: 28, fat: 0.3, fiber: 0.4, sugar: 0.1 },
-  pasta: { calories: 158, protein: 5.8, carbs: 31, fat: 0.9, fiber: 1.8, sugar: 0.6 },
-  bread: { calories: 265, protein: 9.4, carbs: 49, fat: 3.3, fiber: 2.8, sugar: 5.1 },
-  quinoa: { calories: 120, protein: 4.4, carbs: 21, fat: 1.9, fiber: 2.8, sugar: 0.9 },
+  _rice: { calories: 130, protein: 2.7, carbs: 28, fat: 0.3, fiber: 0.4, sugar: 0.1 },
+  _pasta: { calories: 158, protein: 5.8, carbs: 31, fat: 0.9, fiber: 1.8, sugar: 0.6 },
+  _bread: { calories: 265, protein: 9.4, carbs: 49, fat: 3.3, fiber: 2.8, sugar: 5.1 },
+  _quinoa: { calories: 120, protein: 4.4, carbs: 21, fat: 1.9, fiber: 2.8, sugar: 0.9 },
 
   // Dairy
-  cheese: { calories: 350, protein: 21, carbs: 1.3, fat: 28, fiber: 0, sugar: 0.5 },
-  milk: { calories: 61, protein: 3.3, carbs: 4.8, fat: 3.3, fiber: 0, sugar: 5.1 },
-  yogurt: { calories: 100, protein: 5.7, carbs: 7.6, fat: 5.4, fiber: 0, sugar: 7.6 },
+  _cheese: { calories: 350, protein: 21, carbs: 1.3, fat: 28, fiber: 0, sugar: 0.5 },
+  _milk: { calories: 61, protein: 3.3, carbs: 4.8, fat: 3.3, fiber: 0, sugar: 5.1 },
+  _yogurt: { calories: 100, protein: 5.7, carbs: 7.6, fat: 5.4, fiber: 0, sugar: 7.6 },
 
   // Fats & Oils
-  oil: { calories: 884, protein: 0, carbs: 0, fat: 100, fiber: 0, sugar: 0 },
-  butter: { calories: 717, protein: 0.9, carbs: 0.1, fat: 81, fiber: 0, sugar: 0.1 },
+  _oil: { calories: 884, protein: 0, carbs: 0, fat: 100, fiber: 0, sugar: 0 },
+  _butter: { calories: 717, protein: 0.9, carbs: 0.1, fat: 81, fiber: 0, sugar: 0.1 },
   nuts: { calories: 607, protein: 21, carbs: 20, fat: 54, fiber: 8.4, sugar: 4.3 },
 
   // Other
-  herbs: { calories: 30, protein: 2, carbs: 5.5, fat: 0.5, fiber: 2, sugar: 0 },
-  spices: { calories: 25, protein: 1, carbs: 4.5, fat: 1, fiber: 2.5, sugar: 0.5 },
-  sauce: { calories: 75, protein: 1.8, carbs: 7, fat: 4.5, fiber: 0.5, sugar: 3 },
-  broth: { calories: 15, protein: 1, carbs: 1.5, fat: 0.5, fiber: 0, sugar: 0 },
+  _herbs: { calories: 30, protein: 2, carbs: 5.5, fat: 0.5, fiber: 2, sugar: 0 },
+  _spices: { calories: 25, protein: 1, carbs: 4.5, fat: 1, fiber: 2.5, sugar: 0.5 },
+  _sauce: { calories: 75, protein: 1.8, carbs: 7, fat: 4.5, fiber: 0.5, sugar: 3 },
+  _broth: { calories: 15, protein: 1, carbs: 1.5, fat: 0.5, fiber: 0, sugar: 0 },
   sugar: { calories: 387, protein: 0, carbs: 100, fat: 0, fiber: 0, sugar: 100 },
-  salt: { calories: 0, protein: 0, carbs: 0, fat: 0, fiber: 0, sugar: 0 }
+  _salt: { calories: 0, protein: 0, carbs: 0, fat: 0, fiber: 0, sugar: 0 }
 };
 
 // Vitamins typically found in food categories
@@ -71,7 +71,7 @@ const mineralsByCategory: Record<string, string[]> = {
   vegetable: ['Potassium'],
   beans: ['Iron', 'Magnesium'],
   lentils: ['Iron', 'Potassium'],
-  meat: ['Iron', 'Zinc'],
+  _meat: ['Iron', 'Zinc'],
   fish: ['Selenium'],
   dairy: ['Calcium'],
   nuts: ['Magnesium', 'Zinc'],

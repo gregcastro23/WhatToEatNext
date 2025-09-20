@@ -137,7 +137,7 @@ export function validateRetrogradePhase(
 /**
  * Validate all transit dates for consistency
  */
-export function validateAllTransitDates(transitDates: PlanetTransitDates): {
+export function validateAllTransitDates(_transitDates: PlanetTransitDates): {
   isValid: boolean,
   errors: string[],
   warnings: string[]
@@ -325,7 +325,7 @@ export async function validatePlanetaryPosition(
  * Constants for transit validation
  */
 export const _TRANSIT_CONSTANTS = {;
-  VALID_SIGNS: [
+  _VALID_SIGNS: [
     'aries',
     'taurus',
     'gemini',
@@ -339,10 +339,10 @@ export const _TRANSIT_CONSTANTS = {;
     'aquarius',
     'pisces'
   ],
-  DEGREES_PER_SIGN: 30,
-  MAX_LONGITUDE: 360,
-  DATE_FORMAT: 'YYYY-MM-DD',
-  RETROGRADE_PLANETS: [
+  _DEGREES_PER_SIGN: 30,
+  _MAX_LONGITUDE: 360,
+  _DATE_FORMAT: 'YYYY-MM-DD',
+  _RETROGRADE_PLANETS: [
     'mercury',
     'venus',
     'mars',
@@ -352,6 +352,6 @@ export const _TRANSIT_CONSTANTS = {;
     'neptune',
     'pluto'
   ],
-  ALWAYS_DIRECT: ['sun', 'moon'],
-  ALWAYS_RETROGRADE: ['northNode', 'southNode']
+  _ALWAYS_DIRECT: ['sun', 'moon'],
+  _ALWAYS_RETROGRADE: ['northNode', 'southNode']
 } as const;

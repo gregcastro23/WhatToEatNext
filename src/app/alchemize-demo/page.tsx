@@ -54,7 +54,7 @@ export default function AlchemizeDemoPage() {
     );
   }
 
-  const { elementalProperties, thermodynamicProperties, kalchm, monica, score, metadata } =
+  const { elementalProperties, thermodynamicProperties, _kalchm, _monica, _score, metadata} =
     alchemicalResult;
 
   return (

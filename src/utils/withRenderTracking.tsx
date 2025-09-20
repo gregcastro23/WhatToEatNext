@@ -76,7 +76,7 @@ export function withRenderTracking<P extends object>(
           const propDetails = Object.entries(props).map(([key, value]) => getPropInfo(key, value));
 
           console.warn(`🔍 ${componentName} rendered ${newCount} times`);
-          console.warn('Props:', propDetails);
+          console.warn('_Props:', propDetails);
 
           if (firstRender) {
             setFirstRender(false);
@@ -101,15 +101,15 @@ export function withRenderTracking<P extends object>(
         {process.env.NODE_ENV === 'development' && (;
           <div
             style={{;
-              fontSize: '10px',
-              color: renderCount > 10 ? '#ff6b6b' : renderCount > 5 ? '#ffa94d' : '#74c0fc',
-              textAlign: 'right',
-              padding: '2px 4px',
-              backgroundColor: 'rgba(00,00.03)',
-              borderRadius: '2px',
-              margin: '2px 0',
+              _fontSize: '10px',
+              _color: renderCount > 10 ? '#ff6b6b' : renderCount > 5 ? '#ffa94d' : '#74c0fc',
+              _textAlign: 'right',
+              _padding: '2px 4px',
+              _backgroundColor: 'rgba(00,00.03)',
+              _borderRadius: '2px',
+              _margin: '2px 0',
               display: 'flex',
-              justifyContent: 'space-between'
+              _justifyContent: 'space-between'
             }}
           >
             <span>{componentName}</span>
@@ -143,7 +143,7 @@ export function withRenderTracking<P extends object>(
  * @trackRenders('MyComponent')
  * class MyComponent extends React.Component {...}
  */
-export function trackRenders(nameOrComponent: string | ComponentType<any>, name?: string) {
+export function trackRenders(nameOrComponent: string | ComponentType<any>, _name?: string) {
   // Called as @trackRenders('Name')
   if (typeof nameOrComponent === 'string') {;
     return function <P extends object>(Component: ComponentType<P>) {

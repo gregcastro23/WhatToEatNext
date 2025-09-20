@@ -192,7 +192,7 @@ export interface StandardizedCulinaryApplications {
   >;
 
   // Flexible extension for category-specific methods
-  [methodName: string]:
+  [_methodName: string]:
     | Record<string, unknown>
     | {
         notes: string[];
@@ -206,14 +206,14 @@ export interface StandardizedCulinaryApplications {
 // Standardized variety information
 export interface StandardizedVariety {
   appearance: string,
-  texture: string,
-  flavor: string,
-  best_uses: string[],
+  _texture: string,
+  _flavor: string,
+  _best_uses: string[],
   notes?: string;
   ripening?: string;
   storage?: string;
   availability?: {
-    seasons: Season[];
+    _seasons: Season[];
     regions?: string[];
   };
   nutritionalDifferences?: Partial<StandardizedNutritionalProfile>;
@@ -298,22 +298,22 @@ export interface StandardizedHealthProperties {
 export interface OilSpecificProperties {
   smokePoint?: {
     celsius: number,
-    fahrenheit: number
+    _fahrenheit: number
   };
   extractionMethod?: string;
   refinementLevel?: 'crude' | 'refined' | 'extra-virgin' | 'cold-pressed';
   fatProfile?: {
     saturated: number,
-    monounsaturated: number,
-    polyunsaturated: number,
-    omega3: number,
-    omega6: number,
-    omega9: number
+    _monounsaturated: number,
+    _polyunsaturated: number,
+    _omega3: number,
+    _omega6: number,
+    _omega9: number
   };
   stability?: {
     heat: 'low' | 'medium' | 'high',
-    light: 'sensitive' | 'stable',
-    oxidation: 'prone' | 'resistant'
+    _light: 'sensitive' | 'stable',
+    _oxidation: 'prone' | 'resistant'
   };
 }
 
@@ -327,27 +327,27 @@ export interface SpiceSpecificProperties {
   activeCompounds?: string[];
   traditional_uses?: {
     culinary: string[],
-    medicinal: string[],
+    _medicinal: string[],
     ceremonial?: string[];
   };
 }
 
 export interface FruitSpecificProperties {
   ripeness_indicators?: {
-    visual: string[],
-    tactile: string[],
-    aromatic: string[]
+    _visual: string[],
+    _tactile: string[],
+    _aromatic: string[]
   };
   ripening_process?: {
     climacteric: boolean,
-    ethylene_producer: boolean,
-    ethylene_sensitive: boolean,
+    _ethylene_producer: boolean,
+    _ethylene_sensitive: boolean,
     optimal_temperature?: string;
     duration?: string;
   };
   peak_season?: {
-    start: string,
-    end: string,
+    _start: string,
+    _end: string,
     regions?: string[];
   };
 }
@@ -620,7 +620,7 @@ export function assessDataCompleteness(ingredient: StandardizedIngredient): Data
   };
 }
 
-function generateRecommendations(missingFields: string[], score: number): string[] {
+function generateRecommendations(_missingFields: string[], score: number): string[] {
   const recommendations: string[] = [];
 
   if (score < 50) {

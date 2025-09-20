@@ -8,7 +8,7 @@
 // Campaign and workflow service types
 export interface CampaignConfig {
   campaignId: string,
-  campaignType:
+  _campaignType:
     | 'typescript-fixes'
     | 'linting-improvements'
     | 'explicit-any-reduction'
@@ -27,16 +27,16 @@ export interface CampaignMetrics {
   startTime: Date;
   endTime?: Date;
   filesProcessed: number,
-  filesModified: number,
-  errorsFixed: number,
-  errorsIntroduced: number,
-  buildStatus: 'unknown' | 'passing' | 'failing',
-  testStatus: 'unknown' | 'passing' | 'failing',
-  lintStatus: 'unknown' | 'passing' | 'failing',
-  performanceMetrics: {
+  _filesModified: number,
+  _errorsFixed: number,
+  _errorsIntroduced: number,
+  _buildStatus: 'unknown' | 'passing' | 'failing',
+  _testStatus: 'unknown' | 'passing' | 'failing',
+  _lintStatus: 'unknown' | 'passing' | 'failing',
+  _performanceMetrics: {
     averageProcessingTime: number,
-    memoryUsage: number,
-    cacheHitRate: number
+    _memoryUsage: number,
+    _cacheHitRate: number
   };
 }
 
@@ -44,13 +44,13 @@ export interface CampaignResult {
   success: boolean,
   campaignId: string,
   metrics: CampaignMetrics,
-  errors: CampaignError[],
+  _errors: CampaignError[],
   warnings: string[],
   recommendations: string[],
-  artifacts: {
+  _artifacts: {
     backupPaths: string[],
-    logFiles: string[],
-    reportFiles: string[]
+    _logFiles: string[],
+    _reportFiles: string[]
   };
 }
 
@@ -79,19 +79,19 @@ export interface QualityGateConfig {
     buildTime?: number;
   };
   blocksDeployment: boolean,
-  notificationChannels: string[]
+  _notificationChannels: string[]
 }
 
 export interface QualityGateResult {
   gateId: string,
-  passed: boolean,
-  score: number,
+  _passed: boolean,
+  _score: number,
   metrics: {
     errorCount: number,
     warningCount: number,
     coveragePercentage: number,
     performanceScore: number,
-    buildTimeMs: number
+    _buildTimeMs: number
   };
   violations: QualityViolation[],
   timestamp: Date,
@@ -113,8 +113,8 @@ export interface AlertConfig {
   name: string,
   description: string,
   enabled: boolean,
-  channels: ('email' | 'slack' | 'webhook' | 'console')[],
-  conditions: AlertCondition[],
+  _channels: ('email' | 'slack' | 'webhook' | 'console')[],
+  _conditions: AlertCondition[],
   throttleMs?: number;
   priority: 'low' | 'medium' | 'high' | 'critical'
 }
@@ -133,23 +133,23 @@ export interface Alert {
   message: string,
   details: {
     metric: string,
-    actualValue: number,
-    thresholdValue: number,
+    _actualValue: number,
+    _thresholdValue: number,
     file?: string;
     context?: string;
   };
-  resolved: boolean;
+  _resolved: boolean;
   resolvedAt?: Date;
 }
 
 // Recipe and data service types
 export interface RecipeServiceConfig {
   cacheEnabled: boolean,
-  cacheTtlSeconds: number,
-  apiTimeout: number,
-  enableValidation: boolean,
+  _cacheTtlSeconds: number,
+  _apiTimeout: number,
+  _enableValidation: boolean,
   dataSource: 'local' | 'spoonacular' | 'hybrid',
-  fallbackEnabled: boolean
+  _fallbackEnabled: boolean
 }
 
 export interface RecipeQueryParams {
@@ -177,7 +177,7 @@ export interface RecipeServiceResult<T = unknown> {;
   };
   metadata: {
     source: string,
-    cached: boolean,
+    _cached: boolean,
     executionTime: number,
     timestamp: Date
   };
@@ -187,13 +187,13 @@ export interface RecipeServiceResult<T = unknown> {;
 export interface EnterpriseServiceConfig {
   serviceId: string,
   enabled: boolean,
-  analysisDepth: 'shallow' | 'standard' | 'deep',
-  cacheResults: boolean,
+  _analysisDepth: 'shallow' | 'standard' | 'deep',
+  _cacheResults: boolean,
   timeoutMs: number,
-  retryAttempts: number,
-  logLevel: 'debug' | 'info' | 'warn' | 'error',
-  enablePredictiveAnalysis: boolean,
-  enableMLInference: boolean
+  _retryAttempts: number,
+  _logLevel: 'debug' | 'info' | 'warn' | 'error',
+  _enablePredictiveAnalysis: boolean,
+  _enableMLInference: boolean
 }
 
 export interface EnterpriseAnalysisContext {
@@ -201,26 +201,26 @@ export interface EnterpriseAnalysisContext {
   userId?: string;
   sessionId?: string;
   timestamp: Date,
-  parameters: {
+  _parameters: {
     analysisType: string,
     dataSource: string,
-    filters: EnterpriseFilter[]
+    _filters: EnterpriseFilter[]
   };
   metadata: Record<string, string | number | boolean>;
 }
 
 export interface EnterpriseFilter {
-  field: string,
+  _field: string,
   operator: 'equals' | 'contains' | 'greater_than' | 'less_than' | 'in' | 'not_in',
-  value: unknown
+  _value: unknown
 }
 
 export interface EnterpriseServiceResult<T = unknown> {;
   success: boolean;
   data?: T;
   confidence: number,
-  processingTime: number,
-  cacheHit: boolean,
+  _processingTime: number,
+  _cacheHit: boolean,
   warnings: string[],
   recommendations: string[],
   metadata: {
@@ -233,11 +233,11 @@ export interface EnterpriseServiceResult<T = unknown> {;
 // Linting service types
 export interface LintingConfig {
   rules: LintingRule[],
-  ignorePatterns: string[],
-  fixableRules: string[],
-  maxWarnings: number,
-  enableAutoFix: boolean,
-  reportFormat: 'json' | 'table' | 'compact' | 'stylish',
+  _ignorePatterns: string[],
+  _fixableRules: string[],
+  _maxWarnings: number,
+  _enableAutoFix: boolean,
+  _reportFormat: 'json' | 'table' | 'compact' | 'stylish',
   outputPath?: string;
 }
 
@@ -251,12 +251,12 @@ export interface LintingRule {
 
 export interface LintingResult {
   success: boolean,
-  filePath: string,
+  _filePath: string,
   errorCount: number,
   warningCount: number,
-  fixableErrorCount: number,
-  fixableWarningCount: number,
-  messages: LintingMessage[],
+  _fixableErrorCount: number,
+  _fixableWarningCount: number,
+  _messages: LintingMessage[],
   source?: string;
   output?: string;
 }
@@ -300,46 +300,46 @@ export interface ServiceError {
   message: string,
   type: 'validation' | 'authorization' | 'not_found' | 'rate_limit' | 'internal' | 'external',
   details?: Record<string, unknown>;
-  retryable: boolean
+  _retryable: boolean
 }
 
 // Configuration management types
 export interface ServiceConfig {
   serviceName: string,
   version: string,
-  environment: 'development' | 'staging' | 'production',
-  features: ServiceFeature[],
+  _environment: 'development' | 'staging' | 'production',
+  _features: ServiceFeature[],
   dependencies: ServiceDependency[],
-  monitoring: MonitoringConfig,
+  _monitoring: MonitoringConfig,
   security: SecurityConfig
 }
 
 export interface ServiceFeature {
   name: string,
   enabled: boolean,
-  configuration: Record<string, unknown>;
+  _configuration: Record<string, unknown>;
   dependencies?: string[];
 }
 
 export interface ServiceDependency {
   name: string,
   type: 'internal' | 'external',
-  required: boolean,
+  _required: boolean,
   healthCheckUrl?: string;
   timeout?: number;
 }
 
 export interface MonitoringConfig {
-  metricsEnabled: boolean,
-  tracingEnabled: boolean,
-  loggingLevel: 'debug' | 'info' | 'warn' | 'error',
-  healthCheckInterval: number,
-  alertingThresholds: Record<string, number>;
+  _metricsEnabled: boolean,
+  _tracingEnabled: boolean,
+  _loggingLevel: 'debug' | 'info' | 'warn' | 'error',
+  _healthCheckInterval: number,
+  _alertingThresholds: Record<string, number>;
 }
 
 export interface SecurityConfig {
-  authenticationRequired: boolean,
-  rateLimiting: {
+  _authenticationRequired: boolean,
+  _rateLimiting: {
     enabled: boolean;
     requestsPerMinute?: number;
   };

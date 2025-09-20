@@ -15,14 +15,14 @@ import {
   Season,
   ZodiacSign
 } from '@/types/alchemy';
-import { PlanetaryAlignment } from '@/types/celestial';
+import {_PlanetaryAlignment} from '@/types/celestial';
 import type { ScoredRecipe } from '@/types/recipe';
 
 import type { UnifiedIngredient } from '../../data/unified/unifiedTypes';
 import type { FoodCompatibility, SystemState } from '../../lib/FoodAlchemySystem';
-import { logger } from '../../utils/logger';
-import { consolidatedRecipeService } from '../ConsolidatedRecipeService';
-import { FoodAlchemySystem } from '../FoodAlchemySystem';
+import {logger} from '../../utils/logger';
+import {consolidatedRecipeService} from '../ConsolidatedRecipeService';
+import {FoodAlchemySystem} from '../FoodAlchemySystem';
 
 // Add missing imports for TS2304 fixes
 
@@ -214,8 +214,8 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
    * @returns A flavor profile
    */
   private createFlavorProfileFromState(state: SystemState): { [key: string]: number } {
-    const { heat, entropy, reactivity } = state.metrics;
-    const { Fire, Water, Earth, Air } = state.elements;
+    const { _heat, entropy, reactivity} = state.metrics;
+    const { Fire, Water, Earth, Air} = state.elements;
 
     // Create a flavor profile based on the elemental state and metrics
     return {
@@ -251,7 +251,7 @@ export class EnhancedFoodAlchemySystem extends FoodAlchemySystem {
    * @returns Elemental preference
    */
   private createElementalPreferenceFromState(state: SystemState): Partial<ElementalProperties> {
-    const { Fire, Water, Earth, Air } = state.elements;
+    const { Fire, Water, Earth, Air} = state.elements;
 
     // Find the element that needs balancing the most
     // (the element that's furthest from 0.25, the ideal balance)

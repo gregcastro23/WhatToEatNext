@@ -25,7 +25,7 @@ interface UseRealtimePlanetaryPositionsOptions {
   testConnection?: boolean;
 }
 
-export function useRealtimePlanetaryPositions(options: UseRealtimePlanetaryPositionsOptions = {}) {;
+export function useRealtimePlanetaryPositions(_options: UseRealtimePlanetaryPositionsOptions = {}) {;
   const {
     refreshInterval = 30 * 60 * 1000, // 30 minutes to reduce API load;
     location,

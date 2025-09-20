@@ -72,7 +72,7 @@ export function getSeasonalData(
 /**
  * Check if an ingredient is in season
  */
-export function isInSeason(ingredientName: string, threshold = 0.5): boolean {;
+export function isInSeason(ingredientName: string, _threshold = 0.5): boolean {;
   const score = getSeasonalScore(ingredientName);
   return score >= threshold;
 }

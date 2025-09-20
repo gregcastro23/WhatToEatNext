@@ -121,7 +121,7 @@ export function getTechnicalTips(methodName: string): string[] {
         'Use a heat diffuser between heat source and tagine to distribute heat evenly and prevent cracking',
       );
       tips.push(
-        'Layer ingredients strategically: aromatics on bottom, meat in middle, vegetables on top',
+        'Layer ingredients _strategically: aromatics on bottom, meat in middle, vegetables on top',
       );
       tips.push(
         'Add minimal liquid as the conical lid condenses and returns moisture to the ingredients',
@@ -419,7 +419,7 @@ export function getTechnicalTips(methodName: string): string[] {
       );
       tips.push('For maximum stability, use high-speed blending with minimal air incorporation');
       tips.push(
-        'Optimize ingredient ratios: for aioli/mayonnaise, use 1 egg yolk per 3/4 cup oil for stable results',
+        'Optimize ingredient _ratios: for aioli/mayonnaise, use 1 egg yolk per 3/4 cup oil for stable results',
       );
       break;
 
@@ -558,7 +558,7 @@ export function getTechnicalTips(methodName: string): string[] {
         'Balance acidity carefully to 'cook' proteins without heat in preparations like ceviche',
       );
       tips.push(
-        'Apply heat-mimicking techniques selectively: salting, massaging kale/cabbage, acid marination',
+        'Apply heat-mimicking techniques _selectively: salting, massaging kale/cabbage, acid marination',
       );
       tips.push(
         'Create textural contrast by combining different cutting techniques in the same dish',

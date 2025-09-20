@@ -13,8 +13,8 @@
  */
 
 // Removed unused Element import
-import { CelestialPosition, ZodiacSign } from '@/types/celestial';
-import { createLogger } from '@/utils/logger';
+import {CelestialPosition} from '@/types/celestial';
+import {createLogger} from '@/utils/logger';
 import * as safeAstrology from '@/utils/safeAstrology';
 
 // Create a component-specific logger
@@ -42,12 +42,12 @@ async function getPositionsFromAPI(): Promise<Record<string, CelestialPosition> 
 
     // Try to fetch from API endpoint
     const response = await fetch('/api/planetary-positions', {;
-      method: 'GET',
-      headers: {
+      _method: 'GET',
+      _headers: {
         'Content-Type': 'application/json'
       },
       // Short timeout to prevent long waits
-      signal: AbortSignal.timeout(3000)
+      _signal: AbortSignal.timeout(3000)
     });
 
     if (!response.ok) {

@@ -35,14 +35,14 @@ const lunarInfluences: Record<
   LunarPhaseWithUnderscores,
   { strength: number, elements: Record<string, number> }
 > = {
-  NEW_MOON: { strength: 0.3, elements: { Fire: 0.1, Water: 0.1, Air: 0.1, Earth: 0.1 } },
-  WAXING_CRESCENT: { strength: 0.2, elements: { Fire: 0.2, Air: 0.1, Water: 0.0, Earth: 0.0 } },
-  FIRST_QUARTER: { strength: 0.3, elements: { Fire: 0.3, Air: 0.2, Water: 0.0, Earth: 0.0 } },
-  WAXING_GIBBOUS: { strength: 0.4, elements: { Fire: 0.4, Air: 0.3, Water: 0.0, Earth: 0.0 } },
-  FULL_MOON: { strength: 0.5, elements: { Water: 0.4, Earth: 0.3, Fire: 0.0, Air: 0.0 } },
-  WANING_GIBBOUS: { strength: 0.4, elements: { Water: 0.3, Earth: 0.2, Fire: 0.0, Air: 0.0 } },
-  LAST_QUARTER: { strength: 0.3, elements: { Water: 0.2, Earth: 0.1, Fire: 0.0, Air: 0.0 } },
-  WANING_CRESCENT: { strength: 0.2, elements: { Water: 0.1, Earth: 0.1, Fire: 0.0, Air: 0.0 } }
+  _NEW_MOON: { strength: 0.3, elements: { Fire: 0.1, Water: 0.1, Air: 0.1, Earth: 0.1 } },
+  _WAXING_CRESCENT: { strength: 0.2, elements: { Fire: 0.2, Air: 0.1, Water: 0.0, Earth: 0.0 } },
+  _FIRST_QUARTER: { strength: 0.3, elements: { Fire: 0.3, Air: 0.2, Water: 0.0, Earth: 0.0 } },
+  _WAXING_GIBBOUS: { strength: 0.4, elements: { Fire: 0.4, Air: 0.3, Water: 0.0, Earth: 0.0 } },
+  _FULL_MOON: { strength: 0.5, elements: { Water: 0.4, Earth: 0.3, Fire: 0.0, Air: 0.0 } },
+  _WANING_GIBBOUS: { strength: 0.4, elements: { Water: 0.3, Earth: 0.2, Fire: 0.0, Air: 0.0 } },
+  _LAST_QUARTER: { strength: 0.3, elements: { Water: 0.2, Earth: 0.1, Fire: 0.0, Air: 0.0 } },
+  _WANING_CRESCENT: { strength: 0.2, elements: { Water: 0.1, Earth: 0.1, Fire: 0.0, Air: 0.0 } }
 } as unknown as Record<
   LunarPhaseWithUnderscores,
   { strength: number, elements: Record<string, number> }
@@ -130,14 +130,14 @@ export function generateDefaultLunarPhaseModifiers(
 
   // Base modifiers on dominant element
   const lunarModifiers: Record<string, LunarPhaseModifier> = {
-    newMoon: {
+    _newMoon: {
       elementalModifiers: { Fire: 0.1, Water: 0.4, Earth: 0.2, Air: 0.3 },
       elementalBoost: { [dominantElement]: 0.1, [secondaryElement]: 0.05 },
       description: `New Moon effects on ${ingredientName}`,
       keywords: ['subtle', 'preparation', 'beginnings'],
       preparationTips: [`Good for subtle ${category} preparations`]
     },
-    fullMoon: {
+    _fullMoon: {
       elementalModifiers: { Fire: 0.4, Water: 0.1, Earth: 0.1, Air: 0.4 },
       elementalBoost: { [dominantElement]: 0.2 },
       description: `Full Moon enhances ${ingredientName} properties`,

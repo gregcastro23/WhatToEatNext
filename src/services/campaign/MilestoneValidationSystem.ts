@@ -7,9 +7,9 @@
 import { execSync } from 'child_process';
 import * as fs from 'fs';
 
-import { ProgressMetrics, ValidationResult, PhaseStatus, Milestone } from '../../types/campaign';
+import {ProgressMetrics, _ValidationResult, _PhaseStatus, Milestone} from '../../types/campaign';
 
-import { MetricsCollectionSystem } from './MetricsCollectionSystem';
+import {MetricsCollectionSystem} from './MetricsCollectionSystem';
 
 export interface MilestoneValidation {
   milestone: string,

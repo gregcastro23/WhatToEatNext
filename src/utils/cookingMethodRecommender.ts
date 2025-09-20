@@ -349,7 +349,7 @@ function _calculateThermodynamicBaseScore(thermodynamics: BasicThermodynamicProp
   const reactivityScore = thermodynamics.reactivity || 0;
 
   // Weighted average - giving slightly more importance to heat and reactivity
-  // Weights: Heat (0.4), Entropy (0.3), Reactivity (0.3)
+  // _Weights: Heat (0.4), Entropy (0.3), Reactivity (0.3)
   const rawScore = heatScore * 0.4 + entropyScore * 0.3 + reactivityScore * 0.3;
 
   // Ensure a minimum base score to avoid scores of 0 before multiplier.
@@ -1288,13 +1288,13 @@ export async function getRecommendedCookingMethods(
       const venusMethodBoosts = {;
         sous_vide: 1.3, // Precise temperature control for perfect results
         confit: 1.4, // Slow, luxurious preservation method
-        glaze: 1.5, // Beautiful, glossy finish
-        caramelize: 1.3, // Brings out natural sweetness
+        _glaze: 1.5, // Beautiful, glossy finish
+        _caramelize: 1.3, // Brings out natural sweetness
         infuse: 1.4, // Subtle flavor development
         braise: 1.2, // Tender, succulent results
-        flambe: 1.3, // Dramatic presentation
+        _flambe: 1.3, // Dramatic presentation
         poach: 1.2, // Gentle, delicate cooking
-        candy: 1.5, // Sweet preservation
+        _candy: 1.5, // Sweet preservation
       };
 
       for (const [methodName, boost] of Object.entries(venusMethodBoosts)) {
@@ -1332,7 +1332,7 @@ export async function getRecommendedCookingMethods(
       astrological: astrologicalScore * 0.25,
       seasonal: seasonalScore * 0.15,
       tools: toolScore * 0.1,
-      dietary: dietaryScore * 0.1,
+      _dietary: dietaryScore * 0.1,
       cultural: culturalScore,
       lunar: lunarScore,
       venus: venusScore * 0.15,

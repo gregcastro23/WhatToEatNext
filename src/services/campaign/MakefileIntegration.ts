@@ -324,7 +324,7 @@ export class MakefileIntegration {
       timeout?: number
     } = {}
   ): Promise<MakeExecutionResult> {
-    const { silent = false, dryRun = false, timeout = 300000 } = options;
+    const { _silent = false, _dryRun = false, _timeout = 300000} = options;
 
     // // // console.log(`🔨 Executing make target: ${target}`);
 

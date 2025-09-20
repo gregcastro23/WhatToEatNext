@@ -193,7 +193,7 @@ export const _LOWERCASE_TO_MOON_PHASE: Record<LowercaseMoonPhaseWithSpaces, Moon
  */
 export interface ElementalScore {
   element: string,
-  score: number
+  _score: number
 }
 
 // ========== SEASONAL TYPES ==========;
@@ -223,8 +223,8 @@ export type ElementalFilter = 'all' | 'Fire' | 'Water' | 'Air' | 'Earth';
  */
 export interface ThermodynamicProperties {
   heat: number,
-  entropy: number,
-  reactivity: number,
+  _entropy: number,
+  _reactivity: number,
   gregsEnergy: number, // Using gregsEnergy as the single energy metric for this project
 }
 

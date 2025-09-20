@@ -10,7 +10,7 @@ import {
 // Removed unused import: Season
 
 // Removed unused import: CHAKRA_BALANCING_FOODS
-import { SignEnergyState, ZodiacSign } from '../constants/signEnergyStates';
+import {SignEnergyState, _ZodiacSign} from '../constants/signEnergyStates';
 import {
   // NEW: Phase 7 unified flavor system integration
   calculateFlavorCompatibility,
@@ -18,9 +18,9 @@ import {
   // Removed unused imports: getFlavorProfile, unifiedFlavorEngine
 } from '../data/unified/unifiedFlavorEngine';
 // Removed unused import: getTarotCardsForDate
-import { getCurrentSeason } from '../utils/dateUtils';
-import { getRecommendedIngredients } from '../utils/recommendation/foodRecommendation';
-import { EnhancedIngredient } from '../utils/recommendation/ingredientRecommendation';
+import {getCurrentSeason} from '../utils/dateUtils';
+import {getRecommendedIngredients} from '../utils/recommendation/foodRecommendation';
+import {EnhancedIngredient} from '../utils/recommendation/ingredientRecommendation';
 
 // Phase 8: Performance optimization imports
 import {

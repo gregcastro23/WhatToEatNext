@@ -7,7 +7,7 @@ import { recipeElementalMappings } from '@/data/recipes/elementalMappings';
 import { AstrologicalState, Season } from '@/types/alchemy';
 import { createAstrologicalBridge } from '@/types/bridges/astrologicalBridge';
 import type { RecipeElementalMapping } from '@/types/recipes';
-import { isValidAstrologicalState as _isValidAstrologicalState } from '@/utils/typeGuards/astrologicalGuards';
+import {_isValidAstrologicalState as _isValidAstrologicalState} from '@/utils/typeGuards/astrologicalGuards';
 
 // Define the missing interface
 interface AstrologicalCulinaryGuidance {

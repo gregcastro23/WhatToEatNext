@@ -14,7 +14,7 @@ const logger = createLogger('CurrentMomentAPI');
  */
 export async function GET(request: Request) {
   try {
-    const { searchParams } = new URL(request.url);
+    const { _searchParams} = new URL(request.url);
     const forceRefresh = searchParams.get('refresh') === 'true';
 
     logger.info(`Getting current moment data (forceRefresh: ${forceRefresh})`);
@@ -70,7 +70,7 @@ export async function GET(request: Request) {
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { customDateTime, latitude, longitude, action = 'update' } = body;
+    const { customDateTime, latitude, longitude, _action = 'update'} = body;
 
     logger.info(`Current moment ${action} requested`);
 
@@ -146,7 +146,7 @@ export async function POST(request: Request) {
 export async function PUT(request: Request) {
   try {
     const body = await request.json();
-    const { targets = ['all'], customDateTime, latitude, longitude } = body;
+    const { _targets = ['all'], customDateTime, latitude, longitude} = body;
 
     logger.info(`Selective update requested for targets: ${targets.join(', ')}`);
 

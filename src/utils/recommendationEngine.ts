@@ -11,42 +11,42 @@ const ELEMENTAL_AFFINITIES: Record<Element, Element[]> = {
   Earth: ['Earth', 'Water'],
   Air: ['Air', 'Fire'],
   Water: ['Water', 'Earth'],
-  // Note: Four element system only - no Aether
+  // _Note: Four element system only - no Aether
 };
 
 // Planetary affinities for cuisines
 const PLANET_CUISINE_AFFINITIES: Record<PlanetName, string[]> = {
-  Sun: ['Mediterranean', 'Italian', 'Spanish', 'Greek'],
-  Moon: ['Asian', 'Japanese', 'Seafood'],
-  Mercury: ['Fusion', 'Eclectic', 'Experimental'],
-  Venus: ['French', 'Desserts', 'Romantic'],
-  Mars: ['Spicy', 'Mexican', 'Indian', 'Thai'],
-  Jupiter: ['American', 'German', 'Hearty', 'Rich'],
-  Saturn: ['Traditional', 'Fermented', 'Preserved', 'Slow-cooked'],
+  _Sun: ['Mediterranean', 'Italian', 'Spanish', 'Greek'],
+  _Moon: ['Asian', 'Japanese', 'Seafood'],
+  _Mercury: ['Fusion', 'Eclectic', 'Experimental'],
+  _Venus: ['French', 'Desserts', 'Romantic'],
+  _Mars: ['Spicy', 'Mexican', 'Indian', 'Thai'],
+  _Jupiter: ['American', 'German', 'Hearty', 'Rich'],
+  _Saturn: ['Traditional', 'Fermented', 'Preserved', 'Slow-cooked'],
   // Add missing planets to complete the Record<PlanetName, string[]>
-  Uranus: ['Innovative', 'Unusual', 'Future-forward', 'Molecular'],
-  Neptune: ['Ethereal', 'Mystical', 'Fluid', 'Oceanic'],
-  Pluto: ['Transformative', 'Intense', 'Powerful', 'Regenerative'],
-  Ascendant: ['Personal', 'Identity', 'Self-expression', 'Signature']
+  _Uranus: ['Innovative', 'Unusual', 'Future-forward', 'Molecular'],
+  _Neptune: ['Ethereal', 'Mystical', 'Fluid', 'Oceanic'],
+  _Pluto: ['Transformative', 'Intense', 'Powerful', 'Regenerative'],
+  _Ascendant: ['Personal', 'Identity', 'Self-expression', 'Signature']
 };
 
 // Season to cuisine mapping
 const SEASONAL_CUISINE_AFFINITIES: Record<Season, string[]> = {
-  Spring: ['Mediterranean', 'Asian', 'Light', 'Fresh'],
-  Summer: ['Mexican', 'Greek', 'Indian', 'BBQ', 'Salads'],
-  Fall: ['American', 'German', 'Hearty', 'Spiced'],
-  Winter: ['Slow-cooked', 'Soup', 'Stew', 'Rich', 'Warming']
+  _Spring: ['Mediterranean', 'Asian', 'Light', 'Fresh'],
+  _Summer: ['Mexican', 'Greek', 'Indian', 'BBQ', 'Salads'],
+  _Fall: ['American', 'German', 'Hearty', 'Spiced'],
+  _Winter: ['Slow-cooked', 'Soup', 'Stew', 'Rich', 'Warming']
 };
 
 // Weekday to cuisine mapping
 const WEEKDAY_CUISINE_AFFINITIES: Record<WeekDay, string[]> = {
-  Sunday: ['Traditional', 'Roast', 'Family Style'],
-  Monday: ['Simple', 'Comfort', 'Easy'],
-  Tuesday: ['Spicy', 'Quick', 'Energetic'],
-  Wednesday: ['Variety', 'Fusion', 'Creative'],
-  Thursday: ['Hearty', 'Abundant', 'Social'],
-  Friday: ['Festive', 'Indulgent', 'Special'],
-  Saturday: ['Complex', 'Experimental', 'Project Cooking']
+  _Sunday: ['Traditional', 'Roast', 'Family Style'],
+  _Monday: ['Simple', 'Comfort', 'Easy'],
+  _Tuesday: ['Spicy', 'Quick', 'Energetic'],
+  _Wednesday: ['Variety', 'Fusion', 'Creative'],
+  _Thursday: ['Hearty', 'Abundant', 'Social'],
+  _Friday: ['Festive', 'Indulgent', 'Special'],
+  _Saturday: ['Complex', 'Experimental', 'Project Cooking']
 };
 
 // Time of day to meal type mapping is already in time.ts
@@ -69,7 +69,7 @@ function calculatePlanetaryScore(recipe: Recipe, planetName: PlanetName): number
 }
 
 // Calculate seasonal affinity score
-function calculateSeasonalScore(recipe: Recipe, season: Season): number {
+function calculateSeasonalScore(_recipe: Recipe, season: Season): number {
   const seasonalAffinity = SEASONAL_CUISINE_AFFINITIES[season];
   if (seasonalAffinity) {
     return 1
@@ -84,7 +84,7 @@ function calculateSeasonalScore(recipe: Recipe, season: Season): number {
 }
 
 // Calculate weekday affinity score
-function calculateWeekdayScore(recipe: Recipe, day: WeekDay): number {
+function calculateWeekdayScore(_recipe: Recipe, day: WeekDay): number {
   const dayAffinity = WEEKDAY_CUISINE_AFFINITIES[day];
   if (dayAffinity) {
     return 1
@@ -105,20 +105,20 @@ function calculateMealTypeScore(recipe: Recipe, mealType: MealType): number {
 }
 
 // Calculate sun sign affinity - certain zodiac signs favor certain flavors/cuisines
-function calculateZodiacScore(recipe: Recipe, sunSign: any): number {
+function calculateZodiacScore(_recipe: Recipe, _sunSign: any): number {
   const zodiacAffinities: Record<ZodiacSign, string[]> = {
-    aries: ['Spicy', 'Bold', 'Quick'],
-    taurus: ['Rich', 'Indulgent', 'Traditional'],
-    gemini: ['Varied', 'Fusion', 'Surprising'],
-    cancer: ['Comfort', 'Home-style', 'Nurturing'],
-    leo: ['Luxurious', 'Showy', 'Bold'],
-    virgo: ['Healthy', 'Precise', 'Detailed'],
-    libra: ['Balanced', 'Beautiful', 'Elegant'],
-    scorpio: ['Intense', 'Complex', 'Powerful'],
-    sagittarius: ['Adventurous', 'Exotic', 'Foreign'],
-    capricorn: ['Traditional', 'Classic', 'Quality'],
-    aquarius: ['Unusual', 'Innovative', 'Unexpected'],
-    pisces: ['Ethereal', 'Delicate', 'Romantic']
+    _aries: ['Spicy', 'Bold', 'Quick'],
+    _taurus: ['Rich', 'Indulgent', 'Traditional'],
+    _gemini: ['Varied', 'Fusion', 'Surprising'],
+    _cancer: ['Comfort', 'Home-style', 'Nurturing'],
+    _leo: ['Luxurious', 'Showy', 'Bold'],
+    _virgo: ['Healthy', 'Precise', 'Detailed'],
+    _libra: ['Balanced', 'Beautiful', 'Elegant'],
+    _scorpio: ['Intense', 'Complex', 'Powerful'],
+    _sagittarius: ['Adventurous', 'Exotic', 'Foreign'],
+    _capricorn: ['Traditional', 'Classic', 'Quality'],
+    _aquarius: ['Unusual', 'Innovative', 'Unexpected'],
+    _pisces: ['Ethereal', 'Delicate', 'Romantic']
   };
 
   const signAffinity = zodiacAffinities[sunSign];
@@ -138,8 +138,8 @@ export function calculateRecommendationScore(
   timeFactors: TimeFactors,
 ): number {
   // Base score
-  let score = 0;
-  let factors = 0;
+  const score = 0;
+  const factors = 0;
 
   // Elemental scores
   if (astrologicalState.dominantElement && recipe.element) {

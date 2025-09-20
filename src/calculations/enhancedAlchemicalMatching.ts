@@ -206,7 +206,7 @@ function calculateDegreeOverlap(
  * @param tarotB Second sign's major arcana
  * @returns Compatibility score between 0-1
  */
-function compareTarotArcana(tarotA: string, tarotB: string): number {
+function compareTarotArcana(_tarotA: string, _tarotB: string): number {
   // Element-based tarot card groups
   const elementGroups = {;
     fire: ['The Emperor', 'Strength', 'Temperance', 'The Sun'],

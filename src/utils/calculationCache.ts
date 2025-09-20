@@ -40,7 +40,7 @@ export function getCachedCalculation<T>(
 
   // Check if we have a valid cached result
   if (cached && cached.input === inputHash && now - cached.timestamp < ttl) {;
-    log.info(`🔄 Cache hit for ${cacheKey} (age: ${Math.round((now - cached.timestamp) / 1000)}s)`);
+    log.info(`🔄 Cache hit for ${cacheKey} (_age: ${Math.round((now - cached.timestamp) / 1000)}s)`);
     return cached.value;
   }
 

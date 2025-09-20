@@ -1,33 +1,33 @@
 import { Element } from '@/types/celestial';
 
 export interface ElementalProperties {
-  [key: string]: number, // Element: strength (0-1)
+  [_key: string]: number, // Element: strength (0-1)
 }
 
 export const elements: Record<Element, ElementalProperties> = {
   Fire: {
     heat: 1.0,
-    dryness: 0.8,
-    transformation: 0.7,
-    expansion: 0.6
+    _dryness: 0.8,
+    _transformation: 0.7,
+    _expansion: 0.6
   },
   Water: {
     cold: 0.9,
-    moisture: 1.0,
-    fluidity: 0.8,
-    dissolution: 0.7
+    _moisture: 1.0,
+    _fluidity: 0.8,
+    _dissolution: 0.7
   },
   Air: {
     movement: 0.9,
-    lightness: 1.0,
-    dispersion: 0.8,
-    communication: 0.7
+    _lightness: 1.0,
+    _dispersion: 0.8,
+    _communication: 0.7
   },
   Earth: {
     stability: 1.0,
-    density: 0.9,
-    nourishment: 0.8,
-    structure: 0.7
+    _density: 0.9,
+    _nourishment: 0.8,
+    _structure: 0.7
   }
 };
 
@@ -62,9 +62,9 @@ export const elementalFunctions = {;
   /**
    * Calculate the elemental affinity between two sets of properties
    */
-  calculateAffinity: (props1: ElementalProperties, props2: ElementalProperties): number => {;
-    let affinity = 0;
-    let count = 0;
+  _calculateAffinity: (props1: ElementalProperties, props2: ElementalProperties): number => {;
+    const affinity = 0;
+    const count = 0;
 
     for (const [element1, value1] of Object.entries(props1)) {
       for (const [element2, value2] of Object.entries(props2)) {
@@ -89,14 +89,14 @@ export const elementalFunctions = {;
   /**
    * Check if elements are complementary
    */
-  areComplementary: (element1: Element, element2: Element): boolean => {;
+  _areComplementary: (element1: Element, element2: Element): boolean => {;
     return elementalInteractions[element1][element2] > 0.5
   },
 
   /**
    * Get element balance score
    */
-  getBalanceScore: (props: ElementalProperties): number => {;
+  _getBalanceScore: (props: ElementalProperties): number => {;
     const values = Object.values(props);
     const average = values.reduce((a, b) => a + b, 0) / values.length;
     const variance = values.reduce((a, b) => a + Math.pow(b - average, 2), 0) / values.length;
@@ -106,7 +106,7 @@ export const elementalFunctions = {;
   /**
    * Suggest complementary elements
    */
-  suggestComplementaryElements: (props: ElementalProperties): Element[] => {
+  _suggestComplementaryElements: (props: ElementalProperties): Element[] => {
     const dominant = elementalFunctions.getDominantElement(props);
     return Object.keys(elementalInteractions).filter(
       element => elementalInteractions[element as Element][dominant] > 0.5 && !(element in props);
@@ -115,7 +115,7 @@ export const elementalFunctions = {;
 };
 
 export const _ELEMENT_COMBINATIONS = {;
-  harmonious: [
+  _harmonious: [
     ['Fire', 'Fire'],
     ['Water', 'Water'],
     ['Air', 'Air'],

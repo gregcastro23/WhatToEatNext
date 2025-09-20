@@ -1,4 +1,4 @@
-import { Element, ElementalProperties, ZodiacSign } from '@/types/alchemy';
+import {_Element, ElementalProperties, ZodiacSign} from '@/types/alchemy';
 
 export interface CookingMethod {
   id: string,

@@ -69,7 +69,7 @@ export function classifyFileKind(
   return 'other';
 }
 
-export function decidePreservation(variableName: string, filePath: string): PreservationDecision {
+export function decidePreservation(variableName: string, _filePath: string): PreservationDecision {
   // Elemental properties must always be preserved per workspace rules
   if (ELEMENT_NAMES.has(variableName)) {
     return { preserve: true, reason: 'elemental-property', confidence: 0.95 };

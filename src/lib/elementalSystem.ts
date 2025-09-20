@@ -8,7 +8,7 @@ import {
   ELEMENT_AFFINITIES,
   ZODIAC_ELEMENTS
 } from '@/constants/elementalConstants';
-import { getLatestAstrologicalState } from '@/services/AstrologicalService';
+import {_getLatestAstrologicalState} from '@/services/AstrologicalService';
 import type {
   ElementalProperties,
   Element,

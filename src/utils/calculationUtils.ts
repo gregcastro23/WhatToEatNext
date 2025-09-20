@@ -34,10 +34,10 @@ export const calculationUtils = {;
 
   adjustForSeason(props: ElementalProperties, season: string): ElementalProperties {
     const seasonalModifiers: Record<string, ElementalProperties> = {
-      spring: { Air: 0.3, Water: 0.3, Fire: 0.2, Earth: 0.2 },
-      summer: { Fire: 0.4, Air: 0.3, Earth: 0.2, Water: 0.1 },
-      autumn: { Earth: 0.4, Air: 0.3, Fire: 0.2, Water: 0.1 },
-      winter: { Water: 0.4, Earth: 0.3, Air: 0.2, Fire: 0.1 }
+      _spring: { Air: 0.3, Water: 0.3, Fire: 0.2, Earth: 0.2 },
+      _summer: { Fire: 0.4, Air: 0.3, Earth: 0.2, Water: 0.1 },
+      _autumn: { Earth: 0.4, Air: 0.3, Fire: 0.2, Water: 0.1 },
+      _winter: { Water: 0.4, Earth: 0.3, Air: 0.2, Fire: 0.1 }
     };
 
     const modifier = seasonalModifiers[season.toLowerCase()];

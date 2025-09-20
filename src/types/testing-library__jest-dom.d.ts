@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any */
 /**
  * Type definitions for @testing-library/jest-dom
- * Project: https://github.com/testing-library/jest-dom
+ * _Project: https://github.com/testing-library/jest-dom
  */
 
 // This trick makes TypeScript treat this as a module rather than a script
@@ -18,14 +19,14 @@ declare global {
       toBeInvalid(): R;
       toBeRequired(): R;
       toBeValid(): R;
-      toContainElement(element: HTMLElement | null): R;
-      toContainHTML(htmlText: string): R;
-      toHaveAttribute(attr: string, value?: string | RegExp): R;
-      toHaveClass(...classNames: string[]): R;
+      toContainElement(_element: HTMLElement | null): R;
+      toContainHTML(_htmlText: string): R;
+      toHaveAttribute(_attr: string, value?: string | RegExp): R;
+      toHaveClass(..._classNames: string[]): R;
       toHaveFocus(): R;
-      toHaveFormValues(expectedValues: Record<string, unknown>): R;
-      toHaveStyle(css: string | Record<string, unknown>): R;
-      toHaveTextContent(text: string | RegExp, options?: { normalizeWhitespace: boolean }): R;
+      toHaveFormValues(_expectedValues: Record<string, unknown>): R;
+      toHaveStyle(_css: string | Record<string, unknown>): R;
+      toHaveTextContent(text: string | RegExp, options?: { _normalizeWhitespace: boolean }): R;
       toHaveValue(value?: string | string[] | number): R;
       toHaveDisplayValue(value: string | RegExp | Array<string | RegExp>): R;
       toBeChecked(): R;

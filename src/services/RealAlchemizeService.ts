@@ -66,7 +66,7 @@ function normalizeSign(sign: string): any {
   throw new Error(`Invalid zodiac sign: ${sign}`);
 }
 
-function getZodiacElement(sign: string): string {
+function getZodiacElement(_sign: string): string {
   const elementMap: Record<string, string> = {
     aries: 'Fire',
     taurus: 'Earth',
@@ -84,7 +84,7 @@ function getZodiacElement(sign: string): string {
   return elementMap[sign.toLowerCase()] || 'Air';
 }
 
-function getPlanetaryDignity(planet: string, sign: string): number {
+function getPlanetaryDignity(_planet: string, _sign: string): number {
   const dignityMap: Record<string, Record<string, number>> = {
     Sun: {
       leo: 1,
@@ -220,7 +220,7 @@ export function alchemize(
   }
 
   // Calculate thermodynamic metrics using the exact formulas
-  const { Spirit, Essence, Matter, Substance, Fire, Water, Air, Earth } = totals;
+  const { Spirit, Essence, Matter, Substance, Fire, Water, Air, Earth} = totals;
 
   // Heat
   const heatNum = Math.pow(Spirit, 2) + Math.pow(Fire, 2);

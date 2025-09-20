@@ -70,23 +70,23 @@ export function formatVitaminName(name: string): string {
   // Handle common vitamin formats
   const vitaminMap: Record<string, string> = {
     a: 'Vitamin A',
-    b1: 'Vitamin B1 (Thiamine)',
-    b2: 'Vitamin B2 (Riboflavin)',
-    b3: 'Vitamin B3 (Niacin)',
-    b6: 'Vitamin B6 (Pyridoxine)',
-    b12: 'Vitamin B12 (Cobalamin)',
+    _b1: 'Vitamin B1 (Thiamine)',
+    _b2: 'Vitamin B2 (Riboflavin)',
+    _b3: 'Vitamin B3 (Niacin)',
+    _b6: 'Vitamin B6 (Pyridoxine)',
+    _b12: 'Vitamin B12 (Cobalamin)',
     c: 'Vitamin C',
-    d: 'Vitamin D',
-    e: 'Vitamin E',
+    _d: 'Vitamin D',
+    _e: 'Vitamin E',
     k: 'Vitamin K',
-    folate: 'Folate',
+    _folate: 'Folate',
     niacin: 'Niacin (B3)',
-    thiamine: 'Thiamine (B1)',
-    riboflavin: 'Riboflavin (B2)',
-    pyridoxine: 'Pyridoxine (B6)',
-    cobalamin: 'Cobalamin (B12)',
-    biotin: 'Biotin',
-    pantothenic_acid: 'Pantothenic Acid'
+    _thiamine: 'Thiamine (B1)',
+    _riboflavin: 'Riboflavin (B2)',
+    _pyridoxine: 'Pyridoxine (B6)',
+    _cobalamin: 'Cobalamin (B12)',
+    _biotin: 'Biotin',
+    _pantothenic_acid: 'Pantothenic Acid'
   };
 
   return vitaminMap[vitaminName] || `Vitamin ${name.toUpperCase()}`;
@@ -102,19 +102,19 @@ export function formatMineralName(name: string): string {
 
   // Handle common mineral formats
   const mineralMap: Record<string, string> = {
-    calcium: 'Calcium',
-    iron: 'Iron',
-    magnesium: 'Magnesium',
-    phosphorus: 'Phosphorus',
-    potassium: 'Potassium',
-    sodium: 'Sodium',
-    zinc: 'Zinc',
-    copper: 'Copper',
-    manganese: 'Manganese',
-    selenium: 'Selenium',
-    iodine: 'Iodine',
-    chromium: 'Chromium',
-    molybdenum: 'Molybdenum'
+    _calcium: 'Calcium',
+    _iron: 'Iron',
+    _magnesium: 'Magnesium',
+    _phosphorus: 'Phosphorus',
+    _potassium: 'Potassium',
+    _sodium: 'Sodium',
+    _zinc: 'Zinc',
+    _copper: 'Copper',
+    _manganese: 'Manganese',
+    _selenium: 'Selenium',
+    _iodine: 'Iodine',
+    _chromium: 'Chromium',
+    _molybdenum: 'Molybdenum'
   };
 
   return mineralMap[mineralName] || name.charAt(0).toUpperCase() + name.slice(1);
@@ -123,7 +123,7 @@ export function formatMineralName(name: string): string {
 /**
  * Normalize antioxidant data
  */
-export function normalizeAntioxidants(antioxidants: Record<string, unknown>): string[] {
+export function normalizeAntioxidants(antioxidants: Record<string, _unknown>): string[] {
   if (!antioxidants) return [],
 
   if (Array.isArray(antioxidants)) {
@@ -182,7 +182,7 @@ function formatCulinaryMethod(method: string): string {
 /**
  * Normalize individual culinary method data
  */
-function normalizeCulinaryMethod(data: Record<string, unknown>): {
+function normalizeCulinaryMethod(_data: Record<string, _unknown>): {
   notes: unknown[],
   techniques: unknown[],
   dishes: unknown[],
@@ -205,7 +205,7 @@ function normalizeCulinaryMethod(data: Record<string, unknown>): {
 /**
  * Normalize varieties data
  */
-export function normalizeVarieties(varieties: Record<string, unknown>): Record<string, unknown> {
+export function normalizeVarieties(varieties: Record<string, _unknown>): Record<string, unknown> {
   if (!varieties || typeof varieties !== 'object') return {};
 
   const normalized: Record<string, unknown> = {};
@@ -231,7 +231,7 @@ function formatVarietyName(name: string): string {
 /**
  * Normalize variety data
  */
-function normalizeVarietyData(data: Record<string, unknown>): {
+function normalizeVarietyData(_data: Record<string, _unknown>): {
   appearance: unknown,
   texture: unknown,
   flavor: unknown,
@@ -264,7 +264,7 @@ function normalizeVarietyData(data: Record<string, unknown>): {
 /**
  * Normalize storage information
  */
-export function normalizeStorage(storage: Record<string, unknown>): Record<string, unknown> {
+export function normalizeStorage(storage: Record<string, _unknown>): Record<string, unknown> {
   if (!storage) return {};
 
   if (typeof storage === 'string') {;
@@ -390,7 +390,7 @@ export function safeGetNutritionalData(
 /**
  * Check if ingredient has rich nutritional data
  */
-export function hasRichNutritionalData(ingredient: Record<string, unknown>): boolean {
+export function hasRichNutritionalData(ingredient: Record<string, _unknown>): boolean {
   const profile = ingredient.nutritionalProfile as any;
   if (!profile) return false;
 

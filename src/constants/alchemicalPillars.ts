@@ -447,7 +447,7 @@ export function getCookingMethodAlchemicalEffect(
  * @param cookingMethod The cooking method
  * @returns Thermodynamic properties (heat, entropy, reactivity) or null if method not recognized
  */
-export function getCookingMethodThermodynamics(cookingMethod: string): {
+export function getCookingMethodThermodynamics(_cookingMethod: string): {
   heat: number,
   entropy: number,
   reactivity: number
@@ -1239,7 +1239,7 @@ export function getMonicaCompatibleCookingMethods(minScore: number = 0.8): Enhan
  * @param effects - The alchemical effects of the pillar
  * @returns The calculated Kalchm value
  */
-export function calculatePillarKalchm(effects: Record<AlchemicalProperty, number>): number {
+export function calculatePillarKalchm(effects: Record<AlchemicalProperty, _number>): number {
   // Convert effects to positive values for calculation (add 2 to shift range from [-11] to [13])
   const Spirit = Math.max(0.1, effects.Spirit + 2);
   const Essence = Math.max(0.1, effects.Essence + 2);
@@ -1322,7 +1322,7 @@ export function determinePillarMonicaClassification(monica: number, kalchm: numb
  * @param monica - The Monica constant value
  * @returns Object containing temperature adjustment, timing adjustment, and intensity modifier
  */
-export function calculatePillarMonicaModifiers(monica: number): {
+export function calculatePillarMonicaModifiers(_monica: number): {
   temperatureAdjustment: number,
   timingAdjustment: number,
   intensityModifier: string
@@ -1466,7 +1466,7 @@ export function calculateLunarPhaseBonus(
  * @param pillar - The alchemical pillar to enhance
  * @returns The enhanced pillar with Monica properties
  */
-export function enhanceAlchemicalPillar(pillar: AlchemicalPillar): AlchemicalPillar & {
+export function enhanceAlchemicalPillar(_pillar: AlchemicalPillar): AlchemicalPillar & {
   monicaProperties: {
     kalchm: number,
   gregsEnergy: number,

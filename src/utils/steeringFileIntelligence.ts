@@ -388,10 +388,10 @@ export function useSteeringFileIntelligence() {
   const intelligence = getSteeringFileIntelligence();
 
   return {
-    getGuidance: async () => await intelligence.getAstrologicalGuidance(),
+    _getGuidance: async () => await intelligence.getAstrologicalGuidance(),
     validateElementalProperties: (props: ElementalProperties) =>
       intelligence.validateElementalProperties(props),
-    calculateCompatibility: (source: ElementalProperties, target: ElementalProperties) =>
+    _calculateCompatibility: (source: ElementalProperties, target: ElementalProperties) =>
       intelligence.calculateElementalCompatibility(source, target),
     enhanceDominantElement: (props: ElementalProperties) =>
       intelligence.enhanceDominantElement(props),

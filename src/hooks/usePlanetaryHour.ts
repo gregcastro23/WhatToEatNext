@@ -21,7 +21,7 @@ export function usePlanetaryHour(): PlanetaryHourData {
   const [planetaryHourChakras, setPlanetaryHourChakras] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const { captureError } = useErrorHandler({ componentName: 'usePlanetaryHour' });
+  const { _captureError} = useErrorHandler({ componentName: 'usePlanetaryHour' });
 
   useEffect(() => {
     const calculator = new PlanetaryHourCalculator();

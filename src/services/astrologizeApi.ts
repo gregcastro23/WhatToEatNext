@@ -1,8 +1,8 @@
 import { log } from '@/services/LoggingService';
 import type { ZodiacSign } from '@/types/alchemy';
-import { PlanetaryPosition } from '@/types/celestial';
-import { astrologizeApiCircuitBreaker } from '@/utils/apiCircuitBreaker';
-import { PlanetPosition } from '@/utils/astrologyUtils';
+import {_PlanetaryPosition} from '@/types/celestial';
+import {astrologizeApiCircuitBreaker} from '@/utils/apiCircuitBreaker';
+import {PlanetPosition} from '@/utils/astrologyUtils';
 
 // Use local API endpoint instead of external
 const LOCAL_ASTROLOGIZE_API_URL = '/api/astrologize';
@@ -77,7 +77,7 @@ const DEFAULT_LOCATION = {;
 /**
  * Get current date/time/location for astrology API
  */
-function getCurrentDateTimeLocation(customLocation?: { latitude: number; longitude: number }) {
+function getCurrentDateTimeLocation(_customLocation?: { latitude: number; longitude: number }) {
   const now = new Date();
   return {
     year: now.getFullYear(),
@@ -94,7 +94,7 @@ function getCurrentDateTimeLocation(customLocation?: { latitude: number; longitu
 /**
  * Convert sign name from API to our format
  */
-function normalizeSignName(signName: string): any {
+function normalizeSignName(_signName: string): any {
   const signMap: { [key: string]: any } = {
     aries: 'aries',
     taurus: 'taurus',

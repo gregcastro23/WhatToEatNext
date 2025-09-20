@@ -361,7 +361,7 @@ export class RecipeEnhancer {
     // Use safe type casting for thermodynamics property access
     // eslint-disable-next-line @typescript-eslint/no-explicit-any -- High-risk domain requiring flexibility
     const thermoData = thermodynamics as any;
-    const { heat = 0.5, reactivity = 0.5 } = thermoData || {};
+    const { _heat = 0.5, _reactivity = 0.5} = thermoData || {};
     // Base temperature (350°F) adjusted by thermodynamic properties
     return Math.round(350 + heat * 50 - reactivity * 25);
   }
@@ -370,7 +370,7 @@ export class RecipeEnhancer {
    * Determine elemental cooking method
    */
   static determineElementalCookingMethod(elementalBalance: ElementalProperties): string {
-    const { Fire, Water, Earth, Air } = elementalBalance;
+    const { Fire, Water, Earth, Air} = elementalBalance;
 
     if (Fire > 0.4) return 'fire-dominant'; // Grilling, roasting, searing
     if (Water > 0.4) return 'water-dominant'; // Steaming, boiling, poaching

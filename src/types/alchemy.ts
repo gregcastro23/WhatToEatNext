@@ -15,11 +15,11 @@ import {
  * Core Alchemical Properties (ESMS System)
  * These are the four fundamental alchemical energy states
  */
-export type AlchemicalPropertiesType = {;
-  Spirit: number,
-  Essence: number,
-  Matter: number,
-  Substance: number
+export type AlchemicalPropertiesType = {
+  Spirit: number;
+  Essence: number;
+  Matter: number;
+  Substance: number;
 };
 
 /**

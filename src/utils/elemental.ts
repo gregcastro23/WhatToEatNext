@@ -115,10 +115,10 @@ export const _calculateelementalState = (;
   };
 
   const categoryElements: Record<string, keyof ElementalProperties> = {
-    spice: 'Fire',
-    protein: 'Earth',
-    herb: 'Air',
-    liquid: 'Water'
+    _spice: 'Fire',
+    _protein: 'Earth',
+    _herb: 'Air',
+    _liquid: 'Water'
   };
 
   ingredients.forEach(ingredient => {;

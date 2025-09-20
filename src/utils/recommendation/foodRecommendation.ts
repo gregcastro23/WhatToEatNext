@@ -187,7 +187,7 @@ function calculatePlanetaryScore(recipe: Recipe, planetName?: PlanetName): numbe
 function calculateSeasonalScore(recipe: Recipe, season: Season): number {
   if (!recipe.season) return 0.6;
 
-  // Apply Pattern I: Safe union type array casting
+  // Apply Pattern _I: Safe union type array casting
   const seasonMatch = safeSome(;
     Array.isArray(recipe.season) ? recipe.season : ([recipe.season] as string[]),
     recipeSeason => recipeSeason.toLowerCase() === season.toLowerCase(),;
@@ -195,7 +195,7 @@ function calculateSeasonalScore(recipe: Recipe, season: Season): number {
   return seasonMatch ? 0.9 : 0.4;
 }
 
-function calculateWeekdayScore(recipe: Recipe, day: WeekDay): number {
+function calculateWeekdayScore(_recipe: Recipe, _day: WeekDay): number {
   // Simple weekday scoring - could be enhanced with more sophisticated logic
   const weekdayPreferences: Record<WeekDay, string[]> = {
     Monday: ['energizing', 'fresh', 'light'],
@@ -373,8 +373,8 @@ export function getDetailedRecipeRecommendations(
     }));
 }
 
-function generateExplanation(scoredRecipe: RecommendationScore): string {
-  const { recipe, score, reasons } = scoredRecipe;
+function generateExplanation(_scoredRecipe: RecommendationScore): string {
+  const { recipe, score, reasons} = scoredRecipe;
 
   let explanation = `${recipe.name} (${Math.round(score * 100)}% match)`;
 
@@ -425,7 +425,7 @@ export function getMatchScoreClass(score: number): string {
 /**
  * Get match rating with stars and tooltip
  */
-export function getMatchRating(score: number): { stars: string, tooltip: string } {
+export function getMatchRating(_score: number): { stars: string, tooltip: string } {
   if (score >= 0.9) {
     return { stars: '★★★★★', tooltip: 'Excellent match - highly recommended' };
   } else if (score >= 0.7) {
@@ -442,16 +442,16 @@ export function getMatchRating(score: number): { stars: string, tooltip: string 
 /**
  * Check if recipe is appropriate for current time of day
  */
-export function isAppropriateForTimeOfDay(recipe: Recipe, timeOfDay: string): boolean {
+export function isAppropriateForTimeOfDay(recipe: Recipe, _timeOfDay: string): boolean {
   if (!recipe.mealType || (Array.isArray(recipe.mealType) && recipe.mealType.length === 0)) {;
     return true, // If no meal type specified, assume it's appropriate anytime
   }
 
   const timeMapping: Record<string, string[]> = {
-    morning: ['Breakfast'],
-    afternoon: ['Lunch', 'Snack'],
-    evening: ['Dinner'],
-    night: ['Snack']
+    _morning: ['Breakfast'],
+    _afternoon: ['Lunch', 'Snack'],
+    _evening: ['Dinner'],
+    _night: ['Snack']
   };
 
   const appropriateMealTypes = timeMapping[timeOfDay.toLowerCase()] || [];
@@ -522,11 +522,11 @@ export function calculateRecipeMatchScore(
 
 // ===== MODALITY FUNCTIONS =====;
 
-export function getModalityElementAffinity(modality: string, element: string): number {
+export function getModalityElementAffinity(_modality: string, _element: string): number {
   const modalityAffinities: Record<string, Record<string, number>> = {
-    cardinal: { Fire: 0.9, Water: 0.8, Earth: 0.7, Air: 0.8 },
-    fixed: { Fire: 0.8, Water: 0.9, Earth: 0.9, Air: 0.7 },
-    mutable: { Fire: 0.7, Water: 0.8, Earth: 0.7, Air: 0.9 }
+    _cardinal: { Fire: 0.9, Water: 0.8, Earth: 0.7, Air: 0.8 },
+    _fixed: { Fire: 0.8, Water: 0.9, Earth: 0.9, Air: 0.7 },
+    _mutable: { Fire: 0.7, Water: 0.8, Earth: 0.7, Air: 0.9 }
   };
 
   return modalityAffinities[modality.toLowerCase()][element] || 0.5;

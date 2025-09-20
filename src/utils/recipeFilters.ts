@@ -246,7 +246,7 @@ export class RecipeFilter {
           recipe.isLowFat === true ||;
           (recipe.nutrition?.fat !== undefined && recipe.nutrition.fat < 10)
         ),
-      default:
+      _default:
         return true
     }
   }
@@ -310,7 +310,7 @@ export class RecipeFilter {
 
     try {
       let score = 0;
-      let total = 0;
+      const total = 0;
 
       Object.keys(targetElements).forEach(element => {;
         const key = element as any;

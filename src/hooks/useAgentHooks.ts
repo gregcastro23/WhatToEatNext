@@ -37,7 +37,7 @@ export interface AgentHookState {
 /**
  * Main agent hook for automated quality assurance integration
  */
-export function useAgentHooks(config: Partial<AgentHookConfig> = {}) {
+export function useAgentHooks(_config: Partial<AgentHookConfig> = {}) {
   const defaultConfig: AgentHookConfig = {;
     enablePlanetaryValidation: true,
     enableIngredientValidation: true,
@@ -178,7 +178,7 @@ export function useAgentHooks(config: Partial<AgentHookConfig> = {}) {
 /**
  * Agent hook specifically for planetary data validation
  */
-export function usePlanetaryDataValidationHook(autoStart: boolean = true) {;
+export function usePlanetaryDataValidationHook(_autoStart: boolean = true) {;
   const qa = getAutomatedQualityAssurance();
   const [validationResult, setValidationResult] = useState<ValidationResult | null>(null);
   const [isValidating, setIsValidating] = useState(false);
@@ -289,7 +289,7 @@ export function useIngredientConsistencyHook() {
 /**
  * Agent hook for TypeScript campaign triggers
  */
-export function useTypeScriptCampaignHook(autoCheck: boolean = true) {;
+export function useTypeScriptCampaignHook(_autoCheck: boolean = true) {;
   const qa = getAutomatedQualityAssurance();
   const [campaignTrigger, setCampaignTrigger] = useState<CampaignTrigger | null>(null);
   const [isChecking, setIsChecking] = useState(false);
@@ -396,7 +396,7 @@ export function useBuildQualityMonitoringHook() {
 /**
  * Agent hook for comprehensive quality metrics monitoring
  */
-export function useQualityMetricsHook(updateInterval: number = 30000) {;
+export function useQualityMetricsHook(_updateInterval: number = 30000) {;
   // 30 seconds
   const qa = getAutomatedQualityAssurance();
   const [metrics, setMetrics] = useState<QualityMetrics>(qa.getQualityMetrics());

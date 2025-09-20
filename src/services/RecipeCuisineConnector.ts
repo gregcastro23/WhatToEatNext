@@ -3,7 +3,7 @@
 // Enables import, search, and optimization of existing recipes
 
 import cuisinesMap from '@/data/cuisines';
-import { generateMonicaOptimizedRecipe } from '@/data/unified/recipeBuilding';
+import {_generateMonicaOptimizedRecipe} from '@/data/unified/recipeBuilding';
 import type { Season, ElementalProperties } from '@/types/alchemy';
 import type { Cuisine, CuisineDishes, SeasonalDishes } from '@/types/cuisine';
 import type { Recipe } from '@/types/recipe';

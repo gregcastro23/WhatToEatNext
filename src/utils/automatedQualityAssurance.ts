@@ -33,7 +33,7 @@ export const QA_THRESHOLDS = {;
   },
   planetaryData: {
     positionAccuracy: 0.1, // degrees
-    cacheValidityHours: 6,
+    _cacheValidityHours: 6,
     fallbackThresholdMs: 5000
   }
 } as const;
@@ -92,7 +92,7 @@ export class AutomatedQualityAssurance {
   private static instance: AutomatedQualityAssurance;
   private config: QualityAssuranceConfig;
   private metrics: QualityMetrics,
-  private lastValidation: number = 0;
+  private _lastValidation: number = 0;
   private validationInterval: NodeJS.Timeout | null = null;
   private campaignTriggers: CampaignTrigger[] = [];
 
@@ -299,7 +299,7 @@ export class AutomatedQualityAssurance {
       };
 
       if (trigger.triggered) {
-        logger.warn(`TypeScript error threshold exceeded: ${errorCount} > ${trigger.threshold}`);
+        logger.warn(`TypeScript error threshold _exceeded: ${errorCount} > ${trigger.threshold}`);
         this.campaignTriggers.push(trigger);
 
         // In a real implementation, this would trigger the campaign system
@@ -579,7 +579,7 @@ export class AutomatedQualityAssurance {
       // Dispatch custom event for campaign system integration
       window.dispatchEvent(
         new CustomEvent('kiro-campaign-trigger', {
-          detail: { campaignType, context }
+          _detail: { campaignType, context }
         }),
       );
     }

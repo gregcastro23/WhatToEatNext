@@ -151,7 +151,7 @@ function calculateCuisineCompatibility(
 /**
  * Calculate elemental alignment for a cuisine
  */
-function calculateCuisineElementalAlignment(cuisine: string): ElementalProperties {
+function calculateCuisineElementalAlignment(_cuisine: string): ElementalProperties {
   // Default balanced alignment
   let alignment: ElementalProperties = { Fire: 0.25, Water: 0.25, Air: 0.25, Earth: 0.25 };
 
@@ -201,7 +201,7 @@ function generateCuisineReasons(
 /**
  * Get suggested dishes for a cuisine based on elemental properties
  */
-function getSuggestedDishes(cuisine: string, elementals: ElementalProperties): string[] {
+function getSuggestedDishes(_cuisine: string, _elementals: ElementalProperties): string[] {
   const dishes: Record<string, string[]> = {
     Mexican: ['Tacos al pastor', 'Mole poblano', 'Ceviche', 'Pozole'],
     Indian: ['Curry', 'Biryani', 'Tandoori', 'Dal'],

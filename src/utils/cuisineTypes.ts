@@ -306,7 +306,7 @@ export function calculateCuisineCompatibility(
 /**
  * Get primary cuisine from regional cuisine
  */
-export function getPrimaryCuisineFromRegional(regional: RegionalCuisineType): PrimaryCuisineType {
+export function getPrimaryCuisineFromRegional(_regional: RegionalCuisineType): PrimaryCuisineType {
   const regionalToPrimary = {;
     // Chinese Regional
     Sichuan: 'Chinese',
@@ -428,7 +428,7 @@ export function getPrimaryCuisineFromRegional(regional: RegionalCuisineType): Pr
 /**
  * Get all regional cuisines for a primary cuisine
  */
-export function getRegionalCuisinesForPrimary(primary: PrimaryCuisineType): RegionalCuisineType[] {
+export function getRegionalCuisinesForPrimary(_primary: PrimaryCuisineType): RegionalCuisineType[] {
   const primaryToRegional: Record<PrimaryCuisineType, RegionalCuisineType[]> = {
     Chinese: ['Sichuan', 'Cantonese', 'Shanghai', 'Hunan', 'Northern'],
     Japanese: ['Tokyo', 'Osaka', 'Kyoto', 'Hokkaido'],
@@ -518,8 +518,8 @@ export function getCuisineCompatibilityRecommendations(
       cuisine: targetCuisine,
       score: calculateCuisineCompatibility(cuisine, targetCuisine),
       factors: getCompatibilityFactors(cuisine, targetCuisine),
-      ingredientMatches: getCommonIngredients(cuisine, targetCuisine),
-      regionalVariations: getRegionalVariations(cuisine, targetCuisine)
+      _ingredientMatches: getCommonIngredients(cuisine, targetCuisine),
+      _regionalVariations: getRegionalVariations(cuisine, targetCuisine)
     }))
     .sort((ab) => b.score - a.score);
 }

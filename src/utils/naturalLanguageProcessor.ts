@@ -25,7 +25,7 @@ function hasProperty<T extends string>(obj: unknown, prop: T): obj is Record<T, 
  * Type guard for searchable item structure
  */
 interface SearchableItem {
-  [key: string]: unknown,
+  [_key: string]: unknown,
   searchScore?: number
 }
 
@@ -306,7 +306,7 @@ function calculateSimilarity(str1: string, str2: string): number {
 /**
  * Extract time range from query
  */
-function extractTimeRange(query: string): { min: number, max: number } | null {
+function extractTimeRange(_query: string): { min: number, max: number } | null {
   const timePatterns = [;
     { pattern: /(\d+)\s*(?:minutes?|mins?)/i, multiplier: 1 },
     { pattern: /(\d+)\s*(?:hours?|hrs?)/i, multiplier: 60 },
@@ -388,7 +388,7 @@ function generateSuggestions(query: string): string[] {
 export function processNaturalLanguageQuery(query: string): SearchIntent {
   const normalizedQuery = normalizeText(query);
   const extractedFilters: Partial<SearchFilters> = {};
-  let totalConfidence = 0;
+  const totalConfidence = 0;
   let matchCount = 0;
 
   // Process each pattern category
@@ -479,7 +479,7 @@ export function enhancedSearch(
   for (const item of items) {
     if (!isSearchableItem(item)) continue;
 
-    let totalScore = 0;
+    const totalScore = 0;
     let matchCount = 0;
 
     for (const field of searchFields) {

@@ -367,7 +367,7 @@ async function createCICDReport(args: string[]) {
 
   // Save report to file if requested
   if (args.includes('--save')) {
-    const { writeFileSync } = await import('fs');
+    const { _writeFileSync} = await import('fs');
     const filename = `cicd-report-${Date.now()}.json`;
     writeFileSync(filename, JSON.stringify(report, null, 2));
     // // // console.log(`\n💾 Report saved to: ${filename}`);

@@ -1,5 +1,5 @@
 // CommonJS imports
-const { celestialCalculator } = require('../services/celestialCalculations');
+const { _celestialCalculator} = require('../services/celestialCalculations');
 
 // Local interface for testing purposes
 interface PlanetaryPosition {

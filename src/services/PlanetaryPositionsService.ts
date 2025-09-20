@@ -1,7 +1,7 @@
-import { getCurrentPlanetaryPositions as apiGetCurrent, getPlanetaryPositionsForDateTime } from '@/services/astrologizeApi';
-import { getAccuratePlanetaryPositions as engGetAccurate } from '@/utils/astrology/positions';
+import {_getCurrentPlanetaryPositions as apiGetCurrent, getPlanetaryPositionsForDateTime} from '@/services/astrologizeApi';
+import {_getAccuratePlanetaryPositions as engGetAccurate} from '@/utils/astrology/positions';
 import type { PlanetPosition } from '@/utils/astrologyUtils';
-import { createLogger } from '@/utils/logger';
+import {createLogger} from '@/utils/logger';
 
 const logger = createLogger('PlanetaryPositionsService');
 
@@ -29,7 +29,7 @@ function isFresh(entry: CacheEntry | null, key: string): entry is CacheEntry {
   return !!entry && entry.key === key && Date.now() - entry.timestamp < CACHE_TTL_MS;
 }
 
-function normalizeFromEngine(raw: Record<string, { sign: any; degree: number; exactLongitude: number; isRetrograde: boolean }>): PositionRecord {
+function normalizeFromEngine(_raw: Record<string, _{ sign: any; degree: number; exactLongitude: number; isRetrograde: boolean }>): PositionRecord {
   const out: PositionRecord = {};
   Object.entries(raw || {}).forEach(([planetp]) => {
     out[planet] = {

@@ -41,8 +41,8 @@ export interface AlchemicalTransformation {
   Essence: number,
   Matter: number,
   Substance: number,
-  elementalShift: ElementalProperties,
-  uniquenessBoost: number
+  _elementalShift: ElementalProperties,
+  _uniquenessBoost: number
 }
 
 // --- Constants ---
@@ -86,17 +86,17 @@ const LUNAR_PHASE_MODIFIERS: Record<string, Record<ElementalCharacter, number>> 
 
 const ZODIAC_ELEMENTS: { [key: string]: ElementalCharacter } = {
   aries: 'Fire',
-  leo: 'Fire',
-  sagittarius: 'Fire',
-  taurus: 'Earth',
-  virgo: 'Earth',
-  capricorn: 'Earth',
-  gemini: 'Air',
-  libra: 'Air',
-  aquarius: 'Air',
-  cancer: 'Water',
-  scorpio: 'Water',
-  pisces: 'Water'
+  _leo: 'Fire',
+  _sagittarius: 'Fire',
+  _taurus: 'Earth',
+  _virgo: 'Earth',
+  _capricorn: 'Earth',
+  _gemini: 'Air',
+  _libra: 'Air',
+  _aquarius: 'Air',
+  _cancer: 'Water',
+  _scorpio: 'Water',
+  _pisces: 'Water'
 };
 
 // --- Core Transformation Functions ---
@@ -187,8 +187,8 @@ export function transformSingleItem(
     planetaryInfluences:
       ((item as unknown as any).planetaryInfluences as string[]) ||
       Object.keys(planetaryInfluences);
-    lunarPhaseEffect: context.lunarPhase || 'new Moon',
-    zodiacInfluence: context.currentZodiac || 'aries',
+    _lunarPhaseEffect: context.lunarPhase || 'new Moon',
+    _zodiacInfluence: context.currentZodiac || 'aries',
     transformationScore: calculateTransformationScore(alchemicalProperties, uniqueness)
   } as unknown as AlchemicalItem;
 }
@@ -345,7 +345,7 @@ export function filterByAlchemicalCompatibility(
  * @param count Number of items to return
  * @returns Top compatible items
  */
-export function getTopCompatibleItems(items: AlchemicalItem[], count = 5): AlchemicalItem[] {;
+export function getTopCompatibleItems(items: AlchemicalItem[], _count = 5): AlchemicalItem[] {;
   return sortByAlchemicalCompatibility(items).slice(0, count)
 }
 
@@ -356,7 +356,7 @@ export function getTopCompatibleItems(items: AlchemicalItem[], count = 5): Alche
  * @param context Transformation context
  * @returns Record of planetary influences
  */
-function calculatePlanetaryInfluences(context: TransformationContext): {
+function calculatePlanetaryInfluences(_context: TransformationContext): {
   [key: string]: PlanetaryInfluence
 } {
   const influences: { [key: string]: PlanetaryInfluence } = {};
@@ -393,7 +393,7 @@ function calculatePlanetaryStrength(planet: string, isDaytime: boolean): number 
   return Math.min(1.0, baseStrength)
 }
 
-function calculateDignityBonus(planet: string, position: number): number {
+function calculateDignityBonus(_planet: string, position: number): number {
   // Simplified dignity calculation based on position
   // In a full implementation, this would check actual zodiac signs
   const normalizedPosition = ((position % 360) + 360) % 360;

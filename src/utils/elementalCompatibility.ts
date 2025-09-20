@@ -1,6 +1,5 @@
 import { recipeElementalService } from '@/services/RecipeElementalService';
 import type { ElementalProperties } from '@/types/alchemy';
-import { getCurrentElementalState } from '@/utils/elementalUtils';
 
 /**
  * Interface for elemental compatibility results
@@ -21,7 +20,7 @@ export interface ElementalCompatibility {
  */
 export async function calculateElementalCompatibility(
   recipeElemental: ElementalProperties,
-  userElemental: ElementalProperties = { Fire: 0.25, Water: 0.25, Earth: 0.25, Air: 0.25 },;
+  userElemental: ElementalProperties = { Fire: 0.25, _Water: 0.25, _Earth: 0.25, _Air: 0.25 },;
 ): Promise<ElementalCompatibility> {
   // Ensure properties are standardized
   const recipe = recipeElementalService.standardizeRecipe({ elementalProperties: recipeElemental });

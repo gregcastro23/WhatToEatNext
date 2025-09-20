@@ -69,11 +69,11 @@ export const timingUtils = {;
 
     // Cooking method modifiers
     const methodModifiers: Record<string, number> = {
-      boiling: 1.0,
-      steaming: 1.2,
-      baking: 1.5,
-      slow_cooking: 2.5,
-      raw: 0
+      _boiling: 1.0,
+      _steaming: 1.2,
+      _baking: 1.5,
+      _slow_cooking: 2.5,
+      _raw: 0
     };
 
     const baseTime = elementalTiming[dominantElement] || 30;
@@ -104,8 +104,8 @@ export const timingUtils = {;
     const seasonalModifiers: Record<string, number> = {
       summer: 0.8, // Faster cooking in summer
       winter: 1.2, // Slower cooking in winter
-      spring: 1.0, // Standard timing
-      autumn: 1.0, // Standard timing
+      _spring: 1.0, // Standard timing
+      _autumn: 1.0, // Standard timing
     };
 
     return baseTime * (seasonalModifiers[season.toLowerCase()] || 1.0);
