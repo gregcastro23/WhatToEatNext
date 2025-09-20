@@ -1077,29 +1077,29 @@ function getAllCookingMethodData(): Record<string, unknown> {
 
     // Import methods from each category
     // Using dynamic imports instead of require statements
-    const dryMethods = import('../data/cooking/methods/dry').then(;
-      module => (module as any).default || module,;
+    const dryMethods = import('../data/cooking/methods/dry').then(
+      module => (module as any).default || module
     );
-    const wetMethods = import('../data/cooking/methods/wet').then(;
-      module => (module as any).default || module,;
+    const wetMethods = import('../data/cooking/methods/wet').then(
+      module => (module as any).default || module
     );
-    const traditionalMethods = import('../data/cooking/methods/traditional').then(;
-      module => (module as any).default || module,;
+    const traditionalMethods = import('../data/cooking/methods/traditional').then(
+      module => (module as any).default || module
     );
 
     // Since we're using async imports, return a promise with all methods
     return Promise.all([dryMethods, wetMethods, traditionalMethods])
       .then(([dry, wet, traditional]) => ({
-        ...dry;
-        ...wet;
+        ...dry,
+        ...wet,
         ...traditional
       }))
       .catch(error => {
-        logger.error('Error loading cooking method data:', error),
+        logger.error('Error loading cooking method data:', error);
         return {};
       }) as unknown as any;
   } catch (error) {
-    logger.error('Error loading cooking method data:', error),
+    logger.error('Error loading cooking method data:', error);
     return {};
   }
 }

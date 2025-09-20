@@ -423,7 +423,7 @@ export const _TAROT_SUIT_ALCHEMICAL_MAPPING: Record<string, Record<AlchemicalPro
  */
 export function getCookingMethodPillar(cookingMethod: string): AlchemicalPillar | undefined {
   const pillerId = COOKING_METHOD_PILLAR_MAPPING[cookingMethod.toLowerCase()];
-  if (!pillerId) return undefined,
+  if (!pillerId) return undefined;
 
   return ALCHEMICAL_PILLARS.find(pillar => pillar.id === pillerId);
 }
@@ -437,9 +437,9 @@ export function getCookingMethodAlchemicalEffect(
   cookingMethod: string,
 ): Record<AlchemicalProperty, number> | null {
   const pillar = getCookingMethodPillar(cookingMethod);
-  if (!pillar) return null,
+  if (!pillar) return null;
 
-  return pillar.effects as Record<AlchemicalProperty, number>
+  return pillar.effects as Record<AlchemicalProperty, number>;
 }
 
 /**
@@ -461,7 +461,7 @@ export function getCookingMethodThermodynamics(cookingMethod: string): {
   const primaryProps = ELEMENTAL_THERMODYNAMIC_PROPERTIES[primaryElement];
 
   // If no secondary element, return primary properties
-  if (!secondaryElement) return primaryProps,
+  if (!secondaryElement) return primaryProps;
 
   // If secondary element exists, blend properties (70% primary, 30% secondary)
   const secondaryProps = ELEMENTAL_THERMODYNAMIC_PROPERTIES[secondaryElement];
@@ -486,7 +486,7 @@ export function getPlanetaryAlchemicalEffect(
   isDaytime: boolean = true
 ): Record<AlchemicalProperty, number> | null {
   const planetEffects = PLANETARY_ALCHEMICAL_EFFECTS[planet];
-  if (!planetEffects) return null,
+  if (!planetEffects) return null;
 
   return isDaytime ? planetEffects.diurnal : planetEffects.nocturnal;
 }
@@ -504,9 +504,9 @@ export function getTarotCardAlchemicalEffect(
     p.tarotAssociations?.some(
       tarot =>
         tarot.toLowerCase().includes(cardName.toLowerCase()) ||
-        void cardName.toLowerCase().includes(tarot.toLowerCase());
-    ),
-  ),
+        cardName.toLowerCase().includes(tarot.toLowerCase())
+    )
+  );
 
   return pillar ? pillar.effects : null;
 }
@@ -536,7 +536,7 @@ export const COOKING_METHOD_PILLAR_INTELLIGENCE = {
     },
   ) => {
     const basePillar = getCookingMethodPillar(cookingMethod);
-    if (!basePillar) return null,
+    if (!basePillar) return null;
 
     return {
       pillar: basePillar,
@@ -595,10 +595,10 @@ export const COOKING_METHOD_PILLAR_INTELLIGENCE = {
       dietaryRestrictions?: string[]
     },
   ) => {
-    const compatibleMethods = ALCHEMICAL_PILLARS.filter(;
+    const compatibleMethods = ALCHEMICAL_PILLARS.filter(
       pillar =>
         Math.abs(pillar.effects.Spirit - targetPillar.effects.Spirit) <= 1 &&
-        Math.abs(pillar.effects.Essence - targetPillar.effects.Essence) <= 1;
+        Math.abs(pillar.effects.Essence - targetPillar.effects.Essence) <= 1
     )
       .map(pillar => ({
         pillar,
@@ -613,7 +613,7 @@ export const COOKING_METHOD_PILLAR_INTELLIGENCE = {
       .sort((ab) => b.compatibility - a.compatibility);
 
     return {
-      recommendations: compatibleMethods.slice(05),
+      recommendations: compatibleMethods.slice(0, 5),
       analysis: {
         totalOptions: compatibleMethods.length,
   averageCompatibility:
@@ -788,7 +788,7 @@ export const ELEMENTAL_THERMODYNAMIC_INTELLIGENCE = {
       .filter(
         ([_, properties]) =>
           Math.abs(properties.heat - elementProperties.heat) <= 0.3 &&
-          Math.abs(properties.entropy - elementProperties.entropy) <= 0.3;
+          Math.abs(properties.entropy - elementProperties.entropy) <= 0.3
       )
       .map(([element, properties]) => ({
         element,
@@ -806,12 +806,12 @@ export const ELEMENTAL_THERMODYNAMIC_INTELLIGENCE = {
       .sort((ab) => b.compatibility - a.compatibility);
 
     return {
-      recommendations: compatibleElements.slice(05),
+      recommendations: compatibleElements.slice(0, 5),
       analysis: {
         totalOptions: compatibleElements.length,
   averageCompatibility:
           compatibleElements.reduce((sume) => sum + e.compatibility, 0) /
-          compatibleElements.length;
+          compatibleElements.length,
         optimizationScore: Math.random() * 0.3 + 0.7, // 70-100% optimization
       }
     };
@@ -920,7 +920,7 @@ export const PLANETARY_ALCHEMICAL_INTELLIGENCE = {
       'Neptune',
       'Pluto'
     ]
-      .filter(planet => planet !== targetPlanet);
+      .filter(planet => planet !== targetPlanet)
       .map(planet => {
         const effects = getPlanetaryAlchemicalEffect(planet) || {
           Spirit: 0,
