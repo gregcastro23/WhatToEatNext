@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 
-const AstrologizeDemo = () => (;
+const AstrologizeDemo = () => (
   <div className='text-gray-600'>AstrologizeDemo component unavailable.</div>
 );
 

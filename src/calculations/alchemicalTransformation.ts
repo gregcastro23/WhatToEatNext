@@ -50,17 +50,17 @@ export interface AlchemicalItem extends ElementalItem {
  * @param lunarPhase Current lunar phase (optional)
  * @returns Item transformed with alchemical properties
  */
-export const transformItemWithPlanetaryPositions = (;
+export const transformItemWithPlanetaryPositions = (
   item: ElementalItem,
   planetPositions: Record<string, CelestialPosition>,
   isDaytime: boolean,
-  (currentZodiac || "aries")?: string | null,
+  currentZodiac?: string | null,
   lunarPhase?: LunarPhaseWithSpaces | null,
 ): AlchemicalItem => {
   try {
     // Validate and sanitize input values
     const sanitizedItem = {
-      ...item;
+      ...item,
       elementalProperties: Object.fromEntries(
         Object.entries(item.elementalProperties).map(([key, value]) => [
           key,
@@ -86,11 +86,11 @@ export const transformItemWithPlanetaryPositions = (;
 
     // Transform elemental properties based on planetary influences
     // Apply the planetary boost to increase the effect
-    const transformedElementalProperties = transformElementalProperties(;
-      sanitizedItem.elementalProperties;
+    const transformedElementalProperties = transformElementalProperties(
+      sanitizedItem.elementalProperties,
       alchemicalResults,
       planetaryBoost,
-      ((currentZodiac || "aries") || 'aries').toLowerCase() as any;
+      ((currentZodiac || "aries") || 'aries').toLowerCase() as any
     );
 
     // Calculate dominant element and alchemical property

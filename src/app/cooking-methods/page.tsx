@@ -1,21 +1,32 @@
 'use client';
 
+import {
+    dryCookingMethods,
+    molecularCookingMethods,
+    rawCookingMethods,
+    traditionalCookingMethods,
+    transformationMethods,
+    wetCookingMethods
+} from '@/data/cooking/methods';
+import type { CookingMethodData } from '@/types/cookingMethod';
+import { capitalizeFirstLetter } from '@/utils/stringUtils';
 import { Box, Container, Tab, Tabs, Typography } from '@mui/material';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
-// Use the existing demo component as a stand-in for the shared section
-import { CookingMethodsSection } from '@/app/test/migrated-components/cooking-methods-section/page';
-import {
-  dryCookingMethods,
-  molecularCookingMethods,
-  rawCookingMethods,
-  traditionalCookingMethods,
-  transformationMethods;
-  wetCookingMethods
-} from '@/data/cooking/methods';
-import type { CookingMethodData } from '@/types/cookingMethod';
-import { capitalizeFirstLetter } from '@/utils/stringUtils';
+// Local fallback component to avoid importing test file during build
+function CookingMethodsSection({ methods, onSelectMethod }: { methods: any[], onSelectMethod: (m: any) => void }) {
+  return (
+    <div className='space-y-2'>
+      {methods.map((m, idx) => (
+        <button key={String(m.id || idx)} onClick={() => onSelectMethod(m)} className='w-full rounded border p-3 text-left'>
+          <div className='font-semibold'>{String(m.name || 'Method')}</div>
+          <div className='text-sm text-gray-600'>{String(m.description || '')}</div>
+        </button>
+      ))}
+    </div>
+  );
+}
 
 type MethodCategory = {
   name: string,
@@ -67,7 +78,7 @@ export default function CookingMethodsPage() {
   const router = useRouter();
   const [tabValue, setTabValue] = useState(0);
   const [formattedMethods, setFormattedMethods] = useState<CookingMethodData[]>([]);
-  const [selectedMethodId, setSelectedMethodId] = useState<string | null>(null),
+  const [selectedMethodId, setSelectedMethodId] = useState<string | null>(null);
 
   // Transform method data to match CookingMethodsSection component format
   useEffect(() => {
@@ -92,7 +103,7 @@ export default function CookingMethodsPage() {
           // Create variations if they exist
           variations: (method as any).variations
             ? Array.isArray((method as any).variations)
-              ? ((method as any).variations as string[]).map((v: stringi: number) => ({
+              ? ((method as any).variations as string[]).map((v: string, i: number) => ({
                   id: `${key}_var_${i}`,
                   name: v,
                   description: `Variation of ${capitalizeFirstLetter(key.replace(/_/g, ' '))}`,
@@ -123,31 +134,31 @@ export default function CookingMethodsPage() {
   };
 
   return (
-    <Container maxWidth='lg' sx={{ py: 6 }}>;
-      <Typography variant='h2' component='h1' align='center' gutterBottom>;
+    <Container maxWidth='lg' sx={{ py: 6 }}>
+      <Typography variant='h2' component='h1' align='center' gutterBottom>
         Cooking Methods
       </Typography>
 
-      <Typography variant='h5' align='center' color='text.secondary' paragraph>;
+      <Typography variant='h5' align='center' color='text.secondary' paragraph>
         Explore various techniques for transforming ingredients into delicious dishes
       </Typography>
 
-      <Box sx={{ borderBottom: 1, borderColor: 'divider', mb: 4 }}>;
+      <Box sx={{ borderBottom: 1, borderColor: 'divider', mb: 4 }}>
         <Tabs
-          value={tabValue},
-          onChange={handleTabChange},
-          variant='scrollable';
-          scrollButtons='auto';
+          value={tabValue}
+          onChange={handleTabChange}
+          variant='scrollable'
+          scrollButtons='auto'
           allowScrollButtonsMobile
-          aria-label='cooking method categories';
-          sx={{ mb: 2 }};
+          aria-label='cooking method categories'
+          sx={{ mb: 2 }}
         >
           {methodCategories.map((category, index) => (
             <Tab
-              key={category.name},
-              label={`${category.icon} ${category.name}`};
-              id={`method-tab-${index}`};
-              aria-controls={`method-tabpanel-${index}`};
+              key={category.name}
+              label={`${category.icon} ${category.name}`}
+              id={`method-tab-${index}`}
+              aria-controls={`method-tabpanel-${index}`}
             />
           ))}
         </Tabs>
@@ -155,29 +166,29 @@ export default function CookingMethodsPage() {
 
       {methodCategories.map((category, index) => (
         <div
-          key={category.name},
-          role='tabpanel';
-          hidden={tabValue !== index},
-          id={`method-tabpanel-${index}`};
-          aria-labelledby={`method-tab-${index}`};
+          key={category.name}
+          role='tabpanel'
+          hidden={tabValue !== index}
+          id={`method-tabpanel-${index}`}
+          aria-labelledby={`method-tab-${index}`}
         >
-          {tabValue === index && (;
+          {tabValue === index && (
             <>
-              <Box sx={{ mb: 4 }}>;
-                <Typography variant='h4' gutterBottom>;
+              <Box sx={{ mb: 4 }}>
+                <Typography variant='h4' gutterBottom>
                   {category.name} Cooking Methods
                 </Typography>
-                <Typography variant='body1' paragraph>;
+                <Typography variant='body1' paragraph>
                   {category.description}
                 </Typography>
               </Box>
 
               {/* Use our custom component here */}
               <CookingMethodsSection
-                methods={formattedMethods},
-                onSelectMethod={handleSelectMethod},
-                selectedMethodId={selectedMethodId},
-                initiallyExpanded={true},
+                methods={formattedMethods}
+                onSelectMethod={handleSelectMethod}
+                selectedMethodId={selectedMethodId}
+                initiallyExpanded={true}
               />
             </>
           )}

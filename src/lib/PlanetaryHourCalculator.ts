@@ -156,10 +156,10 @@ export class PlanetaryHourCalculator {
    */
   getPlanetaryHour(date: Date): { planet: Planet, hourNumber: number, isDaytime: boolean } {
     // Get sun times for the day
-    const times = SunCalc.getTimes(;
+    const times = SunCalc.getTimes(
       new Date(date.getFullYear(), date.getMonth(), date.getDate()),
-      this.coordinates.latitude;
-      this.coordinates.longitude;
+      this.coordinates.latitude,
+      this.coordinates.longitude
     );
 
     const sunrise = times.sunrise;
@@ -182,7 +182,7 @@ export class PlanetaryHourCalculator {
     const hourLength = isDaytime ? dayLength / 12 : nightLength / 12;
 
     // Time since start of day/night period
-    const timeSinceStart = isDaytime;
+    const timeSinceStart = isDaytime
       ? date.getTime() - sunrise.getTime()
       : date.getTime() - sunset.getTime();
 
@@ -238,31 +238,31 @@ export class PlanetaryHourCalculator {
     // Each planetary hour spans approximately 1.714 clock hours
 
     // Day hours (6am to 6pm)
-    for (let i = 0i < 7i++) {
+    for (let i = 0; i < 7; i++) {
       const startHour = Math.floor(6 + i * 1.714);
       const endHour = Math.floor(6 + (i + 1) * 1.714) - 1;
 
-      for (let hour = startHour, hour <= endHour, hour++) {
-        result.set(hour, rulers[i])
+      for (let hour = startHour; hour <= endHour; hour++) {
+        result.set(hour, rulers[i]);
       }
     }
 
     // Night hours (6pm to 6am)
-    for (let i = 0i < 7i++) {
+    for (let i = 0; i < 7; i++) {
       const startHour = Math.floor(18 + i * 1.714) % 24;
       const endHour = (Math.floor(18 + (i + 1) * 1.714) % 24) - 1;
 
       if (endHour < startHour) {
         // Handle hours that cross midnight
-        for (let hour = startHour, hour < 24, hour++) {
-          result.set(hour, rulers[i])
+        for (let hour = startHour; hour < 24; hour++) {
+          result.set(hour, rulers[i]);
         }
-        for (let hour = 0, hour <= endHour, hour++) {
-          result.set(hour, rulers[i])
+        for (let hour = 0; hour <= endHour; hour++) {
+          result.set(hour, rulers[i]);
         }
       } else {
-        for (let hour = startHour, hour <= endHour, hour++) {
-          result.set(hour, rulers[i])
+        for (let hour = startHour; hour <= endHour; hour++) {
+          result.set(hour, rulers[i]);
         }
       }
     }
@@ -290,7 +290,7 @@ export class PlanetaryHourCalculator {
     const dayOfWeek = date.getDay();
 
     // Approximate planetary hour based on 24-hour day divided into 12 day and 12 night hours
-    let hourIndex,
+    let hourIndex;
     if (hour >= 6 && hour < 18) {
       // Daytime hour
       hourIndex = Math.floor(((hour - 6) / 12) * 12);

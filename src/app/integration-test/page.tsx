@@ -1,4 +1,4 @@
-const UnifiedScoringIntegrationTest = () => (;
+const UnifiedScoringIntegrationTest = () => (
   <div className='p-4 text-gray-600'>UnifiedScoringIntegrationTest unavailable.</div>
 );
 

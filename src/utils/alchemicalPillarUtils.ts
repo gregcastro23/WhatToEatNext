@@ -310,9 +310,9 @@ export function applyPlanetaryInfluence(
   // Pattern KK-2: Safe property arithmetic with type validation
   if ('spirit' in transformedItem) {
     const currentSpirit =
-      typeof (transformedItem as any).spirit === 'number';
+      typeof (transformedItem as any).spirit === 'number'
         ? Number((transformedItem as any).spirit)
-        : 0,
+        : 0;
     const effectMultiplier =
       typeof planetaryEffects.Spirit === 'number' ? planetaryEffects.Spirit : 0;
     (transformedItem as any).spirit = currentSpirit * (1 + 0.1 * effectMultiplier);
@@ -320,9 +320,9 @@ export function applyPlanetaryInfluence(
 
   if ('essence' in transformedItem) {
     const currentEssence =
-      typeof (transformedItem as any).essence === 'number';
+      typeof (transformedItem as any).essence === 'number'
         ? Number((transformedItem as any).essence)
-        : 0,
+        : 0;
     const effectMultiplier =
       typeof planetaryEffects.Essence === 'number' ? planetaryEffects.Essence : 0;
     (transformedItem as any).essence = currentEssence * (1 + 0.1 * effectMultiplier);

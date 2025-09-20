@@ -9,7 +9,7 @@ import { ElementalCharacter } from './planetaryElements';
  * Extended Planet type for planetary food associations
  */
 export type Planet =
-  | 'Sun';
+  | 'Sun'
   | 'Moon'
   | 'Mercury'
   | 'Venus'
@@ -26,7 +26,7 @@ export type Planet =
  * Planetary dignity types for calculation
  */
 export type PlanetaryDignity =
-  | 'Domicile';
+  | 'Domicile'
   | 'Exaltation'
   | 'Triplicity'
   | 'Term'
@@ -192,7 +192,7 @@ export interface PlanetaryCookingGuide {
 /**
  * Calculate planetary boost for an ingredient based on current astrological state
  */
-export const _calculatePlanetaryBoost = (;
+export const _calculatePlanetaryBoost = (
   item: unknown, // ElementalItem type
   planetPositions: Record<string, unknown>,
   currentZodiac?: string | null,
@@ -301,7 +301,7 @@ export const getZodiacBoost = (zodiacSign: string, item: unknown): number => {
     zodiacInfluences?: string[]
   };
   if (!itemData.elementalProperties) {
-    return 0.1, // Minimum boost if no elemental data
+    return 0.1; // Minimum boost if no elemental data
   }
 
   // Calculate boost based on elemental affinity
@@ -440,9 +440,9 @@ export const _getNutritionalSynergy = (_planet: Planet, _ingredient: unknown): s
  * Format elemental balance for display
  */
 export const _formatelementalState = (elements: Partial<Record<string, number>>): string => {
-  const validEntries = Object.entries(elements);
-    .filter(([_, val]) => Number.isFinite(val))
-    .map(([elem, val]) => `${elem} ${Math.round((val || 0) * 100)}%`)
+  const validEntries = Object.entries(elements)
+    .filter(([_, val]) => Number.isFinite(val as number))
+    .map(([elem, val]) => `${elem} ${Math.round(((val as number) || 0) * 100)}%`)
     .join(' · ');
 
   return validEntries;
