@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-anyno-console, @typescript-eslint/no-unused-vars, max-lines-per-function -- Campaign/test file with intentional patterns */
+/* eslint-disable @typescript-eslint/no-explicit-any, no-console, @typescript-eslint/no-unused-vars, max-lines-per-function -- Campaign/test file with intentional patterns */
 import { calculateCookingMethodCompatibility } from '../utils/alchemicalPillarUtils';
 
 // Mock the module with the functions that are missing

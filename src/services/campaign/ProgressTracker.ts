@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-anyno-console, @typescript-eslint/no-unused-vars -- Campaign/test file with intentional patterns */
+/* eslint-disable @typescript-eslint/no-explicit-any, no-console, @typescript-eslint/no-unused-vars -- Campaign/test file with intentional patterns */
 /**
  * Progress Tracking Infrastructure
  * Perfect Codebase Campaign - Real-time Metrics Collection

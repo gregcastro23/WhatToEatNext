@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-anyno-console -- Campaign/test file with intentional patterns */
+/* eslint-disable @typescript-eslint/no-explicit-any, no-console -- Campaign/test file with intentional patterns */
 /**
  * Campaign Test Controller
  *

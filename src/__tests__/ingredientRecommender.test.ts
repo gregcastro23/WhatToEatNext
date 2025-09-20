@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-anyno-console, @typescript-eslint/no-unused-vars, max-lines-per-function -- Campaign/test file with intentional patterns */
+/* eslint-disable @typescript-eslint/no-explicit-any, no-console, @typescript-eslint/no-unused-vars, max-lines-per-function -- Campaign/test file with intentional patterns */
 import { AstrologicalState } from '@/types/alchemy';
 import { Ingredient } from '@/types/ingredient';
 import { getRecommendedIngredients } from '@/utils/ingredientRecommender';
