@@ -9,7 +9,7 @@ export function ConcurrentComponent() {
   const [isPending, startTransition] = useTransition();
   const deferredValue = useDeferredValue('test');
 
-  const handleClick = () => {;
+  const handleClick = () => {
     startTransition(() => {
       // Non-urgent update
       console.log('Transition started');

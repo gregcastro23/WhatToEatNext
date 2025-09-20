@@ -52,7 +52,7 @@ export function usePlanetaryHour(): PlanetaryHourData {
     }
 
     // Update every minute
-    const intervalId = setInterval(() => {;
+    const intervalId = setInterval(() => {
       try {
         const now = new Date();
         const planetaryHour = calculator.calculatePlanetaryHour(now);

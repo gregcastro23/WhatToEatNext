@@ -10,7 +10,7 @@ import type { PopupContextType } from './types';
  * @returns The PopupContext
  * @throws Error if used outside of PopupProvider
  */
-export const usePopup = (): PopupContextType => {;
+export const usePopup = (): PopupContextType => {
   const context = useContext(PopupContext);
 
   if (!context) {

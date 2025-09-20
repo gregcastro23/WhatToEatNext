@@ -5,7 +5,7 @@ interface Props {
 }
 
 export function PropValidationComponent({ required, optional, callback }: Props) {
-  const handleClick = () => {;
+  const handleClick = () => {
     callback(required);
   };
 

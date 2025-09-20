@@ -11,7 +11,7 @@ export function formatElementalAffinity(input: unknown): ElementalAffinity {
   }
 
   // If it's a string, create a simple object with primary
-  if (typeof input === 'string') {;
+  if (typeof input === 'string') {
     return {
       primary: input as unknown,
       strength: 0.5,

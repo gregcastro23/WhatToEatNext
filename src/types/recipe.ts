@@ -223,11 +223,11 @@ export interface ScoredRecipe extends Recipe {
 }
 
 // Validation utilities
-export const validateElementalProperties = (properties?: ElementalProperties): boolean => {;
+export const validateElementalProperties = (properties?: ElementalProperties): boolean => {
   if (!properties) return false;
 
   const requiredElements = ['Fire', 'Water', 'Earth', 'Air'] as const;
-  if (!requiredElements.every(element => typeof properties[element] === 'number')) {;
+  if (!requiredElements.every(element => typeof properties[element] === 'number')) {
     return false;
   }
 
@@ -235,23 +235,23 @@ export const validateElementalProperties = (properties?: ElementalProperties): b
   return Math.abs(total - 1) < 0.01;
 };
 
-export const validateRecipe = (recipe: Partial<Recipe>): boolean => {;
+export const validateRecipe = (recipe: Partial<Recipe>): boolean => {
   if (!recipe) return false;
   if (!recipe.name || !recipe.id) return false;
   return true;
 };
 
-export const validateSeason = (season: string): boolean => {;
+export const validateSeason = (season: string): boolean => {
   const validSeasons = ['spring', 'summer', 'autumn', 'winter'];
   return validSeasons.includes(season.toLowerCase());
 };
 
-export const validateSeasonality = (seasonality: string[]): boolean => {;
+export const validateSeasonality = (seasonality: string[]): boolean => {
   if (!Array.isArray(seasonality)) return false;
   return seasonality.every(season => validateSeason(season));
 };
 
-export const validateIngredient = (ingredient: Partial<RecipeIngredient>): boolean => {;
+export const validateIngredient = (ingredient: Partial<RecipeIngredient>): boolean => {
   if (!ingredient) return false;
 
   // Required properties

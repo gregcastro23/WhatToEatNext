@@ -20,7 +20,7 @@ function getUnusedVariables() {
       const filePath = result.filePath;
 
       for (const message of result.messages) {
-        if (message.ruleId === '@typescript-eslint/no-unused-vars') {;
+        if (message.ruleId === '@typescript-eslint/no-unused-vars') {
           // Extract the variable name from the message
           const match = message.message.match(/'([^']+)' is defined but never used/);
           if (match?.[1]) {
