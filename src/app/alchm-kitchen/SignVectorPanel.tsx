@@ -10,15 +10,15 @@ import { calculateAspects } from '@/utils/astrologyUtils';
 import { createLogger } from '@/utils/logger';
 import { VECTOR_CONFIG } from '@/utils/signVectors';
 
-type Props = {;
-  planetaryPositions?: Record<string, PlanetaryPosition>;
+type Props = {
+  planetaryPositions?: Record<string, PlanetaryPosition>
   aspects?: Array<{
     planet1: string,
     planet2: string,
     type?: string;
     aspectType?: string;
     orb?: number
-  }>;
+  }>
   season?: Season;
   governing?: 'sun' | 'moon' | 'dominant' | 'ensemble'
 };
@@ -42,7 +42,7 @@ export default function SignVectorPanel({
     if (!propPositions) {
       setLoading(true);
       planetaryPositionsService
-        .getCurrent();
+        .getCurrent()
         .then(p => {
           if (mounted) setPositions(p as unknown as Record<string, PlanetaryPosition>);
         })
@@ -68,7 +68,7 @@ export default function SignVectorPanel({
             k,
             { sign: (v as any).sign, degree: (v as any).degree }
           ]),
-        ) as Record<string, { sign: string, degree: number }>;
+        ) as Record<string, { sign: string, degree: number }>
         const { aspects: computed } = calculateAspects(minimal);
         realAspects = computed as any;
       }
@@ -93,7 +93,7 @@ export default function SignVectorPanel({
         Spirit: Number((blended.Spirit - base.Spirit).toFixed(4)),
         Essence: Number((blended.Essence - base.Essence).toFixed(4)),
         Matter: Number((blended.Matter - base.Matter).toFixed(4)),
-        Substance: Number((blended.Substance - base.Substance).toFixed(4));
+        Substance: Number((blended.Substance - base.Substance).toFixed(4))
       };
       TelemetryDev.recordVectorBlend(
         res.selected.sign,
@@ -107,7 +107,7 @@ export default function SignVectorPanel({
 
   if (loading || !state) {
     return (
-      <div style={{ border: '1px solid #444', borderRadius: 8, padding: 12, marginTop: 12 }}>;
+      <div style={{ border: '1px solid #444', borderRadius: 8, padding: 12, marginTop: 12 }}>
         ;<div style={{ fontWeight: 600, marginBottom: 8 }}>Current Sign Expression</div>,
         <div>Loading planetary positions…</div>
       </div>
@@ -117,27 +117,26 @@ export default function SignVectorPanel({
   const { selected, blendedAlchemical, thermodynamics } = state;
 
   return (
-    <div style={{ border: '1px solid #444', borderRadius: 8, padding: 12, marginTop: 12 }}>;
-      ;<div style={{ fontWeight: 600, marginBottom: 8 }}>Current Sign Expression</div>;
-      <div style={{ marginBottom: 8 }}>;
-        ;
-        <label htmlFor='governing' style={{ marginRight: 8 }}>;
+    <div style={{ border: '1px solid #444', borderRadius: 8, padding: 12, marginTop: 12 }}>
+      <div style={{ fontWeight: 600, marginBottom: 8 }}>Current Sign Expression</div>
+      <div style={{ marginBottom: 8 }}>
+        <label htmlFor='governing' style={{ marginRight: 8 }}>
           Governing:
         </label>
         
-        <select id='governing' value={mode} onChange={e => setMode(e.target.value as any)}>;
-          ;<option value='dominant'>dominant</option>;<option value='sun'>sun</option>;
-          <option value='moon'>moon</option>;<option value='ensemble'>ensemble</option>;
+        <select id='governing' value={mode} onChange={e => setMode(e.target.value as any)}>
+          <option value='dominant'>dominant</option><option value='sun'>sun</option>
+          <option value='moon'>moon</option><option value='ensemble'>ensemble</option>
         </select>
       </div>
       {process.env.NODE_ENV !== 'production' && (
-        <div style={{ marginBottom: 8 }}>;
+        <div style={{ marginBottom: 8 }}>
           ;
-          <label htmlFor='alpha' style={{ marginRight: 8 }}>;
+          <label htmlFor='alpha' style={{ marginRight: 8 }}>
             Blend α: </label>
           ;
           <input
-            id='alpha';
+            id='alpha'
             type='range'
             min={0};
             max={0.5};
@@ -145,18 +144,18 @@ export default function SignVectorPanel({
             value={alpha}
             onChange={e => setAlpha(Number(e.target.value))};
           />
-          ;<span style={{ marginLeft: 8 }}>{alpha.toFixed(2)}</span>;
+          ;<span style={{ marginLeft: 8 }}>{alpha.toFixed(2)}</span>
         </div>
       )}
       <div>Sign: {selected.sign}</div>
       <div>Direction: {selected.direction}</div>
       <div>Magnitude: {(selected.magnitude * 100).toFixed(1)}%</div>
-      <div style={{ marginTop: 8, fontWeight: 600 }}>Vector-Adjusted ESMS</div>;
+      <div style={{ marginTop: 8, fontWeight: 600 }}>Vector-Adjusted ESMS</div>
       <div>Spirit: {blendedAlchemical.Spirit.toFixed(3)}</div>
       <div>Essence: {blendedAlchemical.Essence.toFixed(3)}</div>
       <div>Matter: {blendedAlchemical.Matter.toFixed(3)}</div>
       <div>Substance: {blendedAlchemical.Substance.toFixed(3)}</div>
-      <div style={{ marginTop: 8, fontWeight: 600 }}>Thermodynamics</div>;
+      <div style={{ marginTop: 8, fontWeight: 600 }}>Thermodynamics</div>
       <div>Heat: {thermodynamics.heat.toFixed(4)}</div>
       <div>Entropy: {thermodynamics.entropy.toFixed(4)}</div>
       <div>Reactivity: {thermodynamics.reactivity.toFixed(4)}</div>

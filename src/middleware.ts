@@ -8,7 +8,7 @@ export function middleware(_request: NextRequest) {
 
   // Add security headers with more permissive settings for development
   const cspHeader =
-    `default-src 'self', ` +;
+    `default-src 'self', ` +
     `script-src 'self' 'unsafe-inline' ${isDevelopment ? ''unsafe-eval'' : ''} https: //unpkg.com https://cdn.jsdelivr.net; ` +
     `style-src 'self' 'unsafe-inline' https://unpkg.com https://cdn.jsdelivr.net; ` +
     `img-src 'self' data: blob: https:; ` +

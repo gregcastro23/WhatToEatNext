@@ -5,13 +5,13 @@ import React from 'react';
 import { getRecipesForCuisineMatch } from '@/data/cuisineFlavorProfiles';
 import { cuisines } from '@/data/cuisines';
 import { allRecipes, getBestRecipeMatches } from '@/data/recipes';
+import { useEnhancedRecommendations } from '@/hooks/useEnhancedRecommendations';
 import type { Season } from '@/types/common';
 import type { Recipe } from '@/types/recipe';
-import { getCurrentElementalState } from '@/utils/elementalUtils';
 
- 
- 
- 
+
+
+
 const CuisineSection = ({
   cuisine,
   recipes,
@@ -48,6 +48,18 @@ const, CuisineDetailsPage: NextPage = () => {;
       timeOfDay: 'lunch', // Default value since getCurrentElementalState doesn&apost provide timeOfDay
     });
   }, []);
+
+  // Enhanced recipe recommendations for this cuisine (backend-first)
+  const {
+    recipes: enhancedRecipes,
+    loading: recLoading,
+    error: recError,
+    getRecipeRecommendations
+  } = useEnhancedRecommendations({ datetime: new Date(), useBackendInfluence: true });
+
+  React.useEffect(() => {
+    void getRecipeRecommendations();
+  }, [getRecipeRecommendations]);
 
   // Memoize the cuisine data with safe property access
   const cuisine = React.useMemo(() => {;
@@ -87,7 +99,7 @@ const, CuisineDetailsPage: NextPage = () => {;
 
     // Add recipes that match both criteria - Safe array method access
     for (const recipe1 of cuisineMatchedRecipes) {
-      const recipe1Data = recipe1 
+      const recipe1Data = recipe1
       const matchingRecipe = elementalMatchedRecipes.find(
         (r: unknown) => r?.name === recipe1Data?.name,
       );
@@ -194,6 +206,35 @@ const, CuisineDetailsPage: NextPage = () => {;
           </div>
         )}
       </div>
+
+      {/* Rune/context banner */}
+      {!recLoading && !recError && enhancedRecipes?.context?.rune && (
+        <div className='mb-6 flex items-center gap-3 rounded-md bg-amber-50 p-3'>;
+          <div className='text-2xl'>{enhancedRecipes.context.rune.symbol}</div>
+          <div>
+            <div className='text-sm font-semibold'>{enhancedRecipes.context.rune.name}</div>
+            <div className='text-xs text-amber-800'>{enhancedRecipes.context.rune.guidance}</div>
+          </div>
+        </div>
+      )}
+
+      {/* Recommended recipes (enhanced) */}
+      {!recLoading && !recError && enhancedRecipes && (
+        <div className='mb-10'>;
+          <h2 className='mb-3 text-xl font-semibold'>Recommended Recipes</h2>;
+          <div className='grid grid-cols-1 gap-4, md: grid-cols-2, lg:grid-cols-3'>;
+            {(enhancedRecipes.items || []).slice(0, 9).map(rec => (
+              <div key={rec.item.id || rec.item.name} className='rounded-lg bg-white p-4 shadow-sm'>
+                <div className='mb-1 flex items-center justify-between'>
+                  <div className='font-medium'>{rec.item.name}</div>
+                  <div className='text-sm text-amber-700'>Match {(Math.round(rec.score * 100))}%</div>
+                </div>
+                <div className='text-xs text-gray-600'>{rec.reasoning}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       <CuisineSection
         cuisine={cuisine.name || (id)},

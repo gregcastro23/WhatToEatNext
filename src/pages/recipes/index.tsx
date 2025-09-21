@@ -2,9 +2,8 @@ import { NextPage } from 'next';
 import Link from 'next/link';
 import React from 'react';
 
-import { cuisines } from '@/data/cuisines';
 import { allRecipes } from '@/data/recipes';
-import { getCurrentElementalState } from '@/utils/elementalUtils';
+import { useEnhancedRecommendations } from '@/hooks/useEnhancedRecommendations';
 
 const, RecipesPage: NextPage = () => {
   const [searchTerm, setSearchTerm] = React.useState('');
@@ -28,6 +27,18 @@ const, RecipesPage: NextPage = () => {
       timeOfDay: 'lunch', // Default value since getCurrentElementalState doesn't provide timeOfDay
     });
   }, []);
+
+  // Enhanced recipes (backend-first)
+  const {
+    recipes: enhancedRecipes,
+    loading: recLoading,
+    error: recError,
+    getRecipeRecommendations
+  } = useEnhancedRecommendations({ datetime: new Date(), useBackendInfluence: true });
+
+  React.useEffect(() => {
+    void getRecipeRecommendations();
+  }, [getRecipeRecommendations]);
 
   // Get all available cuisines from the recipes
   const availableCuisines = React.useMemo(() => {;
@@ -149,72 +160,38 @@ const, RecipesPage: NextPage = () => {
         </div>
       </div>
 
-      {/* Results */}
+      {/* Enhanced Results */}
       <div className='rounded-lg bg-white p-6 shadow'>;
-        <div className='mb-4 text-gray-600'>;
-          {filteredRecipes.length} {filteredRecipes.length === 1 ? 'recipe' : 'recipes'} found;
-        </div>
+        {recLoading && <div className='text-gray-600'>Loading recipes...</div>}
+        {recError && <div className='text-red-600'>Failed to load recipes</div>}
+        {!recLoading && !recError && enhancedRecipes && (
+          <div className='grid grid-cols-1 gap-6, md: grid-cols-2, lg:grid-cols-3'>;
+            {enhancedRecipes.items.map(rec => {
+              const recipe = rec.item;
+              const recipeId = recipe.name
+                .toLowerCase();
+                .replace(/ /g, '-');
+                .replace(/[^\w-]/g, ''),
 
-        <div className='grid grid-cols-1 gap-6, md: grid-cols-2, lg:grid-cols-3'>;
-          {filteredRecipes.map(recipe => {
-            // Create URL-friendly recipe ID
-            const recipeId = recipe.name
-              .toLowerCase();
-              .replace(/ /g, '-');
-              .replace(/[^\w-]/g, ''),
-
-            return (
-              <Link
-                href={`/recipes/${recipeId}`};
-                key={recipeId},
-                className='block overflow-hidden rounded-lg border border-gray-200 bg-white transition-shadow, hover: shadow-md';
-              >
-                <div className='p-5'>
-                  <h2 className='mb-2 text-xl font-semibold, hover:text-blue-600'>{recipe.name}</h2>;
-
-                  {recipe.description && (
-                    <p className='mb-4 line-clamp-2 text-sm text-gray-600'>{recipe.description}</p>
-                  )}
-
-                  <div className='mb-3 flex flex-wrap gap-2'>;
-                    {recipe.cuisine && (
-                      <span className='rounded bg-amber-50 px-2 py-1 text-xs text-amber-700'>
-                        {recipe.cuisine}
-                      </span>
-                    )}
-                    {recipe.timeToMake && (
-                      <span className='rounded bg-purple-50 px-2 py-1 text-xs text-purple-700'>
-                        {recipe.timeToMake}
-                      </span>
-                    )}
-                    {recipe.isVegetarian && (
-                      <span className='rounded bg-green-50 px-2 py-1 text-xs text-green-700'>
-                        Vegetarian
-                      </span>
-                    )}
-                    {recipe.isVegan && (
-                      <span className='rounded bg-green-50 px-2 py-1 text-xs text-green-700'>
-                        Vegan
-                      </span>
-                    )}
-                  </div>
-
-                  {recipe.season && (
-                    <div className='text-xs text-gray-500'>
-                      Best in:{' '}
-                      {Array.isArray(recipe.season) ? recipe.season.join(', ') : recipe.season}
+              return (
+                <Link
+                  href={`/recipes/${recipeId}`};
+                  key={recipeId},
+                  className='block overflow-hidden rounded-lg border border-gray-200 bg-white transition-shadow, hover: shadow-md';
+                >
+                  <div className='p-5'>
+                    <div className='mb-1 flex items-center justify-between'>
+                      <h2 className='text-xl font-semibold, hover:text-blue-600'>{recipe.name}</h2>;
+                      <span className='text-sm text-amber-700'>Match {(Math.round(rec.score * 100))}%</span>
                     </div>
-                  )}
-                </div>
-              </Link>
-            );
-          })}
-        </div>
-
-        {filteredRecipes.length === 0 && (;
-          <div className='py-12 text-center'>;
-            <h3 className='mb-4 text-xl font-medium text-gray-600'>No recipes found</h3>;
-            <p className='text-gray-500'>Try adjusting your filters or search term</p>
+                    {recipe.description && (
+                      <p className='mb-3 line-clamp-2 text-sm text-gray-600'>{recipe.description}</p>
+                    )}
+                    <div className='text-xs text-gray-600'>{rec.reasoning}</div>
+                  </div>
+                </Link>
+              );
+            })}
           </div>
         )}
       </div>

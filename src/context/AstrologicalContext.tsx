@@ -47,7 +47,7 @@ interface AstrologicalProviderProps {
   children: ReactNode
 }
 
-export function AstrologicalProvider(_{ children }: AstrologicalProviderProps) {
+export function AstrologicalProvider({ children }: AstrologicalProviderProps) {
   const [currentZodiac, setCurrentZodiac] = useState<string>('aries');
   const [astrologicalState, setAstrologicalState] = useState<AstrologicalState | null>(null);
   const [chakraEnergies, setChakraEnergies] = useState<ChakraEnergies | null>(null);
@@ -66,7 +66,7 @@ export function AstrologicalProvider(_{ children }: AstrologicalProviderProps) {
     setError(null);
     try {
       // Mock calculation - in real implementation this would use actual astrological calculations
-      const, elementalProperties: SafeElementalProperties = {
+      const elementalProperties: SafeElementalProperties = {
         Fire: zodiac === 'aries' || zodiac === 'leo' || zodiac === 'sagittarius' ? 0.7 : 0.2,
         Water: zodiac === 'cancer' || zodiac === 'scorpio' || zodiac === 'pisces' ? 0.7 : 0.2,
         Earth: zodiac === 'taurus' || zodiac === 'virgo' || zodiac === 'capricorn' ? 0.7 : 0.2,
@@ -139,7 +139,7 @@ export function AstrologicalProvider(_{ children }: AstrologicalProviderProps) {
     void calculateAstrologicalState(currentZodiac);
   }, [calculateAstrologicalState, currentZodiac]);
 
-  const, value: AstrologicalContextType = {
+  const value: AstrologicalContextType = {
     currentZodiac,
     astrologicalState,
     chakraEnergies,
@@ -148,7 +148,7 @@ export function AstrologicalProvider(_{ children }: AstrologicalProviderProps) {
     updateZodiac
   };
 
-  return <AstrologicalContext.Provider value={value}>{children}</AstrologicalContext.Provider>;
+  return <AstrologicalContext.Provider value={value}>{children}</AstrologicalContext.Provider>
 }
 
 // useAstrologicalState hook (existing but needs proper export);

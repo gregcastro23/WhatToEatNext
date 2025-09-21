@@ -44,11 +44,11 @@ function deepEqual<T>(obj1: T, obj2: T): boolean {
 }
 
 // Calculate active planets based on dignity and other factors
-const calculateActivePlanets = (positions: PlanetaryPositionsType): string[] => {;
+const calculateActivePlanets = (positions: PlanetaryPositionsType): string[] => {
   if (!positions) return [];
 
   // Basic implementation just returns the major planets
-  const, activePlanets: string[] = []
+  const activePlanets: string[] = [];
 
   try {
     // Add main planets (using capitalized names to match proven working implementation);
@@ -75,10 +75,10 @@ const calculateActivePlanets = (positions: PlanetaryPositionsType): string[] => 
 const convertToCalculationFormat = (
   positions: PlanetaryPositionsType,
 ): CalculationCompatiblePositions => {
-  const, converted: CalculationCompatiblePositions = {};
+  const converted: CalculationCompatiblePositions  = {};
 
   Object.entries(positions).forEach(([planet, position]) => {
-    if (position && typeof position === 'object') {;
+    if (position && typeof position === 'object') {
       converted[planet] = {
         sign: position.sign,
         degree: position.degree,
@@ -93,7 +93,7 @@ const convertToCalculationFormat = (
 };
 
 // Export the provider component
-export const, AlchemicalProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const AlchemicalProvider: React.FC<{ children: React.ReactNode }>  = ({ children }) => {
   const [state, dispatch] = useReducer(alchemicalReducer, defaultState);
   const [planetaryPositions, setPlanetaryPositions] = useState<PlanetaryPositionsType>({});
   const [isDaytime, setIsDaytime] = useState(true);
@@ -130,7 +130,7 @@ export const, AlchemicalProvider: React.FC<{ children: React.ReactNode }> = ({ c
       }
     } else if (state.astrologicalState) {
       // If astrologicalState exists but doesn't have alchemicalValues, add them from root state
-      const updatedAstroState = {;
+      const updatedAstroState = {
         ...state.astrologicalState,
         alchemicalValues: state.alchemicalValues && Object.keys(state.alchemicalValues).length === 4
             ? state.alchemicalValues
@@ -156,7 +156,7 @@ export const, AlchemicalProvider: React.FC<{ children: React.ReactNode }> = ({ c
       logger.info('Updating planetary positions', {
         sun: positions.Sun.sign,
         moon: positions.Moon.sign,
-        timestamp: new Date().toISOString();
+        timestamp: new Date().toISOString()
       });
       return positions;
     });
@@ -170,7 +170,7 @@ export const, AlchemicalProvider: React.FC<{ children: React.ReactNode }> = ({ c
       const positions = safeAstrology.getReliablePlanetaryPositions();
 
       // Normalize keys to capitalized format for consistency with proven working implementation
-      const, normalizedPositions: PlanetaryPositionsType = {};
+      const normalizedPositions: PlanetaryPositionsType  = {};
       Object.entries(positions).forEach(([key, data]) => {
         if (!data || typeof data !== 'object') return;
 
@@ -199,7 +199,7 @@ export const, AlchemicalProvider: React.FC<{ children: React.ReactNode }> = ({ c
       const elementalBalance = calculateElementalBalance(compatiblePositions);
 
       // Combine elemental and planetary influences (weighted average);
-      const combinedAlchemicalValues = {;
+      const combinedAlchemicalValues = {
         Spirit:
           ((elementalValues as any)?.Spirit || 0) * 0.2 +
           ((planetaryValues as any)?.Spirit || 0) * 0.2,
@@ -216,7 +216,7 @@ export const, AlchemicalProvider: React.FC<{ children: React.ReactNode }> = ({ c
 
       // Normalize alchemical values to ensure they sum to approximately 1
       const total =
-        combinedAlchemicalValues.Spirit +;
+        combinedAlchemicalValues.Spirit +
         combinedAlchemicalValues.Essence +
         combinedAlchemicalValues.Matter +
         combinedAlchemicalValues.Substance;
@@ -256,7 +256,7 @@ export const, AlchemicalProvider: React.FC<{ children: React.ReactNode }> = ({ c
       }
 
       // Then update the astrological state with the same values
-      const, astrologicalState: AstrologicalState = {
+      const astrologicalState: AstrologicalState  = {
         sunSign,
         moonSign,
         lunarPhase: safeAstrology.getLunarPhaseName(safeAstrology.calculateLunarPhase()), // Calculate actual lunar phase,
@@ -270,7 +270,7 @@ export const, AlchemicalProvider: React.FC<{ children: React.ReactNode }> = ({ c
         calculationError: false,
         alchemicalValues: normalizedAlchemicalValues,
         currentZodiac: sunSign,
-        moonPhase: safeAstrology.getLunarPhaseName(safeAstrology.calculateLunarPhase());
+        moonPhase: safeAstrology.getLunarPhaseName(safeAstrology.calculateLunarPhase())
       };
 
       dispatch({

@@ -27,6 +27,7 @@ export type ThermodynamicProperties = {
 export type StandardizedAlchemicalResult = {
   elementalProperties: ElementalProperties,
   thermodynamicProperties: ThermodynamicProperties,
+  esms: { Spirit: number, Essence: number, Matter: number, Substance: number },
   kalchm: number,
   monica: number,
   score: number,
@@ -235,7 +236,7 @@ export function alchemize(
 
   // Reactivity
   const reactivityNum =
-    Math.pow(Spirit, 2) +;
+    Math.pow(Spirit, 2) +
     Math.pow(Substance, 2) +
     Math.pow(Essence, 2) +
     Math.pow(Fire, 2) +
@@ -249,7 +250,7 @@ export function alchemize(
 
   // Kalchm (K_alchm)
   const kalchm =
-    (Math.pow(Spirit, Spirit) * Math.pow(Essence, Essence)) /;
+    (Math.pow(Spirit, Spirit) * Math.pow(Essence, Essence)) /
     (Math.pow(Matter, Matter) * Math.pow(Substance, Substance));
 
   // Monica constant
@@ -284,6 +285,7 @@ export function alchemize(
       reactivity,
       gregsEnergy
     },
+    esms: { Spirit, Essence, Matter, Substance },
     kalchm,
     monica,
     score,

@@ -22,10 +22,10 @@ export type ElementalProperties = {;
 };
 
 // Zodiac Date Ranges
-export const, zodiacDateRanges: Record<
+export const zodiacDateRanges: Record<
   ZodiacSign,
   { startMonth: number; startDay: number; endMonth: number, endDay: number }
-> = {
+>  = {
   aries: { startMonth: 3, startDay: 21, endMonth: 4, endDay: 19 },
   taurus: { startMonth: 4, startDay: 20, endMonth: 5, endDay: 20 },
   gemini: { startMonth: 5, startDay: 21, endMonth: 6, endDay: 20 },
@@ -41,7 +41,7 @@ export const, zodiacDateRanges: Record<
 };
 
 // Zodiac Elements
-export const, zodiacElements: Record<ZodiacSign, keyof ElementalProperties> = {
+export const zodiacElements: Record<ZodiacSign, keyof ElementalProperties>  = {
   aries: 'Fire',
   leo: 'Fire',
   sagittarius: 'Fire',
@@ -77,13 +77,13 @@ export const _getElementalAffinity = (sign: any): keyof ElementalProperties => {
 };
 
 // Elemental Compatibility
-export const, _elementalCompatibility: Record<
+export const _elementalCompatibility: Record<
   keyof ElementalProperties,
   {
     compatible: Array<keyof ElementalProperties>,
     incompatible: Array<keyof ElementalProperties>
   }
-> = {
+>  = {
   Fire: {
     compatible: ['Fire'],
     incompatible: ['Air', 'Water', 'Earth']
@@ -103,7 +103,7 @@ export const, _elementalCompatibility: Record<
 };
 
 // Element Characteristics
-export const, _elementalCharacteristics: Record<
+export const _elementalCharacteristics: Record<
   keyof ElementalProperties,
   {
     qualities: string[],
@@ -118,7 +118,7 @@ export const, _elementalCharacteristics: Record<
     culinaryHerbs: string[],
     timeOfDay: string[]
   }
-> = {
+>  = {
   Fire: {
     qualities: ['Warm', 'Dry', 'Active', 'Energetic', 'Expansive'],
     keywords: ['Energy', 'Passion', 'Transformation', 'Vitality', 'Action'],

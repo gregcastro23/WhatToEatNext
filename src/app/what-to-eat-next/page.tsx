@@ -1,10 +1,18 @@
 import { AlchemicalProvider } from '@/contexts/AlchemicalContext';
+import { useEnhancedRecommendations } from '@/hooks/useEnhancedRecommendations';
 
 const KalchmRecommender = ({ maxRecommendations }: { maxRecommendations?: number }) => (;
   <div className='p-6 text-gray-600'>KalchmRecommender unavailable.</div>
 );
 
 export default function WhatToEatNextPage() {
+  const { cuisines, loading, error, getCuisineRecommendations } = useEnhancedRecommendations({ datetime: new Date(), useBackendInfluence: true });
+
+  // Fetch enhanced cuisines on mount
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  (function init() {
+    void getCuisineRecommendations();
+  })();
   return (
     <div className='container mx-auto px-4 py-8'>;
       <header className='mb-8 text-center'>;
@@ -19,6 +27,19 @@ export default function WhatToEatNextPage() {
           <KalchmRecommender maxRecommendations={18} />;
         </AlchemicalProvider>
       </div>
+
+      {/* Rune/context banner */}
+      {!loading && !error && cuisines?.context?.rune && (
+        <div className='mt-4 flex items-center justify-center'>
+          <div className='flex max-w-3xl items-center gap-3 rounded-md bg-indigo-50 p-3'>
+            <div className='text-2xl'>{cuisines.context.rune.symbol}</div>
+            <div>
+              <div className='text-sm font-semibold'>{cuisines.context.rune.name}</div>
+              <div className='text-xs text-indigo-800'>{cuisines.context.rune.guidance}</div>
+            </div>
+          </div>
+        </div>
+      )}
 
       <div className='mt-8 rounded-lg bg-blue-50 p-6'>;
         <h2 className='mb-4 text-2xl font-semibold'>About These Recommendations</h2>;

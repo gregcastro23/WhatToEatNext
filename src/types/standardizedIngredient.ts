@@ -533,8 +533,8 @@ export interface DataCompletenessScore {
 export function assessDataCompleteness(ingredient: StandardizedIngredient): DataCompletenessScore {
   let score = 0;
   let maxScore = 0;
-  const, missingFields: string[] = [];
-  const, strengths: string[] = [];
+  const missingFields: string[]  = [];
+  const strengths: string[]  = [];
 
   // Core properties (30 points);
   maxScore += 30;
@@ -621,7 +621,7 @@ export function assessDataCompleteness(ingredient: StandardizedIngredient): Data
 }
 
 function generateRecommendations(_missingFields: string[], score: number): string[] {
-  const, recommendations: string[] = [];
+  const recommendations: string[]  = [];
 
   if (score < 50) {
     recommendations.push('Comprehensive data enhancement needed');

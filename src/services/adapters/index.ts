@@ -8,42 +8,25 @@
 
 // Export UnifiedDataAdapter
 export {
-  default as unifiedDataAdapter,
-  type UnifiedDataAdapterInterface
+    default as unifiedDataAdapter,
+    type UnifiedDataAdapterInterface
 } from './UnifiedDataAdapter';
 
 // Export FoodAlchemySystemAdapter
 export {
-  default as enhancedFoodAlchemySystem,
-  EnhancedFoodAlchemySystem
+    EnhancedFoodAlchemySystem, default as enhancedFoodAlchemySystem
 } from './FoodAlchemySystemAdapter';
 
 // Export EnhancedIngredientSystem
 export {
-  default as enhancedIngredientSystem,
-  EnhancedIngredientSystem
+    EnhancedIngredientSystem, default as enhancedIngredientSystem
 } from './IngredientServiceAdapter';
 
 // Export NutritionalDataAdapter
 export {
-  default as nutritionalDataAdapter,
-  type NutritionalDataAdapterInterface
+    default as nutritionalDataAdapter,
+    type NutritionalDataAdapterInterface
 } from './NutritionalDataAdapter';
-
-// Export LegacyIngredientAdapter
-export {
-  default as legacyIngredientAdapter,
-  LegacyIngredientAdapter
-} from './LegacyIngredientAdapter';
-
-// Export LegacyRecipeAdapter
-export { default as legacyRecipeAdapter, LegacyRecipeAdapter } from './LegacyRecipeAdapter';
-
-// Export LegacyRecommendationAdapter
-export {
-  default as legacyRecommendationAdapter,
-  LegacyRecommendationAdapter
-} from './LegacyRecommendationAdapter';
 
 // Export other adapters as they are created
 // export { default as someOtherAdapter } from './SomeOtherAdapter';

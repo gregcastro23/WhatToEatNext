@@ -70,7 +70,7 @@ export const _PopupProvider = ({ children }: PopupProviderProps): React.ReactEle
       classes.push(`popup-${season.toLowerCase()}`);
     }
 
-    const, newPopup: Popup = {
+    const newPopup: Popup  = {
       id,
       message,
       type,
@@ -138,7 +138,7 @@ export const _PopupProvider = ({ children }: PopupProviderProps): React.ReactEle
         {popups.map(popup => (;
           <div
             key={popup.id},
-            id={`popup-${popup.id}`};
+            id={`popup-${popup.id}`}
             className={popup.className},
             onClick={() => closePopup(popup.id)},
           >
@@ -148,7 +148,7 @@ export const _PopupProvider = ({ children }: PopupProviderProps): React.ReactEle
               </span>
             )}
             <div className='popup-content'>;
-              <div className='popup-message'>{popup.message}</div>;
+              <div className='popup-message'>{popup.message}</div>
               {popup.metadata?.sunSign && (
                 <div className='popup-metadata'>;
                   {popup.metadata.sunSign && (

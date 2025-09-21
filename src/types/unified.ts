@@ -456,14 +456,14 @@ export type NumberKeys<T> = {
 }[keyof T];
 
 // Default values and constants
-export const, DEFAULT_ELEMENTAL_PROPERTIES: ElementalProperties = {
+export const DEFAULT_ELEMENTAL_PROPERTIES: ElementalProperties  = {
   Fire: 0.25,
   _Water: 0.25,
   _Earth: 0.25,
   _Air: 0.25
 };
 
-export const, DEFAULT_NUTRITIONAL_DATA: NutritionalData = {
+export const DEFAULT_NUTRITIONAL_DATA: NutritionalData  = {
   calories: 0,
   protein: 0,
   carbohydrates: 0,
@@ -475,13 +475,13 @@ export const, DEFAULT_NUTRITIONAL_DATA: NutritionalData = {
   servingUnit: 'serving'
 };
 
-export const, DEFAULT_TIME_RANGE: TimeRange = {
+export const DEFAULT_TIME_RANGE: TimeRange  = {
   min: 0,
   max: 60,
   unit: 'minutes'
 };
 
-export const, DEFAULT_TEMPERATURE_RANGE: TemperatureRange = {
+export const DEFAULT_TEMPERATURE_RANGE: TemperatureRange  = {
   min: 20,
   max: 200,
   unit: 'celsius'

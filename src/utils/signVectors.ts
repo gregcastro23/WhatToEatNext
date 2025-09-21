@@ -20,7 +20,7 @@ import type {
 } from '@/types/signVectors';
 import { getModalityForZodiac } from '@/utils/zodiacUtils';
 
-const, ZODIAC_SIGNS: any[] = [
+const ZODIAC_SIGNS: any[] = [
   'aries',
   'taurus',
   'gemini',

@@ -1,12 +1,9 @@
 import Link from 'next/link';
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 
-import CuisineRecommender from '@/components/CuisineRecommender';
 import { cuisineFlavorProfiles } from '@/data/cuisineFlavorProfiles';
 import { cuisines } from '@/data/cuisines';
-import { useAlchemical } from '@/hooks/useAlchemical';
-import {_ElementalProperties} from '@/types/alchemy';
-import {getCurrentElementalState} from '@/utils/elementalUtils';
+import { useEnhancedRecommendations } from '@/hooks/useEnhancedRecommendations';
 
 interface ExtendedElementalState {
   Fire: number,
@@ -37,6 +34,18 @@ const CuisinesIndexPage = () => {;
     });
   }, []);
 
+  // Enhanced recommendations (backend-first with safe fallback)
+  const {
+    cuisines: enhancedCuisines,
+    loading: recLoading,
+    error: recError,
+    getCuisineRecommendations
+  } = useEnhancedRecommendations({ datetime: new Date(), useBackendInfluence: true });
+
+  React.useEffect(() => {
+    void getCuisineRecommendations();
+  }, [getCuisineRecommendations]);
+
   // Get all cuisines
   const allCuisines = Object.entries(cuisines).map(([id, cuisine]) => ({
     id,
@@ -56,19 +65,54 @@ const CuisinesIndexPage = () => {;
         Discover culinary traditions from around the world with our cuisine guide
       </p>
 
-      {/* Cuisine Recommender Section - Temporarily disabled for build */}
+      {/* Cuisine Recommender Section - Enhanced (rune/agent influenced) */}
       <section className='mb-12 rounded-lg bg-gradient-to-r from-amber-50 to-yellow-50 p-6 shadow-sm'>;
         <h2 className='mb-4 text-2xl font-bold'>What Should You Eat Today?</h2>;
         <p className='mb-6 text-gray-700'>;
           Let us recommend cuisines based on current elemental influences and your preferences
         </p>
 
-        {/* <CuisineRecommender /> */}
-        <div className='rounded-lg bg-blue-100 p-4'>;
-          <p className='text-blue-800'>;
-            Cuisine Recommender temporarily disabled during build fixes
-          </p>
-        </div>
+        {recLoading && (
+          <div className='rounded-lg bg-blue-100 p-4'>;
+            <p className='text-blue-800'>Loading recommended cuisines...</p>
+          </div>
+        )}
+
+        {recError && (
+          <div className='rounded-lg bg-red-100 p-4'>;
+            <p className='text-red-800'>Failed to load recommendations</p>
+          </div>
+        )}
+
+        {!recLoading && !recError && enhancedCuisines && (
+          <div>
+            {enhancedCuisines.context?.rune && (
+              <div className='mb-4 flex items-center gap-3 rounded-md bg-white p-3 shadow-sm'>;
+                <div className='text-2xl'>{enhancedCuisines.context.rune.symbol}</div>
+                <div>
+                  <div className='text-sm font-semibold'>{enhancedCuisines.context.rune.name}</div>
+                  <div className='text-xs text-gray-600'>{enhancedCuisines.context.rune.guidance}</div>
+                </div>
+              </div>
+            )}
+
+            <div className='grid grid-cols-1 gap-4, md: grid-cols-2, lg:grid-cols-3'>;
+              {(enhancedCuisines.items || []).slice(0, 6).map(rec => (
+                <Link
+                  key={rec.item.type}
+                  href={`/cuisines/${rec.item.type.toLowerCase()}`};
+                  className='block rounded-lg bg-white p-4 shadow-sm transition-transform duration-200, hover: scale-[1.01]'
+                >
+                  <div className='flex items-center justify-between'>;
+                    <div className='text-lg font-semibold'>{rec.item.name}</div>
+                    <div className='text-sm text-amber-700'>Match {(Math.round(rec.score * 100))}%</div>
+                  </div>
+                  <div className='mt-1 text-xs text-gray-600'>{rec.reasoning}</div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        )}
       </section>
 
       {/* All Cuisines Grid */}

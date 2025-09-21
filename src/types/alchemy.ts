@@ -446,7 +446,7 @@ export type LunarPhaseWithUnderscores =
 // Default LunarPhase type - use the format with spaces as the primary representation
 
 // Mapping between the two formats
-export const, _LUNAR_PHASE_MAPPING: Record<LunarPhaseWithSpaces, LunarPhaseWithUnderscores> = {
+export const _LUNAR_PHASE_MAPPING: Record<LunarPhaseWithSpaces, LunarPhaseWithUnderscores>  = {
   'new moon': 'new_moon',
   'waxing crescent': 'waxing_crescent',
   'first quarter': 'first_quarter',
@@ -458,7 +458,7 @@ export const, _LUNAR_PHASE_MAPPING: Record<LunarPhaseWithSpaces, LunarPhaseWithU
 };
 
 // Reverse mapping (can be useful in some contexts);
-export const, _LUNAR_PHASE_REVERSE_MAPPING: Record<LunarPhaseWithUnderscores, LunarPhaseWithSpaces> =
+export const _LUNAR_PHASE_REVERSE_MAPPING: Record<LunarPhaseWithUnderscores, LunarPhaseWithSpaces>  =
   {
     new_moon: 'new moon',
     waxing_crescent: 'waxing crescent',
@@ -1168,8 +1168,8 @@ export const TYPE_INTELLIGENCE_DEMO = {
 // Create sample data and execute demonstration to ensure all systems are actively used
 const executeDemonstration = () => {;
   // Sample data for demonstration
-  const, sampleLunarPhase: LunarPhase = 'full moon'
-  const, sampleAlignment: CelestialAlignment = {
+  const sampleLunarPhase: LunarPhase  = 'full moon'
+  const sampleAlignment: CelestialAlignment  = {
     moment: new Date(),
     planetaryPositions: {} as PlanetaryAlignment,
     lunarPhase: 'new moon',
@@ -1178,8 +1178,8 @@ const executeDemonstration = () => {;
     aspectPatterns: [],
     energyFlow: 0.85
   };
-  const, sampleValues: AlchemicalValues = { Spirit: 0.8, Essence: 0.7, Matter: 0.6, Substance: 0.9 };
-  const, sampleMetrics: ThermodynamicMetrics = {
+  const sampleValues: AlchemicalValues  = { Spirit: 0.8, Essence: 0.7, Matter: 0.6, Substance: 0.9 };
+  const sampleMetrics: ThermodynamicMetrics  = {
     heat: 0.7,
     entropy: 0.5,
     reactivity: 0.8,
@@ -1187,19 +1187,19 @@ const executeDemonstration = () => {;
     kalchm: 0.6,
     monica: 0.8
   };
-  const, sampleFilters: FilterOptions = {
+  const sampleFilters: FilterOptions  = {
     elements: ['Fire', 'Water'],
     seasons: ['spring'],
     mealTypes: ['breakfast']
   };
-  const, sampleCriteria: IngredientSearchCriteria = {
+  const sampleCriteria: IngredientSearchCriteria  = {
     elements: ['Fire'],
     seasons: ['summer'],
     categories: ['herbs']
   };
-  const, sampleCelestialBody: CelestialBody = { name: 'sun', influence: 0.9, element: 'Fire' };
-  const, sampleChakraPosition: ChakraPosition = 'heart'
-  const, sampleMethods: CookingMethod[] = [
+  const sampleCelestialBody: CelestialBody  = { name: 'sun', influence: 0.9, element: 'Fire' };
+  const sampleChakraPosition: ChakraPosition  = 'heart'
+  const sampleMethods: CookingMethod[]  = [
     { id: '1', name: 'grilling', category: 'heat', element: 'Fire', intensity: 8 },
     { id: '2', name: 'steaming', category: 'moist', element: 'Water', intensity: 4 }
   ];
@@ -1272,7 +1272,7 @@ export const ALCHEMY_TYPE_INTELLIGENCE_SYSTEM = {
         (max, [key, value]) => (value > max.value ? { key, value } : max),
         { key: 'Fire', value: 0 },
       ),
-      balance: Math.max(...Object.values(prop)) - Math.min(...Object.values(prop));
+      balance: Math.max(...Object.values(prop)) - Math.min(...Object.values(prop))
     }));
 
     // Analyze interaction patterns
@@ -1464,7 +1464,7 @@ export const ALCHEMY_TYPE_INTELLIGENCE_SYSTEM = {
         (max, [key, value]) => (value > max.value ? { key, value } : max),
         { key: 'root', value: 0 },
       ),
-      balance: Math.max(...Object.values(chakra)) - Math.min(...Object.values(chakra));
+      balance: Math.max(...Object.values(chakra)) - Math.min(...Object.values(chakra))
     }));
 
     // Analyze energy state patterns
@@ -1473,8 +1473,7 @@ export const ALCHEMY_TYPE_INTELLIGENCE_SYSTEM = {
       spiritRatio: state.Spirit / (state.Spirit + state.Essence + state.Matter + state.Substance),
       essenceRatio: state.Essence / (state.Spirit + state.Essence + state.Matter + state.Substance),
       matterRatio: state.Matter / (state.Spirit + state.Essence + state.Matter + state.Substance),
-      substanceRatio:
-        state.Substance / (state.Spirit + state.Essence + state.Matter + state.Substance);
+      substanceRatio: state.Substance / (state.Spirit + state.Essence + state.Matter + state.Substance)
     }));
 
     // Analyze alchemical value patterns

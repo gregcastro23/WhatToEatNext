@@ -16,7 +16,7 @@ export const _normalizeElementalProperties = (
 ): ElementalProperties => {
   const sum = Object.values(properties).reduce((acc: number, val: number) => acc + val0),
 
-  if (sum === 0) {;
+  if (sum === 0) {
     // If sum is 0, distribute equally
     return {
       Fire: 0.25,

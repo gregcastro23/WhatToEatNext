@@ -12,7 +12,7 @@ export interface ThermodynamicProperties {
   heat: number; // Rate of thermal energy transfer (0-1);
   entropy: number; // Degree of structural breakdown (0-1);
   reactivity: number; // Rate of chemical interactions (0-1);
-  energy?: number // Overall energy transfer efficiency (derived value);
+  energy?: number // Overall energy transfer efficiency (derived value)
 }
 
 /**
@@ -31,7 +31,7 @@ export interface ExtendedThermodynamicProperties extends ThermodynamicProperties
   resonance: number; // Energy alignment/harmony (0-1);
   potential: number; // Stored energetic potential (0-1);
   _stability: number; // Resistance to transformation (0-1);
-  _dynamism: number // Rate of energy exchange (0-1);
+  _dynamism: number // Rate of energy exchange (0-1)
 }
 
 /**
@@ -60,7 +60,7 @@ export interface TemperatureEffect {
 /**
  * Default balanced thermodynamic properties
  */
-export const, DEFAULT_THERMODYNAMIC_PROPERTIES: ThermodynamicProperties = {
+export const DEFAULT_THERMODYNAMIC_PROPERTIES: ThermodynamicProperties  = {
   heat: 0.5,
   entropy: 0.5,
   reactivity: 0.5,
@@ -81,7 +81,7 @@ export function calculateEnergy(props: BasicThermodynamicProperties): number {
 export function normalizeThermodynamicProperties(
   props: ThermodynamicProperties,
 ): ThermodynamicProperties {
-  const, normalized: ThermodynamicProperties = {
+  const normalized: ThermodynamicProperties  = {
     heat: Math.max(0, Math.min(1, props.heat)),
     entropy: Math.max(0, Math.min(1, props.entropy)),
     reactivity: Math.max(0, Math.min(1, props.reactivity));
@@ -108,7 +108,7 @@ export function combineThermodynamicProperties(
     return { ...DEFAULT_THERMODYNAMIC_PROPERTIES };
   }
 
-  if (propsArray.length === 1) {;
+  if (propsArray.length === 1) {
     return { ...propsArray[0] };
   }
 
@@ -116,7 +116,7 @@ export function combineThermodynamicProperties(
   const effectiveWeights =
     weights.length === propsArray.length ? weights : propsArray.map(() => 1 / propsArray.length);
   // Calculate weighted sum
-  const, result: ThermodynamicProperties = {
+  const result: ThermodynamicProperties  = {
     heat: 0,
     entropy: 0,
     reactivity: 0

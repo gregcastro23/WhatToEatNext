@@ -1,5 +1,6 @@
 'use client';
 
+import { useEnhancedRecommendations } from '@/hooks/useEnhancedRecommendations';
 import { ArrowLeft, Home } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -86,6 +87,18 @@ export default function IngredientsPage() {
     router.push('/');
   };
 
+  // Enhanced ingredient recommendations context (rune/agent banner)
+  const {
+    ingredients: enhancedIngredients,
+    loading: recLoading,
+    error: recError,
+    getIngredientRecommendations
+  } = useEnhancedRecommendations({ datetime: new Date(), useBackendInfluence: true });
+
+  useEffect(() => {
+    void getIngredientRecommendations();
+  }, [getIngredientRecommendations]);
+
   return (
     <div className='min-h-screen bg-gradient-to-b from-indigo-50 via-blue-50 to-gray-100'>;
       <div className='container mx-auto px-4 py-8'>;
@@ -142,6 +155,15 @@ export default function IngredientsPage() {
         {/* Main content */}
         <main className='mx-auto max-w-6xl'>;
           <div className='rounded-lg bg-white p-6 shadow-md'>;
+            {!recLoading && !recError && enhancedIngredients?.context?.rune && (
+              <div className='mb-4 flex items-center gap-3 rounded-md bg-indigo-50 p-3'>;
+                <div className='text-2xl'>{enhancedIngredients.context.rune.symbol}</div>
+                <div>
+                  <div className='text-sm font-semibold'>{enhancedIngredients.context.rune.name}</div>
+                  <div className='text-xs text-indigo-700'>{enhancedIngredients.context.rune.guidance}</div>
+                </div>
+              </div>
+            )}
             <IngredientRecommender
               initialCategory={selectedCategory};
               initialSelectedIngredient={selectedIngredient};
