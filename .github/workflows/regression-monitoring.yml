@@ -55,7 +55,7 @@ jobs:
         run: yarn install --network-timeout 300000
 
       - name: Cache regression data
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: |
             logs/quality-baselines.json
