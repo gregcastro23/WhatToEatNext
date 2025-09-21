@@ -5,6 +5,25 @@
 // Import standardized types from alchemy
 import { ZodiacSign, LunarPhase, Planet, PlanetName } from '@/types/alchemy';
 
+// Enhanced PlanetaryPositions interface with nodes
+export interface PlanetaryPositions {
+  // Existing planet fields...
+
+  northNode?: {
+    sign: string,
+    degree: number,
+    exactLongitude?: number
+    isRetrograde: boolean
+  };
+
+  southNode?: {
+    sign: string,
+    degree: number,
+    exactLongitude?: number
+    isRetrograde: boolean
+  };
+}
+
 import { ElementalCharacter } from '../constants/planetaryElements';
 
 import {

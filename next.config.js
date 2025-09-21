@@ -272,6 +272,24 @@ const nextConfig = {
               reuseExistingChunk: true,
               chunks: 'async',
             },
+            // Alchemical calculation modules (heavy computational code)
+            calculations: {
+              name: 'calculations',
+              test: /[\\/]src[\\/]calculations[\\/]/,
+              priority: 25,
+              chunks: 'async', // Load calculations on-demand
+              minChunks: 1,
+              reuseExistingChunk: true,
+            },
+            // Unified data modules (large data files)
+            unifiedData: {
+              name: 'unified-data',
+              test: /[\\/]src[\\/]data[\\/]unified[\\/]/,
+              priority: 20,
+              chunks: 'async',
+              minChunks: 1,
+              reuseExistingChunk: true,
+            },
             shared: {
               name: 'shared',
               test: /[\\/](src|pages)[\\/](?!.*\.[tj]sx?$)/,

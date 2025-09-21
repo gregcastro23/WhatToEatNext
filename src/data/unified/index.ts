@@ -12,8 +12,8 @@ export * from './alchemicalCalculations';
 // Phase 3: Unified Recipe System with Monica Constants
 export * from './recipes';
 
-// Phase 3: Unified Cuisine System with Kalchm Values
-export * from './cuisines';
+// Phase 3: Unified Cuisine Integration System
+export * from './cuisineIntegrations';
 
 // Export the seasonal system
 export * from './seasonal';
