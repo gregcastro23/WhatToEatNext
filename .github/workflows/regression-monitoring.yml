@@ -177,7 +177,7 @@ jobs:
 
       - name: Comment on PR (if regression detected)
         if: github.event_name == 'pull_request' && steps.regression-check.outputs.active_alerts > 0
-        uses: actions/github-script@v6
+        uses: actions/github-script@v8
         with:
           script: |
             const fs = require('fs');
