@@ -1,0 +1,70 @@
+242984798cd24dac0fd4ac056bfad779
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.pseudoGrains = exports.refinedGrains = exports.wholeGrains = exports.grainPreparationMethods = exports.grainNames = exports.grains = exports.allGrains = void 0;
+const wholeGrains_1 = require("./wholeGrains");
+Object.defineProperty(exports, "wholeGrains", { enumerable: true, get: function () { return wholeGrains_1.wholeGrains; } });
+const refinedGrains_1 = require("./refinedGrains");
+Object.defineProperty(exports, "refinedGrains", { enumerable: true, get: function () { return refinedGrains_1.refinedGrains; } });
+const pseudoGrains_1 = require("./pseudoGrains");
+Object.defineProperty(exports, "pseudoGrains", { enumerable: true, get: function () { return pseudoGrains_1.pseudoGrains; } });
+const elementalUtils_1 = require("@/utils/elementalUtils");
+// Create a comprehensive collection of all grain types
+exports.allGrains = (0, elementalUtils_1.fixIngredientMappings)({
+    ...wholeGrains_1.wholeGrains,
+    ...refinedGrains_1.refinedGrains,
+    ...pseudoGrains_1.pseudoGrains
+});
+// Fix the raw grains object with proper ingredient mapping structure
+const rawGrains = {
+    ...wholeGrains_1.wholeGrains,
+    ...refinedGrains_1.refinedGrains,
+    ...pseudoGrains_1.pseudoGrains
+};
+// Apply the fix to ensure all required properties exist
+exports.grains = (0, elementalUtils_1.fixIngredientMappings)(rawGrains);
+// Create a list of all grain names for easy reference
+exports.grainNames = Object.keys(exports.allGrains);
+// Keep the preparation methods as a separate object
+exports.grainPreparationMethods = {
+    'basic_cooking': {
+        'boiling': {
+            method: 'covered pot',
+            water_ratio: 'varies by grain',
+            tips: [
+                'salt water before adding grain',
+                'do not stir frequently',
+                'let rest after cooking'
+            ]
+        },
+        'steaming': {
+            method: 'steam basket or rice cooker',
+            benefits: [
+                'retains nutrients',
+                'prevents sticking',
+                'consistent results'
+            ]
+        }
+    },
+    'soaking': {
+        'whole_grains': {
+            duration: '8-12 hours',
+            benefits: [
+                'reduces cooking time',
+                'improves digestibility',
+                'activates nutrients'
+            ],
+            method: 'room temperature water'
+        },
+        'quick_method': {
+            duration: '1-2 hours',
+            benefits: [
+                'shorter prep time',
+                'some improvement in cooking'
+            ],
+            method: 'hot water (not boiling)'
+        }
+    }
+};
+exports.default = exports.grains;
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJmaWxlIjoiL1VzZXJzL0dyZWdDYXN0cm8vRGVza3RvcC9XaGF0VG9FYXROZXh0L3NyYy9kYXRhL2luZ3JlZGllbnRzL2dyYWlucy9pbmRleC50cyIsIm1hcHBpbmdzIjoiOzs7QUFBQSwrQ0FBNEM7QUFxRTFDLDRGQXJFTyx5QkFBVyxPQXFFUDtBQXBFYixtREFBZ0Q7QUFxRTlDLDhGQXJFTyw2QkFBYSxPQXFFUDtBQXBFZixpREFBOEM7QUFxRTVDLDZGQXJFTywyQkFBWSxPQXFFUDtBQW5FZCwyREFBK0Q7QUFFL0QsdURBQXVEO0FBQzFDLFFBQUEsU0FBUyxHQUFzQyxJQUFBLHNDQUFxQixFQUFDO0lBQ2hGLEdBQUcseUJBQVc7SUFDZCxHQUFHLDZCQUFhO0lBQ2hCLEdBQUcsMkJBQVk7Q0FDaEIsQ0FBQyxDQUFDO0FBRUgscUVBQXFFO0FBQ3JFLE1BQU0sU0FBUyxHQUFHO0lBQ2hCLEdBQUcseUJBQVc7SUFDZCxHQUFHLDZCQUFhO0lBQ2hCLEdBQUcsMkJBQVk7Q0FDaEIsQ0FBQztBQUVGLHdEQUF3RDtBQUMzQyxRQUFBLE1BQU0sR0FBc0MsSUFBQSxzQ0FBcUIsRUFBQyxTQUFTLENBQUMsQ0FBQztBQUUxRixzREFBc0Q7QUFDekMsUUFBQSxVQUFVLEdBQUcsTUFBTSxDQUFDLElBQUksQ0FBQyxpQkFBUyxDQUFDLENBQUM7QUFFakQsb0RBQW9EO0FBQ3ZDLFFBQUEsdUJBQXVCLEdBQUc7SUFDckMsZUFBZSxFQUFFO1FBQ2YsU0FBUyxFQUFFO1lBQ1QsTUFBTSxFQUFFLGFBQWE7WUFDckIsV0FBVyxFQUFFLGlCQUFpQjtZQUM5QixJQUFJLEVBQUU7Z0JBQ0osZ0NBQWdDO2dCQUNoQyx3QkFBd0I7Z0JBQ3hCLHdCQUF3QjthQUN6QjtTQUNGO1FBQ0QsVUFBVSxFQUFFO1lBQ1YsTUFBTSxFQUFFLDZCQUE2QjtZQUNyQyxRQUFRLEVBQUU7Z0JBQ1IsbUJBQW1CO2dCQUNuQixtQkFBbUI7Z0JBQ25CLG9CQUFvQjthQUNyQjtTQUNGO0tBQ0Y7SUFDRCxTQUFTLEVBQUU7UUFDVCxjQUFjLEVBQUU7WUFDZCxRQUFRLEVBQUUsWUFBWTtZQUN0QixRQUFRLEVBQUU7Z0JBQ1Isc0JBQXNCO2dCQUN0Qix3QkFBd0I7Z0JBQ3hCLHFCQUFxQjthQUN0QjtZQUNELE1BQU0sRUFBRSx3QkFBd0I7U0FDakM7UUFDRCxjQUFjLEVBQUU7WUFDZCxRQUFRLEVBQUUsV0FBVztZQUNyQixRQUFRLEVBQUU7Z0JBQ1IsbUJBQW1CO2dCQUNuQiw2QkFBNkI7YUFDOUI7WUFDRCxNQUFNLEVBQUUseUJBQXlCO1NBQ2xDO0tBQ0Y7Q0FDRixDQUFDO0FBUUYsa0JBQWUsY0FBTSxDQUFDIiwibmFtZXMiOltdLCJzb3VyY2VzIjpbIi9Vc2Vycy9HcmVnQ2FzdHJvL0Rlc2t0b3AvV2hhdFRvRWF0TmV4dC9zcmMvZGF0YS9pbmdyZWRpZW50cy9ncmFpbnMvaW5kZXgudHMiXSwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHsgd2hvbGVHcmFpbnMgfSBmcm9tICcuL3dob2xlR3JhaW5zJztcbmltcG9ydCB7IHJlZmluZWRHcmFpbnMgfSBmcm9tICcuL3JlZmluZWRHcmFpbnMnO1xuaW1wb3J0IHsgcHNldWRvR3JhaW5zIH0gZnJvbSAnLi9wc2V1ZG9HcmFpbnMnO1xuaW1wb3J0IHR5cGUgeyBJbmdyZWRpZW50TWFwcGluZyB9IGZyb20gJ0AvZGF0YS9pbmdyZWRpZW50cy90eXBlcyc7XG5pbXBvcnQgeyBmaXhJbmdyZWRpZW50TWFwcGluZ3MgfSBmcm9tICdAL3V0aWxzL2VsZW1lbnRhbFV0aWxzJztcblxuLy8gQ3JlYXRlIGEgY29tcHJlaGVuc2l2ZSBjb2xsZWN0aW9uIG9mIGFsbCBncmFpbiB0eXBlc1xuZXhwb3J0IGNvbnN0IGFsbEdyYWluczogUmVjb3JkPHN0cmluZywgSW5ncmVkaWVudE1hcHBpbmc+ID0gZml4SW5ncmVkaWVudE1hcHBpbmdzKHtcbiAgLi4ud2hvbGVHcmFpbnMsXG4gIC4uLnJlZmluZWRHcmFpbnMsXG4gIC4uLnBzZXVkb0dyYWluc1xufSk7XG5cbi8vIEZpeCB0aGUgcmF3IGdyYWlucyBvYmplY3Qgd2l0aCBwcm9wZXIgaW5ncmVkaWVudCBtYXBwaW5nIHN0cnVjdHVyZVxuY29uc3QgcmF3R3JhaW5zID0ge1xuICAuLi53aG9sZUdyYWlucyxcbiAgLi4ucmVmaW5lZEdyYWlucyxcbiAgLi4ucHNldWRvR3JhaW5zXG59O1xuXG4vLyBBcHBseSB0aGUgZml4IHRvIGVuc3VyZSBhbGwgcmVxdWlyZWQgcHJvcGVydGllcyBleGlzdFxuZXhwb3J0IGNvbnN0IGdyYWluczogUmVjb3JkPHN0cmluZywgSW5ncmVkaWVudE1hcHBpbmc+ID0gZml4SW5ncmVkaWVudE1hcHBpbmdzKHJhd0dyYWlucyk7XG5cbi8vIENyZWF0ZSBhIGxpc3Qgb2YgYWxsIGdyYWluIG5hbWVzIGZvciBlYXN5IHJlZmVyZW5jZVxuZXhwb3J0IGNvbnN0IGdyYWluTmFtZXMgPSBPYmplY3Qua2V5cyhhbGxHcmFpbnMpO1xuXG4vLyBLZWVwIHRoZSBwcmVwYXJhdGlvbiBtZXRob2RzIGFzIGEgc2VwYXJhdGUgb2JqZWN0XG5leHBvcnQgY29uc3QgZ3JhaW5QcmVwYXJhdGlvbk1ldGhvZHMgPSB7XG4gICdiYXNpY19jb29raW5nJzoge1xuICAgICdib2lsaW5nJzoge1xuICAgICAgbWV0aG9kOiAnY292ZXJlZCBwb3QnLFxuICAgICAgd2F0ZXJfcmF0aW86ICd2YXJpZXMgYnkgZ3JhaW4nLFxuICAgICAgdGlwczogW1xuICAgICAgICAnc2FsdCB3YXRlciBiZWZvcmUgYWRkaW5nIGdyYWluJyxcbiAgICAgICAgJ2RvIG5vdCBzdGlyIGZyZXF1ZW50bHknLFxuICAgICAgICAnbGV0IHJlc3QgYWZ0ZXIgY29va2luZydcbiAgICAgIF1cbiAgICB9LFxuICAgICdzdGVhbWluZyc6IHtcbiAgICAgIG1ldGhvZDogJ3N0ZWFtIGJhc2tldCBvciByaWNlIGNvb2tlcicsXG4gICAgICBiZW5lZml0czogW1xuICAgICAgICAncmV0YWlucyBudXRyaWVudHMnLFxuICAgICAgICAncHJldmVudHMgc3RpY2tpbmcnLFxuICAgICAgICAnY29uc2lzdGVudCByZXN1bHRzJ1xuICAgICAgXVxuICAgIH1cbiAgfSxcbiAgJ3NvYWtpbmcnOiB7XG4gICAgJ3dob2xlX2dyYWlucyc6IHtcbiAgICAgIGR1cmF0aW9uOiAnOC0xMiBob3VycycsXG4gICAgICBiZW5lZml0czogW1xuICAgICAgICAncmVkdWNlcyBjb29raW5nIHRpbWUnLFxuICAgICAgICAnaW1wcm92ZXMgZGlnZXN0aWJpbGl0eScsXG4gICAgICAgICdhY3RpdmF0ZXMgbnV0cmllbnRzJ1xuICAgICAgXSxcbiAgICAgIG1ldGhvZDogJ3Jvb20gdGVtcGVyYXR1cmUgd2F0ZXInXG4gICAgfSxcbiAgICAncXVpY2tfbWV0aG9kJzoge1xuICAgICAgZHVyYXRpb246ICcxLTIgaG91cnMnLFxuICAgICAgYmVuZWZpdHM6IFtcbiAgICAgICAgJ3Nob3J0ZXIgcHJlcCB0aW1lJyxcbiAgICAgICAgJ3NvbWUgaW1wcm92ZW1lbnQgaW4gY29va2luZydcbiAgICAgIF0sXG4gICAgICBtZXRob2Q6ICdob3Qgd2F0ZXIgKG5vdCBib2lsaW5nKSdcbiAgICB9XG4gIH1cbn07XG5cbmV4cG9ydCB7XG4gIHdob2xlR3JhaW5zLFxuICByZWZpbmVkR3JhaW5zLFxuICBwc2V1ZG9HcmFpbnNcbn07XG5cbmV4cG9ydCBkZWZhdWx0IGdyYWluczsiXSwidmVyc2lvbiI6M30=

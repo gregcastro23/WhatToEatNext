@@ -1,0 +1,21 @@
+# WhatToEatNext Error Count Monitoring Cron Jobs
+#
+# Add these entries to your crontab with: crontab -e
+# Make sure to update the path to match your project location
+
+# Monitor error counts every 5 minutes
+*/5 * * * * cd /path/to/what-to-eat-next && /usr/bin/node src/scripts/error-count-monitor.cjs monitor >> logs/cron-monitor.log 2>&1
+
+# Generate daily report at 9 AM
+0 9 * * * cd /path/to/what-to-eat-next && /usr/bin/node src/scripts/error-count-monitor.cjs report >> logs/daily-report.log 2>&1
+
+# Weekly comprehensive report on Mondays at 8 AM
+0 8 * * 1 cd /path/to/what-to-eat-next && /usr/bin/node src/scripts/error-count-monitor.cjs report --include-build >> logs/weekly-report.log 2>&1
+
+# Clean up old log files monthly (keep last 30 days)
+0 2 1 * * find /path/to/what-to-eat-next/logs -name "*.log" -mtime +30 -delete
+
+# Example installation commands:
+# 1. Update the path in this file to match your project location
+# 2. Install the cron jobs: crontab scripts/monitoring/error-monitor.cron
+# 3. Verify installation: crontab -l

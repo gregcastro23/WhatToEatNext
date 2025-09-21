@@ -1,0 +1,779 @@
+{
+  "debugPanels": {
+    "astrologicalCalculations": {
+      "enabled": true,
+      "title": "🔮 Astrological Debug Panel",
+      "position": "bottom",
+      "height": 300,
+      "tabs": [
+        {
+          "id": "planetary-positions",
+          "title": "🪐 Planetary Positions",
+          "icon": "planet",
+          "content": {
+            "type": "realtime",
+            "updateInterval": 3600000,
+            "dataSource": "src/utils/reliableAstronomy.ts",
+            "function": "getReliablePlanetaryPositions",
+            "display": {
+              "format": "table",
+              "columns": [
+                "planet",
+                "sign",
+                "degree",
+                "exactLongitude",
+                "isRetrograde",
+                "lastUpdated"
+              ],
+              "sortBy": "planet",
+              "filters": ["retrograde", "sign"],
+              "actions": [
+                "refresh",
+                "validate",
+                "export"
+              ]
+            }
+          }
+        },
+        {
+          "id": "elemental-harmony",
+          "title": "🌟 Elemental Harmony",
+          "icon": "elements",
+          "content": {
+            "type": "calculated",
+            "dataSource": "src/utils/elemental/elementalUtils.ts",
+            "function": "analyzeCurrentElementalHarmony",
+            "display": {
+              "format": "chart",
+              "chartType": "radar",
+              "elements": ["Fire", "Water", "Earth", "Air"],
+              "showCompatibility": true,
+              "showRecommendations": true,
+              "colorScheme": {
+                "Fire": "#FF6B6B",
+                "Water": "#4ECDC4",
+                "Earth": "#45B7D1",
+                "Air": "#96CEB4"
+              }
+            }
+          }
+        },
+        {
+          "id": "transit-validation",
+          "title": "⭐ Transit Validation",
+          "icon": "calendar",
+          "content": {
+            "type": "validation",
+            "dataSource": "src/utils/planetaryConsistencyCheck.ts",
+            "function": "validateAllTransitDates",
+            "display": {
+              "format": "status",
+              "showErrors": true,
+              "showWarnings": true,
+              "groupBy": "planet",
+              "actions": [
+                "revalidate",
+                "updateTransitDates",
+                "viewDetails"
+              ]
+            }
+          }
+        },
+        {
+          "id": "calculation-performance",
+          "title": "⚡ Calculation Performance",
+          "icon": "performance",
+          "content": {
+            "type": "metrics",
+            "metrics": [
+              {
+                "name": "Calculation Speed",
+                "unit": "ms",
+                "threshold": 2000,
+                "source": "performance.calculationTime"
+              },
+              {
+                "name": "API Response Time",
+                "unit": "ms",
+                "threshold": 5000,
+                "source": "performance.apiResponseTime"
+              },
+              {
+                "name": "Cache Hit Rate",
+                "unit": "%",
+                "threshold": 80,
+                "source": "performance.cacheHitRate"
+              },
+              {
+                "name": "Fallback Usage",
+                "unit": "%",
+                "threshold": 10,
+                "source": "performance.fallbackUsage"
+              }
+            ],
+            "display": {
+              "format": "gauge",
+              "showTrends": true,
+              "alertThresholds": true,
+              "timeRange": "1h"
+            }
+          }
+        }
+      ],
+      "shortcuts": [
+        {
+          "key": "Cmd+Alt+Shift+A",
+          "action": "toggleAstrologicalDebugPanel"
+        },
+        {
+          "key": "Cmd+Alt+P",
+          "action": "refreshPlanetaryPositions"
+        },
+        {
+          "key": "Cmd+Alt+E",
+          "action": "analyzeElementalHarmony"
+        }
+      ]
+    },
+    "performanceMonitoring": {
+      "enabled": true,
+      "title": "📊 Performance Monitor",
+      "position": "right",
+      "width": 400,
+      "tabs": [
+        {
+          "id": "system-metrics",
+          "title": "🖥️ System Metrics",
+          "icon": "cpu",
+          "content": {
+            "type": "realtime",
+            "updateInterval": 5000,
+            "metrics": [
+              {
+                "name": "CPU Usage",
+                "source": "system.cpu",
+                "unit": "%",
+                "threshold": 80,
+                "color": "#FF6B6B"
+              },
+              {
+                "name": "Memory Usage",
+                "source": "system.memory",
+                "unit": "MB",
+                "threshold": 1024,
+                "color": "#4ECDC4"
+              },
+              {
+                "name": "TypeScript Server Memory",
+                "source": "typescript.memory",
+                "unit": "MB",
+                "threshold": 2048,
+                "color": "#45B7D1"
+              },
+              {
+                "name": "Build Performance",
+                "source": "build.time",
+                "unit": "s",
+                "threshold": 30,
+                "color": "#96CEB4"
+              }
+            ],
+            "display": {
+              "format": "timeline",
+              "showAlerts": true,
+              "timeRange": "30m"
+            }
+          }
+        },
+        {
+          "id": "code-quality",
+          "title": "✅ Code Quality",
+          "icon": "quality",
+          "content": {
+            "type": "metrics",
+            "dataSource": "src/services/campaign/MetricsCollectionSystem.ts",
+            "function": "getQualityMetrics",
+            "metrics": [
+              {
+                "name": "TypeScript Errors",
+                "current": "dynamic",
+                "target": 0,
+                "trend": "decreasing",
+                "color": "#FF6B6B"
+              },
+              {
+                "name": "Linting Warnings",
+                "current": "dynamic",
+                "target": 0,
+                "trend": "decreasing",
+                "color": "#F59E0B"
+              },
+              {
+                "name": "Test Coverage",
+                "current": "dynamic",
+                "target": 80,
+                "trend": "increasing",
+                "color": "#10B981"
+              },
+              {
+                "name": "Bundle Size",
+                "current": "dynamic",
+                "target": 1000,
+                "unit": "KB",
+                "trend": "stable",
+                "color": "#3B82F6"
+              }
+            ],
+            "display": {
+              "format": "progress",
+              "showTargets": true,
+              "showTrends": true
+            }
+          }
+        },
+        {
+          "id": "api-health",
+          "title": "🔌 API Health",
+          "icon": "network",
+          "content": {
+            "type": "status",
+            "services": [
+              {
+                "name": "Astrology API",
+                "endpoint": "astrology-server",
+                "status": "dynamic",
+                "responseTime": "dynamic",
+                "lastCheck": "dynamic"
+              },
+              {
+                "name": "Nutrition API",
+                "endpoint": "nutrition-server",
+                "status": "dynamic",
+                "responseTime": "dynamic",
+                "lastCheck": "dynamic"
+              },
+              {
+                "name": "Spoonacular API",
+                "endpoint": "spoonacular-server",
+                "status": "dynamic",
+                "responseTime": "dynamic",
+                "lastCheck": "dynamic"
+              }
+            ],
+            "display": {
+              "format": "status-grid",
+              "showResponseTimes": true,
+              "showLastCheck": true,
+              "autoRefresh": 30000
+            }
+          }
+        }
+      ],
+      "shortcuts": [
+        {
+          "key": "Cmd+Alt+Shift+P",
+          "action": "togglePerformanceMonitor"
+        },
+        {
+          "key": "Cmd+Alt+M",
+          "action": "refreshMetrics"
+        }
+      ]
+    },
+    "campaignProgress": {
+      "enabled": true,
+      "title": "⚡ Campaign Progress Tracker",
+      "position": "bottom",
+      "height": 350,
+      "tabs": [
+        {
+          "id": "active-campaigns",
+          "title": "🚀 Active Campaigns",
+          "icon": "campaign",
+          "content": {
+            "type": "realtime",
+            "updateInterval": 10000,
+            "dataSource": "src/services/campaign/ProgressTracker.ts",
+            "function": "getActiveCampaigns",
+            "display": {
+              "format": "cards",
+              "showProgress": true,
+              "showETA": true,
+              "showMetrics": true,
+              "actions": [
+                "pause",
+                "resume",
+                "stop",
+                "viewDetails"
+              ]
+            }
+          }
+        },
+        {
+          "id": "campaign-history",
+          "title": "📈 Campaign History",
+          "icon": "history",
+          "content": {
+            "type": "historical",
+            "dataSource": "src/services/campaign/ProgressReportingSystem.ts",
+            "function": "getCampaignHistory",
+            "display": {
+              "format": "timeline",
+              "showSuccessRate": true,
+              "showDuration": true,
+              "showImpact": true,
+              "timeRange": "7d",
+              "filters": [
+                "campaignType",
+                "status",
+                "dateRange"
+              ]
+            }
+          }
+        },
+        {
+          "id": "error-analysis",
+          "title": "🔍 Error Analysis",
+          "icon": "analysis",
+          "content": {
+            "type": "analysis",
+            "dataSource": "src/services/campaign/TypeScriptErrorAnalyzer.ts",
+            "function": "getErrorAnalysis",
+            "display": {
+              "format": "breakdown",
+              "groupBy": "errorType",
+              "showTrends": true,
+              "showFiles": true,
+              "showSolutions": true,
+              "charts": [
+                "errorDistribution",
+                "errorTrends",
+                "fileImpact"
+              ]
+            }
+          }
+        },
+        {
+          "id": "safety-status",
+          "title": "🛡️ Safety Status",
+          "icon": "shield",
+          "content": {
+            "type": "safety",
+            "dataSource": "src/services/campaign/SafetyProtocol.ts",
+            "function": "getSafetyStatus",
+            "display": {
+              "format": "status-board",
+              "showProtocols": true,
+              "showRollbacks": true,
+              "showAlerts": true,
+              "alertLevels": [
+                "info",
+                "warning",
+                "error",
+                "critical"
+              ]
+            }
+          }
+        }
+      ],
+      "shortcuts": [
+        {
+          "key": "Cmd+Alt+Shift+C",
+          "action": "toggleCampaignTracker"
+        },
+        {
+          "key": "Cmd+Shift+R",
+          "action": "refreshCampaignData"
+        }
+      ]
+    },
+    "errorAnalysis": {
+      "enabled": true,
+      "title": "🐛 Error Analysis Dashboard",
+      "position": "right",
+      "width": 450,
+      "tabs": [
+        {
+          "id": "typescript-errors",
+          "title": "📝 TypeScript Errors",
+          "icon": "typescript",
+          "content": {
+            "type": "errors",
+            "dataSource": "src/services/campaign/TypeScriptErrorAnalyzer.ts",
+            "function": "getCurrentErrors",
+            "display": {
+              "format": "tree",
+              "groupBy": "file",
+              "showSeverity": true,
+              "showSolutions": true,
+              "showContext": true,
+              "filters": [
+                "errorCode",
+                "severity",
+                "file"
+              ],
+              "actions": [
+                "fixError",
+                "ignoreError",
+                "viewFile",
+                "searchSolution"
+              ]
+            }
+          }
+        },
+        {
+          "id": "linting-warnings",
+          "title": "⚠️ Linting Warnings",
+          "icon": "warning",
+          "content": {
+            "type": "warnings",
+            "dataSource": "src/services/campaign/LintingWarningAnalyzer.ts",
+            "function": "getCurrentWarnings",
+            "display": {
+              "format": "list",
+              "groupBy": "rule",
+              "showAutoFix": true,
+              "showImpact": true,
+              "showFrequency": true,
+              "actions": [
+                "autoFix",
+                "disableRule",
+                "viewRule",
+                "fixAll"
+              ]
+            }
+          }
+        },
+        {
+          "id": "build-errors",
+          "title": "🏗️ Build Errors",
+          "icon": "build",
+          "content": {
+            "type": "build",
+            "dataSource": "build.log",
+            "display": {
+              "format": "console",
+              "showStackTrace": true,
+              "showSuggestions": true,
+              "highlightErrors": true,
+              "actions": [
+                "rebuild",
+                "clearCache",
+                "viewLog"
+              ]
+            }
+          }
+        },
+        {
+          "id": "runtime-errors",
+          "title": "⚡ Runtime Errors",
+          "icon": "runtime",
+          "content": {
+            "type": "runtime",
+            "dataSource": "console.errors",
+            "display": {
+              "format": "timeline",
+              "showStackTrace": true,
+              "showContext": true,
+              "showFrequency": true,
+              "groupBy": "component",
+              "actions": [
+                "debugError",
+                "viewComponent",
+                "clearErrors"
+              ]
+            }
+          }
+        }
+      ],
+      "shortcuts": [
+        {
+          "key": "Cmd+Alt+Shift+E",
+          "action": "toggleErrorAnalysis"
+        },
+        {
+          "key": "Cmd+Shift+E",
+          "action": "refreshErrors"
+        }
+      ]
+    }
+  },
+  "monitoringDashboards": {
+    "astrologicalDashboard": {
+      "title": "🔮 Astrological Monitoring Dashboard",
+      "layout": "grid",
+      "columns": 3,
+      "widgets": [
+        {
+          "id": "current-positions",
+          "title": "Current Planetary Positions",
+          "type": "table",
+          "size": "medium",
+          "dataSource": "astrology.positions",
+          "refreshInterval": 3600000
+        },
+        {
+          "id": "elemental-balance",
+          "title": "Elemental Balance",
+          "type": "radar-chart",
+          "size": "medium",
+          "dataSource": "astrology.elements",
+          "refreshInterval": 300000
+        },
+        {
+          "id": "transit-alerts",
+          "title": "Transit Alerts",
+          "type": "alert-list",
+          "size": "small",
+          "dataSource": "astrology.transits",
+          "refreshInterval": 1800000
+        },
+        {
+          "id": "calculation-health",
+          "title": "Calculation Health",
+          "type": "status-grid",
+          "size": "medium",
+          "dataSource": "astrology.health",
+          "refreshInterval": 60000
+        },
+        {
+          "id": "api-status",
+          "title": "API Status",
+          "type": "status-indicators",
+          "size": "small",
+          "dataSource": "astrology.apis",
+          "refreshInterval": 30000
+        },
+        {
+          "id": "recommendation-stats",
+          "title": "Recommendation Statistics",
+          "type": "metrics-card",
+          "size": "medium",
+          "dataSource": "astrology.recommendations",
+          "refreshInterval": 300000
+        }
+      ]
+    },
+    "campaignDashboard": {
+      "title": "⚡ Campaign Monitoring Dashboard",
+      "layout": "flex",
+      "widgets": [
+        {
+          "id": "campaign-overview",
+          "title": "Campaign Overview",
+          "type": "summary-cards",
+          "size": "large",
+          "dataSource": "campaign.overview",
+          "refreshInterval": 10000
+        },
+        {
+          "id": "error-trends",
+          "title": "Error Reduction Trends",
+          "type": "line-chart",
+          "size": "large",
+          "dataSource": "campaign.errors",
+          "refreshInterval": 30000
+        },
+        {
+          "id": "quality-metrics",
+          "title": "Quality Metrics",
+          "type": "gauge-cluster",
+          "size": "medium",
+          "dataSource": "campaign.quality",
+          "refreshInterval": 60000
+        },
+        {
+          "id": "safety-status",
+          "title": "Safety Status",
+          "type": "status-board",
+          "size": "medium",
+          "dataSource": "campaign.safety",
+          "refreshInterval": 5000
+        }
+      ]
+    },
+    "performanceDashboard": {
+      "title": "📊 Performance Monitoring Dashboard",
+      "layout": "mixed",
+      "widgets": [
+        {
+          "id": "system-resources",
+          "title": "System Resources",
+          "type": "resource-monitor",
+          "size": "large",
+          "dataSource": "system.resources",
+          "refreshInterval": 5000
+        },
+        {
+          "id": "build-performance",
+          "title": "Build Performance",
+          "type": "performance-chart",
+          "size": "medium",
+          "dataSource": "build.performance",
+          "refreshInterval": 60000
+        },
+        {
+          "id": "typescript-performance",
+          "title": "TypeScript Performance",
+          "type": "metrics-grid",
+          "size": "medium",
+          "dataSource": "typescript.performance",
+          "refreshInterval": 30000
+        },
+        {
+          "id": "api-performance",
+          "title": "API Performance",
+          "type": "response-time-chart",
+          "size": "medium",
+          "dataSource": "api.performance",
+          "refreshInterval": 15000
+        }
+      ]
+    }
+  },
+  "alertSystem": {
+    "enabled": true,
+    "alertTypes": [
+      {
+        "id": "astrological-calculation-failure",
+        "title": "Astrological Calculation Failure",
+        "severity": "error",
+        "conditions": [
+          "calculation.failed",
+          "api.timeout",
+          "fallback.activated"
+        ],
+        "actions": [
+          "showNotification",
+          "logError",
+          "activateFallback"
+        ]
+      },
+      {
+        "id": "campaign-safety-violation",
+        "title": "Campaign Safety Violation",
+        "severity": "critical",
+        "conditions": [
+          "safety.violation",
+          "corruption.detected",
+          "rollback.required"
+        ],
+        "actions": [
+          "emergencyStop",
+          "showCriticalAlert",
+          "initiateRollback"
+        ]
+      },
+      {
+        "id": "performance-degradation",
+        "title": "Performance Degradation",
+        "severity": "warning",
+        "conditions": [
+          "cpu.high",
+          "memory.high",
+          "build.slow"
+        ],
+        "actions": [
+          "showWarning",
+          "logPerformance",
+          "suggestOptimization"
+        ]
+      },
+      {
+        "id": "error-threshold-exceeded",
+        "title": "Error Threshold Exceeded",
+        "severity": "warning",
+        "conditions": [
+          "typescript.errors > 100",
+          "linting.warnings > 1000"
+        ],
+        "actions": [
+          "showAlert",
+          "suggestCampaign",
+          "logThreshold"
+        ]
+      }
+    ],
+    "notificationSettings": {
+      "showInStatusBar": true,
+      "showPopups": true,
+      "playSound": false,
+      "logToConsole": true,
+      "persistAlerts": true
+    }
+  },
+  "customViews": {
+    "astrologicalWorkbench": {
+      "title": "🔮 Astrological Workbench",
+      "layout": "custom",
+      "panels": [
+        {
+          "id": "calculation-editor",
+          "type": "editor",
+          "position": "center",
+          "size": "60%"
+        },
+        {
+          "id": "planetary-data",
+          "type": "data-panel",
+          "position": "right",
+          "size": "25%"
+        },
+        {
+          "id": "test-results",
+          "type": "test-panel",
+          "position": "bottom",
+          "size": "15%"
+        }
+      ]
+    },
+    "campaignControlCenter": {
+      "title": "⚡ Campaign Control Center",
+      "layout": "dashboard",
+      "panels": [
+        {
+          "id": "campaign-controls",
+          "type": "control-panel",
+          "position": "top",
+          "size": "20%"
+        },
+        {
+          "id": "metrics-display",
+          "type": "metrics-panel",
+          "position": "center",
+          "size": "60%"
+        },
+        {
+          "id": "safety-monitor",
+          "type": "safety-panel",
+          "position": "bottom",
+          "size": "20%"
+        }
+      ]
+    }
+  },
+  "shortcuts": {
+    "global": [
+      {
+        "key": "Cmd+Alt+Shift+D",
+        "action": "toggleAllDebugPanels",
+        "description": "Toggle all debug panels"
+      },
+      {
+        "key": "Cmd+Alt+Shift+M",
+        "action": "toggleAllMonitoringViews",
+        "description": "Toggle all monitoring views"
+      },
+      {
+        "key": "Cmd+Alt+Shift+R",
+        "action": "refreshAllViews",
+        "description": "Refresh all monitoring views"
+      },
+      {
+        "key": "Cmd+Alt+Shift+S",
+        "action": "showSystemStatus",
+        "description": "Show comprehensive system status"
+      }
+    ]
+  }
+}

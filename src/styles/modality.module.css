@@ -1,0 +1,41 @@
+/* Modality Badge Styles */
+.modalityBadge {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: white;
+  margin-right: 8px;
+  text-align: center;
+}
+
+/* Modality Colors */
+.cardinal {
+  background-color: #e74c3c;
+}
+
+.fixed {
+  background-color: #3498db;
+}
+
+.mutable {
+  background-color: #2ecc71;
+}
+
+/* Modality Labels */
+.modalityLabel {
+  font-weight: 500;
+  margin-right: 8px;
+}
+
+/* Modality Section */
+.modalitySection {
+  margin-bottom: 1rem;
+}
+
+.modalityDescription {
+  font-style: italic;
+  margin-top: 0.5rem;
+  color: #666;
+}

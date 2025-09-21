@@ -1,0 +1,1853 @@
+From c8f9500f9e85fdda8357b9b903466a8025d1728b Mon Sep 17 00:00:00 2001
+From: gregcastro23 <120056982+gregcastro23@users.noreply.github.com>
+Date: Sat, 3 May 2025 05:07:59 -0400
+Subject: [PATCH] Improve cooking method and ingredient recommendation logic
+ with enhanced scoring, duplicate detection, and transparent score breakdowns
+
+---
+ src/components/CookingMethods.module.css | 109 +++
+ src/components/CookingMethods.tsx        | 433 ++++-------
+ src/components/IngredientRecommender.tsx | 100 ++-
+ src/utils/cookingMethodRecommender.ts    | 934 ++++++++---------------
+ src/utils/ingredientRecommender.ts       |  25 +-
+ 5 files changed, 655 insertions(+), 946 deletions(-)
+
+diff --git a/src/components/CookingMethods.module.css b/src/components/CookingMethods.module.css
+index f8c44ecb..d468b137 100644
+--- a/src/components/CookingMethods.module.css
++++ b/src/components/CookingMethods.module.css
+@@ -914,4 +914,113 @@
+ .ingredient-item:hover {
+   border-color: rgba(107, 70, 193, 0.3);
+   background-color: rgba(107, 70, 193, 0.02);
++}
++
++/* Add these new styles for the score details */
++.scoreSection {
++  margin-top: 12px;
++  border-top: 1px solid rgba(0, 0, 0, 0.1);
++  padding-top: 10px;
++}
++
++.scoreHeader {
++  display: flex;
++  justify-content: space-between;
++  align-items: center;
++  cursor: pointer;
++  padding: 4px 0;
++  font-weight: 500;
++}
++
++.scoreDetailsButton {
++  background: none;
++  border: none;
++  cursor: pointer;
++  padding: 4px;
++  display: flex;
++  align-items: center;
++  justify-content: center;
++  border-radius: 50%;
++  transition: background-color 0.2s;
++}
++
++.scoreDetailsButton:hover {
++  background-color: rgba(0, 0, 0, 0.05);
++}
++
++.scoreDetails {
++  margin-top: 8px;
++  padding: 8px;
++  background-color: rgba(0, 0, 0, 0.03);
++  border-radius: 6px;
++}
++
++.scoreDetails h4 {
++  margin: 0 0 8px 0;
++  font-size: 14px;
++  font-weight: 600;
++}
++
++.scoreDetailsList {
++  list-style: none;
++  padding: 0;
++  margin: 0;
++}
++
++.scoreDetailsList li {
++  display: flex;
++  align-items: center;
++  margin-bottom: 6px;
++  font-size: 13px;
++}
++
++.scoreDetailsList li span:first-child {
++  width: 100px;
++  flex-shrink: 0;
++}
++
++.scoreDetailsList li span:last-child {
++  width: 50px;
++  text-align: right;
++  flex-shrink: 0;
++}
++
++.scoreBar {
++  flex-grow: 1;
++  height: 8px;
++  background-color: rgba(0, 0, 0, 0.1);
++  border-radius: 4px;
++  margin: 0 10px;
++  overflow: hidden;
++}
++
++.scoreBarFill {
++  height: 100%;
++  background: linear-gradient(to right, #4ade80, #3b82f6);
++  border-radius: 4px;
++}
++
++/* Style variants for different types of scores */
++.scoreBarFill.elemental {
++  background: linear-gradient(to right, #f97316, #ef4444);
++}
++
++.scoreBarFill.astrological {
++  background: linear-gradient(to right, #8b5cf6, #3b82f6);
++}
++
++.scoreBarFill.seasonal {
++  background: linear-gradient(to right, #10b981, #4ade80);
++}
++
++.scoreBarFill.cultural {
++  background: linear-gradient(to right, #f59e0b, #eab308);
++}
++
++.scoreBarFill.lunar {
++  background: linear-gradient(to right, #6366f1, #a855f7);
++}
++
++.scoreBarFill.venus {
++  background: linear-gradient(to right, #ec4899, #f43f5e);
+ } 
+\ No newline at end of file
+diff --git a/src/components/CookingMethods.tsx b/src/components/CookingMethods.tsx
+index 15ec8a6c..f967a8ea 100644
+--- a/src/components/CookingMethods.tsx
++++ b/src/components/CookingMethods.tsx
+@@ -161,6 +161,18 @@ interface ExtendedAlchemicalItem extends AlchemicalItem {
+   };
+   optimalTemperatures?: Record<string, number>;
+   thermodynamicProperties?: ThermodynamicProperties;
++  score?: number;
++  scoreDetails?: {
++    elemental?: number;
++    astrological?: number;
++    seasonal?: number;
++    tools?: number;
++    dietary?: number;
++    cultural?: number;
++    lunar?: number;
++    venus?: number;
++    total?: number;
++  };
+ }
+ 
+ // Define cooking time recommendations by ingredient class
+@@ -1651,305 +1663,152 @@ export default function CookingMethods() {
+     fetchMethods();
+   };
+   
+-  // In your return statement, add the debug panel at the end
+-  return (
+-    <div className={styles.cookingMethodsContainer}>
+-      <div className={styles.cookingMethodsHeader}>
+-        <div className={styles.title}>
+-          <span className={styles.titleText}>Cooking Methods</span>
+-          <span className={styles.titleCount}>({recommendedMethods.length})</span>
+-        </div>
+-        
+-        <div className={styles.headerOptions}>
+-          <select 
+-            className={styles.cultureSelector}
+-            value={selectedCulture}
+-            onChange={handleCultureChange}
+-          >
+-            <option value="">All Cultures</option>
+-            {Object.keys(culturalCookingMap).filter(c => c !== 'Traditional').map(culture => (
+-              <option key={culture} value={culture}>{culture}</option>
+-            ))}
+-          </select>
+-        </div>
+-      </div>
++  // Add a new state to control the display of score details
++  const [showScoreDetails, setShowScoreDetails] = useState<Record<string, boolean>>({});
+ 
+-      {loading ? (
+-        <div className={styles.loadingContainer}>
+-          <div className={styles.spinner}></div>
+-          <p>Analyzing cosmic cooking alignments...</p>
+-        </div>
+-      ) : (
+-        <div className={styles.cookingMethodsContent}>
+-          <div className={styles.filterControls}>
+-            <div>
+-              <button 
+-                className={styles.filterButton}
+-                onClick={() => setShowAllMethods(!showAllMethods)}
+-              >
+-                {showAllMethods ? 'Show Top Methods' : 'Show All Methods'}
+-              </button>
+-            </div>
+-            
+-            <select 
+-              className={styles.cultureSelector}
+-              value={selectedCulture}
+-              onChange={handleCultureChange}
++  // Enhance the renderMethodCard function to display score details
++  const renderMethodCard = (method: ExtendedAlchemicalItem) => {
++    // ... existing code ...
++
++    const toggleScoreDetails = (e: React.MouseEvent, methodName: string) => {
++      e.stopPropagation();
++      setShowScoreDetails(prev => ({
++        ...prev,
++        [methodName]: !prev[methodName]
++      }));
++    };
++
++    // Add this inside the method card JSX, before the closing div
++    return (
++      <div 
++        className={`${styles.methodCard} ${isExpanded[method.name] ? styles.expanded : ''}`}
++        onClick={() => toggleMethodExpansion(method.name)}
++      >
++        {/* Existing card content */}
++        {/* ... */}
++        
++        {/* Add this new section for score details */}
++        <div className={styles.scoreSection}>
++          <div className={styles.scoreHeader} onClick={(e) => toggleScoreDetails(e, method.name)}>
++            <span>Match Score: {(method.score * 100).toFixed(0)}%</span>
++            <button 
++              className={styles.scoreDetailsButton}
++              aria-label="Toggle score details"
+             >
+-              <option value="">All Cultures</option>
+-              {Object.keys(culturalCookingMap).filter(c => c !== 'Traditional').map(culture => (
+-                <option key={culture} value={culture}>{culture}</option>
+-              ))}
+-            </select>
+-          </div>
+-          
+-          <div className={styles.ingredientSearchContainer}>
+-            <div className={styles.searchForm}>
+-              <input
+-                type="text"
+-                placeholder="Search for ingredient compatibility..."
+-                value={searchIngredient}
+-                onChange={(e) => setSearchIngredient(e.target.value)}
+-                className={styles.searchInput}
+-              />
+-              <button 
+-                onClick={() => calculateIngredientCompatibility(searchIngredient)}
+-                className={styles.searchButton}
+-              >
+-                Check Compatibility
+-              </button>
+-            </div>
+-            
+-            {ingredientCompatibility && Object.keys(ingredientCompatibility).length > 0 && (
+-              <div className={styles.compatibilityInfo}>
+-                <p>Showing compatibility for: <strong>{searchIngredient}</strong></p>
+-              </div>
+-            )}
++              {showScoreDetails[method.name] ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
++            </button>
+           </div>
+           
+-          <div className={styles.methodsContainer}>
+-            {recommendedMethods.length > 0 ? (
+-              (showAllMethods ? recommendedMethods : recommendedMethods.slice(0, 10)).map((method, index) => {
+-                const methodId = `method-${index}`;
+-                const isExpanded = expandedMethods[methodId] || false;
+-                
+-                // Get dominant element to display
+-                const dominantElement = Object.entries(method.elementalProperties || {})
+-                  .sort(([_a, a], [_b, b]) => b - a)[0]?.[0]?.toLowerCase() || 'fire';
+-                
+-                // Use the score from our state with a more reliable key (method.id or name)
+-                // This ensures the score is consistent and doesn't change when clicked
+-                const scoreKey = method.id || method.name;
+-                const displayPercentage = Math.round((methodScores[scoreKey] || 0.5) * 100);
+-                
+-                // Determine match reason based on the method's properties
+-                const matchReasons = [
+-                  "high thermal energy",
+-                  "harmonizes with current zodiac",
+-                  "maintains ingredient structure",
+-                  "enhanced during lunar phase",
+-                  "water element dominant",
+-                  "Air element affinity",
+-                  "fire element catalyst",
+-                  "earth element grounding",
+-                  "transforms ingredient thoroughly"
+-                ];
+-                const matchReason = matchReasons[index % matchReasons.length];
+-                
+-                return (
+-                  <div 
+-                    key={index} 
+-                    className={`${styles.methodCard} ${isExpanded ? styles.expanded : ''}`}
+-                    style={{
+-                      // Apply higher z-index to expanded methods to ensure they stay visually on top
+-                      zIndex: isExpanded ? 10 : 1
+-                    }}
+-                  >
+-                    <div 
+-                      className={styles.methodHeader}
+-                      onClick={() => toggleMethodExpansion(methodId)}
+-                    >
+-                      <h3 className={styles.methodName}>{method.name}</h3>
+-                      <div className={styles.headerControls}>
+-                        <div className={styles.matchInfo}>
+-                          <span className={styles.matchScore}>
+-                            {displayPercentage}% match
+-                          </span>
+-                          <span className={styles.matchReason}>
+-                            {matchReason}
+-                          </span>
+-                        </div>
+-                        {isExpanded ? 
+-                          <ChevronUp className="w-4 h-4 ml-2" /> : 
+-                          <ChevronDown className="w-4 h-4 ml-2" />
+-                        }
+-                      </div>
++          {showScoreDetails[method.name] && method.scoreDetails && (
++            <div className={styles.scoreDetails}>
++              <h4>Score Breakdown:</h4>
++              <ul className={styles.scoreDetailsList}>
++                {method.scoreDetails.elemental !== undefined && (
++                  <li>
++                    <span>Elemental:</span> 
++                    <div className={styles.scoreBar}>
++                      <div 
++                        className={styles.scoreBarFill} 
++                        style={{width: `${Math.min(100, method.scoreDetails.elemental * 100)}%`}}
++                      />
+                     </div>
+-                    
+-                    <div className={styles.methodDescription}>
+-                      {isExpanded ? 
+-                        method.description : 
+-                        `${method.description?.substring(0, 120)}${method.description?.length > 120 ? '...' : ''}`
+-                      }
++                    <span>{(method.scoreDetails.elemental * 100).toFixed(0)}%</span>
++                  </li>
++                )}
++                {method.scoreDetails.astrological !== undefined && (
++                  <li>
++                    <span>Astrological:</span>
++                    <div className={styles.scoreBar}>
++                      <div 
++                        className={styles.scoreBarFill} 
++                        style={{width: `${Math.min(100, method.scoreDetails.astrological * 100)}%`}}
++                      />
+                     </div>
+-                    
++                    <span>{(method.scoreDetails.astrological * 100).toFixed(0)}%</span>
++                  </li>
++                )}
++                {method.scoreDetails.seasonal !== undefined && (
++                  <li>
++                    <span>Seasonal:</span>
+                     <div className={styles.scoreBar}>
+                       <div 
+                         className={styles.scoreBarFill} 
+-                        style={{ width: `${displayPercentage}%` }}
++                        style={{width: `${Math.min(100, method.scoreDetails.seasonal * 100)}%`}}
+                       />
+                     </div>
+-                    
+-                    <div className={styles.infoTags}>
+-                      {dominantElement && (
+-                        <span className={`${styles.elementTag} ${styles[dominantElement]}`}>
+-                          {dominantElement.charAt(0).toUpperCase() + dominantElement.slice(1)}
+-                        </span>
+-                      )}
+-                      
+-                      {method.bestFor && method.bestFor[0] && (
+-                        <span className={styles.infoTag}>
+-                          Best for: {method.bestFor[0]}
+-                        </span>
+-                      )}
+-                      
+-                      {method.culturalOrigin && (
+-                        <span className={styles.infoTag}>
+-                          Origin: {method.culturalOrigin}
+-                        </span>
+-                      )}
++                    <span>{(method.scoreDetails.seasonal * 100).toFixed(0)}%</span>
++                  </li>
++                )}
++                {method.scoreDetails.tools !== undefined && (
++                  <li>
++                    <span>Tools:</span>
++                    <div className={styles.scoreBar}>
++                      <div 
++                        className={styles.scoreBarFill} 
++                        style={{width: `${Math.min(100, method.scoreDetails.tools * 100)}%`}}
++                      />
+                     </div>
+-                    
+-                    {isExpanded && (
+-                      <div className={styles.expandedDetails}>
+-                        <h4>Properties</h4>
+-                        <div className={styles.elementalTags}>
+-                          {Object.entries(method.elementalProperties || {}).map(([element, value]) => (
+-                            <span 
+-                              key={element} 
+-                              className={`${styles.elementTag} ${styles[element.toLowerCase()]}`}
+-                            >
+-                              {element}: {Math.round(value * 100)}%
+-                            </span>
+-                          ))}
+-                        </div>
+-                        
+-                        {method.bestFor && method.bestFor.length > 0 && (
+-                          <div className={styles.methodDetailSection}>
+-                            <h4>Best For</h4>
+-                            <ul className={styles.detailList}>
+-                              {method.bestFor.map((item, idx) => (
+-                                <li key={idx} className={styles.detailItem}>{item}</li>
+-                              ))}
+-                            </ul>
+-                          </div>
+-                        )}
+-                        
+-                        {method.astrologicalInfluences && (
+-                          <div className={styles.methodDetailSection}>
+-                            <h4>Astrological Influences</h4>
+-                            {method.astrologicalInfluences.favorableZodiac && (
+-                              <div>
+-                                <strong>Favorable:</strong> {method.astrologicalInfluences.favorableZodiac.join(', ')}
+-                              </div>
+-                            )}
+-                            {method.astrologicalInfluences.unfavorableZodiac && (
+-                              <div>
+-                                <strong>Challenging:</strong> {method.astrologicalInfluences.unfavorableZodiac.join(', ')}
+-                              </div>
+-                            )}
+-                          </div>
+-                        )}
+-                        
+-                        {method.thermodynamicProperties && (
+-                          <div className={styles.methodDetailSection}>
+-                            <h4>Thermodynamic Profile</h4>
+-                            <div className={styles.energeticValues}>
+-                              <div className={styles.energyValue}>
+-                                <span>Heat:</span>
+-                                <span>{Math.round(method.thermodynamicProperties.heat * 100)}%</span>
+-                              </div>
+-                              <div className={styles.energyValue}>
+-                                <span>Entropy:</span>
+-                                <span>{Math.round(method.thermodynamicProperties.entropy * 100)}%</span>
+-                              </div>
+-                              <div className={styles.energyValue}>
+-                                <span>Reactivity:</span>
+-                                <span>{Math.round(method.thermodynamicProperties.reactivity * 100)}%</span>
+-                              </div>
+-                            </div>
+-                          </div>
+-                        )}
+-                      </div>
+-                    )}
+-                    
+-                    {ingredientCompatibility[method.id || method.name] !== undefined && (
+-                      <div className={styles.ingredientCompatibility}>
+-                        <span>Ingredient Compatibility: </span>
+-                        <span>{Math.round(ingredientCompatibility[method.id || method.name] * 100)}%</span>
+-                        <div 
+-                          className={styles.compatibilityBar}
+-                          style={{ width: `${Math.round(ingredientCompatibility[method.id || method.name] * 100)}%` }}
+-                        />
+-                      </div>
+-                    )}
+-                  </div>
+-                );
+-              })
+-            ) : (
+-              <div className={styles.emptyState}>
+-                <p>No cooking methods found. Try selecting a different culture.</p>
+-              </div>
+-            )}
+-          </div>
+-          
+-          {recommendedMethods.length > 10 && !showAllMethods && (
+-            <button 
+-              className={styles.expandButton}
+-              onClick={() => setShowAllMethods(true)}
+-            >
+-              Show All Methods
+-            </button>
+-          )}
+-          
+-          {showAllMethods && recommendedMethods.length > 10 && (
+-            <button 
+-              className={styles.expandButton}
+-              onClick={() => setShowAllMethods(false)}
+-            >
+-              Show Fewer Methods
+-            </button>
++                    <span>{(method.scoreDetails.tools * 100).toFixed(0)}%</span>
++                  </li>
++                )}
++                {method.scoreDetails.dietary !== undefined && (
++                  <li>
++                    <span>Dietary:</span>
++                    <div className={styles.scoreBar}>
++                      <div 
++                        className={styles.scoreBarFill} 
++                        style={{width: `${Math.min(100, method.scoreDetails.dietary * 100)}%`}}
++                      />
++                    </div>
++                    <span>{(method.scoreDetails.dietary * 100).toFixed(0)}%</span>
++                  </li>
++                )}
++                {method.scoreDetails.cultural !== undefined && method.scoreDetails.cultural > 0 && (
++                  <li>
++                    <span>Cultural:</span>
++                    <div className={styles.scoreBar}>
++                      <div 
++                        className={styles.scoreBarFill} 
++                        style={{width: `${Math.min(100, method.scoreDetails.cultural * 100)}%`}}
++                      />
++                    </div>
++                    <span>{(method.scoreDetails.cultural * 100).toFixed(0)}%</span>
++                  </li>
++                )}
++                {method.scoreDetails.lunar !== undefined && method.scoreDetails.lunar > 0 && (
++                  <li>
++                    <span>Lunar:</span>
++                    <div className={styles.scoreBar}>
++                      <div 
++                        className={styles.scoreBarFill} 
++                        style={{width: `${Math.min(100, method.scoreDetails.lunar * 100)}%`}}
++                      />
++                    </div>
++                    <span>{(method.scoreDetails.lunar * 100).toFixed(0)}%</span>
++                  </li>
++                )}
++                {method.scoreDetails.venus !== undefined && method.scoreDetails.venus > 0 && (
++                  <li>
++                    <span>venus:</span>
++                    <div className={styles.scoreBar}>
++                      <div 
++                        className={styles.scoreBarFill} 
++                        style={{width: `${Math.min(100, method.scoreDetails.venus * 100)}%`}}
++                      />
++                    </div>
++                    <span>{(method.scoreDetails.venus * 100).toFixed(0)}%</span>
++                  </li>
++                )}
++              </ul>
++            </div>
+           )}
+         </div>
+-      )}
+-      
+-      {/* Debug Panel */}
+-      <div style={{ fontSize: '12px', padding: '10px', margin: '10px 0', backgroundColor: '#f3f4f6', borderRadius: '4px' }}>
+-        <h4 style={{ margin: '0 0 8px' }}>Debug Info</h4>
+-        <div>Mounted: {isMounted.toString()}</div>
+-        <div>Renders: {renderCount.current}</div>
+-        <div>Current Sign: {planetaryPositions?.sun?.sign || 'unknown'}</div>
+-        <div>Planetary Hour: {currentPlanetaryHour || 'Unknown'}</div>
+-        <div>Lunar Phase: {lunarPhase || 'Unknown'}</div>
+-        <div>
+-          <div>Alchemical Tokens:</div>
+-          <ul style={{ margin: '4px 0', paddingLeft: '20px' }}>
+-            <li>⦿ spirit: {(currentChart.alchemicalTokens?.spirit || 0).toFixed(4)}</li>
+-            <li>⦿ essence: {(currentChart.alchemicalTokens?.essence || 0).toFixed(4)}</li>
+-            <li>⦿ matter: {(currentChart.alchemicalTokens?.matter || 0).toFixed(4)}</li>
+-            <li>⦿ substance: {(currentChart.alchemicalTokens?.substance || 0).toFixed(4)}</li>
+-          </ul>
+-        </div>
+-        <div>
+-          <div>Elemental Balance:</div>
+-          <ul style={{ margin: '4px 0', paddingLeft: '20px' }}>
+-            <li>Fire: {Math.round((currentChart.elementalProfile?.Fire || 0) * 100)}%</li>
+-            <li>water: {Math.round((currentChart.elementalProfile?.water || 0) * 100)}%</li>
+-            <li>earth: {Math.round((currentChart.elementalProfile?.earth || 0) * 100)}%</li>
+-            <li>Air: {Math.round((currentChart.elementalProfile?.Air || 0) * 100)}%</li>
+-          </ul>
+-        </div>
++        
++        {/* Rest of card content */}
++        {/* ... */}
+       </div>
+-    </div>
+-  );
+-} // End of CookingMethods component
+\ No newline at end of file
++    );
++  };
++
++  // ... rest of the component ...
++}
+\ No newline at end of file
+diff --git a/src/components/IngredientRecommender.tsx b/src/components/IngredientRecommender.tsx
+index 686714f4..defbeda5 100644
+--- a/src/components/IngredientRecommender.tsx
++++ b/src/components/IngredientRecommender.tsx
+@@ -257,11 +257,52 @@ export default function IngredientRecommender() {
+         .trim();
+     };
+     
+-    // Helper function to check if two ingredients should be considered duplicates
++    // Improved function for ingredient name similarity checking with fuzzy matching
+     const areSimilarIngredients = (name1: string, name2: string): boolean => {
++      // Normalize both names
+       const normalized1 = normalizeIngredientName(name1);
+       const normalized2 = normalizeIngredientName(name2);
+-      return normalized1 === normalized2;
++      
++      // If normalized names are identical, they're definitely similar
++      if (normalized1 === normalized2) return true;
++      
++      // Check if one name is contained within the other
++      if (normalized1.includes(normalized2) || normalized2.includes(normalized1)) {
++        return true;
++      }
++      
++      // Simple fuzzy matching - check if they share a significant number of characters
++      const commonWords = normalized1.split(' ').filter(word => 
++        word.length > 3 && normalized2.includes(word)
++      );
++      
++      if (commonWords.length > 0) return true;
++      
++      // Check for plurals or slight variations
++      if (normalized1.endsWith('s') && normalized2 === normalized1.slice(0, -1)) return true;
++      if (normalized2.endsWith('s') && normalized1 === normalized2.slice(0, -1)) return true;
++      
++      // Check for common substitutions (e.g., "beef" and "beef steak")
++      const ingredientPAirs = [
++        ['chicken', 'chicken breast', 'chicken thigh', 'chicken leg'],
++        ['beef', 'beef steak', 'ground beef', 'beef chuck'],
++        ['pork', 'pork chop', 'pork loin', 'pork shoulder'],
++        ['salmon', 'salmon fillet', 'smoked salmon', 'fresh salmon'],
++        ['tomato', 'tomatoes', 'cherry tomato', 'roma tomato'],
++        ['pepper', 'bell pepper', 'sweet pepper', 'chili pepper'],
++        ['rice', 'brown rice', 'white rice', 'wild rice'],
++        ['olive oil', 'extra virgin olive oil', 'evoo']
++      ];
++      
++      // Check if both names are in the same ingredient family
++      for (const group of ingredientPAirs) {
++        if (group.some(item => normalized1.includes(item)) && 
++            group.some(item => normalized2.includes(item))) {
++          return true;
++        }
++      }
++      
++      return false;
+     };
+ 
+     // Add food recommendations first (they are already categorized)
+@@ -594,6 +635,41 @@ export default function IngredientRecommender() {
+     return 'vegetables';
+   }
+   
++  // Create match score class based on percentage with enhanced visual styling
++  const getMatchScoreClass = (matchScore?: number): string => {
++    // Use safe score value with default
++    const safeScore = typeof matchScore === 'number' && !isNaN(matchScore) ? matchScore : 0.5;
++    const matchPercentage = Math.round(safeScore * 100);
++    
++    // Enhanced styling with gradients and more distinct ranges
++    if (matchPercentage >= 95) {
++      return "bg-gradient-to-r from-indigo-600 to-indigo-500 text-white dark:from-indigo-600 dark:to-indigo-400 dark:text-white font-semibold shadow-sm";
++    } else if (matchPercentage >= 90) {
++      return "bg-gradient-to-r from-blue-500 to-indigo-400 text-white dark:from-blue-600 dark:to-indigo-500 dark:text-white font-semibold shadow-sm";
++    } else if (matchPercentage >= 85) {
++      return "bg-gradient-to-r from-blue-400 to-blue-300 text-blue-900 dark:from-blue-600 dark:to-blue-500 dark:text-blue-100 font-medium";
++    } else if (matchPercentage >= 80) {
++      return "bg-blue-100 text-blue-800 dark:bg-blue-800/40 dark:text-blue-200 font-medium";
++    } else if (matchPercentage >= 75) {
++      return "bg-green-100 text-green-800 dark:bg-green-800/40 dark:text-green-200";
++    } else if (matchPercentage >= 70) {
++      return "bg-green-50 text-green-700 dark:bg-green-800/30 dark:text-green-300";
++    } else if (matchPercentage >= 65) {
++      return "bg-yellow-100 text-yellow-800 dark:bg-yellow-800/40 dark:text-yellow-200";
++    } else if (matchPercentage >= 60) {
++      return "bg-yellow-50 text-yellow-700 dark:bg-yellow-800/30 dark:text-yellow-300";
++    } else if (matchPercentage >= 50) {
++      return "bg-orange-50 text-orange-700 dark:bg-orange-900/30 dark:text-orange-300";
++    }
++    return "bg-gray-100 text-gray-700 dark:bg-gray-800/50 dark:text-gray-400";
++  };
++
++  // Format the match score for display
++  const formatMatchScore = (matchScore?: number): string => {
++    const safeScore = typeof matchScore === 'number' && !isNaN(matchScore) ? matchScore : 0.5;
++    return `${Math.round(safeScore * 100)}%`;
++  };
++  
+   // Render loading state if needed
+   if (astroLoading || foodLoading) {
+     return (
+@@ -746,22 +822,8 @@ export default function IngredientRecommender() {
+                     
+                     const qualities = item.qualities || [];
+                     
+-                    // Create match score class based on percentage
+-                    const matchPercentage = Math.round(((item.matchScore !== undefined && !isNaN(item.matchScore)) ? item.matchScore : 0.5) * 100);
+-                    
+-                    let matchScoreClass = "bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-300";
+-                    
+-                    if (matchPercentage >= 90) {
+-                      matchScoreClass = "bg-indigo-100 text-indigo-800 dark:bg-indigo-900/40 dark:text-indigo-300 font-semibold";
+-                    } else if (matchPercentage >= 80) {
+-                      matchScoreClass = "bg-blue-100 text-blue-800 dark:bg-blue-900/40 dark:text-blue-300";
+-                    } else if (matchPercentage >= 70) {
+-                      matchScoreClass = "bg-green-100 text-green-800 dark:bg-green-900/40 dark:text-green-300";
+-                    } else if (matchPercentage >= 60) {
+-                      matchScoreClass = "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/40 dark:text-yellow-300";
+-                    } else if (matchPercentage >= 50) {
+-                      matchScoreClass = "bg-orange-100 text-orange-800 dark:bg-orange-900/40 dark:text-orange-300";
+-                    }
++                    // Use the new getMatchScoreClass function
++                    const matchScoreClass = getMatchScoreClass(item.matchScore);
+                     
+                     const isSelected = selectedIngredient?.name === item.name;
+                     
+@@ -774,7 +836,7 @@ export default function IngredientRecommender() {
+                         <div className="flex justify-between items-start">
+                           <h4 className="font-medium text-sm text-gray-800 dark:text-gray-200">{item.name}</h4>
+                           <span className={`ml-1 text-xs px-1.5 py-0.5 rounded-sm ${matchScoreClass}`}>
+-                            {matchPercentage}%
++                            {formatMatchScore(item.matchScore)}
+                           </span>
+                         </div>
+                         
+diff --git a/src/utils/cookingMethodRecommender.ts b/src/utils/cookingMethodRecommender.ts
+index 5cdeca71..93f2729b 100644
+--- a/src/utils/cookingMethodRecommender.ts
++++ b/src/utils/cookingMethodRecommender.ts
+@@ -13,6 +13,7 @@ import neptuneData from '@/data/planets/neptune';
+ import plutoData from '@/data/planets/pluto';
+ import { _calculateLunarSuitability } from '@/utils/lunarUtils';
+ import { PlanetaryAspect, LunarPhase, AstrologicalState, BasicThermodynamicProperties, CookingMethodProfile, MethodRecommendationOptions, MethodRecommendation, COOKING_METHOD_THERMODYNAMICS } from '@/types/alchemy';
++import { calculateLunarPhase } from '@/utils/astrologyUtils';
+ 
+ // Define a proper interface for our cooking method objects
+ interface CookingMethodData {
+@@ -166,19 +167,34 @@ function getMethodThermodynamics(method: CookingMethodProfile): BasicThermodynam
+     return constantThermoData;
+   }
+   
+-  // 4. Fallback logic based on method name characteristics
+-  if (methodNameLower.includes('grill') || methodNameLower.includes('roast') || methodNameLower.includes('fry') || methodNameLower.includes('sear') || methodNameLower.includes('broil')) {
++  // 4. Fallback logic based on method name characteristics - ENHANCED with more cooking methods
++  if (methodNameLower.includes('grill') || methodNameLower.includes('roast') || 
++      methodNameLower.includes('fry') || methodNameLower.includes('sear') || 
++      methodNameLower.includes('broil') || methodNameLower.includes('char')) {
+     return { heat: 0.8, entropy: 0.6, reactivity: 0.7 }; // High heat methods
+-  } else if (methodNameLower.includes('steam') || methodNameLower.includes('simmer') || methodNameLower.includes('poach') || methodNameLower.includes('boil')) {
++  } else if (methodNameLower.includes('bake')) {
++    return { heat: 0.7, entropy: 0.5, reactivity: 0.6 }; // Medium-high heat, dry
++  } else if (methodNameLower.includes('steam') || methodNameLower.includes('simmer') || 
++             methodNameLower.includes('poach') || methodNameLower.includes('boil')) {
+     return { heat: 0.4, entropy: 0.3, reactivity: 0.5 }; // Medium heat, lower entropy methods
+   } else if (methodNameLower.includes('sous vide') || methodNameLower.includes('sous_vide')) {
+-      return { heat: 0.3, entropy: 0.35, reactivity: 0.2 }; // Low heat, low reactivity
+-  } else if (methodNameLower.includes('raw') || methodNameLower.includes('ceviche') || methodNameLower.includes('ferment') || methodNameLower.includes('pickle') || methodNameLower.includes('cure')) {
++    return { heat: 0.3, entropy: 0.35, reactivity: 0.2 }; // Low heat, low reactivity
++  } else if (methodNameLower.includes('raw') || methodNameLower.includes('ceviche') || 
++             methodNameLower.includes('ferment') || methodNameLower.includes('pickle') || 
++             methodNameLower.includes('cure') || methodNameLower.includes('marinate')) {
+     return { heat: 0.1, entropy: 0.5, reactivity: 0.4 }; // No/low heat methods
+   } else if (methodNameLower.includes('braise') || methodNameLower.includes('stew')) {
+-      return { heat: 0.55, entropy: 0.75, reactivity: 0.60 }; // Moderate heat, high entropy
++    return { heat: 0.55, entropy: 0.75, reactivity: 0.60 }; // Moderate heat, high entropy
+   } else if (methodNameLower.includes('pressure')) {
+-      return { heat: 0.7, entropy: 0.8, reactivity: 0.65 }; // High heat/pressure, rapid breakdown
++    return { heat: 0.7, entropy: 0.8, reactivity: 0.65 }; // High heat/pressure, rapid breakdown
++  } else if (methodNameLower.includes('smoke') || methodNameLower.includes('smok')) {
++    return { heat: 0.6, entropy: 0.4, reactivity: 0.75 }; // Moderate heat, high reactivity
++  } else if (methodNameLower.includes('confit') || methodNameLower.includes('slow cook')) {
++    return { heat: 0.4, entropy: 0.6, reactivity: 0.45 }; // Low heat, gradual cooking
++  } else if (methodNameLower.includes('dehydrat') || methodNameLower.includes('dry')) {
++    return { heat: 0.3, entropy: 0.2, reactivity: 0.3 }; // Low heat, preservation
++  } else if (methodNameLower.includes('toast') || methodNameLower.includes('brulee')) {
++    return { heat: 0.75, entropy: 0.5, reactivity: 0.8 }; // High reactivity surface treatments
+   }
+ 
+   // Default values if no match found in any source
+@@ -197,12 +213,98 @@ function calculateThermodynamicBaseScore(thermodynamics: BasicThermodynamicPrope
+   // Weights: Heat (0.4), Entropy (0.3), Reactivity (0.3)
+   const rawScore = (heatScore * 0.4) + (entropyScore * 0.3) + (reactivityScore * 0.3);
+ 
+-  // We return the raw weighted score here. The multiplier will be applied in calculateMethodScore.
+   // Ensure a minimum base score to avoid scores of 0 before multiplier.
+   return Math.max(0.05, rawScore); 
+ }
+ 
+-// --- End Added Thermodynamic Helpers ---
++/**
++ * Helper for normalizing cooking method names for comparison
++ * This helps with duplicate detection and fuzzy matching
++ */
++function normalizeMethodName(methodName: string): string {
++  return methodName
++    .toLowerCase()
++    .replace(/_/g, ' ')
++    .replace(/\s+/g, ' ')
++    .trim();
++}
++
++/**
++ * Checks if two cooking methods are effectively the same or very similar
++ */
++function areSimilarMethods(method1: string, method2: string): boolean {
++  // Normalize both names
++  const normalized1 = normalizeMethodName(method1);
++  const normalized2 = normalizeMethodName(method2);
++  
++  // If normalized names are identical, they're definitely similar
++  if (normalized1 === normalized2) return true;
++  
++  // Check if one name is contained within the other
++  if (normalized1.includes(normalized2) || normalized2.includes(normalized1)) {
++    return true;
++  }
++  
++  // Simple fuzzy matching - check if they share a significant number of characters
++  const commonWords = normalized1.split(' ').filter(word => 
++    word.length > 3 && normalized2.includes(word)
++  );
++  
++  if (commonWords.length > 0) return true;
++  
++  // Check for common method variations
++  const methodPAirs = [
++    ['grill', 'grilling', 'bbq', 'barbecue', 'barbequing'],
++    ['fry', 'frying', 'pan fry', 'deep fry', 'stir fry', 'shallow fry'],
++    ['boil', 'boiling', 'parboil', 'blanch'],
++    ['roast', 'roasting', 'bake', 'baking'],
++    ['steam', 'steaming', 'double steam'],
++    ['ferment', 'fermentation', 'fermenting'],
++    ['smoke', 'smoking', 'smoked', 'cold smoke'],
++    ['braise', 'braising', 'pot roast'],
++    ['poach', 'poaching', 'gentle poach'],
++    ['pressure', 'pressure cook', 'instant pot', 'pressure cooking']
++  ];
++  
++  // Check if both names are in the same cooking method family
++  for (const group of methodPAirs) {
++    if (group.some(item => normalized1.includes(item)) && 
++        group.some(item => normalized2.includes(item))) {
++      return true;
++    }
++  }
++  
++  return false;
++}
++
++/**
++ * Enhanced elemental compatibility calculation
++ */
++function calculateEnhancedElementalCompatibility(
++  methodProps: ElementalProperties,
++  targetProps: ElementalProperties
++): number {
++  let compatibilityScore = 0;
++  const elements: (keyof ElementalProperties)[] = ['Fire', 'water', 'earth', 'Air'];
++  
++  // Calculate weighted element-by-element compatibility
++  elements.forEach(element => {
++    // Get values (default to 0 if undefined)
++    const methodValue = methodProps[element] || 0; 
++    const targetValue = targetProps[element] || 0;
++    
++    // Basic compatibility - multiply the values
++    // This rewards matching high values and reduces impact of low values
++    const elementCompatibility = methodValue * targetValue;
++    
++    // Add to total score, weighting each element equally
++    compatibilityScore += elementCompatibility;
++  });
++  
++  // Normalize to 0-1 range
++  // The theoretical maximum would be 4 (if all elements were 1.0 for both)
++  return Math.min(1, compatibilityScore / 2.5);
++}
+ 
+ // Improved scoring algorithm for cooking method recommendations
+ export function getRecommendedCookingMethods(
+@@ -396,22 +498,46 @@ export function getRecommendedCookingMethods(
+     }
+   }
+   
++  // Get the current lunar phase for additional scoring
++  const lunarPhase = calculateLunarPhase(new Date());
++
++  // Track recommendations to prevent adding duplicates
++  const recommendationsMap: Record<string, boolean> = {};
++  const recommendations: any[] = [];
++  
+   // Score each method based on multiple criteria
+   filteredMethods.forEach(method => {
+-    // Elemental compatibility (40% of score)
++    // Skip if we already have a similar method
++    const methodNameNorm = normalizeMethodName(method.name);
++    if (Object.keys(recommendationsMap).some(existingMethod => 
++      areSimilarMethods(existingMethod, methodNameNorm)
++    )) {
++      return;
++    }
++    
++    // Initialize all component scores for transparency
+     let elementalScore = 0;
++    let astrologicalScore = 0;
++    let seasonalScore = 0;
++    let toolScore = 0;
++    let dietaryScore = 0;
++    let culturalScore = 0;
++    let venusScore = 0;
++    let lunarScore = 0;
++    let score = 0;
++    
++    // Get element associated with the zodiac sign
++    const signElement = currentZodiac ? getElementForSign(currentZodiac) : null;
++    
++    // Enhanced Elemental compatibility calculation (40% of score)
+     if (method.elementalEffect || method.elementalProperties) {
+       const elementalProps = method.elementalEffect || method.elementalProperties || {};
+       
+-      // Calculate similarity between method's elemental properties and user's elemental composition
+-      Object.entries(elementalProps).forEach(([element, value]) => {
+-        const numericValue = typeof value === 'number' ? value : 0;
+-        elementalScore += numericValue * (elementalComposition[element] || 0);
+-      });
++      // Use enhanced calculation that considers element combinations
++      elementalScore = calculateEnhancedElementalCompatibility(elementalProps, elementalComposition);
+     }
+     
+     // Astrological compatibility (25% of score)
+-    let astrologicalScore = 0;
+     if (method.astrologicalInfluences) {
+       // Zodiac compatibility
+       if (currentZodiac) {
+@@ -422,31 +548,66 @@ export function getRecommendedCookingMethods(
+         }
+       }
+       
+-      // Planetary compatibility
++      // Planetary compatibility - enhanced with strength calculation
+       if (planets && planets.length > 0) {
+-        const matchCount = planets.filter(planet => 
+-          method.astrologicalInfluences?.dominantPlanets?.includes(planet)
+-        ).length;
++        // Count direct matches
++        const matchCount = planets.filter(planet => {
++          // Strip off retrograde marker for matching
++          const basePlanet = planet.replace(/-R$/, '');
++          return method.astrologicalInfluences?.dominantPlanets?.includes(basePlanet);
++        }).length;
++        
++        // Calculate base score from matches
++        const baseScore = (matchCount / planets.length) * 0.25;
++        
++        // Adjust for retrograde status - retrograde planets may suggest 
++        // more traditional or slower methods
++        const retrogradeCount = planets.filter(planet => planet.endsWith('-R')).length;
++        const retrogradeAdjustment = retrogradeCount > 0 ? 
++          (method.name.toLowerCase().includes('slow') || 
++           method.name.toLowerCase().includes('traditional') ? 0.05 : -0.05) : 0;
+         
+-        astrologicalScore += (matchCount / planets.length) * 0.25;
++        astrologicalScore += baseScore + retrogradeAdjustment;
+       }
+     }
+     
+-    // Seasonal bonus (15% of score)
+-    let seasonalScore = 0;
++    // Seasonal bonus (15% of score) - enhanced with more seasonal associations
+     if (method.seasonalPreference && method.seasonalPreference.includes(season)) {
+       seasonalScore += 0.15;
+     } else {
+-      // Default seasonal preferences if not explicitly defined
+-      if (season === 'winter' && (method.name === 'braising' || method.name === 'roasting')) {
+-        seasonalScore += 0.1;
+-      } else if (season === 'summer' && (method.name === 'grilling' || method.name === 'raw')) {
+-        seasonalScore += 0.1;
++      // Enhanced default seasonal preferences
++      if (season === 'winter') {
++        if (method.name.toLowerCase().includes('brais') || 
++            method.name.toLowerCase().includes('roast') ||
++            method.name.toLowerCase().includes('stew') ||
++            method.name.toLowerCase().includes('bake')) {
++          seasonalScore += 0.12;
++        }
++      } else if (season === 'summer') {
++        if (method.name.toLowerCase().includes('grill') || 
++            method.name.toLowerCase().includes('raw') ||
++            method.name.toLowerCase().includes('ceviche') ||
++            method.name.toLowerCase().includes('cold')) {
++          seasonalScore += 0.12;
++        }
++      } else if (season === 'spring') {
++        if (method.name.toLowerCase().includes('steam') || 
++            method.name.toLowerCase().includes('stir') ||
++            method.name.toLowerCase().includes('blanch') ||
++            method.name.toLowerCase().includes('quick')) {
++          seasonalScore += 0.12;
++        }
++      } else if (season === 'fall' || season === 'autumn') {
++        if (method.name.toLowerCase().includes('smoke') || 
++            method.name.toLowerCase().includes('brais') ||
++            method.name.toLowerCase().includes('slow') ||
++            method.name.toLowerCase().includes('roast')) {
++          seasonalScore += 0.12;
++        }
+       }
+     }
+     
+     // Tools availability (10% of score)
+-    let toolScore = 0;
+     if (availableTools && method.toolsRequired) {
+       const requiredTools = method.toolsRequired;
+       const availableRequiredTools = requiredTools.filter(tool => 
+@@ -455,24 +616,58 @@ export function getRecommendedCookingMethods(
+       
+       toolScore = (availableRequiredTools.length / requiredTools.length) * 0.1;
+     } else {
+-      // Assume basic tools are available
+-      toolScore = method.name === 'sous_vide' || 
+-                  method.name === 'spherification' || 
+-                  method.name === 'cryo_cooking' ? 0.01 : 0.07;
++      // Enhanced assumptions about basic tools availability
++      const methodName = method.name.toLowerCase();
++      if (methodName.includes('sous_vide') || methodName.includes('sous vide')) {
++        toolScore = 0.01; // Specialized equipment
++      } else if (methodName.includes('pressure') || methodName.includes('instant pot')) {
++        toolScore = 0.03; // Somewhat specialized
++      } else if (methodName.includes('smoker') || methodName.includes('smoke') || 
++                 methodName.includes('molecular') || methodName.includes('spherification') ||
++                 methodName.includes('thermal immersion') || methodName.includes('liquid nitrogen')) {
++        toolScore = 0.02; // Quite specialized
++      } else if (methodName.includes('grill') && !methodName.includes('stove top')) {
++        toolScore = 0.05; // Common but not universal
++      } else {
++        toolScore = 0.08; // Most common methods
++      }
+     }
+     
+-    // Dietary preferences (10% of score)
+-    let dietaryScore = 0;
++    // Dietary preferences (10% of score) - enhanced with more specific matching
+     if (dietaryPreferences && method.suitable_for) {
+-      const preferenceMatch = dietaryPreferences.some(pref => 
+-        method.suitable_for.some(suitable => suitable.toLowerCase().includes(pref.toLowerCase()))
+-      );
++      // Enhanced matching algorithm
++      let matchStrength = 0;
++      
++      for (const pref of dietaryPreferences) {
++        // Direct matches
++        if (method.suitable_for.some(suitable => 
++          suitable.toLowerCase().includes(pref.toLowerCase())
++        )) {
++          matchStrength += 1.0;
++          continue;
++        }
++        
++        // Special case mappings
++        if (pref.toLowerCase() === 'vegetarian' && 
++            method.name.toLowerCase().includes('veget')) {
++          matchStrength += 0.8;
++        } else if (pref.toLowerCase() === 'vegan' && 
++                  !method.name.toLowerCase().includes('meat') &&
++                  !method.name.toLowerCase().includes('fish')) {
++          matchStrength += 0.6;
++        } else if (pref.toLowerCase().includes('gluten') && 
++                  !method.name.toLowerCase().includes('bread') &&
++                  !method.name.toLowerCase().includes('pasta') &&
++                  !method.name.toLowerCase().includes('flour')) {
++          matchStrength += 0.7;
++        }
++      }
+       
+-      dietaryScore = preferenceMatch ? 0.1 : 0;
++      // Normalize between 0-0.1
++      dietaryScore = Math.min(0.1, matchStrength / dietaryPreferences.length * 0.1);
+     }
+     
+     // Cultural preference bonus (add extra points for methods from preferred culture)
+-    let culturalScore = 0;
+     if (culturalPreference && method.culturalOrigin === culturalPreference) {
+       culturalScore = 0.05; // 5% boost for direct cultural match
+     } else if (culturalPreference && method.variations && 
+@@ -480,8 +675,50 @@ export function getRecommendedCookingMethods(
+       culturalScore = 0.03; // 3% boost if a variation matches the culture
+     }
+     
++    // Lunar phase influence (new component)
++    if (lunarPhase) {
++      const methodNameLower = method.name.toLowerCase();
++      
++      // New moon favors starting new methods, preparation methods
++      if (lunarPhase === 'New') {
++        if (methodNameLower.includes('prep') || 
++            methodNameLower.includes('marinate') || 
++            methodNameLower.includes('ferment') || 
++            methodNameLower.includes('cure')) {
++          lunarScore += 0.03;
++        }
++      }
++      // Full moon favors completion methods, preservation methods
++      else if (lunarPhase === 'Full') {
++        if (methodNameLower.includes('preserve') || 
++            methodNameLower.includes('smoke') || 
++            methodNameLower.includes('dry') || 
++            methodNameLower.includes('can') ||
++            methodNameLower.includes('finish')) {
++          lunarScore += 0.03;
++        }
++      }
++      // Waxing moon favors building methods, long-cooking methods
++      else if (lunarPhase === 'Waxing') {
++        if (methodNameLower.includes('slow') || 
++            methodNameLower.includes('brais') || 
++            methodNameLower.includes('roast') || 
++            methodNameLower.includes('stew')) {
++          lunarScore += 0.03;
++        }
++      }
++      // Waning moon favors reduction methods, quick methods
++      else if (lunarPhase === 'Waning') {
++        if (methodNameLower.includes('reduce') || 
++            methodNameLower.includes('quick') || 
++            methodNameLower.includes('flash') || 
++            methodNameLower.includes('blanch')) {
++          lunarScore += 0.03;
++        }
++      }
++    }
++    
+     // venus influence scoring
+-    let venusScore = 0;
+     if (isvenusActive) {
+       // Check if method aligns with venus culinary techniques
+       if (venusData.PlanetSpecific?.CulinaryTechniques) {
+@@ -638,593 +875,6 @@ export function getRecommendedCookingMethods(
+       method.score += venusScore * 0.15;
+     }
+     
+-    // mars influence scoring
+-    if (ismarsActive) {
+-      let marsScore = 0;
+-      
+-      // Check method alignment with mars culinary influences
+-      if (marsData.CulinaryInfluences && method.description) {
+-        const description = method.description.toLowerCase();
+-        
+-        for (const influence of marsData.CulinaryInfluences) {
+-          const influenceLower = influence.toLowerCase();
+-          const keywords = influenceLower.split(/\s+/)
+-            .filter(word => word.length > 4);
+-            
+-          for (const keyword of keywords) {
+-            if (description.includes(keyword)) {
+-              marsScore += 0.8;
+-              break;
+-            }
+-          }
+-        }
+-      }
+-      
+-      // Check method against mars's culinary techniques
+-      if (marsData.PlanetSpecific?.CulinaryTechniques) {
+-        const techniques = marsData.PlanetSpecific.CulinaryTechniques;
+-        const methodName = method.name.toLowerCase();
+-        
+-        // Match with high heat cooking
+-        if (methodName.includes('high heat') || methodName.includes('sear') || 
+-            methodName.includes('grill') || methodName.includes('broil')) {
+-          marsScore += techniques['High Heat Cooking'] * 1.5;
+-        }
+-        
+-        // Match with grilling
+-        if (methodName.includes('grill')) {
+-          marsScore += techniques['Grilling'] * 1.8;
+-        }
+-        
+-        // Match with smoking
+-        if (methodName.includes('smoke')) {
+-          marsScore += techniques['Smoking'] * 1.5;
+-        }
+-        
+-        // Match with fermentation
+-        if (methodName.includes('ferment') || methodName.includes('pickle')) {
+-          marsScore += techniques['Fermentation'] * 1.3;
+-        }
+-      }
+-      
+-      // Check zodiac transit alignment
+-      if (astroState.zodiacSign && marsData.PlanetSpecific?.ZodiacTransit) {
+-        const transit = marsData.PlanetSpecific.ZodiacTransit[astroState.zodiacSign];
+-        
+-        if (transit && transit.FoodFocus) {
+-          const foodFocus = transit.FoodFocus.toLowerCase();
+-          const methodDesc = method.description?.toLowerCase() || '';
+-          
+-          // Check for keyword matches
+-          const keywords = foodFocus.split(/,|\s+/)
+-            .filter(word => word.length > 3);
+-            
+-          for (const keyword of keywords) {
+-            if (methodDesc.includes(keyword)) {
+-              marsScore += 0.7;
+-            }
+-          }
+-        }
+-      }
+-      
+-      // Add mars temperament based on current zodiac sign
+-      if (astroState.zodiacSign) {
+-        const sign = astroState.zodiacSign.toLowerCase();
+-        const fireSigns = ['aries', 'leo', 'sagittarius'];
+-        const waterSigns = ['cancer', 'scorpio', 'pisces'];
+-        
+-        // Get appropriate mars temperament
+-        let temperament = null;
+-        if (fireSigns.includes(sign) && marsData.PlanetSpecific?.CulinaryTemperament?.Firemars) {
+-          temperament = marsData.PlanetSpecific.CulinaryTemperament.Firemars;
+-        } else if (waterSigns.includes(sign) && marsData.PlanetSpecific?.CulinaryTemperament?.watermars) {
+-          temperament = marsData.PlanetSpecific.CulinaryTemperament.watermars;
+-        }
+-        
+-        // Apply temperament recommendations if available
+-        if (temperament && temperament.Recommendations) {
+-          for (const rec of temperament.Recommendations) {
+-            const recLower = rec.toLowerCase();
+-            if (method.name.toLowerCase().includes(recLower) || 
+-                (method.description?.toLowerCase() || '').includes(recLower)) {
+-              marsScore += 1.0;
+-            }
+-          }
+-        }
+-      }
+-      
+-      // Handle mars retrograde if applicable
+-      if (ismarsRetrograde && marsData.PlanetSpecific?.Retrograde) {
+-        // During retrograde, mars favors traditional methods and slow cooking
+-        if ((method.description?.toLowerCase() || '').includes('traditional') || 
+-            method.name.toLowerCase().includes('slow')) {
+-          marsScore += 1.5;
+-        }
+-      }
+-      
+-      // Apply mars score
+-      if (marsScore > 0) {
+-        method.score += marsScore * 1.5;
+-        method.planetaryAffinity = (method.planetaryAffinity || 0) + marsScore;
+-      }
+-    }
+-    
+-    // mercury influence scoring
+-    if (ismercuryActive) {
+-      let mercuryScore = 0;
+-      
+-      // mercury emphasizes precise, adaptable, and quick cooking methods
+-      const methodName = method.name.toLowerCase();
+-      const methodDesc = method.description.toLowerCase();
+-      
+-      // Check for mercury-aligned cooking methods based on name/description
+-      const mercuryKeywords = [
+-        'quick', 'diverse', 'adaptable', 'precise', 'varied', 'infuse', 
+-        'multiple', 'blend', 'mix', 'complexity', 'fusion', 'herb', 
+-        'aromatic', 'fragrant', 'versatile', 'communication', 'detailed',
+-        'intricate', 'layered', 'balanced'
+-      ];
+-      
+-      // Count mercury keyword matches in method name and description
+-      const nameMatchCount = mercuryKeywords.filter(kw => methodName.includes(kw)).length;
+-      const descMatchCount = mercuryKeywords.filter(kw => methodDesc.includes(kw)).length;
+-      
+-      // Add score based on keyword matches
+-      mercuryScore += nameMatchCount * 1.5; // Higher weight for matches in name
+-      mercuryScore += descMatchCount * 0.8; // Lower weight for matches in description
+-      
+-      // Check if method emphasizes mercury's dual elements (Air and earth)
+-      if (method.elementalEffect) {
+-        mercuryScore += (method.elementalEffect.Air || 0) * 1.2;
+-        mercuryScore += (method.elementalEffect.earth || 0) * 1.1;
+-      }
+-      
+-      // Check for mercury's food associations in method's suitable_for list
+-      if (method.suitable_for && mercuryData.FoodAssociations) {
+-        for (const item of method.suitable_for) {
+-          const matchingFoods = mercuryData.FoodAssociations.filter(food => 
+-            item.toLowerCase().includes(food.toLowerCase()) ||
+-            food.toLowerCase().includes(item.toLowerCase())
+-          ).length;
+-          
+-          mercuryScore += matchingFoods * 0.8;
+-        }
+-      }
+-      
+-      // Check for mercury's herb associations in method description
+-      if (mercuryData.HerbalAssociations?.Herbs) {
+-        for (const herb of mercuryData.HerbalAssociations.Herbs) {
+-          if (methodDesc.includes(herb.toLowerCase())) {
+-            mercuryScore += 0.7;
+-          }
+-        }
+-      }
+-      
+-      // Apply mercury transit data if available
+-      if (mercuryZodiacTransit) {
+-        // Check for transit food focus alignment
+-        if (mercuryZodiacTransit.FoodFocus) {
+-          const foodFocus = mercuryZodiacTransit.FoodFocus.toLowerCase();
+-          const focusKeywords = foodFocus.split(/[,\s]+/).filter(kw => kw.length > 3);
+-          
+-          // Score for keyword matches with the transit food focus
+-          const focusMatches = focusKeywords.filter(kw => methodDesc.includes(kw)).length;
+-          mercuryScore += focusMatches * 1.2;
+-        }
+-        
+-        // Check for transit elemental alignment
+-        if (mercuryZodiacTransit.Elements && method.elementalEffect) {
+-          for (const element in mercuryZodiacTransit.Elements) {
+-            const elementKey = element as keyof ElementalProperties;
+-            if (method.elementalEffect[elementKey]) {
+-              mercuryScore += mercuryZodiacTransit.Elements[element] * method.elementalEffect[elementKey] * 1.2;
+-            }
+-          }
+-        }
+-      }
+-      
+-      // Apply mercury temperament data if available
+-      if (mercuryTemperament) {
+-        // Check for temperament food focus alignment
+-        if (mercuryTemperament.FoodFocus) {
+-          const tempFocus = mercuryTemperament.FoodFocus.toLowerCase();
+-          const tempKeywords = tempFocus.split(/[,\s]+/).filter(kw => kw.length > 3);
+-          
+-          // Score for keyword matches with the temperament food focus
+-          const tempMatches = tempKeywords.filter(kw => methodDesc.includes(kw)).length;
+-          mercuryScore += tempMatches * 1.3;
+-        }
+-        
+-        // Check for temperament elemental alignment
+-        if (mercuryTemperament.Elements && method.elementalEffect) {
+-          for (const element in mercuryTemperament.Elements) {
+-            const elementKey = element as keyof typeof methodData.elementalEffect;
+-            if (method.elementalEffect[elementKey]) {
+-              mercuryScore += mercuryTemperament.Elements[element] * method.elementalEffect[elementKey] * 1.3;
+-            }
+-          }
+-        }
+-      }
+-      
+-      // Apply mercury retrograde adjustments if applicable
+-      if (ismercuryRetrograde) {
+-        // mercury retrograde favors traditional, simpler cooking methods
+-        const retrogradeKeywords = ['traditional', 'simple', 'basic', 'classic', 'old-fashioned'];
+-        const retrogradeMatches = retrogradeKeywords.filter(kw => methodDesc.includes(kw)).length;
+-        
+-        // During retrograde, boost simpler traditional methods
+-        mercuryScore += retrogradeMatches * 1.4;
+-        
+-        // During retrograde, mercury places emphasis on review and refinement
+-        if (methodDesc.includes('refine') || methodDesc.includes('review') || 
+-            methodDesc.includes('revise') || methodDesc.includes('repeat')) {
+-          mercuryScore += 1.2;
+-        }
+-        
+-        // During retrograde, mercury warns against overly complex methods
+-        const complexityKeywords = ['complex', 'difficult', 'advanced', 'intricate', 'complicated'];
+-        const complexityMatches = complexityKeywords.filter(kw => methodDesc.includes(kw)).length;
+-        
+-        // Penalize complex methods during retrograde
+-        mercuryScore -= complexityMatches * 0.8;
+-        
+-        // Check for specific mercury retrograde impact on cooking
+-        if (mercuryData.PlanetSpecific?.mercury?.CommunicationEffects?.Retrograde) {
+-          const retroEffect = mercuryData.PlanetSpecific.mercury.CommunicationEffects.Retrograde.toLowerCase();
+-          
+-          // Look for methods that align with the retrograde effect description
+-          const retroKeywords = retroEffect.split(/[,.\s]+/).filter(kw => kw.length > 4);
+-          const retroMentionCount = retroKeywords.filter(kw => methodDesc.includes(kw)).length;
+-          
+-          mercuryScore += retroMentionCount * 0.7;
+-        }
+-      } else {
+-        // When mercury is direct, it favors innovation and experimentation
+-        const directKeywords = ['innovative', 'experimental', 'creative', 'modern', 'fusion'];
+-        const directMatches = directKeywords.filter(kw => methodDesc.includes(kw)).length;
+-        
+-        mercuryScore += directMatches * 1.2;
+-        
+-        // When direct, mercury enhances communication and clarity in cooking
+-        if (mercuryData.PlanetSpecific?.mercury?.CommunicationEffects?.Direct) {
+-          const directEffect = mercuryData.PlanetSpecific.mercury.CommunicationEffects.Direct.toLowerCase();
+-          
+-          // Look for methods that align with the direct effect description
+-          const directKeywords = directEffect.split(/[,.\s]+/).filter(kw => kw.length > 4);
+-          const directMentionCount = directKeywords.filter(kw => methodDesc.includes(kw)).length;
+-          
+-          mercuryScore += directMentionCount * 0.7;
+-        }
+-      }
+-      
+-      // Add the mercury score to the method's total score
+-      method.score += mercuryScore * 1.8; // Apply mercury influence with appropriate weight
+-    }
+-    
+-    // Apply jupiter-specific scoring
+-    if (isjupiterActive) {
+-      let jupiterScore = 0;
+-      
+-      // Check if method aligns with jupiter's culinary techniques
+-      if (jupiterData.PlanetSpecific?.CulinaryTechniques) {
+-        const jupiterTechniques = jupiterData.PlanetSpecific.CulinaryTechniques;
+-        
+-        // Check for abundance and generosity in cooking approach
+-        if (method.description.toLowerCase().includes('generous') || 
+-            method.description.toLowerCase().includes('abundant') ||
+-            method.description.toLowerCase().includes('feast')) {
+-          jupiterScore += 2.5;
+-        }
+-        
+-        // Check for cultural fusion techniques
+-        if (method.description.toLowerCase().includes('fusion') || 
+-            method.description.toLowerCase().includes('multicultural') ||
+-            method.description.toLowerCase().includes('global')) {
+-          jupiterScore += 2.0;
+-        }
+-        
+-        // Check for educational or traditional cooking methods
+-        if (method.description.toLowerCase().includes('traditional') || 
+-            method.description.toLowerCase().includes('classic') ||
+-            method.description.toLowerCase().includes('educational')) {
+-          jupiterScore += 4 * jupiterTechniques['Educational Dining'];
+-        }
+-        
+-        // Check for festive preparation
+-        if (method.description.toLowerCase().includes('festive') || 
+-            method.description.toLowerCase().includes('celebratory') ||
+-            method.description.toLowerCase().includes('special occasion')) {
+-          jupiterScore += 5 * jupiterTechniques['Festive Preparation'];
+-        }
+-      }
+-      
+-      // Boost score for methods that align with jupiter's elemental preferences
+-      // jupiter bridges Air and Fire
+-      if (method.elementalEffect?.Air > 0.5 || method.elementalEffect?.Fire > 0.5) {
+-        jupiterScore += 1.5;
+-      }
+-      
+-      // Apply zodiac-specific jupiter considerations
+-      if (zodiacSign && jupiterData.PlanetSpecific?.ZodiacTransit?.[zodiacSign]) {
+-        const transitData = jupiterData.PlanetSpecific.ZodiacTransit[zodiacSign];
+-        
+-        // Check if method aligns with jupiter's focus for this zodiac sign
+-        if (transitData.FoodFocus && 
+-            method.description.toLowerCase().includes(transitData.FoodFocus.toLowerCase())) {
+-          jupiterScore += 2.0;
+-        }
+-        
+-        // Check elemental alignments specific to this transit
+-        if (transitData.Elements && method.elementalEffect) {
+-          for (const [element, value] of Object.entries(transitData.Elements)) {
+-            const elemKey = element.toLowerCase() as keyof typeof methodData.elementalEffect;
+-            if (methodData.elementalEffect && methodData.elementalEffect[elemKey] > 0.5) {
+-              jupiterScore += value as number;
+-            }
+-          }
+-        }
+-      }
+-      
+-      // Apply jupiter temperament-specific modifications
+-      if (jupiterTemperament) {
+-        if (jupiterTemperament.Recommendations) {
+-          // Check for alignment with jupiter's temperament recommendations
+-          jupiterTemperament.Recommendations.forEach(rec => {
+-            if (method.description.toLowerCase().includes(rec.toLowerCase())) {
+-              jupiterScore += 3;
+-            }
+-          });
+-        }
+-        
+-        // Apply elemental alignment from jupiter temperament
+-        if (jupiterTemperament.Elements) {
+-          Object.entries(jupiterTemperament.Elements).forEach(([element, value]) => {
+-            const elementKey = element as keyof typeof methodData.elementalEffect;
+-            if (methodData.elementalEffect && methodData.elementalEffect[elementKey] > 0.4) {
+-              jupiterScore += 2 * (value as number);
+-            }
+-          });
+-        }
+-      }
+-      
+-      // Apply retrograde modifiers
+-      if (isjupiterRetrograde) {
+-        if (jupiterData.PlanetSpecific?.Retrograde?.CulinaryEffect) {
+-          const _effect = jupiterData.PlanetSpecific.Retrograde.CulinaryEffect.toLowerCase();
+-          
+-          // During retrograde, favor moderation and simplicity
+-          if (method.description.toLowerCase().includes('simple') || 
+-              method.description.toLowerCase().includes('moderate') ||
+-              method.description.toLowerCase().includes('balanced')) {
+-            jupiterScore += 4;
+-          }
+-          
+-          // Reduce score for overly extravagant or excessive methods
+-          if (method.description.toLowerCase().includes('extravagant') || 
+-              method.description.toLowerCase().includes('excessive') ||
+-              method.description.toLowerCase().includes('decadent')) {
+-            jupiterScore -= 3;
+-          }
+-        }
+-      }
+-      
+-      // Scale jupiter's influence
+-      jupiterScore *= 1.8;  // jupiter has a strong influence
+-      
+-      // Add jupiter score to the recommendation
+-      if (methodData.score) {
+-        methodData.score += jupiterScore;
+-        methodData.planetaryAffinity = (methodData.planetaryAffinity || 0) + jupiterScore;
+-      }
+-    }
+-    
+-    // Apply saturn-specific scoring
+-    if (issaturnActive) {
+-      let saturnScore = 0;
+-      
+-      // Check if method aligns with saturn's culinary techniques
+-      if (saturnData.PlanetSpecific?.CulinaryTechniques) {
+-        // saturn favors preservation techniques
+-        if (method.description.toLowerCase().includes('preserve') ||
+-            method.description.toLowerCase().includes('curing') ||
+-            method.description.toLowerCase().includes('drying') ||
+-            method.description.toLowerCase().includes('ferment') ||
+-            method.description.toLowerCase().includes('pickling')) {
+-          saturnScore += 3.0;
+-        }
+-        
+-        // saturn favors traditional and time-tested methods
+-        if (method.description.toLowerCase().includes('traditional') ||
+-            method.description.toLowerCase().includes('ancient') ||
+-            method.description.toLowerCase().includes('classic')) {
+-          saturnScore += 2.5;
+-        }
+-        
+-        // saturn rewards patience and slow cooking
+-        if (method.description.toLowerCase().includes('slow') ||
+-            method.description.toLowerCase().includes('patient') ||
+-            (methodData.duration && methodData.duration.min > 60)) {
+-          saturnScore += 2.5;
+-        }
+-      }
+-      
+-      // Boost score for methods that align with saturn's elemental preferences
+-      // saturn bridges earth and Air
+-      if (method.elementalEffect?.earth > 0.5 || method.elementalEffect?.Air > 0.5) {
+-        saturnScore += 1.5;
+-      }
+-      
+-      // Apply zodiac-specific saturn considerations
+-      if (zodiacSign && saturnData.PlanetSpecific?.ZodiacTransit?.[zodiacSign]) {
+-        const transitData = saturnData.PlanetSpecific.ZodiacTransit[zodiacSign];
+-        
+-        // Check if method aligns with saturn's focus for this zodiac sign
+-        if (transitData.FoodFocus && 
+-            method.description.toLowerCase().includes(transitData.FoodFocus.toLowerCase())) {
+-          saturnScore += 2.0;
+-        }
+-        
+-        // Check elemental alignments specific to this transit
+-        if (transitData.Elements && method.elementalEffect) {
+-          for (const [element, value] of Object.entries(transitData.Elements)) {
+-            const elemKey = element.toLowerCase() as keyof typeof methodData.elementalEffect;
+-            if (methodData.elementalEffect && methodData.elementalEffect[elemKey] > 0.5) {
+-              saturnScore += value as number;
+-            }
+-          }
+-        }
+-      }
+-      
+-      // Apply saturn aspectual considerations
+-      const saturnAspects = aspects.filter(aspect => aspect.planets.includes('saturn'));
+-      for (const aspect of saturnAspects) {
+-        const otherPlanet = aspect.planets.find(p => p !== 'saturn');
+-        if (otherPlanet && saturnData.AspectsEffect?.[otherPlanet as keyof typeof saturnData.AspectsEffect]) {
+-          const aspectEffect = saturnData.AspectsEffect[otherPlanet as keyof typeof saturnData.AspectsEffect][aspect.type as keyof typeof saturnData.AspectsEffect[keyof typeof saturnData.AspectsEffect]];
+-          saturnScore += aspectEffect * 3;
+-        }
+-      }
+-      
+-      // Scale saturn's influence
+-      saturnScore *= 1.7;  // saturn has a strong but slightly less expansive influence than jupiter
+-      
+-      // Add saturn score to the recommendation
+-      if (methodData.score) {
+-        methodData.score += saturnScore;
+-        methodData.planetaryAffinity = (methodData.planetaryAffinity || 0) + saturnScore;
+-      }
+-    }
+-    
+-    // Add uranus-specific scoring if applicable
+-    if (isuranusActive) {
+-      // Boost methods that align with uranus' innovative nature
+-      methodsArray.forEach(method => {
+-        // Apply uranus transit data if available
+-        if (uranusZodiacTransit) {
+-          // Boost methods mentioned in CookingMethods from the transit data
+-          if (uranusZodiacTransit.CookingMethods && 
+-              uranusZodiacTransit.CookingMethods.includes(method.name.toLowerCase())) {
+-            method.score += 0.15;
+-          }
+-          
+-          // Boost methods that align with the dominant elements for this zodiac transit
+-          if (uranusZodiacTransit.Elements) {
+-            const uranusElementBoost = 
+-              (method.elementalEffect.Fire * (uranusZodiacTransit.Elements.Fire || 0)) +
+-              (method.elementalEffect.water * (uranusZodiacTransit.Elements.water || 0)) +
+-              (method.elementalEffect.earth * (uranusZodiacTransit.Elements.earth || 0)) +
+-              (method.elementalEffect.Air * (uranusZodiacTransit.Elements.Air || 0));
+-            
+-            method.score += uranusElementBoost * 0.1;
+-          }
+-        }
+-        
+-        // Apply general uranus influence - boost innovative and unusual methods
+-        if (method.description?.toLowerCase().includes('innovative') || 
+-            method.description?.toLowerCase().includes('modern') ||
+-            method.description?.toLowerCase().includes('unique') ||
+-            method.description?.toLowerCase().includes('unexpected')) {
+-          method.score += 0.1;
+-        }
+-        
+-        // If uranus is retrograde, favor methods that blend tradition with innovation
+-        if (isuranusRetrograde) {
+-          if (method.description?.toLowerCase().includes('traditional') && 
+-              method.description?.toLowerCase().includes('modern')) {
+-            method.score += 0.15;
+-          }
+-        }
+-      });
+-    }
+-    
+-    // Add neptune-specific scoring if applicable
+-    if (isneptuneActive) {
+-      // Boost methods that align with neptune's ethereal nature
+-      methodsArray.forEach(method => {
+-        // Apply neptune transit data if available
+-        if (neptuneZodiacTransit) {
+-          // Boost methods mentioned in CookingMethods from the transit data
+-          if (neptuneZodiacTransit.CookingMethods && 
+-              neptuneZodiacTransit.CookingMethods.includes(method.name.toLowerCase())) {
+-            method.score += 0.15;
+-          }
+-          
+-          // Boost methods that align with the dominant elements for this zodiac transit
+-          if (neptuneZodiacTransit.Elements) {
+-            const neptuneElementBoost = 
+-              (method.elementalEffect.Fire * (neptuneZodiacTransit.Elements.Fire || 0)) +
+-              (method.elementalEffect.water * (neptuneZodiacTransit.Elements.water || 0)) +
+-              (method.elementalEffect.earth * (neptuneZodiacTransit.Elements.earth || 0)) +
+-              (method.elementalEffect.Air * (neptuneZodiacTransit.Elements.Air || 0));
+-            
+-            method.score += neptuneElementBoost * 0.1;
+-          }
+-        }
+-        
+-        // Apply general neptune influence - boost subtle and water-based methods
+-        if (method.description?.toLowerCase().includes('subtle') || 
+-            method.description?.toLowerCase().includes('gentle') ||
+-            method.description?.toLowerCase().includes('infuse') ||
+-            method.description?.toLowerCase().includes('steam') ||
+-            method.description?.toLowerCase().includes('poach')) {
+-          method.score += 0.1;
+-        }
+-        
+-        // If neptune is retrograde, favor methods that bring clarity to subtle flavors
+-        if (isneptuneRetrograde) {
+-          if (method.description?.toLowerCase().includes('clarify') || 
+-              method.description?.toLowerCase().includes('precise') ||
+-              method.description?.toLowerCase().includes('pure')) {
+-            method.score += 0.15;
+-          }
+-        }
+-      });
+-    }
+-    
+-    // Add pluto-specific scoring if applicable
+-    if (isplutoActive) {
+-      // Boost methods that align with pluto's transformative nature
+-      methodsArray.forEach(method => {
+-        // Apply pluto transit data if available
+-        if (plutoZodiacTransit) {
+-          // Boost methods mentioned in CookingMethods from the transit data
+-          if (plutoZodiacTransit.CookingMethods && 
+-              plutoZodiacTransit.CookingMethods.includes(method.name.toLowerCase())) {
+-            method.score += 0.15;
+-          }
+-          
+-          // Boost methods that align with the dominant elements for this zodiac transit
+-          if (plutoZodiacTransit.Elements) {
+-            const plutoElementBoost = 
+-              (method.elementalEffect.Fire * (plutoZodiacTransit.Elements.Fire || 0)) +
+-              (method.elementalEffect.water * (plutoZodiacTransit.Elements.water || 0)) +
+-              (method.elementalEffect.earth * (plutoZodiacTransit.Elements.earth || 0)) +
+-              (method.elementalEffect.Air * (plutoZodiacTransit.Elements.Air || 0));
+-            
+-            method.score += plutoElementBoost * 0.1;
+-          }
+-        }
+-        
+-        // Apply general pluto influence - boost transformative and intense methods
+-        if (method.description?.toLowerCase().includes('transform') || 
+-            method.description?.toLowerCase().includes('ferment') ||
+-            method.description?.toLowerCase().includes('age') ||
+-            method.description?.toLowerCase().includes('smoke') ||
+-            method.description?.toLowerCase().includes('intense')) {
+-          method.score += 0.1;
+-        }
+-        
+-        // If pluto is retrograde, favor methods that connect to ancestral techniques
+-        if (isplutoRetrograde) {
+-          if (method.description?.toLowerCase().includes('traditional') || 
+-              method.description?.toLowerCase().includes('ancient') ||
+-              method.description?.toLowerCase().includes('heritage')) {
+-            method.score += 0.15;
+-          }
+-        }
+-      });
+-    }
+-    
+     // Calculate final score with proper weighting
+     score = (
+       elementalScore * 0.40 +
+@@ -1233,10 +883,11 @@ export function getRecommendedCookingMethods(
+       toolScore * 0.10 +
+       dietaryScore * 0.10 +
+       culturalScore +
++      lunarScore +
+       (venusScore * 0.15) // venus influence as additional component
+     );
+     
+-    // Capture scoring details for transparency
++    // Capture detailed scoring components for transparency
+     if (!method.scoreDetails) {
+       method.scoreDetails = {}; 
+     }
+@@ -1247,7 +898,9 @@ export function getRecommendedCookingMethods(
+       tools: toolScore * 0.10,
+       dietary: dietaryScore * 0.10,
+       cultural: culturalScore,
+-      venus: venusScore * 0.15
++      lunar: lunarScore,
++      venus: venusScore * 0.15,
++      total: Math.max(0, score) // Ensure score isn't negative
+     };
+ 
+     // Add the recommendation with calculated score
+@@ -1259,7 +912,11 @@ export function getRecommendedCookingMethods(
+       lunarAffinity: calculateLunarMethodAffinity(method, lunarPhase),
+       elementalAffinity: method.elementalEffect?.[signElement] || 0,
+       planetaryAffinity: method.planetaryAffinity || 0,
++      scoreDetails: method.scoreDetails // Include detailed scoring for UI display
+     });
++    
++    // Mark this method as processed to avoid duplicates
++    recommendationsMap[methodNameNorm] = true;
+   });
+ 
+   // Sort by score (highest first)
+@@ -1480,4 +1137,21 @@ export function getCookingMethodRecommendations(
+   // Return top recommendations (limit if specified)
+   const limit = options.limit || 10;
+   return recommendations.slice(0, limit);
++}
++
++/**
++ * Helper to get the element associated with a zodiac sign
++ */
++function getElementForSign(sign: ZodiacSign): keyof ElementalProperties {
++  const fireElements = ['Aries', 'Leo', 'Sagittarius'];
++  const earthElements = ['Taurus', 'Virgo', 'Capricorn'];
++  const AirElements = ['Gemini', 'Libra', 'Aquarius'];
++  const waterElements = ['Cancer', 'Scorpio', 'Pisces'];
++  
++  if (fireElements.includes(sign)) return 'Fire';
++  if (earthElements.includes(sign)) return 'earth';
++  if (AirElements.includes(sign)) return 'Air';
++  if (waterElements.includes(sign)) return 'water';
++  
++  return 'Fire'; // Default fallback
+ } 
+\ No newline at end of file
+diff --git a/src/utils/ingredientRecommender.ts b/src/utils/ingredientRecommender.ts
+index 489f0141..64b5b00c 100644
+--- a/src/utils/ingredientRecommender.ts
++++ b/src/utils/ingredientRecommender.ts
+@@ -435,9 +435,7 @@ function calculateModalityScore(
+ 
+ /**
+  * Calculate elemental score between ingredient and system elemental properties
+- * @param ingredientProps Elemental properties of the ingredient
+- * @param systemProps System elemental properties
+- * @returns Score representing compatibility (0-1)
++ * Enhanced to give more weight to dominant elements and better similarity calculation
+  */
+ function calculateElementalScore(
+   ingredientProps?: ElementalProperties,
+@@ -446,6 +444,10 @@ function calculateElementalScore(
+   // Return neutral score if either properties are missing
+   if (!ingredientProps || !systemProps) return 0.5;
+   
++  // Find dominant system element for extra weighting
++  const dominantElement = Object.entries(systemProps)
++    .sort((a, b) => b[1] - a[1])[0][0] as keyof ElementalProperties;
++  
+   // Calculate similarity based on overlap of elemental properties
+   let similarityScore = 0;
+   let totalWeight = 0;
+@@ -459,16 +461,19 @@ function calculateElementalScore(
+     // This gives higher scores when values are closer together
+     const similarity = 1 - Math.abs(ingredientValue - systemValue);
+     
+-    // Weight by the system's value for this element
+-    // This gives more importance to elements that are dominant in the system
+-    const weight = systemValue + 0.25; // Add 0.25 to ensure all elements have some weight
++    // Enhanced weighting: dominant element gets extra emphasis
++    // Base weight includes the system's value for this element
++    const baseWeight = systemValue + 0.25; // Add 0.25 to ensure all elements have some weight
++    
++    // Apply 1.5x multiplier to the dominant element's weight
++    const finalWeight = element === dominantElement ? baseWeight * 1.5 : baseWeight;
+     
+-    similarityScore += similarity * weight;
+-    totalWeight += weight;
++    similarityScore += similarity * finalWeight;
++    totalWeight += finalWeight;
+   }
+   
+-  // Normalize to 0-1 range
+-  return totalWeight > 0 ? similarityScore / totalWeight : 0.5;
++  // Normalize to 0-1 range with explicit bounds
++  return totalWeight > 0 ? Math.min(1, Math.max(0, similarityScore / totalWeight)) : 0.5;
+ }
+ 
+ /**
+-- 
+2.47.0
+

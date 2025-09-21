@@ -1,0 +1,347 @@
+2fed20a35bc4ed2aeae42ff828372018
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.braising = void 0;
+/**
+ * Braising cooking method
+ *
+ * Slow cooking method that combines dry and moist heat to tenderize and develop deep flavors.
+ * Associated with the alchemical pillar of Dissolution - the breaking down of complex structures
+ * into simpler forms through the action of liquid and gentle heat.
+ */
+exports.braising = {
+    name: 'braising',
+    description: 'Slow cooking method where food is first seared at high temperature, then finished in a covered pot with liquid at lower temperature. This dual-stage process transforms tough, collagen-rich ingredients into tender, flavorful dishes through the gradual breakdown of connective tissues and the concentration of flavors. The enclosed environment creates a cycle of evaporation and condensation that continuously bastes the food, while the liquid medium facilitates the exchange of flavors between ingredients.',
+    elementalEffect: {
+        Water: 0.4,
+        Fire: 0.3,
+        Earth: 0.2,
+        Air: 0.1 // Minimal element - small amount of trapped steam
+    },
+    duration: {
+        min: 60,
+        max: 480 // Extended maximum time for large, tough cuts
+    },
+    suitable_for: [
+        'tough meats',
+        'root vegetables',
+        'legumes',
+        'hearty greens',
+        'poultry thighs',
+        'game',
+        'short ribs',
+        'beef chuck',
+        'lamb shanks',
+        'pork shoulder',
+        'oxtail',
+        'chicken thighs',
+        'fennel bulbs',
+        'leeks',
+        'celery root',
+        'dried beans',
+        'beef cheeks',
+        'venison shoulder',
+        'octopus',
+        'whole duck',
+        'artichokes'
+    ],
+    benefits: [
+        'tenderizes tough foods',
+        'develops complex flavors',
+        'creates rich sauces',
+        'minimal monitoring once started',
+        'infuses aromatics',
+        'converts collagen to gelatin',
+        'extracts bone marrow nutrients',
+        'concentrates umami compounds',
+        'enhances food digestibility',
+        'creates deeply layered flavors',
+        'maximizes inexpensive cuts of meat',
+        'preserves nutritional value',
+        'requires minimal active cooking time',
+        'balances fat content through emulsification',
+        'intensifies aromatics through prolonged contact'
+    ],
+    astrologicalInfluences: {
+        favorableZodiac: ['taurus', 'cancer', 'scorpio', 'capricorn'],
+        unfavorableZodiac: ['gemini', 'aquarius', 'libra'],
+        dominantPlanets: ['Saturn', 'Moon', 'Pluto', 'Jupiter'],
+        lunarPhaseEffect: {
+            'full_moon': 0.9,
+            'new_moon': 1.2,
+            'waning_moon': 1.3,
+            'waxing_gibbous': 1.0,
+            'first_quarter': 1.1,
+            'last_quarter': 1.2,
+            'waning_crescent': 1.15 // Excellent for slow transformation
+        }
+    },
+    toolsRequired: [
+        'Dutch oven or heavy-bottomed pot with lid',
+        'Tongs',
+        'Wooden spoon',
+        'Aromatics (herbs, spices, mirepoix)',
+        'Heat source (oven or stovetop)',
+        'Kitchen twine (for tying bundles)',
+        'Cheesecloth (for bouquet garni)',
+        'Meat thermometer',
+        'Fine mesh strainer',
+        'Fat separator (for finishing sauce)',
+        'Immersion blender (optional for sauce refinement)',
+        'Parchment paper lid (cartouche)',
+        'Heavy, well-fitting lid'
+    ],
+    commonMistakes: [
+        'too much liquid (should cover only 1/2 to 2/3 of ingredients)',
+        'cooking too fast (higher heat toughens protein)',
+        'lid not tight-fitting (allows excessive evaporation)',
+        'inadequate initial browning (misses Maillard flavors)',
+        'underseasoning (slow cooking mutes flavors)',
+        'not letting meat rest before serving (texture compromise)',
+        'cutting pieces inconsistently (uneven cooking)',
+        'overcrowding during searing phase (steaming instead of browning)',
+        'not skimming fat and impurities (cloudy sauce)',
+        'using lean cuts (insufficient collagen)',
+        'insufficient aromatics (flat flavor profile)',
+        'adding delicate ingredients too early (disintegration)',
+        'frequent lid opening (temperature fluctuation)'
+    ],
+    pairingSuggestions: [
+        'Fresh herb garnishes (parsley, chervil, tarragon)',
+        'Acid components for balance (vinegar, citrus, pickled elements)',
+        'Creamy polenta or mashed potatoes (sauce absorption)',
+        'Crusty bread for sauce (textural contrast)',
+        'Bright raw vegetable counterpoint (freshness)',
+        'Bitter greens (balances richness)',
+        'Gremolata or persillade (aromatic finish)',
+        'Full-bodied red wines with mature tannins',
+        'Root vegetable purées (complementary earthiness)',
+        'Preserved lemon or capers (brightening effect)',
+        'Mushroom accompaniments (umami enhancement)',
+        'Aged cheese rinds (flavor deepening agent)'
+    ],
+    nutrientRetention: {
+        collagen: 0.95,
+        minerals: 0.85,
+        vitamins: 0.60,
+        proteins: 0.90,
+        fat_soluble_nutrients: 0.85,
+        water_soluble_vitamins: 0.75,
+        antioxidants: 0.80,
+        amino_acids: 0.92,
+        phenolics: 0.70 // Moderate retention of plant compounds
+    },
+    optimalTemperatures: {
+        'initial_sear': 450,
+        'braising_phase': 325,
+        'final_reduction': 350,
+        'vegetables_only': 300,
+        'meat_with_bone': 275,
+        'legume_braise': 225,
+        'poultry_braise': 325,
+        'collagen_conversion': 320,
+        'fish_braise': 300,
+        'liquid_simmer': 205 // °F, ideal braising liquid temperature (just below boiling)
+    },
+    regionalVariations: {
+        french: [
+            'boeuf bourguignon (beef in red wine)',
+            'cassoulet (bean and meat casserole)',
+            'daube provençale (beef stew with olives and orange)',
+            'navarin d\'agneau (lamb stew with spring vegetables)'
+        ],
+        italian: [
+            'osso buco (veal shanks)',
+            'brasato al barolo (beef braised in wine)',
+            'pollo alla cacciatora (hunter\'s chicken)'
+        ],
+        chinese: [
+            'hong shao rou (red-braised pork belly)',
+            'lu rou (braised minced pork)',
+            'dongpo rou (braised pork belly)'
+        ],
+        mexican: [
+            'barbacoa (slow-cooked meat)',
+            'chile colorado (red chile braised beef)',
+            'pollo en mole (chicken in complex sauce)'
+        ],
+        moroccan: [
+            'tagine (slow-cooked stews)',
+            'mrouzia (lamb with honey and spices)',
+            'tangia (slow-cooked meat dish)'
+        ],
+        german: [
+            'sauerbraten (sour roast)',
+            'rinderrouladen (beef rolls)'
+        ],
+        jewish: [
+            'cholent (sabbath stew)',
+            'tzimmes (sweet stew with carrots)'
+        ],
+        american: [
+            'pot roast',
+            'yankee pot roast',
+            'mississippi pot roast'
+        ]
+    },
+    chemicalChanges: {
+        'collagen_breakdown': true,
+        'maillard_reaction': true,
+        'fat_emulsification': true,
+        'flavor_concentration': true,
+        'starch_thickening': true,
+        'caramelization': true,
+        'protein_denaturation': true,
+        'osmosis': true,
+        'aromatic_infusion': true,
+        'acid_tenderization': true,
+        'lipid_oxidation': false,
+        'mineral_transfer': true // Migration of minerals from bones to liquid
+    },
+    safetyFeatures: [
+        'Handle heavy pot with care (ergonomic lifting)',
+        'Use oven mitts for hot lids and handles',
+        'Avoid steam burns when opening (direct steam away)',
+        'Proper food temperature monitoring (minimum 165°F for safety)',
+        'Gradual temperature changes (prevents thermal shock)',
+        'Cool large braises properly (within food safety guidelines)',
+        'Strain hot liquids carefully (prevent splashing)',
+        'Avoid leaving braises at room temperature (bacterial growth)',
+        'Proper refrigeration of leftovers (rapid cooling)',
+        'Thorough reheating (165°F minimum for leftovers)',
+        'Use tempered cookware (prevents cracking)',
+        'Keep pot handles turned inward on stovetop (prevents accidents)'
+    ],
+    thermodynamicProperties: {
+        heat: 0.55,
+        entropy: 0.75,
+        reactivity: 0.60,
+        gregsEnergy: 0.55 - (0.75 * 0.60) // Calculated gregsEnergy: heat - (entropy * reactivity)
+    },
+    // Additional metadata
+    history: 'Braising has ancient origins across many cultures and was particularly refined in French cuisine with dishes like cassoulet and coq au vin. It evolved from the need to tenderize tough, less expensive cuts of meat, making it historically significant for working-class cooking. The technique appears in Roman cookbooks dating to the 1st century AD, with Apicius describing several braised dishes. Medieval European cooking featured braising in lidded clay vessels, while Chinese culture developed master-stock braising dating back to the Zhou dynasty. In colonial America, the "New England boiled dinner" emerged as a braised one-pot meal, while French culinary codification in the 18th and 19th centuries established braising among the grand techniques of classical cuisine.',
+    scientificPrinciples: [
+        'Initial Maillard reaction develops base flavors via high-heat searing',
+        'Collagen converts to gelatin at 160°F-180°F when moisture is present',
+        'Flavor compounds are both water and fat-soluble, extracted by mixed medium',
+        'Low simmer prevents protein toughening while allowing collagen breakdown',
+        'Aromatic compounds infuse throughout cooking liquid',
+        'Convection currents in liquid distribute flavors evenly',
+        'Hydrolysis of connective tissues occurs optimally at 190°F-205°F',
+        'Enzymatic breakdown continues until proteins denature around 160°F',
+        'Osmotic pressure equalizes, allowing flavors to move bidirectionally',
+        'Enclosed environment maintains humidity level near 100%',
+        'Cyclic evaporation and condensation creates self-basting effect',
+        'Acidic components in liquid medium accelerate collagen breakdown',
+        'Gelatinization of starches occurs between 150°F-180°F, contributing to thickening',
+        'Fat renders at temperatures above 130°F, contributing flavor compounds'
+    ],
+    modernVariations: [
+        'Pressure braising (faster results with intensified flavors)',
+        'Sous vide braising (precise temperature control for texture)',
+        'Vacuum-sealed flavor infusion (reduced liquid requirements)',
+        'Wine-forward vs. stock-forward techniques (flavor foundation variations)',
+        'Deconstructed braises with components separated (modern presentation)',
+        'Smoke-infused braising liquid (added dimension)',
+        'Ultrasonic tenderization pre-braise (accelerated process)',
+        'Enzyme-assisted braising (papain, bromelain pre-treatment)',
+        'Microwave-assisted start (initial collagen breakdown)',
+        'Controlled enzymatic addition (meat tenderization optimization)',
+        'Centrifuge-clarified braising liquids (refined sauces)',
+        'Thermostatically controlled braising (precision temperature maintenance)',
+        'Cryoconcentration of braising liquids (intensified flavors)'
+    ],
+    sustainabilityRating: 0.75,
+    equipmentComplexity: 0.45,
+    healthConsiderations: [
+        'Renders and emulsifies fats into sauce (can be skimmed if desired)',
+        'Develops umami flavors without added MSG (natural glutamates)',
+        'Can incorporate healthy herbs and vegetables (nutrient addition)',
+        'Retains minerals from bones and tough cuts (calcium, iron, magnesium)',
+        'Creates satiating dishes with less meat required (protein efficiency)',
+        'Collagen conversion improves digestibility (easier nutrient absorption)',
+        'Gelatin formation supports joint and gut health (amino acids glycine and proline)',
+        'Slow cooking minimizes formation of harmful compounds (fewer heterocyclic amines)',
+        'Cooking liquid contains water-soluble nutrients (complete nutrition)',
+        'Long cooking times allow phenolic compounds to transfer from herbs (antioxidants)',
+        'Leftovers often develop enhanced flavor profiles (flavor compounds continue interacting)',
+        'Balanced macronutrient profile when properly composed (protein, fat, carbohydrate)'
+    ],
+    /**
+     * Alchemical aspect - Dissolution Pillar (#3)
+     *
+     * Braising is associated with the Dissolution pillar in alchemy,
+     * which represents the breaking down of complex structures into simpler forms
+     * through the action of liquid and gentle heat.
+     *
+     * Alchemical Effects: Increases Spirit and Essence, decreases Matter and Substance
+     * Planetary associations: Moon (fluidity, cycles), Neptune (dissolution, unity)
+     * Tarot associations: The Moon (hidden depths), Six of Cups (slow nurturing)
+     * Elemental associations: Primary - Water, Secondary - Fire
+     */
+    alchemicalAspects: {
+        pillarName: 'Dissolution',
+        pillarNumber: 3,
+        alchemicalProcess: 'The breaking down of rigid structures into fluid, interconnected elements through immersion and gentle transformation',
+        effects: {
+            spirit: 1,
+            essence: 1,
+            matter: -1,
+            substance: -1 // Decreases original substance as it transforms
+        },
+        symbolicMeaning: 'Represents the alchemical principle of solving et coagula (dissolve and recombine) where elements must be broken down before being reconstructed in more harmonious forms. In braising, tough ingredients are slowly dissolved and transformed into tender, flavorful substances with new properties.',
+        associatedElements: {
+            primary: 'Water',
+            secondary: 'Fire' // Catalyst for change and transformation
+        }
+    },
+    /**
+     * Extended cooking notes
+     */
+    extendedNotes: {
+        liquids: [
+            'Stock (meat, vegetable, or mushroom) provides depth and umami',
+            'Wine (red, white, fortified) adds acidity and complex flavors',
+            'Beer creates malty depth and slight bitterness',
+            'Cider brings fruit notes and gentle acidity',
+            'Tomatoes contribute umami and natural acidity',
+            'Broth can be enriched with demi-glace for intensity',
+            'Coconut milk creates creamy texture and tropical notes',
+            'Citrus juices tenderize through acidity but added later prevent bitterness',
+            'Combinations often most effective: stock + wine is classic foundation'
+        ],
+        aromaticBases: [
+            'Mirepoix: 2 parts onion, 1 part carrot, 1 part celery',
+            'Sofrito: onion, garlic, bell pepper, tomato',
+            'Holy Trinity: equal parts onion, celery, bell pepper',
+            'Suppengrün: leek, carrot, celeriac',
+            'Włoszczyzna: leek, carrot, parsley root, celeriac',
+            'Battuto: onion, celery, carrot, pancetta',
+            'Sachet d\'épices: herbs and spices in cheesecloth with string (removable)'
+        ],
+        textureConsiderations: [
+            'Cut size determines cooking time and final texture',
+            'Uniform sizing ensures even cooking throughout',
+            'Tough cuts with connective tissue become most tender with slow braising',
+            'Root vegetables should be added later if softer texture desired',
+            'Cartouche (parchment lid) under regular lid minimizes evaporation',
+            'Resting period allows proteins to reabsorb juices',
+            'Cooling completely in liquid then reheating improves texture',
+            'Gentle simmer (tiny bubbles) rather than boiling prevents toughening',
+            'Viscosity of final sauce affected by reduction level and natural gelatin'
+        ],
+        troubleshooting: [
+            'Too tough: Insufficient cooking time or temperature too high',
+            'Dry texture: Too little liquid, excessive evaporation, or lean cut used',
+            'Greasy sauce: Insufficient skimming or too much fat rendered',
+            'Bland flavor: Inadequate initial browning or under-seasoning',
+            'Bitter sauce: Wine reduced too much or wrong variety used',
+            'Watery sauce: Insufficient reduction or too much liquid used',
+            'Vegetables mushy: Added too early in cooking process',
+            'Meat falling apart: Slightly overcooked (sometimes desirable)',
+            'Cloudy sauce: Boiled rather than simmered or insufficient skimming',
+            'Acid balance: Add acid elements later in cooking process to preserve brightness'
+        ]
+    }
+};
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJmaWxlIjoiL1VzZXJzL0dyZWdDYXN0cm8vRGVza3RvcC9XaGF0VG9FYXROZXh0L3NyYy9kYXRhL2Nvb2tpbmcvbWV0aG9kcy93ZXQvYnJhaXNpbmcudHMiLCJtYXBwaW5ncyI6Ijs7O0FBT0E7Ozs7OztHQU1HO0FBQ1UsUUFBQSxRQUFRLEdBQXNCO0lBQ3pDLElBQUksRUFBRSxVQUFVO0lBQ2hCLFdBQVcsRUFBRSwyZkFBMmY7SUFDeGdCLGVBQWUsRUFBRTtRQUNmLEtBQUssRUFBRSxHQUFHO1FBQ1YsSUFBSSxFQUFFLEdBQUc7UUFDVCxLQUFLLEVBQUUsR0FBRztRQUNWLEdBQUcsRUFBRSxHQUFHLENBQUksa0RBQWtEO0tBQy9EO0lBQ0QsUUFBUSxFQUFFO1FBQ1IsR0FBRyxFQUFFLEVBQUU7UUFDUCxHQUFHLEVBQUUsR0FBRyxDQUFFLDhDQUE4QztLQUN6RDtJQUNELFlBQVksRUFBRTtRQUNaLGFBQWE7UUFDYixpQkFBaUI7UUFDakIsU0FBUztRQUNULGVBQWU7UUFDZixnQkFBZ0I7UUFDaEIsTUFBTTtRQUNOLFlBQVk7UUFDWixZQUFZO1FBQ1osYUFBYTtRQUNiLGVBQWU7UUFDZixRQUFRO1FBQ1IsZ0JBQWdCO1FBQ2hCLGNBQWM7UUFDZCxPQUFPO1FBQ1AsYUFBYTtRQUNiLGFBQWE7UUFDYixhQUFhO1FBQ2Isa0JBQWtCO1FBQ2xCLFNBQVM7UUFDVCxZQUFZO1FBQ1osWUFBWTtLQUNiO0lBQ0QsUUFBUSxFQUFFO1FBQ1Isd0JBQXdCO1FBQ3hCLDBCQUEwQjtRQUMxQixxQkFBcUI7UUFDckIsaUNBQWlDO1FBQ2pDLG1CQUFtQjtRQUNuQiw4QkFBOEI7UUFDOUIsZ0NBQWdDO1FBQ2hDLDhCQUE4QjtRQUM5Qiw2QkFBNkI7UUFDN0IsZ0NBQWdDO1FBQ2hDLG9DQUFvQztRQUNwQyw2QkFBNkI7UUFDN0Isc0NBQXNDO1FBQ3RDLDZDQUE2QztRQUM3QyxpREFBaUQ7S0FDbEQ7SUFDRCxzQkFBc0IsRUFBRTtRQUN0QixlQUFlLEVBQUUsQ0FBQyxRQUFRLEVBQUUsUUFBUSxFQUFFLFNBQVMsRUFBRSxX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RUFBdUU7U0FDeEU7UUFFRCxhQUFhLEVBQUU7WUFDYix1REFBdUQ7WUFDdkQsNkNBQTZDO1lBQzdDLHNEQUFzRDtZQUN0RCxvQ0FBb0M7WUFDcEMsbURBQW1EO1lBQ25ELDBDQUEwQztZQUMxQywyRUFBMkU7U0FDNUU7UUFFRCxxQkFBcUIsRUFBRTtZQUNyQixvREFBb0Q7WUFDcEQsZ0RBQWdEO1lBQ2hELHlFQUF5RTtZQUN6RSxpRUFBaUU7WUFDakUsbUVBQW1FO1lBQ25FLG1EQUFtRDtZQUNuRCw4REFBOEQ7WUFDOUQsc0VBQXNFO1lBQ3RFLDBFQUEwRTtTQUMzRTtRQUVELGVBQWUsRUFBRTtZQUNmLDhEQUE4RDtZQUM5RCx5RUFBeUU7WUFDekUsOERBQThEO1lBQzlELDhEQUE4RDtZQUM5RCwyREFBMkQ7WUFDM0QsOERBQThEO1lBQzlELHNEQUFzRDtZQUN0RCwrREFBK0Q7WUFDL0Qsb0VBQW9FO1lBQ3BFLGlGQUFpRjtTQUNsRjtLQUNGO0NBQzhCLENBQUMiLCJuYW1lcyI6W10sInNvdXJjZXMiOlsiL1VzZXJzL0dyZWdDYXN0cm8vRGVza3RvcC9XaGF0VG9FYXROZXh0L3NyYy9kYXRhL2Nvb2tpbmcvbWV0aG9kcy93ZXQvYnJhaXNpbmcudHMiXSwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHR5cGUgeyBcbiAgWm9kaWFjU2lnbiwgXG4gIFRoZXJtb2R5bmFtaWNQcm9wZXJ0aWVzXG59IGZyb20gJ0AvdHlwZXMvYWxjaGVteSc7XG5cbmltcG9ydCB0eXBlIHsgQ29va2luZ01ldGhvZERhdGEgfSBmcm9tICdAL3R5cGVzL2Nvb2tpbmdNZXRob2QnO1xuXG4vKipcbiAqIEJyYWlzaW5nIGNvb2tpbmcgbWV0aG9kXG4gKiBcbiAqIFNsb3cgY29va2luZyBtZXRob2QgdGhhdCBjb21iaW5lcyBkcnkgYW5kIG1vaXN0IGhlYXQgdG8gdGVuZGVyaXplIGFuZCBkZXZlbG9wIGRlZXAgZmxhdm9ycy5cbiAqIEFzc29jaWF0ZWQgd2l0aCB0aGUgYWxjaGVtaWNhbCBwaWxsYXIgb2YgRGlzc29sdXRpb24gLSB0aGUgYnJlYWtpbmcgZG93biBvZiBjb21wbGV4IHN0cnVjdHVyZXNcbiAqIGludG8gc2ltcGxlciBmb3JtcyB0aHJvdWdoIHRoZSBhY3Rpb24gb2YgbGlxdWlkIGFuZCBnZW50bGUgaGVhdC5cbiAqL1xuZXhwb3J0IGNvbnN0IGJyYWlzaW5nOiBDb29raW5nTWV0aG9kRGF0YSA9IHtcbiAgbmFtZTogJ2JyYWlzaW5nJyxcbiAgZGVzY3JpcHRpb246ICdTbG93IGNvb2tpbmcgbWV0aG9kIHdoZXJlIGZvb2QgaXMgZmlyc3Qgc2VhcmVkIGF0IGhpZ2ggdGVtcGVyYXR1cmUsIHRoZW4gZmluaXNoZWQgaW4gYSBjb3ZlcmVkIHBvdCB3aXRoIGxpcXVpZCBhdCBsb3dlciB0ZW1wZXJhdHVyZS4gVGhpcyBkdWFsLXN0YWdlIHByb2Nlc3MgdHJhbnNmb3JtcyB0b3VnaCwgY29sbGFnZW4tcmljaCBpbmdyZWRpZW50cyBpbnRvIHRlbmRlciwgZmxhdm9yZnVsIGRpc2hlcyB0aHJvdWdoIHRoZSBncmFkdWFsIGJyZWFrZG93biBvZiBjb25uZWN0aXZlIHRpc3N1ZXMgYW5kIHRoZSBjb25jZW50cmF0aW9uIG9mIGZsYXZvcnMuIFRoZSBlbmNsb3NlZCBlbnZpcm9ubWVudCBjcmVhdGVzIGEgY3ljbGUgb2YgZXZhcG9yYXRpb24gYW5kIGNvbmRlbnNhdGlvbiB0aGF0IGNvbnRpbnVvdXNseSBiYXN0ZXMgdGhlIGZvb2QsIHdoaWxlIHRoZSBsaXF1aWQgbWVkaXVtIGZhY2lsaXRhdGVzIHRoZSBleGNoYW5nZSBvZiBmbGF2b3JzIGJldHdlZW4gaW5ncmVkaWVudHMuJyxcbiAgZWxlbWVudGFsRWZmZWN0OiB7XG4gICAgV2F0ZXI6IDAuNCwgLy8gUHJpbWFyeSBlbGVtZW50IC0gZGlzc29sdmluZyBhbmQgdHJhbnNmb3JtYXRpdmVcbiAgICBGaXJlOiAwLjMsICAvLyBTZWNvbmRhcnkgZWxlbWVudCAtIGluaXRpYWwgc2VhciBhbmQgc3VzdGFpbmVkIGhlYXRcbiAgICBFYXJ0aDogMC4yLCAvLyBUZXJ0aWFyeSBlbGVtZW50IC0gZ3JvdW5kaW5nIGFuZCBzdWJzdGFudGl2ZVxuICAgIEFpcjogMC4xICAgIC8vIE1pbmltYWwgZWxlbWVudCAtIHNtYWxsIGFtb3VudCBvZiB0cmFwcGVkIHN0ZWFtXG4gIH0sXG4gIGR1cmF0aW9uOiB7XG4gICAgbWluOiA2MCxcbiAgICBtYXg6IDQ4MCAgLy8gRXh0ZW5kZWQgbWF4aW11bSB0aW1lIGZvciBsYXJnZSwgdG91Z2ggY3V0c1xuICB9LFxuICBzdWl0YWJsZV9mb3I6IFtcbiAgICAndG91Z2ggbWVhdHMnLCBcbiAgICAncm9vdCB2ZWdldGFibGVzJywgXG4gICAgJ2xlZ3VtZXMnLCBcbiAgICAnaGVhcnR5IGdyZWVucycsIFxuICAgICdwb3VsdHJ5IHRoaWdocycsIFxuICAgICdnYW1lJywgXG4gICAgJ3Nob3J0IHJpYnMnLFxuICAgICdiZWVmIGNodWNrJyxcbiAgICAnbGFtYiBzaGFua3MnLFxuICAgICdwb3JrIHNob3VsZGVyJyxcbiAgICAnb3h0YWlsJyxcbiAgICAnY2hpY2tlbiB0aGlnaHMnLFxuICAgICdmZW5uZWwgYnVsYnMnLFxuICAgICdsZWVrcycsXG4gICAgJ2NlbGVyeSByb290JyxcbiAgICAnZHJpZWQgYmVhbnMnLFxuICAgICdiZWVmIGNoZWVrcycsXG4gICAgJ3Zlbmlzb24gc2hvdWxkZXInLFxuICAgICdvY3RvcHVzJyxcbiAgICAnd2hvbGUgZHVjaycsXG4gICAgJ2FydGljaG9rZXMnXG4gIF0sXG4gIGJlbmVmaXRzOiBbXG4gICAgJ3RlbmRlcml6ZXMgdG91Z2ggZm9vZHMnLCBcbiAgICAnZGV2ZWxvcHMgY29tcGxleCBmbGF2b3JzJywgXG4gICAgJ2NyZWF0ZXMgcmljaCBzYXVjZXMnLCBcbiAgICAnbWluaW1hbCBtb25pdG9yaW5nIG9uY2Ugc3RhcnRlZCcsIFxuICAgICdpbmZ1c2VzIGFyb21hdGljcycsXG4gICAgJ2NvbnZlcnRzIGNvbGxhZ2VuIHRvIGdlbGF0aW4nLFxuICAgICdleHRyYWN0cyBib25lIG1hcnJvdyBudXRyaWVudHMnLFxuICAgICdjb25jZW50cmF0ZXMgdW1hbWkgY29tcG91bmRzJyxcbiAgICAnZW5oYW5jZXMgZm9vZCBkaWdlc3RpYmlsaXR5JyxcbiAgICAnY3JlYXRlcyBkZWVwbHkgbGF5ZXJlZCBmbGF2b3JzJyxcbiAgICAnbWF4aW1pemVzIGluZXhwZW5zaXZlIGN1dHMgb2YgbWVhdCcsXG4gICAgJ3ByZXNlcnZlcyBudXRyaXRpb25hbCB2YWx1ZScsXG4gICAgJ3JlcXVpcmVzIG1pbmltYWwgYWN0aXZlIGNvb2tpbmcgdGltZScsXG4gICAgJ2JhbGFuY2VzIGZhdCBjb250ZW50IHRocm91Z2ggZW11bHNpZmljYXRpb24nLFxuICAgICdpbnRlbnNpZmllcyBhcm9tYXRpY3MgdGhyb3VnaCBwcm9sb25nZWQgY29udGFjdCdcbiAgXSxcbiAgYXN0cm9sb2dpY2FsSW5mbHVlbmNlczoge1xuICAgIGZhdm9yYWJsZVpvZGlhYzogWyd0YXVydXMnLCAnY2FuY2VyJywgJ3Njb3JwaW8nLCAnY2Fwcmljb3JuJ10gYXMgWm9kaWFjU2lnbltdLCAvLyBFYXJ0aCBhbmQgd2F0ZXIgc2lnbnMgZW5oYW5jZSBwYXRpZW5jZSBhbmQgZGVwdGhcbiAgICB1bmZhdm9yYWJsZVpvZGlhYzogWydnZW1pbmknLCAnYXF1YXJpdXMnLCAnbGlicmEnXSBhcyBab2RpYWNTaWduW10sIC8vIEFpciBzaWducyBsYWNrIHBhdGllbmNlIGFuZCBncm91bmRpbmdcbiAgICBkb21pbmFudFBsYW5ldHM6IFsnU2F0dXJuJywgJ01vb24nLCAnUGx1dG8nLCAnSnVwaXRlciddLCAvLyBTYXR1cm4gKHRpbWUpLCBNb29uIChmbHVjdHVhdGlvbiksIFBsdXRvICh0cmFuc2Zvcm1hdGlvbiksIEp1cGl0ZXIgKGV4cGFuc2lvbilcbiAgICBsdW5hclBoYXNlRWZmZWN0OiB7XG4gICAgICAnZnVsbF9tb29uJzogMC45LCAvLyBSZWR1Y2VkIGVmZmVjdGl2ZW5lc3MgLSB0b28gbXVjaCBlbmVyZ3lcbiAgICAgICduZXdfbW9vbic6IDEuMiwgIC8vIEVuaGFuY2VkIGZsYXZvciBpbnRlZ3JhdGlvbiAtIGNvbmNlbnRyYXRlZCBlbmVyZ3lcbiAgICAgICd3YW5pbmdfbW9vbic6IDEuMywgLy8gQmVzdCBwaGFzZSBmb3IgZGVlcCBmbGF2b3IgZGV2ZWxvcG1lbnQgLSBpbndhcmQgZW5lcmd5XG4gICAgICAnd2F4aW5nX2dpYmJvdXMnOiAxLjAsIC8vIE5ldXRyYWwgZWZmZWN0XG4gICAgICAnZmlyc3RfcXVhcnRlcic6IDEuMSwgLy8gR29vZCBmb3IgaW5pdGlhbCBzdGFnZXMgb2YgYnJhaXNpbmdcbiAgICAgICdsYXN0X3F1YXJ0ZXInOiAxLjIsIC8vIElkZWFsIGZvciBmaW5pc2hpbmcgYW5kIHJlZHVjdGlvblxuICAgICAgJ3dhbmluZ19jcmVzY2VudCc6IDEuMTUgLy8gRXhjZWxsZW50IGZvciBzbG93IHRyYW5zZm9ybWF0aW9uXG4gICAgfVxuICB9LFxuICB0b29sc1JlcXVpcmVkOiBbXG4gICAgJ0R1dGNoIG92ZW4gb3IgaGVhdnktYm90dG9tZWQgcG90IHdpdGggbGlkJyxcbiAgICAnVG9uZ3MnLFxuICAgICdXb29kZW4gc3Bvb24nLFxuICAgICdBcm9tYXRpY3MgKGhlcmJzLCBzcGljZXMsIG1pcmVwb2l4KScsXG4gICAgJ0hlYXQgc291cmNlIChvdmVuIG9yIHN0b3ZldG9wKScsXG4gICAgJ0tpdGNoZW4gdHdpbmUgKGZvciB0eWluZyBidW5kbGVzKScsXG4gICAgJ0NoZWVzZWNsb3RoIChmb3IgYm91cXVldCBnYXJuaSknLFxuICAgICdNZWF0IHRoZXJtb21ldGVyJyxcbiAgICAnRmluZSBtZXNoIHN0cmFpbmVyJyxcbiAgICAnRmF0IHNlcGFyYXRvciAoZm9yIGZpbmlzaGluZyBzYXVjZSknLFxuICAgICdJbW1lcnNpb24gYmxlbmRlciAob3B0aW9uYWwgZm9yIHNhdWNlIHJlZmluZW1lbnQpJyxcbiAgICAnUGFyY2htZW50IHBhcGVyIGxpZCAoY2FydG91Y2hlKScsXG4gICAgJ0hlYXZ5LCB3ZWxsLWZpdHRpbmcgbGlkJ1xuICBdLFxuICBjb21tb25NaXN0YWtlczogW1xuICAgICd0b28gbXVjaCBsaXF1aWQgKHNob3VsZCBjb3ZlciBvbmx5IDEvMiB0byAyLzMgb2YgaW5ncmVkaWVudHMpJyxcbiAgICAnY29va2luZyB0b28gZmFzdCAoaGlnaGVyIGhlYXQgdG91Z2hlbnMgcHJvdGVpbiknLFxuICAgICdsaWQgbm90IHRpZ2h0LWZpdHRpbmcgKGFsbG93cyBleGNlc3NpdmUgZXZhcG9yYXRpb24pJyxcbiAgICAnaW5hZGVxdWF0ZSBpbml0aWFsIGJyb3duaW5nIChtaXNzZXMgTWFpbGxhcmQgZmxhdm9ycyknLFxuICAgICd1bmRlcnNlYXNvbmluZyAoc2xvdyBjb29raW5nIG11dGVzIGZsYXZvcnMpJyxcbiAgICAnbm90IGxldHRpbmcgbWVhdCByZXN0IGJlZm9yZSBzZXJ2aW5nICh0ZXh0dXJlIGNvbXByb21pc2UpJyxcbiAgICAnY3V0dGluZyBwaWVjZXMgaW5jb25zaXN0ZW50bHkgKHVuZXZlbiBjb29raW5nKScsXG4gICAgJ292ZXJjcm93ZGluZyBkdXJpbmcgc2VhcmluZyBwaGFzZSAoc3RlYW1pbmcgaW5zdGVhZCBvZiBicm93bmluZyknLFxuICAgICdub3Qgc2tpbW1pbmcgZmF0IGFuZCBpbXB1cml0aWVzIChjbG91ZHkgc2F1Y2UpJyxcbiAgICAndXNpbmcgbGVhbiBjdXRzIChpbnN1ZmZpY2llbnQgY29sbGFnZW4pJyxcbiAgICAnaW5zdWZmaWNpZW50IGFyb21hdGljcyAoZmxhdCBmbGF2b3IgcHJvZmlsZSknLFxuICAgICdhZGRpbmcgZGVsaWNhdGUgaW5ncmVkaWVudHMgdG9vIGVhcmx5IChkaXNpbnRlZ3JhdGlvbiknLFxuICAgICdmcmVxdWVudCBsaWQgb3BlbmluZyAodGVtcGVyYXR1cmUgZmx1Y3R1YXRpb24pJ1xuICBdLFxuICBwYWlyaW5nU3VnZ2VzdGlvbnM6IFtcbiAgICAnRnJlc2ggaGVyYiBnYXJuaXNoZXMgKHBhcnNsZXksIGNoZXJ2aWwsIHRhcnJhZ29uKScsXG4gICAgJ0FjaWQgY29tcG9uZW50cyBmb3IgYmFsYW5jZSAodmluZWdhciwgY2l0cnVzLCBwaWNrbGVkIGVsZW1lbnRzKScsXG4gICAgJ0NyZWFteSBwb2xlbnRhIG9yIG1hc2hlZCBwb3RhdG9lcyAoc2F1Y2UgYWJzb3JwdGlvbiknLFxuICAgICdDcnVzdHkgYnJlYWQgZm9yIHNhdWNlICh0ZXh0dXJhbCBjb250cmFzdCknLFxuICAgICdCcmlnaHQgcmF3IHZlZ2V0YWJsZSBjb3VudGVycG9pbnQgKGZyZXNobmVzcyknLFxuICAgICdCaXR0ZXIgZ3JlZW5zIChiYWxhbmNlcyByaWNobmVzcyknLFxuICAgICdHcmVtb2xhdGEgb3IgcGVyc2lsbGFkZSAoYXJvbWF0aWMgZmluaXNoKScsXG4gICAgJ0Z1bGwtYm9kaWVkIHJlZCB3aW5lcyB3aXRoIG1hdHVyZSB0YW5uaW5zJyxcbiAgICAnUm9vdCB2ZWdldGFibGUgcHVyw6llcyAoY29tcGxlbWVudGFyeSBlYXJ0aGluZXNzKScsXG4gICAgJ1ByZXNlcnZlZCBsZW1vbiBvciBjYXBlcnMgKGJyaWdodGVuaW5nIGVmZmVjdCknLFxuICAgICdNdXNocm9vbSBhY2NvbXBhbmltZW50cyAodW1hbWkgZW5oYW5jZW1lbnQpJyxcbiAgICAnQWdlZCBjaGVlc2UgcmluZHMgKGZsYXZvciBkZWVwZW5pbmcgYWdlbnQpJ1xuICBdLFxuICBudXRyaWVudFJldGVudGlvbjoge1xuICAgIGNvbGxhZ2VuOiAwLjk1LCAvLyBDb252ZXJ0ZWQgdG8gZ2VsYXRpblxuICAgIG1pbmVyYWxzOiAwLjg1LCAvLyBFeGNlbGxlbnQgcmV0ZW50aW9uIGluIGxpcXVpZCBtZWRpdW1cbiAgICB2aXRhbWluczogMC42MCwgLy8gU29tZSBsb3NzIG9mIHdhdGVyLXNvbHVibGUgdml0YW1pbnMgYnV0IHJldGFpbmVkIGluIHNhdWNlXG4gICAgcHJvdGVpbnM6IDAuOTAsIC8vIFZlcnkgZ29vZCBwcm90ZWluIHByZXNlcnZhdGlvblxuICAgIGZhdF9zb2x1YmxlX251dHJpZW50czogMC44NSwgLy8gR29vZCByZXRlbnRpb24gaW4gZmF0IGVtdWxzaW9uXG4gICAgd2F0ZXJfc29sdWJsZV92aXRhbWluczogMC43NSwgLy8gUHJlc2VydmVkIGluIGNvb2tpbmcgbGlxdWlkXG4gICAgYW50aW94aWRhbnRzOiAwLjgwLCAvLyBNYW55IGV4dHJhY3RlZCBhbmQgcHJlc2VydmVkIGluIGxpcXVpZFxuICAgIGFtaW5vX2FjaWRzOiAwLjkyLCAvLyBFeGNlbGxlbnQgcHJlc2VydmF0aW9uIHdpdGggZW5oYW5jZWQgYmlvYXZhaWxhYmlsaXR5XG4gICAgcGhlbm9saWNzOiAwLjcwICAvLyBNb2RlcmF0ZSByZXRlbnRpb24gb2YgcGxhbnQgY29tcG91bmRzXG4gIH0sXG4gIG9wdGltYWxUZW1wZXJhdHVyZXM6IHtcbiAgICAnaW5pdGlhbF9zZWFyJzogNDUwLCAvLyDCsEYsIGZvciBNYWlsbGFyZCByZWFjdGlvbiBkZXZlbG9wbWVudFxuICAgICdicmFpc2luZ19waGFzZSc6IDMyNSwgLy8gwrBGLCBnZW5lcmFsIGJyYWlzaW5nIHRlbXBlcmF0dXJlXG4gICAgJ2ZpbmFsX3JlZHVjdGlvbic6IDM1MCwgLy8gwrBGLCBmb3Igc2F1Y2UgY29uY2VudHJhdGlvblxuICAgICd2ZWdldGFibGVzX29ubHknOiAzMDAsIC8vIMKwRiwgZ2VudGxlciBmb3IgcGxhbnQgbWF0dGVyXG4gICAgJ21lYXRfd2l0aF9ib25lJzogMjc1LCAvLyDCsEYsIGxvd2VyIGFuZCBzbG93ZXIgZm9yIGJvbmUtaW4gY3V0c1xuICAgICdsZWd1bWVfYnJhaXNlJzogMjI1LCAvLyDCsEYsIHZlcnkgZ2VudGxlIGZvciBiZWFucyBhbmQgcHVsc2VzXG4gICAgJ3BvdWx0cnlfYnJhaXNlJzogMzI1LCAvLyDCsEYsIHN0YW5kYXJkIGZvciBwb3VsdHJ5IGl0ZW1zXG4gICAgJ2NvbGxhZ2VuX2NvbnZlcnNpb24nOiAzMjAsIC8vIMKwRiwgb3B0aW1hbCBmb3IgY29sbGFnZW4gdG8gZ2VsYXRpblxuICAgICdmaXNoX2JyYWlzZSc6IDMwMCwgLy8gwrBGLCBnZW50bGUgZm9yIGRlbGljYXRlIHByb3RlaW5zXG4gICAgJ2xpcXVpZF9zaW1tZXInOiAyMDUgLy8gwrBGLCBpZGVhbCBicmFpc2luZyBsaXF1aWQgdGVtcGVyYXR1cmUgKGp1c3QgYmVsb3cgYm9pbGluZylcbiAgfSxcbiAgcmVnaW9uYWxWYXJpYXRpb25zOiB7XG4gICAgZnJlbmNoOiBbXG4gICAgICAnYm9ldWYgYm91cmd1aWdub24gKGJlZWYgaW4gcmVkIHdpbmUpJyxcbiAgICAgICdjYXNzb3VsZXQgKGJlYW4gYW5kIG1lYXQgY2Fzc2Vyb2xlKScsXG4gICAgICAnZGF1YmUgcHJvdmVuw6dhbGUgKGJlZWYgc3RldyB3aXRoIG9saXZlcyBhbmQgb3JhbmdlKScsXG4gICAgICAnbmF2YXJpbiBkXFwnYWduZWF1IChsYW1iIHN0ZXcgd2l0aCBzcHJpbmcgdmVnZXRhYmxlcyknXG4gICAgXSxcbiAgICBpdGFsaWFuOiBbXG4gICAgICAnb3NzbyBidWNvICh2ZWFsIHNoYW5rcyknLFxuICAgICAgJ2JyYXNhdG8gYWwgYmFyb2xvIChiZWVmIGJyYWlzZWQgaW4gd2luZSknLFxuICAgICAgJ3BvbGxvIGFsbGEgY2FjY2lhdG9yYSAoaHVudGVyXFwncyBjaGlja2VuKSdcbiAgICBdLFxuICAgIGNoaW5lc2U6IFtcbiAgICAgICdob25nIHNoYW8gcm91IChyZWQtYnJhaXNlZCBwb3JrIGJlbGx5KScsXG4gICAgICAnbHUgcm91IChicmFpc2VkIG1pbmNlZCBwb3JrKScsXG4gICAgICAnZG9uZ3BvIHJvdSAoYnJhaXNlZCBwb3JrIGJlbGx5KSdcbiAgICBdLFxuICAgIG1leGljYW46IFtcbiAgICAgICdiYXJiYWNvYSAoc2xvdy1jb29rZWQgbWVhdCknLFxuICAgICAgJ2NoaWxlIGNvbG9yYWRvIChyZWQgY2hpbGUgYnJhaXNlZCBiZWVmKScsXG4gICAgICAncG9sbG8gZW4gbW9sZSAoY2hpY2tlbiBpbiBjb21wbGV4IHNhdWNlKSdcbiAgICBdLFxuICAgIG1vcm9jY2FuOiBbXG4gICAgICAndGFnaW5lIChzbG93LWNvb2tlZCBzdGV3cyknLFxuICAgICAgJ21yb3V6aWEgKGxhbWIgd2l0aCBob25leSBhbmQgc3BpY2VzKScsXG4gICAgICAndGFuZ2lhIChzbG93LWNvb2tlZCBtZWF0IGRpc2gpJ1xuICAgIF0sXG4gICAgZ2VybWFuOiBbXG4gICAgICAnc2F1ZXJicmF0ZW4gKHNvdXIgcm9hc3QpJyxcbiAgICAgICdyaW5kZXJyb3VsYWRlbiAoYmVlZiByb2xscyknXG4gICAgXSxcbiAgICBqZXdpc2g6IFtcbiAgICAgICdjaG9sZW50IChzYWJiYXRoIHN0ZXcpJyxcbiAgICAgICd0emltbWVzIChzd2VldCBzdGV3IHdpdGggY2Fycm90cyknXG4gICAgXSxcbiAgICBhbWVyaWNhbjogW1xuICAgICAgJ3BvdCByb2FzdCcsXG4gICAgICAneWFua2VlIHBvdCByb2FzdCcsXG4gICAgICAnbWlzc2lzc2lwcGkgcG90IHJvYXN0J1xuICAgIF1cbiAgfSxcbiAgY2hlbWljYWxDaGFuZ2VzOiB7XG4gICAgJ2NvbGxhZ2VuX2JyZWFrZG93bic6IHRydWUsICAgICAgLy8gQ29udmVyc2lvbiBvZiBjb2xsYWdlbiB0byBnZWxhdGluIHZpYSBoeWRyb2x5c2lzXG4gICAgJ21haWxsYXJkX3JlYWN0aW9uJzogdHJ1ZSwgICAgICAgLy8gQ29tcGxleCBicm93bmluZyBmcm9tIGFtaW5vIGFjaWRzIGFuZCByZWR1Y2luZyBzdWdhcnNcbiAgICAnZmF0X2VtdWxzaWZpY2F0aW9uJzogdHJ1ZSwgICAgICAvLyBEaXNwZXJzaW9uIG9mIGZhdCBwYXJ0aWNsZXMgaW4gbGlxdWlkIG1lZGl1bVxuICAgICdmbGF2b3JfY29uY2VudHJhdGlvbic6IHRydWUsICAgIC8vIFJlZHVjdGlvbiBvZiB3YXRlciBjb250ZW50IGNvbmNlbnRyYXRpbmcgc29sdWJsZSBjb21wb3VuZHNcbiAgICAnc3RhcmNoX3RoaWNrZW5pbmcnOiB0cnVlLCAgICAgICAvLyBHZWxhdGluaXphdGlvbiBvZiBzdGFyY2ggZ3JhbnVsZXMgZm9yIHNhdWNlIGJvZHlcbiAgICAnY2FyYW1lbGl6YXRpb24nOiB0cnVlLCAgICAgICAgICAvLyBIaWdoLXRlbXBlcmF0dXJlIHN1Z2FyIHRyYW5zZm9ybWF0aW9uXG4gICAgJ3Byb3RlaW5fZGVuYXR1cmF0aW9uJzogdHJ1ZSwgICAgLy8gUmVzdHJ1Y3R1cmluZyBvZiBwcm90ZWluIG1vbGVjdWxlc1xuICAgICdvc21vc2lzJzogdHJ1ZSwgICAgICAgICAgICAgICAgIC8vIEJpZGlyZWN0aW9uYWwgZmxhdm9yIGV4Y2hhbmdlIGJldHdlZW4gZm9vZCBhbmQgbGlxdWlkXG4gICAgJ2Fyb21hdGljX2luZnVzaW9uJzogdHJ1ZSwgICAgICAgLy8gVHJhbnNmZXIgb2Ygdm9sYXRpbGUgY29tcG91bmRzIGZyb20gaGVyYnMgYW5kIHNwaWNlc1xuICAgICdhY2lkX3RlbmRlcml6YXRpb24nOiB0cnVlLCAgICAgIC8vIEJyZWFrZG93biBvZiBwcm90ZWluIHN0cnVjdHVyZXMgdGhyb3VnaCBhY2lkIGFjdGlvblxuICAgICdsaXBpZF9veGlkYXRpb24nOiBmYWxzZSwgICAgICAgIC8vIE1pbmltaXplZCBieSBsaXF1aWQgZW52aXJvbm1lbnRcbiAgICAnbWluZXJhbF90cmFuc2Zlcic6IHRydWUgICAgICAgICAvLyBNaWdyYXRpb24gb2YgbWluZXJhbHMgZnJvbSBib25lcyB0byBsaXF1aWRcbiAgfSxcbiAgc2FmZXR5RmVhdHVyZXM6IFtcbiAgICAnSGFuZGxlIGhlYXZ5IHBvdCB3aXRoIGNhcmUgKGVyZ29ub21pYyBsaWZ0aW5nKScsXG4gICAgJ1VzZSBvdmVuIG1pdHRzIGZvciBob3QgbGlkcyBhbmQgaGFuZGxlcycsXG4gICAgJ0F2b2lkIHN0ZWFtIGJ1cm5zIHdoZW4gb3BlbmluZyAoZGlyZWN0IHN0ZWFtIGF3YXkpJyxcbiAgICAnUHJvcGVyIGZvb2QgdGVtcGVyYXR1cmUgbW9uaXRvcmluZyAobWluaW11bSAxNjXCsEYgZm9yIHNhZmV0eSknLFxuICAgICdHcmFkdWFsIHRlbXBlcmF0dXJlIGNoYW5nZXMgKHByZXZlbnRzIHRoZXJtYWwgc2hvY2spJyxcbiAgICAnQ29vbCBsYXJnZSBicmFpc2VzIHByb3Blcmx5ICh3aXRoaW4gZm9vZCBzYWZldHkgZ3VpZGVsaW5lcyknLFxuICAgICdTdHJhaW4gaG90IGxpcXVpZHMgY2FyZWZ1bGx5IChwcmV2ZW50IHNwbGFzaGluZyknLFxuICAgICdBdm9pZCBsZWF2aW5nIGJyYWlzZXMgYXQgcm9vbSB0ZW1wZXJhdHVyZSAoYmFjdGVyaWFsIGdyb3d0aCknLFxuICAgICdQcm9wZXIgcmVmcmlnZXJhdGlvbiBvZiBsZWZ0b3ZlcnMgKHJhcGlkIGNvb2xpbmcpJyxcbiAgICAnVGhvcm91Z2ggcmVoZWF0aW5nICgxNjXCsEYgbWluaW11bSBmb3IgbGVmdG92ZXJzKScsXG4gICAgJ1VzZSB0ZW1wZXJlZCBjb29rd2FyZSAocHJldmVudHMgY3JhY2tpbmcpJyxcbiAgICAnS2VlcCBwb3QgaGFuZGxlcyB0dXJuZWQgaW53YXJkIG9uIHN0b3ZldG9wIChwcmV2ZW50cyBhY2NpZGVudHMpJ1xuICBdLFxuICB0aGVybW9keW5hbWljUHJvcGVydGllczoge1xuICAgIGhlYXQ6IDAuNTUsICAgICAgIC8vIE1vZGVyYXRlIGhlYXQgd2l0aCBsaXF1aWQgbGltaXRpbmcgbWF4IHRlbXBlcmF0dXJlXG4gICAgZW50cm9weTogMC43NSwgICAgLy8gSGlnaCBicmVha2Rvd24gb2YgY29sbGFnZW4gYW5kIHRvdWdoIHN0cnVjdHVyZXNcbiAgICByZWFjdGl2aXR5OiAwLjYwLCAvLyBHb29kIGZsYXZvciBkZXZlbG9wbWVudCBhbmQgTWFpbGxhcmQgZnJvbSBpbml0aWFsIHNlYXJcbiAgICBncmVnc0VuZXJneTogMC41NSAtICgwLjc1ICogMC42MCkgIC8vIENhbGN1bGF0ZWQgZ3JlZ3NFbmVyZ3k6IGhlYXQgLSAoZW50cm9weSAqIHJlYWN0aXZpdHkpXG4gIH0gYXMgdW5rbm93biBhcyBUaGVybW9keW5hbWljUHJvcGVydGllcyxcbiAgXG4gIC8vIEFkZGl0aW9uYWwgbWV0YWRhdGFcbiAgaGlzdG9yeTogJ0JyYWlzaW5nIGhhcyBhbmNpZW50IG9yaWdpbnMgYWNyb3NzIG1hbnkgY3VsdHVyZXMgYW5kIHdhcyBwYXJ0aWN1bGFybHkgcmVmaW5lZCBpbiBGcmVuY2ggY3Vpc2luZSB3aXRoIGRpc2hlcyBsaWtlIGNhc3NvdWxldCBhbmQgY29xIGF1IHZpbi4gSXQgZXZvbHZlZCBmcm9tIHRoZSBuZWVkIHRvIHRlbmRlcml6ZSB0b3VnaCwgbGVzcyBleHBlbnNpdmUgY3V0cyBvZiBtZWF0LCBtYWtpbmcgaXQgaGlzdG9yaWNhbGx5IHNpZ25pZmljYW50IGZvciB3b3JraW5nLWNsYXNzIGNvb2tpbmcuIFRoZSB0ZWNobmlxdWUgYXBwZWFycyBpbiBSb21hbiBjb29rYm9va3MgZGF0aW5nIHRvIHRoZSAxc3QgY2VudHVyeSBBRCwgd2l0aCBBcGljaXVzIGRlc2NyaWJpbmcgc2V2ZXJhbCBicmFpc2VkIGRpc2hlcy4gTWVkaWV2YWwgRXVyb3BlYW4gY29va2luZyBmZWF0dXJlZCBicmFpc2luZyBpbiBsaWRkZWQgY2xheSB2ZXNzZWxzLCB3aGlsZSBDaGluZXNlIGN1bHR1cmUgZGV2ZWxvcGVkIG1hc3Rlci1zdG9jayBicmFpc2luZyBkYXRpbmcgYmFjayB0byB0aGUgWmhvdSBkeW5hc3R5LiBJbiBjb2xvbmlhbCBBbWVyaWNhLCB0aGUgXCJOZXcgRW5nbGFuZCBib2lsZWQgZGlubmVyXCIgZW1lcmdlZCBhcyBhIGJyYWlzZWQgb25lLXBvdCBtZWFsLCB3aGlsZSBGcmVuY2ggY3VsaW5hcnkgY29kaWZpY2F0aW9uIGluIHRoZSAxOHRoIGFuZCAxOXRoIGNlbnR1cmllcyBlc3RhYmxpc2hlZCBicmFpc2luZyBhbW9uZyB0aGUgZ3JhbmQgdGVjaG5pcXVlcyBvZiBjbGFzc2ljYWwgY3Vpc2luZS4nLFxuICBcbiAgc2NpZW50aWZpY1ByaW5jaXBsZXM6IFtcbiAgICAnSW5pdGlhbCBNYWlsbGFyZCByZWFjdGlvbiBkZXZlbG9wcyBiYXNlIGZsYXZvcnMgdmlhIGhpZ2gtaGVhdCBzZWFyaW5nJyxcbiAgICAnQ29sbGFnZW4gY29udmVydHMgdG8gZ2VsYXRpbiBhdCAxNjDCsEYtMTgwwrBGIHdoZW4gbW9pc3R1cmUgaXMgcHJlc2VudCcsXG4gICAgJ0ZsYXZvciBjb21wb3VuZHMgYXJlIGJvdGggd2F0ZXIgYW5kIGZhdC1zb2x1YmxlLCBleHRyYWN0ZWQgYnkgbWl4ZWQgbWVkaXVtJyxcbiAgICAnTG93IHNpbW1lciBwcmV2ZW50cyBwcm90ZWluIHRvdWdoZW5pbmcgd2hpbGUgYWxsb3dpbmcgY29sbGFnZW4gYnJlYWtkb3duJyxcbiAgICAnQXJvbWF0aWMgY29tcG91bmRzIGluZnVzZSB0aHJvdWdob3V0IGNvb2tpbmcgbGlxdWlkJyxcbiAgICAnQ29udmVjdGlvbiBjdXJyZW50cyBpbiBsaXF1aWQgZGlzdHJpYnV0ZSBmbGF2b3JzIGV2ZW5seScsXG4gICAgJ0h5ZHJvbHlzaXMgb2YgY29ubmVjdGl2ZSB0aXNzdWVzIG9jY3VycyBvcHRpbWFsbHkgYXQgMTkwwrBGLTIwNcKwRicsXG4gICAgJ0VuenltYXRpYyBicmVha2Rvd24gY29udGludWVzIHVudGlsIHByb3RlaW5zIGRlbmF0dXJlIGFyb3VuZCAxNjDCsEYnLFxuICAgICdPc21vdGljIHByZXNzdXJlIGVxdWFsaXplcywgYWxsb3dpbmcgZmxhdm9ycyB0byBtb3ZlIGJpZGlyZWN0aW9uYWxseScsXG4gICAgJ0VuY2xvc2VkIGVudmlyb25tZW50IG1haW50YWlucyBodW1pZGl0eSBsZXZlbCBuZWFyIDEwMCUnLFxuICAgICdDeWNsaWMgZXZhcG9yYXRpb24gYW5kIGNvbmRlbnNhdGlvbiBjcmVhdGVzIHNlbGYtYmFzdGluZyBlZmZlY3QnLFxuICAgICdBY2lkaWMgY29tcG9uZW50cyBpbiBsaXF1aWQgbWVkaXVtIGFjY2VsZXJhdGUgY29sbGFnZW4gYnJlYWtkb3duJyxcbiAgICAnR2VsYXRpbml6YXRpb24gb2Ygc3RhcmNoZXMgb2NjdXJzIGJldHdlZW4gMTUwwrBGLTE4MMKwRiwgY29udHJpYnV0aW5nIHRvIHRoaWNrZW5pbmcnLFxuICAgICdGYXQgcmVuZGVycyBhdCB0ZW1wZXJhdHVyZXMgYWJvdmUgMTMwwrBGLCBjb250cmlidXRpbmcgZmxhdm9yIGNvbXBvdW5kcydcbiAgXSxcbiAgXG4gIG1vZGVyblZhcmlhdGlvbnM6IFtcbiAgICAnUHJlc3N1cmUgYnJhaXNpbmcgKGZhc3RlciByZXN1bHRzIHdpdGggaW50ZW5zaWZpZWQgZmxhdm9ycyknLFxuICAgICdTb3VzIHZpZGUgYnJhaXNpbmcgKHByZWNpc2UgdGVtcGVyYXR1cmUgY29udHJvbCBmb3IgdGV4dHVyZSknLFxuICAgICdWYWN1dW0tc2VhbGVkIGZsYXZvciBpbmZ1c2lvbiAocmVkdWNlZCBsaXF1aWQgcmVxdWlyZW1lbnRzKScsXG4gICAgJ1dpbmUtZm9yd2FyZCB2cy4gc3RvY2stZm9yd2FyZCB0ZWNobmlxdWVzIChmbGF2b3IgZm91bmRhdGlvbiB2YXJpYXRpb25zKScsXG4gICAgJ0RlY29uc3RydWN0ZWQgYnJhaXNlcyB3aXRoIGNvbXBvbmVudHMgc2VwYXJhdGVkIChtb2Rlcm4gcHJlc2VudGF0aW9uKScsXG4gICAgJ1Ntb2tlLWluZnVzZWQgYnJhaXNpbmcgbGlxdWlkIChhZGRlZCBkaW1lbnNpb24pJyxcbiAgICAnVWx0cmFzb25pYyB0ZW5kZXJpemF0aW9uIHByZS1icmFpc2UgKGFjY2VsZXJhdGVkIHByb2Nlc3MpJyxcbiAgICAnRW56eW1lLWFzc2lzdGVkIGJyYWlzaW5nIChwYXBhaW4sIGJyb21lbGFpbiBwcmUtdHJlYXRtZW50KScsXG4gICAgJ01pY3Jvd2F2ZS1hc3Npc3RlZCBzdGFydCAoaW5pdGlhbCBjb2xsYWdlbiBicmVha2Rvd24pJyxcbiAgICAnQ29udHJvbGxlZCBlbnp5bWF0aWMgYWRkaXRpb24gKG1lYXQgdGVuZGVyaXphdGlvbiBvcHRpbWl6YXRpb24pJyxcbiAgICAnQ2VudHJpZnVnZS1jbGFyaWZpZWQgYnJhaXNpbmcgbGlxdWlkcyAocmVmaW5lZCBzYXVjZXMpJyxcbiAgICAnVGhlcm1vc3RhdGljYWxseSBjb250cm9sbGVkIGJyYWlzaW5nIChwcmVjaXNpb24gdGVtcGVyYXR1cmUgbWFpbnRlbmFuY2UpJyxcbiAgICAnQ3J5b2NvbmNlbnRyYXRpb24gb2YgYnJhaXNpbmcgbGlxdWlkcyAoaW50ZW5zaWZpZWQgZmxhdm9ycyknXG4gIF0sXG4gIFxuICBzdXN0YWluYWJpbGl0eVJhdGluZzogMC43NSwgLy8gRW5lcmd5LWVmZmljaWVudCBzbG93IGNvb2tpbmcsIHR5cGljYWxseSB1c2VzIGxlc3MgZGVzaXJhYmxlIGN1dHNcbiAgXG4gIGVxdWlwbWVudENvbXBsZXhpdHk6IDAuNDUsIC8vIEJhc2ljIGVxdWlwbWVudCBidXQgcmVxdWlyZXMgdW5kZXJzdGFuZGluZyBvZiB0ZWNobmlxdWVcbiAgXG4gIGhlYWx0aENvbnNpZGVyYXRpb25zOiBbXG4gICAgJ1JlbmRlcnMgYW5kIGVtdWxzaWZpZXMgZmF0cyBpbnRvIHNhdWNlIChjYW4gYmUgc2tpbW1lZCBpZiBkZXNpcmVkKScsXG4gICAgJ0RldmVsb3BzIHVtYW1pIGZsYXZvcnMgd2l0aG91dCBhZGRlZCBNU0cgKG5hdHVyYWwgZ2x1dGFtYXRlcyknLFxuICAgICdDYW4gaW5jb3Jwb3JhdGUgaGVhbHRoeSBoZXJicyBhbmQgdmVnZXRhYmxlcyAobnV0cmllbnQgYWRkaXRpb24pJyxcbiAgICAnUmV0YWlucyBtaW5lcmFscyBmcm9tIGJvbmVzIGFuZCB0b3VnaCBjdXRzIChjYWxjaXVtLCBpcm9uLCBtYWduZXNpdW0pJyxcbiAgICAnQ3JlYXRlcyBzYXRpYXRpbmcgZGlzaGVzIHdpdGggbGVzcyBtZWF0IHJlcXVpcmVkIChwcm90ZWluIGVmZmljaWVuY3kpJyxcbiAgICAnQ29sbGFnZW4gY29udmVyc2lvbiBpbXByb3ZlcyBkaWdlc3RpYmlsaXR5IChlYXNpZXIgbnV0cmllbnQgYWJzb3JwdGlvbiknLFxuICAgICdHZWxhdGluIGZvcm1hdGlvbiBzdXBwb3J0cyBqb2ludCBhbmQgZ3V0IGhlYWx0aCAoYW1pbm8gYWNpZHMgZ2x5Y2luZSBhbmQgcHJvbGluZSknLFxuICAgICdTbG93IGNvb2tpbmcgbWluaW1pemVzIGZvcm1hdGlvbiBvZiBoYXJtZnVsIGNvbXBvdW5kcyAoZmV3ZXIgaGV0ZXJvY3ljbGljIGFtaW5lcyknLFxuICAgICdDb29raW5nIGxpcXVpZCBjb250YWlucyB3YXRlci1zb2x1YmxlIG51dHJpZW50cyAoY29tcGxldGUgbnV0cml0aW9uKScsXG4gICAgJ0xvbmcgY29va2luZyB0aW1lcyBhbGxvdyBwaGVub2xpYyBjb21wb3VuZHMgdG8gdHJhbnNmZXIgZnJvbSBoZXJicyAoYW50aW94aWRhbnRzKScsXG4gICAgJ0xlZnRvdmVycyBvZnRlbiBkZXZlbG9wIGVuaGFuY2VkIGZsYXZvciBwcm9maWxlcyAoZmxhdm9yIGNvbXBvdW5kcyBjb250aW51ZSBpbnRlcmFjdGluZyknLFxuICAgICdCYWxhbmNlZCBtYWNyb251dHJpZW50IHByb2ZpbGUgd2hlbiBwcm9wZXJseSBjb21wb3NlZCAocHJvdGVpbiwgZmF0LCBjYXJib2h5ZHJhdGUpJ1xuICBdLFxuICBcbiAgLyoqXG4gICAqIEFsY2hlbWljYWwgYXNwZWN0IC0gRGlzc29sdXRpb24gUGlsbGFyICgjMylcbiAgICogXG4gICAqIEJyYWlzaW5nIGlzIGFzc29jaWF0ZWQgd2l0aCB0aGUgRGlzc29sdXRpb24gcGlsbGFyIGluIGFsY2hlbXksXG4gICAqIHdoaWNoIHJlcHJlc2VudHMgdGhlIGJyZWFraW5nIGRvd24gb2YgY29tcGxleCBzdHJ1Y3R1cmVzIGludG8gc2ltcGxlciBmb3Jtc1xuICAgKiB0aHJvdWdoIHRoZSBhY3Rpb24gb2YgbGlxdWlkIGFuZCBnZW50bGUgaGVhdC5cbiAgICogXG4gICAqIEFsY2hlbWljYWwgRWZmZWN0czogSW5jcmVhc2VzIFNwaXJpdCBhbmQgRXNzZW5jZSwgZGVjcmVhc2VzIE1hdHRlciBhbmQgU3Vic3RhbmNlXG4gICAqIFBsYW5ldGFyeSBhc3NvY2lhdGlvbnM6IE1vb24gKGZsdWlkaXR5LCBjeWNsZXMpLCBOZXB0dW5lIChkaXNzb2x1dGlvbiwgdW5pdHkpXG4gICAqIFRhcm90IGFzc29jaWF0aW9uczogVGhlIE1vb24gKGhpZGRlbiBkZXB0aHMpLCBTaXggb2YgQ3VwcyAoc2xvdyBudXJ0dXJpbmcpXG4gICAqIEVsZW1lbnRhbCBhc3NvY2lhdGlvbnM6IFByaW1hcnkgLSBXYXRlciwgU2Vjb25kYXJ5IC0gRmlyZVxuICAgKi9cbiAgYWxjaGVtaWNhbEFzcGVjdHM6IHtcbiAgICBwaWxsYXJOYW1lOiAnRGlzc29sdXRpb24nLFxuICAgIHBpbGxhck51bWJlcjogMyxcbiAgICBhbGNoZW1pY2FsUHJvY2VzczogJ1RoZSBicmVha2luZyBkb3duIG9mIHJpZ2lkIHN0cnVjdHVyZXMgaW50byBmbHVpZCwgaW50ZXJjb25uZWN0ZWQgZWxlbWVudHMgdGhyb3VnaCBpbW1lcnNpb24gYW5kIGdlbnRsZSB0cmFuc2Zvcm1hdGlvbicsXG4gICAgZWZmZWN0czoge1xuICAgICAgc3Bpcml0OiAxLCAgICAgIC8vIEluY3JlYXNlcyBzcGlyaXR1YWwgZXNzZW5jZSB0aHJvdWdoIGdlbnRsZSB0cmFuc2Zvcm1hdGlvblxuICAgICAgZXNzZW5jZTogMSwgICAgICAvLyBJbmNyZWFzZXMgZXNzZW50aWFsIHF1YWxpdGllcyBhbmQgY29uY2VudHJhdGVzIGZsYXZvcnNcbiAgICAgIG1hdHRlcjogLTEsICAgICAgLy8gRGVjcmVhc2VzIHJpZ2lkIG1hdGVyaWFsIHN0cnVjdHVyZSB0aHJvdWdoIHNvZnRlbmluZ1xuICAgICAgc3Vic3RhbmNlOiAtMSAgICAvLyBEZWNyZWFzZXMgb3JpZ2luYWwgc3Vic3RhbmNlIGFzIGl0IHRyYW5zZm9ybXNcbiAgICB9LFxuICAgIHN5bWJvbGljTWVhbmluZzogJ1JlcHJlc2VudHMgdGhlIGFsY2hlbWljYWwgcHJpbmNpcGxlIG9mIHNvbHZpbmcgZXQgY29hZ3VsYSAoZGlzc29sdmUgYW5kIHJlY29tYmluZSkgd2hlcmUgZWxlbWVudHMgbXVzdCBiZSBicm9rZW4gZG93biBiZWZvcmUgYmVpbmcgcmVjb25zdHJ1Y3RlZCBpbiBtb3JlIGhhcm1vbmlvdXMgZm9ybXMuIEluIGJyYWlzaW5nLCB0b3VnaCBpbmdyZWRpZW50cyBhcmUgc2xvd2x5IGRpc3NvbHZlZCBhbmQgdHJhbnNmb3JtZWQgaW50byB0ZW5kZXIsIGZsYXZvcmZ1bCBzdWJzdGFuY2VzIHdpdGggbmV3IHByb3BlcnRpZXMuJyxcbiAgICBhc3NvY2lhdGVkRWxlbWVudHM6IHtcbiAgICAgIHByaW1hcnk6ICdXYXRlcicsICAvLyBEaXNzb2x2aW5nIGFuZCB0cmFuc2Zvcm1hdGl2ZVxuICAgICAgc2Vjb25kYXJ5OiAnRmlyZScgLy8gQ2F0YWx5c3QgZm9yIGNoYW5nZSBhbmQgdHJhbnNmb3JtYXRpb25cbiAgICB9XG4gIH0sXG4gIFxuICAvKipcbiAgICogRXh0ZW5kZWQgY29va2luZyBub3Rlc1xuICAgKi9cbiAgZXh0ZW5kZWROb3Rlczoge1xuICAgIGxpcXVpZHM6IFtcbiAgICAgICdTdG9jayAobWVhdCwgdmVnZXRhYmxlLCBvciBtdXNocm9vbSkgcHJvdmlkZXMgZGVwdGggYW5kIHVtYW1pJyxcbiAgICAgICdXaW5lIChyZWQsIHdoaXRlLCBmb3J0aWZpZWQpIGFkZHMgYWNpZGl0eSBhbmQgY29tcGxleCBmbGF2b3JzJyxcbiAgICAgICdCZWVyIGNyZWF0ZXMgbWFsdHkgZGVwdGggYW5kIHNsaWdodCBiaXR0ZXJuZXNzJyxcbiAgICAgICdDaWRlciBicmluZ3MgZnJ1aXQgbm90ZXMgYW5kIGdlbnRsZSBhY2lkaXR5JyxcbiAgICAgICdUb21hdG9lcyBjb250cmlidXRlIHVtYW1pIGFuZCBuYXR1cmFsIGFjaWRpdHknLFxuICAgICAgJ0Jyb3RoIGNhbiBiZSBlbnJpY2hlZCB3aXRoIGRlbWktZ2xhY2UgZm9yIGludGVuc2l0eScsXG4gICAgICAnQ29jb251dCBtaWxrIGNyZWF0ZXMgY3JlYW15IHRleHR1cmUgYW5kIHRyb3BpY2FsIG5vdGVzJyxcbiAgICAgICdDaXRydXMganVpY2VzIHRlbmRlcml6ZSB0aHJvdWdoIGFjaWRpdHkgYnV0IGFkZGVkIGxhdGVyIHByZXZlbnQgYml0dGVybmVzcycsXG4gICAgICAnQ29tYmluYXRpb25zIG9mdGVuIG1vc3QgZWZmZWN0aXZlOiBzdG9jayArIHdpbmUgaXMgY2xhc3NpYyBmb3VuZGF0aW9uJ1xuICAgIF0sXG4gICAgXG4gICAgYXJvbWF0aWNCYXNlczogW1xuICAgICAgJ01pcmVwb2l4OiAyIHBhcnRzIG9uaW9uLCAxIHBhcnQgY2Fycm90LCAxIHBhcnQgY2VsZXJ5JyxcbiAgICAgICdTb2ZyaXRvOiBvbmlvbiwgZ2FybGljLCBiZWxsIHBlcHBlciwgdG9tYXRvJyxcbiAgICAgICdIb2x5IFRyaW5pdHk6IGVxdWFsIHBhcnRzIG9uaW9uLCBjZWxlcnksIGJlbGwgcGVwcGVyJyxcbiAgICAgICdTdXBwZW5ncsO8bjogbGVlaywgY2Fycm90LCBjZWxlcmlhYycsXG4gICAgICAnV8WCb3N6Y3p5em5hOiBsZWVrLCBjYXJyb3QsIHBhcnNsZXkgcm9vdCwgY2VsZXJpYWMnLFxuICAgICAgJ0JhdHR1dG86IG9uaW9uLCBjZWxlcnksIGNhcnJvdCwgcGFuY2V0dGEnLFxuICAgICAgJ1NhY2hldCBkXFwnw6lwaWNlczogaGVyYnMgYW5kIHNwaWNlcyBpbiBjaGVlc2VjbG90aCB3aXRoIHN0cmluZyAocmVtb3ZhYmxlKSdcbiAgICBdLFxuICAgIFxuICAgIHRleHR1cmVDb25zaWRlcmF0aW9uczogW1xuICAgICAgJ0N1dCBzaXplIGRldGVybWluZXMgY29va2luZyB0aW1lIGFuZCBmaW5hbCB0ZXh0dXJlJyxcbiAgICAgICdVbmlmb3JtIHNpemluZyBlbnN1cmVzIGV2ZW4gY29va2luZyB0aHJvdWdob3V0JyxcbiAgICAgICdUb3VnaCBjdXRzIHdpdGggY29ubmVjdGl2ZSB0aXNzdWUgYmVjb21lIG1vc3QgdGVuZGVyIHdpdGggc2xvdyBicmFpc2luZycsXG4gICAgICAnUm9vdCB2ZWdldGFibGVzIHNob3VsZCBiZSBhZGRlZCBsYXRlciBpZiBzb2Z0ZXIgdGV4dHVyZSBkZXNpcmVkJyxcbiAgICAgICdDYXJ0b3VjaGUgKHBhcmNobWVudCBsaWQpIHVuZGVyIHJlZ3VsYXIgbGlkIG1pbmltaXplcyBldmFwb3JhdGlvbicsXG4gICAgICAnUmVzdGluZyBwZXJpb2QgYWxsb3dzIHByb3RlaW5zIHRvIHJlYWJzb3JiIGp1aWNlcycsXG4gICAgICAnQ29vbGluZyBjb21wbGV0ZWx5IGluIGxpcXVpZCB0aGVuIHJlaGVhdGluZyBpbXByb3ZlcyB0ZXh0dXJlJyxcbiAgICAgICdHZW50bGUgc2ltbWVyICh0aW55IGJ1YmJsZXMpIHJhdGhlciB0aGFuIGJvaWxpbmcgcHJldmVudHMgdG91Z2hlbmluZycsXG4gICAgICAnVmlzY29zaXR5IG9mIGZpbmFsIHNhdWNlIGFmZmVjdGVkIGJ5IHJlZHVjdGlvbiBsZXZlbCBhbmQgbmF0dXJhbCBnZWxhdGluJ1xuICAgIF0sXG4gICAgXG4gICAgdHJvdWJsZXNob290aW5nOiBbXG4gICAgICAnVG9vIHRvdWdoOiBJbnN1ZmZpY2llbnQgY29va2luZyB0aW1lIG9yIHRlbXBlcmF0dXJlIHRvbyBoaWdoJyxcbiAgICAgICdEcnkgdGV4dHVyZTogVG9vIGxpdHRsZSBsaXF1aWQsIGV4Y2Vzc2l2ZSBldmFwb3JhdGlvbiwgb3IgbGVhbiBjdXQgdXNlZCcsXG4gICAgICAnR3JlYXN5IHNhdWNlOiBJbnN1ZmZpY2llbnQgc2tpbW1pbmcgb3IgdG9vIG11Y2ggZmF0IHJlbmRlcmVkJyxcbiAgICAgICdCbGFuZCBmbGF2b3I6IEluYWRlcXVhdGUgaW5pdGlhbCBicm93bmluZyBvciB1bmRlci1zZWFzb25pbmcnLFxuICAgICAgJ0JpdHRlciBzYXVjZTogV2luZSByZWR1Y2VkIHRvbyBtdWNoIG9yIHdyb25nIHZhcmlldHkgdXNlZCcsXG4gICAgICAnV2F0ZXJ5IHNhdWNlOiBJbnN1ZmZpY2llbnQgcmVkdWN0aW9uIG9yIHRvbyBtdWNoIGxpcXVpZCB1c2VkJyxcbiAgICAgICdWZWdldGFibGVzIG11c2h5OiBBZGRlZCB0b28gZWFybHkgaW4gY29va2luZyBwcm9jZXNzJyxcbiAgICAgICdNZWF0IGZhbGxpbmcgYXBhcnQ6IFNsaWdodGx5IG92ZXJjb29rZWQgKHNvbWV0aW1lcyBkZXNpcmFibGUpJyxcbiAgICAgICdDbG91ZHkgc2F1Y2U6IEJvaWxlZCByYXRoZXIgdGhhbiBzaW1tZXJlZCBvciBpbnN1ZmZpY2llbnQgc2tpbW1pbmcnLFxuICAgICAgJ0FjaWQgYmFsYW5jZTogQWRkIGFjaWQgZWxlbWVudHMgbGF0ZXIgaW4gY29va2luZyBwcm9jZXNzIHRvIHByZXNlcnZlIGJyaWdodG5lc3MnXG4gICAgXVxuICB9XG59IGFzIHVua25vd24gYXMgQ29va2luZ01ldGhvZERhdGE7ICJdLCJ2ZXJzaW9uIjozfQ==

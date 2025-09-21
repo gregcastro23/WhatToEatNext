@@ -1,0 +1,7 @@
+yarn run v1.22.22
+$ /Users/GregCastro/Desktop/WhatToEatNext/node_modules/.bin/tsc --noEmit --skipLibCheck src/utils/constants.ts
+error TS2688: Cannot find type definition file for 'testing-library__jest-dom'.
+  The file is in the program because:
+    Entry point for implicit type library 'testing-library__jest-dom'
+error Command failed with exit code 2.
+info Visit https://yarnpkg.com/en/docs/cli/run for documentation about this command.

@@ -1,0 +1,1263 @@
+0f0d6597cedae7cbe26bbec52324cdaa
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.italian = void 0;
+exports.italian = {
+    id: "italian",
+    name: "Italian",
+    description: "Traditional Italian cuisine emphasizing fresh ingredients, regional specialties, and time-honored techniques",
+    dishes: {
+        breakfast: {
+            all: [
+                {
+                    id: "cornetto-e-cappuccino",
+                    name: "Cornetto e Cappuccino",
+                    description: "Italian-style croissant served with frothy coffee",
+                    cuisine: "Italian",
+                    cookingMethods: ["baking", "coffee-brewing"],
+                    tools: [
+                        "oven",
+                        "espresso machine",
+                        "milk frother",
+                        "baking sheet"
+                    ],
+                    preparationSteps: [
+                        "Bake cornetto until golden",
+                        "Brew espresso",
+                        "Steam and froth milk",
+                        "Combine espresso and milk for cappuccino",
+                        "Serve cornetto warm"
+                    ],
+                    instructions: [
+                        "Bake cornetto until golden",
+                        "Brew espresso",
+                        "Steam and froth milk",
+                        "Combine espresso and milk for cappuccino",
+                        "Serve cornetto warm"
+                    ],
+                    ingredients: [
+                        { name: "cornetto", amount: "1", unit: "piece", category: "pastry", swaps: ["whole grain cornetto"] },
+                        { name: "coffee beans", amount: "18", unit: "g", category: "beverage" },
+                        { name: "milk", amount: "120", unit: "ml", category: "dairy", swaps: ["oat milk", "almond milk"] }
+                    ],
+                    substitutions: {
+                        "milk": ["oat milk", "almond milk", "soy milk"],
+                        "cornetto": ["whole grain cornetto", "gluten-free pastry"]
+                    },
+                    servingSize: 1,
+                    allergens: ["gluten", "dairy", "eggs"],
+                    prepTime: "5 minutes",
+                    cookTime: "3 minutes",
+                    culturalNotes: "The traditional Italian breakfast, enjoyed standing at cafe counters across Italy",
+                    pairingSuggestions: ["fresh orange juice", "fruit preserves"],
+                    dietaryInfo: ["vegetarian"],
+                    spiceLevel: "none",
+                    nutrition: {
+                        calories: 280,
+                        protein: 8,
+                        carbs: 42,
+                        fat: 12,
+                        vitamins: ["B12", "D"],
+                        minerals: ["Calcium"]
+                    },
+                    season: ["all"],
+                    mealType: ["breakfast"],
+                    astrologicalAffinities: {
+                        planets: ["Venus", "Mercury"],
+                        signs: ["Taurus", "Libra"],
+                        lunarPhases: ["New Moon", "First Quarter"]
+                    },
+                    lunarPhaseInfluences: ["New Moon", "First Quarter"],
+                    zodiacInfluences: ["Taurus", "Libra"]
+                },
+                {
+                    name: "Maritozzo con Panna",
+                    description: "Roman sweet bun filled with whipped cream",
+                    cuisine: "Italian",
+                    cookingMethods: ["whipping", "filling"],
+                    tools: [
+                        "mixing bowl",
+                        "whisk",
+                        "piping bag",
+                        "serving plate"
+                    ],
+                    preparationSteps: [
+                        "Whip cream with sugar",
+                        "Slice maritozzo bun",
+                        "Fill with whipped cream",
+                        "Dust with powdered sugar",
+                        "Serve immediately"
+                    ],
+                    ingredients: [
+                        { name: "maritozzo", amount: "1", unit: "piece", category: "pastry", swaps: ["gluten-free bun"] },
+                        { name: "whipped cream", amount: "100", unit: "g", category: "dairy", swaps: ["coconut whipped cream"] },
+                        { name: "powdered sugar", amount: "1", unit: "tsp", category: "sweetener" },
+                        { name: "espresso", amount: "30", unit: "ml", category: "beverage" }
+                    ],
+                    substitutions: {
+                        "maritozzo": ["gluten-free bun", "brioche bun"],
+                        "whipped cream": ["coconut whipped cream", "cashew cream"],
+                        "powdered sugar": ["monk fruit sweetener", "stevia"]
+                    },
+                    servingSize: 1,
+                    allergens: ["gluten", "dairy"],
+                    prepTime: "10 minutes",
+                    cookTime: "0 minutes",
+                    culturalNotes: "A beloved Roman breakfast pastry, traditionally enjoyed in the morning with coffee",
+                    pairingSuggestions: ["espresso", "cappuccino", "fresh berries"],
+                    dietaryInfo: ["vegetarian"],
+                    spiceLevel: "none",
+                    nutrition: {
+                        calories: 350,
+                        protein: 6,
+                        carbs: 45,
+                        fat: 18,
+                        vitamins: ["A", "D"],
+                        minerals: ["Calcium"]
+                    },
+                    season: ["all"],
+                    mealType: ["breakfast", "dessert"]
+                },
+                {
+                    name: "Fette Biscottate con Marmellata",
+                    description: "Crisp toast with jam and coffee",
+                    cuisine: "Italian",
+                    cookingMethods: ["toasting", "spreading"],
+                    tools: [
+                        "toaster",
+                        "butter knife",
+                        "serving plate",
+                        "espresso maker"
+                    ],
+                    preparationSteps: [
+                        "Toast fette biscottate",
+                        "Spread with butter",
+                        "Top with jam",
+                        "Serve with espresso"
+                    ],
+                    ingredients: [
+                        { name: "fette biscottate", amount: "3", unit: "pieces", category: "bread", swaps: ["gluten-free toast"] },
+                        { name: "jam", amount: "30", unit: "g", category: "spread" },
+                        { name: "butter", amount: "15", unit: "g", category: "dairy", swaps: ["plant butter"] },
+                        { name: "espresso", amount: "30", unit: "ml", category: "beverage" }
+                    ],
+                    substitutions: {
+                        "butter": ["plant butter", "olive oil"],
+                        "fette biscottate": ["gluten-free toast", "regular toast"]
+                    },
+                    servingSize: 1,
+                    allergens: ["gluten", "dairy"],
+                    prepTime: "5 minutes",
+                    cookTime: "0 minutes",
+                    culturalNotes: "A simple, traditional Italian breakfast that's light and quick",
+                    pairingSuggestions: ["espresso", "fresh fruit"],
+                    dietaryInfo: ["vegetarian"],
+                    spiceLevel: "none",
+                    nutrition: {
+                        calories: 280,
+                        protein: 6,
+                        carbs: 45,
+                        fat: 10,
+                        vitamins: ["A", "D"],
+                        minerals: ["Iron"]
+                    },
+                    season: ["all"],
+                    mealType: ["breakfast"]
+                }
+            ],
+            summer: [
+                {
+                    name: "Granita con Brioche",
+                    description: "Sicilian ice granita with soft brioche",
+                    cuisine: "Italian",
+                    cookingMethods: ["freezing", "scraping", "serving"],
+                    tools: [
+                        "shallow pan",
+                        "fork",
+                        "serving glass",
+                        "ice cream scoop"
+                    ],
+                    preparationSteps: [
+                        "Freeze almond mixture",
+                        "Scrape with fork periodically",
+                        "Warm brioche slightly",
+                        "Serve granita in glass",
+                        "Top with whipped cream",
+                        "Serve with brioche on side"
+                    ],
+                    ingredients: [
+                        { name: "almond granita", amount: "200", unit: "ml", category: "ice" },
+                        { name: "brioche", amount: "1", unit: "piece", category: "pastry", swaps: ["gluten-free brioche"] },
+                        { name: "whipped cream", amount: "30", unit: "g", category: "dairy", swaps: ["coconut whipped cream"] }
+                    ],
+                    substitutions: {
+                        "brioche": ["gluten-free brioche", "croissant"],
+                        "whipped cream": ["coconut whipped cream", "almond cream"]
+                    },
+                    servingSize: 1,
+                    allergens: ["dairy", "gluten", "nuts"],
+                    prepTime: "5 minutes",
+                    cookTime: "0 minutes",
+                    culturalNotes: "Traditional Sicilian summer breakfast, especially popular in Catania and Messina",
+                    pairingSuggestions: ["espresso", "fresh fruit"],
+                    dietaryInfo: ["vegetarian"],
+                    spiceLevel: "none",
+                    nutrition: {
+                        calories: 380,
+                        protein: 9,
+                        carbs: 52,
+                        fat: 16,
+                        vitamins: ["A", "D", "E"],
+                        minerals: ["Calcium"]
+                    },
+                    season: ["summer"],
+                    mealType: ["breakfast"]
+                },
+                {
+                    name: "Ricotta e Fichi",
+                    description: "Fresh ricotta with figs and honey",
+                    cuisine: "Italian",
+                    cookingMethods: ["assembling"],
+                    tools: [
+                        "serving bowl",
+                        "honey dipper",
+                        "knife",
+                        "spoon"
+                    ],
+                    preparationSteps: [
+                        "Place ricotta in serving bowl",
+                        "Quarter fresh figs",
+                        "Arrange figs around ricotta",
+                        "Drizzle with honey",
+                        "Sprinkle with pistachios"
+                    ],
+                    ingredients: [
+                        { name: "ricotta", amount: "200", unit: "g", category: "dairy", swaps: ["almond ricotta"] },
+                        { name: "fresh figs", amount: "4", unit: "whole", category: "fruit" },
+                        { name: "honey", amount: "2", unit: "tbsp", category: "sweetener" },
+                        { name: "pistachios", amount: "30", unit: "g", category: "nuts" }
+                    ],
+                    substitutions: {
+                        "ricotta": ["almond ricotta", "cashew ricotta"],
+                        "honey": ["agave nectar", "maple syrup"]
+                    },
+                    servingSize: 2,
+                    allergens: ["dairy", "nuts"],
+                    prepTime: "5 minutes",
+                    cookTime: "0 minutes",
+                    culturalNotes: "A simple summer breakfast that showcases Italy's love for fresh, seasonal ingredients",
+                    pairingSuggestions: ["fresh mint tea", "crusty bread"],
+                    dietaryInfo: ["vegetarian", "gluten-free"],
+                    spiceLevel: "none",
+                    nutrition: {
+                        calories: 380,
+                        protein: 18,
+                        carbs: 42,
+                        fat: 18,
+                        vitamins: ["A", "B12", "K"],
+                        minerals: ["Calcium", "Magnesium"]
+                    },
+                    season: ["summer"],
+                    mealType: ["breakfast"]
+                }
+            ],
+            winter: [
+                {
+                    name: "Cioccolata Calda con Biscotti",
+                    description: "Thick Italian hot chocolate with cookies",
+                    cuisine: "Italian",
+                    cookingMethods: ["heating", "whisking"],
+                    tools: [
+                        "saucepan",
+                        "whisk",
+                        "measuring cups",
+                        "serving mug"
+                    ],
+                    preparationSteps: [
+                        "Heat milk in saucepan",
+                        "Add chocolate and cornstarch",
+                        "Whisk until thickened",
+                        "Pour into serving mug",
+                        "Serve with biscotti"
+                    ],
+                    ingredients: [
+                        { name: "dark chocolate", amount: "100", unit: "g", category: "chocolate" },
+                        { name: "whole milk", amount: "250", unit: "ml", category: "dairy", swaps: ["oat milk"] },
+                        { name: "cornstarch", amount: "10", unit: "g", category: "thickener" },
+                        { name: "biscotti", amount: "2", unit: "pieces", category: "pastry", swaps: ["gluten-free biscotti"] }
+                    ],
+                    substitutions: {
+                        "whole milk": ["oat milk", "almond milk", "soy milk"],
+                        "biscotti": ["gluten-free biscotti", "amaretti"]
+                    },
+                    servingSize: 1,
+                    allergens: ["dairy", "gluten"],
+                    prepTime: "5 minutes",
+                    cookTime: "10 minutes",
+                    culturalNotes: "Italian hot chocolate is famously thick and rich, perfect for winter mornings",
+                    pairingSuggestions: ["biscotti", "whipped cream"],
+                    dietaryInfo: ["vegetarian"],
+                    spiceLevel: "none",
+                    nutrition: {
+                        calories: 450,
+                        protein: 12,
+                        carbs: 48,
+                        fat: 24,
+                        vitamins: ["D", "E"],
+                        minerals: ["Iron", "Calcium"]
+                    },
+                    season: ["winter"],
+                    mealType: ["breakfast"]
+                }
+            ]
+        },
+        lunch: {
+            all: [
+                {
+                    name: "Pasta al Pomodoro",
+                    description: "Classic spaghetti with fresh tomato sauce",
+                    cuisine: "Italian",
+                    cookingMethods: ["boiling", "sauce-making"],
+                    tools: [
+                        "large pot",
+                        "saucepan",
+                        "colander",
+                        "wooden spoon"
+                    ],
+                    preparationSteps: [
+                        "Boil pasta in salted water",
+                        "Prepare fresh tomato sauce",
+                        "Combine pasta with sauce",
+                        "Finish with basil and olive oil"
+                    ],
+                    ingredients: [
+                        { name: "spaghetti", amount: "400", unit: "g", category: "pasta", swaps: ["gluten-free pasta"] },
+                        { name: "tomatoes", amount: "500", unit: "g", category: "vegetable" },
+                        { name: "basil", amount: "1", unit: "bunch", category: "herb" },
+                        { name: "olive oil", amount: "60", unit: "ml", category: "oil" },
+                        { name: "garlic", amount: "3", unit: "cloves", category: "vegetable" }
+                    ],
+                    substitutions: {
+                        "spaghetti": ["gluten-free pasta", "zucchini noodles"],
+                        "garlic": ["garlic powder", "shallots"]
+                    },
+                    servingSize: 4,
+                    allergens: ["gluten"],
+                    prepTime: "10 minutes",
+                    cookTime: "20 minutes",
+                    culturalNotes: "A cornerstone of Italian cuisine, showcasing the importance of simplicity and quality ingredients",
+                    pairingSuggestions: ["Chianti", "green salad", "crusty bread"],
+                    dietaryInfo: ["vegetarian", "vegan"],
+                    spiceLevel: "mild",
+                    nutrition: {
+                        calories: 380,
+                        protein: 12,
+                        carbs: 65,
+                        fat: 10,
+                        vitamins: ["A", "C"],
+                        minerals: ["Iron"]
+                    },
+                    season: ["all"],
+                    mealType: ["lunch"]
+                },
+                {
+                    name: "Insalata Caprese",
+                    description: "Classic Capri salad with mozzarella and tomatoes",
+                    cuisine: "Italian",
+                    cookingMethods: ["assembling"],
+                    tools: [
+                        "sharp knife",
+                        "serving platter",
+                        "olive oil bottle",
+                        "kitchen towel"
+                    ],
+                    preparationSteps: [
+                        "Slice tomatoes and mozzarella",
+                        "Arrange alternately on plate",
+                        "Tuck fresh basil leaves between",
+                        "Drizzle with olive oil",
+                        "Season with salt and pepper",
+                        "Optional balsamic drizzle"
+                    ],
+                    ingredients: [
+                        { name: "buffalo mozzarella", amount: "200", unit: "g", category: "dairy", swaps: ["plant-based mozzarella"] },
+                        { name: "tomatoes", amount: "300", unit: "g", category: "vegetable" },
+                        { name: "fresh basil", amount: "1", unit: "bunch", category: "herb" },
+                        { name: "olive oil", amount: "3", unit: "tbsp", category: "oil" },
+                        { name: "balsamic vinegar", amount: "1", unit: "tbsp", category: "vinegar" }
+                    ],
+                    substitutions: {
+                        "buffalo mozzarella": ["vegan mozzarella", "burrata"],
+                        "balsamic vinegar": ["balsamic glaze", "aged balsamic"]
+                    },
+                    servingSize: 2,
+                    allergens: ["dairy"],
+                    prepTime: "10 minutes",
+                    cookTime: "0 minutes",
+                    culturalNotes: "Originated on the island of Capri, representing the colors of the Italian flag",
+                    pairingSuggestions: ["crusty bread", "Verdicchio wine"],
+                    dietaryInfo: ["vegetarian", "gluten-free"],
+                    spiceLevel: "none",
+                    nutrition: {
+                        calories: 320,
+                        protein: 18,
+                        carbs: 8,
+                        fat: 24,
+                        vitamins: ["A", "C", "K"],
+                        minerals: ["Calcium", "Potassium"]
+                    },
+                    season: ["summer"],
+                    mealType: ["lunch", "appetizer"]
+                },
+                {
+                    name: "Panzanella",
+                    description: "Tuscan bread and tomato salad",
+                    cuisine: "Italian",
+                    cookingMethods: ["assembling"],
+                    tools: [
+                        "sharp knife",
+                        "serving bowl",
+                        "olive oil bottle",
+                        "kitchen towel"
+                    ],
+                    preparationSteps: [
+                        "Slice stale bread into cubes",
+                        "Slice tomatoes and cucumber",
+                        "Chop red onion",
+                        "Combine all ingredients in a bowl",
+                        "Drizzle with olive oil",
+                        "Season with salt and pepper",
+                        "Toss gently",
+                        "Serve immediately"
+                    ],
+                    ingredients: [
+                        { name: "stale bread", amount: "300", unit: "g", category: "grain", swaps: ["gluten-free bread"] },
+                        { name: "tomatoes", amount: "400", unit: "g", category: "vegetable" },
+                        { name: "cucumber", amount: "1", unit: "medium", category: "vegetable" },
+                        { name: "red onion", amount: "1", unit: "medium", category: "vegetable" },
+                        { name: "olive oil", amount: "60", unit: "ml", category: "oil" }
+                    ],
+                    substitutions: {
+                        "stale bread": ["gluten-free bread", "fresh bread"],
+                        "tomatoes": ["cherry tomatoes", "grape tomatoes"],
+                        "cucumber": ["english cucumber", "persian cucumber"],
+                        "red onion": ["yellow onion", "shallot"]
+                    },
+                    servingSize: 4,
+                    allergens: ["gluten"],
+                    prepTime: "15 minutes",
+                    cookTime: "0 minutes",
+                    culturalNotes: "A simple and refreshing Tuscan salad that showcases the region's love for bread and vegetables",
+                    pairingSuggestions: ["Chianti wine", "crusty bread"],
+                    dietaryInfo: ["vegetarian", "gluten-free"],
+                    spiceLevel: "mild",
+                    nutrition: {
+                        calories: 380,
+                        protein: 10,
+                        carbs: 58,
+                        fat: 16,
+                        vitamins: ["C", "A", "K"],
+                        minerals: ["Potassium", "Iron"]
+                    },
+                    season: ["summer"],
+                    mealType: ["lunch"]
+                }
+            ],
+            winter: [
+                {
+                    name: "Ribollita",
+                    description: "Hearty Tuscan bread and vegetable soup",
+                    cuisine: "Italian",
+                    cookingMethods: ["simmering", "sautéing"],
+                    tools: [
+                        "large pot",
+                        "wooden spoon",
+                        "knife",
+                        "cutting board"
+                    ],
+                    preparationSteps: [
+                        "Sauté vegetables and herbs",
+                        "Add beans and tomatoes",
+                        "Simmer with broth",
+                        "Add bread chunks",
+                        "Continue cooking until thickened",
+                        "Rest overnight for best results"
+                    ],
+                    ingredients: [
+                        { name: "stale bread", amount: "300", unit: "g", category: "bread", swaps: ["gluten-free bread"] },
+                        { name: "cannellini beans", amount: "400", unit: "g", category: "legume" },
+                        { name: "cavolo nero", amount: "200", unit: "g", category: "vegetable", swaps: ["kale"] },
+                        { name: "vegetables", amount: "500", unit: "g", category: "vegetable" },
+                        { name: "olive oil", amount: "60", unit: "ml", category: "oil" }
+                    ],
+                    substitutions: {
+                        "cavolo nero": ["kale", "Swiss chard"],
+                        "stale bread": ["gluten-free bread", "crusty bread"],
+                        "cannellini beans": ["navy beans", "great northern beans"]
+                    },
+                    servingSize: 6,
+                    allergens: ["gluten"],
+                    prepTime: "30 minutes",
+                    cookTime: "1 hour",
+                    culturalNotes: "A peasant dish from Tuscany that exemplifies the Italian tradition of not wasting food",
+                    pairingSuggestions: ["Chianti wine", "extra virgin olive oil drizzle"],
+                    dietaryInfo: ["vegetarian", "vegan"],
+                    spiceLevel: "mild",
+                    nutrition: {
+                        calories: 380,
+                        protein: 15,
+                        carbs: 58,
+                        fat: 12,
+                        vitamins: ["A", "C", "K"],
+                        minerals: ["Iron", "Fiber"]
+                    },
+                    season: ["winter", "autumn"],
+                    mealType: ["lunch", "dinner"]
+                },
+                {
+                    name: "Pasta e Fagioli",
+                    description: "Classic pasta and bean soup",
+                    cuisine: "Italian",
+                    cookingMethods: ["simmering"],
+                    tools: [
+                        "large pot",
+                        "wooden spoon",
+                        "knife",
+                        "cutting board"
+                    ],
+                    preparationSteps: [
+                        "Sauté vegetables and herbs",
+                        "Add beans and pasta",
+                        "Simmer with broth",
+                        "Season with salt and pepper",
+                        "Serve with grated parmesan"
+                    ],
+                    ingredients: [
+                        { name: "small pasta", amount: "200", unit: "g", category: "grain", swaps: ["gluten-free pasta"] },
+                        { name: "borlotti beans", amount: "400", unit: "g", category: "legume" },
+                        { name: "tomato passata", amount: "200", unit: "ml", category: "sauce" },
+                        { name: "rosemary", amount: "2", unit: "sprigs", category: "herb" },
+                        { name: "pancetta", amount: "50", unit: "g", category: "protein", swaps: ["smoked tofu"] }
+                    ],
+                    substitutions: {
+                        "small pasta": ["gluten-free pasta", "rice pasta"],
+                        "borlotti beans": ["cannellini beans", "kidney beans"],
+                        "tomato passata": ["tomato sauce", "diced tomatoes"],
+                        "rosemary": ["thyme", "oregano"],
+                        "pancetta": ["bacon", "smoked tofu"]
+                    },
+                    servingSize: 4,
+                    allergens: ["gluten"],
+                    prepTime: "20 minutes",
+                    cookTime: "45 minutes",
+                    culturalNotes: "A hearty and comforting soup that's perfect for cold winter days",
+                    pairingSuggestions: ["Chianti wine", "crusty bread"],
+                    dietaryInfo: ["vegetarian"],
+                    spiceLevel: "mild",
+                    nutrition: {
+                        calories: 440,
+                        protein: 22,
+                        carbs: 68,
+                        fat: 12,
+                        vitamins: ["B1", "B12", "C"],
+                        minerals: ["Iron", "Potassium"]
+                    },
+                    season: ["winter"],
+                    mealType: ["lunch"]
+                }
+            ]
+        },
+        dinner: {
+            all: [
+                {
+                    name: "Osso Buco alla Milanese",
+                    description: "Braised veal shanks in white wine and broth",
+                    cuisine: "Italian",
+                    cookingMethods: ["braising", "sautéing"],
+                    tools: [
+                        "Dutch oven",
+                        "wooden spoon",
+                        "kitchen twine",
+                        "grater"
+                    ],
+                    preparationSteps: [
+                        "Tie veal shanks with twine",
+                        "Dredge in flour and brown",
+                        "Sauté soffritto",
+                        "Add wine and broth",
+                        "Braise until tender",
+                        "Prepare gremolata"
+                    ],
+                    ingredients: [
+                        { name: "veal shanks", amount: "4", unit: "pieces", category: "protein", swaps: ["beef shanks"] },
+                        { name: "white wine", amount: "250", unit: "ml", category: "wine" },
+                        { name: "broth", amount: "500", unit: "ml", category: "liquid" },
+                        { name: "vegetables", amount: "300", unit: "g", category: "vegetable" },
+                        { name: "gremolata", amount: "1", unit: "portion", category: "garnish" }
+                    ],
+                    substitutions: {
+                        "veal": ["beef shanks", "mushroom shanks"],
+                        "white wine": ["vegetable stock", "non-alcoholic wine"]
+                    },
+                    servingSize: 4,
+                    allergens: ["celery"],
+                    prepTime: "30 minutes",
+                    cookTime: "2 hours",
+                    culturalNotes: "A signature dish from Milan, traditionally served with risotto alla Milanese",
+                    pairingSuggestions: ["risotto alla Milanese", "Barbaresco", "crusty bread"],
+                    dietaryInfo: ["contains meat", "contains alcohol"],
+                    spiceLevel: "mild",
+                    nutrition: {
+                        calories: 450,
+                        protein: 35,
+                        carbs: 15,
+                        fat: 28,
+                        vitamins: ["B12", "A"],
+                        minerals: ["Iron", "Zinc"]
+                    },
+                    season: ["winter"],
+                    mealType: ["dinner"]
+                },
+                {
+                    name: "Risotto ai Funghi",
+                    description: "Creamy mushroom risotto",
+                    cuisine: "Italian",
+                    cookingMethods: ["sautéing", "gradual-liquid-addition"],
+                    tools: [
+                        "heavy-bottomed pan",
+                        "wooden spoon",
+                        "ladle",
+                        "saucepan"
+                    ],
+                    preparationSteps: [
+                        "Prepare mushroom broth",
+                        "Toast rice with onions",
+                        "Add wine and reduce",
+                        "Gradually add hot broth",
+                        "Finish with butter and cheese",
+                        "Rest before serving"
+                    ],
+                    ingredients: [
+                        { name: "arborio rice", amount: "320", unit: "g", category: "grain" },
+                        { name: "porcini mushrooms", amount: "30", unit: "g", category: "fungi", swaps: ["other mushrooms"] },
+                        { name: "white wine", amount: "120", unit: "ml", category: "wine" },
+                        { name: "parmigiano", amount: "80", unit: "g", category: "dairy", swaps: ["nutritional yeast"] }
+                    ],
+                    substitutions: {
+                        "parmigiano": ["nutritional yeast", "vegan parmesan"],
+                        "white wine": ["vegetable stock", "mushroom stock"],
+                        "butter": ["olive oil", "vegan butter"]
+                    },
+                    servingSize: 4,
+                    allergens: ["dairy"],
+                    prepTime: "15 minutes",
+                    cookTime: "25 minutes",
+                    culturalNotes: "A northern Italian specialty that showcases the region's love for rice dishes",
+                    pairingSuggestions: ["Barolo", "simple green salad"],
+                    dietaryInfo: ["vegetarian"],
+                    spiceLevel: "none",
+                    nutrition: {
+                        calories: 380,
+                        protein: 12,
+                        carbs: 65,
+                        fat: 18,
+                        vitamins: ["D", "B12"],
+                        minerals: ["Iron", "Calcium"]
+                    },
+                    season: ["autumn"],
+                    mealType: ["dinner"]
+                },
+                {
+                    name: "Gnocchi alla Sorrentina",
+                    description: "Potato gnocchi baked with tomato sauce, mozzarella, and basil",
+                    cuisine: "Italian",
+                    cookingMethods: ["boiling", "baking"],
+                    tools: [
+                        "large pot",
+                        "baking dish",
+                        "potato ricer",
+                        "knife",
+                        "cutting board"
+                    ],
+                    preparationSteps: [
+                        "Prepare gnocchi",
+                        "Make tomato sauce",
+                        "Cook gnocchi",
+                        "Layer with sauce and cheese",
+                        "Bake until bubbly",
+                        "Garnish with basil"
+                    ],
+                    ingredients: [
+                        { name: "potatoes", amount: "1", unit: "kg", category: "vegetable" },
+                        { name: "flour", amount: "300", unit: "g", category: "grain" },
+                        { name: "egg", amount: "1", unit: "large", category: "protein" },
+                        { name: "tomato sauce", amount: "500", unit: "ml", category: "sauce" },
+                        { name: "mozzarella", amount: "250", unit: "g", category: "dairy" },
+                        { name: "Parmigiano-Reggiano", amount: "100", unit: "g", category: "dairy" },
+                        { name: "fresh basil", amount: "1", unit: "bunch", category: "herb" },
+                        { name: "olive oil", amount: "3", unit: "tbsp", category: "oil" }
+                    ],
+                    substitutions: {
+                        "mozzarella": ["plant-based mozzarella"],
+                        "Parmigiano-Reggiano": ["pecorino", "nutritional yeast"],
+                        "egg": ["olive oil"]
+                    },
+                    servingSize: 6,
+                    allergens: ["wheat", "dairy", "egg"],
+                    prepTime: "45 minutes",
+                    cookTime: "30 minutes",
+                    culturalNotes: "A classic dish from Sorrento, combining the comfort of potato gnocchi with the flavors of Campania",
+                    pairingSuggestions: ["Italian red wine", "green salad", "crusty bread"],
+                    dietaryInfo: ["vegetarian"],
+                    spiceLevel: "mild",
+                    nutrition: {
+                        calories: 450,
+                        protein: 18,
+                        carbs: 65,
+                        fat: 15,
+                        vitamins: ["C", "A"],
+                        minerals: ["Potassium", "Calcium"]
+                    },
+                    season: ["all"],
+                    mealType: ["dinner"],
+                    elementalProperties: {
+                        Earth: 0.4,
+                        Water: 0.3,
+                        Fire: 0.2,
+                        Air: 0.1
+                    }
+                }
+            ],
+            summer: [
+                {
+                    name: "Acqua Pazza",
+                    description: "Neapolitan style fish in 'crazy water'",
+                    cuisine: "Italian (Neapolitan)",
+                    cookingMethods: ["poaching", "simmering"],
+                    tools: [
+                        "large skillet",
+                        "fish spatula",
+                        "knife",
+                        "cutting board"
+                    ],
+                    preparationSteps: [
+                        "Clean and prepare fish",
+                        "Sauté garlic and herbs",
+                        "Add tomatoes and wine",
+                        "Poach fish in liquid",
+                        "Garnish with fresh herbs"
+                    ],
+                    ingredients: [
+                        { name: "fresh fish", amount: "600", unit: "g", category: "protein", swaps: ["sea bass", "cod"] },
+                        { name: "cherry tomatoes", amount: "300", unit: "g", category: "vegetable" },
+                        { name: "white wine", amount: "150", unit: "ml", category: "wine", swaps: ["fish stock"] },
+                        { name: "garlic", amount: "4", unit: "cloves", category: "vegetable" },
+                        { name: "parsley", amount: "1", unit: "bunch", category: "herb" }
+                    ],
+                    substitutions: {
+                        "fresh fish": ["sea bass", "cod", "halibut"],
+                        "white wine": ["fish stock", "vegetable stock"],
+                        "cherry tomatoes": ["diced tomatoes", "grape tomatoes"]
+                    },
+                    servingSize: 4,
+                    allergens: ["fish", "sulfites"],
+                    prepTime: "15 minutes",
+                    cookTime: "25 minutes",
+                    culturalNotes: "A traditional Neapolitan fisherman's dish, where fish is cooked in 'crazy water' (acqua pazza) - a fragrant broth of tomatoes, herbs, and wine",
+                    pairingSuggestions: ["Falanghina wine", "crusty bread", "sautéed greens"],
+                    dietaryInfo: ["contains fish", "gluten-free", "dairy-free"],
+                    spiceLevel: "mild",
+                    nutrition: {
+                        calories: 320,
+                        protein: 42,
+                        carbs: 12,
+                        fat: 14,
+                        vitamins: ["D", "B12", "C"],
+                        minerals: ["Selenium", "Iodine", "Potassium"]
+                    },
+                    season: ["summer", "spring"],
+                    mealType: ["lunch", "dinner"]
+                },
+                {
+                    name: "Melanzane alla Parmigiana",
+                    description: "Eggplant Parmesan with tomato sauce",
+                    cuisine: "Italian",
+                    cookingMethods: ["baking", "frying"],
+                    tools: [
+                        "baking dish",
+                        "frying pan",
+                        "knife",
+                        "cutting board",
+                        "grater"
+                    ],
+                    preparationSteps: [
+                        "Slice eggplant thinly",
+                        "Salt and drain to remove bitterness",
+                        "Fry eggplant slices",
+                        "Prepare tomato sauce",
+                        "Layer eggplant, sauce, and cheese in baking dish",
+                        "Bake until golden and bubbly",
+                        "Serve with fresh basil"
+                    ],
+                    ingredients: [
+                        { name: "eggplant", amount: "800", unit: "g", category: "vegetable" },
+                        { name: "tomato sauce", amount: "500", unit: "ml", category: "sauce" },
+                        { name: "mozzarella", amount: "300", unit: "g", category: "dairy", swaps: ["vegan mozzarella"] },
+                        { name: "parmigiano", amount: "100", unit: "g", category: "dairy", swaps: ["nutritional yeast"] },
+                        { name: "basil", amount: "1", unit: "bunch", category: "herb" }
+                    ],
+                    substitutions: {
+                        "mozzarella": ["vegan mozzarella", "cashew cheese"],
+                        "parmigiano": ["nutritional yeast", "vegan parmesan"],
+                        "tomato sauce": ["marinara sauce", "canned tomatoes"]
+                    },
+                    servingSize: 4,
+                    allergens: ["dairy"],
+                    prepTime: "30 minutes",
+                    cookTime: "45 minutes",
+                    culturalNotes: "A popular Italian-American dish that showcases the versatility of eggplant",
+                    pairingSuggestions: ["red wine", "garlic bread"],
+                    dietaryInfo: ["vegetarian"],
+                    spiceLevel: "mild",
+                    nutrition: {
+                        calories: 420,
+                        protein: 22,
+                        carbs: 28,
+                        fat: 26,
+                        vitamins: ["A", "C", "K"],
+                        minerals: ["Calcium", "Iron"]
+                    },
+                    season: ["summer"],
+                    mealType: ["dinner"]
+                }
+            ]
+        },
+        dessert: {
+            all: [
+                {
+                    name: "Tiramisù",
+                    description: "Classic coffee-flavored dessert with mascarpone cream",
+                    cuisine: "Italian",
+                    cookingMethods: ["layering", "whipping"],
+                    tools: [
+                        "mixing bowls",
+                        "electric mixer",
+                        "serving dish",
+                        "espresso maker"
+                    ],
+                    preparationSteps: [
+                        "Prepare strong coffee",
+                        "Whip egg yolks with sugar",
+                        "Fold in mascarpone",
+                        "Dip ladyfingers in coffee",
+                        "Layer cream and cookies",
+                        "Dust with cocoa"
+                    ],
+                    ingredients: [
+                        { name: "mascarpone", amount: "500", unit: "g", category: "dairy" },
+                        { name: "ladyfingers", amount: "200", unit: "g", category: "pastry", swaps: ["gluten-free ladyfingers"] },
+                        { name: "espresso", amount: "300", unit: "ml", category: "coffee" },
+                        { name: "eggs", amount: "4", unit: "large", category: "protein" },
+                        { name: "cocoa powder", amount: "30", unit: "g", category: "powder" }
+                    ],
+                    substitutions: {
+                        "mascarpone": ["dairy-free mascarpone", "cashew cream"],
+                        "ladyfingers": ["gluten-free ladyfingers", "sponge cake"],
+                        "eggs": ["aquafaba"]
+                    },
+                    servingSize: 8,
+                    allergens: ["dairy", "eggs", "gluten"],
+                    prepTime: "30 minutes",
+                    cookTime: "0 minutes",
+                    culturalNotes: "Originated in Veneto, now one of Italy's most famous desserts worldwide",
+                    pairingSuggestions: ["espresso", "Vin Santo"],
+                    dietaryInfo: ["vegetarian"],
+                    spiceLevel: "none",
+                    nutrition: {
+                        calories: 350,
+                        protein: 8,
+                        carbs: 35,
+                        fat: 22,
+                        vitamins: ["A", "D"],
+                        minerals: ["Calcium"]
+                    },
+                    season: ["all"],
+                    mealType: ["dessert"]
+                }
+            ],
+            summer: [
+                {
+                    name: "Gelato Artigianale",
+                    description: "Traditional Italian ice cream",
+                    cuisine: "Italian",
+                    cookingMethods: ["churning"],
+                    tools: [
+                        "ice cream maker",
+                        "mixing bowl",
+                        "whisk",
+                        "saucepan"
+                    ],
+                    preparationSteps: [
+                        "Whisk milk, cream, and sugar",
+                        "Cook until thickened",
+                        "Cool and chill",
+                        "Churn in ice cream maker",
+                        "Freeze until firm"
+                    ],
+                    ingredients: [
+                        { name: "milk", amount: "500", unit: "ml", category: "dairy", swaps: ["almond milk"] },
+                        { name: "cream", amount: "250", unit: "ml", category: "dairy", swaps: ["coconut cream"] },
+                        { name: "sugar", amount: "150", unit: "g", category: "sweetener" },
+                        { name: "egg yolks", amount: "4", unit: "large", category: "protein" }
+                    ],
+                    substitutions: {
+                        "milk": ["almond milk", "oat milk"],
+                        "cream": ["coconut cream", "heavy cream"],
+                        "sugar": ["stevia", "erythritol"],
+                        "egg yolks": ["aquafaba"]
+                    },
+                    servingSize: 4,
+                    allergens: ["dairy", "eggs"],
+                    prepTime: "30 minutes",
+                    cookTime: "15 minutes",
+                    culturalNotes: "A beloved Italian dessert that showcases the country's love for sweet, creamy treats",
+                    pairingSuggestions: ["fresh fruit", "balsamic glaze"],
+                    dietaryInfo: ["vegetarian"],
+                    spiceLevel: "none",
+                    nutrition: {
+                        calories: 220,
+                        protein: 6,
+                        carbs: 28,
+                        fat: 12,
+                        vitamins: ["A", "D"],
+                        minerals: ["Calcium"]
+                    },
+                    season: ["summer"],
+                    mealType: ["dessert"]
+                }
+            ],
+            winter: [
+                {
+                    name: "Panettone",
+                    description: "Traditional Christmas sweet bread",
+                    cuisine: "Italian",
+                    cookingMethods: ["kneading", "rising", "baking"],
+                    tools: [
+                        "mixing bowl",
+                        "stand mixer",
+                        "loaf pan",
+                        "oven"
+                    ],
+                    preparationSteps: [
+                        "Knead dough with butter and sugar",
+                        "Add eggs and raisins",
+                        "Rise dough until doubled",
+                        "Shape into loaf",
+                        "Bake until golden",
+                        "Brush with sugar syrup"
+                    ],
+                    ingredients: [
+                        { name: "flour", amount: "500", unit: "g", category: "grain", swaps: ["gluten-free flour blend"] },
+                        { name: "dried fruit", amount: "200", unit: "g", category: "fruit" },
+                        { name: "butter", amount: "200", unit: "g", category: "dairy", swaps: ["plant butter"] },
+                        { name: "eggs", amount: "5", unit: "large", category: "protein" },
+                        { name: "sugar", amount: "150", unit: "g", category: "sweetener" }
+                    ],
+                    substitutions: {
+                        "flour": ["gluten-free flour blend", "coconut flour"],
+                        "dried fruit": ["raisins", "cranberries"],
+                        "butter": ["plant butter", "coconut oil"],
+                        "eggs": ["flax eggs", "chia eggs"],
+                        "sugar": ["stevia", "erythritol"]
+                    },
+                    servingSize: 12,
+                    allergens: ["gluten", "dairy", "eggs"],
+                    prepTime: "3 hours",
+                    cookTime: "45 minutes",
+                    culturalNotes: "A traditional Italian Christmas bread that's enjoyed during the holiday season",
+                    pairingSuggestions: ["vin santo", "espresso"],
+                    dietaryInfo: ["vegetarian"],
+                    spiceLevel: "none",
+                    nutrition: {
+                        calories: 380,
+                        protein: 8,
+                        carbs: 52,
+                        fat: 16,
+                        vitamins: ["A", "D", "E"],
+                        minerals: ["Iron", "Calcium"]
+                    },
+                    season: ["winter"],
+                    mealType: ["dessert"]
+                }
+            ]
+        }
+    },
+    motherSauces: {
+        marinaraBase: {
+            name: "Marinara Base",
+            description: "Simple tomato sauce that forms the foundation of many Italian dishes",
+            base: "tomato",
+            thickener: "reduction",
+            keyIngredients: ["tomatoes", "garlic", "olive oil", "basil", "oregano"],
+            culinaryUses: ["pasta sauce", "pizza base", "dipping sauce", "casserole base"],
+            derivatives: ["Arrabbiata", "Puttanesca", "Alla Norma"],
+            elementalProperties: {
+                Fire: 0.4,
+                Earth: 0.3,
+                Water: 0.2,
+                Air: 0.1
+            },
+            astrologicalInfluences: ["Mars", "Sun", "Leo"],
+            seasonality: "all",
+            preparationNotes: "Best when made with San Marzano tomatoes for authentic flavor",
+            technicalTips: "Simmer gently to maintain brightness of flavor",
+            difficulty: "easy",
+            storageInstructions: "Store in airtight container for up to 5 days in refrigerator",
+            yield: "2 cups"
+        },
+        besciamella: {
+            name: "Besciamella",
+            description: "Italian white sauce made from roux and milk",
+            base: "milk",
+            thickener: "roux",
+            keyIngredients: ["butter", "flour", "milk", "nutmeg", "bay leaf"],
+            culinaryUses: ["lasagna layer", "cannelloni filling base", "vegetable gratin", "creamed spinach"],
+            derivatives: ["Mornay sauce", "Soubise", "Infused besciamella"],
+            elementalProperties: {
+                Water: 0.4,
+                Earth: 0.4,
+                Air: 0.1,
+                Fire: 0.1
+            },
+            astrologicalInfluences: ["Moon", "Venus", "Cancer"],
+            seasonality: "all",
+            preparationNotes: "For silky texture, add hot milk to roux gradually while whisking constantly",
+            technicalTips: "Infuse milk with bay leaf, onion, and clove before making sauce for depth of flavor",
+            difficulty: "medium",
+            storageInstructions: "Store refrigerated in airtight container for up to 3 days",
+            yield: "2 cups"
+        }
+    },
+    traditionalSauces: {
+        marinara: {
+            name: "Marinara",
+            description: "Simple tomato sauce with garlic, olive oil and herbs",
+            base: "tomato",
+            keyIngredients: ["tomatoes", "garlic", "olive oil", "basil", "oregano"],
+            culinaryUses: ["pasta sauce", "pizza base", "dipping sauce", "casserole base"],
+            variants: ["Arrabbiata", "Puttanesca", "Alla Norma"],
+            elementalProperties: {
+                Fire: 0.4,
+                Earth: 0.3,
+                Water: 0.2,
+                Air: 0.1
+            },
+            astrologicalInfluences: ["Mars", "Sun", "leo"],
+            seasonality: "all",
+            preparationNotes: "Best when made with San Marzano tomatoes for authentic flavor",
+            technicalTips: "Simmer gently to maintain brightness of flavor"
+        },
+        pesto: {
+            name: "Pesto alla Genovese",
+            description: "Fresh basil sauce with pine nuts, garlic, Parmesan and olive oil",
+            base: "herb",
+            keyIngredients: ["basil leaves", "pine nuts", "garlic", "Parmigiano-Reggiano", "Pecorino", "olive oil"],
+            culinaryUses: ["pasta sauce", "sandwich spread", "marinade", "flavor enhancer"],
+            variants: ["Red pesto", "Pesto alla Siciliana", "Pesto alla Trapanese"],
+            elementalProperties: {
+                Air: 0.4,
+                Earth: 0.3,
+                Fire: 0.2,
+                Water: 0.1
+            },
+            astrologicalInfluences: ["Mercury", "Venus", "gemini"],
+            seasonality: "summer",
+            preparationNotes: "Traditionally made in a marble mortar with wooden pestle",
+            technicalTips: "Blanch basil briefly to preserve color if making ahead"
+        },
+        carbonara: {
+            name: "Carbonara",
+            description: "Silky sauce of eggs, hard cheese, cured pork and black pepper",
+            base: "egg",
+            keyIngredients: ["eggs", "Pecorino Romano", "guanciale", "black pepper"],
+            culinaryUses: ["pasta sauce", "sauce for gnocchi", "savory custard base"],
+            variants: ["Carbonara with pancetta", "Lighter carbonara with less egg yolks", "Vegetarian carbonara"],
+            elementalProperties: {
+                Earth: 0.4,
+                Air: 0.3,
+                Fire: 0.2,
+                Water: 0.1
+            },
+            astrologicalInfluences: ["Jupiter", "Mars", "aries"],
+            seasonality: "all",
+            preparationNotes: "Never add cream - authentic carbonara is creamy from eggs alone",
+            technicalTips: "Temper eggs carefully to prevent scrambling; use pasta water to adjust consistency"
+        },
+        ragu: {
+            name: "Ragù alla Bolognese",
+            description: "Rich, slow-cooked meat sauce from Bologna",
+            base: "meat",
+            keyIngredients: ["beef", "pork", "soffritto", "tomato paste", "wine", "milk"],
+            culinaryUses: ["pasta sauce", "lasagna filling", "polenta topping", "stuffed pasta filling"],
+            variants: ["Ragù Napoletano", "White ragù", "Wild boar ragù", "Vegetarian mushroom ragù"],
+            elementalProperties: {
+                Earth: 0.5,
+                Fire: 0.3,
+                Water: 0.1,
+                Air: 0.1
+            },
+            astrologicalInfluences: ["Saturn", "Mars", "taurus"],
+            seasonality: "autumn, winter",
+            preparationNotes: "True Bolognese takes hours of gentle simmering for depth of flavor",
+            technicalTips: "Add milk toward the end of cooking for authentic richness and tenderness"
+        },
+        bechamel: {
+            name: "Besciamella",
+            description: "Classic white sauce made from roux and milk",
+            base: "dairy",
+            keyIngredients: ["butter", "flour", "milk", "nutmeg", "bay leaf"],
+            culinaryUses: ["lasagna layer", "cannelloni filling base", "vegetable gratin", "creamed spinach"],
+            variants: ["Mornay sauce", "Soubise", "Infused besciamella"],
+            elementalProperties: {
+                Water: 0.4,
+                Earth: 0.4,
+                Air: 0.1,
+                Fire: 0.1
+            },
+            astrologicalInfluences: ["Moon", "Venus", "cancer"],
+            seasonality: "all",
+            preparationNotes: "For silky texture, add hot milk to roux gradually while whisking constantly",
+            technicalTips: "Infuse milk with bay leaf, onion, and clove before making sauce for depth of flavor"
+        }
+    },
+    sauceRecommender: {
+        forProtein: {
+            beef: ["ragù alla Bolognese", "sugo di carne", "salsa alla pizzaiola", "Barolo wine sauce"],
+            pork: ["agrodolce", "marsala", "porchetta herbs", "black pepper sauce"],
+            chicken: ["cacciatore", "piccata", "marsala", "salt-crusted herbs"],
+            fish: ["acqua pazza", "salmoriglio", "livornese", "al limone"],
+            vegetarian: ["pesto", "pomodoro", "aglio e olio", "burro e salvia"]
+        },
+        forVegetable: {
+            leafy: ["aglio e olio", "parmigiano", "lemon butter", "anchovy"],
+            root: ["besciamella", "gremolata", "herbed butter", "balsamic glaze"],
+            nightshades: ["marinara", "alla Norma", "sugo di pomodoro", "caponata"],
+            squash: ["brown butter sage", "gorgonzola cream", "agrodolce", "walnut pesto"],
+            mushroom: ["porcini sauce", "marsala", "truffle oil", "white wine garlic"]
+        },
+        forCookingMethod: {
+            grilling: ["salmoriglio", "rosemary oil", "balsamic glaze", "salsa verde"],
+            baking: ["marinara", "besciamella", "pesto", "ragù"],
+            frying: ["aioli", "lemon dip", "arrabiata", "garlic-herb dip"],
+            braising: ["osso buco sauce", "wine reduction", "pomodoro", "cacciatora"],
+            raw: ["pinzimonio", "olio nuovo", "citronette", "bagna cauda"]
+        },
+        byAstrological: {
+            fire: ["arrabiata", "puttanesca", "aglio e olio with peperoncino", "spicy pomodoro"],
+            earth: ["mushroom ragu", "tartufo", "carbonara", "ragù alla Bolognese"],
+            air: ["lemon sauces", "herb oils", "white wine sauce", "pesto"],
+            water: ["seafood sauces", "acqua pazza", "clam sauce", "besciamella"]
+        },
+        byRegion: {
+            northern: ["pesto alla Genovese", "bagna cauda", "fonduta", "ragù alla Bolognese"],
+            central: ["carbonara", "cacio e pepe", "amatriciana", "sugo finto"],
+            southern: ["marinara", "puttanesca", "aglio e olio", "alla Norma"],
+            insular: ["sarde a beccafico", "nero di seppia", "bottarga", "caponata"]
+        },
+        byDietary: {
+            vegetarian: ["pomodoro", "pesto", "aglio e olio", "burro e salvia"],
+            vegan: ["marinara", "pomodoro", "aglio e olio", "salsa verde"],
+            glutenFree: ["salsa verde", "salmoriglio", "sugo di pomodoro", "lemon sauce"],
+            dairyFree: ["marinara", "aglio e olio", "puttanesca", "arrabbiata"]
+        }
+    },
+    cookingTechniques: [
+        {
+            name: "Al Dente",
+            description: "Cooking pasta until firm to the bite, not soft",
+            elementalProperties: { Water: 0.4, Fire: 0.3, Earth: 0.2, Air: 0.1 },
+            toolsRequired: ["large pot", "timer", "colander"],
+            bestFor: ["pasta", "risotto rice", "vegetables"],
+            difficulty: "easy"
+        },
+        {
+            name: "Soffritto",
+            description: "Slow-cooking aromatic base of finely chopped vegetables in fat",
+            elementalProperties: { Fire: 0.4, Earth: 0.4, Air: 0.1, Water: 0.1 },
+            toolsRequired: ["heavy-bottomed pan", "wooden spoon", "sharp knife"],
+            bestFor: ["sauce base", "soup base", "risotto", "stews"],
+            difficulty: "medium"
+        },
+        {
+            name: "Mantecatura",
+            description: "Final whisking of cold butter or cheese into hot dishes to create a creamy emulsion",
+            elementalProperties: { Water: 0.4, Air: 0.3, Earth: 0.2, Fire: 0.1 },
+            toolsRequired: ["wooden spoon", "grater", "ladle"],
+            bestFor: ["risotto", "pasta sauces", "polenta", "gnocchi"],
+            difficulty: "hard"
+        },
+        {
+            name: "Sfumato",
+            description: "Deglazing with wine to lift flavor compounds and create depth",
+            elementalProperties: { Air: 0.4, Fire: 0.3, Water: 0.2, Earth: 0.1 },
+            toolsRequired: ["heavy pan", "wooden spoon"],
+            bestFor: ["risotto", "sauces", "braises", "stews"],
+            difficulty: "medium"
+        },
+        {
+            name: "Battuto",
+            description: "Finely chopped raw aromatic ingredients that form the base of many dishes",
+            elementalProperties: { Earth: 0.5, Air: 0.3, Water: 0.1, Fire: 0.1 },
+            toolsRequired: ["chef's knife", "cutting board", "mezzaluna"],
+            bestFor: ["sauce preparation", "flavor base", "soup starters", "stuffings"],
+            difficulty: "easy"
+        }
+    ],
+    regionalCuisines: {
+        sicilian: {
+            name: "Sicilian Cuisine",
+            description: "Bold flavors reflecting diverse cultural influences with emphasis on seafood, citrus, and Arab-influenced sweets",
+            signature: ["pasta alla Norma", "arancini", "cannoli", "caponata"],
+            elementalProperties: { Fire: 0.4, Water: 0.3, Earth: 0.2, Air: 0.1 },
+            astrologicalInfluences: ["Mars", "Sun", "leo"],
+            seasonality: "all"
+        },
+        tuscan: {
+            name: "Tuscan Cuisine",
+            description: "Rustic simplicity focusing on high-quality ingredients with an emphasis on beans, bread, and olive oil",
+            signature: ["ribollita", "panzanella", "bistecca alla fiorentina", "pappa al pomodoro"],
+            elementalProperties: { Earth: 0.5, Fire: 0.2, Air: 0.2, Water: 0.1 },
+            astrologicalInfluences: ["Saturn", "Jupiter", "capricorn"],
+            seasonality: "all"
+        },
+        emilian: {
+            name: "Emilian Cuisine",
+            description: "Rich, indulgent cuisine from Italy's food valley, known for pasta, cured meats, and aged cheeses",
+            signature: ["tagliatelle al ragù", "tortellini in brodo", "lasagne alla bolognese", "prosciutto di Parma"],
+            elementalProperties: { Earth: 0.5, Water: 0.2, Fire: 0.2, Air: 0.1 },
+            astrologicalInfluences: ["Jupiter", "Venus", "taurus"],
+            seasonality: "all"
+        },
+        neapolitan: {
+            name: "Neapolitan Cuisine",
+            description: "Vibrant and tomato-forward cuisine with iconic pizza, pasta, and seafood dishes",
+            signature: ["pizza napoletana", "spaghetti alle vongole", "pastiera napoletana", "ragù napoletano"],
+            elementalProperties: { Fire: 0.4, Water: 0.3, Earth: 0.2, Air: 0.1 },
+            astrologicalInfluences: ["Mars", "Neptune", "aries"],
+            seasonality: "all"
+        }
+    },
+    elementalProperties: {
+        Earth: 0.3,
+        Water: 0.3,
+        Fire: 0.2,
+        Air: 0.2 // Represents herbs and lightness
+    },
+    astrologicalInfluences: [
+        "Venus - Roman goddess of love and beauty influences the sensory pleasures of Italian cuisine",
+        "Jupiter - Brings abundance and generosity to communal Italian dining traditions",
+        "Mercury - Governs the communication and conviviality central to Italian food culture"
+    ]
+};
+exports.default = exports.italian;
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJmaWxlIjoiL1VzZXJzL0dyZWdDYXN0cm8vRGVza3RvcC9XaGF0VG9FYXROZXh0L3NyYy9kYXRhL2N1aXNpbmVzL2l0YWxpYW4udHMiLCJtYXBwaW5ncyI6Ijs7O0FBSWEsUUFBQSxPQUFPLEdBQVk7SUFDOUIsRUFBRSxFQUFFLFNBQVM7SUFDYixJQUFJLEVBQUUsU0FBUztJQUNmLFdBQVcsRUFBRSw4R0FBOEc7SUFDM0gsTUFBTSxFQUFFO1FBQ04sU0FBUyxFQUFFO1lBQ1QsR0FBRyxFQUFFO2dCQUNIO29CQUNFLEVBQUUsRUFBRSx1QkFBdUI7b0JBQzNCLElBQUksRUFBRSx1QkFBdUI7b0JBQzdCLFdBQVcsRUFBRSxtREFBbUQ7b0JBQ2hFLE9BQU8sRUFBRSxTQUFTO29CQUNsQixjQUFjLEVBQUUsQ0FBQyxRQUFRLEVBQUUsZ0JBQWdCLENBQUM7b0JBQzVDLEtBQUssRUFBRTt3QkFDTCxNQUFNO3dCQUNOLGtCQUFrQjt3QkFDbEIsY0FBYzt3QkFDZCxjQUFjO3FCQUNmO29CQUNELGdCQUFnQixFQUFFO3dCQUNoQiw0QkFBNEI7d0JBQzVCLGVBQWU7d0JBQ2Ysc0JBQXNCO3dCQUN0QiwwQ0FBMEM7d0JBQzFDLHFCQUFxQjtxQkFDdEI7b0JBQ0QsWUFBWSxFQUFFO3dCQUNaLDRCQUE0Qjt3QkFDNUIsZUFBZTt3QkFDZixzQkFBc0I7d0JBQ3RCLDBDQUEwQzt3QkFDMUMscUJBQXFCO3FCQUN0QjtvQkFDRCxXQUFXLEVBQUU7d0JBQ1gsRUFBRSxJQUFJLEVBQUUsVUFBVSxFQUFFLE1BQU0sRUFBRSxHQUFHLEVBQUUsSUFBSSxFQUFFLE9BQU8sRUFBRSxRQUFRLEVBQUUsUUFBUSxFQUFFLEtBQUssRUFBRSxDQUFDLHNCQUFzQixDQUFDLEVBQUU7d0JBQ3JHLEVBQUUsSUFBSSxFQUFFLGNBQWMsRUFBRSxNQUFNLEVBQUUsSUFBSSxFQUFFLElBQUksRUFBRSxHQUFHLEVBQUUsUUFBUSxFQUFFLFVBQVUsRUFBRTt3QkFDdkUsRUFBRSxJQUFJLEVBQUUsTUFBTSxFQUFFLE1BQU0sRUFBRSxLQUFLLEVBQUUs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RSxDQUFDLHFCQUFxQixFQUFFLHFCQUFxQixFQUFFLHdCQUF3QixFQUFFLHFCQUFxQixDQUFDO1lBQzFHLG1CQUFtQixFQUFFLEVBQUUsS0FBSyxFQUFFLEdBQUcsRUFBRSxLQUFLLEVBQUUsR0FBRyxFQUFFLElBQUksRUFBRSxHQUFHLEVBQUUsR0FBRyxFQUFFLEdBQUcsRUFBRTtZQUNwRSxzQkFBc0IsRUFBRSxDQUFDLFNBQVMsRUFBRSxPQUFPLEVBQUUsUUFBUSxDQUFDO1lBQ3RELFdBQVcsRUFBRSxLQUFLO1NBQ25CO1FBQ0QsVUFBVSxFQUFFO1lBQ1YsSUFBSSxFQUFFLG9CQUFvQjtZQUMxQixXQUFXLEVBQUUsaUZBQWlGO1lBQzlGLFNBQVMsRUFBRSxDQUFDLGtCQUFrQixFQUFFLHdCQUF3QixFQUFFLHFCQUFxQixFQUFFLGlCQUFpQixDQUFDO1lBQ25HLG1CQUFtQixFQUFFLEVBQUUsSUFBSSxFQUFFLEdBQUcsRUFBRSxLQUFLLEVBQUUsR0FBRyxFQUFFLEtBQUssRUFBRSxHQUFHLEVBQUUsR0FBRyxFQUFFLEdBQUcsRUFBRTtZQUNwRSxzQkFBc0IsRUFBRSxDQUFDLE1BQU0sRUFBRSxTQUFTLEVBQUUsT0FBTyxDQUFDO1lBQ3BELFdBQVcsRUFBRSxLQUFLO1NBQ25CO0tBQ0Y7SUFDRCxtQkFBbUIsRUFBRTtRQUNuQixLQUFLLEVBQUUsR0FBRztRQUNWLEtBQUssRUFBRSxHQUFHO1FBQ1YsSUFBSSxFQUFFLEdBQUc7UUFDVCxHQUFHLEVBQUUsR0FBRyxDQUFPLGlDQUFpQztLQUNqRDtJQUNELHNCQUFzQixFQUFFO1FBQ3RCLDhGQUE4RjtRQUM5RixpRkFBaUY7UUFDakYsc0ZBQXNGO0tBQ3ZGO0NBQ0YsQ0FBQztBQUVGLGtCQUFlLGVBQU8sQ0FBQyIsIm5hbWVzIjpbXSwic291cmNlcyI6WyIvVXNlcnMvR3JlZ0Nhc3Ryby9EZXNrdG9wL1doYXRUb0VhdE5leHQvc3JjL2RhdGEvY3Vpc2luZXMvaXRhbGlhbi50cyJdLCJzb3VyY2VzQ29udGVudCI6WyIvLyBzcmMvZGF0YS9jdWlzaW5lcy9pdGFsaWFuLnRzXG5pbXBvcnQgdHlwZSB7IEN1aXNpbmUgfSBmcm9tICdAL3R5cGVzL2N1aXNpbmUnO1xuaW1wb3J0IHR5cGUgeyBMdW5hclBoYXNlLCBab2RpYWNTaWduIH0gZnJvbSAnQC90eXBlcy9hbGNoZW15JztcblxuZXhwb3J0IGNvbnN0IGl0YWxpYW46IEN1aXNpbmUgPSB7XG4gIGlkOiBcIml0YWxpYW5cIixcbiAgbmFtZTogXCJJdGFsaWFuXCIsXG4gIGRlc2NyaXB0aW9uOiBcIlRyYWRpdGlvbmFsIEl0YWxpYW4gY3Vpc2luZSBlbXBoYXNpemluZyBmcmVzaCBpbmdyZWRpZW50cywgcmVnaW9uYWwgc3BlY2lhbHRpZXMsIGFuZCB0aW1lLWhvbm9yZWQgdGVjaG5pcXVlc1wiLFxuICBkaXNoZXM6IHtcbiAgICBicmVha2Zhc3Q6IHtcbiAgICAgIGFsbDogW1xuICAgICAgICB7XG4gICAgICAgICAgaWQ6IFwiY29ybmV0dG8tZS1jYXBwdWNjaW5vXCIsXG4gICAgICAgICAgbmFtZTogXCJDb3JuZXR0byBlIENhcHB1Y2Npbm9cIixcbiAgICAgICAgICBkZXNjcmlwdGlvbjogXCJJdGFsaWFuLXN0eWxlIGNyb2lzc2FudCBzZXJ2ZWQgd2l0aCBmcm90aHkgY29mZmVlXCIsXG4gICAgICAgICAgY3Vpc2luZTogXCJJdGFsaWFuXCIsXG4gICAgICAgICAgY29va2luZ01ldGhvZHM6IFtcImJha2luZ1wiLCBcImNvZmZlZS1icmV3aW5nXCJdLFxuICAgICAgICAgIHRvb2xzOiBbXG4gICAgICAgICAgICBcIm92ZW5cIixcbiAgICAgICAgICAgIFwiZXNwcmVzc28gbWFjaGluZVwiLFxuICAgICAgICAgICAgXCJtaWxrIGZyb3RoZXJcIixcbiAgICAgICAgICAgIFwiYmFraW5nIHNoZWV0XCJcbiAgICAgICAgICBdLFxuICAgICAgICAgIHByZXBhcmF0aW9uU3RlcHM6IFtcbiAgICAgICAgICAgIFwiQmFrZSBjb3JuZXR0byB1bnRpbCBnb2xkZW5cIixcbiAgICAgICAgICAgIFwiQnJldyBlc3ByZXNzb1wiLFxuICAgICAgICAgICAgXCJTdGVhbSBhbmQgZnJvdGggbWlsa1wiLFxuICAgICAgICAgICAgXCJDb21iaW5lIGVzcHJlc3NvIGFuZCBtaWxrIGZvciBjYXBwdWNjaW5vXCIsXG4gICAgICAgICAgICBcIlNlcnZlIGNvcm5ldHRvIHdhcm1cIlxuICAgICAgICAgIF0sXG4gICAgICAgICAgaW5zdHJ1Y3Rpb25zOiBbXG4gICAgICAgICAgICBcIkJha2UgY29ybmV0dG8gdW50aWwgZ29sZGVuXCIsXG4gICAgICAgICAgICBcIkJyZXcgZXNwcmVzc29cIixcbiAgICAgICAgICAgIFwiU3RlYW0gYW5kIGZyb3RoIG1pbGtcIixcbiAgICAgICAgICAgIFwiQ29tYmluZSBlc3ByZXNzbyBhbmQgbWlsayBmb3IgY2FwcHVjY2lub1wiLFxuICAgICAgICAgICAgXCJTZXJ2ZSBjb3JuZXR0byB3YXJtXCJcbiAgICAgICAgICBdLFxuICAgICAgICAgIGluZ3JlZGllbnRzOiBbXG4gICAgICAgICAgICB7IG5hbWU6IFwiY29ybmV0dG9cIiwgYW1vdW50OiBcIjFcIiwgdW5pdDogXCJwaWVjZVwiLCBjYXRlZ29yeTogXCJwYXN0cnlcIiwgc3dhcHM6IFtcIndob2xlIGdyYWluIGNvcm5ldHRvXCJdIH0sXG4gICAgICAgICAgICB7IG5hbWU6IFwiY29mZmVlIGJlYW5zXCIsIGFtb3VudDogXCIxOFwiLCB1bml0OiBcImdcIiwgY2F0ZWdvcnk6IFwiYmV2ZXJhZ2VcIiB9LFxuICAgICAgICAgICAgeyBuYW1lOiBcIm1pbGtcIiwgYW1vdW50OiBcIjEyMFwiLCB1bml0OiBcIm1sXCIsIGNhdGVnb3J5OiBcImRhaXJ5XCIsIHN3YXBzOiBbXCJvYXQgbWlsa1wiLCBcImFsbW9uZCBtaWxrXCJdIH1cbiAgICAgICAgICBdLFxuICAgICAgICAgIHN1YnN0aXR1dGlvbnM6IHtcbiAgICAgICAgICAgIFwibWlsa1wiOiBbXCJvYXQgbWlsa1wiLCBcImFsbW9uZCBtaWxrXCIsIFwic295IG1pbGtcIl0sXG4gICAgICAgICAgICBcImNvcm5ldHRvXCI6IFtcIndob2xlIGdyYWluIGNvcm5ldHRvXCIsIFwiZ2x1dGVuLWZyZWUgcGFzdHJ5XCJdXG4gICAgICAgICAgfSxcbiAgICAgICAgICBzZXJ2aW5nU2l6ZTogMSxcbiAgICAgICAgICBhbGxlcmdlbnM6IFtcImdsdXRlblwiLCBcImRhaXJ5XCIsIFwiZWdnc1wiXSxcbiAgICAgICAgICBwcmVwVGltZTogXCI1IG1pbnV0ZXNcIixcbiAgICAgICAgICBjb29rVGltZTogXCIzIG1pbnV0ZXNcIixcbiAgICAgICAgICBjdWx0dXJhbE5vdGVzOiBcIlRoZSB0cmFkaXRpb25hbCBJdGFsaWFuIGJyZWFrZmFzdCwgZW5qb3llZCBzdGFuZGluZyBhdCBjYWZlIGNvdW50ZXJzIGFjcm9zcyBJdGFseVwiLFxuICAgICAgICAgIHBhaXJpbmdTdWdnZXN0aW9uczogW1wiZnJlc2ggb3JhbmdlIGp1aWNlXCIsIFwiZnJ1aXQgcHJlc2VydmVzXCJdLFxuICAgICAgICAgIGRpZXRhcnlJbmZvOiBbXCJ2ZWdldGFyaWFuXCJdLFxuICAgICAgICAgIHNwaWNlTGV2ZWw6IFwibm9uZVwiLFxuICAgICAgICAgIG51dHJpdGlvbjoge1xuICAgICAgICAgICAgY2Fsb3JpZXM6IDI4MCxcbiAgICAgICAgICAgIHByb3RlaW46IDgsXG4gICAgICAgICAgICBjYXJiczogNDIsXG4gICAgICAgICAgICBmYXQ6IDEyLFxuICAgICAgICAgICAgdml0YW1pbnM6IFtcIkIxMlwiLCBcIkRcIl0sXG4gICAgICAgICAgICBtaW5lcmFsczogW1wiQ2FsY2l1bVwiXVxuICAgICAgICAgIH0sXG4gICAgICAgICAgc2Vhc29uOiBbXCJhbGxcIl0sXG4gICAgICAgICAgbWVhbFR5cGU6IFtcImJyZWFrZmFzdFwiXSxcbiAgICAgICAgICBhc3Ryb2xvZ2ljYWxBZmZpbml0aWVzOiB7XG4gICAgICAgICAgICBwbGFuZXRzOiBbXCJWZW51c1wiLCBcIk1lcmN1cnlcIl0sXG4gICAgICAgICAgICBzaWduczogW1wiVGF1cnVzXCIsIFwiTGlicmFcIl0sXG4gICAgICAgICAgICBsdW5hclBoYXNlczogW1wiTmV3IE1vb25cIiwgXCJGaXJzdCBRdWFydGVyXCJdXG4gICAgICAgICAgfSxcbiAgICAgICAgICBsdW5hclBoYXNlSW5mbHVlbmNlczogW1wiTmV3IE1vb25cIiwgXCJGaXJzdCBRdWFydGVyXCJdLFxuICAgICAgICAgIHpvZGlhY0luZmx1ZW5jZXM6IFtcIlRhdXJ1c1wiLCBcIkxpYnJhXCJdXG4gICAgICAgIH0sXG4gICAgICAgIHtcbiAgICAgICAgICBuYW1lOiBcIk1hcml0b3p6byBjb24gUGFubmFcIixcbiAgICAgICAgICBkZXNjcmlwdGlvbjogXCJSb21hbiBzd2VldCBidW4gZmlsbGVkIHdpdGggd2hpcHBlZCBjcmVhbVwiLFxuICAgICAgICAgIGN1aXNpbmU6IFwiSXRhbGlhblwiLFxuICAgICAgICAgIGNvb2tpbmdNZXRob2RzOiBbXCJ3aGlwcGluZ1wiLCBcImZpbGxpbmdcIl0sXG4gICAgICAgICAgdG9vbHM6IFtcbiAgICAgICAgICAgIFwibWl4aW5nIGJvd2xcIixcbiAgICAgICAgICAgIFwid2hpc2tcIixcbiAgICAgICAgICAgIFwicGlwaW5nIGJhZ1wiLFxuICAgICAgICAgICAgXCJzZXJ2aW5nIHBsYXRlXCJcbiAgICAgICAgICBdLFxuICAgICAgICAgIHByZXBhcmF0aW9uU3RlcHM6IFtcbiAgICAgICAgICAgIFwiV2hpcCBjcmVhbSB3aXRoIHN1Z2FyXCIsXG4gICAgICAgICAgICBcIlNsaWNlIG1hcml0b3p6byBidW5cIixcbiAgICAgICAgICAgIFwiRmlsbCB3aXRoIHdoaXBwZWQgY3JlYW1cIixcbiAgICAgICAgICAgIFwiRHVzdCB3aXRoIHBvd2RlcmVkIHN1Z2FyXCIsXG4gICAgICAgICAgICBcIlNlcnZlIGltbWVkaWF0ZWx5XCJcbiAgICAgICAgICBdLFxuICAgICAgICAgIGluZ3JlZGllbnRzOiBbXG4gICAgICAgICAgICB7IG5hbWU6IFwibWFyaXRvenpvXCIsIGFtb3VudDogXCIxXCIsIHVuaXQ6IFwicGllY2VcIiwgY2F0ZWdvcnk6IFwicGFzdHJ5XCIsIHN3YXBzOiBbXCJnbHV0ZW4tZnJlZSBidW5cIl0gfSxcbiAgICAgICAgICAgIHsgbmFtZTogXCJ3aGlwcGVkIGNyZWFtXCIsIGFtb3VudDogXCIxMDBcIiwgdW5pdDogXCJnXCIsIGNhdGVnb3J5OiBcImRhaXJ5XCIsIHN3YXBzOiBbXCJjb2NvbnV0IHdoaXBwZWQgY3JlYW1cIl0gfSxcbiAgICAgICAgICAgIHsgbmFtZTogXCJwb3dkZXJlZCBzdWdhclwiLCBhbW91bnQ6IFwiMVwiLCB1bml0OiBcInRzcFwiLCBjYXRlZ29yeTogXCJzd2VldGVuZXJcIiB9LFxuICAgICAgICAgICAgeyBuYW1lOiBcImVzcHJlc3NvXCIsIGFtb3VudDogXCIzMFwiLCB1bml0OiBcIm1sXCIsIGNhdGVnb3J5OiBcImJldmVyYWdlXCIgfVxuICAgICAgICAgIF0sXG4gICAgICAgICAgc3Vic3RpdHV0aW9uczoge1xuICAgICAgICAgICAgXCJtYXJpdG96em9cIjogW1wiZ2x1dGVuLWZyZWUgYnVuXCIsIFwiYnJpb2NoZSBidW5cIl0sXG4gICAgICAgICAgICBcIndoaXBwZWQgY3JlYW1cIjogW1wiY29jb251dCB3aGlwcGVkIGNyZWFtXCIsIFwiY2FzaGV3IGNyZWFtXCJdLFxuICAgICAgICAgICAgXCJwb3dkZXJlZCBzdWdhclwiOiBbXCJtb25rIGZydWl0IHN3ZWV0ZW5lclwiLCBcInN0ZXZpYVwiXVxuICAgICAgICAgIH0sXG4gICAgICAgICAgc2VydmluZ1NpemU6IDEsXG4gICAgICAgICAgYWxsZXJnZW5zOiBbXCJnbHV0ZW5cIiwgXCJkYWlyeVwiXSxcbiAgICAgICAgICBwcmVwVGltZTogXCIxMCBtaW51dGVzXCIsXG4gICAgICAgICAgY29va1RpbWU6IFwiMCBtaW51dGVzXCIsXG4gICAgICAgICAgY3VsdHVyYWxOb3RlczogXCJBIGJlbG92ZWQgUm9tYW4gYnJlYWtmYXN0IHBhc3RyeSwgdHJhZGl0aW9uYWxseSBlbmpveWVkIGluIHRoZSBtb3JuaW5nIHdpdGggY29mZmVlXCIsXG4gICAgICAgICAgcGFpcmluZ1N1Z2dlc3Rpb25zOiBbXCJlc3ByZXNzb1wiLCBcImNhcHB1Y2Npbm9cIiwgXCJmcmVzaCBiZXJyaWVzXCJdLFxuICAgICAgICAgIGRpZXRhcnlJbmZvOiBbXCJ2ZWdldGFyaWFuXCJdLFxuICAgICAgICAgIHNwaWNlTGV2ZWw6IFwibm9uZVwiLFxuICAgICAgICAgIG51dHJpdGlvbjoge1xuICAgICAgICAgICAgY2Fsb3JpZXM6IDM1MCxcbiAgICAgICAgICAgIHByb3RlaW46IDYsXG4gICAgICAgICAgICBjYXJiczogNDUsXG4gICAgICAgICAgICBmYXQ6IDE4LFxuICAgICAgICAgICAgdml0YW1pbnM6IFtcIkFcIiwgXCJEXCJdLFxuICAgICAgICAgICAgbWluZXJhbHM6IFtcIkNhbGNpdW1cIl1cbiAgICAgICAgICB9LFxuICAgICAgICAgIHNlYXNvbjogW1wiYWxsXCJdLFxuICAgICAgICAgIG1lYWxUeXBlOiBbXCJicmVha2Zhc3RcIiwgXCJkZXNzZXJ0XCJdXG4gICAgICAgIH0sXG4gICAgICAgIHtcbiAgICAgICAgICBuYW1lOiBcIkZldHRlIEJpc2NvdHRhdGUgY29uIE1hcm1lbGxhdGFcIixcbiAgICAgICAgICBkZXNjcmlwdGlvbjogXCJDcmlzcCB0b2FzdCB3aXRoIGphbSBhbmQgY29mZmVlXCIsXG4gICAgICAgICAgY3Vpc2luZTogXCJJdGFsaWFuXCIsXG4gICAgICAgICAgY29va2luZ01ldGhvZHM6IFtcInRvYXN0aW5nXCIsIFwic3ByZWFkaW5nXCJdLFxuICAgICAgICAgIHRvb2xzOiBbXG4gICAgICAgICAgICBcInRvYXN0ZXJcIixcbiAgICAgICAgICAgIFwiYnV0dGVyIGtuaWZlXCIsXG4gICAgICAgICAgICBcInNlcnZpbmcgcGxhdGVcIixcbiAgICAgICAgICAgIFwiZXNwcmVzc28gbWFrZXJcIlxuICAgICAgICAgIF0sXG4gICAgICAgICAgcHJlcGFyYXRpb25TdGVwczogW1xuICAgICAgICAgICAgXCJUb2FzdCBmZXR0ZSBiaXNjb3R0YXRlXCIsXG4gICAgICAgICAgICBcIlNwcmVhZCB3aXRoIGJ1dHRlclwiLFxuICAgICAgICAgICAgXCJUb3Agd2l0aCBqYW1cIixcbiAgICAgICAgICAgIFwiU2VydmUgd2l0aCBlc3ByZXNzb1wiXG4gICAgICAgICAgXSxcbiAgICAgICAgICBpbmdyZWRpZW50czogW1xuICAgICAgICAgICAgeyBuYW1lOiBcImZldHRlIGJpc2NvdHRhdGVcIiwgYW1vdW50OiBcIjNcIiwgdW5pdDogXCJwaWVjZXNcIiwgY2F0ZWdvcnk6IFwiYnJlYWRcIiwgc3dhcHM6IFtcImdsdXRlbi1mcmVlIHRvYXN0XCJdIH0sXG4gICAgICAgICAgICB7IG5hbWU6IFwiamFtXCIsIGFtb3VudDogXCIzMFwiLCB1bml0OiBcImdcIiwgY2F0ZWdvcnk6IFwic3ByZWFkXCIgfSxcbiAgICAgICAgICAgIHsgbmFtZTogXCJidXR0ZXJcIiwgYW1vdW50OiBcIjE1XCIsIHVuaXQ6IFwiZ1wiLCBjYXRlZ29yeTogXCJkYWlyeVwiLCBzd2FwczogW1wicGxhbnQgYnV0dGVyXCJdIH0sXG4gICAgICAgICAgICB7IG5hbWU6IFwiZXNwcmVzc29cIiwgYW1vdW50OiBcIjMwXCIsIHVuaXQ6IFwibWxcIiwgY2F0ZWdvcnk6IFwiYmV2ZXJhZ2VcIiB9XG4gICAgICAgICAgXSxcbiAgICAgICAgICBzdWJzdGl0dXRpb25zOiB7XG4gICAgICAgICAgICBcImJ1dHRlclwiOiBbXCJwbGFudCBidXR0ZXJcIiwgXCJvbGl2ZSBvaWxcIl0sXG4gICAgICAgICAgICBcImZldHRlIGJpc2NvdHRhdGVcIjogW1wiZ2x1dGVuLWZyZWUgdG9hc3RcIiwgXCJyZWd1bGFyIHRvYXN0XCJdXG4gICAgICAgICAgfSxcbiAgICAgICAgICBzZXJ2aW5nU2l6ZTogMSxcbiAgICAgICAgICBhbGxlcmdlbnM6IFtcImdsdXRlblwiLCBcImRhaXJ5XCJdLFxuICAgICAgICAgIHByZXBUaW1lOiBcIjUgbWludXRlc1wiLFxuICAgICAgICAgIGNvb2tUaW1lOiBcIjAgbWludXRlc1wiLFxuICAgICAgICAgIGN1bHR1cmFsTm90ZXM6IFwiQSBzaW1wbGUsIHRyYWRpdGlvbmFsIEl0YWxpYW4gYnJlYWtmYXN0IHRoYXQncyBsaWdodCBhbmQgcXVpY2tcIixcbiAgICAgICAgICBwYWlyaW5nU3VnZ2VzdGlvbnM6IFtcImVzcHJlc3NvXCIsIFwiZnJlc2ggZnJ1aXRcIl0sXG4gICAgICAgICAgZGlldGFyeUluZm86IFtcInZlZ2V0YXJpYW5cIl0sXG4gICAgICAgICAgc3BpY2VMZXZlbDogXCJub25lXCIsXG4gICAgICAgICAgbnV0cml0aW9uOiB7XG4gICAgICAgICAgICBjYWxvcmllczogMjgwLFxuICAgICAgICAgICAgcHJvdGVpbjogNixcbiAgICAgICAgICAgIGNhcmJzOiA0NSxcbiAgICAgICAgICAgIGZhdDogMTAsXG4gICAgICAgICAgICB2aXRhbWluczogW1wiQVwiLCBcIkRcIl0sXG4gICAgICAgICAgICBtaW5lcmFsczogW1wiSXJvblwiXVxuICAgICAgICAgIH0sXG4gICAgICAgICAgc2Vhc29uOiBbXCJhbGxcIl0sXG4gICAgICAgICAgbWVhbFR5cGU6IFtcImJyZWFrZmFzdFwiXVxuICAgICAgICB9XG4gICAgICBdLFxuICAgICAgc3VtbWVyOiBbXG4gICAgICAgIHtcbiAgICAgICAgICBuYW1lOiBcIkdyYW5pdGEgY29uIEJyaW9jaGVcIixcbiAgICAgICAgICBkZXNjcmlwdGlvbjogXCJTaWNpbGlhbiBpY2UgZ3Jhbml0YSB3aXRoIHNvZnQgYnJpb2NoZVwiLFxuICAgICAgICAgIGN1aXNpbmU6IFwiSXRhbGlhblwiLFxuICAgICAgICAgIGNvb2tpbmdNZXRob2RzOiBbXCJmcmVlemluZ1wiLCBcInNjcmFwaW5nXCIsIFwic2VydmluZ1wiXSxcbiAgICAgICAgICB0b29sczogW1xuICAgICAgICAgICAgXCJzaGFsbG93IHBhblwiLFxuICAgICAgICAgICAgXCJmb3JrXCIsXG4gICAgICAgICAgICBcInNlcnZpbmcgZ2xhc3NcIixcbiAgICAgICAgICAgIFwiaWNlIGNyZWFtIHNjb29wXCJcbiAgICAgICAgICBdLFxuICAgICAgICAgIHByZXBhcmF0aW9uU3RlcHM6IFtcbiAgICAgICAgICAgIFwiRnJlZXplIGFsbW9uZCBtaXh0dXJlXCIsXG4gICAgICAgICAgICBcIlNjcmFwZSB3aXRoIGZvcmsgcGVyaW9kaWNhbGx5XCIsXG4gICAgICAgICAgICBcIldhcm0gYnJpb2NoZSBzbGlnaHRseVwiLFxuICAgICAgICAgICAgXCJTZXJ2ZSBncmFuaXRhIGluIGdsYXNzXCIsXG4gICAgICAgICAgICBcIlRvcCB3aXRoIHdoaXBwZWQgY3JlYW1cIixcbiAgICAgICAgICAgIFwiU2VydmUgd2l0aCBicmlvY2hlIG9uIHNpZGVcIlxuICAgICAgICAgIF0sXG4gICAgICAgICAgaW5ncmVkaWVudHM6IFtcbiAgICAgICAgICAgIHsgbmFtZTogXCJhbG1vbmQgZ3Jhbml0YVwiLCBhbW91bnQ6IFwiMjAwXCIsIHVuaXQ6IFwibWxcIiwgY2F0ZWdvcnk6IFwiaWNlXCIgfSxcbiAgICAgICAgICAgIHsgbmFtZTogXCJicmlvY2hlXCIsIGFtb3VudDogXCIxXCIsIHVuaXQ6IFwicGllY2VcIiwgY2F0ZWdvcnk6IFwicGFzdHJ5XCIsIHN3YXBzOiBbXCJnbHV0ZW4tZnJlZSBicmlvY2hlXCJdIH0sXG4gICAgICAgICAgICB7IG5hbWU6IFwid2hpcHBlZCBjcmVhbVwiLCBhbW91bnQ6IFwiMzBcIiwgdW5pdDogXCJnXCIsIGNhdGVnb3J5OiBcImRhaXJ5XCIsIHN3YXBzOiBbXCJjb2NvbnV0IHdoaXBwZWQgY3JlYW1cIl0gfVxuICAgICAgICAgIF0sXG4gICAgICAgICAgc3Vic3RpdHV0aW9uczoge1xuICAgICAgICAgICAgXCJicmlvY2hlXCI6IFtcImdsdXRlbi1mcmVlIGJyaW9jaGVcIiwgXCJjcm9pc3NhbnRcIl0sXG4gICAgICAgICAgICBcIndoaXBwZWQgY3JlYW1cIjogW1wiY29jb251dCB3aGlwcGVkIGNyZWFtXCIsIFwiYWxtb25kIGNyZWFtXCJdXG4gICAgICAgICAgfSxcbiAgICAgICAgICBzZXJ2aW5nU2l6ZTogMSxcbiAgICAgICAgICBhbGxlcmdlbnM6IFtcImRhaXJ5XCIsIFwiZ2x1dGVuXCIsIFwibnV0c1wiXSxcbiAgICAgICAgICBwcmVwVGltZTogXCI1IG1pbnV0ZXNcIixcbiAgICAgICAgICBjb29rVGltZTogXCIwIG1pbnV0ZXNcIixcbiAgICAgICAgICBjdWx0dXJhbE5vdGVzOiBcIlRyYWRpdGlvbmFsIFNpY2lsaWFuIHN1bW1lciBicmVha2Zhc3QsIGVzcGVjaWFsbHkgcG9wdWxhciBpbiBDYXRhbmlhIGFuZCBNZXNzaW5hXCIsXG4gICAgICAgICAgcGFpcmluZ1N1Z2dlc3Rpb25zOiBbXCJlc3ByZXNzb1wiLCBcImZyZXNoIGZydWl0XCJdLFxuICAgICAgICAgIGRpZXRhcnlJbmZvOiBbXCJ2ZWdldGFyaWFuXCJdLFxuICAgICAgICAgIHNwaWNlTGV2ZWw6IFwibm9uZVwiLFxuICAgICAgICAgIG51dHJpdGlvbjoge1xuICAgICAgICAgICAgY2Fsb3JpZXM6IDM4MCxcbiAgICAgICAgICAgIHByb3RlaW46IDksXG4gICAgICAgICAgICBjYXJiczogNTIsXG4gICAgICAgICAgICBmYXQ6IDE2LFxuICAgICAgICAgICAgdml0YW1pbnM6IFtcIkFcIiwgXCJEXCIsIFwiRVwiXSxcbiAgICAgICAgICAgIG1pbmVyYWxzOiBbXCJDYWxjaXVtXCJdXG4gICAgICAgICAgfSxcbiAgICAgICAgICBzZWFzb246IFtcInN1bW1lclwiXSxcbiAgICAgICAgICBtZWFsVHlwZTogW1wiYnJlYWtmYXN0XCJdXG4gICAgICAgIH0sXG4gICAgICAgIHtcbiAgICAgICAgICBuYW1lOiBcIlJpY290dGEgZSBGaWNoaVwiLFxuICAgICAgICAgIGRlc2NyaXB0aW9uOiBcIkZyZXNoIHJpY290dGEgd2l0aCBmaWdzIGFuZCBob25leVwiLFxuICAgICAgICAgIGN1aXNpbmU6IFwiSXRhbGlhblwiLFxuICAgICAgICAgIGNvb2tpbmdNZXRob2RzOiBbXCJhc3NlbWJsaW5nXCJdLFxuICAgICAgICAgIHRvb2xzOiBbXG4gICAgICAgICAgICBcInNlcnZpbmcgYm93bFwiLFxuICAgICAgICAgICAgXCJob25leSBkaXBwZXJcIixcbiAgICAgICAgICAgIFwia25pZmVcIixcbiAgICAgICAgICAgIFwic3Bvb25cIlxuICAgICAgICAgIF0sXG4gICAgICAgICAgcHJlcGFyYXRpb25TdGVwczogW1xuICAgICAgICAgICAgXCJQbGFjZSByaWNvdHRhIGluIHNlcnZpbmcgYm93bFwiLFxuICAgICAgICAgICAgXCJRdWFydGVyIGZyZXNoIGZpZ3NcIixcbiAgICAgICAgICAgIFwiQXJyYW5nZSBmaWdzIGFyb3VuZCByaWNvdHRhXCIsXG4gICAgICAgICAgICBcIkRyaXp6bGUgd2l0aCBob25leVwiLFxuICAgICAgICAgICAgXCJTcHJpbmtsZSB3aXRoIHBpc3RhY2hpb3NcIlxuICAgICAgICAgIF0sXG4gICAgICAgICAgaW5ncmVkaWVudHM6IFtcbiAgICAgICAgICAgIHsgbmFtZTogXCJyaWNvdHRhXCIsIGFtb3VudDogXCIyMDBcIiwgdW5pdDogXCJnXCIsIGNhdGVnb3J5OiBcImRhaXJ5XCIsIHN3YXBzOiBbXCJhbG1vbmQgcmljb3R0YVwiXSB9LFxuICAgICAgICAgICAgeyBuYW1lOiBcImZyZXNoIGZpZ3NcIiwgYW1vdW50OiBcIjRcIiwgdW5pdDogXCJ3aG9sZVwiLCBjYXRlZ29yeTogXCJmcnVpdFwiIH0sXG4gICAgICAgICAgICB7IG5hbWU6IFwiaG9uZXlcIiwgYW1vdW50OiBcIjJcIiwgdW5pdDogXCJ0YnNwXCIsIGNhdGVnb3J5OiBcInN3ZWV0ZW5lclwiIH0sXG4gICAgICAgICAgICB7IG5hbWU6IFwicGlzdGFjaGlvc1wiLCBhbW91bnQ6IFwiMzBcIiwgdW5pdDogXCJnXCIsIGNhdGVnb3J5OiBcIm51dHNcIiB9XG4gICAgICAgICAgXSxcbiAgICAgICAgICBzdWJzdGl0dXRpb25zOiB7XG4gICAgICAgICAgICBcInJpY290dGFcIjogW1wiYWxtb25kIHJpY290dGFcIiwgXCJjYXNoZXcgcmljb3R0YVwiXSxcbiAgICAgICAgICAgIFwiaG9uZXlcIjogW1wiYWdhdmUgbmVjdGFyXCIsIFwibWFwbGUgc3lydXBcIl1cbiAgICAgICAgICB9LFxuICAgICAgICAgIHNlcnZpbmdTaXplOiAyLFxuICAgICAgICAgIGFsbGVyZ2VuczogW1wiZGFpcnlcIiwgXCJudXRzXCJdLFxuICAgICAgICAgIHByZXBUaW1lOiBcIjUgbWludXRlc1wiLFxuICAgICAgICAgIGNvb2tUaW1lOiBcIjAgbWludXRlc1wiLFxuICAgICAgICAgIGN1bHR1cmFsTm90ZXM6IFwiQSBzaW1wbGUgc3VtbWVyIGJyZWFrZmFzdCB0aGF0IHNob3djYXNlcyBJdGFseSdzIGxvdmUgZm9yIGZyZXNoLCBzZWFzb25hbCBpbmdyZWRpZW50c1wiLFxuICAgICAgICAgIHBhaXJpbmdTdWdnZXN0aW9uczogW1wiZnJlc2ggbWludCB0ZWFcIiwgXCJjcnVzdHkgYnJlYWRcIl0sXG4gICAgICAgICAgZGlldGFyeUluZm86IFtcInZlZ2V0YXJpYW5cIiwgXCJnbHV0ZW4tZnJlZVwiXSxcbiAgICAgICAgICBzcGljZUxldmVsOiBcIm5vbmVcIixcbiAgICAgICAgICBudXRyaXRpb246IHtcbiAgICAgICAgICAgIGNhbG9yaWVzOiAzODAsXG4gICAgICAgICAgICBwcm90ZWluOiAxOCxcbiAgICAgICAgICAgIGNhcmJzOiA0MixcbiAgICAgICAgICAgIGZhdDogMTgsXG4gICAgICAgICAgICB2aXRhbWluczogW1wiQVwiLCBcIkIxMlwiLCBcIktcIl0sXG4gICAgICAgICAgICBtaW5lcmFsczogW1wiQ2FsY2l1bVwiLCBcIk1hZ25lc2l1bVwiXVxuICAgICAgICAgIH0sXG4gICAgICAgICAgc2Vhc29uOiBbXCJzdW1tZXJcIl0sXG4gICAgICAgICAgbWVhbFR5cGU6IFtcImJyZWFrZmFzdFwiXVxuICAgICAgICB9XG4gICAgICBdLFxuICAgICAgd2ludGVyOiBbXG4gICAgICAgIHtcbiAgICAgICAgICBuYW1lOiBcIkNpb2Njb2xhdGEgQ2FsZGEgY29uIEJpc2NvdHRpXCIsXG4gICAgICAgICAgZGVzY3JpcHRpb246IFwiVGhpY2sgSXRhbGlhbiBob3QgY2hvY29sYXRlIHdpdGggY29va2llc1wiLFxuICAgICAgICAgIGN1aXNpbmU6IFwiSXRhbGlhblwiLFxuICAgICAgICAgIGNvb2tpbmdNZXRob2RzOiBbXCJoZWF0aW5nXCIsIFwid2hpc2tpbmdcIl0sXG4gICAgICAgICAgdG9vbHM6IFtcbiAgICAgICAgICAgIFwic2F1Y2VwYW5cIixcbiAgICAgICAgICAgIFwid2hpc2tcIixcbiAgICAgICAgICAgIFwibWVhc3VyaW5nIGN1cHNcIixcbiAgICAgICAgICAgIFwic2VydmluZyBtdWdcIlxuICAgICAgICAgIF0sXG4gICAgICAgICAgcHJlcGFyYXRpb25TdGVwczogW1xuICAgICAgICAgICAgXCJIZWF0IG1pbGsgaW4gc2F1Y2VwYW5cIixcbiAgICAgICAgICAgIFwiQWRkIGNob2NvbGF0ZSBhbmQgY29ybnN0YXJjaFwiLFxuICAgICAgICAgICAgXCJXaGlzayB1bnRpbCB0aGlja2VuZWRcIixcbiAgICAgICAgICAgIFwiUG91ciBpbnRvIHNlcnZpbmcgbXVnXCIsXG4gICAgICAgICAgICBcIlNlcnZlIHdpdGggYmlzY290dGlcIlxuICAgICAgICAgIF0sXG4gICAgICAgICAgaW5ncmVkaWVudHM6IFtcbiAgICAgICAgICAgIHsgbmFtZTogXCJkYXJrIGNob2NvbGF0ZVwiLCBhbW91bnQ6IFwiMTAwXCIsIHVuaXQ6IFwiZ1wiLCBjYXRlZ29yeTogXCJjaG9jb2xhdGVcIiB9LFxuICAgICAgICAgICAgeyBuYW1lOiBcIndob2xlIG1pbGtcIiwgYW1vdW50OiBcIjI1MFwiLCB1bml0OiBcIm1sXCIsIGNhdGVnb3J5OiBcImRhaXJ5XCIsIHN3YXBzOiBbXCJvYXQgbWlsa1wiXSB9LFxuICAgICAgICAgICAgeyBuYW1lOiBcImNvcm5zdGFyY2hcIiwgYW1vdW50OiBcIjEwXCIsIHVuaXQ6IFwiZ1wiLCBjYXRlZ29yeTogXCJ0aGlja2VuZXJcIiB9LFxuICAgICAgICAgICAgeyBuYW1lOiBcImJpc2NvdHRpXCIsIGFtb3VudDogXCIyXCIsIHVuaXQ6IFwicGllY2VzXCIsIGNhdGVnb3J5OiBcInBhc3RyeVwiLCBzd2FwczogW1wiZ2x1dGVuLWZyZWUgYmlzY290dGlcIl0gfVxuICAgICAgICAgIF0sXG4gICAgICAgICAgc3Vic3RpdHV0aW9uczoge1xuICAgICAgICAgICAgXCJ3aG9sZSBtaWxrXCI6IFtcIm9hdCBtaWxrXCIsIFwiYWxtb25kIG1pbGtcIiwgXCJzb3kgbWlsa1wiXSxcbiAgICAgICAgICAgIFwiYmlzY290dGlcIjogW1wiZ2x1dGVuLWZyZWUgYmlzY290dGlcIiwgXCJhbWFyZXR0aVwiXVxuICAgICAgICAgIH0sXG4gICAgICAgICAgc2VydmluZ1NpemU6IDEsXG4gICAgICAgICAgYWxsZXJnZW5zOiBbXCJkYWlyeVwiLCBcImdsdXRlblwiXSxcbiAgICAgICAgICBwcmVwVGltZTogXCI1IG1pbnV0ZXNcIixcbiAgICAgICAgICBjb29rVGltZTogXCIxMCBtaW51dGVzXCIsXG4gICAgICAgICAgY3VsdHVyYWxOb3RlczogXCJJdGFsaWFuIGhvdCBjaG9jb2xhdGUgaXMgZmFtb3VzbHkgdGhpY2sgYW5kIHJpY2gsIHBlcmZlY3QgZm9yIHdpbnRlciBtb3JuaW5nc1wiLFxuICAgICAgICAgIHBhaXJpbmdTdWdnZXN0aW9uczogW1wiYmlzY290dGlcIiwgXCJ3aGlwcGVkIGNyZWFtXCJdLFxuICAgICAgICAgIGRpZXRhcnlJbmZvOiBbXCJ2ZWdldGFyaWFuXCJdLFxuICAgICAgICAgIHNwaWNlTGV2ZWw6IFwibm9uZVwiLFxuICAgICAgICAgIG51dHJpdGlvbjoge1xuICAgICAgICAgICAgY2Fsb3JpZXM6IDQ1MCxcbiAgICAgICAgICAgIHByb3RlaW46IDEyLFxuICAgICAgICAgICAgY2FyYnM6IDQ4LFxuICAgICAgICAgICAgZmF0OiAyNCxcbiAgICAgICAgICAgIHZpdGFtaW5zOiBbXCJEXCIsIFwiRVwiXSxcbiAgICAgICAgICAgIG1pbmVyYWxzOiBbXCJJcm9uXCIsIFwiQ2FsY2l1bVwiXVxuICAgICAgICAgIH0sXG4gICAgICAgICAgc2Vhc29uOiBbXCJ3aW50ZXJcIl0sXG4gICAgICAgICAgbWVhbFR5cGU6IFtcImJyZWFrZmFzdFwiXVxuICAgICAgICB9XG4gICAgICBdXG4gICAgfSxcbiAgICBsdW5jaDoge1xuICAgICAgYWxsOiBbXG4gICAgICAgIHtcbiAgICAgICAgICBuYW1lOiBcIlBhc3RhIGFsIFBvbW9kb3JvXCIsXG4gICAgICAgICAgZGVzY3JpcHRpb246IFwiQ2xhc3NpYyBzcGFnaGV0dGkgd2l0aCBmcmVzaCB0b21hdG8gc2F1Y2VcIixcbiAgICAgICAgICBjdWlzaW5lOiBcIkl0YWxpYW5cIixcbiAgICAgICAgICBjb29raW5nTWV0aG9kczogW1wiYm9pbGluZ1wiLCBcInNhdWNlLW1ha2luZ1wiXSxcbiAgICAgICAgICB0b29sczogW1xuICAgICAgICAgICAgXCJsYXJnZSBwb3RcIixcbiAgICAgICAgICAgIFwic2F1Y2VwYW5cIixcbiAgICAgICAgICAgIFwiY29sYW5kZXJcIixcbiAgICAgICAgICAgIFwid29vZGVuIHNwb29uXCJcbiAgICAgICAgICBdLFxuICAgICAgICAgIHByZXBhcmF0aW9uU3RlcHM6IFtcbiAgICAgICAgICAgIFwiQm9pbCBwYXN0YSBpbiBzYWx0ZWQgd2F0ZXJcIixcbiAgICAgICAgICAgIFwiUHJlcGFyZSBmcmVzaCB0b21hdG8gc2F1Y2VcIixcbiAgICAgICAgICAgIFwiQ29tYmluZSBwYXN0YSB3aXRoIHNhdWNlXCIsXG4gICAgICAgICAgICBcIkZpbmlzaCB3aXRoIGJhc2lsIGFuZCBvbGl2ZSBvaWxcIlxuICAgICAgICAgIF0sXG4gICAgICAgICAgaW5ncmVkaWVudHM6IFtcbiAgICAgICAgICAgIHsgbmFtZTogXCJzcGFnaGV0dGlcIiwgYW1vdW50OiBcIjQwMFwiLCB1bml0OiBcImdcIiwgY2F0ZWdvcnk6IFwicGFzdGFcIiwgc3dhcHM6IFtcImdsdXRlbi1mcmVlIHBhc3RhXCJdIH0sXG4gICAgICAgICAgICB7IG5hbWU6IFwidG9tYXRvZXNcIiwgYW1vdW50OiBcIjUwMFwiLCB1bml0OiBcImdcIiwgY2F0ZWdvcnk6IFwidmVnZXRhYmxlXCIgfSxcbiAgICAgICAgICAgIHsgbmFtZTogXCJiYXNpbFwiLCBhbW91bnQ6IFwiMVwiLCB1bml0OiBcImJ1bmNoXCIsIGNhdGVnb3J5OiBcImhlcmJcIiB9LFxuICAgICAgICAgICAgeyBuYW1lOiBcIm9saXZlIG9pbFwiLCBhbW91bnQ6IFwiNjBcIiwgdW5pdDogXCJtbFwiLCBjYXRlZ29yeTogXCJvaWxcIiB9LFxuICAgICAgICAgICAgeyBuYW1lOiBcImdhcmxpY1wiLCBhbW91bnQ6IFwiM1wiLCB1bml0OiBcImNsb3Zlc1wiLCBjYXRlZ29yeTogXCJ2ZWdldGFibGVcIiB9XG4gICAgICAgICAgXSxcbiAgICAgICAgICBzdWJzdGl0dXRpb25zOiB7XG4gICAgICAgICAgICBcInNwYWdoZXR0aVwiOiBbXCJnbHV0ZW4tZnJlZSBwYXN0YVwiLCBcInp1Y2NoaW5pIG5vb2RsZXNcIl0sXG4gICAgICAgICAgICBcImdhcmxpY1wiOiBbXCJnYXJsaWMgcG93ZGVyXCIsIFwic2hhbGxvdHNcIl1cbiAgICAgICAgICB9LFxuICAgICAgICAgIHNlcnZpbmdTaXplOiA0LFxuICAgICAgICAgIGFsbGVyZ2VuczogW1wiZ2x1dGVuXCJdLFxuICAgICAgICAgIHByZXBUaW1lOiBcIjEwIG1pbnV0ZXNcIixcbiAgICAgICAgICBjb29rVGltZTogXCIyMCBtaW51dGVzXCIsXG4gICAgICAgICAgY3VsdHVyYWxOb3RlczogXCJBIGNvcm5lcnN0b25lIG9mIEl0YWxpYW4gY3Vpc2luZSwgc2hvd2Nhc2luZyB0aGUgaW1wb3J0YW5jZSBvZiBzaW1wbGljaXR5IGFuZCBxdWFsaXR5IGluZ3JlZGllbnRzXCIsXG4gICAgICAgICAgcGFpcmluZ1N1Z2dlc3Rpb25zOiBbXCJDaGlhbnRpXCIsIFwiZ3JlZW4gc2FsYWRcIiwgXCJjcnVzdHkgYnJlYWRcIl0sXG4gICAgICAgICAgZGlldGFyeUluZm86IFtcInZlZ2V0YXJpYW5cIiwgXCJ2ZWdhblwiXSxcbiAgICAgICAgICBzcGljZUxldmVsOiBcIm1pbGRcIixcbiAgICAgICAgICBudXRyaXRpb246IHtcbiAgICAgICAgICAgIGNhbG9yaWVzOiAzODAsXG4gICAgICAgICAgICBwcm90ZWluOiAxMixcbiAgICAgICAgICAgIGNhcmJzOiA2NSxcbiAgICAgICAgICAgIGZhdDogMTAsXG4gICAgICAgICAgICB2aXRhbWluczogW1wiQVwiLCBcIkNcIl0sXG4gICAgICAgICAgICBtaW5lcmFsczogW1wiSXJvblwiXVxuICAgICAgICAgIH0sXG4gICAgICAgICAgc2Vhc29uOiBbXCJhbGxcIl0sXG4gICAgICAgICAgbWVhbFR5cGU6IFtcImx1bmNoXCJdXG4gICAgICAgIH0sXG4gICAgICAgIHtcbiAgICAgICAgICBuYW1lOiBcIkluc2FsYXRhIENhcHJlc2VcIixcbiAgICAgICAgICBkZXNjcmlwdGlvbjogXCJDbGFzc2ljIENhcHJpIHNhbGFkIHdpdGggbW96emFyZWxsYSBhbmQgdG9tYXRvZXNcIixcbiAgICAgICAgICBjdWlzaW5lOiBcIkl0YWxpYW5cIixcbiAgICAgICAgICBjb29raW5nTWV0aG9kczogW1wiYXNzZW1ibGluZ1wiXSxcbiAgICAgICAgICB0b29sczogW1xuICAgICAgICAgICAgXCJzaGFycCBrbmlmZVwiLFxuICAgICAgICAgICAgXCJzZXJ2aW5nIHBsYXR0ZXJcIixcbiAgICAgICAgICAgIFwib2xpdmUgb2lsIGJvdHRsZVwiLFxuICAgICAgICAgICAgXCJraXRjaGVuIHRvd2VsXCJcbiAgICAgICAgICBdLFxuICAgICAgICAgIHByZXBhcmF0aW9uU3RlcHM6IFtcbiAgICAgICAgICAgIFwiU2xpY2UgdG9tYXRvZXMgYW5kIG1venphcmVsbGFcIixcbiAgICAgICAgICAgIFwiQXJyYW5nZSBhbHRlcm5hdGVseSBvbiBwbGF0ZVwiLFxuICAgICAgICAgICAgXCJUdWNrIGZyZXNoIGJhc2lsIGxlYXZlcyBiZXR3ZWVuXCIsXG4gICAgICAgICAgICBcIkRyaXp6bGUgd2l0aCBvbGl2ZSBvaWxcIixcbiAgICAgICAgICAgIFwiU2Vhc29uIHdpdGggc2FsdCBhbmQgcGVwcGVyXCIsXG4gICAgICAgICAgICBcIk9wdGlvbmFsIGJhbHNhbWljIGRyaXp6bGVcIlxuICAgICAgICAgIF0sXG4gICAgICAgICAgaW5ncmVkaWVudHM6IFtcbiAgICAgICAgICAgIHsgbmFtZTogXCJidWZmYWxvIG1venphcmVsbGFcIiwgYW1vdW50OiBcIjIwMFwiLCB1bml0OiBcImdcIiwgY2F0ZWdvcnk6IFwiZGFpcnlcIiwgc3dhcHM6IFtcInBsYW50LWJhc2VkIG1venphcmVsbGFcIl0gfSxcbiAgICAgICAgICAgIHsgbmFtZTogXCJ0b21hdG9lc1wiLCBhbW91bnQ6IFwiMzAwXCIsIHVuaXQ6IFwiZ1wiLCBjYXRlZ29yeTogXCJ2ZWdldGFibGVcIiB9LFxuICAgICAgICAgICAgeyBuYW1lOiBcImZyZXNoIGJhc2lsXCIsIGFtb3VudDogXCIxXCIsIHVuaXQ6IFwiYnVuY2hcIiwgY2F0ZWdvcnk6IFwiaGVyYlwiIH0sXG4gICAgICAgICAgICB7IG5hbWU6IFwib2xpdmUgb2lsXCIsIGFtb3VudDogXCIzXCIsIHVuaXQ6IFwidGJzcFwiLCBjYXRlZ29yeTogXCJvaWxcIiB9LFxuICAgICAgICAgICAgeyBuYW1lOiBcImJhbHNhbWljIHZpbmVnYXJcIiwgYW1vdW50OiBcIjFcIiwgdW5pdDogXCJ0YnNwXCIsIGNhdGVnb3J5OiBcInZpbmVnYXJcIiB9XG4gICAgICAgICAgXSxcbiAgICAgICAgICBzdWJzdGl0dXRpb25zOiB7XG4gICAgICAgICAgICBcImJ1ZmZhbG8gbW96emFyZWxsYVwiOiBbXCJ2ZWdhbiBtb3p6YXJlbGxhXCIsIFwiYnVycmF0YVwiXSxcbiAgICAgICAgICAgIFwiYmFsc2FtaWMgdmluZWdhclwiOiBbXCJiYWxzYW1pYyBnbGF6ZVwiLCBcImFnZWQgYmFsc2FtaWNcIl1cbiAgICAgICAgICB9LFxuICAgICAgICAgIHNlcnZpbmdTaXplOiAyLFxuICAgICAgICAgIGFsbGVyZ2VuczogW1wiZGFpcnlcIl0sXG4gICAgICAgICAgcHJlcFRpbWU6IFwiMTAgbWludXRlc1wiLFxuICAgICAgICAgIGNvb2tUaW1lOiBcIjAgbWludXRlc1wiLFxuICAgICAgICAgIGN1bHR1cmFsTm90ZXM6IFwiT3JpZ2luYXRlZCBvbiB0aGUgaXNsYW5kIG9mIENhcHJpLCByZXByZXNlbnRpbmcgdGhlIGNvbG9ycyBvZiB0aGUgSXRhbGlhbiBmbGFnXCIsXG4gICAgICAgICAgcGFpcmluZ1N1Z2dlc3Rpb25zOiBbXCJjcnVzdHkgYnJlYWRcIiwgXCJWZXJkaWNjaGlvIHdpbmVcIl0sXG4gICAgICAgICAgZGlldGFyeUluZm86IFtcInZlZ2V0YXJpYW5cIiwgXCJnbHV0ZW4tZnJlZVwiXSxcbiAgICAgICAgICBzcGljZUxldmVsOiBcIm5vbmVcIixcbiAgICAgICAgICBudXRyaXRpb246IHtcbiAgICAgICAgICAgIGNhbG9yaWVzOiAzMjAsXG4gICAgICAgICAgICBwcm90ZWluOiAxOCxcbiAgICAgICAgICAgIGNhcmJzOiA4LFxuICAgICAgICAgICAgZmF0OiAyNCxcbiAgICAgICAgICAgIHZpdGFtaW5zOiBbXCJBXCIsIFwiQ1wiLCBcIktcIl0sXG4gICAgICAgICAgICBtaW5lcmFsczogW1wiQ2FsY2l1bVwiLCBcIlBvdGFzc2l1bVwiXVxuICAgICAgICAgIH0sXG4gICAgICAgICAgc2Vhc29uOiBbXCJzdW1tZXJcIl0sXG4gICAgICAgICAgbWVhbFR5cGU6IFtcImx1bmNoXCIsIFwiYXBwZXRpemVyXCJdXG4gICAgICAgIH0sXG4gICAgICAgIHtcbiAgICAgICAgICBuYW1lOiBcIlBhbnphbmVsbGFcIixcbiAgICAgICAgICBkZXNjcmlwdGlvbjogXCJUdXNjYW4gYnJlYWQgYW5kIHRvbWF0byBzYWxhZFwiLFxuICAgICAgICAgIGN1aXNpbmU6IFwiSXRhbGlhblwiLFxuICAgICAgICAgIGNvb2tpbmdNZXRob2RzOiBbXCJhc3NlbWJsaW5nXCJdLFxuICAgICAgICAgIHRvb2xzOiBbXG4gICAgICAgICAgICBcInNoYXJwIGtuaWZlXCIsXG4gICAgICAgICAgICBcInNlcnZpbmcgYm93bFwiLFxuICAgICAgICAgICAgXCJvbGl2ZSBvaWwgYm90dGxlXCIsXG4gICAgICAgICAgICBcImtpdGNoZW4gdG93ZWxcIlxuICAgICAgICAgIF0sXG4gICAgICAgICAgcHJlcGFyYXRpb25TdGVwczogW1xuICAgICAgICAgICAgXCJTbGljZSBzdGFsZSBicmVhZCBpbnRvIGN1YmVzXCIsXG4gICAgICAgICAgICBcIlNsaWNlIHRvbWF0b2VzIGFuZCBjdWN1bWJlclwiLFxuICAgICAgICAgICAgXCJDaG9wIHJlZCBvbmlvblwiLFxuICAgICAgICAgICAgXCJDb21iaW5lIGFsbCBpbmdyZWRpZW50cyBpbiBhIGJvd2xcIixcbiAgICAgICAgICAgIFwiRHJpenpsZSB3aXRoIG9saXZlIG9pbFwiLFxuICAgICAgICAgICAgXCJTZWFzb24gd2l0aCBzYWx0IGFuZCBwZXBwZXJcIixcbiAgICAgICAgICAgIFwiVG9zcyBnZW50bHlcIixcbiAgICAgICAgICAgIFwiU2VydmUgaW1tZWRpYXRlbHlcIlxuICAgICAgICAgIF0sXG4gICAgICAgICAgaW5ncmVkaWVudHM6IFtcbiAgICAgICAgICAgIHsgbmFtZTogXCJzdGFsZSBicmVhZFwiLCBhbW91bnQ6IFwiMzAwXCIsIHVuaXQ6IFwiZ1wiLCBjYXRlZ29yeTogXCJncmFpblwiLCBzd2FwczogW1wiZ2x1dGVuLWZyZWUgYnJlYWRcIl0gfSxcbiAgICAgICAgICAgIHsgbmFtZTogXCJ0b21hdG9lc1wiLCBhbW91bnQ6IFwiNDAwXCIsIHVuaXQ6IFwiZ1wiLCBjYXRlZ29yeTogXCJ2ZWdldGFibGVcIiB9LFxuICAgICAgICAgICAgeyBuYW1lOiBcImN1Y3VtYmVyXCIsIGFtb3VudDogXCIxXCIsIHVuaXQ6IFwibWVkaXVtXCIsIGNhdGVnb3J5OiBcInZlZ2V0YWJsZVwiIH0sXG4gICAgICAgICAgICB7IG5hbWU6IFwicmVkIG9uaW9uXCIsIGFtb3VudDogXCIxXCIsIHVuaXQ6IFwibWVkaXVtXCIsIGNhdGVnb3J5OiBcInZlZ2V0YWJsZVwiIH0sXG4gICAgICAgICAgICB7IG5hbWU6IFwib2xpdmUgb2lsXCIsIGFtb3VudDogXCI2MFwiLCB1bml0OiBcIm1sXCIsIGNhdGVnb3J5OiBcIm9pbFwiIH1cbiAgICAgICAgICBdLFxuICAgICAgICAgIHN1YnN0aXR1dGlvbnM6IHtcbiAgICAgICAgICAgIFwic3RhbGUgYnJlYWRcIjogW1wiZ2x1dGVuLWZyZWUgYnJlYWRcIiwgXCJmcmVzaCBicmVhZFwiXSxcbiAgICAgICAgICAgIFwidG9tYXRvZXNcIjogW1wiY2hlcnJ5IHRvbWF0b2VzXCIsIFwiZ3JhcGUgdG9tYXRvZXNcIl0sXG4gICAgICAgICAgICBcImN1Y3VtYmVyXCI6IFtcImVuZ2xpc2ggY3VjdW1iZXJcIiwgXCJwZXJzaWFuIGN1Y3VtYmVyXCJdLFxuICAgICAgICAgICAgXCJyZWQgb25pb25cIjogW1wieWVsbG93IG9uaW9uXCIsIFwic2hhbGxvdFwiXVxuICAgICAgICAgIH0sXG4gICAgICAgICAgc2VydmluZ1NpemU6IDQsXG4gICAgICAgICAgYWxsZXJnZW5zOiBbXCJnbHV0ZW5cIl0sXG4gICAgICAgICAgcHJlcFRpbWU6IFwiMTUgbWludXRlc1wiLFxuICAgICAgICAgIGNvb2tUaW1lOiBcIjAgbWludXRlc1wiLFxuICAgICAgICAgIGN1bHR1cmFsTm90ZXM6IFwiQSBzaW1wbGUgYW5kIHJlZnJlc2hpbmcgVHVzY2FuIHNhbGFkIHRoYXQgc2hvd2Nhc2VzIHRoZSByZWdpb24ncyBsb3ZlIGZvciBicmVhZCBhbmQgdmVnZXRhYmxlc1wiLFxuICAgICAgICAgIHBhaXJpbmdTdWdnZXN0aW9uczogW1wiQ2hpYW50aSB3aW5lXCIsIFwiY3J1c3R5IGJyZWFkXCJdLFxuICAgICAgICAgIGRpZXRhcnlJbmZvOiBbXCJ2ZWdldGFyaWFuXCIsIFwiZ2x1dGVuLWZyZWVcIl0sXG4gICAgICAgICAgc3BpY2VMZXZlbDogXCJtaWxkXCIsXG4gICAgICAgICAgbnV0cml0aW9uOiB7XG4gICAgICAgICAgICBjYWxvcmllczogMzgwLFxuICAgICAgICAgICAgcHJvdGVpbjogMTAsXG4gICAgICAgICAgICBjYXJiczogNTgsXG4gICAgICAgICAgICBmYXQ6IDE2LFxuICAgICAgICAgICAgdml0YW1pbnM6IFtcIkNcIiwgXCJBXCIsIFwiS1wiXSxcbiAgICAgICAgICAgIG1pbmVyYWxzOiBbXCJQb3Rhc3NpdW1cIiwgXCJJcm9uXCJdXG4gICAgICAgICAgfSxcbiAgICAgICAgICBzZWFzb246IFtcInN1bW1lclwiXSxcbiAgICAgICAgICBtZWFsVHlwZTogW1wibHVuY2hcIl1cbiAgICAgICAgfVxuICAgICAgXSxcbiAgICAgIHdpbnRlcjogW1xuICAgICAgICB7XG4gICAgICAgICAgbmFtZTogXCJSaWJvbGxpdGFcIixcbiAgICAgICAgICBkZXNjcmlwdGlvbjogXCJIZWFydHkgVHVzY2FuIGJyZWFkIGFuZCB2ZWdldGFibGUgc291cFwiLFxuICAgICAgICAgIGN1aXNpbmU6IFwiSXRhbGlhblwiLFxuICAgICAgICAgIGNvb2tpbmdNZXRob2RzOiBbXCJzaW1tZXJpbmdcIiwgXCJzYXV0w6lpbmdcIl0sXG4gICAgICAgICAgdG9vbHM6IFtcbiAgICAgICAgICAgIFwibGFyZ2UgcG90XCIsXG4gICAgICAgICAgICBcIndvb2RlbiBzcG9vblwiLFxuICAgICAgICAgICAgXCJrbmlmZVwiLFxuICAgICAgICAgICAgXCJjdXR0aW5nIGJvYXJkXCJcbiAgICAgICAgICBdLFxuICAgICAgICAgIHByZXBhcmF0aW9uU3RlcHM6IFtcbiAgICAgICAgICAgIFwiU2F1dMOpIHZlZ2V0YWJsZXMgYW5kIGhlcmJzXCIsXG4gICAgICAgICAgICBcIkFkZCBiZWFucyBhbmQgdG9tYXRvZXNcIixcbiAgICAgICAgICAgIFwiU2ltbWVyIHdpdGggYnJvdGhcIixcbiAgICAgICAgICAgIFwiQWRkIGJyZWFkIGNodW5rc1wiLFxuICAgICAgICAgICAgXCJDb250aW51ZSBjb29raW5nIHVudGlsIHRoaWNrZW5lZFwiLFxuICAgICAgICAgICAgXCJSZXN0IG92ZXJuaWdodCBmb3IgYmVzdCByZXN1bHRzXCJcbiAgICAgICAgICBdLFxuICAgICAgICAgIGluZ3JlZGllbnRzOiBbXG4gICAgICAgICAgICB7IG5hbWU6IFwic3RhbGUgYnJlYWRcIiwgYW1vdW50OiBcIjMwMFwiLCB1bml0OiBcImdcIiwgY2F0ZWdvcnk6IFwiYnJlYWRcIiwgc3dhcHM6IFtcImdsdXRlbi1mcmVlIGJyZWFkXCJdIH0sXG4gICAgICAgICAgICB7IG5hbWU6IFwiY2FubmVsbGluaSBiZWFuc1wiLCBhbW91bnQ6IFwiNDAwXCIsIHVuaXQ6IFwiZ1wiLCBjYXRlZ29yeTogXCJsZWd1bWVcIiB9LFxuICAgICAgICAgICAgeyBuYW1lOiBcImNhdm9sbyBuZXJvXCIsIGFtb3VudDogXCIyMDBcIiwgdW5pdDogXCJnXCIsIGNhdGVnb3J5OiBcInZlZ2V0YWJsZVwiLCBzd2FwczogW1wia2FsZVwiXSB9LFxuICAgICAgICAgICAgeyBuYW1lOiBcInZlZ2V0YWJsZXNcIiwgYW1vdW50OiBcIjUwMFwiLCB1bml0OiBcImdcIiwgY2F0ZWdvcnk6IFwidmVnZXRhYmxlXCIgfSxcbiAgICAgICAgICAgIHsgbmFtZTogXCJvbGl2ZSBvaWxcIiwgYW1vdW50OiBcIjYwXCIsIHVuaXQ6IFwibWxcIiwgY2F0ZWdvcnk6IFwib2lsXCIgfVxuICAgICAgICAgIF0sXG4gICAgICAgICAgc3Vic3RpdHV0aW9uczoge1xuICAgICAgICAgICAgXCJjYXZvbG8gbmVyb1wiOiBbXCJrYWxlXCIsIFwiU3dpc3MgY2hhcmRcIl0sXG4gICAgICAgICAgICBcInN0YWxlIGJyZWFkXCI6IFtcImdsdXRlbi1mcmVlIGJyZWFkXCIsIFwiY3J1c3R5IGJyZWFkXCJdLFxuICAgICAgICAgICAgXCJjYW5uZWxsaW5pIGJlYW5zXCI6IFtcIm5hdnkgYmVhbnNcIiwgXCJncmVhdCBub3J0aGVybiBiZWFuc1wiXVxuICAgICAgICAgIH0sXG4gICAgICAgICAgc2VydmluZ1NpemU6IDYsXG4gICAgICAgICAgYWxsZXJnZW5zOiBbXCJnbHV0ZW5cIl0sXG4gICAgICAgICAgcHJlcFRpbWU6IFwiMzAgbWludXRlc1wiLFxuICAgICAgICAgIGNvb2tUaW1lOiBcIjEgaG91clwiLFxuICAgICAgICAgIGN1bHR1cmFsTm90ZXM6IFwiQSBwZWFzYW50IGRpc2ggZnJvbSBUdXNjYW55IHRoYXQgZXhlbXBsaWZpZXMgdGhlIEl0YWxpYW4gdHJhZGl0aW9uIG9mIG5vdCB3YXN0aW5nIGZvb2RcIixcbiAgICAgICAgICBwYWlyaW5nU3VnZ2VzdGlvbnM6IFtcIkNoaWFudGkgd2luZVwiLCBcImV4dHJhIHZpcmdpbiBvbGl2ZSBvaWwgZHJpenpsZVwiXSxcbiAgICAgICAgICBkaWV0YXJ5SW5mbzogW1widmVnZXRhcmlhblwiLCBcInZlZ2FuXCJdLFxuICAgICAgICAgIHNwaWNlTGV2ZWw6IFwibWlsZFwiLFxuICAgICAgICAgIG51dHJpdGlvbjoge1xuICAgICAgICAgICAgY2Fsb3JpZXM6IDM4MCxcbiAgICAgICAgICAgIHByb3RlaW46IDE1LFxuICAgICAgICAgICAgY2FyYnM6IDU4LFxuICAgICAgICAgICAgZmF0OiAxMixcbiAgICAgICAgICAgIHZpdGFtaW5zOiBbXCJBXCIsIFwiQ1wiLCBcIktcIl0sXG4gICAgICAgICAgICBtaW5lcmFsczogW1wiSXJvblwiLCBcIkZpYmVyXCJdXG4gICAgICAgICAgfSxcbiAgICAgICAgICBzZWFzb246IFtcIndpbnRlclwiLCBcImF1dHVtblwiXSxcbiAgICAgICAgICBtZWFsVHlwZTogW1wibHVuY2hcIiwgXCJkaW5uZXJcIl1cbiAgICAgICAgfSxcbiAgICAgICAge1xuICAgICAgICAgIG5hbWU6IFwiUGFzdGEgZSBGYWdpb2xpXCIsXG4gICAgICAgICAgZGVzY3JpcHRpb246IFwiQ2xhc3NpYyBwYXN0YSBhbmQgYmVhbiBzb3VwXCIsXG4gICAgICAgICAgY3Vpc2luZTogXCJJdGFsaWFuXCIsXG4gICAgICAgICAgY29va2luZ01ldGhvZHM6IFtcInNpbW1lcmluZ1wiXSxcbiAgICAgICAgICB0b29sczogW1xuICAgICAgICAgICAgXCJsYXJnZSBwb3RcIixcbiAgICAgICAgICAgIFwid29vZGVuIHNwb29uXCIsXG4gICAgICAgICAgICBcImtuaWZlXCIsXG4gICAgICAgICAgICBcImN1dHRpbmcgYm9hcmRcIlxuICAgICAgICAgIF0sXG4gICAgICAgICAgcHJlcGFyYXRpb25TdGVwczogW1xuICAgICAgICAgICAgXCJTYXV0w6kgdmVnZXRhYmxlcyBhbmQgaGVyYnNcIixcbiAgICAgICAgICAgIFwiQWRkIGJlYW5zIGFuZCBwYXN0YVwiLFxuICAgICAgICAgICAgXCJTaW1tZXIgd2l0aCBicm90aFwiLFxuICAgICAgICAgICAgXCJTZWFzb24gd2l0aCBzYWx0IGFuZCBwZXBwZXJcIixcbiAgICAgICAgICAgIFwiU2VydmUgd2l0aCBncmF0ZWQgcGFybWVzYW5cIlxuICAgICAgICAgIF0sXG4gICAgICAgICAgaW5ncmVkaWVudHM6IFtcbiAgICAgICAgICAgIHsgbmFtZTogXCJzbWFsbCBwYXN0YVwiLCBhbW91bnQ6IFwiMjAwXCIsIHVuaXQ6IFwiZ1wiLCBjYXRlZ29yeTogXCJncmFpblwiLCBzd2FwczogW1wiZ2x1dGVuLWZyZWUgcGFzdGFcIl0gfSxcbiAgICAgICAgICAgIHsgbmFtZTogXCJib3Jsb3R0aSBiZWFuc1wiLCBhbW91bnQ6IFwiNDAwXCIsIHVuaXQ6IFwiZ1wiLCBjYXRlZ29yeTogXCJsZWd1bWVcIiB9LFxuICAgICAgICAgICAgeyBuYW1lOiBcInRvbWF0byBwYXNzYXRhXCIsIGFtb3VudDogXCIyMDBcIiwgdW5pdDogXCJtbFwiLCBjYXRlZ29yeTogXCJzYXVjZVwiIH0sXG4gICAgICAgICAgICB7IG5hbWU6IFwicm9zZW1hcnlcIiwgYW1vdW50OiBcIjJcIiwgdW5pdDogXCJzcHJpZ3NcIiwgY2F0ZWdvcnk6IFwiaGVyYlwiIH0sXG4gICAgICAgICAgICB7IG5hbWU6IFwicGFuY2V0dGFcIiwgYW1vdW50OiBcIjUwXCIsIHVuaXQ6IFwiZ1wiLCBjYXRlZ29yeTogXCJwcm90ZWluXCIsIHN3YXBzOiBbXCJzbW9rZWQgdG9mdVwiXSB9XG4gICAgICAgICAgXSxcbiAgICAgICAgICBzdWJzdGl0dXRpb25zOiB7XG4gICAgICAgICAgICBcInNtYWxsIHBhc3RhXCI6IFtcImdsdXRlbi1mcmVlIHBhc3RhXCIsIFwicmljZSBwYXN0YVwiXSxcbiAgICAgICAgICAgIFwiYm9ybG90dGkgYmVhbnNcIjogW1wiY2FubmVsbGluaSBiZWFuc1wiLCBcImtpZG5leSBiZWFuc1wiXSxcbiAgICAgICAgICAgIFwidG9tYXRvIHBhc3NhdGFcIjogW1widG9tYXRvIHNhdWNlXCIsIFwiZGljZWQgdG9tYXRvZXNcIl0sXG4gICAgICAgICAgICBcInJvc2VtYXJ5XCI6IFtcInRoeW1lXCIsIFwib3JlZ2Fub1wiXSxcbiAgICAgICAgICAgIFwicGFuY2V0dGFcIjogW1wiYmFjb25cIiwgXCJzbW9rZWQgdG9mdVwiXVxuICAgICAgICAgIH0sXG4gICAgICAgICAgc2VydmluZ1NpemU6IDQsXG4gICAgICAgICAgYWxsZXJnZW5zOiBbXCJnbHV0ZW5cIl0sXG4gICAgICAgICAgcHJlcFRpbWU6IFwiMjAgbWludXRlc1wiLFxuICAgICAgICAgIGNvb2tUaW1lOiBcIjQ1IG1pbnV0ZXNcIixcbiAgICAgICAgICBjdWx0dXJhbE5vdGVzOiBcIkEgaGVhcnR5IGFuZCBjb21mb3J0aW5nIHNvdXAgdGhhdCdzIHBlcmZlY3QgZm9yIGNvbGQgd2ludGVyIGRheXNcIixcbiAgICAgICAgICBwYWlyaW5nU3VnZ2VzdGlvbnM6IFtcIkNoaWFudGkgd2luZVwiLCBcImNydXN0eSBicmVhZFwiXSxcbiAgICAgICAgICBkaWV0YXJ5SW5mbzogW1widmVnZXRhcmlhblwiXSxcbiAgICAgICAgICBzcGljZUxldmVsOiBcIm1pbGRcIixcbiAgICAgICAgICBudXRyaXRpb246IHtcbiAgICAgICAgICAgIGNhbG9yaWVzOiA0NDAsXG4gICAgICAgICAgICBwcm90ZWluOiAyMixcbiAgICAgICAgICAgIGNhcmJzOiA2OCxcbiAgICAgICAgICAgIGZhdDogMTIsXG4gICAgICAgICAgICB2aXRhbWluczogW1wiQjFcIiwgXCJCMTJcIiwgXCJDXCJdLFxuICAgICAgICAgICAgbWluZXJhbHM6IFtcIklyb25cIiwgXCJQb3Rhc3NpdW1cIl1cbiAgICAgICAgICB9LFxuICAgICAgICAgIHNlYXNvbjogW1wid2ludGVyXCJdLFxuICAgICAgICAgIG1lYWxUeXBlOiBbXCJsdW5jaFwiXVxuICAgICAgICB9XG4gICAgICBdXG4gICAgfSxcbiAgICBkaW5uZXI6IHtcbiAgICAgIGFsbDogW1xuICAgICAgICB7XG4gICAgICAgICAgbmFtZTogXCJPc3NvIEJ1Y28gYWxsYSBNaWxhbmVzZVwiLFxuICAgICAgICAgIGRlc2NyaXB0aW9uOiBcIkJyYWlzZWQgdmVhbCBzaGFua3MgaW4gd2hpdGUgd2luZSBhbmQgYnJvdGhcIixcbiAgICAgICAgICBjdWlzaW5lOiBcIkl0YWxpYW5cIixcbiAgICAgICAgICBjb29raW5nTWV0aG9kczogW1wiYnJhaXNpbmdcIiwgXCJzYXV0w6lpbmdcIl0sXG4gICAgICAgICAgdG9vbHM6IFtcbiAgICAgICAgICAgIFwiRHV0Y2ggb3ZlblwiLFxuICAgICAgICAgICAgXCJ3b29kZW4gc3Bvb25cIixcbiAgICAgICAgICAgIFwia2l0Y2hlbiB0d2luZVwiLFxuICAgICAgICAgICAgXCJncmF0ZXJcIlxuICAgICAgICAgIF0sXG4gICAgICAgICAgcHJlcGFyYXRpb25TdGVwczogW1xuICAgICAgICAgICAgXCJUaWUgdmVhbCBzaGFua3Mgd2l0aCB0d2luZVwiLFxuICAgICAgICAgICAgXCJEcmVkZ2UgaW4gZmxvdXIgYW5kIGJyb3duXCIsXG4gICAgICAgICAgICBcIlNhdXTDqSBzb2Zmcml0dG9cIixcbiAgICAgICAgICAgIFwiQWRkIHdpbmUgYW5kIGJyb3RoXCIsXG4gICAgICAgICAgICBcIkJyYWlzZSB1bnRpbCB0ZW5kZXJcIixcbiAgICAgICAgICAgIFwiUHJlcGFyZSBncmVtb2xhdGFcIlxuICAgICAgICAgIF0sXG4gICAgICAgICAgaW5ncmVkaWVudHM6IFtcbiAgICAgICAgICAgIHsgbmFtZTogXCJ2ZWFsIHNoYW5rc1wiLCBhbW91bnQ6IFwiNFwiLCB1bml0OiBcInBpZWNlc1wiLCBjYXRlZ29yeTogXCJwcm90ZWluXCIsIHN3YXBzOiBbXCJiZWVmIHNoYW5rc1wiXSB9LFxuICAgICAgICAgICAgeyBuYW1lOiBcIndoaXRlIHdpbmVcIiwgYW1vdW50OiBcIjI1MFwiLCB1bml0OiBcIm1sXCIsIGNhdGVnb3J5OiBcIndpbmVcIiB9LFxuICAgICAgICAgICAgeyBuYW1lOiBcImJyb3RoXCIsIGFtb3VudDogXCI1MDBcIiwgdW5pdDogXCJtbFwiLCBjYXRlZ29yeTogXCJsaXF1aWRcIiB9LFxuICAgICAgICAgICAgeyBuYW1lOiBcInZlZ2V0YWJsZXNcIiwgYW1vdW50OiBcIjMwMFwiLCB1bml0OiBcImdcIiwgY2F0ZWdvcnk6IFwidmVnZXRhYmxlXCIgfSxcbiAgICAgICAgICAgIHsgbmFtZTogXCJncmVtb2xhdGFcIiwgYW1vdW50OiBcIjFcIiwgdW5pdDogXCJwb3J0aW9uXCIsIGNhdGVnb3J5OiBcImdhcm5pc2hcIiB9XG4gICAgICAgICAgXSxcbiAgICAgICAgICBzdWJzdGl0dXRpb25zOiB7XG4gICAgICAgICAgICBcInZlYWxcIjogW1wiYmVlZiBzaGFua3NcIiwgXCJtdXNocm9vbSBzaGFua3NcIl0sXG4gICAgICAgICAgICBcIndoaXRlIHdpbmVcIjogW1widmVnZXRhYmxlIHN0b2NrXCIsIFwibm9uLWFsY29ob2xpYyB3aW5lXCJdXG4gICAgICAgICAgfSxcbiAgICAgICAgICBzZXJ2aW5nU2l6ZTogNCxcbiAgICAgICAgICBhbGxlcmdlbnM6IFtcImNlbGVyeVwiXSxcbiAgICAgICAgICBwcmVwVGltZTogXCIzMCBtaW51dGVzXCIsXG4gICAgICAgICAgY29va1RpbWU6IFwiMiBob3Vyc1wiLFxuICAgICAgICAgIGN1bHR1cmFsTm90ZXM6IFwiQSBzaWduYXR1cmUgZGlzaCBmcm9tIE1pbGFuLCB0cmFkaXRpb25hbGx5IHNlcnZlZCB3aXRoIHJpc290dG8gYWxsYSBNaWxhbmVzZVwiLFxuICAgICAgICAgIHBhaXJpbmdTdWdnZXN0aW9uczogW1wicmlzb3R0byBhbGxhIE1pbGFuZXNlXCIsIFwiQmFyYmFyZXNjb1wiLCBcImNydXN0eSBicmVhZFwiXSxcbiAgICAgICAgICBkaWV0YXJ5SW5mbzogW1wiY29udGFpbnMgbWVhdFwiLCBcImNvbnRhaW5zIGFsY29ob2xcIl0sXG4gICAgICAgICAgc3BpY2VMZXZlbDogXCJtaWxkXCIsXG4gICAgICAgICAgbnV0cml0aW9uOiB7XG4gICAgICAgICAgICBjYWxvcmllczogNDUwLFxuICAgICAgICAgICAgcHJvdGVpbjogMzUsXG4gICAgICAgICAgICBjYXJiczogMTUsXG4gICAgICAgICAgICBmYXQ6IDI4LFxuICAgICAgICAgICAgdml0YW1pbnM6IFtcIkIxMlwiLCBcIkFcIl0sXG4gICAgICAgICAgICBtaW5lcmFsczogW1wiSXJvblwiLCBcIlppbmNcIl1cbiAgICAgICAgICB9LFxuICAgICAgICAgIHNlYXNvbjogW1wid2ludGVyXCJdLFxuICAgICAgICAgIG1lYWxUeXBlOiBbXCJkaW5uZXJcIl1cbiAgICAgICAgfSxcbiAgICAgICAge1xuICAgICAgICAgIG5hbWU6IFwiUmlzb3R0byBhaSBGdW5naGlcIixcbiAgICAgICAgICBkZXNjcmlwdGlvbjogXCJDcmVhbXkgbXVzaHJvb20gcmlzb3R0b1wiLFxuICAgICAgICAgIGN1aXNpbmU6IFwiSXRhbGlhblwiLFxuICAgICAgICAgIGNvb2tpbmdNZXRob2RzOiBbXCJzYXV0w6lpbmdcIiwgXCJncmFkdWFsLWxpcXVpZC1hZGRpdGlvblwiXSxcbiAgICAgICAgICB0b29sczogW1xuICAgICAgICAgICAgXCJoZWF2eS1ib3R0b21lZCBwYW5cIixcbiAgICAgICAgICAgIFwid29vZGVuIHNwb29uXCIsXG4gICAgICAgICAgICBcImxhZGxlXCIsXG4gICAgICAgICAgICBcInNhdWNlcGFuXCJcbiAgICAgICAgICBdLFxuICAgICAgICAgIHByZXBhcmF0aW9uU3RlcHM6IFtcbiAgICAgICAgICAgIFwiUHJlcGFyZSBtdXNocm9vbSBicm90aFwiLFxuICAgICAgICAgICAgXCJUb2FzdCByaWNlIHdpdGggb25pb25zXCIsXG4gICAgICAgICAgICBcIkFkZCB3aW5lIGFuZCByZWR1Y2VcIixcbiAgICAgICAgICAgIFwiR3JhZHVhbGx5IGFkZCBob3QgYnJvdGhcIixcbiAgICAgICAgICAgIFwiRmluaXNoIHdpdGggYnV0dGVyIGFuZCBjaGVlc2VcIixcbiAgICAgICAgICAgIFwiUmVzdCBiZWZvcmUgc2VydmluZ1wiXG4gICAgICAgICAgXSxcbiAgICAgICAgICBpbmdyZWRpZW50czogW1xuICAgICAgICAgICAgeyBuYW1lOiBcImFyYm9yaW8gcmljZVwiLCBhbW91bnQ6IFwiMzIwXCIsIHVuaXQ6IFwiZ1wiLCBjYXRlZ29yeTogXCJncmFpblwiIH0sXG4gICAgICAgICAgICB7IG5hbWU6IFwicG9yY2luaSBtdXNocm9vbXNcIiwgYW1vdW50OiBcIjMwXCIsIHVuaXQ6IFwiZ1wiLCBjYXRlZ29yeTogXCJmdW5naVwiLCBzd2FwczogW1wib3RoZXIgbXVzaHJvb21zXCJdIH0sXG4gICAgICAgICAgICB7IG5hbWU6IFwid2hpdGUgd2luZVwiLCBhbW91bnQ6IFwiMTIwXCIsIHVuaXQ6IFwibWxcIiwgY2F0ZWdvcnk6IFwid2luZVwiIH0sXG4gICAgICAgICAgICB7IG5hbWU6IFwicGFybWlnaWFub1wiLCBhbW91bnQ6IFwiODBcIiwgdW5pdDogXCJnXCIsIGNhdGVnb3J5OiBcImRhaXJ5XCIsIHN3YXBzOiBbXCJudXRyaXRpb25hbCB5ZWFzdFwiXSB9XG4gICAgICAgICAgXSxcbiAgICAgICAgICBzdWJzdGl0dXRpb25zOiB7XG4gICAgICAgICAgICBcInBhcm1pZ2lhbm9cIjogW1wibnV0cml0aW9uYWwgeWVhc3RcIiwgXCJ2ZWdhbiBwYXJtZXNhblwiXSxcbiAgICAgICAgICAgIFwid2hpdGUgd2luZVwiOiBbXCJ2ZWdldGFibGUgc3RvY2tcIiwgXCJtdXNocm9vbSBzdG9ja1wiXSxcbiAgICAgICAgICAgIFwiYnV0dGVyXCI6IFtcIm9saXZlIG9pbFwiLCBcInZlZ2FuIGJ1dHRlclwiXVxuICAgICAgICAgIH0sXG4gICAgICAgICAgc2VydmluZ1NpemU6IDQsXG4gICAgICAgICAgYWxsZXJnZW5zOiBbXCJkYWlyeVwiXSxcbiAgICAgICAgICBwcmVwVGltZTogXCIxNSBtaW51dGVzXCIsXG4gICAgICAgICAgY29va1RpbWU6IFwiMjUgbWludXRlc1wiLFxuICAgICAgICAgIGN1bHR1cmFsTm90ZXM6IFwiQSBub3J0aGVybiBJdGFsaWFuIHNwZWNpYWx0eSB0aGF0IHNob3djYXNlcyB0aGUgcmVnaW9uJ3MgbG92ZSBmb3IgcmljZSBkaXNoZXNcIixcbiAgICAgICAgICBwYWlyaW5nU3VnZ2VzdGlvbnM6IFtcIkJhcm9sb1wiLCBcInNpbXBsZSBncmVlbiBzYWxhZFwiXSxcbiAgICAgICAgICBkaWV0YXJ5SW5mbzogW1widmVnZXRhcmlhblwiXSxcbiAgICAgICAgICBzcGljZUxldmVsOiBcIm5vbmVcIixcbiAgICAgICAgICBudXRyaXRpb246IHtcbiAgICAgICAgICAgIGNhbG9yaWVzOiAzODAsXG4gICAgICAgICAgICBwcm90ZWluOiAxMixcbiAgICAgICAgICAgIGNhcmJzOiA2NSxcbiAgICAgICAgICAgIGZhdDogMTgsXG4gICAgICAgICAgICB2aXRhbWluczogW1wiRFwiLCBcIkIxMlwiXSxcbiAgICAgICAgICAgIG1pbmVyYWxzOiBbXCJJcm9uXCIsIFwiQ2FsY2l1bVwiXVxuICAgICAgICAgIH0sXG4gICAgICAgICAgc2Vhc29uOiBbXCJhdXR1bW5cIl0sXG4gICAgICAgICAgbWVhbFR5cGU6IFtcImRpbm5lclwiXVxuICAgICAgICB9LFxuICAgICAgICB7XG4gICAgICAgICAgbmFtZTogXCJHbm9jY2hpIGFsbGEgU29ycmVudGluYVwiLFxuICAgICAgICAgIGRlc2NyaXB0aW9uOiBcIlBvdGF0byBnbm9jY2hpIGJha2VkIHdpdGggdG9tYXRvIHNhdWNlLCBtb3p6YXJlbGxhLCBhbmQgYmFzaWxcIixcbiAgICAgICAgICBjdWlzaW5lOiBcIkl0YWxpYW5cIixcbiAgICAgICAgICBjb29raW5nTWV0aG9kczogW1wiYm9pbGluZ1wiLCBcImJha2luZ1wiXSxcbiAgICAgICAgICB0b29sczogW1xuICAgICAgICAgICAgXCJsYXJnZSBwb3RcIixcbiAgICAgICAgICAgIFwiYmFraW5nIGRpc2hcIixcbiAgICAgICAgICAgIFwicG90YXRvIHJpY2VyXCIsXG4gICAgICAgICAgICBcImtuaWZlXCIsXG4gICAgICAgICAgICBcImN1dHRpbmcgYm9hcmRcIlxuICAgICAgICAgIF0sXG4gICAgICAgICAgcHJlcGFyYXRpb25TdGVwczogW1xuICAgICAgICAgICAgXCJQcmVwYXJlIGdub2NjaGlcIixcbiAgICAgICAgICAgIFwiTWFrZSB0b21hdG8gc2F1Y2VcIixcbiAgICAgICAgICAgIFwiQ29vayBnbm9jY2hpXCIsXG4gICAgICAgICAgICBcIkxheWVyIHdpdGggc2F1Y2UgYW5kIGNoZWVzZVwiLFxuICAgICAgICAgICAgXCJCYWtlIHVudGlsIGJ1YmJseVwiLFxuICAgICAgICAgICAgXCJHYXJuaXNoIHdpdGggYmFzaWxcIlxuICAgICAgICAgIF0sXG4gICAgICAgICAgaW5ncmVkaWVudHM6IFtcbiAgICAgICAgICAgIHsgbmFtZTogXCJwb3RhdG9lc1wiLCBhbW91bnQ6IFwiMVwiLCB1bml0OiBcImtnXCIsIGNhdGVnb3J5OiBcInZlZ2V0YWJsZVwiIH0sXG4gICAgICAgICAgICB7IG5hbWU6IFwiZmxvdXJcIiwgYW1vdW50OiBcIjMwMFwiLCB1bml0OiBcImdcIiwgY2F0ZWdvcnk6IFwiZ3JhaW5cIiB9LFxuICAgICAgICAgICAgeyBuYW1lOiBcImVnZ1wiLCBhbW91bnQ6IFwiMVwiLCB1bml0OiBcImxhcmdlXCIsIGNhdGVnb3J5OiBcInByb3RlaW5cIiB9LFxuICAgICAgICAgICAgeyBuYW1lOiBcInRvbWF0byBzYXVjZVwiLCBhbW91bnQ6IFwiNTAwXCIsIHVuaXQ6IFwibWxcIiwgY2F0ZWdvcnk6IFwic2F1Y2VcIiB9LFxuICAgICAgICAgICAgeyBuYW1lOiBcIm1venphcmVsbGFcIiwgYW1vdW50OiBcIjI1MFwiLCB1bml0OiBcImdcIiwgY2F0ZWdvcnk6IFwiZGFpcnlcIiB9LFxuICAgICAgICAgICAgeyBuYW1lOiBcIlBhcm1pZ2lhbm8tUmVnZ2lhbm9cIiwgYW1vdW50OiBcIjEwMFwiLCB1bml0OiBcImdcIiwgY2F0ZWdvcnk6IFwiZGFpcnlcIiB9LFxuICAgICAgICAgICAgeyBuYW1lOiBcImZyZXNoIGJhc2lsXCIsIGFtb3VudDogXCIxXCIsIHVuaXQ6IFwiYnVuY2hcIiwgY2F0ZWdvcnk6IFwiaGVyYlwiIH0sXG4gICAgICAgICAgICB7IG5hbWU6IFwib2xpdmUgb2lsXCIsIGFtb3VudDogXCIzXCIsIHVuaXQ6IFwidGJzcFwiLCBjYXRlZ29yeTogXCJvaWxcIiB9XG4gICAgICAgICAgXSxcbiAgICAgICAgICBzdWJzdGl0dXRpb25zOiB7XG4gICAgICAgICAgICBcIm1venphcmVsbGFcIjogW1wicGxhbnQtYmFzZWQgbW96emFyZWxsYVwiXSxcbiAgICAgICAgICAgIFwiUGFybWlnaWFuby1SZWdnaWFub1wiOiBbXCJwZWNvcmlub1wiLCBcIm51dHJpdGlvbmFsIHllYXN0XCJdLFxuICAgICAgICAgICAgXCJlZ2dcIjogW1wib2xpdmUgb2lsXCJdXG4gICAgICAgICAgfSxcbiAgICAgICAgICBzZXJ2aW5nU2l6ZTogNixcbiAgICAgICAgICBhbGxlcmdlbnM6IFtcIndoZWF0XCIsIFwiZGFpcnlcIiwgXCJlZ2dcIl0sXG4gICAgICAgICAgcHJlcFRpbWU6IFwiNDUgbWludXRlc1wiLFxuICAgICAgICAgIGNvb2tUaW1lOiBcIjMwIG1pbnV0ZXNcIixcbiAgICAgICAgICBjdWx0dXJhbE5vdGVzOiBcIkEgY2xhc3NpYyBkaXNoIGZyb20gU29ycmVudG8sIGNvbWJpbmluZyB0aGUgY29tZm9ydCBvZiBwb3RhdG8gZ25vY2NoaSB3aXRoIHRoZSBmbGF2b3JzIG9mIENhbXBhbmlhXCIsXG4gICAgICAgICAgcGFpcmluZ1N1Z2dlc3Rpb25zOiBbXCJJdGFsaWFuIHJlZCB3aW5lXCIsIFwiZ3JlZW4gc2FsYWRcIiwgXCJjcnVzdHkgYnJlYWRcIl0sXG4gICAgICAgICAgZGlldGFyeUluZm86IFtcInZlZ2V0YXJpYW5cIl0sXG4gICAgICAgICAgc3BpY2VMZXZlbDogXCJtaWxkXCIsXG4gICAgICAgICAgbnV0cml0aW9uOiB7XG4gICAgICAgICAgICBjYWxvcmllczogNDUwLFxuICAgICAgICAgICAgcHJvdGVpbjogMTgsXG4gICAgICAgICAgICBjYXJiczogNjUsXG4gICAgICAgICAgICBmYXQ6IDE1LFxuICAgICAgICAgICAgdml0YW1pbnM6IFtcIkNcIiwgXCJBXCJdLFxuICAgICAgICAgICAgbWluZXJhbHM6IFtcIlBvdGFzc2l1bVwiLCBcIkNhbGNpdW1cIl1cbiAgICAgICAgICB9LFxuICAgICAgICAgIHNlYXNvbjogW1wiYWxsXCJdLFxuICAgICAgICAgIG1lYWxUeXBlOiBbXCJkaW5uZXJcIl0sXG4gICAgICAgICAgZWxlbWVudGFsUHJvcGVydGllczoge1xuICAgICAgICAgICAgRWFydGg6IDAuNCxcbiAgICAgICAgICAgIFdhdGVyOiAwLjMsXG4gICAgICAgICAgICBGaXJlOiAwLjIsXG4gICAgICAgICAgICBBaXI6IDAuMVxuICAgICAgICAgIH1cbiAgICAgICAgfVxuICAgICAgXSxcbiAgICAgIHN1bW1lcjogW1xuICAgICAgICB7XG4gICAgICAgICAgbmFtZTogXCJBY3F1YSBQYXp6YVwiLFxuICAgICAgICAgIGRlc2NyaXB0aW9uOiBcIk5lYXBvbGl0YW4gc3R5bGUgZmlzaCBpbiAnY3Jhenkgd2F0ZXInXCIsXG4gICAgICAgICAgY3Vpc2luZTogXCJJdGFsaWFuIChOZWFwb2xpdGFuKVwiLFxuICAgICAgICAgIGNvb2tpbmdNZXRob2RzOiBbXCJwb2FjaGluZ1wiLCBcInNpbW1lcmluZ1wiXSxcbiAgICAgICAgICB0b29sczogW1xuICAgICAgICAgICAgXCJsYXJnZSBza2lsbGV0XCIsXG4gICAgICAgICAgICBcImZpc2ggc3BhdHVsYVwiLFxuICAgICAgICAgICAgXCJrbmlmZVwiLFxuICAgICAgICAgICAgXCJjdXR0aW5nIGJvYXJkXCJcbiAgICAgICAgICBdLFxuICAgICAgICAgIHByZXBhcmF0aW9uU3RlcHM6IFtcbiAgICAgICAgICAgIFwiQ2xlYW4gYW5kIHByZXBhcmUgZmlzaFwiLFxuICAgICAgICAgICAgXCJTYXV0w6kgZ2FybGljIGFuZCBoZXJic1wiLFxuICAgICAgICAgICAgXCJBZGQgdG9tYXRvZXMgYW5kIHdpbmVcIixcbiAgICAgICAgICAgIFwiUG9hY2ggZmlzaCBpbiBsaXF1aWRcIixcbiAgICAgICAgICAgIFwiR2FybmlzaCB3aXRoIGZyZXNoIGhlcmJzXCJcbiAgICAgICAgICBdLFxuICAgICAgICAgIGluZ3JlZGllbnRzOiBbXG4gICAgICAgICAgICB7IG5hbWU6IFwiZnJlc2ggZmlzaFwiLCBhbW91bnQ6IFwiNjAwXCIsIHVuaXQ6IFwiZ1wiLCBjYXRlZ29yeTogXCJwcm90ZWluXCIsIHN3YXBzOiBbXCJzZWEgYmFzc1wiLCBcImNvZFwiXSB9LFxuICAgICAgICAgICAgeyBuYW1lOiBcImNoZXJyeSB0b21hdG9lc1wiLCBhbW91bnQ6IFwiMzAwXCIsIHVuaXQ6IFwiZ1wiLCBjYXRlZ29yeTogXCJ2ZWdldGFibGVcIiB9LFxuICAgICAgICAgICAgeyBuYW1lOiBcIndoaXRlIHdpbmVcIiwgYW1vdW50OiBcIjE1MFwiLCB1bml0OiBcIm1sXCIsIGNhdGVnb3J5OiBcIndpbmVcIiwgc3dhcHM6IFtcImZpc2ggc3RvY2tcIl0gfSxcbiAgICAgICAgICAgIHsgbmFtZTogXCJnYXJsaWNcIiwgYW1vdW50OiBcIjRcIiwgdW5pdDogXCJjbG92ZXNcIiwgY2F0ZWdvcnk6IFwidmVnZXRhYmxlXCIgfSxcbiAgICAgICAgICAgIHsgbmFtZTogXCJwYXJzbGV5XCIsIGFtb3VudDogXCIxXCIsIHVuaXQ6IFwiYnVuY2hcIiwgY2F0ZWdvcnk6IFwiaGVyYlwiIH1cbiAgICAgICAgICBdLFxuICAgICAgICAgIHN1YnN0aXR1dGlvbnM6IHtcbiAgICAgICAgICAgIFwiZnJlc2ggZmlzaFwiOiBbXCJzZWEgYmFzc1wiLCBcImNvZFwiLCBcImhhbGlidXRcIl0sXG4gICAgICAgICAgICBcIndoaXRlIHdpbmVcIjogW1wiZmlzaCBzdG9ja1wiLCBcInZlZ2V0YWJsZSBzdG9ja1wiXSxcbiAgICAgICAgICAgIFwiY2hlcnJ5IHRvbWF0b2VzXCI6IFtcImRpY2VkIHRvbWF0b2VzXCIsIFwiZ3JhcGUgdG9tYXRvZXNcIl1cbiAgICAgICAgICB9LFxuICAgICAgICAgIHNlcnZpbmdTaXplOiA0LFxuICAgICAgICAgIGFsbGVyZ2VuczogW1wiZmlzaFwiLCBcInN1bGZpdGVzXCJdLFxuICAgICAgICAgIHByZXBUaW1lOiBcIjE1IG1pbnV0ZXNcIixcbiAgICAgICAgICBjb29rVGltZTogXCIyNSBtaW51dGVzXCIsXG4gICAgICAgICAgY3VsdHVyYWxOb3RlczogXCJBIHRyYWRpdGlvbmFsIE5lYXBvbGl0YW4gZmlzaGVybWFuJ3MgZGlzaCwgd2hlcmUgZmlzaCBpcyBjb29rZWQgaW4gJ2NyYXp5IHdhdGVyJyAoYWNxdWEgcGF6emEpIC0gYSBmcmFncmFudCBicm90aCBvZiB0b21hdG9lcywgaGVyYnMsIGFuZCB3aW5lXCIsXG4gICAgICAgICAgcGFpcmluZ1N1Z2dlc3Rpb25zOiBbXCJGYWxhbmdoaW5hIHdpbmVcIiwgXCJjcnVzdHkgYnJlYWRcIiwgXCJzYXV0w6llZCBncmVlbnNcIl0sXG4gICAgICAgICAgZGlldGFyeUluZm86IFtcImNvbnRhaW5zIGZpc2hcIiwgXCJnbHV0ZW4tZnJlZVwiLCBcImRhaXJ5LWZyZWVcIl0sXG4gICAgICAgICAgc3BpY2VMZXZlbDogXCJtaWxkXCIsXG4gICAgICAgICAgbnV0cml0aW9uOiB7XG4gICAgICAgICAgICBjYWxvcmllczogMzIwLFxuICAgICAgICAgICAgcHJvdGVpbjogNDIsXG4gICAgICAgICAgICBjYXJiczogMTIsXG4gICAgICAgICAgICBmYXQ6IDE0LFxuICAgICAgICAgICAgdml0YW1pbnM6IFtcIkRcIiwgXCJCMTJcIiwgXCJDXCJdLFxuICAgICAgICAgICAgbWluZXJhbHM6IFtcIlNlbGVuaXVtXCIsIFwiSW9kaW5lXCIsIFwiUG90YXNzaXVtXCJdXG4gICAgICAgICAgfSxcbiAgICAgICAgICBzZWFzb246IFtcInN1bW1lclwiLCBcInNwcmluZ1wiXSxcbiAgICAgICAgICBtZWFsVHlwZTogW1wibHVuY2hcIiwgXCJkaW5uZXJcIl1cbiAgICAgICAgfSxcbiAgICAgICAge1xuICAgICAgICAgIG5hbWU6IFwiTWVsYW56YW5lIGFsbGEgUGFybWlnaWFuYVwiLFxuICAgICAgICAgIGRlc2NyaXB0aW9uOiBcIkVnZ3BsYW50IFBhcm1lc2FuIHdpdGggdG9tYXRvIHNhdWNlXCIsXG4gICAgICAgICAgY3Vpc2luZTogXCJJdGFsaWFuXCIsXG4gICAgICAgICAgY29va2luZ01ldGhvZHM6IFtcImJha2luZ1wiLCBcImZyeWluZ1wiXSxcbiAgICAgICAgICB0b29sczogW1xuICAgICAgICAgICAgXCJiYWtpbmcgZGlzaFwiLFxuICAgICAgICAgICAgXCJmcnlpbmcgcGFuXCIsXG4gICAgICAgICAgICBcImtuaWZlXCIsXG4gICAgICAgICAgICBcImN1dHRpbmcgYm9hcmRcIixcbiAgICAgICAgICAgIFwiZ3JhdGVyXCJcbiAgICAgICAgICBdLFxuICAgICAgICAgIHByZXBhcmF0aW9uU3RlcHM6IFtcbiAgICAgICAgICAgIFwiU2xpY2UgZWdncGxhbnQgdGhpbmx5XCIsXG4gICAgICAgICAgICBcIlNhbHQgYW5kIGRyYWluIHRvIHJlbW92ZSBiaXR0ZXJuZXNzXCIsXG4gICAgICAgICAgICBcIkZyeSBlZ2dwbGFudCBzbGljZXNcIixcbiAgICAgICAgICAgIFwiUHJlcGFyZSB0b21hdG8gc2F1Y2VcIixcbiAgICAgICAgICAgIFwiTGF5ZXIgZWdncGxhbnQsIHNhdWNlLCBhbmQgY2hlZXNlIGluIGJha2luZyBkaXNoXCIsXG4gICAgICAgICAgICBcIkJha2UgdW50aWwgZ29sZGVuIGFuZCBidWJibHlcIixcbiAgICAgICAgICAgIFwiU2VydmUgd2l0aCBmcmVzaCBiYXNpbFwiXG4gICAgICAgICAgXSxcbiAgICAgICAgICBpbmdyZWRpZW50czogW1xuICAgICAgICAgICAgeyBuYW1lOiBcImVnZ3BsYW50XCIsIGFtb3VudDogXCI4MDBcIiwgdW5pdDogXCJnXCIsIGNhdGVnb3J5OiBcInZlZ2V0YWJsZVwiIH0sXG4gICAgICAgICAgICB7IG5hbWU6IFwidG9tYXRvIHNhdWNlXCIsIGFtb3VudDogXCI1MDBcIiwgdW5pdDogXCJtbFwiLCBjYXRlZ29yeTogXCJzYXVjZVwiIH0sXG4gICAgICAgICAgICB7IG5hbWU6IFwibW96emFyZWxsYVwiLCBhbW91bnQ6IFwiMzAwXCIsIHVuaXQ6IFwiZ1wiLCBjYXRlZ29yeTogXCJkYWlyeVwiLCBzd2FwczogW1widmVnYW4gbW96emFyZWxsYVwiXSB9LFxuICAgICAgICAgICAgeyBuYW1lOiBcInBhcm1pZ2lhbm9cIiwgYW1vdW50OiBcIjEwMFwiLCB1bml0OiBcImdcIiwgY2F0ZWdvcnk6IFwiZGFpcnlcIiwgc3dhcHM6IFtcIm51dHJpdGlvbmFsIHllYXN0XCJdIH0sXG4gICAgICAgICAgICB7IG5hbWU6IFwiYmFzaWxcIiwgYW1vdW50OiBcIjFcIiwgdW5pdDogXCJidW5jaFwiLCBjYXRlZ29yeTogXCJoZXJiXCIgfVxuICAgICAgICAgIF0sXG4gICAgICAgICAgc3Vic3RpdHV0aW9uczoge1xuICAgICAgICAgICAgXCJtb3p6YXJlbGxhXCI6IFtcInZlZ2FuIG1venphcmVsbGFcIiwgXCJjYXNoZXcgY2hlZXNlXCJdLFxuICAgICAgICAgICAgXCJwYXJtaWdpYW5vXCI6IFtcIm51dHJpdGlvbmFsIHllYXN0XCIsIFwidmVnYW4gcGFybWVzYW5cIl0sXG4gICAgICAgICAgICBcInRvbWF0byBzYXVjZVwiOiBbXCJtYXJpbmFyYSBzYXVjZVwiLCBcImNhbm5lZCB0b21hdG9lc1wiXVxuICAgICAgICAgIH0sXG4gICAgICAgICAgc2VydmluZ1NpemU6IDQsXG4gICAgICAgICAgYWxsZXJnZW5zOiBbXCJkYWlyeVwiXSxcbiAgICAgICAgICBwcmVwVGltZTogXCIzMCBtaW51dGVzXCIsXG4gICAgICAgICAgY29va1RpbWU6IFwiNDUgbWludXRlc1wiLFxuICAgICAgICAgIGN1bHR1cmFsTm90ZXM6IFwiQSBwb3B1bGFyIEl0YWxpYW4tQW1lcmljYW4gZGlzaCB0aGF0IHNob3djYXNlcyB0aGUgdmVyc2F0aWxpdHkgb2YgZWdncGxhbnRcIixcbiAgICAgICAgICBwYWlyaW5nU3VnZ2VzdGlvbnM6IFtcInJlZCB3aW5lXCIsIFwiZ2FybGljIGJyZWFkXCJdLFxuICAgICAgICAgIGRpZXRhcnlJbmZvOiBbXCJ2ZWdldGFyaWFuXCJdLFxuICAgICAgICAgIHNwaWNlTGV2ZWw6IFwibWlsZFwiLFxuICAgICAgICAgIG51dHJpdGlvbjoge1xuICAgICAgICAgICAgY2Fsb3JpZXM6IDQyMCxcbiAgICAgICAgICAgIHByb3RlaW46IDIyLFxuICAgICAgICAgICAgY2FyYnM6IDI4LFxuICAgICAgICAgICAgZmF0OiAyNixcbiAgICAgICAgICAgIHZpdGFtaW5zOiBbXCJBXCIsIFwiQ1wiLCBcIktcIl0sXG4gICAgICAgICAgICBtaW5lcmFsczogW1wiQ2FsY2l1bVwiLCBcIklyb25cIl1cbiAgICAgICAgICB9LFxuICAgICAgICAgIHNlYXNvbjogW1wic3VtbWVyXCJdLFxuICAgICAgICAgIG1lYWxUeXBlOiBbXCJkaW5uZXJcIl1cbiAgICAgICAgfVxuICAgICAgXVxuICAgIH0sXG4gICAgZGVzc2VydDoge1xuICAgICAgYWxsOiBbXG4gICAgICAgIHtcbiAgICAgICAgICBuYW1lOiBcIlRpcmFtaXPDuVwiLFxuICAgICAgICAgIGRlc2NyaXB0aW9uOiBcIkNsYXNzaWMgY29mZmVlLWZsYXZvcmVkIGRlc3NlcnQgd2l0aCBtYXNjYXJwb25lIGNyZWFtXCIsXG4gICAgICAgICAgY3Vpc2luZTogXCJJdGFsaWFuXCIsXG4gICAgICAgICAgY29va2luZ01ldGhvZHM6IFtcImxheWVyaW5nXCIsIFwid2hpcHBpbmdcIl0sXG4gICAgICAgICAgdG9vbHM6IFtcbiAgICAgICAgICAgIFwibWl4aW5nIGJvd2xzXCIsXG4gICAgICAgICAgICBcImVsZWN0cmljIG1peGVyXCIsXG4gICAgICAgICAgICBcInNlcnZpbmcgZGlzaFwiLFxuICAgICAgICAgICAgXCJlc3ByZXNzbyBtYWtlclwiXG4gICAgICAgICAgXSxcbiAgICAgICAgICBwcmVwYXJhdGlvblN0ZXBzOiBbXG4gICAgICAgICAgICBcIlByZXBhcmUgc3Ryb25nIGNvZmZlZVwiLFxuICAgICAgICAgICAgXCJXaGlwIGVnZyB5b2xrcyB3aXRoIHN1Z2FyXCIsXG4gICAgICAgICAgICBcIkZvbGQgaW4gbWFzY2FycG9uZVwiLFxuICAgICAgICAgICAgXCJEaXAgbGFkeWZpbmdlcnMgaW4gY29mZmVlXCIsXG4gICAgICAgICAgICBcIkxheWVyIGNyZWFtIGFuZCBjb29raWVzXCIsXG4gICAgICAgICAgICBcIkR1c3Qgd2l0aCBjb2NvYVwiXG4gICAgICAgICAgXSxcbiAgICAgICAgICBpbmdyZWRpZW50czogW1xuICAgICAgICAgICAgeyBuYW1lOiBcIm1hc2NhcnBvbmVcIiwgYW1vdW50OiBcIjUwMFwiLCB1bml0OiBcImdcIiwgY2F0ZWdvcnk6IFwiZGFpcnlcIiB9LFxuICAgICAgICAgICAgeyBuYW1lOiBcImxhZHlmaW5nZXJzXCIsIGFtb3VudDogXCIyMDBcIiwgdW5pdDogXCJnXCIsIGNhdGVnb3J5OiBcInBhc3RyeVwiLCBzd2FwczogW1wiZ2x1dGVuLWZyZWUgbGFkeWZpbmdlcnNcIl0gfSxcbiAgICAgICAgICAgIHsgbmFtZTogXCJlc3ByZXNzb1wiLCBhbW91bnQ6IFwiMzAwXCIsIHVuaXQ6IFwibWxcIiwgY2F0ZWdvcnk6IFwiY29mZmVlXCIgfSxcbiAgICAgICAgICAgIHsgbmFtZTogXCJlZ2dzXCIsIGFtb3VudDogXCI0XCIsIHVuaXQ6IFwibGFyZ2VcIiwgY2F0ZWdvcnk6IFwicHJvdGVpblwiIH0sXG4gICAgICAgICAgICB7IG5hbWU6IFwiY29jb2EgcG93ZGVyXCIsIGFtb3VudDogXCIzMFwiLCB1bml0OiBcImdcIiwgY2F0ZWdvcnk6IFwicG93ZGVyXCIgfVxuICAgICAgICAgIF0sXG4gICAgICAgICAgc3Vic3RpdHV0aW9uczoge1xuICAgICAgICAgICAgXCJtYXNjYXJwb25lXCI6IFtcImRhaXJ5LWZyZWUgbWFzY2FycG9uZVwiLCBcImNhc2hldyBjcmVhbVwiXSxcbiAgICAgICAgICAgIFwibGFkeWZpbmdlcnNcIjogW1wiZ2x1dGVuLWZyZWUgbGFkeWZpbmdlcnNcIiwgXCJzcG9uZ2UgY2FrZVwiXSxcbiAgICAgICAgICAgIFwiZWdnc1wiOiBbXCJhcXVhZmFiYVwiXVxuICAgICAgICAgIH0sXG4gICAgICAgICAgc2VydmluZ1NpemU6IDgsXG4gICAgICAgICAgYWxsZXJnZW5zOiBbXCJkYWlyeVwiLCBcImVnZ3NcIiwgXCJnbHV0ZW5cIl0sXG4gICAgICAgICAgcHJlcFRpbWU6IFwiMzAgbWludXRlc1wiLFxuICAgICAgICAgIGNvb2tUaW1lOiBcIjAgbWludXRlc1wiLFxuICAgICAgICAgIGN1bHR1cmFsTm90ZXM6IFwiT3JpZ2luYXRlZCBpbiBWZW5ldG8sIG5vdyBvbmUgb2YgSXRhbHkncyBtb3N0IGZhbW91cyBkZXNzZXJ0cyB3b3JsZHdpZGVcIixcbiAgICAgICAgICBwYWlyaW5nU3VnZ2VzdGlvbnM6IFtcImVzcHJlc3NvXCIsIFwiVmluIFNhbnRvXCJdLFxuICAgICAgICAgIGRpZXRhcnlJbmZvOiBbXCJ2ZWdldGFyaWFuXCJdLFxuICAgICAgICAgIHNwaWNlTGV2ZWw6IFwibm9uZVwiLFxuICAgICAgICAgIG51dHJpdGlvbjoge1xuICAgICAgICAgICAgY2Fsb3JpZXM6IDM1MCxcbiAgICAgICAgICAgIHByb3RlaW46IDgsXG4gICAgICAgICAgICBjYXJiczogMzUsXG4gICAgICAgICAgICBmYXQ6IDIyLFxuICAgICAgICAgICAgdml0YW1pbnM6IFtcIkFcIiwgXCJEXCJdLFxuICAgICAgICAgICAgbWluZXJhbHM6IFtcIkNhbGNpdW1cIl1cbiAgICAgICAgICB9LFxuICAgICAgICAgIHNlYXNvbjogW1wiYWxsXCJdLFxuICAgICAgICAgIG1lYWxUeXBlOiBbXCJkZXNzZXJ0XCJdXG4gICAgICAgIH1cbiAgICAgIF0sXG4gICAgICBzdW1tZXI6IFtcbiAgICAgICAge1xuICAgICAgICAgIG5hbWU6IFwiR2VsYXRvIEFydGlnaWFuYWxlXCIsXG4gICAgICAgICAgZGVzY3JpcHRpb246IFwiVHJhZGl0aW9uYWwgSXRhbGlhbiBpY2UgY3JlYW1cIixcbiAgICAgICAgICBjdWlzaW5lOiBcIkl0YWxpYW5cIixcbiAgICAgICAgICBjb29raW5nTWV0aG9kczogW1wiY2h1cm5pbmdcIl0sXG4gICAgICAgICAgdG9vbHM6IFtcbiAgICAgICAgICAgIFwiaWNlIGNyZWFtIG1ha2VyXCIsXG4gICAgICAgICAgICBcIm1peGluZyBib3dsXCIsXG4gICAgICAgICAgICBcIndoaXNrXCIsXG4gICAgICAgICAgICBcInNhdWNlcGFuXCJcbiAgICAgICAgICBdLFxuICAgICAgICAgIHByZXBhcmF0aW9uU3RlcHM6IFtcbiAgICAgICAgICAgIFwiV2hpc2sgbWlsaywgY3JlYW0sIGFuZCBzdWdhclwiLFxuICAgICAgICAgICAgXCJDb29rIHVudGlsIHRoaWNrZW5lZFwiLFxuICAgICAgICAgICAgXCJDb29sIGFuZCBjaGlsbFwiLFxuICAgICAgICAgICAgXCJDaHVybiBpbiBpY2UgY3JlYW0gbWFrZXJcIixcbiAgICAgICAgICAgIFwiRnJlZXplIHVudGlsIGZpcm1cIlxuICAgICAgICAgIF0sXG4gICAgICAgICAgaW5ncmVkaWVudHM6IFtcbiAgICAgICAgICAgIHsgbmFtZTogXCJtaWxrXCIsIGFtb3VudDogXCI1MDBcIiwgdW5pdDogXCJtbFwiLCBjYXRlZ29yeTogXCJkYWlyeVwiLCBzd2FwczogW1wiYWxtb25kIG1pbGtcIl0gfSxcbiAgICAgICAgICAgIHsgbmFtZTogXCJjcmVhbVwiLCBhbW91bnQ6IFwiMjUwXCIsIHVuaXQ6IFwibWxcIiwgY2F0ZWdvcnk6IFwiZGFpcnlcIiwgc3dhcHM6IFtcImNvY29udXQgY3JlYW1cIl0gfSxcbiAgICAgICAgICAgIHsgbmFtZTogXCJzdWdhclwiLCBhbW91bnQ6IFwiMTUwXCIsIHVuaXQ6IFwiZ1wiLCBjYXRlZ29yeTogXCJzd2VldGVuZXJcIiB9LFxuICAgICAgICAgICAgeyBuYW1lOiBcImVnZyB5b2xrc1wiLCBhbW91bnQ6IFwiNFwiLCB1bml0OiBcImxhcmdlXCIsIGNhdGVnb3J5OiBcInByb3RlaW5cIiB9XG4gICAgICAgICAgXSxcbiAgICAgICAgICBzdWJzdGl0dXRpb25zOiB7XG4gICAgICAgICAgICBcIm1pbGtcIjogW1wiYWxtb25kIG1pbGtcIiwgXCJvYXQgbWlsa1wiXSxcbiAgICAgICAgICAgIFwiY3JlYW1cIjogW1wiY29jb251dCBjcmVhbVwiLCBcImhlYXZ5IGNyZWFtXCJdLFxuICAgICAgICAgICAgXCJzdWdhclwiOiBbXCJzdGV2aWFcIiwgXCJlcnl0aHJpdG9sXCJdLFxuICAgICAgICAgICAgXCJlZ2cgeW9sa3NcIjogW1wiYXF1YWZhYmFcIl1cbiAgICAgICAgICB9LFxuICAgICAgICAgIHNlcnZpbmdTaXplOiA0LFxuICAgICAgICAgIGFsbGVyZ2VuczogW1wiZGFpcnlcIiwgXCJlZ2dzXCJdLFxuICAgICAgICAgIHByZXBUaW1lOiBcIjMwIG1pbnV0ZXNcIixcbiAgICAgICAgICBjb29rVGltZTogXCIxNSBtaW51dGVzXCIsXG4gICAgICAgICAgY3VsdHVyYWxOb3RlczogXCJBIGJlbG92ZWQgSXRhbGlhbiBkZXNzZXJ0IHRoYXQgc2hvd2Nhc2VzIHRoZSBjb3VudHJ5J3MgbG92ZSBmb3Igc3dlZXQsIGNyZWFteSB0cmVhdHNcIixcbiAgICAgICAgICBwYWlyaW5nU3VnZ2VzdGlvbnM6IFtcImZyZXNoIGZydWl0XCIsIFwiYmFsc2FtaWMgZ2xhemVcIl0sXG4gICAgICAgICAgZGlldGFyeUluZm86IFtcInZlZ2V0YXJpYW5cIl0sXG4gICAgICAgICAgc3BpY2VMZXZlbDogXCJub25lXCIsXG4gICAgICAgICAgbnV0cml0aW9uOiB7XG4gICAgICAgICAgICBjYWxvcmllczogMjIwLFxuICAgICAgICAgICAgcHJvdGVpbjogNixcbiAgICAgICAgICAgIGNhcmJzOiAyOCxcbiAgICAgICAgICAgIGZhdDogMTIsXG4gICAgICAgICAgICB2aXRhbWluczogW1wiQVwiLCBcIkRcIl0sXG4gICAgICAgICAgICBtaW5lcmFsczogW1wiQ2FsY2l1bVwiXVxuICAgICAgICAgIH0sXG4gICAgICAgICAgc2Vhc29uOiBbXCJzdW1tZXJcIl0sXG4gICAgICAgICAgbWVhbFR5cGU6IFtcImRlc3NlcnRcIl1cbiAgICAgICAgfVxuICAgICAgXSxcbiAgICAgIHdpbnRlcjogW1xuICAgICAgICB7XG4gICAgICAgICAgbmFtZTogXCJQYW5ldHRvbmVcIixcbiAgICAgICAgICBkZXNjcmlwdGlvbjogXCJUcmFkaXRpb25hbCBDaHJpc3RtYXMgc3dlZXQgYnJlYWRcIixcbiAgICAgICAgICBjdWlzaW5lOiBcIkl0YWxpYW5cIixcbiAgICAgICAgICBjb29raW5nTWV0aG9kczogW1wia25lYWRpbmdcIiwgXCJyaXNpbmdcIiwgXCJiYWtpbmdcIl0sXG4gICAgICAgICAgdG9vbHM6IFtcbiAgICAgICAgICAgIFwibWl4aW5nIGJvd2xcIixcbiAgICAgICAgICAgIFwic3RhbmQgbWl4ZXJcIixcbiAgICAgICAgICAgIFwibG9hZiBwYW5cIixcbiAgICAgICAgICAgIFwib3ZlblwiXG4gICAgICAgICAgXSxcbiAgICAgICAgICBwcmVwYXJhdGlvblN0ZXBzOiBbXG4gICAgICAgICAgICBcIktuZWFkIGRvdWdoIHdpdGggYnV0dGVyIGFuZCBzdWdhclwiLFxuICAgICAgICAgICAgXCJBZGQgZWdncyBhbmQgcmFpc2luc1wiLFxuICAgICAgICAgICAgXCJSaXNlIGRvdWdoIHVudGlsIGRvdWJsZWRcIixcbiAgICAgICAgICAgIFwiU2hhcGUgaW50byBsb2FmXCIsXG4gICAgICAgICAgICBcIkJha2UgdW50aWwgZ29sZGVuXCIsXG4gICAgICAgICAgICBcIkJydXNoIHdpdGggc3VnYXIgc3lydXBcIlxuICAgICAgICAgIF0sXG4gICAgICAgICAgaW5ncmVkaWVudHM6IFtcbiAgICAgICAgICAgIHsgbmFtZTogXCJmbG91clwiLCBhbW91bnQ6IFwiNTAwXCIsIHVuaXQ6IFwiZ1wiLCBjYXRlZ29yeTogXCJncmFpblwiLCBzd2FwczogW1wiZ2x1dGVuLWZyZWUgZmxvdXIgYmxlbmRcIl0gfSxcbiAgICAgICAgICAgIHsgbmFtZTogXCJkcmllZCBmcnVpdFwiLCBhbW91bnQ6IFwiMjAwXCIsIHVuaXQ6IFwiZ1wiLCBjYXRlZ29yeTogXCJmcnVpdFwiIH0sXG4gICAgICAgICAgICB7IG5hbWU6IFwiYnV0dGVyXCIsIGFtb3VudDogXCIyMDBcIiwgdW5pdDogXCJnXCIsIGNhdGVnb3J5OiBcImRhaXJ5XCIsIHN3YXBzOiBbXCJwbGFudCBidXR0ZXJcIl0gfSxcbiAgICAgICAgICAgIHsgbmFtZTogXCJlZ2dzXCIsIGFtb3VudDogXCI1XCIsIHVuaXQ6IFwibGFyZ2VcIiwgY2F0ZWdvcnk6IFwicHJvdGVpblwiIH0sXG4gICAgICAgICAgICB7IG5hbWU6IFwic3VnYXJcIiwgYW1vdW50OiBcIjE1MFwiLCB1bml0OiBcImdcIiwgY2F0ZWdvcnk6IFwic3dlZXRlbmVyXCIgfVxuICAgICAgICAgIF0sXG4gICAgICAgICAgc3Vic3RpdHV0aW9uczoge1xuICAgICAgICAgICAgXCJmbG91clwiOiBbXCJnbHV0ZW4tZnJlZSBmbG91ciBibGVuZFwiLCBcImNvY29udXQgZmxvdXJcIl0sXG4gICAgICAgICAgICBcImRyaWVkIGZydWl0XCI6IFtcInJhaXNpbnNcIiwgXCJjcmFuYmVycmllc1wiXSxcbiAgICAgICAgICAgIFwiYnV0dGVyXCI6IFtcInBsYW50IGJ1dHRlclwiLCBcImNvY29udXQgb2lsXCJdLFxuICAgICAgICAgICAgXCJlZ2dzXCI6IFtcImZsYXggZWdnc1wiLCBcImNoaWEgZWdnc1wiXSxcbiAgICAgICAgICAgIFwic3VnYXJcIjogW1wic3RldmlhXCIsIFwiZXJ5dGhyaXRvbFwiXVxuICAgICAgICAgIH0sXG4gICAgICAgICAgc2VydmluZ1NpemU6IDEyLFxuICAgICAgICAgIGFsbGVyZ2VuczogW1wiZ2x1dGVuXCIsIFwiZGFpcnlcIiwgXCJlZ2dzXCJdLFxuICAgICAgICAgIHByZXBUaW1lOiBcIjMgaG91cnNcIixcbiAgICAgICAgICBjb29rVGltZTogXCI0NSBtaW51dGVzXCIsXG4gICAgICAgICAgY3VsdHVyYWxOb3RlczogXCJBIHRyYWRpdGlvbmFsIEl0YWxpYW4gQ2hyaXN0bWFzIGJyZWFkIHRoYXQncyBlbmpveWVkIGR1cmluZyB0aGUgaG9saWRheSBzZWFzb25cIixcbiAgICAgICAgICBwYWlyaW5nU3VnZ2VzdGlvbnM6IFtcInZpbiBzYW50b1wiLCBcImVzcHJlc3NvXCJdLFxuICAgICAgICAgIGRpZXRhcnlJbmZvOiBbXCJ2ZWdldGFyaWFuXCJdLFxuICAgICAgICAgIHNwaWNlTGV2ZWw6IFwibm9uZVwiLFxuICAgICAgICAgIG51dHJpdGlvbjoge1xuICAgICAgICAgICAgY2Fsb3JpZXM6IDM4MCxcbiAgICAgICAgICAgIHByb3RlaW46IDgsXG4gICAgICAgICAgICBjYXJiczogNTIsXG4gICAgICAgICAgICBmYXQ6IDE2LFxuICAgICAgICAgICAgdml0YW1pbnM6IFtcIkFcIiwgXCJEXCIsIFwiRVwiXSxcbiAgICAgICAgICAgIG1pbmVyYWxzOiBbXCJJcm9uXCIsIFwiQ2FsY2l1bVwiXVxuICAgICAgICAgIH0sXG4gICAgICAgICAgc2Vhc29uOiBbXCJ3aW50ZXJcIl0sXG4gICAgICAgICAgbWVhbFR5cGU6IFtcImRlc3NlcnRcIl1cbiAgICAgICAgfVxuICAgICAgXVxuICAgIH1cbiAgfSxcbiAgbW90aGVyU2F1Y2VzOiB7XG4gICAgbWFyaW5hcmFCYXNlOiB7XG4gICAgICBuYW1lOiBcIk1hcmluYXJhIEJhc2VcIixcbiAgICAgIGRlc2NyaXB0aW9uOiBcIlNpbXBsZSB0b21hdG8gc2F1Y2UgdGhhdCBmb3JtcyB0aGUgZm91bmRhdGlvbiBvZiBtYW55IEl0YWxpYW4gZGlzaGVzXCIsXG4gICAgICBiYXNlOiBcInRvbWF0b1wiLFxuICAgICAgdGhpY2tlbmVyOiBcInJlZHVjdGlvblwiLFxuICAgICAga2V5SW5ncmVkaWVudHM6IFtcInRvbWF0b2VzXCIsIFwiZ2FybGljXCIsIFwib2xpdmUgb2lsXCIsIFwiYmFzaWxcIiwgXCJvcmVnYW5vXCJdLFxuICAgICAgY3VsaW5hcnlVc2VzOiBbXCJwYXN0YSBzYXVjZVwiLCBcInBpenphIGJhc2VcIiwgXCJkaXBwaW5nIHNhdWNlXCIsIFwiY2Fzc2Vyb2xlIGJhc2VcIl0sXG4gICAgICBkZXJpdmF0aXZlczogW1wiQXJyYWJiaWF0YVwiLCBcIlB1dHRhbmVzY2FcIiwgXCJBbGxhIE5vcm1hXCJdLFxuICAgICAgZWxlbWVudGFsUHJvcGVydGllczoge1xuICAgICAgICBGaXJlOiAwLjQsXG4gICAgICAgIEVhcnRoOiAwLjMsXG4gICAgICAgIFdhdGVyOiAwLjIsXG4gICAgICAgIEFpcjogMC4xXG4gICAgICB9LFxuICAgICAgYXN0cm9sb2dpY2FsSW5mbHVlbmNlczogW1wiTWFyc1wiLCBcIlN1blwiLCBcIkxlb1wiXSxcbiAgICAgIHNlYXNvbmFsaXR5OiBcImFsbFwiLFxuICAgICAgcHJlcGFyYXRpb25Ob3RlczogXCJCZXN0IHdoZW4gbWFkZSB3aXRoIFNhbiBNYXJ6YW5vIHRvbWF0b2VzIGZvciBhdXRoZW50aWMgZmxhdm9yXCIsXG4gICAgICB0ZWNobmljYWxUaXBzOiBcIlNpbW1lciBnZW50bHkgdG8gbWFpbnRhaW4gYnJpZ2h0bmVzcyBvZiBmbGF2b3JcIixcbiAgICAgIGRpZmZpY3VsdHk6IFwiZWFzeVwiLFxuICAgICAgc3RvcmFnZUluc3RydWN0aW9uczogXCJTdG9yZSBpbiBhaXJ0aWdodCBjb250YWluZXIgZm9yIHVwIHRvIDUgZGF5cyBpbiByZWZyaWdlcmF0b3JcIixcbiAgICAgIHlpZWxkOiBcIjIgY3Vwc1wiXG4gICAgfSxcbiAgICBiZXNjaWFtZWxsYToge1xuICAgICAgbmFtZTogXCJCZXNjaWFtZWxsYVwiLFxuICAgICAgZGVzY3JpcHRpb246IFwiSXRhbGlhbiB3aGl0ZSBzYXVjZSBtYWRlIGZyb20gcm91eCBhbmQgbWlsa1wiLFxuICAgICAgYmFzZTogXCJtaWxrXCIsXG4gICAgICB0aGlja2VuZXI6IFwicm91eFwiLFxuICAgICAga2V5SW5ncmVkaWVudHM6IFtcImJ1dHRlclwiLCBcImZsb3VyXCIsIFwibWlsa1wiLCBcIm51dG1lZ1wiLCBcImJheSBsZWFmXCJdLFxuICAgICAgY3VsaW5hcnlVc2VzOiBbXCJsYXNhZ25hIGxheWVyXCIsIFwiY2FubmVsbG9uaSBmaWxsaW5nIGJhc2VcIiwgXCJ2ZWdldGFibGUgZ3JhdGluXCIsIFwiY3JlYW1lZCBzcGluYWNoXCJdLFxuICAgICAgZGVyaXZhdGl2ZXM6IFtcIk1vcm5heSBzYXVjZVwiLCBcIlNvdWJpc2VcIiwgXCJJbmZ1c2VkIGJlc2NpYW1lbGxhXCJdLFxuICAgICAgZWxlbWVudGFsUHJvcGVydGllczoge1xuICAgICAgICBXYXRlcjogMC40LFxuICAgICAgICBFYXJ0aDogMC40LFxuICAgICAgICBBaXI6IDAuMSxcbiAgICAgICAgRmlyZTogMC4xXG4gICAgICB9LFxuICAgICAgYXN0cm9sb2dpY2FsSW5mbHVlbmNlczogW1wiTW9vblwiLCBcIlZlbnVzXCIsIFwiQ2FuY2VyXCJdLFxuICAgICAgc2Vhc29uYWxpdHk6IFwiYWxsXCIsXG4gICAgICBwcmVwYXJhdGlvbk5vdGVzOiBcIkZvciBzaWxreSB0ZXh0dXJlLCBhZGQgaG90IG1pbGsgdG8gcm91eCBncmFkdWFsbHkgd2hpbGUgd2hpc2tpbmcgY29uc3RhbnRseVwiLFxuICAgICAgdGVjaG5pY2FsVGlwczogXCJJbmZ1c2UgbWlsayB3aXRoIGJheSBsZWFmLCBvbmlvbiwgYW5kIGNsb3ZlIGJlZm9yZSBtYWtpbmcgc2F1Y2UgZm9yIGRlcHRoIG9mIGZsYXZvclwiLFxuICAgICAgZGlmZmljdWx0eTogXCJtZWRpdW1cIixcbiAgICAgIHN0b3JhZ2VJbnN0cnVjdGlvbnM6IFwiU3RvcmUgcmVmcmlnZXJhdGVkIGluIGFpcnRpZ2h0IGNvbnRhaW5lciBmb3IgdXAgdG8gMyBkYXlzXCIsXG4gICAgICB5aWVsZDogXCIyIGN1cHNcIlxuICAgIH1cbiAgfSxcbiAgdHJhZGl0aW9uYWxTYXVjZXM6IHtcbiAgICBtYXJpbmFyYToge1xuICAgICAgbmFtZTogXCJNYXJpbmFyYVwiLFxuICAgICAgZGVzY3JpcHRpb246IFwiU2ltcGxlIHRvbWF0byBzYXVjZSB3aXRoIGdhcmxpYywgb2xpdmUgb2lsIGFuZCBoZXJic1wiLFxuICAgICAgYmFzZTogXCJ0b21hdG9cIixcbiAgICAgIGtleUluZ3JlZGllbnRzOiBbXCJ0b21hdG9lc1wiLCBcImdhcmxpY1wiLCBcIm9saXZlIG9pbFwiLCBcImJhc2lsXCIsIFwib3JlZ2Fub1wiXSxcbiAgICAgIGN1bGluYXJ5VXNlczogW1wicGFzdGEgc2F1Y2VcIiwgXCJwaXp6YSBiYXNlXCIsIFwiZGlwcGluZyBzYXVjZVwiLCBcImNhc3Nlcm9sZSBiYXNlXCJdLFxuICAgICAgdmFyaWFudHM6IFtcIkFycmFiYmlhdGFcIiwgXCJQdXR0YW5lc2NhXCIsIFwiQWxsYSBOb3JtYVwiXSxcbiAgICAgIGVsZW1lbnRhbFByb3BlcnRpZXM6IHtcbiAgICAgICAgRmlyZTogMC40LFxuICAgICAgICBFYXJ0aDogMC4zLFxuICAgICAgICBXYXRlcjogMC4yLFxuICAgICAgICBBaXI6IDAuMVxuICAgICAgfSxcbiAgICAgIGFzdHJvbG9naWNhbEluZmx1ZW5jZXM6IFtcIk1hcnNcIiwgXCJTdW5cIiwgXCJsZW9cIl0sXG4gICAgICBzZWFzb25hbGl0eTogXCJhbGxcIixcbiAgICAgIHByZXBhcmF0aW9uTm90ZXM6IFwiQmVzdCB3aGVuIG1hZGUgd2l0aCBTYW4gTWFyemFubyB0b21hdG9lcyBmb3IgYXV0aGVudGljIGZsYXZvclwiLFxuICAgICAgdGVjaG5pY2FsVGlwczogXCJTaW1tZXIgZ2VudGx5IHRvIG1haW50YWluIGJyaWdodG5lc3Mgb2YgZmxhdm9yXCJcbiAgICB9LFxuICAgIHBlc3RvOiB7XG4gICAgICBuYW1lOiBcIlBlc3RvIGFsbGEgR2Vub3Zlc2VcIixcbiAgICAgIGRlc2NyaXB0aW9uOiBcIkZyZXNoIGJhc2lsIHNhdWNlIHdpdGggcGluZSBudXRzLCBnYXJsaWMsIFBhcm1lc2FuIGFuZCBvbGl2ZSBvaWxcIixcbiAgICAgIGJhc2U6IFwiaGVyYlwiLFxuICAgICAga2V5SW5ncmVkaWVudHM6IFtcImJhc2lsIGxlYXZlc1wiLCBcInBpbmUgbnV0c1wiLCBcImdhcmxpY1wiLCBcIlBhcm1pZ2lhbm8tUmVnZ2lhbm9cIiwgXCJQZWNvcmlub1wiLCBcIm9saXZlIG9pbFwiXSxcbiAgICAgIGN1bGluYXJ5VXNlczogW1wicGFzdGEgc2F1Y2VcIiwgXCJzYW5kd2ljaCBzcHJlYWRcIiwgXCJtYXJpbmFkZVwiLCBcImZsYXZvciBlbmhhbmNlclwiXSxcbiAgICAgIHZhcmlhbnRzOiBbXCJSZWQgcGVzdG9cIiwgXCJQZXN0byBhbGxhIFNpY2lsaWFuYVwiLCBcIlBlc3RvIGFsbGEgVHJhcGFuZXNlXCJdLFxuICAgICAgZWxlbWVudGFsUHJvcGVydGllczoge1xuICAgICAgICBBaXI6IDAuNCxcbiAgICAgICAgRWFydGg6IDAuMyxcbiAgICAgICAgRmlyZTogMC4yLFxuICAgICAgICBXYXRlcjogMC4xXG4gICAgICB9LFxuICAgICAgYXN0cm9sb2dpY2FsSW5mbHVlbmNlczogW1wiTWVyY3VyeVwiLCBcIlZlbnVzXCIsIFwiZ2VtaW5pXCJdLFxuICAgICAgc2Vhc29uYWxpdHk6IFwic3VtbWVyXCIsXG4gICAgICBwcmVwYXJhdGlvbk5vdGVzOiBcIlRyYWRpdGlvbmFsbHkgbWFkZSBpbiBhIG1hcmJsZSBtb3J0YXIgd2l0aCB3b29kZW4gcGVzdGxlXCIsXG4gICAgICB0ZWNobmljYWxUaXBzOiBcIkJsYW5jaCBiYXNpbCBicmllZmx5IHRvIHByZXNlcnZlIGNvbG9yIGlmIG1ha2luZyBhaGVhZFwiXG4gICAgfSxcbiAgICBjYXJib25hcmE6IHtcbiAgICAgIG5hbWU6IFwiQ2FyYm9uYXJhXCIsXG4gICAgICBkZXNjcmlwdGlvbjogXCJTaWxreSBzYXVjZSBvZiBlZ2dzLCBoYXJkIGNoZWVzZSwgY3VyZWQgcG9yayBhbmQgYmxhY2sgcGVwcGVyXCIsXG4gICAgICBiYXNlOiBcImVnZ1wiLFxuICAgICAga2V5SW5ncmVkaWVudHM6IFtcImVnZ3NcIiwgXCJQZWNvcmlubyBSb21hbm9cIiwgXCJndWFuY2lhbGVcIiwgXCJibGFjayBwZXBwZXJcIl0sXG4gICAgICBjdWxpbmFyeVVzZXM6IFtcInBhc3RhIHNhdWNlXCIsIFwic2F1Y2UgZm9yIGdub2NjaGlcIiwgXCJzYXZvcnkgY3VzdGFyZCBiYXNlXCJdLFxuICAgICAgdmFyaWFudHM6IFtcIkNhcmJvbmFyYSB3aXRoIHBhbmNldHRhXCIsIFwiTGlnaHRlciBjYXJib25hcmEgd2l0aCBsZXNzIGVnZyB5b2xrc1wiLCBcIlZlZ2V0YXJpYW4gY2FyYm9uYXJhXCJdLFxuICAgICAgZWxlbWVudGFsUHJvcGVydGllczoge1xuICAgICAgICBFYXJ0aDogMC40LFxuICAgICAgICBBaXI6IDAuMyxcbiAgICAgICAgRmlyZTogMC4yLFxuICAgICAgICBXYXRlcjogMC4xXG4gICAgICB9LFxuICAgICAgYXN0cm9sb2dpY2FsSW5mbHVlbmNlczogW1wiSnVwaXRlclwiLCBcIk1hcnNcIiwgXCJhcmllc1wiXSxcbiAgICAgIHNlYXNvbmFsaXR5OiBcImFsbFwiLFxuICAgICAgcHJlcGFyYXRpb25Ob3RlczogXCJOZXZlciBhZGQgY3JlYW0gLSBhdXRoZW50aWMgY2FyYm9uYXJhIGlzIGNyZWFteSBmcm9tIGVnZ3MgYWxvbmVcIixcbiAgICAgIHRlY2huaWNhbFRpcHM6IFwiVGVtcGVyIGVnZ3MgY2FyZWZ1bGx5IHRvIHByZXZlbnQgc2NyYW1ibGluZzsgdXNlIHBhc3RhIHdhdGVyIHRvIGFkanVzdCBjb25zaXN0ZW5jeVwiXG4gICAgfSxcbiAgICByYWd1OiB7XG4gICAgICBuYW1lOiBcIlJhZ8O5IGFsbGEgQm9sb2duZXNlXCIsXG4gICAgICBkZXNjcmlwdGlvbjogXCJSaWNoLCBzbG93LWNvb2tlZCBtZWF0IHNhdWNlIGZyb20gQm9sb2duYVwiLFxuICAgICAgYmFzZTogXCJtZWF0XCIsXG4gICAgICBrZXlJbmdyZWRpZW50czogW1wiYmVlZlwiLCBcInBvcmtcIiwgXCJzb2Zmcml0dG9cIiwgXCJ0b21hdG8gcGFzdGVcIiwgXCJ3aW5lXCIsIFwibWlsa1wiXSxcbiAgICAgIGN1bGluYXJ5VXNlczogW1wicGFzdGEgc2F1Y2VcIiwgXCJsYXNhZ25hIGZpbGxpbmdcIiwgXCJwb2xlbnRhIHRvcHBpbmdcIiwgXCJzdHVmZmVkIHBhc3RhIGZpbGxpbmdcIl0sXG4gICAgICB2YXJpYW50czogW1wiUmFnw7kgTmFwb2xldGFub1wiLCBcIldoaXRlIHJhZ8O5XCIsIFwiV2lsZCBib2FyIHJhZ8O5XCIsIFwiVmVnZXRhcmlhbiBtdXNocm9vbSByYWfDuVwiXSxcbiAgICAgIGVsZW1lbnRhbFByb3BlcnRpZXM6IHtcbiAgICAgICAgRWFydGg6IDAuNSxcbiAgICAgICAgRmlyZTogMC4zLFxuICAgICAgICBXYXRlcjogMC4xLFxuICAgICAgICBBaXI6IDAuMVxuICAgICAgfSxcbiAgICAgIGFzdHJvbG9naWNhbEluZmx1ZW5jZXM6IFtcIlNhdHVyblwiLCBcIk1hcnNcIiwgXCJ0YXVydXNcIl0sXG4gICAgICBzZWFzb25hbGl0eTogXCJhdXR1bW4sIHdpbnRlclwiLFxuICAgICAgcHJlcGFyYXRpb25Ob3RlczogXCJUcnVlIEJvbG9nbmVzZSB0YWtlcyBob3VycyBvZiBnZW50bGUgc2ltbWVyaW5nIGZvciBkZXB0aCBvZiBmbGF2b3JcIixcbiAgICAgIHRlY2huaWNhbFRpcHM6IFwiQWRkIG1pbGsgdG93YXJkIHRoZSBlbmQgb2YgY29va2luZyBmb3IgYXV0aGVudGljIHJpY2huZXNzIGFuZCB0ZW5kZXJuZXNzXCJcbiAgICB9LFxuICAgIGJlY2hhbWVsOiB7XG4gICAgICBuYW1lOiBcIkJlc2NpYW1lbGxhXCIsXG4gICAgICBkZXNjcmlwdGlvbjogXCJDbGFzc2ljIHdoaXRlIHNhdWNlIG1hZGUgZnJvbSByb3V4IGFuZCBtaWxrXCIsXG4gICAgICBiYXNlOiBcImRhaXJ5XCIsXG4gICAgICBrZXlJbmdyZWRpZW50czogW1wiYnV0dGVyXCIsIFwiZmxvdXJcIiwgXCJtaWxrXCIsIFwibnV0bWVnXCIsIFwiYmF5IGxlYWZcIl0sXG4gICAgICBjdWxpbmFyeVVzZXM6IFtcImxhc2FnbmEgbGF5ZXJcIiwgXCJjYW5uZWxsb25pIGZpbGxpbmcgYmFzZVwiLCBcInZlZ2V0YWJsZSBncmF0aW5cIiwgXCJjcmVhbWVkIHNwaW5hY2hcIl0sXG4gICAgICB2YXJpYW50czogW1wiTW9ybmF5IHNhdWNlXCIsIFwiU291YmlzZVwiLCBcIkluZnVzZWQgYmVzY2lhbWVsbGFcIl0sXG4gICAgICBlbGVtZW50YWxQcm9wZXJ0aWVzOiB7XG4gICAgICAgIFdhdGVyOiAwLjQsXG4gICAgICAgIEVhcnRoOiAwLjQsXG4gICAgICAgIEFpcjogMC4xLFxuICAgICAgICBGaXJlOiAwLjFcbiAgICAgIH0sXG4gICAgICBhc3Ryb2xvZ2ljYWxJbmZsdWVuY2VzOiBbXCJNb29uXCIsIFwiVmVudXNcIiwgXCJjYW5jZXJcIl0sXG4gICAgICBzZWFzb25hbGl0eTogXCJhbGxcIixcbiAgICAgIHByZXBhcmF0aW9uTm90ZXM6IFwiRm9yIHNpbGt5IHRleHR1cmUsIGFkZCBob3QgbWlsayB0byByb3V4IGdyYWR1YWxseSB3aGlsZSB3aGlza2luZyBjb25zdGFudGx5XCIsXG4gICAgICB0ZWNobmljYWxUaXBzOiBcIkluZnVzZSBtaWxrIHdpdGggYmF5IGxlYWYsIG9uaW9uLCBhbmQgY2xvdmUgYmVmb3JlIG1ha2luZyBzYXVjZSBmb3IgZGVwdGggb2YgZmxhdm9yXCJcbiAgICB9XG4gIH0sXG4gIHNhdWNlUmVjb21tZW5kZXI6IHtcbiAgICBmb3JQcm90ZWluOiB7XG4gICAgICBiZWVmOiBbXCJyYWfDuSBhbGxhIEJvbG9nbmVzZVwiLCBcInN1Z28gZGkgY2FybmVcIiwgXCJzYWxzYSBhbGxhIHBpenphaW9sYVwiLCBcIkJhcm9sbyB3aW5lIHNhdWNlXCJdLFxuICAgICAgcG9yazogW1wiYWdyb2RvbGNlXCIsIFwibWFyc2FsYVwiLCBcInBvcmNoZXR0YSBoZXJic1wiLCBcImJsYWNrIHBlcHBlciBzYXVjZVwiXSxcbiAgICAgIGNoaWNrZW46IFtcImNhY2NpYXRvcmVcIiwgXCJwaWNjYXRhXCIsIFwibWFyc2FsYVwiLCBcInNhbHQtY3J1c3RlZCBoZXJic1wiXSxcbiAgICAgIGZpc2g6IFtcImFjcXVhIHBhenphXCIsIFwic2FsbW9yaWdsaW9cIiwgXCJsaXZvcm5lc2VcIiwgXCJhbCBsaW1vbmVcIl0sXG4gICAgICB2ZWdldGFyaWFuOiBbXCJwZXN0b1wiLCBcInBvbW9kb3JvXCIsIFwiYWdsaW8gZSBvbGlvXCIsIFwiYnVycm8gZSBzYWx2aWFcIl1cbiAgICB9LFxuICAgIGZvclZlZ2V0YWJsZToge1xuICAgICAgbGVhZnk6IFtcImFnbGlvIGUgb2xpb1wiLCBcInBhcm1pZ2lhbm9cIiwgXCJsZW1vbiBidXR0ZXJcIiwgXCJhbmNob3Z5XCJdLFxuICAgICAgcm9vdDogW1wiYmVzY2lhbWVsbGFcIiwgXCJncmVtb2xhdGFcIiwgXCJoZXJiZWQgYnV0dGVyXCIsIFwiYmFsc2FtaWMgZ2xhemVcIl0sXG4gICAgICBuaWdodHNoYWRlczogW1wibWFyaW5hcmFcIiwgXCJhbGxhIE5vcm1hXCIsIFwic3VnbyBkaSBwb21vZG9yb1wiLCBcImNhcG9uYXRhXCJdLFxuICAgICAgc3F1YXNoOiBbXCJicm93biBidXR0ZXIgc2FnZVwiLCBcImdvcmdvbnpvbGEgY3JlYW1cIiwgXCJhZ3JvZG9sY2VcIiwgXCJ3YWxudXQgcGVzdG9cIl0sXG4gICAgICBtdXNocm9vbTogW1wicG9yY2luaSBzYXVjZVwiLCBcIm1hcnNhbGFcIiwgXCJ0cnVmZmxlIG9pbFwiLCBcIndoaXRlIHdpbmUgZ2FybGljXCJdXG4gICAgfSxcbiAgICBmb3JDb29raW5nTWV0aG9kOiB7XG4gICAgICBncmlsbGluZzogW1wic2FsbW9yaWdsaW9cIiwgXCJyb3NlbWFyeSBvaWxcIiwgXCJiYWxzYW1pYyBnbGF6ZVwiLCBcInNhbHNhIHZlcmRlXCJdLFxuICAgICAgYmFraW5nOiBbXCJtYXJpbmFyYVwiLCBcImJlc2NpYW1lbGxhXCIsIFwicGVzdG9cIiwgXCJyYWfDuVwiXSxcbiAgICAgIGZyeWluZzogW1wiYWlvbGlcIiwgXCJsZW1vbiBkaXBcIiwgXCJhcnJhYmlhdGFcIiwgXCJnYXJsaWMtaGVyYiBkaXBcIl0sXG4gICAgICBicmFpc2luZzogW1wib3NzbyBidWNvIHNhdWNlXCIsIFwid2luZSByZWR1Y3Rpb25cIiwgXCJwb21vZG9yb1wiLCBcImNhY2NpYXRvcmFcIl0sXG4gICAgICByYXc6IFtcInBpbnppbW9uaW9cIiwgXCJvbGlvIG51b3ZvXCIsIFwiY2l0cm9uZXR0ZVwiLCBcImJhZ25hIGNhdWRhXCJdXG4gICAgfSxcbiAgICBieUFzdHJvbG9naWNhbDoge1xuICAgICAgZmlyZTogW1wiYXJyYWJpYXRhXCIsIFwicHV0dGFuZXNjYVwiLCBcImFnbGlvIGUgb2xpbyB3aXRoIHBlcGVyb25jaW5vXCIsIFwic3BpY3kgcG9tb2Rvcm9cIl0sXG4gICAgICBlYXJ0aDogW1wibXVzaHJvb20gcmFndVwiLCBcInRhcnR1Zm9cIiwgXCJjYXJib25hcmFcIiwgXCJyYWfDuSBhbGxhIEJvbG9nbmVzZVwiXSxcbiAgICAgIGFpcjogW1wibGVtb24gc2F1Y2VzXCIsIFwiaGVyYiBvaWxzXCIsIFwid2hpdGUgd2luZSBzYXVjZVwiLCBcInBlc3RvXCJdLFxuICAgICAgd2F0ZXI6IFtcInNlYWZvb2Qgc2F1Y2VzXCIsIFwiYWNxdWEgcGF6emFcIiwgXCJjbGFtIHNhdWNlXCIsIFwiYmVzY2lhbWVsbGFcIl1cbiAgICB9LFxuICAgIGJ5UmVnaW9uOiB7XG4gICAgICBub3J0aGVybjogW1wicGVzdG8gYWxsYSBHZW5vdmVzZVwiLCBcImJhZ25hIGNhdWRhXCIsIFwiZm9uZHV0YVwiLCBcInJhZ8O5IGFsbGEgQm9sb2duZXNlXCJdLFxuICAgICAgY2VudHJhbDogW1wiY2FyYm9uYXJhXCIsIFwiY2FjaW8gZSBwZXBlXCIsIFwiYW1hdHJpY2lhbmFcIiwgXCJzdWdvIGZpbnRvXCJdLFxuICAgICAgc291dGhlcm46IFtcIm1hcmluYXJhXCIsIFwicHV0dGFuZXNjYVwiLCBcImFnbGlvIGUgb2xpb1wiLCBcImFsbGEgTm9ybWFcIl0sXG4gICAgICBpbnN1bGFyOiBbXCJzYXJkZSBhIGJlY2NhZmljb1wiLCBcIm5lcm8gZGkgc2VwcGlhXCIsIFwiYm90dGFyZ2FcIiwgXCJjYXBvbmF0YVwiXVxuICAgIH0sXG4gICAgYnlEaWV0YXJ5OiB7XG4gICAgICB2ZWdldGFyaWFuOiBbXCJwb21vZG9yb1wiLCBcInBlc3RvXCIsIFwiYWdsaW8gZSBvbGlvXCIsIFwiYnVycm8gZSBzYWx2aWFcIl0sXG4gICAgICB2ZWdhbjogW1wibWFyaW5hcmFcIiwgXCJwb21vZG9yb1wiLCBcImFnbGlvIGUgb2xpb1wiLCBcInNhbHNhIHZlcmRlXCJdLFxuICAgICAgZ2x1dGVuRnJlZTogW1wic2Fsc2EgdmVyZGVcIiwgXCJzYWxtb3JpZ2xpb1wiLCBcInN1Z28gZGkgcG9tb2Rvcm9cIiwgXCJsZW1vbiBzYXVjZVwiXSxcbiAgICAgIGRhaXJ5RnJlZTogW1wibWFyaW5hcmFcIiwgXCJhZ2xpbyBlIG9saW9cIiwgXCJwdXR0YW5lc2NhXCIsIFwiYXJyYWJiaWF0YVwiXVxuICAgIH1cbiAgfSxcbiAgY29va2luZ1RlY2huaXF1ZXM6IFtcbiAgICB7XG4gICAgICBuYW1lOiBcIkFsIERlbnRlXCIsXG4gICAgICBkZXNjcmlwdGlvbjogXCJDb29raW5nIHBhc3RhIHVudGlsIGZpcm0gdG8gdGhlIGJpdGUsIG5vdCBzb2Z0XCIsXG4gICAgICBlbGVtZW50YWxQcm9wZXJ0aWVzOiB7IFdhdGVyOiAwLjQsIEZpcmU6IDAuMywgRWFydGg6IDAuMiwgQWlyOiAwLjEgfSxcbiAgICAgIHRvb2xzUmVxdWlyZWQ6IFtcImxhcmdlIHBvdFwiLCBcInRpbWVyXCIsIFwiY29sYW5kZXJcIl0sXG4gICAgICBiZXN0Rm9yOiBbXCJwYXN0YVwiLCBcInJpc290dG8gcmljZVwiLCBcInZlZ2V0YWJsZXNcIl0sXG4gICAgICBkaWZmaWN1bHR5OiBcImVhc3lcIlxuICAgIH0sXG4gICAge1xuICAgICAgbmFtZTogXCJTb2Zmcml0dG9cIixcbiAgICAgIGRlc2NyaXB0aW9uOiBcIlNsb3ctY29va2luZyBhcm9tYXRpYyBiYXNlIG9mIGZpbmVseSBjaG9wcGVkIHZlZ2V0YWJsZXMgaW4gZmF0XCIsXG4gICAgICBlbGVtZW50YWxQcm9wZXJ0aWVzOiB7IEZpcmU6IDAuNCwgRWFydGg6IDAuNCwgQWlyOiAwLjEsIFdhdGVyOiAwLjEgfSxcbiAgICAgIHRvb2xzUmVxdWlyZWQ6IFtcImhlYXZ5LWJvdHRvbWVkIHBhblwiLCBcIndvb2RlbiBzcG9vblwiLCBcInNoYXJwIGtuaWZlXCJdLFxuICAgICAgYmVzdEZvcjogW1wic2F1Y2UgYmFzZVwiLCBcInNvdXAgYmFzZVwiLCBcInJpc290dG9cIiwgXCJzdGV3c1wiXSxcbiAgICAgIGRpZmZpY3VsdHk6IFwibWVkaXVtXCJcbiAgICB9LFxuICAgIHtcbiAgICAgIG5hbWU6IFwiTWFudGVjYXR1cmFcIixcbiAgICAgIGRlc2NyaXB0aW9uOiBcIkZpbmFsIHdoaXNraW5nIG9mIGNvbGQgYnV0dGVyIG9yIGNoZWVzZSBpbnRvIGhvdCBkaXNoZXMgdG8gY3JlYXRlIGEgY3JlYW15IGVtdWxzaW9uXCIsXG4gICAgICBlbGVtZW50YWxQcm9wZXJ0aWVzOiB7IFdhdGVyOiAwLjQsIEFpcjogMC4zLCBFYXJ0aDogMC4yLCBGaXJlOiAwLjEgfSxcbiAgICAgIHRvb2xzUmVxdWlyZWQ6IFtcIndvb2RlbiBzcG9vblwiLCBcImdyYXRlclwiLCBcImxhZGxlXCJdLFxuICAgICAgYmVzdEZvcjogW1wicmlzb3R0b1wiLCBcInBhc3RhIHNhdWNlc1wiLCBcInBvbGVudGFcIiwgXCJnbm9jY2hpXCJdLFxuICAgICAgZGlmZmljdWx0eTogXCJoYXJkXCJcbiAgICB9LFxuICAgIHtcbiAgICAgIG5hbWU6IFwiU2Z1bWF0b1wiLFxuICAgICAgZGVzY3JpcHRpb246IFwiRGVnbGF6aW5nIHdpdGggd2luZSB0byBsaWZ0IGZsYXZvciBjb21wb3VuZHMgYW5kIGNyZWF0ZSBkZXB0aFwiLFxuICAgICAgZWxlbWVudGFsUHJvcGVydGllczogeyBBaXI6IDAuNCwgRmlyZTogMC4zLCBXYXRlcjogMC4yLCBFYXJ0aDogMC4xIH0sXG4gICAgICB0b29sc1JlcXVpcmVkOiBbXCJoZWF2eSBwYW5cIiwgXCJ3b29kZW4gc3Bvb25cIl0sXG4gICAgICBiZXN0Rm9yOiBbXCJyaXNvdHRvXCIsIFwic2F1Y2VzXCIsIFwiYnJhaXNlc1wiLCBcInN0ZXdzXCJdLFxuICAgICAgZGlmZmljdWx0eTogXCJtZWRpdW1cIlxuICAgIH0sXG4gICAge1xuICAgICAgbmFtZTogXCJCYXR0dXRvXCIsXG4gICAgICBkZXNjcmlwdGlvbjogXCJGaW5lbHkgY2hvcHBlZCByYXcgYXJvbWF0aWMgaW5ncmVkaWVudHMgdGhhdCBmb3JtIHRoZSBiYXNlIG9mIG1hbnkgZGlzaGVzXCIsXG4gICAgICBlbGVtZW50YWxQcm9wZXJ0aWVzOiB7IEVhcnRoOiAwLjUsIEFpcjogMC4zLCBXYXRlcjogMC4xLCBGaXJlOiAwLjEgfSxcbiAgICAgIHRvb2xzUmVxdWlyZWQ6IFtcImNoZWYncyBrbmlmZVwiLCBcImN1dHRpbmcgYm9hcmRcIiwgXCJtZXp6YWx1bmFcIl0sXG4gICAgICBiZXN0Rm9yOiBbXCJzYXVjZSBwcmVwYXJhdGlvblwiLCBcImZsYXZvciBiYXNlXCIsIFwic291cCBzdGFydGVyc1wiLCBcInN0dWZmaW5nc1wiXSxcbiAgICAgIGRpZmZpY3VsdHk6IFwiZWFzeVwiXG4gICAgfVxuICBdLFxuICByZWdpb25hbEN1aXNpbmVzOiB7XG4gICAgc2ljaWxpYW46IHtcbiAgICAgIG5hbWU6IFwiU2ljaWxpYW4gQ3Vpc2luZVwiLFxuICAgICAgZGVzY3JpcHRpb246IFwiQm9sZCBmbGF2b3JzIHJlZmxlY3RpbmcgZGl2ZXJzZSBjdWx0dXJhbCBpbmZsdWVuY2VzIHdpdGggZW1waGFzaXMgb24gc2VhZm9vZCwgY2l0cnVzLCBhbmQgQXJhYi1pbmZsdWVuY2VkIHN3ZWV0c1wiLFxuICAgICAgc2lnbmF0dXJlOiBbXCJwYXN0YSBhbGxhIE5vcm1hXCIsIFwiYXJhbmNpbmlcIiwgXCJjYW5ub2xpXCIsIFwiY2Fwb25hdGFcIl0sXG4gICAgICBlbGVtZW50YWxQcm9wZXJ0aWVzOiB7IEZpcmU6IDAuNCwgV2F0ZXI6IDAuMywgRWFydGg6IDAuMiwgQWlyOiAwLjEgfSxcbiAgICAgIGFzdHJvbG9naWNhbEluZmx1ZW5jZXM6IFtcIk1hcnNcIiwgXCJTdW5cIiwgXCJsZW9cIl0sXG4gICAgICBzZWFzb25hbGl0eTogXCJhbGxcIlxuICAgIH0sXG4gICAgdHVzY2FuOiB7XG4gICAgICBuYW1lOiBcIlR1c2NhbiBDdWlzaW5lXCIsXG4gICAgICBkZXNjcmlwdGlvbjogXCJSdXN0aWMgc2ltcGxpY2l0eSBmb2N1c2luZyBvbiBoaWdoLXF1YWxpdHkgaW5ncmVkaWVudHMgd2l0aCBhbiBlbXBoYXNpcyBvbiBiZWFucywgYnJlYWQsIGFuZCBvbGl2ZSBvaWxcIixcbiAgICAgIHNpZ25hdHVyZTogW1wicmlib2xsaXRhXCIsIFwicGFuemFuZWxsYVwiLCBcImJpc3RlY2NhIGFsbGEgZmlvcmVudGluYVwiLCBcInBhcHBhIGFsIHBvbW9kb3JvXCJdLFxuICAgICAgZWxlbWVudGFsUHJvcGVydGllczogeyBFYXJ0aDogMC41LCBGaXJlOiAwLjIsIEFpcjogMC4yLCBXYXRlcjogMC4xIH0sXG4gICAgICBhc3Ryb2xvZ2ljYWxJbmZsdWVuY2VzOiBbXCJTYXR1cm5cIiwgXCJKdXBpdGVyXCIsIFwiY2Fwcmljb3JuXCJdLFxuICAgICAgc2Vhc29uYWxpdHk6IFwiYWxsXCJcbiAgICB9LFxuICAgIGVtaWxpYW46IHtcbiAgICAgIG5hbWU6IFwiRW1pbGlhbiBDdWlzaW5lXCIsXG4gICAgICBkZXNjcmlwdGlvbjogXCJSaWNoLCBpbmR1bGdlbnQgY3Vpc2luZSBmcm9tIEl0YWx5J3MgZm9vZCB2YWxsZXksIGtub3duIGZvciBwYXN0YSwgY3VyZWQgbWVhdHMsIGFuZCBhZ2VkIGNoZWVzZXNcIixcbiAgICAgIHNpZ25hdHVyZTogW1widGFnbGlhdGVsbGUgYWwgcmFnw7lcIiwgXCJ0b3J0ZWxsaW5pIGluIGJyb2RvXCIsIFwibGFzYWduZSBhbGxhIGJvbG9nbmVzZVwiLCBcInByb3NjaXV0dG8gZGkgUGFybWFcIl0sXG4gICAgICBlbGVtZW50YWxQcm9wZXJ0aWVzOiB7IEVhcnRoOiAwLjUsIFdhdGVyOiAwLjIsIEZpcmU6IDAuMiwgQWlyOiAwLjEgfSxcbiAgICAgIGFzdHJvbG9naWNhbEluZmx1ZW5jZXM6IFtcIkp1cGl0ZXJcIiwgXCJWZW51c1wiLCBcInRhdXJ1c1wiXSxcbiAgICAgIHNlYXNvbmFsaXR5OiBcImFsbFwiXG4gICAgfSxcbiAgICBuZWFwb2xpdGFuOiB7XG4gICAgICBuYW1lOiBcIk5lYXBvbGl0YW4gQ3Vpc2luZVwiLFxuICAgICAgZGVzY3JpcHRpb246IFwiVmlicmFudCBhbmQgdG9tYXRvLWZvcndhcmQgY3Vpc2luZSB3aXRoIGljb25pYyBwaXp6YSwgcGFzdGEsIGFuZCBzZWFmb29kIGRpc2hlc1wiLFxuICAgICAgc2lnbmF0dXJlOiBbXCJwaXp6YSBuYXBvbGV0YW5hXCIsIFwic3BhZ2hldHRpIGFsbGUgdm9uZ29sZVwiLCBcInBhc3RpZXJhIG5hcG9sZXRhbmFcIiwgXCJyYWfDuSBuYXBvbGV0YW5vXCJdLFxuICAgICAgZWxlbWVudGFsUHJvcGVydGllczogeyBGaXJlOiAwLjQsIFdhdGVyOiAwLjMsIEVhcnRoOiAwLjIsIEFpcjogMC4xIH0sXG4gICAgICBhc3Ryb2xvZ2ljYWxJbmZsdWVuY2VzOiBbXCJNYXJzXCIsIFwiTmVwdHVuZVwiLCBcImFyaWVzXCJdLFxuICAgICAgc2Vhc29uYWxpdHk6IFwiYWxsXCJcbiAgICB9XG4gIH0sXG4gIGVsZW1lbnRhbFByb3BlcnRpZXM6IHtcbiAgICBFYXJ0aDogMC4zLCAgICAvLyBSZXByZXNlbnRzIGhlYXJ0eSBpbmdyZWRpZW50cyBhbmQgZ3JvdW5kaW5nIGRpc2hlc1xuICAgIFdhdGVyOiAwLjMsICAgIC8vIFJlcHJlc2VudHMgc2F1Y2VzIGFuZCBtb2lzdHVyZVxuICAgIEZpcmU6IDAuMiwgICAgIC8vIFJlcHJlc2VudHMgY29va2luZyB0ZWNobmlxdWVzXG4gICAgQWlyOiAwLjIgICAgICAgLy8gUmVwcmVzZW50cyBoZXJicyBhbmQgbGlnaHRuZXNzXG4gIH0sXG4gIGFzdHJvbG9naWNhbEluZmx1ZW5jZXM6IFtcbiAgICBcIlZlbnVzIC0gUm9tYW4gZ29kZGVzcyBvZiBsb3ZlIGFuZCBiZWF1dHkgaW5mbHVlbmNlcyB0aGUgc2Vuc29yeSBwbGVhc3VyZXMgb2YgSXRhbGlhbiBjdWlzaW5lXCIsXG4gICAgXCJKdXBpdGVyIC0gQnJpbmdzIGFidW5kYW5jZSBhbmQgZ2VuZXJvc2l0eSB0byBjb21tdW5hbCBJdGFsaWFuIGRpbmluZyB0cmFkaXRpb25zXCIsXG4gICAgXCJNZXJjdXJ5IC0gR292ZXJucyB0aGUgY29tbXVuaWNhdGlvbiBhbmQgY29udml2aWFsaXR5IGNlbnRyYWwgdG8gSXRhbGlhbiBmb29kIGN1bHR1cmVcIlxuICBdXG59O1xuXG5leHBvcnQgZGVmYXVsdCBpdGFsaWFuOyJdLCJ2ZXJzaW9uIjozfQ==

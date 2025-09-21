@@ -1,0 +1,68 @@
+{
+  "type": "typescript-error-elimination",
+  "priority": "EMERGENCY",
+  "safetyLevel": "MAXIMUM",
+  "targetErrors": 100,
+  "currentErrors": 1113,
+  "errorReduction": 1013,
+  "batchSize": 5,
+  "validationFrequency": 3,
+  "rollbackEnabled": true,
+  "gitStashEnabled": true,
+  "buildValidationRequired": true,
+  "createdAt": "2025-01-22T23:45:00.000Z",
+  "triggeredBy": "error-threshold-exceeded",
+  "approvalGranted": true,
+  "approvalGrantedAt": "2025-01-22T23:46:00.000Z",
+  "approvalGrantedBy": "developer",
+  "phases": [
+    {
+      "id": "phase1-emergency-stabilization",
+      "name": "Emergency Stabilization",
+      "target": "1113 → 800 errors",
+      "focus": "TS2352 errors (92% success rate)",
+      "status": "pending"
+    },
+    {
+      "id": "phase2-systematic-reduction",
+      "name": "Systematic Reduction",
+      "target": "800 → 400 errors",
+      "focus": "TS2345, TS18048 errors",
+      "status": "pending"
+    },
+    {
+      "id": "phase3-final-elimination",
+      "name": "Final Elimination",
+      "target": "400 → <100 errors",
+      "focus": "TS2322, TS2339 errors",
+      "status": "pending"
+    }
+  ],
+  "safetyProtocols": [
+    "git-stash-before-phase",
+    "build-validation-every-3-files",
+    "automatic-rollback-on-failure",
+    "corruption-detection-enabled",
+    "progress-tracking-enabled"
+  ],
+  "filePath": "/Users/GregCastro/Desktop/WhatToEatNext/.kiro/campaign-triggers/emergency-typescript-elimination.json",
+  "fileName": "emergency-typescript-elimination.json",
+  "lastMetrics": {
+    "typeScriptErrors": 445,
+    "errorBreakdown": {
+      "TS1005": 247,
+      "TS1109": 106,
+      "TS1128": 39,
+      "TS1434": 13,
+      "TS1136": 10,
+      "TS1011": 10,
+      "TS1003": 10,
+      "TS1002": 7,
+      "TS1359": 3
+    },
+    "timestamp": "2025-07-31T21:16:58.762Z"
+  },
+  "lastUpdated": "2025-07-31T21:16:58.763Z",
+  "phaseAdvancedAt": "2025-07-31T20:33:56.856Z",
+  "currentPhase": 1
+}

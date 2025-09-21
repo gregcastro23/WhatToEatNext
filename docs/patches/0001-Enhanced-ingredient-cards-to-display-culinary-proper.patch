@@ -1,0 +1,1271 @@
+From 5db532b10a5aa727ab231461f5838146fbca9d67 Mon Sep 17 00:00:00 2001
+From: gregcastro23 <120056982+gregcastro23@users.noreply.github.com>
+Date: Sat, 3 May 2025 04:41:42 -0400
+Subject: [PATCH] Enhanced ingredient cards to display culinary properties and
+ cooking times for proteins
+
+---
+ src/app/page.tsx                          |  36 ++-
+ src/components/IngredientRecommender.tsx  | 166 ++++++++++++-
+ src/data/astroData.ts                     | 284 +++++++++++++++++++++-
+ src/data/ingredients/proteins/seafood.ts  | 212 +---------------
+ src/data/ingredients/vegetables/index.ts  |   6 +
+ src/data/ingredients/vinegars/vinegars.ts |  70 +++++-
+ src/utils/ingredientRecommender.ts        | 246 ++++++++++++++-----
+ 7 files changed, 724 insertions(+), 296 deletions(-)
+
+diff --git a/src/app/page.tsx b/src/app/page.tsx
+index a2dd7e12..20edadc1 100644
+--- a/src/app/page.tsx
++++ b/src/app/page.tsx
+@@ -39,6 +39,35 @@ function ClientOnly({ children }: { children: React.ReactNode }) {
+   return <>{children}</>;
+ }
+ 
++// PayPal Button Component
++function PayPalButton() {
++  return (
++    <div className="mx-auto mb-4" style={{ maxWidth: '250px' }}>
++      <form action="https://www.paypal.com/ncp/payment/SVN6Q368TKKLS" method="post" target="_blank">
++        <input 
++          type="submit" 
++          value="HELP" 
++          style={{
++            textAlign: 'center',
++            border: 'none',
++            borderRadius: '0.25rem',
++            width: '100%',
++            padding: '0 2rem',
++            height: '2.625rem',
++            fontWeight: 'bold',
++            backgroundColor: '#FFD140',
++            color: '#000000',
++            fontFamily: '"Helvetica Neue", Arial, sans-serif',
++            fontSize: '1rem',
++            lineHeight: '1.25rem',
++            cursor: 'pointer'
++          }}
++        />
++      </form>
++    </div>
++  );
++}
++
+ export default function Home() {
+   return (
+     <main className="min-h-screen bg-gradient-to-b from-indigo-50 via-blue-50 to-gray-100 text-gray-800">
+@@ -90,11 +119,8 @@ export default function Home() {
+           </div>
+         </div>
+         
+-        <footer className="mt-12 text-center text-sm text-gray-500">
+-          <p>
+-            Astrological and chakra data is for demonstration purposes.
+-            All recommendations should be considered with proper discretion and personal needs.
+-          </p>
++        <footer className="mt-12 text-center">
++          <PayPalButton />
+         </footer>
+       </div>
+     </main>
+diff --git a/src/components/IngredientRecommender.tsx b/src/components/IngredientRecommender.tsx
+index e9741f5c..686714f4 100644
+--- a/src/components/IngredientRecommender.tsx
++++ b/src/components/IngredientRecommender.tsx
+@@ -34,9 +34,9 @@ const CATEGORY_DISPLAY_NAMES: Record<string, string> = {
+ // Define category display counts
+ const CATEGORY_DISPLAY_COUNTS: Record<string, number> = {
+   proteins: 12,
+-  vegetables: 10,
++  vegetables: 12,
+   grains: 10,
+-  fruits: 10,
++  fruits: 12,
+   herbs: 10,
+   spices: 12,
+   oils: 8,
+@@ -249,6 +249,21 @@ export default function IngredientRecommender() {
+       vinegars: []
+     };
+     
++    // Helper function to normalize ingredient names for comparison
++    const normalizeIngredientName = (name: string): string => {
++      return name.toLowerCase()
++        .replace(/atlantic |wild |farmed |fresh |frozen |organic |raw |cooked /g, '')
++        .replace(/\s+/g, ' ')
++        .trim();
++    };
++    
++    // Helper function to check if two ingredients should be considered duplicates
++    const areSimilarIngredients = (name1: string, name2: string): boolean => {
++      const normalized1 = normalizeIngredientName(name1);
++      const normalized2 = normalizeIngredientName(name2);
++      return normalized1 === normalized2;
++    };
++
+     // Add food recommendations first (they are already categorized)
+     if (foodRecommendations && foodRecommendations.length > 0) {
+       foodRecommendations.forEach(ingredient => {
+@@ -380,9 +395,9 @@ export default function IngredientRecommender() {
+         const targetCategory = normalizedCategory === 'other' ? determineCategory(item.name) : normalizedCategory;
+         
+         if (categories[targetCategory]) {
+-          // Check if this item already exists in the category
++          // Check if this item already exists in the category (with improved duplicate detection)
+           const existingItemIndex = categories[targetCategory].findIndex(
+-            existing => existing.name.toLowerCase() === item.name.toLowerCase()
++            existing => areSimilarIngredients(existing.name, item.name)
+           );
+           
+           if (existingItemIndex >= 0) {
+@@ -809,6 +824,32 @@ export default function IngredientRecommender() {
+                                 </div>
+                               )}
+                               
++                              {/* Show culinary applications */}
++                              {item.culinaryApplications && (
++                                <div>
++                                  <span className="font-semibold">Culinary Applications:</span>{' '}
++                                  {Object.keys(item.culinaryApplications).slice(0, 3).join(', ')}
++                                </div>
++                              )}
++
++                              {/* Show varieties if available */}
++                              {item.varieties && Object.keys(item.varieties).length > 0 && (
++                                <div>
++                                  <span className="font-semibold">Varieties:</span>{' '}
++                                  {Object.keys(item.varieties).slice(0, 3).join(', ')}
++                                </div>
++                              )}
++
++                              {/* Show storage information */}
++                              {item.storage && (
++                                <div>
++                                  <span className="font-semibold">Storage:</span>{' '}
++                                  {item.storage.duration}
++                                  {item.storage.temperature && typeof item.storage.temperature === 'object' && 
++                                   ` at ${item.storage.temperature.fahrenheit}°F`}
++                                </div>
++                              )}
++                              
+                               {/* Show smoke point for oils */}
+                               {category === 'oils' && item.smokePoint && (
+                                 <div>
+@@ -833,6 +874,96 @@ export default function IngredientRecommender() {
+                                 </div>
+                               )}
+                               
++                              {/* Show seasonal adjustments */}
++                              {item.seasonalAdjustments && (
++                                <div>
++                                  <span className="font-semibold">Seasonal Preparations:</span>{' '}
++                                  {Object.keys(item.seasonalAdjustments).join(', ')}
++                                </div>
++                              )}
++
++                              {/* Show cooking time/methods for proteins */}
++                              {category === 'proteins' && item.culinaryApplications && (
++                                <div>
++                                  <span className="font-semibold">Cooking Times:</span>{' '}
++                                  {Object.entries(item.culinaryApplications).map(([method, details], index) => {
++                                    let cookingTime = '';
++                                    
++                                    // Handle different data formats for cooking time
++                                    if (details?.timing) {
++                                      if (typeof details.timing === 'string') {
++                                        cookingTime = details.timing;
++                                      } else if (typeof details.timing === 'object') {
++                                        if (details.timing.minimum && details.timing.maximum) {
++                                          cookingTime = `${details.timing.minimum}-${details.timing.maximum}`;
++                                        } else if (details.timing.optimal) {
++                                          cookingTime = details.timing.optimal;
++                                        } else {
++                                          const times = Object.values(details.timing).filter(t => typeof t === 'string');
++                                          if (times.length) cookingTime = times.join('-');
++                                        }
++                                      }
++                                    }
++                                    
++                                    return cookingTime ? (
++                                      <span key={method}>
++                                        {index > 0 ? ', ' : ''}
++                                        {method.replace(/_/g, ' ')}: {cookingTime}
++                                      </span>
++                                    ) : null;
++                                  }).filter(Boolean)}
++                                </div>
++                              )}
++
++                              {/* Show temperature recommendations for proteins */}
++                              {category === 'proteins' && item.culinaryApplications && (
++                                <div>
++                                  <span className="font-semibold">Cooking Temperatures:</span>{' '}
++                                  {Object.entries(item.culinaryApplications).map(([method, details], index) => {
++                                    let temp = '';
++                                    
++                                    // Handle different data formats for temperature
++                                    if (details?.temperature) {
++                                      if (typeof details.temperature === 'string') {
++                                        temp = details.temperature;
++                                      } else if (typeof details.temperature === 'object') {
++                                        if (details.temperature.fahrenheit) {
++                                          temp = `${details.temperature.fahrenheit}°F`;
++                                        } else if (details.temperature.min && details.temperature.max) {
++                                          temp = `${details.temperature.min}-${details.temperature.max}°${details.temperature.unit === 'celsius' ? 'C' : 'F'}`;
++                                        }
++                                      }
++                                    }
++                                    
++                                    return temp ? (
++                                      <span key={method}>
++                                        {index > 0 ? ', ' : ''}
++                                        {method.replace(/_/g, ' ')}: {temp}
++                                      </span>
++                                    ) : null;
++                                  }).filter(Boolean)}
++                                </div>
++                              )}
++
++                              {/* Show cuts for seafood and proteins */}
++                              {item.cuts && Object.keys(item.cuts).length > 0 && (
++                                <div>
++                                  <span className="font-semibold">Available Cuts:</span>{' '}
++                                  {Object.values(item.cuts).map(cut => 
++                                    typeof cut === 'object' && cut.name ? cut.name : '').filter(Boolean).join(', ')}
++                                </div>
++                              )}
++
++                              {/* Show health benefits */}
++                              {item.healthBenefits && item.healthBenefits.length > 0 && (
++                                <div>
++                                  <span className="font-semibold">Health Benefits:</span>{' '}
++                                  {Array.isArray(item.healthBenefits) 
++                                    ? item.healthBenefits.slice(0, 2).join(', ')
++                                    : typeof item.healthBenefits === 'string' ? item.healthBenefits : ''}
++                                </div>
++                              )}
++                              
+                               {/* Show thermodynamic properties for oils and other ingredients */}
+                               {item.thermodynamicProperties && (
+                                 <div>
+@@ -845,15 +976,19 @@ export default function IngredientRecommender() {
+                                 </div>
+                               )}
+                               
+-                              {item.healthBenefits && item.healthBenefits.length > 0 && (
++                              {item.culinaryUses && item.culinaryUses.length > 0 && (
+                                 <div>
+-                                  <span className="font-semibold">Benefits:</span> {item.healthBenefits.join(', ')}
++                                  <span className="font-semibold">Uses:</span> {item.culinaryUses.join(', ')}
+                                 </div>
+                               )}
+-                              
+-                              {item.culinaryUses && item.culinaryUses.length > 0 && (
++
++                              {/* Show nutritional highlights if available */}
++                              {item.nutritionalProfile && (
+                                 <div>
+-                                  <span className="font-semibold">Uses:</span> {item.culinaryUses.join(', ')}
++                                  <span className="font-semibold">Nutrition:</span>{' '}
++                                  {item.nutritionalProfile.calories && `${item.nutritionalProfile.calories} cal`}
++                                  {item.nutritionalProfile.macros && item.nutritionalProfile.macros.protein && 
++                                   `, ${item.nutritionalProfile.macros.protein}g protein`}
+                                 </div>
+                               )}
+                               
+@@ -930,6 +1065,19 @@ export default function IngredientRecommender() {
+                                 <span className="font-medium">Smoke Point:</span> {item.smokePoint.fahrenheit}°F
+                               </div>
+                             )}
++
++                            {/* Compact cooking methods for proteins */}
++                            {category === 'proteins' && item.culinaryApplications && (
++                              <div className="mt-1 text-[10px] text-gray-600 dark:text-gray-400">
++                                <span className="font-medium">Cook:</span>{' '}
++                                {Object.keys(item.culinaryApplications).slice(0, 2).map((method, idx) => (
++                                  <span key={method}>
++                                    {idx > 0 && ', '}
++                                    {method.replace(/_/g, ' ')}
++                                  </span>
++                                ))}
++                              </div>
++                            )}
+                           </>
+                         )}
+                       </div>
+diff --git a/src/data/astroData.ts b/src/data/astroData.ts
+index 2c8141eb..622dd952 100644
+--- a/src/data/astroData.ts
++++ b/src/data/astroData.ts
+@@ -1,6 +1,6 @@
+ import { planetInfo as planets } from './planets';
+ 
+-// Astrological signs data
++// Astrological signs data with consistent lowercase for all signs
+ export const signs = {
+   0: 'aries',
+   1: 'taurus',
+@@ -8,8 +8,8 @@ export const signs = {
+   3: 'cancer',
+   4: 'leo',
+   5: 'virgo',
+-  6: 'Libra',
+-  7: 'Scorpio',
++  6: 'libra',
++  7: 'scorpio',
+   8: 'sagittarius',
+   9: 'capricorn',
+   10: 'aquarius',
+@@ -19,7 +19,7 @@ export const signs = {
+ // Export the planetInfo from our new modular structure
+ export const planetInfo = planets;
+ 
+-// Optional: For convenience, also export sign information
++// Complete sign information for all zodiac signs
+ export const signInfo = {
+   "aries": {
+     "Element": "Fire",
+@@ -46,7 +46,281 @@ export const signInfo = {
+     "Ruler": "Mars",
+     "Modality": "Cardinal"
+   },
+-  // Add other signs as needed for your application
++  "taurus": {
++    "Element": "Earth",
++    'Start': {'Day': 20, 'Month': 4, 'Year': 2022},
++    'End': {'Day': 20, 'Month': 5, 'Year': 2022},
++    "Major Tarot Card": "The Hierophant",
++    "Minor Tarot Cards": {
++      "1st Decan": "5 of Pentacles",
++      "2nd Decan": "6 of Pentacles",
++      "3rd Decan": "7 of Pentacles"
++    },
++    "Decan Effects": {
++      "1st Decan": ["Mercury"],
++      "2nd Decan": ["Moon"],
++      "3rd Decan": ["Saturn"]
++    },
++    "Degree Effects": {
++      "Mercury": [9, 15],
++      "Venus": [1, 8],
++      "Mars": [27, 30],
++      "Jupiter": [16, 22],
++      "Saturn": [23, 26]
++    },
++    "Ruler": "Venus",
++    "Modality": "Fixed"
++  },
++  "gemini": {
++    "Element": "Air",
++    'Start': {'Day': 21, 'Month': 5, 'Year': 2022},
++    'End': {'Day': 20, 'Month': 6, 'Year': 2022},
++    "Major Tarot Card": "The Lovers",
++    "Minor Tarot Cards": {
++      "1st Decan": "8 of Swords",
++      "2nd Decan": "9 of Swords",
++      "3rd Decan": "10 of Swords"
++    },
++    "Decan Effects": {
++      "1st Decan": ["Jupiter"],
++      "2nd Decan": ["Mars"],
++      "3rd Decan": ["Sun"]
++    },
++    "Degree Effects": {
++      "Mercury": [1, 7],
++      "Venus": [15, 20],
++      "Mars": [26, 30],
++      "Jupiter": [8, 14],
++      "Saturn": [22, 25]
++    },
++    "Ruler": "Mercury",
++    "Modality": "Mutable"
++  },
++  "cancer": {
++    "Element": "Water",
++    'Start': {'Day': 21, 'Month': 6, 'Year': 2022},
++    'End': {'Day': 22, 'Month': 7, 'Year': 2022},
++    "Major Tarot Card": "The Chariot",
++    "Minor Tarot Cards": {
++      "1st Decan": "2 of Cups",
++      "2nd Decan": "3 of Cups",
++      "3rd Decan": "4 of Cups"
++    },
++    "Decan Effects": {
++      "1st Decan": ["Venus"],
++      "2nd Decan": ["Mercury"],
++      "3rd Decan": ["Moon"]
++    },
++    "Degree Effects": {
++      "Mercury": [14, 20],
++      "Venus": [21, 27],
++      "Mars": [1, 6],
++      "Jupiter": [7, 13],
++      "Saturn": [28, 30]
++    },
++    "Ruler": "Moon",
++    "Modality": "Cardinal"
++  },
++  "leo": {
++    "Element": "Fire",
++    'Start': {'Day': 23, 'Month': 7, 'Year': 2022},
++    'End': {'Day': 22, 'Month': 8, 'Year': 2022},
++    "Major Tarot Card": "Strength",
++    "Minor Tarot Cards": {
++      "1st Decan": "5 of Wands",
++      "2nd Decan": "6 of Wands",
++      "3rd Decan": "7 of Wands"
++    },
++    "Decan Effects": {
++      "1st Decan": ["Saturn"],
++      "2nd Decan": ["Jupiter"],
++      "3rd Decan": ["Mars"]
++    },
++    "Degree Effects": {
++      "Mercury": [7, 13],
++      "Venus": [14, 19],
++      "Mars": [26, 30],
++      "Jupiter": [20, 25],
++      "Saturn": [1, 6]
++    },
++    "Ruler": "Sun",
++    "Modality": "Fixed"
++  },
++  "virgo": {
++    "Element": "Earth",
++    'Start': {'Day': 23, 'Month': 8, 'Year': 2022},
++    'End': {'Day': 22, 'Month': 9, 'Year': 2022},
++    "Major Tarot Card": "The Hermit",
++    "Minor Tarot Cards": {
++      "1st Decan": "8 of Pentacles",
++      "2nd Decan": "9 of Pentacles",
++      "3rd Decan": "10 of Pentacles"
++    },
++    "Decan Effects": {
++      "1st Decan": ["Sun"],
++      "2nd Decan": ["Venus"],
++      "3rd Decan": ["Mercury"]
++    },
++    "Degree Effects": {
++      "Mercury": [1, 7],
++      "Venus": [8, 13],
++      "Mars": [25, 30],
++      "Jupiter": [14, 18],
++      "Saturn": [19, 24]
++    },
++    "Ruler": "Mercury",
++    "Modality": "Mutable"
++  },
++  "libra": {
++    "Element": "Air",
++    'Start': {'Day': 23, 'Month': 9, 'Year': 2022},
++    'End': {'Day': 22, 'Month': 10, 'Year': 2022},
++    "Major Tarot Card": "Justice",
++    "Minor Tarot Cards": {
++      "1st Decan": "2 of Swords",
++      "2nd Decan": "3 of Swords",
++      "3rd Decan": "4 of Swords"
++    },
++    "Decan Effects": {
++      "1st Decan": ["Moon"],
++      "2nd Decan": ["Saturn"],
++      "3rd Decan": ["Jupiter"]
++    },
++    "Degree Effects": {
++      "Mercury": [20, 24],
++      "Venus": [7, 11],
++      "Mars": [1, 6],
++      "Jupiter": [12, 19],
++      "Saturn": [1, 6]
++    },
++    "Ruler": "Venus",
++    "Modality": "Cardinal"
++  },
++  "scorpio": {
++    "Element": "Water",
++    'Start': {'Day': 23, 'Month': 10, 'Year': 2022},
++    'End': {'Day': 21, 'Month': 11, 'Year': 2022},
++    "Major Tarot Card": "Death",
++    "Minor Tarot Cards": {
++      "1st Decan": "5 of Cups",
++      "2nd Decan": "6 of Cups",
++      "3rd Decan": "7 of Cups"
++    },
++    "Decan Effects": {
++      "1st Decan": ["Mars"],
++      "2nd Decan": ["Sun"],
++      "3rd Decan": ["Venus"]
++    },
++    "Degree Effects": {
++      "Mercury": [22, 27],
++      "Venus": [15, 21],
++      "Mars": [1, 6],
++      "Jupiter": [7, 14],
++      "Saturn": [28, 30]
++    },
++    "Ruler": "Mars",
++    "Modality": "Fixed"
++  },
++  "sagittarius": {
++    "Element": "Fire",
++    'Start': {'Day': 22, 'Month': 11, 'Year': 2022},
++    'End': {'Day': 21, 'Month': 12, 'Year': 2022},
++    "Major Tarot Card": "Temperance",
++    "Minor Tarot Cards": {
++      "1st Decan": "8 of Wands",
++      "2nd Decan": "9 of Wands",
++      "3rd Decan": "10 of Wands"
++    },
++    "Decan Effects": {
++      "1st Decan": ["Mercury"],
++      "2nd Decan": ["Moon"],
++      "3rd Decan": ["Saturn"]
++    },
++    "Degree Effects": {
++      "Mercury": [15, 20],
++      "Venus": [9, 14],
++      "Mars": [1, 6],
++      "Jupiter": [1, 8],
++      "Saturn": [21, 25]
++    },
++    "Ruler": "Jupiter",
++    "Modality": "Mutable"
++  },
++  "capricorn": {
++    "Element": "Earth",
++    'Start': {'Day': 22, 'Month': 12, 'Year': 2022},
++    'End': {'Day': 19, 'Month': 1, 'Year': 2023},
++    "Major Tarot Card": "The Devil",
++    "Minor Tarot Cards": {
++      "1st Decan": "2 of Pentacles",
++      "2nd Decan": "3 of Pentacles",
++      "3rd Decan": "4 of Pentacles"
++    },
++    "Decan Effects": {
++      "1st Decan": ["Jupiter"],
++      "2nd Decan": ["Mars"],
++      "3rd Decan": ["Sun"]
++    },
++    "Degree Effects": {
++      "Mercury": [7, 12],
++      "Venus": [1, 6],
++      "Mars": [13, 18],
++      "Jupiter": [13, 19],
++      "Saturn": [26, 30]
++    },
++    "Ruler": "Saturn",
++    "Modality": "Cardinal"
++  },
++  "aquarius": {
++    "Element": "Air",
++    'Start': {'Day': 20, 'Month': 1, 'Year': 2023},
++    'End': {'Day': 18, 'Month': 2, 'Year': 2023},
++    "Major Tarot Card": "The Star",
++    "Minor Tarot Cards": {
++      "1st Decan": "5 of Swords",
++      "2nd Decan": "6 of Swords",
++      "3rd Decan": "7 of Swords"
++    },
++    "Decan Effects": {
++      "1st Decan": ["Saturn"],
++      "2nd Decan": ["Mercury"],
++      "3rd Decan": ["Venus"]
++    },
++    "Degree Effects": {
++      "Mercury": [7, 12],
++      "Venus": [13, 20],
++      "Mars": [26, 30],
++      "Jupiter": [21, 25],
++      "Saturn": [1, 6]
++    },
++    "Ruler": "Saturn",
++    "Modality": "Fixed"
++  },
++  "pisces": {
++    "Element": "Water",
++    'Start': {'Day': 19, 'Month': 2, 'Year': 2023},
++    'End': {'Day': 20, 'Month': 3, 'Year': 2023},
++    "Major Tarot Card": "The Moon",
++    "Minor Tarot Cards": {
++      "1st Decan": "8 of Cups",
++      "2nd Decan": "9 of Cups",
++      "3rd Decan": "10 of Cups"
++    },
++    "Decan Effects": {
++      "1st Decan": ["Saturn"],
++      "2nd Decan": ["Jupiter"],
++      "3rd Decan": ["Mars"]
++    },
++    "Degree Effects": {
++      "Mercury": [15, 20],
++      "Venus": [1, 8],
++      "Mars": [21, 26],
++      "Jupiter": [9, 14],
++      "Saturn": [27, 30]
++    },
++    "Ruler": "Jupiter",
++    "Modality": "Mutable"
++  }
+ };
+ 
+ export default { signs, planetInfo, signInfo }; 
+\ No newline at end of file
+diff --git a/src/data/ingredients/proteins/seafood.ts b/src/data/ingredients/proteins/seafood.ts
+index 2d10bbbd..d57fcab3 100644
+--- a/src/data/ingredients/proteins/seafood.ts
++++ b/src/data/ingredients/proteins/seafood.ts
+@@ -3,7 +3,7 @@ import { fixIngredientMappings } from '@/utils/elementalUtils';
+ 
+ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
+   'atlantic_salmon': {
+-    name: 'Atlantic Salmon',
++    name: 'Salmon',
+     category: 'protein',
+     subCategory: 'seafood',
+     elementalProperties: { Water: 0.6, Earth: 0.2, Fire: 0.1, Air: 0.1 },
+@@ -1875,216 +1875,6 @@ const rawSeafood: Record<string, Partial<IngredientMapping>> = {
+       }
+     }
+   },
+-  'salmon': {
+-    name: 'Salmon',
+-    elementalProperties: { Water: 0.6, Earth: 0.3, Fire: 0.1, Air: 0 },
+-    astrologicalProfile: {
+-      rulingPlanets: ['Moon', 'Neptune'],
+-      favorableZodiac: ['cancer', 'pisces'],
+-      elementalAffinity: {
+-        base: 'Water',
+-        decanModifiers: {
+-          first: { element: 'Water', planet: 'Moon' },
+-          second: { element: 'Earth', planet: 'Neptune' },
+-          third: { element: 'Air', planet: 'Mercury' }
+-        }
+-      },
+-      lunarPhaseModifiers: {
+-        newMoon: {
+-          elementalBoost: { Water: 0.1, Earth: 0.1 },
+-          preparationTips: ['Best for raw preparations']
+-        },
+-        fullMoon: {
+-          elementalBoost: { Water: 0.2 },
+-          preparationTips: ['Ideal for grilling']
+-        }
+-      },
+-      aspectEnhancers: ['Moon trine Neptune', 'Jupiter in pisces']
+-    },
+-    qualities: ['omega-rich', 'flaky', 'buttery'],
+-    origin: ['Norway', 'Scotland', 'Chile'],
+-    sustainability: {
+-      rating: 'Best Choice',
+-      source: 'MSC'
+-    },
+-    varieties: {
+-      'Farm Raised': {
+-    name: 'Farm Raised',
+-        appearance: 'light orange-pink',
+-        texture: 'fatty, soft',
+-        flavor: 'mild',
+-        uses: 'all-purpose'
+-      },
+-      'Wild': {
+-    name: 'Wild',
+-        appearance: 'deep orange-red',
+-        texture: 'firm, lean',
+-        flavor: 'robust',
+-        uses: 'premium preparations'
+-      }
+-    },
+-    cuts: {
+-      'fillet': {
+-    name: 'Fillet',
+-        description: 'boneless side',
+-        weight: '6-8 oz per serving',
+-        notes: 'most versatile'
+-      },
+-      'steak': {
+-    name: 'Steak',
+-        description: 'cross-section cut',
+-        weight: '8-10 oz',
+-        notes: 'good for grilling'
+-      },
+-      'whole_side': {
+-    name: 'Whole Side',
+-        description: 'entire fillet',
+-        weight: '2-4 lbs',
+-        notes: 'ideal for large gatherings'
+-      }
+-    },
+-    culinaryApplications: {
+-      'grill': {
+-    name: 'Grill',
+-        temperature: { celsius: 190, fahrenheit: 375 },
+-        timing: '4-5 minutes per side'
+-      },
+-      'pan_sear': {
+-    name: 'Pan Sear',
+-        method: 'high heat, skin-on',
+-        temperature: 'medium-high',
+-        timing: {
+-          'skin_side': '4-5 minutes',
+-          'flesh_side': '2-3 minutes',
+-          'resting': '3-4 minutes'
+-        },
+-        techniques: {
+-          'crispy_skin': {
+-    name: 'Crispy Skin',
+-            method: 'pat dry, score skin',
+-            notes: 'press down gently when first added'
+-          },
+-          'basting': {
+-    name: 'Basting',
+-            method: 'butter baste last minute',
+-            aromatics: ['thyme', 'garlic', 'lemon']
+-          }
+-        }
+-      },
+-      'roast': {
+-    name: 'Roast',
+-        method: 'dry heat',
+-        temperature: {
+-          fahrenheit: 400,
+-          celsius: 200
+-        },
+-        timing: {
+-          'per_inch': '10-12 minutes',
+-          'resting': '5 minutes'
+-        },
+-        techniques: {
+-          'en_papillote': {
+-    name: 'En Papillote',
+-            method: 'wrapped in parchment',
+-            ingredients: ['herbs', 'citrus', 'vegetables'],
+-            timing: '12-15 minutes'
+-          },
+-          'glazed': {
+-    name: 'Glazed',
+-            method: 'brush with glaze',
+-            frequency: 'every 4-5 minutes',
+-            types: ['miso', 'honey-soy', 'maple']
+-          }
+-        }
+-      },
+-      'sous_vide': {
+-    name: 'Sous Vide',
+-        method: 'vacuum sealed',
+-        temperature: {
+-          'rare': {
+-    name: 'Rare', fahrenheit: 110, celsius: 43 },
+-          'medium_rare': {
+-    name: 'Medium Rare', fahrenheit: 120, celsius: 49 },
+-          'medium': {
+-    name: 'Medium', fahrenheit: 130, celsius: 54 }
+-        },
+-        timing: {
+-          'minimum': '30 minutes',
+-          'maximum': '45 minutes',
+-          'optimal': '35 minutes'
+-        },
+-        finishing: {
+-          method: 'quick sear',
+-          duration: '30 seconds per side'
+-        }
+-      }
+-    },
+-    seasonalAdjustments: {
+-      'summer': {
+-    name: 'Summer',
+-        methods: ['grill', 'raw'],
+-        preparations: {
+-          'crudo': {
+-    name: 'Crudo',
+-            style: 'thin sliced',
+-            accompaniments: ['citrus', 'olive oil', 'sea salt']
+-          },
+-          'poke': {
+-    name: 'Poke',
+-            style: 'cubed',
+-            marinades: ['soy', 'sesame', 'ginger']
+-          }
+-        }
+-      },
+-      'winter': {
+-    name: 'Winter',
+-        methods: ['roast', 'poach'],
+-        preparations: {
+-          'braised': {
+-    name: 'Braised',
+-            style: 'whole fillet',
+-            sauces: ['cream', 'wine', 'herb']
+-          }
+-        }
+-      }
+-    },
+-    storage: {
+-      fresh: {
+-        temperature: { fahrenheit: 32, celsius: 0 },
+-        duration: '1-2 days',
+-        method: 'on ice, uncovered'
+-      },
+-      frozen: {
+-        temperature: { fahrenheit: 0, celsius: -18 },
+-        duration: '3-4 months',
+-        method: 'vacuum sealed'
+-      },
+-      thawing: {
+-        preferred: {
+-          method: 'refrigerator',
+-          time: '24 hours'
+-        },
+-        alternate: {
+-          method: 'cold water',
+-          time: '1-2 hours',
+-          notes: 'keep sealed, change water every 30 minutes'
+-        }
+-      }
+-    },
+-    safetyThresholds: {
+-      raw: {
+-        requirements: ['sushi-grade', 'previously frozen'],
+-        freezing: {
+-          temperature: { fahrenheit: -4, celsius: -20 },
+-          duration: '7 days'
+-        }
+-      },
+-      cooked: {
+-        minimum: { fahrenheit: 145, celsius: 63 },
+-        resting: '3 minutes'
+-      }
+-    }
+-  },
+   'squid': {
+     name: 'Squid',
+     elementalProperties: { Water: 0.7, Earth: 0.15, Air: 0.15, Fire: 0 },
+diff --git a/src/data/ingredients/vegetables/index.ts b/src/data/ingredients/vegetables/index.ts
+index dffc9cc4..09aebc2f 100644
+--- a/src/data/ingredients/vegetables/index.ts
++++ b/src/data/ingredients/vegetables/index.ts
+@@ -20,6 +20,12 @@ export const vegetables: Record<string, IngredientMapping> = {
+   ...legumes
+ };
+ 
++// Create enhanced vegetables with additional properties
++export const enhancedVegetables = vegetables;
++
++// For standardization - both exports refer to the same object
++export const standardizedVegetables = vegetables;
++
+ // Export individual categories
+ export {
+   leafyGreens,
+diff --git a/src/data/ingredients/vinegars/vinegars.ts b/src/data/ingredients/vinegars/vinegars.ts
+index 88c18587..54bd4e82 100644
+--- a/src/data/ingredients/vinegars/vinegars.ts
++++ b/src/data/ingredients/vinegars/vinegars.ts
+@@ -238,14 +238,82 @@ const rawVinegars: Record<string, Partial<IngredientMapping>> = {
+ // Export fixed vinegars
+ export const vinegars = fixIngredientMappings(rawVinegars) as Record<string, IngredientMapping>;
+ 
++// Define artisanal vinegars (premium/specialty vinegars)
++const rawArtisanalVinegars: Record<string, Partial<IngredientMapping>> = {
++  'aged_balsamic': {
++    name: 'Aged Balsamic Vinegar',
++    category: 'vinegar',
++    subCategory: 'artisanal',
++    elementalProperties: {
++      Earth: 0.5,
++      Water: 0.3,
++      Fire: 0.1,
++      Air: 0.1
++    },
++    qualities: ['complex', 'syrupy', 'rich', 'sweet', 'premium'],
++    origin: ['Modena, Italy', 'Reggio Emilia, Italy'],
++    nutritionalProfile: {
++      calories: 16,
++      carbs_g: 3.5,
++      sugar_g: 3.0,
++      acidity: '4-6%',
++      notes: 'Aged for 12+ years in wooden barrels'
++    }
++  },
++  'fig_vinegar': {
++    name: 'Fig Vinegar',
++    category: 'vinegar',
++    subCategory: 'artisanal',
++    elementalProperties: {
++      Earth: 0.4,
++      Water: 0.3,
++      Fire: 0.2,
++      Air: 0.1
++    },
++    qualities: ['fruity', 'sweet', 'tangy', 'aromatic'],
++    origin: ['Mediterranean'],
++    nutritionalProfile: {
++      calories: 12,
++      carbs_g: 2.8,
++      sugar_g: 2.3,
++      acidity: '5-6%',
++      notes: 'Made from fermented figs, rich and complex'
++    }
++  },
++  'champagne_rose_vinegar': {
++    name: 'Champagne Rose Vinegar',
++    category: 'vinegar',
++    subCategory: 'artisanal',
++    elementalProperties: {
++      Air: 0.4,
++      Water: 0.3,
++      Earth: 0.2,
++      Fire: 0.1
++    },
++    qualities: ['floral', 'delicate', 'crisp', 'aromatic'],
++    origin: ['France'],
++    nutritionalProfile: {
++      calories: 5,
++      carbs_g: 1.0,
++      sugar_g: 0.5,
++      acidity: '5-6%',
++      notes: 'Infused with rose petals, elegant flavor profile'
++    }
++  }
++};
++
++// Export artisanal vinegars
++export const artisanalVinegars = fixIngredientMappings(rawArtisanalVinegars) as Record<string, IngredientMapping>;
++
+ // Add any additional vinegars specific to this directory
+ const additionalVinegars: Record<string, Partial<IngredientMapping>> = {
+   // Additional vinegars can be added here
+ };
+ 
+-// Merge with any additional vinegars
++// Merge with any additional vinegars and artisanal vinegars
+ export const allVinegars = fixIngredientMappings({
+   ...rawVinegars,
++  ...rawArtisanalVinegars,
+   ...additionalVinegars
+ }) as Record<string, IngredientMapping>;
+ 
+diff --git a/src/utils/ingredientRecommender.ts b/src/utils/ingredientRecommender.ts
+index 0b0b7a6a..489f0141 100644
+--- a/src/utils/ingredientRecommender.ts
++++ b/src/utils/ingredientRecommender.ts
+@@ -221,89 +221,188 @@ export function getIngredientRecommendations(
+     timestamp: Date;
+     currentStability: number;
+     planetaryAlignment: Record<string, { sign: string; degree: number }>;
++    zodiacSign: string;
++    activePlanets: string[];
++    lunarPhase: string;
++    aspects: Array<{ aspectType: string; planet1: string; planet2: string; }>;
+   }, 
+   options: RecommendationOptions
+ ): GroupedIngredientRecommendations {
+   // Get all ingredients
+   const allIngredients = getAllIngredients();
+   
++  // Calculate ruling planet based on sun's position
++  const sunSign = elementalProps.zodiacSign?.toLowerCase() as ZodiacSign;
++  
++  // Map of signs to their ruling planets
++  const signRulers: Record<string, string> = {
++    'aries': 'Mars',
++    'taurus': 'Venus',
++    'gemini': 'Mercury',
++    'cancer': 'Moon',
++    'leo': 'Sun',
++    'virgo': 'Mercury',
++    'libra': 'Venus',
++    'scorpio': 'Mars',
++    'sagittarius': 'Jupiter',
++    'capricorn': 'Saturn',
++    'aquarius': 'Saturn', // Traditional ruler
++    'pisces': 'Jupiter'  // Traditional ruler
++  };
++  
++  const rulingPlanet = signRulers[sunSign] || 'Sun';
++  
++  // Get decan information for each planet position
++  const planetDecans: Record<string, { decanNum: number, decanRuler: string, tarotCard: string }> = {};
++  
++  Object.entries(elementalProps.planetaryAlignment || {}).forEach(([planet, position]) => {
++    if (!position || !position.sign) return;
++    
++    const sign = position.sign.toLowerCase();
++    const degree = position.degree || 0;
++    
++    // Determine which decan the planet is in
++    let decanNum = 1;
++    if (degree >= 10 && degree < 20) decanNum = 2;
++    else if (degree >= 20) decanNum = 3;
++    
++    // Reference data for decan rulers and tarot cards based on sign and decan
++    const decanRulerMap: Record<string, Record<number, string>> = {
++      'aries': { 1: 'Mars', 2: 'Sun', 3: 'Venus' },
++      'taurus': { 1: 'Mercury', 2: 'Moon', 3: 'Saturn' },
++      'gemini': { 1: 'Jupiter', 2: 'Mars', 3: 'Sun' },
++      'cancer': { 1: 'Venus', 2: 'Mercury', 3: 'Moon' },
++      'leo': { 1: 'Saturn', 2: 'Jupiter', 3: 'Mars' },
++      'virgo': { 1: 'Sun', 2: 'Venus', 3: 'Mercury' },
++      'libra': { 1: 'Moon', 2: 'Saturn', 3: 'Jupiter' },
++      'scorpio': { 1: 'Mars', 2: 'Sun', 3: 'Venus' },
++      'sagittarius': { 1: 'Mercury', 2: 'Moon', 3: 'Saturn' },
++      'capricorn': { 1: 'Jupiter', 2: 'Mars', 3: 'Sun' },
++      'aquarius': { 1: 'Venus', 2: 'Mercury', 3: 'Moon' },
++      'pisces': { 1: 'Saturn', 2: 'Jupiter', 3: 'Mars' }
++    };
++    
++    const tarotCardMap: Record<string, Record<number, string>> = {
++      'aries': { 1: '2 of Wands', 2: '3 of Wands', 3: '4 of Wands' },
++      'taurus': { 1: '5 of Pentacles', 2: '6 of Pentacles', 3: '7 of Pentacles' },
++      'gemini': { 1: '8 of Swords', 2: '9 of Swords', 3: '10 of Swords' },
++      'cancer': { 1: '2 of Cups', 2: '3 of Cups', 3: '4 of Cups' },
++      'leo': { 1: '5 of Wands', 2: '6 of Wands', 3: '7 of Wands' },
++      'virgo': { 1: '8 of Pentacles', 2: '9 of Pentacles', 3: '10 of Pentacles' },
++      'libra': { 1: '2 of Swords', 2: '3 of Swords', 3: '4 of Swords' },
++      'scorpio': { 1: '5 of Cups', 2: '6 of Cups', 3: '7 of Cups' },
++      'sagittarius': { 1: '8 of Wands', 2: '9 of Wands', 3: '10 of Wands' },
++      'capricorn': { 1: '2 of Pentacles', 2: '3 of Pentacles', 3: '4 of Pentacles' },
++      'aquarius': { 1: '5 of Swords', 2: '6 of Swords', 3: '7 of Swords' },
++      'pisces': { 1: '8 of Cups', 2: '9 of Cups', 3: '10 of Cups' }
++    };
++    
++    const decanRuler = decanRulerMap[sign]?.[decanNum] || '';
++    const tarotCard = tarotCardMap[sign]?.[decanNum] || '';
++    
++    planetDecans[planet] = { decanNum, decanRuler, tarotCard };
++  });
++  
+   // Filter and score ingredients
+-  const filteredIngredients = allIngredients
++  const scoredIngredients = allIngredients
+     .filter(ingredient => {
+       // Apply basic filters
+       if (options.excludeIngredients?.includes(ingredient.name)) return false;
+       if (options.includeOnly && !options.includeOnly.includes(ingredient.name)) return false;
+       if (options.category && ingredient.category !== options.category) return false;
+       
++      // Filter by dietary preference if specified
++      if (options.dietaryPreferences && options.dietaryPreferences.length > 0) {
++        const dietaryMatches = options.dietaryPreferences.some(pref => 
++          ingredient.dietary?.includes(pref)
++        );
++        if (!dietaryMatches) return false;
++      }
++      
++      // Filter by modality preference if specified
++      if (options.modalityPreference) {
++        const ingredientModality = ingredient.modality || 
++          determineIngredientModality(ingredient.qualities, ingredient.elementalProperties);
++        
++        if (ingredientModality !== options.modalityPreference) return false;
++      }
++      
+       return true;
+     })
+     .map(ingredient => {
+-      // Calculate elemental score (40% of total)
++      // Calculate elemental score (30% of total)
+       const elementalScore = calculateElementalScore(
+         ingredient.elementalProperties,
+         elementalProps
+       );
+       
+-      // Calculate modality score (30% of total)
++      // Calculate modality score (15% of total)
+       const modalityScore = calculateModalityScore(
+         ingredient.qualities || [],
+-        options.preferredModality
++        options.modalityPreference
+       );
+       
+-      // Calculate seasonal score (20% of total)
++      // Calculate seasonal score (15% of total)
+       const seasonalScore = calculateSeasonalScore(
+         ingredient,
+         elementalProps.timestamp
+       );
+       
+-      // Calculate planetary score (10% of total)
+-      const planetaryScore = calculatePlanetaryScore(
+-        ingredient,
+-        elementalProps.planetaryAlignment
++      // Calculate planetary score (40% of total) - increased weight for planetary alignment
++      const planetaryScore = calculateEnhancedPlanetaryScore(
++        ingredient, 
++        elementalProps.planetaryAlignment,
++        planetDecans,
++        rulingPlanet
+       );
+       
+-      // Calculate total score
++      // Calculate total score with weighted components
+       const totalScore = (
+-        elementalScore * 0.4 +
+-        modalityScore * 0.3 +
+-        seasonalScore * 0.2 +
+-        planetaryScore * 0.1
++        elementalScore * 0.30 + 
++        modalityScore * 0.15 + 
++        seasonalScore * 0.15 + 
++        planetaryScore * 0.40
+       );
+       
++      // Assign modality if not already present
++      const modality = ingredient.modality || 
++        determineIngredientModality(ingredient.qualities, ingredient.elementalProperties);
++      
+       return {
+         ...ingredient,
+-        matchScore: totalScore,
++        score: totalScore,
+         elementalScore,
+         modalityScore,
+         seasonalScore,
+-        planetaryScore
++        planetaryScore,
++        modality
+       };
+     })
+-    .sort((a, b) => b.matchScore - a.matchScore);
++    .sort((a, b) => b.score - a.score);
++  
++  // Group ingredients by category
++  const groupedRecommendations: GroupedIngredientRecommendations = {};
+   
+-  // Group by ingredient type
+-  const grouped: GroupedIngredientRecommendations = {};
++  // Apply limit per category before grouping to ensure diversity
++  const limit = options.limit || 24;
++  const categoryCounts: Record<string, number> = {};
++  const categoryMaxItems = Math.ceil(limit / 8); // Max items per category
+   
+-  filteredIngredients.forEach(ingredient => {
+-    const type = ingredient.type ? ingredient.type.toLowerCase() : 'others';
++  scoredIngredients.forEach(ingredient => {
++    const category = ingredient.category || 'other';
+     
+-    if (!grouped[type]) {
+-      grouped[type] = [];
++    if (!groupedRecommendations[category]) {
++      groupedRecommendations[category] = [];
++      categoryCounts[category] = 0;
+     }
+     
+-    grouped[type]?.push(ingredient);
++    if (categoryCounts[category] < categoryMaxItems) {
++      groupedRecommendations[category].push(ingredient);
++      categoryCounts[category]++;
++    }
+   });
+   
+-  // Apply limit if specified
+-  if (options.limit) {
+-    Object.keys(grouped).forEach(category => {
+-      if (grouped[category]?.length > options.limit) {
+-        grouped[category] = grouped[category]?.slice(0, options.limit);
+-      }
+-    });
+-  }
+-  
+-  return grouped;
++  return groupedRecommendations;
+ }
+ 
+ // Helper function to calculate modality score
+@@ -404,46 +503,63 @@ function calculateSeasonalScore(ingredient: Ingredient, date: Date): number {
+ }
+ 
+ /**
+- * Calculate planetary score based on alignment with ingredient ruling planets
+- * @param ingredient Ingredient to score
+- * @param planetaryAlignment Current planetary alignment
+- * @returns Planetary score (0-1)
++ * Enhanced planetary score calculation that considers decans and tarot associations,
++ * with special weight for the ruling planet determined by sun position
+  */
+-function calculatePlanetaryScore(
++function calculateEnhancedPlanetaryScore(
+   ingredient: Ingredient,
+-  planetaryAlignment: Record<string, { sign: string; degree: number }>
++  planetaryAlignment: Record<string, { sign: string; degree: number }>,
++  planetDecans: Record<string, { decanNum: number, decanRuler: string, tarotCard: string }>,
++  rulingPlanet: string
+ ): number {
+-  // Default score if no astrological profile
+-  if (!ingredient.astrologicalProfile?.rulingPlanets) return 0.5;
++  if (!ingredient.astrologicalProfile) return 0.5; // Neutral score for ingredients without profile
+   
+-  const rulingPlanets = ingredient.astrologicalProfile.rulingPlanets;
+-  
+-  // Calculate score based on presence of ruling planets in alignment
+   let score = 0;
+-  let matchCount = 0;
++  let totalFactors = 0;
+   
+-  for (const planet of rulingPlanets) {
+-    if (planetaryAlignment[planet]) {
+-      matchCount++;
+-      
+-      // Check if planet is in a sign that reinforces the ingredient
+-      if (ingredient.astrologicalProfile.signAffinities?.includes(
+-        planetaryAlignment[planet].sign.toLowerCase()
+-      )) {
+-        score += 1.5; // Higher score for planet in compatible sign
+-      } else {
+-        score += 1.0; // Base score for planet presence
+-      }
+-    }
++  // Check ruling planet correspondence - this gets extra weight
++  if (ingredient.astrologicalProfile.rulingPlanets?.includes(rulingPlanet)) {
++    score += 1.5; // Significant boost for ruling planet correspondence
++    totalFactors += 1.5;
+   }
+   
+-  // Normalize score (0-1)
+-  const baseScore = rulingPlanets.length > 0 
+-    ? score / (rulingPlanets.length * 1.5) 
+-    : 0.5;
++  // Check planetary positions against ingredient affinities
++  Object.entries(planetaryAlignment).forEach(([planet, position]) => {
++    if (!position.sign) return;
++    
++    const planetName = planet.charAt(0).toUpperCase() + planet.slice(1);
++    
++    // Regular planetary ruler scoring
++    if (ingredient.astrologicalProfile.rulingPlanets?.includes(planetName)) {
++      score += 1;
++      totalFactors += 1;
++    }
++    
++    // Check sign affinities 
++    if (ingredient.astrologicalProfile.signAffinities?.includes(position.sign.toLowerCase())) {
++      score += 1;
++      totalFactors += 1;
++    }
++    
++    // Special handling for decan rulers
++    const decanInfo = planetDecans[planet];
++    if (decanInfo && ingredient.astrologicalProfile.rulingPlanets?.includes(decanInfo.decanRuler)) {
++      score += 0.8; // Good bonus for decan ruler match
++      totalFactors += 0.8;
++    }
++    
++    // Tarot card associations - add subtle influence
++    if (decanInfo?.tarotCard && ingredient.astrologicalProfile.tarotAssociations?.includes(decanInfo.tarotCard)) {
++      score += 0.7;
++      totalFactors += 0.7;
++    }
++  });
++  
++  // If there are no factors to consider, return neutral score
++  if (totalFactors === 0) return 0.5;
+   
+-  // Cap at 1.0 and ensure minimum of 0.3
+-  return Math.min(1.0, Math.max(0.3, baseScore));
++  // Return normalized score (0-1 range)
++  return Math.min(1, score / (totalFactors + 0.5));
+ }
+ 
+ /**
+-- 
+2.47.0
+

@@ -1,0 +1,78 @@
+{
+  "campaignId": "emergency-typescript-elimination-1122",
+  "type": "EMERGENCY_TYPESCRIPT_ELIMINATION",
+  "priority": "CRITICAL",
+  "triggerTime": "2025-01-27T20:30:00Z",
+  "errorCount": 1122,
+  "threshold": 100,
+  "safetyLevel": "MAXIMUM",
+  "config": {
+    "batchSize": 5,
+    "validationFrequency": 1,
+    "buildValidationRequired": true,
+    "gitStashEnabled": true,
+    "corruptionDetectionEnabled": true,
+    "automaticRollbackEnabled": true,
+    "manualApprovalRequired": true
+  },
+  "phases": [
+    {
+      "id": "phase1-critical-syntax-errors",
+      "name": "Critical Syntax Error Resolution",
+      "description": "Fix syntax errors causing cascading type failures",
+      "tools": [
+        {
+          "scriptPath": "targeted-error-fixer.cjs",
+          "parameters": {
+            "maxFiles": 5,
+            "focusOnSyntax": true,
+            "validateAfterEach": true
+          }
+        }
+      ],
+      "successCriteria": {
+        "syntaxErrorsResolved": true,
+        "buildStability": true,
+        "errorReduction": 50
+      }
+    },
+    {
+      "id": "phase2-type-definition-fixes",
+      "name": "Type Definition Resolution",
+      "description": "Fix missing type definitions and import issues",
+      "tools": [
+        {
+          "scriptPath": "emergency-targeted-fixer.cjs",
+          "parameters": {
+            "maxFiles": 10,
+            "focusOnTypes": true,
+            "preserveAstrological": true
+          }
+        }
+      ],
+      "successCriteria": {
+        "typeDefinitionsResolved": true,
+        "importIssuesFixed": true,
+        "errorReduction": 200
+      }
+    }
+  ],
+  "safetyProtocols": [
+    "BUILD_VALIDATION_AFTER_EACH_FILE",
+    "GIT_STASH_BEFORE_PHASE",
+    "CORRUPTION_DETECTION_ACTIVE",
+    "AUTOMATIC_ROLLBACK_ON_FAILURE",
+    "MANUAL_APPROVAL_CHECKPOINTS"
+  ],
+  "targetMetrics": {
+    "typeScriptErrors": 100,
+    "buildStability": true,
+    "astrologicalIntegrityPreserved": true
+  },
+  "filePath": "/Users/GregCastro/Desktop/WhatToEatNext/.kiro/campaign-triggers/emergency-typescript-elimination-1122.json",
+  "fileName": "emergency-typescript-elimination-1122.json",
+  "lastMetrics": {
+    "timestamp": "2025-07-31T21:16:51.522Z"
+  },
+  "lastUpdated": "2025-07-31T21:16:51.522Z"
+}

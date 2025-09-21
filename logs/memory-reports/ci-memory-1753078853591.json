@@ -1,0 +1,86 @@
+{
+  "metadata": {
+    "timestamp": "2025-07-21T06:20:53.591Z",
+    "duration": "12.44s",
+    "environment": {
+      "isCI": false,
+      "nodeVersion": "v20.19.3",
+      "platform": "darwin",
+      "arch": "arm64",
+      "nodeOptions": "not set"
+    }
+  },
+  "memoryAnalysis": {
+    "initial": {
+      "heapUsed": "3.33MB",
+      "heapTotal": "4.06MB",
+      "rss": "33.38MB"
+    },
+    "final": {
+      "heapUsed": "3.66MB",
+      "heapTotal": "4.31MB",
+      "rss": "30.70MB"
+    },
+    "delta": {
+      "heapUsed": "0.33MB",
+      "heapTotal": "0.25MB",
+      "rss": "-2.67MB"
+    }
+  },
+  "snapshots": [
+    {
+      "timestamp": 1753078841165,
+      "label": "cli-command-start",
+      "memory": {
+        "heapUsed": 3795104,
+        "heapTotal": 4521984,
+        "external": 1510966,
+        "arrayBuffers": 10515,
+        "rss": 35799040
+      },
+      "memoryMB": {
+        "heapUsed": "3.62",
+        "heapTotal": "4.31",
+        "external": "1.44",
+        "rss": "34.14"
+      }
+    },
+    {
+      "timestamp": 1753078853589,
+      "label": "cli-command-error",
+      "memory": {
+        "heapUsed": 3834984,
+        "heapTotal": 4521984,
+        "external": 1510966,
+        "arrayBuffers": 10515,
+        "rss": 29442048
+      },
+      "memoryMB": {
+        "heapUsed": "3.66",
+        "heapTotal": "4.31",
+        "external": "1.44",
+        "rss": "28.08"
+      }
+    }
+  ],
+  "alerts": [
+    {
+      "timestamp": 1753078853589,
+      "level": "ERROR",
+      "message": "Command execution failed: Command failed: yarn test:memory-safe --passWithNoTests",
+      "snapshot": "cli-command-error",
+      "memory": {
+        "heapUsed": "3.66",
+        "heapTotal": "4.31",
+        "external": "1.44",
+        "rss": "28.08"
+      }
+    }
+  ],
+  "thresholds": {
+    "warning": 100,
+    "critical": 200,
+    "emergency": 400
+  },
+  "recommendations": []
+}

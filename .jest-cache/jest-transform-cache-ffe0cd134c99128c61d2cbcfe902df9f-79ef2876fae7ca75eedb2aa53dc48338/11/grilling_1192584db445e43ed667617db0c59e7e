@@ -1,0 +1,125 @@
+edfb9284ebf0cf75f69d86b87f434413
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.grilling = void 0;
+/**
+ * Grilling cooking method
+ *
+ * Cooking food directly over live heat, typically open flame or hot coals
+ */
+exports.grilling = {
+    name: 'grilling',
+    description: 'Cooking food directly over heat, typically an open flame or hot coals, creating distinctive char marks and smoky flavor',
+    elementalEffect: {
+        Fire: 0.7,
+        Air: 0.2,
+        Earth: 0.1,
+        Water: 0.0
+    },
+    duration: {
+        min: 2,
+        max: 30
+    },
+    suitable_for: ['meats', 'poultry', 'seafood', 'vegetables', 'fruit', 'bread', 'pizza', 'kebabs'],
+    benefits: ['imparts smoky flavor', 'creates appealing char marks', 'renders fat', 'quick cooking', 'caramelizes exterior', 'develops umami'],
+    astrologicalInfluences: {
+        favorableZodiac: ['aries', 'leo', 'sagittarius'],
+        unfavorableZodiac: ['cancer', 'scorpio', 'pisces'],
+        dominantPlanets: ['Mars', 'Sun', 'Jupiter'],
+        lunarPhaseEffect: {
+            'full_moon': 1.2,
+            'new_moon': 0.8,
+            'waxing_gibbous': 1.1,
+            'waning_crescent': 0.9 // Slightly reduced effect
+        }
+    },
+    toolsRequired: [
+        'Grill (gas, charcoal, or wood-fired)',
+        'Long-handled tongs or spatula',
+        'Grill brush',
+        'Meat thermometer',
+        'Basting brush'
+    ],
+    commonMistakes: [
+        'too high heat',
+        'constant flipping',
+        'pressing down on food',
+        'improper grill temperature zones',
+        'not preheating properly',
+        'lid misuse'
+    ],
+    pairingSuggestions: [
+        'Smoky salsas',
+        'Herb-infused compound butters',
+        'Chimichurri sauce',
+        'Bright acidic components',
+        'Grilled bread or vegetables'
+    ],
+    nutrientRetention: {
+        proteins: 0.85,
+        vitamins: 0.70,
+        minerals: 0.90,
+        fats: 0.60 // Some lost through dripping
+    },
+    optimalTemperatures: {
+        'steak': 450,
+        'chicken': 375,
+        'fish': 400,
+        'vegetables': 425,
+        'fruit': 350
+    },
+    regionalVariations: {
+        argentine: ['asado', 'parrilla technique'],
+        korean: ['bulgogi', 'galbi'],
+        american: ['barbecue', 'Santa Maria-style'],
+        japanese: ['yakitori', 'robatayaki'],
+        middle_eastern: ['kebab', 'meshwi']
+    },
+    chemicalChanges: {
+        'maillard_reaction': true,
+        'caramelization': true,
+        'fat_rendering': true,
+        'smoke_particle_adhesion': true,
+        'protein_denaturation': true
+    },
+    safetyFeatures: [
+        'Proper fire management',
+        'Food temperature monitoring',
+        'Proper tool use',
+        'Avoid cross-contamination',
+        'Fire extinguisher nearby'
+    ],
+    thermodynamicProperties: {
+        heat: 0.90,
+        entropy: 0.65,
+        reactivity: 0.85,
+        gregsEnergy: 0.90 - (0.65 * 0.85) // Calculated using heat - (entropy * reactivity)
+    },
+    // Additional metadata
+    history: 'Grilling is among humanity\'s oldest cooking methods, dating back to the discovery of fire around 1.8 million years ago. Every culture has developed variation of cooking over direct flame, from the South American asado to the Japanese yakitori, making it a universally significant culinary technique.',
+    scientificPrinciples: [
+        'Radiant heat transfer directly from flame/coals to food',
+        'Maillard reaction creates hundreds of flavor compounds at 300°F-500°F',
+        'Caramelization of sugars at high temperatures',
+        'Smoke particles adhere to food surface adding flavor compounds',
+        'Fat dripping causes flare-ups that add char and smoky notes',
+        'Direct heat creates temperature gradient from exterior to interior'
+    ],
+    modernVariations: [
+        'Precision temperature control with digital grills',
+        'Sous vide finishing on grill',
+        'Smoke infusion techniques',
+        'Plancha or flat-top grilling',
+        'Rotisserie grilling for even cooking'
+    ],
+    sustainabilityRating: 0.55,
+    equipmentComplexity: 0.50,
+    healthConsiderations: [
+        'Fat rendering reduces overall fat content',
+        'High heat may create potentially carcinogenic compounds',
+        'Minimal added fat required for cooking',
+        'Smoke compounds may have both positive and negative health effects',
+        'Char can be minimized through proper technique'
+    ]
+};
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJmaWxlIjoiL1VzZXJzL0dyZWdDYXN0cm8vRGVza3RvcC9XaGF0VG9FYXROZXh0L3NyYy9kYXRhL2Nvb2tpbmcvbWV0aG9kcy9kcnkvZ3JpbGxpbmcudHMiLCJtYXBwaW5ncyI6Ijs7O0FBT0E7Ozs7R0FJRztBQUNVLFFBQUEsUUFBUSxHQUFzQjtJQUN6QyxJQUFJLEVBQUUsVUFBVTtJQUNoQixXQUFXLEVBQUUseUhBQXlIO0lBQ3RJLGVBQWUsRUFBRTtRQUNmLElBQUksRUFBRSxHQUFHO1FBQ1QsR0FBRyxFQUFFLEdBQUc7UUFDUixLQUFLLEVBQUUsR0FBRztRQUNWLEtBQUssRUFBRSxHQUFHO0tBQ1g7SUFDRCxRQUFRLEVBQUU7UUFDUixHQUFHLEVBQUUsQ0FBQztRQUNOLEdBQUcsRUFBRSxFQUFFO0tBQ1I7SUFDRCxZQUFZLEVBQUUsQ0FBQyxPQUFPLEVBQUUsU0FBUyxFQUFFLFNBQVMsRUFBRSxZQUFZLEVBQUUsT0FBTyxFQUFFLE9BQU8sRUFBRSxPQUFPLEVBQUUsUUFBUSxDQUFDO0lBQ2hHLFFBQVEsRUFBRSxDQUFDLHNCQUFzQixFQUFFLDhCQUE4QixFQUFFLGFBQWEsRUFBRSxlQUFlLEVBQUUsc0JBQXNCLEVBQUUsZ0JBQWdCLENBQUM7SUFDNUksc0JBQXNCLEVBQUU7UUFDdEIsZUFBZSxFQUFFLENBQUMsT0FBTyxFQUFFLEtBQUssRUFBRSxhQUFhLENBQWlCO1FBQ2hFLGlCQUFpQixFQUFFLENBQUMsUUFBUSxFQUFFLFNBQVMsRUFBRSxRQUFRLENBQWlCO1FBQ2xFLGVBQWUsRUFBRSxDQUFDLE1BQU0sRUFBRSxLQUFLLEVBQUUsU0FBUyxDQUFDO1FBQzNDLGdCQUFnQixFQUFFO1lBQ2hCLFdBQVcsRUFBRSxHQUFHO1lBQ2hCLFVBQVUsRUFBRSxHQUFHO1lBQ2YsZ0JBQWdCLEVBQUUsR0FBRztZQUNyQixpQkFBaUIsRUFBRSxHQUFHLENBQUMsMEJBQTBCO1NBQ2xEO0tBQ0Y7SUFDRCxhQUFhLEVBQUU7UUFDYixzQ0FBc0M7UUFDdEMsK0JBQStCO1FBQy9CLGFBQWE7UUFDYixrQkFBa0I7UUFDbEIsZUFBZTtLQUNoQjtJQUNELGNBQWMsRUFBRTtRQUNkLGVBQWU7UUFDZixtQkFBbUI7UUFDbkIsdUJBQXVCO1FBQ3ZCLGtDQUFrQztRQUNsQyx5QkFBeUI7UUFDekIsWUFBWTtLQUNiO0lBQ0Qsa0JBQWtCLEVBQUU7UUFDbEIsY0FBYztRQUNkLCtCQUErQjtRQUMvQixtQkFBbUI7UUFDbkIsMEJBQTBCO1FBQzFCLDZCQUE2QjtLQUM5QjtJQUNELGlCQUFpQixFQUFFO1FBQ2pCLFFBQVEsRUFBRSxJQUFJO1FBQ2QsUUFBUSxFQUFFLElBQUk7UUFDZCxRQUFRLEVBQUUsSUFBSTtRQUNkLElBQUksRUFBRSxJQUFJLENBQUUsNkJBQTZCO0tBQzFDO0lBQ0QsbUJBQW1CLEVBQUU7UUFDbkIsT0FBTyxFQUFFLEdBQUc7UUFDWixTQUFTLEVBQUUsR0FBRztRQUNkLE1BQU0sRUFBRSxHQUFHO1FBQ1gsWUFBWSxFQUFFLEdBQUc7UUFDakIsT0FBTyxFQUFFLEdBQUc7S0FDYjtJQUNELGtCQUFrQixFQUFFO1FBQ2xCLFNBQVMsRUFBRSxDQUFDLE9BQU8sRUFBRSxvQkFBb0IsQ0FBQztRQUMxQyxNQUFNLEVBQUUsQ0FBQyxTQUFTLEVBQUUsT0FBTyxDQUFDO1FBQzVCLFFBQVEsRUFBRSxDQUFDLFVBQVUsRUFBRSxtQkFBbUIsQ0FBQztRQUMzQyxRQUFRLEVBQUUsQ0FBQyxVQUFVLEVBQUUsWUFBWSxDQUFDO1FBQ3BDLGNBQWMsRUFBRSxDQUFDLE9BQU8sRUFBRSxRQUFRLENBQUM7S0FDcEM7SUFDRCxlQUFlLEVBQUU7UUFDZixtQkFBbUIsRUFBRSxJQUFJO1FBQ3pCLGdCQUFnQixFQUFFLElBQUk7UUFDdEIsZUFBZSxFQUFFLElBQUk7UUFDckIseUJBQXlCLEVBQUUsSUFBSTtRQUMvQixzQkFBc0IsRUFBRSxJQUFJO0tBQzdCO0lBQ0QsY0FBYyxFQUFFO1FBQ2Qsd0JBQXdCO1FBQ3hCLDZCQUE2QjtRQUM3QixpQkFBaUI7UUFDakIsMkJBQTJCO1FBQzNCLDBCQUEwQjtLQUMzQjtJQUNELHVCQUF1QixFQUFFO1FBQ3ZCLElBQUksRUFBRSxJQUFJO1FBQ1YsT0FBTyxFQUFFLElBQUk7UUFDYixVQUFVLEVBQUUsSUFBSTtRQUNoQixXQUFXLEVBQUUsSUFBSSxHQUFHLENBQUMsSUFBSSxHQUFHLElBQUksQ0FBQyxDQUFNLGlEQUFpRDtLQUM5RDtJQUU1QixzQkFBc0I7SUFDdEIsT0FBTyxFQUFFLDhTQUE4UztJQUV2VCxvQkFBb0IsRUFBRTtRQUNwQix5REFBeUQ7UUFDekQsdUVBQXVFO1FBQ3ZFLCtDQUErQztRQUMvQyxnRUFBZ0U7UUFDaEUsNkRBQTZEO1FBQzdELG9FQUFvRTtLQUNyRTtJQUVELGdCQUFnQixFQUFFO1FBQ2hCLG1EQUFtRDtRQUNuRCw4QkFBOEI7UUFDOUIsMkJBQTJCO1FBQzNCLDhCQUE4QjtRQUM5QixzQ0FBc0M7S0FDdkM7SUFFRCxvQkFBb0IsRUFBRSxJQUFJO0lBRTFCLG1CQUFtQixFQUFFLElBQUk7SUFFekIsb0JBQW9CLEVBQUU7UUFDcEIsMkNBQTJDO1FBQzNDLHlEQUF5RDtRQUN6RCx3Q0FBd0M7UUFDeEMsb0VBQW9FO1FBQ3BFLGdEQUFnRDtLQUNqRDtDQUNGLENBQUMiLCJuYW1lcyI6W10sInNvdXJjZXMiOlsiL1VzZXJzL0dyZWdDYXN0cm8vRGVza3RvcC9XaGF0VG9FYXROZXh0L3NyYy9kYXRhL2Nvb2tpbmcvbWV0aG9kcy9kcnkvZ3JpbGxpbmcudHMiXSwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHR5cGUgeyBcbiAgWm9kaWFjU2lnbiwgXG4gIFRoZXJtb2R5bmFtaWNQcm9wZXJ0aWVzXG59IGZyb20gJ0AvdHlwZXMvYWxjaGVteSc7XG5cbmltcG9ydCB0eXBlIHsgQ29va2luZ01ldGhvZERhdGEgfSBmcm9tICdAL3R5cGVzL2Nvb2tpbmdNZXRob2QnO1xuXG4vKipcbiAqIEdyaWxsaW5nIGNvb2tpbmcgbWV0aG9kXG4gKiBcbiAqIENvb2tpbmcgZm9vZCBkaXJlY3RseSBvdmVyIGxpdmUgaGVhdCwgdHlwaWNhbGx5IG9wZW4gZmxhbWUgb3IgaG90IGNvYWxzXG4gKi9cbmV4cG9ydCBjb25zdCBncmlsbGluZzogQ29va2luZ01ldGhvZERhdGEgPSB7XG4gIG5hbWU6ICdncmlsbGluZycsXG4gIGRlc2NyaXB0aW9uOiAnQ29va2luZyBmb29kIGRpcmVjdGx5IG92ZXIgaGVhdCwgdHlwaWNhbGx5IGFuIG9wZW4gZmxhbWUgb3IgaG90IGNvYWxzLCBjcmVhdGluZyBkaXN0aW5jdGl2ZSBjaGFyIG1hcmtzIGFuZCBzbW9reSBmbGF2b3InLFxuICBlbGVtZW50YWxFZmZlY3Q6IHtcbiAgICBGaXJlOiAwLjcsXG4gICAgQWlyOiAwLjIsXG4gICAgRWFydGg6IDAuMSxcbiAgICBXYXRlcjogMC4wXG4gIH0sXG4gIGR1cmF0aW9uOiB7XG4gICAgbWluOiAyLFxuICAgIG1heDogMzBcbiAgfSxcbiAgc3VpdGFibGVfZm9yOiBbJ21lYXRzJywgJ3BvdWx0cnknLCAnc2VhZm9vZCcsICd2ZWdldGFibGVzJywgJ2ZydWl0JywgJ2JyZWFkJywgJ3BpenphJywgJ2tlYmFicyddLFxuICBiZW5lZml0czogWydpbXBhcnRzIHNtb2t5IGZsYXZvcicsICdjcmVhdGVzIGFwcGVhbGluZyBjaGFyIG1hcmtzJywgJ3JlbmRlcnMgZmF0JywgJ3F1aWNrIGNvb2tpbmcnLCAnY2FyYW1lbGl6ZXMgZXh0ZXJpb3InLCAnZGV2ZWxvcHMgdW1hbWknXSxcbiAgYXN0cm9sb2dpY2FsSW5mbHVlbmNlczoge1xuICAgIGZhdm9yYWJsZVpvZGlhYzogWydhcmllcycsICdsZW8nLCAnc2FnaXR0YXJpdXMnXSBhcyBab2RpYWNTaWduW10sXG4gICAgdW5mYXZvcmFibGVab2RpYWM6IFsnY2FuY2VyJywgJ3Njb3JwaW8nLCAncGlzY2VzJ10gYXMgWm9kaWFjU2lnbltdLFxuICAgIGRvbWluYW50UGxhbmV0czogWydNYXJzJywgJ1N1bicsICdKdXBpdGVyJ10sXG4gICAgbHVuYXJQaGFzZUVmZmVjdDoge1xuICAgICAgJ2Z1bGxfbW9vbic6IDEuMiwgLy8gRW5oYW5jZWQgZmxhbWUgaW50ZW5zaXR5XG4gICAgICAnbmV3X21vb24nOiAwLjgsICAvLyBSZWR1Y2VkIGZsYXZvciBkZXZlbG9wbWVudFxuICAgICAgJ3dheGluZ19naWJib3VzJzogMS4xLCAvLyBHb29kIGJhbGFuY2VcbiAgICAgICd3YW5pbmdfY3Jlc2NlbnQnOiAwLjkgLy8gU2xpZ2h0bHkgcmVkdWNlZCBlZmZlY3RcbiAgICB9XG4gIH0sXG4gIHRvb2xzUmVxdWlyZWQ6IFtcbiAgICAnR3JpbGwgKGdhcywgY2hhcmNvYWwsIG9yIHdvb2QtZmlyZWQpJyxcbiAgICAnTG9uZy1oYW5kbGVkIHRvbmdzIG9yIHNwYXR1bGEnLFxuICAgICdHcmlsbCBicnVzaCcsXG4gICAgJ01lYXQgdGhlcm1vbWV0ZXInLFxuICAgICdCYXN0aW5nIGJydXNoJ1xuICBdLFxuICBjb21tb25NaXN0YWtlczogW1xuICAgICd0b28gaGlnaCBoZWF0JyxcbiAgICAnY29uc3RhbnQgZmxpcHBpbmcnLFxuICAgICdwcmVzc2luZyBkb3duIG9uIGZvb2QnLFxuICAgICdpbXByb3BlciBncmlsbCB0ZW1wZXJhdHVyZSB6b25lcycsXG4gICAgJ25vdCBwcmVoZWF0aW5nIHByb3Blcmx5JyxcbiAgICAnbGlkIG1pc3VzZSdcbiAgXSxcbiAgcGFpcmluZ1N1Z2dlc3Rpb25zOiBbXG4gICAgJ1Ntb2t5IHNhbHNhcycsXG4gICAgJ0hlcmItaW5mdXNlZCBjb21wb3VuZCBidXR0ZXJzJyxcbiAgICAnQ2hpbWljaHVycmkgc2F1Y2UnLFxuICAgICdCcmlnaHQgYWNpZGljIGNvbXBvbmVudHMnLFxuICAgICdHcmlsbGVkIGJyZWFkIG9yIHZlZ2V0YWJsZXMnXG4gIF0sXG4gIG51dHJpZW50UmV0ZW50aW9uOiB7XG4gICAgcHJvdGVpbnM6IDAuODUsXG4gICAgdml0YW1pbnM6IDAuNzAsIFxuICAgIG1pbmVyYWxzOiAwLjkwLFxuICAgIGZhdHM6IDAuNjAgIC8vIFNvbWUgbG9zdCB0aHJvdWdoIGRyaXBwaW5nXG4gIH0sXG4gIG9wdGltYWxUZW1wZXJhdHVyZXM6IHtcbiAgICAnc3RlYWsnOiA0NTAsXG4gICAgJ2NoaWNrZW4nOiAzNzUsXG4gICAgJ2Zpc2gnOiA0MDAsXG4gICAgJ3ZlZ2V0YWJsZXMnOiA0MjUsXG4gICAgJ2ZydWl0JzogMzUwXG4gIH0sXG4gIHJlZ2lvbmFsVmFyaWF0aW9uczoge1xuICAgIGFyZ2VudGluZTogWydhc2FkbycsICdwYXJyaWxsYSB0ZWNobmlxdWUnXSxcbiAgICBrb3JlYW46IFsnYnVsZ29naScsICdnYWxiaSddLFxuICAgIGFtZXJpY2FuOiBbJ2JhcmJlY3VlJywgJ1NhbnRhIE1hcmlhLXN0eWxlJ10sXG4gICAgamFwYW5lc2U6IFsneWFraXRvcmknLCAncm9iYXRheWFraSddLFxuICAgIG1pZGRsZV9lYXN0ZXJuOiBbJ2tlYmFiJywgJ21lc2h3aSddXG4gIH0sXG4gIGNoZW1pY2FsQ2hhbmdlczoge1xuICAgICdtYWlsbGFyZF9yZWFjdGlvbic6IHRydWUsXG4gICAgJ2NhcmFtZWxpemF0aW9uJzogdHJ1ZSwgXG4gICAgJ2ZhdF9yZW5kZXJpbmcnOiB0cnVlLFxuICAgICdzbW9rZV9wYXJ0aWNsZV9hZGhlc2lvbic6IHRydWUsXG4gICAgJ3Byb3RlaW5fZGVuYXR1cmF0aW9uJzogdHJ1ZVxuICB9LFxuICBzYWZldHlGZWF0dXJlczogW1xuICAgICdQcm9wZXIgZmlyZSBtYW5hZ2VtZW50JyxcbiAgICAnRm9vZCB0ZW1wZXJhdHVyZSBtb25pdG9yaW5nJyxcbiAgICAnUHJvcGVyIHRvb2wgdXNlJyxcbiAgICAnQXZvaWQgY3Jvc3MtY29udGFtaW5hdGlvbicsXG4gICAgJ0ZpcmUgZXh0aW5ndWlzaGVyIG5lYXJieSdcbiAgXSxcbiAgdGhlcm1vZHluYW1pY1Byb3BlcnRpZXM6IHtcbiAgICBoZWF0OiAwLjkwLCAgICAgICAvLyBWZXJ5IGhpZ2ggZGlyZWN0IGhlYXRcbiAgICBlbnRyb3B5OiAwLjY1LCAgICAvLyBTaWduaWZpY2FudCBzdHJ1Y3R1cmFsIHRyYW5zZm9ybWF0aW9uXG4gICAgcmVhY3Rpdml0eTogMC44NSwgLy8gSGlnaCBjaGVtaWNhbCByZWFjdGl2aXR5IChNYWlsbGFyZCwgY2FyYm9uaXphdGlvbilcbiAgICBncmVnc0VuZXJneTogMC45MCAtICgwLjY1ICogMC44NSkgICAgICAvLyBDYWxjdWxhdGVkIHVzaW5nIGhlYXQgLSAoZW50cm9weSAqIHJlYWN0aXZpdHkpXG4gIH0gYXMgVGhlcm1vZHluYW1pY1Byb3BlcnRpZXMsXG4gIFxuICAvLyBBZGRpdGlvbmFsIG1ldGFkYXRhXG4gIGhpc3Rvcnk6ICdHcmlsbGluZyBpcyBhbW9uZyBodW1hbml0eVxcJ3Mgb2xkZXN0IGNvb2tpbmcgbWV0aG9kcywgZGF0aW5nIGJhY2sgdG8gdGhlIGRpc2NvdmVyeSBvZiBmaXJlIGFyb3VuZCAxLjggbWlsbGlvbiB5ZWFycyBhZ28uIEV2ZXJ5IGN1bHR1cmUgaGFzIGRldmVsb3BlZCB2YXJpYXRpb24gb2YgY29va2luZyBvdmVyIGRpcmVjdCBmbGFtZSwgZnJvbSB0aGUgU291dGggQW1lcmljYW4gYXNhZG8gdG8gdGhlIEphcGFuZXNlIHlha2l0b3JpLCBtYWtpbmcgaXQgYSB1bml2ZXJzYWxseSBzaWduaWZpY2FudCBjdWxpbmFyeSB0ZWNobmlxdWUuJyxcbiAgXG4gIHNjaWVudGlmaWNQcmluY2lwbGVzOiBbXG4gICAgJ1JhZGlhbnQgaGVhdCB0cmFuc2ZlciBkaXJlY3RseSBmcm9tIGZsYW1lL2NvYWxzIHRvIGZvb2QnLFxuICAgICdNYWlsbGFyZCByZWFjdGlvbiBjcmVhdGVzIGh1bmRyZWRzIG9mIGZsYXZvciBjb21wb3VuZHMgYXQgMzAwwrBGLTUwMMKwRicsXG4gICAgJ0NhcmFtZWxpemF0aW9uIG9mIHN1Z2FycyBhdCBoaWdoIHRlbXBlcmF0dXJlcycsXG4gICAgJ1Ntb2tlIHBhcnRpY2xlcyBhZGhlcmUgdG8gZm9vZCBzdXJmYWNlIGFkZGluZyBmbGF2b3IgY29tcG91bmRzJyxcbiAgICAnRmF0IGRyaXBwaW5nIGNhdXNlcyBmbGFyZS11cHMgdGhhdCBhZGQgY2hhciBhbmQgc21va3kgbm90ZXMnLFxuICAgICdEaXJlY3QgaGVhdCBjcmVhdGVzIHRlbXBlcmF0dXJlIGdyYWRpZW50IGZyb20gZXh0ZXJpb3IgdG8gaW50ZXJpb3InXG4gIF0sXG4gIFxuICBtb2Rlcm5WYXJpYXRpb25zOiBbXG4gICAgJ1ByZWNpc2lvbiB0ZW1wZXJhdHVyZSBjb250cm9sIHdpdGggZGlnaXRhbCBncmlsbHMnLFxuICAgICdTb3VzIHZpZGUgZmluaXNoaW5nIG9uIGdyaWxsJyxcbiAgICAnU21va2UgaW5mdXNpb24gdGVjaG5pcXVlcycsXG4gICAgJ1BsYW5jaGEgb3IgZmxhdC10b3AgZ3JpbGxpbmcnLFxuICAgICdSb3Rpc3NlcmllIGdyaWxsaW5nIGZvciBldmVuIGNvb2tpbmcnXG4gIF0sXG4gIFxuICBzdXN0YWluYWJpbGl0eVJhdGluZzogMC41NSwgLy8gVmFyaWVzIHdpZGVseSBiYXNlZCBvbiBmdWVsIHNvdXJjZSAoY2hhcmNvYWwgdnMuIGdhcyB2cy4gZWxlY3RyaWMpXG4gIFxuICBlcXVpcG1lbnRDb21wbGV4aXR5OiAwLjUwLCAvLyBSZWxhdGl2ZWx5IHNpbXBsZSBidXQgcmVxdWlyZXMgdGVjaG5pcXVlIGFuZCBhdHRlbnRpb25cbiAgXG4gIGhlYWx0aENvbnNpZGVyYXRpb25zOiBbXG4gICAgJ0ZhdCByZW5kZXJpbmcgcmVkdWNlcyBvdmVyYWxsIGZhdCBjb250ZW50JyxcbiAgICAnSGlnaCBoZWF0IG1heSBjcmVhdGUgcG90ZW50aWFsbHkgY2FyY2lub2dlbmljIGNvbXBvdW5kcycsXG4gICAgJ01pbmltYWwgYWRkZWQgZmF0IHJlcXVpcmVkIGZvciBjb29raW5nJyxcbiAgICAnU21va2UgY29tcG91bmRzIG1heSBoYXZlIGJvdGggcG9zaXRpdmUgYW5kIG5lZ2F0aXZlIGhlYWx0aCBlZmZlY3RzJyxcbiAgICAnQ2hhciBjYW4gYmUgbWluaW1pemVkIHRocm91Z2ggcHJvcGVyIHRlY2huaXF1ZSdcbiAgXVxufTsgIl0sInZlcnNpb24iOjN9

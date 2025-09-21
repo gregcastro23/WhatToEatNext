@@ -1,0 +1,15 @@
+{
+  "mcpServers": {
+    "local-api-tester": {
+      "command": "uvx",
+      "args": ["mcp-server-fetch@latest"],
+      "env": {
+        "FASTMCP_LOG_LEVEL": "ERROR"
+      },
+      "disabled": false,
+      "autoApprove": [
+        "fetch"
+      ]
+    }
+  }
+}

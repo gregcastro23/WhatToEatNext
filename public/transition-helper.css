@@ -1,0 +1,74 @@
+/**
+ * transition-helper.css
+ * Utility classes to ensure proper transitions for expand/collapse elements
+ */
+
+/* Essential expand/collapse transition classes */
+.expandable,
+.collapsible,
+.toggle-content {
+  transition:
+    max-height 0.3s ease-in-out,
+    opacity 0.3s ease-in-out,
+    transform 0.3s ease;
+  overflow: hidden;
+}
+
+/* Expanded state */
+.expanded .toggle-content,
+.expanded.expandable,
+.expanded.collapsible,
+.expanded > .expandable,
+.expanded > .collapsible,
+.expanded > .toggle-content {
+  max-height: 2000px; /* Large enough to fit most content */
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Collapsed state */
+.collapsed .toggle-content,
+.collapsed.expandable,
+.collapsed.collapsible,
+:not(.expanded) > .expandable,
+:not(.expanded) > .collapsible,
+:not(.expanded) > .toggle-content {
+  max-height: 0;
+  opacity: 0;
+  transform: translateY(-10px);
+  overflow: hidden;
+}
+
+/* Ensure chevron transitions rotate properly */
+.chevron-down,
+.chevron-up,
+[class*='chevron'] {
+  transition: transform 0.3s ease;
+}
+
+.expanded .chevron-down,
+.expanded .chevron-up,
+.expanded [class*='chevron'] {
+  transform: rotate(180deg);
+}
+
+/* Make hoverable elements obviously clickable */
+[role='button'],
+.expandable-header,
+.card-header,
+.toggle-header,
+[class*='toggle'],
+[class*='expand-trigger'] {
+  cursor: pointer;
+}
+
+/* Fix for Safari overflow issues */
+.safari-fix {
+  -webkit-transform: translateZ(0);
+  -webkit-backface-visibility: hidden;
+}
+
+/* Helper for debugging */
+.debug-outline {
+  outline: 1px solid red;
+}

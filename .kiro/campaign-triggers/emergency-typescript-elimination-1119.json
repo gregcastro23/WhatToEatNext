@@ -1,0 +1,76 @@
+{
+  "type": "emergency-typescript-error-elimination",
+  "priority": "critical",
+  "timestamp": "2025-01-27T20:30:00Z",
+  "errorCount": 1119,
+  "errorIncrease": 348,
+  "baselineErrors": 771,
+  "criticalThreshold": 100,
+  "exceedsThresholdBy": 1019,
+  "errorBreakdown": {
+    "TS2345": 363,
+    "TS2322": 193,
+    "TS18048": 143,
+    "TS2339": 119,
+    "TS18046": 65,
+    "TS2352": 47,
+    "TS18047": 19,
+    "TS2783": 18,
+    "TS2769": 18,
+    "TS2411": 14
+  },
+  "campaignConfig": {
+    "safetyLevel": "MAXIMUM",
+    "batchSize": 10,
+    "validationFrequency": 5,
+    "buildValidationRequired": true,
+    "automaticRollbackEnabled": true,
+    "stashRetentionDays": 7,
+    "maxFilesPerBatch": 10,
+    "requireManualApproval": true
+  },
+  "targetReduction": {
+    "phase1Target": 800,
+    "phase2Target": 400,
+    "finalTarget": 100,
+    "estimatedReductionRate": "200-300 errors per phase"
+  },
+  "safetyProtocols": [
+    "git-stash-before-each-phase",
+    "build-validation-every-5-files",
+    "corruption-detection-enabled",
+    "automatic-rollback-on-failure",
+    "manual-approval-required",
+    "comprehensive-progress-tracking"
+  ],
+  "recommendedTools": [
+    {
+      "tool": "EnhancedErrorFixerIntegration",
+      "priority": "high",
+      "successRate": "92%",
+      "targetErrors": ["TS2352", "TS2304", "TS2339"]
+    },
+    {
+      "tool": "TypeSafetyValidator",
+      "priority": "high",
+      "successRate": "88%",
+      "targetErrors": ["TS2345", "TS2322"]
+    },
+    {
+      "tool": "NullSafetyEnforcer",
+      "priority": "medium",
+      "successRate": "90%",
+      "targetErrors": ["TS18048", "TS18046", "TS18047"]
+    }
+  ],
+  "estimatedDuration": "3-4 phases over 2-3 days",
+  "riskAssessment": "HIGH - Large error count requires careful batch processing",
+  "approvalRequired": true,
+  "triggerReason": "Error count (1,119) exceeds critical threshold (100) by 1,019 errors",
+  "filePath": "/Users/GregCastro/Desktop/WhatToEatNext/.kiro/campaign-triggers/emergency-typescript-elimination-1119.json",
+  "fileName": "emergency-typescript-elimination-1119.json",
+  "lastMetrics": {
+    "timestamp": "2025-07-31T21:16:51.518Z"
+  },
+  "lastUpdated": "2025-07-31T21:16:51.520Z"
+}

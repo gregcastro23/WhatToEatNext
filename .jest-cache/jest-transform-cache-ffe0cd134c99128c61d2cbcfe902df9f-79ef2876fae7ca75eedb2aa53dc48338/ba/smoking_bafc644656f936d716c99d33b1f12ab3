@@ -1,0 +1,82 @@
+f5d24b89fed05f80445b57b096b26632
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.smoking = void 0;
+/**
+ * Smoking: A preservation and flavoring technique that exposes food to smoke
+ * from burning or smoldering material (usually wood)
+ */
+exports.smoking = {
+    name: 'Smoking',
+    description: 'A cooking and preservation method that exposes food to smoke from burning wood, herbs, or other materials, imparting flavor and helping preserve the food.',
+    history: 'Smoking has been used for thousands of years across many cultures as a way to preserve and flavor food, particularly meats and fish. It was an essential preservation technique before refrigeration.',
+    science: 'Smoking preserves food through a combination of dehydration, low heat cooking, and the deposition of antimicrobial compounds found in the smoke. These compounds include phenols and aldehydes that inhibit bacterial growth while adding flavor.',
+    elementalEffect: {
+        Fire: 0.6,
+        Water: 0.2,
+        Earth: 0.3,
+        Air: 0.8
+    },
+    alchemical_properties: {
+        element: 'Air',
+        planetary_influence: 'Mars',
+        effect_on_ingredients: 'Increases Spirit and Matter, transforms Substance into Essence'
+    },
+    benefits: [
+        'Adds complex smoky flavor',
+        'Preserves food naturally',
+        'Creates unique texture',
+        'Enhances protein structure',
+        'Provides antimicrobial properties'
+    ],
+    suitable_for: [
+        'Meats',
+        'Fish',
+        'Cheese',
+        'Vegetables',
+        'Salt',
+        'Spices'
+    ],
+    modernVariations: [
+        'Hot smoking (higher temperatures, cooks and flavors)',
+        'Cold smoking (lower temperatures, primarily for flavor and preservation)',
+        'Liquid smoke (concentrated smoke flavor for adding to dishes)'
+    ],
+    duration: {
+        min: 30,
+        max: 1440 // 24 hours
+    },
+    temperature_range: {
+        cold_smoking: {
+            min: 20,
+            max: 30 // °C
+        },
+        hot_smoking: {
+            min: 65,
+            max: 120 // °C
+        }
+    },
+    toolsRequired: [
+        'Smoker',
+        'Wood chips or pellets',
+        'Thermometer',
+        'Rack'
+    ],
+    famous_dishes: [
+        'Smoked salmon',
+        'Bacon',
+        'Texas brisket',
+        'Smoked cheese',
+        'Pastrami'
+    ],
+    health_benefits: [
+        'Can add flavor without additional fat',
+        'Helps preserve food without artificial preservatives'
+    ],
+    health_considerations: [
+        'Smoked foods may contain polycyclic aromatic hydrocarbons (PAHs)',
+        'High consumption of smoked foods has been linked to increased cancer risk',
+        'Often high in sodium'
+    ]
+};
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJmaWxlIjoiL1VzZXJzL0dyZWdDYXN0cm8vRGVza3RvcC9XaGF0VG9FYXROZXh0L3NyYy9kYXRhL2Nvb2tpbmcvbWV0aG9kcy90cmFuc2Zvcm1hdGlvbi9zbW9raW5nLnRzIiwibWFwcGluZ3MiOiI7OztBQUVBOzs7R0FHRztBQUNVLFFBQUEsT0FBTyxHQUFHO0lBQ3JCLElBQUksRUFBRSxTQUFTO0lBQ2YsV0FBVyxFQUFFLDRKQUE0SjtJQUN6SyxPQUFPLEVBQUUsdU1BQXVNO0lBQ2hOLE9BQU8sRUFBRSxtUEFBbVA7SUFDNVAsZUFBZSxFQUFFO1FBQ2YsSUFBSSxFQUFFLEdBQUc7UUFDVCxLQUFLLEVBQUUsR0FBRztRQUNWLEtBQUssRUFBRSxHQUFHO1FBQ1YsR0FBRyxFQUFFLEdBQUc7S0FDVDtJQUNELHFCQUFxQixFQUFFO1FBQ3JCLE9BQU8sRUFBRSxLQUFLO1FBQ2QsbUJBQW1CLEVBQUUsTUFBTTtRQUMzQixxQkFBcUIsRUFBRSxnRUFBZ0U7S0FDeEY7SUFDRCxRQUFRLEVBQUU7UUFDUiwyQkFBMkI7UUFDM0IsMEJBQTBCO1FBQzFCLHdCQUF3QjtRQUN4Qiw0QkFBNEI7UUFDNUIsbUNBQW1DO0tBQ3BDO0lBQ0QsWUFBWSxFQUFFO1FBQ1osT0FBTztRQUNQLE1BQU07UUFDTixRQUFRO1FBQ1IsWUFBWTtRQUNaLE1BQU07UUFDTixRQUFRO0tBQ1Q7SUFDRCxnQkFBZ0IsRUFBRTtRQUNoQixzREFBc0Q7UUFDdEQsMEVBQTBFO1FBQzFFLCtEQUErRDtLQUNoRTtJQUNELFFBQVEsRUFBRTtRQUNSLEdBQUcsRUFBRSxFQUFFO1FBQ1AsR0FBRyxFQUFFLElBQUksQ0FBQyxXQUFXO0tBQ3RCO0lBQ0QsaUJBQWlCLEVBQUU7UUFDakIsWUFBWSxFQUFFO1lBQ1osR0FBRyxFQUFFLEVBQUU7WUFDUCxHQUFHLEVBQUUsRUFBRSxDQUFFLEtBQUs7U0FDZjtRQUNELFdBQVcsRUFBRTtZQUNYLEdBQUcsRUFBRSxFQUFFO1lBQ1AsR0FBRyxFQUFFLEdBQUcsQ0FBQyxLQUFLO1NBQ2Y7S0FDRjtJQUNELGFBQWEsRUFBRTtRQUNiLFFBQVE7UUFDUix1QkFBdUI7UUFDdkIsYUFBYTtRQUNiLE1BQU07S0FDUDtJQUNELGFBQWEsRUFBRTtRQUNiLGVBQWU7UUFDZixPQUFPO1FBQ1AsZUFBZTtRQUNmLGVBQWU7UUFDZixVQUFVO0tBQ1g7SUFDRCxlQUFlLEVBQUU7UUFDZix1Q0FBdUM7UUFDdkMsc0RBQXNEO0tBQ3ZEO0lBQ0QscUJBQXFCLEVBQUU7UUFDckIsa0VBQWtFO1FBQ2xFLDJFQUEyRTtRQUMzRSxzQkFBc0I7S0FDdkI7Q0FDOEIsQ0FBQyIsIm5hbWVzIjpbXSwic291cmNlcyI6WyIvVXNlcnMvR3JlZ0Nhc3Ryby9EZXNrdG9wL1doYXRUb0VhdE5leHQvc3JjL2RhdGEvY29va2luZy9tZXRob2RzL3RyYW5zZm9ybWF0aW9uL3Ntb2tpbmcudHMiXSwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0IHR5cGUgeyBDb29raW5nTWV0aG9kRGF0YSB9IGZyb20gJ0AvdHlwZXMvY29va2luZ01ldGhvZCc7XG5cbi8qKlxuICogU21va2luZzogQSBwcmVzZXJ2YXRpb24gYW5kIGZsYXZvcmluZyB0ZWNobmlxdWUgdGhhdCBleHBvc2VzIGZvb2QgdG8gc21va2VcbiAqIGZyb20gYnVybmluZyBvciBzbW9sZGVyaW5nIG1hdGVyaWFsICh1c3VhbGx5IHdvb2QpXG4gKi9cbmV4cG9ydCBjb25zdCBzbW9raW5nID0ge1xuICBuYW1lOiAnU21va2luZycsXG4gIGRlc2NyaXB0aW9uOiAnQSBjb29raW5nIGFuZCBwcmVzZXJ2YXRpb24gbWV0aG9kIHRoYXQgZXhwb3NlcyBmb29kIHRvIHNtb2tlIGZyb20gYnVybmluZyB3b29kLCBoZXJicywgb3Igb3RoZXIgbWF0ZXJpYWxzLCBpbXBhcnRpbmcgZmxhdm9yIGFuZCBoZWxwaW5nIHByZXNlcnZlIHRoZSBmb29kLicsXG4gIGhpc3Rvcnk6ICdTbW9raW5nIGhhcyBiZWVuIHVzZWQgZm9yIHRob3VzYW5kcyBvZiB5ZWFycyBhY3Jvc3MgbWFueSBjdWx0dXJlcyBhcyBhIHdheSB0byBwcmVzZXJ2ZSBhbmQgZmxhdm9yIGZvb2QsIHBhcnRpY3VsYXJseSBtZWF0cyBhbmQgZmlzaC4gSXQgd2FzIGFuIGVzc2VudGlhbCBwcmVzZXJ2YXRpb24gdGVjaG5pcXVlIGJlZm9yZSByZWZyaWdlcmF0aW9uLicsXG4gIHNjaWVuY2U6ICdTbW9raW5nIHByZXNlcnZlcyBmb29kIHRocm91Z2ggYSBjb21iaW5hdGlvbiBvZiBkZWh5ZHJhdGlvbiwgbG93IGhlYXQgY29va2luZywgYW5kIHRoZSBkZXBvc2l0aW9uIG9mIGFudGltaWNyb2JpYWwgY29tcG91bmRzIGZvdW5kIGluIHRoZSBzbW9rZS4gVGhlc2UgY29tcG91bmRzIGluY2x1ZGUgcGhlbm9scyBhbmQgYWxkZWh5ZGVzIHRoYXQgaW5oaWJpdCBiYWN0ZXJpYWwgZ3Jvd3RoIHdoaWxlIGFkZGluZyBmbGF2b3IuJyxcbiAgZWxlbWVudGFsRWZmZWN0OiB7XG4gICAgRmlyZTogMC42LFxuICAgIFdhdGVyOiAwLjIsXG4gICAgRWFydGg6IDAuMyxcbiAgICBBaXI6IDAuOFxuICB9LFxuICBhbGNoZW1pY2FsX3Byb3BlcnRpZXM6IHtcbiAgICBlbGVtZW50OiAnQWlyJyxcbiAgICBwbGFuZXRhcnlfaW5mbHVlbmNlOiAnTWFycycsXG4gICAgZWZmZWN0X29uX2luZ3JlZGllbnRzOiAnSW5jcmVhc2VzIFNwaXJpdCBhbmQgTWF0dGVyLCB0cmFuc2Zvcm1zIFN1YnN0YW5jZSBpbnRvIEVzc2VuY2UnXG4gIH0sXG4gIGJlbmVmaXRzOiBbXG4gICAgJ0FkZHMgY29tcGxleCBzbW9reSBmbGF2b3InLFxuICAgICdQcmVzZXJ2ZXMgZm9vZCBuYXR1cmFsbHknLFxuICAgICdDcmVhdGVzIHVuaXF1ZSB0ZXh0dXJlJyxcbiAgICAnRW5oYW5jZXMgcHJvdGVpbiBzdHJ1Y3R1cmUnLFxuICAgICdQcm92aWRlcyBhbnRpbWljcm9iaWFsIHByb3BlcnRpZXMnXG4gIF0sXG4gIHN1aXRhYmxlX2ZvcjogW1xuICAgICdNZWF0cycsXG4gICAgJ0Zpc2gnLFxuICAgICdDaGVlc2UnLFxuICAgICdWZWdldGFibGVzJyxcbiAgICAnU2FsdCcsXG4gICAgJ1NwaWNlcydcbiAgXSxcbiAgbW9kZXJuVmFyaWF0aW9uczogW1xuICAgICdIb3Qgc21va2luZyAoaGlnaGVyIHRlbXBlcmF0dXJlcywgY29va3MgYW5kIGZsYXZvcnMpJyxcbiAgICAnQ29sZCBzbW9raW5nIChsb3dlciB0ZW1wZXJhdHVyZXMsIHByaW1hcmlseSBmb3IgZmxhdm9yIGFuZCBwcmVzZXJ2YXRpb24pJyxcbiAgICAnTGlxdWlkIHNtb2tlIChjb25jZW50cmF0ZWQgc21va2UgZmxhdm9yIGZvciBhZGRpbmcgdG8gZGlzaGVzKSdcbiAgXSxcbiAgZHVyYXRpb246IHtcbiAgICBtaW46IDMwLCAvLyBtaW51dGVzXG4gICAgbWF4OiAxNDQwIC8vIDI0IGhvdXJzXG4gIH0sXG4gIHRlbXBlcmF0dXJlX3JhbmdlOiB7XG4gICAgY29sZF9zbW9raW5nOiB7XG4gICAgICBtaW46IDIwLCAvLyDCsENcbiAgICAgIG1heDogMzAgIC8vIMKwQ1xuICAgIH0sXG4gICAgaG90X3Ntb2tpbmc6IHtcbiAgICAgIG1pbjogNjUsIC8vIMKwQ1xuICAgICAgbWF4OiAxMjAgLy8gwrBDXG4gICAgfVxuICB9LFxuICB0b29sc1JlcXVpcmVkOiBbXG4gICAgJ1Ntb2tlcicsXG4gICAgJ1dvb2QgY2hpcHMgb3IgcGVsbGV0cycsXG4gICAgJ1RoZXJtb21ldGVyJyxcbiAgICAnUmFjaydcbiAgXSxcbiAgZmFtb3VzX2Rpc2hlczogW1xuICAgICdTbW9rZWQgc2FsbW9uJyxcbiAgICAnQmFjb24nLFxuICAgICdUZXhhcyBicmlza2V0JyxcbiAgICAnU21va2VkIGNoZWVzZScsXG4gICAgJ1Bhc3RyYW1pJ1xuICBdLFxuICBoZWFsdGhfYmVuZWZpdHM6IFtcbiAgICAnQ2FuIGFkZCBmbGF2b3Igd2l0aG91dCBhZGRpdGlvbmFsIGZhdCcsXG4gICAgJ0hlbHBzIHByZXNlcnZlIGZvb2Qgd2l0aG91dCBhcnRpZmljaWFsIHByZXNlcnZhdGl2ZXMnXG4gIF0sXG4gIGhlYWx0aF9jb25zaWRlcmF0aW9uczogW1xuICAgICdTbW9rZWQgZm9vZHMgbWF5IGNvbnRhaW4gcG9seWN5Y2xpYyBhcm9tYXRpYyBoeWRyb2NhcmJvbnMgKFBBSHMpJyxcbiAgICAnSGlnaCBjb25zdW1wdGlvbiBvZiBzbW9rZWQgZm9vZHMgaGFzIGJlZW4gbGlua2VkIHRvIGluY3JlYXNlZCBjYW5jZXIgcmlzaycsXG4gICAgJ09mdGVuIGhpZ2ggaW4gc29kaXVtJ1xuICBdXG59IGFzIHVua25vd24gYXMgQ29va2luZ01ldGhvZERhdGE7ICJdLCJ2ZXJzaW9uIjozfQ==

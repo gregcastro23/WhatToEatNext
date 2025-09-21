@@ -1,0 +1,66 @@
+93be732328813e667141e352f4753ccb
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.marinating = void 0;
+/**
+ * Marinating: A technique that soaks food in a flavorful liquid to enhance taste,
+ * tenderize, and sometimes partially preserve it
+ */
+exports.marinating = {
+    name: 'Marinating',
+    description: 'A technique that immerses food in a seasoned liquid mixture to enhance flavor, tenderize textures, and sometimes begin the preservation or cooking process.',
+    elementalEffect: {
+        Fire: 0.2,
+        Water: 0.7,
+        Earth: 0.3,
+        Air: 0.1
+    },
+    duration: {
+        min: 15,
+        max: 1440 // 24 hours
+    },
+    suitable_for: [
+        'Meats',
+        'Poultry',
+        'Fish',
+        'Seafood',
+        'Vegetables',
+        'Tofu',
+        'Fruits'
+    ],
+    benefits: [
+        'Can infuse foods with antioxidants from herbs and spices',
+        'Reduces formation of harmful compounds during high-heat cooking',
+        'Tenderizes tough cuts of meat without mechanical processing',
+        'Can reduce salt needed for flavoring'
+    ],
+    history: 'Marinating has been practiced for thousands of years, originally as a preservation method using acidic liquids like vinegar or citrus juice. The technique evolved across cultures, with each developing unique marinades reflecting local ingredients and tastes.',
+    modernVariations: [
+        'Acid-based marinades (with vinegar, citrus, wine)',
+        'Enzyme-based marinades (with pineapple, papaya, yogurt)',
+        'Oil-based marinades (with herbs and spices in oil)',
+        'Dry marinades/rubs (with salt and spices)',
+        'Brines (salt water solutions)',
+        'Ceviche (acid "cooking" of fish)'
+    ],
+    optimalTemperatures: {
+        refrigeration: 1,
+        storage: 4 // °C (safe refrigeration)
+    },
+    toolsRequired: [
+        'Non-reactive containers (glass, ceramic, plastic)',
+        'Resealable bags',
+        'Whisk',
+        'Measuring tools',
+        'Refrigerator',
+        'Plastic wrap',
+        'Timer'
+    ],
+    healthConsiderations: [
+        'Marinades that contain raw meat should not be reused without cooking',
+        'Acidic marinades can "cook" seafood if left too long',
+        'Some marinades contain high amounts of sodium, sugar, or fat',
+        'Proper refrigeration is essential for food safety'
+    ]
+};
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJmaWxlIjoiL1VzZXJzL0dyZWdDYXN0cm8vRGVza3RvcC9XaGF0VG9FYXROZXh0L3NyYy9kYXRhL2Nvb2tpbmcvbWV0aG9kcy90cmFuc2Zvcm1hdGlvbi9tYXJpbmF0aW5nLnRzIiwibWFwcGluZ3MiOiI7OztBQUdBOzs7R0FHRztBQUNVLFFBQUEsVUFBVSxHQUFzQjtJQUMzQyxJQUFJLEVBQUUsWUFBNkI7SUFDbkMsV0FBVyxFQUFFLDZKQUE2SjtJQUMxSyxlQUFlLEVBQUU7UUFDZixJQUFJLEVBQUUsR0FBRztRQUNULEtBQUssRUFBRSxHQUFHO1FBQ1YsS0FBSyxFQUFFLEdBQUc7UUFDVixHQUFHLEVBQUUsR0FBRztLQUNUO0lBQ0QsUUFBUSxFQUFFO1FBQ1IsR0FBRyxFQUFFLEVBQUU7UUFDUCxHQUFHLEVBQUUsSUFBSSxDQUFDLFdBQVc7S0FDdEI7SUFDRCxZQUFZLEVBQUU7UUFDWixPQUFPO1FBQ1AsU0FBUztRQUNULE1BQU07UUFDTixTQUFTO1FBQ1QsWUFBWTtRQUNaLE1BQU07UUFDTixRQUFRO0tBQ1Q7SUFDRCxRQUFRLEVBQUU7UUFDUiwwREFBMEQ7UUFDMUQsaUVBQWlFO1FBQ2pFLDZEQUE2RDtRQUM3RCxzQ0FBc0M7S0FDdkM7SUFDRCxPQUFPLEVBQUUsb1FBQW9RO0lBQzdRLGdCQUFnQixFQUFFO1FBQ2hCLG1EQUFtRDtRQUNuRCx5REFBeUQ7UUFDekQsb0RBQW9EO1FBQ3BELDJDQUEyQztRQUMzQywrQkFBK0I7UUFDL0Isa0NBQWtDO0tBQ25DO0lBQ0QsbUJBQW1CLEVBQUU7UUFDbkIsYUFBYSxFQUFFLENBQUM7UUFDaEIsT0FBTyxFQUFFLENBQUMsQ0FBQywwQkFBMEI7S0FDdEM7SUFDRCxhQUFhLEVBQUU7UUFDYixtREFBbUQ7UUFDbkQsaUJBQWlCO1FBQ2pCLE9BQU87UUFDUCxpQkFBaUI7UUFDakIsY0FBYztRQUNkLGNBQWM7UUFDZCxPQUFPO0tBQ1I7SUFDRCxvQkFBb0IsRUFBRTtRQUNwQixzRUFBc0U7UUFDdEUsc0RBQXNEO1FBQ3RELDhEQUE4RDtRQUM5RCxtREFBbUQ7S0FDcEQ7Q0FDRixDQUFDIiwibmFtZXMiOltdLCJzb3VyY2VzIjpbIi9Vc2Vycy9HcmVnQ2FzdHJvL0Rlc2t0b3AvV2hhdFRvRWF0TmV4dC9zcmMvZGF0YS9jb29raW5nL21ldGhvZHMvdHJhbnNmb3JtYXRpb24vbWFyaW5hdGluZy50cyJdLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgdHlwZSB7IENvb2tpbmdNZXRob2REYXRhIH0gZnJvbSAnQC90eXBlcy9jb29raW5nTWV0aG9kJztcbmltcG9ydCB0eXBlIHsgQ29va2luZ01ldGhvZCB9IGZyb20gJ0AvdHlwZXMvc2hhcmVkJztcblxuLyoqXG4gKiBNYXJpbmF0aW5nOiBBIHRlY2huaXF1ZSB0aGF0IHNvYWtzIGZvb2QgaW4gYSBmbGF2b3JmdWwgbGlxdWlkIHRvIGVuaGFuY2UgdGFzdGUsXG4gKiB0ZW5kZXJpemUsIGFuZCBzb21ldGltZXMgcGFydGlhbGx5IHByZXNlcnZlIGl0XG4gKi9cbmV4cG9ydCBjb25zdCBtYXJpbmF0aW5nOiBDb29raW5nTWV0aG9kRGF0YSA9IHtcbiAgbmFtZTogJ01hcmluYXRpbmcnIGFzIENvb2tpbmdNZXRob2QsXG4gIGRlc2NyaXB0aW9uOiAnQSB0ZWNobmlxdWUgdGhhdCBpbW1lcnNlcyBmb29kIGluIGEgc2Vhc29uZWQgbGlxdWlkIG1peHR1cmUgdG8gZW5oYW5jZSBmbGF2b3IsIHRlbmRlcml6ZSB0ZXh0dXJlcywgYW5kIHNvbWV0aW1lcyBiZWdpbiB0aGUgcHJlc2VydmF0aW9uIG9yIGNvb2tpbmcgcHJvY2Vzcy4nLFxuICBlbGVtZW50YWxFZmZlY3Q6IHtcbiAgICBGaXJlOiAwLjIsXG4gICAgV2F0ZXI6IDAuNyxcbiAgICBFYXJ0aDogMC4zLFxuICAgIEFpcjogMC4xXG4gIH0sXG4gIGR1cmF0aW9uOiB7XG4gICAgbWluOiAxNSwgLy8gMTUgbWludXRlc1xuICAgIG1heDogMTQ0MCAvLyAyNCBob3Vyc1xuICB9LFxuICBzdWl0YWJsZV9mb3I6IFtcbiAgICAnTWVhdHMnLFxuICAgICdQb3VsdHJ5JyxcbiAgICAnRmlzaCcsXG4gICAgJ1NlYWZvb2QnLFxuICAgICdWZWdldGFibGVzJyxcbiAgICAnVG9mdScsXG4gICAgJ0ZydWl0cydcbiAgXSxcbiAgYmVuZWZpdHM6IFtcbiAgICAnQ2FuIGluZnVzZSBmb29kcyB3aXRoIGFudGlveGlkYW50cyBmcm9tIGhlcmJzIGFuZCBzcGljZXMnLFxuICAgICdSZWR1Y2VzIGZvcm1hdGlvbiBvZiBoYXJtZnVsIGNvbXBvdW5kcyBkdXJpbmcgaGlnaC1oZWF0IGNvb2tpbmcnLFxuICAgICdUZW5kZXJpemVzIHRvdWdoIGN1dHMgb2YgbWVhdCB3aXRob3V0IG1lY2hhbmljYWwgcHJvY2Vzc2luZycsXG4gICAgJ0NhbiByZWR1Y2Ugc2FsdCBuZWVkZWQgZm9yIGZsYXZvcmluZydcbiAgXSxcbiAgaGlzdG9yeTogJ01hcmluYXRpbmcgaGFzIGJlZW4gcHJhY3RpY2VkIGZvciB0aG91c2FuZHMgb2YgeWVhcnMsIG9yaWdpbmFsbHkgYXMgYSBwcmVzZXJ2YXRpb24gbWV0aG9kIHVzaW5nIGFjaWRpYyBsaXF1aWRzIGxpa2UgdmluZWdhciBvciBjaXRydXMganVpY2UuIFRoZSB0ZWNobmlxdWUgZXZvbHZlZCBhY3Jvc3MgY3VsdHVyZXMsIHdpdGggZWFjaCBkZXZlbG9waW5nIHVuaXF1ZSBtYXJpbmFkZXMgcmVmbGVjdGluZyBsb2NhbCBpbmdyZWRpZW50cyBhbmQgdGFzdGVzLicsXG4gIG1vZGVyblZhcmlhdGlvbnM6IFtcbiAgICAnQWNpZC1iYXNlZCBtYXJpbmFkZXMgKHdpdGggdmluZWdhciwgY2l0cnVzLCB3aW5lKScsXG4gICAgJ0VuenltZS1iYXNlZCBtYXJpbmFkZXMgKHdpdGggcGluZWFwcGxlLCBwYXBheWEsIHlvZ3VydCknLFxuICAgICdPaWwtYmFzZWQgbWFyaW5hZGVzICh3aXRoIGhlcmJzIGFuZCBzcGljZXMgaW4gb2lsKScsXG4gICAgJ0RyeSBtYXJpbmFkZXMvcnVicyAod2l0aCBzYWx0IGFuZCBzcGljZXMpJyxcbiAgICAnQnJpbmVzIChzYWx0IHdhdGVyIHNvbHV0aW9ucyknLFxuICAgICdDZXZpY2hlIChhY2lkIFwiY29va2luZ1wiIG9mIGZpc2gpJ1xuICBdLFxuICBvcHRpbWFsVGVtcGVyYXR1cmVzOiB7XG4gICAgcmVmcmlnZXJhdGlvbjogMSwgLy8gwrBDIChyZWZyaWdlcmF0aW9uIHRlbXBlcmF0dXJlKVxuICAgIHN0b3JhZ2U6IDQgLy8gwrBDIChzYWZlIHJlZnJpZ2VyYXRpb24pXG4gIH0sXG4gIHRvb2xzUmVxdWlyZWQ6IFtcbiAgICAnTm9uLXJlYWN0aXZlIGNvbnRhaW5lcnMgKGdsYXNzLCBjZXJhbWljLCBwbGFzdGljKScsXG4gICAgJ1Jlc2VhbGFibGUgYmFncycsXG4gICAgJ1doaXNrJyxcbiAgICAnTWVhc3VyaW5nIHRvb2xzJyxcbiAgICAnUmVmcmlnZXJhdG9yJyxcbiAgICAnUGxhc3RpYyB3cmFwJyxcbiAgICAnVGltZXInXG4gIF0sXG4gIGhlYWx0aENvbnNpZGVyYXRpb25zOiBbXG4gICAgJ01hcmluYWRlcyB0aGF0IGNvbnRhaW4gcmF3IG1lYXQgc2hvdWxkIG5vdCBiZSByZXVzZWQgd2l0aG91dCBjb29raW5nJyxcbiAgICAnQWNpZGljIG1hcmluYWRlcyBjYW4gXCJjb29rXCIgc2VhZm9vZCBpZiBsZWZ0IHRvbyBsb25nJyxcbiAgICAnU29tZSBtYXJpbmFkZXMgY29udGFpbiBoaWdoIGFtb3VudHMgb2Ygc29kaXVtLCBzdWdhciwgb3IgZmF0JyxcbiAgICAnUHJvcGVyIHJlZnJpZ2VyYXRpb24gaXMgZXNzZW50aWFsIGZvciBmb29kIHNhZmV0eSdcbiAgXVxufTsgIl0sInZlcnNpb24iOjN9

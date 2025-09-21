@@ -1,0 +1,486 @@
+{
+  "typescript.preferences.includePackageJsonAutoImports": "on",
+  "typescript.suggest.autoImports": true,
+  "typescript.preferences.importModuleSpecifier": "relative",
+  "typescript.inlayHints.parameterNames.enabled": "all",
+  "typescript.inlayHints.variableTypes.enabled": true,
+  "typescript.inlayHints.functionLikeReturnTypes.enabled": true,
+  "typescript.inlayHints.propertyDeclarationTypes.enabled": true,
+  "typescript.inlayHints.enumMemberValues.enabled": true,
+  "typescript.preferences.quoteStyle": "single",
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "typescript.suggest.completeFunctionCalls": true,
+  "typescript.suggest.includeCompletionsForImportStatements": true,
+  
+  "javascript.preferences.includePackageJsonAutoImports": "on",
+  "javascript.suggest.autoImports": true,
+  "javascript.updateImportsOnFileMove.enabled": "always",
+  
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit",
+    "source.organizeImports": "explicit",
+    "source.removeUnusedImports": "explicit"
+  },
+  "editor.formatOnSave": true,
+  "editor.formatOnPaste": true,
+  "editor.formatOnType": true,
+  "editor.tabSize": 2,
+  "editor.insertSpaces": true,
+  "editor.detectIndentation": false,
+  "editor.trimAutoWhitespace": true,
+  "editor.wordWrap": "on",
+  "editor.wordWrapColumn": 100,
+  "editor.rulers": [80, 100],
+  "editor.bracketPairColorization.enabled": true,
+  "editor.guides.bracketPairs": "active",
+  "editor.suggest.insertMode": "replace",
+  "editor.acceptSuggestionOnCommitCharacter": false,
+  "editor.quickSuggestions": {
+    "other": true,
+    "comments": false,
+    "strings": true
+  },
+  
+  "files.associations": {
+    "*.astro": "typescript",
+    "*.alchm": "typescript",
+    "*.astrological": "typescript",
+    "*.elemental": "json",
+    "*.planetary": "json",
+    "*.culinary": "typescript",
+    "*.campaign": "typescript",
+    "*.spec.md": "markdown",
+    "*.steering.md": "markdown",
+    "*.hook.md": "markdown"
+  },
+  "files.exclude": {
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/CVS": true,
+    "**/.DS_Store": true,
+    "**/Thumbs.db": true,
+    "**/.next": true,
+    "**/node_modules": true,
+    "**/dist": true,
+    "**/build": true,
+    "**/*.log": true,
+    "**/.yarn": true,
+    "**/.cache": true,
+    "**/coverage": true
+  },
+  
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/.next": true,
+    "**/dist": true,
+    "**/build": true,
+    "**/*.log": true,
+    "**/coverage": true,
+    "**/.yarn": true,
+    "**/.cache": true,
+    "**/metrics": true,
+    "**/*.tsbuildinfo": true,
+    "**/backups": true,
+    "**/*-metrics.json": true,
+    "**/*-analysis*.txt": true,
+    "**/*-errors*.log": true
+  },
+  
+  "files.watcherExclude": {
+    "**/.git/objects/**": true,
+    "**/.git/subtree-cache/**": true,
+    "**/node_modules/**": true,
+    "**/.next/**": true,
+    "**/dist/**": true,
+    "**/build/**": true,
+    "**/.yarn/**": true,
+    "**/.cache/**": true,
+    "**/coverage/**": true
+  },
+  
+  "emmet.includeLanguages": {
+    "typescript": "html",
+    "typescriptreact": "html",
+    "javascript": "html",
+    "javascriptreact": "html"
+  },
+  "emmet.triggerExpansionOnTab": true,
+  
+  "css.validate": true,
+  "scss.validate": true,
+  "less.validate": true,
+  
+  "tailwindCSS.includeLanguages": {
+    "typescript": "html",
+    "typescriptreact": "html",
+    "javascript": "html",
+    "javascriptreact": "html"
+  },
+  "tailwindCSS.experimental.classRegex": [
+    ["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"],
+    ["cx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"]
+  ],
+  
+  "json.validate.enable": true,
+  "json.format.enable": true,
+  "json.schemas": [
+    {
+      "fileMatch": ["**/package.json"],
+      "url": "https://json.schemastore.org/package.json"
+    },
+    {
+      "fileMatch": ["**/tsconfig*.json"],
+      "url": "https://json.schemastore.org/tsconfig.json"
+    },
+    {
+      "fileMatch": ["**/.eslintrc.json", "**/.eslintrc"],
+      "url": "https://json.schemastore.org/eslintrc.json"
+    }
+  ],
+  
+  "markdown.preview.breaks": true,
+  "markdown.preview.linkify": true,
+  "markdown.suggest.paths.enabled": true,
+  
+  "git.enableSmartCommit": true,
+  "git.confirmSync": false,
+  "git.autofetch": true,
+  "git.pruneOnFetch": true,
+  
+  "explorer.confirmDelete": false,
+  "explorer.confirmDragAndDrop": false,
+  "explorer.compactFolders": false,
+  "explorer.fileNesting.enabled": true,
+  "explorer.fileNesting.expand": false,
+  "explorer.fileNesting.patterns": {
+    "*.ts": "${capture}.js, ${capture}.d.ts, ${capture}.js.map",
+    "*.tsx": "${capture}.js, ${capture}.d.ts, ${capture}.js.map",
+    "*.js": "${capture}.js.map, ${capture}.min.js, ${capture}.d.ts",
+    "*.jsx": "${capture}.js, ${capture}.js.map, ${capture}.min.js, ${capture}.d.ts",
+    "package.json": "package-lock.json, yarn.lock, pnpm-lock.yaml, bun.lockb",
+    "tailwind.config.*": "tailwind.config*, postcss.config*",
+    "README*": "AUTHORS, BACKERS*, CHANGELOG*, CITATION*, CODE_OF_CONDUCT*, CONTRIBUTING*, CONTRIBUTORS, COPYING*, CREDITS, GOVERNANCE.md, HISTORY.md, LICENSE*, MAINTAINERS, README*, SECURITY.md, SPONSORS*",
+    ".env": ".env*, env.d.ts",
+    "docker-compose.yml": "docker-compose*.yml, Dockerfile*",
+    "next.config.*": "next-env.d.ts, next.config.*"
+  },
+  "explorer.sortOrder": "mixed",
+  "explorer.sortOrderLexicographicOptions": "upper",
+  "explorer.decorations.colors": true,
+  "explorer.decorations.badges": true,
+  "explorer.openEditors.visible": 10,
+  "explorer.openEditors.sortOrder": "editorOrder",
+  "explorer.autoReveal": "focusNoScroll",
+  "explorer.expandSingleFolderWorkspaces": true,
+  
+  "breadcrumbs.enabled": true,
+  "breadcrumbs.filePath": "on",
+  "breadcrumbs.symbolPath": "on",
+  
+  "problems.decorations.enabled": true,
+  "problems.showCurrentInStatus": true,
+  
+  "terminal.integrated.defaultProfile.osx": "zsh",
+  "terminal.integrated.fontSize": 12,
+  "terminal.integrated.fontFamily": "Monaco, 'Courier New', monospace",
+  
+  "workbench.editor.enablePreview": false,
+  "workbench.editor.enablePreviewFromQuickOpen": false,
+  "workbench.editor.closeOnFileDelete": true,
+  "workbench.editor.highlightModifiedTabs": true,
+  "workbench.editor.limit.enabled": true,
+  "workbench.editor.limit.value": 15,
+  "workbench.editor.limit.perEditorGroup": true,
+  "workbench.editor.tabSizing": "shrink",
+  "workbench.editor.showTabs": "multiple",
+  "workbench.editor.tabCloseButton": "right",
+  "workbench.editor.pinnedTabSizing": "compact",
+  "workbench.editor.splitInGroupLayout": "horizontal",
+  "workbench.editor.focusRecentEditorAfterClose": true,
+  "workbench.editor.restoreViewState": true,
+  "workbench.editor.revealIfOpen": true,
+  "workbench.editor.mouseBackForwardToNavigate": true,
+  "workbench.editor.decorations.colors": true,
+  "workbench.editor.decorations.badges": true,
+  "workbench.startupEditor": "newUntitledFile",
+  "workbench.tree.indent": 20,
+  "workbench.tree.renderIndentGuides": "always",
+  "workbench.sideBar.location": "left",
+  "workbench.activityBar.visible": true,
+  "workbench.panel.defaultLocation": "bottom",
+  "workbench.panel.opensMaximized": "never",
+  "workbench.view.alwaysShowHeaderActions": true,
+  "workbench.tree.expandMode": "singleClick",
+  "workbench.list.smoothScrolling": true,
+  "workbench.list.fastScrollSensitivity": 5,
+  "workbench.editor.openPositioning": "right",
+  "workbench.editor.openSideBySideDirection": "right",
+  "workbench.editor.centeredLayoutAutoResize": true,
+  "workbench.editor.wrapTabs": false,
+  "workbench.editor.scrollToSwitchTabs": false,
+  
+  "debug.console.fontSize": 12,
+  "debug.internalConsoleOptions": "openOnSessionStart",
+  "debug.showBreakpointsInOverviewRuler": true,
+  "debug.showInlineBreakpointCandidates": true,
+  "debug.toolBarLocation": "floating",
+  "debug.focusWindowOnBreak": true,
+  "debug.openDebug": "openOnDebugBreak",
+  "debug.allowBreakpointsEverywhere": true,
+  
+  "extensions.ignoreRecommendations": false,
+  "extensions.showRecommendationsOnlyOnDemand": false,
+  
+  "security.workspace.trust.untrustedFiles": "open",
+  
+  "diffEditor.ignoreTrimWhitespace": false,
+  "diffEditor.renderSideBySide": true,
+  
+  "scm.defaultViewMode": "tree",
+  "scm.alwaysShowRepositories": true,
+  
+  "outline.showFiles": true,
+  "outline.showModules": true,
+  "outline.showNamespaces": true,
+  "outline.showPackages": true,
+  "outline.showClasses": true,
+  "outline.showMethods": true,
+  "outline.showProperties": true,
+  "outline.showFields": true,
+  "outline.showConstructors": true,
+  "outline.showEnums": true,
+  "outline.showInterfaces": true,
+  "outline.showFunctions": true,
+  "outline.showVariables": true,
+  "outline.showConstants": true,
+  "outline.showStrings": true,
+  "outline.showNumbers": true,
+  "outline.showBooleans": true,
+  "outline.showArrays": true,
+  "outline.showObjects": true,
+  "outline.showKeys": true,
+  "outline.showNull": true,
+  
+  "references.preferredLocation": "view",
+  
+  "window.zoomLevel": 0,
+  "window.restoreWindows": "all",
+  
+  "zenMode.centerLayout": true,
+  "zenMode.hideLineNumbers": false,
+  "zenMode.hideStatusBar": false,
+  "zenMode.hideTabs": false,
+  "zenMode.restore": true,
+  
+  "typescript.tsserver.maxTsServerMemory": 8192,
+  "typescript.tsserver.watchOptions": {
+    "watchFile": "useFsEvents",
+    "watchDirectory": "useFsEvents",
+    "fallbackPolling": "dynamicPriority",
+    "synchronousWatchDirectory": true,
+    "excludeDirectories": [
+      "**/node_modules",
+      "**/.git",
+      "**/.next",
+      "**/dist",
+      "**/build",
+      "**/coverage"
+    ]
+  },
+  "typescript.tsserver.experimental.enableProjectDiagnostics": true,
+  "typescript.tsserver.useSeparateSyntaxServer": true,
+  "typescript.tsserver.enableTracing": false,
+  "typescript.tsserver.log": "off",
+  
+  "eslint.enable": true,
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact"
+  ],
+  "eslint.format.enable": true,
+  "eslint.lintTask.enable": true,
+  "eslint.codeAction.showDocumentation": {
+    "enable": true
+  },
+  "eslint.codeActionsOnSave.mode": "all",
+  "eslint.workingDirectories": [
+    {
+      "mode": "auto"
+    }
+  ],
+  "eslint.options": {
+    "configFile": "./eslint.config.cjs"
+  },
+  
+  "keyboard.dispatch": "keyCode",
+  "workbench.commandPalette.history": 50,
+  "workbench.commandPalette.preserveInput": true,
+  "workbench.quickOpen.closeOnFocusLost": false,
+  "workbench.quickOpen.preserveInput": true,
+  
+  "keybindings": [
+    {
+      "key": "cmd+alt+p",
+      "command": "astrology.calculateCurrentPositions",
+      "when": "editorTextFocus"
+    },
+    {
+      "key": "cmd+alt+t",
+      "command": "astrology.validateTransitDates",
+      "when": "editorTextFocus"
+    },
+    {
+      "key": "cmd+alt+e",
+      "command": "astrology.checkElementalHarmony",
+      "when": "editorTextFocus"
+    },
+    {
+      "key": "cmd+alt+r",
+      "command": "astrology.generateRecommendations",
+      "when": "editorTextFocus"
+    },
+    {
+      "key": "cmd+shift+e",
+      "command": "campaign.analyzeErrors",
+      "when": "editorTextFocus"
+    },
+    {
+      "key": "cmd+shift+r",
+      "command": "campaign.runErrorReduction",
+      "when": "editorTextFocus"
+    },
+    {
+      "key": "cmd+shift+p",
+      "command": "campaign.checkProgress",
+      "when": "editorTextFocus"
+    },
+    {
+      "key": "cmd+alt+n",
+      "command": "specs.createFeature",
+      "when": "editorTextFocus"
+    },
+    {
+      "key": "cmd+alt+a",
+      "command": "specs.createAstrological",
+      "when": "editorTextFocus"
+    },
+    {
+      "key": "cmd+alt+c",
+      "command": "specs.createCampaign",
+      "when": "editorTextFocus"
+    },
+    {
+      "key": "cmd+m cmd+t",
+      "command": "mcp.testConnections",
+      "when": "editorTextFocus"
+    },
+    {
+      "key": "cmd+m cmd+r",
+      "command": "mcp.restartServers",
+      "when": "editorTextFocus"
+    },
+    {
+      "key": "cmd+m cmd+a",
+      "command": "mcp.checkAstrology",
+      "when": "editorTextFocus"
+    },
+    {
+      "key": "cmd+\\",
+      "command": "workbench.action.splitEditor",
+      "when": "editorTextFocus"
+    },
+    {
+      "key": "cmd+shift+\\",
+      "command": "workbench.action.splitEditorOrthogonal",
+      "when": "editorTextFocus"
+    },
+    {
+      "key": "cmd+1",
+      "command": "workbench.action.focusFirstEditorGroup",
+      "when": "editorTextFocus"
+    },
+    {
+      "key": "cmd+2",
+      "command": "workbench.action.focusSecondEditorGroup",
+      "when": "editorTextFocus"
+    },
+    {
+      "key": "cmd+3",
+      "command": "workbench.action.focusThirdEditorGroup",
+      "when": "editorTextFocus"
+    },
+    {
+      "key": "cmd+shift+.",
+      "command": "breadcrumbs.focus",
+      "when": "editorTextFocus"
+    },
+    {
+      "key": "cmd+shift+;",
+      "command": "breadcrumbs.focusAndSelect",
+      "when": "editorTextFocus"
+    },
+    {
+      "key": "cmd+shift+space",
+      "command": "editor.action.peekDefinition",
+      "when": "editorTextFocus"
+    },
+    {
+      "key": "cmd+alt+o",
+      "command": "workbench.action.quickOpen",
+      "when": "editorTextFocus"
+    },
+    {
+      "key": "cmd+r",
+      "command": "workbench.action.openRecent",
+      "when": "editorTextFocus"
+    },
+    {
+      "key": "cmd+shift+o",
+      "command": "workbench.action.gotoSymbol",
+      "when": "editorTextFocus"
+    },
+    {
+      "key": "cmd+alt+shift+a",
+      "command": "astrology.toggleDebugPanel",
+      "when": "editorTextFocus"
+    },
+    {
+      "key": "cmd+alt+shift+p",
+      "command": "performance.toggleMonitor",
+      "when": "editorTextFocus"
+    },
+    {
+      "key": "cmd+alt+shift+c",
+      "command": "campaign.toggleTracker",
+      "when": "editorTextFocus"
+    },
+    {
+      "key": "cmd+alt+shift+e",
+      "command": "errors.toggleAnalysis",
+      "when": "editorTextFocus"
+    },
+    {
+      "key": "cmd+alt+shift+d",
+      "command": "debug.toggleAllPanels",
+      "when": "editorTextFocus"
+    },
+    {
+      "key": "cmd+alt+shift+m",
+      "command": "monitoring.toggleAllViews",
+      "when": "editorTextFocus"
+    },
+    {
+      "key": "cmd+alt+shift+r",
+      "command": "monitoring.refreshAllViews",
+      "when": "editorTextFocus"
+    },
+    {
+      "key": "cmd+alt+shift+s",
+      "command": "system.showStatus",
+      "when": "editorTextFocus"
+    }
+  ]
+}

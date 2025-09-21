@@ -1,0 +1,53 @@
+ff89696af9b7b461dba80cca6f43e95d
+"use strict";
+/**
+ * Unintentional Any Elimination System
+ * Entry point for the unintentional any type elimination campaign
+ */
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __exportStar = (this && this.__exportStar) || function(m, exports) {
+    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.UnintentionalAnyProgressTracker = exports.UnintentionalAnyCampaignScheduler = exports.createUnintentionalAnyCampaignController = exports.UnintentionalAnyIntegrationHelper = exports.UnintentionalAnyCampaignController = exports.ProgressMonitoringSystem = exports.AnalysisTools = exports.UnintentionalAnyEliminationCampaign = exports.SafeTypeReplacer = exports.ProgressiveImprovementEngine = exports.DomainContextAnalyzer = exports.DocumentationQualityAssurance = exports.AutoDocumentationGenerator = exports.AnyTypeClassifier = void 0;
+// Core components
+var AnyTypeClassifier_1 = require("./AnyTypeClassifier");
+Object.defineProperty(exports, "AnyTypeClassifier", { enumerable: true, get: function () { return AnyTypeClassifier_1.AnyTypeClassifier; } });
+var AutoDocumentationGenerator_1 = require("./AutoDocumentationGenerator");
+Object.defineProperty(exports, "AutoDocumentationGenerator", { enumerable: true, get: function () { return AutoDocumentationGenerator_1.AutoDocumentationGenerator; } });
+var DocumentationQualityAssurance_1 = require("./DocumentationQualityAssurance");
+Object.defineProperty(exports, "DocumentationQualityAssurance", { enumerable: true, get: function () { return DocumentationQualityAssurance_1.DocumentationQualityAssurance; } });
+var DomainContextAnalyzer_1 = require("./DomainContextAnalyzer");
+Object.defineProperty(exports, "DomainContextAnalyzer", { enumerable: true, get: function () { return DomainContextAnalyzer_1.DomainContextAnalyzer; } });
+var ProgressiveImprovementEngine_1 = require("./ProgressiveImprovementEngine");
+Object.defineProperty(exports, "ProgressiveImprovementEngine", { enumerable: true, get: function () { return ProgressiveImprovementEngine_1.ProgressiveImprovementEngine; } });
+var SafeTypeReplacer_1 = require("./SafeTypeReplacer");
+Object.defineProperty(exports, "SafeTypeReplacer", { enumerable: true, get: function () { return SafeTypeReplacer_1.SafeTypeReplacer; } });
+var UnintentionalAnyEliminationCampaign_1 = require("./UnintentionalAnyEliminationCampaign");
+Object.defineProperty(exports, "UnintentionalAnyEliminationCampaign", { enumerable: true, get: function () { return UnintentionalAnyEliminationCampaign_1.UnintentionalAnyEliminationCampaign; } });
+// Analysis and monitoring components
+var AnalysisTools_1 = require("./AnalysisTools");
+Object.defineProperty(exports, "AnalysisTools", { enumerable: true, get: function () { return AnalysisTools_1.AnalysisTools; } });
+var ProgressMonitoringSystem_1 = require("./ProgressMonitoringSystem");
+Object.defineProperty(exports, "ProgressMonitoringSystem", { enumerable: true, get: function () { return ProgressMonitoringSystem_1.ProgressMonitoringSystem; } });
+// Campaign integration components
+var CampaignIntegration_1 = require("./CampaignIntegration");
+Object.defineProperty(exports, "UnintentionalAnyCampaignController", { enumerable: true, get: function () { return CampaignIntegration_1.UnintentionalAnyCampaignController; } });
+Object.defineProperty(exports, "UnintentionalAnyIntegrationHelper", { enumerable: true, get: function () { return CampaignIntegration_1.UnintentionalAnyIntegrationHelper; } });
+Object.defineProperty(exports, "createUnintentionalAnyCampaignController", { enumerable: true, get: function () { return CampaignIntegration_1.createUnintentionalAnyCampaignController; } });
+var MetricsIntegration_1 = require("./MetricsIntegration");
+Object.defineProperty(exports, "UnintentionalAnyCampaignScheduler", { enumerable: true, get: function () { return MetricsIntegration_1.UnintentionalAnyCampaignScheduler; } });
+Object.defineProperty(exports, "UnintentionalAnyProgressTracker", { enumerable: true, get: function () { return MetricsIntegration_1.UnintentionalAnyProgressTracker; } });
+// Export types
+__exportStar(require("./types"), exports);
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJmaWxlIjoiL1VzZXJzL0dyZWdDYXN0cm8vRGVza3RvcC9XaGF0VG9FYXROZXh0L3NyYy9zZXJ2aWNlcy9jYW1wYWlnbi91bmludGVudGlvbmFsLWFueS1lbGltaW5hdGlvbi9pbmRleC50cyIsIm1hcHBpbmdzIjoiO0FBQUE7OztHQUdHOzs7Ozs7Ozs7Ozs7Ozs7OztBQUVILGtCQUFrQjtBQUNsQix5REFBd0Q7QUFBL0Msc0hBQUEsaUJBQWlCLE9BQUE7QUFDMUIsMkVBQTBFO0FBQWpFLHdJQUFBLDBCQUEwQixPQUFBO0FBQ25DLGlGQUFnRjtBQUF2RSw4SUFBQSw2QkFBNkIsT0FBQTtBQUN0QyxpRUFBZ0U7QUFBdkQsOEhBQUEscUJBQXFCLE9BQUE7QUFDOUIsK0VBQThFO0FBQXJFLDRJQUFBLDRCQUE0QixPQUFBO0FBQ3JDLHVEQUFzRDtBQUE3QyxvSEFBQSxnQkFBZ0IsT0FBQTtBQUN6Qiw2RkFBNEY7QUFBbkYsMEpBQUEsbUNBQW1DLE9BQUE7QUFFNUMscUNBQXFDO0FBQ3JDLGlEQUFnRDtBQUF2Qyw4R0FBQSxhQUFhLE9BQUE7QUFDdEIsdUVBQXNFO0FBQTdELG9JQUFBLHdCQUF3QixPQUFBO0FBRWpDLGtDQUFrQztBQUNsQyw2REFFK0I7QUFEM0IseUlBQUEsa0NBQWtDLE9BQUE7QUFBRSx3SUFBQSxpQ0FBaUMsT0FBQTtBQUFFLCtJQUFBLHdDQUF3QyxPQUFBO0FBR25ILDJEQUU4QjtBQUQxQix1SUFBQSxpQ0FBaUMsT0FBQTtBQUFFLHFJQUFBLCtCQUErQixPQUFBO0FBR3RFLGVBQWU7QUFDZiwwQ0FBd0IiLCJuYW1lcyI6W10sInNvdXJjZXMiOlsiL1VzZXJzL0dyZWdDYXN0cm8vRGVza3RvcC9XaGF0VG9FYXROZXh0L3NyYy9zZXJ2aWNlcy9jYW1wYWlnbi91bmludGVudGlvbmFsLWFueS1lbGltaW5hdGlvbi9pbmRleC50cyJdLCJzb3VyY2VzQ29udGVudCI6WyIvKipcbiAqIFVuaW50ZW50aW9uYWwgQW55IEVsaW1pbmF0aW9uIFN5c3RlbVxuICogRW50cnkgcG9pbnQgZm9yIHRoZSB1bmludGVudGlvbmFsIGFueSB0eXBlIGVsaW1pbmF0aW9uIGNhbXBhaWduXG4gKi9cblxuLy8gQ29yZSBjb21wb25lbnRzXG5leHBvcnQgeyBBbnlUeXBlQ2xhc3NpZmllciB9IGZyb20gJy4vQW55VHlwZUNsYXNzaWZpZXInO1xuZXhwb3J0IHsgQXV0b0RvY3VtZW50YXRpb25HZW5lcmF0b3IgfSBmcm9tICcuL0F1dG9Eb2N1bWVudGF0aW9uR2VuZXJhdG9yJztcbmV4cG9ydCB7IERvY3VtZW50YXRpb25RdWFsaXR5QXNzdXJhbmNlIH0gZnJvbSAnLi9Eb2N1bWVudGF0aW9uUXVhbGl0eUFzc3VyYW5jZSc7XG5leHBvcnQgeyBEb21haW5Db250ZXh0QW5hbHl6ZXIgfSBmcm9tICcuL0RvbWFpbkNvbnRleHRBbmFseXplcic7XG5leHBvcnQgeyBQcm9ncmVzc2l2ZUltcHJvdmVtZW50RW5naW5lIH0gZnJvbSAnLi9Qcm9ncmVzc2l2ZUltcHJvdmVtZW50RW5naW5lJztcbmV4cG9ydCB7IFNhZmVUeXBlUmVwbGFjZXIgfSBmcm9tICcuL1NhZmVUeXBlUmVwbGFjZXInO1xuZXhwb3J0IHsgVW5pbnRlbnRpb25hbEFueUVsaW1pbmF0aW9uQ2FtcGFpZ24gfSBmcm9tICcuL1VuaW50ZW50aW9uYWxBbnlFbGltaW5hdGlvbkNhbXBhaWduJztcblxuLy8gQW5hbHlzaXMgYW5kIG1vbml0b3JpbmcgY29tcG9uZW50c1xuZXhwb3J0IHsgQW5hbHlzaXNUb29scyB9IGZyb20gJy4vQW5hbHlzaXNUb29scyc7XG5leHBvcnQgeyBQcm9ncmVzc01vbml0b3JpbmdTeXN0ZW0gfSBmcm9tICcuL1Byb2dyZXNzTW9uaXRvcmluZ1N5c3RlbSc7XG5cbi8vIENhbXBhaWduIGludGVncmF0aW9uIGNvbXBvbmVudHNcbmV4cG9ydCB7XG4gICAgVW5pbnRlbnRpb25hbEFueUNhbXBhaWduQ29udHJvbGxlciwgVW5pbnRlbnRpb25hbEFueUludGVncmF0aW9uSGVscGVyLCBjcmVhdGVVbmludGVudGlvbmFsQW55Q2FtcGFpZ25Db250cm9sbGVyXG59IGZyb20gJy4vQ2FtcGFpZ25JbnRlZ3JhdGlvbic7XG5cbmV4cG9ydCB7XG4gICAgVW5pbnRlbnRpb25hbEFueUNhbXBhaWduU2NoZWR1bGVyLCBVbmludGVudGlvbmFsQW55UHJvZ3Jlc3NUcmFja2VyXG59IGZyb20gJy4vTWV0cmljc0ludGVncmF0aW9uJztcblxuLy8gRXhwb3J0IHR5cGVzXG5leHBvcnQgKiBmcm9tICcuL3R5cGVzJztcbiJdLCJ2ZXJzaW9uIjozfQ==

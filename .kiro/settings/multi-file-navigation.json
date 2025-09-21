@@ -1,0 +1,420 @@
+{
+  "tabManagement": {
+    "maxTabs": 15,
+    "tabLimit": {
+      "enabled": true,
+      "value": 15,
+      "perEditorGroup": true,
+      "closeStrategy": "leastRecentlyUsed"
+    },
+    "tabSizing": "shrink",
+    "showTabs": "multiple",
+    "tabCloseButton": "right",
+    "pinnedTabs": {
+      "enabled": true,
+      "maxPinned": 5,
+      "defaultPinned": [
+        "src/calculations/culinaryAstrology.ts",
+        "src/services/UnifiedRecommendationService.ts",
+        ".kiro/specs/kiro-optimization/tasks.md",
+        "src/types/astrological.ts",
+        "README.md"
+      ]
+    },
+    "tabGroups": [
+      {
+        "name": "Astrological Core",
+        "pattern": "src/calculations/**",
+        "color": "#8B5CF6",
+        "icon": "🔮"
+      },
+      {
+        "name": "Data Sources",
+        "pattern": "src/data/**",
+        "color": "#10B981",
+        "icon": "📊"
+      },
+      {
+        "name": "Campaign System",
+        "pattern": "src/services/campaign/**",
+        "color": "#F59E0B",
+        "icon": "⚡"
+      },
+      {
+        "name": "Components",
+        "pattern": "src/components/**",
+        "color": "#3B82F6",
+        "icon": "🧩"
+      },
+      {
+        "name": "Kiro Config",
+        "pattern": ".kiro/**",
+        "color": "#EF4444",
+        "icon": "🎯"
+      },
+      {
+        "name": "Tests",
+        "pattern": "**/*.test.ts",
+        "color": "#6B7280",
+        "icon": "🧪"
+      }
+    ]
+  },
+  "splitViewLayouts": {
+    "presets": [
+      {
+        "name": "Component + Test",
+        "description": "Component file with corresponding test file",
+        "layout": "horizontal",
+        "ratio": [0.7, 0.3],
+        "autoMatch": true,
+        "patterns": [
+          {
+            "primary": "src/components/**/*.tsx",
+            "secondary": "src/components/**/*.test.tsx"
+          },
+          {
+            "primary": "src/utils/**/*.ts",
+            "secondary": "src/utils/**/*.test.ts"
+          },
+          {
+            "primary": "src/services/**/*.ts",
+            "secondary": "src/services/**/*.test.ts"
+          }
+        ]
+      },
+      {
+        "name": "Calculation + Data",
+        "description": "Astrological calculation with data source",
+        "layout": "horizontal",
+        "ratio": [0.6, 0.4],
+        "patterns": [
+          {
+            "primary": "src/calculations/**/*.ts",
+            "secondary": "src/data/**/*.ts"
+          }
+        ]
+      },
+      {
+        "name": "Service + Types",
+        "description": "Service implementation with type definitions",
+        "layout": "vertical",
+        "ratio": [0.65, 0.35],
+        "patterns": [
+          {
+            "primary": "src/services/**/*.ts",
+            "secondary": "src/types/**/*.ts"
+          }
+        ]
+      },
+      {
+        "name": "Spec + Implementation",
+        "description": "Specification with implementation files",
+        "layout": "horizontal",
+        "ratio": [0.4, 0.6],
+        "patterns": [
+          {
+            "primary": ".kiro/specs/**/*.md",
+            "secondary": "src/**/*.ts"
+          }
+        ]
+      },
+      {
+        "name": "Campaign Analysis",
+        "description": "Campaign script with metrics/logs",
+        "layout": "vertical",
+        "ratio": [0.7, 0.3],
+        "patterns": [
+          {
+            "primary": "src/services/campaign/**/*.ts",
+            "secondary": "**/*-metrics.json"
+          },
+          {
+            "primary": "src/services/campaign/**/*.ts",
+            "secondary": "**/*.log"
+          }
+        ]
+      },
+      {
+        "name": "Triple Pane Astrology",
+        "description": "Calculation + Data + Test",
+        "layout": "grid",
+        "columns": 3,
+        "ratio": [0.4, 0.3, 0.3],
+        "patterns": [
+          {
+            "primary": "src/calculations/**/*.ts",
+            "secondary": "src/data/**/*.ts",
+            "tertiary": "src/calculations/**/*.test.ts"
+          }
+        ]
+      }
+    ],
+    "shortcuts": [
+      {
+        "key": "Cmd+\\",
+        "action": "splitHorizontal",
+        "description": "Split editor horizontally"
+      },
+      {
+        "key": "Cmd+Shift+\\",
+        "action": "splitVertical",
+        "description": "Split editor vertically"
+      },
+      {
+        "key": "Cmd+Alt+\\",
+        "action": "autoSplitByPattern",
+        "description": "Auto-split based on file patterns"
+      },
+      {
+        "key": "Cmd+1",
+        "action": "focusFirstGroup",
+        "description": "Focus first editor group"
+      },
+      {
+        "key": "Cmd+2",
+        "action": "focusSecondGroup",
+        "description": "Focus second editor group"
+      },
+      {
+        "key": "Cmd+3",
+        "action": "focusThirdGroup",
+        "description": "Focus third editor group"
+      }
+    ]
+  },
+  "breadcrumbNavigation": {
+    "enabled": true,
+    "showFiles": true,
+    "showSymbols": true,
+    "symbolPath": "on",
+    "filePath": "on",
+    "useIcons": true,
+    "customIcons": {
+      "calculations": "🔮",
+      "data": "📊",
+      "campaign": "⚡",
+      "components": "🧩",
+      "services": "🔧",
+      "utils": "🛠️",
+      "types": "📝",
+      "hooks": "🪝",
+      "constants": "📋"
+    },
+    "shortcuts": [
+      {
+        "key": "Cmd+Shift+.",
+        "action": "breadcrumbs.focus",
+        "description": "Focus breadcrumb navigation"
+      },
+      {
+        "key": "Cmd+Shift+;",
+        "action": "breadcrumbs.focusAndSelect",
+        "description": "Focus and select in breadcrumbs"
+      }
+    ],
+    "contextualInfo": {
+      "showFileSize": true,
+      "showLastModified": true,
+      "showGitStatus": true,
+      "showTypeInfo": true,
+      "astrologicalContext": {
+        "showElementalProperties": true,
+        "showPlanetaryCorrespondences": true,
+        "showCampaignStatus": true
+      }
+    }
+  },
+  "filePreview": {
+    "enabled": true,
+    "previewMode": "hover",
+    "delay": 500,
+    "maxLines": 50,
+    "showLineNumbers": true,
+    "syntaxHighlighting": true,
+    "previewTypes": [
+      "typescript",
+      "javascript",
+      "json",
+      "markdown",
+      "yaml",
+      "css",
+      "scss"
+    ],
+    "quickPeek": {
+      "enabled": true,
+      "shortcut": "Cmd+Shift+Space",
+      "maxWidth": 800,
+      "maxHeight": 600,
+      "showMetadata": true
+    },
+    "contextualPreview": {
+      "astrologicalFiles": {
+        "showElementalSummary": true,
+        "showPlanetaryInfo": true,
+        "showCalculationPreview": true
+      },
+      "dataFiles": {
+        "showDataStructure": true,
+        "showSampleData": true,
+        "showValidationStatus": true
+      },
+      "campaignFiles": {
+        "showMetrics": true,
+        "showLastRun": true,
+        "showSuccessRate": true
+      },
+      "specFiles": {
+        "showProgress": true,
+        "showTaskCount": true,
+        "showRequirements": true
+      }
+    }
+  },
+  "fileSwitching": {
+    "quickOpen": {
+      "enabled": true,
+      "shortcut": "Cmd+P",
+      "fuzzyMatching": true,
+      "recentFiles": 20,
+      "showPath": true,
+      "groupByProject": true
+    },
+    "recentFiles": {
+      "enabled": true,
+      "shortcut": "Cmd+R",
+      "maxFiles": 30,
+      "groupByType": true,
+      "showTimestamp": true
+    },
+    "relatedFiles": {
+      "enabled": true,
+      "shortcut": "Cmd+Alt+O",
+      "patterns": [
+        {
+          "from": "src/components/**/*.tsx",
+          "to": [
+            "src/components/**/*.test.tsx",
+            "src/components/**/*.stories.tsx",
+            "src/types/**/*.ts"
+          ]
+        },
+        {
+          "from": "src/calculations/**/*.ts",
+          "to": [
+            "src/calculations/**/*.test.ts",
+            "src/data/**/*.ts",
+            "src/types/astrological.ts"
+          ]
+        },
+        {
+          "from": "src/services/**/*.ts",
+          "to": [
+            "src/services/**/*.test.ts",
+            "src/types/**/*.ts",
+            "src/utils/**/*.ts"
+          ]
+        },
+        {
+          "from": "src/data/**/*.ts",
+          "to": [
+            "src/calculations/**/*.ts",
+            "src/types/**/*.ts",
+            "src/constants/**/*.ts"
+          ]
+        },
+        {
+          "from": ".kiro/specs/**/*.md",
+          "to": [
+            "src/**/*.ts",
+            ".kiro/templates/**/*.md"
+          ]
+        }
+      ]
+    },
+    "smartNavigation": {
+      "enabled": true,
+      "goToDefinition": "Cmd+Click",
+      "goToImplementation": "Cmd+Alt+Click",
+      "goToTypeDefinition": "Cmd+Shift+Click",
+      "findReferences": "Shift+F12",
+      "peekDefinition": "Alt+F12",
+      "peekReferences": "Shift+Alt+F12"
+    }
+  },
+  "workspaceNavigation": {
+    "minimap": {
+      "enabled": true,
+      "side": "right",
+      "showSlider": "mouseover",
+      "renderCharacters": true,
+      "maxColumn": 120,
+      "scale": 1
+    },
+    "outline": {
+      "enabled": true,
+      "followCursor": true,
+      "showFiles": true,
+      "showModules": true,
+      "showClasses": true,
+      "showMethods": true,
+      "showProperties": true,
+      "showFunctions": true,
+      "showVariables": true,
+      "showConstants": true,
+      "customIcons": {
+        "astrologicalFunction": "🔮",
+        "elementalProperty": "🌟",
+        "planetaryCalculation": "🪐",
+        "campaignScript": "⚡",
+        "ingredientData": "🥬"
+      }
+    },
+    "symbolSearch": {
+      "enabled": true,
+      "shortcut": "Cmd+Shift+O",
+      "fuzzyMatching": true,
+      "showKind": true,
+      "groupByKind": true
+    }
+  },
+  "editorGroups": {
+    "focusManagement": {
+      "autoFocus": true,
+      "focusRecentEditorAfterClose": true,
+      "restoreFocusAfterSplit": true
+    },
+    "layoutManagement": {
+      "preserveLayout": true,
+      "restoreLayoutOnStartup": true,
+      "maxGroups": 4,
+      "defaultLayout": "horizontal"
+    },
+    "synchronization": {
+      "syncScrolling": false,
+      "syncCursor": false,
+      "syncSelection": false,
+      "linkEditors": false
+    }
+  },
+  "contextualNavigation": {
+    "astrologicalContext": {
+      "showCurrentPlanetaryPositions": true,
+      "showElementalBalance": true,
+      "showTransitDates": true,
+      "updateFrequency": "hourly"
+    },
+    "campaignContext": {
+      "showActiveMetrics": true,
+      "showErrorCounts": true,
+      "showProgressStatus": true,
+      "updateFrequency": "realtime"
+    },
+    "projectContext": {
+      "showBuildStatus": true,
+      "showTestResults": true,
+      "showGitStatus": true,
+      "showDependencyStatus": true
+    }
+  }
+}

@@ -1,0 +1,234 @@
+From f93a034ed91f3ad15c11c3ac9321731acb0c659e Mon Sep 17 00:00:00 2001
+From: gregcastro23 <120056982+gregcastro23@users.noreply.github.com>
+Date: Sun, 4 May 2025 06:10:43 -0400
+Subject: [PATCH 08/10] Enhance UI to display validation results
+
+---
+ .../PlanetaryPositionValidation.tsx           | 187 +++++++++++++++++-
+ 1 file changed, 186 insertions(+), 1 deletion(-)
+
+diff --git a/src/components/PlanetaryPositionValidation.tsx b/src/components/PlanetaryPositionValidation.tsx
+index 0b53bd08..45386c10 100644
+--- a/src/components/PlanetaryPositionValidation.tsx
++++ b/src/components/PlanetaryPositionValidation.tsx
+@@ -1,15 +1,89 @@
+ 'use client';
+ 
+ import { useState, useEffect } from 'react';
+-import { validatePlanetaryPositions } from '@/utils/astrologyValidation';
++import { validatePlanetaryPositions, fetchAndValidatePlanetaryPositions, verifyPositionsAgainstPlanetData } from '@/utils/astrologyValidation';
++import { logTransitDateRecommendations } from '@/utils/updateTransitDates';
++import { useAlchemical } from '@/contexts/AlchemicalContext/hooks';
++import { CheckCircle, AlertTriangle, Info, Calendar, RefreshCw } from 'lucide-react';
+ 
+ export default function PlanetaryPositionValidation() {
+   const [expanded, setExpanded] = useState(false);
++  const [validationResult, setValidationResult] = useState<ReturnType<typeof validatePlanetaryPositions> | null>(null);
++  const [planetDataVerification, setPlanetDataVerification] = useState<ReturnType<typeof verifyPositionsAgainstPlanetData> | null>(null);
++  const [loading, setLoading] = useState(false);
++  const [checkingTransits, setCheckingTransits] = useState(false);
++  const { planetaryPositions } = useAlchemical();
++
++  useEffect(() => {
++    // Validate current positions on component mount
++    if (planetaryPositions && Object.keys(planetaryPositions).length > 0) {
++      validateCurrentPositions();
++    }
++  }, [planetaryPositions]);
++
++  const validateCurrentPositions = async () => {
++    setLoading(true);
++    try {
++      // Validate the current positions
++      const result = validatePlanetaryPositions(planetaryPositions);
++      setValidationResult(result);
++      
++      // Also verify against planet data files
++      const verification = verifyPositionsAgainstPlanetData(planetaryPositions);
++      setPlanetDataVerification(verification);
++    } catch (error) {
++      console.error('Error validating positions:', error);
++    } finally {
++      setLoading(false);
++    }
++  };
++
++  const runValidation = async () => {
++    setLoading(true);
++    try {
++      // Fetch and validate fresh positions
++      const { validationResult, planetDataVerification } = await fetchAndValidatePlanetaryPositions();
++      setValidationResult(validationResult);
++      setPlanetDataVerification(planetDataVerification || null);
++    } catch (error) {
++      console.error('Error validating positions:', error);
++    } finally {
++      setLoading(false);
++    }
++  };
++  
++  const checkTransitDates = async () => {
++    setCheckingTransits(true);
++    try {
++      await logTransitDateRecommendations();
++      console.info('Transit date check complete - see console logs for details');
++    } catch (error) {
++      console.error('Error checking transit dates:', error);
++    } finally {
++      setCheckingTransits(false);
++    }
++  };
+ 
+   return (
+     <div className="p-4 bg-gray-800 bg-opacity-50 rounded-lg mt-6">
+       <div className="flex items-center justify-between mb-2">
+         <h3 className="text-xl font-medium text-white">Celestial Positions Information</h3>
++        
++        {validationResult && (
++          <div className="flex items-center">
++            {validationResult.isValid ? (
++              <span className="flex items-center text-sm text-green-400">
++                <CheckCircle className="h-4 w-4 mr-1" />
++                {(validationResult.accuracyScore * 100).toFixed(1)}% accuracy
++              </span>
++            ) : (
++              <span className="flex items-center text-sm text-yellow-400">
++                <AlertTriangle className="h-4 w-4 mr-1" />
++                {(validationResult.accuracyScore * 100).toFixed(1)}% accuracy
++              </span>
++            )}
++          </div>
++        )}
+       </div>
+       
+       <p className="text-sm text-cyan-300 mb-3">
+@@ -23,8 +97,89 @@ export default function PlanetaryPositionValidation() {
+         >
+           {expanded ? 'Hide Details' : 'Show Details'}
+         </button>
++        
++        <button 
++          className="text-sm px-3 py-1 bg-blue-700 text-white font-medium rounded hover:bg-blue-600 flex items-center"
++          onClick={runValidation}
++          disabled={loading}
++        >
++          {loading ? (
++            <>Validating...</>
++          ) : (
++            <>Validate Positions</>
++          )}
++        </button>
++        
++        {expanded && (
++          <button 
++            className="text-sm px-3 py-1 bg-emerald-700 text-white font-medium rounded hover:bg-emerald-600 flex items-center"
++            onClick={checkTransitDates}
++            disabled={checkingTransits}
++          >
++            {checkingTransits ? (
++              <>
++                <RefreshCw className="animate-spin h-3 w-3 mr-1" />
++                Checking Transits...
++              </>
++            ) : (
++              <>
++                <Calendar className="h-3 w-3 mr-1" />
++                Check Transit Dates
++              </>
++            )}
++          </button>
++        )}
+       </div>
+       
++      {validationResult && validationResult.errors.length > 0 && (
++        <div className="p-3 border border-yellow-700 rounded bg-yellow-900 bg-opacity-30 mb-3">
++          <h4 className="font-medium mb-2 text-yellow-300 flex items-center">
++            <AlertTriangle className="h-4 w-4 mr-1" />
++            Validation Issues ({validationResult.errors.length})
++          </h4>
++          <div className="text-sm text-white space-y-1 max-h-40 overflow-y-auto">
++            {validationResult.errors.slice(0, 5).map((error, index) => (
++              <div key={index} className="flex items-start">
++                <span className="text-yellow-400 mr-1">•</span>
++                <span>
++                  {error.planet}: Expected {error.type} {String(error.expected)}, got {String(error.actual)}
++                </span>
++              </div>
++            ))}
++            {validationResult.errors.length > 5 && (
++              <div className="text-yellow-400 mt-1">
++                + {validationResult.errors.length - 5} more issues
++              </div>
++            )}
++          </div>
++        </div>
++      )}
++      
++      {planetDataVerification && planetDataVerification.mismatches.length > 0 && (
++        <div className="p-3 border border-orange-700 rounded bg-orange-900 bg-opacity-30 mb-3">
++          <h4 className="font-medium mb-2 text-orange-300 flex items-center">
++            <Calendar className="h-4 w-4 mr-1" />
++            Transit Date Mismatches ({planetDataVerification.mismatches.length})
++          </h4>
++          <div className="text-sm text-white space-y-1 max-h-40 overflow-y-auto">
++            {planetDataVerification.mismatches.map((mismatch, index) => (
++              <div key={index} className="flex items-start">
++                <span className="text-orange-400 mr-1">•</span>
++                <span>
++                  {mismatch.planet}: In {mismatch.actualSign} but {mismatch.transitInfo.toLowerCase()}
++                </span>
++              </div>
++            ))}
++          </div>
++          <p className="text-xs text-orange-200 mt-2">
++            Note: Discrepancies between current positions and transit dates may indicate that the transit calendar needs updating.
++            {expanded && (
++              <span className="ml-1">Use the "Check Transit Dates" button to analyze needed updates.</span>
++            )}
++          </p>
++        </div>
++      )}
++      
+       {expanded && (
+         <div className="space-y-2">
+           <div className="p-3 border border-purple-700 rounded bg-purple-900 bg-opacity-30">
+@@ -41,6 +196,36 @@ export default function PlanetaryPositionValidation() {
+             </p>
+           </div>
+           
++          <div className="p-3 border border-blue-700 rounded bg-blue-900 bg-opacity-30">
++            <h4 className="font-medium mb-2 text-blue-300 flex items-center">
++              <Info className="h-4 w-4 mr-1" />
++              Position Validation
++            </h4>
++            <p className="text-sm text-white">
++              Planetary positions are validated against May 2025 ephemeris data to ensure accuracy.
++              Positions are considered valid when they have at least 90% accuracy compared to reference data.
++            </p>
++            <p className="text-sm mt-2 text-white">
++              Current validation status: {validationResult ? validationResult.details : 'Not validated'}
++            </p>
++          </div>
++          
++          <div className="p-3 border border-emerald-700 rounded bg-emerald-900 bg-opacity-30">
++            <h4 className="font-medium mb-2 text-emerald-300 flex items-center">
++              <Calendar className="h-4 w-4 mr-1" />
++              Transit Date Verification
++            </h4>
++            <p className="text-sm text-white">
++              Each planet's position is cross-referenced with the expected sign based on the transit dates defined in our planet data files.
++            </p>
++            {planetDataVerification && (
++              <p className="text-sm mt-2 text-white">
++                Verification results: {planetDataVerification.matchCount} of {planetDataVerification.totalChecks} matches
++                ({planetDataVerification.mismatches.length} discrepancies)
++              </p>
++            )}
++          </div>
++          
+           <div className="mt-4 text-xs text-cyan-300">
+             <p>Positions are updated daily to reflect the current celestial alignments</p>
+           </div>
+-- 
+2.47.0
+

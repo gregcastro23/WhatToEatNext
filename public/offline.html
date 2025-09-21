@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Offline - What to Eat Next</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+      }
+
+      .offline-container {
+        text-align: center;
+        max-width: 500px;
+        padding: 2rem;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 20px;
+        backdrop-filter: blur(10px);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+      }
+
+      .offline-icon {
+        font-size: 4rem;
+        margin-bottom: 1rem;
+        opacity: 0.8;
+      }
+
+      h1 {
+        font-size: 2rem;
+        margin-bottom: 1rem;
+        font-weight: 600;
+      }
+
+      p {
+        font-size: 1.1rem;
+        margin-bottom: 2rem;
+        opacity: 0.9;
+        line-height: 1.6;
+      }
+
+      .retry-button {
+        background: rgba(255, 255, 255, 0.2);
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        color: white;
+        padding: 12px 24px;
+        border-radius: 25px;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-block;
+      }
+
+      .retry-button:hover {
+        background: rgba(255, 255, 255, 0.3);
+        border-color: rgba(255, 255, 255, 0.5);
+        transform: translateY(-2px);
+      }
+
+      .offline-features {
+        margin-top: 2rem;
+        text-align: left;
+      }
+
+      .offline-features h3 {
+        margin-bottom: 1rem;
+        font-size: 1.2rem;
+      }
+
+      .feature-list {
+        list-style: none;
+      }
+
+      .feature-list li {
+        margin-bottom: 0.5rem;
+        padding-left: 1.5rem;
+        position: relative;
+      }
+
+      .feature-list li::before {
+        content: '✨';
+        position: absolute;
+        left: 0;
+      }
+
+      .connection-status {
+        margin-top: 1rem;
+        padding: 0.5rem 1rem;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+        font-size: 0.9rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="offline-container">
+      <div class="offline-icon">🌙</div>
+      <h1>You're Offline</h1>
+      <p>
+        Don't worry! What to Eat Next works offline too. While you're disconnected, you can still
+        access your cached recipes and cooking methods.
+      </p>
+
+      <button class="retry-button" onclick="window.location.reload()">Try Again</button>
+
+      <div class="offline-features">
+        <h3>Available Offline:</h3>
+        <ul class="feature-list">
+          <li>Your saved recipes and favorites</li>
+          <li>Cooking method guides</li>
+          <li>Elemental cooking principles</li>
+          <li>Basic ingredient information</li>
+          <li>Alchemical cooking techniques</li>
+        </ul>
+      </div>
+
+      <div class="connection-status">
+        <span id="status-text">Checking connection...</span>
+      </div>
+    </div>
+
+    <script>
+      // Check connection status
+      function updateConnectionStatus() {
+        const statusElement = document.getElementById('status-text');
+
+        if (navigator.onLine) {
+          statusElement.textContent = 'Connection restored! You can now access all features.';
+          statusElement.style.color = '#4ade80';
+
+          // Auto-reload after a short delay
+          setTimeout(() => {
+            window.location.reload();
+          }, 2000);
+        } else {
+          statusElement.textContent = 'Still offline. Check your internet connection.';
+          statusElement.style.color = '#fbbf24';
+        }
+      }
+
+      // Listen for connection changes
+      window.addEventListener('online', updateConnectionStatus);
+      window.addEventListener('offline', updateConnectionStatus);
+
+      // Initial status check
+      updateConnectionStatus();
+
+      // Periodic status check
+      setInterval(updateConnectionStatus, 5000);
+
+      // Register service worker if not already registered
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker
+          .register('/sw.js')
+          .then(registration => {
+            console.log('Service Worker registered:', registration);
+          })
+          .catch(error => {
+            console.log('Service Worker registration failed:', error);
+          });
+      }
+    </script>
+  </body>
+</html>

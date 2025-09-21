@@ -1,0 +1,28 @@
+94d25125c6b993a0d4f13569a39b4f56
+"use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __exportStar = (this && this.__exportStar) || function(m, exports) {
+    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.calculateMonicaConstant = exports.calculateKalchm = exports.calculateGregsEnergy = void 0;
+// Re-export from the main alchemicalCalculations file
+__exportStar(require("../alchemicalCalculations"), exports);
+// Also export specific functions for core calculations
+var gregsEnergy_1 = require("../gregsEnergy");
+Object.defineProperty(exports, "calculateGregsEnergy", { enumerable: true, get: function () { return gregsEnergy_1.calculateGregsEnergy; } });
+// Import Kalchm and Monica functions from kalchmEngine
+var kalchmEngine_1 = require("./kalchmEngine");
+Object.defineProperty(exports, "calculateKalchm", { enumerable: true, get: function () { return kalchmEngine_1.calculateKAlchm; } });
+Object.defineProperty(exports, "calculateMonicaConstant", { enumerable: true, get: function () { return kalchmEngine_1.calculateMonicaConstant; } });
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJmaWxlIjoiL1VzZXJzL0dyZWdDYXN0cm8vRGVza3RvcC9XaGF0VG9FYXROZXh0L3NyYy9jYWxjdWxhdGlvbnMvY29yZS9hbGNoZW1pY2FsQ2FsY3VsYXRpb25zLnRzIiwibWFwcGluZ3MiOiI7Ozs7Ozs7Ozs7Ozs7Ozs7O0FBQUEsc0RBQXNEO0FBQ3RELDREQUEwQztBQUUxQyx1REFBdUQ7QUFDdkQsOENBRXdCO0FBRHRCLG1IQUFBLG9CQUFvQixPQUFBO0FBR3RCLHVEQUF1RDtBQUN2RCwrQ0FHd0I7QUFGdEIsK0dBQUEsZUFBZSxPQUFtQjtBQUNsQyx1SEFBQSx1QkFBdUIsT0FBQSIsIm5hbWVzIjpbXSwic291cmNlcyI6WyIvVXNlcnMvR3JlZ0Nhc3Ryby9EZXNrdG9wL1doYXRUb0VhdE5leHQvc3JjL2NhbGN1bGF0aW9ucy9jb3JlL2FsY2hlbWljYWxDYWxjdWxhdGlvbnMudHMiXSwic291cmNlc0NvbnRlbnQiOlsiLy8gUmUtZXhwb3J0IGZyb20gdGhlIG1haW4gYWxjaGVtaWNhbENhbGN1bGF0aW9ucyBmaWxlXG5leHBvcnQgKiBmcm9tICcuLi9hbGNoZW1pY2FsQ2FsY3VsYXRpb25zJztcblxuLy8gQWxzbyBleHBvcnQgc3BlY2lmaWMgZnVuY3Rpb25zIGZvciBjb3JlIGNhbGN1bGF0aW9uc1xuZXhwb3J0IHsgXG4gIGNhbGN1bGF0ZUdyZWdzRW5lcmd5XG59IGZyb20gJy4uL2dyZWdzRW5lcmd5JztcblxuLy8gSW1wb3J0IEthbGNobSBhbmQgTW9uaWNhIGZ1bmN0aW9ucyBmcm9tIGthbGNobUVuZ2luZVxuZXhwb3J0IHsgXG4gIGNhbGN1bGF0ZUtBbGNobSBhcyBjYWxjdWxhdGVLYWxjaG0sXG4gIGNhbGN1bGF0ZU1vbmljYUNvbnN0YW50XG59IGZyb20gJy4va2FsY2htRW5naW5lJzsgIl0sInZlcnNpb24iOjN9

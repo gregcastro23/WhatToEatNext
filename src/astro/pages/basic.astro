@@ -1,0 +1,84 @@
+---
+// Basic Astro page without any custom components
+---
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Basic Astro Page</title>
+  </head>
+  <body>
+    <header>
+      <h1>Basic Astro Page</h1>
+    </header>
+    
+    <main>
+      <p>This is a very basic Astro page without any custom components.</p>
+      
+      <div class="moon-display">
+        <h2>Current Lunar Phase</h2>
+        <div class="moon">
+          <!-- Simple hardcoded moon representation -->
+          <div class="moon-circle"></div>
+        </div>
+      </div>
+    </main>
+    
+    <footer>
+      <p>Basic Astro page footer</p>
+    </footer>
+    
+    <style>
+      body {
+        font-family: system-ui, sans-serif;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        line-height: 1.6;
+      }
+      
+      header {
+        background-color: #5762d5;
+        color: white;
+        padding: 1rem;
+        text-align: center;
+        margin-bottom: 2rem;
+        border-radius: 8px;
+      }
+      
+      h1 {
+        margin: 0;
+      }
+      
+      .moon-display {
+        background-color: #f8f9fa;
+        padding: 2rem;
+        border-radius: 8px;
+        text-align: center;
+        margin-bottom: 2rem;
+      }
+      
+      .moon {
+        margin: 2rem auto;
+      }
+      
+      .moon-circle {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        background-color: #f0f0f0;
+        border: 2px solid #ccc;
+        margin: 0 auto;
+      }
+      
+      footer {
+        background-color: #333;
+        color: white;
+        padding: 1rem;
+        text-align: center;
+        border-radius: 8px;
+      }
+    </style>
+  </body>
+</html> 

@@ -1,0 +1,226 @@
+/* src/styles/popup.css */
+
+/* Container for multiple popups */
+.popup-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 1000;
+}
+
+/* Base Popup Styles */
+.popup {
+  position: fixed;
+  padding: 1rem 1.5rem;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  opacity: 0;
+  transform: scale(0.95);
+  min-width: 300px;
+  max-width: 80vw;
+  pointer-events: auto;
+}
+
+/* Metadata Display */
+.popup-metadata {
+  display: flex;
+  gap: 1rem;
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+  opacity: 0.8;
+}
+
+.popup-sign {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+/* Element Icons */
+.popup-element-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  margin-right: 0.5rem;
+}
+
+/* Message Layout */
+.popup-message {
+  flex: 1;
+}
+
+/* Animation States */
+.popup.popup-enter {
+  opacity: 0;
+  transform: translateY(-20px);
+}
+
+.popup.popup-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.popup.popup-exit {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+/* Harmonious Combinations */
+.popup-harmonious {
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  animation: harmonious-glow 2s infinite;
+}
+
+@keyframes harmonious-glow {
+  0%,
+  100% {
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  }
+  50% {
+    box-shadow: 0 4px 20px rgba(255, 255, 255, 0.3);
+  }
+}
+
+/* Extended Element Combinations */
+.popup-fire.popup-air {
+  background: linear-gradient(135deg, #ff3b3b 0%, #ffb300 100%);
+  color: #1a1a1a;
+}
+
+.popup-water.popup-earth {
+  background: linear-gradient(135deg, #4b89ff 0%, #43a047 100%);
+  color: white;
+}
+
+.popup-fire.popup-earth {
+  background: linear-gradient(135deg, #ff3b3b 0%, #43a047 100%);
+  color: white;
+}
+
+.popup-water.popup-air {
+  background: linear-gradient(135deg, #4b89ff 0%, #ffb300 100%);
+  color: #1a1a1a;
+}
+
+/* Seasonal Enhancements */
+.popup.season-spring {
+  border: 2px solid #81c784;
+  background: linear-gradient(135deg, #ffffff 0%, #e8f5e9 100%);
+}
+
+.popup.season-summer {
+  border: 2px solid #ffb300;
+  background: linear-gradient(135deg, #ffffff 0%, #fff8e1 100%);
+}
+
+.popup.season-autumn {
+  border: 2px solid #f4511e;
+  background: linear-gradient(135deg, #ffffff 0%, #fbe9e7 100%);
+}
+
+.popup.season-winter {
+  border: 2px solid #4b89ff;
+  background: linear-gradient(135deg, #ffffff 0%, #e3f2fd 100%);
+}
+
+/* Enhanced Animation Variations */
+@keyframes floatIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px) translateX(-50%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) translateX(-50%);
+  }
+}
+
+@keyframes pulseIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.9) translateX(-50%);
+  }
+  50% {
+    transform: scale(1.05) translateX(-50%);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateX(-50%);
+  }
+}
+
+/* Animation Classes */
+.popup-float {
+  animation: floatIn 0.3s ease-out forwards;
+}
+
+.popup-pulse {
+  animation: pulseIn 0.3s ease-out forwards;
+}
+
+/* Elemental Animations */
+.popup-fire.popup-animate {
+  animation: fireFlicker 2s infinite;
+}
+
+.popup-water.popup-animate {
+  animation: waterFlow 3s infinite;
+}
+
+.popup-air.popup-animate {
+  animation: airFloat 4s infinite;
+}
+
+.popup-earth.popup-animate {
+  animation: earthPulse 3s infinite;
+}
+
+@keyframes fireFlicker {
+  0%,
+  100% {
+    box-shadow: 0 4px 12px rgba(255, 59, 59, 0.3);
+  }
+  50% {
+    box-shadow: 0 4px 20px rgba(255, 59, 59, 0.5);
+  }
+}
+
+@keyframes waterFlow {
+  0%,
+  100% {
+    transform: translateX(-50%) translateY(0);
+  }
+  50% {
+    transform: translateX(-50%) translateY(-5px);
+  }
+}
+
+@keyframes airFloat {
+  0%,
+  100% {
+    transform: translateX(-50%) rotate(0deg);
+  }
+  50% {
+    transform: translateX(-50%) rotate(1deg);
+  }
+}
+
+@keyframes earthPulse {
+  0%,
+  100% {
+    transform: translateX(-50%) scale(1);
+  }
+  50% {
+    transform: translateX(-50%) scale(1.02);
+  }
+}
+
+/* Keep your existing responsive, dark mode, accessibility, and scrollbar styles */

@@ -1,0 +1,35 @@
+d3a1775a8562718ffb6b77676178fe10
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.simmering = exports.poaching = exports.braising = exports.steaming = exports.boiling = exports.sousVide = exports.wetCookingMethods = void 0;
+const sous_vide_1 = require("./sous-vide");
+Object.defineProperty(exports, "sousVide", { enumerable: true, get: function () { return sous_vide_1.sousVide; } });
+const boiling_1 = require("./boiling");
+Object.defineProperty(exports, "boiling", { enumerable: true, get: function () { return boiling_1.boiling; } });
+const steaming_1 = require("./steaming");
+Object.defineProperty(exports, "steaming", { enumerable: true, get: function () { return steaming_1.steaming; } });
+const braising_1 = require("./braising");
+Object.defineProperty(exports, "braising", { enumerable: true, get: function () { return braising_1.braising; } });
+// Import other wet cooking methods as they are added
+const poaching_1 = require("./poaching");
+Object.defineProperty(exports, "poaching", { enumerable: true, get: function () { return poaching_1.poaching; } });
+const simmering_1 = require("./simmering");
+Object.defineProperty(exports, "simmering", { enumerable: true, get: function () { return simmering_1.simmering; } });
+const pressure_cooking_1 = require("./pressure-cooking");
+/**
+ * Collection of wet cooking methods
+ *
+ * Wet cooking methods use water, steam, or other liquids as the primary
+ * heat transfer medium for cooking food
+ */
+exports.wetCookingMethods = {
+    sous_vide: sous_vide_1.sousVide,
+    boiling: boiling_1.boiling,
+    steaming: steaming_1.steaming,
+    braising: braising_1.braising,
+    // Add other cooking methods as they are implemented
+    poaching: poaching_1.poaching,
+    simmering: simmering_1.simmering,
+    pressure_cooking: pressure_cooking_1.pressureCooking,
+};
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJmaWxlIjoiL1VzZXJzL0dyZWdDYXN0cm8vRGVza3RvcC9XaGF0VG9FYXROZXh0L3NyYy9kYXRhL2Nvb2tpbmcvbWV0aG9kcy93ZXQvaW5kZXgudHMiLCJtYXBwaW5ncyI6Ijs7O0FBQUEsMkNBQXVDO0FBNEJyQyx5RkE1Qk8sb0JBQVEsT0E0QlA7QUEzQlYsdUNBQW9DO0FBNEJsQyx3RkE1Qk8saUJBQU8sT0E0QlA7QUEzQlQseUNBQXNDO0FBNEJwQyx5RkE1Qk8sbUJBQVEsT0E0QlA7QUEzQlYseUNBQXNDO0FBNEJwQyx5RkE1Qk8sbUJBQVEsT0E0QlA7QUEzQlYscURBQXFEO0FBQ3JELHlDQUFzQztBQTJCcEMseUZBM0JPLG1CQUFRLE9BMkJQO0FBMUJWLDJDQUF3QztBQTJCdEMsMEZBM0JPLHFCQUFTLE9BMkJQO0FBMUJYLHlEQUFxRDtBQUVyRDs7Ozs7R0FLRztBQUNVLFFBQUEsaUJBQWlCLEdBQUc7SUFDL0IsU0FBUyxFQUFFLG9CQUFRO0lBQ25CLE9BQU8sRUFBRSxpQkFBTztJQUNoQixRQUFRLEVBQUUsbUJBQVE7SUFDbEIsUUFBUSxFQUFFLG1CQUFRO0lBQ2xCLG9EQUFvRDtJQUNwRCxRQUFRLEVBQVIsbUJBQVE7SUFDUixTQUFTLEVBQVQscUJBQVM7SUFDVCxnQkFBZ0IsRUFBRSxrQ0FBZTtDQUNsQyxDQUFDIiwibmFtZXMiOltdLCJzb3VyY2VzIjpbIi9Vc2Vycy9HcmVnQ2FzdHJvL0Rlc2t0b3AvV2hhdFRvRWF0TmV4dC9zcmMvZGF0YS9jb29raW5nL21ldGhvZHMvd2V0L2luZGV4LnRzIl0sInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7IHNvdXNWaWRlIH0gZnJvbSAnLi9zb3VzLXZpZGUnO1xuaW1wb3J0IHsgYm9pbGluZyB9IGZyb20gJy4vYm9pbGluZyc7XG5pbXBvcnQgeyBzdGVhbWluZyB9IGZyb20gJy4vc3RlYW1pbmcnO1xuaW1wb3J0IHsgYnJhaXNpbmcgfSBmcm9tICcuL2JyYWlzaW5nJztcbi8vIEltcG9ydCBvdGhlciB3ZXQgY29va2luZyBtZXRob2RzIGFzIHRoZXkgYXJlIGFkZGVkXG5pbXBvcnQgeyBwb2FjaGluZyB9IGZyb20gJy4vcG9hY2hpbmcnO1xuaW1wb3J0IHsgc2ltbWVyaW5nIH0gZnJvbSAnLi9zaW1tZXJpbmcnO1xuaW1wb3J0IHsgcHJlc3N1cmVDb29raW5nIH0gZnJvbSAnLi9wcmVzc3VyZS1jb29raW5nJztcblxuLyoqXG4gKiBDb2xsZWN0aW9uIG9mIHdldCBjb29raW5nIG1ldGhvZHNcbiAqIFxuICogV2V0IGNvb2tpbmcgbWV0aG9kcyB1c2Ugd2F0ZXIsIHN0ZWFtLCBvciBvdGhlciBsaXF1aWRzIGFzIHRoZSBwcmltYXJ5XG4gKiBoZWF0IHRyYW5zZmVyIG1lZGl1bSBmb3IgY29va2luZyBmb29kXG4gKi9cbmV4cG9ydCBjb25zdCB3ZXRDb29raW5nTWV0aG9kcyA9IHtcbiAgc291c192aWRlOiBzb3VzVmlkZSxcbiAgYm9pbGluZzogYm9pbGluZyxcbiAgc3RlYW1pbmc6IHN0ZWFtaW5nLFxuICBicmFpc2luZzogYnJhaXNpbmcsXG4gIC8vIEFkZCBvdGhlciBjb29raW5nIG1ldGhvZHMgYXMgdGhleSBhcmUgaW1wbGVtZW50ZWRcbiAgcG9hY2hpbmcsXG4gIHNpbW1lcmluZyxcbiAgcHJlc3N1cmVfY29va2luZzogcHJlc3N1cmVDb29raW5nLFxufTtcblxuLy8gRXhwb3J0IGluZGl2aWR1YWwgbWV0aG9kc1xuZXhwb3J0IHtcbiAgc291c1ZpZGUsXG4gIGJvaWxpbmcsXG4gIHN0ZWFtaW5nLFxuICBicmFpc2luZyxcbiAgcG9hY2hpbmcsXG4gIHNpbW1lcmluZyxcbn07ICJdLCJ2ZXJzaW9uIjozfQ==

@@ -1,0 +1,12 @@
+.kiro/
+dist/
+build/
+.next/
+coverage/
+test-apis-simple.js
+test-astrologize-api.js
+test-both-apis.js
+node_modules/
+# Mixed JSON/JS format files that can't be parsed as strict JSON
+alchemizer-response.json
+docs/data/alchemizer-response.json

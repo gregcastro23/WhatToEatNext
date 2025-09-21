@@ -1,0 +1,33 @@
+{
+  "name": "Planetary Data Refresh",
+  "description": "Updates planetary positions and validates astrological calculations daily",
+  "trigger": {
+    "type": "onSchedule",
+    "schedule": "0 6 * * *"
+  },
+  "condition": {
+    "script": "const fs = require('fs'); const path = require('path'); const reliableAstronomyPath = path.join(process.cwd(), 'src/utils/reliableAstronomy.ts'); return fs.existsSync(reliableAstronomyPath);"
+  },
+  "actions": [
+    {
+      "type": "runScript",
+      "script": "src/services/campaign/planetaryDataRefresh.js",
+      "parameters": {
+        "validateTransitDates": true,
+        "updateCache": true,
+        "generateReport": true
+      }
+    },
+    {
+      "type": "notification",
+      "message": "Daily planetary data refresh completed",
+      "level": "info"
+    }
+  ],
+  "settings": {
+    "autoExecute": true,
+    "timezone": "UTC",
+    "retryOnFailure": true,
+    "maxRetries": 3
+  }
+}

@@ -1,0 +1,65 @@
+1a8c237446be64559553f9cd1f2d736f
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.infusing = void 0;
+/**
+ * Infusing: A technique that transfers flavors, colors, or medicinal properties
+ * from one ingredient into a liquid or oil base
+ */
+exports.infusing = {
+    name: 'Infusing',
+    description: 'A technique that transfers flavors, colors, aromas, or medicinal properties from herbs, spices, fruits, or other ingredients into a liquid base such as oil, water, alcohol, or vinegar.',
+    elementalEffect: {
+        Fire: 0.1,
+        Water: 0.7,
+        Earth: 0.1,
+        Air: 0.5
+    },
+    duration: {
+        min: 15,
+        max: 10080 // 7 days
+    },
+    suitable_for: [
+        'Oils',
+        'Alcohols',
+        'Water',
+        'Vinegars',
+        'Honey',
+        'Milk',
+        'Cream'
+    ],
+    benefits: [
+        'Extracts beneficial compounds from herbs and spices',
+        'Creates flavorful alternatives to salt and sugar',
+        'Preserves volatile compounds that might be lost in high-heat cooking',
+        'Allows for creation of medicinal preparations'
+    ],
+    history: 'Infusion has ancient roots in culinary and medicinal traditions around the world. It was widely used in traditional medicine for creating herbal remedies and in cuisine for imparting subtle flavors to foods and beverages.',
+    modernVariations: [
+        'Hot infusion (using heat to speed extraction)',
+        'Cold infusion (steeping ingredients at room temperature or refrigerated)',
+        'Sous-vide infusion (temperature-controlled method)',
+        'Pressure infusion (using pressure to speed up the process)',
+        'Fat infusion (infusing solid fats like butter)'
+    ],
+    optimalTemperatures: {
+        cold: 2,
+        hot: 80 // °C
+    },
+    toolsRequired: [
+        'Jars or containers',
+        'Strainers or filters',
+        'Heat source (for hot infusions)',
+        'Thermometer',
+        'Funnel',
+        'Bottles for storage',
+        'Cheesecloth'
+    ],
+    healthConsiderations: [
+        'Oil infusions can develop botulism if not properly prepared and stored',
+        'Must ensure proper sanitation to prevent microbial growth',
+        'Some infused products need refrigeration',
+        'Some herbs and plants are toxic and should not be used for infusions'
+    ]
+};
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJmaWxlIjoiL1VzZXJzL0dyZWdDYXN0cm8vRGVza3RvcC9XaGF0VG9FYXROZXh0L3NyYy9kYXRhL2Nvb2tpbmcvbWV0aG9kcy90cmFuc2Zvcm1hdGlvbi9pbmZ1c2luZy50cyIsIm1hcHBpbmdzIjoiOzs7QUFHQTs7O0dBR0c7QUFDVSxRQUFBLFFBQVEsR0FBc0I7SUFDekMsSUFBSSxFQUFFLFVBQTJCO0lBQ2pDLFdBQVcsRUFBRSwwTEFBMEw7SUFDdk0sZUFBZSxFQUFFO1FBQ2YsSUFBSSxFQUFFLEdBQUc7UUFDVCxLQUFLLEVBQUUsR0FBRztRQUNWLEtBQUssRUFBRSxHQUFHO1FBQ1YsR0FBRyxFQUFFLEdBQUc7S0FDVDtJQUNELFFBQVEsRUFBRTtRQUNSLEdBQUcsRUFBRSxFQUFFO1FBQ1AsR0FBRyxFQUFFLEtBQUssQ0FBQyxTQUFTO0tBQ3JCO0lBQ0QsWUFBWSxFQUFFO1FBQ1osTUFBTTtRQUNOLFVBQVU7UUFDVixPQUFPO1FBQ1AsVUFBVTtRQUNWLE9BQU87UUFDUCxNQUFNO1FBQ04sT0FBTztLQUNSO0lBQ0QsUUFBUSxFQUFFO1FBQ1IscURBQXFEO1FBQ3JELGtEQUFrRDtRQUNsRCxzRUFBc0U7UUFDdEUsK0NBQStDO0tBQ2hEO0lBQ0QsT0FBTyxFQUFFLCtOQUErTjtJQUN4TyxnQkFBZ0IsRUFBRTtRQUNoQiwrQ0FBK0M7UUFDL0MsMEVBQTBFO1FBQzFFLG9EQUFvRDtRQUNwRCw0REFBNEQ7UUFDNUQsZ0RBQWdEO0tBQ2pEO0lBQ0QsbUJBQW1CLEVBQUU7UUFDbkIsSUFBSSxFQUFFLENBQUM7UUFDUCxHQUFHLEVBQUUsRUFBRSxDQUFDLEtBQUs7S0FDZDtJQUNELGFBQWEsRUFBRTtRQUNiLG9CQUFvQjtRQUNwQixzQkFBc0I7UUFDdEIsaUNBQWlDO1FBQ2pDLGFBQWE7UUFDYixRQUFRO1FBQ1IscUJBQXFCO1FBQ3JCLGFBQWE7S0FDZDtJQUNELG9CQUFvQixFQUFFO1FBQ3BCLHdFQUF3RTtRQUN4RSwyREFBMkQ7UUFDM0QsMENBQTBDO1FBQzFDLHNFQUFzRTtLQUN2RTtDQUNGLENBQUMiLCJuYW1lcyI6W10sInNvdXJjZXMiOlsiL1VzZXJzL0dyZWdDYXN0cm8vRGVza3RvcC9XaGF0VG9FYXROZXh0L3NyYy9kYXRhL2Nvb2tpbmcvbWV0aG9kcy90cmFuc2Zvcm1hdGlvbi9pbmZ1c2luZy50cyJdLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgdHlwZSB7IENvb2tpbmdNZXRob2REYXRhIH0gZnJvbSAnQC90eXBlcy9jb29raW5nTWV0aG9kJztcbmltcG9ydCB0eXBlIHsgQ29va2luZ01ldGhvZCB9IGZyb20gJ0AvdHlwZXMvc2hhcmVkJztcblxuLyoqXG4gKiBJbmZ1c2luZzogQSB0ZWNobmlxdWUgdGhhdCB0cmFuc2ZlcnMgZmxhdm9ycywgY29sb3JzLCBvciBtZWRpY2luYWwgcHJvcGVydGllc1xuICogZnJvbSBvbmUgaW5ncmVkaWVudCBpbnRvIGEgbGlxdWlkIG9yIG9pbCBiYXNlXG4gKi9cbmV4cG9ydCBjb25zdCBpbmZ1c2luZzogQ29va2luZ01ldGhvZERhdGEgPSB7XG4gIG5hbWU6ICdJbmZ1c2luZycgYXMgQ29va2luZ01ldGhvZCxcbiAgZGVzY3JpcHRpb246ICdBIHRlY2huaXF1ZSB0aGF0IHRyYW5zZmVycyBmbGF2b3JzLCBjb2xvcnMsIGFyb21hcywgb3IgbWVkaWNpbmFsIHByb3BlcnRpZXMgZnJvbSBoZXJicywgc3BpY2VzLCBmcnVpdHMsIG9yIG90aGVyIGluZ3JlZGllbnRzIGludG8gYSBsaXF1aWQgYmFzZSBzdWNoIGFzIG9pbCwgd2F0ZXIsIGFsY29ob2wsIG9yIHZpbmVnYXIuJyxcbiAgZWxlbWVudGFsRWZmZWN0OiB7XG4gICAgRmlyZTogMC4xLFxuICAgIFdhdGVyOiAwLjcsXG4gICAgRWFydGg6IDAuMSxcbiAgICBBaXI6IDAuNVxuICB9LFxuICBkdXJhdGlvbjoge1xuICAgIG1pbjogMTUsIC8vIDE1IG1pbnV0ZXNcbiAgICBtYXg6IDEwMDgwIC8vIDcgZGF5c1xuICB9LFxuICBzdWl0YWJsZV9mb3I6IFtcbiAgICAnT2lscycsXG4gICAgJ0FsY29ob2xzJyxcbiAgICAnV2F0ZXInLFxuICAgICdWaW5lZ2FycycsXG4gICAgJ0hvbmV5JyxcbiAgICAnTWlsaycsXG4gICAgJ0NyZWFtJ1xuICBdLFxuICBiZW5lZml0czogW1xuICAgICdFeHRyYWN0cyBiZW5lZmljaWFsIGNvbXBvdW5kcyBmcm9tIGhlcmJzIGFuZCBzcGljZXMnLFxuICAgICdDcmVhdGVzIGZsYXZvcmZ1bCBhbHRlcm5hdGl2ZXMgdG8gc2FsdCBhbmQgc3VnYXInLFxuICAgICdQcmVzZXJ2ZXMgdm9sYXRpbGUgY29tcG91bmRzIHRoYXQgbWlnaHQgYmUgbG9zdCBpbiBoaWdoLWhlYXQgY29va2luZycsXG4gICAgJ0FsbG93cyBmb3IgY3JlYXRpb24gb2YgbWVkaWNpbmFsIHByZXBhcmF0aW9ucydcbiAgXSxcbiAgaGlzdG9yeTogJ0luZnVzaW9uIGhhcyBhbmNpZW50IHJvb3RzIGluIGN1bGluYXJ5IGFuZCBtZWRpY2luYWwgdHJhZGl0aW9ucyBhcm91bmQgdGhlIHdvcmxkLiBJdCB3YXMgd2lkZWx5IHVzZWQgaW4gdHJhZGl0aW9uYWwgbWVkaWNpbmUgZm9yIGNyZWF0aW5nIGhlcmJhbCByZW1lZGllcyBhbmQgaW4gY3Vpc2luZSBmb3IgaW1wYXJ0aW5nIHN1YnRsZSBmbGF2b3JzIHRvIGZvb2RzIGFuZCBiZXZlcmFnZXMuJyxcbiAgbW9kZXJuVmFyaWF0aW9uczogW1xuICAgICdIb3QgaW5mdXNpb24gKHVzaW5nIGhlYXQgdG8gc3BlZWQgZXh0cmFjdGlvbiknLFxuICAgICdDb2xkIGluZnVzaW9uIChzdGVlcGluZyBpbmdyZWRpZW50cyBhdCByb29tIHRlbXBlcmF0dXJlIG9yIHJlZnJpZ2VyYXRlZCknLFxuICAgICdTb3VzLXZpZGUgaW5mdXNpb24gKHRlbXBlcmF0dXJlLWNvbnRyb2xsZWQgbWV0aG9kKScsXG4gICAgJ1ByZXNzdXJlIGluZnVzaW9uICh1c2luZyBwcmVzc3VyZSB0byBzcGVlZCB1cCB0aGUgcHJvY2VzcyknLFxuICAgICdGYXQgaW5mdXNpb24gKGluZnVzaW5nIHNvbGlkIGZhdHMgbGlrZSBidXR0ZXIpJ1xuICBdLFxuICBvcHRpbWFsVGVtcGVyYXR1cmVzOiB7XG4gICAgY29sZDogMiwgLy8gwrBDXG4gICAgaG90OiA4MCAvLyDCsENcbiAgfSxcbiAgdG9vbHNSZXF1aXJlZDogW1xuICAgICdKYXJzIG9yIGNvbnRhaW5lcnMnLFxuICAgICdTdHJhaW5lcnMgb3IgZmlsdGVycycsXG4gICAgJ0hlYXQgc291cmNlIChmb3IgaG90IGluZnVzaW9ucyknLFxuICAgICdUaGVybW9tZXRlcicsXG4gICAgJ0Z1bm5lbCcsXG4gICAgJ0JvdHRsZXMgZm9yIHN0b3JhZ2UnLFxuICAgICdDaGVlc2VjbG90aCdcbiAgXSxcbiAgaGVhbHRoQ29uc2lkZXJhdGlvbnM6IFtcbiAgICAnT2lsIGluZnVzaW9ucyBjYW4gZGV2ZWxvcCBib3R1bGlzbSBpZiBub3QgcHJvcGVybHkgcHJlcGFyZWQgYW5kIHN0b3JlZCcsXG4gICAgJ011c3QgZW5zdXJlIHByb3BlciBzYW5pdGF0aW9uIHRvIHByZXZlbnQgbWljcm9iaWFsIGdyb3d0aCcsXG4gICAgJ1NvbWUgaW5mdXNlZCBwcm9kdWN0cyBuZWVkIHJlZnJpZ2VyYXRpb24nLFxuICAgICdTb21lIGhlcmJzIGFuZCBwbGFudHMgYXJlIHRveGljIGFuZCBzaG91bGQgbm90IGJlIHVzZWQgZm9yIGluZnVzaW9ucydcbiAgXVxufTsgIl0sInZlcnNpb24iOjN9

@@ -1,0 +1,21 @@
+[Unit]
+Description=WhatToEatNext Error Count Monitor
+After=network.target
+
+[Service]
+Type=simple
+User=www-data
+WorkingDirectory=/path/to/what-to-eat-next
+ExecStart=/usr/bin/node src/scripts/error-count-monitor.cjs continuous
+Restart=always
+RestartSec=30
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=error-monitor
+
+# Environment variables
+Environment=NODE_ENV=production
+Environment=PATH=/usr/local/bin:/usr/bin:/bin
+
+[Install]
+WantedBy=multi-user.target

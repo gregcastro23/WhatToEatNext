@@ -1,0 +1,35 @@
+d6623ca77c353ee7d7c17630a045b6f5
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.getBestRecipeMatches = exports.getAllRecipes = exports.allRecipes = exports.Recipes = void 0;
+const cuisines_1 = __importDefault(require("../cuisines"));
+exports.Recipes = cuisines_1.default;
+const recipes_1 = require("../recipes");
+Object.defineProperty(exports, "getBestRecipeMatches", { enumerable: true, get: function () { return recipes_1.getBestRecipeMatches; } });
+// Create flattened list of all recipes from all cuisines
+const flattenCuisineRecipes = (cuisines) => {
+    const allRecipes = [];
+    // Iterate through all cuisines
+    Object.values(cuisines).forEach((cuisine) => {
+        if (cuisine.dishes) {
+            // Iterate through meal types
+            Object.values(cuisine.dishes).forEach((mealType) => {
+                // Iterate through seasons
+                Object.values(mealType).forEach((recipes) => {
+                    if (Array.isArray(recipes)) {
+                        allRecipes.push(...recipes);
+                    }
+                });
+            });
+        }
+    });
+    return allRecipes;
+};
+// Export alias for compatibility
+exports.allRecipes = flattenCuisineRecipes(cuisines_1.default);
+var RecipeFinder_1 = require("@/services/RecipeFinder");
+Object.defineProperty(exports, "getAllRecipes", { enumerable: true, get: function () { return RecipeFinder_1.getAllRecipes; } });
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJmaWxlIjoiL1VzZXJzL0dyZWdDYXN0cm8vRGVza3RvcC9XaGF0VG9FYXROZXh0L3NyYy9kYXRhL3JlY2lwZXMvaW5kZXgudHMiLCJtYXBwaW5ncyI6Ijs7Ozs7O0FBQUEsMkRBQWtDO0FBSXpCLGtCQUpGLGtCQUFPLENBSUU7QUFGaEIsd0NBQWtGO0FBNkJ6QyxxR0E3QlIsOEJBQTRCLE9BNkJBO0FBekI3RCx5REFBeUQ7QUFDekQsTUFBTSxxQkFBcUIsR0FBRyxDQUFDLFFBQWEsRUFBRSxFQUFFO0lBQzlDLE1BQU0sVUFBVSxHQUFhLEVBQUUsQ0FBQztJQUVoQywrQkFBK0I7SUFDL0IsTUFBTSxDQUFDLE1BQU0sQ0FBQyxRQUFRLENBQUMsQ0FBQyxPQUFPLENBQUMsQ0FBQyxPQUFZLEVBQUUsRUFBRTtRQUMvQyxJQUFJLE9BQU8sQ0FBQyxNQUFNLEVBQUU7WUFDbEIsNkJBQTZCO1lBQzdCLE1BQU0sQ0FBQyxNQUFNLENBQUMsT0FBTyxDQUFDLE1BQU0sQ0FBQyxDQUFDLE9BQU8sQ0FBQyxDQUFDLFFBQWEsRUFBRSxFQUFFO2dCQUN0RCwwQkFBMEI7Z0JBQzFCLE1BQU0sQ0FBQyxNQUFNLENBQUMsUUFBUSxDQUFDLENBQUMsT0FBTyxDQUFDLENBQUMsT0FBWSxFQUFFLEVBQUU7b0JBQy9DLElBQUksS0FBSyxDQUFDLE9BQU8sQ0FBQyxPQUFPLENBQUMsRUFBRTt3QkFDMUIsVUFBVSxDQUFDLElBQUksQ0FBQyxHQUFHLE9BQU8sQ0FBQyxDQUFDO3FCQUM3QjtnQkFDSCxDQUFDLENBQUMsQ0FBQztZQUNMLENBQUMsQ0FBQyxDQUFDO1NBQ0o7SUFDSCxDQUFDLENBQUMsQ0FBQztJQUVILE9BQU8sVUFBVSxDQUFDO0FBQ3BCLENBQUMsQ0FBQztBQUVGLGlDQUFpQztBQUNwQixRQUFBLFVBQVUsR0FBRyxxQkFBcUIsQ0FBQyxrQkFBTyxDQUFDLENBQUM7QUFDekQsd0RBQXdEO0FBQS9DLDZHQUFBLGFBQWEsT0FBQSIsIm5hbWVzIjpbXSwic291cmNlcyI6WyIvVXNlcnMvR3JlZ0Nhc3Ryby9EZXNrdG9wL1doYXRUb0VhdE5leHQvc3JjL2RhdGEvcmVjaXBlcy9pbmRleC50cyJdLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgUmVjaXBlcyBmcm9tIFwiLi4vY3Vpc2luZXNcIjtcbmltcG9ydCB7IFJlY2lwZSB9IGZyb20gJ0AvdHlwZXMvcmVjaXBlJztcbmltcG9ydCB7IGdldEJlc3RSZWNpcGVNYXRjaGVzIGFzIGdldEJlc3RSZWNpcGVNYXRjaGVzRnJvbU1haW4gfSBmcm9tICcuLi9yZWNpcGVzJztcblxuZXhwb3J0IHsgUmVjaXBlcyB9O1xuXG4vLyBDcmVhdGUgZmxhdHRlbmVkIGxpc3Qgb2YgYWxsIHJlY2lwZXMgZnJvbSBhbGwgY3Vpc2luZXNcbmNvbnN0IGZsYXR0ZW5DdWlzaW5lUmVjaXBlcyA9IChjdWlzaW5lczogYW55KSA9PiB7XG4gIGNvbnN0IGFsbFJlY2lwZXM6IFJlY2lwZVtdID0gW107XG4gIFxuICAvLyBJdGVyYXRlIHRocm91Z2ggYWxsIGN1aXNpbmVzXG4gIE9iamVjdC52YWx1ZXMoY3Vpc2luZXMpLmZvckVhY2goKGN1aXNpbmU6IGFueSkgPT4ge1xuICAgIGlmIChjdWlzaW5lLmRpc2hlcykge1xuICAgICAgLy8gSXRlcmF0ZSB0aHJvdWdoIG1lYWwgdHlwZXNcbiAgICAgIE9iamVjdC52YWx1ZXMoY3Vpc2luZS5kaXNoZXMpLmZvckVhY2goKG1lYWxUeXBlOiBhbnkpID0+IHtcbiAgICAgICAgLy8gSXRlcmF0ZSB0aHJvdWdoIHNlYXNvbnNcbiAgICAgICAgT2JqZWN0LnZhbHVlcyhtZWFsVHlwZSkuZm9yRWFjaCgocmVjaXBlczogYW55KSA9PiB7XG4gICAgICAgICAgaWYgKEFycmF5LmlzQXJyYXkocmVjaXBlcykpIHtcbiAgICAgICAgICAgIGFsbFJlY2lwZXMucHVzaCguLi5yZWNpcGVzKTtcbiAgICAgICAgICB9XG4gICAgICAgIH0pO1xuICAgICAgfSk7XG4gICAgfVxuICB9KTtcbiAgXG4gIHJldHVybiBhbGxSZWNpcGVzO1xufTtcblxuLy8gRXhwb3J0IGFsaWFzIGZvciBjb21wYXRpYmlsaXR5XG5leHBvcnQgY29uc3QgYWxsUmVjaXBlcyA9IGZsYXR0ZW5DdWlzaW5lUmVjaXBlcyhSZWNpcGVzKTtcbmV4cG9ydCB7IGdldEFsbFJlY2lwZXMgfSBmcm9tICdAL3NlcnZpY2VzL1JlY2lwZUZpbmRlcic7XG5leHBvcnQgeyBnZXRCZXN0UmVjaXBlTWF0Y2hlc0Zyb21NYWluIGFzIGdldEJlc3RSZWNpcGVNYXRjaGVzIH07XG4iXSwidmVyc2lvbiI6M30=

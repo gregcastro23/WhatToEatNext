@@ -1,0 +1,135 @@
+yarn run v1.22.22
+$ node scripts/check-node-version.cjs
+[32m✓ Using Node.js v23.11.0 (required: 20.18.0)[0m
+$ next build
+   ▲ Next.js 15.3.3
+   - Environments: .env.local
+
+   Creating an optimized production build ...
+Failed to compile.
+
+./src/components/CuisineRecommender.tsx
+Error:   [31mx[0m Unexpected token `div`. Expected jsx identifier
+     ,-[[36;1;4m/Users/GregCastro/Desktop/WhatToEatNext/src/components/CuisineRecommender.tsx[0m:722:1]
+ [2m719[0m |   );
+ [2m720[0m | 
+ [2m721[0m |   return (
+ [2m722[0m |     <div className="bg-white rounded-lg shadow p-4">
+     : [35;1m     ^^^[0m
+ [2m723[0m |       <h2 className="text-xl font-medium mb-3">Celestial Cuisine Guide</h2>
+ [2m724[0m | 
+ [2m725[0m |       {/* Group cuisine cards in a better grid layout */}
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/components/CuisineRecommender.tsx
+./src/app/page.tsx
+
+./src/constants/chakraMappings.ts
+Error:   [31mx[0m Expected ident
+     ,-[[36;1;4m/Users/GregCastro/Desktop/WhatToEatNext/src/constants/chakraMappings.ts[0m:191:1]
+ [2m188[0m | export function recommendFoodsForChakraBalance(chakraEnergies: Record<Chakra, number>): Record<Chakra, string[]> {
+ [2m189[0m |     const recommendations: Record<Chakra, string[]> = {} as Record<Chakra, string[]>;
+ [2m190[0m |     
+ [2m191[0m |     Object.(entries(chakraEnergies)? || []).forEach(([chakra, energy]) => {
+     : [35;1m           ^[0m
+ [2m192[0m |         const chakraName = chakra as Chakra;
+ [2m193[0m |         
+ [2m194[0m |         // If energy is below threshold, recommend foods to boost it
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/constants/chakraMappings.ts
+./src/services/ChakraService.ts
+./src/services/index.ts
+./src/hooks/useServices.ts
+./src/app/test/migrated-components/cooking-methods-section/page.tsx
+
+./src/contexts/AlchemicalContext/provider.tsx
+Error:   [31mx[0m Not a pattern
+    ,-[[36;1;4m/Users/GregCastro/Desktop/WhatToEatNext/src/contexts/AlchemicalContext/provider.tsx[0m:27:1]
+ [2m24[0m |   if ((keys1 || []).length !== (keys2 || []).length) return false;
+ [2m25[0m |   
+ [2m26[0m |   for (const key of keys1) {
+ [2m27[0m |     if (Array.isArray((!keys2) ? (!keys2.includes(key) : (!keys2 === key)) return false;
+    : [35;1m                                  ^^^^^^^^^^^^^^^^^^^^[0m
+ [2m28[0m |     if (!deepEqual((obj1 as Record<string, any>)[key], (obj2 as Record<string, any>)[key])) return false;
+ [2m29[0m |   }
+ [2m30[0m |   
+    `----
+  [31mx[0m Expected ',', got ':'
+    ,-[[36;1;4m/Users/GregCastro/Desktop/WhatToEatNext/src/contexts/AlchemicalContext/provider.tsx[0m:27:1]
+ [2m24[0m |   if ((keys1 || []).length !== (keys2 || []).length) return false;
+ [2m25[0m |   
+ [2m26[0m |   for (const key of keys1) {
+ [2m27[0m |     if (Array.isArray((!keys2) ? (!keys2.includes(key) : (!keys2 === key)) return false;
+    : [35;1m    ^|[0m[33;1m                                                 ^[0m
+    :      [35;1m`-- [35;1mTried to parse the condition for an if statement[0m[0m
+ [2m28[0m |     if (!deepEqual((obj1 as Record<string, any>)[key], (obj2 as Record<string, any>)[key])) return false;
+ [2m29[0m |   }
+ [2m30[0m |   
+    `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/contexts/AlchemicalContext/provider.tsx
+./src/components/ClientWrapper.tsx
+
+./src/contexts/ChartContext/provider.tsx
+Error:   [31mx[0m Expected ident
+    ,-[[36;1;4m/Users/GregCastro/Desktop/WhatToEatNext/src/contexts/ChartContext/provider.tsx[0m:31:1]
+ [2m28[0m | 
+ [2m29[0m |   const calculateStelliums = (positions: { [key: string]: any }): Record<string, string[]> => {
+ [2m30[0m |     const signGroups: Record<string, string[]> = {};
+ [2m31[0m |     Object.(entries(positions)? || []).forEach(([planet, data]) => {
+    : [35;1m           ^[0m
+ [2m32[0m |       if (planet === 'ascendant' || !data || !data.sign) return;
+ [2m33[0m |       
+ [2m34[0m |       const sign = data.sign;
+    `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/contexts/ChartContext/provider.tsx
+./src/components/ClientWrapper.tsx
+
+./src/data/cooking/index.ts
+Error:   [31mx[0m Expected ident
+    ,-[[36;1;4m/Users/GregCastro/Desktop/WhatToEatNext/src/data/cooking/index.ts[0m:39:1]
+ [2m36[0m |   const effectScore = 0.5; // Neutral score as default
+ [2m37[0m | 
+ [2m38[0m |   // Check zodiac sign
+ [2m39[0m |   if (
+    : [35;1m  ^|[0m
+    :    [35;1m`-- [35;1mTried to parse the condition for an if statement[0m[0m
+ [2m40[0m |     astroState.sign &&
+ [2m41[0m |     methodData.astrologicalInfluences.(Array.isArray(favorableZodiac?) ? favorableZodiac?.includes(astroState.sign
+    : [33;1m                                      ^[0m
+ [2m42[0m |     ) : favorableZodiac? === astroState.sign
+ [2m43[0m |     )
+ [2m44[0m |   ) {
+    `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/data/cooking/index.ts
+./src/data/recipes/elementalMappings.ts
+./src/calculations/alchemicalEngine.ts
+./src/context/AstrologicalContext.tsx
+
+
+> Build failed because of webpack errors
+error Command failed with exit code 1.
+info Visit https://yarnpkg.com/en/docs/cli/run for documentation about this command.
